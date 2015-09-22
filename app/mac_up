@@ -1,0 +1,11 @@
+#!/bin/sh
+
+rm -rf cudatext.app/Contents/Resources/data
+rm -rf cudatext.app/Contents/Resources/readme
+rm -rf cudatext.app/Contents/Resources/sett*
+
+cp -rf data cudatext.app/Contents/Resources
+cp -rf readme cudatext.app/Contents/Resources
+cp -rf settings_default cudatext.app/Contents/Resources
+
+echo Done

@@ -1,0 +1,57 @@
+#chars -$
+
+func rgb($red, $green, $blue) |Converts an rgb(red, green, blue) triplet into a color.
+func rgba($red, $green, $blue, $alpha) |Converts an rgba(red, green, blue, alpha) quadruplet into a color.
+func rgba($color, $alpha) |Adds an alpha layer to any color value.
+func red($color) |Gets the red component of a color.
+func green($color) |Gets the green component of a color.
+func blue($color) |Gets the blue component of a color.
+func mix($color-1, $color-2, [$weight]) |Mixes two colors together.
+
+func hsl($hue, $saturation, $lightness) |Converts an hsl(hue, saturation, lightness) triplet into a color.
+func hsla($hue, $saturation, $lightness, $alpha) |Converts an hsla(hue, saturation, lightness, alpha) quadruplet into a color.
+func hue($color) |Gets the hue component of a color.
+func saturation($color) |Gets the saturation component of a color.
+func lightness($color) |Gets the lightness component of a color.
+func adjust-hue($color, $degrees) |Changes the hue of a color.
+func lighten($color, $amount) |Makes a color lighter.
+func darken($color, $amount) |Makes a color darker.
+func saturate($color, $amount) |Makes a color more saturated.
+func desaturate($color, $amount) |Makes a color less saturated.
+func grayscale($color) |Converts a color to grayscale.
+func complement($color) |Returns the complement of a color.
+func invert($color) |Returns the inverse of a color.
+
+func alpha($color) |Gets the alpha component (opacity) of a color.
+func opacity($color) |Gets the alpha component (opacity) of a color.
+
+func rgba($color, $alpha) |Add or change an alpha layer for any color value.
+func opacify($color, $amount) |Makes a color more opaque.
+func fade-in($color, $amount) |Makes a color more opaque.
+func transparentize($color, $amount) |Makes a color more transparent.
+func fade-out($color, $amount) |Makes a color more transparent.
+
+func adjust-color($color, [$red], [$green], [$blue], [$hue], [$saturation], [$lightness], [$alpha]) |Increase or decrease any of the components of a color.
+func scale-color($color, [$red], [$green], [$blue], [$saturation], [$lightness], [$alpha]) |Fluidly scale one or more components of a color.
+func change-color($color, [$red], [$green], [$blue], [$hue], [$saturation], [$lightness], [$alpha]) |Changes one or more properties of a color.
+
+func unquote($string) |Removes the quotes from a string.
+func quote($string) |Adds quotes to a string.
+
+func percentage($value) |Converts a unitless number to a percentage.
+func round($value) |Rounds a number to the nearest whole number.
+func ceil($value) |Rounds a number up to the nearest whole number.
+func floor($value) |Rounds a number down to the nearest whole number.
+func abs($value) |Returns the absolute value of a number.
+
+func length($list) |Returns the length of a list.
+func nth($list, $n) |Returns a specific item in a list.
+func join($list1, $list2, [$separator]) |Joins together two lists into one.
+func append($list1, $val, [$separator]) |Appends a single value onto the end of a list.
+
+func type-of($value) |Returns the type of a value.
+func unit($number) |Returns the units associated with a number.
+func unitless($number) |Returns whether a number has units or not.
+func comparable($number-1, $number-2) |Returns whether two numbers can be added or compared.
+
+func if($condition, $if-true, $if-false) |Returns one of two values, depending on whether or not a condition is true.

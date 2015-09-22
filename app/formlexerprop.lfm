@@ -1,0 +1,548 @@
+object fmLexerProp: TfmLexerProp
+  Left = 218
+  Height = 566
+  Top = 300
+  Width = 623
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Lexer properties'
+  ClientHeight = 566
+  ClientWidth = 623
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '1.5'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 531
+    Width = 611
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+  object chkBorderT: TPageControl
+    Left = 0
+    Height = 525
+    Top = 0
+    Width = 623
+    ActivePage = TabSheetGen
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object TabSheetGen: TTabSheet
+      Caption = 'General'
+      ClientHeight = 494
+      ClientWidth = 619
+      object Label2: TLabel
+        Left = 6
+        Height = 17
+        Top = 0
+        Width = 607
+        Align = alTop
+        BorderSpacing.Left = 6
+        BorderSpacing.Right = 6
+        Caption = 'Lexer name:'
+        ParentColor = False
+      end
+      object edName: TEdit
+        Left = 6
+        Height = 27
+        Top = 20
+        Width = 607
+        Align = alTop
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 6
+        BorderSpacing.Bottom = 3
+        TabOrder = 0
+      end
+      object Label3: TLabel
+        Left = 6
+        Height = 17
+        Top = 50
+        Width = 607
+        Align = alTop
+        BorderSpacing.Left = 6
+        BorderSpacing.Right = 6
+        Caption = 'File types:'
+        ParentColor = False
+      end
+      object edExt: TEdit
+        Left = 6
+        Height = 27
+        Top = 70
+        Width = 607
+        Align = alTop
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 6
+        BorderSpacing.Bottom = 3
+        TabOrder = 1
+      end
+      object Label4: TLabel
+        Left = 6
+        Height = 17
+        Top = 100
+        Width = 607
+        Align = alTop
+        BorderSpacing.Left = 6
+        BorderSpacing.Right = 6
+        Caption = 'Line-comment string:'
+        ParentColor = False
+      end
+      object edLineCmt: TEdit
+        Left = 6
+        Height = 27
+        Top = 120
+        Width = 607
+        Align = alTop
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 6
+        BorderSpacing.Bottom = 3
+        TabOrder = 2
+      end
+      object Label1: TLabel
+        Left = 6
+        Height = 17
+        Top = 150
+        Width = 607
+        Align = alTop
+        BorderSpacing.Left = 6
+        BorderSpacing.Right = 6
+        Caption = 'Sample text:'
+        ParentColor = False
+      end
+      object edSample: TATSynEdit
+        Left = 6
+        Height = 315
+        Top = 173
+        Width = 607
+        Align = alClient
+        BorderSpacing.Around = 6
+        BorderStyle = bsSingle
+        Font.Height = -12
+        Font.Name = 'Courier New'
+        ParentFont = False
+        TabOrder = 3
+        TabStop = True
+        CursorText = crIBeam
+        CursorBm = crHandPoint
+        Colors.TextFont = clBlack
+        Colors.TextBG = clWhite
+        Colors.TextDisabledFont = clMedGray
+        Colors.TextDisabledBG = clSilver
+        Colors.TextSelFont = clHighlightText
+        Colors.TextSelBG = clHighlight
+        Colors.Caret = clBlack
+        Colors.GutterFont = clGray
+        Colors.GutterBG = 14737632
+        Colors.GutterCaretBG = 13158600
+        Colors.GutterPlusBorder = clGray
+        Colors.GutterPlusBG = 16053492
+        Colors.GutterFoldLine = clGray
+        Colors.GutterFoldBG = 13158600
+        Colors.GutterSeparatorBG = clBlack
+        Colors.CurrentLineBG = 14741744
+        Colors.MarginRight = clSilver
+        Colors.MarginCaret = clLime
+        Colors.MarginUser = clYellow
+        Colors.IndentVertLines = clMedGray
+        Colors.BookmarkBG = clMoneyGreen
+        Colors.RulerFont = clGray
+        Colors.RulerBG = 14737632
+        Colors.CollapseLine = 10510432
+        Colors.CollapseMarkFont = 14712960
+        Colors.CollapseMarkBG = clCream
+        Colors.UnprintedFont = 5263600
+        Colors.UnprintedBG = 14737632
+        Colors.UnprintedHexFont = clMedGray
+        Colors.MinimapBorder = clSilver
+        Colors.MinimapSelBG = 15658734
+        Colors.StateChanged = 61680
+        Colors.StateAdded = 2146336
+        Colors.StateSaved = clMedGray
+        Colors.BlockStaple = clMedGray
+        Colors.BlockSepLine = clMedGray
+        Colors.LockedBG = 14737632
+        Colors.TextHintFont = clGray
+        Colors.ComboboxArrow = clGray
+        Colors.ComboboxArrowBG = 15790320
+        WantTabs = True
+        OptTabSpaces = False
+        OptTabSize = 8
+        OptFoldStyle = cFoldHereWithTruncatedText
+        OptTextLocked = 'wait...'
+        OptTextHintFontStyle = [fsItalic]
+        OptTextHintCenter = False
+        OptTextOffsetTop = 0
+        OptTextOffsetFromLine = 1
+        OptAutoIndent = True
+        OptAutoIndentKind = cIndentAsIs
+        OptCopyLinesIfNoSel = True
+        OptCutLinesIfNoSel = False
+        OptLastLineOnTop = False
+        OptOverwriteSel = True
+        OptOverwriteAllowedOnPaste = False
+        OptShowStapleStyle = cLineStyleSolid
+        OptShowStapleIndent = -1
+        OptShowStapleWidthPercent = 100
+        OptShowFullSel = False
+        OptShowFullHilite = True
+        OptShowCurLine = False
+        OptShowCurLineMinimal = True
+        OptShowScrollHint = False
+        OptShowCurColumn = False
+        OptCaretManyAllowed = True
+        OptCaretVirtual = True
+        OptCaretShape = cCaretShapeVertPixels1
+        OptCaretShapeOvr = cCaretShapeFull
+        OptCaretShapeRO = cCaretShapeHorzPixels1
+        OptCaretBlinkTime = 600
+        OptCaretBlinkEnabled = True
+        OptCaretStopUnfocused = True
+        OptCaretPreferLeftSide = True
+        OptGutterVisible = True
+        OptGutterPlusSize = 4
+        OptGutterShowFoldAlways = True
+        OptGutterShowFoldLines = True
+        OptGutterShowFoldLinesAll = False
+        OptRulerVisible = False
+        OptRulerSize = 20
+        OptRulerFontSize = 8
+        OptRulerMarkSizeSmall = 3
+        OptRulerMarkSizeBig = 7
+        OptRulerTextIndent = 0
+        OptMinimapVisible = False
+        OptMinimapCharWidth = 0
+        OptMinimapShowSelBorder = False
+        OptMinimapShowSelAlways = True
+        OptMicromapVisible = False
+        OptMicromapWidth = 30
+        OptCharSpacingX = 0
+        OptCharSpacingY = 1
+        OptWrapMode = cWrapOff
+        OptWrapIndented = True
+        OptMarginRight = 80
+        OptNumbersAutosize = True
+        OptNumbersAlignment = taRightJustify
+        OptNumbersFontSize = 0
+        OptNumbersStyle = cNumbersNone
+        OptNumbersShowFirst = True
+        OptNumbersShowCarets = False
+        OptNumbersSkippedChar = '.'
+        OptNumbersIndentLeft = 5
+        OptNumbersIndentRight = 5
+        OptUnprintedVisible = False
+        OptUnprintedSpaces = True
+        OptUnprintedEnds = True
+        OptUnprintedEndsDetails = True
+        OptUnprintedReplaceSpec = True
+        OptMouseEnableNormalSelection = True
+        OptMouseEnableColumnSelection = True
+        OptMouseDownForPopup = False
+        OptMouseHideCursorOnType = False
+        OptMouse2ClickSelectsLine = False
+        OptMouse3ClickSelectsLine = True
+        OptMouse2ClickDragSelectsWords = True
+        OptMouseDragDrop = True
+        OptMouseNiceScroll = True
+        OptMouseRightClickMovesCaret = False
+        OptMouseGutterClickSelectsLine = True
+        OptKeyBackspaceUnindent = True
+        OptKeyPageKeepsRelativePos = True
+        OptKeyUpDownNavigateWrapped = True
+        OptKeyUpDownKeepColumn = True
+        OptKeyHomeEndNavigateWrapped = True
+        OptKeyPageUpDownSize = cPageSizeFullMinus1
+        OptKeyLeftRightSwapSel = True
+        OptKeyLeftRightSwapSelAndSelect = False
+        OptKeyHomeToNonSpace = True
+        OptKeyEndToNonSpace = True
+        OptKeyTabIndents = True
+        OptIndentSize = 2
+        OptIndentKeepsAlign = True
+        OptShowIndentLines = True
+        OptShowGutterCaretBG = True
+        OptAllowScrollbarVert = True
+        OptAllowScrollbarHorz = True
+        OptAllowZooming = True
+        OptAllowReadOnly = True
+        OptUndoLimit = 5000
+        OptUndoGrouped = True
+        OptUndoAfterSave = True
+        OptSavingForceFinalEol = False
+        OptSavingTrimSpaces = False
+      end
+    end
+    object TabSheetStyles: TTabSheet
+      Caption = 'Styles'
+      ClientHeight = 494
+      ClientWidth = 619
+      object ListStyles: TListBox
+        Left = 6
+        Height = 482
+        Top = 6
+        Width = 176
+        Align = alLeft
+        BorderSpacing.Around = 6
+        ItemHeight = 0
+        OnClick = ListStylesClick
+        ScrollWidth = 174
+        TabOrder = 0
+        TopIndex = -1
+      end
+      object Panel1: TPanel
+        Left = 188
+        Height = 482
+        Top = 6
+        Width = 425
+        Align = alClient
+        BorderSpacing.Around = 6
+        BevelOuter = bvNone
+        ClientHeight = 482
+        ClientWidth = 425
+        TabOrder = 1
+        object edColorFont: TColorBox
+          Left = 208
+          Height = 31
+          Top = 65
+          Width = 190
+          ColorRectWidth = 22
+          NoneColorColor = clNone
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+          DropDownCount = 20
+          ItemHeight = 0
+          TabOrder = 2
+        end
+        object edColorBG: TColorBox
+          Left = 8
+          Height = 31
+          Top = 65
+          Width = 190
+          ColorRectWidth = 22
+          NoneColorColor = clNone
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+          DropDownCount = 20
+          ItemHeight = 0
+          TabOrder = 1
+        end
+        object Label5: TLabel
+          Left = 208
+          Height = 17
+          Top = 49
+          Width = 91
+          Caption = 'Color of font:'
+          ParentColor = False
+        end
+        object edStyleType: TComboBox
+          Left = 8
+          Height = 31
+          Top = 18
+          Width = 190
+          ItemHeight = 0
+          Items.Strings = (
+            'Misc font (not supp.)'
+            'Colors, styles'
+            'Colors'
+            'Color BG only'
+          )
+          OnChange = edStyleTypeChange
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object Label6: TLabel
+          Left = 8
+          Height = 17
+          Top = 0
+          Width = 70
+          Caption = 'Style type:'
+          ParentColor = False
+        end
+        object Label7: TLabel
+          Left = 8
+          Height = 17
+          Top = 48
+          Width = 81
+          Caption = 'Color of BG:'
+          ParentColor = False
+        end
+        object Label8: TLabel
+          Left = 8
+          Height = 17
+          Top = 104
+          Width = 77
+          Caption = 'Font styles:'
+          ParentColor = False
+        end
+        object chkBold: TCheckBox
+          Left = 8
+          Height = 24
+          Top = 120
+          Width = 57
+          Caption = 'Bold'
+          TabOrder = 3
+        end
+        object chkItalic: TCheckBox
+          Left = 88
+          Height = 24
+          Top = 120
+          Width = 59
+          Caption = 'Italic'
+          TabOrder = 4
+        end
+        object chkStrik: TCheckBox
+          Left = 280
+          Height = 24
+          Top = 120
+          Width = 83
+          Caption = 'Stikeout'
+          TabOrder = 6
+        end
+        object chkUnder: TCheckBox
+          Left = 168
+          Height = 24
+          Top = 120
+          Width = 91
+          Caption = 'Underline'
+          TabOrder = 5
+        end
+        object bApplyStl: TButton
+          Left = 8
+          Height = 29
+          Top = 304
+          Width = 143
+          AutoSize = True
+          Caption = 'Apply style changes'
+          OnClick = bApplyStlClick
+          TabOrder = 12
+        end
+        object Label9: TLabel
+          Left = 8
+          Height = 17
+          Top = 152
+          Width = 58
+          Caption = 'Borders:'
+          ParentColor = False
+        end
+        object cbBorderL: TComboBox
+          Left = 8
+          Height = 31
+          Top = 184
+          Width = 100
+          DropDownCount = 20
+          ItemHeight = 0
+          Style = csDropDownList
+          TabOrder = 7
+        end
+        object cbBorderT: TComboBox
+          Left = 112
+          Height = 31
+          Top = 184
+          Width = 100
+          DropDownCount = 20
+          ItemHeight = 0
+          Style = csDropDownList
+          TabOrder = 8
+        end
+        object cbBorderR: TComboBox
+          Left = 216
+          Height = 31
+          Top = 184
+          Width = 100
+          DropDownCount = 20
+          ItemHeight = 0
+          Style = csDropDownList
+          TabOrder = 9
+        end
+        object cbBorderB: TComboBox
+          Left = 320
+          Height = 31
+          Top = 184
+          Width = 100
+          DropDownCount = 20
+          ItemHeight = 0
+          Style = csDropDownList
+          TabOrder = 10
+        end
+        object Label10: TLabel
+          Left = 8
+          Height = 17
+          Top = 168
+          Width = 28
+          Caption = 'Left'
+          ParentColor = False
+        end
+        object Label11: TLabel
+          Left = 112
+          Height = 17
+          Top = 168
+          Width = 25
+          Caption = 'Top'
+          ParentColor = False
+        end
+        object Label12: TLabel
+          Left = 216
+          Height = 17
+          Top = 168
+          Width = 35
+          Caption = 'Right'
+          ParentColor = False
+        end
+        object Label13: TLabel
+          Left = 320
+          Height = 17
+          Top = 168
+          Width = 52
+          Caption = 'Bottom'
+          ParentColor = False
+        end
+        object Label14: TLabel
+          Left = 8
+          Height = 17
+          Top = 216
+          Width = 109
+          Caption = 'Color of border:'
+          ParentColor = False
+        end
+        object edColorBorder: TColorBox
+          Left = 8
+          Height = 31
+          Top = 232
+          Width = 190
+          ColorRectWidth = 22
+          NoneColorColor = clNone
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+          DropDownCount = 20
+          ItemHeight = 0
+          TabOrder = 11
+        end
+      end
+    end
+    object TabSheetNotes: TTabSheet
+      Caption = 'Notes'
+      ClientHeight = 494
+      ClientWidth = 619
+      object edNotes: TMemo
+        Left = 6
+        Height = 482
+        Top = 6
+        Width = 607
+        Align = alClient
+        BorderSpacing.Around = 6
+        ScrollBars = ssBoth
+        TabOrder = 0
+      end
+    end
+  end
+end

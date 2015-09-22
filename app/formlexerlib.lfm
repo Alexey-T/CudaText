@@ -1,0 +1,80 @@
+object fmLexerLib: TfmLexerLib
+  Left = 434
+  Height = 468
+  Top = 338
+  Width = 459
+  BorderIcons = [biSystemMenu]
+  Caption = 'Lexer library'
+  ClientHeight = 468
+  ClientWidth = 459
+  OnShow = FormShow
+  Position = poScreenCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '1.5'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 433
+    Width = 447
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 2
+    ShowButtons = [pbClose]
+    ShowBevel = False
+  end
+  object ToolBar1: TToolBar
+    Left = 0
+    Height = 28
+    Top = 0
+    Width = 459
+    AutoSize = True
+    ButtonHeight = 28
+    Caption = 'ToolBar1'
+    EdgeInner = esNone
+    EdgeOuter = esNone
+    ShowCaptions = True
+    TabOrder = 0
+    object bProp: TToolButton
+      Left = 1
+      Top = 0
+      Caption = 'Config'
+      OnClick = bPropClick
+    end
+    object bDel: TToolButton
+      Left = 88
+      Top = 0
+      Caption = 'Delete'
+      OnClick = bDelClick
+    end
+    object bAdd: TToolButton
+      Left = 52
+      Top = 0
+      Caption = 'Add'
+      OnClick = bAddClick
+    end
+  end
+  object List: TCheckListBox
+    Left = 6
+    Height = 393
+    Top = 34
+    Width = 447
+    Align = alClient
+    BorderSpacing.Around = 6
+    ItemHeight = 0
+    OnClickCheck = ListClickCheck
+    TabOrder = 1
+    TopIndex = -1
+  end
+  object OpenDlg: TOpenDialog
+    Filter = 'Zip files|*.zip'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 280
+    top = 360
+  end
+end

@@ -1,0 +1,4 @@
+This software is freeware, open-source.
+It uses MPL 2.0 license for source code.
+
+Copyright (c) 2015 Alexey Torgashin, UVViewSoft.com

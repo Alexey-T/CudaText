@@ -1,0 +1,49 @@
+object fmSaveTabs: TfmSaveTabs
+  Left = 381
+  Height = 350
+  Top = 141
+  Width = 770
+  BorderIcons = [biSystemMenu, biMaximize]
+  Caption = 'Save tabs?'
+  ClientHeight = 350
+  ClientWidth = 770
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '1.5'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 315
+    Width = 758
+    OKButton.Name = 'OKButton'
+    OKButton.Caption = '&Save'
+    OKButton.DefaultCaption = False
+    HelpButton.Name = 'HelpButton'
+    HelpButton.Caption = 'Cancel'
+    HelpButton.DefaultCaption = False
+    HelpButton.OnClick = HelpButtonClick
+    CloseButton.Name = 'CloseButton'
+    CloseButton.Caption = '&Ignore'
+    CloseButton.DefaultCaption = False
+    CancelButton.Name = 'CancelButton'
+    CancelButton.Caption = 'Cancel'
+    CancelButton.DefaultCaption = False
+    TabOrder = 1
+    ShowButtons = [pbOK, pbClose, pbHelp]
+    ShowGlyphs = []
+    ShowBevel = False
+  end
+  object List: TCheckListBox
+    Left = 6
+    Height = 303
+    Top = 6
+    Width = 758
+    Align = alClient
+    BorderSpacing.Around = 6
+    ItemHeight = 0
+    TabOrder = 0
+    TopIndex = -1
+  end
+end

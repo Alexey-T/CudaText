@@ -1,0 +1,27 @@
+object fmConsole: TfmConsole
+  Left = 443
+  Height = 208
+  Top = 408
+  Width = 677
+  BorderStyle = bsNone
+  ClientHeight = 208
+  ClientWidth = 677
+  OnCreate = FormCreate
+  OnShow = FormShow
+  ParentFont = True
+  ShowInTaskBar = stNever
+  LCLVersion = '1.5'
+  object panelConsole: TPanel
+    Left = 0
+    Height = 208
+    Top = 0
+    Width = 677
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 0
+  end
+  object PopupMenu1: TPopupMenu
+    left = 75
+    top = 58
+  end
+end

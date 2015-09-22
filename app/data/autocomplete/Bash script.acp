@@ -1,0 +1,238 @@
+Command adduser |Add a user to the system
+Command addgroup |Add a group to the system
+Command alias |Create an alias
+Command apropos |Search Help manual pages (man -k)
+Command apt-get |Search for and install software packages (Debian/Ubuntu)
+Command aptitude |Search for and install software packages (Debian/Ubuntu)
+Command aspell |Spell Checker
+Command awk |Find and Replace text, database sort/validate/index
+Command basename |Strip directory and suffix from filenames
+Command bash |GNU Bourne-Again SHell
+Command bc |Arbitrary precision calculator language
+Command bg |Send to background
+Command break |Exit from a loop
+Command builtin |Run a shell builtin
+Command bzip2 |Compress or decompress named file(s)
+Command cal |Display a calendar
+Command case |Conditionally perform a command
+Command cat |Display the contents of a file
+Command cd |Change Directory
+Command cfdisk |Partition table manipulator for Linux
+Command chgrp |Change group ownership
+Command chmod |Change access permissions
+Command chown |Change file owner and group
+Command chroot |Run a command with a different root directory
+Command chkconfig |System services (runlevel)
+Command cksum |Print CRC checksum and byte counts
+Command clear |Clear terminal screen
+Command cmp |Compare two files
+Command comm |Compare two sorted files line by line
+Command command |Run a command - ignoring shell functions
+Command continue |Resume the next iteration of a loop
+Command cp |Copy one or more files to another location
+Command cron |Daemon to execute scheduled commands
+Command crontab |Schedule a command to run at a later time
+Command csplit |Split a file into context-determined pieces
+Command cut |Divide a file into several parts
+Command date |Display or change the date & time
+Command dc |Desk Calculator
+Command dd |Convert and copy a file, write disk headers, boot records
+Command ddrescue |Data recovery tool
+Command declare |Declare variables and give them attributes
+Command df |Display free disk space
+Command diff |Display the differences between two files
+Command diff3 |Show differences among three files
+Command dig |DNS lookup
+Command dir |Briefly list directory contents
+Command dircolors |Colour setup for `ls'
+Command dirname |Convert a full pathname to just a path
+Command dirs |Display list of remembered directories
+Command dmesg |Print kernel & driver messages
+Command du |Estimate file space usage
+Command echo |Display message on screen
+Command egrep |Search file(s) for lines that match an extended expression
+Command eject |Eject removable media
+Command enable |Enable and disable builtin shell commands
+Command env |Environment variables
+Command ethtool |Ethernet card settings
+Command eval |Evaluate several commands/arguments
+Command exec |Execute a command
+Command exit |Exit the shell
+Command expect |Automate arbitrary applications accessed over a terminal
+Command expand |Convert tabs to spaces
+Command export |Set an environment variable
+Command expr |Evaluate expressions
+Command false |Do nothing, unsuccessfully
+Command fdformat |Low-level format a floppy disk
+Command fdisk |Partition table manipulator for Linux
+Command fg |Send job to foreground
+Command fgrep |Search file(s) for lines that match a fixed string
+Command file |Determine file type
+Command find |Search for files that meet a desired criteria
+Command fmt |Reformat paragraph text
+Command fold |Wrap text to fit a specified width.
+Command for |Expand words, and execute commands
+Command format |Format disks or tapes
+Command free |Display memory usage
+Command fsck |File system consistency check and repair
+Command ftp |File Transfer Protocol
+Command function |Define Function Macros
+Command fuser |Identify/kill the process that is accessing a file
+Command gawk |Find and Replace text within file(s)
+Command getopts |Parse positional parameters
+Command grep |Search file(s) for lines that match a given pattern
+Command groups |Print group names a user is in
+Command gzip |Compress or decompress named file(s)
+Command hash |Remember the full pathname of a name argument
+Command head |Output the first part of file(s)
+Command help |Display help for a built-in command
+Command history |Command History
+Command hostname |Print or set system name
+Command id |Print user and group id's
+Command if |Conditionally perform a command
+Command ifconfig |Configure a network interface
+Command ifdown |Stop a network interface
+Command ifup |Start a network interface up
+Command import |Capture an X server screen and save the image to file
+Command install |Copy files and set attributes
+Command jobs |List active jobs
+Command join |Join lines on a common field
+Command kill |Stop a process from running
+Command killall |Kill processes by name
+Command less |Display output one screen at a time
+Command let |Perform arithmetic on shell variables
+Command ln |Make links between files
+Command local |Create variables
+Command locate |Find files
+Command logname |Print current login name
+Command logout |Exit a login shell
+Command look |Display lines beginning with a given string
+Command lpc |Line printer control program
+Command lpr |Off line print
+Command lprint |Print a file
+Command lprintd |Abort a print job
+Command lprintq |List the print queue
+Command lprm |Remove jobs from the print queue
+Command ls |List information about file(s)
+Command lsof |List open files
+Command make |Recompile a group of programs
+Command man |Help manual
+Command mkdir |Create new folder(s)
+Command mkfifo |Make FIFOs (named pipes)
+Command mkisofs |Create an hybrid ISO9660/JOLIET/HFS filesystem
+Command mknod |Make block or character special files
+Command more |Display output one screen at a time
+Command mount |Mount a file system
+Command mtools |Manipulate MS-DOS files
+Command mtr |Network diagnostics (traceroute/ping)
+Command mv |Move or rename files or directories
+Command mmv |Mass Move and rename (files)
+Command netstat |Networking information
+Command nice |Set the priority of a command or job
+Command nl |Number lines and write files
+Command nohup |Run a command immune to hangups
+Command notify-send |Send desktop notifications
+Command nslookup |Query Internet name servers interactively
+Command open |Open a file in its default application
+Command op |Operator access
+Command passwd |Modify a user password
+Command paste |Merge lines of files
+Command pathchk |Check file name portability
+Command ping |Test a network connection
+Command pkill |Stop processes from running
+Command popd |Restore the previous value of the current directory
+Command pr |Prepare files for printing
+Command printcap |Printer capability database
+Command printenv |Print environment variables
+Command printf |Format and print data
+Command ps |Process status
+Command pushd |Save and then change the current directory
+Command pwd |Print Working Directory
+Command quota |Display disk usage and limits
+Command quotacheck |Scan a file system for disk usage
+Command quotactl |Set disk quotas
+Command ram |ram disk device
+Command rcp |Copy files between two machines
+Command read |Read a line from standard input
+Command readarray |Read from stdin into an array variable
+Command readonly |Mark variables/functions as readonly
+Command reboot |Reboot the system
+Command rename |Rename files
+Command renice |Alter priority of running processes
+Command remsync |Synchronize remote files via email
+Command return |Exit a shell function
+Command rev |Reverse lines of a file
+Command rm |Remove files
+Command rmdir |Remove folder(s)
+Command rsync |Remote file copy (Synchronize file trees)
+Command screen |Multiplex terminal, run remote shells via ssh
+Command scp |Secure copy (remote file copy)
+Command sdiff |Merge two files interactively
+Command sed |Stream Editor
+Command select |Accept keyboard input
+Command seq |Print numeric sequences
+Command set |Manipulate shell variables and functions
+Command sftp |Secure File Transfer Program
+Command shift |Shift positional parameters
+Command shopt |Shell Options
+Command shutdown |Shutdown or restart linux
+Command sleep |Delay for a specified time
+Command slocate |Find files
+Command sort |Sort text files
+Command source |Run commands from a file `.'
+Command split |Split a file into fixed-size pieces
+Command ssh |Secure Shell client (remote login program)
+Command strace |Trace system calls and signals
+Command su |Substitute user identity
+Command sudo |Execute a command as another user
+Command sum |Print a checksum for a file
+Command suspend |Suspend execution of this shell
+Command symlink |Make a new name for a file
+Command sync |Synchronize data on disk with memory
+Command tail |Output the last part of files
+Command tar |Tape ARchiver
+Command tee |Redirect output to multiple files
+Command test |Evaluate a conditional expression
+Command time |Measure Program running time
+Command times |User and system times
+Command touch |Change file timestamps
+Command top |List processes running on the system
+Command traceroute |Trace Route to Host
+Command trap |Run a command when a signal is set(bourne)
+Command tr |Translate, squeeze, and/or delete characters
+Command true |Do nothing, successfully
+Command tsort |Topological sort
+Command tty |Print filename of terminal on stdin
+Command type |Describe a command
+Command ulimit |Limit user resources
+Command umask |Users file creation mask
+Command umount |Unmount a device
+Command unalias |Remove an alias
+Command uname |Print system information
+Command unexpand |Convert spaces to tabs
+Command uniq |Uniquify files
+Command units |Convert units from one scale to another
+Command unset |Remove variable or function names
+Command unshar |Unpack shell archive scripts
+Command until |Execute commands (until error)
+Command useradd |Create new user account
+Command usermod |Modify user account
+Command users |List users currently logged in
+Command uuencode |Encode a binary file
+Command uudecode |Decode a file created by uuencode
+Command v |Verbosely list directory contents (`ls -l -b')
+Command vdir |Verbosely list directory contents (`ls -l -b')
+Command vi |Text Editor
+Command vmstat |Report virtual memory statistics
+Command watch |Execute/display a program periodically
+Command wc |Print byte, word, and line counts
+Command whereis |Search the user's $path, man pages and source files for a program
+Command which |Search the user's $path for a program file
+Command while |Execute commands
+Command who |Print all usernames currently logged in
+Command whoami |Print the current user id and name (`id -un')
+Command Wget |Retrieve web pages or files via HTTP, HTTPS or FTP
+Command write |Send a message to another user
+Command xargs |Execute utility, passing constructed argument list(s)
+Command xdg-open |Open a file or URL in the user's preferred application.
+Command yes |Print a string until interrupted

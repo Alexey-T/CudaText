@@ -1,0 +1,602 @@
+#chars -$
+
+CMD-Let Add-Computer |Add a computer to the domain
+CMD-Let Add-Content |Add to the content of the item
+CMD-Let Add-History |Add entries to the session history
+CMD-Let Add-Member |Add a member to an instance of a PowerShell object
+CMD-Let Add-PSSnapin |Add snap-ins to the console
+CMD-Let Add-Type |Add a .NET Framework type to a PowerShell session
+CMD-Let Checkpoint-Computer |Create a system restore point (XP)
+CMD-Let Clear-Content |Remove content from a file/item
+CMD-Let Clear-EventLog |Delete all entries from an event log
+CMD-Let Clear-History |Delete entries from the session history
+CMD-Let Clear-Host |Clear the screen
+CMD-Let Clear-Item |Remove content from a variable or an alias
+CMD-Let Clear-ItemProperty |Remove the property value from a property
+CMD-Let Clear-Variable |Remove the value from a variable
+CMD-Let Compare-Object |Compare the properties of objects
+CMD-Let Complete-Transaction |Commit the transaction
+CMD-Let Connect-Email |
+CMD-Let Connect-FTP |
+CMD-Let Connect-IM |
+CMD-Let Connect-IMAP |
+CMD-Let Connect-LDAP |
+CMD-Let Connect-NNTP |
+CMD-Let Connect-POP |
+CMD-Let Connect-SMS |
+CMD-Let Connect-WSMan |Connect to the WinRM service on a remote computer
+CMD-Let Convert-Data |
+CMD-Let ConvertFrom-Csv |Convert object properties (in CSV format) into CSV objects
+CMD-Let ConvertFrom-SecureString |Convert a secure string into an encrypted standard string
+CMD-Let ConvertFrom-StringData |Convert a here-string into a hash table
+CMD-Let Convert-Path |Convert a ps path to a provider path
+CMD-Let ConvertTo-CSV |Convert .NET Framework objects into CSV variable-length strings
+CMD-Let ConvertTo-Html |Convert the input into an HTML table
+CMD-Let ConvertTo-SecureString |Convert an encrypted standard string into a secure string
+CMD-Let ConvertTo-XML |Convert the input into XML
+CMD-Let Copy-Item |Copy an item from a namespace location
+CMD-Let Copy-ItemProperty |Copy a property along with it's value
+CMD-Let Debug-Process |Attach a debugger to a running process
+CMD-Let Disable-ComputerRestore |Disable System Restore on a drive
+CMD-Let Disable-PSBreakpoint |Disable a breakpoint in the current console
+CMD-Let Disable-PSRemoting |Prevents the computer from receiving remote Windows PowerShell commands. 
+CMD-Let Disable-PSSessionConfiguration |Deny access to PS session configuration
+CMD-Let Disable-WSManCredSSP |Disable Credential Security Service Provider (SSP) authentication
+CMD-Let Disconnect-Email |
+CMD-Let Disconnect-FTP |
+CMD-Let Disconnect-IM |
+CMD-Let Disconnect-IMAP |
+CMD-Let Disconnect-LDAP |
+CMD-Let Disconnect-NNTP |
+CMD-Let Disconnect-POP |
+CMD-Let Disconnect-SMS |
+CMD-Let Disconnect-WSMan |Disconnect from the WinRM service on a remote computer
+CMD-Let Enable-ComputerRestore |Enable System Restore on a drive
+CMD-Let Enable-PSBreakpoint |Enable a breakpoint in the current console
+CMD-Let Enable-PSRemoting |Configures the computer to receive remote commands. 
+CMD-Let Enable-PSSessionConfiguration |Enable PS session configuration
+CMD-Let Enable-WSManCredSSP |Enable Credential SSP authentication
+CMD-Let Enter-PSSession |Start an interactive session with a remote computer
+CMD-Let Exit-PSSession |End an interactive session with a remote computer
+CMD-Let Export-Alias |Export an alias list to a file
+CMD-Let Export-Clixml |Produce a clixml representation of PowerShell objects
+CMD-Let Export-Console |Export console configuration to a file
+CMD-Let Export-Counter |Export Performance Counter data to log files
+CMD-Let Export-Csv |Export to Comma Separated Values (spreadsheet)
+CMD-Let Export-FormatData |Save formatting data from the current session 
+CMD-Let Export-ModuleMember |Specifies the module members that are exported. 
+CMD-Let Export-PSSession |Import commands and save them in a PowerShell module
+CMD-Let Foreach-Object |Loop through each item in the pipeline ( % )
+CMD-Let Format-Custom |Format output using a customized view
+CMD-Let Format-List |Format output as a list of properties, each on a new line
+CMD-Let Format-Table |Format output as a table
+CMD-Let Format-Wide |Format output as a table listing one property only
+CMD-Let Get-Acl |Get permission settings for a file or registry key
+CMD-Let Get-Alias |Return alias names for Cmdlets
+CMD-Let Get-AuthenticodeSignature |Get the signature object associated with a file
+CMD-Let Get-ChildItem |dir/ls/gci Get child items (contents of a folder or registry key)
+CMD-Let Get-Command |Get basic information about cmdlets
+CMD-Let Get-ComputerRestorePoint |Get the restore points on the local computer
+CMD-Let Get-Content |Get content from item (specific location)
+CMD-Let Get-Counter |Get performance counter data
+CMD-Let Get-Credential |Get a security credential (username/password)
+CMD-Let Get-Culture |Get region information (language and keyboard layout)
+CMD-Let Get-Date |Get current date and time
+CMD-Let Get-DNS |
+CMD-Let Get-Event |Get events in the PowerShell event queue
+CMD-Let Get-EventLog |Get event log data (2003)
+CMD-Let Get-EventSubscriber |Get event subscribers
+CMD-Let Get-ExecutionPolicy |Get the execution policy for the shell
+CMD-Let Get-FormatData |Get the formatting data in the current session
+CMD-Let Get-FTP |
+CMD-Let Get-Help |Open the help file
+CMD-Let Get-History |Get a listing of the session history
+CMD-Let Get-Host |Get host information (PowerShell Version and Region)
+CMD-Let Get-Hotfix |Get Installed hotfixes
+CMD-Let Get-HTTP |
+CMD-Let Get-IMAP |
+CMD-Let Get-Item |Get a file object or get a registry (or other namespace) object
+CMD-Let Get-ItemProperty |Retrieve the properties of an object
+CMD-Let Get-Job |Get PowerShell background jobs that are running
+CMD-Let Get-LDAP |
+CMD-Let Get-Location |Get and display the current location
+CMD-Let Get-Member |Enumerate the properties of an object
+CMD-Let Get-Module |Get the modules imported to the session
+CMD-Let Get-NNTP |
+CMD-Let Get-Packet |
+CMD-Let Get-Pfxcertificate |Get pfx certificate information
+CMD-Let Get-POP |
+CMD-Let Get-Process |Get a list of processes on a machine
+CMD-Let Get-PSBreakpoint |Get the currently set breakpoints
+CMD-Let Get-PSCallStack |Displays the current call stack. 
+CMD-Let Get-PSDrive |Get drive information (DriveInfo)
+CMD-Let Get-PSProvider |Get information for the specified provider
+CMD-Let Get-PSSession |Get the PSSessions in the current session
+CMD-Let Get-PSSessionConfiguration |Get the registered PS session configuration
+CMD-Let Get-PSSnapin |List PowerShell snap-ins on this computer
+CMD-Let Get-Random |Get a random number
+CMD-Let Get-RAS |
+CMD-Let Get-RSS |
+CMD-Let Get-S3 |
+CMD-Let Get-Service |Get a list of services
+CMD-Let Get-SNMP |
+CMD-Let Get-Syslog |
+CMD-Let Get-TFTP |
+CMD-Let Get-Time |
+CMD-Let Get-Trace |
+CMD-Let Get-TraceSource |Get components that are instrumented for tracing.
+CMD-Let Get-Transaction |Get information about the active transaction
+CMD-Let Get-Trap |
+CMD-Let Get-UDP |
+CMD-Let Get-UICulture |Get the ui culture information
+CMD-Let Get-Unique |Get the unique items in a collection
+CMD-Let Get-Variable |Get a PowerShell variable
+CMD-Let Get-Verb |Gets approved Windows PowerShell verbs. 
+CMD-Let Get-WebDAV |
+CMD-Let Get-Whois |
+CMD-Let Get-WinEvent |Get event log data (Vista+)
+CMD-Let Get-WMIObject |Get WMI class information
+CMD-Let Get-WSManCredSSP |Get the Credential SSP configuration
+CMD-Let Get-WSManInstance |Display management information (XML or value)
+CMD-Let Group-Object |Group objects that contain the same value
+CMD-Let Import-Alias |Import an alias list from a file
+CMD-Let Import-Clixml |Import a clixml file and rebuild the PS object
+CMD-Let Import-Counter |Import performance counter log files
+CMD-Let Import-CSV |Take values from a CSV list and send objects down the pipeline
+CMD-Let Import-LocalizedData |Imports language-specific data into scripts and functions based on the current culture setting of the operating system. 
+CMD-Let Import-Module |Add a module to the session
+CMD-Let Import-PSSession |Import commands from another session
+CMD-Let Invoke-Command |Run command
+CMD-Let Invoke-Expression |Run a PowerShell expression
+CMD-Let Invoke-History |Invoke a previously executed Cmdlet
+CMD-Let Invoke-item |Invoke an executable or open a file (START)
+CMD-Let Invoke-Rexec |
+CMD-Let Invoke-Rshell |
+CMD-Let Invoke-SSHExpression |
+CMD-Let Invoke-Telnet |
+CMD-Let Invoke-WmiMethod |Call WMI methods
+CMD-Let Invoke-WSManAction |Invoke an action on a specified object
+CMD-Let Join-Path |Combine a path and child-path
+CMD-Let Limit-EventLog |Limit the size of the event log
+CMD-Let Measure-Command |Measure running time
+CMD-Let Measure-Object |Measure the properties of an object
+CMD-Let Move-Item |Move an item from one location to another
+CMD-Let Move-ItemProperty |Move a property from one location to another
+CMD-Let New-Alias |Create a new alias.
+CMD-Let New-Event |Create a new event
+CMD-Let New-Eventlog |Create a new event log and a new event source
+CMD-Let New-Item |Creates a new item. 
+CMD-Let New-ItemProperty |Set a new property
+CMD-Let New-Module |Create a new dynamic module (only in memory)
+CMD-Let New-ModuleManifest |Creates a new module manifest. 
+CMD-Let New-Object |Create a new .Net object
+CMD-Let New-PSDrive |Install a new drive on the machine
+CMD-Let New-PSSession |Create a persistent connection to a local or remote computer
+CMD-Let New-PSSessionOption |Advanced options for a PSSession
+CMD-Let New-Service |Create a new service
+CMD-Let New-SSHRunspace |
+CMD-Let New-TimeSpan |Create a timespan object
+CMD-Let New-Variable |Create a new variable
+CMD-Let New-WebServiceProxy |Create a Web service proxy object
+CMD-Let New-WSManInstance |Create a new instance of a management resource
+CMD-Let New-WSManSessionOption |Options for WSMan commands
+CMD-Let Out-Default |Send output to default
+CMD-Let Out-File |Send output to a file
+CMD-Let Out-GridView |Send output to an interactive table
+CMD-Let Out-Host |Send output to the host
+CMD-Let Out-Null |Send output to null
+CMD-Let Out-Printer |Send the output to a printer
+CMD-Let Out-String |Send objects to the host as strings
+CMD-Let Pop-Location |Set the current working location from the stack
+CMD-Let Push-Location |Push a location to the stack
+CMD-Let Read-Host |Read a line of input from the host console
+CMD-Let Read-Zip |
+CMD-Let Receive-Job |Get PowerShell background job results
+CMD-Let Register-EngineEvent |Subscribe to PowerShell events
+CMD-Let Register-ObjectEvent |Subscribe to .NET events
+CMD-Let Register-PSSessionConfiguration |Create and register a new PS session configuration
+CMD-Let Register-WmiEvent |Subscribe to a WMI event
+CMD-Let Remove-Computer |Remove the local computer from a workgroup or domain
+CMD-Let Remove-Event |Delete events from the event queue
+CMD-Let Remove-EventLog |Delete an event log
+CMD-Let Remove-Item |Delete an item
+CMD-Let Remove-ItemProperty |Remove a property and its value
+CMD-Let Remove-Job |Delete a PowerShell background job
+CMD-Let Remove-Module |Remove a module from the current session
+CMD-Let Remove-PSBreakpoint |Delete breakpoints from the current console
+CMD-Let Remove-PSDrive |Remove a provider/drive from its location
+CMD-Let Remove-PSSession |Close PowerShell sessions
+CMD-Let Remove-PSSnapin |Remove PowerShell snap-ins from the console
+CMD-Let Remove-SSHRunspace |
+CMD-Let Remove-Variable |Remove a variable and its value
+CMD-Let Remove-WmiObject |Delete an instance of a WMI class
+CMD-Let Remove-WSManInstance |Delete a management resource instance
+CMD-Let Rename-Item |Change the name of an existing item
+CMD-Let Rename-ItemProperty |Rename a property of an item
+CMD-Let Reset-ComputerMachinePassword |Reset the machine account password for the computer
+CMD-Let Resolve-Path |Resolves the wildcards in a path
+CMD-Let Restart-Computer |Restart the operating system on a computer
+CMD-Let Restart-Service |Stop and then restart a service
+CMD-Let Restore-Computer |Restore the computer to a previous state
+CMD-Let Resume-Service |Resume a suspended service
+CMD-Let Select-Object |select Select properties of objects
+CMD-Let Select-String |Search through strings or files for patterns
+CMD-Let Select-XML |Find text in an XML string or document
+CMD-Let Send-Email |
+CMD-Let Send-FTP |
+CMD-Let Send-IM |
+CMD-Let Send-MailMessage |Send an email message
+CMD-Let Send-NNTP |
+CMD-Let Send-Page |
+CMD-Let Send-Ping |
+CMD-Let Send-S3 |
+CMD-Let Send-SMS |
+CMD-Let Send-Syslog |
+CMD-Let Send-TFTP |
+CMD-Let Send-Trap |
+CMD-Let Send-UDP |
+CMD-Let Send-WebDAV |
+CMD-Let Set-Acl |Set permissions
+CMD-Let Set-Alias |Create or change an alias
+CMD-Let Set-AuthenticodeSignature |Place a signature in a .ps1 script or other file
+CMD-Let Set-Content |Set content in the item (specific location)
+CMD-Let Set-Date |Set system time on the host system
+CMD-Let Set-ExecutionPolicy |Change the execution policy (user preference)
+CMD-Let Set-IMAP |
+CMD-Let Set-Item |Change the value of an item
+CMD-Let Set-ItemProperty |Set a property at the specified location to a specified value
+CMD-Let Set-LDAP |
+CMD-Let Set-Location |Set the current working location
+CMD-Let Set-PSBreakpoint |Set a breakpoint on a line, command, or variable
+CMD-Let Set-PSDebug |Turn script debugging on or off
+CMD-Let Set-PSSessionConfiguration |Change properties of a registered session configuration
+CMD-Let Set-RAS |
+CMD-Let Set-Service |Change the start mode/properties of a service
+CMD-Let Set-SNMP |
+CMD-Let Set-StrictMode |Enforce coding rules in expressions & scripts
+CMD-Let Set-TraceSource |Trace a PowerShell component
+CMD-Let Set-Variable |Set a variable and a value
+CMD-Let Set-WmiInstance |Create or update an instance of an existing WMI class
+CMD-Let Set-WSManInstance |Modify the management information related to a resource
+CMD-Let Set-WSManQuickConfig |Configure the local computer for remote management
+CMD-Let Show-EventLog |Display an event log
+CMD-Let Sort-Object |Sort objects by property value
+CMD-Let Split-Path |Return part of a path
+CMD-Let Start-Job |Start a PowerShell background job
+CMD-Let Start-Process |start/saps Start one or more processes
+CMD-Let Start-Service |Start a stopped service
+CMD-Let Start-Sleep |Suspend shell, script, or runspace activity
+CMD-Let Start-Transaction |Start a new transaction 
+CMD-Let Start-Transcript |Start a transcript of a command shell session
+CMD-Let Stop-Computer |Stop (shut down) a computer
+CMD-Let Stop-Job |Stop a PowerShell background job
+CMD-Let Stop-Process |Stop a running process
+CMD-Let Stop-Service |Stop a running service
+CMD-Let Stop-Transcript |Stop the transcription process
+CMD-Let Suspend-Service |Suspend a running service
+CMD-Let Tee-Object |Send input objects to two places
+CMD-Let Test-ComputerSecureChannel |Test and repair the secure channel to the domain
+CMD-Let Test-Connection |Ping one or more computers
+CMD-Let Test-ModuleManifest |Verifies that a module manifest accurately describes the contents of a module. 
+CMD-Let Test-Path |Return true if the path exists, otherwise return false
+CMD-Let Test-WSMan |Test whether the WinRM service is running
+CMD-Let Trace-Command |Trace an expression or command
+CMD-Let Undo-Transaction |Roll back a transaction
+CMD-Let Unregister-Event |Cancel an event subscription
+CMD-Let Unregister-PSSessionConfiguration |Delete registered PS session configuration
+CMD-Let Update-Formatdata |Update and append format data files
+CMD-Let Update-Help |Download and install help files
+CMD-Let Update-List |Add and remove items from a collection
+CMD-Let Update-TypeData |Update extended type configuration
+CMD-Let Use-Transaction |Add a command or expression to the transaction
+CMD-Let Wait-Event |Wait until a particular event is raised
+CMD-Let Wait-Job |Wait for a background job
+CMD-Let Wait-Process |Wait for a process to stop
+CMD-Let Where-Object |Filter input from the pipeline
+CMD-Let Write-Debug |Write a debug message to the host display
+CMD-Let Write-Error |Write an object to the error pipeline
+CMD-Let Write-EventLog |Write an event to an event log
+CMD-Let Write-Host |Display text on screen
+CMD-Let Write-Output |Write an object to the pipeline
+CMD-Let Write-Progress |Display a progress bar
+CMD-Let Write-Verbose |Write a string to the host's verbose display
+CMD-Let Write-Warning |Write a string in reverse video to the display
+CMD-Let Write-Zip |
+
+Keyword begin |Function BEGIN block
+Keyword break |
+Keyword catch |
+Keyword continue |
+Keyword data |
+Keyword do |Loop while a condition is True
+Keyword dynamicparam |
+Keyword else |
+Keyword elseif |
+Keyword end |Function END block
+Keyword exit |
+Keyword filter |
+Keyword finally |
+Keyword for |Loop through items that match a condition
+Keyword foreach |Loop through each item in a collection
+Keyword from |Reserved for future use.
+Keyword function |
+Keyword if |Conditionally perform a command
+Keyword in |
+Keyword local |
+Keyword param |Script Parameters
+Keyword powershell |Launch a PowerShell session
+Keyword private |
+Keyword process |Function PROCESS block
+Keyword return |
+Keyword switch |Multiple if statements
+Keyword system |
+Keyword throw |
+Keyword trap |
+Keyword try |
+Keyword until |
+Keyword where |Filter objects from the pipeline
+Keyword while |Loop while a condition is True
+Keyword zipfile |Compress or Extract zip files
+
+Alias ac |Add to the content of the item
+Alias asnp |Add snap-ins to the console
+Alias cat |Get content from item (specific location)
+Alias cd |Set the current working location
+Alias chdir |Set the current working location
+Alias ci |Copy an item from a namespace location
+Alias clc |Remove content from a file/item
+Alias clear |Clear the screen
+Alias clhy |Delete entries from the session history
+Alias cli |Remove content from a variable or an alias
+Alias clp |Remove the property value from a property
+Alias cls |Clear the screen
+Alias clv |Remove the value from a variable
+Alias compare |Compare the properties of objects
+Alias copy |Copy an item from a namespace location
+Alias cp |Copy an item from a namespace location
+Alias cpi |
+Alias cpp |Copy a property along with it's value
+Alias cvpa |Convert a ps path to a provider path
+Alias cvxml |
+Alias dbp |Disable a breakpoint in the current console
+Alias Del |Delete an item
+Alias diff |Compare the properties of objects
+Alias dir |Get child items (contents of a folder or registry key)
+Alias ebp |Enable a breakpoint in the current console
+Alias echo |Write an object to the pipeline
+Alias eghp |
+Alias egp |
+Alias ehp |
+Alias ep |
+Alias epal |Export an alias list to a file
+Alias epcsv |Export to Comma Separated Values (spreadsheet)
+Alias ephy |
+Alias epsn |Import commands and save them in a PowerShell module
+Alias erase |Delete an item
+Alias etsn |Start an interactive session with a remote computer
+Alias exit |Exit PowerShell (or exit a script)
+Alias exsn |End an interactive session with a remote computer
+Alias fc |Format output using a customized view
+Alias fhex |
+Alias fl |Format output as a list of properties, each on a new line
+Alias ft |Format output as a table
+Alias fw |Format output as a table listing one property only
+Alias fxml |
+Alias gal |Return alias names for Cmdlets
+Alias galpscx |
+Alias gbp |Get the currently set breakpoints
+Alias gc |Get content from item (specific location)
+Alias gcb |
+Alias gci |Get child items (contents of a folder or registry key)
+Alias gcm |Get basic information about cmdlets
+Alias gcmpscx |
+Alias gcs |
+Alias gdr |Get drive information (DriveInfo)
+Alias gdrpscx |
+Alias Get-DiskUsage |
+Alias gh |
+Alias ghy |Get a listing of the session history
+Alias gi |Get a file object or get a registry (or other namespace) object
+Alias gjb |Get PowerShell background jobs that are running
+Alias gl |Get and display the current location
+Alias gm |Enumerate the properties of an object
+Alias gmo |Get the modules imported to the session
+Alias gp |Retrieve the properties of an object
+Alias gps |Get a list of processes on a machine
+Alias gpv |
+Alias group |Group objects that contain the same value
+Alias gs |
+Alias gsn |Get the PSSessions in the current session
+Alias gsnp |List PowerShell snap-ins on this computer
+Alias gsv |Get a list of services
+Alias gtn |
+Alias gu |Get the unique items in a collection
+Alias gv |Get a PowerShell variable
+Alias gvs |
+Alias gwmi |Get WMI class information
+Alias h |Get a listing of the session history
+Alias help |Open the help file
+Alias history |Get a listing of the session history
+Alias hrexc |
+Alias icm |Run command
+Alias iex |Run a PowerShell expression
+Alias ihy |Invoke a previously executed Cmdlet
+Alias ii |Invoke an executable or open a file (START)
+Alias ipal |Import an alias list from a file
+Alias ipcsv |Take values from a CSV list and send objects down the pipeline
+Alias iphy |
+Alias ipmo |Add a module to the session
+Alias ipsn |Import commands from another session
+Alias ise |
+Alias iwmi |Call WMI methods
+Alias kill |Stop a running process
+Alias ln |
+Alias lorem |
+Alias lp |Send the output to a printer
+Alias ls |Get child items (contents of a folder or registry key)
+Alias mail |
+Alias man |
+Alias md |Create a new item in a namespace
+Alias measure |
+Alias mi |Move an item from one location to another
+Alias mkdir |Create a new item in a namespace
+Alias mount |Install a new drive on the machine
+Alias move |Move an item from one location to another
+Alias mp |Move a property from one location to another
+Alias mv |Move an item from one location to another
+Alias nal |Create a new alias.
+Alias ndr |Install a new drive on the machine
+Alias nho |
+Alias ni |Create a new item in a namespace
+Alias nmo |Create a new dynamic module (only in memory)
+Alias nsn |Create a persistent connection to a local or remote computer
+Alias nv |Create a new variable
+Alias ocb |
+Alias ogv |Send output to an interactive table
+Alias oh |Send output to the host
+Alias pager |
+Alias ping |
+Alias popd |Set the current working location from the stack
+Alias ps |Get a list of processes on a machine
+Alias pushd |Push a location to the stack
+Alias pwd |Get and display the current location
+Alias ql |
+Alias qs |
+Alias r |Invoke a previously executed Cmdlet
+Alias ra |
+Alias rbp |Delete breakpoints from the current console
+Alias rcjb |Get PowerShell background job results
+Alias rd |Remove an item
+Alias rdr |Remove a provider/drive from its location
+Alias rehash |
+Alias ren |Change the name of an existing item
+Alias ri |Remove an item
+Alias rjb |Delete a PowerShell background job
+Alias rm |Remove an item
+Alias rmdir |Remove an item
+Alias rmo |Remove a module from the current session
+Alias rnd |
+Alias rni |Change the name of an existing item
+Alias rnp |Renames a property at its location
+Alias rp |Remove a property and its value
+Alias rsn |Close PowerShell sessions
+Alias rsnp |Remove PowerShell snap-ins from the console
+Alias rv |Remove a variable and its value
+Alias rver |
+Alias rvpa |Resolves the wildcards in a path
+Alias rwmi |Delete an instance of a WMI class
+Alias sajb |Start a PowerShell background job
+Alias sal |Create or change an alias
+Alias saps |
+Alias sasv |Start a stopped service
+Alias sbp |Set a breakpoint on a line, command, or variable
+Alias sc |Set content in the item (specific location)
+Alias select |Select properties of objects
+Alias set |Set a variable and a value
+Alias si |Change the value of an item
+Alias skip |
+Alias sl |Set the current working location
+Alias sleep |Suspend shell, script, or runspace activity
+Alias sls |
+Alias slxml |
+Alias sort |Sort objects by property value
+Alias sp |Set a property at the specified location to a specified value
+Alias spjb |Stop a PowerShell background job
+Alias spps |Stop a running process
+Alias spsv |Stop a running service
+Alias sro |
+Alias srts |
+Alias start |
+Alias su |
+Alias sv |Set a variable and a value
+Alias swmi |
+Alias swr |
+Alias tail |
+Alias tee |Send input objects to two places
+Alias touch |
+Alias type |Get content from item (specific location)
+Alias up |
+Alias where |Filter input from the pipeline
+Alias winexc |
+Alias wjb |Wait for a background job
+Alias write |Write an object to the pipeline
+
+Operator -and |Logical “and”. Only true when both statements are true.
+Operator -as  |
+Operator -bAND |
+Operator -bNOT |
+Operator -bOR |
+Operator -bXOR |
+Operator -contains |Used to see if all of the objects that are provided contain a specific value.
+Operator -eq |Used to compare an identical value.
+Operator -ge |Used to compare a different or identical value in size.
+Operator -gt |Used to compare a different value in size.
+Operator -is |
+Operator -isnot |
+Operator -join |
+Operator -le |Used to compare a different or identical value in size.
+Operator -like |Match an identical value using a wildcard character.
+Operator -lt |Used to compare a different value in size.
+Operator -match |Used to compare a string using a regular expression.
+Operator -ne |Used to compare a different value.
+Operator -not |Logical “not”. Negates the statement that follows.
+Operator -notcontains |Used to see if all of the objects that are provided do not contain a specific value.
+Operator -notlike |Does not match an identical value using a wildcard character.
+Operator -notmatch |Used to compare a string using a regular expression.
+Operator -or |Logical “or”. Only true when either or both statements are true.
+Operator -replace |Used to change the value of an element.
+Operator -split |
+Operator -xor |Logical “exclusive or”. Only true when one of the statements is true and the other is false.
+
+Variable $args |Array of parameters passed to the script, function, or script block.
+Variable $confirmPreference |Preference that controls the level of impact that operations may have before requesting confirmation. Supports the values none, low, medium, high. A value of none disables confirmation messages.
+Variable $consoleFilename |Filename of the PowerShell console file that configured this session, if one was used.
+Variable $currentlyExecutingCommand |Currently executing command, when in a suspended prompt.
+Variable $debugPreference |Preference that controls how PowerShell should handle debug output written by a script or cmdlet. Supports the values SilentlyContinue, Continue, Inquire, and Stop.
+Variable $error |Array that holds the terminating and nonterminating errors generated in the shell.
+Variable $errorActionPreference |Preference that controls how PowerShell should handle error output written by a script or cmdlet. Supports the values SilentlyContinue, Continue, Inquire, and Stop.
+Variable $errorView |Preference that controls how PowerShell should output errors in the shell. Supports the values of Normal and CategoryView (a more succinct and categorical view of the error).
+Variable $executionContext |Means by which scripts can access the APIs typically used by cmdlets and providers.
+Variable $false |Variable that represents the Boolean value False.
+Variable $foreach |Enumerator within a foreach loop.
+Variable $formatEnumerationLimit |Limit on how deep into an object the formatting and output facilities travel before outputting an object.
+Variable $historySize |
+Variable $home |User's home directory.
+Variable $host |Means by which scripts can access the APIs and implementation details of the current host and user interface.
+Variable $input |Current input pipeline in a pipelined script block.
+Variable $lastExitCode |Exit code of the last command. Can be explicitly set by scripts, and is automatically set when calling native executables.
+Variable $logCommandHealthEvent |Preference that tells PowerShell to log command health events, such as errors and exceptions. Supports the values true and false.
+Variable $logCommandLifecycleEvent |Preference that tells PowerShell to log command lifecycle events, such as Start and Stop. Supports the values true and false.
+Variable $logEngineHealthEvent |Preference that tells PowerShell to log engine health events, such as errors and exceptions. Supports the values true and false.
+Variable $logEngineLifecycleEvent |Preference that tells PowerShell to log engine lifecycle events, such as Start and Stop. Supports the values true and false.
+Variable $logProviderHealthEvent |Preference that tells PowerShell to log provider health events, such as errors and exceptions. Supports the values true and false.
+Variable $logProviderLifecycleEvent |Preference that tells PowerShell to log provider lifecycle events, such as Start and Stop. Supports the values true and false.
+Variable $match |
+Variable $matches |Results of the last successful regular expression match.
+Variable $maximumAliasCount |Limit on how many aliases may be defined.
+Variable $maximumDriveCount |Limit on how many drives may be defined. Does not include default system drives.
+Variable $maximumErrorCount |Limit on how many errors PowerShell retains in the error collection.
+Variable $maximumFunctionCount |Limit on how many functions may be defined.
+Variable $maximumHistoryCount |Limit on how many history items are retained.
+Variable $maximumVariableCount |Limit on how many variables may be defined.
+Variable $mshHome |
+Variable $myInvocation |Information about the context under which the script, function, or script block was run, including detailed information about the command (MyCommand) and the script that defines it (ScriptName).
+Variable $nestedPromptLevel |Nesting level of the current prompt. Incremented by operations that enter a nested prompt (such as host.EnterNestedPrompt( )) and decremented by the exit statement.
+Variable $null |Variable that represents the concept of Null.
+Variable $ofs |Output field separator. Placed between elements when PowerShell outputs a list as a string.
+Variable $outputEncoding |Character encoding used when sending pipeline data to external processes.
+Variable $pid |Process ID of the current PowerShell instance.
+Variable $profile |Location and filename of the PowerShell profile for this host.
+Variable $progressPreference |Preference that controls how PowerShell should handle progress output written by a script or cmdlet. Supports the values SilentlyContinue, Continue, Inquire, and Stop.
+Variable $psCommandPath |
+Variable $psHome |Installation location of PowerShell.
+Variable $pwd |Current working directory.
+Variable $shellId |Shell identifier of this host.
+Variable $stackTrace |Detailed stack trace information of the last error.
+Variable $this |Reference to the current object in ScriptMethods and ScriptProperties.
+Variable $transcript |Filename used by the Start-Transcript cmdlet.
+Variable $true |Variable that represents the Boolean value True.
+Variable $verboseHelpErrors |Preference that tells PowerShell to output detailed error information when parsing malformed help files. Supports the values true and false.
+Variable $verbosePreference |Preference that controls how PowerShell should handle verbose output written by a script or cmdlet. Supports the values SilentlyContinue, Continue, Inquire, and Stop.
+Variable $warningPreference |Preference that controls how PowerShell should handle warning output written by a script or cmdlet. Supports the values SilentlyContinue, Continue, Inquire, and Stop.
+Variable $whatifPreference |Preference that controls how PowerShell should handle confirmation requests called by a script or cmdlet. Supports the values SilentlyContinue, Continue, Inquire, and Stop.

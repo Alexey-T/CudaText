@@ -1,0 +1,232 @@
+Command ACINIUPD |Modify INI files (TS only)
+Command ANSI.SYS |Text attributes, cursor & keyboard manipulation
+Command APPEND |Allows programs to open data files in specified directories as if they were in the current directory (DOS)
+Command ARP |Display or modify IP-to-Physical address translation tables used by ARP
+Command ASSOC |Associate a file extension with a file type, or list all associations
+Command AT |Command line scheduler
+Command ATTRIB |List & manipulate file attributes
+Command AUTOFAIL |Suppress network connection error messages at startup
+Command BACKUP |Backup files to floppy disks (requires RESTORE from the exact same DOS version)
+Command BASICA |Basic interpreter for IBM PC-DOS
+Command BCDEDIT |Sets properties in boot database to control boot loading (Windows 7)
+Command BOOTCFG |Edit Windows boot settings in BOOT.INI (XP)
+Command BREAK |Enable/disable extended Ctrl+C checking (16-bits)
+Command CACLS |Read and set file access permissions
+Command CALL |Run a batch file from within another batch file
+Command CD |Show or change the current directory (same as CHDIR)
+Command CDBURN |Write ISO images to CD (Windows Server 2003 Resource Kit tool)
+Command CERTREQ |Request certificates from a certification authority (Windows Server 2003)
+Command CERTUTIL |Manage certificates (Windows Server 2003)
+Command CHANGE |Change TS port mappings, install mode, or enable/disable TS logon
+Command CHCP |Display or set the active Code Page
+Command CHDIR |Show or change the current directory (same as CD)
+Command CHGLOGON |Enable/disable TS logon
+Command CHGPORT |Change TS port mappings
+Command CHGUSR |Change TS install mode
+Command CHKDSK |Check a disk for file system errors or bad sectors
+Command CHKNTFS |Display or modify the checking of disk at boot time
+Command CHOICE |Prompt user for choosing option from list of choices
+Command CIPHER |Display or alter the encryption of directories [files] on NTFS partitions
+Command CLEANMGR |Automate cleanup of temporary files, IE cache, downloaded files & recycle bin (XP)
+Command CLS |Clear the screen/window
+Command CMD.EXE |Command interpreter (32-bits)
+Command CMDKEY |Manage stored user names and passwords (Windows Server 2003 and later)
+Command COLOR |Change text and background color in console
+Command COMMAND.COM |Command interpreter (16-bits)
+Command COMP |Compare files
+Command COMPACT |Display or modify file compression on NTFS partitions
+Command %COMSPEC% |Command interpreter specification in master environment
+Command CONTROL |Start Control Panel or a Control Panel applet
+Command CONVERT |Convert a FAT volume to NTFS
+Command COPY |Copy files
+Command CPROFILE |Clean profiles of wasted space (Windows Server 2003)
+Command CSCRIPT |Console mode interpreter for VBScript/JScript
+Command CSVDE |Import/export data from Active Directory in CSV format
+Command CTTY |Redirect all input and output to a file or (serial, parallel or null) device
+Command DATE |Display & manipulate system date
+Command DEBUG |Debugger & assembler
+Command DEFRAG |Locate and consolidate fragmented boot files, data files, and folders on local volumes
+Command DEL |Delete one or more files
+Command DELTREE |Delete an entire folder including files and subfolders
+Command DEVCON |Command line Device Manager (free Microsoft download)
+Command DHCPLOC |Discover rogue DHCP servers
+Command DIANTZ |Compress and add files to new or existing .CAB files(equivalent of MAKECAB)
+Command DIR |List files & directories
+Command DISKCOMP |Compare two floppy disks on a track by track basis
+Command DISKCOPY |Copy a floppy disks on a track by track basis
+Command DOSKEY |Edit or recall command lines, or create command line macros
+Command DISKPART |Manipulate harddisk partitions and logical drives
+Command DRIVERQUERY |List installed drivers (Windows XP)
+Command DSADD |Add objects to (active) directory
+Command DSGET |Display (active) directory object properties
+Command DSMOD |Modify objects in (active) directory
+Command DSMOVE |Move or rename objects in (active) directory
+Command DSQUERY |Query (active) directory
+Command DSRM |Remove object from (active) directory
+Command DVDBURN |Write ISO images to DVD (Windows Server 2003 Resource Kit tool)
+Command ECHO |Display text on screen
+Command EDIT |Text editor in MS-DOS 5+ (requires QBASIC)
+Command EDLIN |Line editor in MS-DOS 4-
+Command ENDLOCAL |Terminate local environment
+Command EPAL |Elevated Priviliges Application Launcher (free Microsoft download)
+Command ERASE |Delete one or more files
+Command EVENTCREATE |Write an event in one of the event logs
+Command EVENTQUERY.VBS |List events and event properties
+Command EVENTTRIGGERS |Display and configure "Event Triggers" that monitor and act upon the occurrence of NT Log Events of given criteria
+Command EXIT |Terminate a batch file or command prompt
+Command EXPAND |Expand compressed files or folders on NTFS volumes
+Command EXPLORER |Open a folder in an Explorer window
+Command EXTRACT |Extract compressed files
+Command EXE2BIN |Convert .EXE files to binary format (DOS)
+Command FASTOPEN |Open DOS programs faster by memorizing their locations on disk (DOS)
+Command FC |Compare files
+Command FDISK |Manipulate harddisk partitions and logical drives
+Command FILEVER |Display a program file's version
+Command FIND |Search files or standard output
+Command FINDRAMD |Find the RAM drive letter
+Command FINDSTR |Search files or standard output with advanced options
+Command FOR |Loop through a set of files or variables
+Command FORCEDOS |Force XP to start the specified program in the MS-DOS subsystem
+Command FORFILES |Selects and executes a command on a file or set of files
+Command FORMAT |Format disks (intialize file system)
+Command FSUTIL |Manage FAT and NTFS file systems (XP)
+Command FTP |File Transfer Protocol client
+Command FTYPE |Display or define the "Open" command for a file type
+Command GETMAC |Display MAC address for local or remote network adapters (XP and later)
+Command GETTYPE |Queries the OS type, version or SP and returns it as an errorlevel (Resource Kit tool)
+Command GOTO |Jump to a label or subroutine
+Command GPRESULT |Enable display of extended character set in graphics mode
+Command GRAFTABL |Enable display of extended character set in graphics mode
+Command GWBASIC |Basic interpreter for MS-DOS up to version 4
+Command HELP |Display help text for a command
+Command ICACLS |Display, modify, backup, or restore ACLs for files and directories (Windows 7)
+Command IEXPRESS |(Installation) script packager (XP)
+Command IF |Test statement
+Command IFCONFIG |Configure network adapters
+Command INUSE |Replace locked files on the next reboot (Resource Kit tool)
+Command IPCONFIG |Configure network adapters
+Command JT |Command line scheduler for Windows 2000 and later (Resource Kit utility)
+Command LABEL |Show or set a disk's volume label
+Command LFNFOR |Tells the FOR command to use either "8.3" or long file names
+Command LH |Load TSRs in high memory (same as LOADHIGH)
+Command LOADHIGH |Load TSRs in high memory (same as LH)
+Command LOCK |Grant 16-bits DOS programs direct access to a disk
+Command LOGMAN |Command line Performance Monitor management tool
+Command LOGOFF |Logoff/terminate Windows TS sessions or (local) OS/2
+Command MAKECAB |Compress and add files to new or existing .CAB files (equivalent of DIANTZ)
+Command MD |Create a new (sub)directory (same as MKDIR)
+Command MEM |Check memory usage (MS-DOS and 16-bits sessions only)
+Command MKDIR |Create a new (sub)directory (same as MD)
+Command MODE |Configures system devices
+Command MORE |Displays output one screen at a time
+Command MOUNTVOL |Create, delete or list volume mount points (XP)
+Command MOVE |Move or rename files or folders
+Command MSD |Query for basic system configuration information (MS-DOS 6 & 7)
+Command MSG |Send a popup message to TS users/sessions
+Command MSIEXEC |Install, modify, and perform operations on Windows Installer from the command line
+Command MSINFO32 |Query for basic system configuration information (Windows 2000+)
+Command NBTSTAT |Display protocol statistics and current TCP/IP connections using NBT
+Command NET |Command line NetBIOS tool
+Command NETDOM |Manage domains and trust relationships (join computers to a domain, rename computers, and more)
+Command NETSH |Command line network configuration tool for Windows XP and later
+Command NETSTAT |Command line NetBIOS tool
+Command NLTEST |Command line Netlogon management tool
+Command NOTEPAD |Text editor (GUI editing, command line & GUI printing)
+Command NSLOOKUP |Diagnose DNS infrastructure
+Command NTBACKUP |Backup files to any Windows supported media
+Command OCSETUP |Windows Optional Component Setup (Windows 7)
+Command ODBCCONF |MDAC ODBC configuration tool
+Command OPENFILES |List or disconnect open files and folders
+Command PATH |Display or change the program search path
+Command PATHPING |Extended PING utility
+Command PAUSE |Wait until a key is pressed
+Command PENTNT |Detects floating point division error (if present) in the Pentium chip, disables floating point hardware, and turns on floating point emulation
+Command PING |Check the TCP/IP connection to a remote IP address
+Command PING6 |IPv6 version of PING
+Command PKGMGR |Command line package manager
+Command POPD |Move back to the last directory that was "pushed" on the stack by PUSHD
+Command POWERCFG |Configure power management (Windows Server 2003)
+Command PRINT |Print a text file
+Command PRINTUI.EXE |Shorthand command for RUNDLL32 PRINTUI.DLL,PrintUIEntry (Windows 7)
+Command PRNCFG.VBS |Configure or display printer configuration information
+Command PRNDRVR.VBS |Add, delete, or list printer drivers
+Command PRNJOBS.VBS |Pause, resume, cancel, or list print jobs
+Command PRNMNGR.VBS |Add, delete, or lists printers or printer connections; set or display default printer
+Command PRNPORT.VBS |Create, delete, or lists standard TCP/IP printer ports; display or change port configuration
+Command PRNQCTL.VBS |Print a test page; pause or resume a printer; clear a printer queue
+Command PROMPT |Configure the DOS prompt string
+Command PUBPRN.VBS |Publish a printer in Active Directory
+Command PUSHD |Move to a new directory, "pushing" the current directory on the stack
+Command QAPPSRV |Query available TS application servers
+Command QBASIC |Basic interpreter for MS-DOS 5+
+Command QCHAIN |Install multiple hotfixes with only a single reboot
+Command QFARM |Query local TS farm
+Command QPROCESS |Query TS servers for running processes
+Command QSERVER |Query available ICA-enabled TS servers
+Command QUERY |Query TS resources
+Command QUSER |Query logged on TS users
+Command QWINSTA |Query TS sessions
+Command RASDIAL |Use existing RAS/DUN connections
+Command RASPHONE |Manage RAS/DUN connections
+Command RD |Remove a (sub)directory (same as RMDIR)
+Command READLINE |Read a single line from standard output
+Command RECOVER |Recover readable information from a bad or defective disk (may sometimes destroy other files in the process)
+Command REG |Read and write the registry (W2K and later)
+Command REGEDIT |Read and write the registry (GUI as well as command line)
+Command REGEDT32 |Read and write the registry (includes setting access permissions)
+Command REGINI |Read and write the registry, including permissions (NT4 Resource Kit, native in XP)
+Command REGSVR32 |Register .DLL & .OCX files as command components in the registry
+Command REM |Insert comment line
+Command REN |Rename a file or folder (same as RENAME)
+Command RENAME |Rename a file or folder (same as REN)
+Command REPLACE |Copy only files that already exist in the target directory, or copy only files that don't exist yet
+Command RESET |Reset TS session subsystem defaults
+Command RESTORE |Restore files backed up with BACKUP (from the exact same DOS version)
+Command RMDIR |Remove a (sub)directory (same as RD)
+Command ROBOCOPY |Copy directories, optionally including subdirectory trees and/or permissions, and optionally deleting removed files in the target directory (Resource Kit utility, native in Windows 7)
+Command ROUTE |Display and modify the entries in the local IP routing table
+Command RUNAS |Run a command with different credentials (will always prompt for a password; use CPAU if you need to make this unattended)
+Command RUNDLL |Command line wrapper for 16-bit DLL routines
+Command RUNDLL32 |Command line wrapper for 32-bit DLL routines
+Command SC |Command line services managment (XP)
+Command SCHTASKS |Command line task scheduler (XP)
+Command SECEDIT |Configure and analyze system security by comparing your current configuration to a template (Windows 2000+)
+Command SET |Manipulate environment variables
+Command SETLOCAL |Start local environment
+Command SHADOW |Monitor or take over a TS session
+Command SHELL |Primary command interpreter specification in CONFIG.SYS
+Command SHIFT |Parse command line variables in batch files
+Command SHUTDOWN |Shutdown a computer (Resource Kit utility for NT 4 and 2000, native in XP and later)
+Command SORT |Read a file or standard input and return it sorted alphabetically
+Command START |Run a command in a separate process, or run a file with its default associated application
+Command SUBINACL |Display/modify ACEs for file and folder permissions, ownership and domain (Resource Kit utility)
+Command SUBST |Associate or disassociate a drive alias with a path
+Command SYSTEMINFO |Query for basic system configuration information
+Command TASKKILL |Kill an active process (XP)
+Command TASKLIST |List active processes (XP)
+Command TIME |Display & manipulate system time
+Command TITLE |Set the window title for the command prompt window
+Command TRACERT |Analyze the response times on the route to a remote IP address
+Command TRACERT6 |IPv6 version of TRACERT
+Command TRACERTE |Analyze the response times on the route to a remote IP address (OS/2)
+Command TREE |"Graphically" display the folder structure of a drive or path
+Command TRUENAME |Display the real fully qualified path
+Command TSCON |Attach a TS user session to a terminal session
+Command TSDISCON |Disconnect a TS terminal session
+Command TSKILL |Terminate a process in a TS session
+Command TSPROF |Copy/update TS user configuration information
+Command TSSHUTDN |Shut down or reboot a TS server
+Command TYPE |Display text file content in console
+Command TZCHANGE |Configure/edit time zones
+Command UNLOCK |Revoke 16-bits direct disk access granted by the LOCK command
+Command VER |Display the OS version
+Command VERIFY |Enable/disable verification of disk write operations
+Command VHDMOUNT |Mount and access VHD files as virtual disk drives (part of Virtual Server 2005 R2 SP1)
+Command VOL |Display a disk's volume label
+Command WINMSD |Query for basic system configuration information (for Windows NT 4; in Windows 2000 WINMSD was replaced by MSINFO32)
+Command WINMSDP |Command line helper tool for WINMSD
+Command WMIC |Query & manipulate objects in WMI (XP Pro and later)
+Command WSCRIPT |GUI mode interpreter for VBScript/JScript
+Command WUPDMGR |Start Windows Update in Internet Explorer
+Command XCACLS |Read and set file access permissions (improved CACLS from the Resource Kits)
+Command XCOPY |Copy files & directories with advanced options

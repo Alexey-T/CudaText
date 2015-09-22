@@ -1,0 +1,29 @@
+object fmGotoList: TfmGotoList
+  Left = 282
+  Height = 233
+  Top = 450
+  Width = 500
+  BorderStyle = bsNone
+  Caption = 'Goto list'
+  ClientHeight = 233
+  ClientWidth = 500
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  ShowInTaskBar = stNever
+  LCLVersion = '1.5'
+  object List: TATListbox
+    Left = 6
+    Height = 221
+    Top = 6
+    Width = 488
+    Align = alClient
+    BorderSpacing.Around = 6
+    Color = clWhite
+    ItemHeight = 28
+    OnClick = ListClick
+    OnDrawItem = ListDrawItem
+  end
+end

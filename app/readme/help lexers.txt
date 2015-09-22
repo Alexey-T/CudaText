@@ -1,0 +1,11 @@
+Lexers (syntax hiliters) from SynWrite editor used. Used EControl.ru syntax parser with mods. Main mod is support for folding in Python.
+
+    * Dialog "Lexer prop" allows to config some props of current lexer (selected via statusbar panel in CudaText). You can config: lexer name, file types, line-comment-string for language, styles (colors, font-styles, border-styles).
+    * Dialog "Lexer library" shows list of all lexers. You can delete items, or config them. 
+
+You can change/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog.
+
+    * In Synwrite call menu "Options--Addons manager--Install", install needed lexers from web. Synwrite lexer-library must have lexer before you edit it.
+    * In Synwrite call "Lexer prop" dialog and edit all you need. Or make new lexer in "Lexer library" dialog.
+    * In Synwrite install "ExLexer" addon and call it. In this addon, select lexer to export.
+    * You have exported zip file with lexer. Open this zip file in CudaText. Confirm installation.

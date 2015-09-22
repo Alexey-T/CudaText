@@ -1,0 +1,103 @@
+object fmColorSetup: TfmColorSetup
+  Left = 450
+  Height = 445
+  Top = 339
+  Width = 543
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Color theme'
+  ClientHeight = 445
+  ClientWidth = 543
+  OnShow = FormShow
+  Position = poScreenCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '1.5'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 410
+    Width = 531
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 3
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+  object List: TColorListBox
+    Left = 6
+    Height = 392
+    Top = 8
+    Width = 362
+    ColorRectWidth = 32
+    ColorRectOffset = 1
+    NoneColorColor = clNone
+    Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+    ItemHeight = 0
+    TabOrder = 0
+  end
+  object bChange: TButton
+    AnchorSideLeft.Control = List
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 374
+    Height = 29
+    Top = 168
+    Width = 163
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Change color...'
+    OnClick = bChangeClick
+    TabOrder = 1
+  end
+  object bNone: TButton
+    AnchorSideLeft.Control = bChange
+    AnchorSideTop.Control = bChange
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = bChange
+    AnchorSideRight.Side = asrBottom
+    Left = 374
+    Height = 29
+    Top = 203
+    Width = 163
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Set none'
+    OnClick = bNoneClick
+    TabOrder = 2
+  end
+  object ColorDialog1: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 312
+    top = 192
+  end
+end

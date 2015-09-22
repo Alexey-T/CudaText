@@ -1,0 +1,8 @@
+#! /bin/sh
+cd ~/cuda/cuda/app
+
+name=~/Public/cudatext-linux-gtk2-amd64.tar
+
+rm ~/Public/*gtk*.xz
+tar -cf $name cudatext readme data settings_default
+xz -z $name
