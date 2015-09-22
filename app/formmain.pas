@@ -1205,6 +1205,8 @@ begin
   TabsBottom.TabMiddleClickClose:= false;
   TabsBottom.TabAngle:= UiOps.TabAngle;
   TabsBottom.TabIndentTop:= 0;
+  TabsBottom.TabIndentInit:= UiOps.TabIndentX;
+  TabsBottom.TabIndentText:= UiOps.TabIndentY;
   TabsBottom.Height:= UiOps.TabSizeY;
   TabsBottom.TabHeight:= UiOps.TabSizeY-1;
   TabsBottom.TabWidthMax:= UiOps.TabSizeX;
