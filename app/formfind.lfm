@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 211
+  Left = 336
   Height = 64
-  Top = 607
+  Top = 606
   Width = 951
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
@@ -37,7 +37,7 @@ object fmFind: TfmFind
     Top = 4
     Width = 100
     TabStop = True
-    TabOrder = 10
+    TabOrder = 5
     Caption = 'Count all'
     Checked = False
     Checkable = False
@@ -64,7 +64,7 @@ object fmFind: TfmFind
     Top = 4
     Width = 100
     TabStop = True
-    TabOrder = 6
+    TabOrder = 7
     Caption = 'Replace cur'
     Checked = False
     Checkable = False
@@ -261,7 +261,7 @@ object fmFind: TfmFind
     Top = 4
     Width = 100
     TabStop = True
-    TabOrder = 5
+    TabOrder = 6
     Caption = 'Mark all'
     Checked = False
     Checkable = False
@@ -436,7 +436,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 8
+    TabOrder = 9
     Caption = 'Regex'
     Checked = False
     Checkable = True
@@ -450,7 +450,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 9
+    TabOrder = 10
     Caption = 'Case'
     Checked = False
     Checkable = True
@@ -463,7 +463,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 13
+    TabOrder = 11
     Caption = 'Words'
     Checked = False
     Checkable = True
@@ -476,7 +476,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 11
+    TabOrder = 12
     Caption = 'Back'
     Checked = False
     Checkable = True
@@ -489,7 +489,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 12
+    TabOrder = 13
     Caption = 'Confirm'
     Checked = False
     Checkable = True
@@ -502,7 +502,7 @@ object fmFind: TfmFind
     Top = 4
     Width = 100
     TabStop = True
-    TabOrder = 7
+    TabOrder = 8
     Caption = 'Replace all'
     Checked = False
     Checkable = False
