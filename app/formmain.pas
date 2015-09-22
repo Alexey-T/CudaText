@@ -1594,7 +1594,10 @@ begin
   Py_SetSysPath([dir+'py'], true);
 
   {$ifdef import_cudatext_py}
-  GetPythonEngine.ExecString('from cudatext import *');
+  try
+    GetPythonEngine.ExecString('from cudatext import *');
+  except
+  end;
   {$endif}
 end;
 
