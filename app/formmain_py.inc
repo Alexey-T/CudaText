@@ -263,6 +263,37 @@ begin
     end;
 end;
 
+function Py_ed_get_carets(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Integer;
+  ComArray: Variant;
+  Ed: TATSynEdit;
+  Caret: TATCaretItem;
+  NLen, i: Integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:get_carets', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      NLen:= Ed.Carets.Count;
+      if NLen>0 then
+      begin
+        ComArray:= VarArrayCreate([0, NLen-1, 0, 3], varInteger);
+        for i:= 0 to NLen-1 do
+        begin
+          Caret:= Ed.Carets[i];
+          ComArray[i, 0]:= Caret.PosX;
+          ComArray[i, 1]:= Caret.PosY;
+          ComArray[i, 2]:= Caret.EndX; //todo: fix, py api gets maxdword
+          ComArray[i, 3]:= Caret.EndY;
+        end;
+        Result:= VariantAsPyObject(ComArray);
+      end
+      else
+        Result:= ReturnNone;
+    end;
+end;
+
 
 function Py_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -721,6 +752,7 @@ begin
 
     AddMethod('ed_get_caret', @Py_ed_get_caret, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');
+    AddMethod('ed_get_carets', @Py_ed_get_carets, '');
 
     AddMethod('ed_get_sel_mode', @Py_ed_get_sel_mode, '');
     AddMethod('ed_get_sel_rect', @Py_ed_get_sel_rect, '');
