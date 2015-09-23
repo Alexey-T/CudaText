@@ -146,7 +146,8 @@ class Editor:
         return cudatext_api.ed_lock(self.h)
     def unlock(self):
         return cudatext_api.ed_unlock(self.h)
-
+    def focus(self):
+        return cudatext_api.ed_focus(self.h)
     def bookmark(self, id, nline, nkind=1, ncolor=-1, icon=''):
         return cudatext_api.ed_bookmark(self.h, id, nline, nkind, ncolor, icon)
     #test..

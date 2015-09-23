@@ -707,6 +707,27 @@ begin
     end;
 end;
 
+function Py_ed_focus(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:focus', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      F:= fmMain.GetEditorFrame(Ed);
+      fmMain.SetFrame(F);
+      Ed.SetFocus;
+
+      fmMain.UpdateFrame();
+      fmMain.UpdateStatus;
+      Result:= ReturnNone;
+    end;
+end;
+
+
 function Py_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -849,6 +870,7 @@ begin
     AddMethod('ed_lock', @Py_ed_lock, '');
     AddMethod('ed_unlock', @Py_ed_unlock, '');
     AddMethod('ed_bookmark', @Py_ed_bookmark, '');
+    AddMethod('ed_focus', @Py_ed_focus, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');
