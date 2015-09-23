@@ -1,5 +1,6 @@
-#prefix cCommand_: std commands of editor control
-#prefix cmd_: high-level commands of CudaText
+#prefix cCommand: std commands of editor control
+#prefix cmd: high-level commands of CudaText
+#don't use flags cCmdNNN
 
 cCmdSelKeep   = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
 cCmdSelReset  = 0x20000 #before command reset selection
@@ -140,7 +141,6 @@ cCommand_Cancel = 2001
 cCommand_RepeatTextCommand = 2002
 cCommand_ZoomIn = 2003
 cCommand_ZoomOut = 2004
-cCommand_RecentsPopup = 2005
 
 cCommand_CaretsExtendDownLine = 2010
 cCommand_CaretsExtendDownPage = 2011
