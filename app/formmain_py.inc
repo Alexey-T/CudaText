@@ -879,6 +879,59 @@ begin
     Result:= Py_BuildValue('(ii)', nMin, nMax);
 end;
 
+
+function Py_dlg_file(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  PtrFilename, PtrFolder, PtrFilter: PAnsiChar;
+  StrFilename, StrFolder, StrFilter: string;
+  IsOpen: LongBool;
+  Dlg: TOpenDialog;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'isss:dlg_file',
+      @IsOpen, @PtrFilename, @PtrFolder, @PtrFilter)) then
+    begin
+      StrFilename:= AnsiString(PtrFilename);
+      StrFolder:= AnsiString(PtrFolder);
+      StrFilter:= AnsiString(PtrFilter);
+
+      if IsOpen then
+      begin
+        Dlg:= TOpenDialog.Create(nil);
+        Dlg.Options:= Dlg.Options+[ofFileMustExist];
+      end
+      else
+      begin
+        Dlg:= TSaveDialog.Create(nil);
+        Dlg.Options:= Dlg.Options+[ofOverwritePrompt];
+      end;
+
+      try
+        if StrFilename='*' then
+        begin
+          StrFilename:= '';
+          Dlg.Options:= Dlg.Options+[ofAllowMultiSelect];
+        end;
+
+        Dlg.FileName:= StrFilename;
+        Dlg.InitialDir:= StrFolder;
+        Dlg.Filter:= StrFilter;
+
+        if Dlg.Execute then
+        begin
+          if ofAllowMultiSelect in Dlg.Options then
+            Result:= PyString_FromString(PChar(Dlg.Files.Text))
+          else
+            Result:= PyString_FromString(PChar(Dlg.FileName));
+        end
+        else
+          Result:= ReturnNone;
+      finally
+        FreeAndNil(Dlg);
+      end;
+    end;
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -892,6 +945,7 @@ begin
     AddMethod('msg_box', @Py_msg_box, '');
     AddMethod('dlg_input', @Py_dlg_input, '');
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
+    AddMethod('dlg_file', @Py_dlg_file, '');
 
     AddMethod('ed_get_caret', @Py_ed_get_caret, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');

@@ -74,6 +74,14 @@ def dlg_input_ex(number, caption,
     else:
         return result.splitlines()
 
+def dlg_file(is_open, init_filename, init_dir, filters):
+    res = cudatext_api.dlg_file(is_open, init_filename, init_dir, filters)
+    if res is None:
+        return None
+    res = res.splitlines()
+    if len(res)==1:
+        res=res[0]
+    return res
 
 def file_open(filename):
     return cudatext_api.file_open(filename)
