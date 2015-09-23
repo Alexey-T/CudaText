@@ -2022,8 +2022,20 @@ begin
 end;
 
 procedure TfmMain.MenuMainClick(Sender: TObject);
+var
+  F: TEditorFrame;
+  EdFocus: boolean;
+  Cmd: integer;
 begin
-  CurrentEditor.DoCommand((Sender as TComponent).Tag);
+  Cmd:= (Sender as TComponent).Tag;
+
+  //dont do editor commands here if ed not focused
+  F:= CurrentFrame;
+  EdFocus:= F.Editor.Focused or F.Editor2.Focused;
+  if not EdFocus then
+    if Cmd<cmd_First then exit;
+
+  CurrentEditor.DoCommand(Cmd);
   UpdateFrame;
   UpdateStatus;
 end;
