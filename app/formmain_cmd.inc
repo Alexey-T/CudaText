@@ -44,6 +44,7 @@ begin
     cmd_ToggleSidePanel:   DoToggleSidePanel;
     cmd_ToggleBottomPanel: DoToggleBottomPanel;
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
+    cmd_ShowConsole:    DoShowConsole;
 
     cmd_FindNext:        DoFindNext(true);
     cmd_FindPrev:        DoFindNext(false);

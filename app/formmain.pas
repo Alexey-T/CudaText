@@ -479,6 +479,7 @@ type
     procedure DoOps_OpenFile_FileTypes;
     procedure DoOps_OpenFile_LexerOvr;
     procedure DoOps_SaveLexlib(Cfm: boolean);
+    procedure DoShowConsole;
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; Cmd: integer;
@@ -890,14 +891,23 @@ begin
     ANext:= not (ssShift in Shift);
     Groups.PagesCurrent.Tabs.SwitchTab(ANext);
     Key:= 0;
+    exit
   end;
 
   if (Key=VK_ESCAPE) and (Shift=[]) then
+  begin
+    if fmConsole.ed.Focused or fmConsole.memo.Focused then
+    begin
+      ShowBottom:= false;
+      Key:= 0;
+    end;
     if UiOps.EscapeClose then
     begin
       Close;
       Key:= 0;
     end;
+    exit
+  end;
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
@@ -1898,6 +1908,13 @@ end;
 procedure TfmMain.DoToggleBottomPanel;
 begin
   ShowBottom:= not ShowBottom;
+end;
+
+procedure TfmMain.DoShowConsole;
+begin
+  ShowBottom:= true;
+  TabsBottom.TabIndex:= 0;
+  fmConsole.ed.SetFocus;
 end;
 
 procedure TfmMain.SetFullscreen(AValue: boolean);
