@@ -821,6 +821,53 @@ begin
 end;
 
 
+function Py_ed_get_split(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  NState: integer;
+  NValue: double;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      F:= fmMain.GetEditorFrame(Ed);
+
+      NValue:= F.SplitPos;
+      if not F.Splitted then NState:= TAB_SPLIT_NO else
+        if F.SplitHorz then NState:= TAB_SPLIT_HORZ else
+          NState:= TAB_SPLIT_VERT;
+
+      Result:= Py_BuildValue('(id)', NState, NValue);
+    end;
+end;
+
+
+function Py_ed_set_split(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  NState: integer;
+  NValue: double;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lid', @H, @NState, @NValue)) then
+    begin
+      Ed:= PyEditor(H);
+      F:= fmMain.GetEditorFrame(Ed);
+      case NState of
+        TAB_SPLIT_NO: begin F.Splitted:= false; end;
+        TAB_SPLIT_HORZ: begin F.Splitted:= true; F.SplitHorz:= true; end;
+        TAB_SPLIT_VERT: begin F.Splitted:= true; F.SplitHorz:= false; end;
+      end;
+      F.SplitPos:= NValue;
+      Result:= ReturnNone;
+    end;
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -865,6 +912,8 @@ begin
     AddMethod('ed_set_enc', @Py_ed_set_enc, '');
     AddMethod('ed_get_top', @Py_ed_get_top, '');
     AddMethod('ed_set_top', @Py_ed_set_top, '');
+    AddMethod('ed_get_split', @Py_ed_get_split, '');
+    AddMethod('ed_set_split', @Py_ed_set_split, '');
 
     AddMethod('ed_cmd', @Py_ed_cmd, '');
     AddMethod('ed_lock', @Py_ed_lock, '');

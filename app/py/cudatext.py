@@ -40,6 +40,10 @@ BOOKMARK_CLEAR_ALL = 3
 BOOKMARK_SETUP = 4
 BOOKMARK_GET_LIST = 5
 
+TAB_SPLIT_NO = 0
+TAB_SPLIT_HORZ = 1
+TAB_SPLIT_VERT = 2
+
 
 def app_version():
     return cudatext_api.app_version()
@@ -142,14 +146,20 @@ class Editor:
 
     def cmd(self, value):
         return cudatext_api.ed_cmd(self.h, value)
-    def lock(self):
-        return cudatext_api.ed_lock(self.h)
-    def unlock(self):
-        return cudatext_api.ed_unlock(self.h)
     def focus(self):
         return cudatext_api.ed_focus(self.h)
     def bookmark(self, id, nline, nkind=1, ncolor=-1, icon=''):
         return cudatext_api.ed_bookmark(self.h, id, nline, nkind, ncolor, icon)
+
+    def lock(self):
+        return cudatext_api.ed_lock(self.h)
+    def unlock(self):
+        return cudatext_api.ed_unlock(self.h)
+
+    def get_split(self):
+        return cudatext_api.ed_get_split(self.h)
+    def set_split(self, state, value):
+        return cudatext_api.ed_set_split(self.h, state, value)
     #test..
         
 #objects

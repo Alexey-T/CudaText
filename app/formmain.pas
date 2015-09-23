@@ -900,6 +900,7 @@ begin
     begin
       ShowBottom:= false;
       Key:= 0;
+      exit
     end;
     if UiOps.EscapeClose then
     begin

@@ -29,6 +29,10 @@ const
   BOOKMARK_SETUP = 4;
   BOOKMARK_GET_LIST = 5;
 
+  TAB_SPLIT_NO = 0;
+  TAB_SPLIT_HORZ = 1;
+  TAB_SPLIT_VERT = 2;
+
 implementation
 
 end.
