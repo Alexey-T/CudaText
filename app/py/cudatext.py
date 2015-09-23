@@ -70,6 +70,8 @@ class Editor:
         return cudatext_api.ed_get_caret(self.h)
     def set_caret(self, x1, y1, x2=-1, y2=-1):
         return cudatext_api.ed_set_caret(self.h, x1, y1, x2, y2)
+    def add_caret(self, x1, y1, x2=-1, y2=-1):
+        return cudatext_api.ed_add_caret(self.h, x1, y1, x2, y2)
     def get_carets(self):
         return cudatext_api.ed_get_carets(self.h)
 

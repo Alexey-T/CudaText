@@ -263,12 +263,37 @@ begin
     end;
 end;
 
+function Py_ed_add_caret(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  X1, Y1, X2, Y2: Integer;
+  Ed: TATSynEdit;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liiii:add_caret', @H, @X1, @Y1, @X2, @Y2)) then
+    begin
+      Ed:= PyEditor(H);
+      if X1<0 then
+        Ed.Carets.Clear
+      else
+      begin
+        Ed.Carets.Add(X1, Y1, X2, Y2);
+        Ed.Carets.Sort;
+      end;
+
+      fmMain.UpdateFrame;
+      fmMain.UpdateStatus;
+      Result:= ReturnNone;
+    end;
+end;
+
+
 function Py_ed_get_carets(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: Integer;
-  ComArray: Variant;
+  H: PtrInt;
   Ed: TATSynEdit;
   Caret: TATCaretItem;
+  ComArray: Variant;
   NLen, i: Integer;
 begin
   with GetPythonEngine do
@@ -284,7 +309,7 @@ begin
           Caret:= Ed.Carets[i];
           ComArray[i, 0]:= Caret.PosX;
           ComArray[i, 1]:= Caret.PosY;
-          ComArray[i, 2]:= Caret.EndX; //todo: fix, py api gets maxdword
+          ComArray[i, 2]:= Caret.EndX; //todo: fix, gets maxdword, not -1
           ComArray[i, 3]:= Caret.EndY;
         end;
         Result:= VariantAsPyObject(ComArray);
@@ -752,6 +777,7 @@ begin
 
     AddMethod('ed_get_caret', @Py_ed_get_caret, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');
+    AddMethod('ed_add_caret', @Py_ed_add_caret, '');
     AddMethod('ed_get_carets', @Py_ed_get_carets, '');
 
     AddMethod('ed_get_sel_mode', @Py_ed_get_sel_mode, '');
