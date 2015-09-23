@@ -1549,6 +1549,8 @@ begin
     fmConsole.ed.SetFocus
   else
     CurrentEditor.SetFocus;
+
+  UpdateStatus;
 end;
 
 procedure TfmMain.SetShowSidePanel(AValue: boolean);
