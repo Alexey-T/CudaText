@@ -114,6 +114,44 @@ begin
     end;
 end;
 
+function Py_dlg_input_ex(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  Number, i: integer;
+  PCaption: PAnsiChar;
+  PLabel, PText: array[1..10] of PAnsiChar;
+  SCaption: string;
+  Labels, Values: array of string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'isssssssssssssssssssss:dlg_input_ex',
+      @Number, @PCaption,
+      @PLabel[1], @PText[1], @PLabel[2], @PText[2], @PLabel[3], @PText[3], @PLabel[4], @PText[4],
+      @PLabel[5], @PText[5], @PLabel[6], @PText[6], @PLabel[7], @PText[7], @PLabel[8], @PText[8],
+      @PLabel[9], @PText[9], @PLabel[10], @PText[10])) then
+    begin
+      Number:= Max(1, Min(10, Number));
+      SCaption:= AnsiString(PCaption);
+      SetLength(Labels, Number);
+      SetLength(Values, Number);
+      for i:= 1 to Number do
+      begin
+        Labels[i-1]:= AnsiString(PLabel[i]);
+        Values[i-1]:= AnsiString(PText[i]);
+      end;
+
+      if InputQuery(SCaption, Labels, Values) then
+      begin
+        SCaption:= '';
+        for i:= 0 to Number-1 do
+          SCaption:= SCaption+Values[i]+#13;
+        Result:= PyString_FromString(PChar(SCaption))
+      end
+      else
+        Result:= ReturnNone;
+    end;
+end;
+
+
 function Py_msg_status(Self, Args: PPyObject): PPyObject; cdecl;
 var
   P: PAnsiChar;
@@ -774,6 +812,7 @@ begin
     AddMethod('msg_status', @Py_msg_status, '');
     AddMethod('msg_box', @Py_msg_box, '');
     AddMethod('dlg_input', @Py_dlg_input, '');
+    AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
 
     AddMethod('ed_get_caret', @Py_ed_get_caret, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');
