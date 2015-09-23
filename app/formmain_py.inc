@@ -868,6 +868,17 @@ begin
     end;
 end;
 
+function Py_ed_handles(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  nMin, nMax: integer;
+begin
+  nMin:= cPyEditorHandleMin;
+  nMax:= Min(cPyEditorHandleMin + fmMain.FrameCount - 1, cPyEditorHandleMax);
+
+  with GetPythonEngine do
+    Result:= Py_BuildValue('(ii)', nMin, nMax);
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -923,6 +934,7 @@ begin
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');
+    AddMethod('ed_handles', @Py_ed_handles, '');
   end;
 end;
 

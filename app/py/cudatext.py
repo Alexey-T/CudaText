@@ -11,13 +11,13 @@ MB_ICONQUESTION = 0x00000020
 MB_ICONWARNING = 0x00000030
 MB_ICONINFO = 0x00000040
 
-ID_OK = 1     
-ID_CANCEL = 2 
-ID_ABORT = 3  
-ID_RETRY = 4  
-ID_IGNORE = 5 
-ID_YES = 6    
-ID_NO = 7     
+ID_OK = 1
+ID_CANCEL = 2
+ID_ABORT = 3
+ID_RETRY = 4
+ID_IGNORE = 5
+ID_YES = 6
+ID_NO = 7
 
 SEL_NORMAL = 0
 SEL_COLUMN = 1
@@ -58,7 +58,7 @@ def msg_status(text):
     return cudatext_api.msg_status(text)
 def dlg_input(label, defvalue):
     return cudatext_api.dlg_input(label, defvalue)
-    
+
 def dlg_input_ex(number, caption,
                  label1   , text1='', label2='', text2='', label3='', text3='',
                  label4='', text4='', label5='', text5='', label6='', text6='',
@@ -73,12 +73,16 @@ def dlg_input_ex(number, caption,
         return None
     else:
         return result.splitlines()
-    
+
 
 def file_open(filename):
     return cudatext_api.file_open(filename)
 def file_save():
     return cudatext_api.file_save()
+
+def ed_handles():
+    r0, r1 = cudatext_api.ed_handles()
+    return range(r0, r1+1)
 
 #Editor
 class Editor:
@@ -112,7 +116,7 @@ class Editor:
         return cudatext_api.ed_set_text_line(self.h, num, text)
     def get_text_substr(self, x1, y1, x2, y2):
         return cudatext_api.ed_get_text_substr(self.h, x1, y1, x2, y2)
-        
+
     def get_sel_mode(self):
         return cudatext_api.ed_get_sel_mode(self.h)
     def get_sel_lines(self):
@@ -121,12 +125,12 @@ class Editor:
         return cudatext_api.ed_get_sel_rect(self.h)
     def set_sel_rect(self, x1, y1, x2, y2):
         return cudatext_api.ed_set_sel_rect(self.h, x1, y1, x2, y2)
-        
+
     def delete(self, x1, y1, x2, y2):
         return cudatext_api.ed_delete(self.h, x1, y1, x2, y2)
     def insert(self, x1, y1, text):
         return cudatext_api.ed_insert(self.h, x1, y1, text)
-        
+
     def get_filename(self):
         return cudatext_api.ed_get_filename(self.h)
 
@@ -134,7 +138,7 @@ class Editor:
         return cudatext_api.ed_get_tabcolor(self.h)
     def set_tabcolor(self, value):
         return cudatext_api.ed_set_tabcolor(self.h, value)
-        
+
     def get_enc(self):
         return cudatext_api.ed_get_enc(self.h)
     def set_enc(self, value):
@@ -161,7 +165,7 @@ class Editor:
     def set_split(self, state, value):
         return cudatext_api.ed_set_split(self.h, state, value)
     #test..
-        
+
 #objects
 ed = Editor(0)
 ed_bro = Editor(1)
