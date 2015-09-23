@@ -1,0 +1,230 @@
+= About =
+
+'''CudaText''' is a cross-platform text editor, written in Lazarus.
+
+* Syntax highlight for many languages: C, C++, Java, JavaScript, HTML, CSS, PHP, Python, Pascal, XML; totally about [http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 140 lexers] exist 
+* Code folding 
+* Multi-carets, multi-selections 
+* Find/replace with regex
+* Supports many encodings 
+* Auto-completion for some lexers 
+* Command palette (Sublime style)
+* Text configs (Sublime style)
+* Made on [[ATSynEdit]] engine 
+
+Image:
+
+[[File:cudatext.png]]
+
+= Download =
+
+* Homepage: http://uvviewsoft.com/
+* Source: https://github.com/Alexey-T/CudaText
+
+Versions for Windows, Linux, OS X.
+
+= Configs =
+
+Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit lines in this '''user config'''. Default config is not read, only user config is read.
+
+'''Lexer-override config''': settings for single lexer only. E.g., if you open Pascal file, lexer-override for Pascal is read after user config. You can call it via Options menu. You should not write "ui_" options to lexer-override config, and few others, like option "lexlib".
+
+'''File-types config''': specify in it mapping between file types (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it. You can call it via Options menu.
+
+'''Color-theme''': one of color theme configs may be selected via Options menu. It defines all interface colors in app (not colors of syntax elements). You can create new color themes also via Options menu, "Color theme" dialog.
+
+'''Keys config''': you should not edit keys config by hands. Use the dialog, it's called from "Help--Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 (simple hotkey or key-combo) for any command (except dynamically added commands: lexers etc).
+
+= Help topics =
+== Mouse shortcuts ==
+
+Multi-carets:
+
+* Ctrl+click - add/delete caret
+* Ctrl+drag - add caret with selection
+* Ctrl+Shift+click - add carets column in several lines (from previous caret to clicked line)
+
+Select:
+
+* Alt+drag - select column of text (Note: it may look weird if word-wrap on, because wrap is not considered here at all. Simple rectangle of coordinates [x1,y1]-[x2,y2] is always selected, even if this gives bad looking screen)
+* drag on gutter's line numbers - select by entire lines
+* double-click and immediately drag - select text by words 
+
+Clicks:
+
+* double-click - select clicked word  
+* triple-click - select entire line (limited by end-of-lines)
+* middle-button click - start "Browser Scroll" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off)
+
+== Lexers ==
+
+Lexers (syntax hiliters) from SynWrite editor used. Used EControl.ru syntax parser with mods. Main mod is support for folding in Python.
+
+* Dialog "Lexer properties" allows to config props of current lexer (selected via statusbar panel in CudaText). You can config: lexer name, file types, line-comment-string for language, colors of tokens, font-styles (bold/italic/underline), borders around tokens.
+* Dialog "Lexer library" shows list of all lexers. Library is in file "data/lexlib/lib.lxl" (can be changed by option). You can delete lexers, add lexers from Zip files.
+
+== Lexers at sf.net ==
+
+Lexer library file has only subset of lexers.
+Other lexers, from SynWrite, are here:
+http://sourceforge.net/projects/synwrite-addons/files/Lexers/
+
+These zip packages can be installed in CudaText: open any zip file via "File--Open" and confirm installation.
+
+After reinstalling of app, lex-library may be overwritten. You'll need to re-add lexers. 
+To prevent it: make a copy of file in "data/lexlib" and set this file name in config: option "lexlib". Your lex-library file will not be overwritten.
+
+== Lexers editing ==
+
+You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog. 
+
+* In Synwrite call menu "Options--Addons manager--Install", install needed lexer from web. Synwrite lexer-library must have lexer before you edit it.
+* In Synwrite call "Lexer prop" dialog and edit all you need. Or make new lexer.
+* In Synwrite install "ExLexer" addon. Call it in "Plugins" menu, select needed lexer. You have exported zip file.
+* In CudaText open this zip file. Confirm installation of lexer.
+
+== File-types config ==
+
+Menu item "Settings - file-types" allows to edit file-types config. To override mapping "file name -> lexer name".
+Example of file:
+
+  {
+    "*.mht": "HTML",
+    "myconfig.conf": "Nginx",
+    ".profile": "Bash script",
+  }
+  
+This allows to open files with extension "mht" with custom lexer, and file with name "myconfig.conf" with another custom lexer.
+Value "-" means "don't activate lexer".
+
+Other method to specify this mapping is to call "Lexer props" dialog and change file-types in it. But this saves option to the lexer-library file, so it's reset on reinstalling.
+
+==Encodings==
+
+You can change encoding of file using click on statusbar item. Menu will give list of encodings: ANSI, UTF8 etc. Only encodings supported by LConvEncoding are shown.
+
+If you change enc for untitled tab, then enc is changed only in-memory (next file save will use this encoding). If you change enc for named tab, then additional confirmation shows: "Do you also want to reload file?". Choose Ok to reload file from disk using new encoding. Choose Cancel to only change encoding in-memory (call Save then to apply enc to file).
+
+==Line ends==
+
+Main types of line-ends are supported: CR LF (Windows), LF (Unix), CR (MacOS Classic). To change line-ends for current file, click statusbar item. Changed line-ends can be undone. 
+
+Mixed line-ends in one file are supported. To see ends for all lines, turn on these options: unprinted_show, unprinted_ends, unprinted_end_details.
+
+==Groups of tabs==
+
+Groups are tab sets, each tab with an editor control. By default only the first group is shown. Totally 6 groups can be shown at once, see menu "View--Groups", which allows to choose the grouping mode: 
+
+* one group 
+* 2 groups: vertically or horizontally 
+* 3 groups: vertically, horizontally or 1+2 
+* 4 groups: vertically, horizontally or grid 
+* 6 groups: grid 
+
+First group cannot be empty, at last one tab exists in it. Other groups can be empty: on closing last tab, if it's active, the first group activates. 
+
+* You can drag-drop tabs from any group to any other visible group (drop only on tabs area). 
+* You can move tabs to other groups (by group number or to the next/previous), using commands in tab headers context menu. 
+* In grouping modes "2 groups" and "1+2" there's a context menu for splitter, to choose splitting 50/50, 40/60 etc.
+
+==Auto-completion==
+
+Command Ctrl+Space shows auto-completion listbox for file, if app has autocompletion file for current lexer.
+Such files exist for many lexers: they are in dir "data/autocomplete", and additional lexers may have such files.
+
+Example for PHP lexer:
+
+[[File:cudatext-php-complete.png]]
+
+Lexer HTML is handled specially, its completion listbox has 3 modes:
+
+* caret is on tag (opening/closing): list of tags is shown
+* caret is after tag on attribute place, before "=": list if attributes for found tag is shown
+* caret is after tag, after attribute, after "=": list of values for found attribute is shown
+
+[[File:cudatext-html-complete.png]]
+
+Lexer CSS is handled specially too, its listbox has 2 modes:
+
+* caret is on property name: list of properties is shown
+* caret is after property name and ":": list of values is shown
+
+[[File:cudatext-css-complete.png]]
+
+== Syntax tree ==
+
+To show syntax tree, activate side-panel (default hotkey: F12). Many lexers support this tree: most C-based, HTML, XML, CSS, JS etc. This tree is configured inside each lexer properties (see how to edit lexers). Example of tree for Pascal:
+
+[[File:atsynedit_tree.png]]
+
+* Double-click on a tree node moves caret to its text.
+* Tree is filled after few seconds after file opening (search for options ui_tree* to change this pause).
+* When you move caret, tree shows tree node for caret position, after a pause (search for options ui_tree* to change this).
+
+==Console panel==
+
+Panel is called by key Ctrl+tilde (Ctrl+`). It has read-only memo with output and edit field. You can type Python commands in the edit field, they will run and show output in the memo. E.g. enter "print(10+12)" and you'll see output "22". Can enter complex commands: e.g. "for i in range(10): print(i)".
+
+If you enter command beginning with "=", then it's the same as you enterted "print()". E.g. command "=10+12" will give "22".
+
+[[File:cudatext_con.png]]
+
+Double-click on memo lines starting with ">>>" repeats entered command (which is after ">>>").
+
+Can enter commands from CudaText API. Example clears all bookmarks and sets bookmark on line 11 (these are several commands, run one by one):
+
+<syntaxhighlight>
+from cudatext import *
+ed.bookmark(BOOKMARK_CLEAR_ALL, 0)
+ed.bookmark(BOOKMARK_SET, 10)
+</syntaxhighlight>
+
+== more ==
+
+= Tech topics=
+== Python API ==
+
+See [[CudaText API]].
+
+== Linux installation ==
+On Linux you can install program in such way:
+
+* copy file "cudatext" to folder /usr/bin 
+* copy dirs (data, readme, settings_default) to "~/.cudatext"
+
+If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
+
+==Linux Qt==
+For CudaText Qt version, library libQt4Pas needed.
+
+* For Ubuntu: install it using apt-get.
+* For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
+
+
+== Autocompletion .acp file format ==
+
+Common auto-completion file format is ANSI text file, it contains list of lines in forms:
+
+ Type Id |Hint
+ Type Id (Param1; Param2; ...) |Hint
+ Type Id (Param1; Param2; ...): ResultType |Hint
+
+* Strings "Type", "Id", "Params", "Hint" are shown in separate columns of completion listbox, with separate colors. "Id" is the text which is inserted for a line.
+* Both ";" and "," chars can be params delimiters. "|Hint" part is optional.
+* If "\" char is present in hint part, then it must be escaped: "\\".
+* If space is needed in id part, it must be written as "%20" (it's allowed for any char in range 0x20..0x2F).
+
+First line in the file can be the "control" line: it specifies what chars are "word chars" for the used syntax.
+For example, if word chars are minus, dot, and # sign, the control line should be:
+
+ #chars .-#
+
+==Why after reinstalling default config not updated?==
+
+Q: I installed app on Linux (deb), or OSX. I see outdated history file, and/or outdated default config.
+
+A: You need to delete dirs (data, readme, settings_default) inside "~/.cudatext". They will be re-created on next program run: from "/usr/share/cudatext" on Linux, or from app resources on OSX.
+
+[[Category: Applications written in Free Pascal]]
+[[Category: Applications created with Lazarus]]
+[[Category: Tools]]

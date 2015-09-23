@@ -1,0 +1,349 @@
+=Intro=
+This is API for [[CudaText]] in Python. 
+
+* Main Py module is cudatext. Main module has constants, funcs, class Editor, objects of class Editor.
+* Additional module: cudatext_cmd has constants for command runner func.
+
+=Global funcs=
+
+===app_version===
+
+ app_version()
+
+Gets version of program (str).
+
+===app_api_version===
+
+ app_api_version()
+
+Gets version of API (str).
+
+===app_path===
+
+ app_path(id)
+
+Gets some path (str). Values of id:
+
+* APP_DIR_EXE: Dir of program executable.
+* APP_DIR_SETTINGS: Dir "settings".
+* APP_DIR_DATA: Dir "data".
+
+===msg_box===
+
+ msg_box(text, flags)
+
+Shows modal message-box with given text.
+
+Param flags is sum of button-value (OK, OK/Cancel, Yes/No etc) and icon-value (Info, Warning, Error, Question):
+
+* MB_OK
+* MB_OKCANCEL
+* MB_ABORTRETRYIGNORE
+* MB_YESNOCANCEL
+* MB_YESNO
+* MB_RETRYCANCEL
+
+* MB_ICONERROR
+* MB_ICONQUESTION
+* MB_ICONWARNING
+* MB_ICONINFO
+
+Gets int code of button pressed:
+
+* ID_OK
+* ID_CANCEL
+* ID_ABORT
+* ID_RETRY
+* ID_IGNORE
+* ID_YES
+* ID_NO
+
+===msg_status===
+
+ msg_status(text)
+
+Shows given text in statusbar field.
+
+===dlg_input===
+
+ dlg_input(label, defvalue)
+
+Shows modal dialog to input one string.
+
+Gets entered string or None of cancelled.
+
+===dlg_input_ex===
+
+ dlg_input_ex(number, caption,
+               label1   , text1="", label2="", text2="", label3="", text3="",
+               label4="", text4="", label5="", text5="", label6="", text6="",
+               label7="", text7="", label8="", text8="", label9="", text9="",
+               label10="", text10="")
+
+Shows modal dialog to enter 1 to 10 strings. Param number is count of strings.
+
+Gets list of entered strings or None if cancelled.
+
+===dlg_file===
+
+ dlg_file(is_open, init_filename, init_dir, filters)
+
+Shows file-open or file-save-as modal dialog.
+
+Gets filename (str) or None if cancelled. Params:
+
+* is_open: True for open dialog, False for save-as dialog.
+* init_filename: Initial filename for save-as dialog. Can be empty.
+* init_dir: Initial dir for dialog. Can be empty.
+* filters: Sets file filters for dialog. Can be empty. Example, 2 filters: "Texts|*.pas;*.txt|Include|*.inc"
+
+To allow multi-select in open dialog, pass init_filename="*". If single filename selected, result is str. If several filenames selected, result is list of str.
+
+===file_open===
+
+ file_open(filename)
+
+Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
+
+===file_save===
+
+ file_save()
+
+Saves current tab to disk. Shows save-as dialog for untitled tab.
+
+===ed_handles===
+
+ ed_handles()
+
+Gets range object: it contains int handles of all editor tabs. Pass each handle to Editor() to make editor object from handle.
+
+Example command in console, prints filenames of all tabs:
+
+<syntaxhighlight>
+for h in ed_handles(): print(Editor(h).get_filename())
+</syntaxhighlight>
+
+=Editor class=
+
+Editor class has methods to work with editor. Global objects of Editor exist:
+
+* ed: refers to currently focused editor (for any tab)
+* ed_bro: refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
+
+==Carets==
+===get_caret===
+
+ get_caret()
+
+Returns 4-tuple: info about top visible caret: (PosX, PosY, EndX, EndY). PosY is line index (0-base), PosX is column (0-base), EndY/EndX are position of selection end for this caret or both -1 if no selection.
+
+===get_carets===
+
+ get_carets()
+
+Returns list of 4-tuples. Each list item is info about each caret, see get_caret.
+
+===set_caret===
+
+ set_caret(posx, posy, endx=-1, endy=-1)
+
+Sets single caret with given info (4 integers, see get_caret). Multi-carets 're removed.
+
+===add_caret===
+
+ add_caret(posx, posy, endx=-1, endy=-1)
+
+Adds caret with given info (4 integers, see get_caret). If called with posx<0, then all carets deleted.
+
+==Text read/write==
+
+===get_text_all===
+
+ get_text_all()
+
+Returns str: entire text in editor.
+
+===set_text_all===
+
+ set_text_all(text)
+
+Sets entire text in editor from str.
+
+===get_text_line===
+
+ get_text_line(num)
+
+Gets str: line with given index (w/o CR LF). Gets None if index incorrect.
+
+===set_text_line===
+
+ set_text_line(num, text)
+
+Sets line with given index to given text. Text should be w/o CR LF.
+
+===get_text_substr===
+
+ get_text_substr(x1, y1, x2, y2)
+
+Gets substring: from caret position (x1, y1) to caret position (x2, y2). Second position must be higher.
+
+===delete===
+
+ delete(x1, y1, x2, y2)
+
+Deletes range from position (x1, y1) to higher position (x2, y2). (Too big x-coord is allowed).
+
+===insert===
+
+ insert(x1, y1, text)
+
+Inserts given string, it can be multi-line with CR LF, into given position (x1, y1).
+
+==Selection==
+
+===get_text_sel===
+
+ get_text_sel()
+
+Returns str: selected text for 1st caret (empty, if no selection).
+
+===get_sel_mode===
+
+ get_sel_mode()
+
+Gets kind of selection: normal or column selection, values: SEL_NORMAL, SEL_COLUMN.
+
+===get_sel_lines===
+
+ get_sel_lines()
+
+Gets 2-tuple, indexes of 1st and last lines affected by 1st caret selection. Both -1 if no selection.
+
+===get_sel_rect===
+
+ get_sel_rect()
+
+Gets 4-tuple: coords of column selection, (x1, y1, x2, y2). All 0 if no column selection.
+
+===set_sel_rect===
+
+ set_sel_rect(x1, y1, x2, y2)
+
+Sets column selection (removes previous carets) to given coords.
+
+==Properties==
+
+===get_line_count===
+
+ get_line_count()
+
+Gets number of lines.
+
+===get_line_prop===
+
+ get_line_prop(num)
+
+Gets properties if line with given index (0-base), 2-tuple. 
+
+* 1st value: length of line. 
+* 2nd: line state, one if values LINESTATE_nnn. Line state changes from "normal" to "changed" if line modifies, set to "new" for inserted lines, set from "changed/new" to "saved" after file is saved.
+
+Gets None for incorrect index.
+
+===get_filename===
+
+ get_filename()
+
+Gets str: filename for the editor. Empty if tab is untitled.
+
+===get_tabcolor===
+
+ get_tabcolor()
+
+Gets color (int) of tab for the editor. It's COLOR_NONE if color is not set.
+
+===set_tabcolor===
+
+ set_tabcolor(value)
+
+Sets color (int) for editor tab. Pass COLOR_NONE to remove custom color.
+
+===get_enc===
+
+ get_enc()
+
+Gets encoding name for editor. It's one of the strings which are visible in the encodings menu of statusbar: "UTF-8", "ANSI" etc.
+
+===set_enc===
+
+ set_enc(value)
+
+Sets encoding name for editor.
+
+===get_top===
+
+ get_top()
+
+Gets index of top visible line in editor.
+
+===set_top===
+
+ set_top(num)
+
+Sets index of top visible line in editor.
+
+===get_split===
+
+ get_split()
+
+Gets props of tab splitting (each tab can be splitted to main/second editors), 2-tuple:
+
+* int: kind of splitting, one of values TAB_SPLIT_NO, TAB_SLIT_HORZ, TAB_SPLIT_VERT.
+* float: percent of splitting, it's 0.5 if tab splitted 50/50.
+
+===set_split===
+
+ set_split(state, value)
+
+Sets props of tab splitting:
+
+* state: int: one of values TAB_SPLIT_nnn.
+* value: float: percent of splitting, e.g. 0.5 for splitting 50/50.
+
+===bookmark===
+
+ bookmark(id, nline, nkind=1, ncolor=-1, icon="")
+
+Controls bookmarks. Values of id:
+
+* BOOKMARK_GET: Gets kind of bookmark at line=nline. 0 means no bookmark, 1 means usual bookmark.
+* BOOKMARK_SET: Sets bookmark with kind=nkind at line=nline. 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
+* BOOKMARK_CLEAR: Removes bookmark from line=nline.
+* BOOKMARK_CLEAR_ALL: Removes all bookmarks.
+* BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind. Setup is:
+** ncolor: color if bookmarked line. Can be COLOR_NONE.
+** icon: path to icon file, .bmp file of size 16x16.
+* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks.
+
+Note: nkind must be 1..255.
+
+==Misc==
+
+===cmd===
+
+ cmd(code)
+
+Command runner, it runs any command of editor by its int code. See codes in module cudatext_cmd.
+
+===focus===
+
+ focus()
+
+Activates editor's tab and focuses editor itself. It's needed when you want to activate inactive tab.
+
+===lock/unlock===
+
+ lock()
+ unlock()
+
+These lock, then unlock editor. Locked editor is not painted and shows text label "Wait...".
