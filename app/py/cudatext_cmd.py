@@ -179,6 +179,7 @@ cmd_DlgLexerLib        = 2531
 cmd_DlgColors          = 2532
 cmd_ToggleSidePanel    = 2533
 cmd_ToggleBottomPanel  = 2534
+cmd_ShowConsole        = 2535
 
 cmd_DlgGoto       = 2580
 cmd_DlgGotoBm     = 2581

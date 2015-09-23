@@ -63,14 +63,12 @@ type
     procedure chkRepClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
     FOnDone: TStrEvent;
     procedure DoDone(const Str: string);
-    function _GetActiveControl: TWinControl;
   public
     { public declarations }
     FHotkeyFind,
@@ -186,26 +184,6 @@ begin
   bCancel.Font.Assign(LabelFind.Font);
 end;
 
-procedure TfmFind.FormDestroy(Sender: TObject);
-begin
-  //
-end;
-
-function TfmFind._GetActiveControl: TWinControl;
-var
-  i: integer;
-  Ctl: TControl;
-begin
-  Result:= nil;
-  for i:= 0 to ControlCount-1 do
-  begin
-    Ctl:= Controls[i];
-    if (Ctl is TWinControl) then
-      if (Ctl as TWinControl).Focused then
-        begin Result:= Ctl as TWinControl; exit end;
-  end;
-end;
-
 procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if key=VK_RETURN then
@@ -228,7 +206,7 @@ begin
   //handle Tab/ShiftTab: needed coz Mainmenu item handles ShiftTab (unindent)
   if key=VK_TAB then
   begin
-    SelectNext(_GetActiveControl, not (ssShift in Shift), true);
+    SelectNext(GetActiveControl(Self), not (ssShift in Shift), true);
     key:= 0;
     exit
   end;

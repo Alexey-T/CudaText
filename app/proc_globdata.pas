@@ -226,6 +226,7 @@ var
 
 function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
+function GetActiveControl(Form: TForm): TWinControl;
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem);
@@ -664,6 +665,22 @@ begin
     sl.Free;
   end;
 end;
+
+function GetActiveControl(Form: TForm): TWinControl;
+var
+  Ctl: TControl;
+  i: integer;
+begin
+  Result:= nil;
+  for i:= 0 to Form.ControlCount-1 do
+  begin
+    Ctl:= Form.Controls[i];
+    if (Ctl is TWinControl) then
+      if (Ctl as TWinControl).Focused then
+        begin Result:= Ctl as TWinControl; exit end;
+  end;
+end;
+
 
 
 initialization

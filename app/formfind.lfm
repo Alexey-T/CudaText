@@ -10,7 +10,6 @@ object fmFind: TfmFind
   ClientWidth = 951
   KeyPreview = True
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowHint = True
