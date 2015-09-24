@@ -126,192 +126,195 @@
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="proc_treeview.pas"/>
+        <Filename Value="proc_globdata.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="proc_globdata.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
         <Filename Value="formframe.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditorFrame"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="FormFrame"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="formmain_updates_proc.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="formmain_updates_proc.inc"/>
+        <Filename Value="formmain_frame_proc.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit8>
       <Unit9>
-        <Filename Value="formmain_frame_proc.inc"/>
+        <Filename Value="formmain_tab_proc.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit9>
       <Unit10>
-        <Filename Value="formmain_tab_proc.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit10>
-      <Unit11>
         <Filename Value="formoutput.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmOutput"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
+      </Unit10>
+      <Unit11>
         <Filename Value="formcommands.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCommands"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
+      </Unit11>
+      <Unit12>
         <Filename Value="proc_colors.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit13>
-      <Unit14>
+      </Unit12>
+      <Unit13>
         <Filename Value="formgoto.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmGoto"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="formmain_cmd.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="formmain_cmd.inc"/>
+        <Filename Value="proc_cmd.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="proc_cmd.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit16>
-      <Unit17>
         <Filename Value="formgotolist.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmGotoList"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
+      </Unit16>
+      <Unit17>
         <Filename Value="proc_files.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit18>
-      <Unit19>
+      </Unit17>
+      <Unit18>
         <Filename Value="formfind.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmFind"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit19>
-      <Unit20>
+      </Unit18>
+      <Unit19>
         <Filename Value="formsavetabs.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmSaveTabs"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit20>
-      <Unit21>
+      </Unit19>
+      <Unit20>
         <Filename Value="formconfirmrep.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirmReplace"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="formmain_loadsave.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit21>
       <Unit22>
-        <Filename Value="formmain_loadsave.inc"/>
+        <Filename Value="formmain_find.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit22>
       <Unit23>
-        <Filename Value="formmain_find.inc"/>
+        <Filename Value="proc_editor.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit23>
       <Unit24>
-        <Filename Value="proc_editor.pas"/>
+        <Filename Value="formmain_editing.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit24>
       <Unit25>
-        <Filename Value="formmain_editing.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit25>
-      <Unit26>
         <Filename Value="formlexerprop.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerProp"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit26>
-      <Unit27>
+      </Unit25>
+      <Unit26>
         <Filename Value="formlexerlib.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerLib"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit27>
-      <Unit28>
+      </Unit26>
+      <Unit27>
         <Filename Value="proc_msg.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit28>
-      <Unit29>
+      </Unit27>
+      <Unit28>
         <Filename Value="formpalette.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmPalette"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit29>
-      <Unit30>
+      </Unit28>
+      <Unit29>
         <Filename Value="proc_lexer_install_zip.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit30>
-      <Unit31>
+      </Unit29>
+      <Unit30>
         <Filename Value="formcolorsetup.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmColorSetup"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit31>
-      <Unit32>
+      </Unit30>
+      <Unit31>
         <Filename Value="..\..\synedit\atsynedit\atsynedit_form_complete.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormATSynEditComplete"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit32>
-      <Unit33>
+      </Unit31>
+      <Unit32>
         <Filename Value="..\..\synedit\atsynedit\atsynedit_form_complete_synwrite.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit33>
-      <Unit34>
+      </Unit32>
+      <Unit33>
         <Filename Value="formabout.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit34>
-      <Unit35>
+      </Unit33>
+      <Unit34>
         <Filename Value="formkeys.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeys"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit35>
-      <Unit36>
+      </Unit34>
+      <Unit35>
         <Filename Value="..\..\synedit\atsynedit\atsynedit_adapter_econtrol.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ATSynEdit_Adapter_EControl"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="formmain_py.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit36>
       <Unit37>
-        <Filename Value="formmain_py.inc"/>
+        <Filename Value="proc_py_const.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit37>
       <Unit38>
-        <Filename Value="proc_py_const.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit38>
-      <Unit39>
         <Filename Value="..\..\synedit\atsynedit\atstringproc_htmlcolor.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ATStringProc_HtmlColor"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="formmenuapi.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmMenuApi"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit39>
     </Units>
   </ProjectOptions>

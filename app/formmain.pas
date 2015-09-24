@@ -62,7 +62,7 @@ uses
   formlexerlib,
   formpalette,
   formcolorsetup,
-  formabout,
+  formabout, formmenuapi,
   math;
 
 type
@@ -456,6 +456,7 @@ type
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
+    function DoDialogMenuApi(const AText: string): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
     procedure DoOps_DlgFont(var OpName: string; var OpSize: integer;
@@ -1158,6 +1159,9 @@ end;
 
 procedure TfmMain.mnuHelpAboutClick(Sender: TObject);
 begin
+  //Showmessage(inttostr(DoDialogMenuApi('fafa'#13'dddd11'#13'dd11'#13'ddddd22')));
+  //exit
+
   with TfmAbout.Create(Self) do
   try
     labelVer.Caption:= cAppVersion;
@@ -2201,6 +2205,34 @@ begin
   if MsgBox('Open created document?', MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
     OpenDocument(SaveDlg.FileName);
 end;
+
+
+function TfmMain.DoDialogMenuApi(const AText: string): integer;
+var
+  Form: TfmMenuApi;
+  S, SItem: string;
+begin
+  Form:= TfmMenuApi.Create(nil);
+  try
+    S:= AText;
+    repeat
+      SItem:= SGetItem(S, #13);
+      if SItem='' then Break;
+      Form.listItems.Add(SItem);
+    until false;
+
+    UpdateInputForm(Form,
+      Form.edit.Height+
+      Form.edit.BorderSpacing.Around*3+
+      Form.list.ItemHeight*UiOps.ListboxItemCountCmd);
+
+    Form.ShowModal;
+    Result:= Form.ResultCode;
+  finally
+    Form.Free;
+  end;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
