@@ -33,6 +33,8 @@ LINESTATE_SAVED   = 3
 
 COLOR_NONE = 0x1FFFFFFF
 
+MENU_LIST = 0
+
 BOOKMARK_GET = 0
 BOOKMARK_SET = 1
 BOOKMARK_CLEAR = 2
@@ -73,6 +75,9 @@ def dlg_input_ex(number, caption,
         return None
     else:
         return result.splitlines()
+        
+def dlg_menu(id, text):
+    return cudatext_api.dlg_menu(id, text)        
 
 def dlg_file(is_open, init_filename, init_dir, filters):
     res = cudatext_api.dlg_file(is_open, init_filename, init_dir, filters)

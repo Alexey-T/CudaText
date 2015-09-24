@@ -271,7 +271,6 @@ var
   H: PtrInt;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
-  Caret: TATCaretItem;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiii:set_caret', @H, @X1, @Y1, @X2, @Y2)) then
@@ -1015,6 +1014,31 @@ begin
   Result:= Py_ini_readwrite(Self, Args, true);
 end;
 
+function Py_dlg_menu(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Ptr: PAnsiChar;
+  Str: string;
+  Id: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'is:dlg_menu', @Id, @Ptr)) then
+    begin
+      Str:= AnsiString(Ptr);
+      case Id of
+        MENU_LIST:
+          begin
+            Id:= fmMain.DoDialogMenuApi(Str);
+            if Id>=0 then
+              Result:= PyInt_FromLong(Id)
+            else
+              Result:= ReturnNone;
+          end
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
 
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
@@ -1030,6 +1054,7 @@ begin
     AddMethod('dlg_input', @Py_dlg_input, '');
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
     AddMethod('dlg_file', @Py_dlg_file, '');
+    AddMethod('dlg_menu', @Py_dlg_menu, '');
 
     AddMethod('ed_get_carets', @Py_ed_get_carets, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');

@@ -33,6 +33,9 @@ const
   TAB_SPLIT_HORZ = 1;
   TAB_SPLIT_VERT = 2;
 
+  MENU_LIST = 0;
+
+
 implementation
 
 end.

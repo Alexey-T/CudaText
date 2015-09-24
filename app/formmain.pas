@@ -1159,8 +1159,8 @@ end;
 
 procedure TfmMain.mnuHelpAboutClick(Sender: TObject);
 begin
-  //Showmessage(inttostr(DoDialogMenuApi('fafa'#13'dddd11'#13'dd11'#13'ddddd22')));
-  //exit
+  //Showmessage(inttostr(DoDialogMenuApi('fafa'#9'f1'#13'dddd11'#9'key1'#13'dd11'#13'ddddd22'#9'key2')));
+  //exit;
 
   with TfmAbout.Create(Self) do
   try

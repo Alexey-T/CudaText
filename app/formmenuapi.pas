@@ -184,7 +184,7 @@ procedure TfmMenuApi.listDrawItem(Sender: TObject; C: TCanvas;
 var
   cl: TColor;
   n, i: integer;
-  strname, strfind: string;
+  str, strname, strkey, strfind: string;
   ar: TATIntArray;
   pnt: TPoint;
   r1: TRect;
@@ -199,7 +199,9 @@ begin
   c.FillRect(ARect);
   c.Font.Color:= GetAppColor('ListFont');
 
-  strname:= listItems[PtrInt(listItemsFiltered.Objects[AIndex])];
+  str:= listItems[PtrInt(listItemsFiltered.Objects[AIndex])];
+  strname:= SGetItem(str, #9);
+  strkey:= SGetItem(str, #9);
   strfind:= Utf8Encode(Trim(edit.Text));
 
   pnt:= Point(ARect.Left+4, ARect.Top+1);
@@ -219,6 +221,13 @@ begin
       PChar(buf),
       Length(buf),
       nil);
+  end;
+
+  if strkey<>'' then
+  begin
+    n:= ARect.Right-c.TextWidth(strkey)-4;
+    c.Font.Color:= GetAppColor('ListFontHotkey');
+    c.TextOut(n, pnt.y, strkey);
   end;
 end;
 
