@@ -266,19 +266,6 @@ begin
     end;
 end;
 
-function Py_ed_get_caret(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: PtrInt;
-  Caret: TATCaretItem;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_caret', @H)) then
-    begin
-      Caret:= PyEditor(H).Carets[0];
-      Result:= Py_BuildValue('(iiii)', Caret.PosX, Caret.PosY, Caret.EndX, Caret.EndY);
-    end;
-end;
-
 function Py_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -1044,10 +1031,9 @@ begin
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
     AddMethod('dlg_file', @Py_dlg_file, '');
 
-    AddMethod('ed_get_caret', @Py_ed_get_caret, '');
+    AddMethod('ed_get_carets', @Py_ed_get_carets, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');
     AddMethod('ed_add_caret', @Py_ed_add_caret, '');
-    AddMethod('ed_get_carets', @Py_ed_get_carets, '');
 
     AddMethod('ed_get_sel_mode', @Py_ed_get_sel_mode, '');
     AddMethod('ed_get_sel_rect', @Py_ed_get_sel_rect, '');

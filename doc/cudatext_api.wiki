@@ -147,29 +147,29 @@ Editor class has methods to work with editor. Global objects of Editor exist:
 * ed_bro: refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
 
 ==Carets==
-===get_caret===
-
- get_caret()
-
-Returns 4-tuple: info about top visible caret: (PosX, PosY, EndX, EndY). PosY is line index (0-base), PosX is column (0-base), EndY/EndX are position of selection end for this caret or both -1 if no selection.
-
 ===get_carets===
 
  get_carets()
 
-Returns list of 4-tuples. Each list item is info about each caret, see get_caret.
+Returns list of 4-tuples, each item is info about one caret: (PosX, PosY, EndX, EndY).
+
+* PosX is column (0-base). Tab-chars give x increment 1, like others.
+* PosY is line (0-base).
+* EndX/EndY is position of selection end for this caret or both -1 if no selection.
 
 ===set_caret===
 
  set_caret(posx, posy, endx=-1, endy=-1)
 
-Sets single caret with given info (4 integers, see get_caret). Multi-carets 're removed.
+Sets single caret (4 ints, see above). Multi-carets are removed.
 
 ===add_caret===
 
  add_caret(posx, posy, endx=-1, endy=-1)
 
-Adds caret with given info (4 integers, see get_caret). If called with posx<0, then all carets deleted.
+Adds one caret (4 ints, see above).
+
+Removes all carets, if called with posx<0. Text editing not possible w/o carets, so you must add caret then.
 
 ==Text read/write==
 

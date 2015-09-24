@@ -103,14 +103,18 @@ class Editor:
     def __init__(self, handle):
         self.h = handle
 
-    def get_caret(self):
-        return cudatext_api.ed_get_caret(self.h)
+    def get_carets(self):
+        big = 4294967295 #workaround for Py engine bug. it gives this, not -1.
+        res = cudatext_api.ed_get_carets(self.h)
+        for item in res:
+            if item[2]==big: item[2]=-1
+            if item[3]==big: item[3]=-1
+        return res
+        
     def set_caret(self, x1, y1, x2=-1, y2=-1):
         return cudatext_api.ed_set_caret(self.h, x1, y1, x2, y2)
     def add_caret(self, x1, y1, x2=-1, y2=-1):
         return cudatext_api.ed_add_caret(self.h, x1, y1, x2, y2)
-    def get_carets(self):
-        return cudatext_api.ed_get_carets(self.h)
 
     def get_line_count(self):
         return cudatext_api.ed_get_line_count(self.h)
