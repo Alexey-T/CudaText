@@ -447,7 +447,8 @@ type
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Text: string;
-    FPyComplete_Chars: integer;
+    FPyComplete_CharsLeft: integer;
+    FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
     procedure DoApplyFontFixed;

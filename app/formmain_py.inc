@@ -948,7 +948,8 @@ begin
       exit;
 
   AText:= FPyComplete_Text;
-  ACharsLeft:= FPyComplete_Chars;
+  ACharsLeft:= FPyComplete_CharsLeft;
+  ACharsRight:= FPyComplete_CharsRight;
 end;
 
 function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
@@ -957,16 +958,17 @@ var
   Ptr: PAnsiChar;
   Ed: TATSynEdit;
   Str: string;
-  NChars: integer;
+  NChars1, NChars2: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lsi:complete', @H, @Ptr, @NChars)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lsii:complete', @H, @Ptr, @NChars1, @NChars2)) then
     begin
       Ed:= PyEditor(H);
       Str:= AnsiString(Ptr);
 
       fmMain.FPyComplete_Text:= Str;
-      fmMain.FPyComplete_Chars:= NChars;
+      fmMain.FPyComplete_CharsLeft:= NChars1;
+      fmMain.FPyComplete_CharsRight:= NChars2;
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp);

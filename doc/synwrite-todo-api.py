@@ -207,8 +207,6 @@ def regex_parse(regex, data):
 
 class Editor:
 ##far todo
-    def complete(self, text, len, show_menu=True):
-        return sw_api.ed_complete(self.h, text, len, show_menu)
     def get_prop(self, id, value=''):
         return sw_api.ed_get_prop(self.h, id, value)
     def set_prop(self, id, value):
