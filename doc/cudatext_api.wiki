@@ -347,3 +347,13 @@ Activates editor's tab and focuses editor itself. It's needed when you want to a
  unlock()
 
 These lock, then unlock editor. Locked editor is not painted and shows text label "Wait...".
+
+===complete===
+
+ complete(text, len1, len2)
+
+Shows auto-completion listbox with given items.
+
+* text: string with items, must be formatted as shown in the [[ATSynEdit#Auto-completion_lists]].
+* len1: count of chars to the left of the caret, to be replaced.
+* len2: count of chars to the right of the caret, to be replaced.
