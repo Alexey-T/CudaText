@@ -167,8 +167,6 @@ TOKENS_STR        = 2
 TOKENS_CMT_STR    = 3
 TOKENS_NO_CMT_STR = 4
 
-def dlg_menu(id, caption, text):
-    return sw_api.dlg_menu(id, caption, text)
 def dlg_snippet(name, alias, lexers, text):
     return sw_api.dlg_snippet(name, alias, lexers, text)
 def dlg_checklist(caption, columns, items, size_x, size_y):

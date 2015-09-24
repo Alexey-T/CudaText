@@ -101,6 +101,19 @@ Gets filename (str) or None if cancelled. Params:
 
 To allow multi-select in open dialog, pass init_filename="*". If single filename selected, result is str. If several filenames selected, result is list of str.
 
+===dlg_menu===
+
+ dlg_menu(id, text)
+
+Shows modal menu. 
+Gets index of item selected (0-base), or None of cancelled.
+
+Possible values of id:
+
+* MENU_LIST: Dialog with listbox similar to Commands dialog of CudaText, with filter field.
+
+Param text is string items, splitted with "\r" char. Each item can be simple str or str1+"\t"+str2 (str2 shows right-aligned).
+
 ===file_open===
 
  file_open(filename)
@@ -373,3 +386,5 @@ Shows auto-completion listbox with given items.
 * text: string with items, must be formatted as shown in the [[ATSynEdit#Auto-completion_lists]].
 * len1: count of chars to the left of the caret, to be replaced.
 * len2: count of chars to the right of the caret, to be replaced.
+
+Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
