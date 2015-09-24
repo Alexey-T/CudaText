@@ -41,7 +41,7 @@ type
       const ARect: TRect);
   private
     { private declarations }
-    listItemsFiltered: TStringlist;
+    listFiltered: TList;
     procedure DoFilter;
     function GetResultCmd: integer;
     function IsFiltered(AOrigIndex: integer): boolean;
@@ -89,7 +89,7 @@ begin
   self.Width:= UiOps.ListboxWidth;
 
   listItems:= TStringlist.Create;
-  listItemsFiltered:= TStringlist.Create;
+  listFiltered:= TList.Create;
 end;
 
 procedure TfmMenuApi.editChange(Sender: TObject);
@@ -99,7 +99,7 @@ end;
 
 procedure TfmMenuApi.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(listItemsFiltered);
+  FreeAndNil(listFiltered);
   FreeAndNil(listItems);
 end;
 
@@ -174,7 +174,7 @@ end;
 function TfmMenuApi.GetResultCmd: integer;
 begin
   if list.ItemIndex>=0 then
-    Result:= PtrInt(listItemsFiltered.Objects[list.ItemIndex])
+    Result:= PtrInt(listFiltered[list.ItemIndex])
   else
     Result:= -1;
 end;
@@ -184,11 +184,11 @@ procedure TfmMenuApi.listDrawItem(Sender: TObject; C: TCanvas;
 var
   cl: TColor;
   n, i: integer;
-  str, strname, strkey, strfind: string;
+  str, buf: string;
+  strname, strkey, strfind: UnicodeString;
   ar: TATIntArray;
   pnt: TPoint;
   r1: TRect;
-  buf: string;
 begin
   if AIndex=list.ItemIndex then
     cl:= GetAppColor('ListSelBg')
@@ -199,20 +199,20 @@ begin
   c.FillRect(ARect);
   c.Font.Color:= GetAppColor('ListFont');
 
-  str:= listItems[PtrInt(listItemsFiltered.Objects[AIndex])];
-  strname:= SGetItem(str, #9);
-  strkey:= SGetItem(str, #9);
-  strfind:= Utf8Encode(Trim(edit.Text));
+  str:= listItems[PtrInt(listFiltered[AIndex])]; //ansi
+  strname:= Utf8Decode(SGetItem(str, #9)); //uni
+  strkey:= Utf8Decode(SGetItem(str, #9)); //uni
+  strfind:= Trim(edit.Text); //uni
 
   pnt:= Point(ARect.Left+4, ARect.Top+1);
-  c.TextOut(pnt.x, pnt.y, strname);
+  c.TextOut(pnt.x, pnt.y, Utf8Encode(strname));
 
   c.Font.Color:= GetAppColor('ListFontHilite');
   ar:= SFindFuzzyPositions(strname, strfind);
   for i:= Low(ar) to High(ar) do
   begin
-    buf:= strname[ar[i]];
-    n:= c.TextWidth(Copy(strname, 1, ar[i]-1));
+    buf:= Utf8Encode(UnicodeString(strname[ar[i]]));
+    n:= c.TextWidth(Utf8Encode(Copy(strname, 1, ar[i]-1)));
     r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
     ExtTextOut(c.Handle,
       r1.Left, r1.Top,
@@ -227,7 +227,7 @@ begin
   begin
     n:= ARect.Right-c.TextWidth(strkey)-4;
     c.Font.Color:= GetAppColor('ListFontHotkey');
-    c.TextOut(n, pnt.y, strkey);
+    c.TextOut(n, pnt.y, Utf8Encode(strkey));
   end;
 end;
 
@@ -235,14 +235,14 @@ procedure TfmMenuApi.DoFilter;
 var
   i: integer;
 begin
-  listItemsFiltered.Clear;
+  listFiltered.Clear;
   for i:= 0 to listItems.Count-1 do
     if IsFiltered(i) then
-      listItemsFiltered.AddObject(listItems[i], TObject(PtrInt(i)));
+      listFiltered.Add(Pointer(PtrInt(i)));
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
-  list.ItemCount:= listItemsFiltered.Count;
+  list.ItemCount:= listFiltered.Count;
   list.Invalidate;
 end;
 
