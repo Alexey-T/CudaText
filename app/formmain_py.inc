@@ -932,6 +932,50 @@ begin
     end;
 end;
 
+
+procedure TfmMain.PyCompletionOnGetProp(Sender: TObject;
+  out AText, ASuffix: string; out ACharsLeft, ACharsRight: integer);
+begin
+  AText:= '';
+  ASuffix:= '';
+  ACharsLeft:= 0;
+  ACharsRight:= 0;
+
+  //stop doing, if caret moved
+  //(cannot recalc AText here)
+  with CurrentEditor.Carets[0] do
+    if (PosX<>FPyComplete_CaretPos.X) or (PosY<>FPyComplete_CaretPos.Y) then
+      exit;
+
+  AText:= FPyComplete_Text;
+  ACharsLeft:= FPyComplete_Chars;
+end;
+
+function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Ptr: PAnsiChar;
+  Ed: TATSynEdit;
+  Str: string;
+  NChars: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lsi:complete', @H, @Ptr, @NChars)) then
+    begin
+      Ed:= PyEditor(H);
+      Str:= AnsiString(Ptr);
+
+      fmMain.FPyComplete_Text:= Str;
+      fmMain.FPyComplete_Chars:= NChars;
+      with Ed.Carets[0] do
+        fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
+      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp);
+
+      Result:= ReturnNone;
+    end;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -985,6 +1029,7 @@ begin
     AddMethod('ed_unlock', @Py_ed_unlock, '');
     AddMethod('ed_bookmark', @Py_ed_bookmark, '');
     AddMethod('ed_focus', @Py_ed_focus, '');
+    AddMethod('ed_complete', @Py_ed_complete, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');

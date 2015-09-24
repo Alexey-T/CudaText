@@ -209,16 +209,10 @@ class Editor:
 ##far todo
     def complete(self, text, len, show_menu=True):
         return sw_api.ed_complete(self.h, text, len, show_menu)
-    def get_word(self, x, y):
-        return sw_api.ed_get_word(self.h, x, y)
     def get_prop(self, id, value=''):
         return sw_api.ed_get_prop(self.h, id, value)
     def set_prop(self, id, value):
         return sw_api.ed_set_prop(self.h, id, value)
-    def get_alerts(self):
-        return sw_api.ed_get_alerts(self.h)
-    def set_alerts(self, value):
-        return sw_api.ed_set_alerts(self.h, value)
     def set_attr(self, id, color):
         return sw_api.ed_set_attr(self.h, id, color)
     def get_attr(self):
@@ -227,6 +221,9 @@ class Editor:
         return sw_api.ed_find(self.h, action, opt, tokens, sfind, sreplace)
 
 #noneed
+    def get_alerts(self):
+    def set_alerts(self, value):
+    def get_word(self, x, y):
     def get_left(self):
     def set_left(self, num):
     def get_indexes(self):

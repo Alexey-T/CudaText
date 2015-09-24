@@ -12,16 +12,13 @@ unit proc_py;
 interface
 
 uses
-  SysUtils, Classes, Variants, PythonEngine;
+  SysUtils, Classes, PythonEngine,
+  proc_str;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
-//function Py_StringList(List: TStrings): PPyObject; cdecl; //donot work
 
 
 implementation
-
-uses
-  proc_str;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 var
@@ -40,6 +37,7 @@ begin
 end;
 
 {
+//gives crash in app, after 1st-2nd call
 function Py_StringList(List: TStrings): PPyObject; cdecl;
 var
   NLen, i: Integer;

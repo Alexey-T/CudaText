@@ -172,6 +172,9 @@ class Editor:
         return cudatext_api.ed_get_split(self.h)
     def set_split(self, state, value):
         return cudatext_api.ed_set_split(self.h, state, value)
+    
+    def complete(self, text, nchars):
+        return cudatext_api.ed_complete(self.h, text, nchars)
     #test..
 
 #objects

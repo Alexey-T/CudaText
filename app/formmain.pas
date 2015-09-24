@@ -446,6 +446,9 @@ type
     FHandledOnShow: boolean;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
+    FPyComplete_Text: string;
+    FPyComplete_Chars: integer;
+    FPyComplete_CaretPos: TPoint;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
     procedure DoApplyFontFixed;
     procedure DoApplyFontVar;
@@ -524,6 +527,8 @@ type
     procedure InitFormFind;
     procedure DoOps_LoadLexlib;
     procedure MenuThemeDefClick(Sender: TObject);
+    procedure PyCompletionOnGetProp(Sender: TObject; out AText,
+      ASuffix: string; out ACharsLeft, ACharsRight: integer);
     procedure SetEnc(const Str: string);
     procedure SetLexerIndex(N: integer);
     procedure SetShowBottom(Value: boolean);
