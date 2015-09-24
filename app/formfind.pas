@@ -166,6 +166,7 @@ begin
     Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
     Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
     Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
+    Update;
   end;
   with edRep do
   begin
@@ -179,6 +180,7 @@ begin
     Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
     Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
     Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
+    Update;
   end;
 
   bCancel.Font.Assign(LabelFind.Font);
