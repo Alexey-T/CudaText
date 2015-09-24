@@ -18,11 +18,13 @@ Gets version of program (str).
 
 Gets version of API (str).
 
+String contains 3 numbers, dot-separated.
+
 ===app_path===
 
  app_path(id)
 
-Gets some path (str). Values of id:
+Gets some path. Possible values of id:
 
 * APP_DIR_EXE: Dir of program executable.
 * APP_DIR_SETTINGS: Dir "settings".
@@ -122,6 +124,20 @@ Example command in console, prints filenames of all tabs:
 <syntaxhighlight>
 for h in ed_handles(): print(Editor(h).get_filename())
 </syntaxhighlight>
+
+===ini_read/ini_write===
+
+ ini_read(filename, section, key, value)
+ ini_write(filename, section, key, value)
+
+Reads or writes single string to ini file. Params:
+
+* filename: Full path of ini file. Can be name w/o path, this means that path of "settings" dir is used.
+* section: str: Section of ini file.
+* key: str: Key in section.
+* value: On write: value to write. On read: default value which is returned if no such filename/section/key is found.
+
+Gets string which is read, gets None on write.
 
 =Editor class=
 

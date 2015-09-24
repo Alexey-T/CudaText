@@ -978,6 +978,57 @@ begin
 end;
 
 
+function Py_ini_readwrite(Self, Args: PPyObject; AWrite: boolean): PPyObject; cdecl;
+var
+  P1, P2, P3, P4: PAnsiChar;
+  StrFN, StrSess, StrKey, StrVal: string;
+  fn: string;
+begin
+  with GetPythonEngine do
+  begin
+    if Bool(PyArg_ParseTuple(Args, 'ssss:ini_readwrite', @P1, @P2, @P3, @P4)) then
+    begin
+      StrFN:= AnsiString(P1);
+      StrSess:= AnsiString(P2);
+      StrKey:= AnsiString(P3);
+      StrVal:= AnsiString(P4);
+
+      fn:= StrFN;
+      if ExtractFileDir(fn)='' then
+        fn:= GetAppPath(cDirSettings)+DirectorySeparator+fn;
+
+      with TIniFile.Create(fn) do
+      try
+        if AWrite then
+        begin
+          WriteString(StrSess, StrKey, StrVal);
+          Result:= ReturnNone;
+        end
+        else
+        begin
+          StrVal:= ReadString(StrSess, StrKey, StrVal);
+          Result:= PyString_FromString(PChar(StrVal));
+        end;
+      finally
+        Free
+      end;
+    end
+    else
+      Result:= ReturnNone;
+  end;
+end;
+
+function Py_ini_read(Self, Args: PPyObject): PPyObject; cdecl;
+begin
+  Result:= Py_ini_readwrite(Self, Args, false);
+end;
+
+function Py_ini_write(Self, Args: PPyObject): PPyObject; cdecl;
+begin
+  Result:= Py_ini_readwrite(Self, Args, true);
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -1036,7 +1087,9 @@ begin
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');
     AddMethod('ed_handles', @Py_ed_handles, '');
-  end;
+    AddMethod('ini_read', @Py_ini_read, '');
+    AddMethod('ini_write', @Py_ini_write, '');
+end;
 end;
 
 

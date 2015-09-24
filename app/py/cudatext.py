@@ -92,6 +92,11 @@ def ed_handles():
     r0, r1 = cudatext_api.ed_handles()
     return range(r0, r1+1)
 
+def ini_read(filename, section, key, value):
+    return cudatext_api.ini_read(filename, section, key, value)
+def ini_write(filename, section, key, value):
+    return cudatext_api.ini_write(filename, section, key, value)
+
 #Editor
 class Editor:
     h = 0

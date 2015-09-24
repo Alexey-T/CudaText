@@ -190,21 +190,6 @@ def lexer_proc(id, text):
 def app_proc(id, text=''):
     return sw_api.app_proc(id, text)
 
-def ini_read(filename, section, key, value):
-    return sw_api.ini_read(filename, section, key, value)
-def ini_write(filename, section, key, value):
-    return sw_api.ini_write(filename, section, key, value)
-
-def file_get_name(id):
-    return sw_api.file_get_name(id)
-def text_local(id, filename):
-    return sw_api.text_local(id, filename)
-def regex_parse(regex, data):
-    return sw_api.regex_parse(regex, data)
-
-#----------------------------------
-# Editor class
-
 class Editor:
 ##far todo
     def get_prop(self, id, value=''):
