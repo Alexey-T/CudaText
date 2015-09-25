@@ -23,6 +23,7 @@ uses
   LclIntf,
   proc_globdata,
   proc_colors,
+  proc_str,
   math;
 
 type

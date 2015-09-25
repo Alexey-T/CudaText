@@ -27,6 +27,7 @@ procedure SAddStringToHistory(const S: string; List: TStrings; MaxItems: integer
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
+function SFindFuzzyPositions(SText, SFind: atString): TATIntArray;
 
 
 implementation
@@ -98,6 +99,31 @@ begin
   result:= fn;
   result:= StringReplace(result, '/', '|', [rfReplaceAll]);
   result:= StringReplace(result, '\', '|', [rfReplaceAll]);
+end;
+
+function SFindFuzzyPositions(SText, SFind: atString): TATIntArray;
+var
+  i, N, NPos: integer;
+begin
+  SetLength(result, 0);
+
+  SText:= UnicodeLowerCase(SText);
+  SFind:= UnicodeLowercase(SFind);
+
+  N:= 0;
+  for i:= 1 to Length(SFind) do
+  begin
+    //PosEx don't supp Unicodestring, Pos does
+    NPos:= Pos(SFind[i], Copy(SText, N+1, MaxInt));
+    if NPos=0 then
+    begin
+      SetLength(result, 0);
+      Exit
+    end;
+    Inc(N, NPos);
+    SetLength(result, Length(result)+1);
+    result[high(result)]:= N;
+  end;
 end;
 
 
