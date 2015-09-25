@@ -185,6 +185,9 @@ end;
 
 procedure TfmMenuApi.listDrawItem(Sender: TObject; C: TCanvas;
   AIndex: integer; const ARect: TRect);
+const
+  cIndent = 4;
+  cIndent2 = 10;
 var
   cl: TColor;
   n, i: integer;
@@ -208,7 +211,7 @@ begin
   strkey:= Utf8Decode(SGetItem(str, #9)); //uni
   strfind:= Trim(edit.Text); //uni
 
-  pnt:= Point(ARect.Left+4, ARect.Top+1);
+  pnt:= Point(ARect.Left+cIndent, ARect.Top+1);
   c.TextOut(pnt.x, pnt.y, Utf8Encode(strname));
 
   c.Font.Color:= GetAppColor('ListFontHilite');
@@ -230,9 +233,9 @@ begin
   if strkey<>'' then
   begin
     if not Multiline then
-      pnt:= Point(ARect.Right-c.TextWidth(Utf8Encode(strkey))-4, pnt.y)
+      pnt:= Point(ARect.Right-cIndent-c.TextWidth(Utf8Encode(strkey)), pnt.y)
     else
-      pnt:= Point(ARect.Left+10, ARect.Top+list.ItemHeight div 2);
+      pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2-2);
 
     c.Font.Color:= GetAppColor('ListFontHotkey');
     c.TextOut(pnt.x, pnt.y, Utf8Encode(strkey));
@@ -270,8 +273,7 @@ begin
   if FMultiline=AValue then Exit;
   FMultiline:=AValue;
   list.ItemHeight:=
-    Trunc(UiOps.VarFontSize*UiOps.ListboxItemHeightScale)
-    * IfThen(FMultiline, 2, 1);
+    Trunc(UiOps.VarFontSize * UiOps.ListboxItemHeightScale * IfThen(FMultiline, 1.8, 1));
   list.Invalidate;
 end;
 
