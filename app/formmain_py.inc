@@ -1024,9 +1024,10 @@ begin
     begin
       Str:= AnsiString(Ptr);
       case Id of
-        MENU_LIST:
+        MENU_LIST,
+        MENU_LIST_ALT:
           begin
-            Id:= fmMain.DoDialogMenuApi(Str);
+            Id:= fmMain.DoDialogMenuApi(Str, Id=MENU_LIST_ALT);
             if Id>=0 then
               Result:= PyInt_FromLong(Id)
             else

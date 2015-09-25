@@ -467,7 +467,7 @@ type
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
-    function DoDialogMenuApi(const AText: string): integer;
+    function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
     procedure DoOps_LoadPlugins;
@@ -2218,7 +2218,7 @@ begin
 end;
 
 
-function TfmMain.DoDialogMenuApi(const AText: string): integer;
+function TfmMain.DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
 var
   Form: TfmMenuApi;
   S, SItem: string;
@@ -2237,6 +2237,7 @@ begin
       Form.edit.BorderSpacing.Around*3+
       Form.list.ItemHeight*UiOps.ListboxItemCountCmd);
 
+    Form.Multiline:= AMultiline;
     Form.ShowModal;
     Result:= Form.ResultCode;
   finally

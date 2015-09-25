@@ -42,14 +42,17 @@ type
       const ARect: TRect);
   private
     { private declarations }
+    FMultiline: boolean;
     listFiltered: TList;
     procedure DoFilter;
     function GetResultCmd: integer;
     function IsFiltered(AOrigIndex: integer): boolean;
+    procedure SetMultiline(AValue: boolean);
   public
     { public declarations }
     listItems: TStringList;
     ResultCode: integer;
+    property Multiline: boolean read FMultiline write SetMultiline;
   end;
 
 implementation
@@ -226,9 +229,13 @@ begin
 
   if strkey<>'' then
   begin
-    n:= ARect.Right-c.TextWidth(strkey)-4;
+    if not Multiline then
+      pnt:= Point(ARect.Right-c.TextWidth(Utf8Encode(strkey))-4, pnt.y)
+    else
+      pnt:= Point(ARect.Left+10, ARect.Top+list.ItemHeight div 2);
+
     c.Font.Color:= GetAppColor('ListFontHotkey');
-    c.TextOut(n, pnt.y, Utf8Encode(strkey));
+    c.TextOut(pnt.x, pnt.y, Utf8Encode(strkey));
   end;
 end;
 
@@ -256,6 +263,16 @@ begin
   if Str='' then begin result:= true; exit end;
   Ar:= SFindFuzzyPositions(listItems[AOrigIndex], Str);
   Result:= Length(Ar)>0;
+end;
+
+procedure TfmMenuApi.SetMultiline(AValue: boolean);
+begin
+  if FMultiline=AValue then Exit;
+  FMultiline:=AValue;
+  list.ItemHeight:=
+    Trunc(UiOps.VarFontSize*UiOps.ListboxItemHeightScale)
+    * IfThen(FMultiline, 2, 1);
+  list.Invalidate;
 end;
 
 end.
