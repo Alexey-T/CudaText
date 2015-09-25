@@ -18,21 +18,22 @@ uses
 
 type
   TStringDecodeRecW = record
-    SFrom, STo: WideString;
+    SFrom, STo: UnicodeString;
   end;
 
-function SDecodeW(const S: WideString; const Decode: array of TStringDecodeRecW): WideString;
-function SWideStringToPythonString(const Str: Widestring): string;
+function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRecW): UnicodeString;
+function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
+
+function SWideStringToPythonString(const Str: UnicodeString): string;
 procedure SAddStringToHistory(const S: string; List: TStrings; MaxItems: integer);
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
-function SFindFuzzyPositions(SText, SFind: atString): TATIntArray;
 
 
 implementation
 
-function SDecodeW(const S: WideString; const Decode: array of TStringDecodeRecW): WideString;
+function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRecW): UnicodeString;
 var
   i, j: Integer;
   DoDecode: Boolean;
@@ -57,7 +58,7 @@ begin
   until False;
 end;
 
-function SWideStringToPythonString(const Str: Widestring): string;
+function SWideStringToPythonString(const Str: UnicodeString): string;
 const
   Decode: array[0..0] of TStringDecodeRecW =
     ((SFrom: '"'; STo: '"+''"''+"'));
@@ -101,9 +102,16 @@ begin
   result:= StringReplace(result, '\', '|', [rfReplaceAll]);
 end;
 
-function SFindFuzzyPositions(SText, SFind: atString): TATIntArray;
+function SUnicodePosEx(const substr, str: UnicodeString; frompos: integer): integer;
+begin
+  Result:= Pos(substr, Copy(str, frompos, MaxInt));
+  if Result>0 then
+    Inc(Result, frompos-1);
+end;
+
+function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 var
-  i, N, NPos: integer;
+  i, N: integer;
 begin
   SetLength(result, 0);
 
@@ -113,14 +121,12 @@ begin
   N:= 0;
   for i:= 1 to Length(SFind) do
   begin
-    //PosEx don't supp Unicodestring, Pos does
-    NPos:= Pos(SFind[i], Copy(SText, N+1, MaxInt));
-    if NPos=0 then
+    N:= SUnicodePosEx(SFind[i], SText, N+1);
+    if N=0 then
     begin
       SetLength(result, 0);
       Exit
     end;
-    Inc(N, NPos);
     SetLength(result, Length(result)+1);
     result[high(result)]:= N;
   end;
