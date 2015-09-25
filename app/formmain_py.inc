@@ -240,8 +240,6 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Li:get_text_line', @H, @N)) then
     begin
       Ed:= PyEditor(H);
-      if N = -1 then
-        N:= Ed.Carets[0].PosY;
       if Ed.Strings.IsIndexValid(N) then
         Result:= PyUnicode_FromWideString(Ed.Strings.Lines[N])
       else
@@ -449,7 +447,8 @@ begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(AnsiString(Ptr));
       if N=-1 then
-        N:= Ed.Carets[0].PosY;
+        Ed.Strings.LineAdd(Str)
+      else
       if Ed.Strings.IsIndexValid(N) then
         Ed.Strings.Lines[N]:= Str;
 
