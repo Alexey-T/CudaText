@@ -25,7 +25,7 @@ begin
       cfg.EnumSubKeys('/commands', list);
       for i:= 0 to list.Count-1 do
       begin
-        FPluginsCmd[i].ItemDir:= list[i];
+        FPluginsCmd[i].ItemModule:= list[i];
         FPluginsCmd[i].ItemProc:= cfg.GetValue('/commands/'+list[i]+'/def', '');
         FPluginsCmd[i].ItemCaption:= cfg.GetValue('/commands/'+list[i]+'/title', '');
       end;
@@ -38,7 +38,7 @@ begin
 
   for i:= 0 to High(FPluginsCmd) do
   begin
-    if FPluginsCmd[i].ItemDir='' then break;
+    if FPluginsCmd[i].ItemModule='' then break;
     mi:= TMenuItem.Create(Self);
     mi.Caption:= FPluginsCmd[i].ItemCaption;
     mi.OnClick:= @MenuPluginClick;
@@ -48,11 +48,15 @@ begin
   end;
 end;
 
+
 procedure TfmMain.MenuPluginClick(Sender: TObject);
 var
   Num: integer;
 begin
   Num:= (Sender as TComponent).Tag;
-  Showmessage(FPluginsCmd[Num].ItemProc);
+  Py_RunPlugin_Command(
+    FPluginsCmd[Num].ItemModule,
+    FPluginsCmd[Num].ItemProc
+    );
 end;
 

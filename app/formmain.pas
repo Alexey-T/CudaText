@@ -67,7 +67,7 @@ uses
 
 type
   TAppPluginCmd = record
-    ItemDir: string;
+    ItemModule: string;
     ItemProc: string;
     ItemCaption: string;
   end;

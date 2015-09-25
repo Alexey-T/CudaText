@@ -16,6 +16,7 @@ uses
   proc_str;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
+function Py_RunPlugin_Command(const SModule, SCmd: string): string;
 
 
 implementation
@@ -36,28 +37,25 @@ begin
   GetPythonEngine.ExecString(Str);
 end;
 
-{
-//gives crash in app, after 1st-2nd call
-function Py_StringList(List: TStrings): PPyObject; cdecl;
+function Py_RunPlugin_Command(const SModule, SCmd: string): string;
 var
-  NLen, i: Integer;
-  ComArray: Variant;
+  SObj: string;
+  SCmd1, SCmd2: string;
 begin
-  with GetPythonEngine do
-  begin
-    NLen:= List.Count;
-    if NLen>0 then
-    begin
-      ComArray:= VarArrayCreate([0, NLen-1], varolestr);
-      for i:= 0 to NLen-1 do
-        ComArray[i]:= List[i];
-      Result:= VariantAsPyObject(ComArray);
-    end
-    else
-      Result:= ReturnNone;
+  SObj:= '_cudacmd_' + SModule;
+  SCmd1:=
+    Format('import %s               ', [SModule]) + SLineBreak +
+    Format('if "%s" not in locals():', [SObj]) + SLineBreak +
+    Format('    %s = %s.%s()        ', [SObj, SModule, 'Command']);
+  SCmd2:=
+    Format('%s.%s()', [SObj, SCmd]);
+
+  try
+    GetPythonEngine.ExecString(SCmd1);
+    Result:= GetPythonEngine.EvalStringAsStr(SCmd2);
+  except
   end;
 end;
-}
 
 end.
 
