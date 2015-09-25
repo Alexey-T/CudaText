@@ -1,7 +1,7 @@
 
 0.8.0
++ Python API: see wiki
 + bottom-panel and Py-console in it: see wiki for help
-+ Py API: see wiki page
 - fix: shift-tab in find panel
 
 0.7.0
