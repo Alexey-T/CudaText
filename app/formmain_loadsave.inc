@@ -45,6 +45,8 @@ begin
       SSaveStringsToFile(c, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryMenu);
     end;
 
+    SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
+
     ////finder
     c.SetValue('/finder/regex', FFinder.OptRegex);
     c.SetValue('/finder/case', FFinder.OptCase);
@@ -82,6 +84,8 @@ begin
     ////recents
     SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
     UpdateMenuRecent(nil);
+
+    SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
 
     ////finder
     FFinder.OptRegex:= c.GetValue('/finder/regex', false);
