@@ -66,6 +66,14 @@ uses
   math;
 
 type
+  TAppPluginCmd = record
+    ItemDir: string;
+    ItemProc: string;
+    ItemCaption: string;
+  end;
+  TAppPluginCmdArray = array[0..200] of TAppPluginCmd;
+
+type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
@@ -87,6 +95,8 @@ type
     MenuItem25: TMenuItem;
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
+    mnuPlug: TMenuItem;
+    mnuPlugNone: TMenuItem;
     mnuFileHtml: TMenuItem;
     mnuTreeFold9: TMenuItem;
     mnuTreeFold7: TMenuItem;
@@ -427,6 +437,7 @@ type
     procedure TreeClick(Sender: TObject);
   private
     { private declarations }
+    FPluginsCmd: TAppPluginCmdArray;
     FListRecents: TStringList;
     FListNewdoc: TStringList;
     FListThemes: TStringList;
@@ -459,6 +470,7 @@ type
     function DoDialogMenuApi(const AText: string): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
+    procedure DoOps_LoadPlugins;
     procedure DoOps_DlgFont(var OpName: string; var OpSize: integer;
       const ConfStrName, ConfStrSize: string);
     procedure DoEditorsLock(ALock: boolean);
@@ -528,6 +540,7 @@ type
     procedure GotoDialogDone(Sender: TObject; const Res: string);
     procedure InitFormFind;
     procedure DoOps_LoadLexlib;
+    procedure MenuPluginClick(Sender: TObject);
     procedure MenuThemeDefClick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; out AText,
       ASuffix: string; out ACharsLeft, ACharsRight: integer);
@@ -935,6 +948,7 @@ begin
   DoFileOpen('');
   DoOps_LoadHistory;
   DoOps_LoadKeymap;
+  DoOps_LoadPlugins;
   DoLoadParamstr;
 
   UpdateMenuThemes(mnuThemes);
@@ -1159,9 +1173,6 @@ end;
 
 procedure TfmMain.mnuHelpAboutClick(Sender: TObject);
 begin
-  //Showmessage(inttostr(DoDialogMenuApi('fafa'#9'f1'#13'dddd11'#9'key1'#13'dd11'#13'ddddd22'#9'key2')));
-  //exit;
-
   with TfmAbout.Create(Self) do
   try
     labelVer.Caption:= cAppVersion;
@@ -2242,6 +2253,7 @@ end;
 {$I formmain_find.inc}
 {$I formmain_cmd.inc}
 {$I formmain_editing.inc}
+{$I formmain_plugins.inc}
 
 
 end.

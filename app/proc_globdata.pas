@@ -48,6 +48,7 @@ type
     cFileOptUser,
     cFileOptFiletypes,
     cFileOptKeymap,
+    cFileOptPlugins,
     cFileHistoryList,
     cFileReadmeHist,
     cFileReadmeMouse,
@@ -356,6 +357,10 @@ begin
     cFileOptKeymap:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys.json';
+      end;
+    cFileOptPlugins:
+      begin
+        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'plugins.json';
       end;
     cFileHistoryList:
       begin

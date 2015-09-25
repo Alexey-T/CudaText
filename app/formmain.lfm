@@ -710,6 +710,13 @@ object fmMain: TfmMain
         Caption = 'Toggle full screen'
       end
     end
+    object mnuPlug: TMenuItem
+      Caption = '&Plugins'
+      object mnuPlugNone: TMenuItem
+        Caption = '(none)'
+        Enabled = False
+      end
+    end
     object mnuOp: TMenuItem
       Caption = '&Options'
       object mnuOpDefault: TMenuItem
