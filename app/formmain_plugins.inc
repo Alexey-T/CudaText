@@ -4,14 +4,16 @@ procedure TfmMain.DoOps_LoadPlugins;
 var
   fn_plugins: string;
   cfg: TJsonConfig;
-  list: TStringlist;
+  list, list2: TStringlist;
   mi: TMenuItem;
-  i: integer;
+  i, j, cnt: integer;
 begin
   fn_plugins:= GetAppPath(cFileOptPlugins);
   if not FileExists(fn_plugins) then exit;
 
   cfg:= TJSONConfig.Create(Self);
+  list:= TStringlist.Create;
+  list2:= TStringlist.Create;
   try
     try
       cfg.Filename:= fn_plugins;
@@ -20,25 +22,32 @@ begin
       exit
     end;
 
-    list:= TStringlist.create;
-    try
-      cfg.EnumSubKeys('/commands', list);
-      for i:= 0 to list.Count-1 do
+    cnt:= 0;
+    list.Clear;
+    cfg.EnumSubKeys('/commands', list);
+    for i:= 0 to list.Count-1 do
+    begin
+      list2.Clear;
+      cfg.EnumSubKeys('/commands/'+list[i], list2);
+      for j:= 0 to list2.Count-1 do
       begin
-        FPluginsCmd[i].ItemModule:= list[i];
-        FPluginsCmd[i].ItemProc:= cfg.GetValue('/commands/'+list[i]+'/def', '');
-        FPluginsCmd[i].ItemCaption:= cfg.GetValue('/commands/'+list[i]+'/title', '');
+        FPluginsCmd[cnt].ItemModule:= list[i];
+        FPluginsCmd[cnt].ItemProc:= list2[j];
+        FPluginsCmd[cnt].ItemCaption:= cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/caption', list2[j]);
+
+        Inc(cnt);
+        if cnt>=High(FPluginsCmd) then Break;
       end;
-    finally
-      FreeAndNil(list);
     end;
   finally
+    FreeAndNil(list2);
+    FreeAndNil(list);
     FreeAndNil(cfg);
   end;
 
   for i:= 0 to High(FPluginsCmd) do
   begin
-    if FPluginsCmd[i].ItemModule='' then break;
+    if FPluginsCmd[i].ItemModule='' then Break;
     mi:= TMenuItem.Create(Self);
     mi.Caption:= FPluginsCmd[i].ItemCaption;
     mi.OnClick:= @MenuPluginClick;
