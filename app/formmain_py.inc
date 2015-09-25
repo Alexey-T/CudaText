@@ -143,7 +143,7 @@ begin
       begin
         SCaption:= '';
         for i:= 0 to Number-1 do
-          SCaption:= SCaption+Values[i]+#13;
+          SCaption:= SCaption+Values[i]+#10;
         Result:= PyString_FromString(PChar(SCaption))
       end
       else

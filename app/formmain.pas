@@ -2227,7 +2227,7 @@ begin
   try
     S:= AText;
     repeat
-      SItem:= SGetItem(S, #13);
+      SItem:= SGetItem(S, #10);
       if SItem='' then Break;
       Form.listItems.Add(SItem);
     until false;
