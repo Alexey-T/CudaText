@@ -545,6 +545,7 @@ type
     procedure MenuThemeDefClick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; out AText,
       ASuffix: string; out ACharsLeft, ACharsRight: integer);
+    procedure DoOps_PreinstallPlugins;
     procedure SetEnc(const Str: string);
     procedure SetLexerIndex(N: integer);
     procedure SetShowBottom(Value: boolean);
@@ -948,6 +949,7 @@ begin
   DoFileOpen('');
   DoOps_LoadHistory;
   DoOps_LoadKeymap;
+  DoOps_PreinstallPlugins;
   DoOps_LoadPlugins;
   DoLoadParamstr;
 

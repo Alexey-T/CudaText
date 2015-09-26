@@ -19,7 +19,7 @@ begin
   fn_plugins:= GetAppPath(cFileOptPlugins);
   if not FileExists(fn_plugins) then exit;
 
-  cfg:= TJSONConfig.Create(Self);
+  cfg:= TJSONConfig.Create(nil);
   list:= TStringlist.Create;
   list2:= TStringlist.Create;
   try
@@ -99,3 +99,29 @@ begin
     );
 end;
 
+procedure TfmMain.DoOps_PreinstallPlugins;
+const
+  cAddonMan = 'cuda_addonman';
+  cAddonManCaption = 'Addons Manager';
+var
+  cfg: TJSONConfig;
+  fn: string;
+begin
+  fn:= GetAppPath(cFileOptPlugins);
+  cfg:= TJSONConfig.Create(nil);
+  try
+    try
+      cfg.Filename:= fn;
+      cfg.Formatted:= true;
+    except
+      MsgBox(msgCannotReadConf+#13+fn, mb_ok or mb_iconerror);
+      exit
+    end;
+
+    cfg.SetValue('/commands/'+cAddonMan+'/do_install/caption', cAddonManCaption+'\Install lexer...');
+    cfg.SetValue('/commands/'+cAddonMan+'/do_edit/caption', cAddonManCaption+'\Edit plugin...');
+    cfg.SetValue('/commands/'+cAddonMan+'/do_remove/caption', cAddonManCaption+'\Remove plugin...');
+  finally
+    FreeAndNil(cfg);
+  end;
+end;

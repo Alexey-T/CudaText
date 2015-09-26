@@ -275,7 +275,7 @@ const
 implementation
 
 const
-  cPyLibraryInit: string =
+  cPyLibraryInit =
     {$ifdef windows} 'python33.dll' {$endif}
     {$ifdef linux} 'libpython3.4m.so.1.0' {$endif}
     {$ifdef darwin} '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib' {$endif} ;
