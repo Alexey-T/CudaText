@@ -262,6 +262,8 @@ begin
     Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
 
     UiOps.LexlibFilename:= c.GetValue('lexlib', UiOps.LexlibFilename);
+    UiOps.PyLibrary:= c.GetValue('pylib', UiOps.PyLibrary);
+
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
     UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
 

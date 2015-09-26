@@ -8,12 +8,6 @@ Copyright (c) Alexey Torgashin
 {$ifdef nn}begin end;{$endif}
 
 const
-  cPyLibraryWindows = 'python33.dll';
-  cPyLibraryLinux = 'libpython3.4m.so.1.0';
-  cPyLibraryMac = '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib';
-  cPyZipWindows = 'python33.zip';
-
-const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
 

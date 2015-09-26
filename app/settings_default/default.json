@@ -339,4 +339,12 @@
   "export_html_font_name": "Courier New",
   "export_html_font_size": 12,
 
+  //which Python engine is used.
+  //if correct, you must see Python version info on console panel (Ctrl+`).
+  //default values under OSes:
+  //  Windows: python33.dll
+  //  Linux: libpython3.4m.so.1.0
+  //  OSX: /Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib
+  "pylib": "?",
+  
 }

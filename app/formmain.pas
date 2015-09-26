@@ -936,8 +936,6 @@ procedure TfmMain.FormShow(Sender: TObject);
 begin
   if FHandledOnShow then exit;
   FHandledOnShow:= true;
-
-  InitPyEngine; //disabled inside
   TabsBottom.TabIndex:= 0;
 
   DoOps_LoadOptions(GetAppPath(cFileOptUser), EditorOps);
@@ -945,6 +943,7 @@ begin
   DoApplyFontVar;
   DoOps_LoadLexlib;
   DoApplyUiOps;
+  InitPyEngine;
 
   DoFileOpen('');
   DoOps_LoadHistory;
@@ -1624,7 +1623,7 @@ var
 begin
   dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;
   {$ifdef windows}
-  Py_SetSysPath([dir+'dlls', dir+cPyZipWindows], false);
+  Py_SetSysPath([dir+'dlls', dir+ ChangeFileExt(UiOps.PyLibrary, '.zip')], false);
   {$endif}
   Py_SetSysPath([dir+'py'], true);
 
@@ -1637,15 +1636,9 @@ begin
 end;
 
 procedure TfmMain.InitPyEngine;
-var
-  S: string;
 begin
-  S:=
-    {$ifdef windows} cPyLibraryWindows {$endif}
-    {$ifdef linux} cPyLibraryLinux {$endif}
-    {$ifdef darwin} cPyLibraryMac {$endif} ;
-  PythonEngine.DllPath:= ExtractFileDir(S);
-  PythonEngine.DllName:= ExtractFileName(S);
+  PythonEngine.DllPath:= ExtractFileDir(UiOps.PyLibrary);
+  PythonEngine.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEngine.LoadDll;
 end;
 

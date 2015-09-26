@@ -60,6 +60,7 @@ type
     VarFontName: string;
     VarFontSize: integer;
 
+    PyLibrary: string;
     LexlibFilename: string;
     ListboxWidth: integer;
     ListboxItemCountCmd: integer;
@@ -272,6 +273,12 @@ const
   cEncNameCP950 = 'CP950';
 
 implementation
+
+const
+  cPyLibraryInit: string =
+    {$ifdef windows} 'python33.dll' {$endif}
+    {$ifdef linux} 'libpython3.4m.so.1.0' {$endif}
+    {$ifdef darwin} '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib' {$endif} ;
 
 var
   OpDirExe: string = '';
@@ -541,6 +548,7 @@ begin
     VarFontName:= 'default';
     VarFontSize:= {$ifdef windows} 9 {$else} 10 {$endif};
 
+    PyLibrary:= cPyLibraryInit;
     LexlibFilename:= 'lib.lxl';
 
     ListboxWidth:= 450;

@@ -1,6 +1,8 @@
 
 0.8.0
-+ Python API: see wiki
++ Python API
++ plugins in Py: menu "Plugins" added
++ plugin "Addons Manager"
 + bottom-panel and Py-console in it: see wiki for help
 - fix: shift-tab in find panel
 
