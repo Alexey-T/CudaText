@@ -5,6 +5,7 @@ from cudatext import *
 
 fn_sample = os.path.join(os.path.dirname(__file__), 'sample.py')
 fn_plugins = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.json')    
+dir_py = app_path(APP_DIR_PY)
 
 def is_module_name(name):
     if not name: return False
@@ -29,7 +30,6 @@ class Command:
             return
 
         s_module = 'cuda_'+s_module
-        dir_py = app_path(APP_DIR_PY)
         dir_plugin = os.path.join(dir_py, s_module)
         if os.path.isdir(dir_plugin):
             msg_box('Cannot create plugin; folder already exists:\n' + dir_plugin, MB_OK+MB_ICONERROR)
@@ -43,7 +43,6 @@ class Command:
         
         fn_py = os.path.join(dir_plugin, '__init__.py')
         text = open(fn_sample).read()
-
         with open(fn_py, 'w') as f:
             f.write(text)
             

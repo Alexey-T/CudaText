@@ -115,8 +115,10 @@ var
   end;
   //
 const
-  cAddonManModule = 'cuda_addonman';
-  cAddonManCaption = 'Addons Manager';
+  cModuleAddonman = 'cuda_addonman';
+  cCaptionAddonman = 'Addons Manager';
+  cModuleMake = 'cuda_make_plugin';
+  cCaptionMake = 'Make Plugin';
 var
   fn: string;
 begin
@@ -131,9 +133,12 @@ begin
       exit
     end;
 
-    DoAdd(cAddonManModule, 'do_install', cAddonManCaption+'\Install lexer...');
-    DoAdd(cAddonManModule, 'do_edit', cAddonManCaption+'\Edit plugin...');
-    DoAdd(cAddonManModule, 'do_remove', cAddonManCaption+'\Remove plugin...');
+    DoAdd(cModuleAddonman, 'do_install', cCaptionAddonman+'\Install lexer...');
+    DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...');
+    DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...');
+
+    DoAdd(cModuleMake, 'run', cCaptionMake);
+
   finally
     FreeAndNil(cfg);
   end;
