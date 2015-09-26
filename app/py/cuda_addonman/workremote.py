@@ -34,6 +34,7 @@ def get_wiki_text(name):
         get_url(url, fn)
     if not os.path.isfile(fn): 
         msg_box('Cannot download wiki', MB_OK)
+        return
     s = open(fn, 'r').read()
     r = re.compile(REGEX, re.S)
     if not r: return ValueError
@@ -58,7 +59,7 @@ def get_avail_list():
     text = get_wiki_text(V_REG)
     msg_status('')
     if not text:
-        return "CantGetList"
+        return "Cannot download list"
     
     items = text.split('\r\n')
     
@@ -81,7 +82,7 @@ def get_avail_list():
             res += [props]
 
     #write version to item[3] for each item
-    msg_status('Wait for ver') 
+    msg_status('Wait for version list') 
     text = get_wiki_text(V_REG_VER)
     msg_status('')
     if text:
