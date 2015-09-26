@@ -42,6 +42,7 @@ type
     cDirDataAcp,
     cDirDataAcpSpec,
     cDirReadme,
+    cDirPy,
     cFileLexlib,
     cFileOptHistory,
     cFileOptDefault,
@@ -342,6 +343,10 @@ begin
     cDirReadme:
       begin
         Result:= OpDirLocal+DirectorySeparator+'readme';
+      end;
+    cDirPy:
+      begin
+        Result:= OpDirLocal+DirectorySeparator+'py';
       end;
     cFileLexlib:
       begin

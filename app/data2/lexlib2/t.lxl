@@ -27127,4 +27127,1486 @@ object TecSyntaxManager
     left = 140
     top = 160
   end
+  object SyntAnal12: TLibSyntAnalyzer
+    Formats = <    
+      item
+        DisplayName = 'Default'
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        FormatType = ftCustomFont
+      end    
+      item
+        DisplayName = 'Left margin'
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        BgColor = clBackground
+      end    
+      item
+        DisplayName = 'Reserved word'
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Comment'
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'String'
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'Courier New'
+      end    
+      item
+        DisplayName = 'Number'
+        Font.Color = clNavy
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Marked block'
+        Font.Color = clHighlightText
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        BgColor = clHighlight
+        FormatType = ftColor
+      end>
+    TokenRules = <    
+      item
+        DisplayName = 'Comment 2 (to correct)'
+        StyleName = 'Left margin'
+        Expression = '^.{7}\|'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Comment 1'
+        StyleName = 'Comment'
+        TokenType = 1
+        Expression = '^.{6}\*.*'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Left margin'
+        StyleName = 'Left margin'
+        TokenType = 9
+        Expression = '^.{0, 6}[^\*\r\n]'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Comment 2'
+        StyleName = 'Comment'
+        TokenType = 1
+        Expression = '\|.*'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'end'
+        StyleName = 'Reserved word'
+        TokenType = 8
+        Expression = 'end'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Symbol'
+        TokenType = 3
+        Expression = '[\.\-]'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Any name'
+        TokenType = 2
+        Expression = '[a-z_][-\w]*'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'String 2'
+        StyleName = 'String'
+        TokenType = 4
+        Expression = '''.*?(''|$)'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'String'
+        StyleName = 'String'
+        TokenType = 4
+        Expression = '".*?("|$)'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Float'
+        StyleName = 'Number'
+        TokenType = 6
+        Expression = '\d+ \.? \d+ e [\+\-]? \d+ | \d+ \. \d+'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Integer'
+        StyleName = 'Number'
+        TokenType = 5
+        Expression = '\d+'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end>
+    BlockRules = <    
+      item
+        DisplayName = 'Key words'
+        StyleName = 'Reserved word'
+        BlockType = btTagDetect
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'accept'
+              'access'
+              'add'
+              'address'
+              'advancing'
+              'after'
+              'all'
+              'alphabet'
+              'also'
+              'alter'
+              'alternate'
+              'and'
+              'any'
+              'apply'
+              'are'
+              'area'
+              'areas'
+              'ascending'
+              'assign'
+              'at'
+              'basis'
+              'before'
+              'beginning'
+              'binary'
+              'blank'
+              'block'
+              'bottom'
+              'by'
+              'call'
+              'cancel'
+              'cbl'
+              'character'
+              'characters'
+              'class'
+              'close'
+              'collating'
+              'comma'
+              'common'
+              'compute'
+              'configuration'
+              'contains'
+              'content'
+              'continue'
+              'converting'
+              'copy'
+              'corr'
+              'corresponding'
+              'count'
+              'currency'
+              'data'
+              'day'
+              'dbcs'
+              'debugging'
+              'declaratives'
+              'degugging'
+              'delete'
+              'delimited'
+              'delimiter'
+              'depending'
+              'descending'
+              'divide'
+              'division'
+              'down'
+              'duplicates'
+              'dynamic'
+              'ebcdic'
+              'egcs'
+              'eject'
+              'else'
+              'ending'
+              'enter'
+              'entry'
+              'environment'
+              'eop'
+              'equal'
+              'error'
+              'evaluate'
+              'every'
+              'exception'
+              'exit'
+              'extend'
+              'external'
+              'f'
+              'false'
+              'fd'
+              'filler'
+              'first'
+              'footing'
+              'for'
+              'from'
+              'giving'
+              'global'
+              'go'
+              'goback'
+              'greater'
+              'id'
+              'identification'
+              'if'
+              'in'
+              'index'
+              'indexed'
+              'initial'
+              'initialize'
+              'insert'
+              'inspect'
+              'installation'
+              'into'
+              'invalid'
+              'is'
+              'just'
+              'justified'
+              'kanji'
+              'key'
+              'label'
+              'leading'
+              'left'
+              'length'
+              'less'
+              'line'
+              'lines'
+              'linkage'
+              'list'
+              'lock'
+              'map'
+              'memory'
+              'merge'
+              'mode'
+              'modules'
+              'move'
+              'multiple'
+              'multiply'
+              'native'
+              'negative'
+              'next'
+              'no'
+              'nolist'
+              'nomap'
+              'nosource'
+              'not'
+              'null'
+              'nulls'
+              'occurs'
+              'of'
+              'off'
+              'omitted'
+              'on'
+              'open'
+              'optional'
+              'or'
+              'order'
+              'organization'
+              'other'
+              'output'
+              'overflow'
+              'padding'
+              'page'
+              'password'
+              'perform'
+              'pic'
+              'picture'
+              'pointer'
+              'position'
+              'positive'
+              'procedure'
+              'procedures'
+              'proceed'
+              'process'
+              'quote'
+              'quotes'
+              'random'
+              'read'
+              'ready'
+              'record'
+              'recording'
+              'records'
+              'redefines'
+              'reel'
+              'reference'
+              'relative'
+              'release'
+              'reload'
+              'remainder'
+              'removal'
+              'renames'
+              'replace'
+              'replacing'
+              'rerun'
+              'reserve'
+              'reset'
+              'reversed'
+              'rewind'
+              'rewrite'
+              'right'
+              'rounded'
+              'run'
+              's'
+              'same'
+              'sd'
+              'search'
+              'section'
+              'select'
+              'sentence'
+              'separate'
+              'sequence'
+              'sequential'
+              'service'
+              'set'
+              'sign'
+              'size'
+              'skip1'
+              'skip2'
+              'skip3'
+              'space'
+              'spaces'
+              'start'
+              'status'
+              'stop'
+              'string'
+              'subtract'
+              'suppress'
+              'symbolic'
+              'sync'
+              'synchronized'
+              'tally'
+              'tallying'
+              'tape'
+              'test'
+              'than'
+              'then'
+              'through'
+              'thru'
+              'time'
+              'times'
+              'title'
+              'to'
+              'top'
+              'trace'
+              'trailing'
+              'true'
+              'u'
+              'unit'
+              'unstring'
+              'until'
+              'up'
+              'upon'
+              'usage'
+              'use'
+              'using'
+              'v'
+              'value'
+              'values'
+              'varying'
+              'with'
+              'words'
+              'zero'
+              'zeroes'
+              'zeros'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end>
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'other'
+        StyleName = 'Reserved word'
+        BlockType = btTagDetect
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'alphabetic'
+              'alphabetic-lower'
+              'alphabetic-upper'
+              'alphanumeric'
+              'alphanumeric-edited'
+              'author'
+              'code-set'
+              'comp'
+              'comp-1'
+              'comp-2'
+              'comp-3'
+              'comp-4'
+              'computational'
+              'computational-1'
+              'computational-2'
+              'computational-3'
+              'computational-4'
+              'date'
+              'date-compiled'
+              'date-written'
+              'day-of-week'
+              'debug-item'
+              'decimal-point'
+              'display'
+              'display-1'
+              'end'
+              'end-add'
+              'end-call'
+              'end-compute'
+              'end-delete'
+              'end-divide'
+              'end-evaluate'
+              'end-if'
+              'end-multiply'
+              'end-of-page'
+              'end-perform'
+              'end-read'
+              'end-return'
+              'end-rewrite'
+              'end-search'
+              'end-start'
+              'end-string'
+              'end-subtract'
+              'end-unstring'
+              'end-write'
+              'file'
+              'file-control'
+              'high-value'
+              'high-values'
+              'input'
+              'input-output'
+              'i-o'
+              'i-o-control'
+              'linage'
+              'linage-counter'
+              'low-value'
+              'low-values'
+              'more-labels'
+              'numeric'
+              'numeric-edited'
+              'object-computer'
+              'packed-decimal'
+              'program'
+              'program-id'
+              'return'
+              'return-code'
+              'security'
+              'segment-limit'
+              'shift-in'
+              'shift-out'
+              'sort'
+              'sort-control'
+              'sort-core-size'
+              'sort-file-size'
+              'sort-merge'
+              'sort-message'
+              'sort-mode-size'
+              'sort-return'
+              'source'
+              'source-computer'
+              'special-names'
+              'standard'
+              'standard-1'
+              'standard-2'
+              'when'
+              'when-compiled'
+              'working-storage'
+              'write'
+              'write-only'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end>
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'when end 2'
+        BlockName = 'when'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'evaluate'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end        
+          item
+            TagList.Strings = (
+              '-'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TokenTypes = 256
+          end>
+        BlockOffset = 4
+        BlockEnd = 'when'
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'if'
+        BlockName = 'operator'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '-'
+            )
+            CondType = tcNotEqual
+            TokenTypes = 8
+          end        
+          item
+            TagList.Strings = (
+              'if'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end>
+        BlockOffset = 1
+        BlockEnd = 'if end .'
+        DisplayInTree = False
+        HighlightPos = cpBound
+        CollapseFmt = 'if ...'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'operator'
+        BlockName = 'operator'
+        NotParent = True
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '-'
+            )
+            CondType = tcNotEqual
+            TokenTypes = 8
+          end        
+          item
+            TagList.Strings = (
+              'call'
+              'if'
+              'move'
+            )
+            TokenTypes = 4
+          end>
+        BlockOffset = 1
+        BlockEnd = 'operator end'
+        DisplayInTree = False
+        HighlightPos = cpBound
+        CollapseFmt = '%s1 ...'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'if end .'
+        BlockName = 'if'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '.'
+            )
+            TokenTypes = 264
+            IgnoreCase = True
+          end>
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'operator end'
+        BlockName = 'operator'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '.'
+            )
+            TokenTypes = 8
+          end>
+        HighlightPos = cpBound
+        CancelNextRules = True
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'if end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'if'
+            )
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              '-'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TokenTypes = 256
+          end>
+        BlockEnd = 'if'
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'generic block end'
+        BlockName = 'generic block start'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'add'
+              'call'
+              'compute'
+              'declaratives'
+              'delete'
+              'divide'
+              'evaluate'
+              'multiply'
+              'of-page'
+              'perform'
+              'read'
+              'return'
+              'rewrite'
+              'search'
+              'start'
+              'string'
+              'subtract'
+              'unstring'
+              'write'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end        
+          item
+            TagList.Strings = (
+              '-'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TokenTypes = 256
+          end>
+        SameIdent = True
+        HighlightPos = cpBound
+        CancelNextRules = True
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'generic block start'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'add'
+              'call'
+              'compute'
+              'declaratives'
+              'delete'
+              'divide'
+              'evaluate'
+              'multiply'
+              'of-page'
+              'perform'
+              'read'
+              'return'
+              'rewrite'
+              'search'
+              'start'
+              'string'
+              'subtract'
+              'unstring'
+              'write'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end>
+        BlockEnd = 'generic block end'
+        DisplayInTree = False
+        HighlightPos = cpBound
+        DrawStaple = True
+        CollapseFmt = '%s0'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'section end'
+        BlockName = 'section start'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '.'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TagList.Strings = (
+              'section'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end        
+          item
+            TokenTypes = 4
+          end>
+        BlockOffset = 4
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'section start'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '.'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TagList.Strings = (
+              'section'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end        
+          item
+            TokenTypes = 4
+          end>
+        BlockOffset = 2
+        BlockEnd = 'section end'
+        EndOfTextClose = True
+        NameFmt = '%s1 %s2'
+        HighlightPos = cpBound
+        CollapseFmt = '%s1 %s2'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'labeled reg end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '.'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TokenTypes = 4
+          end        
+          item
+            TokenTypes = 512
+          end>
+        BlockOffset = 3
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'labeled reg start (cancel)'
+        BlockType = btTagDetect
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '.'
+            )
+            TokenTypes = 8
+          end        
+          item
+            CondType = tcNotEqual
+            TokenTypes = 4
+          end>
+        HighlightPos = cpBound
+        CancelNextRules = True
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'labeled reg start'
+        BlockName = 'section start'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '.'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TagList.Strings = (
+              'alphabetic'
+              'alphabetic-lower'
+              'alphabetic-upper'
+              'alphanumeric'
+              'alphanumeric-edited'
+              'author'
+              'code-set'
+              'comp'
+              'comp-1'
+              'comp-2'
+              'comp-3'
+              'comp-4'
+              'computational'
+              'computational-1'
+              'computational-2'
+              'computational-3'
+              'computational-4'
+              'date'
+              'date-compiled'
+              'date-written'
+              'day-of-week'
+              'debug-item'
+              'decimal-point'
+              'display'
+              'display-1'
+              'end'
+              'end-add'
+              'end-call'
+              'end-compute'
+              'end-delete'
+              'end-divide'
+              'end-evaluate'
+              'end-if'
+              'end-multiply'
+              'end-of-page'
+              'end-perform'
+              'end-read'
+              'end-return'
+              'end-rewrite'
+              'end-search'
+              'end-start'
+              'end-string'
+              'end-subtract'
+              'end-unstring'
+              'end-write'
+              'file'
+              'file-control'
+              'high-value'
+              'high-values'
+              'input'
+              'input-output'
+              'i-o'
+              'i-o-control'
+              'linage'
+              'linage-counter'
+              'low-value'
+              'low-values'
+              'more-labels'
+              'numeric'
+              'numeric-edited'
+              'object-computer'
+              'packed-decimal'
+              'program'
+              'program-id'
+              'return'
+              'return-code'
+              'security'
+              'segment-limit'
+              'shift-in'
+              'shift-out'
+              'sort'
+              'sort-control'
+              'sort-core-size'
+              'sort-file-size'
+              'sort-merge'
+              'sort-message'
+              'sort-mode-size'
+              'sort-return'
+              'source'
+              'source-computer'
+              'special-names'
+              'standard'
+              'standard-1'
+              'standard-2'
+              'when'
+              'when-compiled'
+              'working-storage'
+              'write'
+              'write-only'
+            )
+            CondType = tcNotEqual
+            TokenTypes = 4
+          end        
+          item
+            TokenTypes = 512
+          end>
+        BlockOffset = 1
+        BlockEnd = 'labeled reg end'
+        EndOfTextClose = True
+        NameFmt = 'Region %s1'
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'last labeled end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'section'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end>
+        BlockOffset = 3
+        BlockEnd = 'labeled reg start'
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'division end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'division'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end        
+          item
+            TokenTypes = 4
+          end>
+        BlockOffset = 3
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'division'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'division'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end        
+          item
+            TokenTypes = 4
+          end>
+        BlockOffset = 2
+        BlockEnd = 'division end'
+        EndOfTextClose = True
+        NameFmt = '%s1 %s0'
+        HighlightPos = cpBound
+        CollapseFmt = '%s1 %s0'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'Section end division'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'division'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end        
+          item
+            TokenTypes = 4
+          end>
+        BlockOffset = 3
+        BlockEnd = 'section start'
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'when end'
+        BlockName = 'when'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'when'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end>
+        BlockOffset = 2
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'when'
+        ConditionList = <        
+          item
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'when'
+            )
+            TokenTypes = 4
+            IgnoreCase = True
+          end>
+        BlockOffset = 1
+        BlockEnd = 'when end'
+        NameFmt = '%s1 %s0'
+        HighlightPos = cpBound
+        CollapseFmt = '%s1 %s0'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'declaratives end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'declaratives'
+            )
+          end        
+          item
+            TokenTypes = 256
+          end>
+        HighlightPos = cpBound
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'declaratives'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'declaratives'
+            )
+            TokenTypes = 4
+          end        
+          item
+            CondType = tcNotEqual
+            TokenTypes = 256
+          end>
+        BlockEnd = 'declaratives end'
+        HighlightPos = cpBound
+        CollapseFmt = '%s0'
+        IgnoreAsParent = False
+      end>
+    CodeTemplates = <>
+    SubAnalyzers = <>
+    TokenTypeNames.Strings = (
+      'Unknown'
+      'Comment'
+      'Identifier'
+      'Symbol'
+      'String'
+      'Integer const'
+      'Float const'
+      'Hex const'
+      'end'
+      'Left margin'
+    )
+    MarkedBlockStyle = 'Marked block'
+    Extentions = 'cbl'
+    LexerName = 'Acu Cobol'
+    SkipSpaces = False
+    Notes.Strings = (
+      'Last update 14.09.2005'
+    )
+    Charset = DEFAULT_CHARSET
+  end
+  object SyntAnal13: TLibSyntAnalyzer
+    Formats = <    
+      item
+        DisplayName = 'Id'
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Courier New'
+      end    
+      item
+        DisplayName = 'Id keyword'
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'String'
+        Font.Color = clTeal
+        Font.Height = -13
+        Font.Name = 'Courier New'
+      end    
+      item
+        DisplayName = 'Symbol'
+        Font.Color = clMaroon
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Number'
+        Font.Color = clNavy
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Comment'
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsItalic]
+      end>
+    TokenRules = <    
+      item
+        DisplayName = 'Comment'
+        StyleName = 'Comment'
+        TokenType = 1
+        Expression = '--.*'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Comment 2'
+        StyleName = 'Comment'
+        TokenType = 1
+        Expression = '(?s)\(\* .*? \*\)'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'String'
+        StyleName = 'String'
+        TokenType = 4
+        Expression = '(") (\\\\|\\\1|.)*? (\1|$)'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Id'
+        StyleName = 'Id'
+        TokenType = 2
+        Expression = '[a-z_]\w*'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Float'
+        StyleName = 'Number'
+        TokenType = 5
+        Expression = '\d+ (\.\d+)? e [\+\-]? \d+ | \d+ \. \d+'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Integer'
+        StyleName = 'Number'
+        TokenType = 5
+        Expression = '\d+'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Single symbol'
+        StyleName = 'Symbol'
+        TokenType = 3
+        Expression = '[\{\}\(\)\[\],;\.\?]'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Symbol'
+        StyleName = 'Symbol'
+        TokenType = 3
+        Expression = '[/\+\-\*:=<>&/\|\^~!%]'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end>
+    BlockRules = <    
+      item
+        DisplayName = 'keywords'
+        StyleName = 'Id keyword'
+        BlockType = btTagDetect
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'about'
+              'above'
+              'after'
+              'against'
+              'and'
+              'apart'
+              'around'
+              'as'
+              'aside'
+              'at'
+              'back'
+              'before'
+              'beginning'
+              'behind'
+              'below'
+              'beneath'
+              'beside'
+              'between'
+              'but'
+              'by'
+              'considering'
+              'contain'
+              'contains'
+              'continue'
+              'copy'
+              'div'
+              'does'
+              'eighth'
+              'else'
+              'end'
+              'equal'
+              'equals'
+              'error'
+              'every'
+              'exit'
+              'false'
+              'fifth'
+              'first'
+              'for'
+              'fourth'
+              'from'
+              'front'
+              'get'
+              'given'
+              'global'
+              'if'
+              'ignoring'
+              'in'
+              'instead'
+              'into'
+              'is'
+              'it'
+              'its'
+              'last'
+              'local'
+              'me'
+              'middle'
+              'mod'
+              'my'
+              'ninth'
+              'not'
+              'of'
+              'on'
+              'onto'
+              'or'
+              'out'
+              'over'
+              'prop'
+              'property'
+              'put'
+              'ref'
+              'reference'
+              'repeat'
+              'return'
+              'returning'
+              'script'
+              'second'
+              'set'
+              'seventh'
+              'since'
+              'sixth'
+              'some'
+              'tell'
+              'tenth'
+              'that'
+              'the'
+              'then'
+              'third'
+              'through'
+              'thru'
+              'timeout'
+              'times'
+              'to'
+              'transaction'
+              'true'
+              'try'
+              'until'
+              'use'
+              'where'
+              'while'
+              'whose'
+              'with'
+              'without'
+            )
+            TokenTypes = 4
+          end>
+        HighlightPos = cpAny
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'block if end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'if'
+            )
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'end'
+            )
+            TokenTypes = 4
+          end>
+        SameIdent = True
+        HighlightPos = cpAny
+        CancelNextRules = True
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'block all end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'end'
+            )
+            TokenTypes = 4
+          end>
+        SameIdent = True
+        HighlightPos = cpAny
+        CancelNextRules = True
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'block if'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'if'
+            )
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'else'
+              'end'
+            )
+            CondType = tcNotEqual
+            TokenTypes = 4
+          end>
+        BlockEnd = 'block if end'
+        DisplayInTree = False
+        HighlightPos = cpAny
+        DrawStaple = True
+        CollapseFmt = '%s0 ...'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'block all'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'repeat'
+              'tell'
+              'try'
+            )
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'end'
+            )
+            CondType = tcNotEqual
+            TokenTypes = 4
+          end>
+        BlockEnd = 'block all end'
+        DisplayInTree = False
+        HighlightPos = cpAny
+        DrawStaple = True
+        CollapseFmt = '%s0 ...'
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'on'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'error'
+            )
+            CondType = tcNotEqual
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'on'
+            )
+            TokenTypes = 4
+          end>
+        BlockEnd = 'on end'
+        HighlightPos = cpAny
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'on end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'end'
+            )
+            TokenTypes = 4
+          end>
+        SameIdent = True
+        HighlightPos = cpAny
+        IgnoreAsParent = False
+      end>
+    CodeTemplates = <>
+    SubAnalyzers = <>
+    SampleText.Strings = (
+      '-- Comment'
+      'property typeIDs_list : {10, 10.02} '
+      'property post_alert : true'
+      ''
+      'on run'
+      #9'repeat'
+      #9#9'display dialog "My File Processing Droplet"'
+      #9#9'if the button returned of the result is "Set Prefs" then'
+      #9#9#9'display dialog "Should" & return & return & "Current Status: " & (post_alert as text) buttons {"Cancel", "False", "True"}'
+      #9#9#9'if the button returned of the result is "False" then'
+      #9#9#9#9'set post_alert to false'
+      #9#9#9'else if false then'
+      #9#9#9#9'set post_alert to true'
+      #9#9#9'end if'
+      #9#9'else'
+      #9#9#9'return "done"'
+      #9#9'end if'
+      #9'end repeat'
+      'end run'
+    )
+    TokenTypeNames.Strings = (
+      'Unknown'
+      'Comment'
+      'Id'
+      'Symbol'
+      'String'
+      'Number'
+      ''
+    )
+    Extentions = 'applescript'
+    LexerName = 'AppleScript'
+    Notes.Strings = (
+      'Author: Alexey (SynWrite)'
+    )
+    LineComment = '--'
+    Charset = DEFAULT_CHARSET
+  end
 end

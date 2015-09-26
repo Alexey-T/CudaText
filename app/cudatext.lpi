@@ -256,7 +256,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit28>
       <Unit29>
-        <Filename Value="proc_lexer_install_zip.pas"/>
+        <Filename Value="proc_install_zip.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit29>
       <Unit30>

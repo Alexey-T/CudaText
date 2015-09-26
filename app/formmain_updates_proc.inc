@@ -483,20 +483,23 @@ var
   i: integer;
   sl: tstringlist;
 begin
+  //del all dynamic items
   while Keymap[Keymap.Count-1].Command>=cmdFirstLexerCommand do
     Keymap.Delete(Keymap.Count-1);
 
-  sl:= tstringlist.create;
+  //dynamic lexer items
+  sl:= TStringList.Create;
   try
     for i:= 0 to Manager.AnalyzerCount-1 do
       sl.AddObject('lexer: '+Manager.Analyzers[i].LexerName, TObject(cmdFirstLexerCommand+i));
-    sl.sort;
+    sl.Sort;
     for i:= 0 to sl.count-1 do
       Keymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
   finally
-    sl.free
+    FreeAndNil(sl);
   end;
 
+  //dynamic plugin items
   for i:= 0 to High(FPluginsCmd) do
   begin
     if FPluginsCmd[i].ItemModule='' then break;

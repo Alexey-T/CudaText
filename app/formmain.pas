@@ -48,7 +48,7 @@ uses
   proc_cmd,
   proc_editor,
   proc_msg,
-  proc_lexer_install_zip,
+  proc_install_zip,
   formconsole,
   formframe,
   formoutput,
@@ -1018,7 +1018,7 @@ procedure TfmMain.DoFileInstallZip(const fn: string);
 var
   msg: string;
 begin
-  if DoInstallLexerFromZip(fn, Manager, GetAppPath(cDirDataAcp), msg) then
+  if DoInstallAddonFromZip(fn, Manager, GetAppPath(cDirDataAcp), msg) then
   begin
     DoOps_SaveLexlib(false);
     UpdateMenuLexers;

@@ -16,7 +16,8 @@ uses
   StdCtrls, ComCtrls, CheckLst,
   LCLIntf, LCLType, LCLProc,
   ecSyntAnal,
-  formlexerprop, proc_lexer_install_zip,
+  formlexerprop,
+  proc_install_zip,
   math;
 
 type
@@ -155,7 +156,7 @@ var
 begin
   OpenDlg.Filename:= '';
   if not OpenDlg.Execute then exit;
-  if DoInstallLexerFromZip(OpenDlg.FileName, FManager, FDirAcp, msg) then
+  if DoInstallAddonFromZip(OpenDlg.FileName, FManager, FDirAcp, msg) then
   begin
     UpdateList;
     Application.MessageBox(
