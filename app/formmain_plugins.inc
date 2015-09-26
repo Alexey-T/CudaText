@@ -42,6 +42,7 @@ begin
         FPluginsCmd[cnt].ItemModule:= list[i];
         FPluginsCmd[cnt].ItemProc:= list2[j];
         FPluginsCmd[cnt].ItemCaption:= cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/caption', list2[j]);
+        FPluginsCmd[cnt].ItemHotkey:= TextToShortCut(cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/hotkey', ''));
 
         Inc(cnt);
         if cnt>=High(FPluginsCmd) then Break;
@@ -79,6 +80,7 @@ begin
 
     if Assigned(mi) then
     begin
+      mi.ShortCut:= FPluginsCmd[i].ItemHotkey;
       mi.OnClick:= @MenuPluginClick;
       mi.Tag:= i;
     end;

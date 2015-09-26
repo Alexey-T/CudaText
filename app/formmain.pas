@@ -70,6 +70,7 @@ type
     ItemModule: string;
     ItemProc: string;
     ItemCaption: string;
+    ItemHotkey: TShortcut;
   end;
   TAppPluginCmdArray = array[0..200] of TAppPluginCmd;
 
