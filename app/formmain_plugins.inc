@@ -100,11 +100,22 @@ begin
 end;
 
 procedure TfmMain.DoOps_PreinstallPlugins;
-const
-  cAddonMan = 'cuda_addonman';
-  cAddonManCaption = 'Addons Manager';
 var
   cfg: TJSONConfig;
+  //
+  procedure DoAdd(const SModule, SMethod, SCaption: string);
+  var
+    path: string;
+  begin
+    path:= '/commands/'+SModule+'/'+SMethod+'/caption';
+    if cfg.GetValue(path, '')<>SCaption then
+      cfg.SetValue(path, SCaption);
+  end;
+  //
+const
+  cAddonManModule = 'cuda_addonman';
+  cAddonManCaption = 'Addons Manager';
+var
   fn: string;
 begin
   fn:= GetAppPath(cFileOptPlugins);
@@ -118,9 +129,9 @@ begin
       exit
     end;
 
-    cfg.SetValue('/commands/'+cAddonMan+'/do_install/caption', cAddonManCaption+'\Install lexer...');
-    cfg.SetValue('/commands/'+cAddonMan+'/do_edit/caption', cAddonManCaption+'\Edit plugin...');
-    cfg.SetValue('/commands/'+cAddonMan+'/do_remove/caption', cAddonManCaption+'\Remove plugin...');
+    DoAdd(cAddonManModule, 'do_install', cAddonManCaption+'\Install lexer...');
+    DoAdd(cAddonManModule, 'do_edit', cAddonManCaption+'\Edit plugin...');
+    DoAdd(cAddonManModule, 'do_remove', cAddonManCaption+'\Remove plugin...');
   finally
     FreeAndNil(cfg);
   end;
