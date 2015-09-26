@@ -299,11 +299,9 @@ end;
 
 function MsgBox(const Str: string; Flags: integer): integer;
 begin
-  Result:= Application.MessageBox(
-    PChar(Str),
-    PChar(msgTitle),
-    Flags);
+  Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
 end;
+
 function GetAppPath(id: TAppPathId): string;
 begin
   case id of
@@ -429,6 +427,7 @@ begin
       FPrecopy('data'+DirectorySeparator+'themes');
       FPrecopy('data'+DirectorySeparator+'autocomplete');
       FPrecopy('data'+DirectorySeparator+'autocompletespec');
+      FPrecopy('py');
       FPrecopy('readme');
       FPrecopy('settings_default');
     end;

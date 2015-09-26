@@ -85,6 +85,8 @@ begin
           Result:= PyString_FromString(PChar(GetAppPath(cDirSettings)));
         APP_DIR_DATA:
           Result:= PyString_FromString(PChar(GetAppPath(cDirData)));
+        APP_DIR_PY:
+          Result:= PyString_FromString(PChar(GetAppPath(cDirPy)));
         else
           Result:= ReturnNone;
       end;

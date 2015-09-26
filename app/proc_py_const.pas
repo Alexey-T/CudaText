@@ -21,6 +21,7 @@ const
   APP_DIR_EXE = 0;
   APP_DIR_SETTINGS = 1;
   APP_DIR_DATA = 2;
+  APP_DIR_PY = 3;
 
   BOOKMARK_GET = 0;
   BOOKMARK_SET = 1;
