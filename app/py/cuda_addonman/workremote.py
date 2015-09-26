@@ -10,9 +10,6 @@ V_REG = 'Registry'
 V_REG_VER = 'RegistryVersions'
 TEMP = tempfile.gettempdir()
 
-def msg(id):
-    return id #text_local(id, __file__)
-
 def get_url(url, fn):
     if os.path.isfile(fn):
         os.remove(fn)
@@ -32,11 +29,11 @@ def get_wiki_text(name):
     REGEX = "text=\w?('.*?'\s)"
     url = 'http://sourceforge.net/p/synwrite/wiki/%s/raw' % name
     fn = os.path.join(TEMP, 'cudatext_%s.txt' % name)
-    print('Downloading wiki: '+url)
+    #print('Downloading wiki: '+url)
     if file_aged(fn):
         get_url(url, fn)
     if not os.path.isfile(fn): 
-        return 'CannotDownloadWiki'
+        msg_box('Cannot download wiki', MB_OK)
     s = open(fn, 'r').read()
     r = re.compile(REGEX, re.S)
     if not r: return ValueError
@@ -57,7 +54,7 @@ def get_item_url(item):
         return
 
 def get_avail_list():
-    msg_status(msg('WaitList'))
+    msg_status('Wait for list')
     text = get_wiki_text(V_REG)
     msg_status('')
     if not text:
@@ -84,7 +81,7 @@ def get_avail_list():
             res += [props]
 
     #write version to item[3] for each item
-    msg_status(msg('WaitVer')) 
+    msg_status('Wait for ver') 
     text = get_wiki_text(V_REG_VER)
     msg_status('')
     if text:
@@ -101,7 +98,7 @@ def get_avail_list():
 
 def get_plugin_zip(url):
     if not url:
-        msg_box(msg('NoUrl'), MB_OK)
+        msg_box('Empty url', MB_OK)
         return
     
     if '.zip' in url:
@@ -109,16 +106,16 @@ def get_plugin_zip(url):
     elif '.rar' in url:
         ext = '.rar'
     else:
-        msg_box(msg('BadExt'), MB_OK)
+        msg_box('Incorrect file extension\n'+url, MB_OK)
         return
     fn = os.path.join(TEMP, 'cudatext_plugin'+ext)
     
-    msg_status(msg('WaitFile')+' '+url)
+    msg_status('Wait for file: '+url)
     get_url(url, fn)
     msg_status('')
     
     if not os.path.isfile(fn):
-        msg_box(msg('CantGetFile')+'\n'+url, MB_OK)
+        msg_box('Cannot download file\n'+url, MB_OK)
         return
     return fn
     
