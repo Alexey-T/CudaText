@@ -127,8 +127,15 @@ begin
       end;
 
     cmdFirstLexerCommand..
-    cmdFirstLexerCommand+800:
+    cmdLastLexerCommand:
       SetLexerIndex(Cmd-cmdFirstLexerCommand);
+
+    cmdFirstPluginCommand..
+    cmdLastPluginCommand:
+    begin
+      with FPluginsCmd[Cmd-cmdFirstPluginCommand] do
+        Py_RunPlugin_Command(ItemModule, ItemProc);
+    end;
   end;
 
   UpdateStatus;

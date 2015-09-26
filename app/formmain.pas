@@ -551,7 +551,7 @@ type
     procedure SetShowBottom(Value: boolean);
     procedure SetShowSidePanel(AValue: boolean);
     procedure UpdateEditorTabsize(N: integer);
-    procedure UpdateKeymapLexers;
+    procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuChecked;
     procedure UpdateMenuEnc;
     procedure DoApplyUiOps;
@@ -1775,7 +1775,7 @@ var
   ch: char;
   ch0: char;
 begin
-  UpdateKeymapLexers;
+  UpdateKeymapDynamicItems;
   PopupLex.Items.Clear;
 
   ch0:= '?';

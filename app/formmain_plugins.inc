@@ -85,6 +85,8 @@ begin
       mi.Tag:= i;
     end;
   end;
+
+  UpdateKeymapDynamicItems;
 end;
 
 

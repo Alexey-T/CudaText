@@ -478,7 +478,7 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.UpdateKeymapLexers;
+procedure TfmMain.UpdateKeymapDynamicItems;
 var
   i: integer;
   sl: tstringlist;
@@ -492,9 +492,18 @@ begin
       sl.AddObject('lexer: '+Manager.Analyzers[i].LexerName, TObject(cmdFirstLexerCommand+i));
     sl.sort;
     for i:= 0 to sl.count-1 do
-      Keymap.Add(Ptrint(sl.Objects[i]), sl[i], [], []);
+      Keymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
   finally
     sl.free
+  end;
+
+  for i:= 0 to High(FPluginsCmd) do
+  begin
+    if FPluginsCmd[i].ItemModule='' then break;
+    Keymap.Add(
+      cmdFirstPluginCommand+i,
+      'plugin: '+StringReplace(FPluginsCmd[i].ItemCaption, '\', ' - ', [rfReplaceAll]),
+      [], []);
   end;
 end;
 
