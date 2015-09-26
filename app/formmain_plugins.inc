@@ -12,8 +12,9 @@ var
   fn_plugins: string;
   cfg: TJsonConfig;
   list, list2: TStringlist;
-  mi: TMenuItem;
-  i, j, cnt: integer;
+  mi, miSub: TMenuItem;
+  str, strItem: string;
+  i, j, cnt, idx: integer;
 begin
   fn_plugins:= GetAppPath(cFileOptPlugins);
   if not FileExists(fn_plugins) then exit;
@@ -55,12 +56,32 @@ begin
   for i:= 0 to High(FPluginsCmd) do
   begin
     if FPluginsCmd[i].ItemModule='' then Break;
-    mi:= TMenuItem.Create(Self);
-    mi.Caption:= FPluginsCmd[i].ItemCaption;
-    mi.OnClick:= @MenuPluginClick;
-    mi.Tag:= i;
-    mnuPlug.Add(mi);
     mnuPlugNone.Visible:= false;
+    mi:= nil;
+    miSub:= mnuPlug;
+    str:= FPluginsCmd[i].ItemCaption;
+
+    //need parse caption and create subitems, separated with '\'
+    repeat
+      strItem:= SGetItem(str, '\');
+      if strItem='' then Break;
+      idx:= miSub.IndexOfCaption(strItem);
+      if idx<0 then
+      begin
+        mi:= TMenuItem.Create(Self);
+        mi.Caption:= strItem;
+        miSub.Add(mi);
+        miSub:= mi;
+      end
+      else
+        miSub:= miSub.Items[idx];
+    until false;
+
+    if Assigned(mi) then
+    begin
+      mi.OnClick:= @MenuPluginClick;
+      mi.Tag:= i;
+    end;
   end;
 end;
 
