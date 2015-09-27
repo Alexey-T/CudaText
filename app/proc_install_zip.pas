@@ -43,7 +43,7 @@ procedure DoInstallPlugin(
 var
   ini: TIniFile;
   cfg: TJSONConfig;
-  s_section, s_caption, s_module, s_method: string;
+  s_section, s_caption, s_module, s_method, path_index: string;
   i: integer;
 begin
   s_report:= '';
@@ -70,8 +70,9 @@ begin
       if s_caption='' then break;
       if s_method='' then break;
 
-      cfg.SetValue('/'+s_section+'/'+s_module+'/'+IntToStr(i-1)+'/proc', s_method);
-      cfg.SetValue('/'+s_section+'/'+s_module+'/'+IntToStr(i-1)+'/caption', s_caption);
+      path_index:= '/'+s_section+'/'+s_module+'/'+Format('%2.2d', [i-1])+'/';
+      cfg.SetValue(path_index+'proc', s_method);
+      cfg.SetValue(path_index+'caption', s_caption);
 
       FCopyDir(ExtractFileDir(fn_inf), GetAppPath(cDirPy)+DirectorySeparator+s_module);
       s_report:= s_report+'command: '+s_caption+#13;

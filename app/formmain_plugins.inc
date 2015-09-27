@@ -70,7 +70,10 @@ begin
     repeat
       strItem:= SGetItem(str, '\');
       if strItem='' then Break;
-      idx:= miSub.IndexOfCaption(strItem);
+      if strItem='-' then
+        idx:= -1
+      else
+        idx:= miSub.IndexOfCaption(strItem);
       if idx<0 then
       begin
         mi:= TMenuItem.Create(Self);
