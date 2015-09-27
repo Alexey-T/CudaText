@@ -27,6 +27,7 @@ implementation
 
 uses
   LCLIntf, LCLProc, LCLType,
+  StrUtils,
   IniFiles,
   jsonConf,
   Zipper,
@@ -155,7 +156,7 @@ var
   unzip: TUnZipper;
   list: TStringlist;
   dir, fn_inf: string;
-  s_title, s_type: string;
+  s_title, s_type, s_desc: string;
 begin
   Result:= false;
   dir:= GetTempFilename('', 'cudatext_');
@@ -200,6 +201,7 @@ begin
   with TIniFile.Create(fn_inf) do
   try
     s_title:= ReadString('info', 'title', '');
+    s_desc:= ReadString('info', 'desc', '');
     s_type:= ReadString('info', 'type', '');
   finally
     Free
@@ -218,8 +220,10 @@ begin
   end;
 
   if MsgBox('This package contains:'#13#13+
-    'title: '+s_title+#13+
-    'type: '+s_type+#13#13+
+    'name: '+s_title+#13+
+    IfThen(s_desc<>'', 'about: '+s_desc+#13)+
+    'type: '+s_type+#13+
+    #13+
     'Do you want to install it?',
     MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 

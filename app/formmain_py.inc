@@ -270,11 +270,12 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liiii:set_caret', @H, @X1, @Y1, @X2, @Y2)) then
     begin
       Ed:= PyEditor(H);
+
       Ed.DoSelect_None;
       Ed.Carets.Clear;
-      Ed.Carets.Add(X1, Y1, X2, Y2);
-
+      Ed.Carets.Add(X2, Y2, X1, Y1);
       Ed.DoGotoCaret(cEdgeTop);
+
       fmMain.UpdateFrame;
       fmMain.UpdateStatus;
       Result:= ReturnNone;
@@ -295,7 +296,7 @@ begin
         Ed.Carets.Clear
       else
       begin
-        Ed.Carets.Add(X1, Y1, X2, Y2);
+        Ed.Carets.Add(X2, Y2, X1, Y1);
         Ed.Carets.Sort;
       end;
 
