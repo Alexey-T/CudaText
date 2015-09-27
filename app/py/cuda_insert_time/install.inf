@@ -1,0 +1,10 @@
+[info]
+title=Insert Time
+desc=Inserts current date/time into text
+type=cudatext-plugin
+subdir=cuda_insert_time
+
+[item1]
+section=commands
+caption=Insert Time
+method=run

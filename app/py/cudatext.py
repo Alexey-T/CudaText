@@ -1,4 +1,4 @@
-import cudatext_api
+import cudatext_api as ct
 
 MB_OK = 0x00000000
 MB_OKCANCEL = 0x00000001
@@ -50,25 +50,25 @@ TAB_SPLIT_VERT = 2
 
 
 def app_version():
-    return cudatext_api.app_version()
+    return ct.app_version()
 def app_api_version():
-    return cudatext_api.app_api_version()
+    return ct.app_api_version()
 def app_path(id):
-    return cudatext_api.app_path(id)
+    return ct.app_path(id)
 
 def msg_box(text, flags):
-    return cudatext_api.msg_box(text, flags)
+    return ct.msg_box(text, flags)
 def msg_status(text):
-    return cudatext_api.msg_status(text)
+    return ct.msg_status(text)
 def dlg_input(label, defvalue):
-    return cudatext_api.dlg_input(label, defvalue)
+    return ct.dlg_input(label, defvalue)
 
 def dlg_input_ex(number, caption,
                  label1   , text1='', label2='', text2='', label3='', text3='',
                  label4='', text4='', label5='', text5='', label6='', text6='',
                  label7='', text7='', label8='', text8='', label9='', text9='',
                  label10='', text10=''):
-    result = cudatext_api.dlg_input_ex(number, caption,
+    result = ct.dlg_input_ex(number, caption,
                  label1, text1, label2, text2, label3, text3,
                  label4, text4, label5, text5, label6, text6,
                  label7, text7, label8, text8, label9, text9,
@@ -79,10 +79,10 @@ def dlg_input_ex(number, caption,
         return result.splitlines()
         
 def dlg_menu(id, text):
-    return cudatext_api.dlg_menu(id, text)        
+    return ct.dlg_menu(id, text)        
 
 def dlg_file(is_open, init_filename, init_dir, filters):
-    res = cudatext_api.dlg_file(is_open, init_filename, init_dir, filters)
+    res = ct.dlg_file(is_open, init_filename, init_dir, filters)
     if res is None:
         return None
     res = res.splitlines()
@@ -91,18 +91,18 @@ def dlg_file(is_open, init_filename, init_dir, filters):
     return res
 
 def file_open(filename):
-    return cudatext_api.file_open(filename)
+    return ct.file_open(filename)
 def file_save():
-    return cudatext_api.file_save()
+    return ct.file_save()
 
 def ed_handles():
-    r0, r1 = cudatext_api.ed_handles()
+    r0, r1 = ct.ed_handles()
     return range(r0, r1+1)
 
 def ini_read(filename, section, key, value):
-    return cudatext_api.ini_read(filename, section, key, value)
+    return ct.ini_read(filename, section, key, value)
 def ini_write(filename, section, key, value):
-    return cudatext_api.ini_write(filename, section, key, value)
+    return ct.ini_write(filename, section, key, value)
 
 #Editor
 class Editor:
@@ -112,85 +112,85 @@ class Editor:
 
     def get_carets(self):
         big = 4294967295 #workaround for Py engine bug. it gives this, not -1.
-        res = cudatext_api.ed_get_carets(self.h)
+        res = ct.ed_get_carets(self.h)
         for item in res:
             if item[2]==big: item[2]=-1
             if item[3]==big: item[3]=-1
         return res
         
     def set_caret(self, x1, y1, x2=-1, y2=-1):
-        return cudatext_api.ed_set_caret(self.h, x1, y1, x2, y2)
+        return ct.ed_set_caret(self.h, x1, y1, x2, y2)
     def add_caret(self, x1, y1, x2=-1, y2=-1):
-        return cudatext_api.ed_add_caret(self.h, x1, y1, x2, y2)
+        return ct.ed_add_caret(self.h, x1, y1, x2, y2)
 
     def get_line_count(self):
-        return cudatext_api.ed_get_line_count(self.h)
+        return ct.ed_get_line_count(self.h)
     def get_line_prop(self, num):
-        return cudatext_api.ed_get_line_prop(self.h, num)
+        return ct.ed_get_line_prop(self.h, num)
 
     def get_text_all(self):
-        return cudatext_api.ed_get_text_all(self.h)
+        return ct.ed_get_text_all(self.h)
     def set_text_all(self, text):
-        return cudatext_api.ed_set_text_all(self.h, text)
+        return ct.ed_set_text_all(self.h, text)
     def get_text_sel(self):
-        return cudatext_api.ed_get_text_sel(self.h)
+        return ct.ed_get_text_sel(self.h)
     def get_text_line(self, num):
-        return cudatext_api.ed_get_text_line(self.h, num)
+        return ct.ed_get_text_line(self.h, num)
     def set_text_line(self, num, text):
-        return cudatext_api.ed_set_text_line(self.h, num, text)
+        return ct.ed_set_text_line(self.h, num, text)
     def get_text_substr(self, x1, y1, x2, y2):
-        return cudatext_api.ed_get_text_substr(self.h, x1, y1, x2, y2)
+        return ct.ed_get_text_substr(self.h, x1, y1, x2, y2)
 
     def get_sel_mode(self):
-        return cudatext_api.ed_get_sel_mode(self.h)
+        return ct.ed_get_sel_mode(self.h)
     def get_sel_lines(self):
-        return cudatext_api.ed_get_sel_lines(self.h)
+        return ct.ed_get_sel_lines(self.h)
     def get_sel_rect(self):
-        return cudatext_api.ed_get_sel_rect(self.h)
+        return ct.ed_get_sel_rect(self.h)
     def set_sel_rect(self, x1, y1, x2, y2):
-        return cudatext_api.ed_set_sel_rect(self.h, x1, y1, x2, y2)
+        return ct.ed_set_sel_rect(self.h, x1, y1, x2, y2)
 
     def delete(self, x1, y1, x2, y2):
-        return cudatext_api.ed_delete(self.h, x1, y1, x2, y2)
+        return ct.ed_delete(self.h, x1, y1, x2, y2)
     def insert(self, x1, y1, text):
-        return cudatext_api.ed_insert(self.h, x1, y1, text)
+        return ct.ed_insert(self.h, x1, y1, text)
 
     def get_filename(self):
-        return cudatext_api.ed_get_filename(self.h)
+        return ct.ed_get_filename(self.h)
 
     def get_tabcolor(self):
-        return cudatext_api.ed_get_tabcolor(self.h)
+        return ct.ed_get_tabcolor(self.h)
     def set_tabcolor(self, value):
-        return cudatext_api.ed_set_tabcolor(self.h, value)
+        return ct.ed_set_tabcolor(self.h, value)
 
     def get_enc(self):
-        return cudatext_api.ed_get_enc(self.h)
+        return ct.ed_get_enc(self.h)
     def set_enc(self, value):
-        return cudatext_api.ed_set_enc(self.h, value)
+        return ct.ed_set_enc(self.h, value)
     def get_top(self):
-        return cudatext_api.ed_get_top(self.h)
+        return ct.ed_get_top(self.h)
     def set_top(self, value):
-        return cudatext_api.ed_set_top(self.h, value)
+        return ct.ed_set_top(self.h, value)
 
     def cmd(self, value):
-        return cudatext_api.ed_cmd(self.h, value)
+        return ct.ed_cmd(self.h, value)
     def focus(self):
-        return cudatext_api.ed_focus(self.h)
+        return ct.ed_focus(self.h)
     def bookmark(self, id, nline, nkind=1, ncolor=-1, icon=''):
-        return cudatext_api.ed_bookmark(self.h, id, nline, nkind, ncolor, icon)
+        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, icon)
 
     def lock(self):
-        return cudatext_api.ed_lock(self.h)
+        return ct.ed_lock(self.h)
     def unlock(self):
-        return cudatext_api.ed_unlock(self.h)
+        return ct.ed_unlock(self.h)
 
     def get_split(self):
-        return cudatext_api.ed_get_split(self.h)
+        return ct.ed_get_split(self.h)
     def set_split(self, state, value):
-        return cudatext_api.ed_set_split(self.h, state, value)
+        return ct.ed_set_split(self.h, state, value)
     
     def complete(self, text, len1, len2):
-        return cudatext_api.ed_complete(self.h, text, len1, len2)
+        return ct.ed_complete(self.h, text, len1, len2)
     #test..
 
 #objects

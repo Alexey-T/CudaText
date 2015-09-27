@@ -119,6 +119,8 @@ const
   cCaptionAddonman = 'Addons Manager';
   cModuleMake = 'cuda_make_plugin';
   cCaptionMake = 'Make Plugin';
+  cModuleInsTime = 'cuda_insert_time';
+  cCaptionInsTime = 'Insert Time';
 var
   fn: string;
 begin
@@ -138,6 +140,7 @@ begin
     DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...');
 
     DoAdd(cModuleMake, 'run', cCaptionMake);
+    DoAdd(cModuleInsTime, 'run', cCaptionInsTime);
 
   finally
     FreeAndNil(cfg);
