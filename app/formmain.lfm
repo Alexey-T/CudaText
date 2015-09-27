@@ -701,10 +701,10 @@ object fmMain: TfmMain
         OnClick = mnuViewStatusClick
       end
       object mnuViewSide: TMenuItem
-        Caption = 'Toggle side-panel'
+        Caption = 'Toggle side panel'
       end
       object mnuViewBottom: TMenuItem
-        Caption = 'Toggle bottom-panel'
+        Caption = 'Toggle bottom panel'
       end
       object mnuViewFullscr: TMenuItem
         Caption = 'Toggle full screen'
