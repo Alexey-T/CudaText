@@ -70,7 +70,9 @@ begin
       if s_caption='' then break;
       if s_method='' then break;
 
-      cfg.SetValue('/'+s_section+'/'+s_module+'/'+s_method+'/caption', s_caption);
+      cfg.SetValue('/'+s_section+'/'+s_module+'/'+IntToStr(i-1)+'/proc', s_method);
+      cfg.SetValue('/'+s_section+'/'+s_module+'/'+IntToStr(i-1)+'/caption', s_caption);
+
       FCopyDir(ExtractFileDir(fn_inf), GetAppPath(cDirPy)+DirectorySeparator+s_module);
       s_report:= s_report+'command: '+s_caption+#13;
     end;

@@ -89,18 +89,21 @@ begin
   btnStop.Hide;
 end;
 
-procedure TfmMain.UpdateFrame(AUpdLines: boolean = false);
+procedure TfmMain.UpdateFrame(AUpdatedText: boolean = false);
+var
+  F: TEditorFrame;
 begin
-  with CurrentFrame do
+  F:= CurrentFrame;
+
+  F.Editor.UpdateIncorrectCaretPositions;
+  F.Editor2.UpdateIncorrectCaretPositions;
+
+  F.Editor.Update(AUpdatedText);
+  F.Editor2.Update;
+
+  if AUpdatedText then
   begin
-    Editor.UpdateIncorrectCaretPositions;
-    Editor2.UpdateIncorrectCaretPositions;
-
-    Editor.Update(AUpdLines);
-    Editor2.Update;
-
-    if AUpdLines then
-      Adapter.OnEditorChange(Editor);
+    F.Adapter.OnEditorChange(F.Editor);
   end;
 end;
 

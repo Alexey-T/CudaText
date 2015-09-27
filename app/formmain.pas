@@ -582,7 +582,7 @@ type
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);
     procedure UpdateInputForm(Form: TForm; APreferHeight: integer);
-    procedure UpdateFrame(AUpdLines: boolean= false);
+    procedure UpdateFrame(AUpdatedText: boolean= false);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
     procedure UpdateAppForSearch(AStart: boolean);

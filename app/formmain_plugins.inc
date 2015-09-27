@@ -33,15 +33,19 @@ begin
     cnt:= 0;
     list.Clear;
     cfg.EnumSubKeys('/commands', list);
+    list.Sort;
+
     for i:= 0 to list.Count-1 do
     begin
       list2.Clear;
       cfg.EnumSubKeys('/commands/'+list[i], list2);
+      list2.Sort;
+
       for j:= 0 to list2.Count-1 do
       begin
         FPluginsCmd[cnt].ItemModule:= list[i];
-        FPluginsCmd[cnt].ItemProc:= list2[j];
-        FPluginsCmd[cnt].ItemCaption:= cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/caption', list2[j]);
+        FPluginsCmd[cnt].ItemProc:= cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/proc', '');
+        FPluginsCmd[cnt].ItemCaption:= cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/caption', '');
         FPluginsCmd[cnt].ItemHotkey:= TextToShortCut(cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/hotkey', ''));
 
         Inc(cnt);
@@ -105,13 +109,18 @@ procedure TfmMain.DoOps_PreinstallPlugins;
 var
   cfg: TJSONConfig;
   //
-  procedure DoAdd(const SModule, SMethod, SCaption: string);
+  procedure DoAdd(const SModule, SMethod, SCaption: string; AIndex: integer);
   var
-    path: string;
+    path_method,
+    path_caption: string;
   begin
-    path:= '/commands/'+SModule+'/'+SMethod+'/caption';
-    if cfg.GetValue(path, '')<>SCaption then
-      cfg.SetValue(path, SCaption);
+    path_method:= '/commands/'+SModule+'/'+IntToStr(AIndex)+'/proc';
+    path_caption:= '/commands/'+SModule+'/'+IntToStr(AIndex)+'/caption';
+    if cfg.GetValue(path_caption, '')<>SCaption then
+    begin
+      cfg.SetValue(path_method, SMethod);
+      cfg.SetValue(path_caption, SCaption);
+    end;
   end;
   //
 const
@@ -135,14 +144,15 @@ begin
       exit
     end;
 
-    DoAdd(cModuleAddonman, 'do_install', cCaptionAddonman+'\Install lexer...');
-    DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...');
-    DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...');
+    DoAdd(cModuleAddonman, 'do_install', cCaptionAddonman+'\Install lexer...', 0);
+    DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...', 1);
+    DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...', 2);
 
-    DoAdd(cModuleMake, 'run', cCaptionMake);
-    DoAdd(cModuleInsTime, 'run', cCaptionInsTime);
+    DoAdd(cModuleMake, 'run', cCaptionMake, 0);
+    DoAdd(cModuleInsTime, 'run', cCaptionInsTime, 0);
 
   finally
     FreeAndNil(cfg);
   end;
 end;
+
