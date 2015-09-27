@@ -18,4 +18,6 @@ class Command:
         file_open(fn) 
         
     def do_remove(self):
-        msg_box('remov', MB_OK)
+        msg_box('remov todo', MB_OK)
+    def do_edit(self):
+        msg_box('edit todo', MB_OK)

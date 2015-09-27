@@ -489,9 +489,10 @@ begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(AnsiString(Ptr));
       Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
+
       fmMain.UpdateFrame(true);
       fmMain.UpdateStatus;
-      Result:= ReturnNone;
+      Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
     end;
 end;
 
