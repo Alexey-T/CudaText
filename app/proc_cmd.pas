@@ -133,7 +133,7 @@ begin
   M.Add(cmd_FileCloseOtherThis, 'file: close other tabs (this group)', [], []);
   M.Add(cmd_FileCloseOtherAll, 'file: close other tabs (all groups)', [], []);
   M.Add(cmd_FileCloseAndDelete, 'file: close tab, delete file', [], []);
-  M.Add(cmd_FileExit, 'file: exit program', [cXControl+'+Q'], []);
+  M.Add(cmd_FileExit, 'file: quit program', [cXControl+'+Q'], []);
   M.Add(cmd_FileExportHtml, 'file: export to html', [], []);
 
   M.Add(cmd_OpsReloadAndApply, 'settings: reload/apply config', [], []);

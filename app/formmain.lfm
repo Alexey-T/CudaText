@@ -377,8 +377,11 @@ object fmMain: TfmMain
       object mnuFileHtml: TMenuItem
         Caption = 'Export to HTML...'
       end
+      object MenuItem28: TMenuItem
+        Caption = '-'
+      end
       object mnuFileExit: TMenuItem
-        Caption = 'Exit'
+        Caption = 'Quit'
       end
     end
     object mnuEdit: TMenuItem

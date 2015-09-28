@@ -96,6 +96,7 @@ type
     MenuItem25: TMenuItem;
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
+    MenuItem28: TMenuItem;
     mnuPlug: TMenuItem;
     mnuPlugNone: TMenuItem;
     mnuFileHtml: TMenuItem;
@@ -1038,7 +1039,7 @@ begin
     fn:= ParamStrUTF8(i);
 
     //OSX 10.8 gives "-psn**"
-    if SBegin(fn, '-') then Continue;
+    if SBeginsWith(fn, '-') then Continue;
 
     if FileExistsUTF8(fn) then
       DoFileOpen(fn)

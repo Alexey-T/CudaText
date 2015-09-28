@@ -149,7 +149,7 @@ begin
     if (n>=0) and (n<Strings.Count) then
     begin
       s:= Strings.Lines[n];
-      if SBegin(s, cPyConsolePrompt) then
+      if SBeginsWith(s, cPyConsolePrompt) then
       begin
         Delete(s, 1, Length(cPyConsolePrompt));
         DoExecuteConsoleLine(s);

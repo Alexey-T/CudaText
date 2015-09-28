@@ -505,7 +505,8 @@ begin
   //dynamic plugin items
   for i:= 0 to High(FPluginsCmd) do
   begin
-    if FPluginsCmd[i].ItemModule='' then break;
+    if FPluginsCmd[i].ItemModule='' then Break;
+    if SEndsWith(FPluginsCmd[i].ItemCaption, '-') then Continue;
     Keymap.Add(
       cmdFirstPluginCommand+i,
       'plugin: '+StringReplace(FPluginsCmd[i].ItemCaption, '\', ' - ', [rfReplaceAll]),
