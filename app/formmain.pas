@@ -1036,6 +1036,10 @@ begin
   for i:= 1 to cnt do
   begin
     fn:= ParamStrUTF8(i);
+
+    //OSX 10.8 gives "-psn**"
+    if SBegin(fn, '-') then Continue;
+
     if FileExistsUTF8(fn) then
       DoFileOpen(fn)
     else
