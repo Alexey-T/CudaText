@@ -1,0 +1,51 @@
+<html>
+<head>
+  <title>Readme</title>
+  <link href="main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h2>Plugin "ASCII Art"</h2>
+<p>This is command plugin for CudaText editor.<br />
+It gives command to render any text via ASCII Art font (many fonts are available and selectable).
+Uses <a href="https://github.com/pwaller/pyfiglet" target="_blank">pyfiglet</a> library.
+</p>
+<p>
+For example, string "Test..." will be converted to:
+</p>
+
+<pre>
+  ______          __     
+ /_  __/__  _____/ /_    
+  / / / _ \/ ___/ __/    
+ / / /  __(__  ) /__ _ _ 
+/_/  \___/____/\__(_|_|_)
+</pre>
+
+or, with another font:
+
+<pre>
+ _____             _            
+(_   _)           ( )_          
+  | |   __    ___ | ,_)         
+  | | /'__`\/',__)| |           
+  | |(  ___/\__, \| |_  _  _  _ 
+  (_)`\____)(____/`\__)(_)(_)(_)
+</pre>
+
+<p>Plugin has few commands in Plugins menu. 
+</p>
+
+<h2>Config file</h2>
+<p>You can open config file using one of Plugins commands. Comments to some options:</p>
+
+<ul>
+<li> direction - possible values are 'auto', 'left-to-right', 'right-to-left'
+<li> justify - possible values are 'auto' (inherit from direction), 'left', 'right'
+<li> width - has effect when justify is 'right'
+</ul>
+
+<h2>About</h2>
+<p>Author: Alexey T. (UVViewsoft)</p>   
+
+</body>
+</html>

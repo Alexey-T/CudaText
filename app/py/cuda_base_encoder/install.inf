@@ -1,0 +1,75 @@
+[info]
+title=Base Encoder
+desc=Allows to encode/decode text in Base64, Base32, Base16, Quoted-Printable, Unicode-Escape
+type=cudatext-plugin
+subdir=cuda_base_encoder
+
+[item1]
+section=commands
+caption=Base Encoder\Base64 encode
+method=base64_encode
+
+[item2]
+section=commands
+caption=Base Encoder\Base64 decode
+method=base64_decode
+
+[item3]
+section=commands
+caption=Base Encoder\-
+method=nnn
+
+[item4]
+section=commands
+caption=Base Encoder\Base32 encode
+method=base32_encode
+
+[item5]
+section=commands
+caption=Base Encoder\Base32 decode
+method=base32_decode
+
+[item6]
+section=commands
+caption=Base Encoder\-
+method=nnn
+
+[item7]
+section=commands
+caption=Base Encoder\Base16 encode
+method=base16_encode
+
+[item8]
+section=commands
+caption=Base Encoder\Base16 decode
+method=base16_decode
+
+[item9]
+section=commands
+caption=Base Encoder\-
+method=nnn
+
+[item10]
+section=commands
+caption=Base Encoder\Quoted-printable encode
+method=quotedpri_encode
+
+[item11]
+section=commands
+caption=Base Encoder\Quoted-printable decode
+method=quotedpri_decode
+
+[item12]
+section=commands
+caption=Base Encoder\-
+method=nnn
+
+[item13]
+section=commands
+caption=Base Encoder\Unicode-Escape encode
+method=uniescape_encode
+
+[item14]
+section=commands
+caption=Base Encoder\Unicode-Escape decode
+method=uniescape_decode

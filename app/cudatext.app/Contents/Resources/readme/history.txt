@@ -1,4 +1,13 @@
 
+0.8.0
++ Python API; if don't work (Py-console must show version) on Linux/OSX, play with option "pylib"
++ bottom-panel and Py-console in it: see wiki help topic
++ menu "Plugins"
++ plugin "Addons Manager"
++ plugin "Insert Time"
++ plugin "Make Plugin"
+- fixes
+
 0.7.0
 + syntax tree (F12)
 + gutter foldbar menu: "fold all", "unfold all", "fold level"

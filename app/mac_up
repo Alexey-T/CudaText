@@ -8,4 +8,16 @@ cp -rf data cudatext.app/Contents/Resources
 cp -rf readme cudatext.app/Contents/Resources
 cp -rf settings_default cudatext.app/Contents/Resources
 
+mkdir cudatext.app/Contents/Resources/py
+mkdir cudatext.app/Contents/Resources/py/cuda_addonman
+mkdir cudatext.app/Contents/Resources/py/cuda_insert_time
+mkdir cudatext.app/Contents/Resources/py/cuda_make_plugin
+
+cp py/*.py cudatext.app/Contents/Resources/py
+cp py/cuda_addonman/*.py cudatext.app/Contents/Resources/py/cuda_addonman
+cp py/cuda_insert_time/*.py cudatext.app/Contents/Resources/py/cuda_insert_time
+cp py/cuda_insert_time/*.inf cudatext.app/Contents/Resources/py/cuda_insert_time
+cp py/cuda_make_plugin/*.py cudatext.app/Contents/Resources/py/cuda_make_plugin
+cp py/cuda_make_plugin/*.inf cudatext.app/Contents/Resources/py/cuda_make_plugin
+
 echo Done

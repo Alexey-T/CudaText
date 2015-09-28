@@ -1,0 +1,10 @@
+[info]
+title=Make Plugin
+desc=Creates new plugin placeholder
+type=cudatext-plugin
+subdir=cuda_make_plugin
+
+[item1]
+section=commands
+caption=Make Plugin
+method=run
