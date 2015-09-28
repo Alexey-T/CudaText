@@ -1627,7 +1627,7 @@ begin
   {$ifdef windows}
   Py_SetSysPath([dir+'dlls', dir+ ChangeFileExt(UiOps.PyLibrary, '.zip')], false);
   {$endif}
-  Py_SetSysPath([dir+'py'], true);
+  Py_SetSysPath([GetAppPath(cDirPy)], true);
 
   {$ifdef import_cudatext_py}
   try
