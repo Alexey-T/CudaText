@@ -348,7 +348,7 @@
   //default values under OSes:
   //  Windows: python33.dll
   //  Linux: libpython3.4m.so.1.0
-  //  OS X: /Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib
+  //  OS X: /Library/Frameworks/Python.framework/Versions/3.x/lib/libpython3.x.dylib ("x" tried: 3, 4, 5)
   //
   //instruction for Linux, if Py engine not found: 
   //  1) open file manager, goto PC root,

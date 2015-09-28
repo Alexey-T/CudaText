@@ -278,11 +278,22 @@ const
 
 implementation
 
-const
-  cPyLibraryInit =
-    {$ifdef windows} 'python33.dll' {$endif}
-    {$ifdef linux} 'libpython3.4m.so.1.0' {$endif}
-    {$ifdef darwin} '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib' {$endif} ;
+function InitPyLibraryPath: string;
+begin
+  {$ifdef windows}
+    Result:= 'python33.dll';
+  {$endif}
+  {$ifdef linux}
+    Result:= 'libpython3.4m.so.1.0';
+  {$endif}
+  {$ifdef darwin}
+    Result:= '/Library/Frameworks/Python.framework/Versions/3.3/lib/libpython3.3.dylib';
+    if FileExists(Result) then exit;
+    Result:= '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib';
+    if FileExists(Result) then exit;
+    Result:= '/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib';
+  {$endif} ;
+end;
 
 var
   OpDirExe: string = '';
@@ -555,8 +566,8 @@ begin
     VarFontName:= 'default';
     VarFontSize:= {$ifdef windows} 9 {$else} 10 {$endif};
 
-    PyLibrary:= cPyLibraryInit;
     LexlibFilename:= 'lib.lxl';
+    PyLibrary:= InitPyLibraryPath;
 
     ListboxWidth:= 450;
     ListboxItemCountCmd:= 15;
