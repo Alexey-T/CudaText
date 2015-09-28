@@ -339,13 +339,21 @@
   "export_html_font_name": "Courier New",
   "export_html_font_size": 12,
 
-  //sets Python engine.
+  //sets Python 3.x engine.
   //if correct, you must see Python version info in console panel (Ctrl+`) and
-  //commands like "=sys.path" work in console.
+  //command "=sys.path" works in console.
+  //
+  "pylib": "?",
+  //
   //default values under OSes:
   //  Windows: python33.dll
   //  Linux: libpython3.4m.so.1.0
   //  OS X: /Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib
-  "pylib": "?",
-  
+  //
+  //instruction for Linux, if Py engine not found: 
+  //  1) open file manager, goto PC root,
+  //  2) search for "libpython3", 
+  //  3) if not found, install Python 3, goto 2)
+  //  4) use one of found filenames; if don't work, use filename with path
+
 }
