@@ -81,6 +81,7 @@ type
     btnStop: TATButton;
     FontDlg: TFontDialog;
     Gauge: TGauge;
+    ImageListBm: TImageList;
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
@@ -787,7 +788,16 @@ end;
 
 
 procedure TfmMain.FormCreate(Sender: TObject);
+var
+  i: integer;
 begin
+  AppBookmarkImagelist.AddImages(ImageListBm);
+  for i:= 0 to 9 do
+  begin
+    AppBookmarkSetup[240+i].Color:= clMoneyGreen;
+    AppBookmarkSetup[240+i].ImageIndex:= i;
+  end;
+
   PanelAll.Align:= alClient;
   Manager:= TecSyntaxManager.Create(Self);
 

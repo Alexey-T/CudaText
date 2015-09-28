@@ -553,6 +553,9 @@ var
 begin
   UpdateMenuThemes(mnuThemes);
 
+  for i:= 0 to 9 do
+    AppBookmarkSetup[240+i].Color:= GetAppColor('EdBookmarkBg');
+
   fmConsole.ed.Colors.TextFont:= GetAppColor('EdTextFont');
   fmConsole.ed.Colors.TextBG:= GetAppColor('EdTextBg');
   fmConsole.ed.Colors.TextSelFont:= GetAppColor('EdSelFont');
