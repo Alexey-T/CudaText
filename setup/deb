@@ -36,5 +36,6 @@ cp -r ../app/py/cuda_insert_time/*.py $dd/usr/share/cudatext/py/cuda_insert_time
 cp -r ../app/py/cuda_insert_time/*.inf $dd/usr/share/cudatext/py/cuda_insert_time
 
 
+sudo chmod -R 755 $dd
 sudo chown -R root:root $dd
 dpkg-deb --build $dd ~/Public/$dname.deb
