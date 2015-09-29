@@ -1,6 +1,8 @@
 import os
 from cudatext import *
-from .workremote import get_url, get_item_url, get_avail_list, get_plugin_zip
+from .workremote import *
+from .worklocal import *
+
 
 class Command:
     def do_install(self):
@@ -18,6 +20,19 @@ class Command:
         file_open(fn) 
         
     def do_remove(self):
-        msg_box('remov todo', MB_OK)
+        m = get_installed_choice()
+        if m is None:
+            return
+        if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+            return
+        do_remove_registering(m)
+        if do_remove_module(m)==True:
+            msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+
     def do_edit(self):
-        msg_box('edit todo', MB_OK)
+        m = get_installed_choice()
+        if m is None: return
+        fn = get_initpy_of_module(m)
+        file_open(fn)
+        msg_status('Opened: '+fn)
+        

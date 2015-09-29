@@ -48,7 +48,7 @@ class Command:
             
         with open(fn_plugins, 'r') as f:
             d = json.load(f)
-        d['commands'][s_module] = {'run':{'caption':s_caption}}
+        d['commands'][s_module] = {'00':{'proc': 'run', 'caption': s_caption}}
         with open(fn_plugins, 'w') as f:
             f.write(json.dumps(d, indent=2))
                   
