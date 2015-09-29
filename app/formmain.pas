@@ -52,9 +52,10 @@ uses
   formconsole,
   formframe,
   formoutput,
-  formcommands,
+  form_menu_commands,
+  form_menu_list,
+  form_menu_py,
   formgoto,
-  formgotolist,
   formfind,
   formsavetabs,
   formconfirmrep,
@@ -62,7 +63,7 @@ uses
   formlexerlib,
   formpalette,
   formcolorsetup,
-  formabout, formmenuapi,
+  formabout,
   math;
 
 type

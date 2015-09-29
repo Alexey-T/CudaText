@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formmenuapi;
+unit form_menu_commands;
 
 {$mode objfpc}{$H+}
 
@@ -16,6 +16,7 @@ uses
   ExtCtrls, Dialogs,
   ATSynEdit,
   ATSynEdit_Edits,
+  ATSynEdit_Keymap,
   ATStringProc,
   ATListbox,
   LclProc,
@@ -24,12 +25,14 @@ uses
   proc_globdata,
   proc_colors,
   proc_str,
+  formkeys,
+  jsonConf,
   math;
 
 type
-  { TfmMenuApi }
+  { TfmCommands }
 
-  TfmMenuApi = class(TForm)
+  TfmCommands = class(TForm)
     edit: TATEdit;
     list: TATListbox;
     procedure editChange(Sender: TObject);
@@ -42,31 +45,35 @@ type
       const ARect: TRect);
   private
     { private declarations }
-    FMultiline: boolean;
-    listFiltered: TList;
+    keymapList: TList;
+    procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
+    procedure DoResetKey(K: TATKeymapItem);
     function GetResultCmd: integer;
-    function IsFiltered(AOrigIndex: integer): boolean;
-    procedure SetMultiline(AValue: boolean);
+    function IsFiltered(Item: TATKeymapItem): boolean;
   public
     { public declarations }
-    listItems: TStringList;
-    ResultCode: integer;
-    property Multiline: boolean read FMultiline write SetMultiline;
+    keymap: TATKeymap;
+    ResultNum: integer;
   end;
+
+var
+  fmCommands: TfmCommands;
 
 implementation
 
+uses StrUtils;
+
 {$R *.lfm}
 
-{ TfmMenuApi }
+{ TfmCommands }
 
-procedure TfmMenuApi.FormShow(Sender: TObject);
+procedure TfmCommands.FormShow(Sender: TObject);
 begin
   DoFilter;
 end;
 
-procedure TfmMenuApi.listClick(Sender: TObject);
+procedure TfmCommands.listClick(Sender: TObject);
 var
   key: word;
 begin
@@ -74,7 +81,7 @@ begin
   FormKeyDown(Self, key, []);
 end;
 
-procedure TfmMenuApi.FormCreate(Sender: TObject);
+procedure TfmCommands.FormCreate(Sender: TObject);
 begin
   list.Font.Name:= UiOps.VarFontName;
   list.Font.Size:= UiOps.VarFontSize;
@@ -88,26 +95,23 @@ begin
   edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
   list.Color:= GetAppColor('ListBg');
 
-  ResultCode:= -1;
+  ResultNum:= 0;
   list.ItemHeight:= Trunc(UiOps.VarFontSize*UiOps.ListboxItemHeightScale);
   self.Width:= UiOps.ListboxWidth;
-
-  listItems:= TStringlist.Create;
-  listFiltered:= TList.Create;
+  keymapList:= TList.Create;
 end;
 
-procedure TfmMenuApi.editChange(Sender: TObject);
+procedure TfmCommands.editChange(Sender: TObject);
 begin
   DoFilter;
 end;
 
-procedure TfmMenuApi.FormDestroy(Sender: TObject);
+procedure TfmCommands.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(listFiltered);
-  FreeAndNil(listItems);
+  FreeAndNil(keymapList);
 end;
 
-procedure TfmMenuApi.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfmCommands.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if key=vk_down then
@@ -162,40 +166,91 @@ begin
     key:= 0;
     exit
   end;
-
   if key=VK_RETURN then
   begin
     if (list.ItemIndex>=0) and (list.ItemCount>0) then
     begin
-      ResultCode:= GetResultCmd;
+      ResultNum:= GetResultCmd;
       Close;
     end;
     key:= 0;
     exit
   end;
+
+  if (key=vk_F9) and (shift=[]) then
+  begin
+    DoConfigKey(GetResultCmd);
+    key:= 0;
+    exit
+  end;
 end;
 
-function TfmMenuApi.GetResultCmd: integer;
+function TfmCommands.GetResultCmd: integer;
 begin
-  if list.ItemIndex>=0 then
-    Result:= PtrInt(listFiltered[list.ItemIndex])
-  else
-    Result:= -1;
+  Result:= TATKeymapItem(keymapList.Items[list.ItemIndex]).Command;
 end;
 
-procedure TfmMenuApi.listDrawItem(Sender: TObject; C: TCanvas;
+procedure TfmCommands.DoConfigKey(Cmd: integer);
+var
+  n: integer;
+begin
+  if (Cmd>=cmdFirstLexerCommand) and
+    (Cmd<=cmdLastLexerCommand) then exit;
+
+  with TfmKeys.Create(Self) do
+  try
+    n:= keymap.IndexOf(Cmd);
+    if n<0 then exit;
+    Keys1:= keymap[n].Keys1;
+    Keys2:= keymap[n].Keys2;
+
+    case ShowModal of
+      mrOk:
+        begin
+          keymap[n].Keys1:= Keys1;
+          keymap[n].Keys2:= Keys2;
+          DoSaveKeyItem(keymap[n]);
+          DoFilter;
+        end;
+      {
+      mrNo:
+        begin
+          DoResetKey(keymap[n]);
+          DoFilter;
+        end;
+        }
+    end;
+  finally
+    Free
+  end;
+end;
+
+procedure TfmCommands.DoResetKey(K: TATKeymapItem);
+var
+  c: TJSONConfig;
+  path: string;
+begin
+  path:= IntToStr(K.Command);
+  c:= TJSONConfig.Create(Self);
+  try
+    c.Formatted:= true;
+    c.Filename:= GetAppPath(cFileOptKeymap);
+    c.DeletePath(path);
+  finally
+    c.Free;
+  end;
+end;
+
+procedure TfmCommands.listDrawItem(Sender: TObject; C: TCanvas;
   AIndex: integer; const ARect: TRect);
-const
-  cIndent = 4;
-  cIndent2 = 10;
 var
   cl: TColor;
   n, i: integer;
-  str, buf: string;
-  strname, strkey, strfind: UnicodeString;
+  strname, strkey, strfind: string;
   ar: TATIntArray;
   pnt: TPoint;
   r1: TRect;
+  buf: string;
 begin
   if AIndex=list.ItemIndex then
     cl:= GetAppColor('ListSelBg')
@@ -206,20 +261,19 @@ begin
   c.FillRect(ARect);
   c.Font.Color:= GetAppColor('ListFont');
 
-  str:= listItems[PtrInt(listFiltered[AIndex])]; //ansi
-  strname:= Utf8Decode(SGetItem(str, #9)); //uni
-  strkey:= Utf8Decode(SGetItem(str, #9)); //uni
-  strfind:= Trim(edit.Text); //uni
+  strname:= TATKeymapItem(keymapList[AIndex]).Name;
+  strkey:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys1);
+  strfind:= Utf8Encode(Trim(edit.Text));
 
-  pnt:= Point(ARect.Left+cIndent, ARect.Top+1);
-  c.TextOut(pnt.x, pnt.y, Utf8Encode(strname));
+  pnt:= Point(ARect.Left+4, ARect.Top+1);
+  c.TextOut(pnt.x, pnt.y, strname);
 
   c.Font.Color:= GetAppColor('ListFontHilite');
   ar:= SFindFuzzyPositions(strname, strfind);
   for i:= Low(ar) to High(ar) do
   begin
-    buf:= Utf8Encode(UnicodeString(strname[ar[i]]));
-    n:= c.TextWidth(Utf8Encode(Copy(strname, 1, ar[i]-1)));
+    buf:= strname[ar[i]];
+    n:= c.TextWidth(Copy(strname, 1, ar[i]-1));
     r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
     ExtTextOut(c.Handle,
       r1.Left, r1.Top,
@@ -232,49 +286,36 @@ begin
 
   if strkey<>'' then
   begin
-    if not Multiline then
-      pnt:= Point(ARect.Right-cIndent-c.TextWidth(Utf8Encode(strkey)), pnt.y)
-    else
-      pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2-2);
-
+    n:= ARect.Right-c.TextWidth(strkey)-4;
     c.Font.Color:= GetAppColor('ListFontHotkey');
-    c.TextOut(pnt.x, pnt.y, Utf8Encode(strkey));
+    c.TextOut(n, pnt.y, strkey);
   end;
 end;
 
-procedure TfmMenuApi.DoFilter;
+procedure TfmCommands.DoFilter;
 var
   i: integer;
 begin
-  listFiltered.Clear;
-  for i:= 0 to listItems.Count-1 do
-    if IsFiltered(i) then
-      listFiltered.Add(Pointer(PtrInt(i)));
+  keymapList.Clear;
+  for i:= 0 to keymap.Count-1 do
+    if IsFiltered(keymap.Items[i]) then
+      keymapList.Add(keymap.Items[i]);
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
-  list.ItemCount:= listFiltered.Count;
+  list.ItemCount:= keymapList.Count;
   list.Invalidate;
 end;
 
-function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
+function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
   Str: atString;
   Ar: TATIntArray;
 begin
   Str:= Utf8Encode(Trim(edit.Text));
   if Str='' then begin result:= true; exit end;
-  Ar:= SFindFuzzyPositions(listItems[AOrigIndex], Str);
+  Ar:= SFindFuzzyPositions(Item.Name, Str);
   Result:= Length(Ar)>0;
-end;
-
-procedure TfmMenuApi.SetMultiline(AValue: boolean);
-begin
-  if FMultiline=AValue then Exit;
-  FMultiline:=AValue;
-  list.ItemHeight:=
-    Trunc(UiOps.VarFontSize * UiOps.ListboxItemHeightScale * IfThen(FMultiline, 1.8, 1));
-  list.Invalidate;
 end;
 
 end.

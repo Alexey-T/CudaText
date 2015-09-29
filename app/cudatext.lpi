@@ -157,7 +157,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit10>
       <Unit11>
-        <Filename Value="formcommands.pas"/>
+        <Filename Value="form_menu_commands.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCommands"/>
         <HasResources Value="True"/>
@@ -183,7 +183,7 @@
         <IsPartOfProject Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="formgotolist.pas"/>
+        <Filename Value="form_menu_list.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmGotoList"/>
         <HasResources Value="True"/>
@@ -310,7 +310,7 @@
         <UnitName Value="ATStringProc_HtmlColor"/>
       </Unit38>
       <Unit39>
-        <Filename Value="formmenuapi.pas"/>
+        <Filename Value="form_menu_py.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMenuApi"/>
         <HasResources Value="True"/>

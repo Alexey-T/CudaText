@@ -9,12 +9,7 @@ def doset(id):
     items = ed.bookmark(BOOKMARK_GET_LIST, 0)
     if items is not None:
         for item in items:
-            reset=False
-            if item==line:
-                reset=True
             if ed.bookmark(BOOKMARK_GET, item)==id+INDEX_ADD:
-                reset=True
-            if reset:
                 ed.bookmark(BOOKMARK_CLEAR, item)
     ed.bookmark(BOOKMARK_SET, line, id+INDEX_ADD)
     msg_status('Set bookmark %d' % id)
