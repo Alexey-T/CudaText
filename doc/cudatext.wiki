@@ -225,6 +225,47 @@ Q: I installed app on Linux (deb), or OSX. I see outdated history file, and/or o
 
 A: You need to delete dirs (data, readme, settings_default) inside "~/.cudatext". They will be re-created on next program run: from "/usr/share/cudatext" on Linux, or from app resources on OSX.
 
+==Format of plugins config==
+
+Plugins config is "plugins.json" in "settings" dir. Example:
+
+<syntaxhighlight lang="javascript">
+{
+  "commands" : {
+    "cuda_addonman" : {
+      "0" : {
+        "proc" : "do_install",
+        "caption" : "Addons Manager\\Install lexer..."
+      },
+      "1" : {
+        "proc" : "do_edit",
+        "caption" : "Addons Manager\\Edit plugin..."
+      },
+      "2" : {
+        "proc" : "do_remove",
+        "caption" : "Addons Manager\\Remove plugin..."
+      }
+    },
+    "cuda_make_plugin" : {
+      "0" : {
+        "proc" : "run",
+        "caption" : "Make Plugin"
+      }
+    }
+  }
+}
+</syntaxhighlight>
+
+Node "commands" lists all command plugins. 
+
+In commands-node Python modules listed: these are directories (so Python modules) in subfolder "py". In each module-node indexes are listed (from 0, some indexes can be skipped, they are to sort menu items). Index-nodes have keys:
+
+* "proc": Python method name in class "Command".
+* "caption": Menu item caption. Can have delimeters "\" (doubled in json) to make submenus, any level. If last part of caption is "-", menu separator is created (module/method are ignored).
+* "hotkey": Menu item hotkey string (parsed by TextToShortcut Lazarus func).
+
+==more==
+
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
 [[Category: Tools]]

@@ -29,6 +29,7 @@ Gets some path. Possible values of id:
 * APP_DIR_EXE: Dir of program executable.
 * APP_DIR_SETTINGS: Dir "settings".
 * APP_DIR_DATA: Dir "data".
+* APP_DIR_PY: Dir with Python data "py".
 
 ===msg_box===
 
@@ -111,8 +112,9 @@ Gets index of item selected (0-base), or None of cancelled.
 Possible values of id:
 
 * MENU_LIST: Dialog with listbox similar to Commands dialog of CudaText, with filter field.
+* MENU_LIST_ALT: Like MENU_LIST but each item has 2x height, and instead of right-aligning, part of an item shows below.
 
-Param text is string items, splitted with "\r" char. Each item can be simple str or str1+"\t"+str2 (str2 shows right-aligned).
+Param text is string items, separated by "\n" char. Each item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
 
 ===file_open===
 
@@ -186,47 +188,45 @@ Removes all carets, if called with posx<0. Text editing not possible w/o carets,
 
 ==Text read/write==
 
-===get_text_all===
+===get_text_all/set_text_all===
 
  get_text_all()
-
-Returns str: entire text in editor.
-
-===set_text_all===
-
  set_text_all(text)
 
-Sets entire text in editor from str.
+Gets/sets entire text in the editor (str).
 
-===get_text_line===
+===get_text_line/set_text_line===
 
  get_text_line(num)
-
-Gets str: line with given index (w/o CR LF). Gets None if index incorrect.
-
-===set_text_line===
-
  set_text_line(num, text)
 
-Sets line with given index to given text. Text should be w/o CR LF.
+Gets/sets single line (str) with given index (0-base).
+
+Line must be w/o CR LF. Gets None if index incorrect.
+
+To add new line, call set with num=-1.
 
 ===get_text_substr===
 
  get_text_substr(x1, y1, x2, y2)
 
-Gets substring: from caret position (x1, y1) to caret position (x2, y2). Second position must be higher.
+Gets substring from position (x1, y1) to position (x2, y2). Second position must be bigger than first.
 
 ===delete===
 
  delete(x1, y1, x2, y2)
 
-Deletes range from position (x1, y1) to higher position (x2, y2). (Too big x-coord is allowed).
+Deletes range from position (x1, y1) to bigger position (x2, y2). (Too big x1/x2 are allowed).
+
+Note: don't pass tuple from get_carets()[0], this tuple has not sorted pos=(x1, y1), end=(x2, y2), you need to sort them (first sort by y, then by x).
 
 ===insert===
 
- insert(x1, y1, text)
+ insert(x, y, text)
 
-Inserts given string, it can be multi-line with CR LF, into given position (x1, y1).
+Inserts given text at position (x, y), text can be multi-line with CR and/or LF.
+
+Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line.
 
 ==Selection==
 
@@ -234,13 +234,13 @@ Inserts given string, it can be multi-line with CR LF, into given position (x1, 
 
  get_text_sel()
 
-Returns str: selected text for 1st caret (empty, if no selection).
+Returns selected text for 1st caret (empty, if no selection).
 
 ===get_sel_mode===
 
  get_sel_mode()
 
-Gets kind of selection: normal or column selection, values: SEL_NORMAL, SEL_COLUMN.
+Gets kind of selection: normal or column selection: SEL_NORMAL, SEL_COLUMN.
 
 ===get_sel_lines===
 
@@ -248,17 +248,14 @@ Gets kind of selection: normal or column selection, values: SEL_NORMAL, SEL_COLU
 
 Gets 2-tuple, indexes of 1st and last lines affected by 1st caret selection. Both -1 if no selection.
 
-===get_sel_rect===
+===get_sel_rect/set_sel_rect===
 
  get_sel_rect()
-
-Gets 4-tuple: coords of column selection, (x1, y1, x2, y2). All 0 if no column selection.
-
-===set_sel_rect===
-
  set_sel_rect(x1, y1, x2, y2)
 
-Sets column selection (removes previous carets) to given coords.
+Gets/sets coords of column selection.
+
+Gets 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
 
 ==Properties==
 
@@ -285,76 +282,61 @@ Gets None for incorrect index.
 
 Gets str: filename for the editor. Empty if tab is untitled.
 
-===get_tabcolor===
+===get_tabcolor/set_tabcolor===
 
  get_tabcolor()
-
-Gets color (int) of tab for the editor. It's COLOR_NONE if color is not set.
-
-===set_tabcolor===
-
  set_tabcolor(value)
 
-Sets color (int) for editor tab. Pass COLOR_NONE to remove custom color.
+Gets/sets custom color (int) of tab for the editor. It's COLOR_NONE if color is not set.
 
-===get_enc===
+===get_enc/set_enc===
 
  get_enc()
-
-Gets encoding name for editor. It's one of the strings which are visible in the encodings menu of statusbar: "UTF-8", "ANSI" etc.
-
-===set_enc===
-
  set_enc(value)
 
-Sets encoding name for editor.
+Gets/sets encoding name for the editor. It's one of the strings which are visible in the encodings menu of statusbar: "UTF-8", "ANSI" etc.
 
-===get_top===
+===get_top/set_top===
 
  get_top()
+ set_top(value)
 
-Gets index of top visible line in editor.
+Gets/sets index of top visible line in editor.
 
-===set_top===
-
- set_top(num)
-
-Sets index of top visible line in editor.
-
-===get_split===
+===get_split/set_split===
 
  get_split()
+ set_split(state, percent)
 
-Gets props of tab splitting (each tab can be splitted to main/second editors), 2-tuple:
+Gets/sets tab splitting: each tab can be splitted to primary/second editors.
 
-* int: kind of splitting, one of values TAB_SPLIT_NO, TAB_SLIT_HORZ, TAB_SPLIT_VERT.
+Gets 2-tuple:
+
+* int: state of splitting, one of the values
+** TAB_SPLIT_NO: tab not splitted
+** TAB_SPLIT_HORZ
+** TAB_SPLIT_VERT 
 * float: percent of splitting, it's 0.5 if tab splitted 50/50.
-
-===set_split===
-
- set_split(state, value)
-
-Sets props of tab splitting:
-
-* state: int: one of values TAB_SPLIT_nnn.
-* value: float: percent of splitting, e.g. 0.5 for splitting 50/50.
 
 ===bookmark===
 
  bookmark(id, nline, nkind=1, ncolor=-1, icon="")
 
-Controls bookmarks. Values of id:
+Controls bookmarks. Possible values of id:
 
 * BOOKMARK_GET: Gets kind of bookmark at line=nline. 0 means no bookmark, 1 means usual bookmark.
 * BOOKMARK_SET: Sets bookmark with kind=nkind at line=nline. 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
-* BOOKMARK_CLEAR: Removes bookmark from line=nline.
-* BOOKMARK_CLEAR_ALL: Removes all bookmarks.
-* BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind. Setup is:
-** ncolor: color if bookmarked line. Can be COLOR_NONE.
-** icon: path to icon file, .bmp file of size 16x16.
-* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks.
+* BOOKMARK_CLEAR: Removes bookmark from line=nline (nkind ignored).
+* BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
+* BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind (nline ignored). Setup is:
+** ncolor: color of bookmarked line. Can be COLOR_NONE to not show bg-color.
+** icon: path to icon file for gutter, .bmp file of size 16x16.
+* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks (nline, nkind ignored).
 
-Note: nkind must be 1..255.
+Notes:
+
+* nkind must be 1..255.
+* nkind values 240..249 have setup by default: they have blue icons "0" to "9".
 
 ==Misc==
 
