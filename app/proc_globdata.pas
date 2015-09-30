@@ -67,7 +67,6 @@ type
     ListboxItemCountCmd: integer;
     ListboxItemCountBm: integer;
     ListboxItemCountTabs: integer;
-    ListboxItemHeightScale: double;
     ListboxCompleteSizeX: integer;
     ListboxCompleteSizeY: integer;
 
@@ -574,7 +573,6 @@ begin
     ListboxItemCountCmd:= 15;
     ListboxItemCountBm:= 10;
     ListboxItemCountTabs:= 30;
-    ListboxItemHeightScale:= 2.1;
     ListboxCompleteSizeX:= 550;
     ListboxCompleteSizeY:= 200;
 
@@ -715,7 +713,7 @@ end;
 
 function GetDefaultListItemHeight(C: TCanvas): integer;
 begin
-  Result:= Trunc(UiOps.VarFontSize*UiOps.ListboxItemHeightScale);
+  Result:= Trunc(C.TextHeight('H')*1.2);
 end;
 
 initialization

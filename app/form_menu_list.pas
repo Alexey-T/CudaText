@@ -93,7 +93,7 @@ begin
   List.Color:= self.Color;
 
   self.Width:= UiOps.ListboxWidth;
-  List.ItemHeight:= Trunc(UiOps.VarFontSize*UiOps.ListboxItemHeightScale);
+  List.ItemHeight:= GetDefaultListItemHeight(Canvas);
   Items:= nil;
   ResultIndex:= -1;
 end;
