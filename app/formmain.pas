@@ -345,6 +345,7 @@ type
     procedure FinderFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormColorsApply(const AColors: TAppTheme);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -471,6 +472,7 @@ type
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
+    function DoDialogConfColors(var AColors: TAppTheme): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
@@ -896,6 +898,12 @@ begin
   CanClose:= cfm;
   //old code
   //CanClose:= DoFileCloseAll;
+end;
+
+procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
+begin
+  Theme:= AColors;
+  DoApplyTheme;
 end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
@@ -2256,6 +2264,20 @@ begin
     Form.Free;
   end;
 end;
+
+function TfmMain.DoDialogConfColors(var AColors: TAppTheme): boolean;
+begin
+  with TfmColorSetup.Create(nil) do
+  try
+    OnApply:= @FormColorsApply;
+    Data:= AColors;
+    Result:= ShowModal=mrOk;
+    if Result then AColors:= Data;
+  finally
+    Free
+  end;
+end;
+
 
 
 //----------------------------

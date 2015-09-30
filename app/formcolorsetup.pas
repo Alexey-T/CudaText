@@ -16,6 +16,9 @@ uses
   ColorBox, StdCtrls, proc_colors;
 
 type
+  TApplyThemeEvent = procedure(const AColors: TAppTheme) of object;
+
+type
   { TfmColorSetup }
 
   TfmColorSetup = class(TForm)
@@ -27,34 +30,19 @@ type
     procedure bChangeClick(Sender: TObject);
     procedure bNoneClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure HelpButtonClick(Sender: TObject);
   private
     { private declarations }
-    Data: TAppTheme;
     procedure Updatelist;
   public
     { public declarations }
+    Data: TAppTheme;
+    OnApply: TApplyThemeEvent;
   end;
-
-var
-  fmColorSetup: TfmColorSetup;
-
-function DoDialogConfColors(var AColors: TAppTheme): boolean;
 
 implementation
 
 {$R *.lfm}
-
-function DoDialogConfColors(var AColors: TAppTheme): boolean;
-begin
-  with TfmColorSetup.Create(nil) do
-  try
-    Data:= AColors;
-    Result:= ShowModal=mrOk;
-    if result then AColors:= Data;
-  finally
-    Free
-  end;
-end;
 
 { TfmColorSetup }
 
@@ -94,6 +82,12 @@ begin
   Updatelist;
   List.ItemIndex:= 0;
   List.SetFocus;
+end;
+
+procedure TfmColorSetup.HelpButtonClick(Sender: TObject);
+begin
+  if Assigned(OnApply) then
+    OnApply(Data);
 end;
 
 end.
