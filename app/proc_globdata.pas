@@ -230,6 +230,7 @@ var
 function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TForm): TWinControl;
+function GetDefaultListItemHeight(C: TCanvas): integer;
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem);
@@ -712,7 +713,10 @@ begin
   end;
 end;
 
-
+function GetDefaultListItemHeight(C: TCanvas): integer;
+begin
+  Result:= Trunc(UiOps.VarFontSize*UiOps.ListboxItemHeightScale);
+end;
 
 initialization
   InitDirs;

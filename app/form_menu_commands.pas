@@ -194,8 +194,8 @@ procedure TfmCommands.DoConfigKey(Cmd: integer);
 var
   n: integer;
 begin
-  if (Cmd>=cmdFirstLexerCommand) and
-    (Cmd<=cmdLastLexerCommand) then exit;
+  if (Cmd>=cmdFirstLexerCommand) and (Cmd<=cmdLastLexerCommand) then exit;
+  if (Cmd>=cmdFirstPluginCommand) and (Cmd<=cmdLastPluginCommand) then exit;
 
   with TfmKeys.Create(Self) do
   try
