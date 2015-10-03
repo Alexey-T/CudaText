@@ -669,6 +669,9 @@ begin
     F.Editor2.Update;
   end;
 
+  SplitterHorz.Invalidate;
+  SplitterVert.Invalidate;
+
   cCompleteColorBg:= GetAppColor('ListBg');
   cCompleteColorSelBg:= GetAppColor('ListSelBg');
   cCompleteColorFont[0]:= GetAppColor('ListCompletePrefix');
