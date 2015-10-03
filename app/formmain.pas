@@ -447,6 +447,7 @@ type
     FListNewdoc: TStringList;
     FListThemes: TStringList;
     FThemeName: string;
+    FColorDialog: TColorDialog;
     Status: TATStatus;
     Groups: TATGroups;
     TabsBottom: TATTabs;

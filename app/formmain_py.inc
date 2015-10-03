@@ -1011,6 +1011,23 @@ begin
   Result:= Py_ini_readwrite(Self, Args, true);
 end;
 
+function Py_dlg_color(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  NCode: Longint;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'i:dlg_color', @NCode)) then
+    begin
+      if not Assigned(fmMain.FColorDialog) then
+        fmMain.FColorDialog:= TColorDialog.Create(fmMain);
+      fmMain.FColorDialog.Color:= NCode;
+      if fmMain.FColorDialog.Execute then
+        Result:= PyInt_FromLong(fmMain.FColorDialog.Color)
+      else
+        Result:= ReturnNone;
+    end;
+end;
+
 function Py_dlg_menu(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PAnsiChar;
@@ -1053,6 +1070,7 @@ begin
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
     AddMethod('dlg_file', @Py_dlg_file, '');
     AddMethod('dlg_menu', @Py_dlg_menu, '');
+    AddMethod('dlg_color', @Py_dlg_color, '');
 
     AddMethod('ed_get_carets', @Py_ed_get_carets, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');

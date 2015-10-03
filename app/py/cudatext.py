@@ -62,6 +62,8 @@ def msg_status(text):
     return ct.msg_status(text)
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)
+def dlg_color(value):
+    return ct.dlg_color(value)    
 
 def dlg_input_ex(number, caption,
                  label1   , text1='', label2='', text2='', label3='', text3='',
