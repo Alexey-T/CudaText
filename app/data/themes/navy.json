@@ -77,6 +77,8 @@
   "ButtonBorderPassive" : "#A0A0A0",
   "ButtonBorderOver" : "#D0D0D0",
   "ButtonBorderFocused" : "#000080",
+  "SplitMain" : "#E0E0E0",
+  "SplitGroups" : "#A0A0C0",
   "ExportHtmlBg" : "#FFFFFF",
   "ExportHtmlNumbers" : "#A0A0A4"
 }

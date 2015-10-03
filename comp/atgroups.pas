@@ -188,6 +188,13 @@ type
     Pages6,
     PagesCurrent: TATPages;
     Pages: array[TATGroupsNums] of TATPages;
+    //
+    property Splitter1: TMySplitter read FSplit1;
+    property Splitter2: TMySplitter read FSplit2;
+    property Splitter3: TMySplitter read FSplit3;
+    property Splitter4: TMySplitter read FSplit4;
+    property Splitter5: TMySplitter read FSplit5;
+    //
     constructor Create(AOwner: TComponent); override;
     //
     function PagesVisibleCount: Integer;

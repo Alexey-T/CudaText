@@ -556,6 +556,8 @@ type
     procedure SetLexerIndex(N: integer);
     procedure SetShowBottom(Value: boolean);
     procedure SetShowSidePanel(AValue: boolean);
+    procedure SplitterOnPaint_Gr(Sender: TObject);
+    procedure SplitterOnPaint_Main(Sender: TObject);
     procedure UpdateEditorTabsize(N: integer);
     procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuChecked;
@@ -862,6 +864,14 @@ begin
 
   FFindStop:= false;
   FFindConfirmAll:= mrNone;
+
+  Groups.Splitter1.OnPaint:= @SplitterOnPaint_Gr;
+  Groups.Splitter2.OnPaint:= @SplitterOnPaint_Gr;
+  Groups.Splitter3.OnPaint:= @SplitterOnPaint_Gr;
+  Groups.Splitter4.OnPaint:= @SplitterOnPaint_Gr;
+  Groups.Splitter5.OnPaint:= @SplitterOnPaint_Gr;
+  SplitterVert.OnPaint:= @SplitterOnPaint_Main;
+  SplitterHorz.OnPaint:= @SplitterOnPaint_Main;
 end;
 
 procedure TfmMain.DoOnTabsBottomClick(Sender: TObject);
@@ -2279,6 +2289,23 @@ begin
   end;
 end;
 
+procedure TfmMain.SplitterOnPaint_Gr(Sender: TObject);
+var
+  Sp: TSplitter;
+begin
+  Sp:= Sender as TSplitter;
+  Sp.Canvas.Brush.Color:= GetAppColor('SplitGroups');
+  Sp.Canvas.FillRect(Sp.ClientRect);
+end;
+
+procedure TfmMain.SplitterOnPaint_Main(Sender: TObject);
+var
+  Sp: TSplitter;
+begin
+  Sp:= Sender as TSplitter;
+  Sp.Canvas.Brush.Color:= GetAppColor('SplitMain');
+  Sp.Canvas.FillRect(Sp.ClientRect);
+end;
 
 
 //----------------------------

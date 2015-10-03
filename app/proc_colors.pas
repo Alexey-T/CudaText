@@ -166,6 +166,9 @@ begin
   Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
+  Add($e0e0e0, 'SplitMain', 'splitters, main');
+  Add($e0e0e0, 'SplitGroups', 'splitters, groups');
+
   Add(clWhite, 'ExportHtmlBg', 'export to html, BG');
   Add(clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
 end;

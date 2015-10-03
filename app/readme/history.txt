@@ -1,4 +1,8 @@
 
+0.8.1
++ api: color dialog (plugin Color Picker at sf.net)
++ colors for splitters
+
 0.8.0
 + Python API; if don't work (Py-console must show version) on Linux/OSX, play with option "pylib"
 + bottom-panel and Py-console in it: see wiki help topic
