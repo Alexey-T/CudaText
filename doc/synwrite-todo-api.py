@@ -203,4 +203,3 @@ class Editor:
     def get_word(self, x, y):
     def get_left(self):
     def set_left(self, num):
-    def get_indexes(self):

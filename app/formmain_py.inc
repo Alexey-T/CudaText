@@ -508,20 +508,18 @@ begin
     end;
 end;
 
-function Py_ed_get_line_prop(Self, Args: PPyObject): PPyObject; cdecl;
+function Py_ed_get_line_state(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
   N: Integer;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:get_line_prop', @H, @N)) then
+    if Bool(PyArg_ParseTuple(Args, 'Li:get_line_state', @H, @N)) then
     begin
       Ed:= PyEditor(H);
       if Ed.Strings.IsIndexValid(N) then
-        Result:= Py_BuildValue('(ii)',
-          Length(Ed.Strings.Lines[N]),
-          Ord(Ed.Strings.LinesState[N]) )
+        Result:= PyInt_FromLong(Ord(Ed.Strings.LinesState[N]))
       else
         Result:= ReturnNone;
     end;
@@ -1054,6 +1052,21 @@ begin
     end;
 end;
 
+function Py_ed_get_indexes(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Ed: TATSynEdit;
+  Num1, Num2: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:get_indexes', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      fmMain.GetEditorIndexes(Ed, Num1, Num2);
+      Result:= Py_BuildValue('(ii)', Num1, Num2);
+    end;
+end;
+
 
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
@@ -1089,7 +1102,7 @@ begin
     Addmethod('ed_get_text_substr', @Py_ed_get_text_substr, '');
 
     Addmethod('ed_get_line_count', @Py_ed_get_line_count, '');
-    Addmethod('ed_get_line_prop', @Py_ed_get_line_prop, '');
+    Addmethod('ed_get_line_state', @Py_ed_get_line_state, '');
 
     AddMethod('ed_delete', @Py_ed_delete, '');
     AddMethod('ed_insert', @Py_ed_insert, '');
@@ -1103,6 +1116,7 @@ begin
     AddMethod('ed_set_top', @Py_ed_set_top, '');
     AddMethod('ed_get_split', @Py_ed_get_split, '');
     AddMethod('ed_set_split', @Py_ed_set_split, '');
+    AddMethod('ed_get_indexes', @Py_ed_get_indexes, '');
 
     AddMethod('ed_cmd', @Py_ed_cmd, '');
     AddMethod('ed_lock', @Py_ed_lock, '');

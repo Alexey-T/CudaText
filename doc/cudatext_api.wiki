@@ -116,6 +116,14 @@ Possible values of id:
 
 Param text is string items, separated by "\n" char. Each item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
 
+===dlg_color===
+
+ dlg_color(value)
+
+Shows select-color dialog with given initial color (int).
+
+Gets int color, or None if cancelled.
+
 ===file_open===
 
  file_open(filename)
@@ -265,14 +273,18 @@ Gets 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
 
 Gets number of lines.
 
-===get_line_prop===
+===get_line_state===
 
- get_line_prop(num)
+ get_line_state(num)
 
-Gets properties if line with given index (0-base), 2-tuple. 
+Gets state of the line with given index. One of values:
 
-* 1st value: length of line. 
-* 2nd: line state, one if values LINESTATE_nnn. Line state changes from "normal" to "changed" if line modifies, set to "new" for inserted lines, set from "changed/new" to "saved" after file is saved.
+* LINESTATE_NORMAL  
+* LINESTATE_CHANGED 
+* LINESTATE_ADDED   
+* LINESTATE_SAVED   
+
+Line state changes from "normal" to "changed" if line modifies, sets to "added" for added lines, changes from "changed"/"added" to "saved" when file is saved.
 
 Gets None for incorrect index.
 
@@ -280,7 +292,7 @@ Gets None for incorrect index.
 
  get_filename()
 
-Gets str: filename for the editor. Empty if tab is untitled.
+Gets filename (str) of the editor's tab. Empty str for untitled tabs.
 
 ===get_tabcolor/set_tabcolor===
 
@@ -301,7 +313,7 @@ Gets/sets encoding name for the editor. It's one of the strings which are visibl
  get_top()
  set_top(value)
 
-Gets/sets index of top visible line in editor.
+Gets/sets index of top visible line in the editor.
 
 ===get_split/set_split===
 
@@ -317,6 +329,15 @@ Gets 2-tuple:
 ** TAB_SPLIT_HORZ
 ** TAB_SPLIT_VERT 
 * float: percent of splitting, it's 0.5 if tab splitted 50/50.
+
+===get_indexes===
+
+ get_indexes()
+
+Gets 2-tuple:
+
+* int: index of group with editor's tab, 0-based
+* int: index of editor's tab in group, 0-based
 
 ===bookmark===
 

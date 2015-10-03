@@ -127,8 +127,8 @@ class Editor:
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
-    def get_line_prop(self, num):
-        return ct.ed_get_line_prop(self.h, num)
+    def get_line_state(self, num):
+        return ct.ed_get_line_state(self.h, num)
 
     def get_text_all(self):
         return ct.ed_get_text_all(self.h)
@@ -190,6 +190,8 @@ class Editor:
         return ct.ed_get_split(self.h)
     def set_split(self, state, value):
         return ct.ed_set_split(self.h, state, value)
+    def get_indexes(self):
+        return ct.ed_get_indexes(self.h)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)

@@ -539,6 +539,8 @@ type
       var AContinue: boolean);
     procedure FinderUpdateEditor(AUpdateText: boolean);
     procedure FrameOnSaveFile(Sender: TObject);
+    procedure GetEditorIndexes(Ed: TATSynEdit; var AGroupIndex,
+      ATabIndex: Integer);
     function GetModifiedCount: integer;
     function GetShowSidePanel: boolean;
     function GetShowStatus: boolean;
@@ -2307,6 +2309,13 @@ begin
   Sp.Canvas.FillRect(Sp.ClientRect);
 end;
 
+
+procedure TfmMain.GetEditorIndexes(Ed: TATSynEdit;
+  var AGroupIndex, ATabIndex: Integer);
+begin
+  Groups.PagesAndTabIndexOfControl(GetEditorFrame(Ed), AGroupIndex, ATabIndex);
+  Dec(AGroupIndex); //was 1-based
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

@@ -56,6 +56,57 @@ Clicks:
 * triple-click - select entire line (limited by end-of-lines)
 * middle-button click - start "Browser Scroll" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off)
 
+== Multi-carets ==
+
+Multi-carets are several carets at once. All carets work together for many editing commands: caret moving, text typing, deleting, selection with keyboard. See "Mouse shortcuts", how to add/remove carets.
+
+Animation:
+
+[[File:atsynedit-carets.gif]]
+
+===Multi-selections===
+If you add caret with Ctrl+click, caret has no selection. If you add caret with Ctrl+drag, caret will have selection. You can add selections to carets later, by Shift+arrows, Shift+Home, Shift+End etc.
+
+Multi-selections are handled specially on copy/paste. If you copy selections, then move carets, then paste, paste will insert clipboard lines into carets: line-1 at caret-1, line-2 at caret-2 etc (only if carets count equals to lines count in clipboard, otherwise result is different).
+
+Animation shows this:
+
+[[File:atsynedit-sel.gif]]
+
+===Clipboard commands with selections===
+
+Clipboard-related commands work with carets, both with selections and without them.
+Some details about this:
+
+<table border="1">
+	<tr>
+		<th>Command</th>
+		<th width="42%">Behaviour, when there're no selections</th>
+		<th width="42%">Behaviour, when at last one selection present</th>
+	</tr>
+	<tr>
+		<td>Copy to clipboard</td>
+		<td>Copies entire lines, containing carets.
+                    (Ignores multiple carets on same line.)</td>
+		<td>Copies only selections text.
+                    (Ignores carets without selections.)</td>
+	</tr>
+	<tr>
+		<td>Cut to clipboard</td>
+		<td>Similarly to "Copy" w/o selections.</td>
+		<td>Similarly to "Copy" with selections.</td>
+	</tr>
+	<tr>
+		<td>Paste from clipboard</td>
+		<td colspan="2">First, selections are cleared (deleted). Then, command pastes text into each caret position. Special case is when clipboard lines count equals to carets count - in this case, first line is inserted at first caret, second line is inserted at 2nd caret, etc.</td>
+	</tr>
+	<tr>
+		<td>Delete char</td>
+		<td>Deletes one char at each caret position.</td>
+		<td>Deletes only selections text. (Ignores carets without selections.)</td>
+	</tr>
+</table>
+
 == Lexers ==
 
 Lexers (syntax hiliters) from SynWrite editor used. Used EControl.ru syntax parser with mods. Main mod is support for folding in Python.
@@ -178,6 +229,13 @@ from cudatext import *
 ed.bookmark(BOOKMARK_CLEAR_ALL, 0)
 ed.bookmark(BOOKMARK_SET, 10)
 </syntaxhighlight>
+
+== Fuzzy search in Commands dialog ==
+
+Commands dialog (and menu dialog in Python API) has filter field, this filter has fuzzy search. It means that filter field leaves only those listbox items, which contain all filter chars in ascending order. E.g.
+
+* "fop" matches "<font color=red>f</font>ile: <font color=red>op</font>en file"
+* "gttb" matches "<font color=red>g</font>o<font color=red>t</font>o <font color=red>t</font>ext <font color=red>b</font>egin"
 
 == more ==
 
