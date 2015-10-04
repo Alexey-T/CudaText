@@ -12,11 +12,13 @@ unit proc_py;
 interface
 
 uses
-  SysUtils, Classes, PythonEngine,
+  SysUtils, Classes, Variants,
+  PythonEngine,
   proc_str;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const SModule, SCmd: string): string;
+//function Py_StringList(List: TStrings): PPyObject; cdecl; //dont work
 
 
 implementation
@@ -56,6 +58,28 @@ begin
   except
   end;
 end;
+
+(*
+function Py_StringList(List: TStrings): PPyObject; cdecl;
+var
+  NLen, i: Integer;
+  ComArray: Variant;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= List.Count;
+    if NLen>0 then
+    begin
+      ComArray:= VarArrayCreate([0, NLen-1], varOleStr);
+      for i:= 0 to NLen-1 do
+        ComArray[i]:= Utf8Decode(List[i]);
+      Result:= VariantAsPyObject(ComArray);
+    end
+    else
+      Result:= ReturnNone;
+  end;
+end;
+*)
 
 end.
 

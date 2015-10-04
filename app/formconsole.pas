@@ -28,7 +28,6 @@ type
     panelConsole: TPanel;
     PopupMenu1: TPopupMenu;
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
   private
     { private declarations }
@@ -39,18 +38,20 @@ type
     memo: TATSynEdit;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
+    procedure DoAddComboItem(const s: string);
   end;
 
 var
   fmConsole: TfmConsole;
 
+const
+  cPyConsoleMaxLines = 1000;
+  cPyConsoleMaxComboItems: integer = 20;
+  cPyConsolePrompt = '>>> ';
+
 implementation
 
 {$R *.lfm}
-
-const
-  cPyConsoleMaxLines = 1000;
-  cPyConsolePrompt = '>>> ';
 
 { TfmConsole }
 
@@ -111,27 +112,33 @@ begin
   memo.OnClickDouble:= @MemoClickDbl;
 end;
 
-procedure TfmConsole.FormShow(Sender: TObject);
+
+procedure TfmConsole.DoAddComboItem(const s: string);
+var
+  n: integer;
 begin
+  n:= ed.Items.IndexOf(s);
+  if n>=0 then
+    ed.Items.Delete(n);
+  ed.Items.Insert(0, s);
+
+  while ed.Items.Count>cPyConsoleMaxComboItems do
+    ed.Items.Delete(ed.Items.Count-1);
 end;
 
 procedure TfmConsole.ComboCommand(Snd: TObject; ACmd: integer;
   var AHandled: boolean);
 var
   s: string;
-  n: integer;
 begin
   if ACmd=cCommand_KeyEnter then
   begin
     s:= UTF8Encode(ed.Text);
     DoExecuteConsoleLine(s);
+    DoAddComboItem(s);
 
     ed.Text:= '';
     ed.DoCaretSingle(0, 0);
-
-    n:= ed.Items.IndexOf(s);
-    if n>=0 then ed.Items.Delete(n);
-    ed.Items.Insert(0, s);
 
     AHandled:= true;
   end;

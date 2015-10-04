@@ -7,7 +7,6 @@ object fmConsole: TfmConsole
   ClientHeight = 208
   ClientWidth = 677
   OnCreate = FormCreate
-  OnShow = FormShow
   ParentFont = True
   ShowInTaskBar = stNever
   LCLVersion = '1.5'

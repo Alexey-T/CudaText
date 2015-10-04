@@ -57,6 +57,12 @@ LOG_SET_COL_ID    = 5
 LOG_SET_NAME_ID   = 6
 LOG_SET_FILENAME  = 7
 LOG_SET_ZEROBASE  = 8
+LOG_CONSOLE_CLEAR = 20
+LOG_CONSOLE_ADD   = 21
+LOG_CONSOLE_GET   = 22
+
+LOG_PANEL_OUTPUT   = "0"
+LOG_PANEL_VALIDATE = "1"
 
 
 def app_version():
@@ -65,8 +71,13 @@ def app_api_version():
     return ct.app_api_version()
 def app_path(id):
     return ct.app_path(id)
-def app_log(id, value):
-    return ct.app_log(id, value)    
+
+def app_log(id, text):
+    res = ct.app_log(id, text)
+    if id==LOG_CONSOLE_GET:
+        return res.splitlines()
+    else:
+        return res    
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)

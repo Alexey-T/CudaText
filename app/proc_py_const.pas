@@ -46,11 +46,9 @@ const
   LOG_SET_NAME_ID   = 6;
   LOG_SET_FILENAME  = 7;
   LOG_SET_ZEROBASE  = 8;
-  {
   LOG_CONSOLE_CLEAR = 20;
   LOG_CONSOLE_ADD   = 21;
   LOG_CONSOLE_GET   = 22;
-  }
 
 implementation
 

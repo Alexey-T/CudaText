@@ -1105,9 +1105,17 @@ begin
 
       case Id of
         LOG_CLEAR:
-          Prop^.Items.Clear;
+          begin
+            Prop^.Items.Clear;
+            Prop^.Listbox.ItemCount:= 0;
+            Prop^.Listbox.Invalidate;
+          end;
         LOG_ADD:
-          Prop^.Items.Add(Str);
+          begin
+            Prop^.Items.Add(Str);
+            Prop^.Listbox.ItemCount:= Prop^.Items.Count;
+            Prop^.Listbox.Invalidate;
+          end;
         LOG_SET_PANEL:
           AppPanelActive:= Str;
         LOG_SET_REGEX:
@@ -1123,32 +1131,32 @@ begin
         LOG_SET_ZEROBASE:
           Prop^.ZeroBase:= Bool(StrToIntDef(Str, 0));
 
-        {
         LOG_CONSOLE_CLEAR:
           with fmMain do
           begin
-            fmConsole.Memo.Strings.Clear;
-            fmConsole.Memo.Update(true);
-            fmConsole.Ed.Text:= '';
-            fmConsole.Ed.Update(true);
+            fmConsole.memo.Strings.Clear;
+            fmConsole.memo.Update(true);
+            fmConsole.ed.Text:= '';
+            fmConsole.ed.Items.Clear;
+            fmConsole.ed.Update(true);
           end;
+
         LOG_CONSOLE_ADD:
           with fmMain do
           begin
-            DoPyConsole_LogString(cPyConsolePrompt + Str);
-            edConsole.Text:= Str;
-            ComboUpdate(edConsole, opSaveFindCount);
-            edConsole.Text:= '';
+            fmConsole.DoLogConsoleLine(cPyConsolePrompt+Str);
+            fmConsole.DoAddComboItem(Str);
+            fmConsole.ed.Text:= '';
+            fmConsole.ed.Update(true);
           end;
+
         LOG_CONSOLE_GET:
           begin
-            Result:= Py_StringList(fmMain.edConsole.Items);
+            Result:= PyString_FromString(PChar(fmConsole.ed.Items.Text));
             Exit; //skip ReturnNone
           end;
-          }
       end;
 
-      Prop^.Listbox.ItemCount:= Prop^.Items.Count;
       Result:= ReturnNone;
     end;
 end;

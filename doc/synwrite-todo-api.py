@@ -18,22 +18,6 @@ ATTRIB_SET_ITALIC      = 3
 ATTRIB_SET_UNDERLINE   = 4
 ATTRIB_SET_STRIKEOUT   = 5
 
-LOG_CLEAR         = 0
-LOG_ADD           = 1
-LOG_SET_PANEL     = 2
-LOG_SET_REGEX     = 3
-LOG_SET_LINE_ID   = 4
-LOG_SET_COL_ID    = 5
-LOG_SET_NAME_ID   = 6
-LOG_SET_FILENAME  = 7
-LOG_SET_ZEROBASE  = 8
-LOG_CONSOLE_CLEAR = 20
-LOG_CONSOLE_ADD   = 21
-LOG_CONSOLE_GET   = 22
-
-LOG_PANEL_OUTPUT   = "0"
-LOG_PANEL_VALIDATE = "1"
-
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
 LEXER_GET_EXT     = 2
@@ -66,8 +50,6 @@ PROC_GET_CLIP         = 1
 PROC_SET_CLIP         = 2
 PROC_LOCK_STATUS      = 3
 PROC_UNLOCK_STATUS    = 4
-PROC_SOUND            = 5
-PROC_COLOR_PICKER     = 6
 PROC_ADD_RECENT_COLOR = 7
 PROC_GET_COMMAND      = 8
 
@@ -169,8 +151,6 @@ def dlg_checklist(caption, columns, items, size_x, size_y):
     items = sw_api.dlg_checklist(caption, columns, items, size_x, size_y)
     return [(s=='1') for s in items]
 
-def app_log(id, text):
-    return sw_api.app_log(id, text)
 def app_lock(id):
     return sw_api.app_lock(id)
 
