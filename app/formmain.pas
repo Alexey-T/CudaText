@@ -2445,20 +2445,28 @@ var
   Prop: ^TAppPanelProps;
   ResFilename: string;
   ResLine, ResCol: integer;
+  NIndex: integer;
 begin
   if Sender=ListboxOut then
     Prop:= @AppPanelProp_Out
   else
     Prop:= @AppPanelProp_Val;
 
-  DoParseOutputLine(Prop^, Prop^.Items[Prop^.Listbox.ItemIndex], ResFilename, ResLine, ResCol);
+  NIndex:= Prop^.Listbox.ItemIndex;
+  if NIndex<0 then exit;
+  if NIndex>=Prop^.Items.Count then exit;
+
+  DoParseOutputLine(Prop^, Prop^.Items[NIndex], ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     MsgStatus(Format('file "%s", line %d, col %d', [ResFilename, ResLine, ResCol]));
     if FileExists(ResFilename) then
     begin
       DoFileOpen(ResFilename);
-      CurrentFrame.Editor.DoGotoPos(Point(ResCol, ResLine), 0, 0);
+      CurrentFrame.Editor.DoCaretSingle(ResCol, ResLine);
+      CurrentFrame.Editor.DoGotoCaret(cEdgeTop);
+      CurrentFrame.Editor.Update;
+      UpdateStatus;
     end;
   end;
 end;
