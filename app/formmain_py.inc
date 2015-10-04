@@ -425,6 +425,7 @@ begin
       Enc:= F.EncodingName;
       Ed.DoCaretSingle(0, 0);
       Ed.Strings.LoadFromString(StrW); //resets enc to utf16
+      Ed.DoEventChange;
       F.EncodingName:= Enc;
 
       fmMain.UpdateFrame(true);
