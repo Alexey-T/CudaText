@@ -713,7 +713,7 @@ end;
 
 function GetDefaultListItemHeight(C: TCanvas): integer;
 begin
-  Result:= Trunc(C.TextHeight('H')*1.2);
+  Result:= Trunc(C.TextHeight('Pyj')+3);
 end;
 
 initialization

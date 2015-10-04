@@ -201,6 +201,7 @@ begin
 
   cCompleteFontName:= UiOps.VarFontName;
   cCompleteFontSize:= UiOps.VarFontSize;
+  cCompleteItemHeight:= GetDefaultListItemHeight(Canvas);
 end;
 
 procedure TfmMain.UpdateMenuRecent(F: TEditorFrame);
