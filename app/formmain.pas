@@ -510,6 +510,8 @@ type
     procedure DoOps_OpenFile_LexerOvr;
     procedure DoOps_SaveLexlib(Cfm: boolean);
     procedure DoShowConsole;
+    procedure DoShowOutput;
+    procedure DoShowValidate;
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; Cmd: integer;
@@ -1995,6 +1997,18 @@ begin
   ShowBottom:= true;
   TabsBottom.TabIndex:= 0;
   fmConsole.ed.SetFocus;
+end;
+
+procedure TfmMain.DoShowOutput;
+begin
+  ShowBottom:= true;
+  TabsBottom.TabIndex:= 1;
+end;
+
+procedure TfmMain.DoShowValidate;
+begin
+  ShowBottom:= true;
+  TabsBottom.TabIndex:= 2;
 end;
 
 procedure TfmMain.SetFullscreen(AValue: boolean);

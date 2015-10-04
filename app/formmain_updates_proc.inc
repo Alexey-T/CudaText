@@ -59,7 +59,6 @@ begin
   Status[cStatusTabsize]:= S;
 
   //------
-  MsgStatus('');
   UpdateMenuChecked;
 end;
 

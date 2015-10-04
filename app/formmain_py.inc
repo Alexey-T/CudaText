@@ -409,20 +409,23 @@ end;
 function Py_ed_set_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
-  P: PAnsiChar;
+  Ptr: PAnsiChar;
   Ed: TATSynEdit;
+  F: TEditorFrame;
   StrW: atString;
+  Enc: string;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @P)) then
+    if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      Ed.DoSelect_None;
-      Ed.Carets.Clear;
-      Ed.Carets.Add(0, 0);
+      F:= fmMain.GetEditorFrame(Ed);
 
-      StrW:= UTF8Decode(AnsiString(P));
-      Ed.Strings.LoadFromString(StrW);
+      StrW:= UTF8Decode(AnsiString(Ptr));
+      Enc:= F.EncodingName;
+      Ed.DoCaretSingle(0, 0);
+      Ed.Strings.LoadFromString(StrW); //resets enc to utf16
+      F.EncodingName:= Enc;
 
       fmMain.UpdateFrame(true);
       fmMain.UpdateStatus;

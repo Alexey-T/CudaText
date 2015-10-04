@@ -48,7 +48,9 @@ const
   cmd_DlgColors          = 2532;
   cmd_ToggleSidePanel    = 2533;
   cmd_ToggleBottomPanel  = 2534;
-  cmd_ShowConsole        = 2535;
+  cmd_ShowPanelConsole   = 2535;
+  cmd_ShowPanelOutput    = 2536;
+  cmd_ShowPanelValidate  = 2537;
 
   cmd_DlgGoto       = 2580;
   cmd_DlgGotoBm     = 2581;
@@ -147,7 +149,9 @@ begin
   M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', ['F11'], []);
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', ['F12'], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
-  M.Add(cmd_ShowConsole, 'ui: show console panel', ['Ctrl+`'], []);
+  M.Add(cmd_ShowPanelConsole, 'ui: show panel: console', ['Ctrl+`'], []);
+  M.Add(cmd_ShowPanelOutput, 'ui: show panel: output', [], []);
+  M.Add(cmd_ShowPanelValidate, 'ui: show panel: validate', [], []);
 
   M.Add(cmd_DlgSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DlgCommands, 'dialog: command list', ['F1'], []);

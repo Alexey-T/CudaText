@@ -16117,6 +16117,7 @@ object TecSyntaxManager
     Notes.Strings = (
       'Created by 480499497 from http://forum.wincmd.ru'
     )
+    Internal = True
     Charset = DEFAULT_CHARSET
   end
   object SyntAnal97: TLibSyntAnalyzer
@@ -24854,7 +24855,7 @@ object TecSyntaxManager
         StyleName = 'Tag param'
         BlockName = 'Tag begin'
         TokenType = 4
-        Expression = '(?s) ("|'') (<\?.+?\?>|.)*? (\1|\Z)'
+        Expression = '(?s)("|'') (<\?.+?\?>|.)*? (\1|$)'
         ColumnFrom = 0
         ColumnTo = 0
       end    
