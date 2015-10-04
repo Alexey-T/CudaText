@@ -14,7 +14,8 @@ interface
 uses
   SysUtils, Classes, StrUtils,
   ATStringProc,
-  jsonConf;
+  jsonConf,
+  RegExpr;
 
 type
   TStringDecodeRecW = record
@@ -23,6 +24,10 @@ type
 
 function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRecW): UnicodeString;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
+
+type
+  TRegexParts = array[1..8] of string;
+function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 
 function SWideStringToPythonString(const Str: UnicodeString): string;
 procedure SAddStringToHistory(const S: string; List: TStrings; MaxItems: integer);
@@ -132,6 +137,41 @@ begin
   end;
 end;
 
+function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
+var
+  Obj: TRegExpr;
+  i: integer;
+begin
+  Result:= false;
+  for i:= Low(AParts) to High(AParts) do
+    AParts[i]:= '';
+
+  if ARegex='' then exit;
+  if AStr='' then exit;
+
+  Obj:= TRegExpr.Create;
+  try
+    Obj.ModifierS:= false; //don't catch all text by .*
+    Obj.ModifierM:= true; //allow to work with ^$
+    Obj.ModifierI:= false;
+
+    try
+      Obj.Expression:= ARegex;
+      Obj.InputString:= AStr;
+      Result:= Obj.ExecPos(1);
+    except
+      Result:= false;
+    end;
+
+    if Result then
+    begin
+      for i:= Low(AParts) to High(AParts) do
+        AParts[i]:= Obj.Match[i];
+    end;
+  finally
+    FreeAndNil(Obj);
+  end;
+end;
 
 end.
 

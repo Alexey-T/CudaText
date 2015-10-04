@@ -51,7 +51,6 @@ uses
   proc_install_zip,
   formconsole,
   formframe,
-  formoutput,
   form_menu_commands,
   form_menu_list,
   form_menu_py,
@@ -358,6 +357,7 @@ type
     procedure FrameOnSetLexer(Sender: TObject);
     procedure FrameParseBegin(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
+    procedure ListboxOutClick(Sender: TObject);
     procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
       const ARect: TRect);
     procedure mnuHelpWikiClick(Sender: TObject);
@@ -2338,6 +2338,165 @@ procedure TfmMain.GetEditorIndexes(Ed: TATSynEdit;
 begin
   Groups.PagesAndTabIndexOfControl(GetEditorFrame(Ed), AGroupIndex, ATabIndex);
   Dec(AGroupIndex); //was 1-based
+end;
+
+procedure TfmMain.mnuHelpWikiClick(Sender: TObject);
+begin
+  OpenURL('http://wiki.freepascal.org/CudaText');
+end;
+
+procedure TfmMain.MenuThemesClick(Sender: TObject);
+var
+  fn: string;
+begin
+  fn:= FListThemes[(Sender as TComponent).Tag];
+  FThemeName:= ExtractFileNameOnly(fn);
+  DoLoadTheme(fn, Theme);
+  DoApplyTheme;
+end;
+
+procedure TfmMain.mnuHelpLexInstClick(Sender: TObject);
+begin
+  DoFileOpen(GetAppPath(cFileReadmeLexerInst));
+end;
+
+procedure TfmMain.mnuOpKeysClick(Sender: TObject);
+begin
+  MsgBox('To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog', mb_ok);
+end;
+
+procedure TfmMain.mnuTabColorClick(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= FrameOfPopup;
+  if F=nil then exit;
+
+  with TfmPalette.Create(Self) do
+  try
+    ResColor:= F.TabColor;
+    case ShowModal of
+      mrOk: F.TabColor:= ResColor;
+      mrNo: F.TabColor:= clNone;
+    end;
+  finally
+    Free
+  end;
+end;
+
+procedure TfmMain.MenuThemeDefClick(Sender: TObject);
+begin
+  FThemeName:= '';
+  DoInitTheme(Theme);
+  DoApplyTheme;
+end;
+
+procedure TfmMain.mnuTabsize1Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(1);
+end;
+
+procedure TfmMain.mnuTabsize2Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(2);
+end;
+
+procedure TfmMain.mnuTabsize4Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(4);
+end;
+
+procedure TfmMain.mnuTabsize8Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(8);
+end;
+
+procedure DoParseOutputLine(const AProp: TAppPanelProps;
+  const AStr: string;
+  out AFilename: string;
+  out ALine, ACol: integer);
+var
+  Parts: TRegexParts;
+begin
+  AFilename:= AProp.DefFilename;
+  ALine:= -1;
+  ACol:= 0;
+
+  if AProp.RegexStr='' then exit;
+  if AProp.RegexIdLine=0 then exit;
+
+  if not SRegexFindParts(AProp.RegexStr, AStr, Parts) then exit;
+  if AProp.RegexIdName>0 then
+    AFilename:= Parts[AProp.RegexIdName];
+  if AProp.RegexIdLine>0 then
+    ALine:= StrToIntDef(Parts[AProp.RegexIdLine], -1);
+  if AProp.RegexIdCol>0 then
+    ACol:= StrToIntDef(Parts[AProp.RegexIdCol], 0);
+
+  if not AProp.ZeroBase then
+  begin
+    if ALine>0 then Dec(ALine);
+    if ACol>0 then Dec(ACol);
+  end;
+end;
+
+procedure TfmMain.ListboxOutClick(Sender: TObject);
+var
+  Prop: ^TAppPanelProps;
+  ResFilename: string;
+  ResLine, ResCol: integer;
+begin
+  if Sender=ListboxOut then
+    Prop:= @AppPanelProp_Out
+  else
+    Prop:= @AppPanelProp_Val;
+
+  DoParseOutputLine(Prop^, Prop^.Items[Prop^.Listbox.ItemIndex], ResFilename, ResLine, ResCol);
+  if (ResFilename<>'') and (ResLine>=0) then
+  begin
+    MsgStatus(Format('file "%s", line %d, col %d', [ResFilename, ResLine, ResCol]));
+    if FileExists(ResFilename) then
+    begin
+      DoFileOpen(ResFilename);
+      CurrentFrame.Editor.DoGotoPos(Point(ResCol, ResLine), 0, 0);
+    end;
+  end;
+end;
+
+
+procedure TfmMain.ListboxOutDrawItem(Sender: TObject; C: TCanvas;
+  AIndex: integer; const ARect: TRect);
+const
+  cDx=4; cDy=1;
+var
+  Prop: ^TAppPanelProps;
+  ResFilename: string;
+  ResLine, ResCol: integer;
+begin
+  if Sender=ListboxOut then
+    Prop:= @AppPanelProp_Out
+  else
+    Prop:= @AppPanelProp_Val;
+
+  DoParseOutputLine(Prop^, Prop^.Items[AIndex], ResFilename, ResLine, ResCol);
+  if (ResFilename<>'') and (ResLine>=0) then
+  begin
+    C.Font.Color:= GetAppColor('ListFontHotkey');
+    C.Brush.Color:= GetAppColor('ListBg');
+  end
+  else
+  begin
+    C.Font.Color:= GetAppColor('ListFont');
+    C.Brush.Color:= GetAppColor('ListBg');
+  end;
+  C.Pen.Color:= GetAppColor('ListSelBg');
+
+  if AIndex=Prop^.Listbox.ItemIndex then
+    C.Rectangle(ARect)
+  else
+    C.FillRect(ARect);
+
+  C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Prop^.Items[AIndex]);
 end;
 
 //----------------------------

@@ -556,7 +556,7 @@ var
 begin
   UpdateMenuThemes(mnuThemes);
 
-  ListboxOut.Color:= GetAppColor('EdTextBg');
+  ListboxOut.Color:= GetAppColor('ListBg');
   ListboxOut.Invalidate;
   ListboxVal.Color:= ListboxOut.Color;
   ListboxVal.Invalidate;

@@ -113,6 +113,7 @@ object fmMain: TfmMain
         Width = 180
         Color = clSilver
         ItemHeight = 28
+        OnClick = ListboxOutClick
         OnDrawItem = ListboxOutDrawItem
       end
       object ListboxVal: TATListbox
@@ -122,6 +123,7 @@ object fmMain: TfmMain
         Width = 180
         Color = clSilver
         ItemHeight = 28
+        OnClick = ListboxOutClick
         OnDrawItem = ListboxOutDrawItem
       end
     end
