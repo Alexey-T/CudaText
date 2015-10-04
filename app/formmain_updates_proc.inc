@@ -178,6 +178,9 @@ begin
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
   if Assigned(fmGoto) then fmGoto.UpdateFonts;
+
+  ListboxOut.ItemHeight:= GetDefaultListItemHeight(ListboxOut.Canvas);
+  ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
 procedure TfmMain.DoApplyFontVar;
@@ -552,6 +555,11 @@ var
   i: integer;
 begin
   UpdateMenuThemes(mnuThemes);
+
+  ListboxOut.Color:= GetAppColor('EdTextBg');
+  ListboxOut.Invalidate;
+  ListboxVal.Color:= ListboxOut.Color;
+  ListboxVal.Invalidate;
 
   for i:= 0 to 9 do
     AppBookmarkSetup[240+i].Color:= GetAppColor('EdBookmarkBg');

@@ -48,6 +48,16 @@ TAB_SPLIT_NO = 0
 TAB_SPLIT_HORZ = 1
 TAB_SPLIT_VERT = 2
 
+LOG_CLEAR         = 0
+LOG_ADD           = 1
+LOG_SET_PANEL     = 2
+LOG_SET_REGEX     = 3
+LOG_SET_LINE_ID   = 4
+LOG_SET_COL_ID    = 5
+LOG_SET_NAME_ID   = 6
+LOG_SET_FILENAME  = 7
+LOG_SET_ZEROBASE  = 8
+
 
 def app_version():
     return ct.app_version()
@@ -55,6 +65,8 @@ def app_api_version():
     return ct.app_api_version()
 def app_path(id):
     return ct.app_path(id)
+def app_log(id, value):
+    return ct.app_log(id, value)    
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)

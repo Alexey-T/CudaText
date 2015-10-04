@@ -144,6 +144,33 @@ begin
   TimerTreeFill.Enabled:= true;
 end;
 
+procedure TfmMain.ListboxOutDrawItem(Sender: TObject; C: TCanvas;
+  AIndex: integer; const ARect: TRect);
+var
+  Prop: ^TAppPanelProps;
+const
+  cDx = 4;
+begin
+  if Sender=ListboxOut then
+    Prop:= @AppPanelProp_Out
+  else
+    Prop:= @AppPanelProp_Val;
+
+  if AIndex=Prop^.Listbox.ItemIndex then
+  begin
+    C.Font.Color:= GetAppColor('EdSelFont');
+    C.Brush.Color:= GetAppColor('EdSelBg');
+  end
+  else
+  begin
+    C.Font.Color:= GetAppColor('EdTextFont');
+    C.Brush.Color:= GetAppColor('EdTextBg');
+  end;
+
+  C.FillRect(ARect);
+  C.TextOut(ARect.Left+cDx, ARect.Top, Prop^.Items[AIndex]);
+end;
+
 procedure TfmMain.mnuHelpWikiClick(Sender: TObject);
 begin
   OpenURL('http://wiki.freepascal.org/CudaText');

@@ -1068,6 +1068,91 @@ begin
 end;
 
 
+type
+  TAppPanelProps = record
+    Listbox: TATListbox;
+    Items: TStringList;
+    RegexStr: string;
+    RegexIdLine,
+    RegexIdCol,
+    RegexIdName: integer;
+    DefFilename: string;
+    ZeroBase: boolean;
+    Encoding: string;
+  end;
+
+var
+  AppPanelProp_Out: TAppPanelProps;
+  AppPanelProp_Val: TAppPanelProps;
+  AppPanelActive: string = '0';
+
+function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Ptr: PAnsiChar;
+  Str: string;
+  Id: integer;
+  Prop: ^TAppPanelProps;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'is:app_log', @Id, @Ptr)) then
+    begin
+      Str:= AnsiString(Ptr);
+
+      if AppPanelActive='0' then
+        Prop:= @AppPanelProp_Out
+      else
+        Prop:= @AppPanelProp_Val;
+
+      case Id of
+        LOG_CLEAR:
+          Prop^.Items.Clear;
+        LOG_ADD:
+          Prop^.Items.Add(Str);
+        LOG_SET_PANEL:
+          AppPanelActive:= Str;
+        LOG_SET_REGEX:
+          Prop^.RegexStr:= Str;
+        LOG_SET_LINE_ID:
+          Prop^.RegexIdLine:= StrToIntDef(Str, 0);
+        LOG_SET_COL_ID:
+          Prop^.RegexIdCol:= StrToIntDef(Str, 0);
+        LOG_SET_NAME_ID:
+          Prop^.RegexIdName:= StrToIntDef(Str, 0);
+        LOG_SET_FILENAME:
+          Prop^.DefFilename:= Str;
+        LOG_SET_ZEROBASE:
+          Prop^.ZeroBase:= Bool(StrToIntDef(Str, 0));
+
+        {
+        LOG_CONSOLE_CLEAR:
+          with fmMain do
+          begin
+            fmConsole.Memo.Strings.Clear;
+            fmConsole.Memo.Update(true);
+            fmConsole.Ed.Text:= '';
+            fmConsole.Ed.Update(true);
+          end;
+        LOG_CONSOLE_ADD:
+          with fmMain do
+          begin
+            DoPyConsole_LogString(cPyConsolePrompt + Str);
+            edConsole.Text:= Str;
+            ComboUpdate(edConsole, opSaveFindCount);
+            edConsole.Text:= '';
+          end;
+        LOG_CONSOLE_GET:
+          begin
+            Result:= Py_StringList(fmMain.edConsole.Items);
+            Exit; //skip ReturnNone
+          end;
+          }
+      end;
+
+      Prop^.Listbox.ItemCount:= Prop^.Items.Count;
+      Result:= ReturnNone;
+    end;
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -1076,6 +1161,7 @@ begin
     AddMethod('app_version', @Py_app_version, '');
     AddMethod('app_api_version', @Py_app_api_version, '');
     AddMethod('app_path', @Py_app_path, '');
+    AddMethod('app_log', @Py_app_log, '');
 
     AddMethod('msg_status', @Py_msg_status, '');
     AddMethod('msg_box', @Py_msg_box, '');
@@ -1130,7 +1216,7 @@ begin
     AddMethod('ed_handles', @Py_ed_handles, '');
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
-end;
+  end;
 end;
 
 

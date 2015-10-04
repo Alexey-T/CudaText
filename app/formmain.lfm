@@ -103,7 +103,27 @@ object fmMain: TfmMain
       Width = 906
       Align = alBottom
       BevelOuter = bvNone
+      ClientHeight = 82
+      ClientWidth = 906
       TabOrder = 1
+      object ListboxOut: TATListbox
+        Left = 184
+        Height = 150
+        Top = 18
+        Width = 180
+        Color = clSilver
+        ItemHeight = 28
+        OnDrawItem = ListboxOutDrawItem
+      end
+      object ListboxVal: TATListbox
+        Left = 368
+        Height = 150
+        Top = 18
+        Width = 180
+        Color = clSilver
+        ItemHeight = 28
+        OnDrawItem = ListboxOutDrawItem
+      end
     end
     object SplitterHorz: TSplitter
       Cursor = crVSplit

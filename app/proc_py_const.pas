@@ -37,6 +37,20 @@ const
   MENU_LIST = 0;
   MENU_LIST_ALT = 1;
 
+  LOG_CLEAR         = 0;
+  LOG_ADD           = 1;
+  LOG_SET_PANEL     = 2;
+  LOG_SET_REGEX     = 3;
+  LOG_SET_LINE_ID   = 4;
+  LOG_SET_COL_ID    = 5;
+  LOG_SET_NAME_ID   = 6;
+  LOG_SET_FILENAME  = 7;
+  LOG_SET_ZEROBASE  = 8;
+  {
+  LOG_CONSOLE_CLEAR = 20;
+  LOG_CONSOLE_ADD   = 21;
+  LOG_CONSOLE_GET   = 22;
+  }
 
 implementation
 

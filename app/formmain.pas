@@ -20,7 +20,7 @@ uses
   jsonConf, IniFiles,
   PythonEngine,
   ecSyntAnal,
-  ATButtons,
+  ATButtons, ATListbox,
   ATSynEdit,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
@@ -79,6 +79,8 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    ListboxOut: TATListbox;
+    ListboxVal: TATListbox;
     btnStop: TATButton;
     FontDlg: TFontDialog;
     Gauge: TGauge;
@@ -356,6 +358,8 @@ type
     procedure FrameOnSetLexer(Sender: TObject);
     procedure FrameParseBegin(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
+    procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
+      const ARect: TRect);
     procedure mnuHelpWikiClick(Sender: TObject);
     procedure MenuThemesClick(Sender: TObject);
     procedure mnuHelpLexInstClick(Sender: TObject);
@@ -446,6 +450,8 @@ type
     FListRecents: TStringList;
     FListNewdoc: TStringList;
     FListThemes: TStringList;
+    FListOut: TStringlist;
+    FListVal: TStringlist;
     FThemeName: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -812,6 +818,15 @@ begin
   FListRecents:= TStringList.Create;
   FListNewdoc:= TStringList.Create;
   FListThemes:= TStringlist.Create;
+  FListOut:= TStringlist.Create;
+  FListVal:= TStringlist.Create;
+
+  FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
+  FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
+  AppPanelProp_Out.Listbox:= ListboxOut;
+  AppPanelProp_Out.Items:= FListOut;
+  AppPanelProp_Val.Listbox:= ListboxVal;
+  AppPanelProp_Val.Items:= FListVal;
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
@@ -832,9 +847,8 @@ begin
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
 
-  fmOutput:= TfmOutput.Create(Self);
-  fmOutput.Parent:= PanelAll;
-  fmOutput.Align:= alClient;
+  ListboxOut.Align:= alClient;
+  ListboxVal.Align:= alClient;
 
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelMain;
@@ -851,7 +865,8 @@ begin
   TabsBottom.Align:= alBottom;
 
   TabsBottom.AddTab(0, 'Console', nil);
-  //TabsBottom.AddTab(1, 'Output', nil);
+  TabsBottom.AddTab(1, 'Output', nil);
+  TabsBottom.AddTab(2, 'Validate', nil);
   TabsBottom.OnTabClick:= @DoOnTabsBottomClick;
 
   FFinder:= TATEditorFinder.Create;
@@ -882,7 +897,13 @@ var
 begin
   N:= TabsBottom.TabIndex;
   fmConsole.Visible:= N=0;
-  fmOutput.Visible:= N=1;
+  ListboxOut.Visible:= N=1;
+  ListboxVal.Visible:= N=2;
+  case N of
+    0: fmConsole.Ed.SetFocus;
+    1: ListboxOut.SetFocus;
+    2: ListboxVal.SetFocus;
+  end;
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -924,6 +945,8 @@ begin
   FreeAndNil(FListRecents);
   FreeAndNil(FListNewdoc);
   FreeAndNil(FListThemes);
+  FreeAndNil(FListOut);
+  FreeAndNil(FListVal);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;

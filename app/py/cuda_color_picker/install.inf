@@ -1,0 +1,10 @@
+[info]
+title=Color Picker
+desc=Shows color-picker dialog, inserts color #rrggbb
+type=cudatext-plugin
+subdir=cuda_color_picker
+
+[item1]
+section=commands
+caption=Color Picker
+method=run
