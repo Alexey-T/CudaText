@@ -48,6 +48,22 @@ TAB_SPLIT_NO = 0
 TAB_SPLIT_HORZ = 1
 TAB_SPLIT_VERT = 2
 
+LOG_CLEAR         = 0
+LOG_ADD           = 1
+LOG_SET_PANEL     = 2
+LOG_SET_REGEX     = 3
+LOG_SET_LINE_ID   = 4
+LOG_SET_COL_ID    = 5
+LOG_SET_NAME_ID   = 6
+LOG_SET_FILENAME  = 7
+LOG_SET_ZEROBASE  = 8
+LOG_CONSOLE_CLEAR = 20
+LOG_CONSOLE_ADD   = 21
+LOG_CONSOLE_GET   = 22
+
+LOG_PANEL_OUTPUT   = "0"
+LOG_PANEL_VALIDATE = "1"
+
 
 def app_version():
     return ct.app_version()
@@ -56,12 +72,21 @@ def app_api_version():
 def app_path(id):
     return ct.app_path(id)
 
+def app_log(id, text):
+    res = ct.app_log(id, text)
+    if id==LOG_CONSOLE_GET:
+        return res.splitlines()
+    else:
+        return res    
+
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
 def msg_status(text):
     return ct.msg_status(text)
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)
+def dlg_color(value):
+    return ct.dlg_color(value)    
 
 def dlg_input_ex(number, caption,
                  label1   , text1='', label2='', text2='', label3='', text3='',
@@ -125,8 +150,8 @@ class Editor:
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
-    def get_line_prop(self, num):
-        return ct.ed_get_line_prop(self.h, num)
+    def get_line_state(self, num):
+        return ct.ed_get_line_state(self.h, num)
 
     def get_text_all(self):
         return ct.ed_get_text_all(self.h)
@@ -188,6 +213,8 @@ class Editor:
         return ct.ed_get_split(self.h)
     def set_split(self, state, value):
         return ct.ed_set_split(self.h, state, value)
+    def get_indexes(self):
+        return ct.ed_get_indexes(self.h)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)

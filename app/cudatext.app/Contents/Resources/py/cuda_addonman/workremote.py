@@ -55,7 +55,7 @@ def get_item_url(item):
         return
 
 def get_avail_list():
-    msg_status('Wait for list')
+    msg_status('Downloading list...')
     text = get_wiki_text(V_REG)
     msg_status('')
     if not text:
@@ -82,7 +82,7 @@ def get_avail_list():
             res += [props]
 
     #write version to item[3] for each item
-    msg_status('Wait for version list') 
+    msg_status('Downloading version list...') 
     text = get_wiki_text(V_REG_VER)
     msg_status('')
     if text:
@@ -111,7 +111,7 @@ def get_plugin_zip(url):
         return
     fn = os.path.join(TEMP, 'cudatext_plugin'+ext)
     
-    msg_status('Wait for file: '+url)
+    msg_status('Downloading file: '+url)
     get_url(url, fn)
     msg_status('')
     

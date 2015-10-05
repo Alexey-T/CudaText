@@ -1,4 +1,10 @@
 
+0.8.2
++ api: bottom panel (plugin Html Tidy at sf.net)
++ api: color dialog (plugin Color Picker at sf.net)
++ themed splitters
+- fixes
+
 0.8.0
 + Python API; if don't work (Py-console must show version) on Linux/OSX, play with option "pylib"
 + bottom-panel and Py-console in it: see wiki help topic
