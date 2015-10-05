@@ -154,6 +154,18 @@ Shows select-color dialog with given initial color (int).
 
 Gets int color, or None if cancelled.
 
+===dlg_checklist===
+
+ dlg_checklist(caption, columns, items, size_x, size_y)
+
+Shows dialog with ListView with checkmarks. Returns list of bool: checked states of lines, or None if cancelled. Params:
+
+* caption: dialog caption.
+* columns: "\n"-separated column items, each item is "\t"-separated: title and str(column_width), where column_width can be missed or zero for autosize.
+* items: "\n"-separated dialog lines, each line is "\t"-separated column strings. 1st column can begin with "*" to check this line.
+* size_x: dialog width.
+* size_y: dialog height.
+
 ===file_open===
 
  file_open(filename)
