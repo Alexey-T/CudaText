@@ -59,7 +59,6 @@ PROP_WRAP           = 3
 PROP_RO             = 4
 PROP_MARGIN         = 5
 PROP_FOLDING        = 6
-#free               = 7
 PROP_TAB_SPACES     = 8
 PROP_TAB_SIZE       = 9
 PROP_COL_MARKERS    = 10
@@ -147,18 +146,14 @@ TOKENS_NO_CMT_STR = 4
 
 def dlg_snippet(name, alias, lexers, text):
     return sw_api.dlg_snippet(name, alias, lexers, text)
-def dlg_checklist(caption, columns, items, size_x, size_y):
-    items = sw_api.dlg_checklist(caption, columns, items, size_x, size_y)
-    return [(s=='1') for s in items]
-
-def app_lock(id):
-    return sw_api.app_lock(id)
 
 def get_app_prop(id, value=''):
     return sw_api.get_app_prop(id, value)
 def set_app_prop(id, value):
     return sw_api.set_app_prop(id, value)
 
+def app_lock(id):
+    return sw_api.app_lock(id)
 def lexer_proc(id, text):
     return sw_api.lexer_proc(id, text)
 def app_proc(id, text=''):

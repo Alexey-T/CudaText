@@ -62,7 +62,7 @@ uses
   formlexerlib,
   formpalette,
   formcolorsetup,
-  formabout,
+  formabout, formchecklist,
   math;
 
 type
@@ -2520,6 +2520,7 @@ begin
 
   C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Prop^.Items[AIndex]);
 end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
