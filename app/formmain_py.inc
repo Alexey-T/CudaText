@@ -472,6 +472,8 @@ begin
     begin
       Ed:= PyEditor(H);
       Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
+      Ed.DoEventChange;
+
       fmMain.UpdateFrame(true);
       fmMain.UpdateStatus;
       Result:= ReturnNone;
@@ -493,6 +495,7 @@ begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(AnsiString(Ptr));
       Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
+      Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
       fmMain.UpdateStatus;

@@ -1,4 +1,9 @@
 
+0.8.3
++ api: check-list dialog
++ addons can install files to "data"
+- fix ctrl+shift+home/end
+
 0.8.2
 + api: bottom panel (plugin Html Tidy at sf.net)
 + api: color dialog (plugin Color Picker at sf.net)
