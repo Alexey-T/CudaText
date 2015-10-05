@@ -96,7 +96,7 @@ begin
   list.Color:= GetAppColor('ListBg');
 
   ResultNum:= 0;
-  list.ItemHeight:= GetDefaultListItemHeight(Canvas);
+  list.ItemHeight:= GetDefaultListItemHeight;
   self.Width:= UiOps.ListboxWidth;
   keymapList:= TList.Create;
 end;

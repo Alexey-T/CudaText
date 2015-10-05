@@ -178,7 +178,7 @@ begin
   if Assigned(fmFind) then fmFind.UpdateFonts;
   if Assigned(fmGoto) then fmGoto.UpdateFonts;
 
-  ListboxOut.ItemHeight:= GetDefaultListItemHeight(ListboxOut.Canvas);
+  ListboxOut.ItemHeight:= GetDefaultListItemHeight;
   ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
@@ -201,7 +201,7 @@ begin
 
   cCompleteFontName:= UiOps.VarFontName;
   cCompleteFontSize:= UiOps.VarFontSize;
-  cCompleteItemHeight:= GetDefaultListItemHeight(Canvas);
+  cCompleteItemHeight:= GetDefaultListItemHeight;
 end;
 
 procedure TfmMain.UpdateMenuRecent(F: TEditorFrame);

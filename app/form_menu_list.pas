@@ -93,7 +93,7 @@ begin
   List.Color:= self.Color;
 
   self.Width:= UiOps.ListboxWidth;
-  List.ItemHeight:= GetDefaultListItemHeight(Canvas);
+  List.ItemHeight:= GetDefaultListItemHeight;
   Items:= nil;
   ResultIndex:= -1;
 end;

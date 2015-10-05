@@ -229,7 +229,7 @@ var
 function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TForm): TWinControl;
-function GetDefaultListItemHeight(C: TCanvas): integer;
+function GetDefaultListItemHeight: integer;
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem);
@@ -711,9 +711,15 @@ begin
   end;
 end;
 
-function GetDefaultListItemHeight(C: TCanvas): integer;
+function GetDefaultListItemHeight: integer;
+var
+  bmp: TBitmap;
 begin
-  Result:= Trunc(C.TextHeight('Pyj')+3);
+  bmp:= TBitmap.Create;
+  bmp.Canvas.Font.Name:= UiOps.VarFontName;
+  bmp.Canvas.Font.Size:= UiOps.VarFontSize;
+  Result:= bmp.Canvas.TextHeight('Pyj')+3;
+  bmp.Free;
 end;
 
 initialization
