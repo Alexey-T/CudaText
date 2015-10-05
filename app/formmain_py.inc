@@ -46,7 +46,7 @@ begin
 end;
 
 procedure TfmMain.PythonIOSendData(Sender: TObject;
-  const Data: AnsiString);
+  const Data: string);
 begin
   if Assigned(fmConsole) then
     fmConsole.DoLogConsoleLine(Data);
@@ -95,14 +95,14 @@ end;
 
 function Py_dlg_input(Self, Args : PPyObject): PPyObject; cdecl;
 var
-  P1, P2: PAnsiChar;
+  P1, P2: PChar;
   StrCaption, StrVal: string;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'ss:dlg_input', @P1, @P2)) then
     begin
-      StrCaption:= AnsiString(P1);
-      StrVal:= AnsiString(P2);
+      StrCaption:= string(P1);
+      StrVal:= string(P2);
       if InputQuery(msgTitle, StrCaption, StrVal) then
         Result:= PyString_FromString(PChar(StrVal))
       else
@@ -113,8 +113,8 @@ end;
 function Py_dlg_input_ex(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Number, i: integer;
-  PCaption: PAnsiChar;
-  PLabel, PText: array[1..10] of PAnsiChar;
+  PCaption: PChar;
+  PLabel, PText: array[1..10] of PChar;
   SCaption: string;
   Labels, Values: array of string;
 begin
@@ -126,13 +126,13 @@ begin
       @PLabel[9], @PText[9], @PLabel[10], @PText[10])) then
     begin
       Number:= Max(1, Min(10, Number));
-      SCaption:= AnsiString(PCaption);
+      SCaption:= string(PCaption);
       SetLength(Labels, Number);
       SetLength(Values, Number);
       for i:= 1 to Number do
       begin
-        Labels[i-1]:= AnsiString(PLabel[i]);
-        Values[i-1]:= AnsiString(PText[i]);
+        Labels[i-1]:= string(PLabel[i]);
+        Values[i-1]:= string(PText[i]);
       end;
 
       if InputQuery(SCaption, Labels, Values) then
@@ -150,14 +150,14 @@ end;
 
 function Py_msg_status(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  P: PAnsiChar;
+  P: PChar;
   Str: string;
 begin
   with GetPythonEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 's:msg_status', @P)) then
     begin
-      Str:= AnsiString(P);
+      Str:= string(P);
       fmMain.MsgStatus(Str);
       Application.ProcessMessages; //PluginManager calls loop with msg_status
     end;
@@ -167,7 +167,7 @@ end;
 
 function Py_msg_box(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Str: string;
   Flags: integer;
 begin
@@ -175,7 +175,7 @@ begin
   begin
     if Bool(PyArg_ParseTuple(Args, 'si:msg_box', @Ptr, @Flags)) then
     begin
-      Str:= AnsiString(Ptr);
+      Str:= string(Ptr);
       Result:= PyInt_FromLong(MsgBox(Str, Flags));
     end;
   end;
@@ -184,7 +184,7 @@ end;
 
 function Py_file_open(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  P: PAnsiChar;
+  P: PChar;
   Str: string;
   Ok: boolean;
 begin
@@ -192,7 +192,7 @@ begin
   begin
     if Bool(PyArg_ParseTuple(Args, 's:file_open', @P)) then
     begin
-      Str:= AnsiString(P);
+      Str:= string(P);
       Ok:= fmMain.DoFileOpen(Str)<>nil;
       Result:= PyBool_FromLong(Ord(Ok));
     end;
@@ -409,7 +409,7 @@ end;
 function Py_ed_set_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Ed: TATSynEdit;
   F: TEditorFrame;
   StrW: atString;
@@ -421,7 +421,7 @@ begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
 
-      StrW:= UTF8Decode(AnsiString(Ptr));
+      StrW:= UTF8Decode(string(Ptr));
       Enc:= F.EncodingName;
       Ed.DoCaretSingle(0, 0);
       Ed.Strings.LoadFromString(StrW); //resets enc to utf16
@@ -438,7 +438,7 @@ function Py_ed_set_text_line(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
   N: Integer;
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Ed: TATSynEdit;
   Str: atString;
 begin
@@ -446,12 +446,14 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_text_line', @H, @N, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      Str:= UTF8Decode(AnsiString(Ptr));
+      Str:= UTF8Decode(string(Ptr));
+
       if N=-1 then
         Ed.Strings.LineAdd(Str)
       else
       if Ed.Strings.IsIndexValid(N) then
         Ed.Strings.Lines[N]:= Str;
+      Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
       fmMain.UpdateStatus;
@@ -484,7 +486,7 @@ function Py_ed_insert(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
   X1, Y1: Integer;
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Str: atString;
   Ed: TATSynEdit;
   Shift, PosAfter: TPoint;
@@ -493,7 +495,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liis:insert', @H, @X1, @Y1, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      Str:= UTF8Decode(AnsiString(Ptr));
+      Str:= UTF8Decode(string(Ptr));
       Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
       Ed.DoEventChange;
 
@@ -599,7 +601,7 @@ end;
 function Py_ed_set_enc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Ed: TATSynEdit;
   F: TEditorFrame;
   Str: string;
@@ -608,7 +610,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Ls:set_enc', @H, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      Str:= AnsiString(Ptr);
+      Str:= string(Ptr);
       F:= fmMain.GetEditorFrame(Ed);
 
       F.EncodingName:= Str;
@@ -719,7 +721,7 @@ end;
 function Py_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Str: string;
   Ed: TATSynEdit;
   NId, NLine, NKind, NColor: integer;
@@ -732,7 +734,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liiiis:bookmark', @H, @NId, @NLine, @NKind, @NColor, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      Str:= AnsiString(Ptr);
+      Str:= string(Ptr);
       //limit NKind
       NKind:= Max(Low(AppBookmarkSetup), Min(High(AppBookmarkSetup), NKind));
 
@@ -870,7 +872,7 @@ end;
 
 function Py_dlg_file(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  PtrFilename, PtrFolder, PtrFilter: PAnsiChar;
+  PtrFilename, PtrFolder, PtrFilter: PChar;
   StrFilename, StrFolder, StrFilter: string;
   IsOpen: LongBool;
   Dlg: TOpenDialog;
@@ -879,9 +881,9 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'isss:dlg_file',
       @IsOpen, @PtrFilename, @PtrFolder, @PtrFilter)) then
     begin
-      StrFilename:= AnsiString(PtrFilename);
-      StrFolder:= AnsiString(PtrFolder);
-      StrFilter:= AnsiString(PtrFilter);
+      StrFilename:= string(PtrFilename);
+      StrFolder:= string(PtrFolder);
+      StrFilter:= string(PtrFilter);
 
       if IsOpen then
       begin
@@ -943,7 +945,7 @@ end;
 function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Ed: TATSynEdit;
   Str: string;
   NChars1, NChars2: integer;
@@ -952,7 +954,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lsii:complete', @H, @Ptr, @NChars1, @NChars2)) then
     begin
       Ed:= PyEditor(H);
-      Str:= AnsiString(Ptr);
+      Str:= string(Ptr);
 
       fmMain.FPyComplete_Text:= Str;
       fmMain.FPyComplete_CharsLeft:= NChars1;
@@ -968,7 +970,7 @@ end;
 
 function Py_ini_readwrite(Self, Args: PPyObject; AWrite: boolean): PPyObject; cdecl;
 var
-  P1, P2, P3, P4: PAnsiChar;
+  P1, P2, P3, P4: PChar;
   StrFN, StrSess, StrKey, StrVal: string;
   fn: string;
 begin
@@ -976,10 +978,10 @@ begin
   begin
     if Bool(PyArg_ParseTuple(Args, 'ssss:ini_readwrite', @P1, @P2, @P3, @P4)) then
     begin
-      StrFN:= AnsiString(P1);
-      StrSess:= AnsiString(P2);
-      StrKey:= AnsiString(P3);
-      StrVal:= AnsiString(P4);
+      StrFN:= string(P1);
+      StrSess:= string(P2);
+      StrKey:= string(P3);
+      StrVal:= string(P4);
 
       fn:= StrFN;
       if ExtractFileDir(fn)='' then
@@ -1035,14 +1037,14 @@ end;
 
 function Py_dlg_menu(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Str: string;
   Id: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:dlg_menu', @Id, @Ptr)) then
     begin
-      Str:= AnsiString(Ptr);
+      Str:= string(Ptr);
       case Id of
         MENU_LIST,
         MENU_LIST_ALT:
@@ -1095,7 +1097,7 @@ var
 
 function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Ptr: PAnsiChar;
+  Ptr: PChar;
   Str: string;
   Id: integer;
   Prop: ^TAppPanelProps;
@@ -1103,7 +1105,7 @@ begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_log', @Id, @Ptr)) then
     begin
-      Str:= AnsiString(Ptr);
+      Str:= string(Ptr);
 
       if AppPanelActive='0' then
         Prop:= @AppPanelProp_Out
