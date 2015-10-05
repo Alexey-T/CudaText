@@ -37,6 +37,32 @@ uses
 const
   cTypeLexer = 'lexer';
   cTypePlugin = 'cudatext-plugin';
+  cTypeData = 'cudatext-data';
+
+procedure DoInstallData(
+  const fn_inf: string;
+  var s_report: string);
+var
+  ini: TIniFile;
+  s_subdir, dir_from, dir_target: string;
+begin
+  s_report:= '';
+
+  ini:= TIniFile.Create(fn_inf);
+  try
+    s_subdir:= ini.ReadString('info', 'subdir', '');
+    if s_subdir='' then exit;
+  finally
+    FreeAndNil(ini);
+  end;
+
+  DeleteFile(fn_inf);
+  dir_from:= ExtractFileDir(fn_inf);
+  dir_target:= GetAppPath(cDirData)+DirectorySeparator+s_subdir;
+  FCopyDir(dir_from, dir_target);
+
+  s_report:= 'data files: '+dir_target;
+end;
 
 procedure DoInstallPlugin(
   const fn_inf: string;
@@ -213,7 +239,9 @@ begin
     exit
   end;
 
-  if (s_type<>cTypeLexer) and (s_type<>cTypePlugin) then
+  if (s_type<>cTypeLexer) and
+    (s_type<>cTypePlugin) and
+    (s_type<>cTypeData) then
   begin
     MsgBox('Unsupported addon type: '+s_type, mb_ok or mb_iconerror);
     exit
@@ -221,7 +249,7 @@ begin
 
   if MsgBox('This package contains:'#13#13+
     'name: '+s_title+#13+
-    IfThen(s_desc<>'', 'about: '+s_desc+#13)+
+    IfThen(s_desc<>'', 'description: '+s_desc+#13)+
     'type: '+s_type+#13+
     #13+
     'Do you want to install it?',
@@ -229,7 +257,8 @@ begin
 
   s_report:= '';
   if s_type=cTypeLexer then DoInstallLexer(fn_inf, dir_acp, Manager, s_report) else
-  if s_type=cTypePlugin then DoInstallPlugin(fn_inf, s_report);
+   if s_type=cTypePlugin then DoInstallPlugin(fn_inf, s_report) else
+    if s_type=cTypeData then DoInstallData(fn_inf, s_report);
 
   Result:= true;
 end;
