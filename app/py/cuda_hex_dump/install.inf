@@ -1,0 +1,15 @@
+[info]
+title=Hex Dump
+desc=Shows text in hex-dump format
+type=cudatext-plugin
+subdir=cuda_hex_dump
+
+[item1]
+section=commands
+caption=Hex Dump\Dump Unicode
+method=dump_unicode
+
+[item2]
+section=commands
+caption=Hex Dump\Dump Dos
+method=dump_dos

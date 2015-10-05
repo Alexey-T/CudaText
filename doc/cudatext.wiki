@@ -259,7 +259,7 @@ For CudaText Qt version, library libQt4Pas needed.
 * For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
 
 
-== Autocompletion .acp file format ==
+==Format of auto-completion acp file==
 
 Common auto-completion file format is ANSI text file, it contains list of lines in forms:
 
@@ -321,6 +321,40 @@ In commands-node Python modules listed: these are directories (so Python modules
 * "proc": Python method name in class "Command".
 * "caption": Menu item caption. Can have delimeters "\" (doubled in json) to make submenus, any level. If last part of caption is "-", menu separator is created (module/method are ignored).
 * "hotkey": Menu item hotkey string (parsed by TextToShortcut Lazarus func).
+
+==Format of add-ons' inf files==
+
+To install add-ons from zip files, pack into zip also "install.inf" with info about the package.
+The values of the "type" field must be one of shown below.
+
+Example of inf for plugin (plugin adds 2 menu items with menu separator between):
+
+  [info]
+  title=Name
+  desc=My plugin
+  type=cudatext-plugin
+  subdir=cuda_test
+  
+  [item1]
+  section=commands
+  caption=Test\Item 1
+  method=run
+  [item2]
+  section=commands
+  caption=Test\-
+  method=nnnn
+  [item3]
+  section=commands
+  caption=Test\Item 2
+  method=run
+
+Example of inf for data-files, to be copied into subdir of "data" dir (name of subdir can be any, for example "themes"):
+
+  [info]
+  title=Name
+  desc=My files
+  type=cudatext-data
+  subdir=mydir
 
 ==more==
 
