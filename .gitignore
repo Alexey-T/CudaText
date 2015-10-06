@@ -22,4 +22,5 @@
 lib/
 backup/
 settings/
+__trash/
 /app/cudatext

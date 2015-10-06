@@ -973,7 +973,7 @@ object fmMain: TfmMain
       end
     end
     object mnuTabColor: TMenuItem
-      Caption = 'Set tab color'
+      Caption = 'Set tab color...'
       OnClick = mnuTabColorClick
     end
   end
