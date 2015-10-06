@@ -13,7 +13,7 @@ var
   cfg: TJsonConfig;
   list, list2: TStringlist;
   mi, miSub: TMenuItem;
-  str, strItem: string;
+  str, strItem, strPath: string;
   i, j, cnt, idx: integer;
 begin
   fn_plugins:= GetAppPath(cFileOptPlugins);
@@ -44,9 +44,11 @@ begin
       for j:= 0 to list2.Count-1 do
       begin
         FPluginsCmd[cnt].ItemModule:= list[i];
-        FPluginsCmd[cnt].ItemProc:= cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/proc', '');
-        FPluginsCmd[cnt].ItemCaption:= cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/caption', '');
-        FPluginsCmd[cnt].ItemHotkey:= TextToShortCut(cfg.GetValue('/commands/'+list[i]+'/'+list2[j]+'/hotkey', ''));
+        strPath:= '/commands/'+list[i]+'/'+list2[j]+'/';
+        FPluginsCmd[cnt].ItemProc:= cfg.GetValue(strPath+'proc', '');
+        FPluginsCmd[cnt].ItemCaption:= cfg.GetValue(strPath+'caption', '');
+        FPluginsCmd[cnt].ItemLexers:= cfg.GetValue(strPath+'lexers', '');
+        FPluginsCmd[cnt].ItemHotkey:= TextToShortCut(cfg.GetValue(strPath+'hotkey', ''));
 
         Inc(cnt);
         if cnt>=High(FPluginsCmd) then Break;
@@ -96,12 +98,33 @@ begin
   UpdateKeymapDynamicItems;
 end;
 
+function TfmMain.IsLexerMatches(const ANameList: string): boolean;
+var
+  F: TEditorFrame;
+  SLexer: string;
+begin
+  if ANameList='' then exit(true);
+  F:= CurrentFrame;
+  if F.Lexer=nil then exit(false);
+  SLexer:= F.Lexer.LexerName;
+  if SLexer='' then exit(false);
+  Result:= Pos(
+    ','+LowerCase(SLexer)+',',
+    ','+LowerCase(ANameList)+',' )>0;
+end;
 
 procedure TfmMain.MenuPluginClick(Sender: TObject);
 var
   Num: integer;
 begin
   Num:= (Sender as TComponent).Tag;
+
+  if not IsLexerMatches(FPluginsCmd[Num].ItemLexers) then
+  begin
+    MsgBox('Command is only for lexers: '+FPluginsCmd[Num].ItemLexers, MB_OK+MB_ICONWARNING);
+    Exit
+  end;
+
   Py_RunPlugin_Command(
     FPluginsCmd[Num].ItemModule,
     FPluginsCmd[Num].ItemProc

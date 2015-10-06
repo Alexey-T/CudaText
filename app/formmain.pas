@@ -70,6 +70,7 @@ type
     ItemModule: string;
     ItemProc: string;
     ItemCaption: string;
+    ItemLexers: string;
     ItemHotkey: TShortcut;
   end;
   TAppPluginCmdArray = array[0..200] of TAppPluginCmd;
@@ -557,6 +558,7 @@ type
     procedure GotoDialogDone(Sender: TObject; const Res: string);
     procedure InitFormFind;
     procedure DoOps_LoadLexlib;
+    function IsLexerMatches(const ANameList: string): boolean;
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuThemeDefClick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; out AText,

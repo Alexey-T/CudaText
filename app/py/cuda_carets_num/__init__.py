@@ -3,11 +3,11 @@ from cudatext import *
 class Command:
     def run(self):
         carets = ed.get_carets()
-        if not carets: 
+        if len(carets)<2: 
             msg_box('Place several carets first', MB_OK)
             return
 
-        s = dlg_input_ex(4, 'Carets numbering', 
+        s = dlg_input_ex(4, 'Carets Numbering', 
           'Starting number:', '1', 
           'Digits:', '1',
           'Text before numbers:', '',

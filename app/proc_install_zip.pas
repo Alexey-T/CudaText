@@ -70,7 +70,7 @@ procedure DoInstallPlugin(
 var
   ini: TIniFile;
   cfg: TJSONConfig;
-  s_section, s_caption, s_module, s_method, path_index: string;
+  s_section, s_caption, s_module, s_method, s_hotkey, s_lexers, path: string;
   i: integer;
 begin
   s_report:= '';
@@ -93,13 +93,17 @@ begin
       s_section:= ini.ReadString('item'+Inttostr(i), 'section', '');
       s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
       s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
+      s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
+      s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
       if s_section<>'commands' then break;
       if s_caption='' then break;
       if s_method='' then break;
 
-      path_index:= '/'+s_section+'/'+s_module+'/'+Format('%2.2d', [i-1])+'/';
-      cfg.SetValue(path_index+'proc', s_method);
-      cfg.SetValue(path_index+'caption', s_caption);
+      path:= '/'+s_section+'/'+s_module+'/'+Format('%2.2d', [i-1])+'/';
+      cfg.SetValue(path+'caption', s_caption);
+      cfg.SetValue(path+'proc', s_method);
+      cfg.SetDeleteValue(path+'lexers', s_lexers, '');
+      cfg.SetDeleteValue(path+'hotkey', s_hotkey, '');
 
       FCopyDir(ExtractFileDir(fn_inf), GetAppPath(cDirPy)+DirectorySeparator+s_module);
       s_report:= s_report+'command: '+s_caption+#13;
