@@ -60,10 +60,10 @@ begin
 end;
 
 
-function Py_app_version(Self, Args : PPyObject): PPyObject; cdecl;
+function Py_app_exe_version(Self, Args : PPyObject): PPyObject; cdecl;
 begin
   with GetPythonEngine do
-    Result:= PyString_FromString(cAppVersion);
+    Result:= PyString_FromString(cAppExeVersion);
 end;
 
 function Py_app_api_version(Self, Args : PPyObject): PPyObject; cdecl;
@@ -1196,7 +1196,7 @@ procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
   with Sender as TPythonModule do
   begin
-    AddMethod('app_version', @Py_app_version, '');
+    AddMethod('app_exe_version', @Py_app_exe_version, '');
     AddMethod('app_api_version', @Py_app_api_version, '');
     AddMethod('app_path', @Py_app_path, '');
     AddMethod('app_log', @Py_app_log, '');

@@ -1241,7 +1241,7 @@ procedure TfmMain.mnuHelpAboutClick(Sender: TObject);
 begin
   with TfmAbout.Create(Self) do
   try
-    labelVer.Caption:= cAppVersion;
+    labelVer.Caption:= cAppExeVersion;
     ShowModal;
   finally
     Free

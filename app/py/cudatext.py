@@ -65,8 +65,8 @@ LOG_PANEL_OUTPUT   = "0"
 LOG_PANEL_VALIDATE = "1"
 
 
-def app_version():
-    return ct.app_version()
+def app_exe_version():
+    return ct.app_exe_version()
 def app_api_version():
     return ct.app_api_version()
 def app_path(id):
