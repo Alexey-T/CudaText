@@ -564,6 +564,7 @@ type
     procedure MenuThemeDefClick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; out AText,
       ASuffix: string; out ACharsLeft, ACharsRight: integer);
+    procedure Py_RunPlugin_Index(Num: integer);
     procedure SetEnc(const Str: string);
     procedure SetLexerIndex(N: integer);
     procedure SetShowBottom(Value: boolean);

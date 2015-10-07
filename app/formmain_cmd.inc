@@ -134,10 +134,7 @@ begin
 
     cmdFirstPluginCommand..
     cmdLastPluginCommand:
-    begin
-      with FPluginsCmd[Cmd-cmdFirstPluginCommand] do
-        Py_RunPlugin_Command(ItemModule, ItemProc);
-    end;
+      Py_RunPlugin_Index(Cmd-cmdFirstPluginCommand);
   end;
 
   UpdateStatus;

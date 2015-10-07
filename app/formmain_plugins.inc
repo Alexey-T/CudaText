@@ -114,10 +114,13 @@ begin
 end;
 
 procedure TfmMain.MenuPluginClick(Sender: TObject);
-var
-  Num: integer;
 begin
-  Num:= (Sender as TComponent).Tag;
+  Py_RunPlugin_Index((Sender as TComponent).Tag);
+end;
+
+procedure TfmMain.Py_RunPlugin_Index(Num: integer);
+begin
+  if not ((Num>=Low(FPluginsCmd)) and (Num<=High(FPluginsCmd))) then exit;
 
   if not IsLexerMatches(FPluginsCmd[Num].ItemLexers) then
   begin

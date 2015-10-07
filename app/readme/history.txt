@@ -1,6 +1,7 @@
 
-0.8.3
-+ api: check-list dialog
+0.8.4
++ api: get_prop
++ api: dlg_checklist
 + addons can install files to "data"
 - fix ctrl+shift+home/end
 
