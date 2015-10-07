@@ -484,17 +484,18 @@ type
     function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
+    procedure DoFileCloseAndDelete;
+    procedure DoFileNewFrom(const fn: string);
+    procedure DoOps_PreinstallPlugins;
     procedure DoOps_LoadPlugins;
     procedure DoOps_DlgFont(var OpName: string; var OpSize: integer;
       const ConfStrName, ConfStrSize: string);
-    procedure DoEditorsLock(ALock: boolean);
-    procedure DoFileCloseAndDelete;
-    procedure DoFileNewFrom(const fn: string);
-    procedure DoFindCurWord(ANext: boolean);
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsOverride(F: TEditorFrame);
     procedure DoOps_DlgFontText;
     procedure DoOps_DlgFontUi;
+    procedure DoEditorsLock(ALock: boolean);
+    procedure DoFindCurWord(ANext: boolean);
     procedure DoCopyFilenameDir;
     procedure DoCopyFilenameFull;
     procedure DoCopyFilenameName;
@@ -563,7 +564,6 @@ type
     procedure MenuThemeDefClick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; out AText,
       ASuffix: string; out ACharsLeft, ACharsRight: integer);
-    procedure DoOps_PreinstallPlugins;
     procedure SetEnc(const Str: string);
     procedure SetLexerIndex(N: integer);
     procedure SetShowBottom(Value: boolean);
@@ -2126,7 +2126,11 @@ begin
 
   //dont do editor commands here if ed not focused
   F:= CurrentFrame;
-  EdFocus:= F.Editor.Focused or F.Editor2.Focused;
+  EdFocus:=
+    F.Editor.Focused or
+    F.Editor2.Focused or
+    fmConsole.ed.Focused or
+    fmConsole.memo.Focused;
   if not EdFocus then
     if Cmd<cmd_First then exit;
 
