@@ -1191,6 +1191,64 @@ begin
 end;
 
 
+function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Id: integer;
+  Ptr: PChar;
+  Str: string;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+  Pnt: TPoint;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lis:get_prop', @H, @Id, @Ptr)) then
+    begin
+      Ed:= PyEditor(H);
+      Str:= string(Ptr);
+      F:= fmMain.GetEditorFrame(Ed);
+
+      case Id of
+        PROP_GUTTER_NUM:
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandNum].Visible));
+        PROP_GUTTER_FOLD:
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandFold].Visible));
+        PROP_GUTTER_BM:
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandBm].Visible));
+        PROP_EOL:
+          Result:= PyString_FromString(#10);
+        PROP_WRAP:
+          Result:= PyInt_FromLong(Ord(Ed.OptWrapMode));
+        PROP_RO:
+          Result:= PyBool_FromLong(Ord(Ed.ModeReadOnly));
+        PROP_TAB_SPACES:
+          Result:= PyBool_FromLong(Ord(Ed.OptTabSpaces));
+        PROP_TAB_SIZE:
+          Result:= PyInt_FromLong(Ed.OptTabSize);
+        PROP_MARGIN:
+          Result:= PyInt_FromLong(Ed.OptMarginRight);
+        PROP_MARGIN_STRING:
+          Result:= PyString_FromString(PChar(Ed.OptMarginString));
+        PROP_INSERT:
+          Result:= PyBool_FromLong(Ord(not Ed.ModeOverwrite));
+        PROP_MODIFIED:
+          Result:= PyBool_FromLong(Ord(Ed.Modified));
+        PROP_RULER:
+          Result:= PyBool_FromLong(Ord(Ed.OptRulerVisible));
+        PROP_LEXER_FILE:
+          Result:= PyString_FromString(PChar(F.LexerName));
+        PROP_LEXER_POS:
+          begin
+            Pnt.X:= StrToIntDef(SGetItem(Str, ','), 0);
+            Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
+            Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
+          end
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -1242,6 +1300,7 @@ begin
     AddMethod('ed_get_split', @Py_ed_get_split, '');
     AddMethod('ed_set_split', @Py_ed_set_split, '');
     AddMethod('ed_get_indexes', @Py_ed_get_indexes, '');
+    AddMethod('ed_get_prop', @Py_ed_get_prop, '');
 
     AddMethod('ed_cmd', @Py_ed_cmd, '');
     AddMethod('ed_lock', @Py_ed_lock, '');

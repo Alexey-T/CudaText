@@ -121,6 +121,8 @@ type
     property TabCaption: string read FTabCaption write SetTabCaption;
     property Modified: boolean read FModified;
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
+    function LexerName: string;
+    function LexerNameAtPos(Pnt: TPoint): string;
     property Locked: boolean read FLocked write SetLocked;
     property CommentStr: string read GetCommentStr;
     property TabColor: TColor read FTabColor write SetTabColor;
@@ -337,6 +339,28 @@ end;
 function TEditorFrame.GetLexer: TecSyntAnalyzer;
 begin
   Result:= Adapter.Lexer;
+end;
+
+function TEditorFrame.LexerName: string;
+var
+  an: TecSyntAnalyzer;
+begin
+  an:= Adapter.Lexer;
+  if an=nil then
+    Result:= ''
+  else
+    Result:= an.LexerName;
+end;
+
+function TEditorFrame.LexerNameAtPos(Pnt: TPoint): string;
+var
+  an: TecSyntAnalyzer;
+begin
+  an:= Adapter.LexerAtPos(Pnt);
+  if an=nil then
+    Result:= ''
+  else
+    Result:= an.LexerName;
 end;
 
 procedure TEditorFrame.SetSplitHorz(AValue: boolean);

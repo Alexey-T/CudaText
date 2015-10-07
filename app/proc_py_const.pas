@@ -50,6 +50,22 @@ const
   LOG_CONSOLE_ADD   = 21;
   LOG_CONSOLE_GET   = 22;
 
+  PROP_GUTTER_NUM     = 1;
+  PROP_GUTTER_FOLD    = 2;
+  PROP_GUTTER_BM      = 3;
+  PROP_EOL            = 4;
+  PROP_WRAP           = 5;
+  PROP_RO             = 6;
+  PROP_TAB_SPACES     = 7;
+  PROP_TAB_SIZE       = 8;
+  PROP_MARGIN         = 9;
+  PROP_MARGIN_STRING  = 10;
+  PROP_INSERT         = 11;
+  PROP_MODIFIED       = 12;
+  PROP_RULER          = 13;
+  PROP_LEXER_FILE     = 20;
+  PROP_LEXER_POS      = 21;
+
 implementation
 
 end.

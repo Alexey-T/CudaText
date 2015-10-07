@@ -64,6 +64,22 @@ LOG_CONSOLE_GET   = 22
 LOG_PANEL_OUTPUT   = "0"
 LOG_PANEL_VALIDATE = "1"
 
+PROP_GUTTER_NUM     = 1
+PROP_GUTTER_FOLD    = 2
+PROP_GUTTER_BM      = 3
+PROP_EOL            = 4
+PROP_WRAP           = 5
+PROP_RO             = 6
+PROP_TAB_SPACES     = 7
+PROP_TAB_SIZE       = 8
+PROP_MARGIN         = 9
+PROP_MARGIN_STRING  = 10
+PROP_INSERT         = 11
+PROP_MODIFIED       = 12
+PROP_RULER          = 13
+PROP_LEXER_FILE     = 20
+PROP_LEXER_POS      = 21
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -222,6 +238,9 @@ class Editor:
         return ct.ed_set_split(self.h, state, value)
     def get_indexes(self):
         return ct.ed_get_indexes(self.h)
+        
+    def get_prop(self, id, value=''):
+        return ct.ed_get_prop(self.h, id, value)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)
