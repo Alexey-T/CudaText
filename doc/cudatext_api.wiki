@@ -6,19 +6,15 @@ This is API for [[CudaText]] in Python.
 
 =Global funcs=
 
-===app_version===
+===version===
 
- app_version()
+ app_exe_version()
 
-Gets version of program (str).
-
-===app_api_version===
+Gets version of program (string).
 
  app_api_version()
 
-Gets version of API (str).
-
-String contains 3 numbers, dot-separated.
+Gets version of API (string, contains 3 numbers, dot-separated).
 
 ===app_path===
 
@@ -274,7 +270,7 @@ Note: don't pass tuple from get_carets()[0], this tuple has not sorted pos=(x1, 
 
  insert(x, y, text)
 
-Inserts given text at position (x, y), text can be multi-line with CR and/or LF.
+Inserts given text at position (x, y). Text can be multi-line, all CR LF are converted to currently used line-ends.
 
 Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line.
 
@@ -372,14 +368,29 @@ Gets 2-tuple:
 ** TAB_SPLIT_VERT 
 * float: percent of splitting, it's 0.5 if tab splitted 50/50.
 
-===get_indexes===
+===get_prop===
 
- get_indexes()
+ get_prop(id, text="")
 
-Gets 2-tuple:
+Gets some property of editor. Possible values of id:
 
-* int: index of group with editor's tab, 0-based
-* int: index of editor's tab in group, 0-based
+* PROP_GUTTER_NUM: bool: is gutter column for line numbers shown.
+* PROP_GUTTER_FOLD: bool: is gutter column for folding shown.
+* PROP_GUTTER_BM: bool: is gutter column for bookmarks shown.
+* PROP_EOL: str: end-of-line chars. Currently always gets "\n" since it's ignored in "insert" method.
+* PROP_WRAP: int: word-wrap mode: 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin.
+* PROP_RO: bool: read-only mode.
+* PROP_TAB_SPACES: bool: tab-key enters spaces.
+* PROP_TAB_SIZE: int: size of tab-char.
+* PROP_MARGIN: int: position of fixed margin.
+* PROP_MARGIN_STRING: str: user-defined margins positions, e.g. "20 25".
+* PROP_INSERT: bool: insert/overwrite mode.
+* PROP_MODIFIED: bool: editor is modified.
+* PROP_RULER: bool: horz ruler is shown.
+* PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
+* PROP_LEXER_POS: str: name of lexer at specified position: text must be str(column)+","+str(line), column/line 0-based.
+* PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
+* PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 
 ===bookmark===
 

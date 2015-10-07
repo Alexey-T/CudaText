@@ -1061,22 +1061,6 @@ begin
     end;
 end;
 
-function Py_ed_get_indexes(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: PtrInt;
-  Ed: TATSynEdit;
-  Num1, Num2: integer;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_indexes', @H)) then
-    begin
-      Ed:= PyEditor(H);
-      fmMain.GetEditorIndexes(Ed, Num1, Num2);
-      Result:= Py_BuildValue('(ii)', Num1, Num2);
-    end;
-end;
-
-
 type
   TAppPanelProps = record
     Listbox: TATListbox;
@@ -1194,7 +1178,7 @@ end;
 function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
-  Id: integer;
+  Id, Num1, Num2: integer;
   Ptr: PChar;
   Str: string;
   Ed: TATSynEdit;
@@ -1242,6 +1226,16 @@ begin
             Pnt.X:= StrToIntDef(SGetItem(Str, ','), 0);
             Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
             Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
+          end;
+        PROP_INDEX_GROUP:
+          begin
+            fmMain.GetEditorIndexes(Ed, Num1, Num2);
+            Result:= PyInt_FromLong(Num1);
+          end;
+        PROP_INDEX_TAB:
+          begin
+            fmMain.GetEditorIndexes(Ed, Num1, Num2);
+            Result:= PyInt_FromLong(Num2);
           end
         else
           Result:= ReturnNone;
@@ -1299,7 +1293,6 @@ begin
     AddMethod('ed_set_top', @Py_ed_set_top, '');
     AddMethod('ed_get_split', @Py_ed_get_split, '');
     AddMethod('ed_set_split', @Py_ed_set_split, '');
-    AddMethod('ed_get_indexes', @Py_ed_get_indexes, '');
     AddMethod('ed_get_prop', @Py_ed_get_prop, '');
 
     AddMethod('ed_cmd', @Py_ed_cmd, '');

@@ -65,6 +65,8 @@ const
   PROP_RULER          = 13;
   PROP_LEXER_FILE     = 20;
   PROP_LEXER_POS      = 21;
+  PROP_INDEX_GROUP    = 22;
+  PROP_INDEX_TAB      = 23;
 
 implementation
 

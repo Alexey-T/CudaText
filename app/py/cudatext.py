@@ -79,6 +79,8 @@ PROP_MODIFIED       = 12
 PROP_RULER          = 13
 PROP_LEXER_FILE     = 20
 PROP_LEXER_POS      = 21
+PROP_INDEX_GROUP    = 22
+PROP_INDEX_TAB      = 23
 
 
 def app_exe_version():
@@ -236,8 +238,6 @@ class Editor:
         return ct.ed_get_split(self.h)
     def set_split(self, state, value):
         return ct.ed_set_split(self.h, state, value)
-    def get_indexes(self):
-        return ct.ed_get_indexes(self.h)
         
     def get_prop(self, id, value=''):
         return ct.ed_get_prop(self.h, id, value)
