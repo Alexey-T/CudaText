@@ -79,8 +79,9 @@ PROP_MODIFIED       = 12
 PROP_RULER          = 13
 PROP_LEXER_FILE     = 20
 PROP_LEXER_POS      = 21
-PROP_INDEX_GROUP    = 22
-PROP_INDEX_TAB      = 23
+PROP_LEXER_CARET    = 22
+PROP_INDEX_GROUP    = 23
+PROP_INDEX_TAB      = 24
 
 
 def app_exe_version():

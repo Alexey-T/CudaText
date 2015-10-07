@@ -1227,6 +1227,12 @@ begin
             Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
             Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
           end;
+        PROP_LEXER_CARET:
+          begin
+            Pnt.X:= Ed.Carets[0].PosX;
+            Pnt.Y:= Ed.Carets[0].PosY;
+            Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
+          end;
         PROP_INDEX_GROUP:
           begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);

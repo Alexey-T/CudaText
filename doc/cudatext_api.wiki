@@ -389,6 +389,7 @@ Gets some property of editor. Possible values of id:
 * PROP_RULER: bool: horz ruler is shown.
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: text must be str(column)+","+str(line), column/line 0-based.
+* PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 
