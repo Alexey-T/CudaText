@@ -105,8 +105,11 @@ type
     StatusStreamSel: string;
     StatusColSel: string;
     StatusCarets: string;
-    StatusWidth: integer;
-    StatusHeight: integer;
+    StatusSizeX: integer;
+    StatusSizeY: integer;
+    StatusCenter: boolean;
+
+    ShowTitlePath: boolean;
   end;
 var
   UiOps: TUiOps;
@@ -611,8 +614,11 @@ begin
     StatusStreamSel:= 'Ln {y}, Col {x}, {sel} lines sel';
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
-    StatusWidth:= 200;
-    StatusHeight:= TabSizeY;
+    StatusSizeX:= 200;
+    StatusSizeY:= TabSizeY;
+    StatusCenter:= true;
+
+    ShowTitlePath:= false;
   end;
 end;
 

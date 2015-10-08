@@ -8,9 +8,21 @@ Copyright (c) Alexey Torgashin
 {$ifdef nn}begin end;{$endif}
 
 procedure TfmMain.UpdateCaption;
+var
+  F: TEditorFrame;
+  SName: string;
 begin
-  Caption:= msgTitle+' - ' + CurrentFrame.TabCaption;
-  Application.Title:= Caption;
+  F:= CurrentFrame;
+  if UiOps.ShowTitlePath then
+  begin
+    SName:= F.FileName;
+    if SName='' then SName:= F.TabCaption;
+  end
+  else
+    SName:= F.TabCaption;
+
+  Caption:= SName + ' - ' + msgTitle;
+  Application.Title:= F.TabCaption + ' - ' + msgTitle;
 end;
 
 procedure TfmMain.UpdateStatus;

@@ -179,8 +179,10 @@ begin
     UiOps.StatusStreamSel:= c.GetValue('ui_stat_str_sel', UiOps.StatusStreamSel);
     UiOps.StatusColSel:= c.GetValue('ui_stat_col_sel', UiOps.StatusColSel);
     UiOps.StatusCarets:= c.GetValue('ui_stat_carets', UiOps.StatusCarets);
-    UiOps.StatusWidth:= c.GetValue('ui_stat_size_x', UiOps.StatusWidth);
-    UiOps.StatusHeight:= c.GetValue('ui_stat_size_y', UiOps.StatusHeight);
+    UiOps.StatusSizeX:= c.GetValue('ui_stat_size_x', UiOps.StatusSizeX);
+    UiOps.StatusSizeY:= c.GetValue('ui_stat_size_y', UiOps.StatusSizeY);
+    UiOps.StatusCenter:= c.GetValue('ui_stat_center', UiOps.StatusCenter);
+    UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
 
     Op.OpSpaceX:= c.GetValue('spacing_x', Op.OpSpaceX);
     Op.OpSpaceY:= c.GetValue('spacing_y', Op.OpSpaceY);

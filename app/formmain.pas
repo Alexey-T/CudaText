@@ -1325,8 +1325,12 @@ begin
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
 
   Status.IndentTop:= UiOps.TabIndentY;
-  Status.Height:= UiOps.StatusHeight;
-  Status.GetPanelData(0).ItemWidth:= UiOps.StatusWidth;
+  Status.Height:= UiOps.StatusSizeY;
+  Status.GetPanelData(0).ItemWidth:= UiOps.StatusSizeX;
+  if UiOps.StatusCenter then
+    Status.GetPanelData(0).ItemAlign:= saMiddle
+  else
+    Status.GetPanelData(0).ItemAlign:= saLeft;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
