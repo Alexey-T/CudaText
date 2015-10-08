@@ -312,6 +312,13 @@ var
   n1, n2, i: integer;
 begin
   result:= 0;
+
+  if not ed.IsSelRectEmpty then
+  begin
+    result:= ed.SelRect.Bottom-ed.SelRect.Top+1;
+    exit
+  end;
+
   for i:= 0 to ed.carets.count-1 do
   begin
     ed.carets[i].GetSelLines(n1, n2);
