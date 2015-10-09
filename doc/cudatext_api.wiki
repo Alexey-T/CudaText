@@ -27,6 +27,16 @@ Gets some path. Possible values of id:
 * APP_DIR_DATA: Dir "data".
 * APP_DIR_PY: Dir with Python data "py".
 
+===app_proc===
+
+ app_proc(id, text)
+
+Performs application-wide action. Possible values of id:
+
+* PROC_GET_CLIP: Gets clipboard text.
+* PROC_SET_CLIP: Copies text to clipboard.
+* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct.
+
 ===app_log===
 
  app_log(id, text)
@@ -311,21 +321,6 @@ Gets 4-tuple (x1, y1, x2, y2). All 0 if no column selection.
 
 Gets number of lines.
 
-===get_line_state===
-
- get_line_state(num)
-
-Gets state of the line with given index. One of values:
-
-* LINESTATE_NORMAL  
-* LINESTATE_CHANGED 
-* LINESTATE_ADDED   
-* LINESTATE_SAVED   
-
-Line state changes from "normal" to "changed" if line modifies, sets to "added" for added lines, changes from "changed"/"added" to "saved" when file is saved.
-
-Gets None for incorrect index.
-
 ===get_filename===
 
  get_filename()
@@ -387,6 +382,7 @@ Gets some property of editor. Possible values of id:
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_RULER: bool: horz ruler is shown.
+* PROP_LINE_STATE: int: state of the line with index int(text). One of values: LINESTATE_NORMAL, LINESTATE_CHANGED, LINESTATE_ADDED, LINESTATE_SAVED.
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: text must be str(column)+","+str(line), column/line 0-based.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
