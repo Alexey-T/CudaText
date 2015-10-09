@@ -516,23 +516,6 @@ begin
     end;
 end;
 
-function Py_ed_get_line_state(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: PtrInt;
-  N: Integer;
-  Ed: TATSynEdit;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:get_line_state', @H, @N)) then
-    begin
-      Ed:= PyEditor(H);
-      if Ed.Strings.IsIndexValid(N) then
-        Result:= PyInt_FromLong(Ord(Ed.Strings.LinesState[N]))
-      else
-        Result:= ReturnNone;
-    end;
-end;
-
 
 function Py_ed_get_filename(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -1218,6 +1201,14 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.Modified));
         PROP_RULER:
           Result:= PyBool_FromLong(Ord(Ed.OptRulerVisible));
+        PROP_LINE_STATE:
+          begin
+            Num1:= StrToIntDef(Str, -1);
+            if Ed.Strings.IsIndexValid(Num1) then
+              Result:= PyInt_FromLong(Ord(Ed.Strings.LinesState[Num1]))
+            else
+              Result:= ReturnNone;
+          end;
         PROP_LEXER_FILE:
           Result:= PyString_FromString(PChar(F.LexerName));
         PROP_LEXER_POS:
@@ -1324,10 +1315,7 @@ begin
     Addmethod('ed_get_text_line', @Py_ed_get_text_line, '');
     Addmethod('ed_set_text_line', @Py_ed_set_text_line, '');
     Addmethod('ed_get_text_substr', @Py_ed_get_text_substr, '');
-
     Addmethod('ed_get_line_count', @Py_ed_get_line_count, '');
-    Addmethod('ed_get_line_state', @Py_ed_get_line_state, '');
-
     AddMethod('ed_delete', @Py_ed_delete, '');
     AddMethod('ed_insert', @Py_ed_insert, '');
 

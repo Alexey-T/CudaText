@@ -46,49 +46,24 @@ FILENAME_LEXLIB          = -20
 FILENAME_PATHS           = -21
 FILENAME_FAVS            = -22
 
-PROC_GET_CLIP         = 1
-PROC_SET_CLIP         = 2
 PROC_LOCK_STATUS      = 3
 PROC_UNLOCK_STATUS    = 4
 PROC_ADD_RECENT_COLOR = 7
-PROC_GET_COMMAND      = 8
 
-PROP_NUMS           = 1
-PROP_EOL            = 2
-PROP_WRAP           = 3
-PROP_RO             = 4
-PROP_MARGIN         = 5
-PROP_FOLDING        = 6
-PROP_TAB_SPACES     = 8
-PROP_TAB_SIZE       = 9
-PROP_COL_MARKERS    = 10
 PROP_TEXT_EXTENT    = 11
 PROP_ZOOM           = 12
-PROP_INSERT         = 13
-PROP_MODIFIED       = 14
 PROP_VIS_LINES      = 15
 PROP_VIS_COLS       = 16
-PROP_LEFT           = 17
-PROP_TOP            = 18
-PROP_BOTTOM         = 19
-PROP_RULER          = 20
 PROP_TOKEN_TYPE     = 21
-PROP_LEXER_FILE     = 22
-PROP_LEXER_CARET    = 23
-PROP_LEXER_POS      = 24
 PROP_COLOR          = 25
 PROP_NON_PRINTED         = 26
 PROP_NON_PRINTED_SPACES  = 27
 PROP_NON_PRINTED_ENDS    = 28
 PROP_NON_PRINTED_ENDS_EX = 29
 PROP_TAG                 = 30
-PROP_LINE_STATE          = 31
 PROP_KEEP_TRAIL_BLANKS   = 32
 PROP_KEEP_CARET_IN_TEXT  = 33
 PROP_AUTO_INDENT         = 34
-PROP_LAST_LINE_SHOW      = 35
-PROP_TAB_FILL            = 36
-PROP_WRAP_AT_MARGIN      = 37
 
 PROP_COORD_WINDOW  = 100
 PROP_COORD_TREE    = 101
@@ -156,8 +131,6 @@ def app_lock(id):
     return sw_api.app_lock(id)
 def lexer_proc(id, text):
     return sw_api.lexer_proc(id, text)
-def app_proc(id, text=''):
-    return sw_api.app_proc(id, text)
 
 class Editor:
 ##far todo

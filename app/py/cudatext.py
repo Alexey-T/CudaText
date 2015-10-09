@@ -77,6 +77,7 @@ PROP_MARGIN_STRING  = 10
 PROP_INSERT         = 11
 PROP_MODIFIED       = 12
 PROP_RULER          = 13
+PROP_LINE_STATE     = 14
 PROP_LEXER_FILE     = 20
 PROP_LEXER_POS      = 21
 PROP_LEXER_CARET    = 22
@@ -182,8 +183,6 @@ class Editor:
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
-    def get_line_state(self, num):
-        return ct.ed_get_line_state(self.h, num)
 
     def get_text_all(self):
         return ct.ed_get_text_all(self.h)

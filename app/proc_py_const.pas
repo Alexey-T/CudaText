@@ -63,6 +63,7 @@ const
   PROP_INSERT         = 11;
   PROP_MODIFIED       = 12;
   PROP_RULER          = 13;
+  PROP_LINE_STATE     = 14;
   PROP_LEXER_FILE     = 20;
   PROP_LEXER_POS      = 21;
   PROP_LEXER_CARET    = 22;
