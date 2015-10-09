@@ -125,8 +125,8 @@ var
 begin
   Ed:= CurrentEditor;
   P:= Ed.ClientToScreen(Point(0, 0));
-  Form.Left:= P.X+(Ed.Width-Form.Width) div 2;
-  Form.Top:= P.Y;
+  Form.Left:= Max(0, P.X+(Ed.Width-Form.Width) div 2);
+  Form.Top:= Max(0, P.Y);
   Form.Height:= Min(Ed.Height, APreferHeight);
 end;
 
