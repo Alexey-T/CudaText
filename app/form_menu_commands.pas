@@ -263,6 +263,10 @@ begin
 
   strname:= TATKeymapItem(keymapList[AIndex]).Name;
   strkey:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys1);
+    //key2
+    strfind:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys2);
+    if strfind<>'' then strkey:= strkey+' / '+strfind;
+    //
   strfind:= Utf8Encode(Trim(edit.Text));
 
   pnt:= Point(ARect.Left+4, ARect.Top+1);
@@ -309,13 +313,27 @@ end;
 
 function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
-  Str: atString;
+  Str, StrKey: atString;
   Ar: TATIntArray;
 begin
-  Str:= Utf8Encode(Trim(edit.Text));
-  if Str='' then begin result:= true; exit end;
-  Ar:= SFindFuzzyPositions(Item.Name, Str);
-  Result:= Length(Ar)>0;
+  Result:= false;
+  Str:= Trim(edit.Text);
+  if Str='' then exit(true);
+
+  //first @ char means search in hotkey
+  if Str[1]='@' then
+  begin
+    Delete(Str, 1, 1);
+    Result:=
+      (Pos(LowerCase(Str), LowerCase(KeyArrayToString(Item.Keys1)))>0) or
+      (Pos(LowerCase(Str), LowerCase(KeyArrayToString(Item.Keys2)))>0);
+  end
+  else
+  //normal search in name
+  begin
+    Ar:= SFindFuzzyPositions(Item.Name, Str);
+    Result:= Length(Ar)>0;
+  end;
 end;
 
 end.
