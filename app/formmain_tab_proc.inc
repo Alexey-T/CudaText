@@ -57,11 +57,13 @@ end;
 procedure TfmMain.DoOnTabFocus(S: TObject);
 var
   D: TATTabData;
+  F: TEditorFrame;
 begin
   D:= (S as TATTabs).GetTabData((S as TATTabs).TabIndex);
   if D<>nil then
   begin
-    (D.TabObject as TEditorFrame).Editor.SetFocus;
+    F:= D.TabObject as TEditorFrame;
+    F.Editor.SetFocus;
   end;
 
   UpdateStatus;

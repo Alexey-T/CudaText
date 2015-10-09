@@ -85,6 +85,9 @@ const
   cmd_Groups4grid = 2638;
   cmd_Groups6grid = 2639;
 
+  cmd_GroupActivateNext = 2640;
+  cmd_GroupActivatePrev = 2641;
+
   cmd_CopyLine         = 2650;
   cmd_CopyFilenameFull = 2651;
   cmd_CopyFilenameDir  = 2652;
@@ -191,6 +194,9 @@ begin
   M.Add(cmd_Groups4vert, 'groups: 4 groups horz', [], []);
   M.Add(cmd_Groups4grid, 'groups: 4 groups grid', [], []);
   M.Add(cmd_Groups6grid, 'groups: 6 groups grid', [], []);
+
+  M.Add(cmd_GroupActivateNext, 'groups: focus next group', [], []);
+  M.Add(cmd_GroupActivatePrev, 'groups: focus prev group', [], []);
 
   M.Add(cmd_BookmarkToggle, 'bookmarks: toggle current line', [], []);
   M.Add(cmd_BookmarkGotoNext, 'bookmarks: go to next', [], []);
