@@ -261,12 +261,13 @@ begin
   c.FillRect(ARect);
   c.Font.Color:= GetAppColor('ListFont');
 
+  //name, key
   strname:= TATKeymapItem(keymapList[AIndex]).Name;
   strkey:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys1);
-    //key2
-    strfind:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys2);
-    if strfind<>'' then strkey:= strkey+' / '+strfind;
-    //
+  //add key2
+  strfind:= KeyArrayToString(TATKeymapItem(keymapList[AIndex]).Keys2);
+  if strfind<>'' then strkey:= strkey+' / '+strfind;
+
   strfind:= Utf8Encode(Trim(edit.Text));
 
   pnt:= Point(ARect.Left+4, ARect.Top+1);
