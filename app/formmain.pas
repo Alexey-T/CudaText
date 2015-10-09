@@ -1658,11 +1658,13 @@ end;
 procedure TfmMain.mnuViewStatusClick(Sender: TObject);
 begin
   ShowStatus:= not ShowStatus;
+  UpdateMenuChecked;
 end;
 
 procedure TfmMain.mnuViewToolbarClick(Sender: TObject);
 begin
   ShowToolbar:= not ShowToolbar;
+  UpdateMenuChecked;
 end;
 
 procedure TfmMain.PopupNewdocPopup(Sender: TObject);
@@ -2244,6 +2246,7 @@ procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
 begin
   Tree.FullExpand;
 end;
+
 
 procedure TfmMain.DoTreeCollapseLevel(ALevel: integer);
 var
