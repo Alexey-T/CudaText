@@ -45,8 +45,7 @@ begin
   end;
 end;
 
-procedure TfmMain.PythonIOSendData(Sender: TObject;
-  const Data: string);
+procedure TfmMain.PythonIOSendData(Sender: TObject; const Data: AnsiString);
 begin
   if Assigned(fmConsole) then
     fmConsole.DoLogConsoleLine(Data);
@@ -1249,6 +1248,47 @@ begin
     end;
 end;
 
+function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Id, Num: integer;
+  Ptr: PChar;
+  Str: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
+    begin
+      Str:= string(Ptr);
+
+      case Id of
+        APP_PROC_GET_CLIP:
+          begin
+            Result:= PyString_FromString(PChar(Clipboard.AsText));
+          end;
+        APP_PROC_SET_CLIP:
+          begin
+            Clipboard.AsText:= Str;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_GET_COMMAND:
+          begin
+            Num:= StrToIntDef(Str, -1);
+            if Keymap.IsIndexValid(Num) then
+              with Keymap[Num] do
+                Result:= Py_BuildValue('(isss)',
+                  Command,
+                  PChar(Name),
+                  PChar(KeyArrayToString(Keys1)),
+                  PChar(KeyArrayToString(Keys2))
+                  )
+            else
+              Result:= ReturnNone;
+          end;
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -1257,6 +1297,7 @@ begin
     AddMethod('app_exe_version', @Py_app_exe_version, '');
     AddMethod('app_api_version', @Py_app_api_version, '');
     AddMethod('app_path', @Py_app_path, '');
+    AddMethod('app_proc', @Py_app_proc, '');
     AddMethod('app_log', @Py_app_log, '');
 
     AddMethod('msg_status', @Py_msg_status, '');

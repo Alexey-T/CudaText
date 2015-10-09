@@ -256,14 +256,18 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.DoFindCurWord(ANext: boolean);
+procedure TfmMain.DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
 var
   Str: atString;
   Ed: TATSynEdit;
   ok, bFlag: boolean;
 begin
   Ed:= CurrentEditor;
-  Str:= Ed.TextCurrentWord;
+
+  if AWordOrSel then
+    Str:= Ed.TextCurrentWord
+  else
+    Str:= Ed.TextSelected;
   if Str='' then exit;
 
   FFinder.StrFind:= Str;
@@ -272,7 +276,7 @@ begin
 
   FFinder.OptRegex:= false;
   FFinder.OptCase:= true;
-  FFinder.OptWords:= true;
+  FFinder.OptWords:= AWordOrSel;
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= not ANext;
 

@@ -83,6 +83,10 @@ PROP_LEXER_CARET    = 22
 PROP_INDEX_GROUP    = 23
 PROP_INDEX_TAB      = 24
 
+PROC_GET_CLIP = 0
+PROC_SET_CLIP = 1
+PROC_GET_COMMAND = 2
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -90,6 +94,8 @@ def app_api_version():
     return ct.app_api_version()
 def app_path(id):
     return ct.app_path(id)
+def app_proc(id, text):
+    return ct.app_proc(id, text)    
 
 def app_log(id, text):
     res = ct.app_log(id, text)

@@ -50,8 +50,10 @@ begin
 
     cmd_FindNext:        DoFindNext(true);
     cmd_FindPrev:        DoFindNext(false);
-    cmd_FindCurWordNext: DoFindCurWord(true);
-    cmd_FindCurWordPrev: DoFindCurWord(false);
+    cmd_FindCurWordNext: DoFindCurrentWordOrSel(true, true);
+    cmd_FindCurWordPrev: DoFindCurrentWordOrSel(false, true);
+    cmd_FindCurSelNext:  DoFindCurrentWordOrSel(true, false);
+    cmd_FindCurSelPrev:  DoFindCurrentWordOrSel(false, false);
 
     cmd_OpsClearRecent:  DoClearRecentFileHistory;
     cmd_OpsOpenDefault:  DoOps_OpenFile_Default;

@@ -63,6 +63,8 @@ const
   cmd_FindPrev         = 2591;
   cmd_FindCurWordNext  = 2592;
   cmd_FindCurWordPrev  = 2593;
+  cmd_FindCurSelNext   = 2594;
+  cmd_FindCurSelPrev   = 2595;
 
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
@@ -164,10 +166,12 @@ begin
 
   M.Add(cmd_DlgFind, 'dialog: find', [cXControl+'+F'], []);
   M.Add(cmd_DlgReplace, 'dialog: replace', [cXControl+'+R'], []);
-  M.Add(cmd_FindNext, 'find next', ['F3'], []);
-  M.Add(cmd_FindPrev, 'find prev', ['Shift+F3'], []);
-  M.Add(cmd_FindCurWordNext, 'find current word next', [], []);
-  M.Add(cmd_FindCurWordPrev, 'find current word prev', [], []);
+  M.Add(cmd_FindNext, 'find, next', ['F3'], []);
+  M.Add(cmd_FindPrev, 'find, prev', ['Shift+F3'], []);
+  M.Add(cmd_FindCurWordNext, 'find current word, next', [], []);
+  M.Add(cmd_FindCurWordPrev, 'find current word, prev', [], []);
+  M.Add(cmd_FindCurSelNext, 'find current selection, next', [], []);
+  M.Add(cmd_FindCurSelPrev, 'find current selection, prev', [], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);

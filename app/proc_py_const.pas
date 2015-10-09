@@ -69,6 +69,10 @@ const
   PROP_INDEX_GROUP    = 23;
   PROP_INDEX_TAB      = 24;
 
+  APP_PROC_GET_CLIP = 0;
+  APP_PROC_SET_CLIP = 1;
+  APP_PROC_GET_COMMAND = 2;
+
 implementation
 
 end.

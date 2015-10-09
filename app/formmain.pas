@@ -495,7 +495,7 @@ type
     procedure DoOps_DlgFontText;
     procedure DoOps_DlgFontUi;
     procedure DoEditorsLock(ALock: boolean);
-    procedure DoFindCurWord(ANext: boolean);
+    procedure DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
     procedure DoCopyFilenameDir;
     procedure DoCopyFilenameFull;
     procedure DoCopyFilenameName;

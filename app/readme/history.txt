@@ -2,6 +2,7 @@
 0.8.5
 + opt ui_stat_center
 + opt ui_title_path
++ commands list: find selection next/prev
 
 0.8.4
 + api: get_prop
