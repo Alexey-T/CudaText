@@ -22,7 +22,6 @@ type
   { TfmLexerProp }
 
   TfmLexerProp = class(TForm)
-    bApplyStl: TButton;
     ButtonPanel1: TButtonPanel;
     chkBold: TCheckBox;
     chkItalic: TCheckBox;
@@ -61,19 +60,26 @@ type
     TabSheetGen: TTabSheet;
     TabSheetNotes: TTabSheet;
     TabSheetStyles: TTabSheet;
-    procedure bApplyStlClick(Sender: TObject);
+    procedure cbBorderLChange(Sender: TObject);
+    procedure chkBoldChange(Sender: TObject);
+    procedure edColorBGChange(Sender: TObject);
+    procedure edColorFontChange(Sender: TObject);
     procedure edStyleTypeChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure ListStylesClick(Sender: TObject);
   private
     { private declarations }
-    FAn: TecSyntAnalyzer;
+    FAnalyzer: TecSyntAnalyzer;
+    FFormats: TecStylesCollection;
+    FLockedUpdate: boolean;
     procedure InitBorder(cb: TCombobox);
-    procedure UpdateStl;
+    procedure UpdateListboxStyles;
     procedure UpdateStlEn(fmt: TecFormatType);
-    procedure UpdateStlFromList;
-    procedure UpdateStlToList;
+    procedure UpdateStlFromListbox;
+    procedure UpdateStlToListbox;
   public
     { public declarations }
     Adapter: TATAdapterEControl;
@@ -96,60 +102,104 @@ begin
   Adapter:= TATAdapterEControl.Create(Self);
   edSample.AdapterHilite:= Adapter;
 
+  FFormats:= TecStylesCollection.Create;
+
   InitBorder(cbBorderL);
   InitBorder(cbBorderT);
   InitBorder(cbBorderR);
   InitBorder(cbBorderB);
 end;
 
-procedure TfmLexerProp.bApplyStlClick(Sender: TObject);
-begin
-  UpdateStlToList;
-end;
-
 procedure TfmLexerProp.edStyleTypeChange(Sender: TObject);
 begin
   UpdateStlEn(TecFormatType(edStyleType.ItemIndex));
+  UpdateStlToListbox;
+end;
+
+procedure TfmLexerProp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+var
+  i: integer;
+begin
+  if ModalResult=mrOk then
+  begin
+    for i:= 0 to FAnalyzer.Formats.Count-1 do
+      FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
+  end;
+end;
+
+procedure TfmLexerProp.edColorBGChange(Sender: TObject);
+begin
+  UpdateStlToListbox;
+end;
+
+procedure TfmLexerProp.chkBoldChange(Sender: TObject);
+begin
+  UpdateStlToListbox;
+end;
+
+procedure TfmLexerProp.cbBorderLChange(Sender: TObject);
+begin
+  UpdateStlToListbox;
+end;
+
+procedure TfmLexerProp.edColorFontChange(Sender: TObject);
+begin
+  UpdateStlToListbox;
 end;
 
 procedure TfmLexerProp.FormDestroy(Sender: TObject);
 begin
   edSample.AdapterHilite:= nil;
   FreeAndNil(Adapter);
+
+  FFormats.Clear;
+  FreeAndNil(FFormats);
+end;
+
+procedure TfmLexerProp.FormShow(Sender: TObject);
+var
+  i: integer;
+begin
+  FFormats.Clear;
+  for i:= 0 to FAnalyzer.Formats.Count-1 do
+  begin
+    FFormats.Add;
+    FFormats[FFormats.Count-1].Assign(FAnalyzer.Formats[i]);
+  end;
+
+  UpdateListboxStyles;
 end;
 
 procedure TfmLexerProp.ListStylesClick(Sender: TObject);
 begin
-  UpdateStlFromList;
+  UpdateStlFromListbox;
 end;
 
-procedure TfmLexerProp.UpdateStl;
+procedure TfmLexerProp.UpdateListboxStyles;
 var
   i: integer;
-  fmt: TecSyntaxFormat;
 begin
   ListStyles.Items.Clear;
-  for i:= 0 to FAn.Formats.Count-1 do
-  begin
-    fmt:= FAn.Formats[i];
-    ListStyles.Items.Add(fmt.DisplayName);
-  end;
+  for i:= 0 to FFormats.Count-1 do
+    ListStyles.Items.Add(FFormats[i].DisplayName);
 
   if ListStyles.Count>0 then
     ListStyles.ItemIndex:= 0;
-  UpdateStlFromList;
+  UpdateStlFromListbox;
 end;
 
 
 
-procedure TfmLexerProp.UpdateStlFromList;
+procedure TfmLexerProp.UpdateStlFromListbox;
 var
   n: integer;
   fmt: TecSyntaxFormat;
 begin
   n:= ListStyles.ItemIndex;
   if n<0 then exit;
-  fmt:= FAn.Formats[n];
+
+  FLockedUpdate:= true;
+  fmt:= FFormats[n];
   UpdateStlEn(fmt.FormatType);
 
   edStyleType.ItemIndex:= Ord(fmt.FormatType);
@@ -166,6 +216,8 @@ begin
   cbBorderT.ItemIndex:= Ord(fmt.BorderTypeTop);
   cbBorderR.ItemIndex:= Ord(fmt.BorderTypeRight);
   cbBorderB.ItemIndex:= Ord(fmt.BorderTypeBottom);
+
+  FLockedUpdate:= false;
 end;
 
 procedure TfmLexerProp.UpdateStlEn(fmt: TecFormatType);
@@ -179,15 +231,17 @@ begin
   chkStrik.Enabled:= chkBold.Enabled;
 end;
 
-procedure TfmLexerProp.UpdateStlToList;
+procedure TfmLexerProp.UpdateStlToListbox;
 var
   n: integer;
   fmt: TecSyntaxFormat;
   fs: TFontStyles;
 begin
+  if FLockedUpdate then exit;
+
   n:= ListStyles.ItemIndex;
   if n<0 then exit;
-  fmt:= FAn.Formats[n];
+  fmt:= FFormats[n];
 
   fmt.FormatType:= TecFormatType(edStyleType.ItemIndex);
   fmt.Font.Color:= edColorFont.Selected;
@@ -217,12 +271,11 @@ begin
   if an=nil then exit;
   F:= TfmLexerProp.Create(nil);
   try
-    F.FAn:= an;
+    F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;
     F.edExt.Text:= an.Extentions;
     F.edLineCmt.Text:= an.LineComment;
     F.edNotes.Lines.AddStrings(an.Notes);
-    F.UpdateStl;
 
     F.edSample.Font.Name:= AFontName;
     F.edSample.Font.Size:= AFontSize;

@@ -1,15 +1,17 @@
 object fmLexerProp: TfmLexerProp
-  Left = 218
+  Left = 444
   Height = 566
-  Top = 300
+  Top = 303
   Width = 623
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Lexer properties'
   ClientHeight = 566
   ClientWidth = 623
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.5'
@@ -323,6 +325,7 @@ object fmLexerProp: TfmLexerProp
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
           DropDownCount = 20
           ItemHeight = 0
+          OnChange = edColorFontChange
           TabOrder = 2
         end
         object edColorBG: TColorBox
@@ -335,6 +338,7 @@ object fmLexerProp: TfmLexerProp
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
           DropDownCount = 20
           ItemHeight = 0
+          OnChange = edColorBGChange
           TabOrder = 1
         end
         object Label5: TLabel
@@ -391,6 +395,7 @@ object fmLexerProp: TfmLexerProp
           Top = 120
           Width = 57
           Caption = 'Bold'
+          OnChange = chkBoldChange
           TabOrder = 3
         end
         object chkItalic: TCheckBox
@@ -399,6 +404,7 @@ object fmLexerProp: TfmLexerProp
           Top = 120
           Width = 59
           Caption = 'Italic'
+          OnChange = chkBoldChange
           TabOrder = 4
         end
         object chkStrik: TCheckBox
@@ -407,6 +413,7 @@ object fmLexerProp: TfmLexerProp
           Top = 120
           Width = 83
           Caption = 'Stikeout'
+          OnChange = chkBoldChange
           TabOrder = 6
         end
         object chkUnder: TCheckBox
@@ -415,17 +422,8 @@ object fmLexerProp: TfmLexerProp
           Top = 120
           Width = 91
           Caption = 'Underline'
+          OnChange = chkBoldChange
           TabOrder = 5
-        end
-        object bApplyStl: TButton
-          Left = 8
-          Height = 29
-          Top = 304
-          Width = 143
-          AutoSize = True
-          Caption = 'Apply style changes'
-          OnClick = bApplyStlClick
-          TabOrder = 12
         end
         object Label9: TLabel
           Left = 8
@@ -442,6 +440,7 @@ object fmLexerProp: TfmLexerProp
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
+          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 7
         end
@@ -452,6 +451,7 @@ object fmLexerProp: TfmLexerProp
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
+          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 8
         end
@@ -462,6 +462,7 @@ object fmLexerProp: TfmLexerProp
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
+          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 9
         end
@@ -472,6 +473,7 @@ object fmLexerProp: TfmLexerProp
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
+          OnChange = cbBorderLChange
           Style = csDropDownList
           TabOrder = 10
         end
@@ -525,6 +527,7 @@ object fmLexerProp: TfmLexerProp
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
           DropDownCount = 20
           ItemHeight = 0
+          OnChange = edColorBGChange
           TabOrder = 11
         end
       end
