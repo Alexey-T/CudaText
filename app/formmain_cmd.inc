@@ -77,6 +77,9 @@ begin
     cmd_GroupActivateNext: Groups.PagesSetNext(true);
     cmd_GroupActivatePrev: Groups.PagesSetNext(false);
 
+    cmd_MoveTabToGroupNext: Groups.MoveCurrentTabToNext(true);
+    cmd_MoveTabToGroupPrev: Groups.MoveCurrentTabToNext(false);
+
     cmd_SplitTabToggle:    with CurrentFrame do Splitted:= not Splitted;
     cmd_SplitTabHorzVert:  with CurrentFrame do SplitHorz:= not SplitHorz;
     cmd_SplitTab3070:   CurrentFrame.SplitPos:= 0.7;

@@ -88,6 +88,9 @@ const
   cmd_GroupActivateNext = 2640;
   cmd_GroupActivatePrev = 2641;
 
+  cmd_MoveTabToGroupNext = 2642;
+  cmd_MoveTabToGroupPrev = 2643;
+
   cmd_CopyLine         = 2650;
   cmd_CopyFilenameFull = 2651;
   cmd_CopyFilenameDir  = 2652;
@@ -197,6 +200,8 @@ begin
 
   M.Add(cmd_GroupActivateNext, 'groups: focus next group', [], []);
   M.Add(cmd_GroupActivatePrev, 'groups: focus prev group', [], []);
+  M.Add(cmd_MoveTabToGroupNext, 'groups: move tab to next group', [], []);
+  M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to prev group', [], []);
 
   M.Add(cmd_BookmarkToggle, 'bookmarks: toggle current line', [], []);
   M.Add(cmd_BookmarkGotoNext, 'bookmarks: go to next', [], []);

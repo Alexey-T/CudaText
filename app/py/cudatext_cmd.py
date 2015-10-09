@@ -219,6 +219,9 @@ cmd_Groups6grid = 2639
 cmd_GroupActivateNext = 2640
 cmd_GroupActivatePrev = 2641
 
+cmd_MoveTabToGroupNext = 2642
+cmd_MoveTabToGroupPrev = 2643
+
 cmd_CopyLine         = 2650
 cmd_CopyFilenameFull = 2651
 cmd_CopyFilenameDir  = 2652
