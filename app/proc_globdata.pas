@@ -110,6 +110,7 @@ type
     StatusCenter: boolean;
 
     ShowTitlePath: boolean;
+    ShowLastFiles: boolean;
   end;
 var
   UiOps: TUiOps;
@@ -619,6 +620,7 @@ begin
     StatusCenter:= true;
 
     ShowTitlePath:= false;
+    ShowLastFiles:= true;
   end;
 end;
 

@@ -1,10 +1,12 @@
 
-0.8.5
+0.8.6
 + opt ui_stat_center
 + opt ui_title_path
++ opt ui_reopen_session, last files reopened
 + commands: find selection next/prev
 + commands: focus group next/prev
-+ lexer-prop dlg: not needed Apply
++ commands: move tab to group next/prev
++ lexer-prop dlg: remove Apply
 
 0.8.4
 + api: get_prop

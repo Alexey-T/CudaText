@@ -898,6 +898,7 @@ begin
       caret.PosY:= c.GetValue(fn+cSavCaret+'/y', 0);
       caret.EndX:= c.GetValue(fn+cSavCaret+'/x2', -1);
       caret.EndY:= c.GetValue(fn+cSavCaret+'/y2', -1);
+      Editor.UpdateIncorrectCaretPositions;
     end;
 
     //bookmarks

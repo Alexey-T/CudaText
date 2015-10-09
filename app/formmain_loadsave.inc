@@ -11,6 +11,8 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;
+  list: TStringlist;
+  i: integer;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -47,6 +49,17 @@ begin
 
     SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
 
+    list:= TStringlist.Create;
+    try
+      for i:= 0 to FrameCount-1 do
+        with Frames[i] do
+          if Filename<>'' then
+            list.Add(Filename);
+      SSaveStringsToFile(c, '/recent_tabs', list, 50);
+    finally
+      FreeAndNil(list);
+    end;
+
     ////finder
     c.SetValue('/finder/regex', FFinder.OptRegex);
     c.SetValue('/finder/case', FFinder.OptCase);
@@ -65,7 +78,8 @@ end;
 procedure TfmMain.DoOps_LoadHistory;
 var
   c: TJSONConfig;
-  nPosX, nPosY, nSizeX, nSizeY: integer;
+  nPosX, nPosY, nSizeX, nSizeY, i: integer;
+  list: TStringlist;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -83,9 +97,21 @@ begin
 
     ////recents
     SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
+    SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
     UpdateMenuRecent(nil);
 
-    SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
+    if UiOps.ShowLastFiles then
+    begin
+      list:= TStringlist.Create;
+      try
+        SLoadStringsFromFile(c, '/recent_tabs', list, 1000);
+        for i:= 0 to list.Count-1 do
+          if FileExistsUTF8(list[i]) then
+            DoFileOpen(list[i]);
+      finally
+        FreeAndNil(list);
+      end;
+    end;
 
     ////finder
     FFinder.OptRegex:= c.GetValue('/finder/regex', false);
@@ -182,7 +208,9 @@ begin
     UiOps.StatusSizeX:= c.GetValue('ui_stat_size_x', UiOps.StatusSizeX);
     UiOps.StatusSizeY:= c.GetValue('ui_stat_size_y', UiOps.StatusSizeY);
     UiOps.StatusCenter:= c.GetValue('ui_stat_center', UiOps.StatusCenter);
+
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
+    UiOps.ShowLastFiles:= c.GetValue('ui_reopen_session', UiOps.ShowLastFiles);
 
     Op.OpSpaceX:= c.GetValue('spacing_x', Op.OpSpaceX);
     Op.OpSpaceY:= c.GetValue('spacing_y', Op.OpSpaceY);
