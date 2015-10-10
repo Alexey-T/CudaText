@@ -54,12 +54,14 @@ begin
   (D.TabObject as TEditorFrame).TabCaption:= GetUntitlesStr;
 end;
 
-procedure TfmMain.DoOnTabFocus(S: TObject);
+procedure TfmMain.DoOnTabFocus(Sender: TObject);
 var
+  Tabs: TATTabs;
   D: TATTabData;
   F: TEditorFrame;
 begin
-  D:= (S as TATTabs).GetTabData((S as TATTabs).TabIndex);
+  Tabs:= Sender as TATTabs;
+  D:= Tabs.GetTabData(Tabs.TabIndex);
   if D<>nil then
   begin
     F:= D.TabObject as TEditorFrame;
@@ -67,6 +69,23 @@ begin
   end;
 
   UpdateStatus;
+end;
+
+procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
+var
+  NColorAct, NColorOther: TColor;
+  NPages, NTab, i: integer;
+begin
+  Groups.PagesAndTabIndexOfControl(F, NPages, NTab);
+  NColorAct:= GetAppColor('TabActive');
+  NColorOther:= GetAppColor('TabActiveOthers');
+
+  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    with Groups.Pages[i] do
+    begin
+      Tabs.ColorTabActive:= IfThen(i=NPages, NColorAct, NColorOther);
+      Tabs.Invalidate;
+    end;
 end;
 
 procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;

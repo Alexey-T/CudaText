@@ -125,6 +125,7 @@ begin
   Add(clBlack, 'TabFont', 'tabs, font');
   Add($A00000, 'TabFontMod', 'tabs, font, modified tab');
   Add(clWhite, 'TabActive', 'tabs, active tab BG');
+  Add(clWhite, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
   Add($e0e0e0, 'TabPassive', 'tabs, passive tab BG');
   Add($f0f0f0, 'TabOver', 'tabs, mouse-over tab BG');
   Add($c0c0c0, 'TabBorderActive', 'tabs, active tab border');

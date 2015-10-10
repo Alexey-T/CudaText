@@ -583,7 +583,7 @@ type
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
     function DoTabAdd(Pages: TATPages): TATTabData;
-    procedure DoOnTabFocus(S: TObject);
+    procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
       var ACanClose, ACanContinue: boolean);
@@ -600,6 +600,7 @@ type
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure UpdateMenuThemes(sub: TMenuItem);
+    procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean);
     procedure UpK(mi: TMenuItem; cmd: integer);
     procedure UpdateCaption;

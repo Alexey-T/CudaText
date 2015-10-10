@@ -34,9 +34,13 @@ begin
 end;
 
 procedure TfmMain.FrameOnFocus(Sender: TObject);
+var
+  F: TEditorFrame;
 begin
-  Groups.PagesCurrent:= (Sender as TWinControl).Parent.Parent as TATPages;
+  F:= (Sender as TWinControl).Parent as TEditorFrame;
+  Groups.PagesCurrent:= F.Parent as TATPages;
   UpdateCaption;
+  UpdateTabsActiveColor(F);
 
   if FNewClickedEditor<>CurrentEditor then
   begin
