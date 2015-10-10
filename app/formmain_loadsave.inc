@@ -105,7 +105,6 @@ var
   c: TJSONConfig;
   list: TStringlist;
   nGroup, nTab, i: integer;
-  D: TATTabData;
   fn: string;
 begin
   c:= TJSONConfig.Create(nil);
