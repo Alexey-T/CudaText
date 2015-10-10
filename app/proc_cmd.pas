@@ -51,6 +51,7 @@ const
   cmd_ShowPanelConsole   = 2535;
   cmd_ShowPanelOutput    = 2536;
   cmd_ShowPanelValidate  = 2537;
+  cmd_ToggleFindDialog   = 2538;
 
   cmd_DlgGoto       = 2580;
   cmd_DlgGotoBm     = 2581;
@@ -157,6 +158,7 @@ begin
   M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', ['F11'], []);
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', ['F12'], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
+  M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
   M.Add(cmd_ShowPanelConsole, 'ui: show panel: console', ['Ctrl+`'], []);
   M.Add(cmd_ShowPanelOutput, 'ui: show panel: output', [], []);
   M.Add(cmd_ShowPanelValidate, 'ui: show panel: validate', [], []);

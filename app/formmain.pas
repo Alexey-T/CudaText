@@ -540,6 +540,7 @@ type
     procedure DoToggleFullScreen;
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
+    procedure DoToggleFindDialog;
     procedure DoCommentAct(Act: TATCommentAction);
     procedure FindDialogDone(Sender: TObject; const Res: string);
     procedure FinderBadRegex(Sender: TObject);
@@ -560,6 +561,7 @@ type
     procedure InitFormFind;
     procedure DoOps_LoadLexlib;
     function IsFocusedBottom: boolean;
+    function IsFocusedFind: boolean;
     function IsLexerMatches(const ANameList: string): boolean;
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuThemeDefClick(Sender: TObject);
@@ -1638,6 +1640,17 @@ begin
     ListboxVal.Focused;
 end;
 
+function TfmMain.IsFocusedFind: boolean;
+begin
+  Result:= Assigned(fmFind) and
+    (
+    fmFind.Focused or
+    fmFind.edFind.Focused or
+    fmFind.edRep.Focused
+    );
+end;
+
+
 procedure TfmMain.SetShowBottom(Value: boolean);
 var
   bBottom: boolean;
@@ -2010,6 +2023,20 @@ end;
 procedure TfmMain.DoToggleBottomPanel;
 begin
   ShowBottom:= not ShowBottom;
+end;
+
+procedure TfmMain.DoToggleFindDialog;
+var
+  bBottom: boolean;
+begin
+  bBottom:= IsFocusedFind;
+
+  InitFormFind;
+  fmFind.Visible:= not fmFind.Visible;
+
+  if not fmFind.Visible then
+    if bBottom then
+      CurrentEditor.SetFocus;
 end;
 
 procedure TfmMain.DoShowConsole;

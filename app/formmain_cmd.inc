@@ -43,6 +43,7 @@ begin
     cmd_ToggleFullScreen:  DoToggleFullScreen;
     cmd_ToggleSidePanel:   DoToggleSidePanel;
     cmd_ToggleBottomPanel: DoToggleBottomPanel;
+    cmd_ToggleFindDialog:  DoToggleFindDialog;
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
     cmd_ShowPanelConsole:  DoShowConsole;
     cmd_ShowPanelOutput:   DoShowOutput;
