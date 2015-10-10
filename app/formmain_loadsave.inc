@@ -11,8 +11,7 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;
-  list: TStringlist;
-  Num1, Num2, i: integer;
+  i: integer;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -49,20 +48,6 @@ begin
 
     SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
 
-    list:= TStringlist.Create;
-    try
-      for i:= 0 to FrameCount-1 do
-        with Frames[i] do
-          if Filename<>'' then
-            list.Add(Filename);
-      SSaveStringsToFile(c, '/recent_tabs', list, 50);
-    finally
-      FreeAndNil(list);
-    end;
-
-    Groups.PagesAndTabIndexOfControl(CurrentFrame, Num1, Num2);
-    c.SetValue('/recent_tab_index', Num2);
-
     ////finder
     c.SetValue('/finder/regex', FFinder.OptRegex);
     c.SetValue('/finder/case', FFinder.OptCase);
@@ -76,13 +61,95 @@ begin
   finally
     c.Free;
   end;
+
+  if UiOps.ShowLastFiles then
+    DoOps_SaveSession(GetAppPath(cFileHistorySession));
+end;
+
+
+procedure TfmMain.DoOps_SaveSession(const fn_session: string);
+var
+  c: TJSONConfig;
+  F: TEditorFrame;
+  nGroup, nTab, i: integer;
+  path: string;
+begin
+  DeleteFile(fn_session);
+
+  c:= TJSONConfig.Create(nil);
+  try
+    c.Filename:= fn_session;
+    c.Formatted:= true;
+
+    Groups.PagesAndTabIndexOfControl(CurrentFrame, nGroup, nTab);
+    c.SetValue('/n_group', nGroup);
+    c.SetValue('/n_tab', nTab);
+
+    for i:= 0 to FrameCount-1 do
+    begin
+      F:= Frames[i];
+      if F.Filename='' then Continue;
+      path:= '/'+Format('%3.3d', [i])+'/';
+      Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
+
+      c.SetValue(path+'file', F.Filename);
+      c.SetValue(path+'group', nGroup);
+    end;
+  finally
+    c.Free;
+  end;
+end;
+
+procedure TfmMain.DoOps_LoadSession(const fn_session: string);
+var
+  c: TJSONConfig;
+  list: TStringlist;
+  nGroup, nTab, i: integer;
+  D: TATTabData;
+  fn: string;
+begin
+  c:= TJSONConfig.Create(nil);
+  list:= TStringlist.Create;
+  try
+    c.Filename:= fn_session;
+
+    c.EnumSubKeys('/', list);
+    list.Sort;
+
+    for i:= 0 to list.Count-1 do
+    begin
+      fn:= c.GetValue('/'+list[i]+'/file', '');
+      nGroup:= c.GetValue('/'+list[i]+'/group', Low(TATGroupsNums));
+
+      if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
+      begin
+        Groups.PagesCurrent:= Groups.Pages[nGroup];
+      end;
+
+      if FileExistsUTF8(fn) then
+        DoFileOpen(fn);
+    end;
+
+    nGroup:= c.GetValue('/n_group', Low(TATGroupsNums));
+    nTab:= c.GetValue('/n_tab', 0);
+
+    if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
+    begin
+      Groups.PagesCurrent:= Groups.Pages[nGroup];
+      D:= Groups.PagesCurrent.Tabs.GetTabData(nTab);
+      if Assigned(D) then
+        SetFrame(D.TabObject as TEditorFrame);
+    end;
+  finally
+    list.Free;
+    c.Free;
+  end;
 end;
 
 procedure TfmMain.DoOps_LoadHistory;
 var
   c: TJSONConfig;
-  nPosX, nPosY, nSizeX, nSizeY, i: integer;
-  list: TStringlist;
+  nPosX, nPosY, nSizeX, nSizeY: integer;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -102,22 +169,6 @@ begin
     SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
     SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
     UpdateMenuRecent(nil);
-
-    if UiOps.ShowLastFiles then
-    begin
-      list:= TStringlist.Create;
-      try
-        SLoadStringsFromFile(c, '/recent_tabs', list, 1000);
-        for i:= 0 to list.Count-1 do
-          if FileExistsUTF8(list[i]) then
-            DoFileOpen(list[i]);
-      finally
-        FreeAndNil(list);
-      end;
-
-      i:= c.GetValue('/recent_tab_index', 0);
-      SetFrame(Frames[i]);
-    end;
 
     ////finder
     FFinder.OptRegex:= c.GetValue('/finder/regex', false);
@@ -145,6 +196,9 @@ begin
   finally
     c.Free;
   end;
+
+  if UiOps.ShowLastFiles then
+    DoOps_LoadSession(GetAppPath(cFileHistorySession));
 end;
 
 procedure TfmMain.DoOps_LoadKeymap;

@@ -486,6 +486,7 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    procedure DoOps_LoadSession(const fn_session: string);
     procedure DoOps_PreinstallPlugins;
     procedure DoOps_LoadPlugins;
     procedure DoOps_DlgFont(var OpName: string; var OpSize: integer;
@@ -511,6 +512,7 @@ type
     procedure DoOps_OpenFile_FileTypes;
     procedure DoOps_OpenFile_LexerOvr;
     procedure DoOps_SaveLexlib(Cfm: boolean);
+    procedure DoOps_SaveSession(const fn_session: string);
     procedure DoShowConsole;
     procedure DoShowOutput;
     procedure DoShowValidate;

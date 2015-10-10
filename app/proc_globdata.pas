@@ -51,6 +51,7 @@ type
     cFileOptKeymap,
     cFileOptPlugins,
     cFileHistoryList,
+    cFileHistorySession,
     cFileReadmeHist,
     cFileReadmeMouse,
     cFileReadmeLexerInst
@@ -394,6 +395,10 @@ begin
     cFileHistoryList:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history files.json';
+      end;
+    cFileHistorySession:
+      begin
+        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history session.json';
       end;
 
     cFileReadmeHist:
