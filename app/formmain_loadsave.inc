@@ -133,13 +133,8 @@ begin
     nGroup:= c.GetValue('/n_group', Low(TATGroupsNums));
     nTab:= c.GetValue('/n_tab', 0);
 
-    if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
-    begin
-      Groups.PagesCurrent:= Groups.Pages[nGroup];
-      D:= Groups.PagesCurrent.Tabs.GetTabData(nTab);
-      if Assigned(D) then
-        SetFrame(D.TabObject as TEditorFrame);
-    end;
+    Groups.PagesCurrent:= Groups.Pages[nGroup];
+    Groups.SetPagesAndTabIndex(nGroup, nTab);
   finally
     list.Free;
     c.Free;
