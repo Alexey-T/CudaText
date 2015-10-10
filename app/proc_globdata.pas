@@ -85,6 +85,7 @@ type
     MaxHistoryFiles: integer;
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
+    FindSelCaseSens: boolean;
     EscapeClose: boolean;
     InitialDir: string;
 
@@ -595,6 +596,7 @@ begin
     MaxHistoryFiles:= 25;
     FindSuggestSel:= false;
     FindSuggestWord:= true;
+    FindSelCaseSens:= true;
     EscapeClose:= false;
     InitialDir:= '';
 

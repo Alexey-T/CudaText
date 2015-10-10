@@ -194,10 +194,12 @@
   //shape for read-only mode
   "caret_shape_ro": 13, 
 
-  //suggest selection for Find dialog  
-  "find_suggest_sel": true,
-  //suggest word under 1st caret for Find dialog
+  //suggest selection (of 1st caret) for Find dialog  
+  "find_suggest_sel": false,
+  //suggest word (on 1st caret) for Find dialog
   "find_suggest_cur_word": true,
+  //find current selection next/prev: case-sensitive
+  "find_sel_case_sens": true,
   
   //name of lexer-library file in dir "data/lexlib"
   "lexlib": "lib.lxl",

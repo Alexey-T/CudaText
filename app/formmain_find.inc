@@ -275,7 +275,7 @@ begin
   FFinder.Editor:= Ed;
 
   FFinder.OptRegex:= false;
-  FFinder.OptCase:= true;
+  FFinder.OptCase:= UiOps.FindSelCaseSens;
   FFinder.OptWords:= AWordOrSel;
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= not ANext;
