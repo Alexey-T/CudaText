@@ -28,8 +28,8 @@ begin
   begin
     if Res=cOpFindClose then
     begin
-      UpdateAppForSearch(false);
       fmFind.Hide;
+      UpdateAppForSearch(false);
       Exit;
     end;
 

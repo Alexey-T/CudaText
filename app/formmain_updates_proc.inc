@@ -162,7 +162,11 @@ begin
     UpdateEnabledAll(true);
     Ed.Enabled:= true;
     Ed.EndUpdate;
-    Ed.SetFocus;
+
+    if Assigned(fmFind) and fmFind.Visible then
+      fmFind.edFind.SetFocus
+    else
+      Ed.SetFocus;
   end;
 end;
 
