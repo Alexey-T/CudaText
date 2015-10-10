@@ -326,8 +326,15 @@
   "ui_stat_str_sel": "Ln {y}, Col {x}, {sel} lines sel",
   "ui_stat_col_sel": "{sel}x{cols} column",
   "ui_stat_carets": "{carets} carets, {sel} lines sel",
+  //sizes and align
   "ui_stat_size_x": 200,
   "ui_stat_size_y": 24,
+  "ui_stat_center": true,
+
+  //show full file path in window title  
+  "ui_title_path": false,
+  //reopen all named tabs, at start
+  "ui_reopen_session": true,
 
   //enables to underline HTML color tokens like #008080, #0a0
   "under_color": true,

@@ -194,6 +194,8 @@ cmd_FindNext         = 2590
 cmd_FindPrev         = 2591
 cmd_FindCurWordNext  = 2592
 cmd_FindCurWordPrev  = 2593
+cmd_FindCurSelNext   = 2594
+cmd_FindCurSelPrev   = 2595
 
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621
@@ -213,6 +215,12 @@ cmd_Groups4horz = 2636
 cmd_Groups4vert = 2637
 cmd_Groups4grid = 2638
 cmd_Groups6grid = 2639
+
+cmd_GroupActivateNext = 2640
+cmd_GroupActivatePrev = 2641
+
+cmd_MoveTabToGroupNext = 2642
+cmd_MoveTabToGroupPrev = 2643
 
 cmd_CopyLine         = 2650
 cmd_CopyFilenameFull = 2651

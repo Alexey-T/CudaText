@@ -1,4 +1,20 @@
 
+0.8.6
++ opt ui_reopen_session, last files reopened
++ opt ui_title_path
++ opt ui_stat_center
++ commands: find selection next/prev
++ commands: focus group next/prev
++ commands: move tab to group next/prev
++ lexer-prop dlg: remove Apply
++ api: app_proc
+
+0.8.4
++ api: get_prop
++ api: dlg_checklist
++ addons can install files to "data"
+- fix ctrl+shift+home/end
+
 0.8.2
 + api: bottom panel (plugin Html Tidy at sf.net)
 + api: color dialog (plugin Color Picker at sf.net)

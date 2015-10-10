@@ -64,13 +64,39 @@ LOG_CONSOLE_GET   = 22
 LOG_PANEL_OUTPUT   = "0"
 LOG_PANEL_VALIDATE = "1"
 
+PROP_GUTTER_NUM     = 1
+PROP_GUTTER_FOLD    = 2
+PROP_GUTTER_BM      = 3
+PROP_EOL            = 4
+PROP_WRAP           = 5
+PROP_RO             = 6
+PROP_TAB_SPACES     = 7
+PROP_TAB_SIZE       = 8
+PROP_MARGIN         = 9
+PROP_MARGIN_STRING  = 10
+PROP_INSERT         = 11
+PROP_MODIFIED       = 12
+PROP_RULER          = 13
+PROP_LINE_STATE     = 14
+PROP_LEXER_FILE     = 20
+PROP_LEXER_POS      = 21
+PROP_LEXER_CARET    = 22
+PROP_INDEX_GROUP    = 23
+PROP_INDEX_TAB      = 24
 
-def app_version():
-    return ct.app_version()
+PROC_GET_CLIP = 0
+PROC_SET_CLIP = 1
+PROC_GET_COMMAND = 2
+
+
+def app_exe_version():
+    return ct.app_exe_version()
 def app_api_version():
     return ct.app_api_version()
 def app_path(id):
     return ct.app_path(id)
+def app_proc(id, text):
+    return ct.app_proc(id, text)    
 
 def app_log(id, text):
     res = ct.app_log(id, text)
@@ -83,6 +109,7 @@ def msg_box(text, flags):
     return ct.msg_box(text, flags)
 def msg_status(text):
     return ct.msg_status(text)
+    
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)
 def dlg_color(value):
@@ -114,6 +141,12 @@ def dlg_file(is_open, init_filename, init_dir, filters):
     if len(res)==1:
         res=res[0]
     return res
+
+def dlg_checklist(caption, columns, items, size_x, size_y):
+    items = ct.dlg_checklist(caption, columns, items, size_x, size_y)
+    if not items:
+        return None
+    return [(s=='1') for s in items]
 
 def file_open(filename):
     return ct.file_open(filename)
@@ -150,8 +183,6 @@ class Editor:
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
-    def get_line_state(self, num):
-        return ct.ed_get_line_state(self.h, num)
 
     def get_text_all(self):
         return ct.ed_get_text_all(self.h)
@@ -213,8 +244,9 @@ class Editor:
         return ct.ed_get_split(self.h)
     def set_split(self, state, value):
         return ct.ed_set_split(self.h, state, value)
-    def get_indexes(self):
-        return ct.ed_get_indexes(self.h)
+        
+    def get_prop(self, id, value=''):
+        return ct.ed_get_prop(self.h, id, value)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)

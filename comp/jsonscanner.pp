@@ -353,9 +353,7 @@ begin
           end;
         end;
         SectionLength := TokenStr - TokenStart;
-        SetLength(FCurTokenString, SectionLength);
-        if SectionLength > 0 then
-          Move(TokenStart^, FCurTokenString[1], SectionLength);
+        SetString(FCurTokenString, TokenStart, SectionLength);
         If (FCurTokenString[1]='.') then
           FCurTokenString:='0'+FCurTokenString;
         Result := tkNumber;
@@ -393,13 +391,7 @@ begin
       Case Tokenstr[0] of
         '/' : begin
               SectionLength := Length(FCurLine)- (TokenStr - PChar(FCurLine));
-              {
-              SetLength(FCurTokenString,SectionLength);
-              if SectionLength > 0 then
-                Move(TokenStart^, FCurTokenString[1], SectionLength);
-                } //AT
               SetString(FCurTokenString, TokenStart, SectionLength);
-
               Fetchline;
               end;
         '*' :
@@ -411,11 +403,6 @@ begin
             if (TokenStr[0]=#0) then
               begin
               SectionLength := (TokenStr - TokenStart);
-              {
-              SetLength(S,SectionLength);
-              if SectionLength > 0 then
-                Move(TokenStart^, S[1], SectionLength);
-                }//AT
               SetString(S, TokenStart, SectionLength);
 
               FCurtokenString:=FCurtokenString+S;
@@ -430,13 +417,7 @@ begin
           if EOC then
             begin
             SectionLength := (TokenStr - TokenStart-1);
-            {
-            SetLength(S,SectionLength);
-            if SectionLength > 0 then
-              Move(TokenStart^, S[1], SectionLength);
-              }//AT
             SetString(S, TokenStart, SectionLength);
-
             FCurtokenString:=FCurtokenString+S;
             Inc(TokenStr);
             end;
@@ -453,9 +434,7 @@ begin
           Inc(TokenStr);
         until not (TokenStr[0] in ['A'..'Z', 'a'..'z', '0'..'9', '_']);
         SectionLength := TokenStr - TokenStart;
-        SetLength(FCurTokenString, SectionLength);
-        if SectionLength > 0 then
-          Move(TokenStart^, FCurTokenString[1], SectionLength);
+        SetString(FCurTokenString, TokenStart, SectionLength);
         for it := tkTrue to tkNull do
           if CompareText(CurTokenString, TokenInfos[it]) = 0 then
             begin

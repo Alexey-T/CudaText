@@ -1,0 +1,13 @@
+How im making dmg file
+- compile, with making app-bundle
+- if settings_default/ or readme/ or py/ files changed: run app/mac_up -it updates files in app-bundle in Resources
+- update version in app-bundle Info.plist
+- in app/
+
+strip cudatext
+rm -rf cudatext-osx
+mkdir cudatext-osx
+cp -rf cudatext.app cudatext-osx/
+
+- strip needed, need DMG of 3Mb
+- run Disk Manager app, create DMG from folder cudatext-osx
