@@ -10,7 +10,7 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.UpdateCaption;
 var
   F: TEditorFrame;
-  SName: string;
+  SName, SMark: string;
 begin
   F:= CurrentFrame;
   if UiOps.ShowTitlePath then
@@ -21,8 +21,10 @@ begin
   else
     SName:= F.TabCaption;
 
-  Caption:= SName + ' - ' + msgTitle;
-  Application.Title:= F.TabCaption + ' - ' + msgTitle;
+  SMark:= IfThen(F.Editor.Modified, '*');
+
+  Caption:= SMark + SName + ' - ' + msgTitle;
+  Application.Title:= SMark + F.TabCaption + ' - ' + msgTitle;
 end;
 
 procedure TfmMain.UpdateStatus;
