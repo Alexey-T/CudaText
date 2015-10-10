@@ -18,7 +18,6 @@ object fmFind: TfmFind
   object bFindFirst: TATButton
     Left = 495
     Height = 25
-    Hint = 'Enter'
     Top = 4
     Width = 100
     TabStop = True
@@ -73,7 +72,7 @@ object fmFind: TfmFind
   object bFindNext: TATButton
     Left = 595
     Height = 25
-    Hint = 'F3'
+    Hint = 'Enter'
     Top = 4
     Width = 100
     TabStop = True

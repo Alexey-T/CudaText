@@ -188,6 +188,7 @@ end;
 
 procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
+  {
   if key=VK_RETURN then
   begin
     if chkRep.Checked then
@@ -197,6 +198,7 @@ begin
     key:= 0;
     exit
   end;
+  }
 
   if key=VK_ESCAPE then
   begin
@@ -240,7 +242,7 @@ begin
   if (key=ord('0')) and (Shift=[ssAlt]) then
     begin with chkConfirm do checked:= not checked; key:= 0; exit end;
 
-  if (key=VK_F3) and (Shift=[]) then
+  if (key=VK_RETURN) and (Shift=[]) then
     begin bFindNextClick(Self); key:= 0; exit end;
   if (key=ord('1')) and (Shift=[ssAlt]) then
     begin bRepClick(Self); key:= 0; exit end;

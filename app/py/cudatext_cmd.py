@@ -182,6 +182,7 @@ cmd_ToggleBottomPanel  = 2534
 cmd_ShowPanelConsole   = 2535
 cmd_ShowPanelOutput    = 2536
 cmd_ShowPanelValidate  = 2537
+cmd_ToggleFindDialog   = 2538
 
 cmd_DlgGoto       = 2580
 cmd_DlgGotoBm     = 2581
