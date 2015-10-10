@@ -185,13 +185,19 @@ function Py_file_open(Self, Args: PPyObject): PPyObject; cdecl;
 var
   P: PChar;
   Str: string;
+  Num: integer;
   Ok: boolean;
 begin
   with GetPythonEngine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 's:file_open', @P)) then
+    if Bool(PyArg_ParseTuple(Args, 'si:file_open', @P, @Num)) then
     begin
       Str:= string(P);
+
+      Inc(Num, Low(TATGroupsNums));
+      if Num in [Low(TATGroupsNums)..High(TATGroupsNums)] then
+        fmMain.Groups.PagesCurrent:= fmMain.Groups.Pages[Num];
+
       Ok:= fmMain.DoFileOpen(Str)<>nil;
       Result:= PyBool_FromLong(Ord(Ok));
     end;
