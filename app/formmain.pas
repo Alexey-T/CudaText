@@ -559,6 +559,7 @@ type
     procedure GotoDialogDone(Sender: TObject; const Res: string);
     procedure InitFormFind;
     procedure DoOps_LoadLexlib;
+    function IsFocusedBottom: boolean;
     function IsLexerMatches(const ANameList: string): boolean;
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuThemeDefClick(Sender: TObject);
@@ -1628,19 +1629,29 @@ begin
   end;
 end;
 
+function TfmMain.IsFocusedBottom: boolean;
+begin
+  Result:=
+    fmConsole.ed.Focused or
+    fmConsole.memo.Focused or
+    ListboxOut.Focused or
+    ListboxVal.Focused;
+end;
 
 procedure TfmMain.SetShowBottom(Value: boolean);
+var
+  bBottom: boolean;
 begin
   if GetShowBottom=Value then exit;
+  bBottom:= IsFocusedBottom;
 
   PanelBottom.Visible:= Value;
   SplitterHorz.Visible:= Value;
   SplitterHorz.Top:= 0;
 
-  if Value then
-    fmConsole.ed.SetFocus
-  else
-    CurrentEditor.SetFocus;
+  if not Value then
+    if bBottom then
+      CurrentEditor.SetFocus;
 
   UpdateStatus;
 end;
