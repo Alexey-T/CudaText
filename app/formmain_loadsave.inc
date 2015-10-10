@@ -12,7 +12,7 @@ procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;
   list: TStringlist;
-  i: integer;
+  Num1, Num2, i: integer;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -59,6 +59,9 @@ begin
     finally
       FreeAndNil(list);
     end;
+
+    Groups.PagesAndTabIndexOfControl(CurrentFrame, Num1, Num2);
+    c.SetValue('/recent_tab_index', Num2);
 
     ////finder
     c.SetValue('/finder/regex', FFinder.OptRegex);
@@ -111,6 +114,9 @@ begin
       finally
         FreeAndNil(list);
       end;
+
+      i:= c.GetValue('/recent_tab_index', 0);
+      SetFrame(Frames[i]);
     end;
 
     ////finder
