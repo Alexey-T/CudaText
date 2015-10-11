@@ -59,6 +59,7 @@ var
   Table: TFreqTable;
   TableSize: Integer;
   Str: TFileStreamUTF8;
+  SSign: string;
 begin
   Result:= False;
   IsOEM:= False;
@@ -90,6 +91,10 @@ begin
     BytesRead:= Str.Read(Buffer^, BufSize);
     if BytesRead > 0 then
       begin
+        //Test UTF16 signature
+        SetString(SSign, Buffer, 2);
+        if (SSign=#$ff#$fe) or (SSign=#$fe#$ff) then Exit(True);
+
         Result:= True;
         for i:= 0 to BytesRead - 1 do
         begin
