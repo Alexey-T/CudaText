@@ -48,6 +48,7 @@ type
     keymapList: TList;
     procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
+    function DoFindDupKeys: boolean;
     procedure DoResetKey(K: TATKeymapItem);
     function GetResultCmd: integer;
     function IsFiltered(Item: TATKeymapItem): boolean;
@@ -223,6 +224,8 @@ begin
   finally
     Free
   end;
+
+  DoFindDupKeys;
 end;
 
 procedure TfmCommands.DoResetKey(K: TATKeymapItem);
@@ -335,6 +338,30 @@ begin
     Ar:= SFindFuzzyPositions(Item.Name, Str);
     Result:= Length(Ar)>0;
   end;
+end;
+
+function TfmCommands.DoFindDupKeys: boolean;
+var
+  i, j: integer;
+  item1, item2: TATKeymapItem;
+begin
+  Result:= false;
+  for i:= 0 to keymap.Count-1 do
+    for j:= i+1 to keymap.Count-1 do
+    begin
+      item1:= keymap.Items[i];
+      item2:= keymap.Items[j];
+      if KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys1) or
+         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys2) or
+         KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys2) or
+         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys1) then
+        begin
+          MsgBox('Commands have same shortcuts:'#13+item1.Name+#13+item2.Name,
+            MB_OK or MB_ICONWARNING);
+          Result:= true;
+          Exit
+        end;
+    end;
 end;
 
 end.
