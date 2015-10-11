@@ -605,7 +605,7 @@ begin
     FindSuggestSel:= false;
     FindSuggestWord:= true;
     FindSelCase:= true;
-    FindShowFindfirst:= false;
+    FindShowFindfirst:= true;
     EscapeClose:= false;
     InitialDir:= '';
 
