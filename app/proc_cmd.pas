@@ -107,9 +107,10 @@ const
   cmd_BookmarkGotoNext  = 2664;
   cmd_BookmarkGotoPrev  = 2665;
 
-  cmd_CommentLineAdd    = 2670;
-  cmd_CommentLineRemove = 2671;
-  cmd_CommentLineToggle = 2672;
+  cmd_CommentLineAddAtNonspace = 2670;
+  cmd_CommentLineAddAtStart    = 2671;
+  cmd_CommentLineRemove        = 2672;
+  cmd_CommentLineToggle        = 2673;
 
   cmd_LineEndWin        = 2677;
   cmd_LineEndUnix       = 2678;
@@ -211,7 +212,8 @@ begin
   M.Add(cmd_BookmarkInvertAll, 'bookmarks: inverse all lines', [], []);
   M.Add(cmd_BookmarkClearAll, 'bookmarks: clear all', [], []);
 
-  M.Add(cmd_CommentLineAdd, 'comments: add line comment', [], []);
+  M.Add(cmd_CommentLineAddAtNonspace, 'comments: add line comment, at non-space char', [], []);
+  M.Add(cmd_CommentLineAddAtStart, 'comments: add line comment, at line start', [], []);
   M.Add(cmd_CommentLineRemove, 'comments: remove line comment', [], []);
   M.Add(cmd_CommentLineToggle, 'comments: toggle line comment', [cXControl+'+/'], []);
 

@@ -105,9 +105,10 @@ begin
     cmd_BookmarkGotoNext: EditorBmGotoNext(CurrentEditor, true);
     cmd_BookmarkGotoPrev: EditorBmGotoNext(CurrentEditor, false);
 
-    cmd_CommentLineAdd: DoCommentAct(cCommentAddIfNone);
-    cmd_CommentLineRemove: DoCommentAct(cCommentRemove);
-    cmd_CommentLineToggle: DoCommentAct(cCommentToggle);
+    cmd_CommentLineAddAtNonspace: DoCommentAction(cCommentAddIfNone);
+    cmd_CommentLineAddAtStart: DoCommentAction(cCommentAddIfNoneAtStart);
+    cmd_CommentLineRemove: DoCommentAction(cCommentRemove);
+    cmd_CommentLineToggle: DoCommentAction(cCommentToggle);
 
     cmd_LineEndWin: SetLineEnds(cEndWin);
     cmd_LineEndUnix: SetLineEnds(cEndUnix);

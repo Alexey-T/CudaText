@@ -82,7 +82,7 @@ type
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
       const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
-    function GetCommentStr: string;
+    function GetCommentString: string;
     function GetEncodingName: string;
     function GetLineEnds: TATLineEnds;
     function GetReadonly: boolean;
@@ -124,7 +124,7 @@ type
     function LexerName: string;
     function LexerNameAtPos(Pnt: TPoint): string;
     property Locked: boolean read FLocked write SetLocked;
-    property CommentStr: string read GetCommentStr;
+    property CommentString: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
     function IsEmpty: boolean;
     //
@@ -725,7 +725,7 @@ begin
 end;
 
 
-function TEditorFrame.GetCommentStr: string;
+function TEditorFrame.GetCommentString: string;
 var
   an: TecSyntAnalyzer;
 begin

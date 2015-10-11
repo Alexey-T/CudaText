@@ -426,7 +426,7 @@ begin
   upk(mnuSortAsc, cmd_SortAsc);
   upk(mnuSortDesc, cmd_SortDesc);
 
-  upk(mnuCmtAdd, cmd_CommentLineAdd);
+  upk(mnuCmtAdd, cmd_CommentLineAddAtNonspace);
   upk(mnuCmtRemove, cmd_CommentLineRemove);
   upk(mnuCmtToggle, cmd_CommentLineToggle);
 

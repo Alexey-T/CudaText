@@ -543,7 +543,7 @@ type
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
     procedure DoToggleFindDialog;
-    procedure DoCommentAct(Act: TATCommentAction);
+    procedure DoCommentAction(Act: TATCommentAction);
     procedure FindDialogDone(Sender: TObject; const Res: string);
     procedure FinderBadRegex(Sender: TObject);
     procedure FinderConfirmReplace(Sender: TObject; APos1, APos2: TPoint;

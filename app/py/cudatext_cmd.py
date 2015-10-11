@@ -238,9 +238,10 @@ cmd_BookmarkClearAll  = 2663
 cmd_BookmarkGotoNext  = 2664
 cmd_BookmarkGotoPrev  = 2665
 
-cmd_CommentLineAdd    = 2670
-cmd_CommentLineRemove = 2671
-cmd_CommentLineToggle = 2672
+cmd_CommentLineAddAtNonspace = 2670
+cmd_CommentLineAddAtStart    = 2671
+cmd_CommentLineRemove        = 2672
+cmd_CommentLineToggle        = 2673
 
 cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678

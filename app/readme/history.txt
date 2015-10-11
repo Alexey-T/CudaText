@@ -1,5 +1,5 @@
 
-0.8.6
+0.8.8
 + opt ui_reopen_session, last files reopened
 + opt ui_title_path
 + opt ui_stat_center
@@ -8,6 +8,7 @@
 + commands: find selection next/prev
 + commands: focus group next/prev
 + commands: move tab to group next/prev
++ command: add comment at line start
 + lexer-prop dlg: remove Apply
 + api: app_proc
 

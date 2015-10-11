@@ -23,7 +23,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoCommentAct(Act: TATCommentAction);
+procedure TfmMain.DoCommentAction(Act: TATCommentAction);
 var
   F: TEditorFrame;
   Ed: TATSynEdit;
@@ -31,7 +31,7 @@ var
 begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
-  Str:= F.CommentStr;
+  Str:= F.CommentString;
   if Str='' then
     MsgStatus(msgStatusNoCmtStr)
   else
