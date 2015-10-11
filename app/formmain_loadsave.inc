@@ -350,7 +350,7 @@ begin
 
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
     UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
-    UiOps.FindSelCaseSens:= c.GetValue('find_sel_case_sens', UiOps.FindSelCaseSens);
+    UiOps.FindSelCase:= c.GetValue('find_sel_case', UiOps.FindSelCase);
     UiOps.FindShowFindfirst:= c.GetValue('find_show_findfirst', UiOps.FindShowFindfirst);
 
     UiOps.TabSizeX:= c.GetValue('ui_tab_size_x', UiOps.TabSizeX);

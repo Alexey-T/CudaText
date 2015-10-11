@@ -87,7 +87,7 @@ type
 
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
-    FindSelCaseSens: boolean;
+    FindSelCase: boolean;
     FindShowFindfirst: boolean;
 
     EscapeClose: boolean;
@@ -604,7 +604,7 @@ begin
     MaxHistoryFiles:= 25;
     FindSuggestSel:= false;
     FindSuggestWord:= true;
-    FindSelCaseSens:= true;
+    FindSelCase:= true;
     FindShowFindfirst:= false;
     EscapeClose:= false;
     InitialDir:= '';

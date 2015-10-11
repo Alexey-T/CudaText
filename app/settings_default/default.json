@@ -199,7 +199,7 @@
   //suggest word (on 1st caret) for Find dialog
   "find_suggest_cur_word": true,
   //find current selection next/prev: case-sensitive
-  "find_sel_case_sens": true,
+  "find_sel_case": true,
   //show "find first" dialog button
   "find_show_findfirst": false,
   
