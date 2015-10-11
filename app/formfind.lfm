@@ -1,12 +1,12 @@
 object fmFind: TfmFind
-  Left = 0
-  Height = 64
-  Top = 0
+  Left = 154
+  Height = 63
+  Top = 565
   Width = 951
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Find/Replace'
-  ClientHeight = 64
+  ClientHeight = 63
   ClientWidth = 951
   KeyPreview = True
   OnCreate = FormCreate
@@ -15,73 +15,18 @@ object fmFind: TfmFind
   ShowHint = True
   ShowInTaskBar = stNever
   LCLVersion = '1.5'
-  object bFindFirst: TATButton
-    Left = 495
-    Height = 25
-    Top = 4
-    Width = 100
-    TabStop = True
-    TabOrder = 3
-    Caption = 'Find first'
-    Checked = False
-    Checkable = False
-    Focusable = True
-    OnClick = bFindFirstClick
-  end
-  object bCount: TATButton
-    Left = 695
-    Height = 25
-    Hint = 'Alt+5'
-    Top = 4
-    Width = 100
-    TabStop = True
-    TabOrder = 5
-    Caption = 'Count all'
-    Checked = False
-    Checkable = False
-    Focusable = True
-    OnClick = bCountClick
-  end
   object chkRep: TATButton
     Left = 32
     Height = 25
     Top = 34
     Width = 87
     TabStop = True
-    TabOrder = 1
+    TabOrder = 2
     Caption = 'Replace:'
     Checked = False
     Checkable = True
     Focusable = True
     OnClick = chkRepClick
-  end
-  object bRep: TATButton
-    Left = 695
-    Height = 25
-    Hint = 'Alt+1'
-    Top = 4
-    Width = 100
-    TabStop = True
-    TabOrder = 7
-    Caption = 'Replace cur'
-    Checked = False
-    Checkable = False
-    Focusable = True
-    OnClick = bRepClick
-  end
-  object bFindNext: TATButton
-    Left = 595
-    Height = 25
-    Hint = 'Enter'
-    Top = 4
-    Width = 100
-    TabStop = True
-    TabOrder = 4
-    Caption = 'Find next'
-    Checked = False
-    Checkable = False
-    Focusable = True
-    OnClick = bFindNextClick
   end
   object LabelFind: TLabel
     AnchorSideTop.Side = asrCenter
@@ -101,7 +46,7 @@ object fmFind: TfmFind
     Font.Height = -12
     Font.Name = 'Courier New'
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 3
     TabStop = True
     CursorText = crIBeam
     CursorBm = crHandPoint
@@ -251,20 +196,6 @@ object fmFind: TfmFind
     OptSavingForceFinalEol = False
     OptSavingTrimSpaces = False
     OptComboboxArrowSize = 4
-  end
-  object bMarkAll: TATButton
-    Left = 795
-    Height = 25
-    Hint = 'Alt+6'
-    Top = 4
-    Width = 100
-    TabStop = True
-    TabOrder = 6
-    Caption = 'Mark all'
-    Checked = False
-    Checkable = False
-    Focusable = True
-    OnClick = bMarkAllClick
   end
   object edFind: TATComboEdit
     Left = 127
@@ -434,7 +365,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 9
+    TabOrder = 4
     Caption = 'Regex'
     Checked = False
     Checkable = True
@@ -448,7 +379,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 10
+    TabOrder = 5
     Caption = 'Case'
     Checked = False
     Checkable = True
@@ -461,7 +392,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 11
+    TabOrder = 6
     Caption = 'Words'
     Checked = False
     Checkable = True
@@ -474,7 +405,7 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 12
+    TabOrder = 7
     Caption = 'Back'
     Checked = False
     Checkable = True
@@ -487,25 +418,11 @@ object fmFind: TfmFind
     Top = 34
     Width = 60
     TabStop = True
-    TabOrder = 13
+    TabOrder = 8
     Caption = 'Confirm'
     Checked = False
     Checkable = True
     Focusable = True
-  end
-  object bRepAll: TATButton
-    Left = 795
-    Height = 25
-    Hint = 'Alt+2'
-    Top = 4
-    Width = 100
-    TabStop = True
-    TabOrder = 8
-    Caption = 'Replace all'
-    Checked = False
-    Checkable = False
-    Focusable = True
-    OnClick = bRepAllClick
   end
   object bCancel: TSpeedButton
     Left = 0
@@ -515,5 +432,104 @@ object fmFind: TfmFind
     Caption = 'x'
     Flat = True
     OnClick = bCancelClick
+  end
+  object Panel1: TPanel
+    Left = 495
+    Height = 25
+    Top = 4
+    Width = 618
+    BevelOuter = bvNone
+    ClientHeight = 25
+    ClientWidth = 618
+    TabOrder = 1
+    object bFindFirst: TATButton
+      Left = 0
+      Height = 25
+      Top = 0
+      Width = 100
+      Align = alLeft
+      TabStop = True
+      TabOrder = 0
+      Caption = 'Find first'
+      Checked = False
+      Checkable = False
+      Focusable = True
+      OnClick = bFindFirstClick
+    end
+    object bFindNext: TATButton
+      Left = 100
+      Height = 25
+      Hint = 'Enter'
+      Top = 0
+      Width = 100
+      Align = alLeft
+      TabStop = True
+      TabOrder = 1
+      Caption = 'Find next'
+      Checked = False
+      Checkable = False
+      Focusable = True
+      OnClick = bFindNextClick
+    end
+    object bCount: TATButton
+      Left = 200
+      Height = 25
+      Hint = 'Alt+5'
+      Top = 0
+      Width = 100
+      Align = alLeft
+      TabStop = True
+      TabOrder = 2
+      Caption = 'Count all'
+      Checked = False
+      Checkable = False
+      Focusable = True
+      OnClick = bCountClick
+    end
+    object bMarkAll: TATButton
+      Left = 300
+      Height = 25
+      Hint = 'Alt+6'
+      Top = 0
+      Width = 100
+      Align = alLeft
+      TabStop = True
+      TabOrder = 3
+      Caption = 'Mark all'
+      Checked = False
+      Checkable = False
+      Focusable = True
+      OnClick = bMarkAllClick
+    end
+    object bRep: TATButton
+      Left = 400
+      Height = 25
+      Hint = 'Alt+1'
+      Top = 0
+      Width = 100
+      Align = alLeft
+      TabStop = True
+      TabOrder = 4
+      Caption = 'Replace cur'
+      Checked = False
+      Checkable = False
+      Focusable = True
+      OnClick = bRepClick
+    end
+    object bRepAll: TATButton
+      Left = 500
+      Height = 25
+      Hint = 'Alt+2'
+      Top = 0
+      Width = 100
+      Align = alLeft
+      TabStop = True
+      TabOrder = 5
+      Caption = 'Replace all'
+      Checked = False
+      Checkable = False
+      Focusable = True
+      OnClick = bRepAllClick
+    end
   end
 end

@@ -200,6 +200,8 @@
   "find_suggest_cur_word": true,
   //find current selection next/prev: case-sensitive
   "find_sel_case_sens": true,
+  //show "find first" dialog button
+  "find_show_findfirst": false,
   
   //name of lexer-library file in dir "data/lexlib"
   "lexlib": "lib.lxl",

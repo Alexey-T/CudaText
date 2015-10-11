@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls,
-  LclType, LclProc, Buttons,
+  LclType, LclProc, Buttons, ExtCtrls,
   ATButtons,
   ATSynEdit,
   ATSynEdit_Edits,
@@ -37,20 +37,21 @@ type
   TfmFind = class(TForm)
     bCancel: TSpeedButton;
     bCount: TATButton;
+    bFindFirst: TATButton;
     bFindNext: TATButton;
-    bRepAll: TATButton;
     bMarkAll: TATButton;
+    bRep: TATButton;
+    bRepAll: TATButton;
     chkRegex: TATButton;
     chkCase: TATButton;
-    bRep: TATButton;
     chkRep: TATButton;
     chkWords: TATButton;
     chkBack: TATButton;
     chkConfirm: TATButton;
-    bFindFirst: TATButton;
     edFind: TATComboEdit;
     edRep: TATComboEdit;
     LabelFind: TLabel;
+    Panel1: TPanel;
     procedure bFindNextClick(Sender: TObject);
     procedure bMarkAllClick(Sender: TObject);
     procedure bRepClick(Sender: TObject);

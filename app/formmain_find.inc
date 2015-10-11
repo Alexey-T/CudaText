@@ -124,6 +124,8 @@ begin
   InitFormFind;
   with fmFind do
   begin
+    bFindFirst.Visible:= UiOps.FindShowFindfirst;
+
     if UiOps.FindSuggestSel and (StrSel<>'') then
       edFind.Text:= StrSel
     else

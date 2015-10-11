@@ -675,7 +675,7 @@ object fmMain: TfmMain
           Caption = 'Split'
         end
         object mnuViewSplitHorz: TMenuItem
-          Caption = 'Split horz'
+          Caption = 'Split horizontal'
         end
       end
       object MenuItem3: TMenuItem

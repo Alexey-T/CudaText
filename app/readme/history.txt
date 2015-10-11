@@ -5,6 +5,7 @@
 + opt ui_stat_center
 + opt color: tab active, inactive groups
 + opt find_sel_case_sens
++ opt find_show_findfirst
 + commands: find selection next/prev
 + commands: focus group next/prev
 + commands: move tab to group next/prev

@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls,
-  FileUtil, Dialogs, Graphics,
+  FileUtil, Dialogs, Graphics, ExtCtrls,
   jsonConf,
   ATSynEdit,
   ATSynEdit_Keymap,
@@ -84,9 +84,12 @@ type
 
     MaxHistoryMenu: integer;
     MaxHistoryFiles: integer;
+
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
     FindSelCaseSens: boolean;
+    FindShowFindfirst: boolean;
+
     EscapeClose: boolean;
     InitialDir: string;
 
@@ -234,7 +237,7 @@ var
 
 function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
-function GetActiveControl(Form: TForm): TWinControl;
+function GetActiveControl(Form: TWinControl): TWinControl;
 function GetDefaultListItemHeight: integer;
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
@@ -602,6 +605,7 @@ begin
     FindSuggestSel:= false;
     FindSuggestWord:= true;
     FindSelCaseSens:= true;
+    FindShowFindfirst:= false;
     EscapeClose:= false;
     InitialDir:= '';
 
@@ -711,10 +715,10 @@ begin
   end;
 end;
 
-function GetActiveControl(Form: TForm): TWinControl;
+function GetActiveControl(Form: TWinControl): TWinControl;
 var
   Ctl: TControl;
-  i: integer;
+  i, j: integer;
 begin
   Result:= nil;
   for i:= 0 to Form.ControlCount-1 do
@@ -723,6 +727,11 @@ begin
     if (Ctl is TWinControl) then
       if (Ctl as TWinControl).Focused then
         begin Result:= Ctl as TWinControl; exit end;
+    if Ctl is TPanel then
+    begin
+      Result:= GetActiveControl(Ctl as TPanel);
+      if Result<>nil then exit;
+    end;
   end;
 end;
 
