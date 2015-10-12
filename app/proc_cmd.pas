@@ -107,10 +107,11 @@ const
   cmd_BookmarkGotoNext  = 2664;
   cmd_BookmarkGotoPrev  = 2665;
 
-  cmd_CommentLineAddAtNonspace = 2670;
-  cmd_CommentLineAddAtStart    = 2671;
-  cmd_CommentLineRemove        = 2672;
-  cmd_CommentLineToggle        = 2673;
+  cmd_CommentLineAdd_AtNonspace    = 2670;
+  cmd_CommentLineAdd_AtStart       = 2671;
+  cmd_CommentLineRemove            = 2672;
+  cmd_CommentLineToggle_AtNonspace = 2673;
+  cmd_CommentLineToggle_AtStart    = 2674;
 
   cmd_LineEndWin        = 2677;
   cmd_LineEndUnix       = 2678;
@@ -212,10 +213,11 @@ begin
   M.Add(cmd_BookmarkInvertAll, 'bookmarks: inverse all lines', [], []);
   M.Add(cmd_BookmarkClearAll, 'bookmarks: clear all', [], []);
 
-  M.Add(cmd_CommentLineAddAtNonspace, 'comments: add line comment, at non-space char', [], []);
-  M.Add(cmd_CommentLineAddAtStart, 'comments: add line comment, at line start', [], []);
+  M.Add(cmd_CommentLineAdd_AtNonspace, 'comments: add line comment, at non-space char', [], []);
+  M.Add(cmd_CommentLineAdd_AtStart, 'comments: add line comment, at line start', [], []);
   M.Add(cmd_CommentLineRemove, 'comments: remove line comment', [], []);
-  M.Add(cmd_CommentLineToggle, 'comments: toggle line comment', [cXControl+'+/'], []);
+  M.Add(cmd_CommentLineToggle_AtNonspace, 'comments: toggle line comment, at non-space char', [cXControl+'+/'], []);
+  M.Add(cmd_CommentLineToggle_AtStart, 'comments: toggle line comment, at line start', [], []);
 
   M.Add(cmd_SplitTabToggle, 'split tab: toggle split', [], []);
   M.Add(cmd_SplitTabHorzVert, 'split tab: toggle horz/vert', [], []);

@@ -426,9 +426,9 @@ begin
   upk(mnuSortAsc, cmd_SortAsc);
   upk(mnuSortDesc, cmd_SortDesc);
 
-  upk(mnuCmtAdd, cmd_CommentLineAddAtNonspace);
+  upk(mnuCmtAdd, cmd_CommentLineAdd_AtNonspace);
   upk(mnuCmtRemove, cmd_CommentLineRemove);
-  upk(mnuCmtToggle, cmd_CommentLineToggle);
+  upk(mnuCmtToggle, cmd_CommentLineToggle_AtNonspace);
 
   upk(mnuFindDlg, cmd_DlgFind);
   upk(mnuFindRepDialog, cmd_DlgReplace);

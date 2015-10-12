@@ -12,6 +12,7 @@
 + command: add comment at line start
 + lexer-prop dlg: remove Apply
 + api: app_proc
+- fix minimap dragging
 
 0.8.4
 + api: get_prop
