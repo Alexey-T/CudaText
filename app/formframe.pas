@@ -234,7 +234,7 @@ begin
       NColor:= SHtmlColorToColor(Copy(AStr, i+1, 7), NLen, clNone);
       if NColor=clNone then Continue;
 
-      X1:= AX+AExtent[i-1];
+      X1:= AX+AExtent[i-2];
       X2:= AX+AExtent[i-1+NLen];
       Y:= AY+ACharSize.Y;
 
