@@ -73,6 +73,11 @@
         <FormatVersion Value="1"/>
         <CommandLineParams Value="~\main.css ~\test.html"/>
       </local>
+      <environment>
+        <UserOverrides Count="1">
+          <Variable0 Name="sd" Value="ssddddd"/>
+        </UserOverrides>
+      </environment>
     </RunParams>
     <RequiredPackages Count="7">
       <Item1>

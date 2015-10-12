@@ -1,4 +1,8 @@
 
+0.8.9
++ opt find_indent_vert
++ opt find_indent_horz
+
 0.8.8
 + opt ui_reopen_session, last files reopened
 + opt ui_title_path

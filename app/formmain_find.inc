@@ -248,13 +248,21 @@ begin
 end;
 
 procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean);
+var
+  Pnt: TPoint;
 begin
   //call to AdapterHilite:
   if AUpdateText then
     FFinder.Editor.DoEventChange;
 
+  with FFinder.Editor.Carets[0] do
+  begin
+    Pnt.X:= PosX;
+    Pnt.Y:= PosY;
+  end;
+
   FFinder.Editor.Update(AUpdateText);
-  FFinder.Editor.DoGotoCaret(cEdgeTop);
+  FFinder.Editor.DoGotoPos(Pnt, UiOps.FindIndentHorz, UiOps.FindIndentVert);
   UpdateStatus;
 end;
 

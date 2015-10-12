@@ -89,6 +89,8 @@ type
     FindSuggestWord: boolean;
     FindSelCase: boolean;
     FindShowFindfirst: boolean;
+    FindIndentVert: integer;
+    FindIndentHorz: integer;
 
     EscapeClose: boolean;
     InitialDir: string;
@@ -602,10 +604,14 @@ begin
 
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;
+
     FindSuggestSel:= false;
     FindSuggestWord:= true;
     FindSelCase:= true;
     FindShowFindfirst:= true;
+    FindIndentVert:= -5;
+    FindIndentHorz:= 10;
+
     EscapeClose:= false;
     InitialDir:= '';
 

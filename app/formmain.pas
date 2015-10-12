@@ -1494,12 +1494,15 @@ end;
 
 procedure TfmMain.GotoDialogDone(Sender: TObject; const Res: string);
 var
+  Ed: TATSynEdit;
   Num, NumMax: integer;
 begin
+  Ed:= CurrentEditor;
+
   if Res=cOpGotoClose then
   begin
     fmGoto.Hide;
-    CurrentEditor.SetFocus;
+    Ed.SetFocus;
     Exit;
   end;
 
@@ -1512,12 +1515,14 @@ begin
       Exit
     end;
 
-    NumMax:= CurrentEditor.Strings.Count-1;
+    NumMax:= Ed.Strings.Count-1;
     if Num>NumMax then Num:= NumMax;
 
     fmGoto.Hide;
-    CurrentEditor.DoGotoPosEx(Point(0, Num));
-    CurrentEditor.SetFocus;
+    Ed.DoCaretSingle(0, Num);
+    Ed.DoGotoPos(Point(0, Num), UiOps.FindIndentHorz, UiOps.FindIndentVert);
+    Ed.Update;
+    Ed.SetFocus;
     MsgStatus(Format(msgStatusGotoLine, [Num+1]));
   end;
 end;

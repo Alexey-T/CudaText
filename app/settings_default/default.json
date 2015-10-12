@@ -202,6 +202,11 @@
   "find_sel_case": true,
   //show "find first" dialog button
   "find_show_findfirst": true,
+  //when doing "go to" or "find", and caret out of screen, scroll to N chars from caret;
+  //vert indent can be N<0: means always indent from top; 
+  //                   N>=0: indent from top (goto up) or bottom (goto down)
+  "find_indent_vert": -5,
+  "find_indent_horz": 10,
   
   //name of lexer-library file in dir "data/lexlib"
   "lexlib": "lib.lxl",
