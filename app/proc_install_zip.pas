@@ -178,6 +178,17 @@ begin
   end;
 end;
 
+function GetTempDirCounted: string;
+var
+  n: integer;
+begin
+  for n:= 0 to 5000 do
+  begin
+    Result:= GetTempDir+DirectorySeparator+'cudatext_'+Format('%5.5d', [n]);
+    if not DirectoryExists(Result) then break;
+  end;
+end;
+
 function DoInstallAddonFromZip(const fn_zip: string;
   Manager: TecSyntaxManager;
   const dir_acp: string;
@@ -189,7 +200,8 @@ var
   s_title, s_type, s_desc: string;
 begin
   Result:= false;
-  dir:= GetTempFilename('', 'cudatext_');
+  dir:= GetTempDirCounted;
+
   if not DirectoryExists(dir) then
     CreateDir(dir);
   if not DirectoryExists(dir) then

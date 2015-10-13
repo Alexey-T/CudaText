@@ -3,6 +3,7 @@
 + dlg Find new look
 + opt find_indent_vert
 + opt find_indent_horz
+- fix: Win: wrong temp dir for plugins
 
 0.8.8
 + opt ui_reopen_session, last files reopened
