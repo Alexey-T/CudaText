@@ -37,19 +37,20 @@ begin
 
     FFinder.StrFind:= edFind.Text;
     FFinder.StrReplace:= edRep.Text;
-    FFinder.OptBack:= chkBack.Checked;
+    FFinder.OptBack:= false;
     FFinder.OptCase:= chkCase.Checked;
     FFinder.OptWords:= chkWords.Checked;
     FFinder.OptRegex:= chkRegex.Checked;
-    FFinder.OptFromCaret:= (Res=cOpFindNext) or (Res=cOpFindRep);
+    FFinder.OptFromCaret:= (Res=cOpFindNext) or (Res=cOpFindPrev) or (Res=cOpFindRep);
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
   end;
 
   UpdateAppForSearch(true);
   FFinder.UpdateBuffer;
 
-  if (Res=cOpFind) or (Res=cOpFindNext) then
+  if (Res=cOpFindFirst) or (Res=cOpFindNext) or (Res=cOpFindPrev) then
   begin
+    FFinder.OptBack:= (Res=cOpFindPrev);
     ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(false);
     DoFindResult(ok);
@@ -138,7 +139,6 @@ begin
     edRep.Text:= FFinder.StrReplace;
     edRep.DoCommand(cCommand_SelectAll);
 
-    chkBack.Checked:= FFinder.OptBack;
     chkCase.Checked:= FFinder.OptCase;
     chkWords.Checked:= FFinder.OptWords;
     chkRegex.Checked:= FFinder.OptRegex;

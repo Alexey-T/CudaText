@@ -1,13 +1,13 @@
 object fmFind: TfmFind
-  Left = 154
-  Height = 63
-  Top = 565
-  Width = 951
+  Left = 53
+  Height = 64
+  Top = 490
+  Width = 1204
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Find/Replace'
-  ClientHeight = 63
-  ClientWidth = 951
+  ClientHeight = 64
+  ClientWidth = 1204
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
@@ -358,72 +358,6 @@ object fmFind: TfmFind
     OptSavingTrimSpaces = False
     OptComboboxArrowSize = 4
   end
-  object chkRegex: TATButton
-    Left = 495
-    Height = 25
-    Hint = 'Alt+R'
-    Top = 34
-    Width = 60
-    TabStop = True
-    TabOrder = 4
-    Caption = 'Regex'
-    Checked = False
-    Checkable = True
-    Focusable = True
-    OnClick = chkRegexChange
-  end
-  object chkCase: TATButton
-    Left = 555
-    Height = 25
-    Hint = 'Alt+C'
-    Top = 34
-    Width = 60
-    TabStop = True
-    TabOrder = 5
-    Caption = 'Case'
-    Checked = False
-    Checkable = True
-    Focusable = True
-  end
-  object chkWords: TATButton
-    Left = 615
-    Height = 25
-    Hint = 'Alt+W'
-    Top = 34
-    Width = 60
-    TabStop = True
-    TabOrder = 6
-    Caption = 'Words'
-    Checked = False
-    Checkable = True
-    Focusable = True
-  end
-  object chkBack: TATButton
-    Left = 675
-    Height = 25
-    Hint = 'Alt+9'
-    Top = 34
-    Width = 60
-    TabStop = True
-    TabOrder = 7
-    Caption = 'Back'
-    Checked = False
-    Checkable = True
-    Focusable = True
-  end
-  object chkConfirm: TATButton
-    Left = 735
-    Height = 25
-    Hint = 'Alt+0'
-    Top = 34
-    Width = 60
-    TabStop = True
-    TabOrder = 8
-    Caption = 'Confirm'
-    Checked = False
-    Checkable = True
-    Focusable = True
-  end
   object bCancel: TSpeedButton
     Left = 0
     Height = 22
@@ -437,10 +371,10 @@ object fmFind: TfmFind
     Left = 495
     Height = 25
     Top = 4
-    Width = 618
+    Width = 709
     BevelOuter = bvNone
     ClientHeight = 25
-    ClientWidth = 618
+    ClientWidth = 709
     TabOrder = 1
     object bFindFirst: TATButton
       Left = 0
@@ -472,14 +406,14 @@ object fmFind: TfmFind
       OnClick = bFindNextClick
     end
     object bCount: TATButton
-      Left = 200
+      Left = 300
       Height = 25
       Hint = 'Alt+5'
       Top = 0
       Width = 100
       Align = alLeft
       TabStop = True
-      TabOrder = 2
+      TabOrder = 3
       Caption = 'Count all'
       Checked = False
       Checkable = False
@@ -487,14 +421,14 @@ object fmFind: TfmFind
       OnClick = bCountClick
     end
     object bMarkAll: TATButton
-      Left = 300
+      Left = 400
       Height = 25
       Hint = 'Alt+6'
       Top = 0
       Width = 100
       Align = alLeft
       TabStop = True
-      TabOrder = 3
+      TabOrder = 4
       Caption = 'Mark all'
       Checked = False
       Checkable = False
@@ -502,14 +436,14 @@ object fmFind: TfmFind
       OnClick = bMarkAllClick
     end
     object bRep: TATButton
-      Left = 400
+      Left = 500
       Height = 25
       Hint = 'Alt+1'
       Top = 0
       Width = 100
       Align = alLeft
       TabStop = True
-      TabOrder = 4
+      TabOrder = 5
       Caption = 'Replace cur'
       Checked = False
       Checkable = False
@@ -517,19 +451,101 @@ object fmFind: TfmFind
       OnClick = bRepClick
     end
     object bRepAll: TATButton
-      Left = 500
+      Left = 600
       Height = 25
       Hint = 'Alt+2'
       Top = 0
       Width = 100
       Align = alLeft
       TabStop = True
-      TabOrder = 5
+      TabOrder = 6
       Caption = 'Replace all'
       Checked = False
       Checkable = False
       Focusable = True
       OnClick = bRepAllClick
+    end
+    object bFindPrev: TATButton
+      Left = 200
+      Height = 25
+      Hint = 'Shift+Enter'
+      Top = 0
+      Width = 100
+      Align = alLeft
+      TabStop = True
+      TabOrder = 2
+      Caption = 'Find prev'
+      Checked = False
+      Checkable = False
+      Focusable = True
+      OnClick = bFindPrevClick
+    end
+  end
+  object Panel2: TPanel
+    Left = 496
+    Height = 25
+    Top = 34
+    Width = 152
+    BevelOuter = bvNone
+    ClientHeight = 25
+    ClientWidth = 152
+    TabOrder = 4
+    object chkRegex: TATButton
+      Left = 0
+      Height = 25
+      Hint = 'Reg.ex. - Alt+R'
+      Top = 0
+      Width = 32
+      Align = alLeft
+      TabStop = True
+      TabOrder = 0
+      Caption = '.*'
+      Checked = False
+      Checkable = True
+      Focusable = True
+      OnClick = chkRegexChange
+    end
+    object chkCase: TATButton
+      Left = 32
+      Height = 25
+      Hint = 'Case sensitive - Alt+C'
+      Top = 0
+      Width = 32
+      Align = alLeft
+      TabStop = True
+      TabOrder = 1
+      Caption = 'aA'
+      Checked = False
+      Checkable = True
+      Focusable = True
+    end
+    object chkWords: TATButton
+      Left = 64
+      Height = 25
+      Hint = 'Whole words - Alt+W'
+      Top = 0
+      Width = 32
+      Align = alLeft
+      TabStop = True
+      TabOrder = 2
+      Caption = '“w”'
+      Checked = False
+      Checkable = True
+      Focusable = True
+    end
+    object chkConfirm: TATButton
+      Left = 96
+      Height = 25
+      Hint = 'Confirm on replace - Alt+0'
+      Top = 0
+      Width = 32
+      Align = alLeft
+      TabStop = True
+      TabOrder = 3
+      Caption = '?!'
+      Checked = False
+      Checkable = True
+      Focusable = True
     end
   end
 end

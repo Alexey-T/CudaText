@@ -23,8 +23,9 @@ uses
   proc_str;
 
 const
-  cOpFind='find';
+  cOpFindFirst='findfirst';
   cOpFindNext='findnext';
+  cOpFindPrev='findprev';
   cOpFindRep='rep';
   cOpFindRepAll='repall';
   cOpFindCount='findcnt';
@@ -39,20 +40,22 @@ type
     bCount: TATButton;
     bFindFirst: TATButton;
     bFindNext: TATButton;
+    bFindPrev: TATButton;
     bMarkAll: TATButton;
     bRep: TATButton;
     bRepAll: TATButton;
-    chkRegex: TATButton;
     chkCase: TATButton;
+    chkConfirm: TATButton;
+    chkRegex: TATButton;
     chkRep: TATButton;
     chkWords: TATButton;
-    chkBack: TATButton;
-    chkConfirm: TATButton;
     edFind: TATComboEdit;
     edRep: TATComboEdit;
     LabelFind: TLabel;
     Panel1: TPanel;
+    Panel2: TPanel;
     procedure bFindNextClick(Sender: TObject);
+    procedure bFindPrevClick(Sender: TObject);
     procedure bMarkAllClick(Sender: TObject);
     procedure bRepClick(Sender: TObject);
     procedure bRepAllClick(Sender: TObject);
@@ -103,6 +106,11 @@ begin
   DoDone(cOpFindNext);
 end;
 
+procedure TfmFind.bFindPrevClick(Sender: TObject);
+begin
+  DoDone(cOpFindPrev);
+end;
+
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
   DoDone(cOpFindMarkAll);
@@ -130,7 +138,7 @@ end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
 begin
-  DoDone(cOpFind);
+  DoDone(cOpFindFirst);
 end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
@@ -191,9 +199,8 @@ procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 begin
   if key=VK_RETURN then
   begin
-    if Shift=[] then chkBack.Checked:= false;
-    if Shift=[ssShift] then chkBack.Checked:= true;
-    bFindNextClick(Self);
+    if Shift=[] then bFindNextClick(Self);
+    if Shift=[ssShift] then bFindPrevClick(Self);
     key:= 0;
     exit
   end;
@@ -235,8 +242,6 @@ begin
     begin with chkCase do checked:= not checked; key:= 0; exit end;
   if (key=ord('W')) and (Shift=[ssAlt]) then
     begin with chkWords do checked:= not checked; key:= 0; exit end;
-  if (key=ord('9')) and (Shift=[ssAlt]) then
-    begin with chkBack do checked:= not checked; key:= 0; exit end;
   if (key=ord('0')) and (Shift=[ssAlt]) then
     begin with chkConfirm do checked:= not checked; key:= 0; exit end;
 
@@ -276,7 +281,6 @@ begin
   fill:= edFind.Text<>'';
 
   chkWords.Enabled:= not chkRegex.Checked;
-  chkBack.Enabled:= not chkRegex.Checked;
   chkConfirm.Enabled:= rep;
   edRep.Enabled:= rep;
   bCount.Visible:= not rep;
@@ -286,6 +290,7 @@ begin
 
   bFindFirst.Enabled:= fill;
   bFindNext.Enabled:= fill;
+  bFindPrev.Enabled:= fill;
   bRep.Enabled:= fill;
   bRepAll.Enabled:= fill;
   bCount.Enabled:= fill;

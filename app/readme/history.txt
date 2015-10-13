@@ -1,5 +1,5 @@
 
-0.8.9
+0.8.8.2
 + opt find_indent_vert
 + opt find_indent_horz
 
