@@ -1,11 +1,11 @@
 object fmGoto: TfmGoto
   Left = 439
-  Height = 36
+  Height = 38
   Top = 549
   Width = 472
   BorderStyle = bsNone
   Caption = 'Goto'
-  ClientHeight = 36
+  ClientHeight = 38
   ClientWidth = 472
   KeyPreview = True
   OnCreate = FormCreate
@@ -14,7 +14,7 @@ object fmGoto: TfmGoto
   ShowInTaskBar = stNever
   LCLVersion = '1.5'
   object bGoto: TATButton
-    Left = 272
+    Left = 256
     Height = 25
     Top = 6
     Width = 64
@@ -36,10 +36,10 @@ object fmGoto: TfmGoto
     ParentColor = False
   end
   object edInput: TATEdit
-    Left = 127
+    Left = 124
     Height = 25
     Top = 6
-    Width = 136
+    Width = 123
     BorderStyle = bsSingle
     Font.Height = -12
     Font.Name = 'Courier New'
@@ -195,13 +195,24 @@ object fmGoto: TfmGoto
     OptSavingForceFinalEol = False
     OptSavingTrimSpaces = False
   end
-  object bClose: TSpeedButton
+  object PanelX: TPanel
     Left = 0
-    Height = 22
-    Top = 8
-    Width = 23
-    Caption = 'x'
-    Flat = True
-    OnClick = bCloseClick
+    Height = 38
+    Top = 0
+    Width = 20
+    Align = alLeft
+    BevelOuter = bvNone
+    ClientHeight = 38
+    ClientWidth = 20
+    TabOrder = 2
+    object bClose: TSpeedButton
+      Left = 0
+      Height = 22
+      Top = 8
+      Width = 20
+      Caption = 'x'
+      Flat = True
+      OnClick = bCloseClick
+    end
   end
 end

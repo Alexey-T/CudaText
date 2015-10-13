@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, ATSynEdit_Edits, proc_globdata, proc_colors, ATButtons;
+  Buttons, ExtCtrls, ATSynEdit_Edits, proc_globdata, proc_colors, ATButtons;
 
 const
   cOpGotoLine='gotoline';
@@ -23,10 +23,11 @@ type
   { TfmGoto }
 
   TfmGoto = class(TForm)
+    bClose: TSpeedButton;
     edInput: TATEdit;
     bGoto: TATButton;
     LabelGoto: TLabel;
-    bClose: TSpeedButton;
+    PanelX: TPanel;
     procedure bCloseClick(Sender: TObject);
     procedure bGotoClick(Sender: TObject);
     procedure edInputChange(Sender: TObject);
