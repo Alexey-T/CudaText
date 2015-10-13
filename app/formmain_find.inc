@@ -144,7 +144,7 @@ begin
     chkRegex.Checked:= FFinder.OptRegex;
     //chkFromCaret.Checked:= FFinder.OptFromCaret;
     chkConfirm.Checked:= FFinder.OptConfirmReplace;
-    chkRep.Checked:= AReplaceMode;
+    Replace:= AReplaceMode;
 
     Show;
     UpdateState;

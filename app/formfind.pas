@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls,
-  LclType, LclProc, Buttons, ExtCtrls,
+  LclType, LclProc, Buttons, ExtCtrls, Math,
   ATButtons,
   ATSynEdit,
   ATSynEdit_Edits,
@@ -47,13 +47,18 @@ type
     chkCase: TATButton;
     chkConfirm: TATButton;
     chkRegex: TATButton;
-    chkRep: TATButton;
     chkWords: TATButton;
     edFind: TATComboEdit;
     edRep: TATComboEdit;
     LabelFind: TLabel;
+    LabelRep: TLabel;
     Panel1: TPanel;
-    Panel2: TPanel;
+    PanelOps1: TPanel;
+    PanelOps2: TPanel;
+    PanelX: TPanel;
+    PanelOps: TPanel;
+    PanelLabels: TPanel;
+    PanelAll: TPanel;
     procedure bFindNextClick(Sender: TObject);
     procedure bFindPrevClick(Sender: TObject);
     procedure bMarkAllClick(Sender: TObject);
@@ -72,6 +77,7 @@ type
   private
     { private declarations }
     FOnDone: TStrEvent;
+    FReplace: boolean;
     procedure DoDone(const Str: string);
   public
     { public declarations }
@@ -79,6 +85,7 @@ type
     FHotkeyRep: TShortCut;
     procedure UpdateState;
     procedure UpdateFonts;
+    property Replace: boolean read FReplace write FReplace;
     property OnDone: TStrEvent read FOnDone write FOnDone;
   end;
 
@@ -163,6 +170,8 @@ begin
     Font.Size:= UiOps.VarFontSize;
     Font.Color:= GetAppColor('TabFont');
   end;
+  LabelRep.Font.Assign(LabelFind.Font);
+
   with edFind do
   begin
     Font.Name:= EditorOps.OpFontName;
@@ -222,7 +231,7 @@ begin
 
   if (FHotkeyFind<>0) and (FHotkeyFind=KeyToShortCut(Key, Shift)) then
   begin
-    chkRep.Checked:= false;
+    FReplace:= false;
     UpdateState;
     key:= 0;
     exit;
@@ -230,7 +239,7 @@ begin
 
   if (FHotkeyRep<>0) and (FHotkeyRep=KeyToShortCut(Key, Shift)) then
   begin
-    chkRep.Checked:= true;
+    FReplace:= true;
     UpdateState;
     key:= 0;
     exit;
@@ -277,12 +286,18 @@ procedure TfmFind.UpdateState;
 var
   rep, fill: boolean;
 begin
-  rep:= chkRep.Checked;
+  rep:= FReplace;
   fill:= edFind.Text<>'';
 
+  Height:= IfThen(rep, edRep.Top+edRep.Height+4, edFind.Top+edFind.Height+4);
+
   chkWords.Enabled:= not chkRegex.Checked;
-  chkConfirm.Enabled:= rep;
-  edRep.Enabled:= rep;
+  chkConfirm.Visible:= rep;
+  LabelRep.Visible:= rep;
+  edRep.Visible:= rep;
+  PanelLabels.Visible:= rep;
+  PanelLabels.Left:= PanelOps.Left+4;
+
   bCount.Visible:= not rep;
   bMarkAll.Visible:= not rep;
   bRep.Visible:= rep;
