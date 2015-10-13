@@ -380,7 +380,7 @@ object fmFind: TfmFind
       Left = 0
       Height = 25
       Top = 0
-      Width = 100
+      Width = 85
       Align = alLeft
       TabStop = True
       TabOrder = 0
@@ -391,11 +391,11 @@ object fmFind: TfmFind
       OnClick = bFindFirstClick
     end
     object bFindNext: TATButton
-      Left = 100
+      Left = 85
       Height = 25
       Hint = 'Enter'
       Top = 0
-      Width = 100
+      Width = 85
       Align = alLeft
       TabStop = True
       TabOrder = 1
@@ -406,11 +406,11 @@ object fmFind: TfmFind
       OnClick = bFindNextClick
     end
     object bCount: TATButton
-      Left = 300
+      Left = 255
       Height = 25
       Hint = 'Alt+5'
       Top = 0
-      Width = 100
+      Width = 85
       Align = alLeft
       TabStop = True
       TabOrder = 3
@@ -421,11 +421,11 @@ object fmFind: TfmFind
       OnClick = bCountClick
     end
     object bMarkAll: TATButton
-      Left = 400
+      Left = 340
       Height = 25
       Hint = 'Alt+6'
       Top = 0
-      Width = 100
+      Width = 85
       Align = alLeft
       TabStop = True
       TabOrder = 4
@@ -436,11 +436,11 @@ object fmFind: TfmFind
       OnClick = bMarkAllClick
     end
     object bRep: TATButton
-      Left = 500
+      Left = 425
       Height = 25
       Hint = 'Alt+1'
       Top = 0
-      Width = 100
+      Width = 85
       Align = alLeft
       TabStop = True
       TabOrder = 5
@@ -451,11 +451,11 @@ object fmFind: TfmFind
       OnClick = bRepClick
     end
     object bRepAll: TATButton
-      Left = 600
+      Left = 510
       Height = 25
       Hint = 'Alt+2'
       Top = 0
-      Width = 100
+      Width = 85
       Align = alLeft
       TabStop = True
       TabOrder = 6
@@ -466,11 +466,11 @@ object fmFind: TfmFind
       OnClick = bRepAllClick
     end
     object bFindPrev: TATButton
-      Left = 200
+      Left = 170
       Height = 25
       Hint = 'Shift+Enter'
       Top = 0
-      Width = 100
+      Width = 85
       Align = alLeft
       TabStop = True
       TabOrder = 2
@@ -485,10 +485,10 @@ object fmFind: TfmFind
     Left = 496
     Height = 25
     Top = 34
-    Width = 152
+    Width = 224
     BevelOuter = bvNone
     ClientHeight = 25
-    ClientWidth = 152
+    ClientWidth = 224
     TabOrder = 4
     object chkRegex: TATButton
       Left = 0

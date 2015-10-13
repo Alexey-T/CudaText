@@ -1,5 +1,6 @@
 
-0.8.8.2
+0.8.9
++ dlg Find new look
 + opt find_indent_vert
 + opt find_indent_horz
 
