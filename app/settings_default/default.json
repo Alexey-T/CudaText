@@ -110,7 +110,7 @@
   //additional margins, list of columns like "10 20 25" space-separated
   "margin_string": "",
 
-  //show unprinted chars (global enable)  
+  //global enable-flag for unprinted_ options below (spaces, ends, details)  
   "unprinted_show": false,
   //show unprinted spaces/tabs
   "unprinted_spaces": true,
@@ -202,9 +202,12 @@
   "find_sel_case": true,
   //show "find first" dialog button
   "find_show_findfirst": true,
-  //when doing "go to" or "find", and caret out of screen, scroll to N chars from caret;
-  //vert indent can be N<0: means always indent from top; 
-  //                   N>=0: indent from top (goto up) or bottom (goto down)
+  //button "replace cur" replaces + finds next match
+  "find_replace_with_find": false,
+  
+  //when doing "go to" or "find", and new position out of screen, scroll to N chars from new position;
+  //vert indent: N<0: always indent from top; 
+  //             N>=0: indent from top (goto up) or bottom (goto down)
   "find_indent_vert": -5,
   "find_indent_horz": 10,
   

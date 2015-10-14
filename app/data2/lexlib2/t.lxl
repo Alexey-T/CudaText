@@ -11084,7 +11084,7 @@ object TecSyntaxManager
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = clCream
+        BgColor = clMoneyGreen
         FormatType = ftBackGround
       end>
     TokenRules = <    
@@ -11152,12 +11152,13 @@ object TecSyntaxManager
       item
         DisplayName = 'Symbol'
         StyleName = 'Symbol'
-        Expression = '[\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\#\$\?\\]+'
+        TokenType = 6
+        Expression = '[\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\#\$\?\\]'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = 'QuotationMarks'
+        DisplayName = 'String'
         StyleName = 'QuotMarks'
         Expression = '("|''|'#180'|`) (\\\1|.)*? \1'
         ColumnFrom = 0
@@ -11494,37 +11495,8 @@ object TecSyntaxManager
             )
             TokenTypes = 4
           end>
-        BlockEnd = '}'
         NameFmt = '%sz0'
         RefToCondEnd = True
-        HighlightPos = cpAny
-        IgnoreAsParent = False
-      end    
-      item
-        DisplayName = '{'
-        ConditionList = <        
-          item
-            TagList.Strings = (
-              '{'
-            )
-            TokenTypes = 1
-          end>
-        BlockEnd = '}'
-        DisplayInTree = False
-        NameFmt = '%sz0'
-        HighlightPos = cpAny
-        IgnoreAsParent = False
-      end    
-      item
-        DisplayName = '}'
-        BlockType = btRangeEnd
-        ConditionList = <        
-          item
-            TagList.Strings = (
-              '}'
-            )
-            TokenTypes = 1
-          end>
         HighlightPos = cpAny
         IgnoreAsParent = False
       end    
@@ -11538,6 +11510,7 @@ object TecSyntaxManager
             TokenTypes = 4
           end>
         BlockEnd = 'case end'
+        DisplayInTree = False
         NameFmt = '%sz0'
         HighlightPos = cpAny
         DrawStaple = True
@@ -11594,6 +11567,7 @@ object TecSyntaxManager
             TokenTypes = 4
           end>
         BlockEnd = 'do end'
+        DisplayInTree = False
         NameFmt = '%sz0'
         HighlightPos = cpAny
         IgnoreAsParent = False
@@ -11612,20 +11586,55 @@ object TecSyntaxManager
         IgnoreAsParent = False
       end    
       item
+        DisplayName = 'for begin'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'for'
+            )
+            TokenTypes = 4
+          end>
+        BlockEnd = 'for end'
+        DisplayInTree = False
+        HighlightPos = cpAny
+        DrawStaple = True
+        IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'for end'
+        BlockType = btRangeEnd
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              'done'
+            )
+            TokenTypes = 4
+          end>
+        HighlightPos = cpAny
+        IgnoreAsParent = False
+      end    
+      item
         DisplayName = '$('
         StyleName = '$(...)'
         ConditionList = <        
           item
             TagList.Strings = (
-              '$('
+              '('
             )
-            TokenTypes = 1
+            TokenTypes = 64
+          end        
+          item
+            TagList.Strings = (
+              '$'
+            )
+            TokenTypes = 64
           end>
         BlockEnd = ')'
         DisplayInTree = False
         RefToCondEnd = True
         DynHighlight = dhRange
         HighlightPos = cpAny
+        CancelNextRules = True
         IgnoreAsParent = False
       end    
       item
@@ -11636,7 +11645,7 @@ object TecSyntaxManager
             TagList.Strings = (
               ')'
             )
-            TokenTypes = 1
+            TokenTypes = 64
           end>
         HighlightPos = cpAny
         IgnoreAsParent = False
@@ -11648,7 +11657,7 @@ object TecSyntaxManager
             TagList.Strings = (
               '('
             )
-            TokenTypes = 1
+            TokenTypes = 64
           end>
         BlockEnd = ')'
         DisplayInTree = False
@@ -11660,8 +11669,9 @@ object TecSyntaxManager
     SampleText.Strings = (
       'while read line  # For as many lines as the input file has...'
       'do'
-      '  echo "$line"   # Output the line itself.'
-      '  test "test\"test"'
+      '  test $(test "$line"); '
+      '  test "test\"test" '
+      '  echo "test"'
       '  len=${#line} $(text here)'
       '  if [[ "$len" -lt "$MINLEN" && "$line" =~ \[*\.\] ]]'
       '    then echo    #  Add a blank line immediately'
@@ -11675,6 +11685,7 @@ object TecSyntaxManager
       'Label'
       'echo text'
       'echo cmd'
+      'Symbol'
     )
     Extentions = 'sh csh bash'
     LexerName = 'Bash script'

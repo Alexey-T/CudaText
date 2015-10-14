@@ -355,6 +355,7 @@ begin
     UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
     UiOps.FindSelCase:= c.GetValue('find_sel_case', UiOps.FindSelCase);
     UiOps.FindShowFindfirst:= c.GetValue('find_show_findfirst', UiOps.FindShowFindfirst);
+    UiOps.FindReplaceWithFind:= c.GetValue('find_replace_with_find', UiOps.FindReplaceWithFind);
     UiOps.FindIndentVert:= c.GetValue('find_indent_vert', UiOps.FindIndentVert);
     UiOps.FindIndentHorz:= c.GetValue('find_indent_horz', UiOps.FindIndentHorz);
 

@@ -1,9 +1,10 @@
 
-0.8.10
-+ dlg Find: opt "wrapped search"
-* dlg Find: change in hotkeys
-+ read-only files open in RO mode
+0.9.0
++ dlg Find: opt "wrapped search", change in hotkeys
++ read-only files open in r-o mode
 + opt ui_stat_time
++ opt find_replace_with_find
+- fix: Bash lexer
 
 0.8.9
 + dlg Find new look

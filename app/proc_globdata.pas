@@ -90,6 +90,7 @@ type
     FindSuggestWord: boolean;
     FindSelCase: boolean;
     FindShowFindfirst: boolean;
+    FindReplaceWithFind: boolean;
     FindIndentVert: integer;
     FindIndentHorz: integer;
 
@@ -612,6 +613,7 @@ begin
     FindSuggestWord:= true;
     FindSelCase:= true;
     FindShowFindfirst:= true;
+    FindReplaceWithFind:= false;
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
 

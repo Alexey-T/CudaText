@@ -60,6 +60,8 @@ begin
   if Res=cOpFindRep then
   begin
     ok:= FFinder.DoReplaceSelectedMatch;
+    if UiOps.FindReplaceWithFind then
+      ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(true);
     DoFindResult(ok);
   end;
