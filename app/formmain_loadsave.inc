@@ -264,6 +264,7 @@ begin
     UiOps.StatusSizeX:= c.GetValue('ui_stat_size_x', UiOps.StatusSizeX);
     UiOps.StatusSizeY:= c.GetValue('ui_stat_size_y', UiOps.StatusSizeY);
     UiOps.StatusCenter:= c.GetValue('ui_stat_center', UiOps.StatusCenter);
+    UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_stat_time', UiOps.StatusTime)));
 
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
     UiOps.ShowLastFiles:= c.GetValue('ui_reopen_session', UiOps.ShowLastFiles);
@@ -372,7 +373,6 @@ begin
     UiOps.ListboxCompleteSizeX:= c.GetValue('ui_listbox_complete_size_x', UiOps.ListboxCompleteSizeX);
     UiOps.ListboxCompleteSizeY:= c.GetValue('ui_listbox_complete_size_y', UiOps.ListboxCompleteSizeY);
 
-    UiOps.HintTime:= Max(1, Min(60, c.GetValue('ui_hint_time', UiOps.HintTime)));
     UiOps.MaxHistoryMenu:= Max(0, Min(20, c.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
     UiOps.MaxHistoryFiles:= Max(0, Min(400, c.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
     UiOps.EscapeClose:= c.GetValue('ui_esc_close', UiOps.EscapeClose);

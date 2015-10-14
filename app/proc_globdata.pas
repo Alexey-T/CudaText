@@ -83,7 +83,6 @@ type
     TabShowPlus: boolean;
     TabDblClickClose: boolean;
 
-    HintTime: integer;
     MaxHistoryMenu: integer;
     MaxHistoryFiles: integer;
 
@@ -117,6 +116,7 @@ type
     StatusSizeX: integer;
     StatusSizeY: integer;
     StatusCenter: boolean;
+    StatusTime: integer;
 
     ShowTitlePath: boolean;
     ShowLastFiles: boolean;
@@ -604,7 +604,7 @@ begin
     TabShowPlus:= true;
     TabDblClickClose:= false;
 
-    HintTime:= 5;
+    StatusTime:= 5;
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;
 

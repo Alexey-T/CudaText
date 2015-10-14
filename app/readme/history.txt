@@ -1,8 +1,8 @@
 
 0.8.10
 + dlg Find: opt "wrapped search"
-* dlg Find hotkeys changed
-+ opt ui_hint_time
+* dlg Find: changed hotkeys for replace
++ opt ui_stat_time
 
 0.8.9
 + dlg Find new look
