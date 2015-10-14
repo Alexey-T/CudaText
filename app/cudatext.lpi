@@ -79,28 +79,31 @@
         </UserOverrides>
       </environment>
     </RunParams>
-    <RequiredPackages Count="7">
+    <RequiredPackages Count="8">
       <Item1>
-        <PackageName Value="LazColorPalette"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="gauge_pkg"/>
+        <PackageName Value="LazColorPalette"/>
       </Item2>
       <Item3>
-        <PackageName Value="atbuttons_package"/>
+        <PackageName Value="gauge_pkg"/>
       </Item3>
       <Item4>
-        <PackageName Value="econtrol_package"/>
+        <PackageName Value="atbuttons_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="atsynedit_package"/>
+        <PackageName Value="econtrol_package"/>
       </Item5>
       <Item6>
-        <PackageName Value="python4lazarus_pkg"/>
+        <PackageName Value="atsynedit_package"/>
       </Item6>
       <Item7>
-        <PackageName Value="LCL"/>
+        <PackageName Value="python4lazarus_pkg"/>
       </Item7>
+      <Item8>
+        <PackageName Value="LCL"/>
+      </Item8>
     </RequiredPackages>
     <Units Count="41">
       <Unit0>

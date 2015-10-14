@@ -9,6 +9,9 @@
   "ui_font_name": "default",
   "ui_font_size": 9,
 
+  //allow to run only one instance of program
+  "ui_one_instance": false,
+
   //hilite BG of lines with carets
   "show_cur_line": false,
   //... only minimal part, if line wrapped

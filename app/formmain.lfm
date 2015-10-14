@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 341
+  Left = 328
   Height = 544
-  Top = 123
+  Top = 314
   Width = 906
   AllowDropFiles = True
   Caption = 'App'
@@ -2293,5 +2293,11 @@ object fmMain: TfmMain
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
       FF00FF00FF00FF00FF00FF00FF00
     }
+  end
+  object UniqInstance: TUniqueInstance
+    Identifier = 'cudatext.0'
+    OnOtherInstance = UniqInstanceOtherInstance
+    left = 80
+    top = 184
   end
 end

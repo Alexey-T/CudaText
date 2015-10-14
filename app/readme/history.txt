@@ -1,9 +1,10 @@
 
 0.9.0
-+ dlg Find: opt "wrapped search", change in hotkeys
-+ read-only files open in r-o mode
++ dlg Find: wrapped search, change in hotkeys
++ opt ui_one_instance
 + opt ui_stat_time
 + opt find_replace_with_find
++ read-only files open in r-o mode
 - fix: Bash lexer
 
 0.8.9

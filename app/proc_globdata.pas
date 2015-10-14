@@ -121,6 +121,7 @@ type
 
     ShowTitlePath: boolean;
     ShowLastFiles: boolean;
+    OneInstance: boolean;
   end;
 var
   UiOps: TUiOps;
@@ -605,7 +606,6 @@ begin
     TabShowPlus:= true;
     TabDblClickClose:= false;
 
-    StatusTime:= 5;
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;
 
@@ -640,9 +640,11 @@ begin
     StatusSizeX:= 200;
     StatusSizeY:= TabSizeY;
     StatusCenter:= true;
+    StatusTime:= 5;
 
     ShowTitlePath:= false;
     ShowLastFiles:= true;
+    OneInstance:= false;
   end;
 end;
 

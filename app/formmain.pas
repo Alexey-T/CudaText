@@ -16,7 +16,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
   Clipbrd, StrUtils, Variants,
-  FileUtil, LclType, LclProc, LclIntf,
+  FileUtil, LclType, LclProc, LclIntf, UniqueInstance,
   jsonConf, IniFiles,
   PythonEngine,
   ecSyntAnal,
@@ -341,6 +341,7 @@ type
     tbPaste: TToolButton;
     ToolButton9: TToolButton;
     Tree: TTreeView;
+    UniqInstance: TUniqueInstance;
     procedure btnStopClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabsBottomClick(Sender: TObject);
@@ -445,6 +446,8 @@ type
     procedure TimerTreeFillTimer(Sender: TObject);
     procedure TimerTreeFocusTimer(Sender: TObject);
     procedure TreeClick(Sender: TObject);
+    procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
+      Parameters: array of String);
   private
     { private declarations }
     FPluginsCmd: TAppPluginCmdArray;
@@ -809,6 +812,29 @@ begin
   CurrentEditor.DoGotoPosEx(P);
   CurrentEditor.SetFocus;
   FTreeClick:= false;
+end;
+
+procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
+  ParamCount: Integer; Parameters: array of String);
+var
+  i: integer;
+  FStyle: TFormStyle;
+begin
+  for i:= 0 to ParamCount-1 do
+    if FileExistsUTF8(Parameters[i]) then
+      DoFileOpen(Parameters[i]);
+
+  if WindowState=wsMinimized then
+  begin
+    WindowState:= wsNormal;
+    Application.ProcessMessages;
+  end;
+  Application.BringToFront;
+
+  //hack to show form
+  FStyle:= FormStyle;
+  FormStyle:= fsStayOnTop;
+  FormStyle:= FStyle;
 end;
 
 
@@ -1297,6 +1323,9 @@ begin
   MsgStatus(msgStatusEndsChanged);
 end;
 
+type
+  TComponentHack = class(TComponent);
+
 procedure TfmMain.DoApplyUiOps;
 begin
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
@@ -1338,13 +1367,20 @@ begin
   else
     Status.GetPanelData(0).ItemAlign:= saLeft;
 
+  TimerStatus.Interval:= UiOps.StatusTime*1000;
+
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
 
   cCompleteFormSizeX:= UiOps.ListboxCompleteSizeX;
   cCompleteFormSizeY:= UiOps.ListboxCompleteSizeY;
 
-  TimerStatus.Interval:= UiOps.StatusTime*1000;
+  if UiOps.OneInstance then
+    if not UniqInstance.Enabled then
+    begin
+      UniqInstance.Enabled:= true;
+      TComponentHack(UniqInstance).Loaded;
+    end;
 
   DoApplyTheme;
 end;

@@ -268,6 +268,7 @@ begin
 
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
     UiOps.ShowLastFiles:= c.GetValue('ui_reopen_session', UiOps.ShowLastFiles);
+    UiOps.OneInstance:= c.GetValue('ui_one_instance', UiOps.OneInstance);
 
     Op.OpSpaceX:= c.GetValue('spacing_x', Op.OpSpaceX);
     Op.OpSpaceY:= c.GetValue('spacing_y', Op.OpSpaceY);

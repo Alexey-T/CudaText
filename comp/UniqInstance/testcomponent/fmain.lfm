@@ -1,0 +1,49 @@
+object Form1: TForm1
+  Left = 464
+  Height = 280
+  Top = 339
+  Width = 340
+  HorzScrollBar.Page = 339
+  VertScrollBar.Page = 279
+  ActiveControl = ListBox1
+  BorderStyle = bsDialog
+  Caption = 'Test UniqueInstance'
+  ClientHeight = 280
+  ClientWidth = 340
+  Position = poScreenCenter
+  LCLVersion = '1.3'
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 8
+    Width = 145
+    Caption = 'Waiting for new instances...'
+    ParentColor = False
+  end
+  object ListBox1: TListBox
+    Left = 8
+    Height = 216
+    Top = 24
+    Width = 320
+    ItemHeight = 0
+    TabOrder = 0
+  end
+  object ButCrashApp: TButton
+    Left = 8
+    Height = 25
+    Top = 248
+    Width = 136
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Crash Application'
+    OnClick = ButCrashAppClick
+    TabOrder = 1
+  end
+  object UniqueInstance1: TUniqueInstance
+    Enabled = True
+    Identifier = 'test0.1'
+    UpdateInterval = 800
+    OnOtherInstance = UniqueInstance1OtherInstance
+    left = 152
+    top = 104
+  end
+end
