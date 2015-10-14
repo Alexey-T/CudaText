@@ -1,5 +1,5 @@
 object fmFind: TfmFind
-  Left = 365
+  Left = 76
   Height = 62
   Top = 514
   Width = 1204
@@ -483,8 +483,8 @@ object fmFind: TfmFind
       OptSavingTrimSpaces = False
       OptComboboxArrowSize = 4
     end
-    object Panel1: TPanel
-      Left = 370
+    object PanelBtn: TPanel
+      Left = 368
       Height = 25
       Top = 4
       Width = 605
@@ -551,36 +551,6 @@ object fmFind: TfmFind
         Focusable = True
         OnClick = bMarkAllClick
       end
-      object bRep: TATButton
-        Left = 425
-        Height = 25
-        Hint = 'Alt+1'
-        Top = 0
-        Width = 85
-        Align = alLeft
-        TabStop = True
-        TabOrder = 5
-        Caption = 'Replace cur'
-        Checked = False
-        Checkable = False
-        Focusable = True
-        OnClick = bRepClick
-      end
-      object bRepAll: TATButton
-        Left = 510
-        Height = 25
-        Hint = 'Alt+2'
-        Top = 0
-        Width = 85
-        Align = alLeft
-        TabStop = True
-        TabOrder = 6
-        Caption = 'Replace all'
-        Checked = False
-        Checkable = False
-        Focusable = True
-        OnClick = bRepAllClick
-      end
       object bFindPrev: TATButton
         Left = 170
         Height = 25
@@ -595,6 +565,46 @@ object fmFind: TfmFind
         Checkable = False
         Focusable = True
         OnClick = bFindPrevClick
+      end
+    end
+    object PanelBtnRep: TPanel
+      Left = 368
+      Height = 25
+      Top = 33
+      Width = 352
+      BevelOuter = bvNone
+      ClientHeight = 25
+      ClientWidth = 352
+      TabOrder = 3
+      object bRep: TATButton
+        Left = 0
+        Height = 25
+        Hint = 'Alt+1'
+        Top = 0
+        Width = 85
+        Align = alLeft
+        TabStop = True
+        TabOrder = 0
+        Caption = 'Replace cur'
+        Checked = False
+        Checkable = False
+        Focusable = True
+        OnClick = bRepClick
+      end
+      object bRepAll: TATButton
+        Left = 85
+        Height = 25
+        Hint = 'Alt+2'
+        Top = 0
+        Width = 85
+        Align = alLeft
+        TabStop = True
+        TabOrder = 1
+        Caption = 'Replace all'
+        Checked = False
+        Checkable = False
+        Focusable = True
+        OnClick = bRepAllClick
       end
     end
   end

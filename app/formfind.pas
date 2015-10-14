@@ -52,7 +52,8 @@ type
     edRep: TATComboEdit;
     LabelFind: TLabel;
     LabelRep: TLabel;
-    Panel1: TPanel;
+    PanelBtn: TPanel;
+    PanelBtnRep: TPanel;
     PanelOps1: TPanel;
     PanelOps2: TPanel;
     PanelX: TPanel;
@@ -271,6 +272,8 @@ end;
 
 procedure TfmFind.DoDone(const Str: string);
 begin
+  if edFind.Text='' then exit;
+
   if Assigned(FOnDone) then
     FOnDone(Self, Str);
 
@@ -287,7 +290,7 @@ var
   rep, fill: boolean;
 begin
   rep:= FReplace;
-  fill:= edFind.Text<>'';
+  fill:= true; //edFind.Text<>'';
 
   Height:= IfThen(rep, edRep.Top+edRep.Height+4, edFind.Top+edFind.Height+4);
 
@@ -296,12 +299,10 @@ begin
   LabelRep.Visible:= rep;
   edRep.Visible:= rep;
   PanelLabels.Visible:= rep;
+  PanelBtnRep.Visible:= rep;
   PanelLabels.Left:= PanelOps.Left+4;
-
   bCount.Visible:= not rep;
   bMarkAll.Visible:= not rep;
-  bRep.Visible:= rep;
-  bRepAll.Visible:= rep;
 
   bFindFirst.Enabled:= fill;
   bFindNext.Enabled:= fill;
