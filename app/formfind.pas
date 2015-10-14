@@ -48,6 +48,7 @@ type
     chkConfirm: TATButton;
     chkRegex: TATButton;
     chkWords: TATButton;
+    chkWrap: TATButton;
     edFind: TATComboEdit;
     edRep: TATComboEdit;
     LabelFind: TLabel;
@@ -254,6 +255,8 @@ begin
     begin with chkWords do checked:= not checked; key:= 0; exit end;
   if (key=ord('0')) and (Shift=[ssAlt]) then
     begin with chkConfirm do checked:= not checked; key:= 0; exit end;
+  if (key=ord('9')) and (Shift=[ssAlt]) then
+    begin with chkWrap do checked:= not checked; key:= 0; exit end;
 
   if (key=ord('1')) and (Shift=[ssAlt]) then
     begin bRepClick(Self); key:= 0; exit end;
@@ -272,7 +275,8 @@ end;
 
 procedure TfmFind.DoDone(const Str: string);
 begin
-  if edFind.Text='' then exit;
+  if edFind.Text='' then
+    if Str<>cOpFindClose then exit;
 
   if Assigned(FOnDone) then
     FOnDone(Self, Str);

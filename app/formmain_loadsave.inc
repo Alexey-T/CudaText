@@ -54,6 +54,7 @@ begin
     c.SetValue('/finder/words', FFinder.OptWords);
     c.SetValue('/finder/back', FFinder.OptBack);
     c.SetValue('/finder/confirm', FFinder.OptConfirmReplace);
+    c.SetValue('/finder/wrap', FFinder.OptWrapped);
 
     ////state
     c.SetValue('groups', Ord(Groups.Mode));
@@ -170,6 +171,7 @@ begin
     FFinder.OptWords:= c.GetValue('/finder/words', false);
     FFinder.OptBack:= c.GetValue('/finder/back', false);
     FFinder.OptConfirmReplace:= c.GetValue('/finder/confirm', false);
+    FFinder.OptWrapped:= c.GetValue('/finder/wrap', false);
 
     ////state
     Groups.Mode:= TATGroupsMode(c.GetValue('groups', Ord(gmOne)));

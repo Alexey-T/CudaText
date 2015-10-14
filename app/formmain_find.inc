@@ -41,6 +41,7 @@ begin
     FFinder.OptCase:= chkCase.Checked;
     FFinder.OptWords:= chkWords.Checked;
     FFinder.OptRegex:= chkRegex.Checked;
+    FFinder.OptWrapped:= chkWrap.Checked;
     FFinder.OptFromCaret:= (Res=cOpFindNext) or (Res=cOpFindPrev) or (Res=cOpFindRep);
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
   end;
@@ -144,6 +145,7 @@ begin
     chkRegex.Checked:= FFinder.OptRegex;
     //chkFromCaret.Checked:= FFinder.OptFromCaret;
     chkConfirm.Checked:= FFinder.OptConfirmReplace;
+    chkWrap.Checked:= FFinder.OptWrapped;
     Replace:= AReplaceMode;
 
     Show;
