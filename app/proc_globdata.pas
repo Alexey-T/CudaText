@@ -64,6 +64,7 @@ type
 
     PyLibrary: string;
     LexlibFilename: string;
+
     ListboxWidth: integer;
     ListboxItemCountCmd: integer;
     ListboxItemCountBm: integer;
@@ -82,6 +83,7 @@ type
     TabShowPlus: boolean;
     TabDblClickClose: boolean;
 
+    HintTime: integer;
     MaxHistoryMenu: integer;
     MaxHistoryFiles: integer;
 
@@ -602,6 +604,7 @@ begin
     TabShowPlus:= true;
     TabDblClickClose:= false;
 
+    HintTime:= 5;
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;
 

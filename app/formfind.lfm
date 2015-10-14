@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 76
+  Left = 448
   Height = 62
-  Top = 514
+  Top = 799
   Width = 1204
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
@@ -593,7 +593,7 @@ object fmFind: TfmFind
       object bRep: TATButton
         Left = 0
         Height = 25
-        Hint = 'Alt+1'
+        Hint = 'Alt+Enter'
         Top = 0
         Width = 85
         Align = alLeft
@@ -608,7 +608,7 @@ object fmFind: TfmFind
       object bRepAll: TATButton
         Left = 85
         Height = 25
-        Hint = 'Alt+2'
+        Hint = 'Alt+1'
         Top = 0
         Width = 85
         Align = alLeft

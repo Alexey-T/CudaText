@@ -1344,6 +1344,8 @@ begin
   cCompleteFormSizeX:= UiOps.ListboxCompleteSizeX;
   cCompleteFormSizeY:= UiOps.ListboxCompleteSizeY;
 
+  TimerStatus.Interval:= UiOps.HintTime*1000;
+
   DoApplyTheme;
 end;
 

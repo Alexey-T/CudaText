@@ -212,6 +212,11 @@ begin
   begin
     if Shift=[] then bFindNextClick(Self);
     if Shift=[ssShift] then bFindPrevClick(Self);
+    if Replace then
+    begin
+      if Shift=[ssAlt] then bRepClick(Self);
+      //if Shift=[ssAlt, ssCtrl] then bRepAllClick(Self);
+    end;
     key:= 0;
     exit
   end;
@@ -259,8 +264,6 @@ begin
     begin with chkWrap do checked:= not checked; key:= 0; exit end;
 
   if (key=ord('1')) and (Shift=[ssAlt]) then
-    begin bRepClick(Self); key:= 0; exit end;
-  if (key=ord('2')) and (Shift=[ssAlt]) then
     begin bRepAllClick(Self); key:= 0; exit end;
   if (key=ord('5')) and (Shift=[ssAlt]) then
     begin bCountClick(Self); key:= 0; exit end;

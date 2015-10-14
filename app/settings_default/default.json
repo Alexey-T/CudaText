@@ -340,6 +340,10 @@
   "ui_stat_size_y": 24,
   "ui_stat_center": true,
 
+  //hint in statusbar: time in seconds 
+  "ui_hint_time": 5,
+
+
   //show full file path in window title  
   "ui_title_path": false,
   //reopen all named tabs, at start
