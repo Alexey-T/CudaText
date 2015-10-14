@@ -1413,6 +1413,7 @@ begin
     F.DoFileOpen(AFilename);
     Result:= F;
     UpdateStatus;
+    MsgStatus('Opened: '+ExtractFileName(AFilename));
     Exit
   end;
 
@@ -1423,6 +1424,7 @@ begin
   Result:= F;
 
   UpdateStatus;
+  MsgStatus('Opened: '+ExtractFileName(AFilename));
 end;
 
 procedure TfmMain.DoFileOpenDialog;
@@ -1977,6 +1979,7 @@ begin
       MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
   F.DoFileOpen(F.FileName);
+  MsgStatus('Re-opened: '+ExtractFileName(F.Filename));
 end;
 
 function TfmMain.DoFileCloseAll: boolean;

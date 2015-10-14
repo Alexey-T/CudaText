@@ -25,6 +25,7 @@ procedure FFindFilesInDir(const dir, mask: string; L: TStrings);
 procedure FCopyDir(const d1, d2: string);
 
 function IsFileContentText(const fn: string; BufSizeKb: DWORD; DetectOEM: Boolean; out IsOEM: Boolean): Boolean;
+function IsFileReadonly(const fn: string): boolean;
 
 procedure FFileAttrPrepare(const fn: string; var attr: Longint);
 procedure FFileAttrRestore(const fn: string; attr: Longint);
@@ -131,6 +132,15 @@ begin
     if Assigned(Str) then
       FreeAndNil(Str);
   end;
+end;
+
+function IsFileReadonly(const fn: string): boolean;
+begin
+  {$ifdef windows}
+  Result:= FileIsReadOnlyUTF8(fn);
+  {$else}
+  Result:= not FileIsWritable(fn);
+  {$endif}
 end;
 
 

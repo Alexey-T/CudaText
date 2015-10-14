@@ -596,6 +596,7 @@ begin
 
   SetLexer(AppFindLexer(fn));
   DoLoadHistory;
+  Editor.ModeReadOnly:= IsFileReadonly(fn);
 end;
 
 procedure TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog);

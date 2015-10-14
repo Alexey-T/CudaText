@@ -1,7 +1,8 @@
 
 0.8.10
 + dlg Find: opt "wrapped search"
-* dlg Find: changed hotkeys for replace
+* dlg Find: change in hotkeys
++ read-only files open in RO mode
 + opt ui_stat_time
 
 0.8.9

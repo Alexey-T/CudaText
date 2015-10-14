@@ -18,7 +18,7 @@ def is_module_name(name):
 class Command:
     def run(self):
         s = dlg_input_ex(2, 'New plugin', 
-          'Lowercase module name, e.g. "my_sample"', 'sample',
+          'Lowercase module name', 'sample',
           'Menu item caption', 'My Plugin')
         if s is None: return
         s_module = s[0]
