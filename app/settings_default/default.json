@@ -334,8 +334,13 @@
   //states: no-selection, small-selection (1 line), stream-selection (>1 lines),
   //  column-selection, mul-carets.
   //macros:
-  //  "x" (1st caret column), "y" (line), "count" (total lines), "carets",
-  //  "sel" (lines selected), "cols" (columns for column-sel)
+  //  {y}: 1st caret line
+  //  {x}: 1st caret column, tab-chars counted as 1 
+  //  {xx}: 1st caret column, tab-chars expanded
+  //  {count}: number of lines
+  //  {carets}: number of carets
+  //  {sel}: number of lines selected
+  //  {cols}: number of columns in column-selection
   //
   "ui_stat_no_sel": "Ln {y}, Col {x}",
   "ui_stat_small_sel": "Ln {y}, Col {x}, sel",

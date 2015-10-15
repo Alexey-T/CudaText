@@ -330,6 +330,8 @@ end;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 var
   caret: TATCaretItem;
+  s1, s2: atString;
+  n: integer;
 begin
   result:= '';
   if ed.Carets.Count=0 then exit;
@@ -341,8 +343,20 @@ begin
   result:= stringreplace(result, '{count}', inttostr(ed.strings.count), []);
   result:= stringreplace(result, '{carets}', inttostr(ed.carets.count), []);
   result:= stringreplace(result, '{cols}', inttostr(ed.SelRect.Right-ed.SelRect.Left), []);
+
   if pos('{sel}', result)>0 then
     result:= stringreplace(result, '{sel}', inttostr(EditorGetSelLines(ed)), []);
+
+  if pos('{xx}', result)>0 then
+    if ed.Strings.IsIndexValid(caret.PosY) then
+    begin
+      s1:= ed.Strings.Lines[caret.PosY];
+      s2:= STabsToSpaces(Copy(s1, 1, caret.PosX), ed.OptTabSize);
+      n:= Length(s2)+1;
+      if caret.PosX>Length(s1) then
+        Inc(n, caret.PosX-Length(s1));
+      result:= stringreplace(result, '{xx}', inttostr(n), []);
+    end;
 end;
 
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;

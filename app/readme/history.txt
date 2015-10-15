@@ -2,6 +2,7 @@
 0.9.1
 * opt find_sel_case has values 0..2
 + dlg Find: "x" better
++ statusbar macro {xx}
 
 0.9.0
 + dlg Find: wrapped search, change in hotkeys
