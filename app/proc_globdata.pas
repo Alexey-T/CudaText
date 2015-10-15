@@ -765,17 +765,19 @@ end;
 function GetBitmapX(AColor: TColor): TBitmap;
 const
   size=7;
+  colBack=clWhite;
 begin
   if not Assigned(bmpX) then
   begin
     bmpX:= TBitmap.Create;
     bmpX.SetSize(size, size);
     bmpX.Transparent:= true;
+    bmpX.TransparentColor:= colBack;
   end;
 
   with bmpX.Canvas do
   begin
-    Brush.Color:= clWhite;
+    Brush.Color:= colBack;
     FillRect(0, 0, size, size);
     Pen.Color:= AColor;
     Line(1, 1, size, size);

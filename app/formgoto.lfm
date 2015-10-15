@@ -1,11 +1,11 @@
 object fmGoto: TfmGoto
   Left = 439
-  Height = 38
+  Height = 32
   Top = 549
   Width = 472
   BorderStyle = bsNone
   Caption = 'Goto'
-  ClientHeight = 38
+  ClientHeight = 32
   ClientWidth = 472
   KeyPreview = True
   OnCreate = FormCreate
@@ -14,9 +14,9 @@ object fmGoto: TfmGoto
   ShowInTaskBar = stNever
   LCLVersion = '1.5'
   object bGoto: TATButton
-    Left = 256
+    Left = 208
     Height = 25
-    Top = 6
+    Top = 4
     Width = 64
     TabStop = True
     TabOrder = 1
@@ -28,17 +28,17 @@ object fmGoto: TfmGoto
   end
   object LabelGoto: TLabel
     AnchorSideTop.Side = asrCenter
-    Left = 32
+    Left = 24
     Height = 17
-    Top = 11
-    Width = 68
-    Caption = 'Go to line:'
+    Top = 8
+    Width = 41
+    Caption = 'Go to:'
     ParentColor = False
   end
   object edInput: TATEdit
-    Left = 124
+    Left = 80
     Height = 25
-    Top = 6
+    Top = 4
     Width = 123
     BorderStyle = bsSingle
     Font.Height = -12
@@ -197,18 +197,18 @@ object fmGoto: TfmGoto
   end
   object PanelX: TPanel
     Left = 0
-    Height = 38
+    Height = 32
     Top = 0
     Width = 20
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 38
+    ClientHeight = 32
     ClientWidth = 20
     TabOrder = 2
     object bClose: TSpeedButton
       Left = 0
       Height = 22
-      Top = 8
+      Top = 4
       Width = 20
       Flat = True
       OnClick = bCloseClick
