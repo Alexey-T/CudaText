@@ -274,6 +274,7 @@ end;
 procedure TfmFind.FormShow(Sender: TObject);
 begin
   UpdateFonts;
+  bCancel.Glyph:= GetBitmapX(GetAppColor('ButtonFont'));
 end;
 
 procedure TfmFind.DoDone(const Str: string);
