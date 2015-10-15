@@ -62,11 +62,11 @@ begin
 
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     begin
-      c.SetValue('/groups_pos/g'+Inttostr(i)+'_x', Groups.Pages[i].Width);
-      c.SetValue('/groups_pos/g'+Inttostr(i)+'_y', Groups.Pages[i].Height);
+      c.SetValue('/gr/g'+Inttostr(i)+'_x', Groups.Pages[i].Width);
+      c.SetValue('/gr/g'+Inttostr(i)+'_y', Groups.Pages[i].Height);
     end;
-    c.SetValue('/groups_pos/p1_x', Groups.Panel1.Width);
-    c.SetValue('/groups_pos/p1_y', Groups.Panel1.Height);
+    c.SetValue('/gr/p1_x', Groups.Panel1.Width);
+    c.SetValue('/gr/p1_y', Groups.Panel1.Height);
   finally
     c.Free;
   end;
@@ -194,13 +194,13 @@ begin
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
       with Groups.Pages[i] do
       begin
-        Width:= c.GetValue('/groups_pos/g'+Inttostr(i)+'_x', Width);
-        Height:= c.GetValue('/groups_pos/g'+Inttostr(i)+'_y', Height);
+        Width:= c.GetValue('/gr/g'+Inttostr(i)+'_x', Width);
+        Height:= c.GetValue('/gr/g'+Inttostr(i)+'_y', Height);
       end;
     with Groups.Panel1 do
     begin
-      Width:= c.GetValue('/groups_pos/p1_x', Width);
-      Height:= c.GetValue('/groups_pos/p1_y', Height);
+      Width:= c.GetValue('/gr/p1_x', Width);
+      Height:= c.GetValue('/gr/p1_y', Height);
     end;
 
     ////theme
