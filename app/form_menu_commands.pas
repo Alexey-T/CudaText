@@ -356,7 +356,10 @@ begin
          KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys2) or
          KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys1) then
         begin
-          MsgBox('Commands have same hotkeys:'#13+item1.Name+#13+item2.Name,
+          MsgBox('Commands have same hotkeys:'#13+
+            item1.Name+#13+
+            item2.Name+#13+
+            #13'Please correct one of these hotkeys.',
             MB_OK or MB_ICONWARNING);
           Result:= true;
           Exit

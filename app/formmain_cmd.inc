@@ -156,6 +156,17 @@ begin
   Handled:= true;
   if not Groups.Enabled then Exit;
 
+  //special handle of call-Find-Goto: it's not ok to handle via timer,
+  //timer delay makes bug: Ctrl+F Ctrl+V paste text into editor (if fast)
+  if (Cmd=cmd_DlgFind) or
+     (Cmd=cmd_DlgReplace) or
+     (Cmd=cmd_DlgGoto) then
+  begin
+    TimerCmd.Tag:= Cmd;
+    TimerCmdTimer(nil);
+    exit
+  end;
+
   case Cmd of
     cmd_First..10000:
       begin

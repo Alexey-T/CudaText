@@ -1,6 +1,7 @@
 
 0.9.1
-* opt find_sel_case has 3 values (0..2)
+* opt find_sel_case has values 0..2
++ dlg Find: "x" better
 
 0.9.0
 + dlg Find: wrapped search, change in hotkeys
