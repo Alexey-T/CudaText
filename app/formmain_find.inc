@@ -289,10 +289,19 @@ begin
   FFinder.Editor:= Ed;
 
   FFinder.OptRegex:= false;
-  FFinder.OptCase:= UiOps.FindSelCase;
   FFinder.OptWords:= AWordOrSel;
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= not ANext;
+
+  case UiOps.FindSelCase of
+    0: FFinder.OptCase:= false;
+    1: FFinder.OptCase:= true;
+    2:
+      begin
+        if Assigned(fmFind) then
+          FFinder.OptCase:= fmFind.chkCase.Checked;
+      end;
+  end;
 
   FFinder.UpdateBuffer;
   ok:= FFinder.DoFindOrReplace(false, false, false, bFlag);

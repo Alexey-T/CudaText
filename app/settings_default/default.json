@@ -202,7 +202,8 @@
   //suggest word (at 1st caret) to Find dialog
   "find_suggest_cur_word": true,
   //find current selection next/prev: case-sensitive
-  "find_sel_case": true,
+  //  0: case-sens off, 1: case-sens on; 2: use option from Find dialog
+  "find_sel_case": 2,
   //show "find first" dialog button
   "find_show_findfirst": true,
   //button "replace cur" replaces + finds next match

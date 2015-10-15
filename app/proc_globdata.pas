@@ -88,7 +88,7 @@ type
 
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
-    FindSelCase: boolean;
+    FindSelCase: integer;
     FindShowFindfirst: boolean;
     FindReplaceWithFind: boolean;
     FindIndentVert: integer;
@@ -614,7 +614,7 @@ begin
 
     FindSuggestSel:= false;
     FindSuggestWord:= true;
-    FindSelCase:= true;
+    FindSelCase:= 2;
     FindShowFindfirst:= true;
     FindReplaceWithFind:= false;
     FindIndentVert:= -5;
@@ -764,7 +764,7 @@ end;
 
 function GetBitmapX(AColor: TColor): TBitmap;
 const
-  size=9;
+  size=7;
 begin
   if not Assigned(bmpX) then
   begin

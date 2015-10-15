@@ -1,4 +1,7 @@
 
+0.9.1
+* opt find_sel_case has 3 values (0..2)
+
 0.9.0
 + dlg Find: wrapped search, change in hotkeys
 + opt ui_one_instance
