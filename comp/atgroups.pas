@@ -189,6 +189,7 @@ type
     PagesCurrent: TATPages;
     Pages: array[TATGroupsNums] of TATPages;
     //
+    property Panel1: TPanel read FPanel1;
     property Splitter1: TMySplitter read FSplit1;
     property Splitter2: TMySplitter read FSplit2;
     property Splitter3: TMySplitter read FSplit3;

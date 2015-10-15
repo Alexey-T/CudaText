@@ -1,7 +1,7 @@
 
 0.9.1
 * opt find_sel_case has values 0..2
-+ dlg Find: "x" better
++ dlg Find: x-icon better
 + statusbar macro {xx}
 
 0.9.0

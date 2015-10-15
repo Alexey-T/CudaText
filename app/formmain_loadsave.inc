@@ -59,6 +59,14 @@ begin
     ////state
     c.SetValue('groups', Ord(Groups.Mode));
     c.SetValue('theme', FThemeName);
+
+    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    begin
+      c.SetValue('/groups_pos/g'+Inttostr(i)+'_x', Groups.Pages[i].Width);
+      c.SetValue('/groups_pos/g'+Inttostr(i)+'_y', Groups.Pages[i].Height);
+    end;
+    c.SetValue('/groups_pos/p1_x', Groups.Panel1.Width);
+    c.SetValue('/groups_pos/p1_y', Groups.Panel1.Height);
   finally
     c.Free;
   end;
@@ -145,6 +153,7 @@ procedure TfmMain.DoOps_LoadHistory;
 var
   c: TJSONConfig;
   nPosX, nPosY, nSizeX, nSizeY: integer;
+  i: integer;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -181,6 +190,18 @@ begin
     ShowBottom:= c.GetValue('show_bottom', false);
     PanelLeft.Width:= c.GetValue('size_side', 200);
     PanelBottom.Height:= c.GetValue('size_bottom', 200);
+
+    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+      with Groups.Pages[i] do
+      begin
+        Width:= c.GetValue('/groups_pos/g'+Inttostr(i)+'_x', Width);
+        Height:= c.GetValue('/groups_pos/g'+Inttostr(i)+'_y', Height);
+      end;
+    with Groups.Panel1 do
+    begin
+      Width:= c.GetValue('/groups_pos/p1_x', Width);
+      Height:= c.GetValue('/groups_pos/p1_y', Height);
+    end;
 
     ////theme
     FThemeName:= c.GetValue('theme', '');
