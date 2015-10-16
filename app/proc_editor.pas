@@ -341,7 +341,7 @@ begin
   result:= stringreplace(result, '{y}', inttostr(caret.PosY+1), []);
   result:= stringreplace(result, '{count}', inttostr(ed.strings.count), []);
   result:= stringreplace(result, '{carets}', inttostr(ed.carets.count), []);
-  result:= stringreplace(result, '{cols}', inttostr(ed.SelRectColumnRight-ed.SelRectColumnLeft), []);
+  result:= stringreplace(result, '{cols}', inttostr(ed.SelRect.Right-ed.SelRect.Left), []);
 
   if pos('{sel}', result)>0 then
     result:= stringreplace(result, '{sel}', inttostr(EditorGetSelLines(ed)), []);

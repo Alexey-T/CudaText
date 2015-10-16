@@ -1,9 +1,9 @@
 
 0.9.1
-* opt find_sel_case has values 0..2
-+ dlg Find: x-icon better
++ rework col-blocks
 + statusbar macro {xx}
 + save/restore sizes of groups
+* opt find_sel_case has values 0..2
 
 0.9.0
 + dlg Find: wrapped search, change in hotkeys
