@@ -224,8 +224,8 @@
   //indent of text on tabs
   "ui_tab_indent_x": 5,
   "ui_tab_indent_y": 5,
-  //angle of tab edge, ie, shift in pixels, 0..10
-  "ui_tab_angle": 0,
+  //angle of tab edge, it's set in pixel shift, 0..10
+  "ui_tab_angle": 3,
   //show tabs at bottom
   "ui_tab_bottom": false,
   //show "x" buttons on tabs

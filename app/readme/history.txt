@@ -3,6 +3,7 @@
 * opt find_sel_case has values 0..2
 + dlg Find: x-icon better
 + statusbar macro {xx}
++ save/restore sizes of groups
 
 0.9.0
 + dlg Find: wrapped search, change in hotkeys

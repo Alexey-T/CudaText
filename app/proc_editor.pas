@@ -330,7 +330,6 @@ end;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 var
   caret: TATCaretItem;
-  s1, s2: atString;
   n: integer;
 begin
   result:= '';
@@ -350,11 +349,7 @@ begin
   if pos('{xx}', result)>0 then
     if ed.Strings.IsIndexValid(caret.PosY) then
     begin
-      s1:= ed.Strings.Lines[caret.PosY];
-      s2:= STabsToSpaces(Copy(s1, 1, caret.PosX), ed.OptTabSize);
-      n:= Length(s2)+1;
-      if caret.PosX>Length(s1) then
-        Inc(n, caret.PosX-Length(s1));
+      n:= SCharPosToColumnPos(ed.Strings.Lines[caret.PosY], caret.PosX, ed.OptTabSize)+1;
       result:= stringreplace(result, '{xx}', inttostr(n), []);
     end;
 end;

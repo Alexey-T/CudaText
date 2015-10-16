@@ -602,7 +602,7 @@ begin
     TabSizeY:= 24;
     TabIndentX:= 5;
     TabIndentY:= 5;
-    TabAngle:= 0;
+    TabAngle:= 3;
     TabBottom:= false;
     TabColorFull:= false;
     TabShowX:= true;
