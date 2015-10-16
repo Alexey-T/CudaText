@@ -105,7 +105,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="41">
+    <Units Count="40">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -306,28 +306,23 @@
         <IsPartOfProject Value="True"/>
       </Unit36>
       <Unit37>
-        <Filename Value="..\..\synedit\atsynedit\atstringproc_htmlcolor.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="ATStringProc_HtmlColor"/>
-      </Unit37>
-      <Unit38>
         <Filename Value="form_menu_py.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMenuApi"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit38>
-      <Unit39>
+      </Unit37>
+      <Unit38>
         <Filename Value="formmain_plugins.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit39>
-      <Unit40>
+      </Unit38>
+      <Unit39>
         <Filename Value="formchecklist.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCheckList"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit40>
+      </Unit39>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
