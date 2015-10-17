@@ -182,6 +182,7 @@ cmd_ToggleBottomPanel  = 2534
 cmd_ShowPanelConsole   = 2535
 cmd_ShowPanelOutput    = 2536
 cmd_ShowPanelValidate  = 2537
+cmd_ToggleFindDialog   = 2538
 
 cmd_DlgGoto       = 2580
 cmd_DlgGotoBm     = 2581
@@ -237,10 +238,12 @@ cmd_BookmarkClearAll  = 2663
 cmd_BookmarkGotoNext  = 2664
 cmd_BookmarkGotoPrev  = 2665
 
-cmd_CommentLineAdd    = 2670
-cmd_CommentLineRemove = 2671
-cmd_CommentLineToggle = 2672
-
+cmd_CommentLineAdd_AtNonspace    = 2670
+cmd_CommentLineAdd_AtStart       = 2671
+cmd_CommentLineRemove            = 2672
+cmd_CommentLineToggle_AtNonspace = 2673
+cmd_CommentLineToggle_AtStart    = 2674
+  
 cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679

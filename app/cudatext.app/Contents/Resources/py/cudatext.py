@@ -148,8 +148,8 @@ def dlg_checklist(caption, columns, items, size_x, size_y):
         return None
     return [(s=='1') for s in items]
 
-def file_open(filename):
-    return ct.file_open(filename)
+def file_open(filename, group=-1):
+    return ct.file_open(filename, group)
 def file_save():
     return ct.file_save()
 

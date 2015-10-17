@@ -1,6 +1,6 @@
 
 0.9.1
-+ rework col-blocks
++ rework col-blocks (handle tab chars)
 + statusbar macro {xx}
 + save/restore sizes of groups
 * opt find_sel_case has values 0..2

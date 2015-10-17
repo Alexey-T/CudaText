@@ -9,6 +9,9 @@
   "ui_font_name": "default",
   "ui_font_size": 9,
 
+  //allow to run only one instance of program
+  "ui_one_instance": false,
+
   //hilite BG of lines with carets
   "show_cur_line": false,
   //... only minimal part, if line wrapped
@@ -110,7 +113,7 @@
   //additional margins, list of columns like "10 20 25" space-separated
   "margin_string": "",
 
-  //show unprinted chars (global enable)  
+  //global enable-flag for unprinted_ options below (spaces, ends, details)  
   "unprinted_show": false,
   //show unprinted spaces/tabs
   "unprinted_spaces": true,
@@ -194,10 +197,23 @@
   //shape for read-only mode
   "caret_shape_ro": 13, 
 
-  //suggest selection for Find dialog  
-  "find_suggest_sel": true,
-  //suggest word under 1st caret for Find dialog
+  //suggest selection (of 1st caret) to Find dialog  
+  "find_suggest_sel": false,
+  //suggest word (at 1st caret) to Find dialog
   "find_suggest_cur_word": true,
+  //find current selection next/prev: case-sensitive
+  //  0: case-sens off, 1: case-sens on; 2: use option from Find dialog
+  "find_sel_case": 2,
+  //show "find first" dialog button
+  "find_show_findfirst": true,
+  //button "replace cur" replaces + finds next match
+  "find_replace_with_find": false,
+  
+  //when doing "go to" or "find", and new position out of screen, scroll to N chars from new position;
+  //vert indent: N<0: always indent from top; 
+  //             N>=0: indent from top (goto up) or bottom (goto down)
+  "find_indent_vert": -5,
+  "find_indent_horz": 10,
   
   //name of lexer-library file in dir "data/lexlib"
   "lexlib": "lib.lxl",
@@ -208,8 +224,8 @@
   //indent of text on tabs
   "ui_tab_indent_x": 5,
   "ui_tab_indent_y": 5,
-  //angle of tab edge, ie, shift in pixels, 0..10
-  "ui_tab_angle": 0,
+  //angle of tab edge, it's set in pixel shift, 0..10
+  "ui_tab_angle": 3,
   //show tabs at bottom
   "ui_tab_bottom": false,
   //show "x" buttons on tabs
@@ -318,8 +334,13 @@
   //states: no-selection, small-selection (1 line), stream-selection (>1 lines),
   //  column-selection, mul-carets.
   //macros:
-  //  "x" (1st caret column), "y" (line), "count" (total lines), "carets",
-  //  "sel" (lines selected), "cols" (columns for column-sel)
+  //  {y}: 1st caret line
+  //  {x}: 1st caret column, tab-chars counted as 1 
+  //  {xx}: 1st caret column, tab-chars expanded
+  //  {count}: number of lines
+  //  {carets}: number of carets
+  //  {sel}: number of lines selected
+  //  {cols}: number of columns in column-selection
   //
   "ui_stat_no_sel": "Ln {y}, Col {x}",
   "ui_stat_small_sel": "Ln {y}, Col {x}, sel",
@@ -330,6 +351,9 @@
   "ui_stat_size_x": 200,
   "ui_stat_size_y": 24,
   "ui_stat_center": true,
+
+  //message in statusbar: time in seconds 
+  "ui_stat_time": 5,
 
   //show full file path in window title  
   "ui_title_path": false,

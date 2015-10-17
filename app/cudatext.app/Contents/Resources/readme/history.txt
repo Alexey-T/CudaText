@@ -1,13 +1,38 @@
 
-0.8.6
+0.9.1
++ rework col-blocks (handle tab chars)
++ statusbar macro {xx}
++ save/restore sizes of groups
+* opt find_sel_case has values 0..2
+
+0.9.0
++ dlg Find: wrapped search, change in hotkeys
++ opt ui_one_instance
++ opt ui_stat_time
++ opt find_replace_with_find
++ read-only files open in r-o mode
+- fix: Bash lexer
+
+0.8.9
++ dlg Find new look
++ opt find_indent_vert
++ opt find_indent_horz
+- fix: Win: wrong temp dir for plugins
+
+0.8.8
 + opt ui_reopen_session, last files reopened
 + opt ui_title_path
 + opt ui_stat_center
++ opt color: tab active, inactive groups
++ opt find_sel_case
++ opt find_show_findfirst
 + commands: find selection next/prev
 + commands: focus group next/prev
 + commands: move tab to group next/prev
++ command: add comment at line start
 + lexer-prop dlg: remove Apply
 + api: app_proc
+- fix minimap dragging
 
 0.8.4
 + api: get_prop
