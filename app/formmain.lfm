@@ -69,6 +69,7 @@ object fmMain: TfmMain
           ReadOnly = True
           RightClickSelect = True
           RowSelect = True
+          ScrollBars = ssVertical
           TabOrder = 0
           OnDblClick = TreeClick
           Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
