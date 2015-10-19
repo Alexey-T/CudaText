@@ -489,6 +489,7 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadSession(const fn_session: string);
     procedure DoOps_PreinstallPlugins;
     procedure DoOps_LoadPlugins;
@@ -514,6 +515,7 @@ type
     procedure DoDialogColors;
     procedure DoOps_OpenFile_FileTypes;
     procedure DoOps_OpenFile_LexerOvr;
+    procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_SaveLexlib(Cfm: boolean);
     procedure DoOps_SaveSession(const fn_session: string);
     procedure DoShowConsole;
@@ -1492,6 +1494,8 @@ var
   Form: TfmCommands;
   Cmd: integer;
 begin
+  MsgStatus('Commands: F9 to configure keys; "@key" to find hotkey');
+
   Form:= TfmCommands.Create(Self);
   try
     UpdateInputForm(Form,

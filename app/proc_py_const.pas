@@ -73,6 +73,8 @@ const
   APP_PROC_GET_CLIP = 0;
   APP_PROC_SET_CLIP = 1;
   APP_PROC_GET_COMMAND = 2;
+  APP_PROC_SAVE_SESSION = 3;
+  APP_PROC_LOAD_SESSION = 4;
 
 implementation
 

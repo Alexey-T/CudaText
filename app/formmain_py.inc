@@ -1266,6 +1266,7 @@ begin
             Clipboard.AsText:= Str;
             Result:= ReturnNone;
           end;
+
         APP_PROC_GET_COMMAND:
           begin
             Num:= StrToIntDef(Str, -1);
@@ -1280,6 +1281,18 @@ begin
             else
               Result:= ReturnNone;
           end;
+
+        APP_PROC_SAVE_SESSION:
+          begin
+            fmMain.DoOps_SaveSession(Str);
+            Result:= ReturnNone;
+          end;
+        APP_PROC_LOAD_SESSION:
+          begin
+            fmMain.DoOps_LoadSession(Str);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

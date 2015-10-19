@@ -57,16 +57,9 @@ begin
     c.SetValue('/finder/wrap', FFinder.OptWrapped);
 
     ////state
-    c.SetValue('groups', Ord(Groups.Mode));
     c.SetValue('theme', FThemeName);
 
-    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-    begin
-      c.SetValue('/gr/g'+Inttostr(i)+'_x', Groups.Pages[i].Width);
-      c.SetValue('/gr/g'+Inttostr(i)+'_y', Groups.Pages[i].Height);
-    end;
-    c.SetValue('/gr/p1_x', Groups.Panel1.Width);
-    c.SetValue('/gr/p1_y', Groups.Panel1.Height);
+    DoOps_SaveHistory_GroupView(c);
   finally
     c.Free;
   end;
@@ -89,6 +82,8 @@ begin
   try
     c.Filename:= fn_session;
     c.Formatted:= true;
+
+    DoOps_SaveHistory_GroupView(c);
 
     Groups.PagesAndTabIndexOfControl(CurrentFrame, nGroup, nTab);
     c.SetValue('/n_group', nGroup);
@@ -116,10 +111,14 @@ var
   nGroup, nTab, i: integer;
   fn: string;
 begin
+  DoFileCloseAll;
+
   c:= TJSONConfig.Create(nil);
   list:= TStringlist.Create;
   try
     c.Filename:= fn_session;
+
+    DoOps_LoadHistory_GroupView(c);
 
     c.EnumSubKeys('/', list);
     list.Sort;
@@ -149,11 +148,46 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOps_LoadHistory_GroupView(c: TJsonConfig);
+var
+  i: integer;
+begin
+  Groups.Mode:= TATGroupsMode(c.GetValue('groups', Ord(gmOne)));
+
+  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    with Groups.Pages[i] do
+    begin
+      Width:= c.GetValue('/gr/g'+Inttostr(i)+'_x', Width);
+      Height:= c.GetValue('/gr/g'+Inttostr(i)+'_y', Height);
+    end;
+
+  with Groups.Panel1 do
+  begin
+    Width:= c.GetValue('/gr/p1_x', Width);
+    Height:= c.GetValue('/gr/p1_y', Height);
+  end;
+end;
+
+procedure TfmMain.DoOps_SaveHistory_GroupView(c: TJsonConfig);
+var
+  i: integer;
+begin
+  c.SetValue('groups', Ord(Groups.Mode));
+
+  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+  begin
+    c.SetValue('/gr/g'+Inttostr(i)+'_x', Groups.Pages[i].Width);
+    c.SetValue('/gr/g'+Inttostr(i)+'_y', Groups.Pages[i].Height);
+  end;
+
+  c.SetValue('/gr/p1_x', Groups.Panel1.Width);
+  c.SetValue('/gr/p1_y', Groups.Panel1.Height);
+end;
+
 procedure TfmMain.DoOps_LoadHistory;
 var
   c: TJSONConfig;
   nPosX, nPosY, nSizeX, nSizeY: integer;
-  i: integer;
 begin
   c:= TJSONConfig.Create(nil);
   try
@@ -183,25 +217,12 @@ begin
     FFinder.OptWrapped:= c.GetValue('/finder/wrap', false);
 
     ////state
-    Groups.Mode:= TATGroupsMode(c.GetValue('groups', Ord(gmOne)));
     ShowToolbar:= c.GetValue('show_toolbar', true);
     ShowStatus:= c.GetValue('show_status', true);
     ShowSidePanel:= c.GetValue('show_sidepanel', true);
     ShowBottom:= c.GetValue('show_bottom', false);
     PanelLeft.Width:= c.GetValue('size_side', 200);
     PanelBottom.Height:= c.GetValue('size_bottom', 200);
-
-    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-      with Groups.Pages[i] do
-      begin
-        Width:= c.GetValue('/gr/g'+Inttostr(i)+'_x', Width);
-        Height:= c.GetValue('/gr/g'+Inttostr(i)+'_y', Height);
-      end;
-    with Groups.Panel1 do
-    begin
-      Width:= c.GetValue('/gr/p1_x', Width);
-      Height:= c.GetValue('/gr/p1_y', Height);
-    end;
 
     ////theme
     FThemeName:= c.GetValue('theme', '');
@@ -210,6 +231,8 @@ begin
       DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeName+'.json', Theme);
       DoApplyTheme;
     end;
+
+    DoOps_LoadHistory_GroupView(c);
   finally
     c.Free;
   end;

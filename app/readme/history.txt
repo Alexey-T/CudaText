@@ -1,4 +1,9 @@
 
+0.9.2
++ tree: show hint for long lines
++ api: session save/load
+- fix: restore r/o state
+
 0.9.1
 + rework col-blocks (handle tab chars)
 + statusbar macro {xx}
