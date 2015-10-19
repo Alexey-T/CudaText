@@ -141,8 +141,10 @@ type
     procedure DoFileOpen(const fn: string);
     procedure DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog);
     procedure DoFileReload(ADetectEnc: boolean);
-    procedure DoLoadHistory;
     procedure DoSaveHistory;
+    procedure DoSaveHistoryEx(c: TJsonConfig; const APath: string; AMaxFiles: integer);
+    procedure DoLoadHistory;
+    procedure DoLoadHistoryEx(c: TJsonConfig; const APath: string);
     //event
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
@@ -763,93 +765,97 @@ end;
 procedure TEditorFrame.DoSaveHistory;
 var
   c: TJSONConfig;
+begin
+  if FileName='' then exit;
+  if UiOps.MaxHistoryFiles<2 then exit;
+
+  c:= TJsonConfig.Create(nil);
+  try
+    try
+      c.Formatted:= true;
+      c.Filename:= GetAppPath(cFileHistoryList);
+    except
+      Showmessage(msgCannotReadConf+#13+c.Filename);
+      exit
+    end;
+
+    DoSaveHistoryEx(c, '', UiOps.MaxHistoryFiles);
+  finally
+    c.Free;
+  end;
+end;
+
+procedure TEditorFrame.DoSaveHistoryEx(c: TJsonConfig; const APath: string;
+  AMaxFiles: integer);
+var
   fn, lexname: string;
   caret: TATCaretItem;
   items: TStringlist;
   i: integer;
 begin
   if FileName='' then exit;
-  if UiOps.MaxHistoryFiles<2 then exit;
-  fn:= SMaskFilenameSlashes(FileName);
   if Lexer=nil then lexname:= '' else lexname:= Lexer.LexerName;
+  fn:= APath+'/'+SMaskFilenameSlashes(FileName);
 
-  c:= TJsonConfig.Create(nil);
+  items:= TStringlist.Create;
   try
-    try
-      c.Formatted:= true;
-      c.Filename:= GetAppPath(cFileHistoryList);
-    except
-      Showmessage(msgCannotReadConf+#13+c.Filename);
-      exit
-    end;
-
-    items:= TStringlist.Create;
-    try
-      c.DeletePath(fn);
-      c.EnumSubKeys('/', items);
-      while items.Count>=UiOps.MaxHistoryFiles do
-      begin
-        c.DeletePath(items[0]);
-        items.Delete(0);
-      end;
-    finally
-      FreeAndNil(items);
-    end;
-
-    c.SetValue(fn+cSavLexer, lexname);
-    c.SetValue(fn+cSavEnc, EncodingName);
-    c.SetValue(fn+cSavTop, Editor.LineTop);
-    c.SetValue(fn+cSavWrap, Ord(Editor.OptWrapMode));
-    c.SetValue(fn+cSavRO, Editor.ModeReadOnly);
-    c.SetValue(fn+cSavRuler, Editor.OptRulerVisible);
-    c.SetValue(fn+cSavMinimap, Editor.OptMinimapVisible);
-    c.SetValue(fn+cSavTabSize, Editor.OptTabSize);
-    c.SetValue(fn+cSavTabSpace, Editor.OptTabSpaces);
-    c.SetValue(fn+cSavUnpri, Editor.OptUnprintedVisible);
-    c.SetValue(fn+cSavUnpriSp, Editor.OptUnprintedSpaces);
-    c.SetValue(fn+cSavUnpriEnd, Editor.OptUnprintedEnds);
-    c.SetValue(fn+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
-    c.SetValue(fn+cSavNums, Editor.Gutter[Editor.GutterBandNum].Visible);
-
-    if TabColor=clNone then
-      c.SetValue(fn+cSavColor, '')
-    else
-      c.SetValue(fn+cSavColor, ColorToString(TabColor));
-
-    if Editor.Carets.Count>0 then
+    c.DeletePath(fn);
+    c.EnumSubKeys(APath+'/', items);
+    while items.Count>=AMaxFiles do
     begin
-      caret:= Editor.Carets[0];
-      c.SetValue(fn+cSavCaret+'/x', caret.PosX);
-      c.SetValue(fn+cSavCaret+'/y', caret.PosY);
-      c.SetValue(fn+cSavCaret+'/x2', caret.EndX);
-      c.SetValue(fn+cSavCaret+'/y2', caret.EndY);
-    end;
-
-    items:= TStringlist.Create;
-    try
-      for i:= 0 to Editor.Strings.Count-1 do
-        if Editor.Strings.LinesBm[i]>0 then
-          items.Add(Inttostr(i));
-      c.SetValue(fn+cSavBookmark, items);
-    finally
-      FreeAndNil(items);
+      c.DeletePath(APath+'/'+items[0]);
+      items.Delete(0);
     end;
   finally
-    c.Free;
+    FreeAndNil(items);
+  end;
+
+  c.SetValue(fn+cSavLexer, lexname);
+  c.SetValue(fn+cSavEnc, EncodingName);
+  c.SetValue(fn+cSavTop, Editor.LineTop);
+  c.SetValue(fn+cSavWrap, Ord(Editor.OptWrapMode));
+  c.SetValue(fn+cSavRO, Editor.ModeReadOnly);
+  c.SetValue(fn+cSavRuler, Editor.OptRulerVisible);
+  c.SetValue(fn+cSavMinimap, Editor.OptMinimapVisible);
+  c.SetValue(fn+cSavTabSize, Editor.OptTabSize);
+  c.SetValue(fn+cSavTabSpace, Editor.OptTabSpaces);
+  c.SetValue(fn+cSavUnpri, Editor.OptUnprintedVisible);
+  c.SetValue(fn+cSavUnpriSp, Editor.OptUnprintedSpaces);
+  c.SetValue(fn+cSavUnpriEnd, Editor.OptUnprintedEnds);
+  c.SetValue(fn+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
+  c.SetValue(fn+cSavNums, Editor.Gutter[Editor.GutterBandNum].Visible);
+
+  if TabColor=clNone then
+    c.SetValue(fn+cSavColor, '')
+  else
+    c.SetValue(fn+cSavColor, ColorToString(TabColor));
+
+  if Editor.Carets.Count>0 then
+  begin
+    caret:= Editor.Carets[0];
+    c.SetValue(fn+cSavCaret+'/x', caret.PosX);
+    c.SetValue(fn+cSavCaret+'/y', caret.PosY);
+    c.SetValue(fn+cSavCaret+'/x2', caret.EndX);
+    c.SetValue(fn+cSavCaret+'/y2', caret.EndY);
+  end;
+
+  items:= TStringlist.Create;
+  try
+    for i:= 0 to Editor.Strings.Count-1 do
+      if Editor.Strings.LinesBm[i]>0 then
+        items.Add(Inttostr(i));
+    c.SetValue(fn+cSavBookmark, items);
+  finally
+    FreeAndNil(items);
   end;
 end;
 
 procedure TEditorFrame.DoLoadHistory;
 var
   c: TJSONConfig;
-  fn, str, str0: string;
-  caret: TATCaretItem;
-  nTop, i: integer;
-  items: TStringlist;
 begin
   if FileName='' then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
-  fn:= SMaskFilenameSlashes(FileName);
 
   c:= TJsonConfig.Create(nil);
   try
@@ -861,80 +867,93 @@ begin
       exit
     end;
 
-    //file not listed?
-    if c.GetValue(fn+cSavTop, -1)<0 then exit;
-
-    //lexer
-    if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
-    str:= c.GetValue(fn+cSavLexer, str0);
-    if str<>str0 then
-      Lexer:= Manager.FindAnalyzer(str);
-
-    //enc
-    str0:= EncodingName;
-    str:= c.GetValue(fn+cSavEnc, str0);
-    if str<>str0 then
-    begin
-      EncodingName:= str;
-      Editor.LoadFromFile(FileName); //reread in enc
-    end;
-
-    TabColor:= StringToColorDef(c.GetValue(fn+cSavColor, ''), clNone);
-
-    Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(fn+cSavWrap, Ord(Editor.OptWrapMode)));
-    Editor.ModeReadOnly:= c.GetValue(fn+cSavRO, Editor.ModeReadOnly);
-    Editor.OptRulerVisible:= c.GetValue(fn+cSavRuler, Editor.OptRulerVisible);
-    Editor.OptMinimapVisible:= c.GetValue(fn+cSavMinimap, Editor.OptMinimapVisible);
-    Editor.OptTabSize:= c.GetValue(fn+cSavTabSize, Editor.OptTabSize);
-    Editor.OptTabSpaces:= c.GetValue(fn+cSavTabSpace, Editor.OptTabSpaces);
-
-    Editor.OptUnprintedVisible:= c.GetValue(fn+cSavUnpri, Editor.OptUnprintedVisible);
-    Editor.OptUnprintedSpaces:= c.GetValue(fn+cSavUnpriSp, Editor.OptUnprintedSpaces);
-    Editor.OptUnprintedEnds:= c.GetValue(fn+cSavUnpriEnd, Editor.OptUnprintedEnds);
-    Editor.OptUnprintedEndsDetails:= c.GetValue(fn+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
-
-    with Editor.Gutter[Editor.GutterBandNum] do
-      Visible:= c.GetValue(fn+cSavNums, Visible);
-
-    //caret
-    if Editor.Carets.Count>0 then
-    begin
-      caret:= Editor.Carets[0];
-      caret.PosX:= c.GetValue(fn+cSavCaret+'/x', 0);
-      caret.PosY:= c.GetValue(fn+cSavCaret+'/y', 0);
-      caret.EndX:= c.GetValue(fn+cSavCaret+'/x2', -1);
-      caret.EndY:= c.GetValue(fn+cSavCaret+'/y2', -1);
-      Editor.UpdateIncorrectCaretPositions;
-    end;
-
-    //bookmarks
-    items:= TStringlist.create;
-    try
-      c.GetValue(fn+cSavBookmark, items, '');
-      for i:= 0 to items.Count-1 do
-      begin
-        nTop:= StrToIntDef(items[i], -1);
-        if Editor.Strings.IsIndexValid(nTop) then
-          Editor.Strings.LinesBm[nTop]:= 1;
-      end;
-    finally
-      FreeAndNil(items);
-    end;
-
-    Editor.Update;
-    if Splitted then
-      Editor2.Update;
-
-    //topline
-    nTop:= c.GetValue(fn+cSavTop, 0);
-    if nTop>0 then
-    begin
-      Application.ProcessMessages;
-      Editor.LineTop:= nTop;
-    end;
-
+    DoLoadHistoryEx(c, '');
   finally
     c.Free;
+  end;
+end;
+
+
+procedure TEditorFrame.DoLoadHistoryEx(c: TJsonConfig; const APath: string);
+var
+  fn, str, str0: string;
+  caret: TATCaretItem;
+  nTop, i: integer;
+  items: TStringlist;
+begin
+  if FileName='' then exit;
+  fn:= APath+'/'+SMaskFilenameSlashes(FileName);
+
+  //file not listed?
+  if c.GetValue(fn+cSavTop, -1)<0 then exit;
+
+  //lexer
+  if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
+  str:= c.GetValue(fn+cSavLexer, str0);
+  if str<>str0 then
+    Lexer:= Manager.FindAnalyzer(str);
+
+  //enc
+  str0:= EncodingName;
+  str:= c.GetValue(fn+cSavEnc, str0);
+  if str<>str0 then
+  begin
+    EncodingName:= str;
+    Editor.LoadFromFile(FileName); //reread in enc
+  end;
+
+  TabColor:= StringToColorDef(c.GetValue(fn+cSavColor, ''), clNone);
+
+  Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(fn+cSavWrap, Ord(Editor.OptWrapMode)));
+  Editor.ModeReadOnly:= c.GetValue(fn+cSavRO, Editor.ModeReadOnly);
+  Editor.OptRulerVisible:= c.GetValue(fn+cSavRuler, Editor.OptRulerVisible);
+  Editor.OptMinimapVisible:= c.GetValue(fn+cSavMinimap, Editor.OptMinimapVisible);
+  Editor.OptTabSize:= c.GetValue(fn+cSavTabSize, Editor.OptTabSize);
+  Editor.OptTabSpaces:= c.GetValue(fn+cSavTabSpace, Editor.OptTabSpaces);
+
+  Editor.OptUnprintedVisible:= c.GetValue(fn+cSavUnpri, Editor.OptUnprintedVisible);
+  Editor.OptUnprintedSpaces:= c.GetValue(fn+cSavUnpriSp, Editor.OptUnprintedSpaces);
+  Editor.OptUnprintedEnds:= c.GetValue(fn+cSavUnpriEnd, Editor.OptUnprintedEnds);
+  Editor.OptUnprintedEndsDetails:= c.GetValue(fn+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
+
+  with Editor.Gutter[Editor.GutterBandNum] do
+    Visible:= c.GetValue(fn+cSavNums, Visible);
+
+  //caret
+  if Editor.Carets.Count>0 then
+  begin
+    caret:= Editor.Carets[0];
+    caret.PosX:= c.GetValue(fn+cSavCaret+'/x', 0);
+    caret.PosY:= c.GetValue(fn+cSavCaret+'/y', 0);
+    caret.EndX:= c.GetValue(fn+cSavCaret+'/x2', -1);
+    caret.EndY:= c.GetValue(fn+cSavCaret+'/y2', -1);
+    Editor.UpdateIncorrectCaretPositions;
+  end;
+
+  //bookmarks
+  items:= TStringlist.create;
+  try
+    c.GetValue(fn+cSavBookmark, items, '');
+    for i:= 0 to items.Count-1 do
+    begin
+      nTop:= StrToIntDef(items[i], -1);
+      if Editor.Strings.IsIndexValid(nTop) then
+        Editor.Strings.LinesBm[nTop]:= 1;
+    end;
+  finally
+    FreeAndNil(items);
+  end;
+
+  Editor.Update;
+  if Splitted then
+    Editor2.Update;
+
+  //topline
+  nTop:= c.GetValue(fn+cSavTop, 0);
+  if nTop>0 then
+  begin
+    Application.ProcessMessages;
+    Editor.LineTop:= nTop;
   end;
 end;
 
