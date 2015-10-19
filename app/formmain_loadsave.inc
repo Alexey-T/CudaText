@@ -93,11 +93,12 @@ begin
     begin
       F:= Frames[i];
       if F.Filename='' then Continue;
-      path:= '/'+Format('%3.3d', [i])+'/';
+      path:= '/'+Format('%3.3d', [i]);
       Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
 
-      c.SetValue(path+'file', F.Filename);
-      c.SetValue(path+'group', nGroup);
+      c.SetValue(path+'/file', F.Filename);
+      c.SetValue(path+'/group', nGroup);
+      F.DoSaveHistoryEx(c, path);
     end;
   finally
     c.Free;
@@ -110,6 +111,7 @@ var
   list: TStringlist;
   nGroup, nTab, i: integer;
   fn: string;
+  F: TEditorFrame;
 begin
   DoFileCloseAll;
 
@@ -134,7 +136,11 @@ begin
       end;
 
       if FileExistsUTF8(fn) then
-        DoFileOpen(fn);
+      begin
+        F:= DoFileOpen(fn);
+        if F<>nil then
+          F.DoLoadHistoryEx(c, '/'+list[i]);
+      end;
     end;
 
     nGroup:= c.GetValue('/n_group', Low(TATGroupsNums));
