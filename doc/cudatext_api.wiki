@@ -26,6 +26,7 @@ Gets some path. Possible values of id:
 * APP_DIR_SETTINGS: Dir "settings".
 * APP_DIR_DATA: Dir "data".
 * APP_DIR_PY: Dir with Python data "py".
+* APP_FILE_SESSION: Filename of session, default is "history session.json" in dir "settings".
 
 ===app_proc===
 
@@ -35,7 +36,10 @@ Performs application-wide action. Possible values of id:
 
 * PROC_GET_CLIP: Gets clipboard text.
 * PROC_SET_CLIP: Copies text to clipboard.
-* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct.
+* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
+* PROC_SAVE_SESSION: Saves session to file with given name. Session is set of opened named files, group-indexes for files, positions of groups. Used JSON format.
+* PROC_LOAD_SESSION: Loads session from file with given name. 
+* PROC_SET_SESSION: Sets custom filename of session which will be saved on exit, loaded on start. It don't save/load, only sets filename.
 
 ===app_log===
 
@@ -174,9 +178,11 @@ Shows dialog with ListView with checkmarks. Returns list of bool: checked states
 
 ===file_open===
 
- file_open(filename)
+ file_open(filename, group=-1)
 
 Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
+
+Param group is index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 
 ===file_save===
 
@@ -275,6 +281,20 @@ Gets substring from position (x1, y1) to position (x2, y2). Second position must
 Deletes range from position (x1, y1) to bigger position (x2, y2). (Too big x1/x2 are allowed).
 
 Note: don't pass tuple from get_carets()[0], this tuple has not sorted pos=(x1, y1), end=(x2, y2), you need to sort them (first sort by y, then by x).
+
+Example replaces selection of 1st caret with text:
+
+<syntaxhighlight lang="Python">
+        x0, y0, x1, y1 = ed.get_carets()[0]
+        if (y1>y0) or ((y1==y0) and (x1>=x0)):
+            pass
+        else:
+            x0, y0, x1, y1 = x1, y1, x0, y0 
+        
+        ed.set_caret(x0, y0)
+        ed.delete(x0, y0, x1, y1)
+        ed.insert(x0, y0, text)
+</syntaxhighlight>
 
 ===insert===
 
@@ -441,3 +461,10 @@ Shows auto-completion listbox with given items.
 * len2: count of chars to the right of the caret, to be replaced.
 
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
+
+=History=
+
+1.0.106
+
+* add: app_path: APP_FILE_SESSION
+* add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION

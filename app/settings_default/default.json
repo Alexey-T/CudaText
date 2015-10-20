@@ -242,7 +242,7 @@
   //auto-completion listbox size
   "ui_listbox_complete_size_x": 550,
   "ui_listbox_complete_size_y": 200,
-  //enabled fuzzy search in menu dialogs
+  //enables fuzzy search in menu-dialogs (else search is normal)
   "ui_listbox_fuzzy": true,
   
   //max items in "recent files" menu (0..20)
