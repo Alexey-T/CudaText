@@ -173,6 +173,8 @@ begin
     Width:= c.GetValue('/gr/p1_x', Width);
     Height:= c.GetValue('/gr/p1_y', Height);
   end;
+
+  Groups.SaveSplitPos; //apply current sizes to internal Groups vars
 end;
 
 procedure TfmMain.DoOps_SaveHistory_GroupView(c: TJsonConfig);

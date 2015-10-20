@@ -173,8 +173,6 @@ type
     procedure Split4Moved(Sender: TObject);
     procedure Split5Moved(Sender: TObject);
     procedure SplitClick(Sender: TObject);
-    procedure SaveSplitPos;
-    procedure RestoreSplitPos;
     procedure InitSplitterPopup;
     procedure MoveTabsOnModeChanging(Value: TATGroupsMode);
   protected
@@ -231,6 +229,8 @@ type
     property SplitPos: Integer read GetSplitPos write SetSplitPos;
     procedure SplitPosIncrease;
     procedure SplitPosDecrease;
+    procedure SaveSplitPos;
+    procedure RestoreSplitPos;
     //
     property OnTabPopup: TNotifyEvent read FOnTabPopup write FOnTabPopup;
     property OnTabFocus: TNotifyEvent read FOnTabFocus write FOnTabFocus;

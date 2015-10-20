@@ -1,7 +1,6 @@
 
 0.9.2
 + sessions have file-props too (like file history)
-+ api: sessions
 + tree: show hint for long lines
 - fix: restore r/o state
 
