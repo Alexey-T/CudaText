@@ -28,7 +28,7 @@ procedure EditorBmInvertAll(ed: TATSynEdit);
 procedure EditorBmClearAll(ed: TATSynEdit);
 procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
 
-procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps);
+procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
 
 type
@@ -103,7 +103,8 @@ begin
   until false;
 end;
 
-procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps);
+procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
+  ForceApply: boolean);
 begin
   Ed.Font.Name:= Op.OpFontName;
   Ed.Font.Size:= Op.OpFontSize;
@@ -146,11 +147,14 @@ begin
   Ed.OptMarginRight:= Op.OpMargin;
   Ed.OptMarginString:= Op.OpMarginString;
 
-  Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
-  Ed.OptUnprintedSpaces:= Op.OpUnprintedSpaces;
-  Ed.OptUnprintedEnds:= Op.OpUnprintedEnds;
-  Ed.OptUnprintedEndsDetails:= Op.OpUnprintedEndDetails;
-  Ed.OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
+  if ForceApply then
+  begin
+    Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
+    Ed.OptUnprintedSpaces:= Op.OpUnprintedSpaces;
+    Ed.OptUnprintedEnds:= Op.OpUnprintedEnds;
+    Ed.OptUnprintedEndsDetails:= Op.OpUnprintedEndDetails;
+    Ed.OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
+  end;
 
   OptUnprintedEndArrowOrDot:= Op.OpUnprintedEndArrow;
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
@@ -159,8 +163,11 @@ begin
   OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale;
   OptUnprintedTabPointerScale:= Op.OpUnprintedTabPointerScale;
 
-  if Op.OpWrapMode<=Ord(High(TATSynWrapMode)) then
-    Ed.OptWrapMode:= TATSynWrapMode(Op.OpWrapMode);
+  if ForceApply then
+  begin
+    if Op.OpWrapMode<=Ord(High(TATSynWrapMode)) then
+      Ed.OptWrapMode:= TATSynWrapMode(Op.OpWrapMode);
+  end;
   Ed.OptWrapIndented:= Op.OpWrapIndented;
 
   Ed.OptUndoLimit:= Op.OpUndoLimit;

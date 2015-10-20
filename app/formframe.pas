@@ -525,8 +525,8 @@ begin
   Ed2.AdapterHilite:= Adapter;
 
   //load options
-  EditorApplyOps(Ed1, EditorOps);
-  EditorApplyOps(Ed2, EditorOps);
+  EditorApplyOps(Ed1, EditorOps, true);
+  EditorApplyOps(Ed2, EditorOps, true);
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
 

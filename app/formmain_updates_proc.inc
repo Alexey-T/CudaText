@@ -347,8 +347,8 @@ end;
 
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
 begin
-  EditorApplyOps(F.Editor, Op);
-  EditorApplyOps(F.Editor2, Op);
+  EditorApplyOps(F.Editor, Op, false);
+  EditorApplyOps(F.Editor2, Op, false);
   F.Adapter.DynamicHiliteEnabled:= Op.OpDynHilite;
 
   F.Editor.Update;
