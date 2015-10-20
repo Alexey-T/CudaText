@@ -10,7 +10,7 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.UpdateCaption;
 var
   F: TEditorFrame;
-  SName, SMark: string;
+  SName, SMark, SSession: string;
 begin
   F:= CurrentFrame;
   if UiOps.ShowTitlePath then
@@ -23,7 +23,13 @@ begin
 
   SMark:= IfThen(F.Editor.Modified, '*');
 
-  Caption:= SMark + SName + ' - ' + msgTitle;
+  SSession:= ChangeFileExt(ExtractFileName(FSessionFilename), '');
+  if SSession<>'history session' then
+    SSession:= ' {'+SSession+'}'
+  else
+    SSession:= '';
+
+  Caption:= SMark + SName + SSession + ' - ' + msgTitle;
   Application.Title:= SMark + F.TabCaption + ' - ' + msgTitle;
 end;
 

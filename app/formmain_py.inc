@@ -1297,6 +1297,7 @@ begin
         APP_PROC_SET_SESSION:
           begin
             fmMain.FSessionFilename:= Str;
+            fmMain.UpdateCaption;
             Result:= ReturnNone;
           end;
 
