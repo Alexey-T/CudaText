@@ -71,6 +71,7 @@ type
     ListboxItemCountTabs: integer;
     ListboxCompleteSizeX: integer;
     ListboxCompleteSizeY: integer;
+    ListboxFuzzySearch: boolean;
 
     TabSizeX: integer;
     TabSizeY: integer;
@@ -597,6 +598,7 @@ begin
     ListboxItemCountTabs:= 30;
     ListboxCompleteSizeX:= 550;
     ListboxCompleteSizeY:= 200;
+    ListboxFuzzySearch:= true;
 
     TabSizeX:= 170;
     TabSizeY:= 24;

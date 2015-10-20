@@ -215,19 +215,40 @@ begin
   c.TextOut(pnt.x, pnt.y, Utf8Encode(strname));
 
   c.Font.Color:= GetAppColor('ListFontHilite');
-  ar:= SFindFuzzyPositions(strname, strfind);
-  for i:= Low(ar) to High(ar) do
+
+  if UiOps.ListboxFuzzySearch then
   begin
-    buf:= Utf8Encode(UnicodeString(strname[ar[i]]));
-    n:= c.TextWidth(Utf8Encode(Copy(strname, 1, ar[i]-1)));
-    r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
-    ExtTextOut(c.Handle,
-      r1.Left, r1.Top,
-      ETO_CLIPPED+ETO_OPAQUE,
-      @r1,
-      PChar(buf),
-      Length(buf),
-      nil);
+    ar:= SFindFuzzyPositions(strname, strfind);
+    for i:= Low(ar) to High(ar) do
+    begin
+      buf:= Utf8Encode(UnicodeString(strname[ar[i]]));
+      n:= c.TextWidth(Utf8Encode(Copy(strname, 1, ar[i]-1)));
+      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+      ExtTextOut(c.Handle,
+        r1.Left, r1.Top,
+        ETO_CLIPPED+ETO_OPAQUE,
+        @r1,
+        PChar(buf),
+        Length(buf),
+        nil);
+    end;
+  end
+  else
+  begin
+    n:= Pos(Lowercase(strfind), Lowercase(strname));
+    if n>0 then
+    begin
+      buf:= Copy(strname, n, Length(strfind));
+      n:= c.TextWidth(Copy(strname, 1, n-1));
+      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+      ExtTextOut(c.Handle,
+        r1.Left, r1.Top,
+        ETO_CLIPPED+ETO_OPAQUE,
+        @r1,
+        PChar(buf),
+        Length(buf),
+        nil);
+    end;
   end;
 
   if strkey<>'' then
@@ -259,13 +280,23 @@ end;
 
 function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
 var
-  Str: atString;
+  StrFind: atString;
+  StrText: string;
   Ar: TATIntArray;
 begin
-  Str:= Utf8Encode(Trim(edit.Text));
-  if Str='' then begin result:= true; exit end;
-  Ar:= SFindFuzzyPositions(listItems[AOrigIndex], Str);
-  Result:= Length(Ar)>0;
+  StrText:= listItems[AOrigIndex];
+  StrFind:= Utf8Encode(Trim(edit.Text));
+  if StrFind='' then begin result:= true; exit end;
+
+  if UiOps.ListboxFuzzySearch then
+  begin
+    Ar:= SFindFuzzyPositions(StrText, StrFind);
+    Result:= Length(Ar)>0;
+  end
+  else
+  begin
+    Result:= Pos(Lowercase(StrFind), Lowercase(StrText))>0;
+  end;
 end;
 
 procedure TfmMenuApi.SetMultiline(AValue: boolean);

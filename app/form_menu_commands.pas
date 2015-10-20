@@ -277,19 +277,40 @@ begin
   c.TextOut(pnt.x, pnt.y, strname);
 
   c.Font.Color:= GetAppColor('ListFontHilite');
-  ar:= SFindFuzzyPositions(strname, strfind);
-  for i:= Low(ar) to High(ar) do
+
+  if UiOps.ListboxFuzzySearch then
   begin
-    buf:= strname[ar[i]];
-    n:= c.TextWidth(Copy(strname, 1, ar[i]-1));
-    r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
-    ExtTextOut(c.Handle,
-      r1.Left, r1.Top,
-      ETO_CLIPPED+ETO_OPAQUE,
-      @r1,
-      PChar(buf),
-      Length(buf),
-      nil);
+    ar:= SFindFuzzyPositions(strname, strfind);
+    for i:= Low(ar) to High(ar) do
+    begin
+      buf:= strname[ar[i]];
+      n:= c.TextWidth(Copy(strname, 1, ar[i]-1));
+      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+      ExtTextOut(c.Handle,
+        r1.Left, r1.Top,
+        ETO_CLIPPED+ETO_OPAQUE,
+        @r1,
+        PChar(buf),
+        Length(buf),
+        nil);
+    end;
+  end
+  else
+  begin
+    n:= Pos(Lowercase(strfind), Lowercase(strname));
+    if n>0 then
+    begin
+      buf:= Copy(strname, n, Length(strfind));
+      n:= c.TextWidth(Copy(strname, 1, n-1));
+      r1:= Rect(pnt.x+n, pnt.y, pnt.x+n+c.TextWidth(buf), ARect.Bottom);
+      ExtTextOut(c.Handle,
+        r1.Left, r1.Top,
+        ETO_CLIPPED+ETO_OPAQUE,
+        @r1,
+        PChar(buf),
+        Length(buf),
+        nil);
+    end;
   end;
 
   if strkey<>'' then
@@ -334,9 +355,14 @@ begin
   end
   else
   //normal search in name
+  if UiOps.ListboxFuzzySearch then
   begin
     Ar:= SFindFuzzyPositions(Item.Name, Str);
     Result:= Length(Ar)>0;
+  end
+  else
+  begin
+    Result:= Pos(Lowercase(Str), Lowercase(Item.Name))>0;
   end;
 end;
 
