@@ -58,6 +58,7 @@ begin
 
     ////state
     c.SetValue('theme', FThemeName);
+    c.SetValue('session', FSessionFilename);
 
     DoOps_SaveHistory_GroupView(c);
   finally
@@ -65,7 +66,7 @@ begin
   end;
 
   if UiOps.ShowLastFiles then
-    DoOps_SaveSession(GetAppPath(cFileHistorySession));
+    DoOps_SaveSession(FSessionFilename);
 end;
 
 
@@ -232,6 +233,8 @@ begin
 
     ////theme
     FThemeName:= c.GetValue('theme', '');
+    FSessionFilename:= c.GetValue('session', FSessionFilename);
+
     if FThemeName<>'' then
     begin
       DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeName+'.json', Theme);
@@ -244,7 +247,7 @@ begin
   end;
 
   if UiOps.ShowLastFiles then
-    DoOps_LoadSession(GetAppPath(cFileHistorySession));
+    DoOps_LoadSession(FSessionFilename);
 end;
 
 procedure TfmMain.DoOps_LoadKeymap;

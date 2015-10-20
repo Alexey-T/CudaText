@@ -86,6 +86,8 @@ begin
           Result:= PyString_FromString(PChar(GetAppPath(cDirData)));
         APP_DIR_PY:
           Result:= PyString_FromString(PChar(GetAppPath(cDirPy)));
+        APP_FILE_SESSION:
+          Result:= PyString_FromString(PChar(fmMain.FSessionFilename));
         else
           Result:= ReturnNone;
       end;
@@ -1290,6 +1292,11 @@ begin
         APP_PROC_LOAD_SESSION:
           begin
             fmMain.DoOps_LoadSession(Str);
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SET_SESSION:
+          begin
+            fmMain.FSessionFilename:= Str;
             Result:= ReturnNone;
           end;
 

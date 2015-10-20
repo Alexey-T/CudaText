@@ -457,6 +457,7 @@ type
     FListOut: TStringlist;
     FListVal: TStringlist;
     FThemeName: string;
+    FSessionFilename: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
     Groups: TATGroups;
@@ -853,6 +854,7 @@ begin
 
   PanelAll.Align:= alClient;
   Manager:= TecSyntaxManager.Create(Self);
+  FSessionFilename:= GetAppPath(cFileHistorySession);
 
   FListRecents:= TStringList.Create;
   FListNewdoc:= TStringList.Create;

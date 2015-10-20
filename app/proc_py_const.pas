@@ -22,6 +22,7 @@ const
   APP_DIR_SETTINGS = 1;
   APP_DIR_DATA = 2;
   APP_DIR_PY = 3;
+  APP_FILE_SESSION = 4;
 
   BOOKMARK_GET = 0;
   BOOKMARK_SET = 1;
@@ -75,6 +76,7 @@ const
   APP_PROC_GET_COMMAND = 2;
   APP_PROC_SAVE_SESSION = 3;
   APP_PROC_LOAD_SESSION = 4;
+  APP_PROC_SET_SESSION = 5;
 
 implementation
 
