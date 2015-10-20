@@ -88,6 +88,8 @@ begin
       exit;
     end;
 
+    FCopyDir(ExtractFileDir(fn_inf), GetAppPath(cDirPy)+DirectorySeparator+s_module);
+
     for i:= 1 to 200 do
     begin
       s_section:= ini.ReadString('item'+Inttostr(i), 'section', '');
@@ -95,7 +97,7 @@ begin
       s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
       s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
       s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
-      if s_section<>'commands' then break;
+      if (s_section<>'commands') then break;
       if s_caption='' then break;
       if s_method='' then break;
 
@@ -105,7 +107,6 @@ begin
       cfg.SetDeleteValue(path+'lexers', s_lexers, '');
       cfg.SetDeleteValue(path+'hotkey', s_hotkey, '');
 
-      FCopyDir(ExtractFileDir(fn_inf), GetAppPath(cDirPy)+DirectorySeparator+s_module);
       s_report:= s_report+'command: '+s_caption+#13;
     end;
 

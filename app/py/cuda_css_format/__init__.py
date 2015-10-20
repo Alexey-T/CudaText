@@ -2,10 +2,10 @@ from cudatext import *
 import sys
 import os
 
-from . import cssbeautifier as cssbeautifier
-from . import format_proc as format_proc
+from . import cssbeautifier
+from . import format_proc
 
-format_proc.INI = 'cuda_css_format.cfg'
+format_proc.INI = 'cuda_css_format.py'
 format_proc.MSG = '[CSS Format] '
 
 def options():
