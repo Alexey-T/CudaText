@@ -584,6 +584,8 @@ type
     procedure DoDialogLexerLib;
     procedure DoDialogTabs;
     procedure DoDialogColors;
+    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
+      const AParams: array of string): string;
     procedure DoShowConsole;
     procedure DoShowOutput;
     procedure DoShowValidate;

@@ -165,18 +165,8 @@ begin
 end;
 
 function TfmMain.IsLexerMatches(const ANameList: string): boolean;
-var
-  F: TEditorFrame;
-  SLexer: string;
 begin
-  if ANameList='' then exit(true);
-  F:= CurrentFrame;
-  if F.Lexer=nil then exit(false);
-  SLexer:= F.Lexer.LexerName;
-  if SLexer='' then exit(false);
-  Result:= Pos(
-    ','+LowerCase(SLexer)+',',
-    ','+LowerCase(ANameList)+',' )>0;
+  Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
 end;
 
 procedure TfmMain.MenuPluginClick(Sender: TObject);
@@ -249,5 +239,44 @@ begin
   finally
     FreeAndNil(cfg);
   end;
+end;
+
+
+function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
+  const AParams: array of string): string;
+const
+  cTrueResultStopsThese = [cEventOnComplete, cEventOnFuncHint];
+var
+  SCurLexer: string;
+  i: integer;
+begin
+  //empty string result means "no handlers for event"
+  Result:= '';
+  SCurLexer:= CurrentFrame.LexerName;
+
+  for i:= Low(FPluginsEvents) to High(FPluginsEvents) do
+    with FPluginsEvents[i] do
+    begin
+      if (ItemModule='') then Break;
+      if (AEvent in ItemEvents) then
+        if (ItemLexers='') or IsLexerListed(SCurLexer, ItemLexers) then
+        begin
+          //check that OnKey event is called for supported keys
+          if (AEvent=cEventOnKey) then
+            if Length(AParams)>0 then
+              if (ItemKeys<>'') and not IsLexerListed{this?}(AParams[0], ItemKeys) then
+                Continue;
+
+          //call Python
+          Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
+
+          //True for some events means "stop"
+          if Result=cPyTrue then
+            if AEvent in cTrueResultStopsThese then Exit;
+
+          //False means "stop", other results ignored
+          if Result=cPyFalse then Exit;
+        end;
+    end;
 end;
 

@@ -13,12 +13,20 @@ interface
 
 uses
   SysUtils, Classes, Variants,
+  ATSynEdit,
   PythonEngine,
   proc_str;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const SModule, SCmd: string): string;
+function Py_RunPlugin_Event(const SModule, SCmd: string;
+  AEd: TATSynEdit; const AParams: array of string): string;
 //function Py_StringList(List: TStrings): PPyObject; cdecl; //dont work
+
+const
+  cPyTrue = 'True';
+  cPyFalse = 'False';
+  cPyNone = 'None';
 
 
 implementation
@@ -59,6 +67,69 @@ begin
   end;
 end;
 
+
+
+//no such method on PythonEngine code
+function Py_EvalStringAsString(const command: string): string;
+var
+  obj: PPyObject;
+  s: PPyObject;
+begin
+  Result:= '';
+  with GetPythonEngine do
+  begin
+    obj:= Run_CommandAsObject(command, eval_input);
+    try
+      if PyUnicode_Check(obj) then
+      begin
+        Result:= Utf8Encode(PyUnicode_AsWideString(obj));
+        Exit;
+      end;
+
+      s:= PyObject_Str(obj);
+      try
+        if Assigned(s) and PyString_Check(s) then
+          Result:= Utf8Encode(PyString_AsWideString(s));
+      finally
+        Py_XDECREF(s);
+      end;
+    finally
+      Py_XDECREF(obj);
+    end;
+  end;
+end;
+
+
+function Py_RunPlugin_Event(const SModule, SCmd: string;
+  AEd: TATSynEdit; const AParams: array of string): string;
+var
+  SObj: string;
+  SCmd1, SCmd2: string;
+  SParams: string;
+  H: PtrInt;
+  i: integer;
+begin
+  H:= PtrInt(Pointer(AEd));
+  SParams:= Format('sw.Editor(%d)', [H]);
+  for i:= 0 to Length(AParams)-1 do
+    SParams:= SParams + ', ' + AParams[i];
+
+  SObj:= '_cudacmd_' + SModule;
+  SCmd1:= 'import cudatext' + SLineBreak +
+    Format('import %s               ', [SModule]) + SLineBreak +
+    Format('if "%s" not in locals():', [SObj]) + SLineBreak +
+    Format('    %s = %s.%s()        ', [SObj, SModule, 'Command']);
+  SCmd2:=
+    Format('%s.%s(%s)', [SObj, SCmd, SParams]);
+
+  try
+    GetPythonEngine.ExecString(SCmd1);
+    //Result:= GetPythonEngine.EvalStringAsStr(SCmd2);
+    Result:= Py_EvalStringAsString(SCmd2);
+  except
+  end;
+end;
+
 (*
 function Py_StringList(List: TStrings): PPyObject; cdecl;
 var
@@ -80,6 +151,8 @@ begin
   end;
 end;
 *)
+
+
 
 end.
 

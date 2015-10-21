@@ -24,6 +24,7 @@ type
 
 function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRecW): UnicodeString;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
+function IsLexerListed(const ALexer, ANameList: string): boolean;
 
 type
   TRegexParts = array[1..8] of string;
@@ -172,6 +173,17 @@ begin
     FreeAndNil(Obj);
   end;
 end;
+
+
+function IsLexerListed(const ALexer, ANameList: string): boolean;
+begin
+  if ANameList='' then exit(true);
+  if ALexer='' then exit(false);
+  Result:= Pos(
+    ','+LowerCase(ALexer)+',',
+    ','+LowerCase(ANameList)+',' )>0;
+end;
+
 
 end.
 
