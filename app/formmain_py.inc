@@ -865,6 +865,7 @@ var
   PtrFilename, PtrFolder, PtrFilter: PChar;
   StrFilename, StrFolder, StrFilter: string;
   IsOpen: LongBool;
+  IsAllowAny: boolean;
   Dlg: TOpenDialog;
 begin
   with GetPythonEngine do
@@ -875,15 +876,20 @@ begin
       StrFolder:= string(PtrFolder);
       StrFilter:= string(PtrFilter);
 
+      IsAllowAny:= SBeginsWith(StrFilename, '!');
+      if IsAllowAny then Delete(StrFilename, 1, 1);
+
       if IsOpen then
       begin
         Dlg:= TOpenDialog.Create(nil);
-        Dlg.Options:= Dlg.Options+[ofFileMustExist];
+        Dlg.Options:= Dlg.Options+[ofHideReadOnly, ofPathMustExist];
+        if not IsAllowAny then
+          Dlg.Options:= Dlg.Options+[ofFileMustExist];
       end
       else
       begin
         Dlg:= TSaveDialog.Create(nil);
-        Dlg.Options:= Dlg.Options+[ofOverwritePrompt];
+        Dlg.Options:= Dlg.Options+[ofHideReadOnly, ofPathMustExist, ofOverwritePrompt];
       end;
 
       try

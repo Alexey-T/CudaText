@@ -1543,13 +1543,25 @@ begin
       InitialDir:= UiOps.InitialDir;
 
     if not Execute then Exit;
-    if Files.Count>0 then
+
+    if Files.Count>1 then
     begin
       for i:= 0 to Files.Count-1 do
         DoFileOpen(Files[i]);
     end
     else
-      DoFileOpen(FileName);
+    begin
+      if FileExistsUTF8(FileName) then
+        DoFileOpen(FileName)
+      else
+      if MsgBox(
+        Format(msgConfirmCreateNewFile, [FileName]),
+        MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
+      begin
+        FCreateFile(FileName);
+        DoFileOpen(FileName);
+      end;
+    end;
   end;
 end;
 

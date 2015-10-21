@@ -837,7 +837,7 @@ object fmMain: TfmMain
     Width = 994
     Height = 718
     Title = 'Open file'
-    Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+    Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofEnableSizing]
     left = 232
     top = 32
   end
