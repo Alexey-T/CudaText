@@ -294,7 +294,8 @@ begin
         Length(buf),
         nil);
     end;
-  end
+  end;
+  {//no support to hilite n words
   else
   begin
     n:= Pos(Lowercase(strfind), Lowercase(strname));
@@ -312,6 +313,7 @@ begin
         nil);
     end;
   end;
+  }
 
   if strkey<>'' then
   begin
@@ -338,7 +340,7 @@ end;
 
 function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
-  Str, StrKey: atString;
+  Str: atString;
   Ar: TATIntArray;
 begin
   Result:= false;
@@ -362,7 +364,7 @@ begin
   end
   else
   begin
-    Result:= Pos(Lowercase(Str), Lowercase(Item.Name))>0;
+    Result:= SFindWordsInString(Item.Name, Str);
   end;
 end;
 

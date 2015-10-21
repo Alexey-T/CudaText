@@ -24,6 +24,7 @@ type
 
 function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRecW): UnicodeString;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
+function SFindWordsInString(SText, SFind: string): boolean;
 function IsLexerListed(const ALexer, ANameList: string): boolean;
 
 type
@@ -174,6 +175,22 @@ begin
   end;
 end;
 
+function SFindWordsInString(SText, SFind: string): boolean;
+var
+  S, SItem: string;
+begin
+  if Trim(SText)='' then exit(false);
+  S:= Trim(SFind);
+  if S='' then exit(false);
+
+  repeat
+    SItem:= Trim(SGetItem(S, ' '));
+    S:= Trim(S);
+
+    if SItem='' then exit(true);
+    if Pos(Lowercase(SItem), Lowercase(SText))=0 then exit(false);
+  until false;
+end;
 
 function IsLexerListed(const ALexer, ANameList: string): boolean;
 begin

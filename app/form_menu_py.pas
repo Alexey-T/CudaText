@@ -232,7 +232,8 @@ begin
         Length(buf),
         nil);
     end;
-  end
+  end;
+  {//no support for n words
   else
   begin
     n:= Pos(Lowercase(strfind), Lowercase(strname));
@@ -250,6 +251,7 @@ begin
         nil);
     end;
   end;
+  }
 
   if strkey<>'' then
   begin
@@ -295,7 +297,7 @@ begin
   end
   else
   begin
-    Result:= Pos(Lowercase(StrFind), Lowercase(StrText))>0;
+    Result:= SFindWordsInString(StrText, StrFind);
   end;
 end;
 
