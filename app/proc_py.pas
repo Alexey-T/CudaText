@@ -110,7 +110,7 @@ var
   i: integer;
 begin
   H:= PtrInt(Pointer(AEd));
-  SParams:= Format('sw.Editor(%d)', [H]);
+  SParams:= Format('cudatext.Editor(%d)', [H]);
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ', ' + AParams[i];
 

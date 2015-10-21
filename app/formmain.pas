@@ -1104,10 +1104,10 @@ begin
   InitPyEngine;
 
   DoFileOpen('');
+  DoOps_LoadPlugins;
   DoOps_LoadHistory;
   DoOps_LoadKeymap;
   DoOps_PreinstallPlugins;
-  DoOps_LoadPlugins;
   DoLoadParamstr;
 
   UpdateMenuThemes(mnuThemes);
@@ -1514,6 +1514,7 @@ begin
     Result:= F;
     UpdateStatus;
     MsgStatus('Opened: '+ExtractFileName(AFilename));
+    DoPyEvent(F.Editor, cEventOnOpen, []);
     Exit
   end;
 
@@ -1525,6 +1526,7 @@ begin
 
   UpdateStatus;
   MsgStatus('Opened: '+ExtractFileName(AFilename));
+  DoPyEvent(F.Editor, cEventOnOpen, []);
 end;
 
 procedure TfmMain.DoFileOpenDialog;
