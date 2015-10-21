@@ -20767,11 +20767,11 @@ object TecSyntaxManager
           end>
         BlockEnd = '}'
         EndOfTextClose = True
-        NameFmt = '%s0 {'
+        NameFmt = '%s0'
         RefToCondEnd = True
         HighlightPos = cpAny
         DrawStaple = True
-        CollapseFmt = '{'
+        CollapseFmt = '%s0'
         IgnoreAsParent = False
       end    
       item
