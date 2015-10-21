@@ -76,6 +76,61 @@ type
   TAppPluginCmdArray = array[0..200] of TAppPluginCmd;
 
 type
+  TAppPyEvent = (
+    cEventOnOpen,
+    cEventOnSaveAfter,
+    cEventOnSaveBefore,
+    cEventOnKey,
+    cEventOnChange,
+    cEventOnChangeSlow,
+    cEventOnSelect,
+    cEventOnCaretMove,
+    cEventOnNumber,
+    cEventOnState,
+    cEventOnFocus,
+    cEventOnLexer,
+    cEventOnComplete,
+    cEventOnFuncHint,
+    cEventOnGotoDef,
+    cEventOnConsole,
+    cEventOnPanelLog,
+    cEventOnCompare
+    );
+  TAppPyEvents = set of TAppPyEvent;
+
+const
+  cAppPyEvent: array[TAppPyEvent] of string = (
+    'on_open',
+    'on_save',
+    'on_save_pre',
+    'on_key',
+    'on_change',
+    'on_change_slow',
+    'on_select',
+    'on_caret_move',
+    'on_num',
+    'on_state',
+    'on_focus',
+    'on_lexer',
+    'on_complete',
+    'on_func_hint',
+    'on_goto_def',
+    'on_console',
+    'on_panel_log',
+    'on_compare'
+    );
+
+type
+  TAppPluginEvent = record
+    ItemModule: string;
+    ItemLexers: string;
+    ItemEvents: TAppPyEvents;
+    ItemKeys: string;
+  end;
+  TAppPluginEventArray = array[0..100] of TAppPluginEvent;
+
+
+type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
@@ -451,6 +506,7 @@ type
   private
     { private declarations }
     FPluginsCmd: TAppPluginCmdArray;
+    FPluginsEvents: TAppPluginEventArray;
     FListRecents: TStringList;
     FListNewdoc: TStringList;
     FListThemes: TStringList;
@@ -484,12 +540,14 @@ type
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
+    procedure DoOps_ShowEventPlugins;
     function DoDialogConfColors(var AColors: TAppTheme): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    procedure DoOps_CreatePluginsMenuitems;
     procedure DoOps_LoadLexlib;
     procedure DoOps_SaveLexlib(Cfm: boolean);
     procedure DoOps_SaveHistory;

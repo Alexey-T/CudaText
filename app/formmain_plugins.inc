@@ -12,9 +12,9 @@ var
   fn_plugins: string;
   cfg: TJsonConfig;
   list, list2: TStringlist;
-  mi, miSub: TMenuItem;
   str, strItem, strPath: string;
-  i, j, cnt, idx: integer;
+  i, j, cnt: integer;
+  i_event: TAppPyEvent;
 begin
   fn_plugins:= GetAppPath(cFileOptPlugins);
   if not FileExists(fn_plugins) then exit;
@@ -30,6 +30,7 @@ begin
       exit
     end;
 
+    //read command plugins
     cnt:= 0;
     list.Clear;
     cfg.EnumSubKeys('/commands', list);
@@ -54,12 +55,77 @@ begin
         if cnt>=High(FPluginsCmd) then Break;
       end;
     end;
+
+    //read event plugins
+    cnt:= 0;
+    list.Clear;
+    cfg.EnumSubKeys('/events', list);
+    list.Sort;
+
+    for cnt:= 0 to list.Count-1 do
+    begin
+      FPluginsEvents[cnt].ItemModule:= list[cnt];
+      strPath:= '/events/'+list[cnt]+'/';
+      FPluginsEvents[cnt].ItemLexers:= cfg.GetValue(strPath+'lexers', '');
+      FPluginsEvents[cnt].ItemKeys:= cfg.GetValue(strPath+'keys', '');
+
+      //parse "events"
+      str:= cfg.GetValue(strPath+'events', '');
+      repeat
+        strItem:= SGetItem(str);
+        if strItem='' then Break;
+        for i_event in TAppPyEvent do
+          if strItem=cAppPyEvent[i_event] then
+            Include(FPluginsEvents[cnt].ItemEvents, i_event);
+      until false;
+
+      if cnt>=High(FPluginsEvents) then Break;
+    end;
+    DoOps_ShowEventPlugins;
+
   finally
     FreeAndNil(list2);
     FreeAndNil(list);
     FreeAndNil(cfg);
   end;
 
+  DoOps_CreatePluginsMenuitems;
+end;
+
+procedure TfmMain.DoOps_ShowEventPlugins;
+var
+  i: integer;
+  s, s2: string;
+  ev: TAppPyEvent;
+begin
+  exit;////////
+
+  s:= '';
+  for i:= 0 to 100 do
+    with FPluginsEvents[i] do
+    begin
+      if ItemModule='' then Break;
+      s2:= '';
+      for ev in TAppPyEvent do
+        if ev in ItemEvents then
+          s2:= s2+'/'+cAppPyEvent[ev];
+
+      s:= s+#13+
+        'module: '+ItemModule+#13+
+        'lexers: "'+ItemLexers+'"'#13+
+        'keys: "'+ItemKeys+'"'#13+
+        'events: '+s2+#13;
+    end;
+  Showmessage(s);
+end;
+
+procedure TfmMain.DoOps_CreatePluginsMenuitems;
+var
+  mi, miSub: TMenuItem;
+  str, strItem: string;
+  i, idx: integer;
+begin
+  //create menu items for Command plugins
   for i:= 0 to High(FPluginsCmd) do
   begin
     if FPluginsCmd[i].ItemModule='' then Break;
