@@ -20853,6 +20853,7 @@ object TecSyntaxManager
       ''
       'Added support for // comments'
     )
+    LineComment = '//'
     Charset = DEFAULT_CHARSET
   end
   object SyntAnal6: TLibSyntAnalyzer
