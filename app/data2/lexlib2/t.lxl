@@ -20686,13 +20686,13 @@ object TecSyntaxManager
         Font.Name = 'Courier New'
       end    
       item
-        DisplayName = 'Identifier'
+        DisplayName = 'Id'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
       end    
       item
-        DisplayName = 'Reserved word'
+        DisplayName = 'Id keyword'
         Font.Color = clNavy
         Font.Height = -13
         Font.Name = 'Courier New'
@@ -20723,7 +20723,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Id'
-        StyleName = 'Identifier'
+        StyleName = 'Id'
         TokenType = 2
         Expression = '[a-z_]\w*'
         ColumnFrom = 0
@@ -20732,8 +20732,8 @@ object TecSyntaxManager
       item
         DisplayName = 'Float'
         StyleName = 'Number'
-        TokenType = 6
-        Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |  \d+ \. \d+'
+        TokenType = 5
+        Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ | \d+ \. \d+'
         ColumnFrom = 0
         ColumnTo = 0
       end    
@@ -20756,7 +20756,7 @@ object TecSyntaxManager
     BlockRules = <    
       item
         DisplayName = 'Keyw'
-        StyleName = 'Reserved word'
+        StyleName = 'Id keyword'
         BlockType = btTagDetect
         ConditionList = <        
           item
@@ -20779,13 +20779,23 @@ object TecSyntaxManager
               '{'
             )
             TokenTypes = 8
+          end        
+          item
+            TagList.Strings = (
+              ':'
+            )
+            TokenTypes = 8
+          end        
+          item
+            TokenTypes = 16
           end>
         BlockEnd = '}'
         EndOfTextClose = True
-        NameFmt = '%s2~s0'
+        NameFmt = '%s0 {'
+        RefToCondEnd = True
         HighlightPos = cpAny
         DrawStaple = True
-        CollapseFmt = '%s2~s0'
+        CollapseFmt = '{'
         IgnoreAsParent = False
       end    
       item
@@ -20802,40 +20812,31 @@ object TecSyntaxManager
         IgnoreAsParent = False
       end    
       item
-        DisplayName = '['
+        DisplayName = 'param'
         ConditionList = <        
           item
-            TagList.Strings = (
-              '['
-            )
+            CondType = tcNotEqual
             TokenTypes = 8
-          end>
-        BlockEnd = ']'
-        EndOfTextClose = True
-        NameFmt = '%s2~s0'
-        HighlightPos = cpAny
-        DrawStaple = True
-        CollapseFmt = '%s2~s0'
-        IgnoreAsParent = False
-      end    
-      item
-        DisplayName = ']'
-        BlockType = btRangeEnd
-        ConditionList = <        
+          end        
           item
             TagList.Strings = (
-              ']'
+              ':'
             )
             TokenTypes = 8
+          end        
+          item
+            TokenTypes = 16
           end>
+        NameFmt = '%s0'
         HighlightPos = cpAny
+        NoEndRule = True
         IgnoreAsParent = False
       end>
     CodeTemplates = <>
     SubAnalyzers = <>
     SampleText.Strings = (
       '{'
-      '    "glossary": {   //test'
+      '    "glossary": {'
       '        "title": "example glossary",'
       #9#9'"GlossDiv": {'
       '            "title": "S",'
@@ -20864,19 +20865,17 @@ object TecSyntaxManager
       'Identifier'
       'Symbol'
       'String'
-      'Integer const'
-      'Float const'
+      'Number'
     )
-    Extentions = 'json sublime-settings sublime-menu sublime-keymap'
+    Extentions = 'json'
     LexerName = 'JSON'
     Notes.Strings = (
       'Author: Alex, uvviewsoft.com'
       'Test'
       'http://json.org/example.html'
       'http://www.jquery4u.com/json/10-example-json-files/'
-      ''
-      'Added support for // comments'
     )
+    LineComment = '//'
     Charset = DEFAULT_CHARSET
   end
   object SyntAnal6: TLibSyntAnalyzer

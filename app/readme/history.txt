@@ -1,6 +1,7 @@
 
 0.9.2
 + opt ui_listbox_fuzzy
++ lexer JSON tree redone
 + session has more properties
 + tree: show hint for long lines
 - fix: restore r/o state
