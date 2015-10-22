@@ -78,6 +78,10 @@ const
   APP_PROC_LOAD_SESSION = 4;
   APP_PROC_SET_SESSION = 5;
 
+  LEXER_GET_ENABLED = 1;
+  LEXER_GET_EXT     = 2;
+  LEXER_GET_COMMENT = 6;
+
 implementation
 
 end.

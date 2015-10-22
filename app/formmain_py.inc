@@ -1313,6 +1313,53 @@ begin
     end;
 end;
 
+
+function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  Id: integer;
+  Ptr: PChar;
+  Str, Str1, Str2: string;
+  An: TecSyntAnalyzer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @Ptr)) then
+    begin
+      Str:= string(Ptr);
+      Str1:= SGetItem(Str, ';');
+      Str2:= SGetItem(Str, ';');
+
+      case Id of
+        LEXER_GET_COMMENT:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              Result:= PyString_FromString(PChar(string(An.LineComment)))
+            else
+              Result:= ReturnNone;
+          end;
+        LEXER_GET_ENABLED:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              Result:= PyBool_FromLong(Ord(not An.Internal))
+            else
+              Result:= ReturnNone;
+          end;
+        LEXER_GET_EXT:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              Result:= PyString_FromString(PChar(string(An.Extentions)))
+            else
+              Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -1375,6 +1422,7 @@ begin
     AddMethod('ed_handles', @Py_ed_handles, '');
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
+    AddMethod('lexer_proc', @Py_lexer_proc, '');
   end;
 end;
 

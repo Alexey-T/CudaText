@@ -16,7 +16,7 @@ uses
 
 const
   cAppExeVersion = '0.9.3.0';
-  cAppApiVersion = '1.0.106';
+  cAppApiVersion = '1.0.107';
 
 
 const

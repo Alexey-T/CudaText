@@ -92,6 +92,10 @@ PROC_SAVE_SESSION = 3
 PROC_LOAD_SESSION = 4
 PROC_SET_SESSION = 5
 
+LEXER_GET_ENABLED = 1
+LEXER_GET_EXT     = 2
+LEXER_GET_COMMENT = 6
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -165,6 +169,9 @@ def ini_read(filename, section, key, value):
     return ct.ini_read(filename, section, key, value)
 def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
+    
+def lexer_proc(id, value):
+    return ct.lexer_proc(id, value)    
 
 #Editor
 class Editor:
