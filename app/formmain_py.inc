@@ -1337,6 +1337,7 @@ begin
             else
               Result:= ReturnNone;
           end;
+
         LEXER_GET_ENABLED:
           begin
             An:= Manager.FindAnalyzer(Str1);
@@ -1345,6 +1346,7 @@ begin
             else
               Result:= ReturnNone;
           end;
+
         LEXER_GET_EXT:
           begin
             An:= Manager.FindAnalyzer(Str1);
@@ -1360,20 +1362,30 @@ begin
             if Assigned(An) then
               An.Internal:= Str2='0';
             Result:= ReturnNone;
+
+            Manager.Modified:= true;
+            fmMain.UpdateMenuLexers;
           end;
+
         LEXER_SET_NAME:
           begin
             An:= Manager.FindAnalyzer(Str1);
             if Assigned(An) then
               An.LexerName:= Str2;
             Result:= ReturnNone;
+
+            Manager.Modified:= true;
+            fmMain.UpdateMenuLexers;
           end;
+
         LEXER_SET_EXT:
           begin
             An:= Manager.FindAnalyzer(Str1);
             if Assigned(An) then
               An.Extentions:= Str2;
             Result:= ReturnNone;
+
+            Manager.Modified:= true;
           end;
 
         LEXER_GET_MODIFIED:
@@ -1394,6 +1406,9 @@ begin
             if Assigned(An) then
               An.Free;
             Result:= ReturnNone;
+
+            Manager.Modified:= true;
+            fmMain.UpdateMenuLexers;
           end;
 
         LEXER_IMPORT:
@@ -1403,6 +1418,9 @@ begin
               An:= Manager.AddAnalyzer;
               An.LoadFromFile(Str1);
               Result:= PyString_FromString(PChar(string(An.LexerName)));
+
+              Manager.Modified:= true;
+              fmMain.UpdateMenuLexers;
             end
             else
               Result:= ReturnNone;
