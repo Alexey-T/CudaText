@@ -94,8 +94,15 @@ PROC_SET_SESSION = 5
 
 LEXER_GET_ENABLED = 1
 LEXER_GET_EXT     = 2
+LEXER_GET_MODIFIED= 3
 LEXER_GET_COMMENT = 6
-
+LEXER_SET_NAME    = 10
+LEXER_SET_ENABLED = 11
+LEXER_SET_EXT     = 12
+LEXER_SAVE_LIB    = 20
+LEXER_DELETE      = 21
+LEXER_IMPORT      = 22
+LEXER_EXPORT      = 23
 
 def app_exe_version():
     return ct.app_exe_version()

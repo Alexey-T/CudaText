@@ -1354,6 +1354,72 @@ begin
               Result:= ReturnNone;
           end;
 
+        LEXER_SET_ENABLED:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              An.Internal:= Str2='0';
+            Result:= ReturnNone;
+          end;
+        LEXER_SET_NAME:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              An.LexerName:= Str2;
+            Result:= ReturnNone;
+          end;
+        LEXER_SET_EXT:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              An.Extentions:= Str2;
+            Result:= ReturnNone;
+          end;
+
+        LEXER_GET_MODIFIED:
+          begin
+            Result:= PyBool_FromLong(Ord(Manager.Modified));
+          end;
+
+        LEXER_SAVE_LIB:
+          begin
+            with Manager do
+              SaveToFile(FileName);
+            Result:= ReturnNone;
+          end;
+
+        LEXER_DELETE:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              An.Free;
+            Result:= ReturnNone;
+          end;
+
+        LEXER_IMPORT:
+          begin
+            if FileExists(Str1) then
+            begin
+              An:= Manager.AddAnalyzer;
+              An.LoadFromFile(Str1);
+              Result:= PyString_FromString(PChar(string(An.LexerName)));
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_EXPORT:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+            begin
+              An.SaveToFile(Str2);
+              Result:= PyBool_FromLong(1);
+            end
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
         else
           Result:= ReturnNone;
       end;
