@@ -250,6 +250,7 @@ function GetBitmapX(AColor: TColor): TBitmap;
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem);
+procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
 
 var
   Manager: TecSyntaxManager = nil;
@@ -788,6 +789,18 @@ begin
 
   Result:= bmpX;
 end;
+
+
+procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
+var
+  i: Integer;
+begin
+  with Manager do
+    for i:= 0 to AnalyzerCount-1 do
+      if AlsoDisabled or not Analyzers[i].Internal then
+        L.Add(Analyzers[i].LexerName);
+end;
+
 
 initialization
   InitDirs;

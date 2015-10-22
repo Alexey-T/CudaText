@@ -17,8 +17,13 @@ uses
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
   ATStringProc,
+  ecSyntAnal,
   proc_globdata,
   proc_colors;
+
+procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
+procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
+procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer; const Links: string);
 
 type
   TAppBookmarkOp = (bmOpClear, bmOpSet, bmOpToggle);
@@ -429,6 +434,47 @@ begin
   Ed.Colors.MarginRight:= GetAppColor('EdMarginFixed');
   Ed.Colors.MarginCaret:= GetAppColor('EdMarginCaret');
   Ed.Colors.MarginUser:= GetAppColor('EdMarginUser');
+end;
+
+
+procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
+var
+  i: Integer;
+  AnLink: TecSyntAnalyzer;
+begin
+  List.Clear;
+  for i:= 0 to An.SubAnalyzers.Count-1 do
+  begin
+    AnLink:= An.SubAnalyzers[i].SyntAnalyzer;
+    if AnLink<>nil then
+      List.Add(AnLink.LexerName)
+    else
+      List.Add('');
+  end;
+end;
+
+procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
+var
+  i: Integer;
+begin
+  List.Clear;
+  for i:= 0 to An.Formats.Count-1 do
+    List.Add(An.Formats[i].DisplayName);
+end;
+
+procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer; const Links: string);
+var
+  S, SItem: string;
+  Cnt: Integer;
+begin
+  S:= Links;
+  Cnt:= 0;
+  repeat
+    SItem:= SGetItem(S, '|');
+    if Cnt>=An.SubAnalyzers.Count then Break;
+    An.SubAnalyzers[Cnt].SyntAnalyzer:= SyntaxManager.FindAnalyzer(SItem);
+    Inc(Cnt);
+  until false;
 end;
 
 

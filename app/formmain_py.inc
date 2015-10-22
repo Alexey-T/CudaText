@@ -1320,6 +1320,7 @@ var
   Ptr: PChar;
   Str, Str1, Str2: string;
   An: TecSyntAnalyzer;
+  List: TStringlist;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @Ptr)) then
@@ -1436,6 +1437,60 @@ begin
             end
             else
               Result:= PyBool_FromLong(0);
+          end;
+
+        LEXER_GET_LIST:
+          begin
+            List:= TStringList.Create;
+            List.Sorted:= true;
+            try
+              DoEnumLexers(List, true);
+              Result:= PyString_FromString(PChar(List.Text));
+            finally
+              FreeAndNil(List);
+            end;
+          end;
+
+        LEXER_GET_LINKS:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+            begin
+              List:= TStringList.Create;
+              try
+                LexerEnumSublexers(An, List);
+                Result:= PyString_FromString(PChar(List.Text));
+              finally
+                FreeAndNil(List);
+              end;
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_GET_STYLES:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+            begin
+              List:= TStringList.Create;
+              try
+                LexerEnumStyles(An, List);
+                Result:= PyString_FromString(PChar(List.Text));
+              finally
+                FreeAndNil(List);
+              end;
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_SET_LINKS:
+          begin
+            An:= Manager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              LexerSetSublexers(Manager, An, Str2);
+            Result:= ReturnNone;
           end;
 
         else
