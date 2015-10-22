@@ -1491,6 +1491,7 @@ begin
             if Assigned(An) then
               LexerSetSublexers(Manager, An, Str2);
             Result:= ReturnNone;
+            Manager.Modified:= true;
           end;
 
         else

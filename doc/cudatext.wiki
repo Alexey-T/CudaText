@@ -239,6 +239,12 @@ Commands dialog (and menu dialog in Python API) has filter field, this filter ha
 
 Filter field can find hotkeys too. Enter only hotkey substring, with first "@" char. E.g. "@ho" finds "Ctrl+Home". This search is not fuzzy.
 
+==Regular expressions==
+
+Lexer parser uses regex from EControl package. It has some custom features (like \Z: end of file, look ahead/behind can find variable length). Groups must be referenced as \0 .. \9.
+
+Search/replace uses RegExpr engine, almost fully Perl compatible, syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9.
+
 == more ==
 
 = Tech topics=

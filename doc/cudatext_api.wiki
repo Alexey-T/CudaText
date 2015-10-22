@@ -142,6 +142,8 @@ Gets filename (str) or None if cancelled. Params:
 
 To allow multi-select in open dialog, pass init_filename="*". If single filename selected, result is str. If several filenames selected, result is list of str.
 
+To disable check "filename exists" in open dialog, start init_filename with "!".
+
 ===dlg_menu===
 
  dlg_menu(id, text)
@@ -215,6 +217,34 @@ Reads or writes single string to ini file. Params:
 * value: On write: value to write. On read: default value which is returned if no such filename/section/key is found.
 
 Gets string which is read, gets None on write.
+
+===lexer_proc===
+
+ lexer_proc(id, value)
+
+Do some lexer-related action, get/set property. 
+
+Parameter value gives ";"-separated substrings. Lexer name, if it's needed, is 1st substring. If lexer name needed and incorrect name passed, function gets None.
+
+Possible values of id:
+
+* LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
+* LEXER_GET_ENABLED: Gets enabled-flag for given lexer. Usually True, rare lexers have if False (they're unchecked in Lexer Library dialog).
+* LEXER_GET_COMMENT: Gets line-comment string for given lexer.
+* LEXER_GET_MODIFIED: Gets bool: is lexer library modified and not saved.
+* LEXER_GET_LIST: Gets string: "\n"-separated list of lexer names in library.   
+* LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
+* LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
+* LEXER_SET_NAME: Sets for lexer with given name (substring 1) new name (substring 2).
+* LEXER_SET_ENABLED: Sets for lexer with given name enabled-flag (substring 2: "0" or "1").
+* LEXER_SET_EXT: Sets for lexer with given name file-extensions field (substring 2).
+* LEXER_SET_LINKS: Sets for given lexer - names of its sublexers. Substring 2 must be "|"-separated list of lexer names (any number allowed, only actual number will be used).
+* LEXER_SAVE_LIB: Saves lexer library file.
+* LEXER_DELETE: Deletes given lexer from library.
+* LEXER_IMPORT: Adds new lexer from given filename (substring 1). Gets name of this lexer, or None if import failed.
+* LEXER_EXPORT: Saves lexer with given name into file with given name (substring 2). Recommended extension: .lcf.
+
+===more===
 
 =Editor class=
 
@@ -464,7 +494,12 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 
 =History=
 
+1.0.107
+
+* add: lexer_proc
+
 1.0.106
 
+* add: dlg_file: can take filename "!"
 * add: app_path: APP_FILE_SESSION
 * add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION
