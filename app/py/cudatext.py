@@ -22,6 +22,11 @@ ID_NO = 7
 SEL_NORMAL = 0
 SEL_COLUMN = 1
 
+CARET_SET_ONE = 0
+CARET_ADD = 1
+CARET_DELETE_ALL = 2
+CARET_SET_INDEX = 100
+
 APP_DIR_EXE = 0
 APP_DIR_SETTINGS = 1
 APP_DIR_DATA = 2
@@ -198,10 +203,8 @@ class Editor:
             if item[3]==big: item[3]=-1
         return res
         
-    def set_caret(self, x1, y1, x2=-1, y2=-1):
-        return ct.ed_set_caret(self.h, x1, y1, x2, y2)
-    def add_caret(self, x1, y1, x2=-1, y2=-1):
-        return ct.ed_add_caret(self.h, x1, y1, x2, y2)
+    def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE):
+        return ct.ed_set_caret(self.h, x1, y1, x2, y2, id)
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)

@@ -261,46 +261,60 @@ end;
 function Py_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
+  Id, NCaret: Integer;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiii:set_caret', @H, @X1, @Y1, @X2, @Y2)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiiii:set_caret', @H, @X1, @Y1, @X2, @Y2, @Id)) then
     begin
       Ed:= PyEditor(H);
 
-      Ed.DoSelect_None;
-      Ed.Carets.Clear;
-      Ed.Carets.Add(X2, Y2, X1, Y1);
-      Ed.DoGotoCaret(cEdgeTop);
+      case Id of
+        CARET_DELETE_ALL:
+          begin
+            Ed.Carets.Clear;
+            Result:= ReturnNone;
+          end;
 
-      fmMain.UpdateFrame;
-      fmMain.UpdateStatus;
-      Result:= ReturnNone;
-    end;
-end;
+        CARET_SET_ONE:
+          begin
+            Ed.DoSelect_None;
+            Ed.DoCaretSingle(X1, Y1, X2, Y2, true);
+            Ed.DoGotoCaret(cEdgeTop);
+            Result:= ReturnNone;
+          end;
 
-function Py_ed_add_caret(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: PtrInt;
-  X1, Y1, X2, Y2: Integer;
-  Ed: TATSynEdit;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiii:add_caret', @H, @X1, @Y1, @X2, @Y2)) then
-    begin
-      Ed:= PyEditor(H);
-      if X1<0 then
-        Ed.Carets.Clear
-      else
-      begin
-        Ed.Carets.Add(X2, Y2, X1, Y1);
-        Ed.Carets.Sort;
+        CARET_ADD:
+          begin
+            Ed.Carets.Add(X2, Y2, X1, Y1);
+            Ed.Carets.Sort;
+            Result:= PyInt_FromLong(Ed.Carets.Count);
+          end;
+
+        CARET_SET_INDEX..MaxInt div 2:
+          begin
+            NCaret:= Id-CARET_SET_INDEX;
+            if NCaret<Ed.Carets.Count then
+            begin
+              with Ed.Carets[NCaret] do
+              begin
+                PosX:= X1;
+                PosY:= Y1;
+                EndX:= X2;
+                EndY:= Y2;
+              end;
+              Ed.Carets.Sort;
+              Result:= ReturnNone;
+            end;
+          end;
+
+        else
+          Result:= ReturnNone;
       end;
 
       fmMain.UpdateFrame;
       fmMain.UpdateStatus;
-      Result:= ReturnNone;
     end;
 end;
 
@@ -1513,7 +1527,6 @@ begin
 
     AddMethod('ed_get_carets', @Py_ed_get_carets, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');
-    AddMethod('ed_add_caret', @Py_ed_add_caret, '');
 
     AddMethod('ed_get_sel_mode', @Py_ed_get_sel_mode, '');
     AddMethod('ed_get_sel_rect', @Py_ed_get_sel_rect, '');
