@@ -266,17 +266,14 @@ Returns list of 4-tuples, each item is info about one caret: (PosX, PosY, EndX, 
 
 ===set_caret===
 
- set_caret(posx, posy, endx=-1, endy=-1)
+ set_caret(posx, posy, endx=-1, endy=-1, id=CARET_SET_ONE)
 
-Sets single caret (4 ints, see above). Multi-carets are removed.
+Controls carets. Possible values of id:
 
-===add_caret===
-
- add_caret(posx, posy, endx=-1, endy=-1)
-
-Adds one caret (4 ints, see above).
-
-Removes all carets, if called with posx<0. Text editing not possible w/o carets, so you must add caret then.
+* CARET_SET_ONE: Removes multi-carets and sets single caret with given coords (posx, posy, endx, endy). 
+* CARET_ADD: Adds caret (multi-carets feature) with given coords. Also gets count of carets after that (same as len(get_carets()) ).
+* CARET_DELETE_ALL: Removes all carets. (Note: you must add caret then to enable text editing to user.)
+* CARET_SET_INDEX + N (any N>=0): Changes single caret with index N to given coords.
 
 ==Text read/write==
 
@@ -286,6 +283,8 @@ Removes all carets, if called with posx<0. Text editing not possible w/o carets,
  set_text_all(text)
 
 Gets/sets entire text in the editor (str).
+
+Note: get_text_all is simple wrapper around get_text_line/get_line_count, it uses "\n" as line sep.
 
 ===get_text_line/set_text_line===
 
@@ -497,6 +496,8 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 1.0.107
 
 * add: lexer_proc
+* change: set_caret
+* del: add_caret
 
 1.0.106
 
