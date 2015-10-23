@@ -207,7 +207,9 @@ class Editor:
         return ct.ed_get_line_count(self.h)
 
     def get_text_all(self):
-        return ct.ed_get_text_all(self.h)
+        items = [self.get_text_line(i) for i in range(self.get_line_count())]
+        return '\n'.join(items)
+        
     def set_text_all(self, text):
         return ct.ed_set_text_all(self.h, text)
     def get_text_sel(self):

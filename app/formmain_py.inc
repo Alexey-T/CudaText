@@ -215,15 +215,6 @@ begin
   end;
 end;
 
-function Py_ed_get_text_all(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: PtrInt;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_text_all', @H)) then
-      Result:= PyUnicode_FromWideString(PyEditor(H).Text);
-end;
-
 function Py_ed_get_text_sel(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -1529,7 +1520,6 @@ begin
     AddMethod('ed_get_sel_lines', @Py_ed_get_sel_lines, '');
     AddMethod('ed_set_sel_rect', @Py_ed_set_sel_rect, '');
 
-    AddMethod('ed_get_text_all', @Py_ed_get_text_all, '');
     AddMethod('ed_set_text_all', @Py_ed_set_text_all, '');
     AddMethod('ed_get_text_sel', @Py_ed_get_text_sel, '');
     Addmethod('ed_get_text_line', @Py_ed_get_text_line, '');
