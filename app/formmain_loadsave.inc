@@ -86,9 +86,9 @@ begin
 
     DoOps_SaveHistory_GroupView(c);
 
-    Groups.PagesAndTabIndexOfControl(CurrentFrame, nGroup, nTab);
-    c.SetValue('/n_group', nGroup);
-    c.SetValue('/n_tab', nTab);
+    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+      c.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
+    c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
     for i:= 0 to FrameCount-1 do
     begin
@@ -110,9 +110,9 @@ procedure TfmMain.DoOps_LoadSession(const fn_session: string);
 var
   c: TJSONConfig;
   list: TStringlist;
-  nGroup, nTab, i: integer;
   fn: string;
   F: TEditorFrame;
+  nGroup, i: integer;
 begin
   DoFileCloseAll;
 
@@ -132,9 +132,7 @@ begin
       nGroup:= c.GetValue('/'+list[i]+'/group', Low(TATGroupsNums));
 
       if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
-      begin
         Groups.PagesCurrent:= Groups.Pages[nGroup];
-      end;
 
       if FileExistsUTF8(fn) then
       begin
@@ -144,11 +142,12 @@ begin
       end;
     end;
 
-    nGroup:= c.GetValue('/n_group', Low(TATGroupsNums));
-    nTab:= c.GetValue('/n_tab', 0);
+    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+      Groups.Pages[i].Tabs.TabIndex:= c.GetValue('/tab_index/g'+Inttostr(i), 0);
 
-    Groups.PagesCurrent:= Groups.Pages[nGroup];
-    Groups.SetPagesAndTabIndex(nGroup, nTab);
+    nGroup:= c.GetValue('/tab_index/g_active', Low(TATGroupsNums));
+    if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
+      Groups.PagesCurrent:= Groups.Pages[nGroup];
   finally
     list.Free;
     c.Free;

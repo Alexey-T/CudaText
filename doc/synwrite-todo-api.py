@@ -18,24 +18,6 @@ ATTRIB_SET_ITALIC      = 3
 ATTRIB_SET_UNDERLINE   = 4
 ATTRIB_SET_STRIKEOUT   = 5
 
-LEXER_GET_LIST    = 0
-LEXER_GET_ENABLED = 1
-LEXER_GET_EXT     = 2
-LEXER_GET_MOD     = 3
-LEXER_GET_LINKS   = 4
-LEXER_GET_STYLES  = 5
-LEXER_SET_NAME    = 10
-LEXER_SET_ENABLED = 11
-LEXER_SET_EXT     = 12
-LEXER_SET_LINKS   = 13
-LEXER_SAVE_LIB    = 20
-LEXER_DELETE      = 21
-LEXER_IMPORT      = 22
-LEXER_EXPORT      = 23
-LEXER_CONFIG      = 24
-LEXER_CONFIG_ALT  = 25
-LEXER_ACTIVATE    = 26
-
 FILENAME_SESSION         = -3
 FILENAME_PROJECT         = -10
 FILENAME_PROJECT_MAIN    = -11
@@ -129,13 +111,8 @@ def set_app_prop(id, value):
 
 def app_lock(id):
     return sw_api.app_lock(id)
-def lexer_proc(id, text):
-    return sw_api.lexer_proc(id, text)
 
 class Editor:
-##far todo
-    def get_prop(self, id, value=''):
-        return sw_api.ed_get_prop(self.h, id, value)
     def set_prop(self, id, value):
         return sw_api.ed_set_prop(self.h, id, value)
     def set_attr(self, id, color):
@@ -148,6 +125,5 @@ class Editor:
 #noneed
     def get_alerts(self):
     def set_alerts(self, value):
-    def get_word(self, x, y):
     def get_left(self):
     def set_left(self, num):

@@ -71,7 +71,6 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="~\main.css ~\test.html"/>
       </local>
       <environment>
         <UserOverrides Count="1">
