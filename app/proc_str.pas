@@ -26,6 +26,7 @@ function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRe
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 function SFindWordsInString(SText, SFind: string): boolean;
 function IsLexerListed(const ALexer, ANameList: string): boolean;
+function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 
 type
   TRegexParts = array[1..8] of string;
@@ -202,6 +203,26 @@ begin
     ','+LowerCase(ANameList)+',' )>0;
 end;
 
+function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
+var
+  Obj: TRegExpr;
+begin
+  Result:= AStr;
+  if AStr='' then exit;
+
+  Obj:= TRegExpr.Create;
+  try
+    try
+      Obj.ModifierS:= false;
+      Obj.ModifierI:= false;
+      Obj.Expression:= AStrFind;
+      Result:= Obj.Replace(AStr, AStrReplace, AUseSubstitute);
+    except
+    end;
+  finally
+    Obj.Free;
+  end;
+end;
 
 end.
 
