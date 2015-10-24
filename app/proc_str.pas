@@ -30,6 +30,8 @@ function IsLexerListed(const ALexer, ANameList: string): boolean;
 type
   TRegexParts = array[1..8] of string;
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
+function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string): string;
+function SRegexReplaceEscapedTabs(const AStr: string): string;
 
 function SWideStringToPythonString(const Str: UnicodeString): string;
 procedure SAddStringToHistory(const S: string; List: TStrings; MaxItems: integer);
@@ -136,6 +138,33 @@ begin
     end;
     SetLength(result, Length(result)+1);
     result[high(result)]:= N;
+  end;
+end;
+
+
+function SRegexReplaceEscapedTabs(const AStr: string): string;
+begin
+  Result:= SRegexReplaceSubstring(AStr, '\\t', #9);
+end;
+
+function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string): string;
+var
+  Obj: TRegExpr;
+begin
+  Result:= AStr;
+  if AStr='' then exit;
+
+  Obj:= TRegExpr.Create;
+  try
+    try
+      Obj.ModifierS:= false;
+      Obj.ModifierI:= false;
+      Obj.Expression:= AStrFind;
+      Result:= Obj.Replace(AStr, AStrReplace, false);
+    except
+    end;
+  finally
+    Obj.Free;
   end;
 end;
 

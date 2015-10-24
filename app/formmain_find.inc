@@ -36,7 +36,7 @@ begin
     if edFind.Text='' then Exit;
 
     FFinder.StrFind:= edFind.Text;
-    FFinder.StrReplace:= edRep.Text;
+    FFinder.StrReplace:= SRegexReplaceEscapedTabs(edRep.Text);
     FFinder.OptBack:= false;
     FFinder.OptCase:= chkCase.Checked;
     FFinder.OptWords:= chkWords.Checked;

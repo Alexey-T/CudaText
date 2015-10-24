@@ -1,4 +1,8 @@
 
+0.9.4
++ undo improved (group some edits even if undo_grouped=false)
++ more api
+
 0.9.3
 + opt ui_listbox_fuzzy
 + lexer JSON tree redone
