@@ -292,21 +292,19 @@ begin
             Result:= PyInt_FromLong(Ed.Carets.Count);
           end;
 
-        CARET_SET_INDEX..MaxInt div 2:
+        CARET_SET_INDEX..MaxInt:
           begin
             NCaret:= Id-CARET_SET_INDEX;
-            if NCaret<Ed.Carets.Count then
-            begin
+            if Ed.Carets.IsIndexValid(NCaret) then
               with Ed.Carets[NCaret] do
               begin
                 PosX:= X1;
                 PosY:= Y1;
                 EndX:= X2;
                 EndY:= Y2;
+                Ed.Carets.Sort;
               end;
-              Ed.Carets.Sort;
-              Result:= ReturnNone;
-            end;
+            Result:= ReturnNone;
           end;
 
         else
