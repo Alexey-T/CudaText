@@ -13,10 +13,11 @@ begin
   F.OnChangeCaption:= @FrameOnChangeCaption;
   F.OnUpdateStatus:= @FrameOnUpdateStatus;
   F.OnEditorCommand:= @FrameOnCommand;
-  F.OnEditorChangeCaretPos:=@FrameOnChangeCaretPos;
+  F.OnEditorChangeCaretPos:= @FrameOnChangeCaretPos;
   F.OnSaveFile:= @FrameOnSaveFile;
   F.OnSetLexer:= @FrameOnSetLexer;
-  F.OnAddRecent:=@FrameAddRecent;
+  F.OnAddRecent:= @FrameAddRecent;
+  F.OnPyEvent:= @DoPyEvent;
 
   F.Groups:= Groups;
 

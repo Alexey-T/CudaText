@@ -34,8 +34,13 @@ uses
   proc_files,
   proc_msg,
   proc_str,
+  proc_py,
   jsonConf,
   math;
+
+type
+  TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string of object;
+
 
 type
   { TEditorFrame }
@@ -61,6 +66,7 @@ type
     FOnSaveFile: TNotifyEvent;
     FOnSetLexer: TNotifyEvent;
     FOnAddRecent: TNotifyEvent;
+    FOnPyEvent: TEditorFramePyEvent;
     FSplitted: boolean;
     FSplitHorz: boolean;
     FSplitPos: double;
@@ -145,6 +151,8 @@ type
     procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
     procedure DoLoadHistory;
     procedure DoLoadHistoryEx(c: TJsonConfig; const path: string);
+    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
+
     //event
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
@@ -154,6 +162,7 @@ type
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
     property OnSetLexer: TNotifyEvent read FOnSetLexer write FOnSetLexer;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
+    property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
   end;
 
 implementation
@@ -611,6 +620,8 @@ var
   an: TecSyntAnalyzer;
   attr: integer;
 begin
+  if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then Exit;
+
   if ASaveAs or (FFileName='') then
   begin
     ASaveDlg.FileName:= '';
@@ -649,6 +660,7 @@ begin
   Editor.OnChange(Editor); //modified
   TabCaption:= ExtractFileName(FFileName);
 
+  DoPyEvent(Editor, cEventOnSaveAfter, []);
   if Assigned(FOnSaveFile) then
     FOnSaveFile(Self);
 end;
@@ -958,6 +970,14 @@ begin
     Application.ProcessMessages;
     Editor.LineTop:= nTop;
   end;
+end;
+
+function TEditorFrame.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
+  const AParams: array of string): string;
+begin
+  Result:= '';
+  if Assigned(FOnPyEvent) then
+    Result:= FOnPyEvent(AEd, AEvent, AParams);
 end;
 
 

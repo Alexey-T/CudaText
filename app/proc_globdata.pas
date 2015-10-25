@@ -293,6 +293,52 @@ const
   cEncNameCP949 = 'CP949';
   cEncNameCP950 = 'CP950';
 
+type
+  TAppPyEvent = (
+    cEventOnOpen,
+    cEventOnSaveAfter,
+    cEventOnSaveBefore,
+    cEventOnKey,
+    cEventOnChange,
+    cEventOnChangeSlow,
+    cEventOnSelect,
+    cEventOnCaretMove,
+    cEventOnNumber,
+    cEventOnState,
+    cEventOnFocus,
+    cEventOnLexer,
+    cEventOnComplete,
+    cEventOnFuncHint,
+    cEventOnGotoDef,
+    cEventOnConsole,
+    cEventOnPanelLog,
+    cEventOnCompare
+    );
+  TAppPyEvents = set of TAppPyEvent;
+
+const
+  cAppPyEvent: array[TAppPyEvent] of string = (
+    'on_open',
+    'on_save',
+    'on_save_pre',
+    'on_key',
+    'on_change',
+    'on_change_slow',
+    'on_select',
+    'on_caret_move',
+    'on_num',
+    'on_state',
+    'on_focus',
+    'on_lexer',
+    'on_complete',
+    'on_func_hint',
+    'on_goto_def',
+    'on_console',
+    'on_panel_log',
+    'on_compare'
+    );
+
+
 implementation
 
 var
