@@ -28,6 +28,8 @@ begin
   begin
     if Res=cOpFindClose then
     begin
+      if IsFocusedFind then
+        CurrentEditor.SetFocus; //must for Win
       fmFind.Hide;
       UpdateAppForSearch(false);
       Exit;
