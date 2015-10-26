@@ -285,7 +285,11 @@ begin
   if AWordOrSel then
     Str:= Ed.TextCurrentWord
   else
+  begin
     Str:= Ed.TextSelected;
+    if Str='' then
+      Str:= Ed.TextCurrentWord;
+  end;
   if Str='' then exit;
 
   FFinder.StrFind:= Str;
