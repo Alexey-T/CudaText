@@ -1,6 +1,6 @@
 
-0.9.4
-+ undo improved (group some edits even if undo_grouped=false)
+0.9.5
++ undo improved (group complex edits even if undo_grouped=false)
 + more api
 * del opt find_replace_with_find
 - fixes in find/repl

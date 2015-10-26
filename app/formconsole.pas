@@ -137,6 +137,7 @@ begin
     DoExecuteConsoleLine(s);
     DoAddComboItem(s);
 
+    ed.DoComboResetSelectedIndex;
     ed.Text:= '';
     ed.DoCaretSingle(0, 0);
 

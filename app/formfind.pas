@@ -285,6 +285,9 @@ begin
   if Assigned(FOnDone) then
     FOnDone(Self, Str);
 
+  edFind.DoComboResetSelectedIndex;
+  edRep.DoComboResetSelectedIndex;
+
   if Str<>cOpFindClose then
   begin
     SAddStringToHistory(edFind.Text, edFind.Items, UiOps.MaxHistoryMenu);
