@@ -33,7 +33,6 @@ type
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 
 function SWideStringToPythonString(const Str: UnicodeString): string;
-procedure SAddStringToHistory(const S: string; List: TStrings; MaxItems: integer);
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
@@ -73,22 +72,6 @@ const
 begin
   Result:= UTF8Encode(SDecodeW(Str, Decode));
   Result:= 'r"'+Result+'"';
-end;
-
-procedure SAddStringToHistory(const S: string; List: TStrings; MaxItems: integer);
-var
-  n: integer;
-begin
-  if s<>'' then
-  begin
-    n:= List.IndexOf(s);
-    if n>=0 then
-      List.Delete(n);
-    List.Insert(0, s);
-  end;
-
-  while List.Count>MaxItems do
-    List.Delete(List.Count-1);
 end;
 
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string;

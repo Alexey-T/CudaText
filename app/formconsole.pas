@@ -38,7 +38,6 @@ type
     memo: TATSynEdit;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
-    procedure DoAddComboItem(const s: string);
   end;
 
 var
@@ -112,20 +111,6 @@ begin
   memo.OnClickDouble:= @MemoClickDbl;
 end;
 
-
-procedure TfmConsole.DoAddComboItem(const s: string);
-var
-  n: integer;
-begin
-  n:= ed.Items.IndexOf(s);
-  if n>=0 then
-    ed.Items.Delete(n);
-  ed.Items.Insert(0, s);
-
-  while ed.Items.Count>cPyConsoleMaxComboItems do
-    ed.Items.Delete(ed.Items.Count-1);
-end;
-
 procedure TfmConsole.ComboCommand(Snd: TObject; ACmd: integer;
   var AHandled: boolean);
 var
@@ -135,9 +120,8 @@ begin
   begin
     s:= UTF8Encode(ed.Text);
     DoExecuteConsoleLine(s);
-    DoAddComboItem(s);
 
-    ed.DoComboResetSelectedIndex;
+    ed.DoAddLineToHistory(Utf8Decode(s), cPyConsoleMaxComboItems);
     ed.Text:= '';
     ed.DoCaretSingle(0, 0);
 

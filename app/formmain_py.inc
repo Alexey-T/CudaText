@@ -1137,7 +1137,7 @@ begin
           with fmMain do
           begin
             fmConsole.DoLogConsoleLine(cPyConsolePrompt+Str);
-            fmConsole.DoAddComboItem(Str);
+            fmConsole.ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
             fmConsole.ed.Text:= '';
             fmConsole.ed.Update(true);
           end;

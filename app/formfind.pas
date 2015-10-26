@@ -285,13 +285,10 @@ begin
   if Assigned(FOnDone) then
     FOnDone(Self, Str);
 
-  edFind.DoComboResetSelectedIndex;
-  edRep.DoComboResetSelectedIndex;
-
   if Str<>cOpFindClose then
   begin
-    SAddStringToHistory(edFind.Text, edFind.Items, UiOps.MaxHistoryMenu);
-    SAddStringToHistory(edRep.Text, edRep.Items, UiOps.MaxHistoryMenu);
+    edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryMenu);
+    edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryMenu);
   end;
 end;
 
