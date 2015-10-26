@@ -1349,6 +1349,8 @@ begin
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
 
+  fmConsole.memo.OptCaretShapeRO:= TATSynCaretShape(EditorOps.OpCaretShapeRO);
+
   TabsBottom.TabBottom:= true;
   TabsBottom.TabShowPlus:= false;
   TabsBottom.TabShowMenu:= false;
