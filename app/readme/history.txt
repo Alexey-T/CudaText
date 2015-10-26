@@ -2,7 +2,8 @@
 0.9.4
 + undo improved (group some edits even if undo_grouped=false)
 + more api
-- fixes in Find
+* del opt find_replace_with_find
+- fixes in find/repl
 
 0.9.3
 + opt ui_listbox_fuzzy
