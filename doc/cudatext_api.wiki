@@ -4,6 +4,27 @@ This is API for [[CudaText]] in Python.
 * Main Py module is cudatext. Main module has constants, funcs, class Editor, objects of class Editor.
 * Additional module: cudatext_cmd has constants for command runner func.
 
+=Event plugins=
+
+To make plugin react to events: add Python method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor's event "file saved". Event methods have additional parameter ed_self: Editor object in which event occured (this object is the same as "ed" in 99% cases, but in rare cases event occurs in non-focused editor, so ed_self ll be not same).
+
+Supported events:
+
+* on_open(self, ed_self): Called after file is opened from disk.
+* on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
+* on_save(self, ed_self): Called after saving file.
+* on_change(self, ed_self): Called after text is changed.
+* on_change_slow(self, ed_self): Called after text is changed, after few seconds. This is for Lint plugins, they need to react to change after a delay.
+* on_caret(self, ed_self): Called after caret position/selection changed.
+* on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is few chars string: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
+* on_focus(self, ed_self): Called after editor is focused.
+* on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
+* on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
+* on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored.
+
+
+Config "plugins.json": Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
+
 =Global funcs=
 
 ===version===
@@ -260,9 +281,9 @@ Editor class has methods to work with editor. Global objects of Editor exist:
 
 Returns list of 4-tuples, each item is info about one caret: (PosX, PosY, EndX, EndY).
 
-* PosX is column (0-base). Tab-chars give x increment 1, like others.
-* PosY is line (0-base).
-* EndX/EndY is position of selection end for this caret or both -1 if no selection.
+* PosX is caret's column (0-base). Tab-chars give x increment 1, like others.
+* PosY is caret's line (0-base).
+* EndX/EndY is position of selection edge for this caret. Both -1 if no selection for caret.
 
 ===set_caret===
 
@@ -495,6 +516,7 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 
 1.0.107
 
+* add: event plugins
 * add: lexer_proc
 * change: set_caret
 * del: add_caret
