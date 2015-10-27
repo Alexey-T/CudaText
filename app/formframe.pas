@@ -493,6 +493,8 @@ procedure TEditorFrame.EditorOnEnter(Sender: TObject);
 begin
   if Assigned(FOnFocusEditor) then
     FOnFocusEditor(Editor);
+
+  DoPyEvent(Sender as TATSynEdit, cEventOnFocus, []);
 end;
 
 procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
