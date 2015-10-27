@@ -1,4 +1,17 @@
 
+0.9.5
++ support for event plugins (auto-completion, goto-defitinion...)
++ undo improved (group complex edits even if undo_grouped=false)
+* del opt find_replace_with_find
+- fixes in find/repl
+
+0.9.3
++ opt ui_listbox_fuzzy
++ lexer JSON tree redone
++ session has more properties
++ tree: show hint for long lines
+- fix: restore r/o state
+
 0.9.1
 + rework col-blocks (handle tab chars)
 + statusbar macro {xx}

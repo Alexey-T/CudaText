@@ -206,8 +206,6 @@
   "find_sel_case": 2,
   //show "find first" dialog button
   "find_show_findfirst": true,
-  //button "replace cur" replaces + finds next match
-  "find_replace_with_find": false,
   
   //when doing "go to" or "find", and new position out of screen, scroll to N chars from new position;
   //vert indent: N<0: always indent from top; 
@@ -242,6 +240,8 @@
   //auto-completion listbox size
   "ui_listbox_complete_size_x": 550,
   "ui_listbox_complete_size_y": 200,
+  //enables fuzzy search in menu-dialogs (else search is normal)
+  "ui_listbox_fuzzy": true,
   
   //max items in "recent files" menu (0..20)
   "ui_max_history_menu": 10,
@@ -357,7 +357,7 @@
 
   //show full file path in window title  
   "ui_title_path": false,
-  //reopen all named tabs, at start
+  //restore session (all named tabs) at start
   "ui_reopen_session": true,
 
   //enables to underline HTML color tokens like #008080, #0a0
@@ -386,5 +386,8 @@
   //  2) search for "libpython3", 
   //  3) if not found, install Python 3, goto 2)
   //  4) use one of found filenames; if don't work, use filename with path
+
+  //API: delay for on_change_slow
+  "py_change_slow": 2000,
 
 }

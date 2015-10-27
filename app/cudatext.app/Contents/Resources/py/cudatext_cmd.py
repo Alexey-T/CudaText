@@ -254,7 +254,9 @@ cmd_EncUtf8nobom      = 2682
 cmd_EncUtf16le        = 2683
 cmd_EncUtf16be        = 2684
 
-cmd_AutoComplete      = 2690
 cmd_MenuEnc           = 2691
 cmd_MenuEnds          = 2692
 cmd_MenuLexers        = 2693
+
+cmd_AutoComplete      = 2695
+cmd_GotoDefinition    = 2696

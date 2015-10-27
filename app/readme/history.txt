@@ -1,7 +1,7 @@
 
 0.9.5
++ support for event plugins (auto-completion, goto-defitinion...)
 + undo improved (group complex edits even if undo_grouped=false)
-+ more api
 * del opt find_replace_with_find
 - fixes in find/repl
 

@@ -22,10 +22,16 @@ ID_NO = 7
 SEL_NORMAL = 0
 SEL_COLUMN = 1
 
+CARET_SET_ONE = 0
+CARET_ADD = 1
+CARET_DELETE_ALL = 2
+CARET_SET_INDEX = 100
+
 APP_DIR_EXE = 0
 APP_DIR_SETTINGS = 1
 APP_DIR_DATA = 2
 APP_DIR_PY = 3
+APP_FILE_SESSION = 4
 
 LINESTATE_NORMAL  = 0
 LINESTATE_CHANGED = 1
@@ -87,7 +93,25 @@ PROP_INDEX_TAB      = 24
 PROC_GET_CLIP = 0
 PROC_SET_CLIP = 1
 PROC_GET_COMMAND = 2
+PROC_SAVE_SESSION = 3
+PROC_LOAD_SESSION = 4
+PROC_SET_SESSION = 5
 
+LEXER_GET_LIST    = 0
+LEXER_GET_ENABLED = 1
+LEXER_GET_EXT     = 2
+LEXER_GET_MODIFIED= 3
+LEXER_GET_LINKS   = 4
+LEXER_GET_STYLES  = 5
+LEXER_GET_COMMENT = 6
+LEXER_SET_NAME    = 10
+LEXER_SET_ENABLED = 11
+LEXER_SET_EXT     = 12
+LEXER_SET_LINKS   = 13
+LEXER_SAVE_LIB    = 20
+LEXER_DELETE      = 21
+LEXER_IMPORT      = 22
+LEXER_EXPORT      = 23
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -161,6 +185,9 @@ def ini_read(filename, section, key, value):
     return ct.ini_read(filename, section, key, value)
 def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
+    
+def lexer_proc(id, value):
+    return ct.lexer_proc(id, value)    
 
 #Editor
 class Editor:
@@ -176,16 +203,16 @@ class Editor:
             if item[3]==big: item[3]=-1
         return res
         
-    def set_caret(self, x1, y1, x2=-1, y2=-1):
-        return ct.ed_set_caret(self.h, x1, y1, x2, y2)
-    def add_caret(self, x1, y1, x2=-1, y2=-1):
-        return ct.ed_add_caret(self.h, x1, y1, x2, y2)
+    def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE):
+        return ct.ed_set_caret(self.h, x1, y1, x2, y2, id)
 
     def get_line_count(self):
         return ct.ed_get_line_count(self.h)
 
     def get_text_all(self):
-        return ct.ed_get_text_all(self.h)
+        items = [self.get_text_line(i) for i in range(self.get_line_count())]
+        return '\n'.join(items)
+        
     def set_text_all(self, text):
         return ct.ed_set_text_all(self.h, text)
     def get_text_sel(self):
