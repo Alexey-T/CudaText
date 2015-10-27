@@ -88,6 +88,7 @@ type
       const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; out AColor: TColor);
     procedure EditorOnChangeCaretPos(Sender: TObject);
+    procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     function GetCommentString: string;
     function GetEncodingName: string;
     function GetLineEnds: TATLineEnds;
@@ -217,6 +218,18 @@ begin
       FSplitPos:= Ed2.height/height
     else
       FSplitPos:= Ed2.width/width;
+end;
+
+procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if DoPyEvent(Sender as TATSynEdit,
+    cEventOnKey,
+    [IntToStr(Key), '"'+ShiftStateToString(Shift)+'"']) = cPyFalse then
+    begin
+      Key:= 0;
+      Exit
+    end;
 end;
 
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
@@ -517,6 +530,7 @@ begin
   ed.OnCalcBookmarkColor:=@EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
   ed.OnDrawLine:= @EditorOnDrawLine;
+  ed.OnKeyDown:= @EditorOnKeyDown;
 end;
 
 constructor TEditorFrame.Create(TheOwner: TComponent);

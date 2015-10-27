@@ -264,7 +264,7 @@ begin
           //check that OnKey event is called for supported keys
           if (AEvent=cEventOnKey) then
             if Length(AParams)>0 then
-              if (ItemKeys<>'') and not IsLexerListed{this?}(AParams[0], ItemKeys) then
+              if (ItemKeys<>'') and not IsLexerListed(AParams[0], ItemKeys) then
                 Continue;
 
           //call Python
