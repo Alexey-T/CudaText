@@ -1,0 +1,10 @@
+[info]
+title=Extract Emails
+desc=Finds emails in current file, puts them to new tab
+type=cudatext-plugin
+subdir=cuda_emails
+
+[item1]
+section=commands
+caption=Extract Emails
+method=run
