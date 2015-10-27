@@ -2326,11 +2326,6 @@ begin
     DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens, IsPas);
 end;
 
-procedure TfmMain.DoGotoDefinition;
-begin
-  DoPyEvent(CurrentEditor, cEventOnGotoDef, []);
-end;
-
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
 begin
   DoTreeCollapseLevel(2);
@@ -2675,6 +2670,13 @@ begin
   Result:= DoPyEvent(CurrentEditor, cEventOnConsole,
     [SStringToPythonString(Str)]) <> cPyFalse;
 end;
+
+procedure TfmMain.DoGotoDefinition;
+begin
+  if DoPyEvent(CurrentEditor, cEventOnGotoDef, [])<>cPyTrue then
+    MsgStatus('No goto-definition plugins installed for this lexer');
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

@@ -30,6 +30,7 @@ uses
   proc_globdata,
   proc_lexer,
   proc_editor,
+  proc_cmd,
   proc_colors,
   proc_files,
   proc_msg,
@@ -50,6 +51,7 @@ type
     MenuItem2: TMenuItem;
     Splitter: TSplitter;
     TimerChange: TTimer;
+    procedure MenuGotoDefClick(Sender: TObject);
     procedure SplitterMoved(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
@@ -218,6 +220,11 @@ begin
       FSplitPos:= Ed2.height/height
     else
       FSplitPos:= Ed2.width/width;
+end;
+
+procedure TEditorFrame.MenuGotoDefClick(Sender: TObject);
+begin
+  Editor.DoCommand(cmd_GotoDefinition);
 end;
 
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
@@ -511,6 +518,8 @@ begin
 end;
 
 procedure TEditorFrame.InitEditor(var ed: TATSynEdit);
+var
+  mi: TMenuItem;
 begin
   ed:= TATSynEdit.Create(Self);
   ed.Parent:= Self;
@@ -533,6 +542,15 @@ begin
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnKeyDown:= @EditorOnKeyDown;
+
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= '-';
+  ed.PopupTextDefault.Items.Add(mi);
+
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= 'Go to definition';
+  mi.OnClick:=@MenuGotoDefClick;
+  ed.PopupTextDefault.Items.Add(mi);
 end;
 
 constructor TEditorFrame.Create(TheOwner: TComponent);
