@@ -357,7 +357,7 @@
 
   //show full file path in window title  
   "ui_title_path": false,
-  //reopen all named tabs, at start
+  //restore session (all named tabs) at start
   "ui_reopen_session": true,
 
   //enables to underline HTML color tokens like #008080, #0a0
@@ -386,5 +386,8 @@
   //  2) search for "libpython3", 
   //  3) if not found, install Python 3, goto 2)
   //  4) use one of found filenames; if don't work, use filename with path
+
+  //API: delay for on_change_slow
+  "py_change_slow": 2000,
 
 }

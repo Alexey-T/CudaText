@@ -49,9 +49,11 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     Splitter: TSplitter;
+    TimerChange: TTimer;
     procedure EditorOnCalcBookmarkColor(Sender: TObject;
       ABookmarkKind: integer; out AColor: TColor);
     procedure SplitterMoved(Sender: TObject);
+    procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
     Ed1, Ed2: TATSynEdit;
@@ -217,6 +219,12 @@ begin
       FSplitPos:= Ed2.height/height
     else
       FSplitPos:= Ed2.width/width;
+end;
+
+procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
+begin
+  TimerChange.Enabled:= false;
+  DoPyEvent(Editor, cEventOnChangeSlow, []);
 end;
 
 procedure TEditorFrame.EditorOnCalcBookmarkColor(Sender: TObject;
@@ -436,6 +444,12 @@ begin
     Ed2.UpdateIncorrectCaretPositions;
     Ed2.Update(true);
   end;
+
+  DoPyEvent(Editor, cEventOnChange, []);
+
+  TimerChange.Enabled:= false;
+  TimerChange.Interval:= UiOps.PyChangeSlow;
+  TimerChange.Enabled:= true;
 end;
 
 procedure TEditorFrame.EditorOnChange2(Sender: TObject);

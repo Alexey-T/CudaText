@@ -21,4 +21,11 @@ object EditorFrame: TEditorFrame
     ResizeAnchor = akBottom
     ResizeStyle = rsPattern
   end
+  object TimerChange: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = TimerChangeTimer
+    left = 29
+    top = 39
+  end
 end

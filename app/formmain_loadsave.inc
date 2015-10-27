@@ -441,6 +441,7 @@ begin
     UiOps.TreeAutoSync:= c.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
     UiOps.TreeTimeFill:= c.GetValue('ui_tree_time_fill', UiOps.TreeTimeFill);
     UiOps.TreeTimeFocus:= c.GetValue('ui_tree_time_focus', UiOps.TreeTimeFocus);
+    UiOps.PyChangeSlow:= c.GetValue('py_change_slow', UiOps.PyChangeSlow);
 
     UiOps.NewdocLexer:= c.GetValue('newdoc_lexer', UiOps.NewdocLexer);
     UiOps.NewdocEnc:= c.GetValue('newdoc_encoding', UiOps.NewdocEnc);

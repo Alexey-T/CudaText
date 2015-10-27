@@ -104,6 +104,7 @@ type
     TreeAutoSync: boolean;
     TreeTimeFill: integer;
     TreeTimeFocus: integer;
+    PyChangeSlow: integer;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -677,6 +678,7 @@ begin
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
     TreeTimeFocus:= 2000;
+    PyChangeSlow:= 2000;
 
     NewdocLexer:= '';
     NewdocEnc:= cEncNameUtf8;
