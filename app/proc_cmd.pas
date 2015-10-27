@@ -123,10 +123,12 @@ const
   cmd_EncUtf16le        = 2683;
   cmd_EncUtf16be        = 2684;
 
-  cmd_AutoComplete      = 2690;
   cmd_MenuEnc           = 2691;
   cmd_MenuEnds          = 2692;
   cmd_MenuLexers        = 2693;
+
+  cmd_AutoComplete      = 2695;
+  cmd_GotoDefinition    = 2696;
 
 implementation
 
@@ -237,10 +239,12 @@ begin
   M.Add(cmd_EncUtf16le, 'change encoding: utf16 le', [], []);
   M.Add(cmd_EncUtf16be, 'change encoding: utf16 be', [], []);
 
-  M.Add(cmd_AutoComplete, 'auto-complete menu', ['Ctrl+Space'], []);
   M.Add(cmd_MenuEnc, 'menu: encodings', [], []);
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);
   M.Add(cmd_MenuLexers, 'menu: lexers', [], []);
+
+  M.Add(cmd_AutoComplete, 'auto-completion menu', ['Ctrl+Space'], []);
+  M.Add(cmd_GotoDefinition, 'go to definition', [], []);
 end;
 
 

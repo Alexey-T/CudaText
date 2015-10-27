@@ -122,6 +122,7 @@ begin
     cmd_EncUtf16be: SetEnc(cEncNameUtf16BE);
 
     cmd_AutoComplete: DoAutoComplete;
+    cmd_GotoDefinition: DoGotoDefinition;
 
     cmd_MenuEnc:
       begin

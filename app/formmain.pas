@@ -413,7 +413,6 @@ type
     procedure mnuTabSaveAsClick(Sender: TObject);
     procedure mnuTabSaveClick(Sender: TObject);
     procedure mnuTabsizeSpaceClick(Sender: TObject);
-    procedure DoAutoComplete;
     procedure mnuTreeFold2Click(Sender: TObject);
     procedure mnuTreeFold3Click(Sender: TObject);
     procedure mnuTreeFold4Click(Sender: TObject);
@@ -489,6 +488,8 @@ type
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
+    procedure DoAutoComplete;
+    procedure DoGotoDefinition;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
     procedure DoApplyFontFixed;
     procedure DoApplyFontVar;
@@ -2292,6 +2293,9 @@ var
 begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
+
+  if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
+
   if F.Lexer=nil then exit;
   LexName:= F.Lexer.LexerName;
   if LexName='' then exit;
@@ -2320,6 +2324,11 @@ begin
     DoEditorCompletionCss(Ed, FileCss)
   else
     DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens, IsPas);
+end;
+
+procedure TfmMain.DoGotoDefinition;
+begin
+  DoPyEvent(CurrentEditor, cEventOnGotoDef, []);
 end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
