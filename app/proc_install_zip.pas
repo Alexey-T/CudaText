@@ -70,7 +70,8 @@ procedure DoInstallPlugin(
 var
   ini: TIniFile;
   cfg: TJSONConfig;
-  s_section, s_caption, s_module, s_method, s_hotkey, s_lexers, path: string;
+  s_section, s_caption, s_module, s_method, s_hotkey, s_lexers,
+  s_events, s_keys, path: string;
   i: integer;
 begin
   s_report:= '';
@@ -97,17 +98,34 @@ begin
       s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
       s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
       s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
-      if (s_section<>'commands') then break;
-      if s_caption='' then break;
-      if s_method='' then break;
+      s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
+      s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');
 
-      path:= '/'+s_section+'/'+s_module+'/'+Format('%2.2d', [i-1])+'/';
-      cfg.SetValue(path+'caption', s_caption);
-      cfg.SetValue(path+'proc', s_method);
-      cfg.SetDeleteValue(path+'lexers', s_lexers, '');
-      cfg.SetDeleteValue(path+'hotkey', s_hotkey, '');
+      if s_section='commands' then
+      begin
+        if s_caption='' then Continue;
+        if s_method='' then Continue;
 
-      s_report:= s_report+'command: '+s_caption+#13;
+        path:= '/'+s_section+'/'+s_module+'/'+Format('%2.2d', [i-1])+'/';
+        cfg.SetValue(path+'caption', s_caption);
+        cfg.SetValue(path+'proc', s_method);
+        cfg.SetDeleteValue(path+'lexers', s_lexers, '');
+        cfg.SetDeleteValue(path+'hotkey', s_hotkey, '');
+
+        s_report:= s_report+'command: '+s_caption+#13;
+      end;
+
+      if s_section='events' then
+      begin
+        if s_events='' then Continue;
+
+        path:= '/'+s_section+'/'+s_module+'/';
+        cfg.SetValue(path+'events', s_events);
+        cfg.SetDeleteValue(path+'lexers', s_lexers, '');
+        cfg.SetDeleteValue(path+'keys', s_keys, '');
+
+        s_report:= s_report+'events: '+s_events+#13;
+      end;
     end;
 
     s_report:= s_report+#13+'Program should be restarted to see new plugin';

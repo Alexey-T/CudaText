@@ -14,7 +14,14 @@ def get_name_of_module(mod):
 def do_remove_registering(mod):
     with open(fn_plugins, 'r') as f:
         d = json.load(f)
-    del d['commands'][mod]
+        
+    if 'commands' in d:
+        if mod in d['commands']:
+            del d['commands'][mod]
+    if 'events' in d:
+        if mod in d['events']:
+            del d['events'][mod]
+    
     text = json.dumps(d, indent=2)
     with open(fn_plugins, 'w') as f:
         f.write(text)
@@ -43,7 +50,8 @@ def do_remove_module(mod):
 
 def get_installed_list():
     d = json.load(open(fn_plugins, 'r'))
-    return sorted(list(d['commands'].keys()))
+    lst = list(d['commands'].keys()) + list(d['events'].keys())
+    return sorted(list(set(lst)))
     
 def get_installed_choice():
     lmod = get_installed_list()
