@@ -50,8 +50,6 @@ type
     MenuItem2: TMenuItem;
     Splitter: TSplitter;
     TimerChange: TTimer;
-    procedure EditorOnCalcBookmarkColor(Sender: TObject;
-      ABookmarkKind: integer; out AColor: TColor);
     procedure SplitterMoved(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
@@ -78,18 +76,18 @@ type
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
-    procedure EditorOnChange_(Sender: TObject);
+    procedure EditorOnChangeCommon(Sender: TObject);
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
-    procedure EditorOnCommand(Sender: TObject; ACmd: integer;
-      var AHandled: boolean);
-    procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
-      const ARect: TRect);
+    procedure EditorOnCommand(Sender: TObject; ACmd: integer; var AHandled: boolean);
+    procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
       const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
+    procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; out AColor: TColor);
+    procedure EditorOnChangeCaretPos(Sender: TObject);
     function GetCommentString: string;
     function GetEncodingName: string;
     function GetLineEnds: TATLineEnds;
@@ -234,6 +232,13 @@ begin
     AColor:= (Sender as TATSynEdit).Colors.BookmarkBG
   else
     AColor:= AppBookmarkSetup[ABookmarkKind].Color;
+end;
+
+procedure TEditorFrame.EditorOnChangeCaretPos(Sender: TObject);
+begin
+  DoOnChangeCaretPos;
+  DoOnUpdateStatus;
+  DoPyEvent(Sender as TATSynEdit, cEventOnCaret, []);
 end;
 
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
@@ -437,7 +442,7 @@ end;
 
 procedure TEditorFrame.EditorOnChange1(Sender: TObject);
 begin
-  EditorOnChange_(Sender);
+  EditorOnChangeCommon(Sender);
 
   if Splitted then
   begin
@@ -454,13 +459,13 @@ end;
 
 procedure TEditorFrame.EditorOnChange2(Sender: TObject);
 begin
-  EditorOnChange_(Sender);
+  EditorOnChangeCommon(Sender);
 
   Ed1.UpdateIncorrectCaretPositions;
   Ed1.Update(true);
 end;
 
-procedure TEditorFrame.EditorOnChange_(Sender: TObject);
+procedure TEditorFrame.EditorOnChangeCommon(Sender: TObject);
 begin
   if FModified<>Editor.Modified then
   begin
@@ -468,7 +473,6 @@ begin
     DoOnChangeCaption;
   end;
 
-  DoOnChangeCaretPos;
   DoOnUpdateStatus;
 end;
 
@@ -506,8 +510,8 @@ begin
 
   ed.OnClick:= @EditorOnClick;
   ed.OnEnter:= @EditorOnEnter;
-  ed.OnChangeState:= @EditorOnChange_;
-  ed.OnChangeCaretPos:= @EditorOnChange_;
+  ed.OnChangeState:= @EditorOnChangeCommon;
+  ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnCommand:= @EditorOnCommand;
   ed.OnClickGutter:= @EditorOnClickGutter;
   ed.OnCalcBookmarkColor:=@EditorOnCalcBookmarkColor;
@@ -695,7 +699,7 @@ begin
   Ed1.Update;
   Ed2.Update;
 
-  EditorOnChange_(Self);
+  EditorOnChangeCommon(Self);
 end;
 
 procedure TEditorFrame.SetUnprintedShow(AValue: boolean);
