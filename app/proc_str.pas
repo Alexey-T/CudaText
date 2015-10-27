@@ -18,11 +18,10 @@ uses
   RegExpr;
 
 type
-  TStringDecodeRecW = record
-    SFrom, STo: UnicodeString;
+  TStringReplacePart = record
+    SFrom, STo: string;
   end;
 
-function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRecW): UnicodeString;
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 function SFindWordsInString(SText, SFind: string): boolean;
 function IsLexerListed(const ALexer, ANameList: string): boolean;
@@ -33,7 +32,7 @@ type
   TRegexParts = array[1..8] of string;
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 
-function SWideStringToPythonString(const Str: UnicodeString): string;
+function SStringToPythonString(const Str: string): string;
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
@@ -41,7 +40,7 @@ function SMaskFilenameSlashes(const fn: string): string;
 
 implementation
 
-function SDecodeW(const S: UnicodeString; const Decode: array of TStringDecodeRecW): UnicodeString;
+function SReplaceParts(const S: string; const Decode: array of TStringReplacePart): string;
 var
   i, j: Integer;
   DoDecode: Boolean;
@@ -66,12 +65,12 @@ begin
   until False;
 end;
 
-function SWideStringToPythonString(const Str: UnicodeString): string;
+function SStringToPythonString(const Str: string): string;
 const
-  Decode: array[0..0] of TStringDecodeRecW =
+  Decode: array[0..0] of TStringReplacePart =
     ((SFrom: '"'; STo: '"+''"''+"'));
 begin
-  Result:= UTF8Encode(SDecodeW(Str, Decode));
+  Result:= SReplaceParts(Str, Decode);
   Result:= 'r"'+Result+'"';
 end;
 

@@ -23,6 +23,9 @@ uses
   proc_colors;
 
 type
+  TAppConsoleEvent = function(const Str: string): boolean of object;
+
+type
   { TfmConsole }
   TfmConsole = class(TForm)
     panelConsole: TPanel;
@@ -31,11 +34,13 @@ type
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
   private
     { private declarations }
+    FOnConsole: TAppConsoleEvent;
     procedure ComboCommand(Snd: TObject; ACmd: integer; var AHandled: boolean);
   public
     { public declarations }
     ed: TATComboEdit;
     memo: TATSynEdit;
+    property OnConsole: TAppConsoleEvent read FOnConsole write FOnConsole;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
   end;
@@ -75,6 +80,9 @@ end;
 procedure TfmConsole.DoExecuteConsoleLine(Str: string);
 begin
   DoLogConsoleLine(cPyConsolePrompt+Str);
+
+  if Assigned(FOnConsole) then
+    if not FOnConsole(Str) then exit;
 
   if (Str<>'') and (Str[1]='=') then
     Str:= 'print('+Copy(Str, 2, MaxInt) + ')';

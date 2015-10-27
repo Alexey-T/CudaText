@@ -495,6 +495,7 @@ type
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
+    function DoOnConsole(const Str: string): boolean;
     procedure DoOps_ShowEventPlugins;
     function DoDialogConfColors(var AColors: TAppTheme): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
@@ -901,6 +902,7 @@ begin
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
+  fmConsole.OnConsole:= @DoOnConsole;
 
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
@@ -2658,6 +2660,12 @@ begin
   C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Prop^.Items[AIndex]);
 end;
 
+
+function TfmMain.DoOnConsole(const Str: string): boolean;
+begin
+  Result:= DoPyEvent(CurrentEditor, cEventOnConsole,
+    [SStringToPythonString(Str)]) <> cPyFalse;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}
