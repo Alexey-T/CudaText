@@ -1503,6 +1503,44 @@ begin
     end;
 end;
 
+function Py_ed_convert(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Ed: TATSynEdit;
+  Id, X, Y: integer;
+  Str: atString;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liii:convert', @H, @Id, @X, @Y)) then
+    begin
+      Ed:= PyEditor(H);
+
+      if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
+      begin
+        Result:= ReturnNone;
+        exit
+      end;
+
+      case Id of
+        CONVERT_CHAR_TO_COL:
+          begin
+            Str:= Ed.Strings.Lines[Y];
+            X:= SCharPosToColumnPos(Str, X, Ed.OptTabSize);
+            Result:= Py_BuildValue('(ii)', X, Y);
+          end;
+        CONVERT_COL_TO_CHAR:
+          begin
+            Str:= Ed.Strings.Lines[Y];
+            X:= SColumnPosToCharPos(Str, X, Ed.OptTabSize);
+            Result:= Py_BuildValue('(ii)', X, Y);
+          end;
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -1557,6 +1595,7 @@ begin
     AddMethod('ed_bookmark', @Py_ed_bookmark, '');
     AddMethod('ed_focus', @Py_ed_focus, '');
     AddMethod('ed_complete', @Py_ed_complete, '');
+    AddMethod('ed_convert', @Py_ed_convert, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');

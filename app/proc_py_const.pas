@@ -99,6 +99,8 @@ const
   LEXER_IMPORT      = 22;
   LEXER_EXPORT      = 23;
 
+  CONVERT_CHAR_TO_COL = 0;
+  CONVERT_COL_TO_CHAR = 1;
 
 implementation
 

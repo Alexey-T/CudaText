@@ -33,6 +33,9 @@ APP_DIR_DATA = 2
 APP_DIR_PY = 3
 APP_FILE_SESSION = 4
 
+CONVERT_CHAR_TO_COL = 0
+CONVERT_COL_TO_CHAR = 1
+
 LINESTATE_NORMAL  = 0
 LINESTATE_CHANGED = 1
 LINESTATE_ADDED   = 2
@@ -277,7 +280,10 @@ class Editor:
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)
-    #test..
+        
+    def convert(self, id, x, y):
+        return ct.ed_convert(self.h, id, x, y)
+    #end
 
 #objects
 ed = Editor(0)
