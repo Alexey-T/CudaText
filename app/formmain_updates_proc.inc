@@ -766,7 +766,18 @@ begin
   begin
     while Adapter.TreeBusy do Application.ProcessMessages;
     if AFill then
-      Adapter.TreeFill(Tree);
+    begin
+      //BeginUpdate/EndUpdate is to fix tree issue with incorrect vert-scrollbar,
+      //also need to change Scrollbars and restore it
+      Tree.BeginUpdate;
+      try
+        Adapter.TreeFill(Tree);
+      finally
+        Tree.Scrollbars:= ssNone;
+        Tree.Scrollbars:= ssVertical;
+        Tree.EndUpdate;
+      end;
+    end;
     if UiOps.TreeAutoSync then
       Adapter.TreeShowItemForCaret(Tree, Point(Caret.PosX, Caret.PosY));
   end;
