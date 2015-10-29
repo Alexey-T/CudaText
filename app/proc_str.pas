@@ -18,8 +18,8 @@ uses
   jsonConf,
   RegExpr;
 
-function SReadOptionFromJson(const fn, path, def_value: string): string;
-procedure SWriteOptionToJson(const fn, path, value: string);
+//function SReadOptionFromJson(const fn, path, def_value: string): string;
+//procedure SWriteOptionToJson(const fn, path, value: string);
 
 type
   TStringReplacePart = record
