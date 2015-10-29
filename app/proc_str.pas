@@ -226,8 +226,7 @@ function SReadOptionFromJson(const fn, path, def_value: string): string;
 var
   cfg: TJSONConfig;
 begin
-  Result:= '';
-  if not FileExistsUTF8(fn) then exit;
+  if not FileExistsUTF8(fn) then exit(def_value);
 
   cfg:= TJSONConfig.Create(nil);
   try
@@ -251,7 +250,7 @@ begin
     try
       cfg.Formatted:= true;
       cfg.Filename:= fn;
-      cfg.SetValue(path, value);
+      cfg.SetDeleteValue(path, value, '');
     except
     end;
   finally
