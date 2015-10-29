@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dname=cudatext_0.9.5.0-1_amd64
+dname=cudatext_0.9.6.0-1_amd64
 
 dd=~/tmp/$dname
 sudo rm -rf $dd
@@ -17,6 +17,7 @@ mkdir $dd/usr/share/cudatext/py
 mkdir $dd/usr/share/cudatext/py/cuda_addonman
 mkdir $dd/usr/share/cudatext/py/cuda_make_plugin
 mkdir $dd/usr/share/cudatext/py/cuda_insert_time
+mkdir $dd/usr/share/cudatext/py/cudax_lib
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
 
@@ -35,6 +36,7 @@ cp -r ../app/py/cuda_make_plugin/*.py $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_make_plugin/*.inf $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_insert_time/*.py $dd/usr/share/cudatext/py/cuda_insert_time
 cp -r ../app/py/cuda_insert_time/*.inf $dd/usr/share/cudatext/py/cuda_insert_time
+cp -r ../app/py/cudax_lib/*.py $dd/usr/share/cudatext/py/cudax_lib
 
 
 sudo chmod -R 755 $dd
