@@ -489,6 +489,7 @@ type
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
     procedure DoAutoComplete;
+    procedure DoCudaLibAction(const AMethod: string);
     procedure DoGotoDefinition;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
     procedure DoApplyFontFixed;
@@ -2126,6 +2127,17 @@ begin
     if bBottom then
       CurrentEditor.SetFocus;
 end;
+
+procedure TfmMain.DoCudaLibAction(const AMethod: string);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= CurrentEditor;
+  Ed.Strings.BeginUndoGroup;
+  Py_RunPlugin_Command('cudax_lib', AMethod);
+  Ed.Strings.EndUndoGroup;
+end;
+
 
 procedure TfmMain.DoShowConsole;
 begin

@@ -112,6 +112,8 @@ const
   cmd_CommentLineRemove            = 2672;
   cmd_CommentLineToggle_AtNonspace = 2673;
   cmd_CommentLineToggle_AtStart    = 2674;
+  cmd_CommentStreamToggle          = 2675;
+  cmd_DuplicateLineEx              = 2676;
 
   cmd_LineEndWin        = 2677;
   cmd_LineEndUnix       = 2678;
@@ -220,6 +222,8 @@ begin
   M.Add(cmd_CommentLineRemove, 'comments: remove line comment', [], []);
   M.Add(cmd_CommentLineToggle_AtNonspace, 'comments: toggle line comment, at non-space char', [cXControl+'+/'], []);
   M.Add(cmd_CommentLineToggle_AtStart, 'comments: toggle line comment, at line start', [], []);
+  M.Add(cmd_CommentStreamToggle, 'comments: toggle stream comment', [], []);
+  M.Add(cmd_DuplicateLineEx, 'duplicate line (advanced)', [], []);
 
   M.Add(cmd_SplitTabToggle, 'split tab: toggle split', [], []);
   M.Add(cmd_SplitTabHorzVert, 'split tab: toggle horz/vert', [], []);
