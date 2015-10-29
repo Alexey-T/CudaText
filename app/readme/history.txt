@@ -1,7 +1,7 @@
 
 0.9.6
-+ some commands moved to Python (toggle stream comment, toggle line cmt, duplicate line)
-+ api
++ cmd "toggle stream comment"
++ some cmds moved to Python (toggle stream comment, toggle line cmt, duplicate line)
 
 0.9.5
 + support for event plugins (auto-completion, goto-definition...)

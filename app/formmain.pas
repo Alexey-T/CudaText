@@ -111,6 +111,7 @@ type
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
     MenuItem28: TMenuItem;
+    mnuCmtToggleStr: TMenuItem;
     mnuPlug: TMenuItem;
     mnuPlugNone: TMenuItem;
     mnuFileHtml: TMenuItem;
@@ -2134,8 +2135,11 @@ var
 begin
   Ed:= CurrentEditor;
   Ed.Strings.BeginUndoGroup;
-  Py_RunPlugin_Command('cudax_lib', AMethod);
-  Ed.Strings.EndUndoGroup;
+  try
+    Py_RunPlugin_Command('cudax_lib', AMethod);
+  finally
+    Ed.Strings.EndUndoGroup;
+  end;
 end;
 
 

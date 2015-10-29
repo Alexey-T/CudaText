@@ -435,6 +435,7 @@ begin
   upk(mnuCmtAdd, cmd_CommentLineAdd_AtNonspace);
   upk(mnuCmtRemove, cmd_CommentLineRemove);
   upk(mnuCmtToggle, cmd_CommentLineToggle_AtNonspace);
+  upk(mnuCmtToggleStr, cmd_CommentStreamToggle);
 
   upk(mnuFindDlg, cmd_DlgFind);
   upk(mnuFindRepDialog, cmd_DlgReplace);

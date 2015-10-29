@@ -531,6 +531,9 @@ object fmMain: TfmMain
         object mnuCmtToggle: TMenuItem
           Caption = 'Toggle line comment'
         end
+        object mnuCmtToggleStr: TMenuItem
+          Caption = 'Toggle stream comment'
+        end
       end
     end
     object mnuSel: TMenuItem
