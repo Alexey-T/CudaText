@@ -190,7 +190,12 @@ def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
     
 def lexer_proc(id, value):
-    return ct.lexer_proc(id, value)    
+    return ct.lexer_proc(id, value)
+    
+def get_opt(path, def_value):
+    return ct.get_opt(path, def_value)        
+def set_opt(path, value):
+    return ct.set_opt(path, value)        
 
 #Editor
 class Editor:

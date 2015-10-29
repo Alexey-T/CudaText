@@ -13,9 +13,13 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  FileUtil,
   ATStringProc,
   jsonConf,
   RegExpr;
+
+function SReadOptionFromJson(const fn, path, def_value: string): string;
+procedure SWriteOptionToJson(const fn, path, value: string);
 
 type
   TStringReplacePart = record
@@ -216,6 +220,45 @@ begin
     IfThen(ssAlt in Shift, 'a')+
     IfThen(ssMeta in Shift, 'm');
 end;
+
+
+function SReadOptionFromJson(const fn, path, def_value: string): string;
+var
+  cfg: TJSONConfig;
+begin
+  Result:= '';
+  if not FileExistsUTF8(fn) then exit;
+
+  cfg:= TJSONConfig.Create(nil);
+  try
+    try
+      cfg.Filename:= fn;
+      Result:= cfg.GetValue(path, def_value);
+    except
+    end;
+  finally
+    cfg.Free;
+  end;
+end;
+
+
+procedure SWriteOptionToJson(const fn, path, value: string);
+var
+  cfg: TJSONConfig;
+begin
+  cfg:= TJSONConfig.Create(nil);
+  try
+    try
+      cfg.Formatted:= true;
+      cfg.Filename:= fn;
+      cfg.SetValue(path, value);
+    except
+    end;
+  finally
+    cfg.Free;
+  end;
+end;
+
 
 end.
 

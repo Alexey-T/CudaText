@@ -1540,6 +1540,61 @@ begin
     end;
 end;
 
+function Py_get_opt(Self, Args: PPyObject): PPyObject; cdecl;
+const
+  cDefault = '?def?';
+var
+  PtrPath, PtrVal: PChar;
+  StrPath, StrVal: string;
+  LexName, fn, StrResult: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'ss:get_opt', @PtrPath, @PtrVal)) then
+    begin
+      StrPath:= string(PtrPath);
+      StrVal:= string(PtrVal);
+      StrResult:= '';
+
+      LexName:= fmMain.CurrentFrame.LexerName;
+      if LexName<>'' then
+      begin
+        fn:= GetLexerOverrideFN(LexName);
+        StrResult:= SReadOptionFromJson(fn, StrPath, cDefault);
+        if StrResult<>cDefault then
+        begin
+          Result:= PyString_FromString(PChar(StrResult));
+          exit
+        end;
+      end;
+
+      fn:= GetAppPath(cFileOptUser);
+      StrResult:= SReadOptionFromJson(fn, StrPath, cDefault);
+      if StrResult<>cDefault then
+        Result:= PyString_FromString(PChar(StrResult))
+      else
+        Result:= PyString_FromString(PChar(StrVal));
+    end;
+end;
+
+
+function Py_set_opt(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  PtrPath, PtrVal: PChar;
+  StrPath, StrVal: string;
+  fn: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'ss:set_opt', @PtrPath, @PtrVal)) then
+    begin
+      StrPath:= string(PtrPath);
+      StrVal:= string(PtrVal);
+
+      fn:= GetAppPath(cFileOptUser);
+      SWriteOptionToJson(fn, StrPath, StrVal);
+      Result:= ReturnNone;
+    end;
+end;
+
 
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
@@ -1603,6 +1658,8 @@ begin
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
     AddMethod('lexer_proc', @Py_lexer_proc, '');
+    AddMethod('get_opt', @Py_get_opt, '');
+    AddMethod('set_opt', @Py_set_opt, '');
   end;
 end;
 
