@@ -1540,6 +1540,7 @@ begin
     end;
 end;
 
+(*
 function Py_get_opt(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cDefault = '?def?';
@@ -1594,6 +1595,7 @@ begin
       Result:= ReturnNone;
     end;
 end;
+*)
 
 
 //func at end (uses funcs above)
@@ -1658,8 +1660,6 @@ begin
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
     AddMethod('lexer_proc', @Py_lexer_proc, '');
-    AddMethod('get_opt', @Py_get_opt, '');
-    AddMethod('set_opt', @Py_set_opt, '');
   end;
 end;
 
