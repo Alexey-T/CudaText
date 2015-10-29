@@ -1,6 +1,6 @@
 
 0.9.6
-+ some commands moved to Python: cudax_lib (toggle stream comment, toggle line cmt, duplicate line)
++ some commands moved to Python (toggle stream comment, toggle line cmt, duplicate line)
 + api
 
 0.9.5

@@ -1,8 +1,7 @@
 //Note: file is overwritten on each install.
-//Put your strings into 'user_lexers.json' (same format).
-{"Note: file is overwritten on each install. Put your strings into 'user_lexers.json' (same format).":""
-
-,"Comments":{
+//Put your strings into settings/user_lexers.json (same format)
+{
+ "Comments":{
 	 "ActionScript":["/*", "*/"]
 	,"AutoHotKey":["/*", "*/"]
 	,"C":["/*", "*/"]
