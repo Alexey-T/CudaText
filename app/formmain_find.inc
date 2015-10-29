@@ -22,7 +22,7 @@ end;
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
   ok, bChanged: boolean;
-  cnt: integer;
+  cnt, NTop: integer;
 begin
   with fmFind do
   begin
@@ -72,8 +72,10 @@ begin
 
   if Res=cOpFindRepAll then
   begin
+    NTop:= FFinder.Editor.LineTop;
     cnt:= FFinder.DoReplaceAll;
     FinderUpdateEditor(true);
+    FFinder.Editor.LineTop:= NTop;
     MsgStatus(msgStatusReplaceCount+Inttostr(cnt));
   end;
 

@@ -162,6 +162,8 @@ end;
 
 procedure TfmFind.FormCreate(Sender: TObject);
 begin
+  edFind.OptTabSize:= 4;
+  edRep.OptTabSize:= 4;
 end;
 
 procedure TfmFind.UpdateFonts;
