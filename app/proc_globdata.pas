@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls,
   FileUtil, Dialogs, Graphics, ExtCtrls,
   jsonConf,
+  Process,
   ATSynEdit,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
@@ -22,7 +23,6 @@ uses
   ATButtons,
   proc_cmd,
   proc_lexer,
-  proc_files,
   proc_msg,
   ecSyntAnal;
 
@@ -472,13 +472,9 @@ begin
   end;
 end;
 
-procedure FPrecopy(const name: string);
-begin
-  if not DirectoryExistsUTF8(OpDirLocal+DirectorySeparator+name) then
-    FCopyDir(OpDirPrecopy+DirectorySeparator+name, OpDirLocal+DirectorySeparator+name);
-end;
-
 procedure InitDirs;
+var
+  S: string;
 begin
   OpDirExe:= ExtractFileDir(ParamStrUTF8(0));
   OpDirPrecopy:= GetDirPrecopy;
@@ -499,14 +495,7 @@ begin
 
     if DirectoryExistsUTF8(OpDirPrecopy) then
     begin
-      FPrecopy('data'+DirectorySeparator+'lexlib');
-      FPrecopy('data'+DirectorySeparator+'newdoc');
-      FPrecopy('data'+DirectorySeparator+'themes');
-      FPrecopy('data'+DirectorySeparator+'autocomplete');
-      FPrecopy('data'+DirectorySeparator+'autocompletespec');
-      FPrecopy('py');
-      FPrecopy('readme');
-      FPrecopy('settings_default');
+      RunCommand(Format('cp -R -u -t %s /usr/share/cudatext/py /usr/share/cudatext/data /usr/share/cudatext/readme /usr/share/cudatext/settings_default', [OpDirLocal]), S);
     end;
   end;
 end;
