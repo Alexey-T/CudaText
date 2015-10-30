@@ -1,7 +1,8 @@
 
 0.9.6
 + cmd "toggle stream comment"
-+ some cmds moved to Python (toggle stream comment, toggle line cmt, duplicate line)
+* some commds done in Python (toggle stream comment, toggle line cmt, duplicate line)
+* non-portable: data files precopy more safely on run 
 
 0.9.5
 + support for event plugins (auto-completion, goto-definition...)
