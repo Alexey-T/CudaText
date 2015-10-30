@@ -1256,6 +1256,67 @@ begin
     end;
 end;
 
+function Py_ed_set_prop(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Id: integer;
+  Ptr: PChar;
+  Str: string;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+  ValueBool: boolean;
+  ValueInt: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
+    begin
+      Ed:= PyEditor(H);
+      F:= fmMain.GetEditorFrame(Ed);
+      Str:= string(Ptr);
+
+      ValueBool:= Str<>'0';
+      ValueInt:= StrToIntDef(Str, 0);
+
+      case Id of
+        PROP_GUTTER_NUM:
+          Ed.Gutter[Ed.GutterBandNum].Visible:= ValueBool;
+        PROP_GUTTER_FOLD:
+          Ed.Gutter[Ed.GutterBandFold].Visible:= ValueBool;
+        PROP_GUTTER_BM:
+          Ed.Gutter[Ed.GutterBandBm].Visible:= ValueBool;
+        PROP_WRAP:
+          Ed.OptWrapMode:= TATSynWrapMode(ValueInt);
+        PROP_RO:
+          Ed.ModeReadOnly:= ValueBool;
+        PROP_TAB_SPACES:
+          Ed.OptTabSpaces:= ValueBool;
+        PROP_TAB_SIZE:
+          Ed.OptTabSize:= ValueInt;
+        PROP_MARGIN:
+          Ed.OptMarginRight:= ValueInt;
+        PROP_MARGIN_STRING:
+          Ed.OptMarginString:= Str;
+        PROP_INSERT:
+          Ed.ModeOverwrite:= not ValueBool;
+        PROP_RULER:
+          Ed.OptRulerVisible:= ValueBool;
+        PROP_LEXER_FILE:
+          F.Lexer:= Manager.FindAnalyzer(Str);
+        {
+        PROP_INDEX_GROUP:
+        PROP_INDEX_TAB:
+          begin
+            fmMain.Groups.MoveTab();
+          end;
+          }
+      end;
+
+      fmMain.UpdateFrame;
+      fmMain.UpdateStatus;
+      Result:= ReturnNone;
+    end;
+end;
+
 function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id, Num: integer;
@@ -1588,6 +1649,7 @@ begin
     AddMethod('ed_get_split', @Py_ed_get_split, '');
     AddMethod('ed_set_split', @Py_ed_set_split, '');
     AddMethod('ed_get_prop', @Py_ed_get_prop, '');
+    AddMethod('ed_set_prop', @Py_ed_set_prop, '');
 
     AddMethod('ed_cmd', @Py_ed_cmd, '');
     AddMethod('ed_lock', @Py_ed_lock, '');

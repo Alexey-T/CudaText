@@ -278,6 +278,8 @@ class Editor:
         
     def get_prop(self, id, value=''):
         return ct.ed_get_prop(self.h, id, value)
+    def set_prop(self, id, value):
+        return ct.ed_set_prop(self.h, id, value)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)
