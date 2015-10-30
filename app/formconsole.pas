@@ -117,6 +117,11 @@ begin
 
   ed.OnCommand:= @ComboCommand;
   memo.OnClickDouble:= @MemoClickDbl;
+
+  ed.WantTabs:= false;
+  ed.TabStop:= true;
+  memo.TabStop:= true;
+  memo.WantTabs:= false;
 end;
 
 procedure TfmConsole.ComboCommand(Snd: TObject; ACmd: integer;

@@ -529,6 +529,7 @@ begin
 
   ed.BorderStyle:= bsNone;
   ed.Keymap:= Keymap;
+  ed.TabStop:= false;
   ed.OptUnprintedVisible:= false;
   ed.OptRulerVisible:= false;
 

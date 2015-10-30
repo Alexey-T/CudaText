@@ -250,6 +250,8 @@
   
   //close program by Esc key
   "ui_esc_close": false,
+  //close Console by Esc key
+  "ui_esc_close_console": true,
   //initial folder of Open/Save-as dialogs, for untitled tabs
   "ui_initial_dir": "",
 

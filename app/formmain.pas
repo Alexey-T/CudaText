@@ -1036,7 +1036,8 @@ begin
   begin
     if fmConsole.ed.Focused or fmConsole.memo.Focused then
     begin
-      ShowBottom:= false;
+      if UiOps.EscapeCloseConsole then
+        ShowBottom:= false;
       Key:= 0;
       exit
     end;

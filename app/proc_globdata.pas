@@ -95,6 +95,7 @@ type
     FindIndentHorz: integer;
 
     EscapeClose: boolean;
+    EscapeCloseConsole: boolean;
     InitialDir: string;
 
     ExportHtmlNumbers: boolean;
@@ -654,6 +655,7 @@ begin
     FindIndentHorz:= 10;
 
     EscapeClose:= false;
+    EscapeCloseConsole:= true;
     InitialDir:= '';
 
     ExportHtmlNumbers:= false;

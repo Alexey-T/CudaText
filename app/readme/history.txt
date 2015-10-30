@@ -1,6 +1,7 @@
 
 0.9.6
 + cmd "toggle stream comment"
++ opt ui_esc_close_console
 * some commds done in Python (toggle stream comment, toggle line cmt, duplicate line)
 * non-portable: data files precopy more safely on run 
 

@@ -432,6 +432,7 @@ begin
     UiOps.MaxHistoryMenu:= Max(0, Min(20, c.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
     UiOps.MaxHistoryFiles:= Max(0, Min(400, c.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
     UiOps.EscapeClose:= c.GetValue('ui_esc_close', UiOps.EscapeClose);
+    UiOps.EscapeCloseConsole:= c.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
     UiOps.InitialDir:= c.GetValue('ui_initial_dir', UiOps.InitialDir);
 
     UiOps.ExportHtmlNumbers:= c.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);
