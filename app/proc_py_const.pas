@@ -105,7 +105,8 @@ const
   CONVERT_COL_TO_CHAR = 1;
 
   PyMenuIdTop = 'top';
-  PyMenuIdRecents = 'recents';
+  PyMenuIdRecents = 'rec';
+  PyMenuIdThemes = 'th';
 
 implementation
 

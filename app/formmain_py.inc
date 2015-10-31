@@ -1396,6 +1396,7 @@ begin
               if Str=PyMenuIdTop then
               begin
                 fmMain.mnuFileOpenSub:= nil;
+                fmMain.mnuThemes:= nil;
               end;
             end;
             Result:= ReturnNone;
@@ -1412,16 +1413,21 @@ begin
             begin
               mi:= TMenuItem.Create(fmMain);
               mi.Caption:= StrCaption;
+              mi.Tag:= StrToIntDef(StrCmd, 0);
 
+              if mi.Tag>0 then
+                mi.OnClick:= @fmMain.MenuMainClick
+              else
               if StrCmd=PyMenuIdRecents then
               begin
                 fmMain.mnuFileOpenSub:= mi;
                 fmMain.UpdateMenuRecent(nil);
               end
               else
+              if StrCmd=PyMenuIdThemes then
               begin
-                mi.Tag:= StrToIntDef(StrCmd, 0);
-                mi.OnClick:= @fmMain.MenuMainClick;
+                fmMain.mnuThemes:= mi;
+                fmMain.UpdateMenuThemes(mi);
               end;
 
               miMain.Add(mi);

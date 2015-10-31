@@ -547,6 +547,7 @@ var
   cap: string;
   i: integer;
 begin
+  if sub=nil then exit;
   sub.Clear;
 
   mi:= tmenuitem.create(Self);
