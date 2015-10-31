@@ -492,6 +492,12 @@ begin
   UpKey(mnuOpColors, cmd_DlgColors);
 
   UpKey(mnuHelpCmd, cmd_DlgCommands);
+  UpKey(mnuHelpForum, cmd_HelpForum);
+  UpKey(mnuHelpWiki, cmd_HelpWiki);
+  UpKey(mnuHelpMouse, cmd_HelpMouse);
+  UpKey(mnuHelpLexers, cmd_HelpLexers);
+  UpKey(mnuHelpChangelog, cmd_HelpChangelog);
+  UpKey(mnuHelpAbout, cmd_HelpAbout);
 
 end;
 

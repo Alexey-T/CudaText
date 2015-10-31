@@ -805,30 +805,24 @@ object fmMain: TfmMain
       end
       object mnuHelpForum: TMenuItem
         Caption = 'Forum'
-        OnClick = mnuHelpForumClick
       end
       object mnuHelpWiki: TMenuItem
         Caption = 'Wiki'
-        OnClick = mnuHelpWikiClick
       end
       object mnuHelpMouse: TMenuItem
         Caption = 'Mouse usage'
-        OnClick = mnuHelpMouseClick
       end
-      object mnuHelpLexInst: TMenuItem
+      object mnuHelpLexers: TMenuItem
         Caption = 'Install lexers'
-        OnClick = mnuHelpLexInstClick
       end
-      object mnuHelpHist: TMenuItem
+      object mnuHelpChangelog: TMenuItem
         Caption = 'Change log'
-        OnClick = mnuHelpHistClick
       end
       object MenuItem16: TMenuItem
         Caption = '-'
       end
       object mnuHelpAbout: TMenuItem
         Caption = 'About...'
-        OnClick = mnuHelpAboutClick
       end
     end
   end

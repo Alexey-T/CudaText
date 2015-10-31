@@ -132,6 +132,13 @@ const
   cmd_AutoComplete      = 2695;
   cmd_GotoDefinition    = 2696;
 
+  cmd_HelpAbout     = 2700;
+  cmd_HelpForum     = 2701;
+  cmd_HelpWiki      = 2702;
+  cmd_HelpMouse     = 2703;
+  cmd_HelpChangelog = 2704;
+  cmd_HelpLexers    = 2705;
+
 implementation
 
 const
@@ -247,8 +254,16 @@ begin
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);
   M.Add(cmd_MenuLexers, 'menu: lexers', [], []);
 
-  M.Add(cmd_AutoComplete, 'auto-completion menu', ['Ctrl+Space'], []);
-  M.Add(cmd_GotoDefinition, 'go to definition', [], []);
+  M.Add(cmd_AutoComplete, 'code: auto-completion menu', ['Ctrl+Space'], []);
+  M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
+
+  M.Add(cmd_HelpAbout, 'help: about', [], []);
+  M.Add(cmd_HelpForum, 'help: forum', [], []);
+  M.Add(cmd_HelpWiki, 'help: wiki', [], []);
+  M.Add(cmd_HelpMouse, 'help: mouse usage', [], []);
+  M.Add(cmd_HelpChangelog, 'help: changelog', [], []);
+  M.Add(cmd_HelpLexers, 'help: lexers', [], []);
+
 end;
 
 

@@ -142,6 +142,14 @@ begin
         PopupLex.Popup(P.X, P.Y);
       end;
 
+    cmd_HelpAbout: DoHelpAbout;
+    cmd_HelpForum: DoHelpForum;
+    cmd_HelpWiki: DoHelpWiki;
+    cmd_HelpMouse: DoHelpMouse;
+    cmd_HelpChangelog: DoHelpChangelog;
+    cmd_HelpLexers: DoHelpLexers;
+
+
     cmdFirstLexerCommand..
     cmdLastLexerCommand:
       SetLexerIndex(Cmd-cmdFirstLexerCommand);

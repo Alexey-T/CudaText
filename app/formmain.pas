@@ -132,7 +132,7 @@ type
     mnuEditTrimL: TMenuItem;
     mnuEditTrimR: TMenuItem;
     mnuEditTrim: TMenuItem;
-    mnuHelpLexInst: TMenuItem;
+    mnuHelpLexers: TMenuItem;
     mnuTabColor: TMenuItem;
     mnuThemes: TMenuItem;
     mnuTabsize1: TMenuItem;
@@ -166,7 +166,7 @@ type
     MenuItem20: TMenuItem;
     mnuFind2WordNext: TMenuItem;
     mnuFind2WordPrev: TMenuItem;
-    mnuHelpHist: TMenuItem;
+    mnuHelpChangelog: TMenuItem;
     mnuHelpMouse: TMenuItem;
     mnuHelpForum: TMenuItem;
     mnuViewToolbar: TMenuItem;
@@ -372,9 +372,9 @@ type
     procedure ListboxOutClick(Sender: TObject);
     procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
       const ARect: TRect);
-    procedure mnuHelpWikiClick(Sender: TObject);
+    procedure DoHelpWiki;
     procedure MenuThemesClick(Sender: TObject);
-    procedure mnuHelpLexInstClick(Sender: TObject);
+    procedure DoHelpLexers;
     procedure mnuOpKeysClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
@@ -387,10 +387,10 @@ type
     procedure mnuFind2PrevClick(Sender: TObject);
     procedure mnuFind2WordNextClick(Sender: TObject);
     procedure mnuFind2WordPrevClick(Sender: TObject);
-    procedure mnuHelpAboutClick(Sender: TObject);
-    procedure mnuHelpForumClick(Sender: TObject);
-    procedure mnuHelpHistClick(Sender: TObject);
-    procedure mnuHelpMouseClick(Sender: TObject);
+    procedure DoHelpAbout;
+    procedure DoHelpForum;
+    procedure DoHelpChangelog;
+    procedure DoHelpMouse;
     procedure MenuWindowClick(Sender: TObject);
     procedure mnuEndsMacClick(Sender: TObject);
     procedure mnuEndsUnixClick(Sender: TObject);
@@ -1293,7 +1293,7 @@ begin
   Clipboard.AsText:= Str;
 end;
 
-procedure TfmMain.mnuHelpAboutClick(Sender: TObject);
+procedure TfmMain.DoHelpAbout;
 begin
   with TfmAbout.Create(Self) do
   try
@@ -1304,17 +1304,17 @@ begin
   end;
 end;
 
-procedure TfmMain.mnuHelpForumClick(Sender: TObject);
+procedure TfmMain.DoHelpForum;
 begin
   OpenURL('http://synwrite.sourceforge.net/forums/viewforum.php?f=20');
 end;
 
-procedure TfmMain.mnuHelpHistClick(Sender: TObject);
+procedure TfmMain.DoHelpChangelog;
 begin
   DoFileOpen(GetAppPath(cFileReadmeHist));
 end;
 
-procedure TfmMain.mnuHelpMouseClick(Sender: TObject);
+procedure TfmMain.DoHelpMouse;
 begin
   DoFileOpen(GetAppPath(cFileReadmeMouse));
 end;
@@ -2511,7 +2511,7 @@ begin
   Dec(AGroupIndex); //was 1-based
 end;
 
-procedure TfmMain.mnuHelpWikiClick(Sender: TObject);
+procedure TfmMain.DoHelpWiki;
 begin
   OpenURL('http://wiki.freepascal.org/CudaText');
 end;
@@ -2526,7 +2526,7 @@ begin
   DoApplyTheme;
 end;
 
-procedure TfmMain.mnuHelpLexInstClick(Sender: TObject);
+procedure TfmMain.DoHelpLexers;
 begin
   DoFileOpen(GetAppPath(cFileReadmeLexerInst));
 end;
