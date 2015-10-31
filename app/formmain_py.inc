@@ -45,6 +45,20 @@ begin
   end;
 end;
 
+
+function Py_MenuItemFromId(const Str: string): TMenuItem;
+var
+  N: PtrInt;
+begin
+  Result:= nil;
+
+  N:= StrToInt64Def(Str, -1);
+  if N>0 then exit(TMenuItem(N));
+
+  if Str='top' then exit(fmMain.MainMenu.Items);
+  //if Str='text' then exit(fmMain.CurrentEditor.PopupTextDefault.Items);
+end;
+
 procedure TfmMain.PythonIOSendData(Sender: TObject; const Data: AnsiString);
 begin
   if Assigned(fmConsole) then
@@ -1322,6 +1336,8 @@ var
   Id, Num: integer;
   Ptr: PChar;
   Str: string;
+  StrCaption, StrId, StrCmd: string;
+  mi, miMain: TMenuItem;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -1369,6 +1385,33 @@ begin
             fmMain.FSessionFilename:= Str;
             fmMain.UpdateCaption;
             Result:= ReturnNone;
+          end;
+
+        APP_PROC_MENU_CLEAR:
+          begin
+            mi:= Py_MenuItemFromId(Str);
+            if Assigned(mi) then mi.Clear;
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_MENU_ADD:
+          begin
+            StrId:= SGetItem(Str, ';');
+            StrCmd:= SGetItem(Str, ';');
+            StrCaption:= SGetItem(Str, ';');
+
+            miMain:= Py_MenuItemFromId(StrId);
+            if Assigned(miMain) and (StrCaption<>'') then
+            begin
+              mi:= TMenuItem.Create(fmMain);
+              mi.Caption:= StrCaption;
+              mi.Tag:= StrToIntDef(StrCmd, 0);
+              mi.OnClick:= @fmMain.MenuMainClick;
+              miMain.Add(mi);
+              Result:= PyString_FromString(PChar(IntToStr(PtrInt(mi))));
+            end
+            else
+              Result:= ReturnNone;
           end;
 
         else
