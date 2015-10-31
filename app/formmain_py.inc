@@ -55,7 +55,7 @@ begin
   N:= StrToInt64Def(Str, -1);
   if N>0 then exit(TMenuItem(N));
 
-  if Str='top' then exit(fmMain.MainMenu.Items);
+  if Str=PyMenuIdTop then exit(fmMain.MainMenu.Items);
   //if Str='text' then exit(fmMain.CurrentEditor.PopupTextDefault.Items);
 end;
 
@@ -1393,7 +1393,7 @@ begin
             if Assigned(mi) then
             begin
               mi.Clear;
-              if Str='top' then
+              if Str=PyMenuIdTop then
               begin
                 fmMain.mnuFileOpenSub:= nil;
               end;
@@ -1412,8 +1412,18 @@ begin
             begin
               mi:= TMenuItem.Create(fmMain);
               mi.Caption:= StrCaption;
-              mi.Tag:= StrToIntDef(StrCmd, 0);
-              mi.OnClick:= @fmMain.MenuMainClick;
+
+              if StrCmd=PyMenuIdRecents then
+              begin
+                fmMain.mnuFileOpenSub:= mi;
+                fmMain.UpdateMenuRecent(nil);
+              end
+              else
+              begin
+                mi.Tag:= StrToIntDef(StrCmd, 0);
+                mi.OnClick:= @fmMain.MenuMainClick;
+              end;
+
               miMain.Add(mi);
               Result:= PyString_FromString(PChar(IntToStr(PtrInt(mi))));
             end
