@@ -61,10 +61,11 @@ Performs application-wide action. Possible values of id:
 * PROC_SAVE_SESSION: Saves session to file with given name. Session is set of opened named files, group-indexes for files, positions of groups. Used JSON format.
 * PROC_LOAD_SESSION: Loads session from file with given name. 
 * PROC_SET_SESSION: Sets custom filename of session which will be saved on exit, loaded on start. It don't save/load, only sets filename.
-* PROC_MENU_CLEAR: Clears some menu. Param text must be menu_id string. Menu_id can be: "top" to specify program top menu; str(int_value) to specify any submenu item by unique int value.
+* PROC_MENU_CLEAR: Clears some menu. Param text must be menu_id string.
+** menu_id can be: "top" to specify top menu; "top-edit"/"top-sel"/"top-sr" to specify Edit/Selection/Search submenus; str(int_value) to specify any submenu by unique int value.
 * PROC_MENU_ADD: Adds menu item to some submenu. Param text must be "menu_id;menu_cmd;menu_caption". This returns string, str(int_value), with unique int value for added item. Use this string as menu_id for next calls.
 ** menu_id is submenu item in which you add item. 
-** menu_cmd is str(command_code) for int command code from module cudatext_cmd. Can be "rec" to place recent-files-submenu here. Can be "th" to place color-themes-submenu here.
+** menu_cmd is str(command_code) for int command code from module cudatext_cmd. Spec values: "recents" - recent-files submenu; "themes" - color-themes submenu; "plugins" - plugins submenu.
 ** menu_caption is caption, or "-" for menu separator.
 
 ===app_log===

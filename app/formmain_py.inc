@@ -1418,10 +1418,10 @@ begin
             begin
               mi:= TMenuItem.Create(fmMain);
               mi.Caption:= StrCaption;
-              mi.Tag:= StrToIntDef(StrCmd, 0);
 
-              if mi.Tag>0 then
-                mi.OnClick:= @fmMain.MenuMainClick
+              Num:= StrToIntDef(StrCmd, 0);
+              if Num>0 then
+                fmMain.UpKey(mi, Num)
               else
               if StrCmd=PyMenuCmdRecents then
               begin

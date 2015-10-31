@@ -626,7 +626,7 @@ type
     procedure UpdateMenuThemes(sub: TMenuItem);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean);
-    procedure UpK(mi: TMenuItem; cmd: integer);
+    procedure UpKey(mi: TMenuItem; cmd: integer);
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);

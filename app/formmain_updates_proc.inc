@@ -362,7 +362,7 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.UpK(mi: TMenuItem; cmd: integer);
+procedure TfmMain.UpKey(mi: TMenuItem; cmd: integer);
 begin
   mi.Tag:= cmd;
   mi.OnClick:= @MenuMainClick;
@@ -371,127 +371,127 @@ end;
 
 procedure TfmMain.UpdateMenuHotkeys;
 begin
-  Upk(mnuFileNew, cmd_FileNew);
-  Upk(mnuFileOpen, cmd_FileOpen);
-  Upk(mnuFileReopen, cmd_FileReopen);
-  Upk(mnuFileSave, cmd_FileSave);
-  Upk(mnuFileSaveAs, cmd_FileSaveAs);
-  Upk(mnuFileSaveAll, cmd_FileSaveAll);
-  Upk(mnuFileClose, cmd_FileClose);
-  Upk(mnuFileCloseAll, cmd_FileCloseAll);
-  Upk(mnuFileCloseOther, cmd_FileCloseOtherThis);
-  Upk(mnuFileCloseDel, cmd_FileCloseAndDelete);
-  Upk(mnuFileExit, cmd_FileExit);
-  Upk(mnuFileHtml, cmd_FileExportHtml);
+  UpKey(mnuFileNew, cmd_FileNew);
+  UpKey(mnuFileOpen, cmd_FileOpen);
+  UpKey(mnuFileReopen, cmd_FileReopen);
+  UpKey(mnuFileSave, cmd_FileSave);
+  UpKey(mnuFileSaveAs, cmd_FileSaveAs);
+  UpKey(mnuFileSaveAll, cmd_FileSaveAll);
+  UpKey(mnuFileClose, cmd_FileClose);
+  UpKey(mnuFileCloseAll, cmd_FileCloseAll);
+  UpKey(mnuFileCloseOther, cmd_FileCloseOtherThis);
+  UpKey(mnuFileCloseDel, cmd_FileCloseAndDelete);
+  UpKey(mnuFileExit, cmd_FileExit);
+  UpKey(mnuFileHtml, cmd_FileExportHtml);
 
-  Upk(mnuSelAll, cCommand_SelectAll);
-  Upk(mnuSelSplit, cCommand_SelectSplitToLines);
-  Upk(mnuSelExtLine, cCommand_SelectExtendByLine);
-  Upk(mnuSelInvert, cCommand_SelectInverted);
+  UpKey(mnuSelAll, cCommand_SelectAll);
+  UpKey(mnuSelSplit, cCommand_SelectSplitToLines);
+  UpKey(mnuSelExtLine, cCommand_SelectExtendByLine);
+  UpKey(mnuSelInvert, cCommand_SelectInverted);
 
-  Upk(mnuCaretsCancel, cCommand_Cancel);
-  Upk(mnuCaretsUp1Line, cCommand_CaretsExtendUpLine);
-  Upk(mnuCaretsUp1Page, cCommand_CaretsExtendUpPage);
-  Upk(mnuCaretsUpBegin, cCommand_CaretsExtendUpToTop);
-  Upk(mnuCaretsDown1Line, cCommand_CaretsExtendDownLine);
-  Upk(mnuCaretsDown1Page, cCommand_CaretsExtendDownPage);
-  Upk(mnuCaretsDownEnd, cCommand_CaretsExtendDownToEnd);
+  UpKey(mnuCaretsCancel, cCommand_Cancel);
+  UpKey(mnuCaretsUp1Line, cCommand_CaretsExtendUpLine);
+  UpKey(mnuCaretsUp1Page, cCommand_CaretsExtendUpPage);
+  UpKey(mnuCaretsUpBegin, cCommand_CaretsExtendUpToTop);
+  UpKey(mnuCaretsDown1Line, cCommand_CaretsExtendDownLine);
+  UpKey(mnuCaretsDown1Page, cCommand_CaretsExtendDownPage);
+  UpKey(mnuCaretsDownEnd, cCommand_CaretsExtendDownToEnd);
 
-  Upk(mnuEditUndo, cCommand_Undo);
-  Upk(mnuEditRedo, cCommand_Redo);
-  Upk(mnuEditCut, cCommand_ClipboardCut);
-  Upk(mnuEditCopy, cCommand_ClipboardCopy);
-  Upk(mnuEditPaste, cCommand_ClipboardPaste);
-  Upk(mnuEditDel, cCommand_TextDeleteSelection);
+  UpKey(mnuEditUndo, cCommand_Undo);
+  UpKey(mnuEditRedo, cCommand_Redo);
+  UpKey(mnuEditCut, cCommand_ClipboardCut);
+  UpKey(mnuEditCopy, cCommand_ClipboardCopy);
+  UpKey(mnuEditPaste, cCommand_ClipboardPaste);
+  UpKey(mnuEditDel, cCommand_TextDeleteSelection);
 
-  upk(mnuEditCopyLine, cmd_CopyLine);
-  upk(mnuEditCopyAppend, cCommand_ClipboardCopyAdd);
-  upk(mnuEditCopyFFull, cmd_CopyFilenameFull);
-  upk(mnuEditCopyFDir, cmd_CopyFilenameDir);
-  upk(mnuEditCopyFName, cmd_CopyFilenameName);
+  UpKey(mnuEditCopyLine, cmd_CopyLine);
+  UpKey(mnuEditCopyAppend, cCommand_ClipboardCopyAdd);
+  UpKey(mnuEditCopyFFull, cmd_CopyFilenameFull);
+  UpKey(mnuEditCopyFDir, cmd_CopyFilenameDir);
+  UpKey(mnuEditCopyFName, cmd_CopyFilenameName);
 
-  upk(mnuEditIndent, cCommand_TextIndent);
-  upk(mnuEditUnindent, cCommand_TextUnindent);
-  upk(mnuEditTrim, cCommand_TextTrimSpacesAll);
-  upk(mnuEditTrimL, cCommand_TextTrimSpacesLeft);
-  upk(mnuEditTrimR, cCommand_TextTrimSpacesRight);
+  UpKey(mnuEditIndent, cCommand_TextIndent);
+  UpKey(mnuEditUnindent, cCommand_TextUnindent);
+  UpKey(mnuEditTrim, cCommand_TextTrimSpacesAll);
+  UpKey(mnuEditTrimL, cCommand_TextTrimSpacesLeft);
+  UpKey(mnuEditTrimR, cCommand_TextTrimSpacesRight);
 
-  upk(mnuEditLineDel, cCommand_TextDeleteLine);
-  upk(mnuEditLineDup, cCommand_TextDuplicateLine);
-  upk(mnuEditLineMoveUp, cCommand_MoveSelectionUp);
-  upk(mnuEditLineMoveDown, cCommand_MoveSelectionDown);
+  UpKey(mnuEditLineDel, cCommand_TextDeleteLine);
+  UpKey(mnuEditLineDup, cCommand_TextDuplicateLine);
+  UpKey(mnuEditLineMoveUp, cCommand_MoveSelectionUp);
+  UpKey(mnuEditLineMoveDown, cCommand_MoveSelectionDown);
 
-  upk(mnuCaseUp, cCommand_TextCaseUpper);
-  upk(mnuCaseLow, cCommand_TextCaseLower);
-  upk(mnuCaseTitle, cCommand_TextCaseTitle);
-  upk(mnuCaseInvert, cCommand_TextCaseInvert);
-  upk(mnuCaseSent, cCommand_TextCaseSentence);
+  UpKey(mnuCaseUp, cCommand_TextCaseUpper);
+  UpKey(mnuCaseLow, cCommand_TextCaseLower);
+  UpKey(mnuCaseTitle, cCommand_TextCaseTitle);
+  UpKey(mnuCaseInvert, cCommand_TextCaseInvert);
+  UpKey(mnuCaseSent, cCommand_TextCaseSentence);
 
-  upk(mnuSortAsc, cmd_SortAsc);
-  upk(mnuSortDesc, cmd_SortDesc);
+  UpKey(mnuSortAsc, cmd_SortAsc);
+  UpKey(mnuSortDesc, cmd_SortDesc);
 
-  upk(mnuCmtAdd, cmd_CommentLineAdd_AtNonspace);
-  upk(mnuCmtRemove, cmd_CommentLineRemove);
-  upk(mnuCmtToggle, cmd_CommentLineToggle_AtNonspace);
-  upk(mnuCmtToggleStr, cmd_CommentStreamToggle);
+  UpKey(mnuCmtAdd, cmd_CommentLineAdd_AtNonspace);
+  UpKey(mnuCmtRemove, cmd_CommentLineRemove);
+  UpKey(mnuCmtToggle, cmd_CommentLineToggle_AtNonspace);
+  UpKey(mnuCmtToggleStr, cmd_CommentStreamToggle);
 
-  upk(mnuFindDlg, cmd_DlgFind);
-  upk(mnuFindRepDialog, cmd_DlgReplace);
-  upk(mnuFindNext, cmd_FindNext);
-  upk(mnuFindPrev, cmd_FindPrev);
-  upk(mnuFindWordNext, cmd_FindCurWordNext);
-  upk(mnuFindWordPrev, cmd_FindCurWordPrev);
+  UpKey(mnuFindDlg, cmd_DlgFind);
+  UpKey(mnuFindRepDialog, cmd_DlgReplace);
+  UpKey(mnuFindNext, cmd_FindNext);
+  UpKey(mnuFindPrev, cmd_FindPrev);
+  UpKey(mnuFindWordNext, cmd_FindCurWordNext);
+  UpKey(mnuFindWordPrev, cmd_FindCurWordPrev);
 
-  upk(mnuGotoLine, cmd_DlgGoto);
-  upk(mnuGotoTab, cmd_DlgTabs);
-  upk(mnuGotoBm, cmd_DlgGotoBm);
+  UpKey(mnuGotoLine, cmd_DlgGoto);
+  UpKey(mnuGotoTab, cmd_DlgTabs);
+  UpKey(mnuGotoBm, cmd_DlgGotoBm);
 
-  upk(mnuBmNext, cmd_BookmarkGotoNext);
-  upk(mnuBmPrev, cmd_BookmarkGotoPrev);
-  upk(mnuBmToggle, cmd_BookmarkToggle);
-  upk(mnuBmInvert, cmd_BookmarkInvertAll);
-  upk(mnuBmClear, cmd_BookmarkClearAll);
+  UpKey(mnuBmNext, cmd_BookmarkGotoNext);
+  UpKey(mnuBmPrev, cmd_BookmarkGotoPrev);
+  UpKey(mnuBmToggle, cmd_BookmarkToggle);
+  UpKey(mnuBmInvert, cmd_BookmarkInvertAll);
+  UpKey(mnuBmClear, cmd_BookmarkClearAll);
 
-  upk(mnuGroupsOne, cmd_Groups1);
-  upk(mnuGroups2Vert, cmd_Groups2horz);
-  upk(mnuGroups2Horz, cmd_Groups2vert);
-  upk(mnuGroups3Vert, cmd_Groups3horz);
-  upk(mnuGroups3Horz, cmd_Groups3vert);
-  upk(mnuGroups3as12, cmd_Groups3plus);
-  upk(mnuGroups4Vert, cmd_Groups4horz);
-  upk(mnuGroups4Horz, cmd_Groups4vert);
-  upk(mnuGroups4Grid, cmd_Groups4grid);
-  upk(mnuGroups6Grid, cmd_Groups6grid);
+  UpKey(mnuGroupsOne, cmd_Groups1);
+  UpKey(mnuGroups2Vert, cmd_Groups2horz);
+  UpKey(mnuGroups2Horz, cmd_Groups2vert);
+  UpKey(mnuGroups3Vert, cmd_Groups3horz);
+  UpKey(mnuGroups3Horz, cmd_Groups3vert);
+  UpKey(mnuGroups3as12, cmd_Groups3plus);
+  UpKey(mnuGroups4Vert, cmd_Groups4horz);
+  UpKey(mnuGroups4Horz, cmd_Groups4vert);
+  UpKey(mnuGroups4Grid, cmd_Groups4grid);
+  UpKey(mnuGroups6Grid, cmd_Groups6grid);
 
-  upk(mnuViewSplitDo, cmd_SplitTabToggle);
-  upk(mnuViewSplitHorz, cmd_SplitTabHorzVert);
+  UpKey(mnuViewSplitDo, cmd_SplitTabToggle);
+  UpKey(mnuViewSplitHorz, cmd_SplitTabHorzVert);
 
-  upk(mnuViewWrap, cCommand_ToggleWordWrap);
-  upk(mnuViewNums, cCommand_ToggleLineNums);
-  upk(mnuViewFold, cCommand_ToggleFolding);
-  upk(mnuViewRuler, cCommand_ToggleRuler);
-  upk(mnuViewMinimap, cCommand_ToggleMinimap);
+  UpKey(mnuViewWrap, cCommand_ToggleWordWrap);
+  UpKey(mnuViewNums, cCommand_ToggleLineNums);
+  UpKey(mnuViewFold, cCommand_ToggleFolding);
+  UpKey(mnuViewRuler, cCommand_ToggleRuler);
+  UpKey(mnuViewMinimap, cCommand_ToggleMinimap);
 
-  upk(mnuViewUnpriShow, cCommand_ToggleUnprinted);
-  upk(mnuViewUnpriSpaces, cCommand_ToggleUnprintedSpaces);
-  upk(mnuViewUnpriEnds, cCommand_ToggleUnprintedEnds);
-  upk(mnuViewUnpriEndsDet, cCommand_ToggleUnprintedEndDetails);
+  UpKey(mnuViewUnpriShow, cCommand_ToggleUnprinted);
+  UpKey(mnuViewUnpriSpaces, cCommand_ToggleUnprintedSpaces);
+  UpKey(mnuViewUnpriEnds, cCommand_ToggleUnprintedEnds);
+  UpKey(mnuViewUnpriEndsDet, cCommand_ToggleUnprintedEndDetails);
 
-  upk(mnuViewFullscr, cmd_ToggleFullScreen);
-  upk(mnuViewSide, cmd_ToggleSidePanel);
-  upk(mnuViewBottom, cmd_ToggleBottomPanel);
+  UpKey(mnuViewFullscr, cmd_ToggleFullScreen);
+  UpKey(mnuViewSide, cmd_ToggleSidePanel);
+  UpKey(mnuViewBottom, cmd_ToggleBottomPanel);
 
-  upk(mnuOpDefault, cmd_OpsOpenDefault);
-  upk(mnuOpUser, cmd_OpsOpenUser);
-  upk(mnuOpLexer, cmd_OpsOpenLexerOvr);
-  upk(mnuOpFileTypes, cmd_OpsOpenFileTypes);
-  upk(mnuFontText, cmd_OpsFontText);
-  upk(mnuFontUi, cmd_OpsFontUi);
-  upk(mnuOpLexProp, cmd_DlgLexerProp);
-  upk(mnuOpLexLib, cmd_DlgLexerLib);
-  upk(mnuOpColors, cmd_DlgColors);
+  UpKey(mnuOpDefault, cmd_OpsOpenDefault);
+  UpKey(mnuOpUser, cmd_OpsOpenUser);
+  UpKey(mnuOpLexer, cmd_OpsOpenLexerOvr);
+  UpKey(mnuOpFileTypes, cmd_OpsOpenFileTypes);
+  UpKey(mnuFontText, cmd_OpsFontText);
+  UpKey(mnuFontUi, cmd_OpsFontUi);
+  UpKey(mnuOpLexProp, cmd_DlgLexerProp);
+  UpKey(mnuOpLexLib, cmd_DlgLexerLib);
+  UpKey(mnuOpColors, cmd_DlgColors);
 
-  upk(mnuHelpCmd, cmd_DlgCommands);
+  UpKey(mnuHelpCmd, cmd_DlgCommands);
 
 end;
 
