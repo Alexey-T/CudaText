@@ -61,6 +61,11 @@ Performs application-wide action. Possible values of id:
 * PROC_SAVE_SESSION: Saves session to file with given name. Session is set of opened named files, group-indexes for files, positions of groups. Used JSON format.
 * PROC_LOAD_SESSION: Loads session from file with given name. 
 * PROC_SET_SESSION: Sets custom filename of session which will be saved on exit, loaded on start. It don't save/load, only sets filename.
+* PROC_MENU_CLEAR: Clears some menu. Param text must be menu_id string. Menu_id can be: "top" to specify program top menu; str(int_value) to specify any submenu item by unique int value.
+* PROC_MENU_ADD: Adds menu item to some submenu. Param text must be "menu_id;menu_cmd;menu_caption". This returns string, str(int_value), with unique int value for added item. Use this string as menu_id for next calls.
+** menu_id is submenu item in which you add item. 
+** menu_cmd is str(command_code) for int command code from module cudatext_cmd. Can be "rec" to place recent-files-submenu here. Can be "th" to place color-themes-submenu here.
+** menu_caption is caption, or "-" for menu separator.
 
 ===app_log===
 
@@ -437,13 +442,15 @@ Gets 2-tuple:
 
  get_prop(id, text="")
 
-Gets some property of editor. Possible values of id:
+Gets editor's property. 
+
+Param text gives additional parameter(s) if mentioned. Possible values of id:
 
 * PROP_GUTTER_NUM: bool: is gutter column for line numbers shown.
 * PROP_GUTTER_FOLD: bool: is gutter column for folding shown.
 * PROP_GUTTER_BM: bool: is gutter column for bookmarks shown.
 * PROP_EOL: str: end-of-line chars. Currently always gets "\n" since it's ignored in "insert" method.
-* PROP_WRAP: int: word-wrap mode: 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin.
+* PROP_WRAP: int: word-wrap mode. 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin.
 * PROP_RO: bool: read-only mode.
 * PROP_TAB_SPACES: bool: tab-key enters spaces.
 * PROP_TAB_SIZE: int: size of tab-char.
@@ -458,6 +465,28 @@ Gets some property of editor. Possible values of id:
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
+
+===set_prop===
+
+ set_prop(id, value)
+
+Sets editor's property.
+
+Param value is str. If needed bool - pass "0"/"1"; if needed int - pass str(int_value).
+Possible values of id:
+
+* PROP_GUTTER_NUM: bool: show gutter column "line numbers".
+* PROP_GUTTER_FOLD: bool: show gutter column "folding".
+* PROP_GUTTER_BM: bool: show gutter column "bookmarks".
+* PROP_WRAP: int: word-wrap mode. 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin. 
+* PROP_RO: bool: read-only mode.
+* PROP_TAB_SPACES: bool: tab-key enters spaces.
+* PROP_TAB_SIZE: int: size of tab-char.
+* PROP_MARGIN: int: position of fixed margin.
+* PROP_MARGIN_STRING: str: space-separated user-margins columns.
+* PROP_INSERT: bool: insert/overwrite mode.
+* PROP_RULER: bool: show ruler.
+* PROP_LEXER_FILE: str: name of lexer.
 
 ===bookmark===
 
@@ -491,7 +520,7 @@ Command runner, it runs any command of editor by its int code. See codes in modu
 
  focus()
 
-Activates editor's tab and focuses editor itself. It's needed when you want to activate inactive tab.
+Activates editor's tab and focuses editor itself. It's needed when you want to activate inactive tab. You can get Editor objects of inactive tabs using ed_handles().
 
 ===lock/unlock===
 
@@ -499,6 +528,17 @@ Activates editor's tab and focuses editor itself. It's needed when you want to a
  unlock()
 
 These lock, then unlock editor. Locked editor is not painted and shows text label "Wait...".
+
+===convert===
+
+ convert(id, x, y)
+
+Converts coordinates in editor. Possible values of id:
+
+* CONVERT_CHAR_TO_COL: Convert char-coordinates (x,y) to column-coordinates 2-tuple (column,y).
+* CONVERT_COL_TO_CHAR: Convert column-coordinates (x,y) to char-coordinates 2-tuple (chars,y).
+
+Gets None if coordinates incorrect (e.g. x<0).
 
 ===complete===
 
@@ -514,12 +554,18 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 
 =History=
 
+1.0.108
+
+* add: Editor.convert()
+* add: Editor.set_prop()
+* add: app_proc: PROC_MENU_CLEAR, PROC_MENU_ADD
+
 1.0.107
 
 * add: event plugins
-* add: lexer_proc
-* change: set_caret
-* del: add_caret
+* add: lexer_proc()
+* change: set_caret()
+* del: add_caret()
 
 1.0.106
 
