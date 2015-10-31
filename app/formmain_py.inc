@@ -1390,7 +1390,14 @@ begin
         APP_PROC_MENU_CLEAR:
           begin
             mi:= Py_MenuItemFromId(Str);
-            if Assigned(mi) then mi.Clear;
+            if Assigned(mi) then
+            begin
+              mi.Clear;
+              if Str='top' then
+              begin
+                fmMain.mnuFileOpenSub:= nil;
+              end;
+            end;
             Result:= ReturnNone;
           end;
 

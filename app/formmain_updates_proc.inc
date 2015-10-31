@@ -77,9 +77,6 @@ begin
   //------
   S:= Format('Tab size %d%s', [Ed.OptTabSize, IfThen(Ed.OptTabSpaces, '_')]);
   Status[cStatusTabsize]:= S;
-
-  //------
-  UpdateMenuChecked;
 end;
 
 procedure TfmMain.InitStatusButton;
@@ -244,6 +241,7 @@ begin
   end;
 
   sub:= mnuFileOpenSub;
+  if sub=nil then exit;
   sub.Clear;
 
   for i:= 0 to FListRecents.Count-1 do
