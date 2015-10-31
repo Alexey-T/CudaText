@@ -55,10 +55,12 @@ begin
   N:= StrToInt64Def(Str, 0);
   if N>0 then exit(TMenuItem(N));
 
-  if Str=PyMenuIdTop then exit(fmMain.MainMenu.Items);
-  if Str=PyMenuIdTopEdit then exit(fmMain.mnuEdit);
-  if Str=PyMenuIdTopSel then exit(fmMain.mnuSel);
-  if Str=PyMenuIdTopSearch then exit(fmMain.mnuSr);
+  if Str=PyMenuId_Top then exit(fmMain.MainMenu.Items);
+  if Str=PyMenuId_TopEdit then exit(fmMain.mnuEdit);
+  if Str=PyMenuId_TopSel then exit(fmMain.mnuSel);
+  if Str=PyMenuId_TopSearch then exit(fmMain.mnuSr);
+  if Str=PyMenuId_TopFile then exit(fmMain.mnuFile);
+  if Str=PyMenuId_TopView then exit(fmMain.mnuView);
 
   //if Str='text' then exit(fmMain.CurrentEditor.PopupTextDefault.Items);
 end;
@@ -1397,11 +1399,15 @@ begin
             if Assigned(mi) then
             begin
               mi.Clear;
-              if Str=PyMenuIdTop then
+              if Str=PyMenuId_Top then
               begin
                 fmMain.mnuFileOpenSub:= nil;
                 fmMain.mnuThemes:= nil;
                 fmMain.mnuPlug:= nil;
+              end;
+              if Str=PyMenuId_TopFile then
+              begin
+                fmMain.mnuFileOpenSub:= nil;
               end;
             end;
             Result:= ReturnNone;
@@ -1423,19 +1429,19 @@ begin
               if Num>0 then
                 fmMain.UpKey(mi, Num)
               else
-              if StrCmd=PyMenuCmdRecents then
+              if StrCmd=PyMenuCmd_Recents then
               begin
                 fmMain.mnuFileOpenSub:= mi;
                 fmMain.UpdateMenuRecent(nil);
               end
               else
-              if StrCmd=PyMenuCmdThemes then
+              if StrCmd=PyMenuCmd_Themes then
               begin
                 fmMain.mnuThemes:= mi;
                 fmMain.UpdateMenuThemes(mi);
               end
               else
-              if StrCmd=PyMenuCmdPlugins then
+              if StrCmd=PyMenuCmd_Plugins then
               begin
                 fmMain.mnuPlug:= mi;
                 fmMain.UpdateMenuPlugins;

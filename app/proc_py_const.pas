@@ -104,14 +104,16 @@ const
   CONVERT_CHAR_TO_COL = 0;
   CONVERT_COL_TO_CHAR = 1;
 
-  PyMenuIdTop = 'top';
-  PyMenuIdTopEdit = 'top-edit';
-  PyMenuIdTopSel = 'top-sel';
-  PyMenuIdTopSearch = 'top-sr';
+  PyMenuId_Top = 'top';
+  PyMenuId_TopEdit = 'top-edit';
+  PyMenuId_TopSel = 'top-sel';
+  PyMenuId_TopSearch = 'top-sr';
+  PyMenuId_TopFile = 'top-file';
+  PyMenuId_TopView = 'top-view';
 
-  PyMenuCmdRecents = 'recents';
-  PyMenuCmdThemes = 'themes';
-  PyMenuCmdPlugins = 'plugins';
+  PyMenuCmd_Recents = 'recents';
+  PyMenuCmd_Themes = 'themes';
+  PyMenuCmd_Plugins = 'plugins';
 
 implementation
 
