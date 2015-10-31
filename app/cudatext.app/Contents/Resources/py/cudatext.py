@@ -33,6 +33,9 @@ APP_DIR_DATA = 2
 APP_DIR_PY = 3
 APP_FILE_SESSION = 4
 
+CONVERT_CHAR_TO_COL = 0
+CONVERT_COL_TO_CHAR = 1
+
 LINESTATE_NORMAL  = 0
 LINESTATE_CHANGED = 1
 LINESTATE_ADDED   = 2
@@ -187,7 +190,8 @@ def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
     
 def lexer_proc(id, value):
-    return ct.lexer_proc(id, value)    
+    return ct.lexer_proc(id, value)
+    
 
 #Editor
 class Editor:
@@ -274,10 +278,15 @@ class Editor:
         
     def get_prop(self, id, value=''):
         return ct.ed_get_prop(self.h, id, value)
+    def set_prop(self, id, value):
+        return ct.ed_set_prop(self.h, id, value)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)
-    #test..
+        
+    def convert(self, id, x, y):
+        return ct.ed_convert(self.h, id, x, y)
+    #end
 
 #objects
 ed = Editor(0)

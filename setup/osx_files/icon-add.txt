@@ -1,6 +1,6 @@
  
-Edit info.plist  and add
+1- Edit info.plist  and add
  <key>CFBundleIconFile</key>
   <string>cudatext</string>
 
-And into resourses directory add the icns file
+2- To Resourses directory add cudatext.icns file

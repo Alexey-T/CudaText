@@ -1,6 +1,13 @@
 
+0.9.6
++ cmd "toggle stream comment"
++ opt ui_esc_close_console
++ opt comment_*, duplicate_*
+* some commds done in Python (toggle stream comment, toggle line cmt, duplicate line)
+* Linux installer: data files precopy more safely on run 
+
 0.9.5
-+ support for event plugins (auto-completion, goto-defitinion...)
++ support for event plugins (auto-completion, goto-definition...)
 + undo improved (group complex edits even if undo_grouped=false)
 * del opt find_replace_with_find
 - fixes in find/repl

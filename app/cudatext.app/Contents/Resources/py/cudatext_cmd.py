@@ -243,6 +243,8 @@ cmd_CommentLineAdd_AtStart       = 2671
 cmd_CommentLineRemove            = 2672
 cmd_CommentLineToggle_AtNonspace = 2673
 cmd_CommentLineToggle_AtStart    = 2674
+cmd_CommentStreamToggle          = 2675
+cmd_DuplicateLineEx              = 2676
   
 cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678

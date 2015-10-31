@@ -23360,6 +23360,7 @@ object TecSyntaxManager
         RefToCondEnd = True
         HighlightPos = cpAny
         CancelNextRules = True
+        DrawStaple = True
         GroupIndex = 20
         CollapseFmt = '%s0 %s-1...'
         IgnoreAsParent = False
