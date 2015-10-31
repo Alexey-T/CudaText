@@ -89,7 +89,8 @@ begin
     FreeAndNil(cfg);
   end;
 
-  DoOps_CreatePluginsMenuitems;
+  UpdateMenuPlugins;
+  UpdateKeymapDynamicItems;
 end;
 
 procedure TfmMain.DoOps_ShowEventPlugins;
@@ -119,17 +120,18 @@ begin
   Showmessage(s);
 end;
 
-procedure TfmMain.DoOps_CreatePluginsMenuitems;
+procedure TfmMain.UpdateMenuPlugins;
 var
   mi, miSub: TMenuItem;
   str, strItem: string;
   i, idx: integer;
 begin
+  if mnuPlug=nil then exit;
+
   //create menu items for Command plugins
   for i:= 0 to High(FPluginsCmd) do
   begin
     if FPluginsCmd[i].ItemModule='' then Break;
-    mnuPlugNone.Visible:= false;
     mi:= nil;
     miSub:= mnuPlug;
     str:= FPluginsCmd[i].ItemCaption;
@@ -160,8 +162,6 @@ begin
       mi.Tag:= i;
     end;
   end;
-
-  UpdateKeymapDynamicItems;
 end;
 
 function TfmMain.IsLexerMatches(const ANameList: string): boolean;

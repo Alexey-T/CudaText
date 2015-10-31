@@ -113,7 +113,6 @@ type
     MenuItem28: TMenuItem;
     mnuCmtToggleStr: TMenuItem;
     mnuPlug: TMenuItem;
-    mnuPlugNone: TMenuItem;
     mnuFileHtml: TMenuItem;
     mnuTreeFold9: TMenuItem;
     mnuTreeFold7: TMenuItem;
@@ -506,7 +505,7 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
-    procedure DoOps_CreatePluginsMenuitems;
+    procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
     procedure DoOps_SaveLexlib(Cfm: boolean);
     procedure DoOps_SaveHistory;

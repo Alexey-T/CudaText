@@ -52,10 +52,14 @@ var
 begin
   Result:= nil;
 
-  N:= StrToInt64Def(Str, -1);
+  N:= StrToInt64Def(Str, 0);
   if N>0 then exit(TMenuItem(N));
 
   if Str=PyMenuIdTop then exit(fmMain.MainMenu.Items);
+  if Str=PyMenuIdTopEdit then exit(fmMain.mnuEdit);
+  if Str=PyMenuIdTopSel then exit(fmMain.mnuSel);
+  if Str=PyMenuIdTopSearch then exit(fmMain.mnuSr);
+
   //if Str='text' then exit(fmMain.CurrentEditor.PopupTextDefault.Items);
 end;
 
@@ -1397,6 +1401,7 @@ begin
               begin
                 fmMain.mnuFileOpenSub:= nil;
                 fmMain.mnuThemes:= nil;
+                fmMain.mnuPlug:= nil;
               end;
             end;
             Result:= ReturnNone;
@@ -1418,16 +1423,22 @@ begin
               if mi.Tag>0 then
                 mi.OnClick:= @fmMain.MenuMainClick
               else
-              if StrCmd=PyMenuIdRecents then
+              if StrCmd=PyMenuCmdRecents then
               begin
                 fmMain.mnuFileOpenSub:= mi;
                 fmMain.UpdateMenuRecent(nil);
               end
               else
-              if StrCmd=PyMenuIdThemes then
+              if StrCmd=PyMenuCmdThemes then
               begin
                 fmMain.mnuThemes:= mi;
                 fmMain.UpdateMenuThemes(mi);
+              end
+              else
+              if StrCmd=PyMenuCmdPlugins then
+              begin
+                fmMain.mnuPlug:= mi;
+                fmMain.UpdateMenuPlugins;
               end;
 
               miMain.Add(mi);
