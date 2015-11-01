@@ -72,11 +72,13 @@ Menus:
 *** str(int_value) to specify any submenu by unique int value
 *** "top" to specify top menu
 *** "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view" to specify submenus File/Edit/Selection/Search/View
-*** s_module+','+s_method to specify method in command plugin.
 
 * PROC_MENU_ADD: Adds menu item to some submenu. Param text must be "menu_id;menu_cmd;menu_caption". This returns string, str(int_value), with unique int value for added item. Use this string as menu_id for next calls.
 ** menu_id is submenu item in which you add item. 
-** menu_cmd is str(command_code) for int command code from module cudatext_cmd. Spec values: "recents" - recent-files submenu; "themes" - color-themes submenu; "plugins" - plugins submenu.
+** menu_cmd is:
+*** str(command_code) - int command code from module cudatext_cmd
+*** spec values: "recents" - recent-files submenu; "themes" - color-themes submenu; "plugins" - plugins submenu
+*** s_module+','+s_method - method in command plugin.
 ** menu_caption is caption, or "-" for menu separator.
 
 ===app_log===
@@ -477,6 +479,10 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
+* PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
+* PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
+* PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
+* PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 
 ===set_prop===
 
@@ -499,6 +505,10 @@ Possible values of id:
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_RULER: bool: show ruler.
 * PROP_LEXER_FILE: str: name of lexer.
+* PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
+* PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
+* PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
+* PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 
 ===bookmark===
 
@@ -571,6 +581,7 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 * add: Editor.convert()
 * add: Editor.set_prop()
 * add: app_proc: PROC_MENU_CLEAR, PROC_MENU_ADD
+* add: get_prop/set_prop: PROP_UNPRINTED*.
 
 1.0.107
 
