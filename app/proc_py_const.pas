@@ -115,6 +115,7 @@ const
   PyMenuId_TopSearch = 'top-sr';
   PyMenuId_TopFile = 'top-file';
   PyMenuId_TopView = 'top-view';
+  PyMenuId_Text = 'text';
 
   PyMenuCmd_Recents = 'recents';
   PyMenuCmd_Themes = 'themes';

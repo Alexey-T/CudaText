@@ -111,6 +111,16 @@ type
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
     MenuItem28: TMenuItem;
+    mnuTextUndo: TMenuItem;
+    mnuTextRedo: TMenuItem;
+    MenuItem32: TMenuItem;
+    mnuTextCut: TMenuItem;
+    mnuTextCopy: TMenuItem;
+    mnuTextPaste: TMenuItem;
+    mnuTextDelete: TMenuItem;
+    MenuItem37: TMenuItem;
+    mnuTextSel: TMenuItem;
+    mnuTextGotoDef: TMenuItem;
     mnuCmtToggleStr: TMenuItem;
     mnuPlug: TMenuItem;
     mnuFileHtml: TMenuItem;
@@ -315,6 +325,7 @@ type
     PopupEnds: TPopupMenu;
     PopupLex: TPopupMenu;
     PopupFind: TPopupMenu;
+    PopupText: TPopupMenu;
     PopupTree: TPopupMenu;
     PopupTabSize: TPopupMenu;
     PopupNewdoc: TPopupMenu;
@@ -427,6 +438,7 @@ type
     procedure mnuViewToolbarClick(Sender: TObject);
     procedure PopupNewdocPopup(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
+    procedure PopupTextPopup(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure PythonIOSendData(Sender: TObject; const Data: AnsiString);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
@@ -2702,6 +2714,27 @@ procedure TfmMain.DoGotoDefinition;
 begin
   if DoPyEvent(CurrentEditor, cEventOnGotoDef, [])<>cPyTrue then
     MsgStatus('No goto-definition plugins installed for this lexer');
+end;
+
+procedure TfmMain.PopupTextPopup(Sender: TObject);
+var
+  Ed: TATSynEdit;
+begin
+  UpKey(mnuTextUndo, cCommand_Undo);
+  UpKey(mnuTextRedo, cCommand_Redo);
+  UpKey(mnuTextCut, cCommand_ClipboardCut);
+  UpKey(mnuTextCopy, cCommand_ClipboardCopy);
+  UpKey(mnuTextPaste, cCommand_ClipboardPaste);
+  UpKey(mnuTextDelete, cCommand_TextDeleteSelection);
+  UpKey(mnuTextSel, cCommand_SelectAll);
+  UpKey(mnuTextGotoDef, cmd_GotoDefinition);
+
+  Ed:= CurrentEditor;
+  mnuTextCut.Enabled:= not Ed.ModeReadOnly;
+  mnuTextPaste.Enabled:= not Ed.ModeReadOnly and Clipboard.HasFormat(CF_Text);
+  mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
+  mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
+  mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
 end;
 
 

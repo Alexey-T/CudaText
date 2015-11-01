@@ -2294,4 +2294,39 @@ object fmMain: TfmMain
     left = 80
     top = 184
   end
+  object PopupText: TPopupMenu
+    OnPopup = PopupTextPopup
+    left = 744
+    top = 146
+    object mnuTextUndo: TMenuItem
+      Caption = 'Undo'
+    end
+    object mnuTextRedo: TMenuItem
+      Caption = 'Redo'
+    end
+    object MenuItem32: TMenuItem
+      Caption = '-'
+    end
+    object mnuTextCut: TMenuItem
+      Caption = 'Cut'
+    end
+    object mnuTextCopy: TMenuItem
+      Caption = 'Copy'
+    end
+    object mnuTextPaste: TMenuItem
+      Caption = 'Paste'
+    end
+    object mnuTextDelete: TMenuItem
+      Caption = 'Delete'
+    end
+    object mnuTextSel: TMenuItem
+      Caption = 'Select all'
+    end
+    object MenuItem37: TMenuItem
+      Caption = '-'
+    end
+    object mnuTextGotoDef: TMenuItem
+      Caption = 'Go to definition'
+    end
+  end
 end

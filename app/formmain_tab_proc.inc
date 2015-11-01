@@ -23,6 +23,9 @@ begin
 
   F.Adapter.OnParseBegin:=@FrameParseBegin;
   F.Adapter.OnParseDone:=@FrameParseDone;
+
+  F.Editor.PopupText:= PopupText;
+  F.Editor2.PopupText:= PopupText;
 end;
 
 function TfmMain.DoTabAdd(Pages: TATPages): TATTabData;

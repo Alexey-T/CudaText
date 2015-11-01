@@ -59,13 +59,13 @@ Performs application-wide action. Possible values of id:
 * PROC_SET_CLIP: Copies text to clipboard.
 * PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
 
-Sessions:
+====Sessions====
 
 * PROC_SAVE_SESSION: Saves session to file with given name. Session is set of opened named files, group-indexes for files, positions of groups. Used JSON format.
 * PROC_LOAD_SESSION: Loads session from file with given name. 
 * PROC_SET_SESSION: Sets custom filename of session which will be saved on exit, loaded on start. It don't save/load, only sets filename.
 
-Menus:
+====Menus====
 
 * PROC_MENU_ENUM: Gets "\n"-separated string with all menu items captions in submenu. Param text must be menu_id string.
 ** menu_id can be: 
