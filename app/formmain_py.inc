@@ -1354,7 +1354,7 @@ var
   Id, Num: integer;
   Ptr: PChar;
   Str: string;
-  StrCaption, StrId, StrCmd: string;
+  StrCaption, StrId, StrCmd, StrIndex: string;
   mi, miMain: TMenuItem;
 begin
   with GetPythonEngine do
@@ -1405,6 +1405,20 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_MENU_ENUM:
+          begin
+            mi:= Py_MenuItemFromId(Str);
+            if Assigned(mi) then
+            begin
+              Str:= '';
+              for Num:= 0 to mi.Count-1 do
+                Str:= Str+mi.Items[Num].Caption+#10;
+              Result:= PyString_FromString(PChar(Str));
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
         APP_PROC_MENU_CLEAR:
           begin
             mi:= Py_MenuItemFromId(Str);
@@ -1430,6 +1444,7 @@ begin
             StrId:= SGetItem(Str, ';');
             StrCmd:= SGetItem(Str, ';');
             StrCaption:= SGetItem(Str, ';');
+            StrIndex:= SGetItem(Str, ';');
 
             miMain:= Py_MenuItemFromId(StrId);
             if Assigned(miMain) and (StrCaption<>'') then
@@ -1465,7 +1480,12 @@ begin
                 mi.OnClick:= @fmMain.MenuMainClick;
               end;
 
-              miMain.Add(mi);
+              Num:= StrToIntDef(StrIndex, -1);
+              if Num>=0 then
+                miMain.Insert(Num, mi)
+              else
+                miMain.Add(mi);
+
               Result:= PyString_FromString(PChar(IntToStr(PtrInt(mi))));
             end
             else
