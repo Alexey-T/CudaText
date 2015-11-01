@@ -2270,8 +2270,10 @@ var
   F: TEditorFrame;
   EdFocus: boolean;
   Cmd: integer;
+  SHint, SModule, SMethod: string;
 begin
   Cmd:= (Sender as TComponent).Tag;
+  SHint:= (Sender as TMenuItem).Hint;
 
   //dont do editor commands here if ed not focused
   F:= CurrentFrame;
@@ -2281,9 +2283,18 @@ begin
     fmConsole.ed.Focused or
     fmConsole.memo.Focused;
   if not EdFocus then
-    if Cmd<cmd_First then exit;
+    if (Cmd>0) and (Cmd<cmd_First) then exit;
 
-  CurrentEditor.DoCommand(Cmd);
+  //-1 means run plugin: Hint='module,method'
+  if (Cmd=-1) then
+  begin
+    SModule:= SGetItem(SHint);
+    SMethod:= SGetItem(SHint);
+    Py_RunPlugin_Command(SModule, SMethod);
+  end
+  else
+    CurrentEditor.DoCommand(Cmd);
+
   UpdateFrame;
   UpdateStatus;
 end;

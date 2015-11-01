@@ -1445,6 +1445,12 @@ begin
               begin
                 fmMain.mnuPlug:= mi;
                 fmMain.UpdateMenuPlugins;
+              end
+              else
+              begin
+                mi.Tag:= -1;
+                mi.Hint:= StrCmd;
+                mi.OnClick:= @fmMain.MenuMainClick;
               end;
 
               miMain.Add(mi);
