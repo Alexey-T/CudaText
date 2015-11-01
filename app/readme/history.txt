@@ -4,8 +4,8 @@
 + opt ui_esc_close_console
 + opt comment_*, duplicate_*
 * some commds done in Python (toggle stream comment, toggle line cmt, duplicate line)
-* Linux installer: data files precopy more safely on run
 * menu View don't have checkmarks: faster 
++ Linux installer: data files precopy more safely on run
 
 0.9.5
 + support for event plugins (auto-completion, goto-definition...)
