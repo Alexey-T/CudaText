@@ -28,6 +28,7 @@ uses
   ATSynEdit_Finder,
   ATSynEdit_Carets,
   ATSynEdit_Export_HTML,
+  ATSynEdit_Ranges,
   ATTabs,
   ATGroups,
   ATStatusBar,

@@ -1722,6 +1722,39 @@ begin
 end;
 
 
+function Py_ed_get_ranges(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Ed: TATSynEdit;
+  ComArray: Variant;
+  NLen, i: Integer;
+  Range: TATSynRange;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:get_ranges', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      NLen:= Ed.Fold.Count;
+      if NLen>0 then
+      begin
+        ComArray:= VarArrayCreate([0, NLen-1, 0, 4], varInteger);
+        for i:= 0 to NLen-1 do
+        begin
+          Range:= Ed.Fold[i];
+          ComArray[i, 0]:= Range.Y;
+          ComArray[i, 1]:= Range.Y2;
+          ComArray[i, 2]:= Range.X-1;
+          ComArray[i, 3]:= Ord(Range.Staple);
+          ComArray[i, 4]:= Ord(Range.Folded);
+        end;
+        Result:= VariantAsPyObject(ComArray);
+      end
+      else
+        Result:= ReturnNone;
+    end;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -1770,6 +1803,7 @@ begin
     AddMethod('ed_set_split', @Py_ed_set_split, '');
     AddMethod('ed_get_prop', @Py_ed_get_prop, '');
     AddMethod('ed_set_prop', @Py_ed_set_prop, '');
+    AddMethod('ed_get_ranges', @Py_ed_get_ranges, '');
 
     AddMethod('ed_cmd', @Py_ed_cmd, '');
     AddMethod('ed_lock', @Py_ed_lock, '');
