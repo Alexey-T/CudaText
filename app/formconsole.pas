@@ -36,6 +36,7 @@ type
     { private declarations }
     FOnConsole: TAppConsoleEvent;
     procedure ComboCommand(Snd: TObject; ACmd: integer; var AHandled: boolean);
+    procedure DoClearMemo(Sender: TObject);
     procedure MemoCommand(Snd: TObject; ACmd: integer; var AHandled: boolean);
   public
     { public declarations }
@@ -96,6 +97,8 @@ end;
 
 
 procedure TfmConsole.FormCreate(Sender: TObject);
+var
+  mi: TMenuItem;
 begin
   ed:= TATComboEdit.Create(Self);
   ed.Parent:= Self;
@@ -122,8 +125,13 @@ begin
 
   ed.WantTabs:= false;
   ed.TabStop:= true;
-  memo.TabStop:= true;
   memo.WantTabs:= false;
+  memo.TabStop:= true;
+
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= 'Clear';
+  mi.OnClick:=@DoClearMemo;
+  memo.PopupTextDefault.Items.Add(mi);
 end;
 
 procedure TfmConsole.ComboCommand(Snd: TObject; ACmd: integer;
@@ -142,6 +150,14 @@ begin
 
     AHandled:= true;
   end;
+end;
+
+procedure TfmConsole.DoClearMemo(Sender: TObject);
+begin
+  memo.ModeReadOnly:= false;
+  memo.Text:= '';
+  memo.DoCaretSingle(0, 0);
+  memo.ModeReadOnly:= true;
 end;
 
 procedure TfmConsole.MemoCommand(Snd: TObject; ACmd: integer;
