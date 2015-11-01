@@ -559,25 +559,25 @@ object fmMain: TfmMain
       object mnuCaretsExtSub: TMenuItem
         Caption = 'Extend carets'
         object mnuCaretsUp1Line: TMenuItem
-          Caption = 'Up 1 line'
+          Caption = 'More carets, up, 1 line'
         end
         object mnuCaretsUp1Page: TMenuItem
-          Caption = 'Up 1 page'
+          Caption = 'More carets, up, 1 page'
         end
         object mnuCaretsUpBegin: TMenuItem
-          Caption = 'Up to begin'
+          Caption = 'More carets, up, until begin'
         end
         object MenuItem12: TMenuItem
           Caption = '-'
         end
         object mnuCaretsDown1Line: TMenuItem
-          Caption = 'Down 1 line'
+          Caption = 'More carets, down, 1 line'
         end
         object mnuCaretsDown1Page: TMenuItem
-          Caption = 'Down 1 page'
+          Caption = 'More carets, down, 1 page'
         end
         object mnuCaretsDownEnd: TMenuItem
-          Caption = 'Down to end'
+          Caption = 'More carets, down, until end'
         end
       end
     end
