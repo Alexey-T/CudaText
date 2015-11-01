@@ -500,8 +500,7 @@ begin
       RunCommand(Format('cp -R -u -t %s /usr/share/cudatext/py /usr/share/cudatext/data /usr/share/cudatext/readme /usr/share/cudatext/settings_default', [OpDirLocal]), S);
       {$endif}
       {$ifdef darwin}
-      not ok: need overwrite only old files
-      RunCommand(Format('cp -R %s/ %s', [OpDirPrecopy, OpDirLocal]));
+      RunCommand(Format('rsync -av "%s/" "%s"', [OpDirPrecopy, OpDirLocal]));
       {$endif}
     end;
   end;

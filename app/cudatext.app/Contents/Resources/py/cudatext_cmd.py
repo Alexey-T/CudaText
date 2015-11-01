@@ -262,3 +262,10 @@ cmd_MenuLexers        = 2693
 
 cmd_AutoComplete      = 2695
 cmd_GotoDefinition    = 2696
+
+cmd_HelpAbout     = 2700
+cmd_HelpForum     = 2701
+cmd_HelpWiki      = 2702
+cmd_HelpMouse     = 2703
+cmd_HelpChangelog = 2704
+cmd_HelpLexers    = 2705
