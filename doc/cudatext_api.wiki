@@ -72,6 +72,7 @@ Performs application-wide action. Possible values of id:
 *** str(int_value) to specify any submenu by unique int value
 *** "top" to specify top menu
 *** "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view" to specify submenus File/Edit/Selection/Search/View
+*** "text" to specify editor context menu
 
 * PROC_MENU_CLEAR: Clears some submenu. Param text must be menu_id string.
 
@@ -533,6 +534,18 @@ Notes:
 * nkind must be 1..255.
 * nkind values 240..249 have setup by default: they have blue icons "0" to "9".
 
+===get_ranges===
+
+ get_ranges()
+
+Gets list of fold-ranges in parsed lexer data. It is list of 5-lists: [y, y2, x, staple, folded].
+
+* y: line of range start.
+* y2: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
+* x: x-offset of range start (char index in start line).
+* staple: int (0/1) which shows that range has block staple.
+* folded: int (0/1) which shows that range is currently folded.
+
 ==Misc==
 
 ===cmd===
@@ -585,6 +598,7 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 * add: Editor.set_prop()
 * add: app_proc: PROC_MENU_CLEAR, PROC_MENU_ADD
 * add: get_prop/set_prop: PROP_UNPRINTED*.
+* add: Editor.get_ranges()
 
 1.0.107
 
