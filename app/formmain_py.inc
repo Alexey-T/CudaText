@@ -1269,7 +1269,17 @@ begin
           begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);
             Result:= PyInt_FromLong(Num2);
-          end
+          end;
+
+        PROP_UNPRINTED_SHOW:
+          Result:= PyBool_FromLong(Ord(Ed.OptUnprintedVisible));
+        PROP_UNPRINTED_SPACES:
+          Result:= PyBool_FromLong(Ord(Ed.OptUnprintedSpaces));
+        PROP_UNPRINTED_ENDS:
+          Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEnds));
+        PROP_UNPRINTED_END_DETAILS:
+          Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEndsDetails));
+
         else
           Result:= ReturnNone;
       end;
@@ -1322,13 +1332,15 @@ begin
           Ed.OptRulerVisible:= ValueBool;
         PROP_LEXER_FILE:
           F.Lexer:= Manager.FindAnalyzer(Str);
-        {
-        PROP_INDEX_GROUP:
-        PROP_INDEX_TAB:
-          begin
-            fmMain.Groups.MoveTab();
-          end;
-          }
+
+        PROP_UNPRINTED_SHOW:
+          Ed.OptUnprintedVisible:= ValueBool;
+        PROP_UNPRINTED_SPACES:
+          Ed.OptUnprintedSpaces:= ValueBool;
+        PROP_UNPRINTED_ENDS:
+          Ed.OptUnprintedEnds:= ValueBool;
+        PROP_UNPRINTED_END_DETAILS:
+          Ed.OptUnprintedEndsDetails:= ValueBool;
       end;
 
       fmMain.UpdateFrame;
