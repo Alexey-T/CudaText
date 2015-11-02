@@ -2,11 +2,11 @@ object fmSaveTabs: TfmSaveTabs
   Left = 381
   Height = 350
   Top = 141
-  Width = 770
+  Width = 671
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Save tabs?'
   ClientHeight = 350
-  ClientWidth = 770
+  ClientWidth = 671
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
@@ -16,7 +16,7 @@ object fmSaveTabs: TfmSaveTabs
     Left = 6
     Height = 29
     Top = 315
-    Width = 758
+    Width = 659
     OKButton.Name = 'OKButton'
     OKButton.Caption = '&Save'
     OKButton.DefaultCaption = False
@@ -39,7 +39,7 @@ object fmSaveTabs: TfmSaveTabs
     Left = 6
     Height = 303
     Top = 6
-    Width = 758
+    Width = 659
     Align = alClient
     BorderSpacing.Around = 6
     ItemHeight = 0

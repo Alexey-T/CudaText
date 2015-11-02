@@ -660,7 +660,7 @@ begin
 
   if ASaveAs or (FFileName='') then
   begin
-    ASaveDlg.FileName:= '';
+    ASaveDlg.FileName:= ExtractFileName(Self.FileName);
     ASaveDlg.InitialDir:= ExtractFileDir(Self.FileName);
 
     an:= Lexer;

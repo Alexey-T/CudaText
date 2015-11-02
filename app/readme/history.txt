@@ -1,11 +1,13 @@
 
 0.9.7
 + cmd "toggle stream comment"
++ cmd "restore lexer styles": feature ported from SynWrite
 + opt ui_esc_close_console
-+ opt comment_*, duplicate_*
++ opt comment_*
++ opt duplicate_*
 + Linux installer: data files precopied on run in other way
-* some commds done in Python (toggle stream cmt, toggle line cmt, duplicate line)
-* menu "view" don't have checkmarks: faster 
+* some cmds done in Python (toggle stream cmt, toggle line cmt, duplicate line)
+* menu View don't have checkmarks: faster 
 
 0.9.5
 + support for event plugins (auto-completion, goto-definition...)
