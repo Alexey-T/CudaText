@@ -44,6 +44,7 @@ type
     FFontName: string;
     FFontSize: integer;
     FDirAcp: string;
+    FStylesFilename: string;
     { public declarations }
   end;
 
@@ -53,14 +54,16 @@ var
 function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
   const ADirAcp: string;
   const AFontName: string;
-  AFontSize: integer): boolean;
+  AFontSize: integer;
+  const AStylesFilename: string): boolean;
 
 implementation
 
 {$R *.lfm}
 
 function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
-  const ADirAcp: string; const AFontName: string; AFontSize: integer): boolean;
+  const ADirAcp: string; const AFontName: string; AFontSize: integer;
+  const AStylesFilename: string): boolean;
 var
   F: TfmLexerLib;
 begin
@@ -70,6 +73,7 @@ begin
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;
     F.FDirAcp:= ADirAcp;
+    F.FStylesFilename:= AStylesFilename;
     F.ShowModal;
     Result:= F.FManager.Modified;
   finally
@@ -121,7 +125,7 @@ begin
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  if DoShowDialogLexerProp(an, FFontName, FFontSize) then
+  if DoShowDialogLexerProp(an, FFontName, FFontSize, FStylesFilename) then
   begin
     FManager.Modified:= true;
     UpdateList;

@@ -16,7 +16,8 @@ uses
   Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox,
   ecSyntAnal,
   ATSynEdit,
-  ATSynEdit_Adapter_EControl;
+  ATSynEdit_Adapter_EControl,
+  proc_lexer_styles;
 
 type
   { TfmLexerProp }
@@ -75,6 +76,7 @@ type
     FAnalyzer: TecSyntAnalyzer;
     FFormats: TecStylesCollection;
     FLockedUpdate: boolean;
+    FStylesFilename: string;
     procedure InitBorder(cb: TCombobox);
     procedure UpdateListboxStyles;
     procedure UpdateStlEn(fmt: TecFormatType);
@@ -88,8 +90,10 @@ type
 var
   fmLexerProp: TfmLexerProp;
 
-function DoShowDialogLexerProp(an: TecSyntAnalyzer;
-  AFontName: string; AFontSize: integer): boolean;
+function DoShowDialogLexerProp(
+  an: TecSyntAnalyzer;
+  const AFontName: string; AFontSize: integer;
+  const AStylesFilename: string): boolean;
 
 implementation
 
@@ -124,6 +128,9 @@ begin
   begin
     for i:= 0 to FAnalyzer.Formats.Count-1 do
       FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
+
+    if FStylesFilename<>'' then
+      SaveLexerStylesToFile(FAnalyzer, FStylesFilename);
   end;
 end;
 
@@ -262,15 +269,17 @@ begin
 end;
 
 
-function DoShowDialogLexerProp(an: TecSyntAnalyzer; AFontName: string;
-  AFontSize: integer): boolean;
+function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
+  AFontSize: integer; const AStylesFilename: string): boolean;
 var
   F: TfmLexerProp;
 begin
   Result:= false;
   if an=nil then exit;
+
   F:= TfmLexerProp.Create(nil);
   try
+    F.FStylesFilename:= AStylesFilename;
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;
     F.edExt.Text:= an.Extentions;

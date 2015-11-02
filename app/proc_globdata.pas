@@ -52,6 +52,7 @@ type
     cFileOptPlugins,
     cFileHistoryList,
     cFileHistorySession,
+    cFileLexerStyles,
     cFileReadmeHist,
     cFileReadmeMouse,
     cFileReadmeLexerInst
@@ -456,6 +457,10 @@ begin
     cFileHistorySession:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history session.json';
+      end;
+    cFileLexerStyles:
+      begin
+        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer styles backup.ini';
       end;
 
     cFileReadmeHist:
