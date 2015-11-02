@@ -487,9 +487,9 @@ begin
   UpKey(mnuOpFileTypes, cmd_OpsOpenFileTypes);
   UpKey(mnuFontText, cmd_OpsFontText);
   UpKey(mnuFontUi, cmd_OpsFontUi);
-  UpKey(mnuOpLexProp, cmd_DlgLexerProp);
-  UpKey(mnuOpLexLib, cmd_DlgLexerLib);
-  UpKey(mnuOpColors, cmd_DlgColors);
+  UpKey(mnuOpLexProp, cmd_DialogLexerProp);
+  UpKey(mnuOpLexLib, cmd_DialogLexerLib);
+  UpKey(mnuOpColors, cmd_DialogColors);
 
   UpKey(mnuHelpCmd, cmd_DlgCommands);
   UpKey(mnuHelpForum, cmd_HelpForum);

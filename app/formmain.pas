@@ -61,6 +61,7 @@ uses
   formconfirmrep,
   formlexerprop,
   formlexerlib,
+  formlexerstyles,
   formpalette,
   formcolorsetup,
   formabout, formchecklist,
@@ -553,6 +554,7 @@ type
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
     procedure DoDialogLexerLib;
+    procedure DoDialogLoadLexerStyles;
     procedure DoDialogTabs;
     procedure DoDialogColors;
     procedure DoShowConsole;
@@ -1280,6 +1282,22 @@ begin
     UpdateStatus;
     UpdateFrame;
     DoOps_SaveLexlib(true);
+  end;
+end;
+
+procedure TfmMain.DoDialogLoadLexerStyles;
+var
+  F: TfmLexerStylesRestore;
+begin
+  F:= TfmLexerStylesRestore.Create(Self);
+  try
+    F.StylesFilename:= GetAppPath(cFileLexerStyles);
+    if F.ShowModal=mrOk then
+    begin
+
+    end;
+  finally
+    FreeAndNil(F);
   end;
 end;
 

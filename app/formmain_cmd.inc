@@ -36,10 +36,11 @@ begin
     cmd_DlgTabs:        DoDialogTabs;
     cmd_DlgFind:        DoDialogFind(false);
     cmd_DlgReplace:     DoDialogFind(true);
-    cmd_DlgSaveTabs:    DoDialogSaveTabs;
-    cmd_DlgLexerProp:   DoDialogLexerProp(CurrentFrame.Lexer);
-    cmd_DlgLexerLib:    DoDialogLexerLib;
-    cmd_DlgColors:      DoDialogColors;
+    cmd_DialogSaveTabs:    DoDialogSaveTabs;
+    cmd_DialogLexerProp:   DoDialogLexerProp(CurrentFrame.Lexer);
+    cmd_DialogLexerLib:    DoDialogLexerLib;
+    cmd_DialogLoadLexerStyles: DoDialogLoadLexerStyles;
+    cmd_DialogColors:      DoDialogColors;
     cmd_ToggleFullScreen:  DoToggleFullScreen;
     cmd_ToggleSidePanel:   DoToggleSidePanel;
     cmd_ToggleBottomPanel: DoToggleBottomPanel;

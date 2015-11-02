@@ -40,18 +40,19 @@ const
   cmd_OpsOpenFileTypes   = 2524;
   cmd_OpsFontText        = 2525;
   cmd_OpsFontUi          = 2526;
-  cmd_DlgSaveTabs        = 2527;
+  cmd_DialogSaveTabs     = 2527;
   cmd_ToggleFullScreen   = 2528;
   cmd_OpsReloadAndApply  = 2529;
-  cmd_DlgLexerProp       = 2530;
-  cmd_DlgLexerLib        = 2531;
-  cmd_DlgColors          = 2532;
+  cmd_DialogLexerProp    = 2530;
+  cmd_DialogLexerLib     = 2531;
+  cmd_DialogColors       = 2532;
   cmd_ToggleSidePanel    = 2533;
   cmd_ToggleBottomPanel  = 2534;
   cmd_ShowPanelConsole   = 2535;
   cmd_ShowPanelOutput    = 2536;
   cmd_ShowPanelValidate  = 2537;
   cmd_ToggleFindDialog   = 2538;
+  cmd_DialogLoadLexerStyles = 2540;
 
   cmd_DlgGoto       = 2580;
   cmd_DlgGotoBm     = 2581;
@@ -176,14 +177,15 @@ begin
   M.Add(cmd_ShowPanelOutput, 'ui: show panel: output', [], []);
   M.Add(cmd_ShowPanelValidate, 'ui: show panel: validate', [], []);
 
-  M.Add(cmd_DlgSaveTabs, 'dialog: save tabs', [], []);
+  M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DlgCommands, 'dialog: command list', ['F1'], []);
   M.Add(cmd_DlgTabs, 'dialog: go to tab', [cXControl+'+T'], []);
   M.Add(cmd_DlgGoto, 'dialog: go to line', [cXControl+'+G'], []);
   M.Add(cmd_DlgGotoBm, 'dialog: go to bookmark', [cXControl+'+B'], []);
-  M.Add(cmd_DlgLexerProp, 'dialog: lexer properties', [], []);
-  M.Add(cmd_DlgLexerLib, 'dialog: lexer library', [], []);
-  M.Add(cmd_DlgColors, 'dialog: config color theme', [], []);
+  M.Add(cmd_DialogLexerProp, 'dialog: lexer properties', [], []);
+  M.Add(cmd_DialogLexerLib, 'dialog: lexer library', [], []);
+  M.Add(cmd_DialogLoadLexerStyles, 'dialog: restore lexer styles', [], []);
+  M.Add(cmd_DialogColors, 'dialog: config color theme', [], []);
 
   M.Add(cmd_DlgFind, 'dialog: find', [cXControl+'+F'], []);
   M.Add(cmd_DlgReplace, 'dialog: replace', [cXControl+'+R'], []);

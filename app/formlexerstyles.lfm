@@ -1,0 +1,112 @@
+object fmLexerStylesRestore: TfmLexerStylesRestore
+  Left = 452
+  Height = 376
+  Top = 355
+  Width = 588
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Restore lexer styles'
+  ClientHeight = 376
+  ClientWidth = 588
+  Color = clBtnFace
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.5'
+  object Label1: TLabel
+    Left = 6
+    Height = 106
+    Top = 6
+    Width = 576
+    Align = alTop
+    AutoSize = False
+    BorderSpacing.Around = 6
+    Caption = 'Using this dialog you can restore your own lexer styles, after CudaText reinstallation. This feature works like this. Lexer styles are automatically backed up in the file "lexer styles backup.ini", on each OK button pressing in Lexer Properties dialog. Then you can reinstall CudaText, and call this dialog. Here you can restore backed up styles from ini file back to the lexer library file.'
+    ParentColor = False
+    WordWrap = True
+  end
+  object GroupBox1: TGroupBox
+    Left = 6
+    Height = 216
+    Top = 118
+    Width = 576
+    Align = alTop
+    BorderSpacing.Around = 6
+    Caption = 'Check styles to restore'
+    ClientHeight = 197
+    ClientWidth = 572
+    TabOrder = 0
+    object List: TCheckListBox
+      AnchorSideRight.Control = bSelAll
+      Left = 8
+      Height = 184
+      Top = 8
+      Width = 386
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Around = 6
+      ItemHeight = 0
+      OnClickCheck = ListClickCheck
+      TabOrder = 0
+      TopIndex = -1
+    end
+    object bSelAll: TButton
+      Left = 400
+      Height = 29
+      Top = 8
+      Width = 160
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      Caption = 'Select all'
+      Constraints.MinWidth = 160
+      OnClick = bSelAllClick
+      TabOrder = 1
+    end
+    object bSelNone: TButton
+      AnchorSideLeft.Control = bSelAll
+      AnchorSideTop.Control = bSelAll
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = bSelAll
+      Left = 400
+      Height = 29
+      Top = 43
+      Width = 160
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Top = 6
+      Caption = 'Select none'
+      Constraints.MinWidth = 160
+      OnClick = bSelNoneClick
+      TabOrder = 2
+    end
+    object bDelete: TButton
+      AnchorSideLeft.Control = bSelAll
+      AnchorSideRight.Control = bSelAll
+      Left = 400
+      Height = 29
+      Top = 120
+      Width = 160
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      Caption = 'Remove checked'
+      Constraints.MinWidth = 160
+      OnClick = bDeleteClick
+      TabOrder = 3
+    end
+  end
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 341
+    Width = 576
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+end
