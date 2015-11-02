@@ -108,6 +108,7 @@ begin
     for i:= 0 to Items.Count-1 do
       if Checked[i] then
         begin en:= true; Break end;
+
   ButtonPanel1.OKButton.Enabled:= en;
   ButtonPanel1.CancelButton.Enabled:= en;
 end;

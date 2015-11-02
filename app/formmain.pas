@@ -50,6 +50,7 @@ uses
   proc_editor,
   proc_msg,
   proc_install_zip,
+  proc_lexer_styles,
   formconsole,
   formframe,
   form_menu_commands,
@@ -1282,22 +1283,6 @@ begin
     UpdateStatus;
     UpdateFrame;
     DoOps_SaveLexlib(true);
-  end;
-end;
-
-procedure TfmMain.DoDialogLoadLexerStyles;
-var
-  F: TfmLexerStylesRestore;
-begin
-  F:= TfmLexerStylesRestore.Create(Self);
-  try
-    F.StylesFilename:= GetAppPath(cFileLexerStyles);
-    if F.ShowModal=mrOk then
-    begin
-
-    end;
-  finally
-    FreeAndNil(F);
   end;
 end;
 
@@ -2758,6 +2743,37 @@ begin
   mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
   mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
   mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
+end;
+
+
+procedure TfmMain.DoDialogLoadLexerStyles;
+var
+  Form: TfmLexerStylesRestore;
+  An: TecSyntAnalyzer;
+  i: integer;
+begin
+  Form:= TfmLexerStylesRestore.Create(nil);
+  try
+    Form.StylesFilename:= GetAppPath(cFileLexerStyles);
+    if Form.ShowModal=mrOk then
+    begin
+      for i:= 0 to Form.List.Count-1 do
+        if Form.List.Checked[i] then
+        begin
+          An:= Manager.FindAnalyzer(Form.List.Items[i]);
+          if Assigned(An) then
+          begin
+            LoadLexerStylesFromFile(An, Form.StylesFilename);
+            //S:= S + List.Items[i] + #13;
+          end
+          //else
+          //  MsgBox('Cannot find lexer in library: '+Form.List.Items[i], MB_OK);
+        end;
+      DoOps_SaveLexlib(false);
+    end;
+  finally
+    FreeAndNil(Form);
+  end;
 end;
 
 

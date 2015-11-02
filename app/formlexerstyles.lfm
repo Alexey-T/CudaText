@@ -25,22 +25,24 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
     WordWrap = True
   end
   object GroupBox1: TGroupBox
-    Left = 6
+    Left = 66
     Height = 216
     Top = 118
-    Width = 576
+    Width = 456
     Align = alTop
+    BorderSpacing.Left = 60
+    BorderSpacing.Right = 60
     BorderSpacing.Around = 6
     Caption = 'Check styles to restore'
     ClientHeight = 197
-    ClientWidth = 572
+    ClientWidth = 452
     TabOrder = 0
     object List: TCheckListBox
       AnchorSideRight.Control = bSelAll
       Left = 8
       Height = 184
       Top = 8
-      Width = 386
+      Width = 266
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Around = 6
       ItemHeight = 0
@@ -49,7 +51,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
       TopIndex = -1
     end
     object bSelAll: TButton
-      Left = 400
+      Left = 280
       Height = 29
       Top = 8
       Width = 160
@@ -65,7 +67,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
       AnchorSideTop.Control = bSelAll
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = bSelAll
-      Left = 400
+      Left = 280
       Height = 29
       Top = 43
       Width = 160
@@ -80,7 +82,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
     object bDelete: TButton
       AnchorSideLeft.Control = bSelAll
       AnchorSideRight.Control = bSelAll
-      Left = 400
+      Left = 280
       Height = 29
       Top = 120
       Width = 160
