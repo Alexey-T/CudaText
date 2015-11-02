@@ -2762,14 +2762,13 @@ begin
         begin
           An:= Manager.FindAnalyzer(Form.List.Items[i]);
           if Assigned(An) then
-          begin
-            LoadLexerStylesFromFile(An, Form.StylesFilename);
-            //S:= S + List.Items[i] + #13;
-          end
-          //else
-          //  MsgBox('Cannot find lexer in library: '+Form.List.Items[i], MB_OK);
+            LoadLexerStylesFromFile(An, Form.StylesFilename)
+          else
+            MsgBox('Cannot find lexer in library: '+Form.List.Items[i], MB_OK);
         end;
+
       DoOps_SaveLexlib(false);
+      UpdateFrame;
     end;
   finally
     FreeAndNil(Form);

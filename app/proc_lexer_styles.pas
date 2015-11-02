@@ -3,19 +3,14 @@ unit proc_lexer_styles;
 interface
 
 uses
-  Classes, Graphics, ecSyntAnal;
+  SysUtils, Classes, Graphics, IniFiles,
+  ecSyntAnal,
+  ATStringProc;
 
 procedure SaveLexerStylesToFile(f: TecSyntAnalyzer; const fn: string);
 procedure LoadLexerStylesFromFile(f: TecSyntAnalyzer; const fn: string);
 
-function FontStylesToString(const f: TFontStyles): string;
-function StringToFontStyles(const s: string): TFontStyles;
-
 implementation
-
-uses
-  SysUtils, IniFiles,
-  ATStringProc;
 
 function FontStylesToString(const f: TFontStyles): string;
 begin
@@ -78,7 +73,7 @@ end;
 procedure SaveLexerStylesToFile(f: TecSyntAnalyzer; const fn: string);
 var
   i: Integer;
-  s, si{, sd}: string;
+  s, si: string;
 begin
   s:= f.LexerName;
   if s='' then Exit;
@@ -124,14 +119,14 @@ end;
 
 procedure LoadLexerStylesFromFile(f: TecSyntAnalyzer; const fn: string);
 var
-  i, j{, n}:Integer;
-  s, si{, sd}: string;
+  i, j:Integer;
+  s, si: string;
   fm: TecSyntaxFormat;
 begin
   if f=nil then Exit;
   s:= f.LexerName;
   fm:= TecSyntaxFormat.Create(nil);
-  with TMemIniFile.Create(fn) do //NOTE: TMemIniFileEx to avoid max line length 2047
+  with TIniFile.Create(fn) do
   try
     f.Extentions:= ReadString(s, 'Ext', f.Extentions);
     for i:= 0 to ReadInteger(s, 'Num', 0)-1 do
