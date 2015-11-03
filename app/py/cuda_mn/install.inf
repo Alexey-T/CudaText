@@ -1,9 +1,0 @@
-[info]
-title=mn
-desc=--
-type=cudatext-plugin
-subdir=cuda_mn
-
-[item1]
-section=events
-events=on_focus
