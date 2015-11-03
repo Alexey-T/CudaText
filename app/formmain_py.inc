@@ -1406,6 +1406,9 @@ begin
 
         APP_PROC_MENU_ENUM:
           begin
+            //this updates PopupText items tags
+            fmMain.PopupText.OnPopup(nil);
+
             mi:= Py_MenuItemFromId(Str);
             if Assigned(mi) then
             begin
@@ -1413,7 +1416,10 @@ begin
               for Num:= 0 to mi.Count-1 do
                 Str:= Str+
                   mi.Items[Num].Caption+'|'+
-                  IfThen(mi.Items[Num].Tag>0, IntToStr(mi.Items[Num].Tag), mi.Items[Num].Hint)+#10;
+                  IfThen(mi.Items[Num].Tag>0,
+                         IntToStr(mi.Items[Num].Tag),
+                         mi.Items[Num].Hint)
+                         +#10;
               Result:= PyString_FromString(PChar(Str));
             end
             else
