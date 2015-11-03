@@ -398,6 +398,9 @@ object fmMain: TfmMain
       object mnuFileSplit1: TMenuItem
         Caption = '-'
       end
+      object mnuFileEnc: TMenuItem
+        Caption = 'Encodings'
+      end
       object mnuFileHtml: TMenuItem
         Caption = 'Export to HTML...'
       end
@@ -836,14 +839,14 @@ object fmMain: TfmMain
     top = 32
   end
   object PopupEnc: TPopupMenu
-    left = 640
+    left = 656
     top = 32
     object MenuItem23: TMenuItem
       Caption = 'New Item1'
     end
   end
   object PopupEnds: TPopupMenu
-    left = 720
+    left = 744
     top = 32
     object mnuEndsWin: TMenuItem
       Caption = 'Win'
@@ -864,7 +867,7 @@ object fmMain: TfmMain
     top = 80
   end
   object PopupLex: TPopupMenu
-    left = 800
+    left = 840
     top = 32
   end
   object TimerStatus: TTimer

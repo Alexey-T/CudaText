@@ -114,6 +114,7 @@ type
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
     MenuItem28: TMenuItem;
+    mnuFileEnc: TMenuItem;
     mnuTextUndo: TMenuItem;
     mnuTextRedo: TMenuItem;
     MenuItem32: TMenuItem;
@@ -618,7 +619,7 @@ type
     procedure UpdateEditorTabsize(N: integer);
     procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuChecked;
-    procedure UpdateMenuEnc;
+    procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
@@ -960,7 +961,8 @@ begin
   FFinder.OnBadRegex:= @FinderBadRegex;
   FFinder.OnFound:=@FinderFound;
 
-  UpdateMenuEnc;
+  UpdateMenuEnc(PopupEnc.Items);
+  UpdateMenuEnc(mnuFileEnc);
   InitStatusButton;
 
   FFindStop:= false;
@@ -1857,7 +1859,7 @@ begin
   PythonEngine.LoadDll;
 end;
 
-procedure TfmMain.UpdateMenuEnc;
+procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
 var
   cList: array[0..28] of record Sub, Name: string end = (
     (Sub: ''; Name: cEncNameAnsi),
@@ -1899,17 +1901,17 @@ var
     miSub:= nil;
     if Sub<>'' then
     begin
-      n:= PopupEnc.Items.IndexOfCaption(Sub);
+      n:= AMenu.IndexOfCaption(Sub);
       if n<0 then
       begin
         mi:= TMenuItem.Create(Self);
         mi.Caption:= Sub;
-        PopupEnc.Items.Add(mi);
-        n:= PopupEnc.Items.IndexOfCaption(Sub);
+        AMenu.Add(mi);
+        n:= AMenu.IndexOfCaption(Sub);
       end;
-      miSub:= PopupEnc.Items[n]
+      miSub:= AMenu.Items[n]
     end;
-    if miSub=nil then miSub:= PopupEnc.Items;
+    if miSub=nil then miSub:= AMenu;
     mi:= TMenuItem.Create(Self);
     mi.Caption:= SName;
     mi.OnClick:= @MenuEncClick;
@@ -1919,7 +1921,7 @@ var
 var
   i: integer;
 begin
-  PopupEnc.Items.Clear;
+  AMenu.Clear;
   for i:= Low(cList) to High(cList) do
     Add(cList[i].Sub, cList[i].Name);
 end;
