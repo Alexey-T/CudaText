@@ -470,6 +470,7 @@ type
     procedure TimerTreeFillTimer(Sender: TObject);
     procedure TimerTreeFocusTimer(Sender: TObject);
     procedure TreeClick(Sender: TObject);
+    procedure TreeMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
       Parameters: array of String);
   private
@@ -848,6 +849,14 @@ begin
   CurrentEditor.DoGotoPosEx(P);
   CurrentEditor.SetFocus;
   FTreeClick:= false;
+end;
+
+procedure TfmMain.TreeMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  //fix to hide parts on Tree's hints on editor canvas (Win32, moving mouse from
+  //long hint to shorter)
+  Groups.Invalidate;
 end;
 
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;

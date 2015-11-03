@@ -72,6 +72,7 @@ object fmMain: TfmMain
           ScrollBars = ssVertical
           TabOrder = 0
           OnDblClick = TreeClick
+          OnMouseMove = TreeMouseMove
           Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
           TreeLinePenStyle = psSolid
         end

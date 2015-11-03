@@ -67,14 +67,14 @@ Performs application-wide action. Possible values of id:
 
 ====Menus====
 
-* PROC_MENU_ENUM: Gets "\n"-separated string with all menu items captions in submenu. Param text must be menu_id string.
+* PROC_MENU_ENUM: Gets "\n"-separated string with all items in submenu. Items in form "caption|int_command" or in form "caption|s_module,s_method". Param text must be menu_id.
 ** menu_id can be: 
 *** str(int_value) to specify any submenu by unique int value
 *** "top" to specify top menu
 *** "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view" to specify submenus File/Edit/Selection/Search/View
 *** "text" to specify editor context menu
 
-* PROC_MENU_CLEAR: Clears some submenu. Param text must be menu_id string.
+* PROC_MENU_CLEAR: Clears some submenu. Param text must be menu_id.
 
 * PROC_MENU_ADD: Adds menu item to some submenu. Param text must be "menu_id;menu_cmd;menu_caption;menu_index". This returns string, str(int_value), with unique int value for added item. Use this string as menu_id for next calls.
 ** menu_id is submenu item in which you add item. 
@@ -612,3 +612,4 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 * add: dlg_file: can take filename "!"
 * add: app_path: APP_FILE_SESSION
 * add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION
+
