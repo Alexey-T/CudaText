@@ -860,9 +860,9 @@ var
 begin
   AMenu.Clear;
 
-  miReload:= TMenuItem.Create(AMenu);
+  miReload:= TMenuItem.Create(Self);
   miReload.Caption:= 'Reload as';
-  miNoReload:= TMenuItem.Create(AMenu);
+  miNoReload:= TMenuItem.Create(Self);
   miNoReload.Caption:= 'Convert to';
   AMenu.Add(miReload);
   AMenu.Add(miNoReload);

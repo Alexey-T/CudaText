@@ -3,6 +3,7 @@
 + cmd "toggle stream comment"
 + cmd "restore lexer styles": feature ported from SynWrite
 + unindent by Bksp: smarter
++ menu Encoding redone
 + opt ui_esc_close_console
 + opt comment_*
 + opt duplicate_*
