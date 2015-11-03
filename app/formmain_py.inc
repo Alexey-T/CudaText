@@ -1411,7 +1411,9 @@ begin
             begin
               Str:= '';
               for Num:= 0 to mi.Count-1 do
-                Str:= Str+mi.Items[Num].Caption+#10;
+                Str:= Str+
+                  mi.Items[Num].Caption+'|'+
+                  IfThen(mi.Items[Num].Tag>0, IntToStr(mi.Items[Num].Tag), mi.Items[Num].Hint)+#10;
               Result:= PyString_FromString(PChar(Str));
             end
             else
