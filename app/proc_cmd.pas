@@ -120,18 +120,6 @@ const
   cmd_LineEndUnix       = 2678;
   cmd_LineEndMac        = 2679;
 
-  cmd_Encoding_ansi_NoReload      = 2680;
-  cmd_Encoding_utf8bom_NoReload   = 2681;
-  cmd_Encoding_utf8nobom_NoReload = 2682;
-  cmd_Encoding_utf16le_NoReload   = 2683;
-  cmd_Encoding_utf16be_NoReload   = 2684;
-
-  cmd_Encoding_ansi_Reload      = 2685;
-  cmd_Encoding_utf8bom_Reload   = 2686;
-  cmd_Encoding_utf8nobom_Reload = 2687;
-  cmd_Encoding_utf16le_Reload   = 2688;
-  cmd_Encoding_utf16be_Reload   = 2689;
-
   cmd_MenuEnc           = 2691;
   cmd_MenuEnds          = 2692;
   cmd_MenuLexers        = 2693;
@@ -145,6 +133,41 @@ const
   cmd_HelpMouse     = 2703;
   cmd_HelpChangelog = 2704;
   cmd_HelpLexers    = 2705;
+
+  cmd_Encoding_ansi_NoReload      = 2710;
+  cmd_Encoding_utf8bom_NoReload   = 2711;
+  cmd_Encoding_utf8nobom_NoReload = 2712;
+  cmd_Encoding_utf16le_NoReload   = 2713;
+  cmd_Encoding_utf16be_NoReload   = 2714;
+  cmd_Encoding_cp1250_NoReload    = 2715;
+  cmd_Encoding_cp1251_NoReload    = 2716;
+  cmd_Encoding_cp1252_NoReload    = 2717;
+  cmd_Encoding_cp1253_NoReload    = 2718;
+  cmd_Encoding_cp1254_NoReload    = 2719;
+  cmd_Encoding_cp1255_NoReload    = 2720;
+  cmd_Encoding_cp1256_NoReload    = 2721;
+  cmd_Encoding_cp1257_NoReload    = 2722;
+  cmd_Encoding_cp1258_NoReload    = 2723;
+  cmd_Encoding_cp437_NoReload     = 2724;
+  cmd_Encoding_cp866_NoReload     = 2725;
+
+  cmd_Encoding_ansi_Reload      = 2730;
+  cmd_Encoding_utf8bom_Reload   = 2731;
+  cmd_Encoding_utf8nobom_Reload = 2732;
+  cmd_Encoding_utf16le_Reload   = 2733;
+  cmd_Encoding_utf16be_Reload   = 2734;
+  cmd_Encoding_cp1250_Reload    = 2735;
+  cmd_Encoding_cp1251_Reload    = 2736;
+  cmd_Encoding_cp1252_Reload    = 2737;
+  cmd_Encoding_cp1253_Reload    = 2738;
+  cmd_Encoding_cp1254_Reload    = 2739;
+  cmd_Encoding_cp1255_Reload    = 2740;
+  cmd_Encoding_cp1256_Reload    = 2741;
+  cmd_Encoding_cp1257_Reload    = 2742;
+  cmd_Encoding_cp1258_Reload    = 2743;
+  cmd_Encoding_cp437_Reload     = 2744;
+  cmd_Encoding_cp866_Reload     = 2745;
+
 
 implementation
 
@@ -252,24 +275,46 @@ begin
   M.Add(cmd_LineEndUnix, 'change line ends: unix', [], []);
   M.Add(cmd_LineEndMac, 'change line ends: mac', [], []);
 
-  M.Add(cmd_Encoding_ansi_NoReload, 'change encoding, no reload: ansi', [], []);
-  M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf8 bom', [], []);
-  M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf8 no bom', [], []);
-  M.Add(cmd_Encoding_utf16le_NoReload, 'change encoding, no reload: utf16 le', [], []);
-  M.Add(cmd_Encoding_utf16be_NoReload, 'change encoding, no reload: utf16 be', [], []);
-
-  M.Add(cmd_Encoding_ansi_Reload, 'change encoding, reload: ansi', [], []);
-  M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf8 bom', [], []);
-  M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf8 no bom', [], []);
-  M.Add(cmd_Encoding_utf16le_Reload, 'change encoding, reload: utf16 le', [], []);
-  M.Add(cmd_Encoding_utf16be_Reload, 'change encoding, reload: utf16 be', [], []);
-
   M.Add(cmd_MenuEnc, 'menu: encodings', [], []);
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);
   M.Add(cmd_MenuLexers, 'menu: lexers', [], []);
 
   M.Add(cmd_AutoComplete, 'code: auto-completion menu', ['Ctrl+Space'], []);
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
+
+  M.Add(cmd_Encoding_ansi_NoReload, 'change encoding, no reload: ansi', [], []);
+  M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf8 bom', [], []);
+  M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf8 no bom', [], []);
+  M.Add(cmd_Encoding_utf16le_NoReload, 'change encoding, no reload: utf16 le', [], []);
+  M.Add(cmd_Encoding_utf16be_NoReload, 'change encoding, no reload: utf16 be', [], []);
+  M.Add(cmd_Encoding_cp1250_NoReload, 'change encoding, no reload: cp1250', [], []);
+  M.Add(cmd_Encoding_cp1251_NoReload, 'change encoding, no reload: cp1251', [], []);
+  M.Add(cmd_Encoding_cp1252_NoReload, 'change encoding, no reload: cp1252', [], []);
+  M.Add(cmd_Encoding_cp1253_NoReload, 'change encoding, no reload: cp1253', [], []);
+  M.Add(cmd_Encoding_cp1254_NoReload, 'change encoding, no reload: cp1254', [], []);
+  M.Add(cmd_Encoding_cp1255_NoReload, 'change encoding, no reload: cp1255', [], []);
+  M.Add(cmd_Encoding_cp1256_NoReload, 'change encoding, no reload: cp1256', [], []);
+  M.Add(cmd_Encoding_cp1257_NoReload, 'change encoding, no reload: cp1257', [], []);
+  M.Add(cmd_Encoding_cp1258_NoReload, 'change encoding, no reload: cp1258', [], []);
+  M.Add(cmd_Encoding_cp437_NoReload, 'change encoding, no reload: cp437', [], []);
+  M.Add(cmd_Encoding_cp866_NoReload, 'change encoding, no reload: cp866', [], []);
+
+  M.Add(cmd_Encoding_ansi_Reload, 'change encoding, reload: ansi', [], []);
+  M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf8 bom', [], []);
+  M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf8 no bom', [], []);
+  M.Add(cmd_Encoding_utf16le_Reload, 'change encoding, reload: utf16 le', [], []);
+  M.Add(cmd_Encoding_utf16be_Reload, 'change encoding, reload: utf16 be', [], []);
+  M.Add(cmd_Encoding_cp1250_Reload, 'change encoding, reload: cp1250', [], []);
+  M.Add(cmd_Encoding_cp1251_Reload, 'change encoding, reload: cp1251', [], []);
+  M.Add(cmd_Encoding_cp1252_Reload, 'change encoding, reload: cp1252', [], []);
+  M.Add(cmd_Encoding_cp1253_Reload, 'change encoding, reload: cp1253', [], []);
+  M.Add(cmd_Encoding_cp1254_Reload, 'change encoding, reload: cp1254', [], []);
+  M.Add(cmd_Encoding_cp1255_Reload, 'change encoding, reload: cp1255', [], []);
+  M.Add(cmd_Encoding_cp1256_Reload, 'change encoding, reload: cp1256', [], []);
+  M.Add(cmd_Encoding_cp1257_Reload, 'change encoding, reload: cp1257', [], []);
+  M.Add(cmd_Encoding_cp1258_Reload, 'change encoding, reload: cp1258', [], []);
+  M.Add(cmd_Encoding_cp437_Reload, 'change encoding, reload: cp437', [], []);
+  M.Add(cmd_Encoding_cp866_Reload, 'change encoding, reload: cp866', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);

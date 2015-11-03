@@ -250,18 +250,6 @@ cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679
 
-cmd_Encoding_ansi_NoReload      = 2680
-cmd_Encoding_utf8bom_NoReload   = 2681
-cmd_Encoding_utf8nobom_NoReload = 2682
-cmd_Encoding_utf16le_NoReload   = 2683
-cmd_Encoding_utf16be_NoReload   = 2684
-
-cmd_Encoding_ansi_Reload      = 2685
-cmd_Encoding_utf8bom_Reload   = 2686
-cmd_Encoding_utf8nobom_Reload = 2687
-cmd_Encoding_utf16le_Reload   = 2688
-cmd_Encoding_utf16be_Reload   = 2689
-
 cmd_MenuEnc           = 2691
 cmd_MenuEnds          = 2692
 cmd_MenuLexers        = 2693
@@ -275,3 +263,37 @@ cmd_HelpWiki      = 2702
 cmd_HelpMouse     = 2703
 cmd_HelpChangelog = 2704
 cmd_HelpLexers    = 2705
+
+cmd_Encoding_ansi_NoReload      = 2710
+cmd_Encoding_utf8bom_NoReload   = 2711
+cmd_Encoding_utf8nobom_NoReload = 2712
+cmd_Encoding_utf16le_NoReload   = 2713
+cmd_Encoding_utf16be_NoReload   = 2714
+cmd_Encoding_cp1250_NoReload    = 2715
+cmd_Encoding_cp1251_NoReload    = 2716
+cmd_Encoding_cp1252_NoReload    = 2717
+cmd_Encoding_cp1253_NoReload    = 2718
+cmd_Encoding_cp1254_NoReload    = 2719
+cmd_Encoding_cp1255_NoReload    = 2720
+cmd_Encoding_cp1256_NoReload    = 2721
+cmd_Encoding_cp1257_NoReload    = 2722
+cmd_Encoding_cp1258_NoReload    = 2723
+cmd_Encoding_cp437_NoReload     = 2724
+cmd_Encoding_cp866_NoReload     = 2725
+
+cmd_Encoding_ansi_Reload      = 2730
+cmd_Encoding_utf8bom_Reload   = 2731
+cmd_Encoding_utf8nobom_Reload = 2732
+cmd_Encoding_utf16le_Reload   = 2733
+cmd_Encoding_utf16be_Reload   = 2734
+cmd_Encoding_cp1250_Reload    = 2735
+cmd_Encoding_cp1251_Reload    = 2736
+cmd_Encoding_cp1252_Reload    = 2737
+cmd_Encoding_cp1253_Reload    = 2738
+cmd_Encoding_cp1254_Reload    = 2739
+cmd_Encoding_cp1255_Reload    = 2740
+cmd_Encoding_cp1256_Reload    = 2741
+cmd_Encoding_cp1257_Reload    = 2742
+cmd_Encoding_cp1258_Reload    = 2743
+cmd_Encoding_cp437_Reload     = 2744
+cmd_Encoding_cp866_Reload     = 2745
