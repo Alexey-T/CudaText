@@ -114,6 +114,11 @@ type
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
     MenuItem28: TMenuItem;
+    mnuFileEndUn: TMenuItem;
+    mnuFileEndMac: TMenuItem;
+    mnuFileEnds: TMenuItem;
+    MenuItem31: TMenuItem;
+    mnuFileEndWin: TMenuItem;
     mnuFileEnc: TMenuItem;
     mnuTextUndo: TMenuItem;
     mnuTextRedo: TMenuItem;

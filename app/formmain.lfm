@@ -401,6 +401,24 @@ object fmMain: TfmMain
       object mnuFileEnc: TMenuItem
         Caption = 'Encodings'
       end
+      object mnuFileEnds: TMenuItem
+        Caption = 'Line ends'
+        object mnuFileEndWin: TMenuItem
+          Caption = 'Win'
+          OnClick = mnuEndsWinClick
+        end
+        object mnuFileEndUn: TMenuItem
+          Caption = 'Unix'
+          OnClick = mnuEndsUnixClick
+        end
+        object mnuFileEndMac: TMenuItem
+          Caption = 'Mac'
+          OnClick = mnuEndsMacClick
+        end
+      end
+      object MenuItem31: TMenuItem
+        Caption = '-'
+      end
       object mnuFileHtml: TMenuItem
         Caption = 'Export to HTML...'
       end
