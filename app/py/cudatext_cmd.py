@@ -250,11 +250,17 @@ cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679
 
-cmd_EncAnsi           = 2680
-cmd_EncUtf8bom        = 2681
-cmd_EncUtf8nobom      = 2682
-cmd_EncUtf16le        = 2683
-cmd_EncUtf16be        = 2684
+cmd_Encoding_ansi_NoReload      = 2680
+cmd_Encoding_utf8bom_NoReload   = 2681
+cmd_Encoding_utf8nobom_NoReload = 2682
+cmd_Encoding_utf16le_NoReload   = 2683
+cmd_Encoding_utf16be_NoReload   = 2684
+
+cmd_Encoding_ansi_Reload      = 2685
+cmd_Encoding_utf8bom_Reload   = 2686
+cmd_Encoding_utf8nobom_Reload = 2687
+cmd_Encoding_utf16le_Reload   = 2688
+cmd_Encoding_utf16be_Reload   = 2689
 
 cmd_MenuEnc           = 2691
 cmd_MenuEnds          = 2692

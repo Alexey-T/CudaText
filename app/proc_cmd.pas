@@ -120,11 +120,17 @@ const
   cmd_LineEndUnix       = 2678;
   cmd_LineEndMac        = 2679;
 
-  cmd_EncAnsi           = 2680;
-  cmd_EncUtf8bom        = 2681;
-  cmd_EncUtf8nobom      = 2682;
-  cmd_EncUtf16le        = 2683;
-  cmd_EncUtf16be        = 2684;
+  cmd_Encoding_ansi_NoReload      = 2680;
+  cmd_Encoding_utf8bom_NoReload   = 2681;
+  cmd_Encoding_utf8nobom_NoReload = 2682;
+  cmd_Encoding_utf16le_NoReload   = 2683;
+  cmd_Encoding_utf16be_NoReload   = 2684;
+
+  cmd_Encoding_ansi_Reload      = 2685;
+  cmd_Encoding_utf8bom_Reload   = 2686;
+  cmd_Encoding_utf8nobom_Reload = 2687;
+  cmd_Encoding_utf16le_Reload   = 2688;
+  cmd_Encoding_utf16be_Reload   = 2689;
 
   cmd_MenuEnc           = 2691;
   cmd_MenuEnds          = 2692;
@@ -246,11 +252,17 @@ begin
   M.Add(cmd_LineEndUnix, 'change line ends: unix', [], []);
   M.Add(cmd_LineEndMac, 'change line ends: mac', [], []);
 
-  M.Add(cmd_EncAnsi, 'change encoding: ansi', [], []);
-  M.Add(cmd_EncUtf8bom, 'change encoding: utf8 bom', [], []);
-  M.Add(cmd_EncUtf8nobom, 'change encoding: utf8 no bom', [], []);
-  M.Add(cmd_EncUtf16le, 'change encoding: utf16 le', [], []);
-  M.Add(cmd_EncUtf16be, 'change encoding: utf16 be', [], []);
+  M.Add(cmd_Encoding_ansi_NoReload, 'change encoding, no reload: ansi', [], []);
+  M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf8 bom', [], []);
+  M.Add(cmd_Encoding_utf8nobom_NoReload, 'change encoding, no reload: utf8 no bom', [], []);
+  M.Add(cmd_Encoding_utf16le_NoReload, 'change encoding, no reload: utf16 le', [], []);
+  M.Add(cmd_Encoding_utf16be_NoReload, 'change encoding, no reload: utf16 be', [], []);
+
+  M.Add(cmd_Encoding_ansi_Reload, 'change encoding, reload: ansi', [], []);
+  M.Add(cmd_Encoding_utf8bom_Reload, 'change encoding, reload: utf8 bom', [], []);
+  M.Add(cmd_Encoding_utf8nobom_Reload, 'change encoding, reload: utf8 no bom', [], []);
+  M.Add(cmd_Encoding_utf16le_Reload, 'change encoding, reload: utf16 le', [], []);
+  M.Add(cmd_Encoding_utf16be_Reload, 'change encoding, reload: utf16 be', [], []);
 
   M.Add(cmd_MenuEnc, 'menu: encodings', [], []);
   M.Add(cmd_MenuEnds, 'menu: line ends', [], []);

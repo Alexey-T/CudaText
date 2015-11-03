@@ -101,23 +101,22 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
-    MenuItem1: TMenuItem;
+    SepV2: TMenuItem;
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem14: TMenuItem;
-    MenuItem15: TMenuItem;
-    MenuItem16: TMenuItem;
-    MenuItem18: TMenuItem;
+    SepHelp1: TMenuItem;
+    SepHelp2: TMenuItem;
+    SepFile1: TMenuItem;
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
     MenuItem25: TMenuItem;
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
-    MenuItem28: TMenuItem;
     mnuFileEndUn: TMenuItem;
     mnuFileEndMac: TMenuItem;
     mnuFileEnds: TMenuItem;
-    MenuItem31: TMenuItem;
+    SepFile4: TMenuItem;
     mnuFileEndWin: TMenuItem;
     mnuFileEnc: TMenuItem;
     mnuTextUndo: TMenuItem;
@@ -180,7 +179,7 @@ type
     mnuViewFullscr: TMenuItem;
     mnuFindWordNext: TMenuItem;
     mnuFindWordPrev: TMenuItem;
-    MenuItem22: TMenuItem;
+    SepSr2: TMenuItem;
     mnuFind2Next: TMenuItem;
     MenuItem20: TMenuItem;
     mnuFind2WordNext: TMenuItem;
@@ -194,7 +193,7 @@ type
     mnuFonts: TMenuItem;
     mnuFileReopen: TMenuItem;
     mnuOpUser: TMenuItem;
-    MenuItem17: TMenuItem;
+    SepOp1: TMenuItem;
     mnuOp: TMenuItem;
     mnuOpDefault: TMenuItem;
     mnuFileOpenSub: TMenuItem;
@@ -203,7 +202,7 @@ type
     mnuFindRepDialog: TMenuItem;
     mnuFindNext: TMenuItem;
     mnuFindDlg: TMenuItem;
-    MenuItem2: TMenuItem;
+    SepSr1: TMenuItem;
     mnuSortSub: TMenuItem;
     mnuSortAsc: TMenuItem;
     mnuSortDesc: TMenuItem;
@@ -223,7 +222,7 @@ type
     mnuSelExtLine: TMenuItem;
     mnuSelInvert: TMenuItem;
     mnuSelSplit: TMenuItem;
-    MenuItem8: TMenuItem;
+    SepSel1: TMenuItem;
     mnuSel: TMenuItem;
     mnuFileSaveAll: TMenuItem;
     mnuEditCopyLine: TMenuItem;
@@ -275,9 +274,9 @@ type
     mnuEditUndo: TMenuItem;
     mnuEditDel: TMenuItem;
     mnuSelAll: TMenuItem;
-    MenuItem13: TMenuItem;
+    SepEd2: TMenuItem;
     mnuEditRedo: TMenuItem;
-    MenuItem6: TMenuItem;
+    SepEd1: TMenuItem;
     mnuEditCut: TMenuItem;
     mnuEditCopy: TMenuItem;
     mnuEditPaste: TMenuItem;
@@ -288,7 +287,7 @@ type
     mnuViewMinimap: TMenuItem;
     mnuViewSplitSub: TMenuItem;
     MenuItem10: TMenuItem;
-    MenuItem3: TMenuItem;
+    SepV1: TMenuItem;
     mnuViewUnpriShow: TMenuItem;
     mnuViewUnpriSpaces: TMenuItem;
     mnuViewUnpriEnds: TMenuItem;
@@ -304,7 +303,7 @@ type
     mnuViewBottom: TMenuItem;
     mnuFileCloseAll: TMenuItem;
     mnuFileCloseOther: TMenuItem;
-    MenuItem4: TMenuItem;
+    SepFile2: TMenuItem;
     mnuFileNew: TMenuItem;
     mnuGroups3as12: TMenuItem;
     mnuGroups6Grid: TMenuItem;
@@ -318,7 +317,7 @@ type
     mnuGroups2Vert: TMenuItem;
     mnuGroups2Horz: TMenuItem;
     mnuFile: TMenuItem;
-    mnuFileSplit1: TMenuItem;
+    SepFile3: TMenuItem;
     mnuFileExit: TMenuItem;
     mnuEdit: TMenuItem;
     mnuFileOpen: TMenuItem;
@@ -527,6 +526,7 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    procedure MenuEncWithReloadClick(Sender: TObject);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
     procedure DoOps_SaveLexlib(Cfm: boolean);
@@ -615,7 +615,8 @@ type
     procedure PyCompletionOnGetProp(Sender: TObject; out AText,
       ASuffix: string; out ACharsLeft, ACharsRight: integer);
     procedure Py_RunPlugin_Index(Num: integer);
-    procedure SetEnc(const Str: string);
+    procedure SetFrameEncoding(Frame: TEditorFrame; const AEnc: string;
+      AAlsoReloadFile: boolean);
     procedure SetLexerIndex(N: integer);
     procedure SetShowBottom(Value: boolean);
     procedure SetShowSidePanel(AValue: boolean);
@@ -636,7 +637,7 @@ type
       var ACanClose, ACanContinue: boolean);
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(N: integer): TEditorFrame;
-    procedure MenuEncClick(Sender: TObject);
+    procedure MenuEncNoReloadClick(Sender: TObject);
     procedure MenuLexClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
     procedure MenuRecentsClick(Sender: TObject);
@@ -1864,87 +1865,28 @@ begin
   PythonEngine.LoadDll;
 end;
 
-procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
-var
-  cList: array[0..28] of record Sub, Name: string end = (
-    (Sub: ''; Name: cEncNameAnsi),
-    (Sub: ''; Name: cEncNameUtf8),
-    (Sub: ''; Name: cEncNameUtf8NoBom),
-    (Sub: ''; Name: cEncNameUtf16LE),
-    (Sub: ''; Name: cEncNameUtf16BE),
-    (Sub: ''; Name: '-'),
-    (Sub: 'European'; Name: cEncNameCP1250),
-    (Sub: 'European'; Name: cEncNameCP1251),
-    (Sub: 'European'; Name: cEncNameCP1252),
-    (Sub: 'European'; Name: cEncNameCP1253),
-    (Sub: 'European'; Name: cEncNameCP1257),
-    (Sub: 'European'; Name: '-'),
-    (Sub: 'European'; Name: cEncNameCP437),
-    (Sub: 'European'; Name: cEncNameCP850),
-    (Sub: 'European'; Name: cEncNameCP852),
-    (Sub: 'European'; Name: cEncNameCP866),
-    (Sub: 'European'; Name: '-'),
-    (Sub: 'European'; Name: cEncNameISO1),
-    (Sub: 'European'; Name: cEncNameISO2),
-    (Sub: 'European'; Name: cEncNameMac),
-    (Sub: 'Misc'; Name: cEncNameCP1254),
-    (Sub: 'Misc'; Name: cEncNameCP1255),
-    (Sub: 'Misc'; Name: cEncNameCP1256),
-    (Sub: 'Asian'; Name: cEncNameCP874),
-    (Sub: 'Asian'; Name: cEncNameCP932),
-    (Sub: 'Asian'; Name: cEncNameCP936),
-    (Sub: 'Asian'; Name: cEncNameCP949),
-    (Sub: 'Asian'; Name: cEncNameCP950),
-    (Sub: 'Asian'; Name: cEncNameCP1258)
-  );
-  //
-  procedure Add(Sub, SName: string);
-  var
-    mi, miSub: TMenuItem;
-    n: integer;
+procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);
+begin
+  SetFrameEncoding(CurrentFrame, (Sender as TMenuItem).Caption, false);
+end;
+
+procedure TfmMain.MenuEncWithReloadClick(Sender: TObject);
+begin
+  SetFrameEncoding(CurrentFrame, (Sender as TMenuItem).Caption, true);
+end;
+
+
+procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAlsoReloadFile: boolean);
+begin
+  Frame.EncodingName:= AEnc;
+
+  if AAlsoReloadFile then
   begin
-    miSub:= nil;
-    if Sub<>'' then
-    begin
-      n:= AMenu.IndexOfCaption(Sub);
-      if n<0 then
-      begin
-        mi:= TMenuItem.Create(Self);
-        mi.Caption:= Sub;
-        AMenu.Add(mi);
-        n:= AMenu.IndexOfCaption(Sub);
-      end;
-      miSub:= AMenu.Items[n]
-    end;
-    if miSub=nil then miSub:= AMenu;
-    mi:= TMenuItem.Create(Self);
-    mi.Caption:= SName;
-    mi.OnClick:= @MenuEncClick;
-    miSub.Add(mi);
+    if Frame.FileName<>'' then
+      Frame.DoFileReload(false)
+    else
+      MsgBox('Cannot reload untitled tab', MB_OK);
   end;
-  //
-var
-  i: integer;
-begin
-  AMenu.Clear;
-  for i:= Low(cList) to High(cList) do
-    Add(cList[i].Sub, cList[i].Name);
-end;
-
-procedure TfmMain.MenuEncClick(Sender: TObject);
-begin
-  SetEnc((Sender as TMenuItem).Caption);
-end;
-
-procedure TfmMain.SetEnc(const Str: string);
-begin
-  CurrentFrame.EncodingName:= Str;
-
-  if CurrentFrame.FileName<>'' then
-    if MsgBox(msgConfirmReloadFileWithEnc, mb_okcancel or mb_iconquestion)=ID_OK then
-    begin
-      CurrentFrame.DoFileReload(false);
-    end;
 
   UpdateFrame;
   UpdateStatus;

@@ -788,3 +788,90 @@ begin
   end;
 end;
 
+
+procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
+var
+  cList: array[0..28] of record Sub, Name: string end = (
+    (Sub: ''; Name: cEncNameAnsi),
+    (Sub: ''; Name: cEncNameUtf8),
+    (Sub: ''; Name: cEncNameUtf8NoBom),
+    (Sub: ''; Name: cEncNameUtf16LE),
+    (Sub: ''; Name: cEncNameUtf16BE),
+    (Sub: ''; Name: '-'),
+    (Sub: 'European'; Name: cEncNameCP1250),
+    (Sub: 'European'; Name: cEncNameCP1251),
+    (Sub: 'European'; Name: cEncNameCP1252),
+    (Sub: 'European'; Name: cEncNameCP1253),
+    (Sub: 'European'; Name: cEncNameCP1257),
+    (Sub: 'European'; Name: '-'),
+    (Sub: 'European'; Name: cEncNameCP437),
+    (Sub: 'European'; Name: cEncNameCP850),
+    (Sub: 'European'; Name: cEncNameCP852),
+    (Sub: 'European'; Name: cEncNameCP866),
+    (Sub: 'European'; Name: '-'),
+    (Sub: 'European'; Name: cEncNameISO1),
+    (Sub: 'European'; Name: cEncNameISO2),
+    (Sub: 'European'; Name: cEncNameMac),
+    (Sub: 'Misc'; Name: cEncNameCP1254),
+    (Sub: 'Misc'; Name: cEncNameCP1255),
+    (Sub: 'Misc'; Name: cEncNameCP1256),
+    (Sub: 'Asian'; Name: cEncNameCP874),
+    (Sub: 'Asian'; Name: cEncNameCP932),
+    (Sub: 'Asian'; Name: cEncNameCP936),
+    (Sub: 'Asian'; Name: cEncNameCP949),
+    (Sub: 'Asian'; Name: cEncNameCP950),
+    (Sub: 'Asian'; Name: cEncNameCP1258)
+  );
+  //
+  procedure DoAdd(AMenu: TMenuItem; const Sub, SName: string; AReloadFile: boolean);
+  var
+    mi, miSub: TMenuItem;
+    n: integer;
+  begin
+    miSub:= nil;
+
+    if Sub<>'' then
+    begin
+      n:= AMenu.IndexOfCaption(Sub);
+      if n<0 then
+      begin
+        mi:= TMenuItem.Create(Self);
+        mi.Caption:= Sub;
+        AMenu.Add(mi);
+        n:= AMenu.IndexOfCaption(Sub);
+      end;
+      miSub:= AMenu.Items[n]
+    end;
+
+    if miSub=nil then miSub:= AMenu;
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= SName;
+    if AReloadFile then
+      mi.OnClick:= @MenuEncWithReloadClick
+    else
+      mi.OnClick:= @MenuEncNoReloadClick;
+
+    miSub.Add(mi);
+  end;
+  //
+var
+  miReload, miNoReload: TMenuItem;
+  i: integer;
+begin
+  AMenu.Clear;
+
+  miReload:= TMenuItem.Create(AMenu);
+  miReload.Caption:= 'Reload as';
+  miNoReload:= TMenuItem.Create(AMenu);
+  miNoReload.Caption:= 'Convert to';
+  AMenu.Add(miReload);
+  AMenu.Add(miNoReload);
+
+  for i:= Low(cList) to High(cList) do
+  begin
+    DoAdd(miReload, cList[i].Sub, cList[i].Name, true);
+    DoAdd(miNoReload, cList[i].Sub, cList[i].Name, false);
+  end;
+end;
+
+

@@ -368,7 +368,7 @@ object fmMain: TfmMain
       object mnuFileReopen: TMenuItem
         Caption = 'Reopen'
       end
-      object MenuItem18: TMenuItem
+      object SepFile1: TMenuItem
         Caption = '-'
       end
       object mnuFileSave: TMenuItem
@@ -380,7 +380,7 @@ object fmMain: TfmMain
       object mnuFileSaveAll: TMenuItem
         Caption = 'Save all'
       end
-      object MenuItem4: TMenuItem
+      object SepFile2: TMenuItem
         Caption = '-'
       end
       object mnuFileClose: TMenuItem
@@ -395,11 +395,11 @@ object fmMain: TfmMain
       object mnuFileCloseDel: TMenuItem
         Caption = 'Close and delete file'
       end
-      object mnuFileSplit1: TMenuItem
+      object SepFile3: TMenuItem
         Caption = '-'
       end
       object mnuFileEnc: TMenuItem
-        Caption = 'Encodings'
+        Caption = 'Encoding'
       end
       object mnuFileEnds: TMenuItem
         Caption = 'Line ends'
@@ -416,14 +416,11 @@ object fmMain: TfmMain
           OnClick = mnuEndsMacClick
         end
       end
-      object MenuItem31: TMenuItem
+      object SepFile4: TMenuItem
         Caption = '-'
       end
       object mnuFileHtml: TMenuItem
         Caption = 'Export to HTML...'
-      end
-      object MenuItem28: TMenuItem
-        Caption = '-'
       end
       object mnuFileExit: TMenuItem
         Caption = 'Quit'
@@ -437,7 +434,7 @@ object fmMain: TfmMain
       object mnuEditRedo: TMenuItem
         Caption = 'Redo'
       end
-      object MenuItem6: TMenuItem
+      object SepEd1: TMenuItem
         Caption = '-'
       end
       object mnuEditCut: TMenuItem
@@ -452,7 +449,7 @@ object fmMain: TfmMain
       object mnuEditDel: TMenuItem
         Caption = 'Delete'
       end
-      object MenuItem13: TMenuItem
+      object SepEd2: TMenuItem
         Caption = '-'
       end
       object mnuEditClipSub: TMenuItem
@@ -572,7 +569,7 @@ object fmMain: TfmMain
       object mnuSelInvert: TMenuItem
         Caption = 'Invert selection'
       end
-      object MenuItem8: TMenuItem
+      object SepSel1: TMenuItem
         Caption = '-'
       end
       object mnuCaretsCancel: TMenuItem
@@ -617,7 +614,7 @@ object fmMain: TfmMain
       object mnuFindPrev: TMenuItem
         Caption = 'Find prev'
       end
-      object MenuItem2: TMenuItem
+      object SepSr1: TMenuItem
         Caption = '-'
       end
       object mnuFindWordNext: TMenuItem
@@ -626,7 +623,7 @@ object fmMain: TfmMain
       object mnuFindWordPrev: TMenuItem
         Caption = 'Find current word prev'
       end
-      object MenuItem22: TMenuItem
+      object SepSr2: TMenuItem
         Caption = '-'
       end
       object mnuGotoLine: TMenuItem
@@ -704,7 +701,7 @@ object fmMain: TfmMain
           Caption = 'Split horizontal'
         end
       end
-      object MenuItem3: TMenuItem
+      object SepV1: TMenuItem
         Caption = '-'
       end
       object mnuViewWrap: TMenuItem
@@ -740,7 +737,7 @@ object fmMain: TfmMain
           Caption = 'Show ends details'
         end
       end
-      object MenuItem1: TMenuItem
+      object SepV2: TMenuItem
         Caption = '-'
       end
       object mnuViewToolbar: TMenuItem
@@ -788,7 +785,7 @@ object fmMain: TfmMain
           OnClick = mnuOpKeysClick
         end
       end
-      object MenuItem17: TMenuItem
+      object SepOp1: TMenuItem
         Caption = '-'
       end
       object mnuFonts: TMenuItem
@@ -822,7 +819,7 @@ object fmMain: TfmMain
       object mnuHelpCmd: TMenuItem
         Caption = 'Commands...'
       end
-      object MenuItem15: TMenuItem
+      object SepHelp1: TMenuItem
         Caption = '-'
       end
       object mnuHelpForum: TMenuItem
@@ -840,7 +837,7 @@ object fmMain: TfmMain
       object mnuHelpChangelog: TMenuItem
         Caption = 'Change log'
       end
-      object MenuItem16: TMenuItem
+      object SepHelp2: TMenuItem
         Caption = '-'
       end
       object mnuHelpAbout: TMenuItem

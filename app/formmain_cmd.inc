@@ -118,11 +118,17 @@ begin
     cmd_LineEndUnix: SetLineEnds(cEndUnix);
     cmd_LineEndMac: SetLineEnds(cEndMac);
 
-    cmd_EncAnsi: SetEnc(cEncNameAnsi);
-    cmd_EncUtf8bom: SetEnc(cEncNameUtf8);
-    cmd_EncUtf8nobom: SetEnc(cEncNameUtf8NoBom);
-    cmd_EncUtf16le: SetEnc(cEncNameUtf16LE);
-    cmd_EncUtf16be: SetEnc(cEncNameUtf16BE);
+    cmd_Encoding_ansi_NoReload: SetFrameEncoding(CurrentFrame, cEncNameAnsi, false);
+    cmd_Encoding_utf8bom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8, false);
+    cmd_Encoding_utf8nobom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8NoBom, false);
+    cmd_Encoding_utf16le_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE, false);
+    cmd_Encoding_utf16be_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE, false);
+
+    cmd_Encoding_ansi_Reload: SetFrameEncoding(CurrentFrame, cEncNameAnsi, true);
+    cmd_Encoding_utf8bom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8, true);
+    cmd_Encoding_utf8nobom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8NoBom, true);
+    cmd_Encoding_utf16le_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE, true);
+    cmd_Encoding_utf16be_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE, true);
 
     cmd_AutoComplete: DoAutoComplete;
     cmd_GotoDefinition: DoGotoDefinition;
