@@ -41,6 +41,7 @@ object fmColorSetup: TfmColorSetup
     NoneColorColor = clNone
     Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
     ItemHeight = 0
+    OnKeyDown = ListKeyDown
     TabOrder = 0
   end
   object bChange: TButton

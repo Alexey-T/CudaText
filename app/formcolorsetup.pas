@@ -31,6 +31,7 @@ type
     procedure bNoneClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
+    procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { private declarations }
     procedure Updatelist;
@@ -88,6 +89,17 @@ procedure TfmColorSetup.HelpButtonClick(Sender: TObject);
 begin
   if Assigned(OnApply) then
     OnApply(Data);
+end;
+
+procedure TfmColorSetup.ListKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (key=Ord(' ')) and (Shift=[]) then
+  begin
+    bChange.Click;
+    key:= 0;
+    exit
+  end;
 end;
 
 end.
