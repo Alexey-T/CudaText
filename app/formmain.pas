@@ -15,12 +15,14 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
-  Clipbrd, StrUtils, Variants,
-  FileUtil, LclType, LclProc, LclIntf, UniqueInstance,
-  jsonConf, IniFiles,
+  Clipbrd, StrUtils, Variants, IniFiles,
+  FileUtil, LclType, LclProc, LclIntf,
+  jsonConf,
   PythonEngine,
+  UniqueInstance,
   ecSyntAnal,
-  ATButtons, ATListbox,
+  ATButtons,
+  ATListbox,
   ATSynEdit,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
@@ -65,7 +67,8 @@ uses
   formlexerstyles,
   formpalette,
   formcolorsetup,
-  formabout, formchecklist,
+  formabout,
+  formchecklist,
   math;
 
 type
