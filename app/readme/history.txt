@@ -2,8 +2,10 @@
 0.9.7
 + cmd "toggle stream comment"
 + cmd "restore lexer styles": feature ported from SynWrite
-+ unindent by Bksp: smarter
++ unindent by Bksp: consider all prev lines
 + menu Encoding redone
++ basic Windows IME support (patch: rasberryrabbit)
+
 + opt ui_esc_close_console
 + opt comment_*
 + opt duplicate_*

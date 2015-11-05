@@ -5,7 +5,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
-unit formlexerstyles;
+unit formlexerstylesload;
 
 interface
 
@@ -117,7 +117,6 @@ begin
         begin en:= true; Break end;
 
   ButtonPanel1.OKButton.Enabled:= en;
-  ButtonPanel1.CancelButton.Enabled:= en;
 end;
 
 end.

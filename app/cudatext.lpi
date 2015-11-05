@@ -323,7 +323,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit39>
       <Unit40>
-        <Filename Value="formlexerstyles.pas"/>
+        <Filename Value="formlexerstylesload.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStylesRestore"/>
         <HasResources Value="True"/>

@@ -64,7 +64,7 @@ uses
   formconfirmrep,
   formlexerprop,
   formlexerlib,
-  formlexerstyles,
+  formlexerstylesload,
   formpalette,
   formcolorsetup,
   formabout,

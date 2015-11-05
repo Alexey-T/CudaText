@@ -33,7 +33,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
     BorderSpacing.Left = 60
     BorderSpacing.Right = 60
     BorderSpacing.Around = 6
-    Caption = 'Check styles to restore'
+    Caption = 'Check lexers to restore'
     ClientHeight = 197
     ClientWidth = 452
     TabOrder = 0
