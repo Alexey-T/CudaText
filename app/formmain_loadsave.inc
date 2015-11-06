@@ -193,6 +193,8 @@ begin
 end;
 
 procedure TfmMain.DoOps_LoadHistory;
+const
+  cReservePixels=70;
 var
   c: TJSONConfig;
   nPosX, nPosY, nSizeX, nSizeY: integer;
@@ -204,6 +206,14 @@ begin
     ////form size
     nPosX:= c.GetValue('/dialog/posx', 100);
     nPosY:= c.GetValue('/dialog/posy', 100);
+
+    if (nPosX>Screen.DesktopWidth-cReservePixels) or
+       (nPosY>Screen.DesktopHeight-cReservePixels) then
+    begin
+      nPosX:= 0;
+      nPosY:= 0;
+    end;
+
     nSizeX:= c.GetValue('/dialog/sizex', 800);
     nSizeY:= c.GetValue('/dialog/sizey', 550);
     SetBounds(nPosX, nPosY, nSizeX, nSizeY);
