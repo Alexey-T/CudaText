@@ -50,7 +50,13 @@ def do_remove_module(mod):
 
 def get_installed_list():
     d = json.load(open(fn_plugins, 'r'))
-    lst = list(d['commands'].keys()) + list(d['events'].keys())
+    
+    lst = []
+    if 'commands' in d:
+        lst += list(d['commands'].keys()) 
+    if 'events' in d:
+        lst += list(d['events'].keys())
+    
     return sorted(list(set(lst)))
     
 def get_installed_choice():

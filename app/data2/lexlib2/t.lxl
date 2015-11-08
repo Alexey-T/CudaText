@@ -20791,6 +20791,9 @@ object TecSyntaxManager
         DisplayName = 'param'
         ConditionList = <        
           item
+            TagList.Strings = (
+              '{'
+            )
             CondType = tcNotEqual
             TokenTypes = 8
           end        
@@ -20846,8 +20849,8 @@ object TecSyntaxManager
     Extentions = 'json'
     LexerName = 'JSON'
     Notes.Strings = (
-      'Author: Alex, uvviewsoft.com'
-      'Test'
+      'Alexey (Synwrite)'
+      'Tests:'
       'http://json.org/example.html'
       'http://www.jquery4u.com/json/10-example-json-files/'
     )
