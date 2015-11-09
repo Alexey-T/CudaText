@@ -1,6 +1,6 @@
 ﻿''' Py-extensions for CudaText.
 Override option tools:
-    get_opt(path, def_value=None, ed=ed, level=CONFIG_LEV_ALL)
+    get_opt(path, def_value=None, level=CONFIG_LEV_ALL, ed=ed)
         Reads option from configs (lexer-override config, then user config).
         Path: simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
     set_opt(path, value, ed=ed, level=CONFIG_LEV_USER)
@@ -15,13 +15,17 @@ Comments:
 Duplicate:
     duplicate
         Dub cur selection or cur line (by opt)
+Config menus
+    load_main_menu()
 Authors:
     Andrey Kvichansky    (kvichans on githab)
 Version:
-    '0.2.1 2015-10-30'
+    '0.4.1 2015-11-09'
 History:
-    + get|set_opt (0.2.1)
-    * hg#70 comment
+    + Line comment at equal col (0.4.1)
+    + get|set_opt (0.4.1)
+    + Comment with full line (PowerShell)
+    + hg#70 comment
 ToDo: (see end of file)
 '''
 
@@ -36,34 +40,69 @@ CONFIG_LEV_USER     = 'user'
 CONFIG_LEV_LEX      = 'lex'
 CONFIG_LEV_FILE     = 'file'
 CONFIG_LEV_ALL      = 'dulf'
-APP_DEFAULT_OPTS    = ''
+APP_DEFAULT_OPTS    = {}
+LAST_FILE_OPTS      = {}
+
+# Menu config
+PROC_MENU_TOP       = 'top'
+PROC_MENU_TOP_FILE  = 'top-file'
+PROC_MENU_TOP_EDIT  = 'top-edit'
+PROC_MENU_TOP_SEL   = 'top-sel'
+PROC_MENU_TOP_SR    = 'top-sr'
+PROC_MENU_TOP_VIEW  = 'top-view'
+PROC_MENU_TEXT      = 'text'
+PROC_MENU_RECENTS   = 'recents'
+PROC_MENU_THEMES    = 'themes'
+PROC_MENU_PLUGINS   = 'plugins'
 
 # Localization
-CONFIG_MSG_DONT_SET_FILE    = 'Cannot set editor properties'
-CONFIG_MSG_DONT_SET_PATH    = 'Cannot set complex path'
-NEED_NEWER_API      = 'Needs newer app version'
-COMMENTING          = 'Commenting'
-DUPLICATION         = 'Duplication'
-ONLY_NORM_SEL_MODE  = '{} works only with normal selection'
-CMT_NO_LINE_4LEX    = 'No line comment for lexer "{}" '
-CMT_NO_STRM_4LEX    = 'No stream comment for lexer "{}'
-ONLY_SINGLE_CRT     = '{} doesnt works with many carets/selections'
+CONFIG_MSG_DONT_SET_FILE= 'Cannot set editor properties'
+CONFIG_MSG_DONT_SET_PATH= 'Cannot set complex path'
+NEED_NEWER_API          = 'Needs newer app version'
+COMMENTING              = 'Commenting'
+DUPLICATION             = 'Duplication'
+ONLY_NORM_SEL_MODE      = '{} works only with normal selection'
+CMT_NO_LINE_4LEX        = 'No line comment for lexer "{}" '
+CMT_NO_STRM_4LEX        = 'No stream comment for lexer "{}'
+ONLY_SINGLE_CRT         = '{} doesnt works with many carets/selections'
 
 pass;                           # Logging
 pass;                           import inspect  # stack
+pass;                           from pprint import pformat
+pass;                           pfrm15=lambda d:pformat(d,width=15)
 pass;                           LOG = (-2== 2)  # Do or dont logging.
 pass;                           log_gap = ''    # use only into log()
 
-def get_app_default_opts():
-    global APP_DEFAULT_OPTS
-    if not APP_DEFAULT_OPTS:
-        # Once load def-opts
-        def_lexs_json    = os.path.join(get_def_setting_dir(), 'default.json')
-        APP_DEFAULT_OPTS = _json_loads(open(def_lexs_json).read())
-    return APP_DEFAULT_OPTS
-   #def get_app_default_opts
-
 class Command:
+    ###############################################
+    ## Menus
+    def load_main_menu(self):
+        ''' Reset main menu from config file
+        '''
+        mn_cfg_json = get_opt('config_main_menu', '')
+        pass;                   LOG and log('mn_cfg_json={}',mn_cfg_json)
+        if not mn_cfg_json:    return
+        mn_cfg_json = os.path.join(app.app_path(app.APP_DIR_SETTINGS), mn_cfg_json)
+        mn_cfg      = _json_loads(open(mn_cfg_json).read())
+        pass;                   LOG and log('mn_cfg={}',pfrm15(mn_cfg))
+        mn_items    = mn_cfg["items"]
+        for mn_item in mn_items:
+            for mn_id in mn_item:
+                pass;           LOG and log('mn_id={}',pfrm15(mn_id))
+                self._reset_menu(mn_id, mn_item[mn_id])
+       #def load_main_menu
+
+    def _reset_menu(self, mn_id, mn_items):
+        pass;                   LOG and log('mn_id, mn_items={}',(mn_id, pfrm15(mn_items)))
+        # Inspect cur menu
+    #   app.app_proc(app.PROC_MENU_ENUM, mn_id)
+        # Clear old items
+#       app.app_proc(app.PROC_MENU_CLEAR, mn_id)
+        for mn_item in mn_items:
+            for mn_id in mn_item:
+                self._reset_menu(mn_id, mn_item[mn_id])
+       #def _reset_menu
+
     ###############################################
     ## Comments
     def cmt_toggle_line_1st(self):
@@ -79,13 +118,13 @@ class Command:
         if not _check_API('1.0.108'):    return
         lex         = ed_.get_prop(app.PROP_LEXER_CARET)
         cmt_sgn     = app.lexer_proc(app.LEXER_GET_COMMENT, lex)
-        pass;                   LOG and log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
+       #pass;                   LOG and log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
         if not cmt_sgn:
             return app.msg_status(CMT_NO_LINE_4LEX.format(lex))
         # Analize
         bEmpSel     = False
         rWrks       = []
-        pass;                   LOG and log('ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN={}', (ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN))
+       #pass;                   LOG and log('ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN={}', (ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN))
         if False:pass
         elif ed_.get_sel_mode() == app.SEL_NORMAL:
             crts        = ed_.get_carets()
@@ -106,13 +145,22 @@ class Command:
             rWrks       = [crts[0][1]]
         do_uncmt    = ed_.get_text_line(rWrks[0]).lstrip().startswith(cmt_sgn)
         # Work
-        save_bd_col = get_opt('comment_save_column', False)
+        save_bd_col = get_opt('comment_save_column' , False)
+        at_min_bd   = get_opt('comment_equal_column', False)
+        col_min_bd  = 1000 # infinity
+        if at_min_bd:
+            for rWrk in rWrks:
+                line        = ed_.get_text_line(rWrk)
+                pos_body    = line.index(line.lstrip())
+                col_min_bd  = min(pos_body, col_min_bd)
+                if 0==col_min_bd:
+                    break # for rWrk
         blnks4cmt   = '\t'.expandtabs(len(cmt_sgn))
-        pass;                   LOG and log('rWrks,do_uncmt, save_cols={}', (rWrks,do_uncmt,save_bd_col))
+       #pass;                   LOG and log('rWrks,do_uncmt, save_cols={}', (rWrks,do_uncmt,save_bd_col))
         for rWrk in rWrks:
             line    = ed_.get_text_line(rWrk)
             pos_body= line.index(line.lstrip())
-            pass;               LOG and log('rWrk,pos_body,line={}', (rWrk,pos_body,line))
+           #pass;               LOG and log('rWrk,pos_body,line={}', (rWrk,pos_body,line))
             if do_uncmt:
                 # Uncomment!
                 if not line[pos_body:].startswith(cmt_sgn):
@@ -139,10 +187,14 @@ class Command:
                 elif cmt_type=='1st':#  !save_bd_col
                     line = cmt_sgn+line
                 elif cmt_type=='bod' and save_bd_col and line.startswith(blnks4cmt) :
-                    line = line[:pos_body-len(cmt_sgn)]+cmt_sgn+line[pos_body:]
+                    pos_cmnt = col_min_bd if at_min_bd else pos_body
+                    line = line[:pos_cmnt-len(cmt_sgn)]+cmt_sgn+line[pos_cmnt:]
+                   #line = line[:pos_body-len(cmt_sgn)]+cmt_sgn+line[pos_body:]
                #elif cmt_type=='bod' and save_bd_col #  !line.startswith(blnks4cmt) :
                 elif cmt_type=='bod':#  !save_bd_col
-                    line = line[:pos_body]             +cmt_sgn+line[pos_body:]
+                    pos_cmnt = col_min_bd if at_min_bd else pos_body
+                    line = line[:pos_cmnt]             +cmt_sgn+line[pos_cmnt:]
+                   #line = line[:pos_body]             +cmt_sgn+line[pos_body:]
 
             ed_.set_text_line(rWrk, line)
             #for rWrk
@@ -163,10 +215,10 @@ class Command:
             return app.msg_status(CMT_NO_STRM_4LEX.format(lex))
         bUseFLn = get_opt('comment_full_line_if_no_sel', True)
         crts    = ed.get_carets()
-        pass;                   LOG and log('lex, get_carets()={}', (lex, crts))
-        pass;                   LOG and log('(bgn_sgn,end_sgn),bOnlyLn,bUseFLn={}', ((bgn_sgn,end_sgn),bOnlyLn,bUseFLn))
+       #pass;                   LOG and log('lex, get_carets()={}', (lex, crts))
+       #pass;                   LOG and log('(bgn_sgn,end_sgn),bOnlyLn,bUseFLn={}', ((bgn_sgn,end_sgn),bOnlyLn,bUseFLn))
         for icrt, (cCrt, rCrt, cEnd, rEnd) in enumerate(crts):
-            pass;               LOG and log('(cCrt, rCrt), (cEnd, rEnd)={}', ((cCrt, rCrt), (cEnd, rEnd)))
+           #pass;               LOG and log('(cCrt, rCrt), (cEnd, rEnd)={}', ((cCrt, rCrt), (cEnd, rEnd)))
             bEmpSel     = -1==rEnd
             bDrtSel     = -1==rEnd or (rCrt, cCrt)>(rEnd, cEnd)
             if False:pass
@@ -184,9 +236,9 @@ class Command:
             else:
                 (rTx1, cTx1), (rTx2, cTx2) = minmax((rCrt, cCrt), (rEnd, cEnd))
             selTx   = ed.get_text_substr(cTx1, rTx1, cTx2, rTx2)
-            pass;               LOG and log('(rTx1, cTx1), (rTx2, cTx2), selTx={}', ((rTx1, cTx1), (rTx2, cTx2), repr(selTx)))
+           #pass;               LOG and log('(rTx1, cTx1), (rTx2, cTx2), selTx={}', ((rTx1, cTx1), (rTx2, cTx2), repr(selTx)))
             do_uncmt= selTx.startswith(bgn_sgn) and selTx.endswith(end_sgn)
-            pass;               LOG and log('do_uncmt={}', (do_uncmt))
+           #pass;               LOG and log('do_uncmt={}', (do_uncmt))
 
             if False:pass
             elif not do_uncmt and bOnlyLn:
@@ -229,7 +281,7 @@ class Command:
                     (cNSel1, rNSel1
                     ,cNSel2, rNSel2)    = cTx1, rTx1, cTx2             -len(end_sgn), rTx2
 
-            pass;               LOG and log('bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)={}', (bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)))
+           #pass;               LOG and log('bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)={}', (bDrtSel, (cNSel1, rNSel1), (cNSel2, rNSel2)))
             if bDrtSel:
                 ed.set_caret(cNSel2, rNSel2, cNSel1, rNSel1, app.CARET_SET_INDEX+icrt)
             else:
@@ -301,9 +353,9 @@ class Command:
             return
 
         (rFr, cFr), (rTo, cTo)  = minmax((rCrt, cCrt), (rEnd, cEnd))
-        pass;                   LOG and log('(cFr , rFr , cTo , rTo) ={}',(cFr , rFr , cTo , rTo))
+       #pass;                   LOG and log('(cFr , rFr , cTo , rTo) ={}',(cFr , rFr , cTo , rTo))
         sel_txt = ed.get_text_substr(cFr, rFr, cTo, rTo)
-        pass;                   LOG and log('sel_txt={}',repr(sel_txt))
+       #pass;                   LOG and log('sel_txt={}',repr(sel_txt))
         ed.insert(cFr, rFr, sel_txt)
        #def duplicate
 
@@ -328,7 +380,36 @@ def _check_API(ver):
         return False
     return True
 
-def get_opt(path, def_value=None, ed_cfg=ed, lev=CONFIG_LEV_ALL):
+def get_app_default_opts():
+    global APP_DEFAULT_OPTS
+    if not APP_DEFAULT_OPTS:
+        # Once load def-opts
+        def_lexs_json    = os.path.join(get_def_setting_dir(), 'default.json')
+        APP_DEFAULT_OPTS = _json_loads(open(def_lexs_json).read())
+    return APP_DEFAULT_OPTS
+   #def get_app_default_opts
+
+def _get_file_opts(opts_json, def_opts={}):
+#   global LAST_FILE_OPTS
+    if not os.path.exists(opts_json):
+       #pass;               LOG and log('no {}',os.path.basename(opts_json))
+        LAST_FILE_OPTS.pop(opts_json, None)
+        return def_opts
+    mtime_os    = os.path.getmtime(opts_json)
+    if opts_json not in LAST_FILE_OPTS:
+       #pass;               LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
+        opts    = _json_loads(open(opts_json).read())
+        LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
+    else:
+        opts, mtime = LAST_FILE_OPTS[opts_json]
+        if mtime_os > mtime:
+           #pass;           LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
+            opts= _json_loads(open(opts_json).read())
+            LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
+    return opts
+   #def _get_file_opts
+
+def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
     ''' Override options tool.
         Config pairs key:val are read from
             <root>/settings_default/default.json
@@ -338,59 +419,70 @@ def get_opt(path, def_value=None, ed_cfg=ed, lev=CONFIG_LEV_ALL):
         Params
             path        Simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
             def_value   For return if no opt for the path into all config files
-            ed_cfg      Ref to editor to point a lexer
             lev         Stop finding level
                             CONFIG_LEV_ALL, CONFIG_LEV_DEF, CONFIG_LEV_USER, CONFIG_LEV_LEX
+            ed_cfg      Ref to editor to point a lexer
         Return          Last found in config files default[/user[/lexer]] or def_value
     '''
-   #pass;                       LOG and log('path, def_va, ed_cfg, lev={}',(path, def_value, ed_cfg, lev))
-    def_opts    = get_app_default_opts()
-    usr_opts    = {}
-    lex_opts    = {}
-    fil_opts    = {}
+   #pass;                       LOG and log('path, def_va, lev, ed_cfg={}',(path, def_value, lev, ed_cfg))
+    keys            = path.split('/') if '/' in path else ()
+    ans             = def_value
 
-    if lev in (CONFIG_LEV_ALL, CONFIG_LEV_USER, CONFIG_LEV_LEX, CONFIG_LEV_FILE):
-        usr_json    = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user.json')
-        if os.path.exists(usr_json):
-            usr_opts= _json_loads(open(usr_json).read())
-
-    if lev in (CONFIG_LEV_ALL, CONFIG_LEV_LEX, CONFIG_LEV_FILE) and ed_cfg:
-        lex     = ed_cfg.get_prop(app.PROP_LEXER_CARET)
-        lex_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'lexer {}.json'.format(lex))
-        if os.path.exists(lex_json):
-            lex_opts= _json_loads(open(lex_json).read())
-
-    if lev in (CONFIG_LEV_ALL, CONFIG_LEV_FILE) and ed_cfg:
-        fil_opts    = {'tab_size'               : ed_cfg.get_prop(app.PROP_TAB_SIZE)              # tab_size
-                      ,'tab_spaces'             : ed_cfg.get_prop(app.PROP_TAB_SPACES)            # tab_sp
-                      ,'unprinted_show'         : ed_cfg.get_prop(app.PROP_UNPRINTED_SHOW)        # unpri
-                      ,'unprinted_spaces'       : ed_cfg.get_prop(app.PROP_UNPRINTED_SPACES)      # unpri_sp
-                      ,'unprinted_ends'         : ed_cfg.get_prop(app.PROP_UNPRINTED_ENDS)        # unpri_end
-                      ,'unprinted_end_details'  : ed_cfg.get_prop(app.PROP_UNPRINTED_END_DETAILS)# unpri_end_det
-                      ,'wrap_mode'              : ed_cfg.get_prop(app.PROP_WRAP)                  # wrap
-                      }
-    if '/' not in path:
-        # Simple key
-        ans     = fil_opts.get(path
-                 ,lex_opts.get(path
-                 ,usr_opts.get(path
-                 ,def_opts.get(path
-                              ,def_value))))
+    def_opts        = get_app_default_opts()
+    if lev==CONFIG_LEV_DEF:
+        ans             = def_opts.get(path, def_value)   if not keys else _opt_for_keys(def_opts, keys, def_value)
+       #pass;                   LOG and log('lev=DEF ans={}',(ans))
     else:
-        # Complex path
-        keys    = path.split('/')
-        ans     = opt(fil_opts, keys
-                 ,opt(lex_opts, keys
-                 ,opt(usr_opts, keys
-                 ,opt(def_opts, keys
-                              , def_value))))
-#   ans_type    = type(def_value)
+        usr_json    = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user.json')
+        usr_opts    = _get_file_opts(usr_json)
+        if lev==CONFIG_LEV_USER:
+           #pass;               LOG and log('def_opts(), usr_opts()={}',(def_opts.get(path),usr_opts.get(path)))
+            ans         = usr_opts.get(path
+                        , def_opts.get(path, def_value))  if not keys else _opt_for_keys(usr_opts, keys
+                                                                          ,_opt_for_keys(def_opts, keys, def_value))
+           #pass;               LOG and log('lev=USR ans={}',(ans))
+        else:
+            lex     = ed_cfg.get_prop(app.PROP_LEXER_CARET)
+            lex_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'lexer {}.json'.format(lex))
+            lex_opts= _get_file_opts(lex_json)
+            if lev==CONFIG_LEV_LEX:
+               #pass;           LOG and log('def_opts(), usr_opts(), lex_opts()={}',(def_opts.get(path),usr_opts.get(path),lex_opts.get(path)))
+                ans     = lex_opts.get(path
+                         ,usr_opts.get(path
+                         ,def_opts.get(path, def_value))) if not keys else _opt_for_keys(lex_opts, keys
+                                                                          ,_opt_for_keys(usr_opts, keys
+                                                                          ,_opt_for_keys(def_opts, keys, def_value)))
+               #pass;           LOG and log('lev=LEX ans={}',(ans))
+            else: # lev in (CONFIG_LEV_ALL, CONFIG_LEV_FILE
+                if False:pass
+                elif path=='tab_size':
+                    ans = ed_cfg.get_prop(app.PROP_TAB_SIZE)
+                elif path=='tab_spaces':
+                    ans = ed_cfg.get_prop(app.PROP_TAB_SPACES)
+                elif path=='unprinted_show':
+                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_SHOW)
+                elif path=='unprinted_spaces':
+                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_SPACES)
+                elif path=='unprinted_ends':
+                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_ENDS)
+                elif path=='unprinted_end_details':
+                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_END_DETAILS)
+                elif path=='wrap_mode':
+                    ans = ced_cfg.get_prop(app.PROP_WRAP)
+                else:
+                   #pass;       LOG and log('def_opts(), usr_opts(), lex_opts()={}',(def_opts.get(path),usr_opts.get(path),lex_opts.get(path)))
+                    ans = lex_opts.get(path
+                         ,usr_opts.get(path
+                         ,def_opts.get(path, def_value))) if not keys else _opt_for_keys(lex_opts, keys
+                                                                          ,_opt_for_keys(usr_opts, keys
+                                                                          ,_opt_for_keys(def_opts, keys, def_value)))
+               #pass;           LOG and log('lev=ALL ans={}',(ans))
     return ans if def_value is None else type(def_value)(ans)
    #def get_opt
 
-def set_opt(path, value, ed_cfg=ed, lev=CONFIG_LEV_USER):
+def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
     ''' Override options tool.
-        Config pairs key:val are wrote/update/delete into
+        Config pairs key:val are add/update/delete into
             <root>/settings/user.json
             <root>/settings/lexer <LEXER-NAME>.json
             ed_cfg props
@@ -398,10 +490,10 @@ def set_opt(path, value, ed_cfg=ed, lev=CONFIG_LEV_USER):
             path        Simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
             value       Value for setting or deleting
                             None        Delete pair (last key in path)
-                            not None    Add or update pair value
-            ed_cfg      Ref to editor to point a lexer
+                            is not None Add or update pair value
             lev         Level for set opt
                             CONFIG_LEV_USER, CONFIG_LEV_LEX, CONFIG_LEV_FILE
+            ed_cfg      Ref to editor to point a lexer
         Return          The value (second param) or None if fail
     '''
     if lev==CONFIG_LEV_FILE:
@@ -429,15 +521,16 @@ def set_opt(path, value, ed_cfg=ed, lev=CONFIG_LEV_USER):
             return None # Fail!
         return value
 
-    if lev==CONFIG_LEV_LEX and not ed_cfg: return None # Fail!
-    lex     = ed_cfg.get_prop(app.PROP_LEXER_CARET) if not ed_cfg else ''
+    if lev==CONFIG_LEV_LEX and ed_cfg is None: return None # Fail!
+    lex     = ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg is not None else ''
     cfg_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), icase(False,''
               ,lev==CONFIG_LEV_USER                          , 'user.json'
               ,lev==CONFIG_LEV_LEX                           , 'lexer {}.json'.format(lex)
                                                              , ''))
-    if not os.path.exists(cfg_json)  and value     is None:
-        return None # success or fail?
-    if not os.path.exists(cfg_json):#and value not is None
+   #pass;                       LOG and log('cfg_json={}',(cfg_json))
+    if not os.path.exists(cfg_json)  and value is     None:
+        return None #?? success or fail?
+    if not os.path.exists(cfg_json):#and value is not None
         # First pair for this file
         dct     = {path:value}
         if '/' in path:
@@ -450,7 +543,7 @@ def set_opt(path, value, ed_cfg=ed, lev=CONFIG_LEV_USER):
                     dic = dic.setdefault(key, {})
                 else:
                     dic[key] = value
-        open(cfg_json, 'w').write(json.dumps(dct, indent=2))
+        open(cfg_json, 'w').write(json.dumps(dct, indent=4))
         return value
 
     # Try to modify file
@@ -464,20 +557,28 @@ def set_opt(path, value, ed_cfg=ed, lev=CONFIG_LEV_USER):
         # Simple key
         # Assumptions:
         #    one key:val into one row
-        re_key_val  = r'(^\s*,?\s*"{}"\s*:\s*)(.+)(\s*,?\s*)$'.format(path)
-        has_pair    = re.search(re_key_val, body) is not None
+        re_key_val  = r'^\s*,?\s*"{}"\s*:.+'.format(re.escape(path))
+        cre         = re.compile(re_key_val, re.MULTILINE)
+        has_pair    = cre.search(body) is not None
+       #pass;                   LOG and log('re_key_val, has_pair={}',(re_key_val,has_pair))
         if False:pass
         elif has_pair and value is None:
             # Delete!
-            body    = re.sub(re_key_val, ''                       , body)
+           #pass;               LOG and log('del!',)
+            body    = cre.sub('', body)
         elif has_pair and value is not None:
             # Update!
-            body    = re.sub(re_key_val, '\1{}\3'.format(value4js), body)
+           #pass;               LOG and log('upd!',)
+            body    = cre.sub('    "{}": {},'.format(path, value4js), body)
+        elif not has_pair and value is None:
+            # OK
+            pass
         elif not has_pair:
             # Add! before end
+           #pass;               LOG and log('add!',)
             body    = body.rstrip(' \t\r\n')[:-1].rstrip(' \t\r\n')
-            body= body+'{}\n  "{}": {},'.format(
-                         '' if body[-1]==',' else ','
+            body= body+'{}\n    "{}": {},\n}}'.format(
+                         '' if body[-1] in ',{' else ','
                        , path
                        , value4js)
     open(cfg_json, 'w').write(body)
@@ -492,7 +593,7 @@ def _move_caret_down(cCrtSmb, rCrt, ed_=ed, id_crt=app.CARET_SET_ONE):
             ed_         Editor
             id_crt      CARET_SET_ONE or CARET_SET_INDEX+N for caret with index N
     '''
-    pass;                       LOG and log('cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE={}',(cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE))
+   #pass;                       LOG and log('cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE={}',(cCrtSmb, rCrt, id_crt==app.CARET_SET_ONE))
     if (rCrt+1)>=ed_.get_line_count():    return
     colCrt  = ed.convert(app.CONVERT_CHAR_TO_COL, cCrtSmb, rCrt  )[0]
     cCrtSmb1= ed.convert(app.CONVERT_COL_TO_CHAR, colCrt,  rCrt+1)[0]
@@ -509,6 +610,7 @@ def _json_loads(s, **kw):
     s = re.sub(',\s*}'  , '}' , s)
     s = re.sub('\[\s*,' , '[' , s)
     s = re.sub(',\s*\]' , ']' , s)
+   #pass;                       LOG and log('s={}',s)
     return json.loads(s, **kw)
     #def _json_loads
 
@@ -519,7 +621,7 @@ def get_def_setting_dir():
             ,   'settings_default' )
     #def get_def_setting_dir
 
-def opt(dct_tree, keys=(), def_val=None):
+def _opt_for_keys(dct_tree, keys=(), def_val=None):
     ''' Get opt as full dct_tree or sub-dict or single value
         Params
             keys    Path for dct_tree
@@ -538,7 +640,7 @@ def opt(dct_tree, keys=(), def_val=None):
         if k not in ans:              return def_val
         ans = ans.get(k)
     return ans
-    #def opt
+    #def _opt_for_keys
 
 def minmax(v1, v2):
     return min(v1, v2), max(v1, v2)
@@ -615,16 +717,16 @@ ToDo
 [+][kv-kv][27oct15] При Cmt1st не вставлять // перед пробелами, а заменять
 [ ][kv-kv][27oct15] ! Разрешить Комм и Дубл для режима "много кареток"
 [ ][kv-at][27oct15] Дать механизм для Localization
-[ ][kv-at][27oct15] Дать доступ из плагинов к командам из cudax_lib
+[-][kv-at][27oct15] Дать доступ из плагинов к командам из cudax_lib
 [ ][kv-at][27oct15] Спрятать в меню Plugins команды из cudax_lib
 [+][kv-kv][28oct15] Применять cmt_toggle_line_(1st|body) к каждой строке в выделении, решение по первой строке
 [+][kv-at][28oct15] Включить настройки cudax_lib в общие default.json и user.json
 [ ][kv-kv][28oct15] Контролировать, что выделенный фрагмент имеет один Лексер
-[?][at-kv][29oct15] Вычислять по всему выделению оптимальную позицию для body - min(body_pos)
-[ ][kv-kv][29oct15] Брать/использовать комментарии из def_lexs.json\CommentsForLines
-[ ][kv-at][01nov15] (bug!) При быстром последовательном клике Ctrl+/ переход на новую строку не отрабатывает
+[+][at-kv][29oct15] Вычислять по всему выделению оптимальную позицию для body - min(body_pos)
+[+][kv-kv][29oct15] Брать/использовать комментарии из def_lexs.json\CommentsForLines
+[?][kv-at][01nov15] (bug!) При быстром последовательном клике Ctrl+/ переход на новую строку не отрабатывает
 [-][kv-kv][01nov15] Разделить set_opt на set_opt и del_opt
-[ ][kv-kv][02nov15] При stream-comm выделение направлять как исходное
+[+][kv-kv][02nov15] При stream-comm выделение направлять как исходное
 [?][kv-at][02nov15] При stream-comm верт.выделении с неск каретками не давать ed.get_sel_mode()==SEL_COLUMN
 [ ][kv-kv][02nov15] При line-comm и добавлении/удалении символов перед выделением происходит смещение выделения. Избавиться!
 '''
