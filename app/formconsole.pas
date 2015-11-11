@@ -128,6 +128,9 @@ begin
   memo.WantTabs:= false;
   memo.TabStop:= true;
 
+  ed.OptTabSize:= 4;
+  memo.OptTabSize:= 4;
+
   mi:= TMenuItem.Create(Self);
   mi.Caption:= 'Clear';
   mi.OnClick:=@DoClearMemo;
