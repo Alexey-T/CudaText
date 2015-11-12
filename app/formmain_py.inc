@@ -61,6 +61,9 @@ begin
   if Str=PyMenuId_TopSearch then exit(fmMain.mnuSr);
   if Str=PyMenuId_TopFile then exit(fmMain.mnuFile);
   if Str=PyMenuId_TopView then exit(fmMain.mnuView);
+  if Str=PyMenuId_TopOptions then exit(fmMain.mnuOp);
+  if Str=PyMenuId_TopHelp then exit(fmMain.mnuHelp);
+
   if Str=PyMenuId_Text then exit(fmMain.PopupText.Items);
 end;
 
