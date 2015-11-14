@@ -364,6 +364,7 @@ end;
 
 procedure TfmMain.UpKey(mi: TMenuItem; cmd: integer);
 begin
+  if not Assigned(mi) then exit;
   mi.Tag:= cmd;
   mi.OnClick:= @MenuMainClick;
   mi.ShortCut:= Keymap.GetShortcutFromCommand(cmd);

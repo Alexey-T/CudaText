@@ -1445,6 +1445,17 @@ begin
               begin
                 fmMain.mnuFileOpenSub:= nil;
               end;
+              if Str=PyMenuId_Text then
+              begin
+                fmMain.mnuTextCopy:= nil;
+                fmMain.mnuTextCut:= nil;
+                fmMain.mnuTextDelete:= nil;
+                fmMain.mnuTextPaste:= nil;
+                fmMain.mnuTextUndo:= nil;
+                fmMain.mnuTextRedo:= nil;
+                fmMain.mnuTextSel:= nil;
+                fmMain.mnuTextGotoDef:= nil;
+              end;
             end;
             Result:= ReturnNone;
           end;

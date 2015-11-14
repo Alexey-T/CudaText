@@ -2699,11 +2699,11 @@ begin
   UpKey(mnuTextGotoDef, cmd_GotoDefinition);
 
   Ed:= CurrentEditor;
-  mnuTextCut.Enabled:= not Ed.ModeReadOnly;
-  mnuTextPaste.Enabled:= not Ed.ModeReadOnly and Clipboard.HasFormat(CF_Text);
-  mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
-  mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
-  mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
+  if assigned(mnuTextCut) then mnuTextCut.Enabled:= not Ed.ModeReadOnly;
+  if assigned(mnuTextPaste) then mnuTextPaste.Enabled:= not Ed.ModeReadOnly and Clipboard.HasFormat(CF_Text);
+  if assigned(mnuTextDelete) then mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
+  if assigned(mnuTextUndo) then mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
+  if assigned(mnuTextRedo) then mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
 end;
 
 
