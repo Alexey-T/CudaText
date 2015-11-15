@@ -339,7 +339,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\comp;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
+      <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
