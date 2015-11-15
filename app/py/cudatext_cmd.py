@@ -183,6 +183,9 @@ cmd_ShowPanelConsole   = 2535
 cmd_ShowPanelOutput    = 2536
 cmd_ShowPanelValidate  = 2537
 cmd_ToggleFindDialog   = 2538
+cmd_DialogLoadLexerStyles = 2540
+cmd_ToggleToolbar      = 2541
+cmd_ToggleStatusbar    = 2542
 
 cmd_DlgGoto       = 2580
 cmd_DlgGotoBm     = 2581

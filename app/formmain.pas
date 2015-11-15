@@ -445,8 +445,6 @@ type
     procedure mnuTreeFold9Click(Sender: TObject);
     procedure mnuTreeFoldAllClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
-    procedure mnuViewStatusClick(Sender: TObject);
-    procedure mnuViewToolbarClick(Sender: TObject);
     procedure PopupNewdocPopup(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
@@ -592,6 +590,8 @@ type
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
     procedure DoToggleFindDialog;
+    procedure DoToggleToolbar;
+    procedure DoToggleStatusbar;
     procedure DoCommentAction(Act: TATCommentAction);
     procedure FindDialogDone(Sender: TObject; const Res: string);
     procedure FinderBadRegex(Sender: TObject);
@@ -1810,16 +1810,6 @@ begin
     UpdateTree(true);
 end;
 
-procedure TfmMain.mnuViewStatusClick(Sender: TObject);
-begin
-  ShowStatus:= not ShowStatus;
-end;
-
-procedure TfmMain.mnuViewToolbarClick(Sender: TObject);
-begin
-  ShowToolbar:= not ShowToolbar;
-end;
-
 procedure TfmMain.PopupNewdocPopup(Sender: TObject);
 begin
   UpdateMenuNewdoc;
@@ -2108,6 +2098,16 @@ begin
   if not fmFind.Visible then
     if bBottom then
       CurrentEditor.SetFocus;
+end;
+
+procedure TfmMain.DoToggleToolbar;
+begin
+  ShowToolbar:= not ShowToolbar;
+end;
+
+procedure TfmMain.DoToggleStatusbar;
+begin
+  ShowStatus:= not ShowStatus;
 end;
 
 procedure TfmMain.DoCudaLibAction(const AMethod: string);

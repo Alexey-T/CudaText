@@ -45,6 +45,9 @@ begin
     cmd_ToggleSidePanel:   DoToggleSidePanel;
     cmd_ToggleBottomPanel: DoToggleBottomPanel;
     cmd_ToggleFindDialog:  DoToggleFindDialog;
+    cmd_ToggleToolbar:     DoToggleToolbar;
+    cmd_ToggleStatusbar:   DoToggleStatusbar;
+
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
     cmd_ShowPanelConsole:  DoShowConsole;
     cmd_ShowPanelOutput:   DoShowOutput;

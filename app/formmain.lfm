@@ -742,11 +742,9 @@ object fmMain: TfmMain
       end
       object mnuViewToolbar: TMenuItem
         Caption = 'Toggle toolbar'
-        OnClick = mnuViewToolbarClick
       end
       object mnuViewStatus: TMenuItem
         Caption = 'Toggle statusbar'
-        OnClick = mnuViewStatusClick
       end
       object mnuViewSide: TMenuItem
         Caption = 'Toggle side panel'
