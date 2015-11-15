@@ -73,8 +73,9 @@ begin
   Plat:= '';
   if WidgetSet<>nil then
     Plat:= PlatfNames[WidgetSet.LCLPlatform];
-  labelInf.caption:=
-    Lowercase({$I %FPCTARGETOS%}) + '-' + {$I %FPCTARGETCPU%} + '-'+Plat;
+  labelInf.Caption:=
+    Lowercase({$I %FPCTARGETOS%}) + '-' + {$I %FPCTARGETCPU%} + '-' + Plat +
+    ', fpc '+{$I %FPCVersion%};
 end;
 
 procedure TfmAbout.FormShow(Sender: TObject);

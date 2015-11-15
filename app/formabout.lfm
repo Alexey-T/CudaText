@@ -38,7 +38,7 @@ object fmAbout: TfmAbout
     Cursor = crHandPoint
     Left = 112
     Height = 17
-    Top = 112
+    Top = 128
     Width = 152
     Caption = 'www.UVViewSoft.com'
     Font.Color = clHighlight
@@ -61,7 +61,7 @@ object fmAbout: TfmAbout
   object labelInf: TLabel
     Left = 112
     Height = 17
-    Top = 82
+    Top = 80
     Width = 51
     Caption = 'labelInf'
     ParentColor = False
