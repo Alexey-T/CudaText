@@ -396,6 +396,7 @@
   "comment_full_line_if_no_sel": true,
   "comment_move_down": true,
   "comment_save_column": false,
+  "comment_equal_column": false,
   //settings for command "duplicate line (advanced)"
   "duplicate_full_line_if_no_sel": true,
   "duplicate_move_down": true,
