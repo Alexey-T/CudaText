@@ -71,7 +71,7 @@ Performs application-wide action. Possible values of id:
 ** menu_id can be: 
 *** str(int_value) to specify any submenu by unique int value
 *** "top" to specify top menu
-*** "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view" to specify submenus File/Edit/Selection/Search/View
+*** "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" to specify submenus File/Edit/Selection/Search/View/Options/Help
 *** "text" to specify editor context menu
 
 * PROC_MENU_CLEAR: Clears some submenu. Param text must be menu_id.
@@ -81,7 +81,8 @@ Performs application-wide action. Possible values of id:
 ** menu_cmd is:
 *** str(command_code) - int command code from module cudatext_cmd
 *** spec values: "recents" - recent-files submenu; "themes" - color-themes submenu; "plugins" - plugins submenu
-*** s_module+','+s_method - method in command plugin.
+*** s_module+','+s_method - method in command plugin
+*** 0 (value ignored) if submenu
 ** menu_caption is caption, or "-" for menu separator.
 ** menu_index is str(index) for 0-based index at which to insert item; empty param or -1: add item at end.
 
@@ -612,4 +613,3 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 * add: dlg_file: can take filename "!"
 * add: app_path: APP_FILE_SESSION
 * add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION
-
