@@ -401,4 +401,9 @@
   "duplicate_full_line_if_no_sel": true,
   "duplicate_move_down": true,
 
+  //file-change notification enabled
+  "notif_enable": false,
+  //file-change notification time, seconds
+  "notif_time": 1,
+
 }

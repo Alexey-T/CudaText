@@ -573,15 +573,6 @@ begin
   ed.OnKeyDown:= @EditorOnKeyDown;
 end;
 
-procedure TEditorFrame.NotifChanged(Sender: TObject);
-begin
-  if MsgBox('File changed outside:'#13+FileName+#13'Reload it?',
-    MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
-  begin
-    DoFileOpen(FileName);
-  end;
-end;
-
 constructor TEditorFrame.Create(TheOwner: TComponent);
 begin
   inherited;
@@ -1090,6 +1081,16 @@ begin
   Pages.Invalidate;
 end;
 
+procedure TEditorFrame.NotifChanged(Sender: TObject);
+begin
+  case MsgBox('File changed outside:'#13+FileName+#13'Reload it?',
+         MB_YESNOCANCEL or MB_ICONQUESTION) of
+    ID_YES:
+      DoFileOpen(FileName);
+    ID_CANCEL:
+      NotifEnabled:= false;
+  end;
+end;
 
 
 end.
