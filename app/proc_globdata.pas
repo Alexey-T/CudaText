@@ -125,6 +125,8 @@ type
     ShowTitlePath: boolean;
     ShowLastFiles: boolean;
     OneInstance: boolean;
+    NotifEnabled: boolean;
+    NotifTimeSec: integer;
   end;
 var
   UiOps: TUiOps;
@@ -696,6 +698,8 @@ begin
     ShowTitlePath:= false;
     ShowLastFiles:= true;
     OneInstance:= false;
+    NotifEnabled:= false;
+    NotifTimeSec:= 1;
   end;
 end;
 

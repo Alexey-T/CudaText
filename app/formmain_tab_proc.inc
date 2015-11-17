@@ -26,6 +26,9 @@ begin
 
   F.Editor.PopupText:= PopupText;
   F.Editor2.PopupText:= PopupText;
+
+  F.NotifEnabled:= UiOps.NotifEnabled;
+  F.NotifTime:= UiOps.NotifTimeSec*1000;
 end;
 
 function TfmMain.DoTabAdd(Pages: TATPages): TATTabData;

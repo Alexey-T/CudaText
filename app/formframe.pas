@@ -26,6 +26,7 @@ uses
   ATStrings,
   ATStringProc,
   ATStringProc_HtmlColor,
+  ATFileNotif,
   ecSyntAnal,
   proc_globdata,
   proc_lexer,
@@ -59,6 +60,7 @@ type
     FTabCaption: string;
     FFileName: string;
     FModified: boolean;
+    FNotif: TATFileNotif;
     FOnChangeCaption: TNotifyEvent;
     FOnUpdateStatus: TNotifyEvent;
     FOnFocusEditor: TNotifyEvent;
@@ -93,14 +95,19 @@ type
     function GetCommentString: string;
     function GetEncodingName: string;
     function GetLineEnds: TATLineEnds;
+    function GetNotifEnabled: boolean;
+    function GetNotifTime: integer;
     function GetReadonly: boolean;
     function GetUnprintedEnds: boolean;
     function GetUnprintedEndsDetails: boolean;
     function GetUnprintedShow: boolean;
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
+    procedure NotifChanged(Sender: TObject);
     procedure SetEncodingName(const Str: string);
     procedure SetLocked(AValue: boolean);
+    procedure SetNotifEnabled(AValue: boolean);
+    procedure SetNotifTime(AValue: integer);
     procedure SetTabColor(AColor: TColor);
     procedure SetUnprintedEnds(AValue: boolean);
     procedure SetUnprintedEndsDetails(AValue: boolean);
@@ -128,6 +135,8 @@ type
     property FileName: string read FFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property Modified: boolean read FModified;
+    property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
+    property NotifTime: integer read GetNotifTime write SetNotifTime;
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     function LexerName: string;
     function LexerNameAtPos(Pnt: TPoint): string;
@@ -313,6 +322,16 @@ begin
   Result:= Ed1.Strings.Endings;
 end;
 
+function TEditorFrame.GetNotifEnabled: boolean;
+begin
+  Result:= FNotif.Timer.Enabled;
+end;
+
+function TEditorFrame.GetNotifTime: integer;
+begin
+  Result:= FNotif.Timer.Interval;
+end;
+
 function TEditorFrame.GetReadonly: boolean;
 begin
   Result:= Ed1.Strings.ReadOnly;
@@ -364,6 +383,23 @@ begin
     Editor.EndUpdate;
     Editor2.EndUpdate;
   end;
+end;
+
+procedure TEditorFrame.SetNotifEnabled(AValue: boolean);
+begin
+  FNotif.Timer.Enabled:= false;
+  FNotif.FileName:= '';
+
+  if AValue then
+  begin
+    FNotif.FileName:= FileName;
+    FNotif.Timer.Enabled:= true;
+  end;
+end;
+
+procedure TEditorFrame.SetNotifTime(AValue: integer);
+begin
+  FNotif.Timer.Interval:= AValue;
 end;
 
 procedure TEditorFrame.UpdateEds;
@@ -537,6 +573,15 @@ begin
   ed.OnKeyDown:= @EditorOnKeyDown;
 end;
 
+procedure TEditorFrame.NotifChanged(Sender: TObject);
+begin
+  if MsgBox('File changed outside:'#13+FileName+#13'Reload it?',
+    MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
+  begin
+    DoFileOpen(FileName);
+  end;
+end;
+
 constructor TEditorFrame.Create(TheOwner: TComponent);
 begin
   inherited;
@@ -581,6 +626,11 @@ begin
 
   EncodingName:= UiOps.NewdocEnc;
   Lexer:= Manager.FindAnalyzer(UiOps.NewdocLexer);
+
+  FNotif:= TATFileNotif.Create(Self);
+  FNotif.Timer.Interval:= 1000;
+  FNotif.Timer.Enabled:= false;
+  FNotif.OnChanged:= @NotifChanged;
 end;
 
 destructor TEditorFrame.Destroy;
@@ -649,12 +699,15 @@ begin
 
   if IsFileReadonly(fn) then
     Editor.ModeReadOnly:= true;
+
+  NotifEnabled:= NotifEnabled;
 end;
 
 procedure TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog);
 var
   an: TecSyntAnalyzer;
   attr: integer;
+  PrevEnabled: boolean;
 begin
   if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then Exit;
 
@@ -685,9 +738,14 @@ begin
   end;
 
   try
+    PrevEnabled:= NotifEnabled;
+    NotifEnabled:= false;
+
     FFileAttrPrepare(FFileName, attr);
     Editor.SaveToFile(FFileName);
     FFileAttrRestore(FFileName, attr);
+
+    NotifEnabled:= PrevEnabled;
   except
     MsgBox(msgCannotSaveFile+#13+FFileName, MB_OK or MB_ICONERROR);
     Exit;
