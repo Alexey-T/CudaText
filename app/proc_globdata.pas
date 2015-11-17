@@ -312,7 +312,8 @@ type
     cEventOnFuncHint,
     cEventOnGotoDef,
     cEventOnConsole,
-    cEventOnCompare
+    cEventOnCompare,
+    cEventOnStart
     );
   TAppPyEvents = set of TAppPyEvent;
 
@@ -333,7 +334,8 @@ const
     'on_func_hint',
     'on_goto_def',
     'on_console',
-    'on_compare'
+    'on_compare',
+    'on_start'
     );
 
 
