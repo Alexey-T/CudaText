@@ -1,0 +1,19 @@
+0.4.3 2015-11-10
+Fixed: cmt_toggle_line_body with options "comment_save_column":true, "comment_equal_column":true fails on empty lines into selection.
+Fixed: cmt_toggle_line_body uses end of blanks line as body position.
+
+
+0.4.0 (nov 2015)
++get_opt set_opt 
++comment line with save cols ("comment_save_column" in user.json)
++comment line at eq cols ("comment_equal_column" in user.json)
+
+0.3.0 (nov 2015)
++comment stream
++comment line
+
+0.2.0 (oct 2015)
++duplicate
+
+0.1.0 (oct 2015)
+init
