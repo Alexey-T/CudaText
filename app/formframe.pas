@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
   ExtCtrls, Menus,
   FileUtil,
-  LCLIntf, LCLProc, LCLType,
+  LCLIntf, LCLProc, LCLType, StdCtrls,
   ATTabs,
   ATGroups,
   ATSynEdit,
@@ -36,7 +36,7 @@ uses
   proc_files,
   proc_msg,
   proc_str,
-  proc_py,
+  proc_py, ATButtons,
   jsonConf,
   math;
 
@@ -48,10 +48,18 @@ type
   { TEditorFrame }
 
   TEditorFrame = class(TFrame)
+    btnReload: TATButton;
+    btnNoNotifs: TATButton;
+    btnNoReload: TATButton;
+    LabelReload: TLabel;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    PanelTop: TPanel;
     Splitter: TSplitter;
     TimerChange: TTimer;
+    procedure btnNoNotifsClick(Sender: TObject);
+    procedure btnNoReloadClick(Sender: TObject);
+    procedure btnReloadClick(Sender: TObject);
     procedure SplitterMoved(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
@@ -1083,13 +1091,29 @@ end;
 
 procedure TEditorFrame.NotifChanged(Sender: TObject);
 begin
-  case MsgBox('File changed outside:'#13+FileName+#13'Reload it?',
-         MB_YESNOCANCEL or MB_ICONQUESTION) of
-    ID_YES:
-      DoFileOpen(FileName);
-    ID_CANCEL:
-      NotifEnabled:= false;
-  end;
+  PanelTop.Color:= GetAppColor('NotifPanel');
+  PanelTop.Show;
+  LabelReload.Caption:= 'File was changed outside';
+end;
+
+procedure TEditorFrame.btnReloadClick(Sender: TObject);
+begin
+  DoFileOpen(FileName);
+  PanelTop.Hide;
+  Editor.SetFocus;
+end;
+
+procedure TEditorFrame.btnNoNotifsClick(Sender: TObject);
+begin
+  NotifEnabled:= false;
+  PanelTop.Hide;
+  Editor.SetFocus;
+end;
+
+procedure TEditorFrame.btnNoReloadClick(Sender: TObject);
+begin
+  PanelTop.Hide;
+  Editor.SetFocus;
 end;
 
 
