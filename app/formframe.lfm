@@ -24,9 +24,9 @@ object EditorFrame: TEditorFrame
   object PanelTop: TPanel
     Left = 0
     Height = 48
-    Top = 0
+    Top = 293
     Width = 594
-    Align = alTop
+    Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 48
     ClientWidth = 594

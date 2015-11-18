@@ -1091,7 +1091,11 @@ end;
 
 procedure TEditorFrame.NotifChanged(Sender: TObject);
 begin
-  PanelTop.Color:= GetAppColor('NotifPanel');
+  PanelTop.Color:= GetAppColor('NotifPanelBg');
+  LabelReload.Font.Color:= GetAppColor('NotifPanelFont');
+  LabelReload.Font.Name:= UiOps.VarFontName;
+  LabelReload.Font.Size:= UiOps.VarFontSize;
+
   PanelTop.Show;
   LabelReload.Caption:= 'File was changed outside';
 end;
