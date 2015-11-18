@@ -1091,7 +1091,7 @@ begin
 
   case MsgBox('File was changed outside:'#13+FileName+
          #13#13'Reload?'#13+
-        '(Yes: Reload. No: Don''t reload. Cancel: No more notifications about this file.)',
+        '(Yes: reload. No: don''t reload. Cancel [Esc]: no more notifications about this file.)',
         MB_YESNOCANCEL or MB_ICONQUESTION) of
     ID_YES:
       DoFileOpen(FileName);
