@@ -21,67 +21,6 @@ object EditorFrame: TEditorFrame
     ResizeAnchor = akBottom
     ResizeStyle = rsPattern
   end
-  object PanelTop: TPanel
-    Left = 0
-    Height = 48
-    Top = 293
-    Width = 594
-    Align = alBottom
-    BevelOuter = bvNone
-    ClientHeight = 48
-    ClientWidth = 594
-    Color = clMoneyGreen
-    ParentColor = False
-    TabOrder = 1
-    Visible = False
-    object btnReload: TATButton
-      Left = 112
-      Height = 25
-      Top = 19
-      Width = 96
-      TabStop = True
-      TabOrder = 0
-      Caption = 'Reload'
-      Checked = False
-      Checkable = False
-      Focusable = True
-      OnClick = btnReloadClick
-    end
-    object btnNoNotifs: TATButton
-      Left = 208
-      Height = 25
-      Top = 19
-      Width = 160
-      TabStop = True
-      TabOrder = 1
-      Caption = 'No more notifications'
-      Checked = False
-      Checkable = False
-      Focusable = True
-      OnClick = btnNoNotifsClick
-    end
-    object btnNoReload: TATButton
-      Left = 368
-      Height = 25
-      Top = 19
-      Width = 48
-      TabStop = True
-      TabOrder = 2
-      Caption = 'x'
-      Checked = False
-      Checkable = False
-      Focusable = True
-      OnClick = btnNoReloadClick
-    end
-    object LabelReload: TLabel
-      Left = 112
-      Height = 17
-      Top = 2
-      Width = 84
-      Caption = 'LabelReload'
-      ParentColor = False
-    end
-  end
   object TimerChange: TTimer
     Enabled = False
     Interval = 2000

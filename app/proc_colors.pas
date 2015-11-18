@@ -167,9 +167,6 @@ begin
   Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
-  Add($9090e0, 'NotifPanelBg', 'file-change notification, BG');
-  Add(clBlack, 'NotifPanelFont', 'file-change notification, font');
-
   Add($e0e0e0, 'SplitMain', 'splitters, main');
   Add($e0e0e0, 'SplitGroups', 'splitters, groups');
 
