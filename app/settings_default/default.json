@@ -409,8 +409,8 @@
   "duplicate_move_down": true,
 
   //File-change notification: enabled
-  "notif_enable": true,
+  "ui_notif": true,
   //File-change notification: watch timer interval, seconds
-  "notif_time": 2,
+  "ui_notif_time": 2,
 
 }
