@@ -402,8 +402,8 @@
   "duplicate_move_down": true,
 
   //file-change notification enabled
-  "notif_enable": false,
+  "notif_enable": true,
   //file-change notification time, seconds
-  "notif_time": 1,
+  "notif_time": 2,
 
 }

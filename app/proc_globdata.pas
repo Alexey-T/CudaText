@@ -698,8 +698,8 @@ begin
     ShowTitlePath:= false;
     ShowLastFiles:= true;
     OneInstance:= false;
-    NotifEnabled:= false;
-    NotifTimeSec:= 1;
+    NotifEnabled:= true;
+    NotifTimeSec:= 2;
   end;
 end;
 
