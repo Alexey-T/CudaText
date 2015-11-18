@@ -400,7 +400,7 @@
   "comment_move_down": true,
   //Try to save chars positions in line arter commenting/uncommenting
   "comment_save_column": false,
-  //If selected >1 lines then most right shared column is used
+  //If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,
   //[Settings for command "duplicate line (advanced)"]
   //If no selection then duplicate full line
@@ -410,7 +410,7 @@
 
   //File-change notification: enabled
   "notif_enable": true,
-  //File-change notification: timer interval, seconds
+  //File-change notification: watch timer interval, seconds
   "notif_time": 2,
 
 }
