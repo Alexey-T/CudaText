@@ -7,6 +7,23 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
+procedure TfmMain.DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
+var
+  str, strItem: string;
+  i_event: TAppPyEvent;
+begin
+  AEvents:= [];
+  str:= AEventStr;
+  repeat
+    strItem:= SGetItem(str);
+    if strItem='' then Break;
+    for i_event in TAppPyEvent do
+      if strItem=cAppPyEvent[i_event] then
+        Include(AEvents, i_event);
+  until false;
+end;
+
+
 procedure TfmMain.DoOps_LoadPlugins;
 var
   fn_plugins: string;
@@ -71,13 +88,7 @@ begin
 
       //parse "events"
       str:= cfg.GetValue(strPath+'events', '');
-      repeat
-        strItem:= SGetItem(str);
-        if strItem='' then Break;
-        for i_event in TAppPyEvent do
-          if strItem=cAppPyEvent[i_event] then
-            Include(FPluginsEvents[cnt].ItemEvents, i_event);
-      until false;
+      DoPyStringToEvents(str, FPluginsEvents[cnt].ItemEvents);
 
       if cnt>=High(FPluginsEvents) then Break;
     end;

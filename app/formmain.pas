@@ -527,6 +527,8 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
+    procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexersStr: string);
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
@@ -2738,6 +2740,28 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoPyUpdateEvents(const AModuleName, AEventStr, ALexersStr: string);
+var
+  i, N: integer;
+begin
+  //find index of plugin (get first empty index if not listed)
+  N:= -1;
+  for i:= Low(FPluginsEvents) to High(FPluginsEvents) do
+    with FPluginsEvents[i] do
+      if (ItemModule=AModuleName) or (ItemModule='') then
+        begin N:= i; Break end;
+  if N<0 then Exit;
+
+  //update record
+  with FPluginsEvents[N] do
+  begin
+    if ItemModule='' then
+      ItemModule:= AModuleName;
+    DoPyStringToEvents(AEventStr, ItemEvents);
+    ItemLexers:= ALexersStr;
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

@@ -1513,6 +1513,15 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_SET_EVENTS:
+          begin
+            StrId:= SGetItem(Str, ';'); //module
+            StrCmd:= SGetItem(Str, ';'); //events
+            StrCaption:= SGetItem(Str, ';'); //lexers
+            fmMain.DoPyUpdateEvents(StrId, StrCmd, StrCaption);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
