@@ -1498,7 +1498,8 @@ begin
               begin
                 mi.Tag:= -1;
                 mi.Hint:= StrCmd;
-                mi.OnClick:= @fmMain.MenuMainClick;
+                if StrCmd<>'0' then
+                  mi.OnClick:= @fmMain.MenuMainClick;
               end;
 
               Num:= StrToIntDef(StrIndex, -1);
