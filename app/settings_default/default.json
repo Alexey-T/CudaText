@@ -13,6 +13,10 @@
 
   //Allow to run only one instance of program
   "ui_one_instance": false,
+  //File-change notification: enabled
+  "ui_notif": true,
+  //File-change notification: watch timer interval, seconds
+  "ui_notif_time": 2,
 
   //Hilite BG of lines with carets
   "show_cur_line": false,
@@ -407,10 +411,5 @@
   "duplicate_full_line_if_no_sel": true,
   //If no selection then move caret to next line
   "duplicate_move_down": true,
-
-  //File-change notification: enabled
-  "ui_notif": true,
-  //File-change notification: watch timer interval, seconds
-  "ui_notif_time": 2,
 
 }

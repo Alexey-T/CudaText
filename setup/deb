@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dname=cudatext_0.9.7.4-1_amd64
+dname=cudatext_1.0.0.0-1_amd64
 
 dd=~/tmp/$dname
 sudo rm -rf $dd

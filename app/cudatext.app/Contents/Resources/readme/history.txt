@@ -1,4 +1,9 @@
 
+1.0.0
++ opt ui_notif_* (notification for file change)
++ opt comment_equal_column
++ api
+
 0.9.7
 + cmd "toggle stream comment"
 + cmd "restore lexer styles": feature ported from SynWrite

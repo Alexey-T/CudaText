@@ -1,6 +1,6 @@
 
-0.9.8
-+ opt notif_* (notification for file change)
+1.0.0
++ opt ui_notif_* (notification for file change)
 + opt comment_equal_column
 + api
 
