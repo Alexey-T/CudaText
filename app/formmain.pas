@@ -68,7 +68,7 @@ uses
   formpalette,
   formcolorsetup,
   formabout,
-  formchecklist,
+  formchecklist, FormCharMap,
   math;
 
 type
@@ -105,6 +105,7 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuEditCharmap: TMenuItem;
     SepV2: TMenuItem;
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
@@ -511,8 +512,10 @@ type
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
+    procedure CharMapInsertChar(const ch: TUTF8Char);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
+    procedure DoDialogCharMap;
     procedure DoGotoDefinition;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
     procedure DoApplyFontFixed;
@@ -756,13 +759,13 @@ end;
 
 procedure TfmMain.tbFindClick(Sender: TObject);
 begin
-  CurrentEditor.DoCommand(cmd_DlgFind);
+  CurrentEditor.DoCommand(cmd_DialogFind);
   UpdateStatus;
 end;
 
 procedure TfmMain.tbGotoClick(Sender: TObject);
 begin
-  CurrentEditor.DoCommand(cmd_DlgGoto);
+  CurrentEditor.DoCommand(cmd_DialogGoto);
   UpdateStatus;
 end;
 
@@ -2764,6 +2767,29 @@ begin
     DoPyStringToEvents(AEventStr, ItemEvents);
     ItemLexers:= ALexersStr;
   end;
+end;
+
+
+procedure TfmMain.CharMapInsertChar(const ch: TUTF8Char);
+var
+  Ed: TATSynEdit;
+  Str: atString;
+  Caret: TATCaretItem;
+  Shift, PosAfter: TPoint;
+begin
+  Ed:= CurrentEditor;
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
+  Str:= Utf8Decode(string(ch));
+  Ed.Strings.TextInsert(Caret.PosX, Caret.PosY, Str,
+    Ed.ModeOverwrite, Shift, PosAfter);
+  Caret.PosX:= Caret.PosX+Length(Str);
+  Ed.Update(true)
+end;
+
+procedure TfmMain.DoDialogCharMap;
+begin
+  ShowCharacterMap(@CharMapInsertChar);
 end;
 
 //----------------------------

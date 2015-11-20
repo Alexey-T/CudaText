@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="41">
+    <Units Count="42">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -329,6 +329,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit40>
+      <Unit41>
+        <Filename Value="formcharmap.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="CharacterMapDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormCharMap"/>
+      </Unit41>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

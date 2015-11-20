@@ -554,6 +554,9 @@ object fmMain: TfmMain
           Caption = 'Toggle stream comment'
         end
       end
+      object mnuEditCharmap: TMenuItem
+        Caption = 'Char map...'
+      end
     end
     object mnuSel: TMenuItem
       Caption = 'Select&ion'

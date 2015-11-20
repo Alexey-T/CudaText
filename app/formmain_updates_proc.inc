@@ -436,16 +436,18 @@ begin
   UpKey(mnuCmtToggle, cmd_CommentLineToggle_AtNonspace);
   UpKey(mnuCmtToggleStr, cmd_CommentStreamToggle);
 
-  UpKey(mnuFindDlg, cmd_DlgFind);
-  UpKey(mnuFindRepDialog, cmd_DlgReplace);
+  UpKey(mnuEditCharmap, cmd_DialogCharMap);
+
+  UpKey(mnuFindDlg, cmd_DialogFind);
+  UpKey(mnuFindRepDialog, cmd_DialogReplace);
   UpKey(mnuFindNext, cmd_FindNext);
   UpKey(mnuFindPrev, cmd_FindPrev);
   UpKey(mnuFindWordNext, cmd_FindCurWordNext);
   UpKey(mnuFindWordPrev, cmd_FindCurWordPrev);
 
-  UpKey(mnuGotoLine, cmd_DlgGoto);
-  UpKey(mnuGotoTab, cmd_DlgTabs);
-  UpKey(mnuGotoBm, cmd_DlgGotoBm);
+  UpKey(mnuGotoLine, cmd_DialogGoto);
+  UpKey(mnuGotoTab, cmd_DialogTabs);
+  UpKey(mnuGotoBm, cmd_DialogGotoBookmark);
 
   UpKey(mnuBmNext, cmd_BookmarkGotoNext);
   UpKey(mnuBmPrev, cmd_BookmarkGotoPrev);
@@ -494,7 +496,7 @@ begin
   UpKey(mnuOpLexLib, cmd_DialogLexerLib);
   UpKey(mnuOpColors, cmd_DialogColors);
 
-  UpKey(mnuHelpCmd, cmd_DlgCommands);
+  UpKey(mnuHelpCmd, cmd_DialogCommands);
   UpKey(mnuHelpForum, cmd_HelpForum);
   UpKey(mnuHelpWiki, cmd_HelpWiki);
   UpKey(mnuHelpMouse, cmd_HelpMouse);

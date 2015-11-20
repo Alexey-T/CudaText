@@ -1,0 +1,148 @@
+object CharacterMapDialog: TCharacterMapDialog
+  Left = 414
+  Height = 523
+  Top = 189
+  Width = 603
+  ActiveControl = PageControl1
+  BorderStyle = bsSizeToolWin
+  Caption = 'Char map'
+  ClientHeight = 523
+  ClientWidth = 603
+  FormStyle = fsStayOnTop
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.5'
+  object ButtonPanel: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 488
+    Width = 591
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.Enabled = False
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.Enabled = False
+    TabOrder = 0
+    ShowButtons = [pbClose]
+    ShowBevel = False
+  end
+  object PageControl1: TPageControl
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = ButtonPanel
+    Left = 6
+    Height = 476
+    Top = 6
+    Width = 591
+    ActivePage = TabSheet1
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Around = 6
+    TabIndex = 0
+    TabOrder = 1
+    object TabSheet1: TTabSheet
+      Caption = 'ANSI'
+      ClientHeight = 445
+      ClientWidth = 587
+      object CharInfoLabel: TLabel
+        AnchorSideLeft.Control = TabSheet1
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = TabSheet1
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = TabSheet1
+        AnchorSideBottom.Side = asrBottom
+        Left = 6
+        Height = 17
+        Top = 422
+        Width = 575
+        Anchors = [akLeft, akRight, akBottom]
+        BorderSpacing.Around = 6
+        Caption = 'CharInfoLabel'
+        ParentColor = False
+      end
+      object StringGrid1: TStringGrid
+        AnchorSideLeft.Control = TabSheet1
+        AnchorSideTop.Control = TabSheet1
+        AnchorSideRight.Control = TabSheet1
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = CharInfoLabel
+        Left = 0
+        Height = 416
+        Top = 0
+        Width = 587
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        ColCount = 17
+        DefaultColWidth = 16
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
+        RowCount = 15
+        TabOrder = 0
+        OnKeyPress = StringGridKeyPress
+        OnMouseDown = StringGridMouseDown
+        OnMouseMove = StringGrid1MouseMove
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Unicode'
+      ClientHeight = 445
+      ClientWidth = 587
+      object UnicodeCharInfoLabel: TLabel
+        AnchorSideLeft.Control = Owner
+        AnchorSideTop.Control = cbUniRange
+        AnchorSideTop.Side = asrCenter
+        Left = 6
+        Height = 14
+        Top = 336
+        Width = 124
+        BorderSpacing.Around = 6
+        Caption = 'UnicodeCharInfoLabel'
+        ParentColor = False
+      end
+      object StringGrid2: TStringGrid
+        AnchorSideLeft.Control = TabSheet2
+        AnchorSideTop.Control = TabSheet2
+        AnchorSideRight.Control = TabSheet2
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = cbUniRange
+        Left = 0
+        Height = 327
+        Top = 0
+        Width = 468
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        ColCount = 16
+        DefaultColWidth = 16
+        FixedCols = 0
+        FixedRows = 0
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
+        RowCount = 15
+        TabOrder = 0
+        OnKeyPress = StringGridKeyPress
+        OnMouseDown = StringGridMouseDown
+        OnMouseMove = StringGrid2MouseMove
+      end
+      object cbUniRange: TComboBox
+        AnchorSideRight.Control = TabSheet2
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = TabSheet2
+        AnchorSideBottom.Side = asrBottom
+        Left = 250
+        Height = 20
+        Top = 333
+        Width = 212
+        Anchors = [akRight, akBottom]
+        BorderSpacing.Around = 6
+        ItemHeight = 0
+        OnSelect = cbUniRangeSelect
+        Style = csDropDownList
+        TabOrder = 1
+      end
+    end
+  end
+end
