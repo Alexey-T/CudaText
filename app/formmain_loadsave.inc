@@ -436,6 +436,7 @@ begin
     UiOps.TabShowX:= c.GetValue('ui_tab_show_x', UiOps.TabShowX);
     UiOps.TabShowPlus:= c.GetValue('ui_tab_show_plus', UiOps.TabShowPlus);
     UiOps.TabDblClickClose:= c.GetValue('ui_tab_2click_closes', UiOps.TabDblClickClose);
+    UiOps.TabNumbers:= c.GetValue('ui_tab_numbers', UiOps.TabNumbers);
 
     UiOps.ListboxWidth:= c.GetValue('ui_listbox_size_x', UiOps.ListboxWidth);
     UiOps.ListboxCompleteSizeX:= c.GetValue('ui_listbox_complete_size_x', UiOps.ListboxCompleteSizeX);

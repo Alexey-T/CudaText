@@ -1431,6 +1431,7 @@ begin
   Groups.SetTabOption(tabOptionIndentText, UiOps.TabIndentY);
   Groups.SetTabOption(tabOptionIndentColor, 4);
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
+  Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
 
   Status.IndentTop:= UiOps.TabIndentY;
   Status.Height:= UiOps.StatusSizeY;

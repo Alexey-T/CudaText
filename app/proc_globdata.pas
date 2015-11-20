@@ -84,6 +84,7 @@ type
     TabShowX: boolean;
     TabShowPlus: boolean;
     TabDblClickClose: boolean;
+    TabNumbers: boolean;
 
     MaxHistoryMenu: integer;
     MaxHistoryFiles: integer;
@@ -657,6 +658,7 @@ begin
     TabShowX:= true;
     TabShowPlus:= true;
     TabDblClickClose:= false;
+    TabNumbers:= false;
 
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;

@@ -237,10 +237,12 @@
   "ui_tab_show_x": true,
   //Show "+" pseudo-tab
   "ui_tab_show_plus": true,
-  //Command "set tab color" paints entire tab
+  //Command "Set tab color" paints entire tab
   "ui_tab_fullcolor": false,
   //Double-click closes tab
   "ui_tab_2click_closes": false,
+  //Show numbers on tabs
+  "ui_tab_numbers": false,
 
   //Commands listbox size
   "ui_listbox_size_x": 450,
