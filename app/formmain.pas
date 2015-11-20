@@ -533,7 +533,7 @@ type
     procedure DoFileNewFrom(const fn: string);
     procedure DoPyResetPlugins;
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
-    procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexersStr: string);
+    procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
@@ -2747,7 +2747,7 @@ begin
 end;
 
 
-procedure TfmMain.DoPyUpdateEvents(const AModuleName, AEventStr, ALexersStr: string);
+procedure TfmMain.DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
 var
   i, N: integer;
 begin
@@ -2765,7 +2765,8 @@ begin
     if ItemModule='' then
       ItemModule:= AModuleName;
     DoPyStringToEvents(AEventStr, ItemEvents);
-    ItemLexers:= ALexersStr;
+    ItemLexers:= ALexerStr;
+    ItemKeys:= AKeyStr;
   end;
 end;
 

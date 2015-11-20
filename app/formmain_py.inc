@@ -1519,7 +1519,8 @@ begin
             StrId:= SGetItem(Str, ';'); //module
             StrCmd:= SGetItem(Str, ';'); //events
             StrCaption:= SGetItem(Str, ';'); //lexers
-            fmMain.DoPyUpdateEvents(StrId, StrCmd, StrCaption);
+            StrIndex:= SGetItem(Str, ';'); //keys
+            fmMain.DoPyUpdateEvents(StrId, StrCmd, StrCaption, StrIndex);
             Result:= ReturnNone;
           end;
 
