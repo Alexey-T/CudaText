@@ -78,6 +78,7 @@ type
     ItemCaption: string;
     ItemLexers: string;
     ItemHotkey: TShortcut;
+    ItemInMenu: boolean;
   end;
   TAppPluginCmdArray = array[0..200] of TAppPluginCmd;
 

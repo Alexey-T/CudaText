@@ -67,6 +67,7 @@ begin
         FPluginsCmd[cnt].ItemCaption:= cfg.GetValue(strPath+'caption', '');
         FPluginsCmd[cnt].ItemLexers:= cfg.GetValue(strPath+'lexers', '');
         FPluginsCmd[cnt].ItemHotkey:= TextToShortCut(cfg.GetValue(strPath+'hotkey', ''));
+        FPluginsCmd[cnt].ItemInMenu:= cfg.GetValue(strPath+'menu', true);
 
         Inc(cnt);
         if cnt>=High(FPluginsCmd) then Break;
@@ -143,6 +144,7 @@ begin
   for i:= 0 to High(FPluginsCmd) do
   begin
     if FPluginsCmd[i].ItemModule='' then Break;
+    if not FPluginsCmd[i].ItemInMenu then Continue;
     mi:= nil;
     miSub:= mnuPlug;
     str:= FPluginsCmd[i].ItemCaption;
