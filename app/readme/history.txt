@@ -1,4 +1,7 @@
 
+1.0.1
++ cmd "reset python plugins"
+
 1.0.0
 + opt ui_notif_* (notification for file change)
 + opt comment_equal_column

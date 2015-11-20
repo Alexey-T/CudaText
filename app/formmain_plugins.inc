@@ -291,3 +291,27 @@ begin
     end;
 end;
 
+
+procedure TfmMain.DoPyResetPlugins;
+var
+  fn, Cmd: string;
+  L: TStringList;
+begin
+  fn:= GetAppPath(cDirPy)+DirectorySeparator+'cudatext_reset_plugins.py';
+  if not FileExists(fn) then
+  begin
+    MsgBox(msgCannotFindFile+#13+fn, MB_OK or MB_ICONERROR);
+    Exit
+  end;
+
+  L:= TStringList.Create;
+  try
+    L.LoadFromFile(fn);
+    GetPythonEngine.ExecStrings(L);
+    Cmd:= Format('_reset_plugins(r"%s")', [GetAppPath(cDirPy)]);
+    GetPythonEngine.ExecString(Cmd);
+  finally
+    FreeAndNil(L)
+  end;
+end;
+

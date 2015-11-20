@@ -60,13 +60,14 @@ begin
     cmd_FindCurSelNext:  DoFindCurrentWordOrSel(true, false);
     cmd_FindCurSelPrev:  DoFindCurrentWordOrSel(false, false);
 
-    cmd_OpsClearRecent:  DoClearRecentFileHistory;
-    cmd_OpsOpenDefault:  DoOps_OpenFile_Default;
-    cmd_OpsOpenUser:     DoOps_OpenFile_User;
-    cmd_OpsOpenLexerOvr: DoOps_OpenFile_LexerOvr;
-    cmd_OpsOpenFileTypes: DoOps_OpenFile_FileTypes;
-    cmd_OpsFontText:     DoOps_DlgFontText;
-    cmd_OpsFontUi:       DoOps_DlgFontUi;
+    cmd_OpsClearRecent:     DoClearRecentFileHistory;
+    cmd_OpsOpenDefault:     DoOps_OpenFile_Default;
+    cmd_OpsOpenUser:        DoOps_OpenFile_User;
+    cmd_OpsOpenLexerOvr:    DoOps_OpenFile_LexerOvr;
+    cmd_OpsOpenFileTypes:   DoOps_OpenFile_FileTypes;
+    cmd_OpsFontText:        DoOps_DlgFontText;
+    cmd_OpsFontUi:          DoOps_DlgFontUi;
+    cmd_ResetPythonPlugins: DoPyResetPlugins;
 
     cmd_Groups1:     Groups.Mode:= gmOne;
     cmd_Groups2horz: Groups.Mode:= gm2Horz;
