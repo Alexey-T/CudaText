@@ -1,6 +1,7 @@
 
-1.0.2
+1.1.0
 + opt ui_tab_numbers
++ cmd "Edit/ Char map"
 + cmd "reset python plugins" (like Synwrite)
 + plugins.json can have "menu":false key to hide Plugins menu item
 

@@ -56,6 +56,7 @@ const
   cmd_ToggleToolbar      = 2541;
   cmd_ToggleStatusbar    = 2542;
   cmd_ResetPythonPlugins = 2543;
+  cmd_DialogCharMap      = 2544;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -63,7 +64,6 @@ const
   cmd_DialogTabs       = 2583;
   cmd_DialogFind       = 2584;
   cmd_DialogReplace    = 2585;
-  cmd_DialogCharMap    = 2586;
 
   cmd_FindNext         = 2590;
   cmd_FindPrev         = 2591;
