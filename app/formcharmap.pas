@@ -53,6 +53,7 @@ type
     TabSheet2: TTabSheet;
     procedure cbUniRangeSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure StringGridKeyPress(Sender: TObject; var Key: char);
     procedure StringGridMouseDown(Sender: TObject; Button: TMouseButton;
@@ -94,6 +95,17 @@ begin
   CharInfoLabel.Caption := '-';
   UnicodeCharInfoLabel.Caption := '-';
   FillCharMap;
+end;
+
+procedure TCharacterMapDialog.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key=VK_ESCAPE then
+  begin
+    Close;
+    key:= 0;
+    exit
+  end;
 end;
 
 function RoundUp(Value, Divi:integer):integer;

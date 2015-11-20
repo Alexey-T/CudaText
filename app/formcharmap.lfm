@@ -1,23 +1,24 @@
 object CharacterMapDialog: TCharacterMapDialog
   Left = 414
-  Height = 523
+  Height = 486
   Top = 189
   Width = 603
   ActiveControl = PageControl1
-  BorderStyle = bsSizeToolWin
+  BorderIcons = [biSystemMenu]
   Caption = 'Char map'
-  ClientHeight = 523
+  ClientHeight = 486
   ClientWidth = 603
   FormStyle = fsStayOnTop
   KeyPreview = True
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.5'
   object ButtonPanel: TButtonPanel
     Left = 6
     Height = 29
-    Top = 488
+    Top = 451
     Width = 591
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -40,7 +41,7 @@ object CharacterMapDialog: TCharacterMapDialog
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = ButtonPanel
     Left = 6
-    Height = 476
+    Height = 439
     Top = 6
     Width = 591
     ActivePage = TabSheet1
@@ -50,7 +51,7 @@ object CharacterMapDialog: TCharacterMapDialog
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'ANSI'
-      ClientHeight = 445
+      ClientHeight = 408
       ClientWidth = 587
       object CharInfoLabel: TLabel
         AnchorSideLeft.Control = TabSheet1
@@ -61,7 +62,7 @@ object CharacterMapDialog: TCharacterMapDialog
         AnchorSideBottom.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 422
+        Top = 385
         Width = 575
         Anchors = [akLeft, akRight, akBottom]
         BorderSpacing.Around = 6
@@ -75,7 +76,7 @@ object CharacterMapDialog: TCharacterMapDialog
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = CharInfoLabel
         Left = 0
-        Height = 416
+        Height = 379
         Top = 0
         Width = 587
         Anchors = [akTop, akLeft, akRight, akBottom]
@@ -91,16 +92,16 @@ object CharacterMapDialog: TCharacterMapDialog
     end
     object TabSheet2: TTabSheet
       Caption = 'Unicode'
-      ClientHeight = 445
+      ClientHeight = 408
       ClientWidth = 587
       object UnicodeCharInfoLabel: TLabel
         AnchorSideLeft.Control = Owner
         AnchorSideTop.Control = cbUniRange
         AnchorSideTop.Side = asrCenter
         Left = 6
-        Height = 14
-        Top = 336
-        Width = 124
+        Height = 17
+        Top = 378
+        Width = 150
         BorderSpacing.Around = 6
         Caption = 'UnicodeCharInfoLabel'
         ParentColor = False
@@ -112,9 +113,9 @@ object CharacterMapDialog: TCharacterMapDialog
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = cbUniRange
         Left = 0
-        Height = 327
+        Height = 365
         Top = 0
-        Width = 468
+        Width = 587
         Anchors = [akTop, akLeft, akRight, akBottom]
         ColCount = 16
         DefaultColWidth = 16
@@ -132,12 +133,13 @@ object CharacterMapDialog: TCharacterMapDialog
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = TabSheet2
         AnchorSideBottom.Side = asrBottom
-        Left = 250
-        Height = 20
-        Top = 333
+        Left = 369
+        Height = 31
+        Top = 371
         Width = 212
         Anchors = [akRight, akBottom]
         BorderSpacing.Around = 6
+        DropDownCount = 24
         ItemHeight = 0
         OnSelect = cbUniRangeSelect
         Style = csDropDownList
