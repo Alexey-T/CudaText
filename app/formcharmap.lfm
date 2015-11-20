@@ -1,4 +1,4 @@
-object CharacterMapDialog: TCharacterMapDialog
+object fmCharmap: TfmCharmap
   Left = 414
   Height = 486
   Top = 189

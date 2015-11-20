@@ -1,4 +1,10 @@
 
+1.1.0
++ opt ui_tab_numbers
++ cmd "Edit/ Char map"
++ cmd "reset python plugins" (like Synwrite)
++ plugins.json can have "menu":false key to hide Plugins menu item
+
 1.0.0
 + opt ui_notif_* (notification for file change)
 + opt comment_equal_column

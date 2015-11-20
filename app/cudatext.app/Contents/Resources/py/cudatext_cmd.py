@@ -186,9 +186,11 @@ cmd_ToggleFindDialog   = 2538
 cmd_DialogLoadLexerStyles = 2540
 cmd_ToggleToolbar      = 2541
 cmd_ToggleStatusbar    = 2542
+cmd_ResetPythonPlugins = 2543
+cmd_DialogCharMap      = 2544
 
 cmd_DialogGoto       = 2580
-cmd_DialogGotoBm     = 2581
+cmd_DialogGotoBookmark = 2581
 cmd_DialogCommands   = 2582
 cmd_DialogTabs       = 2583
 cmd_DialogFind       = 2584

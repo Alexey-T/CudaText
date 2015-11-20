@@ -39,9 +39,9 @@ uses
 type
   TOnInsertCharacterEvent = procedure (const C: TUTF8Char) of object;
 
-  { TCharacterMapDialog }
+  { TfmCharmap }
 
-  TCharacterMapDialog = class(TForm)
+  TfmCharmap = class(TForm)
     ButtonPanel: TButtonPanel;
     CharInfoLabel: TLabel;
     cbUniRange: TComboBox;
@@ -73,7 +73,7 @@ type
 procedure ShowCharacterMap(AOnInsertChar: TOnInsertCharacterEvent);
 
 var
-  CharacterMapDialog: TCharacterMapDialog = nil;
+  fmCharmap: TfmCharmap = nil;
 
 implementation
 
@@ -81,23 +81,23 @@ implementation
 
 procedure ShowCharacterMap(AOnInsertChar: TOnInsertCharacterEvent);
 begin
-  if CharacterMapDialog = nil then
-    Application.CreateForm(TCharacterMapDialog, CharacterMapDialog);
+  if fmCharmap = nil then
+    Application.CreateForm(TfmCharmap, fmCharmap);
     
-  CharacterMapDialog.OnInsertCharacter := AOnInsertChar;
-  CharacterMapDialog.Show;
+  fmCharmap.OnInsertCharacter := AOnInsertChar;
+  fmCharmap.Show;
 end;
 
-{ TCharacterMapDialog }
+{ TfmCharmap }
 
-procedure TCharacterMapDialog.FormCreate(Sender: TObject);
+procedure TfmCharmap.FormCreate(Sender: TObject);
 begin
   CharInfoLabel.Caption := '-';
   UnicodeCharInfoLabel.Caption := '-';
   FillCharMap;
 end;
 
-procedure TCharacterMapDialog.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TfmCharmap.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if key=VK_ESCAPE then
@@ -115,7 +115,7 @@ begin
    Result:=(Value div Divi)+1;
 end;
 
-procedure TCharacterMapDialog.cbUniRangeSelect(Sender: TObject);
+procedure TfmCharmap.cbUniRangeSelect(Sender: TObject);
 var cnt, x, y :integer;
 S,E:Integer;
 begin
@@ -135,7 +135,7 @@ begin
   StringGrid2.AutoSizeColumns;
 end;
 
-procedure TCharacterMapDialog.FormShow(Sender: TObject);
+procedure TfmCharmap.FormShow(Sender: TObject);
 var i:integer;
 begin
   StringGrid1.Font.Name:= EditorOps.OpFontName;
@@ -151,7 +151,7 @@ begin
   cbUniRangeSelect(nil);
 end;
 
-procedure TCharacterMapDialog.StringGridKeyPress(Sender: TObject; var Key: char);
+procedure TfmCharmap.StringGridKeyPress(Sender: TObject; var Key: char);
 var
   sg: TStringGrid;
   s: string;
@@ -164,7 +164,7 @@ begin
   end;
 end;
 
-procedure TCharacterMapDialog.StringGridMouseDown(Sender: TObject;
+procedure TfmCharmap.StringGridMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   Row, Col: Integer;
@@ -180,7 +180,7 @@ begin
   end;
 end;
 
-procedure TCharacterMapDialog.StringGrid1MouseMove(Sender: TObject;
+procedure TfmCharmap.StringGrid1MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 var
   CharOrd: Byte;
@@ -205,7 +205,7 @@ begin
   end;
 end;
 
-procedure TCharacterMapDialog.StringGrid2MouseMove(Sender: TObject;
+procedure TfmCharmap.StringGrid2MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 var  Row, Col, i: Integer;
      S:Cardinal;
@@ -228,7 +228,7 @@ begin
   end;
 end;
 
-procedure TCharacterMapDialog.FillCharMap;
+procedure TfmCharmap.FillCharMap;
 var
   R, C: Integer;
 begin

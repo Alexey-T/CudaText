@@ -332,7 +332,7 @@
       <Unit41>
         <Filename Value="formcharmap.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="CharacterMapDialog"/>
+        <ComponentName Value="fmCharmap"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormCharMap"/>
