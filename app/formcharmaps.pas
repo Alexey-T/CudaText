@@ -36,6 +36,7 @@ type
     FOnInsert: TCharmapInsertEvent;
     FModeUnicode: boolean;
     FModeUnicodeBegin: integer;
+    function DoGetCode(aCol, aRow: integer): integer;
     procedure DoShowAnsi;
     procedure DoShowUnicode;
     procedure DoAutosize;
@@ -95,11 +96,10 @@ procedure TfmCharmaps.GridMouseDown(Sender: TObject; Button: TMouseButton;
 var
   i, j: integer;
 begin
+  if Grid.MouseToGridZone(X, Y)<>gzNormal then exit;
   if Button=mbLeft then
   begin
     Grid.MouseToCell(X, Y, i, j);
-    if i<1 then exit;
-    if j<1 then exit;
     DoInsert(i, j);
   end;
 end;
@@ -113,20 +113,27 @@ begin
   DoStatus(i, j);
 end;
 
+function TfmCharmaps.DoGetCode(aCol, aRow: integer): integer;
+begin
+  if not FModeUnicode then
+    result:= aCol-1 + (aRow-1)*16
+  else
+    result:= aCol + aRow*16 + FModeUnicodeBegin;
+end;
+
 procedure TfmCharmaps.DoStatus(aCol, aRow: integer);
 var
   code: integer;
+  str: string;
 begin
+  code:= DoGetCode(aCol, aRow);
   if not FModeUnicode then
-  begin
-    code:= aCol-1 + (aRow-1)*16;
-    LabelInfo.Caption:= Format('Decimal %d, Hex %s', [code, IntToHex(code, 2)]);
-  end
+    LabelInfo.Caption:= Format('Decimal %d, Hex %s', [code, IntToHex(code, 2)])
   else
-  begin
-    code:= aCol+aRow*16+FModeUnicodeBegin;
     LabelInfo.Caption:= Format('U+%s', [IntToHex(code, 4)]);
-  end;
+
+  str:= Utf8Encode(WideChar(code));
+  LabelInfo.Caption:= LabelInfo.Caption+Format(', Char "%s"', [str]);
 end;
 
 procedure TfmCharmaps.GridSelectCell(Sender: TObject; aCol, aRow: Integer;
@@ -240,8 +247,8 @@ var
   code: integer;
   str: string;
 begin
-  code:= aCol-1 + (aRow-1)*16;
-  str:= AnsiToUtf8(Chr(code));
+  code:= DoGetCode(aCol, aRow);
+  str:= Utf8Encode(WideChar(code));
 
   if Assigned(OnInsert) then
     OnInsert(str);
