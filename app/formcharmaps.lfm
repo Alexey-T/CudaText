@@ -1,12 +1,12 @@
 object fmCharmaps: TfmCharmaps
   Left = 478
-  Height = 285
+  Height = 462
   Top = 421
   Width = 516
   ActiveControl = Grid
   BorderIcons = [biSystemMenu]
   Caption = 'Char map'
-  ClientHeight = 285
+  ClientHeight = 462
   ClientWidth = 516
   OnCreate = FormCreate
   OnShow = FormShow
@@ -15,7 +15,7 @@ object fmCharmaps: TfmCharmaps
   object PanelBtm: TPanel
     Left = 0
     Height = 42
-    Top = 243
+    Top = 420
     Width = 516
     Align = alBottom
     BevelOuter = bvNone
@@ -81,7 +81,7 @@ object fmCharmaps: TfmCharmaps
   object PanelInfo: TPanel
     Left = 0
     Height = 39
-    Top = 204
+    Top = 381
     Width = 516
     Align = alBottom
     BevelOuter = bvNone
@@ -110,7 +110,7 @@ object fmCharmaps: TfmCharmaps
   end
   object Grid: TStringGrid
     Left = 6
-    Height = 192
+    Height = 369
     Top = 6
     Width = 504
     Align = alClient
