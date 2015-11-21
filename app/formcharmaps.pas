@@ -5,8 +5,10 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Copyright (c) Alexey Torgashin
 *)
+
 unit formcharmaps;
 
+{$define limit_unicode_to_FFFF}
 {$mode objfpc}{$H+}
 
 interface
@@ -257,7 +259,9 @@ var
 begin
   comboUnicode.Items.Clear;
   for i:= Low(UnicodeBlocks) to High(UnicodeBlocks) do
-    //if UnicodeBlocks[i].E<=$FFFF then
+    {$ifdef limit_unicode_to_FFFF}
+    if UnicodeBlocks[i].E<=$FFFF then
+    {$endif}
       comboUnicode.Items.Add(UnicodeBlocks[i].PG);
   comboUnicode.ItemIndex:= 0;
 end;
