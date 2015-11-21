@@ -6,21 +6,26 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Grids, LclType, LclProc;
+  StdCtrls, Grids, LclType, LclProc, LCLUnicodeData;
 
 type
   { TfmCharmaps }
   TCharmapInsertEvent = procedure(const Str: string) of object;
 
   TfmCharmaps = class(TForm)
+    btnAnsi: TButton;
     btnClose: TButton;
-    ComboBox1: TComboBox;
+    btnUnicode: TButton;
+    comboUnicode: TComboBox;
     LabelInfo: TLabel;
     PanelInfo: TPanel;
     PanelBtm: TPanel;
     Grid: TStringGrid;
+    procedure btnAnsiClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
-    procedure DoShowAnsi;
+    procedure btnUnicodeClick(Sender: TObject);
+    procedure comboUnicodeChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure GridKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GridMouseDown(Sender: TObject; Button: TMouseButton;
@@ -29,6 +34,10 @@ type
     procedure GridSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
   private
     FOnInsert: TCharmapInsertEvent;
+    FModeUnicode: boolean;
+    FModeUnicodeBegin: integer;
+    procedure DoShowAnsi;
+    procedure DoShowUnicode;
     procedure DoAutosize;
     procedure DoInsert(aCol, aRow: integer);
     procedure DoStatus(aCol, aRow: integer);
@@ -67,6 +76,18 @@ begin
     Key:= 0;
     exit
   end;
+  if Key=Ord('1') then
+  begin
+    DoShowAnsi;
+    Key:= 0;
+    exit
+  end;
+  if Key=Ord('2') then
+  begin
+    DoShowUnicode;
+    Key:= 0;
+    exit
+  end;
 end;
 
 procedure TfmCharmaps.GridMouseDown(Sender: TObject; Button: TMouseButton;
@@ -87,9 +108,8 @@ procedure TfmCharmaps.GridMouseMove(Sender: TObject; Shift: TShiftState; X, Y: I
 var
   i, j: integer;
 begin
+  if Grid.MouseToGridZone(X, Y)<>gzNormal then exit;
   Grid.MouseToCell(X, Y, i, j);
-  if i<1 then exit;
-  if j<1 then exit;
   DoStatus(i, j);
 end;
 
@@ -97,8 +117,16 @@ procedure TfmCharmaps.DoStatus(aCol, aRow: integer);
 var
   code: integer;
 begin
-  code:= aCol-1 + (aRow-1)*16;
-  LabelInfo.Caption:= Format('Decimal %d, Hex %s', [code, IntToHex(code, 2)]);
+  if not FModeUnicode then
+  begin
+    code:= aCol-1 + (aRow-1)*16;
+    LabelInfo.Caption:= Format('Decimal %d, Hex %s', [code, IntToHex(code, 2)]);
+  end
+  else
+  begin
+    code:= aCol+aRow*16+FModeUnicodeBegin;
+    LabelInfo.Caption:= Format('U+%s', [IntToHex(code, 4)]);
+  end;
 end;
 
 procedure TfmCharmaps.GridSelectCell(Sender: TObject; aCol, aRow: Integer;
@@ -111,8 +139,14 @@ procedure TfmCharmaps.DoShowAnsi;
 var
   i, j, code: integer;
 begin
+  FModeUnicode:= false;
+  PanelInfo.Hide;
+
+  Grid.Clear;
   Grid.RowCount:= 17;
   Grid.ColCount:= 17;
+  Grid.FixedCols:= 1;
+  Grid.FixedRows:= 1;
 
   for i:= 1 to 16 do
   begin
@@ -128,18 +162,77 @@ begin
       Grid.Cells[i, j]:= AnsiToUtf8(Chr(code));
     end;
 
+  DoStatus(Grid.Selection.Left, grid.Selection.Top);
   DoAutosize;
+end;
+
+procedure TfmCharmaps.DoShowUnicode;
+const
+  cSize=16;
+var
+  nBegin, nEnd,
+  i, j: integer;
+  str: string;
+  sel: TGridRect;
+begin
+  FModeUnicode:= true;
+  PanelInfo.Show;
+  Grid.Clear;
+
+  if comboUnicode.ItemIndex<0 then exit;
+  nBegin:= UnicodeBlocks[comboUnicode.ItemIndex].S;
+  nEnd:= UnicodeBlocks[comboUnicode.ItemIndex].E;
+  FModeUnicodeBegin:= nBegin;
+
+  Grid.ColCount:= cSize;
+  Grid.RowCount:= (nEnd-nBegin) div cSize +1;
+  Grid.FixedCols:= 0;
+  Grid.FixedRows:= 0;
+
+  for i:= nBegin to nEnd do
+    Grid.Cells[(i-nBegin) mod cSize, (i-nBegin) div cSize]:=
+      Utf8Encode(WideChar(i));
+
+  FillChar(sel, Sizeof(sel), 0);
+  Grid.Selection:= sel;
+  DoStatus(Grid.Selection.Left, Grid.Selection.Top);
+  DoAutosize;
+end;
+
+procedure TfmCharmaps.FormCreate(Sender: TObject);
+var
+  i: integer;
+begin
+  comboUnicode.Items.Clear;
+  for i:= Low(UnicodeBlocks) to High(UnicodeBlocks) do
+    comboUnicode.Items.Add(UnicodeBlocks[i].PG);
+  comboUnicode.ItemIndex:= 0;
 end;
 
 procedure TfmCharmaps.DoAutosize;
 begin
   Grid.AutoSizeColumns;
-  ClientHeight:= Grid.RowCount*(Grid.RowHeights[1]+1)+6 + PanelBtm.Height;
+  ClientHeight:= 17{fixed}*(Grid.RowHeights[1]+1)+6 + PanelBtm.Height;
 end;
 
 procedure TfmCharmaps.btnCloseClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfmCharmaps.btnUnicodeClick(Sender: TObject);
+begin
+  DoShowUnicode;
+end;
+
+procedure TfmCharmaps.comboUnicodeChange(Sender: TObject);
+begin
+  DoShowUnicode;
+end;
+
+procedure TfmCharmaps.btnAnsiClick(Sender: TObject);
+begin
+  DoShowAnsi;
 end;
 
 procedure TfmCharmaps.DoInsert(aCol, aRow: integer);

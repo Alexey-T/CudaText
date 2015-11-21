@@ -8,6 +8,7 @@ object fmCharmaps: TfmCharmaps
   Caption = 'Char map'
   ClientHeight = 285
   ClientWidth = 542
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.5'
@@ -46,6 +47,36 @@ object fmCharmaps: TfmCharmaps
       Caption = '---'
       ParentColor = False
     end
+    object btnAnsi: TButton
+      AnchorSideRight.Control = btnUnicode
+      AnchorSideBottom.Control = PanelBtm
+      AnchorSideBottom.Side = asrBottom
+      Left = 302
+      Height = 29
+      Top = 7
+      Width = 60
+      Anchors = [akRight, akBottom]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = '1: ANSI'
+      OnClick = btnAnsiClick
+      TabOrder = 1
+    end
+    object btnUnicode: TButton
+      AnchorSideRight.Control = btnClose
+      AnchorSideBottom.Control = PanelBtm
+      AnchorSideBottom.Side = asrBottom
+      Left = 368
+      Height = 29
+      Top = 7
+      Width = 82
+      Anchors = [akRight, akBottom]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = '2: Unicode'
+      OnClick = btnUnicodeClick
+      TabOrder = 2
+    end
   end
   object PanelInfo: TPanel
     Left = 0
@@ -58,21 +89,22 @@ object fmCharmaps: TfmCharmaps
     ClientWidth = 542
     TabOrder = 1
     Visible = False
-    object ComboBox1: TComboBox
+    object comboUnicode: TComboBox
+      AnchorSideLeft.Control = PanelInfo
       AnchorSideRight.Control = PanelInfo
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = PanelInfo
       AnchorSideBottom.Side = asrBottom
-      Left = 258
+      Left = 6
       Height = 31
       Top = 2
-      Width = 278
-      Anchors = [akRight, akBottom]
+      Width = 282
+      Anchors = [akLeft, akBottom]
       BorderSpacing.Around = 6
       ItemHeight = 0
+      OnChange = comboUnicodeChange
       Style = csDropDownList
       TabOrder = 0
-      Visible = False
     end
   end
   object Grid: TStringGrid
