@@ -1,5 +1,5 @@
 ﻿''' Py-extensions for CudaText.
-Overrided option tools:
+Overridden option tools:
     get_opt(path, def_value=None, level=CONFIG_LEV_ALL, ed=ed)
         Reads option from configs (lexer-override config, then user config).
         Path: simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
@@ -15,12 +15,10 @@ Comments:
 Duplicate:
     duplicate
         Dub cur selection or cur line (by opt)
-Config menus
-    load_main_menu()
 Authors:
     Andrey Kvichansky    (kvichans on githab)
 Version:
-    '0.4.3 2015-11-10'
+    '0.5.2 2015-11-19'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 '''
@@ -28,9 +26,9 @@ ToDo: (see end of file)
 import  cudatext        as app
 from    cudatext    import ed
 import  cudatext_cmd    as cmds
-import  os, json, re
+import  os, json, re, sys, collections
 
-# Overrided option tools:
+# Overridden option tools:
 CONFIG_LEV_DEF      = 'def'
 CONFIG_LEV_USER     = 'user'
 CONFIG_LEV_LEX      = 'lex'
@@ -38,18 +36,6 @@ CONFIG_LEV_FILE     = 'file'
 CONFIG_LEV_ALL      = 'dulf'
 APP_DEFAULT_OPTS    = {}
 LAST_FILE_OPTS      = {}
-
-# Menu config
-PROC_MENU_TOP       = 'top'
-PROC_MENU_TOP_FILE  = 'top-file'
-PROC_MENU_TOP_EDIT  = 'top-edit'
-PROC_MENU_TOP_SEL   = 'top-sel'
-PROC_MENU_TOP_SR    = 'top-sr'
-PROC_MENU_TOP_VIEW  = 'top-view'
-PROC_MENU_TEXT      = 'text'
-PROC_MENU_RECENTS   = 'recents'
-PROC_MENU_THEMES    = 'themes'
-PROC_MENU_PLUGINS   = 'plugins'
 
 # Localization
 CONFIG_MSG_DONT_SET_FILE= 'Cannot set editor properties'
@@ -66,44 +52,10 @@ pass;                           # Logging
 pass;                           import inspect  # stack
 pass;                           from pprint import pformat
 pass;                           pfrm15=lambda d:pformat(d,width=15)
-pass;                           LOG = (-2== 2)  # Do or dont logging.
+pass;                           LOG = (-2==-2)  # Do or dont logging.
 pass;                           log_gap = ''    # use only into log()
 
 class Command:
-    ###############################################
-    ## Menus
-#   def load_main_menu(self):
-#       ''' Reset main menu from config file
-#       '''
-#       mn_cfg_json = get_opt('config_main_menu', '')
-#       pass;                  LOG and log('mn_cfg_json={}',mn_cfg_json)
-#       if not mn_cfg_json:    return
-#       mn_cfg_json = os.path.join(app.app_path(app.APP_DIR_SETTINGS), mn_cfg_json)
-#       mn_cfg      = _json_loads(open(mn_cfg_json).read())
-#       pass;                  LOG and log('mn_cfg={}',pfrm15(mn_cfg))
-#       mn_items    = mn_cfg["items"]
-#       for mn_item in mn_items:
-#           for mn_id in mn_item:
-#               pass;          #LOG and log('mn_id={}',pfrm15(mn_id))
-#               self._reset_menu(mn_id, mn_item[mn_id])
-#      #def load_main_menu
-#
-#   def _reset_menu(self, mn_id, mn_items):
-#       pass;                  LOG and log('mn_id, mn_items={}',(mn_id, pfrm15(mn_items)))
-#       # Inspect cur menu
-#   #   app.app_proc(app.PROC_MENU_ENUM, mn_id)
-#       # Clear old items
-##       app.app_proc(app.PROC_MENU_CLEAR, mn_id)
-#       for mn_item in mn_items:
-#           if False:pass
-#           elif 'id' in mn_item:
-#               # Command!
-#           elif 'items' in mn_item:
-#               # Submenu!
-#               for mn_id in mn_item:
-#                   self._reset_menu(mn_id, mn_item[mn_id])
-#      #def _reset_menu
-
     ###############################################
     ## Comments
     def cmt_toggle_line_1st(self):
@@ -390,16 +342,19 @@ def _check_API(ver):
         return False
     return True
 
-def get_app_default_opts():
+def get_app_default_opts(**kw):
+   #pass;                       LOG and log('kw[object_pairs_hook]={}',kw.get('object_pairs_hook'))
+   #pass;                       LOG and log('type(kw[object_pairs_hook])={}',type(kw.get('object_pairs_hook')))
     global APP_DEFAULT_OPTS
     if not APP_DEFAULT_OPTS:
         # Once load def-opts
-        def_lexs_json    = os.path.join(get_def_setting_dir(), 'default.json')
-        APP_DEFAULT_OPTS = _json_loads(open(def_lexs_json).read())
+        def_json    = os.path.join(get_def_setting_dir(), 'default.json')
+        APP_DEFAULT_OPTS = _json_loads(open(def_json).read(), object_pairs_hook=collections.OrderedDict, **kw)
+#       APP_DEFAULT_OPTS = _json_loads(open(def_json).read(), **kw)
     return APP_DEFAULT_OPTS
    #def get_app_default_opts
 
-def _get_file_opts(opts_json, def_opts={}):
+def _get_file_opts(opts_json, def_opts={}, **kw):
 #   global LAST_FILE_OPTS
     if not os.path.exists(opts_json):
         pass;              #LOG and log('no {}',os.path.basename(opts_json))
@@ -408,19 +363,19 @@ def _get_file_opts(opts_json, def_opts={}):
     mtime_os    = os.path.getmtime(opts_json)
     if opts_json not in LAST_FILE_OPTS:
         pass;              #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
-        opts    = _json_loads(open(opts_json).read())
+        opts    = _json_loads(open(opts_json).read(), **kw)
         LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
     else:
         opts, mtime = LAST_FILE_OPTS[opts_json]
         if mtime_os > mtime:
             pass;          #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
-            opts= _json_loads(open(opts_json).read())
+            opts= _json_loads(open(opts_json).read(), **kw)
             LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
     return opts
    #def _get_file_opts
 
 def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
-    ''' Overrided options tool.
+    ''' Overridden options tool.
         Config pairs key:val are read from
             <root>/settings_default/default.json
             <root>/settings/user.json
@@ -491,7 +446,7 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
    #def get_opt
 
 def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
-    ''' Overrided options tool.
+    ''' Overridden options tool.
         Config pairs key:val are add/update/delete into
             <root>/settings/user.json
             <root>/settings/lexer <LEXER-NAME>.json
@@ -615,14 +570,24 @@ def _json_loads(s, **kw):
             Delete comments
             Delete unnecessary ',' from {,***,} and [,***,]
     '''
-    s = re.sub('//.*'   , ''  , s)
-    s = re.sub('{\s*,'  , '{' , s)
-    s = re.sub(',\s*}'  , '}' , s)
-    s = re.sub('\[\s*,' , '[' , s)
-    s = re.sub(',\s*\]' , ']' , s)
-    pass;                      #LOG and log('s={}',s)
-    return json.loads(s, **kw)
+    s = re.sub(r'//.*'   , ''  , s)
+    s = re.sub(r'{\s*,'  , '{' , s)
+    s = re.sub(r',\s*}'  , '}' , s)
+    s = re.sub(r'\[\s*,' , '[' , s)
+    s = re.sub(r',\s*\]' , ']' , s)
+    try:
+        ans = json.loads(s, **kw)
+    except:
+        pass;                  LOG and log('FAIL: s={}',s)
+        pass;                  LOG and log('sys.exc_info()={}',sys.exc_info())
+        open(kw.get('log_file', _get_log_file()), 'a').write('_json_loads FAIL: s=\n'+s)
+        ans = None
+    return ans
+#   return json.loads(s, **kw)
     #def _json_loads
+
+def _get_log_file():
+    return os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'cudax.log')
 
 def get_def_setting_dir():
     pass;                     #LOG and log('os.path.dirname(app.app_path(app.APP_DIR_SETTINGS))={}', os.path.dirname(app.app_path(app.APP_DIR_SETTINGS)))
