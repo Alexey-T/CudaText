@@ -33,6 +33,7 @@ procedure EditorBmInvertAll(ed: TATSynEdit);
 procedure EditorBmClearAll(ed: TATSynEdit);
 procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
 
+function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
 
@@ -486,6 +487,20 @@ begin
     An.SubAnalyzers[Cnt].SyntAnalyzer:= SyntaxManager.FindAnalyzer(SItem);
     Inc(Cnt);
   until false;
+end;
+
+function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
+var
+  Caret: TATCaretItem;
+  str: atString;
+begin
+  Result:= #0;
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
+  str:= Ed.Strings.Lines[Caret.PosY];
+  if (Caret.PosX<0) or (Caret.PosX>=Length(str)) then exit;
+  Result:= str[Caret.PosX+1];
 end;
 
 

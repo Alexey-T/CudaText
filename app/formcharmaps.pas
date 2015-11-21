@@ -8,7 +8,6 @@ Copyright (c) Alexey Torgashin
 
 unit formcharmaps;
 
-{$define limit_unicode_to_FFFF}
 {$mode objfpc}{$H+}
 
 interface
@@ -55,6 +54,8 @@ type
     { private declarations }
   public
     { public declarations }
+    AllowUnicodeAfterFFFF: boolean;
+    InitialAsciiCode: byte;
     property OnInsert: TCharmapInsertEvent read FOnInsert write FOnInsert;
   end;
 
@@ -104,7 +105,12 @@ end;
 
 procedure TfmCharmaps.FormShow(Sender: TObject);
 begin
-  DoShowAnsi;
+  if not FUnicode then
+    if InitialAsciiCode>0 then
+    begin
+      Grid.Col:= InitialAsciiCode mod 16 +1;
+      Grid.Row:= InitialAsciiCode div 16 +1;
+    end;
 end;
 
 procedure TfmCharmaps.GridKeyDown(Sender: TObject; var Key: Word;
@@ -112,7 +118,7 @@ procedure TfmCharmaps.GridKeyDown(Sender: TObject; var Key: Word;
 begin
   if Key=VK_RETURN then
   begin
-    DoInsert(Grid.Selection.Left, Grid.Selection.Top);
+    DoInsert(Grid.Col, Grid.Row);
     Key:= 0;
     exit;
   end;
@@ -168,7 +174,10 @@ end;
 
 function CodeToString(code: integer): string;
 begin
-  Result:= UnicodeToUTF8(code);
+  if code>=0 then
+    Result:= UnicodeToUTF8(code)
+  else
+    Result:= '';
 end;
 
 procedure TfmCharmaps.DoShowStatus(aCol, aRow: integer);
@@ -219,7 +228,7 @@ begin
       Grid.Cells[i, j]:= AnsiToUtf8(Chr(code));
     end;
 
-  DoShowStatus(Grid.Selection.Left, grid.Selection.Top);
+  DoShowStatus(Grid.Col, Grid.Row);
   DoFormAutosize;
 end;
 
@@ -227,7 +236,6 @@ procedure TfmCharmaps.DoShowUnicode;
 const
   cSize=16;
 var
-  sel: TGridRect;
   nBegin, nEnd, i: integer;
 begin
   FUnicode:= true;
@@ -247,8 +255,8 @@ begin
   for i:= nBegin to nEnd do
     Grid.Cells[(i-nBegin) mod cSize, (i-nBegin) div cSize]:= CodeToString(i);
 
-  FillChar(sel, Sizeof(sel), 0);
-  Grid.Selection:= sel;
+  Grid.Row:= 0;
+  Grid.Col:= 0;
   DoShowStatus(0, 0);
   DoFormAutosize;
 end;
@@ -259,11 +267,11 @@ var
 begin
   comboUnicode.Items.Clear;
   for i:= Low(UnicodeBlocks) to High(UnicodeBlocks) do
-    {$ifdef limit_unicode_to_FFFF}
-    if UnicodeBlocks[i].E<=$FFFF then
-    {$endif}
+    if AllowUnicodeAfterFFFF or (UnicodeBlocks[i].E<=$FFFF) then
       comboUnicode.Items.Add(UnicodeBlocks[i].PG);
   comboUnicode.ItemIndex:= 0;
+
+  DoShowAnsi;
 end;
 
 procedure TfmCharmaps.DoFormAutosize;
