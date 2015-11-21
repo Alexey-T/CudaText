@@ -68,7 +68,8 @@ uses
   formpalette,
   formcolorsetup,
   formabout,
-  formchecklist, FormCharMap,
+  formchecklist,
+  formcharmaps,
   math;
 
 type
@@ -512,7 +513,7 @@ type
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
-    procedure CharMapInsertChar(const ch: TUTF8Char);
+    procedure CharmapOnInsert(const AStr: string);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
@@ -2771,26 +2772,34 @@ begin
 end;
 
 
-procedure TfmMain.CharMapInsertChar(const ch: TUTF8Char);
+procedure TfmMain.CharmapOnInsert(const AStr: string);
 var
   Ed: TATSynEdit;
-  Str: atString;
   Caret: TATCaretItem;
+  Str: atString;
   Shift, PosAfter: TPoint;
 begin
   Ed:= CurrentEditor;
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
-  Str:= Utf8Decode(string(ch));
+  Str:= Utf8Decode(AStr);
+
   Ed.Strings.TextInsert(Caret.PosX, Caret.PosY, Str,
     Ed.ModeOverwrite, Shift, PosAfter);
-  Caret.PosX:= Caret.PosX+Length(Str);
-  Ed.Update(true)
+  Ed.DoCaretSingle(Caret.PosX+Length(Str), Caret.PosY);
+
+  UpdateFrame(true);
+  UpdateStatus;
 end;
 
 procedure TfmMain.DoDialogCharMap;
 begin
-  ShowCharacterMap(@CharMapInsertChar);
+  if fmCharmaps=nil then
+  begin
+    fmCharmaps:= TfmCharmaps.Create(nil);
+    fmCharmaps.OnInsert:= @CharmapOnInsert;
+  end;
+  fmCharmaps.Show;
 end;
 
 //----------------------------

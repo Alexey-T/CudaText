@@ -29,9 +29,8 @@ var
   fn_plugins: string;
   cfg: TJsonConfig;
   list, list2: TStringlist;
-  str, strItem, strPath: string;
+  str, strPath: string;
   i, j, cnt: integer;
-  i_event: TAppPyEvent;
 begin
   fn_plugins:= GetAppPath(cFileOptPlugins);
   if not FileExists(fn_plugins) then exit;

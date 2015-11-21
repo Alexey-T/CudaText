@@ -330,12 +330,11 @@
         <ResourceBaseClass Value="Form"/>
       </Unit40>
       <Unit41>
-        <Filename Value="formcharmap.pas"/>
+        <Filename Value="formcharmaps.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fmCharmap"/>
+        <ComponentName Value="fmCharmaps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="FormCharMap"/>
       </Unit41>
     </Units>
   </ProjectOptions>
