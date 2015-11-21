@@ -1,12 +1,12 @@
 object fmCharmaps: TfmCharmaps
   Left = 478
-  Height = 498
-  Top = 420
+  Height = 285
+  Top = 421
   Width = 542
   ActiveControl = Grid
   BorderIcons = [biSystemMenu]
   Caption = 'Char map'
-  ClientHeight = 498
+  ClientHeight = 285
   ClientWidth = 542
   OnShow = FormShow
   Position = poScreenCenter
@@ -14,7 +14,7 @@ object fmCharmaps: TfmCharmaps
   object PanelBtm: TPanel
     Left = 0
     Height = 42
-    Top = 456
+    Top = 243
     Width = 542
     Align = alBottom
     BevelOuter = bvNone
@@ -50,7 +50,7 @@ object fmCharmaps: TfmCharmaps
   object PanelInfo: TPanel
     Left = 0
     Height = 39
-    Top = 417
+    Top = 204
     Width = 542
     Align = alBottom
     BevelOuter = bvNone
@@ -77,13 +77,13 @@ object fmCharmaps: TfmCharmaps
   end
   object Grid: TStringGrid
     Left = 6
-    Height = 405
+    Height = 192
     Top = 6
     Width = 530
     Align = alClient
     AutoEdit = False
     BorderSpacing.Around = 6
-    DefaultRowHeight = 23
+    DefaultRowHeight = 24
     ExtendedSelect = False
     Font.Height = -13
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]

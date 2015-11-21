@@ -29,6 +29,7 @@ type
     procedure GridSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
   private
     FOnInsert: TCharmapInsertEvent;
+    procedure DoAutosize;
     procedure DoInsert(aCol, aRow: integer);
     procedure DoStatus(aCol, aRow: integer);
     { private declarations }
@@ -127,7 +128,13 @@ begin
       Grid.Cells[i, j]:= AnsiToUtf8(Chr(code));
     end;
 
+  DoAutosize;
+end;
+
+procedure TfmCharmaps.DoAutosize;
+begin
   Grid.AutoSizeColumns;
+  ClientHeight:= Grid.RowCount*(Grid.RowHeights[1]+1)+6 + PanelBtm.Height;
 end;
 
 procedure TfmCharmaps.btnCloseClick(Sender: TObject);
