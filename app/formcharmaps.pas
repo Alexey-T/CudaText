@@ -132,7 +132,7 @@ begin
   else
     LabelInfo.Caption:= Format('U+%s', [IntToHex(code, 4)]);
 
-  str:= Utf8Encode(WideChar(code));
+  str:= Utf8Encode(Widestring(WideChar(code)));
   LabelInfo.Caption:= LabelInfo.Caption+Format(', Char "%s"', [str]);
 end;
 
@@ -198,7 +198,7 @@ begin
 
   for i:= nBegin to nEnd do
     Grid.Cells[(i-nBegin) mod cSize, (i-nBegin) div cSize]:=
-      Utf8Encode(WideChar(i));
+      Utf8Encode(Widestring(WideChar(i)));
 
   FillChar(sel, Sizeof(sel), 0);
   Grid.Selection:= sel;
@@ -248,7 +248,7 @@ var
   str: string;
 begin
   code:= DoGetCode(aCol, aRow);
-  str:= Utf8Encode(WideChar(code));
+  str:= Utf8Encode(Widestring(WideChar(code)));
 
   if Assigned(OnInsert) then
     OnInsert(str);

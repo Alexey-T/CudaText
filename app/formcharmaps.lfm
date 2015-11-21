@@ -101,6 +101,7 @@ object fmCharmaps: TfmCharmaps
       Width = 282
       Anchors = [akLeft, akBottom]
       BorderSpacing.Around = 6
+      DropDownCount = 30
       ItemHeight = 0
       OnChange = comboUnicodeChange
       Style = csDropDownList
