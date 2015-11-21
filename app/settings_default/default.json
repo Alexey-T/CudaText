@@ -70,9 +70,9 @@
   "spacing_x": 0,
   "spacing_y": 0,
 
-  //tab-char width
+  //Tab-char width
   "tab_size": 8,
-  //tab-key enters spaces
+  //Tab-key enters spaces
   "tab_spaces": false,
 
   //Enable gutter (all columns at the left side)

@@ -1,3 +1,10 @@
+(*
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+Copyright (c) Alexey Torgashin
+*)
 unit formcharmaps;
 
 {$mode objfpc}{$H+}
@@ -9,9 +16,10 @@ uses
   StdCtrls, Grids, LclType, LclProc, LCLUnicodeData;
 
 type
-  { TfmCharmaps }
   TCharmapInsertEvent = procedure(const Str: string) of object;
 
+type
+  { TfmCharmaps }
   TfmCharmaps = class(TForm)
     btnAnsi: TButton;
     btnClose: TButton;
@@ -34,14 +42,14 @@ type
     procedure GridSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
   private
     FOnInsert: TCharmapInsertEvent;
-    FModeUnicode: boolean;
-    FModeUnicodeBegin: integer;
+    FUnicode: boolean;
+    FUnicodeBegin: integer;
     function DoGetCode(aCol, aRow: integer): integer;
     procedure DoShowAnsi;
     procedure DoShowUnicode;
-    procedure DoAutosize;
+    procedure DoFormAutosize;
     procedure DoInsert(aCol, aRow: integer);
-    procedure DoStatus(aCol, aRow: integer);
+    procedure DoShowStatus(aCol, aRow: integer);
     { private declarations }
   public
     { public declarations }
@@ -110,24 +118,24 @@ var
 begin
   if Grid.MouseToGridZone(X, Y)<>gzNormal then exit;
   Grid.MouseToCell(X, Y, i, j);
-  DoStatus(i, j);
+  DoShowStatus(i, j);
 end;
 
 function TfmCharmaps.DoGetCode(aCol, aRow: integer): integer;
 begin
-  if not FModeUnicode then
-    result:= aCol-1 + (aRow-1)*16
+  if not FUnicode then
+    Result:= aCol-1 + (aRow-1)*16
   else
-    result:= aCol + aRow*16 + FModeUnicodeBegin;
+    Result:= aCol + aRow*16 + FUnicodeBegin;
 end;
 
-procedure TfmCharmaps.DoStatus(aCol, aRow: integer);
+procedure TfmCharmaps.DoShowStatus(aCol, aRow: integer);
 var
   code: integer;
   str: string;
 begin
   code:= DoGetCode(aCol, aRow);
-  if not FModeUnicode then
+  if not FUnicode then
     LabelInfo.Caption:= Format('Decimal %d, Hex %s', [code, IntToHex(code, 2)])
   else
     LabelInfo.Caption:= Format('U+%s', [IntToHex(code, 4)]);
@@ -139,14 +147,14 @@ end;
 procedure TfmCharmaps.GridSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
 begin
-  DoStatus(aCol, aRow);
+  DoShowStatus(aCol, aRow);
 end;
 
 procedure TfmCharmaps.DoShowAnsi;
 var
   i, j, code: integer;
 begin
-  FModeUnicode:= false;
+  FUnicode:= false;
   PanelInfo.Hide;
 
   Grid.Clear;
@@ -169,27 +177,25 @@ begin
       Grid.Cells[i, j]:= AnsiToUtf8(Chr(code));
     end;
 
-  DoStatus(Grid.Selection.Left, grid.Selection.Top);
-  DoAutosize;
+  DoShowStatus(Grid.Selection.Left, grid.Selection.Top);
+  DoFormAutosize;
 end;
 
 procedure TfmCharmaps.DoShowUnicode;
 const
   cSize=16;
 var
-  nBegin, nEnd,
-  i, j: integer;
-  str: string;
   sel: TGridRect;
+  nBegin, nEnd, i: integer;
 begin
-  FModeUnicode:= true;
+  FUnicode:= true;
   PanelInfo.Show;
   Grid.Clear;
 
   if comboUnicode.ItemIndex<0 then exit;
   nBegin:= UnicodeBlocks[comboUnicode.ItemIndex].S;
   nEnd:= UnicodeBlocks[comboUnicode.ItemIndex].E;
-  FModeUnicodeBegin:= nBegin;
+  FUnicodeBegin:= nBegin;
 
   Grid.ColCount:= cSize;
   Grid.RowCount:= (nEnd-nBegin) div cSize +1;
@@ -202,8 +208,8 @@ begin
 
   FillChar(sel, Sizeof(sel), 0);
   Grid.Selection:= sel;
-  DoStatus(Grid.Selection.Left, Grid.Selection.Top);
-  DoAutosize;
+  DoShowStatus(0, 0);
+  DoFormAutosize;
 end;
 
 procedure TfmCharmaps.FormCreate(Sender: TObject);
@@ -216,10 +222,10 @@ begin
   comboUnicode.ItemIndex:= 0;
 end;
 
-procedure TfmCharmaps.DoAutosize;
+procedure TfmCharmaps.DoFormAutosize;
 begin
   Grid.AutoSizeColumns;
-  ClientHeight:= 17{fixed}*(Grid.RowHeights[1]+1)+6 + PanelBtm.Height;
+  ClientHeight:= 17{fixed}*(Grid.RowHeights[1]+1) + 6 + PanelBtm.Height;
 end;
 
 procedure TfmCharmaps.btnCloseClick(Sender: TObject);
