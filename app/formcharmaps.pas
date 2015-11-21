@@ -97,7 +97,7 @@ var
   code: integer;
 begin
   code:= aCol-1 + (aRow-1)*16;
-  LabelInfo.Caption:= Format('ANSI %d', [code]);
+  LabelInfo.Caption:= Format('Decimal %d, Hex %s', [code, IntToHex(code, 2)]);
 end;
 
 procedure TfmCharmaps.GridSelectCell(Sender: TObject; aCol, aRow: Integer;
