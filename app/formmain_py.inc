@@ -171,39 +171,18 @@ begin
 end;
 
 
-type
-  TDummy1 = class
-    StrVal: string;
-    procedure DoOnInsert(const S: string);
-  end;
-
-procedure TDummy1.DoOnInsert(const S: string);
-begin
-  StrVal:= S;
-end;
-
 function Py_dlg_charmap(Self, Args : PPyObject): PPyObject; cdecl;
 var
-  F: TfmCharmaps;
-  Dummy: TDummy1;
+  str: string;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, ':dlg_charmap')) then
     begin
-      F:= TfmCharmaps.Create(nil);
-      Dummy:= TDummy1.Create;
-
-      try
-        F.OnInsert:= @Dummy.DoOnInsert;
-        F.ShowModal;
-        if Dummy.StrVal<>'' then
-          Result:= PyString_FromString(PChar(Dummy.StrVal))
-        else
-          Result:= ReturnNone;
-      finally
-        FreeAndNil(Dummy);
-        FreeAndNil(F);
-      end;
+      str:= DoDialogCharmapModal;
+      if str<>'' then
+        Result:= PyString_FromString(PChar(str))
+      else
+        Result:= ReturnNone;
     end;
 end;
 

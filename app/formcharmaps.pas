@@ -59,9 +59,44 @@ type
 var
   fmCharmaps: TfmCharmaps;
 
+function DoDialogCharmapModal: string;
+
 implementation
 
 {$R *.lfm}
+
+type
+  TDummy = class
+  public
+    StrVal: string;
+    Form: TForm;
+    procedure OnInsert(const S: string);
+  end;
+
+procedure TDummy.OnInsert(const S: string);
+begin
+  StrVal:= S;
+  if Assigned(Form) then Form.Close;
+end;
+
+function DoDialogCharmapModal: string;
+var
+  F: TfmCharmaps;
+  Dummy: TDummy;
+begin
+  F:= TfmCharmaps.Create(nil);
+  Dummy:= TDummy.Create;
+  Dummy.Form:= F;
+
+  try
+    F.OnInsert:= @Dummy.OnInsert;
+    F.ShowModal;
+    Result:= Dummy.StrVal;
+  finally
+    FreeAndNil(Dummy);
+    FreeAndNil(F);
+  end;
+end;
 
 { TfmCharmaps }
 
