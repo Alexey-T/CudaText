@@ -1,7 +1,7 @@
 object fmCharmaps: TfmCharmaps
   Left = 478
   Height = 462
-  Top = 421
+  Top = 278
   Width = 516
   ActiveControl = Grid
   BorderIcons = [biSystemMenu]

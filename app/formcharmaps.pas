@@ -164,6 +164,11 @@ begin
     Result:= aCol + aRow*16 + FUnicodeBegin;
 end;
 
+function CodeToString(code: integer): string;
+begin
+  Result:= UnicodeToUTF8(code);
+end;
+
 procedure TfmCharmaps.DoShowStatus(aCol, aRow: integer);
 var
   code: integer;
@@ -175,7 +180,7 @@ begin
   else
     LabelInfo.Caption:= Format('U+%s', [IntToHex(code, 4)]);
 
-  str:= Utf8Encode(Widestring(WideChar(code)));
+  str:= CodeToString(code);
   LabelInfo.Caption:= LabelInfo.Caption+Format(', Char "%s"', [str]);
 end;
 
@@ -238,8 +243,7 @@ begin
   Grid.FixedRows:= 0;
 
   for i:= nBegin to nEnd do
-    Grid.Cells[(i-nBegin) mod cSize, (i-nBegin) div cSize]:=
-      Utf8Encode(Widestring(WideChar(i)));
+    Grid.Cells[(i-nBegin) mod cSize, (i-nBegin) div cSize]:= CodeToString(i);
 
   FillChar(sel, Sizeof(sel), 0);
   Grid.Selection:= sel;
@@ -253,7 +257,8 @@ var
 begin
   comboUnicode.Items.Clear;
   for i:= Low(UnicodeBlocks) to High(UnicodeBlocks) do
-    comboUnicode.Items.Add(UnicodeBlocks[i].PG);
+    //if UnicodeBlocks[i].E<=$FFFF then
+      comboUnicode.Items.Add(UnicodeBlocks[i].PG);
   comboUnicode.ItemIndex:= 0;
 end;
 
@@ -289,7 +294,7 @@ var
   str: string;
 begin
   code:= DoGetCode(aCol, aRow);
-  str:= Utf8Encode(Widestring(WideChar(code)));
+  str:= CodeToString(code);
 
   if Assigned(OnInsert) then
     OnInsert(str);
