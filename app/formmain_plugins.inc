@@ -143,7 +143,6 @@ begin
   for i:= 0 to High(FPluginsCmd) do
   begin
     if FPluginsCmd[i].ItemModule='' then Break;
-    if not FPluginsCmd[i].ItemInMenu then Continue;
     mi:= nil;
     miSub:= mnuPlug;
     str:= FPluginsCmd[i].ItemCaption;
@@ -169,6 +168,7 @@ begin
 
     if Assigned(mi) then
     begin
+      mi.Visible:= FPluginsCmd[i].ItemInMenu;
       mi.ShortCut:= FPluginsCmd[i].ItemHotkey;
       mi.OnClick:= @MenuPluginClick;
       mi.Tag:= i;
