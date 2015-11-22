@@ -75,12 +75,7 @@ end;
 procedure TfmGoto.FormShow(Sender: TObject);
 begin
   UpdateFonts;
-
-  {$ifdef darwin}
-  bClose.Caption:= 'x';
-  {$else}
-  bClose.Glyph:= GetBitmapX(GetAppColor('ButtonFont'));
-  {$endif}
+  UpdateButtonIconX(bClose);
 end;
 
 procedure TfmGoto.DoDone(const S: string);

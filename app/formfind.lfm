@@ -323,6 +323,7 @@ object fmFind: TfmFind
       OptKeyTabIndents = True
       OptIndentSize = 2
       OptIndentKeepsAlign = True
+      OptMaxLinesToCountUnindent = 100
       OptShowIndentLines = True
       OptShowGutterCaretBG = True
       OptAllowScrollbarVert = False
@@ -483,6 +484,7 @@ object fmFind: TfmFind
       OptKeyTabIndents = True
       OptIndentSize = 2
       OptIndentKeepsAlign = True
+      OptMaxLinesToCountUnindent = 100
       OptShowIndentLines = True
       OptShowGutterCaretBG = True
       OptAllowScrollbarVert = False

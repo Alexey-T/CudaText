@@ -251,7 +251,6 @@ function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetDefaultListItemHeight: integer;
-function GetBitmapX(AColor: TColor): TBitmap;
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem);
@@ -343,9 +342,6 @@ const
 
 
 implementation
-
-var
-  bmpX: TBitmap = nil;
 
 function InitPyLibraryPath: string;
 begin
@@ -814,31 +810,6 @@ begin
   bmp.Canvas.Font.Size:= UiOps.VarFontSize;
   Result:= bmp.Canvas.TextHeight('Pyj')+3;
   bmp.Free;
-end;
-
-function GetBitmapX(AColor: TColor): TBitmap;
-const
-  size=7;
-  colBack=clWhite;
-begin
-  if not Assigned(bmpX) then
-  begin
-    bmpX:= TBitmap.Create;
-    bmpX.SetSize(size, size);
-    bmpX.Transparent:= true;
-    bmpX.TransparentColor:= colBack;
-  end;
-
-  with bmpX.Canvas do
-  begin
-    Brush.Color:= colBack;
-    FillRect(0, 0, size, size);
-    Pen.Color:= AColor;
-    Line(1, 1, size, size);
-    Line(size, 0, 0, size);
-  end;
-
-  Result:= bmpX;
 end;
 
 

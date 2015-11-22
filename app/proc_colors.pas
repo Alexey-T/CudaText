@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics,
-  Dialogs,
+  Dialogs, Buttons,
   LclProc, LclType,
   ATStringProc,
   ATStringProc_HtmlColor,
@@ -30,6 +30,7 @@ procedure DoInitTheme(var D: TAppTheme);
 procedure DoLoadTheme(const fn: string; var D: TAppTheme);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme);
 function GetAppColor(const name: string): TColor;
+procedure UpdateButtonIconX(btn: TSpeedButton);
 
 implementation
 
@@ -205,6 +206,44 @@ begin
     if Theme[i].name=name then
       begin Result:= Theme[i].color; exit end;
   raise Exception.Create('Incorrect color id: '+name);
+end;
+
+
+var
+  bmpX: TBitmap = nil;
+
+function GetBitmapX(AColor: TColor): TBitmap;
+const
+  size=7;
+  colBack=clWhite;
+begin
+  if not Assigned(bmpX) then
+  begin
+    bmpX:= TBitmap.Create;
+    bmpX.SetSize(size, size);
+    bmpX.Transparent:= true;
+    bmpX.TransparentColor:= colBack;
+  end;
+
+  with bmpX.Canvas do
+  begin
+    Brush.Color:= colBack;
+    FillRect(0, 0, size, size);
+    Pen.Color:= AColor;
+    Line(1, 1, size, size);
+    Line(size, 0, 0, size);
+  end;
+
+  Result:= bmpX;
+end;
+
+procedure UpdateButtonIconX(btn: TSpeedButton);
+begin
+  {$ifdef darwin}
+  btn.Caption:= 'x';
+  {$else}
+  btn.Glyph:= GetBitmapX(GetAppColor('ButtonFont'));
+  {$endif}
 end;
 
 initialization
