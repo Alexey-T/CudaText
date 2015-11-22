@@ -33,9 +33,9 @@
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
 
-  //Enable caret-depending hiliting
-  //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
-  //  HTML/XML hilites opening/closing tags when caret is inside tag
+  //Enable caret-depending highlighting:
+  //e.g. Pascal hilites "begin"/"end" with green when caret is inside block;
+  //HTML/XML hilites opening/closing tags when caret is inside tag
   "dyn_hilite": true,
 
   //If no selection, "Copy" will take entire line with caret
@@ -404,7 +404,7 @@
   "comment_full_line_if_no_sel": true,
   //If no selection then move caret to next line
   "comment_move_down": true,
-  //Try to save chars positions in line arter commenting/uncommenting
+  //Try to save chars positions in line after commenting/uncommenting
   "comment_save_column": false,
   //If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,
