@@ -276,7 +276,12 @@ end;
 procedure TfmFind.FormShow(Sender: TObject);
 begin
   UpdateFonts;
+
+  {$ifdef darwin}
+  bCancel.Caption:= 'x';
+  {$else}
   bCancel.Glyph:= GetBitmapX(GetAppColor('ButtonFont'));
+  {$endif}
 end;
 
 procedure TfmFind.DoDone(const Str: string);
