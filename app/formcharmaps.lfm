@@ -37,7 +37,7 @@ object fmCharmaps: TfmCharmaps
       Caption = 'Close'
       Constraints.MinWidth = 80
       OnClick = btnCloseClick
-      TabOrder = 0
+      TabOrder = 2
     end
     object LabelInfo: TLabel
       Left = 8
@@ -60,7 +60,7 @@ object fmCharmaps: TfmCharmaps
       BorderSpacing.Around = 6
       Caption = '1: ANSI'
       OnClick = btnAnsiClick
-      TabOrder = 1
+      TabOrder = 0
     end
     object btnUnicode: TButton
       AnchorSideRight.Control = btnClose
@@ -75,7 +75,7 @@ object fmCharmaps: TfmCharmaps
       BorderSpacing.Around = 6
       Caption = '2: Unicode'
       OnClick = btnUnicodeClick
-      TabOrder = 2
+      TabOrder = 1
     end
   end
   object PanelInfo: TPanel

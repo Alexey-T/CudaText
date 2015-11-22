@@ -2794,8 +2794,6 @@ end;
 
 
 procedure TfmMain.DoDialogCharMap;
-var
-  ch: Widechar;
 begin
   if fmCharmaps=nil then
   begin
@@ -2803,12 +2801,7 @@ begin
     fmCharmaps.OnInsert:= @CharmapOnInsert;
   end;
 
-  ch:= EditorGetCurrentChar(CurrentEditor);
-  if Ord(ch)<=255 then
-    fmCharmaps.InitialAsciiCode:= Ord(ch)
-  else
-    fmCharmaps.InitialAsciiCode:= 0;
-
+  fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));
   fmCharmaps.Show;
 end;
 

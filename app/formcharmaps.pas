@@ -45,6 +45,7 @@ type
     FOnInsert: TCharmapInsertEvent;
     FUnicode: boolean;
     FUnicodeBegin: integer;
+    function CodeToString(code: integer): string;
     function DoGetCode(aCol, aRow: integer): integer;
     procedure DoShowAnsi;
     procedure DoShowUnicode;
@@ -55,7 +56,7 @@ type
   public
     { public declarations }
     AllowUnicodeAfterFFFF: boolean;
-    InitialAsciiCode: byte;
+    InitialStr: string;
     property OnInsert: TCharmapInsertEvent read FOnInsert write FOnInsert;
   end;
 
@@ -104,13 +105,20 @@ end;
 { TfmCharmaps }
 
 procedure TfmCharmaps.FormShow(Sender: TObject);
+var
+  str: string;
+  i, j: integer;
 begin
   if not FUnicode then
-    if InitialAsciiCode>0 then
-    begin
-      Grid.Col:= InitialAsciiCode mod 16 +1;
-      Grid.Row:= InitialAsciiCode div 16 +1;
-    end;
+    if InitialStr<>'' then
+      for i:= 1 to 16 do
+        for j:= 1 to 16 do
+          if CodeToString(DoGetCode(i, j))=InitialStr then
+          begin
+            Grid.Col:= i;
+            Grid.Row:= j;
+            Break
+          end;
 end;
 
 procedure TfmCharmaps.GridKeyDown(Sender: TObject; var Key: Word;
@@ -172,10 +180,13 @@ begin
     Result:= aCol + aRow*16 + FUnicodeBegin;
 end;
 
-function CodeToString(code: integer): string;
+function TfmCharmaps.CodeToString(code: integer): string;
 begin
-  if code>=0 then
+  if FUnicode then
     Result:= UnicodeToUTF8(code)
+  else
+  if code>=0 then
+    Result:= AnsiToUtf8(Chr(code))
   else
     Result:= '';
 end;
