@@ -428,8 +428,9 @@ begin
   Ed.Colors.LockedBG:= GetAppColor('EdLockedBg');
   Ed.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
   Ed.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
-  Ed.Colors.CollapseLine:= GetAppColor('EdFoldMarkLine');
+  Ed.Colors.CollapseLine:= GetAppColor('EdFoldLine');
   Ed.Colors.CollapseMarkFont:= GetAppColor('EdFoldMarkFont');
+  Ed.Colors.CollapseMarkBorder:= GetAppColor('EdFoldMarkBorder');
   Ed.Colors.CollapseMarkBG:= GetAppColor('EdFoldMarkBg');
 
   Ed.Colors.GutterFont:= GetAppColor('EdGutterFont');
