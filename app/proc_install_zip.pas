@@ -72,6 +72,7 @@ var
   cfg: TJSONConfig;
   s_section, s_caption, s_module, s_method, s_hotkey, s_lexers,
   s_events, s_keys, path: string;
+  s_inmenu: boolean;
   i: integer;
 begin
   s_report:= '';
@@ -100,6 +101,7 @@ begin
       s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
       s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
       s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');
+      s_inmenu:= ini.ReadBool('item'+Inttostr(i), 'menu', true);
 
       if s_section='commands' then
       begin
@@ -111,6 +113,7 @@ begin
         cfg.SetValue(path+'proc', s_method);
         cfg.SetDeleteValue(path+'lexers', s_lexers, '');
         cfg.SetDeleteValue(path+'hotkey', s_hotkey, '');
+        cfg.SetDeleteValue(path+'menu', s_inmenu, true);
 
         s_report:= s_report+'command: '+s_caption+#13;
       end;
