@@ -35,8 +35,8 @@ type
     procedure btnUnicodeClick(Sender: TObject);
     procedure comboUnicodeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure GridKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GridMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure GridMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -119,35 +119,6 @@ begin
             Grid.Row:= j;
             Break
           end;
-end;
-
-procedure TfmCharmaps.GridKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if Key=VK_RETURN then
-  begin
-    DoInsert(Grid.Col, Grid.Row);
-    Key:= 0;
-    exit;
-  end;
-  if Key=VK_ESCAPE then
-  begin
-    Close;
-    Key:= 0;
-    exit
-  end;
-  if Key=Ord('1') then
-  begin
-    DoShowAnsi;
-    Key:= 0;
-    exit
-  end;
-  if Key=Ord('2') then
-  begin
-    DoShowUnicode;
-    Key:= 0;
-    exit
-  end;
 end;
 
 procedure TfmCharmaps.GridMouseDown(Sender: TObject; Button: TMouseButton;
@@ -283,6 +254,35 @@ begin
   comboUnicode.ItemIndex:= 0;
 
   DoShowAnsi;
+end;
+
+procedure TfmCharmaps.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key=VK_RETURN then
+  begin
+    DoInsert(Grid.Col, Grid.Row);
+    Key:= 0;
+    exit;
+  end;
+  if Key=VK_ESCAPE then
+  begin
+    Close;
+    Key:= 0;
+    exit
+  end;
+  if Key=Ord('1') then
+  begin
+    DoShowAnsi;
+    Key:= 0;
+    exit
+  end;
+  if Key=Ord('2') then
+  begin
+    DoShowUnicode;
+    Key:= 0;
+    exit
+  end;
 end;
 
 procedure TfmCharmaps.DoFormAutosize;

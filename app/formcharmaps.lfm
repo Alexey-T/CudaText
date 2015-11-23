@@ -8,7 +8,9 @@ object fmCharmaps: TfmCharmaps
   Caption = 'Char map'
   ClientHeight = 462
   ClientWidth = 516
+  KeyPreview = True
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.5'
@@ -124,7 +126,6 @@ object fmCharmaps: TfmCharmaps
     RowCount = 17
     TabOrder = 0
     TitleFont.Height = -13
-    OnKeyDown = GridKeyDown
     OnMouseDown = GridMouseDown
     OnMouseMove = GridMouseMove
     OnSelectCell = GridSelectCell
