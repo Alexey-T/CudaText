@@ -255,6 +255,9 @@ cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679
 
+cmd_FoldingFoldAtCurLine   = 2680
+cmd_FoldingUnfoldAtCurLine = 2681
+
 cmd_MenuEnc           = 2691
 cmd_MenuEnds          = 2692
 cmd_MenuLexers        = 2693

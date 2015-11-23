@@ -1,4 +1,9 @@
 
+1.0.4
++ plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.
++ cmd "fold range at current line"
++ cmd "unfold range at current line"
+
 1.0.2
 + opt ui_tab_numbers
 + cmd "Edit--Char map"

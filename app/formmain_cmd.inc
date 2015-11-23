@@ -127,6 +127,9 @@ begin
     cmd_AutoComplete: DoAutoComplete;
     cmd_GotoDefinition: DoGotoDefinition;
 
+    cmd_FoldingFoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, true);
+    cmd_FoldingUnfoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, false);
+
     cmd_MenuEnc:
       begin
         P:= CurrentEditor.ClientToScreen(Point(0, 0));

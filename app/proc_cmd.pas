@@ -124,6 +124,9 @@ const
   cmd_LineEndUnix       = 2678;
   cmd_LineEndMac        = 2679;
 
+  cmd_FoldingFoldAtCurLine   = 2680;
+  cmd_FoldingUnfoldAtCurLine = 2681;
+
   cmd_MenuEnc           = 2691;
   cmd_MenuEnds          = 2692;
   cmd_MenuLexers        = 2693;
@@ -310,6 +313,9 @@ begin
 
   M.Add(cmd_AutoComplete, 'code: auto-completion menu', ['Ctrl+Space'], []);
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
+
+  M.Add(cmd_FoldingFoldAtCurLine, 'folding: fold range at current line', [], []);
+  M.Add(cmd_FoldingUnfoldAtCurLine, 'folding: unfold range at current line', [], []);
 
   M.Add(cmd_Encoding_ansi_NoReload, 'change encoding, no reload: ansi', [], []);
   M.Add(cmd_Encoding_utf8bom_NoReload, 'change encoding, no reload: utf8 bom', [], []);
