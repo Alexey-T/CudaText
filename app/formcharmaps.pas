@@ -260,23 +260,27 @@ procedure TfmCharmaps.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if Key=VK_RETURN then
-  begin
-    DoInsert(Grid.Col, Grid.Row);
-    Key:= 0;
-    exit;
-  end;
+    if Grid.Focused then
+    begin
+      DoInsert(Grid.Col, Grid.Row);
+      Key:= 0;
+      exit;
+    end;
+
   if Key=VK_ESCAPE then
   begin
     Close;
     Key:= 0;
     exit
   end;
+
   if Key=Ord('1') then
   begin
     DoShowAnsi;
     Key:= 0;
     exit
   end;
+
   if Key=Ord('2') then
   begin
     DoShowUnicode;
