@@ -72,26 +72,6 @@ uses
   formcharmaps,
   math;
 
-type
-  TAppPluginCmd = record
-    ItemModule: string;
-    ItemProc: string;
-    ItemCaption: string;
-    ItemLexers: string;
-    ItemHotkey: TShortcut;
-    ItemInMenu: boolean;
-  end;
-  TAppPluginCmdArray = array[0..200] of TAppPluginCmd;
-
-type
-  TAppPluginEvent = record
-    ItemModule: string;
-    ItemLexers: string;
-    ItemEvents: TAppPyEvents;
-    ItemKeys: string;
-  end;
-  TAppPluginEventArray = array[0..100] of TAppPluginEvent;
-
 
 type
   { TfmMain }
@@ -484,8 +464,6 @@ type
       Parameters: array of String);
   private
     { private declarations }
-    FPluginsCmd: TAppPluginCmdArray;
-    FPluginsEvents: TAppPluginEventArray;
     FListRecents: TStringList;
     FListNewdoc: TStringList;
     FListThemes: TStringList;

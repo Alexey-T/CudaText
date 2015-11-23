@@ -165,6 +165,7 @@ object fmCommands: TfmCommands
     OptKeyTabIndents = True
     OptIndentSize = 2
     OptIndentKeepsAlign = True
+    OptMaxLinesToCountUnindent = 100
     OptShowIndentLines = True
     OptShowGutterCaretBG = True
     OptAllowScrollbarVert = False

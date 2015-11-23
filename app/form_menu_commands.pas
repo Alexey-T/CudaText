@@ -194,14 +194,25 @@ end;
 procedure TfmCommands.DoConfigKey(Cmd: integer);
 var
   n: integer;
+  StrId: string;
 begin
-  if (Cmd>=cmdFirstLexerCommand) and (Cmd<=cmdLastLexerCommand) then exit;
-  if (Cmd>=cmdFirstPluginCommand) and (Cmd<=cmdLastPluginCommand) then exit;
+  if (Cmd>=cmdFirstLexerCommand) and
+     (Cmd<=cmdLastLexerCommand) then exit;
+
+  n:= keymap.IndexOf(Cmd);
+  if n<0 then exit;
+
+  //number (usual cmd) or
+  //'module,proc' (plugin)
+  StrId:= IntToStr(keymap[n].Command);
+
+  if (Cmd>=cmdFirstPluginCommand) and
+     (Cmd<=cmdLastPluginCommand) then
+    with FPluginsCmd[Cmd-cmdFirstPluginCommand] do
+      StrId:= ItemModule+','+ItemProc;
 
   with TfmKeys.Create(Self) do
   try
-    n:= keymap.IndexOf(Cmd);
-    if n<0 then exit;
     Keys1:= keymap[n].Keys1;
     Keys2:= keymap[n].Keys2;
 
@@ -210,16 +221,9 @@ begin
         begin
           keymap[n].Keys1:= Keys1;
           keymap[n].Keys2:= Keys2;
-          DoSaveKeyItem(keymap[n]);
+          DoSaveKeyItem(keymap[n], StrId);
           DoFilter;
         end;
-      {
-      mrNo:
-        begin
-          DoResetKey(keymap[n]);
-          DoFilter;
-        end;
-        }
     end;
   finally
     Free
