@@ -31,6 +31,7 @@ uses
   ATSynEdit_Carets,
   ATSynEdit_Export_HTML,
   ATSynEdit_Ranges,
+  ATSynEdit_Adapter_EControl,
   ATTabs,
   ATGroups,
   ATStatusBar,

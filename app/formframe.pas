@@ -76,6 +76,7 @@ type
     FActiveAlt: boolean;
     FLocked: boolean;
     FTabColor: TColor;
+    FFoldTodo: string;
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
@@ -163,6 +164,7 @@ type
     procedure DoLoadHistory;
     procedure DoLoadHistoryEx(c: TJsonConfig; const path: string);
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
+    procedure DoRestoreFolding;
 
     //event
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
@@ -198,6 +200,7 @@ const
   cSavCaret       = '/caret';
   cSavColor       = '/color';
   cSavBookmark    = '/bm';
+  cSavFold        = '/folded';
 
 
 { TEditorFrame }
@@ -846,6 +849,18 @@ begin
     FOnChangeCaption(Self);
 end;
 
+procedure TEditorFrame.DoRestoreFolding;
+var
+  S: string;
+begin
+  if FFoldTodo<>'' then
+  begin
+    S:= FFoldTodo;
+    FFoldTodo:= '';
+    EditorSetFoldString(Editor, S);
+  end;
+end;
+
 procedure TEditorFrame.DoOnUpdateStatus;
 begin
   if Assigned(FOnUpdateStatus) then
@@ -925,6 +940,7 @@ begin
   c.SetValue(path+cSavUnpriEnd, Editor.OptUnprintedEnds);
   c.SetValue(path+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
   c.SetValue(path+cSavNums, Editor.Gutter[Editor.GutterBandNum].Visible);
+  c.SetValue(path+cSavFold, EditorGetFoldString(Editor));
 
   if TabColor=clNone then
     c.SetValue(path+cSavColor, '')
@@ -1010,11 +1026,11 @@ begin
   Editor.OptMinimapVisible:= c.GetValue(path+cSavMinimap, Editor.OptMinimapVisible);
   Editor.OptTabSize:= c.GetValue(path+cSavTabSize, Editor.OptTabSize);
   Editor.OptTabSpaces:= c.GetValue(path+cSavTabSpace, Editor.OptTabSpaces);
-
   Editor.OptUnprintedVisible:= c.GetValue(path+cSavUnpri, Editor.OptUnprintedVisible);
   Editor.OptUnprintedSpaces:= c.GetValue(path+cSavUnpriSp, Editor.OptUnprintedSpaces);
   Editor.OptUnprintedEnds:= c.GetValue(path+cSavUnpriEnd, Editor.OptUnprintedEnds);
   Editor.OptUnprintedEndsDetails:= c.GetValue(path+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
+  FFoldTodo:= c.GetValue(path+cSavFold, '');
 
   with Editor.Gutter[Editor.GutterBandNum] do
     Visible:= c.GetValue(path+cSavNums, Visible);

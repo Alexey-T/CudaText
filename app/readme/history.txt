@@ -1,6 +1,7 @@
 
-1.0.4
+1.0.5
 + plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.
++ save/load folding (history/session)
 + cmd "fold range at current line"
 + cmd "unfold range at current line"
 + color for "fold mark border"

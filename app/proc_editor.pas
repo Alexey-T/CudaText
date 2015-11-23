@@ -12,11 +12,12 @@ unit proc_editor;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Dialogs,
   ATSynEdit,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
   ATSynEdit_Ranges,
+  ATSynEdit_Commands,
   ATStringProc,
   ecSyntAnal,
   proc_globdata,
@@ -38,6 +39,8 @@ function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
 procedure EditorFoldUnfoldRangeAtCurLine(Ed: TATSynEdit; AFold: boolean);
+function EditorGetFoldString(Ed: TATSynEdit): string;
+procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
 
 type
   TEdSelType = (selNo, selSmall, selStream, selCol, selCarets);
@@ -535,6 +538,44 @@ begin
       Ed.Update;
     end;
   end;
+end;
+
+function EditorGetFoldString(Ed: TATSynEdit): string;
+var
+  i: integer;
+  R: TATSynRange;
+begin
+  Result:= '';
+  for i:= 0 to Ed.Fold.Count-1 do
+  begin
+    R:= Ed.Fold[i];
+    if R.Folded then
+      Result:= Result+(IntToStr(R.Y)+',');
+  end;
+end;
+
+procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
+var
+  SItem: string;
+  R: TATSynRange;
+  n: integer;
+begin
+  Ed.DoCommand(cCommand_UnfoldAll);
+
+  repeat
+    SItem:= SGetItem(S);
+    if SItem='' then Break;
+
+    n:= StrToIntDef(SItem, -1);
+    if not Ed.Strings.IsIndexValid(n) then Continue;
+
+    R:= Ed.Fold.FindRangeWithPlusAtLine(n);
+    if R=nil then Continue;
+
+    Ed.DoRangeFold(R);
+  until false;
+
+  Ed.Update;
 end;
 
 end.
