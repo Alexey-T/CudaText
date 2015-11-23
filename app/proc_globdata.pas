@@ -251,6 +251,7 @@ function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetDefaultListItemHeight: integer;
+function GetPluginIndexFromModuleAndMethod(AStr: string): integer;
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem; const path: string);
@@ -844,6 +845,26 @@ begin
     for i:= 0 to AnalyzerCount-1 do
       if AlsoDisabled or not Analyzers[i].Internal then
         L.Add(Analyzers[i].LexerName);
+end;
+
+function GetPluginIndexFromModuleAndMethod(AStr: string): integer;
+var
+  i: integer;
+  SModule, SProc: string;
+begin
+  Result:= -1;
+
+  SModule:= SGetItem(AStr);
+  SProc:= SGetItem(AStr);
+  if SModule='' then exit;
+  if SProc='' then exit;
+
+  for i:= Low(FPluginsCmd) to High(FPluginsCmd) do
+    with FPluginsCmd[i] do
+    begin
+      if ItemModule='' then Break;
+      if (ItemModule=SModule) and (ItemProc=SProc) then exit(i);
+    end;
 end;
 
 

@@ -275,8 +275,19 @@ begin
     c.EnumSubKeys('/', sl);
     for i:= 0 to sl.count-1 do
     begin
-      ncmd:= StrToIntDef(sl[i], -1);
-      if ncmd<0 then Continue;
+      //plugin item 'module,method'
+      if Pos(',', sl[i])>0 then
+      begin
+        ncmd:= GetPluginIndexFromModuleAndMethod(sl[i]);
+        if ncmd<0 then Continue;
+        Inc(ncmd, cmdFirstPluginCommand);
+      end
+      else //usual item
+      begin
+        ncmd:= StrToIntDef(sl[i], -1);
+        if ncmd<0 then Continue;
+      end;
+
       nitem:= Keymap.IndexOf(ncmd);
       if nitem<0 then Continue;
 
