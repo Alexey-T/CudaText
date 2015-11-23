@@ -103,8 +103,8 @@ begin
   Add(clMedGray, 'EdBlockStaple', 'editor, block staples (indent guides)');
   Add(clGray, 'EdComboArrow', 'editor, combobox arrow-down');
   Add($f0f0f0, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
-  Add(clMedGray, 'EdBlockSepLine', 'editor, folded block, separator line');
-  Add($a06060, 'EdFoldMarkLine', 'editor, folded block mark, border');
+  Add(clMedGray, 'EdBlockSepLine', 'editor, separator line');
+  Add($a06060, 'EdFoldMarkLine', 'editor, fully folded line');
   Add($e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
   Add(clCream, 'EdFoldMarkBg', 'editor, folded block mark, BG');
   Add(clGray, 'EdGutterFont', 'editor, gutter font');
