@@ -23,6 +23,7 @@
   "EdBlockSepLine" : "#A0A0A4",
   "EdFoldMarkLine" : "#6060A0",
   "EdFoldMarkFont" : "#8080E0",
+  "EdFoldMarkBorder" : "#8080E0",
   "EdFoldMarkBg" : "#E0E0E0",
   "EdGutterFont" : "#000080",
   "EdGutterBg" : "#A0A0E0",
