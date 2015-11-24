@@ -100,12 +100,17 @@ end;
 
 procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
 var
-  n: integer;
+  n, nFrom: integer;
 begin
   n:= ed.Carets[0].PosY;
+  nFrom:= n;
   repeat
     if ANext then Inc(n) else Dec(n);
-    if not ed.Strings.IsIndexValid(n) then exit;
+    if n=nFrom then exit;
+
+    if n>=ed.Strings.Count then n:= 0;
+    if n<0 then n:= ed.Strings.Count-1;
+
     if ed.Strings.LinesBm[n]>0 then
     begin
       ed.DoGotoPosEx(Point(0, n));
