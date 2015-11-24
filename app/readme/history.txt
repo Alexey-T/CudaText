@@ -1,6 +1,6 @@
 
 1.1.0
-* changed format of keys.json (delete file if want to del outdated fields)
+* changed format of keys.json (old fields read but not saved)
 + plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.
 + history saves folded-state
 + cmd "fold range at current line"

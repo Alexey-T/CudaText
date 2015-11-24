@@ -110,7 +110,7 @@
   "minimap_sel_always": false,
   //Show 1pixel frame around selection area
   "minimap_sel_border": false,
-  //width: 0: autosize, >0: fixed width
+  //Minimap width: 0: autosize, >0: fixed width in chars
   "minimap_char_width": 0,
 
   //Fixed margin (vertical line) column.
@@ -153,9 +153,9 @@
 
   //Max count of commands which can "undo"
   "undo_limit": 5000,
-  //"undo" takes group of commands (groups are separated eg by mouse clicks)
+  //"Undo" takes group of commands (groups are separated eg by mouse clicks)
   "undo_grouped": true,
-  //"undo" enabled even after file saving
+  //"Undo" enabled even after file saving
   "undo_after_save": false,
 
   //Allow to place caret after end-of-line
@@ -275,15 +275,9 @@
   //[Properties of new tabs]
   //Lexer name in lexers menu
   "newdoc_lexer": "",
-  //Encoding name:
-  //  "ANSI"
-  //  "UTF-8"
-  //  "UTF-8 no bom"
-  //  "UTF-16 LE"
-  //  "UTF-16 BE"
-  //  "CP1250" etc
+  //Encoding name: "ANSI", "UTF-8", "UTF-8 no bom", "UTF-16 LE", "UTF-16 BE", "CP1250" etc
   "newdoc_encoding": "ANSI",
-  //end-of-lines: 1: Win; 2: Unix; 3: classic MacOS
+  //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
   "newdoc_eol": 1,
 
   //Auto-indent by Enter (makes new line indented)
