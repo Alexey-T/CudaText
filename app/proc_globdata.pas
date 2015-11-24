@@ -12,8 +12,9 @@ unit proc_globdata;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls,
+  Classes, SysUtils, Forms, Controls, Menus,
   FileUtil, Dialogs, Graphics, ExtCtrls,
+  LclProc, LclType,
   jsonConf,
   Process,
   ATSynEdit,
@@ -790,14 +791,14 @@ begin
     sl.clear;
     for i:= 0 to High(TATKeyArray) do
       if K.Keys1[i]<>0 then
-        sl.Add(Inttostr(K.Keys1[i]));
-    c.SetValue(path+'/k1', sl);
+        sl.Add(ShortCutToText(K.Keys1[i]));
+    c.SetValue(path+'/s1', sl);
 
     sl.clear;
     for i:= 0 to High(TATKeyArray) do
       if K.Keys2[i]<>0 then
-        sl.Add(Inttostr(K.Keys2[i]));
-    c.SetValue(path+'/k2', sl);
+        sl.Add(ShortCutToText(K.Keys2[i]));
+    c.SetValue(path+'/s2', sl);
   finally
     c.Free;
     sl.Free;

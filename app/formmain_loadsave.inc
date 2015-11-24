@@ -294,13 +294,15 @@ begin
       Fillchar(Keymap[nitem].Keys1, sizeof(TATKeyArray), 0);
       Fillchar(Keymap[nitem].Keys2, sizeof(TATKeyArray), 0);
 
-      c.GetValue(sl[i]+'/k1', sl2, '');
+      c.GetValue(sl[i]+'/s1', sl2, '');
       for j:= 0 to sl2.count-1 do
-        Keymap[nitem].Keys1[j]:= StrToIntDef(sl2[j], 0);
+        if sl2[j]<>'' then
+          Keymap[nitem].Keys1[j]:= TextToShortCut(sl2[j]);
 
-      c.GetValue(sl[i]+'/k2', sl2, '');
+      c.GetValue(sl[i]+'/s2', sl2, '');
       for j:= 0 to sl2.count-1 do
-        Keymap[nitem].Keys2[j]:= StrToIntDef(sl2[j], 0);
+        if sl2[j]<>'' then
+          Keymap[nitem].Keys2[j]:= TextToShortCut(sl2[j]);
     end;
   finally
     sl2.Free;
