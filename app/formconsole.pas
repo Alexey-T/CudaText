@@ -35,14 +35,17 @@ type
   private
     { private declarations }
     FOnConsole: TAppConsoleEvent;
-    procedure ComboCommand(Snd: TObject; ACmd: integer; var AHandled: boolean);
+    FOnNavigate: TAppConsoleEvent;
+    procedure ComboCommand(Sender: TObject; ACmd: integer; var AHandled: boolean);
     procedure DoClearMemo(Sender: TObject);
-    procedure MemoCommand(Snd: TObject; ACmd: integer; var AHandled: boolean);
+    procedure DoNavigate(Sender: TObject);
+    procedure MemoCommand(Sender: TObject; ACmd: integer; var AHandled: boolean);
   public
     { public declarations }
     ed: TATComboEdit;
     memo: TATSynEdit;
     property OnConsole: TAppConsoleEvent read FOnConsole write FOnConsole;
+    property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
   end;
@@ -118,6 +121,7 @@ begin
   memo.OptCaretVirtual:= false;
   memo.ModeReadOnly:= true;
   memo.OptAllowScrollbarHorz:= false;
+  memo.OptMouseRightClickMovesCaret:= true;
 
   ed.OnCommand:= @ComboCommand;
   memo.OnClickDouble:= @MemoClickDbl;
@@ -133,11 +137,16 @@ begin
 
   mi:= TMenuItem.Create(Self);
   mi.Caption:= 'Clear';
-  mi.OnClick:=@DoClearMemo;
+  mi.OnClick:= @DoClearMemo;
+  memo.PopupTextDefault.Items.Add(mi);
+
+  mi:= TMenuItem.Create(Self);
+  mi.Caption:= 'Navigate';
+  mi.OnClick:= @DoNavigate;
   memo.PopupTextDefault.Items.Add(mi);
 end;
 
-procedure TfmConsole.ComboCommand(Snd: TObject; ACmd: integer;
+procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;
   var AHandled: boolean);
 var
   s: string;
@@ -163,7 +172,21 @@ begin
   memo.ModeReadOnly:= true;
 end;
 
-procedure TfmConsole.MemoCommand(Snd: TObject; ACmd: integer;
+procedure TfmConsole.DoNavigate(Sender: TObject);
+var
+  S: atString;
+  N: integer;
+begin
+  if Assigned(FOnNavigate) then
+  begin
+    N:= Memo.Carets[0].PosY;
+    if not Memo.Strings.IsIndexValid(N) then exit;
+    S:= Memo.Strings.Lines[N];
+    FOnNavigate(Utf8Encode(S));
+  end;
+end;
+
+procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;
   var AHandled: boolean);
 begin
   if ACmd=cCommand_KeyEnter then
@@ -176,21 +199,20 @@ end;
 
 procedure TfmConsole.MemoClickDbl(Sender: TObject; var AHandled: boolean);
 var
-  n: Integer;
   s: atString;
+  n: integer;
 begin
-  with memo do
+  n:= Memo.Carets[0].PosY;
+  if Memo.Strings.IsIndexValid(n) then
   begin
-    n:= Carets[0].PosY;
-    if (n>=0) and (n<Strings.Count) then
+    s:= Memo.Strings.Lines[n];
+    if SBeginsWith(s, cPyConsolePrompt) then
     begin
-      s:= Strings.Lines[n];
-      if SBeginsWith(s, cPyConsolePrompt) then
-      begin
-        Delete(s, 1, Length(cPyConsolePrompt));
-        DoExecuteConsoleLine(s);
-      end;
-    end;
+      Delete(s, 1, Length(cPyConsolePrompt));
+      DoExecuteConsoleLine(Utf8Encode(s));
+    end
+    else
+      DoNavigate(Self);
   end;
   AHandled:= true;
 end;

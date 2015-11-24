@@ -317,6 +317,7 @@ type
     cEventOnFuncHint,
     cEventOnGotoDef,
     cEventOnConsole,
+    cEventOnConsoleNav,
     cEventOnCompare,
     cEventOnStart
     );
@@ -339,6 +340,7 @@ const
     'on_func_hint',
     'on_goto_def',
     'on_console',
+    'on_console_nav',
     'on_compare',
     'on_start'
     );

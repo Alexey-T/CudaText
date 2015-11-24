@@ -505,6 +505,7 @@ type
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
     function DoOnConsole(const Str: string): boolean;
+    function DoOnConsoleNav(const Str: string): boolean;
     procedure DoOps_ShowEventPlugins;
     function DoDialogConfColors(var AColors: TAppTheme): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
@@ -928,6 +929,7 @@ begin
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
   fmConsole.OnConsole:= @DoOnConsole;
+  fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
@@ -2664,12 +2666,6 @@ begin
 end;
 
 
-function TfmMain.DoOnConsole(const Str: string): boolean;
-begin
-  Result:= DoPyEvent(CurrentEditor, cEventOnConsole,
-    [SStringToPythonString(Str)]) <> cPyFalse;
-end;
-
 procedure TfmMain.DoGotoDefinition;
 begin
   if DoPyEvent(CurrentEditor, cEventOnGotoDef, [])<>cPyTrue then
@@ -2784,6 +2780,19 @@ begin
   fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));
   fmCharmaps.Show;
 end;
+
+function TfmMain.DoOnConsole(const Str: string): boolean;
+begin
+  Result:= DoPyEvent(CurrentEditor, cEventOnConsole,
+    [SStringToPythonString(Str)]) <> cPyFalse;
+end;
+
+function TfmMain.DoOnConsoleNav(const Str: string): boolean;
+begin
+  Result:= DoPyEvent(CurrentEditor, cEventOnConsoleNav,
+    [SStringToPythonString(Str)]) <> cPyFalse;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
