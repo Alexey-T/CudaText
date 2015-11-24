@@ -497,7 +497,8 @@ type
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
     procedure DoGotoDefinition;
-    procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
+    procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
+      AForceApply: boolean);
     procedure DoApplyFontFixed;
     procedure DoApplyFontVar;
     procedure DoApplyAllOps;

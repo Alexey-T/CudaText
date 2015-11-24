@@ -521,7 +521,7 @@ begin
   begin
     Ops:= EditorOps;
     DoOps_LoadOptions(fn, Ops);
-    DoApplyFrameOps(F, Ops);
+    DoApplyFrameOps(F, Ops, true);
   end;
 end;
 

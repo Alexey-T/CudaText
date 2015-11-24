@@ -342,17 +342,18 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    DoApplyFrameOps(F, EditorOps);
+    DoApplyFrameOps(F, EditorOps, false);
     DoOps_LoadOptionsOverride(F);
   end;
 
   UpdateStatus;
 end;
 
-procedure TfmMain.DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps);
+procedure TfmMain.DoApplyFrameOps(F: TEditorFrame;
+  const Op: TEditorOps; AForceApply: boolean);
 begin
-  EditorApplyOps(F.Editor, Op, false);
-  EditorApplyOps(F.Editor2, Op, false);
+  EditorApplyOps(F.Editor, Op, AForceApply);
+  EditorApplyOps(F.Editor2, Op, AForceApply);
   F.Adapter.DynamicHiliteEnabled:= Op.OpDynHilite;
 
   F.Editor.Update;
