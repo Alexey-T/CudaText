@@ -1,11 +1,11 @@
 
 1.1.0
-* changed format of keys.json: delete file if prev keys lost
+* changed format of keys.json (delete file if want to del outdated fields)
 + plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.
-+ history saves folding
++ history saves folded-state
 + cmd "fold range at current line"
 + cmd "unfold range at current line"
-+ cmd "next bookmark": from last goto first
++ cmd "goto next bookmark": from last goto first
 + color for "fold mark border"
 
 1.0.2
