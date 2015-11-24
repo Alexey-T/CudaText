@@ -20,3 +20,6 @@ class Command:
         print('test1 gotodef')
         return True
         
+    def on_console_nav(self, ed_self, s):
+        print('nav '+s)
+        

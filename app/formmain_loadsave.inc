@@ -7,7 +7,6 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-
 procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;
@@ -264,27 +263,50 @@ end;
 procedure TfmMain.DoOps_LoadKeymap;
 var
   c: TJSONConfig;
-  sl, sl2: tstringlist;
-  ncmd, nitem, i, j: integer;
+  slist, skeys: TStringList;
+  //
+  procedure DoReadConfigToKeys(path: string; var keys: TATKeyArray);
+  var
+    j: integer;
+  begin
+    c.GetValue(path, skeys, '');
+    for j:= 0 to skeys.count-1 do
+      if skeys[j]<>'' then
+        keys[j]:= TextToShortCut(skeys[j]);
+  end;
+  //
+  procedure DoReadConfigToKeys_Old(path: string; var keys: TATKeyArray);
+  var
+    j: integer;
+  begin
+    c.GetValue(path, skeys, '');
+    for j:= 0 to skeys.count-1 do
+      if skeys[j]<>'' then
+        keys[j]:= StrToIntDef(skeys[j], 0);
+  end;
+  //
+var
+  ncmd, nitem, i: integer;
 begin
   c:= TJSONConfig.Create(nil);
-  sl:= tstringlist.create;
-  sl2:= tstringlist.create;
+  slist:= TStringList.Create;
+  skeys:= TStringList.Create;
+
   try
     c.Filename:= GetAppPath(cFileOptKeymap);
-    c.EnumSubKeys('/', sl);
-    for i:= 0 to sl.count-1 do
+    c.EnumSubKeys('/', slist);
+    for i:= 0 to slist.count-1 do
     begin
       //plugin item 'module,method'
-      if Pos(',', sl[i])>0 then
+      if Pos(',', slist[i])>0 then
       begin
-        ncmd:= GetPluginIndexFromModuleAndMethod(sl[i]);
+        ncmd:= GetPluginIndexFromModuleAndMethod(slist[i]);
         if ncmd<0 then Continue;
         Inc(ncmd, cmdFirstPluginCommand);
       end
       else //usual item
       begin
-        ncmd:= StrToIntDef(sl[i], -1);
+        ncmd:= StrToIntDef(slist[i], -1);
         if ncmd<0 then Continue;
       end;
 
@@ -294,19 +316,17 @@ begin
       Fillchar(Keymap[nitem].Keys1, sizeof(TATKeyArray), 0);
       Fillchar(Keymap[nitem].Keys2, sizeof(TATKeyArray), 0);
 
-      c.GetValue(sl[i]+'/s1', sl2, '');
-      for j:= 0 to sl2.count-1 do
-        if sl2[j]<>'' then
-          Keymap[nitem].Keys1[j]:= TextToShortCut(sl2[j]);
+      DoReadConfigToKeys(slist[i]+'/s1', Keymap[nitem].Keys1);
+      if Keymap[nitem].Keys1[0]=0 then
+        DoReadConfigToKeys_Old(slist[i]+'/k1', Keymap[nitem].Keys1);
 
-      c.GetValue(sl[i]+'/s2', sl2, '');
-      for j:= 0 to sl2.count-1 do
-        if sl2[j]<>'' then
-          Keymap[nitem].Keys2[j]:= TextToShortCut(sl2[j]);
+      DoReadConfigToKeys(slist[i]+'/s2', Keymap[nitem].Keys2);
+      if Keymap[nitem].Keys2[0]=0 then
+        DoReadConfigToKeys_Old(slist[i]+'/k2', Keymap[nitem].Keys2);
     end;
   finally
-    sl2.Free;
-    sl.Free;
+    skeys.Free;
+    slist.Free;
     c.Free;
   end;
 end;
