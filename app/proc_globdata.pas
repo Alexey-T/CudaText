@@ -805,6 +805,9 @@ begin
       if K.Keys2[i]<>0 then
         sl.Add(ShortCutToText(K.Keys2[i]));
     c.SetValue(path+'/s2', sl);
+
+    c.DeleteValue(path+'/k1');
+    c.DeleteValue(path+'/k2');
   finally
     c.Free;
     sl.Free;
