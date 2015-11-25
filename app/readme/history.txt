@@ -1,4 +1,7 @@
 
+1.1.2:
++ opt ui_non_text (open/ don't open/ prompt)
+
 1.1.0
 * changed format of keys.json (old fields read but not saved)
 + plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.

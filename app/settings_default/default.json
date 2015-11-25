@@ -17,6 +17,9 @@
   "ui_notif": true,
   //File-change notification: watch timer interval, seconds
   "ui_notif_time": 2,
+  
+  //Non-text files: 0: prompt, 1: open, 2: don't open
+  "ui_non_text": 0,
 
   //Hilite BG of lines with carets
   "show_cur_line": false,

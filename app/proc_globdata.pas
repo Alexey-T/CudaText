@@ -129,6 +129,7 @@ type
     OneInstance: boolean;
     NotifEnabled: boolean;
     NotifTimeSec: integer;
+    NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
   end;
 var
   UiOps: TUiOps;
@@ -726,6 +727,7 @@ begin
     OneInstance:= false;
     NotifEnabled:= true;
     NotifTimeSec:= 2;
+    NonTextFiles:= 0;
   end;
 end;
 
