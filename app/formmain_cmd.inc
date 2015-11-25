@@ -200,6 +200,12 @@ begin
     cmd_Encoding_cp949_Reload: SetFrameEncoding(CurrentFrame, cEncNameCP949, true);
     cmd_Encoding_cp950_Reload: SetFrameEncoding(CurrentFrame, cEncNameCP950, true);
 
+    cmd_Markers_DropAtCaret: begin EditorMarkerDrop(CurrentEditor); UpdateStatus; end;
+    cmd_Markers_GotoLastAndDelete: begin EditorMarkerGotoLast(CurrentEditor, true); UpdateStatus; end;
+    cmd_Markers_GotoLastNoDelete: begin EditorMarkerGotoLast(CurrentEditor, false); UpdateStatus; end;
+    cmd_Markers_ClearAll: begin EditorMarkerClearAll(CurrentEditor); UpdateStatus; end;
+    cmd_Markers_SwapCaretAndMarker: begin EditorMarkerSwap(CurrentEditor); UpdateStatus; end;
+
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
     cmd_HelpWiki: DoHelpWiki;

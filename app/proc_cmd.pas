@@ -195,6 +195,12 @@ const
   cmd_Encoding_cp949_Reload     = 2777;
   cmd_Encoding_cp950_Reload     = 2778;
 
+  cmd_Markers_DropAtCaret        = 2800;
+  cmd_Markers_GotoLastNoDelete   = 2801;
+  cmd_Markers_GotoLastAndDelete  = 2802;
+  cmd_Markers_ClearAll           = 2803;
+  cmd_Markers_SwapCaretAndMarker = 2804;
+
 
 implementation
 
@@ -370,6 +376,12 @@ begin
   M.Add(cmd_Encoding_cp936_Reload, 'change encoding, reload: cp936', [], []);
   M.Add(cmd_Encoding_cp949_Reload, 'change encoding, reload: cp949', [], []);
   M.Add(cmd_Encoding_cp950_Reload, 'change encoding, reload: cp950', [], []);
+
+  M.Add(cmd_Markers_DropAtCaret       , 'markers: drop marker at caret', [], []);
+  M.Add(cmd_Markers_GotoLastNoDelete          , 'markers: go to last marker (don''t delete)', [], []);
+  M.Add(cmd_Markers_GotoLastAndDelete       , 'markers: collect last marker (delete)', [], []);
+  M.Add(cmd_Markers_ClearAll          , 'markers: remove all', [], []);
+  M.Add(cmd_Markers_SwapCaretAndMarker, 'markers: swap caret and last marker', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);
