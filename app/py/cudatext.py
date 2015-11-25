@@ -53,6 +53,11 @@ BOOKMARK_CLEAR_ALL = 3
 BOOKMARK_SETUP = 4
 BOOKMARK_GET_LIST = 5
 
+MARKERS_GET = 0
+MARKERS_ADD = 1
+MARKERS_DELETE_ALL = 2
+MARKERS_DELETE_LAST = 3
+
 TAB_SPLIT_NO = 0
 TAB_SPLIT_HORZ = 1
 TAB_SPLIT_VERT = 2
@@ -302,6 +307,9 @@ class Editor:
         
     def get_ranges(self):
         return ct.ed_get_ranges(self.h)
+        
+    def markers(self, id, x, y):
+        return ct.ed_markers(self.h, id, x, y)
     #end
 
 #objects

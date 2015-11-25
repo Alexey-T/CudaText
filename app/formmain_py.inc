@@ -404,6 +404,71 @@ begin
 end;
 
 
+function Py_ed_markers(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Id: Integer;
+  X, Y: Integer;
+  ComArray: Variant;
+  Mark: TATMarkerItem;
+  NLen, i: Integer;
+  Ed: TATSynEdit;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liii:set_caret', @H, @Id, @X, @Y)) then
+    begin
+      Ed:= PyEditor(H);
+
+      case Id of
+        MARKERS_GET:
+          begin
+            NLen:= Ed.Markers.Count;
+            if NLen>0 then
+            begin
+              ComArray:= VarArrayCreate([0, NLen-1, 0, 1], varInteger);
+              for i:= 0 to NLen-1 do
+              begin
+                Mark:= Ed.Markers[i];
+                ComArray[i, 0]:= Mark.PosX;
+                ComArray[i, 1]:= Mark.PosY;
+              end;
+              Result:= VariantAsPyObject(ComArray);
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        MARKERS_ADD:
+          begin
+            Ed.Markers.Add(X, Y);
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= PyInt_FromLong(Ed.Markers.Count);
+          end;
+
+        MARKERS_DELETE_ALL:
+          begin
+            Ed.Markers.Clear;
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
+        MARKERS_DELETE_LAST:
+          begin
+            if Ed.Markers.Count>0 then
+              Ed.Markers.Delete(Ed.Markers.Count-1);
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
 function Py_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -1880,6 +1945,7 @@ begin
     AddMethod('ed_focus', @Py_ed_focus, '');
     AddMethod('ed_complete', @Py_ed_complete, '');
     AddMethod('ed_convert', @Py_ed_convert, '');
+    AddMethod('ed_markers', @Py_ed_markers, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');

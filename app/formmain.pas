@@ -29,6 +29,7 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_Finder,
   ATSynEdit_Carets,
+  ATSynEdit_Markers,
   ATSynEdit_Export_HTML,
   ATSynEdit_Ranges,
   ATSynEdit_Adapter_EControl,
