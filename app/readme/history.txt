@@ -1,7 +1,8 @@
 
 1.1.2:
-+ opt ui_non_text (open/ don't open/ prompt)
++ opt ui_non_text (prompt/ open/ don't open)
 + opt ui_non_text_buffer
+- fix: ui_one_instance and non-text prompt
 
 1.1.0
 * changed format of keys.json (old fields read but not saved)

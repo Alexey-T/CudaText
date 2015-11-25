@@ -1440,6 +1440,11 @@ begin
     begin
       UniqInstance.Enabled:= true;
       TComponentHack(UniqInstance).Loaded;
+
+      if UniqInstance.PriorInstanceRunning then
+        Application.Terminate;
+        //note: app still works and will get DoFileOpen calls (e.g. on session opening)
+        //so later need to check Application.Terminated
     end;
 
   DoApplyTheme;
@@ -1455,6 +1460,7 @@ var
   isOem: boolean;
 begin
   Result:= nil;
+  if Application.Terminated then exit;
 
   if AFilename='' then
   begin
