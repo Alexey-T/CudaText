@@ -421,6 +421,7 @@ begin
   Ed.Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
   Ed.Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
   Ed.Colors.Caret:= GetAppColor('EdCaret');
+  Ed.Colors.Markers:= GetAppColor('EdMarkers');
   Ed.Colors.CurrentLineBG:= GetAppColor('EdCurLineBg');
   Ed.Colors.IndentVertLines:= GetAppColor('EdIndentVLine');
   Ed.Colors.UnprintedFont:= GetAppColor('EdUnprintFont');
