@@ -1481,18 +1481,18 @@ begin
     exit
   end;
 
-  if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
-    case UiOps.NonTextFiles of
-      0:
-        begin
-          if MsgBox(Format(msgConfirmOpenNotText, [AFilename]),
-            MB_OKCANCEL or MB_ICONWARNING)<>id_ok then Exit;
-        end;
-      1:
-        begin end;
-      else
-        Exit;
-    end;
+  //NonTextFiles: 0: prompt, 1: open, 2: don't open
+  if UiOps.NonTextFiles<>1 then
+    if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
+      case UiOps.NonTextFiles of
+        0:
+          begin
+            if MsgBox(Format(msgConfirmOpenNotText, [AFilename]),
+              MB_OKCANCEL or MB_ICONWARNING)<>id_ok then Exit;
+          end;
+        2:
+          Exit;
+      end;
 
   //is file already opened? activate frame
   for i:= 0 to FrameCount-1 do
