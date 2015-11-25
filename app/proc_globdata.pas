@@ -130,6 +130,7 @@ type
     NotifEnabled: boolean;
     NotifTimeSec: integer;
     NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
+    NonTextFilesBufferKb: integer;
   end;
 var
   UiOps: TUiOps;
@@ -728,6 +729,7 @@ begin
     NotifEnabled:= true;
     NotifTimeSec:= 2;
     NonTextFiles:= 0;
+    NonTextFilesBufferKb:= 64;
   end;
 end;
 

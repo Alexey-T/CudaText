@@ -369,7 +369,9 @@ begin
 
     UiOps.NotifEnabled:= c.GetValue('ui_notif', UiOps.NotifEnabled);
     UiOps.NotifTimeSec:= Max(1, c.GetValue('ui_notif_time', UiOps.NotifTimeSec));
+
     UiOps.NonTextFiles:= c.GetValue('ui_non_text', UiOps.NonTextFiles);
+    UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
 
     Op.OpSpaceX:= c.GetValue('spacing_x', Op.OpSpaceX);
     Op.OpSpaceY:= c.GetValue('spacing_y', Op.OpSpaceY);

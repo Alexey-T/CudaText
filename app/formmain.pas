@@ -1481,7 +1481,7 @@ begin
     exit
   end;
 
-  if not IsFileContentText(AFilename, OptTextBufferDetectSizeKb, false, IsOem) then
+  if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
     case UiOps.NonTextFiles of
       0:
         begin

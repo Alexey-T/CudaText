@@ -20,6 +20,8 @@
   
   //Non-text files: 0: prompt, 1: open, 2: don't open
   "ui_non_text": 0,
+  //Non-text files detection buffer size, kb
+  "ui_non_text_buffer": 64,
 
   //Hilite BG of lines with carets
   "show_cur_line": false,

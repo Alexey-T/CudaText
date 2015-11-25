@@ -1,6 +1,7 @@
 
 1.1.2:
 + opt ui_non_text (open/ don't open/ prompt)
++ opt ui_non_text_buffer
 
 1.1.0
 * changed format of keys.json (old fields read but not saved)

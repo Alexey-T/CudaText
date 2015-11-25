@@ -17,9 +17,6 @@ uses
   LazUTF8Classes,
   CopyDir;
 
-var
-  OptTextBufferDetectSizeKb: integer = 64;
-
 procedure FCreateFile(const fn: string; AsJson: boolean = false);
 procedure FFindFilesInDir(const dir, mask: string; L: TStrings);
 procedure FCopyDir(const d1, d2: string);
