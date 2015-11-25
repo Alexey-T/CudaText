@@ -21,7 +21,8 @@ Supported events:
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
-* on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored.
+* on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
+* on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self, text is line with caret.
 
 
 Config "plugins.json": Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
@@ -61,13 +62,13 @@ Performs application-wide action. Possible values of id:
 * PROC_GET_CLIP: Gets clipboard text.
 * PROC_SET_CLIP: Copies text to clipboard.
 * PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
-* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 3 values ";"-separated: "module_name;events_list;lexers_list". Events_list is what can be written in plugins.json, e.g. "on_open,on_save" or empty str to unsubscribe from all. Lexers_list is what can be written in plugins.json too.
+* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". Event_list is what can be written in plugins.json, e.g. "on_open,on_save" or empty str to unsubscribe from all. Lexer_list, keycode_list is what can be written in plugins.json too.
 
 ====Sessions====
 
-* PROC_SAVE_SESSION: Saves session to file with given name. Session is set of opened named files, group-indexes for files, positions of groups. Used JSON format.
+* PROC_SAVE_SESSION: Saves session to file with given name. Session is a set of opened named files, group-indexes for files, positions of groups. Session files are JSON.
 * PROC_LOAD_SESSION: Loads session from file with given name. 
-* PROC_SET_SESSION: Sets custom filename of session which will be saved on exit, loaded on start. It don't save/load, only sets filename.
+* PROC_SET_SESSION: Tells to app filename of session. This file will be saved on exit, loaded on start, shown in app title in {} brackets.
 
 ====Menus====
 
@@ -234,6 +235,10 @@ Shows dialog with ListView with checkmarks. Returns list of bool: checked states
 Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
 
 Param group is index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
+
+Gets bool: filename is empty or sucessfully opened.
+
+Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
 ===file_save===
 
@@ -596,6 +601,10 @@ Shows auto-completion listbox with given items.
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
 =History=
+
+1.0.110
+
+* add: on_console_nav
 
 1.0.109
 

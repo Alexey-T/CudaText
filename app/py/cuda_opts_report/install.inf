@@ -1,0 +1,10 @@
+[info]
+title=Options Report
+desc=Shows HTML page with report of options
+type=cudatext-plugin
+subdir=cuda_opts_report
+
+[item1]
+section=commands
+caption=Options Report
+method=run

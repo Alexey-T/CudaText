@@ -241,11 +241,19 @@ If option is off, filter has normal search. Normal means that filter leaves only
 
 Filter field can find hotkeys too. Enter only hotkey substring, with first "@" char. E.g. "@ho" finds "Ctrl+Home". This search is not fuzzy.
 
+[[File:cudatext cmd dlg.png]]
+
 ==Regular expressions==
 
 Lexer parser uses regex from EControl package. It has some custom features (like \Z: end of file, look ahead/behind can find variable length). Groups must be referenced as \0 .. \9.
 
 Search/replace uses RegExpr engine, almost fully Perl compatible, syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9.
+
+==How to restore lexers styles/colors after reinstalling app?==
+
+When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your custom styles/colors are saved to file "settings/lexer styles backup.ini". And to the lexer library of course. If you reinstall app, you overiwrite lexer library file. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
+
+[[File:cudatext_restore_styles.png]]
 
 == more ==
 
@@ -341,8 +349,8 @@ In commands-node Python modules listed: these are directories (so Python modules
 
 * "proc": Python method name in class "Command".
 * "caption": Menu item caption. Can have delimeters "\" (doubled in json) to make submenus, any level. If last part of caption is "-", menu separator is created (module/method are ignored).
-* "hotkey": Optional. Menu item hotkey string (parsed by TextToShortcut Lazarus func).
 * "lexers": Optional. Comma-separated list of lexer names, if plugin should work only for these lexers.
+* "menu": Optional. If false (default true), menu item in Plugins not added (only item in Commands dlg).
 
 Node "events" lists event plugins.
 
@@ -352,16 +360,16 @@ In each module-node keys listed:
 * "lexers": Optional. Comma-separated list of lexer names.
 * "keys": Optional. Comma-separated list of key codes - only these key codes are passed to "on_key" event.
 
-==Format of add-ons' inf files==
+==Format of install.inf files==
 
-To install add-ons from zip files, pack into zip also "install.inf" with info about the package.
+To install add-ons from zip files, pack into zip also "install.inf" with meta-info.
 The values of the "type" field must be one of shown below.
 
 Example of inf for plugin (plugin adds 2 menu items with menu separator between):
 
   [info]
-  title=Name
-  desc=My plugin
+  title=MyName
+  desc=Plugin allows smth
   type=cudatext-plugin
   subdir=cuda_test
   
@@ -370,7 +378,6 @@ Example of inf for plugin (plugin adds 2 menu items with menu separator between)
   caption=Test\Item 1
   method=run
   lexers=CSS,HTML
-  hotkey=Ctrl+Alt+F
   
   [item2]
   section=commands
@@ -380,7 +387,8 @@ Example of inf for plugin (plugin adds 2 menu items with menu separator between)
   [item3]
   section=commands
   caption=Test\Item 2
-  method=run
+  method=run2
+  menu=0
 
 Example of inf for data-files, to be copied into subdir of "data" dir (name of subdir can be any, for example "themes"):
 
