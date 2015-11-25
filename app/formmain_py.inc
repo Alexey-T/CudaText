@@ -252,6 +252,24 @@ begin
   end;
 end;
 
+function Py_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Ed: TATSynEdit;
+  Frame: TEditorFrame;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:save', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      Frame:= fmMain.GetEditorFrame(Ed);
+      if Assigned(Frame) then
+        Frame.DoFileSave(false, fmMain.SaveDlg);
+      Result:= ReturnNone;
+    end;
+end;
+
+
 function Py_ed_get_text_sel(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -1854,6 +1872,7 @@ begin
     AddMethod('ed_set_prop', @Py_ed_set_prop, '');
     AddMethod('ed_get_ranges', @Py_ed_get_ranges, '');
 
+    AddMethod('ed_save', @Py_ed_save, '');
     AddMethod('ed_cmd', @Py_ed_cmd, '');
     AddMethod('ed_lock', @Py_ed_lock, '');
     AddMethod('ed_unlock', @Py_ed_unlock, '');

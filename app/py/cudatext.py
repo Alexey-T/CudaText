@@ -270,6 +270,8 @@ class Editor:
     def set_top(self, value):
         return ct.ed_set_top(self.h, value)
 
+    def save(self):
+        return ct.ed_save(self.h)
     def cmd(self, value):
         return ct.ed_cmd(self.h, value)
     def focus(self):
