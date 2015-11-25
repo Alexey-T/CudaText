@@ -186,6 +186,7 @@ object fmFind: TfmFind
       ParentFont = False
       TabOrder = 0
       TabStop = True
+      OnKeyDown = edFindKeyDown
       OnChange = edFindChange
       CursorText = crIBeam
       CursorBm = crHandPoint
@@ -215,6 +216,7 @@ object fmFind: TfmFind
       Colors.CollapseLine = 10510432
       Colors.CollapseMarkFont = 14712960
       Colors.CollapseMarkBG = clCream
+      Colors.CollapseMarkBorder = 14712960
       Colors.UnprintedFont = 5263600
       Colors.UnprintedBG = 14737632
       Colors.UnprintedHexFont = clMedGray
@@ -348,6 +350,7 @@ object fmFind: TfmFind
       ParentFont = False
       TabOrder = 1
       TabStop = True
+      OnKeyDown = edFindKeyDown
       CursorText = crIBeam
       CursorBm = crHandPoint
       Colors.TextFont = clBlack
@@ -376,6 +379,7 @@ object fmFind: TfmFind
       Colors.CollapseLine = 10510432
       Colors.CollapseMarkFont = 14712960
       Colors.CollapseMarkBG = clCream
+      Colors.CollapseMarkBorder = 14712960
       Colors.UnprintedFont = 5263600
       Colors.UnprintedBG = 14737632
       Colors.UnprintedHexFont = clMedGray

@@ -73,6 +73,7 @@ type
     procedure bFindFirstClick(Sender: TObject);
     procedure chkRepClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
+    procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -158,6 +159,18 @@ end;
 procedure TfmFind.edFindChange(Sender: TObject);
 begin
   UpdateState;
+end;
+
+procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
+  begin
+    edRep.Text:= edFind.Text;
+    edRep.Update(true);
+    key:= 0;
+    exit
+  end;
 end;
 
 procedure TfmFind.FormCreate(Sender: TObject);
