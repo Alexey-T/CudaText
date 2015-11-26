@@ -1371,6 +1371,9 @@ begin
             Result:= PyInt_FromLong(Num2);
           end;
 
+        PROP_TAG:
+          Result:= PyString_FromString(PChar(F.TagString));
+
         PROP_UNPRINTED_SHOW:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedVisible));
         PROP_UNPRINTED_SPACES:
@@ -1435,6 +1438,8 @@ begin
           Ed.OptRulerVisible:= ValueBool;
         PROP_LEXER_FILE:
           F.Lexer:= Manager.FindAnalyzer(Str);
+        PROP_TAG:
+          F.TagString:= Str;
 
         PROP_UNPRINTED_SHOW:
           Ed.OptUnprintedVisible:= ValueBool;

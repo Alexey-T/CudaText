@@ -80,6 +80,7 @@ const
   PROP_LEXER_CARET    = 22;
   PROP_INDEX_GROUP    = 23;
   PROP_INDEX_TAB      = 24;
+  PROP_TAG            = 25;
   PROP_UNPRINTED_SHOW        = 30;
   PROP_UNPRINTED_SPACES      = 31;
   PROP_UNPRINTED_ENDS        = 32;
