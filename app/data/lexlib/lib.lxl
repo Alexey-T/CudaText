@@ -23085,6 +23085,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Word1stComment'
+        Enabled = False
         StyleName = 'Comment'
         TokenType = 13
         Expression = '^[\x20\x09]* \#.*'
