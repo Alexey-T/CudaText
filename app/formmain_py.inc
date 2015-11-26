@@ -1380,6 +1380,9 @@ begin
         PROP_UNPRINTED_END_DETAILS:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEndsDetails));
 
+        PROP_TAB_COLLECT_MARKERS:
+          Result:= PyBool_FromLong(Ord(F.TabKeyCollectMarkers));
+
         else
           Result:= ReturnNone;
       end;
@@ -1441,6 +1444,9 @@ begin
           Ed.OptUnprintedEnds:= ValueBool;
         PROP_UNPRINTED_END_DETAILS:
           Ed.OptUnprintedEndsDetails:= ValueBool;
+
+        PROP_TAB_COLLECT_MARKERS:
+          F.TabKeyCollectMarkers:= ValueBool;
       end;
 
       fmMain.UpdateFrame;

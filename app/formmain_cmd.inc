@@ -227,6 +227,9 @@ begin
 end;
 
 procedure TfmMain.FrameOnCommand(Sender: TObject; Cmd: integer; var Handled: boolean);
+var
+  Ed: TATSynEdit;
+  Frame: TEditorFrame;
 begin
   Handled:= true;
   if not Groups.Enabled then Exit;
@@ -243,6 +246,19 @@ begin
   end;
 
   case Cmd of
+    cCommand_KeyTab:
+      begin
+        Ed:= Sender as TATSynEdit;
+        Frame:= GetEditorFrame(Ed);
+        Handled:= Frame.TabKeyCollectMarkers and (Ed.Markers.Count>0);
+        if Handled then
+        begin
+          EditorMarkerGotoLast(Ed, true);
+          if Ed.Markers.Count=0 then
+            Frame.TabKeyCollectMarkers:= false;
+        end;
+      end;
+
     cmd_First..10000:
       begin
         TimerCmd.Tag:= Cmd;
