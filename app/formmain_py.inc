@@ -1638,6 +1638,16 @@ begin
             Result:= PyString_FromString(PChar(PyLastCommandModule+','+PyLastCommandMethod));
           end;
 
+        APP_PROC_GET_GROUPING:
+          begin
+            Result:= PyInt_FromLong(Ord(fmMain.Groups.Mode));
+          end;
+        APP_PROC_SET_GROUPING:
+          begin
+            fmMain.Groups.Mode:= TATGroupsMode(StrToIntDef(Str, 1));
+            fmMain.UpdateStatus;
+          end;
+
         else
           Result:= ReturnNone;
       end;

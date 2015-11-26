@@ -1,14 +1,3 @@
-GROUPING_ONE    = 1
-GROUPING_2HORZ  = 2
-GROUPING_2VERT  = 3
-GROUPING_3HORZ  = 4
-GROUPING_3VERT  = 5
-GROUPING_3AS1P2 = 6
-GROUPING_4HORZ  = 7
-GROUPING_4VERT  = 8
-GROUPING_4GRID  = 9
-GROUPING_6GRID  = 10
-
 ATTRIB_CLEAR_ALL       = -1
 ATTRIB_CLEAR_SELECTION = -2
 ATTRIB_COLOR_FONT      = 0
@@ -48,8 +37,6 @@ PROP_COORD_MONITOR1 = 123
 PROP_COORD_MONITOR2 = 124
 PROP_COORD_MONITOR3 = 125
 PROP_SPLIT_MAIN_POS = 129
-PROP_GROUP_MODE     = 130
-PROP_GROUP_INDEX    = 131
 PROP_FILENAME_SESSION = 132
 PROP_FILENAME_PROJECT = 133
 PROP_RECENT_FILES    = 135
@@ -57,9 +44,6 @@ PROP_RECENT_SESSIONS = 136
 PROP_RECENT_PROJECTS = 137
 PROP_RECENT_NEWDOC   = 138
 PROP_RECENT_COLORS   = 139
-PROP_EVENTS          = 140
-PROP_EDITOR_BY_INDEX = 141
-PROP_GROUPS          = 142
 
 FIND_ACTION_FIND_NEXT    = 0
 FIND_ACTION_FIND_ALL     = 1
@@ -89,17 +73,10 @@ TOKENS_NO_CMT_STR = 4
 def dlg_snippet(name, alias, lexers, text):
     return sw_api.dlg_snippet(name, alias, lexers, text)
 
-def get_app_prop(id, value=''):
-    return sw_api.get_app_prop(id, value)
-def set_app_prop(id, value):
-    return sw_api.set_app_prop(id, value)
-
 def app_lock(id):
     return sw_api.app_lock(id)
 
 class Editor:
-    def set_prop(self, id, value):
-        return sw_api.ed_set_prop(self.h, id, value)
     def set_attr(self, id, color):
         return sw_api.ed_set_attr(self.h, id, color)
     def get_attr(self):
