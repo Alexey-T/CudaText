@@ -3,6 +3,7 @@
 + commands (5x) for markers like Synwrite
 + opt ui_non_text (prompt/ open/ don't open)
 + opt ui_non_text_buffer
++ cmd "run last command plugin"
 - fix: ui_one_instance and non-text prompt
 
 1.1.0

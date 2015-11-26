@@ -7,6 +7,7 @@
   "EdDisableBg" : "#C0C0C0",
   "EdLockedBg" : "#E0E0E0",
   "EdCaret" : "#000000",
+  "EdMarkers" : "#6044A0",
   "EdCurLineBg" : "#F0F0E0",
   "EdIndentVLine" : "#A0A0A4",
   "EdUnprintFont" : "#F05050",

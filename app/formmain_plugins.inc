@@ -315,3 +315,9 @@ begin
   end;
 end;
 
+procedure TfmMain.DoPyRunLastPlugin;
+begin
+  if PyLastCommandModule<>'' then
+    Py_RunPlugin_Command(PyLastCommandModule, PyLastCommandMethod);
+end;
+

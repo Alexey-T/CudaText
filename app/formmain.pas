@@ -514,6 +514,7 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);

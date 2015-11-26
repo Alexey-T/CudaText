@@ -69,7 +69,9 @@ begin
     cmd_OpsOpenFileTypes:   DoOps_OpenFile_FileTypes;
     cmd_OpsFontText:        DoOps_DlgFontText;
     cmd_OpsFontUi:          DoOps_DlgFontUi;
+
     cmd_ResetPythonPlugins: DoPyResetPlugins;
+    cmd_RunLastCommandPlugin: DoPyRunLastPlugin;
 
     cmd_Groups1:     Groups.Mode:= gmOne;
     cmd_Groups2horz: Groups.Mode:= gm2Horz;

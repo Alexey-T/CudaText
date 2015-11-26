@@ -57,6 +57,7 @@ const
   cmd_ToggleStatusbar    = 2542;
   cmd_ResetPythonPlugins = 2543;
   cmd_DialogCharMap      = 2544;
+  cmd_RunLastCommandPlugin = 2545;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -231,7 +232,10 @@ begin
   M.Add(cmd_OpsOpenFileTypes, 'settings: open file-types config', [], []);
   M.Add(cmd_OpsFontText, 'settings: select text font', [], []);
   M.Add(cmd_OpsFontUi, 'settings: select ui font', [], []);
-  M.Add(cmd_ResetPythonPlugins, 'settings: reset python plugins', [], []);
+
+  M.Add(cmd_ResetPythonPlugins, 'plugins: reset python plugins', [], []);
+  M.Add(cmd_RunLastCommandPlugin, 'plugins: run last command plugin', [], []);
+
   M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', ['F11'], []);
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', ['F12'], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
