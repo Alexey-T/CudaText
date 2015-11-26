@@ -1628,6 +1628,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_LAST_PLUGIN:
+          begin
+            Result:= PyString_FromString(PChar(PyLastCommandModule+','+PyLastCommandMethod));
+          end;
+
         else
           Result:= ReturnNone;
       end;

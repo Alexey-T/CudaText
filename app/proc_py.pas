@@ -28,6 +28,9 @@ const
   cPyFalse = 'False';
   cPyNone = 'None';
 
+var
+  PyLastCommandModule: string = '';
+  PyLastCommandMethod: string = '';
 
 implementation
 
@@ -52,6 +55,9 @@ var
   SObj: string;
   SCmd1, SCmd2: string;
 begin
+  PyLastCommandModule:= SModule;
+  PyLastCommandMethod:= SCmd;
+
   SObj:= '_cudacmd_' + SModule;
   SCmd1:=
     Format('import %s               ', [SModule]) + SLineBreak +
