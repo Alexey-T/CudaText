@@ -1,5 +1,4 @@
 
-----------
 `on_state`       | `on_state(self, ed_self, id)`       | Called before changing some editor state. `id` is one of values listed at [py property id]. Method can return `False` to disable state changing, other return value is ignored.
 `on_func_hint`   | `on_func_hint(self, ed_self)`       | Called by function-hint command (default hotkey: Ctrl+Shift+Space). Method must return function-hint string (comma-separated parameters), or empty string.  
 `on_lexer`       | `on_lexer(self, ed_self)`           | Called after lexer is changed.

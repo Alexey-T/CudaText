@@ -63,6 +63,9 @@ Performs application-wide action. Possible values of id:
 * PROC_SET_CLIP: Copies text to clipboard.
 * PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
 * PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". Event_list is what can be written in plugins.json, e.g. "on_open,on_save" or empty str to unsubscribe from all. Lexer_list, keycode_list is what can be written in plugins.json too.
+* PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
+* PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
+* PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
 
 ====Sessions====
 
@@ -497,6 +500,8 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
+* PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers (if markers placed).
+* PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
 
 ===set_prop===
 
@@ -523,6 +528,8 @@ Possible values of id:
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
+* PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers.
+* PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
 
 ===bookmark===
 
@@ -556,7 +563,24 @@ Gets list of fold-ranges in parsed lexer data. It is list of 5-lists: [y, y2, x,
 * staple: int (0/1) which shows that range has block staple.
 * folded: int (0/1) which shows that range is currently folded.
 
+===markers===
+
+ markers(id, x=0, y=0)
+
+Controls markers (red triangles). Possible values of id:
+
+* MARKERS_GET: Gets list of 2-lists, each item is marker pos [x, y]. Gets None if no markers.
+* MARKERS_ADD: Adds marker at pos (x, y). Also gets number of markers.
+* MARKERS_DELETE_ALL: Deletes all markers.
+* MARKERS_DELETE_LAST: Deletes last marker.
+
 ==Misc==
+
+===save===
+
+ save()
+
+Saves editor's tab to disk. Shows save-as dialog for untitled tab.
 
 ===cmd===
 
@@ -601,6 +625,15 @@ Shows auto-completion listbox with given items.
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
 =History=
+
+1.0.111
+
+* add: Editor.markers()
+* add: Editor.save()
+* add: get/set_prop PROP_TAB_COLLECT_MARKERS
+* add: get/set_prop PROP_TAG
+* add: app_proc PROC_GET_LAST_PLUGIN
+* add: app_proc PROC_GET_GROUPING, PROC_SET_GROUPING
 
 1.0.110
 
