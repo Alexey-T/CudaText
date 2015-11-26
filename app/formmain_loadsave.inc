@@ -69,13 +69,17 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_SaveSession(const fn_session: string);
+procedure TfmMain.DoOps_SaveSession(fn_session: string);
 var
   c: TJSONConfig;
   F: TEditorFrame;
   nGroup, nTab, i: integer;
   path: string;
 begin
+  if fn_session='' then exit;
+  if ExtractFileDir(fn_session)='' then
+    fn_session:= GetAppPath(cDirSettings)+DirectorySeparator+fn_session;
+
   DeleteFile(fn_session);
 
   c:= TJSONConfig.Create(nil);
@@ -105,7 +109,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadSession(const fn_session: string);
+procedure TfmMain.DoOps_LoadSession(fn_session: string);
 var
   c: TJSONConfig;
   list: TStringlist;
@@ -113,6 +117,10 @@ var
   F: TEditorFrame;
   nGroup, i: integer;
 begin
+  if fn_session='' then exit;
+  if ExtractFileDir(fn_session)='' then
+    fn_session:= GetAppPath(cDirSettings)+DirectorySeparator+fn_session;
+
   DoFileCloseAll;
 
   c:= TJSONConfig.Create(nil);
