@@ -607,10 +607,13 @@ var
   NTag, i: integer;
 begin
   if Ed.Markers.Count=0 then exit;
-
   Mark:= Ed.Markers[Ed.Markers.Count-1];
+
   Ed.Carets.Clear;
-  Ed.Carets.Add(Mark.PosX, Mark.PosY);
+  if Mark.SelLen<=0 then
+    Ed.Carets.Add(Mark.PosX, Mark.PosY)
+  else
+    Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.PosX+Mark.SelLen, Mark.PosY);
 
   if AndDelete then
   begin
@@ -625,7 +628,10 @@ begin
         Mark:= Ed.Markers[i];
         if Mark.Tag=NTag then
         begin
-          Ed.Carets.Add(Mark.PosX, Mark.PosY);
+          if Mark.SelLen<=0 then
+            Ed.Carets.Add(Mark.PosX, Mark.PosY)
+          else
+            Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.PosX+Mark.SelLen, Mark.PosY);
           Ed.Markers.Delete(i);
         end;
       end;

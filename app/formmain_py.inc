@@ -408,14 +408,13 @@ function Py_ed_markers(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
   Id: Integer;
-  X, Y: Integer;
+  Ed: TATSynEdit;
   ComArray: Variant;
   Mark: TATMarkerItem;
-  NTag, NLen, i: Integer;
-  Ed: TATSynEdit;
+  X, Y, NTag, NLen, i: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiii:markers', @H, @Id, @X, @Y, @NTag)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiiii:markers', @H, @Id, @X, @Y, @NTag, @NLen)) then
     begin
       Ed:= PyEditor(H);
 
@@ -440,7 +439,7 @@ begin
 
         MARKERS_ADD:
           begin
-            Ed.Markers.Add(X, Y, NTag);
+            Ed.Markers.Add(X, Y, NTag, NLen);
             Ed.Update;
             fmMain.UpdateStatus;
             Result:= PyInt_FromLong(Ed.Markers.Count);

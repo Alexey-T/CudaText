@@ -64,7 +64,8 @@ def insert_snip_into_editor(ed, snip_lines):
                 if pos_y==0:
                     pos_x += x0
                 pos_y += y0
-                ed.markers(ct.MARKERS_ADD, pos_x, pos_y, digit)
+                deftext = item[1]
+                ed.markers(ct.MARKERS_ADD, pos_x, pos_y, digit, len(deftext))
     
     ed.set_prop(ct.PROP_TAB_COLLECT_MARKERS, '1')
     ed.cmd(cudatext_cmd.cmd_Markers_GotoLastAndDelete)
