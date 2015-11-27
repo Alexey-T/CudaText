@@ -1,7 +1,6 @@
 import os
 import sys
 import string
-import cudatext as ct
 
 CHARS_SNIP = string.ascii_letters + string.digits + '_'
 CHARS_ALLOWED_AFTER_SNIP = ' \t<>'
@@ -63,28 +62,3 @@ def get_snip_list_of_dicts(dir):
     res=[parse_snip_content_to_dict(open(fn).read()) for fn in res]
     res=sorted(res, key=lambda d: d[SNIP_NAME])
     return res
-
-
-def find_snip_inspoint():
-    pass
-
-def insert_snip_into_editor(ed, snip_items):
-    items = snip_items
-    if not items: return
-    
-    carets = ed.get_carets()
-    if len(carets)!=1: return
-    x, y, x1, y1 = carets[0]
-    
-    #apply indent to lines from second
-    indent = ' '*x
-    for i in range(1, len(items)):
-        items[i] = indent+items[i]
-        
-    text = '\n'.join(items)
-    
-    if ed.get_prop(ct.PROP_TAB_SPACES):
-        indent = ' '*ed.get_prop(ct.PROP_TAB_SIZE)
-        text = text.replace('\t', indent)
-    
-    ed.insert(x, y, text)

@@ -1,5 +1,7 @@
 from cudatext import *
 from .proc_snippets import *
+from .proc_snippets_insert import *
+
 
 def is_lexer_listed(name, namelist):
     if not name and not namelist: return True
