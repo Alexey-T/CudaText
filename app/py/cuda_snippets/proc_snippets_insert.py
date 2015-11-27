@@ -3,7 +3,7 @@ import cudatext_cmd
 
 
 def insert_snip_into_editor(ed, snip_lines):
-    items = snip_lines
+    items = list(snip_lines) #copy list value
     if not items: return
     
     carets = ed.get_carets()
@@ -18,8 +18,7 @@ def insert_snip_into_editor(ed, snip_lines):
     #replace tab-chars
     if ed.get_prop(ct.PROP_TAB_SPACES):
         indent = ' '*ed.get_prop(ct.PROP_TAB_SIZE)
-        for i in range(len(items)):
-            items[i] = items[i].replace('\t', indent)
+        items = [item.replace('\t', indent) for item in items]
 
     #parse tabstops ${0}, ${0:text}
     stops = []
@@ -50,22 +49,25 @@ def insert_snip_into_editor(ed, snip_lines):
                 
             stops += [(digit, deftext, index, n)]
             items[index] = s
-    print('tabstops', stops)        
+    #print('tabstops', stops)        
     
     #insert    
     ed.insert(x0, y0, '\n'.join(items))
     
     #place tabstops
+    mark_placed = False
     for digit in [0,9,8,7,6,5,4,3,2,1]:
-        for item in stops:
-            if item[0]==digit:
-                pos_x = item[3]
-                pos_y = item[2]
+        for stop in stops:
+            if stop[0]==digit:
+                pos_x = stop[3]
+                pos_y = stop[2]
                 if pos_y==0:
                     pos_x += x0
                 pos_y += y0
-                deftext = item[1]
+                deftext = stop[1]
                 ed.markers(ct.MARKERS_ADD, pos_x, pos_y, digit, len(deftext))
+                mark_placed = True
     
-    ed.set_prop(ct.PROP_TAB_COLLECT_MARKERS, '1')
-    ed.cmd(cudatext_cmd.cmd_Markers_GotoLastAndDelete)
+    if mark_placed:
+        ed.set_prop(ct.PROP_TAB_COLLECT_MARKERS, '1')
+        ed.cmd(cudatext_cmd.cmd_Markers_GotoLastAndDelete)

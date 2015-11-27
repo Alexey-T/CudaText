@@ -1,6 +1,6 @@
 [info]
 title=Snippets
-desc=Adds support for snippets (snippets are expanded by Tab key)
+desc=Supports snippets from SynWrite (snippets are expanded by Tab key or can be called in menu)
 type=cudatext-plugin
 subdir=cuda_snippets
 

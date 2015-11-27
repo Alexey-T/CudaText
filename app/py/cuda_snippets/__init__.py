@@ -20,9 +20,10 @@ class Command:
     def on_key(self, ed_self, code, state):
         if code!=9: return #tab-key=9
         if state!='': return
+        if ed_self.get_prop(PROP_TAB_COLLECT_MARKERS): return
         name = get_snip_name_from_editor(ed_self)
         if not name: return
-        print('snip:', name)
+        print('snippet:', name)
     
     def do_menu(self):
         lex = ed.get_prop(PROP_LEXER_CARET)
@@ -35,5 +36,5 @@ class Command:
         res = dlg_menu(MENU_LIST, '\n'.join(names))
         if res is None: return
 
-        print('selected snippet:', snips_here[res][SNIP_NAME])
+        #print('selected:', snips_here[res][SNIP_NAME])
         insert_snip_into_editor(ed, snips_here[res][SNIP_TEXT])
