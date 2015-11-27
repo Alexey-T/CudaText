@@ -65,6 +65,9 @@ def get_snip_list_of_dicts(dir):
     return res
 
 
+def find_snip_inspoint():
+    pass
+
 def insert_snip_into_editor(ed, snip_items):
     items = snip_items
     if not items: return
@@ -74,8 +77,7 @@ def insert_snip_into_editor(ed, snip_items):
     x, y, x1, y1 = carets[0]
     
     indent = ' '*x
-    text = '\n'.join(items)
-    text = text.replace('\n', '\n'+indent)
+    text = ('\n'+indent).join(items)
     
     if ed.get_prop(ct.PROP_TAB_SPACES):
         indent = ' '*ed.get_prop(ct.PROP_TAB_SIZE)

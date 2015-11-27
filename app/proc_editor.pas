@@ -603,17 +603,35 @@ end;
 
 procedure EditorMarkerGotoLast(Ed: TATSynEdit; AndDelete: boolean);
 var
-  Caret: TATCaretItem;
   Mark: TATMarkerItem;
+  NTag, i: integer;
 begin
-  if Ed.Carets.Count<>1 then exit;
   if Ed.Markers.Count=0 then exit;
-  Caret:= Ed.Carets[0];
+
   Mark:= Ed.Markers[Ed.Markers.Count-1];
-  Caret.PosX:= Mark.PosX;
-  Caret.PosY:= Mark.PosY;
+  Ed.Carets.Clear;
+  Ed.Carets.Add(Mark.PosX, Mark.PosY);
+
   if AndDelete then
+  begin
+    NTag:= Ed.Markers[Ed.Markers.Count-1].Tag;
     Ed.Markers.Delete(Ed.Markers.Count-1);
+
+    //Tag>0: delete also same tag marks
+    //and place mul-carets
+    if NTag>0 then
+      for i:= Ed.Markers.Count-1 downto 0 do
+      begin
+        Mark:= Ed.Markers[i];
+        if Mark.Tag=NTag then
+        begin
+          Ed.Carets.Add(Mark.PosX, Mark.PosY);
+          Ed.Markers.Delete(i);
+        end;
+      end;
+  end;
+
+  Ed.Carets.Sort;
   Ed.DoGotoCaret(cEdgeTop);
   Ed.Update;
 end;

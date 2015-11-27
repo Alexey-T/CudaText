@@ -411,11 +411,11 @@ var
   X, Y: Integer;
   ComArray: Variant;
   Mark: TATMarkerItem;
-  NLen, i: Integer;
+  NTag, NLen, i: Integer;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liii:set_caret', @H, @Id, @X, @Y)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiii:markers', @H, @Id, @X, @Y, @NTag)) then
     begin
       Ed:= PyEditor(H);
 
@@ -440,7 +440,7 @@ begin
 
         MARKERS_ADD:
           begin
-            Ed.Markers.Add(X, Y);
+            Ed.Markers.Add(X, Y, NTag);
             Ed.Update;
             fmMain.UpdateStatus;
             Result:= PyInt_FromLong(Ed.Markers.Count);
