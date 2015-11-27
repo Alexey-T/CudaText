@@ -24,14 +24,14 @@ class Command:
     
     def do_menu(self):
         lex = ed.get_prop(PROP_LEXER_CARET)
+        
+        snips_here = [item for item in self.snips
+                      if is_lexer_listed(lex, item[SNIP_LEX]) ]
+        
         names = [item[SNIP_NAME]+'\t'+item[SNIP_ID]+'  ['+item[SNIP_LEX]+']' 
-                for item in self.snips
-                if is_lexer_listed(lex, item[SNIP_LEX])
-                ]
+                for item in snips_here]
         res = dlg_menu(MENU_LIST, '\n'.join(names))
         if res is None: return
-        print('selected snippet:', self.snips[res][SNIP_NAME])
-        
-        insert_snip_into_editor(ed, self.snips[res][SNIP_TEXT])
-        
-        
+
+        print('selected snippet:', snips_here[res][SNIP_NAME])
+        insert_snip_into_editor(ed, snips_here[res][SNIP_TEXT])

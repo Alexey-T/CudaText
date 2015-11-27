@@ -76,8 +76,12 @@ def insert_snip_into_editor(ed, snip_items):
     if len(carets)!=1: return
     x, y, x1, y1 = carets[0]
     
+    #apply indent to lines from second
     indent = ' '*x
-    text = ('\n'+indent).join(items)
+    for i in range(1, len(items)):
+        items[i] = indent+items[i]
+        
+    text = '\n'.join(items)
     
     if ed.get_prop(ct.PROP_TAB_SPACES):
         indent = ' '*ed.get_prop(ct.PROP_TAB_SIZE)
