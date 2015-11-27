@@ -1,0 +1,5 @@
+name=require_once ...
+id=req1
+lex=PHP,PHP_
+text=
+require_once '${1:file}';${0}

@@ -1,0 +1,5 @@
+name=return false
+id=ret0
+lex=PHP,PHP_
+text=
+return false;${0}

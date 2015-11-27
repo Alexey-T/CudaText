@@ -1,0 +1,8 @@
+name=procedure declaration
+id=proc
+lex=Pascal
+text=
+procedure ${1:Name}(${2});
+begin
+  ${0}
+end;

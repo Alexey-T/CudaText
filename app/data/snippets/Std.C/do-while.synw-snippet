@@ -1,0 +1,8 @@
+name=do-while
+id=do
+lex=C,C++,Objective-C
+text=
+do
+{
+	${0:/* code */}
+} while (${1:/* condition */});

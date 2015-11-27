@@ -1,0 +1,5 @@
+name=template <typename>
+id=tp
+lex=C++,Objective-C
+text=
+template <typename ${1:name}>

@@ -1,0 +1,15 @@
+name=class declaration (all parts)
+id=classf
+lex=Pascal
+text=
+type
+  ${1:TName} = class(${2:TObject})
+  private
+
+  protected
+
+  public
+
+  published
+
+  end;

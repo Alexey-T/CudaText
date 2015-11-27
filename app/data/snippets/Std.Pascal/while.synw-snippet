@@ -1,0 +1,8 @@
+name=while statement
+id=whileb
+lex=Pascal
+text=
+while ${1} do
+begin
+  ${0}
+end;

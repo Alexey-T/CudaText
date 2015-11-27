@@ -1,0 +1,5 @@
+name=typedef
+id=td
+lex=C,C++,Objective-C
+text=
+typedef ${1:int} ${2:MyName};

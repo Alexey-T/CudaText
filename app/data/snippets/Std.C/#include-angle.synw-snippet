@@ -1,0 +1,5 @@
+name=#include <...>
+id=Inc
+lex=C,C++,Objective-C
+text=
+#include <${1:.h}>

@@ -1,0 +1,8 @@
+name=doc-block /** ... */
+id=doc
+lex=PHP,PHP_
+text=
+/**
+ * ${0}
+ */
+ 

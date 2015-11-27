@@ -1,0 +1,10 @@
+name=try finally (with Create/Free)
+id=trycf
+lex=Pascal
+text=
+${1:name} := ${2:TName}.Create;
+try
+  ${3}
+finally
+  FreeAndNil(${4:name});
+end;

@@ -1,0 +1,8 @@
+name=if condition
+id=if
+lex=C,C++,Objective-C
+text=
+if (${1:/* condition */})
+{
+	${0:/* code */}
+}

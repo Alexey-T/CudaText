@@ -1,0 +1,12 @@
+name=if then else
+id=ifeb
+lex=Pascal
+text=
+if ${1} then
+begin
+  ${2}
+end  
+else
+begin
+  ${3}
+end;

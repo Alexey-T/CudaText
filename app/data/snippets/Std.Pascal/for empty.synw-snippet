@@ -1,0 +1,5 @@
+name=for (no begin/end)
+id=fors
+lex=Pascal
+text=
+for ${1} := ${2} to ${3} do

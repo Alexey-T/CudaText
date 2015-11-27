@@ -1,0 +1,8 @@
+name=if then (no begin/end) else (no begin/end)
+id=ife
+lex=Pascal
+text=
+if ${1} then
+  ${2}
+else
+  ${3}

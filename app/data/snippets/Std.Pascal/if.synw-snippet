@@ -1,0 +1,8 @@
+name=if statement
+id=ifb
+lex=Pascal
+text=
+if ${1} then
+begin
+  ${0}
+end;

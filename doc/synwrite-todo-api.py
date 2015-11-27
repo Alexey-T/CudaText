@@ -9,10 +9,8 @@ ATTRIB_SET_STRIKEOUT   = 5
 
 PROC_LOCK_STATUS      = 3
 PROC_UNLOCK_STATUS    = 4
-PROC_ADD_RECENT_COLOR = 7
 
 PROP_TEXT_EXTENT    = 11
-PROP_ZOOM           = 12
 PROP_VIS_LINES      = 15
 PROP_VIS_COLS       = 16
 PROP_TOKEN_TYPE     = 21
@@ -84,7 +82,6 @@ class Editor:
     def find(self, action, opt, tokens, sfind, sreplace):
         return sw_api.ed_find(self.h, action, opt, tokens, sfind, sreplace)
 
-#noneed
     def get_alerts(self):
     def set_alerts(self, value):
     def get_left(self):

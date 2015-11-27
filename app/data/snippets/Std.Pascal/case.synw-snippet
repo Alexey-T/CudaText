@@ -1,0 +1,7 @@
+name=case statement
+id=cases
+lex=Pascal
+text=
+case ${1} of
+  ${2}: ${3};
+end;

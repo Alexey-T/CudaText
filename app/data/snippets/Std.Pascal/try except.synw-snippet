@@ -1,0 +1,9 @@
+name=try except
+id=trye
+lex=Pascal
+text=
+try
+  ${1}
+except
+  ${2}  
+end;

@@ -1,0 +1,5 @@
+name=std::vector
+id=vector
+lex=C++,Objective-C
+text=
+std::vector<${1:char}> v${0};

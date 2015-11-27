@@ -1,0 +1,15 @@
+[info]
+title=Snippets
+desc=Adds support for snippets (snippets are expanded by Tab key)
+type=cudatext-plugin
+subdir=cuda_snippets
+
+[item1]
+section=events
+events=on_key
+keys=9
+
+[item2]
+section=commands
+caption=Snippets
+method=do_menu

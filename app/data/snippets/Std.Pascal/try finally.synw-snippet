@@ -1,0 +1,9 @@
+name=try finally
+id=tryf
+lex=Pascal
+text=
+try
+  ${1}
+finally
+  ${2}  
+end;

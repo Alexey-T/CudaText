@@ -1,0 +1,8 @@
+name=foreach ...
+id=foreach
+lex=PHP,PHP_
+text=
+foreach ($${1:variable} as $${2:key} => $${4:value}) {
+	${0:# code...}
+}
+

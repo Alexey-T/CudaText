@@ -1,0 +1,8 @@
+name=struct
+id=struct
+lex=C,C++,Objective-C
+text=
+struct {${1:name}}
+{
+	${0}
+};

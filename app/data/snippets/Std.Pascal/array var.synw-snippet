@@ -1,0 +1,5 @@
+name=array declaration (var)
+id=arrayd
+lex=Pascal
+text=
+array[0..${1}] of ${2:Integer};

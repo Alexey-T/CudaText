@@ -1,0 +1,7 @@
+name=begin end
+id=be
+lex=Pascal
+text=
+begin
+  ${0}
+end;

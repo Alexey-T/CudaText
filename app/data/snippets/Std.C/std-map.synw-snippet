@@ -1,0 +1,5 @@
+name=std::map
+id=map
+lex=C++,Objective-C
+text=
+std::map<${1:key}, ${2:value}> map${0};
