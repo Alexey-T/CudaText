@@ -10,14 +10,22 @@ def insert_snip_into_editor(ed, snip_lines):
     if len(carets)!=1: return
     x0, y0, x1, y1 = carets[0]
     
+    tab_spaces = ed.get_prop(ct.PROP_TAB_SPACES)
+    tab_size = ed.get_prop(ct.PROP_TAB_SIZE)
+    
     #apply indent to lines from second
-    indent = ' '*x0
+    x_col, y_col = ed.convert(ct.CONVERT_CHAR_TO_COL, x0, y0)
+    indent = ' '*x_col
+    
+    if not tab_spaces:
+        indent = indent.replace(' '*tab_size, '\t')
+    
     for i in range(1, len(items)):
         items[i] = indent+items[i]
 
     #replace tab-chars
-    if ed.get_prop(ct.PROP_TAB_SPACES):
-        indent = ' '*ed.get_prop(ct.PROP_TAB_SIZE)
+    if tab_spaces:
+        indent = ' '*tab_size
         items = [item.replace('\t', indent) for item in items]
 
     #parse tabstops ${0}, ${0:text}
