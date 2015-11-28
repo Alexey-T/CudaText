@@ -77,6 +77,7 @@ type
     FLocked: boolean;
     FTabColor: TColor;
     FFoldTodo: string;
+    FTopLineTodo: integer;
     FTabKeyCollectMarkers: boolean;
     FTagString: string;
     procedure DoOnChangeCaption;
@@ -863,6 +864,12 @@ begin
     FFoldTodo:= '';
     EditorSetFoldString(Editor, S);
   end;
+
+  if FTopLineTodo>0 then
+  begin
+    Editor.LineTop:= FTopLineTodo;
+    FTopLineTodo:= 0;
+  end;
 end;
 
 procedure TEditorFrame.DoOnUpdateStatus;
@@ -998,7 +1005,7 @@ end;
 procedure TEditorFrame.DoLoadHistoryEx(c: TJsonConfig; const path: string);
 var
   str, str0: string;
-  caret: TATCaretItem;
+  Caret: TATCaretItem;
   nTop, i: integer;
   items: TStringlist;
 begin
@@ -1034,7 +1041,9 @@ begin
   Editor.OptUnprintedSpaces:= c.GetValue(path+cSavUnpriSp, Editor.OptUnprintedSpaces);
   Editor.OptUnprintedEnds:= c.GetValue(path+cSavUnpriEnd, Editor.OptUnprintedEnds);
   Editor.OptUnprintedEndsDetails:= c.GetValue(path+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
+
   FFoldTodo:= c.GetValue(path+cSavFold, '');
+  FTopLineTodo:= c.GetValue(path+cSavTop, 0);
 
   with Editor.Gutter[Editor.GutterBandNum] do
     Visible:= c.GetValue(path+cSavNums, Visible);
@@ -1067,14 +1076,6 @@ begin
   Editor.Update;
   if Splitted then
     Editor2.Update;
-
-  //topline
-  nTop:= c.GetValue(path+cSavTop, 0);
-  if nTop>0 then
-  begin
-    Application.ProcessMessages;
-    Editor.LineTop:= nTop;
-  end;
 end;
 
 function TEditorFrame.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
