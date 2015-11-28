@@ -66,6 +66,7 @@ Performs application-wide action. Possible values of id:
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
+* PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call).
 
 ====Sessions====
 
@@ -565,12 +566,14 @@ Gets list of fold-ranges in parsed lexer data. It is list of 5-lists: [y, y2, x,
 
 ===markers===
 
- markers(id, x=0, y=0)
+ markers(id, x=0, y=0, tag=0, len=0)
 
 Controls markers (red triangles). Possible values of id:
 
 * MARKERS_GET: Gets list of 2-lists, each item is marker pos [x, y]. Gets None if no markers.
-* MARKERS_ADD: Adds marker at pos (x, y). Also gets number of markers.
+* MARKERS_ADD: Adds marker at pos (x, y). Also gets number of markers. 
+** Param tag>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (then markers are deleted). 
+** Param len>0 is needed if you want to place selection at marker, with this length, when "goto last marker" goes to this marker.
 * MARKERS_DELETE_ALL: Deletes all markers.
 * MARKERS_DELETE_LAST: Deletes last marker.
 
@@ -634,6 +637,7 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 * add: get/set_prop PROP_TAG
 * add: app_proc PROC_GET_LAST_PLUGIN
 * add: app_proc PROC_GET_GROUPING, PROC_SET_GROUPING
+* add: app_proc PROC_EXEC_PYTHON
 
 1.0.110
 
