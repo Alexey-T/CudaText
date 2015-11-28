@@ -1645,6 +1645,13 @@ begin
           begin
             fmMain.Groups.Mode:= TATGroupsMode(StrToIntDef(Str, 1));
             fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_EXEC_PYTHON:
+          begin
+            GetPythonEngine.ExecString(Str);
+            Result:= ReturnNone;
           end;
 
         else

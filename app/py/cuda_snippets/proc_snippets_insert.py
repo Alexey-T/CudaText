@@ -9,7 +9,7 @@ def insert_snip_into_editor(ed, snip_lines):
     carets = ed.get_carets()
     if len(carets)!=1: return
     x0, y0, x1, y1 = carets[0]
-    
+
     tab_spaces = ed.get_prop(ct.PROP_TAB_SPACES)
     tab_size = ed.get_prop(ct.PROP_TAB_SIZE)
     
@@ -62,8 +62,10 @@ def insert_snip_into_editor(ed, snip_lines):
     #insert    
     ed.insert(x0, y0, '\n'.join(items))
     
-    #place tabstops
+    #place markers
     mark_placed = False
+    ed.markers(ct.MARKERS_DELETE_ALL)
+
     for digit in [0,9,8,7,6,5,4,3,2,1]:
         for stop in stops:
             if stop[0]==digit:
