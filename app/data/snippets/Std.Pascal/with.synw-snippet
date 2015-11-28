@@ -1,8 +1,0 @@
-name=with statement
-id=withb
-lex=Pascal
-text=
-with ${1} do
-begin
-  ${0}
-end;

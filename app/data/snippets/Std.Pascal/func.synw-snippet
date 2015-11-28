@@ -1,8 +1,0 @@
-name=function declaration
-id=func
-lex=Pascal
-text=
-function ${1:Name}(${2}): ${3:Integer};
-begin
-  ${0}
-end;

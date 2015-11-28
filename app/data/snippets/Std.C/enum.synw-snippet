@@ -1,8 +1,0 @@
-name=enumeration
-id=enum
-lex=C++,Objective-C
-text=
-enum ${1:name}
-{
-	${0}
-};

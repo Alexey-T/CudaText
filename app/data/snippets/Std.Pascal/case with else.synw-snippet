@@ -1,8 +1,0 @@
-name=case statement (with else)
-id=casee
-lex=Pascal
-text=
-case ${1} of
-  ${2}: ${3};
-  else ${0};
-end;

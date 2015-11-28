@@ -1,7 +1,0 @@
-name=#ifndef ... #define ... #endif
-id=def
-lex=C,C++,Objective-C
-text=
-#ifndef ${1}
-#define ${1} ${2:value}
-#endif

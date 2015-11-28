@@ -1,5 +1,0 @@
-name=class declaration (no parts)
-id=classd
-lex=Pascal
-text=
-  ${1:TName} = class(${2:TObject})

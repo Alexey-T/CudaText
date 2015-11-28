@@ -1,5 +1,0 @@
-name=array declaration (const)
-id=arrayc
-lex=Pascal
-text=
-array[0..${1}] of ${2:Integer} = (${0});

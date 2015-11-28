@@ -1,5 +1,0 @@
-name=fprintf
-id=fprintf
-lex=C,C++,Objective-C
-text=
-fprintf(${1:stderr}, "${2:%s}\n", ${3});

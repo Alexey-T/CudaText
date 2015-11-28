@@ -1,8 +1,0 @@
-name=for statement
-id=forb
-lex=Pascal
-text=
-for ${1} := ${2} to ${3} do
-begin
-  ${0}
-end;

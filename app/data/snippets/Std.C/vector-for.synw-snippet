@@ -1,8 +1,0 @@
-name=vector for-loop
-id=forv
-lex=C++,Objective-C
-text=
-for (std::vector<${1}>::iterator i = ${2}.begin(); i != ${3}.end(); ++i)
-{
-	${0}
-}

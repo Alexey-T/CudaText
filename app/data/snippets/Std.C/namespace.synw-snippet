@@ -1,8 +1,0 @@
-name=namespace
-id=ns
-lex=C++,Objective-C
-text=
-namespace ${1:name}
-{
-	${0}
-}

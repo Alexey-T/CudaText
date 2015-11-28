@@ -1,5 +1,0 @@
-name=property
-id=prop
-lex=Pascal
-text=
-property ${1:Name} read ${2:GetName} write ${3:SetName};

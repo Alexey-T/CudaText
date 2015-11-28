@@ -1,9 +1,0 @@
-name=main()
-id=main
-lex=C,C++,Objective-C
-text=
-int main(int argc, char const *argv[])
-{
-	${0:/* code */}
-	return 0;
-}

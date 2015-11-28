@@ -1,5 +1,0 @@
-name=with (no begin/end)
-id=withs
-lex=Pascal
-text=
-with ${1} do

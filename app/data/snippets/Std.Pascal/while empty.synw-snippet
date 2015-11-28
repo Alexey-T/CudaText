@@ -1,5 +1,0 @@
-name=while (no begin/end)
-id=whiles
-lex=Pascal
-text=
-while ${1} do

@@ -487,7 +487,10 @@ begin
       end;
     cFileHistorySession:
       begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history session.json';
+        Result:=
+          ////GetAppPath(cDirSettings)+DirectorySeparator+
+          //no path: this is saved to history, need w/o path
+          'history session.json';
       end;
     cFileLexerStyles:
       begin
