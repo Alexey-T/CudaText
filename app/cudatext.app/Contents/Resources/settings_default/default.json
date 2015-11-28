@@ -17,6 +17,11 @@
   "ui_notif": true,
   //File-change notification: watch timer interval, seconds
   "ui_notif_time": 2,
+  
+  //Non-text files: 0: prompt, 1: open, 2: don't open
+  "ui_non_text": 0,
+  //Non-text files detection buffer size, kb
+  "ui_non_text_buffer": 64,
 
   //Hilite BG of lines with carets
   "show_cur_line": false,
@@ -33,9 +38,9 @@
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
 
-  //Enable caret-depending hiliting
-  //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
-  //  HTML/XML hilites opening/closing tags when caret is inside tag
+  //Enable caret-depending highlighting:
+  //e.g. Pascal hilites "begin"/"end" with green when caret is inside block;
+  //HTML/XML hilites opening/closing tags when caret is inside tag
   "dyn_hilite": true,
 
   //If no selection, "Copy" will take entire line with caret
@@ -70,9 +75,9 @@
   "spacing_x": 0,
   "spacing_y": 0,
 
-  //tab-char width
+  //Tab-char width
   "tab_size": 8,
-  //tab-key enters spaces
+  //Tab-key enters spaces
   "tab_spaces": false,
 
   //Enable gutter (all columns at the left side)
@@ -110,7 +115,7 @@
   "minimap_sel_always": false,
   //Show 1pixel frame around selection area
   "minimap_sel_border": false,
-  //width: 0: autosize, >0: fixed width
+  //Minimap width: 0: autosize, >0: fixed width in chars
   "minimap_char_width": 0,
 
   //Fixed margin (vertical line) column.
@@ -153,9 +158,9 @@
 
   //Max count of commands which can "undo"
   "undo_limit": 5000,
-  //"undo" takes group of commands (groups are separated eg by mouse clicks)
+  //"Undo" takes group of commands (groups are separated eg by mouse clicks)
   "undo_grouped": true,
-  //"undo" enabled even after file saving
+  //"Undo" enabled even after file saving
   "undo_after_save": false,
 
   //Allow to place caret after end-of-line
@@ -275,15 +280,9 @@
   //[Properties of new tabs]
   //Lexer name in lexers menu
   "newdoc_lexer": "",
-  //Encoding name:
-  //  "ANSI"
-  //  "UTF-8"
-  //  "UTF-8 no bom"
-  //  "UTF-16 LE"
-  //  "UTF-16 BE"
-  //  "CP1250" etc
+  //Encoding name: "ANSI", "UTF-8", "UTF-8 no bom", "UTF-16 LE", "UTF-16 BE", "CP1250" etc
   "newdoc_encoding": "ANSI",
-  //end-of-lines: 1: Win; 2: Unix; 3: classic MacOS
+  //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
   "newdoc_eol": 1,
 
   //Auto-indent by Enter (makes new line indented)
@@ -404,7 +403,7 @@
   "comment_full_line_if_no_sel": true,
   //If no selection then move caret to next line
   "comment_move_down": true,
-  //Try to save chars positions in line arter commenting/uncommenting
+  //Try to save chars positions in line after commenting/uncommenting
   "comment_save_column": false,
   //If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,

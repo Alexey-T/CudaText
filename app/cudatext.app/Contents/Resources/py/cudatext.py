@@ -53,6 +53,11 @@ BOOKMARK_CLEAR_ALL = 3
 BOOKMARK_SETUP = 4
 BOOKMARK_GET_LIST = 5
 
+MARKERS_GET = 0
+MARKERS_ADD = 1
+MARKERS_DELETE_ALL = 2
+MARKERS_DELETE_LAST = 3
+
 TAB_SPLIT_NO = 0
 TAB_SPLIT_HORZ = 1
 TAB_SPLIT_VERT = 2
@@ -92,10 +97,12 @@ PROP_LEXER_POS      = 21
 PROP_LEXER_CARET    = 22
 PROP_INDEX_GROUP    = 23
 PROP_INDEX_TAB      = 24
+PROP_TAG            = 25
 PROP_UNPRINTED_SHOW        = 30
 PROP_UNPRINTED_SPACES      = 31
 PROP_UNPRINTED_ENDS        = 32
 PROP_UNPRINTED_END_DETAILS = 33
+PROP_TAB_COLLECT_MARKERS = 35
 
 PROC_GET_CLIP = 0
 PROC_SET_CLIP = 1
@@ -107,6 +114,10 @@ PROC_MENU_CLEAR = 6
 PROC_MENU_ADD = 7
 PROC_MENU_ENUM = 8
 PROC_SET_EVENTS = 10
+PROC_GET_LAST_PLUGIN = 11
+PROC_GET_GROUPING = 12
+PROC_SET_GROUPING = 13
+PROC_EXEC_PYTHON = 14
 
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
@@ -123,6 +134,17 @@ LEXER_SAVE_LIB    = 20
 LEXER_DELETE      = 21
 LEXER_IMPORT      = 22
 LEXER_EXPORT      = 23
+
+GROUPS_ONE    = 1
+GROUPS_2VERT  = 2
+GROUPS_2HORZ  = 3
+GROUPS_3VERT  = 4
+GROUPS_3HORZ  = 5
+GROUPS_3PLUS  = 6
+GROUPS_4VERT  = 7
+GROUPS_4HORZ  = 8
+GROUPS_4GRID  = 9
+GROUPS_6GRID  = 10
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -182,6 +204,9 @@ def dlg_checklist(caption, columns, items, size_x, size_y):
     if not items:
         return None
     return [(s=='1') for s in items]
+    
+#def dlg_charmap():
+    #return ct.dlg_charmap()    
 
 def file_open(filename, group=-1):
     return ct.file_open(filename, group)
@@ -267,6 +292,8 @@ class Editor:
     def set_top(self, value):
         return ct.ed_set_top(self.h, value)
 
+    def save(self):
+        return ct.ed_save(self.h)
     def cmd(self, value):
         return ct.ed_cmd(self.h, value)
     def focus(self):
@@ -297,6 +324,9 @@ class Editor:
         
     def get_ranges(self):
         return ct.ed_get_ranges(self.h)
+        
+    def markers(self, id, x=0, y=0, tag=0, len=0):
+        return ct.ed_markers(self.h, id, x, y, tag, len)
     #end
 
 #objects

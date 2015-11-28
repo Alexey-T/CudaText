@@ -1,7 +1,24 @@
 
+1.2.0:
++ commands for markers like Synwrite
++ support for Snippets plugin
++ opt ui_non_text (prompt/ open/ don't open)
++ opt ui_non_text_buffer
++ cmd "run last command plugin"
+- fix: ui_one_instance and non-text prompt
+
 1.1.0
+* changed format of keys.json (old fields read but not saved)
++ plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.
++ history saves folded-state
++ cmd "fold range at current line"
++ cmd "unfold range at current line"
++ cmd "goto next bookmark": from last goto first
++ color for "fold mark border"
+
+1.0.2
 + opt ui_tab_numbers
-+ cmd "Edit/ Char map"
++ cmd "Edit--Char map"
 + cmd "reset python plugins" (like Synwrite)
 + plugins.json can have "menu":false key to hide Plugins menu item
 
