@@ -1,10 +1,10 @@
 from cudatext import *
-from .proc_snippets import *
-from .proc_snippets_insert import *
+from .proc_snip import *
+from .proc_snip_insert import *
 
 
-def is_lexer_listed(name, namelist):
-    if not name and not namelist: return True
+def is_name_listed(name, namelist):
+    if not namelist: return True
     return bool(name) and (','+name+',' in ','+namelist+',')
 
 class Command:
@@ -20,7 +20,7 @@ class Command:
     def get_snip_list_current(self):
         lex = ed.get_prop(PROP_LEXER_CARET)
         return [item for item in self.snips
-                if is_lexer_listed(lex, item[SNIP_LEX]) ]
+                if is_name_listed(lex, item[SNIP_LEX]) ]
     
     
     def on_key(self, ed_self, code, state):
