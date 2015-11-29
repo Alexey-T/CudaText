@@ -88,6 +88,8 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    SepEd7: TMenuItem;
+    mnuEditTabToSp: TMenuItem;
     mnuEditCharmap: TMenuItem;
     SepV2: TMenuItem;
     MenuItem11: TMenuItem;
@@ -100,7 +102,7 @@ type
     MenuItem24: TMenuItem;
     MenuItem25: TMenuItem;
     MenuItem26: TMenuItem;
-    MenuItem27: TMenuItem;
+    SepEd6: TMenuItem;
     mnuFileEndUn: TMenuItem;
     mnuFileEndMac: TMenuItem;
     mnuFileEnds: TMenuItem;
@@ -215,7 +217,7 @@ type
     mnuFileSaveAll: TMenuItem;
     mnuEditCopyLine: TMenuItem;
     mnuEditCopyAppend: TMenuItem;
-    MenuItem7: TMenuItem;
+    SepEd4: TMenuItem;
     mnuEditCopyFFull: TMenuItem;
     mnuEditCopyFName: TMenuItem;
     mnuEditCopyFDir: TMenuItem;
@@ -246,7 +248,7 @@ type
     mnuCaretsDown1Line: TMenuItem;
     mnuCaretsDown1Page: TMenuItem;
     mnuCaretsDownEnd: TMenuItem;
-    MenuItem5: TMenuItem;
+    SepEd5: TMenuItem;
     mnuCaretsCancel: TMenuItem;
     mnuCaretsUp1Line: TMenuItem;
     mnuCaretsExtSub: TMenuItem;

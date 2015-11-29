@@ -41,6 +41,7 @@ procedure EditorBmInvertAll(ed: TATSynEdit);
 procedure EditorBmClearAll(ed: TATSynEdit);
 procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
 
+procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
@@ -668,6 +669,24 @@ begin
 
   Ed.DoGotoCaret(cEdgeTop);
   Ed.Update;
+end;
+
+
+procedure EditorConvertTabsToSpaces(Ed: TATSynEdit);
+var
+  S1, S2: atString;
+  i: integer;
+begin
+  Ed.Strings.BeginUndoGroup;
+  for i:= 0 to Ed.Strings.Count-1 do
+  begin
+    S1:= Ed.Strings.Lines[i];
+    S2:= STabsToSpaces(S1, Ed.OptTabSize);
+    if S1<>S2 then
+      Ed.Strings.Lines[i]:= S2;
+  end;
+  Ed.Strings.EndUndoGroup;
+  Ed.Update(true);
 end;
 
 end.

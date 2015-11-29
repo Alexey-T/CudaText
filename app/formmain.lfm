@@ -460,7 +460,7 @@ object fmMain: TfmMain
         object mnuEditCopyAppend: TMenuItem
           Caption = 'Copy/append selection'
         end
-        object MenuItem7: TMenuItem
+        object SepEd4: TMenuItem
           Caption = '-'
         end
         object mnuEditCopyFFull: TMenuItem
@@ -481,7 +481,7 @@ object fmMain: TfmMain
         object mnuEditLineDup: TMenuItem
           Caption = 'Duplicate line(s)'
         end
-        object MenuItem5: TMenuItem
+        object SepEd5: TMenuItem
           Caption = '-'
         end
         object mnuEditLineMoveUp: TMenuItem
@@ -499,7 +499,7 @@ object fmMain: TfmMain
         object mnuEditUnindent: TMenuItem
           Caption = 'Unindent'
         end
-        object MenuItem27: TMenuItem
+        object SepEd6: TMenuItem
           Caption = '-'
         end
         object mnuEditTrimL: TMenuItem
@@ -510,6 +510,12 @@ object fmMain: TfmMain
         end
         object mnuEditTrim: TMenuItem
           Caption = 'Trim spaces: all'
+        end
+        object SepEd7: TMenuItem
+          Caption = '-'
+        end
+        object mnuEditTabToSp: TMenuItem
+          Caption = 'Convert tabs to spaces'
         end
       end
       object mnuCaseSub: TMenuItem

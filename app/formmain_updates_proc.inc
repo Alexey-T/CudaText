@@ -417,6 +417,7 @@ begin
   UpKey(mnuEditTrim, cCommand_TextTrimSpacesAll);
   UpKey(mnuEditTrimL, cCommand_TextTrimSpacesLeft);
   UpKey(mnuEditTrimR, cCommand_TextTrimSpacesRight);
+  UpKey(mnuEditTabToSp, cmd_ConvertTabsToSpaces);
 
   UpKey(mnuEditLineDel, cCommand_TextDeleteLine);
   UpKey(mnuEditLineDup, cCommand_TextDuplicateLine);

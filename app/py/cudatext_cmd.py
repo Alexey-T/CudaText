@@ -235,8 +235,7 @@ cmd_CopyFilenameDir  = 2652
 cmd_CopyFilenameName = 2653
 cmd_SortAsc          = 2654
 cmd_SortDesc         = 2655
-cmd_SortNocaseAsc    = 2656
-cmd_SortNocaseDesc   = 2657
+cmd_ConvertTabsToSpaces = 2658
 
 cmd_BookmarkToggle    = 2661
 cmd_BookmarkInvertAll = 2662
