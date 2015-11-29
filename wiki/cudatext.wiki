@@ -255,6 +255,21 @@ When you customize lexers styles/colors (in the Lexer Properties dialog) and pre
 
 [[File:cudatext_restore_styles.png]]
 
+==Snippets==
+
+To use snippets you need:
+
+* plugin Snippets installed
+* snippet files in folder data/snippets (files can be in dir or any subdirs)
+
+Snippets format from SynWrite is used: this is extension .synw-snippet and special format of file.
+
+Each snippet has name (shown in menu dialog) and short id (letters, digits, '_', dot). You can type id in text and press Tab key: snippet for this id will be inserted into text. You can insert snippets also from dialog: call "Plugins - Snippets".
+
+Note: only those snippets are inserted and shown in dialog, which are for current lexer. E.g. snippet may be for lexers "C,C++,Objective C"-- it will be used only when these lexers are active. Rare snippets have no lexer field, they are used always.
+
+Snippets have markers in them. Markers placed in editor (small red/blue triangles), and caret jumps to 1st marker, then you type text at this marker and press Tab key - caret jumps to next marker. Markers may give multi-carets too (if same text is needed at several places of snippet). While markers are shown, Tab key works special (jumps to next marker). After you collect all markers by Tab, Tab key will work as usual.
+
 == more ==
 
 = Tech topics=
