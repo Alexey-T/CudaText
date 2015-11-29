@@ -88,6 +88,7 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuEditSpToTab: TMenuItem;
     SepEd7: TMenuItem;
     mnuEditTabToSp: TMenuItem;
     mnuEditCharmap: TMenuItem;

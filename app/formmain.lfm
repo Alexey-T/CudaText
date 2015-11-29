@@ -517,6 +517,9 @@ object fmMain: TfmMain
         object mnuEditTabToSp: TMenuItem
           Caption = 'Convert tabs to spaces'
         end
+        object mnuEditSpToTab: TMenuItem
+          Caption = 'Convert spaces (leading) to tabs'
+        end
       end
       object mnuCaseSub: TMenuItem
         Caption = 'Convert case'
