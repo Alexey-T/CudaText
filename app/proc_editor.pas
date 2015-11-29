@@ -42,6 +42,8 @@ procedure EditorBmClearAll(ed: TATSynEdit);
 procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
 
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
+procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
+
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
@@ -678,15 +680,47 @@ var
   i: integer;
 begin
   Ed.Strings.BeginUndoGroup;
-  for i:= 0 to Ed.Strings.Count-1 do
-  begin
-    S1:= Ed.Strings.Lines[i];
-    S2:= STabsToSpaces(S1, Ed.OptTabSize);
-    if S1<>S2 then
-      Ed.Strings.Lines[i]:= S2;
+  try
+    for i:= 0 to Ed.Strings.Count-1 do
+    begin
+      S1:= Ed.Strings.Lines[i];
+      if Pos(#9, S1)=0 then Continue;
+
+      S2:= STabsToSpaces(S1, Ed.OptTabSize);
+      if S1<>S2 then
+        Ed.Strings.Lines[i]:= S2;
+    end;
+  finally
+    Ed.Strings.EndUndoGroup;
+    Ed.Update(true);
   end;
-  Ed.Strings.EndUndoGroup;
-  Ed.Update(true);
+end;
+
+procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
+var
+  S1, SBegin, SBegin2, SEnd: atString;
+  N, i: integer;
+begin
+  Ed.Strings.BeginUndoGroup;
+  try
+    for i:= 0 to Ed.Strings.Count-1 do
+    begin
+      S1:= Ed.Strings.Lines[i];
+      if Pos(' ', S1)=0 then Continue;
+
+      N:= SGetIndentChars(S1);
+      if N=0 then Continue;
+      SBegin:= Copy(S1, 1, N);
+      SEnd:= Copy(S1, N+1, MaxInt);
+
+      SBegin2:= SSpacesToTabs(SBegin, Ed.OptTabSize);
+      if SBegin2<>SBegin then
+        Ed.Strings.Lines[i]:= SBegin2+SEnd;
+    end;
+  finally
+    Ed.Strings.EndUndoGroup;
+    Ed.Update(true);
+  end;
 end;
 
 end.

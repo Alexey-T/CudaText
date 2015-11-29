@@ -1,6 +1,11 @@
+import os
 import cudatext as ct
 import cudatext_cmd
 
+
+MACRO_SEL = '${sel}'
+MACRO_CLIP = '${cp}'
+MACRO_FILENAME = '${fname}'
 
 def insert_snip_into_editor(ed, snip_lines):
     items = list(snip_lines) #copy list value
@@ -12,6 +17,20 @@ def insert_snip_into_editor(ed, snip_lines):
 
     tab_spaces = ed.get_prop(ct.PROP_TAB_SPACES)
     tab_size = ed.get_prop(ct.PROP_TAB_SIZE)
+
+    text_sel = ed.get_text_sel()
+    text_clip = ct.app_proc(ct.PROC_GET_CLIP, '')
+    text_filename = os.path.basename(ed.get_filename())
+
+    #delete selection
+    if text_sel:
+        #sort coords (x0/y0 is left)
+        if (y1>y0) or ((y1==y0) and (x1>=x0)):
+            pass
+        else:
+            x0, y0, x1, y1 = x1, y1, x0, y0 
+        ed.delete(x0, y0, x1, y1)
+        ed.set_caret(x0, y0) 
     
     #apply indent to lines from second
     x_col, y_col = ed.convert(ct.CONVERT_CHAR_TO_COL, x0, y0)
@@ -27,6 +46,24 @@ def insert_snip_into_editor(ed, snip_lines):
     if tab_spaces:
         indent = ' '*tab_size
         items = [item.replace('\t', indent) for item in items]
+
+    #parse macros
+    for index in range(len(items)):
+        s = items[index]
+        while True:
+            n = s.find(MACRO_SEL)
+            if n<0: break
+            s = s[:n]+text_sel+s[n+len(MACRO_SEL):]
+        while True:
+            n = s.find(MACRO_CLIP)
+            if n<0: break
+            s = s[:n]+text_clip+s[n+len(MACRO_CLIP):]
+        while True:
+            n = s.find(MACRO_FILENAME)
+            if n<0: break
+            s = s[:n]+text_filename+s[n+len(MACRO_FILENAME):]
+        if items[index]!=s:
+            items[index] = s
 
     #parse tabstops ${0}, ${0:text}
     stops = []
@@ -66,8 +103,8 @@ def insert_snip_into_editor(ed, snip_lines):
     mark_placed = False
     ed.markers(ct.MARKERS_DELETE_ALL)
 
-    for digit in [0,9,8,7,6,5,4,3,2,1]:
-        for stop in stops:
+    for digit in [0,9,8,7,6,5,4,3,2,1]: #order of stops: 1..9, 0
+        for stop in reversed(stops): #reversed is for Emmet: many stops with ${0}
             if stop[0]==digit:
                 pos_x = stop[3]
                 pos_y = stop[2]

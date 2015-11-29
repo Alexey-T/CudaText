@@ -105,6 +105,7 @@ const
   cmd_SortAsc          = 2654;
   cmd_SortDesc         = 2655;
   cmd_ConvertTabsToSpaces = 2658;
+  cmd_ConvertSpacesToTabsLeading = 2659;
 
   cmd_BookmarkToggle    = 2661;
   cmd_BookmarkInvertAll = 2662;
@@ -273,7 +274,9 @@ begin
 
   M.Add(cmd_SortAsc, 'sort selection, asc', [], []);
   M.Add(cmd_SortDesc, 'sort selection, desc', [], []);
+
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs to spaces', [], []);
+  M.Add(cmd_ConvertSpacesToTabsLeading, 'convert spaces (leading) to tabs', [], []);
 
   M.Add(cmd_Groups1, 'groups: 1 group', [], []);
   M.Add(cmd_Groups2horz, 'groups: 2 groups vert', [], []);

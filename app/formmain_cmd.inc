@@ -105,9 +105,9 @@ begin
 
     cmd_SortAsc: DoSortSel(CurrentEditor, true, false);
     cmd_SortDesc: DoSortSel(CurrentEditor, false, false);
-    //cmd_SortNocaseAsc: DoSortSel(CurrentEditor, true, true);
-    //cmd_SortNocaseDesc: DoSortSel(CurrentEditor, false, true);
+
     cmd_ConvertTabsToSpaces: EditorConvertTabsToSpaces(CurrentEditor);
+    cmd_ConvertSpacesToTabsLeading: EditorConvertSpacesToTabsLeading(CurrentEditor);
 
     cmd_BookmarkToggle: begin EditorBmSet(CurrentEditor, -1, 1, bmOpToggle); UpdateFrame; end;
     cmd_BookmarkClearAll: begin EditorBmClearAll(CurrentEditor); UpdateFrame; end;
