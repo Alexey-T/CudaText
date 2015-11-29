@@ -1,0 +1,5 @@
+name=include ...
+id=inc
+lex=PHP,PHP_
+text=
+include '${1:file}';${0}

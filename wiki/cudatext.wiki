@@ -413,7 +413,27 @@ Example of inf for data-files, to be copied into subdir of "data" dir (name of s
   type=cudatext-data
   subdir=mydir
 
-==more==
+==Format of snippet files==
+
+The following macros are allowed in snippets text:
+
+* ${sel} - Replaced with text selected before snippet insertion. (If snippet called with Tab key, it's empty string.)
+* ${cp} - Replaced with clipboard text.
+* ${fname} - Replaced with current file name (w/out path and extension). 
+
+Snippets are stored in separate files with extension ".synw-snippet". Encoding is UTF8 no BOM. They can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+
+First lines have format "str=value" (no spaces around "="), where "str" is one of strings:
+
+* name - snippet full name (any non-empty string).
+* id - snippet short alias/id for Tab-key (latin letters, digits, "_", dot), line is optional.
+* lex - lexers list, comma-separated, for which snippet is active, line is optional, empty means snippet always active.
+
+Then follows the line "text=" without value, and all next lines - are snippet text. Trailing blank lines are discarded. 
+Better use tab-chars in text indents, they are auto replaced to spaces if current editor configured so.
+
+==More==
+
 
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]

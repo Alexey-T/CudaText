@@ -1,0 +1,5 @@
+name=<?php this->... ?>
+id=this
+lex=HTML,HTML_
+text=
+<?php this->${0} ?>

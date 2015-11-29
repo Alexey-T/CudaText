@@ -1,4 +1,8 @@
 
+1.2.0.2
++ cmd "convert tabs to spaces"
++ cmd "convert spaces (leading) to tabs"
+
 1.2.0:
 + commands for markers like Synwrite
 + support for Snippets plugin

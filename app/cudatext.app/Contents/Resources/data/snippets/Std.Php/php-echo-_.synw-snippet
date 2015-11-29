@@ -1,0 +1,5 @@
+name=<?php echo ... ?>
+id=echo
+lex=HTML,HTML_
+text=
+<?php echo ${1:$var} ?>

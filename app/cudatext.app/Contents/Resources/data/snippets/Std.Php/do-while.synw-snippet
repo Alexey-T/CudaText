@@ -1,0 +1,8 @@
+name=do ... while ...
+id=do
+lex=PHP,PHP_
+text=
+do {
+	${0:# code...}
+} while (${1:$a} ${2:<= 10});
+
