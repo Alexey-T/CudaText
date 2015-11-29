@@ -1044,19 +1044,17 @@ begin
 
   if Assigned(Lexer) then
   begin
+    //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cSavFold, '');
     FTopLineTodo:= c.GetValue(path+cSavTop, 0);
   end
   else
   begin
-    //tryin to restore LineTop for no-lexer
-    //still bad... no restore
-    Application.ProcessMessages; //helps?
+    //for open-file from app: ok
+    //for open via cmdline: not ok (maybe need to do it after form shown? how?)
     Editor.Update(true);
-    Application.ProcessMessages; //helps?
+    Application.ProcessMessages;
     Editor.LineTop:= c.GetValue(path+cSavTop, 0);
-    Editor.Update();
-    Application.ProcessMessages; //helps?
   end;
 
   with Editor.Gutter[Editor.GutterBandNum] do
