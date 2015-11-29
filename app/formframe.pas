@@ -1042,8 +1042,22 @@ begin
   Editor.OptUnprintedEnds:= c.GetValue(path+cSavUnpriEnd, Editor.OptUnprintedEnds);
   Editor.OptUnprintedEndsDetails:= c.GetValue(path+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
 
-  FFoldTodo:= c.GetValue(path+cSavFold, '');
-  FTopLineTodo:= c.GetValue(path+cSavTop, 0);
+  if Assigned(Lexer) then
+  begin
+    FFoldTodo:= c.GetValue(path+cSavFold, '');
+    FTopLineTodo:= c.GetValue(path+cSavTop, 0);
+  end
+  else
+  begin
+    //tryin to restore LineTop for no-lexer
+    //still bad... no restore
+    Application.ProcessMessages; //helps?
+    Editor.Update(true);
+    Application.ProcessMessages; //helps?
+    Editor.LineTop:= c.GetValue(path+cSavTop, 0);
+    Editor.Update();
+    Application.ProcessMessages; //helps?
+  end;
 
   with Editor.Gutter[Editor.GutterBandNum] do
     Visible:= c.GetValue(path+cSavNums, Visible);

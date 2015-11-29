@@ -21,6 +21,11 @@ def insert_snip_into_editor(ed, snip_lines):
     text_sel = ed.get_text_sel()
     text_clip = ct.app_proc(ct.PROC_GET_CLIP, '')
     text_filename = os.path.basename(ed.get_filename())
+    
+    #strip file-ext
+    n = text_filename.rfind('.')
+    if n>=0:
+        text_filename = text_filename[:n]
 
     #delete selection
     if text_sel:
