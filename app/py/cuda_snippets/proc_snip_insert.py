@@ -1,11 +1,8 @@
 import os
 import cudatext as ct
 import cudatext_cmd
+from .proc_snip_macros import *
 
-
-MACRO_SEL = '${sel}'
-MACRO_CLIP = '${cp}'
-MACRO_FILENAME = '${fname}'
 
 def insert_snip_into_editor(ed, snip_lines):
     items = list(snip_lines) #copy list value
@@ -53,23 +50,8 @@ def insert_snip_into_editor(ed, snip_lines):
         items = [item.replace('\t', indent) for item in items]
 
     #parse macros
-    for index in range(len(items)):
-        s = items[index]
-        while True:
-            n = s.find(MACRO_SEL)
-            if n<0: break
-            s = s[:n]+text_sel+s[n+len(MACRO_SEL):]
-        while True:
-            n = s.find(MACRO_CLIP)
-            if n<0: break
-            s = s[:n]+text_clip+s[n+len(MACRO_CLIP):]
-        while True:
-            n = s.find(MACRO_FILENAME)
-            if n<0: break
-            s = s[:n]+text_filename+s[n+len(MACRO_FILENAME):]
-        if items[index]!=s:
-            items[index] = s
-
+    snip_replace_macros_in_lines(items, text_sel, text_clip, text_filename)
+    
     #parse tabstops ${0}, ${0:text}
     stops = []
     for index in range(len(items)):

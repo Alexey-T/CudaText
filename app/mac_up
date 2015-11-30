@@ -12,6 +12,7 @@ mkdir cudatext.app/Contents/Resources/py
 mkdir cudatext.app/Contents/Resources/py/cuda_addonman
 mkdir cudatext.app/Contents/Resources/py/cuda_insert_time
 mkdir cudatext.app/Contents/Resources/py/cuda_make_plugin
+mkdir cudatext.app/Contents/Resources/py/cudax_lib
 
 cp py/*.py cudatext.app/Contents/Resources/py
 cp py/cuda_addonman/*.inf cudatext.app/Contents/Resources/py/cuda_addonman
@@ -20,5 +21,6 @@ cp py/cuda_insert_time/*.py cudatext.app/Contents/Resources/py/cuda_insert_time
 cp py/cuda_insert_time/*.inf cudatext.app/Contents/Resources/py/cuda_insert_time
 cp py/cuda_make_plugin/*.py cudatext.app/Contents/Resources/py/cuda_make_plugin
 cp py/cuda_make_plugin/*.inf cudatext.app/Contents/Resources/py/cuda_make_plugin
+cp py/cudax_lib/*.py cudatext.app/Contents/Resources/py/cudax_lib
 
 echo Done
