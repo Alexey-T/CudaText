@@ -236,6 +236,7 @@ begin
   else
   begin
     if F.FileName='' then exit;
+    if F.NotInRecents then exit;
     SAddStringToHistory(F.FileName, FListRecents, UiOps.MaxHistoryMenu);
     F.DoSaveHistory;
   end;

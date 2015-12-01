@@ -80,6 +80,7 @@ type
     FTopLineTodo: integer;
     FTabKeyCollectMarkers: boolean;
     FTagString: string;
+    FNotInRecents: boolean;
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
@@ -149,6 +150,7 @@ type
     property TabColor: TColor read FTabColor write SetTabColor;
     property TabKeyCollectMarkers: boolean read FTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property TagString: string read FTagString write FTagString;
+    property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     function IsEmpty: boolean;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
@@ -589,6 +591,7 @@ begin
   FModified:= false;
   FActiveAlt:= false;
   FTabColor:= clNone;
+  FNotInRecents:= false;
 
   InitEditor(Ed1);
   InitEditor(Ed2);

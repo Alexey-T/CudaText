@@ -145,7 +145,10 @@ begin
       begin
         F:= DoFileOpen(fn);
         if F<>nil then
+        begin
+          F.NotInRecents:= true;
           F.DoLoadHistoryEx(c, '/'+list[i]);
+        end;
       end;
     end;
 
