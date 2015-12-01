@@ -69,7 +69,7 @@ class Command:
         
         acp_len = 0
         posx, posy = posx_orig, posy_orig
-        while is_word(ed.get_text_substr(posx-1, posy, posx, posy)):
+        while posx>0 and is_word(ed.get_text_substr(posx-1, posy, posx, posy)):
             acp_len += 1
             posx -= 1
         ed.set_caret(posx, posy)

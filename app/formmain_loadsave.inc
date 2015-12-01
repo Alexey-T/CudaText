@@ -296,10 +296,39 @@ var
         keys[j]:= StrToIntDef(skeys[j], 0);
   end;
   //
+  procedure DoReadConfigOneKey(const path_s, path_k: string; var KeyItem: TATKeyArray);
+  var
+    sl: TStringlist;
+    i: integer;
+  begin
+    FillChar(KeyItem, SizeOf(KeyItem), 0);
+    DoReadConfigToKeys(path_s, KeyItem);
+
+    //this crap is support of old config: k1/k2 keys are old, s1/s2 keys are new,
+    //let's read k1/k2 and write s1/s2, and del k1/k2
+    if KeyItem[0]=0 then
+    begin
+      DoReadConfigToKeys_Old(path_k, KeyItem);
+
+      sl:= TStringlist.Create;
+      try
+        sl.clear;
+        for i:= 0 to High(KeyItem) do
+          if KeyItem[i]<>0 then
+            sl.Add(ShortCutToText(KeyItem[i]));
+        c.SetValue(path_s, sl);
+        c.DeleteValue(path_k);
+      finally
+        sl.Free;
+      end;
+    end;
+  end;
+  //
 var
   ncmd, nitem, i: integer;
 begin
   c:= TJSONConfig.Create(nil);
+  c.Formatted:= true;
   slist:= TStringList.Create;
   skeys:= TStringList.Create;
 
@@ -324,16 +353,8 @@ begin
       nitem:= Keymap.IndexOf(ncmd);
       if nitem<0 then Continue;
 
-      Fillchar(Keymap[nitem].Keys1, sizeof(TATKeyArray), 0);
-      Fillchar(Keymap[nitem].Keys2, sizeof(TATKeyArray), 0);
-
-      DoReadConfigToKeys(slist[i]+'/s1', Keymap[nitem].Keys1);
-      if Keymap[nitem].Keys1[0]=0 then
-        DoReadConfigToKeys_Old(slist[i]+'/k1', Keymap[nitem].Keys1);
-
-      DoReadConfigToKeys(slist[i]+'/s2', Keymap[nitem].Keys2);
-      if Keymap[nitem].Keys2[0]=0 then
-        DoReadConfigToKeys_Old(slist[i]+'/k2', Keymap[nitem].Keys2);
+      DoReadConfigOneKey(slist[i]+'/s1', slist[i]+'/k1', Keymap[nitem].Keys1);
+      DoReadConfigOneKey(slist[i]+'/s2', slist[i]+'/k2', Keymap[nitem].Keys2);
     end;
   finally
     skeys.Free;
