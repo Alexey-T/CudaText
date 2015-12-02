@@ -2831,7 +2831,12 @@ begin
     if MacroRecord then
       MacroString:= MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
 
-  Py_RunPlugin_Command(AModule, AMethod, AParam);
+  PyCommandRunning:= true;
+  try
+    Py_RunPlugin_Command(AModule, AMethod, AParam);
+  finally
+    PyCommandRunning:= false;
+  end;
 end;
 
 

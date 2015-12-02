@@ -279,7 +279,12 @@ begin
                 Continue;
 
           //call Python
-          Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
+          PyCommandRunning:= true;
+          try
+            Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
+          finally
+            PyCommandRunning:= false;
+          end;
 
           //True for some events means "stop"
           if Result=cPyTrue then

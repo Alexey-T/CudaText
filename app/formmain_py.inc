@@ -14,6 +14,7 @@ const
 var
   PyLastCommandModule: string = '';
   PyLastCommandMethod: string = '';
+  PyCommandRunning: boolean = false;
 
 //func at begin
 function PyEditor(Handle: PtrInt): TATSynEdit;

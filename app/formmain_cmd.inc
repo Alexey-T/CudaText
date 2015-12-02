@@ -294,13 +294,14 @@ begin
   Frame:= GetEditorFrame(Ed);
 
   if Frame.MacroRecord then
-    if IsCommandForMacros(ACommand) then
-    begin
-      Str:= IntToStr(ACommand);
-      if ACommand=cCommand_TextInsert then
-        Str:= Str+','+AText;
-      Frame.MacroString:= Frame.MacroString+(Str+#10);
-    end;
+    if not PyCommandRunning then
+      if IsCommandForMacros(ACommand) then
+      begin
+        Str:= IntToStr(ACommand);
+        if ACommand=cCommand_TextInsert then
+          Str:= Str+','+AText;
+        Frame.MacroString:= Frame.MacroString+(Str+#10);
+      end;
 
   case ACommand of
     cCommand_KeyTab:
