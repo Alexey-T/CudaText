@@ -118,6 +118,7 @@ PROC_GET_LAST_PLUGIN = 11
 PROC_GET_GROUPING = 12
 PROC_SET_GROUPING = 13
 PROC_EXEC_PYTHON = 14
+PROC_EXEC_PLUGIN = 15
 
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
@@ -294,8 +295,8 @@ class Editor:
 
     def save(self):
         return ct.ed_save(self.h)
-    def cmd(self, value):
-        return ct.ed_cmd(self.h, value)
+    def cmd(self, code, text=''):
+        return ct.ed_cmd(self.h, code, text)
     def focus(self):
         return ct.ed_focus(self.h)
     def bookmark(self, id, nline, nkind=1, ncolor=-1, icon=''):

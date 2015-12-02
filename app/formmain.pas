@@ -676,7 +676,7 @@ type
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
     property ShowBottom: boolean read GetShowBottom write SetShowBottom;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
-    function DoPyCommand(const AModule, AMethod: string; const AParam: string=''): string;
+    procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
   end;
 
 var
@@ -2820,10 +2820,15 @@ begin
     [SStringToPythonString(Str)]) <> cPyFalse;
 end;
 
-function TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: string): string;
+procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: string='');
 begin
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
+
+  with CurrentFrame do
+    if MacroRecord then
+      MacroString:= MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
+
   Py_RunPlugin_Command(AModule, AMethod, AParam);
 end;
 

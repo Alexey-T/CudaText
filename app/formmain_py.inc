@@ -770,14 +770,16 @@ end;
 function Py_ed_cmd(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
-  Val: integer;
   Ed: TATSynEdit;
+  NCode: integer;
+  Ptr: PChar;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:cmd', @H, @Val)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lis:cmd', @H, @NCode, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      Ed.DoCommand(Val);
+      Ed.DoCommand(NCode, string(Ptr));
+      Ed.Update();
       fmMain.UpdateStatus;
       Result:= ReturnNone;
     end;
@@ -1467,7 +1469,7 @@ function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id, Num: integer;
   Ptr: PChar;
-  Str: string;
+  Str, Str1, Str2, Str3: string;
   StrCaption, StrId, StrCmd, StrIndex: string;
   mi, miMain: TMenuItem;
 begin
@@ -1655,6 +1657,15 @@ begin
         APP_PROC_EXEC_PYTHON:
           begin
             GetPythonEngine.ExecString(Str);
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_EXEC_PLUGIN:
+          begin
+            Str1:= SGetItem(Str);
+            Str2:= SGetItem(Str);
+            Str3:= Str;
+            fmMain.DoPyCommand(Str1, Str2, Str3);
             Result:= ReturnNone;
           end;
 
