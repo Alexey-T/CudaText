@@ -321,7 +321,8 @@ type
     cEventOnConsole,
     cEventOnConsoleNav,
     cEventOnCompare,
-    cEventOnStart
+    cEventOnStart,
+    cEventOnMacro
     );
   TAppPyEvents = set of TAppPyEvent;
 
@@ -344,7 +345,8 @@ const
     'on_console',
     'on_console_nav',
     'on_compare',
-    'on_start'
+    'on_start',
+    'on_macro'
     );
 
 type

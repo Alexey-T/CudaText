@@ -36,10 +36,10 @@ type
     { private declarations }
     FOnConsole: TAppConsoleEvent;
     FOnNavigate: TAppConsoleEvent;
-    procedure ComboCommand(Sender: TObject; ACmd: integer; var AHandled: boolean);
+    procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoClearMemo(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
-    procedure MemoCommand(Sender: TObject; ACmd: integer; var AHandled: boolean);
+    procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
   public
     { public declarations }
     ed: TATComboEdit;
@@ -125,7 +125,7 @@ begin
 
   ed.OnCommand:= @ComboCommand;
   memo.OnClickDouble:= @MemoClickDbl;
-  memo.OnCommand:=@MemoCommand;
+  memo.OnCommand:= @MemoCommand;
 
   ed.WantTabs:= false;
   ed.TabStop:= true;
@@ -147,7 +147,7 @@ begin
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;
-  var AHandled: boolean);
+  const AText: string; var AHandled: boolean);
 var
   s: string;
 begin
@@ -187,7 +187,7 @@ begin
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;
-  var AHandled: boolean);
+  const AText: string; var AHandled: boolean);
 begin
   if ACmd=cCommand_KeyEnter then
   begin

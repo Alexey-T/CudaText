@@ -81,6 +81,8 @@ type
     FTabKeyCollectMarkers: boolean;
     FTagString: string;
     FNotInRecents: boolean;
+    FMacroRecord: boolean;
+    FMacroString: string;
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
@@ -89,7 +91,7 @@ type
     procedure EditorOnChange2(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
-    procedure EditorOnCommand(Sender: TObject; ACmd: integer; var AHandled: boolean);
+    procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
@@ -172,6 +174,11 @@ type
     procedure DoLoadHistoryEx(c: TJsonConfig; const path: string);
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoRestoreFolding;
+    //macro
+    procedure DoMacroStart;
+    procedure DoMacroStop(ACancel: boolean);
+    property MacroRecord: boolean read FMacroRecord;
+    property MacroString: string read FMacroString write FMacroString;
 
     //event
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
@@ -545,10 +552,10 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnCommand(Sender: TObject; ACmd: integer;
-  var AHandled: boolean);
+  const AText: string; var AHandled: boolean);
 begin
   if Assigned(FOnEditorCommand) then
-    FOnEditorCommand(Sender, ACmd, AHandled);
+    FOnEditorCommand(Sender, ACmd, AText, AHandled);
 end;
 
 procedure TEditorFrame.DoOnResize;
@@ -873,6 +880,19 @@ begin
     Editor.LineTop:= FTopLineTodo;
     FTopLineTodo:= 0;
   end;
+end;
+
+procedure TEditorFrame.DoMacroStart;
+begin
+  FMacroRecord:= true;
+  FMacroString:= '';
+end;
+
+procedure TEditorFrame.DoMacroStop(ACancel: boolean);
+begin
+  FMacroRecord:= false;
+  if ACancel then
+    FMacroString:= '';
 end;
 
 procedure TEditorFrame.DoOnUpdateStatus;

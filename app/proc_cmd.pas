@@ -202,6 +202,12 @@ const
   cmd_Markers_ClearAll           = 2803;
   cmd_Markers_SwapCaretAndMarker = 2804;
 
+  cmd_MacroStart                 = 2810;
+  cmd_MacroStop                  = 2811;
+  cmd_MacroCancel                = 2812;
+
+function IsCommandForMacros(Cmd: integer): boolean;
+
 
 implementation
 
@@ -390,6 +396,10 @@ begin
   M.Add(cmd_Markers_ClearAll          , 'markers: remove all', [], []);
   M.Add(cmd_Markers_SwapCaretAndMarker, 'markers: swap caret and last marker', [], []);
 
+  M.Add(cmd_MacroStart, 'macros: start recording', [], []);
+  M.Add(cmd_MacroStop, 'macros: stop recording', [], []);
+  M.Add(cmd_MacroCancel, 'macros: cancel recording', [], []);
+
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);
   M.Add(cmd_HelpWiki, 'help: wiki', [], []);
@@ -397,6 +407,46 @@ begin
   M.Add(cmd_HelpChangelog, 'help: changelog', [], []);
   M.Add(cmd_HelpLexers, 'help: lexers', [], []);
 
+end;
+
+function IsCommandForMacros(Cmd: integer): boolean;
+begin
+  case Cmd of
+    cmd_MacroStart,
+    cmd_MacroStop,
+    cmd_MacroCancel,
+    cmd_DialogCommands,
+    cmd_DialogColors,
+    cmd_DialogCharMap,
+    cmd_DialogFind,
+    cmd_DialogReplace,
+    cmd_DialogGoto,
+    cmd_DialogGotoBookmark,
+    cmd_DialogLexerLib,
+    cmd_DialogLexerProp,
+    cmd_DialogLoadLexerStyles,
+    cmd_DialogSaveTabs,
+    cmd_DialogTabs,
+    cmd_FileNew,
+    cmd_FileOpen,
+    cmd_FileSaveAs,
+    cmd_FileExit,
+    cmd_FileClose,
+    cmd_FileCloseOtherThis,
+    cmd_FileCloseOtherAll,
+    cmd_FileCloseAll,
+    cmd_FileCloseAndDelete,
+    cmd_FileExportHtml,
+    cmd_ToggleBottomPanel,
+    cmd_ToggleSidePanel,
+    cmd_ToggleFindDialog,
+    cmd_ToggleFullScreen,
+    cmd_ToggleStatusbar,
+    cmd_ToggleToolbar:
+      Result:= false;
+    else
+      Result:= true;
+  end;
 end;
 
 

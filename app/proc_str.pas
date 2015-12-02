@@ -71,11 +71,16 @@ end;
 
 function SStringToPythonString(const Str: string): string;
 const
-  Decode: array[0..0] of TStringReplacePart =
-    ((SFrom: '"'; STo: '"+''"''+"'));
+  Decode: array[0..3] of TStringReplacePart =
+    (
+      (SFrom: '\'; STo: '\\'),
+      (SFrom: '"'; STo: '"+''"''+"'),
+      (SFrom: #10; STo: '\n'),
+      (SFrom: #9; STo: '\t')
+    );
 begin
   Result:= SReplaceParts(Str, Decode);
-  Result:= 'r"'+Result+'"';
+  Result:= '"'+Result+'"';
 end;
 
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string;

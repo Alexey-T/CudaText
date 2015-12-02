@@ -510,6 +510,7 @@ type
     procedure DoClearRecentFileHistory;
     function DoOnConsole(const Str: string): boolean;
     function DoOnConsoleNav(const Str: string): boolean;
+    function DoOnMacro(const Str: string): boolean;
     procedure DoOps_ShowEventPlugins;
     function DoDialogConfColors(var AColors: TAppTheme): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
@@ -565,8 +566,8 @@ type
     procedure DoShowValidate;
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
-    procedure FrameOnCommand(Sender: TObject; Cmd: integer;
-      var Handled: boolean);
+    procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
+      var AHandled: boolean);
     function DoFileCloseAll: boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoFindResult(ok: boolean);
@@ -2809,6 +2810,13 @@ begin
   Result:= DoPyEvent(CurrentEditor, cEventOnConsoleNav,
     [SStringToPythonString(Str)]) <> cPyFalse;
 end;
+
+function TfmMain.DoOnMacro(const Str: string): boolean;
+begin
+  Result:= DoPyEvent(CurrentEditor, cEventOnMacro,
+    [SStringToPythonString(Str)]) <> cPyFalse;
+end;
+
 
 
 //----------------------------

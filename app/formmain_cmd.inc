@@ -232,6 +232,18 @@ begin
         UpdateStatus;
       end;
 
+    cmd_MacroStart:
+      CurrentFrame.DoMacroStart;
+    cmd_MacroStop:
+      begin
+        CurrentFrame.DoMacroStop(false);
+        DoOnMacro(CurrentFrame.MacroString);
+      end;
+    cmd_MacroCancel:
+      begin
+        CurrentFrame.DoMacroStop(true);
+      end;
+
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
     cmd_HelpWiki: DoHelpWiki;
@@ -252,32 +264,44 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.FrameOnCommand(Sender: TObject; Cmd: integer; var Handled: boolean);
+procedure TfmMain.FrameOnCommand(Sender: TObject; ACommand: integer;
+  const AText: string; var AHandled: boolean);
 var
   Ed: TATSynEdit;
   Frame: TEditorFrame;
+  Str: string;
 begin
-  Handled:= true;
+  AHandled:= true;
   if not Groups.Enabled then Exit;
 
   //special handle of call-Find-Goto: it's not ok to handle via timer,
   //timer delay makes bug: Ctrl+F Ctrl+V paste text into editor (if fast)
-  if (Cmd=cmd_DialogFind) or
-     (Cmd=cmd_DialogReplace) or
-     (Cmd=cmd_DialogGoto) then
+  if (ACommand=cmd_DialogFind) or
+     (ACommand=cmd_DialogReplace) or
+     (ACommand=cmd_DialogGoto) then
   begin
-    TimerCmd.Tag:= Cmd;
+    TimerCmd.Tag:= ACommand;
     TimerCmdTimer(nil);
     exit
   end;
 
-  case Cmd of
+  Ed:= Sender as TATSynEdit;
+  Frame:= GetEditorFrame(Ed);
+
+  if Frame.MacroRecord then
+    if IsCommandForMacros(ACommand) then
+    begin
+      Str:= IntToStr(ACommand);
+      if ACommand=cCommand_TextInsert then
+        Str:= Str+','+AText;
+      Frame.MacroString:= Frame.MacroString+(Str+#10);
+    end;
+
+  case ACommand of
     cCommand_KeyTab:
       begin
-        Ed:= Sender as TATSynEdit;
-        Frame:= GetEditorFrame(Ed);
-        Handled:= Frame.TabKeyCollectMarkers and (Ed.Markers.Count>0);
-        if Handled then
+        AHandled:= Frame.TabKeyCollectMarkers and (Ed.Markers.Count>0);
+        if AHandled then
         begin
           EditorMarkerGotoLast(Ed, true);
           if Ed.Markers.Count=0 then
@@ -285,13 +309,14 @@ begin
         end;
       end;
 
-    cmd_First..10000:
+    cmd_First..cCmdSelKeep-1: //don't take too big ints
       begin
-        TimerCmd.Tag:= Cmd;
+        TimerCmd.Tag:= ACommand;
         TimerCmd.Enabled:= true;
       end;
+
     else
-      Handled:= false;
+      AHandled:= false;
   end;
 end;
 

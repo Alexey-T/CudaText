@@ -1,0 +1,10 @@
+[info]
+title=My plugin
+desc=My plugin info
+type=cudatext-plugin
+subdir=cuda_macro_test
+
+[item1]
+section=commands
+caption=My test
+method=run
