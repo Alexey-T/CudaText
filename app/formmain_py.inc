@@ -1391,6 +1391,9 @@ begin
         PROP_TAB_COLLECT_MARKERS:
           Result:= PyBool_FromLong(Ord(F.TabKeyCollectMarkers));
 
+        PROP_MACRO_REC:
+          Result:= PyBool_FromLong(Ord(F.MacroRecord));
+
         else
           Result:= ReturnNone;
       end;

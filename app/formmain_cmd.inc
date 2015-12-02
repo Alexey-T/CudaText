@@ -233,15 +233,20 @@ begin
       end;
 
     cmd_MacroStart:
-      CurrentFrame.DoMacroStart;
+      begin
+        CurrentFrame.DoMacroStart;
+        MsgStatus('');
+      end;
     cmd_MacroStop:
       begin
         CurrentFrame.DoMacroStop(false);
         DoOnMacro(CurrentFrame.MacroString);
+        MsgStatus('');
       end;
     cmd_MacroCancel:
       begin
         CurrentFrame.DoMacroStop(true);
+        MsgStatus('');
       end;
 
     cmd_HelpAbout: DoHelpAbout;

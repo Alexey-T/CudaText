@@ -1997,6 +1997,8 @@ begin
   msg:= s;
   if CurrentFrame.ReadOnly then
     msg:= msgStatusReadonly + ' ' +msg;
+  if CurrentFrame.MacroRecord then
+    msg:= msgStatusMacroRec + ' ' +msg;
 
   Status[cStatusMsg]:= msg;
 
