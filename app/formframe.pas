@@ -63,6 +63,7 @@ type
     FNotif: TATFileNotif;
     FOnChangeCaption: TNotifyEvent;
     FOnUpdateStatus: TNotifyEvent;
+    FOnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
@@ -86,6 +87,7 @@ type
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
+    procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorOnChangeCommon(Sender: TObject);
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
@@ -184,6 +186,7 @@ type
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
+    property OnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent read FOnEditorClickMoveCaret write FOnEditorClickMoveCaret;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
@@ -579,6 +582,7 @@ begin
   ed.OptRulerVisible:= false;
 
   ed.OnClick:= @EditorOnClick;
+  ed.OnClickMoveCaret:=@EditorClickMoveCaret;
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChangeState:= @EditorOnChangeCommon;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
@@ -899,6 +903,13 @@ procedure TEditorFrame.DoOnUpdateStatus;
 begin
   if Assigned(FOnUpdateStatus) then
     FOnUpdateStatus(Self);
+end;
+
+procedure TEditorFrame.EditorClickMoveCaret(Sender: TObject; APrevPnt,
+  ANewPnt: TPoint);
+begin
+  if Assigned(FOnEditorClickMoveCaret) then
+    FOnEditorClickMoveCaret(Self, APrevPnt, ANewPnt);
 end;
 
 procedure TEditorFrame.DoOnChangeCaretPos;

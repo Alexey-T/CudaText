@@ -315,6 +315,9 @@ begin
         end;
       end;
 
+    cmd_MouseClick:
+      EditorMouseClickFromStr(Ed, AText);
+
     cmd_First..cCmdSelKeep-1: //don't take too big ints
       begin
         TimerCmd.Tag:= ACommand;

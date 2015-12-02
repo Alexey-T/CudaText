@@ -44,6 +44,7 @@ procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
+procedure EditorMouseClickFromStr(Ed: TATSynEdit; S: string);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
@@ -721,6 +722,27 @@ begin
     Ed.Strings.EndUndoGroup;
     Ed.Update(true);
   end;
+end;
+
+
+procedure EditorMouseClickFromStr(Ed: TATSynEdit; S: string);
+var
+  X, Y: integer;
+  Caret: TATCaretItem;
+begin
+  X:= StrToIntDef(SGetItem(S), -1);
+  Y:= StrToIntDef(SGetItem(S), -1);
+  if X<0 then exit;
+  if Y<0 then exit;
+
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
+
+  if Y=0 then
+    Ed.DoCaretSingle(Caret.PosX+X, Caret.PosY)
+  else
+    Ed.DoCaretSingle(X, Caret.PosY+Y);
+  Ed.Update;
 end;
 
 end.

@@ -166,4 +166,22 @@ begin
   Result:= D.TabObject as TEditorFrame;
 end;
 
+procedure TfmMain.FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt,
+  ANewPnt: TPoint);
+var
+  F: TEditorFrame;
+  AX, AY: integer;
+begin
+  F:= Sender as TEditorFrame;
+  if F.MacroRecord then
+  begin
+    if APrevPnt.Y=ANewPnt.Y then
+      begin AY:= 0; AX:= ANewPnt.X-APrevPnt.X; end
+    else
+      begin AY:= ANewPnt.Y-APrevPnt.Y; AX:= ANewPnt.X; end;
+
+    F.MacroString:= F.MacroString+(Format('%d,%d,%d', [cmd_MouseClick, AX, AY])+#10);
+  end;
+end;
+
 

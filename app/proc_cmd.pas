@@ -18,6 +18,10 @@ uses
 procedure InitKeymapApp(M: TATKeymap);
 
 const
+  //spec commands for macros
+  cmd_MouseClick = 2490;
+
+  //normal commands
   cmd_First = 2500;
   cmd_FileNew            = 2500;
   cmd_FileOpen           = 2501;

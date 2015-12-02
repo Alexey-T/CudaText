@@ -523,6 +523,8 @@ type
     procedure DoPyResetPlugins;
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+    procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt,
+      ANewPnt: TPoint);
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;

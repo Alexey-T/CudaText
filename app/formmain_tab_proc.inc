@@ -14,6 +14,7 @@ begin
   F.OnUpdateStatus:= @FrameOnUpdateStatus;
   F.OnEditorCommand:= @FrameOnCommand;
   F.OnEditorChangeCaretPos:= @FrameOnChangeCaretPos;
+  F.OnEditorClickMoveCaret:=@FrameOnEditorClickMoveCaret;
   F.OnSaveFile:= @FrameOnSaveFile;
   F.OnSetLexer:= @FrameOnSetLexer;
   F.OnAddRecent:= @FrameAddRecent;
