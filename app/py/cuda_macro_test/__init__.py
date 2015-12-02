@@ -9,3 +9,5 @@ class Command:
         print('macro')
         print(text.splitlines())
         
+    def test(self, par):
+        print('par:', par)

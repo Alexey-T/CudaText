@@ -2264,7 +2264,7 @@ var
   F: TEditorFrame;
   EdFocus: boolean;
   Cmd: integer;
-  SHint, SModule, SMethod: string;
+  SHint, SModule, SMethod, SParam: string;
 begin
   Cmd:= (Sender as TComponent).Tag;
   SHint:= (Sender as TMenuItem).Hint;
@@ -2279,12 +2279,13 @@ begin
   if not EdFocus then
     if (Cmd>0) and (Cmd<cmd_First) then exit;
 
-  //-1 means run plugin: Hint='module,method'
+  //-1 means run plugin: Hint='module,method,param'
   if (Cmd=-1) then
   begin
     SModule:= SGetItem(SHint);
     SMethod:= SGetItem(SHint);
-    DoPyCommand(SModule, SMethod);
+    SParam:= SHint; //not SGetItem, allows to use ","
+    DoPyCommand(SModule, SMethod, SParam);
   end
   else
     CurrentEditor.DoCommand(Cmd);
