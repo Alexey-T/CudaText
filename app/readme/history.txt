@@ -1,8 +1,9 @@
 
 1.2.1
-+ files in session must not add to recents
 + cmd "convert tabs to spaces"
 + cmd "convert spaces (leading) to tabs"
++ theme "green"
++ files in session must not update recents
 - fix: grouped undo
 
 1.2.0:
