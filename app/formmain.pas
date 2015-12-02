@@ -496,6 +496,7 @@ type
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
+
     procedure CharmapOnInsert(const AStr: string);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
@@ -661,7 +662,6 @@ type
     procedure UpdateStatus;
     procedure UpdateMenuRecent(F: TEditorFrame);
     procedure InitStatusButton;
-    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
   public
     { public declarations }
     function FrameCount: integer;
@@ -675,6 +675,8 @@ type
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
     property ShowBottom: boolean read GetShowBottom write SetShowBottom;
+    function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
+    function DoPyCommand(const AModule, AMethod: string; const AParam: string=''): string;
   end;
 
 var
@@ -2128,7 +2130,7 @@ begin
   Ed:= CurrentEditor;
   Ed.Strings.BeginUndoGroup;
   try
-    Py_RunPlugin_Command('cudax_lib', AMethod);
+    DoPyCommand('cudax_lib', AMethod);
   finally
     Ed.Strings.EndUndoGroup;
   end;
@@ -2282,7 +2284,7 @@ begin
   begin
     SModule:= SGetItem(SHint);
     SMethod:= SGetItem(SHint);
-    Py_RunPlugin_Command(SModule, SMethod);
+    DoPyCommand(SModule, SMethod);
   end
   else
     CurrentEditor.DoCommand(Cmd);
@@ -2817,6 +2819,12 @@ begin
     [SStringToPythonString(Str)]) <> cPyFalse;
 end;
 
+function TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: string): string;
+begin
+  PyLastCommandModule:= AModule;
+  PyLastCommandMethod:= AMethod;
+  Py_RunPlugin_Command(AModule, AMethod, AParam);
+end;
 
 
 //----------------------------

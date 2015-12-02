@@ -11,6 +11,10 @@ const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
 
+var
+  PyLastCommandModule: string = '';
+  PyLastCommandMethod: string = '';
+
 //func at begin
 function PyEditor(Handle: PtrInt): TATSynEdit;
 var

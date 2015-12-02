@@ -18,7 +18,7 @@ uses
   proc_str;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
-function Py_RunPlugin_Command(const SModule, SCmd: string): string;
+function Py_RunPlugin_Command(const SModule, SCmd, SParam: string): string;
 function Py_RunPlugin_Event(const SModule, SCmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
 //function Py_StringList(List: TStrings): PPyObject; cdecl; //dont work
@@ -27,10 +27,6 @@ const
   cPyTrue = 'True';
   cPyFalse = 'False';
   cPyNone = 'None';
-
-var
-  PyLastCommandModule: string = '';
-  PyLastCommandMethod: string = '';
 
 implementation
 
@@ -50,21 +46,18 @@ begin
   GetPythonEngine.ExecString(Str);
 end;
 
-function Py_RunPlugin_Command(const SModule, SCmd: string): string;
+function Py_RunPlugin_Command(const SModule, SCmd, SParam: string): string;
 var
   SObj: string;
   SCmd1, SCmd2: string;
 begin
-  PyLastCommandModule:= SModule;
-  PyLastCommandMethod:= SCmd;
-
   SObj:= '_cudacmd_' + SModule;
   SCmd1:=
     Format('import %s               ', [SModule]) + SLineBreak +
     Format('if "%s" not in locals():', [SObj]) + SLineBreak +
     Format('    %s = %s.%s()        ', [SObj, SModule, 'Command']);
   SCmd2:=
-    Format('%s.%s()', [SObj, SCmd]);
+    Format('%s.%s(%s)', [SObj, SCmd, SParam]);
 
   try
     GetPythonEngine.ExecString(SCmd1);

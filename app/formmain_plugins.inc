@@ -195,7 +195,7 @@ begin
     Exit
   end;
 
-  Py_RunPlugin_Command(
+  DoPyCommand(
     FPluginsCmd[Num].ItemModule,
     FPluginsCmd[Num].ItemProc
     );
@@ -318,6 +318,6 @@ end;
 procedure TfmMain.DoPyRunLastPlugin;
 begin
   if PyLastCommandModule<>'' then
-    Py_RunPlugin_Command(PyLastCommandModule, PyLastCommandMethod);
+    DoPyCommand(PyLastCommandModule, PyLastCommandMethod);
 end;
 
