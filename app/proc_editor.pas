@@ -730,10 +730,10 @@ var
   X, Y: integer;
   Caret: TATCaretItem;
 begin
-  X:= StrToIntDef(SGetItem(S), -1);
-  Y:= StrToIntDef(SGetItem(S), -1);
-  if X<0 then exit;
-  if Y<0 then exit;
+  X:= StrToIntDef(SGetItem(S), MaxInt);
+  Y:= StrToIntDef(SGetItem(S), MaxInt);
+  if X=MaxInt then exit;
+  if Y=MaxInt then exit;
 
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
