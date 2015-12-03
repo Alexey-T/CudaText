@@ -19,6 +19,7 @@ begin
   end;
 end;
 
+
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
   ok, bChanged: boolean;
@@ -33,6 +34,8 @@ begin
     Exit;
   end;
 
+  //Sender=nil allows to not use dialog
+  if Assigned(Sender) then
   with fmFind do
   begin
     if edFind.Text='' then Exit;
@@ -361,6 +364,6 @@ begin
   FFinder.StrFind:= SFind;
   FFinder.StrReplace:= SRep;
   DoFindOptionsFromString(SOpt);
-  FindDialogDone(nil, SRes);
+  FindDialogDone(nil{skip dialog}, SRes);
 end;
 
