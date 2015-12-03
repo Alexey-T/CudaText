@@ -1646,6 +1646,7 @@ begin
           begin
             CommandPlugins_UpdateSubcommands(Str);
             fmMain.UpdateKeymapDynamicItems;
+            fmMain.DoOps_LoadKeymap;
             Result:= ReturnNone;
           end;
 

@@ -892,12 +892,14 @@ end;
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 var
   i: integer;
-  SModule, SProc: string;
+  SModule, SProc, SProcParam: string;
 begin
   Result:= -1;
 
   SModule:= SGetItem(AStr);
   SProc:= SGetItem(AStr);
+  SProcParam:= SGetItem(AStr);
+
   if SModule='' then exit;
   if SProc='' then exit;
 
@@ -905,7 +907,7 @@ begin
     with FPluginsCmd[i] do
     begin
       if ItemModule='' then Break;
-      if (ItemModule=SModule) and (ItemProc=SProc) then exit(i);
+      if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam=SProcParam) then exit(i);
     end;
 end;
 
