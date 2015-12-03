@@ -912,7 +912,7 @@ end;
 
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
 var
-  SModule, SProc, SParams, SParamItem: string;
+  SModule, SProc, SParams, SItem, SItemParam, SItemCaption: string;
   N: integer;
 begin
   SModule:= SGetItem(AStr);
@@ -935,14 +935,18 @@ begin
 
   //add items for SParams
   repeat
-    SParamItem:= SGetItem(SParams, #9);
-    if SParamItem='' then break;
+    SItem:= SGetItem(SParams, ';');
+    if SItem='' then break;
+
+    SItemCaption:= SGetItem(SItem, '=');
+    SItemParam:= SGetItem(SItem, '=');
+
     with FPluginsCmd[N] do
     begin
       ItemModule:= SModule;
       ItemProc:= SProc;
-      ItemProcParam:= SParamItem;
-      ItemCaption:= SModule+'/'+SProc+'/'+SParamItem;
+      ItemProcParam:= SItemParam;
+      ItemCaption:= SItemCaption;
     end;
     Inc(N);
     if N>High(FPluginsCmd) then exit;
