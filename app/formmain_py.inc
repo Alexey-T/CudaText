@@ -1688,8 +1688,8 @@ begin
 
         APP_PROC_EXEC_PYTHON:
           begin
-            GetPythonEngine.ExecString(Str);
-            Result:= ReturnNone;
+            Str:= GetPythonEngine.EvalStringAsStr(Str);
+            Result:= PyString_FromString(PChar(Str));
           end;
 
         APP_PROC_EXEC_PLUGIN:
