@@ -501,6 +501,9 @@ type
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
+    procedure DoFindActionFromString(AStr: string);
+    procedure DoFindOptionsFromString(const S: string);
+    function DoFindOptionsToString: string;
     procedure DoGotoDefinition;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
       AForceApply: boolean);

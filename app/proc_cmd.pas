@@ -21,6 +21,7 @@ const
   //for macros
   cmd_MouseClick = 2490;
   cmd_MouseSelect = 2491;
+  cmd_FinderAction = 2492;
 
   //normal commands
   cmd_First = 2500;

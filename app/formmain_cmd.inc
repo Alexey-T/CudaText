@@ -319,6 +319,8 @@ begin
       EditorMouseClickFromString(Ed, AText, false);
     cmd_MouseSelect:
       EditorMouseClickFromString(Ed, AText, true);
+    cmd_FinderAction:
+      DoFindActionFromString(AText);
 
     cmd_First..cCmdSelKeep-1: //don't take too big ints
       begin
