@@ -25,7 +25,7 @@ uses
   proc_globdata,
   proc_colors,
   proc_str,
-  formkeys,
+  proc_keysdialog,
   jsonConf,
   math;
 
@@ -62,8 +62,6 @@ var
   fmCommands: TfmCommands;
 
 implementation
-
-uses StrUtils;
 
 {$R *.lfm}
 
@@ -192,44 +190,12 @@ begin
 end;
 
 procedure TfmCommands.DoConfigKey(Cmd: integer);
-var
-  n: integer;
-  StrId: string;
 begin
-  if (Cmd>=cmdFirstLexerCommand) and
-     (Cmd<=cmdLastLexerCommand) then exit;
-
-  n:= keymap.IndexOf(Cmd);
-  if n<0 then exit;
-
-  //number (usual cmd) or
-  //'module,proc' (plugin)
-  StrId:= IntToStr(keymap[n].Command);
-
-  if (Cmd>=cmdFirstPluginCommand) and
-     (Cmd<=cmdLastPluginCommand) then
-    with FPluginsCmd[Cmd-cmdFirstPluginCommand] do
-      StrId:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
-
-  with TfmKeys.Create(Self) do
-  try
-    Keys1:= keymap[n].Keys1;
-    Keys2:= keymap[n].Keys2;
-
-    case ShowModal of
-      mrOk:
-        begin
-          keymap[n].Keys1:= Keys1;
-          keymap[n].Keys2:= Keys2;
-          DoSaveKeyItem(keymap[n], StrId);
-          DoFilter;
-        end;
-    end;
-  finally
-    Free
+  if DoDialogHotkeys(Cmd) then
+  begin
+    DoFilter;
+    DoFindDupKeys;
   end;
-
-  DoFindDupKeys;
 end;
 
 procedure TfmCommands.DoResetKey(K: TATKeymapItem);

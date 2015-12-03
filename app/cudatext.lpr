@@ -14,7 +14,7 @@ uses
   formlexerprop, formlexerlib, proc_msg, lazcolorpalette, formpalette,
   proc_install_zip, formcolorsetup, atsynedit_form_complete_synwrite,
   ATSynEdit_Adapter_EControl, formabout, formkeys, formlexerstylesload, 
-formcharmaps;
+formcharmaps, proc_keysdialog;
 
 {$R *.res}
 

@@ -38,6 +38,7 @@ object fmCommands: TfmCommands
     Colors.TextSelFont = clHighlightText
     Colors.TextSelBG = clHighlight
     Colors.Caret = clBlack
+    Colors.Markers = 192
     Colors.GutterFont = clGray
     Colors.GutterBG = 14737632
     Colors.GutterCaretBG = 13158600
@@ -57,6 +58,7 @@ object fmCommands: TfmCommands
     Colors.CollapseLine = 10510432
     Colors.CollapseMarkFont = 14712960
     Colors.CollapseMarkBG = clCream
+    Colors.CollapseMarkBorder = 14712960
     Colors.UnprintedFont = 5263600
     Colors.UnprintedBG = 14737632
     Colors.UnprintedHexFont = clMedGray
@@ -105,6 +107,7 @@ object fmCommands: TfmCommands
     OptCaretBlinkEnabled = True
     OptCaretStopUnfocused = True
     OptCaretPreferLeftSide = True
+    OptMarkersSize = 4
     OptGutterVisible = False
     OptGutterPlusSize = 4
     OptGutterShowFoldAlways = True
