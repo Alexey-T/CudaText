@@ -353,11 +353,12 @@ type
   TAppPluginCmd = record
     ItemModule: string;
     ItemProc: string;
+    ItemProcParam: string;
     ItemCaption: string;
     ItemLexers: string;
     ItemInMenu: boolean;
   end;
-  TAppPluginCmdArray = array[0..200] of TAppPluginCmd;
+  TAppPluginCmdArray = array[0..400] of TAppPluginCmd;
 
 type
   TAppPluginEvent = record

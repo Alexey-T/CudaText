@@ -209,7 +209,7 @@ begin
   if (Cmd>=cmdFirstPluginCommand) and
      (Cmd<=cmdLastPluginCommand) then
     with FPluginsCmd[Cmd-cmdFirstPluginCommand] do
-      StrId:= ItemModule+','+ItemProc;
+      StrId:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
 
   with TfmKeys.Create(Self) do
   try

@@ -1,5 +1,6 @@
 
-1.2.1
+1.2.2
++ support for Macros plugin
 + cmd "convert tabs to spaces"
 + cmd "convert spaces (leading) to tabs"
 + theme "green"
