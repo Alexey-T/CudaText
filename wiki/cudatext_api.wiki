@@ -23,6 +23,10 @@ Supported events:
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self, text is line with caret.
+* on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
+** if item is "number" then it's simple command.
+** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
+** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
 
 
 Config "plugins.json": Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
@@ -61,12 +65,19 @@ Performs application-wide action. Possible values of id:
 
 * PROC_GET_CLIP: Gets clipboard text.
 * PROC_SET_CLIP: Copies text to clipboard.
-* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
-* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". Event_list is what can be written in plugins.json, e.g. "on_open,on_save" or empty str to unsubscribe from all. Lexer_list, keycode_list is what can be written in plugins.json too.
-* PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
+* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
+
+====Plugin calls====
+
+* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". Event_list is what can be written in plugins.json, e.g. "on_open,on_save" or empty str to unsubscribe from all. Lexer_list, keycode_list is what can be written in plugins.json too.
+* PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
+* PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ","-separated: "module_name,method_name,param_list". Param_list is ";"-separated items. Each item is "s_caption=s_param_value", here s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (if it is string, use quotes, no "," and ";" in it).
+
+====Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call).
+* PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be ","-separated: "module_name,method_name,param_string", where param_string can be missed, this is parameter(s) for method.
 
 ====Sessions====
 
@@ -89,8 +100,11 @@ Performs application-wide action. Possible values of id:
 ** menu_id is submenu item in which you add item. 
 ** menu_cmd is:
 *** str(command_code) - int command code from module cudatext_cmd
-*** spec values: "recents" - recent-files submenu; "themes" - color-themes submenu; "plugins" - plugins submenu
-*** s_module+','+s_method - method in command plugin
+*** spec values: 
+**** "recents" - recent-files submenu; 
+**** "themes" - color-themes submenu; 
+**** "plugins" - plugins submenu
+*** s_module+","+s_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to Python method.
 *** 0 (value ignored) if submenu
 ** menu_caption is caption, or "-" for menu separator.
 ** menu_index is str(index) for 0-based index at which to insert item; empty param or -1: add item at end.
@@ -503,6 +517,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
+* PROP_MACRO_REC: bool: currently macro is recording.
 
 ===set_prop===
 
@@ -587,9 +602,11 @@ Saves editor's tab to disk. Shows save-as dialog for untitled tab.
 
 ===cmd===
 
- cmd(code)
+ cmd(code, text="")
 
-Command runner, it runs any command of editor by its int code. See codes in module cudatext_cmd.
+Command runner, it runs any command in editor by its int code.
+
+See codes in module cudatext_cmd. Param text is needed for rare commands (e.g. by cCommand_TextInsert).
 
 ===focus===
 
@@ -628,6 +645,12 @@ Shows auto-completion listbox with given items.
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
 =History=
+
+1.0.112
+
+* add: app_proc PROC_SET_SUBCOMMANDS
+* add: app_proc PROC_EXEC_PLUGIN
+* add: get_prop PROP_MACRO_REC
 
 1.0.111
 
