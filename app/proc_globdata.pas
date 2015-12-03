@@ -254,11 +254,14 @@ function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetDefaultListItemHeight: integer;
-function GetPluginIndexFromModuleAndMethod(AStr: string): integer;
+
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem; const path: string);
 procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
+
+function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
+procedure CommandPlugins_UpdateSubcommands(AStr: string);
 
 var
   Manager: TecSyntaxManager = nil;
@@ -862,7 +865,31 @@ begin
         L.Add(Analyzers[i].LexerName);
 end;
 
-function GetPluginIndexFromModuleAndMethod(AStr: string): integer;
+procedure CommandPlugins_DeleteItem(AIndex: integer);
+var
+  i: integer;
+begin
+  if (AIndex>=Low(FPluginsCmd)) and (AIndex<=High(FPluginsCmd)) then
+  begin
+    for i:= AIndex to High(FPluginsCmd)-1 do
+    begin
+      FPluginsCmd[i].ItemModule:= FPluginsCmd[i+1].ItemModule;
+      FPluginsCmd[i].ItemProc:= FPluginsCmd[i+1].ItemProc;
+      FPluginsCmd[i].ItemProcParam:= FPluginsCmd[i+1].ItemProcParam;
+      FPluginsCmd[i].ItemCaption:= FPluginsCmd[i+1].ItemCaption;
+      FPluginsCmd[i].ItemLexers:= FPluginsCmd[i+1].ItemLexers;
+      FPluginsCmd[i].ItemInMenu:= FPluginsCmd[i+1].ItemInMenu;
+    end;
+  end;
+  with FPluginsCmd[High(FPluginsCmd)] do
+  begin
+    ItemModule:= '';
+    ItemProc:= '';
+    ItemProcParam:= '';
+  end;
+end;
+
+function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 var
   i: integer;
   SModule, SProc: string;
@@ -880,6 +907,46 @@ begin
       if ItemModule='' then Break;
       if (ItemModule=SModule) and (ItemProc=SProc) then exit(i);
     end;
+end;
+
+
+procedure CommandPlugins_UpdateSubcommands(AStr: string);
+var
+  SModule, SProc, SParams, SParamItem: string;
+  N: integer;
+begin
+  SModule:= SGetItem(AStr);
+  SProc:= SGetItem(AStr);
+  SParams:= SGetItem(AStr);
+
+  //del items for module/method
+  for N:= High(FPluginsCmd) downto Low(FPluginsCmd) do
+    with FPluginsCmd[N] do
+      if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam<>'') then
+        CommandPlugins_DeleteItem(N);
+
+  //find index of first free item
+  N:= Low(FPluginsCmd);
+  repeat
+    if FPluginsCmd[N].ItemModule='' then break;
+    Inc(N);
+    if N>High(FPluginsCmd) then exit;
+  until false;
+
+  //add items for SParams
+  repeat
+    SParamItem:= SGetItem(SParams, #9);
+    if SParamItem='' then break;
+    with FPluginsCmd[N] do
+    begin
+      ItemModule:= SModule;
+      ItemProc:= SProc;
+      ItemProcParam:= SParamItem;
+      ItemCaption:= SModule+'/'+SProc+'/'+SParamItem;
+    end;
+    Inc(N);
+    if N>High(FPluginsCmd) then exit;
+  until false;
 end;
 
 

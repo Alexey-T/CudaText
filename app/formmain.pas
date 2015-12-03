@@ -2775,6 +2775,8 @@ begin
   end;
 end;
 
+
+
 procedure TfmMain.CharmapOnInsert(const AStr: string);
 var
   Ed: TATSynEdit;

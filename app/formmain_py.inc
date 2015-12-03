@@ -1642,6 +1642,13 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_SET_SUBCOMMANDS:
+          begin
+            CommandPlugins_UpdateSubcommands(Str);
+            fmMain.UpdateKeymapDynamicItems;
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_LAST_PLUGIN:
           begin
             Result:= PyString_FromString(PChar(PyLastCommandModule+','+PyLastCommandMethod));

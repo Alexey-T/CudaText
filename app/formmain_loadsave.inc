@@ -340,7 +340,7 @@ begin
       //plugin item 'module,method'
       if Pos(',', slist[i])>0 then
       begin
-        ncmd:= GetPluginIndexFromModuleAndMethod(slist[i]);
+        ncmd:= CommandPlugins_GetIndexFromModuleAndMethod(slist[i]);
         if ncmd<0 then Continue;
         Inc(ncmd, cmdFirstPluginCommand);
       end
