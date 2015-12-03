@@ -316,9 +316,9 @@ begin
       end;
 
     cmd_MouseClick:
-      EditorMouseClickFromStr(Ed, AText);
+      EditorMouseClickFromString(Ed, AText, false);
     cmd_MouseSelect:
-      EditorMouseSelectFromStr(Ed, AText);
+      EditorMouseClickFromString(Ed, AText, true);
 
     cmd_First..cCmdSelKeep-1: //don't take too big ints
       begin
