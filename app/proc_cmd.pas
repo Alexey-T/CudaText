@@ -18,8 +18,9 @@ uses
 procedure InitKeymapApp(M: TATKeymap);
 
 const
-  //spec commands for macros
+  //for macros
   cmd_MouseClick = 2490;
+  cmd_MouseSelect = 2491;
 
   //normal commands
   cmd_First = 2500;

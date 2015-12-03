@@ -64,6 +64,7 @@ type
     FOnChangeCaption: TNotifyEvent;
     FOnUpdateStatus: TNotifyEvent;
     FOnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent;
+    FOnEditorClickEndSelect: TATSynEditClickMoveCaretEvent;
     FOnFocusEditor: TNotifyEvent;
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
@@ -87,6 +88,7 @@ type
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
+    procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorOnChangeCommon(Sender: TObject);
     procedure EditorOnChange1(Sender: TObject);
@@ -187,6 +189,7 @@ type
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
     property OnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent read FOnEditorClickMoveCaret write FOnEditorClickMoveCaret;
+    property OnEditorClickEndSelect: TATSynEditClickMoveCaretEvent read FOnEditorClickEndSelect write FOnEditorClickEndSelect;
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
@@ -582,13 +585,14 @@ begin
   ed.OptRulerVisible:= false;
 
   ed.OnClick:= @EditorOnClick;
-  ed.OnClickMoveCaret:=@EditorClickMoveCaret;
+  ed.OnClickMoveCaret:= @EditorClickMoveCaret;
+  ed.OnClickEndSelect:= @EditorClickEndSelect;
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChangeState:= @EditorOnChangeCommon;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnCommand:= @EditorOnCommand;
   ed.OnClickGutter:= @EditorOnClickGutter;
-  ed.OnCalcBookmarkColor:=@EditorOnCalcBookmarkColor;
+  ed.OnCalcBookmarkColor:= @EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnKeyDown:= @EditorOnKeyDown;
@@ -911,6 +915,14 @@ begin
   if Assigned(FOnEditorClickMoveCaret) then
     FOnEditorClickMoveCaret(Self, APrevPnt, ANewPnt);
 end;
+
+procedure TEditorFrame.EditorClickEndSelect(Sender: TObject; APrevPnt,
+  ANewPnt: TPoint);
+begin
+  if Assigned(FOnEditorClickEndSelect) then
+    FOnEditorClickEndSelect(Self, APrevPnt, ANewPnt);
+end;
+
 
 procedure TEditorFrame.DoOnChangeCaretPos;
 begin

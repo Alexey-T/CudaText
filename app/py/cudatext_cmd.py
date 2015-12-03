@@ -150,6 +150,7 @@ cCommand_CaretsExtendUpPage = 2014
 cCommand_CaretsExtendUpToTop = 2015
 
 cmd_MouseClick = 2490
+cmd_MouseSelect = 2491
 
 cmd_FileNew            = 2500
 cmd_FileOpen           = 2501
