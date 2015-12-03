@@ -1300,6 +1300,26 @@ begin
 end;
 
 
+function Py_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  Ptr: PChar;
+  Str: string;
+  Cmd: integer;
+  Ok: boolean;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 's:dlg_hotkeys', @Ptr)) then
+    begin
+      Str:= string(Ptr);
+      Cmd:= StrToIntDef(Str, 0);
+      if Cmd>0 then
+        Ok:= DoDialogHotkeys(Cmd)
+      else
+        Ok:= DoDialogHotkeys(Str);
+      Result:= PyBool_FromLong(Ord(Ok));
+    end;
+end;
+
 function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -1964,6 +1984,7 @@ begin
     AddMethod('dlg_menu', @Py_dlg_menu, '');
     AddMethod('dlg_color', @Py_dlg_color, '');
     AddMethod('dlg_checklist', @Py_dlg_checklist, '');
+    AddMethod('dlg_hotkeys', @Py_dlg_hotkeys, '');
     //AddMethod('dlg_charmap', @Py_dlg_charmap, '');
 
     AddMethod('ed_get_carets', @Py_ed_get_carets, '');

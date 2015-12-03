@@ -55,6 +55,7 @@ uses
   proc_msg,
   proc_install_zip,
   proc_lexer_styles,
+  proc_keysdialog,
   formconsole,
   formframe,
   form_menu_commands,

@@ -207,9 +207,9 @@ def dlg_checklist(caption, columns, items, size_x, size_y):
     if not items:
         return None
     return [(s=='1') for s in items]
-    
-#def dlg_charmap():
-    #return ct.dlg_charmap()    
+
+def dlg_hotkeys(text):
+    return ct.dlg_hotkeys(text)
 
 def file_open(filename, group=-1):
     return ct.file_open(filename, group)
