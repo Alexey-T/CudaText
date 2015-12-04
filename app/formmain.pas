@@ -2047,6 +2047,7 @@ begin
       Format(msgConfirmReopenModifiedTab, [F.FileName]),
       MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
+  F.DoSaveHistory; //save hist to reopen at same scrollpos
   F.DoFileOpen(F.FileName);
   MsgStatus('Re-opened: '+ExtractFileName(F.Filename));
 end;
