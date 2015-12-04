@@ -913,13 +913,17 @@ end;
 
 
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
+const
+  cSepRoot=';';
+  cSepParams=#10;
+  cSepNameParam=#9;
 var
   SModule, SProc, SParams, SItem, SItemParam, SItemCaption: string;
   N: integer;
 begin
-  SModule:= SGetItem(AStr);
-  SProc:= SGetItem(AStr);
-  SParams:= SGetItem(AStr);
+  SModule:= SGetItem(AStr, cSepRoot);
+  SProc:= SGetItem(AStr, cSepRoot);
+  SParams:= AStr;
 
   //del items for module/method
   for N:= High(FPluginsCmd) downto Low(FPluginsCmd) do
@@ -937,11 +941,11 @@ begin
 
   //add items for SParams
   repeat
-    SItem:= SGetItem(SParams, ';');
+    SItem:= SGetItem(SParams, cSepParams);
     if SItem='' then break;
 
-    SItemCaption:= SGetItem(SItem, '=');
-    SItemParam:= SGetItem(SItem, '=');
+    SItemCaption:= SGetItem(SItem, cSepNameParam);
+    SItemParam:= SItem;
 
     with FPluginsCmd[N] do
     begin
