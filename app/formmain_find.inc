@@ -23,7 +23,7 @@ end;
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
   ok, bChanged: boolean;
-  cnt, NTop: integer;
+  cnt, NTop, NCaretX, NCaretY: integer;
 begin
   if Res=cOpFindClose then
   begin
@@ -81,8 +81,17 @@ begin
   if Res=cOpFindRepAll then
   begin
     NTop:= FFinder.Editor.LineTop;
+    with FFinder.Editor do
+      if Carets.Count>0 then
+      begin
+        NCaretX:= Carets[0].PosX;
+        NCaretY:= Carets[0].PosY;
+      end;
+
     cnt:= FFinder.DoReplaceAll;
     FinderUpdateEditor(true);
+
+    FFinder.Editor.DoCaretSingle(NCaretX, NCaretY);
     FFinder.Editor.LineTop:= NTop;
     MsgStatus(msgStatusReplaceCount+Inttostr(cnt));
   end;
