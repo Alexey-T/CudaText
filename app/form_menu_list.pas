@@ -60,8 +60,6 @@ procedure TfmGotoList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
 var
   cl: TColor;
   pnt: TPoint;
-  //num: integer;
-  str: atString;
 begin
   if AIndex=List.ItemIndex then
     cl:= GetAppColor('ListSelBg')
@@ -73,9 +71,7 @@ begin
   c.Font.Color:= GetAppColor('ListFont');
 
   pnt:= Point(ARect.Left+4, ARect.Top+1);
-  //num:= ptrint(Items.Objects[AIndex]);
-  str:= Items[AIndex];
-  c.TextOut(pnt.x, pnt.y, Utf8Encode(str));
+  c.TextOut(pnt.x, pnt.y, Items[AIndex]);
 end;
 
 procedure TfmGotoList.ListClick(Sender: TObject);
