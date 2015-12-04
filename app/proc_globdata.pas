@@ -271,12 +271,6 @@ type
   TStrEvent = procedure(Sender: TObject; const ARes: string) of object;
 
 const
-  cmdFirstLexerCommand = 6000;
-  cmdLastLexerCommand = 6400-1;
-  cmdFirstPluginCommand = 6400;
-  cmdLastPluginCommand = 6800-1;
-
-const
   cEncNameUtf8 = 'UTF-8';
   cEncNameUtf8NoBom = 'UTF-8 no bom';
   cEncNameUtf16LE = 'UTF-16 LE';

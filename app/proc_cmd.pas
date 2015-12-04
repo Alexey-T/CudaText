@@ -18,6 +18,11 @@ uses
 procedure InitKeymapApp(M: TATKeymap);
 
 const
+  cmdFirstLexerCommand = 6000;
+  cmdLastLexerCommand = 6400-1;
+  cmdFirstPluginCommand = 6400;
+  cmdLastPluginCommand = 6800-1;
+
   //for macros
   cmd_MouseClick = 2490;
   cmd_MouseSelect = 2491;
@@ -418,6 +423,11 @@ end;
 function IsCommandForMacros(Cmd: integer): boolean;
 begin
   case Cmd of
+    1..Pred(cmd_First):
+      Result:= true;
+
+    cmdFirstLexerCommand..cmdLastLexerCommand,
+    cmdFirstPluginCommand..cmdLastPluginCommand,
     cmd_MacroStart,
     cmd_MacroStop,
     cmd_MacroCancel,
@@ -448,7 +458,28 @@ begin
     cmd_ToggleFindDialog,
     cmd_ToggleFullScreen,
     cmd_ToggleStatusbar,
-    cmd_ToggleToolbar:
+    cmd_ToggleToolbar,
+    cmd_Groups1,
+    cmd_Groups2horz,
+    cmd_Groups2vert,
+    cmd_Groups3horz,
+    cmd_Groups3vert,
+    cmd_Groups3plus,
+    cmd_Groups4horz,
+    cmd_Groups4vert,
+    cmd_Groups4grid,
+    cmd_Groups6grid,
+    cmd_GroupActivateNext,
+    cmd_GroupActivatePrev,
+    cmd_MenuEnc,
+    cmd_MenuEnds,
+    cmd_MenuLexers,
+    cmd_HelpAbout,
+    cmd_HelpForum,
+    cmd_HelpWiki,
+    cmd_HelpMouse,
+    cmd_HelpChangelog,
+    cmd_HelpLexers:
       Result:= false;
     else
       Result:= true;
