@@ -10,4 +10,4 @@ class Command:
         print(text.splitlines())
         
     def test(self, par):
-        print('par:', par)
+        print('macro par:', par)

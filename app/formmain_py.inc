@@ -14,6 +14,7 @@ const
 var
   PyLastCommandModule: string = '';
   PyLastCommandMethod: string = '';
+  PyLastCommandParam: string = '';
   PyCommandRunning: boolean = false;
 
 //func at begin
@@ -1672,7 +1673,10 @@ begin
 
         APP_PROC_GET_LAST_PLUGIN:
           begin
-            Result:= PyString_FromString(PChar(PyLastCommandModule+','+PyLastCommandMethod));
+            Result:= PyString_FromString(PChar(
+              PyLastCommandModule+','+PyLastCommandMethod+
+                IfThen(PyLastCommandParam<>'', ','+PyLastCommandParam)
+              ));
           end;
 
         APP_PROC_GET_GROUPING:

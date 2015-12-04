@@ -325,6 +325,6 @@ end;
 procedure TfmMain.DoPyRunLastPlugin;
 begin
   if PyLastCommandModule<>'' then
-    DoPyCommand(PyLastCommandModule, PyLastCommandMethod);
+    DoPyCommand(PyLastCommandModule, PyLastCommandMethod, PyLastCommandParam);
 end;
 

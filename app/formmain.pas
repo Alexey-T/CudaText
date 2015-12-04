@@ -2833,6 +2833,7 @@ procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: stri
 begin
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
+  PyLastCommandParam:= AParam;
 
   with CurrentFrame do
     if MacroRecord then
