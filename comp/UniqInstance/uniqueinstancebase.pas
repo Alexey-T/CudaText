@@ -5,7 +5,7 @@ unit UniqueInstanceBase;
 interface
 
 uses
-  Classes, SysUtils, simpleipc;
+  Classes, SysUtils, simpleipc, FileUtil;
 
 const
   ParamsSeparator = '|';
@@ -42,7 +42,7 @@ var
 begin
   Result := '';
   for i := 1 to ParamCount do
-    Result := Result + ParamStr(i) + ParamsSeparator;
+    Result := Result + ParamStrUTF8(i) + ParamsSeparator; //AT fix (utf8)
 end;
 
 function GetServerId(const Identifier: String): String;
@@ -50,7 +50,7 @@ begin
   if Identifier <> '' then
     Result := BaseServerId + Identifier
   else
-    Result := BaseServerId + ExtractFileName(ParamStr(0));
+    Result := BaseServerId + ExtractFileName(ParamStrUTF8(0)); //AT fix
 end;
 
 finalization
