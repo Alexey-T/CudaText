@@ -149,6 +149,9 @@ cCommand_CaretsExtendUpLine = 2013
 cCommand_CaretsExtendUpPage = 2014
 cCommand_CaretsExtendUpToTop = 2015
 
+cmd_MouseClick = 2490
+cmd_MouseSelect = 2491
+cmd_FinderAction = 2492
 
 cmd_FileNew            = 2500
 cmd_FileOpen           = 2501
@@ -334,3 +337,7 @@ cmd_Markers_GotoLastNoDelete   = 2801
 cmd_Markers_GotoLastAndDelete  = 2802
 cmd_Markers_ClearAll           = 2803
 cmd_Markers_SwapCaretAndMarker = 2804
+
+cmd_MacroStart                 = 2810
+cmd_MacroStop                  = 2811
+cmd_MacroCancel                = 2812

@@ -1,9 +1,9 @@
 
-1.2.5
+1.2.4
 + support for Macros plugin
++ theme "green"
 + cmd "convert tabs to spaces"
 + cmd "convert spaces (leading) to tabs"
-+ theme "green"
 + files in session must not update recents
 - fix: json tree (e.g. file menu.json)
 - fix: grouped undo

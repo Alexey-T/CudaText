@@ -20755,23 +20755,16 @@ object TecSyntaxManager
               '{'
             )
             TokenTypes = 8
-          end        
-          item
-            TagList.Strings = (
-              ':'
-            )
-            TokenTypes = 8
-          end        
-          item
-            TokenTypes = 16
           end>
+        BlockOffset = 2
         BlockEnd = '}'
         EndOfTextClose = True
-        NameFmt = '%s0'
+        NameFmt = '%s2'
         RefToCondEnd = True
         HighlightPos = cpAny
+        CancelNextRules = True
         DrawStaple = True
-        CollapseFmt = '%s0'
+        CollapseFmt = '%s2'
         IgnoreAsParent = False
       end    
       item
@@ -20784,7 +20777,9 @@ object TecSyntaxManager
             )
             TokenTypes = 8
           end>
+        BlockEnd = '{'
         HighlightPos = cpAny
+        CancelNextRules = True
         IgnoreAsParent = False
       end    
       item

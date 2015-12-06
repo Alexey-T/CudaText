@@ -103,6 +103,7 @@ PROP_UNPRINTED_SPACES      = 31
 PROP_UNPRINTED_ENDS        = 32
 PROP_UNPRINTED_END_DETAILS = 33
 PROP_TAB_COLLECT_MARKERS = 35
+PROP_MACRO_REC = 36
 
 PROC_GET_CLIP = 0
 PROC_SET_CLIP = 1
@@ -118,6 +119,8 @@ PROC_GET_LAST_PLUGIN = 11
 PROC_GET_GROUPING = 12
 PROC_SET_GROUPING = 13
 PROC_EXEC_PYTHON = 14
+PROC_EXEC_PLUGIN = 15
+PROC_SET_SUBCOMMANDS = 16
 
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
@@ -204,9 +207,9 @@ def dlg_checklist(caption, columns, items, size_x, size_y):
     if not items:
         return None
     return [(s=='1') for s in items]
-    
-#def dlg_charmap():
-    #return ct.dlg_charmap()    
+
+def dlg_hotkeys(text):
+    return ct.dlg_hotkeys(text)
 
 def file_open(filename, group=-1):
     return ct.file_open(filename, group)
@@ -294,8 +297,8 @@ class Editor:
 
     def save(self):
         return ct.ed_save(self.h)
-    def cmd(self, value):
-        return ct.ed_cmd(self.h, value)
+    def cmd(self, code, text=''):
+        return ct.ed_cmd(self.h, code, text)
     def focus(self):
         return ct.ed_focus(self.h)
     def bookmark(self, id, nline, nkind=1, ncolor=-1, icon=''):
