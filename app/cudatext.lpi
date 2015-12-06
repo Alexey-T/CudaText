@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="43">
+    <Units Count="44">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -340,6 +340,11 @@
         <Filename Value="proc_keysdialog.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit42>
+      <Unit43>
+        <Filename Value="..\..\synedit\atsynedit\atsynedit_colors.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ATSynEdit_Colors"/>
+      </Unit43>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

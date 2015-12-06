@@ -32,6 +32,7 @@ uses
   ATSynEdit_Markers,
   ATSynEdit_Export_HTML,
   ATSynEdit_Ranges,
+  ATSynEdit_CanvasProc,
   ATSynEdit_Adapter_EControl,
   ATTabs,
   ATGroups,

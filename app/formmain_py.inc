@@ -474,6 +474,104 @@ begin
     end;
 end;
 
+
+function Py_ed_attr(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: PtrInt;
+  Ed: TATSynEdit;
+  ComArray: Variant;
+  Mark: TATMarkerItem;
+  Id, X, Y, NLen, i: integer;
+  NColorFont, NColorBg, NColorBorder: integer;
+  NBorderL, NBorderR, NBorderD, NBorderU: integer;
+  NFontBold, NFontItalic, NFontStrike: integer;
+  Obj: TATLinePartClass;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiii:attr',
+      @H, @Id, @X, @Y, @NLen,
+      @NColorFont, @NColorBg, @NColorBorder,
+      @NFontBold, @NFontItalic, @NFontStrike,
+      @NBorderL, @NBorderR, @NBorderD, @NBorderU
+      )) then
+    begin
+      Ed:= PyEditor(H);
+
+      case Id of
+        MARKERS_GET:
+          begin
+            NLen:= Ed.Attribs.Count;
+            if NLen>0 then
+            begin
+              ComArray:= VarArrayCreate([0, NLen-1, 0, 12], varInteger);
+              for i:= 0 to NLen-1 do
+              begin
+                Mark:= Ed.Attribs[i];
+                Obj:= TATLinePartClass(Mark.Ptr);
+                ComArray[i, 0]:= Mark.PosX;
+                ComArray[i, 1]:= Mark.PosY;
+                ComArray[i, 2]:= Mark.SelLen;
+                ComArray[i, 3]:= Obj.Data.ColorFont;
+                ComArray[i, 4]:= Obj.Data.ColorBG;
+                ComArray[i, 5]:= Obj.Data.ColorBorder;
+                ComArray[i, 6]:= Ord(Obj.Data.FontBold);
+                ComArray[i, 7]:= Ord(Obj.Data.FontItalic);
+                ComArray[i, 8]:= Ord(Obj.Data.FontStrikeOut);
+                ComArray[i, 9]:= Ord(Obj.Data.BorderLeft);
+                ComArray[i, 10]:= Ord(Obj.Data.BorderRight);
+                ComArray[i, 11]:= Ord(Obj.Data.BorderDown);
+                ComArray[i, 12]:= Ord(Obj.Data.BorderUp);
+              end;
+              Result:= VariantAsPyObject(ComArray);
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        MARKERS_ADD:
+          begin
+            Obj:= TATLinePartClass.Create;
+            Obj.Data.ColorFont:= NColorFont;
+            Obj.Data.ColorBG:= NColorBg;
+            Obj.Data.ColorBorder:= NColorBorder;
+            Obj.Data.FontBold:= Bool(NFontBold);
+            Obj.Data.FontItalic:= Bool(NFontItalic);
+            Obj.Data.FontStrikeOut:= Bool(NFontStrike);
+            Obj.Data.BorderLeft:= TATLineStyle(NBorderL);
+            Obj.Data.BorderRight:= TATLineStyle(NBorderR);
+            Obj.Data.BorderDown:= TATLineStyle(NBorderD);
+            Obj.Data.BorderUp:= TATLineStyle(NBorderU);
+
+            Ed.Attribs.Add(X, Y, 0, NLen, Obj);
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= PyInt_FromLong(Ed.Attribs.Count);
+          end;
+
+        MARKERS_DELETE_ALL:
+          begin
+            Ed.Attribs.Clear;
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
+        MARKERS_DELETE_LAST:
+          begin
+            if Ed.Attribs.Count>0 then
+              Ed.Attribs.Delete(Ed.Attribs.Count-1);
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 function Py_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -2030,6 +2128,7 @@ begin
     AddMethod('ed_complete', @Py_ed_complete, '');
     AddMethod('ed_convert', @Py_ed_convert, '');
     AddMethod('ed_markers', @Py_ed_markers, '');
+    AddMethod('ed_attr', @Py_ed_attr, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');
