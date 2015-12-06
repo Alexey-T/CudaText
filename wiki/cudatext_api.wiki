@@ -27,6 +27,7 @@ Supported events:
 ** if item is "number" then it's simple command.
 ** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
+** to run each item in log, call ed.cmd(): number is command code, all after comma is parameter text.
 
 
 Config "plugins.json": Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
@@ -73,10 +74,10 @@ Performs application-wide action. Possible values of id:
 
 * PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". Event_list is what can be written in plugins.json, e.g. "on_open,on_save" or empty str to unsubscribe from all. Lexer_list, keycode_list is what can be written in plugins.json too.
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
-* PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ","-separated: "module_name,method_name,param_list". Param_list is ";"-separated items. Each item is "s_caption=s_param_value", here s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (if it is string, use quotes, no "," and ";" in it).
+* PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
 
 ====Python====
-* PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call).
+* PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call). Also gets string: result of command.
 * PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be ","-separated: "module_name,method_name,param_string", where param_string can be missed, this is parameter(s) for method.
 
 ====Sessions====
@@ -245,6 +246,17 @@ Shows dialog with ListView with checkmarks. Returns list of bool: checked states
 * items: "\n"-separated dialog lines, each line is "\t"-separated column strings. 1st column can begin with "*" to check this line.
 * size_x: dialog width.
 * size_y: dialog height.
+
+===dlg_hotkeys===
+
+ dlg_hotkeys(text)
+
+Shows dialog to configure hotkeys of internal command or plugin. Gets bool: OK pressed and hotkeys saved (to keys.json).
+
+Text can be:
+
+* str(int_command): for internal command codes (module cudatext_cmd).
+* "module_name,method_name" or "module_name,method_name,method_param": for command plugin.
 
 ===file_open===
 
@@ -592,6 +604,25 @@ Controls markers (red triangles). Possible values of id:
 * MARKERS_DELETE_ALL: Deletes all markers.
 * MARKERS_DELETE_LAST: Deletes last marker.
 
+===attr===
+
+ attr(id, x=0, y=0, len=0,
+      color_font=0, color_bg=0, color_border=0,
+      font_bold=0, font_italic=0, font_strikeout=0,
+      border_left=0, border_right=0, border_down=0, border_up=0 )
+
+Controls additional color attributes. Possible values of id:
+
+* MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Props:
+** x, y: position of fragment start (like caret).
+** len: length of fragment.
+** color_nnnn: RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green. Can use constant COLOR_NONE.
+** font_nnnn: font attributes: 0 - off, 1 - on.
+** border_nnnn: border types for edges, values from 0: none, solid, dash, solid 2pixel, dotted, rounded, wave.
+* MARKERS_GET: Gets list of fragments, each item is list, int fields, same as function params.
+* MARKERS_DELETE_ALL: Deletes all fragments.
+* MARKERS_DELETE_LAST: Deletes last added fragment.
+
 ==Misc==
 
 ===save===
@@ -644,13 +675,31 @@ Shows auto-completion listbox with given items.
 
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
+=Tech info=
+
+==Format of text for cmd_MouseClick==
+
+Text is "X,Y" where X/Y are position of caret relative to top-caret (other carets removed when command runs). If Y is 0, X is addition to caret's x. 
+If Y not 0, Y is addition to caret's y, and X is absolute caret's x.
+
+==Format of text for cmd_FinderAction==
+
+Text is chr(1) separated items:
+
+* item 0: find-action, one of: 'findfirst', 'findnext', 'findprev', 'rep', 'repall', 'findcnt', 'findmark'
+* item 1: text to find
+* item 2: text to replace with
+* item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
+
 =History=
 
 1.0.112
 
+* add: Editor.attr()
 * add: app_proc PROC_SET_SUBCOMMANDS
 * add: app_proc PROC_EXEC_PLUGIN
 * add: get_prop PROP_MACRO_REC
+* add: dlg_hotkeys()
 
 1.0.111
 
