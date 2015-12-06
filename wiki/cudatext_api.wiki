@@ -595,14 +595,15 @@ Gets list of fold-ranges in parsed lexer data. It is list of 5-lists: [y, y2, x,
 
  markers(id, x=0, y=0, tag=0, len=0)
 
-Controls markers (red triangles). Possible values of id:
+Controls markers (used e.g. in Snippets plugin). Possible values of id:
 
-* MARKERS_GET: Gets list of 2-lists, each item is marker pos [x, y]. Gets None if no markers.
-* MARKERS_ADD: Adds marker at pos (x, y). Also gets number of markers. 
+* MARKERS_GET: Gets list of markers, each item is list [x, y, tag, len]. Gets None if no markers.
+* MARKERS_ADD: Adds marker. Also gets number of markers. Props:
+** x, y: Start of marker (like caret pos).
 ** Param tag>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (then markers are deleted). 
 ** Param len>0 is needed if you want to place selection at marker, with this length, when "goto last marker" goes to this marker.
 * MARKERS_DELETE_ALL: Deletes all markers.
-* MARKERS_DELETE_LAST: Deletes last marker.
+* MARKERS_DELETE_LAST: Deletes last added marker.
 
 ===attr===
 

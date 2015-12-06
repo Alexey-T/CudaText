@@ -430,12 +430,14 @@ begin
             NLen:= Ed.Markers.Count;
             if NLen>0 then
             begin
-              ComArray:= VarArrayCreate([0, NLen-1, 0, 1], varInteger);
+              ComArray:= VarArrayCreate([0, NLen-1, 0, 3], varInteger);
               for i:= 0 to NLen-1 do
               begin
                 Mark:= Ed.Markers[i];
                 ComArray[i, 0]:= Mark.PosX;
                 ComArray[i, 1]:= Mark.PosY;
+                ComArray[i, 2]:= Mark.SelLen;
+                ComArray[i, 3]:= Mark.Tag;
               end;
               Result:= VariantAsPyObject(ComArray);
             end
