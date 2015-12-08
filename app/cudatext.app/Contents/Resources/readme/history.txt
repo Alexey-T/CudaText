@@ -1,5 +1,5 @@
 
-1.2.4
+1.2.5
 + support for Macros plugin
 + theme "green"
 + cmd "convert tabs to spaces"

@@ -20756,7 +20756,6 @@ object TecSyntaxManager
             )
             TokenTypes = 8
           end>
-        BlockOffset = 2
         BlockEnd = '}'
         EndOfTextClose = True
         NameFmt = '%s2'
@@ -20764,7 +20763,7 @@ object TecSyntaxManager
         HighlightPos = cpAny
         CancelNextRules = True
         DrawStaple = True
-        CollapseFmt = '%s2'
+        CollapseFmt = '{...}'
         IgnoreAsParent = False
       end    
       item
