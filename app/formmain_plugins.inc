@@ -171,7 +171,10 @@ begin
     begin
       mi.OnClick:= @MenuPluginClick;
       mi.Tag:= i;
-      UpKey(mi, cmdFirstPluginCommand+i);
+
+      //disabled yet: this gives side problem: after chg of hotkey in Commands,
+      //need call UpdateMenuPlugins(not done)
+      //UpKey(mi, cmdFirstPluginCommand+i);
     end;
   end;
 end;
