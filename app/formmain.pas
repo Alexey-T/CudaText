@@ -1112,6 +1112,7 @@ begin
   DoOps_PreinstallPlugins;
   DoLoadParamstr;
 
+  UpdateMenuPlugins;
   UpdateMenuThemes(mnuThemes);
   UpdateMenuHotkeys;
 

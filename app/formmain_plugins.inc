@@ -100,7 +100,6 @@ begin
     FreeAndNil(cfg);
   end;
 
-  UpdateMenuPlugins;
   UpdateKeymapDynamicItems;
 end;
 
@@ -172,6 +171,7 @@ begin
     begin
       mi.OnClick:= @MenuPluginClick;
       mi.Tag:= i;
+      UpKey(mi, cmdFirstPluginCommand+i);
     end;
   end;
 end;
