@@ -1,0 +1,19 @@
+[info]
+title=Brackets Hilite
+desc=Highlights pair brackets for caret position, when caret moves. Brackets are configurable per lexer.
+type=cudatext-plugin
+subdir=cuda_brackets_hilite
+
+[item1]
+section=events
+events=on_caret
+
+[item2]
+section=commands
+caption=Brackets Hilite\Goto pair bracket
+method=run
+
+[item3]
+section=commands
+caption=Brackets Hilite\Edit config
+method=config

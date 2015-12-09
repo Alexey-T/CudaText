@@ -109,45 +109,57 @@ menu=0
 [item21]
 section=commands
 caption=Activate tab #1 in group #2
-method=to_tab_g1_t1
+method=to_tab_g2_t1
 menu=0
 [item22]
 section=commands
 caption=Activate tab #2 in group #2
-method=to_tab_g1_t2
+method=to_tab_g2_t2
 menu=0
 [item23]
 section=commands
 caption=Activate tab #3 in group #2
-method=to_tab_g1_t3
+method=to_tab_g2_t3
 menu=0
 [item24]
 section=commands
 caption=Activate tab #4 in group #2
-method=to_tab_g1_t4
+method=to_tab_g2_t4
 menu=0
 [item25]
 section=commands
 caption=Activate tab #5 in group #2
-method=to_tab_g1_t5
+method=to_tab_g2_t5
 menu=0
 [item26]
 section=commands
 caption=Activate tab #6 in group #2
-method=to_tab_g1_t6
+method=to_tab_g2_t6
 menu=0
 [item27]
 section=commands
 caption=Activate tab #7 in group #2
-method=to_tab_g1_t7
+method=to_tab_g2_t7
 menu=0
 [item28]
 section=commands
 caption=Activate tab #8 in group #2
-method=to_tab_g1_t8
+method=to_tab_g2_t8
 menu=0
 [item29]
 section=commands
 caption=Activate tab #9 in group #2
-method=to_tab_g1_t9
+method=to_tab_g2_t9
 menu=0
+
+[item30]
+section=commands
+caption=Activate next tab (global loop)
+method=to_next_tab
+menu=0
+[item31]
+section=commands
+caption=Activate prev tab (global loop)
+method=to_prev_tab
+menu=0
+

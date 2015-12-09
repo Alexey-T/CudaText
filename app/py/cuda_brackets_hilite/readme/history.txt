@@ -1,0 +1,8 @@
+
+0.6.1
++ rewrite of findin
++ conf file and command "Config"
++ cache bracketchars for lexer
+
+0.5.0 (dec 2015)
+init
