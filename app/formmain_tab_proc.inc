@@ -31,6 +31,8 @@ begin
 
   F.NotifEnabled:= UiOps.NotifEnabled;
   F.NotifTime:= UiOps.NotifTimeSec*1000;
+
+  F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
 end;
 
 function TfmMain.DoTabAdd(Pages: TATPages): TATTabData;
