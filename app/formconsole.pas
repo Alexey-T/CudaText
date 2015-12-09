@@ -113,6 +113,10 @@ begin
   memo.Align:= alClient;
   memo.BorderStyle:= bsNone;
 
+  //Linux h-scroll paints bad (some gtk2 bug) so i disabled it
+  memo.OptWrapMode:= cWrapOn;
+  memo.OptAllowScrollbarHorz:= false;
+
   memo.OptCaretManyAllowed:= false;
   memo.OptGutterVisible:= false;
   memo.OptRulerVisible:= false;
@@ -120,7 +124,6 @@ begin
   memo.OptMarginRight:= 2000;
   memo.OptCaretVirtual:= false;
   memo.ModeReadOnly:= true;
-  memo.OptAllowScrollbarHorz:= false;
   memo.OptMouseRightClickMovesCaret:= true;
 
   ed.OnCommand:= @ComboCommand;

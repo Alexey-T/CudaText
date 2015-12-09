@@ -336,6 +336,7 @@ object fmMain: TfmMain
     top = 32
   end
   object PythonIO: TPythonInputOutput
+    MaxLineLength = 2000
     OnSendData = PythonIOSendData
     OnSendUniData = PythonIOSendUniData
     UnicodeIO = True
