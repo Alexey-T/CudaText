@@ -88,7 +88,9 @@ begin
         NCaretY:= Carets[0].PosY;
       end;
 
+    FFinder.Editor.Strings.BeginUndoGroup;
     cnt:= FFinder.DoReplaceAll;
+    FFinder.Editor.Strings.EndUndoGroup;
     FinderUpdateEditor(true);
 
     FFinder.Editor.DoCaretSingle(NCaretX, NCaretY);
