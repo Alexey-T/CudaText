@@ -216,6 +216,7 @@ type
     function DeleteTab(AIndex: Integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
     procedure ShowTabMenu;
     procedure SwitchTab(ANext: boolean);
+    procedure MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
   protected
     procedure Paint; override;
     procedure Resize; override;
@@ -1433,6 +1434,17 @@ begin
 
   if Assigned(FOnTabMove) then
     FOnTabMove(Self, NFrom, NTo);
+end;
+
+procedure TATTabs.MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
+begin
+  if not IsIndexOk(AFrom) then exit;
+  if not IsIndexOk(ATo) then exit;
+  if AFrom=ATo then exit;
+
+  FTabList.Move(AFrom, ATo);
+  if AActivateThen then
+    SetTabIndex(ATo);
 end;
 
 procedure TATTabs.DoTabDropToOtherControl(ATarget: TControl; const APnt: TPoint);

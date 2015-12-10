@@ -1531,7 +1531,7 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
   ValueBool: boolean;
-  ValueInt: integer;
+  ValueInt, NGroup, NTab, NIndexNew: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -1582,6 +1582,26 @@ begin
 
         PROP_TAB_COLLECT_MARKERS:
           F.TabKeyCollectMarkers:= ValueBool;
+
+        PROP_INDEX_GROUP:
+          begin
+            NIndexNew:= ValueInt+1;
+            fmMain.Groups.PagesAndTabIndexOfControl(F, NGroup, NTab);
+            if NTab>=0 then
+              if NGroup<>NIndexNew then
+                if (NIndexNew>=Low(TATGroupsNums)) and (NIndexNew<=High(TATGroupsNums)) then
+                  fmMain.Groups.MoveTab(
+                    fmMain.Groups.Pages[NGroup], NTab,
+                    fmMain.Groups.Pages[NIndexNew], -1, true);
+          end;
+
+        PROP_INDEX_TAB:
+          begin
+            NIndexNew:= ValueInt;
+            fmMain.Groups.PagesAndTabIndexOfControl(F, NGroup, NTab);
+            if NTab>=0 then
+              fmMain.Groups.Pages[NGroup].Tabs.MoveTab(NTab, NIndexNew, true);
+          end;
       end;
 
       fmMain.UpdateFrame;
