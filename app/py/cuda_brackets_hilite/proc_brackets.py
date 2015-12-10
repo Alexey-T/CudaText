@@ -1,5 +1,3 @@
-import cudatext as app
-import cudax_lib as apx
 
 #example of chars: "()[]{}"
 def find_matching_bracket(ed, from_x, from_y, chars):
@@ -42,6 +40,3 @@ def find_matching_bracket(ed, from_x, from_y, chars):
             to_x=0
         else:
             to_x=len(line)-1
-                         
-        
-

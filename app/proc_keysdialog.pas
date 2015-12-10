@@ -40,6 +40,7 @@ begin
 
   with TfmKeys.Create(nil) do
   try
+    Caption:= 'Keys - '+keymap[n].Name;
     Keys1:= keymap[n].Keys1;
     Keys2:= keymap[n].Keys2;
 
