@@ -562,12 +562,12 @@ type
     procedure DoCopyLine;
     procedure DoDialogCommands;
     procedure DoDialogGoto;
-    procedure DoDialogGotoBm;
+    procedure DoDialogGotoBookmk;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
     procedure DoDialogLexerLib;
     procedure DoDialogLoadLexerStyles;
-    procedure DoDialogTabs;
+    procedure DoDialogGotoTab;
     procedure DoDialogColors;
     procedure DoShowConsole;
     procedure DoShowOutput;
@@ -1671,7 +1671,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoDialogGotoBm;
+procedure TfmMain.DoDialogGotoBookmk;
 var
   ed: TATSynEdit;
   Form: TfmGotoList;
@@ -1720,12 +1720,12 @@ begin
   MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 end;
 
-procedure TfmMain.DoDialogTabs;
+procedure TfmMain.DoDialogGotoTab;
 var
   Form: TfmGotoList;
   Num: integer;
   items: TStringlist;
-  str: string;
+  str, fn: string;
   i: integer;
 begin
   items:= TStringlist.Create;
@@ -1733,6 +1733,9 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       str:= Frames[i].TabCaption;
+      fn:= Frames[i].FileName;
+      if fn<>'' then
+        str:= str+'  ('+fn+')';
       items.AddObject(str, TObject(ptrint(i)));
     end;
 
