@@ -310,12 +310,6 @@ For example, if word chars are minus, dot, and # sign, the control line should b
 
  #chars .-#
 
-==Why after reinstalling default config not updated?==
-
-Q: I installed app on Linux (deb), or OSX. I see outdated history file, and/or outdated default config.
-
-A: You need to delete dirs (data, readme, settings_default) inside "~/.cudatext". They will be re-created on next program run: from "/usr/share/cudatext" on Linux, or from app resources on OSX.
-
 ==Format of plugins config==
 
 Plugins config is "plugins.json" in "settings" dir. Example:
@@ -358,15 +352,18 @@ Plugins config is "plugins.json" in "settings" dir. Example:
 }
 </syntaxhighlight>
 
+===Commands===
 Node "commands" lists all command plugins. 
 
-In commands-node Python modules listed: these are directories (so Python modules) in subfolder "py". In each module-node indexes are listed (from 0, some indexes can be skipped, they are to sort menu items). Index-nodes have keys:
+In commands-node Python modules listed: these are directories (so Python modules) in subfolder "py". In each module-node indexes are listed (indexes can be any strings, some numbers can be skipped, they are to sort menu items). Index-nodes have keys:
 
-* "proc": Python method name in class "Command".
+* "proc": Python method name in class Command.
 * "caption": Menu item caption. Can have delimeters "\" (doubled in json) to make submenus, any level. If last part of caption is "-", menu separator is created (module/method are ignored).
+* "proc_par": Optional. Parameter passed to python method (can be any primitive type or expression, e.g. 20, None, False, "Test here").
 * "lexers": Optional. Comma-separated list of lexer names, if plugin should work only for these lexers.
 * "menu": Optional. If false (default true), menu item in Plugins not added (only item in Commands dlg).
 
+===Events===
 Node "events" lists event plugins.
 
 In each module-node keys listed:
@@ -420,6 +417,7 @@ The following macros are allowed in snippets text:
 * ${sel} - Replaced with text selected before snippet insertion. (If snippet called with Tab key, it's empty string.)
 * ${cp} - Replaced with clipboard text.
 * ${fname} - Replaced with current file name (w/out path and extension). 
+* ${date:nnnnnn} - Replaced with current date/time formatted by string nnnnnn. See [http://strftime.org/ Python doc].
 
 Snippets are stored in separate files with extension ".synw-snippet". Encoding is UTF8 no BOM. They can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
 

@@ -1,4 +1,7 @@
 
+1.2.6
++ dlg "Goto tab" shows paths
+
 1.2.5
 + support for Macros plugin
 + theme "green"

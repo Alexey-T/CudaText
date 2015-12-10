@@ -552,6 +552,8 @@ Possible values of id:
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_RULER: bool: show ruler.
 * PROP_LEXER_FILE: str: name of lexer.
+* PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
+* PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 * PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
@@ -617,7 +619,7 @@ Controls additional color attributes. Possible values of id:
 * MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Props:
 ** x, y: position of fragment start (like caret).
 ** len: length of fragment.
-** color_nnnn: RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green. Can use constant COLOR_NONE.
+** color_nnnn: RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
 ** font_nnnn: font attributes: 0 - off, 1 - on.
 ** border_nnnn: border types for edges, values from 0: none, solid, dash, solid 2pixel, dotted, rounded, wave.
 * MARKERS_GET: Gets list of fragments, each item is list, int fields, same as function params.
@@ -693,6 +695,10 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.113
+
+* add: set_prop PROP_INDEX_GROUP, PROP_INDEX_TAB
 
 1.0.112
 
