@@ -24,6 +24,7 @@ uses
 
 type
   TAppConsoleEvent = function(const Str: string): boolean of object;
+  TAppConsoleCommandEvent = procedure(ACommand: integer; const AText: string; var AHandled: boolean) of object;
 
 type
   { TfmConsole }
@@ -37,9 +38,9 @@ type
     FOnConsole: TAppConsoleEvent;
     FOnNavigate: TAppConsoleEvent;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoClearMemo(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
-    procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
   public
     { public declarations }
     ed: TATComboEdit;
@@ -132,12 +133,12 @@ begin
 
   ed.WantTabs:= false;
   ed.TabStop:= true;
+  ed.OptTabSize:= 4;
   memo.WantTabs:= false;
   memo.TabStop:= true;
-
-  ed.OptTabSize:= 4;
   memo.OptTabSize:= 4;
 
+  //menu items
   mi:= TMenuItem.Create(Self);
   mi.Caption:= 'Clear';
   mi.OnClick:= @DoClearMemo;
@@ -164,7 +165,11 @@ begin
     ed.DoCaretSingle(0, 0);
 
     AHandled:= true;
+    Exit
   end;
+
+  //if Assigned(FOnEditCommand) then
+  //  FOnEditCommand(ACmd, AText, AHandled);
 end;
 
 procedure TfmConsole.DoClearMemo(Sender: TObject);

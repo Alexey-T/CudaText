@@ -961,7 +961,7 @@ initialization
 
   Keymap:= TATKeymap.Create;
   InitKeymapFull(Keymap);
-  InitKeymapApp(Keymap);
+  InitKeymapForApplication(Keymap);
 
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);

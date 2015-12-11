@@ -15,7 +15,7 @@ uses
   Classes, SysUtils,
   ATSynEdit_Keymap;
 
-procedure InitKeymapApp(M: TATKeymap);
+procedure InitKeymapForApplication(M: TATKeymap);
 
 const
   cmdFirstLexerCommand = 6000;
@@ -225,7 +225,7 @@ implementation
 const
   cXControl = {$ifdef darwin} 'Meta' {$else} 'Ctrl' {$endif};
 
-procedure InitKeymapApp(M: TATKeymap);
+procedure InitKeymapForApplication(M: TATKeymap);
 begin
   M.Add(cmd_FileNew, 'file: new file', [cXControl+'+N'], []);
   M.Add(cmd_FileOpen, 'file: open file', [cXControl+'+O'], []);

@@ -2549,15 +2549,15 @@ var
   List: TATListbox;
 begin
   List:= Sender as TATListbox;
-
   if Sender=ListboxOut then
     Prop:= @AppPanelProp_Out
   else
     Prop:= @AppPanelProp_Val;
 
-  if List.ItemIndex<0 then exit;
-  if List.ItemIndex>=Prop^.Items.Count then exit;
+  if not ((List.ItemIndex>=0) and
+          (List.ItemIndex<Prop^.Items.Count)) then exit;
 
+  //Del, Ctrl+Del
   if Key=VK_DELETE then
   begin
     if Shift=[] then
