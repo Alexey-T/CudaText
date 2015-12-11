@@ -170,7 +170,7 @@ type
     property SplitPos: double read FSplitPos write SetSplitPos;
     //file
     procedure DoFileOpen(const fn: string);
-    procedure DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog);
+    function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
     procedure DoFileReload(ADetectEnc: boolean);
     procedure DoSaveHistory;
     procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
@@ -720,12 +720,13 @@ begin
   NotifEnabled:= NotifEnabled;
 end;
 
-procedure TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog);
+function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
 var
   an: TecSyntAnalyzer;
   attr: integer;
   PrevEnabled: boolean;
 begin
+  Result:= false;
   if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then Exit;
 
   if ASaveAs or (FFileName='') then
@@ -774,6 +775,7 @@ begin
   DoPyEvent(Editor, cEventOnSaveAfter, []);
   if Assigned(FOnSaveFile) then
     FOnSaveFile(Self);
+  Result:= true;
 end;
 
 procedure TEditorFrame.DoFileReload(ADetectEnc: boolean);

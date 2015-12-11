@@ -250,11 +250,13 @@ begin
 end;
 
 function Py_file_save(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Ok: boolean;
 begin
   with GetPythonEngine do
   begin
-    fmMain.CurrentFrame.DoFileSave(false, fmMain.SaveDlg);
-    Result:= ReturnNone;
+    Ok:= fmMain.CurrentFrame.DoFileSave(false, fmMain.SaveDlg);
+    Result:= PyBool_FromLong(Ord(Ok));
   end;
 end;
 
@@ -263,15 +265,17 @@ var
   H: PtrInt;
   Ed: TATSynEdit;
   Frame: TEditorFrame;
+  Ok: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:save', @H)) then
     begin
       Ed:= PyEditor(H);
       Frame:= fmMain.GetEditorFrame(Ed);
+      Ok:= false;
       if Assigned(Frame) then
-        Frame.DoFileSave(false, fmMain.SaveDlg);
-      Result:= ReturnNone;
+        Ok:= Frame.DoFileSave(false, fmMain.SaveDlg);
+      Result:= PyBool_FromLong(Ord(Ok));
     end;
 end;
 
