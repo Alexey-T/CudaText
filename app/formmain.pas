@@ -1735,7 +1735,7 @@ begin
       str:= Frames[i].TabCaption;
       fn:= Frames[i].FileName;
       if fn<>'' then
-        str:= str+'  ('+fn+')';
+        str:= str+'  ('+ExtractFileDir(fn)+')';
       items.AddObject(str, TObject(ptrint(i)));
     end;
 

@@ -1,6 +1,7 @@
 
 1.2.6
 + dlg "Goto tab" shows paths
+- fix on pasting n lines at line-end
 
 1.2.5
 + support for Macros plugin
