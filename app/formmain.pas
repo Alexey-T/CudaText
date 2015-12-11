@@ -385,6 +385,8 @@ type
     procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
       const ARect: TRect);
     procedure DoHelpWiki;
+    procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure MenuThemesClick(Sender: TObject);
     procedure DoHelpLexers;
     procedure mnuOpKeysClick(Sender: TObject);
@@ -2538,6 +2540,40 @@ end;
 procedure TfmMain.DoHelpWiki;
 begin
   OpenURL('http://wiki.freepascal.org/CudaText');
+end;
+
+procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  Prop: ^TAppPanelProps;
+  List: TATListbox;
+begin
+  List:= Sender as TATListbox;
+
+  if Sender=ListboxOut then
+    Prop:= @AppPanelProp_Out
+  else
+    Prop:= @AppPanelProp_Val;
+
+  if List.ItemIndex<0 then exit;
+  if List.ItemIndex>=Prop^.Items.Count then exit;
+
+  if Key=VK_DELETE then
+  begin
+    if Shift=[] then
+      Prop^.Items.Delete(List.ItemIndex);
+    if Shift=[ssCtrl] then
+      Prop^.Items.Clear;
+
+    List.ItemCount:= Prop^.Items.Count;
+    if List.ItemCount=0 then
+      List.ItemIndex:= -1
+    else
+    if List.ItemIndex>=List.ItemCount then
+      List.ItemIndex:= List.ItemCount-1;
+
+    List.Invalidate;
+  end;
 end;
 
 procedure TfmMain.MenuThemesClick(Sender: TObject);

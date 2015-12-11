@@ -118,6 +118,7 @@ object fmMain: TfmMain
         ItemHeight = 28
         OnClick = ListboxOutClick
         OnDrawItem = ListboxOutDrawItem
+        OnKeyDown = ListboxOutKeyDown
       end
       object ListboxVal: TATListbox
         Left = 368
@@ -129,6 +130,7 @@ object fmMain: TfmMain
         ItemHeight = 28
         OnClick = ListboxOutClick
         OnDrawItem = ListboxOutDrawItem
+        OnKeyDown = ListboxOutKeyDown
       end
     end
     object SplitterHorz: TSplitter
