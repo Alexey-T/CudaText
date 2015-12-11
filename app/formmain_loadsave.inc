@@ -309,6 +309,7 @@ var
     if KeyItem[0]=0 then
     begin
       DoReadConfigToKeys_Old(path_k, KeyItem);
+      if KeyItem[0]=0 then exit;
 
       sl:= TStringlist.Create;
       try
