@@ -1265,17 +1265,17 @@ function Py_dlg_menu(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
-  Id: integer;
+  Id, NIndex: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'is:dlg_menu', @Id, @Ptr)) then
+    if Bool(PyArg_ParseTuple(Args, 'isi:dlg_menu', @Id, @Ptr, @NIndex)) then
     begin
       Str:= string(Ptr);
       case Id of
         MENU_LIST,
         MENU_LIST_ALT:
           begin
-            Id:= fmMain.DoDialogMenuApi(Str, Id=MENU_LIST_ALT);
+            Id:= fmMain.DoDialogMenuApi(Str, Id=MENU_LIST_ALT, NIndex);
             if Id>=0 then
               Result:= PyInt_FromLong(Id)
             else

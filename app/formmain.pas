@@ -519,7 +519,7 @@ type
     function DoOnMacro(const Str: string): boolean;
     procedure DoOps_ShowEventPlugins;
     function DoDialogConfColors(var AColors: TAppTheme): boolean;
-    function DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
+    function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
@@ -2467,7 +2467,8 @@ begin
 end;
 
 
-function TfmMain.DoDialogMenuApi(const AText: string; AMultiline: boolean): integer;
+function TfmMain.DoDialogMenuApi(const AText: string; AMultiline: boolean;
+  AInitIndex: integer): integer;
 var
   Form: TfmMenuApi;
   S, SItem: string;
@@ -2487,6 +2488,7 @@ begin
       Form.list.ItemHeight*UiOps.ListboxItemCountCmd);
 
     Form.Multiline:= AMultiline;
+    Form.InitItemIndex:= AInitIndex;
     Form.ShowModal;
     Result:= Form.ResultCode;
   finally

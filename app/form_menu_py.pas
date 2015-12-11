@@ -52,6 +52,7 @@ type
     { public declarations }
     listItems: TStringList;
     ResultCode: integer;
+    InitItemIndex: integer;
     property Multiline: boolean read FMultiline write SetMultiline;
   end;
 
@@ -64,6 +65,11 @@ implementation
 procedure TfmMenuApi.FormShow(Sender: TObject);
 begin
   DoFilter;
+  if (InitItemIndex>=0) and (InitItemIndex<List.ItemCount) then
+  begin
+    List.ItemIndex:= InitItemIndex;
+    List.Invalidate;
+  end;
 end;
 
 procedure TfmMenuApi.listClick(Sender: TObject);
