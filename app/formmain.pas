@@ -2692,12 +2692,12 @@ begin
     C.Font.Color:= GetAppColor('ListFont');
     C.Brush.Color:= GetAppColor('ListBg');
   end;
-  C.Pen.Color:= GetAppColor('ListSelBg');
 
   if AIndex=Prop^.Listbox.ItemIndex then
-    C.Rectangle(ARect)
-  else
+  begin
+    C.Brush.Color:= GetAppColor('ListSelBg');
     C.FillRect(ARect);
+  end;
 
   C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Prop^.Items[AIndex]);
 end;

@@ -113,6 +113,7 @@ object fmMain: TfmMain
         Height = 150
         Top = 18
         Width = 180
+        CanGetFocus = True
         Color = clSilver
         ItemHeight = 28
         OnClick = ListboxOutClick
@@ -123,6 +124,7 @@ object fmMain: TfmMain
         Height = 150
         Top = 18
         Width = 180
+        CanGetFocus = True
         Color = clSilver
         ItemHeight = 28
         OnClick = ListboxOutClick
