@@ -18,6 +18,11 @@ implementation
 const
   cButtonResultStart=100;
 
+function StrToBool(const S: string): boolean;
+begin
+  Result:= S<>'0';
+end;
+
 function DoGetFormResult(AForm: TForm): string;
 var
   Ctl: TControl;
@@ -73,7 +78,7 @@ begin
     if N>=G.Items.Count then exit;
     SItem:= SGetItem(AValue);
     if SItem='' then break;
-    G.Checked[N]:= SItem<>'0';
+    G.Checked[N]:= StrToBool(SItem);
     Inc(N);
   until false;
 end;
@@ -145,7 +150,7 @@ begin
     //-------en
     if SName='en' then
     begin
-      Ctl.Enabled:= SValue<>'0';
+      Ctl.Enabled:= StrToBool(SValue);
       Continue;
     end;
 
@@ -153,8 +158,6 @@ begin
     if SName='cap' then
     begin
       Ctl.Caption:= SValue;
-      Ctl.AutoSize:= true;
-      Ctl.AutoSize:= false;
       Continue;
     end;
 
@@ -195,7 +198,7 @@ begin
     //-------val
     if SName='val' then
     begin
-      if Ctl is TCheckBox then (Ctl as TCheckBox).Checked:= (SValue<>'0');
+      if Ctl is TCheckBox then (Ctl as TCheckBox).Checked:= StrToBool(SValue);
       if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;
       if Ctl is TComboBox then (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);

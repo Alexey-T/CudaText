@@ -279,6 +279,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** "button"
 ** "checkgroup"
 ** "radiogroup"
+* "en": enabled-state of control, "1"/"0" for on/off
 * "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,300,20")
 * "cap": caption of control (not for all)
 * "items": for combo, listbox, memo, checkgroup, radiogroup: "\t"-separated lines
