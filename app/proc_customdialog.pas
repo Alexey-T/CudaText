@@ -68,7 +68,12 @@ begin
       if SValue='check' then begin Ctl:= TCheckBox.Create(AForm); end;
       if SValue='edit' then begin Ctl:= TEdit.Create(AForm); end;
       if SValue='listbox' then begin Ctl:= TListBox.Create(AForm); end;
-      if SValue='memo' then begin Ctl:= TMemo.Create(AForm); end;
+      if SValue='memo' then
+        begin
+          Ctl:= TMemo.Create(AForm);
+          (Ctl as TMemo).WordWrap:= false;
+          (Ctl as TMemo).ScrollBars:= ssBoth;
+        end;
       if SValue='label' then
         begin
           UseAutosize:= true;
