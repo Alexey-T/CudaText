@@ -34,6 +34,11 @@ begin
     if C is TCheckBox then Str:= IntToStr(Ord((C as TCheckBox).Checked));
     if C is TComboBox then Str:= IntToStr((C as TComboBox).ItemIndex);
     if C is TListBox then Str:= IntToStr((C as TListBox).ItemIndex);
+    if C is TMemo then
+    begin
+      Str:= (C as TMemo).Lines.Text;
+      Str:= StringReplace(Str, #10, #9, [rfReplaceAll]);
+    end;
 
     if Result<>'' then Result:= Result+#10;
     Result:= Result+Str;
@@ -63,6 +68,7 @@ begin
       if SValue='check' then begin Ctl:= TCheckBox.Create(AForm); end;
       if SValue='edit' then begin Ctl:= TEdit.Create(AForm); end;
       if SValue='listbox' then begin Ctl:= TListBox.Create(AForm); end;
+      if SValue='memo' then begin Ctl:= TMemo.Create(AForm); end;
       if SValue='label' then
         begin
           UseAutosize:= true;
@@ -125,6 +131,7 @@ begin
         if SListItem='' then break;
         if Ctl is TListbox then (Ctl as TListbox).Items.Add(SListItem);
         if Ctl is TComboBox then (Ctl as TComboBox).Items.Add(SListItem);
+        if Ctl is TMemo then (Ctl as TMemo).Lines.Add(SListItem);
       until false;
       Continue;
     end;
