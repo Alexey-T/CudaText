@@ -126,11 +126,14 @@ Possible values of id:
 * LOG_SET_NAME_ID: Sets index of regex group for file-name.
 * LOG_SET_FILENAME: Sets default file-name, which will be used when regex cannot find file-name in a string. 
 * LOG_SET_ZEROBASE: Sets flag: line and column numbers are zero-based, not 1-based. text is one-char string "0" or "1".
-* LOG_CONSOLE_CLEAR: Clears "Python console" panel. text is ignored.
-* LOG_CONSOLE_ADD: Adds line text to "Python console" panel.  
-* LOG_CONSOLE_GET: Returns list of "Python console" panel combobox lines. text is ignored. 
 
-'''Example'''
+For "Python console" panel:
+
+* LOG_CONSOLE_CLEAR: Clears console (combobox and memo).
+* LOG_CONSOLE_ADD: Adds line to console (combobox and memo).
+* LOG_CONSOLE_GET: Gets list of lines in console combobox.
+
+Example for regex:
 
 For line "line 10 column 20: text message here" the following regex and indexes can be used:
 
@@ -215,10 +218,10 @@ To disable check "filename exists" in open dialog, start init_filename with "!".
 
 ===dlg_menu===
 
- dlg_menu(id, text)
+ dlg_menu(id, text, focused=0)
 
-Shows modal menu. 
-Gets index of item selected (0-base), or None of cancelled.
+Shows menu dialog.
+Gets index of selected item (0-base), or None of cancelled. Param focused is index of initial item.
 
 Possible values of id:
 
@@ -258,6 +261,36 @@ Text can be:
 * str(int_command): for internal command codes (module cudatext_cmd).
 * "module_name,method_name" or "module_name,method_name,method_param": for command plugin.
 
+===dlg_custom===
+
+ dlg_custom(title, size_x, size_y, text, focused)
+
+Shows dialog with controls of many types.
+
+Param text is "\n"-separated items, one item per control. Each item is chr(1)-separated subitems. Each subitem is s_name+"="+s_value. Possible names (and names' values):
+
+* "type": type of control, values:
+** "label"
+** "check"
+** "edit"
+** "combo"
+** "listbox"
+** "button"
+* "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,300,20")
+* "cap": caption of control (not for all)
+* "items": for combo, listbox: "\t"-separated items
+* "val": value of control (not for all):
+** for check: "1"/"0" for on/off
+** for edit: text
+** for combo, listbox: index of selected item (as str)
+
+Param focused is index of control (in text) which is focused on showing.
+
+Dialog is closed by any button. Gets 2-tuple: (button_index, state_text), gets None if cancelled by "x".
+
+* button_index: index of control (in text) for pressed button
+* state_text: "\n"-separated values of controls (same count of items as in text)
+
 ===file_open===
 
  file_open(filename, group=-1)
@@ -274,7 +307,7 @@ Note: "ed" is always the current editor, after file_open() current editor change
 
  file_save()
 
-Saves current tab to disk. Shows save-as dialog for untitled tab.
+Saves current tab to disk. Shows save-as dialog for untitled tab. Gets bool: file was saved.
 
 ===ed_handles===
 
@@ -632,7 +665,7 @@ Controls additional color attributes. Possible values of id:
 
  save()
 
-Saves editor's tab to disk. Shows save-as dialog for untitled tab.
+Saves editor's tab to disk. Shows save-as dialog for untitled tab. Gets bool: file was saved.
 
 ===cmd===
 
@@ -698,7 +731,10 @@ Text is chr(1) separated items:
 
 1.0.113
 
+* add: dlg_custom
+* add: dlg_menu(.., focused)
 * add: set_prop PROP_INDEX_GROUP, PROP_INDEX_TAB
+* add: result for ed.save(), file_save()
 
 1.0.112
 
