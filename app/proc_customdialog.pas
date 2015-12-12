@@ -70,6 +70,7 @@ var
 begin
   N:= 0;
   repeat
+    if N>=G.Items.Count then exit;
     SItem:= SGetItem(AValue);
     if SItem='' then break;
     G.Checked[N]:= SItem<>'0';
