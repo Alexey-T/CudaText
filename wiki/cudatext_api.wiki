@@ -267,7 +267,7 @@ Text can be:
 
 Shows dialog with controls of many types.
 
-Param text is "\n"-separated items, one item per control. Each item is chr(1)-separated subitems. Each subitem is s_name+"="+s_value. Possible names (and names' values):
+Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated subitems. Each subitem is s_name+"="+s_value. Possible names (and names' values):
 
 * "type": type of control, values:
 ** "label"
@@ -277,21 +277,28 @@ Param text is "\n"-separated items, one item per control. Each item is chr(1)-se
 ** "listbox"
 ** "memo"
 ** "button"
+** "checkgroup"
+** "radiogroup"
 * "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,300,20")
 * "cap": caption of control (not for all)
-* "items": for combo, listbox, memo: "\t"-separated lines
+* "items": for combo, listbox, memo, checkgroup, radiogroup: "\t"-separated lines
 * "val": value of control (not for all):
 ** for check: "1"/"0" for on/off
 ** for edit: text
 ** for memo: "\t"-separated lines
-** for combo, listbox: index of selected item (as str)
+** for combo, listbox, radiogroup: index of selected item (as str)
+** for checkgroup: ","-separated checked-flags for items ("0"/"1")
 
-Param focused is index of control (in text) which is focused on showing.
+Parameter focused is index of control (in text) which is focused on showing.
 
 Dialog is closed by any button. Gets 2-tuple: (button_index, state_text), gets None if cancelled by "x".
 
 * button_index: index of control (in text) for pressed button
 * state_text: "\n"-separated values of controls (same count of items as in text)
+
+Note: controls sizes differ on Win32/Linux:
+
+[[File:controls_autosizes.png]]
 
 ===file_open===
 
