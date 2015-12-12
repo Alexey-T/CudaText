@@ -18,6 +18,28 @@ implementation
 const
   cButtonResultStart=100;
 
+function DoGetFormResult(AForm: TForm): string;
+var
+  C: TControl;
+  i: integer;
+  Str: string;
+begin
+  Result:= '';
+  for i:= 0 to AForm.ControlCount-1 do
+  begin
+    Str:= '';
+
+    C:= AForm.Controls[i];
+    if C is TEdit then Str:= (C as TEdit).Text;
+    if C is TCheckBox then Str:= IntToStr(Ord((C as TCheckBox).Checked));
+    if C is TComboBox then Str:= IntToStr((C as TComboBox).ItemIndex);
+    if C is TListBox then Str:= IntToStr((C as TListBox).ItemIndex);
+
+    if Result<>'' then Result:= Result+#10;
+    Result:= Result+Str;
+  end;
+end;
+
 procedure DoAddControl(AForm: TForm; AItems: string; AControlIndex: integer);
 var
   SNameValue, SName, SValue, SListItem: string;
@@ -37,19 +59,24 @@ begin
 
     if SName='type' then
     begin
-      if SValue='label' then begin Ctl:= TLabel.Create(AForm); end;
       if SValue='check' then begin Ctl:= TCheckBox.Create(AForm); end;
       if SValue='edit' then begin Ctl:= TEdit.Create(AForm); end;
       if SValue='listbox' then begin Ctl:= TListBox.Create(AForm); end;
+      if SValue='label' then
+        begin
+          UseAutosize:= true;
+          Ctl:= TLabel.Create(AForm);
+        end;
       if SValue='combo' then
         begin
+          UseAutosize:= true;
           Ctl:= TComboBox.Create(AForm);
           (Ctl as TComboBox).ReadOnly:= true;
         end;
       if SValue='button' then
         begin
-          Ctl:= TButton.Create(AForm);
           UseAutosize:= true;
+          Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
         end;
       if Assigned(Ctl) then
@@ -91,10 +118,8 @@ begin
       repeat
         SListItem:= SGetItem(SValue, #9);
         if SListItem='' then break;
-        if Ctl is TListbox then
-          (Ctl as TListbox).Items.Add(SListItem);
-        if Ctl is TComboBox then
-          (Ctl as TComboBox).Items.Add(SListItem);
+        if Ctl is TListbox then (Ctl as TListbox).Items.Add(SListItem);
+        if Ctl is TComboBox then (Ctl as TComboBox).Items.Add(SListItem);
       until false;
       Continue;
     end;
@@ -122,27 +147,32 @@ begin
   AStateText:= '';
 
   F:= TForm.Create(nil);
-  F.BorderStyle:= bsDialog;
-  F.Position:= poDesktopCenter;
-  F.Width:= ASizeX;
-  F.Height:= ASizeY;
-  F.Caption:= ATitle;
+  try
+    F.BorderStyle:= bsDialog;
+    F.Position:= poDesktopCenter;
+    F.Width:= ASizeX;
+    F.Height:= ASizeY;
+    F.Caption:= ATitle;
 
-  NIndex:= 0;
-  repeat
-    SItem:= SGetItem(AText, #10);
-    if SItem='' then break;
-    DoAddControl(F, SItem, NIndex);
-    Inc(NIndex);
-  until false;
+    NIndex:= 0;
+    repeat
+      SItem:= SGetItem(AText, #10);
+      if SItem='' then break;
+      DoAddControl(F, SItem, NIndex);
+      Inc(NIndex);
+    until false;
 
-  if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
-    F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
+    if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
+      F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
 
-  Res:= F.ShowModal;
-  if Res>=cButtonResultStart then
-  begin
-    AButtonIndex:= Res-cButtonResultStart;
+    Res:= F.ShowModal;
+    if Res>=cButtonResultStart then
+    begin
+      AButtonIndex:= Res-cButtonResultStart;
+      AStateText:= DoGetFormResult(F);
+    end;
+  finally
+    FreeAndNil(F);
   end;
 end;
 
