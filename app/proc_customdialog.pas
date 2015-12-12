@@ -178,7 +178,8 @@ begin
     until false;
 
     if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
-      F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
+      if F.Controls[AFocusedIndex] is TWinControl then
+        F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
 
     Res:= F.ShowModal;
     if Res>=cButtonResultStart then
