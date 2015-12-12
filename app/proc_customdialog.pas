@@ -20,30 +20,63 @@ const
 
 function DoGetFormResult(AForm: TForm): string;
 var
-  C: TControl;
-  i: integer;
+  Ctl: TControl;
   Str: string;
+  i, k: integer;
 begin
   Result:= '';
   for i:= 0 to AForm.ControlCount-1 do
   begin
     Str:= '';
+    Ctl:= AForm.Controls[i];
 
-    C:= AForm.Controls[i];
-    if C is TEdit then Str:= (C as TEdit).Text;
-    if C is TCheckBox then Str:= IntToStr(Ord((C as TCheckBox).Checked));
-    if C is TComboBox then Str:= IntToStr((C as TComboBox).ItemIndex);
-    if C is TListBox then Str:= IntToStr((C as TListBox).ItemIndex);
-    if C is TMemo then
+    if Ctl is TEdit then
+      Str:= (Ctl as TEdit).Text;
+    if Ctl is TCheckBox then
+      Str:= IntToStr(Ord((Ctl as TCheckBox).Checked));
+    if Ctl is TComboBox then
+      Str:= IntToStr((Ctl as TComboBox).ItemIndex);
+    if Ctl is TListBox then
+      Str:= IntToStr((Ctl as TListBox).ItemIndex);
+
+    if Ctl is TMemo then
     begin
-      Str:= (C as TMemo).Lines.Text;
+      Str:= (Ctl as TMemo).Lines.Text;
+      Str:= StringReplace(Str, #13#10, #9, [rfReplaceAll]);
+      Str:= StringReplace(Str, #13, #9, [rfReplaceAll]);
       Str:= StringReplace(Str, #10, #9, [rfReplaceAll]);
+    end;
+
+    if Ctl is TRadioGroup then
+      Str:= IntToStr((Ctl as TRadioGroup).ItemIndex);
+
+    if Ctl is TCheckGroup then
+    begin
+      Str:= '';
+      for k:= 0 to (Ctl as TCheckGroup).Items.Count-1 do
+        Str:= Str+IntToStr(Ord((Ctl as TCheckGroup).Checked[k]))+',';
     end;
 
     if Result<>'' then Result:= Result+#10;
     Result:= Result+Str;
   end;
 end;
+
+
+procedure DoSetCheckGroupState(G: TCheckGroup; AValue: string);
+var
+  SItem: string;
+  N: integer;
+begin
+  N:= 0;
+  repeat
+    SItem:= SGetItem(AValue);
+    if SItem='' then break;
+    G.Checked[N]:= SItem<>'0';
+    Inc(N);
+  until false;
+end;
+
 
 procedure DoAddControl(AForm: TForm; ATextItems: string; AControlIndex: integer);
 var
@@ -91,6 +124,14 @@ begin
           Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
         end;
+      if SValue='radiogroup' then
+        begin
+          Ctl:= TRadioGroup.Create(AForm);
+        end;
+      if SValue='checkgroup' then
+        begin
+          Ctl:= TCheckGroup.Create(AForm);
+        end;
 
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
@@ -137,6 +178,8 @@ begin
         if Ctl is TListbox then (Ctl as TListbox).Items.Add(SListItem);
         if Ctl is TComboBox then (Ctl as TComboBox).Items.Add(SListItem);
         if Ctl is TMemo then (Ctl as TMemo).Lines.Add(SListItem);
+        if Ctl is TCheckGroup then (Ctl as TCheckGroup).Items.Add(SListItem);
+        if Ctl is TRadioGroup then (Ctl as TRadioGroup).Items.Add(SListItem);
       until false;
       Continue;
     end;
@@ -148,6 +191,8 @@ begin
       if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;
       if Ctl is TComboBox then (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);
+      if Ctl is TRadioGroup then (Ctl as TRadioGroup).ItemIndex:= StrToIntDef(SValue, 0);
+      if Ctl is TCheckGroup then DoSetCheckGroupState(Ctl as TCheckGroup, SValue);
       Continue;
     end;
 
