@@ -40,7 +40,7 @@ begin
   end;
 end;
 
-procedure DoAddControl(AForm: TForm; AItems: string; AControlIndex: integer);
+procedure DoAddControl(AForm: TForm; ATextItems: string; AControlIndex: integer);
 var
   SNameValue, SName, SValue, SListItem: string;
   NX1, NX2, NY1, NY2: integer;
@@ -51,12 +51,13 @@ begin
   UseAutosize:= false;
 
   repeat
-    SNameValue:= SGetItem(AItems, Chr(1));
+    SNameValue:= SGetItem(ATextItems, Chr(1));
     if SNameValue='' then break;
     SName:= SGetItem(SNameValue, '=');
     SValue:= SNameValue;
-    if SName='' then continue;
+    if SName='' then Continue;
 
+    //-------type
     if SName='type' then
     begin
       if SValue='check' then begin Ctl:= TCheckBox.Create(AForm); end;
@@ -79,6 +80,7 @@ begin
           Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
         end;
+
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
       Continue;
@@ -87,6 +89,7 @@ begin
     //first name must be "type"
     if not Assigned(Ctl) then exit;
 
+    //-------cap
     if SName='cap' then
     begin
       Ctl.Caption:= SValue;
@@ -95,6 +98,7 @@ begin
       Continue;
     end;
 
+    //-------pos
     if SName='pos' then
     begin
       NX1:= StrToIntDef(SGetItem(SValue, ','), -1);
@@ -113,6 +117,7 @@ begin
       Continue;
     end;
 
+    //-------items
     if SName='items' then
     begin
       repeat
@@ -124,6 +129,7 @@ begin
       Continue;
     end;
 
+    //-------val
     if SName='val' then
     begin
       if Ctl is TCheckBox then (Ctl as TCheckBox).Checked:= (SValue<>'0');
@@ -133,8 +139,10 @@ begin
       Continue;
     end;
 
+    //-------more?
   until false;
 end;
+
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
