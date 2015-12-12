@@ -142,6 +142,13 @@ begin
     //first name must be "type"
     if not Assigned(Ctl) then exit;
 
+    //-------en
+    if SName='en' then
+    begin
+      Ctl.Enabled:= SValue<>'0';
+      Continue;
+    end;
+
     //-------cap
     if SName='cap' then
     begin
@@ -229,8 +236,9 @@ begin
     until false;
 
     if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
-      if F.Controls[AFocusedIndex] is TWinControl then
-        F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
+      if F.Controls[AFocusedIndex].Enabled then
+        if F.Controls[AFocusedIndex] is TWinControl then
+          F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
 
     Res:= F.ShowModal;
     if Res>=cButtonResultStart then
