@@ -2557,6 +2557,22 @@ begin
   if not ((List.ItemIndex>=0) and
           (List.ItemIndex<Prop^.Items.Count)) then exit;
 
+  //Ctrl+C
+  if (Key=Ord('C')) and (Shift=[ssCtrl]) then
+  begin
+    Clipboard.AsText:= Prop^.Items.Text;
+    Key:= 0;
+    exit
+  end;
+
+  //Ctrl+D
+  if (Key=Ord('D')) and (Shift=[ssCtrl]) then
+  begin
+    Clipboard.AsText:= Prop^.Items[List.ItemIndex];
+    Key:= 0;
+    exit
+  end;
+
   //Del, Ctrl+Del
   if Key=VK_DELETE then
   begin

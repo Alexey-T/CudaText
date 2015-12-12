@@ -1,7 +1,9 @@
 
-1.2.6
+1.2.8
 + dlg "Goto tab" shows paths
++ output panel has hotkeys (up/down/home/end, del, ctrl+del, ctrl+c, ctrl+d)
 - fix on pasting n lines at line-end
+- fix replace regex "$"
 
 1.2.5
 + support for Macros plugin
