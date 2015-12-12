@@ -2574,11 +2574,13 @@ begin
     exit
   end;
 
-  //Del, Ctrl+Del
+  //Ctrl+Del
   if Key=VK_DELETE then
   begin
-    if Shift=[] then
-      Prop^.Items.Delete(List.ItemIndex);
+    ////don't enable Del for Output panel
+    //if Shift=[] then
+    //  Prop^.Items.Delete(List.ItemIndex);
+
     if Shift=[ssCtrl] then
       Prop^.Items.Clear;
 
