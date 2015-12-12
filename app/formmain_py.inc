@@ -1425,6 +1425,26 @@ begin
     end;
 end;
 
+
+function Py_dlg_custom(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  PtrTitle, PtrText: PChar;
+  StrTitle, StrText, StrStateText: string;
+  NSizeX, NSizeY, NFocused, NButton: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'siisi:dlg_custom', @PtrTitle, @NSizeX, @NSizeY, @PtrText, @NFocused)) then
+    begin
+      StrTitle:= string(PtrTitle);
+      StrText:= string(PtrText);
+      DoDialogCustom(StrTitle, NSizeX, NSizeY, StrText, NFocused, NButton, StrStateText);
+      if NButton<0 then
+        Result:= ReturnNone
+      else
+        Result:= Py_BuildValue('(is)', NButton, PChar(StrStateText));
+    end;
+end;
+
 function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: PtrInt;
@@ -2114,7 +2134,7 @@ begin
     AddMethod('dlg_color', @Py_dlg_color, '');
     AddMethod('dlg_checklist', @Py_dlg_checklist, '');
     AddMethod('dlg_hotkeys', @Py_dlg_hotkeys, '');
-    //AddMethod('dlg_charmap', @Py_dlg_charmap, '');
+    AddMethod('dlg_custom', @Py_dlg_custom, '');
 
     AddMethod('ed_get_carets', @Py_ed_get_carets, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');
