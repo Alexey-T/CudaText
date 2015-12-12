@@ -275,13 +275,15 @@ Param text is "\n"-separated items, one item per control. Each item is chr(1)-se
 ** "edit"
 ** "combo"
 ** "listbox"
+** "memo"
 ** "button"
 * "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,300,20")
 * "cap": caption of control (not for all)
-* "items": for combo, listbox: "\t"-separated items
+* "items": for combo, listbox, memo: "\t"-separated lines
 * "val": value of control (not for all):
 ** for check: "1"/"0" for on/off
 ** for edit: text
+** for memo: "\t"-separated lines
 ** for combo, listbox: index of selected item (as str)
 
 Param focused is index of control (in text) which is focused on showing.
