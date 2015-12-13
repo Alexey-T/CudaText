@@ -23,6 +23,16 @@ begin
   Result:= S<>'0';
 end;
 
+function IsControlAutosizeY(C: TControl): boolean;
+begin
+  Result:=
+    (C is TLabel) or
+    (C is TButton) or
+    (C is TEdit) or
+    (C is TComboBox) or
+    (C is TCheckBox);
+end;
+
 function DoGetFormResult(AForm: TForm): string;
 var
   Ctl: TControl;
@@ -103,10 +113,8 @@ var
   SNameValue, SName, SValue, SListItem: string;
   NX1, NX2, NY1, NY2: integer;
   Ctl: TControl;
-  UseAutosize: boolean;
 begin
   Ctl:= nil;
-  UseAutosize:= false;
 
   repeat
     SNameValue:= SGetItem(ATextItems, Chr(1));
@@ -129,18 +137,15 @@ begin
         end;
       if SValue='label' then
         begin
-          UseAutosize:= true;
           Ctl:= TLabel.Create(AForm);
         end;
       if SValue='combo' then
         begin
-          UseAutosize:= true;
           Ctl:= TComboBox.Create(AForm);
           (Ctl as TComboBox).ReadOnly:= true;
         end;
       if SValue='button' then
         begin
-          UseAutosize:= true;
           Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
         end;
@@ -187,7 +192,7 @@ begin
       Ctl.Left:= NX1;
       Ctl.Width:= NX2-NX1;
       Ctl.Top:= NY1;
-      if not UseAutosize then
+      if not IsControlAutosizeY(Ctl) then
         Ctl.Height:= NY2-NY1;
       Continue;
     end;

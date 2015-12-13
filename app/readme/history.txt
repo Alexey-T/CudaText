@@ -1,7 +1,8 @@
 
 1.2.8
++ custom-dialog api
 + dlg "Goto tab" shows paths
-+ output panel has hotkeys (wiki has help topic)
++ output panel has hotkeys (wiki help topic)
 - fix on pasting n lines at line-end
 - fix replace regex "$"
 
