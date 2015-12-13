@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
-  CheckLst,
+  CheckLst, Spin,
   ATStringProc;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
@@ -30,55 +30,59 @@ begin
     (C is TButton) or
     (C is TEdit) or
     (C is TComboBox) or
-    (C is TCheckBox);
+    (C is TCheckBox) or
+    (C is TSpinEdit);
 end;
+
+
+function DoGetControlResult(C: TControl): string;
+var
+  i: integer;
+begin
+  Result:= '';
+
+  if C is TEdit then
+    Result:= (C as TEdit).Text;
+  if C is TCheckBox then
+    Result:= IntToStr(Ord((C as TCheckBox).Checked));
+  if C is TComboBox then
+    Result:= IntToStr((C as TComboBox).ItemIndex);
+  if C is TListBox then
+    Result:= IntToStr((C as TListBox).ItemIndex);
+
+  if C is TMemo then
+  begin
+    Result:= (C as TMemo).Lines.Text;
+    Result:= StringReplace(Result, #13#10, #9, [rfReplaceAll]);
+    Result:= StringReplace(Result, #13, #9, [rfReplaceAll]);
+    Result:= StringReplace(Result, #10, #9, [rfReplaceAll]);
+  end;
+
+  if C is TRadioGroup then
+    Result:= IntToStr((C as TRadioGroup).ItemIndex);
+
+  if C is TCheckGroup then
+    for i:= 0 to (C as TCheckGroup).Items.Count-1 do
+      Result:= Result+IntToStr(Ord((C as TCheckGroup).Checked[i]))+',';
+
+  if C is TCheckListBox then
+    for i:= 0 to (C as TCheckListBox).Items.Count-1 do
+      Result:= Result+IntToStr(Ord((C as TCheckListBox).Checked[i]))+',';
+
+  if C is TSpinEdit then
+    Result:= IntToStr((C as TSpinEdit).Value);
+end;
+
 
 function DoGetFormResult(AForm: TForm): string;
 var
-  Ctl: TControl;
   Str: string;
-  i, k: integer;
+  i: integer;
 begin
   Result:= '';
   for i:= 0 to AForm.ControlCount-1 do
   begin
-    Str:= '';
-    Ctl:= AForm.Controls[i];
-
-    if Ctl is TEdit then
-      Str:= (Ctl as TEdit).Text;
-    if Ctl is TCheckBox then
-      Str:= IntToStr(Ord((Ctl as TCheckBox).Checked));
-    if Ctl is TComboBox then
-      Str:= IntToStr((Ctl as TComboBox).ItemIndex);
-    if Ctl is TListBox then
-      Str:= IntToStr((Ctl as TListBox).ItemIndex);
-
-    if Ctl is TMemo then
-    begin
-      Str:= (Ctl as TMemo).Lines.Text;
-      Str:= StringReplace(Str, #13#10, #9, [rfReplaceAll]);
-      Str:= StringReplace(Str, #13, #9, [rfReplaceAll]);
-      Str:= StringReplace(Str, #10, #9, [rfReplaceAll]);
-    end;
-
-    if Ctl is TRadioGroup then
-      Str:= IntToStr((Ctl as TRadioGroup).ItemIndex);
-
-    if Ctl is TCheckGroup then
-    begin
-      Str:= '';
-      for k:= 0 to (Ctl as TCheckGroup).Items.Count-1 do
-        Str:= Str+IntToStr(Ord((Ctl as TCheckGroup).Checked[k]))+',';
-    end;
-
-    if Ctl is TCheckListBox then
-    begin
-      Str:= '';
-      for k:= 0 to (Ctl as TCheckListBox).Items.Count-1 do
-        Str:= Str+IntToStr(Ord((Ctl as TCheckListBox).Checked[k]))+',';
-    end;
-
+    Str:= DoGetControlResult(AForm.Controls[i]);
     if Result<>'' then Result:= Result+#10;
     Result:= Result+Str;
   end;
@@ -141,6 +145,7 @@ begin
       if SValue='check' then begin Ctl:= TCheckBox.Create(AForm); end;
       if SValue='edit' then begin Ctl:= TEdit.Create(AForm); end;
       if SValue='listbox' then begin Ctl:= TListBox.Create(AForm); end;
+      if SValue='spinedit' then begin Ctl:= TSpinEdit.Create(AForm) end;
       if SValue='memo' then
         begin
           Ctl:= TMemo.Create(AForm);
@@ -212,6 +217,13 @@ begin
     //-------items
     if SName='items' then
     begin
+      if Ctl is TSpinEdit then
+      begin
+        (Ctl as TSpinEdit).MinValue:= StrToIntDef(SGetItem(SValue), 0);
+        (Ctl as TSpinEdit).MaxValue:= StrToIntDef(SGetItem(SValue), 100);
+        (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
+      end
+      else
       repeat
         SListItem:= SGetItem(SValue, #9);
         if SListItem='' then break;
@@ -235,6 +247,7 @@ begin
       if Ctl is TCheckGroup then DoSetChecklistState(Ctl, SValue);
       if Ctl is TCheckListBox then DoSetChecklistState(Ctl, SValue);
       if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
+      if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
       Continue;
     end;
 
