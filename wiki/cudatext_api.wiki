@@ -263,11 +263,11 @@ Text can be:
 
 ===dlg_custom===
 
- dlg_custom(title, size_x, size_y, text, focused)
+ dlg_custom(title, size_x, size_y, text, focused=-1)
 
 Shows dialog with controls of many types.
 
-Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated subitems. Each subitem is s_name+"="+s_value. Possible names (and names' values):
+Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props. Each prop is s_name+"="+s_value. Possible names (and names' values):
 
 * "type": type of control, values:
 ** "label"
@@ -275,29 +275,35 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** "edit"
 ** "combo"
 ** "listbox"
-** "memo"
 ** "button"
-** "checkgroup"
-** "radiogroup"
+** "memo" (multi-line edit)
+** "checkgroup" (group of checks)
+** "radiogroup" (group of radiobuttons)
+** "checklistbox" (listbox with checks)
+** "spinedit" (edit for numbers, has min-value, max-value, increment)
+
 * "en": enabled-state of control, "1"/"0" for on/off
-* "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,300,20")
+* "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30")
 * "cap": caption of control (not for all)
-* "items": for combo, listbox, memo, checkgroup, radiogroup: "\t"-separated lines
+* "items": 
+** for combo, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
+** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
 * "val": value of control (not for all):
 ** for check: "1"/"0" for on/off
 ** for edit: text
 ** for memo: "\t"-separated lines
 ** for combo, listbox, radiogroup: index of selected item (as str)
-** for checkgroup: ","-separated checked-flags for items ("0"/"1")
+** for checkgroup, checklistbox: ","-separated check-flags for items ("0"/"1")
+** for spinedit: text
 
-Parameter focused is index of control (in text) which is focused on showing.
+Parameter focused is index of control (0-base) which is focused on showing.
 
 Dialog is closed by any button. Gets 2-tuple: (button_index, state_text), gets None if cancelled by "x".
 
 * button_index: index of control (in text) for pressed button
 * state_text: "\n"-separated values of controls (same count of items as in text)
 
-Note: controls sizes differ on Win32/Linux:
+Note: controls sizes differ on Linux/Win32, picture shows controls auto-aligned:
 
 [[File:controls_autosizes.png]]
 
