@@ -272,7 +272,8 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "type": type of control, values:
 ** "label"
 ** "check"
-** "edit"
+** "radio" (radiobutton, only one is checked)
+** "edit" (one-line edit)
 ** "combo"
 ** "listbox"
 ** "button"
@@ -293,7 +294,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
 
 * "val": value of control (not for all):
-** for check: "1"/"0" for on/off
+** for check, radio: "1"/"0" for on/off
 ** for edit: text
 ** for memo: "\t"-separated lines
 ** for combo, listbox, radiogroup: index of selected item (as str)
