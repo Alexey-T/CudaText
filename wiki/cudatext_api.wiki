@@ -285,9 +285,13 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "en": enabled-state of control, "1"/"0" for on/off
 * "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30")
 * "cap": caption of control (not for all)
+
 * "items": 
 ** for combo, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
+
+* "props": control-specific properties:
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
+
 * "val": value of control (not for all):
 ** for check: "1"/"0" for on/off
 ** for edit: text
@@ -303,7 +307,9 @@ Dialog is closed by any button. Gets 2-tuple: (button_index, state_text), gets N
 * button_index: index of control (in text) for pressed button
 * state_text: "\n"-separated values of controls (same count of items as in text)
 
-Note: controls sizes differ on Linux/Win32, picture shows controls auto-aligned:
+Note:
+
+* Controls sizes differ on Linux/Win32, picture shows controls auto-aligned, not in CudaText, only example:
 
 [[File:controls_autosizes.png]]
 
