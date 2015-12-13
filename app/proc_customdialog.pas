@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
-  Dialogs,
+  CheckLst,
   ATStringProc;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
@@ -62,23 +62,37 @@ begin
         Str:= Str+IntToStr(Ord((Ctl as TCheckGroup).Checked[k]))+',';
     end;
 
+    if Ctl is TCheckListBox then
+    begin
+      Str:= '';
+      for k:= 0 to (Ctl as TCheckListBox).Items.Count-1 do
+        Str:= Str+IntToStr(Ord((Ctl as TCheckListBox).Checked[k]))+',';
+    end;
+
     if Result<>'' then Result:= Result+#10;
     Result:= Result+Str;
   end;
 end;
 
 
-procedure DoSetCheckGroupState(G: TCheckGroup; AValue: string);
+procedure DoSetCheckGroupState(C: TControl; AValue: string);
 var
   SItem: string;
-  N: integer;
+  NCount, N: integer;
 begin
+  if C is TCheckGroup then NCount:= (C as TCheckGroup).Items.Count else
+   if C is TCheckListBox then NCount:= (C as TCheckListBox).Items.Count else
+    exit;
+
   N:= 0;
   repeat
-    if N>=G.Items.Count then exit;
+    if N>=NCount then exit;
     SItem:= SGetItem(AValue);
     if SItem='' then break;
-    G.Checked[N]:= StrToBool(SItem);
+
+    if C is TCheckGroup then (C as TCheckGroup).Checked[N]:= StrToBool(SItem);
+    if C is TCheckListBox then (C as TCheckListBox).Checked[N]:= StrToBool(SItem);
+
     Inc(N);
   until false;
 end;
@@ -131,13 +145,11 @@ begin
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
         end;
       if SValue='radiogroup' then
-        begin
-          Ctl:= TRadioGroup.Create(AForm);
-        end;
+        Ctl:= TRadioGroup.Create(AForm);
       if SValue='checkgroup' then
-        begin
-          Ctl:= TCheckGroup.Create(AForm);
-        end;
+        Ctl:= TCheckGroup.Create(AForm);
+      if SValue='checklistbox' then
+        Ctl:= TCheckListBox.Create(AForm);
 
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
@@ -191,6 +203,7 @@ begin
         if Ctl is TMemo then (Ctl as TMemo).Lines.Add(SListItem);
         if Ctl is TCheckGroup then (Ctl as TCheckGroup).Items.Add(SListItem);
         if Ctl is TRadioGroup then (Ctl as TRadioGroup).Items.Add(SListItem);
+        if Ctl is TCheckListBox then (Ctl as TCheckListBox).Items.Add(SListItem);
       until false;
       Continue;
     end;
@@ -203,7 +216,8 @@ begin
       if Ctl is TComboBox then (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TRadioGroup then (Ctl as TRadioGroup).ItemIndex:= StrToIntDef(SValue, 0);
-      if Ctl is TCheckGroup then DoSetCheckGroupState(Ctl as TCheckGroup, SValue);
+      if Ctl is TCheckGroup then DoSetCheckGroupState(Ctl, SValue);
+      if Ctl is TCheckListBox then DoSetCheckGroupState(Ctl, SValue);
       Continue;
     end;
 
