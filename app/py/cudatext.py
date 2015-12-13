@@ -211,7 +211,7 @@ def dlg_checklist(caption, columns, items, size_x, size_y):
 def dlg_hotkeys(text):
     return ct.dlg_hotkeys(text)
     
-def dlg_custom(title, size_x, size_y, text, focused):    
+def dlg_custom(title, size_x, size_y, text, focused=-1):    
     return ct.dlg_custom(title, size_x, size_y, text, focused)    
 
 def file_open(filename, group=-1):

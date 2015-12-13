@@ -85,7 +85,19 @@ begin
 end;
 
 
-procedure DoSetCheckGroupState(C: TControl; AValue: string);
+procedure DoSetMemoState(C: TMemo; AValue: string);
+var
+  SItem: string;
+begin
+  C.Lines.Clear;
+  repeat
+    SItem:= SGetItem(AValue, #9);
+    if SItem='' then break;
+    C.Lines.Add(SItem);
+  until false;
+end;
+
+procedure DoSetChecklistState(C: TControl; AValue: string);
 var
   SItem: string;
   NCount, N: integer;
@@ -205,7 +217,6 @@ begin
         if SListItem='' then break;
         if Ctl is TListbox then (Ctl as TListbox).Items.Add(SListItem);
         if Ctl is TComboBox then (Ctl as TComboBox).Items.Add(SListItem);
-        if Ctl is TMemo then (Ctl as TMemo).Lines.Add(SListItem);
         if Ctl is TCheckGroup then (Ctl as TCheckGroup).Items.Add(SListItem);
         if Ctl is TRadioGroup then (Ctl as TRadioGroup).Items.Add(SListItem);
         if Ctl is TCheckListBox then (Ctl as TCheckListBox).Items.Add(SListItem);
@@ -221,8 +232,9 @@ begin
       if Ctl is TComboBox then (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TRadioGroup then (Ctl as TRadioGroup).ItemIndex:= StrToIntDef(SValue, 0);
-      if Ctl is TCheckGroup then DoSetCheckGroupState(Ctl, SValue);
-      if Ctl is TCheckListBox then DoSetCheckGroupState(Ctl, SValue);
+      if Ctl is TCheckGroup then DoSetChecklistState(Ctl, SValue);
+      if Ctl is TCheckListBox then DoSetChecklistState(Ctl, SValue);
+      if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
       Continue;
     end;
 
