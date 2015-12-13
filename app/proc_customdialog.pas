@@ -214,16 +214,21 @@ begin
       Continue;
     end;
 
-    //-------items
-    if SName='items' then
+    //-------props
+    if SName='props' then
     begin
       if Ctl is TSpinEdit then
       begin
         (Ctl as TSpinEdit).MinValue:= StrToIntDef(SGetItem(SValue), 0);
         (Ctl as TSpinEdit).MaxValue:= StrToIntDef(SGetItem(SValue), 100);
         (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
-      end
-      else
+      end;
+      Continue;
+    end;
+
+    //-------items
+    if SName='items' then
+    begin
       repeat
         SListItem:= SGetItem(SValue, #9);
         if SListItem='' then break;
