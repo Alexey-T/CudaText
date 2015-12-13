@@ -44,14 +44,23 @@ begin
 
   if C is TEdit then
     Result:= (C as TEdit).Text;
+
   if C is TCheckBox then
     Result:= IntToStr(Ord((C as TCheckBox).Checked));
+
   if C is TRadioButton then
     Result:= IntToStr(Ord((C as TRadioButton).Checked));
-  if C is TComboBox then
-    Result:= IntToStr((C as TComboBox).ItemIndex);
+
   if C is TListBox then
     Result:= IntToStr((C as TListBox).ItemIndex);
+
+  if C is TComboBox then
+  begin
+    if (C as TComboBox).ReadOnly then
+      Result:= IntToStr((C as TComboBox).ItemIndex)
+    else
+      Result:= (C as TComboBox).Text;
+  end;
 
   if C is TMemo then
   begin
@@ -163,6 +172,10 @@ begin
       if SValue='combo' then
         begin
           Ctl:= TComboBox.Create(AForm);
+        end;
+      if SValue='combo_ro' then
+        begin
+          Ctl:= TComboBox.Create(AForm);
           (Ctl as TComboBox).ReadOnly:= true;
         end;
       if SValue='button' then
@@ -251,7 +264,13 @@ begin
       if Ctl is TCheckBox then (Ctl as TCheckBox).Checked:= StrToBool(SValue);
       if Ctl is TRadioButton then (Ctl as TRadioButton).Checked:= StrToBool(SValue);
       if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;
-      if Ctl is TComboBox then (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0);
+      if Ctl is TComboBox then
+      begin
+        if (Ctl as TCombobox).ReadOnly then
+          (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0)
+        else
+          (Ctl as TCombobox).Text:= SValue;
+      end;
       if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TRadioGroup then (Ctl as TRadioGroup).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TCheckGroup then DoSetChecklistState(Ctl, SValue);
