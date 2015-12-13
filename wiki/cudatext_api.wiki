@@ -274,7 +274,8 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** "check"
 ** "radio" (radiobutton, only one is checked)
 ** "edit" (one-line edit)
-** "combo"
+** "combo" (combobox editable, value is text)
+** "combo_ro" (combobox read-only, value is index)
 ** "listbox"
 ** "button"
 ** "memo" (multi-line edit)
@@ -288,7 +289,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "cap": caption of control (not for all)
 
 * "items": 
-** for combo, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
+** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
 
 * "props": control-specific properties:
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
@@ -298,6 +299,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for edit: text
 ** for memo: "\t"-separated lines
 ** for combo, listbox, radiogroup: index of selected item (as str)
+** for combo_ro: text
 ** for checkgroup, checklistbox: ","-separated check-flags for items ("0"/"1")
 ** for spinedit: text
 
