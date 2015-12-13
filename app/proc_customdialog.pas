@@ -31,6 +31,7 @@ begin
     (C is TEdit) or
     (C is TComboBox) or
     (C is TCheckBox) or
+    (C is TRadioButton) or
     (C is TSpinEdit);
 end;
 
@@ -45,6 +46,8 @@ begin
     Result:= (C as TEdit).Text;
   if C is TCheckBox then
     Result:= IntToStr(Ord((C as TCheckBox).Checked));
+  if C is TRadioButton then
+    Result:= IntToStr(Ord((C as TRadioButton).Checked));
   if C is TComboBox then
     Result:= IntToStr((C as TComboBox).ItemIndex);
   if C is TListBox then
@@ -142,10 +145,11 @@ begin
     //-------type
     if SName='type' then
     begin
-      if SValue='check' then begin Ctl:= TCheckBox.Create(AForm); end;
-      if SValue='edit' then begin Ctl:= TEdit.Create(AForm); end;
-      if SValue='listbox' then begin Ctl:= TListBox.Create(AForm); end;
-      if SValue='spinedit' then begin Ctl:= TSpinEdit.Create(AForm) end;
+      if SValue='check' then Ctl:= TCheckBox.Create(AForm);
+      if SValue='radio' then Ctl:= TRadioButton.Create(AForm);
+      if SValue='edit' then Ctl:= TEdit.Create(AForm);
+      if SValue='listbox' then Ctl:= TListBox.Create(AForm);
+      if SValue='spinedit' then Ctl:= TSpinEdit.Create(AForm);
       if SValue='memo' then
         begin
           Ctl:= TMemo.Create(AForm);
@@ -245,6 +249,7 @@ begin
     if SName='val' then
     begin
       if Ctl is TCheckBox then (Ctl as TCheckBox).Checked:= StrToBool(SValue);
+      if Ctl is TRadioButton then (Ctl as TRadioButton).Checked:= StrToBool(SValue);
       if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;
       if Ctl is TComboBox then (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);
