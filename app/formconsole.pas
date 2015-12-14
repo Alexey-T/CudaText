@@ -58,6 +58,8 @@ const
   cPyConsoleMaxLines = 1000;
   cPyConsoleMaxComboItems: integer = 20;
   cPyConsolePrompt = '>>> ';
+  cPyCharNoLog = ';';
+  cPyCharPrint = '=';
 
 implementation
 
@@ -84,13 +86,23 @@ begin
 end;
 
 procedure TfmConsole.DoExecuteConsoleLine(Str: string);
+var
+  bNoLog: boolean;
 begin
-  DoLogConsoleLine(cPyConsolePrompt+Str);
+  bNoLog:= SEndsWith(Str, cPyCharNoLog);
+  if bNoLog then
+    Delete(Str, Length(Str), 1);
+
+  DoLogConsoleLine(cPyConsolePrompt+Str); //log always?
+  if not bNoLog then
+  begin
+    ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
+  end;
 
   if Assigned(FOnConsole) then
     if not FOnConsole(Str) then exit;
 
-  if (Str<>'') and (Str[1]='=') then
+  if SBeginsWith(Str, cPyCharPrint) then
     Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
 
   try
@@ -160,7 +172,6 @@ begin
     s:= UTF8Encode(ed.Text);
     DoExecuteConsoleLine(s);
 
-    ed.DoAddLineToHistory(Utf8Decode(s), cPyConsoleMaxComboItems);
     ed.Text:= '';
     ed.DoCaretSingle(0, 0);
 
