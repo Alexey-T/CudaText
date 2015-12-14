@@ -190,8 +190,8 @@ def dlg_input_ex(number, caption,
     else:
         return result.splitlines()
         
-def dlg_menu(id, text):
-    return ct.dlg_menu(id, text)        
+def dlg_menu(id, text, focused=0):
+    return ct.dlg_menu(id, text, focused)        
 
 def dlg_file(is_open, init_filename, init_dir, filters):
     res = ct.dlg_file(is_open, init_filename, init_dir, filters)
@@ -210,6 +210,9 @@ def dlg_checklist(caption, columns, items, size_x, size_y):
 
 def dlg_hotkeys(text):
     return ct.dlg_hotkeys(text)
+    
+def dlg_custom(title, size_x, size_y, text, focused=-1):    
+    return ct.dlg_custom(title, size_x, size_y, text, focused)    
 
 def file_open(filename, group=-1):
     return ct.file_open(filename, group)

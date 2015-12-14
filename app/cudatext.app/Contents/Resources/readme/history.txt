@@ -1,4 +1,12 @@
 
+1.2.8
++ custom-dialog api
++ dlg "Goto tab" shows paths
++ output panel has hotkeys (wiki help topic)
++ console: char ";" at end of cmd: don't log
+- fix on pasting n lines at line-end
+- fix replace regex "$"
+
 1.2.5
 + support for Macros plugin
 + theme "green"
