@@ -181,9 +181,6 @@ begin
       if SValue='button' then
         begin
           Ctl:= TButton.Create(AForm);
-          {$ifdef darwin}
-          (Ctl as TButton).Autosize:= true; //make smaller
-          {$endif}
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
         end;
       if SValue='radiogroup' then
