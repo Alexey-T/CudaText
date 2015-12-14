@@ -2549,6 +2549,15 @@ var
   Prop: ^TAppPanelProps;
   List: TATListbox;
 begin
+  //Esc
+  if (Key=VK_ESCAPE) then
+  begin
+    if CurrentEditor.CanSetFocus then
+      CurrentEditor.SetFocus;
+    Key:= 0;
+    exit
+  end;
+
   List:= Sender as TATListbox;
   if Sender=ListboxOut then
     Prop:= @AppPanelProp_Out
