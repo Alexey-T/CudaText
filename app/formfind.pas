@@ -18,6 +18,7 @@ uses
   ATButtons,
   ATSynEdit,
   ATSynEdit_Edits,
+  ATSynEdit_Commands,
   proc_globdata,
   proc_colors,
   proc_str;
@@ -73,7 +74,9 @@ type
     procedure bFindFirstClick(Sender: TObject);
     procedure chkRepClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
+    procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edRepEnter(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -161,6 +164,11 @@ begin
   UpdateState;
 end;
 
+procedure TfmFind.edFindEnter(Sender: TObject);
+begin
+  edFind.DoCommand(cCommand_SelectAll);
+end;
+
 procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -171,6 +179,11 @@ begin
     key:= 0;
     exit
   end;
+end;
+
+procedure TfmFind.edRepEnter(Sender: TObject);
+begin
+  edRep.DoCommand(cCommand_SelectAll);
 end;
 
 procedure TfmFind.FormCreate(Sender: TObject);

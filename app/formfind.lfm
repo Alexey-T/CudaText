@@ -186,6 +186,7 @@ object fmFind: TfmFind
       ParentFont = False
       TabOrder = 0
       TabStop = True
+      OnEnter = edFindEnter
       OnKeyDown = edFindKeyDown
       OnChange = edFindChange
       CursorText = crIBeam
@@ -197,6 +198,7 @@ object fmFind: TfmFind
       Colors.TextSelFont = clHighlightText
       Colors.TextSelBG = clHighlight
       Colors.Caret = clBlack
+      Colors.Markers = 192
       Colors.GutterFont = clGray
       Colors.GutterBG = 14737632
       Colors.GutterCaretBG = 13158600
@@ -265,6 +267,7 @@ object fmFind: TfmFind
       OptCaretBlinkEnabled = True
       OptCaretStopUnfocused = True
       OptCaretPreferLeftSide = True
+      OptMarkersSize = 4
       OptGutterVisible = False
       OptGutterPlusSize = 4
       OptGutterShowFoldAlways = True
@@ -350,6 +353,7 @@ object fmFind: TfmFind
       ParentFont = False
       TabOrder = 1
       TabStop = True
+      OnEnter = edRepEnter
       OnKeyDown = edFindKeyDown
       CursorText = crIBeam
       CursorBm = crHandPoint
@@ -360,6 +364,7 @@ object fmFind: TfmFind
       Colors.TextSelFont = clHighlightText
       Colors.TextSelBG = clHighlight
       Colors.Caret = clBlack
+      Colors.Markers = 192
       Colors.GutterFont = clGray
       Colors.GutterBG = 14737632
       Colors.GutterCaretBG = 13158600
@@ -428,6 +433,7 @@ object fmFind: TfmFind
       OptCaretBlinkEnabled = True
       OptCaretStopUnfocused = True
       OptCaretPreferLeftSide = True
+      OptMarkersSize = 4
       OptGutterVisible = False
       OptGutterPlusSize = 4
       OptGutterShowFoldAlways = True
