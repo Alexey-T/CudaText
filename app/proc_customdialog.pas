@@ -182,6 +182,9 @@ begin
         begin
           Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
+          {$ifdef darwin}
+          Ctl.Height:= 23; //set smaller size
+          {$endif}
         end;
       if SValue='radiogroup' then
         Ctl:= TRadioGroup.Create(AForm);
@@ -240,10 +243,15 @@ begin
         (Ctl as TSpinEdit).MaxValue:= StrToIntDef(SGetItem(SValue), 100);
         (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
       end;
+
       if Ctl is TMemo then
       begin
         //RO
-        (Ctl as TMemo).ReadOnly:= StrToBool(SGetItem(SValue));
+        if StrToBool(SGetItem(SValue)) then
+        begin
+          (Ctl as TMemo).ReadOnly:= true;
+          (Ctl as TMemo).ParentColor:= true;
+        end;
         //Monospaced
         if StrToBool(SGetItem(SValue)) then
           Ctl.Font.Name:= 'Courier New';
