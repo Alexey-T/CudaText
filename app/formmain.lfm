@@ -787,13 +787,13 @@ object fmMain: TfmMain
       object mnuOpMore: TMenuItem
         Caption = 'Settings - more'
         object mnuOpLexer: TMenuItem
-          Caption = 'Settings - lexer override'
+          Caption = 'Settings - lexer'
         end
         object mnuOpFileTypes: TMenuItem
           Caption = 'Settings - file types'
         end
         object mnuOpColors: TMenuItem
-          Caption = 'Settings - color theme'
+          Caption = 'Settings - colors'
         end
         object mnuOpKeys: TMenuItem
           Caption = 'Settings - keys'

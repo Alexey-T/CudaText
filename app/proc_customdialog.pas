@@ -183,7 +183,7 @@ begin
           Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
           {$ifdef darwin}
-          Ctl.Height:= 23; //set smaller size
+          Ctl.Height:= 21; //set smaller size
           {$endif}
         end;
       if SValue='radiogroup' then

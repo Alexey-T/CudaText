@@ -12,3 +12,6 @@ def _reset_plugins(dir):
             exec('global %s; del %s' % (name, name))
             if s in sys.modules:
                 del sys.modules[s]
+            submods = [sm for sm in sys.modules.keys() if sm.startswith(s+'.')]
+            for sm in submods:
+                del sys.modules[sm]
