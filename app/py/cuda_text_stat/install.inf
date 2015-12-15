@@ -1,0 +1,10 @@
+[info]
+title=Text Statistics
+desc=Shows for current text: count of lines, words, letters, all chars
+type=cudatext-plugin
+subdir=cuda_text_stat
+
+[item1]
+section=commands
+caption=Text Statistics
+method=run

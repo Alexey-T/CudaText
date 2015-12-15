@@ -1,6 +1,6 @@
 [info]
-title=CudaText Extentions
-desc=New commands for CudaText
+title=CudaExt
+desc=Additional commands for CudaText in Commands dialog (not visible in Plugins menu)
 type=cudatext-plugin
 subdir=cuda_ext
 

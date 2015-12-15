@@ -240,6 +240,14 @@ begin
         (Ctl as TSpinEdit).MaxValue:= StrToIntDef(SGetItem(SValue), 100);
         (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
       end;
+      if Ctl is TMemo then
+      begin
+        //RO
+        (Ctl as TMemo).ReadOnly:= StrToBool(SGetItem(SValue));
+        //Monospaced
+        if StrToBool(SGetItem(SValue)) then
+          Ctl.Font.Name:= 'Courier New';
+      end;
       Continue;
     end;
 

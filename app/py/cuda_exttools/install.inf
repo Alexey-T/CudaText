@@ -1,0 +1,14 @@
+[info]
+title=ExtTools
+desc=Adds support for calling external programs in CudaText
+type=cudatext-plugin
+subdir=cuda_exttools
+
+[item1]
+section=events
+events=on_start
+
+[item2]
+section=commands
+caption=ExtTools
+method=dlg_config
