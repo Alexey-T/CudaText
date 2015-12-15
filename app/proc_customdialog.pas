@@ -247,6 +247,11 @@ begin
         //Monospaced
         if StrToBool(SGetItem(SValue)) then
           Ctl.Font.Name:= 'Courier New';
+        //Border
+        if StrToBool(SGetItem(SValue)) then
+          (Ctl as TMemo).BorderStyle:= bsSingle
+        else
+          (Ctl as TMemo).BorderStyle:= bsNone;
       end;
       Continue;
     end;
