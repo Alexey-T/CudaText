@@ -246,6 +246,11 @@ begin
     //-------props
     if SName='props' then
     begin
+      if Ctl is TButton then
+      begin
+        (Ctl as TButton).Default:= StrToBool(SGetItem(SValue));
+      end;
+
       if Ctl is TSpinEdit then
       begin
         (Ctl as TSpinEdit).MinValue:= StrToIntDef(SGetItem(SValue), 0);
@@ -263,7 +268,12 @@ begin
         end;
         //Monospaced
         if StrToBool(SGetItem(SValue)) then
+        begin
           Ctl.Font.Name:= 'Courier New';
+          {$ifdef windows}
+          Ctl.Font.Size:= 9;
+          {$endif}
+        end;
         //Border
         if StrToBool(SGetItem(SValue)) then
           (Ctl as TMemo).BorderStyle:= bsSingle

@@ -1,6 +1,10 @@
 import string
 from cudatext import *
 
+if app_api_version()<'1.0.114':
+    msg_box('Hilite Occurrences needs newer app version', MB_OK+MB_ICONWARNING)
+
+
 MIN_LEN = 2
 COLOR_FONT = 0x000000
 COLOR_BG = 0x80FFFF

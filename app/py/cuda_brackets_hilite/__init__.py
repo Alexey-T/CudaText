@@ -3,6 +3,10 @@ import shutil
 from cudatext import *
 from .proc_brackets import *
 
+if app_api_version()<'1.0.114':
+    msg_box('Brackets Hilite needs newer app version', MB_OK+MB_ICONWARNING)
+    
+
 MARKTAG = 10 #uniq value for all markers plugins
 CANNOT_USE_SEL = False #cannot work if selection
 
