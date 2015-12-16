@@ -487,15 +487,15 @@ var
   Ed: TATSynEdit;
   ComArray: Variant;
   Mark: TATMarkerItem;
-  Id, X, Y, NLen, i: integer;
+  Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
   NFontBold, NFontItalic, NFontStrike: integer;
   Obj: TATLinePartClass;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiii:attr',
-      @H, @Id, @X, @Y, @NLen,
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiiii:attr',
+      @H, @Id, @NTag, @X, @Y, @NLen,
       @NColorFont, @NColorBg, @NColorBorder,
       @NFontBold, @NFontItalic, @NFontStrike,
       @NBorderL, @NBorderR, @NBorderD, @NBorderU
@@ -509,24 +509,25 @@ begin
             NLen:= Ed.Attribs.Count;
             if NLen>0 then
             begin
-              ComArray:= VarArrayCreate([0, NLen-1, 0, 12], varInteger);
+              ComArray:= VarArrayCreate([0, NLen-1, 0, 13], varInteger);
               for i:= 0 to NLen-1 do
               begin
                 Mark:= Ed.Attribs[i];
                 Obj:= TATLinePartClass(Mark.Ptr);
-                ComArray[i, 0]:= Mark.PosX;
-                ComArray[i, 1]:= Mark.PosY;
-                ComArray[i, 2]:= Mark.SelLen;
-                ComArray[i, 3]:= Obj.Data.ColorFont;
-                ComArray[i, 4]:= Obj.Data.ColorBG;
-                ComArray[i, 5]:= Obj.Data.ColorBorder;
-                ComArray[i, 6]:= Ord(Obj.Data.FontBold);
-                ComArray[i, 7]:= Ord(Obj.Data.FontItalic);
-                ComArray[i, 8]:= Ord(Obj.Data.FontStrikeOut);
-                ComArray[i, 9]:= Ord(Obj.Data.BorderLeft);
-                ComArray[i, 10]:= Ord(Obj.Data.BorderRight);
-                ComArray[i, 11]:= Ord(Obj.Data.BorderDown);
-                ComArray[i, 12]:= Ord(Obj.Data.BorderUp);
+                ComArray[i, 0]:= Mark.Tag;
+                ComArray[i, 1]:= Mark.PosX;
+                ComArray[i, 2]:= Mark.PosY;
+                ComArray[i, 3]:= Mark.SelLen;
+                ComArray[i, 4]:= Obj.Data.ColorFont;
+                ComArray[i, 5]:= Obj.Data.ColorBG;
+                ComArray[i, 6]:= Obj.Data.ColorBorder;
+                ComArray[i, 7]:= Ord(Obj.Data.FontBold);
+                ComArray[i, 8]:= Ord(Obj.Data.FontItalic);
+                ComArray[i, 9]:= Ord(Obj.Data.FontStrikeOut);
+                ComArray[i, 10]:= Ord(Obj.Data.BorderLeft);
+                ComArray[i, 11]:= Ord(Obj.Data.BorderRight);
+                ComArray[i, 12]:= Ord(Obj.Data.BorderDown);
+                ComArray[i, 13]:= Ord(Obj.Data.BorderUp);
               end;
               Result:= VariantAsPyObject(ComArray);
             end
@@ -548,7 +549,7 @@ begin
             Obj.Data.BorderDown:= TATLineStyle(NBorderD);
             Obj.Data.BorderUp:= TATLineStyle(NBorderU);
 
-            Ed.Attribs.Add(X, Y, 0, NLen, Obj);
+            Ed.Attribs.Add(X, Y, NTag, NLen, Obj);
             Ed.Update;
             fmMain.UpdateStatus;
             Result:= PyInt_FromLong(Ed.Attribs.Count);
@@ -566,6 +567,16 @@ begin
           begin
             if Ed.Attribs.Count>0 then
               Ed.Attribs.Delete(Ed.Attribs.Count-1);
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
+        MARKERS_DELETE_BY_TAG:
+          begin
+            for i:= Ed.Attribs.Count-1 downto 0 do
+              if Ed.Attribs[i].Tag=NTag then
+                Ed.Attribs.Delete(i);
             Ed.Update;
             fmMain.UpdateStatus;
             Result:= ReturnNone;

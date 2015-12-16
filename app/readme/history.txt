@@ -1,4 +1,7 @@
 
+1.2.x
++ cmd "reset Python plugins" improved
+
 1.2.8
 + custom-dialog api
 + dlg "Goto tab" shows paths

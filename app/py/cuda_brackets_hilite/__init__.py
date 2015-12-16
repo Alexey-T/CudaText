@@ -3,6 +3,9 @@ import shutil
 from cudatext import *
 from .proc_brackets import *
 
+MARKTAG = 10 #uniq value for all markers plugins
+CANNOT_USE_SEL = False #cannot work if selection
+
 NAME_INI = 'cuda_brackets_hilite.ini'
 ini_app = os.path.join(app_path(APP_DIR_SETTINGS), NAME_INI)
 ini_def = os.path.join(os.path.dirname(__file__), NAME_INI)
@@ -51,14 +54,15 @@ class Command:
         try:
             marks = ed.attr(MARKERS_GET)
             if marks:
-                ed.attr(MARKERS_DELETE_ALL)
+                ed.attr(MARKERS_DELETE_BY_TAG, MARKTAG)
     
             carets = ed.get_carets()
             if len(carets)!=1: 
                 return
             x, y, x1, y1 = carets[0]
-            if x1>=0:
-                return
+            if CANNOT_USE_SEL:
+                if x1>=0:
+                    return
 
             chars = get_chars()
             if not chars: return
@@ -68,8 +72,8 @@ class Command:
                 return
             x1, y1 = res
         
-            ed.attr(MARKERS_ADD, x, y, 1, COLOR_FONT, COLOR_BG)
-            ed.attr(MARKERS_ADD, x1, y1, 1, COLOR_FONT, COLOR_BG)
+            ed.attr(MARKERS_ADD, MARKTAG, x, y, 1, COLOR_FONT, COLOR_BG)
+            ed.attr(MARKERS_ADD, MARKTAG, x1, y1, 1, COLOR_FONT, COLOR_BG)
         finally:    
             self.entered=False
         

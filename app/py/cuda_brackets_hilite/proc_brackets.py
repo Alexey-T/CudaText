@@ -2,6 +2,7 @@
 #example of chars: "()[]{}"
 def find_matching_bracket(ed, from_x, from_y, chars):
     line = ed.get_text_line(from_y)
+    if line is None: return
     if not from_x in range(len(line)): return
     ch = line[from_x]
     pos = chars.find(ch)
