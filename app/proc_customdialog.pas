@@ -74,6 +74,7 @@ begin
   if C is TMemo then
   begin
     Result:= (C as TMemo).Lines.Text;
+    Result:= StringReplace(Result, #9, #2, [rfReplaceAll]);
     Result:= StringReplace(Result, #13#10, #9, [rfReplaceAll]);
     Result:= StringReplace(Result, #13, #9, [rfReplaceAll]);
     Result:= StringReplace(Result, #10, #9, [rfReplaceAll]);
