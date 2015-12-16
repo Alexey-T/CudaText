@@ -145,6 +145,9 @@ procedure TfmKeys.DoUpdate;
 begin
   labelKey1.caption:= '1) '+ KeyArrayToString(Keys1);
   labelKey2.caption:= '2) '+ KeyArrayToString(Keys2);
+
+  bAdd1.Enabled:= KeyArrayLength(Keys1)<cMaxKeyCombo;
+  bAdd2.Enabled:= KeyArrayLength(Keys2)<cMaxKeyCombo;
 end;
 
 end.
