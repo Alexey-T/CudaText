@@ -1,6 +1,8 @@
 
-1.2.x
+1.2.9
+* changed color-attrib api (pls update plugins BracketsHilite, HiliteOccurrences)
 + cmd "reset Python plugins" improved
+- small fixes
 
 1.2.8
 + custom-dialog api

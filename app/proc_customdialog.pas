@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
   CheckLst, Spin,
+  LclProc, LclType,
   ATStringProc;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
@@ -17,6 +18,14 @@ implementation
 
 const
   cButtonResultStart=100;
+
+type
+  { TDummyClass }
+  TDummyClass = class
+  public
+    Form: TForm;
+    procedure DoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  end;
 
 function StrToBool(const S: string): boolean;
 begin
@@ -312,11 +321,13 @@ var
   F: TForm;
   Res, NIndex: integer;
   SItem: string;
+  Dummy: TDummyClass;
 begin
   AButtonIndex:= -1;
   AStateText:= '';
 
   F:= TForm.Create(nil);
+  Dummy:= TDummyClass.Create;
   try
     F.BorderStyle:= bsDialog;
     F.Position:= poDesktopCenter;
@@ -337,6 +348,10 @@ begin
         if F.Controls[AFocusedIndex] is TWinControl then
           F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
 
+    Dummy.Form:= F;
+    F.KeyPreview:= true;
+    F.OnKeyDown:= @Dummy.DoKeyDown;
+
     Res:= F.ShowModal;
     if Res>=cButtonResultStart then
     begin
@@ -345,8 +360,24 @@ begin
     end;
   finally
     FreeAndNil(F);
+    FreeAndNil(Dummy);
   end;
 end;
+
+{ TDummyClass }
+
+procedure TDummyClass.DoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key=VK_ESCAPE) then
+  begin
+    if Assigned(Form) then
+      Form.ModalResult:= mrCancel;
+    Key:= 0;
+    exit;
+  end;
+end;
+
 
 end.
 
