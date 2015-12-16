@@ -1,6 +1,7 @@
 
 1.2.9
 * changed color-attrib api (pls update plugins BracketsHilite, HiliteOccurrences)
+* limit key-combo len to 3
 + cmd "reset Python plugins" improved
 - small fixes
 
