@@ -1,7 +1,8 @@
 
 0.6.5
 + needs newer Cudatext (attrib api change)
-+ can work with sel
++ cmd "select to bracket"
++ allows selectn
 
 0.6.1
 + rewrite of findin

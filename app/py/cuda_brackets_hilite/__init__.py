@@ -81,8 +81,12 @@ class Command:
         finally:    
             self.entered=False
         
-
-    def run(self):
+    def jump(self):
+        self.do_find(True)
+    def select(self):
+        self.do_find(False)
+        
+    def do_find(self, is_jump):
         carets = ed.get_carets()
         if len(carets)!=1:
             msg_status('Cannot goto bracket if multi-carets')
@@ -100,7 +104,15 @@ class Command:
         if res is None:
             msg_status('Cannot find matching bracket')
             return
-        x, y = res
-        ed.set_caret(x, y)
-        msg_status('Go to bracket done')
+        x1, y1 = res
         
+        if is_jump:
+            ed.set_caret(x1, y1)
+            msg_status('Go to bracket')
+        else:
+            #select from (x,y) to (x1,y1)
+            if (y1>y) or ((y1==y) and (x1>x)):
+                ed.set_caret(x1+1, y1, x, y) #sel down
+            else:
+                ed.set_caret(x1, y1, x+1, y) #sel up
+            msg_status('Selected to bracket')
