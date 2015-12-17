@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
-  CheckLst, Spin,
+  CheckLst, Spin, ComCtrls,
   LclProc, LclType,
   ATStringProc;
 
@@ -93,6 +93,9 @@ begin
 
   if C is TSpinEdit then
     Result:= IntToStr((C as TSpinEdit).Value);
+
+  if C is TListView then
+    Result:= IntToStr((C as TListView).ItemIndex);
 end;
 
 
@@ -146,10 +149,39 @@ begin
 end;
 
 
+procedure DoSetListviewItem(C: TListView; SListItem: string);
+var
+  SItem: string;
+begin
+  if C.Columns.Count=0 then
+  begin
+    repeat
+      SItem:= SGetItem(SListItem, #13);
+      if SItem='' then break;
+      with C.Columns.Add do
+      begin
+        Caption:= SGetItem(SItem, '=');
+        Width:= StrToIntDef(SItem, 50);
+      end;
+    until false;
+  end
+  else
+  begin
+    SItem:= SGetItem(SListItem, #13);
+    C.Items.Add.Caption:= SItem;
+    repeat
+      SItem:= SGetItem(SListItem, #13);
+      if SItem='' then break;
+      C.Items[C.Items.Count-1].SubItems.Add(SItem);
+    until false;
+  end;
+end;
+
+
 procedure DoAddControl(AForm: TForm; ATextItems: string);
 var
   SNameValue, SName, SValue, SListItem: string;
-  NX1, NX2, NY1, NY2: integer;
+  NX1, NX2, NY1, NY2, N: integer;
   Ctl, CtlPrev: TControl;
 begin
   Ctl:= nil;
@@ -203,6 +235,16 @@ begin
       if SValue='checklistbox' then
         Ctl:= TCheckListBox.Create(AForm);
 
+      if SValue='listview' then
+      begin
+        Ctl:= TListView.Create(AForm);
+        (Ctl as TListView).ReadOnly:= true;
+        (Ctl as TListView).ColumnClick:= false;
+        (Ctl as TListView).ViewStyle:= vsReport;
+        (Ctl as TListView).RowSelect:= true;
+      end;
+
+      //set parent
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
       Continue;
@@ -304,6 +346,7 @@ begin
         if Ctl is TCheckGroup then (Ctl as TCheckGroup).Items.Add(SListItem);
         if Ctl is TRadioGroup then (Ctl as TRadioGroup).Items.Add(SListItem);
         if Ctl is TCheckListBox then (Ctl as TCheckListBox).Items.Add(SListItem);
+        if Ctl is TListView then DoSetListviewItem(Ctl as TListView, SListItem);
       until false;
       Continue;
     end;
@@ -327,6 +370,14 @@ begin
       if Ctl is TCheckListBox then DoSetChecklistState(Ctl, SValue);
       if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
       if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
+      if Ctl is TListView then
+        with (Ctl as TListView) do
+        begin
+          N:= StrToIntDef(SValue, 0);
+          if (N>=0) and (N<Items.Count) then
+            ItemFocused:= Items[N];
+        end;
+
       Continue;
     end;
 
@@ -339,7 +390,7 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 var
   F: TForm;
-  Res, NIndex: integer;
+  Res: integer;
   SItem: string;
   Dummy: TDummyClass;
 begin
