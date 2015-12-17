@@ -278,17 +278,20 @@ begin
   AHandled:= true;
   if not Groups.Enabled then Exit;
 
-  //special handle of call-Find-Goto: it's not ok to handle via timer,
+  //immediate handle some commands: (not ok via timer)
   //timer delay makes bug: Ctrl+F Ctrl+V paste text into editor (if fast)
   if (ACommand=cmd_DialogFind) or
      (ACommand=cmd_DialogReplace) or
-     (ACommand=cmd_DialogGoto) then
+     (ACommand=cmd_DialogGoto) or
+     (ACommand=cmd_FileSave) or
+     (ACommand=cmd_FileSaveAll) then
   begin
     TimerCmd.Tag:= ACommand;
     TimerCmdTimer(nil);
     exit
   end;
 
+  //others handled via timer
   Ed:= Sender as TATSynEdit;
   Frame:= GetEditorFrame(Ed);
 
