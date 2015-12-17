@@ -292,14 +292,16 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
 
 * "props": control-specific properties:
+** for button: default_for_enter (bool value, "1"/"0")
+** for memo: read_only+","+font_monospaced+","+border (bool values, "1"/"0")
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
 
 * "val": value of control (not for all):
 ** for check, radio: "1"/"0" for on/off
 ** for edit: text
-** for memo: "\t"-separated lines
-** for combo, listbox, radiogroup: index of selected item (as str)
-** for combo_ro: text
+** for memo: "\t"-separated lines (in lines "\t" must be replaced to chr(2))
+** for combo: text
+** for combo_ro, listbox, radiogroup: index of selected item (as str)
 ** for checkgroup, checklistbox: ","-separated check-flags for items ("0"/"1")
 ** for spinedit: text
 
@@ -667,7 +669,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of id:
 
 ===attr===
 
- attr(id, x=0, y=0, len=0,
+ attr(id, tag=0, x=0, y=0, len=0,
       color_font=0, color_bg=0, color_border=0,
       font_bold=0, font_italic=0, font_strikeout=0,
       border_left=0, border_right=0, border_down=0, border_up=0 )
@@ -675,6 +677,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of id:
 Controls additional color attributes. Possible values of id:
 
 * MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Props:
+** tag: any int value attached to fragment (several plugins must add fragments with different tags, to be able to remove only fragments for them)
 ** x, y: position of fragment start (like caret).
 ** len: length of fragment.
 ** color_nnnn: RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
@@ -683,6 +686,7 @@ Controls additional color attributes. Possible values of id:
 * MARKERS_GET: Gets list of fragments, each item is list, int fields, same as function params.
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
+* MARKERS_DELETE_BY_TAG: Deletes all fragments for specified tag value.
 
 ==Misc==
 
@@ -753,6 +757,11 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.114
+
+* change: attr() has param "tag"
+* small addons for dlg_custom
 
 1.0.113
 
