@@ -44,8 +44,8 @@ begin
     (C is TSpinEdit);
 end;
 
-
-function DoGetControlResult(C: TControl): string;
+function DoGetListviewState(C: TListView): string; forward;
+function DoGetControlState(C: TControl): string;
 var
   i: integer;
 begin
@@ -95,7 +95,7 @@ begin
     Result:= IntToStr((C as TSpinEdit).Value);
 
   if C is TListView then
-    Result:= IntToStr((C as TListView).ItemIndex);
+    Result:= DoGetListviewState(C as TListView);
 end;
 
 
@@ -107,7 +107,7 @@ begin
   Result:= '';
   for i:= 0 to AForm.ControlCount-1 do
   begin
-    Str:= DoGetControlResult(AForm.Controls[i]);
+    Str:= DoGetControlState(AForm.Controls[i]);
     if Result<>'' then Result:= Result+#10;
     Result:= Result+Str;
   end;
@@ -178,6 +178,48 @@ begin
 end;
 
 
+procedure DoSetListviewState(C: TListView; SValue: string);
+var
+  N: integer;
+  SItem: string;
+begin
+  if not C.Checkboxes then
+  begin
+    N:= StrToIntDef(SValue, 0);
+    if (N>=0) and (N<C.Items.Count) then
+      C.ItemFocused:= C.Items[N];
+  end
+  else
+  begin
+    N:= 0;
+    repeat
+      if N>=C.Items.Count then break;
+      SItem:= SGetItem(SValue);
+      if SItem='' then break;
+      C.Items[N].Checked:= StrToBool(SItem);
+      Inc(N);
+    until false;
+    C.ItemFocused:= C.Items[0];
+  end;
+end;
+
+
+function DoGetListviewState(C: TListView): string;
+var
+  i: integer;
+begin
+  if not C.Checkboxes then
+    Result:= IntToStr(C.ItemIndex)
+  else
+  begin
+    Result:= '';
+    for i:= 0 to C.Items.Count-1 do
+      Result:= Result+IntToStr(Ord(C.Items[i].Checked))+',';
+  end;
+
+end;
+
+
 procedure DoAddControl(AForm: TForm; ATextItems: string);
 var
   SNameValue, SName, SValue, SListItem: string;
@@ -235,13 +277,15 @@ begin
       if SValue='checklistbox' then
         Ctl:= TCheckListBox.Create(AForm);
 
-      if SValue='listview' then
+      if (SValue='listview') or
+         (SValue='checklistview') then
       begin
         Ctl:= TListView.Create(AForm);
         (Ctl as TListView).ReadOnly:= true;
         (Ctl as TListView).ColumnClick:= false;
         (Ctl as TListView).ViewStyle:= vsReport;
         (Ctl as TListView).RowSelect:= true;
+        (Ctl as TListView).Checkboxes:= (SValue='checklistview');
       end;
 
       //set parent
@@ -370,13 +414,7 @@ begin
       if Ctl is TCheckListBox then DoSetChecklistState(Ctl, SValue);
       if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
       if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
-      if Ctl is TListView then
-        with (Ctl as TListView) do
-        begin
-          N:= StrToIntDef(SValue, 0);
-          if (N>=0) and (N<Items.Count) then
-            ItemFocused:= Items[N];
-        end;
+      if Ctl is TListView then DoSetListviewState(Ctl as TListView, SValue);
 
       Continue;
     end;
