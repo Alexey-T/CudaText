@@ -200,7 +200,6 @@ type
     mnuSortSub: TMenuItem;
     mnuSortAsc: TMenuItem;
     mnuSortDesc: TMenuItem;
-    mnuGotoTab: TMenuItem;
     mnuBmPrev: TMenuItem;
     mnuBmNext: TMenuItem;
     mnuGotoBm: TMenuItem;
@@ -570,7 +569,6 @@ type
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
     procedure DoDialogLexerLib;
     procedure DoDialogLoadLexerStyles;
-    procedure DoDialogGotoTab;
     procedure DoDialogColors;
     procedure DoShowConsole;
     procedure DoShowOutput;
@@ -1723,51 +1721,6 @@ begin
   MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 end;
 
-procedure TfmMain.DoDialogGotoTab;
-var
-  Form: TfmGotoList;
-  Num: integer;
-  items: TStringlist;
-  str, fn: string;
-  i: integer;
-begin
-  items:= TStringlist.Create;
-  try
-    for i:= 0 to FrameCount-1 do
-    begin
-      str:= Frames[i].TabCaption;
-      fn:= Frames[i].FileName;
-      if fn<>'' then
-        str:= str+'  ('+ExtractFileDir(fn)+')';
-      items.AddObject(str, TObject(ptrint(i)));
-    end;
-
-    Num:= -1;
-    Form:= TfmGotoList.Create(Self);
-    try
-      UpdateInputForm(Form,
-        Form.list.ItemHeight*UiOps.ListboxItemCountTabs +
-        Form.List.BorderSpacing.Around*2);
-      Form.Items:= items;
-      Form.ShowModal;
-      if Form.ResultIndex>=0 then
-        Num:= ptrint(items.Objects[Form.ResultIndex]);
-    finally
-      FreeAndNil(Form);
-    end;
-  finally
-    FreeAndNil(items);
-  end;
-
-  if Num<0 then
-  begin
-    MsgStatus(msgStatusCancel);
-    Exit
-  end;
-
-  SetFrame(Frames[Num]);
-  MsgStatus(Format(msgStatusGotoTab, [CurrentFrame.TabCaption]));
-end;
 
 procedure TfmMain.DoDialogColors;
 const

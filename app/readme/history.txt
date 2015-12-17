@@ -1,8 +1,10 @@
 
 1.2.9
-* changed color-attrib api (pls update plugins BracketsHilite, HiliteOccurrences)
-* limit key-combo len to 3
-+ cmd "reset Python plugins" improved
+* removed cmd "search - go to tab" (better doable in plugin)
+* change: color-attrib api (pls update plugins BracketsHilite, HiliteOccurrences)
+* change: limit key-combo len to 3
++ improve dialog api
++ improve cmd "reset Python plugins"
 - small fixes
 
 1.2.8

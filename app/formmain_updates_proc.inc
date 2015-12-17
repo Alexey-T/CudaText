@@ -451,7 +451,6 @@ begin
   UpKey(mnuFindWordPrev, cmd_FindCurWordPrev);
 
   UpKey(mnuGotoLine, cmd_DialogGoto);
-  UpKey(mnuGotoTab, cmd_DialogTabs);
   UpKey(mnuGotoBm, cmd_DialogGotoBookmark);
 
   UpKey(mnuBmNext, cmd_BookmarkGotoNext);

@@ -646,9 +646,6 @@ object fmMain: TfmMain
       object mnuGotoLine: TMenuItem
         Caption = 'Go to line...'
       end
-      object mnuGotoTab: TMenuItem
-        Caption = 'Go to tab...'
-      end
       object mnuGotoBm: TMenuItem
         Caption = 'Go to bookmark...'
       end
