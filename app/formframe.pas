@@ -1117,6 +1117,7 @@ begin
     caret.EndX:= c.GetValue(path+cSavCaret+'/x2', -1);
     caret.EndY:= c.GetValue(path+cSavCaret+'/y2', -1);
     Editor.UpdateIncorrectCaretPositions;
+    Editor.DoEventCarets;
   end;
 
   //bookmarks
