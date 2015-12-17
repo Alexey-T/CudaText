@@ -146,11 +146,11 @@ begin
 end;
 
 
-procedure DoAddControl(AForm: TForm; ATextItems: string; AControlIndex: integer);
+procedure DoAddControl(AForm: TForm; ATextItems: string);
 var
   SNameValue, SName, SValue, SListItem: string;
   NX1, NX2, NY1, NY2: integer;
-  Ctl: TControl;
+  Ctl, CtlPrev: TControl;
 begin
   Ctl:= nil;
 
@@ -191,7 +191,7 @@ begin
       if SValue='button' then
         begin
           Ctl:= TButton.Create(AForm);
-          (Ctl as TButton).ModalResult:= cButtonResultStart+AControlIndex;
+          (Ctl as TButton).ModalResult:= cButtonResultStart+ AForm.ControlCount;
           {$ifdef darwin}
           Ctl.Height:= 21; //set smaller size
           {$endif}
@@ -210,6 +210,15 @@ begin
 
     //first name must be "type"
     if not Assigned(Ctl) then exit;
+
+    //adjust previous label's FocusControl
+    if Ctl is TWinControl then
+      if AForm.ControlCount>=2 then
+      begin
+        CtlPrev:= AForm.Controls[AForm.ControlCount-2];
+        if CtlPrev is TLabel then
+          (CtlPrev as TLabel).FocusControl:= Ctl as TWinControl;
+      end;
 
     //-------en
     if SName='en' then
@@ -346,12 +355,10 @@ begin
     F.Height:= ASizeY;
     F.Caption:= ATitle;
 
-    NIndex:= 0;
     repeat
       SItem:= SGetItem(AText, #10);
       if SItem='' then break;
-      DoAddControl(F, SItem, NIndex);
-      Inc(NIndex);
+      DoAddControl(F, SItem);
     until false;
 
     if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
