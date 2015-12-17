@@ -2247,7 +2247,7 @@ begin
     fmConsole.ed.Focused or
     fmConsole.memo.Focused;
   if not EdFocus then
-    if (Cmd>0) and (Cmd<cmd_First) then exit;
+    if (Cmd>0) and (Cmd<cmdFirstAppCommand) then exit;
 
   //-1 means run plugin: Hint='module,method,param'
   if (Cmd=-1) then

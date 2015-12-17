@@ -16,8 +16,11 @@ uses
   ATSynEdit_Keymap;
 
 procedure InitKeymapForApplication(M: TATKeymap);
+function IsCommandForMacros(Cmd: integer): boolean;
+function IsCommandNeedTimer(Cmd: integer): boolean;
 
 const
+  cmdFirstAppCommand = 2500;
   cmdFirstLexerCommand = 6000;
   cmdLastLexerCommand = 6400-1;
   cmdFirstPluginCommand = 6400;
@@ -29,7 +32,6 @@ const
   cmd_FinderAction = 2492;
 
   //normal commands
-  cmd_First = 2500;
   cmd_FileNew            = 2500;
   cmd_FileOpen           = 2501;
   cmd_FileSave           = 2502;
@@ -216,7 +218,6 @@ const
   cmd_MacroStop                  = 2811;
   cmd_MacroCancel                = 2812;
 
-function IsCommandForMacros(Cmd: integer): boolean;
 
 
 implementation
@@ -418,10 +419,106 @@ begin
 
 end;
 
+
+function IsCommandNeedTimer(Cmd: integer): boolean;
+begin
+  case Cmd of
+    0..Pred(cmdFirstAppCommand):
+      Result:= false;
+
+    cmdFirstLexerCommand..cmdLastLexerCommand,
+    cmdFirstPluginCommand..cmdLastPluginCommand:
+      Result:= true;
+
+    cmd_FileNew               ,
+    cmd_FileOpen              ,
+    cmd_FileReopen            ,
+    cmd_FileExit              ,
+    cmd_FileClose             ,
+    cmd_FileCloseOtherThis    ,
+    cmd_FileCloseOtherAll     ,
+    cmd_FileCloseAll          ,
+    cmd_FileCloseAndDelete    ,
+    cmd_FileExportHtml        ,
+
+    cmd_OpsClearRecent        ,
+    cmd_OpsOpenDefault        ,
+    cmd_OpsOpenUser           ,
+    cmd_OpsOpenLexerOvr       ,
+    cmd_OpsOpenFileTypes      ,
+    cmd_OpsFontText           ,
+    cmd_OpsFontUi             ,
+    cmd_DialogSaveTabs        ,
+    cmd_ToggleFullScreen      ,
+    cmd_OpsReloadAndApply     ,
+    cmd_DialogLexerProp       ,
+    cmd_DialogLexerLib        ,
+    cmd_DialogColors          ,
+    cmd_ToggleSidePanel       ,
+    cmd_ToggleBottomPanel     ,
+    cmd_ShowPanelConsole      ,
+    cmd_ShowPanelOutput       ,
+    cmd_ShowPanelValidate     ,
+    cmd_ToggleFindDialog      ,
+    cmd_DialogLoadLexerStyles,
+    cmd_ToggleToolbar       ,
+    cmd_ToggleStatusbar     ,
+    cmd_ResetPythonPlugins  ,
+    cmd_DialogCharMap       ,
+    cmd_RunLastCommandPlugin ,
+
+    cmd_DialogGotoBookmark,
+    cmd_DialogCommands   ,
+
+    cmd_SplitTabToggle    ,
+    cmd_SplitTabHorzVert  ,
+    cmd_SplitTab3070      ,
+    cmd_SplitTab4060      ,
+    cmd_SplitTab5050      ,
+    cmd_SplitTab6040      ,
+    cmd_SplitTab7030      ,
+
+    cmd_Groups1      ,
+    cmd_Groups2horz  ,
+    cmd_Groups2vert  ,
+    cmd_Groups3horz  ,
+    cmd_Groups3vert  ,
+    cmd_Groups3plus  ,
+    cmd_Groups4horz  ,
+    cmd_Groups4vert  ,
+    cmd_Groups4grid  ,
+    cmd_Groups6grid  ,
+
+    cmd_GroupActivateNext ,
+    cmd_GroupActivatePrev ,
+
+    cmd_MoveTabToGroupNext ,
+    cmd_MoveTabToGroupPrev ,
+
+    cmd_MenuEnc           ,
+    cmd_MenuEnds          ,
+    cmd_MenuLexers        ,
+
+    cmd_AutoComplete      ,
+    cmd_GotoDefinition    ,
+
+    cmd_HelpAbout     ,
+    cmd_HelpForum     ,
+    cmd_HelpWiki      ,
+    cmd_HelpMouse     ,
+    cmd_HelpChangelog ,
+    cmd_HelpLexers    :
+      Result:= true;
+
+    else
+      Result:= false;
+  end;
+end;
+
 function IsCommandForMacros(Cmd: integer): boolean;
 begin
   case Cmd of
-    1..Pred(cmd_First):
+    1..Pred(cmdFirstAppCommand):
       Result:= true;
 
     cmdFirstLexerCommand..cmdLastLexerCommand,

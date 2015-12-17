@@ -278,20 +278,6 @@ begin
   AHandled:= true;
   if not Groups.Enabled then Exit;
 
-  //immediate handle some commands: (not ok via timer)
-  //timer delay makes bug: Ctrl+F Ctrl+V paste text into editor (if fast)
-  if (ACommand=cmd_DialogFind) or
-     (ACommand=cmd_DialogReplace) or
-     (ACommand=cmd_DialogGoto) or
-     (ACommand=cmd_FileSave) or
-     (ACommand=cmd_FileSaveAll) then
-  begin
-    TimerCmd.Tag:= ACommand;
-    TimerCmdTimer(nil);
-    exit
-  end;
-
-  //others handled via timer
   Ed:= Sender as TATSynEdit;
   Frame:= GetEditorFrame(Ed);
 
@@ -304,6 +290,22 @@ begin
           Str:= Str+','+AText;
         Frame.MacroString:= Frame.MacroString+(Str+#10);
       end;
+
+  //handle commands cmd_
+  if (ACommand>=cmdFirstAppCommand) and
+     (ACommand<cmdLastPluginCommand) then
+    if IsCommandNeedTimer(ACommand) then
+    begin
+      TimerCmd.Tag:= ACommand;
+      TimerCmd.Enabled:= true;
+      exit
+    end
+    else
+    begin
+      TimerCmd.Tag:= ACommand;
+      TimerCmdTimer(nil);
+      exit
+    end;
 
   case ACommand of
     cCommand_KeyTab:
@@ -324,14 +326,9 @@ begin
     cmd_FinderAction:
       DoFindActionFromString(AText);
 
-    cmd_First..cCmdSelKeep-1: //don't take too big ints
-      begin
-        TimerCmd.Tag:= ACommand;
-        TimerCmd.Enabled:= true;
-      end;
-
     else
       AHandled:= false;
   end;
 end;
+
 
