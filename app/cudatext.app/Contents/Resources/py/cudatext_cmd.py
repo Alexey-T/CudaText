@@ -196,7 +196,7 @@ cmd_RunLastCommandPlugin = 2545
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581
 cmd_DialogCommands   = 2582
-cmd_DialogTabs       = 2583
+cmd_DialogTabs       = 2583 #now deleted
 cmd_DialogFind       = 2584
 cmd_DialogReplace    = 2585
 

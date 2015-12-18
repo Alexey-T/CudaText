@@ -57,6 +57,7 @@ MARKERS_GET = 0
 MARKERS_ADD = 1
 MARKERS_DELETE_ALL = 2
 MARKERS_DELETE_LAST = 3
+MARKERS_DELETE_BY_TAG = 4
 
 TAB_SPLIT_NO = 0
 TAB_SPLIT_HORZ = 1
@@ -334,12 +335,12 @@ class Editor:
     def markers(self, id, x=0, y=0, tag=0, len=0):
         return ct.ed_markers(self.h, id, x, y, tag, len)
         
-    def attr(self, id, x=0, y=0, len=0,
+    def attr(self, id, tag=0, x=0, y=0, len=0,
              color_font=0, color_bg=0, color_border=0,
              font_bold=0, font_italic=0, font_strikeout=0,
              border_left=0, border_right=0, border_down=0, border_up=0
              ):
-        return ct.ed_attr(self.h, id, x, y, len,   
+        return ct.ed_attr(self.h, id, tag, x, y, len,   
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up
