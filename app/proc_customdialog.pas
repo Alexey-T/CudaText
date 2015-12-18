@@ -220,7 +220,8 @@ function DoGetListviewState(C: TListView): string;
 var
   i: integer;
 begin
-  Result:= IntToStr(C.ItemFocused.Index);
+  if Assigned(C.ItemFocused) then
+    Result:= IntToStr(C.ItemFocused.Index);
 
   if C.Checkboxes then
   begin
