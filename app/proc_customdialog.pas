@@ -108,8 +108,7 @@ begin
   for i:= 0 to AForm.ControlCount-1 do
   begin
     Str:= DoGetControlState(AForm.Controls[i]);
-    if Result<>'' then Result:= Result+#10;
-    Result:= Result+Str;
+    Result:= Result+Str+#10;
   end;
 end;
 
