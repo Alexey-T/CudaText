@@ -11,7 +11,7 @@
   <key>CFBundleName</key>
   <string>CudaText</string>
   <key>CFBundleIdentifier</key>
-  <string>com.company.cudatext</string>
+  <string>com.uvviewsoft.cudatext</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundlePackageType</key>
