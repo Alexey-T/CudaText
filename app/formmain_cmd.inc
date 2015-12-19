@@ -17,7 +17,6 @@ begin
   case Cmd of
     cmd_FileNew:             DoFileOpen('');
     cmd_FileOpen:            DoFileOpenDialog;
-    cmd_FileSaveAll:         DoFileSaveAll;
     cmd_FileReopen:          DoFileReopen;
 
     cmd_FileClose:           Groups.CloseTabs(tabCloseCurrent, false);
@@ -25,8 +24,12 @@ begin
     cmd_FileCloseOtherThis:  Groups.CloseTabs(tabCloseOthersThisPage, false);
     cmd_FileCloseOtherAll:   Groups.CloseTabs(tabCloseOthersAllPages, false);
     cmd_FileCloseAndDelete:  DoFileCloseAndDelete;
-    cmd_FileSave:            CurrentFrame.DoFileSave(false, SaveDlg);
+
+    cmd_FileSave:            if CurrentFrame.Modified then
+                               CurrentFrame.DoFileSave(false, SaveDlg);
     cmd_FileSaveAs:          CurrentFrame.DoFileSave(true, SaveDlg);
+    cmd_FileSaveAll:         DoFileSaveAll;
+
     cmd_FileExit:            Close;
     cmd_FileExportHtml:      DoFileExportHtml;
 
