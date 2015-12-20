@@ -18,6 +18,7 @@ class Command:
         if res is None: return
         url = items[res][0]
         #resolve url
+        msg_status('Downloading file...')
         try:
             res = urllib.request.urlopen(url)
             url = res.geturl()
@@ -27,8 +28,9 @@ class Command:
         #download
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
-            msg_status('Cannot download zip')
+            msg_status('Cannot download file')
             return
+        msg_status('Opened downloaded file')
         file_open(fn)
         
 

@@ -1,4 +1,7 @@
 
+1.2.10
++ addon-manager: can install plugins/snippets
+
 1.2.9
 * removed cmd "search - go to tab" (better doable in plugin)
 * change: color-attrib api (pls update plugins BracketsHilite, HiliteOccurrences)
