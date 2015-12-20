@@ -245,9 +245,10 @@ begin
       exit
     end;
 
-    DoAdd(cModuleAddonman, 'do_install', cCaptionAddonman+'\Install lexer...', 0);
-    DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...', 1);
-    DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...', 2);
+    DoAdd(cModuleAddonman, 'do_install_addon', cCaptionAddonman+'\Install plugin...', 0);
+    DoAdd(cModuleAddonman, 'do_install_lexer', cCaptionAddonman+'\Install lexer...', 1);
+    DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...', 2);
+    DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...', 3);
 
     DoAdd(cModuleMake, 'run', cCaptionMake, 0);
     DoAdd(cModuleInsTime, 'run', cCaptionInsTime, 0);

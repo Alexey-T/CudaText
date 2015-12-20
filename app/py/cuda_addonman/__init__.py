@@ -1,11 +1,38 @@
 import os
 from cudatext import *
 from .workremote import *
+from .workremote2 import get_remote_addons_list
 from .worklocal import *
 
 
 class Command:
-    def do_install(self):
+    def do_install_addon(self):
+        msg_status('Downloading list...')
+        items = get_remote_addons_list()
+        msg_status('')
+        if not items:
+            msg_status('Cannot download list')
+            return
+        names = [l[1] for l in items]
+        res = dlg_menu(MENU_LIST, '\n'.join(names))
+        if res is None: return
+        url = items[res][0]
+        #resolve url
+        try:
+            res = urllib.request.urlopen(url)
+            url = res.geturl()
+        except:
+            msg_status('Cannot resolve URL')
+            return
+        #download
+        fn = get_plugin_zip(url)
+        if not os.path.isfile(fn):
+            msg_status('Cannot download zip')
+            return
+        file_open(fn)
+        
+
+    def do_install_lexer(self):
         #get only lexer items
         items = get_avail_list()
         items = [l for l in items if l[0].startswith('Lexer:')]
