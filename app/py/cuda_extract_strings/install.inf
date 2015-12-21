@@ -1,0 +1,10 @@
+[info]
+title=Extract Strings
+desc=Shows dialog to enter regex, this regex will find list of strings. You can choose what to do with these strings: copy to clipboard, copy to new tab.
+type=cudatext-plugin
+subdir=cuda_extract_strings
+
+[item1]
+section=commands
+caption=Extract Strings
+method=run
