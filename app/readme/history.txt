@@ -1,6 +1,6 @@
 
 1.2.10
-+ addon-manager: can install plugins/snippets
++ addon-manager: can install plugins/snippets (restart Cuda 1-2 times to see menuitem)
 
 1.2.9
 * removed cmd "search - go to tab" (better doable in plugin)

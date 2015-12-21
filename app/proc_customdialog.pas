@@ -288,6 +288,8 @@ begin
         Ctl:= TCheckGroup.Create(AForm);
       if SValue='checklistbox' then
         Ctl:= TCheckListBox.Create(AForm);
+      if SValue='group' then
+        Ctl:= TGroupBox.Create(AForm);
 
       if (SValue='listview') or
          (SValue='checklistview') then
