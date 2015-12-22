@@ -218,6 +218,11 @@ const
   cmd_MacroStop                  = 2811;
   cmd_MacroCancel                = 2812;
 
+  cmd_TreeGotoNext               = 2815;
+  cmd_TreeGotoPrev               = 2816;
+  cmd_TreeGotoParent             = 2817;
+  cmd_TreeGotoNextBrother        = 2818;
+  cmd_TreeGotoPrevBrother        = 2819;
 
 
 implementation
@@ -401,14 +406,20 @@ begin
   M.Add(cmd_Encoding_cp950_Reload, 'change encoding, reload: cp950', [], []);
 
   M.Add(cmd_Markers_DropAtCaret       , 'markers: drop marker at caret', [], []);
-  M.Add(cmd_Markers_GotoLastNoDelete          , 'markers: go to last marker (don''t delete)', [], []);
-  M.Add(cmd_Markers_GotoLastAndDelete       , 'markers: collect last marker (delete)', [], []);
+  M.Add(cmd_Markers_GotoLastNoDelete  , 'markers: go to last marker (don''t delete)', [], []);
+  M.Add(cmd_Markers_GotoLastAndDelete , 'markers: collect last marker (delete)', [], []);
   M.Add(cmd_Markers_ClearAll          , 'markers: remove all', [], []);
   M.Add(cmd_Markers_SwapCaretAndMarker, 'markers: swap caret and last marker', [], []);
 
   M.Add(cmd_MacroStart, 'macros: start recording', [], []);
   M.Add(cmd_MacroStop, 'macros: stop recording', [], []);
   M.Add(cmd_MacroCancel, 'macros: cancel recording', [], []);
+
+  M.Add(cmd_TreeGotoNext, 'tree: select next node', [], []);
+  M.Add(cmd_TreeGotoPrev, 'tree: select prev node', [], []);
+  M.Add(cmd_TreeGotoParent, 'tree: select parent node', [], []);
+  M.Add(cmd_TreeGotoNextBrother, 'tree: select next-brother node', [], []);
+  M.Add(cmd_TreeGotoPrevBrother, 'tree: select prev-brother node', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);

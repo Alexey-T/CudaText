@@ -1,6 +1,7 @@
 
 1.2.10
-+ addon-manager: can install plugins/snippets (restart Cuda 1-2 times to see menuitem)
++ addon-manager: items "Install plugin","Download all" (restart app 1-2 times to see menuitems)
++ added cmds: "tree: select next/prev/parent/etc node"
 
 1.2.9
 * removed cmd "search - go to tab" (better doable in plugin)

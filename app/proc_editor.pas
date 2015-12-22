@@ -12,7 +12,7 @@ unit proc_editor;
 interface
 
 uses
-  Classes, SysUtils, Dialogs,
+  Classes, SysUtils, Dialogs, ComCtrls,
   ATSynEdit,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
@@ -36,6 +36,7 @@ procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer
 
 type
   TAppBookmarkOp = (bmOpClear, bmOpSet, bmOpToggle);
+  TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
 
 procedure EditorBmSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp);
 procedure EditorBmInvertAll(ed: TATSynEdit);
@@ -59,6 +60,9 @@ type
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 procedure EditorApplyTheme(Ed: TATSynedit);
+
+procedure DoTreeJump(ATree: TTreeView; AMode: TAppTreeGoto);
+
 
 implementation
 
@@ -756,6 +760,49 @@ begin
       true);
 
   Ed.Update;
+end;
+
+
+procedure DoTreeJump(ATree: TTreeView; AMode: TAppTreeGoto);
+var
+  tn, tn2: TTreeNode;
+begin
+  with ATree do
+    if Selected<>nil then
+    begin
+      case AMode of
+        treeGoNext:
+          tn:= Selected.GetNext;
+        treeGoPrev:
+          tn:= Selected.GetPrev;
+        treeGoParent:
+          tn:= Selected.Parent;
+        treeGoNextBro:
+          begin
+            tn:= Selected.GetNextSibling;
+            tn2:= Selected;
+            if tn=nil then
+              repeat
+                tn2:= tn2.Parent;
+                if tn2=nil then Break;
+                tn:= tn2.GetNextSibling;
+                if tn<>nil then Break;
+              until false;
+          end;
+        treeGoPrevBro:
+          begin
+            tn:= Selected.GetPrevSibling;
+            if tn=nil then
+              tn:= Selected.Parent;
+          end;
+        else tn:= nil;
+      end;
+      if tn<>nil then
+      begin
+        Selected:= tn;
+        ATree.OnDblClick(nil);
+      end;
+    end;
 end;
 
 end.

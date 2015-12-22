@@ -251,6 +251,13 @@ begin
         MsgStatus('');
       end;
 
+    cmd_TreeGotoNext: DoTreeJump(Tree, treeGoNext);
+    cmd_TreeGotoPrev: DoTreeJump(Tree, treeGoPrev);
+    cmd_TreeGotoParent: DoTreeJump(Tree, treeGoParent);
+    cmd_TreeGotoNextBrother: DoTreeJump(Tree, treeGoNextBro);
+    cmd_TreeGotoPrevBrother: DoTreeJump(Tree, treeGoPrevBro);
+
+
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
     cmd_HelpWiki: DoHelpWiki;

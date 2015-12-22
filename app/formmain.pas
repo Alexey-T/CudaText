@@ -77,7 +77,6 @@ uses
   formcharmaps,
   math;
 
-
 type
   { TfmMain }
   TfmMain = class(TForm)
