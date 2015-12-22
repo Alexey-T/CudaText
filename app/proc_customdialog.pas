@@ -20,6 +20,9 @@ const
   cButtonResultStart=100;
 
 type
+  TCustomEditHack = class(TCustomEdit);
+
+type
   { TDummyClass }
   TDummyClass = class
   public
@@ -288,8 +291,10 @@ begin
         Ctl:= TCheckGroup.Create(AForm);
       if SValue='checklistbox' then
         Ctl:= TCheckListBox.Create(AForm);
-      if SValue='group' then
-        Ctl:= TGroupBox.Create(AForm);
+
+      //disabled: label paints bad onto groupbox, Linux
+      //if SValue='group' then
+      //  Ctl:= TGroupBox.Create(AForm);
 
       if (SValue='listview') or
          (SValue='checklistview') then
@@ -368,13 +373,13 @@ begin
         (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
       end;
 
-      if Ctl is TMemo then
+      if Ctl is TCustomEdit then
       begin
         //RO
         if StrToBool(SGetItem(SValue)) then
         begin
-          (Ctl as TMemo).ReadOnly:= true;
-          (Ctl as TMemo).ParentColor:= true;
+          (Ctl as TCustomEdit).ReadOnly:= true;
+          TCustomEditHack(Ctl).ParentColor:= true;
         end;
         //Monospaced
         if StrToBool(SGetItem(SValue)) then
@@ -386,9 +391,9 @@ begin
         end;
         //Border
         if StrToBool(SGetItem(SValue)) then
-          (Ctl as TMemo).BorderStyle:= bsSingle
+          (Ctl as TCustomEdit).BorderStyle:= bsSingle
         else
-          (Ctl as TMemo).BorderStyle:= bsNone;
+          (Ctl as TCustomEdit).BorderStyle:= bsNone;
       end;
       Continue;
     end;

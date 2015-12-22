@@ -12,3 +12,4 @@ events=on_start
 section=commands
 caption=ExtTools
 method=dlg_config
+menu=0

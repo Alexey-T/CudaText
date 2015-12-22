@@ -4,7 +4,7 @@
 
 # Codec         Aliases                 Languages/Purpose
 ENCODINGS = [
- ['mbcs',       'dbcs',                 'Win only: Encode operand according to the ANSI codepage (CP_ACP)']
+ ['mbcs',       'ANSI, dbcs',           'Win only: Encode operand according to the ANSI codepage (CP_ACP)']
 ,['cp866',      '866, IBM866',          'Russian']
 ,['cp1251',     'windows-1251',         'Bulgarian, Byelorussian, Macedonian, Russian, Serbian']
 ,['ascii',      '646, us-ascii',        'English']

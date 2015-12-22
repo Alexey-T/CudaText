@@ -1,6 +1,6 @@
 ''' Plugin for CudaText editor
 Authors:
-    Andrey Kvichansky    (kvichans on githab.com)
+    Andrey Kvichansky    (kvichans on github.com)
 Version:
     '0.8.1 2015-12-15'
 '''
