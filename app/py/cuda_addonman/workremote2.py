@@ -5,8 +5,10 @@ from urllib.parse import unquote
 
 URL_PLUG = 'http://sourceforge.net/projects/cudatext/files/addons/plugins/'
 URL_SNIP = 'http://sourceforge.net/projects/cudatext/files/addons/snippets/'
+URL_LEX = 'http://sourceforge.net/projects/synwrite-addons/files/Lexers/'
 REGEX_PLUG = r'href="(http://sourceforge\.net/projects/cudatext/files/addons/plugins/plugin\.(.+?).zip/download)"'
 REGEX_SNIP = r'href="(http://sourceforge\.net/projects/cudatext/files/addons/snippets/snippets\.(.+?).zip/download)"'
+REGEX_URLS = r'href="(http://sourceforge\.net/projects/.+?zip/download)"'
 
 temp_fn = os.path.join(tempfile.gettempdir(), 'cuda_addons_dir.html')
 
@@ -28,3 +30,14 @@ def _get_remote_list(url, regex):
     res = re.findall(regex, text)
     #print(res)
     return res
+
+
+def get_remote_download_all_list():
+    res = []
+    l = _get_remote_list(URL_SNIP, REGEX_URLS)
+    if l: res+=l
+    l = _get_remote_list(URL_PLUG, REGEX_URLS)
+    if l: res+=l
+    l = _get_remote_list(URL_LEX, REGEX_URLS)
+    if l: res+=l
+    return sorted(res)
