@@ -251,12 +251,11 @@ begin
         MsgStatus('');
       end;
 
-    cmd_TreeGotoNext: DoTreeJump(Tree, treeGoNext);
-    cmd_TreeGotoPrev: DoTreeJump(Tree, treeGoPrev);
-    cmd_TreeGotoParent: DoTreeJump(Tree, treeGoParent);
-    cmd_TreeGotoNextBrother: DoTreeJump(Tree, treeGoNextBro);
-    cmd_TreeGotoPrevBrother: DoTreeJump(Tree, treeGoPrevBro);
-
+    cmd_TreeGotoNext: DoTreeviewJump(Tree, treeGoNext);
+    cmd_TreeGotoPrev: DoTreeviewJump(Tree, treeGoPrev);
+    cmd_TreeGotoParent: DoTreeviewJump(Tree, treeGoParent);
+    cmd_TreeGotoNextBrother: DoTreeviewJump(Tree, treeGoNextBro);
+    cmd_TreeGotoPrevBrother: DoTreeviewJump(Tree, treeGoPrevBro);
 
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;

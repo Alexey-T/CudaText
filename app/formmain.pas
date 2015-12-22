@@ -53,6 +53,7 @@ uses
   proc_colors,
   proc_cmd,
   proc_editor,
+  proc_miscutils,
   proc_msg,
   proc_install_zip,
   proc_lexer_styles,
