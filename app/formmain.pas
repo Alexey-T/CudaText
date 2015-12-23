@@ -2881,11 +2881,13 @@ begin
     if MacroRecord then
       MacroString:= MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
 
+  CurrentEditor.Strings.BeginUndoGroup;
   PyCommandRunning:= true;
   try
     Py_RunPlugin_Command(AModule, AMethod, AParam);
   finally
     PyCommandRunning:= false;
+    CurrentEditor.Strings.EndUndoGroup;
   end;
 end;
 

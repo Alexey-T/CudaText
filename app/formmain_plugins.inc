@@ -286,11 +286,13 @@ begin
                 Continue;
 
           //call Python
+          AEd.Strings.BeginUndoGroup;
           PyCommandRunning:= true;
           try
             Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
           finally
             PyCommandRunning:= false;
+            AEd.Strings.EndUndoGroup;
           end;
 
           //True for some events means "stop"
