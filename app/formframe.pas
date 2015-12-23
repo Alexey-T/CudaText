@@ -728,10 +728,7 @@ begin
     if Editor.Strings.Count>0 then
     begin
       Editor.DoCaretSingle(0, Editor.Strings.Count-1);
-      Editor.Update;
-      Editor.DoGotoCaret(cEdgeTop);
-      Editor.Update;
-      ///todo: make Topline correct at end... above donot work
+      FTopLineTodo:= Editor.Strings.Count-1;
     end;
 
   if IsFileReadonly(fn) then
