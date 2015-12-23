@@ -23,6 +23,7 @@ uses
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Carets,
   ATSynEdit_CanvasProc,
+  ATSynEdit_Commands,
   ATStrings,
   ATStringProc,
   ATStringProc_HtmlColor,
@@ -169,7 +170,7 @@ type
     property SplitHorz: boolean read FSplitHorz write SetSplitHorz;
     property SplitPos: double read FSplitPos write SetSplitPos;
     //file
-    procedure DoFileOpen(const fn: string);
+    procedure DoFileOpen(const fn: string; AllowFollowTail: boolean=false);
     function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
     procedure DoFileReload(ADetectEnc: boolean);
     procedure DoSaveHistory;
@@ -692,10 +693,19 @@ begin
       FOnSetLexer(Self);
 end;
 
-procedure TEditorFrame.DoFileOpen(const fn: string);
+procedure TEditorFrame.DoFileOpen(const fn: string; AllowFollowTail: boolean=false);
+var
+  bTail: boolean;
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
+
+  bTail:=
+    AllowFollowTail and
+    UiOps.ReloadFollowTail and
+    (Editor.Strings.Count>0) and
+    (Editor.Carets.Count>0) and
+    (Editor.Carets[0].PosY=Editor.Strings.Count-1);
 
   try
     Editor.LoadFromFile(fn);
@@ -713,6 +723,16 @@ begin
 
   SetLexer(AppFindLexer(fn));
   DoLoadHistory;
+
+  if bTail then
+    if Editor.Strings.Count>0 then
+    begin
+      Editor.DoCaretSingle(0, Editor.Strings.Count-1);
+      Editor.Update;
+      Editor.DoGotoCaret(cEdgeTop);
+      Editor.Update;
+      ///todo: make Topline correct at end... above donot work
+    end;
 
   if IsFileReadonly(fn) then
     Editor.ModeReadOnly:= true;
@@ -1167,7 +1187,7 @@ procedure TEditorFrame.NotifChanged(Sender: TObject);
 begin
   if not Modified then
   begin
-    DoFileOpen(FileName);
+    DoFileOpen(FileName, true);
     exit
   end;
 
@@ -1176,7 +1196,7 @@ begin
         '(Yes: reload. No: don''t reload. Cancel [Esc]: no more notifications about this file.)',
         MB_YESNOCANCEL or MB_ICONQUESTION) of
     ID_YES:
-      DoFileOpen(FileName);
+      DoFileOpen(FileName, true);
     ID_CANCEL:
       NotifEnabled:= false;
   end;

@@ -1923,6 +1923,7 @@ begin
 
   sl:= tstringlist.create;
   try
+    //make stringlist of all lexers
     for i:= 0 to Manager.AnalyzerCount-1 do
     begin
       an:= Manager.Analyzers[i];
@@ -1931,6 +1932,21 @@ begin
     end;
     sl.sort;
 
+    //put stringlist to menu
+    if not UiOps.LexerMenuGrouped then
+    begin
+      for i:= 0 to sl.count-1 do
+      begin
+        if sl[i]='' then Continue;
+        mi:= TMenuItem.create(self);
+        mi.caption:= sl[i];
+        mi.tag:= ptrint(sl.Objects[i]);
+        mi.OnClick:= @MenuLexClick;
+        PopupLex.Items.Add(mi);
+      end;
+    end
+    else
+    //grouped view
     for i:= 0 to sl.count-1 do
     begin
       if sl[i]='' then Continue;
@@ -2009,7 +2025,8 @@ begin
       MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
   F.DoSaveHistory; //save hist to reopen at same scrollpos
-  F.DoFileOpen(F.FileName);
+  F.DoFileOpen(F.FileName, true);
+
   MsgStatus('Re-opened: '+ExtractFileName(F.Filename));
 end;
 

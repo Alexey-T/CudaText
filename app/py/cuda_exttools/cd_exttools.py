@@ -46,7 +46,7 @@ class Command:
         ext['prms'] = ext.get('prms', '')
         ext['savs'] = ext.get('savs', 'N')
         ext['rslt'] = ext.get('rslt', 'N')      if     ext.get('rslt', 'N')  in self.rslt_vals  else 'N'
-        ext['encd'] = ext.get('encd', 'utf-8')
+        ext['encd'] = ext.get('encd', '')
         ext['lxrs'] = ext.get('lxrs', '')
         return ext
 
@@ -188,7 +188,7 @@ class Command:
                       
             +[C1.join(['type=check'     ,POS_FMT(l=PRP2_L,  t=PROP_T[3]-2,r=PRP1_L+PRP1_W,b=0)
                       ,'cap=&Shell command'
-                      ,'val='+((1 if 'Y'==ext['shll'] else '0') if ext is not None else '0')
+                      ,'val='+(('1' if ext['shll'] else '0') if ext is not None else '0')
                       ])] # i=14
                       
             +[C1.join(['type=label'     ,POS_FMT(l=PRP1_L,  t=PROP_T[4]+3,r=PRP1_L+PRP1_W,b=0)
@@ -216,7 +216,7 @@ class Command:
                       ])] # i=21
             +[C1.join(['type=edit'      ,POS_FMT(l=PRP2_L,  t=PROP_T[6],  r=PRP2_L+PRP2_W,b=0)
                       ,'val='+(ext['lxrs'] if ext is not None else '')
-                      ,'props=props=1,0,1'    # ro,mono,border
+                      ,'props=1,0,1'    # ro,mono,border
                       ])] # i=22
             +[C1.join(['type=button'    ,POS_FMT(l=PRP3_L,  t=PROP_T[6]-1,r=PRP3_L+PRP3_W,b=0)
                       ,'cap=Le&xers...'
@@ -235,7 +235,7 @@ class Command:
                       ])] # i=26
             +[C1.join(['type=edit'      ,POS_FMT(l=PRP2_L,  t=PROP_T[8],  r=PRP2_L+PRP2_W,b=0)
                       ,'val='+(ekeys[ext_ind] if ext is not None else '')
-                      ,'props=props=1,0,1'    # ro,mono,border
+                      ,'props=1,0,1'    # ro,mono,border
                       ])] # i=27
             +[C1.join(['type=button'    ,POS_FMT(l=PRP3_L,  t=PROP_T[8]-1,r=PRP3_L+PRP3_W,b=0)
                       ,'cap=Assi&gn...'
@@ -254,7 +254,7 @@ class Command:
                       ])] # i=31
             +[C1.join(['type=edit'      ,POS_FMT(l=PRP2_L,  t=PROP_T[10],  r=PRP2_L+PRP2_W,b=0)
                       ,'val='+(ext['encd'] if ext is not None else '')
-                      ,'props=props=1,0,1'    # ro,mono,border
+                      ,'props=1,0,1'    # ro,mono,border
                       ])] # i=32
             +[C1.join(['type=button'    ,POS_FMT(l=PRP3_L,  t=PROP_T[10]-1,r=PRP3_L+PRP3_W,b=0)
                       ,'cap=S&elect...'
@@ -313,9 +313,6 @@ class Command:
                 show_help()
                 continue #while
                 
-            if new_ext_ind not in range(len(self.exts)):
-                continue #while
-            
             if (ans_s=='view'
             and new_ext_ind in range(len(self.exts))):
                 #NB! Only way to select other tool. 
@@ -328,21 +325,21 @@ class Command:
             changed = False
 
             # List acts
-            if new_ext_ind not in range(len(self.exts)):
-                continue #while
-            if False:pass
-                
-            elif ans_s=='add': #New
+            if ans_s=='add': #New
                 file4run    = app.dlg_file(True, '!', '', '')   # '!' to disable check "filename exists"
                 file4run    = file4run if file4run is not None else ''
                 id4ext      = gen_ext_id(self.ext4id)
                 self.exts   += [self._fill_ext({'id':id4ext
-                                ,'nm':os.path.basename(file4run)
+                                ,'nm':(os.path.basename(file4run) if file4run else 'tool{}'.format(len(self.exts)))
                                 ,'file':file4run
                                 ,'ddir':os.path.dirname(file4run)})]
                 ext_ind     = len(self.exts)-1
                 changed     = True
 
+            if new_ext_ind not in range(len(self.exts)):
+                continue #while
+            if False:pass
+                
             elif ans_s=='up' and new_ext_ind>0: #Up
                 pass;           LOG and log('up',())
                 (self.exts[new_ext_ind-1]
@@ -361,6 +358,7 @@ class Command:
             elif ans_s=='clone': #Clone
                 cln_ext     = copy.deepcopy(self.exts[new_ext_ind])
                 cln_ext['id']= gen_ext_id(self.ext4id)
+                cln_ext['nm']= cln_ext['nm']+' clone'
                 self.exts   += [cln_ext]
                 ext_ind     = len(self.exts)-1
                 changed     = True
@@ -501,7 +499,7 @@ class Command:
         
         # Saving
         if 'Y'==ext.get('savs', 'N'):
-            if not ed.file_save():  return
+            if not app.file_save():  return
         if 'A'==ext.get('savs', 'N'):
             ed.cmd(cmds.cmd_FileSaveAll)
         
@@ -525,37 +523,57 @@ class Command:
         pass;                   LOG and log('val4call={}',(val4call))
 
         # Calling
-        if 'Y'!=ext.get('capt', 'N'):
+        nmargs  = {'cwd':ddir} if ddir else {}
+#       if 'Y'!=ext.get('capt', 'N'):
+        if 'N'==ext.get('rslt', 'N'):
             # Without capture
-            subprocess.Popen(val4call, cwd=ddir)
+            subprocess.Popen(val4call, **nmargs)
+#           if ddir:
+#               subprocess.Popen(val4call, cwd=ddir)
+#           else:
+#               subprocess.Popen(val4call)
             return
         
         # With capture
-        pass;                  #LOG and log('?? Popen',)
         pass;                  #LOG and log("'Y'==ext.get('shll', 'N')",'Y'==ext.get('shll', 'N'))
-        pipe    = subprocess.Popen(val4call, cwd=ddir
-                                , stdout=subprocess.PIPE
-                                , stderr=subprocess.STDOUT
-                               #, universal_newlines = True
-                                , shell=('Y'==ext.get('shll', 'N'))
-                                )
+        nmargs['stdout']=subprocess.PIPE
+        nmargs['stderr']=subprocess.STDOUT
+        nmargs['shell'] =ext.get('shll', False)
+        pass;                   LOG and log('?? Popen nmargs={}',nmargs)
+        pipe    = subprocess.Popen(val4call, **nmargs)
+#       if ddir:
+#           pipe    = subprocess.Popen(val4call, cwd=ddir
+#                               , stdout=subprocess.PIPE
+#                               , stderr=subprocess.STDOUT
+#                              #, universal_newlines = True
+#                               , shell=ext.get('shll', False)
+#                               )
+#       else:
+#           pipe    = subprocess.Popen(val4call
+#                               , stdout=subprocess.PIPE
+#                               , stderr=subprocess.STDOUT
+#                              #, universal_newlines = True
+#                               , shell=ext.get('shll', False)
+#                               )
         if pipe is None:
-            pass;              #LOG and log('fail Popen',)
+            pass;               LOG and log('fail Popen',)
             app.msg_status('Fail call: {} {}'.format(cmnd, prms_s))
             return
-        pass;                  #LOG and log('ok Popen',)
+        pass;                   LOG and log('ok Popen',)
         app.msg_status('Call: {} {}'.format(cmnd, prms_s))
 
         rslt    = ext.get('rslt', RSLT_TO_PANEL)
         rslt_txt= ''
         if False:pass
-        elif rslt in (RSLT_TO_PANEL, RSLT_TO_PANEL_AP):
+        elif rslt in ('OP', 'OPA'):
+#       elif rslt in (RSLT_TO_PANEL, RSLT_TO_PANEL_AP):
             ed.cmd(cmds.cmd_ShowPanelOutput)
             ed.focus()
             app.app_log(app.LOG_SET_PANEL, app.LOG_PANEL_OUTPUT)
             if rslt==RSLT_TO_PANEL:
                 app.app_log(app.LOG_CLEAR, '')
-        elif rslt ==  RSLT_TO_NEWDOC:
+        elif rslt ==  'ND':
+#       elif rslt ==  RSLT_TO_NEWDOC:
             app.file_open('')
             
         while True:
@@ -564,20 +582,25 @@ class Command:
             out_ln = out_ln.strip('\r\n')
             pass;              #LOG and log('out_ln={}',out_ln)
             if False:pass
-            elif rslt in (RSLT_TO_PANEL, RSLT_TO_PANEL_AP):
+            elif rslt in ('OP', 'OPA'):
+#           elif rslt in (RSLT_TO_PANEL, RSLT_TO_PANEL_AP):
                 app.app_log(app.LOG_ADD, out_ln)
-            elif rslt ==  RSLT_TO_NEWDOC:
+            elif rslt ==  'ND':
+#           elif rslt ==  RSLT_TO_NEWDOC:
                 ed.set_text_line(-1, out_ln)
-            elif rslt in (RSLT_TO_CLIP
-                         ,RSLT_REPL_SEL):
+            elif rslt in ('CB', 'SEL'):
+#           elif rslt in (RSLT_TO_CLIP
+#                        ,RSLT_REPL_SEL):
                 rslt_txt+= out_ln + '\n'
            #while True
 
         rslt_txt= rslt_txt.strip('\n')
         if False:pass
-        elif rslt == RSLT_TO_CLIP:
+        elif rslt == 'CB':
+#       elif rslt == RSLT_TO_CLIP:
             app.app_proc(app.PROC_SET_CLIP, rslt_txt)
-        elif rslt == RSLT_REPL_SEL:
+        elif rslt == 'SEL':
+#       elif rslt == RSLT_REPL_SEL:
             crts    = ed.get_carets()
             for (cCrt, rCrt, cEnd, rEnd) in crts.reverse():
                 if -1!=cEnd:

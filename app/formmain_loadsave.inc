@@ -405,6 +405,8 @@ begin
 
     UiOps.NonTextFiles:= c.GetValue('ui_non_text', UiOps.NonTextFiles);
     UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
+    UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
+    UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
 
     Op.OpSpaceX:= c.GetValue('spacing_x', Op.OpSpaceX);
     Op.OpSpaceY:= c.GetValue('spacing_y', Op.OpSpaceY);
@@ -485,7 +487,7 @@ begin
     Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
     Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
 
-    UiOps.LexlibFilename:= c.GetValue('lexlib', UiOps.LexlibFilename);
+    UiOps.LexerLibFilename:= c.GetValue('lexlib', UiOps.LexerLibFilename);
     UiOps.PyLibrary:= c.GetValue('pylib', UiOps.PyLibrary);
 
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
