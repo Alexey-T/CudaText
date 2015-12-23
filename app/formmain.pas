@@ -1911,6 +1911,8 @@ var
   ch0: char;
 begin
   UpdateKeymapDynamicItems;
+  DoOps_LoadKeymap;
+
   PopupLex.Items.Clear;
 
   ch0:= '?';

@@ -4,6 +4,7 @@
 + added cmds: "tree: select next/prev/parent/etc node"
 + opt ui_lexers_grouped
 + opt ui_reload_tail
++ use grouped-undo for mul-carets cmds
 
 1.2.9
 * removed cmd "search - go to tab" (better doable in plugin)
