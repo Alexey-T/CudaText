@@ -1075,6 +1075,13 @@ begin
 
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
+    PyEscapeFlag:= true;
+    if PyCommandRunning then
+    begin
+      Key:= 0;
+      exit
+    end;
+
     if fmConsole.ed.Focused or fmConsole.memo.Focused then
     begin
       if UiOps.EscapeCloseConsole then
@@ -1084,10 +1091,12 @@ begin
       Key:= 0;
       exit
     end;
+
     if UiOps.EscapeClose then
     begin
       Close;
       Key:= 0;
+      exit
     end;
     exit
   end;

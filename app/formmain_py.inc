@@ -16,6 +16,7 @@ var
   PyLastCommandMethod: string = '';
   PyLastCommandParam: string = '';
   PyCommandRunning: boolean = false;
+  PyEscapeFlag: boolean = false;
 
 //func at begin
 function PyEditor(Handle: PtrInt): TATSynEdit;
@@ -1860,6 +1861,16 @@ begin
             Str2:= SGetItem(Str);
             Str3:= Str;
             fmMain.DoPyCommand(Str1, Str2, Str3);
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_GET_ESCAPE:
+          begin
+            Result:= PyBool_FromLong(Ord(PyEscapeFlag));
+          end;
+        APP_PROC_SET_ESCAPE:
+          begin
+            PyEscapeFlag:= Str='1';
             Result:= ReturnNone;
           end;
 

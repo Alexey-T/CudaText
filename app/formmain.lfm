@@ -16,7 +16,7 @@ object fmMain: TfmMain
   OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   Visible = True
   object PanelAll: TPanel
     Left = 0
