@@ -728,6 +728,7 @@ begin
     if Editor.Strings.Count>0 then
     begin
       Editor.DoCaretSingle(0, Editor.Strings.Count-1);
+      Editor.Update;
       Editor.LineTop:= Editor.Strings.Count-1; //no lexer
       FTopLineTodo:= Editor.Strings.Count-1; //lexer active
     end;

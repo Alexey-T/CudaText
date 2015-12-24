@@ -26,8 +26,17 @@ class Command:
             msg_status('Cannot download list')
             return
             
-        err = 0    
+        err = 0
+        stopped = False
+        app_proc(PROC_SET_ESCAPE, '0')
+            
         for (i, url) in enumerate(items):
+            if app_proc(PROC_GET_ESCAPE, '')==True:
+                app_proc(PROC_SET_ESCAPE, '0')
+                if msg_box('Stop downloading?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
+                    stopped = True
+                    break    
+        
             msg_status('Downloading file: %d/%d'%(i+1, len(items)))
             try:
                 url = urllib.request.urlopen(url).geturl()
@@ -47,10 +56,10 @@ class Command:
                 print('Cannot download file: '+url)
                 continue
                 
-        text = 'Addons downloaded'
+        text = 'Download done' if not stopped else 'Download stopped'
         if err>0:
             text += '\nErrors occured, see Python console' 
-        msg_box(text, MB_OK)
+        msg_box(text, MB_OK+MB_ICONINFO)
         
 
     def do_install_addon(self):
