@@ -167,16 +167,21 @@ end;
 procedure DoSetListviewItem(C: TListView; SListItem: string);
 var
   SItem: string;
+  Col: TListColumn;
 begin
   if C.Columns.Count=0 then
   begin
     repeat
       SItem:= SGetItem(SListItem, #13);
       if SItem='' then break;
-      with C.Columns.Add do
+      Col:= C.Columns.Add;
+      Col.Caption:= SGetItem(SItem, '=');
+      if SItem<>'' then
       begin
-        Caption:= SGetItem(SItem, '=');
-        Width:= StrToIntDef(SItem, 50);
+        if SItem[1]='L' then begin Delete(SItem, 1, 1); Col.Alignment:= taLeftJustify; end;
+        if SItem[1]='R' then begin Delete(SItem, 1, 1); Col.Alignment:= taRightJustify; end;
+        if SItem[1]='C' then begin Delete(SItem, 1, 1); Col.Alignment:= taCenter; end;
+        Col.Width:= StrToIntDef(SItem, 80);
       end;
     until false;
   end
