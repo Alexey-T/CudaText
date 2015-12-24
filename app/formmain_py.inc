@@ -346,7 +346,9 @@ begin
           begin
             Ed.DoSelect_None;
             Ed.DoCaretSingle(X1, Y1, X2, Y2, true);
-            Ed.DoGotoCaret(cEdgeTop);
+            Ed.DoGotoPos(Point(X1, Y1),
+              UiOps.FindIndentHorz,
+              UiOps.FindIndentVert);
             Result:= ReturnNone;
           end;
 
