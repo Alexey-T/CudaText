@@ -728,7 +728,8 @@ begin
     if Editor.Strings.Count>0 then
     begin
       Editor.DoCaretSingle(0, Editor.Strings.Count-1);
-      FTopLineTodo:= Editor.Strings.Count-1; //this is how to set topline
+      Editor.LineTop:= Editor.Strings.Count-1; //no lexer
+      FTopLineTodo:= Editor.Strings.Count-1; //lexer active
     end;
 
   if IsFileReadonly(fn) then
