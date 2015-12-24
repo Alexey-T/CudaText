@@ -271,7 +271,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 
 * "type": type of control, values:
 ** "label"
-** "check"
+** "check" (checkbox)
 ** "radio" (radiobutton, only one is checked)
 ** "edit" (one-line edit)
 ** "combo" (combobox editable, value is text)
@@ -279,31 +279,35 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** "listbox"
 ** "button"
 ** "memo" (multi-line edit)
-** "checkgroup" (group of checks)
+** "checkgroup" (group of checkboxes)
 ** "radiogroup" (group of radiobuttons)
-** "checklistbox" (listbox with checks)
+** "checklistbox" (listbox with checkboxes)
 ** "spinedit" (edit for numbers, has min-value, max-value, increment)
+** "listview" (list with columns, with column headers, value is index)
+** "checklistview" (listview with checkboxes, value is check-flags)
 
 * "en": enabled-state of control, "1"/"0" for on/off
-* "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30")
+* "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
 * "cap": caption of control (not for all)
 
 * "items": 
 ** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
+** for listview, checklistview: "\t"-separated items.
+*** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +... 
+*** other items are data: cell1+"\r"+cell2+"\r"+... (count if cells may be less than columns)
 
 * "props": control-specific properties:
 ** for button: default_for_enter (bool value, "1"/"0")
-** for memo: read_only+","+font_monospaced+","+border (bool values, "1"/"0")
+** for edit, memo: read_only+","+font_monospaced+","+show_border (bool values, "1"/"0")
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
 
 * "val": value of control (not for all):
-** for check, radio: "1"/"0" for on/off
-** for edit: text
+** for check, radio: value "0"/"1"
+** for edit, combo, spinedit: text
 ** for memo: "\t"-separated lines (in lines "\t" must be replaced to chr(2))
-** for combo: text
-** for combo_ro, listbox, radiogroup: index of selected item (as str)
-** for checkgroup, checklistbox: ","-separated check-flags for items ("0"/"1")
-** for spinedit: text
+** for combo_ro, listbox, radiogroup, listview: index
+** for checkgroup: ","-separated checks (values "0"/"1")
+** for checklistbox, checklistview: index+";"+checks
 
 Parameter focused is index of control (0-base) which is focused on showing.
 
@@ -312,8 +316,9 @@ Dialog is closed by any button. Gets 2-tuple: (button_index, state_text), gets N
 * button_index: index of control (in text) for pressed button
 * state_text: "\n"-separated values of controls (same count of items as in text)
 
-Note:
+Notes:
 
+* Don't pass empty items in char-separated lists, pass at last space char for empty item.
 * Controls sizes differ on Linux/Win32, picture shows controls auto-aligned, not in CudaText, only example:
 
 [[File:controls_autosizes.png]]
@@ -758,10 +763,14 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.115
+
+* add: dlg_custom: props for "edit"
+
 1.0.114
 
 * change: attr() has param "tag"
-* small addons for dlg_custom
+* add: dlg_custom: some props, added "listview", "checklistview"
 
 1.0.113
 
