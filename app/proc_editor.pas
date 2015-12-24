@@ -121,7 +121,10 @@ begin
 
     if ed.Strings.LinesBm[n]>0 then
     begin
-      ed.DoGotoPosEx(Point(0, n));
+      ed.DoGotoPos_AndUnfold(
+        Point(0, n),
+        UiOps.FindIndentHorz,
+        UiOps.FindIndentVert);
       exit;
     end;
   until false;

@@ -861,7 +861,7 @@ begin
   R:= TecTextRange(Tree.Selected.Data);
   P:= CurrentFrame.Adapter.TreeGetPositionOfRange(R);
   FTreeClick:= true;
-  CurrentEditor.DoGotoPosEx(P);
+  CurrentEditor.DoGotoPos_AndUnfold(P, UiOps.FindIndentHorz, UiOps.FindIndentVert);
   CurrentEditor.SetFocus;
   FTreeClick:= false;
 end;
@@ -1717,7 +1717,10 @@ begin
   NumMax:= CurrentEditor.Strings.Count-1;
   if Num>NumMax then Num:= NumMax;
 
-  CurrentEditor.DoGotoPosEx(Point(0, Num));
+  CurrentEditor.DoGotoPos_AndUnfold(
+    Point(0, Num),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert);
   MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 end;
 
