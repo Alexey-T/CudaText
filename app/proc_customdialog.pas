@@ -168,6 +168,7 @@ procedure DoSetListviewItem(C: TListView; SListItem: string);
 var
   SItem: string;
   Col: TListColumn;
+  i: integer;
 begin
   if C.Columns.Count=0 then
   begin
@@ -189,11 +190,11 @@ begin
   begin
     SItem:= SGetItem(SListItem, #13);
     C.Items.Add.Caption:= SItem;
-    repeat
+    for i:= 1 to C.ColumnCount do
+    begin
       SItem:= SGetItem(SListItem, #13);
-      if SItem='' then break;
       C.Items[C.Items.Count-1].SubItems.Add(SItem);
-    until false;
+    end;
   end;
 end;
 
