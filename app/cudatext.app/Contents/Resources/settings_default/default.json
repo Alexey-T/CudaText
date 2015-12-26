@@ -23,6 +23,11 @@
   //Non-text files detection buffer size, kb
   "ui_non_text_buffer": 64,
 
+  //Command "Reload": if caret on last line, after reload put caret to new last line
+  "ui_reload_tail": true,
+  //Group lexers menu by 1st char of name  
+  "ui_lexers_grouped": true,
+
   //Hilite BG of lines with carets
   "show_cur_line": false,
   //... only minimal part, if line wrapped

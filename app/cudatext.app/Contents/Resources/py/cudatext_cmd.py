@@ -341,3 +341,10 @@ cmd_Markers_SwapCaretAndMarker = 2804
 cmd_MacroStart                 = 2810
 cmd_MacroStop                  = 2811
 cmd_MacroCancel                = 2812
+
+cmd_TreeGotoNext               = 2815
+cmd_TreeGotoPrev               = 2816
+cmd_TreeGotoParent             = 2817
+cmd_TreeGotoNextBrother        = 2818
+cmd_TreeGotoPrevBrother        = 2819
+cmd_TreeUpdate                 = 2820
