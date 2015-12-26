@@ -769,11 +769,12 @@ begin
   mnuGroups6Grid.Checked:= Groups.Mode= gm6Grid;
 end;
 
-procedure TfmMain.UpdateTree(AFill: boolean);
+procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
 var
   Caret: TATCaretItem;
 begin
-  if not ShowSidePanel then exit;
+  if AConsiderTreeVisible then
+    if not ShowSidePanel then exit;
 
   Caret:= CurrentEditor.Carets[0];
   with CurrentFrame do

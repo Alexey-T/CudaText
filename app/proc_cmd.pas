@@ -223,6 +223,7 @@ const
   cmd_TreeGotoParent             = 2817;
   cmd_TreeGotoNextBrother        = 2818;
   cmd_TreeGotoPrevBrother        = 2819;
+  cmd_TreeUpdate                 = 2820;
 
 
 implementation
@@ -420,6 +421,7 @@ begin
   M.Add(cmd_TreeGotoParent, 'tree: select parent node', [], []);
   M.Add(cmd_TreeGotoNextBrother, 'tree: select next-brother node', [], []);
   M.Add(cmd_TreeGotoPrevBrother, 'tree: select prev-brother node', [], []);
+  M.Add(cmd_TreeUpdate, 'tree: update tree panel', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);

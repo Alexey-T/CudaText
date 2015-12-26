@@ -5,6 +5,7 @@
 + opt ui_lexers_grouped
 + opt ui_reload_tail
 + use grouped-undo for mul-carets cmds
++ cmd "tree: update tree" (need if sidebar hidden)
 
 1.2.9
 * removed cmd "search - go to tab" (better doable in plugin)

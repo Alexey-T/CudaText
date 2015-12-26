@@ -347,3 +347,4 @@ cmd_TreeGotoPrev               = 2816
 cmd_TreeGotoParent             = 2817
 cmd_TreeGotoNextBrother        = 2818
 cmd_TreeGotoPrevBrother        = 2819
+cmd_TreeUpdate                 = 2820
