@@ -69,6 +69,8 @@ Performs application-wide action. Possible values of id:
 * PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
 * PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
+* PROC_GET_ESCAPE: Gets escape flag (bool). This flag is set when user presses Esc key (each Esc press is counted since app start, you need to clear flag). To allow app to handle key press, you must call msg_status() in loop.
+* PROC_SET_ESCAPE: Sets escape flag ("0"/"1").
 
 ====Plugin calls====
 
@@ -294,6 +296,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
 ** for listview, checklistview: "\t"-separated items.
 *** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +... 
+*** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
 *** other items are data: cell1+"\r"+cell2+"\r"+... (count if cells may be less than columns)
 
 * "props": control-specific properties:
@@ -378,7 +381,7 @@ Parameter value gives ";"-separated substrings. Lexer name, if it's needed, is 1
 Possible values of id:
 
 * LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
-* LEXER_GET_ENABLED: Gets enabled-flag for given lexer. Usually True, rare lexers have if False (they're unchecked in Lexer Library dialog).
+* LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
 * LEXER_GET_COMMENT: Gets line-comment string for given lexer.
 * LEXER_GET_MODIFIED: Gets bool: is lexer library modified and not saved.
 * LEXER_GET_LIST: Gets string: "\n"-separated list of lexer names in library.   
@@ -765,7 +768,8 @@ Text is chr(1) separated items:
 
 1.0.115
 
-* add: dlg_custom: props for "edit"
+* add: dlg_custom: props for "edit"; align-chars for "listview"
+* add: app_proc: PROC_GET_ESCAPE PROC_SET_ESCAPE
 
 1.0.114
 
