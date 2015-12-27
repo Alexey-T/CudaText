@@ -640,6 +640,7 @@ begin
 
   //newdoc props
   Ed1.Strings.Endings:= TATLineEnds(UiOps.NewdocEnds);
+  Ed1.Strings.DoClearUndo;
   Ed1.Strings.Modified:= false;
 
   EncodingName:= UiOps.NewdocEnc;
