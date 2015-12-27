@@ -379,7 +379,7 @@ begin
         (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
       end;
 
-      if Ctl is TCustomEdit then
+      if (Ctl is TEdit) or (Ctl is TMemo) then
       begin
         //RO
         if StrToBool(SGetItem(SValue)) then
