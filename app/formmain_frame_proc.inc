@@ -167,20 +167,6 @@ begin
 end;
 
 
-function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
-begin
-  if APrevPnt.Y=ANewPnt.Y then
-  begin
-    Result.Y:= 0;
-    Result.X:= ANewPnt.X-APrevPnt.X;
-  end
-  else
-  begin
-    Result.Y:= ANewPnt.Y-APrevPnt.Y;
-    Result.X:= ANewPnt.X;
-  end;
-end;
-
 procedure TfmMain.FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt,
   ANewPnt: TPoint);
 var

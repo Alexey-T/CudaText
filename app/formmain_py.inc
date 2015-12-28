@@ -1327,11 +1327,11 @@ function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
-  Id: integer;
+  Id, NTag: integer;
   Prop: ^TAppPanelProps;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'is:app_log', @Id, @Ptr)) then
+    if Bool(PyArg_ParseTuple(Args, 'isi:app_log', @Id, @Ptr, @NTag)) then
     begin
       Str:= string(Ptr);
 
@@ -1349,7 +1349,7 @@ begin
           end;
         LOG_ADD:
           begin
-            Prop^.Items.Add(Str);
+            Prop^.Items.AddObject(Str, TObject(PtrInt(NTag)));
             Prop^.Listbox.ItemCount:= Prop^.Items.Count;
             Prop^.Listbox.Invalidate;
           end;

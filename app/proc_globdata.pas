@@ -319,6 +319,7 @@ type
     cEventOnGotoDef,
     cEventOnConsole,
     cEventOnConsoleNav,
+    cEventOnOutputNav,
     cEventOnCompare,
     cEventOnStart,
     cEventOnMacro
@@ -343,6 +344,7 @@ const
     'on_goto_def',
     'on_console',
     'on_console_nav',
+    'on_output_nav',
     'on_compare',
     'on_start',
     'on_macro'

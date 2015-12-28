@@ -25,6 +25,8 @@ type
 
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 
+function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
+
 
 implementation
 
@@ -108,6 +110,21 @@ begin
         ATree.OnDblClick(nil);
       end;
     end;
+end;
+
+
+function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
+begin
+  if APrevPnt.Y=ANewPnt.Y then
+  begin
+    Result.Y:= 0;
+    Result.X:= ANewPnt.X-APrevPnt.X;
+  end
+  else
+  begin
+    Result.Y:= ANewPnt.Y-APrevPnt.Y;
+    Result.X:= ANewPnt.X;
+  end;
 end;
 
 

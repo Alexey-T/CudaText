@@ -161,8 +161,8 @@ def app_path(id):
 def app_proc(id, text):
     return ct.app_proc(id, text)    
 
-def app_log(id, text):
-    res = ct.app_log(id, text)
+def app_log(id, text, tag=0):
+    res = ct.app_log(id, text, tag)
     if id==LOG_CONSOLE_GET:
         return res.splitlines()
     else:

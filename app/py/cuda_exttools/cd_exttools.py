@@ -63,6 +63,7 @@ class Command:
         ext['rslt'] = ext.get('rslt', RSLT_N)   if     ext.get('rslt', RSLT_N)  in self.rslt_vals  else RSLT_N
         ext['encd'] = ext.get('encd', '')
         ext['lxrs'] = ext.get('lxrs', '')
+        ext['pttn'] = ext.get('pttn', '')
         return ext
 
     def __init__(self):
@@ -334,6 +335,7 @@ class Command:
             pass;              #LOG and log('ext_hnzs={}',ext_hnzs)
             pass;              #LOG and log('ext_vlss={}',ext_vlss)
 
+            ids     = [ext['id'] for ext in self.exts]
             ext     = self.exts[ext_ind] if ext_ind in range(len(self.exts)) else None
             pass;              #LOG and log('ext_ind, ext={}',(ext_ind, ext))
             
@@ -384,7 +386,9 @@ class Command:
             (ans_i
             ,vals)      = ans
             vals        = vals.splitlines()
+            new_ext_ind = int(vals[ 1]) if vals[ 1] else -1
             pass;              #LOG and log('ans_i, vals={}',(ans_i, list(enumerate(vals))))
+            pass;              #LOG and log('new_ext_ind={}',(new_ext_ind))
             ans_s       = apx.icase(False,''
                            ,ans_i== 2,'edit'
                            ,ans_i== 3,'add'
@@ -436,8 +440,6 @@ class Command:
                         ,'dlg_prs':self.dlg_prs}, indent=4))
                 continue #while
 
-            new_ext_ind = int(vals[ 1])
-
             if ans_s=='main': #Main lexer tool
                 self.dlg_main_tool()
                 continue #while
@@ -455,7 +457,7 @@ class Command:
                 if ed_ans is None:
                     continue #while
                 self.exts  += [ext]
-                ids         = [ext['id'] for ext in self.exts]
+#               ids         = [ext['id'] for ext in self.exts]
                 ext_ind     = len(self.exts)-1
                 new_ext_ind = ext_ind           ## need?
 
@@ -464,6 +466,8 @@ class Command:
                 
             what    = ''
             ext_ind = new_ext_ind
+            pass;              #LOG and log('ext_ind, ids={}',(ext_ind, ids))
+            pass;              #LOG and log('len(self.exts), len(ids)={}',(len(self.exts), len(ids)))
             self.last_ext_id    = ids[ext_ind]
             if False:pass
             
@@ -482,7 +486,7 @@ class Command:
                                               ,self.exts[new_ext_ind-1])
                 ext_ind = new_ext_ind-1
             elif ans_s=='down' and new_ext_ind<(len(self.exts)-1): #Down
-                pass;           LOG and log('dn',())
+                pass;          #LOG and log('dn',())
                 (self.exts[new_ext_ind  ]
                 ,self.exts[new_ext_ind+1])  = (self.exts[new_ext_ind+1]
                                               ,self.exts[new_ext_ind  ])
@@ -546,10 +550,10 @@ class Command:
                       ,'val='   +str(tool_ind)  # start sel
                       ])] # i= 3
             +[C1.join(['type=button'    ,POS_FMT(l=GAP,         t=GAP+23+300+GAP,r=GAP+90,b=0)
-                      ,'cap=&Assign'
+                      ,'cap=&Assign tool'
                       ])] # i= 4
             +[C1.join(['type=button'    ,POS_FMT(l=GAP+90+GAP,  t=GAP+23+300+GAP,r=GAP+90+GAP+90,b=0)
-                      ,'cap=&Break'
+                      ,'cap=&Break tool'
                       ])] # i= 5
  
             +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP-80,t=GAP+23+300+GAP,r=DLG_W-GAP,b=0)
@@ -595,9 +599,9 @@ class Command:
        #def dlg_main_tool
         
     def dlg_config_prop(self, ext, keys=None):
+        keys_json   = app.app_path(app.APP_DIR_SETTINGS)+os.sep+'keys.json'
         if keys is None:
-            keys_json   = app.app_path(app.APP_DIR_SETTINGS)+os.sep+'keys.json'
-            keys        = apx._json_loads(open(keys_json).read()) if os.path.exists(keys_json) else {}
+            keys    = apx._json_loads(open(keys_json).read()) if os.path.exists(keys_json) else {}
         kys         = get_keys_desc('cuda_exttools,run', ext['id'], keys)
 
         ed_ext      = copy.deepcopy(ext)
@@ -607,7 +611,7 @@ class Command:
         PRP2_W, PRP2_L  = (400, PRP1_L+    PRP1_W)
         PRP3_W, PRP3_L  = (100, PRP2_L+GAP+PRP2_W)
         PROP_T          = [GAP*ind+23*(ind-1) for ind in range(20)]   # max 20 rows
-        DLG_W, DLG_H    = PRP3_L+PRP3_W+GAP, PROP_T[14]+GAP
+        DLG_W, DLG_H    = PRP3_L+PRP3_W+GAP, PROP_T[16]+GAP
         
         focused         = 1
         while True:
@@ -700,35 +704,46 @@ class Command:
                       ,'cap=Assi&gn...'
                       ])] # i=22
                       
-            +[C1.join(['type=label'     ,POS_FMT(l=PRP1_L,  t=PROP_T[10]+3,r=PRP1_L+PRP1_W,b=0)
+            +[C1.join(['type=label'     ,POS_FMT(l=PRP1_L,  t=PROP_T[11]+3,r=PRP1_L+PRP1_W,b=0)
                       ,'cap=&Capture output'
                       ])] # i=23
-            +[C1.join(['type=combo_ro'  ,POS_FMT(l=PRP2_L,  t=PROP_T[10]-1,r=PRP2_L+PRP2_W,b=0)
+            +[C1.join(['type=combo_ro'  ,POS_FMT(l=PRP2_L,  t=PROP_T[11]-1,r=PRP2_L+PRP2_W,b=0)
                       ,'items='+'\t'.join(self.rslt_caps)
                       ,'val='   +str(val_rslt)  # start sel
                       ])] # i=24
                       
-            +[C1.join(['type=label'     ,POS_FMT(l=PRP1_L,  t=PROP_T[11]+3,r=PRP1_L+PRP1_W,b=0)
+            +[C1.join(['type=label'     ,POS_FMT(l=PRP1_L,  t=PROP_T[12]+3,r=PRP1_L+PRP1_W,b=0)
                       ,'cap=Encoding'
                       ])] # i=25
-            +[C1.join(['type=edit'      ,POS_FMT(l=PRP2_L,  t=PROP_T[11],  r=PRP2_L+PRP2_W,b=0)
+            +[C1.join(['type=edit'      ,POS_FMT(l=PRP2_L,  t=PROP_T[12],  r=PRP2_L+PRP2_W,b=0)
                       ,'val='+ed_ext['encd']
                       ,'props=1,0,1'    # ro,mono,border
                       ])] # i=26
-            +[C1.join(['type=button'    ,POS_FMT(l=PRP3_L,  t=PROP_T[11]-1,r=PRP3_L+PRP3_W,b=0)
+            +[C1.join(['type=button'    ,POS_FMT(l=PRP3_L,  t=PROP_T[12]-1,r=PRP3_L+PRP3_W,b=0)
                       ,'cap=S&elect...'
                       ])] # i=27
-            # DLG ACTS
-            +[C1.join(['type=button'    ,POS_FMT(l=GAP,                 t=PROP_T[13],r=GAP+PRP1_W,b=0)
-                      ,'cap=Help'
+                      
+            +[C1.join(['type=label'     ,POS_FMT(l=PRP1_L,  t=PROP_T[13]+3,r=PRP1_L+PRP1_W,b=0)
+                      ,'cap=Pattern'
                       ])] # i=28
-            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP*2-100*2,   t=PROP_T[13],r=DLG_W-GAP*2-100*1,b=0)
+            +[C1.join(['type=edit'      ,POS_FMT(l=PRP2_L,  t=PROP_T[13],  r=PRP2_L+PRP2_W,b=0)
+                      ,'val='+ed_ext['pttn']
+                      ,'props=1,0,1'    # ro,mono,border
+                      ])] # i=29
+            +[C1.join(['type=button'    ,POS_FMT(l=PRP3_L,  t=PROP_T[13]-1,r=PRP3_L+PRP3_W,b=0)
+                      ,'cap=Se&t...'
+                      ])] # i=30
+            # DLG ACTS
+            +[C1.join(['type=button'    ,POS_FMT(l=GAP,                 t=PROP_T[15],r=GAP+PRP1_W,b=0)
+                      ,'cap=Help'
+                      ])] # i=31
+            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP*2-100*2,   t=PROP_T[15],r=DLG_W-GAP*2-100*1,b=0)
                       ,'cap=OK'
                       ,'props=1' #default
-                      ])] # i=29
-            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP*1-100*1,   t=PROP_T[13],r=DLG_W-GAP*1-100*0,b=0)
+                      ])] # i=32
+            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP*1-100*1,   t=PROP_T[15],r=DLG_W-GAP*1-100*0,b=0)
                       ,'cap=Cancel'
-                      ])] # i=30
+                      ])] # i=33
             ), focused)    # start focus
             if ans is None:  
                 return None
@@ -744,9 +759,10 @@ class Command:
                            ,ans_i==17,'main'
                            ,ans_i==22,'hotkeys'
                            ,ans_i==27,'encd'
-                           ,ans_i==28,'help'
-                           ,ans_i==29,'save'
-                           ,ans_i==30,'cancel'
+                           ,ans_i==30,'pttn'
+                           ,ans_i==31,'help'
+                           ,ans_i==32,'save'
+                           ,ans_i==33,'cancel'
                            ,'?')
             ed_ext['nm']    =   vals[ 1]
             ed_ext['file']  =   vals[ 3]
@@ -759,6 +775,7 @@ class Command:
             ed_ext['rslt']  = self.rslt_vals[int(
                                 vals[24])]
             ed_ext['encd']  =   vals[26]
+            ed_ext['pttn']  =   vals[29]
                 
             if ans_s=='cancel':
                 return None
@@ -817,7 +834,7 @@ class Command:
                         +['{InteractiveFile}\tFile name will be asked'])
                 prm_i   = app.dlg_menu(app.MENU_LIST_ALT, '\n'.join(prms_l))
                 if prm_i is not None:
-                    ed_ext['prms'] += (' '+prms_l[prm_i].split('\t')[0])
+                    ed_ext['prms']  = (ed_ext['prms'] + (' '+prms_l[prm_i].split('\t')[0])).lstrip()
 
             elif ans_s=='hotkeys': #Hotkeys
                 app.dlg_hotkeys('cuda_exttools,run,'+str(ed_ext['id']))
@@ -847,14 +864,21 @@ class Command:
                     lxrs    = [lxr for (ind,lxr) in enumerate(lxrs_l) if sels[ind]=='1']
                     ed_ext['lxrs'] = ','.join(lxrs)
             
-            elif ans_s=='encd': #Lexers only
+            elif ans_s=='encd': #Enconing
                 enc_nms = get_encoding_names()
                 enc_ind = app.dlg_menu(app.MENU_LIST_ALT, '\n'.join(enc_nms))
                 if enc_ind is not None:
                     ed_ext['encd'] = enc_nms[enc_ind].split('\t')[0]
+
+            elif ans_s=='pttn': #Pattern
+                self.dlg_pattern(ed_ext)
             
            #while True
        #def dlg_config_prop
+
+    def dlg_pattern(self, ext):
+        pass
+       #def dlg_pattern
         
    #class Command
 
@@ -900,10 +924,10 @@ def get_usage_names():
 def show_help():
     l   = chr(13)
     hlp = (''
-        +   'In properties'
+        +   'In tools\' properties'
         +l+ '   Parameters'
         +l+ '   Initial folder'
-        +l+ 'the following macros will be are substituted.'
+        +l+ 'the following macros are processed:'
         +l+ ''
         +l+ 'Currently focused file properties:'
         +l+ '   {FileName}         - Full path'

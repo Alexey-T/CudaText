@@ -2688,7 +2688,8 @@ var
   Prop: ^TAppPanelProps;
   ResFilename: string;
   ResLine, ResCol: integer;
-  NIndex: integer;
+  NIndex, NTag: integer;
+  SText: string;
 begin
   if Sender=ListboxOut then
     Prop:= @AppPanelProp_Out
@@ -2699,7 +2700,10 @@ begin
   if NIndex<0 then exit;
   if NIndex>=Prop^.Items.Count then exit;
 
-  DoParseOutputLine(Prop^, Prop^.Items[NIndex], ResFilename, ResLine, ResCol);
+  SText:= Prop^.Items[NIndex];
+  NTag:= PtrInt(Prop^.Items.Objects[NIndex]);
+
+  DoParseOutputLine(Prop^, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     MsgStatus(Format('file "%s", line %d, col %d', [ResFilename, ResLine, ResCol]));
@@ -2711,6 +2715,11 @@ begin
       CurrentFrame.Editor.Update;
       UpdateStatus;
     end;
+  end
+  else
+  begin
+    DoPyEvent(CurrentEditor, cEventOnOutputNav,
+      [SStringToPythonString(SText), IntToStr(NTag)] );
   end;
 end;
 
