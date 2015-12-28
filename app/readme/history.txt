@@ -1,6 +1,7 @@
 
 1.2.11
-+ undo clears also "*" marker
++ "undo" undoes also "*" mark
++ api (better support ExtTools plugin)
 
 1.2.10
 + addon-manager: items "Install plugin","Download all" (restart app 1-2 times to see menuitems)
