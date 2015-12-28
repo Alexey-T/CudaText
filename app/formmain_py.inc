@@ -1687,6 +1687,23 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_COMMAND_PLUGIN:
+          begin
+            Num:= StrToIntDef(Str, -1);
+            if (Num>=Low(FPluginsCmd)) and
+               (Num<=High(FPluginsCmd)) and
+               (FPluginsCmd[Num].ItemModule<>'') then
+              Result:= Py_BuildValue('(sssss)',
+                PChar(FPluginsCmd[Num].ItemCaption),
+                PChar(FPluginsCmd[Num].ItemModule),
+                PChar(FPluginsCmd[Num].ItemProc),
+                PChar(FPluginsCmd[Num].ItemProcParam),
+                PChar(FPluginsCmd[Num].ItemLexers)
+                )
+            else
+               Result:= ReturnNone;
+          end;
+
         APP_PROC_SAVE_SESSION:
           begin
             fmMain.DoOps_SaveSession(Str);

@@ -2,11 +2,11 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.9.8 2015-12-25'
+    '0.9.9 2015-12-28'
 ToDo: (see end of file)
 '''
 
-import  os, json, random, subprocess, shlex, copy, collections
+import  os, json, random, subprocess, shlex, copy, collections, re
 import  cudatext        as app
 from    cudatext    import ed
 import  cudatext_cmd    as cmds
@@ -212,12 +212,12 @@ class Command:
         prms_l  = shlex.split(prms_s)
         for ind, prm in enumerate(prms_l):
             prm_raw = prm
-            prm     = subst_props(prm, file_nm, cCrt, rCrt)
+            prm     = subst_props(prm, file_nm, cCrt, rCrt, ext['nm'])
             if prm_raw != prm:
                 prms_l[ind] = prm
 #               prms_l[ind] = shlex.quote(prm)
            #for ind, prm
-        ddir        = subst_props(ddir, file_nm, cCrt, rCrt)
+        ddir        = subst_props(ddir, file_nm, cCrt, rCrt, ext['nm'])
 
         pass;                   LOG and log('ready prms_l={}',(prms_l))
 
@@ -457,7 +457,7 @@ class Command:
                 if ed_ans is None:
                     continue #while
                 self.exts  += [ext]
-#               ids         = [ext['id'] for ext in self.exts]
+                ids         = [ext['id'] for ext in self.exts]
                 ext_ind     = len(self.exts)-1
                 new_ext_ind = ext_ind           ## need?
 
@@ -528,31 +528,31 @@ class Command:
         tool_ind    = 0
         focused     = 1
         while True:
-            DLG_W, DLG_H= GAP*3+200*2, GAP*4+300+23*2
+            DLG_W, DLG_H= GAP*3+300+400, GAP*4+300+23*2
 
-            lxrs_enm    = ['"{}"{}'.format(lxr, ' - "{}"'.format(nm4ids[self.ext4lxr[lxr]]) if lxr in self.ext4lxr else '')
+            lxrs_enm    = ['{}{}'.format(lxr, '  >>>  {}'.format(nm4ids[self.ext4lxr[lxr]]) if lxr in self.ext4lxr else '')
                             for lxr in lxrs_l]
 
-            ans = app.dlg_custom('Tool properties'   ,GAP*3+200*2, GAP*4+300+23*2, '\n'.join([]
+            ans = app.dlg_custom('Main Tool for lexers'   ,DLG_W, DLG_H, '\n'.join([]
             # TOOL PROPS
-            +[C1.join(['type=label'     ,POS_FMT(l=GAP,         t=3+GAP,   r=GAP+200,        b=0)
-                      ,'cap=&Lexer - main tool'
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP,         t=3+GAP,   r=GAP+300,        b=0)
+                      ,'cap=&Lexer  >>>  main tool'
                       ])] # i= 0
-            +[C1.join(['type=listbox'   ,POS_FMT(l=GAP,         t=GAP+23,  r=GAP+200,        b=GAP+23+300)
+            +[C1.join(['type=listbox'   ,POS_FMT(l=GAP,         t=GAP+23,  r=GAP+300,        b=GAP+23+300)
                       ,'items=' +'\t'.join(lxrs_enm)
                       ,'val='   +str(lxr_ind)  # start sel
                       ])] # i= 1
-            +[C1.join(['type=label'     ,POS_FMT(l=GAP+200+GAP, t=3+GAP,   r=GAP+200+GAP+200,b=0)
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP+300+GAP, t=3+GAP,   r=GAP+300+GAP+400,b=0)
                       ,'cap=&Tools'
                       ])] # i= 2
-            +[C1.join(['type=listbox'   ,POS_FMT(l=GAP+200+GAP, t=GAP+23,  r=GAP+200+GAP+200,b=GAP+23+300)
+            +[C1.join(['type=listbox'   ,POS_FMT(l=GAP+300+GAP, t=GAP+23,  r=GAP+300+GAP+400,b=GAP+23+300)
                       ,'items=' +'\t'.join(nms)
                       ,'val='   +str(tool_ind)  # start sel
                       ])] # i= 3
-            +[C1.join(['type=button'    ,POS_FMT(l=GAP,         t=GAP+23+300+GAP,r=GAP+90,b=0)
+            +[C1.join(['type=button'    ,POS_FMT(l=GAP,         t=GAP+23+300+GAP,r=GAP+97,b=0)
                       ,'cap=&Assign tool'
                       ])] # i= 4
-            +[C1.join(['type=button'    ,POS_FMT(l=GAP+90+GAP,  t=GAP+23+300+GAP,r=GAP+90+GAP+90,b=0)
+            +[C1.join(['type=button'    ,POS_FMT(l=GAP+97+GAP,  t=GAP+23+300+GAP,r=GAP+97+GAP+97,b=0)
                       ,'cap=&Break tool'
                       ])] # i= 5
  
@@ -775,7 +775,7 @@ class Command:
             ed_ext['rslt']  = self.rslt_vals[int(
                                 vals[24])]
             ed_ext['encd']  =   vals[26]
-            ed_ext['pttn']  =   vals[29]
+#           ed_ext['pttn']  =   vals[29]
                 
             if ans_s=='cancel':
                 return None
@@ -853,6 +853,7 @@ class Command:
                           ])] # i=0
                 +[C1.join(['type=button'        ,POS_FMT(l=    200-120,      t=GAP+400+GAP,  r=    200- 60,   b=0)
                           ,'cap=OK'
+                          ,'props=1' #default
                           ])] # i=1
                 +[C1.join(['type=button'        ,POS_FMT(l=GAP+200- 60,      t=GAP+400+GAP,  r=GAP+200,   b=0)
                           ,'cap=Cancel'
@@ -871,18 +872,134 @@ class Command:
                     ed_ext['encd'] = enc_nms[enc_ind].split('\t')[0]
 
             elif ans_s=='pttn': #Pattern
-                self.dlg_pattern(ed_ext)
+                pass;          #LOG and log('?? ed_ext[pttn-data]={}',ed_ext['pttn-data'])
+                (new_pttn,new_test)     = self.dlg_pattern(ed_ext['pttn'], ed_ext.get('pttn-test', ''))
+                if new_pttn is not None:
+                    ed_ext['pttn']      = new_pttn
+                    ed_ext['pttn-test'] = new_test
+                pass;          #LOG and log('ok ed_ext[pttn-data]={}',ed_ext['pttn-data'])
             
            #while True
        #def dlg_config_prop
 
-    def dlg_pattern(self, ext):
+    def dlg_pattern(self, pttn_re, pttn_test):
+        pass;                   LOG and log('pttn_re, pttn_test={}',(pttn_re, pttn_test))
+        grp_dic     = {}
+        if pttn_re and pttn_test:
+            grp_dic = re.search(pttn_re, pttn_test).groupdict('')
+        
+        while True:
+            focused     = 1
+            DLG_W, DLG_H= GAP+550+GAP, GAP+240+GAP
+            ans = app.dlg_custom('Tool output pattern'   ,DLG_W, DLG_H, '\n'.join([]
+            # RE
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP,             t=GAP+3,    r=GAP+300, b=0)
+                      ,'cap=&Regular expression'
+                      ])] # i= 0
+            +[C1.join(['type=edit'      ,POS_FMT(l=GAP,             t=GAP+23,   r=DLG_W-GAP*2-60, b=0)
+                      ,'val='+pttn_re
+                      ])] # i= 1
+            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP*1-60,  t=GAP+23-2,  r=DLG_W-GAP,b=0)
+                      ,'cap=&?..'
+                      ])] # i= 2
+            # Testing
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP,             t= 60+3,      r=GAP+300, b=0)
+                      ,'cap=Test &output line'
+                      ])] # i= 3
+            +[C1.join(['type=edit'      ,POS_FMT(l=GAP,             t= 60+23,     r=DLG_W-GAP*2-60, b=0)
+                      ,'val='+pttn_test
+                      ])] # i= 4
+            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP*1-60,  t= 60+23-2,   r=DLG_W-GAP,b=0)
+                      ,'cap=&Test'
+                      ])] # i= 5
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP+ 80,         t=110+GAP*0+23*0+3, r=GAP+300, b=0)
+                      ,'cap=Testing results'
+                      ])] # i= 6
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP,             t=110+GAP*0+23*1+3, r=GAP+80,b=0)
+                      ,'cap=Filename:'
+                      ])] # i= 7
+            +[C1.join(['type=edit'      ,POS_FMT(l=GAP+ 80,         t=110+GAP*0+23*1,   r=DLG_W-GAP*2-60,b=0)
+                      ,'props=1,0,1'    # ro,mono,border
+                      ,'val='+grp_dic.get('file', '')
+                      ])] # i= 8
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP,             t=110+GAP*1+23*2+3, r=GAP+ 80, b=0)
+                      ,'cap=Line:'
+                      ])] # i= 9
+            +[C1.join(['type=edit'      ,POS_FMT(l=GAP+ 80,         t=110+GAP*1+23*2,   r=GAP+ 80+50, b=0)
+                      ,'props=1,0,1'    # ro,mono,border
+                      ,'val='+grp_dic.get('line', '')
+                      ])] # i=10
+            +[C1.join(['type=label'     ,POS_FMT(l=GAP,             t=110+GAP*2+23*3+3, r=GAP+300, b=0)
+                      ,'cap=Column:'
+                      ])] # i=11
+            +[C1.join(['type=edit'      ,POS_FMT(l=GAP+ 80,         t=110+GAP*2+23*3,   r=GAP+ 80+50, b=0)
+                      ,'props=1,0,1'    # ro,mono,border
+                      ,'val='+grp_dic.get('col' , '')
+                      ])] # i=12
+            # Preset
+            +[C1.join(['type=button'    ,POS_FMT(l=GAP,             t=DLG_H-GAP*1-23*1,r=GAP+130,b=0)
+                      ,'cap=Load &preset...'
+                      ])] # i=13
+            +[C1.join(['type=button'    ,POS_FMT(l=GAP+130+GAP,     t=DLG_H-GAP*1-23*1,r=GAP+130+GAP+130,b=0)
+                      ,'cap=&Save as preset...'
+                      ])] # i=14
+            # OK
+            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP*2-80*2,t=DLG_H-GAP*1-23*1,r=DLG_W-GAP*2-80,b=0)
+                      ,'cap=OK'
+                      ,'props=1' #default
+                      ])] # i=15
+            +[C1.join(['type=button'    ,POS_FMT(l=DLG_W-GAP-80,    t=DLG_H-GAP*1-23*1,r=DLG_W-GAP,b=0)
+                      ,'cap=Cancel'
+                      ])] # i=16
+            ), focused)    # start focus
+            if ans is None:  
+                return (None, None)
+            (ans_i
+            ,vals)      = ans
+            vals        = vals.splitlines()
+            ans_s       = apx.icase(False,''
+                           ,ans_i== 2,'help'
+                           ,ans_i== 5,'test'
+                           ,ans_i==13,'load'
+                           ,ans_i==14,'save'
+                           ,ans_i==15,'ok'
+                           ,ans_i==16,'cancel'
+                           )
+            pass;              #LOG and log('ans_s, ans_i, vals={}',(ans_s, ans_i, list(enumerate(vals))))
+            pttn_re     =     vals[ 1]
+            pttn_test   =     vals[ 4]
+            
+            if ans_s == 'cancel':
+                return (None, None)
+            if False:pass
+            elif ans_s == 'ok':
+                return (pttn_re, pttn_test)
+            
+            elif ans_s == 'help':
+                app.msg_box(''
+                           +'Three structures will be recognized for navigation:'
+                           +'\n   (?P<file>_) group with filename,'
+                           +'\n   (?P<line>_) group with number of line,'
+                           +'\n   (?P<col>_) group with number of column (optional).'
+                           +'\n'
+                           +'\nFull syntax documentation: https://docs.python.org/3/library/re.html'
+                , app.MB_OK)
+            
+            elif ans_s == 'test':
+                grp_dic = re.search(pttn_re, pttn_test).groupdict('')
+            
+            elif ans_s == 'load':
+                pass
+            
+            elif ans_s == 'save':
+                pass
+           #while True
         pass
        #def dlg_pattern
         
    #class Command
 
-def subst_props(prm, file_nm, cCrt, rCrt):
+def subst_props(prm, file_nm, cCrt, rCrt, ext_nm):
     if '{FileName}'         in prm: prm = prm.replace('{FileName}'     ,                          file_nm)
     if '{FileDir}'          in prm: prm = prm.replace('{FileDir}'      ,          os.path.dirname(file_nm))
     if '{FileNameOnly}'     in prm: prm = prm.replace('{FileNameOnly}' ,         os.path.basename(file_nm))
@@ -895,7 +1012,7 @@ def subst_props(prm, file_nm, cCrt, rCrt):
     if '{SelectedText}'     in prm: prm = prm.replace('{SelectedText}'    , ed.get_text_sel())
 
     if '{Interactive}' in prm:
-        ans = app.dlg_input('Param for call {}'.format(ext['nm']), '')
+        ans = app.dlg_input('Param for call {}'.format(ext_nm), '')
         if ans is None: return
         prm = prm.replace('{Interactive}'     , ans)
     if '{InteractiveFile}' in prm:
