@@ -216,16 +216,15 @@ To show syntax tree, activate side-panel (default hotkey: F12). Many lexers supp
 
 Panel is called by key Ctrl+tilde (Ctrl+`). It has read-only memo with output and edit field. You can type Python commands in the edit field, they will run and show output in the memo. E.g. enter "print(10+12)" and you'll see output "22". Can enter complex commands: e.g. "for i in range(10): print(i)".
 
-If you enter command beginning with "=", then it's the same as you enterted "print()". E.g. command "=10+12" will give "22".
-
 [[File:cudatext_con.png]]
 
-Double-click on memo lines starting with ">>>" repeats entered command (which is after ">>>").
+* If you enter command beginning with "=", then it's the same as you enterted "print()". E.g. command "=10+12" will give "22".
+* If you end command with ";", it won't add to dropdown history.
+* Double-click on memo lines starting with ">>>" repeats entered command (which is after ">>>").
 
 Can enter commands from CudaText API. Example clears all bookmarks and sets bookmark on line 11 (these are several commands, run one by one):
 
 <syntaxhighlight>
-from cudatext import *
 ed.bookmark(BOOKMARK_CLEAR_ALL, 0)
 ed.bookmark(BOOKMARK_SET, 10)
 </syntaxhighlight>
@@ -278,10 +277,10 @@ These panels have hotkeys:
 
 * Up/Down/PgUp/PgDown/Home/End: move selection in list
 * Enter: navigate to source file (like click)
-* Del: delete selected line
-* Ctrl+Del: clear list
+* Ctrl+Del: clear entire list
 * Ctrl+C: copy to clipboard entire list
 * Ctrl+D: copy to clipboard selected line
+* Esc: focus editor
 
 == more ==
 
