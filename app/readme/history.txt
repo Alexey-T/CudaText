@@ -1,8 +1,8 @@
 
 1.2.11
-+ addon-manager: config dlg (restart app); one install dlg; no more using of Synwrite wiki
++ addon-manager: config dlg (restart to see item); one install dlg; no more using of Synwrite wiki
 + "undo" undoes also "*" mark
-+ api (better support ExtTools plugin)
++ api (better support for ExtTools)
 
 1.2.10
 + addon-manager: items "Install plugin","Download all" (restart app 1-2 times to see menuitems)

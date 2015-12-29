@@ -7,15 +7,16 @@ from .work_remote import *
 from .work_dlg_config import *
 from urllib.parse import unquote
 
-INIT_DL_DIR = os.path.expanduser('~')+os.sep+'CudaText_addons'
+DIR_DL = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
-URL_PLUG = 'http://sourceforge.net/projects/cudatext/files/addons/plugins/'
-URL_SNIP = 'http://sourceforge.net/projects/cudatext/files/addons/snippets/'
-URL_LEX = 'http://sourceforge.net/projects/synwrite-addons/files/Lexers/'
-ch_def = [URL_PLUG, URL_SNIP, URL_LEX]
 ch_user = []
-
+ch_def = [
+  'http://sourceforge.net/projects/cudatext/files/addons/plugins/',
+  'http://sourceforge.net/projects/cudatext/files/addons/snippets/',
+  'http://sourceforge.net/projects/synwrite-addons/files/Lexers/'
+  ]
+  
 
 class Command:
     def __init__(self):
@@ -39,7 +40,7 @@ class Command:
         
 
     def do_download_all(self):
-        dir_dl = dlg_input('Dir to save files:', INIT_DL_DIR)
+        dir_dl = dlg_input('Dir to save files:', DIR_DL)
         if not dir_dl: return
         if not os.path.isdir(dir_dl):
             os.mkdir(dir_dl)
