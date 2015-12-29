@@ -19,24 +19,25 @@ class Command:
     def __init__(self):
         global channels
         if os.path.isfile(CONFIG_FILE):
-            f = open(CONFIG_FILE)
-            op = json.loads(f.read())
+            op = json.loads(open(CONFIG_FILE).read())
             channels = op.get('channels', channels)
-            print(channels) 
+            #print('Init channels:', channels) 
         
 
     def do_config(self):
         global channels
+        c1 = chr(1)
         
         id_memo = 1
         id_ok = 2
-        
-        c1 = chr(1)
-        res = dlg_custom('Addons Manager config', 600, 240, '\n'.join([]+
-          [c1.join(['type=label', 'pos=6,6,594,0', 'cap=Addons channels:'])]+
-          [c1.join(['type=memo', 'pos=6,26,594,204', 'val='+'\t'.join(channels)])]+
-          [c1.join(['type=button', 'pos=400,210,494,0', 'cap=OK'])]+ 
-          [c1.join(['type=button', 'pos=500,210,594,0', 'cap=Cancel'])] 
+        all_size_x = 550
+        all_size_y = 250
+        btn_size = 80
+        res = dlg_custom('Addons Manager config', all_size_x, all_size_y, '\n'.join([]+
+          [c1.join(['type=label', 'pos=6,6,300,0', 'cap=&Addons channels:'])]+
+          [c1.join(['type=memo', 'pos=6,24,%d,%d'%(all_size_x-6, all_size_y-36), 'val='+'\t'.join(channels)])]+
+          [c1.join(['type=button', 'pos=%d,%d,%d,0'%(all_size_x-2*btn_size-12, all_size_y-30, all_size_x-btn_size-12), 'cap=&OK'])]+ 
+          [c1.join(['type=button', 'pos=%d,%d,%d,0'%(all_size_x-btn_size-6, all_size_y-30, all_size_x-6), 'cap=Cancel'])] 
           ))
         if res is None: return
         id, text = res

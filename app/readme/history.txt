@@ -1,5 +1,6 @@
 
 1.2.11
++ addon-manager: config dlg (restart app); one install dlg; no more using of Synwrite wiki
 + "undo" undoes also "*" mark
 + api (better support ExtTools plugin)
 
