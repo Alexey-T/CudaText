@@ -1,9 +1,8 @@
 import os
 import shutil
 from cudatext import *
-from .workremote import *
-from .workremote2 import get_remote_addons_list, get_remote_download_all_list
-from .worklocal import *
+from .work_local import *
+from .work_remote import *
 from urllib.parse import unquote
 
 INIT_DL_DIR = os.path.expanduser('~')+os.sep+'CudaText_addons'
@@ -20,7 +19,7 @@ class Command:
             return
     
         msg_status('Downloading list...')
-        items = get_remote_download_all_list()
+        items = get_remote_addons_list()
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -30,7 +29,7 @@ class Command:
         stopped = False
         app_proc(PROC_SET_ESCAPE, '0')
             
-        for (i, url) in enumerate(items):
+        for (i, (url, title)) in enumerate(items):
             if app_proc(PROC_GET_ESCAPE, '')==True:
                 app_proc(PROC_SET_ESCAPE, '0')
                 if msg_box('Stop downloading?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
