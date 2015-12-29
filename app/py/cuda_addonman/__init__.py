@@ -4,6 +4,7 @@ import json
 from cudatext import *
 from .work_local import *
 from .work_remote import *
+from .work_dlg_config import *
 from urllib.parse import unquote
 
 INIT_DL_DIR = os.path.expanduser('~')+os.sep+'CudaText_addons'
@@ -12,43 +13,27 @@ CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 URL_PLUG = 'http://sourceforge.net/projects/cudatext/files/addons/plugins/'
 URL_SNIP = 'http://sourceforge.net/projects/cudatext/files/addons/snippets/'
 URL_LEX = 'http://sourceforge.net/projects/synwrite-addons/files/Lexers/'
-channels = [URL_PLUG, URL_SNIP, URL_LEX]
+ch_def = [URL_PLUG, URL_SNIP, URL_LEX]
+ch_user = []
 
 
 class Command:
     def __init__(self):
-        global channels
+        global ch_user
         if os.path.isfile(CONFIG_FILE):
             op = json.loads(open(CONFIG_FILE).read())
-            channels = op.get('channels', channels)
-            #print('Init channels:', channels) 
+            ch_user = op.get('channels_user', ch_user)
         
 
     def do_config(self):
-        global channels
-        c1 = chr(1)
-        
-        id_memo = 1
-        id_ok = 2
-        all_size_x = 550
-        all_size_y = 250
-        btn_size = 80
-        res = dlg_custom('Addons Manager config', all_size_x, all_size_y, '\n'.join([]+
-          [c1.join(['type=label', 'pos=6,6,300,0', 'cap=&Addons channels:'])]+
-          [c1.join(['type=memo', 'pos=6,24,%d,%d'%(all_size_x-6, all_size_y-36), 'val='+'\t'.join(channels)])]+
-          [c1.join(['type=button', 'pos=%d,%d,%d,0'%(all_size_x-2*btn_size-12, all_size_y-30, all_size_x-btn_size-12), 'cap=&OK'])]+ 
-          [c1.join(['type=button', 'pos=%d,%d,%d,0'%(all_size_x-btn_size-6, all_size_y-30, all_size_x-6), 'cap=Cancel'])] 
-          ))
-        if res is None: return
-        id, text = res
-        if id!=id_ok: return
-          
-        channels = text.splitlines()[id_memo].split('\t')
-        channels = [s for s in channels if s]
-        print('Now channels:', channels) 
+        global ch_def, ch_user
+        ch = dlg_config(ch_def, ch_user)
+        if ch is None: return
+        ch_user = ch
+        print('Now channels_user:', ch_user) 
           
         op = {}
-        op['channels'] = channels
+        op['channels_user'] = ch_user
         f = open(CONFIG_FILE, 'w')
         f.write(json.dumps(op, indent=4))
         
@@ -63,7 +48,7 @@ class Command:
             return
     
         msg_status('Downloading list...')
-        items = get_remote_addons_list(channels)
+        items = get_remote_addons_list(ch_def+ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -107,7 +92,7 @@ class Command:
 
     def do_install_addon(self):
         msg_status('Downloading list...')
-        items = get_remote_addons_list(channels)
+        items = get_remote_addons_list(ch_def+ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
