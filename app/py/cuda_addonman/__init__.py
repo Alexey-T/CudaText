@@ -1,14 +1,57 @@
 import os
 import shutil
+import json
 from cudatext import *
 from .work_local import *
 from .work_remote import *
 from urllib.parse import unquote
 
 INIT_DL_DIR = os.path.expanduser('~')+os.sep+'CudaText_addons'
+CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
+
+URL_PLUG = 'http://sourceforge.net/projects/cudatext/files/addons/plugins/'
+URL_SNIP = 'http://sourceforge.net/projects/cudatext/files/addons/snippets/'
+URL_LEX = 'http://sourceforge.net/projects/synwrite-addons/files/Lexers/'
+channels = [URL_PLUG, URL_SNIP, URL_LEX]
 
 
 class Command:
+    def __init__(self):
+        global channels
+        if os.path.isfile(CONFIG_FILE):
+            f = open(CONFIG_FILE)
+            op = json.loads(f.read())
+            channels = op.get('channels', channels)
+            print(channels) 
+        
+
+    def do_config(self):
+        global channels
+        
+        id_memo = 1
+        id_ok = 2
+        
+        c1 = chr(1)
+        res = dlg_custom('Addons Manager config', 600, 240, '\n'.join([]+
+          [c1.join(['type=label', 'pos=6,6,594,0', 'cap=Addons channels:'])]+
+          [c1.join(['type=memo', 'pos=6,26,594,204', 'val='+'\t'.join(channels)])]+
+          [c1.join(['type=button', 'pos=400,210,494,0', 'cap=OK'])]+ 
+          [c1.join(['type=button', 'pos=500,210,594,0', 'cap=Cancel'])] 
+          ))
+        if res is None: return
+        id, text = res
+        if id!=id_ok: return
+          
+        channels = text.splitlines()[id_memo].split('\t')
+        channels = [s for s in channels if s]
+        print('Now channels:', channels) 
+          
+        op = {}
+        op['channels'] = channels
+        f = open(CONFIG_FILE, 'w')
+        f.write(json.dumps(op, indent=4))
+        
+
     def do_download_all(self):
         dir_dl = dlg_input('Dir to save files:', INIT_DL_DIR)
         if not dir_dl: return
@@ -19,7 +62,7 @@ class Command:
             return
     
         msg_status('Downloading list...')
-        items = get_remote_addons_list()
+        items = get_remote_addons_list(channels)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -63,7 +106,7 @@ class Command:
 
     def do_install_addon(self):
         msg_status('Downloading list...')
-        items = get_remote_addons_list()
+        items = get_remote_addons_list(channels)
         msg_status('')
         if not items:
             msg_status('Cannot download list')

@@ -245,10 +245,11 @@ begin
       exit
     end;
 
-    DoAdd(cModuleAddonman, 'do_install_addon', cCaptionAddonman+'\Install addon...', 0);
+    DoAdd(cModuleAddonman, 'do_install_addon', cCaptionAddonman+'\Install...', 0);
     DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...', 1);
     DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...', 2);
     DoAdd(cModuleAddonman, 'do_download_all', cCaptionAddonman+'\Download all...', 3);
+    DoAdd(cModuleAddonman, 'do_config', cCaptionAddonman+'\Config...', 4);
 
     DoAdd(cModuleMake, 'run', cCaptionMake, 0);
     DoAdd(cModuleInsTime, 'run', cCaptionInsTime, 0);

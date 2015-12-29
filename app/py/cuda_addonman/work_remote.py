@@ -5,12 +5,6 @@ import urllib.request
 from urllib.parse import unquote
 
 
-URL_PLUG = 'http://sourceforge.net/projects/cudatext/files/addons/plugins/'
-URL_SNIP = 'http://sourceforge.net/projects/cudatext/files/addons/snippets/'
-URL_LEX = 'http://sourceforge.net/projects/synwrite-addons/files/Lexers/'
-CHANNELS = [URL_PLUG, URL_SNIP, URL_LEX]
-
-
 def get_url(url, fn):
     if os.path.isfile(fn):
         os.remove(fn)
@@ -43,9 +37,10 @@ def get_channel_list(url):
     return res
 
 
-def get_remote_addons_list():
+def get_remote_addons_list(channels):
     res = []
-    for ch in CHANNELS:
+    print('Read channels:', channels)
+    for ch in channels:
         items = get_channel_list(ch)
         if items:
             res+=items
