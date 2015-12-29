@@ -294,8 +294,11 @@ begin
         begin
           Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+ AForm.ControlCount;
+          {$ifdef windows}
+          Ctl.Height:= 23; //smaller
+          {$endif}
           {$ifdef darwin}
-          Ctl.Height:= 21; //set smaller size
+          Ctl.Height:= 21; //smaller
           {$endif}
         end;
       if SValue='radiogroup' then
