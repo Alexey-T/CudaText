@@ -19,11 +19,19 @@ Supported events:
 * on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is few chars string: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
 * on_focus(self, ed_self): Called after editor is focused.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
+
+Code parsing
+
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
+
+Panels
+
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
-* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line.
+* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
+
+Macros
 
 * on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
 ** if item is "number" then it's simple command.
@@ -31,8 +39,9 @@ Supported events:
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
 ** to run each item in log, call ed.cmd(): number is command code, all after comma is parameter text.
 
+Notes
 
-Config "plugins.json": Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
+Config plugins.json: Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
 
 =Global funcs=
 
@@ -131,6 +140,9 @@ Possible values of id:
 * LOG_SET_NAME_ID: Sets index of regex group for file-name.
 * LOG_SET_FILENAME: Sets default file-name, which will be used when regex cannot find file-name in a string. 
 * LOG_SET_ZEROBASE: Sets flag: line and column numbers are zero-based, not 1-based. text is one-char string "0" or "1".
+* LOG_GET_LINES: Gets str: "\n"-separated lines in listbox.
+* LOG_GET_LINEINDEX: Gets index of selected line in listbox.
+* LOG_SET_LINEINDEX: Sets index of selected line in listbox.
 
 For "Python console" panel:
 
@@ -768,6 +780,10 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.117
+
+* add: app_log: LOG_GET_LINES, LOG_GET_LINEINDEX, LOG_SET_LINEINDEX
 
 1.0.116
 
