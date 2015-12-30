@@ -124,6 +124,7 @@ PROC_EXEC_PLUGIN = 15
 PROC_SET_SUBCOMMANDS = 16
 PROC_GET_ESCAPE = 17
 PROC_SET_ESCAPE = 18
+PROC_GET_COMMAND_PLUGIN = 19
 
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
@@ -161,8 +162,8 @@ def app_path(id):
 def app_proc(id, text):
     return ct.app_proc(id, text)    
 
-def app_log(id, text):
-    res = ct.app_log(id, text)
+def app_log(id, text, tag=0):
+    res = ct.app_log(id, text, tag)
     if id==LOG_CONSOLE_GET:
         return res.splitlines()
     else:

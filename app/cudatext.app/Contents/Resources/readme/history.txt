@@ -1,11 +1,16 @@
 
+1.2.11
++ addon-manager: config dlg (restart to see item); common install dlg; no more using of Synwrite wiki
++ "undo" undoes also "*" mark
++ api (better support for ExtTools)
+
 1.2.10
 + addon-manager: items "Install plugin","Download all" (restart app 1-2 times to see menuitems)
-+ added cmds: "tree: select next/prev/parent/etc node"
 + opt ui_lexers_grouped
 + opt ui_reload_tail
++ add cmds "tree: select next/prev/parent/etc node"
++ add cmd "tree: update tree" (need if sidebar hidden)
 + use grouped-undo for mul-carets cmds
-+ cmd "tree: update tree" (need if sidebar hidden)
 
 1.2.9
 * removed cmd "search - go to tab" (better doable in plugin)
