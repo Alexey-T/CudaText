@@ -1368,6 +1368,21 @@ begin
         LOG_SET_ZEROBASE:
           Prop^.ZeroBase:= Bool(StrToIntDef(Str, 0));
 
+        LOG_GET_LINES:
+          begin
+            Result:= PyString_FromString(PChar(Prop^.Items.Text));
+            exit; //skip ReturnNone
+          end;
+        LOG_GET_LINEINDEX:
+          begin
+            Result:= PyInt_FromLong(Prop^.Listbox.ItemIndex);
+            exit; //skip ReturnNone
+          end;
+        LOG_SET_LINEINDEX:
+          begin
+            Prop^.Listbox.ItemIndex:= StrToIntDef(Str, 0);
+          end;
+
         LOG_CONSOLE_CLEAR:
           with fmMain do
           begin
