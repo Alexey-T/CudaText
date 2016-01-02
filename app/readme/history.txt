@@ -1,6 +1,7 @@
 
 1.2.12
-* lexers NSIS, Inno: removed to Addon Manager
+* removed lexers NSIS, Inno, to Addon Manager
++ api
 
 1.2.11
 + addon-manager: config dlg (restart to see item); common install dlg; no more using of Synwrite wiki

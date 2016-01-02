@@ -1655,6 +1655,11 @@ begin
             if NTab>=0 then
               fmMain.Groups.Pages[NGroup].Tabs.MoveTab(NTab, NIndexNew, true);
           end;
+
+        PROP_EXPORT_HTML:
+          begin
+            DoEditorExportToHTML_WithParams(Ed, Str);
+          end;
       end;
 
       fmMain.UpdateFrame;
