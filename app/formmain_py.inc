@@ -1903,7 +1903,7 @@ begin
 
         APP_PROC_GET_ESCAPE:
           begin
-            Result:= PyBool_FromLong(Ord(PyEscapeFlag));
+            Result:= PyBool_FromLong(Ord(PyEscapeFlag or Application.Terminated));
           end;
         APP_PROC_SET_ESCAPE:
           begin
