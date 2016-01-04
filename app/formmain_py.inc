@@ -1306,6 +1306,7 @@ begin
 end;
 
 type
+  PAppPanelProps = ^TAppPanelProps;
   TAppPanelProps = record
     Listbox: TATListbox;
     Items: TStringList;
@@ -1318,27 +1319,65 @@ type
     Encoding: string;
   end;
 
+type
+  TAppPanelPropsClass = class
+    Data: TAppPanelProps;
+  end;
+
 var
   AppPanelProp_Out: TAppPanelProps;
   AppPanelProp_Val: TAppPanelProps;
   AppPanelActive: string = '0';
+
+
+function GetAppPanelProps_ByCaption(const ACaption: string): PAppPanelProps;
+var
+  N: integer;
+  PropObject: TAppPanelPropsClass;
+begin
+  Result:= nil;
+  if ACaption='0' then
+    Result:= @AppPanelProp_Out
+  else
+  if ACaption='1' then
+    Result:= @AppPanelProp_Val
+  else
+  begin
+    N:= fmMain.FPanelCaptions.IndexOf(ACaption);
+    if N<0 then exit;
+    PropObject:= fmMain.FPanelCaptions.Objects[N] as TAppPanelPropsClass;
+    Result:= @PropObject.Data;
+  end;
+end;
+
+function GetAppPanelProps_ByListbox(AListbox: TATListbox): PAppPanelProps;
+var
+  PropObject: TAppPanelPropsClass;
+  i: integer;
+begin
+  Result:= nil;
+  for i:= 0 to fmMain.FPanelCaptions.Count-1 do
+  begin
+    PropObject:= fmMain.FPanelCaptions.Objects[i] as TAppPanelPropsClass;
+    if PropObject.Data.Listbox=AListbox then
+      exit(@PropObject.Data);
+  end;
+end;
+
 
 function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
   Id, NTag: integer;
-  Prop: ^TAppPanelProps;
+  Prop: PAppPanelProps;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'isi:app_log', @Id, @Ptr, @NTag)) then
     begin
       Str:= string(Ptr);
-
-      if AppPanelActive='0' then
-        Prop:= @AppPanelProp_Out
-      else
-        Prop:= @AppPanelProp_Val;
+      Prop:= GetAppPanelProps_ByCaption(AppPanelActive);
+      if Prop=nil then exit;
 
       case Id of
         LOG_CLEAR:
@@ -1909,6 +1948,15 @@ begin
           begin
             PyEscapeFlag:= Str='1';
             Result:= ReturnNone;
+          end;
+
+        APP_PROC_PANEL_ADD:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelAdd(Str)));
+          end;
+        APP_PROC_PANEL_DELETE:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelDelete(Str)));
           end;
 
         else

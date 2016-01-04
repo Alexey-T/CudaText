@@ -78,6 +78,7 @@ uses
   formcharmaps,
   math;
 
+
 type
   { TfmMain }
   TfmMain = class(TForm)
@@ -526,6 +527,8 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    function DoPyPanelAdd(AParams: string): boolean;
+    function DoPyPanelDelete(AParams: string): boolean;
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
@@ -672,6 +675,7 @@ type
     procedure InitStatusButton;
   public
     { public declarations }
+    FPanelCaptions: TStringlist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
@@ -913,6 +917,7 @@ begin
   Manager:= TecSyntaxManager.Create(Self);
   FSessionFilename:= GetAppPath(cFileHistorySession);
 
+  FPanelCaptions:= TStringList.Create;
   FListRecents:= TStringList.Create;
   FListNewdoc:= TStringList.Create;
   FListThemes:= TStringlist.Create;
@@ -995,15 +1000,42 @@ end;
 procedure TfmMain.DoOnTabsBottomClick(Sender: TObject);
 var
   N: integer;
+  Data: TATTabData;
+  Ctl: TWinControl;
 begin
-  N:= TabsBottom.TabIndex;
-  fmConsole.Visible:= N=0;
-  ListboxOut.Visible:= N=1;
-  ListboxVal.Visible:= N=2;
-  case N of
-    0: fmConsole.Ed.SetFocus;
-    1: ListboxOut.SetFocus;
-    2: ListboxVal.SetFocus;
+  fmConsole.Hide;
+  ListboxOut.Hide;
+  ListboxVal.Hide;
+  for N:= 0 to FPanelCaptions.Count-1 do
+    (FPanelCaptions.Objects[N] as TAppPanelPropsClass).Data.Listbox.Hide;
+
+  case TabsBottom.TabIndex of
+    0:
+      begin
+        fmConsole.Show;
+        fmConsole.Ed.SetFocus;
+      end;
+    1:
+      begin
+        ListboxOut.Show;
+        ListboxOut.SetFocus;
+      end;
+    2:
+      begin
+        ListboxVal.Show;
+        ListboxVal.SetFocus;
+      end;
+    else
+      begin
+        Data:= TabsBottom.GetTabData(TabsBottom.TabIndex);
+        if Data=nil then exit;
+        N:= FPanelCaptions.IndexOf(Data.TabCaption);
+        if N<0 then exit;
+        Ctl:= (FPanelCaptions.Objects[N] as TAppPanelPropsClass).Data.Listbox;
+        Ctl.Show;
+        if Ctl.CanFocus and Ctl.CanSetFocus then
+          Ctl.SetFocus;
+      end;
   end;
 end;
 
@@ -1048,6 +1080,7 @@ begin
   FreeAndNil(FListThemes);
   FreeAndNil(FListOut);
   FreeAndNil(FListVal);
+  FreeAndNil(FPanelCaptions);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
@@ -2729,14 +2762,18 @@ procedure TfmMain.ListboxOutDrawItem(Sender: TObject; C: TCanvas;
 const
   cDx=4; cDy=1;
 var
-  Prop: ^TAppPanelProps;
+  Prop: PAppPanelProps;
   ResFilename: string;
   ResLine, ResCol: integer;
 begin
   if Sender=ListboxOut then
     Prop:= @AppPanelProp_Out
   else
-    Prop:= @AppPanelProp_Val;
+  if Sender=ListboxVal then
+    Prop:= @AppPanelProp_Val
+  else
+    Prop:= GetAppPanelProps_ByListbox(Sender as TATListbox);
+  if Prop=nil then exit;
 
   DoParseOutputLine(Prop^, Prop^.Items[AIndex], ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
@@ -2912,6 +2949,39 @@ begin
     PyCommandRunning:= false;
     CurrentEditor.Strings.EndUndoGroup;
   end;
+end;
+
+
+function TfmMain.DoPyPanelAdd(AParams: string): boolean;
+var
+  SCaption: string;
+  Listbox: TATListbox;
+  Props: TAppPanelPropsClass;
+begin
+  SCaption:= SGetItem(AParams, ';');
+
+  Listbox:= TATListbox.Create(Self);
+  Listbox.Hide;
+  Listbox.Parent:= PanelBottom;
+  Listbox.Align:= alClient;
+  Listbox.OnClick:= @ListboxOutClick;
+  Listbox.OnDrawItem:= @ListboxOutDrawItem;
+  Listbox.OnKeyDown:= @ListboxOutKeyDown;
+  Listbox.Color:= GetAppColor('ListBg');
+  Listbox.ItemHeight:= ListboxOut.ItemHeight;
+
+  Props:= TAppPanelPropsClass.Create;
+  Props.Data.Listbox:= Listbox;
+  Props.Data.Items:= TStringList.Create;
+
+  FPanelCaptions.AddObject(SCaption, Props);
+  TabsBottom.AddTab(-1, SCaption, nil);
+  Result:= true;
+end;
+
+function TfmMain.DoPyPanelDelete(AParams: string): boolean;
+begin
+  Result:= false;
 end;
 
 
