@@ -2955,6 +2955,10 @@ var
 begin
   Result:= false;
   SCaption:= SGetItem(AParams, ';');
+
+  if (SCaption='Console') or
+     (SCaption='Output') or
+     (SCaption='Validate') then exit;
   if FPanelCaptions.IndexOf(SCaption)>=0 then exit;
 
   Listbox:= TATListbox.Create(Self);
@@ -2994,10 +2998,10 @@ begin
   PropObject.Free;
   FPanelCaptions.Delete(N);
 
-  for N:= 0 to TabsBottom.TabCount-1 do
+  for N:= TabsBottom.TabCount-1 downto 0 do
   begin
     Data:= TabsBottom.GetTabData(N);
-    if Data.TabCaption=ACaption then
+    if Assigned(Data) and (Data.TabCaption=ACaption) then
     begin
       TabsBottom.DeleteTab(N, false, false);
       break
@@ -3017,7 +3021,7 @@ begin
   for i:= 0 to TabsBottom.TabCount-1 do
   begin
     Data:= TabsBottom.GetTabData(i);
-    if Data.TabCaption=ACaption then
+    if Assigned(Data) and (Data.TabCaption=ACaption) then
     begin
       TabsBottom.TabIndex:= i;
       exit(true);
