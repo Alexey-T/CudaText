@@ -3039,16 +3039,8 @@ procedure TfmMain.DoGetSplitInfo(const Id: string; out IsVert: boolean;
   procedure GetSp(Sp: TSplitter);
   begin
     IsVert:= (Sp.Align=alLeft) or (Sp.Align=alRight);
-
-    if Sp.Align=alLeft then NPos:= Sp.Left else
-     if Sp.Align=alRight then NPos:= (Sp.Parent.Width-Sp.Left-Sp.Width) else
-      if Sp.Align=alTop then NPos:= Sp.Top else
-       if Sp.Align=alBottom then NPos:= (Sp.Parent.Height-Sp.Top-Sp.Height);
-
-    if IsVert then
-      NTotal:= Sp.Parent.Width
-    else
-      NTotal:= Sp.Parent.Height;
+    NPos:= Sp.GetSplitterPosition;
+    if IsVert then NTotal:= Sp.Parent.Width else NTotal:= Sp.Parent.Height;
   end;
   //----
 begin
@@ -3068,18 +3060,20 @@ end;
 
 
 procedure TfmMain.DoSetSplitInfo(const Id: string; NPos: integer);
+  procedure SetSp(Sp: TSplitter);
+  begin
+    Sp.SetSplitterPosition(NPos);
+  end;
 begin
   if NPos<0 then exit;
-  if Id='L' then
-  begin
-    PanelLeft.Width:= NPos;
-    exit
-  end;
-  if Id='B' then
-  begin
-    PanelBottom.Height:= NPos;
-    exit
-  end;
+  if Id='L' then SetSp(SplitterVert) else
+  if Id='B' then SetSp(SplitterHorz) else
+  if Id='G1' then SetSp(Groups.Splitter1) else
+  if Id='G2' then SetSp(Groups.Splitter2) else
+  if Id='G3' then SetSp(Groups.Splitter3) else
+  if Id='G4' then SetSp(Groups.Splitter4) else
+  if Id='G5' then SetSp(Groups.Splitter5) else
+  ;
 end;
 
 //----------------------------
