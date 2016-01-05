@@ -1449,6 +1449,11 @@ begin
             Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelDelete(Str)));
             Exit; //skip ReturnNone
           end;
+        LOG_PANEL_FOCUS:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelFocus(Str)));
+            Exit; //skip ReturnNone
+          end;
 
         LOG_CONSOLE_CLEAR:
           with fmMain do

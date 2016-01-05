@@ -529,6 +529,7 @@ type
     procedure DoFileNewFrom(const fn: string);
     function DoPyPanelAdd(AParams: string): boolean;
     function DoPyPanelDelete(const ACaption: string): boolean;
+    function DoPyPanelFocus(const ACaption: string): boolean;
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
@@ -2965,6 +2966,7 @@ begin
   Listbox.OnKeyDown:= @ListboxOutKeyDown;
   Listbox.Color:= GetAppColor('ListBg');
   Listbox.ItemHeight:= ListboxOut.ItemHeight;
+  Listbox.CanGetFocus:= true;
 
   Props:= TAppPanelPropsClass.Create;
   Props.Data.Listbox:= Listbox;
@@ -3003,6 +3005,24 @@ begin
   end;
 
   Result:= true;
+end;
+
+
+function TfmMain.DoPyPanelFocus(const ACaption: string): boolean;
+var
+  Data: TATTabData;
+  i: integer;
+begin
+  Result:= false;
+  for i:= 0 to TabsBottom.TabCount-1 do
+  begin
+    Data:= TabsBottom.GetTabData(i);
+    if Data.TabCaption=ACaption then
+    begin
+      TabsBottom.TabIndex:= i;
+      exit(true);
+    end;
+  end;
 end;
 
 
