@@ -1747,6 +1747,8 @@ var
   Str, Str1, Str2, Str3: string;
   StrCaption, StrId, StrCmd, StrIndex: string;
   mi, miMain: TMenuItem;
+  SplitVert: boolean;
+  SplitPos, SplitTotal: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -1982,6 +1984,19 @@ begin
             PyEscapeFlag:= Str='1';
             Result:= ReturnNone;
           end;
+
+        APP_PROC_GET_SPLIT:
+          begin
+            fmMain.DoGetSplitInfo(Str, SplitVert, SplitPos, SplitTotal);
+            Result:= Py_BuildValue('(iii)', Ord(SplitVert), SplitPos, SplitTotal);
+          end;
+        APP_PROC_SET_SPLIT:
+          begin
+            Str1:= SGetItem(Str, ';');
+            Str2:= SGetItem(Str, ';');
+            fmMain.DoSetSplitInfo(Str1, StrToIntDef(Str2, -1));
+            Result:= ReturnNone;
+          end
 
         else
           Result:= ReturnNone;

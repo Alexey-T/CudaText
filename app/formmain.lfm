@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 328
+  Left = 500
   Height = 544
-  Top = 314
+  Top = 319
   Width = 906
   AllowDropFiles = True
   Caption = 'App'
@@ -30,33 +30,33 @@ object fmMain: TfmMain
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
-      Height = 143
+      Height = 135
       Top = 0
       Width = 906
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 143
+      ClientHeight = 135
       ClientWidth = 906
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
-        Height = 143
+        Height = 135
         Top = 0
         Width = 4
       end
       object PanelLeft: TPanel
         Left = 0
-        Height = 143
+        Height = 135
         Top = 0
         Width = 202
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 143
+        ClientHeight = 135
         ClientWidth = 202
         TabOrder = 1
         object Tree: TTreeView
           Left = 0
-          Height = 143
+          Height = 135
           Top = 0
           Width = 202
           Align = alClient
@@ -100,12 +100,12 @@ object fmMain: TfmMain
     end
     object PanelBottom: TPanel
       Left = 0
-      Height = 82
-      Top = 148
+      Height = 90
+      Top = 140
       Width = 906
       Align = alBottom
       BevelOuter = bvNone
-      ClientHeight = 82
+      ClientHeight = 90
       ClientWidth = 906
       TabOrder = 1
       object ListboxOut: TATListbox
@@ -137,7 +137,7 @@ object fmMain: TfmMain
       Cursor = crVSplit
       Left = 0
       Height = 5
-      Top = 143
+      Top = 135
       Width = 906
       Align = alBottom
       AutoSnap = False

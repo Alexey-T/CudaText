@@ -509,6 +509,8 @@ type
     procedure DoFindActionFromString(AStr: string);
     procedure DoFindOptionsFromString(const S: string);
     function DoFindOptionsToString: string;
+    procedure DoGetSplitInfo(const Id: string; out IsVert: boolean; out
+      NPos, NTotal: integer);
     procedure DoGotoDefinition;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
       AForceApply: boolean);
@@ -534,6 +536,7 @@ type
     procedure DoPyResetPlugins;
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
+    procedure DoSetSplitInfo(const Id: string; NPos: integer);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure MenuEncWithReloadClick(Sender: TObject);
@@ -3029,6 +3032,55 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoGetSplitInfo(const Id: string; out IsVert: boolean;
+  out NPos, NTotal: integer);
+  //----
+  procedure GetSp(Sp: TSplitter);
+  begin
+    IsVert:= (Sp.Align=alLeft) or (Sp.Align=alRight);
+
+    if Sp.Align=alLeft then NPos:= Sp.Left else
+     if Sp.Align=alRight then NPos:= (Sp.Parent.Width-Sp.Left-Sp.Width) else
+      if Sp.Align=alTop then NPos:= Sp.Top else
+       if Sp.Align=alBottom then NPos:= (Sp.Parent.Height-Sp.Top-Sp.Height);
+
+    if IsVert then
+      NTotal:= Sp.Parent.Width
+    else
+      NTotal:= Sp.Parent.Height;
+  end;
+  //----
+begin
+  IsVert:= false;
+  NPos:= 0;
+  NTotal:= 0;
+
+  if Id='L' then GetSp(SplitterVert) else
+  if Id='B' then GetSp(SplitterHorz) else
+  if Id='G1' then GetSp(Groups.Splitter1) else
+  if Id='G2' then GetSp(Groups.Splitter2) else
+  if Id='G3' then GetSp(Groups.Splitter3) else
+  if Id='G4' then GetSp(Groups.Splitter4) else
+  if Id='G5' then GetSp(Groups.Splitter5) else
+  ;
+end;
+
+
+procedure TfmMain.DoSetSplitInfo(const Id: string; NPos: integer);
+begin
+  if NPos<0 then exit;
+  if Id='L' then
+  begin
+    PanelLeft.Width:= NPos;
+    exit
+  end;
+  if Id='B' then
+  begin
+    PanelBottom.Height:= NPos;
+    exit
+  end;
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}
