@@ -1439,6 +1439,17 @@ begin
             Prop^.Listbox.ItemIndex:= StrToIntDef(Str, 0);
           end;
 
+        LOG_PANEL_ADD:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelAdd(Str)));
+            Exit; //skip ReturnNone
+          end;
+        LOG_PANEL_DELETE:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelDelete(Str)));
+            Exit; //skip ReturnNone
+          end;
+
         LOG_CONSOLE_CLEAR:
           with fmMain do
           begin
@@ -1965,15 +1976,6 @@ begin
           begin
             PyEscapeFlag:= Str='1';
             Result:= ReturnNone;
-          end;
-
-        APP_PROC_PANEL_ADD:
-          begin
-            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelAdd(Str)));
-          end;
-        APP_PROC_PANEL_DELETE:
-          begin
-            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelDelete(Str)));
           end;
 
         else
