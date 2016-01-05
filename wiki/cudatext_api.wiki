@@ -124,16 +124,27 @@ Performs application-wide action. Possible values of id:
 ** menu_caption is caption, or "-" for menu separator.
 ** menu_index is str(index) for 0-based index at which to insert item; empty param or -1: add item at end.
 
+====Splitters====
+
+* PROC_GET_SPLIT: Gets info about splitter position, 3-tuple: (is_vertical_0_1, splitter_size, parent_size). Text must be splitter id (incorrect value gives parent_size=0).
+* PROC_SET_SPLIT: Sets position of splitter. Text must be "splitter_id;splitter_size".
+
+Splitter id can be:
+* "L": left splitter (near Side panel)
+* "B": bottom splitter (near Bottom panel)
+* "G1"..."G5": splitters between groups, their positions are determined also by grouping view
+
 ===app_log===
 
  app_log(id, text, tag=0)
 
-Controls panels in the bottom panel: Console, Output, Validate.
+Controls panels in the bottom panel: Console, Output, Validate, user-defined.
+
 Possible values of id:
 
 * LOG_CLEAR: Clears active log panel, text is ignored.
 * LOG_ADD: Adds line to active log panel. Param tag is used here: it's int value associated with line, it's passed in on_output_nav.
-* LOG_SET_PANEL: Sets active log panel, text must be one of values: LOG_PANEL_OUTPUT, LOG_PANEL_VALIDATE.
+* LOG_SET_PANEL: Sets active log panel. Text must be LOG_PANEL_OUTPUT, LOG_PANEL_VALIDATE, or caption of additional panel (see LOG_PANEL_ADD). Incorrect text will stop next operations with panels, until correct value set.
 * LOG_SET_REGEX: Sets parsing regex for active log panel. Regex must have some groups in round brackets, indexes of these groups must be passed in separate API calls. All lines in log panel, which can be parsed by this regex, will allow navigation to source code by click or double-click.
 * LOG_SET_LINE_ID: Sets index of regex group for line-number. text is one-char string from "1" to "8", and "0" means "not used".
 * LOG_SET_COL_ID: Sets index of regex group for column-number.
@@ -143,6 +154,9 @@ Possible values of id:
 * LOG_GET_LINES: Gets str: "\n"-separated lines in listbox.
 * LOG_GET_LINEINDEX: Gets index of selected line in listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in listbox.
+* LOG_PANEL_ADD: Adds new panel next to Output/Validate. Text is caption of panel. Gets True if panel was added.
+* LOG_PANEL_DELETE: Deletes panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel was deleted.
+* LOG_PANEL_FOCUS: Focuses tab with newly added panel. Text is caption of panel. Gets True if panel found and focused.
 
 For "Python console" panel:
 
@@ -643,6 +657,7 @@ Possible values of id:
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers.
 * PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
+* PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
 
 ===bookmark===
 
@@ -783,7 +798,10 @@ Text is chr(1) separated items:
 
 1.0.117
 
+* add: app_log: LOG_PANEL_ADD, LOG_PANEL_DELETE, LOG_PANEL_FOCUS
 * add: app_log: LOG_GET_LINES, LOG_GET_LINEINDEX, LOG_SET_LINEINDEX
+* add: ed.set_prop: PROP_EXPORT_HTML
+* add: app_proc: PROC_SET_SPLIT, PROC_GET_SPLIT
 
 1.0.116
 
