@@ -591,6 +591,7 @@ end;
 procedure TfmMain.DoApplyTheme;
 var
   F: TEditorFrame;
+  PropObject: TAppPanelPropsClass;
   i: integer;
 begin
   UpdateMenuThemes(mnuThemes);
@@ -599,6 +600,14 @@ begin
   ListboxOut.Invalidate;
   ListboxVal.Color:= ListboxOut.Color;
   ListboxVal.Invalidate;
+
+  for i:= 0 to FPanelCaptions.Count-1 do
+  begin
+    PropObject:= FPanelCaptions.Objects[i] as TAppPanelPropsClass;
+    PropObject.Data.Listbox.Color:= ListboxOut.Color;
+    PropObject.Data.Listbox.Invalidate;
+  end;
+
 
   for i:= 0 to 9 do
     AppBookmarkSetup[240+i].Color:= GetAppColor('EdBookmarkBg');
