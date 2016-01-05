@@ -1356,6 +1356,12 @@ var
   i: integer;
 begin
   Result:= nil;
+
+  if AListbox=fmMain.ListboxOut then
+    exit(@AppPanelProp_Out);
+  if AListbox=fmMain.ListboxVal then
+    exit(@AppPanelProp_Val);
+
   for i:= 0 to fmMain.FPanelCaptions.Count-1 do
   begin
     PropObject:= fmMain.FPanelCaptions.Objects[i] as TAppPanelPropsClass;
@@ -1376,8 +1382,21 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'isi:app_log', @Id, @Ptr, @NTag)) then
     begin
       Str:= string(Ptr);
+
+      //this action don't need Prop
+      if Id=LOG_SET_PANEL then
+      begin
+        AppPanelActive:= Str;
+        Result:= ReturnNone;
+        exit
+      end;
+
       Prop:= GetAppPanelProps_ByCaption(AppPanelActive);
-      if Prop=nil then exit;
+      if Prop=nil then
+      begin
+        Result:= ReturnNone;
+        exit
+      end;
 
       case Id of
         LOG_CLEAR:
@@ -1392,8 +1411,6 @@ begin
             Prop^.Listbox.ItemCount:= Prop^.Items.Count;
             Prop^.Listbox.Invalidate;
           end;
-        LOG_SET_PANEL:
-          AppPanelActive:= Str;
         LOG_SET_REGEX:
           Prop^.RegexStr:= Str;
         LOG_SET_LINE_ID:

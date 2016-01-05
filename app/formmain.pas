@@ -528,7 +528,7 @@ type
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
     function DoPyPanelAdd(AParams: string): boolean;
-    function DoPyPanelDelete(AParams: string): boolean;
+    function DoPyPanelDelete(const ACaption: string): boolean;
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
@@ -2766,13 +2766,7 @@ var
   ResFilename: string;
   ResLine, ResCol: integer;
 begin
-  if Sender=ListboxOut then
-    Prop:= @AppPanelProp_Out
-  else
-  if Sender=ListboxVal then
-    Prop:= @AppPanelProp_Val
-  else
-    Prop:= GetAppPanelProps_ByListbox(Sender as TATListbox);
+  Prop:= GetAppPanelProps_ByListbox(Sender as TATListbox);
   if Prop=nil then exit;
 
   DoParseOutputLine(Prop^, Prop^.Items[AIndex], ResFilename, ResLine, ResCol);
@@ -2958,7 +2952,9 @@ var
   Listbox: TATListbox;
   Props: TAppPanelPropsClass;
 begin
+  Result:= false;
   SCaption:= SGetItem(AParams, ';');
+  if FPanelCaptions.IndexOf(SCaption)>=0 then exit;
 
   Listbox:= TATListbox.Create(Self);
   Listbox.Hide;
@@ -2979,9 +2975,34 @@ begin
   Result:= true;
 end;
 
-function TfmMain.DoPyPanelDelete(AParams: string): boolean;
+
+function TfmMain.DoPyPanelDelete(const ACaption: string): boolean;
+var
+  PropObject: TAppPanelPropsClass;
+  Data: TATTabData;
+  N: integer;
 begin
   Result:= false;
+
+  N:= FPanelCaptions.IndexOf(ACaption);
+  if N<0 then exit;
+  PropObject:= fmMain.FPanelCaptions.Objects[N] as TAppPanelPropsClass;
+  PropObject.Data.Listbox.Free;
+  PropObject.Data.Items.Free;
+  PropObject.Free;
+  FPanelCaptions.Delete(N);
+
+  for N:= 0 to TabsBottom.TabCount-1 do
+  begin
+    Data:= TabsBottom.GetTabData(N);
+    if Data.TabCaption=ACaption then
+    begin
+      TabsBottom.DeleteTab(N, false, false);
+      break
+    end;
+  end;
+
+  Result:= true;
 end;
 
 
