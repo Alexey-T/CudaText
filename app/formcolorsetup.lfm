@@ -11,7 +11,7 @@ object fmColorSetup: TfmColorSetup
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
@@ -72,7 +72,7 @@ object fmColorSetup: TfmColorSetup
     Width = 163
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    Caption = 'Set none'
+    Caption = 'Set "none color"'
     OnClick = bNoneClick
     TabOrder = 2
   end
