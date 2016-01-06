@@ -1,3 +1,4 @@
+import os
 import string
 from cudatext import *
 from .events import *
@@ -12,7 +13,15 @@ def is_correct_id(name):
         if not s in chars:
             return False
     return True
-     
+
+def get_module_dir():
+    dir = app_path(APP_DIR_PY)
+    for i in range(2000):
+        name = 'sample'+str(i+1)
+        if not os.path.isdir(os.path.join(dir, 'cuda_'+name)):
+            return name
+    return 'sample' 
+         
 
 def dlg_make_plugin():
     '''
@@ -28,11 +37,12 @@ def dlg_make_plugin():
     id_ok = 8
     c1 = chr(1)
     while True:
+        dir = get_module_dir()
         res = dlg_custom('Make Plugin', dlg_w, dlg_h, '\n'.join([]
           + [c1.join(['type=label', 'cap=Plugin &name:', 'pos=6,6,400,0'])]
           + [c1.join(['type=edit', 'val=MySample', 'pos=6,24,400,46'])]
           + [c1.join(['type=label', 'cap=Lowercase &module name:', 'pos=6,54,400,0'])]
-          + [c1.join(['type=edit', 'val=sample', 'pos=6,72,400,46'])]
+          + [c1.join(['type=edit', 'val='+dir, 'pos=6,72,400,46'])]
           + [c1.join(['type=label', 'cap=Menu-&items in form "Caption>method":', 'pos=6,102,400,0'])]
           + [c1.join(['type=memo', 'val=MySample>run', 'pos=6,120,400,240'])]
           + [c1.join(['type=label', 'cap=&Events to handle:', 'pos=6,246,400,0'])]
