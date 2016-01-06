@@ -1,6 +1,8 @@
 
-1.2.12.2
+1.2.13
 + redone plugin "Make Plugin"
++ opt autocomplete_html
++ opt autocomplete_css
 - fix: sort must set "modified"
 
 1.2.12

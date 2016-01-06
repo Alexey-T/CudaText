@@ -418,4 +418,9 @@
   //If no selection then move caret to next line
   "duplicate_move_down": true,
 
+  //Special auto-complete for HTML lexer (see wiki)
+  "autocomplete_html": true,
+  //Special auto-complete for CSS lexer (see wiki)
+  "autocomplete_css": true,
+
 }

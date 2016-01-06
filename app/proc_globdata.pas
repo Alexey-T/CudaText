@@ -67,6 +67,9 @@ type
     PyLibrary: string;
     LexerLibFilename: string;
 
+    AutocompleteCss: boolean;
+    AutocompleteHtml: boolean;
+
     ListboxWidth: integer;
     ListboxItemCountCmd: integer;
     ListboxItemCountBm: integer;
@@ -666,6 +669,9 @@ begin
 
     LexerLibFilename:= 'lib.lxl';
     PyLibrary:= InitPyLibraryPath;
+
+    AutocompleteCss:= true;
+    AutocompleteHtml:= true;
 
     ListboxWidth:= 450;
     ListboxItemCountCmd:= 15;

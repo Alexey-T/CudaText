@@ -2366,8 +2366,8 @@ begin
     Delete(LexName, Length(Lexname), 1);
 
   IsPas:= Pos('Pascal', LexName)>0;
-  IsHtml:= Pos('HTML', LexName)>0;
-  IsCss:= LexName='CSS';
+  IsHtml:= UiOps.AutocompleteHtml and (Pos('HTML', LexName)>0);
+  IsCss:= UiOps.AutocompleteCss and (LexName='CSS');
   IsCaseSens:= (not IsPas) and (Pos('SQL', LexName)=0);
   FileCss:= GetAppPath(cDirDataAcpSpec)+DirectorySeparator+'css_list.ini';
   FileHtml:= GetAppPath(cDirDataAcpSpec)+DirectorySeparator+'html_list.ini';
