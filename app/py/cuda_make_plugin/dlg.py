@@ -29,7 +29,7 @@ def dlg_make_plugin():
     '''
     dlg_w = 406
     dlg_h = 460
-    btn_w = 90
+    btn_w = 80
     id_name = 1
     id_module = 3
     id_items = 5
@@ -47,7 +47,7 @@ def dlg_make_plugin():
           + [c1.join(['type=memo', 'val=MySample>run', 'pos=6,120,400,240'])]
           + [c1.join(['type=label', 'cap=&Events to handle:', 'pos=6,246,400,0'])]
           + [c1.join(['type=checklistbox', 'items='+'\t'.join(EVENTS), 'pos=6,264,400,420'])]
-          + [c1.join(['type=button', 'cap=&OK', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w*2-12, dlg_h-30, dlg_w-btn_w-12, 0)])]
+          + [c1.join(['type=button', 'cap=&OK', 'props=1', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w*2-12, dlg_h-30, dlg_w-btn_w-12, 0)])]
           + [c1.join(['type=button', 'cap=Cancel', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w-6, dlg_h-30, dlg_w-6, 0)])]
           ) )
         if res is None: return
