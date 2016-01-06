@@ -263,7 +263,7 @@ end;
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: array of string): string;
 const
-  cTrueResultStopsThese = [cEventOnComplete, cEventOnFuncHint];
+  cTrueResultStopsThese = [cEventOnComplete{, cEventOnFuncHint}];
 var
   SCurLexer: string;
   i: integer;

@@ -310,18 +310,15 @@ type
     cEventOnChange,
     cEventOnChangeSlow,
     cEventOnCaret,
-    cEventOnNumber,
     cEventOnState,
     cEventOnFocus,
+    cEventOnStart,
     cEventOnLexer,
     cEventOnComplete,
-    cEventOnFuncHint,
     cEventOnGotoDef,
     cEventOnConsole,
     cEventOnConsoleNav,
     cEventOnOutputNav,
-    cEventOnCompare,
-    cEventOnStart,
     cEventOnMacro
     );
   TAppPyEvents = set of TAppPyEvent;
@@ -335,18 +332,15 @@ const
     'on_change',
     'on_change_slow',
     'on_caret',
-    'on_num',
     'on_state',
     'on_focus',
+    'on_start',
     'on_lexer',
     'on_complete',
-    'on_func_hint',
     'on_goto_def',
     'on_console',
     'on_console_nav',
     'on_output_nav',
-    'on_compare',
-    'on_start',
     'on_macro'
     );
 

@@ -8,6 +8,7 @@ EVENTS = [
     'on_focus',
     'on_goto_def',
     'on_key',
+    'on_lexer',
     'on_macro',
     'on_open',
     'on_output_nav',

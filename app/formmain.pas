@@ -537,6 +537,7 @@ type
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     procedure DoSetSplitInfo(const Id: string; NPos: integer);
+    procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure MenuEncWithReloadClick(Sender: TObject);
@@ -3074,6 +3075,11 @@ begin
   if Id='G4' then SetSp(Groups.Splitter4) else
   if Id='G5' then SetSp(Groups.Splitter5) else
   ;
+end;
+
+procedure TfmMain.FrameLexerChange(Sender: TObject);
+begin
+  DoPyEvent(CurrentEditor, cEventOnLexer, []);
 end;
 
 //----------------------------

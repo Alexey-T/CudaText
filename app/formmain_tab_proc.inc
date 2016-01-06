@@ -23,8 +23,9 @@ begin
 
   F.Groups:= Groups;
 
-  F.Adapter.OnParseBegin:=@FrameParseBegin;
-  F.Adapter.OnParseDone:=@FrameParseDone;
+  F.Adapter.OnParseBegin:= @FrameParseBegin;
+  F.Adapter.OnParseDone:= @FrameParseDone;
+  F.Adapter.OnLexerChange:= @FrameLexerChange;
 
   F.Editor.PopupText:= PopupText;
   F.Editor2.PopupText:= PopupText;
