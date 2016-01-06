@@ -20,7 +20,7 @@ def dlg_make_plugin():
     '''
     dlg_w = 406
     dlg_h = 460
-    btn_w = 100
+    btn_w = 90
     id_name = 1
     id_module = 3
     id_items = 5

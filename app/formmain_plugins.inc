@@ -64,7 +64,7 @@ begin
         strPath:= '/commands/'+list[i]+'/'+list2[j]+'/';
         FPluginsCmd[cnt].ItemProc:= cfg.GetValue(strPath+'proc', '');
         FPluginsCmd[cnt].ItemProcParam:= cfg.GetValue(strPath+'proc_par', '');
-        FPluginsCmd[cnt].ItemCaption:= cfg.GetValue(strPath+'caption', '');
+        FPluginsCmd[cnt].ItemCaption:= Utf8Encode(cfg.GetValue(strPath+'caption', ''));
         FPluginsCmd[cnt].ItemLexers:= cfg.GetValue(strPath+'lexers', '');
         FPluginsCmd[cnt].ItemInMenu:= cfg.GetValue(strPath+'menu', true);
 
