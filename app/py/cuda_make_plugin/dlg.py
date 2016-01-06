@@ -5,9 +5,9 @@ from .events import *
 def is_correct_id(name):
     if not name: 
         return False
-    if not name[0] in string.ascii_letters:
+    if not name[0] in string.ascii_letters+'_':
         return False
-    chars = string.ascii_letters + string.digits + '_'
+    chars = string.ascii_letters+string.digits+'_'
     for s in name:
         if not s in chars:
             return False
@@ -16,7 +16,7 @@ def is_correct_id(name):
 
 def dlg_make_plugin():
     '''
-    (s_caption, s_module, items_list, events_list)
+    (s_caption, s_module, cmd_list, event_list)
     '''
     dlg_w = 406
     dlg_h = 460
@@ -48,9 +48,9 @@ def dlg_make_plugin():
         s_caption = text[id_name]
         s_module = text[id_module]
         s_items = text[id_items].split('\t')
-        items_list = [s.split('>') for s in s_items if s]
+        cmd_list = [s.split('>') for s in s_items if s]
         s_items = text[id_events].split(';')[1].split(',')
-        events_list = [s for (n, s) in enumerate(EVENTS) if s_items[n]=='1']
+        event_list = [s for (n, s) in enumerate(EVENTS) if s_items[n]=='1']
         
         if not s_module or not s_caption:
             msg_box('Empty field', MB_OK+MB_ICONERROR)
@@ -60,7 +60,7 @@ def dlg_make_plugin():
             continue
 
         bad = False
-        for i in items_list:
+        for i in cmd_list:
             if len(i)!=2:
                 msg_box('Incorrect menu-item: '+repr(i), MB_OK+MB_ICONERROR)
                 bad = True
@@ -77,4 +77,4 @@ def dlg_make_plugin():
         if bad:
             continue
                 
-        return (s_caption, 'cuda_'+s_module, items_list, events_list)
+        return (s_caption, 'cuda_'+s_module, cmd_list, event_list)
