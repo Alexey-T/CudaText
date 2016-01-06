@@ -1,5 +1,5 @@
 [info]
-title=My plugin
+title={title}
 desc=My plugin info
 type=cudatext-plugin
 subdir={subdir}
@@ -8,3 +8,4 @@ subdir={subdir}
 section=commands
 caption={menuitem}
 method=run
+

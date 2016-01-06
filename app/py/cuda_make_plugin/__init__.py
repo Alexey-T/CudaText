@@ -8,12 +8,16 @@ fn_plugins = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.json')
 dir_py = app_path(APP_DIR_PY)
 
 def is_module_name(name):
-    if not name: return False
+    if not name: 
+        return False
+    if not name[0] in string.ascii_letters:
+        return False
     chars = string.ascii_letters + string.digits + '_'
     for s in name:
         if not s in chars:
             return False
-    return True 
+    return True
+     
 
 class Command:
     def run(self):
@@ -55,10 +59,15 @@ class Command:
         fn_install_inf = os.path.join(dir_plugin, 'install.inf')
         fn_sample_inf = os.path.join(os.path.dirname(__file__), 'sample.inf')
         text = open(fn_sample_inf).read()
-        text = text.replace('{subdir}', s_module).replace('{menuitem}', s_caption)
+        
+        text = text.replace('{title}', s_caption)
+        text = text.replace('{subdir}', s_module)
+        text = text.replace('{menuitem}', s_caption)
+        
         with open(fn_install_inf, 'w') as f:
             f.write(text)
         
         file_open(fn_py)
         msg_box('Plugin was created. Menu item "Plugins - %s" will appear after restart of program.' 
                 % s_caption, MB_OK+MB_ICONINFO)
+
