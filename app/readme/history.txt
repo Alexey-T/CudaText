@@ -1,6 +1,7 @@
 
-1.2.14
+1.2.12.2
 + redone plugin "Make Plugin"
+- fix: sort must set "modified"
 
 1.2.12
 + api (log panels api, splitters api)

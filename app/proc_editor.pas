@@ -334,6 +334,9 @@ begin
       ed.Strings.LineInsert(y1, str);
     end;
 
+    ed.Strings.Modified:= true;
+    ed.DoEventChange;
+
     ACount:= list.Count;
     Result:= true;
   finally
