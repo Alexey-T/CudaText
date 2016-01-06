@@ -1,5 +1,6 @@
 import string
 from cudatext import *
+from .events import *
 
 def is_correct_id(name):
     if not name: 
@@ -14,6 +15,9 @@ def is_correct_id(name):
      
 
 def dlg_make_plugin():
+    '''
+    (s_caption, s_module, items_list, events_list)
+    '''
     dlg_w = 406
     dlg_h = 460
     btn_w = 100
@@ -32,7 +36,7 @@ def dlg_make_plugin():
           + [c1.join(['type=label', 'cap=Menu-&items in form "Caption>method":', 'pos=6,102,400,0'])]
           + [c1.join(['type=memo', 'val=MySample>run', 'pos=6,120,400,240'])]
           + [c1.join(['type=label', 'cap=&Events to handle:', 'pos=6,246,400,0'])]
-          + [c1.join(['type=checklistbox', 'pos=6,264,400,420'])]
+          + [c1.join(['type=checklistbox', 'items='+'\t'.join(EVENTS), 'pos=6,264,400,420'])]
           + [c1.join(['type=button', 'cap=&OK', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w*2-12, dlg_h-30, dlg_w-btn_w-12, 0)])]
           + [c1.join(['type=button', 'cap=Cancel', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w-6, dlg_h-30, dlg_w-6, 0)])]
           ) )
@@ -44,7 +48,9 @@ def dlg_make_plugin():
         s_caption = text[id_name]
         s_module = text[id_module]
         s_items = text[id_items].split('\t')
-        items_list = [s.split('>') for s in s_items if s]            
+        items_list = [s.split('>') for s in s_items if s]
+        s_items = text[id_events].split(';')[1].split(',')
+        events_list = [s for (n, s) in enumerate(EVENTS) if s_items[n]=='1']
         
         if not s_module or not s_caption:
             msg_box('Empty field', MB_OK+MB_ICONERROR)
@@ -71,6 +77,4 @@ def dlg_make_plugin():
         if bad:
             continue
                 
-        return (s_caption, s_module, items_list)
-        
-                
+        return (s_caption, 'cuda_'+s_module, items_list, events_list)

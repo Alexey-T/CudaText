@@ -1,4 +1,7 @@
 
+1.2.14
++ redone plugin "Make Plugin"
+
 1.2.12
 + api (log panels api, splitters api)
 * removed lexers NSIS, Inno: to Addon Manager
