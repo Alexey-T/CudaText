@@ -1,5 +1,6 @@
 
-1.2.13
+1.2.14
++ selection keeps bold/italic of selected tokens
 + redone plugin "Make Plugin"
 + opt autocomplete_html
 + opt autocomplete_css
