@@ -1,10 +1,11 @@
 
 1.2.14
-+ selection keeps bold/italic of selected tokens
++ selection keeps bold/italic of selected words
 + redone plugin "Make Plugin"
 + opt autocomplete_html
 + opt autocomplete_css
-- fix: unfold found text
+- fix: caret at bad coord
+- fix: must unfold found text
 - fix: sort must set "modified"
 
 1.2.12
