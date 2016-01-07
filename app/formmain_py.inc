@@ -1643,7 +1643,7 @@ begin
 
         PROP_MARKED_RANGE:
           begin
-            Ed.DoGetMarkedRange(Num1, Num2);
+            Ed.DoGetMarkedLines(Num1, Num2);
             Result:= Py_BuildValue('(ii)', Num1, Num2);
           end;
 
@@ -1743,7 +1743,7 @@ begin
           begin
             N1:= StrToIntDef(SGetItem(Str), -1);
             N2:= StrToIntDef(SGetItem(Str), -1);
-            Ed.DoSetMarkedRange(N1, N2);
+            Ed.DoSetMarkedLines(N1, N2);
           end;
       end;
 
