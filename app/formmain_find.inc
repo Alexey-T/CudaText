@@ -11,11 +11,20 @@ procedure TfmMain.FinderFound(Sender: TObject; APos1, APos2: TPoint);
 var
   Ed: TATSynEdit;
 begin
+  Ed:= FFinder.Editor;
   if FFindMark then
   begin
-    Ed:= FFinder.Editor;
     Ed.Carets.Add(APos1.X, APos1.Y, APos2.X, APos2.Y);
     Ed.Carets.Sort;
+  end
+  else
+  begin
+    Ed.DoGotoPos_AndUnfold(APos1, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+
+    //this is to scroll to pos- no help
+    //Application.ProcessMessages;
+    //Ed.DoGotoCaret(cEdgeTop);
+    //Ed.Update;
   end;
 end;
 
