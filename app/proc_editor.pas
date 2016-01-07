@@ -472,6 +472,8 @@ begin
   Ed.Colors.MarginRight:= GetAppColor('EdMarginFixed');
   Ed.Colors.MarginCaret:= GetAppColor('EdMarginCaret');
   Ed.Colors.MarginUser:= GetAppColor('EdMarginUser');
+
+  Ed.Colors.MarkedLinesBG:= GetAppColor('EdMarkedRangeBg');
 end;
 
 

@@ -1641,6 +1641,12 @@ begin
         PROP_MACRO_REC:
           Result:= PyBool_FromLong(Ord(F.MacroRecord));
 
+        PROP_MARKED_RANGE:
+          begin
+            Ed.DoGetMarkedRange(Num1, Num2);
+            Result:= Py_BuildValue('(ii)', Num1, Num2);
+          end;
+
         else
           Result:= ReturnNone;
       end;
@@ -1656,7 +1662,7 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
   ValueBool: boolean;
-  ValueInt, NGroup, NTab, NIndexNew: integer;
+  ValueInt, NGroup, NTab, NIndexNew, N1, N2: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -1731,6 +1737,13 @@ begin
         PROP_EXPORT_HTML:
           begin
             DoEditorExportToHTML_WithParams(Ed, Str);
+          end;
+
+        PROP_MARKED_RANGE:
+          begin
+            N1:= StrToIntDef(SGetItem(Str), -1);
+            N2:= StrToIntDef(SGetItem(Str), -1);
+            Ed.DoSetMarkedRange(N1, N2);
           end;
       end;
 
