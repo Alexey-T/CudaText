@@ -4,6 +4,7 @@
 + redone plugin "Make Plugin"
 + opt autocomplete_html
 + opt autocomplete_css
+- fix: unfold found text
 - fix: sort must set "modified"
 
 1.2.12

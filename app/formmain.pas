@@ -1706,16 +1706,14 @@ begin
       MsgStatus(msgStatusBadNum);
       Exit
     end;
-
-    NumMax:= Ed.Strings.Count-1;
-    if Num>NumMax then Num:= NumMax;
+    Num:= Min(Num, Ed.Strings.Count-1);
 
     fmGoto.Hide;
-    Ed.DoCaretSingle(0, Num);
-    Ed.DoGotoPos(Point(0, Num), UiOps.FindIndentHorz, UiOps.FindIndentVert);
+    MsgStatus(Format(msgStatusGotoLine, [Num+1]));
+
+    Ed.DoGotoPos_AndUnfold(Point(0, Num), UiOps.FindIndentHorz, UiOps.FindIndentVert);
     Ed.Update;
     Ed.SetFocus;
-    MsgStatus(Format(msgStatusGotoLine, [Num+1]));
   end;
 end;
 
