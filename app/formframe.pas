@@ -243,6 +243,8 @@ begin
     FActiveAlt:= NewAlt;
     DoOnUpdateStatus;
   end;
+
+  DoPyEvent(Sender as TATSynEdit, cEventOnClick, []);
 end;
 
 procedure TEditorFrame.SplitterMoved(Sender: TObject);
