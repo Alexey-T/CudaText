@@ -20,11 +20,6 @@ begin
   else
   begin
     Ed.DoGotoPos_AndUnfold(APos1, UiOps.FindIndentHorz, UiOps.FindIndentVert);
-
-    //this is to scroll to pos- no help
-    //Application.ProcessMessages;
-    //Ed.DoGotoCaret(cEdgeTop);
-    //Ed.Update;
   end;
 end;
 
