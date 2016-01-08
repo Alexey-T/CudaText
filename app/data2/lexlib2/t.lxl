@@ -6624,12 +6624,33 @@ object TecSyntaxManager
         HighlightPos = cpAny
         NoEndRule = True
         IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'class'
+        ConditionList = <        
+          item
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'class'
+            )
+            TokenTypes = 4
+          end>
+        NameFmt = '%s0 %s-1'
+        HighlightPos = cpAny
+        NoEndRule = True
+        IgnoreAsParent = False
       end>
     CodeTemplates = <>
     SubAnalyzers = <>
     SampleText.Strings = (
       '//text text'
       'NaN Object $ offset'
+      ''
+      'class MyClass {'
+      '  ///'
+      '}'
       ''
       'function init() {'
       #9'addMenuItem(''Txt'', ''Ctrl+\'''');'
