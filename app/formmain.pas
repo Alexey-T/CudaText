@@ -2356,7 +2356,10 @@ begin
   if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
 
   if F.Lexer=nil then exit;
-  LexName:= F.Lexer.LexerName;
+  if Ed.Carets.Count<>1 then exit;
+
+  LexName:= F.LexerNameAtPos(Point(Ed.Carets[0].PosX, Ed.Carets[0].PosY));
+  MsgStatus('Trying auto-complete for: '+LexName);
   if LexName='' then exit;
 
   //'php_'->'php'
