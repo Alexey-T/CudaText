@@ -16,8 +16,10 @@ Supported events:
 * on_change(self, ed_self): Called after text is changed.
 * on_change_slow(self, ed_self): Called after text is changed, after few seconds. This is for Lint plugins, they need to react to change after a delay.
 * on_caret(self, ed_self): Called after caret position/selection changed.
-* on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is few chars string: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
+* on_click(self, ed_self, state): Called after mouse click. state has the same meaning as in on_key.
+* on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
 * on_focus(self, ed_self): Called after editor is focused.
+* on_lexer(self, ed_self): Called after lexer is changed.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
 
 Code parsing
@@ -138,7 +140,7 @@ Splitter id can be:
 
  app_log(id, text, tag=0)
 
-Controls panels in the bottom panel: Console, Output, Validate, user-defined.
+Controls panels in the bottom panel: Console, Output, Validate, and additional panels.
 
 Possible values of id:
 
@@ -154,9 +156,9 @@ Possible values of id:
 * LOG_GET_LINES: Gets str: "\n"-separated lines in listbox.
 * LOG_GET_LINEINDEX: Gets index of selected line in listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in listbox.
-* LOG_PANEL_ADD: Adds new panel next to Output/Validate. Text is caption of panel. Gets True if panel was added.
-* LOG_PANEL_DELETE: Deletes panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel was deleted.
-* LOG_PANEL_FOCUS: Focuses tab with newly added panel. Text is caption of panel. Gets True if panel found and focused.
+* LOG_PANEL_ADD: Adds new panel next to Output/Validate. Text is caption of panel. Gets True if panel was added; gets False for incorrect caption: caption of standard or already added panel.
+* LOG_PANEL_DELETE: Deletes panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel found and deleted.
+* LOG_PANEL_FOCUS: Focuses panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel found and focused.
 
 For "Python console" panel:
 
@@ -268,18 +270,6 @@ Param text is string items, separated by "\n" char. Each item can be simple str 
 Shows select-color dialog with given initial color (int).
 
 Gets int color, or None if cancelled.
-
-===dlg_checklist===
-
- dlg_checklist(caption, columns, items, size_x, size_y)
-
-Shows dialog with ListView with checkmarks. Returns list of bool: checked states of lines, or None if cancelled. Params:
-
-* caption: dialog caption.
-* columns: "\n"-separated column items, each item is "\t"-separated: title and str(column_width), where column_width can be missed or zero for autosize.
-* items: "\n"-separated dialog lines, each line is "\t"-separated column strings. 1st column can begin with "*" to check this line.
-* size_x: dialog width.
-* size_y: dialog height.
 
 ===dlg_hotkeys===
 
@@ -615,6 +605,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_RULER: bool: horz ruler is shown.
 * PROP_LINE_STATE: int: state of the line with index int(text). One of values: LINESTATE_NORMAL, LINESTATE_CHANGED, LINESTATE_ADDED, LINESTATE_SAVED.
+* PROP_COLOR: int: color property. Text must be one of COLOR_ID values, see module cudatext_colors. Gets None for incorrect id.
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: text must be str(column)+","+str(line), column/line 0-based.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
@@ -627,6 +618,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
 * PROP_MACRO_REC: bool: currently macro is recording.
+* PROP_MARKED_RANGE: 2-tuple: numbers of lines for "marked range" (both -1 if not set).
 
 ===set_prop===
 
@@ -648,6 +640,7 @@ Possible values of id:
 * PROP_MARGIN_STRING: str: space-separated user-margins columns.
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_RULER: bool: show ruler.
+* PROP_COLOR: color property, value must be "color_id,color_int_value", where color_id is constant from module cudatext_colors.
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
@@ -658,6 +651,7 @@ Possible values of id:
 * PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers.
 * PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
 * PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
+* PROP_MARKED_RANGE: str: numbers of lines for "marked range" as "num1,num2" (pass empty str or "-1,-1" to remove range).
 
 ===bookmark===
 
@@ -795,6 +789,14 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.118
+
+* add: on_click
+* add: on_lexer
+* add: ed.set_prop/get_prop PROP_COLOR
+* add: ed.set_prop/get_prop PROP_MARKED_RANGE
+* delete: dlg_checklist
 
 1.0.117
 
