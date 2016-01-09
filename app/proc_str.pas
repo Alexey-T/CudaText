@@ -200,9 +200,12 @@ function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boo
 var
   Ext: string;
 begin
+  if AExtList='*' then exit(true);
+  if AExtList='' then exit(false);
   Ext:= ExtractFileExt(AFilename);
-  if SBeginsWith(Ext, '.') then Delete(Ext, 1, 1);
-  Result:= IsLexerListed(Ext, AExtList);
+  if Ext='' then exit(false);
+  if Ext[1]='.' then Delete(Ext, 1, 1);
+  Result:= Pos(','+Ext+',', ','+AExtList+',' )>0;
 end;
 
 

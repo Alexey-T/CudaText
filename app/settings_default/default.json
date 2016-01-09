@@ -375,7 +375,7 @@
   "ui_reopen_session": true,
 
   //[Underline HTML color tokens like #008080, #0a0]
-  //File extensions, comma-separated, or "*" for all files
+  //File extensions, comma-separated; "*" for all files, empty str to disable
   "underline_color_files": "*",
   //Width of line, pixels
   "underline_color_size": 3,
