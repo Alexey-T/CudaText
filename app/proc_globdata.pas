@@ -151,7 +151,7 @@ type
 
     OpOvrSel: boolean;
     OpOvrOnPaste: boolean;
-    OpUnderlineColor: boolean;
+    OpUnderlineColorFiles: string;
     OpUnderlineColorSize: integer;
 
     //view
@@ -563,7 +563,8 @@ begin
 
     OpOvrSel:= true;
     OpOvrOnPaste:= false;
-    OpUnderlineColor:= true;
+
+    OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;
 
     OpGutterShow:= true;

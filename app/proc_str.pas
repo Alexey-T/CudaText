@@ -28,8 +28,10 @@ type
 
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 function SFindWordsInString(SText, SFind: string): boolean;
-function IsLexerListed(const ALexer, ANameList: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
+
+function IsLexerListed(const ALexer, ANameList: string): boolean;
+function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
 type
   TRegexParts = array[1..8] of string;
@@ -193,6 +195,16 @@ begin
     ','+LowerCase(ALexer)+',',
     ','+LowerCase(ANameList)+',' )>0;
 end;
+
+function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
+var
+  Ext: string;
+begin
+  Ext:= ExtractFileExt(AFilename);
+  if SBeginsWith(Ext, '.') then Delete(Ext, 1, 1);
+  Result:= IsLexerListed(Ext, AExtList);
+end;
+
 
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 var

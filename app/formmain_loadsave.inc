@@ -416,8 +416,9 @@ begin
 
     Op.OpOvrSel:= c.GetValue('ovr_sel', Op.OpOvrSel);
     Op.OpOvrOnPaste:= c.GetValue('ovr_on_paste', Op.OpOvrOnPaste);
-    Op.OpUnderlineColor:= c.GetValue('under_color', Op.OpUnderlineColor);
-    Op.OpUnderlineColorSize:= c.GetValue('under_color_size', Op.OpUnderlineColorSize);
+
+    Op.OpUnderlineColorFiles:= c.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
+    Op.OpUnderlineColorSize:= c.GetValue('underline_color_size', Op.OpUnderlineColorSize);
 
     Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
     Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);

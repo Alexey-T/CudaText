@@ -374,10 +374,11 @@
   //Restore session (all named tabs) at start
   "ui_reopen_session": true,
 
-  //Enables to underline HTML color tokens like #008080, #0a0
-  "under_color": true,
-  //Width of underline, pixels
-  "under_color_size": 3,
+  //[Underline HTML color tokens like #008080, #0a0]
+  //File extensions, comma-separated, or "*" for all files
+  "underline_color_files": "*",
+  //Width of line, pixels
+  "underline_color_size": 3,
 
   //Options for "File--Export to HTML"
   "export_html_numbers": false,

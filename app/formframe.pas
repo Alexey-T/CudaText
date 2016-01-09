@@ -302,7 +302,10 @@ var
   i: integer;
 begin
   if AStr='' then Exit;
-  if not EditorOps.OpUnderlineColor then Exit;
+  if not
+    ((EditorOps.OpUnderlineColorFiles='*') or
+     IsFilenameListedInExtensionList(FileName, EditorOps.OpUnderlineColorFiles))
+    then exit;
 
   for i:= 1 to Length(AStr) do
     if AStr[i]='#' then
