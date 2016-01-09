@@ -160,6 +160,7 @@ type
     property TabKeyCollectMarkers: boolean read FTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property TagString: string read FTagString write FTagString;
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
+    property TopLineTodo: integer read FTopLineTodo write FTopLineTodo;
     function IsEmpty: boolean;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;

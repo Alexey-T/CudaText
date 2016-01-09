@@ -875,13 +875,15 @@ var
   H: PtrInt;
   Val: integer;
   Ed: TATSynEdit;
+  F: TEditorFrame;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Li:set_top', @H, @Val)) then
     begin
       Ed:= PyEditor(H);
-      Ed.LineTop:= Val;
-      fmMain.UpdateFrame();
+      F:= fmMain.GetEditorFrame(Ed);
+      F.TopLineTodo:= Val;
+      fmMain.UpdateFrame;
       fmMain.UpdateStatus;
       Result:= ReturnNone;
     end;
