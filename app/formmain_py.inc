@@ -1602,6 +1602,7 @@ begin
             Pnt.Y:= Ed.Carets[0].PosY;
             Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
           end;
+
         PROP_INDEX_GROUP:
           begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);
@@ -1636,6 +1637,13 @@ begin
             Ed.DoGetMarkedLines(Num1, Num2);
             Result:= Py_BuildValue('(ii)', Num1, Num2);
           end;
+
+        PROP_CARET_SHAPE:
+          Result:= PyInt_FromLong(Ord(Ed.OptCaretShape));
+        PROP_CARET_SHAPE_OVR:
+          Result:= PyInt_FromLong(Ord(Ed.OptCaretShapeOvr));
+        PROP_CARET_SHAPE_RO:
+          Result:= PyInt_FromLong(Ord(Ed.OptCaretShapeRO));
 
         else
           Result:= ReturnNone;
@@ -1733,6 +1741,13 @@ begin
             if NTab>=0 then
               fmMain.Groups.Pages[NGroup].Tabs.MoveTab(NTab, NIndexNew, true);
           end;
+
+        PROP_CARET_SHAPE:
+          Ed.OptCaretShape:= TATSynCaretShape(StrToIntDef(Str, 0));
+        PROP_CARET_SHAPE_OVR:
+          Ed.OptCaretShapeOvr:= TATSynCaretShape(StrToIntDef(Str, 0));
+        PROP_CARET_SHAPE_RO:
+          Ed.OptCaretShapeRO:= TATSynCaretShape(StrToIntDef(Str, 0));
 
         PROP_EXPORT_HTML:
           begin
