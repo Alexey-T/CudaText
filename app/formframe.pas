@@ -28,6 +28,7 @@ uses
   ATStringProc,
   ATStringProc_HtmlColor,
   ATFileNotif,
+  ATButtons,
   ecSyntAnal,
   proc_globdata,
   proc_lexer,
@@ -37,7 +38,8 @@ uses
   proc_files,
   proc_msg,
   proc_str,
-  proc_py, ATButtons,
+  proc_py,
+  proc_miscutils,
   jsonConf,
   math;
 
@@ -244,7 +246,8 @@ begin
     DoOnUpdateStatus;
   end;
 
-  DoPyEvent(Sender as TATSynEdit, cEventOnClick, []);
+  DoPyEvent(Sender as TATSynEdit, cEventOnClick,
+    ['"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"']);
 end;
 
 procedure TEditorFrame.SplitterMoved(Sender: TObject);
@@ -261,7 +264,7 @@ procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
 begin
   if DoPyEvent(Sender as TATSynEdit,
     cEventOnKey,
-    [IntToStr(Key), '"'+ShiftStateToString(Shift)+'"']) = cPyFalse then
+    [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']) = cPyFalse then
     begin
       Key:= 0;
       Exit

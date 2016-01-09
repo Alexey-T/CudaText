@@ -13,6 +13,7 @@ interface
 
 uses
   Classes, SysUtils, ComCtrls, Graphics,
+  LclIntf, LclType, StrUtils,
   ATSynEdit,
   ATSynEdit_Export_HTML,
   ATStringProc,
@@ -24,12 +25,13 @@ procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer
 
 type
   TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
-
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 
-function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
-
 procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
+
+function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
+function ConvertShiftStateToString(const Shift: TShiftState): string;
+function KeyboardStateToShiftState: TShiftState; //like VCL
 
 
 implementation
@@ -148,6 +150,25 @@ begin
 
   DoEditorExportToHTML(Ed, SFileName, STitle, SFontName, NFontSize, bWithNums,
     NColorBg, NColorNums);
+end;
+
+
+function KeyboardStateToShiftState: TShiftState;
+begin
+  Result := [];
+  if GetKeyState(VK_SHIFT) < 0 then Include(Result, ssShift);
+  if GetKeyState(VK_CONTROL) < 0 then Include(Result, ssCtrl);
+  if GetKeyState(VK_MENU) < 0 then Include(Result, ssAlt);
+  if GetKeyState(VK_LWIN) < 0 then Include(Result, ssMeta);
+end;
+
+function ConvertShiftStateToString(const Shift: TShiftState): string;
+begin
+  Result:=
+    IfThen(ssShift in Shift, 's')+
+    IfThen(ssCtrl in Shift, 'c')+
+    IfThen(ssAlt in Shift, 'a')+
+    IfThen(ssMeta in Shift, 'm');
 end;
 
 

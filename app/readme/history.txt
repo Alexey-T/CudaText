@@ -8,6 +8,7 @@
 - fix: caret at bad coord
 - fix: must unfold found text
 - fix: sort must set "modified"
+- fix: Html autocomplete in Html part of Php
 
 1.2.12
 + api (log panels api, splitters api)

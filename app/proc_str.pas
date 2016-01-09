@@ -30,7 +30,6 @@ function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 function SFindWordsInString(SText, SFind: string): boolean;
 function IsLexerListed(const ALexer, ANameList: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
-function ShiftStateToString(const Shift: TShiftState): string;
 
 type
   TRegexParts = array[1..8] of string;
@@ -214,16 +213,6 @@ begin
   finally
     Obj.Free;
   end;
-end;
-
-
-function ShiftStateToString(const Shift: TShiftState): string;
-begin
-  Result:=
-    IfThen(ssShift in Shift, 's')+
-    IfThen(ssCtrl in Shift, 'c')+
-    IfThen(ssAlt in Shift, 'a')+
-    IfThen(ssMeta in Shift, 'm');
 end;
 
 

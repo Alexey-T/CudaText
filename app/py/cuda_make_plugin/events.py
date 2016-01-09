@@ -20,6 +20,7 @@ EVENTS = [
 
 EVENTS_ADD_PARAMS = {
   'on_key': 'key, state',
+  'on_click': 'state',
   'on_console': 'text',
   'on_console_nav': 'text',
   'on_output_nav': 'text, tag',
