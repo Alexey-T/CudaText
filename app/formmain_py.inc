@@ -882,7 +882,10 @@ begin
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
+
+      //more correct than Ed.LineTop:= -that don't work if parsing not done
       F.TopLineTodo:= Val;
+
       fmMain.UpdateFrame;
       fmMain.UpdateStatus;
       Result:= ReturnNone;

@@ -160,7 +160,7 @@ type
     property TabKeyCollectMarkers: boolean read FTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property TagString: string read FTagString write FTagString;
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
-    property TopLineTodo: integer read FTopLineTodo write FTopLineTodo;
+    property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     function IsEmpty: boolean;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
@@ -738,7 +738,7 @@ begin
       Editor.DoCaretSingle(0, Editor.Strings.Count-1);
       Editor.Update;
       Editor.LineTop:= Editor.Strings.Count-1; //no lexer
-      FTopLineTodo:= Editor.Strings.Count-1; //lexer active
+      FTopLineTodo:= Editor.Strings.Count-1; //lexer active, must use this instead of Ed.LineTop
     end;
 
   if IsFileReadonly(fn) then
@@ -1121,7 +1121,7 @@ begin
   begin
     //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cSavFold, '');
-    FTopLineTodo:= c.GetValue(path+cSavTop, 0);
+    FTopLineTodo:= c.GetValue(path+cSavTop, 0); //must use, not Ed.LineTop
   end
   else
   begin
