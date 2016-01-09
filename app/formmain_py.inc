@@ -1578,6 +1578,16 @@ begin
             else
               Result:= ReturnNone;
           end;
+
+        PROP_COLOR:
+          begin
+            Num1:= EditorGetColorById(Ed, Str);
+            if Num1<>-1 then
+              Result:= PyInt_FromLong(Num1)
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_LEXER_FILE:
           Result:= PyString_FromString(PChar(F.LexerName));
         PROP_LEXER_POS:
@@ -1638,7 +1648,7 @@ var
   H: PtrInt;
   Id: integer;
   Ptr: PChar;
-  Str: string;
+  Str, Str1, Str2: string;
   Ed: TATSynEdit;
   F: TEditorFrame;
   ValueBool: boolean;
@@ -1679,6 +1689,16 @@ begin
           Ed.OptRulerVisible:= ValueBool;
         PROP_LEXER_FILE:
           F.Lexer:= Manager.FindAnalyzer(Str);
+
+        PROP_COLOR:
+          begin
+            Str1:= SGetItem(Str);
+            Str2:= SGetItem(Str);
+            N1:= StrToIntDef(Str2, -1);
+            if N1<>-1 then
+              EditorSetColorById(Ed, Str1, N1);
+          end;
+
         PROP_TAG:
           F.TagString:= Str;
 

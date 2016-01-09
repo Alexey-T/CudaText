@@ -74,7 +74,6 @@ uses
   formpalette,
   formcolorsetup,
   formabout,
-  formchecklist,
   formcharmaps,
   math;
 

@@ -12,7 +12,7 @@ unit proc_editor;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, Graphics,
   ATSynEdit,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
@@ -51,9 +51,13 @@ procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
 
 type
   TEdSelType = (selNo, selSmall, selStream, selCol, selCarets);
+
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
+
 procedure EditorApplyTheme(Ed: TATSynedit);
+procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
+function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 
 implementation
@@ -474,6 +478,100 @@ begin
   Ed.Colors.MarginUser:= GetAppColor('EdMarginUser');
 
   Ed.Colors.MarkedLinesBG:= GetAppColor('EdMarkedRangeBg');
+end;
+
+
+procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
+begin
+  if Id='EdTextFont' then Ed.Colors.TextFont:= AColor else
+  if Id='EdTextBg' then Ed.Colors.TextBG:= AColor else
+  if Id='EdSelFont' then Ed.Colors.TextSelFont:= AColor else
+  if Id='EdSelBg' then Ed.Colors.TextSelBG:= AColor else
+  if Id='EdDisableFont' then Ed.Colors.TextDisabledFont:= AColor else
+  if Id='EdDisableBg' then Ed.Colors.TextDisabledBG:= AColor else
+  if Id='EdCaret' then Ed.Colors.Caret:= AColor else
+  if Id='EdMarkers' then Ed.Colors.Markers:= AColor else
+  if Id='EdCurLineBg' then Ed.Colors.CurrentLineBG:= AColor else
+  if Id='EdIndentVLine' then Ed.Colors.IndentVertLines:= AColor else
+  if Id='EdUnprintFont' then Ed.Colors.UnprintedFont:= AColor else
+  if Id='EdUnprintBg' then Ed.Colors.UnprintedBG:= AColor else
+  if Id='EdUnprintHexFont' then Ed.Colors.UnprintedHexFont:= AColor else
+  if Id='EdMinimapBorder' then Ed.Colors.MinimapBorder:= AColor else
+  if Id='EdMinimapSelBg' then Ed.Colors.MinimapSelBG:= AColor else
+  if Id='EdStateChanged' then Ed.Colors.StateChanged:= AColor else
+  if Id='EdStateAdded' then Ed.Colors.StateAdded:= AColor else
+  if Id='EdStateSaved' then Ed.Colors.StateSaved:= AColor else
+  if Id='EdBlockStaple' then Ed.Colors.BlockStaple:= AColor else
+  if Id='EdBlockSepLine' then Ed.Colors.BlockSepLine:= AColor else
+  if Id='EdLockedBg' then Ed.Colors.LockedBG:= AColor else
+  if Id='EdComboArrow' then Ed.Colors.ComboboxArrow:= AColor else
+  if Id='EdComboArrowBg' then Ed.Colors.ComboboxArrowBG:= AColor else
+  if Id='EdFoldMarkLine' then Ed.Colors.CollapseLine:= AColor else
+  if Id='EdFoldMarkFont' then Ed.Colors.CollapseMarkFont:= AColor else
+  if Id='EdFoldMarkBorder' then Ed.Colors.CollapseMarkBorder:= AColor else
+  if Id='EdFoldMarkBg' then Ed.Colors.CollapseMarkBG:= AColor else
+  if Id='EdGutterFont' then Ed.Colors.GutterFont:= AColor else
+  if Id='EdGutterBg' then Ed.Colors.GutterBG:= AColor else
+  if Id='EdGutterCaretBg' then Ed.Colors.GutterCaretBG:= AColor else
+  if Id='EdBookmarkBg' then Ed.Colors.BookmarkBG:= AColor else
+  if Id='EdRulerFont' then Ed.Colors.RulerFont:= AColor else
+  if Id='EdRulerBg' then Ed.Colors.RulerBG:= AColor else
+  if Id='EdFoldLine' then Ed.Colors.GutterFoldLine:= AColor else
+  if Id='EdFoldBg' then Ed.Colors.GutterFoldBG:= AColor else
+  if Id='EdFoldPlusLine' then Ed.Colors.GutterPlusBorder:= AColor else
+  if Id='EdFoldPlusBg' then Ed.Colors.GutterPlusBG:= AColor else
+  if Id='EdMarginFixed' then Ed.Colors.MarginRight:= AColor else
+  if Id='EdMarginCaret' then Ed.Colors.MarginCaret:= AColor else
+  if Id='EdMarginUser' then Ed.Colors.MarginUser:= AColor else
+  if Id='EdMarkedRangeBg' then Ed.Colors.MarkedLinesBG:= AColor else
+  ;
+end;
+
+
+function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
+begin
+  Result:= -1;
+  if Id='EdTextFont' then exit(Ed.Colors.TextFont);
+  if Id='EdTextBg' then exit(Ed.Colors.TextBG);
+  if Id='EdSelFont' then exit(Ed.Colors.TextSelFont);
+  if Id='EdSelBg' then exit(Ed.Colors.TextSelBG);
+  if Id='EdDisableFont' then exit(Ed.Colors.TextDisabledFont);
+  if Id='EdDisableBg' then exit(Ed.Colors.TextDisabledBG);
+  if Id='EdCaret' then exit(Ed.Colors.Caret);
+  if Id='EdMarkers' then exit(Ed.Colors.Markers);
+  if Id='EdCurLineBg' then exit(Ed.Colors.CurrentLineBG);
+  if Id='EdIndentVLine' then exit(Ed.Colors.IndentVertLines);
+  if Id='EdUnprintFont' then exit(Ed.Colors.UnprintedFont);
+  if Id='EdUnprintBg' then exit(Ed.Colors.UnprintedBG);
+  if Id='EdUnprintHexFont' then exit(Ed.Colors.UnprintedHexFont);
+  if Id='EdMinimapBorder' then exit(Ed.Colors.MinimapBorder);
+  if Id='EdMinimapSelBg' then exit(Ed.Colors.MinimapSelBG);
+  if Id='EdStateChanged' then exit(Ed.Colors.StateChanged);
+  if Id='EdStateAdded' then exit(Ed.Colors.StateAdded);
+  if Id='EdStateSaved' then exit(Ed.Colors.StateSaved);
+  if Id='EdBlockStaple' then exit(Ed.Colors.BlockStaple);
+  if Id='EdBlockSepLine' then exit(Ed.Colors.BlockSepLine);
+  if Id='EdLockedBg' then exit(Ed.Colors.LockedBG);
+  if Id='EdComboArrow' then exit(Ed.Colors.ComboboxArrow);
+  if Id='EdComboArrowBg' then exit(Ed.Colors.ComboboxArrowBG);
+  if Id='EdFoldMarkLine' then exit(Ed.Colors.CollapseLine);
+  if Id='EdFoldMarkFont' then exit(Ed.Colors.CollapseMarkFont);
+  if Id='EdFoldMarkBorder' then exit(Ed.Colors.CollapseMarkBorder);
+  if Id='EdFoldMarkBg' then exit(Ed.Colors.CollapseMarkBG);
+  if Id='EdGutterFont' then exit(Ed.Colors.GutterFont);
+  if Id='EdGutterBg' then exit(Ed.Colors.GutterBG);
+  if Id='EdGutterCaretBg' then exit(Ed.Colors.GutterCaretBG);
+  if Id='EdBookmarkBg' then exit(Ed.Colors.BookmarkBG);
+  if Id='EdRulerFont' then exit(Ed.Colors.RulerFont);
+  if Id='EdRulerBg' then exit(Ed.Colors.RulerBG);
+  if Id='EdFoldLine' then exit(Ed.Colors.GutterFoldLine);
+  if Id='EdFoldBg' then exit(Ed.Colors.GutterFoldBG);
+  if Id='EdFoldPlusLine' then exit(Ed.Colors.GutterPlusBorder);
+  if Id='EdFoldPlusBg' then exit(Ed.Colors.GutterPlusBG);
+  if Id='EdMarginFixed' then exit(Ed.Colors.MarginRight);
+  if Id='EdMarginCaret' then exit(Ed.Colors.MarginCaret);
+  if Id='EdMarginUser' then exit(Ed.Colors.MarginUser);
+  if Id='EdMarkedRangeBg' then exit(Ed.Colors.MarkedLinesBG);
 end;
 
 

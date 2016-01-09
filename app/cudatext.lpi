@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="46">
+    <Units Count="45">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -316,43 +316,36 @@
         <IsPartOfProject Value="True"/>
       </Unit38>
       <Unit39>
-        <Filename Value="formchecklist.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fmCheckList"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit39>
-      <Unit40>
         <Filename Value="formlexerstylesload.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStylesRestore"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit40>
-      <Unit41>
+      </Unit39>
+      <Unit40>
         <Filename Value="formcharmaps.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCharmaps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit41>
-      <Unit42>
+      </Unit40>
+      <Unit41>
         <Filename Value="proc_keysdialog.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit42>
-      <Unit43>
+      </Unit41>
+      <Unit42>
         <Filename Value="..\..\synedit\atsynedit\atsynedit_colors.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ATSynEdit_Colors"/>
-      </Unit43>
-      <Unit44>
+      </Unit42>
+      <Unit43>
         <Filename Value="proc_customdialog.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit44>
-      <Unit45>
+      </Unit43>
+      <Unit44>
         <Filename Value="proc_miscutils.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit45>
+      </Unit44>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
