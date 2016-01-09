@@ -1486,26 +1486,6 @@ begin
 end;
 
 
-function Py_dlg_checklist(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  PtrCaption, PtrColumns, PtrItems: PChar;
-  StrCaption, StrColumns, StrItems: string;
-  NSizeX, NSizeY: integer;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'sssii:dlg_checklist',
-      @PtrCaption, @PtrColumns, @PtrItems, @NSizeX, @NSizeY)) then
-    begin
-      StrCaption:= string(PtrCaption);
-      StrColumns:= string(PtrColumns);
-      StrItems:= string(PtrItems);
-
-      StrItems:= DoInputCheckList(StrCaption, StrColumns, StrItems, NSizeX, NSizeY);
-      Result:= PyString_FromString(PChar(StrItems));
-    end;
-end;
-
-
 function Py_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
@@ -2293,7 +2273,6 @@ begin
     AddMethod('dlg_file', @Py_dlg_file, '');
     AddMethod('dlg_menu', @Py_dlg_menu, '');
     AddMethod('dlg_color', @Py_dlg_color, '');
-    AddMethod('dlg_checklist', @Py_dlg_checklist, '');
     AddMethod('dlg_hotkeys', @Py_dlg_hotkeys, '');
     AddMethod('dlg_custom', @Py_dlg_custom, '');
 

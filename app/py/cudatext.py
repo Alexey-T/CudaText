@@ -216,11 +216,6 @@ def dlg_file(is_open, init_filename, init_dir, filters):
         res=res[0]
     return res
 
-def dlg_checklist(caption, columns, items, size_x, size_y):
-    items = ct.dlg_checklist(caption, columns, items, size_x, size_y)
-    if not items:
-        return None
-    return [(s=='1') for s in items]
 
 def dlg_hotkeys(text):
     return ct.dlg_hotkeys(text)
