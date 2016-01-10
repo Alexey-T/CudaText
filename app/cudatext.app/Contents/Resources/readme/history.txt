@@ -1,4 +1,17 @@
 
+1.2.14
++ selection keeps bold/italic of selected words
++ redone plugin "Make Plugin"
+* lexers HTML/HTML_/PHP/PHP_: rename, old pair removed to Addon Manager
++ opt autocomplete_html
++ opt autocomplete_css
+* opts deleted: under_color, under_color_size
++ opts added: underline_color_files, underline_color_size 
+- fix: caret at bad coord
+- fix: must unfold found text
+- fix: sort must set "modified"
+- fix: Html autocomplete in Html part of Php
+
 1.2.12
 + api (log panels api, splitters api)
 * removed lexers NSIS, Inno: to Addon Manager
