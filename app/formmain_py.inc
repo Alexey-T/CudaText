@@ -1780,7 +1780,7 @@ var
   Str, Str1, Str2, Str3: string;
   StrCaption, StrId, StrCmd, StrIndex: string;
   mi, miMain: TMenuItem;
-  SplitVert: boolean;
+  SplitVert, SplitVisible: boolean;
   SplitPos, SplitTotal: integer;
 begin
   with GetPythonEngine do
@@ -2020,8 +2020,8 @@ begin
 
         APP_PROC_GET_SPLIT:
           begin
-            fmMain.DoGetSplitInfo(Str, SplitVert, SplitPos, SplitTotal);
-            Result:= Py_BuildValue('(iii)', Ord(SplitVert), SplitPos, SplitTotal);
+            fmMain.DoGetSplitInfo(Str, SplitVert, SplitVisible, SplitPos, SplitTotal);
+            Result:= Py_BuildValue('(iiii)', Ord(SplitVert), Ord(SplitVisible), SplitPos, SplitTotal);
           end;
         APP_PROC_SET_SPLIT:
           begin

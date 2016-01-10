@@ -508,8 +508,8 @@ type
     procedure DoFindActionFromString(AStr: string);
     procedure DoFindOptionsFromString(const S: string);
     function DoFindOptionsToString: string;
-    procedure DoGetSplitInfo(const Id: string; out IsVert: boolean; out
-      NPos, NTotal: integer);
+    procedure DoGetSplitInfo(const Id: string; out BoolVert, BoolVisible: boolean;
+      out NPos, NTotal: integer);
     procedure DoGotoDefinition;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
       AForceApply: boolean);
@@ -3034,18 +3034,20 @@ begin
 end;
 
 
-procedure TfmMain.DoGetSplitInfo(const Id: string; out IsVert: boolean;
-  out NPos, NTotal: integer);
+procedure TfmMain.DoGetSplitInfo(const Id: string;
+  out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);
   //----
   procedure GetSp(Sp: TSplitter);
   begin
-    IsVert:= (Sp.Align=alLeft) or (Sp.Align=alRight);
+    BoolVert:= (Sp.Align=alLeft) or (Sp.Align=alRight);
+    BoolVisible:= Sp.Visible;
     NPos:= Sp.GetSplitterPosition;
-    if IsVert then NTotal:= Sp.Parent.Width else NTotal:= Sp.Parent.Height;
+    if BoolVert then NTotal:= Sp.Parent.Width else NTotal:= Sp.Parent.Height;
   end;
   //----
 begin
-  IsVert:= false;
+  BoolVert:= false;
+  BoolVisible:= true;
   NPos:= 0;
   NTotal:= 0;
 
