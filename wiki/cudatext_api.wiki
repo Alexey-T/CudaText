@@ -128,13 +128,44 @@ Performs application-wide action. Possible values of id:
 
 ====Splitters====
 
-* PROC_GET_SPLIT: Gets info about splitter position, 3-tuple: (is_vertical_0_1, splitter_size, parent_size). Text must be splitter id (incorrect value gives parent_size=0).
-* PROC_SET_SPLIT: Sets position of splitter. Text must be "splitter_id;splitter_size".
+* PROC_GET_SPLIT: Gets info about splitter position, 4-tuple: (is_vertical_0_1, is_visible_0_1, splitter_pos, parent_panel_size). Text must be splitter id (incorrect value gives parent_panel_size=0).
+* PROC_SET_SPLIT: Sets position of splitter. Text must be "splitter_id;splitter_pos".
 
 Splitter id can be:
 * "L": left splitter (near Side panel)
 * "B": bottom splitter (near Bottom panel)
-* "G1"..."G5": splitters between groups, their positions are determined also by grouping view
+* "G1"..."G3": splitters between groups. Note: positions are determined by grouping view, in one view splitter may be horizontal with one parent panel, in other view - vertical with another parent panel.
+
+How groups-splitters are placed in views:
+<pre>
+2VERT     t G1 t          
+2HORZ     t               
+          G1              
+          t               
+3VERT     t G1 t G2 t     
+3HORZ     t               
+          G1              
+          t               
+          G2              
+          t               
+3PLUS     t G3 t          
+               G2         
+               t          
+4VERT     t G1 t G2 t G3 t
+4HORZ     t               
+          G1              
+          t               
+          G2              
+          t               
+          G3              
+          t               
+4GRID     t G1 t          
+          G3              
+          t G2 t          
+6GRID     t G1 t G2 t     
+          G3              
+          t G1 t G2 t     
+</pre>
 
 ===app_log===
 
@@ -617,6 +648,9 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
+* PROP_CARET_SHAPE: int: shape of caret, normal mode.
+* PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
+* PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_MACRO_REC: bool: currently macro is recording.
 * PROP_MARKED_RANGE: 2-tuple: numbers of lines for "marked range" (both -1 if not set).
 
@@ -650,6 +684,9 @@ Possible values of id:
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers.
 * PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
+* PROP_CARET_SHAPE: int: shape of caret, normal mode.
+* PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
+* PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
 * PROP_MARKED_RANGE: str: numbers of lines for "marked range" as "num1,num2" (pass empty str or "-1,-1" to remove range).
 
@@ -796,6 +833,7 @@ Text is chr(1) separated items:
 * add: on_lexer
 * add: ed.set_prop/get_prop PROP_COLOR
 * add: ed.set_prop/get_prop PROP_MARKED_RANGE
+* add: ed.set_prop/get_prop PROP_CARET_SHAPE*
 * delete: dlg_checklist
 
 1.0.117
