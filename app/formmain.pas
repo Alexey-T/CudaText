@@ -3066,6 +3066,8 @@ procedure TfmMain.DoSetSplitInfo(const Id: string; NPos: integer);
   procedure SetSp(Sp: TSplitter);
   begin
     Sp.SetSplitterPosition(NPos);
+    if Assigned(Sp.OnMoved) then
+      Sp.OnMoved(Self);
   end;
 begin
   if NPos<0 then exit;
