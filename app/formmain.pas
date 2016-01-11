@@ -3056,8 +3056,6 @@ begin
   if Id='G1' then GetSp(Groups.Splitter1) else
   if Id='G2' then GetSp(Groups.Splitter2) else
   if Id='G3' then GetSp(Groups.Splitter3) else
-  if Id='G4' then GetSp(Groups.Splitter4) else
-  if Id='G5' then GetSp(Groups.Splitter5) else
   ;
 end;
 
@@ -3076,8 +3074,6 @@ begin
   if Id='G1' then SetSp(Groups.Splitter1) else
   if Id='G2' then SetSp(Groups.Splitter2) else
   if Id='G3' then SetSp(Groups.Splitter3) else
-  if Id='G4' then SetSp(Groups.Splitter4) else
-  if Id='G5' then SetSp(Groups.Splitter5) else
   ;
 end;
 
