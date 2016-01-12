@@ -25,4 +25,5 @@ settings/
 __trash/
 /app/cudatext
 cuda_python_intel/
+cuda_ext/
 cuda_sample*/

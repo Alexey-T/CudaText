@@ -14,7 +14,7 @@ object fmFind: TfmFind
   OnShow = FormShow
   ShowHint = True
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object PanelX: TPanel
     Left = 0
     Height = 62
@@ -99,7 +99,7 @@ object fmFind: TfmFind
       object chkWrap: TATButton
         Left = 96
         Height = 25
-        Hint = 'Wrapped search - Alt+9'
+        Hint = 'Wrapped search - Alt+N'
         Top = 0
         Width = 32
         Align = alLeft
@@ -123,7 +123,7 @@ object fmFind: TfmFind
       object chkConfirm: TATButton
         Left = 0
         Height = 26
-        Hint = 'Confirm on replace - Alt+0'
+        Hint = 'Confirm on replace - Alt+Y'
         Top = 0
         Width = 32
         Align = alLeft
@@ -231,6 +231,7 @@ object fmFind: TfmFind
       Colors.BlockSepLine = clMedGray
       Colors.LockedBG = 14737632
       Colors.TextHintFont = clGray
+      Colors.MarkedLinesBG = 15786160
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
@@ -397,6 +398,7 @@ object fmFind: TfmFind
       Colors.BlockSepLine = clMedGray
       Colors.LockedBG = 14737632
       Colors.TextHintFont = clGray
+      Colors.MarkedLinesBG = 15786160
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
@@ -619,7 +621,7 @@ object fmFind: TfmFind
       object bRepAll: TATButton
         Left = 85
         Height = 25
-        Hint = 'Alt+1'
+        Hint = 'Alt+A'
         Top = 0
         Width = 85
         Align = alLeft

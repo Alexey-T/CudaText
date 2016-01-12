@@ -286,12 +286,12 @@ begin
     begin with chkCase do checked:= not checked; key:= 0; exit end;
   if (key=ord('W')) and (Shift=[ssAlt]) then
     begin with chkWords do checked:= not checked; key:= 0; exit end;
-  if (key=ord('0')) and (Shift=[ssAlt]) then
+  if (key=ord('Y')) and (Shift=[ssAlt]) then
     begin with chkConfirm do checked:= not checked; key:= 0; exit end;
-  if (key=ord('9')) and (Shift=[ssAlt]) then
+  if (key=ord('N')) and (Shift=[ssAlt]) then
     begin with chkWrap do checked:= not checked; key:= 0; exit end;
 
-  if (key=ord('1')) and (Shift=[ssAlt]) then
+  if (key=ord('A')) and (Shift=[ssAlt]) then
     begin bRepAllClick(Self); key:= 0; exit end;
   if (key=ord('5')) and (Shift=[ssAlt]) then
     begin bCountClick(Self); key:= 0; exit end;
