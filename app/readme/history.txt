@@ -1,4 +1,9 @@
 
+1.2.15
+* change: hotkeys in Replace
+- fix: char-map must set modified
+
+
 1.2.14
 + selection keeps bold/italic of selected words
 + redone plugin "Make Plugin"

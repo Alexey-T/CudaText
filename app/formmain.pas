@@ -2895,6 +2895,9 @@ begin
     Ed.ModeOverwrite, Shift, PosAfter);
   Ed.DoCaretSingle(Caret.PosX+Length(Str), Caret.PosY);
 
+  Ed.Strings.Modified:= true;
+  Ed.DoEventChange;
+
   UpdateFrame(true);
   UpdateStatus;
 end;
