@@ -187,6 +187,8 @@ def msg_box(text, flags):
     return ct.msg_box(text, flags)
 def msg_status(text):
     return ct.msg_status(text)
+def msg_status_alt(text, seconds):
+    return ct.msg_status_alt(text, seconds)
     
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)

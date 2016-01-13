@@ -1,6 +1,7 @@
 
 1.2.15
-* change: hotkeys in Replace
+* changed hotkeys in Replace
+* output pane uses dbl-click, or Enter
 - fix: char-map must set modified
 
 
