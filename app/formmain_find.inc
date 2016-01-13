@@ -304,6 +304,7 @@ var
   Str: atString;
   Ed: TATSynEdit;
   ok, bFlag: boolean;
+  bSavedWords, bSavedRegex: boolean;
 begin
   Ed:= CurrentEditor;
 
@@ -321,6 +322,8 @@ begin
   FFinder.StrReplace:= '';
   FFinder.Editor:= Ed;
 
+  bSavedWords:= FFinder.OptWords;
+  bSavedRegex:= FFinder.OptRegex;
   FFinder.OptRegex:= false;
   FFinder.OptWords:= AWordOrSel;
   FFinder.OptFromCaret:= true;
@@ -340,6 +343,9 @@ begin
   ok:= FFinder.DoFindOrReplace(false, false, false, bFlag);
   FinderUpdateEditor(false);
   DoFindResult(ok);
+
+  FFinder.OptWords:= bSavedWords;
+  FFinder.OptRegex:= bSavedRegex;
 end;
 
 
