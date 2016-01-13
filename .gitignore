@@ -28,3 +28,5 @@ cuda_python_intel/
 cuda_ext/
 cuda_exttools/
 cuda_sample*/
+cuda_sess*/
+cuda_insert_numbers/
