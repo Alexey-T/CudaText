@@ -2779,6 +2779,7 @@ begin
   end
   else
   begin
+    MsgStatus('Clicking log line');
     DoPyEvent(CurrentEditor, cEventOnOutputNav,
       [SStringToPythonString(SText), IntToStr(NTag)] );
   end;

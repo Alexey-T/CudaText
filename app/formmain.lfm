@@ -116,7 +116,7 @@ object fmMain: TfmMain
         CanGetFocus = True
         Color = clSilver
         ItemHeight = 28
-        OnClick = ListboxOutClick
+        OnDblClick = ListboxOutClick
         OnDrawItem = ListboxOutDrawItem
         OnKeyDown = ListboxOutKeyDown
       end
@@ -128,7 +128,7 @@ object fmMain: TfmMain
         CanGetFocus = True
         Color = clSilver
         ItemHeight = 28
-        OnClick = ListboxOutClick
+        OnDblClick = ListboxOutClick
         OnDrawItem = ListboxOutDrawItem
         OnKeyDown = ListboxOutKeyDown
       end
