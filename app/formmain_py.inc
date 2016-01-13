@@ -1199,11 +1199,22 @@ begin
   ACharsLeft:= 0;
   ACharsRight:= 0;
 
-  //stop doing, if caret moved
-  //(cannot recalc AText here)
   with CurrentEditor.Carets[0] do
+  begin
+    //if caret moved by 1 char: repeat auto-complete
+    if (Abs(PosX-FPyComplete_CaretPos.X)=1) and (PosY=FPyComplete_CaretPos.Y) then
+    begin
+      //(via timer, not immediate)
+      fmMain.TimerCmd.Tag:= cmd_AutoComplete;
+      fmMain.TimerCmd.Enabled:= false;
+      fmMain.TimerCmd.Enabled:= true;
+      exit
+    end;
+
+    //stop doing, if caret moved
     if (PosX<>FPyComplete_CaretPos.X) or (PosY<>FPyComplete_CaretPos.Y) then
       exit;
+  end;
 
   AText:= FPyComplete_Text;
   ACharsLeft:= FPyComplete_CharsLeft;

@@ -1004,7 +1004,7 @@ object fmMain: TfmMain
   end
   object TimerCmd: TTimer
     Enabled = False
-    Interval = 80
+    Interval = 150
     OnTimer = TimerCmdTimer
     left = 320
     top = 80
