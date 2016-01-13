@@ -1,7 +1,8 @@
 
 1.2.15
 * changed hotkeys in Replace
-* output pane uses dbl-click, or Enter
+* output pane uses dbl-click/Enter
++ plugin autocomplete: reshow list if 1 char typed
 - fix: char-map must set modified
 
 

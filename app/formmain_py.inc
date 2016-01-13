@@ -2059,7 +2059,17 @@ begin
             Str2:= SGetItem(Str, ';');
             fmMain.DoSetSplitInfo(Str1, StrToIntDef(Str2, -1));
             Result:= ReturnNone;
-          end
+          end;
+
+        APP_PROC_GET_FIND_OPTIONS:
+          begin
+            Result:= PyString_FromString(PChar(fmMain.DoFindOptionsToString));
+          end;
+        APP_PROC_SET_FIND_OPTIONS:
+          begin
+            fmMain.DoFindOptionsFromString(Str);
+            Result:= ReturnNone;
+          end;
 
         else
           Result:= ReturnNone;
