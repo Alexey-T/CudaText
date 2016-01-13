@@ -1,10 +1,9 @@
 
 1.2.15
 * changed hotkeys in Replace
-* output pane uses dbl-click/Enter
+* output panel uses dbl-click
 + plugin autocomplete: reshow list if 1 char typed
 - fix: char-map must set modified
-
 
 1.2.14
 + selection keeps bold/italic of selected words

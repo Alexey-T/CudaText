@@ -1193,28 +1193,38 @@ end;
 
 procedure TfmMain.PyCompletionOnGetProp(Sender: TObject;
   out AText, ASuffix: string; out ACharsLeft, ACharsRight: integer);
+var
+  Caret: TATCaretItem;
+  PrevCharsLeft: integer;
 begin
   AText:= '';
   ASuffix:= '';
   ACharsLeft:= 0;
   ACharsRight:= 0;
 
-  with CurrentEditor.Carets[0] do
-  begin
-    //if caret moved by 1 char: repeat auto-complete
-    if (Abs(PosX-FPyComplete_CaretPos.X)=1) and (PosY=FPyComplete_CaretPos.Y) then
-    begin
-      //(via timer, not immediate)
-      fmMain.TimerCmd.Tag:= cmd_AutoComplete;
-      fmMain.TimerCmd.Enabled:= false;
-      fmMain.TimerCmd.Enabled:= true;
-      exit
-    end;
+  Caret:= CurrentEditor.Carets[0];
 
-    //stop doing, if caret moved
-    if (PosX<>FPyComplete_CaretPos.X) or (PosY<>FPyComplete_CaretPos.Y) then
-      exit;
+  //if caret moved by 1 char: repeat auto-complete
+  if (Abs(Caret.PosX-FPyComplete_CaretPos.X)=1) and
+     (Caret.PosY=FPyComplete_CaretPos.Y) then
+  begin
+    PrevCharsLeft:= FPyComplete_CharsLeft;
+    DoPyEvent(CurrentEditor, cEventOnComplete, []);
+
+    //this check- to close listbox when no more matches after typing too much
+    //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));
+    if Abs(PrevCharsLeft-FPyComplete_CharsLeft)<>1 then exit;
+
+    AText:= FPyComplete_Text;
+    ACharsLeft:= FPyComplete_CharsLeft;
+    ACharsRight:= FPyComplete_CharsRight;
+    exit
   end;
+
+  //stop doing, if caret moved
+  if (Caret.PosX<>FPyComplete_CaretPos.X) or
+     (Caret.PosY<>FPyComplete_CaretPos.Y) then
+    exit;
 
   AText:= FPyComplete_Text;
   ACharsLeft:= FPyComplete_CharsLeft;
