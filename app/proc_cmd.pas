@@ -146,6 +146,7 @@ const
 
   cmd_AutoComplete      = 2695;
   cmd_GotoDefinition    = 2696;
+  cmd_ShowFunctionHint  = 2697;
 
   cmd_HelpAbout     = 2700;
   cmd_HelpForum     = 2701;
@@ -348,6 +349,7 @@ begin
 
   M.Add(cmd_AutoComplete, 'code: auto-completion menu', ['Ctrl+Space'], []);
   M.Add(cmd_GotoDefinition, 'code: go to definition', [], []);
+  M.Add(cmd_ShowFunctionHint, 'code: show function-hint', ['Ctrl+Shift+Space'], []);
 
   M.Add(cmd_FoldingFoldAtCurLine, 'folding: fold range at current line', [], []);
   M.Add(cmd_FoldingUnfoldAtCurLine, 'folding: unfold range at current line', [], []);

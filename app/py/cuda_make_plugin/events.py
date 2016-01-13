@@ -7,6 +7,7 @@ EVENTS = [
     'on_console',
     'on_console_nav',
     'on_focus',
+    'on_func_hint',
     'on_goto_def',
     'on_key',
     'on_lexer',

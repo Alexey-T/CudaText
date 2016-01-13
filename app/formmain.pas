@@ -514,6 +514,7 @@ type
     procedure DoGetSplitInfo(const Id: string; out BoolVert, BoolVisible: boolean;
       out NPos, NTotal: integer);
     procedure DoGotoDefinition;
+    procedure DoShowFuncHint;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
       AForceApply: boolean);
     procedure DoApplyFontFixed;
@@ -2824,6 +2825,16 @@ procedure TfmMain.DoGotoDefinition;
 begin
   if DoPyEvent(CurrentEditor, cEventOnGotoDef, [])<>cPyTrue then
     MsgStatus('No goto-definition plugins installed for this lexer');
+end;
+
+procedure TfmMain.DoShowFuncHint;
+var
+  S: string;
+begin
+  S:= DoPyEvent(CurrentEditor, cEventOnFuncHint, []);
+  if (S='') or (S='None') then exit;
+
+  MsgStatusAlt(S, UiOps.StatusAltTime);
 end;
 
 procedure TfmMain.PopupTextPopup(Sender: TObject);

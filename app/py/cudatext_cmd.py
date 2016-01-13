@@ -270,6 +270,7 @@ cmd_MenuLexers        = 2693
 
 cmd_AutoComplete      = 2695
 cmd_GotoDefinition    = 2696
+cmd_ShowFunctionHint  = 2697
 
 cmd_HelpAbout     = 2700
 cmd_HelpForum     = 2701

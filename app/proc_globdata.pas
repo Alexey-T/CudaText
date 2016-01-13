@@ -126,6 +126,7 @@ type
     StatusSizeY: integer;
     StatusCenter: boolean;
     StatusTime: integer;
+    StatusAltTime: integer;
 
     ShowTitlePath: boolean;
     ShowLastFiles: boolean;
@@ -320,6 +321,7 @@ type
     cEventOnLexer,
     cEventOnComplete,
     cEventOnGotoDef,
+    cEventOnFuncHint,
     cEventOnConsole,
     cEventOnConsoleNav,
     cEventOnOutputNav,
@@ -343,6 +345,7 @@ const
     'on_lexer',
     'on_complete',
     'on_goto_def',
+    'on_func_hint',
     'on_console',
     'on_console_nav',
     'on_output_nav',
@@ -732,6 +735,7 @@ begin
     StatusSizeY:= TabSizeY;
     StatusCenter:= true;
     StatusTime:= 5;
+    StatusAltTime:= 7;
 
     ShowTitlePath:= false;
     ShowLastFiles:= true;

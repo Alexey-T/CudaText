@@ -131,6 +131,7 @@ begin
 
     cmd_AutoComplete: DoAutoComplete;
     cmd_GotoDefinition: DoGotoDefinition;
+    cmd_ShowFunctionHint: DoShowFuncHint;
 
     cmd_FoldingFoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, true);
     cmd_FoldingUnfoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, false);
