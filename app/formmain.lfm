@@ -1,7 +1,7 @@
 object fmMain: TfmMain
   Left = 374
   Height = 544
-  Top = 319
+  Top = 320
   Width = 906
   AllowDropFiles = True
   Caption = 'App'
@@ -2359,5 +2359,12 @@ object fmMain: TfmMain
     object mnuTextGotoDef: TMenuItem
       Caption = 'Go to definition'
     end
+  end
+  object TimerStatusAlt: TTimer
+    Enabled = False
+    Interval = 6000
+    OnTimer = TimerStatusAltTimer
+    left = 376
+    top = 48
   end
 end

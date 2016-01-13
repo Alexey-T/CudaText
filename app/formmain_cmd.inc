@@ -278,6 +278,12 @@ begin
   UpdateStatus;
 end;
 
+procedure TfmMain.TimerStatusAltTimer(Sender: TObject);
+begin
+  TimerStatusAlt.Enabled:= false;
+  StatusAlt.Hide;
+end;
+
 procedure TfmMain.FrameOnCommand(Sender: TObject; ACommand: integer;
   const AText: string; var AHandled: boolean);
 var

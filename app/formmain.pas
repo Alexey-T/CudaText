@@ -338,6 +338,7 @@ type
     SaveDlg: TSaveDialog;
     SplitterVert: TSplitter;
     SplitterHorz: TSplitter;
+    TimerStatusAlt: TTimer;
     TimerTreeFill: TTimer;
     TimerCmd: TTimer;
     TimerStatus: TTimer;
@@ -464,6 +465,7 @@ type
     procedure tbUndoClick(Sender: TObject);
     procedure tbUnpriClick(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
+    procedure TimerStatusAltTimer(Sender: TObject);
     procedure TimerStatusTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
     procedure TimerTreeFocusTimer(Sender: TObject);
@@ -482,6 +484,7 @@ type
     FSessionFilename: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
+    StatusAlt: TATStatus;
     Groups: TATGroups;
     TabsBottom: TATTabs;
     FFinder: TATEditorFinder;
@@ -540,6 +543,7 @@ type
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure MenuEncWithReloadClick(Sender: TObject);
+    procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
     procedure DoOps_SaveLexlib(Cfm: boolean);
@@ -949,6 +953,15 @@ begin
   Status.AddPanel(140, saMiddle, '?');
   Status.AddPanel(80, saMiddle, '?');
   Status.AddPanel(1600, saLeft, '');
+
+  StatusAlt:= TATStatus.Create(Self);
+  StatusAlt.Parent:= Self;
+  StatusAlt.Align:= alBottom;
+  StatusAlt.Top:= Status.Top-4;
+  StatusAlt.Height:= Status.Height;
+  StatusAlt.IndentTop:= Status.IndentTop;
+  StatusAlt.AddPanel(5000, saLeft, '?');
+  StatusAlt.Hide;
 
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.Parent:= PanelBottom;
@@ -2037,6 +2050,16 @@ begin
   if S='' then exit;
   TimerStatus.Enabled:= false;
   TimerStatus.Enabled:= true;
+end;
+
+procedure TfmMain.MsgStatusAlt(const S: string; const NSeconds: integer);
+begin
+  StatusAlt[0]:= S;
+  StatusAlt.Show;
+  StatusAlt.Top:= Status.Top-4;
+  TimerStatusAlt.Interval:= Max(1, Min(30, NSeconds))*1000;
+  TimerStatusAlt.Enabled:= false;
+  TimerStatusAlt.Enabled:= true;
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);

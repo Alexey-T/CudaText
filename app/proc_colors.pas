@@ -171,6 +171,7 @@ begin
   Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
+  Add(clCream, 'StatusAltBg', 'statusbar alt, BG');
   Add($e0e0e0, 'SplitMain', 'splitters, main');
   Add($e0e0e0, 'SplitGroups', 'splitters, groups');
 

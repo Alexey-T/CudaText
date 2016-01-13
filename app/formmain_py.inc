@@ -210,6 +210,25 @@ begin
   end;
 end;
 
+function Py_msg_status_alt(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Ptr: PChar;
+  Str: string;
+  Num: integer;
+begin
+  with GetPythonEngine do
+  begin
+    if Bool(PyArg_ParseTuple(Args, 'si:msg_status_alt', @Ptr, @Num)) then
+    begin
+      Str:= string(Ptr);
+      fmMain.MsgStatusAlt(Str, Num);
+      Application.ProcessMessages; //PluginManager calls loop with msg_status
+    end;
+    Result:= ReturnNone;
+  end;
+end;
+
+
 function Py_msg_box(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
@@ -2307,6 +2326,7 @@ begin
     AddMethod('app_log', @Py_app_log, '');
 
     AddMethod('msg_status', @Py_msg_status, '');
+    AddMethod('msg_status_alt', @Py_msg_status_alt, '');
     AddMethod('msg_box', @Py_msg_box, '');
     AddMethod('dlg_input', @Py_dlg_input, '');
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');

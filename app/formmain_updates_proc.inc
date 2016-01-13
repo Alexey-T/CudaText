@@ -211,6 +211,7 @@ begin
   Groups.SetTabFont(Self.Font);
   TabsBottom.Font:= Self.Font;
   Status.Font:= Self.Font;
+  StatusAlt.Font:= Self.Font;
   Gauge.Font:= Self.Font;
   Tree.Font:= Self.Font;
 
@@ -627,11 +628,18 @@ begin
   fmConsole.memo.Update;
 
   ToolbarMain.Color:= GetAppColor('TabBg');
+
   Status.Font.Color:= GetAppColor('TabFont');
   Status.Color:= GetAppColor('TabBg');
   Status.ColorBorderTop:= GetAppColor('TabBorderPassive');
   Status.ColorBorderR:= GetAppColor('TabBorderPassive');
-  Gauge.Font.Color:= GetAppColor('TabFont');
+
+  StatusAlt.Font.Color:= Status.Font.Color;
+  StatusAlt.Color:= GetAppColor('StatusAltBg');
+  StatusAlt.ColorBorderTop:= Status.ColorBorderTop;
+  StatusAlt.ColorBorderR:= Status.ColorBorderR;
+
+  Gauge.Font.Color:= Status.Font.Color;
   Gauge.ForeColor:= GetAppColor('GaugeFill');
   Gauge.BackColor:= GetAppColor('GaugeBg');
   Gauge.BorderColor:= GetAppColor('ButtonBorderPassive');
