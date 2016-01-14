@@ -2,10 +2,10 @@
 
 '''CudaText''' is a cross-platform text editor, written in Lazarus.
 
-* Syntax highlight for many languages: C, C++, Java, JavaScript, HTML, CSS, PHP, Python, Pascal, XML; totally about [http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 140 lexers] exist 
+* Syntax highlight for many languages: C, C++, Java, JavaScript, HTML, CSS, PHP, Python, Pascal, XML; totally about [http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 160 lexers] exist 
 * Code folding 
 * Multi-carets, multi-selections 
-* Find/replace with regex
+* Search/replace with regex
 * Supports many encodings 
 * Auto-completion for some lexers 
 * Command palette (Sublime style)
@@ -271,16 +271,26 @@ Snippets have markers in them. Markers placed in editor (small red/blue triangle
 
 ==Output/Validate panels==
 
-These lists allow to hilite (e.g. in blue) lines which match some regex. This regex is set by plugin which uses these panels. E.g. plugin HTML Tidy uses panel Validate and sets regex for Tidy result lines. If a line matches regex and hilited, click on this line goes to the source file.
+These lists allow to hilite (e.g. in blue) lines which match some regex. This regex is set by plugin which uses these panels. E.g. plugin HTML Tidy uses panel Validate and sets regex for Tidy result lines. If a line matches regex and hilited, dbl-click on line navigates to source file.
 
 These panels have hotkeys: 
 
 * Up/Down/PgUp/PgDown/Home/End: move selection in list
-* Enter: navigate to source file (like click)
+* Enter: navigate to source file, like dbl-click
 * Ctrl+Del: clear entire list
 * Ctrl+C: copy to clipboard entire list
 * Ctrl+D: copy to clipboard selected line
 * Esc: focus editor
+
+==Find/Replace dialog==
+
+Dialog has hotkeys:
+
+* Alt+letters, see all button's hints for letters
+* Enter: find next
+* Shift+Enter: find prev
+* Alt+Enter: replace next, and find
+* Ctrl+Alt+Enter: replace next, and don't find
 
 == more ==
 

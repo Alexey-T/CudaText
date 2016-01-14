@@ -26,6 +26,7 @@ Code parsing
 
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
+* on_func_hint(self, ed_self): Called by function-hint command (default hotkey: Ctrl+Shift+Space). Method must return function-hint string (comma-separated parameters, brackets are optional). Empty str or None means no hint found.
 
 Panels
 
@@ -84,6 +85,8 @@ Performs application-wide action. Possible values of id:
 * PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
 * PROC_GET_ESCAPE: Gets escape flag (bool). This flag is set when user presses Esc key (each Esc press is counted since app start, you need to clear flag). To allow app to handle key press, you must call msg_status() in loop.
 * PROC_SET_ESCAPE: Sets escape flag ("0"/"1").
+* PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
+* PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 
 ====Plugin calls====
 
@@ -243,6 +246,12 @@ Gets int code of button pressed:
 
 Shows given text in statusbar field.
 
+===msg_status_alt===
+
+ msg_status_alt(text, seconds)
+
+Shows given text in alternative statusbar, just above normal statusbar. Status has entire window width. Status shows only for some seconds (1..30).
+
 ===dlg_input===
 
  dlg_input(label, defvalue)
@@ -371,8 +380,7 @@ Dialog is closed by any button. Gets 2-tuple: (button_index, state_text), gets N
 
 Notes:
 
-* Don't pass empty items in char-separated lists, pass at last space char for empty item.
-* Controls sizes differ on Linux/Win32, picture shows controls auto-aligned, not in CudaText, only example:
+* Controls sizes differ on Win/Linux/OSX, picture shows controls (Linux/Win) auto-aligned, not in CudaText, only example app:
 
 [[File:controls_autosizes.png]]
 
@@ -826,6 +834,12 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.119
+
+* add: msg_status_alt
+* add: on_func_hint
+* add: app_proc: PROC_GET/SET_FIND_OPTIONS
 
 1.0.118
 
