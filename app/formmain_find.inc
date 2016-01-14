@@ -215,12 +215,25 @@ begin
   if FFindStop then AContinue:= false;
 end;
 
+function TfmMain.SFindOptionsToTextHint: string;
+begin
+  Result:= '';
+  if FFinder.OptRegex then Result:= Result+'regex, ';
+  if FFinder.OptCase then Result:= Result+'case, ';
+  if FFinder.OptWords then Result:= Result+'words, ';
+  if FFinder.OptBack then Result:= Result+'back, ';
+  if FFinder.OptWrapped then Result:= Result+'wrapped, ';
+  if FFinder.OptFromCaret then Result:= Result+'from-caret, ';
+  if SEndsWith(Result, ', ') then
+    SetLength(Result, Length(Result)-2);
+end;
+
 procedure TfmMain.DoFindResult(ok: boolean);
 begin
   if ok then
-    MsgStatus(msgStatusFoundText)
+    MsgStatus('Found next match')
   else
-    MsgStatus(msgStatusCannotFindText+Utf8Encode(FFinder.StrFind));
+    MsgStatus('Cannot find ('+SFindOptionsToTextHint+'): '+Utf8Encode(FFinder.StrFind));
 end;
 
 procedure TfmMain.FinderConfirmReplace(Sender: TObject; APos1, APos2: TPoint;

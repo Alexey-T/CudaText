@@ -545,6 +545,7 @@ type
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
+    function SFindOptionsToTextHint: string;
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
     procedure DoOps_SaveLexlib(Cfm: boolean);

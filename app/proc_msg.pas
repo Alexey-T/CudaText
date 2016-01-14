@@ -35,10 +35,8 @@ const
   msgThemeName = 'Theme name:';
 
   msgStatusNoCmtStr = 'No line comment defined for lexer';
-  msgStatusCannotFindText = 'Cannot find: ';
   msgStatusReplaceCount = 'Replaces made: ';
   msgStatusFindCount = 'Count of "%s": ';
-  msgStatusFoundText = 'Found next match';
   msgStatusReadOps = 'Reading options';
   msgStatusSavedFile = 'Saved:';
   msgStatusReadonly = '[Read Only]';
