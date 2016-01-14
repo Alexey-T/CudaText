@@ -71,13 +71,14 @@ begin
     DoFindResult(ok);
   end;
 
-  if Res=cOpFindRep then
+  if (Res=cOpFindRep) or (Res=cOpFindRepAndStop) then
   begin
     //replace match
     ok:= FFinder.DoReplaceSelectedMatch;
     //after match is replaced, do find-next
-    if ok then
-      ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
+    if Res=cOpFindRep then
+      if ok then
+        ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(true);
     DoFindResult(ok);
   end;

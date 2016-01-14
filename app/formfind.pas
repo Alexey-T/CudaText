@@ -13,21 +13,21 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls,
-  LclType, LclProc, Buttons, ExtCtrls, Math,
+  StdCtrls, Buttons, ExtCtrls,
+  LclType, LclProc, Math,
   ATButtons,
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   proc_globdata,
-  proc_colors,
-  proc_str;
+  proc_colors;
 
 const
   cOpFindFirst='findfirst';
   cOpFindNext='findnext';
   cOpFindPrev='findprev';
   cOpFindRep='rep';
+  cOpFindRepAndStop='repstop';
   cOpFindRepAll='repall';
   cOpFindCount='findcnt';
   cOpFindMarkAll='findmark';
@@ -238,13 +238,19 @@ procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 begin
   if key=VK_RETURN then
   begin
-    if Shift=[] then bFindNextClick(Self);
-    if Shift=[ssShift] then bFindPrevClick(Self);
+    //Enter: find next
+    if Shift=[] then DoDone(cOpFindNext);
+    //Shift+Enter: find prev
+    if Shift=[ssShift] then DoDone(cOpFindPrev);
+
     if Replace then
     begin
-      if Shift=[ssAlt] then bRepClick(Self);
-      //if Shift=[ssAlt, ssCtrl] then bRepAllClick(Self);
+      //Alt+Enter: replace
+      if Shift=[ssAlt] then DoDone(cOpFindRep);
+      //Ctrl+Alt+Enter: replace and dont find next
+      if Shift=[ssAlt, ssCtrl] then DoDone(cOpFindRepAndStop);
     end;
+
     key:= 0;
     exit
   end;
