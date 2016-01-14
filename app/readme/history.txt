@@ -3,6 +3,7 @@
 * changed hotkeys in Replace
 * output panel uses dbl-click
 + plugin autocomplete: reshow list if 1 char typed
++ improved "Make Plugin", can hide items in Plugins
 - fix: char-map must set modified
 
 1.2.14

@@ -50,7 +50,7 @@ def dlg_make_plugin():
           + [c1.join(['type=edit', 'val='+s_caption, 'pos=6,24,400,46'])]
           + [c1.join(['type=label', 'cap=Lowercase &module name', 'pos=6,54,400,0'])]
           + [c1.join(['type=edit', 'val='+s_module, 'pos=6,72,400,46'])]
-          + [c1.join(['type=label', 'cap=&Items "Caption>method" ("-" at end: hide Plugins item)', 'pos=6,102,400,0'])]
+          + [c1.join(['type=label', 'cap=&Items "Caption>method" ("-" at end: hide item in Plugins)', 'pos=6,102,400,0'])]
           + [c1.join(['type=memo', 'val='+s_plugin_items, 'pos=6,120,400,240'])]
           + [c1.join(['type=label', 'cap=&Events to handle', 'pos=6,246,400,0'])]
           + [c1.join(['type=checklistbox', 'items='+'\t'.join(EVENTS), 'val='+s_events_checks, 'pos=6,264,400,420'])]
