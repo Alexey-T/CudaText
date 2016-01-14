@@ -1,2 +1,0 @@
-uppercase-attributes:yes
-quiet:yes

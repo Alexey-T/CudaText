@@ -1,2 +1,0 @@
-uppercase-tags:yes
-quiet:yes
