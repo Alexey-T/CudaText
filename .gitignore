@@ -30,3 +30,5 @@ cuda_exttools/
 cuda_sample*/
 cuda_sess*/
 cuda_insert_numbers/
+cuda_macros/
+cuda_snippets/
