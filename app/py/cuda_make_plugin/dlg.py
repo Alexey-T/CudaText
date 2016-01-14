@@ -72,13 +72,6 @@ def dlg_make_plugin():
         items = text[id_events].split(';')[1].split(',')
         event_list = [s for (n, s) in enumerate(EVENTS) if items[n]=='1']
         
-        #handle "-" at end of cmd:
-        for item in cmd_list:
-            nomenu = item[1].endswith('-')
-            item += [nomenu]
-            if nomenu:
-                item[1] = item[1][:-1]
-        
         if not s_module or not s_caption:
             msg_box('Empty field', MB_OK+MB_ICONERROR)
             continue
@@ -88,20 +81,31 @@ def dlg_make_plugin():
 
         bad = False
         for i in cmd_list:
-            if len(i)!=3:
-                msg_box('Incorrect menu-item: '+repr(i), MB_OK+MB_ICONERROR)
+            if len(i)!=2:
+                msg_box('Incorrect item: '+repr(i), MB_OK+MB_ICONERROR)
                 bad = True
                 break
+                
             if not i[0]:
-                msg_box('Incorrect menu-item name: '+i[0], MB_OK+MB_ICONERROR)
+                msg_box('Incorrect item name: '+i[0], MB_OK+MB_ICONERROR)
                 bad = True
                 break
-            if not is_correct_id(i[1]):
-                msg_box('Incorrect menu-item method: '+i[1], MB_OK+MB_ICONERROR)
+                
+            s = i[1]
+            if s.endswith('-'): s=s[:-1]
+            if not is_correct_id(s):
+                msg_box('Incorrect item method: '+s, MB_OK+MB_ICONERROR)
                 bad = True
                 break
 
         if bad:
             continue
                 
+        #handle "-" at end of cmd:
+        for i in cmd_list:
+            nomenu = i[1].endswith('-')
+            i += [nomenu]
+            if nomenu:
+                i[1] = i[1][:-1]
+
         return (s_caption, 'cuda_'+s_module, cmd_list, event_list)
