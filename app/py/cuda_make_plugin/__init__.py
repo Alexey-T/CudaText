@@ -17,7 +17,7 @@ class Command:
         
         if len(cmd_list)>1:
             prefix = s_caption+'\\'
-            cmd_list = [(prefix+s[0], s[1]) for s in cmd_list] 
+            cmd_list = [(prefix+s[0], s[1], s[2]) for s in cmd_list] 
 
         #-------------
         # create dir
@@ -63,11 +63,17 @@ class Command:
             d = json.load(f)
 
         if cmd_list:            
-            dict_commands = {'%02d'%n: {'proc': item[1], 'caption': item[0]} for (n, item) in enumerate(cmd_list)}
-            d['commands'][s_module] = dict_commands
+            d_ = {'%02d'%n:
+              {
+                'proc': item[1], 
+                'caption': item[0], 
+                'menu': not item[2]
+              } for (n, item) in enumerate(cmd_list)}
+            d['commands'][s_module] = d_
+            
         if event_list:
-            dict_events = {'events': ','.join(event_list)}
-            d['events'][s_module] = dict_events
+            d_ = {'events': ','.join(event_list)}
+            d['events'][s_module] = d_
         
         with open(fn_plugins, 'w') as f:
             f.write(json.dumps(d, indent=2))
@@ -89,6 +95,8 @@ class Command:
                     f.write('section=commands\n')
                     f.write('caption='+item[0]+'\n')
                     f.write('method='+item[1]+'\n')
+                    if item[2]:
+                        f.write('menu=0\n')
                     f.write('\n')
 
             if event_list:            
