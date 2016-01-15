@@ -48,6 +48,7 @@ type
     TabObject: TObject;
     TabColor: TColor;
     TabModified: boolean;
+    TabRect: TRect;
   end;
 
 type
@@ -195,6 +196,7 @@ type
     procedure DoTabDrop;
     procedure DoTabDropToOtherControl(ATarget: TControl; const APnt: TPoint);
     procedure TimerDragTimer(Sender: TObject);
+    procedure DoUpdateTabRects;
   public
     constructor Create(AOnwer: TComponent); override;
     destructor Destroy; override;
@@ -328,6 +330,7 @@ var
       resclr := Canvas.Pixels[round(y), round(x)]
     else
       resclr := Canvas.Pixels[round(x), round(y)];
+    if resclr<0 then exit; //prevent except in GetRValue
     resclr := RGB(round(GetRValue(resclr) * (1-c) + GetRValue(LineColor) * c),
                   round(GetGValue(resclr) * (1-c) + GetGValue(LineColor) * c),
                   round(GetBValue(resclr) * (1-c) + GetBValue(LineColor) * c));
@@ -610,6 +613,9 @@ var
   AInvert: Integer;
   TempCaption: atString;
 begin
+  //optimize for 200 tabs
+  if ARect.Left>=ClientWidth then exit;
+
   if FTabShowEntireColor and (ATabHilite<>clNone) then
     ATabBg:= ATabHilite;
 
@@ -771,20 +777,34 @@ end;
 
 function TATTabs.GetTabRect(AIndex: Integer): TRect;
 var
-  i: Integer;
+  Data: TATTabData;
 begin
-  Result.Left:= FTabIndentInit+FTabAngle;
-  Result.Right:= Result.Left;
-  Result.Top:= FTabIndentTop;
-  Result.Bottom:= Result.Top+FTabHeight;
+  Data:= GetTabData(AIndex);
+  if Assigned(Data) then
+    Result:= Data.TabRect
+  else
+    Result:= Rect(0, 0, 200, 50); //dummy
+end;
 
-  if IsIndexOk(AIndex) then
-    for i:= 0 to TabCount-1 do
-    begin
-      Result.Left:= Result.Right + FTabIndentInter;
-      Result.Right:= Result.Left + FTabWidth;
-      if AIndex=i then Exit;
-    end;
+procedure TATTabs.DoUpdateTabRects;
+var
+  i: integer;
+  Data: TATTabData;
+  R: TRect;
+begin
+  R.Left:= FTabIndentInit+FTabAngle;
+  R.Right:= R.Left;
+  R.Top:= FTabIndentTop;
+  R.Bottom:= R.Top+FTabHeight;
+
+  for i:= 0 to TabCount-1 do
+  begin
+    R.Left:= R.Right + FTabIndentInter;
+    R.Right:= R.Left + FTabWidth;
+    Data:= GetTabData(i);
+    if Assigned(Data) then
+      Data.TabRect:= R;
+  end;
 end;
 
 function TATTabs.GetTabRect_Plus: TRect;
@@ -877,6 +897,7 @@ begin
   end;
 
   DoUpdateTabWidths;
+  DoUpdateTabRects;
 
   //paint bottom rect
   if not FTabBottom then
@@ -1016,7 +1037,7 @@ function TATTabs.GetTabAt(X, Y: Integer): Integer;
 var
   i: Integer;
   Pnt: TPoint;
-  RDown: TRect;
+  R1, RDown: TRect;
 begin
   Result:= -1;
   Pnt:= Point(X, Y);
@@ -1049,11 +1070,15 @@ begin
 
   //normal tab?
   for i:= 0 to TabCount-1 do
-    if PtInRect(GetTabRect(i), Pnt) then
+  begin
+    R1:= GetTabRect(i);
+    if R1.Left>Pnt.X then exit;
+    if PtInRect(R1, Pnt) then
     begin
       Result:= i;
       Exit;
     end;
+  end;
 
   //plus tab?
   if FTabShowPlus then
