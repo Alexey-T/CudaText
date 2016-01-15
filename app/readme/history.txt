@@ -2,6 +2,7 @@
 1.2.15
 + plugin autocomplete: reshow list if 1 char typed
 + improved "Make Plugin", can hide items in Plugins
++ opt "backup"
 + with col-block of zero width, can use Del/BkSp too
 + replace dlg key Ctrl+Alt+Enter: replace and don't find next
 * changed hotkeys in Replace

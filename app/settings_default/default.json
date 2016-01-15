@@ -423,5 +423,12 @@
   "autocomplete_html": true,
   //Special auto-complete for CSS lexer (see wiki)
   "autocomplete_css": true,
+  
+  //File backup
+  //  "": no backup
+  //  "1": symbol before ext: filename.~txt
+  //  "2": symbol after ext: filename.txt~
+  //  not number, eg "bak": additional ext: filename.txt.bak
+  "backup": "",
 
 }

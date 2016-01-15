@@ -752,6 +752,7 @@ var
   an: TecSyntAnalyzer;
   attr: integer;
   PrevEnabled: boolean;
+  NameBak: string;
 begin
   Result:= false;
   if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then Exit;
@@ -781,6 +782,11 @@ begin
     if Assigned(FOnAddRecent) then
       FOnAddRecent(Self);
   end;
+
+  NameBak:= SGetFilenameBackup(FFileName, UiOps.BackupMode);
+  if NameBak<>'' then
+    if FileExistsUTF8(FFileName) then
+      CopyFile(FFileName, NameBak, true{PreserveTime});
 
   try
     PrevEnabled:= NotifEnabled;

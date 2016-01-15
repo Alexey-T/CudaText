@@ -137,6 +137,7 @@ type
     NonTextFilesBufferKb: integer;
     LexerMenuGrouped: boolean;
     ReloadFollowTail: boolean;
+    BackupMode: string;
   end;
 var
   UiOps: TUiOps;
@@ -746,6 +747,7 @@ begin
     NonTextFilesBufferKb:= 64;
     LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
+    BackupMode:= '';
   end;
 end;
 
