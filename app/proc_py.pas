@@ -66,46 +66,10 @@ begin
   end;
 end;
 
-
-//simple api--testing it
 function Py_EvalStringAsString(const command: string): string;
 begin
   Result:= GetPythonEngine.EvalStringAsStr(command);
 end;
-
-//no such method on PythonEngine code
-//got this code from forum
-(*
-function Py_EvalStringAsString(const command: string): string;
-var
-  obj: PPyObject;
-  s: PPyObject;
-begin
-  Result:= '';
-  with GetPythonEngine do
-  begin
-    obj:= Run_CommandAsObject(command, eval_input);
-    try
-      if PyUnicode_Check(obj) then
-      begin
-        Result:= Utf8Encode(PyUnicode_AsWideString(obj));
-        Exit;
-      end;
-
-      s:= PyObject_Str(obj);
-      try
-        if Assigned(s) and PyString_Check(s) then
-          Result:= Utf8Encode(PyString_AsWideString(s));
-      finally
-        Py_XDECREF(s);
-      end;
-    finally
-      Py_XDECREF(obj);
-    end;
-  end;
-end;
-*)
-
 
 function Py_RunPlugin_Event(const SModule, SCmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;

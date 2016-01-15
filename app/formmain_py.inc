@@ -1420,7 +1420,7 @@ function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
-  Id, NTag: integer;
+  Id, NTag, i: integer;
   Prop: PAppPanelProps;
 begin
   with GetPythonEngine do
@@ -1471,9 +1471,14 @@ begin
 
         LOG_GET_LINES:
           begin
-            Result:= PyString_FromString(PChar(Prop^.Items.Text));
+            Str:= '';
+            for i:= 0 to Prop^.Items.Count-1 do
+              Str:= Str + Prop^.Items[i] + #13 + IntToStr(PtrInt(Prop^.Items.Objects[i]))
+                    + IfThen(i<Prop^.Items.Count-1, #10);
+            Result:= PyString_FromString(PChar(Str));
             exit; //skip ReturnNone
           end;
+
         LOG_GET_LINEINDEX:
           begin
             Result:= PyInt_FromLong(Prop^.Listbox.ItemIndex);
