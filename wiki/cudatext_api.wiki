@@ -6,7 +6,7 @@ This is API for [[CudaText]] in Python.
 
 =Event plugins=
 
-To make plugin react to events: add Python method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor's event "file saved". Event methods have additional parameter ed_self: Editor object in which event occured (this object is the same as "ed" in 99% cases, but in rare cases event occurs in non-focused editor, so ed_self ll be not same).
+To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event on_save. Event methods have additional parameter ed_self: Editor object in which event occured (this object is the same as "ed" in 99% cases, but in rare cases event occurs in non-focused editor).
 
 Supported events:
 
@@ -187,7 +187,7 @@ Possible values of id:
 * LOG_SET_NAME_ID: Sets index of regex group for file-name.
 * LOG_SET_FILENAME: Sets default file-name, which will be used when regex cannot find file-name in a string. 
 * LOG_SET_ZEROBASE: Sets flag: line and column numbers are zero-based, not 1-based. text is one-char string "0" or "1".
-* LOG_GET_LINES: Gets str: "\n"-separated lines in listbox.
+* LOG_GET_LINES: Gets str: "\n"-separated lines in listbox. Each line is text+"\r"+str(tag).
 * LOG_GET_LINEINDEX: Gets index of selected line in listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in listbox.
 * LOG_PANEL_ADD: Adds new panel next to Output/Validate. Text is caption of panel. Gets True if panel was added; gets False for incorrect caption: caption of standard or already added panel.
@@ -196,7 +196,7 @@ Possible values of id:
 
 For "Python console" panel:
 
-* LOG_CONSOLE_CLEAR: Clears console (combobox and memo).
+* LOG_CONSOLE_CLEAR: Clears console (both controls of console: combobox and read-only memo).
 * LOG_CONSOLE_ADD: Adds line to console (combobox and memo).
 * LOG_CONSOLE_GET: Gets list of lines in console combobox.
 
@@ -828,7 +828,15 @@ If Y not 0, Y is addition to caret's y, and X is absolute caret's x.
 
 Text is chr(1) separated items:
 
-* item 0: find-action, one of: 'findfirst', 'findnext', 'findprev', 'rep', 'repall', 'findcnt', 'findmark'
+* item 0: find-action, one of: 
+** 'findfirst'- find first
+** 'findnext'- find next
+** 'findprev'- find prev
+** 'rep'- replace next, find
+** 'repstop'- replace next, don't find
+** 'repall'- replace all
+** 'findcnt'- count all
+** 'findmark'- mark all
 * item 1: text to find
 * item 2: text to replace with
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
@@ -840,6 +848,7 @@ Text is chr(1) separated items:
 * add: msg_status_alt
 * add: on_func_hint
 * add: app_proc: PROC_GET/SET_FIND_OPTIONS
+* change: app_log: LOG_GET_LINES result
 
 1.0.118
 
