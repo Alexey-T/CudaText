@@ -7,7 +7,7 @@
 + replace dlg key Ctrl+Alt+Enter: replace and don't find next
 * changed hotkeys in Replace
 * output panel uses dbl-click
-- fix: char-map must set modified
+- fixes
 
 1.2.14
 + selection keeps bold/italic of selected words
