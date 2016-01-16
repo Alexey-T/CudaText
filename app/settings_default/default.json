@@ -426,8 +426,8 @@
   
   //File backup
   //  "": no backup
-  //  "1": symbol before ext: filename.~txt
-  //  "2": symbol after ext: filename.txt~
+  //  "1": symbol after filename: filename.txt~
+  //  "2": symbol before ext: filename.~txt
   //  not number, eg "bak": additional ext: filename.txt.bak
   "backup": "",
 

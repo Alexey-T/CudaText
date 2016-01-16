@@ -273,8 +273,8 @@ function SGetFilenameBackup(const fn, mode: string): string;
 begin
   Result:= '';
   if mode='' then exit;
-  if mode='1' then exit(ChangeFileExt(fn, '.~'+Copy(ExtractFileExt(fn), 2, MaxInt)));
-  if mode='2' then exit(fn+'~');
+  if mode='1' then exit(fn+'~');
+  if mode='2' then exit(ChangeFileExt(fn, '.~'+Copy(ExtractFileExt(fn), 2, MaxInt)));
   if StrToIntDef(mode, -1)<0 then exit(fn+'.'+mode);
 end;
 
