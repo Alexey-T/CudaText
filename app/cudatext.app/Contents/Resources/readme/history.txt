@@ -1,5 +1,6 @@
 
 1.2.15
++ opt "backup"
 + plugin autocomplete: reshow list if 1 char typed
 + improved "Make Plugin", can hide items in Plugins
 + with col-block of zero width, can use Del/BkSp too
