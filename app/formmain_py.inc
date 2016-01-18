@@ -1508,11 +1508,15 @@ begin
         LOG_CONSOLE_CLEAR:
           with fmMain do
           begin
-            fmConsole.memo.Strings.Clear;
-            fmConsole.memo.Update(true);
-            fmConsole.ed.Text:= '';
+            fmConsole.memo.ModeReadOnly:= false;
+            fmConsole.memo.DoCommand(cCommand_GotoTextBegin);
+            fmConsole.memo.DoCommand(cCommand_TextDeleteToTextEnd);
+            fmConsole.memo.DoCommand(cCommand_GotoTextBegin);
+            fmConsole.memo.ModeReadOnly:= true;
+            fmConsole.ed.DoCommand(cCommand_GotoTextBegin);
+            fmConsole.ed.DoCommand(cCommand_TextDeleteToTextEnd);
+            fmConsole.ed.DoCommand(cCommand_GotoTextBegin);
             fmConsole.ed.Items.Clear;
-            fmConsole.ed.Update(true);
           end;
 
         LOG_CONSOLE_ADD:

@@ -1,3 +1,10 @@
+Legend:
+  + added
+  - fixed
+  * changed
+
+1.2.15.2
+- faster render on Linux
 
 1.2.15
 + opt "backup"
