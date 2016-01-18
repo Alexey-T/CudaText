@@ -1508,15 +1508,22 @@ begin
         LOG_CONSOLE_CLEAR:
           with fmMain do
           begin
-            fmConsole.memo.ModeReadOnly:= false;
-            fmConsole.memo.DoCommand(cCommand_GotoTextBegin);
-            fmConsole.memo.DoCommand(cCommand_TextDeleteToTextEnd);
-            fmConsole.memo.DoCommand(cCommand_GotoTextBegin);
-            fmConsole.memo.ModeReadOnly:= true;
-            fmConsole.ed.DoCommand(cCommand_GotoTextBegin);
-            fmConsole.ed.DoCommand(cCommand_TextDeleteToTextEnd);
-            fmConsole.ed.DoCommand(cCommand_GotoTextBegin);
-            fmConsole.ed.Items.Clear;
+            if (Str='') or (Pos('m', Str)>0) then
+            begin
+              fmConsole.memo.ModeReadOnly:= false;
+              fmConsole.memo.DoCommand(cCommand_GotoTextBegin);
+              fmConsole.memo.DoCommand(cCommand_TextDeleteToTextEnd);
+              fmConsole.memo.ModeReadOnly:= true;
+            end;
+            if (Str='') or (Pos('e', Str)>0) then
+            begin
+              fmConsole.ed.DoCommand(cCommand_GotoTextBegin);
+              fmConsole.ed.DoCommand(cCommand_TextDeleteToTextEnd);
+            end;
+            if (Str='') or (Pos('h', Str)>0) then
+            begin
+              fmConsole.ed.Items.Clear;
+            end;
           end;
 
         LOG_CONSOLE_ADD:
