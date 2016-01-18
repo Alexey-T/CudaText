@@ -266,11 +266,13 @@ const
   cTrueResultStopsThese = [cEventOnComplete{, cEventOnFuncHint}];
 var
   SCurLexer: string;
+  bNeedGroup: boolean;
   i: integer;
 begin
   //empty string result means "no handlers for event"
   Result:= '';
   SCurLexer:= CurrentFrame.LexerName;
+  bNeedGroup:= not (AEvent in [cEventOnCaret, cEventOnChange, cEventOnChangeSlow]);
 
   for i:= Low(FPluginsEvents) to High(FPluginsEvents) do
     with FPluginsEvents[i] do
@@ -286,13 +288,15 @@ begin
                 Continue;
 
           //call Python
-          AEd.Strings.BeginUndoGroup;
+          if bNeedGroup then
+            AEd.Strings.BeginUndoGroup;
           PyCommandRunning:= true;
           try
             Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
           finally
             PyCommandRunning:= false;
-            AEd.Strings.EndUndoGroup;
+            if bNeedGroup then
+              AEd.Strings.EndUndoGroup;
           end;
 
           //True for some events means "stop"
