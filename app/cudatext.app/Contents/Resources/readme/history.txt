@@ -1,3 +1,11 @@
+Legend:
+  + added
+  - fixed
+  * changed
+
+1.2.15.3
+- faster render on Linux
+- fix: grouped-undo (didn't group and hanged on empty undo)
 
 1.2.15
 + opt "backup"
