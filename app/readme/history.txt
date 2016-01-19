@@ -3,10 +3,10 @@ Legend:
   - fixed
   * changed
 
-1.2.15.5
-+ add commands: column select to line begin/end: Shift+Alt+Home/End
-- faster render on Linux
-- fix: grouped-undo (didn't group and hanged on empty undo)
+1.2.16
++ add commands: column select to line begin/ line end/ page up/ page down
++ faster render on Linux gtk2
+- fix: grouped-undo was broken
 
 1.2.15
 + opt "backup"
