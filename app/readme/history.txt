@@ -3,7 +3,8 @@ Legend:
   - fixed
   * changed
 
-1.2.15.3
+1.2.15.5
++ add commands: column select to line begin/end: Shift+Alt+Home/End
 - faster render on Linux
 - fix: grouped-undo (didn't group and hanged on empty undo)
 
