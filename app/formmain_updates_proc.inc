@@ -173,6 +173,8 @@ begin
     else
       Ed.SetFocus;
   end;
+
+  Ed.DoEventCarets;
 end;
 
 
