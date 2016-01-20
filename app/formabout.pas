@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   LclProc, LclType, LclIntf, ButtonPanel,
-  proc_msg, proc_globdata;
+  proc_msg, proc_globdata, proc_linklabel;
 
 type
   { TfmAbout }
@@ -24,17 +24,16 @@ type
     Label1: TLabel;
     labelInf: TLabel;
     labelVer: TLabel;
-    Label3: TLabel;
     memo: TMemo;
     procedure bCreditsClick(Sender: TObject);
     procedure bOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure Label3Click(Sender: TObject);
   private
     { private declarations }
   public
     { public declarations }
+    FLabelLink: TLinkLabel;
     FCredits: string;
   end;
 
@@ -70,6 +69,13 @@ procedure TfmAbout.FormCreate(Sender: TObject);
 var
   Plat: string;
 begin
+  FLabelLink:= TLinkLabel.Create(Self);
+  FLabelLink.Parent:= Self;
+  FLabelLink.Caption:= 'UVviewsoft.com';
+  FLabelLink.Link:= 'http://uvviewsoft.com';
+  FLabelLink.Left:= Label1.Left;
+  FLabelLink.Top:= ClientHeight div 2;
+
   Plat:= '';
   if WidgetSet<>nil then
     Plat:= PlatfNames[WidgetSet.LCLPlatform];
@@ -82,11 +88,6 @@ procedure TfmAbout.FormShow(Sender: TObject);
 begin
   memo.visible:= false;
   memo.top:= 6;
-end;
-
-procedure TfmAbout.Label3Click(Sender: TObject);
-begin
-  OpenUrl('http://uvviewsoft.com/');
 end;
 
 procedure TfmAbout.bCreditsClick(Sender: TObject);

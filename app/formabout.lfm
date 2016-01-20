@@ -13,7 +13,7 @@ object fmAbout: TfmAbout
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object Label1: TLabel
     Left = 112
     Height = 29
@@ -33,19 +33,6 @@ object fmAbout: TfmAbout
     Width = 51
     Caption = 'Version'
     ParentColor = False
-  end
-  object Label3: TLabel
-    Cursor = crHandPoint
-    Left = 112
-    Height = 17
-    Top = 128
-    Width = 152
-    Caption = 'www.UVViewSoft.com'
-    Font.Color = clHighlight
-    Font.Style = [fsUnderline]
-    ParentColor = False
-    ParentFont = False
-    OnClick = Label3Click
   end
   object memo: TMemo
     Left = 296

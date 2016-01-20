@@ -42,6 +42,7 @@ constructor TLinkLabel.Create(AOwner: TComponent);
 begin
   inherited;
   Font.Color:= ColorLinkPassive;
+  Cursor:= crHandPoint;
   ShowHint:= true;
 end;
 
@@ -53,7 +54,6 @@ end;
 
 procedure TLinkLabel.MouseEnter;
 begin
-  Cursor:= crHandPoint;
   Font.Color:= ColorLinkActive;
   Font.Style:= Font.Style+[fsUnderline];
 end;
