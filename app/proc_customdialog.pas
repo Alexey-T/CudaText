@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
   CheckLst, Spin, ComCtrls,
   LclProc, LclType,
+  proc_linklabel,
   ATStringProc;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
@@ -323,6 +324,11 @@ begin
         (Ctl as TListView).Checkboxes:= (SValue='checklistview');
       end;
 
+      if SValue='linklabel' then
+      begin
+        Ctl:= TLinkLabel.Create(AForm);
+      end;
+
       //set parent
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
@@ -450,6 +456,7 @@ begin
       if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
       if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
       if Ctl is TListView then DoSetListviewState(Ctl as TListView, SValue);
+      if Ctl is TLinkLabel then (Ctl as TLinkLabel).Link:= SValue;
 
       Continue;
     end;
