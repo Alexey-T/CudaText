@@ -78,17 +78,17 @@ object fmMain: TfmMain
         end
       end
       object Gauge: TGauge
-        Left = 500
+        Left = 408
         Height = 19
-        Top = 10
+        Top = 0
         Width = 112
         Color = clBtnFace
         ParentColor = False
       end
-      object btnStop: TATButton
-        Left = 600
+      object ButtonCancel: TATButton
+        Left = 408
         Height = 25
-        Top = 10
+        Top = 24
         Width = 100
         TabStop = True
         TabOrder = 2
@@ -96,7 +96,7 @@ object fmMain: TfmMain
         Checked = False
         Checkable = False
         Focusable = True
-        OnClick = btnStopClick
+        OnClick = ButtonCancelClick
       end
     end
     object PanelBottom: TPanel
@@ -112,7 +112,7 @@ object fmMain: TfmMain
       object ListboxOut: TATListbox
         Left = 184
         Height = 150
-        Top = 18
+        Top = 0
         Width = 180
         CanGetFocus = True
         Color = clSilver
@@ -124,7 +124,7 @@ object fmMain: TfmMain
       object ListboxVal: TATListbox
         Left = 368
         Height = 150
-        Top = 18
+        Top = 0
         Width = 180
         CanGetFocus = True
         Color = clSilver
@@ -337,7 +337,7 @@ object fmMain: TfmMain
     IO = PythonIO
     PyFlags = [pfIgnoreEnvironmentFlag]
     OnAfterInit = PythonEngineAfterInit
-    left = 80
+    left = 32
     top = 32
   end
   object PythonIO: TPythonInputOutput
@@ -347,15 +347,15 @@ object fmMain: TfmMain
     UnicodeIO = True
     RawOutput = False
     left = 80
-    top = 80
+    top = 56
   end
   object PythonMod: TPythonModule
     Engine = PythonEngine
     OnInitialization = PythonModInitialization
     ModuleName = 'cudatext_api'
     Errors = <>
-    left = 80
-    top = 128
+    left = 128
+    top = 80
   end
   object MainMenu: TMainMenu
     left = 568
@@ -863,8 +863,8 @@ object fmMain: TfmMain
     Height = 718
     Title = 'Open file'
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofEnableSizing]
-    left = 232
-    top = 32
+    left = 88
+    top = 144
   end
   object PopupEnc: TPopupMenu
     left = 656
@@ -891,8 +891,8 @@ object fmMain: TfmMain
   end
   object SaveDlg: TSaveDialog
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofEnableSizing, ofDontAddToRecent, ofViewDetail]
-    left = 232
-    top = 80
+    left = 88
+    top = 192
   end
   object PopupLex: TPopupMenu
     left = 840
@@ -902,7 +902,7 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 3500
     OnTimer = TimerStatusTimer
-    left = 320
+    left = 280
     top = 32
   end
   object PopupTab: TPopupMenu
@@ -1007,24 +1007,24 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 150
     OnTimer = TimerCmdTimer
-    left = 320
-    top = 80
+    left = 328
+    top = 56
   end
   object AppProps: TApplicationProperties
     ShowButtonGlyphs = sbgNever
-    left = 440
-    top = 32
+    left = 32
+    top = 176
   end
   object FontDlg: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
-    left = 440
-    top = 80
+    left = 88
+    top = 240
   end
   object ImageListBar: TImageList
     AllocBy = 16
-    left = 440
-    top = 128
+    left = 544
+    top = 200
     Bitmap = {
       4C69120000001000000010000000FFFFFF000000001C00000033000000360000
       0036000000360000003600000036000000360000003600000036000000200000
@@ -1669,8 +1669,8 @@ object fmMain: TfmMain
   end
   object ImageListTree: TImageList
     AllocBy = 10
-    left = 440
-    top = 176
+    left = 600
+    top = 216
     Bitmap = {
       4C69080000001000000010000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1982,20 +1982,20 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 2000
     OnTimer = TimerTreeFillTimer
-    left = 320
-    top = 128
+    left = 376
+    top = 80
   end
   object TimerTreeFocus: TTimer
     Enabled = False
     Interval = 2000
     OnTimer = TimerTreeFocusTimer
-    left = 320
-    top = 176
+    left = 280
+    top = 120
   end
   object ImageListBm: TImageList
     AllocBy = 10
-    left = 440
-    top = 229
+    left = 664
+    top = 232
     Bitmap = {
       4C690A0000001000000010000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
@@ -2323,8 +2323,8 @@ object fmMain: TfmMain
   object UniqInstance: TUniqueInstance
     Identifier = 'cudatext.0'
     OnOtherInstance = UniqInstanceOtherInstance
-    left = 80
-    top = 184
+    left = 32
+    top = 128
   end
   object PopupText: TPopupMenu
     OnPopup = PopupTextPopup
@@ -2365,7 +2365,7 @@ object fmMain: TfmMain
     Enabled = False
     Interval = 6000
     OnTimer = TimerStatusAltTimer
-    left = 376
-    top = 48
+    left = 328
+    top = 144
   end
 end

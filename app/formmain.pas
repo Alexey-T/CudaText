@@ -84,7 +84,7 @@ type
     AppProps: TApplicationProperties;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
-    btnStop: TATButton;
+    ButtonCancel: TATButton;
     FontDlg: TFontDialog;
     Gauge: TGauge;
     ImageListBm: TImageList;
@@ -365,7 +365,7 @@ type
     ToolButton9: TToolButton;
     Tree: TTreeView;
     UniqInstance: TUniqueInstance;
-    procedure btnStopClick(Sender: TObject);
+    procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabsBottomClick(Sender: TObject);
     procedure FinderFound(Sender: TObject; APos1, APos2: TPoint);
@@ -1068,7 +1068,7 @@ begin
   DoOps_SaveHistory;
 end;
 
-procedure TfmMain.btnStopClick(Sender: TObject);
+procedure TfmMain.ButtonCancelClick(Sender: TObject);
 begin
   FFindStop:= true;
 end;
@@ -1499,6 +1499,8 @@ begin
 
   Status.IndentTop:= UiOps.TabIndentY;
   Status.Height:= UiOps.StatusSizeY;
+  ButtonCancel.Height:= UiOps.StatusSizeY-2;
+
   Status.GetPanelData(0).ItemWidth:= UiOps.StatusSizeX;
   if UiOps.StatusCenter then
     Status.GetPanelData(0).ItemAlign:= saMiddle
@@ -1507,7 +1509,6 @@ begin
 
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
-  btnStop.Height:= UiOps.StatusSizeY-2;
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
 

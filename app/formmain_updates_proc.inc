@@ -91,7 +91,7 @@ begin
     Anchors:= [akRight, akBottom];
     BorderSpacing.Right:= 5;
   end;
-  with btnStop do
+  with ButtonCancel do
   begin
     Parent:= Status;
     AnchorSideRight.Control:= Gauge;
@@ -102,7 +102,7 @@ begin
     BorderSpacing.Right:= 5;
   end;
   Gauge.Hide;
-  btnStop.Hide;
+  ButtonCancel.Hide;
 end;
 
 procedure TfmMain.UpdateFrame(AUpdatedText: boolean = false);
@@ -153,7 +153,7 @@ begin
     FFinder.Editor:= Ed;
     FFindStop:= false;
     FFindConfirmAll:= mrNone;
-    btnStop.Show;
+    ButtonCancel.Show;
     Gauge.Show;
     Gauge.Progress:= 0;
     Ed.BeginUpdate;
@@ -162,7 +162,7 @@ begin
   end
   else
   begin
-    btnStop.Hide;
+    ButtonCancel.Hide;
     Gauge.Hide;
     UpdateEnabledAll(true);
     Ed.Enabled:= true;
