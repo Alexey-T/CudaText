@@ -809,9 +809,19 @@ end;
 
 function TATTabs.GetTabRect_Plus: TRect;
 begin
-  Result:= GetTabRect(TabCount-1);
-  Result.Left:= Result.Right + FTabIndentInter;
-  Result.Right:= Result.Left + GetTabRectWidth(true);
+  if TabCount>0 then
+  begin
+    Result:= GetTabRect(TabCount-1);
+    Result.Left:= Result.Right + FTabIndentInter;
+    Result.Right:= Result.Left + GetTabRectWidth(true);
+  end
+  else
+  begin
+    Result.Top:= FTabIndentTop;
+    Result.Bottom:= Result.Top + FTabHeight;
+    Result.Left:= FTabIndentInit + FTabAngle;
+    Result.Right:= Result.Left + GetTabRectWidth(true);
+  end;
 end;
 
 function TATTabs.GetTabRect_X(const ARect: TRect): TRect;
