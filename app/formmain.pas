@@ -1507,6 +1507,7 @@ begin
 
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
+  btnStop.Height:= UiOps.StatusSizeY-2;
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
 

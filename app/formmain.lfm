@@ -1,12 +1,12 @@
 object fmMain: TfmMain
-  Left = 374
-  Height = 544
-  Top = 320
-  Width = 906
+  Left = 447
+  Height = 526
+  Top = 180
+  Width = 788
   AllowDropFiles = True
   Caption = 'App'
-  ClientHeight = 544
-  ClientWidth = 906
+  ClientHeight = 526
+  ClientWidth = 788
   KeyPreview = True
   Menu = MainMenu
   OnClose = FormClose
@@ -21,22 +21,22 @@ object fmMain: TfmMain
   object PanelAll: TPanel
     Left = 0
     Height = 230
-    Top = 314
-    Width = 906
+    Top = 296
+    Width = 788
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 230
-    ClientWidth = 906
+    ClientWidth = 788
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
       Height = 135
       Top = 0
-      Width = 906
+      Width = 788
       Align = alClient
       BevelOuter = bvNone
       ClientHeight = 135
-      ClientWidth = 906
+      ClientWidth = 788
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
@@ -78,17 +78,17 @@ object fmMain: TfmMain
         end
       end
       object Gauge: TGauge
-        Left = 704
+        Left = 500
         Height = 19
-        Top = 213
+        Top = 10
         Width = 112
         Color = clBtnFace
         ParentColor = False
       end
       object btnStop: TATButton
-        Left = 703
+        Left = 600
         Height = 25
-        Top = 237
+        Top = 10
         Width = 100
         TabStop = True
         TabOrder = 2
@@ -96,17 +96,18 @@ object fmMain: TfmMain
         Checked = False
         Checkable = False
         Focusable = True
+        OnClick = btnStopClick
       end
     end
     object PanelBottom: TPanel
       Left = 0
       Height = 90
       Top = 140
-      Width = 906
+      Width = 788
       Align = alBottom
       BevelOuter = bvNone
       ClientHeight = 90
-      ClientWidth = 906
+      ClientWidth = 788
       TabOrder = 1
       object ListboxOut: TATListbox
         Left = 184
@@ -138,7 +139,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 5
       Top = 135
-      Width = 906
+      Width = 788
       Align = alBottom
       AutoSnap = False
       MinSize = 60
@@ -150,7 +151,7 @@ object fmMain: TfmMain
     Left = 0
     Height = 24
     Top = 0
-    Width = 906
+    Width = 788
     AutoSize = True
     ButtonHeight = 24
     ButtonWidth = 24
