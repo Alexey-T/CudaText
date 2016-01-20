@@ -15,7 +15,7 @@ uses
   proc_install_zip, formcolorsetup, atsynedit_form_complete_synwrite,
   ATSynEdit_Adapter_EControl, formabout, formkeys, formlexerstylesload, 
   formcharmaps, proc_keysdialog, proc_customdialog, proc_miscutils, 
-proc_linklabel;
+  ATLinkLabel;
 
 {$R *.res}
 

@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   LclProc, LclType, LclIntf, ButtonPanel,
-  proc_msg, proc_globdata, proc_linklabel;
+  proc_msg, proc_globdata, ATLinkLabel;
 
 type
   { TfmAbout }

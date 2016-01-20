@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
   CheckLst, Spin, ComCtrls,
   LclProc, LclType,
-  proc_linklabel,
+  ATLinkLabel,
   ATStringProc;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
