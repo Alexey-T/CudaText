@@ -395,6 +395,9 @@ begin
         (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
       end;
 
+      if Ctl is TLinkLabel then
+        (Ctl as TLinkLabel).Link:= SValue;
+
       if (Ctl is TEdit) or (Ctl is TMemo) then
       begin
         //RO
@@ -456,7 +459,6 @@ begin
       if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
       if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
       if Ctl is TListView then DoSetListviewState(Ctl as TListView, SValue);
-      if Ctl is TLinkLabel then (Ctl as TLinkLabel).Link:= SValue;
 
       Continue;
     end;
