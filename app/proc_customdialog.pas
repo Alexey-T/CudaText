@@ -361,6 +361,13 @@ begin
       Continue;
     end;
 
+    //-------hint
+    if SName='hint' then
+    begin
+      Ctl.Hint:= SValue;
+      Continue;
+    end;
+
     //-------pos
     if SName='pos' then
     begin
@@ -487,6 +494,7 @@ begin
     F.Width:= ASizeX;
     F.Height:= ASizeY;
     F.Caption:= ATitle;
+    F.ShowHint:= true;
 
     repeat
       SItem:= SGetItem(AText, #10);
