@@ -37,6 +37,10 @@ cCommand_ColSelectUp    = 110
 cCommand_ColSelectDown  = 111
 cCommand_ColSelectLeft  = 112
 cCommand_ColSelectRight = 113
+cCommand_ColSelectToLineBegin = 114
+cCommand_ColSelectToLineEnd = 115
+cCommand_ColSelectPageUp = 116
+cCommand_ColSelectPageDown = 117
 
 cCommand_TextInsert = 150
 cCommand_TextInsertTabChar = 151
