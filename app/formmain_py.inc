@@ -1836,7 +1836,7 @@ var
   Str, Str1, Str2, Str3: string;
   StrCaption, StrId, StrCmd, StrIndex: string;
   mi, miMain: TMenuItem;
-  SplitVert, SplitVisible: boolean;
+  SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
 begin
   with GetPythonEngine do
@@ -2096,6 +2096,28 @@ begin
             fmMain.DoFindOptionsFromString(Str);
             Result:= ReturnNone;
           end;
+
+        APP_PROC_SIDEPANEL_ADD:
+          begin
+            Str1:= SGetItem(Str); //caption
+            Str2:= SGetItem(Str); //tab index
+            Str3:= SGetItem(Str); //type of control
+            ok:= fmMain.DoGetTabsLeftIndexOfCaption(Str1)<0;
+            if ok then
+            begin
+              fmMain.TabsLeft.AddTab(StrToIntDef(Str2, -1), Str1);
+            end;
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
+
+        APP_PROC_SIDEPANEL_ACTIVATE:
+          begin
+            Num:= fmMain.DoGetTabsLeftIndexOfCaption(Str);
+            ok:= Num>=0;
+            if ok then
+              fmMain.TabsLeft.TabIndex:= Num;
+            Result:= PyBool_FromLong(Ord(ok));
+          end
 
         else
           Result:= ReturnNone;

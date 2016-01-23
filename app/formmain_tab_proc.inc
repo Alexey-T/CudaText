@@ -281,4 +281,12 @@ begin
   Tree.Visible:= NTab=0;
 end;
 
-
+function TfmMain.DoGetTabsLeftIndexOfCaption(const Str: string): integer;
+var
+  i: integer;
+begin
+  Result:= -1;
+  for i:= 0 to TabsLeft.TabCount-1 do
+    if TabsLeft.GetTabData(i).TabCaption=Str then
+      exit(i);
+end;

@@ -515,6 +515,7 @@ type
     function DoFindOptionsToString: string;
     procedure DoGetSplitInfo(const Id: string; out BoolVert, BoolVisible: boolean;
       out NPos, NTotal: integer);
+    function DoGetTabsLeftIndexOfCaption(const Str: string): integer;
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
@@ -990,9 +991,9 @@ begin
   TabsBottom.Parent:= PanelBottom;
   TabsBottom.Align:= alBottom;
 
-  TabsBottom.AddTab(0, 'Console', nil);
-  TabsBottom.AddTab(1, 'Output', nil);
-  TabsBottom.AddTab(2, 'Validate', nil);
+  TabsBottom.AddTab(-1, 'Console', nil);
+  TabsBottom.AddTab(-1, 'Output', nil);
+  TabsBottom.AddTab(-1, 'Validate', nil);
   TabsBottom.OnTabClick:= @DoOnTabsBottomClick;
 
   TabsLeft:= TATTabs.Create(Self);
@@ -1000,7 +1001,6 @@ begin
   TabsLeft.Align:= alTop;
 
   TabsLeft.AddTab(-1, 'Tree', nil);
-  TabsLeft.AddTab(-1, 'Proj', nil);
   TabsLeft.OnTabClick:= @DoOnTabsLeftClick;
 
   FFinder:= TATEditorFinder.Create;
