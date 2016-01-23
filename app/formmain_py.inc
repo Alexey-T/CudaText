@@ -2117,7 +2117,15 @@ begin
             if ok then
               fmMain.TabsLeft.TabIndex:= Num;
             Result:= PyBool_FromLong(Ord(ok));
-          end
+          end;
+
+        APP_PROC_SIDEPANEL_ENUM:
+          begin
+            Str:= '';
+            for Num:= 0 to fmMain.TabsLeft.TabCount-1 do
+              Str:= Str + IfThen(Num>0, #10) + fmMain.TabsLeft.GetTabData(Num).TabCaption;
+            Result:= PyString_FromString(PChar(Str));
+          end;
 
         else
           Result:= ReturnNone;
