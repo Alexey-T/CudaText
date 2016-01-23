@@ -212,6 +212,7 @@ begin
 
   Groups.SetTabFont(Self.Font);
   TabsBottom.Font:= Self.Font;
+  TabsLeft.Font:= Self.Font;
   Status.Font:= Self.Font;
   StatusAlt.Font:= Self.Font;
   Gauge.Font:= Self.Font;
@@ -681,6 +682,15 @@ begin
   TabsBottom.ColorBorderActive:= GetAppColor('TabBorderActive');
   TabsBottom.ColorBorderPassive:= GetAppColor('TabBorderPassive');
   TabsBottom.Invalidate;
+
+  TabsLeft.Font.Color:= TabsBottom.Font.Color;
+  TabsLeft.ColorBg:= TabsBottom.ColorBg;
+  TabsLeft.ColorTabActive:= TabsBottom.ColorTabActive;
+  TabsLeft.ColorTabPassive:= TabsBottom.ColorTabPassive;
+  TabsLeft.ColorTabOver:= TabsBottom.ColorTabOver;
+  TabsLeft.ColorBorderActive:= TabsBottom.ColorBorderActive;
+  TabsLeft.ColorBorderPassive:= TabsBottom.ColorBorderPassive;
+  TabsLeft.Invalidate;
 
   if assigned(fmGoto) then
   begin

@@ -273,4 +273,12 @@ begin
   MsgStatus(F.FileName);
 end;
 
+procedure TfmMain.DoOnTabsLeftClick(Sender: TObject);
+var
+  NTab: integer;
+begin
+  NTab:= TabsLeft.TabIndex;
+  Tree.Visible:= NTab=0;
+end;
+
 

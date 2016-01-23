@@ -367,6 +367,7 @@ type
     UniqInstance: TUniqueInstance;
     procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
+    procedure DoOnTabsLeftClick(Sender: TObject);
     procedure DoOnTabsBottomClick(Sender: TObject);
     procedure FinderFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -486,6 +487,7 @@ type
     Status: TATStatus;
     StatusAlt: TATStatus;
     Groups: TATGroups;
+    TabsLeft: TATTabs;
     TabsBottom: TATTabs;
     FFinder: TATEditorFinder;
     FFindStop: boolean;
@@ -993,6 +995,14 @@ begin
   TabsBottom.AddTab(2, 'Validate', nil);
   TabsBottom.OnTabClick:= @DoOnTabsBottomClick;
 
+  TabsLeft:= TATTabs.Create(Self);
+  TabsLeft.Parent:= PanelLeft;
+  TabsLeft.Align:= alTop;
+
+  TabsLeft.AddTab(-1, 'Tree', nil);
+  TabsLeft.AddTab(-1, 'Proj', nil);
+  TabsLeft.OnTabClick:= @DoOnTabsLeftClick;
+
   FFinder:= TATEditorFinder.Create;
   FFinder.OptRegex:= true;
   FFinder.OnConfirmReplace:= @FinderConfirmReplace;
@@ -1481,6 +1491,24 @@ begin
   TabsBottom.Height:= UiOps.TabSizeY;
   TabsBottom.TabHeight:= UiOps.TabSizeY-1;
   TabsBottom.TabWidthMax:= UiOps.TabSizeX;
+
+  TabsLeft.TabBottom:= UiOps.TabBottom;
+  TabsLeft.TabShowPlus:= false;
+  TabsLeft.TabShowMenu:= false;
+  TabsLeft.TabShowClose:= tbShowNone;
+  TabsLeft.TabDoubleClickClose:= false;
+  TabsLeft.TabMiddleClickClose:= false;
+  TabsLeft.TabAngle:= UiOps.TabAngle;
+  TabsLeft.TabIndentTop:= 0;
+  TabsLeft.TabIndentInit:= UiOps.TabIndentX;
+  TabsLeft.TabIndentText:= UiOps.TabIndentY;
+  TabsLeft.Height:= UiOps.TabSizeY;
+  TabsLeft.TabHeight:= UiOps.TabSizeY-1;
+  TabsLeft.TabWidthMax:= UiOps.TabSizeX;
+  if UiOps.TabBottom then
+    TabsLeft.Align:= alBottom
+  else
+    Tabsleft.Align:= alTop;
 
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
   Groups.SetTabOption(tabOptionShowXButtons, Ord(UiOps.TabShowX));
