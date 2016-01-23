@@ -2099,13 +2099,32 @@ begin
 
         APP_PROC_SIDEPANEL_ADD:
           begin
-            Str1:= SGetItem(Str); //caption
-            Str2:= SGetItem(Str); //tab index
-            Str3:= SGetItem(Str); //type of control
+            StrCaption:= SGetItem(Str); //caption
+            StrIndex:= SGetItem(Str); //tab index
+            StrId:= SGetItem(Str); //type of control
             ok:= fmMain.DoGetTabsLeftIndexOfCaption(Str1)<0;
             if ok then
             begin
-              fmMain.TabsLeft.AddTab(StrToIntDef(Str2, -1), Str1);
+              Num:= 0;
+              while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
+              if Num>High(FAppSidePanels) then
+                ok:= false
+              else
+              begin
+                FAppSidePanels[Num].ItemCaption:= StrCaption;
+                if StrId='tree' then
+                  with FAppSidePanels[Num] do
+                  begin
+                    ItemTreeview:= TTreeView.Create(fmMain);
+                    ItemTreeview.Hide;
+                    ItemTreeview.Parent:= fmMain.PanelLeft;
+                    ItemTreeview.Align:= alClient;
+                    fmMain.DoApplyThemeToTreeview(ItemTreeview);
+                    ItemTreeview.Items.Add(nil, StrCaption);
+                  end;
+
+                fmMain.TabsLeft.AddTab(StrToIntDef(StrIndex, -1), StrCaption);
+              end;
             end;
             Result:= PyBool_FromLong(Ord(ok));
           end;

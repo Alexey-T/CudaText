@@ -507,6 +507,7 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
+    procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
@@ -1002,6 +1003,12 @@ begin
 
   TabsLeft.AddTab(-1, 'Tree', nil);
   TabsLeft.OnTabClick:= @DoOnTabsLeftClick;
+
+  with FAppSidePanels[0] do
+  begin
+    ItemCaption:= 'Tree';
+    ItemTreeview:= Tree;
+  end;
 
   FFinder:= TATEditorFinder.Create;
   FFinder.OptRegex:= true;

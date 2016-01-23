@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Menus,
-  FileUtil, Dialogs, Graphics, ExtCtrls,
+  FileUtil, Dialogs, Graphics, ExtCtrls, ComCtrls,
   LclProc, LclType,
   jsonConf,
   Process,
@@ -22,6 +22,7 @@ uses
   ATSynEdit_Keymap_Init,
   ATStringProc,
   ATButtons,
+  ATListbox,
   proc_cmd,
   proc_lexer,
   proc_msg,
@@ -376,6 +377,17 @@ type
 var
   FPluginsCmd: TAppPluginCmdArray;
   FPluginsEvents: TAppPluginEventArray;
+
+type
+  TAppSidePanel = record
+    ItemCaption: string;
+    ItemTreeview: TTreeView;
+    ItemListbox: TATListbox;
+    ItemListboxStrings: TStringList;
+  end;
+
+var
+  FAppSidePanels: array[0..10] of TAppSidePanel;
 
 
 implementation
@@ -980,6 +992,8 @@ initialization
 
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);
+
+  FillChar(FAppSidePanels, SizeOf(FAppSidePanels), 0);
 
 finalization
   FreeAndNil(Keymap);

@@ -592,6 +592,30 @@ begin
   end;
 end;
 
+procedure TfmMain.DoApplyThemeToTreeview(C: TTreeview);
+begin
+  C.Font.Color:= GetAppColor('TreeFont');
+  C.BackgroundColor:= GetAppColor('TreeBg');
+  C.SelectionFontColor:= GetAppColor('TreeSelFont'); //lew Laz
+  C.SelectionFontColorUsed:= true; //new Laz
+  C.SelectionColor:= GetAppColor('TreeSelBg');
+  C.TreeLineColor:= GetAppColor('TreeLines');
+  C.ExpandSignColor:= GetAppColor('TreeSign');
+  C.TreeLineColor:= Tree.TreeLineColor;
+  C.TreeLinePenStyle:= Tree.TreeLinePenStyle;
+
+  C.BorderStyle:= bsNone;
+  C.ExpandSignType:= tvestArrowFill;
+  C.HideSelection:= false;
+  C.Options:= Tree.Options;
+  C.ScrollBars:= ssVertical;
+  C.RowSelect:= true;
+  C.RightClickSelect:= true;
+  C.ReadOnly:= true;
+
+  C.Invalidate;
+end;
+
 procedure TfmMain.DoApplyTheme;
 var
   F: TEditorFrame;
@@ -611,7 +635,6 @@ begin
     PropObject.Data.Listbox.Color:= ListboxOut.Color;
     PropObject.Data.Listbox.Invalidate;
   end;
-
 
   for i:= 0 to 9 do
     AppBookmarkSetup[240+i].Color:= GetAppColor('EdBookmarkBg');
@@ -727,14 +750,14 @@ begin
     fmFind.Invalidate;
   end;
 
-  Tree.Font.Color:=GetAppColor('TreeFont');
-  Tree.BackgroundColor:= GetAppColor('TreeBg');
-  Tree.SelectionFontColor:= GetAppColor('TreeSelFont'); //lew Laz
-  Tree.SelectionFontColorUsed:= true; //new Laz
-  Tree.SelectionColor:= GetAppColor('TreeSelBg');
-  Tree.TreeLineColor:= GetAppColor('TreeLines');
-  Tree.ExpandSignColor:= GetAppColor('TreeSign');
-  Tree.Invalidate;
+  DoApplyThemeToTreeview(Tree);
+  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
+    with FAppSidePanels[i] do
+    begin
+      if ItemCaption='' then break;
+      if Assigned(ItemTreeview) then
+        DoApplyThemeToTreeview(ItemTreeview);
+    end;
 
   for i:= 0 to FrameCount-1 do
   begin

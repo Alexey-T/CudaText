@@ -275,10 +275,19 @@ end;
 
 procedure TfmMain.DoOnTabsLeftClick(Sender: TObject);
 var
-  NTab: integer;
+  NTab, i: integer;
+  SCaption: string;
 begin
   NTab:= TabsLeft.TabIndex;
-  Tree.Visible:= NTab=0;
+  if NTab<0 then exit;
+  SCaption:= TabsLeft.GetTabData(NTab).TabCaption;
+  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
+    with FAppSidePanels[i] do
+    begin
+      if ItemCaption='' then break;
+      if Assigned(ItemTreeview) then ItemTreeview.Visible:= ItemCaption=SCaption;
+      if Assigned(ItemListbox) then ItemListbox.Visible:= ItemCaption=SCaption;
+    end;
 end;
 
 function TfmMain.DoGetTabsLeftIndexOfCaption(const Str: string): integer;
