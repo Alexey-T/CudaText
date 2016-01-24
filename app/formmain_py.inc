@@ -2396,7 +2396,7 @@ end;
 //tree_proc(id_tree, id_action, id_item, index, text, icon)
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  IdTree, IdItem: PtrInt;
+  IdTree, IdItem: Int64;
   IdAction, NIndex, NImageIndex, NLen, i: integer;
   PtrText: PChar;
   StrText, Str: string;
@@ -2409,8 +2409,8 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
     begin
       StrText:= string(PtrText);
-      Tree:= TTreeView(IdTree);
-      TreeNode:= TTreeNode(IdItem);
+      Tree:= TTreeView(PtrInt(IdTree));
+      TreeNode:= TTreeNode(PtrInt(IdItem));
 
       case IdAction of
         TREE_ITEM_ENUM:

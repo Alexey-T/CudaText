@@ -40,6 +40,7 @@
   "EdMarginUser" : "#A0C0A0",
   "EdBookmarkBg" : "#AAC8C8",
   "EdBookmarkIcon" : "#A0A0A0",
+  "EdMarkedRangeBg" : "#B0E0F0",
   "TabBg" : "#AAC8C8",
   "TabFont" : "#505050",
   "TabFontMod" : "#008080",
@@ -80,7 +81,8 @@
   "ButtonBorderPassive" : "#80A0A0",
   "ButtonBorderOver" : "#B0B0B0",
   "ButtonBorderFocused" : "#808080",
-  "SplitMain" : "#E0E0E0",
+  "StatusAltBg" : "#FFFBF0",
+  "SplitMain" : "#AAC8C8",
   "SplitGroups" : "#AAC8C8",
   "ExportHtmlBg" : "#FFFFFF",
   "ExportHtmlNumbers" : "#A0A0A4"
