@@ -285,8 +285,16 @@ begin
     with FAppSidePanels[i] do
     begin
       if ItemCaption='' then break;
-      if Assigned(ItemTreeview) then ItemTreeview.Visible:= ItemCaption=SCaption;
-      if Assigned(ItemListbox) then ItemListbox.Visible:= ItemCaption=SCaption;
+      if Assigned(ItemTreeview) then
+      begin
+        ItemTreeview.Visible:= ItemCaption=SCaption;
+        if ItemTreeview.Visible then ItemTreeview.SetFocus;
+      end;
+      if Assigned(ItemListbox) then
+      begin
+        ItemListbox.Visible:= ItemCaption=SCaption;
+        if ItemListbox.Visible then ItemListbox.SetFocus;
+      end;
     end;
 end;
 
