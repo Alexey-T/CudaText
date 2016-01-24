@@ -384,6 +384,7 @@ type
     ItemTreeview: TTreeView;
     ItemListbox: TATListbox;
     ItemListboxStrings: TStringList;
+    ItemImagelist: TImageList;
   end;
 
 var

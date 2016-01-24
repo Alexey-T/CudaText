@@ -2118,10 +2118,12 @@ begin
                   with FAppSidePanels[Num] do
                   begin
                     ItemCaption:= StrCaption;
+                    ItemImagelist:= TImagelist.Create(fmMain);
                     ItemTreeview:= TTreeView.Create(fmMain);
                     ItemTreeview.Hide;
                     ItemTreeview.Parent:= fmMain.PanelLeft;
                     ItemTreeview.Align:= alClient;
+                    ItemTreeview.Images:= ItemImagelist;
                     fmMain.DoApplyThemeToTreeview(ItemTreeview);
                     ItemTreeview.Items.Add(nil, StrCaption);
                   end;
@@ -2434,6 +2436,8 @@ var
   StrText, Str: string;
   Tree: TTreeView;
   TreeNode, Node1: TTreeNode;
+  ok: boolean;
+  bmp: TBitmap;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
@@ -2465,6 +2469,7 @@ begin
             Node1:= Tree.Items.AddChild(TreeNode, StrText);
             Node1.Text:= StrText;
             Node1.ImageIndex:= NImageIndex;
+            Node1.SelectedIndex:= NImageIndex;
             if NIndex>=0 then
               Node1.Index:= NIndex;
 
@@ -2494,9 +2499,39 @@ begin
         TREE_ITEM_SET_ICON:
           begin
             if Assigned(TreeNode) then
+            begin
               TreeNode.ImageIndex:= NImageIndex;
+              TreeNode.SelectedIndex:= NImageIndex;
+            end;
             Tree.Invalidate;
             Result:= ReturnNone;
+          end;
+
+        TREE_ICON_ADD:
+          begin
+            ok:= Assigned(Tree.Images) and FileExists(StrText);
+            if ok then
+            try
+              bmp:= TBitmap.Create;
+              bmp.LoadFromFile(StrText);
+              bmp.Transparent:= true;
+              NImageIndex:= Tree.Images.Add(bmp, nil);
+              ok:= NImageIndex>=0;
+            finally
+              FreeAndNil(bmp);
+            end;
+            if ok then
+              Result:= PyInt_FromLong(NImageIndex)
+            else
+              Result:= PyInt_FromLong(-1);
+          end;
+
+        TREE_ICON_DELETE:
+          begin
+            ok:= Assigned(Tree.Images) and (NImageIndex>=0) and (NImageIndex<Tree.Images.Count);
+            if ok then
+              Tree.Images.Delete(NImageIndex);
+            Result:= PyBool_FromLong(Ord(ok));
           end;
 
         else

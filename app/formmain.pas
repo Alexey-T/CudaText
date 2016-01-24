@@ -1008,6 +1008,7 @@ begin
   begin
     ItemCaption:= 'Tree';
     ItemTreeview:= Tree;
+    ItemImagelist:= ImageListTree;
   end;
 
   FFinder:= TATEditorFinder.Create;
