@@ -2473,6 +2473,43 @@ begin
             Result:= ReturnNone;
           end;
 
+        TREE_ITEM_SELECT:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.Selected:= true;
+            Result:= ReturnNone;
+          end;
+
+        TREE_ITEM_FOLD:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.Collapse(false);
+            Result:= ReturnNone;
+          end;
+        TREE_ITEM_FOLD_DEEP:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.Collapse(true)
+            else
+              Tree.FullCollapse;
+            Result:= ReturnNone;
+          end;
+
+        TREE_ITEM_UNFOLD:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.Expand(false);
+            Result:= ReturnNone;
+          end;
+        TREE_ITEM_UNFOLD_DEEP:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.Expand(true)
+            else
+              Tree.FullExpand;
+            Result:= ReturnNone;
+          end;
+
         TREE_ICON_ADD:
           begin
             ok:= Assigned(Tree.Images) and FileExists(StrText);
