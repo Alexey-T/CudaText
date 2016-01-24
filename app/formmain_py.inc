@@ -2476,14 +2476,38 @@ begin
         TREE_ITEM_SELECT:
           begin
             if Assigned(TreeNode) then
+            begin
               TreeNode.Selected:= true;
+              Tree.Invalidate;
+            end;
             Result:= ReturnNone;
+          end;
+
+        TREE_ITEM_GET_SELECTED:
+          begin
+            if Assigned(Tree.Selected) then
+              Result:= PyLong_FromLongLong(PtrInt(Tree.Selected))
+            else
+              Result:= ReturnNone;
+          end;
+
+        TREE_ITEM_GET_PROP:
+          begin
+            if Assigned(TreeNode) then
+              Result:= Py_BuildValue('(siii)',
+                       PChar(TreeNode.Text),
+                       TreeNode.Index,
+                       TreeNode.ImageIndex,
+                       TreeNode.Level)
+            else
+              Result:= ReturnNone;
           end;
 
         TREE_ITEM_FOLD:
           begin
             if Assigned(TreeNode) then
               TreeNode.Collapse(false);
+            Tree.Invalidate;
             Result:= ReturnNone;
           end;
         TREE_ITEM_FOLD_DEEP:
@@ -2492,6 +2516,7 @@ begin
               TreeNode.Collapse(true)
             else
               Tree.FullCollapse;
+            Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -2499,6 +2524,7 @@ begin
           begin
             if Assigned(TreeNode) then
               TreeNode.Expand(false);
+            Tree.Invalidate;
             Result:= ReturnNone;
           end;
         TREE_ITEM_UNFOLD_DEEP:
@@ -2507,6 +2533,7 @@ begin
               TreeNode.Expand(true)
             else
               Tree.FullExpand;
+            Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
