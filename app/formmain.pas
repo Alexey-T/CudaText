@@ -507,6 +507,8 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
+    function DoAddTabsLeftPanel(const ACaption, AControlType: string;
+      ATabIndex: integer): boolean;
     procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);

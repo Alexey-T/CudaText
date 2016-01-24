@@ -310,3 +310,34 @@ begin
       if ItemCaption=Str then exit(i);
     end;
 end;
+
+function TfmMain.DoAddTabsLeftPanel(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+var
+  Num: integer;
+begin
+  if DoGetTabsLeftIndexOfCaption(ACaption)>=0 then exit(false);
+  if (AControlType<>'tree') then exit(false);
+
+  Num:= 0;
+  while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
+  if Num>High(FAppSidePanels) then exit(false);
+
+  if AControlType='tree' then
+    with FAppSidePanels[Num] do
+    begin
+      ItemCaption:= ACaption;
+      ItemImagelist:= TImageList.Create(Self);
+      ItemTreeview:= TTreeView.Create(Self);
+      ItemTreeview.Hide;
+      ItemTreeview.Parent:= PanelLeft;
+      ItemTreeview.Align:= alClient;
+      ItemTreeview.Images:= ItemImagelist;
+      fmMain.DoApplyThemeToTreeview(ItemTreeview);
+      //just to see it ok
+      ItemTreeview.Items.Add(nil, 'panel '+ACaption);
+    end;
+
+  TabsLeft.AddTab(ATabIndex, ACaption);
+  Result:= true;
+end;
+

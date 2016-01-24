@@ -2102,35 +2102,7 @@ begin
             StrCaption:= SGetItem(Str); //caption
             StrIndex:= SGetItem(Str); //tab index
             StrId:= SGetItem(Str); //type of control
-            ok:= fmMain.DoGetTabsLeftIndexOfCaption(StrCaption)<0;
-            if ok then
-            begin
-              Num:= 0;
-              while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
-              if Num>High(FAppSidePanels) then
-                ok:= false
-              else
-              if (StrId<>'tree') then
-                ok:= false
-              else
-              begin
-                if StrId='tree' then
-                  with FAppSidePanels[Num] do
-                  begin
-                    ItemCaption:= StrCaption;
-                    ItemImagelist:= TImagelist.Create(fmMain);
-                    ItemTreeview:= TTreeView.Create(fmMain);
-                    ItemTreeview.Hide;
-                    ItemTreeview.Parent:= fmMain.PanelLeft;
-                    ItemTreeview.Align:= alClient;
-                    ItemTreeview.Images:= ItemImagelist;
-                    fmMain.DoApplyThemeToTreeview(ItemTreeview);
-                    ItemTreeview.Items.Add(nil, StrCaption);
-                  end;
-
-                fmMain.TabsLeft.AddTab(StrToIntDef(StrIndex, -1), StrCaption);
-              end;
-            end;
+            ok:= fmMain.DoAddTabsLeftPanel(StrCaption, StrId, StrToIntDef(StrIndex, -1));
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
