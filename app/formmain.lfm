@@ -60,20 +60,11 @@ object fmMain: TfmMain
           Top = 0
           Width = 202
           Align = alClient
-          BorderStyle = bsNone
-          ExpandSignType = tvestArrowFill
-          HideSelection = False
           Images = ImageListTree
-          ParentFont = False
           PopupMenu = PopupTree
-          ReadOnly = True
-          RightClickSelect = True
-          RowSelect = True
-          ScrollBars = ssVertical
           TabOrder = 0
           OnDblClick = TreeClick
           OnMouseMove = TreeMouseMove
-          Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
           TreeLinePenStyle = psSolid
         end
       end

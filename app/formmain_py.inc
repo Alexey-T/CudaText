@@ -2110,6 +2110,9 @@ begin
               if Num>High(FAppSidePanels) then
                 ok:= false
               else
+              if (StrId<>'tree') then
+                ok:= false
+              else
               begin
                 if StrId='tree' then
                   with FAppSidePanels[Num] do

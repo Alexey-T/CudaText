@@ -607,7 +607,14 @@ begin
   C.BorderStyle:= bsNone;
   C.ExpandSignType:= tvestArrowFill;
   C.HideSelection:= false;
-  C.Options:= Tree.Options;
+  C.Options:= [
+    tvoAutoItemHeight,
+    tvoKeepCollapsedNodes,
+    tvoShowButtons,
+    tvoShowLines,
+    tvoShowRoot,
+    tvoToolTips
+    ];
   C.ScrollBars:= ssVertical;
   C.RowSelect:= true;
   C.RightClickSelect:= true;
