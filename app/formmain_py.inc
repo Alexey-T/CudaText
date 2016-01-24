@@ -2474,7 +2474,7 @@ begin
               Node1.Index:= NIndex;
 
             Tree.Invalidate;
-            Result:= ReturnNone;
+            Result:= PyLong_FromLongLong(PtrInt(Node1));
           end;
 
         TREE_ITEM_DELETE:
@@ -2530,7 +2530,10 @@ begin
           begin
             ok:= Assigned(Tree.Images) and (NImageIndex>=0) and (NImageIndex<Tree.Images.Count);
             if ok then
+            begin
               Tree.Images.Delete(NImageIndex);
+              Tree.Invalidate;
+            end;
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
