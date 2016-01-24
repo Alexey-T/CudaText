@@ -2478,6 +2478,7 @@ begin
             if Assigned(TreeNode) then
             begin
               TreeNode.Selected:= true;
+              TreeNode.MakeVisible;
               Tree.Invalidate;
             end;
             Result:= ReturnNone;
