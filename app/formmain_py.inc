@@ -2111,10 +2111,10 @@ begin
                 ok:= false
               else
               begin
-                FAppSidePanels[Num].ItemCaption:= StrCaption;
                 if StrId='tree' then
                   with FAppSidePanels[Num] do
                   begin
+                    ItemCaption:= StrCaption;
                     ItemTreeview:= TTreeView.Create(fmMain);
                     ItemTreeview.Hide;
                     ItemTreeview.Parent:= fmMain.PanelLeft;
@@ -2144,6 +2144,19 @@ begin
             for Num:= 0 to fmMain.TabsLeft.TabCount-1 do
               Str:= Str + IfThen(Num>0, #10) + fmMain.TabsLeft.GetTabData(Num).TabCaption;
             Result:= PyString_FromString(PChar(Str));
+          end;
+
+        APP_PROC_SIDEPANEL_GET_CONTROL:
+          begin
+            Num:= fmMain.DoGetTabsLeftIndexOfCaption(Str);
+            if Num<0 then
+              Result:= ReturnNone
+            else
+              with FAppSidePanels[Num] do
+                if Assigned(ItemTreeview) then
+                  Result:= PyString_FromString(PChar(IntToStr(PtrInt(ItemTreeview))))
+                else
+                  Result:= ReturnNone;
           end;
 
         else

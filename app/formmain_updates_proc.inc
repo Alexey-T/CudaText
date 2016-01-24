@@ -601,8 +601,8 @@ begin
   C.SelectionColor:= GetAppColor('TreeSelBg');
   C.TreeLineColor:= GetAppColor('TreeLines');
   C.ExpandSignColor:= GetAppColor('TreeSign');
-  C.TreeLineColor:= Tree.TreeLineColor;
-  C.TreeLinePenStyle:= Tree.TreeLinePenStyle;
+  C.TreeLineColor:= clMedGray;
+  C.TreeLinePenStyle:= psSolid;
 
   C.BorderStyle:= bsNone;
   C.ExpandSignType:= tvestArrowFill;

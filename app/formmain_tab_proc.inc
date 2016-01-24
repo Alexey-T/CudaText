@@ -295,7 +295,10 @@ var
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to TabsLeft.TabCount-1 do
-    if TabsLeft.GetTabData(i).TabCaption=Str then
-      exit(i);
+  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
+    with FAppSidePanels[i] do
+    begin
+      if ItemCaption='' then break;
+      if ItemCaption=Str then exit(i);
+    end;
 end;
