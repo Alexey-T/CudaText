@@ -2483,6 +2483,22 @@ begin
             Result:= ReturnNone;
           end;
 
+        TREE_ITEM_SET_TEXT:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.Text:= StrText;
+            Tree.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        TREE_ITEM_SET_ICON:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.ImageIndex:= NImageIndex;
+            Tree.Invalidate;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
