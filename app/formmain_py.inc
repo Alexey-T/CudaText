@@ -2102,7 +2102,7 @@ begin
             StrCaption:= SGetItem(Str); //caption
             StrIndex:= SGetItem(Str); //tab index
             StrId:= SGetItem(Str); //type of control
-            ok:= fmMain.DoGetTabsLeftIndexOfCaption(Str1)<0;
+            ok:= fmMain.DoGetTabsLeftIndexOfCaption(StrCaption)<0;
             if ok then
             begin
               Num:= 0;
@@ -2425,6 +2425,47 @@ begin
     end;
 end;
 
+//tree_proc(id_tree, id_action, id_item, index, text, icon)
+function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdTree, IdItem: PtrInt;
+  IdAction, NIndex, NIcon, NLen, i: integer;
+  PtrText: PChar;
+  StrText, Str: string;
+  Tree: TTreeView;
+  TreeNode, Node1: TTreeNode;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NIcon)) then
+    begin
+      StrText:= string(PtrText);
+      Tree:= TTreeView(IdTree);
+      TreeNode:= TTreeNode(IdItem);
+
+      case IdAction of
+        TREE_ITEM_ENUM:
+          begin
+            if TreeNode=nil then
+              Node1:= Tree.Items.GetFirstNode
+            else
+              Node1:= TreeNode.GetFirstChild;
+            if Node1=nil then exit(ReturnNone);
+
+            Str:= '';
+            repeat
+              Str:= Str+(IntToStr(PtrInt(Node1))+'='+Node1.Text+#10);
+              Node1:= TreeNode.GetNextChild(Node1);
+              if Node1=nil then break;
+            until false;
+
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
 
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
@@ -2495,6 +2536,7 @@ begin
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
     AddMethod('lexer_proc', @Py_lexer_proc, '');
+    AddMethod('tree_proc', @Py_tree_proc, '');
   end;
 end;
 

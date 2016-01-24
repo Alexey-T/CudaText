@@ -146,6 +146,14 @@ PROC_SIDEPANEL_ACTIVATE = 25
 PROC_SIDEPANEL_ENUM = 26
 PROC_SIDEPANEL_GET_CONTROL = 27
 
+TREE_ITEM_ENUM = 1
+TREE_ITEM_ADD = 2
+TREE_ITEM_DELETE = 3
+TREE_ITEM_SET_NAME = 4
+TREE_ITEM_SET_ICON = 5
+TREE_ICON_ADD = 6
+TREE_ICON_DELETE = 7
+
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
 LEXER_GET_EXT     = 2
@@ -251,6 +259,15 @@ def ini_write(filename, section, key, value):
     
 def lexer_proc(id, value):
     return ct.lexer_proc(id, value)
+
+def tree_proc(id_tree, id_action, id_item=0, index=0, text='', icon=0):
+    res = ct.tree_proc(id_tree, id_action, id_item, index, text, icon)
+    if res is None: return
+    if id_action==TREE_ITEM_ENUM:
+        res = res.splitlines()
+        res = [r.split('=', 1) for r in res]
+        res = [(int(r[0]), r[1]) for r in res]
+    return res
     
 
 #Editor
