@@ -2154,7 +2154,7 @@ begin
             else
               with FAppSidePanels[Num] do
                 if Assigned(ItemTreeview) then
-                  Result:= PyString_FromString(PChar(IntToStr(PtrInt(ItemTreeview))))
+                  Result:= PyLong_FromLongLong(PtrInt(ItemTreeview))
                 else
                   Result:= ReturnNone;
           end;
