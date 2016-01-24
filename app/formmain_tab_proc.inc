@@ -298,7 +298,7 @@ begin
     end;
 end;
 
-function TfmMain.DoGetTabsLeftIndexOfCaption(const Str: string): integer;
+function TfmMain.DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
 var
   i: integer;
 begin
@@ -311,18 +311,20 @@ begin
     end;
 end;
 
-function TfmMain.DoAddTabsLeftPanel(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+const
+  cTypeTree = 'tree';
 var
   Num: integer;
 begin
-  if DoGetTabsLeftIndexOfCaption(ACaption)>=0 then exit(false);
-  if (AControlType<>'tree') then exit(false);
+  if DoSidebar_GetTabIndexOfCaption(ACaption)>=0 then exit(false);
+  if (AControlType<>cTypeTree) then exit(false);
 
   Num:= 0;
   while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(FAppSidePanels) then exit(false);
 
-  if AControlType='tree' then
+  if AControlType=cTypeTree then
     with FAppSidePanels[Num] do
     begin
       ItemCaption:= ACaption;
@@ -339,5 +341,27 @@ begin
 
   TabsLeft.AddTab(ATabIndex, ACaption);
   Result:= true;
+end;
+
+
+function TfmMain.DoSidebar_ActivateTab(const ACaption: string): boolean;
+var
+  Num: integer;
+begin
+  Num:= DoSidebar_GetTabIndexOfCaption(ACaption);
+  Result:= Num>=0;
+  if Result then
+    fmMain.TabsLeft.TabIndex:= Num;
+end;
+
+function TfmMain.DoSidebar_GetControlHandle(const ACaption: string): PtrInt;
+var
+  Num: integer;
+begin
+  Num:= DoSidebar_GetTabIndexOfCaption(ACaption);
+  if Num<0 then
+    Result:= 0
+  else
+    Result:= PtrInt(FAppSidePanels[Num].ItemTreeview)
 end;
 

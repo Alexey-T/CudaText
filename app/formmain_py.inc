@@ -1838,6 +1838,7 @@ var
   mi, miMain: TMenuItem;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
+  Num64: PtrInt;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -2102,16 +2103,13 @@ begin
             StrCaption:= SGetItem(Str); //caption
             StrIndex:= SGetItem(Str); //tab index
             StrId:= SGetItem(Str); //type of control
-            ok:= fmMain.DoAddTabsLeftPanel(StrCaption, StrId, StrToIntDef(StrIndex, -1));
+            ok:= fmMain.DoSidebar_AddTab(StrCaption, StrId, StrToIntDef(StrIndex, -1));
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_SIDEPANEL_ACTIVATE:
           begin
-            Num:= fmMain.DoGetTabsLeftIndexOfCaption(Str);
-            ok:= Num>=0;
-            if ok then
-              fmMain.TabsLeft.TabIndex:= Num;
+            ok:= fmMain.DoSidebar_ActivateTab(Str);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -2125,15 +2123,11 @@ begin
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
           begin
-            Num:= fmMain.DoGetTabsLeftIndexOfCaption(Str);
-            if Num<0 then
-              Result:= ReturnNone
+            Num64:= fmMain.DoSidebar_GetControlHandle(Str);
+            if Num64<>0 then
+              Result:= PyLong_FromLongLong(Num64)
             else
-              with FAppSidePanels[Num] do
-                if Assigned(ItemTreeview) then
-                  Result:= PyLong_FromLongLong(PtrInt(ItemTreeview))
-                else
-                  Result:= ReturnNone;
+              Result:= ReturnNone;
           end;
 
         else

@@ -507,8 +507,8 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
-    function DoAddTabsLeftPanel(const ACaption, AControlType: string;
-      ATabIndex: integer): boolean;
+    function DoSidebar_ActivateTab(const ACaption: string): boolean;
+    function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
     procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
@@ -518,7 +518,8 @@ type
     function DoFindOptionsToString: string;
     procedure DoGetSplitInfo(const Id: string; out BoolVert, BoolVisible: boolean;
       out NPos, NTotal: integer);
-    function DoGetTabsLeftIndexOfCaption(const Str: string): integer;
+    function DoSidebar_GetControlHandle(const ACaption: string): PtrInt;
+    function DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
