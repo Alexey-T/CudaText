@@ -2429,14 +2429,14 @@ end;
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: PtrInt;
-  IdAction, NIndex, NIcon, NLen, i: integer;
+  IdAction, NIndex, NImageIndex, NLen, i: integer;
   PtrText: PChar;
   StrText, Str: string;
   Tree: TTreeView;
   TreeNode, Node1: TTreeNode;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NIcon)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
     begin
       StrText:= string(PtrText);
       Tree:= TTreeView(IdTree);
@@ -2445,20 +2445,42 @@ begin
       case IdAction of
         TREE_ITEM_ENUM:
           begin
-            if TreeNode=nil then
-              Node1:= Tree.Items.GetFirstNode
+            if Assigned(TreeNode) then
+              Node1:= TreeNode.GetFirstChild
             else
-              Node1:= TreeNode.GetFirstChild;
+              Node1:= Tree.Items.GetFirstNode;
             if Node1=nil then exit(ReturnNone);
 
             Str:= '';
             repeat
               Str:= Str+(IntToStr(PtrInt(Node1))+'='+Node1.Text+#10);
               Node1:= TreeNode.GetNextChild(Node1);
-              if Node1=nil then break;
-            until false;
+            until Node1=nil;
 
             Result:= PyString_FromString(PChar(Str));
+          end;
+
+        TREE_ITEM_ADD:
+          begin
+            Node1:= Tree.Items.AddChild(TreeNode, StrText);
+            Node1.Text:= StrText;
+            Node1.ImageIndex:= NImageIndex;
+            if NIndex>=0 then
+              Node1.Index:= NIndex;
+
+            Tree.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        TREE_ITEM_DELETE:
+          begin
+            if Assigned(TreeNode) then
+              TreeNode.Free
+            else
+              Tree.Items.Clear;
+
+            Tree.Invalidate;
+            Result:= ReturnNone;
           end;
 
         else
