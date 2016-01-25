@@ -342,7 +342,7 @@ end;
 procedure TfmMain.DoPanel_Event(const AEvent: string);
 var
   NTab: integer;
-  H: Int64;
+  H: PtrInt;
 begin
   NTab:= TabsLeft.TabIndex;
   if NTab<0 then exit;
