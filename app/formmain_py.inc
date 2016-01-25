@@ -19,7 +19,7 @@ var
   PyEscapeFlag: boolean = false;
 
 //func at begin
-function PyEditor(Handle: PtrInt): TATSynEdit;
+function PyEditor(Handle: Int64): TATSynEdit;
 var
   nTab: Integer;
 begin
@@ -47,7 +47,7 @@ begin
             Result:= nil;
         end;
       else
-        Result:= TATSynEdit(Handle);
+        Result:= TATSynEdit(PtrInt(Handle));
     end;
   end;
 end;
@@ -282,7 +282,7 @@ end;
 
 function Py_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   Frame: TEditorFrame;
   Ok: boolean;
@@ -302,7 +302,7 @@ end;
 
 function Py_ed_get_text_sel(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_text_sel', @H)) then
@@ -311,7 +311,7 @@ end;
 
 function Py_ed_get_text_line(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   N: Integer;
   Ed: TATSynEdit;
 begin
@@ -329,7 +329,7 @@ end;
 
 function Py_ed_get_text_substr(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   X1, Y1, X2, Y2: Integer;
   Str: atString;
   Ed: TATSynEdit;
@@ -345,7 +345,7 @@ end;
 
 function Py_ed_set_caret(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Id, NCaret: Integer;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
@@ -406,7 +406,7 @@ end;
 
 function Py_ed_get_carets(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   ComArray: Variant;
@@ -438,7 +438,7 @@ end;
 
 function Py_ed_markers(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Id: Integer;
   Ed: TATSynEdit;
   ComArray: Variant;
@@ -505,7 +505,7 @@ end;
 
 function Py_ed_attr(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   ComArray: Variant;
   Mark: TATMarkerItem;
@@ -613,7 +613,7 @@ end;
 
 function Py_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   N: Integer;
   Ed: TATSynEdit;
 begin
@@ -631,7 +631,7 @@ end;
 
 function Py_ed_get_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   R: TRect;
 begin
   with GetPythonEngine do
@@ -644,7 +644,7 @@ end;
 
 function Py_ed_get_sel_lines(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   N1, N2: Integer;
   Ed: TATSynEdit;
   Caret: TATCaretItem;
@@ -661,7 +661,7 @@ end;
 
 function Py_ed_set_sel_rect(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
 begin
@@ -680,7 +680,7 @@ end;
 
 function Py_ed_set_text_all(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ptr: PChar;
   Ed: TATSynEdit;
   F: TEditorFrame;
@@ -708,7 +708,7 @@ end;
 
 function Py_ed_set_text_line(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   N: Integer;
   Ptr: PChar;
   Ed: TATSynEdit;
@@ -736,7 +736,7 @@ end;
 
 function Py_ed_delete(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   X1, Y1, X2, Y2: Integer;
   Ed: TATSynEdit;
   Shift, PosAfter: TPoint;
@@ -756,7 +756,7 @@ end;
 
 function Py_ed_insert(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   X1, Y1: Integer;
   Ptr: PChar;
   Str: atString;
@@ -780,7 +780,7 @@ end;
 
 function Py_ed_get_line_count(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'L:get_line_count', @H)) then
@@ -792,7 +792,7 @@ end;
 
 function Py_ed_get_filename(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
@@ -807,7 +807,7 @@ end;
 
 function Py_ed_get_tabcolor(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
@@ -822,7 +822,7 @@ end;
 
 function Py_ed_set_tabcolor(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Val: Integer;
   Ed: TATSynEdit;
   F: TEditorFrame;
@@ -840,7 +840,7 @@ end;
 
 function Py_ed_get_enc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
@@ -855,7 +855,7 @@ end;
 
 function Py_ed_set_enc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ptr: PChar;
   Ed: TATSynEdit;
   F: TEditorFrame;
@@ -878,7 +878,7 @@ end;
 
 function Py_ed_get_top(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
@@ -891,7 +891,7 @@ end;
 
 function Py_ed_set_top(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Val: integer;
   Ed: TATSynEdit;
   F: TEditorFrame;
@@ -913,7 +913,7 @@ end;
 
 function Py_ed_cmd(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   NCode: integer;
   Ptr: PChar;
@@ -931,7 +931,7 @@ end;
 
 function Py_ed_lock(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
@@ -945,7 +945,7 @@ end;
 
 function Py_ed_unlock(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
@@ -961,7 +961,7 @@ end;
 
 function Py_ed_focus(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   F: TEditorFrame;
 begin
@@ -982,7 +982,7 @@ end;
 
 function Py_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ptr: PChar;
   Str: string;
   Ed: TATSynEdit;
@@ -1075,7 +1075,7 @@ end;
 
 function Py_ed_get_split(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   NState: integer;
   NValue: double;
   Ed: TATSynEdit;
@@ -1099,7 +1099,7 @@ end;
 
 function Py_ed_set_split(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   NState: integer;
   NValue: double;
   Ed: TATSynEdit;
@@ -1233,7 +1233,7 @@ end;
 
 function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ptr: PChar;
   Ed: TATSynEdit;
   Str: string;
@@ -1589,7 +1589,7 @@ end;
 
 function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Id, Num1, Num2: integer;
   Ptr: PChar;
   Str: string;
@@ -1714,7 +1714,7 @@ end;
 
 function Py_ed_set_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Id: integer;
   Ptr: PChar;
   Str, Str1, Str2: string;
@@ -1838,7 +1838,7 @@ var
   mi, miMain: TMenuItem;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
-  Num64: PtrInt;
+  Num64: Int64;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -2325,7 +2325,7 @@ end;
 
 function Py_ed_convert(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   Id, X, Y: integer;
   Str: atString;
@@ -2363,7 +2363,7 @@ end;
 
 function Py_ed_get_ranges(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: PtrInt;
+  H: Int64;
   Ed: TATSynEdit;
   ComArray: Variant;
   NLen, i: Integer;
