@@ -2575,6 +2575,13 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
+        TREE_PROP_SHOW_ROOT:
+          begin
+            Tree.ShowRoot:= StrText<>'0';
+            Tree.Invalidate;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
