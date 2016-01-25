@@ -2407,13 +2407,12 @@ end;
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
-  IdAction, NIndex, NImageIndex, NLen, i: integer;
+  IdAction, NIndex, NImageIndex: integer;
   PtrText: PChar;
   StrText, Str: string;
   Tree: TTreeView;
   TreeNode, Node1: TTreeNode;
   ok: boolean;
-  bmp: TBitmap;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then

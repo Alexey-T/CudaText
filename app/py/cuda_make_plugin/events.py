@@ -14,6 +14,7 @@ EVENTS = [
     'on_macro',
     'on_open',
     'on_output_nav',
+    'on_panel',
     'on_save',
     'on_save_pre',
     'on_start',
@@ -25,5 +26,6 @@ EVENTS_ADD_PARAMS = {
   'on_console': 'text',
   'on_console_nav': 'text',
   'on_output_nav': 'text, tag',
-  'on_macro': 'text'
+  'on_macro': 'text',
+  'on_panel': 'id_control, id_event',
   }

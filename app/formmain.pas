@@ -507,6 +507,7 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
+    procedure DoPanel_Event(const AEvent: string);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
     procedure DoApplyThemeToTreeview(C: TTreeview);
@@ -547,6 +548,8 @@ type
     procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     procedure DoSetSplitInfo(const Id: string; NPos: integer);
+    procedure DoPanel_OnClick(Sender: TObject);
+    procedure DoPanel_OnDblClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
