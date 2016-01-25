@@ -99,6 +99,7 @@ const
   cmd_Groups3horz = 2633;
   cmd_Groups3vert = 2634;
   cmd_Groups3plus = 2635;
+  cmd_Groups3plushorz = 2629;
   cmd_Groups4horz = 2636;
   cmd_Groups4vert = 2637;
   cmd_Groups4grid = 2638;
@@ -306,7 +307,8 @@ begin
   M.Add(cmd_Groups2vert, 'groups: 2 groups horz', [], []);
   M.Add(cmd_Groups3horz, 'groups: 3 groups vert', [], []);
   M.Add(cmd_Groups3vert, 'groups: 3 groups horz', [], []);
-  M.Add(cmd_Groups3plus, 'groups: 3 groups as 1+2', [], []);
+  M.Add(cmd_Groups3plus, 'groups: 1+2 groups vert', [], []);
+  M.Add(cmd_Groups3plushorz, 'groups: 1+2 groups horz', [], []);
   M.Add(cmd_Groups4horz, 'groups: 4 groups vert', [], []);
   M.Add(cmd_Groups4vert, 'groups: 4 groups horz', [], []);
   M.Add(cmd_Groups4grid, 'groups: 4 groups grid', [], []);
@@ -499,6 +501,7 @@ begin
     cmd_Groups3horz  ,
     cmd_Groups3vert  ,
     cmd_Groups3plus  ,
+    cmd_Groups3plushorz  ,
     cmd_Groups4horz  ,
     cmd_Groups4vert  ,
     cmd_Groups4grid  ,
@@ -574,6 +577,7 @@ begin
     cmd_Groups3horz,
     cmd_Groups3vert,
     cmd_Groups3plus,
+    cmd_Groups3plushorz,
     cmd_Groups4horz,
     cmd_Groups4vert,
     cmd_Groups4grid,

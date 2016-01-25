@@ -463,16 +463,17 @@ begin
   UpKey(mnuBmInvert, cmd_BookmarkInvertAll);
   UpKey(mnuBmClear, cmd_BookmarkClearAll);
 
-  UpKey(mnuGroupsOne, cmd_Groups1);
-  UpKey(mnuGroups2Vert, cmd_Groups2horz);
-  UpKey(mnuGroups2Horz, cmd_Groups2vert);
-  UpKey(mnuGroups3Vert, cmd_Groups3horz);
-  UpKey(mnuGroups3Horz, cmd_Groups3vert);
-  UpKey(mnuGroups3as12, cmd_Groups3plus);
-  UpKey(mnuGroups4Vert, cmd_Groups4horz);
-  UpKey(mnuGroups4Horz, cmd_Groups4vert);
-  UpKey(mnuGroups4Grid, cmd_Groups4grid);
-  UpKey(mnuGroups6Grid, cmd_Groups6grid);
+  UpKey(mnuGr1, cmd_Groups1);
+  UpKey(mnuGr2V, cmd_Groups2horz);
+  UpKey(mnuGr2H, cmd_Groups2vert);
+  UpKey(mnuGr3V, cmd_Groups3horz);
+  UpKey(mnuGr3H, cmd_Groups3vert);
+  UpKey(mnuGr1p2V, cmd_Groups3plus);
+  UpKey(mnuGr1p2H, cmd_Groups3plushorz);
+  UpKey(mnuGr4V, cmd_Groups4horz);
+  UpKey(mnuGr4H, cmd_Groups4vert);
+  UpKey(mnuGr4G, cmd_Groups4grid);
+  UpKey(mnuGr6, cmd_Groups6grid);
 
   UpKey(mnuViewSplitDo, cmd_SplitTabToggle);
   UpKey(mnuViewSplitHorz, cmd_SplitTabHorzVert);
@@ -816,16 +817,17 @@ begin
   mnuViewSide.Checked:= ShowSidePanel;
   mnuViewBottom.Checked:= ShowBottom;
 
-  mnuGroupsOne.Checked:= Groups.Mode= gmOne;
-  mnuGroups2Horz.Checked:= Groups.Mode= gm2Vert;
-  mnuGroups2Vert.Checked:= Groups.Mode= gm2Horz;
-  mnuGroups3Horz.Checked:= Groups.Mode= gm3Vert;
-  mnuGroups3Vert.Checked:= Groups.Mode= gm3Horz;
-  mnuGroups3as12.Checked:= Groups.Mode= gm3Plus;
-  mnuGroups4Horz.Checked:= Groups.Mode= gm4Vert;
-  mnuGroups4Vert.Checked:= Groups.Mode= gm4Horz;
-  mnuGroups4Grid.Checked:= Groups.Mode= gm4Grid;
-  mnuGroups6Grid.Checked:= Groups.Mode= gm6Grid;
+  mnuGr1.Checked:= Groups.Mode= gmOne;
+  mnuGr2H.Checked:= Groups.Mode= gm2Vert;
+  mnuGr2V.Checked:= Groups.Mode= gm2Horz;
+  mnuGr3H.Checked:= Groups.Mode= gm3Vert;
+  mnuGr3V.Checked:= Groups.Mode= gm3Horz;
+  mnuGr1p2V.Checked:= Groups.Mode= gm1plus2Vert;
+  mnuGr1p2H.Checked:= Groups.Mode= gm1plus2Horz;
+  mnuGr4H.Checked:= Groups.Mode= gm4Vert;
+  mnuGr4V.Checked:= Groups.Mode= gm4Horz;
+  mnuGr4G.Checked:= Groups.Mode= gm4Grid;
+  mnuGr6.Checked:= Groups.Mode= gm6Grid;
 end;
 
 procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);

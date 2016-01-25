@@ -80,7 +80,8 @@ begin
     cmd_Groups2vert: Groups.Mode:= gm2Vert;
     cmd_Groups3horz: Groups.Mode:= gm3Horz;
     cmd_Groups3vert: Groups.Mode:= gm3Vert;
-    cmd_Groups3plus: Groups.Mode:= gm3Plus;
+    cmd_Groups3plus: Groups.Mode:= gm1plus2Vert;
+    cmd_Groups3plushorz: Groups.Mode:= gm1plus2Horz;
     cmd_Groups4horz: Groups.Mode:= gm4Horz;
     cmd_Groups4vert: Groups.Mode:= gm4Vert;
     cmd_Groups4grid: Groups.Mode:= gm4Grid;

@@ -667,34 +667,37 @@ object fmMain: TfmMain
       Caption = '&View'
       object mnuGroups: TMenuItem
         Caption = 'Groups'
-        object mnuGroupsOne: TMenuItem
+        object mnuGr1: TMenuItem
           Caption = 'One group'
         end
-        object mnuGroups2Vert: TMenuItem
+        object mnuGr2V: TMenuItem
           Caption = '2 vert'
         end
-        object mnuGroups2Horz: TMenuItem
+        object mnuGr2H: TMenuItem
           Caption = '2 horz'
         end
-        object mnuGroups3Vert: TMenuItem
+        object mnuGr3V: TMenuItem
           Caption = '3 vert'
         end
-        object mnuGroups3Horz: TMenuItem
+        object mnuGr3H: TMenuItem
           Caption = '3 horz'
         end
-        object mnuGroups3as12: TMenuItem
-          Caption = '3 as 1+2'
+        object mnuGr1p2V: TMenuItem
+          Caption = '1+2 vert'
         end
-        object mnuGroups4Vert: TMenuItem
+        object mnuGr1p2H: TMenuItem
+          Caption = '1+2 horz'
+        end
+        object mnuGr4V: TMenuItem
           Caption = '4 vert'
         end
-        object mnuGroups4Horz: TMenuItem
+        object mnuGr4H: TMenuItem
           Caption = '4 horz'
         end
-        object mnuGroups4Grid: TMenuItem
+        object mnuGr4G: TMenuItem
           Caption = '4 grid'
         end
-        object mnuGroups6Grid: TMenuItem
+        object mnuGr6: TMenuItem
           Caption = '6 grid'
         end
       end
