@@ -385,6 +385,7 @@ type
     ItemListbox: TATListbox;
     ItemListboxStrings: TStringList;
     ItemImagelist: TImageList;
+    ItemMenu: TPopupMenu;
   end;
 
 var

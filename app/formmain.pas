@@ -1012,6 +1012,7 @@ begin
     ItemCaption:= 'Tree';
     ItemTreeview:= Tree;
     ItemImagelist:= ImageListTree;
+    ItemMenu:= PopupTree;
   end;
 
   FFinder:= TATEditorFinder.Create;

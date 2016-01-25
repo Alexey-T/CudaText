@@ -328,12 +328,14 @@ begin
     with FAppSidePanels[Num] do
     begin
       ItemCaption:= ACaption;
+      ItemMenu:= TPopupMenu.Create(Self);
       ItemImagelist:= TImageList.Create(Self);
       ItemTreeview:= TTreeView.Create(Self);
       ItemTreeview.Hide;
       ItemTreeview.Parent:= PanelLeft;
       ItemTreeview.Align:= alClient;
       ItemTreeview.Images:= ItemImagelist;
+      ItemTreeview.PopupMenu:= ItemMenu;
       fmMain.DoApplyThemeToTreeview(ItemTreeview);
       //just to see it ok
       ItemTreeview.Items.Add(nil, 'panel '+ACaption);
