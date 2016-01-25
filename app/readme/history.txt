@@ -6,6 +6,9 @@ Legend:
 1.2.17
 + api: sidebar panels
 + grouping "1+2 horz" (some session files now not correct)
++ cmd "ui: show side panel"
++ cmd "ui: show side panel, and syntax tree"
++ cmd "ui: hide side panel"
 
 1.2.16
 + add commands: column select to line begin/ line end/ page up/ page down

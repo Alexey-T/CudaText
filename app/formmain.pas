@@ -598,6 +598,7 @@ type
     procedure DoShowConsole;
     procedure DoShowOutput;
     procedure DoShowValidate;
+    procedure DoShowSidePanel(const ATabCaption: string);
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
@@ -2262,6 +2263,20 @@ procedure TfmMain.DoShowValidate;
 begin
   ShowBottom:= true;
   TabsBottom.TabIndex:= 2;
+end;
+
+procedure TfmMain.DoShowSidePanel(const ATabCaption: string);
+begin
+  if ATabCaption='-' then
+  begin
+    if PanelLeft.Visible then DoToggleSidePanel;
+  end
+  else
+  begin
+    if not PanelLeft.Visible then DoToggleSidePanel;
+    if ATabCaption<>'' then
+      DoSidebar_ActivateTab(ATabCaption);
+  end;
 end;
 
 procedure TfmMain.SetFullscreen(AValue: boolean);

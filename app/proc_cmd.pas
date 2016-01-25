@@ -71,6 +71,9 @@ const
   cmd_ResetPythonPlugins = 2543;
   cmd_DialogCharMap      = 2544;
   cmd_RunLastCommandPlugin = 2545;
+  cmd_ShowSidePanelAsIs = 2546;
+  cmd_ShowSidePanelAndSyntaxTree = 2547;
+  cmd_HideSidePanel = 2548;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -271,6 +274,10 @@ begin
   M.Add(cmd_ShowPanelConsole, 'ui: show panel: console', ['Ctrl+`'], []);
   M.Add(cmd_ShowPanelOutput, 'ui: show panel: output', [], []);
   M.Add(cmd_ShowPanelValidate, 'ui: show panel: validate', [], []);
+
+  M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
+  M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, and syntax tree', [], []);
+  M.Add(cmd_HideSidePanel, 'ui: hide side panel', [], []);
 
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DialogCommands, 'dialog: command list', ['F1'], []);
