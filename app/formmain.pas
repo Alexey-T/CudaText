@@ -508,6 +508,7 @@ type
 
     procedure CharmapOnInsert(const AStr: string);
     procedure DoPanel_Event(const AEvent: string);
+    procedure DoPanel_OnSelChanged(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
     procedure DoApplyThemeToTreeview(C: TTreeview);

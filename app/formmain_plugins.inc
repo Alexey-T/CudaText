@@ -361,3 +361,8 @@ begin
   DoPanel_Event('on_dbl_click');
 end;
 
+procedure TfmMain.DoPanel_OnSelChanged(Sender: TObject);
+begin
+  DoPanel_Event('on_sel');
+end;
+

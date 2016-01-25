@@ -3,6 +3,9 @@ Legend:
   - fixed
   * changed
 
+1.2.17
++ api: sidebar panels
+
 1.2.16
 + add commands: column select to line begin/ line end/ page up/ page down
 + faster render on Linux gtk2
