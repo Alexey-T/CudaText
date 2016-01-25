@@ -33,6 +33,7 @@ Panels
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
+* on_panel(self, ed_self, id_control, id_event): Called when event in user-added panel occured. Id_control is int handle of control in panel. Id_event is one of: "on_click", "on_dbl_click".
 
 Macros
 
@@ -107,12 +108,17 @@ Performs application-wide action. Possible values of id:
 
 ====Menus====
 
+menu_id can be:
+
+* str(int_value) to specify any submenu by unique int value
+* "top" to specify top menu
+* "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" to specify submenus File/Edit/Selection/Search/View/Options/Help
+* "text" to specify editor context menu
+* "side:"+tab_caption to specify menu of sidebar panel (e.g. "side:Tree")
+
+Actions:
+
 * PROC_MENU_ENUM: Gets "\n"-separated string with all items in submenu. Items in form "caption|int_command" or in form "caption|s_module,s_method". Param text must be menu_id.
-** menu_id can be: 
-*** str(int_value) to specify any submenu by unique int value
-*** "top" to specify top menu
-*** "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" to specify submenus File/Edit/Selection/Search/View/Options/Help
-*** "text" to specify editor context menu
 
 * PROC_MENU_CLEAR: Clears some submenu. Param text must be menu_id.
 
@@ -128,6 +134,13 @@ Performs application-wide action. Possible values of id:
 *** 0 (value ignored) if submenu
 ** menu_caption is caption, or "-" for menu separator.
 ** menu_index is str(index) for 0-based index at which to insert item; empty param or -1: add item at end.
+
+====Sidebar tabs====
+
+* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: caption of tab, index of tab (0-based, -1 to add tab to end), type of control. Types of control allowed: "tree". Gets bool: params ok, tab was added.
+* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
+* PROC_SIDEPANEL_ENUM: Gets str, "\n"-separated captions of sidebar tabs.
+* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, associated with tab (can pass this handle to tree_proc API). Text is caption of tab. Gets None if cannot find tab.
 
 ====Splitters====
 
@@ -196,7 +209,10 @@ Possible values of id:
 
 For "Python console" panel:
 
-* LOG_CONSOLE_CLEAR: Clears console (both controls of console: combobox and read-only memo).
+* LOG_CONSOLE_CLEAR: Clears controls in console. 
+** If text empty or has "m" then memo-control (above) is cleared. 
+** If text empty or has "e" then edit-control (below) is cleared.
+** If text empty or has "h" then combobox history list is cleared.
 * LOG_CONSOLE_ADD: Adds line to console (combobox and memo).
 * LOG_CONSOLE_GET: Gets list of lines in console combobox.
 
@@ -346,10 +362,12 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** "spinedit" (edit for numbers, has min-value, max-value, increment)
 ** "listview" (list with columns, with column headers, value is index)
 ** "checklistview" (listview with checkboxes, value is check-flags)
+** "linklabel" (label which activates URL on click)
 
-* "en": enabled-state of control, "1"/"0" for on/off
-* "pos": position of control, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
+* "pos": position, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
 * "cap": caption of control (not for all)
+* "hint": floating hint string
+* "en": enabled-state, "1"/"0" for on/off
 
 * "items": 
 ** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
@@ -362,6 +380,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for button: default_for_enter (bool value, "1"/"0")
 ** for edit, memo: read_only+","+font_monospaced+","+show_border (bool values, "1"/"0")
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
+** for linklabel: URL (with http: or mailto:)
 
 * "val": value of control (not for all):
 ** for check, radio: value "0"/"1"
@@ -453,6 +472,35 @@ Possible values of id:
 * LEXER_DELETE: Deletes given lexer from library.
 * LEXER_IMPORT: Adds new lexer from given filename (substring 1). Gets name of this lexer, or None if import failed.
 * LEXER_EXPORT: Saves lexer with given name into file with given name (substring 2). Recommended extension: .lcf.
+
+===tree_proc===
+
+ tree_proc(id_tree, id_action, id_item=0, index=0, text="", image_index=-1)
+
+Controls treeview-control. 
+
+* Param id_tree is int handle of treeview. 
+* Param id_item is int handle of treeview item. Can be 0 for invisible root-item, e.g. you can remove all using root-item, enumerate root level using root-item.
+
+Possible values of id_action:
+
+* TREE_ITEM_ENUM: Gets list of subitems of item, or None. Param id_item. Gets list of 2-tuples: (int_handle, str_caption).
+* TREE_ITEM_ADD: Adds subitem as item's child. Param id_item. Param index: at which subitem index to insert (0-based), or -1 to append. Param text: caption of item. Param image_index: index in tree's icon list or -1 to not show icon. Gets int handle of subitem.
+* TREE_ITEM_DELETE: Deletes item (with all subitems). Param id_item.
+* TREE_ITEM_SET_TEXT: Sets item's text. Params: id_item, text.
+* TREE_ITEM_SET_ICON: Sets item's icon. Params: id_item, image_index.
+
+* TREE_ITEM_SELECT: Selects item.
+* TREE_ITEM_GET_SELECTED: Gets int handle of selected item (id_item ignored). Gets None if none selected.
+* TREE_ITEM_GET_PROP: Gets props of item, 4-tuple: (str_caption, int_index, int_image_index, int_level). Gets None for root-item.
+
+* TREE_ITEM_FOLD: Folds item w/o subitems.
+* TREE_ITEM_FOLD_DEEP: Folds item with subitems. Root-item allowed too.
+* TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
+* TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
+
+* TREE_ICON_ADD: Adds icon to icon list. Param text: path to 16x16 bmp file. Gets icon index or -1 if cannot add.
+* TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
 
 ===more===
 
@@ -842,6 +890,16 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.121
+
+* add: app_proc: PROC_SIDEPANEL_*
+* add: tree_proc
+
+1.0.120
+
+* add: dlg_custom: type=linklabel, hint=
+* add: app_log: LOG_CONSOLE_CLEAR can have text "m","e","h"
 
 1.0.119
 
