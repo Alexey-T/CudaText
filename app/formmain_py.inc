@@ -2513,6 +2513,14 @@ begin
               Result:= ReturnNone;
           end;
 
+        TREE_ITEM_GET_PARENT:
+          begin
+            if Assigned(TreeNode) then
+              Result:= PyLong_FromLongLong(PtrInt(TreeNode.Parent))
+            else
+              Result:= ReturnNone;
+          end;
+
         TREE_ITEM_FOLD:
           begin
             if Assigned(TreeNode) then
