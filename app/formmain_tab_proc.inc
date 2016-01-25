@@ -288,7 +288,9 @@ begin
       if Assigned(ItemTreeview) then
       begin
         ItemTreeview.Visible:= ItemCaption=SCaption;
-        if ItemTreeview.Visible then ItemTreeview.SetFocus;
+        if PanelLeft.Visible and ItemTreeview.Visible then
+          if ItemTreeview.CanFocus then
+            ItemTreeview.SetFocus;
       end;
       if Assigned(ItemListbox) then
       begin

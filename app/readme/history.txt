@@ -5,7 +5,7 @@ Legend:
 
 1.2.17
 + api: sidebar panels
-+ grouping "1+2 horz" (maybe some session files not correct)
++ grouping "1+2 horz" (some session files now not correct)
 
 1.2.16
 + add commands: column select to line begin/ line end/ page up/ page down

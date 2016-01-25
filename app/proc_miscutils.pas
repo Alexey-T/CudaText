@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, Graphics, ImgList,
-  LclIntf, LclType, StrUtils,
+  LclIntf, LclType, LazFileUtils, StrUtils,
   ATSynEdit,
   ATSynEdit_Export_HTML,
   ATStringProc,
@@ -179,7 +179,7 @@ var
   bmp: TBitmap;
 begin
   if AImagelist=nil then exit(false);
-  if not FileExists(AFilename) then exit(false);
+  if not FileExistsUtf8(AFilename) then exit(false);
 
   bmp:= TBitmap.Create;
   try
