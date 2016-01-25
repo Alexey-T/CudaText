@@ -271,13 +271,13 @@ begin
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);
   M.Add(cmd_ToggleStatusbar, 'ui: toggle statusbar', [], []);
 
-  M.Add(cmd_ShowPanelConsole, 'ui: show panel: console', ['Ctrl+`'], []);
-  M.Add(cmd_ShowPanelOutput, 'ui: show panel: output', [], []);
-  M.Add(cmd_ShowPanelValidate, 'ui: show panel: validate', [], []);
-
   M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
-  M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, and syntax tree', [], []);
+  M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, syntax tree', [], []);
   M.Add(cmd_HideSidePanel, 'ui: hide side panel', [], []);
+
+  M.Add(cmd_ShowPanelConsole, 'ui: show bottom panel, console', ['Ctrl+`'], []);
+  M.Add(cmd_ShowPanelOutput, 'ui: show bottom panel, output', [], []);
+  M.Add(cmd_ShowPanelValidate, 'ui: show bottom panel, validate', [], []);
 
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DialogCommands, 'dialog: command list', ['F1'], []);
