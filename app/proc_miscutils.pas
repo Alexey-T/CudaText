@@ -12,7 +12,7 @@ unit proc_miscutils;
 interface
 
 uses
-  Classes, SysUtils, ComCtrls, Graphics,
+  Classes, SysUtils, Controls, ComCtrls, Graphics, ImgList,
   LclIntf, LclType, StrUtils,
   ATSynEdit,
   ATSynEdit_Export_HTML,
@@ -32,6 +32,7 @@ procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
+function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
 
 
 implementation
@@ -172,5 +173,29 @@ begin
 end;
 
 
+function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
+  const AFilename: string): boolean;
+var
+  bmp: TBitmap;
+begin
+  if AImagelist=nil then exit(false);
+  if not FileExists(AFilename) then exit(false);
+
+  bmp:= TBitmap.Create;
+  try
+    try
+      bmp.LoadFromFile(AFilename);
+      bmp.Transparent:= true;
+      AImagelist.Add(bmp, nil);
+      Result:= true;
+    finally
+      FreeAndNil(bmp);
+    end;
+  except
+    Result:= false;
+  end;
+end;
+
 end.
+
 

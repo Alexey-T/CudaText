@@ -2550,19 +2550,9 @@ begin
 
         TREE_ICON_ADD:
           begin
-            ok:= Assigned(Tree.Images) and FileExists(StrText);
+            ok:= UpdateImagelistWithIconFromFile(Tree.Images, StrText);
             if ok then
-            try
-              bmp:= TBitmap.Create;
-              bmp.LoadFromFile(StrText);
-              bmp.Transparent:= true;
-              NImageIndex:= Tree.Images.Add(bmp, nil);
-              ok:= NImageIndex>=0;
-            finally
-              FreeAndNil(bmp);
-            end;
-            if ok then
-              Result:= PyInt_FromLong(NImageIndex)
+              Result:= PyInt_FromLong(Tree.Images.Count-1)
             else
               Result:= PyInt_FromLong(-1);
           end;
