@@ -2588,6 +2588,29 @@ begin
     end;
 end;
 
+
+function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+  PosX, PosY: integer;
+  PntFrom, PntTo: TPoint;
+  StrToken, StrStyle: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lii:get_token', @H, @PosX, @PosY)) then
+    begin
+      Ed:= PyEditor(H);
+      F:= fmMain.GetEditorFrame(Ed);
+      F.Adapter.GetTokenAtPos(Point(PosX, PosY), PntFrom, PntTo, StrToken, StrStyle);
+      Result:= Py_BuildValue('((ii)(ii)ss)',
+        PntFrom.X, PntFrom.Y,
+        PntTo.X, PntTo.Y,
+        PChar(StrToken), PChar(StrStyle));
+    end;
+end;
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -2639,6 +2662,7 @@ begin
     AddMethod('ed_get_prop', @Py_ed_get_prop, '');
     AddMethod('ed_set_prop', @Py_ed_set_prop, '');
     AddMethod('ed_get_ranges', @Py_ed_get_ranges, '');
+    AddMethod('ed_get_token', @Py_ed_get_token, '');
 
     AddMethod('ed_save', @Py_ed_save, '');
     AddMethod('ed_cmd', @Py_ed_cmd, '');

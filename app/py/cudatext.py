@@ -392,6 +392,9 @@ class Editor:
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up
                           )
+                          
+    def get_token(self, x, y):
+        return ct.ed_get_token(self.h, x, y)
     #end
 
 #objects
