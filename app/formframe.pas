@@ -574,9 +574,12 @@ begin
 end;
 
 procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
+var
+  Str: string;
 begin
-  DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
-    ['"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"']);
+  Str:= DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
+          ['"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"']);
+  AHandled:= Str=cPyFalse;
 end;
 
 procedure TEditorFrame.DoOnResize;
