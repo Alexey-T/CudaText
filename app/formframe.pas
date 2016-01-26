@@ -98,6 +98,7 @@ type
     procedure EditorOnChange2(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
+    procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
@@ -572,6 +573,12 @@ begin
     FOnEditorCommand(Sender, ACmd, AText, AHandled);
 end;
 
+procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
+begin
+  DoPyEvent(Sender as TATSynEdit, cEventOnClickDbl,
+    ['"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"']);
+end;
+
 procedure TEditorFrame.DoOnResize;
 begin
   inherited;
@@ -593,6 +600,7 @@ begin
   ed.OptRulerVisible:= false;
 
   ed.OnClick:= @EditorOnClick;
+  ed.OnClickDouble:= @EditorOnClickDouble;
   ed.OnClickMoveCaret:= @EditorClickMoveCaret;
   ed.OnClickEndSelect:= @EditorClickEndSelect;
   ed.OnEnter:= @EditorOnEnter;

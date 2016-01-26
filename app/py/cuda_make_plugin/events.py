@@ -3,6 +3,7 @@ EVENTS = [
     'on_change',
     'on_change_slow',
     'on_click',
+    'on_click_dbl',
     'on_close',
     'on_complete',
     'on_console',
@@ -24,6 +25,7 @@ EVENTS = [
 EVENTS_ADD_PARAMS = {
   'on_key': 'key, state',
   'on_click': 'state',
+  'on_click_dbl': 'state',
   'on_console': 'text',
   'on_console_nav': 'text',
   'on_output_nav': 'text, tag',
