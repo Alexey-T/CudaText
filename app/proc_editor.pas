@@ -29,19 +29,16 @@ procedure EditorMarkerGotoLast(Ed: TATSynEdit; AndDelete: boolean);
 procedure EditorMarkerClearAll(Ed: TATSynEdit);
 procedure EditorMarkerSwap(Ed: TATSynEdit);
 
-type
-  TAppBookmarkOp = (bmOpClear, bmOpSet, bmOpToggle);
-
-procedure EditorBmSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp);
-procedure EditorBmInvertAll(ed: TATSynEdit);
-procedure EditorBmClearAll(ed: TATSynEdit);
-procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
+type TAppBookmarkOp = (bmOpClear, bmOpSet, bmOpToggle);
+procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp);
+procedure EditorBookmarkInvertAll(ed: TATSynEdit);
+procedure EditorBookmarkClearAll(ed: TATSynEdit);
+procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
 
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
 procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
-
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
@@ -62,7 +59,7 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 implementation
 
-procedure EditorBmSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp);
+procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp);
 var
   i: integer;
 begin
@@ -87,7 +84,7 @@ begin
   ed.Update;
 end;
 
-procedure EditorBmInvertAll(ed: TATSynEdit);
+procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 var
   i: integer;
 begin
@@ -101,7 +98,7 @@ begin
   ed.Update;
 end;
 
-procedure EditorBmClearAll(ed: TATSynEdit);
+procedure EditorBookmarkClearAll(ed: TATSynEdit);
 var
   i: integer;
 begin
@@ -110,7 +107,7 @@ begin
   ed.Update;
 end;
 
-procedure EditorBmGotoNext(ed: TATSyNEdit; ANext: boolean);
+procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
 var
   n, nFrom: integer;
 begin
@@ -739,7 +736,7 @@ begin
 end;
 
 
-procedure EditorConvertTabsToSpaces(Ed: TATSynEdit);
+procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 var
   S1, S2: atString;
   i: integer;

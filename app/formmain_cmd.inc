@@ -116,11 +116,11 @@ begin
     cmd_ConvertTabsToSpaces: EditorConvertTabsToSpaces(CurrentEditor);
     cmd_ConvertSpacesToTabsLeading: EditorConvertSpacesToTabsLeading(CurrentEditor);
 
-    cmd_BookmarkToggle: begin EditorBmSet(CurrentEditor, -1, 1, bmOpToggle); UpdateFrame; end;
-    cmd_BookmarkClearAll: begin EditorBmClearAll(CurrentEditor); UpdateFrame; end;
-    cmd_BookmarkInvertAll: begin EditorBmInvertAll(CurrentEditor); UpdateFrame; end;
-    cmd_BookmarkGotoNext: EditorBmGotoNext(CurrentEditor, true);
-    cmd_BookmarkGotoPrev: EditorBmGotoNext(CurrentEditor, false);
+    cmd_BookmarkToggle: begin EditorBookmarkSet(CurrentEditor, -1, 1, bmOpToggle); UpdateFrame; end;
+    cmd_BookmarkClearAll: begin EditorBookmarkClearAll(CurrentEditor); UpdateFrame; end;
+    cmd_BookmarkInvertAll: begin EditorBookmarkInvertAll(CurrentEditor); UpdateFrame; end;
+    cmd_BookmarkGotoNext: EditorBookmarkGotoNext(CurrentEditor, true);
+    cmd_BookmarkGotoPrev: EditorBookmarkGotoNext(CurrentEditor, false);
 
     cmd_CommentLineAdd_AtNonspace: DoCommentAction(cCommentAdd_AtNonespace_IfNone);
     cmd_CommentLineAdd_AtStart: DoCommentAction(cCommentAdd_AtStart_IfNone);

@@ -1018,13 +1018,13 @@ begin
 
         BOOKMARK_SET:
           begin
-            EditorBmSet(Ed, NLine, NKind, bmOpSet);
+            EditorBookmarkSet(Ed, NLine, NKind, bmOpSet);
             Result:= ReturnNone;
           end;
 
         BOOKMARK_CLEAR:
           begin
-            EditorBmSet(Ed, NLine, NKind, bmOpClear);
+            EditorBookmarkSet(Ed, NLine, NKind, bmOpClear);
             Result:= ReturnNone;
           end;
 

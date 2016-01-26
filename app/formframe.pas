@@ -860,7 +860,7 @@ var
 begin
   ed:= Sender as TATSynEdit;
   if ABand=ed.GutterBandBm then
-    EditorBmSet(ed, ALine, 1, bmOpToggle);
+    EditorBookmarkSet(ed, ALine, 1, bmOpToggle);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
