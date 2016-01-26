@@ -2604,10 +2604,14 @@ begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
       F.Adapter.GetTokenAtPos(Point(PosX, PosY), PntFrom, PntTo, StrToken, StrStyle);
-      Result:= Py_BuildValue('((ii)(ii)ss)',
-        PntFrom.X, PntFrom.Y,
-        PntTo.X, PntTo.Y,
-        PChar(StrToken), PChar(StrStyle));
+
+      if (PntFrom.X<0) then
+        Result:= ReturnNone
+      else
+        Result:= Py_BuildValue('((ii)(ii)ss)',
+          PntFrom.X, PntFrom.Y,
+          PntTo.X, PntTo.Y,
+          PChar(StrToken), PChar(StrStyle));
     end;
 end;
 
