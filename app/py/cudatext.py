@@ -258,8 +258,8 @@ def dlg_custom(title, size_x, size_y, text, focused=-1):
 
 def file_open(filename, group=-1):
     return ct.file_open(filename, group)
-def file_save():
-    return ct.file_save()
+def file_save(filename=''):
+    return ct.file_save(filename)
 
 def ed_handles():
     r0, r1 = ct.ed_handles()
@@ -349,8 +349,8 @@ class Editor:
     def set_top(self, value):
         return ct.ed_set_top(self.h, value)
 
-    def save(self):
-        return ct.ed_save(self.h)
+    def save(self, filename=''):
+        return ct.ed_save(self.h, filename)
     def cmd(self, code, text=''):
         return ct.ed_cmd(self.h, code, text)
     def focus(self):

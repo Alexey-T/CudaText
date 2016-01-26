@@ -147,7 +147,7 @@ type
     function Editor: TATSynEdit;
     function Editor2: TATSynEdit;
     property ReadOnly: boolean read GetReadonly;
-    property FileName: string read FFileName;
+    property FileName: string read FFileName write FFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property Modified: boolean read FModified;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;

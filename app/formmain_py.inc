@@ -282,12 +282,21 @@ end;
 function Py_file_save(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ok: boolean;
+  PtrName: PChar;
+  StrName: string;
+  Frame: TEditorFrame;
 begin
   with GetPythonEngine do
-  begin
-    Ok:= fmMain.CurrentFrame.DoFileSave(false, fmMain.SaveDlg);
-    Result:= PyBool_FromLong(Ord(Ok));
-  end;
+    if Bool(PyArg_ParseTuple(Args, 's:file_save', @PtrName)) then
+    begin
+      StrName:= string(PtrName);
+      Frame:= fmMain.CurrentFrame;
+      if StrName<>'' then
+        Frame.FileName:= StrName;
+
+      Ok:= Frame.DoFileSave(false, fmMain.SaveDlg);
+      Result:= PyBool_FromLong(Ord(Ok));
+    end;
 end;
 
 function Py_ed_save(Self, Args: PPyObject): PPyObject; cdecl;
@@ -295,13 +304,20 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Frame: TEditorFrame;
+  PtrName: PChar;
+  StrName: string;
   Ok: boolean;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:save', @H)) then
+    if Bool(PyArg_ParseTuple(Args, 'Ls:save', @H, @PtrName)) then
     begin
       Ed:= PyEditor(H);
       Frame:= fmMain.GetEditorFrame(Ed);
+      StrName:= string(PtrName);
+
+      if StrName<>'' then
+        Frame.FileName:= StrName;
+
       Ok:= false;
       if Assigned(Frame) then
         Ok:= Frame.DoFileSave(false, fmMain.SaveDlg);
