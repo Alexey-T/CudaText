@@ -2588,6 +2588,17 @@ begin
     end;
 end;
 
+function Py_ed_get_token_result(const PntFrom, PntTo: TPoint; const StrToken, StrStyle: string): PPyObject;
+begin
+  with GetPythonEngine do
+    if PntFrom.X<0 then
+      Result:= ReturnNone
+    else
+      Result:= Py_BuildValue('((ii)(ii)ss)',
+        PntFrom.X, PntFrom.Y,
+        PntTo.X, PntTo.Y,
+        PChar(StrToken), PChar(StrStyle));
+end;
 
 function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -2608,24 +2619,12 @@ begin
         TOKEN_AT_POS:
           begin
             F.Adapter.GetTokenAtPos(Point(PosX, PosY), PntFrom, PntTo, StrToken, StrStyle);
-            if (PntFrom.X<0) then
-              Result:= ReturnNone
-            else
-              Result:= Py_BuildValue('((ii)(ii)ss)',
-                PntFrom.X, PntFrom.Y,
-                PntTo.X, PntTo.Y,
-                PChar(StrToken), PChar(StrStyle));
+            Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
           end;
         TOKEN_INDEX:
           begin
             F.Adapter.GetTokenWithIndex(PosX, PntFrom, PntTo, StrToken, StrStyle);
-            if (PntFrom.X<0) then
-              Result:= ReturnNone
-            else
-              Result:= Py_BuildValue('((ii)(ii)ss)',
-                PntFrom.X, PntFrom.Y,
-                PntTo.X, PntTo.Y,
-                PChar(StrToken), PChar(StrStyle));
+            Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
           end;
         else
           Result:= ReturnNone;
