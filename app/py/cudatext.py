@@ -36,6 +36,9 @@ APP_FILE_SESSION = 4
 CONVERT_CHAR_TO_COL = 0
 CONVERT_COL_TO_CHAR = 1
 
+TOKEN_AT_POS = 0
+TOKEN_INDEX = 1
+
 LINESTATE_NORMAL  = 0
 LINESTATE_CHANGED = 1
 LINESTATE_ADDED   = 2
@@ -393,8 +396,8 @@ class Editor:
                           border_left, border_right, border_down, border_up
                           )
                           
-    def get_token(self, x, y):
-        return ct.ed_get_token(self.h, x, y)
+    def get_token(self, id, index1, index2):
+        return ct.ed_get_token(self.h, id, index1, index2)
     #end
 
 #objects

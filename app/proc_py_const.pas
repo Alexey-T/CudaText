@@ -177,6 +177,9 @@ const
   CONVERT_CHAR_TO_COL = 0;
   CONVERT_COL_TO_CHAR = 1;
 
+  TOKEN_AT_POS = 0;
+  TOKEN_INDEX = 1;
+
   PyMenuId_Top = 'top';
   PyMenuId_TopEdit = 'top-edit';
   PyMenuId_TopSel = 'top-sel';

@@ -2594,24 +2594,42 @@ var
   H: Int64;
   Ed: TATSynEdit;
   F: TEditorFrame;
-  PosX, PosY: integer;
+  Id, PosX, PosY: integer;
   PntFrom, PntTo: TPoint;
   StrToken, StrStyle: string;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lii:get_token', @H, @PosX, @PosY)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @PosX, @PosY)) then
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
-      F.Adapter.GetTokenAtPos(Point(PosX, PosY), PntFrom, PntTo, StrToken, StrStyle);
 
-      if (PntFrom.X<0) then
-        Result:= ReturnNone
-      else
-        Result:= Py_BuildValue('((ii)(ii)ss)',
-          PntFrom.X, PntFrom.Y,
-          PntTo.X, PntTo.Y,
-          PChar(StrToken), PChar(StrStyle));
+      case Id of
+        TOKEN_AT_POS:
+          begin
+            F.Adapter.GetTokenAtPos(Point(PosX, PosY), PntFrom, PntTo, StrToken, StrStyle);
+            if (PntFrom.X<0) then
+              Result:= ReturnNone
+            else
+              Result:= Py_BuildValue('((ii)(ii)ss)',
+                PntFrom.X, PntFrom.Y,
+                PntTo.X, PntTo.Y,
+                PChar(StrToken), PChar(StrStyle));
+          end;
+        TOKEN_INDEX:
+          begin
+            F.Adapter.GetTokenWithIndex(PosX, PntFrom, PntTo, StrToken, StrStyle);
+            if (PntFrom.X<0) then
+              Result:= ReturnNone
+            else
+              Result:= Py_BuildValue('((ii)(ii)ss)',
+                PntFrom.X, PntFrom.Y,
+                PntTo.X, PntTo.Y,
+                PChar(StrToken), PChar(StrStyle));
+          end;
+        else
+          Result:= ReturnNone;
+      end;
     end;
 end;
 
