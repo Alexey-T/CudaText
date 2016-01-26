@@ -758,6 +758,7 @@ begin
   finally
     Ed.Strings.EndUndoGroup;
     Ed.Update(true);
+    Ed.DoEventChange;
   end;
 end;
 
@@ -785,6 +786,7 @@ begin
   finally
     Ed.Strings.EndUndoGroup;
     Ed.Update(true);
+    Ed.DoEventChange;
   end;
 end;
 
