@@ -6,7 +6,7 @@ Legend:
 1.2.18
 + api: sidebar panels
 + grouping "1+2 horz" (some session files now not correct)
-+ redone lexer Makefile (for GNU makefile)
++ new lexer Makefile (for GNU makefile)
 + cmd "ui: show side panel"
 + cmd "ui: show side panel, and syntax tree"
 + cmd "ui: hide side panel"
