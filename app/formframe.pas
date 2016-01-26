@@ -661,6 +661,8 @@ end;
 
 destructor TEditorFrame.Destroy;
 begin
+  DoPyEvent(Editor, cEventOnClose, []);
+
   inherited;
 end;
 

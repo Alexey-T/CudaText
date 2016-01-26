@@ -3,6 +3,7 @@ EVENTS = [
     'on_change',
     'on_change_slow',
     'on_click',
+    'on_close',
     'on_complete',
     'on_console',
     'on_console_nav',
