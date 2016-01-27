@@ -11,12 +11,14 @@ To make plugin react to events, add method to class Command (like methods of com
 Supported events:
 
 * on_open(self, ed_self): Called after file is opened from disk.
+* on_close(self, ed_self): Called just before closing tab.
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
 * on_change(self, ed_self): Called after text is changed.
 * on_change_slow(self, ed_self): Called after text is changed, after few seconds. This is for Lint plugins, they need to react to change after a delay.
 * on_caret(self, ed_self): Called after caret position/selection changed.
 * on_click(self, ed_self, state): Called after mouse click. state has the same meaning as in on_key.
+* on_click_dbl(self, ed_self, state): Called after mouse double-click. state has the same meaning as in on_key. Method can return False to disable default processing.
 * on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
 * on_focus(self, ed_self): Called after editor is focused.
 * on_lexer(self, ed_self): Called after lexer is changed.
@@ -33,7 +35,7 @@ Panels
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
-* on_panel(self, ed_self, id_control, id_event): Called when event in user-added panel occured. Id_control is int handle of control in panel. Id_event is one of: "on_click", "on_dbl_click".
+* on_panel(self, ed_self, id_control, id_event): Called when event in user-added panel occured. Id_control is int handle of control in panel. Id_event is one of: "on_click", "on_dbl_click", "on_sel".
 
 Macros
 
@@ -417,9 +419,13 @@ Note: "ed" is always the current editor, after file_open() current editor change
 
 ===file_save===
 
- file_save()
+ file_save(filename="")
 
-Saves current tab to disk. Shows save-as dialog for untitled tab. Gets bool: file was saved.
+Saves current tab to disk. 
+
+Shows save-as dialog for untitled tab. 
+If param filename not empty, uses it (untitled tab becomes titled).
+Gets bool: file was saved.
 
 ===ed_handles===
 
@@ -493,6 +499,7 @@ Possible values of id_action:
 * TREE_ITEM_SELECT: Selects item.
 * TREE_ITEM_GET_SELECTED: Gets int handle of selected item (id_item ignored). Gets None if none selected.
 * TREE_ITEM_GET_PROP: Gets props of item, 4-tuple: (str_caption, int_index, int_image_index, int_level). Gets None for root-item.
+* TREE_ITEM_GET_PARENT: Gets int handle of parent-item for item. 0 means no parent.
 
 * TREE_ITEM_FOLD: Folds item w/o subitems.
 * TREE_ITEM_FOLD_DEEP: Folds item with subitems. Root-item allowed too.
@@ -501,6 +508,8 @@ Possible values of id_action:
 
 * TREE_ICON_ADD: Adds icon to icon list. Param text: path to 16x16 bmp file. Gets icon index or -1 if cannot add.
 * TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
+
+* TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 
 ===more===
 
@@ -778,6 +787,19 @@ Gets list of fold-ranges in parsed lexer data. It is list of 5-lists: [y, y2, x,
 * staple: int (0/1) which shows that range has block staple.
 * folded: int (0/1) which shows that range is currently folded.
 
+===get_token===
+
+ get_token(id, index1, index2)
+
+Gets info about tokens (it is minimal text fragment for lexer). 
+
+Gets 4-tuple: ((start_x, start_y), (end_x, end_y), str_token, str_style), or None if no token found.
+
+Possible values of id:
+
+* TOKEN_AT_POS: Token at position (x=index1, y=index2).
+* TOKEN_INDEX: Token with index=index1 (in tokens collection), 0-based.
+
 ===markers===
 
  markers(id, x=0, y=0, tag=0, len=0)
@@ -817,9 +839,13 @@ Controls additional color attributes. Possible values of id:
 
 ===save===
 
- save()
+ save(filename="")
 
-Saves editor's tab to disk. Shows save-as dialog for untitled tab. Gets bool: file was saved.
+Saves editor's tab to disk.
+
+Shows save-as dialog for untitled tab. 
+If param filename not empty, uses it (untitled tab becomes titled).
+Gets bool: file was saved.
 
 ===cmd===
 
@@ -895,6 +921,11 @@ Text is chr(1) separated items:
 
 * add: app_proc: PROC_SIDEPANEL_*
 * add: tree_proc
+* add: on_panel
+* add: on_close
+* add: on_click_dbl
+* add: Editor.get_token
+* add: optional param in file_save, ed.save
 
 1.0.120
 

@@ -339,7 +339,6 @@ begin
       ItemTreeview.Align:= alClient;
       ItemTreeview.Images:= ItemImagelist;
       ItemTreeview.PopupMenu:= ItemMenu;
-      ItemTreeview.ShowLines:= UiOps.TreeShowLines;
       ItemTreeview.OnClick:= @DoPanel_OnClick;
       ItemTreeview.OnDblClick:= @DoPanel_OnDblClick;
       ItemTreeview.OnSelectionChanged:= @DoPanel_OnSelChanged;
