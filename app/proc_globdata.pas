@@ -112,6 +112,7 @@ type
     TreeAutoSync: boolean;
     TreeTimeFill: integer;
     TreeTimeFocus: integer;
+    TreeShowLines: boolean;
     PyChangeSlow: integer;
 
     NewdocLexer: string;
@@ -741,6 +742,7 @@ begin
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
     TreeTimeFocus:= 2000;
+    TreeShowLines:= true;
     PyChangeSlow:= 2000;
 
     NewdocLexer:= '';

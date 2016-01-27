@@ -672,7 +672,8 @@ end;
 
 destructor TEditorFrame.Destroy;
 begin
-  DoPyEvent(Editor, cEventOnClose, []);
+  if not Application.Terminated then //prevent crash on exit
+    DoPyEvent(Editor, cEventOnClose, []);
 
   inherited;
 end;

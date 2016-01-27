@@ -601,9 +601,8 @@ begin
   C.SelectionFontColorUsed:= true; //new Laz
   C.SelectionColor:= GetAppColor('TreeSelBg');
   C.TreeLineColor:= GetAppColor('TreeLines');
-  C.ExpandSignColor:= GetAppColor('TreeSign');
-  C.TreeLineColor:= clMedGray;
   C.TreeLinePenStyle:= psSolid;
+  C.ExpandSignColor:= GetAppColor('TreeSign');
 
   C.BorderStyle:= bsNone;
   C.ExpandSignType:= tvestArrowFill;
@@ -616,6 +615,7 @@ begin
     tvoShowRoot,
     tvoToolTips
     ];
+  C.ShowLines:= UiOps.TreeShowLines;
   C.ScrollBars:= ssVertical;
   C.RowSelect:= true;
   C.RightClickSelect:= true;

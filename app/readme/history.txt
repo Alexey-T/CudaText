@@ -7,6 +7,7 @@ Legend:
 + api: sidebar panels
 + grouping "1+2 horz" (some session files now not correct)
 + new lexer Makefile (for GNU makefile)
++ opt "ui_tree_show_lines"
 + cmd "ui: show side panel"
 + cmd "ui: show side panel, and syntax tree"
 + cmd "ui: hide side panel"

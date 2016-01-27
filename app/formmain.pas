@@ -1490,11 +1490,21 @@ type
   TComponentHack = class(TComponent);
 
 procedure TfmMain.DoApplyUiOps;
+var
+  i: integer;
 begin
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
 
   fmConsole.memo.OptCaretShapeRO:= TATSynCaretShape(EditorOps.OpCaretShapeRO);
+
+  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
+    with FAppSidePanels[i] do
+    begin
+      if ItemCaption='' then break;
+      if Assigned(ItemTreeview) then
+        ItemTreeview.ShowLines:= UiOps.TreeShowLines;
+    end;
 
   TabsBottom.TabBottom:= true;
   TabsBottom.TabShowPlus:= false;

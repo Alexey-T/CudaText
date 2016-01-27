@@ -281,6 +281,8 @@
   "ui_tree_time_fill": 2000,
   //Time (msec) after which tree-node for caret focused
   "ui_tree_time_focus": 2000,
+  //Show lines at left side
+  "ui_tree_show_lines": true,
 
   //[Properties of new tabs]
   //Lexer name in lexers menu

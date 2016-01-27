@@ -267,11 +267,14 @@ const
 var
   SCurLexer: string;
   bNeedGroup: boolean;
+  Frame: TEditorFrame;
   i: integer;
 begin
   //empty string result means "no handlers for event"
   Result:= '';
-  SCurLexer:= CurrentFrame.LexerName;
+  Frame:= CurrentFrame;
+  if Frame=nil then exit;
+  SCurLexer:= Frame.LexerName;
   bNeedGroup:= not (AEvent in [cEventOnCaret, cEventOnChange, cEventOnChangeSlow]);
 
   for i:= Low(FPluginsEvents) to High(FPluginsEvents) do

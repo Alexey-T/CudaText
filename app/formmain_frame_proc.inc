@@ -79,6 +79,7 @@ begin
 
   D:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
   if D=nil then Exit;
+  if D.TabObject=nil then Exit;
   Result:= D.TabObject as TEditorFrame;
 end;
 
