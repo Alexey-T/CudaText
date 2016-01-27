@@ -3,6 +3,8 @@ EVENTS = [
     'on_change',
     'on_change_slow',
     'on_click',
+    'on_click_dbl',
+    'on_close',
     'on_complete',
     'on_console',
     'on_console_nav',
@@ -14,6 +16,7 @@ EVENTS = [
     'on_macro',
     'on_open',
     'on_output_nav',
+    'on_panel',
     'on_save',
     'on_save_pre',
     'on_start',
@@ -22,8 +25,10 @@ EVENTS = [
 EVENTS_ADD_PARAMS = {
   'on_key': 'key, state',
   'on_click': 'state',
+  'on_click_dbl': 'state',
   'on_console': 'text',
   'on_console_nav': 'text',
   'on_output_nav': 'text, tag',
-  'on_macro': 'text'
+  'on_macro': 'text',
+  'on_panel': 'id_control, id_event',
   }

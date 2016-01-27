@@ -225,6 +225,7 @@ cmd_Groups2vert = 2632
 cmd_Groups3horz = 2633
 cmd_Groups3vert = 2634
 cmd_Groups3plus = 2635
+cmd_Groups3plushorz = 2629
 cmd_Groups4horz = 2636
 cmd_Groups4vert = 2637
 cmd_Groups4grid = 2638

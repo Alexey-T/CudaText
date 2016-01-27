@@ -36,6 +36,9 @@ APP_FILE_SESSION = 4
 CONVERT_CHAR_TO_COL = 0
 CONVERT_COL_TO_CHAR = 1
 
+TOKEN_AT_POS = 0
+TOKEN_INDEX = 1
+
 LINESTATE_NORMAL  = 0
 LINESTATE_CHANGED = 1
 LINESTATE_ADDED   = 2
@@ -141,6 +144,27 @@ PROC_GET_SPLIT = 20
 PROC_SET_SPLIT = 21
 PROC_GET_FIND_OPTIONS = 22
 PROC_SET_FIND_OPTIONS = 23
+PROC_SIDEPANEL_ADD = 24
+PROC_SIDEPANEL_ACTIVATE = 25
+PROC_SIDEPANEL_ENUM = 26
+PROC_SIDEPANEL_GET_CONTROL = 27
+
+TREE_ITEM_ENUM = 1
+TREE_ITEM_ADD = 2
+TREE_ITEM_DELETE = 3
+TREE_ITEM_SET_TEXT = 4
+TREE_ITEM_SET_ICON = 5
+TREE_ITEM_SELECT = 6
+TREE_ITEM_FOLD = 7
+TREE_ITEM_FOLD_DEEP = 8
+TREE_ITEM_UNFOLD = 9
+TREE_ITEM_UNFOLD_DEEP = 10
+TREE_ITEM_GET_SELECTED = 11
+TREE_ITEM_GET_PROP = 12
+TREE_ITEM_GET_PARENT = 13
+TREE_ICON_ADD = 20
+TREE_ICON_DELETE = 21
+TREE_PROP_SHOW_ROOT = 30
 
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
@@ -163,11 +187,12 @@ GROUPS_2VERT  = 2
 GROUPS_2HORZ  = 3
 GROUPS_3VERT  = 4
 GROUPS_3HORZ  = 5
-GROUPS_3PLUS  = 6
-GROUPS_4VERT  = 7
-GROUPS_4HORZ  = 8
-GROUPS_4GRID  = 9
-GROUPS_6GRID  = 10
+GROUPS_1P2VERT = 6
+GROUPS_1P2HORZ = 7
+GROUPS_4VERT  = 8
+GROUPS_4HORZ  = 9
+GROUPS_4GRID  = 10
+GROUPS_6GRID  = 11
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -233,8 +258,8 @@ def dlg_custom(title, size_x, size_y, text, focused=-1):
 
 def file_open(filename, group=-1):
     return ct.file_open(filename, group)
-def file_save():
-    return ct.file_save()
+def file_save(filename=''):
+    return ct.file_save(filename)
 
 def ed_handles():
     r0, r1 = ct.ed_handles()
@@ -247,6 +272,15 @@ def ini_write(filename, section, key, value):
     
 def lexer_proc(id, value):
     return ct.lexer_proc(id, value)
+
+def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
+    res = ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
+    if res is None: return
+    if id_action==TREE_ITEM_ENUM:
+        res = res.splitlines()
+        res = [r.split('=', 1) for r in res]
+        res = [(int(r[0]), r[1]) for r in res]
+    return res
     
 
 #Editor
@@ -315,8 +349,8 @@ class Editor:
     def set_top(self, value):
         return ct.ed_set_top(self.h, value)
 
-    def save(self):
-        return ct.ed_save(self.h)
+    def save(self, filename=''):
+        return ct.ed_save(self.h, filename)
     def cmd(self, code, text=''):
         return ct.ed_cmd(self.h, code, text)
     def focus(self):
@@ -361,6 +395,9 @@ class Editor:
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up
                           )
+                          
+    def get_token(self, id, index1, index2):
+        return ct.ed_get_token(self.h, id, index1, index2)
     #end
 
 #objects

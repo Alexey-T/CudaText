@@ -4183,105 +4183,148 @@ object TecSyntaxManager
         Font.Style = [fsItalic]
       end    
       item
-        DisplayName = 'Param'
-        Font.Color = clBlue
+        DisplayName = 'String'
+        Font.Color = clTeal
         Font.Height = -13
         Font.Name = 'Courier New'
       end    
       item
-        DisplayName = 'operator'
+        DisplayName = 'Symbol'
+        Font.Color = clMaroon
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Param'
+        Font.Color = clPurple
+        Font.Height = -13
+        Font.Name = 'Courier New'
+      end    
+      item
+        DisplayName = 'Id'
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Courier New'
+      end    
+      item
+        DisplayName = 'Id keyword'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
       end    
       item
-        DisplayName = 'Symbol'
-        Font.Color = clPurple
+        DisplayName = 'Value'
+        Font.Color = clNavy
+        Font.Height = -13
+        Font.Name = 'Courier New'
+      end    
+      item
+        DisplayName = 'Section'
+        Font.Color = clGreen
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
       end    
       item
-        DisplayName = 'variable'
-        Font.Color = clTeal
+        DisplayName = 'Label'
+        Font.Color = clOlive
         Font.Height = -13
         Font.Name = 'Courier New'
-        Font.Style = [fsBold]
-        BorderTypeBottom = blDot
-        BorderColorBottom = clRed
       end>
     TokenRules = <    
       item
         DisplayName = 'Comment'
         StyleName = 'Comment'
         TokenType = 1
-        Expression = '^\#.*'
+        Expression = '\#.*'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'String'
+        StyleName = 'String'
+        TokenType = 4
+        Expression = '".*? ("|$)'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
         DisplayName = 'Param'
         StyleName = 'Param'
-        TokenType = 4
-        Expression = '".*?"'
+        TokenType = 5
+        Expression = '^\x20*? \w+ \x20*? (?=(=|:=))'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = 'operator'
-        StyleName = 'operator'
+        DisplayName = 'Label'
+        StyleName = 'Label'
+        TokenType = 8
+        Expression = '^\x20*? \w+ \x20*? (?=:)'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Id'
+        StyleName = 'Id'
         TokenType = 2
-        Expression = '!\w*'
+        Expression = '[a-z_]\w*'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = 'Symbols'
+        DisplayName = 'Value'
+        StyleName = 'Value'
+        Expression = '\$\(\w+\) | \$\{\w+\}'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Section'
+        StyleName = 'Section'
+        TokenType = 7
+        Expression = '\[\w+\]'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Symbol'
         StyleName = 'Symbol'
         TokenType = 3
-        Expression = '[/\|&\$=]'
-        ColumnFrom = 0
-        ColumnTo = 0
-      end    
-      item
-        DisplayName = 'Variable'
-        StyleName = 'variable'
-        TokenType = 5
-        Expression = '^\s*?\w*\s*?='
+        Expression = '[;:,%\(\)\[\]\\@=\*>\+!\^\$]'
         ColumnFrom = 0
         ColumnTo = 0
       end>
     BlockRules = <    
       item
-        DisplayName = 'Block start'
+        DisplayName = 'Keyword'
+        StyleName = 'Id keyword'
+        BlockType = btTagDetect
         ConditionList = <        
           item
             TagList.Strings = (
-              '!IF'
-              '!IFDEF'
-              '!IFNDEF'
+              'define'
+              'else'
+              'endef'
+              'endif'
+              'export'
+              'ifdef'
+              'ifeq'
+              'ifndef'
+              'ifneq'
+              'include'
+              'override'
+              'private'
+              'sinclude'
+              'undefine'
+              'unexport'
+              'vpath'
             )
-            TokenTypes = 4
-            IgnoreCase = True
+            TokenTypes = 36
           end>
-        BlockEnd = 'Block end'
-        DisplayInTree = False
-        HighlightPos = cpBound
-        IgnoreAsParent = False
-      end    
-      item
-        DisplayName = 'Block end'
-        BlockType = btRangeEnd
-        ConditionList = <        
-          item
-            TagList.Strings = (
-              '!ENDIF'
-            )
-            TokenTypes = 4
-            IgnoreCase = True
-          end>
-        HighlightPos = cpBound
+        HighlightPos = cpAny
         IgnoreAsParent = False
       end    
       item
@@ -4311,23 +4354,52 @@ object TecSyntaxManager
         BlockOffset = 1
         HighlightPos = cpBound
         IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'Section'
+        ConditionList = <        
+          item
+            TokenTypes = 128
+          end>
+        EndOfTextClose = True
+        HighlightPos = cpAny
+        SelfClose = True
+        IgnoreAsParent = False
       end>
     CodeTemplates = <>
     SubAnalyzers = <>
+    SampleText.Strings = (
+      '#'
+      '# file is generated by FPCMake'
+      '[section]'
+      '"Test str" ${Test}'
+      ''
+      'default: all'
+      'UNIXs = linux $(BSDs) solaris qnx haiku aix'
+      'FORCE:'
+      '.PHONY: FORCE'
+      'override PATH:=$(patsubst %/,%,$(subst \,/,$(PATH)))'
+      'ifneq ($(findstring darwin,$(OSTYPE)),)'
+      'inUnix=1 #darwin'
+      'SEARCHPATH:=$(filter-out .,$(subst :, ,$(PATH)))'
+    )
     TokenTypeNames.Strings = (
-      'Unknown'
+      'Value'
       'Comment'
       'Identifier'
       'Symbol'
       'String'
-      'Variable'
-      'Float const'
-      'Hex const'
-      'Char const'
-      'Preprocessor'
+      'Param'
+      'Number'
+      'Section'
+      'Label'
     )
     Extentions = '/makefile /makefile.gnu /makefile.gcc /makefile.bor /makefile.msc /makefile.vc /makefile.dm /makefile.bcc'
-    LexerName = 'Make files'
+    LexerName = 'Makefile'
+    Notes.Strings = (
+      'Alex (Synwrite)'
+      'Sample: makefile in Lazarus'
+    )
     LineComment = '#'
     Charset = DEFAULT_CHARSET
   end
