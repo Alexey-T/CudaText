@@ -148,6 +148,8 @@ type
   TEditorOps = record
     OpFontName: string;
     OpFontSize: integer;
+    OpFontQuality: TFontQuality;
+
     OpSpaceX: integer;
     OpSpaceY: integer;
     OpTabSize: integer;
@@ -579,6 +581,7 @@ begin
   begin
     OpFontName:= {$ifndef darwin} 'Courier New' {$else} 'Monaco' {$endif};
     OpFontSize:= {$ifndef darwin} 9 {$else} 11 {$endif};
+    OpFontQuality:= fqDefault;
 
     OpSpaceX:= 0;
     OpSpaceY:= 0;

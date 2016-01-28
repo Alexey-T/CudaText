@@ -97,6 +97,7 @@ procedure TfmGoto.UpdateFonts;
 begin
   edInput.Font.Name:= EditorOps.OpFontName;
   edInput.Font.Size:= EditorOps.OpFontSize;
+  edInput.Font.Quality:= EditorOps.OpFontQuality;
 
   edInput.Colors.TextFont:= GetAppColor('EdTextFont');
   edInput.Colors.TextBG:= GetAppColor('EdTextBg');

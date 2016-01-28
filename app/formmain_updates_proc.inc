@@ -185,6 +185,7 @@ var
 begin
   fmConsole.Font.Name:= EditorOps.OpFontName;
   fmConsole.Font.Size:= EditorOps.OpFontSize;
+  fmConsole.Font.Quality:= EditorOps.OpFontQuality;
   fmConsole.ed.Font:= fmConsole.Font;
   fmConsole.memo.Font:= fmConsole.Font;
 
@@ -195,6 +196,8 @@ begin
     F.Editor2.Font.Name:= EditorOps.OpFontName;
     F.Editor.Font.Size:= EditorOps.OpFontSize;
     F.Editor2.Font.Size:= EditorOps.OpFontSize;
+    F.Editor.Font.Quality:= EditorOps.OpFontQuality;
+    F.Editor2.Font.Quality:= EditorOps.OpFontQuality;
     DoOps_LoadOptionsOverride(F);
   end;
 

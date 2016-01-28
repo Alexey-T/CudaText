@@ -3,6 +3,9 @@ Legend:
   - fixed
   * changed
 
+1.2.19
++ opt "font_quality"
+
 1.2.18
 + api: sidebar panels
 + grouping "1+2 horz" (some session files now not correct)

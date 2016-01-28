@@ -136,6 +136,7 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
 begin
   Ed.Font.Name:= Op.OpFontName;
   Ed.Font.Size:= Op.OpFontSize;
+  Ed.Font.Quality:= Op.OpFontQuality;
 
   Ed.OptCharSpacingX:= Op.OpSpaceX;
   Ed.OptCharSpacingY:= Op.OpSpaceY;

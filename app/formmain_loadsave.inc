@@ -383,6 +383,8 @@ begin
 
     Op.OpFontName:= c.GetValue('font_name', Op.OpFontName);
     Op.OpFontSize:= c.GetValue('font_size', Op.OpFontSize);
+    Op.OpFontQuality:= TFontQuality(c.GetValue('font_quality', Ord(Op.OpFontQuality)));
+
     UiOps.VarFontName:= c.GetValue('ui_font_name', UiOps.VarFontName);
     UiOps.VarFontSize:= c.GetValue('ui_font_size', UiOps.VarFontSize);
 

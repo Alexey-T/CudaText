@@ -86,6 +86,7 @@ begin
   list.Font.Size:= UiOps.VarFontSize;
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
+  edit.Font.Quality:= EditorOps.OpFontQuality;
 
   self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');

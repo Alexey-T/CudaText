@@ -595,6 +595,7 @@ begin
 
   ed.Font.Name:= EditorOps.OpFontName;
   ed.Font.Size:= EditorOps.OpFontSize;
+  ed.Font.Quality:= EditorOps.OpFontQuality;
 
   ed.BorderStyle:= bsNone;
   ed.Keymap:= Keymap;

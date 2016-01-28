@@ -206,6 +206,7 @@ begin
   begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
+    Font.Quality:= EditorOps.OpFontQuality;
     Colors.TextFont:= GetAppColor('EdTextFont');
     Colors.TextBG:= GetAppColor('EdTextBg');
     Colors.TextSelFont:= GetAppColor('EdSelFont');
@@ -220,6 +221,7 @@ begin
   begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
+    Font.Quality:= EditorOps.OpFontQuality;
     Colors.TextFont:= GetAppColor('EdTextFont');
     Colors.TextBG:= GetAppColor('EdTextBg');
     Colors.TextSelFont:= GetAppColor('EdSelFont');
