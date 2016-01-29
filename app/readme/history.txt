@@ -4,7 +4,8 @@ Legend:
   * changed
 
 1.2.19
-+ opt "font_quality"
++ opt "font_quality" (can disable Cleartype)
+- fix OSX rendering
 
 1.2.18
 + api: sidebar panels
