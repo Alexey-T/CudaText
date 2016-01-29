@@ -65,9 +65,9 @@ const
   msgAboutCredits =
       'Credits:'+sLineBreak+sLineBreak+
       'Lazarus IDE'+sLineBreak+
-      'ATSynEdit, ATTabs: at github'+sLineBreak+
-      'EControl parser: http://www.econtrol.ru, at github'+sLineBreak+
-      'Helper Python code: Andrey Kvichanskiy'+sLineBreak+
+      'ATSynEdit, ATTabs, ATListbox, ATButton, Python wrapper: https://github.com/Alexey-T/'+sLineBreak+
+      'EControl parser: http://www.econtrol.ru, https://github.com/Alexey-T/'+sLineBreak+
+      'Helper Python code: Andrey Kvichanskiy, https://github.com/kvichans/'+sLineBreak+
       'Toolbar icons: Silk icons, http://www.famfamfam.com'+sLineBreak+
       '    License: CC BY 2.5, http://creativecommons.org/licenses/by/2.5/'+sLineBreak+
       'App icon: Snipicons, http://www.snipicons.com/'+sLineBreak+
