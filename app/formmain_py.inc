@@ -1051,9 +1051,10 @@ begin
 
         BOOKMARK_SETUP:
           begin
-            if Str<>'' then
-              UpdateImagelistWithIconFromFile(AppBookmarkImagelist, Str);
-            AppBookmarkSetup[NKind].ImageIndex:= AppBookmarkImagelist.Count-1;
+            if (Str<>'') and UpdateImagelistWithIconFromFile(AppBookmarkImagelist, Str) then
+              AppBookmarkSetup[NKind].ImageIndex:= AppBookmarkImagelist.Count-1
+            else
+              AppBookmarkSetup[NKind].ImageIndex:= -1;
             AppBookmarkSetup[NKind].Color:= NColor;
             Result:= ReturnNone;
           end;
