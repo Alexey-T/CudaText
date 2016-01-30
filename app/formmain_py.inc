@@ -1013,7 +1013,6 @@ var
   Str: string;
   Ed: TATSynEdit;
   NId, NLine, NKind, NColor: integer;
-  Bmp: TBitmap;
   ComArray: Variant;
   List: TList;
   i: Integer;
@@ -1052,16 +1051,10 @@ begin
 
         BOOKMARK_SETUP:
           begin
-            Bmp:= TBitmap.Create;
-            try
-              Bmp.Transparent:= true;
-              Bmp.LoadFromFile(Str);
-              AppBookmarkImagelist.Add(Bmp, nil);
-              AppBookmarkSetup[NKind].ImageIndex:= AppBookmarkImagelist.Count-1;
-              AppBookmarkSetup[NKind].Color:= NColor;
-            finally
-              FreeAndNil(Bmp);
-            end;
+            if Str<>'' then
+              UpdateImagelistWithIconFromFile(AppBookmarkImagelist, Str);
+            AppBookmarkSetup[NKind].ImageIndex:= AppBookmarkImagelist.Count-1;
+            AppBookmarkSetup[NKind].Color:= NColor;
             Result:= ReturnNone;
           end;
 
