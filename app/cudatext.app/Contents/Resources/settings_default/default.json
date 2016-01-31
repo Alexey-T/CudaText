@@ -5,6 +5,15 @@
   "font_name": "Courier New",
   //Editor font size
   "font_size": 9,
+  //Editor font quality
+  //  0: Default 
+  //  1: Draft 
+  //  2: Proof 
+  //  3: Non Antialiased 
+  //  4: Antialiased
+  //  5: Cleartype 
+  //  6: Cleartype Natural 
+  "font_quality": 0,
 
   //UI elements font name
   "ui_font_name": "default",

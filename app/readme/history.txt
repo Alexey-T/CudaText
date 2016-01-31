@@ -4,8 +4,8 @@ Legend:
   * changed
 
 1.2.19
++ better support for CudaLint (new plugin)
 + opt "font_quality" (can disable Cleartype)
-+ bookmarks from CudaLint dont save to history
 - fix OSX rendering
 
 1.2.18

@@ -196,6 +196,9 @@ cmd_ToggleStatusbar    = 2542
 cmd_ResetPythonPlugins = 2543
 cmd_DialogCharMap      = 2544
 cmd_RunLastCommandPlugin = 2545
+cmd_ShowSidePanelAsIs = 2546
+cmd_ShowSidePanelAndSyntaxTree = 2547
+cmd_HideSidePanel = 2548
 
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581

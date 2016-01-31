@@ -3,6 +3,11 @@ Legend:
   - fixed
   * changed
 
+1.2.19
++ better support for CudaLint (new plugin)
++ opt "font_quality" (can disable Cleartype)
+- fix OSX rendering
+
 1.2.18
 + api: sidebar panels
 + grouping "1+2 horz" (some session files now not correct)
