@@ -1200,16 +1200,17 @@ begin
   DoOps_LoadHistory;
   DoOps_LoadKeymap;
   DoOps_PreinstallPlugins;
-  DoLoadParamstr;
 
   UpdateMenuPlugins;
   UpdateMenuThemes(mnuThemes);
   UpdateMenuHotkeys;
 
-  ActiveControl:= CurrentEditor;
-  UpdateStatus;
   DoPyEvent(CurrentEditor, cEventOnFocus, []);
   DoPyEvent(CurrentEditor, cEventOnStart, []);
+
+  ActiveControl:= CurrentEditor;
+  UpdateStatus;
+  DoLoadParamstr;
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject);
