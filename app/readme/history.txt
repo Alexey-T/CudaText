@@ -5,6 +5,7 @@ Legend:
 
 1.2.19
 + opt "font_quality" (can disable Cleartype)
++ bookmarks from CudaLint dont save to history
 - fix OSX rendering
 
 1.2.18

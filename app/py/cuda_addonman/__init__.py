@@ -13,6 +13,7 @@ CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 ch_user = []
 ch_def = [
   'http://sourceforge.net/projects/cudatext/files/addons/plugins/',
+  'http://sourceforge.net/projects/cudatext/files/addons/linters/',
   'http://sourceforge.net/projects/cudatext/files/addons/snippets/',
   'http://sourceforge.net/projects/synwrite-addons/files/Lexers/'
   ]
