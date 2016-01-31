@@ -125,7 +125,7 @@ type
     StatusColSel: string;
     StatusCarets: string;
     StatusSizeX: integer;
-    StatusSizeY: integer;
+    StatusHeight: integer;
     StatusCenter: boolean;
     StatusTime: integer;
     StatusAltTime: integer;
@@ -759,7 +759,7 @@ begin
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
     StatusSizeX:= 200;
-    StatusSizeY:= TabSizeY;
+    StatusHeight:= TabSizeY;
     StatusCenter:= true;
     StatusTime:= 5;
     StatusAltTime:= 7;

@@ -367,18 +367,18 @@
   //  {carets}: number of carets
   //  {sel}: number of lines selected
   //  {cols}: number of columns in column-selection
-  "ui_stat_no_sel": "Ln {y}, Col {x}",
-  "ui_stat_small_sel": "Ln {y}, Col {x}, sel",
-  "ui_stat_str_sel": "Ln {y}, Col {x}, {sel} lines sel",
-  "ui_stat_col_sel": "{sel}x{cols} column",
-  "ui_stat_carets": "{carets} carets, {sel} lines sel",
+  "ui_statusbar_no_sel": "Ln {y}, Col {x}",
+  "ui_statusbar_small_sel": "Ln {y}, Col {x}, sel",
+  "ui_statusbar_str_sel": "Ln {y}, Col {x}, {sel} lines sel",
+  "ui_statusbar_col_sel": "{sel}x{cols} column",
+  "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
   //Sizes and align
-  "ui_stat_size_x": 200,
-  "ui_stat_size_y": 24,
-  "ui_stat_center": true,
+  "ui_statusbar_size_x": 200,
+  "ui_statusbar_height": 24,
+  "ui_statusbar_center": true,
 
   //Message in statusbar: time in seconds
-  "ui_stat_time": 5,
+  "ui_statusbar_time": 5,
 
   //Show full file path in window title
   "ui_title_path": false,

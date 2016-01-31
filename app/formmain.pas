@@ -1555,8 +1555,8 @@ begin
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
 
   Status.IndentTop:= UiOps.TabIndentY;
-  Status.Height:= UiOps.StatusSizeY;
-  ButtonCancel.Height:= UiOps.StatusSizeY-2;
+  Status.Height:= UiOps.StatusHeight;
+  ButtonCancel.Height:= UiOps.StatusHeight-2;
 
   Status.GetPanelData(0).ItemWidth:= UiOps.StatusSizeX;
   if UiOps.StatusCenter then

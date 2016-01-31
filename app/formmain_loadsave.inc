@@ -388,15 +388,15 @@ begin
     UiOps.VarFontName:= c.GetValue('ui_font_name', UiOps.VarFontName);
     UiOps.VarFontSize:= c.GetValue('ui_font_size', UiOps.VarFontSize);
 
-    UiOps.StatusNoSel:= c.GetValue('ui_stat_no_sel', UiOps.StatusNoSel);
-    UiOps.StatusSmallSel:= c.GetValue('ui_stat_small_sel', UiOps.StatusSmallSel);
-    UiOps.StatusStreamSel:= c.GetValue('ui_stat_str_sel', UiOps.StatusStreamSel);
-    UiOps.StatusColSel:= c.GetValue('ui_stat_col_sel', UiOps.StatusColSel);
-    UiOps.StatusCarets:= c.GetValue('ui_stat_carets', UiOps.StatusCarets);
-    UiOps.StatusSizeX:= c.GetValue('ui_stat_size_x', UiOps.StatusSizeX);
-    UiOps.StatusSizeY:= c.GetValue('ui_stat_size_y', UiOps.StatusSizeY);
-    UiOps.StatusCenter:= c.GetValue('ui_stat_center', UiOps.StatusCenter);
-    UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_stat_time', UiOps.StatusTime)));
+    UiOps.StatusNoSel:= c.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
+    UiOps.StatusSmallSel:= c.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
+    UiOps.StatusStreamSel:= c.GetValue('ui_statusbar_str_sel', UiOps.StatusStreamSel);
+    UiOps.StatusColSel:= c.GetValue('ui_statusbar_col_sel', UiOps.StatusColSel);
+    UiOps.StatusCarets:= c.GetValue('ui_statusbar_carets', UiOps.StatusCarets);
+    UiOps.StatusSizeX:= c.GetValue('ui_statusbar_size_x', UiOps.StatusSizeX);
+    UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight);
+    UiOps.StatusCenter:= c.GetValue('ui_statusbar_center', UiOps.StatusCenter);
+    UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
     UiOps.ShowLastFiles:= c.GetValue('ui_reopen_session', UiOps.ShowLastFiles);
