@@ -393,9 +393,7 @@ begin
     UiOps.StatusStreamSel:= c.GetValue('ui_statusbar_str_sel', UiOps.StatusStreamSel);
     UiOps.StatusColSel:= c.GetValue('ui_statusbar_col_sel', UiOps.StatusColSel);
     UiOps.StatusCarets:= c.GetValue('ui_statusbar_carets', UiOps.StatusCarets);
-    UiOps.StatusSizeX:= c.GetValue('ui_statusbar_size_x', UiOps.StatusSizeX);
     UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight);
-    UiOps.StatusCenter:= c.GetValue('ui_statusbar_center', UiOps.StatusCenter);
     UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
 
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);

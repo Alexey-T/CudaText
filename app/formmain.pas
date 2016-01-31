@@ -1557,13 +1557,6 @@ begin
   Status.IndentTop:= UiOps.TabIndentY;
   Status.Height:= UiOps.StatusHeight;
   ButtonCancel.Height:= UiOps.StatusHeight-2;
-
-  Status.GetPanelData(0).ItemWidth:= UiOps.StatusSizeX;
-  if UiOps.StatusCenter then
-    Status.GetPanelData(0).ItemAlign:= saMiddle
-  else
-    Status.GetPanelData(0).ItemAlign:= saLeft;
-
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;

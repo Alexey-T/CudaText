@@ -124,9 +124,7 @@ type
     StatusStreamSel: string;
     StatusColSel: string;
     StatusCarets: string;
-    StatusSizeX: integer;
     StatusHeight: integer;
-    StatusCenter: boolean;
     StatusTime: integer;
     StatusAltTime: integer;
 
@@ -758,9 +756,7 @@ begin
     StatusStreamSel:= 'Ln {y}, Col {x}, {sel} lines sel';
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
-    StatusSizeX:= 200;
     StatusHeight:= TabSizeY;
-    StatusCenter:= true;
     StatusTime:= 5;
     StatusAltTime:= 7;
 
