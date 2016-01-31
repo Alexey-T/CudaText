@@ -356,7 +356,7 @@
   //... and keep previous selection
   "key_left_right_swap_sel_and_select": false,
 
-  //[First panel of statusbar]
+  //[Caret-panel of statusbar]
   //States: no-selection, small-selection (1 line), stream-selection (>1 lines),
   //  column-selection, mul-carets.
   //Macros:
@@ -374,8 +374,8 @@
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
 
   //Statusbar panels
-  //  names: caret, enc, ends, lexer, tabsize, msg
-  //  align: C (center), L (left), R (right)
+  //  Names: caret, enc, ends, lexer, tabsize, msg
+  //  Align: C (center), L (left), R (right)
   "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000",
   //Statusbar height   
   "ui_statusbar_height": 24,

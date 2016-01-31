@@ -4,6 +4,8 @@ Legend:
   * changed
 
 1.2.19
+* statusbar: opts ui_stat_ renamed, some deleted (size_x, center)
++ statusbar: opt "ui_statusbar_panels", all status panels now customizable
 + better support for CudaLint (new plugin)
 + opt "font_quality" (can disable Cleartype)
 - fix OSX rendering
