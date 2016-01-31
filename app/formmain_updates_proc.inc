@@ -51,7 +51,7 @@ begin
     selCarets:  fmt:= UiOps.StatusCarets;
     else        fmt:= UiOps.StatusNoSel;
   end;
-  Status[cStatusPos]:= EditorFormatStatus(Ed, fmt);
+  Status[cStatusCaret]:= EditorFormatStatus(Ed, fmt);
 
   //------
   S:= F.EncodingName;
@@ -946,5 +946,50 @@ begin
     DoAdd(miReload, cList[i].Sub, cList[i].Name, true);
     DoAdd(miNoReload, cList[i].Sub, cList[i].Name, false);
   end;
+end;
+
+
+procedure TfmMain.UpdateStatusbarPanelsFromString(Str: string);
+var
+  SPanel, SItem: string;
+  NIndex, NSize: integer;
+  Al: TATStatusAlign;
+begin
+  cStatusCaret:= -1;
+  cStatusEnc:= -1;
+  cStatusEnds:= -1;
+  cStatusLexer:= -1;
+  cStatusTabsize:= -1;
+  cStatusMsg:= -1;
+
+  while Status.PanelCount>0 do
+    Status.DeletePanel(Status.PanelCount-1);
+
+  NIndex:= 0;
+  repeat
+    SPanel:= SGetItem(Str, '|');
+    if SPanel='' then break;
+
+    SItem:= SGetItem(SPanel);
+    if SItem='caret' then cStatusCaret:= NIndex else
+     if SItem='enc' then cStatusEnc:= NIndex else
+      if SItem='ends' then cStatusEnds:= NIndex else
+       if SItem='lexer' then cStatusLexer:= NIndex else
+        if SItem='tabsize' then cStatusTabsize:= NIndex else
+         if SItem='msg' then cStatusMsg:= NIndex else
+          Continue;
+
+    SItem:= SGetItem(SPanel);
+    if (SItem='C') then Al:= saMiddle else
+     if (SItem='L') then Al:= saLeft else
+      if (SItem='R') then Al:= saRight else
+       Continue;
+
+    SItem:= SGetItem(SPanel);
+    NSize:= StrToIntDef(SItem, 200);
+
+    Status.AddPanel(NSize, Al, '');
+    Inc(NIndex);
+  until false;
 end;
 

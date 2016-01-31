@@ -372,12 +372,14 @@
   "ui_statusbar_str_sel": "Ln {y}, Col {x}, {sel} lines sel",
   "ui_statusbar_col_sel": "{sel}x{cols} column",
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
-  //Sizes and align
-  "ui_statusbar_size_x": 200,
-  "ui_statusbar_height": 24,
-  "ui_statusbar_center": true,
 
-  //Message in statusbar: time in seconds
+  //Statusbar panels
+  //  names: caret, enc, ends, lexer, tabsize, msg
+  //  align: C (center), L (left), R (right)
+  "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000",
+  //Statusbar height   
+  "ui_statusbar_height": 24,
+  //Statusbar popup message: time in seconds
   "ui_statusbar_time": 5,
 
   //Show full file path in window title

@@ -681,6 +681,7 @@ type
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure UpdateMenuThemes(sub: TMenuItem);
+    procedure UpdateStatusbarPanelsFromString(Str: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
     procedure UpKey(mi: TMenuItem; cmd: integer);
@@ -721,38 +722,39 @@ implementation
 
 {$R *.lfm}
 
-const
-  cStatusPos = 0;
-  cStatusEnc = 1;
-  cStatusEnds = 2;
-  cStatusLexer = 3;
-  cStatusTabsize = 4;
-  cStatusMsg = 5;
+var
+  cStatusCaret: integer = 0;
+  cStatusEnc: integer = 1;
+  cStatusEnds: integer = 2;
+  cStatusLexer: integer = 3;
+  cStatusTabsize: integer = 4;
+  cStatusMsg: integer = 5;
 
 { TfmMain }
 {$I formmain_py.inc}
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 begin
-  case AIndex of
-    cStatusEnc:
-      begin
-        if not CurrentFrame.ReadOnly then
-          PopupEnc.PopUp;
-      end;
-    cStatusEnds:
-      begin
-        if not CurrentFrame.ReadOnly then
-          PopupEnds.PopUp;
-      end;
-    cStatusLexer:
-      begin
-        PopupLex.PopUp;
-      end;
-    cStatusTabsize:
-      begin
-        PopupTabSize.Popup;
-      end;
+  if AIndex=cStatusEnc then
+  begin
+    if not CurrentFrame.ReadOnly then
+      PopupEnc.PopUp;
+  end
+  else
+  if AIndex=cStatusEnds then
+  begin
+    if not CurrentFrame.ReadOnly then
+      PopupEnds.PopUp;
+  end
+  else
+  if AIndex=cStatusLexer then
+  begin
+    PopupLex.PopUp;
+  end
+  else
+  if AIndex=cStatusTabsize then
+  begin
+    PopupTabSize.Popup;
   end;
 end;
 
@@ -962,12 +964,12 @@ begin
   Status.IndentTop:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
 
-  Status.AddPanel(150, saMiddle, '?');
+  Status.AddPanel(170, saMiddle, '?');
   Status.AddPanel(105, saMiddle, '?');
   Status.AddPanel(50, saMiddle, '?');
   Status.AddPanel(140, saMiddle, '?');
   Status.AddPanel(80, saMiddle, '?');
-  Status.AddPanel(1600, saLeft, '');
+  Status.AddPanel(4000, saLeft, '');
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
@@ -1494,6 +1496,8 @@ procedure TfmMain.DoApplyUiOps;
 var
   i: integer;
 begin
+  UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
+
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
 

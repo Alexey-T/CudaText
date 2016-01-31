@@ -385,9 +385,15 @@ begin
 end;
 
 procedure TATStatus.SetCaption(N: integer; const S: string);
+var
+  D: TATStatusData;
 begin
-  GetPanelData(N).ItemCaption:= S;
-  Invalidate;
+  D:= GetPanelData(N);
+  if Assigned(D) then
+  begin
+    D.ItemCaption:= S;
+    Invalidate;
+  end;
 end;
 
 end.
