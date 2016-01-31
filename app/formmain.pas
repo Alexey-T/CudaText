@@ -681,7 +681,7 @@ type
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure UpdateMenuThemes(sub: TMenuItem);
-    procedure UpdateStatusbarPanelsFromString(Str: string);
+    procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
     procedure UpKey(mi: TMenuItem; cmd: integer);

@@ -77,6 +77,7 @@ type
     function PanelCount: Integer;
     procedure AddPanel(AWidth: Integer; AAlign: TATStatusAlign; const ACaption: string = '');
     procedure DeletePanel(AIndex: Integer);
+    procedure DeletePanels;
     property Captions[Index: integer]: string read GetCaption write SetCaption; default;
   protected
     procedure Paint; override;
@@ -340,6 +341,12 @@ begin
     FList.Delete(AIndex);
     Invalidate;
   end;
+end;
+
+procedure TATStatus.DeletePanels;
+begin
+  while PanelCount>0 do
+    DeletePanel(PanelCount-1);
 end;
 
 function TATStatus.GetPanelData(AIndex: Integer): TATStatusData;

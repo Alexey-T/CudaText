@@ -949,12 +949,13 @@ begin
 end;
 
 
-procedure TfmMain.UpdateStatusbarPanelsFromString(Str: string);
+procedure TfmMain.UpdateStatusbarPanelsFromString(AStr: string);
 var
   SPanel, SItem: string;
   NIndex, NSize: integer;
   Al: TATStatusAlign;
 begin
+  Status.DeletePanels;
   cStatusCaret:= -1;
   cStatusEnc:= -1;
   cStatusEnds:= -1;
@@ -962,14 +963,11 @@ begin
   cStatusTabsize:= -1;
   cStatusMsg:= -1;
 
-  while Status.PanelCount>0 do
-    Status.DeletePanel(Status.PanelCount-1);
-
-  NIndex:= 0;
   repeat
-    SPanel:= SGetItem(Str, '|');
-    if SPanel='' then break;
+    SPanel:= SGetItem(AStr, '|');
+    if SPanel='' then Break;
 
+    NIndex:= Status.PanelCount;
     SItem:= SGetItem(SPanel);
     if SItem='caret' then cStatusCaret:= NIndex else
      if SItem='enc' then cStatusEnc:= NIndex else
@@ -989,7 +987,6 @@ begin
     NSize:= StrToIntDef(SItem, 200);
 
     Status.AddPanel(NSize, Al, '');
-    Inc(NIndex);
   until false;
 end;
 
