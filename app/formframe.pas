@@ -1025,7 +1025,7 @@ var
   lexname: string;
   caret: TATCaretItem;
   items: TStringlist;
-  i: integer;
+  N, i: integer;
 begin
   if FileName='' then exit;
   if Lexer=nil then
@@ -1066,8 +1066,11 @@ begin
   items:= TStringlist.Create;
   try
     for i:= 0 to Editor.Strings.Count-1 do
-      if Editor.Strings.LinesBm[i]>0 then
+    begin
+      N:= Editor.Strings.LinesBm[i];
+      if (N>0) and AppBookmarkKindStandard(N) then
         items.Add(Inttostr(i));
+    end;
     c.SetValue(path+cSavBookmark, items);
   finally
     FreeAndNil(items);

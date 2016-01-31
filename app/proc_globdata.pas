@@ -265,6 +265,7 @@ function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetDefaultListItemHeight: integer;
+function AppBookmarkKindStandard(N: integer): boolean;
 
 function MsgBox(const Str: string; Flags: integer): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
@@ -991,6 +992,12 @@ begin
     Inc(N);
     if N>High(FPluginsCmd) then exit;
   until false;
+end;
+
+
+function AppBookmarkKindStandard(N: integer): boolean;
+begin
+  Result:= (N<=1) or (N>=240);
 end;
 
 
