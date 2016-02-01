@@ -961,7 +961,6 @@ begin
   Status.Align:= alBottom;
   Status.Top:= Height;
   Status.Height:= 23;
-  Status.IndentTop:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
 
   Status.AddPanel(170, saMiddle, '?');
@@ -976,7 +975,6 @@ begin
   StatusAlt.Align:= alBottom;
   StatusAlt.Top:= Status.Top-4;
   StatusAlt.Height:= Status.Height;
-  StatusAlt.IndentTop:= Status.IndentTop;
   StatusAlt.AddPanel(5000, saLeft, '?');
   StatusAlt.Hide;
 
@@ -1558,7 +1556,6 @@ begin
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
 
-  Status.IndentTop:= UiOps.TabIndentY;
   Status.Height:= UiOps.StatusHeight;
   ButtonCancel.Height:= UiOps.StatusHeight-2;
   TimerStatus.Interval:= UiOps.StatusTime*1000;
