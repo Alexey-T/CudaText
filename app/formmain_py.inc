@@ -1731,6 +1731,8 @@ begin
           Result:= PyInt_FromLong(Ed.GetVisibleLines);
         PROP_VISIBLE_COLUMNS:
           Result:= PyInt_FromLong(Ed.GetVisibleColumns);
+        PROP_LINE_BOTTOM:
+          Result:= PyInt_FromLong(Ed.LineBottom);
 
         else
           Result:= ReturnNone;
