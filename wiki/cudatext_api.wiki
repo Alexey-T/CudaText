@@ -47,7 +47,8 @@ Macros
 
 Notes
 
-Config plugins.json: Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
+* Config plugins.json: Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
+* You can control in what order events passed to plugins. Events passed in sort-order of module names. E.g. if plugins have on_key, modules are cuda_bb, cuda_aa, cuda_dd, cuda_cc, then plugins called in order: _aa _bb _cc _dd.
 
 =Global funcs=
 
@@ -718,6 +719,9 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_MACRO_REC: bool: currently macro is recording.
 * PROP_MARKED_RANGE: 2-tuple: numbers of lines for "marked range" (both -1 if not set).
+* PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word-wrap).
+* PROP_VISIBLE_COLUMNS: int: max count of columns that fit to window.
+* PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
 
 ===set_prop===
 
@@ -766,8 +770,8 @@ Controls bookmarks. Possible values of id:
 * BOOKMARK_CLEAR: Removes bookmark from line=nline (nkind ignored).
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
 * BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind (nline ignored). Setup is:
-** ncolor: color of bookmarked line. Can be COLOR_NONE to not show bg-color.
-** icon: path to icon file for gutter, .bmp file of size 16x16.
+** ncolor: Color of bookmarked line. Can be COLOR_NONE to not show bg-color.
+** icon: Path to icon file for gutter, 16x16 .bmp file. Can be empty str to not show icon.
 * BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks (nline, nkind ignored).
 
 Notes:
@@ -916,6 +920,11 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.122
+
+* add: ed.get_prop PROP_VISIBLE_LINES, PROP_VISIBLE_COLUMNS
+* add: ed.get_prop PROP_LINE_BOTTOM
 
 1.0.121
 
