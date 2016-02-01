@@ -393,6 +393,12 @@ begin
   result:= stringreplace(result, '{carets}', inttostr(ed.carets.count), []);
   result:= stringreplace(result, '{cols}', inttostr(cols), []);
 
+  if ed.carets.count>0 then
+  begin
+    result:= stringreplace(result, '{caret_line_top}', inttostr(ed.carets[0].PosY+1), []);
+    result:= stringreplace(result, '{caret_line_btm}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
+  end;
+
   if pos('{sel}', result)>0 then
     result:= stringreplace(result, '{sel}', inttostr(EditorGetSelLines(ed)), []);
 

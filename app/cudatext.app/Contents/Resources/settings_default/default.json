@@ -365,7 +365,9 @@
   //  {xx}: 1st caret column, tab-chars expanded
   //  {count}: number of lines
   //  {carets}: number of carets
-  //  {sel}: number of lines selected
+  //  {caret_line_top}: line with top caret
+  //  {caret_line_btm}: line with bottom caret
+  //  {sel}: number of lines affected by selection(s)
   //  {cols}: number of columns in column-selection
   "ui_statusbar_no_sel": "Ln {y}, Col {x}",
   "ui_statusbar_small_sel": "Ln {y}, Col {x}, sel",
@@ -373,7 +375,7 @@
   "ui_statusbar_col_sel": "{sel}x{cols} column",
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
 
-  //Statusbar panels
+  //Statusbar panels (can skip items, can reorder items)
   //  Names: caret, enc, ends, lexer, tabsize, msg
   //  Align: C (center), L (left), R (right)
   "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000",

@@ -365,6 +365,8 @@
   //  {xx}: 1st caret column, tab-chars expanded
   //  {count}: number of lines
   //  {carets}: number of carets
+  //  {caret_line_top}: line with top caret
+  //  {caret_line_btm}: line with bottom caret
   //  {sel}: number of lines affected by selection(s)
   //  {cols}: number of columns in column-selection
   "ui_statusbar_no_sel": "Ln {y}, Col {x}",
