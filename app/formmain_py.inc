@@ -1727,6 +1727,11 @@ begin
         PROP_CARET_SHAPE_RO:
           Result:= PyInt_FromLong(Ord(Ed.OptCaretShapeRO));
 
+        PROP_VISIBLE_LINES:
+          Result:= PyInt_FromLong(Ed.GetVisibleLines);
+        PROP_VISIBLE_COLUMNS:
+          Result:= PyInt_FromLong(Ed.GetVisibleColumns);
+
         else
           Result:= ReturnNone;
       end;
