@@ -978,13 +978,13 @@ begin
           Continue;
 
     SItem:= SGetItem(SPanel);
-    if (SItem='C') then Al:= saMiddle else
-     if (SItem='L') then Al:= saLeft else
-      if (SItem='R') then Al:= saRight else
-       Continue;
+    if SItem='C' then Al:= saMiddle else
+     if SItem='L' then Al:= saLeft else
+      if SItem='R' then Al:= saRight else
+       Al:= saMiddle;
 
     SItem:= SGetItem(SPanel);
-    NSize:= StrToIntDef(SItem, 200);
+    NSize:= Max(50, StrToIntDef(SItem, 200));
 
     Status.AddPanel(NSize, Al, '');
   until false;
