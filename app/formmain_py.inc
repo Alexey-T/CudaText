@@ -930,6 +930,7 @@ begin
 
       //more correct than Ed.LineTop:= -that don't work if parsing not done
       F.TopLineTodo:= Val;
+      Ed.LineTop:= Val;
 
       fmMain.UpdateFrame;
       fmMain.UpdateStatus;
