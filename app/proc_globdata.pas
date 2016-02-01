@@ -82,7 +82,6 @@ type
     TabSizeX: integer;
     TabSizeY: integer;
     TabIndentX: integer;
-    TabIndentY: integer;
     TabAngle: integer;
     TabBottom: boolean;
     TabColorFull: boolean;
@@ -713,9 +712,8 @@ begin
     ListboxFuzzySearch:= true;
 
     TabSizeX:= 170;
-    TabSizeY:= 24;
+    TabSizeY:= 25;
     TabIndentX:= 5;
-    TabIndentY:= 5;
     TabAngle:= 3;
     TabBottom:= false;
     TabColorFull:= false;

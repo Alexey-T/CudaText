@@ -103,7 +103,6 @@ type
     tabOptionWidthMin,
     tabOptionWidthMax,
     tabOptionIndentInit,
-    tabOptionIndentText,
     tabOptionIndentInter,
     tabOptionIndentColor,
     tabOptionIndentXRight,
@@ -1488,7 +1487,6 @@ begin
         tabOptionWidthMin:         TabWidthMin:= N;
         tabOptionWidthMax:         TabWidthMax:= N;
         tabOptionIndentInit:       TabIndentInit:= N;
-        tabOptionIndentText:       TabIndentText:= N;
         tabOptionIndentInter:      TabIndentInter:= N;
         tabOptionIndentColor:      TabIndentColor:= N;
         tabOptionIndentXRight:     TabIndentXRight:= N;

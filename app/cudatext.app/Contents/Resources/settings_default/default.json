@@ -244,10 +244,9 @@
 
   //Tabs width, height
   "ui_tab_size_x": 170,
-  "ui_tab_size_y": 24,
+  "ui_tab_size_y": 25,
   //Indent of text on tabs
   "ui_tab_indent_x": 5,
-  "ui_tab_indent_y": 5,
   //Angle of tab edge, it's set in pixel shift, 0..10
   "ui_tab_angle": 3,
   //Show tabs at bottom
@@ -360,13 +359,12 @@
   //States: no-selection, small-selection (1 line), stream-selection (>1 lines),
   //  column-selection, mul-carets.
   //Macros:
-  //  {y}: 1st caret line
-  //  {x}: 1st caret column, tab-chars counted as 1
-  //  {xx}: 1st caret column, tab-chars expanded
+  //  {y}: line of top caret
+  //  {y2}: line of bottom caret
+  //  {x}: column of top caret, tab-chars counted as 1
+  //  {xx}: column of top caret, tab-chars expanded
   //  {count}: number of lines
   //  {carets}: number of carets
-  //  {caret_line_top}: line with top caret
-  //  {caret_line_btm}: line with bottom caret
   //  {sel}: number of lines affected by selection(s)
   //  {cols}: number of columns in column-selection
   "ui_statusbar_no_sel": "Ln {y}, Col {x}",

@@ -3,6 +3,11 @@ Legend:
   - fixed
   * changed
 
+1.2.20
+
+* statusbar: remove macros {caret_line_nnn}, add {y2}
+* remove opt ui_tab_indent_x
+
 1.2.19
 + better support for CudaLint (new plugin)
 * statusbar: opts ui_stat_ renamed, some deleted (size_x, center)

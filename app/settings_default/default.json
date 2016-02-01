@@ -244,10 +244,9 @@
 
   //Tabs width, height
   "ui_tab_size_x": 170,
-  "ui_tab_size_y": 24,
+  "ui_tab_size_y": 25,
   //Indent of text on tabs
   "ui_tab_indent_x": 5,
-  "ui_tab_indent_y": 5,
   //Angle of tab edge, it's set in pixel shift, 0..10
   "ui_tab_angle": 3,
   //Show tabs at bottom

@@ -124,7 +124,6 @@ type
     FTabIndentInter: Integer; //space between nearest tabs (no need for angled tabs)
     FTabIndentInit: Integer; //space between first tab and left control edge
     FTabIndentLeft: Integer; //space between text and tab left edge
-    FTabIndentText: Integer; //space between text and tab top edge
     FTabIndentTop: Integer; //height of top empty space (colored with bg)
     FTabIndentXRight: Integer; //space from "x" btn to right tab edge
     FTabIndentXInner: Integer; //space from "x" square edge to "x" mark
@@ -258,7 +257,6 @@ type
     property TabIndentInter: Integer read FTabIndentInter write FTabIndentInter;
     property TabIndentInit: Integer read FTabIndentInit write FTabIndentInit;
     property TabIndentLeft: Integer read FTabIndentLeft write FTabIndentLeft;
-    property TabIndentText: Integer read FTabIndentText write FTabIndentText;
     property TabIndentTop: Integer read FTabIndentTop write FTabIndentTop;
     property TabIndentXRight: Integer read FTabIndentXRight write FTabIndentXRight;
     property TabIndentXInner: Integer read FTabIndentXInner write FTabIndentXInner;
@@ -522,7 +520,6 @@ begin
   FTabIndentInter:= 0;
   FTabIndentInit:= 4;
   FTabIndentTop:= 5;
-  FTabIndentText:= 6;
   FTabIndentXRight:= 10;
   FTabIndentXInner:= 3;
   FTabIndentXSize:= 12;
@@ -608,7 +605,7 @@ procedure TATTabs.DoPaintTabTo(
 var
   PL1, PL2, PR1, PR2: TPoint;
   RText: TRect;
-  NIndentL, NIndentR: Integer;
+  NIndentL, NIndentR, NIndentTop: Integer;
   AType: TATTabElemType;
   AInvert: Integer;
   TempCaption: atString;
@@ -668,10 +665,12 @@ begin
     FBitmapText.Canvas.Font.Color:= FColorFontModified;
   TempCaption:= IfThen(AModified, FTabShowModifiedText) + ACaption;
 
+  NIndentTop:= (FTabHeight - FBitmapText.Canvas.TextHeight('Wj')) div 2;
+
   {$ifdef WIDE}
-  Windows.TextOutW(FBitmapText.Canvas.Handle, 0, FTabIndentText, PWideChar(TempCaption), Length(TempCaption));
+  Windows.TextOutW(FBitmapText.Canvas.Handle, 0, NIndentTop, PWideChar(TempCaption), Length(TempCaption));
   {$else}
-  FBitmapText.Canvas.TextOut(0, FTabIndentText, TempCaption);
+  FBitmapText.Canvas.TextOut(0, NIndentTop, TempCaption);
   {$endif}
 
   C.CopyRect(RText, FBitmapText.Canvas,
