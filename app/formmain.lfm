@@ -349,6 +349,7 @@ object fmMain: TfmMain
     top = 80
   end
   object MainMenu: TMainMenu
+    OwnerDraw = False
     left = 568
     top = 32
     object mnuFile: TMenuItem
@@ -585,7 +586,7 @@ object fmMain: TfmMain
         Caption = 'Cancel carets'
       end
       object mnuCaretsExtSub: TMenuItem
-        Caption = 'Extend carets'
+        Caption = 'More carets'
         object mnuCaretsUp1Line: TMenuItem
           Caption = 'More carets, up, 1 line'
         end
@@ -621,7 +622,7 @@ object fmMain: TfmMain
         Caption = 'Find next'
       end
       object mnuFindPrev: TMenuItem
-        Caption = 'Find prev'
+        Caption = 'Find previous'
       end
       object SepSr1: TMenuItem
         Caption = '-'
@@ -630,7 +631,7 @@ object fmMain: TfmMain
         Caption = 'Find current word next'
       end
       object mnuFindWordPrev: TMenuItem
-        Caption = 'Find current word prev'
+        Caption = 'Find current word previous'
       end
       object SepSr2: TMenuItem
         Caption = '-'
@@ -647,7 +648,7 @@ object fmMain: TfmMain
           Caption = 'Go to next bookmark'
         end
         object mnuBmPrev: TMenuItem
-          Caption = 'Go to prev bookmark'
+          Caption = 'Go to previous bookmark'
         end
         object MenuItem14: TMenuItem
           Caption = '-'
@@ -861,6 +862,7 @@ object fmMain: TfmMain
     top = 144
   end
   object PopupEnc: TPopupMenu
+    OwnerDraw = False
     left = 656
     top = 32
     object MenuItem23: TMenuItem
@@ -868,6 +870,7 @@ object fmMain: TfmMain
     end
   end
   object PopupEnds: TPopupMenu
+    OwnerDraw = False
     left = 744
     top = 32
     object mnuEndsWin: TMenuItem
@@ -889,6 +892,7 @@ object fmMain: TfmMain
     top = 192
   end
   object PopupLex: TPopupMenu
+    OwnerDraw = False
     left = 840
     top = 32
   end
@@ -900,6 +904,7 @@ object fmMain: TfmMain
     top = 32
   end
   object PopupTab: TPopupMenu
+    OwnerDraw = False
     OnPopup = PopupTabPopup
     left = 568
     top = 88
@@ -1600,10 +1605,12 @@ object fmMain: TfmMain
     }
   end
   object PopupRecents: TPopupMenu
+    OwnerDraw = False
     left = 656
     top = 88
   end
   object PopupFind: TPopupMenu
+    OwnerDraw = False
     left = 744
     top = 88
     object mnuFind2Next: TMenuItem
@@ -1627,6 +1634,7 @@ object fmMain: TfmMain
     end
   end
   object PopupNewdoc: TPopupMenu
+    OwnerDraw = False
     OnPopup = PopupNewdocPopup
     left = 840
     top = 88
@@ -1635,6 +1643,7 @@ object fmMain: TfmMain
     end
   end
   object PopupTabSize: TPopupMenu
+    OwnerDraw = False
     left = 568
     top = 144
     object mnuTabsize1: TMenuItem
@@ -1926,6 +1935,7 @@ object fmMain: TfmMain
     }
   end
   object PopupTree: TPopupMenu
+    OwnerDraw = False
     left = 656
     top = 144
     object mnuTreeFoldAll: TMenuItem
@@ -2321,6 +2331,7 @@ object fmMain: TfmMain
     top = 128
   end
   object PopupText: TPopupMenu
+    OwnerDraw = False
     OnPopup = PopupTextPopup
     left = 744
     top = 146
