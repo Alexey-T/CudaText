@@ -292,11 +292,11 @@ begin
   M.Add(cmd_DialogFind, 'dialog: find', [cXControl+'+F'], []);
   M.Add(cmd_DialogReplace, 'dialog: replace', [cXControl+'+R'], []);
   M.Add(cmd_FindNext, 'find, next', ['F3'], []);
-  M.Add(cmd_FindPrev, 'find, prev', ['Shift+F3'], []);
+  M.Add(cmd_FindPrev, 'find, previous', ['Shift+F3'], []);
   M.Add(cmd_FindCurWordNext, 'find current word, next', [], []);
-  M.Add(cmd_FindCurWordPrev, 'find current word, prev', [], []);
+  M.Add(cmd_FindCurWordPrev, 'find current word, previous', [], []);
   M.Add(cmd_FindCurSelNext, 'find current selection, next', [], []);
-  M.Add(cmd_FindCurSelPrev, 'find current selection, prev', [], []);
+  M.Add(cmd_FindCurSelPrev, 'find current selection, previous', [], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);
@@ -322,13 +322,13 @@ begin
   M.Add(cmd_Groups6grid, 'groups: 6 groups grid', [], []);
 
   M.Add(cmd_GroupActivateNext, 'groups: focus next group', [], []);
-  M.Add(cmd_GroupActivatePrev, 'groups: focus prev group', [], []);
+  M.Add(cmd_GroupActivatePrev, 'groups: focus previous group', [], []);
   M.Add(cmd_MoveTabToGroupNext, 'groups: move tab to next group', [], []);
-  M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to prev group', [], []);
+  M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to previous group', [], []);
 
   M.Add(cmd_BookmarkToggle, 'bookmarks: toggle current line', [], []);
   M.Add(cmd_BookmarkGotoNext, 'bookmarks: go to next', [], []);
-  M.Add(cmd_BookmarkGotoPrev, 'bookmarks: go to prev', [], []);
+  M.Add(cmd_BookmarkGotoPrev, 'bookmarks: go to previous', [], []);
   M.Add(cmd_BookmarkInvertAll, 'bookmarks: inverse all lines', [], []);
   M.Add(cmd_BookmarkClearAll, 'bookmarks: clear all', [], []);
 
@@ -428,10 +428,10 @@ begin
   M.Add(cmd_MacroCancel, 'macros: cancel recording', [], []);
 
   M.Add(cmd_TreeGotoNext, 'tree: select next node', [], []);
-  M.Add(cmd_TreeGotoPrev, 'tree: select prev node', [], []);
+  M.Add(cmd_TreeGotoPrev, 'tree: select previous node', [], []);
   M.Add(cmd_TreeGotoParent, 'tree: select parent node', [], []);
   M.Add(cmd_TreeGotoNextBrother, 'tree: select next-brother node', [], []);
-  M.Add(cmd_TreeGotoPrevBrother, 'tree: select prev-brother node', [], []);
+  M.Add(cmd_TreeGotoPrevBrother, 'tree: select previous-brother node', [], []);
   M.Add(cmd_TreeUpdate, 'tree: update tree panel', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
