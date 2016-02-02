@@ -665,7 +665,7 @@ begin
     FBitmapText.Canvas.Font.Color:= FColorFontModified;
   TempCaption:= IfThen(AModified, FTabShowModifiedText) + ACaption;
 
-  NIndentTop:= (FTabHeight - FBitmapText.Canvas.TextHeight('Wj')) div 2;
+  NIndentTop:= (FTabHeight - FBitmapText.Canvas.TextHeight('Wj')) div 2 + 1;
 
   {$ifdef WIDE}
   Windows.TextOutW(FBitmapText.Canvas.Handle, 0, NIndentTop, PWideChar(TempCaption), Length(TempCaption));
