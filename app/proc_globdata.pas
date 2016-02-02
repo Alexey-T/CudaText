@@ -103,6 +103,7 @@ type
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
     InitialDir: string;
+    PictureTypes: string;
 
     ExportHtmlNumbers: boolean;
     ExportHtmlFontName: string;
@@ -735,6 +736,7 @@ begin
     EscapeClose:= false;
     EscapeCloseConsole:= true;
     InitialDir:= '';
+    PictureTypes:= 'bmp,png,jpg,jpeg,ico';
 
     ExportHtmlNumbers:= false;
     ExportHtmlFontSize:= 12;

@@ -1616,6 +1616,7 @@ begin
   end;
 
   //NonTextFiles: 0: prompt, 1: open, 2: don't open
+  if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
   if UiOps.NonTextFiles<>1 then
     if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
       case UiOps.NonTextFiles of
@@ -2092,10 +2093,15 @@ var
   msg: string;
 begin
   msg:= s;
-  if CurrentFrame.ReadOnly then
-    msg:= msgStatusReadonly + ' ' +msg;
-  if CurrentFrame.MacroRecord then
-    msg:= msgStatusMacroRec + ' ' +msg;
+  if not CurrentFrame.IsText then
+    msg:= msgStatusPicture + ' ' + msg
+  else
+  begin
+    if CurrentFrame.ReadOnly then
+      msg:= msgStatusReadonly + ' ' +msg;
+    if CurrentFrame.MacroRecord then
+      msg:= msgStatusMacroRec + ' ' +msg;
+  end;
 
   Status[cStatusMsg]:= msg;
 

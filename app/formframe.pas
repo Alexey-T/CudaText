@@ -88,6 +88,8 @@ type
     FNotInRecents: boolean;
     FMacroRecord: boolean;
     FMacroString: string;
+    FImage: TImage;
+    FImageFilename: string;
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
@@ -148,6 +150,7 @@ type
     function Editor2: TATSynEdit;
     property ReadOnly: boolean read GetReadonly;
     property FileName: string read FFileName write FFileName;
+    property FileNameImage: string read FImageFilename;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property Modified: boolean read FModified;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
@@ -163,6 +166,7 @@ type
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     function IsEmpty: boolean;
+    function IsText: boolean;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
     property EncodingName: string read GetEncodingName write SetEncodingName;
@@ -232,6 +236,7 @@ const
 
 procedure TEditorFrame.SetTabCaption(const AValue: string);
 begin
+  if AValue='?' then Exit;
   if FTabCaption= AValue then Exit;
   FTabCaption:= AValue;
   DoOnChangeCaption;
@@ -706,6 +711,11 @@ begin
     ((Str.Count=0) or ((Str.Count=1) and (Str.Lines[0]='')));
 end;
 
+function TEditorFrame.IsText: boolean;
+begin
+  Result:= not Assigned(FImage);
+end;
+
 
 procedure TEditorFrame.SetLexer(an: TecSyntAnalyzer);
 begin
@@ -722,6 +732,26 @@ var
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
+
+  if IsFilenameListedInExtensionList(fn, UiOps.PictureTypes) then
+  begin
+    TabCaption:= ExtractFileName(fn);
+    FileName:= '?';
+
+    Ed1.Hide;
+    Ed2.Hide;
+    Ed1.ModeReadOnly:= true;
+    Ed2.ModeReadOnly:= true;
+    Splitter.Hide;
+
+    FImageFilename:= fn;
+    FImage:= TImage.Create(Self);
+    FImage.Parent:= Self;
+    FImage.Align:= alClient;
+    FImage.Picture.LoadFromFile(fn);
+    FImage.Center:= true;
+    exit
+  end;
 
   bTail:=
     AllowFollowTail and
@@ -770,6 +800,7 @@ var
   NameBak: string;
 begin
   Result:= false;
+  if not IsText then Exit;
   if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then Exit;
 
   if ASaveAs or (FFileName='') then

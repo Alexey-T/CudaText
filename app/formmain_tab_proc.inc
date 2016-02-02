@@ -270,7 +270,10 @@ begin
   F:= D.TabObject as TEditorFrame;
   if F=nil then exit;
 
-  MsgStatus(F.FileName);
+  if not F.IsText then
+    MsgStatus(F.FileNameImage)
+  else
+    MsgStatus(F.FileName);
 end;
 
 procedure TfmMain.DoOnTabsLeftClick(Sender: TObject);
