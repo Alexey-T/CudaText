@@ -5,8 +5,9 @@ Legend:
 
 1.2.20
 
++ can open pictures: bmp/png/jpg/ico
 * statusbar: remove macros {caret_line_nnn}, add {y2}
-* remove opt ui_tab_indent_x
+* remove opt ui_tab_indent_x (center text)
 
 1.2.19
 + better support for CudaLint (new plugin)

@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.2.20.beta';
+  cAppExeVersion = '1.2.20.0';
   cAppApiVersion = '1.0.123';
 
 

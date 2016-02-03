@@ -443,5 +443,8 @@
   //  "2": symbol before ext: filename.~txt
   //  not number, eg "bak": additional ext: filename.txt.bak
   "backup": "",
+  
+  //Extensions of picture files (shown as pictures)
+  "picture_types": "bmp,png,jpg,jpeg,jpe,ico",
 
 }
