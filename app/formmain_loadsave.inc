@@ -97,6 +97,8 @@ begin
     begin
       F:= Frames[i];
       if F.Filename='' then Continue;
+      if not F.IsText then Continue;
+
       path:= '/'+Format('%3.3d', [i]);
       Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
 

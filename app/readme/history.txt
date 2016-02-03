@@ -5,7 +5,7 @@ Legend:
 
 1.2.20
 
-+ can open images: bmp/png/jpg/ico
++ can open pictures: bmp/png/jpg/ico
 * statusbar: remove macros {caret_line_nnn}, add {y2}
 * remove opt ui_tab_indent_x (center text)
 
