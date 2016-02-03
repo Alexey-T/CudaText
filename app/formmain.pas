@@ -735,6 +735,8 @@ var
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 begin
+  if not CurrentFrame.IsText then exit;
+
   if AIndex=cStatusEnc then
   begin
     if not CurrentFrame.ReadOnly then
