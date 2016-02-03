@@ -203,7 +203,7 @@ var
 begin
   if AExtList='*' then exit(true);
   if AExtList='' then exit(false);
-  Ext:= ExtractFileExt(AFilename);
+  Ext:= LowerCase(ExtractFileExt(AFilename));
   if Ext='' then exit(false);
   if Ext[1]='.' then Delete(Ext, 1, 1);
   Result:= Pos(','+Ext+',', ','+AExtList+',' )>0;
