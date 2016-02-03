@@ -242,6 +242,7 @@ begin
     SAddStringToHistory('', FListRecents, UiOps.MaxHistoryMenu)
   else
   begin
+    if not F.IsText then exit;
     if F.FileName='' then exit;
     if F.NotInRecents then exit;
     SAddStringToHistory(F.FileName, FListRecents, UiOps.MaxHistoryMenu);
