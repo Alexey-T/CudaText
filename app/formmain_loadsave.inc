@@ -10,7 +10,6 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.DoOps_SaveHistory;
 var
   c: TJSONConfig;
-  i: integer;
 begin
   c:= TJSONConfig.Create(nil);
   try

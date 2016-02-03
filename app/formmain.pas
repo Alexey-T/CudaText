@@ -16,7 +16,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ComCtrls, ExtCtrls, Menus,
   Clipbrd, StrUtils, Variants, IniFiles,
-  FileUtil, LclType, LclProc, LclIntf,
+  FileUtil, LazFileUtils, LazUTF8, LclType, LclProc, LclIntf,
   jsonConf,
   PythonEngine,
   UniqueInstance,
@@ -631,8 +631,7 @@ type
       var AContinue: boolean);
     procedure FinderUpdateEditor(AUpdateText: boolean);
     procedure FrameOnSaveFile(Sender: TObject);
-    procedure GetEditorIndexes(Ed: TATSynEdit; var AGroupIndex,
-      ATabIndex: Integer);
+    procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
     function GetModifiedCount: integer;
     function GetShowSidePanel: boolean;
     function GetShowStatus: boolean;
@@ -1490,7 +1489,7 @@ begin
 end;
 
 type
-  TComponentHack = class(TComponent);
+  TUniqInstanceHack = class(TUniqueInstance);
 
 procedure TfmMain.DoApplyUiOps;
 var
@@ -1569,7 +1568,7 @@ begin
     if not UniqInstance.Enabled then
     begin
       UniqInstance.Enabled:= true;
-      TComponentHack(UniqInstance).Loaded;
+      TUniqInstanceHack(UniqInstance).Loaded;
 
       if UniqInstance.PriorInstanceRunning then
         Application.Terminate;
@@ -1754,7 +1753,7 @@ end;
 procedure TfmMain.GotoDialogDone(Sender: TObject; const Res: string);
 var
   Ed: TATSynEdit;
-  Num, NumMax: integer;
+  Num: integer;
 begin
   Ed:= CurrentEditor;
 
@@ -2094,7 +2093,6 @@ procedure TfmMain.MsgStatus(const S: string);
 var
   Frame: TEditorFrame;
   msg: string;
-  Pnt: TPoint;
 begin
   Frame:= CurrentFrame;
   msg:= s;
@@ -2654,7 +2652,7 @@ end;
 
 
 procedure TfmMain.GetEditorIndexes(Ed: TATSynEdit;
-  var AGroupIndex, ATabIndex: Integer);
+  out AGroupIndex, ATabIndex: Integer);
 begin
   Groups.PagesAndTabIndexOfControl(GetEditorFrame(Ed), AGroupIndex, ATabIndex);
   Dec(AGroupIndex); //was 1-based
