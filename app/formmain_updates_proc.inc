@@ -39,13 +39,15 @@ var
   F: TEditorFrame;
   S, fmt: string;
   an: TecSyntAnalyzer;
+  Size: TPoint;
 begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
 
   if not F.IsText then
   begin
-    Status[cStatusCaret]:= '';
+    Size:= F.PictureSizes;
+    Status[cStatusCaret]:= Format(msgStatusPicture, [Size.X, Size.Y]);
     Status[cStatusEnc]:= '';
     Status[cStatusEnds]:= '';
     Status[cStatusLexer]:= '';

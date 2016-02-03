@@ -2098,12 +2098,8 @@ var
 begin
   Frame:= CurrentFrame;
   msg:= s;
-  if not Frame.IsText then
-  begin
-    Pnt:= Frame.PictureSizes;
-    msg:= Format(msgStatusPicture, [Pnt.X, Pnt.Y])+' '+msg;
-  end
-  else
+
+  if Frame.IsText then
   begin
     if Frame.ReadOnly then
       msg:= msgStatusReadonly + ' ' +msg;
