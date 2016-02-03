@@ -41,7 +41,7 @@ const
   msgStatusSavedFile = 'Saved:';
   msgStatusReadonly = '[Read Only]';
   msgStatusMacroRec = '[Macro Rec]';
-  msgStatusPicture = '[Picture]';
+  msgStatusPicture = '[Picture %dx%d]';
   msgStatusCancel = 'Cancelled';
   msgStatusBadNum = 'Incorrect number entered';
   msgStatusEndsChanged = 'Line ends changed';

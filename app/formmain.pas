@@ -2090,16 +2090,22 @@ end;
 
 procedure TfmMain.MsgStatus(const S: string);
 var
+  Frame: TEditorFrame;
   msg: string;
+  Pnt: TPoint;
 begin
+  Frame:= CurrentFrame;
   msg:= s;
-  if not CurrentFrame.IsText then
-    msg:= msgStatusPicture + ' ' + msg
+  if not Frame.IsText then
+  begin
+    Pnt:= Frame.ImageSizes;
+    msg:= Format(msgStatusPicture, [Pnt.X, Pnt.Y])+' '+msg;
+  end
   else
   begin
-    if CurrentFrame.ReadOnly then
+    if Frame.ReadOnly then
       msg:= msgStatusReadonly + ' ' +msg;
-    if CurrentFrame.MacroRecord then
+    if Frame.MacroRecord then
       msg:= msgStatusMacroRec + ' ' +msg;
   end;
 

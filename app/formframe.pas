@@ -170,6 +170,7 @@ type
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     function IsEmpty: boolean;
     function IsText: boolean;
+    function ImageSizes: TPoint;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
     property EncodingName: string read GetEncodingName write SetEncodingName;
@@ -998,9 +999,9 @@ begin
     for j:= 0 to FImagePanel.ClientHeight div nn + 1 do
     begin
       if odd(i) xor odd(j) then
-        c.Brush.Color:= clMedGray
+        c.Brush.Color:= clWhite
       else
-        c.Brush.Color:= clWhite;
+        c.Brush.Color:= clLtGray;
       c.FillRect(i*nn, j*nn, (i+1)*nn, (j+1)*nn);
     end;
 end;
@@ -1316,6 +1317,13 @@ begin
   end;
 end;
 
+function TEditorFrame.ImageSizes: TPoint;
+begin
+  if Assigned(FImage) and Assigned(FImage.Picture) then
+    Result:= Point(FImage.Picture.Width, FImage.Picture.Height)
+  else
+    Result:= Point(0, 0);
+end;
 
 end.
 
