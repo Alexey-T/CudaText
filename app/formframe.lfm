@@ -5,6 +5,7 @@ object EditorFrame: TEditorFrame
   Width = 594
   ClientHeight = 346
   ClientWidth = 594
+  OnResize = FrameResize
   TabOrder = 0
   DesignLeft = 411
   DesignTop = 394

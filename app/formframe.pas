@@ -55,6 +55,7 @@ type
     MenuItem2: TMenuItem;
     Splitter: TSplitter;
     TimerChange: TTimer;
+    procedure FrameResize(Sender: TObject);
     procedure SplitterMoved(Sender: TObject);
     procedure TimerChangeTimer(Sender: TObject);
   private
@@ -89,7 +90,9 @@ type
     FMacroRecord: boolean;
     FMacroString: string;
     FImage: TImage;
+    FImagePanel: TPanel;
     FImageFilename: string;
+    procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
@@ -264,6 +267,24 @@ begin
       FSplitPos:= Ed2.height/height
     else
       FSplitPos:= Ed2.width/width;
+end;
+
+procedure TEditorFrame.FrameResize(Sender: TObject);
+var
+  R: TRect;
+begin
+  if Assigned(FImage) and Assigned(FImage.Picture) then
+  begin
+    R:= Rect(0, 0, FImage.Picture.Width, FImage.Picture.Height);
+    if R.Right<ClientWidth then
+      R.Left:= (ClientWidth-R.Right) div 2;
+    if R.Bottom<ClientHeight then
+      R.Top:= (ClientHeight-R.Bottom) div 2;
+    FImagePanel.Left:= R.Left;
+    FImagePanel.Top:= R.Top;
+    FImagePanel.Width:= FImage.Picture.Width;
+    FImagePanel.Height:= FImage.Picture.Height;
+  end;
 end;
 
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
@@ -745,11 +766,23 @@ begin
     Splitter.Hide;
 
     FImageFilename:= fn;
+
     FImage:= TImage.Create(Self);
     FImage.Parent:= Self;
     FImage.Align:= alClient;
     FImage.Picture.LoadFromFile(fn);
-    FImage.Center:= true;
+
+    FImagePanel:= TPanel.Create(Self);
+    FImagePanel.OnPaint:=@DoImagePanelPaint;
+    FImagePanel.Parent:= Self;
+    FImagePanel.SetBounds(0, 0, 400, 400);
+    FImagePanel.BorderStyle:= bsNone;
+    FImagePanel.BevelInner:= bvNone;
+    FImagePanel.BevelOuter:= bvNone;
+    FImagePanel.Color:= clSkyBlue;
+    FImage.Parent:= FImagePanel;
+    FrameResize(Self);
+
     exit
   end;
 
@@ -951,6 +984,25 @@ procedure TEditorFrame.DoOnChangeCaption;
 begin
   if Assigned(FOnChangeCaption) then
     FOnChangeCaption(Self);
+end;
+
+procedure TEditorFrame.DoImagePanelPaint(Sender: TObject);
+const
+  nn=10;
+var
+  c: TCanvas;
+  i, j: integer;
+begin
+  c:= FImagePanel.Canvas;
+  for i:= 0 to FImagePanel.ClientWidth div nn + 1 do
+    for j:= 0 to FImagePanel.ClientHeight div nn + 1 do
+    begin
+      if odd(i) xor odd(j) then
+        c.Brush.Color:= clMedGray
+      else
+        c.Brush.Color:= clWhite;
+      c.FillRect(i*nn, j*nn, (i+1)*nn, (j+1)*nn);
+    end;
 end;
 
 procedure TEditorFrame.DoRestoreFolding;
