@@ -43,6 +43,16 @@ begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
 
+  if not F.IsText then
+  begin
+    Status[cStatusCaret]:= '';
+    Status[cStatusEnc]:= '';
+    Status[cStatusEnds]:= '';
+    Status[cStatusLexer]:= '';
+    Status[cStatusTabsize]:= '';
+    exit;
+  end;
+
   //------
   case EditorGetStatusType(Ed) of
     selSmall:   fmt:= UiOps.StatusSmallSel;
