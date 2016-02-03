@@ -77,7 +77,7 @@ object fmMain: TfmMain
         ParentColor = False
       end
       object ButtonCancel: TATButton
-        Left = 408
+        Left = 416
         Height = 25
         Top = 24
         Width = 100
@@ -349,7 +349,6 @@ object fmMain: TfmMain
     top = 80
   end
   object MainMenu: TMainMenu
-    OwnerDraw = False
     left = 568
     top = 32
     object mnuFile: TMenuItem
@@ -862,7 +861,6 @@ object fmMain: TfmMain
     top = 144
   end
   object PopupEnc: TPopupMenu
-    OwnerDraw = False
     left = 656
     top = 32
     object MenuItem23: TMenuItem
@@ -870,7 +868,6 @@ object fmMain: TfmMain
     end
   end
   object PopupEnds: TPopupMenu
-    OwnerDraw = False
     left = 744
     top = 32
     object mnuEndsWin: TMenuItem
@@ -892,7 +889,6 @@ object fmMain: TfmMain
     top = 192
   end
   object PopupLex: TPopupMenu
-    OwnerDraw = False
     left = 840
     top = 32
   end
@@ -904,7 +900,6 @@ object fmMain: TfmMain
     top = 32
   end
   object PopupTab: TPopupMenu
-    OwnerDraw = False
     OnPopup = PopupTabPopup
     left = 568
     top = 88
@@ -1605,12 +1600,10 @@ object fmMain: TfmMain
     }
   end
   object PopupRecents: TPopupMenu
-    OwnerDraw = False
     left = 656
     top = 88
   end
   object PopupFind: TPopupMenu
-    OwnerDraw = False
     left = 744
     top = 88
     object mnuFind2Next: TMenuItem
@@ -1634,7 +1627,6 @@ object fmMain: TfmMain
     end
   end
   object PopupNewdoc: TPopupMenu
-    OwnerDraw = False
     OnPopup = PopupNewdocPopup
     left = 840
     top = 88
@@ -1643,7 +1635,6 @@ object fmMain: TfmMain
     end
   end
   object PopupTabSize: TPopupMenu
-    OwnerDraw = False
     left = 568
     top = 144
     object mnuTabsize1: TMenuItem
@@ -1935,7 +1926,6 @@ object fmMain: TfmMain
     }
   end
   object PopupTree: TPopupMenu
-    OwnerDraw = False
     left = 656
     top = 144
     object mnuTreeFoldAll: TMenuItem
@@ -2331,7 +2321,6 @@ object fmMain: TfmMain
     top = 128
   end
   object PopupText: TPopupMenu
-    OwnerDraw = False
     OnPopup = PopupTextPopup
     left = 744
     top = 146
