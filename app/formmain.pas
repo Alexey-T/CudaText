@@ -2098,7 +2098,7 @@ begin
   msg:= s;
   if not Frame.IsText then
   begin
-    Pnt:= Frame.ImageSizes;
+    Pnt:= Frame.PictureSizes;
     msg:= Format(msgStatusPicture, [Pnt.X, Pnt.Y])+' '+msg;
   end
   else

@@ -271,7 +271,7 @@ begin
   if F=nil then exit;
 
   if not F.IsText then
-    MsgStatus(F.FileNameImage)
+    MsgStatus(F.PictureFileName)
   else
     MsgStatus(F.FileName);
 end;

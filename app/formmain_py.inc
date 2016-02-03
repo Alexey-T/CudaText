@@ -1734,6 +1734,17 @@ begin
         PROP_LINE_BOTTOM:
           Result:= PyInt_FromLong(Ed.LineBottom);
 
+        PROP_PICTURE:
+          begin
+            if F.IsText then
+              Result:= ReturnNone
+            else
+            begin
+              Pnt:= F.PictureSizes;
+              Result:= Py_BuildValue('(sii)', PChar(F.PictureFileName), Pnt.X, Pnt.Y);
+            end;
+          end;
+
         else
           Result:= ReturnNone;
       end;

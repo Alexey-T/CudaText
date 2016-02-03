@@ -153,7 +153,6 @@ type
     function Editor2: TATSynEdit;
     property ReadOnly: boolean read GetReadonly;
     property FileName: string read FFileName write FFileName;
-    property FileNameImage: string read FImageFilename;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property Modified: boolean read FModified;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
@@ -169,8 +168,10 @@ type
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     function IsEmpty: boolean;
+    //picture support
     function IsText: boolean;
-    function ImageSizes: TPoint;
+    property PictureFileName: string read FImageFilename;
+    function PictureSizes: TPoint;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
     property EncodingName: string read GetEncodingName write SetEncodingName;
@@ -770,12 +771,15 @@ begin
     Ed2.ModeReadOnly:= true;
     Splitter.Hide;
 
-    FImageFilename:= fn;
-
     FImage:= TImage.Create(Self);
     FImage.Parent:= Self;
     FImage.Align:= alClient;
-    FImage.Picture.LoadFromFile(fn);
+    try
+      FImage.Picture.LoadFromFile(fn);
+      FImageFilename:= fn;
+    except
+      FImageFilename:= '';
+    end;
 
     FImagePanel:= TPanel.Create(Self);
     FImagePanel.OnPaint:=@DoImagePanelPaint;
@@ -1321,7 +1325,7 @@ begin
   end;
 end;
 
-function TEditorFrame.ImageSizes: TPoint;
+function TEditorFrame.PictureSizes: TPoint;
 begin
   if Assigned(FImage) and Assigned(FImage.Picture) then
     Result:= Point(FImage.Picture.Width, FImage.Picture.Height)
