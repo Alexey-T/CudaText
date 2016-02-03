@@ -503,6 +503,7 @@ procedure TEditorFrame.SetSplitHorz(AValue: boolean);
 var
   al: TAlign;
 begin
+  if not IsText then exit;
   FSplitHorz:= AValue;
 
   if FSplitHorz then al:= alBottom else al:= alRight;
@@ -516,6 +517,7 @@ procedure TEditorFrame.SetSplitPos(AValue: double);
 const
   cMin = 10;
 begin
+  if not IsText then exit;
   FSplitPos:= AValue;
 
   if FSplitHorz then
@@ -532,6 +534,8 @@ end;
 
 procedure TEditorFrame.SetSplitted(AValue: boolean);
 begin
+  if not IsText then exit;
+
   FSplitted:= AValue;
   Ed2.Visible:= AValue;
   Splitter.Visible:= AValue;
