@@ -67,6 +67,7 @@ type
 
     PyLibrary: string;
     LexerLibFilename: string;
+    PictureTypes: string;
 
     AutocompleteCss: boolean;
     AutocompleteHtml: boolean;
@@ -103,7 +104,6 @@ type
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
     InitialDir: string;
-    PictureTypes: string;
 
     ExportHtmlNumbers: boolean;
     ExportHtmlFontName: string;
@@ -700,6 +700,7 @@ begin
 
     LexerLibFilename:= 'lib.lxl';
     PyLibrary:= InitPyLibraryPath;
+    PictureTypes:= 'bmp,png,jpg,jpeg,ico';
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
@@ -736,7 +737,6 @@ begin
     EscapeClose:= false;
     EscapeCloseConsole:= true;
     InitialDir:= '';
-    PictureTypes:= 'bmp,png,jpg,jpeg,ico';
 
     ExportHtmlNumbers:= false;
     ExportHtmlFontSize:= 12;
