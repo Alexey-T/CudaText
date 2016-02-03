@@ -993,20 +993,20 @@ end;
 
 procedure TEditorFrame.DoImagePanelPaint(Sender: TObject);
 const
-  nn=10;
+  cell=8;
 var
   c: TCanvas;
   i, j: integer;
 begin
   c:= FImagePanel.Canvas;
-  for i:= 0 to FImagePanel.ClientWidth div nn + 1 do
-    for j:= 0 to FImagePanel.ClientHeight div nn + 1 do
+  for i:= 0 to FImagePanel.ClientWidth div cell + 1 do
+    for j:= 0 to FImagePanel.ClientHeight div cell + 1 do
     begin
       if odd(i) xor odd(j) then
         c.Brush.Color:= clWhite
       else
         c.Brush.Color:= clLtGray;
-      c.FillRect(i*nn, j*nn, (i+1)*nn, (j+1)*nn);
+      c.FillRect(i*cell, j*cell, (i+1)*cell, (j+1)*cell);
     end;
 end;
 
