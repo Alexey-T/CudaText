@@ -1003,3 +1003,25 @@ begin
   until false;
 end;
 
+
+procedure TfmMain.DoInvalidateEditors;
+var
+  F: TEditorFrame;
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    F:= Frames[i];
+    if not F.Visible then Continue;
+    F.Editor.Invalidate;
+    F.Editor2.Invalidate;
+    F.Splitter.Invalidate;
+  end;
+
+  Groups.Splitter1.Invalidate;
+  Groups.Splitter2.Invalidate;
+  Groups.Splitter3.Invalidate;
+  Groups.Splitter4.Invalidate;
+  Groups.Splitter5.Invalidate;
+end;
+

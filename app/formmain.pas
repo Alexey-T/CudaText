@@ -508,6 +508,7 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
+    procedure DoInvalidateEditors;
     procedure DoPanel_Event(const AEvent: string);
     procedure DoPanel_OnSelChanged(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
@@ -901,7 +902,7 @@ procedure TfmMain.TreeMouseMove(Sender: TObject; Shift: TShiftState; X,
 begin
   //fix to hide parts on Tree's hints on editor canvas (Win32, moving mouse from
   //long hint to shorter)
-  Groups.Invalidate;
+  DoInvalidateEditors;
 end;
 
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
