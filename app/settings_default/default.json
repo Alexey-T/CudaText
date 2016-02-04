@@ -432,10 +432,12 @@
   //If no selection then move caret to next line
   "duplicate_move_down": true,
 
-  //Special auto-complete for HTML lexer (see wiki)
+  //Special auto-completion for HTML lexer (see wiki)
   "autocomplete_html": true,
-  //Special auto-complete for CSS lexer (see wiki)
+  //Special auto-completion for CSS lexer (see wiki)
   "autocomplete_css": true,
+  //Show auto-completion after typing N word-chars (if >0)
+  "autocomplete_after_chars": 0,
   
   //File backup
   //  "": no backup

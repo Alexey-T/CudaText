@@ -65,6 +65,7 @@ type
     FFileName: string;
     FModified: boolean;
     FNotif: TATFileNotif;
+    FTextCharsTyped: integer;
     FOnChangeCaption: TNotifyEvent;
     FOnUpdateStatus: TNotifyEvent;
     FOnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent;
@@ -105,6 +106,8 @@ type
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer;
+      const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
@@ -167,6 +170,7 @@ type
     property TagString: string read FTagString write FTagString;
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
+    property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     function IsEmpty: boolean;
     //picture support
     function IsText: boolean;
@@ -605,6 +609,24 @@ begin
     FOnEditorCommand(Sender, ACmd, AText, AHandled);
 end;
 
+procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;
+  const AText: string);
+begin
+  if (UiOps.AutocompleteAfterNChars>0) and
+    (ACommand=cCommand_TextInsert) and
+    (Length(AText)=1) and IsCharWord(AText[1], '') then
+  begin
+    Inc(FTextCharsTyped);
+    if FTextCharsTyped=UiOps.AutocompleteAfterNChars then
+    begin
+      FTextCharsTyped:= 0;
+      (Sender as TATSynEdit).DoCommand(cmd_AutoComplete);
+    end;
+  end
+  else
+    FTextCharsTyped:= 0;
+end;
+
 procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
 var
   Str: string;
@@ -643,6 +665,7 @@ begin
   ed.OnChangeState:= @EditorOnChangeCommon;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnCommand:= @EditorOnCommand;
+  ed.OnCommandAfter:=@EditorOnCommandAfter;
   ed.OnClickGutter:= @EditorOnClickGutter;
   ed.OnCalcBookmarkColor:= @EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
