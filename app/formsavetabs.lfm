@@ -11,8 +11,8 @@ object fmSaveTabs: TfmSaveTabs
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
-  object ButtonPanel1: TButtonPanel
+  LCLVersion = '1.7'
+  object BtnPanel: TButtonPanel
     Left = 6
     Height = 29
     Top = 315
@@ -25,7 +25,7 @@ object fmSaveTabs: TfmSaveTabs
     HelpButton.DefaultCaption = False
     HelpButton.OnClick = HelpButtonClick
     CloseButton.Name = 'CloseButton'
-    CloseButton.Caption = '&Ignore'
+    CloseButton.Caption = '&Don''t save'
     CloseButton.DefaultCaption = False
     CancelButton.Name = 'CancelButton'
     CancelButton.Caption = 'Cancel'

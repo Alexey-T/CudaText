@@ -19,7 +19,7 @@ type
   { TfmSaveTabs }
 
   TfmSaveTabs = class(TForm)
-    ButtonPanel1: TButtonPanel;
+    BtnPanel: TButtonPanel;
     List: TCheckListBox;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
