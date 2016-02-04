@@ -12,18 +12,19 @@ unit formsavetabs;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  CheckLst;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  CheckLst, ExtCtrls, StdCtrls;
 
 type
   { TfmSaveTabs }
 
   TfmSaveTabs = class(TForm)
-    BtnPanel: TButtonPanel;
+    btnSave: TButton;
+    btnDontSave: TButton;
+    btnCancel: TButton;
     List: TCheckListBox;
-    procedure FormDestroy(Sender: TObject);
+    Panel1: TPanel;
     procedure FormShow(Sender: TObject);
-    procedure HelpButtonClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -39,20 +40,11 @@ implementation
 
 { TfmSaveTabs }
 
-procedure TfmSaveTabs.FormDestroy(Sender: TObject);
-begin
-end;
-
 procedure TfmSaveTabs.FormShow(Sender: TObject);
 begin
   with List do
     if Items.Count>0 then
       ItemIndex:= 0;
-end;
-
-procedure TfmSaveTabs.HelpButtonClick(Sender: TObject);
-begin
-  ModalResult:= mrCancel;
 end;
 
 end.

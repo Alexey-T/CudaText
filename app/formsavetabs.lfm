@@ -7,43 +7,79 @@ object fmSaveTabs: TfmSaveTabs
   Caption = 'Save tabs?'
   ClientHeight = 350
   ClientWidth = 671
-  OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
-  object BtnPanel: TButtonPanel
-    Left = 6
-    Height = 29
-    Top = 315
-    Width = 659
-    OKButton.Name = 'OKButton'
-    OKButton.Caption = '&Save'
-    OKButton.DefaultCaption = False
-    HelpButton.Name = 'HelpButton'
-    HelpButton.Caption = 'Cancel'
-    HelpButton.DefaultCaption = False
-    HelpButton.OnClick = HelpButtonClick
-    CloseButton.Name = 'CloseButton'
-    CloseButton.Caption = '&Don''t save'
-    CloseButton.DefaultCaption = False
-    CancelButton.Name = 'CancelButton'
-    CancelButton.Caption = 'Cancel'
-    CancelButton.DefaultCaption = False
-    TabOrder = 1
-    ShowButtons = [pbOK, pbClose, pbHelp]
-    ShowGlyphs = []
-    ShowBevel = False
-  end
   object List: TCheckListBox
     Left = 6
     Height = 303
     Top = 6
     Width = 659
     Align = alClient
-    BorderSpacing.Around = 6
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     ItemHeight = 0
     TabOrder = 0
     TopIndex = -1
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 41
+    Top = 309
+    Width = 671
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 41
+    ClientWidth = 671
+    TabOrder = 1
+    object btnSave: TButton
+      AnchorSideTop.Control = btnDontSave
+      AnchorSideRight.Control = btnDontSave
+      Left = 383
+      Height = 29
+      Top = 6
+      Width = 90
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Right = 6
+      Caption = '&Save'
+      Constraints.MinWidth = 90
+      ModalResult = 1
+      TabOrder = 0
+    end
+    object btnDontSave: TButton
+      AnchorSideTop.Control = btnCancel
+      AnchorSideRight.Control = btnCancel
+      Left = 479
+      Height = 29
+      Top = 6
+      Width = 90
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Right = 6
+      Caption = '&Don''t save'
+      Constraints.MinWidth = 90
+      ModalResult = 11
+      TabOrder = 1
+    end
+    object btnCancel: TButton
+      AnchorSideTop.Control = Panel1
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      Left = 575
+      Height = 29
+      Top = 6
+      Width = 90
+      Anchors = [akTop, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = '&Cancel'
+      Constraints.MinWidth = 90
+      ModalResult = 2
+      TabOrder = 2
+    end
   end
 end
