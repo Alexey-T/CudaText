@@ -2445,7 +2445,7 @@ var
   F: TEditorFrame;
   Ed: TATSynEdit;
   LexName: string;
-  IsPas, IsCss, IsHtml, IsCaseSens: boolean;
+  IsPascal, IsCss, IsHtml, IsCaseSens: boolean;
   FileHtml, FileCss, FileAcp: string;
 begin
   F:= CurrentFrame;
@@ -2464,10 +2464,10 @@ begin
   if LexName[Length(LexName)]='_' then
     Delete(LexName, Length(Lexname), 1);
 
-  IsPas:= Pos('Pascal', LexName)>0;
+  IsPascal:= Pos('Pascal', LexName)>0;
   IsHtml:= UiOps.AutocompleteHtml and (Pos('HTML', LexName)>0);
   IsCss:= UiOps.AutocompleteCss and (LexName='CSS');
-  IsCaseSens:= (not IsPas) and (Pos('SQL', LexName)=0);
+  IsCaseSens:= false; //cannot detect it yet
   FileCss:= GetAppPath(cDirDataAcpSpec)+DirectorySeparator+'css_list.ini';
   FileHtml:= GetAppPath(cDirDataAcpSpec)+DirectorySeparator+'html_list.ini';
   FileAcp:= GetAppPath(cDirDataAcp)+DirectorySeparator+LexName+'.acp';
@@ -2483,7 +2483,7 @@ begin
   if IsCss then
     DoEditorCompletionCss(Ed, FileCss)
   else
-    DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens, IsPas);
+    DoEditorCompletionAcp(Ed, FileAcp, IsCaseSens, IsPascal);
 end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
