@@ -497,7 +497,8 @@ begin
 
     UiOps.AutocompleteHtml:= c.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
     UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
-    UiOps.AutocompleteAfterNChars:= c.GetValue('autocomplete_after_chars', UiOps.AutocompleteAfterNChars);
+    UiOps.AutocompleteAfterChars:= c.GetValue('autocomplete_after_chars', UiOps.AutocompleteAfterChars);
+    UiOps.AutocompleteAfterCharsForLexers:= c.GetValue('autocomplete_after_chars_for_lexers', UiOps.AutocompleteAfterCharsForLexers);
 
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
     UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);

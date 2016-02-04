@@ -5,7 +5,8 @@ Legend:
 
 
 1.2.21
-+ opt autocomplete_after_chars (show completion after N chars)
++ opt autocomplete_after_chars (auto show completion after N chars)
++ opt autocomplete_after_chars_for_lexers
 + improve picture mode
 + changed "Save tabs" dlg buttons (same look Win/Linux)
 - autocomplete must be case-insens
