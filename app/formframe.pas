@@ -99,6 +99,8 @@ type
     procedure DoOnUpdateStatus;
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect
+      );
     procedure EditorOnChangeCommon(Sender: TObject);
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
@@ -672,12 +674,13 @@ begin
   ed.OnChangeState:= @EditorOnChangeCommon;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
   ed.OnCommand:= @EditorOnCommand;
-  ed.OnCommandAfter:=@EditorOnCommandAfter;
+  ed.OnCommandAfter:= @EditorOnCommandAfter;
   ed.OnClickGutter:= @EditorOnClickGutter;
   ed.OnCalcBookmarkColor:= @EditorOnCalcBookmarkColor;
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnKeyDown:= @EditorOnKeyDown;
+  ed.OnDrawMicromap:=@EditorDrawMicromap;
 end;
 
 constructor TEditorFrame.Create(TheOwner: TComponent);
@@ -1086,6 +1089,52 @@ procedure TEditorFrame.EditorClickMoveCaret(Sender: TObject; APrevPnt,
 begin
   if Assigned(FOnEditorClickMoveCaret) then
     FOnEditorClickMoveCaret(Self, APrevPnt, ANewPnt);
+end;
+
+procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
+  const ARect: TRect);
+var
+  Ed: TATSynEdit;
+  NColor: TColor;
+  St: TATLineState;
+  R1: TRect;
+  Mul: double;
+  i: integer;
+begin
+  Ed:= Sender as TATSynEdit;
+  if Ed.Strings.Count=0 then exit;
+  Mul:= (ARect.Bottom-ARect.Top) / Ed.Strings.Count;
+
+  C.Brush.Color:= Ed.Colors.TextBG;
+  C.FillRect(ARect);
+
+  R1.Left:= ARect.Left;
+  R1.Top:= ARect.Top+Trunc(Ed.LineTop*Mul);
+  R1.Right:= ARect.Right;
+  R1.Bottom:= Max(R1.Top+2, ARect.Top+Trunc((Ed.LineBottom+1)*Mul));
+
+  C.Brush.Color:= clSkyBlue;
+  C.FillRect(R1);
+
+  for i:= 0 to Ed.Strings.Count-1 do
+  begin
+    St:= Ed.Strings.LinesState[i];
+    case St of
+      cLineStateNone: Continue;
+      cLineStateAdded: NColor:= Ed.Colors.StateAdded;
+      cLineStateChanged: NColor:= Ed.Colors.StateChanged;
+      cLineStateSaved: NColor:= Ed.Colors.StateSaved;
+      else Continue;
+    end;
+
+    R1.Left:= ARect.Left;
+    R1.Top:= ARect.Top+Trunc(i*Mul);
+    R1.Right:= R1.Left+3;
+    R1.Bottom:= Max(R1.Top+2, ARect.Top+Trunc((i+1)*Mul));
+
+    C.Brush.Color:= NColor;
+    C.FillRect(R1);
+  end;
 end;
 
 procedure TEditorFrame.EditorClickEndSelect(Sender: TObject; APrevPnt,

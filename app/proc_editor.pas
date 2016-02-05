@@ -172,6 +172,8 @@ begin
   Ed.OptMinimapShowSelAlways:= Op.OpMinimapShowSelAlways;
   Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
   Ed.OptMinimapCharWidth:= Op.OpMinimapCharWidth;
+  Ed.OptMicromapVisible:= Op.OpMicromapShow;
+  Ed.OptMicromapWidth:= Op.OpMicromapWidth;
 
   Ed.OptMarginRight:= Op.OpMargin;
   Ed.OptMarginString:= Op.OpMarginString;

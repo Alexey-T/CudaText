@@ -179,6 +179,8 @@ type
     OpMinimapShowSelAlways: boolean;
     OpMinimapShowSelBorder: boolean;
     OpMinimapCharWidth: integer;
+    OpMicromapShow: boolean;
+    OpMicromapWidth: integer;
     OpMargin: integer;
     OpMarginString: string;
 
@@ -617,6 +619,9 @@ begin
     OpMinimapShowSelAlways:= false;
     OpMinimapShowSelBorder:= false;
     OpMinimapCharWidth:= 0;
+
+    OpMicromapShow:= false;
+    OpMicromapWidth:= 12;
 
     OpMargin:= cInitMarginRight;
     OpMarginString:= '';

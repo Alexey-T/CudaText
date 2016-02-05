@@ -444,6 +444,9 @@ begin
     Op.OpMinimapShowSelBorder:= c.GetValue('minimap_sel_border', Op.OpMinimapShowSelBorder);
     Op.OpMinimapCharWidth:= c.GetValue('minimap_char_width', Op.OpMinimapCharWidth);
 
+    Op.OpMicromapShow:= c.GetValue('micromap_show', Op.OpMicromapShow);
+    Op.OpMicromapWidth:= c.GetValue('micromap_width', Op.OpMicromapWidth);
+
     Op.OpMargin:= c.GetValue('margin', Op.OpMargin);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
 
