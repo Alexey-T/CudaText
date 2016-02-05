@@ -3,8 +3,15 @@ Legend:
   - fixed
   * changed
 
-1.2.20
 
+1.2.21
++ opt autocomplete_autoshow_chars
++ opt autocomplete_autoshow_lexers
+- autocomplete now ignores case
++ improve picture mode
++ changed "Save tabs" dlg buttons (same look Win/Linux)
+
+1.2.20
 + can open pictures: bmp/png/jpg/ico
 * statusbar: remove macros {caret_line_nnn}, add {y2}
 * remove opt ui_tab_indent_x (center text)

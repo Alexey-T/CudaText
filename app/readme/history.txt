@@ -5,8 +5,8 @@ Legend:
 
 
 1.2.21
-+ opt autocomplete_after_chars (auto show completion after N chars)
-+ opt autocomplete_after_chars_for_lexers
++ opt autocomplete_autoshow_chars
++ opt autocomplete_autoshow_lexers
 - autocomplete now ignores case
 + improve picture mode
 + changed "Save tabs" dlg buttons (same look Win/Linux)
