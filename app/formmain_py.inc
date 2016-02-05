@@ -1727,6 +1727,11 @@ begin
         PROP_CARET_SHAPE_RO:
           Result:= PyInt_FromLong(Ord(Ed.OptCaretShapeRO));
 
+        PROP_MINIMAP:
+          Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
+        PROP_MICROMAP:
+          Result:= PyBool_FromLong(Ord(Ed.OptMicromapVisible));
+
         PROP_VISIBLE_LINES:
           Result:= PyInt_FromLong(Ed.GetVisibleLines);
         PROP_VISIBLE_COLUMNS:
@@ -1848,6 +1853,11 @@ begin
           Ed.OptCaretShapeOvr:= TATSynCaretShape(StrToIntDef(Str, 0));
         PROP_CARET_SHAPE_RO:
           Ed.OptCaretShapeRO:= TATSynCaretShape(StrToIntDef(Str, 0));
+
+        PROP_MINIMAP:
+          Ed.OptMinimapVisible:= ValueBool;
+        PROP_MICROMAP:
+          Ed.OptMicromapVisible:= ValueBool;
 
         PROP_EXPORT_HTML:
           begin

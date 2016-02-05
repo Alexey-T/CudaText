@@ -97,7 +97,7 @@ begin
   Add($e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
   Add(clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
   Add(clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
-  Add($eeeeee, 'EdMinimapSelBg', 'editor, minimap, selection BG');
+  Add($eeeeee, 'EdMinimapSelBg', 'editor, minimap, view BG');
   Add($e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
   Add($c0c0c0, 'EdMicromapViewBg', 'editor, micromap, view BG');
   Add($00f0f0, 'EdStateChanged', 'editor, line states, changed');
