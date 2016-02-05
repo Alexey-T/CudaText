@@ -1036,15 +1036,16 @@ var
   i, j: integer;
 begin
   c:= FImagePanel.Canvas;
+  c.Brush.Color:= clWhite;
+  c.FillRect(0, 0, FImagePanel.ClientWidth, FImagePanel.ClientHeight);
+
   for i:= 0 to FImagePanel.ClientWidth div cell + 1 do
     for j:= 0 to FImagePanel.ClientHeight div cell + 1 do
-    begin
-      if odd(i) xor odd(j) then
-        c.Brush.Color:= clWhite
-      else
+      if not (odd(i) xor odd(j)) then
+      begin
         c.Brush.Color:= clLtGray;
-      c.FillRect(i*cell, j*cell, (i+1)*cell, (j+1)*cell);
-    end;
+        c.FillRect(i*cell, j*cell, (i+1)*cell, (j+1)*cell);
+      end;
 end;
 
 procedure TEditorFrame.DoRestoreFolding;
