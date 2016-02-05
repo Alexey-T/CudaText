@@ -611,19 +611,24 @@ end;
 
 procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;
   const AText: string);
+var
+  Ed: TATSynEdit;
 begin
-  if (UiOps.AutocompleteAfterChars>0) and
-     (UiOps.AutocompleteAfterCharsForLexers<>'') and
+  Ed:= Sender as TATSynEdit;
+  if (UiOps.AutocompleteAutoshowChars>0) and
+     (UiOps.AutocompleteAutoshowLexers<>'') and
      (ACommand=cCommand_TextInsert) and
+     (Ed.Carets.Count=1) and
      (Length(AText)=1) and IsCharWord(AText[1], '') then
   begin
     Inc(FTextCharsTyped);
-    if FTextCharsTyped=UiOps.AutocompleteAfterChars then
-      if IsLexerListed(LexerName, UiOps.AutocompleteAfterCharsForLexers) then
-      begin
-        FTextCharsTyped:= 0;
-        (Sender as TATSynEdit).DoCommand(cmd_AutoComplete);
-      end;
+    if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
+      with Ed.Carets[0] do
+        if IsLexerListed(LexerNameAtPos(Point(PosX, PosY)), UiOps.AutocompleteAutoshowLexers) then
+        begin
+          FTextCharsTyped:= 0;
+          Ed.DoCommand(cmd_AutoComplete);
+        end;
   end
   else
     FTextCharsTyped:= 0;

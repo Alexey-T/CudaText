@@ -437,9 +437,9 @@
   //Enable special auto-completion for CSS lexer (see wiki)
   "autocomplete_css": true,
   //Auto-show auto-completion after typing N word-chars (0: disabled)
-  "autocomplete_after_chars": 0,
+  "autocomplete_autoshow_chars": 0,
   //Addition to prev option: for which lexers (comma-separated, empty: disabled)
-  "autocomplete_after_chars_for_lexers": "",
+  "autocomplete_autoshow_lexers": "",
   
   //File backup
   //  "": no backup

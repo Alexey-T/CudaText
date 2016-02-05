@@ -71,8 +71,8 @@ type
 
     AutocompleteCss: boolean;
     AutocompleteHtml: boolean;
-    AutocompleteAfterChars: integer;
-    AutocompleteAfterCharsForLexers: string;
+    AutocompleteAutoshowChars: integer;
+    AutocompleteAutoshowLexers: string;
 
     ListboxWidth: integer;
     ListboxItemCountCmd: integer;
@@ -706,8 +706,8 @@ begin
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
-    AutocompleteAfterChars:= 0;
-    AutocompleteAfterCharsForLexers:= '';
+    AutocompleteAutoshowChars:= 0;
+    AutocompleteAutoshowLexers:= '';
 
     ListboxWidth:= 450;
     ListboxItemCountCmd:= 15;
