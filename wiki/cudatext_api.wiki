@@ -642,7 +642,10 @@ Gets number of lines.
 
  get_filename()
 
-Gets filename (str) of the editor's tab. Empty str for untitled tabs.
+Gets filename (str) of the editor's tab. 
+
+* Empty str for untitled tab. 
+* String "?" if picture file loaded in tab.
 
 ===get_tabcolor/set_tabcolor===
 
@@ -722,6 +725,9 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word-wrap).
 * PROP_VISIBLE_COLUMNS: int: max count of columns that fit to window.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
+* PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
+* PROP_MINIMAP: bool: minimap is visible.
+* PROP_MICROMAP: bool: micromap is visible.
 
 ===set_prop===
 
@@ -758,6 +764,8 @@ Possible values of id:
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
 * PROP_MARKED_RANGE: str: numbers of lines for "marked range" as "num1,num2" (pass empty str or "-1,-1" to remove range).
+* PROP_MINIMAP: bool: minimap is visible.
+* PROP_MICROMAP: bool: micromap is visible.
 
 ===bookmark===
 
@@ -920,6 +928,15 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.124
+
+* add: get_prop/set_prop: PROP_MINIMAP, PROP_MICROMAP
+
+1.0.123
+
+* add: ed.get_filename() can be "?" for picture
+* add: ed.get_prop PROP_PICTURE
 
 1.0.122
 
