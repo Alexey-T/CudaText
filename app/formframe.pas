@@ -1105,7 +1105,7 @@ begin
   if Ed.Strings.Count=0 then exit;
   Mul:= (ARect.Bottom-ARect.Top) / Ed.Strings.Count;
 
-  C.Brush.Color:= Ed.Colors.TextBG;
+  C.Brush.Color:= GetAppColor('EdMicromapBg');
   C.FillRect(ARect);
 
   R1.Left:= ARect.Left;
@@ -1113,7 +1113,7 @@ begin
   R1.Right:= ARect.Right;
   R1.Bottom:= Max(R1.Top+2, ARect.Top+Trunc((Ed.LineBottom+1)*Mul));
 
-  C.Brush.Color:= clSkyBlue;
+  C.Brush.Color:= GetAppColor('EdMicromapViewBg');
   C.FillRect(R1);
 
   for i:= 0 to Ed.Strings.Count-1 do

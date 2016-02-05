@@ -98,6 +98,8 @@ begin
   Add(clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
   Add(clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
   Add($eeeeee, 'EdMinimapSelBg', 'editor, minimap, selection BG');
+  Add($e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
+  Add($c0c0c0, 'EdMicromapViewBg', 'editor, micromap, view BG');
   Add($00f0f0, 'EdStateChanged', 'editor, line states, changed');
   Add($20c020, 'EdStateAdded', 'editor, line states, added');
   Add(clMedGray, 'EdStateSaved', 'editor, line states, saved');
