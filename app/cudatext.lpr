@@ -12,7 +12,7 @@ uses
   proc_py_const, proc_globdata, FormFrame, form_menu_commands,
   formgoto, proc_cmd, form_menu_list, formsavetabs, formconfirmrep,
   formlexerprop, formlexerlib, proc_msg, lazcolorpalette, formpalette,
-  proc_install_zip, formcolorsetup, atsynedit_form_complete_synwrite,
+  proc_install_zip, formcolorsetup,
   ATSynEdit_Adapter_EControl, formabout, formkeys, formlexerstylesload, 
   formcharmaps, proc_keysdialog, proc_customdialog, proc_miscutils, 
   ATLinkLabel;

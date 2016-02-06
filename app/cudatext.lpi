@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="46">
+    <Units Count="42">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -267,89 +267,69 @@
         <ResourceBaseClass Value="Form"/>
       </Unit29>
       <Unit30>
-        <Filename Value="..\..\synedit\atsynedit\atsynedit_form_complete.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormATSynEditComplete"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit30>
-      <Unit31>
-        <Filename Value="..\..\synedit\atsynedit\atsynedit_form_complete_synwrite.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit31>
-      <Unit32>
         <Filename Value="formabout.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit32>
-      <Unit33>
+      </Unit30>
+      <Unit31>
         <Filename Value="formkeys.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeys"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit33>
-      <Unit34>
+      </Unit31>
+      <Unit32>
         <Filename Value="..\..\synedit\atsynedit\atsynedit_adapter_econtrol.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ATSynEdit_Adapter_EControl"/>
-      </Unit34>
-      <Unit35>
+      </Unit32>
+      <Unit33>
         <Filename Value="formmain_py.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit35>
-      <Unit36>
+      </Unit33>
+      <Unit34>
         <Filename Value="proc_py_const.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit36>
-      <Unit37>
+      </Unit34>
+      <Unit35>
         <Filename Value="form_menu_py.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMenuApi"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit37>
-      <Unit38>
+      </Unit35>
+      <Unit36>
         <Filename Value="formmain_plugins.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit38>
-      <Unit39>
+      </Unit36>
+      <Unit37>
         <Filename Value="formlexerstylesload.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStylesRestore"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit39>
-      <Unit40>
+      </Unit37>
+      <Unit38>
         <Filename Value="formcharmaps.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCharmaps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit40>
-      <Unit41>
+      </Unit38>
+      <Unit39>
         <Filename Value="proc_keysdialog.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit41>
-      <Unit42>
-        <Filename Value="..\..\synedit\atsynedit\atsynedit_colors.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="ATSynEdit_Colors"/>
-      </Unit42>
-      <Unit43>
+      </Unit39>
+      <Unit40>
         <Filename Value="proc_customdialog.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit43>
-      <Unit44>
+      </Unit40>
+      <Unit41>
         <Filename Value="proc_miscutils.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit44>
-      <Unit45>
-        <Filename Value="proc_linklabel.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit45>
+      </Unit41>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
