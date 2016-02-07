@@ -3,7 +3,7 @@ Legend:
   - fixed
   * changed
 
-1.2.22
+1.2.21.2
 - fix OSX/Qt: Esc don't work in console/Find/Goto
 
 1.2.21
