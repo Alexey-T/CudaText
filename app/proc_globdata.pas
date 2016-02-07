@@ -281,6 +281,7 @@ procedure CommandPlugins_UpdateSubcommands(AStr: string);
 var
   Manager: TecSyntaxManager = nil;
   Keymap: TATKeymap = nil;
+  cShortcutEscape: TShortcut = 0;
 
 type
   TStrEvent = procedure(Sender: TObject; const ARes: string) of object;
@@ -1021,6 +1022,8 @@ initialization
   AppBookmarkImagelist:= TImageList.Create(nil);
 
   FillChar(FAppSidePanels, SizeOf(FAppSidePanels), 0);
+
+  cShortcutEscape:= ShortCut(vk_escape, []);
 
 finalization
   FreeAndNil(Keymap);

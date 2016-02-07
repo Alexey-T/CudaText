@@ -390,6 +390,10 @@ begin
   mi.Tag:= cmd;
   mi.OnClick:= @MenuMainClick;
   mi.ShortCut:= Keymap.GetShortcutFromCommand(cmd);
+
+  //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
+  if mi.Shortcut=cShortcutEscape then
+    mi.ShortCut:= 0;
 end;
 
 procedure TfmMain.UpdateMenuHotkeys;
