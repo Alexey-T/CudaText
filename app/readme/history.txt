@@ -4,7 +4,7 @@ Legend:
   * changed
 
 1.2.21.2
-- fix OSX/Qt: Esc don't work in console/Find/Goto
+- fix Qt build: Esc don't work in console/Find/Goto
 
 1.2.21
 + opt micromap_show
