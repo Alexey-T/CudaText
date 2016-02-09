@@ -2150,6 +2150,7 @@ end;
 procedure TfmMain.DoFileReopen;
 var
   F: TEditorFrame;
+  bRO: boolean;
 begin
   F:= CurrentFrame;
   if F.FileName='' then exit;
@@ -2158,8 +2159,11 @@ begin
       Format(msgConfirmReopenModifiedTab, [F.FileName]),
       MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
+  bRO:= F.ReadOnly;
+  F.ReadOnly:= false;;
   F.DoSaveHistory; //save hist to reopen at same scrollpos
   F.DoFileOpen(F.FileName, true);
+  F.ReadOnly:= bRO;
 
   MsgStatus('Re-opened: '+ExtractFileName(F.Filename));
 end;

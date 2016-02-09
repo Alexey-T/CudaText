@@ -122,7 +122,7 @@ type
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
-    function GetReadonly: boolean;
+    function GetReadOnly: boolean;
     function GetUnprintedEnds: boolean;
     function GetUnprintedEndsDetails: boolean;
     function GetUnprintedShow: boolean;
@@ -133,6 +133,7 @@ type
     procedure SetLocked(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetNotifTime(AValue: integer);
+    procedure SetReadOnly(AValue: boolean);
     procedure SetTabColor(AColor: TColor);
     procedure SetUnprintedEnds(AValue: boolean);
     procedure SetUnprintedEndsDetails(AValue: boolean);
@@ -156,7 +157,7 @@ type
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function Editor2: TATSynEdit;
-    property ReadOnly: boolean read GetReadonly;
+    property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property FileName: string read FFileName write FFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property Modified: boolean read FModified;
@@ -398,7 +399,7 @@ begin
   Result:= FNotif.Timer.Interval;
 end;
 
-function TEditorFrame.GetReadonly: boolean;
+function TEditorFrame.GetReadOnly: boolean;
 begin
   Result:= Ed1.Strings.ReadOnly;
 end;
@@ -466,6 +467,11 @@ end;
 procedure TEditorFrame.SetNotifTime(AValue: integer);
 begin
   FNotif.Timer.Interval:= AValue;
+end;
+
+procedure TEditorFrame.SetReadOnly(AValue: boolean);
+begin
+  Ed1.Strings.ReadOnly:= AValue;
 end;
 
 procedure TEditorFrame.UpdateEds;
