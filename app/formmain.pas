@@ -728,6 +728,7 @@ var
   cStatusEnds: integer = 2;
   cStatusLexer: integer = 3;
   cStatusTabsize: integer = 4;
+  cStatusInsOvr: integer = -1;
   cStatusMsg: integer = 5;
 
 { TfmMain }

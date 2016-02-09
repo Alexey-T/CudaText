@@ -4,6 +4,7 @@ Legend:
   * changed
 
 1.2.21.2
++ add ui_statusbar_panels panel "ins" (hidden by default)
 - fix Qt build: Esc don't work in console/Find/Goto
 
 1.2.21

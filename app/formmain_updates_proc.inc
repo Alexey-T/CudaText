@@ -52,6 +52,7 @@ begin
     Status[cStatusEnds]:= '';
     Status[cStatusLexer]:= '';
     Status[cStatusTabsize]:= '';
+    Status[cStatusInsOvr]:= '';
     exit;
   end;
 
@@ -89,6 +90,10 @@ begin
   //------
   S:= Format('Tab size %d%s', [Ed.OptTabSize, IfThen(Ed.OptTabSpaces, '_')]);
   Status[cStatusTabsize]:= S;
+
+  //------
+  S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
+  Status[cStatusInsOvr]:= S;
 end;
 
 procedure TfmMain.InitStatusButton;
@@ -978,6 +983,7 @@ begin
   cStatusEnds:= -1;
   cStatusLexer:= -1;
   cStatusTabsize:= -1;
+  cStatusInsOvr:= -1;
   cStatusMsg:= -1;
 
   repeat
@@ -991,8 +997,9 @@ begin
       if SItem='ends' then cStatusEnds:= NIndex else
        if SItem='lexer' then cStatusLexer:= NIndex else
         if SItem='tabsize' then cStatusTabsize:= NIndex else
-         if SItem='msg' then cStatusMsg:= NIndex else
-          Continue;
+         if SItem='ins' then cStatusInsOvr:= NIndex else
+          if SItem='msg' then cStatusMsg:= NIndex else
+           Continue;
 
     SItem:= SGetItem(SPanel);
     if SItem='C' then Al:= saMiddle else
@@ -1001,7 +1008,7 @@ begin
        Al:= saMiddle;
 
     SItem:= SGetItem(SPanel);
-    NSize:= Max(50, StrToIntDef(SItem, 200));
+    NSize:= Max(20, StrToIntDef(SItem, 200));
 
     Status.AddPanel(NSize, Al, '');
   until false;

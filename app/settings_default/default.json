@@ -380,7 +380,7 @@
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
 
   //Statusbar panels (can skip items, can reorder items)
-  //  Names: caret, enc, ends, lexer, tabsize, msg
+  //  Names: caret, enc, ends, lexer, tabsize, ins, msg
   //  Align: C (center), L (left), R (right)
   "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000",
   //Statusbar height   
