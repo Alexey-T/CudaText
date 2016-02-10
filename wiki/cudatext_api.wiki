@@ -186,6 +186,13 @@ How groups-splitters are placed in views:
           t G1 t G2 t     
 </pre>
 
+====Toolbar====
+
+* PROC_TOOLBAR_ENUM: Enumerates toolbar buttons. Gets "\n"-separated lines for buttons: each line is "btn_hint;btn_command". Btn_command can be str(int_command) or "module,method,params". For predefined buttons btn_command has no meaning, it's not int and not ","-list.
+* PROC_TOOLBAR_ADD: Adds toolbar button. Text must "hint;icon_filename;command" or empty str to add separator. Command is str(int_command) or "module,method,params". Icon_filename is path to 16x16 bmp file.
+* PROC_TOOLBAR_DELETE: Deletes one toolbar button. Text must be str(button_index).
+* PROC_TOOLBAR_DELETE_ALL: Deletes all toolbar buttons.
+
 ===app_log===
 
  app_log(id, text, tag=0)
@@ -928,6 +935,10 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.125
+
+* add: app_proc: PROC_TOOLBAR_nnnnn
 
 1.0.124
 

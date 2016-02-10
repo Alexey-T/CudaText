@@ -1884,7 +1884,6 @@ var
   Ptr: PChar;
   Str, Str1, Str2, Str3: string;
   StrCaption, StrId, StrCmd, StrIndex: string;
-  mi, miMain: TMenuItem;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
   Num64: Int64;
@@ -1897,7 +1896,8 @@ begin
       case Id of
         APP_PROC_GET_CLIP:
           begin
-            Result:= PyString_FromString(PChar(Clipboard.AsText));
+            Str:= Clipboard.AsText;
+            Result:= PyString_FromString(PChar(Str));
           end;
         APP_PROC_SET_CLIP:
           begin
