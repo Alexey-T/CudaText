@@ -1956,107 +1956,24 @@ begin
 
         APP_PROC_MENU_ENUM:
           begin
-            //this updates PopupText items tags
-            fmMain.PopupText.OnPopup(nil);
-
-            mi:= Py_MenuItemFromId(Str);
-            if Assigned(mi) then
-            begin
-              Str:= '';
-              for Num:= 0 to mi.Count-1 do
-                Str:= Str+
-                  mi.Items[Num].Caption+'|'+
-                  IfThen(mi.Items[Num].Tag>0,
-                         IntToStr(mi.Items[Num].Tag),
-                         mi.Items[Num].Hint)
-                         +#10;
-              Result:= PyString_FromString(PChar(Str));
-            end
+            Str:= fmMain.DoMenuEnum(Str);
+            if Str<>'' then
+              Result:= PyString_FromString(PChar(Str))
             else
               Result:= ReturnNone;
           end;
 
         APP_PROC_MENU_CLEAR:
           begin
-            mi:= Py_MenuItemFromId(Str);
-            if Assigned(mi) then
-            begin
-              mi.Clear;
-              if Str=PyMenuId_Top then
-              begin
-                fmMain.mnuFileOpenSub:= nil;
-                fmMain.mnuThemes:= nil;
-                fmMain.mnuPlug:= nil;
-              end;
-              if Str=PyMenuId_TopFile then
-              begin
-                fmMain.mnuFileOpenSub:= nil;
-              end;
-              if Str=PyMenuId_Text then
-              begin
-                fmMain.mnuTextCopy:= nil;
-                fmMain.mnuTextCut:= nil;
-                fmMain.mnuTextDelete:= nil;
-                fmMain.mnuTextPaste:= nil;
-                fmMain.mnuTextUndo:= nil;
-                fmMain.mnuTextRedo:= nil;
-                fmMain.mnuTextSel:= nil;
-                fmMain.mnuTextGotoDef:= nil;
-              end;
-            end;
+            fmMain.DoMenuClear(Str);
             Result:= ReturnNone;
           end;
 
         APP_PROC_MENU_ADD:
           begin
-            StrId:= SGetItem(Str, ';');
-            StrCmd:= SGetItem(Str, ';');
-            StrCaption:= SGetItem(Str, ';');
-            StrIndex:= SGetItem(Str, ';');
-
-            miMain:= Py_MenuItemFromId(StrId);
-            if Assigned(miMain) and (StrCaption<>'') then
-            begin
-              mi:= TMenuItem.Create(fmMain);
-              mi.Caption:= StrCaption;
-
-              Num:= StrToIntDef(StrCmd, 0);
-              if Num>0 then
-                fmMain.UpKey(mi, Num)
-              else
-              if StrCmd=PyMenuCmd_Recents then
-              begin
-                fmMain.mnuFileOpenSub:= mi;
-                fmMain.UpdateMenuRecent(nil);
-              end
-              else
-              if StrCmd=PyMenuCmd_Themes then
-              begin
-                fmMain.mnuThemes:= mi;
-                fmMain.UpdateMenuThemes(mi);
-              end
-              else
-              if StrCmd=PyMenuCmd_Plugins then
-              begin
-                fmMain.mnuPlug:= mi;
-                fmMain.UpdateMenuPlugins;
-              end
-              else
-              begin
-                mi.Tag:= -1;
-                mi.Hint:= StrCmd;
-                if StrCmd<>'0' then
-                  mi.OnClick:= @fmMain.MenuMainClick;
-              end;
-
-              Num:= StrToIntDef(StrIndex, -1);
-              if Num>=0 then
-                miMain.Insert(Num, mi)
-              else
-                miMain.Add(mi);
-
-              Result:= PyString_FromString(PChar(IntToStr(PtrInt(mi))));
-            end
+            Str:= fmMain.DoMenuAdd(Str);
+            if Str<>'' then
+              Result:= PyString_FromString(PChar(Str))
             else
               Result:= ReturnNone;
           end;

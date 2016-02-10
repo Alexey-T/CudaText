@@ -509,6 +509,9 @@ type
 
     procedure CharmapOnInsert(const AStr: string);
     procedure DoInvalidateEditors;
+    function DoMenuAdd(AStr: string): string;
+    procedure DoMenuClear(const AStr: string);
+    function DoMenuEnum(const AStr: string): string;
     procedure DoPanel_Event(const AEvent: string);
     procedure DoPanel_OnSelChanged(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
@@ -3253,6 +3256,118 @@ begin
 
   UpdateFrame;
   UpdateStatus;
+end;
+
+
+function TfmMain.DoMenuEnum(const AStr: string): string;
+var
+  mi: TMenuItem;
+  i: integer;
+begin
+  Result:= '';
+
+  //this updates PopupText items tags
+  PopupText.OnPopup(nil);
+
+  mi:= Py_MenuItemFromId(AStr);
+  if Assigned(mi) then
+    for i:= 0 to mi.Count-1 do
+      Result:= Result+
+        mi.Items[i].Caption+'|'+
+        IfThen(mi.Items[i].Tag>0,
+               IntToStr(mi.Items[i].Tag),
+               mi.Items[i].Hint)
+               +#10;
+end;
+
+
+procedure TfmMain.DoMenuClear(const AStr: string);
+var
+  mi: TMenuItem;
+begin
+  mi:= Py_MenuItemFromId(AStr);
+  if Assigned(mi) then
+  begin
+    mi.Clear;
+    if AStr=PyMenuId_Top then
+    begin
+      mnuFileOpenSub:= nil;
+      mnuThemes:= nil;
+      mnuPlug:= nil;
+    end;
+    if AStr=PyMenuId_TopFile then
+    begin
+      mnuFileOpenSub:= nil;
+    end;
+    if AStr=PyMenuId_Text then
+    begin
+      mnuTextCopy:= nil;
+      mnuTextCut:= nil;
+      mnuTextDelete:= nil;
+      mnuTextPaste:= nil;
+      mnuTextUndo:= nil;
+      mnuTextRedo:= nil;
+      mnuTextSel:= nil;
+      mnuTextGotoDef:= nil;
+    end;
+  end;
+end;
+
+function TfmMain.DoMenuAdd(AStr: string): string;
+var
+  StrId, StrCmd, StrCaption, StrIndex: string;
+  mi, miMain: TMenuItem;
+  Num: integer;
+begin
+  Result:= '';
+  StrId:= SGetItem(AStr, ';');
+  StrCmd:= SGetItem(AStr, ';');
+  StrCaption:= SGetItem(AStr, ';');
+  StrIndex:= SGetItem(AStr, ';');
+
+  miMain:= Py_MenuItemFromId(StrId);
+  if Assigned(miMain) and (StrCaption<>'') then
+  begin
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= StrCaption;
+
+    Num:= StrToIntDef(StrCmd, 0);
+    if Num>0 then
+      UpKey(mi, Num)
+    else
+    if StrCmd=PyMenuCmd_Recents then
+    begin
+      mnuFileOpenSub:= mi;
+      UpdateMenuRecent(nil);
+    end
+    else
+    if StrCmd=PyMenuCmd_Themes then
+    begin
+      mnuThemes:= mi;
+      UpdateMenuThemes(mi);
+    end
+    else
+    if StrCmd=PyMenuCmd_Plugins then
+    begin
+      mnuPlug:= mi;
+      UpdateMenuPlugins;
+    end
+    else
+    begin
+      mi.Tag:= -1;
+      mi.Hint:= StrCmd;
+      if StrCmd<>'0' then
+        mi.OnClick:= @MenuMainClick;
+    end;
+
+    Num:= StrToIntDef(StrIndex, -1);
+    if Num>=0 then
+      miMain.Insert(Num, mi)
+    else
+      miMain.Add(mi);
+
+    Result:= IntToStr(PtrInt(mi));
+  end;
 end;
 
 
