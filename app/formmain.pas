@@ -3208,8 +3208,9 @@ end;
 
 procedure TfmMain.DoToolbarAddButton(AStr: string);
 var
-  SHint, SIcon, SCmd: string;
+  SHint, SIconFile, SCmd: string;
   btn: TToolButton;
+  mi: TMenuItem;
 begin
   if AStr='' then
   begin
@@ -3222,17 +3223,28 @@ begin
   end;
 
   SHint:= SGetItem(AStr, ';');
-  SIcon:= SGetItem(AStr, ';');
+  SIconFile:= SGetItem(AStr, ';');
   SCmd:= SGetItem(AStr, ';');
 
   btn:= TToolButton.Create(Self);
-  btn.Hint:= SHint;
-  btn.Caption:= SCmd;
-  btn.OnClick:= @DoToolbarClick;
-  if UpdateImagelistWithIconFromFile(ImageListBar, SIcon) then
-    btn.ImageIndex:= ImageListBar.Count-1;
   btn.Parent:= ToolbarMain;
   btn.Left:= ToolbarMain.ClientWidth;
+
+  if SBeginsWith(SCmd, 'toolmenu:') then
+  begin
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= '('+SCmd+')';
+    btn.Style:= tbsButtonDrop;
+    btn.MenuItem:= TPopupMenu.Create(Self).Items;
+    btn.MenuItem.Add(mi);
+  end
+  else
+    btn.OnClick:= @DoToolbarClick;
+
+  btn.Caption:= SCmd;
+  btn.Hint:= SHint;
+  if UpdateImagelistWithIconFromFile(ImageListBar, SIconFile) then
+    btn.ImageIndex:= ImageListBar.Count-1;
 end;
 
 

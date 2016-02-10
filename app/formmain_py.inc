@@ -56,6 +56,7 @@ end;
 function Py_MenuItemFromId(Str: string): TMenuItem;
 const
   cPrefixSidebar = 'side:';
+  cPrefixToolmenu = 'toolmenu:';
 var
   N: PtrInt;
 begin
@@ -81,6 +82,13 @@ begin
     N:= fmMain.DoSidebar_GetTabIndexOfCaption(Str);
     if N>=0 then
       exit(FAppSidePanels[N].ItemMenu.Items);
+  end;
+
+  if SBeginsWith(Str, cPrefixToolmenu) then
+  begin
+    for N:= 0 to fmMain.ToolbarMain.ButtonCount-1 do
+      if fmMain.ToolbarMain.Buttons[N].Caption=Str then
+        exit(fmMain.ToolbarMain.Buttons[N].MenuItem);
   end;
 end;
 
