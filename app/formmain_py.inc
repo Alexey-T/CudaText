@@ -2107,7 +2107,7 @@ begin
 
         APP_PROC_TOOLBAR_ADD:
           begin
-            fmMain.DoToolbarAddButtom(Str);
+            fmMain.DoToolbarAddButton(Str);
             Result:= ReturnNone;
           end;
 

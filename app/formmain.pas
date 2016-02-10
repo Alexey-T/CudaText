@@ -556,7 +556,7 @@ type
     procedure DoSetSplitInfo(const Id: string; NPos: integer);
     procedure DoPanel_OnClick(Sender: TObject);
     procedure DoPanel_OnDblClick(Sender: TObject);
-    procedure DoToolbarAddButtom(AStr: string);
+    procedure DoToolbarAddButton(AStr: string);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -3206,7 +3206,7 @@ begin
   DoPyEvent(CurrentEditor, cEventOnLexer, []);
 end;
 
-procedure TfmMain.DoToolbarAddButtom(AStr: string);
+procedure TfmMain.DoToolbarAddButton(AStr: string);
 var
   SHint, SIcon, SCmd: string;
   btn: TToolButton;
@@ -3217,6 +3217,7 @@ begin
     btn.Parent:= ToolbarMain;
     btn.Left:= ToolbarMain.ClientWidth;
     btn.Style:= tbsDivider;
+    btn.Width:= 12;
     exit
   end;
 
