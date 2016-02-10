@@ -3,7 +3,8 @@ Legend:
   - fixed
   * changed
 
-1.2.21.2
+1.2.22.b
++ toolbar api
 + add ui_statusbar_panels panel "ins" (hidden by default)
 - fix Qt build: Esc don't work in console/Find/Goto
 

@@ -3208,6 +3208,15 @@ var
   SHint, SIcon, SCmd: string;
   btn: TToolButton;
 begin
+  if AStr='' then
+  begin
+    btn:= TToolButton.Create(Self);
+    btn.Parent:= ToolbarMain;
+    btn.Left:= ToolbarMain.ClientWidth;
+    btn.Style:= tbsDivider;
+    exit
+  end;
+
   SHint:= SGetItem(AStr, ';');
   SIcon:= SGetItem(AStr, ';');
   SCmd:= SGetItem(AStr, ';');

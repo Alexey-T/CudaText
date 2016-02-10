@@ -158,7 +158,6 @@ object fmMain: TfmMain
       Left = 1
       Hint = 'Create new tab'
       Top = 0
-      Caption = 'tbNew'
       DropdownMenu = PopupNewdoc
       ImageIndex = 0
       OnClick = tbNewClick
@@ -168,7 +167,6 @@ object fmMain: TfmMain
       Left = 37
       Hint = 'Open file'
       Top = 0
-      Caption = 'tbOpen'
       DropdownMenu = PopupRecents
       ImageIndex = 1
       OnClick = tbOpenClick
@@ -178,7 +176,6 @@ object fmMain: TfmMain
       Left = 73
       Hint = 'Save file'
       Top = 0
-      Caption = 'tbSave'
       ImageIndex = 2
       OnClick = tbSaveClick
     end
@@ -186,7 +183,6 @@ object fmMain: TfmMain
       Left = 109
       Hint = 'Dialog "Find"'
       Top = 0
-      Caption = 'tbFind'
       DropdownMenu = PopupFind
       ImageIndex = 3
       OnClick = tbFindClick
@@ -197,14 +193,12 @@ object fmMain: TfmMain
       Height = 24
       Top = 0
       Width = 12
-      Caption = 'ToolButton5'
       Style = tbsDivider
     end
     object tbGoto: TToolButton
       Left = 145
       Hint = 'Dialog "Go to"'
       Top = 0
-      Caption = 'tbGoto'
       ImageIndex = 4
       OnClick = tbGotoClick
     end
@@ -212,7 +206,6 @@ object fmMain: TfmMain
       Left = 181
       Hint = 'Cut'
       Top = 0
-      Caption = 'tbCut'
       ImageIndex = 7
       OnClick = tbCutClick
     end
@@ -220,7 +213,6 @@ object fmMain: TfmMain
       Left = 229
       Hint = 'Paste'
       Top = 0
-      Caption = 'tbPaste'
       ImageIndex = 8
       OnClick = tbPasteClick
     end
@@ -229,14 +221,12 @@ object fmMain: TfmMain
       Height = 24
       Top = 0
       Width = 12
-      Caption = 'ToolButton9'
       Style = tbsDivider
     end
     object tbCopy: TToolButton
       Left = 205
       Hint = 'Copy'
       Top = 0
-      Caption = 'tbCopy'
       ImageIndex = 6
       OnClick = tbCopyClick
     end
@@ -244,7 +234,6 @@ object fmMain: TfmMain
       Left = 277
       Hint = 'Select all'
       Top = 0
-      Caption = 'tbSelAll'
       ImageIndex = 10
       OnClick = tbSelAllClick
     end
@@ -252,7 +241,6 @@ object fmMain: TfmMain
       Left = 301
       Hint = 'Undo'
       Top = 0
-      Caption = 'tbUndo'
       ImageIndex = 11
       OnClick = tbUndoClick
     end
@@ -260,7 +248,6 @@ object fmMain: TfmMain
       Left = 325
       Hint = 'Redo'
       Top = 0
-      Caption = 'tbRedo'
       ImageIndex = 12
       OnClick = tbRedoClick
     end
@@ -269,14 +256,12 @@ object fmMain: TfmMain
       Height = 24
       Top = 0
       Width = 12
-      Caption = 'ToolButton15'
       Style = tbsDivider
     end
     object tbUnpri: TToolButton
       Left = 361
       Hint = 'Toggle unprinted chars'
       Top = 0
-      Caption = 'tbUnpri'
       ImageIndex = 14
       OnClick = tbUnpriClick
     end
@@ -284,7 +269,6 @@ object fmMain: TfmMain
       Left = 253
       Hint = 'Delete selection'
       Top = 0
-      Caption = 'tbDel'
       ImageIndex = 9
       OnClick = tbDelClick
     end
@@ -292,7 +276,6 @@ object fmMain: TfmMain
       Left = 433
       Hint = 'Toggle minimap'
       Top = 0
-      Caption = 'tbMinimap'
       ImageIndex = 15
       OnClick = tbMinimapClick
     end
@@ -300,7 +283,6 @@ object fmMain: TfmMain
       Left = 385
       Hint = 'Toggle side-panel'
       Top = 0
-      Caption = 'tbSidePanel'
       ImageIndex = 17
       OnClick = tbSidePanelClick
     end
@@ -308,7 +290,6 @@ object fmMain: TfmMain
       Left = 409
       Hint = 'Toggle bottom-panel'
       Top = 0
-      Caption = 'tbBtmPanel'
       ImageIndex = 16
       OnClick = tbBtmPanelClick
     end
