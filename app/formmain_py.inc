@@ -2179,6 +2179,36 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_TOOLBAR_ENUM:
+          begin
+            Str:= '';
+            for Num:= 0 to fmMain.ToolbarMain.ButtonCount-1 do
+              with fmMain.ToolbarMain do
+                Str:= Str+Format('%s;%s'#10, [Buttons[Num].Hint, Buttons[Num].Caption]);
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
+        APP_PROC_TOOLBAR_ADD:
+          begin
+            fmMain.DoToolbarAddButtom(Str);
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_TOOLBAR_DELETE:
+          begin
+            Num:= StrToIntDef(Str, -1);
+            if (Num>=0) and (Num<fmMain.ToolbarMain.ButtonCount) then
+              fmMain.ToolbarMain.Buttons[Num].Free;
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_TOOLBAR_DELETE_ALL:
+          begin
+            for Num:= fmMain.ToolbarMain.ButtonCount-1 downto 0 do
+              fmMain.ToolbarMain.Buttons[Num].Free;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

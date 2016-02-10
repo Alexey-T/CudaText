@@ -553,6 +553,8 @@ type
     procedure DoSetSplitInfo(const Id: string; NPos: integer);
     procedure DoPanel_OnClick(Sender: TObject);
     procedure DoPanel_OnDblClick(Sender: TObject);
+    procedure DoToolbarAddButtom(AStr: string);
+    procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -3200,6 +3202,50 @@ procedure TfmMain.FrameLexerChange(Sender: TObject);
 begin
   DoPyEvent(CurrentEditor, cEventOnLexer, []);
 end;
+
+procedure TfmMain.DoToolbarAddButtom(AStr: string);
+var
+  SHint, SIcon, SCmd: string;
+  btn: TToolButton;
+begin
+  SHint:= SGetItem(AStr, ';');
+  SIcon:= SGetItem(AStr, ';');
+  SCmd:= SGetItem(AStr, ';');
+
+  btn:= TToolButton.Create(Self);
+  btn.Hint:= SHint;
+  btn.Caption:= SCmd;
+  btn.OnClick:= @DoToolbarClick;
+  if UpdateImagelistWithIconFromFile(ImageListBar, SIcon) then
+    btn.ImageIndex:= ImageListBar.Count-1;
+  btn.Parent:= ToolbarMain;
+  btn.Left:= ToolbarMain.ClientWidth;
+end;
+
+
+procedure TfmMain.DoToolbarClick(Sender: TObject);
+var
+  SHint, SModule, SMethod, SParam: string;
+  NCmd: integer;
+begin
+  //'module,method,param' or 'NN'
+  SHint:= (Sender as TToolButton).Caption;
+  NCmd:= StrToIntDef(SHint, 0);
+
+  if NCmd=0 then
+  begin
+    SModule:= SGetItem(SHint);
+    SMethod:= SGetItem(SHint);
+    SParam:= SHint; //not SGetItem, allows to use ","
+    DoPyCommand(SModule, SMethod, SParam);
+  end
+  else
+    CurrentEditor.DoCommand(NCmd);
+
+  UpdateFrame;
+  UpdateStatus;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
