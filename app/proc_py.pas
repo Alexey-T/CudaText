@@ -71,8 +71,8 @@ begin
   Result:= GetPythonEngine.EvalStringAsStr(command);
 end;
 
-var
-  _EventBusy: boolean = false;
+//var
+//  _EventBusy: boolean = false;
 
 function Py_RunPlugin_Event(const SModule, SCmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
@@ -83,8 +83,9 @@ var
   H: PtrInt;
   i: integer;
 begin
-  if _EventBusy then exit('');
-  _EventBusy:= true;
+  ////this lock gives only bad: with it some events dont fire (while on_key? or more cases?)
+  //if _EventBusy then exit('');
+  //_EventBusy:= true;
 
   H:= PtrInt(Pointer(AEd));
   SParams:= Format('cudatext.Editor(%d)', [H]);
@@ -106,7 +107,7 @@ begin
     except
     end;
   finally
-    _EventBusy:= false;
+    //_EventBusy:= false;
   end;
 end;
 
