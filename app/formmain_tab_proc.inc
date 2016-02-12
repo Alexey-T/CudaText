@@ -370,6 +370,9 @@ function TfmMain.DoSidebar_GetControlHandle(const ACaption: string): PtrInt;
 var
   Num: integer;
 begin
+  if ACaption='Search Results' then
+    Exit(PtrInt(TreeRes));
+
   Num:= DoSidebar_GetTabIndexOfCaption(ACaption);
   if Num<0 then
     Result:= 0

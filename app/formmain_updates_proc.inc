@@ -784,6 +784,8 @@ begin
   end;
 
   DoApplyThemeToTreeview(Tree);
+  DoApplyThemeToTreeview(TreeRes);
+
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
     begin

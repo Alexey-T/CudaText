@@ -82,6 +82,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    ImageListTreeRes: TImageList;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
     ButtonCancel: TATButton;
@@ -365,6 +366,7 @@ type
     tbPaste: TToolButton;
     ToolButton9: TToolButton;
     Tree: TTreeView;
+    TreeRes: TTreeView;
     UniqInstance: TUniqueInstance;
     procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
@@ -994,6 +996,7 @@ begin
 
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
+  TreeRes.Align:= alClient;
 
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelMain;
@@ -1012,6 +1015,7 @@ begin
   TabsBottom.AddTab(-1, 'Console', nil);
   TabsBottom.AddTab(-1, 'Output', nil);
   TabsBottom.AddTab(-1, 'Validate', nil);
+  TabsBottom.AddTab(-1, 'Search Results', nil);
   TabsBottom.OnTabClick:= @DoOnTabsBottomClick;
 
   TabsLeft:= TATTabs.Create(Self);
@@ -1061,6 +1065,8 @@ begin
   fmConsole.Hide;
   ListboxOut.Hide;
   ListboxVal.Hide;
+  TreeRes.Hide;
+  //hide api-added panels
   for N:= 0 to FPanelCaptions.Count-1 do
     (FPanelCaptions.Objects[N] as TAppPanelPropsClass).Data.Listbox.Hide;
 
@@ -1079,6 +1085,11 @@ begin
       begin
         ListboxVal.Show;
         ListboxVal.SetFocus;
+      end;
+    3:
+      begin
+        TreeRes.Show;
+        TreeRes.SetFocus;
       end;
     else
       begin
