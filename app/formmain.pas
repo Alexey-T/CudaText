@@ -529,6 +529,7 @@ type
       out NPos, NTotal: integer);
     function DoSidebar_GetControlHandle(const ACaption: string): PtrInt;
     function DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
+    function DoBottom_GetControlHandle(const ACaption: string): PtrInt;
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;

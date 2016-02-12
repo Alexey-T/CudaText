@@ -6,7 +6,8 @@ Legend:
 1.2.22.b
 + toolbar api
 + add ui_statusbar_panels panel "ins" (hidden by default)
-- fix Qt build: Esc don't work in console/Find/Goto
++ add bottom pane "Search Res", for future
+- fix Qt build: Esc key in find/goto
 
 1.2.21
 + opt micromap_show

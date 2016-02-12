@@ -2104,6 +2104,15 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_BOTTOMPANEL_GET_CONTROL:
+          begin
+            Num64:= fmMain.DoBottom_GetControlHandle(Str);
+            if Num64<>0 then
+              Result:= PyLong_FromLongLong(Num64)
+            else
+              Result:= ReturnNone;
+          end;
+
         APP_PROC_TOOLBAR_ENUM:
           begin
             Str:= '';
