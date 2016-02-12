@@ -944,6 +944,13 @@ var
     if miSub=nil then miSub:= AMenu;
     mi:= TMenuItem.Create(Self);
     mi.Caption:= SName;
+
+    {$ifndef windows}
+    //Ansi means only for Win
+    if SName=cEncNameAnsi then
+      mi.Enabled:= false;
+    {$endif}
+
     if AReloadFile then
       mi.OnClick:= @MenuEncWithReloadClick
     else
