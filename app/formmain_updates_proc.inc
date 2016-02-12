@@ -889,8 +889,10 @@ end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
 var
-  cList: array[0..28] of record Sub, Name: string end = (
+  cList: array[0..27 {$ifdef windows}+1{$endif}] of record Sub, Name: string end = (
+    {$ifdef windows}
     (Sub: ''; Name: cEncNameAnsi),
+    {$endif}
     (Sub: ''; Name: cEncNameUtf8),
     (Sub: ''; Name: cEncNameUtf8NoBom),
     (Sub: ''; Name: cEncNameUtf16LE),
@@ -944,12 +946,6 @@ var
     if miSub=nil then miSub:= AMenu;
     mi:= TMenuItem.Create(Self);
     mi.Caption:= SName;
-
-    {$ifndef windows}
-    //Ansi means only for Win
-    if SName=cEncNameAnsi then
-      mi.Enabled:= false;
-    {$endif}
 
     if AReloadFile then
       mi.OnClick:= @MenuEncWithReloadClick
