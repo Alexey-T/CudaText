@@ -65,6 +65,7 @@ const
   cmd_ShowPanelOutput    = 2536;
   cmd_ShowPanelValidate  = 2537;
   cmd_ToggleFindDialog   = 2538;
+  cmd_ShowPanelSearchRes = 2539;
   cmd_DialogLoadLexerStyles = 2540;
   cmd_ToggleToolbar      = 2541;
   cmd_ToggleStatusbar    = 2542;
@@ -278,6 +279,7 @@ begin
   M.Add(cmd_ShowPanelConsole, 'ui: show bottom panel, console', ['Ctrl+`'], []);
   M.Add(cmd_ShowPanelOutput, 'ui: show bottom panel, output', [], []);
   M.Add(cmd_ShowPanelValidate, 'ui: show bottom panel, validate', [], []);
+  M.Add(cmd_ShowPanelSearchRes, 'ui: show bottom panel, search results', [], []);
 
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DialogCommands, 'dialog: command list', ['F1'], []);

@@ -606,6 +606,7 @@ type
     procedure DoShowConsole;
     procedure DoShowOutput;
     procedure DoShowValidate;
+    procedure DoShowSearchResults;
     procedure DoShowSidePanel(const ATabCaption: string);
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
@@ -2297,6 +2298,12 @@ procedure TfmMain.DoShowValidate;
 begin
   ShowBottom:= true;
   TabsBottom.TabIndex:= 2;
+end;
+
+procedure TfmMain.DoShowSearchResults;
+begin
+  ShowBottom:= true;
+  TabsBottom.TabIndex:= 3;
 end;
 
 procedure TfmMain.DoShowSidePanel(const ATabCaption: string);
