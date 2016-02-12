@@ -1986,6 +1986,7 @@ end;
 
 procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAlsoReloadFile: boolean);
 begin
+  if Frame.EncodingName=AEnc then exit;
   Frame.EncodingName:= AEnc;
 
   if AAlsoReloadFile then
@@ -1993,7 +1994,12 @@ begin
     if Frame.FileName<>'' then
       Frame.DoFileReload(false)
     else
-      MsgBox('Cannot reload untitled tab', MB_OK);
+      MsgBox('Cannot reload untitled tab', MB_OK or MB_ICONWARNING);
+  end
+  else
+  begin
+    //set modified to allow save
+    Frame.Editor.Modified:= true;
   end;
 
   UpdateFrame;

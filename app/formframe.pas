@@ -99,8 +99,7 @@ type
     procedure DoOnUpdateStatus;
     procedure EditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure EditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
-    procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect
-      );
+    procedure EditorDrawMicromap(Sender: TObject; C: TCanvas; const ARect: TRect);
     procedure EditorOnChangeCommon(Sender: TObject);
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
@@ -161,6 +160,7 @@ type
     property FileName: string read FFileName write FFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property Modified: boolean read FModified;
+    procedure UpdateModifiedState;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
@@ -591,7 +591,7 @@ begin
   Ed1.Update(true);
 end;
 
-procedure TEditorFrame.EditorOnChangeCommon(Sender: TObject);
+procedure TEditorFrame.UpdateModifiedState;
 begin
   if FModified<>Editor.Modified then
   begin
@@ -600,6 +600,11 @@ begin
   end;
 
   DoOnUpdateStatus;
+end;
+
+procedure TEditorFrame.EditorOnChangeCommon(Sender: TObject);
+begin
+  UpdateModifiedState;
 end;
 
 procedure TEditorFrame.EditorOnEnter(Sender: TObject);
