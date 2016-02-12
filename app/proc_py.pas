@@ -71,6 +71,9 @@ begin
   Result:= GetPythonEngine.EvalStringAsStr(command);
 end;
 
+var
+  _EventBusy: boolean = false;
+
 function Py_RunPlugin_Event(const SModule, SCmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
 var
@@ -80,6 +83,9 @@ var
   H: PtrInt;
   i: integer;
 begin
+  if _EventBusy then exit('');
+  _EventBusy:= true;
+
   H:= PtrInt(Pointer(AEd));
   SParams:= Format('cudatext.Editor(%d)', [H]);
   for i:= 0 to Length(AParams)-1 do
@@ -94,9 +100,13 @@ begin
     Format('%s.%s(%s)', [SObj, SCmd, SParams]);
 
   try
-    GetPythonEngine.ExecString(SCmd1);
-    Result:= Py_EvalStringAsString(SCmd2);
-  except
+    try
+      GetPythonEngine.ExecString(SCmd1);
+      Result:= Py_EvalStringAsString(SCmd2);
+    except
+    end;
+  finally
+    _EventBusy:= false;
   end;
 end;
 
