@@ -118,6 +118,7 @@ menu_id can be:
 * "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" to specify submenus File/Edit/Selection/Search/View/Options/Help
 * "text" to specify editor context menu
 * "side:"+tab_caption to specify menu of sidebar panel (e.g. "side:Tree")
+* "toolmenu:"+name to specify menu of toolbar button
 
 Actions:
 
@@ -144,6 +145,10 @@ Actions:
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
 * PROC_SIDEPANEL_ENUM: Gets str, "\n"-separated captions of sidebar tabs.
 * PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, associated with tab (can pass this handle to tree_proc API). Text is caption of tab. Gets None if cannot find tab.
+
+==== Bottom panel====
+
+* PROC_BOTTOMPANEL_GET_CONTROL: Gets int handle of control, associated with tab of bottom panel (can pass handle to tree_proc API). Text can be currently "Search Results" for treeview of "Search Results" panel. Gets None if cannot find tab.
 
 ====Splitters====
 
@@ -188,10 +193,20 @@ How groups-splitters are placed in views:
 
 ====Toolbar====
 
-* PROC_TOOLBAR_ENUM: Enumerates toolbar buttons. Gets "\n"-separated lines for buttons: each line is "btn_hint;btn_command". Btn_command can be str(int_command) or "module,method,params". For predefined buttons btn_command has no meaning, it's not int and not ","-list.
-* PROC_TOOLBAR_ADD: Adds toolbar button. Text must "hint;icon_filename;command" or empty str to add separator. Command is str(int_command) or "module,method,params". Icon_filename is path to 16x16 bmp file.
+Btn_command can be:
+
+* str(int_command) for predefined commands
+* "module,method,params" for plugin commands
+* "toolmenu:"+name for button which shows menu (customize this menu using PROC_MENU_nnnnn)
+
+Id:
+
+* PROC_TOOLBAR_ENUM: Enumerates toolbar buttons. Gets "\n"-separated lines for buttons: "btn_hint;btn_command". For predefined buttons btn_command is empty. For separators btn_hint is empty.
+* PROC_TOOLBAR_ADD: Adds toolbar button. Text must "btn_hint;icon_index;btn_command" or empty str to add separator.
 * PROC_TOOLBAR_DELETE: Deletes one toolbar button. Text must be str(button_index).
 * PROC_TOOLBAR_DELETE_ALL: Deletes all toolbar buttons.
+* PROC_TOOLBAR_ICON_ADD: Adds icon to imagelist of toolbar. Text must be path to 16x16 bmp file. Gets int icon index (0-based), or None if cannot read icon.
+* PROC_TOOLBAR_ICON_SET: Changes icon of toolbar button. Text must be "btn_index,icon_index". Indexes are 0-based.
 
 ===app_log===
 
@@ -939,6 +954,7 @@ Text is chr(1) separated items:
 1.0.125
 
 * add: app_proc: PROC_TOOLBAR_nnnnn
+* add: app_proc: PROC_BOTTOMPANEL_GET_CONTROL
 
 1.0.124
 
