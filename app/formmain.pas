@@ -567,6 +567,7 @@ type
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     function SFindOptionsToTextHint: string;
+    procedure StatusResize(Sender: TObject);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
     procedure DoOps_SaveLexlib(Cfm: boolean);
@@ -690,6 +691,7 @@ type
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure UpdateMenuThemes(sub: TMenuItem);
+    procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
@@ -974,6 +976,7 @@ begin
   Status.Top:= Height;
   Status.Height:= 23;
   Status.OnPanelClick:= @StatusPanelClick;
+  Status.OnResize:= @StatusResize;
 
   Status.AddPanel(170, saMiddle, '?');
   Status.AddPanel(105, saMiddle, '?');
