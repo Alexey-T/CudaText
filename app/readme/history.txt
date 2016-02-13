@@ -3,6 +3,9 @@ Legend:
   - fixed
   * changed
 
+1.2.23 b
++ statusbar panel "msg" now autosized (e.g. can put to left)
+
 1.2.22
 + toolbar api
 + add ui_statusbar_panels panel "ins" (hidden by default)

@@ -78,6 +78,7 @@ type
     procedure DeletePanel(AIndex: Integer);
     procedure DeletePanels;
     property Captions[Index: integer]: string read GetCaption write SetCaption; default;
+    procedure DoPanelAutosize(AIndex: integer);
   protected
     procedure Paint; override;
     procedure Resize; override;
@@ -399,6 +400,28 @@ begin
     D.ItemCaption:= S;
     Invalidate;
   end;
+end;
+
+
+procedure TATStatus.DoPanelAutosize(AIndex: integer);
+var
+  NSize, i: integer;
+  D: TATStatusData;
+begin
+  if not IsIndexOk(AIndex) then exit;
+
+  NSize:= 0;
+  for i:= 0 to PanelCount-1 do
+    if i<>AIndex then
+    begin
+      D:= GetPanelData(i);
+      if Assigned(D) then
+        Inc(NSize, D.ItemWidth);
+    end;
+
+  D:= GetPanelData(AIndex);
+  if Assigned(D) then
+    D.ItemWidth:= Max(0, Width-NSize);
 end;
 
 end.

@@ -1044,24 +1044,8 @@ begin
 end;
 
 procedure TfmMain.UpdateStatusbarPanelAutosize;
-var
-  NSize, i: integer;
-  D: TATStatusData;
 begin
-  if cStatusMsg<0 then exit;
-
-  NSize:= 0;
-  for i:= 0 to Status.PanelCount-1 do
-    if i<>cStatusMsg then
-    begin
-      D:= Status.GetPanelData(i);
-      if Assigned(D) then
-        Inc(NSize, D.ItemWidth);
-    end;
-
-  D:= Status.GetPanelData(cStatusMsg);
-  if Assigned(D) then
-    D.ItemWidth:= Max(0, Status.Width-NSize);
+  Status.DoPanelAutosize(cStatusMsg);
 end;
 
 procedure TfmMain.StatusResize(Sender: TObject);
