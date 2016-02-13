@@ -40,3 +40,5 @@ cuda_lorem/
 cuda_kv*/
 cuda_lint*/
 cuda_num*/
+cuda_find*/
+cuda_config*/
