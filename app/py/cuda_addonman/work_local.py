@@ -1,5 +1,6 @@
 import json
 import os
+import collections
 from cudatext import *
 
 fn_plugins = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.json')
@@ -13,7 +14,7 @@ def get_name_of_module(mod):
 
 def do_remove_registering(mod):
     with open(fn_plugins, 'r') as f:
-        d = json.load(f)
+        d = json.load(f, object_pairs_hook=collections.OrderedDict)
         
     if 'commands' in d:
         if mod in d['commands']:
@@ -49,7 +50,7 @@ def do_remove_module(mod):
     
 
 def get_installed_list():
-    d = json.load(open(fn_plugins, 'r'))
+    d = json.load(open(fn_plugins, 'r'), object_pairs_hook=collections.OrderedDict)
     
     lst = []
     if 'commands' in d:

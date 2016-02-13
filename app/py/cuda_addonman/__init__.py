@@ -1,6 +1,7 @@
 import os
 import shutil
 import json
+import collections
 from cudatext import *
 from .work_local import *
 from .work_remote import *
@@ -23,7 +24,7 @@ class Command:
     def __init__(self):
         global ch_user
         if os.path.isfile(CONFIG_FILE):
-            op = json.loads(open(CONFIG_FILE).read())
+            op = json.loads(open(CONFIG_FILE).read(), object_pairs_hook=collections.OrderedDict)
             ch_user = op.get('channels_user', ch_user)
         
 
