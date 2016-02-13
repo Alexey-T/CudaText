@@ -3,7 +3,7 @@ Legend:
   - fixed
   * changed
 
-1.2.22.b
+1.2.22
 + toolbar api
 + add ui_statusbar_panels panel "ins" (hidden by default)
 + add bottom pane "Search Res", for future

@@ -3,8 +3,12 @@ Legend:
   - fixed
   * changed
 
-1.2.21.2
-- fix OSX/Qt: Esc don't work in console/Find/Goto
+1.2.22
++ toolbar api
++ add ui_statusbar_panels panel "ins" (hidden by default)
++ add bottom pane "Search Res", for future
+- fix Qt build: Esc key in find/goto
+- fix: must set modified on conv-encoding
 
 1.2.21
 + opt micromap_show

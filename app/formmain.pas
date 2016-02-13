@@ -3233,7 +3233,7 @@ end;
 
 procedure TfmMain.DoToolbarAddButton(AStr: string);
 var
-  SHint, SIconFile, SCmd: string;
+  SHint, SCmd, SImageIndex: string;
   btn: TToolButton;
   mi: TMenuItem;
 begin
@@ -3248,7 +3248,7 @@ begin
   end;
 
   SHint:= SGetItem(AStr, ';');
-  SIconFile:= SGetItem(AStr, ';');
+  SImageIndex:= SGetItem(AStr, ';');
   SCmd:= SGetItem(AStr, ';');
 
   btn:= TToolButton.Create(Self);
@@ -3268,8 +3268,7 @@ begin
 
   btn.Caption:= SCmd;
   btn.Hint:= SHint;
-  if UpdateImagelistWithIconFromFile(ImageListBar, SIconFile) then
-    btn.ImageIndex:= ImageListBar.Count-1;
+  btn.ImageIndex:= StrToIntDef(SImageIndex, -1);
 end;
 
 

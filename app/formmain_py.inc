@@ -2143,6 +2143,24 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_TOOLBAR_ICON_ADD:
+          begin
+            if UpdateImagelistWithIconFromFile(fmMain.ImageListBar, Str) then
+              Result:= PyInt_FromLong(fmMain.ImageListBar.Count-1)
+            else
+              Result:= ReturnNone;
+          end;
+
+        APP_PROC_TOOLBAR_ICON_SET:
+          begin
+            Str1:= SGetItem(Str);
+            Str2:= SGetItem(Str);
+            Num:= StrToIntDef(Str1, -1);
+            if (Num>=0) and (Num<fmMain.ToolbarMain.ButtonCount) then
+              fmMain.ToolbarMain.Buttons[Num].ImageIndex:= StrToIntDef(Str2, -1);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
