@@ -1207,9 +1207,10 @@ begin
         if Dlg.Execute then
         begin
           if ofAllowMultiSelect in Dlg.Options then
-            Result:= PyString_FromString(PChar(Dlg.Files.Text))
+            StrFilename:= Dlg.Files.Text
           else
-            Result:= PyString_FromString(PChar(Dlg.FileName));
+            StrFilename:= Dlg.FileName;
+          Result:= PyUnicode_FromWideString(Utf8Decode(StrFilename));
         end
         else
           Result:= ReturnNone;
