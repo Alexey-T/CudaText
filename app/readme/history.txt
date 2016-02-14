@@ -3,8 +3,8 @@ Legend:
   - fixed
   * changed
 
-1.2.23 b
-+ statusbar panel "msg" now autosized (e.g. can put to left)
+1.2.22.1
++ statusbar panel "msg" now autosized (can put "msg" to left)
 
 1.2.22
 + toolbar api
