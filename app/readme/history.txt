@@ -3,7 +3,8 @@ Legend:
   - fixed
   * changed
 
-1.2.23 b
+1.2.23.b
+- fix Addon Manager "Install" cmd
 + statusbar panel "msg" now autosized (can put "msg" to left)
 * change in api
 
