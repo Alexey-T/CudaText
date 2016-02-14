@@ -197,15 +197,17 @@ type
     procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
     procedure DoLoadHistory;
     procedure DoLoadHistoryEx(c: TJsonConfig; const path: string);
+    //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoRestoreFolding;
+    procedure DoFocusEditor;
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
     property MacroRecord: boolean read FMacroRecord;
     property MacroString: string read FMacroString write FMacroString;
 
-    //event
+    //events
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
@@ -1422,6 +1424,12 @@ begin
     Result:= Point(FImage.Picture.Width, FImage.Picture.Height)
   else
     Result:= Point(0, 0);
+end;
+
+procedure TEditorFrame.DoFocusEditor;
+begin
+  if Visible and Enabled and Editor.CanFocus then
+    Application.MainForm.FocusControl(Editor);
 end;
 
 end.

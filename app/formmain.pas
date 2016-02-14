@@ -1662,6 +1662,7 @@ begin
       Result:= F;
       UpdateStatus;
       UpdateTree(true);
+      F.DoFocusEditor;
       Exit
     end;
   end;
@@ -1687,6 +1688,8 @@ begin
   UpdateStatus;
   MsgStatus('Opened: '+ExtractFileName(AFilename));
   DoPyEvent(F.Editor, cEventOnOpen, []);
+
+  F.DoFocusEditor;
 end;
 
 procedure TfmMain.DoFileOpenDialog;
