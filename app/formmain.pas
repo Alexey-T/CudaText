@@ -1619,6 +1619,7 @@ begin
     Pages:= Groups.PagesCurrent;
     D:= DoTabAdd(Pages, GetUntitledCaption);
     Result:= D.TabObject as TEditorFrame;
+    Result.DoFocusEditor;
     Exit
   end;
 
@@ -1660,9 +1661,9 @@ begin
     begin
       SetFrame(F);
       Result:= F;
+      Result.DoFocusEditor;
       UpdateStatus;
       UpdateTree(true);
-      F.DoFocusEditor;
       Exit
     end;
   end;
@@ -1688,8 +1689,7 @@ begin
   UpdateStatus;
   MsgStatus('Opened: '+ExtractFileName(AFilename));
   DoPyEvent(F.Editor, cEventOnOpen, []);
-
-  F.DoFocusEditor;
+  Result.DoFocusEditor;
 end;
 
 procedure TfmMain.DoFileOpenDialog;
