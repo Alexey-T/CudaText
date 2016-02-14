@@ -16,7 +16,7 @@ ch_def = [
   'http://tenet.dl.sourceforge.net/project/cudatext/addons/plugins/',
   'http://tenet.dl.sourceforge.net/project/cudatext/addons/linters/',
   'http://tenet.dl.sourceforge.net/project/cudatext/addons/snippets/',
-  'http://tenet.dl.sourceforge.net/project/synwrite-addons/Lexers/'
+  'http://iweb.dl.sourceforge.net/project/synwrite-addons/Lexers/'
   ]
   
 

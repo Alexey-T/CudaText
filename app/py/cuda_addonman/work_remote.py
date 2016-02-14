@@ -29,7 +29,7 @@ def get_channel_list(url):
     text = open(temp_fn, encoding='utf8').read()
     
     #regex has 3 groups: (..(type)..(name)..)
-    regex = r'a href="((\w+)\.(\w+)\.zip)"'
+    regex = r'a href="((\w+)\.(.+?)\.zip)"'
     
     res = re.findall(regex, text)
     #print(res)
