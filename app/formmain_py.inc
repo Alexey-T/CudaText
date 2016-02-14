@@ -839,128 +839,6 @@ begin
     end;
 end;
 
-function Py_ed_get_tabtitle(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_tabtitle', @H)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
-      Result:= PyUnicode_FromWideString(Utf8Decode(F.TabCaption));
-    end;
-end;
-
-
-function Py_ed_get_tabcolor(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_tabcolor', @H)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
-      Result:= PyInt_FromLong(F.TabColor);
-    end;
-end;
-
-function Py_ed_set_tabcolor(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Val: Integer;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:set_tabcolor', @H, @Val)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
-      F.TabColor:= Val;
-      Result:= ReturnNone;
-    end;
-end;
-
-
-function Py_ed_get_enc(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_enc', @H)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
-      Result:= PyUnicode_FromWideString(Utf8Decode(F.EncodingName));
-    end;
-end;
-
-function Py_ed_set_enc(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Ptr: PChar;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-  Str: string;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Ls:set_enc', @H, @Ptr)) then
-    begin
-      Ed:= PyEditor(H);
-      Str:= string(Ptr);
-      F:= fmMain.GetEditorFrame(Ed);
-
-      F.EncodingName:= Str;
-
-      fmMain.UpdateFrame();
-      fmMain.UpdateStatus;
-      Result:= ReturnNone;
-    end;
-end;
-
-function Py_ed_get_top(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Ed: TATSynEdit;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L:get_top', @H)) then
-    begin
-      Ed:= PyEditor(H);
-      Result:= PyInt_FromLong(Ed.LineTop);
-    end;
-end;
-
-function Py_ed_set_top(Self, Args: PPyObject): PPyObject; cdecl;
-var
-  H: Int64;
-  Val: integer;
-  Ed: TATSynEdit;
-  F: TEditorFrame;
-begin
-  with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Li:set_top', @H, @Val)) then
-    begin
-      Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
-
-      //more correct than Ed.LineTop:= -that don't work if parsing not done
-      F.TopLineTodo:= Val;
-      Ed.LineTop:= Val;
-
-      fmMain.UpdateFrame;
-      fmMain.UpdateStatus;
-      Result:= ReturnNone;
-    end;
-end;
 
 function Py_ed_cmd(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -1695,6 +1573,9 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_LINE_TOP:
+          Result:= PyInt_FromLong(Ed.LineTop);
+
         PROP_LEXER_FILE:
           Result:= PyString_FromString(PChar(F.LexerName));
         PROP_LEXER_POS:
@@ -1709,6 +1590,14 @@ begin
             Pnt.Y:= Ed.Carets[0].PosY;
             Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
           end;
+
+        PROP_TAB_COLOR:
+          Result:= PyInt_FromLong(F.TabColor);
+        PROP_TAB_TITLE:
+          Result:= PyUnicode_FromWideString(Utf8Decode(F.TabCaption));
+
+        PROP_ENC:
+          Result:= PyUnicode_FromWideString(Utf8Decode(F.EncodingName));
 
         PROP_INDEX_GROUP:
           begin
@@ -1836,6 +1725,18 @@ begin
             if N1<>-1 then
               EditorSetColorById(Ed, Str1, N1);
           end;
+
+        PROP_LINE_TOP:
+          begin
+            F.TopLineTodo:= ValueInt;
+            Ed.LineTop:= ValueInt;
+          end;
+
+        PROP_TAB_COLOR:
+          F.TabColor:= ValueInt;
+
+        PROP_ENC:
+          F.EncodingName:= Str;
 
         PROP_TAG:
           F.TagString:= Str;
@@ -2710,13 +2611,6 @@ begin
     AddMethod('ed_insert', @Py_ed_insert, '');
 
     Addmethod('ed_get_filename', @Py_ed_get_filename, '');
-    Addmethod('ed_get_tabtitle', @Py_ed_get_tabtitle, '');
-    AddMethod('ed_get_tabcolor', @Py_ed_get_tabcolor, '');
-    AddMethod('ed_set_tabcolor', @Py_ed_set_tabcolor, '');
-    AddMethod('ed_get_enc', @Py_ed_get_enc, '');
-    AddMethod('ed_set_enc', @Py_ed_set_enc, '');
-    AddMethod('ed_get_top', @Py_ed_get_top, '');
-    AddMethod('ed_set_top', @Py_ed_set_top, '');
     AddMethod('ed_get_split', @Py_ed_get_split, '');
     AddMethod('ed_set_split', @Py_ed_set_split, '');
     AddMethod('ed_get_prop', @Py_ed_get_prop, '');

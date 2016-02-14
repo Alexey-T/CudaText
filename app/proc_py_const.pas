@@ -83,6 +83,10 @@ const
   PROP_RULER          = 13;
   PROP_LINE_STATE     = 14;
   PROP_COLOR          = 15;
+  PROP_LINE_TOP       = 16;
+  PROP_ENC            = 17;
+  PROP_TAB_TITLE      = 18;
+  PROP_TAB_COLOR      = 19;
   PROP_LEXER_FILE     = 20;
   PROP_LEXER_POS      = 21;
   PROP_LEXER_CARET    = 22;
