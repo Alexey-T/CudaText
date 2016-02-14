@@ -856,7 +856,7 @@ begin
     Editor.Strings.LineAdd('');
     Editor.DoCaretSingle(0, 0);
     Editor.Update(true);
-    TabCaption:= GetUntitlesStr;
+    TabCaption:= GetUntitledCaption;
     exit
   end;
 

@@ -626,7 +626,6 @@ type
     procedure DoFileReopen;
     procedure DoLoadParamstr;
     procedure DoSortSel(ed: TATSynEdit; Asc, ANocase: boolean);
-    procedure DoTabUntitled(D: TATTabData);
     procedure DoToggleFullScreen;
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
@@ -673,7 +672,7 @@ type
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
-    function DoTabAdd(Pages: TATPages): TATTabData;
+    function DoTabAdd(Pages: TATPages; AUntitled: boolean): TATTabData;
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
@@ -1618,8 +1617,7 @@ begin
   if AFilename='' then
   begin
     Pages:= Groups.PagesCurrent;
-    D:= DoTabAdd(Pages);
-    DoTabUntitled(D);
+    D:= DoTabAdd(Pages, true);
     Result:= D.TabObject as TEditorFrame;
     Exit
   end;
@@ -1681,7 +1679,7 @@ begin
   end;
 
   Pages:= Groups.PagesCurrent;
-  D:= DoTabAdd(Pages);
+  D:= DoTabAdd(Pages, false);
   F:= D.TabObject as TEditorFrame;
   F.DoFileOpen(AFilename);
   Result:= F;

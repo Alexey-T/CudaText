@@ -36,7 +36,7 @@ begin
   F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
 end;
 
-function TfmMain.DoTabAdd(Pages: TATPages): TATTabData;
+function TfmMain.DoTabAdd(Pages: TATPages; AUntitled: boolean): TATTabData;
 var
   F: TEditorFrame;
   NTab: integer;
@@ -45,25 +45,22 @@ begin
   F.Name:= '';
   F.Visible:= false;
 
+  if AUntitled then
+    F.TabCaption:= GetUntitledCaption
+  else
+    F.TabCaption:= 'tab';
+
   InitFrameEvents(F);
 
-  Pages.AddTab(F, 'tab', false);
+  Pages.AddTab(F, F.TabCaption, false);
   NTab:= Pages.Tabs.TabCount-1;
   Result:= Pages.Tabs.GetTabData(NTab);
   Pages.Tabs.TabIndex:= NTab;
 end;
 
 procedure TfmMain.DoOnTabAdd(Sender: TObject);
-var
-  D: TATTabData;
 begin
-  D:= DoTabAdd((Sender as TATTabs).Parent as TATPages);
-  DoTabUntitled(D);
-end;
-
-procedure TfmMain.DoTabUntitled(D: TATTabData);
-begin
-  (D.TabObject as TEditorFrame).TabCaption:= GetUntitlesStr;
+  DoTabAdd((Sender as TATTabs).Parent as TATPages, true);
 end;
 
 procedure TfmMain.DoOnTabFocus(Sender: TObject);

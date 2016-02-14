@@ -75,7 +75,7 @@ const
       '    License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
       '';
 
-function GetUntitlesStr: string;
+function GetUntitledCaption: string;
 
 
 implementation
@@ -83,7 +83,7 @@ implementation
 var
   FUntitledCount: integer = 0;
 
-function GetUntitlesStr: string;
+function GetUntitledCaption: string;
 begin
   Inc(FUntitledCount);
   Result:= msgUntitledTab+IntToStr(FUntitledCount);
