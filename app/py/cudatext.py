@@ -348,6 +348,8 @@ class Editor:
 
     def get_filename(self):
         return ct.ed_get_filename(self.h)
+    def get_tabtitle(self):
+        return ct.ed_get_tabtitle(self.h)
 
     def get_tabcolor(self):
         return ct.ed_get_tabcolor(self.h)

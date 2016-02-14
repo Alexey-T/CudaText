@@ -839,6 +839,22 @@ begin
     end;
 end;
 
+function Py_ed_get_tabtitle(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:get_tabtitle', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      F:= fmMain.GetEditorFrame(Ed);
+      Result:= PyUnicode_FromWideString(Utf8Decode(F.TabCaption));
+    end;
+end;
+
+
 function Py_ed_get_tabcolor(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -2694,6 +2710,7 @@ begin
     AddMethod('ed_insert', @Py_ed_insert, '');
 
     Addmethod('ed_get_filename', @Py_ed_get_filename, '');
+    Addmethod('ed_get_tabtitle', @Py_ed_get_tabtitle, '');
     AddMethod('ed_get_tabcolor', @Py_ed_get_tabcolor, '');
     AddMethod('ed_set_tabcolor', @Py_ed_set_tabcolor, '');
     AddMethod('ed_get_enc', @Py_ed_get_enc, '');
