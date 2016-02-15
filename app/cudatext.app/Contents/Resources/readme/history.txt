@@ -3,8 +3,11 @@ Legend:
   - fixed
   * changed
 
-1.2.22.1
+1.2.23
+- fix Addon Manager "Install" (SF.net blocked http)
++ must delete markers in deleted selection
 + statusbar panel "msg" now autosized (can put "msg" to left)
+* change in api, must update plugins, which give errors in Console
 
 1.2.22
 + toolbar api
@@ -131,9 +134,3 @@ Legend:
 + cmd "unfold range at current line"
 + cmd "goto next bookmark": from last goto first
 + color for "fold mark border"
-
-1.0.2
-+ opt ui_tab_numbers
-+ cmd "Edit--Char map"
-+ cmd "reset python plugins" (like Synwrite)
-+ plugins.json can have "menu":false key to hide Plugins menu item

@@ -10,8 +10,8 @@ def get_url(url, fn):
         os.remove(fn)
     try:
         urllib.request.urlretrieve(url, fn)
-    except:
-        pass
+    except Exception as e:
+        print(e)
         
 
 def get_plugin_zip(url):
@@ -28,18 +28,20 @@ def get_channel_list(url):
 
     text = open(temp_fn, encoding='utf8').read()
     
-    #regex has 3 groups: (http...(type)..(name)..)
-    regex = '(' + url + r'(\w+)\.(.+?).\zip/download' +')'
+    #regex has 3 groups: (..(type)..(name)..)
+    regex = r'a href="((\w+)\.(.+?)\.zip)"'
     
     res = re.findall(regex, text)
     #print(res)
-    res = [(r[0], r[1]+': '+unquote(r[2])) for r in res]
+    
+    res = [(url+r[0], r[1]+': '+unquote(r[2])) for r in res]
     return res
 
 
 def get_remote_addons_list(channels):
     res = []
-    print('Read channels:', channels)
+    print('Read channels:')
+    for s in channels: print('  '+s)
     for ch in channels:
         items = get_channel_list(ch)
         if items:

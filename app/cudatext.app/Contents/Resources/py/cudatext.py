@@ -103,6 +103,10 @@ PROP_MODIFIED       = 12
 PROP_RULER          = 13
 PROP_LINE_STATE     = 14
 PROP_COLOR          = 15
+PROP_LINE_TOP       = 16
+PROP_ENC            = 17
+PROP_TAB_TITLE      = 18
+PROP_TAB_COLOR      = 19
 PROP_LEXER_FILE     = 20
 PROP_LEXER_POS      = 21
 PROP_LEXER_CARET    = 22
@@ -348,20 +352,6 @@ class Editor:
 
     def get_filename(self):
         return ct.ed_get_filename(self.h)
-
-    def get_tabcolor(self):
-        return ct.ed_get_tabcolor(self.h)
-    def set_tabcolor(self, value):
-        return ct.ed_set_tabcolor(self.h, value)
-
-    def get_enc(self):
-        return ct.ed_get_enc(self.h)
-    def set_enc(self, value):
-        return ct.ed_set_enc(self.h, value)
-    def get_top(self):
-        return ct.ed_get_top(self.h)
-    def set_top(self, value):
-        return ct.ed_set_top(self.h, value)
 
     def save(self, filename=''):
         return ct.ed_save(self.h, filename)
