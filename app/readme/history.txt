@@ -4,7 +4,8 @@ Legend:
   * changed
 
 1.2.23.b
-- fix Addon Manager "Install" cmd
+- fix Addon Manager "Install" (must use SF.net mirrors)
++ if block deleted, must delete markers in block
 + statusbar panel "msg" now autosized (can put "msg" to left)
 * change in api
 

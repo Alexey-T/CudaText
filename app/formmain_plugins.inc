@@ -345,13 +345,18 @@ end;
 procedure TfmMain.DoPanel_Event(const AEvent: string);
 var
   NTab: integer;
-  H: PtrInt;
+  ATree: TTreeview;
 begin
   NTab:= TabsLeft.TabIndex;
   if NTab<0 then exit;
-  H:= PtrInt(FAppSidePanels[NTab].ItemTreeview);
+
+  ATree:= FAppSidePanels[NTab].ItemTreeview;
+
   DoPyEvent(CurrentEditor, cEventOnPanel,
-    [IntToStr(H), '"'+AEvent+'"']);
+    [
+      IntToStr(PtrInt(ATree)),
+      '"'+AEvent+'"'
+    ]);
 end;
 
 procedure TfmMain.DoPanel_OnClick(Sender: TObject);
