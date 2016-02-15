@@ -209,6 +209,7 @@ end;
 procedure TfmMain.DoOps_PreinstallPlugins;
 var
   cfg: TJSONConfig;
+  log: string;
   //
   procedure DoAdd(const SModule, SMethod, SCaption: string; AIndex: integer);
   var
@@ -221,6 +222,7 @@ var
     begin
       cfg.SetValue(path_method, SMethod);
       cfg.SetValue(path_caption, SCaption);
+      log:= log+(SModule+' - '+SCaption)+#10;
     end;
   end;
   //
@@ -245,6 +247,7 @@ begin
       exit
     end;
 
+    log:= '';
     DoAdd(cModuleAddonman, 'do_install_addon', cCaptionAddonman+'\Install...', 0);
     DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...', 1);
     DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...', 2);
@@ -254,6 +257,8 @@ begin
     DoAdd(cModuleMake, 'run', cCaptionMake, 0);
     DoAdd(cModuleInsTime, 'run', cCaptionInsTime, 0);
 
+    if log<>'' then
+      MsgBox('Plugins were just preinstalled:'#10+log, MB_OK or MB_ICONINFORMATION);
   finally
     FreeAndNil(cfg);
   end;
