@@ -42,3 +42,5 @@ cuda_lint*/
 cuda_num*/
 cuda_find*/
 cuda_config*/
+cuda_openfiles/
+_test/
