@@ -288,22 +288,22 @@ begin
     exit;
   end;
 
-  if (key=ord('R')) and (Shift=[ssAlt]) then
-    begin with chkRegex do checked:= not checked; key:= 0; exit end;
-  if (key=ord('C')) and (Shift=[ssAlt]) then
+  if (key=VK_R) and (Shift=[ssAlt]) then
+    begin with chkRegex do checked:= not checked; chkRegexChange(Self); key:= 0; exit end;
+  if (key=VK_C) and (Shift=[ssAlt]) then
     begin with chkCase do checked:= not checked; key:= 0; exit end;
-  if (key=ord('W')) and (Shift=[ssAlt]) then
+  if (key=VK_W) and (Shift=[ssAlt]) then
     begin with chkWords do checked:= not checked; key:= 0; exit end;
-  if (key=ord('Y')) and (Shift=[ssAlt]) then
+  if (key=VK_Y) and (Shift=[ssAlt]) then
     begin with chkConfirm do checked:= not checked; key:= 0; exit end;
-  if (key=ord('N')) and (Shift=[ssAlt]) then
+  if (key=VK_N) and (Shift=[ssAlt]) then
     begin with chkWrap do checked:= not checked; key:= 0; exit end;
 
-  if (key=ord('A')) and (Shift=[ssAlt]) then
+  if (key=VK_A) and (Shift=[ssAlt]) then
     begin bRepAllClick(Self); key:= 0; exit end;
-  if (key=ord('5')) and (Shift=[ssAlt]) then
+  if (key=VK_5) and (Shift=[ssAlt]) then
     begin bCountClick(Self); key:= 0; exit end;
-  if (key=ord('6')) and (Shift=[ssAlt]) then
+  if (key=VK_6) and (Shift=[ssAlt]) then
     begin bMarkAllClick(Self); key:= 0; exit end;
 end;
 
