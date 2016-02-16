@@ -669,27 +669,6 @@ Gets filename (str) of the editor's tab.
 * Empty str for untitled tab. 
 * String "?" if picture file loaded in tab.
 
-===get_tabcolor/set_tabcolor===
-
- get_tabcolor()
- set_tabcolor(value)
-
-Gets/sets custom color (int) of tab for the editor. It's COLOR_NONE if color is not set.
-
-===get_enc/set_enc===
-
- get_enc()
- set_enc(value)
-
-Gets/sets encoding name for the editor. It's one of the strings which are visible in the encodings menu of statusbar: "UTF-8", "ANSI" etc.
-
-===get_top/set_top===
-
- get_top()
- set_top(value)
-
-Gets/sets index of top visible line in the editor.
-
 ===get_split/set_split===
 
  get_split()
@@ -728,6 +707,9 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_RULER: bool: horz ruler is shown.
 * PROP_LINE_STATE: int: state of the line with index int(text). One of values: LINESTATE_NORMAL, LINESTATE_CHANGED, LINESTATE_ADDED, LINESTATE_SAVED.
 * PROP_COLOR: int: color property. Text must be one of COLOR_ID values, see module cudatext_colors. Gets None for incorrect id.
+* PROP_LINE_TOP: int: index of line visible at the top of editor.
+* PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
+* PROP_ENC: str: encoding name.
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: text must be str(column)+","+str(line), column/line 0-based.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
@@ -746,10 +728,11 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_MARKED_RANGE: 2-tuple: numbers of lines for "marked range" (both -1 if not set).
 * PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word-wrap).
 * PROP_VISIBLE_COLUMNS: int: max count of columns that fit to window.
-* PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
+* PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with pucture files.
+* PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
 
 ===set_prop===
 
@@ -772,6 +755,8 @@ Possible values of id:
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be "color_id,color_int_value", where color_id is constant from module cudatext_colors.
+* PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
+* PROP_ENC: str: encoding name. Possible values are shown in menu of encodings.
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
@@ -779,7 +764,7 @@ Possible values of id:
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers.
+* PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
 * PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
@@ -788,6 +773,7 @@ Possible values of id:
 * PROP_MARKED_RANGE: str: numbers of lines for "marked range" as "num1,num2" (pass empty str or "-1,-1" to remove range).
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
+* PROP_TAB_COLOR: int: color of tab containing editor; set COLOR_NONE to reset.
 
 ===bookmark===
 
@@ -950,6 +936,11 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.126
+
+* change: deleted get_top/set_top/get_enc/set_enc/get_tabcolor/set_tabcolor; instead use get_prop/set_prop: PROP_LINE_TOP, PROP_ENC, PROP_TAB_COLOR  
+* add: get_prop: PROP_TAB_TITLE
 
 1.0.125
 
