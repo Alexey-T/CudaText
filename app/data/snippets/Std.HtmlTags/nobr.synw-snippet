@@ -1,0 +1,5 @@
+name=Tag nobr
+id=nobr
+lex=HTML,HTML_
+text=
+<nobr>${0}</nobr>

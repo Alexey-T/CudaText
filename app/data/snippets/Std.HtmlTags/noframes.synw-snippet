@@ -1,0 +1,5 @@
+name=Tag noframes
+id=noframes
+lex=HTML,HTML_
+text=
+<noframes>${0}</noframes>

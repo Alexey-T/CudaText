@@ -1,0 +1,5 @@
+name=Tag s
+id=s
+lex=HTML,HTML_
+text=
+<s>${0}</s>

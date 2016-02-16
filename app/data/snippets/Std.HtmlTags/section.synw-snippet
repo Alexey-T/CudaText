@@ -1,0 +1,7 @@
+name=Tag section
+id=section
+lex=HTML,HTML_
+text=
+<section>
+	${0}
+</section>

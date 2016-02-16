@@ -5,9 +5,10 @@ Legend:
 
 1.2.23
 - fix Addon Manager "Install" (SF.net blocked http)
-+ must delete markers in deleted selection
+* change in api. Must update plugs: NumberedBookmarks, PythonIntel, CudaExt
++ 120+ snippets for HTML included. These mimic hehaviour of Synwrite's feature "SmartTagTabbing". You need plugin Snippets.
++ autodelete markers in deleted selection
 + statusbar panel "msg" now autosized (can put "msg" to left)
-* change in api, must update plugins, which give errors in Console
 
 1.2.22
 + toolbar api

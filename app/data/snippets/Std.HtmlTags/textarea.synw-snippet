@@ -1,0 +1,7 @@
+name=Tag textarea
+id=textarea
+lex=HTML,HTML_
+text=
+<textarea name="${1:test}"${2: rows="${3:10}"}${4: cols="${5:10}"}>
+	${0}
+</textarea>

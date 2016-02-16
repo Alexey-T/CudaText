@@ -1,0 +1,7 @@
+name=Tag video
+id=video
+lex=HTML,HTML_
+text=
+<video width="${1:320}"${2: height="${3:240}"}${4: controls="${5:controls}"}>
+	${0}
+</video>

@@ -1,0 +1,5 @@
+name=Tag acronym
+id=acronym
+lex=HTML,HTML_
+text=
+<acronym title="${1:Untitled}">${0}</acronym>

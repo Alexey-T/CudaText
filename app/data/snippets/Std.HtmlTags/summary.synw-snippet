@@ -1,0 +1,5 @@
+name=Tag summary
+id=summary
+lex=HTML,HTML_
+text=
+<summary>${0}</summary>

@@ -1,0 +1,5 @@
+name=Tag font
+id=font
+lex=HTML,HTML_
+text=
+<font face="${1:cursive,serif}"${2: color="${3:#ff9900}"}${4: size="${5:4}"}>${0}</font>

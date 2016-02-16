@@ -1,0 +1,5 @@
+name=Tag center
+id=center
+lex=HTML,HTML_
+text=
+<center>${0}</center>

@@ -1,0 +1,7 @@
+name=Tag aside
+id=aside
+lex=HTML,HTML_
+text=
+<aside style="${1:font-size:larger;font-style:italic;color:green;float:right;width:120px;}">
+	${0}
+</aside>

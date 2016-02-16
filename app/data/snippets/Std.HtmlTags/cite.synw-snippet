@@ -1,0 +1,5 @@
+name=Tag cite
+id=cite
+lex=HTML,HTML_
+text=
+<cite>${0}</cite>

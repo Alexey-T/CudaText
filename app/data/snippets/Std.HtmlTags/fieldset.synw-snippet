@@ -1,0 +1,7 @@
+name=Tag fieldset
+id=fieldset
+lex=HTML,HTML_
+text=
+<fieldset>
+	${0}
+</fieldset>

@@ -1,0 +1,5 @@
+name=Tag li
+id=li
+lex=HTML,HTML_
+text=
+<li>${0}</li>

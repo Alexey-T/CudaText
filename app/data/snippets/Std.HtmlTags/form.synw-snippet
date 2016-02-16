@@ -1,0 +1,7 @@
+name=Tag form
+id=form
+lex=HTML,HTML_
+text=
+<form method="${1:post}"${2: action="${3:testing.php}"}${4: id="${5:test}"}${6: name="${7:test}"}>
+	${0}
+</form>

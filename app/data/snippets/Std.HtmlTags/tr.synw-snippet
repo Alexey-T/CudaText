@@ -1,0 +1,7 @@
+name=Tag tr
+id=tr
+lex=HTML,HTML_
+text=
+<tr>
+	${0}
+</tr>

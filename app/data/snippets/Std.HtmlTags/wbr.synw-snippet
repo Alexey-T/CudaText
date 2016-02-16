@@ -1,0 +1,5 @@
+name=Tag wbr
+id=wbr
+lex=HTML,HTML_
+text=
+<wbr>${0}</wbr>

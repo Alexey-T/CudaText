@@ -1,0 +1,5 @@
+name=Tag blockquote
+id=blockquote
+lex=HTML,HTML_
+text=
+<blockquote>${0}</blockquote>

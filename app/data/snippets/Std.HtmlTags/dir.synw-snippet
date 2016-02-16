@@ -1,0 +1,5 @@
+name=Tag dir
+id=dir
+lex=HTML,HTML_
+text=
+<dir>${0}</dir>

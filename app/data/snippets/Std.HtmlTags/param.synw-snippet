@@ -1,0 +1,5 @@
+name=Tag param
+id=param
+lex=HTML,HTML_
+text=
+<param name="${1:test}"${2: value="${3:val}"}/>${0}
