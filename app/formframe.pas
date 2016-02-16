@@ -122,6 +122,7 @@ type
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
     function GetReadOnly: boolean;
+    function GetTabKeyCollectMarkers: boolean;
     function GetUnprintedEnds: boolean;
     function GetUnprintedEndsDetails: boolean;
     function GetUnprintedShow: boolean;
@@ -169,7 +170,7 @@ type
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
-    property TabKeyCollectMarkers: boolean read FTabKeyCollectMarkers write FTabKeyCollectMarkers;
+    property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property TagString: string read FTagString write FTagString;
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
@@ -404,6 +405,11 @@ end;
 function TEditorFrame.GetReadOnly: boolean;
 begin
   Result:= Ed1.Strings.ReadOnly;
+end;
+
+function TEditorFrame.GetTabKeyCollectMarkers: boolean;
+begin
+  Result:= FTabKeyCollectMarkers and (Editor.Markers.Count>0);
 end;
 
 function TEditorFrame.GetUnprintedEnds: boolean;
