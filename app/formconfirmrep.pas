@@ -13,7 +13,10 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ATButtons, proc_globdata, proc_colors;
+  LclType,
+  ATButtons,
+  proc_globdata,
+  proc_colors;
 
 type
   { TfmConfirmReplace }
@@ -29,6 +32,7 @@ type
     procedure bYesAllClick(Sender: TObject);
     procedure bYesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { private declarations }
   public
@@ -48,6 +52,15 @@ procedure TfmConfirmReplace.FormCreate(Sender: TObject);
 begin
   LabelInfo.Font.Name:= UiOps.VarFontName;
   LabelInfo.Font.Size:= UiOps.VarFontSize;
+end;
+
+procedure TfmConfirmReplace.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key=VK_Y then begin ModalResult:= mrYes; exit end;
+  if Key=VK_A then begin ModalResult:= mrYesToAll; exit end;
+  if Key=VK_N then begin ModalResult:= mrNo; exit end;
+  if Key=VK_ESCAPE then begin ModalResult:= mrNoToAll; exit end;
 end;
 
 procedure TfmConfirmReplace.bYesClick(Sender: TObject);

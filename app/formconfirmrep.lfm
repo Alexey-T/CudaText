@@ -9,56 +9,58 @@ object fmConfirmReplace: TfmConfirmReplace
   Caption = 'Confirm'
   ClientHeight = 64
   ClientWidth = 645
+  KeyPreview = True
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object bYesAll: TATButton
-    Left = 180
+    Left = 152
     Height = 25
     Top = 32
-    Width = 100
+    Width = 120
     TabStop = True
     TabOrder = 1
-    Caption = 'Yes to all'
+    Caption = 'Yes to all (a)'
     Checked = False
     Checkable = False
     Focusable = True
     OnClick = bYesAllClick
   end
   object bYes: TATButton
-    Left = 80
+    Left = 32
     Height = 25
     Top = 32
-    Width = 100
+    Width = 120
     TabStop = True
     TabOrder = 0
-    Caption = 'Yes'
+    Caption = 'Yes (y)'
     Checked = False
     Checkable = False
     Focusable = True
     OnClick = bYesClick
   end
   object bNo: TATButton
-    Left = 304
+    Left = 296
     Height = 25
     Top = 32
-    Width = 100
+    Width = 120
     TabStop = True
     TabOrder = 2
-    Caption = 'No'
+    Caption = 'No (n)'
     Checked = False
     Checkable = False
     Focusable = True
     OnClick = bNoClick
   end
   object bNoAll: TATButton
-    Left = 404
+    Left = 416
     Height = 25
     Top = 32
-    Width = 100
+    Width = 120
     TabStop = True
     TabOrder = 3
-    Caption = 'No to all'
+    Caption = 'No to all (Esc)'
     Checked = False
     Checkable = False
     Focusable = True
