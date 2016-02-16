@@ -1,0 +1,7 @@
+name=Tag table
+id=table
+lex=HTML,HTML_
+text=
+<table>
+	${0}
+</table>

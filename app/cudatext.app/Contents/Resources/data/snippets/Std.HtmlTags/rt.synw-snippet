@@ -1,0 +1,5 @@
+name=Tag rt
+id=rt
+lex=HTML,HTML_
+text=
+<rt>${0}</rt>

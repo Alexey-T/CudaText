@@ -1,0 +1,5 @@
+name=Tag meter
+id=meter
+lex=HTML,HTML_
+text=
+<meter value="${1:2}"${2: min="${3:0}"}${4: max="${5:10}"}>${0}</meter>

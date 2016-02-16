@@ -1,0 +1,7 @@
+name=Tag optgroup
+id=optgroup
+lex=HTML,HTML_
+text=
+<optgroup label="${1:Name}">
+	${0}
+</optgroup>

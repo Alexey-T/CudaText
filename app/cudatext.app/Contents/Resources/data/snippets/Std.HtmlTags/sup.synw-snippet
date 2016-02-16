@@ -1,0 +1,5 @@
+name=Tag sup
+id=sup
+lex=HTML,HTML_
+text=
+<sup>${0}</sup>

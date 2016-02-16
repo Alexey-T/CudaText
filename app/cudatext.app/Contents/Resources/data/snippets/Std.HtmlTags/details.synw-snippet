@@ -1,0 +1,7 @@
+name=Tag details
+id=details
+lex=HTML,HTML_
+text=
+<details>
+	${0}
+</details>

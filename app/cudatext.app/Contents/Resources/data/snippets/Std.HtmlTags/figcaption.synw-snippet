@@ -1,0 +1,5 @@
+name=Tag figcaption
+id=figcaption
+lex=HTML,HTML_
+text=
+<figcaption>${0}</figcaption>

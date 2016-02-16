@@ -1,0 +1,5 @@
+name=Tag embed
+id=embed
+lex=HTML,HTML_
+text=
+<embed src="${1:flash.swf}"/>${0}

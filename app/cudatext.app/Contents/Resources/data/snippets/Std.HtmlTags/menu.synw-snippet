@@ -1,0 +1,5 @@
+name=Tag menu
+id=menu
+lex=HTML,HTML_
+text=
+<menu>${0}</menu>

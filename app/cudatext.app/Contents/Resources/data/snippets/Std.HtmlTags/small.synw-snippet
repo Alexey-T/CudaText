@@ -1,0 +1,5 @@
+name=Tag small
+id=small
+lex=HTML,HTML_
+text=
+<small>${0}</small>

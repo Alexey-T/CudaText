@@ -1,0 +1,5 @@
+name=Tag object
+id=object
+lex=HTML,HTML_
+text=
+<object width="${1:400}"${2: height="${3:400}"}${4: data="${5:flash.swf}"}>${0}</object>

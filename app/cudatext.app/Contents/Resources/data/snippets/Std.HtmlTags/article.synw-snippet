@@ -1,0 +1,7 @@
+name=Tag article
+id=article
+lex=HTML,HTML_
+text=
+<article>
+	${0}
+</article>

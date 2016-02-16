@@ -1,0 +1,5 @@
+name=Tag caption
+id=caption
+lex=HTML,HTML_
+text=
+<caption>${0}</caption>

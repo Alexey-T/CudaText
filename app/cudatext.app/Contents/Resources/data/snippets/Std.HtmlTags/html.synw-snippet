@@ -1,0 +1,7 @@
+name=Tag html
+id=html
+lex=HTML,HTML_
+text=
+<html xmlns="${1:http://www.w3.org/1999/xhtml}"${2: xml:lang="${3:en}"}>
+	${0}
+</html>

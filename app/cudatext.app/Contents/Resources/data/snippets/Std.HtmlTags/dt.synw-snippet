@@ -1,0 +1,5 @@
+name=Tag dt
+id=dt
+lex=HTML,HTML_
+text=
+<dt>${0}</dt>

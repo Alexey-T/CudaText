@@ -1,0 +1,5 @@
+name=Tag col
+id=col
+lex=HTML,HTML_
+text=
+<col width="${1:50}">${0}</col>

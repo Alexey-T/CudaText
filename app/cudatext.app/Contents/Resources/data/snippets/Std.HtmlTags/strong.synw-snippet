@@ -1,0 +1,5 @@
+name=Tag strong
+id=strong
+lex=HTML,HTML_
+text=
+<strong>${0}</strong>

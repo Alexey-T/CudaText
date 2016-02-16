@@ -1,0 +1,5 @@
+name=Tag abbr
+id=abbr
+lex=HTML,HTML_
+text=
+<abbr title="${1:Untitled}">${0}</abbr>

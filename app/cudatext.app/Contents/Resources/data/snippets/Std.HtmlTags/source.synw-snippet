@@ -1,0 +1,5 @@
+name=Tag source
+id=source
+lex=HTML,HTML_
+text=
+<source src="${1:song.mp3}"${2: type="${3:audio/mpeg}"}/>${0}
