@@ -315,6 +315,9 @@ end;
 
 procedure TfmFind.DoDone(const Str: string);
 begin
+  if Str=cOpFindPrev then
+    if chkRegex.Checked then exit;
+
   if edFind.Text='' then
     if Str<>cOpFindClose then exit;
 
@@ -350,7 +353,7 @@ begin
 
   bFindFirst.Enabled:= fill;
   bFindNext.Enabled:= fill;
-  bFindPrev.Enabled:= fill;
+  bFindPrev.Enabled:= fill and not chkRegex.Checked;
   bRep.Enabled:= fill;
   bRepAll.Enabled:= fill;
   bCount.Enabled:= fill;
