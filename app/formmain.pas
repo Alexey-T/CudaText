@@ -682,6 +682,7 @@ type
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
       var ACanClose, ACanContinue: boolean);
+    procedure DoOnTabCloseDone(Sender: TObject);
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(N: integer): TEditorFrame;
     procedure MenuEncNoReloadClick(Sender: TObject);
@@ -1014,6 +1015,7 @@ begin
   Groups.OnTabFocus:= @DoOnTabFocus;
   Groups.OnTabAdd:= @DoOnTabAdd;
   Groups.OnTabClose:= @DoOnTabClose;
+  Groups.OnTabCloseDone:=@DoOnTabCloseDone;
   Groups.OnTabPopup:= @DoOnTabPopup;
   Groups.OnTabOver:= @DoOnTabOver;
 
