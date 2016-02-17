@@ -399,7 +399,7 @@ object fmMain: TfmMain
           OnClick = mnuEndsUnixClick
         end
         object mnuFileEndMac: TMenuItem
-          Caption = 'Mac'
+          Caption = 'MacOS9'
           OnClick = mnuEndsMacClick
         end
       end
@@ -869,7 +869,7 @@ object fmMain: TfmMain
       OnClick = mnuEndsUnixClick
     end
     object mnuEndsMac: TMenuItem
-      Caption = 'Mac'
+      Caption = 'MacOS9'
       OnClick = mnuEndsMacClick
     end
   end
@@ -1601,7 +1601,7 @@ object fmMain: TfmMain
       OnClick = mnuFind2NextClick
     end
     object mnuFind2Prev: TMenuItem
-      Caption = 'Find prev'
+      Caption = 'Find previous'
       OnClick = mnuFind2PrevClick
     end
     object MenuItem20: TMenuItem
@@ -1612,7 +1612,7 @@ object fmMain: TfmMain
       OnClick = mnuFind2WordNextClick
     end
     object mnuFind2WordPrev: TMenuItem
-      Caption = 'Find current word prev'
+      Caption = 'Find current word previous'
       OnClick = mnuFind2WordPrevClick
     end
   end
