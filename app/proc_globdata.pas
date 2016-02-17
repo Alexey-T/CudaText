@@ -65,6 +65,9 @@ type
     VarFontName: string;
     VarFontSize: integer;
 
+    OutputFontName: string;
+    OutputFontSize: integer;
+
     PyLibrary: string;
     LexerLibFilename: string;
     PictureTypes: string;
@@ -705,6 +708,9 @@ begin
   begin
     VarFontName:= 'default';
     VarFontSize:= {$ifdef windows} 9 {$else} 10 {$endif};
+
+    OutputFontName:= VarFontName;
+    OutputFontSize:= VarFontSize;
 
     LexerLibFilename:= 'lib.lxl';
     PyLibrary:= InitPyLibraryPath;

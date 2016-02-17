@@ -178,7 +178,7 @@ cmd_OpsOpenLexerOvr    = 2523
 cmd_OpsOpenFileTypes   = 2524
 cmd_OpsFontText        = 2525
 cmd_OpsFontUi          = 2526
-cmd_DialogSaveTabs     = 2527
+cmd_OptFontOutput      = 2527
 cmd_ToggleFullScreen   = 2528
 cmd_OpsReloadAndApply  = 2529
 cmd_DialogLexerProp    = 2530
@@ -200,6 +200,7 @@ cmd_RunLastCommandPlugin = 2545
 cmd_ShowSidePanelAsIs = 2546
 cmd_ShowSidePanelAndSyntaxTree = 2547
 cmd_HideSidePanel = 2548
+cmd_DialogSaveTabs = 2549
 
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581

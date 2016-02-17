@@ -247,6 +247,11 @@ begin
   cCompleteFontName:= UiOps.VarFontName;
   cCompleteFontSize:= UiOps.VarFontSize;
   cCompleteItemHeight:= GetDefaultListItemHeight;
+
+  ListboxOut.Font.Name:= UiOps.OutputFontName;
+  ListboxOut.Font.Size:= UiOps.OutputFontSize;
+  ListboxVal.Font.Name:= UiOps.OutputFontName;
+  ListboxVal.Font.Size:= UiOps.OutputFontSize;
 end;
 
 procedure TfmMain.UpdateMenuRecent(F: TEditorFrame);
@@ -524,8 +529,11 @@ begin
   UpKey(mnuOpUser, cmd_OpsOpenUser);
   UpKey(mnuOpLexer, cmd_OpsOpenLexerOvr);
   UpKey(mnuOpFileTypes, cmd_OpsOpenFileTypes);
+
   UpKey(mnuFontText, cmd_OpsFontText);
   UpKey(mnuFontUi, cmd_OpsFontUi);
+  UpKey(mnuFontOutput, cmd_OpsFontOutput);
+
   UpKey(mnuOpLexProp, cmd_DialogLexerProp);
   UpKey(mnuOpLexLib, cmd_DialogLexerLib);
   UpKey(mnuOpColors, cmd_DialogColors);

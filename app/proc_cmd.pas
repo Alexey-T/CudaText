@@ -53,7 +53,7 @@ const
   cmd_OpsOpenFileTypes   = 2524;
   cmd_OpsFontText        = 2525;
   cmd_OpsFontUi          = 2526;
-  cmd_DialogSaveTabs     = 2527;
+  cmd_OpsFontOutput      = 2527;
   cmd_ToggleFullScreen   = 2528;
   cmd_OpsReloadAndApply  = 2529;
   cmd_DialogLexerProp    = 2530;
@@ -75,6 +75,7 @@ const
   cmd_ShowSidePanelAsIs = 2546;
   cmd_ShowSidePanelAndSyntaxTree = 2547;
   cmd_HideSidePanel = 2548;
+  cmd_DialogSaveTabs = 2549;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -259,8 +260,10 @@ begin
   M.Add(cmd_OpsOpenUser, 'settings: open user config', [], []);
   M.Add(cmd_OpsOpenLexerOvr, 'settings: open lexer-override config', [], []);
   M.Add(cmd_OpsOpenFileTypes, 'settings: open file-types config', [], []);
-  M.Add(cmd_OpsFontText, 'settings: select text font', [], []);
-  M.Add(cmd_OpsFontUi, 'settings: select ui font', [], []);
+
+  M.Add(cmd_OpsFontText, 'settings: select font: text', [], []);
+  M.Add(cmd_OpsFontUi, 'settings: select font: ui', [], []);
+  M.Add(cmd_OpsFontOutput, 'settings: select font: output panel', [], []);
 
   M.Add(cmd_ResetPythonPlugins, 'plugins: reset python plugins', [], []);
   M.Add(cmd_RunLastCommandPlugin, 'plugins: run last command plugin', [], []);
@@ -474,6 +477,7 @@ begin
     cmd_OpsOpenFileTypes      ,
     cmd_OpsFontText           ,
     cmd_OpsFontUi             ,
+    cmd_OpsFontOutput         ,
     cmd_DialogSaveTabs        ,
     cmd_ToggleFullScreen      ,
     cmd_OpsReloadAndApply     ,

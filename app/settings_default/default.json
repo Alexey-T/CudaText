@@ -1,9 +1,8 @@
 //"default" config file is for copying parts to "user" config file,
 //it's not read as actual config. "user" file is read.
 {
-  //Editor font name
+  //Editor font
   "font_name": "Courier New",
-  //Editor font size
   "font_size": 9,
   //Editor font quality
   //  0: Default 
@@ -15,10 +14,13 @@
   //  6: Cleartype Natural 
   "font_quality": 0,
 
-  //UI elements font name
+  //UI elements font
   "ui_font_name": "default",
-  //UI elements font size
   "ui_font_size": 9,
+
+  //Output/Validate panel font
+  "ui_font_output_name" : "default",
+  "ui_font_output_size" : 9,
 
   //Allow to run only one instance of program
   "ui_one_instance": false,

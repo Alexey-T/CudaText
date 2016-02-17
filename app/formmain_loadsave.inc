@@ -389,6 +389,9 @@ begin
     UiOps.VarFontName:= c.GetValue('ui_font_name', UiOps.VarFontName);
     UiOps.VarFontSize:= c.GetValue('ui_font_size', UiOps.VarFontSize);
 
+    UiOps.OutputFontName:= c.GetValue('ui_font_output_name', UiOps.OutputFontName);
+    UiOps.OutputFontSize:= c.GetValue('ui_font_output_size', UiOps.OutputFontSize);
+
     UiOps.StatusNoSel:= c.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
     UiOps.StatusSmallSel:= c.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
     UiOps.StatusStreamSel:= c.GetValue('ui_statusbar_str_sel', UiOps.StatusStreamSel);
@@ -597,9 +600,9 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_DlgFontText;
+procedure TfmMain.DoOps_DialogFont_Text;
 begin
-  DoOps_DlgFont(
+  DoOps_DialogFont(
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
     'font_name',
@@ -607,9 +610,9 @@ begin
   DoApplyFontFixed;
 end;
 
-procedure TfmMain.DoOps_DlgFontUi;
+procedure TfmMain.DoOps_DialogFont_Ui;
 begin
-  DoOps_DlgFont(
+  DoOps_DialogFont(
     UiOps.VarFontName,
     UiOps.VarFontSize,
     'ui_font_name',
@@ -617,9 +620,20 @@ begin
   DoApplyFontVar;
 end;
 
-procedure TfmMain.DoOps_DlgFont(
+procedure TfmMain.DoOps_DialogFont_Output;
+begin
+  DoOps_DialogFont(
+    UiOps.OutputFontName,
+    UiOps.OutputFontSize,
+    'ui_font_output_name',
+    'ui_font_output_size');
+  DoApplyFontVar;
+end;
+
+
+procedure TfmMain.DoOps_DialogFont(
   var OpName: string; var OpSize: integer;
-  const ConfStrName, ConfStrSize: string);
+  const AConfigStrName, AConfigStrSize: string);
 var
   cfg: TJsonConfig;
   fn: string;
@@ -641,8 +655,8 @@ begin
   try
     cfg.Formatted:= true;
     cfg.Filename:= fn;
-    cfg.SetValue(ConfStrName, OpName);
-    cfg.SetValue(ConfStrSize, OpSize);
+    cfg.SetValue(AConfigStrName, OpName);
+    cfg.SetValue(AConfigStrSize, OpSize);
   finally
     try
       cfg.Free;

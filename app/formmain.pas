@@ -92,6 +92,7 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuFontOutput: TMenuItem;
     mnuGr1p2H: TMenuItem;
     mnuEditSpToTab: TMenuItem;
     SepEd7: TMenuItem;
@@ -514,6 +515,7 @@ type
     function DoMenuAdd(AStr: string): string;
     procedure DoMenuClear(const AStr: string);
     function DoMenuEnum(const AStr: string): string;
+    procedure DoOps_DialogFont_Output;
     procedure DoPanel_Event(const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
@@ -585,10 +587,10 @@ type
     procedure DoOps_OpenFile_LexerOvr;
     procedure DoOps_PreinstallPlugins;
     procedure DoOps_LoadPlugins;
-    procedure DoOps_DlgFont(var OpName: string; var OpSize: integer;
-      const ConfStrName, ConfStrSize: string);
-    procedure DoOps_DlgFontText;
-    procedure DoOps_DlgFontUi;
+    procedure DoOps_DialogFont(var OpName: string; var OpSize: integer;
+      const AConfigStrName, AConfigStrSize: string);
+    procedure DoOps_DialogFont_Text;
+    procedure DoOps_DialogFont_Ui;
     procedure DoOps_OpenFile_Default;
     procedure DoOps_OpenFile_User;
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps);

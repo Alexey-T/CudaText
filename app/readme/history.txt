@@ -3,6 +3,9 @@ Legend:
   - fixed
   * changed
 
+1.2.24b
++ opt ui_font_output_name, ui_font_output_size
+
 1.2.23
 - fix Addon Manager "Install" (SF.net blocked http)
 * change in api. Must update plugs: NumberedBookmarks, PythonIntel, CudaExt, Snippets

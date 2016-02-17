@@ -77,8 +77,10 @@ begin
     cmd_OpsOpenUser:        DoOps_OpenFile_User;
     cmd_OpsOpenLexerOvr:    DoOps_OpenFile_LexerOvr;
     cmd_OpsOpenFileTypes:   DoOps_OpenFile_FileTypes;
-    cmd_OpsFontText:        DoOps_DlgFontText;
-    cmd_OpsFontUi:          DoOps_DlgFontUi;
+
+    cmd_OpsFontText:        DoOps_DialogFont_Text;
+    cmd_OpsFontUi:          DoOps_DialogFont_Ui;
+    cmd_OpsFontOutput:      DoOps_DialogFont_Output;
 
     cmd_ResetPythonPlugins: DoPyResetPlugins;
     cmd_RunLastCommandPlugin: DoPyRunLastPlugin;

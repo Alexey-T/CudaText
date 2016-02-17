@@ -793,6 +793,9 @@ object fmMain: TfmMain
         object mnuFontUi: TMenuItem
           Caption = 'Select UI font...'
         end
+        object mnuFontOutput: TMenuItem
+          Caption = 'Select output-panel font...'
+        end
       end
       object mnuOpLexSub: TMenuItem
         Caption = 'Lexers'
