@@ -341,6 +341,7 @@ begin
       ItemTreeview.OnClick:= @DoPanel_OnClick;
       ItemTreeview.OnDblClick:= @DoPanel_OnDblClick;
       ItemTreeview.OnSelectionChanged:= @DoPanel_OnSelChanged;
+      ItemTreeview.OnContextPopup:=@DoPanel_OnContextPopup;
 
       fmMain.DoApplyThemeToTreeview(ItemTreeview);
       //just to see it ok

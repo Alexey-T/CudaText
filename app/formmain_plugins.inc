@@ -364,6 +364,12 @@ begin
     ]);
 end;
 
+procedure TfmMain.DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+begin
+  DoPanel_Event('on_menu');
+end;
+
 procedure TfmMain.DoPanel_OnClick(Sender: TObject);
 begin
   DoPanel_Event('on_click');
