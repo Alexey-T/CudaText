@@ -515,7 +515,6 @@ type
     function DoMenuAdd(AStr: string): string;
     procedure DoMenuClear(const AStr: string);
     function DoMenuEnum(const AStr: string): string;
-    procedure DoOps_DialogFont_Output;
     procedure DoPanel_Event(const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
@@ -538,8 +537,9 @@ type
     procedure DoShowFuncHint;
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
       AForceApply: boolean);
-    procedure DoApplyFontFixed;
-    procedure DoApplyFontVar;
+    procedure DoApplyFont_Text;
+    procedure DoApplyFont_Ui;
+    procedure DoApplyFont_Output;
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
@@ -591,6 +591,7 @@ type
       const AConfigStrName, AConfigStrSize: string);
     procedure DoOps_DialogFont_Text;
     procedure DoOps_DialogFont_Ui;
+    procedure DoOps_DialogFont_Output;
     procedure DoOps_OpenFile_Default;
     procedure DoOps_OpenFile_User;
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
@@ -1217,8 +1218,9 @@ begin
   TabsBottom.TabIndex:= 0;
 
   DoOps_LoadOptions(GetAppPath(cFileOptUser), EditorOps);
-  DoApplyFontFixed;
-  DoApplyFontVar;
+  DoApplyFont_Text;
+  DoApplyFont_Ui;
+  DoApplyFont_Output;
   DoOps_LoadLexlib;
   DoApplyUiOps;
   InitPyEngine;

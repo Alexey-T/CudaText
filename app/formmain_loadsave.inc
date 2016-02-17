@@ -607,7 +607,7 @@ begin
     EditorOps.OpFontSize,
     'font_name',
     'font_size');
-  DoApplyFontFixed;
+  DoApplyFont_Text;
 end;
 
 procedure TfmMain.DoOps_DialogFont_Ui;
@@ -617,7 +617,7 @@ begin
     UiOps.VarFontSize,
     'ui_font_name',
     'ui_font_size');
-  DoApplyFontVar;
+  DoApplyFont_Ui;
 end;
 
 procedure TfmMain.DoOps_DialogFont_Output;
@@ -627,7 +627,7 @@ begin
     UiOps.OutputFontSize,
     'ui_font_output_name',
     'ui_font_output_size');
-  DoApplyFontVar;
+  DoApplyFont_Output;
 end;
 
 

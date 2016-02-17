@@ -270,7 +270,7 @@ var
 function GetAppPath(id: TAppPathId): string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
-function GetDefaultListItemHeight: integer;
+function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function AppBookmarkKindStandard(N: integer): boolean;
 
 function MsgBox(const Str: string; Flags: integer): integer;
@@ -892,13 +892,13 @@ begin
   end;
 end;
 
-function GetDefaultListItemHeight: integer;
+function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 var
   bmp: TBitmap;
 begin
   bmp:= TBitmap.Create;
-  bmp.Canvas.Font.Name:= UiOps.VarFontName;
-  bmp.Canvas.Font.Size:= UiOps.VarFontSize;
+  bmp.Canvas.Font.Name:= AFontName;
+  bmp.Canvas.Font.Size:= AFontSize;
   Result:= bmp.Canvas.TextHeight('Pyj')+3;
   bmp.Free;
 end;

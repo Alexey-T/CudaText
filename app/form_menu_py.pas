@@ -96,7 +96,7 @@ begin
   list.Color:= GetAppColor('ListBg');
 
   ResultCode:= -1;
-  list.ItemHeight:= GetDefaultListItemHeight;
+  list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
   self.Width:= UiOps.ListboxWidth;
 
   listItems:= TStringlist.Create;
@@ -312,7 +312,9 @@ procedure TfmMenuApi.SetMultiline(AValue: boolean);
 begin
   if FMultiline=AValue then Exit;
   FMultiline:=AValue;
-  list.ItemHeight:= Trunc(GetDefaultListItemHeight*IfThen(FMultiline, 1.8, 1));
+  list.ItemHeight:= Trunc(
+    GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize) *
+    IfThen(FMultiline, 1.8, 1));
   list.Invalidate;
 end;
 

@@ -195,7 +195,7 @@ begin
 end;
 
 
-procedure TfmMain.DoApplyFontFixed;
+procedure TfmMain.DoApplyFont_Text;
 var
   F: TEditorFrame;
   i: integer;
@@ -220,12 +220,9 @@ begin
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
   if Assigned(fmGoto) then fmGoto.UpdateFonts;
-
-  ListboxOut.ItemHeight:= GetDefaultListItemHeight;
-  ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
-procedure TfmMain.DoApplyFontVar;
+procedure TfmMain.DoApplyFont_Ui;
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= UiOps.VarFontSize;
@@ -247,12 +244,17 @@ begin
 
   cCompleteFontName:= UiOps.VarFontName;
   cCompleteFontSize:= UiOps.VarFontSize;
-  cCompleteItemHeight:= GetDefaultListItemHeight;
+  cCompleteItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
+end;
 
+procedure TfmMain.DoApplyFont_Output;
+begin
   ListboxOut.Font.Name:= UiOps.OutputFontName;
   ListboxOut.Font.Size:= UiOps.OutputFontSize;
   ListboxVal.Font.Name:= UiOps.OutputFontName;
   ListboxVal.Font.Size:= UiOps.OutputFontSize;
+  ListboxOut.ItemHeight:= GetListboxItemHeight(UiOps.OutputFontName, UiOps.OutputFontSize);
+  ListboxVal.ItemHeight:= ListboxOut.ItemHeight;
 end;
 
 procedure TfmMain.UpdateMenuRecent(F: TEditorFrame);
@@ -367,8 +369,9 @@ var
   F: TEditorFrame;
   i: integer;
 begin
-  DoApplyFontFixed;
-  DoApplyFontVar;
+  DoApplyFont_Text;
+  DoApplyFont_Ui;
+  DoApplyFont_Output;
   DoApplyUiOps;
 
   for i:= 0 to FrameCount-1 do
