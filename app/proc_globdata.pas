@@ -897,10 +897,13 @@ var
   bmp: TBitmap;
 begin
   bmp:= TBitmap.Create;
-  bmp.Canvas.Font.Name:= AFontName;
-  bmp.Canvas.Font.Size:= AFontSize;
-  Result:= bmp.Canvas.TextHeight('Pyj')+3;
-  bmp.Free;
+  try
+    bmp.Canvas.Font.Name:= AFontName;
+    bmp.Canvas.Font.Size:= AFontSize;
+    Result:= bmp.Canvas.TextHeight('Pyj')+3;
+  finally
+    FreeAndNil(bmp);
+  end;
 end;
 
 
