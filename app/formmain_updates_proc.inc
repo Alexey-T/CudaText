@@ -229,6 +229,7 @@ procedure TfmMain.DoApplyFontVar;
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= UiOps.VarFontSize;
+  Self.Font.Color:= GetAppColor('TabFont');
 
   Groups.SetTabFont(Self.Font);
   TabsBottom.Font:= Self.Font;
