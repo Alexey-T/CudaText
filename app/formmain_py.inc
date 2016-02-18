@@ -2514,6 +2514,17 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
+        TREE_LOCK:
+          begin
+            Tree.Items.BeginUpdate;
+            Result:= ReturnNone;
+          end;
+        TREE_UNLOCK:
+          begin
+            Tree.Items.EndUpdate;
+            Result:= ReturnNone;
+          end;
+
         TREE_PROP_SHOW_ROOT:
           begin
             Tree.ShowRoot:= StrText<>'0';
