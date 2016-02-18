@@ -162,7 +162,6 @@ type
     FOnTabClick: TNotifyEvent;
     FOnTabPlusClick: TNotifyEvent;
     FOnTabClose: TATTabCloseEvent;
-    FOnTabCloseDone: TNotifyEvent;
     FOnTabMenu: TATTabMenuEvent;
     FOnTabDrawBefore: TATTabDrawEvent;
     FOnTabDrawAfter: TATTabDrawEvent;
@@ -285,7 +284,6 @@ type
     property OnTabClick: TNotifyEvent read FOnTabClick write FOnTabClick;
     property OnTabPlusClick: TNotifyEvent read FOnTabPlusClick write FOnTabPlusClick;
     property OnTabClose: TATTabCloseEvent read FOnTabClose write FOnTabClose;
-    property OnTabCloseDone: TNotifyEvent read FOnTabCloseDone write FOnTabCloseDone;
     property OnTabMenu: TATTabMenuEvent read FOnTabMenu write FOnTabMenu;
     property OnTabDrawBefore: TATTabDrawEvent read FOnTabDrawBefore write FOnTabDrawBefore;
     property OnTabDrawAfter: TATTabDrawEvent read FOnTabDrawAfter write FOnTabDrawAfter;
@@ -1305,9 +1303,6 @@ begin
 
     if Assigned(FOnTabMove) then
       FOnTabMove(Self, AIndex, -1);
-
-    if Assigned(FOnTabCloseDone) then
-      FOnTabCloseDone(Self);
   end;
 
   Result:= true;

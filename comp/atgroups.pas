@@ -154,13 +154,11 @@ type
     FOnTabPopup: TNotifyEvent;
     FOnTabFocus: TNotifyEvent;
     FOnTabClose: TATTabCloseEvent;
-    FOnTabCloseDone: TNotifyEvent;
     FOnTabAdd: TNotifyEvent;
     FOnTabOver: TATTabOverEvent;
     FOnTabMove: TATTabMoveEvent;
     FPopupPages: TATPages;
     FPopupTabIndex: Integer;
-    procedure SetOnTabCloseDone(AValue: TNotifyEvent);
     procedure TabFocus(Sender: TObject);
     procedure TabEmpty(Sender: TObject);
     procedure TabPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -240,7 +238,6 @@ type
     property OnTabPopup: TNotifyEvent read FOnTabPopup write FOnTabPopup;
     property OnTabFocus: TNotifyEvent read FOnTabFocus write FOnTabFocus;
     property OnTabClose: TATTabCloseEvent read FOnTabClose write FOnTabClose;
-    property OnTabCloseDone: TNotifyEvent read FOnTabCloseDone write SetOnTabCloseDone;
     property OnTabAdd: TNotifyEvent read FOnTabAdd write FOnTabAdd;
     property OnTabOver: TATTabOverEvent read FOnTabOver write FOnTabOver;
     property OnTabMove: TATTabMoveEvent read FOnTabMove write FOnTabMove;
@@ -1384,15 +1381,6 @@ procedure TATGroups.TabFocus(Sender: TObject);
 begin
   if Assigned(FOnTabFocus) then
     FOnTabFocus(Sender);
-end;
-
-procedure TATGroups.SetOnTabCloseDone(AValue: TNotifyEvent);
-var
-  i: integer;
-begin
-  FOnTabCloseDone:= AValue;
-  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-    Pages[i].Tabs.OnTabCloseDone:= FOnTabCloseDone;
 end;
 
 procedure TATGroups.MovePopupTabToNext(ANext: boolean);
