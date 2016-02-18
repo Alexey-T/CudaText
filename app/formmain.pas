@@ -515,6 +515,7 @@ type
     function DoMenuAdd(AStr: string): string;
     procedure DoMenuClear(const AStr: string);
     function DoMenuEnum(const AStr: string): string;
+    procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoPanel_Event(const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
@@ -1015,7 +1016,8 @@ begin
   Groups.OnTabFocus:= @DoOnTabFocus;
   Groups.OnTabAdd:= @DoOnTabAdd;
   Groups.OnTabClose:= @DoOnTabClose;
-  Groups.OnTabCloseDone:=@DoOnTabCloseDone;
+  Groups.OnTabMove:= @DoOnTabMove;
+  Groups.OnTabCloseDone:= @DoOnTabCloseDone;
   Groups.OnTabPopup:= @DoOnTabPopup;
   Groups.OnTabOver:= @DoOnTabOver;
 

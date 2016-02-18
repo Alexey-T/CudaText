@@ -387,4 +387,9 @@ begin
   DoPyEvent(CurrentEditor, cEventOnCloseDone, []);
 end;
 
+procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
+begin
+  DoOnTabCloseDone(Sender);
+end;
+
 
