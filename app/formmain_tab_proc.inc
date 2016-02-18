@@ -382,14 +382,9 @@ begin
     Exit(PtrInt(TreeRes));
 end;
 
-procedure TfmMain.DoOnTabCloseDone(Sender: TObject);
-begin
-  DoPyEvent(CurrentEditor, cEventOnCloseDone, []);
-end;
-
 procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
 begin
-  DoOnTabCloseDone(Sender);
+  DoPyEvent(CurrentEditor, cEventOnTabMove, []);
 end;
 
 
