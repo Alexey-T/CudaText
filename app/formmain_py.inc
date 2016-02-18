@@ -1278,7 +1278,6 @@ type
   PAppPanelProps = ^TAppPanelProps;
   TAppPanelProps = record
     Listbox: TATListbox;
-    Items: TStringList;
     RegexStr: string;
     RegexIdLine,
     RegexIdCol,
@@ -1370,14 +1369,14 @@ begin
       case Id of
         LOG_CLEAR:
           begin
-            Prop^.Items.Clear;
+            Prop^.Listbox.Items.Clear;
             Prop^.Listbox.ItemCount:= 0;
             Prop^.Listbox.Invalidate;
           end;
         LOG_ADD:
           begin
-            Prop^.Items.AddObject(Str, TObject(PtrInt(NTag)));
-            Prop^.Listbox.ItemCount:= Prop^.Items.Count;
+            Prop^.Listbox.Items.AddObject(Str, TObject(PtrInt(NTag)));
+            Prop^.Listbox.ItemCount:= Prop^.Listbox.Items.Count;
             Prop^.Listbox.Invalidate;
           end;
         LOG_SET_REGEX:
@@ -1396,9 +1395,9 @@ begin
         LOG_GET_LINES:
           begin
             Str:= '';
-            for i:= 0 to Prop^.Items.Count-1 do
-              Str:= Str + Prop^.Items[i] + #13 + IntToStr(PtrInt(Prop^.Items.Objects[i]))
-                    + IfThen(i<Prop^.Items.Count-1, #10);
+            for i:= 0 to Prop^.Listbox.Items.Count-1 do
+              Str:= Str + Prop^.Listbox.Items[i] + #13 + IntToStr(PtrInt(Prop^.Listbox.Items.Objects[i]))
+                    + IfThen(i<Prop^.Listbox.Items.Count-1, #10);
             Result:= PyString_FromString(PChar(Str));
             exit; //skip ReturnNone
           end;

@@ -483,8 +483,6 @@ type
     FListRecents: TStringList;
     FListNewdoc: TStringList;
     FListThemes: TStringList;
-    FListOut: TStringlist;
-    FListVal: TStringlist;
     FThemeName: string;
     FSessionFilename: string;
     FColorDialog: TColorDialog;
@@ -965,15 +963,11 @@ begin
   FListRecents:= TStringList.Create;
   FListNewdoc:= TStringList.Create;
   FListThemes:= TStringlist.Create;
-  FListOut:= TStringlist.Create;
-  FListVal:= TStringlist.Create;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
   AppPanelProp_Out.Listbox:= ListboxOut;
-  AppPanelProp_Out.Items:= FListOut;
   AppPanelProp_Val.Listbox:= ListboxVal;
-  AppPanelProp_Val.Items:= FListVal;
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
@@ -1155,8 +1149,6 @@ begin
   FreeAndNil(FListRecents);
   FreeAndNil(FListNewdoc);
   FreeAndNil(FListThemes);
-  FreeAndNil(FListOut);
-  FreeAndNil(FListVal);
   FreeAndNil(FPanelCaptions);
 end;
 
@@ -2734,12 +2726,12 @@ begin
     Prop:= @AppPanelProp_Val;
 
   if not ((List.ItemIndex>=0) and
-          (List.ItemIndex<Prop^.Items.Count)) then exit;
+          (List.ItemIndex<Prop^.Listbox.Items.Count)) then exit;
 
   //Ctrl+C
   if (Key=Ord('C')) and (Shift=[ssCtrl]) then
   begin
-    Clipboard.AsText:= Prop^.Items.Text;
+    Clipboard.AsText:= Prop^.Listbox.Items.Text;
     Key:= 0;
     exit
   end;
@@ -2747,7 +2739,7 @@ begin
   //Ctrl+D
   if (Key=Ord('D')) and (Shift=[ssCtrl]) then
   begin
-    Clipboard.AsText:= Prop^.Items[List.ItemIndex];
+    Clipboard.AsText:= Prop^.Listbox.Items[List.ItemIndex];
     Key:= 0;
     exit
   end;
@@ -2760,9 +2752,9 @@ begin
     //  Prop^.Items.Delete(List.ItemIndex);
 
     if Shift=[ssCtrl] then
-      Prop^.Items.Clear;
+      Prop^.Listbox.Items.Clear;
 
-    List.ItemCount:= Prop^.Items.Count;
+    List.ItemCount:= Prop^.Listbox.Items.Count;
     if List.ItemCount=0 then
       List.ItemIndex:= -1
     else
@@ -2883,10 +2875,10 @@ begin
 
   NIndex:= Prop^.Listbox.ItemIndex;
   if NIndex<0 then exit;
-  if NIndex>=Prop^.Items.Count then exit;
+  if NIndex>=Prop^.Listbox.Items.Count then exit;
 
-  SText:= Prop^.Items[NIndex];
-  NTag:= PtrInt(Prop^.Items.Objects[NIndex]);
+  SText:= Prop^.Listbox.Items[NIndex];
+  NTag:= PtrInt(Prop^.Listbox.Items.Objects[NIndex]);
 
   DoParseOutputLine(Prop^, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
@@ -2922,7 +2914,7 @@ begin
   Prop:= GetAppPanelProps_ByListbox(Sender as TATListbox);
   if Prop=nil then exit;
 
-  DoParseOutputLine(Prop^, Prop^.Items[AIndex], ResFilename, ResLine, ResCol);
+  DoParseOutputLine(Prop^, Prop^.Listbox.Items[AIndex], ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
     C.Font.Color:= GetAppColor('ListFontHotkey');
@@ -2940,7 +2932,7 @@ begin
     C.FillRect(ARect);
   end;
 
-  C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Prop^.Items[AIndex]);
+  C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Prop^.Listbox.Items[AIndex]);
 end;
 
 
@@ -3139,7 +3131,6 @@ begin
 
   Props:= TAppPanelPropsClass.Create;
   Props.Data.Listbox:= Listbox;
-  Props.Data.Items:= TStringList.Create;
 
   FPanelCaptions.AddObject(SCaption, Props);
   TabsBottom.AddTab(-1, SCaption, nil);
@@ -3159,7 +3150,6 @@ begin
   if N<0 then exit;
   PropObject:= fmMain.FPanelCaptions.Objects[N] as TAppPanelPropsClass;
   PropObject.Data.Listbox.Free;
-  PropObject.Data.Items.Free;
   PropObject.Free;
   FPanelCaptions.Delete(N);
 
