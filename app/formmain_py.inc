@@ -912,8 +912,8 @@ end;
 function Py_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
-  PtrIcon, PtrHint: PChar;
-  StrIcon, StrHint: string;
+  PtrText: PChar;
+  StrText: string;
   Ed: TATSynEdit;
   NId, NLine, NKind, NColor: integer;
   ComArray: Variant;
@@ -921,11 +921,10 @@ var
   i: Integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiiss:bookmark', @H, @NId, @NLine, @NKind, @NColor, @PtrIcon, @PtrHint)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiiis:bookmark', @H, @NId, @NLine, @NKind, @NColor, @PtrText)) then
     begin
       Ed:= PyEditor(H);
-      StrIcon:= string(PtrIcon);
-      StrHint:= string(PtrHint);
+      StrText:= string(PtrText);
       //limit NKind
       NKind:= Max(Low(AppBookmarkSetup), Min(High(AppBookmarkSetup), NKind));
 
@@ -937,7 +936,7 @@ begin
 
         BOOKMARK_SET:
           begin
-            EditorBookmarkSet(Ed, NLine, NKind, bmOpSet, StrHint);
+            EditorBookmarkSet(Ed, NLine, NKind, bmOpSet, StrText);
             Result:= ReturnNone;
           end;
 
@@ -955,7 +954,7 @@ begin
 
         BOOKMARK_SETUP:
           begin
-            if (StrIcon<>'') and UpdateImagelistWithIconFromFile(AppBookmarkImagelist, StrIcon) then
+            if (StrText<>'') and UpdateImagelistWithIconFromFile(AppBookmarkImagelist, StrText) then
               AppBookmarkSetup[NKind].ImageIndex:= AppBookmarkImagelist.Count-1
             else
               AppBookmarkSetup[NKind].ImageIndex:= -1;

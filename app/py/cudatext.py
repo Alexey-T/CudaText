@@ -361,8 +361,8 @@ class Editor:
         return ct.ed_cmd(self.h, code, text)
     def focus(self):
         return ct.ed_focus(self.h)
-    def bookmark(self, id, nline, nkind=1, ncolor=-1, icon='', hint=''):
-        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, icon, hint)
+    def bookmark(self, id, nline, nkind=1, ncolor=-1, text=''):
+        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text)
 
     def lock(self):
         return ct.ed_lock(self.h)
