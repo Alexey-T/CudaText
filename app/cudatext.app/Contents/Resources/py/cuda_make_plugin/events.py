@@ -5,6 +5,7 @@ EVENTS = [
     'on_click',
     'on_click_dbl',
     'on_close',
+    'on_close_done',
     'on_complete',
     'on_console',
     'on_console_nav',

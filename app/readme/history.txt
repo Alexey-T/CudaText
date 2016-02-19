@@ -3,9 +3,9 @@ Legend:
   - fixed
   * changed
 
-1.2.24b
+1.2.24
 + opt font of bottom-panel listboxes
-+ api for plugin Tabs List
++ api (plugin Tabs List, bookmark hints in CudaLint)
 
 1.2.23
 - fix Addon Manager "Install" (SF.net blocked http)

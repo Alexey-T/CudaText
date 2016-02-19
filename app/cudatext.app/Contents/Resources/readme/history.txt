@@ -3,6 +3,10 @@ Legend:
   - fixed
   * changed
 
+1.2.24
++ opt font of bottom-panel listboxes
++ api (plugin Tabs List, bookmark hints in CudaLint)
+
 1.2.23
 - fix Addon Manager "Install" (SF.net blocked http)
 * change in api. Must update plugs: NumberedBookmarks, PythonIntel, CudaExt, Snippets

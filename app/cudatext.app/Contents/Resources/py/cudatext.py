@@ -55,6 +55,7 @@ BOOKMARK_CLEAR = 2
 BOOKMARK_CLEAR_ALL = 3
 BOOKMARK_SETUP = 4
 BOOKMARK_GET_LIST = 5
+BOOKMARK_CLEAR_HINTS = 6
 
 MARKERS_GET = 0
 MARKERS_ADD = 1
@@ -182,6 +183,8 @@ TREE_ITEM_GET_PARENT = 13
 TREE_ICON_ADD = 20
 TREE_ICON_DELETE = 21
 TREE_PROP_SHOW_ROOT = 30
+TREE_LOCK = 31
+TREE_UNLOCK = 32
 
 LEXER_GET_LIST    = 0
 LEXER_GET_ENABLED = 1
@@ -359,8 +362,8 @@ class Editor:
         return ct.ed_cmd(self.h, code, text)
     def focus(self):
         return ct.ed_focus(self.h)
-    def bookmark(self, id, nline, nkind=1, ncolor=-1, icon=''):
-        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, icon)
+    def bookmark(self, id, nline, nkind=1, ncolor=-1, text=''):
+        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text)
 
     def lock(self):
         return ct.ed_lock(self.h)
