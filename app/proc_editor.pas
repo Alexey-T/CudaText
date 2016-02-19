@@ -30,7 +30,7 @@ procedure EditorMarkerClearAll(Ed: TATSynEdit);
 procedure EditorMarkerSwap(Ed: TATSynEdit);
 
 type TAppBookmarkOp = (bmOpClear, bmOpSet, bmOpToggle);
-procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp);
+procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp; const AHint: string);
 procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 procedure EditorBookmarkClearAll(ed: TATSynEdit);
 procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
@@ -59,7 +59,8 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 implementation
 
-procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp);
+procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
+  AOp: TAppBookmarkOp; const AHint: string);
 var
   i: integer;
 begin
@@ -69,15 +70,27 @@ begin
 
   case AOp of
     bmOpSet:
-      ed.Strings.LinesBm[i]:= ABmKind;
+      begin
+        ed.Strings.LinesBm[i]:= ABmKind;
+        ed.Strings.LinesHint[i]:= AHint;
+      end;
     bmOpClear:
-      ed.Strings.LinesBm[i]:= 0;
+      begin
+        ed.Strings.LinesBm[i]:= 0;
+        ed.Strings.LinesHint[i]:= '';
+      end;
     bmOpToggle:
       begin
         if ed.Strings.LinesBm[i]=0 then
-          ed.Strings.LinesBm[i]:= ABmKind
+        begin
+          ed.Strings.LinesBm[i]:= ABmKind;
+          ed.Strings.LinesHint[i]:= AHint;
+        end
         else
+        begin
           ed.Strings.LinesBm[i]:= 0;
+          ed.Strings.LinesHint[i]:= '';
+        end;
       end;
   end;
 

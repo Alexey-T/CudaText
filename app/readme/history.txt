@@ -4,7 +4,7 @@ Legend:
   * changed
 
 1.2.24b
-+ opt ui_font_output_name, ui_font_output_size
++ opt font of bottom-panel listboxes
 + api for plugin Tabs List
 
 1.2.23
