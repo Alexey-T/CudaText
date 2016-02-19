@@ -986,6 +986,13 @@ begin
             end;
           end;
 
+
+        BOOKMARK_CLEAR_HINTS:
+          begin
+            Ed.Strings.ClearHints;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
