@@ -1542,9 +1542,9 @@ begin
   TabsBottom.TabAngle:= UiOps.TabAngle;
   TabsBottom.TabIndentTop:= 0;
   TabsBottom.TabIndentInit:= UiOps.TabIndentInit;
-  TabsBottom.Height:= UiOps.TabSizeY;
-  TabsBottom.TabHeight:= UiOps.TabSizeY-1;
-  TabsBottom.TabWidthMax:= UiOps.TabSizeX;
+  TabsBottom.Height:= UiOps.TabHeight;
+  TabsBottom.TabHeight:= UiOps.TabHeightInner;
+  TabsBottom.TabWidthMax:= UiOps.TabWidth;
 
   TabsLeft.TabBottom:= UiOps.TabBottom;
   TabsLeft.TabShowPlus:= false;
@@ -1555,9 +1555,9 @@ begin
   TabsLeft.TabAngle:= UiOps.TabAngle;
   TabsLeft.TabIndentTop:= IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop);
   TabsLeft.TabIndentInit:= UiOps.TabIndentInit;
-  TabsLeft.Height:= UiOps.TabSizeY;
-  TabsLeft.TabHeight:= UiOps.TabSizeY-1;
-  TabsLeft.TabWidthMax:= UiOps.TabSizeX;
+  TabsLeft.Height:= UiOps.TabHeight;
+  TabsLeft.TabHeight:= UiOps.TabHeightInner;
+  TabsLeft.TabWidthMax:= UiOps.TabWidth;
   if UiOps.TabBottom then
     TabsLeft.Align:= alBottom
   else
@@ -1569,9 +1569,9 @@ begin
   Groups.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
   Groups.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
   Groups.SetTabOption(tabOptionAngle, UiOps.TabAngle);
-  Groups.SetTabOption(tabOptionWidthMax, UiOps.TabSizeX);
-  Groups.SetTabOption(tabOptionHeight1, UiOps.TabSizeY);
-  Groups.SetTabOption(tabOptionHeight2, UiOps.TabSizeY-2);
+  Groups.SetTabOption(tabOptionWidthMax, UiOps.TabWidth);
+  Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight);
+  Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
   Groups.SetTabOption(tabOptionIndentTop, IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop));
   Groups.SetTabOption(tabOptionIndentInit, UiOps.TabIndentInit);
   Groups.SetTabOption(tabOptionIndentColor, 4);

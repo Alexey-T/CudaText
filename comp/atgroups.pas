@@ -98,8 +98,8 @@ type
     tabOptionShowEntireColor,
     tabOptionDoubleClickClose,
     tabOptionDragDrop,
-    tabOptionHeight1,
-    tabOptionHeight2,
+    tabOptionHeight,
+    tabOptionHeightInner,
     tabOptionWidthMin,
     tabOptionWidthMax,
     tabOptionIndentTop,
@@ -1486,8 +1486,8 @@ begin
         tabOptionDoubleClickClose: TabDoubleClickClose:= Boolean(N);
         tabOptionDragDrop:         TabDragEnabled:= Boolean(N);
         tabOptionAngle:            TabAngle:= N;
-        tabOptionHeight1:          Height:= N;
-        tabOptionHeight2:          TabHeight:= N;
+        tabOptionHeight:           Height:= N;
+        tabOptionHeightInner:      TabHeight:= N;
         tabOptionWidthMin:         TabWidthMin:= N;
         tabOptionWidthMax:         TabWidthMax:= N;
         tabOptionIndentTop:        TabIndentTop:= N;

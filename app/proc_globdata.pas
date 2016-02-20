@@ -85,8 +85,9 @@ type
     ListboxCompleteSizeY: integer;
     ListboxFuzzySearch: boolean;
 
-    TabSizeX: integer;
-    TabSizeY: integer;
+    TabWidth: integer;
+    TabHeight: integer;
+    TabHeightInner: integer;
     TabIndentTop: integer;
     TabIndentInit: integer;
     TabAngle: integer;
@@ -732,8 +733,9 @@ begin
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;
 
-    TabSizeX:= 170;
-    TabSizeY:= 25;
+    TabWidth:= 170;
+    TabHeight:= 25;
+    TabHeightInner:= TabHeight-1;
     TabIndentTop:= 0;
     TabIndentInit:= 5;
     TabAngle:= 3;
@@ -778,7 +780,7 @@ begin
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
     StatusPanels:= 'caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000';
-    StatusHeight:= TabSizeY;
+    StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
 
