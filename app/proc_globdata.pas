@@ -88,7 +88,7 @@ type
     TabSizeX: integer;
     TabSizeY: integer;
     TabIndentTop: integer;
-    TabIndentX: integer;
+    TabIndentInit: integer;
     TabAngle: integer;
     TabBottom: boolean;
     TabColorFull: boolean;
@@ -734,8 +734,8 @@ begin
 
     TabSizeX:= 170;
     TabSizeY:= 25;
-    TabIndentTop:= 1;
-    TabIndentX:= 5;
+    TabIndentTop:= 0;
+    TabIndentInit:= 5;
     TabAngle:= 3;
     TabBottom:= false;
     TabColorFull:= false;

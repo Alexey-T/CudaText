@@ -1541,7 +1541,7 @@ begin
   TabsBottom.TabMiddleClickClose:= false;
   TabsBottom.TabAngle:= UiOps.TabAngle;
   TabsBottom.TabIndentTop:= 0;
-  TabsBottom.TabIndentInit:= UiOps.TabIndentX;
+  TabsBottom.TabIndentInit:= UiOps.TabIndentInit;
   TabsBottom.Height:= UiOps.TabSizeY;
   TabsBottom.TabHeight:= UiOps.TabSizeY-1;
   TabsBottom.TabWidthMax:= UiOps.TabSizeX;
@@ -1553,8 +1553,8 @@ begin
   TabsLeft.TabDoubleClickClose:= false;
   TabsLeft.TabMiddleClickClose:= false;
   TabsLeft.TabAngle:= UiOps.TabAngle;
-  TabsLeft.TabIndentTop:= UiOps.TabIndentTop;
-  TabsLeft.TabIndentInit:= UiOps.TabIndentX;
+  TabsLeft.TabIndentTop:= IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop);
+  TabsLeft.TabIndentInit:= UiOps.TabIndentInit;
   TabsLeft.Height:= UiOps.TabSizeY;
   TabsLeft.TabHeight:= UiOps.TabSizeY-1;
   TabsLeft.TabWidthMax:= UiOps.TabSizeX;
@@ -1572,8 +1572,8 @@ begin
   Groups.SetTabOption(tabOptionWidthMax, UiOps.TabSizeX);
   Groups.SetTabOption(tabOptionHeight1, UiOps.TabSizeY);
   Groups.SetTabOption(tabOptionHeight2, UiOps.TabSizeY-2);
-  Groups.SetTabOption(tabOptionIndentTop, UiOps.TabIndentTop);
-  Groups.SetTabOption(tabOptionIndentInit, UiOps.TabIndentX);
+  Groups.SetTabOption(tabOptionIndentTop, IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop));
+  Groups.SetTabOption(tabOptionIndentInit, UiOps.TabIndentInit);
   Groups.SetTabOption(tabOptionIndentColor, 4);
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
