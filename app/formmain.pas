@@ -1016,6 +1016,7 @@ begin
   TabsBottom:= TATTabs.Create(Self);
   TabsBottom.Parent:= PanelBottom;
   TabsBottom.Align:= alBottom;
+  TabsBottom.TabDragEnabled:= false;
 
   TabsBottom.AddTab(-1, 'Console', nil);
   TabsBottom.AddTab(-1, 'Output', nil);
@@ -1026,6 +1027,7 @@ begin
   TabsLeft:= TATTabs.Create(Self);
   TabsLeft.Parent:= PanelLeft;
   TabsLeft.Align:= alTop;
+  TabsLeft.TabDragEnabled:= false;
 
   TabsLeft.AddTab(-1, 'Tree', nil);
   TabsLeft.OnTabClick:= @DoOnTabsLeftClick;
