@@ -630,9 +630,7 @@ begin
 
         MARKERS_DELETE_BY_TAG:
           begin
-            for i:= Ed.Attribs.Count-1 downto 0 do
-              if Ed.Attribs[i].Tag=NTag then
-                Ed.Attribs.Delete(i);
+            Ed.Attribs.DeleteWithTag(NTag);
             Ed.Update;
             fmMain.UpdateStatus;
             Result:= ReturnNone;

@@ -466,6 +466,7 @@ begin
   Ed.Colors.StateSaved:= GetAppColor('EdStateSaved');
   Ed.Colors.BlockStaple:= GetAppColor('EdBlockStaple');
   Ed.Colors.BlockSepLine:= GetAppColor('EdBlockSepLine');
+  Ed.Colors.Links:= GetAppColor('EdLinks');
   Ed.Colors.LockedBG:= GetAppColor('EdLockedBg');
   Ed.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
   Ed.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
@@ -517,6 +518,7 @@ begin
   if Id='EdStateSaved' then Ed.Colors.StateSaved:= AColor else
   if Id='EdBlockStaple' then Ed.Colors.BlockStaple:= AColor else
   if Id='EdBlockSepLine' then Ed.Colors.BlockSepLine:= AColor else
+  if Id='EdLinks' then Ed.Colors.Links:= AColor else
   if Id='EdLockedBg' then Ed.Colors.LockedBG:= AColor else
   if Id='EdComboArrow' then Ed.Colors.ComboboxArrow:= AColor else
   if Id='EdComboArrowBg' then Ed.Colors.ComboboxArrowBG:= AColor else
@@ -565,6 +567,7 @@ begin
   if Id='EdStateSaved' then exit(Ed.Colors.StateSaved);
   if Id='EdBlockStaple' then exit(Ed.Colors.BlockStaple);
   if Id='EdBlockSepLine' then exit(Ed.Colors.BlockSepLine);
+  if Id='EdLinks' then exit(Ed.Colors.Links);
   if Id='EdLockedBg' then exit(Ed.Colors.LockedBG);
   if Id='EdComboArrow' then exit(Ed.Colors.ComboboxArrow);
   if Id='EdComboArrowBg' then exit(Ed.Colors.ComboboxArrowBG);

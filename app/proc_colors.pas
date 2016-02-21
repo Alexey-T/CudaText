@@ -88,6 +88,7 @@ begin
   Add(clHighlight, 'EdSelBg', 'editor, selection, BG');
   Add(clGray, 'EdDisableFont', 'editor, disabled state, font');
   Add($f0f0f0, 'EdDisableBg', 'editor, disabled state, BG');
+  Add(clBlue, 'EdLinks', 'editor, links');
   Add($e0e0e0, 'EdLockedBg', 'editor, locked state, BG');
   Add(clBlack, 'EdCaret', 'editor, caret');
   Add($0000d0, 'EdMarkers', 'editor, markers');
