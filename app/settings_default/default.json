@@ -460,4 +460,9 @@
   //Extensions of picture files (shown as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,ico",
 
+  //Highlight URLs (font color+ underline)
+  "links_hilite": true,
+  //Reg-ex which finds URLs
+  "links_regex": "\\b(https?://|ftp://|www\\.)[^<>''\"\\s]+",
+
 }

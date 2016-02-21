@@ -191,6 +191,9 @@ begin
   Ed.OptMarginRight:= Op.OpMargin;
   Ed.OptMarginString:= Op.OpMarginString;
 
+  Ed.OptShowURLs:= Op.OpLinks;
+  Ed.OptShowURLsRegex:= Op.OpLinksRegex;
+
   if ForceApply then
   begin
     Ed.OptUnprintedVisible:= Op.OpUnprintedShow;

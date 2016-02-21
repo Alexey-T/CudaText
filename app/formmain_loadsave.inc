@@ -426,6 +426,9 @@ begin
     Op.OpUnderlineColorFiles:= c.GetValue('underline_color_files', Op.OpUnderlineColorFiles);
     Op.OpUnderlineColorSize:= c.GetValue('underline_color_size', Op.OpUnderlineColorSize);
 
+    Op.OpLinks:= c.GetValue('links_hilite', Op.OpLinks);
+    Op.OpLinksRegex:= c.GetValue('links_regex', Op.OpLinksRegex);
+
     Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
     Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);
     Op.OpGutterFoldAlways:= c.GetValue('gutter_fold_always', Op.OpGutterFoldAlways);

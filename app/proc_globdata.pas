@@ -165,6 +165,8 @@ type
     OpOvrOnPaste: boolean;
     OpUnderlineColorFiles: string;
     OpUnderlineColorSize: integer;
+    OpLinks: boolean;
+    OpLinksRegex: string;
 
     //view
     OpGutterShow: boolean;
@@ -606,6 +608,8 @@ begin
 
     OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;
+    OpLinks:= true;
+    OpLinksRegex:= ATSynEdit.cUrlRegexInitial;
 
     OpGutterShow:= true;
     OpGutterFold:= true;
