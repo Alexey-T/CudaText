@@ -130,6 +130,7 @@ begin
   memo.OptWrapMode:= cWrapOn;
   memo.OptAllowScrollbarHorz:= false;
 
+  memo.OptShowURLs:= false;
   memo.OptCaretManyAllowed:= false;
   memo.OptGutterVisible:= false;
   memo.OptRulerVisible:= false;

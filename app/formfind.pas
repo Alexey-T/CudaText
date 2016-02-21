@@ -217,6 +217,7 @@ begin
     Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
     Update;
   end;
+
   with edRep do
   begin
     Font.Name:= EditorOps.OpFontName;

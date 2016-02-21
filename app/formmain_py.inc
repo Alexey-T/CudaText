@@ -1657,6 +1657,14 @@ begin
         PROP_LINE_BOTTOM:
           Result:= PyInt_FromLong(Ed.LineBottom);
 
+        PROP_LINK_AT_POS:
+          begin
+            Pnt.X:= StrToIntDef(SGetItem(Str), -1);
+            Pnt.Y:= StrToIntDef(SGetItem(Str), -1);
+            Str:= Ed.DoGetLinkAtPos(Pnt.X, Pnt.Y);
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
         PROP_PICTURE:
           begin
             if F.IsText then
