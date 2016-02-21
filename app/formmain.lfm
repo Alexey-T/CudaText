@@ -2347,6 +2347,9 @@ object fmMain: TfmMain
     object mnuTextGotoDef: TMenuItem
       Caption = 'Go to definition'
     end
+    object mnuTextOpenUrl: TMenuItem
+      Caption = 'Open URL'
+    end
   end
   object TimerStatusAlt: TTimer
     Enabled = False

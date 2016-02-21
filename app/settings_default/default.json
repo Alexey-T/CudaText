@@ -463,6 +463,6 @@
   //Highlight URLs (font color+ underline)
   "links_hilite": true,
   //Reg-ex which finds URLs
-  "links_regex": "\\b(https?://|ftp://|www\\.)[^<>''\"\\s]+",
+  "links_regex": "\\b(https?://|ftp://|magnet:\\?|www\\.)\\w[^<>''\"\\s]+",
 
 }

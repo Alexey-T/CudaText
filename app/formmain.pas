@@ -92,6 +92,7 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuTextOpenUrl: TMenuItem;
     mnuFontOutput: TMenuItem;
     mnuGr1p2H: TMenuItem;
     mnuEditSpToTab: TMenuItem;
@@ -2967,6 +2968,7 @@ begin
   UpKey(mnuTextDelete, cCommand_TextDeleteSelection);
   UpKey(mnuTextSel, cCommand_SelectAll);
   UpKey(mnuTextGotoDef, cmd_GotoDefinition);
+  UpKey(mnuTextOpenUrl, cmd_LinkAtPopup_Open);
 
   Ed:= CurrentEditor;
   if assigned(mnuTextCut) then mnuTextCut.Enabled:= not Ed.ModeReadOnly;

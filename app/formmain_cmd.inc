@@ -11,6 +11,7 @@ procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Cmd: integer;
   P: TPoint;
+  Str: atString;
 begin
   TimerCmd.Enabled:= false;
   Cmd:= TimerCmd.Tag;
@@ -261,6 +262,26 @@ begin
       begin
         CurrentFrame.DoMacroStop(true);
         MsgStatus('');
+      end;
+
+    cmd_LinkAtPopup_Open:
+      begin
+        Str:= EditorGetLinkAtScreenCoord(CurrentEditor, PopupText.PopupPoint);
+        if Str<>'' then
+        begin
+          OpenURL(Str);
+          MsgStatus('Opened browser');
+        end;
+      end;
+
+    cmd_LinkAtPopup_Copy:
+      begin
+        Str:= EditorGetLinkAtScreenCoord(CurrentEditor, PopupText.PopupPoint);
+        if Str<>'' then
+        begin
+          Clipboard.AsText:= Utf8Encode(Str);
+          MsgStatus('Copied link');
+        end;
       end;
 
     cmd_TreeGotoNext: DoTreeviewJump(Tree, treeGoNext);

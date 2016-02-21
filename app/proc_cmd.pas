@@ -221,6 +221,9 @@ const
   cmd_Markers_ClearAll           = 2803;
   cmd_Markers_SwapCaretAndMarker = 2804;
 
+  cmd_LinkAtPopup_Open           = 2808;
+  cmd_LinkAtPopup_Copy           = 2809;
+
   cmd_MacroStart                 = 2810;
   cmd_MacroStop                  = 2811;
   cmd_MacroCancel                = 2812;
@@ -431,6 +434,9 @@ begin
   M.Add(cmd_MacroStart, 'macros: start recording', [], []);
   M.Add(cmd_MacroStop, 'macros: stop recording', [], []);
   M.Add(cmd_MacroCancel, 'macros: cancel recording', [], []);
+
+  M.Add(cmd_LinkAtPopup_Open, 'url: open url of right-click', [], []);
+  M.Add(cmd_LinkAtPopup_Copy, 'url: copy url of right-click', [], []);
 
   M.Add(cmd_TreeGotoNext, 'tree: select next node', [], []);
   M.Add(cmd_TreeGotoPrev, 'tree: select previous node', [], []);

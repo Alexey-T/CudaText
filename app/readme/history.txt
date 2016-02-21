@@ -5,8 +5,8 @@ Legend:
 
 1.2.25b
 + used FPC 3.0
-+ hilite URLs
-- micro fixes
++ hilite URLs: opts links_hilite, links_regex
++ hilite URLs: commands to open/copy URL at pos of right-click
 
 1.2.24
 + opt font of bottom-panel listboxes
