@@ -2976,6 +2976,7 @@ begin
   if assigned(mnuTextDelete) then mnuTextDelete.Enabled:= not Ed.ModeReadOnly and Ed.Carets.IsSelection;
   if assigned(mnuTextUndo) then mnuTextUndo.Enabled:= not Ed.ModeReadOnly and (Ed.UndoCount>0);
   if assigned(mnuTextRedo) then mnuTextRedo.Enabled:= not Ed.ModeReadOnly and (Ed.RedoCount>0);
+  if assigned(mnuTextOpenUrl) then mnuTextOpenUrl.Enabled:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint)<>'';
 end;
 
 
@@ -3353,6 +3354,7 @@ begin
       mnuTextRedo:= nil;
       mnuTextSel:= nil;
       mnuTextGotoDef:= nil;
+      mnuTextOpenUrl:= nil;
     end;
   end;
 end;
