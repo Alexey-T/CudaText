@@ -3,7 +3,7 @@ Legend:
   - fixed
   * changed
 
-1.2.25b
+1.2.25
 + used FPC 3.0
 + hilite URLs: opts links_hilite, links_regex
 + hilite URLs: commands to open/copy URL at pos of right-click

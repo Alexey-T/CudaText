@@ -5,7 +5,12 @@ unit fpjsonrtti;
 interface
 
 uses
-  Classes, SysUtils, typinfo, fpjson, rttiutils, jsonparser;
+  Classes, SysUtils, contnrs, typinfo, fpjson, rttiutils, jsonparser;
+
+Const
+  RFC3339DateTimeFormat = 'yyyy"-"mm"-"dd"T"hh":"nn":"ss';
+  RFC3339DateTimeFormatMsec = RFC3339DateTimeFormat+'.zzz';
+  
 
 Type
 
@@ -22,7 +27,8 @@ Type
                        jsoTStringsAsObject,       // Stream TStrings as an object : string = { object }
                        jsoDateTimeAsString,       // Format a TDateTime value as a string
                        jsoUseFormatString,        // Use FormatString when creating JSON strings.
-                       jsoCheckEmptyDateTime);    // If TDateTime value is empty and jsoDateTimeAsString is used, 0 date returns empty string
+                       jsoCheckEmptyDateTime,     // If TDateTime value is empty and jsoDateTimeAsString is used, 0 date returns empty string
+                       jsoLegacyDateTime);         // Set this to enable old date/time formatting. Current behaviour is to save date/time as a ISO 9601 value.
   TJSONStreamOptions = Set of TJSONStreamOption;
 
   TJSONFiler = Class(TComponent)
@@ -62,6 +68,8 @@ Type
     Function ObjectToJSON(Const AObject : TObject) : TJSONObject;
     // Stream a collection - always returns an array
     function StreamCollection(Const ACollection: TCollection): TJSONArray;
+    // Stream an objectlist - always returns an array
+    function StreamObjectList(Const AnObjectList: TObjectList): TJSONArray;
     // Stream a TStrings instance as an array
     function StreamTStringsArray(Const AStrings: TStrings): TJSONArray;
     // Stream a TStrings instance as an object
@@ -100,16 +108,25 @@ Type
   TJSONRestorePropertyEvent = Procedure (Sender : TObject; AObject : TObject; Info : PPropInfo; AValue : TJSONData; Var Handled : Boolean) of object;
   TJSONPropertyErrorEvent = Procedure (Sender : TObject; AObject : TObject; Info : PPropInfo; AValue : TJSONData; Error : Exception; Var Continue : Boolean) of object;
   TJSONGetObjectEvent = Procedure (Sender : TOBject; AObject : TObject; Info : PPropInfo; AData : TJSONObject; DataName : TJSONStringType; Var AValue : TObject);
+  TJSONDestreamOption = (jdoCaseInsensitive,jdoIgnorePropertyErrors);
+  TJSONDestreamOptions = set of TJSONDestreamOption;
+
   TJSONDeStreamer = Class(TJSONFiler)
   private
     FAfterReadObject: TJSONStreamEvent;
     FBeforeReadObject: TJSONStreamEvent;
+    FDateTimeFormat: String;
     FOnGetObject: TJSONGetObjectEvent;
     FOnPropError: TJSONpropertyErrorEvent;
     FOnRestoreProp: TJSONRestorePropertyEvent;
     FCaseInsensitive : Boolean;
+    FOptions: TJSONDestreamOptions;
     procedure DeStreamClassProperty(AObject: TObject; PropInfo: PPropInfo; PropData: TJSONData);
+    function GetCaseInsensitive: Boolean;
+    procedure SetCaseInsensitive(AValue: Boolean);
   protected
+    // Try to parse a date.
+    Function ExtractDateTime(S : String): TDateTime;
     function GetObject(AInstance : TObject; const APropName: TJSONStringType; D: TJSONObject; PropInfo: PPropInfo): TObject;
     procedure DoRestoreProperty(AObject: TObject; PropInfo: PPropInfo;  PropData: TJSONData); virtual;
     Function ObjectFromString(Const JSON : TJSONStringType) : TJSONData; virtual;
@@ -141,7 +158,12 @@ Type
     // Published Properties of the instance will be further restored with available data.
     Property OngetObject : TJSONGetObjectEvent Read FOnGetObject Write FOnGetObject;
     // JSON is by definition case sensitive. Should properties be looked up case-insentive ?
-    Property CaseInsensitive : Boolean Read FCaseInsensitive Write FCaseInsensitive;
+    Property CaseInsensitive : Boolean Read GetCaseInsensitive Write SetCaseInsensitive ; deprecated;
+    // DateTime format. If not set, RFC3339DateTimeFormat is assumed.
+    // If set, it will be used as an argument to ScanDateTime. If that fails, StrToDateTime is used.
+    Property DateTimeFormat : String Read FDateTimeFormat Write FDateTimeFormat;
+    // Options overning the behaviour
+    Property Options : TJSONDestreamOptions Read FOptions Write FOptions;
   end;
 
   EJSONRTTI = Class(Exception);
@@ -149,7 +171,7 @@ Type
 
 implementation
 
-uses variants;
+uses dateutils, variants, rtlconsts;
 
 ResourceString
   SErrUnknownPropertyKind     = 'Unknown property kind for property : "%s"';
@@ -205,7 +227,8 @@ begin
   inherited Destroy;
 end;
 
-procedure TJSONDeStreamer.JSONToObject(Const JSON: TJSONStringType; AObject: TObject);
+procedure TJSONDeStreamer.JSONToObject(const JSON: TJSONStringType;
+  AObject: TObject);
 
 Var
   D : TJSONData;
@@ -233,7 +256,7 @@ begin
   end;
 end;
 
-Function TJSONDeStreamer.JSONToVariant(Data : TJSONData) : Variant;
+function TJSONDeStreamer.JSONToVariant(Data: TJSONData): Variant;
 
 Var
   I : integer;
@@ -306,6 +329,48 @@ begin
     end;
 end;
 
+function TJSONDeStreamer.GetCaseInsensitive: Boolean;
+begin
+  Result:=jdoCaseInsensitive in Options;
+end;
+
+procedure TJSONDeStreamer.SetCaseInsensitive(AValue: Boolean);
+begin
+  if AValue then
+    Include(Foptions,jdoCaseInsensitive)
+  else
+    Exclude(Foptions,jdoCaseInsensitive);
+end;
+
+function TJSONDeStreamer.ExtractDateTime(S: String): TDateTime;
+
+Var
+  Fmt : String;
+  E,fmtSpecified : Boolean;
+
+begin
+  E:=False;
+  FMT:=DateTimeFormat;
+  fmtSpecified:=Fmt<>'';
+  if Not fmtSpecified then
+    FMT:=RFC3339DateTimeFormat;
+  Try
+    // No TryScanDateTime
+    Result:=ScanDatetime(FMT,S);
+  except
+    if fmtSpecified then
+      Raise
+    else
+      E:=True;
+  end;
+  if E then
+    if not TryStrToDateTime(S,Result) then
+      if not TryStrToDate(S,Result) then
+        if not TryStrToTime(S,Result) then
+          Raise EConvertError.CreateFmt(SInvalidDateTime,[S]);
+//  ExtractDateTime(PropData.AsString)
+end;
+
 procedure TJSONDeStreamer.RestoreProperty(AObject : TObject;PropInfo : PPropInfo; PropData : TJSONData);
 
 Var
@@ -329,7 +394,9 @@ begin
         FOnPropError(Self,AObject,PropInfo,PropData,E,B);
         If Not B then
           Raise;
-        end;
+        end
+      else if Not (jdoIgnorePropertyErrors in Options) then
+        Raise;
   end;
 end;
 
@@ -365,7 +432,7 @@ begin
     tkFloat :
       begin
       if (TI=TypeInfo(TDateTime)) and (PropData.JSONType=jtString) then
-        SetFloatProp(AObject,PI,StrToDateTime(PropData.AsString))
+        SetFloatProp(AObject,PI,ExtractDateTime(PropData.AsString))
       else
         SetFloatProp(AObject,PI,PropData.AsFloat)
       end;
@@ -398,7 +465,7 @@ begin
     tkAString:
       SetStrProp(AObject,PI,PropData.AsString);
     tkWString :
-      SetWideStrProp(AObject,PI,PropData.AsString);
+      SetWideStrProp(AObject,PI,PropData.AsUnicodeString);
     tkVariant:
       SetVariantProp(AObject,PI,JSONToVariant(PropData));
     tkClass:
@@ -423,7 +490,7 @@ begin
     tkMethod :
       Error(SErrUnsupportedPropertyKind,[PI^.Name]);
     tkUString :
-      SetUnicodeStrProp(AObject,PI,PropData.AsString);
+      SetUnicodeStrProp(AObject,PI,PropData.AsUnicodeString);
     tkUChar:
       begin
       JS:=PropData.asString;
@@ -433,7 +500,8 @@ begin
   end;
 end;
 
-procedure TJSONDeStreamer.JSONToObject(Const JSON: TJSONObject; AObject: TObject);
+procedure TJSONDeStreamer.JSONToObject(const JSON: TJSONObject; AObject: TObject
+  );
 Var
   I,J : Integer;
   PIL : TPropInfoList;
@@ -514,7 +582,9 @@ begin
   end;
 end;
 
-Function TJSONDeStreamer.GetObject(AInstance : TObject; Const APropName : TJSONStringType; D : TJSONObject; PropInfo : PPropInfo) : TObject;
+function TJSONDeStreamer.GetObject(AInstance: TObject;
+  const APropName: TJSONStringType; D: TJSONObject; PropInfo: PPropInfo
+  ): TObject;
 
 Var
   C : TClass;
@@ -669,6 +739,8 @@ begin
       Result.Add('Strings',StreamTStrings(Tstrings(AObject)))
     else If AObject is TCollection then
       Result.Add('Items',StreamCollection(TCollection(AObject)))
+    else If AObject is TObjectList then
+      Result.Add('Objects',StreamObjectList(TObjectList(AObject)))
     else
       begin
       PIL:=TPropInfoList.Create(AObject,tkProperties);
@@ -889,7 +961,24 @@ begin
   end;
 end;
 
-Function TJSONStreamer.StreamClassProperty(Const AObject : TObject): TJSONData;
+function TJSONStreamer.StreamObjectList(const AnObjectList: TObjectList): TJSONArray;
+Var
+  I : Integer;
+
+begin
+  if not Assigned(AnObjectList) then
+    Result:=Nil;
+  Result:=TJSONArray.Create;
+  try
+    For I:=0 to AnObjectList.Count-1 do
+      Result.Add(ObjectToJSON(AnObjectList.Items[i]));
+  except
+    FreeAndNil(Result);
+    Raise;
+  end;
+end;
+
+function TJSONStreamer.StreamClassProperty(const AObject: TObject): TJSONData;
 
 Var
   C : TCollection;
@@ -910,6 +999,8 @@ begin
     Result:=StreamTStrings(TStrings(AObject))
   else if (AObject is TCollection) then
     Result:=StreamCollection(TCollection(Aobject))
+  else If AObject is TObjectList then
+    Result:=StreamObjectList(TObjectList(AObject))
   else // Normally, this is only TPersistent.
     Result:=ObjectToJSON(AObject);
 end;
@@ -980,7 +1071,8 @@ begin
       Result:=TJSONInt64Number.Create(GetOrdProp(AObject,PropertyInfo));
     tkQWord :
       Result:=TJSONFloatNumber.Create(GetOrdProp(AObject,PropertyInfo));
-    tkObject,
+    tkObject :
+      Result:=ObjectToJSON(GetObjectProp(AObject,PropertyInfo));
     tkArray,
     tkRecord,
     tkInterface,
@@ -1008,12 +1100,18 @@ begin
     S:=''
   else if (DateTimeFormat<>'') then
     S:=FormatDateTime(DateTimeFormat,DateTime)
-  else if Frac(DateTime)=0 then
-    S:=DateToStr(DateTime)
-  else if Trunc(DateTime)=0 then
-    S:=TimeToStr(DateTime)
+  else if (jsoLegacyDateTime in options) then  
+    begin
+    if Frac(DateTime)=0 then
+      S:=DateToStr(DateTime)
+    else if Trunc(DateTime)=0 then
+      S:=TimeToStr(DateTime)
+    else
+      S:=DateTimeToStr(DateTime);
+    end
   else
-    S:=DateTimeToStr(DateTime);
+    S:=FormatDateTime(RFC3339DateTimeFormat,DateTime);
+     
   Result:=TJSONString.Create(S);
 end;
 
