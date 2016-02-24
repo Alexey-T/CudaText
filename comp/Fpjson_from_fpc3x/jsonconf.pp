@@ -687,7 +687,7 @@ begin
     begin
     F:=TFileStream.Create(AFileName,fmopenRead);
     try
-      P:=TJSONParser.Create(F,[joUTF8,joComments]);
+      P:=TJSONParser.Create(F,[joUTF8,joComments,joIgnoreTrailingComma]);
       try
         J:=P.Parse;
         If (J is TJSONObject) then
