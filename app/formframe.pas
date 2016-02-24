@@ -192,7 +192,7 @@ type
     property SplitPos: double read FSplitPos write SetSplitPos;
     //file
     procedure DoFileOpen(const fn: string; AllowFollowTail: boolean=false);
-    function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
+    function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog; ACheckFilenameOpened: TStrFunction): boolean;
     procedure DoFileReload(ADetectEnc: boolean);
     procedure DoSaveHistory;
     procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
@@ -886,7 +886,8 @@ begin
   NotifEnabled:= NotifEnabled;
 end;
 
-function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
+function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog;
+  ACheckFilenameOpened: TStrFunction): boolean;
 var
   an: TecSyntAnalyzer;
   attr: integer;
@@ -915,6 +916,12 @@ begin
     end;
 
     if not ASaveDlg.Execute then Exit;
+    if Assigned(ACheckFilenameOpened) and ACheckFilenameOpened(ASaveDlg.FileName) then
+    begin
+      MsgBox('This filename is currently opened', MB_OK or MB_ICONERROR);
+      exit
+    end;
+
     FFileName:= ASaveDlg.FileName;
     Lexer:= AppFindLexer(FFileName);
 

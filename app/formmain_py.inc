@@ -302,7 +302,7 @@ begin
       if StrName<>'' then
         Frame.FileName:= StrName;
 
-      Ok:= Frame.DoFileSave(false, fmMain.SaveDlg);
+      Ok:= Frame.DoFileSave(false, fmMain.SaveDlg, nil);
       Result:= PyBool_FromLong(Ord(Ok));
     end;
 end;
@@ -328,7 +328,7 @@ begin
 
       Ok:= false;
       if Assigned(Frame) then
-        Ok:= Frame.DoFileSave(false, fmMain.SaveDlg);
+        Ok:= Frame.DoFileSave(false, fmMain.SaveDlg, nil);
       Result:= PyBool_FromLong(Ord(Ok));
     end;
 end;

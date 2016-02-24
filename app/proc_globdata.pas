@@ -292,6 +292,7 @@ var
 
 type
   TStrEvent = procedure(Sender: TObject; const ARes: string) of object;
+  TStrFunction = function(const AStr: string): boolean of object;
 
 const
   cEncNameUtf8 = 'UTF-8';

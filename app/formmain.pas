@@ -510,6 +510,7 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
+    function DoCheckFilenameOpened(const AStr: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd(AStr: string): string;
     procedure DoMenuClear(const AStr: string);
@@ -553,6 +554,8 @@ type
     procedure DoFileInstallZip(const fn: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
+    procedure DoFileSave;
+    procedure DoFileSaveAs;
     function DoPyPanelAdd(AParams: string): boolean;
     function DoPyPanelDelete(const ACaption: string): boolean;
     function DoPyPanelFocus(const ACaption: string): boolean;
@@ -1399,7 +1402,7 @@ begin
           begin
             F:= Frames[i];
             if List.Checked[i] then
-              F.DoFileSave(false, SaveDlg);
+              F.DoFileSave(false, SaveDlg, nil);
           end;
         end;
     end;
@@ -2181,7 +2184,7 @@ begin
   begin
     F:= Frames[i];
     if F.Modified then
-      F.DoFileSave(false, SaveDlg);
+      F.DoFileSave(false, SaveDlg, nil);
   end;
 end;
 
@@ -2386,6 +2389,33 @@ begin
   F.Lexer:= AppFindLexer(fn);
   UpdateFrame(true);
   UpdateStatus;
+end;
+
+procedure TfmMain.DoFileSave;
+var
+  F: TEditorFrame;
+begin
+  F:= CurrentFrame;
+  if F.Modified or (F.FileName='') then
+    F.DoFileSave(false, SaveDlg, nil);
+end;
+
+procedure TfmMain.DoFileSaveAs;
+var
+  F: TEditorFrame;
+begin
+  F:= CurrentFrame;
+  F.DoFileSave(true, SaveDlg, @DoCheckFilenameOpened);
+end;
+
+function TfmMain.DoCheckFilenameOpened(const AStr: string): boolean;
+var
+  i: integer;
+begin
+  Result:= false;
+  if AStr='' then exit;
+  for i:= 0 to FrameCount-1 do
+    if Frames[i].FileName=AStr then exit(true);
 end;
 
 procedure TfmMain.DoOps_OpenFile_Default;

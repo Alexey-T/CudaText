@@ -124,7 +124,7 @@ begin
     Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaption]);
     Res:= MsgBox(Msg, Btn or mb_iconquestion);
     if (Res=idok) or (Res=idyes) then
-      Frame.DoFileSave(false, SaveDlg);
+      Frame.DoFileSave(false, SaveDlg, nil);
   end;
 
   ACanClose:= Res<>idcancel;
@@ -235,7 +235,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  F.DoFileSave(true, SaveDlg);
+  F.DoFileSave(true, SaveDlg, @DoCheckFilenameOpened);
 end;
 
 procedure TfmMain.mnuTabSaveClick(Sender: TObject);
@@ -244,7 +244,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  F.DoFileSave(false, SaveDlg);
+  F.DoFileSave(false, SaveDlg, nil);
 end;
 
 procedure TfmMain.mnuTabsizeSpaceClick(Sender: TObject);

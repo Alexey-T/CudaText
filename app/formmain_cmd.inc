@@ -26,12 +26,8 @@ begin
     cmd_FileCloseOtherAll:   Groups.CloseTabs(tabCloseOthersAllPages, false);
     cmd_FileCloseAndDelete:  DoFileCloseAndDelete;
 
-    cmd_FileSave:            begin
-                               with CurrentFrame do
-                                 if Modified or (FileName='') then
-                                   DoFileSave(false, SaveDlg);
-                             end;
-    cmd_FileSaveAs:          CurrentFrame.DoFileSave(true, SaveDlg);
+    cmd_FileSave:            DoFileSave;
+    cmd_FileSaveAs:          DoFileSaveAs;
     cmd_FileSaveAll:         DoFileSaveAll;
 
     cmd_FileExit:            Close;
