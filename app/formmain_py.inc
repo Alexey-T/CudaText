@@ -844,13 +844,25 @@ var
   Ed: TATSynEdit;
   NCode: integer;
   Ptr: PChar;
+  Str: string;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:cmd', @H, @NCode, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      Ed.DoCommand(NCode, string(Ptr));
-      Ed.Update();
+      Str:= string(Ptr);
+
+      if IsCommandNeedTimer(NCode) then
+      begin
+        fmMain.TimerCmd.Tag:= NCode;
+        fmMain.TimerCmdTimer(nil);
+      end
+      else
+      begin
+        Ed.DoCommand(NCode, Utf8Decode(Str));
+        Ed.Update();
+      end;
+
       fmMain.UpdateStatus;
       Result:= ReturnNone;
     end;
