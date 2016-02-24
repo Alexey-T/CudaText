@@ -1724,6 +1724,11 @@ begin
           Ed.OptMarginString:= Str;
         PROP_INSERT:
           Ed.ModeOverwrite:= not ValueBool;
+        PROP_MODIFIED:
+          begin
+            Ed.Modified:= ValueBool;
+            F.UpdateModifiedState;
+          end;
         PROP_RULER:
           Ed.OptRulerVisible:= ValueBool;
         PROP_LEXER_FILE:
