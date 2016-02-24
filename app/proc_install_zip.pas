@@ -15,10 +15,11 @@ uses
   Classes, SysUtils, Forms, FileUtil,
   ecSyntAnal;
 
-function DoInstallAddonFromZip(const fn_zip: string;
+procedure DoInstallAddonFromZip(const fn_zip: string;
   Manager: TecSyntaxManager;
   const dir_acp: string;
-  out s_report: string): boolean;
+  out s_report: string;
+  out IsInstalled, IsLexer: boolean);
 
 var
   cInstallLexerZipTitle: string = 'Install addon';
@@ -211,17 +212,17 @@ begin
   end;
 end;
 
-function DoInstallAddonFromZip(const fn_zip: string;
-  Manager: TecSyntaxManager;
-  const dir_acp: string;
-  out s_report: string): boolean;
+procedure DoInstallAddonFromZip(const fn_zip: string;
+  Manager: TecSyntaxManager; const dir_acp: string; out s_report: string; out
+  IsInstalled, IsLexer: boolean);
 var
   unzip: TUnZipper;
   list: TStringlist;
   dir, fn_inf: string;
   s_title, s_type, s_desc: string;
 begin
-  Result:= false;
+  IsInstalled:= false;
+  IsLexer:= false;
   dir:= GetTempDirCounted;
 
   if not DirectoryExists(dir) then
@@ -298,7 +299,8 @@ begin
    if s_type=cTypePlugin then DoInstallPlugin(fn_inf, s_report) else
     if s_type=cTypeData then DoInstallData(fn_inf, s_report);
 
-  Result:= true;
+  IsInstalled:= true;
+  IsLexer:= s_type=cTypeLexer;
 end;
 
 

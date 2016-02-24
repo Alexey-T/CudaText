@@ -1297,11 +1297,16 @@ end;
 procedure TfmMain.DoFileInstallZip(const fn: string);
 var
   msg: string;
+  IsOk, IsLexer: boolean;
 begin
-  if DoInstallAddonFromZip(fn, Manager, GetAppPath(cDirDataAcp), msg) then
+  DoInstallAddonFromZip(fn, Manager, GetAppPath(cDirDataAcp), msg, IsOk, IsLexer);
+  if IsOk then
   begin
-    DoOps_SaveLexlib(false);
-    UpdateMenuLexers;
+    if IsLexer then
+    begin
+      DoOps_SaveLexlib(false);
+      UpdateMenuLexers;
+    end;
     MsgBox('Installed:'#13+msg, MB_OK or MB_ICONINFORMATION);
   end;
 end;
