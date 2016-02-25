@@ -1132,6 +1132,29 @@ begin
 end;
 
 
+function Py_dlg_dir(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  PtrFolder: PChar;
+  StrFolder: string;
+  Dlg: TSelectDirectoryDialog;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 's:dlg_dir', @PtrFolder)) then
+    begin
+      StrFolder:= string(PtrFolder);
+      Dlg:= TSelectDirectoryDialog.Create(nil);
+      try
+        Dlg.InitialDir:= StrFolder;
+        if Dlg.Execute then
+          Result:= PyUnicode_FromWideString(Utf8Encode(Dlg.FileName))
+        else
+          Result:= ReturnNone;
+      finally
+        FreeAndNil(Dlg);
+      end;
+    end;
+end;
+
 procedure TfmMain.PyCompletionOnGetProp(Sender: TObject;
   out AText, ASuffix: string; out ACharsLeft, ACharsRight: integer);
 var
@@ -2628,6 +2651,7 @@ begin
     AddMethod('dlg_input', @Py_dlg_input, '');
     AddMethod('dlg_input_ex', @Py_dlg_input_ex, '');
     AddMethod('dlg_file', @Py_dlg_file, '');
+    AddMethod('dlg_dir', @Py_dlg_dir, '');
     AddMethod('dlg_menu', @Py_dlg_menu, '');
     AddMethod('dlg_color', @Py_dlg_color, '');
     AddMethod('dlg_hotkeys', @Py_dlg_hotkeys, '');
