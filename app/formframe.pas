@@ -918,7 +918,8 @@ begin
     if not ASaveDlg.Execute then Exit;
     if Assigned(ACheckFilenameOpened) and ACheckFilenameOpened(ASaveDlg.FileName) then
     begin
-      MsgBox('This filename is currently opened', MB_OK or MB_ICONERROR);
+      MsgBox('File name is already opened in another tab. Current tab will close, duplicate tab will remain.', MB_OK or MB_ICONWARNING);
+      FFileName:= '';
       exit
     end;
 

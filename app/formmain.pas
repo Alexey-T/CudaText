@@ -2406,6 +2406,10 @@ var
 begin
   F:= CurrentFrame;
   F.DoFileSave(true, SaveDlg, @DoCheckFilenameOpened);
+
+  //selected duplicate filename? close tab
+  if F.FileName='' then
+    CurrentEditor.DoCommand(cmd_FileClose);
 end;
 
 function TfmMain.DoCheckFilenameOpened(const AStr: string): boolean;
