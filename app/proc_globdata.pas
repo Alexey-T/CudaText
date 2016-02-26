@@ -187,6 +187,7 @@ type
     OpMinimapShowSelAlways: boolean;
     OpMinimapShowSelBorder: boolean;
     OpMinimapCharWidth: integer;
+    OpMinimapAtLeft: boolean;
     OpMicromapShow: boolean;
     OpMicromapWidth: integer;
     OpMargin: integer;
@@ -633,6 +634,7 @@ begin
     OpMinimapShowSelAlways:= false;
     OpMinimapShowSelBorder:= false;
     OpMinimapCharWidth:= 0;
+    OpMinimapAtLeft:= false;
 
     OpMicromapShow:= false;
     OpMicromapWidth:= 12;

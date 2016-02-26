@@ -133,6 +133,8 @@
   "minimap_sel_border": false,
   //Minimap width: 0: autosize, >0: fixed width in chars
   "minimap_char_width": 0,
+  //Minimap placed at left side
+  "minimap_at_left": false,
 
   //Show micromap: small vertical bar at the right edge
   "micromap_show": true,
