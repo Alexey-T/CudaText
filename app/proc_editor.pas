@@ -45,7 +45,9 @@ function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: intege
 procedure EditorFoldUnfoldRangeAtCurLine(Ed: TATSynEdit; AFold: boolean);
 function EditorGetFoldString(Ed: TATSynEdit): string;
 procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
+
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
+function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
 
 type
   TEdSelType = (selNo, selSmall, selStream, selCol, selCarets);
@@ -854,6 +856,13 @@ begin
   Result:= Ed.DoGetLinkAtPos(P.X, P.Y);
   if SBeginsWith(Result, 'www') then
     Result:= 'http://'+Result;
+end;
+
+function EditorGetLinkAtCaret(Ed: TATSynEdit): atString;
+begin
+  Result:= '';
+  if Ed.Carets.Count=0 then exit;
+  Result:= Ed.DoGetLinkAtPos(Ed.Carets[0].PosX, Ed.Carets[0].PosY);
 end;
 
 end.

@@ -349,6 +349,8 @@ cmd_Markers_GotoLastAndDelete  = 2802
 cmd_Markers_ClearAll           = 2803
 cmd_Markers_SwapCaretAndMarker = 2804
 
+cmd_LinkAtCaret_Open           = 2806
+cmd_LinkAtCaret_Copy           = 2807
 cmd_LinkAtPopup_Open           = 2808
 cmd_LinkAtPopup_Copy           = 2809
 

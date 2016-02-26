@@ -260,6 +260,26 @@ begin
         MsgStatus('');
       end;
 
+    cmd_LinkAtCaret_Open:
+      begin
+        Str:= EditorGetLinkAtCaret(CurrentEditor);
+        if Str<>'' then
+        begin
+          OpenURL(Str);
+          MsgStatus('Opened browser');
+        end;
+      end;
+
+    cmd_LinkAtCaret_Copy:
+      begin
+        Str:= EditorGetLinkAtCaret(CurrentEditor);
+        if Str<>'' then
+        begin
+          Clipboard.AsText:= Utf8Encode(Str);
+          MsgStatus('Copied link');
+        end;
+      end;
+
     cmd_LinkAtPopup_Open:
       begin
         Str:= EditorGetLinkAtScreenCoord(CurrentEditor, PopupText.PopupPoint);

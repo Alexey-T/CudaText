@@ -221,6 +221,8 @@ const
   cmd_Markers_ClearAll           = 2803;
   cmd_Markers_SwapCaretAndMarker = 2804;
 
+  cmd_LinkAtCaret_Open           = 2806;
+  cmd_LinkAtCaret_Copy           = 2807;
   cmd_LinkAtPopup_Open           = 2808;
   cmd_LinkAtPopup_Copy           = 2809;
 
@@ -435,6 +437,8 @@ begin
   M.Add(cmd_MacroStop, 'macros: stop recording', [], []);
   M.Add(cmd_MacroCancel, 'macros: cancel recording', [], []);
 
+  M.Add(cmd_LinkAtCaret_Open, 'url: open url at 1st caret ', [], []);
+  M.Add(cmd_LinkAtCaret_Copy, 'url: copy url at 1st caret', [], []);
   M.Add(cmd_LinkAtPopup_Open, 'url: open url of right-click', [], []);
   M.Add(cmd_LinkAtPopup_Copy, 'url: copy url of right-click', [], []);
 

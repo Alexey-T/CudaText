@@ -7,6 +7,7 @@ Legend:
 1.2.26b
 + api for "Find in files" plugin
 + opt ui_max_history_edits
++ cmd "open url at caret", "copy url at caret"
 
 1.2.25.2
 - fix major issue: lexerlib breaks on installing addon (reason: FPC 3)
