@@ -40,11 +40,11 @@ begin
     SSaveStringsToFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
     if Assigned(fmFind) then
     begin
-      SSaveStringsToFile(c, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryMenu);
-      SSaveStringsToFile(c, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryMenu);
+      SSaveStringsToFile(c, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
+      SSaveStringsToFile(c, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
     end;
 
-    SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
+    SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
 
     ////finder
     c.SetValue('/finder/regex', FFinder.OptRegex);
@@ -234,7 +234,7 @@ begin
 
     ////recents
     SLoadStringsFromFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
-    SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryMenu);
+    SLoadStringsFromFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
     UpdateMenuRecent(nil);
 
     ////finder
@@ -533,8 +533,10 @@ begin
     UiOps.ListboxCompleteSizeY:= c.GetValue('ui_listbox_complete_size_y', UiOps.ListboxCompleteSizeY);
     UiOps.ListboxFuzzySearch:= c.GetValue('ui_listbox_fuzzy', UiOps.ListboxFuzzySearch);
 
+    UiOps.MaxHistoryEdits:= Max(0, Min(200, c.GetValue('ui_max_history_edits', UiOps.MaxHistoryEdits)));
     UiOps.MaxHistoryMenu:= Max(0, Min(20, c.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
     UiOps.MaxHistoryFiles:= Max(0, Min(400, c.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
+
     UiOps.EscapeClose:= c.GetValue('ui_esc_close', UiOps.EscapeClose);
     UiOps.EscapeCloseConsole:= c.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
     UiOps.InitialDir:= c.GetValue('ui_initial_dir', UiOps.InitialDir);

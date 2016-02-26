@@ -278,6 +278,8 @@
   //Enables fuzzy search in menu-dialogs (else search is normal)
   "ui_listbox_fuzzy": true,
 
+  //Max items in comboboxes history (0..200)
+  "ui_max_history_edits": 20,
   //Max items in "recent files" menu (0..20)
   "ui_max_history_menu": 10,
   //Max items in "settings/history files.json" (0..400)

@@ -98,6 +98,7 @@ type
     TabDblClickClose: boolean;
     TabNumbers: boolean;
 
+    MaxHistoryEdits: integer;
     MaxHistoryMenu: integer;
     MaxHistoryFiles: integer;
 
@@ -751,6 +752,7 @@ begin
     TabDblClickClose:= false;
     TabNumbers:= false;
 
+    MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;
     MaxHistoryFiles:= 25;
 

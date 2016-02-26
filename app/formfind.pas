@@ -327,8 +327,8 @@ begin
 
   if Str<>cOpFindClose then
   begin
-    edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryMenu);
-    edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryMenu);
+    edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
+    edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
   end;
 end;
 
