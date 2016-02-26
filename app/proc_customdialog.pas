@@ -464,6 +464,7 @@ begin
     if SName='val' then
     begin
       if Ctl is TCheckBox then (Ctl as TCheckBox).Checked:= StrToBool(SValue);
+      if Ctl is TToggleBox then (Ctl as TToggleBox).Checked:= StrToBool(SValue);
       if Ctl is TRadioButton then (Ctl as TRadioButton).Checked:= StrToBool(SValue);
       if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;
       if Ctl is TComboBox then
