@@ -271,6 +271,8 @@ def dlg_file(is_open, init_filename, init_dir, filters):
         res=res[0]
     return res
 
+def dlg_dir(init_dir):
+    return ct.dlg_dir(init_dir)
 
 def dlg_hotkeys(text):
     return ct.dlg_hotkeys(text)

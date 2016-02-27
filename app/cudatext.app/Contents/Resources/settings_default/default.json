@@ -133,6 +133,8 @@
   "minimap_sel_border": false,
   //Minimap width: 0: autosize, >0: fixed width in chars
   "minimap_char_width": 0,
+  //Minimap placed at left side
+  "minimap_at_left": false,
 
   //Show micromap: small vertical bar at the right edge
   "micromap_show": true,
@@ -187,48 +189,57 @@
 
   //Allow to place caret after end-of-line
   "caret_after_end": true,
-  //Blink time (msec) of caret
+  //Caret blink time (msec)
   "caret_blink_time": 600,
-  //Blink enabled
+  //Caret blink enabled
   "caret_blink_en": true,
   //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
 
-  //Possible caret shapes, from 0:
-  //  0 Full,
-  //  1 VertPixels1,
-  //  2 VertPixels2,
-  //  3 VertPixels3,
-  //  4 VertPixels4,
-  //  5 VertPercents10,
-  //  6 VertPercents15,
-  //  7 VertPercents20,
-  //  8 VertPercents25,
-  //  9 VertPercents30,
-  // 10 VertPercents35,
-  // 11 VertPercents40,
-  // 12 VertPercents50,
-  // 13 HorzPixels1,
-  // 14 HorzPixels2,
-  // 15 HorzPixels3,
-  // 16 HorzPixels4,
-  // 17 HorzPixels5,
-  // 18 HorzPercents10,
-  // 19 HorzPercents15,
-  // 20 HorzPercents20,
-  // 21 HorzPercents25,
-  // 22 HorzPercents30,
-  // 23 HorzPercents35,
-  // 24 HorzPercents40,
-  // 25 HorzPercents50,
-  // 26 FrameFull
+  //Possible caret shapes:
+  //  0: Full,
+  //  1: VertPixels1,
+  //  2: VertPixels2,
+  //  3: VertPixels3,
+  //  4: VertPixels4,
+  //  5: VertPercents10,
+  //  6: VertPercents15,
+  //  7: VertPercents20,
+  //  8: VertPercents25,
+  //  9: VertPercents30,
+  // 10: VertPercents35,
+  // 11: VertPercents40,
+  // 12: VertPercents50,
+  // 13: HorzPixels1,
+  // 14: HorzPixels2,
+  // 15: HorzPixels3,
+  // 16: HorzPixels4,
+  // 17: HorzPixels5,
+  // 18: HorzPercents10,
+  // 19: HorzPercents15,
+  // 20: HorzPercents20,
+  // 21: HorzPercents25,
+  // 22: HorzPercents30,
+  // 23: HorzPercents35,
+  // 24: HorzPercents40,
+  // 25: HorzPercents50,
+  // 26: Frame
   //
-  //Shape normal
+  //Caret shape, normal state
   "caret_shape": 1,
-  //Shape for "overwrite" mode (Ins key pressed)
+  //Caret shape, overwrite mode (Ins key: insert/overwrite)
   "caret_shape_ovr": 0,
-  //Shape for read-only mode
+  //Caret shape, read-only mode
   "caret_shape_ro": 13,
+
+  //Caret pos after pasting column-block:
+  //  0: no change
+  //  1: left-bottom
+  //  2: right-bottom
+  //  3: right-top
+  //  4: carets column on left
+  //  5: carets column on right 
+  "caret_after_paste_column": 5,
 
   //Suggest selection (of 1st caret) to Find dialog
   "find_suggest_sel": false,
@@ -278,6 +289,8 @@
   //Enables fuzzy search in menu-dialogs (else search is normal)
   "ui_listbox_fuzzy": true,
 
+  //Max items in comboboxes history (0..200)
+  "ui_max_history_edits": 20,
   //Max items in "recent files" menu (0..20)
   "ui_max_history_menu": 10,
   //Max items in "settings/history files.json" (0..400)

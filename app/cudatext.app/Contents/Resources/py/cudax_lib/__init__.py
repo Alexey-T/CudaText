@@ -16,9 +16,9 @@ Duplicate:
     duplicate
         Dub cur selection or cur line (by opt)
 Authors:
-    Andrey Kvichansky    (kvichans on githab)
+    Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.5.2 2015-11-19'
+    '0.5.4 2016-02-24'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 '''
@@ -109,7 +109,7 @@ class Command:
                 col_min_bd  = min(pos_body, col_min_bd)
                 if 0==col_min_bd:
                     break # for rWrk
-        blnks4cmt   = '\t'.expandtabs(len(cmt_sgn))
+        blnks4cmt   = ' '*len(cmt_sgn) # '\t'.expandtabs(len(cmt_sgn))
         pass;                  #LOG and log('rWrks,do_uncmt, save_cols, at_min_bd, col_min_bd={}', (rWrks,do_uncmt,save_bd_col,at_min_bd,col_min_bd))
         for rWrk in rWrks:
             line    = ed_.get_text_line(rWrk)
@@ -343,8 +343,7 @@ def _check_API(ver):
     return True
 
 def get_app_default_opts(**kw):
-   #pass;                       LOG and log('kw[object_pairs_hook]={}',kw.get('object_pairs_hook'))
-   #pass;                       LOG and log('type(kw[object_pairs_hook])={}',type(kw.get('object_pairs_hook')))
+    pass;                      #LOG and log('kw={}',kw)
     global APP_DEFAULT_OPTS
     if not APP_DEFAULT_OPTS:
         # Once load def-opts
@@ -357,18 +356,18 @@ def get_app_default_opts(**kw):
 def _get_file_opts(opts_json, def_opts={}, **kw):
 #   global LAST_FILE_OPTS
     if not os.path.exists(opts_json):
-        pass;              #LOG and log('no {}',os.path.basename(opts_json))
+        pass;                  #LOG and log('no {}',os.path.basename(opts_json))
         LAST_FILE_OPTS.pop(opts_json, None)
         return def_opts
     mtime_os    = os.path.getmtime(opts_json)
     if opts_json not in LAST_FILE_OPTS:
-        pass;              #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
+        pass;                  #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
         opts    = _json_loads(open(opts_json).read(), **kw)
         LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
     else:
         opts, mtime = LAST_FILE_OPTS[opts_json]
         if mtime_os > mtime:
-            pass;          #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
+            pass;              #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
             opts= _json_loads(open(opts_json).read(), **kw)
             LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
     return opts
@@ -433,7 +432,7 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
                 elif path=='unprinted_end_details':
                     ans = ed_cfg.get_prop(app.PROP_UNPRINTED_END_DETAILS)
                 elif path=='wrap_mode':
-                    ans = ced_cfg.get_prop(app.PROP_WRAP)
+                    ans = ed_cfg.get_prop(app.PROP_WRAP)
                 else:
                     pass;      #LOG and log('def_opts(), usr_opts(), lex_opts()={}',(def_opts.get(path),usr_opts.get(path),lex_opts.get(path)))
                     ans = lex_opts.get(path
@@ -466,6 +465,8 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
             # Del! Cannot del from file-lev -- can set as default
             def_opts    = get_app_default_opts()
             value       = def_opts.get(path)
+        else:
+            value       = str(value)
         if False:pass
         elif path=='tab_size':
             ed_cfg.set_prop(app.PROP_TAB_SIZE, value)
@@ -570,16 +571,16 @@ def _json_loads(s, **kw):
             Delete comments
             Delete unnecessary ',' from {,***,} and [,***,]
     '''
-    s = re.sub(r'//.*'   , ''  , s)
-    s = re.sub(r'{\s*,'  , '{' , s)
-    s = re.sub(r',\s*}'  , '}' , s)
-    s = re.sub(r'\[\s*,' , '[' , s)
-    s = re.sub(r',\s*\]' , ']' , s)
+    s = re.sub(r'(^|[^:])//.*'  , r'\1', s)     # :// in http://
+    s = re.sub(r'{\s*,'         , r'{' , s)
+    s = re.sub(r',\s*}'         , r'}' , s)
+    s = re.sub(r'\[\s*,'        , r'[' , s)
+    s = re.sub(r',\s*\]'        , r']' , s)
     try:
         ans = json.loads(s, **kw)
     except:
-        pass;                  LOG and log('FAIL: s={}',s)
-        pass;                  LOG and log('sys.exc_info()={}',sys.exc_info())
+        pass;                   LOG and log('FAIL: s={}',s)
+        pass;                   LOG and log('sys.exc_info()={}',sys.exc_info())
         open(kw.get('log_file', _get_log_file()), 'a').write('_json_loads FAIL: s=\n'+s)
         ans = None
     return ans
@@ -703,5 +704,5 @@ ToDo
 [-][kv-kv][01nov15] Разделить set_opt на set_opt и del_opt
 [+][kv-kv][02nov15] При stream-comm выделение направлять как исходное
 [?][kv-at][02nov15] При stream-comm верт.выделении с неск каретками не давать ed.get_sel_mode()==SEL_COLUMN
-[ ][kv-kv][02nov15] При line-comm и добавлении/удалении символов перед выделением происходит смещение выделения. Избавиться!
+[+][kv-kv][02nov15] При line-comm и добавлении/удалении символов перед выделением происходит смещение выделения. Избавиться!
 '''

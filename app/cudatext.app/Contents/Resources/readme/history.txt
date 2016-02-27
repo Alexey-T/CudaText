@@ -3,7 +3,20 @@ Legend:
   - fixed
   * changed
 
-1.2.25b
+
+1.2.26b
++ api for "Find in files" plugin
++ opt minimap_at_left
++ opt caret_after_paste_column
++ opt ui_max_history_edits
++ cmds "open url at caret", "copy url at caret"
+
+1.2.25.2
+- fix major issue: lexerlib breaks on installing addon (reason: FPC 3)
+- fix cmds for line-comment
++ allow trailing comma in user.json
+
+1.2.25
 + used FPC 3.0
 + hilite URLs: opts links_hilite, links_regex
 + hilite URLs: commands to open/copy URL at pos of right-click
