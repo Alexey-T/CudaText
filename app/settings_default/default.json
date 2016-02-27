@@ -189,47 +189,47 @@
 
   //Allow to place caret after end-of-line
   "caret_after_end": true,
-  //Blink time (msec) of caret
+  //Caret blink time (msec)
   "caret_blink_time": 600,
-  //Blink enabled
+  //Caret blink enabled
   "caret_blink_en": true,
   //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
 
-  //Possible caret shapes, from 0:
-  //  0 Full,
-  //  1 VertPixels1,
-  //  2 VertPixels2,
-  //  3 VertPixels3,
-  //  4 VertPixels4,
-  //  5 VertPercents10,
-  //  6 VertPercents15,
-  //  7 VertPercents20,
-  //  8 VertPercents25,
-  //  9 VertPercents30,
-  // 10 VertPercents35,
-  // 11 VertPercents40,
-  // 12 VertPercents50,
-  // 13 HorzPixels1,
-  // 14 HorzPixels2,
-  // 15 HorzPixels3,
-  // 16 HorzPixels4,
-  // 17 HorzPixels5,
-  // 18 HorzPercents10,
-  // 19 HorzPercents15,
-  // 20 HorzPercents20,
-  // 21 HorzPercents25,
-  // 22 HorzPercents30,
-  // 23 HorzPercents35,
-  // 24 HorzPercents40,
-  // 25 HorzPercents50,
-  // 26 FrameFull
+  //Possible caret shapes:
+  //  0: Full,
+  //  1: VertPixels1,
+  //  2: VertPixels2,
+  //  3: VertPixels3,
+  //  4: VertPixels4,
+  //  5: VertPercents10,
+  //  6: VertPercents15,
+  //  7: VertPercents20,
+  //  8: VertPercents25,
+  //  9: VertPercents30,
+  // 10: VertPercents35,
+  // 11: VertPercents40,
+  // 12: VertPercents50,
+  // 13: HorzPixels1,
+  // 14: HorzPixels2,
+  // 15: HorzPixels3,
+  // 16: HorzPixels4,
+  // 17: HorzPixels5,
+  // 18: HorzPercents10,
+  // 19: HorzPercents15,
+  // 20: HorzPercents20,
+  // 21: HorzPercents25,
+  // 22: HorzPercents30,
+  // 23: HorzPercents35,
+  // 24: HorzPercents40,
+  // 25: HorzPercents50,
+  // 26: Frame
   //
-  //Shape normal
+  //Caret shape, normal state
   "caret_shape": 1,
-  //Shape for "overwrite" mode (Ins key pressed)
+  //Caret shape, overwrite mode (Ins key: insert/overwrite)
   "caret_shape_ovr": 0,
-  //Shape for read-only mode
+  //Caret shape, read-only mode
   "caret_shape_ro": 13,
 
   //Caret pos after pasting column-block:
