@@ -6,8 +6,9 @@ Legend:
 
 1.2.26b
 + api for "Find in files" plugin
-+ opt ui_max_history_edits
 + opt minimap_at_left
++ opt caret_after_paste_column
++ opt ui_max_history_edits
 + cmds "open url at caret", "copy url at caret"
 
 1.2.25.2

@@ -235,6 +235,9 @@ begin
   if Op.OpCaretShapeRO<=Ord(High(TATSynCaretShape)) then
     Ed.OptCaretShapeRO:= TATSynCaretShape(Op.OpCaretShapeRO);
 
+  if Op.OpCaretAfterPasteColumn<=Ord(High(TATPasteCaret)) then
+    Ed.OptCaretPosAfterPasteColumn:= TATPasteCaret(Op.OpCaretAfterPasteColumn);
+
   Ed.OptCaretVirtual:= Op.OpCaretVirtual;
   Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
 

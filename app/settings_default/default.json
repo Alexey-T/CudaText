@@ -232,6 +232,15 @@
   //Shape for read-only mode
   "caret_shape_ro": 13,
 
+  //Caret pos after pasting column-block:
+  //  0: no change
+  //  1: left-bottom
+  //  2: right-bottom
+  //  3: right-top
+  //  4: carets column on left
+  //  5: carets column on right 
+  "caret_after_paste_column": 5,
+
   //Suggest selection (of 1st caret) to Find dialog
   "find_suggest_sel": false,
   //Suggest word (at 1st caret) to Find dialog

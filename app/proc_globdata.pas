@@ -224,6 +224,7 @@ type
     OpCaretShapeRO: integer;
     OpCaretVirtual: boolean;
     OpCaretMulti: boolean;
+    OpCaretAfterPasteColumn: integer;
 
     //general
     OpShowCurLine: boolean;
@@ -669,6 +670,7 @@ begin
     OpCaretShapeRO:= Ord(cInitCaretShapeRO);
     OpCaretVirtual:= true;
     OpCaretMulti:= true;
+    OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);
 
     OpShowCurLine:= false;
     OpShowCurLineMin:= true;

@@ -484,6 +484,7 @@ begin
     Op.OpCaretShapeRO:= c.GetValue('caret_shape_ro', Op.OpCaretShapeRO);
     Op.OpCaretVirtual:= c.GetValue('caret_after_end', Op.OpCaretVirtual);
     Op.OpCaretMulti:= c.GetValue('caret_multi', Op.OpCaretMulti);
+    Op.OpCaretAfterPasteColumn:= c.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);
 
     Op.OpShowCurLine:= c.GetValue('show_cur_line', Op.OpShowCurLine);
     Op.OpShowCurLineMin:= c.GetValue('show_cur_line_minimal', Op.OpShowCurLineMin);
