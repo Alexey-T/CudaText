@@ -30,6 +30,8 @@ interface
 uses
   SysUtils, Classes, fpjson, jsonscanner, jsonparser;
 
+Const
+  DefaultJSONOptions = [joUTF8,joComments,joIgnoreTrailingComma]; //AT add ignore-comma
 
 type
   EJSONConfigError = class(Exception);
@@ -57,9 +59,11 @@ type
     FFormatIndentSize: Integer;
     FFormatoptions: TFormatOptions;
     FFormatted: Boolean;
+    FJSONOptions: TJSONOptions;
     FKey: TJSONObject;
     procedure DoSetFilename(const AFilename: String; ForceReload: Boolean);
     procedure SetFilename(const AFilename: String);
+    procedure SetJSONOptions(AValue: TJSONOptions);
     Function StripSlash(Const P : UnicodeString) : UnicodeString;
   protected
     FJSON: TJSONObject;
@@ -109,6 +113,7 @@ type
     Property Formatted : Boolean Read FFormatted Write FFormatted;
     Property FormatOptions : TFormatOptions Read FFormatoptions Write FFormatOptions Default DefaultFormat;
     Property FormatIndentsize : Integer Read FFormatIndentSize Write FFormatIndentSize Default DefaultIndentSize;
+    Property JSONOptions : TJSONOptions Read FJSONOptions Write SetJSONOptions Default DefaultJSONOptions;
   end;
 
 
@@ -127,6 +132,7 @@ begin
   FKey:=FJSON;
   FFormatOptions:=DefaultFormat;
   FFormatIndentsize:=DefaultIndentSize;
+  FJSONOptions:=DefaultJSONOptions;
 end;
 
 destructor TJSONConfig.Destroy;
@@ -687,7 +693,7 @@ begin
     begin
     F:=TFileStream.Create(AFileName,fmopenRead);
     try
-      P:=TJSONParser.Create(F,[joUTF8,joComments,joIgnoreTrailingComma]);
+      P:=TJSONParser.Create(F,FJSONOptions);
       try
         J:=P.Parse;
         If (J is TJSONObject) then
@@ -710,6 +716,16 @@ end;
 procedure TJSONConfig.SetFilename(const AFilename: String);
 begin
   DoSetFilename(AFilename, False);
+end;
+
+procedure TJSONConfig.SetJSONOptions(AValue: TJSONOptions);
+begin
+  if FJSONOptions=AValue then Exit;
+  FJSONOptions:=AValue;
+  if csLoading in ComponentState then
+    exit;
+  if (FFileName<>'') then
+    Reload;
 end;
 
 function TJSONConfig.StripSlash(const P: UnicodeString): UnicodeString;
