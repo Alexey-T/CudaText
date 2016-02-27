@@ -12,7 +12,7 @@ unit proc_editor;
 interface
 
 uses
-  Classes, SysUtils, Graphics,
+  Classes, SysUtils, Graphics, StrUtils,
   ATSynEdit,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
@@ -54,6 +54,7 @@ type
 
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
+function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
 
 procedure EditorApplyTheme(Ed: TATSynedit);
 procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
@@ -428,6 +429,13 @@ begin
       n:= SCharPosToColumnPos(ed.Strings.Lines[caret.PosY], caret.PosX, ed.OptTabSize)+1;
       result:= stringreplace(result, '{xx}', inttostr(n), []);
     end;
+end;
+
+function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
+begin
+  Result:= str;
+  SReplaceAll(Result, '{tab}', IntToStr(Ed.OptTabSize));
+  SReplaceAll(Result, '{_}', IfThen(Ed.OptTabSpaces, '_'));
 end;
 
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;

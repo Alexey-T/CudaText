@@ -8,6 +8,7 @@ Legend:
 + api for "Find in files" plugin
 + opt minimap_at_left
 + opt caret_after_paste_column
++ opt ui_statusbar_tabsize
 + opt ui_max_history_edits
 + cmds "open url at caret", "copy url at caret"
 

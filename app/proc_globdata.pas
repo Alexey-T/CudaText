@@ -136,6 +136,7 @@ type
     StatusHeight: integer;
     StatusTime: integer;
     StatusAltTime: integer;
+    StatusTabsize: string;
 
     ShowTitlePath: boolean;
     ShowLastFiles: boolean;
@@ -794,6 +795,7 @@ begin
     StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
+    StatusTabsize:= 'Tab size {tab}{_}';
 
     ShowTitlePath:= false;
     ShowLastFiles:= true;

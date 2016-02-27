@@ -88,8 +88,7 @@ begin
   Status[cStatusLexer]:= S;
 
   //------
-  S:= Format('Tab size %d%s', [Ed.OptTabSize, IfThen(Ed.OptTabSpaces, '_')]);
-  Status[cStatusTabsize]:= S;
+  Status[cStatusTabsize]:= EditorFormatTabsize(Ed, UiOps.StatusTabsize);
 
   //------
   S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
