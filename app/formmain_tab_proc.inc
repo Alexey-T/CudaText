@@ -133,7 +133,8 @@ begin
   if ACanClose then
   begin
     UpdateMenuRecent(Frame);
-    D.TabObject.Free;
+    Frame.Adapter.Stop;
+    Frame.Free;
   end;
 
   if NeedTreeUpd then
