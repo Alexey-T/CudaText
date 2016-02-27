@@ -901,10 +901,8 @@ end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
 var
-  cList: array[0..27 {$ifdef windows}+1{$endif}] of record Sub, Name: string end = (
-    {$ifdef windows}
+  cList: array[0..28] of record Sub, Name: string end = (
     (Sub: ''; Name: cEncNameAnsi),
-    {$endif}
     (Sub: ''; Name: cEncNameUtf8),
     (Sub: ''; Name: cEncNameUtf8NoBom),
     (Sub: ''; Name: cEncNameUtf16LE),
