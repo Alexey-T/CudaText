@@ -415,8 +415,8 @@ begin
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
     UiOps.BackupMode:= c.GetValue('backup', UiOps.BackupMode);
 
-    Op.OpSpaceX:= c.GetValue('spacing_x', Op.OpSpaceX);
-    Op.OpSpaceY:= c.GetValue('spacing_y', Op.OpSpaceY);
+    Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);
+    Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);
 
     Op.OpTabSize:= c.GetValue('tab_size', Op.OpTabSize);
     Op.OpTabSpaces:= c.GetValue('tab_spaces', Op.OpTabSpaces);

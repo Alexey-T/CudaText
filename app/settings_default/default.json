@@ -82,14 +82,13 @@
   "word_chars": "",
 
   //Show these unicode chars as "<NNNN>" hex codes.
-  //Some chars here by default:
-  //  http://unicode.org/reports/tr9/#Directional_Formatting_Characters
-  //Note: config read as utf8-no-bom.
+  //Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
+  //Note: config is read as utf8-no-bom.
   "hex_chars": "",
 
   //Additional pixels per char
   "spacing_x": 0,
-  "spacing_y": 0,
+  "spacing_y": 1,
 
   //Tab-char width
   "tab_size": 8,

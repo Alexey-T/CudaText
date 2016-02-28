@@ -158,8 +158,8 @@ type
     OpFontSize: integer;
     OpFontQuality: TFontQuality;
 
-    OpSpaceX: integer;
-    OpSpaceY: integer;
+    OpSpacingX: integer;
+    OpSpacingY: integer;
     OpTabSize: integer;
     OpTabSpaces: boolean;
 
@@ -602,8 +602,8 @@ begin
     OpFontSize:= {$ifndef darwin} 9 {$else} 11 {$endif};
     OpFontQuality:= fqDefault;
 
-    OpSpaceX:= 0;
-    OpSpaceY:= 0;
+    OpSpacingX:= 0;
+    OpSpacingY:= 1;
 
     OpTabSize:= 8;
     OpTabSpaces:= false;

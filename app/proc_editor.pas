@@ -155,8 +155,8 @@ begin
   Ed.Font.Size:= Op.OpFontSize;
   Ed.Font.Quality:= Op.OpFontQuality;
 
-  Ed.OptCharSpacingX:= Op.OpSpaceX;
-  Ed.OptCharSpacingY:= Op.OpSpaceY;
+  Ed.OptCharSpacingX:= Op.OpSpacingX;
+  Ed.OptCharSpacingY:= Op.OpSpacingY;
 
   Ed.OptTabSize:= Op.OpTabSize;
   Ed.OptTabSpaces:= Op.OpTabSpaces;
