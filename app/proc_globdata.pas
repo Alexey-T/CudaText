@@ -588,7 +588,11 @@ begin
       RunCommand(Format('cp -R -u -t %s /usr/share/cudatext/py /usr/share/cudatext/data /usr/share/cudatext/readme /usr/share/cudatext/settings_default', [OpDirLocal]), S);
       {$endif}
       {$ifdef darwin}
-      RunCommand(Format('rsync -av "%s/" "%s"', [OpDirPrecopy, OpDirLocal]), S);
+      //see rsync help. need options:
+      // -u (update)
+      // -r (recursive)
+      // -t (preserve times)
+      RunCommand(Format('rsync -urt "%s/" "%s"', [OpDirPrecopy, OpDirLocal]), S);
       {$endif}
     end;
   end;
