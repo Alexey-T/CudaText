@@ -11,7 +11,8 @@ To make plugin react to events, add method to class Command (like methods of com
 Supported events:
 
 * on_open(self, ed_self): Called after file is opened from disk.
-* on_close(self, ed_self): Called just before closing tab.
+* on_close(self, ed_self): Called just before closing tab (closing editor still active).
+* on_tab_move(self, ed_self): Called after closing tab (another tab already activated), or moving tab (by drag-n-drop, or UI command).
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
 * on_change(self, ed_self): Called after text is changed.
@@ -35,7 +36,11 @@ Panels
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
-* on_panel(self, ed_self, id_control, id_event): Called when event in user-added panel occured. Id_control is int handle of control in panel. Id_event is one of: "on_click", "on_dbl_click", "on_sel".
+* on_panel(self, ed_self, id_control, id_event): Called when event in side panel occured. Id_control is int handle of control in panel. Id_event is one of:
+** "on_click"
+** "on_dbl_click"
+** "on_sel"
+** "on_menu"
 
 Macros
 
@@ -172,9 +177,12 @@ How groups-splitters are placed in views:
           t               
           G2              
           t               
-3PLUS     t G3 t          
-               G2         
-               t          
+1P2VERT    t G3 t
+               G2
+                t
+1P2HORZ    t
+           G3
+           t G2 t
 4VERT     t G1 t G2 t G3 t
 4HORZ     t               
           G1              
@@ -330,6 +338,12 @@ To allow multi-select in open dialog, pass init_filename="*". If single filename
 
 To disable check "filename exists" in open dialog, start init_filename with "!".
 
+===dlg_dir===
+
+ dlg_dir(init_dir)
+
+Shows dialog to select folder. Gets folder path, or None if cancelled.
+
 ===dlg_menu===
 
  dlg_menu(id, text, focused=0)
@@ -373,13 +387,14 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 
 * "type": type of control, values:
 ** "label"
-** "check" (checkbox)
-** "radio" (radiobutton, only one is checked)
+** "check" (checkbox, checked/unchecked)
+** "radio" (radio checkbox, only one of these can be checked)
 ** "edit" (one-line edit)
 ** "combo" (combobox editable, value is text)
 ** "combo_ro" (combobox read-only, value is index)
 ** "listbox"
 ** "button"
+** "checkbutton" (looks like button, but don't close dialog, checked/unchecked)
 ** "memo" (multi-line edit)
 ** "checkgroup" (group of checkboxes)
 ** "radiogroup" (group of radiobuttons)
@@ -391,7 +406,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 
 * "pos": position, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
 * "cap": caption of control (not for all)
-* "hint": floating hint string
+* "hint": string of floating hint, hint can be multiline, "\r"-separated
 * "en": enabled-state, "1"/"0" for on/off
 
 * "items": 
@@ -408,7 +423,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for linklabel: URL (with http: or mailto:)
 
 * "val": value of control (not for all):
-** for check, radio: value "0"/"1"
+** for check, radio, checkbutton: value "0"/"1"
 ** for edit, combo, spinedit: text
 ** for memo: "\t"-separated lines (in lines "\t" must be replaced to chr(2))
 ** for combo_ro, listbox, radiogroup, listview: index
@@ -533,6 +548,9 @@ Possible values of id_action:
 * TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
 
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
+
+* TREE_LOCK: Disables repainting of control.
+* TREE_UNLOCK: Enables repainting of control.
 
 ===more===
 
@@ -731,8 +749,9 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with pucture files.
+* PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
+* PROP_LINK_AT_POS: str: link (url) at given position, text must be str(pos_x)+","+str(pos_y).
 
 ===set_prop===
 
@@ -753,6 +772,7 @@ Possible values of id:
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: space-separated user-margins columns.
 * PROP_INSERT: bool: insert/overwrite mode.
+* PROP_MODIFIED: bool: editor is modified. 
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be "color_id,color_int_value", where color_id is constant from module cudatext_colors.
 * PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
@@ -777,18 +797,19 @@ Possible values of id:
 
 ===bookmark===
 
- bookmark(id, nline, nkind=1, ncolor=-1, icon="")
+ bookmark(id, nline, nkind=1, ncolor=-1, text="")
 
 Controls bookmarks. Possible values of id:
 
 * BOOKMARK_GET: Gets kind of bookmark at line=nline. 0 means no bookmark, 1 means usual bookmark.
-* BOOKMARK_SET: Sets bookmark with kind=nkind at line=nline. 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
+* BOOKMARK_SET: Sets bookmark with kind=nkind at line=nline. 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP. Param text: hint, shown when mouse is over bookmark gutter icon.
 * BOOKMARK_CLEAR: Removes bookmark from line=nline (nkind ignored).
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
 * BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind (nline ignored). Setup is:
 ** ncolor: Color of bookmarked line. Can be COLOR_NONE to not show bg-color.
-** icon: Path to icon file for gutter, 16x16 .bmp file. Can be empty str to not show icon.
+** text: Path to icon file for gutter, 16x16 .bmp file. Empty str: don't show icon.
 * BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks (nline, nkind ignored).
+* BOOKMARK_CLEAR_HINTS: Clears all bookmark hints. Maximum about 250 separate lines can have hints, later hints will not show, so you need to clear hints before adding bunch of bookmarks to editor.
 
 Notes:
 
@@ -936,6 +957,27 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.130
+
+* add: dlg_dir
+* add: dlg_custom: type=checkbutton
+
+1.0.129
+
+* add: ed.set_prop: can use PROP_MODIFIED
+
+1.0.128
+
+* add: ed.get_prop: PROP_LINK_AT_POS
+
+1.0.127
+
+* add: on_tab_move
+* add: on_panel: id_event="on_menu"
+* add: tree_proc: TREE_LOCK, TREE_UNLOCK
+* add: ed.bookmark: BOOKMARK_SET specifies hint
+* add: ed.bookmark: BOOKMARK_CLEAR_HINTS
 
 1.0.126
 

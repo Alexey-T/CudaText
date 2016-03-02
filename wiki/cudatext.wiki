@@ -14,6 +14,7 @@
 * Extendable via Python plugins
 * Command palette (Sublime style)
 * Configs in JSON
+* Can open pictures: jpeg/png/bmp/ico
 * Made on [[ATSynEdit]] engine 
 
 Image:
@@ -118,6 +119,8 @@ Lexers (syntax hiliters) from SynWrite editor used. Used EControl.ru syntax pars
 * Dialog "Lexer properties" allows to config props of current lexer (selected via statusbar panel in CudaText). You can config: lexer name, file types, line-comment-string for language, colors of tokens, font-styles (bold/italic/underline), borders around tokens.
 * Dialog "Lexer library" shows list of all lexers. Library is in file "data/lexlib/lib.lxl" (can be changed by option). You can delete lexers, add lexers from Zip files.
 
+[[File:cudatext-lexer-library.png]]
+
 == Lexers at sf.net ==
 
 Lexer library file has only subset of lexers.
@@ -137,6 +140,10 @@ You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine
 * In Synwrite call "Lexer prop" dialog and edit all you need. Or make new lexer.
 * In Synwrite install "ExLexer" addon. Call it in "Plugins" menu, select needed lexer. You have exported zip file.
 * In CudaText open this zip file. Confirm installation of lexer.
+
+Screenshot of SynWrite dialog:
+
+[[File:synwrite-lexer-editor.png]]
 
 == File-types config ==
 
@@ -162,9 +169,19 @@ If you change enc for untitled tab, then enc is changed only in-memory (next fil
 
 ==Line ends==
 
-Main types of line-ends are supported: CR LF (Windows), LF (Unix), CR (MacOS Classic). To change line-ends for current file, click statusbar item. Changed line-ends can be undone. 
+Main types of line-ends are supported: 
 
-Mixed line-ends in one file are supported. To see ends for all lines, turn on these options: unprinted_show, unprinted_ends, unprinted_end_details.
+* CR LF (Windows)
+* LF (Unix)
+* CR (Mac OS 9)
+
+To change line-ends for current file, click statusbar item. You need to save file then. Changed line-ends can be undone via "Undo".
+
+Mixed line-ends in one file are supported. To see ends for all lines, set to "true" these options: 
+
+* unprinted_show
+* unprinted_ends
+* unprinted_end_details
 
 ==Groups of tabs==
 
