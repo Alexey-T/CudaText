@@ -3,6 +3,9 @@ Legend:
   - fixed
   * changed
 
+1.2.26.2
++ AddonManager has cmd "Visit plugin homepage"; you need field "homepage=" in plugin install.inf
+- Linux: fix to support SpellChecker 
 
 1.2.26
 + opt minimap_at_left
