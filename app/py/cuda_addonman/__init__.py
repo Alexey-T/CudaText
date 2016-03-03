@@ -2,6 +2,7 @@ import os
 import shutil
 import json
 import collections
+import webbrowser
 from cudatext import *
 from .work_local import *
 from .work_remote import *
@@ -152,3 +153,13 @@ class Command:
         file_open(fn)
         msg_status('Opened: '+fn)
         
+    def do_homepage(self):
+        m = get_installed_choice()
+        if m is None: return
+        s = get_homepage_of_module(m)
+        if s:
+            webbrowser.open_new_tab(s)
+            msg_status('Opened browser: '+s)
+        else:
+            msg_box('Plugin "%s" doesn\'t have "homepage" field in install.inf' % \
+              get_name_of_module(m), MB_OK+MB_ICONWARNING)

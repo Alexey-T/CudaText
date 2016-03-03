@@ -253,6 +253,7 @@ begin
     DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...', 2);
     DoAdd(cModuleAddonman, 'do_download_all', cCaptionAddonman+'\Download all...', 3);
     DoAdd(cModuleAddonman, 'do_config', cCaptionAddonman+'\Config...', 4);
+    DoAdd(cModuleAddonman, 'do_homepage', cCaptionAddonman+'\Visit plugin homepage...', 5);
 
     DoAdd(cModuleMake, 'run', cCaptionMake, 0);
     DoAdd(cModuleInsTime, 'run', cCaptionInsTime, 0);

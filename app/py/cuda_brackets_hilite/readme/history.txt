@@ -1,4 +1,7 @@
 
+0.6.6
++ renamed section in ini "colors"-"color"; used #rrggbb color codes
+
 0.6.5
 + needs newer Cudatext (attrib api change)
 + cmd "select to bracket"

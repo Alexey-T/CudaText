@@ -5,12 +5,19 @@ from cudatext import *
 
 fn_plugins = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.json')
 
+def get_installinf_of_module(mod):
+    return os.path.join(app_path(APP_DIR_PY), mod, 'install.inf')
+
 def get_initpy_of_module(mod):
     return os.path.join(app_path(APP_DIR_PY), mod, '__init__.py')
 
 def get_name_of_module(mod):
-    fn_ini = os.path.join(app_path(APP_DIR_PY), mod, 'install.inf')
+    fn_ini = get_installinf_of_module(mod)
     return ini_read(fn_ini, 'info', 'title', mod)
+
+def get_homepage_of_module(mod):
+    fn_ini = get_installinf_of_module(mod)
+    return ini_read(fn_ini, 'info', 'homepage', '')
 
 def do_remove_registering(mod):
     with open(fn_plugins, 'r') as f:

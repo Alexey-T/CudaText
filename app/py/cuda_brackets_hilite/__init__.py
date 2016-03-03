@@ -2,10 +2,7 @@ import os
 import shutil
 from cudatext import *
 from .proc_brackets import *
-
-if app_api_version()<'1.0.114':
-    msg_box('Brackets Hilite needs newer app version', MB_OK+MB_ICONWARNING)
-    
+from .proc_colors import *
 
 MARKTAG = 10 #uniq value for all markers plugins
 CANNOT_USE_SEL = False #cannot work if selection
@@ -17,12 +14,12 @@ ini_def = os.path.join(os.path.dirname(__file__), NAME_INI)
 if not os.path.isfile(ini_app) and os.path.isfile(ini_def):
     shutil.copyfile(ini_def, ini_app)
 
-COLOR_FONT = eval(ini_read(ini_app, 'colors', 'fore', '0x000000'))
-COLOR_BG = eval(ini_read(ini_app, 'colors', 'back', '0x80c080'))
-
+COLOR_FONT = string_to_color(ini_read(ini_app, 'color', 'fore', '#000000'))
+COLOR_BG = string_to_color(ini_read(ini_app, 'color', 'back', '#80c080'))
 
 prev_lexer = None
 prev_chars = ''
+
 
 def get_chars():
     global prev_lexer
