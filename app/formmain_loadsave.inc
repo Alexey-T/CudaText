@@ -382,15 +382,15 @@ begin
       end;
     end;
 
-    Op.OpFontName:= c.GetValue('font_name', Op.OpFontName);
-    Op.OpFontSize:= c.GetValue('font_size', Op.OpFontSize);
-    Op.OpFontQuality:= TFontQuality(c.GetValue('font_quality', Ord(Op.OpFontQuality)));
+    Op.OpFontName:= c.GetValue(str_FontName, Op.OpFontName);
+    Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
+    Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
 
-    UiOps.VarFontName:= c.GetValue('ui_font_name', UiOps.VarFontName);
-    UiOps.VarFontSize:= c.GetValue('ui_font_size', UiOps.VarFontSize);
+    UiOps.VarFontName:= c.GetValue(str_UiFontName, UiOps.VarFontName);
+    UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);
 
-    UiOps.OutputFontName:= c.GetValue('ui_font_output_name', UiOps.OutputFontName);
-    UiOps.OutputFontSize:= c.GetValue('ui_font_output_size', UiOps.OutputFontSize);
+    UiOps.OutputFontName:= c.GetValue(str_UiFontOutputName, UiOps.OutputFontName);
+    UiOps.OutputFontSize:= c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize);
 
     UiOps.StatusNoSel:= c.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
     UiOps.StatusSmallSel:= c.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
@@ -614,8 +614,8 @@ begin
   DoOps_DialogFont(
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    'font_name',
-    'font_size');
+    str_FontName,
+    str_FontSize);
   DoApplyFont_Text;
 end;
 
@@ -624,8 +624,8 @@ begin
   DoOps_DialogFont(
     UiOps.VarFontName,
     UiOps.VarFontSize,
-    'ui_font_name',
-    'ui_font_size');
+    str_UiFontName,
+    str_UiFontSize);
   DoApplyFont_Ui;
 end;
 
@@ -634,8 +634,8 @@ begin
   DoOps_DialogFont(
     UiOps.OutputFontName,
     UiOps.OutputFontSize,
-    'ui_font_output_name',
-    'ui_font_output_size');
+    str_UiFontOutputName,
+    str_UiFontOutputSize);
   DoApplyFont_Output;
 end;
 
