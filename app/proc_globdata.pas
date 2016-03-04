@@ -43,6 +43,7 @@ type
     cDirDataThemes,
     cDirDataAcp,
     cDirDataAcpSpec,
+    cDirDataLangs,
     cDirReadme,
     cDirPy,
     cFileLexlib,
@@ -505,6 +506,10 @@ begin
     cDirDataAcpSpec:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'autocompletespec';
+      end;
+    cDirDataLangs:
+      begin
+        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lang';
       end;
     cDirReadme:
       begin

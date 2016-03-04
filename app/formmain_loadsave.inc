@@ -56,6 +56,7 @@ begin
 
     ////state
     c.SetValue('theme', FThemeName);
+    c.SetValue('lang', FLangName);
     c.SetValue('session', FSessionFilename);
 
     DoOps_SaveHistory_GroupView(c);
@@ -255,7 +256,14 @@ begin
 
     ////theme
     FThemeName:= c.GetValue('theme', '');
+    FLangName:= c.GetValue('lang', '');
     FSessionFilename:= c.GetValue('session', FSessionFilename);
+
+    if FLangName<>'' then
+    begin
+      DoApplyLanguage(GetAppPath(cDirDataLangs)+DirectorySeparator+FLangName+'.ini');
+      UpdateMenuLangs(mnuLang);
+    end;
 
     if FThemeName<>'' then
     begin

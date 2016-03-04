@@ -6,8 +6,8 @@ Legend:
 1.2.28
 + font opt named with suffix on Linux/OSX: font_name__linux, font_size__linux...
 + AddonManager has cmd "Visit plugin homepage"; plugins need field "homepage=" in install.inf
-- fix to handle line length 10.000 
-- fix to support SpellChecker, Linux 
+- fix to handle line length 10k
+- fix to support SpellChecker/Linux 
 
 1.2.26
 + opt minimap_at_left

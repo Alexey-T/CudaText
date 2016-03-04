@@ -1062,3 +1062,43 @@ begin
   UpdateStatusbarPanelAutosize;
 end;
 
+
+procedure TfmMain.UpdateMenuLangs(sub: TMenuItem);
+var
+  mi: tmenuitem;
+  cap: string;
+  i: integer;
+begin
+  if sub=nil then exit;
+  sub.Clear;
+
+  mi:= tmenuitem.create(Self);
+  mi.caption:= 'English (built-in)';
+  mi.Tag:= -1;
+  mi.OnClick:= @MenuLangClick;
+  mi.Checked:= FLangName='';
+  sub.Add(mi);
+
+  FFindFilesInDir(GetAppPath(cDirDataLangs), '*.ini', FListLangs);
+  if FListLangs.count=0 then exit;
+  FListLangs.Sort;
+
+  for i:= 0 to FListLangs.count-1 do
+  begin
+    cap:= ExtractFileNameOnly(FListLangs[i]);
+    if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
+    mi:= tmenuitem.create(Self);
+    mi.caption:= cap;
+    mi.tag:= i;
+    mi.OnClick:= @MenuLangClick;
+    mi.Checked:= LowerCase(FLangName)=LowerCase(mi.Caption);
+    sub.Add(mi);
+  end;
+end;
+
+
+procedure TfmMain.DoApplyLanguage(const fn: string);
+begin
+  showmessage(fn);
+end;
+

@@ -808,9 +808,15 @@ object fmMain: TfmMain
       end
       object mnuThemes: TMenuItem
         Caption = 'Color themes'
-        object MenuItem26: TMenuItem
+        object mnuTst1: TMenuItem
           Caption = '--'
           Visible = False
+        end
+      end
+      object mnuLang: TMenuItem
+        Caption = 'Translations'
+        object mnuTst2: TMenuItem
+          Caption = '--'
         end
       end
     end

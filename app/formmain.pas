@@ -92,6 +92,8 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuTst2: TMenuItem;
+    mnuLang: TMenuItem;
     mnuTextOpenUrl: TMenuItem;
     mnuFontOutput: TMenuItem;
     mnuGr1p2H: TMenuItem;
@@ -109,7 +111,7 @@ type
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
     MenuItem25: TMenuItem;
-    MenuItem26: TMenuItem;
+    mnuTst1: TMenuItem;
     SepEd6: TMenuItem;
     mnuFileEndUn: TMenuItem;
     mnuFileEndMac: TMenuItem;
@@ -484,7 +486,9 @@ type
     FListRecents: TStringList;
     FListNewdoc: TStringList;
     FListThemes: TStringList;
+    FListLangs: TStringList;
     FThemeName: string;
+    FLangName: string;
     FSessionFilename: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -510,6 +514,7 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
+    procedure DoApplyLanguage(const fn: string);
     function DoCheckFilenameOpened(const AStr: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd(AStr: string): string;
@@ -572,6 +577,7 @@ type
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure MenuEncWithReloadClick(Sender: TObject);
+    procedure MenuLangClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
@@ -697,6 +703,7 @@ type
     procedure MsgStatus(const S: string);
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
+    procedure UpdateMenuLangs(sub: TMenuItem);
     procedure UpdateMenuThemes(sub: TMenuItem);
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
@@ -967,6 +974,7 @@ begin
   FListRecents:= TStringList.Create;
   FListNewdoc:= TStringList.Create;
   FListThemes:= TStringlist.Create;
+  FListLangs:= TStringList.Create;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
@@ -1155,6 +1163,7 @@ begin
   FreeAndNil(FListRecents);
   FreeAndNil(FListNewdoc);
   FreeAndNil(FListThemes);
+  FreeAndNil(FListLangs);
   FreeAndNil(FPanelCaptions);
 end;
 
@@ -1233,6 +1242,7 @@ begin
 
   UpdateMenuPlugins;
   UpdateMenuThemes(mnuThemes);
+  UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
 
   DoPyEvent(CurrentEditor, cEventOnFocus, []);
@@ -2813,6 +2823,27 @@ begin
   DoLoadTheme(fn, Theme);
   DoApplyTheme;
 end;
+
+procedure TfmMain.MenuLangClick(Sender: TObject);
+var
+  NTag: integer;
+  fn: string;
+begin
+  NTag:= (Sender as TComponent).Tag;
+  if NTag>=0 then
+  begin
+    fn:= FListLangs[NTag];
+    FLangName:= ExtractFileNameOnly(fn);
+    UpdateMenuLangs(mnuLang);
+    DoApplyLanguage(fn);
+  end
+  else
+  begin
+    FLangName:= '';
+    MsgBox('Built-in translation will be used after app restart', mb_ok or MB_ICONINFORMATION);
+  end;
+end;
+
 
 procedure TfmMain.DoHelpLexers;
 begin
