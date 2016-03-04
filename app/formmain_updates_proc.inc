@@ -1073,7 +1073,7 @@ begin
   sub.Clear;
 
   mi:= tmenuitem.create(Self);
-  mi.caption:= 'English (built-in)';
+  mi.Caption:= 'English (built-in)';
   mi.Tag:= -1;
   mi.OnClick:= @MenuLangClick;
   mi.Checked:= FLangName='';
@@ -1087,9 +1087,9 @@ begin
   begin
     cap:= ExtractFileNameOnly(FListLangs[i]);
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
-    mi:= tmenuitem.create(Self);
-    mi.caption:= cap;
-    mi.tag:= i;
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= cap;
+    mi.Tag:= i;
     mi.OnClick:= @MenuLangClick;
     mi.Checked:= LowerCase(FLangName)=LowerCase(mi.Caption);
     sub.Add(mi);
@@ -1098,7 +1098,15 @@ end;
 
 
 procedure TfmMain.DoApplyLanguage(const fn: string);
+var
+  ini: TIniFile;
 begin
-  showmessage(fn);
+  ini:= TIniFile.Create(fn);
+  with ini do
+  try
+    mnuFileOpen.Caption:= ini.ReadString('m_file', 'op', '');
+  finally
+    FreeAndNil(ini);
+  end;
 end;
 
