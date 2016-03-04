@@ -170,7 +170,7 @@ type
     mnuCmtAdd: TMenuItem;
     mnuCmtRemove: TMenuItem;
     mnuCmtToggle: TMenuItem;
-    mnuEditCmtSub: TMenuItem;
+    mnuCmtSub: TMenuItem;
     mnuFileCloseDel: TMenuItem;
     mnuOpLexer: TMenuItem;
     mnuOpMore: TMenuItem;
@@ -230,7 +230,7 @@ type
     mnuEditCopyFFull: TMenuItem;
     mnuEditCopyFName: TMenuItem;
     mnuEditCopyFDir: TMenuItem;
-    mnuEditClipSub: TMenuItem;
+    mnuEditCopySub: TMenuItem;
     mnuGotoLine: TMenuItem;
     mnuSr: TMenuItem;
     mnuTabMove1: TMenuItem;

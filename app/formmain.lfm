@@ -439,7 +439,7 @@ object fmMain: TfmMain
       object SepEd2: TMenuItem
         Caption = '-'
       end
-      object mnuEditClipSub: TMenuItem
+      object mnuEditCopySub: TMenuItem
         Caption = 'Copy to clipboard'
         object mnuEditCopyLine: TMenuItem
           Caption = 'Copy current line'
@@ -535,7 +535,7 @@ object fmMain: TfmMain
           Caption = 'Sort lines desc'
         end
       end
-      object mnuEditCmtSub: TMenuItem
+      object mnuCmtSub: TMenuItem
         Caption = 'Comments'
         object mnuCmtAdd: TMenuItem
           Caption = 'Add line comment'
