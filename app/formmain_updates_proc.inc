@@ -72,9 +72,9 @@ begin
 
   //------
   case F.LineEnds of
-    cEndWin: S:= 'Win';
-    cEndUnix: S:= 'Unix';
-    cEndMac: S:= 'Mac';
+    cEndWin: S:= msgEndWin;
+    cEndUnix: S:= msgEndUnix;
+    cEndMac: S:= msgEndMac;
     else S:= '?';
   end;
   Status[cStatusEnds]:= S;
@@ -293,7 +293,7 @@ begin
   sub.Add(mi);
 
   mi:= TMenuItem.Create(Self);
-  mi.Caption:= 'Clear list';
+  mi.Caption:= msgFileClearList;
   mi.OnClick:= @MenuRecentsClear;
   sub.Add(mi);
 
@@ -971,9 +971,9 @@ begin
   AMenu.Clear;
 
   miReload:= TMenuItem.Create(Self);
-  miReload.Caption:= 'Reload as';
+  miReload.Caption:= msgEncReloadAs;
   miNoReload:= TMenuItem.Create(Self);
-  miNoReload.Caption:= 'Convert to';
+  miNoReload.Caption:= msgEncConvertTo;
   AMenu.Add(miReload);
   AMenu.Add(miNoReload);
 
@@ -1097,37 +1097,4 @@ begin
 end;
 
 
-procedure TfmMain.DoApplyLanguage(const fn: string);
-var
-  ini: TIniFile;
-begin
-  if not FileExistsUTF8(fn) then
-  begin
-    MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
-    exit
-  end;
-
-  ini:= TIniFile.Create(fn);
-  with ini do
-  try
-    with mnuFile do Caption:= ini.ReadString('m_file', '_', Caption);
-    with mnuFileNew do Caption:= ini.ReadString('m_file', 'new', Caption);
-    with mnuFileOpen do Caption:= ini.ReadString('m_file', 'op', Caption);
-    with mnuFileOpenSub do Caption:= ini.ReadString('m_file', 'rec', Caption);
-    with mnuFileReopen do Caption:= ini.ReadString('m_file', 'reop', Caption);
-    with mnuFileSave do Caption:= ini.ReadString('m_file', 's', Caption);
-    with mnuFileSaveAs do Caption:= ini.ReadString('m_file', 's_as', Caption);
-    with mnuFileSaveAll do Caption:= ini.ReadString('m_file', 's_all', Caption);
-    with mnuFileClose do Caption:= ini.ReadString('m_file', 'cl', Caption);
-    with mnuFileCloseAll do Caption:= ini.ReadString('m_file', 'cl_all', Caption);
-    with mnuFileCloseOther do Caption:= ini.ReadString('m_file', 'cl_oth', Caption);
-    with mnuFileCloseDel do Caption:= ini.ReadString('m_file', 'cl_del', Caption);
-    with mnuFileEnc do Caption:= ini.ReadString('m_file', 'enc', Caption);
-    with mnuFileEnds do Caption:= ini.ReadString('m_file', 'end', Caption);
-    with mnuFileHtml do Caption:= ini.ReadString('m_file', 'html', Caption);
-    with mnuFileExit do Caption:= ini.ReadString('m_file', 'q', Caption);
-  finally
-    FreeAndNil(ini);
-  end;
-end;
 

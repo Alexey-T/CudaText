@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.2.26.2';
+  cAppExeVersion = '1.2.28tst';
   cAppApiVersion = '1.0.130';
 
 
@@ -25,6 +25,12 @@ const
   msgAllFiles = 'All files';
   msgDefTheme = '(default)';
   msgNoLexer = '(none)';
+  msgFileClearList: string = 'Clear list';
+  msgEncReloadAs: string = 'Reload as';
+  msgEncConvertTo: string = 'Convert to';
+  msgEndWin: string = 'Win';
+  msgEndUnix: string = 'Unix';
+  msgEndMac: string = 'MacOS9';
   msgCannotOpenFile = 'Cannot open file:';
   msgCannotFindFile = 'Cannot find file:';
   msgCannotFindLexlib = 'Cannot find lexer-library:';

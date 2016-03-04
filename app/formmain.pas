@@ -3486,6 +3486,7 @@ end;
 //----------------------------
 {$I formmain_loadsave.inc}
 {$I formmain_updates_proc.inc}
+{$I formmain_translation.inc}
 {$I formmain_frame_proc.inc}
 {$I formmain_tab_proc.inc}
 {$I formmain_find.inc}
