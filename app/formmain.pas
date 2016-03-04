@@ -3458,6 +3458,12 @@ begin
       UpdateMenuThemes(mi);
     end
     else
+    if StrCmd=PyMenuCmd_Langs then
+    begin
+      mnuLang:= mi;
+      UpdateMenuLangs(mi);
+    end
+    else
     if StrCmd=PyMenuCmd_Plugins then
     begin
       mnuPlug:= mi;

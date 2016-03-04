@@ -213,6 +213,7 @@ const
 
   PyMenuCmd_Recents = 'recents';
   PyMenuCmd_Themes = 'themes';
+  PyMenuCmd_Langs = 'langs';
   PyMenuCmd_Plugins = 'plugins';
 
 implementation

@@ -25,17 +25,17 @@ begin
     with mnuFileCloseAll do Caption:= ini.ReadString('m_file', 'cl_all', Caption);
     with mnuFileCloseOther do Caption:= ini.ReadString('m_file', 'cl_oth', Caption);
     with mnuFileCloseDel do Caption:= ini.ReadString('m_file', 'cl_del', Caption);
-    with mnuFileEnc do Caption:= ini.ReadString('m_file', 'enc', Caption);
+    with mnuFileEnc do Caption:= ini.ReadString('m_file', 'e', Caption);
     with mnuFileEnds do Caption:= ini.ReadString('m_file', 'end', Caption);
     with mnuFileHtml do Caption:= ini.ReadString('m_file', 'html', Caption);
     with mnuFileExit do Caption:= ini.ReadString('m_file', 'q', Caption);
 
     msgFileClearList:= ini.ReadString('m_file', 'clr', msgFileClearList);
-    msgEncReloadAs:= ini.ReadString('m_file', 'enc_r', msgEncReloadAs);
-    msgEncConvertTo:= ini.ReadString('m_file', 'enc_t', msgEncConvertTo);
-    msgEncEuropean:= ini.ReadString('m_file', 'enc_eu', msgEncEuropean);
-    msgEncAsian:= ini.ReadString('m_file', 'enc_as', msgEncAsian);
-    msgEncMisc:= ini.ReadString('m_file', 'enc_mi', msgEncMisc);
+    msgEncReloadAs:= ini.ReadString('m_file', 'e_r', msgEncReloadAs);
+    msgEncConvertTo:= ini.ReadString('m_file', 'e_t', msgEncConvertTo);
+    msgEncEuropean:= ini.ReadString('m_file', 'e_eu', msgEncEuropean);
+    msgEncAsian:= ini.ReadString('m_file', 'e_as', msgEncAsian);
+    msgEncMisc:= ini.ReadString('m_file', 'e_mi', msgEncMisc);
     UpdateMenuEnc(mnuFileEnc);
     UpdateMenuEnc(PopupEnc.Items);
 

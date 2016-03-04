@@ -907,29 +907,29 @@ var
     (Sub: ''; Name: cEncNameUtf16LE),
     (Sub: ''; Name: cEncNameUtf16BE),
     (Sub: ''; Name: '-'),
-    (Sub: 'European'; Name: cEncNameCP1250),
-    (Sub: 'European'; Name: cEncNameCP1251),
-    (Sub: 'European'; Name: cEncNameCP1252),
-    (Sub: 'European'; Name: cEncNameCP1253),
-    (Sub: 'European'; Name: cEncNameCP1257),
-    (Sub: 'European'; Name: '-'),
-    (Sub: 'European'; Name: cEncNameCP437),
-    (Sub: 'European'; Name: cEncNameCP850),
-    (Sub: 'European'; Name: cEncNameCP852),
-    (Sub: 'European'; Name: cEncNameCP866),
-    (Sub: 'European'; Name: '-'),
-    (Sub: 'European'; Name: cEncNameISO1),
-    (Sub: 'European'; Name: cEncNameISO2),
-    (Sub: 'European'; Name: cEncNameMac),
-    (Sub: 'Misc'; Name: cEncNameCP1254),
-    (Sub: 'Misc'; Name: cEncNameCP1255),
-    (Sub: 'Misc'; Name: cEncNameCP1256),
-    (Sub: 'Asian'; Name: cEncNameCP874),
-    (Sub: 'Asian'; Name: cEncNameCP932),
-    (Sub: 'Asian'; Name: cEncNameCP936),
-    (Sub: 'Asian'; Name: cEncNameCP949),
-    (Sub: 'Asian'; Name: cEncNameCP950),
-    (Sub: 'Asian'; Name: cEncNameCP1258)
+    (Sub: 'eu'; Name: cEncNameCP1250),
+    (Sub: 'eu'; Name: cEncNameCP1251),
+    (Sub: 'eu'; Name: cEncNameCP1252),
+    (Sub: 'eu'; Name: cEncNameCP1253),
+    (Sub: 'eu'; Name: cEncNameCP1257),
+    (Sub: 'eu'; Name: '-'),
+    (Sub: 'eu'; Name: cEncNameCP437),
+    (Sub: 'eu'; Name: cEncNameCP850),
+    (Sub: 'eu'; Name: cEncNameCP852),
+    (Sub: 'eu'; Name: cEncNameCP866),
+    (Sub: 'eu'; Name: '-'),
+    (Sub: 'eu'; Name: cEncNameISO1),
+    (Sub: 'eu'; Name: cEncNameISO2),
+    (Sub: 'eu'; Name: cEncNameMac),
+    (Sub: 'mi'; Name: cEncNameCP1254),
+    (Sub: 'mi'; Name: cEncNameCP1255),
+    (Sub: 'mi'; Name: cEncNameCP1256),
+    (Sub: 'as'; Name: cEncNameCP874),
+    (Sub: 'as'; Name: cEncNameCP932),
+    (Sub: 'as'; Name: cEncNameCP936),
+    (Sub: 'as'; Name: cEncNameCP949),
+    (Sub: 'as'; Name: cEncNameCP950),
+    (Sub: 'as'; Name: cEncNameCP1258)
   );
   //
   procedure DoAdd(AMenu: TMenuItem; Sub, SName: string; AReloadFile: boolean);
@@ -938,9 +938,9 @@ var
     n: integer;
   begin
     miSub:= nil;
-    if Sub='European' then Sub:= msgEncEuropean else
-     if Sub='Asian' then Sub:= msgEncAsian else
-      if Sub='Misc' then Sub:= msgEncMisc;
+    if Sub='eu' then Sub:= msgEncEuropean else
+     if Sub='as' then Sub:= msgEncAsian else
+      if Sub='mi' then Sub:= msgEncMisc;
 
     if Sub<>'' then
     begin
