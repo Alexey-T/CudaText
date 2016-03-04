@@ -576,6 +576,7 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    function GetLangFilename: string;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
@@ -2827,15 +2828,13 @@ end;
 procedure TfmMain.MenuLangClick(Sender: TObject);
 var
   NTag: integer;
-  fn: string;
 begin
   NTag:= (Sender as TComponent).Tag;
   if NTag>=0 then
   begin
-    fn:= FListLangs[NTag];
-    FLangName:= ExtractFileNameOnly(fn);
+    FLangName:= ExtractFileNameOnly(FListLangs[NTag]);
     UpdateMenuLangs(mnuLang);
-    DoApplyLanguage(fn);
+    DoApplyLanguage(GetLangFilename);
   end
   else
   begin
@@ -3480,6 +3479,14 @@ begin
 
     Result:= IntToStr(PtrInt(mi));
   end;
+end;
+
+function TfmMain.GetLangFilename: string;
+begin
+  if FLangName='' then
+    Result:= ''
+  else
+    Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+FLangName+'.ini';
 end;
 
 

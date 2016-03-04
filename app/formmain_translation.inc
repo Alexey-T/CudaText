@@ -33,6 +33,11 @@ begin
     msgFileClearList:= ini.ReadString('m_file', 'clr', msgFileClearList);
     msgEncReloadAs:= ini.ReadString('m_file', 'enc_r', msgEncReloadAs);
     msgEncConvertTo:= ini.ReadString('m_file', 'enc_t', msgEncConvertTo);
+    msgEncEuropean:= ini.ReadString('m_file', 'enc_eu', msgEncEuropean);
+    msgEncAsian:= ini.ReadString('m_file', 'enc_as', msgEncAsian);
+    msgEncMisc:= ini.ReadString('m_file', 'enc_mi', msgEncMisc);
+    UpdateMenuEnc(mnuFileEnc);
+    UpdateMenuEnc(PopupEnc.Items);
 
     msgEndWin:= ini.ReadString('m_file', 'z_w', msgEndWin);
     msgEndUnix:= ini.ReadString('m_file', 'z_u', msgEndUnix);

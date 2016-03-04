@@ -932,12 +932,15 @@ var
     (Sub: 'Asian'; Name: cEncNameCP1258)
   );
   //
-  procedure DoAdd(AMenu: TMenuItem; const Sub, SName: string; AReloadFile: boolean);
+  procedure DoAdd(AMenu: TMenuItem; Sub, SName: string; AReloadFile: boolean);
   var
     mi, miSub: TMenuItem;
     n: integer;
   begin
     miSub:= nil;
+    if Sub='European' then Sub:= msgEncEuropean else
+     if Sub='Asian' then Sub:= msgEncAsian else
+      if Sub='Misc' then Sub:= msgEncMisc;
 
     if Sub<>'' then
     begin

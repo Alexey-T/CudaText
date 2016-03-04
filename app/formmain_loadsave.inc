@@ -261,7 +261,7 @@ begin
 
     if FLangName<>'' then
     begin
-      DoApplyLanguage(GetAppPath(cDirDataLangs)+DirectorySeparator+FLangName+'.ini');
+      DoApplyLanguage(GetLangFilename);
     end;
 
     if FThemeName<>'' then
