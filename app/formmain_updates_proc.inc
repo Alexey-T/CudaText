@@ -1101,10 +1101,31 @@ procedure TfmMain.DoApplyLanguage(const fn: string);
 var
   ini: TIniFile;
 begin
+  if not FileExistsUTF8(fn) then
+  begin
+    MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
+    exit
+  end;
+
   ini:= TIniFile.Create(fn);
   with ini do
   try
-    mnuFileOpen.Caption:= ini.ReadString('m_file', 'op', '');
+    with mnuFile do Caption:= ini.ReadString('m_file', '_', Caption);
+    with mnuFileNew do Caption:= ini.ReadString('m_file', 'new', Caption);
+    with mnuFileOpen do Caption:= ini.ReadString('m_file', 'op', Caption);
+    with mnuFileOpenSub do Caption:= ini.ReadString('m_file', 'rec', Caption);
+    with mnuFileReopen do Caption:= ini.ReadString('m_file', 'reop', Caption);
+    with mnuFileSave do Caption:= ini.ReadString('m_file', 's', Caption);
+    with mnuFileSaveAs do Caption:= ini.ReadString('m_file', 's_as', Caption);
+    with mnuFileSaveAll do Caption:= ini.ReadString('m_file', 's_all', Caption);
+    with mnuFileClose do Caption:= ini.ReadString('m_file', 'cl', Caption);
+    with mnuFileCloseAll do Caption:= ini.ReadString('m_file', 'cl_all', Caption);
+    with mnuFileCloseOther do Caption:= ini.ReadString('m_file', 'cl_oth', Caption);
+    with mnuFileCloseDel do Caption:= ini.ReadString('m_file', 'cl_del', Caption);
+    with mnuFileEnc do Caption:= ini.ReadString('m_file', 'enc', Caption);
+    with mnuFileEnds do Caption:= ini.ReadString('m_file', 'end', Caption);
+    with mnuFileHtml do Caption:= ini.ReadString('m_file', 'html', Caption);
+    with mnuFileExit do Caption:= ini.ReadString('m_file', 'q', Caption);
   finally
     FreeAndNil(ini);
   end;
