@@ -253,6 +253,27 @@ begin
     with fmConsole.mnuTextClear do Caption:= ini.ReadString('ct', 'clr', Caption);
     with fmConsole.mnuTextNav do Caption:= ini.ReadString('ct', 'nav', Caption);
 
+    with fmConsole.ed do
+    begin
+      MenuitemTextCut.Caption:= mnuEditCut.Caption;
+      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
+      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
+      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
+      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
+      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
+      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+    end;
+    with fmConsole.memo do
+    begin
+      MenuitemTextCut.Caption:= mnuEditCut.Caption;
+      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
+      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
+      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
+      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
+      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
+      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+    end;
+
     with mnuTabCloseThis do Caption:= ini.ReadString('ct', 'c_tab', Caption);
     with mnuTabCloseSub do Caption:= ini.ReadString('ct', 'c_', Caption);
     with mnuTabCloseOtherSame do Caption:= ini.ReadString('ct', 'c_oth_s', Caption);
@@ -310,6 +331,28 @@ begin
     with fmFind.bRepAll do Caption:= ini.ReadString('d_f', 'r_a', Caption);
     with fmFind.LabelFind do Caption:= ini.ReadString('d_f', 'f_tx', Caption);
     with fmFind.LabelRep do Caption:= ini.ReadString('d_f', 'r_tx', Caption);
+
+    with fmFind.edFind do
+    begin
+      MenuitemTextCut.Caption:= mnuEditCut.Caption;
+      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
+      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
+      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
+      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
+      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
+      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+    end;
+    with fmFind.edRep do
+    begin
+      MenuitemTextCut.Caption:= mnuEditCut.Caption;
+      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
+      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
+      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
+      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
+      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
+      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+    end;
+
   finally
     FreeAndNil(ini);
   end;
@@ -329,6 +372,18 @@ begin
   try
     with fmGoto.LabelGoto do Caption:= ini.ReadString('d_f', 'go_tx', Caption);
     with fmGoto.bGoto do Caption:= ini.ReadString('d_f', 'go_b', Caption);
+
+    with fmGoto.edInput do
+    begin
+      MenuitemTextCut.Caption:= mnuEditCut.Caption;
+      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
+      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
+      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
+      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
+      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
+      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+    end;
+
   finally
     FreeAndNil(ini);
   end;
