@@ -203,7 +203,7 @@ begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, ':dlg_charmap')) then
     begin
-      str:= DoDialogCharmapModal;
+      str:= DoDialogCharmapModal(fmMain.GetLangFilename);
       if str<>'' then
         Result:= PyString_FromString(PChar(str))
       else

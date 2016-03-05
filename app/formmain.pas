@@ -3141,6 +3141,7 @@ begin
   begin
     fmCharmaps:= TfmCharmaps.Create(nil);
     fmCharmaps.OnInsert:= @CharmapOnInsert;
+    DoApplyLang_FormCharmap(fmCharmaps, GetLangFilename);
   end;
 
   fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));

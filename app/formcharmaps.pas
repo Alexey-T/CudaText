@@ -14,7 +14,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Grids, LclType, LclProc, LCLUnicodeData;
+  StdCtrls, Grids, LclType, LclProc, LCLUnicodeData, IniFiles;
 
 type
   TCharmapInsertEvent = procedure(const Str: string) of object;
@@ -56,6 +56,8 @@ type
   public
     { public declarations }
     AllowUnicodeAfterFFFF: boolean;
+    MsgStatusAnsi: string;
+    MsgStatusUnicode: string;
     InitialStr: string;
     property OnInsert: TCharmapInsertEvent read FOnInsert write FOnInsert;
   end;
@@ -63,11 +65,36 @@ type
 var
   fmCharmaps: TfmCharmaps;
 
-function DoDialogCharmapModal: string;
+function DoDialogCharmapModal(const ALangFilename: string): string;
+procedure DoApplyLang_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
+
 
 implementation
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
+const
+  section = 'd_charmap';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.btnClose do Caption:= ini.ReadString(section, 'cl', Caption);
+    with F.btnAnsi do Caption:= ini.ReadString(section, 'mod1', Caption);
+    with F.btnUnicode do Caption:= ini.ReadString(section, 'mod2', Caption);
+
+    F.MsgStatusAnsi:= ini.ReadString(section, 'stat1', F.MsgStatusAnsi);
+    F.MsgStatusUnicode:= ini.ReadString(section, 'stat2', F.MsgStatusUnicode);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 type
   TDummy = class
@@ -83,7 +110,7 @@ begin
   if Assigned(Form) then Form.Close;
 end;
 
-function DoDialogCharmapModal: string;
+function DoDialogCharmapModal(const ALangFilename: string): string;
 var
   F: TfmCharmaps;
   Dummy: TDummy;
@@ -93,6 +120,7 @@ begin
   Dummy.Form:= F;
 
   try
+    DoApplyLang_FormCharmap(F, ALangFilename);
     F.OnInsert:= @Dummy.OnInsert;
     F.ShowModal;
     Result:= Dummy.StrVal;
@@ -168,13 +196,12 @@ var
   str: string;
 begin
   code:= DoGetCode(aCol, aRow);
-  if not FUnicode then
-    LabelInfo.Caption:= Format('Decimal %d, Hex %s', [code, IntToHex(code, 2)])
-  else
-    LabelInfo.Caption:= Format('U+%s', [IntToHex(code, 4)]);
-
   str:= CodeToString(code);
-  LabelInfo.Caption:= LabelInfo.Caption+Format(', Char "%s"', [str]);
+
+  if not FUnicode then
+    LabelInfo.Caption:= Format(MsgStatusAnsi, [code, IntToHex(code, 2), str])
+  else
+    LabelInfo.Caption:= Format(MsgStatusUnicode, [IntToHex(code, 4), str]);
 end;
 
 procedure TfmCharmaps.GridSelectCell(Sender: TObject; aCol, aRow: Integer;
@@ -247,6 +274,9 @@ procedure TfmCharmaps.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
+  MsgStatusAnsi:= 'Decimal %d, Hex %s, Char "%s"';
+  MsgStatusUnicode:= 'U+%s, Char "%s"';
+
   comboUnicode.Items.Clear;
   for i:= Low(UnicodeBlocks) to High(UnicodeBlocks) do
     if AllowUnicodeAfterFFFF or (UnicodeBlocks[i].E<=$FFFF) then
