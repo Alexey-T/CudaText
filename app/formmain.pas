@@ -2717,15 +2717,19 @@ begin
 end;
 
 function TfmMain.DoDialogConfColors(var AColors: TAppTheme): boolean;
+var
+  F: TfmColorSetup;
 begin
-  with TfmColorSetup.Create(nil) do
+  F:= TfmColorSetup.Create(nil);
+  with F do
   try
+    DoApplyLang_FormColorSetup(F, GetLangFilename);
     OnApply:= @FormColorsApply;
     Data:= AColors;
     Result:= ShowModal=mrOk;
     if Result then AColors:= Data;
   finally
-    Free
+    FreeAndNil(F);
   end;
 end;
 
