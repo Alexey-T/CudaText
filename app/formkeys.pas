@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  StdCtrls, Menus,
+  StdCtrls, Menus, IniFiles,
   LclType, LclProc, ExtCtrls,
   ATSynEdit_Keymap;
 
@@ -51,9 +51,36 @@ type
 var
   fmKeys: TfmKeys;
 
+procedure DoApplyLang_FormKeys(F: TfmKeys; const ALangFilename: string);
+
+
 implementation
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormKeys(F: TfmKeys; const ALangFilename: string);
+const
+  section = 'd_keys';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'b_ok', Caption);
+    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'b_can', Caption);
+
+    with F.bClear1 do Caption:= ini.ReadString(section, 'clr', Caption);
+    with F.bAdd1 do Caption:= ini.ReadString(section, 'add', Caption);
+    F.bClear2.Caption:= F.bClear1.Caption;
+    F.bAdd2.Caption:= F.bAdd1.Caption;
+    with F.panelPress do Caption:= ini.ReadString(section, 'wait', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
 
 { TfmKeys }
 

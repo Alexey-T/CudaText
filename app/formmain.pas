@@ -1765,6 +1765,7 @@ begin
 
   Form:= TfmCommands.Create(Self);
   try
+    Form.FLangFilename:= GetLangFilename;
     UpdateInputForm(Form,
       Form.edit.Height+
       Form.edit.BorderSpacing.Around*3+

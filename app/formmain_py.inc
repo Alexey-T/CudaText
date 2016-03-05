@@ -1524,9 +1524,9 @@ begin
       Str:= string(Ptr);
       Cmd:= StrToIntDef(Str, 0);
       if Cmd>0 then
-        Ok:= DoDialogHotkeys(Cmd)
+        Ok:= DoDialogHotkeys(Cmd, fmMain.GetLangFilename)
       else
-        Ok:= DoDialogHotkeys(Str);
+        Ok:= DoDialogHotkeys(Str, fmMain.GetLangFilename);
       Result:= PyBool_FromLong(Ord(Ok));
     end;
 end;

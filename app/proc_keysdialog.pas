@@ -18,15 +18,16 @@ uses
   proc_cmd,
   formkeys;
 
-function DoDialogHotkeys(ACmd: integer): boolean;
-function DoDialogHotkeys(const AModuleAndMethod: string): boolean;
+function DoDialogHotkeys(ACmd: integer; const ALangFilename: string): boolean;
+function DoDialogHotkeys(const AModuleAndMethod: string; const ALangFilename: string): boolean;
 
 
 implementation
 
-function DoDialogHotkeys(ACmd: integer): boolean;
+function DoDialogHotkeys(ACmd: integer; const ALangFilename: string): boolean;
 var
   n: integer;
+  Form: TfmKeys;
   StrId: string;
 begin
   Result:= false;
@@ -45,9 +46,11 @@ begin
     with FPluginsCmd[ACmd-cmdFirstPluginCommand] do
       StrId:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
 
-  with TfmKeys.Create(nil) do
+  Form:= TfmKeys.Create(nil);
+  with Form do
   try
-    Caption:= 'Keys - '+keymap[n].Name;
+    DoApplyLang_FormKeys(Form, ALangFilename);
+    Caption:= Caption+' - '+keymap[n].Name;
     Keys1:= keymap[n].Keys1;
     Keys2:= keymap[n].Keys2;
 
@@ -64,7 +67,7 @@ begin
 end;
 
 
-function DoDialogHotkeys(const AModuleAndMethod: string): boolean;
+function DoDialogHotkeys(const AModuleAndMethod: string; const ALangFilename: string): boolean;
 var
   N: integer;
 begin
@@ -72,8 +75,9 @@ begin
   N:= CommandPlugins_GetIndexFromModuleAndMethod(AModuleAndMethod);
   if N<0 then exit;
 
-  Result:= DoDialogHotkeys(N+cmdFirstPluginCommand);
+  Result:= DoDialogHotkeys(N+cmdFirstPluginCommand, ALangFilename);
 end;
+
 
 end.
 

@@ -13,7 +13,7 @@ object fmKeys: TfmKeys
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
@@ -44,23 +44,25 @@ object fmKeys: TfmKeys
   object bAdd1: TButton
     AnchorSideLeft.Control = bClear1
     AnchorSideLeft.Side = asrBottom
-    Left = 106
+    Left = 115
     Height = 29
     Top = 40
-    Width = 102
+    Width = 100
     AutoSize = True
     BorderSpacing.Around = 6
-    Caption = '      Add key      '
+    Caption = 'Add key'
+    Constraints.MinWidth = 100
     OnClick = bAdd1Click
     TabOrder = 1
   end
   object bClear1: TButton
-    Left = 8
+    Left = 9
     Height = 29
     Top = 40
-    Width = 92
+    Width = 100
     AutoSize = True
-    Caption = '       Clear        '
+    Caption = 'Clear'
+    Constraints.MinWidth = 100
     OnClick = bClear1Click
     TabOrder = 0
   end
@@ -75,13 +77,14 @@ object fmKeys: TfmKeys
   object bAdd2: TButton
     AnchorSideLeft.Control = bClear2
     AnchorSideLeft.Side = asrBottom
-    Left = 107
+    Left = 115
     Height = 29
     Top = 112
-    Width = 102
+    Width = 100
     AutoSize = True
     BorderSpacing.Around = 6
-    Caption = '      Add key      '
+    Caption = 'Add key'
+    Constraints.MinWidth = 100
     OnClick = bAdd2Click
     TabOrder = 3
   end
@@ -89,9 +92,10 @@ object fmKeys: TfmKeys
     Left = 9
     Height = 29
     Top = 112
-    Width = 92
+    Width = 100
     AutoSize = True
-    Caption = '       Clear        '
+    Caption = 'Clear'
+    Constraints.MinWidth = 100
     OnClick = bClear2Click
     TabOrder = 2
   end

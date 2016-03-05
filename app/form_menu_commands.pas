@@ -56,6 +56,7 @@ type
     { public declarations }
     keymap: TATKeymap;
     ResultNum: integer;
+    FLangFilename: string;
   end;
 
 var
@@ -192,7 +193,7 @@ end;
 
 procedure TfmCommands.DoConfigKey(Cmd: integer);
 begin
-  if DoDialogHotkeys(Cmd) then
+  if DoDialogHotkeys(Cmd, FLangFilename) then
   begin
     DoFilter;
     DoFindDupKeys;
