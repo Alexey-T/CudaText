@@ -2132,6 +2132,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_LANG:
+          begin
+            Result:= PyString_FromString(PChar(fmMain.LangName));
+          end;
+
         else
           Result:= ReturnNone;
       end;
