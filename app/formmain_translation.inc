@@ -13,35 +13,35 @@ begin
   ini:= TIniFile.Create(fn);
   with ini do
   try
-    with mnuFile do Caption:= ini.ReadString('m_file', '_', Caption);
-    with mnuFileNew do Caption:= ini.ReadString('m_file', 'new', Caption);
-    with mnuFileOpen do Caption:= ini.ReadString('m_file', 'op', Caption);
-    with mnuFileOpenSub do Caption:= ini.ReadString('m_file', 'rec', Caption);
-    with mnuFileReopen do Caption:= ini.ReadString('m_file', 'reop', Caption);
-    with mnuFileSave do Caption:= ini.ReadString('m_file', 's', Caption);
-    with mnuFileSaveAs do Caption:= ini.ReadString('m_file', 's_as', Caption);
-    with mnuFileSaveAll do Caption:= ini.ReadString('m_file', 's_all', Caption);
-    with mnuFileClose do Caption:= ini.ReadString('m_file', 'cl', Caption);
-    with mnuFileCloseAll do Caption:= ini.ReadString('m_file', 'cl_all', Caption);
-    with mnuFileCloseOther do Caption:= ini.ReadString('m_file', 'cl_oth', Caption);
-    with mnuFileCloseDel do Caption:= ini.ReadString('m_file', 'cl_del', Caption);
-    with mnuFileEnc do Caption:= ini.ReadString('m_file', 'e', Caption);
-    with mnuFileEnds do Caption:= ini.ReadString('m_file', 'end', Caption);
-    with mnuFileHtml do Caption:= ini.ReadString('m_file', 'html', Caption);
-    with mnuFileExit do Caption:= ini.ReadString('m_file', 'q', Caption);
+    with mnuFile do Caption:= ini.ReadString('m_f', '_', Caption);
+    with mnuFileNew do Caption:= ini.ReadString('m_f', 'new', Caption);
+    with mnuFileOpen do Caption:= ini.ReadString('m_f', 'op', Caption);
+    with mnuFileOpenSub do Caption:= ini.ReadString('m_f', 'rec', Caption);
+    with mnuFileReopen do Caption:= ini.ReadString('m_f', 'reop', Caption);
+    with mnuFileSave do Caption:= ini.ReadString('m_f', 's', Caption);
+    with mnuFileSaveAs do Caption:= ini.ReadString('m_f', 's_as', Caption);
+    with mnuFileSaveAll do Caption:= ini.ReadString('m_f', 's_all', Caption);
+    with mnuFileClose do Caption:= ini.ReadString('m_f', 'cl', Caption);
+    with mnuFileCloseAll do Caption:= ini.ReadString('m_f', 'cl_all', Caption);
+    with mnuFileCloseOther do Caption:= ini.ReadString('m_f', 'cl_oth', Caption);
+    with mnuFileCloseDel do Caption:= ini.ReadString('m_f', 'cl_del', Caption);
+    with mnuFileEnc do Caption:= ini.ReadString('m_f', 'e', Caption);
+    with mnuFileEnds do Caption:= ini.ReadString('m_f', 'end', Caption);
+    with mnuFileHtml do Caption:= ini.ReadString('m_f', 'html', Caption);
+    with mnuFileExit do Caption:= ini.ReadString('m_f', 'q', Caption);
 
-    msgFileClearList:= ini.ReadString('m_file', 'clr', msgFileClearList);
-    msgEncReloadAs:= ini.ReadString('m_file', 'e_r', msgEncReloadAs);
-    msgEncConvertTo:= ini.ReadString('m_file', 'e_t', msgEncConvertTo);
-    msgEncEuropean:= ini.ReadString('m_file', 'e_eu', msgEncEuropean);
-    msgEncAsian:= ini.ReadString('m_file', 'e_as', msgEncAsian);
-    msgEncMisc:= ini.ReadString('m_file', 'e_mi', msgEncMisc);
+    msgFileClearList:= ini.ReadString('m_f', 'clr', msgFileClearList);
+    msgEncReloadAs:= ini.ReadString('m_f', 'e_r', msgEncReloadAs);
+    msgEncConvertTo:= ini.ReadString('m_f', 'e_t', msgEncConvertTo);
+    msgEncEuropean:= ini.ReadString('m_f', 'e_eu', msgEncEuropean);
+    msgEncAsian:= ini.ReadString('m_f', 'e_as', msgEncAsian);
+    msgEncMisc:= ini.ReadString('m_f', 'e_mi', msgEncMisc);
     UpdateMenuEnc(mnuFileEnc);
     UpdateMenuEnc(PopupEnc.Items);
 
-    msgEndWin:= ini.ReadString('m_file', 'z_w', msgEndWin);
-    msgEndUnix:= ini.ReadString('m_file', 'z_u', msgEndUnix);
-    msgEndMac:= ini.ReadString('m_file', 'z_m', msgEndMac);
+    msgEndWin:= ini.ReadString('m_f', 'z_w', msgEndWin);
+    msgEndUnix:= ini.ReadString('m_f', 'z_u', msgEndUnix);
+    msgEndMac:= ini.ReadString('m_f', 'z_m', msgEndMac);
 
     with mnuFileEndWin do Caption:= msgEndWin;
     with mnuFileEndUn do Caption:= msgEndUnix;
@@ -51,69 +51,69 @@ begin
     with mnuEndsUnix do Caption:= msgEndUnix;
     with mnuEndsMac do Caption:= msgEndMac;
 
-    with mnuEdit do Caption:= ini.ReadString('m_edit', '_', Caption);
-    with mnuEditUndo do Caption:= ini.ReadString('m_edit', 'undo', Caption);
-    with mnuEditRedo do Caption:= ini.ReadString('m_edit', 'redo', Caption);
-    with mnuEditCut do Caption:= ini.ReadString('m_edit', 'cut', Caption);
-    with mnuEditCopy do Caption:= ini.ReadString('m_edit', 'cp', Caption);
-    with mnuEditPaste do Caption:= ini.ReadString('m_edit', 'pst', Caption);
-    with mnuEditDel do Caption:= ini.ReadString('m_edit', 'del', Caption);
+    with mnuEdit do Caption:= ini.ReadString('m_ed', '_', Caption);
+    with mnuEditUndo do Caption:= ini.ReadString('m_ed', 'undo', Caption);
+    with mnuEditRedo do Caption:= ini.ReadString('m_ed', 'redo', Caption);
+    with mnuEditCut do Caption:= ini.ReadString('m_ed', 'cut', Caption);
+    with mnuEditCopy do Caption:= ini.ReadString('m_ed', 'cp', Caption);
+    with mnuEditPaste do Caption:= ini.ReadString('m_ed', 'pst', Caption);
+    with mnuEditDel do Caption:= ini.ReadString('m_ed', 'del', Caption);
 
-    with mnuEditCopySub do Caption:= ini.ReadString('m_edit', 'cp_', Caption);
-    with mnuEditCopyLine do Caption:= ini.ReadString('m_edit', 'cp_ln', Caption);
-    with mnuEditCopyAppend do Caption:= ini.ReadString('m_edit', 'cp_add', Caption);
-    with mnuEditCopyFFull do Caption:= ini.ReadString('m_edit', 'cp_full', Caption);
-    with mnuEditCopyFName do Caption:= ini.ReadString('m_edit', 'cp_name', Caption);
-    with mnuEditCopyFDir do Caption:= ini.ReadString('m_edit', 'cp_dir', Caption);
+    with mnuEditCopySub do Caption:= ini.ReadString('m_ed', 'cp_', Caption);
+    with mnuEditCopyLine do Caption:= ini.ReadString('m_ed', 'cp_ln', Caption);
+    with mnuEditCopyAppend do Caption:= ini.ReadString('m_ed', 'cp_add', Caption);
+    with mnuEditCopyFFull do Caption:= ini.ReadString('m_ed', 'cp_full', Caption);
+    with mnuEditCopyFName do Caption:= ini.ReadString('m_ed', 'cp_name', Caption);
+    with mnuEditCopyFDir do Caption:= ini.ReadString('m_ed', 'cp_dir', Caption);
 
-    with mnuEditLineOp do Caption:= ini.ReadString('m_edit', 'ln_', Caption);
-    with mnuEditLineDel do Caption:= ini.ReadString('m_edit', 'ln_del', Caption);
-    with mnuEditLineDup do Caption:= ini.ReadString('m_edit', 'ln_dup', Caption);
-    with mnuEditLineMoveUp do Caption:= ini.ReadString('m_edit', 'ln_up', Caption);
-    with mnuEditLineMoveDown do Caption:= ini.ReadString('m_edit', 'ln_dn', Caption);
+    with mnuEditLineOp do Caption:= ini.ReadString('m_ed', 'ln_', Caption);
+    with mnuEditLineDel do Caption:= ini.ReadString('m_ed', 'ln_del', Caption);
+    with mnuEditLineDup do Caption:= ini.ReadString('m_ed', 'ln_dup', Caption);
+    with mnuEditLineMoveUp do Caption:= ini.ReadString('m_ed', 'ln_up', Caption);
+    with mnuEditLineMoveDown do Caption:= ini.ReadString('m_ed', 'ln_dn', Caption);
 
-    with mnuEditIndentSub do Caption:= ini.ReadString('m_edit', 'bl_', Caption);
-    with mnuEditIndent do Caption:= ini.ReadString('m_edit', 'bl_ind', Caption);
-    with mnuEditUnindent do Caption:= ini.ReadString('m_edit', 'bl_uind', Caption);
-    with mnuEditTrim do Caption:= ini.ReadString('m_edit', 'tr_a', Caption);
-    with mnuEditTrimL do Caption:= ini.ReadString('m_edit', 'tr_l', Caption);
-    with mnuEditTrimR do Caption:= ini.ReadString('m_edit', 'tr_r', Caption);
-    with mnuEditTabToSp do Caption:= ini.ReadString('m_edit', 'con_t', Caption);
-    with mnuEditSpToTab do Caption:= ini.ReadString('m_edit', 'con_s', Caption);
+    with mnuEditIndentSub do Caption:= ini.ReadString('m_ed', 'bl_', Caption);
+    with mnuEditIndent do Caption:= ini.ReadString('m_ed', 'bl_ind', Caption);
+    with mnuEditUnindent do Caption:= ini.ReadString('m_ed', 'bl_uind', Caption);
+    with mnuEditTrim do Caption:= ini.ReadString('m_ed', 'tr_a', Caption);
+    with mnuEditTrimL do Caption:= ini.ReadString('m_ed', 'tr_l', Caption);
+    with mnuEditTrimR do Caption:= ini.ReadString('m_ed', 'tr_r', Caption);
+    with mnuEditTabToSp do Caption:= ini.ReadString('m_ed', 'con_t', Caption);
+    with mnuEditSpToTab do Caption:= ini.ReadString('m_ed', 'con_s', Caption);
 
-    with mnuCaseSub do Caption:= ini.ReadString('m_edit', 'cas_', Caption);
-    with mnuCaseUp do Caption:= ini.ReadString('m_edit', 'cas_u', Caption);
-    with mnuCaseLow do Caption:= ini.ReadString('m_edit', 'cas_l', Caption);
-    with mnuCaseTitle do Caption:= ini.ReadString('m_edit', 'cas_t', Caption);
-    with mnuCaseInvert do Caption:= ini.ReadString('m_edit', 'cas_i', Caption);
-    with mnuCaseSent do Caption:= ini.ReadString('m_edit', 'cas_s', Caption);
+    with mnuCaseSub do Caption:= ini.ReadString('m_ed', 'cas_', Caption);
+    with mnuCaseUp do Caption:= ini.ReadString('m_ed', 'cas_u', Caption);
+    with mnuCaseLow do Caption:= ini.ReadString('m_ed', 'cas_l', Caption);
+    with mnuCaseTitle do Caption:= ini.ReadString('m_ed', 'cas_t', Caption);
+    with mnuCaseInvert do Caption:= ini.ReadString('m_ed', 'cas_i', Caption);
+    with mnuCaseSent do Caption:= ini.ReadString('m_ed', 'cas_s', Caption);
 
-    with mnuSortSub do Caption:= ini.ReadString('m_edit', 'sr_', Caption);
-    with mnuSortAsc do Caption:= ini.ReadString('m_edit', 'sr_a', Caption);
-    with mnuSortDesc do Caption:= ini.ReadString('m_edit', 'sr_d', Caption);
+    with mnuSortSub do Caption:= ini.ReadString('m_ed', 'sr_', Caption);
+    with mnuSortAsc do Caption:= ini.ReadString('m_ed', 'sr_a', Caption);
+    with mnuSortDesc do Caption:= ini.ReadString('m_ed', 'sr_d', Caption);
 
-    with mnuCmtSub do Caption:= ini.ReadString('m_edit', 'com_', Caption);
-    with mnuCmtAdd do Caption:= ini.ReadString('m_edit', 'com_l_a', Caption);
-    with mnuCmtRemove do Caption:= ini.ReadString('m_edit', 'com_l_d', Caption);
-    with mnuCmtToggle do Caption:= ini.ReadString('m_edit', 'com_l_t', Caption);
-    with mnuCmtToggleStr do Caption:= ini.ReadString('m_edit', 'com_s_t', Caption);
+    with mnuCmtSub do Caption:= ini.ReadString('m_ed', 'com_', Caption);
+    with mnuCmtAdd do Caption:= ini.ReadString('m_ed', 'com_l_a', Caption);
+    with mnuCmtRemove do Caption:= ini.ReadString('m_ed', 'com_l_d', Caption);
+    with mnuCmtToggle do Caption:= ini.ReadString('m_ed', 'com_l_t', Caption);
+    with mnuCmtToggleStr do Caption:= ini.ReadString('m_ed', 'com_s_t', Caption);
 
-    with mnuEditCharmap do Caption:= ini.ReadString('m_edit', 'map', Caption);
+    with mnuEditCharmap do Caption:= ini.ReadString('m_ed', 'map', Caption);
 
-    with mnuSel do Caption:= ini.ReadString('m_sel', '_', Caption);
-    with mnuSelAll do Caption:= ini.ReadString('m_sel', 'al', Caption);
-    with mnuSelSplit do Caption:= ini.ReadString('m_sel', 'sp', Caption);
-    with mnuSelExtLine do Caption:= ini.ReadString('m_sel', 'ex', Caption);
-    with mnuSelInvert do Caption:= ini.ReadString('m_sel', 'in', Caption);
+    with mnuSel do Caption:= ini.ReadString('m_se', '_', Caption);
+    with mnuSelAll do Caption:= ini.ReadString('m_se', 'al', Caption);
+    with mnuSelSplit do Caption:= ini.ReadString('m_se', 'sp', Caption);
+    with mnuSelExtLine do Caption:= ini.ReadString('m_se', 'ex', Caption);
+    with mnuSelInvert do Caption:= ini.ReadString('m_se', 'in', Caption);
 
-    with mnuCaretsCancel do Caption:= ini.ReadString('m_sel', 'can', Caption);
-    with mnuCaretsExtSub do Caption:= ini.ReadString('m_sel', 'm_', Caption);
-    with mnuCaretsUp1Line do Caption:= ini.ReadString('m_sel', 'u_l', Caption);
-    with mnuCaretsUp1Page do Caption:= ini.ReadString('m_sel', 'u_p', Caption);
-    with mnuCaretsUpBegin do Caption:= ini.ReadString('m_sel', 'u_z', Caption);
-    with mnuCaretsDown1Line do Caption:= ini.ReadString('m_sel', 'd_l', Caption);
-    with mnuCaretsDown1Page do Caption:= ini.ReadString('m_sel', 'd_p', Caption);
-    with mnuCaretsDownEnd do Caption:= ini.ReadString('m_sel', 'd_z', Caption);
+    with mnuCaretsCancel do Caption:= ini.ReadString('m_se', 'can', Caption);
+    with mnuCaretsExtSub do Caption:= ini.ReadString('m_se', 'm_', Caption);
+    with mnuCaretsUp1Line do Caption:= ini.ReadString('m_se', 'u_l', Caption);
+    with mnuCaretsUp1Page do Caption:= ini.ReadString('m_se', 'u_p', Caption);
+    with mnuCaretsUpBegin do Caption:= ini.ReadString('m_se', 'u_z', Caption);
+    with mnuCaretsDown1Line do Caption:= ini.ReadString('m_se', 'd_l', Caption);
+    with mnuCaretsDown1Page do Caption:= ini.ReadString('m_se', 'd_p', Caption);
+    with mnuCaretsDownEnd do Caption:= ini.ReadString('m_se', 'd_z', Caption);
 
     with mnuSr do Caption:= ini.ReadString('m_sr', '_', Caption);
     with mnuFindDlg do Caption:= ini.ReadString('m_sr', 'f', Caption);
@@ -125,12 +125,48 @@ begin
     with mnuGotoLine do Caption:= ini.ReadString('m_sr', 'g_l', Caption);
     with mnuGotoBm do Caption:= ini.ReadString('m_sr', 'g_b', Caption);
 
-    with mnuBookmarksSub do Caption:= ini.ReadString('m_sr', 'b_', Caption);
+    with mnuBmSub do Caption:= ini.ReadString('m_sr', 'b_', Caption);
     with mnuBmNext do Caption:= ini.ReadString('m_sr', 'b_n', Caption);
     with mnuBmPrev do Caption:= ini.ReadString('m_sr', 'b_p', Caption);
     with mnuBmToggle do Caption:= ini.ReadString('m_sr', 'b_to', Caption);
     with mnuBmInvert do Caption:= ini.ReadString('m_sr', 'b_in', Caption);
     with mnuBmClear do Caption:= ini.ReadString('m_sr', 'b_cl', Caption);
+
+    with mnuView do Caption:= ini.ReadString('m_v', '_', Caption);
+    with mnuGroups do Caption:= ini.ReadString('m_v', 'g_', Caption);
+    with mnuGr1 do Caption:= ini.ReadString('m_v', 'g1', Caption);
+    with mnuGr2H do Caption:= ini.ReadString('m_v', 'g2h', Caption);
+    with mnuGr2V do Caption:= ini.ReadString('m_v', 'g2v', Caption);
+    with mnuGr3H do Caption:= ini.ReadString('m_v', 'g3h', Caption);
+    with mnuGr3V do Caption:= ini.ReadString('m_v', 'g3v', Caption);
+    with mnuGr1p2H do Caption:= ini.ReadString('m_v', 'g12h', Caption);
+    with mnuGr1p2V do Caption:= ini.ReadString('m_v', 'g12v', Caption);
+    with mnuGr4H do Caption:= ini.ReadString('m_v', 'g4h', Caption);
+    with mnuGr4V do Caption:= ini.ReadString('m_v', 'g4v', Caption);
+    with mnuGr4G do Caption:= ini.ReadString('m_v', 'g4g', Caption);
+    with mnuGr6 do Caption:= ini.ReadString('m_v', 'g6', Caption);
+
+    with mnuViewSplitSub do Caption:= ini.ReadString('m_v', 's_', Caption);
+    with mnuViewSplitDo do Caption:= ini.ReadString('m_v', 's_s', Caption);
+    with mnuViewSplitHorz do Caption:= ini.ReadString('m_v', 's_h', Caption);
+
+    with mnuViewWrap do Caption:= ini.ReadString('m_v', 't_ww', Caption);
+    with mnuViewNums do Caption:= ini.ReadString('m_v', 't_nu', Caption);
+    with mnuViewFold do Caption:= ini.ReadString('m_v', 't_fo', Caption);
+    with mnuViewRuler do Caption:= ini.ReadString('m_v', 't_ru', Caption);
+    with mnuViewMinimap do Caption:= ini.ReadString('m_v', 't_mi', Caption);
+
+    with mnuViewUnpri do Caption:= ini.ReadString('m_v', 'u_', Caption);
+    with mnuViewUnpriShow do Caption:= ini.ReadString('m_v', 'u_sh', Caption);
+    with mnuViewUnpriSpaces do Caption:= ini.ReadString('m_v', 'u_sp', Caption);
+    with mnuViewUnpriEnds do Caption:= ini.ReadString('m_v', 'u_e', Caption);
+    with mnuViewUnpriEndsDet do Caption:= ini.ReadString('m_v', 'u_ed', Caption);
+
+    with mnuViewToolbar do Caption:= ini.ReadString('m_v', 't_tb', Caption);
+    with mnuViewStatus do Caption:= ini.ReadString('m_v', 't_sb', Caption);
+    with mnuViewSide do Caption:= ini.ReadString('m_v', 't_si', Caption);
+    with mnuViewBottom do Caption:= ini.ReadString('m_v', 't_bo', Caption);
+    with mnuViewFullscr do Caption:= ini.ReadString('m_v', 't_fs', Caption);
 
   finally
     FreeAndNil(ini);

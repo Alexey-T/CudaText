@@ -198,7 +198,7 @@ type
     mnuOpDefault: TMenuItem;
     mnuFileOpenSub: TMenuItem;
     mnuHelpAbout: TMenuItem;
-    mnuBookmarksSub: TMenuItem;
+    mnuBmSub: TMenuItem;
     mnuFindRepDialog: TMenuItem;
     mnuFindNext: TMenuItem;
     mnuFindDlg: TMenuItem;

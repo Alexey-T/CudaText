@@ -631,7 +631,7 @@ object fmMain: TfmMain
       object mnuGotoBm: TMenuItem
         Caption = 'Go to bookmark...'
       end
-      object mnuBookmarksSub: TMenuItem
+      object mnuBmSub: TMenuItem
         Caption = 'Bookmarks'
         object mnuBmNext: TMenuItem
           Caption = 'Go to next bookmark'
