@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  StdCtrls, ComCtrls, CheckLst,
+  StdCtrls, ComCtrls, CheckLst, IniFiles,
   LCLIntf, LCLType, LCLProc,
   ecSyntAnal,
   formlexerprop,
@@ -34,12 +34,14 @@ type
     procedure bAddClick(Sender: TObject);
     procedure bDelClick(Sender: TObject);
     procedure bPropClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ListClickCheck(Sender: TObject);
   private
     { private declarations }
     procedure UpdateList;
   public
+    FMsgConfirmDelete: string;
     FManager: TecSyntaxManager;
     FFontName: string;
     FFontSize: integer;
@@ -55,20 +57,44 @@ function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
   const ADirAcp: string;
   const AFontName: string;
   AFontSize: integer;
-  const AStylesFilename: string): boolean;
+  const AStylesFilename: string;
+  const ALangFilename: string): boolean;
 
 implementation
 
 {$R *.lfm}
 
+procedure DoApplyLang_FormLexerLib(F: TfmLexerLib; const ALangFilename: string);
+const
+  section = 'd_lex_lib';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.ButtonPanel1.CloseButton do Caption:= ini.ReadString(section, 'cl', Caption);
+    with F.bProp do Caption:= ini.ReadString(section, 'cfg', Caption);
+    with F.bAdd do Caption:= ini.ReadString(section, 'add', Caption);
+    with F.bDel do Caption:= ini.ReadString(section, 'del', Caption);
+    F.FMsgConfirmDelete:= ini.ReadString(section, 'msg_del', F.FMsgConfirmDelete);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
+
 function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
   const ADirAcp: string; const AFontName: string; AFontSize: integer;
-  const AStylesFilename: string): boolean;
+  const AStylesFilename: string; const ALangFilename: string): boolean;
 var
   F: TfmLexerLib;
 begin
   F:= TfmLexerLib.Create(nil);
   try
+    DoApplyLang_FormLexerLib(F, ALangFilename);
     F.FManager:= ALexerManager;
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;
@@ -133,6 +159,11 @@ begin
   end;
 end;
 
+procedure TfmLexerLib.FormCreate(Sender: TObject);
+begin
+  FMsgConfirmDelete:= 'Delete lexer "%s"?';
+end;
+
 procedure TfmLexerLib.bDelClick(Sender: TObject);
 var
   an: TecSyntAnalyzer;
@@ -143,7 +174,7 @@ begin
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
   if Application.MessageBox(
-    PChar(Format('Delete lexer "%s"?', [an.LexerName])),
+    PChar(Format(FMsgConfirmDelete, [an.LexerName])),
     PChar(Caption),
     MB_OKCANCEL or MB_ICONWARNING)=id_ok then
   begin

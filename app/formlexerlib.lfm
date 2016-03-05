@@ -7,10 +7,11 @@ object fmLexerLib: TfmLexerLib
   Caption = 'Lexer library'
   ClientHeight = 468
   ClientWidth = 459
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29

@@ -1445,7 +1445,8 @@ begin
     GetAppPath(cDirDataAcp),
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStyles)) then
+    GetAppPath(cFileLexerStyles),
+    GetLangFilename) then
   begin
     UpdateMenuLexers;
     UpdateStatus;
