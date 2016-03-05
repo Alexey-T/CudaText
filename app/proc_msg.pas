@@ -34,6 +34,10 @@ const
   msgEditRedo: string = 'Redo';
   msgFileClearList: string = 'Clear list';
 
+  msgButtonOk: string = 'OK';
+  msgButtonCancel: string = 'Cancel';
+  msgButtonApply: string = 'Apply';
+
   msgEncReloadAs: string = 'Reload as';
   msgEncConvertTo: string = 'Convert to';
   msgEncEuropean: string = 'European';

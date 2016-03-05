@@ -1,11 +1,19 @@
 {$ifdef nn}begin end;{$endif}
 
+procedure DoApplyTabCaption(ATabs: TATTabs; AIndex: integer; const Str: string);
+var
+  data: TATTabData;
+begin
+  data:= ATabs.GetTabData(AIndex);
+  if Assigned(data) then
+    data.TabCaption:= Str;
+end;
+
 procedure TfmMain.DoApplyLang;
 var
   fn: string;
   ini: TIniFile;
   s: string;
-  data: TATTabData;
 begin
   fn:= GetLangFilename;
   if not FileExistsUTF8(fn) then exit;
@@ -220,16 +228,11 @@ begin
     with mnuHelpChangelog do Caption:= ini.ReadString('m_h', 'ch', Caption);
     with mnuHelpAbout do Caption:= ini.ReadString('m_h', 'ab', Caption);
 
-    data:= TabsBottom.GetTabData(0);
-    if Assigned(data) then data.TabCaption:= ini.ReadString('ui', 't_con', 'Console');
-    data:= TabsBottom.GetTabData(1);
-    if Assigned(data) then data.TabCaption:= ini.ReadString('ui', 't_out', 'Output');
-    data:= TabsBottom.GetTabData(2);
-    if Assigned(data) then data.TabCaption:= ini.ReadString('ui', 't_val', 'Validate');
-    data:= TabsBottom.GetTabData(3);
-    if Assigned(data) then data.TabCaption:= ini.ReadString('ui', 't_sr', 'Search Results');
-    data:= TabsLeft.GetTabData(0);
-    if Assigned(data) then data.TabCaption:= ini.ReadString('ui', 't_tre', 'Tree');
+    DoApplyTabCaption(TabsBottom, 0, ini.ReadString('ui', 't_con', 'Console'));
+    DoApplyTabCaption(TabsBottom, 1, ini.ReadString('ui', 't_out', 'Output'));
+    DoApplyTabCaption(TabsBottom, 2, ini.ReadString('ui', 't_val', 'Validate'));
+    DoApplyTabCaption(TabsBottom, 3, ini.ReadString('ui', 't_sr', 'Search Results'));
+    DoApplyTabCaption(TabsLeft, 0, ini.ReadString('ui', 't_tre', 'Tree'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
@@ -238,6 +241,9 @@ begin
     UpdateMenuRecent(nil);
 
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
+    msgButtonOk:= ini.ReadString('ui', 'b_ok', msgButtonOk);
+    msgButtonCancel:= ini.ReadString('ui', 'b_can', msgButtonCancel);
+    msgButtonApply:= ini.ReadString('ui', 'b_ap', msgButtonApply);
 
     with tbNew do Hint:= ini.ReadString('ui', 'tb_new', Hint);
     with tbOpen do Hint:= ini.ReadString('ui', 'tb_op', Hint);
