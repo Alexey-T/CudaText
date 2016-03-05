@@ -1,16 +1,14 @@
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoApplyLanguage(const fn: string);
+procedure TfmMain.DoApplyLang;
 var
+  fn: string;
   ini: TIniFile;
   s: string;
   data: TATTabData;
 begin
-  if not FileExistsUTF8(fn) then
-  begin
-    MsgBox(msgCannotFindFile+#10+fn, MB_OK or MB_ICONERROR);
-    exit
-  end;
+  fn:= GetLangFilename;
+  if not FileExistsUTF8(fn) then exit;
 
   ini:= TIniFile.Create(fn);
   with ini do
@@ -283,6 +281,54 @@ begin
     with mnuTabsize8 do Caption:= s+' 8';
     with mnuTabsizeSpace do Caption:= ini.ReadString('ct', 'tsz_sp', Caption);
 
+  finally
+    FreeAndNil(ini);
+  end;
+
+  DoApplyLang_FormFind;
+  DoApplyLang_FormGoto;
+end;
+
+procedure TfmMain.DoApplyLang_FormFind;
+var
+  fn: string;
+  ini: TIniFile;
+begin
+  if not Assigned(fmFind) then exit;
+
+  fn:= GetLangFilename;
+  if not FileExistsUTF8(fn) then exit;
+
+  ini:= TIniFile.Create(fn);
+  try
+    with fmFind.bFindFirst do Caption:= ini.ReadString('d_f', 'f_f', Caption);
+    with fmFind.bFindNext do Caption:= ini.ReadString('d_f', 'f_n', Caption);
+    with fmFind.bFindPrev do Caption:= ini.ReadString('d_f', 'f_p', Caption);
+    with fmFind.bCount do Caption:= ini.ReadString('d_f', 'cnt', Caption);
+    with fmFind.bMarkAll do Caption:= ini.ReadString('d_f', 'mk', Caption);
+    with fmFind.bRep do Caption:= ini.ReadString('d_f', 'r_c', Caption);
+    with fmFind.bRepAll do Caption:= ini.ReadString('d_f', 'r_a', Caption);
+    with fmFind.LabelFind do Caption:= ini.ReadString('d_f', 'f_tx', Caption);
+    with fmFind.LabelRep do Caption:= ini.ReadString('d_f', 'r_tx', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
+procedure TfmMain.DoApplyLang_FormGoto;
+var
+  fn: string;
+  ini: TIniFile;
+begin
+  if not Assigned(fmGoto) then exit;
+
+  fn:= GetLangFilename;
+  if not FileExistsUTF8(fn) then exit;
+
+  ini:= TIniFile.Create(fn);
+  try
+    with fmGoto.LabelGoto do Caption:= ini.ReadString('d_f', 'go_tx', Caption);
+    with fmGoto.bGoto do Caption:= ini.ReadString('d_f', 'go_b', Caption);
   finally
     FreeAndNil(ini);
   end;

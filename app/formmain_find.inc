@@ -144,6 +144,8 @@ begin
       cfg.Free
     end;
   end;
+
+  DoApplyLang_FormFind;
 end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);

@@ -514,7 +514,9 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
-    procedure DoApplyLanguage(const fn: string);
+    procedure DoApplyLang;
+    procedure DoApplyLang_FormFind;
+    procedure DoApplyLang_FormGoto;
     function DoCheckFilenameOpened(const AStr: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd(AStr: string): string;
@@ -1788,6 +1790,7 @@ begin
     fmGoto.Align:= alBottom;
     fmGoto.Color:= GetAppColor('TabBg');
   end;
+  DoApplyLang_FormGoto;
 
   with fmGoto do
   begin
@@ -2834,7 +2837,7 @@ begin
   begin
     FLangName:= ExtractFileNameOnly(FListLangs[NTag]);
     UpdateMenuLangs(mnuLang);
-    DoApplyLanguage(GetLangFilename);
+    DoApplyLang;
   end
   else
   begin

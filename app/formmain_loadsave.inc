@@ -260,9 +260,7 @@ begin
     FSessionFilename:= c.GetValue('session', FSessionFilename);
 
     if FLangName<>'' then
-    begin
-      DoApplyLanguage(GetLangFilename);
-    end;
+      DoApplyLang;
 
     if FThemeName<>'' then
     begin
