@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  LclProc, LclType, LclIntf, ButtonPanel,
+  LclProc, LclType, LclIntf, ButtonPanel, IniFiles,
   proc_msg, proc_globdata, ATLinkLabel;
 
 type
@@ -37,11 +37,32 @@ type
     FCredits: string;
   end;
 
+procedure DoApplyLang_FormAbout(F: TfmAbout; const ALangFilename: string);
+
+
 implementation
 
 uses InterfaceBase;
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormAbout(F: TfmAbout; const ALangFilename: string);
+const
+  section = 'd_about';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'ok', Caption);
+    with F.ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'cre', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
 
 { TfmAbout }
 

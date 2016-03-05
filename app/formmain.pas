@@ -1486,9 +1486,13 @@ begin
 end;
 
 procedure TfmMain.DoHelpAbout;
+var
+  Form: TfmAbout;
 begin
-  with TfmAbout.Create(Self) do
+  Form:= TfmAbout.Create(Self);
+  with Form do
   try
+    DoApplyLang_FormAbout(Form, GetLangFilename);
     labelVer.Caption:= cAppExeVersion;
     ShowModal;
   finally

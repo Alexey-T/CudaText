@@ -86,9 +86,8 @@ const
   msgConfirmSaveLib: string = 'Lexer-library modified. Save it?';
 
   msgAboutCredits =
-      'Credits:'+sLineBreak+sLineBreak+
       'Lazarus IDE'+sLineBreak+
-      'ATSynEdit, ATTabs, ATListbox, ATButton, Python wrapper: https://github.com/Alexey-T/'+sLineBreak+
+      'ATSynEdit, ATTabs, ATGroups, ATListbox, ATButton, Python wrapper: https://github.com/Alexey-T/'+sLineBreak+
       'EControl parser: http://www.econtrol.ru, https://github.com/Alexey-T/'+sLineBreak+
       'Helper Python code: Andrey Kvichanskiy, https://github.com/kvichans/'+sLineBreak+
       'Toolbar icons: Silk icons, http://www.famfamfam.com'+sLineBreak+
