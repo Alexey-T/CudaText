@@ -190,7 +190,7 @@ type
     mnuViewToolbar: TMenuItem;
     mnuFontText: TMenuItem;
     mnuFontUi: TMenuItem;
-    mnuFonts: TMenuItem;
+    mnuFontSub: TMenuItem;
     mnuFileReopen: TMenuItem;
     mnuOpUser: TMenuItem;
     SepOp1: TMenuItem;

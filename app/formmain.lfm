@@ -785,7 +785,7 @@ object fmMain: TfmMain
       object SepOp1: TMenuItem
         Caption = '-'
       end
-      object mnuFonts: TMenuItem
+      object mnuFontSub: TMenuItem
         Caption = 'Fonts'
         object mnuFontText: TMenuItem
           Caption = 'Select text font...'
