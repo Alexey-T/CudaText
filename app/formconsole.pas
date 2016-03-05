@@ -45,6 +45,8 @@ type
     { public declarations }
     ed: TATComboEdit;
     memo: TATSynEdit;
+    mnuTextClear: TMenuItem;
+    mnuTextNav: TMenuItem;
     property OnConsole: TAppConsoleEvent read FOnConsole write FOnConsole;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoLogConsoleLine(const Str: string);
@@ -113,8 +115,6 @@ end;
 
 
 procedure TfmConsole.FormCreate(Sender: TObject);
-var
-  mi: TMenuItem;
 begin
   ed:= TATComboEdit.Create(Self);
   ed.Parent:= Self;
@@ -152,15 +152,15 @@ begin
   memo.OptTabSize:= 4;
 
   //menu items
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= 'Clear';
-  mi.OnClick:= @DoClearMemo;
-  memo.PopupTextDefault.Items.Add(mi);
+  mnuTextClear:= TMenuItem.Create(Self);
+  mnuTextClear.Caption:= 'Clear';
+  mnuTextClear.OnClick:= @DoClearMemo;
+  memo.PopupTextDefault.Items.Add(mnuTextClear);
 
-  mi:= TMenuItem.Create(Self);
-  mi.Caption:= 'Navigate';
-  mi.OnClick:= @DoNavigate;
-  memo.PopupTextDefault.Items.Add(mi);
+  mnuTextNav:= TMenuItem.Create(Self);
+  mnuTextNav.Caption:= 'Navigate';
+  mnuTextNav.OnClick:= @DoNavigate;
+  memo.PopupTextDefault.Items.Add(mnuTextNav);
 end;
 
 procedure TfmConsole.ComboCommand(Sender: TObject; ACmd: integer;

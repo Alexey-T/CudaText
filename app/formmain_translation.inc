@@ -27,8 +27,8 @@ begin
     with mnuFileCloseAll do Caption:= ini.ReadString('m_f', 'cl_all', Caption);
     with mnuFileCloseOther do Caption:= ini.ReadString('m_f', 'cl_oth', Caption);
     with mnuFileCloseDel do Caption:= ini.ReadString('m_f', 'cl_del', Caption);
-    with mnuFileEnc do Caption:= ini.ReadString('m_f', 'e', Caption);
-    with mnuFileEnds do Caption:= ini.ReadString('m_f', 'end', Caption);
+    with mnuFileEnc do Caption:= ini.ReadString('m_f', 'e_', Caption);
+    with mnuFileEnds do Caption:= ini.ReadString('m_f', 'z_', Caption);
     with mnuFileHtml do Caption:= ini.ReadString('m_f', 'html', Caption);
     with mnuFileExit do Caption:= ini.ReadString('m_f', 'q', Caption);
 
@@ -224,22 +224,64 @@ begin
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
     UpdateMenuRecent(nil);
 
-    with tbNew do Hint:= ini.ReadString('tb', 'new', Hint);
-    with tbOpen do Hint:= ini.ReadString('tb', 'opn', Hint);
-    with tbSave do Hint:= ini.ReadString('tb', 'sav', Hint);
-    with tbFind do Hint:= ini.ReadString('tb', 'find', Hint);
-    with tbGoto do Hint:= ini.ReadString('tb', 'go', Hint);
-    with tbCut do Hint:= ini.ReadString('tb', 'cut', Hint);
-    with tbCopy do Hint:= ini.ReadString('tb', 'cp', Hint);
-    with tbPaste do Hint:= ini.ReadString('tb', 'pst', Hint);
-    with tbDel do Hint:= ini.ReadString('tb', 'del', Hint);
-    with tbSelAll do Hint:= ini.ReadString('tb', 'sel', Hint);
-    with tbUndo do Hint:= ini.ReadString('tb', 'undo', Hint);
-    with tbRedo do Hint:= ini.ReadString('tb', 'redo', Hint);
-    with tbUnpri do Hint:= ini.ReadString('tb', 'upr', Hint);
-    with tbSidePanel do Hint:= ini.ReadString('tb', 'si', Hint);
-    with tbBtmPanel do Hint:= ini.ReadString('tb', 'bo', Hint);
-    with tbMinimap do Hint:= ini.ReadString('tb', 'map', Hint);
+    with tbNew do Hint:= ini.ReadString('ui', 'tb_new', Hint);
+    with tbOpen do Hint:= ini.ReadString('ui', 'tb_op', Hint);
+    with tbSave do Hint:= ini.ReadString('ui', 'tb_sav', Hint);
+    with tbFind do Hint:= ini.ReadString('ui', 'tb_find', Hint);
+    with tbGoto do Hint:= ini.ReadString('ui', 'tb_go', Hint);
+
+    with tbCut do Hint:= mnuEditCut.Caption;
+    with tbCopy do Hint:= mnuEditCopy.Caption;
+    with tbPaste do Hint:= mnuEditPaste.Caption;
+    with tbDel do Hint:= mnuEditDel.Caption;
+    with tbSelAll do Hint:= mnuSelAll.Caption;
+    with tbUndo do Hint:= mnuEditUndo.Caption;
+    with tbRedo do Hint:= mnuEditRedo.Caption;
+    with tbUnpri do Hint:= mnuViewUnpri.Caption;
+    with tbSidePanel do Hint:= mnuViewSide.Caption;
+    with tbBtmPanel do Hint:= mnuViewBottom.Caption;
+    with tbMinimap do Hint:= mnuViewMinimap.Caption;
+
+    with mnuTextUndo do Caption:= mnuEditUndo.Caption;
+    with mnuTextRedo do Caption:= mnuEditRedo.Caption;
+    with mnuTextCut do Caption:= mnuEditCut.Caption;
+    with mnuTextCopy do Caption:= mnuEditCopy.Caption;
+    with mnuTextPaste do Caption:= mnuEditPaste.Caption;
+    with mnuTextDelete do Caption:= mnuEditDel.Caption;
+    with mnuTextSel do Caption:= mnuSelAll.Caption;
+    with mnuTextGotoDef do Caption:= ini.ReadString('ct', 'godef', Caption);
+    with mnuTextOpenUrl do Caption:= ini.ReadString('ct', 'url', Caption);
+
+    with fmConsole.mnuTextClear do Caption:= ini.ReadString('ct', 'clr', Caption);
+    with fmConsole.mnuTextNav do Caption:= ini.ReadString('ct', 'nav', Caption);
+
+    with mnuTabCloseThis do Caption:= ini.ReadString('ct', 'c_tab', Caption);
+    with mnuTabCloseSub do Caption:= ini.ReadString('ct', 'c_', Caption);
+    with mnuTabCloseOtherSame do Caption:= ini.ReadString('ct', 'c_oth_s', Caption);
+    with mnuTabCloseOtherAll do Caption:= ini.ReadString('ct', 'c_oth_a', Caption);
+    with mnuTabCloseAllSame do Caption:= ini.ReadString('ct', 'c_all_s', Caption);
+    with mnuTabCloseAllAll do Caption:= ini.ReadString('ct', 'c_all_a', Caption);
+    with mnuTabCloseLeft do Caption:= ini.ReadString('ct', 'c_lt_s', Caption);
+    with mnuTabCloseRight do Caption:= ini.ReadString('ct', 'c_rt_s', Caption);
+
+    with mnuTabSave do Caption:= ini.ReadString('ct', 'sv', Caption);
+    with mnuTabSaveAs do Caption:= ini.ReadString('ct', 'sv_as', Caption);
+    with mnuTabColor do Caption:= ini.ReadString('ct', 'col_t', Caption);
+
+    with mnuTabMoveSub do Caption:= ini.ReadString('ct', 'mov_', Caption);
+    with mnuTabMoveNext do Caption:= ini.ReadString('ct', 'mov_n', Caption);
+    with mnuTabMovePrev do Caption:= ini.ReadString('ct', 'mov_p', Caption);
+
+    with mnuTreeFoldAll do Caption:= ini.ReadString('ct', 'fld_a', Caption);
+    with mnuTreeUnfoldAll do Caption:= ini.ReadString('ct', 'fld_un', Caption);
+    with mnuTreeFoldLevel do Caption:= ini.ReadString('ct', 'fld_lv', Caption);
+
+    s:= ini.ReadString('ct', 'tsz', 'Tab size:');
+    with mnuTabsize1 do Caption:= s+' 1';
+    with mnuTabsize2 do Caption:= s+' 2';
+    with mnuTabsize4 do Caption:= s+' 4';
+    with mnuTabsize8 do Caption:= s+' 8';
+    with mnuTabsizeSpace do Caption:= ini.ReadString('ct', 'tsz_sp', Caption);
 
   finally
     FreeAndNil(ini);
