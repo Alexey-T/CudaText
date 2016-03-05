@@ -168,6 +168,38 @@ begin
     with mnuViewBottom do Caption:= ini.ReadString('m_v', 't_bo', Caption);
     with mnuViewFullscr do Caption:= ini.ReadString('m_v', 't_fs', Caption);
 
+    with mnuPlug do Caption:= ini.ReadString('m_o', 'pl_', Caption);
+    with mnuOp do Caption:= ini.ReadString('m_o', '_', Caption);
+
+    with mnuOpDefault do Caption:= ini.ReadString('m_o', 'df', Caption);
+    with mnuOpUser do Caption:= ini.ReadString('m_o', 'us', Caption);
+    with mnuOpMore do Caption:= ini.ReadString('m_o', 'mr', Caption);
+    with mnuOpLexer do Caption:= ini.ReadString('m_o', 'lx', Caption);
+    with mnuOpFileTypes do Caption:= ini.ReadString('m_o', 'fi', Caption);
+    with mnuOpColors do Caption:= ini.ReadString('m_o', 'co', Caption);
+    with mnuOpKeys do Caption:= ini.ReadString('m_o', 'ke', Caption);
+
+    with mnuFonts do Caption:= ini.ReadString('m_o', 'f_', Caption);
+    with mnuFontText do Caption:= ini.ReadString('m_o', 'f_t', Caption);
+    with mnuFontUi do Caption:= ini.ReadString('m_o', 'f_u', Caption);
+    with mnuFontOutput do Caption:= ini.ReadString('m_o', 'f_o', Caption);
+
+    with mnuOpLexSub do Caption:= ini.ReadString('m_o', 'l_', Caption);
+    with mnuOpLexProp do Caption:= ini.ReadString('m_o', 'l_pr', Caption);
+    with mnuOpLexLib do Caption:= ini.ReadString('m_o', 'l_li', Caption);
+
+    with mnuThemes do Caption:= ini.ReadString('m_o', 'co_', Caption);
+    with mnuLang do Caption:= ini.ReadString('m_o', 'tr_', Caption);
+
+    with mnuHelp do Caption:= ini.ReadString('m_h', '_', Caption);
+    with mnuHelpCmd do Caption:= ini.ReadString('m_h', 'co', Caption);
+    with mnuHelpForum do Caption:= ini.ReadString('m_h', 'fo', Caption);
+    with mnuHelpWiki do Caption:= ini.ReadString('m_h', 'wi', Caption);
+    with mnuHelpMouse do Caption:= ini.ReadString('m_h', 'mo', Caption);
+    with mnuHelpLexers do Caption:= ini.ReadString('m_h', 'lx', Caption);
+    with mnuHelpChangelog do Caption:= ini.ReadString('m_h', 'ch', Caption);
+    with mnuHelpAbout do Caption:= ini.ReadString('m_h', 'ab', Caption);
+
   finally
     FreeAndNil(ini);
   end;
