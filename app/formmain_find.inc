@@ -267,7 +267,8 @@ begin
 
   fmConfirmReplace:= TfmConfirmReplace.Create(Self);
   try
-    fmConfirmReplace.LabelInfo.Caption:= Format(msgConfirmReplaceText, [APos1.Y+1]);
+    DoApplyLang_FormConfirmReplace(fmConfirmReplace, GetLangFilename);
+    fmConfirmReplace.MsgLineNumber:= APos1.Y+1;
     fmConfirmReplace.bYesAll.Enabled:= AForMany;
     fmConfirmReplace.bNoAll.Enabled:= AForMany;
     if Assigned(fmFind) then

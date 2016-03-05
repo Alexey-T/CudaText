@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  LclType,
+  LclType, IniFiles,
   ATButtons,
   proc_globdata,
   proc_colors;
@@ -33,23 +33,54 @@ type
     procedure bYesClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
   private
     { private declarations }
   public
     { public declarations }
+    MsgReplaceMatch: string;
+    MsgLineNumber: integer;
   end;
 
 var
   fmConfirmReplace: TfmConfirmReplace;
 
+procedure DoApplyLang_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
+
+
 implementation
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
+const
+  section = 'd_cfm_rep';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.bYes do Caption:= ini.ReadString(section, 'yes', Caption);
+    with F.bYesAll do Caption:= ini.ReadString(section, 'yes_a', Caption);
+    with F.bNo do Caption:= ini.ReadString(section, 'no', Caption);
+    with F.bNoAll do Caption:= ini.ReadString(section, 'no_a', Caption);
+    F.MsgReplaceMatch:= ini.ReadString(section, 'msg', F.MsgReplaceMatch);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 { TfmConfirmReplace }
 
 procedure TfmConfirmReplace.FormCreate(Sender: TObject);
 begin
+  MsgReplaceMatch:= 'Replace match at line %d ?';
+  MsgLineNumber:= 0;
+
   LabelInfo.Font.Name:= UiOps.VarFontName;
   LabelInfo.Font.Size:= UiOps.VarFontSize;
 end;
@@ -61,6 +92,11 @@ begin
   if Key=VK_A then begin ModalResult:= mrYesToAll; exit end;
   if Key=VK_N then begin ModalResult:= mrNo; exit end;
   if Key=VK_ESCAPE then begin ModalResult:= mrNoToAll; exit end;
+end;
+
+procedure TfmConfirmReplace.FormShow(Sender: TObject);
+begin
+  LabelInfo.Caption:= Format(MsgReplaceMatch, [MsgLineNumber]);
 end;
 
 procedure TfmConfirmReplace.bYesClick(Sender: TObject);

@@ -12,6 +12,7 @@ object fmConfirmReplace: TfmConfirmReplace
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object bYesAll: TATButton
@@ -70,8 +71,8 @@ object fmConfirmReplace: TfmConfirmReplace
     Left = 8
     Height = 17
     Top = 8
-    Width = 132
-    Caption = 'Replace this match?'
+    Width = 36
+    Caption = 'Repl?'
     ParentColor = False
   end
 end
