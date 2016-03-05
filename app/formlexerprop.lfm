@@ -1,7 +1,7 @@
 object fmLexerProp: TfmLexerProp
-  Left = 444
+  Left = 657
   Height = 566
-  Top = 303
+  Top = 320
   Width = 623
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -14,7 +14,7 @@ object fmLexerProp: TfmLexerProp
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
@@ -45,7 +45,7 @@ object fmLexerProp: TfmLexerProp
       Caption = 'General'
       ClientHeight = 494
       ClientWidth = 619
-      object Label2: TLabel
+      object LabelLexerName: TLabel
         Left = 6
         Height = 17
         Top = 0
@@ -68,7 +68,7 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Bottom = 3
         TabOrder = 0
       end
-      object Label3: TLabel
+      object LabelFileTypes: TLabel
         Left = 6
         Height = 17
         Top = 50
@@ -91,7 +91,7 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Bottom = 3
         TabOrder = 1
       end
-      object Label4: TLabel
+      object LabelLineCmt: TLabel
         Left = 6
         Height = 17
         Top = 100
@@ -114,7 +114,7 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Bottom = 3
         TabOrder = 2
       end
-      object Label1: TLabel
+      object LabelSample: TLabel
         Left = 6
         Height = 17
         Top = 150
@@ -147,6 +147,7 @@ object fmLexerProp: TfmLexerProp
         Colors.TextSelFont = clHighlightText
         Colors.TextSelBG = clHighlight
         Colors.Caret = clBlack
+        Colors.Markers = 192
         Colors.GutterFont = clGray
         Colors.GutterBG = 14737632
         Colors.GutterCaretBG = 13158600
@@ -166,6 +167,7 @@ object fmLexerProp: TfmLexerProp
         Colors.CollapseLine = 10510432
         Colors.CollapseMarkFont = 14712960
         Colors.CollapseMarkBG = clCream
+        Colors.CollapseMarkBorder = 14712960
         Colors.UnprintedFont = 5263600
         Colors.UnprintedBG = 14737632
         Colors.UnprintedHexFont = clMedGray
@@ -176,8 +178,10 @@ object fmLexerProp: TfmLexerProp
         Colors.StateSaved = clMedGray
         Colors.BlockStaple = clMedGray
         Colors.BlockSepLine = clMedGray
+        Colors.Links = clBlue
         Colors.LockedBG = 14737632
         Colors.TextHintFont = clGray
+        Colors.MarkedLinesBG = 15786160
         Colors.ComboboxArrow = clGray
         Colors.ComboboxArrowBG = 15790320
         WantTabs = True
@@ -196,6 +200,8 @@ object fmLexerProp: TfmLexerProp
         OptLastLineOnTop = False
         OptOverwriteSel = True
         OptOverwriteAllowedOnPaste = False
+        OptShowURLs = True
+        OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
         OptShowStapleStyle = cLineStyleSolid
         OptShowStapleIndent = -1
         OptShowStapleWidthPercent = 100
@@ -214,6 +220,8 @@ object fmLexerProp: TfmLexerProp
         OptCaretBlinkEnabled = True
         OptCaretStopUnfocused = True
         OptCaretPreferLeftSide = True
+        OptCaretPosAfterPasteColumn = cPasteCaretColumnRight
+        OptMarkersSize = 4
         OptGutterVisible = True
         OptGutterPlusSize = 4
         OptGutterShowFoldAlways = True
@@ -229,6 +237,7 @@ object fmLexerProp: TfmLexerProp
         OptMinimapCharWidth = 0
         OptMinimapShowSelBorder = False
         OptMinimapShowSelAlways = True
+        OptMinimapAtLeft = False
         OptMicromapVisible = False
         OptMicromapWidth = 30
         OptCharSpacingX = 0
@@ -274,6 +283,7 @@ object fmLexerProp: TfmLexerProp
         OptKeyTabIndents = True
         OptIndentSize = 2
         OptIndentKeepsAlign = True
+        OptMaxLinesToCountUnindent = 100
         OptShowIndentLines = True
         OptShowGutterCaretBG = True
         OptAllowScrollbarVert = True
@@ -341,7 +351,7 @@ object fmLexerProp: TfmLexerProp
           OnChange = edColorBGChange
           TabOrder = 1
         end
-        object Label5: TLabel
+        object LabelColorFont: TLabel
           Left = 208
           Height = 17
           Top = 49
@@ -365,7 +375,7 @@ object fmLexerProp: TfmLexerProp
           Style = csDropDownList
           TabOrder = 0
         end
-        object Label6: TLabel
+        object LabelStyleType: TLabel
           Left = 8
           Height = 17
           Top = 0
@@ -373,7 +383,7 @@ object fmLexerProp: TfmLexerProp
           Caption = 'Style type:'
           ParentColor = False
         end
-        object Label7: TLabel
+        object LabelColorBg: TLabel
           Left = 8
           Height = 17
           Top = 48
@@ -381,7 +391,7 @@ object fmLexerProp: TfmLexerProp
           Caption = 'Color of BG:'
           ParentColor = False
         end
-        object Label8: TLabel
+        object LabelFontStyles: TLabel
           Left = 8
           Height = 17
           Top = 104
@@ -425,7 +435,7 @@ object fmLexerProp: TfmLexerProp
           OnChange = chkBoldChange
           TabOrder = 5
         end
-        object Label9: TLabel
+        object LabelBorder: TLabel
           Left = 8
           Height = 17
           Top = 152
@@ -477,7 +487,7 @@ object fmLexerProp: TfmLexerProp
           Style = csDropDownList
           TabOrder = 10
         end
-        object Label10: TLabel
+        object LabelBorderL: TLabel
           Left = 8
           Height = 17
           Top = 168
@@ -485,7 +495,7 @@ object fmLexerProp: TfmLexerProp
           Caption = 'Left'
           ParentColor = False
         end
-        object Label11: TLabel
+        object LabelBorderT: TLabel
           Left = 112
           Height = 17
           Top = 168
@@ -493,7 +503,7 @@ object fmLexerProp: TfmLexerProp
           Caption = 'Top'
           ParentColor = False
         end
-        object Label12: TLabel
+        object LabelBorderR: TLabel
           Left = 216
           Height = 17
           Top = 168
@@ -501,7 +511,7 @@ object fmLexerProp: TfmLexerProp
           Caption = 'Right'
           ParentColor = False
         end
-        object Label13: TLabel
+        object LabelBorderB: TLabel
           Left = 320
           Height = 17
           Top = 168
@@ -509,7 +519,7 @@ object fmLexerProp: TfmLexerProp
           Caption = 'Bottom'
           ParentColor = False
         end
-        object Label14: TLabel
+        object LabelColorBorder: TLabel
           Left = 8
           Height = 17
           Top = 216

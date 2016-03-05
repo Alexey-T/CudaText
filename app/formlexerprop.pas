@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, FileUtil, Forms, Controls, StdCtrls,
-  Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox,
+  Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox, IniFiles,
   ecSyntAnal,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
@@ -40,21 +40,21 @@ type
     edLineCmt: TEdit;
     edName: TEdit;
     edSample: TATSynEdit;
-    Label1: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
+    LabelSample: TLabel;
+    LabelBorderL: TLabel;
+    LabelBorderT: TLabel;
+    LabelBorderR: TLabel;
+    LabelBorderB: TLabel;
+    LabelColorBorder: TLabel;
+    LabelLexerName: TLabel;
+    LabelFileTypes: TLabel;
+    LabelLineCmt: TLabel;
     edNotes: TMemo;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
+    LabelColorFont: TLabel;
+    LabelStyleType: TLabel;
+    LabelColorBg: TLabel;
+    LabelFontStyles: TLabel;
+    LabelBorder: TLabel;
     ListStyles: TListBox;
     chkBorderT: TPageControl;
     Panel1: TPanel;
@@ -93,11 +93,63 @@ var
 function DoShowDialogLexerProp(
   an: TecSyntAnalyzer;
   const AFontName: string; AFontSize: integer;
-  const AStylesFilename: string): boolean;
+  const AStylesFilename: string;
+  const ALangFilename: string): boolean;
 
 implementation
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormLexerProp(F: TfmLexerProp; const ALangFilename: string);
+const
+  section = 'd_lex_prop';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'b_ok', Caption);
+    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'b_can', Caption);
+
+    with F.TabSheetGen do Caption:= ini.ReadString(section, 'gen_', Caption);
+    with F.TabSheetStyles do Caption:= ini.ReadString(section, 'st_', Caption);
+    with F.TabSheetNotes do Caption:= ini.ReadString(section, 'not_', Caption);
+
+    with F.LabelLexerName do Caption:= ini.ReadString(section, 'gen_nam', Caption);
+    with F.LabelFileTypes do Caption:= ini.ReadString(section, 'gen_typ', Caption);
+    with F.LabelLineCmt do Caption:= ini.ReadString(section, 'gen_cmt_ln', Caption);
+    with F.LabelSample do Caption:= ini.ReadString(section, 'gen_smp', Caption);
+
+    with F.LabelStyleType do Caption:= ini.ReadString(section, 'st_typ', Caption);
+    with F.LabelColorBg do Caption:= ini.ReadString(section, 'st_col_bg', Caption);
+    with F.LabelColorFont do Caption:= ini.ReadString(section, 'st_col_tx', Caption);
+    with F.LabelColorBorder do Caption:= ini.ReadString(section, 'st_col_bor', Caption);
+    with F.LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
+
+    with F.LabelBorder do Caption:= ini.ReadString(section, 'bor', Caption);
+    with F.LabelBorderL do Caption:= ini.ReadString(section, 'bor_l', Caption);
+    with F.LabelBorderR do Caption:= ini.ReadString(section, 'bor_r', Caption);
+    with F.LabelBorderT do Caption:= ini.ReadString(section, 'bor_t', Caption);
+    with F.LabelBorderB do Caption:= ini.ReadString(section, 'bor_b', Caption);
+
+    with F.chkBold do Caption:= ini.ReadString(section, 'fon_b', Caption);
+    with F.chkItalic do Caption:= ini.ReadString(section, 'fon_i', Caption);
+    with F.chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
+    with F.chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
+
+    with F.edStyleType do Items[0]:= ini.ReadString(section, 'ed_misc', Items[0]);
+    with F.edStyleType do Items[1]:= ini.ReadString(section, 'ed_col_st', Items[1]);
+    with F.edStyleType do Items[2]:= ini.ReadString(section, 'ed_col', Items[2]);
+    with F.edStyleType do Items[3]:= ini.ReadString(section, 'ed_col_bg', Items[3]);
+
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 { TfmLexerProp }
 
@@ -270,7 +322,8 @@ end;
 
 
 function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
-  AFontSize: integer; const AStylesFilename: string): boolean;
+  AFontSize: integer; const AStylesFilename: string; const ALangFilename: string
+  ): boolean;
 var
   F: TfmLexerProp;
 begin
@@ -279,6 +332,7 @@ begin
 
   F:= TfmLexerProp.Create(nil);
   try
+    DoApplyLang_FormLexerProp(F, ALangFilename);
     F.FStylesFilename:= AStylesFilename;
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;

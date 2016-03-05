@@ -47,6 +47,7 @@ type
     FFontSize: integer;
     FDirAcp: string;
     FStylesFilename: string;
+    FLangFilename: string;
     { public declarations }
   end;
 
@@ -100,6 +101,7 @@ begin
     F.FFontSize:= AFontSize;
     F.FDirAcp:= ADirAcp;
     F.FStylesFilename:= AStylesFilename;
+    F.FLangFilename:= ALangFilename;
     F.ShowModal;
     Result:= F.FManager.Modified;
   finally
@@ -151,7 +153,7 @@ begin
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  if DoShowDialogLexerProp(an, FFontName, FFontSize, FStylesFilename) then
+  if DoShowDialogLexerProp(an, FFontName, FFontSize, FStylesFilename, FLangFilename) then
   begin
     FManager.Modified:= true;
     UpdateList;

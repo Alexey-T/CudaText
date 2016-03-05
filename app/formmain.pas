@@ -1430,7 +1430,8 @@ begin
   if DoShowDialogLexerProp(an,
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStyles)) then
+    GetAppPath(cFileLexerStyles),
+    GetLangFilename) then
   begin
     UpdateMenuLexers;
     UpdateStatus;
