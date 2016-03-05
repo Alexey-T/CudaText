@@ -3074,6 +3074,7 @@ var
 begin
   Form:= TfmLexerStylesRestore.Create(nil);
   try
+    DoApplyLang_FormLexerRestore(Form, GetLangFilename);
     Form.StylesFilename:= GetAppPath(cFileLexerStyles);
     if Form.ShowModal=mrOk then
     begin

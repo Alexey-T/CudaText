@@ -12,7 +12,7 @@ interface
 uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, CheckLst, IniFiles,
-  LclProc, LclType, ButtonPanel,
+  LclProc, LclType, FileUtil, ButtonPanel,
   proc_globdata;
 
 type
@@ -20,7 +20,7 @@ type
 
   TfmLexerStylesRestore = class(TForm)
     ButtonPanel1: TButtonPanel;
-    Label1: TLabel;
+    LabelInfo: TLabel;
     GroupBox1: TGroupBox;
     List: TCheckListBox;
     bSelAll: TButton;
@@ -38,9 +38,36 @@ type
     StylesFilename: string;
   end;
 
+procedure DoApplyLang_FormLexerRestore(F: TfmLexerStylesRestore; const ALangFilename: string);
+
+
 implementation
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormLexerRestore(F: TfmLexerStylesRestore;
+  const ALangFilename: string);
+const
+  section = 'd_lex_restore';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'ok', Caption);
+    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'can', Caption);
+    with F.bSelAll do Caption:= ini.ReadString(section, 'sel_a', Caption);
+    with F.bSelNone do Caption:= ini.ReadString(section, 'sel_n', Caption);
+    with F.bDelete do Caption:= ini.ReadString(section, 'del', Caption);
+    with F.GroupBox1 do Caption:= ini.ReadString(section, 'grp', Caption);
+    with F.LabelInfo do Caption:= ini.ReadString(section, 'msg', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
 
 procedure TfmLexerStylesRestore.FormShow(Sender: TObject);
 var
