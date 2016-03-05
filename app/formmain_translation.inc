@@ -50,6 +50,21 @@ begin
     with mnuEndsUnix do Caption:= msgEndUnix;
     with mnuEndsMac do Caption:= msgEndMac;
 
+    msgEditUndo:= ini.ReadString('m_e', 'undo', msgEditUndo);
+    msgEditRedo:= ini.ReadString('m_e', 'redo', msgEditRedo);
+    msgEditCut:= ini.ReadString('m_e', 'cut', msgEditCut);
+    msgEditCopy:= ini.ReadString('m_e', 'cp', msgEditCopy);
+    msgEditPaste:= ini.ReadString('m_e', 'pst', msgEditPaste);
+    msgEditDelete:= ini.ReadString('m_e', 'del', msgEditDelete);
+    msgEditSelectAll:= ini.ReadString('m_se', 'al', msgEditSelectAll);
+
+    with mnuEditUndo do Caption:= msgEditUndo;
+    with mnuEditRedo do Caption:= msgEditRedo;
+    with mnuEditCut do Caption:= msgEditCut;
+    with mnuEditCopy do Caption:= msgEditCopy;
+    with mnuEditPaste do Caption:= msgEditPaste;
+    with mnuEditDel do Caption:= msgEditDelete;
+
     with mnuEdit do Caption:= ini.ReadString('m_e', '_', Caption);
     with mnuEditUndo do Caption:= ini.ReadString('m_e', 'undo', Caption);
     with mnuEditRedo do Caption:= ini.ReadString('m_e', 'redo', Caption);
@@ -100,7 +115,7 @@ begin
     with mnuEditCharmap do Caption:= ini.ReadString('m_e', 'map', Caption);
 
     with mnuSel do Caption:= ini.ReadString('m_se', '_', Caption);
-    with mnuSelAll do Caption:= ini.ReadString('m_se', 'al', Caption);
+    with mnuSelAll do Caption:= msgEditSelectAll;
     with mnuSelSplit do Caption:= ini.ReadString('m_se', 'sp', Caption);
     with mnuSelExtLine do Caption:= ini.ReadString('m_se', 'ex', Caption);
     with mnuSelInvert do Caption:= ini.ReadString('m_se', 'in', Caption);
@@ -222,31 +237,33 @@ begin
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
     UpdateMenuRecent(nil);
 
+    cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
+
     with tbNew do Hint:= ini.ReadString('ui', 'tb_new', Hint);
     with tbOpen do Hint:= ini.ReadString('ui', 'tb_op', Hint);
     with tbSave do Hint:= ini.ReadString('ui', 'tb_sav', Hint);
     with tbFind do Hint:= ini.ReadString('ui', 'tb_find', Hint);
     with tbGoto do Hint:= ini.ReadString('ui', 'tb_go', Hint);
 
-    with tbCut do Hint:= mnuEditCut.Caption;
-    with tbCopy do Hint:= mnuEditCopy.Caption;
-    with tbPaste do Hint:= mnuEditPaste.Caption;
-    with tbDel do Hint:= mnuEditDel.Caption;
-    with tbSelAll do Hint:= mnuSelAll.Caption;
-    with tbUndo do Hint:= mnuEditUndo.Caption;
-    with tbRedo do Hint:= mnuEditRedo.Caption;
+    with tbCut do Hint:= msgEditCut;
+    with tbCopy do Hint:= msgEditCopy;
+    with tbPaste do Hint:= msgEditPaste;
+    with tbDel do Hint:= msgEditDelete;
+    with tbSelAll do Hint:= msgEditSelectAll;
+    with tbUndo do Hint:= msgEditUndo;
+    with tbRedo do Hint:= msgEditRedo;
     with tbUnpri do Hint:= mnuViewUnpri.Caption;
     with tbSidePanel do Hint:= mnuViewSide.Caption;
     with tbBtmPanel do Hint:= mnuViewBottom.Caption;
     with tbMinimap do Hint:= mnuViewMinimap.Caption;
 
-    with mnuTextUndo do Caption:= mnuEditUndo.Caption;
-    with mnuTextRedo do Caption:= mnuEditRedo.Caption;
-    with mnuTextCut do Caption:= mnuEditCut.Caption;
-    with mnuTextCopy do Caption:= mnuEditCopy.Caption;
-    with mnuTextPaste do Caption:= mnuEditPaste.Caption;
-    with mnuTextDelete do Caption:= mnuEditDel.Caption;
-    with mnuTextSel do Caption:= mnuSelAll.Caption;
+    with mnuTextUndo do Caption:= msgEditUndo;
+    with mnuTextRedo do Caption:= msgEditRedo;
+    with mnuTextCut do Caption:= msgEditCut;
+    with mnuTextCopy do Caption:= msgEditCopy;
+    with mnuTextPaste do Caption:= msgEditPaste;
+    with mnuTextDelete do Caption:= msgEditDelete;
+    with mnuTextSel do Caption:= msgEditSelectAll;
     with mnuTextGotoDef do Caption:= ini.ReadString('ct', 'godef', Caption);
     with mnuTextOpenUrl do Caption:= ini.ReadString('ct', 'url', Caption);
 
@@ -255,23 +272,23 @@ begin
 
     with fmConsole.ed do
     begin
-      MenuitemTextCut.Caption:= mnuEditCut.Caption;
-      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
-      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
-      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
-      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
-      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
-      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+      MenuitemTextCut.Caption:= msgEditCut;
+      MenuitemTextCopy.Caption:= msgEditCopy;
+      MenuitemTextPaste.Caption:= msgEditPaste;
+      MenuitemTextDelete.Caption:= msgEditDelete;
+      MenuitemTextSelAll.Caption:= msgEditSelectAll;
+      MenuitemTextUndo.Caption:= msgEditUndo;
+      MenuitemTextRedo.Caption:= msgEditRedo;
     end;
     with fmConsole.memo do
     begin
-      MenuitemTextCut.Caption:= mnuEditCut.Caption;
-      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
-      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
-      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
-      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
-      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
-      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+      MenuitemTextCut.Caption:= msgEditCut;
+      MenuitemTextCopy.Caption:= msgEditCopy;
+      MenuitemTextPaste.Caption:= msgEditPaste;
+      MenuitemTextDelete.Caption:= msgEditDelete;
+      MenuitemTextSelAll.Caption:= msgEditSelectAll;
+      MenuitemTextUndo.Caption:= msgEditUndo;
+      MenuitemTextRedo.Caption:= msgEditRedo;
     end;
 
     with mnuTabCloseThis do Caption:= ini.ReadString('ct', 'c_tab', Caption);
@@ -294,6 +311,10 @@ begin
     with mnuTreeFoldAll do Caption:= ini.ReadString('ct', 'fld_a', Caption);
     with mnuTreeUnfoldAll do Caption:= ini.ReadString('ct', 'fld_un', Caption);
     with mnuTreeFoldLevel do Caption:= ini.ReadString('ct', 'fld_lv', Caption);
+
+    cStrMenuitemFoldAll:= mnuTreeFoldAll.Caption;
+    cStrMenuitemUnfoldAll:= mnuTreeUnfoldAll.Caption;
+    cStrMenuitemFoldLevel:= mnuTreeFoldLevel.Caption;
 
     s:= ini.ReadString('ct', 'tsz', 'Tab size:');
     with mnuTabsize1 do Caption:= s+' 1';
@@ -334,23 +355,23 @@ begin
 
     with fmFind.edFind do
     begin
-      MenuitemTextCut.Caption:= mnuEditCut.Caption;
-      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
-      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
-      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
-      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
-      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
-      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+      MenuitemTextCut.Caption:= msgEditCut;
+      MenuitemTextCopy.Caption:= msgEditCopy;
+      MenuitemTextPaste.Caption:= msgEditPaste;
+      MenuitemTextDelete.Caption:= msgEditDelete;
+      MenuitemTextSelAll.Caption:= msgEditSelectAll;
+      MenuitemTextUndo.Caption:= msgEditUndo;
+      MenuitemTextRedo.Caption:= msgEditRedo;
     end;
     with fmFind.edRep do
     begin
-      MenuitemTextCut.Caption:= mnuEditCut.Caption;
-      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
-      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
-      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
-      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
-      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
-      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+      MenuitemTextCut.Caption:= msgEditCut;
+      MenuitemTextCopy.Caption:= msgEditCopy;
+      MenuitemTextPaste.Caption:= msgEditPaste;
+      MenuitemTextDelete.Caption:= msgEditDelete;
+      MenuitemTextSelAll.Caption:= msgEditSelectAll;
+      MenuitemTextUndo.Caption:= msgEditUndo;
+      MenuitemTextRedo.Caption:= msgEditRedo;
     end;
 
   finally
@@ -375,13 +396,13 @@ begin
 
     with fmGoto.edInput do
     begin
-      MenuitemTextCut.Caption:= mnuEditCut.Caption;
-      MenuitemTextCopy.Caption:= mnuEditCopy.Caption;
-      MenuitemTextPaste.Caption:= mnuEditPaste.Caption;
-      MenuitemTextDelete.Caption:= mnuEditDel.Caption;
-      MenuitemTextSelAll.Caption:= mnuSelAll.Caption;
-      MenuitemTextUndo.Caption:= mnuEditUndo.Caption;
-      MenuitemTextRedo.Caption:= mnuEditRedo.Caption;
+      MenuitemTextCut.Caption:= msgEditCut;
+      MenuitemTextCopy.Caption:= msgEditCopy;
+      MenuitemTextPaste.Caption:= msgEditPaste;
+      MenuitemTextDelete.Caption:= msgEditDelete;
+      MenuitemTextSelAll.Caption:= msgEditSelectAll;
+      MenuitemTextUndo.Caption:= msgEditUndo;
+      MenuitemTextRedo.Caption:= msgEditRedo;
     end;
 
   finally

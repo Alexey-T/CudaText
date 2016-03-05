@@ -24,7 +24,16 @@ const
   msgAllFiles: string = 'All files';
   msgDefTheme: string = '(default)';
   msgNoLexer: string = '(none)';
+
+  msgEditCut: string = 'Cut';
+  msgEditCopy: string = 'Copy';
+  msgEditPaste: string = 'Paste';
+  msgEditDelete: string = 'Delete';
+  msgEditSelectAll: string = 'Select all';
+  msgEditUndo: string = 'Undo';
+  msgEditRedo: string = 'Redo';
   msgFileClearList: string = 'Clear list';
+
   msgEncReloadAs: string = 'Reload as';
   msgEncConvertTo: string = 'Convert to';
   msgEncEuropean: string = 'European';
@@ -33,6 +42,7 @@ const
   msgEndWin: string = 'Win';
   msgEndUnix: string = 'Unix';
   msgEndMac: string = 'MacOS9';
+
   msgCannotOpenFile: string = 'Cannot open file:';
   msgCannotFindFile: string = 'Cannot find file:';
   msgCannotFindLexlib: string = 'Cannot find lexer-library:';
