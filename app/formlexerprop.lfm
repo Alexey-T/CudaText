@@ -438,7 +438,7 @@ object fmLexerProp: TfmLexerProp
         object LabelBorder: TLabel
           Left = 8
           Height = 17
-          Top = 152
+          Top = 148
           Width = 58
           Caption = 'Borders:'
           ParentColor = False
@@ -490,7 +490,7 @@ object fmLexerProp: TfmLexerProp
         object LabelBorderL: TLabel
           Left = 8
           Height = 17
-          Top = 168
+          Top = 166
           Width = 28
           Caption = 'Left'
           ParentColor = False
@@ -498,7 +498,7 @@ object fmLexerProp: TfmLexerProp
         object LabelBorderT: TLabel
           Left = 112
           Height = 17
-          Top = 168
+          Top = 166
           Width = 25
           Caption = 'Top'
           ParentColor = False
@@ -506,7 +506,7 @@ object fmLexerProp: TfmLexerProp
         object LabelBorderR: TLabel
           Left = 216
           Height = 17
-          Top = 168
+          Top = 166
           Width = 35
           Caption = 'Right'
           ParentColor = False
@@ -514,7 +514,7 @@ object fmLexerProp: TfmLexerProp
         object LabelBorderB: TLabel
           Left = 320
           Height = 17
-          Top = 168
+          Top = 166
           Width = 52
           Caption = 'Bottom'
           ParentColor = False

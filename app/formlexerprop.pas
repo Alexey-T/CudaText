@@ -114,20 +114,18 @@ begin
     with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'b_ok', Caption);
     with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'b_can', Caption);
 
-    with F.TabSheetGen do Caption:= ini.ReadString(section, 'gen_', Caption);
-    with F.TabSheetStyles do Caption:= ini.ReadString(section, 'st_', Caption);
-    with F.TabSheetNotes do Caption:= ini.ReadString(section, 'not_', Caption);
+    with F.TabSheetGen do Caption:= ini.ReadString(section, 'tab_gen', Caption);
+    with F.TabSheetStyles do Caption:= ini.ReadString(section, 'tab_st', Caption);
+    with F.TabSheetNotes do Caption:= ini.ReadString(section, 'tab_not', Caption);
 
     with F.LabelLexerName do Caption:= ini.ReadString(section, 'gen_nam', Caption);
     with F.LabelFileTypes do Caption:= ini.ReadString(section, 'gen_typ', Caption);
     with F.LabelLineCmt do Caption:= ini.ReadString(section, 'gen_cmt_ln', Caption);
     with F.LabelSample do Caption:= ini.ReadString(section, 'gen_smp', Caption);
 
-    with F.LabelStyleType do Caption:= ini.ReadString(section, 'st_typ', Caption);
-    with F.LabelColorBg do Caption:= ini.ReadString(section, 'st_col_bg', Caption);
-    with F.LabelColorFont do Caption:= ini.ReadString(section, 'st_col_tx', Caption);
-    with F.LabelColorBorder do Caption:= ini.ReadString(section, 'st_col_bor', Caption);
-    with F.LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
+    with F.LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
+    with F.LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
+    with F.LabelColorBorder do Caption:= ini.ReadString(section, 'col_bor', Caption);
 
     with F.LabelBorder do Caption:= ini.ReadString(section, 'bor', Caption);
     with F.LabelBorderL do Caption:= ini.ReadString(section, 'bor_l', Caption);
@@ -135,15 +133,17 @@ begin
     with F.LabelBorderT do Caption:= ini.ReadString(section, 'bor_t', Caption);
     with F.LabelBorderB do Caption:= ini.ReadString(section, 'bor_b', Caption);
 
+    with F.LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
     with F.chkBold do Caption:= ini.ReadString(section, 'fon_b', Caption);
     with F.chkItalic do Caption:= ini.ReadString(section, 'fon_i', Caption);
     with F.chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
     with F.chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
 
-    with F.edStyleType do Items[0]:= ini.ReadString(section, 'ed_misc', Items[0]);
-    with F.edStyleType do Items[1]:= ini.ReadString(section, 'ed_col_st', Items[1]);
-    with F.edStyleType do Items[2]:= ini.ReadString(section, 'ed_col', Items[2]);
-    with F.edStyleType do Items[3]:= ini.ReadString(section, 'ed_col_bg', Items[3]);
+    with F.LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
+    with F.edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
+    with F.edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
+    with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
+    with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
 
   finally
     FreeAndNil(ini);
