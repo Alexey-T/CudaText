@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  CheckLst, ExtCtrls, StdCtrls;
+  IniFiles, CheckLst, ExtCtrls, StdCtrls;
 
 type
   { TfmSaveTabs }
@@ -34,9 +34,32 @@ type
 var
   fmSaveTabs: TfmSaveTabs;
 
+procedure DoApplyLang_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
+
+
 implementation
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
+const
+  section = 'd_save_tabs';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.btnSave do Caption:= ini.ReadString(section, 'sav', Caption);
+    with F.btnDontSave do Caption:= ini.ReadString(section, 'no', Caption);
+    with F.btnCancel do Caption:= ini.ReadString(section, 'can', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 { TfmSaveTabs }
 

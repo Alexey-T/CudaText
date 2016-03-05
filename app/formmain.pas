@@ -1391,10 +1391,13 @@ var
   i: integer;
   F: TEditorFrame;
   res: TModalResult;
+  Form: TfmSaveTabs;
 begin
   Result:= false;
-  with TfmSaveTabs.Create(nil) do
+  Form:= TfmSaveTabs.Create(nil);
+  with Form do
   try
+    DoApplyLang_FormSaveTabs(Form, GetLangFilename);
     List.Clear;
     for i:= 0 to FrameCount-1 do
     begin
@@ -2872,12 +2875,15 @@ end;
 procedure TfmMain.mnuTabColorClick(Sender: TObject);
 var
   F: TEditorFrame;
+  Form: TfmPalette;
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  with TfmPalette.Create(Self) do
+  Form:= TfmPalette.Create(Self);
+  with Form do
   try
+    DoApplyLang_FormPalette(Form, GetLangFilename);
     ResColor:= F.TabColor;
     case ShowModal of
       mrOk: F.TabColor:= ResColor;

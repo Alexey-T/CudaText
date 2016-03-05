@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  ColorPalette;
+  IniFiles, ColorPalette;
 
 type
   { TfmPalette }
@@ -34,9 +34,31 @@ type
 var
   fmPalette: TfmPalette;
 
+procedure DoApplyLang_FormPalette(F: TfmPalette; const ALangFilename: string);
+
+
 implementation
 
 {$R *.lfm}
+
+procedure DoApplyLang_FormPalette(F: TfmPalette; const ALangFilename: string);
+const
+  section = 'd_tab_color';
+var
+  ini: TIniFile;
+begin
+  if not FileExistsUTF8(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.ButtonPanel1.CloseButton do Caption:= ini.ReadString(section, 'res', Caption);
+    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'can', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 { TfmPalette }
 
