@@ -266,7 +266,7 @@ begin
         if Str<>'' then
         begin
           OpenURL(Str);
-          MsgStatus('Opened browser');
+          MsgStatus(msgStatusOpenedBrowser);
         end;
       end;
 
@@ -276,7 +276,7 @@ begin
         if Str<>'' then
         begin
           Clipboard.AsText:= Utf8Encode(Str);
-          MsgStatus('Copied link');
+          MsgStatus(msgStatusCopiedUrl);
         end;
       end;
 
@@ -286,7 +286,7 @@ begin
         if Str<>'' then
         begin
           OpenURL(Str);
-          MsgStatus('Opened browser');
+          MsgStatus(msgStatusOpenedBrowser);
         end;
       end;
 
@@ -296,7 +296,7 @@ begin
         if Str<>'' then
         begin
           Clipboard.AsText:= Utf8Encode(Str);
-          MsgStatus('Copied link');
+          MsgStatus(msgStatusCopiedUrl);
         end;
       end;
 

@@ -60,6 +60,11 @@ const
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindMatch: string = 'Cannot find';
 
+  msgStatusPluginsJustPreinstalled: string = 'Plugins were just preinstalled:';
+  msgStatusErrorInConfigFile: string = 'Error in config file';
+  msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';
+  msgStatusOpenedBrowser: string = 'Opened browser';
+  msgStatusCopiedUrl: string = 'Copied link';
   msgStatusInstalled: string = 'Installed:';
   msgStatusOpened: string = 'Opened:';
   msgStatusReopened: string = 'Re-opened:';

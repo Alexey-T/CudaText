@@ -382,7 +382,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgBox('Error in config file'#13+fn+#13#13+E.Message, mb_ok or mb_iconerror);
+        MsgBox(msgStatusErrorInConfigFile+#13+fn+#13#13+E.Message, mb_ok or mb_iconerror);
         Exit
       end;
     end;

@@ -195,7 +195,7 @@ begin
 
   if not IsLexerMatches(FPluginsCmd[Num].ItemLexers) then
   begin
-    MsgBox('Command is only for lexers: '+FPluginsCmd[Num].ItemLexers, MB_OK+MB_ICONWARNING);
+    MsgBox(msgStatusCommandOnlyForLexers+' '+FPluginsCmd[Num].ItemLexers, MB_OK+MB_ICONWARNING);
     Exit
   end;
 
@@ -259,7 +259,7 @@ begin
     DoAdd(cModuleInsTime, 'run', cCaptionInsTime, 0);
 
     if log<>'' then
-      MsgBox('Plugins were just preinstalled:'#10+log, MB_OK or MB_ICONINFORMATION);
+      MsgBox(msgStatusPluginsJustPreinstalled+#10+log, MB_OK or MB_ICONINFORMATION);
   finally
     FreeAndNil(cfg);
   end;
