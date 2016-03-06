@@ -192,7 +192,7 @@ begin
         end
         else
         begin
-          MsgBox(msgCannotFindSublexerLinkedInLibrary+' '+s_lexer, MB_OK or MB_ICONWARNING);
+          MsgBox(msgCannotFindSublexerInLibrary+' '+s_lexer, MB_OK or MB_ICONWARNING);
           Continue;
         end;
       end;

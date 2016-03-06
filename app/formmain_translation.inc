@@ -235,15 +235,17 @@ begin
     DoApplyTabCaption(TabsLeft, 0, ini.ReadString('ui', 't_tre', 'Tree'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
-    msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
-    UpdateMenuLexers;
-    msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
-    UpdateMenuRecent(nil);
-
+    msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
+    msgDefTheme:= ini.ReadString('ui', 'deft', msgDefTheme);
+    msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
     msgButtonOk:= ini.ReadString('ui', 'b_ok', msgButtonOk);
     msgButtonCancel:= ini.ReadString('ui', 'b_can', msgButtonCancel);
     msgButtonApply:= ini.ReadString('ui', 'b_ap', msgButtonApply);
+    msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
+    UpdateMenuLexers;
+    msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
+    UpdateMenuRecent(nil);
 
     with tbNew do Hint:= ini.ReadString('ui', 'tb_new', Hint);
     with tbOpen do Hint:= ini.ReadString('ui', 'tb_op', Hint);
@@ -328,6 +330,80 @@ begin
     with mnuTabsize4 do Caption:= s+' 4';
     with mnuTabsize8 do Caption:= s+' 8';
     with mnuTabsizeSpace do Caption:= ini.ReadString('ct', 'tsz_sp', Caption);
+
+
+    msgCannotOpenFile                := ini.ReadString('se', 'OpenFile', msgCannotOpenFile);
+    msgCannotFindFile                := ini.ReadString('se', 'FindFile', msgCannotFindFile);
+    msgCannotFindLexlib              := ini.ReadString('se', 'FindLexlib', msgCannotFindLexlib);
+    msgCannotFindLexerInLibrary      := ini.ReadString('se', 'FindLexerInLibrary', msgCannotFindLexerInLibrary);
+    msgCannotFindLexerFile           := ini.ReadString('se', 'FindLexerFile', msgCannotFindLexerFile);
+    msgCannotFindSublexerInLibrary   := ini.ReadString('se', 'FindSublexerInLibrary', msgCannotFindSublexerInLibrary);
+    msgCannotCreateDir               := ini.ReadString('se', 'CreateDir', msgCannotCreateDir);
+    msgCannotSaveFile                := ini.ReadString('se', 'SaveFile', msgCannotSaveFile);
+    msgCannotSaveUserConf            := ini.ReadString('se', 'SaveUserConf', msgCannotSaveUserConf);
+    msgCannotReadConf                := ini.ReadString('se', 'ReadConf', msgCannotReadConf);
+    msgCannotReloadUntitledTab       := ini.ReadString('se', 'ReloadUntitledTab', msgCannotReloadUntitledTab);
+    msgCannotFindMatch               := ini.ReadString('se', 'FindMatch', msgCannotFindMatch);
+    msgCannotFindInstallInfInZip     := ini.ReadString('se', 'FindInstallInfInZip', msgCannotFindInstallInfInZip);
+
+    msgStatusIncorrectFilename       := ini.ReadString('si', 'IncorrectFilename', msgStatusIncorrectFilename);
+    msgStatusIncorrectInstallInfInZip:= ini.ReadString('si', 'IncorrectInstallInfInZip', msgStatusIncorrectInstallInfInZip);
+    msgStatusUnsupportedAddonType    := ini.ReadString('si', 'UnsupportedAddonType', msgStatusUnsupportedAddonType);
+    msgStatusPackageContains         := ini.ReadString('si', 'PackageContains', msgStatusPackageContains);
+    msgStatusPackageName             := ini.ReadString('si', 'PackageName', msgStatusPackageName);
+    msgStatusPackageType             := ini.ReadString('si', 'PackageType', msgStatusPackageType);
+    msgStatusPackageDesc             := ini.ReadString('si', 'PackageDesc', msgStatusPackageDesc);
+    msgStatusPluginsJustPreinstalled := ini.ReadString('si', 'PluginsJustPreinstalled', msgStatusPluginsJustPreinstalled);
+    msgStatusErrorInConfigFile       := ini.ReadString('si', 'ErrorInConfigFile', msgStatusErrorInConfigFile);
+    msgStatusCommandOnlyForLexers    := ini.ReadString('si', 'CommandOnlyForLexers', msgStatusCommandOnlyForLexers);
+    msgStatusOpenedBrowser           := ini.ReadString('si', 'OpenedBrowser', msgStatusOpenedBrowser);
+    msgStatusCopiedLink              := ini.ReadString('si', 'CopiedLink', msgStatusCopiedLink);
+    msgStatusInstalled               := ini.ReadString('si', 'Installed', msgStatusInstalled);
+    msgStatusOpened                  := ini.ReadString('si', 'Opened', msgStatusOpened);
+    msgStatusReopened                := ini.ReadString('si', 'Reopened', msgStatusReopened);
+    msgStatusBadRegex                := ini.ReadString('si', 'BadRegex', msgStatusBadRegex);
+    msgStatusFoundNextMatch          := ini.ReadString('si', 'FoundNextMatch', msgStatusFoundNextMatch);
+    msgStatusTryingAutocomplete      := ini.ReadString('si', 'TryingAutocomplete', msgStatusTryingAutocomplete);
+    msgStatusHelpOnShowCommands      := ini.ReadString('si', 'HelpOnShowCommands', msgStatusHelpOnShowCommands);
+    msgStatusNoLineCmtDefined        := ini.ReadString('si', 'NoLineCmtDefined', msgStatusNoLineCmtDefined);
+    msgStatusReplaceCount            := ini.ReadString('si', 'ReplaceCount', msgStatusReplaceCount);
+    msgStatusFindCount               := ini.ReadString('si', 'FindCount', msgStatusFindCount);
+    msgStatusReadingOps              := ini.ReadString('si', 'ReadingOps', msgStatusReadingOps);
+    msgStatusSavedFile               := ini.ReadString('si', 'SavedFile', msgStatusSavedFile);
+    msgStatusReadonly                := ini.ReadString('si', 'Readonly', msgStatusReadonly);
+    msgStatusMacroRec                := ini.ReadString('si', 'MacroRec', msgStatusMacroRec);
+    msgStatusPictureNxN              := ini.ReadString('si', 'PictureNxN', msgStatusPictureNxN);
+    msgStatusCancelled               := ini.ReadString('si', 'Cancelled', msgStatusCancelled);
+    msgStatusBadLineNum              := ini.ReadString('si', 'BadLineNum', msgStatusBadLineNum);
+    msgStatusEndsChanged             := ini.ReadString('si', 'EndsChanged', msgStatusEndsChanged);
+    msgStatusEncChanged              := ini.ReadString('si', 'EncChanged', msgStatusEncChanged);
+    msgStatusGotoLine                := ini.ReadString('si', 'GotoLine', msgStatusGotoLine);
+    msgStatusSorted                  := ini.ReadString('si', 'Sorted', msgStatusSorted);
+    msgStatusLexlibSave              := ini.ReadString('si', 'LexlibSave', msgStatusLexlibSave);
+    msgStatusHelpOnKeysConfig        := ini.ReadString('si', 'HelpOnKeysConfig', msgStatusHelpOnKeysConfig);
+    msgStatusClickingLogLine         := ini.ReadString('si', 'ClickingLogLine', msgStatusClickingLogLine);
+    msgStatusNoGotoDefinitionPlugins := ini.ReadString('si', 'NoGotoDefinitionPlugins', msgStatusNoGotoDefinitionPlugins);
+    msgStatusFilenameAlreadyOpened   := ini.ReadString('si', 'FilenameAlreadyOpened', msgStatusFilenameAlreadyOpened);
+    msgStatusNeedToCloseTabSavedOrDup:= ini.ReadString('si', 'NeedToCloseTabSavedOrDup', msgStatusNeedToCloseTabSavedOrDup);
+    msgStatusCommandsHaveSameHotkeys := ini.ReadString('si', 'CommandsHaveSameHotkeys', msgStatusCommandsHaveSameHotkeys);
+    msgStatusCorrectOneOfTheseHotkeys:= ini.ReadString('si', 'CorrectOneOfTheseHotkeys', msgStatusCorrectOneOfTheseHotkeys);
+
+    msgConfirmInstallIt              := ini.ReadString('sc', 'InstallIt', msgConfirmInstallIt);
+    msgConfirmFileChangedOutside     := ini.ReadString('sc', 'FileChangedOutside', msgConfirmFileChangedOutside);
+    msgConfirmReloadIt               := ini.ReadString('sc', 'ReloadIt', msgConfirmReloadIt);
+    msgConfirmReloadItHotkeys        := ini.ReadString('sc', 'ReloadItHotkeys', msgConfirmReloadItHotkeys);
+    msgConfirmOpenCreatedDoc         := ini.ReadString('sc', 'OpenCreatedDoc', msgConfirmOpenCreatedDoc);
+    msgConfirmSaveColorsToFile       := ini.ReadString('sc', 'SaveColorsToFile', msgConfirmSaveColorsToFile);
+    msgConfirmOpenNotText            := ini.ReadString('sc', 'OpenNotText', msgConfirmOpenNotText);
+    msgConfirmSaveModifiedTab        := ini.ReadString('sc', 'SaveModifiedTab', msgConfirmSaveModifiedTab);
+    msgConfirmReopenModifiedTab      := ini.ReadString('sc', 'ReopenModifiedTab', msgConfirmReopenModifiedTab);
+    msgConfirmReloadFileWithEnc      := ini.ReadString('sc', 'ReloadFileWithEnc', msgConfirmReloadFileWithEnc);
+    msgConfirmCreateNewFile          := ini.ReadString('sc', 'CreateNewFile', msgConfirmCreateNewFile);
+    msgConfirmCreateUserConf         := ini.ReadString('sc', 'CreateUserConf', msgConfirmCreateUserConf);
+    msgConfirmCloseDelFile           := ini.ReadString('sc', 'CloseDelFile', msgConfirmCloseDelFile);
+    msgConfirmDeleteLexer            := ini.ReadString('sc', 'DeleteLexer', msgConfirmDeleteLexer);
+    msgConfirmSaveModifiedLexerLib   := ini.ReadString('sc', 'SaveModifiedLexerLib', msgConfirmSaveModifiedLexerLib);
+    msgConfirmRemoveStylesFromBackup := ini.ReadString('sc', 'RemoveStylesFromBackup', msgConfirmRemoveStylesFromBackup);
 
   finally
     FreeAndNil(ini);

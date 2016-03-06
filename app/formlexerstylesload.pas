@@ -118,7 +118,7 @@ procedure TfmLexerStylesRestore.bDeleteClick(Sender: TObject);
 var
   i: Integer;
 begin
-  if MsgBox(msgConfirmRemoveCheckedStylesFromBackup, MB_OKCANCEL or MB_ICONWARNING)<>ID_OK then Exit;
+  if MsgBox(msgConfirmRemoveStylesFromBackup, MB_OKCANCEL or MB_ICONWARNING)<>ID_OK then Exit;
 
   with TIniFile.Create(StylesFilename) do
   try

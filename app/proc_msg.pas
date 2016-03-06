@@ -20,11 +20,16 @@ const
 
 const
   msgTitle = 'CudaText';
+
 const
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
   msgDefTheme: string = '(default)';
   msgNoLexer: string = '(none)';
+  msgButtonOk: string = 'OK';
+  msgButtonCancel: string = 'Cancel';
+  msgButtonApply: string = 'Apply';
+  msgThemeName: string = 'Theme name:';
 
   msgEditCut: string = 'Cut';
   msgEditCopy: string = 'Copy';
@@ -34,11 +39,6 @@ const
   msgEditUndo: string = 'Undo';
   msgEditRedo: string = 'Redo';
   msgFileClearList: string = 'Clear list';
-  msgThemeName: string = 'Theme name:';
-
-  msgButtonOk: string = 'OK';
-  msgButtonCancel: string = 'Cancel';
-  msgButtonApply: string = 'Apply';
 
   msgEncReloadAs: string = 'Reload as';
   msgEncConvertTo: string = 'Convert to';
@@ -55,7 +55,7 @@ const
   msgCannotFindLexlib: string = 'Cannot find lexer-library:';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
-  msgCannotFindSublexerLinkedInLibrary: string = 'Cannot find linked sublexer in library:';
+  msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer in library:';
   msgCannotCreateDir: string = 'Cannot create dir:';
   msgCannotSaveFile: string = 'Cannot save file:';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
@@ -121,7 +121,7 @@ const
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
   msgConfirmSaveModifiedLexerLib: string = 'Lexer-library modified. Save it?';
-  msgConfirmRemoveCheckedStylesFromBackup: string = 'Remove checked styles from backup file?';
+  msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+
