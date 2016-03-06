@@ -1,3 +1,5 @@
+see http://wiki.freepascal.org/CudaText#How_to_make_translation
+
 
 2016.03.06
 + [se]
