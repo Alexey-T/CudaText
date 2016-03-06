@@ -100,7 +100,7 @@ implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormLexerProp(F: TfmLexerProp; const ALangFilename: string);
+procedure DoLocalize_FormLexerProp(F: TfmLexerProp; const ALangFilename: string);
 const
   section = 'd_lex_prop';
 var
@@ -332,7 +332,7 @@ begin
 
   F:= TfmLexerProp.Create(nil);
   try
-    DoApplyLang_FormLexerProp(F, ALangFilename);
+    DoLocalize_FormLexerProp(F, ALangFilename);
     F.FStylesFilename:= AStylesFilename;
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;

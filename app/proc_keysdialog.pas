@@ -49,7 +49,7 @@ begin
   Form:= TfmKeys.Create(nil);
   with Form do
   try
-    DoApplyLang_FormKeys(Form, ALangFilename);
+    DoLocalize_FormKeys(Form, ALangFilename);
     Caption:= Caption+' - '+keymap[n].Name;
     Keys1:= keymap[n].Keys1;
     Keys2:= keymap[n].Keys2;

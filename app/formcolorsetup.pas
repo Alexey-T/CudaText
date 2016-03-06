@@ -41,14 +41,14 @@ type
     OnApply: TApplyThemeEvent;
   end;
 
-procedure DoApplyLang_FormColorSetup(F: TfmColorSetup; const ALangFilename: string);
+procedure DoLocalize_FormColorSetup(F: TfmColorSetup; const ALangFilename: string);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormColorSetup(F: TfmColorSetup; const ALangFilename: string);
+procedure DoLocalize_FormColorSetup(F: TfmColorSetup; const ALangFilename: string);
 const
   section = 'd_theme';
 var
@@ -59,12 +59,12 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'b_ok', Caption);
-    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'b_can', Caption);
-    with F.ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'b_ap', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'ok', Caption);
+    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'can', Caption);
+    with F.ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'ap', Caption);
 
-    with F.bChange do Caption:= ini.ReadString(section, 'b_ch', Caption);
-    with F.bNone do Caption:= ini.ReadString(section, 'b_non', Caption);
+    with F.bChange do Caption:= ini.ReadString(section, 'ch', Caption);
+    with F.bNone do Caption:= ini.ReadString(section, 'non', Caption);
   finally
     FreeAndNil(ini);
   end;

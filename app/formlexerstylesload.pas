@@ -39,14 +39,14 @@ type
     StylesFilename: string;
   end;
 
-procedure DoApplyLang_FormLexerRestore(F: TfmLexerStylesRestore; const ALangFilename: string);
+procedure DoLocalize_FormLexerRestoreStyles(F: TfmLexerStylesRestore; const ALangFilename: string);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormLexerRestore(F: TfmLexerStylesRestore;
+procedure DoLocalize_FormLexerRestoreStyles(F: TfmLexerStylesRestore;
   const ALangFilename: string);
 const
   section = 'd_lex_restore';

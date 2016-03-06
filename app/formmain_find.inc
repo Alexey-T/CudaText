@@ -145,7 +145,7 @@ begin
     end;
   end;
 
-  DoApplyLang_FormFind;
+  DoLocalize_FormFind;
 end;
 
 procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
@@ -267,7 +267,7 @@ begin
 
   fmConfirmReplace:= TfmConfirmReplace.Create(Self);
   try
-    DoApplyLang_FormConfirmReplace(fmConfirmReplace, GetLangFilename);
+    DoLocalize_FormConfirmReplace(fmConfirmReplace, GetLangFilename);
     fmConfirmReplace.MsgLineNumber:= APos1.Y+1;
     fmConfirmReplace.bYesAll.Enabled:= AForMany;
     fmConfirmReplace.bNoAll.Enabled:= AForMany;

@@ -9,7 +9,7 @@ begin
     data.TabCaption:= Str;
 end;
 
-procedure TfmMain.DoApplyLang;
+procedure TfmMain.DoLocalize;
 var
   fn: string;
   ini: TIniFile;
@@ -333,11 +333,11 @@ begin
     FreeAndNil(ini);
   end;
 
-  DoApplyLang_FormFind;
-  DoApplyLang_FormGoto;
+  DoLocalize_FormFind;
+  DoLocalize_FormGoto;
 end;
 
-procedure TfmMain.DoApplyLang_FormFind;
+procedure TfmMain.DoLocalize_FormFind;
 const
   section = 'd_f';
 var
@@ -387,7 +387,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoApplyLang_FormGoto;
+procedure TfmMain.DoLocalize_FormGoto;
 const
   section = 'd_f';
 var

@@ -34,14 +34,14 @@ type
 var
   fmPalette: TfmPalette;
 
-procedure DoApplyLang_FormPalette(F: TfmPalette; const ALangFilename: string);
+procedure DoLocalize_FormPalette(F: TfmPalette; const ALangFilename: string);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormPalette(F: TfmPalette; const ALangFilename: string);
+procedure DoLocalize_FormPalette(F: TfmPalette; const ALangFilename: string);
 const
   section = 'd_tab_color';
 var

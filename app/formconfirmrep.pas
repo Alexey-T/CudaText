@@ -45,14 +45,14 @@ type
 var
   fmConfirmReplace: TfmConfirmReplace;
 
-procedure DoApplyLang_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
+procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
+procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
 const
   section = 'd_cfm_rep';
 var

@@ -66,14 +66,14 @@ var
   fmCharmaps: TfmCharmaps;
 
 function DoDialogCharmapModal(const ALangFilename: string): string;
-procedure DoApplyLang_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
+procedure DoLocalize_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
+procedure DoLocalize_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
 const
   section = 'd_charmap';
 var
@@ -120,7 +120,7 @@ begin
   Dummy.Form:= F;
 
   try
-    DoApplyLang_FormCharmap(F, ALangFilename);
+    DoLocalize_FormCharmap(F, ALangFilename);
     F.OnInsert:= @Dummy.OnInsert;
     F.ShowModal;
     Result:= Dummy.StrVal;

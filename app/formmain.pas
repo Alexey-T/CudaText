@@ -514,9 +514,9 @@ type
     FPyComplete_CaretPos: TPoint;
 
     procedure CharmapOnInsert(const AStr: string);
-    procedure DoApplyLang;
-    procedure DoApplyLang_FormFind;
-    procedure DoApplyLang_FormGoto;
+    procedure DoLocalize;
+    procedure DoLocalize_FormFind;
+    procedure DoLocalize_FormGoto;
     function DoCheckFilenameOpened(const AStr: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd(AStr: string): string;
@@ -1397,7 +1397,7 @@ begin
   Form:= TfmSaveTabs.Create(nil);
   with Form do
   try
-    DoApplyLang_FormSaveTabs(Form, GetLangFilename);
+    DoLocalize_FormSaveTabs(Form, GetLangFilename);
     List.Clear;
     for i:= 0 to FrameCount-1 do
     begin
@@ -1495,7 +1495,7 @@ begin
   Form:= TfmAbout.Create(Self);
   with Form do
   try
-    DoApplyLang_FormAbout(Form, GetLangFilename);
+    DoLocalize_FormAbout(Form, GetLangFilename);
     labelVer.Caption:= cAppExeVersion;
     ShowModal;
   finally
@@ -1801,7 +1801,7 @@ begin
     fmGoto.Align:= alBottom;
     fmGoto.Color:= GetAppColor('TabBg');
   end;
-  DoApplyLang_FormGoto;
+  DoLocalize_FormGoto;
 
   with fmGoto do
   begin
@@ -2731,7 +2731,7 @@ begin
   F:= TfmColorSetup.Create(nil);
   with F do
   try
-    DoApplyLang_FormColorSetup(F, GetLangFilename);
+    DoLocalize_FormColorSetup(F, GetLangFilename);
     OnApply:= @FormColorsApply;
     Data:= AColors;
     Result:= ShowModal=mrOk;
@@ -2852,7 +2852,7 @@ begin
   begin
     FLangName:= ExtractFileNameOnly(FListLangs[NTag]);
     UpdateMenuLangs(mnuLang);
-    DoApplyLang;
+    DoLocalize;
   end
   else
   begin
@@ -2883,7 +2883,7 @@ begin
   Form:= TfmPalette.Create(Self);
   with Form do
   try
-    DoApplyLang_FormPalette(Form, GetLangFilename);
+    DoLocalize_FormPalette(Form, GetLangFilename);
     ResColor:= F.TabColor;
     case ShowModal of
       mrOk: F.TabColor:= ResColor;
@@ -3074,7 +3074,7 @@ var
 begin
   Form:= TfmLexerStylesRestore.Create(nil);
   try
-    DoApplyLang_FormLexerRestore(Form, GetLangFilename);
+    DoLocalize_FormLexerRestoreStyles(Form, GetLangFilename);
     Form.StylesFilename:= GetAppPath(cFileLexerStyles);
     if Form.ShowModal=mrOk then
     begin
@@ -3152,7 +3152,7 @@ begin
   begin
     fmCharmaps:= TfmCharmaps.Create(nil);
     fmCharmaps.OnInsert:= @CharmapOnInsert;
-    DoApplyLang_FormCharmap(fmCharmaps, GetLangFilename);
+    DoLocalize_FormCharmap(fmCharmaps, GetLangFilename);
   end;
 
   fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));

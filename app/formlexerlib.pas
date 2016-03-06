@@ -66,7 +66,7 @@ implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormLexerLib(F: TfmLexerLib; const ALangFilename: string);
+procedure DoLocalize_FormLexerLib(F: TfmLexerLib; const ALangFilename: string);
 const
   section = 'd_lex_lib';
 var
@@ -95,7 +95,7 @@ var
 begin
   F:= TfmLexerLib.Create(nil);
   try
-    DoApplyLang_FormLexerLib(F, ALangFilename);
+    DoLocalize_FormLexerLib(F, ALangFilename);
     F.FManager:= ALexerManager;
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;

@@ -34,14 +34,14 @@ type
 var
   fmSaveTabs: TfmSaveTabs;
 
-procedure DoApplyLang_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
+procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
+procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
 const
   section = 'd_save_tabs';
 var

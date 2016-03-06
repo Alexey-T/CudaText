@@ -51,14 +51,14 @@ type
 var
   fmKeys: TfmKeys;
 
-procedure DoApplyLang_FormKeys(F: TfmKeys; const ALangFilename: string);
+procedure DoLocalize_FormKeys(F: TfmKeys; const ALangFilename: string);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormKeys(F: TfmKeys; const ALangFilename: string);
+procedure DoLocalize_FormKeys(F: TfmKeys; const ALangFilename: string);
 const
   section = 'd_keys';
 var

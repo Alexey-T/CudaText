@@ -260,7 +260,7 @@ begin
     FSessionFilename:= c.GetValue('session', FSessionFilename);
 
     if FLangName<>'' then
-      DoApplyLang;
+      DoLocalize;
 
     if FThemeName<>'' then
     begin

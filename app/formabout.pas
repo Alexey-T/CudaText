@@ -37,7 +37,7 @@ type
     FCredits: string;
   end;
 
-procedure DoApplyLang_FormAbout(F: TfmAbout; const ALangFilename: string);
+procedure DoLocalize_FormAbout(F: TfmAbout; const ALangFilename: string);
 
 
 implementation
@@ -46,7 +46,7 @@ uses InterfaceBase;
 
 {$R *.lfm}
 
-procedure DoApplyLang_FormAbout(F: TfmAbout; const ALangFilename: string);
+procedure DoLocalize_FormAbout(F: TfmAbout; const ALangFilename: string);
 const
   section = 'd_about';
 var
