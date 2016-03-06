@@ -3,6 +3,7 @@ title=Hilite All Occurrences
 desc=Highlights with back-color all occurrences of selected word; only whole words; colors and min-length can be changed in source
 type=cudatext-plugin
 subdir=cuda_hilite_all
+homepage=https://github.com/CudaText-addons/cuda_hilite_all
 
 [item1]
 section=events

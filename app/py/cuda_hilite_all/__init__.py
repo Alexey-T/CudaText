@@ -1,14 +1,13 @@
 import string
 from cudatext import *
 
-if app_api_version()<'1.0.114':
-    msg_box('Hilite Occurrences needs newer app version', MB_OK+MB_ICONWARNING)
-
-
+#-------options
 MIN_LEN = 2
 COLOR_FONT = 0x000000
 COLOR_BG = 0x80FFFF
 WORDS_ONLY = True
+#--------------
+
 CHARS = string.ascii_letters + string.digits + '_'
 MARKTAG = 11 #uniq value for all markers plugins
 
@@ -67,7 +66,7 @@ class Command:
         if len(items)<2: return
         
         for item in items:
-            if item==(y0, x0): continue
+            #if item==(y0, x0): continue
             ed.attr(MARKERS_ADD, MARKTAG, item[1], item[0], len(text),
                     COLOR_FONT, COLOR_BG)
                     

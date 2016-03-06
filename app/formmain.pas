@@ -1324,7 +1324,7 @@ begin
       DoOps_SaveLexlib(false);
       UpdateMenuLexers;
     end;
-    MsgBox('Installed:'#13+msg, MB_OK or MB_ICONINFORMATION);
+    MsgBox(msgDoneInstalled+#10+msg, MB_OK or MB_ICONINFORMATION);
   end;
 end;
 
@@ -1710,7 +1710,7 @@ begin
     F.DoFileOpen(AFilename);
     Result:= F;
     UpdateStatus;
-    MsgStatus('Opened: '+ExtractFileName(AFilename));
+    MsgStatus(msgDoneOpened+' '+ExtractFileName(AFilename));
     DoPyEvent(F.Editor, cEventOnOpen, []);
     Exit
   end;
@@ -1722,7 +1722,7 @@ begin
   Result:= F;
 
   UpdateStatus;
-  MsgStatus('Opened: '+ExtractFileName(AFilename));
+  MsgStatus(msgDoneOpened+' '+ExtractFileName(AFilename));
   DoPyEvent(F.Editor, cEventOnOpen, []);
   Result.DoFocusEditor;
 end;
@@ -1768,7 +1768,7 @@ var
   Form: TfmCommands;
   Cmd: integer;
 begin
-  MsgStatus('Commands: F9 to configure keys; "@key" to find hotkey');
+  MsgStatus(msgStatusHelpOnShowCommands);
 
   Form:= TfmCommands.Create(Self);
   try
@@ -2035,7 +2035,7 @@ begin
     if Frame.FileName<>'' then
       Frame.DoFileReload(false)
     else
-      MsgBox('Cannot reload untitled tab', MB_OK or MB_ICONWARNING);
+      MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
   end
   else
   begin
@@ -2231,7 +2231,7 @@ begin
   F.DoFileOpen(F.FileName, true);
   F.ReadOnly:= bRO;
 
-  MsgStatus('Re-opened: '+ExtractFileName(F.Filename));
+  MsgStatus(msgDoneReopened+' '+ExtractFileName(F.Filename));
 end;
 
 function TfmMain.DoFileCloseAll: boolean;
@@ -2561,7 +2561,7 @@ begin
   if Ed.Carets.Count<>1 then exit;
 
   LexName:= F.LexerNameAtPos(Point(Ed.Carets[0].PosX, Ed.Carets[0].PosY));
-  MsgStatus('Trying auto-complete for: '+LexName);
+  MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
   if LexName='' then exit;
 
   //'php_'->'php'
@@ -2690,7 +2690,7 @@ begin
     GetAppColor('ExportHtmlNumbers')
     );
 
-  if MsgBox('Open created document?', MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
+  if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
     OpenDocument(SaveDlg.FileName);
 end;
 
@@ -2869,7 +2869,7 @@ end;
 
 procedure TfmMain.mnuOpKeysClick(Sender: TObject);
 begin
-  MsgBox('To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog', mb_ok);
+  MsgBox(msgStatusHelpOnKeysConfig, mb_ok);
 end;
 
 procedure TfmMain.mnuTabColorClick(Sender: TObject);
@@ -2985,7 +2985,7 @@ begin
   end
   else
   begin
-    MsgStatus('Clicking log line');
+    MsgStatus(msgStatusClickingLogLine);
     DoPyEvent(CurrentEditor, cEventOnOutputNav,
       [SStringToPythonString(SText), IntToStr(NTag)] );
   end;
@@ -3029,7 +3029,7 @@ end;
 procedure TfmMain.DoGotoDefinition;
 begin
   if DoPyEvent(CurrentEditor, cEventOnGotoDef, [])<>cPyTrue then
-    MsgStatus('No goto-definition plugins installed for this lexer');
+    MsgStatus(msgStatusNoGotoDefinitionPlugins);
 end;
 
 procedure TfmMain.DoShowFuncHint;
@@ -3085,7 +3085,7 @@ begin
           if Assigned(An) then
             LoadLexerStylesFromFile(An, Form.StylesFilename)
           else
-            MsgBox('Cannot find lexer in library: '+Form.List.Items[i], MB_OK);
+            MsgBox(msgCannotFindLexerInLibrary+' '+Form.List.Items[i], MB_OK);
         end;
 
       DoOps_SaveLexlib(false);

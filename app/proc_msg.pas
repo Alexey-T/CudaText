@@ -53,9 +53,16 @@ const
   msgCannotSaveFile: string = 'Cannot save file:';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
   msgCannotReadConf: string = 'Cannot read/parse config:';
+  msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';
+  msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgErrRegex: string = 'Incorrect regex passed:';
   msgThemeName: string = 'Theme name:';
+  msgDoneInstalled: string = 'Installed:';
+  msgDoneOpened: string = 'Opened:';
+  msgDoneReopened: string = 'Re-opened:';
 
+  msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
+  msgStatusHelpOnShowCommands: string = 'Commands: F9 to configure keys; "@key" to find hotkey';
   msgStatusNoCmtStr: string = 'No line comment defined for lexer';
   msgStatusReplaceCount: string = 'Replaces made: ';
   msgStatusFindCount: string = 'Count of "%s": ';
@@ -72,7 +79,11 @@ const
   msgStatusGotoTab: string = 'Go to tab: %s';
   msgStatusSorted: string = 'Sorted %d lines';
   msgStatusLexlibSave: string = 'Lexer-library saved';
+  msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog';
+  msgStatusClickingLogLine: string = 'Clicking log line';
+  msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';
 
+  msgConfirmOpenCreatedDoc: string = 'Open created document?';
   msgConfirmSaveColors: string = 'Save theme to file?';
   msgConfirmOpenNotText: string = 'File is maybe not text:'#13'%s'#13#13'Do you want to open it?';
   msgConfirmSaveModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Save it first?';
