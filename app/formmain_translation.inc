@@ -413,6 +413,8 @@ begin
 
   DoLocalize_FormFind;
   DoLocalize_FormGoto;
+  if Assigned(fmCharmaps) then
+    DoLocalize_FormCharmap(fmCharmaps, fn);
 end;
 
 procedure TfmMain.DoLocalize_FormFind;
