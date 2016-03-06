@@ -1,5 +1,5 @@
 Package: cudatext
-Version: 1.2.26.0-1
+Version: 1.2.28.0-1
 Section: editors
 Priority: optional
 Architecture: amd64
@@ -8,6 +8,7 @@ Homepage: http://uvviewsoft.com/
 Depends: libgtk2.0-0 (>= 2.20.0)
 Installed-Size: 7800
 Description: CudaText editor
- Supports syntax highlighting for lot of languages (more than 120 lexers exist). 
- Has config system in JSON files (Sublime style).
+ Syntax highlighting for lot of languages (160+ lexers exist). 
+ Config system in JSON files.
  Supports Unicode UTF8 encoding. Multi-carets and multi-selections. Implemented many editing commands found in common text editors. Tabbed interface. Search and replace with regex.
+ Supports plugins in Python.

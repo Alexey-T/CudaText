@@ -87,6 +87,7 @@ class Command:
             f.write('desc=Some description\n')
             f.write('type=cudatext-plugin\n')
             f.write('subdir='+s_module+'\n')
+            f.write('homepage=\n')
             f.write('\n')
             
             if cmd_list:
