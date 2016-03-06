@@ -919,9 +919,9 @@ begin
     if Assigned(ACheckFilenameOpened) and ACheckFilenameOpened(ASaveDlg.FileName) then
     begin
       MsgBox(
-        'File name is already opened in another tab:'+#10+
+        msgStatusFilenameAlreadyOpened+#10+
         ExtractFileName(ASaveDlg.FileName)+#10#10+
-        'You need to close tab: saved-as or duplicate.', MB_OK or MB_ICONWARNING);
+        msgStatusNeedToCloseTabSavedOrDup, MB_OK or MB_ICONWARNING);
     end;
 
     FFileName:= ASaveDlg.FileName;

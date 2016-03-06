@@ -53,18 +53,29 @@ const
   msgCannotOpenFile: string = 'Cannot open file:';
   msgCannotFindFile: string = 'Cannot find file:';
   msgCannotFindLexlib: string = 'Cannot find lexer-library:';
+  msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
+  msgCannotFindLexerFile: string = 'Cannot find lexer file:';
+  msgCannotFindSublexerLinkedInLibrary: string = 'Cannot find linked sublexer in library:';
+  msgCannotCreateDir: string = 'Cannot create dir:';
   msgCannotSaveFile: string = 'Cannot save file:';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
   msgCannotReadConf: string = 'Cannot read/parse config:';
   msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';
-  msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindMatch: string = 'Cannot find';
+  msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in zip';
 
+  msgStatusIncorrectFilename: string = 'Incorrect filename:';
+  msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
+  msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';
+  msgStatusPackageContains: string = 'This package contains:';
+  msgStatusPackageName: string = 'name:';
+  msgStatusPackageType: string = 'type:';
+  msgStatusPackageDesc: string = 'description:';
   msgStatusPluginsJustPreinstalled: string = 'Plugins were just preinstalled:';
   msgStatusErrorInConfigFile: string = 'Error in config file';
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';
   msgStatusOpenedBrowser: string = 'Opened browser';
-  msgStatusCopiedUrl: string = 'Copied link';
+  msgStatusCopiedLink: string = 'Copied link';
   msgStatusInstalled: string = 'Installed:';
   msgStatusOpened: string = 'Opened:';
   msgStatusReopened: string = 'Re-opened:';
@@ -90,7 +101,12 @@ const
   msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';
+  msgStatusFilenameAlreadyOpened: string = 'File name is already opened in another tab:';
+  msgStatusNeedToCloseTabSavedOrDup: string = 'You need to close tab: saved-as or duplicate.';
+  msgStatusCommandsHaveSameHotkeys: string = 'Commands have same hotkeys:';
+  msgStatusCorrectOneOfTheseHotkeys: string = 'Please correct one of these hotkeys.';
 
+  msgConfirmInstallIt: string = 'Do you want to install it?';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmReloadIt: string = 'Reload it?';
   msgConfirmReloadItHotkeys: string = '(Yes: reload. No: don''t reload. Cancel [Esc]: no more notifications about this file.)';
@@ -103,8 +119,9 @@ const
   msgConfirmCreateNewFile: string = 'File not found:'#13'%s'#13#13'Create it?';
   msgConfirmCreateUserConf: string = 'User config not found. Create it?';
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
-  msgConfirmDelLexer: string = 'Delete lexer "%s"?';
-  msgConfirmSaveLexerLib: string = 'Lexer-library modified. Save it?';
+  msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
+  msgConfirmSaveModifiedLexerLib: string = 'Lexer-library modified. Save it?';
+  msgConfirmRemoveCheckedStylesFromBackup: string = 'Remove checked styles from backup file?';
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+

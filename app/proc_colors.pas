@@ -17,6 +17,7 @@ uses
   LclProc, LclType,
   ATStringProc,
   ATStringProc_HtmlColor,
+  proc_msg,
   proc_globdata;
 
 type
@@ -195,7 +196,7 @@ begin
       c.Formatted:= true;
       c.Filename:= fn;
     except
-      MsgBox('Incorrect filename: '#13+fn, MB_OK or MB_ICONERROR);
+      MsgBox(msgStatusIncorrectFilename+#13+fn, MB_OK or MB_ICONERROR);
       exit;
     end;
     for i:= low(d) to high(d) do

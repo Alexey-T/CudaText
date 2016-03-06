@@ -276,7 +276,7 @@ begin
         if Str<>'' then
         begin
           Clipboard.AsText:= Utf8Encode(Str);
-          MsgStatus(msgStatusCopiedUrl);
+          MsgStatus(msgStatusCopiedLink);
         end;
       end;
 
@@ -296,7 +296,7 @@ begin
         if Str<>'' then
         begin
           Clipboard.AsText:= Utf8Encode(Str);
-          MsgStatus(msgStatusCopiedUrl);
+          MsgStatus(msgStatusCopiedLink);
         end;
       end;
 

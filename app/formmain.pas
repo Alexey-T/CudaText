@@ -2074,7 +2074,7 @@ var
   fn: string;
 begin
   if Cfm then
-    if MsgBox(msgConfirmSaveLexerLib, MB_OKCANCEL or MB_ICONWARNING)<>id_ok then exit;
+    if MsgBox(msgConfirmSaveModifiedLexerLib, MB_OKCANCEL or MB_ICONWARNING)<>id_ok then exit;
 
   fn:= GetAppPath(cFileLexlib);
   if not FileExistsUTF8(fn) then exit;

@@ -33,7 +33,8 @@ uses
   jsonConf,
   Zipper,
   proc_files,
-  proc_globdata;
+  proc_globdata,
+  proc_msg;
 
 const
   cTypeLexer = 'lexer';
@@ -160,7 +161,7 @@ begin
       fn_lexer:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.lcf';
       if not FileExists(fn_lexer) then
       begin
-        MsgBox('Cannot find lexer file: '+fn_lexer, mb_ok or mb_iconerror);
+        MsgBox(msgCannotFindLexerFile+' '+fn_lexer, mb_ok or mb_iconerror);
         exit
       end;
 
@@ -191,7 +192,7 @@ begin
         end
         else
         begin
-          MsgBox('Cannot find linked sublexer in library: '+s_lexer, MB_OK or MB_ICONWARNING);
+          MsgBox(msgCannotFindSublexerLinkedInLibrary+' '+s_lexer, MB_OK or MB_ICONWARNING);
           Continue;
         end;
       end;
@@ -229,7 +230,7 @@ begin
     CreateDir(dir);
   if not DirectoryExists(dir) then
   begin
-    MsgBox('Cannot create dir:'#13+dir, mb_ok or mb_iconerror);
+    MsgBox(msgCannotCreateDir+#13+dir, mb_ok or mb_iconerror);
     exit
   end;
 
@@ -253,7 +254,7 @@ begin
 
     if not FileExists(fn_inf) then
     begin
-      MsgBox('Cannot find install.inf in zip', mb_ok or mb_iconerror);
+      MsgBox(msgCannotFindInstallInfInZip, mb_ok or mb_iconerror);
       exit
     end;
 
@@ -274,7 +275,7 @@ begin
 
   if (s_title='') or (s_type='') then
   begin
-    MsgBox('Incorrect install.inf in zip', mb_ok or mb_iconerror);
+    MsgBox(msgStatusIncorrectInstallInfInZip, mb_ok or mb_iconerror);
     exit
   end;
 
@@ -282,16 +283,16 @@ begin
     (s_type<>cTypePlugin) and
     (s_type<>cTypeData) then
   begin
-    MsgBox('Unsupported addon type: '+s_type, mb_ok or mb_iconerror);
+    MsgBox(msgStatusUnsupportedAddonType+' '+s_type, mb_ok or mb_iconerror);
     exit
   end;
 
-  if MsgBox('This package contains:'#13#13+
-    'name: '+s_title+#13+
-    IfThen(s_desc<>'', 'description: '+s_desc+#13)+
-    'type: '+s_type+#13+
+  if MsgBox(msgStatusPackageContains+#13#13+
+    msgStatusPackageName+' '+s_title+#13+
+    IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#13)+
+    msgStatusPackageType+' '+s_type+#13+
     #13+
-    'Do you want to install it?',
+    msgConfirmInstallIt,
     MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
   s_report:= '';

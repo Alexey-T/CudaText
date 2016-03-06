@@ -18,6 +18,8 @@ uses
   ecSyntAnal,
   formlexerprop,
   proc_install_zip,
+  proc_globdata,
+  proc_msg,
   math;
 
 type
@@ -41,7 +43,6 @@ type
     { private declarations }
     procedure UpdateList;
   public
-    FMsgConfirmDelete: string;
     FManager: TecSyntaxManager;
     FFontName: string;
     FFontSize: integer;
@@ -80,7 +81,6 @@ begin
     with F.bProp do Caption:= ini.ReadString(section, 'cfg', Caption);
     with F.bAdd do Caption:= ini.ReadString(section, 'add', Caption);
     with F.bDel do Caption:= ini.ReadString(section, 'del', Caption);
-    F.FMsgConfirmDelete:= ini.ReadString(section, 'msg_del', F.FMsgConfirmDelete);
   finally
     FreeAndNil(ini);
   end;
@@ -163,7 +163,6 @@ end;
 
 procedure TfmLexerLib.FormCreate(Sender: TObject);
 begin
-  FMsgConfirmDelete:= 'Delete lexer "%s"?';
 end;
 
 procedure TfmLexerLib.bDelClick(Sender: TObject);
@@ -175,9 +174,8 @@ begin
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  if Application.MessageBox(
-    PChar(Format(FMsgConfirmDelete, [an.LexerName])),
-    PChar(Caption),
+  if MsgBox(
+    Format(msgConfirmDeleteLexer, [an.LexerName]),
     MB_OKCANCEL or MB_ICONWARNING)=id_ok then
   begin
     an.Free;
@@ -199,9 +197,7 @@ begin
   if IsOk then
   begin
     UpdateList;
-    Application.MessageBox(
-      PChar('Installed:'#13+msg),
-      PChar(Caption), MB_OK or MB_ICONINFORMATION);
+    MsgBox(msgStatusInstalled+#13+msg, MB_OK or MB_ICONINFORMATION);
   end;
 end;
 

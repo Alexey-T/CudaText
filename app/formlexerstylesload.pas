@@ -13,7 +13,8 @@ uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, CheckLst, IniFiles,
   LclProc, LclType, FileUtil, ButtonPanel,
-  proc_globdata;
+  proc_globdata,
+  proc_msg;
 
 type
   { TfmLexerStylesRestore }
@@ -117,7 +118,7 @@ procedure TfmLexerStylesRestore.bDeleteClick(Sender: TObject);
 var
   i: Integer;
 begin
-  if MsgBox('Remove checked styles from backup file?', MB_OKCANCEL or MB_ICONWARNING)<>ID_OK then Exit;
+  if MsgBox(msgConfirmRemoveCheckedStylesFromBackup, MB_OKCANCEL or MB_ICONWARNING)<>ID_OK then Exit;
 
   with TIniFile.Create(StylesFilename) do
   try
