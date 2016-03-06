@@ -13,7 +13,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  IniFiles, ColorPalette;
+  IniFiles, ColorPalette,
+  proc_msg;
 
 type
   { TfmPalette }
@@ -53,7 +54,7 @@ begin
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.CloseButton do Caption:= ini.ReadString(section, 'res', Caption);
-    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'can', Caption);
+    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
   finally
     FreeAndNil(ini);
   end;

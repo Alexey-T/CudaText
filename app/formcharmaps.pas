@@ -14,7 +14,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Grids, LclType, LclProc, LCLUnicodeData, IniFiles;
+  StdCtrls, Grids, LclType, LclProc, LCLUnicodeData, IniFiles,
+  proc_msg;
 
 type
   TCharmapInsertEvent = procedure(const Str: string) of object;
@@ -84,10 +85,9 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.btnClose do Caption:= ini.ReadString(section, 'cl', Caption);
+    with F.btnClose do Caption:= msgButtonClose;
     with F.btnAnsi do Caption:= ini.ReadString(section, 'mod1', Caption);
     with F.btnUnicode do Caption:= ini.ReadString(section, 'mod2', Caption);
-
     F.MsgStatusAnsi:= ini.ReadString(section, 'stat1', F.MsgStatusAnsi);
     F.MsgStatusUnicode:= ini.ReadString(section, 'stat2', F.MsgStatusUnicode);
   finally

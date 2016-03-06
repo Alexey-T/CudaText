@@ -13,7 +13,9 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  IniFiles, ColorBox, StdCtrls, proc_colors;
+  IniFiles, ColorBox, StdCtrls,
+  proc_msg,
+  proc_colors;
 
 type
   TApplyThemeEvent = procedure(const AColors: TAppTheme) of object;
@@ -59,9 +61,9 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'ok', Caption);
-    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'can', Caption);
-    with F.ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'ap', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    with F.ButtonPanel1.HelpButton do Caption:= msgButtonApply;
 
     with F.bChange do Caption:= ini.ReadString(section, 'ch', Caption);
     with F.bNone do Caption:= ini.ReadString(section, 'non', Caption);

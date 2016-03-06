@@ -239,13 +239,15 @@ begin
     msgDefTheme:= ini.ReadString('ui', 'deft', msgDefTheme);
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
-    msgButtonOk:= ini.ReadString('ui', 'b_ok', msgButtonOk);
-    msgButtonCancel:= ini.ReadString('ui', 'b_can', msgButtonCancel);
-    msgButtonApply:= ini.ReadString('ui', 'b_ap', msgButtonApply);
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
     UpdateMenuRecent(nil);
+
+    msgButtonOk:= ini.ReadString('ui', 'b_ok', msgButtonOk);
+    msgButtonCancel:= ini.ReadString('ui', 'b_can', msgButtonCancel);
+    msgButtonApply:= ini.ReadString('ui', 'b_ap', msgButtonApply);
+    msgButtonClose:= ini.ReadString('ui', 'b_cl', msgButtonClose);
 
     with tbNew do Hint:= ini.ReadString('ui', 'tb_new', Hint);
     with tbOpen do Hint:= ini.ReadString('ui', 'tb_op', Hint);

@@ -77,7 +77,7 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.CloseButton do Caption:= ini.ReadString(section, 'cl', Caption);
+    with F.ButtonPanel1.CloseButton do Caption:= msgButtonClose;
     with F.bProp do Caption:= ini.ReadString(section, 'cfg', Caption);
     with F.bAdd do Caption:= ini.ReadString(section, 'add', Caption);
     with F.bDel do Caption:= ini.ReadString(section, 'del', Caption);

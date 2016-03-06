@@ -13,7 +13,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  IniFiles, CheckLst, ExtCtrls, StdCtrls;
+  IniFiles, CheckLst, ExtCtrls, StdCtrls,
+  proc_msg;
 
 type
   { TfmSaveTabs }
@@ -54,7 +55,7 @@ begin
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.btnSave do Caption:= ini.ReadString(section, 'sav', Caption);
     with F.btnDontSave do Caption:= ini.ReadString(section, 'no', Caption);
-    with F.btnCancel do Caption:= ini.ReadString(section, 'can', Caption);
+    with F.btnCancel do Caption:= msgButtonCancel;
   finally
     FreeAndNil(ini);
   end;

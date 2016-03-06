@@ -57,7 +57,7 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'ok', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
     with F.ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'cre', Caption);
   finally
     FreeAndNil(ini);

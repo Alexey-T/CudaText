@@ -17,6 +17,7 @@ uses
   ecSyntAnal,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
+  proc_msg,
   proc_lexer_styles;
 
 type
@@ -111,8 +112,8 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'b_ok', Caption);
-    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'b_can', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
 
     with F.TabSheetGen do Caption:= ini.ReadString(section, 'tab_gen', Caption);
     with F.TabSheetStyles do Caption:= ini.ReadString(section, 'tab_st', Caption);

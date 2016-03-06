@@ -5,3 +5,4 @@
 + [si]
 + [ui] new items
 * [d_theme] all changed
+* del duplicated "ok"/"cancel"/"close"/"apply"

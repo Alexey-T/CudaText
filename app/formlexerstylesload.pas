@@ -58,8 +58,8 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'ok', Caption);
-    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'can', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
     with F.bSelAll do Caption:= ini.ReadString(section, 'sel_a', Caption);
     with F.bSelNone do Caption:= ini.ReadString(section, 'sel_n', Caption);
     with F.bDelete do Caption:= ini.ReadString(section, 'del', Caption);

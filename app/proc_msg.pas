@@ -29,6 +29,7 @@ const
   msgButtonOk: string = 'OK';
   msgButtonCancel: string = 'Cancel';
   msgButtonApply: string = 'Apply';
+  msgButtonClose: string = 'Close';
   msgThemeName: string = 'Theme name:';
 
   msgEditCut: string = 'Cut';

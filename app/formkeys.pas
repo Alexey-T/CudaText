@@ -15,7 +15,8 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   StdCtrls, Menus, IniFiles,
   LclType, LclProc, ExtCtrls,
-  ATSynEdit_Keymap;
+  ATSynEdit_Keymap,
+  proc_msg;
 
 type
   { TfmKeys }
@@ -69,8 +70,8 @@ begin
   ini:= TIniFile.Create(ALangFilename);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= ini.ReadString(section, 'b_ok', Caption);
-    with F.ButtonPanel1.CancelButton do Caption:= ini.ReadString(section, 'b_can', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
 
     with F.bClear1 do Caption:= ini.ReadString(section, 'clr', Caption);
     with F.bAdd1 do Caption:= ini.ReadString(section, 'add', Caption);
