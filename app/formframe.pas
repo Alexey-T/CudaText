@@ -1422,10 +1422,9 @@ begin
     exit
   end;
 
-  case MsgBox('File was changed outside:'#13+FileName+
-         #13#13'Reload?'#13+
-        '(Yes: reload. No: don''t reload. Cancel [Esc]: no more notifications about this file.)',
-        MB_YESNOCANCEL or MB_ICONQUESTION) of
+  case MsgBox(msgConfirmFileChangedOutside+#10+FileName+
+         #10#10+msgConfirmReloadIt+#10+msgConfirmReloadItHotkeys,
+         MB_YESNOCANCEL or MB_ICONQUESTION) of
     ID_YES:
       DoFileOpen(FileName, true);
     ID_CANCEL:

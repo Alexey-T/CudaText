@@ -1324,7 +1324,7 @@ begin
       DoOps_SaveLexlib(false);
       UpdateMenuLexers;
     end;
-    MsgBox(msgDoneInstalled+#10+msg, MB_OK or MB_ICONINFORMATION);
+    MsgBox(msgStatusInstalled+#10+msg, MB_OK or MB_ICONINFORMATION);
   end;
 end;
 
@@ -1710,7 +1710,7 @@ begin
     F.DoFileOpen(AFilename);
     Result:= F;
     UpdateStatus;
-    MsgStatus(msgDoneOpened+' '+ExtractFileName(AFilename));
+    MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
     DoPyEvent(F.Editor, cEventOnOpen, []);
     Exit
   end;
@@ -1722,7 +1722,7 @@ begin
   Result:= F;
 
   UpdateStatus;
-  MsgStatus(msgDoneOpened+' '+ExtractFileName(AFilename));
+  MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
   DoPyEvent(F.Editor, cEventOnOpen, []);
   Result.DoFocusEditor;
 end;
@@ -1831,7 +1831,7 @@ begin
     Num:= StrToIntDef(fmGoto.edInput.Text, 0)-1;
     if Num<0 then
     begin
-      MsgStatus(msgStatusBadNum);
+      MsgStatus(msgStatusBadLineNum);
       Exit
     end;
     Num:= Min(Num, Ed.Strings.Count-1);
@@ -1883,7 +1883,7 @@ begin
 
   if Num<0 then
   begin
-    MsgStatus(msgStatusCancel);
+    MsgStatus(msgStatusCancelled);
     Exit
   end;
 
@@ -1907,7 +1907,7 @@ begin
   if DoDialogConfColors(Theme) then
   begin
     DoApplyTheme;
-    if Msgbox(msgConfirmSaveColors, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
+    if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
     begin
       str:= Trim(InputBox(msgTitle, msgThemeName, cDef));
       if str='' then exit;
@@ -2074,7 +2074,7 @@ var
   fn: string;
 begin
   if Cfm then
-    if MsgBox(msgConfirmSaveLib, MB_OKCANCEL or MB_ICONWARNING)<>id_ok then exit;
+    if MsgBox(msgConfirmSaveLexerLib, MB_OKCANCEL or MB_ICONWARNING)<>id_ok then exit;
 
   fn:= GetAppPath(cFileLexlib);
   if not FileExistsUTF8(fn) then exit;
@@ -2231,7 +2231,7 @@ begin
   F.DoFileOpen(F.FileName, true);
   F.ReadOnly:= bRO;
 
-  MsgStatus(msgDoneReopened+' '+ExtractFileName(F.Filename));
+  MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));
 end;
 
 function TfmMain.DoFileCloseAll: boolean;
@@ -2253,7 +2253,7 @@ begin
   fn:= CurrentFrame.FileName;
   if fn='' then exit;
 
-  if MsgBox(msgConfirmCloseDel+#13+fn, MB_OKCANCEL or MB_ICONWARNING)=id_ok then
+  if MsgBox(msgConfirmCloseDelFile+#13+fn, MB_OKCANCEL or MB_ICONWARNING)=id_ok then
     if Groups.CloseTabs(tabCloseCurrent, false) then
       DeleteFileUTF8(fn);
 end;

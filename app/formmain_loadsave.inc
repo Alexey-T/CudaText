@@ -684,7 +684,7 @@ procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
 begin
   DoOps_LoadOptions(GetAppPath(cFileOptUser), EditorOps);
   DoApplyAllOps;
-  MsgStatus(msgStatusReadOps);
+  MsgStatus(msgStatusReadingOps);
 end;
 
 

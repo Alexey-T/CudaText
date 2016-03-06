@@ -20,6 +20,7 @@ const
 
 const
   msgTitle = 'CudaText';
+const
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
   msgDefTheme: string = '(default)';
@@ -33,6 +34,7 @@ const
   msgEditUndo: string = 'Undo';
   msgEditRedo: string = 'Redo';
   msgFileClearList: string = 'Clear list';
+  msgThemeName: string = 'Theme name:';
 
   msgButtonOk: string = 'OK';
   msgButtonCancel: string = 'Cancel';
@@ -43,6 +45,7 @@ const
   msgEncEuropean: string = 'European';
   msgEncAsian: string = 'Asian';
   msgEncMisc: string = 'Misc';
+
   msgEndWin: string = 'Win';
   msgEndUnix: string = 'Unix';
   msgEndMac: string = 'MacOS9';
@@ -55,45 +58,48 @@ const
   msgCannotReadConf: string = 'Cannot read/parse config:';
   msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
-  msgErrRegex: string = 'Incorrect regex passed:';
-  msgThemeName: string = 'Theme name:';
-  msgDoneInstalled: string = 'Installed:';
-  msgDoneOpened: string = 'Opened:';
-  msgDoneReopened: string = 'Re-opened:';
+  msgCannotFindMatch: string = 'Cannot find';
 
+  msgStatusInstalled: string = 'Installed:';
+  msgStatusOpened: string = 'Opened:';
+  msgStatusReopened: string = 'Re-opened:';
+  msgStatusBadRegex: string = 'Incorrect regex passed:';
+  msgStatusFoundNextMatch: string = 'Found next match';
   msgStatusTryingAutocomplete: string = 'Trying auto-complete for:';
   msgStatusHelpOnShowCommands: string = 'Commands: F9 to configure keys; "@key" to find hotkey';
-  msgStatusNoCmtStr: string = 'No line comment defined for lexer';
-  msgStatusReplaceCount: string = 'Replaces made: ';
-  msgStatusFindCount: string = 'Count of "%s": ';
-  msgStatusReadOps: string = 'Reading options';
+  msgStatusNoLineCmtDefined: string = 'No line comment defined for lexer';
+  msgStatusReplaceCount: string = 'Replaces made: %d';
+  msgStatusFindCount: string = 'Count of "%s": %d';
+  msgStatusReadingOps: string = 'Reading options';
   msgStatusSavedFile: string = 'Saved:';
   msgStatusReadonly: string = '[Read Only]';
   msgStatusMacroRec: string = '[Macro Rec]';
-  msgStatusPicture: string = 'Image %dx%d';
-  msgStatusCancel: string = 'Cancelled';
-  msgStatusBadNum: string = 'Incorrect number entered';
+  msgStatusPictureNxN: string = 'Image %dx%d';
+  msgStatusCancelled: string = 'Cancelled';
+  msgStatusBadLineNum: string = 'Incorrect number entered';
   msgStatusEndsChanged: string = 'Line ends changed';
   msgStatusEncChanged: string = 'Encoding changed';
   msgStatusGotoLine: string = 'Go to line: %d';
-  msgStatusGotoTab: string = 'Go to tab: %s';
   msgStatusSorted: string = 'Sorted %d lines';
   msgStatusLexlibSave: string = 'Lexer-library saved';
   msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';
 
+  msgConfirmFileChangedOutside: string = 'File was changed outside:';
+  msgConfirmReloadIt: string = 'Reload it?';
+  msgConfirmReloadItHotkeys: string = '(Yes: reload. No: don''t reload. Cancel [Esc]: no more notifications about this file.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
-  msgConfirmSaveColors: string = 'Save theme to file?';
+  msgConfirmSaveColorsToFile: string = 'Save theme to file?';
   msgConfirmOpenNotText: string = 'File is maybe not text:'#13'%s'#13#13'Do you want to open it?';
   msgConfirmSaveModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Save it first?';
   msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reload it?';
   msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reload file?';
   msgConfirmCreateNewFile: string = 'File not found:'#13'%s'#13#13'Create it?';
   msgConfirmCreateUserConf: string = 'User config not found. Create it?';
-  msgConfirmCloseDel: string = 'Close tab and delete its file?';
+  msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDelLexer: string = 'Delete lexer "%s"?';
-  msgConfirmSaveLib: string = 'Lexer-library modified. Save it?';
+  msgConfirmSaveLexerLib: string = 'Lexer-library modified. Save it?';
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+

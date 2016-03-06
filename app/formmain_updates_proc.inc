@@ -47,7 +47,7 @@ begin
   if not F.IsText then
   begin
     Size:= F.PictureSizes;
-    Status[cStatusCaret]:= Format(msgStatusPicture, [Size.X, Size.Y]);
+    Status[cStatusCaret]:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
     Status[cStatusEnc]:= '';
     Status[cStatusEnds]:= '';
     Status[cStatusLexer]:= '';

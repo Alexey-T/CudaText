@@ -15,7 +15,7 @@ var
 begin
   Res:= EditorSortSel(ed, Asc, ANocase, Cnt);
   if not Res then
-    MsgStatus(msgStatusCancel)
+    MsgStatus(msgStatusCancelled)
   else
   begin
     MsgStatus(Format(msgStatusSorted, [Cnt]));
@@ -36,7 +36,7 @@ begin
   Str:= F.CommentString;
   if Str='' then
   begin
-    MsgStatus(msgStatusNoCmtStr);
+    MsgStatus(msgStatusNoLineCmtDefined);
     Exit
   end;
 

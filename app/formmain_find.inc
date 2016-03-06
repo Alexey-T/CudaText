@@ -100,13 +100,13 @@ begin
 
     FFinder.Editor.DoCaretSingle(NCaretX, NCaretY);
     FFinder.Editor.LineTop:= NTop;
-    MsgStatus(msgStatusReplaceCount+Inttostr(cnt));
+    MsgStatus(Format(msgStatusReplaceCount, [cnt]));
   end;
 
   if Res=cOpFindCount then
   begin
     cnt:= FFinder.DoCountAll(false);
-    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind)])+Inttostr(cnt));
+    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
   end;
 
   if Res=cOpFindMarkAll then
@@ -115,7 +115,7 @@ begin
     cnt:= FFinder.DoCountAll(true);
     FFindMark:= false;
     FinderUpdateEditor(false);
-    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind)])+Inttostr(cnt));
+    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
   end;
 
   UpdateAppForSearch(false);
@@ -234,9 +234,9 @@ end;
 procedure TfmMain.DoFindResult(ok: boolean);
 begin
   if ok then
-    MsgStatus('Found next match')
+    MsgStatus(msgStatusFoundNextMatch)
   else
-    MsgStatus('Cannot find ('+SFindOptionsToTextHint+'): '+Utf8Encode(FFinder.StrFind));
+    MsgStatus(msgCannotFindMatch+' ('+SFindOptionsToTextHint+'): '+Utf8Encode(FFinder.StrFind));
 end;
 
 procedure TfmMain.FinderConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
@@ -293,7 +293,7 @@ end;
 procedure TfmMain.FinderBadRegex(Sender: TObject);
 begin
   MsgBox(
-    msgErrRegex+#13+Utf8Encode(FFinder.StrFind),
+    msgStatusBadRegex+#13+Utf8Encode(FFinder.StrFind),
     mb_ok or mb_iconerror);
 end;
 
