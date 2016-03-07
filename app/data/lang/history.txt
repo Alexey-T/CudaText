@@ -1,5 +1,8 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.03.07
++ [d_f] items h_*
++ [ui] items b_*
 
 2016.03.06
 + [se]
@@ -7,4 +10,4 @@ see http://wiki.freepascal.org/CudaText#How_to_make_translation
 + [si]
 + [ui] new items
 * [d_theme] all changed
-* del duplicated "ok"/"cancel"/"close"/"apply"
+* del dup "ok"/"cancel"/"close"/"apply"

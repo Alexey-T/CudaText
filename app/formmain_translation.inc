@@ -482,6 +482,12 @@ begin
     with fmFind.LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
     with fmFind.LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
+    with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', 'Reg.ex')+' - Alt+R';
+    with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', 'Case sensitive')+' - Alt+C';
+    with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', 'Whole words')+' - Alt+W';
+    with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', 'Wrapped search')+' - Alt+N';
+    with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', 'Confirm on replace')+' - Alt+Y';
+
     with fmFind.edFind do
     begin
       MenuitemTextCut.Caption:= msgEditCut;
