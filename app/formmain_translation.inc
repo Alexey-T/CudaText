@@ -28,7 +28,6 @@ begin
       mi.Caption:= mi_from.Caption;
 end;
 
-
 procedure DoLocControlHint(ini: TIniFile; c: TControl; const ASection, AKey: string);
 begin
   if Assigned(c) then
@@ -39,6 +38,12 @@ procedure DoLocControlHint(c: TControl; const AStr: string);
 begin
   if Assigned(c) then
     c.Hint:= AStr;
+end;
+
+procedure DoLocString(var AStr: string; ini: TIniFile; const ASection, AKey: string);
+begin
+  AStr:= ini.ReadString(ASection, AKey, AStr);
+  SReplaceAll(AStr, '\n', #10);
 end;
 
 
@@ -367,78 +372,78 @@ begin
     DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'tsz_sp');
 
     //----------------strings
-    msgCannotOpenFile                := ini.ReadString('se', 'OpenFile', msgCannotOpenFile);
-    msgCannotFindFile                := ini.ReadString('se', 'FindFile', msgCannotFindFile);
-    msgCannotFindLexlib              := ini.ReadString('se', 'FindLexlib', msgCannotFindLexlib);
-    msgCannotFindLexerInLibrary      := ini.ReadString('se', 'FindLexerInLibrary', msgCannotFindLexerInLibrary);
-    msgCannotFindLexerFile           := ini.ReadString('se', 'FindLexerFile', msgCannotFindLexerFile);
-    msgCannotFindSublexerInLibrary   := ini.ReadString('se', 'FindSublexerInLibrary', msgCannotFindSublexerInLibrary);
-    msgCannotCreateDir               := ini.ReadString('se', 'CreateDir', msgCannotCreateDir);
-    msgCannotSaveFile                := ini.ReadString('se', 'SaveFile', msgCannotSaveFile);
-    msgCannotSaveUserConf            := ini.ReadString('se', 'SaveUserConf', msgCannotSaveUserConf);
-    msgCannotReadConf                := ini.ReadString('se', 'ReadConf', msgCannotReadConf);
-    msgCannotReloadUntitledTab       := ini.ReadString('se', 'ReloadUntitledTab', msgCannotReloadUntitledTab);
-    msgCannotFindMatch               := ini.ReadString('se', 'FindMatch', msgCannotFindMatch);
-    msgCannotFindInstallInfInZip     := ini.ReadString('se', 'FindInstallInfInZip', msgCannotFindInstallInfInZip);
+    DoLocString(msgCannotOpenFile                , ini, 'se', 'OpenFile');
+    DoLocString(msgCannotFindFile                , ini, 'se', 'FindFile');
+    DoLocString(msgCannotFindLexlib              , ini, 'se', 'FindLexlib');
+    DoLocString(msgCannotFindLexerInLibrary      , ini, 'se', 'FindLexerInLibrary');
+    DoLocString(msgCannotFindLexerFile           , ini, 'se', 'FindLexerFile');
+    DoLocString(msgCannotFindSublexerInLibrary   , ini, 'se', 'FindSublexerInLibrary');
+    DoLocString(msgCannotCreateDir               , ini, 'se', 'CreateDir');
+    DoLocString(msgCannotSaveFile                , ini, 'se', 'SaveFile');
+    DoLocString(msgCannotSaveUserConf            , ini, 'se', 'SaveUserConf');
+    DoLocString(msgCannotReadConf                , ini, 'se', 'ReadConf');
+    DoLocString(msgCannotReloadUntitledTab       , ini, 'se', 'ReloadUntitledTab');
+    DoLocString(msgCannotFindMatch               , ini, 'se', 'FindMatch');
+    DoLocString(msgCannotFindInstallInfInZip     , ini, 'se', 'FindInstallInfInZip');
 
-    msgStatusIncorrectFilename       := ini.ReadString('si', 'IncorrectFilename', msgStatusIncorrectFilename);
-    msgStatusIncorrectInstallInfInZip:= ini.ReadString('si', 'IncorrectInstallInfInZip', msgStatusIncorrectInstallInfInZip);
-    msgStatusUnsupportedAddonType    := ini.ReadString('si', 'UnsupportedAddonType', msgStatusUnsupportedAddonType);
-    msgStatusPackageContains         := ini.ReadString('si', 'PackageContains', msgStatusPackageContains);
-    msgStatusPackageName             := ini.ReadString('si', 'PackageName', msgStatusPackageName);
-    msgStatusPackageType             := ini.ReadString('si', 'PackageType', msgStatusPackageType);
-    msgStatusPackageDesc             := ini.ReadString('si', 'PackageDesc', msgStatusPackageDesc);
-    msgStatusPluginsJustPreinstalled := ini.ReadString('si', 'PluginsJustPreinstalled', msgStatusPluginsJustPreinstalled);
-    msgStatusErrorInConfigFile       := ini.ReadString('si', 'ErrorInConfigFile', msgStatusErrorInConfigFile);
-    msgStatusCommandOnlyForLexers    := ini.ReadString('si', 'CommandOnlyForLexers', msgStatusCommandOnlyForLexers);
-    msgStatusOpenedBrowser           := ini.ReadString('si', 'OpenedBrowser', msgStatusOpenedBrowser);
-    msgStatusCopiedLink              := ini.ReadString('si', 'CopiedLink', msgStatusCopiedLink);
-    msgStatusInstalled               := ini.ReadString('si', 'Installed', msgStatusInstalled);
-    msgStatusOpened                  := ini.ReadString('si', 'Opened', msgStatusOpened);
-    msgStatusReopened                := ini.ReadString('si', 'Reopened', msgStatusReopened);
-    msgStatusBadRegex                := ini.ReadString('si', 'BadRegex', msgStatusBadRegex);
-    msgStatusFoundNextMatch          := ini.ReadString('si', 'FoundNextMatch', msgStatusFoundNextMatch);
-    msgStatusTryingAutocomplete      := ini.ReadString('si', 'TryingAutocomplete', msgStatusTryingAutocomplete);
-    msgStatusHelpOnShowCommands      := ini.ReadString('si', 'HelpOnShowCommands', msgStatusHelpOnShowCommands);
-    msgStatusNoLineCmtDefined        := ini.ReadString('si', 'NoLineCmtDefined', msgStatusNoLineCmtDefined);
-    msgStatusReplaceCount            := ini.ReadString('si', 'ReplaceCount', msgStatusReplaceCount);
-    msgStatusFindCount               := ini.ReadString('si', 'FindCount', msgStatusFindCount);
-    msgStatusReadingOps              := ini.ReadString('si', 'ReadingOps', msgStatusReadingOps);
-    msgStatusSavedFile               := ini.ReadString('si', 'SavedFile', msgStatusSavedFile);
-    msgStatusReadonly                := ini.ReadString('si', 'Readonly', msgStatusReadonly);
-    msgStatusMacroRec                := ini.ReadString('si', 'MacroRec', msgStatusMacroRec);
-    msgStatusPictureNxN              := ini.ReadString('si', 'PictureNxN', msgStatusPictureNxN);
-    msgStatusCancelled               := ini.ReadString('si', 'Cancelled', msgStatusCancelled);
-    msgStatusBadLineNum              := ini.ReadString('si', 'BadLineNum', msgStatusBadLineNum);
-    msgStatusEndsChanged             := ini.ReadString('si', 'EndsChanged', msgStatusEndsChanged);
-    msgStatusEncChanged              := ini.ReadString('si', 'EncChanged', msgStatusEncChanged);
-    msgStatusGotoLine                := ini.ReadString('si', 'GotoLine', msgStatusGotoLine);
-    msgStatusSorted                  := ini.ReadString('si', 'Sorted', msgStatusSorted);
-    msgStatusLexlibSave              := ini.ReadString('si', 'LexlibSave', msgStatusLexlibSave);
-    msgStatusHelpOnKeysConfig        := ini.ReadString('si', 'HelpOnKeysConfig', msgStatusHelpOnKeysConfig);
-    msgStatusClickingLogLine         := ini.ReadString('si', 'ClickingLogLine', msgStatusClickingLogLine);
-    msgStatusNoGotoDefinitionPlugins := ini.ReadString('si', 'NoGotoDefinitionPlugins', msgStatusNoGotoDefinitionPlugins);
-    msgStatusFilenameAlreadyOpened   := ini.ReadString('si', 'FilenameAlreadyOpened', msgStatusFilenameAlreadyOpened);
-    msgStatusNeedToCloseTabSavedOrDup:= ini.ReadString('si', 'NeedToCloseTabSavedOrDup', msgStatusNeedToCloseTabSavedOrDup);
-    msgStatusCommandsHaveSameHotkeys := ini.ReadString('si', 'CommandsHaveSameHotkeys', msgStatusCommandsHaveSameHotkeys);
-    msgStatusCorrectOneOfTheseHotkeys:= ini.ReadString('si', 'CorrectOneOfTheseHotkeys', msgStatusCorrectOneOfTheseHotkeys);
+    DoLocString(msgStatusIncorrectFilename       , ini, 'si', 'IncorrectFilename');
+    DoLocString(msgStatusIncorrectInstallInfInZip, ini, 'si', 'IncorrectInstallInfInZip');
+    DoLocString(msgStatusUnsupportedAddonType    , ini, 'si', 'UnsupportedAddonType');
+    DoLocString(msgStatusPackageContains         , ini, 'si', 'PackageContains');
+    DoLocString(msgStatusPackageName             , ini, 'si', 'PackageName');
+    DoLocString(msgStatusPackageType             , ini, 'si', 'PackageType');
+    DoLocString(msgStatusPackageDesc             , ini, 'si', 'PackageDesc');
+    DoLocString(msgStatusPluginsJustPreinstalled , ini, 'si', 'PluginsJustPreinstalled');
+    DoLocString(msgStatusErrorInConfigFile       , ini, 'si', 'ErrorInConfigFile');
+    DoLocString(msgStatusCommandOnlyForLexers    , ini, 'si', 'CommandOnlyForLexers');
+    DoLocString(msgStatusOpenedBrowser           , ini, 'si', 'OpenedBrowser');
+    DoLocString(msgStatusCopiedLink              , ini, 'si', 'CopiedLink');
+    DoLocString(msgStatusInstalled               , ini, 'si', 'Installed');
+    DoLocString(msgStatusOpened                  , ini, 'si', 'Opened');
+    DoLocString(msgStatusReopened                , ini, 'si', 'Reopened');
+    DoLocString(msgStatusBadRegex                , ini, 'si', 'BadRegex');
+    DoLocString(msgStatusFoundNextMatch          , ini, 'si', 'FoundNextMatch');
+    DoLocString(msgStatusTryingAutocomplete      , ini, 'si', 'TryingAutocomplete');
+    DoLocString(msgStatusHelpOnShowCommands      , ini, 'si', 'HelpOnShowCommands');
+    DoLocString(msgStatusNoLineCmtDefined        , ini, 'si', 'NoLineCmtDefined');
+    DoLocString(msgStatusReplaceCount            , ini, 'si', 'ReplaceCount');
+    DoLocString(msgStatusFindCount               , ini, 'si', 'FindCount');
+    DoLocString(msgStatusReadingOps              , ini, 'si', 'ReadingOps');
+    DoLocString(msgStatusSavedFile               , ini, 'si', 'SavedFile');
+    DoLocString(msgStatusReadonly                , ini, 'si', 'Readonly');
+    DoLocString(msgStatusMacroRec                , ini, 'si', 'MacroRec');
+    DoLocString(msgStatusPictureNxN              , ini, 'si', 'PictureNxN');
+    DoLocString(msgStatusCancelled               , ini, 'si', 'Cancelled');
+    DoLocString(msgStatusBadLineNum              , ini, 'si', 'BadLineNum');
+    DoLocString(msgStatusEndsChanged             , ini, 'si', 'EndsChanged');
+    DoLocString(msgStatusEncChanged              , ini, 'si', 'EncChanged');
+    DoLocString(msgStatusGotoLine                , ini, 'si', 'GotoLine');
+    DoLocString(msgStatusSorted                  , ini, 'si', 'Sorted');
+    DoLocString(msgStatusLexlibSave              , ini, 'si', 'LexlibSave');
+    DoLocString(msgStatusHelpOnKeysConfig        , ini, 'si', 'HelpOnKeysConfig');
+    DoLocString(msgStatusClickingLogLine         , ini, 'si', 'ClickingLogLine');
+    DoLocString(msgStatusNoGotoDefinitionPlugins , ini, 'si', 'NoGotoDefinitionPlugins');
+    DoLocString(msgStatusFilenameAlreadyOpened   , ini, 'si', 'FilenameAlreadyOpened');
+    DoLocString(msgStatusNeedToCloseTabSavedOrDup, ini, 'si', 'NeedToCloseTabSavedOrDup');
+    DoLocString(msgStatusCommandsHaveSameHotkeys , ini, 'si', 'CommandsHaveSameHotkeys');
+    DoLocString(msgStatusCorrectOneOfTheseHotkeys, ini, 'si', 'CorrectOneOfTheseHotkeys');
 
-    msgConfirmInstallIt              := ini.ReadString('sc', 'InstallIt', msgConfirmInstallIt);
-    msgConfirmFileChangedOutside     := ini.ReadString('sc', 'FileChangedOutside', msgConfirmFileChangedOutside);
-    msgConfirmReloadIt               := ini.ReadString('sc', 'ReloadIt', msgConfirmReloadIt);
-    msgConfirmReloadItHotkeys        := ini.ReadString('sc', 'ReloadItHotkeys', msgConfirmReloadItHotkeys);
-    msgConfirmOpenCreatedDoc         := ini.ReadString('sc', 'OpenCreatedDoc', msgConfirmOpenCreatedDoc);
-    msgConfirmSaveColorsToFile       := ini.ReadString('sc', 'SaveColorsToFile', msgConfirmSaveColorsToFile);
-    msgConfirmOpenNotText            := ini.ReadString('sc', 'OpenNotText', msgConfirmOpenNotText);
-    msgConfirmSaveModifiedTab        := ini.ReadString('sc', 'SaveModifiedTab', msgConfirmSaveModifiedTab);
-    msgConfirmReopenModifiedTab      := ini.ReadString('sc', 'ReopenModifiedTab', msgConfirmReopenModifiedTab);
-    msgConfirmReloadFileWithEnc      := ini.ReadString('sc', 'ReloadFileWithEnc', msgConfirmReloadFileWithEnc);
-    msgConfirmCreateNewFile          := ini.ReadString('sc', 'CreateNewFile', msgConfirmCreateNewFile);
-    msgConfirmCreateUserConf         := ini.ReadString('sc', 'CreateUserConf', msgConfirmCreateUserConf);
-    msgConfirmCloseDelFile           := ini.ReadString('sc', 'CloseDelFile', msgConfirmCloseDelFile);
-    msgConfirmDeleteLexer            := ini.ReadString('sc', 'DeleteLexer', msgConfirmDeleteLexer);
-    msgConfirmSaveModifiedLexerLib   := ini.ReadString('sc', 'SaveModifiedLexerLib', msgConfirmSaveModifiedLexerLib);
-    msgConfirmRemoveStylesFromBackup := ini.ReadString('sc', 'RemoveStylesFromBackup', msgConfirmRemoveStylesFromBackup);
+    DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');
+    DoLocString(msgConfirmFileChangedOutside     , ini, 'sc', 'FileChangedOutside');
+    DoLocString(msgConfirmReloadIt               , ini, 'sc', 'ReloadIt');
+    DoLocString(msgConfirmReloadItHotkeys        , ini, 'sc', 'ReloadItHotkeys');
+    DoLocString(msgConfirmOpenCreatedDoc         , ini, 'sc', 'OpenCreatedDoc');
+    DoLocString(msgConfirmSaveColorsToFile       , ini, 'sc', 'SaveColorsToFile');
+    DoLocString(msgConfirmOpenNotText            , ini, 'sc', 'OpenNotText');
+    DoLocString(msgConfirmSaveModifiedTab        , ini, 'sc', 'SaveModifiedTab');
+    DoLocString(msgConfirmReopenModifiedTab      , ini, 'sc', 'ReopenModifiedTab');
+    DoLocString(msgConfirmReloadFileWithEnc      , ini, 'sc', 'ReloadFileWithEnc');
+    DoLocString(msgConfirmCreateNewFile          , ini, 'sc', 'CreateNewFile');
+    DoLocString(msgConfirmCreateUserConf         , ini, 'sc', 'CreateUserConf');
+    DoLocString(msgConfirmCloseDelFile           , ini, 'sc', 'CloseDelFile');
+    DoLocString(msgConfirmDeleteLexer            , ini, 'sc', 'DeleteLexer');
+    DoLocString(msgConfirmSaveModifiedLexerLib   , ini, 'sc', 'SaveModifiedLexerLib');
+    DoLocString(msgConfirmRemoveStylesFromBackup , ini, 'sc', 'RemoveStylesFromBackup');
 
   finally
     FreeAndNil(ini);
