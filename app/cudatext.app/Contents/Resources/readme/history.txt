@@ -5,6 +5,7 @@ Legend:
 
 1.2.28
 + translation possible: see menu item Options/Translations, see folder "data/lang"
++ translation Russian, in AddonManager
 + font opt named with suffix on Linux/OSX: font_name__linux, font_size__linux...
 + AddonManager has cmd "Visit plugin homepage"; plugins need field "homepage=" in install.inf
 - fix to handle line length 10k
