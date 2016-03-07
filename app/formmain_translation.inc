@@ -372,6 +372,8 @@ begin
     DoLocMenuitem(mnuTabsize8, s+' 8');
     DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'tsz_sp');
 
+    ButtonCancel.Caption:= msgButtonCancel;
+
     //----------------strings
     DoLocString(msgCannotOpenFile                , ini, 'se', 'OpenFile');
     DoLocString(msgCannotFindFile                , ini, 'se', 'FindFile');
