@@ -34,8 +34,9 @@ begin
     c.Hint:= ini.ReadString(ASection, AKey, c.Hint);
 end;
 
-procedure DoLocControlHint(c: TControl; const AStr: string);
+procedure DoLocControlHint(c: TControl; AStr: string);
 begin
+  SReplaceAll(AStr, '&', '');
   if Assigned(c) then
     c.Hint:= AStr;
 end;
