@@ -990,6 +990,7 @@ begin
   Status.Align:= alBottom;
   Status.Top:= Height;
   Status.Height:= 23;
+  Status.IndentLeft:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
   Status.OnResize:= @StatusResize;
 
