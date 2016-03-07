@@ -971,6 +971,7 @@ var
   miReload, miNoReload: TMenuItem;
   i: integer;
 begin
+  if AMenu=nil then exit;
   AMenu.Clear;
 
   miReload:= TMenuItem.Create(Self);

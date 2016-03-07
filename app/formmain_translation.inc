@@ -9,6 +9,39 @@ begin
     data.TabCaption:= Str;
 end;
 
+procedure DoLocMenuitem(ini: TIniFile; c: TMenuItem; const ASection, AKey: string);
+begin
+  if Assigned(c) then
+    c.Caption:= ini.ReadString(ASection, AKey, c.Caption);
+end;
+
+procedure DoLocMenuitem(mi: TMenuItem; const AStr: string);
+begin
+  if Assigned(mi) then
+    mi.Caption:= AStr;
+end;
+
+procedure DoLocMenuitem(mi, mi_from: TMenuItem);
+begin
+  if Assigned(mi) then
+    if Assigned(mi_from) then
+      mi.Caption:= mi_from.Caption;
+end;
+
+
+procedure DoLocControlHint(ini: TIniFile; c: TControl; const ASection, AKey: string);
+begin
+  if Assigned(c) then
+    c.Hint:= ini.ReadString(ASection, AKey, c.Hint);
+end;
+
+procedure DoLocControlHint(c: TControl; const AStr: string);
+begin
+  if Assigned(c) then
+    c.Hint:= AStr;
+end;
+
+
 procedure TfmMain.DoLocalize;
 var
   fn: string;
@@ -19,24 +52,23 @@ begin
   if not FileExistsUTF8(fn) then exit;
 
   ini:= TIniFile.Create(fn);
-  with ini do
   try
-    with mnuFile do Caption:= ini.ReadString('m_f', '_', Caption);
-    with mnuFileNew do Caption:= ini.ReadString('m_f', 'new', Caption);
-    with mnuFileOpen do Caption:= ini.ReadString('m_f', 'op', Caption);
-    with mnuFileOpenSub do Caption:= ini.ReadString('m_f', 'rec', Caption);
-    with mnuFileReopen do Caption:= ini.ReadString('m_f', 'reop', Caption);
-    with mnuFileSave do Caption:= ini.ReadString('m_f', 's', Caption);
-    with mnuFileSaveAs do Caption:= ini.ReadString('m_f', 's_as', Caption);
-    with mnuFileSaveAll do Caption:= ini.ReadString('m_f', 's_all', Caption);
-    with mnuFileClose do Caption:= ini.ReadString('m_f', 'cl', Caption);
-    with mnuFileCloseAll do Caption:= ini.ReadString('m_f', 'cl_all', Caption);
-    with mnuFileCloseOther do Caption:= ini.ReadString('m_f', 'cl_oth', Caption);
-    with mnuFileCloseDel do Caption:= ini.ReadString('m_f', 'cl_del', Caption);
-    with mnuFileEnc do Caption:= ini.ReadString('m_f', 'e_', Caption);
-    with mnuFileEnds do Caption:= ini.ReadString('m_f', 'z_', Caption);
-    with mnuFileHtml do Caption:= ini.ReadString('m_f', 'html', Caption);
-    with mnuFileExit do Caption:= ini.ReadString('m_f', 'q', Caption);
+    DoLocMenuitem(ini, mnuFile, 'm_f', '_');
+    DoLocMenuitem(ini, mnuFileNew, 'm_f', 'new');
+    DoLocMenuitem(ini, mnuFileOpen, 'm_f', 'op');
+    DoLocMenuitem(ini, mnuFileOpenSub, 'm_f', 'rec');
+    DoLocMenuitem(ini, mnuFileReopen, 'm_f', 'reop');
+    DoLocMenuitem(ini, mnuFileSave, 'm_f', 's');
+    DoLocMenuitem(ini, mnuFileSaveAs, 'm_f', 's_as');
+    DoLocMenuitem(ini, mnuFileSaveAll, 'm_f', 's_all');
+    DoLocMenuitem(ini, mnuFileClose, 'm_f', 'cl');
+    DoLocMenuitem(ini, mnuFileCloseAll, 'm_f', 'cl_all');
+    DoLocMenuitem(ini, mnuFileCloseOther, 'm_f', 'cl_oth');
+    DoLocMenuitem(ini, mnuFileCloseDel, 'm_f', 'cl_del');
+    DoLocMenuitem(ini, mnuFileEnc, 'm_f', 'e_');
+    DoLocMenuitem(ini, mnuFileEnds, 'm_f', 'z_');
+    DoLocMenuitem(ini, mnuFileHtml, 'm_f', 'html');
+    DoLocMenuitem(ini, mnuFileExit, 'm_f', 'q');
 
     msgEncReloadAs:= ini.ReadString('m_f', 'e_r', msgEncReloadAs);
     msgEncConvertTo:= ini.ReadString('m_f', 'e_t', msgEncConvertTo);
@@ -50,13 +82,13 @@ begin
     msgEndUnix:= ini.ReadString('m_f', 'z_u', msgEndUnix);
     msgEndMac:= ini.ReadString('m_f', 'z_m', msgEndMac);
 
-    with mnuFileEndWin do Caption:= msgEndWin;
-    with mnuFileEndUn do Caption:= msgEndUnix;
-    with mnuFileEndMac do Caption:= msgEndMac;
+    DoLocMenuItem(mnuFileEndWin, msgEndWin);
+    DoLocMenuItem(mnuFileEndUn, msgEndUnix);
+    DoLocMenuItem(mnuFileEndMac, msgEndMac);
 
-    with mnuEndsWin do Caption:= msgEndWin;
-    with mnuEndsUnix do Caption:= msgEndUnix;
-    with mnuEndsMac do Caption:= msgEndMac;
+    DoLocMenuItem(mnuEndsWin, msgEndWin);
+    DoLocMenuItem(mnuEndsUnix, msgEndUnix);
+    DoLocMenuItem(mnuEndsMac, msgEndMac);
 
     msgEditUndo:= ini.ReadString('m_e', 'undo', msgEditUndo);
     msgEditRedo:= ini.ReadString('m_e', 'redo', msgEditRedo);
@@ -66,167 +98,168 @@ begin
     msgEditDelete:= ini.ReadString('m_e', 'del', msgEditDelete);
     msgEditSelectAll:= ini.ReadString('m_se', 'al', msgEditSelectAll);
 
-    with mnuEditUndo do Caption:= msgEditUndo;
-    with mnuEditRedo do Caption:= msgEditRedo;
-    with mnuEditCut do Caption:= msgEditCut;
-    with mnuEditCopy do Caption:= msgEditCopy;
-    with mnuEditPaste do Caption:= msgEditPaste;
-    with mnuEditDel do Caption:= msgEditDelete;
+    DoLocMenuitem(mnuEditUndo, msgEditUndo);
+    DoLocMenuitem(mnuEditRedo, msgEditRedo);
+    DoLocMenuitem(mnuEditCut, msgEditCut);
+    DoLocMenuitem(mnuEditCopy, msgEditCopy);
+    DoLocMenuitem(mnuEditPaste, msgEditPaste);
+    DoLocMenuitem(mnuEditDel, msgEditDelete);
 
-    with mnuEdit do Caption:= ini.ReadString('m_e', '_', Caption);
-    with mnuEditUndo do Caption:= ini.ReadString('m_e', 'undo', Caption);
-    with mnuEditRedo do Caption:= ini.ReadString('m_e', 'redo', Caption);
-    with mnuEditCut do Caption:= ini.ReadString('m_e', 'cut', Caption);
-    with mnuEditCopy do Caption:= ini.ReadString('m_e', 'cp', Caption);
-    with mnuEditPaste do Caption:= ini.ReadString('m_e', 'pst', Caption);
-    with mnuEditDel do Caption:= ini.ReadString('m_e', 'del', Caption);
+    DoLocMenuitem(ini, mnuEdit, 'm_e', '_');
+    DoLocMenuitem(ini, mnuEditUndo, 'm_e', 'undo');
+    DoLocMenuitem(ini, mnuEditRedo, 'm_e', 'redo');
+    DoLocMenuitem(ini, mnuEditCut, 'm_e', 'cut');
+    DoLocMenuitem(ini, mnuEditCopy, 'm_e', 'cp');
+    DoLocMenuitem(ini, mnuEditPaste, 'm_e', 'pst');
+    DoLocMenuitem(ini, mnuEditDel, 'm_e', 'del');
 
-    with mnuEditCopySub do Caption:= ini.ReadString('m_e', 'cp_', Caption);
-    with mnuEditCopyLine do Caption:= ini.ReadString('m_e', 'cp_ln', Caption);
-    with mnuEditCopyAppend do Caption:= ini.ReadString('m_e', 'cp_add', Caption);
-    with mnuEditCopyFFull do Caption:= ini.ReadString('m_e', 'cp_full', Caption);
-    with mnuEditCopyFName do Caption:= ini.ReadString('m_e', 'cp_name', Caption);
-    with mnuEditCopyFDir do Caption:= ini.ReadString('m_e', 'cp_dir', Caption);
+    DoLocMenuitem(ini, mnuEditCopySub, 'm_e', 'cp_');
+    DoLocMenuitem(ini, mnuEditCopyLine, 'm_e', 'cp_ln');
+    DoLocMenuitem(ini, mnuEditCopyAppend, 'm_e', 'cp_add');
+    DoLocMenuitem(ini, mnuEditCopyFFull, 'm_e', 'cp_full');
+    DoLocMenuitem(ini, mnuEditCopyFName, 'm_e', 'cp_name');
+    DoLocMenuitem(ini, mnuEditCopyFDir, 'm_e', 'cp_dir');
 
-    with mnuEditLineOp do Caption:= ini.ReadString('m_e', 'ln_', Caption);
-    with mnuEditLineDel do Caption:= ini.ReadString('m_e', 'ln_del', Caption);
-    with mnuEditLineDup do Caption:= ini.ReadString('m_e', 'ln_dup', Caption);
-    with mnuEditLineMoveUp do Caption:= ini.ReadString('m_e', 'ln_up', Caption);
-    with mnuEditLineMoveDown do Caption:= ini.ReadString('m_e', 'ln_dn', Caption);
+    DoLocMenuitem(ini, mnuEditLineOp, 'm_e', 'ln_');
+    DoLocMenuitem(ini, mnuEditLineDel, 'm_e', 'ln_del');
+    DoLocMenuitem(ini, mnuEditLineDup, 'm_e', 'ln_dup');
+    DoLocMenuitem(ini, mnuEditLineMoveUp, 'm_e', 'ln_up');
+    DoLocMenuitem(ini, mnuEditLineMoveDown, 'm_e', 'ln_dn');
 
-    with mnuEditIndentSub do Caption:= ini.ReadString('m_e', 'bl_', Caption);
-    with mnuEditIndent do Caption:= ini.ReadString('m_e', 'bl_ind', Caption);
-    with mnuEditUnindent do Caption:= ini.ReadString('m_e', 'bl_uind', Caption);
-    with mnuEditTrim do Caption:= ini.ReadString('m_e', 'tr_a', Caption);
-    with mnuEditTrimL do Caption:= ini.ReadString('m_e', 'tr_l', Caption);
-    with mnuEditTrimR do Caption:= ini.ReadString('m_e', 'tr_r', Caption);
-    with mnuEditTabToSp do Caption:= ini.ReadString('m_e', 'con_t', Caption);
-    with mnuEditSpToTab do Caption:= ini.ReadString('m_e', 'con_s', Caption);
+    DoLocMenuitem(ini, mnuEditIndentSub, 'm_e', 'bl_');
+    DoLocMenuitem(ini, mnuEditIndent, 'm_e', 'bl_ind');
+    DoLocMenuitem(ini, mnuEditUnindent, 'm_e', 'bl_uind');
+    DoLocMenuitem(ini, mnuEditTrim, 'm_e', 'tr_a');
+    DoLocMenuitem(ini, mnuEditTrimL, 'm_e', 'tr_l');
+    DoLocMenuitem(ini, mnuEditTrimR, 'm_e', 'tr_r');
+    DoLocMenuitem(ini, mnuEditTabToSp, 'm_e', 'con_t');
+    DoLocMenuitem(ini, mnuEditSpToTab, 'm_e', 'con_s');
 
-    with mnuCaseSub do Caption:= ini.ReadString('m_e', 'cas_', Caption);
-    with mnuCaseUp do Caption:= ini.ReadString('m_e', 'cas_u', Caption);
-    with mnuCaseLow do Caption:= ini.ReadString('m_e', 'cas_l', Caption);
-    with mnuCaseTitle do Caption:= ini.ReadString('m_e', 'cas_t', Caption);
-    with mnuCaseInvert do Caption:= ini.ReadString('m_e', 'cas_i', Caption);
-    with mnuCaseSent do Caption:= ini.ReadString('m_e', 'cas_s', Caption);
+    DoLocMenuitem(ini, mnuCaseSub, 'm_e', 'cas_');
+    DoLocMenuitem(ini, mnuCaseUp, 'm_e', 'cas_u');
+    DoLocMenuitem(ini, mnuCaseLow, 'm_e', 'cas_l');
+    DoLocMenuitem(ini, mnuCaseTitle, 'm_e', 'cas_t');
+    DoLocMenuitem(ini, mnuCaseInvert, 'm_e', 'cas_i');
+    DoLocMenuitem(ini, mnuCaseSent, 'm_e', 'cas_s');
 
-    with mnuSortSub do Caption:= ini.ReadString('m_e', 'sr_', Caption);
-    with mnuSortAsc do Caption:= ini.ReadString('m_e', 'sr_a', Caption);
-    with mnuSortDesc do Caption:= ini.ReadString('m_e', 'sr_d', Caption);
+    DoLocMenuitem(ini, mnuSortSub, 'm_e', 'sr_');
+    DoLocMenuitem(ini, mnuSortAsc, 'm_e', 'sr_a');
+    DoLocMenuitem(ini, mnuSortDesc, 'm_e', 'sr_d');
 
-    with mnuCmtSub do Caption:= ini.ReadString('m_e', 'com_', Caption);
-    with mnuCmtAdd do Caption:= ini.ReadString('m_e', 'com_l_a', Caption);
-    with mnuCmtRemove do Caption:= ini.ReadString('m_e', 'com_l_d', Caption);
-    with mnuCmtToggle do Caption:= ini.ReadString('m_e', 'com_l_t', Caption);
-    with mnuCmtToggleStr do Caption:= ini.ReadString('m_e', 'com_s_t', Caption);
+    DoLocMenuitem(ini, mnuCmtSub, 'm_e', 'com_');
+    DoLocMenuitem(ini, mnuCmtAdd, 'm_e', 'com_l_a');
+    DoLocMenuitem(ini, mnuCmtRemove, 'm_e', 'com_l_d');
+    DoLocMenuitem(ini, mnuCmtToggle, 'm_e', 'com_l_t');
+    DoLocMenuitem(ini, mnuCmtToggleStr, 'm_e', 'com_s_t');
 
-    with mnuEditCharmap do Caption:= ini.ReadString('m_e', 'map', Caption);
+    DoLocMenuitem(ini, mnuEditCharmap, 'm_e', 'map');
 
-    with mnuSel do Caption:= ini.ReadString('m_se', '_', Caption);
-    with mnuSelAll do Caption:= msgEditSelectAll;
-    with mnuSelSplit do Caption:= ini.ReadString('m_se', 'sp', Caption);
-    with mnuSelExtLine do Caption:= ini.ReadString('m_se', 'ex', Caption);
-    with mnuSelInvert do Caption:= ini.ReadString('m_se', 'in', Caption);
+    DoLocMenuitem(ini, mnuSel, 'm_se', '_');
+    DoLocMenuitem(mnuSelAll, msgEditSelectAll);
+    DoLocMenuitem(ini, mnuSelSplit, 'm_se', 'sp');
+    DoLocMenuitem(ini, mnuSelExtLine, 'm_se', 'ex');
+    DoLocMenuitem(ini, mnuSelInvert, 'm_se', 'in');
 
-    with mnuCaretsCancel do Caption:= ini.ReadString('m_se', 'can', Caption);
-    with mnuCaretsExtSub do Caption:= ini.ReadString('m_se', 'm_', Caption);
-    with mnuCaretsUp1Line do Caption:= ini.ReadString('m_se', 'u_l', Caption);
-    with mnuCaretsUp1Page do Caption:= ini.ReadString('m_se', 'u_p', Caption);
-    with mnuCaretsUpBegin do Caption:= ini.ReadString('m_se', 'u_z', Caption);
-    with mnuCaretsDown1Line do Caption:= ini.ReadString('m_se', 'd_l', Caption);
-    with mnuCaretsDown1Page do Caption:= ini.ReadString('m_se', 'd_p', Caption);
-    with mnuCaretsDownEnd do Caption:= ini.ReadString('m_se', 'd_z', Caption);
+    DoLocMenuitem(ini, mnuCaretsCancel, 'm_se', 'can');
+    DoLocMenuitem(ini, mnuCaretsExtSub, 'm_se', 'm_');
+    DoLocMenuitem(ini, mnuCaretsUp1Line, 'm_se', 'u_l');
+    DoLocMenuitem(ini, mnuCaretsUp1Page, 'm_se', 'u_p');
+    DoLocMenuitem(ini, mnuCaretsUpBegin, 'm_se', 'u_z');
+    DoLocMenuitem(ini, mnuCaretsDown1Line, 'm_se', 'd_l');
+    DoLocMenuitem(ini, mnuCaretsDown1Page, 'm_se', 'd_p');
+    DoLocMenuitem(ini, mnuCaretsDownEnd, 'm_se', 'd_z');
 
-    with mnuSr do Caption:= ini.ReadString('m_sr', '_', Caption);
-    with mnuFindDlg do Caption:= ini.ReadString('m_sr', 'f', Caption);
-    with mnuFindRepDialog do Caption:= ini.ReadString('m_sr', 'r', Caption);
-    with mnuFindNext do Caption:= ini.ReadString('m_sr', 'f_n', Caption);
-    with mnuFindPrev do Caption:= ini.ReadString('m_sr', 'f_p', Caption);
-    with mnuFindWordNext do Caption:= ini.ReadString('m_sr', 'w_n', Caption);
-    with mnuFindWordPrev do Caption:= ini.ReadString('m_sr', 'w_p', Caption);
+    DoLocMenuitem(ini, mnuSr, 'm_sr', '_');
+    DoLocMenuitem(ini, mnuFindDlg, 'm_sr', 'f');
+    DoLocMenuitem(ini, mnuFindRepDialog, 'm_sr', 'r');
 
-    mnuFind2Next.Caption:= mnuFindNext.Caption;
-    mnuFind2Prev.Caption:= mnuFindPrev.Caption;
-    mnuFind2WordNext.Caption:= mnuFindWordNext.Caption;
-    mnuFind2WordPrev.Caption:= mnuFindWordPrev.Caption;
+    DoLocMenuitem(ini, mnuFindNext, 'm_sr', 'f_n');
+    DoLocMenuitem(ini, mnuFindPrev, 'm_sr', 'f_p');
+    DoLocMenuitem(ini, mnuFindWordNext, 'm_sr', 'w_n');
+    DoLocMenuitem(ini, mnuFindWordPrev, 'm_sr', 'w_p');
 
-    with mnuGotoLine do Caption:= ini.ReadString('m_sr', 'g_l', Caption);
-    with mnuGotoBm do Caption:= ini.ReadString('m_sr', 'g_b', Caption);
+    DoLocMenuitem(mnuFind2Next, mnuFindNext);
+    DoLocMenuitem(mnuFind2Prev, mnuFindPrev);
+    DoLocMenuitem(mnuFind2WordNext, mnuFindWordNext);
+    DoLocMenuitem(mnuFind2WordPrev, mnuFindWordPrev);
 
-    with mnuBmSub do Caption:= ini.ReadString('m_sr', 'b_', Caption);
-    with mnuBmNext do Caption:= ini.ReadString('m_sr', 'b_n', Caption);
-    with mnuBmPrev do Caption:= ini.ReadString('m_sr', 'b_p', Caption);
-    with mnuBmToggle do Caption:= ini.ReadString('m_sr', 'b_to', Caption);
-    with mnuBmInvert do Caption:= ini.ReadString('m_sr', 'b_in', Caption);
-    with mnuBmClear do Caption:= ini.ReadString('m_sr', 'b_cl', Caption);
+    DoLocMenuitem(ini, mnuGotoLine, 'm_sr', 'g_l');
+    DoLocMenuitem(ini, mnuGotoBm, 'm_sr', 'g_b');
 
-    with mnuView do Caption:= ini.ReadString('m_v', '_', Caption);
-    with mnuGroups do Caption:= ini.ReadString('m_v', 'g_', Caption);
-    with mnuGr1 do Caption:= ini.ReadString('m_v', 'g1', Caption);
-    with mnuGr2H do Caption:= ini.ReadString('m_v', 'g2h', Caption);
-    with mnuGr2V do Caption:= ini.ReadString('m_v', 'g2v', Caption);
-    with mnuGr3H do Caption:= ini.ReadString('m_v', 'g3h', Caption);
-    with mnuGr3V do Caption:= ini.ReadString('m_v', 'g3v', Caption);
-    with mnuGr1p2H do Caption:= ini.ReadString('m_v', 'g12h', Caption);
-    with mnuGr1p2V do Caption:= ini.ReadString('m_v', 'g12v', Caption);
-    with mnuGr4H do Caption:= ini.ReadString('m_v', 'g4h', Caption);
-    with mnuGr4V do Caption:= ini.ReadString('m_v', 'g4v', Caption);
-    with mnuGr4G do Caption:= ini.ReadString('m_v', 'g4g', Caption);
-    with mnuGr6 do Caption:= ini.ReadString('m_v', 'g6', Caption);
+    DoLocMenuitem(ini, mnuBmSub, 'm_sr', 'b_');
+    DoLocMenuitem(ini, mnuBmNext, 'm_sr', 'b_n');
+    DoLocMenuitem(ini, mnuBmPrev, 'm_sr', 'b_p');
+    DoLocMenuitem(ini, mnuBmToggle, 'm_sr', 'b_to');
+    DoLocMenuitem(ini, mnuBmInvert, 'm_sr', 'b_in');
+    DoLocMenuitem(ini, mnuBmClear, 'm_sr', 'b_cl');
 
-    with mnuViewSplitSub do Caption:= ini.ReadString('m_v', 's_', Caption);
-    with mnuViewSplitDo do Caption:= ini.ReadString('m_v', 's_s', Caption);
-    with mnuViewSplitHorz do Caption:= ini.ReadString('m_v', 's_h', Caption);
+    DoLocMenuitem(ini, mnuView, 'm_v', '_');
+    DoLocMenuitem(ini, mnuGroups, 'm_v', 'g_');
+    DoLocMenuitem(ini, mnuGr1, 'm_v', 'g1');
+    DoLocMenuitem(ini, mnuGr2H, 'm_v', 'g2h');
+    DoLocMenuitem(ini, mnuGr2V, 'm_v', 'g2v');
+    DoLocMenuitem(ini, mnuGr3H, 'm_v', 'g3h');
+    DoLocMenuitem(ini, mnuGr3V, 'm_v', 'g3v');
+    DoLocMenuitem(ini, mnuGr1p2H, 'm_v', 'g12h');
+    DoLocMenuitem(ini, mnuGr1p2V, 'm_v', 'g12v');
+    DoLocMenuitem(ini, mnuGr4H, 'm_v', 'g4h');
+    DoLocMenuitem(ini, mnuGr4V, 'm_v', 'g4v');
+    DoLocMenuitem(ini, mnuGr4G, 'm_v', 'g4g');
+    DoLocMenuitem(ini, mnuGr6, 'm_v', 'g6');
 
-    with mnuViewWrap do Caption:= ini.ReadString('m_v', 't_ww', Caption);
-    with mnuViewNums do Caption:= ini.ReadString('m_v', 't_nu', Caption);
-    with mnuViewFold do Caption:= ini.ReadString('m_v', 't_fo', Caption);
-    with mnuViewRuler do Caption:= ini.ReadString('m_v', 't_ru', Caption);
-    with mnuViewMinimap do Caption:= ini.ReadString('m_v', 't_mi', Caption);
+    DoLocMenuitem(ini, mnuViewSplitSub, 'm_v', 's_');
+    DoLocMenuitem(ini, mnuViewSplitDo, 'm_v', 's_s');
+    DoLocMenuitem(ini, mnuViewSplitHorz, 'm_v', 's_h');
 
-    with mnuViewUnpri do Caption:= ini.ReadString('m_v', 'u_', Caption);
-    with mnuViewUnpriShow do Caption:= ini.ReadString('m_v', 'u_sh', Caption);
-    with mnuViewUnpriSpaces do Caption:= ini.ReadString('m_v', 'u_sp', Caption);
-    with mnuViewUnpriEnds do Caption:= ini.ReadString('m_v', 'u_e', Caption);
-    with mnuViewUnpriEndsDet do Caption:= ini.ReadString('m_v', 'u_ed', Caption);
+    DoLocMenuitem(ini, mnuViewWrap, 'm_v', 't_ww');
+    DoLocMenuitem(ini, mnuViewNums, 'm_v', 't_nu');
+    DoLocMenuitem(ini, mnuViewFold, 'm_v', 't_fo');
+    DoLocMenuitem(ini, mnuViewRuler, 'm_v', 't_ru');
+    DoLocMenuitem(ini, mnuViewMinimap, 'm_v', 't_mi');
 
-    with mnuViewToolbar do Caption:= ini.ReadString('m_v', 't_tb', Caption);
-    with mnuViewStatus do Caption:= ini.ReadString('m_v', 't_sb', Caption);
-    with mnuViewSide do Caption:= ini.ReadString('m_v', 't_si', Caption);
-    with mnuViewBottom do Caption:= ini.ReadString('m_v', 't_bo', Caption);
-    with mnuViewFullscr do Caption:= ini.ReadString('m_v', 't_fs', Caption);
+    DoLocMenuitem(ini, mnuViewUnpri, 'm_v', 'u_');
+    DoLocMenuitem(ini, mnuViewUnpriShow, 'm_v', 'u_sh');
+    DoLocMenuitem(ini, mnuViewUnpriSpaces, 'm_v', 'u_sp');
+    DoLocMenuitem(ini, mnuViewUnpriEnds, 'm_v', 'u_e');
+    DoLocMenuitem(ini, mnuViewUnpriEndsDet, 'm_v', 'u_ed');
 
-    with mnuPlug do Caption:= ini.ReadString('m_o', 'pl_', Caption);
-    with mnuOp do Caption:= ini.ReadString('m_o', '_', Caption);
+    DoLocMenuitem(ini, mnuViewToolbar, 'm_v', 't_tb');
+    DoLocMenuitem(ini, mnuViewStatus, 'm_v', 't_sb');
+    DoLocMenuitem(ini, mnuViewSide, 'm_v', 't_si');
+    DoLocMenuitem(ini, mnuViewBottom, 'm_v', 't_bo');
+    DoLocMenuitem(ini, mnuViewFullscr, 'm_v', 't_fs');
 
-    with mnuOpDefault do Caption:= ini.ReadString('m_o', 'df', Caption);
-    with mnuOpUser do Caption:= ini.ReadString('m_o', 'us', Caption);
-    with mnuOpMore do Caption:= ini.ReadString('m_o', 'mr', Caption);
-    with mnuOpLexer do Caption:= ini.ReadString('m_o', 'lx', Caption);
-    with mnuOpFileTypes do Caption:= ini.ReadString('m_o', 'fi', Caption);
-    with mnuOpColors do Caption:= ini.ReadString('m_o', 'co', Caption);
-    with mnuOpKeys do Caption:= ini.ReadString('m_o', 'ke', Caption);
+    DoLocMenuitem(ini, mnuPlug, 'm_o', 'pl_');
+    DoLocMenuitem(ini, mnuOp, 'm_o', '_');
 
-    with mnuFontSub do Caption:= ini.ReadString('m_o', 'f_', Caption);
-    with mnuFontText do Caption:= ini.ReadString('m_o', 'f_t', Caption);
-    with mnuFontUi do Caption:= ini.ReadString('m_o', 'f_u', Caption);
-    with mnuFontOutput do Caption:= ini.ReadString('m_o', 'f_o', Caption);
+    DoLocMenuitem(ini, mnuOpDefault, 'm_o', 'df');
+    DoLocMenuitem(ini, mnuOpUser, 'm_o', 'us');
+    DoLocMenuitem(ini, mnuOpMore, 'm_o', 'mr');
+    DoLocMenuitem(ini, mnuOpLexer, 'm_o', 'lx');
+    DoLocMenuitem(ini, mnuOpFileTypes, 'm_o', 'fi');
+    DoLocMenuitem(ini, mnuOpColors, 'm_o', 'co');
+    DoLocMenuitem(ini, mnuOpKeys, 'm_o', 'ke');
 
-    with mnuOpLexSub do Caption:= ini.ReadString('m_o', 'l_', Caption);
-    with mnuOpLexProp do Caption:= ini.ReadString('m_o', 'l_pr', Caption);
-    with mnuOpLexLib do Caption:= ini.ReadString('m_o', 'l_li', Caption);
+    DoLocMenuitem(ini, mnuFontSub, 'm_o', 'f_');
+    DoLocMenuitem(ini, mnuFontText, 'm_o', 'f_t');
+    DoLocMenuitem(ini, mnuFontUi, 'm_o', 'f_u');
+    DoLocMenuitem(ini, mnuFontOutput, 'm_o', 'f_o');
 
-    with mnuThemes do Caption:= ini.ReadString('m_o', 'co_', Caption);
-    with mnuLang do Caption:= ini.ReadString('m_o', 'tr_', Caption);
+    DoLocMenuitem(ini, mnuOpLexSub, 'm_o', 'l_');
+    DoLocMenuitem(ini, mnuOpLexProp, 'm_o', 'l_pr');
+    DoLocMenuitem(ini, mnuOpLexLib, 'm_o', 'l_li');
 
-    with mnuHelp do Caption:= ini.ReadString('m_h', '_', Caption);
-    with mnuHelpCmd do Caption:= ini.ReadString('m_h', 'co', Caption);
-    with mnuHelpForum do Caption:= ini.ReadString('m_h', 'fo', Caption);
-    with mnuHelpWiki do Caption:= ini.ReadString('m_h', 'wi', Caption);
-    with mnuHelpMouse do Caption:= ini.ReadString('m_h', 'mo', Caption);
-    with mnuHelpLexers do Caption:= ini.ReadString('m_h', 'lx', Caption);
-    with mnuHelpChangelog do Caption:= ini.ReadString('m_h', 'ch', Caption);
-    with mnuHelpAbout do Caption:= ini.ReadString('m_h', 'ab', Caption);
+    DoLocMenuitem(ini, mnuThemes, 'm_o', 'co_');
+    DoLocMenuitem(ini, mnuLang, 'm_o', 'tr_');
+
+    DoLocMenuitem(ini, mnuHelp, 'm_h', '_');
+    DoLocMenuitem(ini, mnuHelpCmd, 'm_h', 'co');
+    DoLocMenuitem(ini, mnuHelpForum, 'm_h', 'fo');
+    DoLocMenuitem(ini, mnuHelpWiki, 'm_h', 'wi');
+    DoLocMenuitem(ini, mnuHelpMouse, 'm_h', 'mo');
+    DoLocMenuitem(ini, mnuHelpLexers, 'm_h', 'lx');
+    DoLocMenuitem(ini, mnuHelpChangelog, 'm_h', 'ch');
+    DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
 
     DoApplyTabCaption(TabsBottom, 0, ini.ReadString('ui', 't_con', 'Console'));
     DoApplyTabCaption(TabsBottom, 1, ini.ReadString('ui', 't_out', 'Output'));
@@ -249,36 +282,36 @@ begin
     msgButtonApply:= ini.ReadString('ui', 'b_ap', msgButtonApply);
     msgButtonClose:= ini.ReadString('ui', 'b_cl', msgButtonClose);
 
-    with tbNew do Hint:= ini.ReadString('ui', 'tb_new', Hint);
-    with tbOpen do Hint:= ini.ReadString('ui', 'tb_op', Hint);
-    with tbSave do Hint:= ini.ReadString('ui', 'tb_sav', Hint);
-    with tbFind do Hint:= ini.ReadString('ui', 'tb_find', Hint);
-    with tbGoto do Hint:= ini.ReadString('ui', 'tb_go', Hint);
+    DoLocControlHint(ini, tbNew, 'ui', 'tb_new');
+    DoLocControlHint(ini, tbOpen, 'ui', 'tb_op');
+    DoLocControlHint(ini, tbSave, 'ui', 'tb_sav');
+    DoLocControlHint(ini, tbFind, 'ui', 'tb_find');
+    DoLocControlHint(ini, tbGoto, 'ui', 'tb_go');
 
-    with tbCut do Hint:= msgEditCut;
-    with tbCopy do Hint:= msgEditCopy;
-    with tbPaste do Hint:= msgEditPaste;
-    with tbDel do Hint:= msgEditDelete;
-    with tbSelAll do Hint:= msgEditSelectAll;
-    with tbUndo do Hint:= msgEditUndo;
-    with tbRedo do Hint:= msgEditRedo;
-    with tbUnpri do Hint:= mnuViewUnpri.Caption;
-    with tbSidePanel do Hint:= mnuViewSide.Caption;
-    with tbBtmPanel do Hint:= mnuViewBottom.Caption;
-    with tbMinimap do Hint:= mnuViewMinimap.Caption;
+    DoLocControlHint(tbCut, msgEditCut);
+    DoLocControlHint(tbCopy, msgEditCopy);
+    DoLocControlHint(tbPaste, msgEditPaste);
+    DoLocControlHint(tbDel, msgEditDelete);
+    DoLocControlHint(tbSelAll, msgEditSelectAll);
+    DoLocControlHint(tbUndo, msgEditUndo);
+    DoLocControlHint(tbRedo, msgEditRedo);
+    if Assigned(mnuViewUnpri) then DoLocControlHint(tbUnpri, mnuViewUnpri.Caption);
+    if Assigned(mnuViewSide) then DoLocControlHint(tbSidePanel, mnuViewSide.Caption);
+    if Assigned(mnuViewBottom) then DoLocControlHint(tbBtmPanel, mnuViewBottom.Caption);
+    if Assigned(mnuViewMinimap) then DoLocControlHint(tbMinimap, mnuViewMinimap.Caption);
 
-    with mnuTextUndo do Caption:= msgEditUndo;
-    with mnuTextRedo do Caption:= msgEditRedo;
-    with mnuTextCut do Caption:= msgEditCut;
-    with mnuTextCopy do Caption:= msgEditCopy;
-    with mnuTextPaste do Caption:= msgEditPaste;
-    with mnuTextDelete do Caption:= msgEditDelete;
-    with mnuTextSel do Caption:= msgEditSelectAll;
-    with mnuTextGotoDef do Caption:= ini.ReadString('ct', 'godef', Caption);
-    with mnuTextOpenUrl do Caption:= ini.ReadString('ct', 'url', Caption);
+    DoLocMenuitem(mnuTextUndo, msgEditUndo);
+    DoLocMenuitem(mnuTextRedo, msgEditRedo);
+    DoLocMenuitem(mnuTextCut, msgEditCut);
+    DoLocMenuitem(mnuTextCopy, msgEditCopy);
+    DoLocMenuitem(mnuTextPaste, msgEditPaste);
+    DoLocMenuitem(mnuTextDelete, msgEditDelete);
+    DoLocMenuitem(mnuTextSel, msgEditSelectAll);
+    DoLocMenuitem(ini, mnuTextGotoDef, 'ct', 'godef');
+    DoLocMenuitem(ini, mnuTextOpenUrl, 'ct', 'url');
 
-    with fmConsole.mnuTextClear do Caption:= ini.ReadString('ct', 'clr', Caption);
-    with fmConsole.mnuTextNav do Caption:= ini.ReadString('ct', 'nav', Caption);
+    DoLocMenuitem(ini, fmConsole.mnuTextClear, 'ct', 'clr');
+    DoLocMenuitem(ini, fmConsole.mnuTextNav, 'ct', 'nav');
 
     with fmConsole.ed do
     begin
@@ -301,39 +334,39 @@ begin
       MenuitemTextRedo.Caption:= msgEditRedo;
     end;
 
-    with mnuTabCloseThis do Caption:= ini.ReadString('ct', 'c_tab', Caption);
-    with mnuTabCloseSub do Caption:= ini.ReadString('ct', 'c_', Caption);
-    with mnuTabCloseOtherSame do Caption:= ini.ReadString('ct', 'c_oth_s', Caption);
-    with mnuTabCloseOtherAll do Caption:= ini.ReadString('ct', 'c_oth_a', Caption);
-    with mnuTabCloseAllSame do Caption:= ini.ReadString('ct', 'c_all_s', Caption);
-    with mnuTabCloseAllAll do Caption:= ini.ReadString('ct', 'c_all_a', Caption);
-    with mnuTabCloseLeft do Caption:= ini.ReadString('ct', 'c_lt_s', Caption);
-    with mnuTabCloseRight do Caption:= ini.ReadString('ct', 'c_rt_s', Caption);
+    DoLocMenuitem(ini, mnuTabCloseThis, 'ct', 'c_tab');
+    DoLocMenuitem(ini, mnuTabCloseSub, 'ct', 'c_');
+    DoLocMenuitem(ini, mnuTabCloseOtherSame, 'ct', 'c_oth_s');
+    DoLocMenuitem(ini, mnuTabCloseOtherAll, 'ct', 'c_oth_a');
+    DoLocMenuitem(ini, mnuTabCloseAllSame, 'ct', 'c_all_s');
+    DoLocMenuitem(ini, mnuTabCloseAllAll, 'ct', 'c_all_a');
+    DoLocMenuitem(ini, mnuTabCloseLeft, 'ct', 'c_lt_s');
+    DoLocMenuitem(ini, mnuTabCloseRight, 'ct', 'c_rt_s');
 
-    with mnuTabSave do Caption:= ini.ReadString('ct', 'sv', Caption);
-    with mnuTabSaveAs do Caption:= ini.ReadString('ct', 'sv_as', Caption);
-    with mnuTabColor do Caption:= ini.ReadString('ct', 'col_t', Caption);
+    DoLocMenuitem(ini, mnuTabSave, 'ct', 'sv');
+    DoLocMenuitem(ini, mnuTabSaveAs, 'ct', 'sv_as');
+    DoLocMenuitem(ini, mnuTabColor, 'ct', 'col_t');
 
-    with mnuTabMoveSub do Caption:= ini.ReadString('ct', 'mov_', Caption);
-    with mnuTabMoveNext do Caption:= ini.ReadString('ct', 'mov_n', Caption);
-    with mnuTabMovePrev do Caption:= ini.ReadString('ct', 'mov_p', Caption);
+    DoLocMenuitem(ini, mnuTabMoveSub, 'ct', 'mov_');
+    DoLocMenuitem(ini, mnuTabMoveNext, 'ct', 'mov_n');
+    DoLocMenuitem(ini, mnuTabMovePrev, 'ct', 'mov_p');
 
-    with mnuTreeFoldAll do Caption:= ini.ReadString('ct', 'fld_a', Caption);
-    with mnuTreeUnfoldAll do Caption:= ini.ReadString('ct', 'fld_un', Caption);
-    with mnuTreeFoldLevel do Caption:= ini.ReadString('ct', 'fld_lv', Caption);
+    DoLocMenuitem(ini, mnuTreeFoldAll, 'ct', 'fld_a');
+    DoLocMenuitem(ini, mnuTreeUnfoldAll, 'ct', 'fld_un');
+    DoLocMenuitem(ini, mnuTreeFoldLevel, 'ct', 'fld_lv');
 
     cStrMenuitemFoldAll:= mnuTreeFoldAll.Caption;
     cStrMenuitemUnfoldAll:= mnuTreeUnfoldAll.Caption;
     cStrMenuitemFoldLevel:= mnuTreeFoldLevel.Caption;
 
     s:= ini.ReadString('ct', 'tsz', 'Tab size:');
-    with mnuTabsize1 do Caption:= s+' 1';
-    with mnuTabsize2 do Caption:= s+' 2';
-    with mnuTabsize4 do Caption:= s+' 4';
-    with mnuTabsize8 do Caption:= s+' 8';
-    with mnuTabsizeSpace do Caption:= ini.ReadString('ct', 'tsz_sp', Caption);
+    DoLocMenuitem(mnuTabsize1, s+' 1');
+    DoLocMenuitem(mnuTabsize2, s+' 2');
+    DoLocMenuitem(mnuTabsize4, s+' 4');
+    DoLocMenuitem(mnuTabsize8, s+' 8');
+    DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'tsz_sp');
 
-
+    //----------------strings
     msgCannotOpenFile                := ini.ReadString('se', 'OpenFile', msgCannotOpenFile);
     msgCannotFindFile                := ini.ReadString('se', 'FindFile', msgCannotFindFile);
     msgCannotFindLexlib              := ini.ReadString('se', 'FindLexlib', msgCannotFindLexlib);

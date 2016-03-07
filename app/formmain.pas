@@ -3426,7 +3426,13 @@ begin
     begin
       mnuFileOpenSub:= nil;
       mnuThemes:= nil;
+      mnuLang:= nil;
       mnuPlug:= nil;
+    end;
+    if AStr=PyMenuId_TopOptions then
+    begin
+      mnuThemes:= nil;
+      mnuLang:= nil;
     end;
     if AStr=PyMenuId_TopFile then
     begin
