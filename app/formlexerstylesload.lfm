@@ -1,12 +1,12 @@
 object fmLexerStylesRestore: TfmLexerStylesRestore
   Left = 452
-  Height = 368
+  Height = 392
   Top = 355
   Width = 588
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Restore lexer styles'
-  ClientHeight = 368
+  ClientHeight = 392
   ClientWidth = 588
   Color = clBtnFace
   OnShow = FormShow
@@ -14,7 +14,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
   LCLVersion = '1.7'
   object LabelInfo: TLabel
     Left = 6
-    Height = 98
+    Height = 122
     Top = 6
     Width = 576
     Align = alTop
@@ -27,7 +27,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
   object GroupBox1: TGroupBox
     Left = 66
     Height = 216
-    Top = 110
+    Top = 134
     Width = 456
     Align = alTop
     BorderSpacing.Left = 60
@@ -97,7 +97,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
-    Top = 333
+    Top = 357
     Width = 576
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
