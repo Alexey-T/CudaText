@@ -193,11 +193,15 @@ begin
 end;
 
 procedure TfmCommands.DoConfigKey(Cmd: integer);
+var
+  N: integer;
 begin
+  N:= list.ItemIndex;
   if DoDialogHotkeys(Cmd, FLangFilename) then
   begin
     DoFilter;
     DoFindDupKeys;
+    list.ItemIndex:= N;
   end;
 end;
 
