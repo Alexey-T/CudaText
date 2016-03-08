@@ -13,9 +13,8 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
-  ExtCtrls, Menus,
-  FileUtil,
-  LCLIntf, LCLProc, LCLType, StdCtrls,
+  ExtCtrls, Menus, StdCtrls,
+  LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
   ATTabs,
   ATGroups,
   ATSynEdit,

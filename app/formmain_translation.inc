@@ -7,6 +7,7 @@ begin
   data:= ATabs.GetTabData(AIndex);
   if Assigned(data) then
     data.TabCaption:= Str;
+  ATabs.Invalidate;
 end;
 
 procedure DoLocMenuitem(ini: TIniFile; c: TMenuItem; const ASection, AKey: string);

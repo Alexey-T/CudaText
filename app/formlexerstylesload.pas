@@ -11,8 +11,9 @@ interface
 
 uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, CheckLst, IniFiles,
-  LclProc, LclType, FileUtil, ButtonPanel,
+  Dialogs, StdCtrls, CheckLst, ButtonPanel, IniFiles,
+  LclProc, LclType,
+  LazUTF8, LazFileUtils,
   proc_globdata,
   proc_msg;
 

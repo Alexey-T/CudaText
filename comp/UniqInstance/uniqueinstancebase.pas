@@ -5,7 +5,7 @@ unit UniqueInstanceBase;
 interface
 
 uses
-  Classes, SysUtils, simpleipc, FileUtil;
+  Classes, SysUtils, simpleipc, LazUTF8;
 
 const
   ParamsSeparator = '|';

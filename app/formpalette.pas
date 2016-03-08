@@ -12,7 +12,8 @@ unit formpalette;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
+  LazUTF8, LazFileUtils,
   IniFiles, ColorPalette,
   proc_msg;
 

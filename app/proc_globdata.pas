@@ -13,8 +13,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Menus,
-  FileUtil, Dialogs, Graphics, ExtCtrls, ComCtrls,
-  LclProc, LclType,
+  Dialogs, Graphics, ExtCtrls, ComCtrls,
+  LclProc, LclType, LazFileUtils, LazUTF8,
   jsonConf,
   Process,
   ATSynEdit,

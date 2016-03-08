@@ -12,8 +12,9 @@ unit formcolorsetup;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   IniFiles, ColorBox, StdCtrls,
+  LazUTF8, LazFileUtils,
   proc_msg,
   proc_colors;
 

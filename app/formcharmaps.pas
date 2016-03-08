@@ -13,8 +13,10 @@ unit formcharmaps;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Grids, LclType, LclProc, LCLUnicodeData, IniFiles,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  StdCtrls, Grids, IniFiles,
+  LclType, LclProc, LCLUnicodeData,
+  LazUTF8, LazFileUtils,
   proc_msg;
 
 type

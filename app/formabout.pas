@@ -12,8 +12,10 @@ unit formabout;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  LclProc, LclType, LclIntf, ButtonPanel, IniFiles,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ButtonPanel, IniFiles,
+  LclProc, LclType, LclIntf,
+  LazUTF8, LazFileUtils,
   proc_msg, proc_globdata, ATLinkLabel;
 
 type

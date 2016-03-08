@@ -12,9 +12,9 @@ unit formkeys;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  StdCtrls, Menus, IniFiles,
-  LclType, LclProc, ExtCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
+  StdCtrls, Menus, ExtCtrls, IniFiles,
+  LclType, LclProc, LazUTF8, LazFileUtils,
   ATSynEdit_Keymap,
   proc_msg;
 

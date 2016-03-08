@@ -12,9 +12,10 @@ unit formlexerlib;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   StdCtrls, ComCtrls, CheckLst, IniFiles,
   LCLIntf, LCLType, LCLProc,
+  LazUTF8, LazFileUtils,
   ecSyntAnal,
   formlexerprop,
   proc_install_zip,

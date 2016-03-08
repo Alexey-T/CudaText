@@ -13,7 +13,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  FileUtil,
+  LazFileUtils,
   ATStringProc,
   jsonConf,
   RegExpr;

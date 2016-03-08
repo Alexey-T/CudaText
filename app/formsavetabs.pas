@@ -12,8 +12,9 @@ unit formsavetabs;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   IniFiles, CheckLst, ExtCtrls, StdCtrls,
+  LazUTF8, LazFileUtils,
   proc_msg;
 
 type

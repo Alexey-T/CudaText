@@ -12,8 +12,9 @@ unit formconfirmrep;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   LclType, IniFiles,
+  LazUTF8, LazFileUtils,
   ATButtons,
   proc_globdata,
   proc_colors;

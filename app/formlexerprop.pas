@@ -12,8 +12,9 @@ unit formlexerprop;
 interface
 
 uses
-  Classes, SysUtils, Graphics, FileUtil, Forms, Controls, StdCtrls,
+  Classes, SysUtils, Graphics, Forms, Controls, StdCtrls,
   Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox, IniFiles,
+  LazUTF8, LazFileUtils,
   ecSyntAnal,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,

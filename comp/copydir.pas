@@ -57,7 +57,8 @@ unit CopyDir;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LCLIntf;
+  Classes, SysUtils,
+  LazFileUtils, FIleUtil, LCLIntf;
 
 type
   TList = array of String;
