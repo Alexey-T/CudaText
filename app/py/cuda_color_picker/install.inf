@@ -3,6 +3,7 @@ title=Color Picker
 desc=Shows color-picker dialog, inserts color #rrggbb
 type=cudatext-plugin
 subdir=cuda_color_picker
+homepage=https://github.com/CudaText-addons/cuda_color_picker
 
 [item1]
 section=commands

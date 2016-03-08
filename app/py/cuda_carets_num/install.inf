@@ -3,6 +3,7 @@ title=Carets Numbering
 desc=Inserts increasing numbers at all multi-carets positions
 type=cudatext-plugin
 subdir=cuda_carets_num
+homepage=https://github.com/CudaText-addons/cuda_carets_numbering
 
 [item1]
 section=commands
