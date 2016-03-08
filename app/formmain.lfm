@@ -352,6 +352,7 @@ object fmMain: TfmMain
       end
       object mnuFileOpenSub: TMenuItem
         Caption = 'Open recent'
+        Hint = 'recents'
       end
       object mnuFileReopen: TMenuItem
         Caption = 'Reopen'
@@ -388,9 +389,11 @@ object fmMain: TfmMain
       end
       object mnuFileEnc: TMenuItem
         Caption = 'Encoding'
+        Hint = 'enc'
       end
       object mnuFileEnds: TMenuItem
         Caption = 'Line ends'
+        Hint = 'ends'
         object mnuFileEndWin: TMenuItem
           Caption = 'Win'
           OnClick = mnuEndsWinClick
@@ -443,6 +446,7 @@ object fmMain: TfmMain
       end
       object mnuEditCopySub: TMenuItem
         Caption = 'Copy to clipboard'
+        Hint = 'copy'
         object mnuEditCopyLine: TMenuItem
           Caption = 'Copy current line'
         end
@@ -464,6 +468,7 @@ object fmMain: TfmMain
       end
       object mnuEditLineOp: TMenuItem
         Caption = 'Line operations'
+        Hint = 'lineop'
         object mnuEditLineDel: TMenuItem
           Caption = 'Delete line(s)'
         end
@@ -482,6 +487,7 @@ object fmMain: TfmMain
       end
       object mnuEditIndentSub: TMenuItem
         Caption = 'Blank operations'
+        Hint = 'blankop'
         object mnuEditIndent: TMenuItem
           Caption = 'Indent'
         end
@@ -512,6 +518,7 @@ object fmMain: TfmMain
       end
       object mnuCaseSub: TMenuItem
         Caption = 'Convert case'
+        Hint = 'case'
         object mnuCaseUp: TMenuItem
           Caption = 'Upper case'
         end
@@ -530,6 +537,7 @@ object fmMain: TfmMain
       end
       object mnuSortSub: TMenuItem
         Caption = 'Sort lines'
+        Hint = 'sort'
         object mnuSortAsc: TMenuItem
           Caption = 'Sort lines asc'
         end
@@ -539,6 +547,7 @@ object fmMain: TfmMain
       end
       object mnuCmtSub: TMenuItem
         Caption = 'Comments'
+        Hint = 'cmt'
         object mnuCmtAdd: TMenuItem
           Caption = 'Add line comment'
         end
@@ -579,6 +588,7 @@ object fmMain: TfmMain
       end
       object mnuCaretsExtSub: TMenuItem
         Caption = 'More carets'
+        Hint = 'carets'
         object mnuCaretsUp1Line: TMenuItem
           Caption = 'More carets, up, 1 line'
         end
@@ -637,6 +647,7 @@ object fmMain: TfmMain
       end
       object mnuBmSub: TMenuItem
         Caption = 'Bookmarks'
+        Hint = 'bm'
         object mnuBmNext: TMenuItem
           Caption = 'Go to next bookmark'
         end
@@ -662,6 +673,7 @@ object fmMain: TfmMain
       Hint = 'view'
       object mnuGroups: TMenuItem
         Caption = 'Groups'
+        Hint = 'groups'
         object mnuGr1: TMenuItem
           Caption = 'One group'
         end
@@ -698,6 +710,7 @@ object fmMain: TfmMain
       end
       object mnuViewSplitSub: TMenuItem
         Caption = 'Split tab'
+        Hint = 'split'
         object mnuViewSplitDo: TMenuItem
           Caption = 'Split'
         end
@@ -725,6 +738,7 @@ object fmMain: TfmMain
       end
       object mnuViewUnpri: TMenuItem
         Caption = 'Toggle unprinted chars'
+        Hint = 'unpri'
         object mnuViewUnpriShow: TMenuItem
           Caption = 'Show'
         end
@@ -775,6 +789,7 @@ object fmMain: TfmMain
       end
       object mnuOpMore: TMenuItem
         Caption = 'Settings - more'
+        Hint = 'set_more'
         object mnuOpLexer: TMenuItem
           Caption = 'Settings - lexer'
         end
@@ -794,6 +809,7 @@ object fmMain: TfmMain
       end
       object mnuFontSub: TMenuItem
         Caption = 'Fonts'
+        Hint = 'set_font'
         object mnuFontText: TMenuItem
           Caption = 'Select text font...'
         end
@@ -806,6 +822,7 @@ object fmMain: TfmMain
       end
       object mnuOpLexSub: TMenuItem
         Caption = 'Lexers'
+        Hint = 'set_lex'
         object mnuOpLexProp: TMenuItem
           Caption = 'Lexer properties...'
         end
@@ -815,6 +832,7 @@ object fmMain: TfmMain
       end
       object mnuThemes: TMenuItem
         Caption = 'Color themes'
+        Hint = 'themes'
         object mnuTst1: TMenuItem
           Caption = '--'
           Visible = False
@@ -822,6 +840,7 @@ object fmMain: TfmMain
       end
       object mnuLang: TMenuItem
         Caption = 'Translations'
+        Hint = 'langs'
         object mnuTst2: TMenuItem
           Caption = '--'
         end
