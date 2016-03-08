@@ -841,7 +841,9 @@ begin
     FImagePanel.BevelOuter:= bvNone;
     FImagePanel.Color:= clSkyBlue;
     FImage.Parent:= FImagePanel;
+
     FrameResize(Self);
+    DoOnChangeCaption;
 
     exit
   end;
