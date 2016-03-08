@@ -102,6 +102,23 @@ implementation
 
 {$R *.lfm}
 
+var
+  msgBorderTypeNone: string = 'none';
+  msgBorderTypeSolid: string = 'solid';
+  msgBorderTypeDash: string = 'dash';
+  msgBorderTypeDot: string = 'dot';
+  msgBorderTypeDashDot: string = 'dash dot';
+  msgBorderTypeDashDotDot: string = 'dash dot dot';
+  msgBorderTypeSolid2: string = 'solid2';
+  msgBorderTypeSolid3: string = 'solid3';
+  msgBorderTypeWave: string = 'wave';
+  msgBorderTypeDouble: string = 'double';
+
+procedure DoLocString(var AStr: string; ini: TIniFile; const ASection, AKey: string);
+begin
+  AStr:= ini.ReadString(ASection, AKey, AStr);
+end;
+
 procedure DoLocalize_FormLexerProp(F: TfmLexerProp; const ALangFilename: string);
 const
   section = 'd_lex_prop';
@@ -147,6 +164,17 @@ begin
     with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
     with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
 
+    DoLocString(msgBorderTypeNone, ini, section, 'bty_none');
+    DoLocString(msgBorderTypeSolid, ini, section, 'bty_solid');
+    DoLocString(msgBorderTypeDash, ini, section, 'bty_dash');
+    DoLocString(msgBorderTypeDot, ini, section, 'bty_dot');
+    DoLocString(msgBorderTypeDashDot, ini, section, 'bty_dashdot');
+    DoLocString(msgBorderTypeDashDotDot, ini, section, 'bty_dashdotdot');
+    DoLocString(msgBorderTypeSolid2, ini, section, 'bty_solid2');
+    DoLocString(msgBorderTypeSolid3, ini, section, 'bty_solid3');
+    DoLocString(msgBorderTypeWave, ini, section, 'bty_wave');
+    DoLocString(msgBorderTypeDouble, ini, section, 'bty_double');
+
   finally
     FreeAndNil(ini);
   end;
@@ -161,11 +189,6 @@ begin
   edSample.AdapterHilite:= Adapter;
 
   FFormats:= TecStylesCollection.Create;
-
-  InitBorder(cbBorderL);
-  InitBorder(cbBorderT);
-  InitBorder(cbBorderR);
-  InitBorder(cbBorderB);
 end;
 
 procedure TfmLexerProp.edStyleTypeChange(Sender: TObject);
@@ -221,6 +244,11 @@ procedure TfmLexerProp.FormShow(Sender: TObject);
 var
   i: integer;
 begin
+  InitBorder(cbBorderL);
+  InitBorder(cbBorderT);
+  InitBorder(cbBorderR);
+  InitBorder(cbBorderB);
+
   FFormats.Clear;
   for i:= 0 to FAnalyzer.Formats.Count-1 do
   begin
@@ -373,16 +401,16 @@ begin
   with cb.Items do
   begin
     Clear;
-    Add('none');
-    Add('solid');
-    Add('dash');
-    Add('dot');
-    Add('dash dot');
-    Add('dash dot dot');
-    Add('solid2');
-    Add('solid3');
-    Add('wave');
-    Add('double');
+    Add(msgBorderTypeNone);
+    Add(msgBorderTypeSolid);
+    Add(msgBorderTypeDash);
+    Add(msgBorderTypeDot);
+    Add(msgBorderTypeDashDot);
+    Add(msgBorderTypeDashDotDot);
+    Add(msgBorderTypeSolid2);
+    Add(msgBorderTypeSolid3);
+    Add(msgBorderTypeWave);
+    Add(msgBorderTypeDouble);
   end;
 end;
 
