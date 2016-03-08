@@ -457,6 +457,12 @@ begin
   DoLocalize_FormGoto;
   if Assigned(fmCharmaps) then
     DoLocalize_FormCharmap(fmCharmaps, fn);
+
+  //hack to localize already opened tab title
+  if FrameCount>0 then
+    with Frames[0] do
+      if TabCaption='Untitled1' then
+        TabCaption:= msgUntitledTab+'1';
 end;
 
 procedure TfmMain.DoLocalize_FormFind;
