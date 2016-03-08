@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.2.28.0';
+  cAppExeVersion = '1.2.28.1';
   cAppApiVersion = '1.0.131';
 
 const
@@ -72,6 +72,9 @@ const
   msgStatusPackageName: string = 'name:';
   msgStatusPackageType: string = 'type:';
   msgStatusPackageDesc: string = 'description:';
+  msgStatusPackageCommand: string = 'command:';
+  msgStatusPackageEvents: string = 'events:';
+  msgStatusInstalledNeedRestart: string = 'Program should be restarted to see new plugin';
   msgStatusPluginsJustPreinstalled: string = 'Plugins were just preinstalled:';
   msgStatusErrorInConfigFile: string = 'Error in config file';
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';

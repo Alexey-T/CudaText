@@ -117,7 +117,7 @@ begin
         cfg.SetDeleteValue(path+'hotkey', s_hotkey, '');
         cfg.SetDeleteValue(path+'menu', s_inmenu, true);
 
-        s_report:= s_report+'command: '+s_caption+#13;
+        s_report:= s_report+msgStatusPackageCommand+' '+s_caption+#13;
       end;
 
       if s_section='events' then
@@ -129,11 +129,11 @@ begin
         cfg.SetDeleteValue(path+'lexers', s_lexers, '');
         cfg.SetDeleteValue(path+'keys', s_keys, '');
 
-        s_report:= s_report+'events: '+s_events+#13;
+        s_report:= s_report+msgStatusPackageEvents+' '+s_events+#13;
       end;
     end;
 
-    s_report:= s_report+#13+'Program should be restarted to see new plugin';
+    s_report:= s_report+#13+msgStatusInstalledNeedRestart;
   finally
     FreeAndNil(cfg);
     FreeAndNil(ini);

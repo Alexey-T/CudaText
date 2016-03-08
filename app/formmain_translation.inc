@@ -397,6 +397,9 @@ begin
     DoLocString(msgStatusPackageName             , ini, 'si', 'PackageName');
     DoLocString(msgStatusPackageType             , ini, 'si', 'PackageType');
     DoLocString(msgStatusPackageDesc             , ini, 'si', 'PackageDesc');
+    DoLocString(msgStatusPackageCommand          , ini, 'si', 'PackageCommand');
+    DoLocString(msgStatusPackageEvents           , ini, 'si', 'PackageEvent');
+    DoLocString(msgStatusInstalledNeedRestart    , ini, 'si', 'InstalledNeedRestart');
     DoLocString(msgStatusPluginsJustPreinstalled , ini, 'si', 'PluginsJustPreinstalled');
     DoLocString(msgStatusErrorInConfigFile       , ini, 'si', 'ErrorInConfigFile');
     DoLocString(msgStatusCommandOnlyForLexers    , ini, 'si', 'CommandOnlyForLexers');

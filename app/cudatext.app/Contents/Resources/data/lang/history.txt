@@ -1,5 +1,8 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.03.09
++ [si] PackageCommand PackageEvents InstalledNeedRestart
+
 2016.03.07
 + [d_f] items h_*
 + [ui] items b_*
