@@ -3127,21 +3127,10 @@ end;
 procedure TfmMain.CharmapOnInsert(const AStr: string);
 var
   Ed: TATSynEdit;
-  Caret: TATCaretItem;
-  Str: atString;
-  Shift, PosAfter: TPoint;
 begin
   Ed:= CurrentEditor;
   if Ed.Carets.Count=0 then exit;
-  Caret:= Ed.Carets[0];
-  Str:= Utf8Decode(AStr);
-
-  Ed.Strings.TextInsert(Caret.PosX, Caret.PosY, Str,
-    Ed.ModeOverwrite, Shift, PosAfter);
-  Ed.DoCaretSingle(Caret.PosX+Length(Str), Caret.PosY);
-
-  Ed.Strings.Modified:= true;
-  Ed.DoEventChange;
+  Ed.DoCommand(cCommand_TextInsert, Utf8Decode(AStr));
 
   UpdateFrame(true);
   UpdateStatus;
