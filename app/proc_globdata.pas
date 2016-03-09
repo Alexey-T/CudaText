@@ -26,6 +26,7 @@ uses
   proc_cmd,
   proc_lexer,
   proc_msg,
+  proc_messagebox,
   ecSyntAnal;
 
 var
@@ -436,6 +437,12 @@ var
 
 implementation
 
+function MsgBox(const Str: string; Flags: integer): integer;
+begin
+  //Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
+  Result:= MessageBoxEmulated(Str, Flags);
+end;
+
 function InitPyLibraryPath: string;
 begin
   {$ifdef windows}
@@ -464,11 +471,6 @@ begin
   {$ifdef windows} '' {$endif}
   {$ifdef linux} '/usr/share/cudatext' {$endif}
   {$ifdef darwin} ExtractFileDir(OpDirExe)+'/Resources' {$endif}
-end;
-
-function MsgBox(const Str: string; Flags: integer): integer;
-begin
-  Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
 end;
 
 function GetAppPath(id: TAppPathId): string;

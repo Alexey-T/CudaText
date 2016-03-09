@@ -26,11 +26,19 @@ const
   msgAllFiles: string = 'All files';
   msgDefTheme: string = '(default)';
   msgNoLexer: string = '(none)';
+  msgThemeName: string = 'Theme name:';
+
   msgButtonOk: string = 'OK';
   msgButtonCancel: string = 'Cancel';
   msgButtonApply: string = 'Apply';
   msgButtonClose: string = 'Close';
-  msgThemeName: string = 'Theme name:';
+  msgButtonYes: string = 'Yes';
+  msgButtonNo: string = 'No';
+  msgButtonYesAll: string = 'Yes to all';
+  msgButtonNoAll: string = 'No to all';
+  msgButtonAbort: string = 'Abort';
+  msgButtonRetry: string = 'Retry';
+  msgButtonIgnore: string = 'Ignore';
 
   msgEditCut: string = 'Cut';
   msgEditCopy: string = 'Copy';

@@ -6,25 +6,13 @@ interface
 
 uses
   Classes, SysUtils, Controls, Forms, Dialogs,
-  LclProc, LclType, LCLStrConsts;
+  LclProc, LclType, LCLStrConsts,
+  proc_msg;
 
 function MessageBoxEmulated(const Msg: string; Flags: Longint): Longint;
 
 
 implementation
-
-const
-  msgTitle='CudaText';
-  msgButtonYes='yes';
-  msgButtonNo='no';
-  msgButtonYesAll='yes to all';
-  msgButtonNoAll='no to all';
-  msgButtonOk='ok';
-  msgButtonCancel='cancel';
-  msgButtonAbort='abort';
-  msgButtonRetry='retry';
-  msgButtonIgnore='ignore';
-
 
 procedure DoLocalizeBtn(F: TForm; const AFrom, ATo: string);
 var
