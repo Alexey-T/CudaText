@@ -1269,7 +1269,7 @@ begin
     for i:= 0 to Editor.Strings.Count-1 do
     begin
       N:= Editor.Strings.LinesBm[i];
-      if (N>0) and AppBookmarkKindStandard(N) then
+      if (N>0) and EditorBookmarkIsStandard(N) then
         items.Add(Inttostr(i));
     end;
     c.SetValue(path+cSavBookmark, items);

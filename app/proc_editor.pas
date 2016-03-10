@@ -34,6 +34,7 @@ procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBo
 procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 procedure EditorBookmarkClearAll(ed: TATSynEdit);
 procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
+function EditorBookmarkIsStandard(NKind: integer): boolean;
 
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
@@ -876,6 +877,12 @@ begin
   if Ed.Carets.Count=0 then exit;
   Result:= Ed.DoGetLinkAtPos(Ed.Carets[0].PosX, Ed.Carets[0].PosY);
 end;
+
+function EditorBookmarkIsStandard(NKind: integer): boolean;
+begin
+  Result:= (NKind<=1) or (NKind>=240);
+end;
+
 
 end.
 
