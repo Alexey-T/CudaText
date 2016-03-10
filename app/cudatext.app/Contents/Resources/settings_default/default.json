@@ -108,9 +108,9 @@
   "numbers_show": true,
   //If not 0, special font size used for numbers
   "numbers_font_size": 0,
-  //Style: 0: all lines; 1: none; 2: each 10th line; 3: each 5th line
-  "numbers_style": 3,
-  //Show also for lines with carets
+  //Numbers style: 0: all lines; 1: none; 2: each 10th line; 3: each 5th line
+  "numbers_style": 2,
+  //Show numbers for lines with carets
   "numbers_for_carets": false,
   //Center numbers on column
   "numbers_center": false,
@@ -140,9 +140,8 @@
   //Micromap width, pixels
   "micromap_width": 12,
 
-
   //Fixed margin (vertical line) column.
-  //Margin is always shown, to remove set it to eg 2000.
+  //Fixed margin is always shown, to hide set it to eg 2000.
   "margin": 80,
   //Additional margins, list of columns like "10 20 25" space-separated
   "margin_string": "",
@@ -173,7 +172,10 @@
   //Scale of tab-arrow pointer (15..50)
   "unprinted_tab_ptr_scale": 22,
 
-  //Mode: 0: off (faster); 1: wrap at editor edge; 2: wrap at fixed margin
+  //Wrap mode:
+  //  0: off (faster)
+  //  1: wrap at editor edge (changed on window resize)
+  //  2: wrap at "fixed margin"
   "wrap_mode": 0,
   //Show wrapped parts of long line indented, like line itself
   //(if line begins with spaces/tabs)

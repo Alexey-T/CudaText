@@ -3,6 +3,9 @@ Legend:
   - fixed
   * changed
 
+1.2.28.2
++ char-map uses multi-carets on insert
+
 1.2.28
 + translation possible: see menu item Options/Translations, see folder "data/lang"
 + translation Russian, in AddonManager
