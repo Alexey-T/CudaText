@@ -5,7 +5,7 @@ unit proc_messagebox;
 interface
 
 uses
-  Classes, SysUtils, Controls, Forms, Dialogs,
+  Classes, SysUtils, Controls, Forms, Dialogs, Buttons,
   LclProc, LclType, LCLStrConsts,
   proc_msg;
 
@@ -25,6 +25,8 @@ begin
     if C.Caption=AFrom then
     begin
       C.Caption:= ATo;
+      if (C is TBitBtn) then
+        (C as TBitBtn).Autosize:= true;
       Break
     end;
   end;

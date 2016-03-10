@@ -439,8 +439,13 @@ implementation
 
 function MsgBox(const Str: string; Flags: integer): integer;
 begin
-  //Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
-  Result:= MessageBoxEmulated(Str, Flags);
+  Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
+
+  //not ready yet-
+  //bugs in LCL CreateMessageDialog-
+  //buttons don't autosize for captions (and force autosize don't help, result bad)
+  //and form don't center for long str
+  //Result:= MessageBoxEmulated(Str, Flags);
 end;
 
 function InitPyLibraryPath: string;

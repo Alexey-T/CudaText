@@ -284,10 +284,17 @@ begin
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
     UpdateMenuRecent(nil);
 
-    msgButtonOk:= ini.ReadString('ui', 'b_ok', msgButtonOk);
-    msgButtonCancel:= ini.ReadString('ui', 'b_can', msgButtonCancel);
-    msgButtonApply:= ini.ReadString('ui', 'b_ap', msgButtonApply);
-    msgButtonClose:= ini.ReadString('ui', 'b_cl', msgButtonClose);
+    DoLocString(msgButtonOk,     ini, 'ui', 'b_ok');
+    DoLocString(msgButtonCancel, ini, 'ui', 'b_can');
+    DoLocString(msgButtonApply,  ini, 'ui', 'b_ap');
+    DoLocString(msgButtonClose,  ini, 'ui', 'b_cl');
+    DoLocString(msgButtonYes,    ini, 'ui', 'b_y');
+    DoLocString(msgButtonYesAll, ini, 'ui', 'b_ya');
+    DoLocString(msgButtonNo,     ini, 'ui', 'b_n');
+    DoLocString(msgButtonNoAll,  ini, 'ui', 'b_na');
+    DoLocString(msgButtonAbort,  ini, 'ui', 'b_ab');
+    DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
+    DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
 
     DoLocControlHint(ini, tbNew, 'ui', 'tb_new');
     DoLocControlHint(ini, tbOpen, 'ui', 'tb_op');
