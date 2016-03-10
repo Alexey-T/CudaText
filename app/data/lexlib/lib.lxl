@@ -6835,6 +6835,14 @@ object TecSyntaxManager
         Font.Color = clGreen
         Font.Height = -13
         Font.Name = 'Courier New'
+      end    
+      item
+        DisplayName = 'Media block'
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        BgColor = clMoneyGreen
+        FormatType = ftBackGround
       end>
     TokenRules = <    
       item
@@ -7755,6 +7763,35 @@ object TecSyntaxManager
         IgnoreAsParent = False
       end    
       item
+        DisplayName = 'Media begin'
+        StyleName = 'Media block'
+        ConditionList = <        
+          item
+            TagList.Strings = (
+              '{'
+            )
+            TokenTypes = 8
+          end        
+          item
+            CondType = tcSkip
+            TokenTypes = 246
+          end        
+          item
+            TagList.Strings = (
+              '@'
+            )
+            TokenTypes = 32
+          end>
+        BlockEnd = 'Style end'
+        DisplayInTree = False
+        NameFmt = '@media'
+        RefToCondEnd = True
+        HighlightPos = cpAny
+        CancelNextRules = True
+        CollapseFmt = '@{...}'
+        IgnoreAsParent = False
+      end    
+      item
         DisplayName = 'Style begin'
         StyleName = 'Current block'
         ConditionList = <        
@@ -7768,7 +7805,7 @@ object TecSyntaxManager
         Highlight = True
         InvertColors = True
         NameFmt = '%sl1'
-        GroupFmt = 'Styles'
+        GroupFmt = '\Styles'
         DynHighlight = dhRange
         HighlightPos = cpRange
         DynSelectMin = True
@@ -7792,6 +7829,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Param to tree'
+        BlockName = 'Style begin'
         ConditionList = <        
           item
             TagList.Strings = (
@@ -7887,7 +7925,29 @@ object TecSyntaxManager
       '  -ms-zoom: 100%; '
       '  -ms-hmm: test;'
       '}'
+      ''
       '#footer {color: #AA00BB;}'
+      ''
+      '@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {'
+      '    .input_size_m .input__control {'
+      '        padding-left: 0;'
+      '        border-left: 10px solid transparent'
+      '   }'
+      '}'
+      ''
+      '.button_size_m {'
+      '    font-size: 15px'
+      '}'
+      ''
+      '@media all and (min-width: 0) {'
+      '    .button_size_m {'
+      '        line-height: 32px'
+      '   }'
+      '}'
+      ''
+      '.button_size_m .button__text {'
+      '    padding: 0 15px'
+      '}'
     )
     TokenTypeNames.Strings = (
       'Unknown'
@@ -7903,7 +7963,8 @@ object TecSyntaxManager
     LexerName = 'CSS'
     Notes.Strings = (
       'Author: Alex (Synwrite)'
-      'Added misspelled properties underlining.'
+      'Added misspelled properties underlining'
+      'Added @media handling'
       ''
       'Known properties: http://htmlbook.ru'
       'Known vendor prefixes: http://peter.sh/experiments/vendor-prefixed-css-property-overview/'
