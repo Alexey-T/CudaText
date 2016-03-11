@@ -3397,11 +3397,12 @@ begin
   if Assigned(mi) then
     for i:= 0 to mi.Count-1 do
       Result:= Result+
-        mi.Items[i].Caption+'|'+
+        mi.Items[i].Caption +'|'+
         IfThen(mi.Items[i].Tag>0,
                IntToStr(mi.Items[i].Tag),
-               mi.Items[i].Hint)
-               +#10;
+               mi.Items[i].Hint) +'|'+
+        IntToStr(PtrInt(mi.Items[i]))
+        +#10;
 end;
 
 
