@@ -167,6 +167,7 @@ object fmMain: TfmMain
       Left = 1
       Hint = 'Create new tab'
       Top = 0
+      Caption = 'filenew'
       DropdownMenu = PopupNewdoc
       ImageIndex = 0
       OnClick = tbNewClick
@@ -176,6 +177,7 @@ object fmMain: TfmMain
       Left = 37
       Hint = 'Open file'
       Top = 0
+      Caption = 'fileopen'
       DropdownMenu = PopupRecents
       ImageIndex = 1
       OnClick = tbOpenClick
@@ -185,64 +187,79 @@ object fmMain: TfmMain
       Left = 73
       Hint = 'Save file'
       Top = 0
+      Caption = 'filesave'
       ImageIndex = 2
       OnClick = tbSaveClick
     end
-    object tbFind: TToolButton
-      Left = 109
-      Hint = 'Dialog "Find"'
-      Top = 0
-      DropdownMenu = PopupFind
-      ImageIndex = 3
-      OnClick = tbFindClick
-      Style = tbsDropDown
-    end
-    object ToolButton5: TToolButton
+    object tbSplit1: TToolButton
       Left = 97
       Height = 24
       Top = 0
       Width = 12
       Style = tbsDivider
     end
+    object tbFind: TToolButton
+      Left = 109
+      Hint = 'Dialog "Find"'
+      Top = 0
+      Caption = 'find'
+      DropdownMenu = PopupFind
+      ImageIndex = 3
+      OnClick = tbFindClick
+      Style = tbsDropDown
+    end
     object tbGoto: TToolButton
       Left = 145
       Hint = 'Dialog "Go to"'
       Top = 0
+      Caption = 'goto'
       ImageIndex = 4
       OnClick = tbGotoClick
     end
-    object tbCut: TToolButton
-      Left = 181
-      Hint = 'Cut'
-      Top = 0
-      ImageIndex = 7
-      OnClick = tbCutClick
-    end
-    object tbPaste: TToolButton
-      Left = 229
-      Hint = 'Paste'
-      Top = 0
-      ImageIndex = 8
-      OnClick = tbPasteClick
-    end
-    object ToolButton9: TToolButton
+    object tbSplit2: TToolButton
       Left = 169
       Height = 24
       Top = 0
       Width = 12
       Style = tbsDivider
     end
+    object tbCut: TToolButton
+      Left = 181
+      Hint = 'Cut'
+      Top = 0
+      Caption = 'cut'
+      ImageIndex = 7
+      OnClick = tbCutClick
+    end
     object tbCopy: TToolButton
       Left = 205
       Hint = 'Copy'
       Top = 0
+      Caption = 'copy'
       ImageIndex = 6
       OnClick = tbCopyClick
+    end
+    object tbPaste: TToolButton
+      Left = 229
+      Hint = 'Paste'
+      Top = 0
+      Caption = 'paste'
+      ImageIndex = 8
+      OnClick = tbPasteClick
+    end
+    object tbDel: TToolButton
+      Left = 253
+      Hint = 'Delete selection'
+      Top = 0
+      Caption = 'del'
+      ImageIndex = 9
+      OnClick = tbDelClick
     end
     object tbSelAll: TToolButton
       Left = 277
       Hint = 'Select all'
       Top = 0
+      Caption = 'select'
       ImageIndex = 10
       OnClick = tbSelAllClick
     end
@@ -250,6 +267,7 @@ object fmMain: TfmMain
       Left = 301
       Hint = 'Undo'
       Top = 0
+      Caption = 'undo'
       ImageIndex = 11
       OnClick = tbUndoClick
     end
@@ -257,10 +275,11 @@ object fmMain: TfmMain
       Left = 325
       Hint = 'Redo'
       Top = 0
+      Caption = 'redo'
       ImageIndex = 12
       OnClick = tbRedoClick
     end
-    object ToolButton15: TToolButton
+    object tbSplit3: TToolButton
       Left = 349
       Height = 24
       Top = 0
@@ -271,27 +290,15 @@ object fmMain: TfmMain
       Left = 361
       Hint = 'Toggle unprinted chars'
       Top = 0
+      Caption = 'unpri'
       ImageIndex = 14
       OnClick = tbUnpriClick
-    end
-    object tbDel: TToolButton
-      Left = 253
-      Hint = 'Delete selection'
-      Top = 0
-      ImageIndex = 9
-      OnClick = tbDelClick
-    end
-    object tbMinimap: TToolButton
-      Left = 433
-      Hint = 'Toggle minimap'
-      Top = 0
-      ImageIndex = 15
-      OnClick = tbMinimapClick
     end
     object tbSidePanel: TToolButton
       Left = 385
       Hint = 'Toggle side-panel'
       Top = 0
+      Caption = 'panel_side'
       ImageIndex = 17
       OnClick = tbSidePanelClick
     end
@@ -299,8 +306,17 @@ object fmMain: TfmMain
       Left = 409
       Hint = 'Toggle bottom-panel'
       Top = 0
+      Caption = 'panel_btm'
       ImageIndex = 16
       OnClick = tbBtmPanelClick
+    end
+    object tbMinimap: TToolButton
+      Left = 433
+      Hint = 'Toggle minimap'
+      Top = 0
+      Caption = 'minimap'
+      ImageIndex = 15
+      OnClick = tbMinimapClick
     end
   end
   object PythonEngine: TPythonEngine
