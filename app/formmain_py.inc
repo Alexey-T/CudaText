@@ -2132,6 +2132,26 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_TOOLBAR_ICON_GET_SIZE:
+          begin
+            with fmMain.ToolbarMain do
+              Result:= Py_BuildValue('(ii)', Images.Width, Images.Height);
+          end;
+
+        APP_PROC_TOOLBAR_ICON_SET_SIZE:
+          begin
+            Str1:= SGetItem(Str);
+            Str2:= SGetItem(Str);
+            with fmMain.ToolbarMain do
+            begin
+              Images.Width:= StrToIntDef(Str1, 16);
+              Images.Height:= StrToIntDef(Str2, 16);
+              ButtonWidth:= Images.Width+6;
+              ButtonHeight:= Images.Height+6;
+            end;
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_LANG:
           begin
             Result:= PyString_FromString(PChar(fmMain.LangName));
