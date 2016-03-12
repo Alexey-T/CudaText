@@ -167,7 +167,7 @@ object fmMain: TfmMain
       Left = 1
       Hint = 'Create new tab'
       Top = 0
-      Caption = 'filenew'
+      Caption = 'f_new'
       DropdownMenu = PopupNewdoc
       ImageIndex = 0
       OnClick = tbNewClick
@@ -177,7 +177,7 @@ object fmMain: TfmMain
       Left = 37
       Hint = 'Open file'
       Top = 0
-      Caption = 'fileopen'
+      Caption = 'f_open'
       DropdownMenu = PopupRecents
       ImageIndex = 1
       OnClick = tbOpenClick
@@ -187,7 +187,7 @@ object fmMain: TfmMain
       Left = 73
       Hint = 'Save file'
       Top = 0
-      Caption = 'filesave'
+      Caption = 'f_save'
       ImageIndex = 2
       OnClick = tbSaveClick
     end
@@ -227,7 +227,7 @@ object fmMain: TfmMain
       Left = 181
       Hint = 'Cut'
       Top = 0
-      Caption = 'cut'
+      Caption = 'e_cut'
       ImageIndex = 7
       OnClick = tbCutClick
     end
@@ -235,7 +235,7 @@ object fmMain: TfmMain
       Left = 205
       Hint = 'Copy'
       Top = 0
-      Caption = 'copy'
+      Caption = 'e_copy'
       ImageIndex = 6
       OnClick = tbCopyClick
     end
@@ -243,7 +243,7 @@ object fmMain: TfmMain
       Left = 229
       Hint = 'Paste'
       Top = 0
-      Caption = 'paste'
+      Caption = 'e_paste'
       ImageIndex = 8
       OnClick = tbPasteClick
     end
@@ -251,7 +251,7 @@ object fmMain: TfmMain
       Left = 253
       Hint = 'Delete selection'
       Top = 0
-      Caption = 'del'
+      Caption = 'e_del'
       ImageIndex = 9
       OnClick = tbDelClick
     end
@@ -259,7 +259,7 @@ object fmMain: TfmMain
       Left = 277
       Hint = 'Select all'
       Top = 0
-      Caption = 'select'
+      Caption = 'e_sel'
       ImageIndex = 10
       OnClick = tbSelAllClick
     end
@@ -267,7 +267,7 @@ object fmMain: TfmMain
       Left = 301
       Hint = 'Undo'
       Top = 0
-      Caption = 'undo'
+      Caption = 'e_undo'
       ImageIndex = 11
       OnClick = tbUndoClick
     end
@@ -275,7 +275,7 @@ object fmMain: TfmMain
       Left = 325
       Hint = 'Redo'
       Top = 0
-      Caption = 'redo'
+      Caption = 'e_redo'
       ImageIndex = 12
       OnClick = tbRedoClick
     end
@@ -298,7 +298,7 @@ object fmMain: TfmMain
       Left = 385
       Hint = 'Toggle side-panel'
       Top = 0
-      Caption = 'panel_side'
+      Caption = 'p_side'
       ImageIndex = 17
       OnClick = tbSidePanelClick
     end
@@ -306,7 +306,7 @@ object fmMain: TfmMain
       Left = 409
       Hint = 'Toggle bottom-panel'
       Top = 0
-      Caption = 'panel_btm'
+      Caption = 'p_btm'
       ImageIndex = 16
       OnClick = tbBtmPanelClick
     end
@@ -314,7 +314,7 @@ object fmMain: TfmMain
       Left = 433
       Hint = 'Toggle minimap'
       Top = 0
-      Caption = 'minimap'
+      Caption = 'map'
       ImageIndex = 15
       OnClick = tbMinimapClick
     end
