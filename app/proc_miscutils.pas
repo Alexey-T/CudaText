@@ -176,12 +176,20 @@ end;
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
   const AFilename: string): boolean;
 var
-  bmp: TBitmap;
+  bmp: TCustomBitmap;
 begin
-  if AImagelist=nil then exit(false);
-  if not FileExistsUtf8(AFilename) then exit(false);
+  Result:= false;
+  if AImagelist=nil then exit;
+  if not FileExistsUtf8(AFilename) then exit;
 
-  bmp:= TBitmap.Create;
+  if ExtractFileExt(AFilename)='.bmp' then
+    bmp:= TBitmap.Create
+  else
+  if ExtractFileExt(AFilename)='.png' then
+    bmp:= TPortableNetworkGraphic.Create
+  else
+    exit;
+
   try
     try
       bmp.LoadFromFile(AFilename);
@@ -192,7 +200,6 @@ begin
       FreeAndNil(bmp);
     end;
   except
-    Result:= false;
   end;
 end;
 
