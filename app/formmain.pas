@@ -1862,9 +1862,15 @@ begin
     for i:= 0 to ed.Strings.Count-1 do
       if ed.Strings.LinesBm[i]>0 then
       begin
-        str:= 'Line '+Inttostr(i+1)+': '+ed.Strings.Lines[i];
+        str:= cHintScrollPrefix + Inttostr(i+1) + ': ' + ed.Strings.Lines[i];
         items.AddObject(Utf8Encode(str), TObject(ptrint(i)));
       end;
+
+    if items.Count=0 then
+    begin
+      MsgStatus(msgCannotFindBookmarks);
+      Exit;
+    end;
 
     Num:= -1;
     Form:= TfmGotoList.Create(Self);

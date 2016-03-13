@@ -1,6 +1,10 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+
+2016.03.13
++ [se] FindBookmarks
+
 2016.03.09
 + [si] PackageCommand PackageEvents InstalledNeedRestart
 + [d_lex_prop] bty_*

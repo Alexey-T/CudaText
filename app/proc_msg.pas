@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.2.29.0';
+  cAppExeVersion = '1.2.29.1';
   cAppApiVersion = '1.0.132';
 
 const
@@ -72,6 +72,7 @@ const
   msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';
   msgCannotFindMatch: string = 'Cannot find';
   msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in zip';
+  msgCannotFindBookmarks: string = 'Cannot find bookmarks in text';
 
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';

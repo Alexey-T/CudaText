@@ -396,6 +396,7 @@ begin
     DoLocString(msgCannotReloadUntitledTab       , ini, 'se', 'ReloadUntitledTab');
     DoLocString(msgCannotFindMatch               , ini, 'se', 'FindMatch');
     DoLocString(msgCannotFindInstallInfInZip     , ini, 'se', 'FindInstallInfInZip');
+    DoLocString(msgCannotFindBookmarks           , ini, 'se', 'FindBookmarks');
 
     DoLocString(msgStatusIncorrectFilename       , ini, 'si', 'IncorrectFilename');
     DoLocString(msgStatusIncorrectInstallInfInZip, ini, 'si', 'IncorrectInstallInfInZip');
