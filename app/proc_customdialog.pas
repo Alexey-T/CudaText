@@ -505,7 +505,7 @@ begin
   Dummy:= TDummyClass.Create;
   try
     F.BorderStyle:= bsDialog;
-    F.Position:= poDesktopCenter;
+    F.Position:= poScreenCenter;
     F.Width:= ASizeX;
     F.Height:= ASizeY;
     F.Caption:= ATitle;

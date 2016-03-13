@@ -611,7 +611,7 @@ begin
   sub.Clear;
 
   mi:= tmenuitem.create(Self);
-  mi.caption:= msgDefTheme;
+  mi.caption:= msgThemeDefault;
   mi.OnClick:= @MenuThemeDefClick;
   mi.Checked:= FThemeName='';
   sub.Add(mi);

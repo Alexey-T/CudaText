@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.2.28.3';
+  cAppExeVersion = '1.2.29.0';
   cAppApiVersion = '1.0.132';
 
 const
@@ -24,8 +24,8 @@ const
 const
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
-  msgDefTheme: string = '(default)';
   msgNoLexer: string = '(none)';
+  msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
 
   msgButtonOk: string = 'OK';

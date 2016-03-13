@@ -276,7 +276,7 @@ begin
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
-    msgDefTheme:= ini.ReadString('ui', 'deft', msgDefTheme);
+    msgThemeDefault:= ini.ReadString('ui', 'deft', msgThemeDefault);
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
