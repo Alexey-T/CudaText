@@ -408,7 +408,6 @@ begin
     DoLocString(msgStatusPackageCommand          , ini, 'si', 'PackageCommand');
     DoLocString(msgStatusPackageEvents           , ini, 'si', 'PackageEvent');
     DoLocString(msgStatusInstalledNeedRestart    , ini, 'si', 'InstalledNeedRestart');
-    DoLocString(msgStatusPluginsJustPreinstalled , ini, 'si', 'PluginsJustPreinstalled');
     DoLocString(msgStatusErrorInConfigFile       , ini, 'si', 'ErrorInConfigFile');
     DoLocString(msgStatusCommandOnlyForLexers    , ini, 'si', 'CommandOnlyForLexers');
     DoLocString(msgStatusOpenedBrowser           , ini, 'si', 'OpenedBrowser');

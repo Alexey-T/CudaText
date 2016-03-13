@@ -3,6 +3,10 @@ Legend:
   - fixed
   * changed
 
+
+1.2.30
+* not used anymore plugins.json (delete it), used install.inf's instead
+
 1.2.29
 + lexer CSS handles @media{...}
 + char-map uses multi-carets on insert

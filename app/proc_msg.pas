@@ -84,7 +84,6 @@ const
   msgStatusPackageCommand: string = 'command:';
   msgStatusPackageEvents: string = 'events:';
   msgStatusInstalledNeedRestart: string = 'Program should be restarted to see new plugin';
-  msgStatusPluginsJustPreinstalled: string = 'Plugins were just preinstalled:';
   msgStatusErrorInConfigFile: string = 'Error in config file';
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';
   msgStatusOpenedBrowser: string = 'Opened browser';

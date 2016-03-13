@@ -1,2 +1,30 @@
 [info]
 title=Addons Manager
+desc=Allows to manage CudaText plugins
+type=cudatext-plugin
+subdir=cuda_addonman
+
+[item1]
+section=commands
+caption=Addons Manager\Install...
+method=do_install_addon
+[item2]
+section=commands
+caption=Addons Manager\Edit plugin...
+method=do_edit
+[item3]
+section=commands
+caption=Addons Manager\Remove plugin...
+method=do_remove
+[item4]
+section=commands
+caption=Addons Manager\Download all...
+method=do_download_all
+[item5]
+section=commands
+caption=Addons Manager\Config...
+method=do_config
+[item6]
+section=commands
+caption=Addons Manager\Visit plugin homepage...
+method=do_homepage

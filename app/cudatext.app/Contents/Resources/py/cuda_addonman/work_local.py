@@ -3,8 +3,6 @@ import os
 import collections
 from cudatext import *
 
-fn_plugins = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.json')
-
 def get_installinf_of_module(mod):
     return os.path.join(app_path(APP_DIR_PY), mod, 'install.inf')
 
@@ -19,21 +17,6 @@ def get_homepage_of_module(mod):
     fn_ini = get_installinf_of_module(mod)
     return ini_read(fn_ini, 'info', 'homepage', '')
 
-def do_remove_registering(mod):
-    with open(fn_plugins, 'r') as f:
-        d = json.load(f, object_pairs_hook=collections.OrderedDict)
-        
-    if 'commands' in d:
-        if mod in d['commands']:
-            del d['commands'][mod]
-    if 'events' in d:
-        if mod in d['events']:
-            del d['events'][mod]
-    
-    text = json.dumps(d, indent=2)
-    with open(fn_plugins, 'w') as f:
-        f.write(text)
-        
 
 def do_remove_module(mod):
     dir_mod = os.path.join(app_path(APP_DIR_PY), mod)
@@ -57,15 +40,11 @@ def do_remove_module(mod):
     
 
 def get_installed_list():
-    d = json.load(open(fn_plugins, 'r'), object_pairs_hook=collections.OrderedDict)
-    
-    lst = []
-    if 'commands' in d:
-        lst += list(d['commands'].keys()) 
-    if 'events' in d:
-        lst += list(d['events'].keys())
-    
-    return sorted(list(set(lst)))
+    d = app_path(APP_DIR_PY)
+    l = os.listdir(d)
+    l = [s for s in l if not s.startswith('cuda_lint_') and not s.startswith('__')]
+    l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
+    return sorted(l)
     
 def get_installed_choice():
     lmod = get_installed_list()

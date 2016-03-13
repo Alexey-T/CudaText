@@ -3,9 +3,14 @@ Legend:
   - fixed
   * changed
 
-1.2.28.3
-+ lexer CSS handles @media{..}
+
+1.2.30
+* not used anymore plugins.json (delete it), used install.inf's instead
+
+1.2.29
++ lexer CSS handles @media{...}
 + char-map uses multi-carets on insert
++ more toolbar api
 
 1.2.28
 + translation possible: see menu item Options/Translations, see folder "data/lang"
