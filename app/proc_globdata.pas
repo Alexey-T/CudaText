@@ -52,7 +52,6 @@ type
     cFileOptUser,
     cFileOptFiletypes,
     cFileOptKeymap,
-    cFileOptPlugins,
     cFileHistoryList,
     cFileHistorySession,
     cFileLexerStyles,
@@ -395,6 +394,9 @@ const
     'on_macro'
     );
 
+const
+  cMaxItemsInInstallInf = 200;
+
 type
   TAppPluginCmd = record
     ItemModule: string;
@@ -542,10 +544,6 @@ begin
     cFileOptKeymap:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys.json';
-      end;
-    cFileOptPlugins:
-      begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'plugins.json';
       end;
     cFileHistoryList:
       begin

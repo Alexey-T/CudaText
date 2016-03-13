@@ -524,6 +524,7 @@ type
     procedure DoMenuClear(const AStr: string);
     function DoMenuEnum(const AStr: string): string;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
+    procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoPanel_Event(const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
@@ -598,7 +599,6 @@ type
     procedure DoOps_LoadOptionsOverride(F: TEditorFrame);
     procedure DoOps_OpenFile_FileTypes;
     procedure DoOps_OpenFile_LexerOvr;
-    procedure DoOps_PreinstallPlugins;
     procedure DoOps_LoadPlugins;
     procedure DoOps_DialogFont(var OpName: string; var OpSize: integer;
       const AConfigStrName, AConfigStrSize: string);
@@ -1244,7 +1244,6 @@ begin
   DoOps_LoadPlugins;
   DoOps_LoadHistory;
   DoOps_LoadKeymap;
-  DoOps_PreinstallPlugins;
 
   UpdateMenuPlugins;
   UpdateMenuThemes(mnuThemes);

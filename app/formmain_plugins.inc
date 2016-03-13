@@ -26,82 +26,90 @@ end;
 
 procedure TfmMain.DoOps_LoadPlugins;
 var
-  fn_plugins: string;
-  cfg: TJsonConfig;
-  list, list2: TStringlist;
-  str, strPath: string;
-  i, j, cnt: integer;
+  list: TStringlist;
+  fn: string;
+  i: integer;
 begin
-  fn_plugins:= GetAppPath(cFileOptPlugins);
-  if not FileExists(fn_plugins) then exit;
+  FillChar(FPluginsCmd, SizeOf(FPluginsCmd), 0);
+  FillChar(FPluginsEvents, SizeOf(FPluginsEvents), 0);
 
-  cfg:= TJSONConfig.Create(nil);
   list:= TStringlist.Create;
-  list2:= TStringlist.Create;
   try
-    try
-      cfg.Filename:= fn_plugins;
-    except
-      MsgBox(msgCannotReadConf+#13+fn_plugins, mb_ok or mb_iconerror);
-      exit
-    end;
-
-    //read command plugins
-    cnt:= 0;
-    list.Clear;
-    cfg.EnumSubKeys('/commands', list);
+    FindAllDirectories(list, GetAppPath(cDirPy), false);
     list.Sort;
-
     for i:= 0 to list.Count-1 do
     begin
-      list2.Clear;
-      cfg.EnumSubKeys('/commands/'+list[i], list2);
-      list2.Sort;
-
-      for j:= 0 to list2.Count-1 do
-      begin
-        FPluginsCmd[cnt].ItemModule:= list[i];
-        strPath:= '/commands/'+list[i]+'/'+list2[j]+'/';
-        FPluginsCmd[cnt].ItemProc:= cfg.GetValue(strPath+'proc', '');
-        FPluginsCmd[cnt].ItemProcParam:= cfg.GetValue(strPath+'proc_par', '');
-        FPluginsCmd[cnt].ItemCaption:= Utf8Encode(cfg.GetValue(strPath+'caption', ''));
-        FPluginsCmd[cnt].ItemLexers:= cfg.GetValue(strPath+'lexers', '');
-        FPluginsCmd[cnt].ItemInMenu:= cfg.GetValue(strPath+'menu', true);
-
-        Inc(cnt);
-        if cnt>=High(FPluginsCmd) then Break;
-      end;
+      fn:= list[i]+DirectorySeparator+'install.inf';
+      if FileExists(fn) then
+        DoOps_LoadPluginFromInf(fn);
     end;
-
-    //read event plugins
-    cnt:= 0;
-    list.Clear;
-    cfg.EnumSubKeys('/events', list);
-    list.Sort;
-
-    for cnt:= 0 to list.Count-1 do
-    begin
-      FPluginsEvents[cnt].ItemModule:= list[cnt];
-      strPath:= '/events/'+list[cnt]+'/';
-      FPluginsEvents[cnt].ItemLexers:= cfg.GetValue(strPath+'lexers', '');
-      FPluginsEvents[cnt].ItemKeys:= cfg.GetValue(strPath+'keys', '');
-
-      //parse "events"
-      str:= cfg.GetValue(strPath+'events', '');
-      DoPyStringToEvents(str, FPluginsEvents[cnt].ItemEvents);
-
-      if cnt>=High(FPluginsEvents) then Break;
-    end;
-    DoOps_ShowEventPlugins;
-
   finally
-    FreeAndNil(list2);
     FreeAndNil(list);
-    FreeAndNil(cfg);
   end;
 
   UpdateKeymapDynamicItems;
 end;
+
+
+procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
+var
+  ini: TIniFile;
+  s_section, s_caption, s_module, s_method, s_lexers, s_hotkey,
+  s_events, s_keys: string;
+  s_inmenu: boolean;
+  i, cnt: integer;
+begin
+  ini:= TIniFile.Create(fn_inf);
+  try
+    s_module:= ExtractFileName(ExtractFileDir(fn_inf));
+
+    for i:= 1 to cMaxItemsInInstallInf do
+    begin
+      s_section:= ini.ReadString('item'+Inttostr(i), 'section', '');
+      s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
+      s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
+      s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
+      s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
+      s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
+      s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');
+      s_inmenu:= ini.ReadBool('item'+Inttostr(i), 'menu', true);
+
+      if s_section='commands' then
+      begin
+        if s_caption='' then Continue;
+        if s_method='' then Continue;
+
+        cnt:= 0;
+        while FPluginsCmd[cnt].ItemModule<>'' do Inc(cnt);
+        if cnt>=High(FPluginsCmd) then Break;
+
+        FPluginsCmd[cnt].ItemModule:= s_module;
+        FPluginsCmd[cnt].ItemProc:= s_method;
+        FPluginsCmd[cnt].ItemProcParam:= '';
+        FPluginsCmd[cnt].ItemCaption:= s_caption;
+        FPluginsCmd[cnt].ItemLexers:= s_lexers;
+        FPluginsCmd[cnt].ItemInMenu:= s_inmenu;
+      end;
+
+      if s_section='events' then
+      begin
+        if s_events='' then Continue;
+
+        cnt:= 0;
+        while FPluginsEvents[cnt].ItemModule<>'' do Inc(cnt);
+        if cnt>=High(FPluginsEvents) then Break;
+
+        FPluginsEvents[cnt].ItemModule:= s_module;
+        DoPyStringToEvents(s_events, FPluginsEvents[cnt].ItemEvents);
+        FPluginsEvents[cnt].ItemLexers:= s_lexers;
+        FPluginsEvents[cnt].ItemKeys:= s_keys;
+      end;
+    end;
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
 
 procedure TfmMain.DoOps_ShowEventPlugins;
 var
@@ -204,65 +212,6 @@ begin
     FPluginsCmd[Num].ItemProc,
     FPluginsCmd[Num].ItemProcParam
     );
-end;
-
-procedure TfmMain.DoOps_PreinstallPlugins;
-var
-  cfg: TJSONConfig;
-  log: string;
-  //
-  procedure DoAdd(const SModule, SMethod, SCaption: string; AIndex: integer);
-  var
-    path_method,
-    path_caption: string;
-  begin
-    path_method:= '/commands/'+SModule+'/'+IntToStr(AIndex)+'/proc';
-    path_caption:= '/commands/'+SModule+'/'+IntToStr(AIndex)+'/caption';
-    if cfg.GetValue(path_caption, '')<>SCaption then
-    begin
-      cfg.SetValue(path_method, SMethod);
-      cfg.SetValue(path_caption, SCaption);
-      log:= log+(SModule+' - '+SCaption)+#10;
-    end;
-  end;
-  //
-const
-  cModuleAddonman = 'cuda_addonman';
-  cCaptionAddonman = 'Addons Manager';
-  cModuleMake = 'cuda_make_plugin';
-  cCaptionMake = 'Make Plugin';
-  cModuleInsTime = 'cuda_insert_time';
-  cCaptionInsTime = 'Insert Time';
-var
-  fn: string;
-begin
-  fn:= GetAppPath(cFileOptPlugins);
-  cfg:= TJSONConfig.Create(nil);
-  try
-    try
-      cfg.Filename:= fn;
-      cfg.Formatted:= true;
-    except
-      MsgBox(msgCannotReadConf+#13+fn, mb_ok or mb_iconerror);
-      exit
-    end;
-
-    log:= '';
-    DoAdd(cModuleAddonman, 'do_install_addon', cCaptionAddonman+'\Install...', 0);
-    DoAdd(cModuleAddonman, 'do_edit', cCaptionAddonman+'\Edit plugin...', 1);
-    DoAdd(cModuleAddonman, 'do_remove', cCaptionAddonman+'\Remove plugin...', 2);
-    DoAdd(cModuleAddonman, 'do_download_all', cCaptionAddonman+'\Download all...', 3);
-    DoAdd(cModuleAddonman, 'do_config', cCaptionAddonman+'\Config...', 4);
-    DoAdd(cModuleAddonman, 'do_homepage', cCaptionAddonman+'\Visit plugin homepage...', 5);
-
-    DoAdd(cModuleMake, 'run', cCaptionMake, 0);
-    DoAdd(cModuleInsTime, 'run', cCaptionInsTime, 0);
-
-    if log<>'' then
-      MsgBox(msgStatusPluginsJustPreinstalled+#10+log, MB_OK or MB_ICONINFORMATION);
-  finally
-    FreeAndNil(cfg);
-  end;
 end;
 
 

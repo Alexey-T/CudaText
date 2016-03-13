@@ -71,71 +71,42 @@ procedure DoInstallPlugin(
   var s_report: string);
 var
   ini: TIniFile;
-  cfg: TJSONConfig;
-  s_section, s_caption, s_module, s_method, s_hotkey, s_lexers,
-  s_events, s_keys, path: string;
-  s_inmenu: boolean;
+  s_section, s_caption, s_module, s_method,
+  s_events: string;
   i: integer;
 begin
   s_report:= '';
 
   ini:= TIniFile.Create(fn_inf);
-  cfg:= TJSONConfig.Create(nil);
   try
     s_module:= ini.ReadString('info', 'subdir', '');
     if s_module='' then exit;
 
-    try
-      cfg.Filename:= GetAppPath(cFileOptPlugins);
-      cfg.Formatted:= true;
-    except
-      exit;
-    end;
-
     FCopyDir(ExtractFileDir(fn_inf), GetAppPath(cDirPy)+DirectorySeparator+s_module);
 
-    for i:= 1 to 200 do
+    for i:= 1 to cMaxItemsInInstallInf do
     begin
       s_section:= ini.ReadString('item'+Inttostr(i), 'section', '');
       s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
       s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
-      s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
-      s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
       s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
-      s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');
-      s_inmenu:= ini.ReadBool('item'+Inttostr(i), 'menu', true);
 
       if s_section='commands' then
       begin
         if s_caption='' then Continue;
         if s_method='' then Continue;
-
-        path:= '/'+s_section+'/'+s_module+'/'+Format('%2.2d', [i-1])+'/';
-        cfg.SetValue(path+'caption', s_caption);
-        cfg.SetValue(path+'proc', s_method);
-        cfg.SetDeleteValue(path+'lexers', s_lexers, '');
-        cfg.SetDeleteValue(path+'hotkey', s_hotkey, '');
-        cfg.SetDeleteValue(path+'menu', s_inmenu, true);
-
         s_report:= s_report+msgStatusPackageCommand+' '+s_caption+#13;
       end;
 
       if s_section='events' then
       begin
         if s_events='' then Continue;
-
-        path:= '/'+s_section+'/'+s_module+'/';
-        cfg.SetValue(path+'events', s_events);
-        cfg.SetDeleteValue(path+'lexers', s_lexers, '');
-        cfg.SetDeleteValue(path+'keys', s_keys, '');
-
         s_report:= s_report+msgStatusPackageEvents+' '+s_events+#13;
       end;
     end;
 
     s_report:= s_report+#13+msgStatusInstalledNeedRestart;
   finally
-    FreeAndNil(cfg);
     FreeAndNil(ini);
   end;
 end;
