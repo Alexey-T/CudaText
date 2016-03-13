@@ -143,7 +143,6 @@ class Command:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
-        do_remove_registering(m)
         if do_remove_module(m)==True:
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
 
