@@ -265,7 +265,7 @@ begin
     if not Multiline then
       pnt:= Point(ARect.Right-cIndent-c.TextWidth(Utf8Encode(strkey)), pnt.y)
     else
-      pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2-2);
+      pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2);
 
     c.Font.Color:= GetAppColor('ListFontHotkey');
     c.TextOut(pnt.x, pnt.y, Utf8Encode(strkey));
@@ -314,7 +314,7 @@ begin
   FMultiline:=AValue;
   list.ItemHeight:= Trunc(
     GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize) *
-    IfThen(FMultiline, 1.8, 1));
+    IfThen(FMultiline, 1.85, 1));
   list.Invalidate;
 end;
 
