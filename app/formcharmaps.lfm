@@ -13,7 +13,7 @@ object fmCharmaps: TfmCharmaps
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object PanelBtm: TPanel
     Left = 0
     Height = 42

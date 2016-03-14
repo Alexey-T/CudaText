@@ -252,6 +252,7 @@ var
 begin
   FUnicode:= true;
   PanelInfo.Show;
+  PanelInfo.Top:= 10;
   Grid.Clear;
 
   if comboUnicode.ItemIndex<0 then exit;
