@@ -199,6 +199,7 @@ var
 begin
   code:= DoGetCode(aCol, aRow);
   str:= CodeToString(code);
+  if code=0 then str:= '';
 
   if not FUnicode then
     LabelInfo.Caption:= Format(MsgStatusAnsi, [code, IntToHex(code, 2), str])

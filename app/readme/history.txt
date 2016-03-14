@@ -5,8 +5,9 @@ Legend:
 
 
 1.2.30
-* not used anymore plugins.json (delete it), used install.inf's instead
+* not used anymore plugins.json (delete it), used install.inf's only
 - fix back-color of URL+bookmark
+- fix selectn after indent
 
 1.2.29
 + lexer CSS handles @media{...}
