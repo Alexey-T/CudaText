@@ -748,7 +748,7 @@ begin
 
     LexerLibFilename:= 'lib.lxl';
     PyLibrary:= InitPyLibraryPath;
-    PictureTypes:= 'bmp,png,jpg,jpeg,ico';
+    PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;

@@ -477,7 +477,7 @@
   "backup": "",
   
   //Extensions of picture files (shown as pictures)
-  "picture_types": "bmp,png,jpg,jpeg,jpe,ico",
+  "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
   //Highlight URLs (font color+ underline)
   "links_hilite": true,

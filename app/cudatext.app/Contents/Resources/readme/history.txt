@@ -5,7 +5,9 @@ Legend:
 
 
 1.2.30
-* not used anymore plugins.json (delete it), used install.inf's instead
+* not used anymore settings/plugins.json (delete it), used install.inf's only
++ can show .gif pics
+- fix back-color of URL+bookmark
 
 1.2.29
 + lexer CSS handles @media{...}
