@@ -208,7 +208,7 @@ begin
       FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
 
     if FStylesFilename<>'' then
-      SaveLexerStylesToFile(FAnalyzer, FStylesFilename);
+      DoSaveLexerStylesToFile(FAnalyzer, FStylesFilename);
   end;
 end;
 

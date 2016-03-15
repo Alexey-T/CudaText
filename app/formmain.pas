@@ -3090,7 +3090,7 @@ begin
         begin
           An:= Manager.FindAnalyzer(Form.List.Items[i]);
           if Assigned(An) then
-            LoadLexerStylesFromFile(An, Form.StylesFilename)
+            DoLoadLexerStylesFromFile(An, Form.StylesFilename)
           else
             MsgBox(msgCannotFindLexerInLibrary+' '+Form.List.Items[i], MB_OK);
         end;

@@ -14,8 +14,11 @@ uses
   ecSyntAnal,
   ATStringProc;
 
-procedure SaveLexerStylesToFile(f: TecSyntAnalyzer; const fn: string);
-procedure LoadLexerStylesFromFile(f: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
+procedure DoSaveLexerStylesToFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
+procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const fn: string);
+
 
 implementation
 
@@ -77,103 +80,114 @@ begin
     end;
 end;
 
-procedure SaveLexerStylesToFile(f: TecSyntAnalyzer; const fn: string);
-var
-  i: Integer;
-  s, si: string;
+
+procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 begin
-  s:= f.LexerName;
-  if s='' then Exit;
-  with TIniFile.Create(fn) do
+  with st do
+  begin
+    ini.WriteString(section, skey+'_Name', '"'+DisplayName+'"');
+    ini.WriteString(section, skey+'_FontName', Font.Name);
+    ini.WriteInteger(section, skey+'_FontSize', Font.Size);
+    ini.WriteString(section, skey+'_FontColor', ColorToString(Font.Color));
+    ini.WriteString(section, skey+'_FontStyles', FontStylesToString(Font.Style));
+    ini.WriteString(section, skey+'_BgColor', ColorToString(BgColor));
+
+    ini.WriteString(section, skey+'_BorderColorBottom', ColorToString(BorderColorBottom));
+    ini.WriteString(section, skey+'_BorderColorLeft', ColorToString(BorderColorLeft));
+    ini.WriteString(section, skey+'_BorderColorRight', ColorToString(BorderColorRight));
+    ini.WriteString(section, skey+'_BorderColorTop', ColorToString(BorderColorTop));
+
+    ini.WriteInteger(section, skey+'_BorderTypeBottom', Integer(BorderTypeBottom));
+    ini.WriteInteger(section, skey+'_BorderTypeLeft', Integer(BorderTypeLeft));
+    ini.WriteInteger(section, skey+'_BorderTypeRight', Integer(BorderTypeRight));
+    ini.WriteInteger(section, skey+'_BorderTypeTop', Integer(BorderTypeTop));
+
+    ini.WriteInteger(section, skey+'_ChangeCase', Integer(ChangeCase));
+    ini.WriteString(section, skey+'_FormatFlags', FormatFlagsToStr(FormatFlags));
+    ini.WriteInteger(section, skey+'_FormatType', Integer(FormatType));
+    ini.WriteBool(section, skey+'_Hidden', Hidden);
+    ini.WriteBool(section, skey+'_MultiLineBorder', MultiLineBorder);
+    ini.WriteBool(section, skey+'_ReadOnly', ReadOnly);
+    ini.WriteInteger(section, skey+'_VertAlignment', Integer(VertAlignment));
+  end;
+end;
+
+procedure DoSaveLexerStylesToFile(an: TecSyntAnalyzer; const fn: string);
+var
+  ini: TIniFile;
+  section: string;
+  i: integer;
+begin
+  section:= an.LexerName;
+  if section='' then Exit;
+  ini:= TIniFile.Create(fn);
   try
-    EraseSection(s);
-    WriteString(s, 'Ext', f.Extentions);
-    WriteInteger(s, 'Num', f.Formats.Count);
-    for i:= 0 to f.Formats.Count-1 do
-     with f.Formats[i] do
-     begin
-      si:= IntToStr(i);
-      WriteString(s, si+'_Name', '"'+DisplayName+'"');
-      WriteString(s, si+'_FontName', Font.Name);
-      WriteInteger(s, si+'_FontSize', Font.Size);
-      WriteString(s, si+'_FontColor', ColorToString(Font.Color));
-      WriteString(s, si+'_FontStyles', FontStylesToString(Font.Style));
-      WriteString(s, si+'_BgColor', ColorToString(BgColor));
-
-      WriteString(s, si+'_BorderColorBottom', ColorToString(BorderColorBottom));
-      WriteString(s, si+'_BorderColorLeft', ColorToString(BorderColorLeft));
-      WriteString(s, si+'_BorderColorRight', ColorToString(BorderColorRight));
-      WriteString(s, si+'_BorderColorTop', ColorToString(BorderColorTop));
-
-      WriteInteger(s, si+'_BorderTypeBottom', Integer(BorderTypeBottom));
-      WriteInteger(s, si+'_BorderTypeLeft', Integer(BorderTypeLeft));
-      WriteInteger(s, si+'_BorderTypeRight', Integer(BorderTypeRight));
-      WriteInteger(s, si+'_BorderTypeTop', Integer(BorderTypeTop));
-
-      WriteInteger(s, si+'_ChangeCase', Integer(ChangeCase));
-      WriteString(s, si+'_FormatFlags', FormatFlagsToStr(FormatFlags));
-      WriteInteger(s, si+'_FormatType', Integer(FormatType));
-      WriteBool(s, si+'_Hidden', Hidden);
-      WriteBool(s, si+'_MultiLineBorder', MultiLineBorder);
-      WriteBool(s, si+'_ReadOnly', ReadOnly);
-      WriteInteger(s, si+'_VertAlignment', Integer(VertAlignment));
-    end;
+    ini.EraseSection(section);
+    ini.WriteString(section, 'Ext', an.Extentions);
+    ini.WriteInteger(section, 'Num', an.Formats.Count);
+    for i:= 0 to an.Formats.Count-1 do
+      DoSaveLexerStyleToFile(an.Formats[i], ini, section, IntToStr(i));
   finally
-    Free
+    ini.Free;
   end;
 end;
 
 
-procedure LoadLexerStylesFromFile(f: TecSyntAnalyzer; const fn: string);
+procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
+begin
+  st.DisplayName:= ini.ReadString(section, skey+'_Name', '');
+  st.Font.Name:= ini.ReadString(section, skey+'_FontName', '');
+  st.Font.Size:= ini.ReadInteger(section, skey+'_FontSize', 10);
+  st.Font.Color:= StringToColor(ini.ReadString(section, skey+'_FontColor', ''));
+  st.Font.Style:= StringToFontStyles(ini.ReadString(section, skey+'_FontStyles', ''));
+  st.BgColor:= StringToColor(ini.ReadString(section, skey+'_BgColor', ''));
+
+  st.BorderColorBottom:= StringToColor(ini.ReadString(section, skey+'_BorderColorBottom', ''));
+  st.BorderColorLeft:= StringToColor(ini.ReadString(section, skey+'_BorderColorLeft', ''));
+  st.BorderColorRight:= StringToColor(ini.ReadString(section, skey+'_BorderColorRight', ''));
+  st.BorderColorTop:= StringToColor(ini.ReadString(section, skey+'_BorderColorTop', ''));
+
+  st.BorderTypeBottom:= TecBorderLineType(ini.ReadInteger(section, skey+'_BorderTypeBottom', 0));
+  st.BorderTypeLeft:= TecBorderLineType(ini.ReadInteger(section, skey+'_BorderTypeLeft', 0));
+  st.BorderTypeRight:= TecBorderLineType(ini.ReadInteger(section, skey+'_BorderTypeRight', 0));
+  st.BorderTypeTop:= TecBorderLineType(ini.ReadInteger(section, skey+'_BorderTypeTop', 0));
+
+  st.ChangeCase:= TecChangeCase(ini.ReadInteger(section, skey+'_ChangeCase', 0));
+  st.FormatFlags:= StrToFormatFlags(ini.ReadString(section, skey+'_FormatFlags', ''));
+  st.FormatType:= TecFormatType(ini.ReadInteger(section, skey+'_FormatType', 0));
+  st.Hidden:= ini.ReadBool(section, skey+'_Hidden', false);
+  st.MultiLineBorder:= ini.ReadBool(section, skey+'_MultiLineBorder', false);
+  st.ReadOnly:= ini.ReadBool(section, skey+'_ReadOnly', false);
+  st.VertAlignment:= TecVertAlignment(ini.ReadInteger(section, skey+'_VertAlignment', 0));
+end;
+
+
+procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const fn: string);
 var
+  ini: TIniFile;
   i, j:Integer;
-  s, si: string;
+  section: string;
   fm: TecSyntaxFormat;
 begin
-  if f=nil then Exit;
-  s:= f.LexerName;
+  if an=nil then Exit;
+  section:= an.LexerName;
   fm:= TecSyntaxFormat.Create(nil);
-  with TIniFile.Create(fn) do
+  ini:= TIniFile.Create(fn);
   try
-    f.Extentions:= ReadString(s, 'Ext', f.Extentions);
-    for i:= 0 to ReadInteger(s, 'Num', 0)-1 do
+    an.Extentions:= ini.ReadString(section, 'Ext', an.Extentions);
+    for i:= 0 to ini.ReadInteger(section, 'Num', 0)-1 do
     begin
-      si:= IntToStr(i);
-      fm.DisplayName:= ReadString(s, si+'_Name', '');
-      fm.Font.Name:= ReadString(s, si+'_FontName', '');
-      fm.Font.Size:= ReadInteger(s, si+'_FontSize', 10);
-      fm.Font.Color:= StringToColor(ReadString(s, si+'_FontColor', ''));
-      fm.Font.Style:= StringToFontStyles(ReadString(s, si+'_FontStyles', ''));
-      fm.BgColor:= StringToColor(ReadString(s, si+'_BgColor', ''));
-
-      fm.BorderColorBottom:= StringToColor(ReadString(s, si+'_BorderColorBottom', ''));
-      fm.BorderColorLeft:= StringToColor(ReadString(s, si+'_BorderColorLeft', ''));
-      fm.BorderColorRight:= StringToColor(ReadString(s, si+'_BorderColorRight', ''));
-      fm.BorderColorTop:= StringToColor(ReadString(s, si+'_BorderColorTop', ''));
-
-      fm.BorderTypeBottom:= TecBorderLineType(ReadInteger(s, si+'_BorderTypeBottom', 0));
-      fm.BorderTypeLeft:= TecBorderLineType(ReadInteger(s, si+'_BorderTypeLeft', 0));
-      fm.BorderTypeRight:= TecBorderLineType(ReadInteger(s, si+'_BorderTypeRight', 0));
-      fm.BorderTypeTop:= TecBorderLineType(ReadInteger(s, si+'_BorderTypeTop', 0));
-
-      fm.ChangeCase:= TecChangeCase(ReadInteger(s, si+'_ChangeCase', 0));
-      fm.FormatFlags:= StrToFormatFlags(ReadString(s, si+'_FormatFlags', ''));
-      fm.FormatType:= TecFormatType(ReadInteger(s, si+'_FormatType', 0));
-      fm.Hidden:= ReadBool(s, si+'_Hidden', false);
-      fm.MultiLineBorder:= ReadBool(s, si+'_MultiLineBorder', false);
-      fm.ReadOnly:= ReadBool(s, si+'_ReadOnly', false);
-      fm.VertAlignment:= TecVertAlignment(ReadInteger(s, si+'_VertAlignment', 0));
-
+      DoLoadLexerStyleFromFile(fm, ini, section, IntToStr(i));
       //Apply fm to matched style
-      for j:= 0 to f.Formats.Count-1 do
-        if f.Formats[j].DisplayName = fm.DisplayName then
+      for j:= 0 to an.Formats.Count-1 do
+        if an.Formats[j].DisplayName = fm.DisplayName then
         begin
-          f.Formats[j].Assign(fm);
+          an.Formats[j].Assign(fm);
           Break
         end;
     end;
   finally
-    Free;
+    ini.Free;
     fm.Free;
   end;
 end;
