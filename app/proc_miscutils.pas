@@ -13,11 +13,13 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, Graphics, ImgList,
+  Dialogs, Buttons,
   LclIntf, LclType, LazFileUtils, StrUtils,
   ATSynEdit,
   ATSynEdit_Export_HTML,
   ATStringProc,
-  ecSyntAnal;
+  ecSyntAnal,
+  proc_colors;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -33,6 +35,7 @@ function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
+procedure UpdateButtonIconX(btn: TSpeedButton);
 
 
 implementation
@@ -202,6 +205,45 @@ begin
   except
   end;
 end;
+
+
+var
+  bmpX: TBitmap = nil;
+
+function GetBitmapX(AColor: TColor): TBitmap;
+const
+  size=7;
+  colBack=clWhite;
+begin
+  if not Assigned(bmpX) then
+  begin
+    bmpX:= TBitmap.Create;
+    bmpX.SetSize(size, size);
+    bmpX.Transparent:= true;
+    bmpX.TransparentColor:= colBack;
+  end;
+
+  with bmpX.Canvas do
+  begin
+    Brush.Color:= colBack;
+    FillRect(0, 0, size, size);
+    Pen.Color:= AColor;
+    Line(1, 1, size, size);
+    Line(size, 0, 0, size);
+  end;
+
+  Result:= bmpX;
+end;
+
+procedure UpdateButtonIconX(btn: TSpeedButton);
+begin
+  {$ifdef darwin}
+  btn.Caption:= 'x';
+  {$else}
+  btn.Glyph:= GetBitmapX(GetAppColor('ButtonFont'));
+  {$endif}
+end;
+
 
 end.
 

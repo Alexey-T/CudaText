@@ -83,8 +83,8 @@ begin
   n:= list.itemindex;
 
   List.Items.Clear;
-  for i:= Low(Data) to High(Data) do
-    List.Items.AddObject(Data[i].desc, TObject(ptrint(Data[i].color)));
+  for i:= Low(Data.Colors) to High(Data.Colors) do
+    List.Items.AddObject(Data.Colors[i].desc, TObject(ptrint(Data.Colors[i].color)));
 
   if n<list.items.count then
     list.itemindex:= n;
@@ -96,14 +96,14 @@ begin
   ColorDialog1.Color:= ptrint(List.Items.Objects[List.itemindex]);
   if ColorDialog1.Execute then
   begin
-    Data[List.Itemindex].color:= ColorDialog1.Color;
+    Data.Colors[List.Itemindex].color:= ColorDialog1.Color;
     Updatelist;
   end;
 end;
 
 procedure TfmColorSetup.bNoneClick(Sender: TObject);
 begin
-  Data[List.Itemindex].color:= clNone;
+  Data.Colors[List.Itemindex].color:= clNone;
   Updatelist;
 end;
 

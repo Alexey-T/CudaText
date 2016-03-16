@@ -57,12 +57,12 @@ begin
   if ffItalic in f then Result:= Result+'i';
   if ffUnderline in f then Result:= Result+'u';
   if ffStrikeOut in f then Result:= Result+'s';
-  if ffReadOnly in f then Result:= Result+'r';
-  if ffHidden in f then Result:= Result+'h';
-  if ffFontName in f then Result:= Result+'N';
-  if ffFontSize in f then Result:= Result+'S';
-  if ffFontCharset in f then Result:= Result+'C';
-  if ffVertAlign in f then Result:= Result+'v';
+  //if ffReadOnly in f then Result:= Result+'r';
+  //if ffHidden in f then Result:= Result+'h';
+  //if ffFontName in f then Result:= Result+'N';
+  //if ffFontSize in f then Result:= Result+'S';
+  //if ffFontCharset in f then Result:= Result+'C';
+  //if ffVertAlign in f then Result:= Result+'v';
 end;
 
 function StrToFormatFlags(const s: string): TecFormatFlags;
@@ -75,12 +75,12 @@ begin
       'i': Include(Result, ffItalic);
       'u': Include(Result, ffUnderline);
       's': Include(Result, ffStrikeOut);
-      'r': Include(Result, ffReadOnly);
-      'h': Include(Result, ffHidden);
-      'N': Include(Result, ffFontName);
-      'S': Include(Result, ffFontSize);
-      'C': Include(Result, ffFontCharset);
-      'v': Include(Result, ffVertAlign);
+      //'r': Include(Result, ffReadOnly);
+      //'h': Include(Result, ffHidden);
+      //'N': Include(Result, ffFontName);
+      //'S': Include(Result, ffFontSize);
+      //'C': Include(Result, ffFontCharset);
+      //'v': Include(Result, ffVertAlign);
     end;
 end;
 
@@ -90,9 +90,6 @@ procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig;
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
-  cfg.SetValue(skey+'Name', st.DisplayName);
-  cfg.SetValue(skey+'FontName', st.Font.Name);
-  cfg.SetValue(skey+'FontSize', st.Font.Size);
   cfg.SetValue(skey+'FontColor', ColorToString(st.Font.Color));
   cfg.SetValue(skey+'FontStyles', FontStylesToString(st.Font.Style));
   cfg.SetValue(skey+'BgColor', ColorToString(st.BgColor));
@@ -107,8 +104,8 @@ begin
   cfg.SetValue(skey+'BoTypeR', Integer(st.BorderTypeRight));
   cfg.SetValue(skey+'BoTypeT', Integer(st.BorderTypeTop));
 
-  cfg.SetValue(skey+'FormatFlags', FormatFlagsToStr(st.FormatFlags));
-  cfg.SetValue(skey+'FormatType', Integer(st.FormatType));
+  cfg.SetValue(skey+'Flags', FormatFlagsToStr(st.FormatFlags));
+  cfg.SetValue(skey+'Type', Integer(st.FormatType));
 end;
 
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
@@ -116,8 +113,8 @@ begin
   with st do
   begin
     ini.WriteString(section, skey+'_Name', '"'+DisplayName+'"');
-    ini.WriteString(section, skey+'_FontName', Font.Name);
-    ini.WriteInteger(section, skey+'_FontSize', Font.Size);
+    //ini.WriteString(section, skey+'_FontName', Font.Name);
+    //ini.WriteInteger(section, skey+'_FontSize', Font.Size);
     ini.WriteString(section, skey+'_FontColor', ColorToString(Font.Color));
     ini.WriteString(section, skey+'_FontStyles', FontStylesToString(Font.Style));
     ini.WriteString(section, skey+'_BgColor', ColorToString(BgColor));
@@ -163,9 +160,6 @@ procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig;
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
-  st.DisplayName:= cfg.GetValue(skey+'Name', '');
-  st.Font.Name:= cfg.GetValue(skey+'FontName', '');
-  st.Font.Size:= cfg.GetValue(skey+'FontSize', 10);
   st.Font.Color:= StringToColor(cfg.GetValue(skey+'FontColor', ''));
   st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'FontStyles', ''));
   st.BgColor:= StringToColor(cfg.GetValue(skey+'BgColor', ''));
@@ -180,16 +174,16 @@ begin
   st.BorderTypeRight:= TecBorderLineType(cfg.GetValue(skey+'BoTypeR', 0));
   st.BorderTypeTop:= TecBorderLineType(cfg.GetValue(skey+'BoTypeT', 0));
 
-  st.FormatFlags:= StrToFormatFlags(cfg.GetValue(skey+'FormatFlags', ''));
-  st.FormatType:= TecFormatType(cfg.GetValue(skey+'FormatType', 0));
+  st.FormatFlags:= StrToFormatFlags(cfg.GetValue(skey+'Flags', ''));
+  st.FormatType:= TecFormatType(cfg.GetValue(skey+'Type', 0));
 end;
 
 
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 begin
   st.DisplayName:= ini.ReadString(section, skey+'_Name', '');
-  st.Font.Name:= ini.ReadString(section, skey+'_FontName', '');
-  st.Font.Size:= ini.ReadInteger(section, skey+'_FontSize', 10);
+  //st.Font.Name:= ini.ReadString(section, skey+'_FontName', '');
+  //st.Font.Size:= ini.ReadInteger(section, skey+'_FontSize', 10);
   st.Font.Color:= StringToColor(ini.ReadString(section, skey+'_FontColor', ''));
   st.Font.Style:= StringToFontStyles(ini.ReadString(section, skey+'_FontStyles', ''));
   st.BgColor:= StringToColor(ini.ReadString(section, skey+'_BgColor', ''));

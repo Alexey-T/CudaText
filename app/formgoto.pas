@@ -13,7 +13,12 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, ExtCtrls, ATSynEdit_Edits, proc_globdata, proc_colors, ATButtons;
+  Buttons, ExtCtrls,
+  ATSynEdit_Edits,
+  ATButtons,
+  proc_globdata,
+  proc_colors,
+  proc_miscutils;
 
 const
   cOpGotoLine='gotoline';

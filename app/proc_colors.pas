@@ -12,17 +12,24 @@ unit proc_colors;
 interface
 
 uses
-  Classes, SysUtils, Graphics,
-  Dialogs, Buttons,
+  Classes, SysUtils, Graphics, Dialogs,
   LclProc, LclType,
   ATStringProc,
   ATStringProc_HtmlColor,
+  ecSyntAnal,
   proc_msg,
-  proc_globdata;
+  proc_globdata,
+  proc_lexer_styles;
 
 type
-  TAppColor = record color: TColor; name, desc: string; end;
-  TAppTheme = array of TAppColor;
+  TAppColor = record
+    color: TColor;
+    name, desc: string;
+  end;
+  TAppTheme = record
+    Colors: array of TAppColor;
+    Styles: TList;
+  end;
 
 var
   Theme: TAppTheme;
@@ -31,7 +38,6 @@ procedure DoInitTheme(var D: TAppTheme);
 procedure DoLoadTheme(const fn: string; var D: TAppTheme);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme);
 function GetAppColor(const name: string): TColor;
-procedure UpdateButtonIconX(btn: TSpeedButton);
 
 implementation
 
@@ -65,23 +71,54 @@ begin
       Exit
     end;
 
-    for i:= Low(D) to High(D) do
-      DoVal(D[i].color, D[i].name);
+    for i:= Low(D.Colors) to High(D.Colors) do
+      DoVal(D.Colors[i].color, D.Colors[i].name);
   finally
     c.Free;
   end;
 end;
 
+
 procedure DoInitTheme(var D: TAppTheme);
+  //
   procedure Add(color: TColor; const name, desc: string);
   begin
-    SetLength(D, Length(D)+1);
-    D[High(D)].color:= color;
-    D[High(D)].name:= name;
-    D[High(D)].desc:= desc;
+    SetLength(D.Colors, Length(D.Colors)+1);
+    D.Colors[High(D.Colors)].color:= color;
+    D.Colors[High(D.Colors)].name:= name;
+    D.Colors[High(D.Colors)].desc:= desc;
   end;
+  //
+  procedure AddStyle(const SName: string;
+    NColorFont, NColorBg, NColorBorder: TColor;
+    NFontStyle: TFontStyles;
+    NBorderLeft, NBorderRight, NBorderUp, NBorderDown: TecBorderLineType;
+    NFormatType: TecFormatType);
+  var
+    st: TecSyntaxFormat;
+  begin
+    st:= TecSyntaxFormat.Create(nil);
+    st.DisplayName:= SName;
+    st.Font.Color:= NColorFont;
+    st.BgColor:= NColorBg;
+    st.BorderColorLeft:= NColorBorder;
+    st.BorderColorRight:= NColorBorder;
+    st.BorderColorTop:= NColorBorder;
+    st.BorderColorBottom:= NColorBorder;
+    st.Font.Style:= NFontStyle;
+    st.BorderTypeLeft:= NBorderLeft;
+    st.BorderTypeRight:= NBorderRight;
+    st.BorderTypeTop:= NBorderUp;
+    st.BorderTypeBottom:= NBorderDown;
+    st.FormatType:= NFormatType;
+
+    if D.Styles=nil then
+      D.Styles:= TList.Create;
+    D.Styles.Add(st);
+  end;
+  //
 begin
-  SetLength(D, 0);
+  SetLength(D.Colors, 0);
 
   Add(clBlack, 'EdTextFont', 'editor, font');
   Add(clWhite, 'EdTextBg', 'editor, BG');
@@ -181,12 +218,16 @@ begin
 
   Add(clWhite, 'ExportHtmlBg', 'export to html, BG');
   Add(clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
+
+  //--------------
+  AddStyle('Id', clBlack, 0, 0, [], blNone, blNone, blNone, blNone, ftFontAttr);
 end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme);
 var
   c: TJSONConfig;
   i: integer;
+  st: TecSyntaxFormat;
 begin
   if FileExists(fn) then
     DeleteFile(fn);
@@ -199,8 +240,17 @@ begin
       MsgBox(msgStatusIncorrectFilename+#13+fn, MB_OK or MB_ICONERROR);
       exit;
     end;
-    for i:= low(d) to high(d) do
-      c.SetValue(d[i].name, SColorToHtmlColor(d[i].color));
+
+    //save colors
+    for i:= low(d.Colors) to high(d.Colors) do
+      c.SetValue(d.Colors[i].name, SColorToHtmlColor(d.Colors[i].color));
+
+    //save styles
+    for i:= 0 to d.Styles.Count-1 do
+    begin
+      st:= TecSyntaxFormat(d.Styles[i]);
+      DoSaveLexerStyleToFile(st, c, 'Lex_'+st.DisplayName);
+    end;
   finally
     c.Free;
   end;
@@ -210,49 +260,12 @@ function GetAppColor(const name: string): TColor;
 var
   i: integer;
 begin
-  for i:= Low(Theme) to High(Theme) do
-    if Theme[i].name=name then
-      begin Result:= Theme[i].color; exit end;
+  for i:= Low(Theme.Colors) to High(Theme.Colors) do
+    if Theme.Colors[i].name=name then
+      begin Result:= Theme.Colors[i].color; exit end;
   raise Exception.Create('Incorrect color id: '+name);
 end;
 
-
-var
-  bmpX: TBitmap = nil;
-
-function GetBitmapX(AColor: TColor): TBitmap;
-const
-  size=7;
-  colBack=clWhite;
-begin
-  if not Assigned(bmpX) then
-  begin
-    bmpX:= TBitmap.Create;
-    bmpX.SetSize(size, size);
-    bmpX.Transparent:= true;
-    bmpX.TransparentColor:= colBack;
-  end;
-
-  with bmpX.Canvas do
-  begin
-    Brush.Color:= colBack;
-    FillRect(0, 0, size, size);
-    Pen.Color:= AColor;
-    Line(1, 1, size, size);
-    Line(size, 0, 0, size);
-  end;
-
-  Result:= bmpX;
-end;
-
-procedure UpdateButtonIconX(btn: TSpeedButton);
-begin
-  {$ifdef darwin}
-  btn.Caption:= 'x';
-  {$else}
-  btn.Glyph:= GetBitmapX(GetAppColor('ButtonFont'));
-  {$endif}
-end;
 
 initialization
   DoInitTheme(Theme);

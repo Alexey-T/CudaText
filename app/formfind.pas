@@ -20,7 +20,8 @@ uses
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   proc_globdata,
-  proc_colors;
+  proc_colors,
+  proc_miscutils;
 
 const
   cOpFindFirst='findfirst';
