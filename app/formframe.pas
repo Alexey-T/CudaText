@@ -797,7 +797,7 @@ end;
 
 procedure TEditorFrame.SetLexer(an: TecSyntAnalyzer);
 begin
-  if not DoCheckLexerStylesMap(an) then
+  if not DoApplyLexerStylesMap(an) then
     DoDialogLexerStylesMap(an);
   Adapter.Lexer:= an;
 

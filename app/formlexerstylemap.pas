@@ -45,7 +45,7 @@ type
 var
   fmLexerStyleMap: TfmLexerStyleMap;
 
-function DoCheckLexerStylesMap(an: TecSyntAnalyzer): boolean;
+function DoApplyLexerStylesMap(an: TecSyntAnalyzer): boolean;
 procedure DoDialogLexerStylesMap(an: TecSyntAnalyzer);
 
 
@@ -94,7 +94,7 @@ begin
 end;
 
 
-function DoCheckLexerStylesMap(an: TecSyntAnalyzer): boolean;
+function DoApplyLexerStylesMap(an: TecSyntAnalyzer): boolean;
 var
   value: string;
   st: TecSyntaxFormat;
@@ -153,7 +153,7 @@ begin
     if F.ShowModal=mrOk then
     begin
       F.DoSave;
-      DoCheckLexerStylesMap(an); //reapply new colors
+      DoApplyLexerStylesMap(an);
     end;
   finally
     F.Free;
