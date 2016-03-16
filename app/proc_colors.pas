@@ -100,12 +100,12 @@ procedure DoInitTheme(var D: TAppTheme);
     st:= TecSyntaxFormat.Create(nil);
     st.DisplayName:= SName;
     st.Font.Color:= NColorFont;
+    st.Font.Style:= NFontStyle;
     st.BgColor:= NColorBg;
     st.BorderColorLeft:= NColorBorder;
     st.BorderColorRight:= NColorBorder;
     st.BorderColorTop:= NColorBorder;
     st.BorderColorBottom:= NColorBorder;
-    st.Font.Style:= NFontStyle;
     st.BorderTypeLeft:= NBorderLeft;
     st.BorderTypeRight:= NBorderRight;
     st.BorderTypeTop:= NBorderUp;
@@ -221,6 +221,7 @@ begin
 
   //--------------
   AddStyle('Id', clBlack, 0, 0, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('IdKeyword', clBlack, 0, 0, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme);

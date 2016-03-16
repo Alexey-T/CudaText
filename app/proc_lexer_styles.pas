@@ -13,7 +13,8 @@ uses
   SysUtils, Classes, Graphics, IniFiles,
   jsonConf,
   ecSyntAnal,
-  ATStringProc;
+  ATStringProc,
+  ATStringProc_HtmlColor;
 
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
@@ -49,7 +50,7 @@ begin
     end;
 end;
 
-
+(*
 function FormatFlagsToStr(const f: TecFormatFlags): string;
 begin
   Result:= '';
@@ -83,28 +84,24 @@ begin
       //'v': Include(Result, ffVertAlign);
     end;
 end;
-
+*)
 
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
-  cfg.SetValue(skey+'FontColor', ColorToString(st.Font.Color));
   cfg.SetValue(skey+'FontStyles', FontStylesToString(st.Font.Style));
-  cfg.SetValue(skey+'BgColor', ColorToString(st.BgColor));
+  cfg.SetValue(skey+'FontColor', SColorToHtmlColor(st.Font.Color));
+  cfg.SetValue(skey+'BgColor', SColorToHtmlColor(st.BgColor));
+  cfg.SetValue(skey+'BorColor', SColorToHtmlColor(st.BorderColorBottom));
 
-  cfg.SetValue(skey+'BoColorB', ColorToString(st.BorderColorBottom));
-  cfg.SetValue(skey+'BoColorL', ColorToString(st.BorderColorLeft));
-  cfg.SetValue(skey+'BoColorR', ColorToString(st.BorderColorRight));
-  cfg.SetValue(skey+'BoColorT', ColorToString(st.BorderColorTop));
+  cfg.SetValue(skey+'BorL', Integer(st.BorderTypeLeft));
+  cfg.SetValue(skey+'BorR', Integer(st.BorderTypeRight));
+  cfg.SetValue(skey+'BorU', Integer(st.BorderTypeTop));
+  cfg.SetValue(skey+'BorD', Integer(st.BorderTypeBottom));
 
-  cfg.SetValue(skey+'BoTypeB', Integer(st.BorderTypeBottom));
-  cfg.SetValue(skey+'BoTypeL', Integer(st.BorderTypeLeft));
-  cfg.SetValue(skey+'BoTypeR', Integer(st.BorderTypeRight));
-  cfg.SetValue(skey+'BoTypeT', Integer(st.BorderTypeTop));
-
-  cfg.SetValue(skey+'Flags', FormatFlagsToStr(st.FormatFlags));
+  //cfg.SetValue(skey+'Flags', FormatFlagsToStr(st.FormatFlags));
   cfg.SetValue(skey+'Type', Integer(st.FormatType));
 end;
 
@@ -129,7 +126,7 @@ begin
     ini.WriteInteger(section, skey+'_BorderTypeRight', Integer(BorderTypeRight));
     ini.WriteInteger(section, skey+'_BorderTypeTop', Integer(BorderTypeTop));
 
-    ini.WriteString(section, skey+'_FormatFlags', FormatFlagsToStr(FormatFlags));
+    //ini.WriteString(section, skey+'_FormatFlags', FormatFlagsToStr(FormatFlags));
     ini.WriteInteger(section, skey+'_FormatType', Integer(FormatType));
   end;
 end;
@@ -157,24 +154,25 @@ end;
 
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
+var
+  Len: integer;
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
-  st.Font.Color:= StringToColor(cfg.GetValue(skey+'FontColor', ''));
   st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'FontStyles', ''));
-  st.BgColor:= StringToColor(cfg.GetValue(skey+'BgColor', ''));
+  st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'FontColor', ''), Len, 0);
+  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'BgColor', ''), Len, 0);
+  st.BorderColorBottom:= SHtmlColorToColor(cfg.GetValue(skey+'BorColor', ''), Len, 0);
+  st.BorderColorLeft:= st.BorderColorBottom;
+  st.BorderColorRight:= st.BorderColorBottom;
+  st.BorderColorTop:= st.BorderColorBottom;
 
-  st.BorderColorBottom:= StringToColor(cfg.GetValue(skey+'BoColorB', ''));
-  st.BorderColorLeft:= StringToColor(cfg.GetValue(skey+'BoColorL', ''));
-  st.BorderColorRight:= StringToColor(cfg.GetValue(skey+'BoColorR', ''));
-  st.BorderColorTop:= StringToColor(cfg.GetValue(skey+'BoColorT', ''));
+  st.BorderTypeLeft:= TecBorderLineType(cfg.GetValue(skey+'BorL', 0));
+  st.BorderTypeRight:= TecBorderLineType(cfg.GetValue(skey+'BorR', 0));
+  st.BorderTypeTop:= TecBorderLineType(cfg.GetValue(skey+'BorU', 0));
+  st.BorderTypeBottom:= TecBorderLineType(cfg.GetValue(skey+'BorD', 0));
 
-  st.BorderTypeBottom:= TecBorderLineType(cfg.GetValue(skey+'BoTypeB', 0));
-  st.BorderTypeLeft:= TecBorderLineType(cfg.GetValue(skey+'BoTypeL', 0));
-  st.BorderTypeRight:= TecBorderLineType(cfg.GetValue(skey+'BoTypeR', 0));
-  st.BorderTypeTop:= TecBorderLineType(cfg.GetValue(skey+'BoTypeT', 0));
-
-  st.FormatFlags:= StrToFormatFlags(cfg.GetValue(skey+'Flags', ''));
+  //st.FormatFlags:= StrToFormatFlags(cfg.GetValue(skey+'Flags', ''));
   st.FormatType:= TecFormatType(cfg.GetValue(skey+'Type', 0));
 end;
 
@@ -198,7 +196,7 @@ begin
   st.BorderTypeRight:= TecBorderLineType(ini.ReadInteger(section, skey+'_BorderTypeRight', 0));
   st.BorderTypeTop:= TecBorderLineType(ini.ReadInteger(section, skey+'_BorderTypeTop', 0));
 
-  st.FormatFlags:= StrToFormatFlags(ini.ReadString(section, skey+'_FormatFlags', ''));
+  //st.FormatFlags:= StrToFormatFlags(ini.ReadString(section, skey+'_FormatFlags', ''));
   st.FormatType:= TecFormatType(ini.ReadInteger(section, skey+'_FormatType', 0));
 end;
 
