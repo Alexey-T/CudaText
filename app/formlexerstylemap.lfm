@@ -34,6 +34,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     Top = 4
     Width = 92
     Caption = 'Styles in lexer'
+    FocusControl = ListLex
     ParentColor = False
   end
   object LabelTh: TLabel
@@ -42,6 +43,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     Top = 4
     Width = 101
     Caption = 'Styles in theme'
+    FocusControl = ListTh
     ParentColor = False
   end
   object ListLex: TListBox
