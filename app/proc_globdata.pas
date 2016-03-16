@@ -52,6 +52,7 @@ type
     cFileOptUser,
     cFileOptFiletypes,
     cFileOptKeymap,
+    cFileOptStylesMap,
     cFileHistoryList,
     cFileHistorySession,
     cFileLexerStyles,
@@ -544,6 +545,10 @@ begin
     cFileOptKeymap:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys.json';
+      end;
+    cFileOptStylesMap:
+      begin
+        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer styles map.ini';
       end;
     cFileHistoryList:
       begin

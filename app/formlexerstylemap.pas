@@ -6,8 +6,9 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  StdCtrls, strutils,
+  StdCtrls, StrUtils, IniFiles,
   ecSyntAnal,
+  proc_globdata,
   proc_colors;
 
 type
@@ -29,6 +30,9 @@ type
     procedure FormDestroy(Sender: TObject);
   private
     { private declarations }
+    LexerName: string;
+    procedure DoLoad;
+    procedure DoSave;
     procedure UpdateList;
   public
     { public declarations }
@@ -56,6 +60,8 @@ begin
 
   F:= TfmLexerStyleMap.Create(nil);
   try
+    F.LexerName:= an.LexerName;
+
     for i:= 0 to an.Formats.Count-1 do
       F.ItemsLex.Add(an.Formats[i].DisplayName);
     for i:= 0 to an.Formats.Count-1 do
@@ -67,10 +73,13 @@ begin
     F.ListLex.ItemIndex:= 0;
     F.ListTh.Items.AddStrings(F.ItemsTh);
     F.ListTh.ItemIndex:= 0;
+
+    F.DoLoad;
     F.UpdateList;
 
     if F.ShowModal=mrOk then
     begin
+      F.DoSave;
     end;
   finally
     F.Free;
@@ -109,6 +118,49 @@ begin
   FreeAndNil(ItemsLex);
   FreeAndNil(ItemsTh);
   FreeAndNil(ItemsVal);
+end;
+
+procedure TfmLexerStyleMap.DoSave;
+var
+  fn: string;
+  i: integer;
+begin
+  if LexerName='' then
+  begin
+    ShowMessage('Lexer name not set');
+    exit
+  end;
+
+  fn:= GetAppPath(cFileOptStylesMap);
+  with TIniFile.Create(fn) do
+  try
+    EraseSection(LexerName);
+    for i:= 0 to ItemsLex.Count-1 do
+      WriteString(LexerName, ItemsLex[i], ItemsVal[i]);
+  finally
+    Free
+  end;
+end;
+
+procedure TfmLexerStyleMap.DoLoad;
+var
+  fn: string;
+  i: integer;
+begin
+  if LexerName='' then
+  begin
+    ShowMessage('Lexer name not set');
+    exit
+  end;
+
+  fn:= GetAppPath(cFileOptStylesMap);
+  with TIniFile.Create(fn) do
+  try
+    for i:= 0 to ItemsLex.Count-1 do
+      ItemsVal[i]:= ReadString(LexerName, ItemsLex[i], '');
+  finally
+    Free
+  end;
 end;
 
 procedure TfmLexerStyleMap.UpdateList;
