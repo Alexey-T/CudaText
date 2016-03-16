@@ -42,6 +42,7 @@ type
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { private declarations }
+    FLangFilename: string;
     procedure Updatelist;
   public
     { public declarations }
@@ -62,7 +63,8 @@ const
 var
   ini: TIniFile;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
+  if not FileExists(ALangFilename) then exit;
+  F.FLangFilename:= ALangFilename;
 
   ini:= TIniFile.Create(ALangFilename);
   try
@@ -73,6 +75,7 @@ begin
 
     with F.bChange do Caption:= ini.ReadString(section, 'ch', Caption);
     with F.bNone do Caption:= ini.ReadString(section, 'non', Caption);
+    with F.bStyle do Caption:= ini.ReadString(section, 'sty', Caption);
   finally
     FreeAndNil(ini);
   end;
@@ -123,11 +126,13 @@ end;
 procedure TfmColorSetup.bStyleClick(Sender: TObject);
 var
   st: TecSyntaxFormat;
+  Form: TfmLexerStyle;
 begin
   if ListStyles.ItemIndex<0 then exit;
   st:= TecSyntaxFormat(ListStyles.Items.Objects[ListStyles.ItemIndex]);
 
-  with TfmLexerStyle.Create(nil) do
+  Form:= TfmLexerStyle.Create(nil);
+  with Form do
   try
     edColorFont.Selected:= st.Font.Color;
     edColorBG.Selected:= st.BgColor;
@@ -142,6 +147,7 @@ begin
     cbBorderT.ItemIndex:= Ord(st.BorderTypeTop);
     cbBorderB.ItemIndex:= Ord(st.BorderTypeBottom);
 
+    DoLocalize_FormLexerStyle(Form, FLangFilename);
     if ShowModal=mrOk then
     begin
       st.Font.Color:= edColorFont.Selected;

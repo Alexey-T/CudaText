@@ -2,6 +2,10 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2016.03.16
++ [d_lex_prop] _style
++ [d_theme] sty
+
 2016.03.14
 + [se] FindBookmarks
 * del [si] PluginsJustPreinstalled

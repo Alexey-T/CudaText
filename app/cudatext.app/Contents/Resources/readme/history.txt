@@ -6,6 +6,7 @@ Legend:
 
 1.2.30
 * not used anymore settings/plugins.json (delete it), used install.inf's only
+* renamed translation files to nn_NN (e.g. ru_RU)
 + can show .gif pics
 - fix back-color of URL+bookmark
 

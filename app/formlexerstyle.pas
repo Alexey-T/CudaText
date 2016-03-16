@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  ColorBox, StdCtrls, ButtonPanel,
+  ColorBox, StdCtrls, ButtonPanel, IniFiles,
   proc_colors,
   proc_globdata,
   proc_msg;
@@ -51,6 +51,9 @@ type
 var
   fmLexerStyle: TfmLexerStyle;
 
+procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle; const ALangFilename: string);
+
+
 implementation
 
 {$R *.lfm}
@@ -67,8 +70,60 @@ var
   msgBorderTypeWave: string = 'wave';
   msgBorderTypeDouble: string = 'double';
 
-procedure TfmLexerStyle.FormShow(Sender: TObject);
+procedure DoLocString(var AStr: string; ini: TIniFile; const ASection, AKey: string);
 begin
+  AStr:= ini.ReadString(ASection, AKey, AStr);
+end;
+
+procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle; const ALangFilename: string);
+const
+  section = 'd_lex_prop';
+var
+  ini: TIniFile;
+begin
+  if not FileExists(ALangFilename) then exit;
+
+  ini:= TIniFile.Create(ALangFilename);
+  try
+    with F do Caption:= ini.ReadString(section, '_style', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+
+    with F.LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
+    with F.LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
+    with F.LabelColorBorder do Caption:= ini.ReadString(section, 'col_bor', Caption);
+
+    with F.LabelBorder do Caption:= ini.ReadString(section, 'bor', Caption);
+    with F.LabelBorderL do Caption:= ini.ReadString(section, 'bor_l', Caption);
+    with F.LabelBorderR do Caption:= ini.ReadString(section, 'bor_r', Caption);
+    with F.LabelBorderT do Caption:= ini.ReadString(section, 'bor_t', Caption);
+    with F.LabelBorderB do Caption:= ini.ReadString(section, 'bor_b', Caption);
+
+    with F.LabelFontStyles do Caption:= ini.ReadString(section, 'fon_st', Caption);
+    with F.chkBold do Caption:= ini.ReadString(section, 'fon_b', Caption);
+    with F.chkItalic do Caption:= ini.ReadString(section, 'fon_i', Caption);
+    with F.chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
+    with F.chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
+
+    with F.LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
+    with F.edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
+    with F.edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
+    with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
+    with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
+
+    DoLocString(msgBorderTypeNone, ini, section, 'bty_none');
+    DoLocString(msgBorderTypeSolid, ini, section, 'bty_solid');
+    DoLocString(msgBorderTypeDash, ini, section, 'bty_dash');
+    DoLocString(msgBorderTypeDot, ini, section, 'bty_dot');
+    DoLocString(msgBorderTypeDashDot, ini, section, 'bty_dashdot');
+    DoLocString(msgBorderTypeDashDotDot, ini, section, 'bty_dashdotdot');
+    DoLocString(msgBorderTypeSolid2, ini, section, 'bty_solid2');
+    DoLocString(msgBorderTypeSolid3, ini, section, 'bty_solid3');
+    DoLocString(msgBorderTypeWave, ini, section, 'bty_wave');
+    DoLocString(msgBorderTypeDouble, ini, section, 'bty_double');
+  finally
+    FreeAndNil(ini);
+  end;
 end;
 
 procedure TfmLexerStyle.FormCreate(Sender: TObject);
@@ -79,8 +134,16 @@ begin
   InitBorder(cbBorderB);
 end;
 
-procedure TfmLexerStyle.InitBorder(cb: TCombobox);
+procedure TfmLexerStyle.FormShow(Sender: TObject);
 begin
+  FormCreate(nil);
+end;
+
+procedure TfmLexerStyle.InitBorder(cb: TCombobox);
+var
+  n: integer;
+begin
+  n:= cb.ItemIndex;
   with cb.Items do
   begin
     Clear;
@@ -95,6 +158,7 @@ begin
     Add(msgBorderTypeWave);
     Add(msgBorderTypeDouble);
   end;
+  cb.ItemIndex:= n;
 end;
 
 
