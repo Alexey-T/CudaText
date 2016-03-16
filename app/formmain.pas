@@ -557,7 +557,7 @@ type
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
     procedure DoOps_ShowEventPlugins;
-    function DoDialogConfColors(var AColors: TAppTheme): boolean;
+    function DoDialogConfColors(var AData: TAppTheme): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string);
@@ -2731,7 +2731,7 @@ begin
   end;
 end;
 
-function TfmMain.DoDialogConfColors(var AColors: TAppTheme): boolean;
+function TfmMain.DoDialogConfColors(var AData: TAppTheme): boolean;
 var
   F: TfmColorSetup;
 begin
@@ -2740,9 +2740,9 @@ begin
   try
     DoLocalize_FormColorSetup(F, GetLangFilename);
     OnApply:= @FormColorsApply;
-    Data:= AColors;
+    Data:= AData;
     Result:= ShowModal=mrOk;
-    if Result then AColors:= Data;
+    if Result then AData:= Data;
   finally
     FreeAndNil(F);
   end;

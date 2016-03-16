@@ -1,12 +1,12 @@
 object fmColorSetup: TfmColorSetup
   Left = 450
-  Height = 445
+  Height = 529
   Top = 339
   Width = 543
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Color theme'
-  ClientHeight = 445
+  ClientHeight = 529
   ClientWidth = 543
   OnShow = FormShow
   Position = poScreenCenter
@@ -15,7 +15,7 @@ object fmColorSetup: TfmColorSetup
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
-    Top = 410
+    Top = 494
     Width = 531
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -27,13 +27,13 @@ object fmColorSetup: TfmColorSetup
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 3
+    TabOrder = 5
     ShowButtons = [pbOK, pbCancel, pbHelp]
     ShowBevel = False
   end
   object List: TColorListBox
     Left = 6
-    Height = 392
+    Height = 280
     Top = 8
     Width = 362
     ColorRectWidth = 32
@@ -51,14 +51,14 @@ object fmColorSetup: TfmColorSetup
     AnchorSideRight.Side = asrBottom
     Left = 374
     Height = 29
-    Top = 168
+    Top = 128
     Width = 163
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
     Caption = 'Change color...'
     OnClick = bChangeClick
-    TabOrder = 1
+    TabOrder = 2
   end
   object bNone: TButton
     AnchorSideLeft.Control = bChange
@@ -68,13 +68,37 @@ object fmColorSetup: TfmColorSetup
     AnchorSideRight.Side = asrBottom
     Left = 374
     Height = 29
-    Top = 203
+    Top = 163
     Width = 163
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'Set "none color"'
     OnClick = bNoneClick
-    TabOrder = 2
+    TabOrder = 3
+  end
+  object ListStyles: TListBox
+    Left = 8
+    Height = 192
+    Top = 296
+    Width = 360
+    ItemHeight = 0
+    ScrollWidth = 358
+    TabOrder = 1
+    TopIndex = -1
+  end
+  object bStyle: TButton
+    AnchorSideLeft.Control = bChange
+    AnchorSideRight.Control = bChange
+    AnchorSideRight.Side = asrBottom
+    Left = 374
+    Height = 29
+    Top = 384
+    Width = 163
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Config style...'
+    OnClick = bStyleClick
+    TabOrder = 4
   end
   object ColorDialog1: TColorDialog
     Color = clBlack
@@ -100,7 +124,7 @@ object fmColorSetup: TfmColorSetup
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 312
-    top = 192
+    left = 392
+    top = 40
   end
 end

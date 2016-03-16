@@ -26,6 +26,7 @@ type
     color: TColor;
     name, desc: string;
   end;
+  PAppTheme = ^TAppTheme;
   TAppTheme = record
     Colors: array of TAppColor;
     Styles: TList;
@@ -60,6 +61,7 @@ var
   end;
   //
 var
+  st: TecSyntaxFormat;
   i: integer;
 begin
   c:= TJsonConfig.Create(nil);
@@ -71,8 +73,16 @@ begin
       Exit
     end;
 
+    //load colors
     for i:= Low(D.Colors) to High(D.Colors) do
       DoVal(D.Colors[i].color, D.Colors[i].name);
+
+    //load styles
+    for i:= 0 to d.Styles.Count-1 do
+    begin
+      st:= TecSyntaxFormat(d.Styles[i]);
+      DoLoadLexerStyleFromFile(st, c, 'Lex_'+st.DisplayName);
+    end;
   finally
     c.Free;
   end;

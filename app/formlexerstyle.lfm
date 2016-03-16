@@ -2,11 +2,12 @@ object fmLexerStyle: TfmLexerStyle
   Left = 521
   Height = 318
   Top = 453
-  Width = 441
+  Width = 435
   BorderStyle = bsDialog
-  Caption = 'Lexer style config'
+  Caption = 'Lexer style'
   ClientHeight = 318
-  ClientWidth = 441
+  ClientWidth = 435
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.7'
@@ -14,12 +15,12 @@ object fmLexerStyle: TfmLexerStyle
     Left = 6
     Height = 271
     Top = 6
-    Width = 429
+    Width = 423
     Align = alClient
     BorderSpacing.Around = 6
     BevelOuter = bvNone
     ClientHeight = 271
-    ClientWidth = 429
+    ClientWidth = 423
     TabOrder = 0
     object edColorFont: TColorBox
       Left = 208
@@ -229,7 +230,7 @@ object fmLexerStyle: TfmLexerStyle
     Left = 6
     Height = 29
     Top = 283
-    Width = 429
+    Width = 423
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'

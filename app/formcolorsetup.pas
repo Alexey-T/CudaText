@@ -15,6 +15,8 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   IniFiles, ColorBox, StdCtrls,
   LazUTF8, LazFileUtils,
+  ecSyntAnal,
+  formlexerstyle,
   proc_msg,
   proc_colors;
 
@@ -27,11 +29,14 @@ type
   TfmColorSetup = class(TForm)
     bChange: TButton;
     bNone: TButton;
+    bStyle: TButton;
     ButtonPanel1: TButtonPanel;
     ColorDialog1: TColorDialog;
     List: TColorListBox;
+    ListStyles: TListBox;
     procedure bChangeClick(Sender: TObject);
     procedure bNoneClick(Sender: TObject);
+    procedure bStyleClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -78,17 +83,25 @@ end;
 
 procedure TfmColorSetup.Updatelist;
 var
+  st: TecSyntaxFormat;
   i, n: integer;
 begin
-  n:= list.itemindex;
-
+  n:= List.ItemIndex;
   List.Items.Clear;
+
   for i:= Low(Data.Colors) to High(Data.Colors) do
     List.Items.AddObject(Data.Colors[i].desc, TObject(ptrint(Data.Colors[i].color)));
 
-  if n<list.items.count then
-    list.itemindex:= n;
-  list.Invalidate;
+  if ListStyles.Count=0 then
+    for i:= 0 to Data.Styles.Count-1 do
+    begin
+      st:= TecSyntaxFormat(Data.Styles[i]);
+      ListStyles.Items.AddObject(st.DisplayName, st);
+    end;
+
+  if n<List.Items.Count then
+    List.ItemIndex:= n;
+  List.Invalidate;
 end;
 
 procedure TfmColorSetup.bChangeClick(Sender: TObject);
@@ -107,10 +120,56 @@ begin
   Updatelist;
 end;
 
+procedure TfmColorSetup.bStyleClick(Sender: TObject);
+var
+  st: TecSyntaxFormat;
+begin
+  if ListStyles.ItemIndex<0 then exit;
+  st:= TecSyntaxFormat(ListStyles.Items.Objects[ListStyles.ItemIndex]);
+
+  with TfmLexerStyle.Create(nil) do
+  try
+    edColorFont.Selected:= st.Font.Color;
+    edColorBG.Selected:= st.BgColor;
+    edColorBorder.Selected:= st.BorderColorBottom;
+    edStyleType.ItemIndex:= Ord(st.FormatType);
+    chkBold.Checked:= fsBold in st.Font.Style;
+    chkItalic.Checked:= fsItalic in st.Font.Style;
+    chkStrik.Checked:= fsStrikeOut in st.Font.Style;
+    chkUnder.Checked:= fsUnderline in st.Font.Style;
+    cbBorderL.ItemIndex:= Ord(st.BorderTypeLeft);
+    cbBorderR.ItemIndex:= Ord(st.BorderTypeRight);
+    cbBorderT.ItemIndex:= Ord(st.BorderTypeTop);
+    cbBorderB.ItemIndex:= Ord(st.BorderTypeBottom);
+
+    if ShowModal=mrOk then
+    begin
+      st.Font.Color:= edColorFont.Selected;
+      st.BgColor:= edColorBG.Selected;
+      st.BorderColorBottom:= edColorBorder.Selected;
+      st.FormatType:= TecFormatType(edStyleType.ItemIndex);
+
+      st.Font.Style:= [];
+      if chkBold.Checked then st.Font.Style:= st.Font.Style+[fsBold];
+      if chkItalic.Checked then st.Font.Style:= st.Font.Style+[fsItalic];
+      if chkStrik.Checked then st.Font.Style:= st.Font.Style+[fsStrikeOut];
+      if chkUnder.Checked then st.Font.Style:= st.Font.Style+[fsUnderline];
+
+      st.BorderTypeLeft:= TecBorderLineType(cbBorderL.ItemIndex);
+      st.BorderTypeRight:= TecBorderLineType(cbBorderR.ItemIndex);
+      st.BorderTypeTop:= TecBorderLineType(cbBorderT.ItemIndex);
+      st.BorderTypeBottom:= TecBorderLineType(cbBorderB.ItemIndex);
+    end;
+  finally
+    Free
+  end;
+end;
+
 procedure TfmColorSetup.FormShow(Sender: TObject);
 begin
   Updatelist;
   List.ItemIndex:= 0;
+  ListStyles.ItemIndex:= 0;
   List.SetFocus;
 end;
 

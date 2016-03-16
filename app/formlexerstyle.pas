@@ -39,6 +39,7 @@ type
     LabelFontStyles: TLabel;
     LabelStyleType: TLabel;
     Panel1: TPanel;
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     procedure InitBorder(cb: TCombobox);
@@ -67,6 +68,10 @@ var
   msgBorderTypeDouble: string = 'double';
 
 procedure TfmLexerStyle.FormShow(Sender: TObject);
+begin
+end;
+
+procedure TfmLexerStyle.FormCreate(Sender: TObject);
 begin
   InitBorder(cbBorderL);
   InitBorder(cbBorderT);
