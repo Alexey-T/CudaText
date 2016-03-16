@@ -1,0 +1,245 @@
+object fmLexerStyle: TfmLexerStyle
+  Left = 521
+  Height = 318
+  Top = 453
+  Width = 441
+  BorderStyle = bsDialog
+  Caption = 'Lexer style config'
+  ClientHeight = 318
+  ClientWidth = 441
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.7'
+  object Panel1: TPanel
+    Left = 6
+    Height = 271
+    Top = 6
+    Width = 429
+    Align = alClient
+    BorderSpacing.Around = 6
+    BevelOuter = bvNone
+    ClientHeight = 271
+    ClientWidth = 429
+    TabOrder = 0
+    object edColorFont: TColorBox
+      Left = 208
+      Height = 31
+      Top = 65
+      Width = 190
+      ColorRectWidth = 22
+      NoneColorColor = clNone
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+      DropDownCount = 20
+      ItemHeight = 0
+      TabOrder = 2
+    end
+    object edColorBG: TColorBox
+      Left = 8
+      Height = 31
+      Top = 65
+      Width = 190
+      ColorRectWidth = 22
+      NoneColorColor = clNone
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+      DropDownCount = 20
+      ItemHeight = 0
+      TabOrder = 1
+    end
+    object LabelColorFont: TLabel
+      Left = 208
+      Height = 17
+      Top = 49
+      Width = 91
+      Caption = 'Color of font:'
+      ParentColor = False
+    end
+    object edStyleType: TComboBox
+      Left = 8
+      Height = 31
+      Top = 18
+      Width = 190
+      ItemHeight = 0
+      Items.Strings = (
+        'Misc font (not supp.)'
+        'Colors, styles'
+        'Colors'
+        'Color BG only'
+      )
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object LabelStyleType: TLabel
+      Left = 8
+      Height = 17
+      Top = 0
+      Width = 70
+      Caption = 'Style type:'
+      ParentColor = False
+    end
+    object LabelColorBg: TLabel
+      Left = 8
+      Height = 17
+      Top = 48
+      Width = 81
+      Caption = 'Color of BG:'
+      ParentColor = False
+    end
+    object LabelFontStyles: TLabel
+      Left = 8
+      Height = 17
+      Top = 104
+      Width = 77
+      Caption = 'Font styles:'
+      ParentColor = False
+    end
+    object chkBold: TCheckBox
+      Left = 8
+      Height = 24
+      Top = 120
+      Width = 57
+      Caption = 'Bold'
+      TabOrder = 3
+    end
+    object chkItalic: TCheckBox
+      Left = 96
+      Height = 24
+      Top = 120
+      Width = 59
+      Caption = 'Italic'
+      TabOrder = 4
+    end
+    object chkStrik: TCheckBox
+      Left = 304
+      Height = 24
+      Top = 120
+      Width = 83
+      Caption = 'Stikeout'
+      TabOrder = 6
+    end
+    object chkUnder: TCheckBox
+      Left = 184
+      Height = 24
+      Top = 120
+      Width = 91
+      Caption = 'Underline'
+      TabOrder = 5
+    end
+    object LabelBorder: TLabel
+      Left = 8
+      Height = 17
+      Top = 148
+      Width = 58
+      Caption = 'Borders:'
+      ParentColor = False
+    end
+    object cbBorderL: TComboBox
+      Left = 8
+      Height = 31
+      Top = 184
+      Width = 100
+      DropDownCount = 20
+      ItemHeight = 0
+      Style = csDropDownList
+      TabOrder = 7
+    end
+    object cbBorderT: TComboBox
+      Left = 112
+      Height = 31
+      Top = 184
+      Width = 100
+      DropDownCount = 20
+      ItemHeight = 0
+      Style = csDropDownList
+      TabOrder = 8
+    end
+    object cbBorderR: TComboBox
+      Left = 216
+      Height = 31
+      Top = 184
+      Width = 100
+      DropDownCount = 20
+      ItemHeight = 0
+      Style = csDropDownList
+      TabOrder = 9
+    end
+    object cbBorderB: TComboBox
+      Left = 320
+      Height = 31
+      Top = 184
+      Width = 100
+      DropDownCount = 20
+      ItemHeight = 0
+      Style = csDropDownList
+      TabOrder = 10
+    end
+    object LabelBorderL: TLabel
+      Left = 8
+      Height = 17
+      Top = 166
+      Width = 28
+      Caption = 'Left'
+      ParentColor = False
+    end
+    object LabelBorderT: TLabel
+      Left = 112
+      Height = 17
+      Top = 166
+      Width = 25
+      Caption = 'Top'
+      ParentColor = False
+    end
+    object LabelBorderR: TLabel
+      Left = 216
+      Height = 17
+      Top = 166
+      Width = 35
+      Caption = 'Right'
+      ParentColor = False
+    end
+    object LabelBorderB: TLabel
+      Left = 320
+      Height = 17
+      Top = 166
+      Width = 52
+      Caption = 'Bottom'
+      ParentColor = False
+    end
+    object LabelColorBorder: TLabel
+      Left = 8
+      Height = 17
+      Top = 216
+      Width = 109
+      Caption = 'Color of border:'
+      ParentColor = False
+    end
+    object edColorBorder: TColorBox
+      Left = 8
+      Height = 31
+      Top = 232
+      Width = 190
+      ColorRectWidth = 22
+      NoneColorColor = clNone
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+      DropDownCount = 20
+      ItemHeight = 0
+      TabOrder = 11
+    end
+  end
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 283
+    Width = 429
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+    ShowBevel = False
+  end
+end
