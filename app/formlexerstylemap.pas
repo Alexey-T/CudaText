@@ -153,6 +153,7 @@ begin
     if F.ShowModal=mrOk then
     begin
       F.DoSave;
+      DoCheckLexerStylesMap(an); //reapply new colors
     end;
   finally
     F.Free;
