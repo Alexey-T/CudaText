@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="43">
+    <Units Count="44">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -336,6 +336,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit42>
+      <Unit43>
+        <Filename Value="formlexerstylemap.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmLexerStyleMap"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit43>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
