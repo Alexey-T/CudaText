@@ -159,21 +159,21 @@ var
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
-  st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'FontStyles', ''));
-  st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'FontColor', ''), Len, 0);
-  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'BgColor', ''), Len, 0);
-  st.BorderColorBottom:= SHtmlColorToColor(cfg.GetValue(skey+'BorColor', ''), Len, 0);
+  st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'FontStyles', FontStylesToString(st.Font.Style)));
+  st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'FontColor', ''), Len, st.Font.Color);
+  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'BgColor', ''), Len, st.BgColor);
+  st.BorderColorBottom:= SHtmlColorToColor(cfg.GetValue(skey+'BorColor', ''), Len, st.BorderColorBottom);
   st.BorderColorLeft:= st.BorderColorBottom;
   st.BorderColorRight:= st.BorderColorBottom;
   st.BorderColorTop:= st.BorderColorBottom;
 
-  st.BorderTypeLeft:= TecBorderLineType(cfg.GetValue(skey+'BorL', 0));
-  st.BorderTypeRight:= TecBorderLineType(cfg.GetValue(skey+'BorR', 0));
-  st.BorderTypeTop:= TecBorderLineType(cfg.GetValue(skey+'BorU', 0));
-  st.BorderTypeBottom:= TecBorderLineType(cfg.GetValue(skey+'BorD', 0));
+  st.BorderTypeLeft:= TecBorderLineType(cfg.GetValue(skey+'BorL', Ord(st.BorderTypeLeft)));
+  st.BorderTypeRight:= TecBorderLineType(cfg.GetValue(skey+'BorR', Ord(st.BorderTypeRight)));
+  st.BorderTypeTop:= TecBorderLineType(cfg.GetValue(skey+'BorU', Ord(st.BorderTypeTop)));
+  st.BorderTypeBottom:= TecBorderLineType(cfg.GetValue(skey+'BorD', Ord(st.BorderTypeBottom)));
 
   //st.FormatFlags:= StrToFormatFlags(cfg.GetValue(skey+'Flags', ''));
-  st.FormatType:= TecFormatType(cfg.GetValue(skey+'Type', 0));
+  st.FormatType:= TecFormatType(cfg.GetValue(skey+'Type', Ord(st.FormatType)));
 end;
 
 

@@ -121,14 +121,18 @@ procedure DoInitTheme(var D: TAppTheme);
     st.BorderTypeBottom:= NBorderDown;
     st.FormatType:= NFormatType;
 
-    if D.Styles=nil then
-      D.Styles:= TList.Create;
     D.Styles.Add(st);
   end;
   //
 begin
   SetLength(D.Colors, 0);
 
+  if Assigned(D.Styles) then
+    D.Styles.Clear
+  else
+    D.Styles:= TList.Create;
+
+  //add colors
   Add(clBlack, 'EdTextFont', 'editor, font');
   Add(clWhite, 'EdTextBg', 'editor, BG');
   Add(clHighlightText, 'EdSelFont', 'editor, selection, font');
@@ -229,8 +233,15 @@ begin
   Add(clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
 
   //--------------
-  AddStyle('Id', clBlack, 0, 0, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('IdKeyword', clBlack, 0, 0, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  //add styles
+  AddStyle('Id', clBlack, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Id3', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Id4', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('IdKeyword', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('IdVar', clGreen, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('IdBad', clBlack, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
 end;
 
 procedure DoSaveTheme(const fn: string; const D: TAppTheme);
