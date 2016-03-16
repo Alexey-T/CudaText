@@ -1,12 +1,12 @@
 object fmLexerStyleMap: TfmLexerStyleMap
   Left = 338
-  Height = 410
+  Height = 407
   Top = 362
-  Width = 647
+  Width = 631
   BorderStyle = bsDialog
   Caption = 'Lexer styles mapping'
-  ClientHeight = 410
-  ClientWidth = 647
+  ClientHeight = 407
+  ClientWidth = 631
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
@@ -14,8 +14,8 @@ object fmLexerStyleMap: TfmLexerStyleMap
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
-    Top = 375
-    Width = 635
+    Top = 372
+    Width = 619
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -38,7 +38,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     ParentColor = False
   end
   object LabelTh: TLabel
-    Left = 320
+    Left = 304
     Height = 17
     Top = 4
     Width = 101
@@ -50,14 +50,14 @@ object fmLexerStyleMap: TfmLexerStyleMap
     Left = 6
     Height = 343
     Top = 24
-    Width = 308
+    Width = 290
     ItemHeight = 0
-    ScrollWidth = 306
+    ScrollWidth = 288
     TabOrder = 0
     TopIndex = -1
   end
   object ListTh: TListBox
-    Left = 320
+    Left = 304
     Height = 343
     Top = 24
     Width = 151
@@ -67,7 +67,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     TopIndex = -1
   end
   object btnSet: TButton
-    Left = 478
+    Left = 464
     Height = 29
     Top = 24
     Width = 160
@@ -84,7 +84,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
-    Left = 478
+    Left = 464
     Height = 29
     Top = 59
     Width = 160
@@ -101,7 +101,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
-    Left = 478
+    Left = 464
     Height = 29
     Top = 94
     Width = 160

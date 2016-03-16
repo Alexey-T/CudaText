@@ -237,16 +237,15 @@ begin
 end;
 
 procedure TfmLexerStyleMap.UpdateList;
+const
+  cArrow = '  ---  ';
 var
-  n, i: integer;
+  i: integer;
 begin
-  n:= ListLex.ItemIndex;
   ListLex.Items.BeginUpdate;
-  ListLex.Items.Clear;
   for i:= 0 to ItemsLex.Count-1 do
-    ListLex.Items.Add(ItemsLex[i] + ' >> ' + IfThen(ItemsVal[i]<>'', ItemsVal[i], '?'));
+    ListLex.Items[i]:= ItemsLex[i] + cArrow + IfThen(ItemsVal[i]<>'', ItemsVal[i], '?');
   ListLex.Items.EndUpdate;
-  ListLex.ItemIndex:= n;
 end;
 
 end.
