@@ -52,6 +52,22 @@ implementation
 
 {$R *.lfm}
 
+procedure DoStyleAssign(s, s2: TecSyntaxFormat);
+begin
+  s.FormatType:= s2.FormatType;
+  s.Font.Color:= s2.Font.Color;
+  s.Font.Style:= s2.Font.Style;
+  s.BgColor:= s2.BgColor;
+  s.BorderColorLeft:= s2.BorderColorLeft;
+  s.BorderColorRight:= s2.BorderColorRight;
+  s.BorderColorTop:= s2.BorderColorTop;
+  s.BorderColorBottom:= s2.BorderColorBottom;
+  s.BorderTypeLeft:= s2.BorderTypeLeft;
+  s.BorderTypeRight:= s2.BorderTypeRight;
+  s.BorderTypeTop:= s2.BorderTypeTop;
+  s.BorderTypeBottom:= s2.BorderTypeBottom;
+end;
+
 function DoCheckLexerStylesMap(an: TecSyntAnalyzer): boolean;
 var
   value: string;
@@ -72,7 +88,7 @@ begin
 
       st:= GetAppStyleFromName(value);
       if Assigned(st) then
-        an.Formats[i].Assign(st);
+        DoStyleAssign(an.Formats[i], st);
     end;
   finally
     Free

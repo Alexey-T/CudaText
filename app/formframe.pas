@@ -38,7 +38,7 @@ uses
   proc_msg,
   proc_str,
   proc_py,
-  proc_miscutils,
+  proc_miscutils, formlexerstylemap,
   jsonConf,
   math;
 
@@ -797,6 +797,9 @@ end;
 
 procedure TEditorFrame.SetLexer(an: TecSyntAnalyzer);
 begin
+  if not DoCheckLexerStylesMap(an) then
+    DoDialogLexerStylesMap(an);
+
   Adapter.Lexer:= an;
 
   if Assigned(an) then

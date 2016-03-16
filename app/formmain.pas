@@ -2062,10 +2062,6 @@ var
 begin
   an:= TecSyntAnalyzer((Sender as TComponent).Tag);
   CurrentFrame.Lexer:= an;
-
-  if not DoCheckLexerStylesMap(an) then
-    DoDialogLexerStylesMap(an);
-
   UpdateFrame;
   UpdateStatus;
 end;
@@ -2750,7 +2746,12 @@ begin
     OnApply:= @FormColorsApply;
     Data:= AData;
     Result:= ShowModal=mrOk;
-    if Result then AData:= Data;
+    if Result then
+    begin
+      AData:= Data;
+      DoCheckLexerStylesMap(CurrentFrame.Lexer);
+      UpdateFrame;
+    end;
   finally
     FreeAndNil(F);
   end;
