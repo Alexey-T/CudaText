@@ -44,11 +44,40 @@ type
 var
   fmLexerStyleMap: TfmLexerStyleMap;
 
+function DoCheckLexerStylesMap(an: TecSyntAnalyzer): boolean;
 procedure DoDialogLexerStylesMap(an: TecSyntAnalyzer);
+
 
 implementation
 
 {$R *.lfm}
+
+function DoCheckLexerStylesMap(an: TecSyntAnalyzer): boolean;
+var
+  value: string;
+  st: TecSyntaxFormat;
+  i: integer;
+begin
+  Result:= true;
+  if an=nil then exit;
+  if an.Formats.Count=0 then exit;
+
+  with TIniFile.Create(GetAppPath(cFileOptStylesMap)) do
+  try
+    for i:= 0 to an.Formats.Count-1 do
+    begin
+      value:= ReadString(an.LexerName, an.Formats[i].DisplayName, '');
+      if value='' then Result:= false; //not exit
+      if value='-' then Continue;
+
+      st:= GetAppStyleFromName(value);
+      if Assigned(st) then
+        an.Formats[i].Assign(st);
+    end;
+  finally
+    Free
+  end;
+end;
 
 procedure DoDialogLexerStylesMap(an: TecSyntAnalyzer);
 var
@@ -61,6 +90,7 @@ begin
   F:= TfmLexerStyleMap.Create(nil);
   try
     F.LexerName:= an.LexerName;
+    F.Caption:= F.Caption + ' - ' + F.LexerName;
 
     for i:= 0 to an.Formats.Count-1 do
       F.ItemsLex.Add(an.Formats[i].DisplayName);
@@ -171,7 +201,7 @@ begin
   ListLex.Items.BeginUpdate;
   ListLex.Items.Clear;
   for i:= 0 to ItemsLex.Count-1 do
-    ListLex.Items.Add(ItemsLex[i] + IfThen(ItemsVal[i]<>'', ' >>> ' + ItemsVal[i]));
+    ListLex.Items.Add(ItemsLex[i] + ' >>> ' + IfThen(ItemsVal[i]<>'', ItemsVal[i], '?'));
   ListLex.Items.EndUpdate;
   ListLex.ItemIndex:= n;
 end;

@@ -2057,8 +2057,15 @@ begin
 end;
 
 procedure TfmMain.MenuLexClick(Sender: TObject);
+var
+  an: TecSyntAnalyzer;
 begin
-  CurrentFrame.Lexer:= TecSyntAnalyzer(pointer((Sender as TComponent).Tag));
+  an:= TecSyntAnalyzer((Sender as TComponent).Tag);
+  CurrentFrame.Lexer:= an;
+
+  if not DoCheckLexerStylesMap(an) then
+    DoDialogLexerStylesMap(an);
+
   UpdateFrame;
   UpdateStatus;
 end;

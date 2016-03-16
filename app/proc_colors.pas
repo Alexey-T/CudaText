@@ -38,6 +38,8 @@ procedure DoInitTheme(var D: TAppTheme);
 procedure DoLoadTheme(const fn: string; var D: TAppTheme);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme);
 function GetAppColor(const name: string): TColor;
+function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
+
 
 implementation
 
@@ -329,6 +331,19 @@ begin
     if Theme.Colors[i].name=name then
       begin Result:= Theme.Colors[i].color; exit end;
   raise Exception.Create('Incorrect color id: '+name);
+end;
+
+function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
+var
+  st: TecSyntaxFormat;
+  i: integer;
+begin
+  Result:= nil;
+  for i:= 0 to Theme.Styles.Count-1 do
+  begin
+    st:= TecSyntaxFormat(Theme.Styles[i]);
+    if st.DisplayName=SName then exit(st);
+  end;
 end;
 
 
