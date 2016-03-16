@@ -91,18 +91,17 @@ procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig;
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
-  cfg.SetValue(skey+'FontStyles', FontStylesToString(st.Font.Style));
-  cfg.SetValue(skey+'FontColor', SColorToHtmlColor(st.Font.Color));
-  cfg.SetValue(skey+'BgColor', SColorToHtmlColor(st.BgColor));
-  cfg.SetValue(skey+'BorColor', SColorToHtmlColor(st.BorderColorBottom));
-
-  cfg.SetValue(skey+'BorL', Integer(st.BorderTypeLeft));
-  cfg.SetValue(skey+'BorR', Integer(st.BorderTypeRight));
-  cfg.SetValue(skey+'BorU', Integer(st.BorderTypeTop));
-  cfg.SetValue(skey+'BorD', Integer(st.BorderTypeBottom));
-
-  //cfg.SetValue(skey+'Flags', FormatFlagsToStr(st.FormatFlags));
   cfg.SetValue(skey+'Type', Integer(st.FormatType));
+  cfg.SetValue(skey+'Styles', FontStylesToString(st.Font.Style));
+  cfg.SetValue(skey+'CFont', SColorToHtmlColor(st.Font.Color));
+  cfg.SetValue(skey+'CBack', SColorToHtmlColor(st.BgColor));
+  cfg.SetValue(skey+'CBorder', SColorToHtmlColor(st.BorderColorBottom));
+
+  cfg.SetValue(skey+'Border', Format('%d,%d,%d,%d', [
+    Ord(st.BorderTypeLeft),
+    Ord(st.BorderTypeRight),
+    Ord(st.BorderTypeTop),
+    Ord(st.BorderTypeBottom) ]));
 end;
 
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
@@ -156,24 +155,27 @@ procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
 var
   Len: integer;
+  s: string;
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
 
-  st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'FontStyles', FontStylesToString(st.Font.Style)));
-  st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'FontColor', ''), Len, st.Font.Color);
-  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'BgColor', ''), Len, st.BgColor);
-  st.BorderColorBottom:= SHtmlColorToColor(cfg.GetValue(skey+'BorColor', ''), Len, st.BorderColorBottom);
+  st.FormatType:= TecFormatType(cfg.GetValue(skey+'Type', Ord(st.FormatType)));
+  st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'Styles', FontStylesToString(st.Font.Style)));
+  st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'CFont', ''), Len, st.Font.Color);
+  st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'CBack', ''), Len, st.BgColor);
+  st.BorderColorBottom:= SHtmlColorToColor(cfg.GetValue(skey+'CBorder', ''), Len, st.BorderColorBottom);
   st.BorderColorLeft:= st.BorderColorBottom;
   st.BorderColorRight:= st.BorderColorBottom;
   st.BorderColorTop:= st.BorderColorBottom;
 
-  st.BorderTypeLeft:= TecBorderLineType(cfg.GetValue(skey+'BorL', Ord(st.BorderTypeLeft)));
-  st.BorderTypeRight:= TecBorderLineType(cfg.GetValue(skey+'BorR', Ord(st.BorderTypeRight)));
-  st.BorderTypeTop:= TecBorderLineType(cfg.GetValue(skey+'BorU', Ord(st.BorderTypeTop)));
-  st.BorderTypeBottom:= TecBorderLineType(cfg.GetValue(skey+'BorD', Ord(st.BorderTypeBottom)));
-
-  //st.FormatFlags:= StrToFormatFlags(cfg.GetValue(skey+'Flags', ''));
-  st.FormatType:= TecFormatType(cfg.GetValue(skey+'Type', Ord(st.FormatType)));
+  s:= cfg.GetValue(skey+'Border', '');
+  if s<>'' then
+  begin
+    st.BorderTypeLeft:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
+    st.BorderTypeRight:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
+    st.BorderTypeTop:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
+    st.BorderTypeBottom:= TecBorderLineType(StrToIntDef(SGetItem(s), 0));
+  end;
 end;
 
 
