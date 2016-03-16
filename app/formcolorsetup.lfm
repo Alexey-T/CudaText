@@ -51,7 +51,7 @@ object fmColorSetup: TfmColorSetup
     AnchorSideRight.Side = asrBottom
     Left = 374
     Height = 29
-    Top = 128
+    Top = 120
     Width = 163
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -68,7 +68,7 @@ object fmColorSetup: TfmColorSetup
     AnchorSideRight.Side = asrBottom
     Left = 374
     Height = 29
-    Top = 163
+    Top = 155
     Width = 163
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -92,7 +92,7 @@ object fmColorSetup: TfmColorSetup
     AnchorSideRight.Side = asrBottom
     Left = 374
     Height = 29
-    Top = 384
+    Top = 368
     Width = 163
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -124,7 +124,7 @@ object fmColorSetup: TfmColorSetup
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 392
-    top = 40
+    left = 216
+    top = 8
   end
 end

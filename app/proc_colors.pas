@@ -26,7 +26,6 @@ type
     color: TColor;
     name, desc: string;
   end;
-  PAppTheme = ^TAppTheme;
   TAppTheme = record
     Colors: array of TAppColor;
     Styles: TList;
@@ -69,7 +68,7 @@ begin
     try
       c.Filename:= fn;
     except
-      Showmessage('Incorrect theme file:'#13+fn);
+      Showmessage(msgCannotReadConf+#13+fn);
       Exit
     end;
 

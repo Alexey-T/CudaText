@@ -35,7 +35,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\comp;..\..\synedit\atsynedit"/>
+            <OtherUnitFiles Value="..\comp"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="44">
+    <Units Count="43">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -281,66 +281,61 @@
         <ResourceBaseClass Value="Form"/>
       </Unit31>
       <Unit32>
-        <Filename Value="..\..\synedit\atsynedit\atsynedit_adapter_econtrol.pas"/>
+        <Filename Value="formmain_py.inc"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ATSynEdit_Adapter_EControl"/>
       </Unit32>
       <Unit33>
-        <Filename Value="formmain_py.inc"/>
+        <Filename Value="proc_py_const.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit33>
       <Unit34>
-        <Filename Value="proc_py_const.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit34>
-      <Unit35>
         <Filename Value="form_menu_py.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMenuApi"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit35>
-      <Unit36>
+      </Unit34>
+      <Unit35>
         <Filename Value="formmain_plugins.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit36>
-      <Unit37>
+      </Unit35>
+      <Unit36>
         <Filename Value="formlexerstylesload.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStylesRestore"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit37>
-      <Unit38>
+      </Unit36>
+      <Unit37>
         <Filename Value="formcharmaps.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCharmaps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="proc_keysdialog.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit38>
       <Unit39>
-        <Filename Value="proc_keysdialog.pas"/>
+        <Filename Value="proc_customdialog.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit39>
       <Unit40>
-        <Filename Value="proc_customdialog.pas"/>
+        <Filename Value="proc_miscutils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit40>
       <Unit41>
-        <Filename Value="proc_miscutils.pas"/>
+        <Filename Value="formmain_translation.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit41>
       <Unit42>
-        <Filename Value="formmain_translation.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit42>
-      <Unit43>
         <Filename Value="formlexerstyle.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStyle"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit43>
+      </Unit42>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -351,7 +346,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
+      <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\econtrol\ec"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
