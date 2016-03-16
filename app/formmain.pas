@@ -2737,23 +2737,25 @@ end;
 
 function TfmMain.DoDialogConfColors(var AData: TAppTheme): boolean;
 var
-  F: TfmColorSetup;
+  Form: TfmColorSetup;
+  i: integer;
 begin
-  F:= TfmColorSetup.Create(nil);
-  with F do
+  Form:= TfmColorSetup.Create(nil);
   try
-    DoLocalize_FormColorSetup(F, GetLangFilename);
-    OnApply:= @FormColorsApply;
-    Data:= AData;
-    Result:= ShowModal=mrOk;
+    DoLocalize_FormColorSetup(Form, GetLangFilename);
+    Form.OnApply:= @FormColorsApply;
+    Form.Data:= AData;
+    Result:= Form.ShowModal=mrOk;
     if Result then
     begin
-      AData:= Data;
-      DoCheckLexerStylesMap(CurrentFrame.Lexer);
+      AData:= Form.Data;
+
+      for i:= 0 to FrameCount-1 do
+        with Frames[i] do Lexer:= Lexer;
       UpdateFrame;
     end;
   finally
-    FreeAndNil(F);
+    FreeAndNil(Form);
   end;
 end;
 
