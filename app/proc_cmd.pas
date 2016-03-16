@@ -76,6 +76,7 @@ const
   cmd_ShowSidePanelAndSyntaxTree = 2547;
   cmd_HideSidePanel = 2548;
   cmd_DialogSaveTabs = 2549;
+  cmd_DialogLexerStyleMap = 2550;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -295,6 +296,7 @@ begin
   M.Add(cmd_DialogGotoBookmark, 'dialog: go to bookmark', [cXControl+'+B'], []);
   M.Add(cmd_DialogLexerProp, 'dialog: lexer properties', [], []);
   M.Add(cmd_DialogLexerLib, 'dialog: lexer library', [], []);
+  M.Add(cmd_DialogLexerStyleMap, 'dialog: lexer styles map', [], []);
   M.Add(cmd_DialogLoadLexerStyles, 'dialog: restore lexer styles', [], []);
   M.Add(cmd_DialogColors, 'dialog: config color theme', [], []);
   M.Add(cmd_DialogCharMap, 'dialog: char map', [], []);
@@ -493,6 +495,7 @@ begin
     cmd_OpsReloadAndApply     ,
     cmd_DialogLexerProp       ,
     cmd_DialogLexerLib        ,
+    cmd_DialogLexerStyleMap   ,
     cmd_DialogColors          ,
     cmd_ToggleSidePanel       ,
     cmd_ToggleBottomPanel     ,
@@ -576,6 +579,7 @@ begin
     cmd_DialogGotoBookmark,
     cmd_DialogLexerLib,
     cmd_DialogLexerProp,
+    cmd_DialogLexerStyleMap,
     cmd_DialogLoadLexerStyles,
     cmd_DialogSaveTabs,
     cmd_FileNew,

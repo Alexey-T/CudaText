@@ -41,6 +41,7 @@ begin
     cmd_DialogSaveTabs:    DoDialogSaveTabs;
     cmd_DialogLexerProp:   DoDialogLexerProp(CurrentFrame.Lexer);
     cmd_DialogLexerLib:    DoDialogLexerLib;
+    cmd_DialogLexerStyleMap: DoDialogLexerStylesMap(CurrentFrame.Lexer);
     cmd_DialogLoadLexerStyles: DoDialogLoadLexerStyles;
     cmd_DialogColors:      DoDialogColors;
     cmd_DialogCharMap:     DoDialogCharMap;

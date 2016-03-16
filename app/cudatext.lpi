@@ -340,6 +340,7 @@
         <Filename Value="formlexerstylemap.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStyleMap"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit43>
     </Units>

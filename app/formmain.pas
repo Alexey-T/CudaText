@@ -72,6 +72,7 @@ uses
   formlexerprop,
   formlexerlib,
   formlexerstylesload,
+  formlexerstylemap,
   formpalette,
   formcolorsetup,
   formabout,

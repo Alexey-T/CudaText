@@ -7,6 +7,8 @@ object fmLexerStyleMap: TfmLexerStyleMap
   Caption = 'Lexer styles mapping'
   ClientHeight = 410
   ClientWidth = 647
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   Position = poScreenCenter
   LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel
@@ -71,6 +73,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AutoSize = True
     Caption = 'Assign selected'
     Constraints.MinWidth = 160
+    OnClick = btnSetClick
     TabOrder = 2
   end
   object btnSetNone: TButton
@@ -87,6 +90,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Assign none'
+    OnClick = btnSetNoneClick
     TabOrder = 3
   end
   object btnClear: TButton
@@ -103,6 +107,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'Unassign'
+    OnClick = btnClearClick
     TabOrder = 4
   end
 end
