@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   ColorBox, StdCtrls, ButtonPanel, IniFiles,
+  ecSyntAnal,
   proc_colors,
   proc_globdata,
   proc_msg;
@@ -39,10 +40,12 @@ type
     LabelFontStyles: TLabel;
     LabelStyleType: TLabel;
     Panel1: TPanel;
+    procedure edStyleTypeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     procedure InitBorder(cb: TCombobox);
+    procedure UpdateStyleEn;
     { private declarations }
   public
     { public declarations }
@@ -134,9 +137,15 @@ begin
   InitBorder(cbBorderB);
 end;
 
+procedure TfmLexerStyle.edStyleTypeChange(Sender: TObject);
+begin
+  UpdateStyleEn;
+end;
+
 procedure TfmLexerStyle.FormShow(Sender: TObject);
 begin
   FormCreate(nil);
+  UpdateStyleEn;
 end;
 
 procedure TfmLexerStyle.InitBorder(cb: TCombobox);
@@ -161,6 +170,20 @@ begin
   cb.ItemIndex:= n;
 end;
 
+
+procedure TfmLexerStyle.UpdateStyleEn;
+var
+  fmt: TecFormatType;
+begin
+  fmt:= TecFormatType(edStyleType.ItemIndex);
+  edColorFont.Enabled:= fmt in [ftCustomFont, ftFontAttr, ftColor];
+  edColorBG.Enabled:= true;
+
+  chkBold.Enabled:= fmt in [ftCustomFont, ftFontAttr];
+  chkItalic.Enabled:= chkBold.Enabled;
+  chkUnder.Enabled:= chkBold.Enabled;
+  chkStrik.Enabled:= chkBold.Enabled;
+end;
 
 end.
 

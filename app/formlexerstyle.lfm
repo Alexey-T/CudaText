@@ -66,6 +66,7 @@ object fmLexerStyle: TfmLexerStyle
         'Colors'
         'Color BG only'
       )
+      OnChange = edStyleTypeChange
       Style = csDropDownList
       TabOrder = 0
     end
