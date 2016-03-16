@@ -19,6 +19,7 @@ uses
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
   proc_msg,
+  proc_globdata,
   proc_lexer_styles;
 
 type
@@ -95,8 +96,7 @@ var
 function DoShowDialogLexerProp(
   an: TecSyntAnalyzer;
   const AFontName: string; AFontSize: integer;
-  const AStylesFilename: string;
-  const ALangFilename: string): boolean;
+  const AStylesFilename: string): boolean;
 
 implementation
 
@@ -119,15 +119,16 @@ begin
   AStr:= ini.ReadString(ASection, AKey, AStr);
 end;
 
-procedure DoLocalize_FormLexerProp(F: TfmLexerProp; const ALangFilename: string);
+procedure DoLocalize_FormLexerProp(F: TfmLexerProp);
 const
   section = 'd_lex_prop';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
@@ -353,8 +354,7 @@ end;
 
 
 function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
-  AFontSize: integer; const AStylesFilename: string; const ALangFilename: string
-  ): boolean;
+  AFontSize: integer; const AStylesFilename: string): boolean;
 var
   F: TfmLexerProp;
 begin
@@ -363,7 +363,7 @@ begin
 
   F:= TfmLexerProp.Create(nil);
   try
-    DoLocalize_FormLexerProp(F, ALangFilename);
+    DoLocalize_FormLexerProp(F);
     F.FStylesFilename:= AStylesFilename;
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;

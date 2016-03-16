@@ -18,6 +18,7 @@ uses
   ecSyntAnal,
   formlexerstyle,
   proc_msg,
+  proc_globdata,
   proc_colors;
 
 type
@@ -42,7 +43,6 @@ type
     procedure ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { private declarations }
-    FLangFilename: string;
     procedure Updatelist;
   public
     { public declarations }
@@ -50,23 +50,23 @@ type
     OnApply: TApplyThemeEvent;
   end;
 
-procedure DoLocalize_FormColorSetup(F: TfmColorSetup; const ALangFilename: string);
+procedure DoLocalize_FormColorSetup(F: TfmColorSetup);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormColorSetup(F: TfmColorSetup; const ALangFilename: string);
+procedure DoLocalize_FormColorSetup(F: TfmColorSetup);
 const
   section = 'd_theme';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExists(ALangFilename) then exit;
-  F.FLangFilename:= ALangFilename;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
@@ -147,7 +147,7 @@ begin
     cbBorderT.ItemIndex:= Ord(st.BorderTypeTop);
     cbBorderB.ItemIndex:= Ord(st.BorderTypeBottom);
 
-    DoLocalize_FormLexerStyle(Form, FLangFilename);
+    DoLocalize_FormLexerStyle(Form);
     if ShowModal=mrOk then
     begin
       st.Font.Color:= edColorFont.Selected;

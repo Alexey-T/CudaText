@@ -16,6 +16,7 @@ uses
   StdCtrls, Menus, ExtCtrls, IniFiles,
   LclType, LclProc, LazUTF8, LazFileUtils,
   ATSynEdit_Keymap,
+  proc_globdata,
   proc_msg;
 
 type
@@ -52,22 +53,23 @@ type
 var
   fmKeys: TfmKeys;
 
-procedure DoLocalize_FormKeys(F: TfmKeys; const ALangFilename: string);
+procedure DoLocalize_FormKeys(F: TfmKeys);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormKeys(F: TfmKeys; const ALangFilename: string);
+procedure DoLocalize_FormKeys(F: TfmKeys);
 const
   section = 'd_keys';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;

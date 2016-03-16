@@ -17,7 +17,8 @@ uses
   StdCtrls, Grids, IniFiles,
   LclType, LclProc, LCLUnicodeData,
   LazUTF8, LazFileUtils,
-  proc_msg;
+  proc_msg,
+  proc_globdata;
 
 type
   TCharmapInsertEvent = procedure(const Str: string) of object;
@@ -69,22 +70,23 @@ var
   fmCharmaps: TfmCharmaps;
 
 function DoDialogCharmapModal(const ALangFilename: string): string;
-procedure DoLocalize_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
+procedure DoLocalize_FormCharmap(F: TfmCharmaps);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormCharmap(F: TfmCharmaps; const ALangFilename: string);
+procedure DoLocalize_FormCharmap(F: TfmCharmaps);
 const
   section = 'd_charmap';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.btnClose do Caption:= msgButtonClose;
@@ -122,7 +124,7 @@ begin
   Dummy.Form:= F;
 
   try
-    DoLocalize_FormCharmap(F, ALangFilename);
+    DoLocalize_FormCharmap(F);
     F.OnInsert:= @Dummy.OnInsert;
     F.ShowModal;
     Result:= Dummy.StrVal;

@@ -39,7 +39,7 @@ type
     FCredits: string;
   end;
 
-procedure DoLocalize_FormAbout(F: TfmAbout; const ALangFilename: string);
+procedure DoLocalize_FormAbout(F: TfmAbout);
 
 
 implementation
@@ -48,15 +48,16 @@ uses InterfaceBase;
 
 {$R *.lfm}
 
-procedure DoLocalize_FormAbout(F: TfmAbout; const ALangFilename: string);
+procedure DoLocalize_FormAbout(F: TfmAbout);
 const
   section = 'd_about';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;

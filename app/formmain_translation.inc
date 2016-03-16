@@ -55,7 +55,7 @@ var
   ini: TIniFile;
   s: string;
 begin
-  fn:= GetLangFilename;
+  fn:= GetAppLangFilename;
   if not FileExistsUTF8(fn) then exit;
 
   ini:= TIniFile.Create(fn);
@@ -466,7 +466,7 @@ begin
   DoLocalize_FormFind;
   DoLocalize_FormGoto;
   if Assigned(fmCharmaps) then
-    DoLocalize_FormCharmap(fmCharmaps, fn);
+    DoLocalize_FormCharmap(fmCharmaps);
 
   //hack to localize already opened tab title
   if FrameCount>0 then
@@ -484,8 +484,8 @@ var
 begin
   if not Assigned(fmFind) then exit;
 
-  fn:= GetLangFilename;
-  if not FileExistsUTF8(fn) then exit;
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
 
   ini:= TIniFile.Create(fn);
   try
@@ -540,7 +540,7 @@ var
 begin
   if not Assigned(fmGoto) then exit;
 
-  fn:= GetLangFilename;
+  fn:= GetAppLangFilename;
   if not FileExistsUTF8(fn) then exit;
 
   ini:= TIniFile.Create(fn);

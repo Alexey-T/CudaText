@@ -40,23 +40,23 @@ type
     StylesFilename: string;
   end;
 
-procedure DoLocalize_FormLexerRestoreStyles(F: TfmLexerStylesRestore; const ALangFilename: string);
+procedure DoLocalize_FormLexerRestoreStyles(F: TfmLexerStylesRestore);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormLexerRestoreStyles(F: TfmLexerStylesRestore;
-  const ALangFilename: string);
+procedure DoLocalize_FormLexerRestoreStyles(F: TfmLexerStylesRestore);
 const
   section = 'd_lex_restore';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;

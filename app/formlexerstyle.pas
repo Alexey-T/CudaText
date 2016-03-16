@@ -54,7 +54,7 @@ type
 var
   fmLexerStyle: TfmLexerStyle;
 
-procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle; const ALangFilename: string);
+procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle);
 
 
 implementation
@@ -78,15 +78,16 @@ begin
   AStr:= ini.ReadString(ASection, AKey, AStr);
 end;
 
-procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle; const ALangFilename: string);
+procedure DoLocalize_FormLexerStyle(F: TfmLexerStyle);
 const
   section = 'd_lex_prop';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExists(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_style', Caption);
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;

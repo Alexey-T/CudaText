@@ -57,7 +57,6 @@ type
     { public declarations }
     keymap: TATKeymap;
     ResultNum: integer;
-    FLangFilename: string;
   end;
 
 var
@@ -197,7 +196,7 @@ var
   N: integer;
 begin
   N:= list.ItemIndex;
-  if DoDialogHotkeys(Cmd, FLangFilename) then
+  if DoDialogHotkeys(Cmd) then
   begin
     DoFilter;
     DoFindDupKeys;

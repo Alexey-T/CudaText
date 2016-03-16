@@ -203,7 +203,7 @@ begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, ':dlg_charmap')) then
     begin
-      str:= DoDialogCharmapModal(fmMain.GetLangFilename);
+      str:= DoDialogCharmapModal(GetAppLangFilename);
       if str<>'' then
         Result:= PyString_FromString(PChar(str))
       else
@@ -1524,9 +1524,9 @@ begin
       Str:= string(Ptr);
       Cmd:= StrToIntDef(Str, 0);
       if Cmd>0 then
-        Ok:= DoDialogHotkeys(Cmd, fmMain.GetLangFilename)
+        Ok:= DoDialogHotkeys(Cmd)
       else
-        Ok:= DoDialogHotkeys(Str, fmMain.GetLangFilename);
+        Ok:= DoDialogHotkeys(Str);
       Result:= PyBool_FromLong(Ord(Ok));
     end;
 end;
@@ -2154,7 +2154,7 @@ begin
 
         APP_PROC_GET_LANG:
           begin
-            Result:= PyString_FromString(PChar(fmMain.LangName));
+            Result:= PyString_FromString(PChar(AppLangName));
           end;
 
         else

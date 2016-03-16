@@ -267,7 +267,7 @@ begin
 
   fmConfirmReplace:= TfmConfirmReplace.Create(Self);
   try
-    DoLocalize_FormConfirmReplace(fmConfirmReplace, GetLangFilename);
+    DoLocalize_FormConfirmReplace(fmConfirmReplace);
     fmConfirmReplace.MsgLineNumber:= APos1.Y+1;
     fmConfirmReplace.bYesAll.Enabled:= AForMany;
     fmConfirmReplace.bNoAll.Enabled:= AForMany;

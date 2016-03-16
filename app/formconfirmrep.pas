@@ -46,22 +46,23 @@ type
 var
   fmConfirmReplace: TfmConfirmReplace;
 
-procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
+procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace; const ALangFilename: string);
+procedure DoLocalize_FormConfirmReplace(F: TfmConfirmReplace);
 const
   section = 'd_cfm_rep';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.bYes do Caption:= ini.ReadString(section, 'yes', Caption);

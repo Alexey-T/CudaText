@@ -201,6 +201,7 @@ cmd_ShowSidePanelAsIs = 2546
 cmd_ShowSidePanelAndSyntaxTree = 2547
 cmd_HideSidePanel = 2548
 cmd_DialogSaveTabs = 2549
+cmd_DialogLexerStyleMap = 2550
 
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581

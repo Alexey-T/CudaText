@@ -1086,7 +1086,7 @@ begin
   mi.Caption:= 'English (built-in)';
   mi.Tag:= -1;
   mi.OnClick:= @MenuLangClick;
-  mi.Checked:= FLangName='';
+  mi.Checked:= AppLangName='';
   sub.Add(mi);
 
   FFindFilesInDir(GetAppPath(cDirDataLangs), '*.ini', FListLangs);
@@ -1101,7 +1101,7 @@ begin
     mi.Caption:= cap;
     mi.Tag:= i;
     mi.OnClick:= @MenuLangClick;
-    mi.Checked:= LowerCase(FLangName)=LowerCase(mi.Caption);
+    mi.Checked:= LowerCase(AppLangName)=LowerCase(mi.Caption);
     sub.Add(mi);
   end;
 end;

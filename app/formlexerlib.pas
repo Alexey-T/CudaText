@@ -49,7 +49,6 @@ type
     FFontSize: integer;
     FDirAcp: string;
     FStylesFilename: string;
-    FLangFilename: string;
     { public declarations }
   end;
 
@@ -60,22 +59,22 @@ function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
   const ADirAcp: string;
   const AFontName: string;
   AFontSize: integer;
-  const AStylesFilename: string;
-  const ALangFilename: string): boolean;
+  const AStylesFilename: string): boolean;
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormLexerLib(F: TfmLexerLib; const ALangFilename: string);
+procedure DoLocalize_FormLexerLib(F: TfmLexerLib);
 const
   section = 'd_lex_lib';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.CloseButton do Caption:= msgButtonClose;
@@ -90,19 +89,18 @@ end;
 
 function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
   const ADirAcp: string; const AFontName: string; AFontSize: integer;
-  const AStylesFilename: string; const ALangFilename: string): boolean;
+  const AStylesFilename: string): boolean;
 var
   F: TfmLexerLib;
 begin
   F:= TfmLexerLib.Create(nil);
   try
-    DoLocalize_FormLexerLib(F, ALangFilename);
+    DoLocalize_FormLexerLib(F);
     F.FManager:= ALexerManager;
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;
     F.FDirAcp:= ADirAcp;
     F.FStylesFilename:= AStylesFilename;
-    F.FLangFilename:= ALangFilename;
     F.ShowModal;
     Result:= F.FManager.Modified;
   finally
@@ -154,7 +152,7 @@ begin
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  if DoShowDialogLexerProp(an, FFontName, FFontSize, FStylesFilename, FLangFilename) then
+  if DoShowDialogLexerProp(an, FFontName, FFontSize, FStylesFilename) then
   begin
     FManager.Modified:= true;
     UpdateList;

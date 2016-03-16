@@ -18,13 +18,13 @@ uses
   proc_cmd,
   formkeys;
 
-function DoDialogHotkeys(ACmd: integer; const ALangFilename: string): boolean;
-function DoDialogHotkeys(const AModuleAndMethod: string; const ALangFilename: string): boolean;
+function DoDialogHotkeys(ACmd: integer): boolean;
+function DoDialogHotkeys(const AModuleAndMethod: string): boolean;
 
 
 implementation
 
-function DoDialogHotkeys(ACmd: integer; const ALangFilename: string): boolean;
+function DoDialogHotkeys(ACmd: integer): boolean;
 var
   n: integer;
   Form: TfmKeys;
@@ -49,7 +49,7 @@ begin
   Form:= TfmKeys.Create(nil);
   with Form do
   try
-    DoLocalize_FormKeys(Form, ALangFilename);
+    DoLocalize_FormKeys(Form);
     Caption:= Caption+' - '+keymap[n].Name;
     Keys1:= keymap[n].Keys1;
     Keys2:= keymap[n].Keys2;
@@ -67,7 +67,7 @@ begin
 end;
 
 
-function DoDialogHotkeys(const AModuleAndMethod: string; const ALangFilename: string): boolean;
+function DoDialogHotkeys(const AModuleAndMethod: string): boolean;
 var
   N: integer;
 begin
@@ -75,7 +75,7 @@ begin
   N:= CommandPlugins_GetIndexFromModuleAndMethod(AModuleAndMethod);
   if N<0 then exit;
 
-  Result:= DoDialogHotkeys(N+cmdFirstPluginCommand, ALangFilename);
+  Result:= DoDialogHotkeys(N+cmdFirstPluginCommand);
 end;
 
 

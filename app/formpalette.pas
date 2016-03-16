@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   LazUTF8, LazFileUtils,
   IniFiles, ColorPalette,
+  proc_globdata,
   proc_msg;
 
 type
@@ -36,22 +37,23 @@ type
 var
   fmPalette: TfmPalette;
 
-procedure DoLocalize_FormPalette(F: TfmPalette; const ALangFilename: string);
+procedure DoLocalize_FormPalette(F: TfmPalette);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormPalette(F: TfmPalette; const ALangFilename: string);
+procedure DoLocalize_FormPalette(F: TfmPalette);
 const
   section = 'd_tab_color';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.CloseButton do Caption:= ini.ReadString(section, 'res', Caption);

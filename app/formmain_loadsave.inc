@@ -56,7 +56,7 @@ begin
 
     ////state
     c.SetValue('theme', FThemeName);
-    c.SetValue('lang', FLangName);
+    c.SetValue('lang', AppLangName);
     c.SetValue('session', FSessionFilename);
 
     DoOps_SaveHistory_GroupView(c);
@@ -256,10 +256,10 @@ begin
 
     ////theme
     FThemeName:= c.GetValue('theme', '');
-    FLangName:= c.GetValue('lang', '');
+    AppLangName:= c.GetValue('lang', '');
     FSessionFilename:= c.GetValue('session', FSessionFilename);
 
-    if FLangName<>'' then
+    if AppLangName<>'' then
       DoLocalize;
 
     if FThemeName<>'' then

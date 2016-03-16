@@ -490,7 +490,6 @@ type
     FListThemes: TStringList;
     FListLangs: TStringList;
     FThemeName: string;
-    FLangName: string;
     FSessionFilename: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -581,7 +580,6 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
-    function GetLangFilename: string;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
@@ -741,7 +739,6 @@ type
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
     property ShowBottom: boolean read GetShowBottom write SetShowBottom;
-    property LangName: string read FLangName write FLangName;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
   end;
@@ -1399,7 +1396,7 @@ begin
   Form:= TfmSaveTabs.Create(nil);
   with Form do
   try
-    DoLocalize_FormSaveTabs(Form, GetLangFilename);
+    DoLocalize_FormSaveTabs(Form);
     List.Clear;
     for i:= 0 to FrameCount-1 do
     begin
@@ -1435,8 +1432,7 @@ begin
   if DoShowDialogLexerProp(an,
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStyles),
-    GetLangFilename) then
+    GetAppPath(cFileLexerStyles)) then
   begin
     UpdateMenuLexers;
     UpdateStatus;
@@ -1451,8 +1447,7 @@ begin
     GetAppPath(cDirDataAcp),
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStyles),
-    GetLangFilename) then
+    GetAppPath(cFileLexerStyles)) then
   begin
     UpdateMenuLexers;
     UpdateStatus;
@@ -1497,7 +1492,7 @@ begin
   Form:= TfmAbout.Create(Self);
   with Form do
   try
-    DoLocalize_FormAbout(Form, GetLangFilename);
+    DoLocalize_FormAbout(Form);
     labelVer.Caption:= cAppExeVersion;
     ShowModal;
   finally
@@ -1774,7 +1769,6 @@ begin
 
   Form:= TfmCommands.Create(Self);
   try
-    Form.FLangFilename:= GetLangFilename;
     UpdateInputForm(Form,
       Form.edit.Height+
       Form.edit.BorderSpacing.Around*3+
@@ -2742,7 +2736,7 @@ var
 begin
   Form:= TfmColorSetup.Create(nil);
   try
-    DoLocalize_FormColorSetup(Form, GetLangFilename);
+    DoLocalize_FormColorSetup(Form);
     Form.OnApply:= @FormColorsApply;
     Form.Data:= AData;
     Result:= Form.ShowModal=mrOk;
@@ -2868,13 +2862,13 @@ begin
   NTag:= (Sender as TComponent).Tag;
   if NTag>=0 then
   begin
-    FLangName:= ExtractFileNameOnly(FListLangs[NTag]);
+    AppLangName:= ExtractFileNameOnly(FListLangs[NTag]);
     UpdateMenuLangs(mnuLang);
     DoLocalize;
   end
   else
   begin
-    FLangName:= '';
+    AppLangName:= '';
     MsgBox('Built-in translation will be used after app restart', mb_ok or MB_ICONINFORMATION);
   end;
 end;
@@ -2901,7 +2895,7 @@ begin
   Form:= TfmPalette.Create(Self);
   with Form do
   try
-    DoLocalize_FormPalette(Form, GetLangFilename);
+    DoLocalize_FormPalette(Form);
     ResColor:= F.TabColor;
     case ShowModal of
       mrOk: F.TabColor:= ResColor;
@@ -3092,7 +3086,7 @@ var
 begin
   Form:= TfmLexerStylesRestore.Create(nil);
   try
-    DoLocalize_FormLexerRestoreStyles(Form, GetLangFilename);
+    DoLocalize_FormLexerRestoreStyles(Form);
     Form.StylesFilename:= GetAppPath(cFileLexerStyles);
     if Form.ShowModal=mrOk then
     begin
@@ -3159,7 +3153,7 @@ begin
   begin
     fmCharmaps:= TfmCharmaps.Create(nil);
     fmCharmaps.OnInsert:= @CharmapOnInsert;
-    DoLocalize_FormCharmap(fmCharmaps, GetLangFilename);
+    DoLocalize_FormCharmap(fmCharmaps);
   end;
 
   fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));
@@ -3522,14 +3516,6 @@ begin
 
     Result:= IntToStr(PtrInt(mi));
   end;
-end;
-
-function TfmMain.GetLangFilename: string;
-begin
-  if FLangName='' then
-    Result:= ''
-  else
-    Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+FLangName+'.ini';
 end;
 
 

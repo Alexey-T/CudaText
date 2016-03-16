@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   IniFiles, CheckLst, ExtCtrls, StdCtrls,
   LazUTF8, LazFileUtils,
+  proc_globdata,
   proc_msg;
 
 type
@@ -36,22 +37,23 @@ type
 var
   fmSaveTabs: TfmSaveTabs;
 
-procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
+procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs);
 
 
 implementation
 
 {$R *.lfm}
 
-procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs; const ALangFilename: string);
+procedure DoLocalize_FormSaveTabs(F: TfmSaveTabs);
 const
   section = 'd_save_tabs';
 var
   ini: TIniFile;
+  fn: string;
 begin
-  if not FileExistsUTF8(ALangFilename) then exit;
-
-  ini:= TIniFile.Create(ALangFilename);
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.btnSave do Caption:= ini.ReadString(section, 'sav', Caption);

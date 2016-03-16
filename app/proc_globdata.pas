@@ -290,6 +290,7 @@ var
   EditorOps: TEditorOps;
 
 function GetAppPath(id: TAppPathId): string;
+function GetAppLangFilename: string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
@@ -306,6 +307,7 @@ var
   Manager: TecSyntaxManager = nil;
   Keymap: TATKeymap = nil;
   cShortcutEscape: TShortcut = 0;
+  AppLangName: string = '';
 
 type
   TStrEvent = procedure(Sender: TObject; const ARes: string) of object;
@@ -1052,6 +1054,15 @@ begin
     Inc(N);
     if N>High(FPluginsCmd) then exit;
   until false;
+end;
+
+
+function GetAppLangFilename: string;
+begin
+  if AppLangName='' then
+    Result:= ''
+  else
+    Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+AppLangName+'.ini';
 end;
 
 

@@ -8,6 +8,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   StdCtrls, StrUtils, IniFiles,
   ecSyntAnal,
+  proc_msg,
   proc_globdata,
   proc_colors;
 
@@ -68,6 +69,31 @@ begin
   s.BorderTypeBottom:= s2.BorderTypeBottom;
 end;
 
+procedure DoLocalize_FormLexerStylesMap(F: TfmLexerStyleMap);
+const
+  section = 'd_lex_map';
+var
+  ini: TIniFile;
+  fn: string;
+begin
+  fn:= GetAppLangFilename;
+  if not FileExists(fn) then exit;
+  ini:= TIniFile.Create(fn);
+  try
+    with F do Caption:= ini.ReadString(section, '_', Caption);
+    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
+    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    with F.LabelLex do Caption:= ini.ReadString(section, 'st_lex', Caption);
+    with F.LabelTh do Caption:= ini.ReadString(section, 'st_th', Caption);
+    with F.btnSet do Caption:= ini.ReadString(section, 'set_sel', Caption);
+    with F.btnSetNone do Caption:= ini.ReadString(section, 'set_non', Caption);
+    with F.btnClear do Caption:= ini.ReadString(section, 'set_un', Caption);
+  finally
+    FreeAndNil(ini);
+  end;
+end;
+
+
 function DoCheckLexerStylesMap(an: TecSyntAnalyzer): boolean;
 var
   value: string;
@@ -105,6 +131,7 @@ begin
 
   F:= TfmLexerStyleMap.Create(nil);
   try
+    DoLocalize_FormLexerStylesMap(F);
     F.LexerName:= an.LexerName;
     F.Caption:= F.Caption + ' - ' + F.LexerName;
 
