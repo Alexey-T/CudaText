@@ -809,9 +809,11 @@ begin
         DoApplyThemeToTreeview(ItemTreeview);
     end;
 
+  //apply theme to all frames
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
+    F.Lexer:= F.Lexer; //apply lexer style map
     EditorApplyTheme(F.Editor);
     EditorApplyTheme(F.Editor2);
     F.Editor.Update;
