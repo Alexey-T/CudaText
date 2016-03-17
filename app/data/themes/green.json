@@ -285,7 +285,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#D0FFD0",
+    "CBack" : "#E0FFE0",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -293,7 +293,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#E0FFFF",
+    "CBack" : "#E0F0F0",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -308,7 +308,7 @@
   "Lex_BracketBG" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#808080",
+    "CFont" : "#000000",
     "CBack" : "#C0DCC0",
     "CBorder" : "#808080",
     "Border" : "1,1,1,1"
