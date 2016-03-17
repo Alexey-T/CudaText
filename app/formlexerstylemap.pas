@@ -107,6 +107,12 @@ begin
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
 
+  //work for sublexers
+  for i:= 0 to an.SubAnalyzers.Count-1 do
+    if Assigned(an.SubAnalyzers[i]) then
+      if not DoApplyLexerStylesMap(an.SubAnalyzers[i].SyntAnalyzer) then
+        Result:= false; //not exit
+
   with TIniFile.Create(GetLexerMapFilename(an.LexerName)) do
   try
     for i:= 0 to an.Formats.Count-1 do
