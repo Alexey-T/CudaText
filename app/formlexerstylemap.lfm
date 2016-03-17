@@ -2,11 +2,11 @@ object fmLexerStyleMap: TfmLexerStyleMap
   Left = 338
   Height = 407
   Top = 362
-  Width = 631
+  Width = 581
   BorderStyle = bsDialog
   Caption = 'Lexer styles mapping'
   ClientHeight = 407
-  ClientWidth = 631
+  ClientWidth = 581
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
@@ -15,7 +15,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     Left = 6
     Height = 29
     Top = 372
-    Width = 619
+    Width = 569
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -38,7 +38,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     ParentColor = False
   end
   object LabelTh: TLabel
-    Left = 304
+    Left = 272
     Height = 17
     Top = 4
     Width = 101
@@ -50,31 +50,31 @@ object fmLexerStyleMap: TfmLexerStyleMap
     Left = 6
     Height = 343
     Top = 24
-    Width = 290
+    Width = 258
     ItemHeight = 0
-    ScrollWidth = 288
+    ScrollWidth = 256
     TabOrder = 0
     TopIndex = -1
   end
   object ListTh: TListBox
-    Left = 304
+    Left = 272
     Height = 343
     Top = 24
-    Width = 151
+    Width = 144
     ItemHeight = 0
-    ScrollWidth = 149
+    ScrollWidth = 142
     TabOrder = 1
     TopIndex = -1
   end
   object btnSet: TButton
-    Left = 464
+    Left = 424
     Height = 29
     Top = 24
-    Width = 160
+    Width = 150
     Anchors = [akLeft]
     AutoSize = True
     Caption = 'Assign selected'
-    Constraints.MinWidth = 160
+    Constraints.MinWidth = 150
     OnClick = btnSetClick
     TabOrder = 2
   end
@@ -84,10 +84,10 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
-    Left = 464
+    Left = 424
     Height = 29
     Top = 59
-    Width = 160
+    Width = 150
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
@@ -101,10 +101,10 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
-    Left = 464
+    Left = 424
     Height = 29
     Top = 94
-    Width = 160
+    Width = 150
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6

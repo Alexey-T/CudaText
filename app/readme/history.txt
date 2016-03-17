@@ -9,6 +9,7 @@ Legend:
 * not used anymore settings/plugins.json (delete it), used install.inf's only
 * renamed translation files to nn_NN (e.g. ru_RU)
 + can show .gif pics
++ lexer XML upd
 - fix back-color of URL+bookmark
 
 1.2.29
