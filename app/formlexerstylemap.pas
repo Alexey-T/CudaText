@@ -46,7 +46,7 @@ var
   fmLexerStyleMap: TfmLexerStyleMap;
 
 function DoApplyLexerStylesMap(an: TecSyntAnalyzer): boolean;
-procedure DoDialogLexerStylesMap(an: TecSyntAnalyzer);
+function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
 
 
 implementation
@@ -124,11 +124,12 @@ begin
   end;
 end;
 
-procedure DoDialogLexerStylesMap(an: TecSyntAnalyzer);
+function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
 var
   F: TfmLexerStyleMap;
   i: integer;
 begin
+  Result:= false;
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
 
@@ -153,7 +154,8 @@ begin
     F.DoLoad;
     F.UpdateList;
 
-    if F.ShowModal=mrOk then
+    Result:= F.ShowModal=mrOk;
+    if Result then
     begin
       F.DoSave;
       DoApplyLexerStylesMap(an);

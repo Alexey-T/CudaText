@@ -1462,10 +1462,10 @@ procedure TfmMain.DoDialogLexerMap;
 var
   i: integer;
 begin
-  DoDialogLexerStylesMap(CurrentFrame.Lexer);
-  for i:= 0 to FrameCount-1 do
-    with Frames[i] do
-      Lexer:= Lexer;
+  if DoDialogLexerStylesMap(CurrentFrame.Lexer) then
+    for i:= 0 to FrameCount-1 do
+      with Frames[i] do
+        Lexer:= Lexer;
 end;
 
 procedure TfmMain.DoCopyFilenameFull;
