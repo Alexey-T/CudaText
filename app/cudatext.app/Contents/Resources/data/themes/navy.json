@@ -285,7 +285,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#D0FFD0",
+    "CBack" : "#E0FFE0",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -308,7 +308,7 @@
   "Lex_BracketBG" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#808080",
+    "CFont" : "#000000",
     "CBack" : "#C0DCC0",
     "CBorder" : "#808080",
     "Border" : "1,1,1,1"
@@ -421,6 +421,38 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#E0E0E0",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextBold" : {
+    "Type" : 1,
+    "Styles" : "b",
+    "CFont" : "#000000",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextItalic" : {
+    "Type" : 1,
+    "Styles" : "i",
+    "CFont" : "#000000",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextBoldItalic" : {
+    "Type" : 1,
+    "Styles" : "bi",
+    "CFont" : "#000000",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextCross" : {
+    "Type" : 1,
+    "Styles" : "s",
+    "CFont" : "#000000",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"

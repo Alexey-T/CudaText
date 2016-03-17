@@ -1,0 +1,11 @@
+[map]
+Comment=Comment
+Key words=IdKeyword
+Params=Id
+Echo=String2
+Shebang=Comment2
+QuotMarks=String
+Symbol=Symbol
+Variable=IdVar
+Int=Number
+$(...)=SectionBG2

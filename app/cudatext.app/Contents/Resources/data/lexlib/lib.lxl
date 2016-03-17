@@ -566,6 +566,10 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Number'
@@ -573,18 +577,30 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'String'
         Font.Color = clTeal
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Id'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Id keyword'
@@ -592,6 +608,10 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Comment'
@@ -599,22 +619,29 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsItalic]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Preprocessor'
-        Font.Color = clGreen
+        Font.Color = 49280
         Font.Height = -13
         Font.Name = 'Courier New'
+        Font.Style = [fsItalic]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Current block BG'
         Font.CharSet = RUSSIAN_CHARSET
-        Font.Color = clMaroon
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        Font.Style = [fsBold]
-        BgColor = 13369046
-        FormatType = ftBackGround
+        BgColor = clMoneyGreen
         BorderTypeLeft = blSolid
         BorderColorLeft = clGray
         BorderTypeTop = blSolid
@@ -626,17 +653,25 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Asm BG'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 14938312
+        BgColor = clMoneyGreen
         FormatType = ftBackGround
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Id in angles'
-        Font.Color = clBlue
+        Font.Color = clNavy
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end>
     TokenRules = <    
       item
@@ -7974,32 +8009,6 @@ object TecSyntaxManager
   object SyntAnal22: TLibSyntAnalyzer
     Formats = <    
       item
-        DisplayName = 'Default'
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Courier New'
-        FormatType = ftCustomFont
-        FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-      end    
-      item
-        DisplayName = 'Text'
-        Font.Color = clBlack
-        Font.Height = -13
-        Font.Name = 'Courier New'
-        Font.Style = [fsBold]
-        BorderColorLeft = clGray
-        BorderColorTop = clGray
-        BorderColorRight = clGray
-        BorderColorBottom = clGray
-        MultiLineBorder = True
-      end    
-      item
-        DisplayName = 'Tag bound'
-        Font.Color = clBlue
-        Font.Height = -13
-        Font.Name = 'Courier New'
-      end    
-      item
         DisplayName = 'Comment'
         Font.Color = clGray
         Font.Height = -13
@@ -8007,52 +8016,66 @@ object TecSyntaxManager
         Font.Style = [fsItalic]
       end    
       item
-        DisplayName = 'CDATA'
-        Font.Color = clBlue
+        DisplayName = 'Tag bound'
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Tag id'
+        Font.Color = 16744576
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Tag param'
+        Font.Color = clGreen
         Font.Height = -13
         Font.Name = 'Courier New'
       end    
       item
-        DisplayName = 'Tag Key'
-        Font.Color = clMaroon
+        DisplayName = 'Tag val'
+        Font.Color = clTeal
         Font.Height = -13
         Font.Name = 'Courier New'
       end    
       item
-        DisplayName = 'ERROR content'
+        DisplayName = 'CDATA bound'
+        Font.Color = clNavy
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        BgColor = clSilver
+      end    
+      item
+        DisplayName = 'CDATA text'
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        BorderColorLeft = clGray
+        BorderColorTop = clGray
+        BorderColorRight = clGray
+        BorderColorBottom = clGray
+        MultiLineBorder = True
+      end    
+      item
+        DisplayName = 'Error content'
         Font.Color = clRed
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
       end    
       item
-        DisplayName = 'Tag ident'
-        Font.Color = clGreen
-        Font.Height = -13
-        Font.Name = 'Courier New'
-      end    
-      item
-        DisplayName = 'Tag param'
-        Font.Color = clNavy
-        Font.Height = -13
-        Font.Name = 'Courier New'
-      end    
-      item
-        DisplayName = 'Tag properties'
-        Font.Color = clNavy
-        Font.Height = -13
-        Font.Name = 'Courier New'
-      end    
-      item
         DisplayName = 'Current tag'
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 15987699
+        BgColor = 14540253
         FormatType = ftBackGround
       end    
       item
-        DisplayName = 'Current Block'
+        DisplayName = 'Current tag id'
         Font.Color = clNone
         Font.Height = -13
         Font.Name = 'Courier New'
@@ -8093,6 +8116,12 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Spec char'
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'Courier New'
       end>
     TokenRules = <    
       item
@@ -8121,7 +8150,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'CDATA start'
-        StyleName = 'CDATA'
+        StyleName = 'CDATA bound'
         TokenType = 11
         Expression = '<!\[CDATA\['
         ColumnFrom = 0
@@ -8129,7 +8158,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'CDATA Text'
-        StyleName = 'Text'
+        StyleName = 'CDATA text'
         BlockName = 'CDATA begin'
         Expression = '(?s)[^\]]*'
         ColumnFrom = 0
@@ -8179,7 +8208,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Tag param'
-        StyleName = 'Tag param'
+        StyleName = 'Tag val'
         BlockName = 'Tag begin'
         TokenType = 4
         Expression = '(?s) ("|'').*?(\1|$)'
@@ -8196,7 +8225,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Tag ident'
-        StyleName = 'Tag ident'
+        StyleName = 'Tag param'
         BlockName = 'Tag begin'
         TokenType = 2
         Expression = '[^>=\?\s/]*'
@@ -8205,15 +8234,15 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Error content'
-        StyleName = 'ERROR content'
+        StyleName = 'Error content'
         BlockName = 'Tag begin'
         Expression = '[^>\s]*'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = '&...'
-        StyleName = 'Tag Key'
+        DisplayName = '&char'
+        StyleName = 'Spec char'
         TokenType = 4
         Expression = '&\w+;'
         ColumnFrom = 0
@@ -8221,7 +8250,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Text'
-        StyleName = 'Text'
+        StyleName = 'CDATA text'
         BlockName = 'CDATA begin'
         NotParent = True
         TokenType = 4
@@ -8328,7 +8357,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Tag keys'
-        StyleName = 'Tag Key'
+        StyleName = 'Tag id'
         BlockType = btTagDetect
         ConditionList = <        
           item
@@ -8342,7 +8371,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Tag block begin'
-        StyleName = 'Current Block'
+        StyleName = 'Current tag id'
         ConditionList = <        
           item
             TokenTypes = 4
@@ -8441,7 +8470,7 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'Tag attribute'
-        StyleName = 'Tag param'
+        StyleName = 'Tag val'
         BlockName = 'Tag begin'
         ConditionList = <        
           item
@@ -8466,22 +8495,21 @@ object TecSyntaxManager
       '<?xml version="1.0" encoding="ISO-8859-1" ?>'
       ''
       '<!DOCTYPE web-app ['
-      '  <!ELEMENT web-app (icon?, display-name?, description?, distributable?,'
-      '  context-param*, filter*, filter-mapping*, listener*, servlet*,'
-      '  servlet-mapping*, session-config?, mime-mapping*, welcome-file-list?,'
-      '  error-page*, taglib*, resource-env-ref*, resource-ref*, security-constraint*,'
-      '  login-config?, security-role*, env-entry*, ejb-ref*,  ejb-local-ref*)>'
-      '  <!ELEMENT auth-constraint (description?, role-name*)>'
+      '  <!ELEMENT web-app (icon?, display-name?, ejb-local-ref*)>'
       '  <!ELEMENT auth-method (#PCDATA)>'
       '  <!ATTLIST exception-type id ID #IMPLIED>'
       ']>'
+      ''
+      '<![CDATA['
+      'Included text '
+      ']]>'
+      'Text &spec; text'
       ''
       '<web-app>'
       '    <display-name abc="123" def="true"></display-name>'
       '    <description></description>'
       '    <filter-mapping>'
       '        <filter-name></filter-name>'
-      '        <url-pattern></url-pattern>'
       '    </filter-mapping>'
       '</web-app>'
     )
@@ -20128,6 +20156,13 @@ object TecSyntaxManager
         Font.Name = 'Courier New'
         BorderTypeBottom = blDot
         BorderColorBottom = clTeal
+      end    
+      item
+        DisplayName = 'Color'
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
       end>
     TokenRules = <    
       item
@@ -20156,6 +20191,14 @@ object TecSyntaxManager
         ColumnTo = 0
       end    
       item
+        DisplayName = 'Color'
+        StyleName = 'Color'
+        TokenType = 4
+        Expression = '\#[\da-f]+'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
         DisplayName = 'Symbol'
         StyleName = 'Symbol'
         TokenType = 3
@@ -20168,14 +20211,6 @@ object TecSyntaxManager
         StyleName = 'Const'
         TokenType = 5
         Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
-        ColumnFrom = 0
-        ColumnTo = 0
-      end    
-      item
-        DisplayName = 'String in URL'
-        Enabled = False
-        StyleName = 'String'
-        Expression = '(?<=URL\s*\() .*? (?=\))'
         ColumnFrom = 0
         ColumnTo = 0
       end    
@@ -20357,9 +20392,8 @@ object TecSyntaxManager
     Extentions = 'less'
     LexerName = 'LESS'
     Notes.Strings = (
-      'Author: Alex, uvviewsoft.com'
-      'Test:'
-      'http://lesscss.org/'
+      'Alex (Synwrite)'
+      'Test: http://lesscss.org/'
     )
     LineComment = '//'
     Charset = DEFAULT_CHARSET
@@ -20425,6 +20459,13 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Color'
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
       end>
     TokenRules = <    
       item
@@ -20453,18 +20494,18 @@ object TecSyntaxManager
         ColumnTo = 0
       end    
       item
-        DisplayName = 'Const'
-        StyleName = 'Const'
-        TokenType = 5
-        Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
+        DisplayName = 'Color'
+        StyleName = 'Color'
+        TokenType = 4
+        Expression = '\#[\da-f]+'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = 'String in URL'
-        Enabled = False
-        StyleName = 'String'
-        Expression = '(?<=URL\s*\() .*? (?=\))'
+        DisplayName = 'Const'
+        StyleName = 'Const'
+        TokenType = 5
+        Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
         ColumnFrom = 0
         ColumnTo = 0
       end    
@@ -20833,99 +20874,146 @@ object TecSyntaxManager
     Formats = <    
       item
         DisplayName = 'Heading'
-        Font.Color = clMaroon
+        Font.Color = clBlack
         Font.Height = -19
         Font.Name = 'Consolas'
         Font.Style = [fsBold]
-        FormatType = ftCustomFont
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Comment'
-        Font.Color = clGreen
+        Font.Color = clGray
         Font.Height = -13
         Font.Name = 'Courier New'
+        Font.Style = [fsItalic]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Quote'
-        Font.Color = clBlack
+        Font.Color = clTeal
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 12645824
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Text'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Consolas'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Codeblock'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 15779980
+        BgColor = clCream
+        FormatType = ftBackGround
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Block'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 15779980
+        BgColor = 14745568
+        FormatType = ftBackGround
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Link'
-        Font.Color = 3289830
+        Font.Color = clBlue
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Image'
-        Font.Color = 15086130
+        Font.Color = clOlive
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Reference'
-        Font.Color = 13030
+        Font.Color = clPurple
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Footnote'
-        Font.Color = 3277030
+        Font.Color = clNavy
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'HTML Code'
-        Font.Color = 8404992
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
+        BgColor = clMoneyGreen
+        FormatType = ftBackGround
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Bold'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
       end    
       item
         DisplayName = 'Italic'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsItalic]
       end    
       item
         DisplayName = 'Bold-Italic'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold, fsItalic]
       end    
       item
         DisplayName = 'Definition'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
@@ -20934,14 +21022,18 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'List'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 16763594
+        BgColor = 12632240
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Crossed out'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsStrikeOut]

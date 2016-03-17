@@ -1,0 +1,9 @@
+[map]
+Comment=Comment
+String=String
+Number=Number
+Symbol=Symbol
+Id=Id
+Id reserved=IdKeyword
+Id func=Id1
+Id standard=Id2

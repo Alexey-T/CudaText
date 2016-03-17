@@ -1,0 +1,16 @@
+[map]
+Comment=Comment
+Tag bound=TagBound
+Tag id=TagId
+Tag param=TagProp
+Tag val=String
+CDATA bound=IncludeBG1
+CDATA text=Id
+Error content=IdBad
+Current tag=SectionBG1
+Current tag id=BracketBG
+DTD element type=String2
+DTD bound=Symbol
+Tree item (attribute)=-
+Tree item (tag)=-
+Spec char=Id4

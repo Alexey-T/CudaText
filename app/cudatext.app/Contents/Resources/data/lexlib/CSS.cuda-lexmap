@@ -1,0 +1,13 @@
+[map]
+Style=Id1
+Param correct=Id
+Param incorrect=IdBad
+Value=Id2
+Symbol=Symbol
+Comment=Comment
+Current block=CurBlockBG
+Color=Color
+String=String
+Number=Number
+StyleSuffix=Id3
+Media block=IncludeBG1

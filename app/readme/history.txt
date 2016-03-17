@@ -4,14 +4,14 @@ Legend:
   * changed
 
 
-1.2.30
+1.3.0
 + themes contain now 40 styles: to map to concrete lexer styles. Dialog "Lexer styles map" added. It shows on activating lexer w/o configured map. Maps are saved to "lexlib/*.cuda-lexmap".
 * not used anymore settings/plugins.json (delete it), used install.inf's only
-* renamed translation files to nn_NN (e.g. ru_RU)
+* renamed translations to nn_NN (e.g. ru_RU)
 + can show .gif pics
-+ lexer XML upd
-+ lexer LESS upd
-+ lexer SCSS upd
++ upd lexer XML
++ upd lexer LESS
++ upd lexer SCSS
 - fix back-color of URL+bookmark
 
 1.2.29

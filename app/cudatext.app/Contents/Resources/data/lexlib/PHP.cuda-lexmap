@@ -1,0 +1,15 @@
+[map]
+Comment=Comment
+Number=Number
+Symbol operator=Symbol2
+Symbol single=Symbol
+String=String
+String exec=String2
+Var=IdVar
+Id=Id
+Id Keyword=IdKeyword
+Id Standard=Id1
+PHP_start=IncludeBG1
+PHP_end=IncludeBG1
+PHP_bg=SectionBG1
+Bracket=BracketBG

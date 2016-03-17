@@ -1,0 +1,8 @@
+[map]
+String=String
+Reserved word=IdKeyword
+Comment=Comment
+Preprocessor=Comment2
+Control's ID=Id2
+Number=Number
+Symbol=Symbol
