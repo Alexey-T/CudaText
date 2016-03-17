@@ -543,6 +543,7 @@ begin
 
   UpKey(mnuOpLexProp, cmd_DialogLexerProp);
   UpKey(mnuOpLexLib, cmd_DialogLexerLib);
+  UpKey(mnuOpLexMap, cmd_DialogLexerStyleMap);
   UpKey(mnuOpColors, cmd_DialogColors);
 
   UpKey(mnuHelpCmd, cmd_DialogCommands);

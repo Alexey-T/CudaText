@@ -255,6 +255,7 @@ begin
     DoLocMenuitem(ini, mnuOpLexSub, 'm_o', 'l_');
     DoLocMenuitem(ini, mnuOpLexProp, 'm_o', 'l_pr');
     DoLocMenuitem(ini, mnuOpLexLib, 'm_o', 'l_li');
+    DoLocMenuitem(ini, mnuOpLexMap, 'm_o', 'l_map');
 
     DoLocMenuitem(ini, mnuThemes, 'm_o', 'co_');
     DoLocMenuitem(ini, mnuLang, 'm_o', 'tr_');

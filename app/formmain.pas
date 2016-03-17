@@ -94,6 +94,7 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuOpLexMap: TMenuItem;
     mnuTst2: TMenuItem;
     mnuLang: TMenuItem;
     mnuTextOpenUrl: TMenuItem;
@@ -620,6 +621,7 @@ type
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
     procedure DoDialogLexerLib;
+    procedure DoDialogLexerMap;
     procedure DoDialogLoadLexerStyles;
     procedure DoDialogColors;
     procedure DoShowConsole;
@@ -1454,6 +1456,16 @@ begin
     UpdateFrame;
     DoOps_SaveLexlib(true);
   end;
+end;
+
+procedure TfmMain.DoDialogLexerMap;
+var
+  i: integer;
+begin
+  DoDialogLexerStylesMap(CurrentFrame.Lexer);
+  for i:= 0 to FrameCount-1 do
+    with Frames[i] do
+      Lexer:= Lexer;
 end;
 
 procedure TfmMain.DoCopyFilenameFull;
