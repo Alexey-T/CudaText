@@ -641,12 +641,15 @@ object TecSyntaxManager
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 13684944
-        FormatType = ftBackGround
-        BorderColorLeft = clNone
-        BorderColorTop = clNone
-        BorderColorRight = clNone
-        BorderColorBottom = clNone
+        BgColor = clMoneyGreen
+        BorderTypeLeft = blSolid
+        BorderColorLeft = clGray
+        BorderTypeTop = blSolid
+        BorderColorTop = clGray
+        BorderTypeRight = blSolid
+        BorderColorRight = clGray
+        BorderTypeBottom = blSolid
+        BorderColorBottom = clGray
       end    
       item
         DisplayName = 'Asm BG'
@@ -20153,6 +20156,13 @@ object TecSyntaxManager
         Font.Name = 'Courier New'
         BorderTypeBottom = blDot
         BorderColorBottom = clTeal
+      end    
+      item
+        DisplayName = 'Color'
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
       end>
     TokenRules = <    
       item
@@ -20181,6 +20191,14 @@ object TecSyntaxManager
         ColumnTo = 0
       end    
       item
+        DisplayName = 'Color'
+        StyleName = 'Color'
+        TokenType = 4
+        Expression = '\#[\da-f]+'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
         DisplayName = 'Symbol'
         StyleName = 'Symbol'
         TokenType = 3
@@ -20193,14 +20211,6 @@ object TecSyntaxManager
         StyleName = 'Const'
         TokenType = 5
         Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
-        ColumnFrom = 0
-        ColumnTo = 0
-      end    
-      item
-        DisplayName = 'String in URL'
-        Enabled = False
-        StyleName = 'String'
-        Expression = '(?<=URL\s*\() .*? (?=\))'
         ColumnFrom = 0
         ColumnTo = 0
       end    
@@ -20382,9 +20392,8 @@ object TecSyntaxManager
     Extentions = 'less'
     LexerName = 'LESS'
     Notes.Strings = (
-      'Author: Alex, uvviewsoft.com'
-      'Test:'
-      'http://lesscss.org/'
+      'Alex (Synwrite)'
+      'Test: http://lesscss.org/'
     )
     LineComment = '//'
     Charset = DEFAULT_CHARSET
@@ -20450,6 +20459,13 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+      end    
+      item
+        DisplayName = 'Color'
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
       end>
     TokenRules = <    
       item
@@ -20478,18 +20494,18 @@ object TecSyntaxManager
         ColumnTo = 0
       end    
       item
-        DisplayName = 'Const'
-        StyleName = 'Const'
-        TokenType = 5
-        Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
+        DisplayName = 'Color'
+        StyleName = 'Color'
+        TokenType = 4
+        Expression = '\#[\da-f]+'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = 'String in URL'
-        Enabled = False
-        StyleName = 'String'
-        Expression = '(?<=URL\s*\() .*? (?=\))'
+        DisplayName = 'Const'
+        StyleName = 'Const'
+        TokenType = 5
+        Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
         ColumnFrom = 0
         ColumnTo = 0
       end    
