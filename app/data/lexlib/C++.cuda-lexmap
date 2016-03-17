@@ -1,0 +1,12 @@
+[map]
+Default=-
+Symbol=Id
+Number=Number
+String=String
+Id=Id
+Id keyword=IdKeyword
+Comment=Comment
+Preprocessor=Comment2
+Current block BG=CurBlockBG
+Asm BG=IncludeBG1
+Id in angles=Id1

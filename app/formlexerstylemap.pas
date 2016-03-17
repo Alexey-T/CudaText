@@ -104,11 +104,11 @@ begin
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
 
-  with TIniFile.Create(GetAppPath(cFileOptStylesMap)) do
+  with TIniFile.Create(GetLexerMapFilename(an.LexerName)) do
   try
     for i:= 0 to an.Formats.Count-1 do
     begin
-      value:= ReadString(an.LexerName, an.Formats[i].DisplayName, '');
+      value:= ReadString('map', an.Formats[i].DisplayName, '');
       if value='' then Result:= false; //not exit
       if value='-' then Continue;
 
@@ -196,7 +196,6 @@ end;
 
 procedure TfmLexerStyleMap.DoSave;
 var
-  fn: string;
   i: integer;
 begin
   if LexerName='' then
@@ -205,12 +204,11 @@ begin
     exit
   end;
 
-  fn:= GetAppPath(cFileOptStylesMap);
-  with TIniFile.Create(fn) do
+  with TIniFile.Create(GetLexerMapFilename(LexerName)) do
   try
     EraseSection(LexerName);
     for i:= 0 to ItemsLex.Count-1 do
-      WriteString(LexerName, ItemsLex[i], ItemsVal[i]);
+      WriteString('map', ItemsLex[i], ItemsVal[i]);
   finally
     Free
   end;
@@ -218,7 +216,6 @@ end;
 
 procedure TfmLexerStyleMap.DoLoad;
 var
-  fn: string;
   i: integer;
 begin
   if LexerName='' then
@@ -227,11 +224,10 @@ begin
     exit
   end;
 
-  fn:= GetAppPath(cFileOptStylesMap);
-  with TIniFile.Create(fn) do
+  with TIniFile.Create(GetLexerMapFilename(LexerName)) do
   try
     for i:= 0 to ItemsLex.Count-1 do
-      ItemsVal[i]:= ReadString(LexerName, ItemsLex[i], '');
+      ItemsVal[i]:= ReadString('map', ItemsLex[i], '');
   finally
     Free
   end;

@@ -52,7 +52,6 @@ type
     cFileOptUser,
     cFileOptFiletypes,
     cFileOptKeymap,
-    cFileOptStylesMap,
     cFileHistoryList,
     cFileHistorySession,
     cFileLexerStyles,
@@ -294,6 +293,7 @@ function GetAppLangFilename: string;
 function GetLexerOverrideFN(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
+function GetLexerMapFilename(const LexName: string): string;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
@@ -547,10 +547,6 @@ begin
     cFileOptKeymap:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys.json';
-      end;
-    cFileOptStylesMap:
-      begin
-        Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer styles map.ini';
       end;
     cFileHistoryList:
       begin
@@ -1063,6 +1059,14 @@ begin
     Result:= ''
   else
     Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+AppLangName+'.ini';
+end;
+
+function GetLexerMapFilename(const LexName: string): string;
+begin
+  if LexName<>'' then
+    Result:= GetAppPath(cDirDataLexlib)+DirectorySeparator+LexName+'.cuda-lexmap'
+  else
+    Result:= '';
 end;
 
 
