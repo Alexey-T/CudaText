@@ -10,6 +10,8 @@ Legend:
 * renamed translation files to nn_NN (e.g. ru_RU)
 + can show .gif pics
 + lexer XML upd
++ lexer LESS upd
++ lexer SCSS upd
 - fix back-color of URL+bookmark
 
 1.2.29

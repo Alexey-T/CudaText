@@ -20874,99 +20874,146 @@ object TecSyntaxManager
     Formats = <    
       item
         DisplayName = 'Heading'
-        Font.Color = clMaroon
+        Font.Color = clBlack
         Font.Height = -19
         Font.Name = 'Consolas'
         Font.Style = [fsBold]
-        FormatType = ftCustomFont
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Comment'
-        Font.Color = clGreen
+        Font.Color = clGray
         Font.Height = -13
         Font.Name = 'Courier New'
+        Font.Style = [fsItalic]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Quote'
-        Font.Color = clBlack
+        Font.Color = clTeal
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 12645824
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Text'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Consolas'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Codeblock'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 15779980
+        BgColor = clCream
+        FormatType = ftBackGround
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Block'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 15779980
+        BgColor = 14745568
+        FormatType = ftBackGround
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Link'
-        Font.Color = 3289830
+        Font.Color = clBlue
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Image'
-        Font.Color = 15086130
+        Font.Color = clOlive
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Reference'
-        Font.Color = 13030
+        Font.Color = clPurple
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Footnote'
-        Font.Color = 3277030
+        Font.Color = clNavy
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'HTML Code'
-        Font.Color = 8404992
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
+        BgColor = clMoneyGreen
+        FormatType = ftBackGround
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Bold'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
       end    
       item
         DisplayName = 'Italic'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsItalic]
       end    
       item
         DisplayName = 'Bold-Italic'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold, fsItalic]
       end    
       item
         DisplayName = 'Definition'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
@@ -20975,14 +21022,18 @@ object TecSyntaxManager
       end    
       item
         DisplayName = 'List'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
-        BgColor = 16763594
+        BgColor = 12632240
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Crossed out'
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsStrikeOut]

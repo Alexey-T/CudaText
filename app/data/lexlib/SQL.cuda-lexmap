@@ -1,0 +1,25 @@
+[map]
+Identifier=Id
+Identifier Ext=TagBound
+String=String
+Comment=Comment
+Symbol=Symbol
+Symbol Ext=Symbol2
+Number=Number
+Keyword=IdKeyword
+Function=Id2
+Function Ext=Id4
+Expression=Id3
+Current Block=BracketBG
+Test Style Main=IncludeBG1
+Test Style Sub=IncludeBG2
+Marked Block - Range=-
+Tree (Main, Color)=-
+Tree (Main, Black)=-
+Tree (Main, Alias)=-
+Tree (Regular, Color)=-
+Tree (Regular, Black)=-
+Tree (Regular, Alias)=-
+Current Line=-
+Alias=IdVar
+Table=Id1
