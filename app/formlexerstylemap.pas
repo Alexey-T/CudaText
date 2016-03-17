@@ -53,6 +53,9 @@ implementation
 
 {$R *.lfm}
 
+const
+  cSectionMap = 'map';
+
 procedure DoStyleAssign(s, s2: TecSyntaxFormat);
 begin
   s.FormatType:= s2.FormatType;
@@ -108,7 +111,7 @@ begin
   try
     for i:= 0 to an.Formats.Count-1 do
     begin
-      value:= ReadString('map', an.Formats[i].DisplayName, '');
+      value:= ReadString(cSectionMap, an.Formats[i].DisplayName, '');
       if value='' then Result:= false; //not exit
       if value='-' then Continue;
 
@@ -198,17 +201,12 @@ procedure TfmLexerStyleMap.DoSave;
 var
   i: integer;
 begin
-  if LexerName='' then
-  begin
-    ShowMessage('Lexer name not set');
-    exit
-  end;
-
+  if LexerName='' then exit;
   with TIniFile.Create(GetLexerMapFilename(LexerName)) do
   try
-    EraseSection(LexerName);
+    EraseSection(cSectionMap);
     for i:= 0 to ItemsLex.Count-1 do
-      WriteString('map', ItemsLex[i], ItemsVal[i]);
+      WriteString(cSectionMap, ItemsLex[i], ItemsVal[i]);
   finally
     Free
   end;
@@ -218,16 +216,11 @@ procedure TfmLexerStyleMap.DoLoad;
 var
   i: integer;
 begin
-  if LexerName='' then
-  begin
-    ShowMessage('Lexer name not set');
-    exit
-  end;
-
+  if LexerName='' then exit;
   with TIniFile.Create(GetLexerMapFilename(LexerName)) do
   try
     for i:= 0 to ItemsLex.Count-1 do
-      ItemsVal[i]:= ReadString('map', ItemsLex[i], '');
+      ItemsVal[i]:= ReadString(cSectionMap, ItemsLex[i], '');
   finally
     Free
   end;
