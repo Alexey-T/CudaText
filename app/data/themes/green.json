@@ -317,7 +317,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#E8E8E8",
+    "CBack" : "#D0D0D0",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -356,7 +356,7 @@
   "Lex_TagProp" : {
     "Type" : 1,
     "Styles" : "b",
-    "CFont" : "#40F040",
+    "CFont" : "#40D040",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"

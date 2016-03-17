@@ -277,7 +277,7 @@ begin
   AddStyle('TagBound', clGray, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('TagId', $F06060, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('TagIdBad', $F06060, clNone, clRed, [fsBold], blNone, blNone, blNone, blWavyLine, ftFontAttr);
-  AddStyle('TagProp', $40F040, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('TagProp', $40D040, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AddStyle('LightBG1', clBlack, $8080FF, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('LightBG2', clBlack, clYellow, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
