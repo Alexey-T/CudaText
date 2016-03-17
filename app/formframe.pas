@@ -679,7 +679,7 @@ begin
   ed.Font.Quality:= EditorOps.OpFontQuality;
 
   ed.BorderStyle:= bsNone;
-  ed.Keymap:= Keymap;
+  ed.Keymap:= AppKeymap;
   ed.TabStop:= false;
   ed.OptUnprintedVisible:= false;
   ed.OptRulerVisible:= false;
@@ -746,7 +746,7 @@ begin
   Ed1.Strings.Modified:= false;
 
   EncodingName:= UiOps.NewdocEnc;
-  Lexer:= Manager.FindAnalyzer(UiOps.NewdocLexer);
+  Lexer:= AppManager.FindAnalyzer(UiOps.NewdocLexer);
 
   FNotif:= TATFileNotif.Create(Self);
   FNotif.Timer.Interval:= 1000;
@@ -1320,7 +1320,7 @@ begin
   if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
   str:= c.GetValue(path+cSavLexer, str0);
   if str<>str0 then
-    Lexer:= Manager.FindAnalyzer(str);
+    Lexer:= AppManager.FindAnalyzer(str);
 
   //enc
   str0:= EncodingName;

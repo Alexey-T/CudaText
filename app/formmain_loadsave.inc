@@ -357,11 +357,11 @@ begin
         if ncmd<0 then Continue;
       end;
 
-      nitem:= Keymap.IndexOf(ncmd);
+      nitem:= AppKeymap.IndexOf(ncmd);
       if nitem<0 then Continue;
 
-      DoReadConfigOneKey(slist[i]+'/s1', slist[i]+'/k1', Keymap[nitem].Keys1);
-      DoReadConfigOneKey(slist[i]+'/s2', slist[i]+'/k2', Keymap[nitem].Keys2);
+      DoReadConfigOneKey(slist[i]+'/s1', slist[i]+'/k1', AppKeymap[nitem].Keys1);
+      DoReadConfigOneKey(slist[i]+'/s2', slist[i]+'/k2', AppKeymap[nitem].Keys2);
     end;
   finally
     skeys.Free;

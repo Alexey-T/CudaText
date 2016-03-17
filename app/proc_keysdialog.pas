@@ -34,12 +34,12 @@ begin
   if (ACmd>=cmdFirstLexerCommand) and
      (ACmd<=cmdLastLexerCommand) then exit;
 
-  n:= keymap.IndexOf(ACmd);
+  n:= AppKeymap.IndexOf(ACmd);
   if n<0 then exit;
 
   //number (usual ACmd) or
   //'module,proc' (plugin)
-  StrId:= IntToStr(keymap[n].Command);
+  StrId:= IntToStr(AppKeymap[n].Command);
 
   if (ACmd>=cmdFirstPluginCommand) and
      (ACmd<=cmdLastPluginCommand) then
@@ -50,16 +50,16 @@ begin
   with Form do
   try
     DoLocalize_FormKeys(Form);
-    Caption:= Caption+' - '+keymap[n].Name;
-    Keys1:= keymap[n].Keys1;
-    Keys2:= keymap[n].Keys2;
+    Caption:= Caption+' - '+AppKeymap[n].Name;
+    Keys1:= AppKeymap[n].Keys1;
+    Keys2:= AppKeymap[n].Keys2;
 
     Result:= ShowModal=mrOk;
     if Result then
     begin
-      keymap[n].Keys1:= Keys1;
-      keymap[n].Keys2:= Keys2;
-      DoSaveKeyItem(keymap[n], StrId);
+      AppKeymap[n].Keys1:= Keys1;
+      AppKeymap[n].Keys2:= Keys2;
+      DoSaveKeyItem(AppKeymap[n], StrId);
     end;
   finally
     Free

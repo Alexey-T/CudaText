@@ -970,7 +970,7 @@ begin
   end;
 
   PanelAll.Align:= alClient;
-  Manager:= TecSyntaxManager.Create(Self);
+  AppManager:= TecSyntaxManager.Create(Self);
   FSessionFilename:= GetAppPath(cFileHistorySession);
 
   FPanelCaptions:= TStringList.Create;
@@ -1315,7 +1315,7 @@ var
   msg: string;
   IsOk, IsLexer: boolean;
 begin
-  DoInstallAddonFromZip(fn, Manager, GetAppPath(cDirDataAcp), msg, IsOk, IsLexer);
+  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, IsOk, IsLexer);
   if IsOk then
   begin
     if IsLexer then
@@ -1443,7 +1443,7 @@ end;
 
 procedure TfmMain.DoDialogLexerLib;
 begin
-  if DoShowDialogLexerLib(Manager,
+  if DoShowDialogLexerLib(AppManager,
     GetAppPath(cDirDataAcp),
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
@@ -2070,7 +2070,7 @@ begin
     MsgBox(msgCannotFindLexlib+#13+fn, mb_ok or mb_iconerror);
     Exit
   end;
-  Manager.LoadFromFile(fn);
+  AppManager.LoadFromFile(fn);
   UpdateMenuLexers;
 end;
 
@@ -2083,7 +2083,7 @@ begin
 
   fn:= GetAppPath(cFileLexlib);
   if not FileExistsUTF8(fn) then exit;
-  Manager.SaveToFile(fn);
+  AppManager.SaveToFile(fn);
   MsgStatus(msgStatusLexlibSave);
 end;
 
@@ -2113,9 +2113,9 @@ begin
   sl:= tstringlist.create;
   try
     //make stringlist of all lexers
-    for i:= 0 to Manager.AnalyzerCount-1 do
+    for i:= 0 to AppManager.AnalyzerCount-1 do
     begin
-      an:= Manager.Analyzers[i];
+      an:= AppManager.Analyzers[i];
       if not an.Internal then
         sl.AddObject(an.LexerName, an);
     end;
@@ -2540,9 +2540,9 @@ end;
 
 procedure TfmMain.SetLexerIndex(N: integer);
 begin
-  if (N>=0) and (N<Manager.AnalyzerCount) then
+  if (N>=0) and (N<AppManager.AnalyzerCount) then
   begin
-    CurrentFrame.Lexer:= Manager.Analyzers[N];
+    CurrentFrame.Lexer:= AppManager.Analyzers[N];
     UpdateFrame;
     UpdateStatus;
   end;
@@ -3093,7 +3093,7 @@ begin
       for i:= 0 to Form.List.Count-1 do
         if Form.List.Checked[i] then
         begin
-          An:= Manager.FindAnalyzer(Form.List.Items[i]);
+          An:= AppManager.FindAnalyzer(Form.List.Items[i]);
           if Assigned(An) then
             DoLoadLexerStylesFromFile(An, Form.StylesFilename)
           else

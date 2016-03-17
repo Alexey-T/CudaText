@@ -304,9 +304,9 @@ function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
 
 var
-  Manager: TecSyntaxManager = nil;
-  Keymap: TATKeymap = nil;
-  cShortcutEscape: TShortcut = 0;
+  AppManager: TecSyntaxManager = nil;
+  AppKeymap: TATKeymap = nil;
+  AppShortcutEscape: TShortcut = 0;
   AppLangName: string = '';
 
 type
@@ -856,7 +856,7 @@ begin
       s:= c.GetValue(ExtractFileName(fn), '');
       if s<>'' then
       begin
-        Result:= Manager.FindAnalyzer(s);
+        Result:= AppManager.FindAnalyzer(s);
         Exit
       end;
 
@@ -867,7 +867,7 @@ begin
         s:= c.GetValue('*'+ext, '');
         if s<>'' then
         begin
-          Result:= Manager.FindAnalyzer(s);
+          Result:= AppManager.FindAnalyzer(s);
           Exit
         end;
       end;
@@ -876,7 +876,7 @@ begin
     end;
   end;
 
-  Result:= DoFindLexerForFilename(Manager, fn);
+  Result:= DoFindLexerForFilename(AppManager, fn);
 end;
 
 
@@ -952,7 +952,7 @@ procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
 var
   i: Integer;
 begin
-  with Manager do
+  with AppManager do
     for i:= 0 to AnalyzerCount-1 do
       if AlsoDisabled or not Analyzers[i].Internal then
         L.Add(Analyzers[i].LexerName);
@@ -1081,19 +1081,19 @@ initialization
   InitEditorOps(EditorOps);
   InitUiOps(UiOps);
 
-  Keymap:= TATKeymap.Create;
-  InitKeymapFull(Keymap);
-  InitKeymapForApplication(Keymap);
+  AppKeymap:= TATKeymap.Create;
+  InitKeymapFull(AppKeymap);
+  InitKeymapForApplication(AppKeymap);
 
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);
 
   FillChar(FAppSidePanels, SizeOf(FAppSidePanels), 0);
 
-  cShortcutEscape:= ShortCut(vk_escape, []);
+  AppShortcutEscape:= ShortCut(vk_escape, []);
 
 finalization
-  FreeAndNil(Keymap);
+  FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
 
 end.

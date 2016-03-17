@@ -406,10 +406,10 @@ begin
   if not Assigned(mi) then exit;
   mi.Tag:= cmd;
   mi.OnClick:= @MenuMainClick;
-  mi.ShortCut:= Keymap.GetShortcutFromCommand(cmd);
+  mi.ShortCut:= AppKeymap.GetShortcutFromCommand(cmd);
 
   //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
-  if mi.Shortcut=cShortcutEscape then
+  if mi.Shortcut=AppShortcutEscape then
     mi.ShortCut:= 0;
 end;
 
@@ -573,17 +573,17 @@ var
   sl: tstringlist;
 begin
   //del all dynamic items
-  while Keymap[Keymap.Count-1].Command>=cmdFirstLexerCommand do
-    Keymap.Delete(Keymap.Count-1);
+  while AppKeymap[AppKeymap.Count-1].Command>=cmdFirstLexerCommand do
+    AppKeymap.Delete(AppKeymap.Count-1);
 
   //dynamic lexer items
   sl:= TStringList.Create;
   try
-    for i:= 0 to Manager.AnalyzerCount-1 do
-      sl.AddObject('lexer: '+Manager.Analyzers[i].LexerName, TObject(cmdFirstLexerCommand+i));
+    for i:= 0 to AppManager.AnalyzerCount-1 do
+      sl.AddObject('lexer: '+AppManager.Analyzers[i].LexerName, TObject(cmdFirstLexerCommand+i));
     sl.Sort;
     for i:= 0 to sl.count-1 do
-      Keymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
+      AppKeymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
   finally
     FreeAndNil(sl);
   end;
@@ -593,7 +593,7 @@ begin
   begin
     if FPluginsCmd[i].ItemModule='' then Break;
     if SEndsWith(FPluginsCmd[i].ItemCaption, '-') then Continue;
-    Keymap.Add(
+    AppKeymap.Add(
       cmdFirstPluginCommand+i,
       'plugin: '+StringReplace(FPluginsCmd[i].ItemCaption, '\', ' - ', [rfReplaceAll]),
       [], []);

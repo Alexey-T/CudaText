@@ -131,8 +131,8 @@ begin
     fmFind.OnDone:= @FindDialogDone;
     fmFind.Parent:= PanelMain;
     fmFind.Align:= alBottom;
-    fmFind.FHotkeyFind:= Keymap.GetShortcutFromCommand(cmd_DialogFind);
-    fmFind.FHotkeyRep:= Keymap.GetShortcutFromCommand(cmd_DialogReplace);
+    fmFind.FHotkeyFind:= AppKeymap.GetShortcutFromCommand(cmd_DialogFind);
+    fmFind.FHotkeyRep:= AppKeymap.GetShortcutFromCommand(cmd_DialogReplace);
     fmFind.Color:= GetAppColor('TabBg');
 
     cfg:= TJSONConfig.Create(nil);

@@ -1768,7 +1768,7 @@ begin
         PROP_RULER:
           Ed.OptRulerVisible:= ValueBool;
         PROP_LEXER_FILE:
-          F.Lexer:= Manager.FindAnalyzer(Str);
+          F.Lexer:= AppManager.FindAnalyzer(Str);
 
         PROP_COLOR:
           begin
@@ -1887,8 +1887,8 @@ begin
         APP_PROC_GET_COMMAND:
           begin
             Num:= StrToIntDef(Str, -1);
-            if Keymap.IsIndexValid(Num) then
-              with Keymap[Num] do
+            if AppKeymap.IsIndexValid(Num) then
+              with AppKeymap[Num] do
                 Result:= Py_BuildValue('(isss)',
                   Command,
                   PChar(Name),
@@ -2182,7 +2182,7 @@ begin
       case Id of
         LEXER_GET_COMMENT:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               Result:= PyString_FromString(PChar(string(An.LineComment)))
             else
@@ -2191,7 +2191,7 @@ begin
 
         LEXER_GET_ENABLED:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               Result:= PyBool_FromLong(Ord(not An.Internal))
             else
@@ -2200,7 +2200,7 @@ begin
 
         LEXER_GET_EXT:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               Result:= PyString_FromString(PChar(string(An.Extentions)))
             else
@@ -2209,56 +2209,56 @@ begin
 
         LEXER_SET_ENABLED:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               An.Internal:= Str2='0';
             Result:= ReturnNone;
 
-            Manager.Modified:= true;
+            AppManager.Modified:= true;
             fmMain.UpdateMenuLexers;
           end;
 
         LEXER_SET_NAME:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               An.LexerName:= Str2;
             Result:= ReturnNone;
 
-            Manager.Modified:= true;
+            AppManager.Modified:= true;
             fmMain.UpdateMenuLexers;
           end;
 
         LEXER_SET_EXT:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               An.Extentions:= Str2;
             Result:= ReturnNone;
 
-            Manager.Modified:= true;
+            AppManager.Modified:= true;
           end;
 
         LEXER_GET_MODIFIED:
           begin
-            Result:= PyBool_FromLong(Ord(Manager.Modified));
+            Result:= PyBool_FromLong(Ord(AppManager.Modified));
           end;
 
         LEXER_SAVE_LIB:
           begin
-            with Manager do
+            with AppManager do
               SaveToFile(FileName);
             Result:= ReturnNone;
           end;
 
         LEXER_DELETE:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               An.Free;
             Result:= ReturnNone;
 
-            Manager.Modified:= true;
+            AppManager.Modified:= true;
             fmMain.UpdateMenuLexers;
           end;
 
@@ -2266,11 +2266,11 @@ begin
           begin
             if FileExists(Str1) then
             begin
-              An:= Manager.AddAnalyzer;
+              An:= AppManager.AddAnalyzer;
               An.LoadFromFile(Str1);
               Result:= PyString_FromString(PChar(string(An.LexerName)));
 
-              Manager.Modified:= true;
+              AppManager.Modified:= true;
               fmMain.UpdateMenuLexers;
             end
             else
@@ -2279,7 +2279,7 @@ begin
 
         LEXER_EXPORT:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
               An.SaveToFile(Str2);
@@ -2303,7 +2303,7 @@ begin
 
         LEXER_GET_LINKS:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
               List:= TStringList.Create;
@@ -2320,7 +2320,7 @@ begin
 
         LEXER_GET_STYLES:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
               List:= TStringList.Create;
@@ -2337,11 +2337,11 @@ begin
 
         LEXER_SET_LINKS:
           begin
-            An:= Manager.FindAnalyzer(Str1);
+            An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
-              LexerSetSublexers(Manager, An, Str2);
+              LexerSetSublexers(AppManager, An, Str2);
             Result:= ReturnNone;
-            Manager.Modified:= true;
+            AppManager.Modified:= true;
           end;
 
         else
