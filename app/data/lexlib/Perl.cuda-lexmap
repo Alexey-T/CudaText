@@ -1,0 +1,12 @@
+[map]
+Default=-
+Symbol=Symbol
+Number=Number
+String=String
+Identifier=Id
+Comment=Comment
+Reserved word=IdKeyword
+Marked block=-
+Variable=IdVar
+Something=String3
+String regex=String2

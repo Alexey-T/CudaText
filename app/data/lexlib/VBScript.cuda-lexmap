@@ -1,0 +1,12 @@
+[map]
+Default=-
+Comment=Comment
+Identifier=Id
+String=String
+Number=Number
+Symbol=Symbol
+Reserved word=IdKeyword
+Function separator=SeparLine
+Function background=CurBlockBG
+Current block bound=BracketBG
+Operator Keywords=Id1
