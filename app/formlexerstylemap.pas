@@ -143,8 +143,8 @@ begin
       F.ItemsLex.Add(an.Formats[i].DisplayName);
     for i:= 0 to an.Formats.Count-1 do
       F.ItemsVal.Add('');
-    for i:= 0 to Theme.Styles.Count-1 do
-      F.ItemsTh.Add(TecSyntaxFormat(Theme.Styles[i]).DisplayName);
+    for i:= 0 to AppTheme.Styles.Count-1 do
+      F.ItemsTh.Add(TecSyntaxFormat(AppTheme.Styles[i]).DisplayName);
 
     F.ListLex.Items.AddStrings(F.ItemsLex);
     F.ListLex.ItemIndex:= 0;

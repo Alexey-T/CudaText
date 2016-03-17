@@ -810,7 +810,7 @@ begin
         DoApplyThemeToTreeview(ItemTreeview);
     end;
 
-  //apply theme to all frames
+  //apply AppTheme to all frames
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];

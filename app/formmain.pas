@@ -1160,7 +1160,7 @@ end;
 
 procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
 begin
-  Theme:= AColors;
+  AppTheme:= AColors;
   DoApplyTheme;
 end;
 
@@ -1918,7 +1918,7 @@ const
 var
   str: string;
 begin
-  if DoDialogConfColors(Theme) then
+  if DoDialogConfColors(AppTheme) then
   begin
     DoApplyTheme;
     if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
@@ -1926,7 +1926,7 @@ begin
       str:= Trim(InputBox(msgTitle, msgThemeName, cDef));
       if str='' then exit;
       str:= GetAppPath(cDirDataThemes)+DirectorySeparator+str+'.json';
-      DoSaveTheme(str, Theme);
+      DoSaveTheme(str, AppTheme);
       UpdateMenuThemes(mnuThemes);
     end;
   end;
@@ -2863,7 +2863,7 @@ var
 begin
   fn:= FListThemes[(Sender as TComponent).Tag];
   FThemeName:= ExtractFileNameOnly(fn);
-  DoLoadTheme(fn, Theme);
+  DoLoadTheme(fn, AppTheme);
   DoApplyTheme;
 end;
 
@@ -2921,7 +2921,7 @@ end;
 procedure TfmMain.MenuThemeDefClick(Sender: TObject);
 begin
   FThemeName:= '';
-  DoInitTheme(Theme);
+  DoInitTheme(AppTheme);
   DoApplyTheme;
 end;
 

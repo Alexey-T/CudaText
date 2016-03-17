@@ -254,7 +254,7 @@ begin
     PanelLeft.Width:= c.GetValue('size_side', 200);
     PanelBottom.Height:= c.GetValue('size_bottom', 200);
 
-    ////theme
+    ////AppTheme
     FThemeName:= c.GetValue('theme', '');
     AppLangName:= c.GetValue('lang', '');
     FSessionFilename:= c.GetValue('session', FSessionFilename);
@@ -264,7 +264,7 @@ begin
 
     if FThemeName<>'' then
     begin
-      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeName+'.json', Theme);
+      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeName+'.json', AppTheme);
       DoApplyTheme;
     end;
 
