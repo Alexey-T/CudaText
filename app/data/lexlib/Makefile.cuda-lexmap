@@ -1,0 +1,10 @@
+[map]
+Comment=Comment
+String=String
+Symbol=Symbol
+Param=Id1
+Id=Id
+Id keyword=IdKeyword
+Value=IdVar
+Section=Id2
+Label=Id3

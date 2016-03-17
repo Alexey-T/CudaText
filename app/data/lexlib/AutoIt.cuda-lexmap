@@ -1,0 +1,12 @@
+[map]
+Comment=Comment
+Id=Id
+Number=Number
+Dim=Id1
+Operator=Symbol2
+Symbol=Symbol
+String=String
+Variable=IdVar
+Macro=Id2
+Reserved Words=IdKeyword
+Comment BG=SectionBG1

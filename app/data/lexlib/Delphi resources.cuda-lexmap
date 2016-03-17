@@ -1,0 +1,8 @@
+[map]
+Identifier=Id
+Reserved word=IdKeyword
+Comment=Comment
+String=String
+Number=Number
+Symbol=Symbol
+Blob Data=String2
