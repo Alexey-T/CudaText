@@ -22459,7 +22459,7 @@ object TecSyntaxManager
         DisplayName = 'Id Param'
         StyleName = 'Id Param'
         TokenType = 3
-        Expression = '^\s*\w+'
+        Expression = '^[\x20\x09]*\w+'
         ColumnFrom = 0
         ColumnTo = 0
       end    
