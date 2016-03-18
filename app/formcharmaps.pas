@@ -189,7 +189,11 @@ begin
     Result:= UnicodeToUTF8(code)
   else
   if code>=0 then
+  {$ifdef windows}
     Result:= AnsiToUtf8(Chr(code))
+  {$else}
+    Result:= UnicodeToUTF8(code)
+  {$endif}
   else
     Result:= '';
 end;
@@ -239,7 +243,7 @@ begin
     begin
       code:= i-1 + (j-1)*16;
       if (code=0) or (code=8) or (code=9) then Continue;
-      Grid.Cells[i, j]:= AnsiToUtf8(Chr(code));
+      Grid.Cells[i, j]:= CodeToString(code);
     end;
 
   DoShowStatus(Grid.Col, Grid.Row);
