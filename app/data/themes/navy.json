@@ -11,7 +11,7 @@
   "EdMarkers" : "#6044A0",
   "EdCurLineBg" : "#F0F0E0",
   "EdIndentVLine" : "#A0A0A4",
-  "EdUnprintFont" : "#F05050",
+  "EdUnprintFont" : "#006080",
   "EdUnprintBg" : "#E0E0E0",
   "EdUnprintHexFont" : "#A0A0A4",
   "EdMinimapBorder" : "#C0C0C0",
@@ -325,7 +325,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#00E000",
+    "CBack" : "#0040C0",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
