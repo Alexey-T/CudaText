@@ -2,7 +2,8 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
-2016.03.17
+2016.03.19
++ [m_h] iss
 + [m_o] l_map
 + [d_lex_map]
 + [d_lex_prop] _style

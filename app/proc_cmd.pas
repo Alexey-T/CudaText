@@ -161,6 +161,7 @@ const
   cmd_HelpMouse     = 2703;
   cmd_HelpChangelog = 2704;
   cmd_HelpLexers    = 2705;
+  cmd_HelpIssues    = 2706;
 
   cmd_Encoding_ansi_NoReload      = 2710;
   cmd_Encoding_utf8bom_NoReload   = 2711;
@@ -457,6 +458,7 @@ begin
   M.Add(cmd_HelpMouse, 'help: mouse usage', [], []);
   M.Add(cmd_HelpChangelog, 'help: changelog', [], []);
   M.Add(cmd_HelpLexers, 'help: lexers', [], []);
+  M.Add(cmd_HelpIssues, 'help: issues', [], []);
 
 end;
 
@@ -551,7 +553,8 @@ begin
     cmd_HelpWiki      ,
     cmd_HelpMouse     ,
     cmd_HelpChangelog ,
-    cmd_HelpLexers    :
+    cmd_HelpLexers    ,
+    cmd_HelpIssues    :
       Result:= true;
 
     else
@@ -619,7 +622,8 @@ begin
     cmd_HelpWiki,
     cmd_HelpMouse,
     cmd_HelpChangelog,
-    cmd_HelpLexers:
+    cmd_HelpLexers,
+    cmd_HelpIssues:
       Result:= false;
     else
       Result:= true;

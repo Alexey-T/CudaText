@@ -289,6 +289,7 @@ cmd_HelpWiki      = 2702
 cmd_HelpMouse     = 2703
 cmd_HelpChangelog = 2704
 cmd_HelpLexers    = 2705
+cmd_HelpIssues    = 2706
 
 cmd_Encoding_ansi_NoReload      = 2710
 cmd_Encoding_utf8bom_NoReload   = 2711

@@ -94,6 +94,7 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuHelpIssues: TMenuItem;
     mnuOpLexMap: TMenuItem;
     mnuTst2: TMenuItem;
     mnuLang: TMenuItem;
@@ -396,11 +397,9 @@ type
     procedure ListboxOutClick(Sender: TObject);
     procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
       const ARect: TRect);
-    procedure DoHelpWiki;
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure MenuThemesClick(Sender: TObject);
-    procedure DoHelpLexers;
     procedure mnuOpKeysClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
@@ -417,6 +416,10 @@ type
     procedure DoHelpForum;
     procedure DoHelpChangelog;
     procedure DoHelpMouse;
+    procedure DoHelpWiki;
+    procedure DoHelpLexers;
+    procedure DoHelpIssues;
+
     procedure MenuWindowClick(Sender: TObject);
     procedure mnuEndsMacClick(Sender: TObject);
     procedure mnuEndsUnixClick(Sender: TObject);
@@ -2889,6 +2892,11 @@ end;
 procedure TfmMain.DoHelpLexers;
 begin
   DoFileOpen(GetAppPath(cFileReadmeLexerInst));
+end;
+
+procedure TfmMain.DoHelpIssues;
+begin
+  OpenURL('https://github.com/Alexey-T/CudaText/issues');
 end;
 
 procedure TfmMain.mnuOpKeysClick(Sender: TObject);

@@ -267,6 +267,7 @@ begin
     DoLocMenuitem(ini, mnuHelpMouse, 'm_h', 'mo');
     DoLocMenuitem(ini, mnuHelpLexers, 'm_h', 'lx');
     DoLocMenuitem(ini, mnuHelpChangelog, 'm_h', 'ch');
+    DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
 
     DoApplyTabCaption(TabsBottom, 0, ini.ReadString('ui', 't_con', 'Console'));

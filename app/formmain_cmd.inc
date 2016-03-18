@@ -314,6 +314,7 @@ begin
     cmd_HelpMouse: DoHelpMouse;
     cmd_HelpChangelog: DoHelpChangelog;
     cmd_HelpLexers: DoHelpLexers;
+    cmd_HelpIssues: DoHelpIssues;
 
 
     cmdFirstLexerCommand..

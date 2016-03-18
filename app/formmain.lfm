@@ -889,6 +889,9 @@ object fmMain: TfmMain
       object mnuHelpChangelog: TMenuItem
         Caption = 'Change log'
       end
+      object mnuHelpIssues: TMenuItem
+        Caption = 'Report issue'
+      end
       object SepHelp2: TMenuItem
         Caption = '-'
       end
