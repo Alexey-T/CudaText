@@ -1293,18 +1293,30 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsItalic]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Id'
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Id std'
-        Font.Color = clPurple
+        Font.Color = clNavy
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Number'
@@ -1312,24 +1324,40 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Label'
         Font.Color = clOlive
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Registers'
         Font.Color = clBlue
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'String'
         Font.Color = clTeal
         Font.Height = -13
         Font.Name = 'Courier New'
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end    
       item
         DisplayName = 'Symbol'
@@ -1337,6 +1365,10 @@ object TecSyntaxManager
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Style = [fsBold]
+        BorderColorLeft = clNone
+        BorderColorTop = clNone
+        BorderColorRight = clNone
+        BorderColorBottom = clNone
       end>
     TokenRules = <    
       item
@@ -8228,7 +8260,7 @@ object TecSyntaxManager
         StyleName = 'Tag param'
         BlockName = 'Tag begin'
         TokenType = 2
-        Expression = '[^>=\?\s/]*'
+        Expression = '[^>=\?/\s\[\]]+'
         ColumnFrom = 0
         ColumnTo = 0
       end    
@@ -8501,7 +8533,7 @@ object TecSyntaxManager
       ']>'
       ''
       '<![CDATA['
-      'Included text '
+      '  Included text '
       ']]>'
       'Text &spec; text'
       ''
