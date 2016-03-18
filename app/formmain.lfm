@@ -884,13 +884,13 @@ object fmMain: TfmMain
         Caption = 'Mouse usage'
       end
       object mnuHelpLexers: TMenuItem
-        Caption = 'Install lexers'
+        Caption = 'Lexers'
       end
       object mnuHelpChangelog: TMenuItem
-        Caption = 'Change log'
+        Caption = 'Changelog'
       end
       object mnuHelpIssues: TMenuItem
-        Caption = 'Report issue'
+        Caption = 'Issue report'
       end
       object SepHelp2: TMenuItem
         Caption = '-'
