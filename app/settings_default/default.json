@@ -383,6 +383,8 @@
   //Macros:
   //  {y}: line of top caret
   //  {y2}: line of bottom caret
+  //  {yb}: line of 1st selection begin
+  //  {ye}: line of 1st selection end
   //  {x}: column of top caret, tab-chars counted as 1
   //  {xx}: column of top caret, tab-chars expanded
   //  {count}: number of lines

@@ -8,4 +8,5 @@ Id keyword=IdKeyword
 Id standard=Id1
 Id jquery=Id2
 Comment=Comment
+Comment doc=CommentDoc
 Current block=BracketBG

@@ -15,6 +15,7 @@ Legend:
 + upd lexer JS (style: doc comment)
 + upd lexer PHP (style: doc comment)
 + color "editor, combobox border"
++ statusbar macros {yb} {ye}
 - fixes
 
 1.2.29

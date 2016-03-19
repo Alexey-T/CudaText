@@ -396,12 +396,14 @@ end;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 var
   caret: TATCaretItem;
-  cols: integer;
-  n: integer;
+  cols, n, x_b, y_b, x_e, y_e: integer;
+  bSel: boolean;
 begin
   result:= '';
   if ed.Carets.Count=0 then exit;
   caret:= ed.Carets[0];
+
+  caret.GetRange(x_b, y_b, x_e, y_e, bSel);
 
   //make {cols} work for column-sel and small-sel
   cols:= 0;
@@ -417,6 +419,8 @@ begin
   result:= stringreplace(result, '{x}', inttostr(caret.PosX+1), []);
   result:= stringreplace(result, '{y}', inttostr(caret.PosY+1), []);
   result:= stringreplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
+  result:= stringreplace(result, '{yb}', inttostr(y_b), []);
+  result:= stringreplace(result, '{ye}', inttostr(y_e), []);
   result:= stringreplace(result, '{count}', inttostr(ed.strings.count), []);
   result:= stringreplace(result, '{carets}', inttostr(ed.carets.count), []);
   result:= stringreplace(result, '{cols}', inttostr(cols), []);

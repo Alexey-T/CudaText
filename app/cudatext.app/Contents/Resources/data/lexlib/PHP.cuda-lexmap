@@ -1,5 +1,6 @@
 [map]
 Comment=Comment
+Comment doc=CommentDoc
 Number=Number
 Symbol operator=Symbol2
 Symbol single=Symbol
