@@ -6059,6 +6059,13 @@ object TecSyntaxManager
         Font.Style = [fsItalic]
       end    
       item
+        DisplayName = 'Comment doc'
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsItalic]
+      end    
+      item
         DisplayName = 'Current block'
         Font.CharSet = RUSSIAN_CHARSET
         Font.Color = clMaroon
@@ -6077,6 +6084,14 @@ object TecSyntaxManager
         BorderColorBottom = clGray
       end>
     TokenRules = <    
+      item
+        DisplayName = 'Comment doc'
+        StyleName = 'Comment doc'
+        TokenType = 1
+        Expression = '(?s)/\*\* .*?(\*/|\Z)'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
       item
         DisplayName = 'Comment'
         StyleName = 'Comment'
@@ -6763,12 +6778,33 @@ object TecSyntaxManager
         HighlightPos = cpAny
         NoEndRule = True
         IgnoreAsParent = False
+      end    
+      item
+        DisplayName = 'class'
+        ConditionList = <        
+          item
+            TokenTypes = 4
+          end        
+          item
+            TagList.Strings = (
+              'class'
+            )
+            TokenTypes = 4
+          end>
+        NameFmt = '%s0 %s-1'
+        HighlightPos = cpAny
+        NoEndRule = True
+        IgnoreAsParent = False
       end>
     CodeTemplates = <>
     SubAnalyzers = <>
     SampleText.Strings = (
-      '//text text'
+      '//Text'
       'NaN Object $ offset'
+      '/** DocBlock '
+      '*/   /* Comment */'
+      'class MyClass {'
+      '}'
       ''
       'function init() {'
       #9'addMenuItem(''Txt'', ''Ctrl+\'''');'
@@ -6822,6 +6858,7 @@ object TecSyntaxManager
       '-strings multiline "..."'
       '-strings regex /.../gi'
       '-strings heredoc'
+      '-doc comments'
       ''
       'Keywords: http://www.w3schools.com/js/js_reserved.asp'
     )
@@ -14997,6 +15034,13 @@ object TecSyntaxManager
         Font.Style = [fsItalic]
       end    
       item
+        DisplayName = 'Comment doc'
+        Font.Color = clGray
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsItalic]
+      end    
+      item
         DisplayName = 'Number'
         Font.Color = clNavy
         Font.Height = -13
@@ -15112,21 +15156,28 @@ object TecSyntaxManager
         ColumnTo = 0
       end    
       item
-        DisplayName = 'Comment 1'
+        DisplayName = 'Comment doc'
+        StyleName = 'Comment doc'
+        Expression = '(?s)/\*\* .*? (\*/|\Z)'
+        ColumnFrom = 0
+        ColumnTo = 0
+      end    
+      item
+        DisplayName = 'Comment block'
         StyleName = 'Comment'
         Expression = '(?s)/\*.*?(\*/|\Z)'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = 'Comment 2'
+        DisplayName = 'Comment line 2'
         StyleName = 'Comment'
         Expression = '\#.*'
         ColumnFrom = 0
         ColumnTo = 0
       end    
       item
-        DisplayName = 'Comment 3'
+        DisplayName = 'Comment line'
         StyleName = 'Comment'
         Expression = '// .* (?=\?>) | //.*$'
         ColumnFrom = 0
@@ -19452,6 +19503,8 @@ object TecSyntaxManager
       end>
     SampleText.Strings = (
       '<?php //Example'
+      '/** Doc comment'
+      '*/  /* Comment */'
       ''
       'include "os.php";'
       'include_once $path."/os2.php";'
