@@ -12,7 +12,8 @@ Legend:
 + upd lexer XML
 + upd lexer LESS
 + upd lexer SCSS
-- fix back-color of URL+bookmark
++ color "editor, combobox border"
+- fixes
 
 1.2.29
 + lexer CSS handles @media{...}
