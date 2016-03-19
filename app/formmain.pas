@@ -1336,6 +1336,12 @@ begin
       UpdateMenuThemes(mnuThemes);
     end;
 
+    if AddonType=cAddonTypePlugin then
+    begin
+      DoOps_LoadPlugins;
+      UpdateMenuPlugins;
+    end;
+
     MsgBox(msgStatusInstalled+#10+msg, MB_OK or MB_ICONINFORMATION);
   end;
 end;
