@@ -419,8 +419,8 @@ begin
   result:= stringreplace(result, '{x}', inttostr(caret.PosX+1), []);
   result:= stringreplace(result, '{y}', inttostr(caret.PosY+1), []);
   result:= stringreplace(result, '{y2}', inttostr(ed.carets[ed.carets.count-1].PosY+1), []);
-  result:= stringreplace(result, '{yb}', inttostr(y_b), []);
-  result:= stringreplace(result, '{ye}', inttostr(y_e), []);
+  result:= stringreplace(result, '{yb}', inttostr(y_b+1), []);
+  result:= stringreplace(result, '{ye}', inttostr(y_e+1), []);
   result:= stringreplace(result, '{count}', inttostr(ed.strings.count), []);
   result:= stringreplace(result, '{carets}', inttostr(ed.carets.count), []);
   result:= stringreplace(result, '{cols}', inttostr(cols), []);
