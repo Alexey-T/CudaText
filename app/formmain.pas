@@ -1318,16 +1318,24 @@ end;
 procedure TfmMain.DoFileInstallZip(const fn: string);
 var
   msg: string;
-  IsOk, IsLexer: boolean;
+  IsOk: boolean;
+  AddonType: TAppAddonType;
 begin
-  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, IsOk, IsLexer);
+  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, IsOk, AddonType);
   if IsOk then
   begin
-    if IsLexer then
+    if AddonType=cAddonTypeLexer then
     begin
       DoOps_SaveLexlib(false);
       UpdateMenuLexers;
     end;
+
+    if AddonType=cAddonTypeData then
+    begin
+      UpdateMenuLangs(mnuLang);
+      UpdateMenuThemes(mnuThemes);
+    end;
+
     MsgBox(msgStatusInstalled+#10+msg, MB_OK or MB_ICONINFORMATION);
   end;
 end;

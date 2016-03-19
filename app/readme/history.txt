@@ -10,8 +10,10 @@ Legend:
 * renamed translations to nn_NN (e.g. ru_RU)
 + can show .gif pics
 + upd lexer XML
-+ upd lexer LESS
-+ upd lexer SCSS
++ upd lexer LESS (style: color)
++ upd lexer SCSS (style: color)
++ upd lexer JS (style: doc comment)
++ upd lexer PHP (style: doc comment)
 + color "editor, combobox border"
 - fixes
 

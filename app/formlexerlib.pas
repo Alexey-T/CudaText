@@ -187,12 +187,13 @@ end;
 procedure TfmLexerLib.bAddClick(Sender: TObject);
 var
   msg: string;
-  IsOk, IsLexer: boolean;
+  IsOk: boolean;
+  AddonType: TAppAddonType;
 begin
   OpenDlg.Filename:= '';
   if not OpenDlg.Execute then exit;
 
-  DoInstallAddonFromZip(OpenDlg.FileName, FManager, FDirAcp, msg, IsOk, IsLexer);
+  DoInstallAddonFromZip(OpenDlg.FileName, FManager, FDirAcp, msg, IsOk, AddonType);
   if IsOk then
   begin
     UpdateList;

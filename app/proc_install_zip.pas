@@ -15,11 +15,20 @@ uses
   Classes, SysUtils, Forms, FileUtil,
   ecSyntAnal;
 
+type
+  TAppAddonType = (
+    cAddonTypeUnknown,
+    cAddonTypePlugin,
+    cAddonTypeLexer,
+    cAddonTypeData
+    );
+
 procedure DoInstallAddonFromZip(const fn_zip: string;
   Manager: TecSyntaxManager;
   const dir_acp: string;
   out s_report: string;
-  out IsInstalled, IsLexer: boolean);
+  out IsInstalled: boolean;
+  out NAddonType: TAppAddonType);
 
 var
   cInstallLexerZipTitle: string = 'Install addon';
@@ -186,7 +195,7 @@ end;
 
 procedure DoInstallAddonFromZip(const fn_zip: string;
   Manager: TecSyntaxManager; const dir_acp: string; out s_report: string; out
-  IsInstalled, IsLexer: boolean);
+  IsInstalled: boolean; out NAddonType: TAppAddonType);
 var
   unzip: TUnZipper;
   list: TStringlist;
@@ -194,7 +203,7 @@ var
   s_title, s_type, s_desc: string;
 begin
   IsInstalled:= false;
-  IsLexer:= false;
+  NAddonType:= cAddonTypeUnknown;
   dir:= GetTempDirCounted;
 
   if not DirectoryExists(dir) then
@@ -267,12 +276,25 @@ begin
     MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
   s_report:= '';
-  if s_type=cTypeLexer then DoInstallLexer(fn_inf, dir_acp, Manager, s_report) else
-   if s_type=cTypePlugin then DoInstallPlugin(fn_inf, s_report) else
-    if s_type=cTypeData then DoInstallData(fn_inf, s_report);
+  if s_type=cTypeLexer then
+  begin
+    NAddonType:= cAddonTypeLexer;
+    DoInstallLexer(fn_inf, dir_acp, Manager, s_report)
+  end
+  else
+  if s_type=cTypePlugin then
+  begin
+    NAddonType:= cAddonTypePlugin;
+    DoInstallPlugin(fn_inf, s_report)
+  end
+  else
+  if s_type=cTypeData then
+  begin
+    NAddonType:= cAddonTypeData;
+    DoInstallData(fn_inf, s_report)
+  end;
 
   IsInstalled:= true;
-  IsLexer:= s_type=cTypeLexer;
 end;
 
 
