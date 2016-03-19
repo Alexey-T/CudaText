@@ -96,6 +96,8 @@ end;
 
 procedure TfmGoto.FormCreate(Sender: TObject);
 begin
+  edInput.BorderStyle:= bsNone;
+  edInput.OptBorderVisible:= true;
 end;
 
 procedure TfmGoto.UpdateFonts;
@@ -108,6 +110,7 @@ begin
   edInput.Colors.TextBG:= GetAppColor('EdTextBg');
   edInput.Colors.TextSelFont:= GetAppColor('EdSelFont');
   edInput.Colors.TextSelBG:= GetAppColor('EdSelBg');
+  edInput.Colors.BorderLine:= GetAppColor('EdBorder');
 
   LabelGoto.Font.Name:= UiOps.VarFontName;
   LabelGoto.Font.Size:= UiOps.VarFontSize;

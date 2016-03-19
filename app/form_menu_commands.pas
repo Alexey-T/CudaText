@@ -94,6 +94,7 @@ begin
   edit.Colors.TextBG:= GetAppColor('EdTextBg');
   edit.Colors.TextSelFont:= GetAppColor('EdSelFont');
   edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
+  edit.Colors.BorderLine:= GetAppColor('EdBorder');
   list.Color:= GetAppColor('ListBg');
 
   ResultNum:= 0;

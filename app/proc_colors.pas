@@ -160,6 +160,7 @@ begin
   Add(clMedGray, 'EdBlockStaple', 'editor, block staples (indent guides)');
   Add(clGray, 'EdComboArrow', 'editor, combobox arrow-down');
   Add($f0f0f0, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
+  Add(clMedGray, 'EdBorder', 'editor, combobox border');
   Add(clMedGray, 'EdBlockSepLine', 'editor, separator line');
   Add($a06060, 'EdFoldMarkLine', 'editor, folded line');
   Add($e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');

@@ -14,7 +14,7 @@ object fmCommands: TfmCommands
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object edit: TATEdit
     Left = 6
     Height = 26
@@ -22,7 +22,6 @@ object fmCommands: TfmCommands
     Width = 488
     Align = alTop
     BorderSpacing.Around = 6
-    BorderStyle = bsSingle
     Font.Height = -12
     Font.Name = 'Courier New'
     ParentFont = False
@@ -69,8 +68,11 @@ object fmCommands: TfmCommands
     Colors.StateSaved = clMedGray
     Colors.BlockStaple = clMedGray
     Colors.BlockSepLine = clMedGray
+    Colors.Links = clBlue
     Colors.LockedBG = 14737632
     Colors.TextHintFont = clGray
+    Colors.MarkedLinesBG = 15786160
+    Colors.BorderLine = clMedGray
     Colors.ComboboxArrow = clGray
     Colors.ComboboxArrowBG = 15790320
     WantTabs = False
@@ -89,6 +91,8 @@ object fmCommands: TfmCommands
     OptLastLineOnTop = False
     OptOverwriteSel = True
     OptOverwriteAllowedOnPaste = False
+    OptShowURLs = False
+    OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
     OptShowStapleStyle = cLineStyleSolid
     OptShowStapleIndent = -1
     OptShowStapleWidthPercent = 100
@@ -107,12 +111,14 @@ object fmCommands: TfmCommands
     OptCaretBlinkEnabled = True
     OptCaretStopUnfocused = True
     OptCaretPreferLeftSide = True
+    OptCaretPosAfterPasteColumn = cPasteCaretColumnRight
     OptMarkersSize = 4
     OptGutterVisible = False
     OptGutterPlusSize = 4
     OptGutterShowFoldAlways = True
     OptGutterShowFoldLines = True
     OptGutterShowFoldLinesAll = False
+    OptBorderVisible = True
     OptRulerVisible = False
     OptRulerSize = 20
     OptRulerFontSize = 8
@@ -123,6 +129,7 @@ object fmCommands: TfmCommands
     OptMinimapCharWidth = 0
     OptMinimapShowSelBorder = False
     OptMinimapShowSelAlways = True
+    OptMinimapAtLeft = False
     OptMicromapVisible = False
     OptMicromapWidth = 30
     OptCharSpacingX = 0
@@ -188,6 +195,7 @@ object fmCommands: TfmCommands
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
+    CanGetFocus = False
     Color = clWhite
     ItemHeight = 28
     OnClick = listClick

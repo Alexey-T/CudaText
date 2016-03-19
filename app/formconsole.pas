@@ -119,7 +119,6 @@ begin
   ed:= TATComboEdit.Create(Self);
   ed.Parent:= Self;
   ed.Align:= alBottom;
-  ed.BorderStyle:= bsSingle;
 
   memo:= TATSynEdit.Create(Self);
   memo.Parent:= Self;

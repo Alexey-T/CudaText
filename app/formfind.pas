@@ -216,6 +216,7 @@ begin
     Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
     Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
     Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
+    Colors.BorderLine:= GetAppColor('EdBorder');
     Update;
   end;
 
@@ -232,6 +233,7 @@ begin
     Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
     Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
     Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
+    Colors.BorderLine:= GetAppColor('EdBorder');
     Update;
   end;
 

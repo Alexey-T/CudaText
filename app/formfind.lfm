@@ -175,7 +175,6 @@ object fmFind: TfmFind
       Height = 25
       Top = 4
       Width = 359
-      BorderStyle = bsSingle
       Font.Height = -12
       Font.Name = 'Courier New'
       ParentFont = False
@@ -228,6 +227,7 @@ object fmFind: TfmFind
       Colors.LockedBG = 14737632
       Colors.TextHintFont = clGray
       Colors.MarkedLinesBG = 15786160
+      Colors.BorderLine = clMedGray
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
@@ -273,6 +273,7 @@ object fmFind: TfmFind
       OptGutterShowFoldAlways = True
       OptGutterShowFoldLines = True
       OptGutterShowFoldLinesAll = False
+      OptBorderVisible = True
       OptRulerVisible = False
       OptRulerSize = 20
       OptRulerFontSize = 8
@@ -348,7 +349,6 @@ object fmFind: TfmFind
       Height = 25
       Top = 34
       Width = 359
-      BorderStyle = bsSingle
       Font.Height = -12
       Font.Name = 'Courier New'
       ParentFont = False
@@ -400,6 +400,7 @@ object fmFind: TfmFind
       Colors.LockedBG = 14737632
       Colors.TextHintFont = clGray
       Colors.MarkedLinesBG = 15786160
+      Colors.BorderLine = clMedGray
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
@@ -445,6 +446,7 @@ object fmFind: TfmFind
       OptGutterShowFoldAlways = True
       OptGutterShowFoldLines = True
       OptGutterShowFoldLinesAll = False
+      OptBorderVisible = True
       OptRulerVisible = False
       OptRulerSize = 20
       OptRulerFontSize = 8

@@ -695,6 +695,7 @@ begin
   fmConsole.ed.Colors.TextSelBG:= GetAppColor('EdSelBg');
   fmConsole.ed.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
   fmConsole.ed.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
+  fmConsole.ed.Colors.BorderLine:= GetAppColor('EdBorder');
   fmConsole.ed.Update;
 
   fmConsole.memo.Colors.TextFont:= GetAppColor('EdTextFont');
@@ -773,6 +774,7 @@ begin
     fmGoto.edInput.Colors.TextBG:= GetAppColor('EdTextBg');
     fmGoto.edInput.Colors.TextSelFont:= GetAppColor('EdSelFont');
     fmGoto.edInput.Colors.TextSelBG:= GetAppColor('EdSelBg');
+    fmGoto.edInput.Colors.BorderLine:= GetAppColor('EdBorder');
     fmGoto.edInput.Update;
     fmGoto.Invalidate;
   end;
@@ -787,6 +789,7 @@ begin
     fmFind.edFind.Colors.TextSelBG:= GetAppColor('EdSelBg');
     fmFind.edFind.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
     fmFind.edFind.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
+    fmFind.edFind.Colors.BorderLine:= GetAppColor('EdBorder');
     fmFind.edFind.Update;
     fmFind.edRep.Colors.TextFont:= GetAppColor('EdTextFont');
     fmFind.edRep.Colors.TextBG:= GetAppColor('EdTextBg');
@@ -796,6 +799,7 @@ begin
     fmFind.edRep.Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
     fmFind.edRep.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
     fmFind.edRep.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
+    fmFind.edRep.Colors.BorderLine:= GetAppColor('EdBorder');
     fmFind.edRep.Update;
     fmFind.Invalidate;
   end;

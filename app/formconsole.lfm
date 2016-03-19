@@ -9,7 +9,7 @@ object fmConsole: TfmConsole
   OnCreate = FormCreate
   ParentFont = True
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object panelConsole: TPanel
     Left = 0
     Height = 208
