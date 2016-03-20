@@ -480,17 +480,22 @@ end;
 procedure TfmMain.DoLocalize_FormFind;
 const
   section = 'd_f';
+  hotkey_re = ' - Alt+R';
+  hotkey_case = ' - Alt+C';
+  hotkey_words = ' - Alt+W';
+  hotkey_wrap = ' - Alt+N';
+  hotkey_cfm = ' - Alt+Y';
 var
   fn: string;
   ini: TIniFile;
 begin
   if not Assigned(fmFind) then exit;
 
-  with fmFind.chkRegex do Hint:= 'Reg.ex'+' - Alt+R';
-  with fmFind.chkCase do Hint:= 'Case sensitive'+' - Alt+C';
-  with fmFind.chkWords do Hint:= 'Whole words'+' - Alt+W';
-  with fmFind.chkWrap do Hint:= 'Wrapped search'+' - Alt+N';
-  with fmFind.chkConfirm do Hint:= 'Confirm on replace'+' - Alt+Y';
+  with fmFind.chkRegex do Hint:= 'Regular expressions'+hotkey_re;
+  with fmFind.chkCase do Hint:= 'Case sensitive'+hotkey_case;
+  with fmFind.chkWords do Hint:= 'Whole words'+hotkey_words;
+  with fmFind.chkWrap do Hint:= 'Wrapped search'+hotkey_wrap;
+  with fmFind.chkConfirm do Hint:= 'Confirm on replace'+hotkey_cfm;
 
 
   fn:= GetAppLangFilename;
@@ -508,11 +513,11 @@ begin
     with fmFind.LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
     with fmFind.LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
-    with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', 'Reg.ex')+' - Alt+R';
-    with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', 'Case sensitive')+' - Alt+C';
-    with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', 'Whole words')+' - Alt+W';
-    with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', 'Wrapped search')+' - Alt+N';
-    with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', 'Confirm on replace')+' - Alt+Y';
+    with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', 'Regular expressions')+hotkey_re;
+    with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', 'Case sensitive')+hotkey_case;
+    with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', 'Whole words')+hotkey_words;
+    with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', 'Wrapped search')+hotkey_wrap;
+    with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', 'Confirm on replace')+hotkey_cfm;
 
     with fmFind.edFind do
     begin
