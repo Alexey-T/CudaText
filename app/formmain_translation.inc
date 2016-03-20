@@ -486,6 +486,13 @@ var
 begin
   if not Assigned(fmFind) then exit;
 
+  with fmFind.chkRegex do Hint:= 'Reg.ex'+' - Alt+R';
+  with fmFind.chkCase do Hint:= 'Case sensitive'+' - Alt+C';
+  with fmFind.chkWords do Hint:= 'Whole words'+' - Alt+W';
+  with fmFind.chkWrap do Hint:= 'Wrapped search'+' - Alt+N';
+  with fmFind.chkConfirm do Hint:= 'Confirm on replace'+' - Alt+Y';
+
+
   fn:= GetAppLangFilename;
   if not FileExists(fn) then exit;
 
