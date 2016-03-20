@@ -55,6 +55,9 @@ implementation
 
 const
   cSectionMap = 'map';
+var
+  LexersAsked: TList = nil;
+
 
 procedure DoStyleAssign(s, s2: TecSyntaxFormat);
 begin
@@ -106,6 +109,9 @@ begin
   Result:= true;
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
+
+  if LexersAsked.IndexOf(an)>=0 then exit;
+  LexersAsked.Add(an);
 
   //work for sublexers
   for i:= 0 to an.SubAnalyzers.Count-1 do
@@ -245,6 +251,17 @@ begin
     ListLex.Items[i]:= ItemsLex[i] + cArrow + IfThen(ItemsVal[i]<>'', ItemsVal[i], '?');
   ListLex.Items.EndUpdate;
 end;
+
+
+initialization
+  LexersAsked:= TList.Create;
+
+finalization
+  if Assigned(LexersAsked) then
+  begin
+    LexersAsked.Clear;
+    LexersAsked.Free;
+  end;
 
 end.
 
