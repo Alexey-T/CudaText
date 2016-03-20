@@ -4,6 +4,9 @@ Legend:
   * changed
 
 
+1.3.0.2
++ opt ui_lexer_themes
+
 1.3.0
 + themes contain now 40 styles: to map to concrete lexer styles. Dialog "Lexer styles map" added. It shows on activating lexer w/o configured map. Maps are saved to "lexlib/*.cuda-lexmap".
 * not used anymore settings/plugins.json (delete it), used install.inf's only

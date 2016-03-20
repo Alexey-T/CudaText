@@ -70,6 +70,7 @@ type
 
     PyLibrary: string;
     LexerLibFilename: string;
+    LexerThemes: boolean;
     PictureTypes: string;
 
     AutocompleteCss: boolean;
@@ -750,6 +751,7 @@ begin
     OutputFontSize:= VarFontSize;
 
     LexerLibFilename:= 'lib.lxl';
+    LexerThemes:= true;
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
 

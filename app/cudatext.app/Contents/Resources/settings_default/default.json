@@ -417,6 +417,9 @@
   //Restore session (all named tabs) at start
   "ui_reopen_session": true,
 
+  //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
+  "ui_lexer_themes": true,
+
   //[Underline HTML color tokens like #008080, #0a0]
   //File extensions, comma-separated, w/o dot; "*" for all files, empty str to disable
   "underline_color_files": "*",
