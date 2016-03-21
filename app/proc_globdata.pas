@@ -53,7 +53,6 @@ type
     cFileOptFiletypes,
     cFileOptKeymap,
     cFileHistoryList,
-    cFileHistorySession,
     cFileLexerStyles,
     cFileReadmeHist,
     cFileReadmeMouse,
@@ -552,13 +551,6 @@ begin
     cFileHistoryList:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history files.json';
-      end;
-    cFileHistorySession:
-      begin
-        Result:=
-          ////GetAppPath(cDirSettings)+DirectorySeparator+
-          //no path: this is saved to history, need w/o path
-          'history session.json';
       end;
     cFileLexerStyles:
       begin

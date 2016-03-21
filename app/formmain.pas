@@ -494,7 +494,7 @@ type
     FListThemes: TStringList;
     FListLangs: TStringList;
     FThemeName: string;
-    FSessionFilename: string;
+    FSessionName: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
     StatusAlt: TATStatus;
@@ -518,6 +518,7 @@ type
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
 
+    function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
     procedure DoLocalize_FormFind;
@@ -962,6 +963,18 @@ begin
   FormStyle:= FStyle;
 end;
 
+function TfmMain.GetSessionFilename: string;
+begin
+  if FSessionName<>'' then
+  begin
+    Result:= FSessionName;
+    if ExtractFileDir(Result)='' then
+      Result:= GetAppPath(cDirSettings)+DirectorySeparator+Result;
+  end
+  else
+    Result:= '';
+end;
+
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
@@ -976,7 +989,7 @@ begin
 
   PanelAll.Align:= alClient;
   AppManager:= TecSyntaxManager.Create(Self);
-  FSessionFilename:= GetAppPath(cFileHistorySession);
+  FSessionName:= 'history session.json';
 
   FPanelCaptions:= TStringList.Create;
   FListRecents:= TStringList.Create;

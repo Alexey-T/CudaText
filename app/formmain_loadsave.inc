@@ -57,7 +57,7 @@ begin
     ////state
     c.SetValue('theme', FThemeName);
     c.SetValue('lang', AppLangName);
-    c.SetValue('session', FSessionFilename);
+    c.SetValue('session', FSessionName);
 
     DoOps_SaveHistory_GroupView(c);
   finally
@@ -65,7 +65,7 @@ begin
   end;
 
   if UiOps.ShowLastFiles then
-    DoOps_SaveSession(FSessionFilename);
+    DoOps_SaveSession(GetSessionFilename);
 end;
 
 
@@ -77,9 +77,6 @@ var
   path: string;
 begin
   if fn_session='' then exit;
-  if ExtractFileDir(fn_session)='' then
-    fn_session:= GetAppPath(cDirSettings)+DirectorySeparator+fn_session;
-
   DeleteFile(fn_session);
 
   c:= TJSONConfig.Create(nil);
@@ -120,9 +117,7 @@ var
   nGroup, i: integer;
 begin
   if fn_session='' then exit;
-  if ExtractFileDir(fn_session)='' then
-    fn_session:= GetAppPath(cDirSettings)+DirectorySeparator+fn_session;
-
+  if not FileExists(fn_session) then exit;
   DoFileCloseAll;
 
   c:= TJSONConfig.Create(nil);
@@ -257,7 +252,7 @@ begin
     ////AppTheme
     FThemeName:= c.GetValue('theme', '');
     AppLangName:= c.GetValue('lang', '');
-    FSessionFilename:= c.GetValue('session', FSessionFilename);
+    FSessionName:= c.GetValue('session', FSessionName);
 
     if AppLangName<>'' then
       DoLocalize;
@@ -274,7 +269,7 @@ begin
   end;
 
   if UiOps.ShowLastFiles then
-    DoOps_LoadSession(FSessionFilename);
+    DoOps_LoadSession(GetSessionFilename);
 end;
 
 procedure TfmMain.DoOps_LoadKeymap;

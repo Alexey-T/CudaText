@@ -134,7 +134,7 @@ begin
         APP_DIR_PY:
           Result:= PyString_FromString(PChar(GetAppPath(cDirPy)));
         APP_FILE_SESSION:
-          Result:= PyString_FromString(PChar(fmMain.FSessionFilename));
+          Result:= PyString_FromString(PChar(fmMain.GetSessionFilename));
         else
           Result:= ReturnNone;
       end;
@@ -1928,7 +1928,7 @@ begin
           end;
         APP_PROC_SET_SESSION:
           begin
-            fmMain.FSessionFilename:= Str;
+            fmMain.FSessionName:= Str;
             fmMain.UpdateCaption;
             Result:= ReturnNone;
           end;
