@@ -32,6 +32,7 @@
   "EdFoldMarkBg" : "#E0E0E0",
   "EdGutterFont" : "#505050",
   "EdGutterBg" : "#AEC8C8",
+  "EdGutterCaretFont" : "#505050",
   "EdGutterCaretBg" : "#B0B0B0",
   "EdRulerFont" : "#008080",
   "EdRulerBg" : "#AAC8C8",

@@ -168,6 +168,7 @@ begin
   Add(clCream, 'EdFoldMarkBg', 'editor, folded block mark, BG');
   Add(clGray, 'EdGutterFont', 'editor, gutter font');
   Add($e0e0e0, 'EdGutterBg', 'editor, gutter BG');
+  Add(clGray, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
   Add($c8c8c8, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
   Add(clGray, 'EdRulerFont', 'editor, ruler font');
   Add($e0e0e0, 'EdRulerBg', 'editor, ruler BG');

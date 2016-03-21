@@ -500,6 +500,7 @@ begin
 
   Ed.Colors.GutterFont:= GetAppColor('EdGutterFont');
   Ed.Colors.GutterBG:= GetAppColor('EdGutterBg');
+  Ed.Colors.GutterCaretFont:= GetAppColor('EdGutterCaretFont');
   Ed.Colors.GutterCaretBG:= GetAppColor('EdGutterCaretBg');
 
   Ed.Colors.BookmarkBG:= GetAppColor('EdBookmarkBg');
@@ -551,6 +552,7 @@ begin
   if Id='EdFoldMarkBg' then Ed.Colors.CollapseMarkBG:= AColor else
   if Id='EdGutterFont' then Ed.Colors.GutterFont:= AColor else
   if Id='EdGutterBg' then Ed.Colors.GutterBG:= AColor else
+  if Id='EdGutterCaretFont' then Ed.Colors.GutterCaretFont:= AColor else
   if Id='EdGutterCaretBg' then Ed.Colors.GutterCaretBG:= AColor else
   if Id='EdBookmarkBg' then Ed.Colors.BookmarkBG:= AColor else
   if Id='EdRulerFont' then Ed.Colors.RulerFont:= AColor else
@@ -600,6 +602,7 @@ begin
   if Id='EdFoldMarkBg' then exit(Ed.Colors.CollapseMarkBG);
   if Id='EdGutterFont' then exit(Ed.Colors.GutterFont);
   if Id='EdGutterBg' then exit(Ed.Colors.GutterBG);
+  if Id='EdGutterCaretFont' then exit(Ed.Colors.GutterCaretFont);
   if Id='EdGutterCaretBg' then exit(Ed.Colors.GutterCaretBG);
   if Id='EdBookmarkBg' then exit(Ed.Colors.BookmarkBG);
   if Id='EdRulerFont' then exit(Ed.Colors.RulerFont);
