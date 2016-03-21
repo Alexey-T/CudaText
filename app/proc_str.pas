@@ -91,27 +91,10 @@ begin
   cfg.GetValue(path, List, '');
 end;
 
-
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string;
   List: TStrings; MaxItems: integer);
-//wrapper deletes all Ascii control chars 0..31
-var
-  L: TStringList;
-  i: integer;
-  Str: UnicodeString;
 begin
-  L:= TStringList.Create;
-  try
-    for i:= 0 to List.Count-1 do
-    begin
-      Str:= Utf8Decode(List[i]);
-      Str:= SRemoveAsciiControlChars(Str);
-      L.Add(Utf8Encode(Str));
-    end;
-    cfg.SetValue(path, L);
-  finally
-    L.Free;
-  end;
+  cfg.SetValue(path, List);
 end;
 
 function SMaskFilenameSlashes(const fn: string): string;

@@ -668,6 +668,7 @@ function StringToJSONString(const S: TJSONStringType): TJSONStringType;
 Var
   I,J,L : Integer;
   P : PJSONCharType;
+  C : AnsiChar;
 
 begin
   I:=1;
@@ -677,10 +678,11 @@ begin
   P:=PJSONCharType(S);
   While I<=L do
     begin
-    if (AnsiChar(P^) in ['"','/','\',#8,#9,#10,#12,#13]) then
+    C:=AnsiChar(P^);
+    if (C in ['"','/','\',#0..#31]) then
       begin
       Result:=Result+Copy(S,J,I-J);
-      Case P^ of
+      Case C of
         '\' : Result:=Result+'\\';
         '/' : Result:=Result+'\/';
         '"' : Result:=Result+'\"';
@@ -689,6 +691,8 @@ begin
         #10 : Result:=Result+'\n';
         #12 : Result:=Result+'\f';
         #13 : Result:=Result+'\r';
+      else
+        Result:=Result+'\u'+HexStr(Ord(C),4);
       end;
       J:=I+1;
       end;
