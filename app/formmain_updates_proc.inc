@@ -706,10 +706,10 @@ begin
 
   ToolbarMain.Color:= GetAppColor('TabBg');
 
-  Status.Font.Color:= GetAppColor('TabFont');
-  Status.Color:= GetAppColor('TabBg');
-  Status.ColorBorderTop:= GetAppColor('TabBorderPassive');
-  Status.ColorBorderR:= GetAppColor('TabBorderPassive');
+  Status.Font.Color:= GetAppColor('StatusFont');
+  Status.Color:= GetAppColor('StatusBg');
+  Status.ColorBorderTop:= GetAppColor('StatusLines');
+  Status.ColorBorderR:= GetAppColor('StatusLines');
 
   StatusAlt.Font.Color:= Status.Font.Color;
   StatusAlt.Color:= GetAppColor('StatusAltBg');

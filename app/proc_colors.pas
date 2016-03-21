@@ -182,7 +182,7 @@ begin
   Add(clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
   Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
 
-  Add($f0f0f0, 'TabBg', 'tabs, toolbar, statusbar BG');
+  Add($f0f0f0, 'TabBg', 'tabs, toolbar BG');
   Add(clBlack, 'TabFont', 'tabs, font');
   Add($A00000, 'TabFontMod', 'tabs, font, modified tab');
   Add(clWhite, 'TabActive', 'tabs, active tab BG');
@@ -209,6 +209,7 @@ begin
   Add($e0e0e0, 'ListBg', 'listbox, BG');
   Add(clLtGray, 'ListSelBg', 'listbox, selected line BG');
   Add(clBlack, 'ListFont', 'listbox, font');
+  Add(clBlack, 'ListSelFont', 'listbox, selected line font');
   Add($802020, 'ListFontHotkey', 'listbox, font, hotkey');
   Add($f04040, 'ListFontHilite', 'listbox, font, search chars');
 
@@ -228,7 +229,11 @@ begin
   Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
+  Add(clBlack, 'StatusFont', 'statusbar, font');
+  Add($e0e0e0, 'StatusBg', 'statusbar, BG');
+  Add(clMedGray, 'StatusLines', 'statusbar, border');
   Add(clCream, 'StatusAltBg', 'statusbar alt, BG');
+
   Add($e0e0e0, 'SplitMain', 'splitters, main');
   Add($e0e0e0, 'SplitGroups', 'splitters, groups');
 

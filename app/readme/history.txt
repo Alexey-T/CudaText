@@ -4,10 +4,12 @@ Legend:
   * changed
 
 
-1.3.0.4
+1.3.1
 + opt ui_lexer_themes
++ colors "listbox, sel line font", "statusbar, font/bg/lines"
 - fix caret-pos over control-chars 0..31
 - fix save chars 0..31 to history
+- fix micromap
 
 1.3.0
 + themes contain now 40 styles: to map to concrete lexer styles. Dialog "Lexer styles map" added. It shows on activating lexer w/o configured map. Maps are saved to "lexlib/*.cuda-lexmap".

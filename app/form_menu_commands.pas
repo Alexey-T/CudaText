@@ -233,13 +233,18 @@ var
   buf: string;
 begin
   if AIndex=list.ItemIndex then
-    cl:= GetAppColor('ListSelBg')
+  begin
+    cl:= GetAppColor('ListSelBg');
+    c.Font.Color:= GetAppColor('ListSelFont');
+  end
   else
+  begin
     cl:= list.Color;
+    c.Font.Color:= GetAppColor('ListFont');
+  end;
   c.Brush.Color:= cl;
   c.Pen.Color:= cl;
   c.FillRect(ARect);
-  c.Font.Color:= GetAppColor('ListFont');
 
   //name, key
   strname:= TATKeymapItem(keymapList[AIndex]).Name;

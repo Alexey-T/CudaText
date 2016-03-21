@@ -3077,6 +3077,7 @@ begin
 
   if AIndex=Prop^.Listbox.ItemIndex then
   begin
+    C.Font.Color:= GetAppColor('ListSelFont');
     C.Brush.Color:= GetAppColor('ListSelBg');
     C.FillRect(ARect);
   end;

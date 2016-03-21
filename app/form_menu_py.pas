@@ -206,13 +206,18 @@ var
   r1: TRect;
 begin
   if AIndex=list.ItemIndex then
-    cl:= GetAppColor('ListSelBg')
+  begin
+    c.Font.Color:= GetAppColor('ListSelFont');
+    cl:= GetAppColor('ListSelBg');
+  end
   else
+  begin
+    c.Font.Color:= GetAppColor('ListFont');
     cl:= list.Color;
+  end;
   c.Brush.Color:= cl;
   c.Pen.Color:= cl;
   c.FillRect(ARect);
-  c.Font.Color:= GetAppColor('ListFont');
 
   str:= listItems[PtrInt(listFiltered[AIndex])]; //ansi
   strname:= Utf8Decode(SGetItem(str, #9)); //uni
