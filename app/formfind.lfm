@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 76
+  Left = 73
   Height = 62
-  Top = 799
+  Top = 773
   Width = 1204
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
@@ -195,6 +195,7 @@ object fmFind: TfmFind
       Colors.Markers = 192
       Colors.GutterFont = clGray
       Colors.GutterBG = 14737632
+      Colors.GutterCaretFont = clGray
       Colors.GutterCaretBG = 13158600
       Colors.GutterPlusBorder = clGray
       Colors.GutterPlusBG = 16053492
@@ -237,6 +238,7 @@ object fmFind: TfmFind
       OptTextLocked = 'wait...'
       OptTextHintFontStyle = [fsItalic]
       OptTextHintCenter = False
+      OptTextOffsetLeft = 2
       OptTextOffsetTop = 2
       OptTextOffsetFromLine = 1
       OptAutoIndent = True
@@ -305,7 +307,6 @@ object fmFind: TfmFind
       OptUnprintedSpaces = True
       OptUnprintedEnds = True
       OptUnprintedEndsDetails = True
-      OptUnprintedReplaceSpec = True
       OptMouseEnableNormalSelection = True
       OptMouseEnableColumnSelection = True
       OptMouseDownForPopup = False
@@ -368,6 +369,7 @@ object fmFind: TfmFind
       Colors.Markers = 192
       Colors.GutterFont = clGray
       Colors.GutterBG = 14737632
+      Colors.GutterCaretFont = clGray
       Colors.GutterCaretBG = 13158600
       Colors.GutterPlusBorder = clGray
       Colors.GutterPlusBG = 16053492
@@ -410,6 +412,7 @@ object fmFind: TfmFind
       OptTextLocked = 'wait...'
       OptTextHintFontStyle = [fsItalic]
       OptTextHintCenter = False
+      OptTextOffsetLeft = 2
       OptTextOffsetTop = 2
       OptTextOffsetFromLine = 1
       OptAutoIndent = True
@@ -478,7 +481,6 @@ object fmFind: TfmFind
       OptUnprintedSpaces = True
       OptUnprintedEnds = True
       OptUnprintedEndsDetails = True
-      OptUnprintedReplaceSpec = True
       OptMouseEnableNormalSelection = True
       OptMouseEnableColumnSelection = True
       OptMouseDownForPopup = False

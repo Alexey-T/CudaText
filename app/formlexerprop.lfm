@@ -1,7 +1,7 @@
 object fmLexerProp: TfmLexerProp
-  Left = 657
+  Left = 304
   Height = 566
-  Top = 320
+  Top = 330
   Width = 623
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -150,6 +150,7 @@ object fmLexerProp: TfmLexerProp
         Colors.Markers = 192
         Colors.GutterFont = clGray
         Colors.GutterBG = 14737632
+        Colors.GutterCaretFont = clGray
         Colors.GutterCaretBG = 13158600
         Colors.GutterPlusBorder = clGray
         Colors.GutterPlusBG = 16053492
@@ -182,6 +183,7 @@ object fmLexerProp: TfmLexerProp
         Colors.LockedBG = 14737632
         Colors.TextHintFont = clGray
         Colors.MarkedLinesBG = 15786160
+        Colors.BorderLine = clMedGray
         Colors.ComboboxArrow = clGray
         Colors.ComboboxArrowBG = 15790320
         WantTabs = True
@@ -191,6 +193,7 @@ object fmLexerProp: TfmLexerProp
         OptTextLocked = 'wait...'
         OptTextHintFontStyle = [fsItalic]
         OptTextHintCenter = False
+        OptTextOffsetLeft = 0
         OptTextOffsetTop = 0
         OptTextOffsetFromLine = 1
         OptAutoIndent = True
@@ -227,6 +230,7 @@ object fmLexerProp: TfmLexerProp
         OptGutterShowFoldAlways = True
         OptGutterShowFoldLines = True
         OptGutterShowFoldLinesAll = False
+        OptBorderVisible = False
         OptRulerVisible = False
         OptRulerSize = 20
         OptRulerFontSize = 8
@@ -258,7 +262,6 @@ object fmLexerProp: TfmLexerProp
         OptUnprintedSpaces = True
         OptUnprintedEnds = True
         OptUnprintedEndsDetails = True
-        OptUnprintedReplaceSpec = True
         OptMouseEnableNormalSelection = True
         OptMouseEnableColumnSelection = True
         OptMouseDownForPopup = False

@@ -1,7 +1,7 @@
 object fmMenuApi: TfmMenuApi
-  Left = 259
+  Left = 188
   Height = 248
-  Top = 414
+  Top = 448
   Width = 500
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
@@ -40,6 +40,7 @@ object fmMenuApi: TfmMenuApi
     Colors.Markers = 192
     Colors.GutterFont = clGray
     Colors.GutterBG = 14737632
+    Colors.GutterCaretFont = clGray
     Colors.GutterCaretBG = 13158600
     Colors.GutterPlusBorder = clGray
     Colors.GutterPlusBG = 16053492
@@ -82,6 +83,7 @@ object fmMenuApi: TfmMenuApi
     OptTextLocked = 'wait...'
     OptTextHintFontStyle = [fsItalic]
     OptTextHintCenter = False
+    OptTextOffsetLeft = 2
     OptTextOffsetTop = 2
     OptTextOffsetFromLine = 0
     OptAutoIndent = True
@@ -150,7 +152,6 @@ object fmMenuApi: TfmMenuApi
     OptUnprintedSpaces = True
     OptUnprintedEnds = True
     OptUnprintedEndsDetails = True
-    OptUnprintedReplaceSpec = True
     OptMouseEnableNormalSelection = True
     OptMouseEnableColumnSelection = True
     OptMouseDownForPopup = False

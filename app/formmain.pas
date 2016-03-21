@@ -2893,6 +2893,8 @@ var
 begin
   fn:= FListThemes[(Sender as TComponent).Tag];
   FThemeName:= ExtractFileNameOnly(fn);
+
+  DoClearLexersCachedAskedList;
   DoLoadTheme(fn, AppTheme);
   DoApplyTheme;
 end;
