@@ -47,7 +47,7 @@ var
 
 function DoApplyLexerStylesMap(an: TecSyntAnalyzer): boolean;
 function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
-procedure DoClearLexersCachedAskedList;
+procedure DoClearLexersAskedList;
 
 
 implementation
@@ -59,7 +59,7 @@ const
 var
   LexersAsked: TList = nil;
 
-procedure DoClearLexersCachedAskedList;
+procedure DoClearLexersAskedList;
 begin
   if Assigned(LexersAsked) then
     LexersAsked.Clear;
