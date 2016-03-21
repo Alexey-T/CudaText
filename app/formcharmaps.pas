@@ -15,8 +15,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, Grids, IniFiles,
-  LclType, LclProc, LCLUnicodeData,
+  LclType, LclProc, LCLUnicodeData, LConvEncoding,
   LazUTF8, LazFileUtils,
+  {$ifdef windows} Windows, {$endif}
   proc_msg,
   proc_globdata;
 
@@ -29,6 +30,7 @@ type
     btnAnsi: TButton;
     btnClose: TButton;
     btnUnicode: TButton;
+    comboAnsi: TComboBox;
     comboUnicode: TComboBox;
     LabelInfo: TLabel;
     PanelInfo: TPanel;
@@ -37,6 +39,7 @@ type
     procedure btnAnsiClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnUnicodeClick(Sender: TObject);
+    procedure comboAnsiChange(Sender: TObject);
     procedure comboUnicodeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -56,6 +59,7 @@ type
     procedure DoFormAutosize;
     procedure DoInsert(aCol, aRow: integer);
     procedure DoShowStatus(aCol, aRow: integer);
+    function GetCodepage: string;
     { private declarations }
   public
     { public declarations }
@@ -139,8 +143,24 @@ end;
 procedure TfmCharmaps.FormShow(Sender: TObject);
 var
   str: string;
-  i, j: integer;
+  cp, i, j: integer;
 begin
+  {$ifdef windows}
+  //select comboAnsi item for system codepage
+  cp:= Windows.GetACP;
+  case cp of
+    437..1258: str:= 'cp'+IntToStr(cp)+' ';
+    else str := '?';
+  end;
+  for i:= 0 to comboAnsi.Items.Count-1 do
+    if Pos(str, comboAnsi.Items[i])=1 then
+    begin
+      comboAnsi.ItemIndex:= i;
+      comboAnsiChange(nil);
+      break;
+    end;
+  {$endif}
+
   if not FUnicode then
     if InitialStr<>'' then
       for i:= 1 to 16 do
@@ -189,11 +209,7 @@ begin
     Result:= UnicodeToUTF8(code)
   else
   if code>=0 then
-  {$ifdef windows}
-    Result:= AnsiToUtf8(Chr(code))
-  {$else}
-    Result:= UnicodeToUTF8(code)
-  {$endif}
+    Result:= ConvertEncoding(Chr(code), GetCodepage, 'utf8')
   else
     Result:= '';
 end;
@@ -219,12 +235,22 @@ begin
   DoShowStatus(aCol, aRow);
 end;
 
+function TfmCharmaps.GetCodepage: string;
+var
+  n: integer;
+begin
+  Result:= comboAnsi.Items[comboAnsi.ItemIndex];
+  n:= Pos(' ', Result);
+  if n>0 then SetLength(Result, n-1);
+end;
+
 procedure TfmCharmaps.DoShowAnsi;
 var
   i, j, code: integer;
 begin
   FUnicode:= false;
-  PanelInfo.Hide;
+  comboAnsi.Visible:= not FUnicode;
+  comboUnicode.Visible:= FUnicode;
 
   Grid.Clear;
   Grid.RowCount:= 17;
@@ -257,7 +283,9 @@ var
   nBegin, nEnd, i: integer;
 begin
   FUnicode:= true;
-  PanelInfo.Show;
+  comboAnsi.Visible:= not FUnicode;
+  comboUnicode.Visible:= FUnicode;
+
   PanelInfo.Top:= 10;
   Grid.Clear;
 
@@ -332,7 +360,7 @@ end;
 procedure TfmCharmaps.DoFormAutosize;
 begin
   Grid.AutoSizeColumns;
-  ClientHeight:= 17{fixed}*(Grid.RowHeights[1]+1) + 6 + PanelBtm.Height;
+  //ClientHeight:= 17{fixed}*(Grid.RowHeights[1]+1) + 6 + PanelBtm.Height;
 end;
 
 procedure TfmCharmaps.btnCloseClick(Sender: TObject);
@@ -343,6 +371,12 @@ end;
 procedure TfmCharmaps.btnUnicodeClick(Sender: TObject);
 begin
   DoShowUnicode;
+end;
+
+procedure TfmCharmaps.comboAnsiChange(Sender: TObject);
+begin
+  if not FUnicode then
+    DoShowAnsi;
 end;
 
 procedure TfmCharmaps.comboUnicodeChange(Sender: TObject);

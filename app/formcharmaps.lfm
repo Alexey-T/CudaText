@@ -1,12 +1,12 @@
 object fmCharmaps: TfmCharmaps
   Left = 478
-  Height = 462
+  Height = 523
   Top = 278
   Width = 516
   ActiveControl = Grid
   BorderIcons = [biSystemMenu]
   Caption = 'Char map'
-  ClientHeight = 462
+  ClientHeight = 523
   ClientWidth = 516
   KeyPreview = True
   OnCreate = FormCreate
@@ -17,7 +17,7 @@ object fmCharmaps: TfmCharmaps
   object PanelBtm: TPanel
     Left = 0
     Height = 42
-    Top = 420
+    Top = 481
     Width = 516
     Align = alBottom
     BevelOuter = bvNone
@@ -83,25 +83,24 @@ object fmCharmaps: TfmCharmaps
   object PanelInfo: TPanel
     Left = 0
     Height = 39
-    Top = 381
+    Top = 442
     Width = 516
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 39
     ClientWidth = 516
     TabOrder = 1
-    Visible = False
     object comboUnicode: TComboBox
       AnchorSideLeft.Control = PanelInfo
+      AnchorSideTop.Control = PanelInfo
       AnchorSideRight.Control = PanelInfo
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = PanelInfo
       AnchorSideBottom.Side = asrBottom
       Left = 6
       Height = 31
-      Top = 2
-      Width = 282
-      Anchors = [akLeft, akBottom]
+      Top = 6
+      Width = 330
       BorderSpacing.Around = 6
       DropDownCount = 30
       ItemHeight = 0
@@ -109,10 +108,38 @@ object fmCharmaps: TfmCharmaps
       Style = csDropDownList
       TabOrder = 0
     end
+    object comboAnsi: TComboBox
+      Left = 6
+      Height = 27
+      Top = 6
+      Width = 330
+      DropDownCount = 30
+      ItemHeight = 0
+      ItemIndex = 0
+      Items.Strings = (
+        'cp1250 - Central and East European Latin'
+        'cp1251 - Cyrillic'
+        'cp1252 - West European Latin'
+        'cp1253 - Greek'
+        'cp1254 - Turkish'
+        'cp1255 - Hebrew'
+        'cp1256 - Arabic'
+        'cp1257 - Baltic'
+        'cp1258 - Vietnamese'
+        'cp437 - Original IBM PC hardware'
+        'cp850 - Latin-1'
+        'cp852 - Latin-2'
+        'cp866 - Belarusian, Russian, Ukrainian'
+      )
+      OnChange = comboAnsiChange
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'cp1250 - Central and East European Latin'
+    end
   end
   object Grid: TStringGrid
     Left = 6
-    Height = 369
+    Height = 430
     Top = 6
     Width = 504
     Align = alClient
