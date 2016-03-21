@@ -1177,6 +1177,7 @@ end;
 procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
 begin
   AppTheme:= AColors;
+  DoClearLexersAskedList;
   DoApplyTheme;
 end;
 
