@@ -206,7 +206,6 @@ begin
     Ed.OptUnprintedSpaces:= Op.OpUnprintedSpaces;
     Ed.OptUnprintedEnds:= Op.OpUnprintedEnds;
     Ed.OptUnprintedEndsDetails:= Op.OpUnprintedEndDetails;
-    Ed.OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
   end;
 
   OptUnprintedEndArrowOrDot:= Op.OpUnprintedEndArrow;
@@ -215,6 +214,7 @@ begin
   OptUnprintedEndDotScale:= Op.OpUnprintedEndDotScale;
   OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale;
   OptUnprintedTabPointerScale:= Op.OpUnprintedTabPointerScale;
+  OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
 
   if ForceApply then
   begin
