@@ -2958,6 +2958,7 @@ end;
 procedure TfmMain.MenuThemeDefClick(Sender: TObject);
 begin
   FThemeName:= '';
+  DoClearLexersAskedList;
   DoInitTheme(AppTheme);
   DoApplyTheme;
 end;
