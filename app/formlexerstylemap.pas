@@ -47,7 +47,7 @@ var
 
 function DoApplyLexerStylesMap(an: TecSyntAnalyzer): boolean;
 function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
-procedure DoClearLexersAskedList;
+procedure DoClearLexersAskedList(an: TecSyntAnalyzer = nil);
 
 
 implementation
@@ -59,10 +59,19 @@ const
 var
   LexersAsked: TList = nil;
 
-procedure DoClearLexersAskedList;
+procedure DoClearLexersAskedList(an: TecSyntAnalyzer = nil);
+var
+  n: integer;
 begin
-  if Assigned(LexersAsked) then
-    LexersAsked.Clear;
+  if not Assigned(LexersAsked) then exit;
+
+  if an=nil then
+    LexersAsked.Clear
+  else
+  begin
+    n:= LexersAsked.IndexOf(an);
+    if n>=0 then LexersAsked.Delete(n);
+  end;
 end;
 
 procedure DoStyleAssign(s, s2: TecSyntaxFormat);
@@ -177,6 +186,7 @@ begin
     if Result then
     begin
       F.DoSave;
+      DoClearLexersAskedList(an);
       DoApplyLexerStylesMap(an);
     end;
   finally
