@@ -9,9 +9,8 @@ Legend:
 + color "editor, gutter font, lines with carets"
 + color "listbox, sel line font"
 + colors "statusbar, font/bg/border"
-- fix caret-pos over spec-chars 0..31
-- fix save chars 0..31 to history
-- fix micromap
++ commands item "lexer: (none)"
+- many fixes (github)
 
 1.3.0
 + themes contain now 40 styles: to map to concrete lexer styles. Dialog "Lexer styles map" added. It shows on activating lexer w/o configured map. Maps are saved to "lexlib/*.cuda-lexmap".
