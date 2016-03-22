@@ -581,10 +581,13 @@ begin
   //dynamic lexer items
   sl:= TStringList.Create;
   try
-    sl.AddObject('lexer: '+msgNoLexer, TObject(cmdLastLexerCommand));
     for i:= 0 to AppManager.AnalyzerCount-1 do
       sl.AddObject('lexer: '+AppManager.Analyzers[i].LexerName, TObject(cmdFirstLexerCommand+i));
     sl.Sort;
+
+    //insert "none" at list begin
+    sl.InsertObject(0, 'lexer: '+msgNoLexer, TObject(cmdLastLexerCommand));
+
     for i:= 0 to sl.count-1 do
       AppKeymap.Add(PtrInt(sl.Objects[i]), sl[i], [], []);
   finally
