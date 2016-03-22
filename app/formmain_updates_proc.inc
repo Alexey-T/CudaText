@@ -581,6 +581,7 @@ begin
   //dynamic lexer items
   sl:= TStringList.Create;
   try
+    sl.AddObject('lexer: '+msgNoLexer, TObject(cmdLastLexerCommand));
     for i:= 0 to AppManager.AnalyzerCount-1 do
       sl.AddObject('lexer: '+AppManager.Analyzers[i].LexerName, TObject(cmdFirstLexerCommand+i));
     sl.Sort;

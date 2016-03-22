@@ -2584,11 +2584,12 @@ end;
 procedure TfmMain.SetLexerIndex(N: integer);
 begin
   if (N>=0) and (N<AppManager.AnalyzerCount) then
-  begin
-    CurrentFrame.Lexer:= AppManager.Analyzers[N];
-    UpdateFrame;
-    UpdateStatus;
-  end;
+    CurrentFrame.Lexer:= AppManager.Analyzers[N]
+  else
+    CurrentFrame.Lexer:= nil;
+
+  UpdateFrame;
+  UpdateStatus;
 end;
 
 
