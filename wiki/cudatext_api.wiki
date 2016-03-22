@@ -67,6 +67,13 @@ Gets version of program (string).
 
 Gets version of API (string, contains 3 numbers, dot-separated).
 
+Example of version check:
+
+  import cudatext as _ct
+  
+  if _ct.app_api_version() < '1.0.114':
+    _ct.msg_box('Plugin <Name> needs newer app version', _ct.MB_OK + _ct.MB_ICONWARNING)
+
 ===app_path===
 
  app_path(id)
@@ -78,6 +85,8 @@ Gets some path. Possible values of id:
 * APP_DIR_DATA: Dir "data".
 * APP_DIR_PY: Dir with Python data "py".
 * APP_FILE_SESSION: Filename of session, default is "history session.json" in dir "settings".
+
+Note: to get path of dir "settings_default", use base dir of "settings".
 
 ===app_proc===
 
@@ -96,6 +105,7 @@ Performs application-wide action. Possible values of id:
 * PROC_SET_ESCAPE: Sets escape flag ("0"/"1").
 * PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
+* PROC_GET_LANG: Gets str: active translation. E.g. "ru_RU" if translation file is named "ru_RU.ini". Empty if built-in translation used.
 
 ====Plugin calls====
 
@@ -127,7 +137,10 @@ menu_id can be:
 
 Actions:
 
-* PROC_MENU_ENUM: Gets "\n"-separated string with all items in submenu. Items in form "caption|int_command" or in form "caption|s_module,s_method". Param text must be menu_id.
+* PROC_MENU_ENUM: Gets "\n"-separated string with all items in submenu. Param text must be menu_id. Items have forms:
+** "caption|item_cmd|item_id" 
+** "caption|s_module,s_method|item_id". 
+** for submenus item_cmd not used, so item may be "caption||item_id" or "caption|item_str_hint|item_id".
 
 * PROC_MENU_CLEAR: Clears some submenu. Param text must be menu_id.
 
@@ -136,8 +149,9 @@ Actions:
 ** menu_cmd is:
 *** str(command_code) - int command code from module cudatext_cmd
 *** spec values: 
-**** "recents" - recent-files submenu; 
-**** "themes" - color-themes submenu; 
+**** "recents" - recent-files submenu
+**** "themes" - color-themes submenu 
+**** "langs" - translations submenu
 **** "plugins" - plugins submenu
 *** s_module+","+s_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to Python method.
 *** 0 (value ignored) if submenu
@@ -209,12 +223,16 @@ Btn_command can be:
 
 Id:
 
-* PROC_TOOLBAR_ENUM: Enumerates toolbar buttons. Gets "\n"-separated lines for buttons: "btn_hint;btn_command". For predefined buttons btn_command is empty. For separators btn_hint is empty.
+* PROC_TOOLBAR_ENUM: Enumerates toolbar buttons. Gets "\n"-separated lines for buttons: 
+** "btn_hint;btn_string_id" for predefined buttons (btn_string_id is not a number, it is short string)
+** "btn_hint;btn_command" for new buttons.
 * PROC_TOOLBAR_ADD: Adds toolbar button. Text must "btn_hint;icon_index;btn_command" or empty str to add separator.
 * PROC_TOOLBAR_DELETE: Deletes one toolbar button. Text must be str(button_index).
 * PROC_TOOLBAR_DELETE_ALL: Deletes all toolbar buttons.
-* PROC_TOOLBAR_ICON_ADD: Adds icon to imagelist of toolbar. Text must be path to 16x16 bmp file. Gets int icon index (0-based), or None if cannot read icon.
+* PROC_TOOLBAR_ICON_ADD: Adds icon to imagelist of toolbar. Text must be path to .bmp or .png file. Gets int icon index (0-based), or None if cannot read icon.
 * PROC_TOOLBAR_ICON_SET: Changes icon of toolbar button. Text must be "btn_index,icon_index". Indexes are 0-based.
+* PROC_TOOLBAR_ICON_GET_SIZE: Gets icon size of toolbar, as 2-tuple (size_x, size_y).
+* PROC_TOOLBAR_ICON_SET_SIZE: Sets icon size of toolbar. Text must be str(size_x)+","+str(size_y).
 
 ===app_log===
 
@@ -751,7 +769,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
-* PROP_LINK_AT_POS: str: link (url) at given position, text must be str(pos_x)+","+str(pos_y).
+* PROP_LINK_AT_POS: str: URL in the document, at given position, text must be str(pos_x)+","+str(pos_y).
 
 ===set_prop===
 
@@ -807,7 +825,7 @@ Controls bookmarks. Possible values of id:
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
 * BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind (nline ignored). Setup is:
 ** ncolor: Color of bookmarked line. Can be COLOR_NONE to not show bg-color.
-** text: Path to icon file for gutter, 16x16 .bmp file. Empty str: don't show icon.
+** text: Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
 * BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks (nline, nkind ignored).
 * BOOKMARK_CLEAR_HINTS: Clears all bookmark hints. Maximum about 250 separate lines can have hints, later hints will not show, so you need to clear hints before adding bunch of bookmarks to editor.
 
@@ -957,6 +975,19 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.132
+
+* change: app_proc:
+** result of PROC_MENU_ENUM has item_id
+** result of PROC_TOOLBAR_ENUM has string_id for std buttons
+* add: can load .png icons (was: only .bmp)
+* add: app_proc: PROC_TOOLBAR_ICON_GET_SIZE, PROC_TOOLBAR_ICON_SET_SIZE
+
+1.0.131
+
+* add: app_proc: PROC_GET_LANG
+* add: app_proc: PROC_MENU_ENUM gives also hints for menu "top"
 
 1.0.130
 

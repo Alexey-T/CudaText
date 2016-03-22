@@ -9,15 +9,20 @@
 * Multi-selections 
 * Search/replace with regex
 * Supports many encodings
-* Special auto-completion for HTML, CSS
 * Simple auto-completion (fixed list) for some lexers
 * Extendable via Python plugins
 * Command palette (Sublime style)
 * Configs in JSON
-* Can open pictures: jpeg/png/bmp/ico
 * Made on [[ATSynEdit]] engine 
 
-Image:
+Features for HTML/CSS coding: 
+
+* Smart auto-completion for HTML, CSS.
+* HTML tags completion with Tab-key (Snippets plugin).
+* HTML color codes underline.
+* View pictures (jpeg/png/bmp/ico). 
+
+Screenshot:
 
 [[File:cudatext.png]]
 
@@ -265,9 +270,15 @@ Filter field can find hotkeys too. Enter only hotkey substring, with first "@" c
 
 ==Regular expressions==
 
-Lexer parser uses regex from EControl package. It has some custom features (like \Z: end of file, look ahead/behind can find variable length). Groups must be referenced as \0 .. \9.
+Lexer engine uses regex from EControl package. Groups must be referenced as \0 .. \9.
+It has custom features:
 
-Search/replace uses RegExpr engine, almost fully Perl compatible, syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9.
+* classes \A, \Z: begin/end of file
+* look ahead/behind can find variable length
+* doesn't support non-capturing groups, big drawback when you want to do complex replacements
+* new modifiers (?r), (?g)
+
+Search/replace uses TRegExpr engine (by Sorokin), almost fully Perl compatible, syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9. Engine is more reliable, fast.
 
 ==How to restore lexers styles/colors after reinstalling app?==
 
@@ -322,18 +333,42 @@ Dialog has hotkeys:
 * Alt+Enter: replace next, and find next
 * Ctrl+Alt+Enter: replace next, but don't find next
 
-Option-buttons have hotkeys too: hover mouse over them, e.g. Regex button has hotkey Alt+R.
+Option-buttons have hotkeys too: hover mouse over them to see hints:
+
+* ".*" - Regular expressions - Alt+R
+* "aA" - Case sensitive - Alt+C
+* "w" - Whole words only - Alt+W
+* "O" - Wrap search (search from begin after reaching the end) - Alt+N
+* "?!" - Confirm on replace - Alt+Y
 
 ==Comments==
 
-Comments exist:
+Comments supported:
 
-* Line comments: from substring to line-end. E.g. in C lexer: "//text here". Comment-chars are editable in dialog "Lexer properties".
-* Stream comments: from substring1 to substring2. E.g. in C lexer: "/* text here */". Comment-chars are editable via plugin CudaExt - install CudaExt, call Commands dialog, search for command "Edit stream comment chars", run it. CudaExt gives dialog to edit chars, it saves them in '''settings/user_lexers.json''' (some settings already present in the file '''settings_default/default_lexers.json''').
+* '''Line comments''': from substring to line-end. E.g. in C lexer: "//text here". Comment-chars are editable in dialog "Lexer properties".
+* '''Stream comments''': from substring1 to substring2. E.g. in C lexer: "/* text here */". Comment-chars are editable by plugin CudaExt:
+** install CudaExt
+** call Commands dialog
+** search for command "Edit stream comment chars", run it
+** CudaExt gives dialog to edit chars, it saves them in '''settings/user_lexers.json''' (defaults for some lexers present in the file '''settings_default/default_lexers.json''').
 
-Commands for commenting/uncommenting in menu: Edit - Comments (submenu).
+Commands for commenting/uncommenting in menu: Edit--Comments (submenu).
 
-Line comments can be added a) at line-start, b) at first non-space char. Both commands exist in the Commands dialog.
+Line comments can be added by 2 commands:
+
+* at line-start
+* at first non-space char
+
+== Char map ==
+
+Char-map dialog can be called in Edit menu. It has 2 modes: 
+
+* ANSI: Shows ANSI char codes from 0 to 255 (codes 128..255 map to different Unicode codes, this depends on active OS locale).
+* Unicode: Shows almost all Unicode code points, they are divided to groups. Change active group using combobox at the bottom.
+
+Click any cell in the grid to insert this char at caret position. Or select a cell with arrow keys and press Enter.
+
+[[File:cudatext-charmap.png]]
 
 == more ==
 
@@ -343,10 +378,11 @@ Line comments can be added a) at line-start, b) at first non-space char. Both co
 See [[CudaText API]].
 
 == Linux installation ==
-On Linux you can install program in such way:
+On Linux you can install program, not using installers, in such way:
 
 * copy file "cudatext" to folder /usr/bin 
-* copy dirs (data, readme, settings_default) to "~/.cudatext"
+* copy dirs [data, readme, settings_default] to "~/.cudatext"
+* dir "~/.cudatext/settings" will appear automatically on run
 
 If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
 
@@ -356,7 +392,59 @@ For CudaText Qt version, library libQt4Pas needed.
 * For Ubuntu: install it using apt-get.
 * For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
 
+==How to make translation==
 
+Translation template-file is in dir "data/lang".
+How to make translation zip package:
+
+* make file "nn_NN.ini" (utf-8 with bom)
+* use standard locale names in filename, e.g. ru_RU pt_PT ja_JP (needed for plugins which uses Python translation API)
+* write your contacts in first commented lines. Comments must begin with ";" at line start. Also you can add other comments.
+* to set accelerator-chars for menus/dialogs, use "&" char (e.g. "Open &file"). If needed "&" as is, write "&&".
+
+* make "install.inf" with such text:
+
+  [info]
+  title=LangName translation (by AuthorName)
+  type=cudatext-data
+  subdir=lang
+
+* make zip file "translation.nn_NN.zip" with files nn_NN.ini, install.inf
+* test this zip: open it in CudaText, and check it's installed
+* publish zip at CudaText forum or https://github.com/Alexey-T/CudaText/issues
+* if package ok, it will be at SF.net downloads, and in Addon Manager
+
+==How to see these color-theme items? ==
+
+* "editor, disabled state, font/bg" - editor shown with this color when mass-replace runs, with option "Confirm on replace" (during confirm message editor is disabled), if None lexer active
+* "statusbar alt" - shown on 2nd statusbar, run in console: <syntaxhighlight>msg_status_alt('dd', 8)</syntaxhighlight>
+
+* "editor, marked range bg" - shows for marked-range, to set marked range from line 5 to 10 use console: <syntaxhighlight>ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
+
+* "editor, markers" - to see markers, call command "drop marker at caret".
+* "editor, separator lines" - separ-lines show eg for lexer Pascal, above "function/procedure".
+
+==How to make theme package==
+
+* Call dialog "Options/ Settings - more/ Settings - colors"
+* Paint the theme
+* Note that "styles" are used across many lexers, so test theme on JS/HTML/CSS/Pascal/Ini/Markdown/Go/C lexers (you can use lexer sample codes in the "Lexer properties" dialog)
+* Your file is in the "data/themes" dir
+* Make such file "install.inf":
+
+  [info]
+  title=MyName theme (by AuthorName)
+  type=cudatext-data
+  subdir=themes
+  homepage=https://github.com/nnnn/pppp
+
+* Make zip file "theme.MyName.zip" with files "MyTheme.json" and "install.inf"
+* Test zip file: open zip file in CudaText, confirm installation
+* Publish file at forum or https://github.com/Alexey-T/CudaText/issues
+
+==More==
+
+=Formats of files=
 ==Format of auto-completion acp file==
 
 Common auto-completion file format is ANSI text file, it contains list of lines in forms:
@@ -375,72 +463,15 @@ For example, if word chars are minus, dot, and # sign, the control line should b
 
  #chars .-#
 
-==Format of plugins config==
-
-Plugins config is "plugins.json" in "settings" dir. Example:
-
-<syntaxhighlight lang="javascript">
-{
-  "commands" : {
-    "cuda_addonman" : {
-      "0" : {
-        "proc" : "do_install",
-        "caption" : "Addons Manager\\Install lexer..."
-      },
-      "1" : {
-        "proc" : "do_edit",
-        "caption" : "Addons Manager\\Edit plugin..."
-      },
-      "2" : {
-        "proc" : "do_remove",
-        "caption" : "Addons Manager\\Remove plugin..."
-      }
-    },
-    "cuda_make_plugin" : {
-      "0" : {
-        "proc" : "run",
-        "caption" : "Make Plugin"
-      }
-    }
-  },
-  "events": {
-    "cuda_test2": {
-      "lexers": "",
-      "events": "on_open,on_save,on_save_pre"
-    },
-    "cuda_test1": {
-      "lexers": "HTML,HTML_",
-      "events": "on_open,on_save,on_change,on_key",
-      "keys": "13,9,65"
-    }
-  }
-}
-</syntaxhighlight>
-
-===Commands===
-Node "commands" lists all command plugins. 
-
-In commands-node Python modules listed: these are directories (so Python modules) in subfolder "py". In each module-node indexes are listed (indexes can be any strings, some numbers can be skipped, they are to sort menu items). Index-nodes have keys:
-
-* "proc": Python method name in class Command.
-* "caption": Menu item caption. Can have delimeters "\" (doubled in json) to make submenus, any level. If last part of caption is "-", menu separator is created (module/method are ignored).
-* "proc_par": Optional. Parameter passed to python method (can be any primitive type or expression, e.g. 20, None, False, "Test here").
-* "lexers": Optional. Comma-separated list of lexer names, if plugin should work only for these lexers.
-* "menu": Optional. If false (default true), menu item in Plugins not added (only item in Commands dlg).
-
-===Events===
-Node "events" lists event plugins.
-
-In each module-node keys listed:
-
-* "events": Comma-separated list of Python methods (they must be known to API).
-* "lexers": Optional. Comma-separated list of lexer names.
-* "keys": Optional. Comma-separated list of key codes - only these key codes are passed to "on_key" event.
-
 ==Format of install.inf files==
 
-To install add-ons from zip files, pack into zip also "install.inf" with meta-info.
-The values of the "type" field must be one of shown below.
+User can open addons in zip files (using "File-Open") and install them.
+To make such zip file, pack into zip also "install.inf" with meta-info.
+Values of the "type" field:
+
+* cudatext-plugin: to install plugin to subdir of "py" dir
+* cudatext-data: to copy any files into subdir of "data" dir
+* lexer: to install lexers (zip must be made by SynWrite's ExLexer addon)
 
 Example of inf for plugin (plugin adds 2 menu items with menu separator between):
 
@@ -449,23 +480,27 @@ Example of inf for plugin (plugin adds 2 menu items with menu separator between)
   desc=Plugin allows smth
   type=cudatext-plugin
   subdir=cuda_test
+  homepage=http://github.com/some/name/
   
   [item1]
   section=commands
-  caption=Test\Item 1
+  caption=MyPlugin\Cmd one
   method=run
   lexers=CSS,HTML
   
   [item2]
   section=commands
-  caption=Test\-
+  caption=MyPlugin\-
   method=nnnn
   
   [item3]
   section=commands
-  caption=Test\Item 2
-  method=run2
+  caption=MyPlugin\Cmd other
+  method=run_more
   menu=0
+
+* Line "menu=0" means that item is not visible in Plugins menu.
+* Line "lexers=" means that command can be run only when such lexer(s) active.
 
 Example of inf for data-files, to be copied into subdir of "data" dir (name of subdir can be any, for example "themes"):
 
@@ -474,6 +509,8 @@ Example of inf for data-files, to be copied into subdir of "data" dir (name of s
   desc=My files
   type=cudatext-data
   subdir=mydir
+
+Section names: from "item1" to currently "item200", any numbers can be skipped.
 
 ==Format of snippet files==
 
