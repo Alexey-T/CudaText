@@ -18,7 +18,6 @@ uses
   LazUTF8, LazFileUtils,
   ecSyntAnal,
   formlexerprop,
-  proc_install_zip,
   proc_globdata,
   proc_msg,
   math;

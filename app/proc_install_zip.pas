@@ -126,8 +126,9 @@ procedure DoInstallLexer(
   var s_report: string);
 var
   i_lexer, i_sub: integer;
-  s_lexer, fn_lexer, fn_acp: string;
+  s_lexer, dir_lexlib, fn_lexer, fn_acp, fn_lexmap: string;
   an, an_sub: TecSyntAnalyzer;
+  ini_lexmap: TIniFile;
 begin
   s_report:= '';
   with TIniFile.Create(fn_inf) do
@@ -138,17 +139,24 @@ begin
       if s_lexer='' then Break;
 
       //lexer file
+      dir_lexlib:= GetAppPath(cDirDataLexlib);
       fn_lexer:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.lcf';
+      fn_lexmap:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.cuda-lexmap';
+      fn_acp:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.acp';
+
       if not FileExists(fn_lexer) then
       begin
         MsgBox(msgCannotFindLexerFile+' '+fn_lexer, mb_ok or mb_iconerror);
         exit
       end;
 
-      fn_acp:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.acp';
+      if FileExists(fn_lexer) then
+        CopyFile(fn_lexer, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexer));
+      if FileExists(fn_lexmap) then
+        CopyFile(fn_lexmap, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexmap));
       if FileExists(fn_acp) then
         if dir_acp<>'' then
-          CopyFile(fn_acp, dir_acp+DirectorySeparator+s_lexer+'.acp');
+          CopyFile(fn_acp, dir_acp+DirectorySeparator+ExtractFileName(fn_acp));
 
       an:= Manager.FindAnalyzer(s_lexer);
       if an=nil then
@@ -163,6 +171,14 @@ begin
         if s_lexer='' then Continue;
         if s_lexer='Style sheets' then s_lexer:= 'CSS';
         if s_lexer='Assembler' then s_lexer:= 'Assembly';
+
+        //write [ref] section in cuda-lexmap
+        ini_lexmap:= TIniFile.Create(dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexmap));
+        try
+          ini_lexmap.WriteString('ref', IntToStr(i_sub), s_lexer);
+        finally
+          FreeAndNil(ini_lexmap);
+        end;
 
         an_sub:= Manager.FindAnalyzer(s_lexer);
         if an_sub<>nil then
