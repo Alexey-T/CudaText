@@ -2556,7 +2556,7 @@ begin
   if an=nil then exit;
   if an.LexerName='' then exit;
 
-  fn:= GetLexerOverrideFN(an.LexerName);
+  fn:= GetAppLexerOverrideFilename(an.LexerName);
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);

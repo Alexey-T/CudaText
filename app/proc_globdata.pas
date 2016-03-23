@@ -288,10 +288,11 @@ var
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
-function GetLexerOverrideFN(AName: string): string;
+function GetAppLexerFilename(const ALexName: string): string;
+function GetAppLexerMapFilename(const ALexName: string): string;
+function GetAppLexerOverrideFilename(AName: string): string;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
-function GetLexerMapFilename(LexName: string): string;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
@@ -819,7 +820,7 @@ begin
   end;
 end;
 
-function GetLexerOverrideFN(AName: string): string;
+function GetAppLexerOverrideFilename(AName: string): string;
 begin
   AName:= StringReplace(AName, '/', '_', [rfReplaceAll]);
   AName:= StringReplace(AName, '\', '_', [rfReplaceAll]);
@@ -1048,18 +1049,28 @@ begin
     Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+AppLangName+'.ini';
 end;
 
-function GetLexerMapFilename(LexName: string): string;
+function GetLexerFilenameWithExt(ALexName, AExt: string): string;
 begin
-  if LexName<>'' then
+  if ALexName<>'' then
   begin
-    LexName:= StringReplace(LexName, ':', '_', [rfReplaceAll]);
-    LexName:= StringReplace(LexName, '/', '_', [rfReplaceAll]);
-    LexName:= StringReplace(LexName, '\', '_', [rfReplaceAll]);
-    LexName:= StringReplace(LexName, '*', '_', [rfReplaceAll]);
-    Result:= GetAppPath(cDirDataLexlib)+DirectorySeparator+LexName+'.cuda-lexmap';
+    ALexName:= StringReplace(ALexName, ':', '_', [rfReplaceAll]);
+    ALexName:= StringReplace(ALexName, '/', '_', [rfReplaceAll]);
+    ALexName:= StringReplace(ALexName, '\', '_', [rfReplaceAll]);
+    ALexName:= StringReplace(ALexName, '*', '_', [rfReplaceAll]);
+    Result:= GetAppPath(cDirDataLexlib)+DirectorySeparator+ALexName+AExt;
   end
   else
     Result:= '';
+end;
+
+function GetAppLexerMapFilename(const ALexName: string): string;
+begin
+  Result:= GetLexerFilenameWithExt(ALexName, '.cuda-lexmap');
+end;
+
+function GetAppLexerFilename(const ALexName: string): string;
+begin
+  Result:= GetLexerFilenameWithExt(ALexName, '.lcf');
 end;
 
 

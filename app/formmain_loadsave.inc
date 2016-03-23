@@ -599,7 +599,7 @@ begin
   if an=nil then exit;
   if an.LexerName='' then exit;
 
-  fn:= GetLexerOverrideFN(an.LexerName);
+  fn:= GetAppLexerOverrideFilename(an.LexerName);
   if FileExistsUTF8(fn) then
   begin
     Ops:= EditorOps;

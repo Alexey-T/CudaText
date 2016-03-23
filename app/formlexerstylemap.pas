@@ -135,7 +135,7 @@ begin
       if not DoApplyLexerStylesMap(an.SubAnalyzers[i].SyntAnalyzer) then
         Result:= false; //not exit
 
-  with TIniFile.Create(GetLexerMapFilename(an.LexerName)) do
+  with TIniFile.Create(GetAppLexerMapFilename(an.LexerName)) do
   try
     for i:= 0 to an.Formats.Count-1 do
     begin
@@ -233,7 +233,7 @@ var
   i: integer;
 begin
   if LexerName='' then exit;
-  with TIniFile.Create(GetLexerMapFilename(LexerName)) do
+  with TIniFile.Create(GetAppLexerMapFilename(LexerName)) do
   try
     EraseSection(cSectionMap);
     for i:= 0 to ItemsLex.Count-1 do
@@ -248,7 +248,7 @@ var
   i: integer;
 begin
   if LexerName='' then exit;
-  with TIniFile.Create(GetLexerMapFilename(LexerName)) do
+  with TIniFile.Create(GetAppLexerMapFilename(LexerName)) do
   try
     for i:= 0 to ItemsLex.Count-1 do
       ItemsVal[i]:= ReadString(cSectionMap, ItemsLex[i], '');
