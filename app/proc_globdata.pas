@@ -46,7 +46,6 @@ type
     cDirDataLangs,
     cDirReadme,
     cDirPy,
-    cFileLexlib,
     cFileOptHistory,
     cFileOptDefault,
     cFileOptUser,
@@ -522,10 +521,6 @@ begin
     cDirPy:
       begin
         Result:= OpDirLocal+DirectorySeparator+'py';
-      end;
-    cFileLexlib:
-      begin
-        Result:= GetAppPath(cDirDataLexlib)+DirectorySeparator+UiOps.LexerLibFilename;
       end;
 
     cFileOptDefault:

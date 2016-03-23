@@ -2105,29 +2105,59 @@ end;
 
 procedure TfmMain.DoOps_LoadLexlib;
 var
-  fn: string;
+  dir, fn, lexname: string;
+  L: TStringlist;
+  an: TecSyntAnalyzer;
+  ini: TIniFile;
+  i, j: integer;
 begin
-  fn:= GetAppPath(cFileLexlib);
-  if not FileExistsUTF8(fn) then
-  begin
-    MsgBox(msgCannotFindLexlib+#13+fn, mb_ok or mb_iconerror);
-    Exit
+  AppManager.Clear;
+
+  //load .lcf files to lib
+  dir:= GetAppPath(cDirDataLexlib);
+  L:= TStringlist.Create;
+  try
+    FindAllFiles(L, dir, '*.lcf', false);
+    L.Sort;
+    for i:= 0 to L.Count-1 do
+    begin
+      an:= AppManager.AddAnalyzer;
+      an.LoadFromFile(L[i]);
+    end;
+  finally
+    FreeAndNil(L);
   end;
-  AppManager.LoadFromFile(fn);
+
+  //correct sublexer links
+  for i:= 0 to AppManager.AnalyzerCount-1 do
+  begin
+    an:= AppManager.Analyzers[i];
+    fn:= dir+DirectorySeparator+an.LexerName+'.cuda-lexmap';
+    if FileExists(fn) then
+    begin
+      ini:= TIniFile.Create(fn);
+      try
+        for j:= 0 to an.SubAnalyzers.Count-1 do
+        begin
+          lexname:= ini.ReadString('ref', IntToStr(j), '');
+          if lexname<>'' then
+            an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindAnalyzer(lexname);
+        end;
+      finally
+        FreeAndNil(ini);
+      end;
+    end;
+  end;
+
   UpdateMenuLexers;
 end;
 
 procedure TfmMain.DoOps_SaveLexlib(Cfm: boolean);
-var
-  fn: string;
 begin
+  (*
   if Cfm then
     if MsgBox(msgConfirmSaveModifiedLexerLib, MB_OKCANCEL or MB_ICONWARNING)<>id_ok then exit;
-
-  fn:= GetAppPath(cFileLexlib);
-  if not FileExistsUTF8(fn) then exit;
-  AppManager.SaveToFile(fn);
-  MsgStatus(msgStatusLexlibSave);
+  *)
 end;
 
 

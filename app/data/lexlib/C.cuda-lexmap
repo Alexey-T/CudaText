@@ -9,3 +9,7 @@ Comment=Comment
 Preprocessor=Comment2
 Current block=CurBlockBG
 Asm BG=IncludeBG1
+
+[ref]
+0=Assembly
+1=Assembly

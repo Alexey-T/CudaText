@@ -1,0 +1,683 @@
+object SyntAnal19: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Key words'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Params'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Echo'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Shebang'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'QuotMarks'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Variable'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Int'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = '$(...)'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Shebang'
+      StyleName = 'Shebang'
+      Expression = '\#!.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Variable'
+      StyleName = 'Variable'
+      Expression = '(("|''|'#180'|`)\s*)?(%?\$\w+)\1|%?\$\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Variable2'
+      StyleName = 'Variable'
+      Expression = '%?\$(\{|\(|\[)\S+(\}|\)|\])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'IP-Address'
+      StyleName = 'QuotMarks'
+      Expression = '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?<![\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\$])\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'echostd'
+      StyleName = 'Echo'
+      Expression = '(?<=@?echo)\s+".*?"'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Echo cmd'
+      StyleName = 'Key words'
+      TokenType = 5
+      Expression = '@?echo'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Echo text'
+      StyleName = 'Echo'
+      BlockName = 'echo start'
+      StrictParent = True
+      TokenType = 4
+      Expression = '[^\#<>\|\n]*[\n]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 6
+      Expression = '[\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\#\$\?\\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'QuotMarks'
+      Expression = '("|''|'#180'|`) (\\\1|.)*? \1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Int'
+      StyleName = 'Int'
+      Expression = '\b\d+\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Command'
+      StyleName = 'Params'
+      TokenType = 2
+      Expression = '\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Key words'
+      StyleName = 'Key words'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'addgroup'
+            'adduser'
+            'alias'
+            'apropos'
+            'apt-get'
+            'aptitude'
+            'aspell'
+            'awk'
+            'basename'
+            'bash'
+            'bc'
+            'bg'
+            'break'
+            'builtin'
+            'bzip2'
+            'cal'
+            'case'
+            'cat'
+            'cd'
+            'cfdisk'
+            'chgrp'
+            'chkconfig'
+            'chmod'
+            'chown'
+            'chroot'
+            'cksum'
+            'clear'
+            'cmp'
+            'comm'
+            'command'
+            'continue'
+            'cp'
+            'cron'
+            'crontab'
+            'csplit'
+            'cut'
+            'date'
+            'dc'
+            'dd'
+            'ddrescue'
+            'declare'
+            'df'
+            'diff'
+            'diff3'
+            'dig'
+            'dir'
+            'dircolors'
+            'dirname'
+            'dirs'
+            'dmesg'
+            'do'
+            'done'
+            'du'
+            'echo'
+            'egrep'
+            'eject'
+            'elif'
+            'else'
+            'enable'
+            'env'
+            'esac'
+            'ethtool'
+            'eval'
+            'exec'
+            'exit'
+            'expand'
+            'expect'
+            'export'
+            'expr'
+            'false'
+            'fdformat'
+            'fdisk'
+            'fg'
+            'fgrep'
+            'fi'
+            'file'
+            'find'
+            'fmt'
+            'fold'
+            'for'
+            'format'
+            'free'
+            'fsck'
+            'ftp'
+            'function'
+            'fuser'
+            'gawk'
+            'getopts'
+            'grep'
+            'groups'
+            'gzip'
+            'halt'
+            'hash'
+            'head'
+            'help'
+            'history'
+            'hostname'
+            'id'
+            'if'
+            'ifconfig'
+            'ifdown'
+            'ifup'
+            'import'
+            'in'
+            'init'
+            'initlog'
+            'insmod'
+            'install'
+            'jobs'
+            'join'
+            'kill'
+            'killall'
+            'less'
+            'let'
+            'linuxconf'
+            'ln'
+            'local'
+            'locate'
+            'logname'
+            'logout'
+            'look'
+            'lpc'
+            'lpr'
+            'lprint'
+            'lprintd'
+            'lprintq'
+            'lprm'
+            'ls'
+            'lsmod'
+            'lsof'
+            'make'
+            'man'
+            'md'
+            'mkdir'
+            'mkfifo'
+            'mkisofs'
+            'mknod'
+            'mmv'
+            'modprobe'
+            'more'
+            'mount'
+            'mtools'
+            'mtr'
+            'mv'
+            'netstat'
+            'nice'
+            'nl'
+            'nohup'
+            'notify-send'
+            'nslookup'
+            'op'
+            'open'
+            'passwd'
+            'paste'
+            'pathchk'
+            'pidof'
+            'ping'
+            'pkill'
+            'popd'
+            'pr'
+            'printcap'
+            'printenv'
+            'printf'
+            'ps'
+            'pushd'
+            'pwd'
+            'quota'
+            'quotacheck'
+            'quotactl'
+            'ram'
+            'rcp'
+            'rd'
+            'read'
+            'readarray'
+            'readonly'
+            'reboot'
+            'remsync'
+            'rename'
+            'renice'
+            'return'
+            'rev'
+            'rm'
+            'rmdir'
+            'rmmod'
+            'route'
+            'rsync'
+            'scp'
+            'screen'
+            'sdiff'
+            'sed'
+            'select'
+            'seq'
+            'set'
+            'sftp'
+            'shift'
+            'shopt'
+            'shutdown'
+            'sleep'
+            'slocate'
+            'sort'
+            'source'
+            'split'
+            'ssh'
+            'strace'
+            'su'
+            'sudo'
+            'sum'
+            'suspend'
+            'symlink'
+            'sync'
+            'tail'
+            'tar'
+            'tee'
+            'test'
+            'then'
+            'time'
+            'times'
+            'top'
+            'touch'
+            'tr'
+            'traceroute'
+            'trap'
+            'tree'
+            'true'
+            'tsort'
+            'tty'
+            'type'
+            'ulimit'
+            'umask'
+            'umount'
+            'unalias'
+            'uname'
+            'unexpand'
+            'uniq'
+            'units'
+            'unset'
+            'unshar'
+            'until'
+            'useradd'
+            'usermod'
+            'users'
+            'usleep'
+            'uudecode'
+            'uuencode'
+            'vdir'
+            'vi'
+            'vmstat'
+            'watch'
+            'wc'
+            'Wget'
+            'whereis'
+            'which'
+            'while'
+            'who'
+            'whoami'
+            'write'
+            'xargs'
+            'xdg-open'
+            'yes'
+            'zcat'
+            'zless'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'echo start'
+      StyleName = 'Echo'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'echo'
+          )
+          TokenTypes = 32
+          IgnoreCase = True
+        end>
+      BlockEnd = 'echo end'
+      NotCollapsed = True
+      Highlight = True
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'echo end'
+      BlockName = 'echo start'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 16
+        end>
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'func begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'function'
+          )
+          TokenTypes = 4
+        end>
+      NameFmt = '%sz0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'case begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'case'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'case end'
+      DisplayInTree = False
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      DrawStaple = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'case end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'esac'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'if begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'if'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'if end'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'if end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'fi'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'do begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'do'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'do end'
+      DisplayInTree = False
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'do end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'done'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'for begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'for'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'for end'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'for end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'done'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '$('
+      StyleName = '$(...)'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 64
+        end      
+        item
+          TagList.Strings = (
+            '$'
+          )
+          TokenTypes = 64
+        end>
+      BlockEnd = ')'
+      DisplayInTree = False
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+          )
+          TokenTypes = 64
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '('
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 64
+        end>
+      BlockEnd = ')'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'while read line  # For as many lines as the input file has...'
+    'do'
+    '  test $(test "$line"); '
+    '  test "test\"test" '
+    '  echo "test"'
+    '  len=${#line} $(text here)'
+    '  if [[ "$len" -lt "$MINLEN" && "$line" =~ \[*\.\] ]]'
+    '    then echo    #  Add a blank line immediately'
+    '  fi             #+ after short line terminated by a period.'
+    'done'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Label'
+    'echo text'
+    'echo cmd'
+    'Symbol'
+  )
+  Extentions = 'sh csh bash'
+  LexerName = 'Bash script'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Author: Matthias Eberhardt (SynWrite admin)'
+    'Improvements: Alexey (SynWrite)'
+  )
+  RestartFromLineStart = True
+  LineComment = '#'
+  Charset = DEFAULT_CHARSET
+  left = 144
+  top = 184
+end

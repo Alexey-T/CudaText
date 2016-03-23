@@ -61,7 +61,6 @@ const
 
   msgCannotOpenFile: string = 'Cannot open file:';
   msgCannotFindFile: string = 'Cannot find file:';
-  msgCannotFindLexlib: string = 'Cannot find lexer-library:';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer in library:';
@@ -109,7 +108,6 @@ const
   msgStatusEncChanged: string = 'Encoding changed';
   msgStatusGotoLine: string = 'Go to line: %d';
   msgStatusSorted: string = 'Sorted %d lines';
-  msgStatusLexlibSave: string = 'Lexer-library saved';
   msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';

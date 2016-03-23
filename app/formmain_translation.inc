@@ -387,7 +387,6 @@ begin
     //----------------strings
     DoLocString(msgCannotOpenFile                , ini, 'se', 'OpenFile');
     DoLocString(msgCannotFindFile                , ini, 'se', 'FindFile');
-    DoLocString(msgCannotFindLexlib              , ini, 'se', 'FindLexlib');
     DoLocString(msgCannotFindLexerInLibrary      , ini, 'se', 'FindLexerInLibrary');
     DoLocString(msgCannotFindLexerFile           , ini, 'se', 'FindLexerFile');
     DoLocString(msgCannotFindSublexerInLibrary   , ini, 'se', 'FindSublexerInLibrary');
@@ -435,7 +434,6 @@ begin
     DoLocString(msgStatusEncChanged              , ini, 'si', 'EncChanged');
     DoLocString(msgStatusGotoLine                , ini, 'si', 'GotoLine');
     DoLocString(msgStatusSorted                  , ini, 'si', 'Sorted');
-    DoLocString(msgStatusLexlibSave              , ini, 'si', 'LexlibSave');
     DoLocString(msgStatusHelpOnKeysConfig        , ini, 'si', 'HelpOnKeysConfig');
     DoLocString(msgStatusClickingLogLine         , ini, 'si', 'ClickingLogLine');
     DoLocString(msgStatusNoGotoDefinitionPlugins , ini, 'si', 'NoGotoDefinitionPlugins');

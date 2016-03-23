@@ -1,0 +1,209 @@
+object SyntAnal101: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id keyword'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '"(\\"|.)*?("|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ | \d+ \. \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[/\+\-\*:=<>&/\|\^\.,;!%~\^\?\{\}\[\]\(\)]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Keyw'
+      StyleName = 'Id keyword'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'false'
+            'null'
+            'true'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '{'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '}'
+      EndOfTextClose = True
+      NameFmt = '%s2'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '{...}'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '{'
+      HighlightPos = cpAny
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'param'
+      ConditionList = <      
+        item
+          CondType = tcNotEqual
+          TokenTypes = 8
+        end      
+        item
+          TagList.Strings = (
+            ':'
+          )
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 16
+        end>
+      NameFmt = '%s0'
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '{'
+    '    "glossary": {'
+    '        "title": "example glossary",'
+    #9#9'"GlossDiv": {'
+    '            "title": "S",'
+    #9#9#9'"GlossList": {'
+    '                "GlossEntry": {'
+    '                    "ID": "SGML",'
+    #9#9#9#9#9'"SortAs": "SGML",'
+    #9#9#9#9#9'"GlossTerm": "Standard Generalized Markup Language",'
+    #9#9#9#9#9'"GlossDef": {'
+    '                        "para": "A meta-markup language, used to create markup languages such as DocBook.",'
+    #9#9#9#9#9#9'"GlossSeeAlso": ["GML", "XML"]'
+    '                    },'
+    '                    "ArrayId": ['
+    '                      {"id": "1"},'
+    '                      {"id": "2", "Text": "TT"}'
+    '                    ]                    '
+    '                }'
+    '            }'
+    '        }'
+    '    }'
+    '}'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Number'
+  )
+  Extentions = 'json'
+  LexerName = 'JSON'
+  Notes.Strings = (
+    'Author: Alex, uvviewsoft.com'
+    'Test'
+    'http://json.org/example.html'
+    'http://www.jquery4u.com/json/10-example-json-files/'
+  )
+  LineComment = '//'
+  Charset = DEFAULT_CHARSET
+end

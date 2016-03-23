@@ -1,0 +1,80 @@
+object SyntAnal46: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Marked block'
+      Font.Color = clHighlightText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clHighlight
+      FormatType = ftColor
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'empty line'
+      Expression = '^\s*\z'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'not empty line'
+      TokenType = 1
+      Expression = '^.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Paragraph'
+      BlockName = 'Paragraph'
+      NotParent = True
+      ConditionList = <      
+        item
+          TokenTypes = 2
+        end>
+      BlockEnd = 'Paragraph end'
+      EndOfTextClose = True
+      DisplayInTree = False
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Paragraph end'
+      BlockName = 'Paragraph'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 1
+        end      
+        item
+          TokenTypes = 2
+        end>
+      BlockOffset = 1
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'bbb'
+    'bb'
+    'bb'
+    ''
+    'bbb'
+    'bb'
+    ''
+    'bbb'
+    'bb'
+  )
+  TokenTypeNames.Strings = (
+    'Empty'
+    'Line'
+  )
+  Extentions = 'txt'
+  LexerName = 'Text files'
+  SkipSpaces = False
+  FullRefreshSize = 10000
+  Notes.Strings = (
+    'Reworked by Alexey (SynWrite)'
+  )
+  Charset = DEFAULT_CHARSET
+end

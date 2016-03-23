@@ -10,3 +10,6 @@ Preprocessor=Comment2
 Current block BG=BracketBG
 Asm BG=IncludeBG1
 Id in angles=Id1
+
+[ref]
+0=Assembly

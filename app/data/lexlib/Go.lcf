@@ -1,0 +1,408 @@
+object SyntAnal4: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id keyword'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Id type'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'String regex'
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Current block'
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      BgColor = 13369046
+      FormatType = ftBackGround
+      BorderTypeLeft = blSolid
+      BorderColorLeft = clGray
+      BorderTypeTop = blSolid
+      BorderColorTop = clGray
+      BorderTypeRight = blSolid
+      BorderColorRight = clGray
+      BorderTypeBottom = blSolid
+      BorderColorBottom = clGray
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '("|'') (\\\1|\\\\|.)*? (\1|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Hex'
+      StyleName = 'Number'
+      TokenType = 7
+      Expression = '0x[\da-f]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 6
+      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ | \d+ \. \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 1'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String regex'
+      StyleName = 'String regex'
+      TokenType = 4
+      Expression = '`.*?`'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Single symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\{\}\(\)\[\],;:]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[/\+\-\*=<>&/\|\^\.!%]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'keywords'
+      StyleName = 'Id keyword'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'break'
+            'case'
+            'chan'
+            'const'
+            'continue'
+            'default'
+            'defer'
+            'else'
+            'fallthrough'
+            'for'
+            'func'
+            'go'
+            'goto'
+            'if'
+            'import'
+            'interface'
+            'map'
+            'package'
+            'range'
+            'return'
+            'select'
+            'struct'
+            'switch'
+            'type'
+            'var'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'keyw types'
+      StyleName = 'Id type'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'bool'
+            'byte'
+            'complex128'
+            'complex64'
+            'float32'
+            'float64'
+            'int'
+            'int16'
+            'int32'
+            'int64'
+            'int8'
+            'len'
+            'nil'
+            'rune'
+            'string'
+            'uint'
+            'uint16'
+            'uint32'
+            'uint64'
+            'uint8'
+            'uintptr'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'func'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'func'
+          )
+          TokenTypes = 4
+        end>
+      NameFmt = '%sz0'
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      CollapseFmt = '%sz0...'
+      NoEndRule = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '{'
+      StyleName = 'Current block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '}'
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
+      DrawStaple = True
+      CollapseFmt = '{ ... }'
+      IgnoreAsParent = False
+      AutoCloseMode = acmCloseNearest
+      AutoCloseText = '}'
+    end  
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '{'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Block comment'
+      BlockName = 'Block comment'
+      NotParent = True
+      AlwaysEnabled = True
+      ConditionList = <      
+        item
+          TokenTypes = 2
+        end>
+      BlockEnd = 'Block comment end'
+      DisplayInTree = False
+      HighlightPos = cpBound
+      CollapseFmt = '{ ... }'
+      GrammaRuleName = 'comments'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Block comment end'
+      BlockName = 'Block comment'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          CondType = tcNotEqual
+          TokenTypes = 2
+          IgnoreCase = True
+        end>
+      BlockOffset = 1
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '('
+      StyleName = 'Current block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = ')'
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpBoundTagBegin
+      DynSelectMin = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '['
+      StyleName = 'Current block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '['
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = ']'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpBoundTagBegin
+      DynSelectMin = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = ']'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ']'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'func (c *Chain) Generate(n int) string {'
+    #9'var words []string'
+    #9'for i := 0; i < n; i++ {'
+    #9#9'if len(choices) == 0 {'
+    #9#9#9'break'
+    #9#9'}'
+    #9'}'
+    #9'return "Text" + ''Test'''
+    '}'
+    ''
+    'func NewChain(prefixLen int) *Chain {'
+    #9'return `Ttt \d+`'
+    '}'
+    ''
+    'func (p Prefix) Shift(word string) {'
+    #9'p[len(p)-1] = word'
+    '}    '
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Integer const'
+    'Float const'
+    'Hex const'
+  )
+  Extentions = 'go'
+  LexerName = 'Go'
+  Notes.Strings = (
+    'Author: Alex, uvviewsoft.com'
+    'Ref: http://golang.org/ref/spec'
+  )
+  LineComment = '//'
+  Charset = DEFAULT_CHARSET
+end

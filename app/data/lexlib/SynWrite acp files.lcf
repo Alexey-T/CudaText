@@ -1,0 +1,97 @@
+object SyntAnal70: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Type'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Params'
+      Font.Color = clGray
+      Font.Height = -11
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Cmt sys'
+      StyleName = 'Comment'
+      Expression = '^\#.+$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Type'
+      StyleName = 'Type'
+      TokenType = 1
+      Expression = '^\S+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Cmt'
+      StyleName = 'Comment'
+      Expression = '\|.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Params( )'
+      StyleName = 'Params'
+      TokenType = 3
+      Expression = '\(.*?\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Params'
+      StyleName = 'Params'
+      TokenType = 3
+      Expression = '(?<=^\S+\s+\S+\s+) .+? (?=\|)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '[^\|\(\)]+?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'type Name (some params) |Comment'
+    'typ name%20name params |Comment'
+    'type name(params)'
+    'typ name'
+  )
+  TokenTypeNames.Strings = (
+    'Comment'
+    'Type'
+    'Id'
+    'Params '
+  )
+  Extentions = 'acp'
+  LexerName = 'SynWrite acp files'
+  Notes.Strings = (
+    'Author: Alex, uvviewsoft.com'
+  )
+  Charset = DEFAULT_CHARSET
+  left = 144
+  top = 184
+end
