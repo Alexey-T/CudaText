@@ -45,19 +45,15 @@ object fmLexerLib: TfmLexerLib
       Left = 1
       Top = 0
       Caption = 'Config'
+      Enabled = False
       OnClick = bPropClick
     end
     object bDel: TToolButton
-      Left = 88
-      Top = 0
-      Caption = 'Delete'
-      OnClick = bDelClick
-    end
-    object bAdd: TToolButton
       Left = 52
       Top = 0
-      Caption = 'Add'
-      OnClick = bAddClick
+      Caption = 'Delete'
+      Enabled = False
+      OnClick = bDelClick
     end
   end
   object List: TCheckListBox
@@ -71,11 +67,5 @@ object fmLexerLib: TfmLexerLib
     OnClickCheck = ListClickCheck
     TabOrder = 1
     TopIndex = -1
-  end
-  object OpenDlg: TOpenDialog
-    Filter = 'Zip files|*.zip'
-    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing, ofViewDetail]
-    left = 280
-    top = 360
   end
 end

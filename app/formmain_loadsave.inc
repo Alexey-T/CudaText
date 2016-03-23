@@ -503,7 +503,6 @@ begin
     Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
     Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
 
-    UiOps.LexerLibFilename:= c.GetValue('lexlib', UiOps.LexerLibFilename);
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
     UiOps.PyLibrary:= c.GetValue('pylib', UiOps.PyLibrary);
     UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);

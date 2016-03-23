@@ -29,12 +29,9 @@ type
   TfmLexerLib = class(TForm)
     ButtonPanel1: TButtonPanel;
     List: TCheckListBox;
-    OpenDlg: TOpenDialog;
     ToolBar1: TToolBar;
     bProp: TToolButton;
     bDel: TToolButton;
-    bAdd: TToolButton;
-    procedure bAddClick(Sender: TObject);
     procedure bDelClick(Sender: TObject);
     procedure bPropClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -79,7 +76,6 @@ begin
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.CloseButton do Caption:= msgButtonClose;
     with F.bProp do Caption:= ini.ReadString(section, 'cfg', Caption);
-    with F.bAdd do Caption:= ini.ReadString(section, 'add', Caption);
     with F.bDel do Caption:= ini.ReadString(section, 'del', Caption);
   finally
     FreeAndNil(ini);
@@ -181,23 +177,6 @@ begin
     FManager.Modified:= true;
     UpdateList;
     List.ItemIndex:= Min(n, List.Count-1);
-  end;
-end;
-
-procedure TfmLexerLib.bAddClick(Sender: TObject);
-var
-  msg: string;
-  IsOk: boolean;
-  AddonType: TAppAddonType;
-begin
-  OpenDlg.Filename:= '';
-  if not OpenDlg.Execute then exit;
-
-  DoInstallAddonFromZip(OpenDlg.FileName, FManager, FDirAcp, msg, IsOk, AddonType);
-  if IsOk then
-  begin
-    UpdateList;
-    MsgBox(msgStatusInstalled+#13+msg, MB_OK or MB_ICONINFORMATION);
   end;
 end;
 

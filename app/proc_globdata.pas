@@ -67,7 +67,6 @@ type
     OutputFontSize: integer;
 
     PyLibrary: string;
-    LexerLibFilename: string;
     LexerThemes: boolean;
     PictureTypes: string;
 
@@ -737,7 +736,6 @@ begin
     OutputFontName:= VarFontName;
     OutputFontSize:= VarFontSize;
 
-    LexerLibFilename:= 'lib.lxl';
     LexerThemes:= true;
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
