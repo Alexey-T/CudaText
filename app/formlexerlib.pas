@@ -149,7 +149,7 @@ begin
 
   if DoShowDialogLexerProp(an, FFontName, FFontSize, FStylesFilename) then
   begin
-    FManager.Modified:= true;
+    DoLexerExportFromLibToFile(an);
     UpdateList;
     List.ItemIndex:= n;
   end;

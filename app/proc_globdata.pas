@@ -298,6 +298,7 @@ function MsgBox(const Str: string; Flags: Longint): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoSaveKeyItem(K: TATKeymapItem; const path: string);
 procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
+procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
@@ -945,6 +946,13 @@ begin
       if AlsoDisabled or not Analyzers[i].Internal then
         L.Add(Analyzers[i].LexerName);
 end;
+
+procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
+begin
+  if Assigned(an) then
+    an.SaveToFile(GetAppLexerFilename(an.LexerName));
+end;
+
 
 procedure CommandPlugins_DeleteItem(AIndex: integer);
 var
