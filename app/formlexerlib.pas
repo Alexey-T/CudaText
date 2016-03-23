@@ -163,17 +163,19 @@ procedure TfmLexerLib.bDelClick(Sender: TObject);
 var
   an: TecSyntAnalyzer;
   n: integer;
+  fn_lexer: string;
 begin
   n:= List.ItemIndex;
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
+  fn_lexer:= GetAppPath(cDirDataLexlib)+DirectorySeparator+an.LexerName+'.lcf';
 
   if MsgBox(
     Format(msgConfirmDeleteLexer, [an.LexerName]),
-    MB_OKCANCEL or MB_ICONWARNING)=id_ok then
+    MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
   begin
+    DeleteFile(fn_lexer);
     an.Free;
-    FManager.Modified:= true;
     UpdateList;
     List.ItemIndex:= Min(n, List.Count-1);
   end;

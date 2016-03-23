@@ -130,7 +130,6 @@ const
   msgConfirmCreateUserConf: string = 'User config not found. Create it?';
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
-  msgConfirmSaveModifiedLexerLib: string = 'Lexer-library modified. Save it?';
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
 
   msgAboutCredits =

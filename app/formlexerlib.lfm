@@ -45,14 +45,12 @@ object fmLexerLib: TfmLexerLib
       Left = 1
       Top = 0
       Caption = 'Config'
-      Enabled = False
       OnClick = bPropClick
     end
     object bDel: TToolButton
       Left = 52
       Top = 0
       Caption = 'Delete'
-      Enabled = False
       OnClick = bDelClick
     end
   end

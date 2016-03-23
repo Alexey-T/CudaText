@@ -592,7 +592,6 @@ type
     procedure StatusResize(Sender: TObject);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
-    procedure DoOps_SaveLexlib(Cfm: boolean);
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadHistory;
@@ -1340,7 +1339,6 @@ begin
   begin
     if AddonType=cAddonTypeLexer then
     begin
-      DoOps_SaveLexlib(false);
       UpdateMenuLexers;
     end;
 
@@ -1470,7 +1468,7 @@ begin
     UpdateMenuLexers;
     UpdateStatus;
     UpdateFrame;
-    DoOps_SaveLexlib(true);
+    //DoOps_SaveLexlib(true);
   end;
 end;
 
@@ -1485,7 +1483,7 @@ begin
     UpdateMenuLexers;
     UpdateStatus;
     UpdateFrame;
-    DoOps_SaveLexlib(true);
+    //DoOps_SaveLexlib(true);
   end;
 end;
 
@@ -2150,14 +2148,6 @@ begin
   end;
 
   UpdateMenuLexers;
-end;
-
-procedure TfmMain.DoOps_SaveLexlib(Cfm: boolean);
-begin
-  (*
-  if Cfm then
-    if MsgBox(msgConfirmSaveModifiedLexerLib, MB_OKCANCEL or MB_ICONWARNING)<>id_ok then exit;
-  *)
 end;
 
 
@@ -3183,7 +3173,7 @@ begin
             MsgBox(msgCannotFindLexerInLibrary+' '+Form.List.Items[i], MB_OK);
         end;
 
-      DoOps_SaveLexlib(false);
+      //DoOps_SaveLexlib(false);
       UpdateFrame;
     end;
   finally

@@ -456,7 +456,6 @@ begin
     DoLocString(msgConfirmCreateUserConf         , ini, 'sc', 'CreateUserConf');
     DoLocString(msgConfirmCloseDelFile           , ini, 'sc', 'CloseDelFile');
     DoLocString(msgConfirmDeleteLexer            , ini, 'sc', 'DeleteLexer');
-    DoLocString(msgConfirmSaveModifiedLexerLib   , ini, 'sc', 'SaveModifiedLexerLib');
     DoLocString(msgConfirmRemoveStylesFromBackup , ini, 'sc', 'RemoveStylesFromBackup');
 
   finally
