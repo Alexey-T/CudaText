@@ -2244,13 +2244,6 @@ begin
             Result:= PyBool_FromLong(Ord(AppManager.Modified));
           end;
 
-        LEXER_SAVE_LIB:
-          begin
-            with AppManager do
-              SaveToFile(FileName);
-            Result:= ReturnNone;
-          end;
-
         LEXER_DELETE:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2277,6 +2270,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        (*
         LEXER_EXPORT:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2288,6 +2282,7 @@ begin
             else
               Result:= PyBool_FromLong(0);
           end;
+        *)
 
         LEXER_GET_LIST:
           begin
