@@ -1465,10 +1465,10 @@ begin
     EditorOps.OpFontSize,
     GetAppPath(cFileLexerStyles)) then
   begin
+    DoLexerExportFromLibToFile(an);
     UpdateMenuLexers;
     UpdateStatus;
     UpdateFrame;
-    //DoOps_SaveLexlib(true);
   end;
 end;
 
