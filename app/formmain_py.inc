@@ -2270,7 +2270,6 @@ begin
               Result:= ReturnNone;
           end;
 
-        (*
         LEXER_EXPORT:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2282,7 +2281,6 @@ begin
             else
               Result:= PyBool_FromLong(0);
           end;
-        *)
 
         LEXER_GET_LIST:
           begin

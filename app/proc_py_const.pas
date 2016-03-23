@@ -183,6 +183,7 @@ const
   LEXER_SET_LINKS   = 13;
   LEXER_DELETE      = 21;
   LEXER_IMPORT      = 22;
+  LEXER_EXPORT      = 23;
 
   GROUPS_ONE    = 1;
   GROUPS_2VERT  = 2;
