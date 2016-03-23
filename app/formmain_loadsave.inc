@@ -504,6 +504,7 @@ begin
     Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
 
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
+    UiOps.LexerLibFilename:= c.GetValue('lexlib', UiOps.LexerLibFilename);
     UiOps.PyLibrary:= c.GetValue('pylib', UiOps.PyLibrary);
     UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
 

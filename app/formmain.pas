@@ -1252,9 +1252,9 @@ begin
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
-  DoOps_LoadLexlib;
   DoApplyUiOps;
   InitPyEngine;
+  DoOps_LoadLexlib;
 
   DoFileOpen('');
   DoOps_LoadPlugins;
@@ -2117,6 +2117,24 @@ begin
   try
     FindAllFiles(L, dir, '*.lcf', false);
     L.Sort;
+
+    //upgrade from lexerlib to lcf files
+    //delete block later
+    if L.Count=0 then
+    begin
+      AppManager.LoadFromFile(UiOps.LexerLibFilename);
+      Py_RunPlugin_Command('cudatext_upgrade_lexerlib', 'run', '');
+      AppManager.Clear;
+      FindAllFiles(L, dir, '*.lcf', false);
+      L.Sort;
+    end;
+
+    if L.Count=0 then
+    begin
+      MsgBox('Cannot find data/lexlib/*.lcf lexer files', MB_OK or MB_ICONWARNING);
+      exit
+    end;
+
     for i:= 0 to L.Count-1 do
     begin
       an:= AppManager.AddAnalyzer;
@@ -3252,14 +3270,17 @@ begin
 end;
 
 procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: string='');
+var
+  Frame: TEditorFrame;
 begin
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
   PyLastCommandParam:= AParam;
 
-  with CurrentFrame do
-    if MacroRecord then
-      MacroString:= MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
+  Frame:= CurrentFrame;
+  if Assigned(Frame) then
+    if Frame.MacroRecord then
+      Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
 
   CurrentEditor.Strings.BeginUndoGroup;
   PyCommandRunning:= true;
