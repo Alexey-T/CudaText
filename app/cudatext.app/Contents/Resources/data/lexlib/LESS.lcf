@@ -1,0 +1,301 @@
+object SyntAnal7: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Param'
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Const'
+      Font.Color = 206
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'String Eval'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Var'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id Function'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BorderTypeBottom = blDot
+      BorderColorBottom = clTeal
+    end  
+    item
+      DisplayName = 'Color'
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)/\* .*? (\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Param'
+      StyleName = 'Param'
+      BlockName = '{'
+      TokenType = 7
+      Expression = '[\w\.-]+ (?=\s*\:)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Color'
+      StyleName = 'Color'
+      TokenType = 4
+      Expression = '\#[\da-f]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[;:,%\(\)\{\}\[\]\-\+\*~]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Const'
+      StyleName = 'Const'
+      TokenType = 5
+      Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '("|'') .*? (\1|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Var'
+      StyleName = 'Var'
+      TokenType = 2
+      Expression = '@\w[\w-]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 6
+      Expression = '[\w\.\-\#]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Eval'
+      StyleName = 'String Eval'
+      TokenType = 4
+      Expression = '` .*? (`|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Keyw'
+      StyleName = 'Id Function'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'alpha'
+            'and'
+            'ceil'
+            'darken'
+            'desaturate'
+            'fade'
+            'fadein'
+            'fadeout'
+            'floor'
+            'hue'
+            'iscolor'
+            'isem'
+            'iskeyword'
+            'isnumber'
+            'ispercentage'
+            'ispixel'
+            'isstring'
+            'isurl'
+            'lighten'
+            'lightness'
+            'mix'
+            'not'
+            'percentage'
+            'rgb'
+            'rgba'
+            'round'
+            'saturate'
+            'saturation'
+            'spin'
+            'true'
+            'when'
+          )
+          TokenTypes = 64
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '{'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '}'
+      Highlight = True
+      InvertColors = True
+      NameFmt = '%sl0'
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpRange
+      DynSelectMin = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '{'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Param begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ':'
+          )
+          TokenTypes = 520
+        end      
+        item
+          TokenTypes = 128
+        end>
+      IdentIndex = 1
+      BlockOffset = 1
+      BlockEnd = 'Param end'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Param end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ';'
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockOffset = 1
+      DisplayInTree = False
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '// Comment'
+    '@base: #ff40aa;'
+    '@height: `document.body.clientHeight`;'
+    '@filter: ~"ms:alwaysHasItsOwnSyntax()";'
+    ''
+    '.box-shadow(@style, @c) when (iscolor(@c)) {'
+    '  box-shadow:         @style @c;'
+    '  -webkit-box-shadow: @style @c;'
+    '}'
+    '.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {'
+    '  .box-shadow(@style, rgba(0, 0, 0, @alpha));'
+    '}'
+    '.box {'
+    '  color: saturate(@base, 5%);'
+    '  border-color: lighten(@base, 30%);'
+    '  div { .box-shadow(0 0 5px, 30%) }'
+    '}'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Var'
+    'Symbol'
+    'String'
+    'Const'
+    'Id'
+    'Param'
+  )
+  Extentions = 'less'
+  LexerName = 'LESS'
+  Notes.Strings = (
+    'Alex (Synwrite)'
+    'Test: http://lesscss.org/'
+  )
+  LineComment = '//'
+  Charset = DEFAULT_CHARSET
+end

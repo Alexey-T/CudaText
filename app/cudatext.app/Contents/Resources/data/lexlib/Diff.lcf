@@ -1,0 +1,154 @@
+object SyntAnal33: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'File names'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      BgColor = clSkyBlue
+    end  
+    item
+      DisplayName = 'Chunk start'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 12615935
+    end  
+    item
+      DisplayName = 'Context line'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clSilver
+    end  
+    item
+      DisplayName = 'Added line'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 8454016
+    end  
+    item
+      DisplayName = 'Deleted line'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 8421631
+    end  
+    item
+      DisplayName = 'Index line'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clCream
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'File name'
+      StyleName = 'File names'
+      Expression = '^(---|\+\+\+).*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Chunk start'
+      StyleName = 'Chunk start'
+      TokenType = 1
+      Expression = '^@@.*@@'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Added line'
+      StyleName = 'Added line'
+      TokenType = 2
+      Expression = '^+.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Deleted line'
+      StyleName = 'Deleted line'
+      TokenType = 2
+      Expression = '^-.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Context line'
+      StyleName = 'Context line'
+      TokenType = 3
+      Expression = '^\s.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Index line'
+      StyleName = 'Index line'
+      TokenType = 5
+      Expression = '^Index: .*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Other lines'
+      TokenType = 6
+      Expression = '.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Index-line'
+      ConditionList = <      
+        item
+          TokenTypes = 32
+        end>
+      EndOfTextClose = True
+      HighlightPos = cpAny
+      SelfClose = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'Index: components/chmhelp/lhelp/lhelp.ico'
+    '==================================================================='
+    'Cannot display: file marked as a binary type.'
+    'svn:mime-type = image/icon'
+    'Index: ide/filename'
+    'some text'
+    'simple text'
+    '--- a/python/Makefile.am'#9'2010-05-26 22:09:50 +0000'
+    '+++ b/python/Makefile.am'#9'2010-09-10 20:26:24 +0000'
+    '@@ -41,9 +41,9 @@'
+    ' libvirtmod_la_CFLAGS = $(WARN_PYTHON_CFLAGS)'
+    ' '
+    ' libvirtmod_la_LDFLAGS = -module -avoid-version -shared -L$(top_builddir)/src/.libs \'
+    '-'#9'$(CYGWIN_EXTRA_LDFLAGS)'
+    '+'#9'$(CYGWIN_EXTRA_LDFLAGS) $(MINGW_EXTRA_LDFLAGS) -L/python/libs'
+    ' libvirtmod_la_LIBADD = $(mylibs) \'
+    '-'#9'$(CYGWIN_EXTRA_LIBADD) $(CYGWIN_EXTRA_PYTHON_LIBADD)'
+    '+'#9'$(CYGWIN_EXTRA_LIBADD) $(CYGWIN_EXTRA_PYTHON_LIBADD) -lpython26'
+    ' '
+    ' GENERATE = generator.py'
+  )
+  TokenTypeNames.Strings = (
+    'file'
+    'chunk'
+    'line'
+    'context'
+    'default'
+    'index'
+    'unknown'
+  )
+  Extentions = 'diff dif patch'
+  LexerName = 'Diff'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Author: WhiteWind'
+    'Improved: Alexey (Synwrite)'
+  )
+  Charset = DEFAULT_CHARSET
+end

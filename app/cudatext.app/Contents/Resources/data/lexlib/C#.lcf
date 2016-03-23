@@ -1,0 +1,946 @@
+object SyntAnal1: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Default'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      FormatType = ftCustomFont
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Identifier'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Reserved word'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Preprocessor'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Current block'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
+      BorderTypeLeft = blSolid
+      BorderColorLeft = clSilver
+      BorderTypeTop = blSolid
+      BorderColorTop = clSilver
+      BorderTypeRight = blSolid
+      BorderColorRight = clSilver
+      BorderTypeBottom = blSolid
+      BorderColorBottom = clSilver
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Comment 1'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Region Name'
+      StyleName = 'Preprocessor'
+      BlockName = 'Region header'
+      TokenType = 10
+      Expression = '.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)".*?("|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Reserved Id'
+      StyleName = 'Reserved word'
+      Expression = '\b(if | foreach | while | catch)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Any name'
+      StyleName = 'Identifier'
+      TokenType = 2
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'HEX'
+      StyleName = 'Number'
+      TokenType = 7
+      Expression = '0x[\da-f]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 6
+      Expression = '\d+ \.? \d+ e [\+\-]? \d+ | \d+ \. \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Region'
+      StyleName = 'Preprocessor'
+      TokenType = 9
+      Expression = '\#region'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Preprocessor'
+      StyleName = 'Preprocessor'
+      TokenType = 9
+      Expression = '\#\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Single symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\{\}\(\)\[\],;\.@]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[/\+\-\*:=<>&/\|\^!~]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Char'
+      StyleName = 'String'
+      TokenType = 8
+      Expression = '''.*?(''|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Key words'
+      StyleName = 'Reserved word'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'abstract'
+            'base'
+            'bool'
+            'break'
+            'byte'
+            'case'
+            'catch'
+            'char'
+            'checked'
+            'class'
+            'const'
+            'continue'
+            'decimal'
+            'default'
+            'delegate'
+            'do'
+            'double'
+            'else'
+            'enum'
+            'event'
+            'explicit'
+            'extern'
+            'false'
+            'finally'
+            'fixed'
+            'float'
+            'for'
+            'foreach'
+            'get'
+            'goto'
+            'if'
+            'implicit'
+            'in'
+            'int'
+            'interface'
+            'internal'
+            'is'
+            'lock'
+            'long'
+            'namespace'
+            'new'
+            'null'
+            'object'
+            'operator'
+            'out'
+            'override'
+            'params'
+            'private'
+            'protected'
+            'public'
+            'readonly'
+            'ref'
+            'return'
+            'sbyte'
+            'sealed'
+            'set'
+            'short'
+            'sizeof'
+            'static'
+            'string'
+            'struct'
+            'switch'
+            'this'
+            'throw'
+            'true'
+            'try'
+            'typeof'
+            'uint'
+            'ulong'
+            'unchecked'
+            'unsafe'
+            'ushort'
+            'using'
+            'virtual'
+            'void'
+            'where'
+            'while'
+            'yield'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '#if'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '#if*'
+            '#ifdef*'
+            '#ifndef*'
+          )
+          CondType = tcMask
+          TokenTypes = 1024
+        end>
+      BlockEnd = '#endif'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '#endif'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '#endif'
+          )
+          TokenTypes = 1024
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'function begin'
+      BlockName = 'function begin'
+      NotParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end      
+        item
+          TagList.Strings = (
+            ')'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 12
+        end      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 4
+        end      
+        item
+          TagList.Strings = (
+            '('
+            'class'
+          )
+          CondType = tcNotEqual
+          TokenTypes = 12
+        end>
+      IdentIndex = -1
+      BlockEnd = 'function end'
+      NameFmt = '%s-1~s[(]1'
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      GrammaRuleName = 'func'
+      TreeItemImage = 5
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '{'
+      StyleName = 'Current block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '}'
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
+      DrawStaple = True
+      CollapseFmt = '{ ... }'
+      IgnoreAsParent = False
+      AutoCloseMode = acmCloseNearest
+      AutoCloseText = '}'
+    end  
+    item
+      DisplayName = 'class'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'class'
+          )
+          TokenTypes = 4
+        end>
+      IdentIndex = -1
+      BlockEnd = 'end of class'
+      NameFmt = '%s-1'
+      HighlightPos = cpBound
+      TreeItemImage = 1
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'namespace'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'namespace'
+          )
+          TokenTypes = 4
+        end>
+      IdentIndex = -1
+      BlockEnd = 'end of namespace'
+      HighlightPos = cpBound
+      TreeItemImage = 0
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '}'
+      BlockName = '{'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'function end'
+      BlockName = 'function begin'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'end of class'
+      BlockName = 'class'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'end of namespace'
+      BlockName = 'namespace'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '('
+      StyleName = 'Current block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = ')'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpBoundTagBegin
+      DynSelectMin = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '['
+      StyleName = 'Current block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '['
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = ']'
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpBoundTagBegin
+      DynSelectMin = True
+      CollapseFmt = '[ ... ]'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = ']'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ']'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Region header'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '#region'
+          )
+          TokenTypes = 512
+          IgnoreCase = True
+        end>
+      DisplayInTree = False
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Region header end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 1024
+        end>
+      BlockEnd = 'Region header'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'prop begin'
+      BlockName = 'prop begin'
+      NotParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          TagList.Strings = (
+            'get'
+            'set'
+          )
+          TokenTypes = 4
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end      
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = 'prop end'
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      TreeItemImage = 4
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'prop end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = 'prop begin'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'enum begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 4
+        end      
+        item
+          TagList.Strings = (
+            'enum'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'enum end'
+      NameFmt = '%s0 %s-1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      TreeItemImage = 2
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'enum end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = 'enum begin'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'indexer begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end      
+        item
+          TagList.Strings = (
+            ']'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 4
+        end      
+        item
+          TagList.Strings = (
+            '['
+          )
+          TokenTypes = 8
+        end      
+        item
+          TagList.Strings = (
+            'this'
+          )
+          TokenTypes = 4
+        end      
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = 'indexer end'
+      NameFmt = 'indexer %s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      TreeItemImage = 7
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'indexer end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = 'indexer begin'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'struct begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end      
+        item
+          TokenTypes = 4
+        end      
+        item
+          TagList.Strings = (
+            'struct'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'struct end'
+      NameFmt = '%s-1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      TreeItemImage = 2
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'struct end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = 'struct begin'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'oper begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end      
+        item
+          TagList.Strings = (
+            ')'
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 12
+        end      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 8
+        end      
+        item
+          TagList.Strings = (
+            'operator'
+          )
+          TokenTypes = 4
+        end      
+        item
+          TokenTypes = 4
+        end>
+      BlockEnd = 'oper end'
+      NameFmt = 'operator %s-2'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      TreeItemImage = 7
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'oper end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = 'oper begin'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'field'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '='
+            ','
+            ';'
+          )
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 4
+        end      
+        item
+          CondType = tcMask
+          TokenTypes = 4
+        end      
+        item
+          TagList.Strings = (
+            'private'
+            'public'
+            'static'
+          )
+          TokenTypes = 4
+        end>
+      NameFmt = '%sz-1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      NoEndRule = True
+      GrammaRuleName = 'field'
+      TreeItemImage = 3
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'delegate begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 8
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end      
+        item
+          TokenTypes = 4
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 12
+        end      
+        item
+          TagList.Strings = (
+            'delegate'
+          )
+          TokenTypes = 4
+        end>
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      NoEndRule = True
+      TreeItemImage = 3
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <  
+    item
+      DisplayName = 'XML doc'
+      Enabled = False
+      StartExpression = '///'
+      EndExpression = '(?s)(\r\n | ///)'
+      SyntAnalyzer = SyntAnal22
+    end>
+  SampleText.Strings = (
+    '//C# syntax highlighting'
+    'enum Days {P1, P2, P3};'
+    ' '
+    'public class Stack: IEdit, IEdit2'
+    '{'
+    '  public delegate int[] DelDemo();'
+    '  private Node first = null;'
+    '  public bool Empty {'
+    '    //property'
+    '    get {'
+    '      return (first == null);'
+    '    }'
+    '  }'
+    '  public object IEdit.Pop() {'
+    '    if (first == null)'
+    '      throw new Exception("Can''t Pop from an empty Stack.");'
+    '    else {'
+    '      object temp = first.Value;'
+    '      first = first.Next;'
+    '      return temp;'
+    '    }'
+    '  }'
+    '  '
+    '  static void RegisterFunction(Type reg1; Type2 reg2)'
+    '  {'
+    '    CategoryRegistration(registerType);'
+    '  }'
+    ''
+    '  [ComUnregisterFunction()]'
+    '  [ComVisible(false)] '
+    '  static void UnregisterFunction(Type reg1; Type[] regs; Type2 reg2)'
+    '  {'
+    '    CategoryUnregistration(registerType);'
+    '  }'
+    '}'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Integer const'
+    'Float const'
+    'Hex const'
+    'Char const'
+    'Preprocessor'
+    'Region name'
+  )
+  Gramma.Gramma = 'Complex_name =  <Identifier> | Complex_name "." <Identifier>;'#10'field = (''private'' | ''public'' | ''static'') Complex_name <Identifier> (''='' | '','' | '';'');'#10#10'Params = <Identifier> | Params <Identifier> | Params ('','' | ''.'' | '';'' | '':'' | ''['' | '']'');'#10'func = <Identifier> (''['' '']'')? Complex_name ''('' Params? '')'' ''{'';'#10
+  Extentions = 'cs c cpp h'
+  LexerName = 'C#'
+  LineComment = '//'
+  Charset = DEFAULT_CHARSET
+end

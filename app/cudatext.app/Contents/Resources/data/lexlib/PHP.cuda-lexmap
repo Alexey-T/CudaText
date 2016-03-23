@@ -14,3 +14,6 @@ PHP_start=IncludeBG1
 PHP_end=IncludeBG1
 PHP_bg=SectionBG1
 Bracket=BracketBG
+
+[ref]
+0=HTML

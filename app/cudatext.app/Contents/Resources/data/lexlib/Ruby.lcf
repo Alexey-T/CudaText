@@ -1,0 +1,488 @@
+object SyntAnal58: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id keyword'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Variable'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Const'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'String regex'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'String here-doc'
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Quote block'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)=begin.*?=end'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '\# (?!\{) .*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)"(\\"|.)*?("|(?<!\\)$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String2'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '''.*?(''|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String regex'
+      StyleName = 'String regex'
+      TokenType = 4
+      Expression = '/(\\/|.)*?(/)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String regex2'
+      StyleName = 'String regex'
+      TokenType = 4
+      Expression = '%r\{.*?(\})'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String HereDoc'
+      StyleName = 'String here-doc'
+      TokenType = 4
+      Expression = '(?s) \<\<[`"]? (\w+) [`"]? .*? ^\1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'IfBegin'
+      StyleName = 'Id keyword'
+      TokenType = 6
+      Expression = '^[\x20\x09]* (if|unless|while)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Hex'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '0x[\da-f]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Single symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\{\}\(\)\[\],;\+\-\*\/\?\!=\.\<\>%\|:~\#&]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Variable - predefined'
+      StyleName = 'Variable'
+      Expression = '\$([!$&"''*+,./0:;<=>?@\`~1-9]| -[0FIKadilpvw]| (deferr|defout|stderr|stdin|stdout| DEBUG|FILENAME|KCODE|LOADED_FEATURES|LOAD_PATH| PROGRAM_NAME|SAFE|VERBOSE)\b)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Variable global'
+      StyleName = 'Variable'
+      Expression = '\$[a-zA-Z_][a-zA-Z0-9_]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Variable - instance'
+      StyleName = 'Variable'
+      Expression = '@[a-zA-Z_][a-zA-Z0-9_]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Variable - class'
+      StyleName = 'Variable'
+      Expression = '@@[a-zA-Z_][a-zA-Z0-9_]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'keywords'
+      StyleName = 'Id keyword'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'alias'
+            'and'
+            'begin'
+            'BEGIN'
+            'break'
+            'case'
+            'class'
+            'def'
+            'defined'
+            'do'
+            'else'
+            'elsif'
+            'end'
+            'END'
+            'ensure'
+            'false'
+            '__FILE__'
+            'for'
+            'if'
+            'in'
+            '__LINE__'
+            'module'
+            'next'
+            'nil'
+            'not'
+            'or'
+            'raise'
+            'redo'
+            'require'
+            'rescue'
+            'retry'
+            'return'
+            'self'
+            'super'
+            'then'
+            'true'
+            'undef'
+            'unless'
+            'until'
+            'when'
+            'while'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'comments-start'
+      StyleName = 'Comment'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '=begin'
+          )
+          IgnoreCase = True
+        end>
+      BlockEnd = 'comments-end'
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'comments-end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '=end'
+          )
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'begin'
+            'case'
+            'do'
+            'for'
+            'module'
+            'until'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      BlockEnd = 'end'
+      DisplayInTree = False
+      NameFmt = '%s0 ...'
+      HighlightPos = cpAny
+      CollapseFmt = '%s0 ...'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'end'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'begin_def'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'def'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      BlockEnd = 'end'
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'begin_class'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'class'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      BlockEnd = 'end'
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'begin_if'
+      ConditionList = <      
+        item
+          TokenTypes = 576
+        end>
+      BlockEnd = 'end'
+      DisplayInTree = False
+      NameFmt = '%sz0'
+      HighlightPos = cpAny
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'q{'
+      StyleName = 'Quote block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end      
+        item
+          TagList.Strings = (
+            'q'
+          )
+          TokenTypes = 4
+        end      
+        item
+          TagList.Strings = (
+            '%'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '}'
+      DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = '{ ... }'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '{'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '}'
+      NotCollapsed = True
+      DisplayInTree = False
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '#commment'
+    'require ''name.rb'''
+    '=begin'
+    ' multiline comment'
+    '=end'
+    ''
+    '%q{ '
+    '  test name{name}'
+    '}'
+    ''
+    'name = /^name/ =~ %r{\w+}'
+    'name = "Name \'
+    '  End" #trailing \'
+    ''
+    'def create'
+    '  @unit = opt["Opt"]'
+    '  @scale = 1 if @unit == 0 #must not fold'
+    '  @scale = 2 if @unit == 1 #same'
+    'end    '
+    ''
+    'def func1'
+    '  if (nbr > 1) #must fold'
+    '    h = height if (nbr>2) #must not fold'
+    '    w = width if (nbr>2) #same'
+    '    n.upto(nbr) do (group) #must fold'
+    '      h = h + height'
+    '    end'
+    '    model.commit_operation'
+    '  end'
+    'end'
+    ''
+    'def func2'
+    '  animals = %w(lions tigers bears)'
+    '  animals.each{|kind| print kind}'
+    'end'
+  )
+  TokenTypeNames.Strings = (
+    'Var'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Number'
+    'If_begin'
+  )
+  Extentions = 'rb rbw'
+  LexerName = 'Ruby'
+  SkipSpaces = False
+  Notes.Strings = (
+    '- Alexey (SynWrite)'
+    '- Matthias (SynWrite admin)'
+    ''
+    'Doc: http://www.tutorialspoint.com/ruby/ruby_syntax.htm'
+  )
+  LineComment = '#'
+  Charset = DEFAULT_CHARSET
+  left = 144
+  top = 184
+end

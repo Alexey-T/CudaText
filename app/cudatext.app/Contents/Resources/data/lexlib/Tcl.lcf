@@ -1,0 +1,467 @@
+object SyntAnal5: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Shebang'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Var'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Keywords'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Shebang'
+      StyleName = 'Shebang'
+      Expression = '\#!.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '\#[\s\#\-].*$ | \#\z'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Var'
+      StyleName = 'Var'
+      TokenType = 2
+      Expression = '[$@%][$]?[a-zA-Z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '("|'') (\\\1|.)*? \1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '[a-zA-Z_]\w* (::\w+)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\+\-/\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\#\\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+(\.\d+)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Keywords'
+      StyleName = 'Keywords'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'after'
+            'append'
+            'apply'
+            'argc'
+            'argv'
+            'argv0'
+            'array'
+            'auto_execok'
+            'auto_import'
+            'auto_load'
+            'auto_mkindex'
+            'auto_path'
+            'auto_qualify'
+            'auto_reset'
+            'bell'
+            'bgerror'
+            'binary'
+            'bind'
+            'bindtags'
+            'bitmap'
+            'break'
+            'busy'
+            'button'
+            'canvas'
+            'catch'
+            'cd'
+            'chan'
+            'checkbutton'
+            'clipboard'
+            'clock'
+            'close'
+            'colors'
+            'concat'
+            'console'
+            'constructor'
+            'continue'
+            'coroutine'
+            'cursors'
+            'dde'
+            'destroy'
+            'destructor'
+            'dict'
+            'encoding'
+            'entry'
+            'env'
+            'eof'
+            'error'
+            'errorCode'
+            'errorInfo'
+            'eval'
+            'event'
+            'exec'
+            'exit'
+            'expr'
+            'fblocked'
+            'fconfigure'
+            'fcopy'
+            'file'
+            'fileevent'
+            'filename'
+            'flush'
+            'focus'
+            'font'
+            'fontchooser'
+            'for'
+            'foreach'
+            'format'
+            'frame'
+            'geometry'
+            'gets'
+            'glob'
+            'global'
+            'grab'
+            'grid'
+            'history'
+            'http'
+            'if'
+            'image'
+            'incr'
+            'info'
+            'interp'
+            'join'
+            'keysyms'
+            'label'
+            'labelframe'
+            'lappend'
+            'lassign'
+            'lindex'
+            'linsert'
+            'list'
+            'listbox'
+            'llength'
+            'lmap'
+            'load'
+            'lower'
+            'lrange'
+            'lrepeat'
+            'lreplace'
+            'lreverse'
+            'lsearch'
+            'lset'
+            'lsort'
+            'mathfunc'
+            'mathop'
+            'memory'
+            'menu'
+            'menubutton'
+            'message'
+            'method'
+            'msgcat'
+            'my'
+            'namespace'
+            'next'
+            'nextto'
+            'oo::class'
+            'oo::copy'
+            'oo::define'
+            'oo::objdefine'
+            'oo::object'
+            'open'
+            'option'
+            'options'
+            'pack'
+            'package'
+            'panedwindow'
+            'parray'
+            'photo'
+            'pid'
+            'pkg::create'
+            'pkg_mkIndex'
+            'place'
+            'platform'
+            'platform::shell'
+            'proc'
+            'puts'
+            'pwd'
+            'radiobutton'
+            'raise'
+            'read'
+            'refchan'
+            'regexp'
+            'registry'
+            'regsub'
+            'rename'
+            're_syntax'
+            'return'
+            'safe'
+            'safe::loadTk'
+            'scale'
+            'scan'
+            'scrollbar'
+            'seek'
+            'selection'
+            'self'
+            'send'
+            'set'
+            'socket'
+            'source'
+            'spinbox'
+            'split'
+            'string'
+            'subst'
+            'switch'
+            'tailcall'
+            'Tcl'
+            'tcl_endOfWord'
+            'tcl_findLibrary'
+            'tcl_interactive'
+            'tcl_library'
+            'tcl_nonwordchars'
+            'tcl_patchLevel'
+            'tcl_pkgPath'
+            'tcl_platform'
+            'tcl_precision'
+            'tcl::prefix'
+            'tcl_rcFileName'
+            'tcl_startOfNextWord'
+            'tcl_startOfPreviousWord'
+            'tcltest'
+            'tcl_traceCompile'
+            'tcl_traceExec'
+            'tcl_version'
+            'tcl_wordBreakAfter'
+            'tcl_wordBreakBefore'
+            'tcl_wordchars'
+            'tell'
+            'text'
+            'throw'
+            'time'
+            'tk'
+            'tk_bisque'
+            'tk_chooseColor'
+            'tk_chooseDirectory'
+            'tk_dialog'
+            'tkerror'
+            'tk_focusFollowsMouse'
+            'tk_focusNext'
+            'tk_focusPrev'
+            'tk_getOpenFile'
+            'tk_getSaveFile'
+            'tk_library'
+            'tk::mac'
+            'tk_menuSetFocus'
+            'tk_messageBox'
+            'tk_optionMenu'
+            'tk_patchLevel'
+            'tk_popup'
+            'tk_setPalette'
+            'tk_strictMotif'
+            'tk_textCopy'
+            'tk_textCut'
+            'tk_textPaste'
+            'tk_version'
+            'tkwait'
+            'tm'
+            'toplevel'
+            'trace'
+            'transchan'
+            'try'
+            'ttk::button'
+            'ttk::checkbutton'
+            'ttk::combobox'
+            'ttk::entry'
+            'ttk::frame'
+            'ttk_image'
+            'ttk::intro'
+            'ttk::label'
+            'ttk::labelframe'
+            'ttk::menubutton'
+            'ttk::notebook'
+            'ttk::panedwindow'
+            'ttk::progressbar'
+            'ttk::radiobutton'
+            'ttk::scale'
+            'ttk::scrollbar'
+            'ttk::separator'
+            'ttk::sizegrip'
+            'ttk::spinbox'
+            'ttk::style'
+            'ttk::treeview'
+            'ttk_vsapi'
+            'ttk::widget'
+            'unknown'
+            'unload'
+            'unset'
+            'update'
+            'uplevel'
+            'upvar'
+            'variable'
+            'vwait'
+            'while'
+            'winfo'
+            'wm'
+            'yield'
+            'yieldto'
+            'zlib'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '{'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '}'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      DrawStaple = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      BlockEnd = '{'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'proc'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'constructor'
+            'destructor'
+            'method'
+            'oo::class'
+            'proc'
+          )
+          TokenTypes = 4
+        end>
+      NameFmt = '%sz0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '#!/usr/bin/env tclsh'
+    '# Example code'
+    'set example {1 2 3}'
+    'e.g. {set''add example 4} -> {1 2 3 4}'
+    'e.g. {set''add example 4} -> {1 2 3 4}'
+    'book open "name \"substr\""'
+    'proc set''remove {_set args} {'
+    '   upvar 1 $_set set'
+    '   foreach el $args {'
+    '       set pos [lsearch -exact $set $el]'
+    '   }'
+    '}'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Id'
+    'Symbol'
+    'String'
+    'Number'
+  )
+  Extentions = 'tcl tk tm'
+  LexerName = 'Tcl'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Author: Matthias030 (SynWrite site admin)'
+    'Improvements: Alex (SynWrite)'
+    ''
+    'Ref:'
+    'http://www.tcl.tk/man/'
+    'Not tested but maybe a good idea to test on:'
+    'http://www.subdude-site.com/WebPages_Local/RefInfo/Computer/TclTk/others_tcltkCode/others_tcltkCode.htm'
+  )
+  LineComment = '# '
+  Charset = DEFAULT_CHARSET
+end

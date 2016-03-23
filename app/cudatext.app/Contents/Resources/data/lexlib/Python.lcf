@@ -1,0 +1,495 @@
+object SyntAnal2: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Identifier'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id keyword'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Id function'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Word1stTreeItem'
+      StyleName = 'Id keyword'
+      TokenType = 11
+      Expression = '^[\x20\x09]*(def|class)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Word1stKeyword'
+      StyleName = 'Id keyword'
+      TokenType = 10
+      Expression = '^[\x20\x09]*(if|else|elif|for|while|try|except|finally|switch|case|with)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Word1stInteger'
+      StyleName = 'Number'
+      TokenType = 9
+      Expression = '^[\x20\x09]* \d+(\.\d+)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Word1stId'
+      StyleName = 'Identifier'
+      TokenType = 9
+      Expression = '^[\x20\x09]*\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Word1stAttrib'
+      StyleName = 'Symbol'
+      TokenType = 9
+      Expression = '^[\x20\x09]*@'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Word1stComment'
+      Enabled = False
+      StyleName = 'Comment'
+      TokenType = 13
+      Expression = '^[\x20\x09]* \#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String raw'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = 'r(''|") .*? (\1|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String """'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s) ("""|'''''') .*? (\1|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String '''
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)'' (\\.|.)*? (''|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String "'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)" (\\.|.)*? ("|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id __init__'
+      StyleName = 'Identifier'
+      TokenType = 2
+      Expression = '__\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Identifier'
+      TokenType = 2
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer hex'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '0[xbo][0-9a-f]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+(\.\d*)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol :'
+      StyleName = 'Symbol'
+      TokenType = 12
+      Expression = ':'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[/\*,\.;\(\)=<>\+\-\[\]\{\}\^@!%\\\|~&]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Keywords'
+      StyleName = 'Id keyword'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'and'
+            'as'
+            'assert'
+            'break'
+            'class'
+            'continue'
+            'def'
+            'del'
+            'elif'
+            'else'
+            'except'
+            'exec'
+            'finally'
+            'for'
+            'from'
+            'global'
+            'if'
+            'import'
+            'in'
+            'is'
+            'lambda'
+            'not'
+            'or'
+            'pass'
+            'print'
+            'raise'
+            'return'
+            'try'
+            'while'
+            'yield'
+          )
+          TokenTypes = 516
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Functions'
+      StyleName = 'Id function'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'abs'
+            'apply'
+            'bool'
+            'buffer'
+            'callable'
+            'chr'
+            'classmethod'
+            'cmp'
+            'coerce'
+            'complex'
+            'delattr'
+            'dict'
+            'dir'
+            'divmod'
+            'enumerate'
+            'eval'
+            'execfile'
+            'False'
+            'file'
+            'filter'
+            'float'
+            '__future__'
+            'getattr'
+            'globals'
+            'hasattr'
+            'hash'
+            'help'
+            'hex'
+            'id'
+            '__import__'
+            'input'
+            'int'
+            'intern'
+            'isinstance'
+            'issubclass'
+            'iter'
+            'len'
+            'list'
+            'locals'
+            'long'
+            'map'
+            'max'
+            'min'
+            'None'
+            'NotImplemented'
+            'object'
+            'oct'
+            'open'
+            'ord'
+            'pow'
+            'property'
+            'range'
+            'raw_input'
+            'reduce'
+            'reload'
+            'repr'
+            'round'
+            'self'
+            'setattr'
+            'slice'
+            'staticmethod'
+            'str'
+            'sum'
+            'super'
+            'True'
+            'tuple'
+            'type'
+            'unichr'
+            'unicode'
+            'vars'
+            'xrange'
+            'zip'
+          )
+          TokenTypes = 516
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Block comment'
+      BlockName = 'Block comment'
+      NotParent = True
+      AlwaysEnabled = True
+      ConditionList = <      
+        item
+          TokenTypes = 8192
+        end>
+      BlockEnd = 'Block comment end'
+      EndOfTextClose = True
+      DisplayInTree = False
+      HighlightPos = cpBound
+      CollapseFmt = '{ ... }'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Block comment end'
+      BlockName = 'Block comment'
+      StrictParent = True
+      AlwaysEnabled = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          CondType = tcNotEqual
+          TokenTypes = 8192
+        end>
+      BlockOffset = 1
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'block for tree'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ':'
+          )
+          TokenTypes = 4096
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 510
+        end      
+        item
+          TokenTypes = 2048
+        end>
+      EndOfTextClose = True
+      NameFmt = '%sz0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      GroupIndex = 20
+      CollapseFmt = '%s0 %s-1...'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'block for tree (ex)'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ':'
+          )
+          TokenTypes = 4096
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 1022
+        end      
+        item
+          TokenTypes = 2048
+        end>
+      EndOfTextClose = True
+      NameFmt = '%sz0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      GroupIndex = 20
+      CollapseFmt = '%s0 %s-1...'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'block begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ':'
+          )
+          TokenTypes = 4096
+        end      
+        item
+          CondType = tcSkip
+          TokenTypes = 510
+        end      
+        item
+          TokenTypes = 1024
+        end>
+      EndOfTextClose = True
+      DisplayInTree = False
+      NameFmt = '"%s0"'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      DrawStaple = True
+      GroupIndex = 20
+      CollapseFmt = '%sz0 ...'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'import'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'from'
+            'import'
+          )
+          TokenTypes = 512
+        end>
+      NameFmt = '%sz0'
+      GroupFmt = '\imports'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '#Comment'
+    '"""Doc'
+    'string"""'
+    'import sys, sys2, sys3'
+    'from csv import aa, bb'
+    'str = r''\test\test'' + u''test'' + r"\test"'
+    ''
+    '  def func(num):'
+    '    for n in range(len(sys.argv)):'
+    '      print "Arg %s" % sys.argv[n]'
+    '      if n>2:'
+    '        return True'
+    '    return False        '
+    ''
+    'class MyName(object):      '
+    '  @staticmethod'
+    '  def func1(num):'
+    '    pass'
+    '   '
+    'MyName().func1(num)'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Integer const'
+    'Float const'
+    'Hex const'
+    'Char const'
+    '1st word'
+    '1st keyword'
+    '1st word tree'
+    'Symbol :'
+    '1st comment'
+  )
+  Extentions = 'py pyw rpy cpy sconstruct'
+  LexerName = 'Python'
+  SkipSpaces = False
+  FullRefreshSize = 80000
+  Notes.Strings = (
+    'New Python lexer, by Alex (SynWrite)'
+    'For indent-based folding lexer must be tweaked:'
+    'see SynWrite lexer documentation about these tweaks.'
+  )
+  LineComment = '#'
+  Charset = DEFAULT_CHARSET
+  left = 144
+  top = 184
+end

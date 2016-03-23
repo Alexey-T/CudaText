@@ -1,0 +1,425 @@
+object SyntAnal67: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Heading'
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Quote'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Text'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Codeblock'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clCream
+      FormatType = ftBackGround
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Block'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 14745568
+      FormatType = ftBackGround
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Link'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Image'
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Reference'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Footnote'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'HTML Code'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Bold'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Italic'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Bold-Italic'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold, fsItalic]
+    end  
+    item
+      DisplayName = 'Definition'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      BgColor = 14737357
+      BorderColorLeft = 16384
+    end  
+    item
+      DisplayName = 'List'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 12632240
+      BorderColorLeft = clNone
+      BorderColorTop = clNone
+      BorderColorRight = clNone
+      BorderColorBottom = clNone
+    end  
+    item
+      DisplayName = 'Crossed out'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsStrikeOut]
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Bold-Italic'
+      StyleName = 'Bold-Italic'
+      TokenType = 1
+      Expression = '(\*\*\*|___).*?(\*\*\*|___|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Bold'
+      StyleName = 'Bold'
+      TokenType = 1
+      Expression = '(\*\*|__).*?(\*\*|__|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Italic'
+      StyleName = 'Italic'
+      TokenType = 1
+      Expression = '(\*|_) \S.*? (\*|_|")'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Heading'
+      StyleName = 'Heading'
+      Expression = '^\#.* | .*\z--[-\x09\x20\|]* | .*\z=+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 2
+      Expression = '(?s)\<!--.*?--\>  | (?s)/\*.*?\*/'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Quote'
+      StyleName = 'Quote'
+      TokenType = 3
+      Expression = '^>.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'HTML Code'
+      StyleName = 'HTML Code'
+      TokenType = 9
+      Expression = '\&[^;]+\; | \<[^\>]+>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Link github'
+      StyleName = 'Link'
+      TokenType = 11
+      Expression = '\[! \[ [^\]]+ \]\( [^\)]+ \) \] \( [^\)]+ \)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Link usual'
+      StyleName = 'Link'
+      TokenType = 11
+      Expression = '\[[^\]]+\]\([^\)]+\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Image'
+      StyleName = 'Image'
+      TokenType = 12
+      Expression = '!\[[^\]]+\]\([^\)]+\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Footnote'
+      StyleName = 'Footnote'
+      TokenType = 7
+      Expression = '^\[\^[^\]\^]+\]:.*?($|\z) | \[\^[^\]]+\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'List'
+      StyleName = 'List'
+      TokenType = 13
+      Expression = '^[\x20\x09]*(\d\.|\-\ |+\ |\*\ |\+\ |[\(]?[a-z\d]?[\.\)]{1})| ^\(@[^\)]*\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Reference'
+      StyleName = 'Reference'
+      TokenType = 6
+      Expression = '^\[[^\]\^]+\]:.*?($|\z) | \[[^\]]+\]\[[^\]]+\] | \(@[^\)]*\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Definition'
+      StyleName = 'Definition'
+      TokenType = 10
+      Expression = '^[\x20\t]*?.+(\z)+?*?^[\x20\t]*?:\ \ \'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Block'
+      StyleName = 'Block'
+      TokenType = 5
+      Expression = '(?s)(^```|`).*?(^```|`)| (?s)^~~~.*?^~~~)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Codeblock'
+      StyleName = 'Codeblock'
+      TokenType = 4
+      Expression = '^[\x20\x09]{4,}.+$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Crossed Out'
+      StyleName = 'Crossed out'
+      TokenType = 1
+      Expression = '(~~).*?(~~)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Footnote Inline'
+      StyleName = 'Footnote'
+      TokenType = 7
+      Expression = '\^\[.+?\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Link wiki'
+      StyleName = 'Link'
+      TokenType = 11
+      Expression = '\[.+?\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Usual text'
+      StyleName = 'Text'
+      TokenType = 1
+      Expression = '\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Header'
+      ConditionList = <      
+        item
+          TokenTypes = 1
+        end>
+      EndOfTextClose = True
+      NameFmt = '%s0'
+      HighlightPos = cpBound
+      CollapseFmt = '%s0'
+      SelfClose = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '[![Test](link here)](link here)'
+    ''
+    '# Header'
+    '<!-- This is a comment -->'
+    '/* This, too */'
+    ''
+    '`get_prop` id "token_type"; optional `get_prop` param'
+    ''
+    '`Inline Code` inside a paragraph with *italic*, '
+    '**bold** and ***bold italic***, [^footnote] and + '
+    '[reference][ref]. <HTML> syntax and special &harr; '
+    'chars are highlighted, [Hyperlink text](url "title") '
+    'and ![alternative text](image adress "title"). '
+    '~~Crossed out~~ is supported, too. '
+    ''
+    '~~~'
+    'Codeblocks'
+    '~~~'
+    ''
+    '    Codeblock by indention'
+    ''
+    #9'1. But not for numbered'
+    #9'-  or unordered lists'
+    '    '#9'+ with several indentions'
+    '        '#9'* leading digit, + - * '
+    '1. note: unordered needs a sign & blank'
+    #9'(a) extended Pandoc interpretation is supported'
+    '    '#9'i) with roman numbering (i)    '
+    ''
+    '(@) Pandoc Numbered example lists'
+    '(@ref) with or without reference, where (@ref) is'
+    'handled as reference'
+    ''
+    '> quoted text'
+    ''
+    'Definition lists'
+    ':   In a single line'
+    ''
+    '    indented definition lists'
+    ''
+    #9':   paragraph (blank line between)'
+    ''
+    '[ref]: url "title"'
+    '[^footnote]: this is a footnote *italic* '
+    ''
+    '/* Optional */'
+    'header'
+    '='
+    ''
+    '```'
+    'codeblock'
+    '```'
+    '    '
+    '    '
+  )
+  TokenTypeNames.Strings = (
+    'Heading'
+    'Text'
+    'Comment'
+    'Quote'
+    'Codeblock'
+    'Block'
+    'Reference'
+    'Footnote'
+    'Footnote-Inline'
+    'HTML Code'
+    'Definition'
+    'Link'
+    'Image'
+    'List'
+  )
+  Extentions = 'md markdown mkd'
+  LexerName = 'Markdown'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Author: NoSi (v1.0 2014-01-20)'
+    'Fixes: Alex (Synwrite) '
+  )
+  Charset = DEFAULT_CHARSET
+end

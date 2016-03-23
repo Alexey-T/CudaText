@@ -259,9 +259,6 @@
   "find_indent_vert": -5,
   "find_indent_horz": 10,
 
-  //Name of lexer-library file in dir "data/lexlib"
-  "lexlib": "lib.lxl",
-
   //Tabs width, height
   "ui_tab_size_x": 170,
   "ui_tab_size_y": 25,
