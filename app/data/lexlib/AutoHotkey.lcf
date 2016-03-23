@@ -1,4 +1,4 @@
-object SyntAnal59: TLibSyntAnalyzer
+object SyntAnal3: TLibSyntAnalyzer
   Formats = <  
     item
       DisplayName = 'Symbol'

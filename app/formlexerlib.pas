@@ -40,7 +40,6 @@ type
     { private declarations }
     procedure UpdateList;
   public
-    FManager: TecSyntaxManager;
     FFontName: string;
     FFontSize: integer;
     FDirAcp: string;
@@ -51,7 +50,7 @@ type
 var
   fmLexerLib: TfmLexerLib;
 
-function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
+function DoShowDialogLexerLib(
   const ADirAcp: string;
   const AFontName: string;
   AFontSize: integer;
@@ -82,22 +81,20 @@ begin
 end;
 
 
-function DoShowDialogLexerLib(ALexerManager: TecSyntaxManager;
-  const ADirAcp: string; const AFontName: string; AFontSize: integer;
-  const AStylesFilename: string): boolean;
+function DoShowDialogLexerLib(const ADirAcp: string; const AFontName: string;
+  AFontSize: integer; const AStylesFilename: string): boolean;
 var
   F: TfmLexerLib;
 begin
   F:= TfmLexerLib.Create(nil);
   try
     DoLocalize_FormLexerLib(F);
-    F.FManager:= ALexerManager;
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;
     F.FDirAcp:= ADirAcp;
     F.FStylesFilename:= AStylesFilename;
     F.ShowModal;
-    Result:= F.FManager.Modified;
+    Result:= AppManager.Modified;
   finally
     F.Free;
   end;
@@ -135,7 +132,9 @@ begin
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
   an.Internal:= not List.Checked[n];
-  FManager.Modified:= true;
+  AppManager.Modified:= true;
+
+  DoLexerExportFromLibToFile(an);
 end;
 
 procedure TfmLexerLib.bPropClick(Sender: TObject);
@@ -192,9 +191,9 @@ begin
 
   sl:= tstringlist.create;
   try
-    for i:= 0 to FManager.AnalyzerCount-1 do
+    for i:= 0 to AppManager.AnalyzerCount-1 do
     begin
-      an:= FManager.Analyzers[i];
+      an:= AppManager.Analyzers[i];
       sl.AddObject(an.LexerName, an);
     end;
     sl.sort;

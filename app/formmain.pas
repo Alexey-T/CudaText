@@ -1474,7 +1474,7 @@ end;
 
 procedure TfmMain.DoDialogLexerLib;
 begin
-  if DoShowDialogLexerLib(AppManager,
+  if DoShowDialogLexerLib(
     GetAppPath(cDirDataAcp),
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
@@ -1483,7 +1483,6 @@ begin
     UpdateMenuLexers;
     UpdateStatus;
     UpdateFrame;
-    //DoOps_SaveLexlib(true);
   end;
 end;
 
@@ -2119,7 +2118,7 @@ begin
     L.Sort;
 
     //upgrade from lexerlib to lcf files
-    //delete block later
+    //delete this block after 2016.05-.06
     if L.Count=0 then
     begin
       AppManager.LoadFromFile(UiOps.LexerLibFilename);
