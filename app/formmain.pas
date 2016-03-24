@@ -421,9 +421,6 @@ type
     procedure DoHelpIssues;
 
     procedure MenuWindowClick(Sender: TObject);
-    procedure mnuEndsMacClick(Sender: TObject);
-    procedure mnuEndsUnixClick(Sender: TObject);
-    procedure mnuEndsWinClick(Sender: TObject);
     procedure mnuTabCloseAllAllClick(Sender: TObject);
     procedure mnuTabCloseAllSameClick(Sender: TObject);
     procedure mnuTabCloseLeftClick(Sender: TObject);
@@ -1561,20 +1558,6 @@ begin
   SetFrame(Frames[(Sender as TMenuItem).Tag]);
 end;
 
-procedure TfmMain.mnuEndsWinClick(Sender: TObject);
-begin
-  SetLineEnds(cEndWin);
-end;
-
-procedure TfmMain.mnuEndsUnixClick(Sender: TObject);
-begin
-  SetLineEnds(cEndUnix);
-end;
-
-procedure TfmMain.mnuEndsMacClick(Sender: TObject);
-begin
-  SetLineEnds(cEndMac);
-end;
 
 procedure TfmMain.SetLineEnds(Val: TATLineEnds);
 begin

@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 447
+  Left = 339
   Height = 526
-  Top = 180
+  Top = 190
   Width = 788
   AllowDropFiles = True
   Caption = 'App'
@@ -355,7 +355,7 @@ object fmMain: TfmMain
     top = 80
   end
   object MainMenu: TMainMenu
-    left = 568
+    left = 512
     top = 32
     object mnuFile: TMenuItem
       Caption = '&File'
@@ -412,15 +412,12 @@ object fmMain: TfmMain
         Hint = 'ends'
         object mnuFileEndWin: TMenuItem
           Caption = 'Win'
-          OnClick = mnuEndsWinClick
         end
         object mnuFileEndUn: TMenuItem
           Caption = 'Unix'
-          OnClick = mnuEndsUnixClick
         end
         object mnuFileEndMac: TMenuItem
           Caption = 'MacOS9'
-          OnClick = mnuEndsMacClick
         end
       end
       object SepFile4: TMenuItem
@@ -920,15 +917,12 @@ object fmMain: TfmMain
     top = 32
     object mnuEndsWin: TMenuItem
       Caption = 'Win'
-      OnClick = mnuEndsWinClick
     end
     object mnuEndsUnix: TMenuItem
       Caption = 'Unix'
-      OnClick = mnuEndsUnixClick
     end
     object mnuEndsMac: TMenuItem
       Caption = 'MacOS9'
-      OnClick = mnuEndsMacClick
     end
   end
   object SaveDlg: TSaveDialog

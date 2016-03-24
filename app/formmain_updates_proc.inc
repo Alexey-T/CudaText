@@ -415,6 +415,14 @@ end;
 
 procedure TfmMain.UpdateMenuHotkeys;
 begin
+  UpKey(mnuFileEndWin, cmd_LineEndWin);
+  UpKey(mnuFileEndUn, cmd_LineEndUnix);
+  UpKey(mnuFileEndMac, cmd_LineEndMac);
+
+  UpKey(mnuEndsWin, cmd_LineEndWin);
+  UpKey(mnuEndsUnix, cmd_LineEndUnix);
+  UpKey(mnuEndsMac, cmd_LineEndMac);
+
   UpKey(mnuFileNew, cmd_FileNew);
   UpKey(mnuFileOpen, cmd_FileOpen);
   UpKey(mnuFileReopen, cmd_FileReopen);
