@@ -10,6 +10,7 @@ object fmPalette: TfmPalette
   ClientWidth = 476
   OnShow = FormShow
   Position = poOwnerFormCenter
+  ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object Pal: TColorPalette
     Left = 6

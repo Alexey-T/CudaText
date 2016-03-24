@@ -11,6 +11,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
   Color = clBtnFace
   OnShow = FormShow
   Position = poScreenCenter
+  ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object LabelInfo: TLabel
     Left = 6

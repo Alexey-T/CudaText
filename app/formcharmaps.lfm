@@ -13,6 +13,7 @@ object fmCharmaps: TfmCharmaps
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poScreenCenter
+  ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object PanelBtm: TPanel
     Left = 0

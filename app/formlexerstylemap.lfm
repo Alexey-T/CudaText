@@ -3,6 +3,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
   Height = 407
   Top = 362
   Width = 581
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Lexer styles mapping'
   ClientHeight = 407
@@ -10,6 +11,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
+  ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel
     Left = 6
