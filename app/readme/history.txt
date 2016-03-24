@@ -4,6 +4,9 @@ Legend:
   * changed
 
 
+1.3.2.1
++ cmd "rescan python plugins inf-files"
+
 1.3.2
 * lexer-lib file (lib.lxl) not used. Used .lcf files instead. Sublexer links must be stored in .cuda-lexmap files. On start app suggests to convert lexer-lib file to .lcf files.
 * delete option "lexlib" (used only to convert lexer-lib to .lcf)

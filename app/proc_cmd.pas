@@ -77,6 +77,7 @@ const
   cmd_HideSidePanel = 2548;
   cmd_DialogSaveTabs = 2549;
   cmd_DialogLexerStyleMap = 2550;
+  cmd_RescanPythonPluginsInfFiles = 2551;
 
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
@@ -274,6 +275,7 @@ begin
 
   M.Add(cmd_ResetPythonPlugins, 'plugins: reset python plugins', [], []);
   M.Add(cmd_RunLastCommandPlugin, 'plugins: run last command plugin', [], []);
+  M.Add(cmd_RescanPythonPluginsInfFiles, 'plugins: rescan python plugins inf-files', [], []);
 
   M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', ['F11'], []);
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', ['F12'], []);
@@ -511,6 +513,7 @@ begin
     cmd_ResetPythonPlugins  ,
     cmd_DialogCharMap       ,
     cmd_RunLastCommandPlugin ,
+    cmd_RescanPythonPluginsInfFiles,
 
     cmd_DialogGotoBookmark,
     cmd_DialogCommands   ,

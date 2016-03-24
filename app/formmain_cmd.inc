@@ -82,6 +82,7 @@ begin
 
     cmd_ResetPythonPlugins: DoPyResetPlugins;
     cmd_RunLastCommandPlugin: DoPyRunLastPlugin;
+    cmd_RescanPythonPluginsInfFiles: DoPyRescanPlugins;
 
     cmd_Groups1:     Groups.Mode:= gmOne;
     cmd_Groups2horz: Groups.Mode:= gm2Horz;

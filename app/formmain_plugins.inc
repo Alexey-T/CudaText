@@ -145,6 +145,7 @@ var
   i, idx: integer;
 begin
   if mnuPlug=nil then exit;
+  mnuPlug.Clear;
 
   //create menu items for Command plugins
   for i:= 0 to High(FPluginsCmd) do
@@ -289,6 +290,13 @@ begin
   finally
     FreeAndNil(L)
   end;
+end;
+
+procedure TfmMain.DoPyRescanPlugins;
+begin
+  DoOps_LoadPlugins;
+  UpdateMenuPlugins;
+  MsgStatus('Rescanned plugins');
 end;
 
 procedure TfmMain.DoPyRunLastPlugin;
