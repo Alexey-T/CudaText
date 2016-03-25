@@ -28,6 +28,9 @@ type
   TMyPopupMenu = {$ifdef SP} TSpTbxPopupMenu {$else} TPopupMenu {$endif};
 
 type
+
+  { TATPages }
+
   TATPages = class(TPanel)
   private
     FTabs: TATTabs;
@@ -340,6 +343,7 @@ begin
   FTabs.OnTabEmpty:= TabEmpty;
   FTabs.OnTabOver:= TabOver;
   FTabs.OnTabMove:= TabMove;
+  FTabs.DragMode:= dmAutomatic; //allow DnD between groups
 
   FTabs.TabAngle:= 0;
   FTabs.TabHeight:= 24;
