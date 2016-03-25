@@ -6,6 +6,7 @@ Legend:
 
 1.3.3
 + drag-drop of tabs to other groups (all OSes)
++ drag-drop of select-text to other groups
 + cmd "rescan python plugins inf-files"
 - fix: Ansi encoding was broken (since using FPC 3)
 
