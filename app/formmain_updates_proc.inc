@@ -1000,8 +1000,11 @@ begin
 
   miReload:= TMenuItem.Create(Self);
   miReload.Caption:= msgEncReloadAs;
+  miReload.Hint:= 'enc_reload';
   miNoReload:= TMenuItem.Create(Self);
   miNoReload.Caption:= msgEncConvertTo;
+  miNoReload.Hint:= 'enc_noreload';
+
   AMenu.Add(miReload);
   AMenu.Add(miNoReload);
 
