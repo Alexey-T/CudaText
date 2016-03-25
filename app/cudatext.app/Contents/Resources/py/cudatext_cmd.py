@@ -202,6 +202,7 @@ cmd_ShowSidePanelAndSyntaxTree = 2547
 cmd_HideSidePanel = 2548
 cmd_DialogSaveTabs = 2549
 cmd_DialogLexerStyleMap = 2550
+cmd_RescanPythonPluginsInfFiles = 2551
 
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581
@@ -290,6 +291,7 @@ cmd_HelpMouse     = 2703
 cmd_HelpChangelog = 2704
 cmd_HelpLexers    = 2705
 cmd_HelpIssues    = 2706
+cmd_HelpHotkeys   = 2707
 
 cmd_Encoding_ansi_NoReload      = 2710
 cmd_Encoding_utf8bom_NoReload   = 2711
