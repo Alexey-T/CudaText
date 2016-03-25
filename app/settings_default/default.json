@@ -336,6 +336,8 @@
 
   //Drag-drop of text blocks
   "mouse_drag_drop": true,
+  //After drag-drop of text block to another group, focus target editor
+  "mouse_drag_drop_focus_target": true,
   //Right-click moves caret, before menu
   "mouse_rt_click_moves_caret": false,
   //Dbl-click and immediately drag makes selection by words

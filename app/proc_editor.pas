@@ -265,6 +265,7 @@ begin
 
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;
+  ATSynEdit.OptMouseDragDropFocusesTargetEditor:= Op.OpMouseDragDropFocusTarget;
   Ed.OptMouseNiceScroll:= Op.OpMouseNiceScroll;
   Ed.OptMouseRightClickMovesCaret:= Op.OpMouseRightClickMovesCaret;
   Ed.OptMouseEnableColumnSelection:= Op.OpMouseEnableColumnSelection;

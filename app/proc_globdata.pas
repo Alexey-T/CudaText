@@ -265,6 +265,7 @@ type
     //mouse
     OpMouse2ClickDragSelectsWords: boolean;
     OpMouseDragDrop: boolean;
+    OpMouseDragDropFocusTarget: boolean;
     OpMouseNiceScroll: boolean;
     OpMouseRightClickMovesCaret: boolean;
     OpMouseEnableColumnSelection: boolean;
@@ -708,6 +709,7 @@ begin
 
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;
+    OpMouseDragDropFocusTarget:= true;
     OpMouseNiceScroll:= true;
     OpMouseRightClickMovesCaret:= false;
     OpMouseEnableColumnSelection:= true;
