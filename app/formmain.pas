@@ -400,7 +400,6 @@ type
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure MenuThemesClick(Sender: TObject);
-    procedure mnuOpKeysClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
     procedure mnuTabsize2Click(Sender: TObject);
@@ -419,6 +418,7 @@ type
     procedure DoHelpWiki;
     procedure DoHelpLexers;
     procedure DoHelpIssues;
+    procedure DoHelpHotkeys;
 
     procedure MenuWindowClick(Sender: TObject);
     procedure mnuTabCloseAllAllClick(Sender: TObject);
@@ -2952,9 +2952,9 @@ begin
   OpenURL('https://github.com/Alexey-T/CudaText/issues');
 end;
 
-procedure TfmMain.mnuOpKeysClick(Sender: TObject);
+procedure TfmMain.DoHelpHotkeys;
 begin
-  MsgBox(msgStatusHelpOnKeysConfig, mb_ok);
+  MsgBox(msgStatusHelpOnKeysConfig, MB_OK or MB_ICONINFORMATION);
 end;
 
 procedure TfmMain.mnuTabColorClick(Sender: TObject);

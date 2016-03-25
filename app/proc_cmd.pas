@@ -163,6 +163,7 @@ const
   cmd_HelpChangelog = 2704;
   cmd_HelpLexers    = 2705;
   cmd_HelpIssues    = 2706;
+  cmd_HelpHotkeys   = 2707;
 
   cmd_Encoding_ansi_NoReload      = 2710;
   cmd_Encoding_utf8bom_NoReload   = 2711;

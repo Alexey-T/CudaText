@@ -814,7 +814,6 @@ object fmMain: TfmMain
         end
         object mnuOpKeys: TMenuItem
           Caption = 'Settings - keys'
-          OnClick = mnuOpKeysClick
         end
       end
       object SepOp1: TMenuItem

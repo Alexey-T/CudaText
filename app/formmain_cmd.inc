@@ -316,6 +316,7 @@ begin
     cmd_HelpChangelog: DoHelpChangelog;
     cmd_HelpLexers: DoHelpLexers;
     cmd_HelpIssues: DoHelpIssues;
+    cmd_HelpHotkeys: DoHelpHotkeys;
 
 
     cmdFirstLexerCommand..

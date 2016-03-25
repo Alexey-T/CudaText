@@ -544,6 +544,7 @@ begin
   UpKey(mnuOpUser, cmd_OpsOpenUser);
   UpKey(mnuOpLexer, cmd_OpsOpenLexerOvr);
   UpKey(mnuOpFileTypes, cmd_OpsOpenFileTypes);
+  UpKey(mnuOpKeys, cmd_HelpHotkeys);
 
   UpKey(mnuFontText, cmd_OpsFontText);
   UpKey(mnuFontUi, cmd_OpsFontUi);
