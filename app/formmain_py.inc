@@ -2158,14 +2158,6 @@ begin
             Result:= PyString_FromString(PChar(AppLangName));
           end;
 
-        APP_PROC_TREE_ICON_SET:
-          begin
-            fmMain.ImageListTree.Clear;
-            for Num:= 0 to 7 do
-              UpdateImagelistWithIconFromFile(fmMain.ImageListTree, SGetItem(Str, ';'));
-            Result:= ReturnNone;
-          end;
-
         else
           Result:= ReturnNone;
       end;
