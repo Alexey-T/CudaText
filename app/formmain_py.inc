@@ -2146,8 +2146,9 @@ begin
             begin
               Images.Width:= StrToIntDef(Str1, 16);
               Images.Height:= StrToIntDef(Str2, 16);
-              ButtonWidth:= Images.Width+6;
-              ButtonHeight:= Images.Height+6;
+              Num:= IfThen(Images.Width<=20, 8, 4); //increment for icon-size
+              ButtonWidth:= Images.Width+Num;
+              ButtonHeight:= Images.Height+Num;
             end;
             Result:= ReturnNone;
           end;

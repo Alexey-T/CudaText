@@ -1,11 +1,9 @@
 import os
-import json
 from cudatext import *
 from .dlg import *
 from .events import *
 
 fn_sample = os.path.join(os.path.dirname(__file__), 'sample.py')
-fn_plugins = os.path.join(app_path(APP_DIR_SETTINGS), 'plugins.json')    
 dir_py = app_path(APP_DIR_PY)
 
 
@@ -56,28 +54,6 @@ class Command:
                 f.write('    def %s(%s):\n'%(item, par))
                 f.write('        pass\n')
 
-
-        #-------------
-        # register in plugins.json
-        with open(fn_plugins, 'r') as f:
-            d = json.load(f)
-
-        if cmd_list:            
-            d_ = {'%02d'%n:
-              {
-                'proc': item[1], 
-                'caption': item[0], 
-                'menu': not item[2]
-              } for (n, item) in enumerate(cmd_list)}
-            d['commands'][s_module] = d_
-            
-        if event_list:
-            d_ = {'events': ','.join(event_list)}
-            d['events'][s_module] = d_
-        
-        with open(fn_plugins, 'w') as f:
-            f.write(json.dumps(d, indent=2))
-                  
         #------------
         # create install.inf
         fn_inf = os.path.join(dir_plugin, 'install.inf')
