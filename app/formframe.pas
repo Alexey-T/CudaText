@@ -190,9 +190,10 @@ type
     property SplitHorz: boolean read FSplitHorz write SetSplitHorz;
     property SplitPos: double read FSplitPos write SetSplitPos;
     //file
-    procedure DoFileOpen(const fn: string; AllowFollowTail: boolean=false);
+    procedure DoFileOpen(const fn: string);
     function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog; ACheckFilenameOpened: TStrFunction): boolean;
-    procedure DoFileReload(ADetectEnc: boolean);
+    procedure DoFileReload_DisableDetectEncoding;
+    procedure DoFileReload;
     procedure DoSaveHistory;
     procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
     procedure DoLoadHistory;
@@ -807,9 +808,7 @@ begin
       FOnSetLexer(Self);
 end;
 
-procedure TEditorFrame.DoFileOpen(const fn: string; AllowFollowTail: boolean=false);
-var
-  bTail: boolean;
+procedure TEditorFrame.DoFileOpen(const fn: string);
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
@@ -851,13 +850,6 @@ begin
     exit
   end;
 
-  bTail:=
-    AllowFollowTail and
-    UiOps.ReloadFollowTail and
-    (Editor.Strings.Count>0) and
-    (Editor.Carets.Count>0) and
-    (Editor.Carets[0].PosY=Editor.Strings.Count-1);
-
   try
     Editor.LoadFromFile(fn);
     FFileName:= fn;
@@ -874,15 +866,6 @@ begin
 
   SetLexer(AppFindLexer(fn));
   DoLoadHistory;
-
-  if bTail then
-    if Editor.Strings.Count>0 then
-    begin
-      Editor.DoCaretSingle(0, Editor.Strings.Count-1);
-      Editor.Update;
-      Editor.LineTop:= Editor.Strings.Count-1; //no lexer
-      FTopLineTodo:= Editor.Strings.Count-1; //lexer active, must use this instead of Ed.LineTop
-    end;
 
   if IsFileReadonly(fn) then
     Editor.ModeReadOnly:= true;
@@ -964,13 +947,53 @@ begin
   Result:= true;
 end;
 
-procedure TEditorFrame.DoFileReload(ADetectEnc: boolean);
+procedure TEditorFrame.DoFileReload_DisableDetectEncoding;
 begin
-  if FileName='' then Exit;
-  Editor.Strings.EncodingDetect:= ADetectEnc;
+  if FileName='' then exit;
+  Editor.Strings.EncodingDetect:= false;
   Editor.Strings.LoadFromFile(FileName);
   Editor.Strings.EncodingDetect:= true;
   UpdateEds;
+end;
+
+procedure TEditorFrame.DoFileReload;
+var
+  NLineTop, NCaretX, NCaretY: integer;
+  bTail: boolean;
+begin
+  if FileName='' then exit;
+
+  //remember LineTop, caret
+  NCaretX:= 0;
+  NCaretY:= 0;
+  NLineTop:= Editor.LineTop;
+  if Editor.Carets.Count>0 then
+    with Editor.Carets[0] do
+      begin NCaretX:= PosX; NCaretY:= PosY; end;
+
+  bTail:= UiOps.ReloadFollowTail and
+    (Editor.Strings.Count>0) and
+    (NCaretY=Editor.Strings.Count-1);
+
+  //reopen
+  DoFileOpen(FileName);
+  if Editor.Strings.Count=0 then exit;
+
+  //restore LineTop, caret
+  NCaretY:= Min(NCaretY, Editor.Strings.Count-1);
+  if bTail then
+  begin
+    NCaretX:= 0;
+    NCaretY:= Editor.Strings.Count-1;
+    NLineTop:= NCaretY-Abs(UiOps.FindIndentVert);
+  end;
+  Editor.LineTop:= NLineTop;
+  FTopLineTodo:= NLineTop;
+  Editor.Update;
+
+  Editor.DoCaretSingle(NCaretX, NCaretY);
+  Editor.Update;
+  OnUpdateStatus(Self);
 end;
 
 procedure TEditorFrame.SetLineEnds(Value: TATLineEnds);
@@ -1422,7 +1445,7 @@ procedure TEditorFrame.NotifChanged(Sender: TObject);
 begin
   if not Modified then
   begin
-    DoFileOpen(FileName, true);
+    DoFileReload;
     exit
   end;
 
@@ -1430,7 +1453,7 @@ begin
          #10#10+msgConfirmReloadIt+#10+msgConfirmReloadItHotkeys,
          MB_YESNOCANCEL or MB_ICONQUESTION) of
     ID_YES:
-      DoFileOpen(FileName, true);
+      DoFileReload;
     ID_CANCEL:
       NotifEnabled:= false;
   end;

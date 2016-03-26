@@ -2059,7 +2059,7 @@ begin
   if AAlsoReloadFile then
   begin
     if Frame.FileName<>'' then
-      Frame.DoFileReload(false)
+      Frame.DoFileReload_DisableDetectEncoding
     else
       MsgBox(msgCannotReloadUntitledTab, MB_OK or MB_ICONWARNING);
   end
@@ -2298,7 +2298,7 @@ begin
   bRO:= F.ReadOnly;
   F.ReadOnly:= false;;
   F.DoSaveHistory; //save hist to reopen at same scrollpos
-  F.DoFileOpen(F.FileName, true);
+  F.DoFileOpen(F.FileName);
   F.ReadOnly:= bRO;
 
   MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));
