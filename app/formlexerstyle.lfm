@@ -53,6 +53,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 49
       Width = 91
       Caption = 'Color of font:'
+      FocusControl = edColorFont
       ParentColor = False
     end
     object edStyleType: TComboBox
@@ -77,6 +78,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 0
       Width = 70
       Caption = 'Style type:'
+      FocusControl = edStyleType
       ParentColor = False
     end
     object LabelColorBg: TLabel
@@ -85,6 +87,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 48
       Width = 81
       Caption = 'Color of BG:'
+      FocusControl = edColorBG
       ParentColor = False
     end
     object LabelFontStyles: TLabel
@@ -181,6 +184,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 166
       Width = 28
       Caption = 'Left'
+      FocusControl = cbBorderL
       ParentColor = False
     end
     object LabelBorderT: TLabel
@@ -189,6 +193,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 166
       Width = 25
       Caption = 'Top'
+      FocusControl = cbBorderT
       ParentColor = False
     end
     object LabelBorderR: TLabel
@@ -197,6 +202,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 166
       Width = 35
       Caption = 'Right'
+      FocusControl = cbBorderR
       ParentColor = False
     end
     object LabelBorderB: TLabel
@@ -205,6 +211,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 166
       Width = 52
       Caption = 'Bottom'
+      FocusControl = cbBorderB
       ParentColor = False
     end
     object LabelColorBorder: TLabel
@@ -213,6 +220,7 @@ object fmLexerStyle: TfmLexerStyle
       Top = 216
       Width = 109
       Caption = 'Color of border:'
+      FocusControl = edColorBorder
       ParentColor = False
     end
     object edColorBorder: TColorBox
