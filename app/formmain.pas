@@ -2296,9 +2296,8 @@ begin
       MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
   bRO:= F.ReadOnly;
-  F.ReadOnly:= false;;
-  F.DoSaveHistory; //save hist to reopen at same scrollpos
-  F.DoFileOpen(F.FileName);
+  F.ReadOnly:= false;
+  F.DoFileReload;
   F.ReadOnly:= bRO;
 
   MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));

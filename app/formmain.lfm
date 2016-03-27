@@ -725,10 +725,10 @@ object fmMain: TfmMain
         Caption = 'Split tab'
         Hint = 'split'
         object mnuViewSplitDo: TMenuItem
-          Caption = 'Split'
+          Caption = 'Toggle split'
         end
         object mnuViewSplitHorz: TMenuItem
-          Caption = 'Split horizontal'
+          Caption = 'Toggle horizontal/vertical'
         end
       end
       object SepV1: TMenuItem

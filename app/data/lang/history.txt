@@ -2,6 +2,9 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2016.03.26
+* change [m_v] s_s, s_h
+
 2016.03.23
 * del [se] FindLexlib
 * del [sc] SaveModifiedLexerLib
