@@ -148,14 +148,6 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Id __init__'
-      StyleName = 'Id'
-      TokenType = 2
-      Expression = '__\w+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
