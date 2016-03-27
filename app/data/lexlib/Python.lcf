@@ -1,68 +1,88 @@
 object SyntAnal2: TLibSyntAnalyzer
-  Formats = <  
+  Formats = <
     item
       DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
-      DisplayName = 'Identifier'
+      DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Id keyword'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Id keyword def'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Id function'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Word1stTreeItem'
-      StyleName = 'Id keyword'
+      StyleName = 'Id keyword def'
       TokenType = 11
       Expression = '^[\x20\x09]*(def|class)\b'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Word1stKeyword'
       StyleName = 'Id keyword'
       TokenType = 10
-      Expression = '^[\x20\x09]*(if|else|elif|for|while|try|except|finally|switch|case|with)\b'
+      Expression = 
+        '^[\x20\x09]*(if|else|elif|for|while|try|except|finally|switch|ca' +
+        'se|with)\b'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Word1stInteger'
       StyleName = 'Number'
@@ -70,15 +90,15 @@ object SyntAnal2: TLibSyntAnalyzer
       Expression = '^[\x20\x09]* \d+(\.\d+)?'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Word1stId'
-      StyleName = 'Identifier'
+      StyleName = 'Id'
       TokenType = 9
       Expression = '^[\x20\x09]*\w+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Word1stAttrib'
       StyleName = 'Symbol'
@@ -86,40 +106,39 @@ object SyntAnal2: TLibSyntAnalyzer
       Expression = '^[\x20\x09]*@'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Word1stComment'
-      Enabled = False
       StyleName = 'Comment'
       TokenType = 13
       Expression = '^[\x20\x09]* \#.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String raw'
       StyleName = 'String'
       TokenType = 4
-      Expression = 'r(''|") .*? (\1|$)'
+      Expression = 'r('#39'|") .*? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String """'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s) ("""|'''''') .*? (\1|\Z)'
+      Expression = '(?s) ("""|'#39#39#39') .*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = 'String '''
+      DisplayName = 'String '#39
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s)'' (\\.|.)*? (''|$)'
+      Expression = '(?s)'#39' (\\.|.)*? ('#39'|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String "'
       StyleName = 'String'
@@ -127,23 +146,23 @@ object SyntAnal2: TLibSyntAnalyzer
       Expression = '(?s)" (\\.|.)*? ("|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id __init__'
-      StyleName = 'Identifier'
+      StyleName = 'Id'
       TokenType = 2
       Expression = '__\w+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
-      StyleName = 'Identifier'
+      StyleName = 'Id'
       TokenType = 2
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Integer hex'
       StyleName = 'Number'
@@ -151,7 +170,7 @@ object SyntAnal2: TLibSyntAnalyzer
       Expression = '0[xbo][0-9a-f]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Integer'
       StyleName = 'Number'
@@ -159,7 +178,7 @@ object SyntAnal2: TLibSyntAnalyzer
       Expression = '\d+(\.\d*)?'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
@@ -167,7 +186,7 @@ object SyntAnal2: TLibSyntAnalyzer
       Expression = '\#.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol :'
       StyleName = 'Symbol'
@@ -175,7 +194,7 @@ object SyntAnal2: TLibSyntAnalyzer
       Expression = ':'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
@@ -184,21 +203,35 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
+    item
+      DisplayName = 'Keywords def'
+      StyleName = 'Id keyword def'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'class'
+            'def'
+            'global'
+            'lambda')
+          TokenTypes = 1540
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
     item
       DisplayName = 'Keywords'
       StyleName = 'Id keyword'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'and'
             'as'
             'assert'
             'break'
-            'class'
             'continue'
-            'def'
             'del'
             'elif'
             'else'
@@ -207,12 +240,10 @@ object SyntAnal2: TLibSyntAnalyzer
             'finally'
             'for'
             'from'
-            'global'
             'if'
             'import'
             'in'
             'is'
-            'lambda'
             'not'
             'or'
             'pass'
@@ -221,20 +252,21 @@ object SyntAnal2: TLibSyntAnalyzer
             'return'
             'try'
             'while'
-            'yield'
-          )
+            'yield')
           TokenTypes = 516
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Functions'
       StyleName = 'Id function'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
+            '__future__'
+            '__import__'
             'abs'
             'apply'
             'bool'
@@ -256,7 +288,6 @@ object SyntAnal2: TLibSyntAnalyzer
             'file'
             'filter'
             'float'
-            '__future__'
             'getattr'
             'globals'
             'hasattr'
@@ -264,7 +295,6 @@ object SyntAnal2: TLibSyntAnalyzer
             'help'
             'hex'
             'id'
-            '__import__'
             'input'
             'int'
             'intern'
@@ -306,19 +336,18 @@ object SyntAnal2: TLibSyntAnalyzer
             'unicode'
             'vars'
             'xrange'
-            'zip'
-          )
+            'zip')
           TokenTypes = 516
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Block comment'
       BlockName = 'Block comment'
       NotParent = True
       AlwaysEnabled = True
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 8192
         end>
@@ -328,14 +357,14 @@ object SyntAnal2: TLibSyntAnalyzer
       HighlightPos = cpBound
       CollapseFmt = '{ ... }'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Block comment end'
       BlockName = 'Block comment'
       StrictParent = True
       AlwaysEnabled = True
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           CondType = tcNotEqual
           TokenTypes = 8192
@@ -343,20 +372,19 @@ object SyntAnal2: TLibSyntAnalyzer
       BlockOffset = 1
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'block for tree'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            ':'
-          )
+            ':')
           TokenTypes = 4096
-        end      
+        end
         item
           CondType = tcSkip
           TokenTypes = 510
-        end      
+        end
         item
           TokenTypes = 2048
         end>
@@ -365,24 +393,22 @@ object SyntAnal2: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
-      DrawStaple = True
       GroupIndex = 20
       CollapseFmt = '%s0 %s-1...'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'block for tree (ex)'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            ':'
-          )
+            ':')
           TokenTypes = 4096
-        end      
+        end
         item
           CondType = tcSkip
           TokenTypes = 1022
-        end      
+        end
         item
           TokenTypes = 2048
         end>
@@ -395,20 +421,19 @@ object SyntAnal2: TLibSyntAnalyzer
       GroupIndex = 20
       CollapseFmt = '%s0 %s-1...'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'block begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            ':'
-          )
+            ':')
           TokenTypes = 4096
-        end      
+        end
         item
           CondType = tcSkip
           TokenTypes = 510
-        end      
+        end
         item
           TokenTypes = 1024
         end>
@@ -421,15 +446,14 @@ object SyntAnal2: TLibSyntAnalyzer
       GroupIndex = 20
       CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'import'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'from'
-            'import'
-          )
+            'import')
           TokenTypes = 512
         end>
       NameFmt = '%sz0'
@@ -447,7 +471,8 @@ object SyntAnal2: TLibSyntAnalyzer
     'string"""'
     'import sys, sys2, sys3'
     'from csv import aa, bb'
-    'str = r''\test\test'' + u''test'' + r"\test"'
+    'str = r'#39'\test\test'#39' + u'#39'test'#39' + r"\test"'
+    'func = lambda x: x'
     ''
     '  def func(num):'
     '    for n in range(len(sys.argv)):'
@@ -461,8 +486,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '  def func1(num):'
     '    pass'
     '   '
-    'MyName().func1(num)'
-  )
+    'MyName().func1(num)')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -477,8 +501,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '1st keyword'
     '1st word tree'
     'Symbol :'
-    '1st comment'
-  )
+    '1st comment')
   Extentions = 'py pyw rpy cpy sconstruct'
   LexerName = 'Python'
   SkipSpaces = False
@@ -486,10 +509,9 @@ object SyntAnal2: TLibSyntAnalyzer
   Notes.Strings = (
     'New Python lexer, by Alex (SynWrite)'
     'For indent-based folding lexer must be tweaked:'
-    'see SynWrite lexer documentation about these tweaks.'
-  )
+    'see SynWrite lexer documentation about these tweaks.')
   LineComment = '#'
   Charset = DEFAULT_CHARSET
-  left = 144
-  top = 184
+  Left = 144
+  Top = 184
 end
