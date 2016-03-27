@@ -355,11 +355,11 @@ object fmMain: TfmMain
     top = 80
   end
   object MainMenu: TMainMenu
-    left = 512
+    left = 568
     top = 32
     object mnuFile: TMenuItem
       Caption = '&File'
-      Hint = 'file'
+      Hint = 'top-file'
       object mnuFileNew: TMenuItem
         Caption = 'New file'
       end
@@ -432,7 +432,7 @@ object fmMain: TfmMain
     end
     object mnuEdit: TMenuItem
       Caption = '&Edit'
-      Hint = 'edit'
+      Hint = 'top-edit'
       object mnuEditUndo: TMenuItem
         Caption = 'Undo'
       end
@@ -580,7 +580,7 @@ object fmMain: TfmMain
     end
     object mnuSel: TMenuItem
       Caption = 'Select&ion'
-      Hint = 'sel'
+      Hint = 'top-sel'
       object mnuSelAll: TMenuItem
         Caption = 'Select all'
       end
@@ -627,7 +627,7 @@ object fmMain: TfmMain
     end
     object mnuSr: TMenuItem
       Caption = '&Search'
-      Hint = 'search'
+      Hint = 'top-sr'
       object mnuFindDlg: TMenuItem
         Caption = 'Find...'
       end
@@ -683,7 +683,7 @@ object fmMain: TfmMain
     end
     object mnuView: TMenuItem
       Caption = '&View'
-      Hint = 'view'
+      Hint = 'top-view'
       object mnuGroups: TMenuItem
         Caption = 'Groups'
         Hint = 'groups'
@@ -793,7 +793,7 @@ object fmMain: TfmMain
     end
     object mnuOp: TMenuItem
       Caption = '&Options'
-      Hint = 'options'
+      Hint = 'top-op'
       object mnuOpDefault: TMenuItem
         Caption = 'Settings - default'
       end
@@ -863,7 +863,7 @@ object fmMain: TfmMain
     end
     object mnuHelp: TMenuItem
       Caption = '&Help'
-      Hint = 'help'
+      Hint = 'top-help'
       object mnuHelpCmd: TMenuItem
         Caption = 'Commands...'
       end
