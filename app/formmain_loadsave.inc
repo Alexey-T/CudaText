@@ -115,6 +115,7 @@ var
   fn: string;
   F: TEditorFrame;
   nGroup, i: integer;
+  Pages: TATPages;
 begin
   if fn_session='' then exit;
   if not FileExists(fn_session) then exit;
@@ -135,12 +136,13 @@ begin
       fn:= c.GetValue('/'+list[i]+'/file', '');
       nGroup:= c.GetValue('/'+list[i]+'/group', Low(TATGroupsNums));
 
+      Pages:= nil;
       if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
-        Groups.PagesCurrent:= Groups.Pages[nGroup];
+        Pages:= Groups.Pages[nGroup];
 
       if FileExistsUTF8(fn) then
       begin
-        F:= DoFileOpen(fn);
+        F:= DoFileOpen(fn, Pages);
         if F<>nil then
         begin
           F.NotInRecents:= true;
