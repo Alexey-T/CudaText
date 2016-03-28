@@ -2607,7 +2607,8 @@ begin
     SModule:= SGetItem(SHint);
     SMethod:= SGetItem(SHint);
     SParam:= SHint; //not SGetItem, allows to use ","
-    DoPyCommand(SModule, SMethod, SParam);
+    if (SModule<>'') and (SMethod<>'') then
+      DoPyCommand(SModule, SMethod, SParam);
   end
   else
     CurrentEditor.DoCommand(Cmd);
