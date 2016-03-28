@@ -1192,6 +1192,15 @@ procedure TfmMain.FormDropFiles(Sender: TObject;
 var
   i: integer;
 begin
+  //set active group according to mouse
+  for i in [Low(TATGroupsNums)..High(TATGroupsNums)] do
+    if fmMain.Groups.Pages[i].Visible then
+      if PtInControl(fmMain.Groups.Pages[i], Mouse.CursorPos) then
+      begin
+        fmMain.Groups.PagesCurrent:= fmMain.Groups.Pages[i];
+        Break;
+      end;
+
   for i:= 0 to Length(Filenames)-1 do
     if FileExistsUTF8(FileNames[i]) and
       not DirectoryExistsUTF8(FileNames[i]) then
