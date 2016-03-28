@@ -5,8 +5,9 @@ Legend:
 
 
 1.3.4
-+ drag-drop to other group: opt mouse_drag_drop_focus_target
-+ drag-drop to other group: Ctrl pressed means "copy"
++ drag-drop text to other group: opt mouse_drag_drop_focus_target
++ drag-drop text to other group: Ctrl pressed means "copy"
++ drag-drop file from explorer: use group under cursor
 + lexer Python: keywords def/class/global/lambda have other style (like ST3)
 - rework restore caret on file-reload
 - fix MakePlugin
