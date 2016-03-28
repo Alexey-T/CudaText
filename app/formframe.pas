@@ -252,8 +252,7 @@ const
 procedure TEditorFrame.SetTabCaption(const AValue: string);
 begin
   if AValue='?' then Exit;
-  if FTabCaption= AValue then Exit;
-  FTabCaption:= AValue;
+  FTabCaption:= AValue; //don't check "if FTabCaption=AValue"
   DoOnChangeCaption;
 end;
 
