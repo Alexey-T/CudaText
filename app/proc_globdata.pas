@@ -1101,6 +1101,7 @@ initialization
   FillChar(FAppSidePanels, SizeOf(FAppSidePanels), 0);
 
   AppShortcutEscape:= ShortCut(vk_escape, []);
+  Mouse.DragImmediate:= false;
 
 finalization
   FreeAndNil(AppKeymap);
