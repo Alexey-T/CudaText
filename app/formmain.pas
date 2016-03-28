@@ -640,7 +640,7 @@ type
     procedure DoFindNext(ANext: boolean);
     procedure DoMoveTabTo(Num: Integer);
     procedure DoOnTabPopup(Sender: TObject);
-    function DoFileOpen(AFilename: string): TEditorFrame;
+    function DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;
     procedure DoFileOpenDialog;
     procedure DoFileSaveAll;
     procedure DoFileReopen;
@@ -1190,21 +1190,23 @@ end;
 procedure TfmMain.FormDropFiles(Sender: TObject;
   const FileNames: array of String);
 var
+  Pages: TATPages;
   i: integer;
 begin
-  //set active group according to mouse
+  //set group according to mouse cursor
+  Pages:= nil;
   for i in [Low(TATGroupsNums)..High(TATGroupsNums)] do
     if fmMain.Groups.Pages[i].Visible then
       if PtInControl(fmMain.Groups.Pages[i], Mouse.CursorPos) then
       begin
-        fmMain.Groups.PagesCurrent:= fmMain.Groups.Pages[i];
+        Pages:= fmMain.Groups.Pages[i];
         Break;
       end;
 
   for i:= 0 to Length(Filenames)-1 do
     if FileExistsUTF8(FileNames[i]) and
       not DirectoryExistsUTF8(FileNames[i]) then
-      DoFileOpen(FileNames[i]);
+        DoFileOpen(FileNames[i], Pages);
 end;
 
 procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -1668,9 +1670,8 @@ begin
 end;
 
 
-function TfmMain.DoFileOpen(AFilename: string): TEditorFrame;
+function TfmMain.DoFileOpen(AFilename: string; APages: TATPages = nil): TEditorFrame;
 var
-  Pages: TATPages;
   D: TATTabData;
   F: TEditorFrame;
   i: integer;
@@ -1679,10 +1680,12 @@ begin
   Result:= nil;
   if Application.Terminated then exit;
 
+  if APages=nil then
+    APages:= Groups.PagesCurrent;
+
   if AFilename='' then
   begin
-    Pages:= Groups.PagesCurrent;
-    D:= DoTabAdd(Pages, GetUntitledCaption);
+    D:= DoTabAdd(APages, GetUntitledCaption);
     Result:= D.TabObject as TEditorFrame;
     Result.DoFocusEditor;
     Exit
@@ -1734,19 +1737,21 @@ begin
   end;
 
   //is current frame empty? use it
-  F:= CurrentFrame;
-  if F.IsEmpty then
+  if APages=Groups.PagesCurrent then
   begin
-    F.DoFileOpen(AFilename);
-    Result:= F;
-    UpdateStatus;
-    MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
-    DoPyEvent(F.Editor, cEventOnOpen, []);
-    Exit
+    F:= CurrentFrame;
+    if F.IsEmpty then
+    begin
+      F.DoFileOpen(AFilename);
+      Result:= F;
+      UpdateStatus;
+      MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
+      DoPyEvent(F.Editor, cEventOnOpen, []);
+      Exit
+    end;
   end;
 
-  Pages:= Groups.PagesCurrent;
-  D:= DoTabAdd(Pages, ExtractFileName(AFilename));
+  D:= DoTabAdd(APages, ExtractFileName(AFilename));
   F:= D.TabObject as TEditorFrame;
   F.DoFileOpen(AFilename);
   Result:= F;
