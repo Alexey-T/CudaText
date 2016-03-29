@@ -56,9 +56,12 @@ var
     s: string;
     len: integer;
   begin
-    s:= c.GetValue(id, '');
-    if s='' then exit;
-    Val:= SHtmlColorToColor(s, len, Val);
+    s:= c.GetValue(id, '?');
+    if s='?' then exit;
+    if s='' then
+      Val:= clNone
+    else
+      Val:= SHtmlColorToColor(s, len, Val);
   end;
   //
 var
