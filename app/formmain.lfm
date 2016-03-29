@@ -368,7 +368,7 @@ object fmMain: TfmMain
       end
       object mnuFileOpenSub: TMenuItem
         Caption = 'Open recent'
-        Hint = 'recents'
+        Hint = '_recents'
       end
       object mnuFileReopen: TMenuItem
         Caption = 'Reopen'
@@ -405,7 +405,7 @@ object fmMain: TfmMain
       end
       object mnuFileEnc: TMenuItem
         Caption = 'Encoding'
-        Hint = 'enc'
+        Hint = '_enc'
       end
       object mnuFileEnds: TMenuItem
         Caption = 'Line ends'
@@ -847,7 +847,7 @@ object fmMain: TfmMain
       end
       object mnuThemes: TMenuItem
         Caption = 'Color themes'
-        Hint = 'themes'
+        Hint = '_themes'
         object mnuTst1: TMenuItem
           Caption = '--'
           Visible = False
@@ -855,7 +855,7 @@ object fmMain: TfmMain
       end
       object mnuLang: TMenuItem
         Caption = 'Translations'
-        Hint = 'langs'
+        Hint = '_langs'
         object mnuTst2: TMenuItem
           Caption = '--'
         end
