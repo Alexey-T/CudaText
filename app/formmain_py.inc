@@ -1158,14 +1158,13 @@ begin
     end;
 end;
 
-procedure TfmMain.PyCompletionOnGetProp(Sender: TObject;
-  out AText, ASuffix: string; out ACharsLeft, ACharsRight: integer);
+procedure TfmMain.PyCompletionOnGetProp(Sender: TObject; out AText: string; out
+  ACharsLeft, ACharsRight: integer);
 var
   Caret: TATCaretItem;
   PrevCharsLeft: integer;
 begin
   AText:= '';
-  ASuffix:= '';
   ACharsLeft:= 0;
   ACharsRight:= 0;
 

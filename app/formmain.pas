@@ -674,8 +674,8 @@ type
     function IsLexerMatches(const ANameList: string): boolean;
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuThemeDefClick(Sender: TObject);
-    procedure PyCompletionOnGetProp(Sender: TObject; out AText,
-      ASuffix: string; out ACharsLeft, ACharsRight: integer);
+    procedure PyCompletionOnGetProp(Sender: TObject; out AText: string;
+      out ACharsLeft, ACharsRight: integer);
     procedure Py_RunPlugin_Index(Num: integer);
     procedure SetFrameEncoding(Frame: TEditorFrame; const AEnc: string;
       AAlsoReloadFile: boolean);
