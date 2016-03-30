@@ -4,6 +4,10 @@ Legend:
   * changed
 
 
+1.3.5
++ autocomplete for HTML: completion listbox inserts tag+ closing tag after caret
++ autocomplete for HTML: auto show when typed "<w"
+
 1.3.4
 + drag-drop text to other group: opt mouse_drag_drop_focus_target
 + drag-drop text to other group: Ctrl pressed means "copy"

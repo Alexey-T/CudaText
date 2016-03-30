@@ -633,8 +633,29 @@ procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;
   const AText: string);
 var
   Ed: TATSynEdit;
+  Caret: TATCaretItem;
+  Str: atString;
 begin
   Ed:= Sender as TATSynEdit;
+
+  //autoshow autocomplete for HTML, when typed "<w"
+  if (ACommand=cCommand_TextInsert) and
+     (Ed.Carets.Count=1) and
+     (Length(AText)=1) and IsCharWord(AText[1], '') and
+     UiOps.AutocompleteHtml then
+  begin
+    Caret:= Ed.Carets[0];
+    if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
+    if Pos('HTML', LexerNameAtPos(Point(Caret.PosX, Caret.PosY)))>0 then
+    begin
+      Str:= Ed.Strings.Lines[Caret.PosY];
+      if Copy(Str, Caret.PosX-1, 1)='<' then
+        Ed.DoCommand(cmd_AutoComplete);
+      exit;
+    end;
+  end;
+
+  //autoshow autocomplete for others, when typed N chars
   if (UiOps.AutocompleteAutoshowChars>0) and
      (UiOps.AutocompleteAutoshowLexers<>'') and
      (ACommand=cCommand_TextInsert) and
