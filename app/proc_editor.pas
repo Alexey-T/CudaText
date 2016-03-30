@@ -13,6 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, StrUtils,
+  Dialogs,
   ATSynEdit,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
@@ -60,6 +61,8 @@ function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
 procedure EditorApplyTheme(Ed: TATSynedit);
 procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
 function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
+
+function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 
 
 implementation
@@ -891,6 +894,45 @@ begin
   Result:= (NKind<=1) or (NKind>=240);
 end;
 
+function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
+//function finds 1st nonspace char before AX:AY and if it's ";" or "{" then it's OK position
+  //
+  function IsSepChar(ch: Widechar): boolean;
+  begin
+    Result:= (ch=';') or (ch='{');
+  end;
+  function IsSpaceChar(ch: Widechar): boolean;
+  begin
+    Result:= (ch=' ') or (ch=#9);
+  end;
+  //
+var
+  str: atString;
+  ch: Widechar;
+  i: integer;
+begin
+  Result:= false;
+  if not Ed.Strings.IsIndexValid(AY) then exit;
+
+  //find char in line AY before AX
+  str:= Ed.Strings.Lines[AY];
+  for i:= AX downto 1 do
+  begin
+    ch:= str[i];
+    if IsSpaceChar(ch) then Continue;
+    exit(IsSepChar(ch));
+  end;
+
+  //find char in line AY-1 from end
+  if AY=0 then exit;
+  str:= Ed.Strings.Lines[AY-1];
+  for i:= Length(str) downto 1 do
+  begin
+    ch:= str[i];
+    if IsSpaceChar(ch) then Continue;
+    exit(IsSepChar(ch));
+  end;
+end;
 
 end.
 

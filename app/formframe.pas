@@ -635,21 +635,31 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
   Str: atString;
+  SLexerName: string;
 begin
   Ed:= Sender as TATSynEdit;
 
-  //autoshow autocomplete for HTML, when typed "<w"
+  //autoshow autocomplete for HTML/CSS
   if (ACommand=cCommand_TextInsert) and
      (Ed.Carets.Count=1) and
-     (Length(AText)=1) and IsCharWord(AText[1], '') and
-     UiOps.AutocompleteHtml then
+     (Length(AText)=1) and IsCharWord(AText[1], '') then
   begin
     Caret:= Ed.Carets[0];
     if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
-    if Pos('HTML', LexerNameAtPos(Point(Caret.PosX, Caret.PosY)))>0 then
+    SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
+
+    if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
     begin
       Str:= Ed.Strings.Lines[Caret.PosY];
       if Copy(Str, Caret.PosX-1, 1)='<' then
+        Ed.DoCommand(cmd_AutoComplete);
+      exit;
+    end;
+
+    if UiOps.AutocompleteCss and (SLexerName='CSS') then
+    begin
+      Str:= Ed.Strings.Lines[Caret.PosY];
+      if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
         Ed.DoCommand(cmd_AutoComplete);
       exit;
     end;
