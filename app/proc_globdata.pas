@@ -75,6 +75,7 @@ type
     AutocompleteHtml: boolean;
     AutocompleteAutoshowChars: integer;
     AutocompleteAutoshowLexers: string;
+    AutoCloseBrackets: boolean;
 
     ListboxWidth: integer;
     ListboxItemCountCmd: integer;
@@ -750,6 +751,7 @@ begin
     AutocompleteHtml:= true;
     AutocompleteAutoshowChars:= 0;
     AutocompleteAutoshowLexers:= '';
+    AutoCloseBrackets:= true;
 
     ListboxWidth:= 450;
     ListboxItemCountCmd:= 15;

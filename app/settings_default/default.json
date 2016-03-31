@@ -472,6 +472,9 @@
   "autocomplete_autoshow_chars": 0,
   //Addition to prev option: for which lexers (comma-separated, empty: disabled)
   "autocomplete_autoshow_lexers": "",
+
+  //Auto-close brackets ([{. It skips escaped brackets: \( 
+  "auto_close_brackets": true,
   
   //File backup
   //  "": no backup

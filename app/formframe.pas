@@ -639,6 +639,15 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
+  //auto-close bracket
+  if UiOps.AutoCloseBrackets and
+    (ACommand=cCommand_TextInsert) and
+    ((AText='(') or (AText='[') or (AText='{')) then
+  begin
+    EditorAutoCloseBracket(Ed, AText[1]);
+    exit
+  end;
+
   //autoshow autocomplete for HTML/CSS
   if (ACommand=cCommand_TextInsert) and
      (Ed.Carets.Count=1) and

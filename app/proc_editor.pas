@@ -63,6 +63,7 @@ procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
 function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
+procedure EditorAutoCloseBracket(Ed: TATSynEdit; ch: char);
 
 
 implementation
@@ -932,6 +933,29 @@ begin
     if IsSpaceChar(ch) then Continue;
     exit(IsSepChar(ch));
   end;
+end;
+
+
+procedure EditorAutoCloseBracket(Ed: TATSynEdit; ch: char);
+var
+  Caret: TATCaretItem;
+  Str: atString;
+  NPos: integer;
+begin
+  Caret:= Ed.Carets[0];
+  if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
+  Str:= Ed.Strings.Lines[Caret.PosY];
+
+  //skip escaped bracket: \(
+  NPos:= Caret.PosX-1;
+  if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then exit;
+
+  if ch='(' then Str:= ')' else
+    if ch='[' then Str:= ']' else
+      if ch='{' then Str:= '}' else exit;
+
+  Ed.DoCommand(cCommand_TextInsert, Str);
+  Ed.DoCommand(cCommand_KeyLeft);
 end;
 
 end.
