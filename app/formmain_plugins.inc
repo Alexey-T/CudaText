@@ -296,6 +296,7 @@ procedure TfmMain.DoPyRescanPlugins;
 begin
   DoOps_LoadPlugins;
   UpdateMenuPlugins;
+  DoOps_LoadKeymap;
   MsgStatus('Rescanned plugins');
 end;
 
