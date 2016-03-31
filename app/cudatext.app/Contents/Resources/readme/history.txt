@@ -4,6 +4,13 @@ Legend:
   * changed
 
 
+1.3.5
++ autocomplete for HTML: completion listbox inserts tag+ closing tag after caret
++ autocomplete for HTML: auto show when typed "<"+wordchar
++ autocomplete for HTML: better for a/img/link
++ autocomplete for CSS: auto show when wordchar typed on attribute pos
++ opt auto_close_brackets
+
 1.3.4
 + drag-drop text to other group: opt mouse_drag_drop_focus_target
 + drag-drop text to other group: Ctrl pressed means "copy"

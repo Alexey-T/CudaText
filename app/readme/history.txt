@@ -4,7 +4,7 @@ Legend:
   * changed
 
 
-1.3.5-tst
+1.3.5
 + autocomplete for HTML: completion listbox inserts tag+ closing tag after caret
 + autocomplete for HTML: auto show when typed "<"+wordchar
 + autocomplete for HTML: better for a/img/link
