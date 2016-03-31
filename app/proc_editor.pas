@@ -951,8 +951,12 @@ begin
   if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then exit;
 
   if ch='(' then Str:= ')' else
-    if ch='[' then Str:= ']' else
-      if ch='{' then Str:= '}' else exit;
+   if ch='[' then Str:= ']' else
+    if ch='{' then Str:= '}' else
+     //quotes disabled: this gives infinite OnCommandAfter call
+     //if ch='"' then Str:= '"' else
+     // if ch='''' then Str:= '''' else
+       exit;
 
   Ed.DoCommand(cCommand_TextInsert, Str);
   Ed.DoCommand(cCommand_KeyLeft);

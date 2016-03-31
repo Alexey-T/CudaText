@@ -639,10 +639,12 @@ var
 begin
   Ed:= Sender as TATSynEdit;
 
-  //auto-close bracket
-  if UiOps.AutoCloseBrackets and
+  //auto-close brackets
+  if (UiOps.AutoCloseBrackets<>'') and
     (ACommand=cCommand_TextInsert) and
-    ((AText='(') or (AText='[') or (AText='{')) then
+    (Length(AText)=1) and
+    (Pos(AText[1], '([{')>0) and
+    (Pos(AText[1], UiOps.AutoCloseBrackets)>0) then
   begin
     EditorAutoCloseBracket(Ed, AText[1]);
     exit
