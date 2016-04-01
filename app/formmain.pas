@@ -3569,25 +3569,25 @@ begin
     if Num>0 then
       UpKey(mi, Num)
     else
-    if StrCmd=PyMenuCmd_Recents then
+    if (StrCmd=PyMenuCmd_Recents) or (StrCmd='_'+PyMenuCmd_Recents) then
     begin
       mnuFileOpenSub:= mi;
       UpdateMenuRecent(nil);
     end
     else
-    if StrCmd=PyMenuCmd_Themes then
+    if (StrCmd=PyMenuCmd_Themes) or (StrCmd='_'+PyMenuCmd_Themes) then
     begin
       mnuThemes:= mi;
       UpdateMenuThemes(mi);
     end
     else
-    if StrCmd=PyMenuCmd_Langs then
+    if (StrCmd=PyMenuCmd_Langs) or (StrCmd='_'+PyMenuCmd_Langs) then
     begin
       mnuLang:= mi;
       UpdateMenuLangs(mi);
     end
     else
-    if StrCmd=PyMenuCmd_Plugins then
+    if (StrCmd=PyMenuCmd_Plugins) or (StrCmd='_'+PyMenuCmd_Plugins) then
     begin
       mnuPlug:= mi;
       UpdateMenuPlugins;
