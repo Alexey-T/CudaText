@@ -1,0 +1,467 @@
+{
+  "EdTextFont" : "#AFAFAF",
+  "EdTextBg" : "#202020",
+  "EdSelFont" : "#002F5E",
+  "EdSelBg" : "#A8D3FF",
+  "EdDisableFont" : "#727272",
+  "EdDisableBg" : "#151515",
+  "EdLinks" : "#93C6FF",
+  "EdLockedBg" : "#151515",
+  "EdCaret" : "#000000",
+  "EdMarkers" : "#D65555",
+  "EdCurLineBg" : "#0A0A0A",
+  "EdIndentVLine" : "#A0A0A4",
+  "EdUnprintFont" : "#353535",
+  "EdUnprintBg" : "#242424",
+  "EdUnprintHexFont" : "#7C7C7C",
+  "EdMinimapBorder" : "#404040",
+  "EdMinimapSelBg" : "#E6E6E6",
+  "EdMicromapBg" : "#141414",
+  "EdMicromapViewBg" : "#303030",
+  "EdStateChanged" : "#FF7F27",
+  "EdStateAdded" : "#22B14C",
+  "EdStateSaved" : "#454545",
+  "EdBlockStaple" : "#555555",
+  "EdComboArrow" : "#999999",
+  "EdComboArrowBg" : "#303030",
+  "EdBorder" : "#464646",
+  "EdBlockSepLine" : "#AFAFAF",
+  "EdFoldMarkLine" : "#707070",
+  "EdFoldMarkFont" : "#707070",
+  "EdFoldMarkBorder" : "#707070",
+  "EdFoldMarkBg" : "#242424",
+  "EdGutterFont" : "#505050",
+  "EdGutterBg" : "#202020",
+  "EdGutterCaretFont" : "#808080",
+  "EdGutterCaretBg" : "#121212",
+  "EdRulerFont" : "#555555",
+  "EdRulerBg" : "#202020",
+  "EdFoldLine" : "#707070",
+  "EdFoldBg" : "#202020",
+  "EdFoldPlusLine" : "#707070",
+  "EdFoldPlusBg" : "#202020",
+  "EdMarginFixed" : "#C0C0C0",
+  "EdMarginCaret" : "#000000",
+  "EdMarginUser" : "#FFFF70",
+  "EdBookmarkBg" : "#606060",
+  "EdBookmarkIcon" : "#6F6F6F",
+  "EdMarkedRangeBg" : "#261D3F",
+  "TabBg" : "#303030",
+  "TabFont" : "#999999",
+  "TabFontMod" : "#E57124",
+  "TabActive" : "#202020",
+  "TabActiveOthers" : "#303030",
+  "TabPassive" : "#383838",
+  "TabOver" : "#464646",
+  "TabBorderActive" : "#666666",
+  "TabBorderPassive" : "#252525",
+  "TabCloseBg" : "",
+  "TabCloseBgOver" : "#B24747",
+  "TabCloseBorderOver" : "#5B2424",
+  "TabCloseX" : "#808080",
+  "TabCloseXOver" : "#D0D0D0",
+  "TabArrow" : "#808080",
+  "TabArrowOver" : "#D0D0D0",
+  "TreeFont" : "#858585",
+  "TreeBg" : "#202020",
+  "TreeSelFont" : "#BBBBBB",
+  "TreeSelBg" : "#525252",
+  "TreeLines" : "#303030",
+  "TreeSign" : "#BBBBBB",
+  "ListBg" : "#101010",
+  "ListSelBg" : "#484848",
+  "ListFont" : "#858585",
+  "ListSelFont" : "#BBBBBB",
+  "ListFontHotkey" : "#969940",
+  "ListFontHilite" : "#00C0FF",
+  "ListCompletePrefix" : "#39897F",
+  "ListCompleteParams" : "#7C9940",
+  "GaugeFill" : "#202020",
+  "GaugeBg" : "#505050",
+  "ButtonFont" : "#999999",
+  "ButtonFontDisabled" : "#404040",
+  "ButtonBgPassive" : "#252525",
+  "ButtonBgOver" : "#303030",
+  "ButtonBgChecked" : "#484848",
+  "ButtonBgDisabled" : "#303030",
+  "ButtonBorderPassive" : "#353535",
+  "ButtonBorderOver" : "#505050",
+  "ButtonBorderFocused" : "#808080",
+  "StatusFont" : "#999999",
+  "StatusBg" : "#303030",
+  "StatusLines" : "#161616",
+  "StatusAltBg" : "#2A1E33",
+  "SplitMain" : "#363636",
+  "SplitGroups" : "#363636",
+  "ExportHtmlBg" : "#202020",
+  "ExportHtmlNumbers" : "#555555",
+  "Lex_Id" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#D1D1D1",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Id1" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#D6B951",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Id2" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#DD5080",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Id3" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#CC4DC5",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Id4" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#9D51DB",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_IdKeyword" : {
+    "Type" : 1,
+    "Styles" : "b",
+    "CFont" : "#4F8BD1",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_IdVar" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#8ACE4E",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_IdBad" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#D1D1D1",
+    "CBack" : "",
+    "CBorder" : "#D65555",
+    "Border" : "0,0,0,3"
+  },
+  "Lex_String" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#C47777",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_String2" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#C1BB76",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_String3" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#BA73A6",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Symbol" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#FFFFB7",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Symbol2" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#B7FFFF",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_SymbolBad" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#FFFFB7",
+    "CBack" : "",
+    "CBorder" : "#D65555",
+    "Border" : "0,0,0,3"
+  },
+  "Lex_Comment" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#609F60",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Comment2" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#60709F",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_CommentDoc" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#709080",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Number" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#74B5BC",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Color" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#8F6AA3",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_IncludeBG1" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#131313",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_IncludeBG2" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#131320",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_IncludeBG3" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#132013",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_IncludeBG4" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#201313",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_SectionBG1" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#282828",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_SectionBG2" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#282820",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_SectionBG3" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#282028",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_SectionBG4" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#202828",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_BracketBG" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#0082BF",
+    "CBack" : "#003044",
+    "CBorder" : "#0082BF",
+    "Border" : "1,1,1,1"
+  },
+  "Lex_CurBlockBG" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#474747",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_SeparLine" : {
+    "Type" : 3,
+    "Styles" : "",
+    "CFont" : "#000000",
+    "CBack" : "#00BC00",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TagBound" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#808080",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TagId" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#6EB29F",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TagIdBad" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#6EB29F",
+    "CBack" : "",
+    "CBorder" : "#D65555",
+    "Border" : "0,0,0,8"
+  },
+  "Lex_TagProp" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#83A36A",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_LightBG1" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#4C2727",
+    "CBack" : "#FF8080",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_LightBG2" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#4B4C28",
+    "CBack" : "#FDFF87",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_LightBG3" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#2D4C27",
+    "CBack" : "#90F780",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_LightBG4" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#28294C",
+    "CBack" : "#878BFF",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_LightBG5" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#4C4C4C",
+    "CBack" : "#CCCCCC",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Pale1" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#542C2C",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Pale2" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#473D26",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Pale3" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#2D2F56",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextBold" : {
+    "Type" : 1,
+    "Styles" : "b",
+    "CFont" : "#AFAFAF",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextItalic" : {
+    "Type" : 1,
+    "Styles" : "i",
+    "CFont" : "#AFAFAF",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextBoldItalic" : {
+    "Type" : 1,
+    "Styles" : "bi",
+    "CFont" : "#AFAFAF",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_TextCross" : {
+    "Type" : 1,
+    "Styles" : "s",
+    "CFont" : "#AFAFAF",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  }
+}
+
