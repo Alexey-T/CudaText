@@ -786,6 +786,12 @@ object fmMain: TfmMain
       object mnuViewFullscr: TMenuItem
         Caption = 'Toggle full screen'
       end
+      object SepV3: TMenuItem
+        Caption = '-'
+      end
+      object mnuLexers: TMenuItem
+        Caption = 'Lexers'
+      end
     end
     object mnuPlug: TMenuItem
       Caption = '&Plugins'

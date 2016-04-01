@@ -149,12 +149,13 @@ Actions:
 ** menu_cmd is:
 *** str(command_code) - int command code from module cudatext_cmd
 *** spec values: 
-**** "recents" - recent-files submenu
-**** "themes" - color-themes submenu 
-**** "langs" - translations submenu
-**** "plugins" - plugins submenu
+**** "recents", "_recents" - recent-files submenu
+**** "themes", "_themes" - color-themes submenu 
+**** "langs", "_langs" - translations submenu
+**** "lexers", "_lexers" - lexers submenu
+**** "plugins", "_plugins" - plugins submenu
 *** s_module+","+s_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to Python method.
-*** 0 (value ignored) if submenu
+*** any string (e.g. "0", value ignored) if submenu (note: submenu is detected not by menu_id string, but by presence of sub items)
 ** menu_caption is caption, or "-" for menu separator.
 ** menu_index is str(index) for 0-based index at which to insert item; empty param or -1: add item at end.
 
@@ -530,10 +531,8 @@ Possible values of id:
 * LEXER_SET_ENABLED: Sets for lexer with given name enabled-flag (substring 2: "0" or "1").
 * LEXER_SET_EXT: Sets for lexer with given name file-extensions field (substring 2).
 * LEXER_SET_LINKS: Sets for given lexer - names of its sublexers. Substring 2 must be "|"-separated list of lexer names (any number allowed, only actual number will be used).
-* LEXER_SAVE_LIB: Saves lexer library file.
 * LEXER_DELETE: Deletes given lexer from library.
-* LEXER_IMPORT: Adds new lexer from given filename (substring 1). Gets name of this lexer, or None if import failed.
-* LEXER_EXPORT: Saves lexer with given name into file with given name (substring 2). Recommended extension: .lcf.
+* LEXER_IMPORT: Imports lexer into library, from given filename (substring 1). Gets name of this lexer, or None if import failed.
 
 ===tree_proc===
 
@@ -562,7 +561,7 @@ Possible values of id_action:
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
 
-* TREE_ICON_ADD: Adds icon to icon list. Param text: path to 16x16 bmp file. Gets icon index or -1 if cannot add.
+* TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
 * TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
 
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
@@ -975,6 +974,16 @@ Text is chr(1) separated items:
 * item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
 
 =History=
+
+1.0.134
+
+* add: app_proc: menu_id can be with "_": "_recents/_themes/_langs/_plugins"
+* add: app_proc: menu_id "lexers/_lexers"
+
+1.0.133
+
+* lexer-lib file not used, used .lcf files
+* delete: LEXER_SAVE_LIB, LEXER_EXPORT
 
 1.0.132
 

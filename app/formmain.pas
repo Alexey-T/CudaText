@@ -94,6 +94,8 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    SepV3: TMenuItem;
+    mnuLexers: TMenuItem;
     mnuHelpIssues: TMenuItem;
     mnuOpLexMap: TMenuItem;
     mnuTst2: TMenuItem;
@@ -588,6 +590,7 @@ type
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
+    procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
     procedure DoOps_SaveHistory;
@@ -2168,18 +2171,23 @@ end;
 
 
 procedure TfmMain.UpdateMenuLexers;
-var
-  i: integer;
-  sl: tstringlist;
-  an: TecSyntAnalyzer;
-  mi, mi0: tmenuitem;
-  ch: char;
-  ch0: char;
 begin
   UpdateKeymapDynamicItems;
   DoOps_LoadKeymap;
+  UpdateMenuLexersTo(PopupLex.Items);
+  UpdateMenuLexersTo(mnuLexers);
+end;
 
-  PopupLex.Items.Clear;
+procedure TfmMain.UpdateMenuLexersTo(AMenu: TMenuItem);
+var
+  sl: TStringList;
+  an: TecSyntAnalyzer;
+  mi, mi0: TMenuItem;
+  ch, ch0: char;
+  i: integer;
+begin
+  if AMenu=nil then exit;
+  AMenu.Clear;
 
   ch0:= '?';
   mi0:= nil;
@@ -2187,7 +2195,7 @@ begin
   mi:= TMenuItem.create(self);
   mi.caption:= msgNoLexer;
   mi.OnClick:= @MenuLexClick;
-  PopupLex.Items.Add(mi);
+  AMenu.Add(mi);
 
   sl:= tstringlist.create;
   try
@@ -2210,7 +2218,7 @@ begin
         mi.caption:= sl[i];
         mi.tag:= ptrint(sl.Objects[i]);
         mi.OnClick:= @MenuLexClick;
-        PopupLex.Items.Add(mi);
+        AMenu.Add(mi);
       end;
     end
     else
@@ -2224,7 +2232,7 @@ begin
         ch0:= ch;
         mi0:= TMenuItem.create(self);
         mi0.Caption:= ch;
-        PopupLex.Items.Add(mi0);
+        AMenu.Add(mi0);
       end;
 
       mi:= TMenuItem.create(self);
@@ -2234,7 +2242,7 @@ begin
       if assigned(mi0) then
         mi0.add(mi)
       else
-        PopupLex.Items.Add(mi);
+        AMenu.Add(mi);
     end;
   finally
     sl.free;
@@ -3522,6 +3530,7 @@ begin
       mnuThemes:= nil;
       mnuLang:= nil;
       mnuPlug:= nil;
+      mnuLexers:= nil;
     end;
     if AStr=PyMenuId_TopOptions then
     begin
@@ -3531,6 +3540,10 @@ begin
     if AStr=PyMenuId_TopFile then
     begin
       mnuFileOpenSub:= nil;
+    end;
+    if AStr=PyMenuId_TopView then
+    begin
+      mnuLexers:= nil;
     end;
     if AStr=PyMenuId_Text then
     begin
@@ -3591,6 +3604,12 @@ begin
     begin
       mnuPlug:= mi;
       UpdateMenuPlugins;
+    end
+    else
+    if (StrCmd=PyMenuCmd_Lexers) or (StrCmd='_'+PyMenuCmd_Lexers) then
+    begin
+      mnuLexers:= mi;
+      UpdateMenuLexers;
     end
     else
     begin

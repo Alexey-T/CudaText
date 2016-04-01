@@ -217,6 +217,7 @@ const
   PyMenuCmd_Themes = 'themes';
   PyMenuCmd_Langs = 'langs';
   PyMenuCmd_Plugins = 'plugins';
+  PyMenuCmd_Lexers = 'lexers';
 
 implementation
 
