@@ -218,6 +218,7 @@ const
   PyMenuCmd_Langs = 'langs';
   PyMenuCmd_Plugins = 'plugins';
   PyMenuCmd_Lexers = 'lexers';
+  PyMenuCmd_Enc = 'enc';
 
 implementation
 

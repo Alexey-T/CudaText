@@ -3527,6 +3527,7 @@ begin
     if AStr=PyMenuId_Top then
     begin
       mnuFileOpenSub:= nil;
+      mnuFileEnc:= nil;
       mnuThemes:= nil;
       mnuLang:= nil;
       mnuPlug:= nil;
@@ -3610,6 +3611,12 @@ begin
     begin
       mnuLexers:= mi;
       UpdateMenuLexers;
+    end
+    else
+    if (StrCmd=PyMenuCmd_Enc) or (StrCmd='_'+PyMenuCmd_Enc) then
+    begin
+      mnuFileEnc:= mi;
+      UpdateMenuEnc(mi);
     end
     else
     begin
