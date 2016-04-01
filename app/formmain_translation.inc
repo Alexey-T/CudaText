@@ -252,6 +252,7 @@ begin
     DoLocMenuitem(ini, mnuFontUi, 'm_o', 'f_u');
     DoLocMenuitem(ini, mnuFontOutput, 'm_o', 'f_o');
 
+    DoLocMenuitem(ini, mnuLexers, 'm_o', 'l_');
     DoLocMenuitem(ini, mnuOpLexSub, 'm_o', 'l_');
     DoLocMenuitem(ini, mnuOpLexProp, 'm_o', 'l_pr');
     DoLocMenuitem(ini, mnuOpLexLib, 'm_o', 'l_li');
