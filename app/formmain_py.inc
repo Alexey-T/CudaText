@@ -1594,6 +1594,8 @@ begin
           Result:= PyBool_FromLong(Ord(not Ed.ModeOverwrite));
         PROP_MODIFIED:
           Result:= PyBool_FromLong(Ord(Ed.Modified));
+        PROP_MODIFIED_VERSION:
+          Result:= PyLong_FromLongLong(Ed.Strings.ModifiedVersion);
         PROP_RULER:
           Result:= PyBool_FromLong(Ord(Ed.OptRulerVisible));
         PROP_LINE_STATE:
