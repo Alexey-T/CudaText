@@ -16,7 +16,6 @@ ch_user = []
 ch_def = [
   'https://sourceforge.net/projects/cudatext/files/addons/registry-addons.txt/download',
   'https://sourceforge.net/projects/cudatext/files/addons/registry-lexers.txt/download',
-  #'https://sourceforge.net/projects/cudatext/files/addons/registry-test.txt/download',
   ]
   
 
@@ -69,12 +68,14 @@ class Command:
                     break    
         
             msg_status('Downloading file: %d/%d'%(i+1, len(items)))
-            try:
-                url = urllib.request.urlopen(url).geturl()
-            except:
-                err += 1
-                print('Cannot resolve URL: '+url)
-                continue
+            while True:
+                try:
+                    url = urllib.request.urlopen(url).geturl()
+                    break
+                except:
+                    if msg_box('Cannot resolve URL:\n'+url+'\nRetry?', MB_RETRYCANCEL)==ID_CANCEL:
+                        err += 1
+                        break
                 
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_dl, name.split('.')[0])
