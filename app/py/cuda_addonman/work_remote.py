@@ -22,19 +22,20 @@ def get_plugin_zip(url):
 
 
 def get_channel_list(url):
-    temp_fn = os.path.join(tempfile.gettempdir(), 'cuda_addons_dir.html')
+    temp_fn = os.path.join(tempfile.gettempdir(), 'cuda_addons_dir.txt')
     get_url(url, temp_fn)
     if not os.path.isfile(temp_fn): return
 
     text = open(temp_fn, encoding='utf8').read()
     
     #regex has 3 groups: (..(type)..(name)..)
-    regex = r'a href="((\w+)\.(.+?)\.zip)"'
+    RE = r'(http.+/(\w+)\.(.+?)\.zip)'
     
-    res = re.findall(regex, text)
+    res = re.findall(RE, text)
+    res = [(r[0], r[1]+': '+unquote(r[2])) for r in res]
+    
+    #print('debug:')
     #print(res)
-    
-    res = [(url+r[0], r[1]+': '+unquote(r[2])) for r in res]
     return res
 
 

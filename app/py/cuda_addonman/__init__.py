@@ -14,12 +14,9 @@ CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
 ch_user = []
 ch_def = [
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/plugins/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/linters/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/snippets/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/themes/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/translations/',
-  'http://iweb.dl.sourceforge.net/project/synwrite-addons/Lexers/'
+  'https://sourceforge.net/projects/cudatext/files/addons/registry-addons.txt/download',
+  'https://sourceforge.net/projects/cudatext/files/addons/registry-lexers.txt/download',
+  #'https://sourceforge.net/projects/cudatext/files/addons/registry-test.txt/download',
   ]
   
 
