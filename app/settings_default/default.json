@@ -471,10 +471,12 @@
   //Auto-show auto-completion after typing N word-chars (0: disabled)
   "autocomplete_autoshow_chars": 0,
   //Addition to prev option: for which lexers (comma-separated, empty: disabled)
+  //Don't add here lexers HTML/CSS, they have own auto-show
+  //(which is intelligent, only at needed HTML/CSS place).
   "autocomplete_autoshow_lexers": "",
 
   //Auto-close brackets/quotes. Skips escaped chars, eg \(. 
-  //Value can have only chars: ( [ { ' " ` (double-quote needs escape) 
+  //Value can have only chars: ( [ { ' " ` (double-quote needs escape in json) 
   "auto_close_brackets": "([{",
   
   //File backup
