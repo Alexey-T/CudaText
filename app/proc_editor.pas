@@ -63,7 +63,7 @@ procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
 function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
-procedure EditorAutoCloseBracket(Ed: TATSynEdit; ch: char);
+function EditorAutoCloseBracket(Ed: TATSynEdit; ch: char): boolean;
 
 
 implementation
@@ -936,30 +936,31 @@ begin
 end;
 
 
-procedure EditorAutoCloseBracket(Ed: TATSynEdit; ch: char);
+function EditorAutoCloseBracket(Ed: TATSynEdit; ch: char): boolean;
 var
   Caret: TATCaretItem;
   Str: atString;
   NPos: integer;
 begin
+  Result:= false;
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
   Str:= Ed.Strings.Lines[Caret.PosY];
 
   //skip escaped bracket: \(
-  NPos:= Caret.PosX-1;
+  NPos:= Caret.PosX;
   if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then exit;
 
   if ch='(' then Str:= ')' else
    if ch='[' then Str:= ']' else
     if ch='{' then Str:= '}' else
-     //quotes disabled: this gives infinite OnCommandAfter call
-     //if ch='"' then Str:= '"' else
-     // if ch='''' then Str:= '''' else
+     if ch='"' then Str:= '"' else
+      if ch='''' then Str:= '''' else
        exit;
 
-  Ed.DoCommand(cCommand_TextInsert, Str);
+  Ed.DoCommand(cCommand_TextInsert, atString(ch)+Str);
   Ed.DoCommand(cCommand_KeyLeft);
+  Result:= true;
 end;
 
 end.

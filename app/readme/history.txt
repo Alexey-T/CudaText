@@ -4,9 +4,11 @@ Legend:
   * changed
 
 
-1.3.5.2
+1.3.5.5
++ auto-close of brackets/quotes
++ drag-cursor appears more correct
 + menuitem View--Lexers
-* AddonManager uses filelist in txt-file at SF (slower download-all, but don't use fixed mirrors of SF, safe) 
+* AddonManager uses filelist in txt-file at github (slower download-all, but don't use fixed mirrors of SF, safe) 
 
 1.3.5
 + autocomplete for HTML: completion listbox inserts tag+ closing tag after caret

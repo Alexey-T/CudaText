@@ -360,6 +360,17 @@ begin
         Frame.MacroString:= Frame.MacroString+(Str+#10);
       end;
 
+
+  //auto-close brackets
+  if (ACommand=cCommand_TextInsert) and
+    (UiOps.AutoCloseBrackets<>'') and
+    (Length(AText)=1) and
+    (Pos(AText[1], UiOps.AutoCloseBrackets)>0) then
+  begin
+    if EditorAutoCloseBracket(Ed, AText[1]) then
+      begin AHandled:= true; exit end;
+  end;
+
   //handle commands cmd_
   if (ACommand>=cmdFirstAppCommand) and
      (ACommand<cmdLastPluginCommand) then
