@@ -791,6 +791,7 @@ object fmMain: TfmMain
       end
       object mnuLexers: TMenuItem
         Caption = 'Lexers'
+        Hint = '_lexers'
       end
     end
     object mnuPlug: TMenuItem
