@@ -720,7 +720,6 @@ begin
   ed.Font.Size:= EditorOps.OpFontSize;
   ed.Font.Quality:= EditorOps.OpFontQuality;
 
-  ed.DragMode:= dmAutomatic;
   ed.BorderStyle:= bsNone;
   ed.Keymap:= AppKeymap;
   ed.TabStop:= false;
