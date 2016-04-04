@@ -14,12 +14,8 @@ CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
 ch_user = []
 ch_def = [
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/plugins/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/linters/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/snippets/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/themes/',
-  'http://tenet.dl.sourceforge.net/project/cudatext/addons/translations/',
-  'http://iweb.dl.sourceforge.net/project/synwrite-addons/Lexers/'
+  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-addons.txt',
+  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-lexers.txt',
   ]
   
 
@@ -72,12 +68,14 @@ class Command:
                     break    
         
             msg_status('Downloading file: %d/%d'%(i+1, len(items)))
-            try:
-                url = urllib.request.urlopen(url).geturl()
-            except:
-                err += 1
-                print('Cannot resolve URL: '+url)
-                continue
+            while True:
+                try:
+                    url = urllib.request.urlopen(url).geturl()
+                    break
+                except:
+                    if msg_box('Cannot resolve URL:\n'+url+'\nRetry?', MB_RETRYCANCEL)==ID_CANCEL:
+                        err += 1
+                        break
                 
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_dl, name.split('.')[0])
