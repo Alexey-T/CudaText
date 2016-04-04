@@ -63,7 +63,7 @@ procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
 function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
-function EditorAutoCloseBracket(Ed: TATSynEdit; ch: char): boolean;
+function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 
 
 implementation
@@ -936,30 +936,41 @@ begin
 end;
 
 
-function EditorAutoCloseBracket(Ed: TATSynEdit; ch: char): boolean;
+function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 var
   Caret: TATCaretItem;
-  Str: atString;
+  X1, Y1, X2, Y2: integer;
   NPos: integer;
+  bSel: boolean;
+  SEnd, SSel: atString;
 begin
   Result:= false;
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
-  Str:= Ed.Strings.Lines[Caret.PosY];
+  Caret.GetRange(X1, Y1, X2, Y2, bSel);
 
   //skip escaped bracket: \(
   NPos:= Caret.PosX;
-  if (NPos>=1) and (NPos<=Length(Str)) and (Str[NPos]='\') then exit;
+  SEnd:= Ed.Strings.Lines[Caret.PosY];
+  if (NPos>=1) and (NPos<=Length(SEnd)) and (SEnd[NPos]='\') then exit;
 
-  if ch='(' then Str:= ')' else
-   if ch='[' then Str:= ']' else
-    if ch='{' then Str:= '}' else
-     if ch='"' then Str:= '"' else
-      if ch='''' then Str:= '''' else
+  if SBegin='(' then SEnd:= ')' else
+   if SBegin='[' then SEnd:= ']' else
+    if SBegin='{' then SEnd:= '}' else
+     if SBegin='"' then SEnd:= '"' else
+      if SBegin='''' then SEnd:= '''' else
        exit;
 
-  Ed.DoCommand(cCommand_TextInsert, atString(ch)+Str);
-  Ed.DoCommand(cCommand_KeyLeft);
+  SSel:= '';
+  if Ed.Carets.Count=1 then
+    SSel:= Ed.TextSelected;
+
+  Ed.DoCommand(cCommand_TextInsert, atString(SBegin)+SSel+SEnd);
+  if SSel='' then
+    Ed.DoCommand(cCommand_KeyLeft)
+  else
+    Ed.DoCaretSingle(X2+IfThen(Y1=Y2, 1), Y2, X1+1, Y1, true);
+
   Result:= true;
 end;
 
