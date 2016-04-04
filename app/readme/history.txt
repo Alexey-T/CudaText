@@ -4,8 +4,8 @@ Legend:
   * changed
 
 
-1.3.5.5
-+ auto-close of quotes (default off)
+1.3.6
++ auto-close of quotes (read about auto_close_brackets)
 + auto-close of brackets/quotes works with selection
 + drag-cursor appears more correct
 + menuitem View--Lexers

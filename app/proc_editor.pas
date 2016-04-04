@@ -959,7 +959,8 @@ begin
     if SBegin='{' then SEnd:= '}' else
      if SBegin='"' then SEnd:= '"' else
       if SBegin='''' then SEnd:= '''' else
-       exit;
+       if SBegin='`' then SEnd:= '`' else
+        exit;
 
   SSel:= '';
   if Ed.Carets.Count=1 then

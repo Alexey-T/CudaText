@@ -473,7 +473,8 @@
   //Addition to prev option: for which lexers (comma-separated, empty: disabled)
   "autocomplete_autoshow_lexers": "",
 
-  //Auto-close brackets/quotes. Skips escaped chars, eg \(. Value can have only chars: ([{'" 
+  //Auto-close brackets/quotes. Skips escaped chars, eg \(. 
+  //Value can have only chars: ( [ { ' " ` (double-quote needs escape) 
   "auto_close_brackets": "([{",
   
   //File backup
