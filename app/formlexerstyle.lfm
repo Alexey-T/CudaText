@@ -3,6 +3,7 @@ object fmLexerStyle: TfmLexerStyle
   Height = 318
   Top = 453
   Width = 435
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Lexer style'
   ClientHeight = 318
