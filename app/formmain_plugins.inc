@@ -30,7 +30,11 @@ var
   fn: string;
   i: integer;
 begin
-  FillChar(FPluginsCmd, SizeOf(FPluginsCmd), 0);
+  //commands: don't clear all, leave items from Api
+  for i:= High(FPluginsCmd) downto Low(FPluginsCmd) do
+    if (FPluginsCmd[i].ItemModule<>'') and (not FPluginsCmd[i].ItemFromApi) then
+      CommandPlugins_DeleteItem(i);
+  //events: clear all
   FillChar(FPluginsEvents, SizeOf(FPluginsEvents), 0);
 
   list:= TStringlist.Create;

@@ -307,6 +307,7 @@ procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
 procedure CommandPlugins_UpdateSubcommands(AStr: string);
+procedure CommandPlugins_DeleteItem(AIndex: integer);
 
 var
   AppManager: TecSyntaxManager = nil;
@@ -413,6 +414,7 @@ type
     ItemCaption: string;
     ItemLexers: string;
     ItemInMenu: boolean;
+    ItemFromApi: boolean;
   end;
   TAppPluginCmdArray = array[0..400] of TAppPluginCmd;
 
@@ -978,6 +980,7 @@ begin
       FPluginsCmd[i].ItemCaption:= FPluginsCmd[i+1].ItemCaption;
       FPluginsCmd[i].ItemLexers:= FPluginsCmd[i+1].ItemLexers;
       FPluginsCmd[i].ItemInMenu:= FPluginsCmd[i+1].ItemInMenu;
+      FPluginsCmd[i].ItemFromApi:= FPluginsCmd[i+1].ItemFromApi;
     end;
   end;
   with FPluginsCmd[High(FPluginsCmd)] do
@@ -985,6 +988,7 @@ begin
     ItemModule:= '';
     ItemProc:= '';
     ItemProcParam:= '';
+    ItemFromApi:= false;
   end;
 end;
 
@@ -1052,6 +1056,7 @@ begin
       ItemProc:= SProc;
       ItemProcParam:= SItemParam;
       ItemCaption:= SItemCaption;
+      ItemFromApi:= true;
     end;
     Inc(N);
     if N>High(FPluginsCmd) then exit;
