@@ -5,7 +5,8 @@ Legend:
 
 
 1.3.7tst
-+ opt ui_max_file_size_mb
++ opt ui_max_file_size
++ small memory optimizing
 
 1.3.6
 + auto-close of quotes (read about auto_close_brackets)
