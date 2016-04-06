@@ -747,7 +747,7 @@ begin
     LexerThemes:= true;
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
-    MaxFileSizeMb:= 10;
+    MaxFileSizeMb:= 8;
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
