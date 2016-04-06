@@ -70,7 +70,8 @@ type
     LexerLibFilename: string;
     LexerThemes: boolean;
     PictureTypes: string;
-    MaxFileSizeMb: integer;
+    MaxFileSizeToOpen: integer;
+    MaxFileSizeForLexer: integer;
 
     AutocompleteCss: boolean;
     AutocompleteHtml: boolean;
@@ -747,7 +748,8 @@ begin
     LexerThemes:= true;
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
-    MaxFileSizeMb:= 8;
+    MaxFileSizeToOpen:= 30;
+    MaxFileSizeForLexer:= 4;
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;

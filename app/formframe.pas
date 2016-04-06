@@ -828,6 +828,12 @@ end;
 
 procedure TEditorFrame.SetLexer(an: TecSyntAnalyzer);
 begin
+  if (FileName<>'') and (FileSize(FileName) div (1024*1024) >= UiOps.MaxFileSizeForLexer) then
+  begin
+    Adapter.Lexer:= nil;
+    exit
+  end;
+
   if not DoApplyLexerStylesMap(an) then
     DoDialogLexerStylesMap(an);
   Adapter.Lexer:= an;

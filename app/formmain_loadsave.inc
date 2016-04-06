@@ -509,7 +509,8 @@ begin
     UiOps.LexerLibFilename:= c.GetValue('lexlib', UiOps.LexerLibFilename);
     UiOps.PyLibrary:= c.GetValue('pylib', UiOps.PyLibrary);
     UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
-    UiOps.MaxFileSizeMb:= c.GetValue('ui_max_file_size', UiOps.MaxFileSizeMb);
+    UiOps.MaxFileSizeToOpen:= c.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
+    UiOps.MaxFileSizeForLexer:= c.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
 
     UiOps.AutocompleteHtml:= c.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
     UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
