@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.3.6.0';
+  cAppExeVersion = '1.3.6.2';
   cAppApiVersion = '1.0.135';
 
 const
@@ -72,6 +72,7 @@ const
   msgCannotFindMatch: string = 'Cannot find';
   msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in zip';
   msgCannotFindBookmarks: string = 'Cannot find bookmarks in text';
+  msgCannotOpenTooBig: string = 'Cannot open file, it''s too big:';
 
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';

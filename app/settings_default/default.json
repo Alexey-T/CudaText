@@ -494,4 +494,7 @@
   //Reg-ex which finds URLs
   "links_regex": "\\b(https?://|ftp://|magnet:\\?|www\\.)\\w[^<>''\"\\s]+",
 
+  //Maximal file size allowed to open, in Mbytes
+  "ui_max_file_size_mb": 10,
+  
 }

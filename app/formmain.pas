@@ -1724,6 +1724,13 @@ begin
           Exit;
       end;
 
+  //too big size?
+  if FileSize(AFileName) div (1024*1024) > UiOps.MaxFileSizeMb then
+  begin
+    MsgBox(msgCannotOpenTooBig+#13+AFileName, MB_OK or MB_ICONWARNING);
+    exit
+  end;
+
   //is file already opened? activate frame
   for i:= 0 to FrameCount-1 do
   begin
