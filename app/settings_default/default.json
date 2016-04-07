@@ -157,7 +157,7 @@
 
   //Show special Ascii chars (code 0..31) as dots
   //(else show them as "<NNNN>" hex code)
-  "unprinted_replace_spec": true,
+  "unprinted_replace_spec": false,
 
   //Paint arrow-down at end-of-line, instead of dot
   "unprinted_end_arrow": true,

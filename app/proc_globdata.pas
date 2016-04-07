@@ -666,7 +666,7 @@ begin
     OpUnprintedSpaces:= true;
     OpUnprintedEnds:= true;
     OpUnprintedEndDetails:= false;
-    OpUnprintedReplaceSpec:= true;
+    OpUnprintedReplaceSpec:= false;
 
     OpUnprintedEndArrow:= true;
     OpUnprintedTabArrowLen:= 1;
