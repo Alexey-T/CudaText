@@ -1,9 +1,0 @@
-On Linux you can install program in such way:
-
-- copy file "cudatext" to folder /usr/bin or any other
-- copy dirs (data, readme, settings_default) to "~/.cudatext"
-
-If program runs and cannot find "data/lexlib" near it, it opens dirs from
-"~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
-
-Can't do the same with the "deb" installer. (It runs as root and cannot write to homedir).
