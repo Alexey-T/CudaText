@@ -2161,6 +2161,15 @@ begin
             Result:= PyString_FromString(PChar(AppLangName));
           end;
 
+        APP_PROC_GET_HOTKEY:
+          begin
+            Result:= PyString_FromString(PChar(GetAppKeymapHotkey(Str)));
+          end;
+        APP_PROC_SET_HOTKEY:
+          begin
+            Result:= PyBool_FromLong(Ord(SetAppKeymapHotkey(Str)));
+          end;
+
         else
           Result:= ReturnNone;
       end;

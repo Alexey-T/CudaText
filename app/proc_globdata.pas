@@ -296,6 +296,8 @@ function GetAppLangFilename: string;
 function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOverrideFilename(AName: string): string;
+function GetAppKeymapHotkey(const ACmdString: string): string;
+function SetAppKeymapHotkey(AParams: string): boolean;
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 
@@ -1094,6 +1096,57 @@ end;
 function GetAppLexerFilename(const ALexName: string): string;
 begin
   Result:= GetLexerFilenameWithExt(ALexName, '.lcf');
+end;
+
+
+function GetAppKeymapHotkey(const ACmdString: string): string;
+var
+  NCode, NIndex: integer;
+begin
+  Result:= '';
+  if Pos(',', ACmdString)=0 then
+    NCode:= StrToIntDef(ACmdString, 0)
+  else
+  begin
+    NIndex:= CommandPlugins_GetIndexFromModuleAndMethod(ACmdString);
+    if NIndex<0 then exit;
+    NCode:= NIndex+cmdFirstPluginCommand;
+  end;
+
+  NIndex:= AppKeymap.IndexOf(NCode);
+  if NIndex<0 then exit;
+  with AppKeymap[NIndex] do
+    Result:= KeyArrayToString(Keys1)+'|'+KeyArrayToString(Keys2);
+end;
+
+
+function SetAppKeymapHotkey(AParams: string): boolean;
+var
+  NCode, NIndex: integer;
+  SCmd, SKey1, SKey2: string;
+begin
+  Result:= false;
+  SCmd:= SGetItem(AParams, '|');
+  SKey1:= SGetItem(AParams, '|');
+  SKey2:= SGetItem(AParams, '|');
+
+  if Pos(',', SCmd)=0 then
+    NCode:= StrToIntDef(SCmd, 0)
+  else
+  begin
+    NIndex:= CommandPlugins_GetIndexFromModuleAndMethod(SCmd);
+    if NIndex<0 then exit;
+    NCode:= NIndex+cmdFirstPluginCommand;
+  end;
+
+  NIndex:= AppKeymap.IndexOf(NCode);
+  if NIndex<0 then exit;
+  with AppKeymap[NIndex] do
+  begin
+    KeyArraySetFromString(Keys1, SKey1);
+    KeyArraySetFromString(Keys2, SKey2);
+  end;
+  Result:= true;
 end;
 
 
