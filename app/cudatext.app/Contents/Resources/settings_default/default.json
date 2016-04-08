@@ -157,7 +157,7 @@
 
   //Show special Ascii chars (code 0..31) as dots
   //(else show them as "<NNNN>" hex code)
-  "unprinted_replace_spec": true,
+  "unprinted_replace_spec": false,
 
   //Paint arrow-down at end-of-line, instead of dot
   "unprinted_end_arrow": true,
@@ -494,4 +494,9 @@
   //Reg-ex which finds URLs
   "links_regex": "\\b(https?://|ftp://|magnet:\\?|www\\.)\\w[^<>''\"\\s]+",
 
+  //Maximal file size, to open, in Mb
+  "ui_max_size_open": 30,
+  //Maximal file size, for which allowed to use lexers, in Mb
+  "ui_max_size_lexer": 4,
+  
 }

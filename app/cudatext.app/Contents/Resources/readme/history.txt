@@ -4,6 +4,17 @@ Legend:
   * changed
 
 
+1.3.8
++ memory optimizing (for 20M+ files w/o lexer)
+* autoclose bracket: don't do if inside text
+* opt unprinted_replace_spec defaults to "false"
++ api
+
+1.3.7
++ opt ui_max_size_open
++ opt ui_max_size_lexer
++ small memory optimizing
+
 1.3.6
 + auto-close of quotes (read about auto_close_brackets)
 + auto-close of brackets/quotes works with selection
