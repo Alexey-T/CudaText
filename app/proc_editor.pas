@@ -949,12 +949,15 @@ begin
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
   Caret.GetRange(X1, Y1, X2, Y2, bSel);
 
-  NPos:= Caret.PosX;
-  SEnd:= Ed.Strings.Lines[Caret.PosY];
-  //don't do, if before caret is \
-  if (NPos>=1) and (NPos<=Length(SEnd)) and (SEnd[NPos]='\') then exit;
-  //don't do, if caret before text
-  if (NPos<Length(SEnd)) and not IsCharSpace(SEnd[NPos+1]) then exit;
+  if not bSel then
+  begin
+    NPos:= Caret.PosX;
+    SEnd:= Ed.Strings.Lines[Caret.PosY];
+    //don't do, if before caret is \
+    if (NPos>=1) and (NPos<=Length(SEnd)) and (SEnd[NPos]='\') then exit;
+    //don't do, if caret before text
+    if (NPos<Length(SEnd)) and not IsCharSpace(SEnd[NPos+1]) then exit;
+  end;
 
   if SBegin='(' then SEnd:= ')' else
    if SBegin='[' then SEnd:= ']' else
