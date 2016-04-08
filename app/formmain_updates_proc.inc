@@ -724,7 +724,7 @@ begin
   Status.ColorBorderTop:= GetAppColor('StatusLines');
   Status.ColorBorderR:= GetAppColor('StatusLines');
 
-  StatusAlt.Font.Color:= Status.Font.Color;
+  StatusAlt.Font.Color:= GetAppColor('StatusAltFont');
   StatusAlt.Color:= GetAppColor('StatusAltBg');
   StatusAlt.ColorBorderTop:= Status.ColorBorderTop;
   StatusAlt.ColorBorderR:= Status.ColorBorderR;

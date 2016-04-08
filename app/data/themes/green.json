@@ -90,6 +90,7 @@
   "StatusFont" : "#505050",
   "StatusBg" : "#AAC8C8",
   "StatusLines" : "#80A0A0",
+  "StatusAltFont" : "#000000",
   "StatusAltBg" : "#FFFBF0",
   "SplitMain" : "#AAC8C8",
   "SplitGroups" : "#AAC8C8",

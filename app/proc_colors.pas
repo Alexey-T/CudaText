@@ -236,7 +236,8 @@ begin
   Add(clBlack, 'StatusFont', 'statusbar, font');
   Add($e0e0e0, 'StatusBg', 'statusbar, BG');
   Add(clMedGray, 'StatusLines', 'statusbar, border');
-  Add(clCream, 'StatusAltBg', 'statusbar alt, BG');
+  Add(clBlack, 'StatusAltFont', 'statusbar alternative, font');
+  Add(clCream, 'StatusAltBg', 'statusbar alternative, BG');
 
   Add($e0e0e0, 'SplitMain', 'splitters, main');
   Add($e0e0e0, 'SplitGroups', 'splitters, groups');
