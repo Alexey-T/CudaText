@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="44">
+    <Units Count="45">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -343,6 +343,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit43>
+      <Unit44>
+        <Filename Value="formkeyinput.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmKeyInput"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit44>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

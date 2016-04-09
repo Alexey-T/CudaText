@@ -1,0 +1,43 @@
+object fmKeyInput: TfmKeyInput
+  Left = 461
+  Height = 188
+  Top = 413
+  Width = 320
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Hotkey'
+  ClientHeight = 188
+  ClientWidth = 320
+  KeyPreview = True
+  OnKeyDown = FormKeyDown
+  Position = poScreenCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '1.7'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 153
+    Width = 308
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbCancel]
+    ShowBevel = False
+  end
+  object PanelPress: TPanel
+    Left = 0
+    Height = 147
+    Top = 0
+    Width = 320
+    Align = alClient
+    BevelOuter = bvNone
+    Caption = 'Press a hotkey...'
+    TabOrder = 1
+  end
+end

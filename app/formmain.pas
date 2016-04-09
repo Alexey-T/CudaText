@@ -77,6 +77,7 @@ uses
   formcolorsetup,
   formabout,
   formcharmaps,
+  formkeyinput,
   math;
 
 

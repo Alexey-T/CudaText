@@ -8,6 +8,7 @@ Legend:
 + memory optimizing (for 20M+ files w/o lexer)
 * autoclose bracket: don't do if inside text
 * opt unprinted_replace_spec defaults to "false"
++ theme color "statusbar alt, font"
 + api
 
 1.3.7

@@ -14,7 +14,7 @@ uses
   formlexerlib, proc_msg, lazcolorpalette, formpalette, proc_install_zip,
   formcolorsetup, formabout, formkeys,
   formlexerstylesload, formcharmaps, proc_keysdialog, proc_customdialog,
-  proc_miscutils, ATLinkLabel, formlexerstyle, formlexerstylemap;
+  proc_miscutils, ATLinkLabel, formlexerstyle, formlexerstylemap, formkeyinput;
 
 {$R *.res}
 

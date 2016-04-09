@@ -1512,6 +1512,21 @@ begin
 end;
 
 
+function Py_dlg_hotkey(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  S: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, ':dlg_hotkey')) then
+    begin
+      S:= DoDialogHotkeyInput;
+      if S<>'' then
+        Result:= PyString_FromString(PChar(S))
+      else
+        Result:= ReturnNone;
+    end;
+end;
+
 function Py_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
@@ -2686,6 +2701,7 @@ begin
     AddMethod('dlg_dir', @Py_dlg_dir, '');
     AddMethod('dlg_menu', @Py_dlg_menu, '');
     AddMethod('dlg_color', @Py_dlg_color, '');
+    AddMethod('dlg_hotkey', @Py_dlg_hotkey, '');
     AddMethod('dlg_hotkeys', @Py_dlg_hotkeys, '');
     AddMethod('dlg_custom', @Py_dlg_custom, '');
 
