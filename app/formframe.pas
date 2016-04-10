@@ -714,6 +714,7 @@ begin
   ed.TabStop:= false;
   ed.OptUnprintedVisible:= false;
   ed.OptRulerVisible:= false;
+  ed.OptScrollbarsNew:= true;
 
   ed.OnClick:= @EditorOnClick;
   ed.OnClickDouble:= @EditorOnClickDouble;

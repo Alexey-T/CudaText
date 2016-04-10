@@ -4,8 +4,8 @@ Legend:
   * changed
 
 
-1.3.8.tst
-+ themed scrollbars (trees, listboxes)
+1.3.9.tst
++ themed scrollbars: editor, trees, listboxes
 + theme "darkwolf" preinstalled
 
 1.3.8
