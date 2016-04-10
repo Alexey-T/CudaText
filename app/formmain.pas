@@ -24,6 +24,7 @@ uses
   ecSyntAnal,
   ATButtons,
   ATListbox,
+  ATScrollBar,
   ATSynEdit,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,

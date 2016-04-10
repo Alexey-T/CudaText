@@ -53,6 +53,18 @@ type
     ACanvas: TCanvas; const ARect: TRect; var ACanDraw: boolean) of object;
 
 type
+  TATScrollbarTheme = record
+    ColorBG: TColor;
+    ColorBorder: TColor;
+    ColorRect: TColor;
+    ColorFill: TColor;
+    ColorArrow: TColor;
+    ColorScrolled: TColor;
+  end;
+var
+  ATScrollbarTheme: TATScrollbarTheme;
+
+type
   TATScroll = class(TPanel)
   private
     FKind: TScrollBarKind;
@@ -61,12 +73,6 @@ type
     FIndentArrow: Integer;
     FIndentArrLonger: Integer;
     FTimerDelay: Integer;
-
-    FColorBorder: TColor;
-    FColorRect: TColor;
-    FColorFill: TColor;
-    FColorArrow: TColor;
-    FColorScrolled: TColor;
 
     FPos,
     FMin,
@@ -148,7 +154,6 @@ type
     property IndentArrow: Integer read FIndentArrow write FIndentArrow;
     property IndentArrLonger: Integer read FIndentArrLonger write FIndentArrLonger;
     property TimerDelay: Integer read FTimerDelay write FTimerDelay;
-    property ColorBorder: TColor read FColorBorder write FColorBorder;
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
     property OnOwnerDraw: TATScrollDrawEvent read FOnOwnerDraw write FOnOwnerDraw;
   end;
@@ -180,12 +185,7 @@ begin
   FMax:= 100;
   FPage:= 20;
 
-  Color:= $E0E0E0;
-  FColorBorder:= clLtGray;
-  FColorArrow:= $404040;
-  FColorRect:= $808080;
-  FColorFill:= $c0c0c0;
-  FColorScrolled:= $c8c8c8;
+  Color:= ATScrollbarTheme.ColorBG;
 
   FBitmap:= TBitmap.Create;
   FBitmap.PixelFormat:= pf24bit;
@@ -229,7 +229,7 @@ begin
     if DoDrawEvent(aseCorner, C, FInCorner) then
       DoPaintStd_Corner(C, FInCorner);
 
-  C.Brush.Color:= FColorBorder;
+  C.Brush.Color:= ATScrollbarTheme.ColorBorder;
   C.FillRect(FIn);
 
   FIn:= Rect(
@@ -386,11 +386,11 @@ var
   P, P1, P2, P3: TPoint;
   cc: Integer;
 begin
-  C.Brush.Color:= FColorRect;
+  C.Brush.Color:= ATScrollbarTheme.ColorRect;
   C.FillRect(R);
 
   InflateRect(R, -1, -1);
-  C.Brush.Color:= FColorFill;
+  C.Brush.Color:= ATScrollbarTheme.ColorFill;
   C.FillRect(R);
 
   P:= CenterPoint(R);
@@ -425,8 +425,8 @@ begin
       Exit;
  end;     
 
-  C.Brush.Color:= FColorArrow;
-  C.Pen.Color:= FColorArrow;
+  C.Brush.Color:= ATScrollbarTheme.ColorArrow;
+  C.Pen.Color:= ATScrollbarTheme.ColorArrow;
   C.Polygon([P1, P2, P3]);
 end;
 
@@ -519,8 +519,8 @@ const
 var
   P: TPoint;
 begin
-  C.Brush.Color:= FColorFill;
-  C.Pen.Color:= FColorRect;
+  C.Brush.Color:= ATScrollbarTheme.ColorFill;
+  C.Pen.Color:= ATScrollbarTheme.ColorRect;
   C.Rectangle(R);
 
   P:= CenterPoint(R);
@@ -657,19 +657,19 @@ end;
 
 procedure TATScroll.DoPaintStd_Corner(C: TCanvas; const R: TRect);
 begin
-  C.Brush.Color:= Color;
+  C.Brush.Color:= ATScrollbarTheme.ColorBG;
   C.FillRect(R);
 end;
 
 procedure TATScroll.DoPaintStd_Back(C: TCanvas; const R: TRect);
 begin
-  C.Brush.Color:= Color;
+  C.Brush.Color:= ATScrollbarTheme.ColorBG;
   C.FillRect(R);
 end;
 
 procedure TATScroll.DoPaintStd_BackScrolled(C: TCanvas; const R: TRect);
 begin
-  C.Brush.Color:= FColorScrolled;
+  C.Brush.Color:= ATScrollbarTheme.ColorScrolled;
   C.FillRect(R);
 end;
 
@@ -705,5 +705,12 @@ begin
     end;
   end;
 end;
+
+initialization
+  ATScrollbarTheme.ColorBorder:= clLtGray;
+  ATScrollbarTheme.ColorArrow:= $404040;
+  ATScrollbarTheme.ColorRect:= $808080;
+  ATScrollbarTheme.ColorFill:= $c0c0c0;
+  ATScrollbarTheme.ColorScrolled:= $c8c8c8;
 
 end.

@@ -233,6 +233,13 @@ begin
   Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
+  Add($E0E0E0, 'ScrollBack', 'scrollbar, BG');
+  Add(clLtGray, 'ScrollBorder', 'scrollbar, border');
+  Add($404040, 'ScrollArrow', 'scrollbar, arrow');
+  Add($808080, 'ScrollRect', 'scrollbar, elements border');
+  Add($c0c0c0, 'ScrollFill', 'scrollbar, elements fill');
+  Add($c8c8c8, 'ScrollScrolled', 'scrollbar, scrolling area');
+
   Add(clBlack, 'StatusFont', 'statusbar, font');
   Add($e0e0e0, 'StatusBg', 'statusbar, BG');
   Add(clMedGray, 'StatusLines', 'statusbar, border');

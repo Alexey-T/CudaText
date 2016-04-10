@@ -687,6 +687,13 @@ var
 begin
   UpdateMenuThemes(mnuThemes);
 
+  ATScrollbarTheme.ColorBG:= GetAppColor('ScrollBack');
+  ATScrollbarTheme.ColorBorder:= GetAppColor('ScrollBorder');
+  ATScrollbarTheme.ColorArrow:= GetAppColor('ScrollArrow');
+  ATScrollbarTheme.ColorRect:= GetAppColor('ScrollRect');
+  ATScrollbarTheme.ColorFill:= GetAppColor('ScrollFill');
+  ATScrollbarTheme.ColorScrolled:= GetAppColor('ScrollScrolled');
+
   ListboxOut.Color:= GetAppColor('ListBg');
   ListboxOut.Invalidate;
   ListboxVal.Color:= ListboxOut.Color;
