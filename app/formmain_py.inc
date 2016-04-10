@@ -1319,7 +1319,7 @@ end;
 type
   PAppPanelProps = ^TAppPanelProps;
   TAppPanelProps = record
-    Listbox: TATListbox;
+    Listbox: TATListboxMy;
     RegexStr: string;
     RegexIdLine,
     RegexIdCol,
@@ -1360,7 +1360,7 @@ begin
   end;
 end;
 
-function GetAppPanelProps_ByListbox(AListbox: TATListbox): PAppPanelProps;
+function GetAppPanelProps_ByListbox(AListbox: TATListboxMy): PAppPanelProps;
 var
   PropObject: TAppPanelPropsClass;
   i: integer;

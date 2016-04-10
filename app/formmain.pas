@@ -87,8 +87,6 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ImageListTreeRes: TImageList;
-    ListboxOut: TATListbox;
-    ListboxVal: TATListbox;
     ButtonCancel: TATButton;
     FontDlg: TFontDialog;
     Gauge: TGauge;
@@ -735,6 +733,8 @@ type
     { public declarations }
     Tree: TTreeView;
     TreeRes: TTreeView;
+    ListboxOut: TATListboxMy;
+    ListboxVal: TATListboxMy;
     FPanelCaptions: TStringlist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
@@ -753,6 +753,7 @@ type
 
 var
   fmMain: TfmMain;
+
 
 implementation
 
@@ -994,6 +995,22 @@ begin
   TreeRes.Parent:= PanelBottom;
   TreeRes.Align:= alClient;
   TreeRes.Images:= ImageListTreeRes;
+
+  ListboxOut:= TATListboxMy.Create(Self);
+  ListboxOut.Parent:= PanelBottom;
+  ListboxOut.Align:= alClient;
+  ListboxOut.CanGetFocus:= true;
+  ListboxOut.OnDblClick:= @ListboxOutClick;
+  ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
+  ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
+
+  ListboxVal:= TATListboxMy.Create(Self);
+  ListboxVal.Parent:= PanelBottom;
+  ListboxVal.Align:= alClient;
+  ListboxVal.CanGetFocus:= true;
+  ListboxVal.OnDblClick:= @ListboxOutClick;
+  ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
+  ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
 
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 0 to 9 do
@@ -3131,8 +3148,9 @@ var
   ResFilename: string;
   ResLine, ResCol: integer;
 begin
-  Prop:= GetAppPanelProps_ByListbox(Sender as TATListbox);
+  Prop:= GetAppPanelProps_ByListbox(Sender as TATListboxMy);
   if Prop=nil then exit;
+  if AIndex<0 then exit;
 
   DoParseOutputLine(Prop^, Prop^.Listbox.Items[AIndex], ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
@@ -3324,7 +3342,7 @@ end;
 function TfmMain.DoPyPanelAdd(AParams: string): boolean;
 var
   SCaption: string;
-  Listbox: TATListbox;
+  Listbox: TATListboxMy;
   Props: TAppPanelPropsClass;
 begin
   Result:= false;
@@ -3335,7 +3353,7 @@ begin
      (SCaption='Validate') then exit;
   if FPanelCaptions.IndexOf(SCaption)>=0 then exit;
 
-  Listbox:= TATListbox.Create(Self);
+  Listbox:= TATListboxMy.Create(Self);
   Listbox.Hide;
   Listbox.Parent:= PanelBottom;
   Listbox.Align:= alClient;

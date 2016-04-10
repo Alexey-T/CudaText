@@ -82,33 +82,7 @@ object fmMain: TfmMain
       Width = 788
       Align = alBottom
       BevelOuter = bvNone
-      ClientHeight = 90
-      ClientWidth = 788
       TabOrder = 1
-      object ListboxOut: TATListbox
-        Left = 184
-        Height = 150
-        Top = 0
-        Width = 180
-        CanGetFocus = True
-        Color = clSilver
-        ItemHeight = 28
-        OnDblClick = ListboxOutClick
-        OnDrawItem = ListboxOutDrawItem
-        OnKeyDown = ListboxOutKeyDown
-      end
-      object ListboxVal: TATListbox
-        Left = 368
-        Height = 150
-        Top = 0
-        Width = 180
-        CanGetFocus = True
-        Color = clSilver
-        ItemHeight = 28
-        OnDblClick = ListboxOutClick
-        OnDrawItem = ListboxOutDrawItem
-        OnKeyDown = ListboxOutKeyDown
-      end
     end
     object SplitterHorz: TSplitter
       Cursor = crVSplit

@@ -449,7 +449,7 @@ begin
     N0:= FIn.Top;
     NLen:= FIn.Bottom-FIn.Top;
   end;
-  Result:= N0 + (APos-FMin) * NLen div (FMax-FMin);
+  Result:= N0 + (APos-FMin) * NLen div Math.Max(1, FMax-FMin);
 end;
 
 procedure TATScroll.DoUpdateThumbRect;
