@@ -20,6 +20,8 @@ type
     procedure DoSelectionChanged; override;
     procedure Resize; override;
     procedure Changed; override;
+    procedure Collapse(Node: TTreeNode); override;
+    procedure Expand(Node: TTreeNode); override;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -127,6 +129,18 @@ end;
 procedure TTreeViewMy.Changed;
 begin
   inherited;
+  UpdScroll;
+end;
+
+procedure TTreeViewMy.Collapse(Node: TTreeNode);
+begin
+  inherited Collapse(Node);
+  UpdScroll;
+end;
+
+procedure TTreeViewMy.Expand(Node: TTreeNode);
+begin
+  inherited Expand(Node);
   UpdScroll;
 end;
 
