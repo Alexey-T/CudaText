@@ -26,6 +26,7 @@ uses
   proc_cmd,
   proc_lexer,
   proc_msg,
+  proc_scrollbars,
   ecSyntAnal;
 
 var
@@ -432,6 +433,10 @@ type
 var
   FPluginsCmd: TAppPluginCmdArray;
   FPluginsEvents: TAppPluginEventArray;
+
+type
+  TTreeView = type TTreeViewMy;
+  TATListbox = type TATListboxMy;
 
 type
   TAppSidePanel = record

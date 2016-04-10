@@ -332,7 +332,7 @@ begin
       ItemCaption:= ACaption;
       ItemMenu:= TPopupMenu.Create(Self);
       ItemImagelist:= TImageList.Create(Self);
-      ItemTreeview:= TTreeViewMy.Create(Self);
+      ItemTreeview:= TTreeView.Create(Self);
 
       ItemTreeview.Hide;
       ItemTreeview.Parent:= PanelLeft;

@@ -32,9 +32,6 @@ uses
   math;
 
 type
-  TATListbox = type TATListboxMy;
-
-type
   { TfmCommands }
 
   TfmCommands = class(TForm)

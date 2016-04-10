@@ -82,7 +82,6 @@ uses
   formkeyinput,
   math;
 
-
 type
   { TfmMain }
   TfmMain = class(TForm)
@@ -734,8 +733,8 @@ type
     { public declarations }
     Tree: TTreeView;
     TreeRes: TTreeView;
-    ListboxOut: TATListboxMy;
-    ListboxVal: TATListboxMy;
+    ListboxOut: TATListbox;
+    ListboxVal: TATListbox;
     FPanelCaptions: TStringlist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
@@ -984,7 +983,7 @@ procedure TfmMain.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
-  Tree:= TTreeViewMy.Create(Self);
+  Tree:= TTreeView.Create(Self);
   Tree.Parent:= PanelLeft;
   Tree.Align:= alClient;
   Tree.Images:= ImageListTree;
@@ -992,12 +991,12 @@ begin
   Tree.OnMouseMove:= @TreeMouseMove;
   Tree.PopupMenu:= PopupTree;
 
-  TreeRes:= TTreeViewMy.Create(Self);
+  TreeRes:= TTreeView.Create(Self);
   TreeRes.Parent:= PanelBottom;
   TreeRes.Align:= alClient;
   TreeRes.Images:= ImageListTreeRes;
 
-  ListboxOut:= TATListboxMy.Create(Self);
+  ListboxOut:= TATListbox.Create(Self);
   ListboxOut.Parent:= PanelBottom;
   ListboxOut.Align:= alClient;
   ListboxOut.CanGetFocus:= true;
@@ -1005,7 +1004,7 @@ begin
   ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
   ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
 
-  ListboxVal:= TATListboxMy.Create(Self);
+  ListboxVal:= TATListbox.Create(Self);
   ListboxVal.Parent:= PanelBottom;
   ListboxVal.Align:= alClient;
   ListboxVal.CanGetFocus:= true;
@@ -3149,7 +3148,7 @@ var
   ResFilename: string;
   ResLine, ResCol: integer;
 begin
-  Prop:= GetAppPanelProps_ByListbox(Sender as TATListboxMy);
+  Prop:= GetAppPanelProps_ByListbox(Sender as TATListbox);
   if Prop=nil then exit;
   if AIndex<0 then exit;
 
@@ -3343,7 +3342,7 @@ end;
 function TfmMain.DoPyPanelAdd(AParams: string): boolean;
 var
   SCaption: string;
-  Listbox: TATListboxMy;
+  Listbox: TATListbox;
   Props: TAppPanelPropsClass;
 begin
   Result:= false;
@@ -3354,7 +3353,7 @@ begin
      (SCaption='Validate') then exit;
   if FPanelCaptions.IndexOf(SCaption)>=0 then exit;
 
-  Listbox:= TATListboxMy.Create(Self);
+  Listbox:= TATListbox.Create(Self);
   Listbox.Hide;
   Listbox.Parent:= PanelBottom;
   Listbox.Align:= alClient;
