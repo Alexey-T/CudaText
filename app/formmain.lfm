@@ -51,22 +51,7 @@ object fmMain: TfmMain
         Width = 202
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 135
-        ClientWidth = 202
         TabOrder = 1
-        object Tree: TTreeView
-          Left = 0
-          Height = 135
-          Top = 0
-          Width = 202
-          Align = alClient
-          Images = ImageListTree
-          PopupMenu = PopupTree
-          TabOrder = 0
-          OnDblClick = TreeClick
-          OnMouseMove = TreeMouseMove
-          TreeLinePenStyle = psSolid
-        end
       end
       object Gauge: TGauge
         Left = 408
@@ -123,15 +108,6 @@ object fmMain: TfmMain
         OnDblClick = ListboxOutClick
         OnDrawItem = ListboxOutDrawItem
         OnKeyDown = ListboxOutKeyDown
-      end
-      object TreeRes: TTreeView
-        Left = 552
-        Height = 97
-        Top = 0
-        Width = 121
-        Images = ImageListTreeRes
-        TabOrder = 2
-        Visible = False
       end
     end
     object SplitterHorz: TSplitter

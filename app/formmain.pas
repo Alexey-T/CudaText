@@ -60,6 +60,7 @@ uses
   proc_lexer_styles,
   proc_keysdialog,
   proc_customdialog,
+  proc_scrollbars,
   formconsole,
   formframe,
   form_menu_commands,
@@ -376,8 +377,6 @@ type
     tbCut: TToolButton;
     tbPaste: TToolButton;
     tbSplit2: TToolButton;
-    Tree: TTreeView;
-    TreeRes: TTreeView;
     UniqInstance: TUniqueInstance;
     procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
@@ -734,6 +733,8 @@ type
     procedure InitStatusButton;
   public
     { public declarations }
+    Tree: TTreeView;
+    TreeRes: TTreeView;
     FPanelCaptions: TStringlist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
@@ -981,6 +982,19 @@ procedure TfmMain.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
+  Tree:= TTreeViewMy.Create(Self);
+  Tree.Parent:= PanelLeft;
+  Tree.Align:= alClient;
+  Tree.Images:= ImageListTree;
+  Tree.OnDblClick:= @TreeClick;
+  Tree.OnMouseMove:= @TreeMouseMove;
+  Tree.PopupMenu:= PopupTree;
+
+  TreeRes:= TTreeViewMy.Create(Self);
+  TreeRes.Parent:= PanelBottom;
+  TreeRes.Align:= alClient;
+  TreeRes.Images:= ImageListTreeRes;
+
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 0 to 9 do
   begin

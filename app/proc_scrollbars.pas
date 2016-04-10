@@ -19,6 +19,7 @@ type
   protected
     procedure DoSelectionChanged; override;
     procedure Resize; override;
+    procedure Changed; override;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -51,7 +52,6 @@ end;
 procedure TATListboxMy.UpdScroll;
 begin
   if not Assigned(FScroll) then exit;
-
   FScroll.Min:= 0;
   FScroll.Max:= ItemCount;
   FScroll.PageSize:= VisibleItems;
@@ -106,6 +106,7 @@ end;
 procedure TTreeViewMy.UpdScroll;
 begin
   if not Assigned(FScroll) then exit;
+  FScroll.Min:= 0;
   FScroll.PageSize:= ClientHeight;
   FScroll.Max:= GetMaxScrollTop+FScroll.PageSize;
   FScroll.Position:= ScrolledTop;
@@ -118,6 +119,12 @@ begin
 end;
 
 procedure TTreeViewMy.Resize;
+begin
+  inherited;
+  UpdScroll;
+end;
+
+procedure TTreeViewMy.Changed;
 begin
   inherited;
   UpdScroll;

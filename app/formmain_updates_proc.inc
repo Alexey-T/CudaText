@@ -671,7 +671,7 @@ begin
     tvoToolTips
     ];
   C.ShowLines:= UiOps.TreeShowLines;
-  C.ScrollBars:= ssVertical;
+  C.ScrollBars:= ssNone; //ssVertical;
   C.RowSelect:= true;
   C.RightClickSelect:= true;
   C.ReadOnly:= true;
@@ -893,6 +893,9 @@ begin
   mnuGr6.Checked:= Groups.Mode= gm6Grid;
 end;
 
+
+type TTreeHack = class(TTreeView);
+
 procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
 var
   Caret: TATCaretItem;
@@ -912,8 +915,8 @@ begin
       try
         Adapter.TreeFill(Tree);
       finally
-        Tree.Scrollbars:= ssNone;
-        Tree.Scrollbars:= ssVertical;
+        //Tree.Scrollbars:= ssNone;
+        //Tree.Scrollbars:= ssVertical;
         Tree.EndUpdate;
       end;
     end;
