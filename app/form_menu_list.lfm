@@ -13,7 +13,7 @@ object fmGotoList: TfmGotoList
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.5'
+  LCLVersion = '1.7'
   object List: TATListbox
     Left = 6
     Height = 221
@@ -21,8 +21,10 @@ object fmGotoList: TfmGotoList
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
+    CanGetFocus = False
     Color = clWhite
     ItemHeight = 28
+    ShowScrollbar = False
     OnClick = ListClick
     OnDrawItem = ListDrawItem
   end

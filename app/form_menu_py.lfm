@@ -199,6 +199,7 @@ object fmMenuApi: TfmMenuApi
     CanGetFocus = False
     Color = clWhite
     ItemHeight = 28
+    ShowScrollbar = False
     OnClick = listClick
     OnDrawItem = listDrawItem
   end

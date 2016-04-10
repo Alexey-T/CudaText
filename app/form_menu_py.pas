@@ -24,7 +24,11 @@ uses
   proc_globdata,
   proc_colors,
   proc_str,
+  proc_scrollbars,
   math;
+
+type
+  TATListbox = type TATListboxMy;
 
 type
   { TfmMenuApi }

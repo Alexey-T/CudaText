@@ -19,7 +19,11 @@ uses
   ATSynEdit,
   ATListbox,
   proc_globdata,
-  proc_colors;
+  proc_colors,
+  proc_scrollbars;
+
+type
+  TATListbox = type TATListboxMy;
 
 type
   { TfmGotoList }

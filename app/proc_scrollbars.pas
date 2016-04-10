@@ -41,12 +41,12 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
-
-implementation
-
 const
   cATScrollWidth = 16;
   cATScrollBorderSize = 0;
+
+
+implementation
 
 { TATListboxMy }
 

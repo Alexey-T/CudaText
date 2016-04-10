@@ -27,8 +27,12 @@ uses
   proc_colors,
   proc_str,
   proc_keysdialog,
+  proc_scrollbars,
   jsonConf,
   math;
+
+type
+  TATListbox = type TATListboxMy;
 
 type
   { TfmCommands }
@@ -299,7 +303,7 @@ begin
 
   if strkey<>'' then
   begin
-    n:= ARect.Right-c.TextWidth(strkey)-4;
+    n:= ARect.Right-c.TextWidth(strkey)-4 - cATScrollWidth;
     c.Font.Color:= GetAppColor('ListFontHotkey');
     c.TextOut(n, pnt.y, strkey);
   end;
