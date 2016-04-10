@@ -688,7 +688,7 @@ begin
   UpdateMenuThemes(mnuThemes);
 
   ATScrollbarTheme.ColorBG:= GetAppColor('ScrollBack');
-  ATScrollbarTheme.ColorBorder:= GetAppColor('ScrollBorder');
+  //ATScrollbarTheme.ColorBorder:= GetAppColor('ScrollBorder');
   ATScrollbarTheme.ColorArrow:= GetAppColor('ScrollArrow');
   ATScrollbarTheme.ColorRect:= GetAppColor('ScrollRect');
   ATScrollbarTheme.ColorFill:= GetAppColor('ScrollFill');

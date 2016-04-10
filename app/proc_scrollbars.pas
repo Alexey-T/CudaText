@@ -44,6 +44,10 @@ type
 
 implementation
 
+const
+  cATScrollWidth = 16;
+  cATScrollBorderSize = 0;
+
 { TATListboxMy }
 
 procedure TATListboxMy.ScrollChange(Sender: TObject);
@@ -80,7 +84,8 @@ begin
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= 18;
+  FScroll.Width:= cATScrollWidth;
+  FScroll.IndentBorder:= cATScrollBorderSize;
   FScroll.OnChange:= @ScrollChange;
   UpdScroll;
 end;
@@ -95,7 +100,8 @@ begin
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= 18;
+  FScroll.Width:= cATScrollWidth;
+  FScroll.IndentBorder:= cATScrollBorderSize;
   FScroll.OnChange:= @ScrollChange;
   UpdScroll;
 end;
