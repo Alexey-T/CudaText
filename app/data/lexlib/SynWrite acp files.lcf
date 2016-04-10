@@ -1,37 +1,45 @@
 object SyntAnal70: TLibSyntAnalyzer
-  Formats = <  
+  Formats = <
     item
       DisplayName = 'Type'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Params'
-      Font.Color = clGray
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
       Font.Height = -11
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Comment'
-      Font.Color = clTeal
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Cmt sys'
       StyleName = 'Comment'
       Expression = '^\#.+$'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Type'
       StyleName = 'Type'
@@ -39,35 +47,27 @@ object SyntAnal70: TLibSyntAnalyzer
       Expression = '^\S+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Cmt'
       StyleName = 'Comment'
       Expression = '\|.*$'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = 'Params( )'
+      DisplayName = 'Params'
       StyleName = 'Params'
       TokenType = 3
       Expression = '\(.*?\)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
-    item
-      DisplayName = 'Params'
-      StyleName = 'Params'
-      TokenType = 3
-      Expression = '(?<=^\S+\s+\S+\s+) .+? (?=\|)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
-      Expression = '[^\|\(\)]+?'
+      Expression = '(?<=^\w+\s+) [^\(\)\|\x20]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -78,20 +78,17 @@ object SyntAnal70: TLibSyntAnalyzer
     'type Name (some params) |Comment'
     'typ name%20name params |Comment'
     'type name(params)'
-    'typ name'
-  )
+    'typ name')
   TokenTypeNames.Strings = (
     'Comment'
     'Type'
     'Id'
-    'Params '
-  )
+    'Params ')
   Extentions = 'acp'
   LexerName = 'SynWrite acp files'
   Notes.Strings = (
-    'Author: Alex, uvviewsoft.com'
-  )
+    'Alex (Synwrite)')
   Charset = DEFAULT_CHARSET
-  left = 144
-  top = 184
+  Left = 144
+  Top = 184
 end

@@ -387,6 +387,9 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <CustomOptions Value="-dcomplete_at_scroll"/>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="7">
