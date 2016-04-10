@@ -56,9 +56,11 @@ type
   TATScrollbarTheme = record
     ColorBG: TColor;
     ColorBorder: TColor;
-    ColorRect: TColor;
-    ColorFill: TColor;
-    ColorArrow: TColor;
+    ColorThumbBorder: TColor;
+    ColorThumbFill: TColor;
+    ColorArrowBorder: TColor;
+    ColorArrowFill: TColor;
+    ColorArrowSign: TColor;
     ColorScrolled: TColor;
   end;
 var
@@ -386,11 +388,11 @@ var
   P, P1, P2, P3: TPoint;
   cc: Integer;
 begin
-  C.Brush.Color:= ATScrollbarTheme.ColorRect;
+  C.Brush.Color:= ATScrollbarTheme.ColorArrowBorder;
   C.FillRect(R);
 
   InflateRect(R, -1, -1);
-  C.Brush.Color:= ATScrollbarTheme.ColorFill;
+  C.Brush.Color:= ATScrollbarTheme.ColorArrowFill;
   C.FillRect(R);
 
   P:= CenterPoint(R);
@@ -425,8 +427,8 @@ begin
       Exit;
  end;     
 
-  C.Brush.Color:= ATScrollbarTheme.ColorArrow;
-  C.Pen.Color:= ATScrollbarTheme.ColorArrow;
+  C.Brush.Color:= ATScrollbarTheme.ColorArrowSign;
+  C.Pen.Color:= ATScrollbarTheme.ColorArrowSign;
   C.Polygon([P1, P2, P3]);
 end;
 
@@ -519,8 +521,8 @@ const
 var
   P: TPoint;
 begin
-  C.Brush.Color:= ATScrollbarTheme.ColorFill;
-  C.Pen.Color:= ATScrollbarTheme.ColorRect;
+  C.Brush.Color:= ATScrollbarTheme.ColorThumbFill;
+  C.Pen.Color:= ATScrollbarTheme.ColorThumbBorder;
   C.Rectangle(R);
 
   P:= CenterPoint(R);
@@ -708,9 +710,11 @@ end;
 
 initialization
   ATScrollbarTheme.ColorBorder:= clLtGray;
-  ATScrollbarTheme.ColorArrow:= $404040;
-  ATScrollbarTheme.ColorRect:= $808080;
-  ATScrollbarTheme.ColorFill:= $c0c0c0;
+  ATScrollbarTheme.ColorThumbBorder:= $808080;
+  ATScrollbarTheme.ColorThumbFill:= $c0c0c0;
+  ATScrollbarTheme.ColorArrowBorder:= $808080;
+  ATScrollbarTheme.ColorArrowFill:= $c0c0c0;
+  ATScrollbarTheme.ColorArrowSign:= $404040;
   ATScrollbarTheme.ColorScrolled:= $c8c8c8;
 
 end.

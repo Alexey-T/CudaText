@@ -688,10 +688,11 @@ begin
   UpdateMenuThemes(mnuThemes);
 
   ATScrollbarTheme.ColorBG:= GetAppColor('ScrollBack');
-  //ATScrollbarTheme.ColorBorder:= GetAppColor('ScrollBorder');
-  ATScrollbarTheme.ColorArrow:= GetAppColor('ScrollArrow');
-  ATScrollbarTheme.ColorRect:= GetAppColor('ScrollRect');
-  ATScrollbarTheme.ColorFill:= GetAppColor('ScrollFill');
+  ATScrollbarTheme.ColorThumbBorder:= GetAppColor('ScrollRect');
+  ATScrollbarTheme.ColorThumbFill:= GetAppColor('ScrollFill');
+  ATScrollbarTheme.ColorArrowBorder:= ATScrollbarTheme.ColorBG;
+  ATScrollbarTheme.ColorArrowFill:= ATScrollbarTheme.ColorBG;
+  ATScrollbarTheme.ColorArrowSign:= GetAppColor('ScrollArrow');
   ATScrollbarTheme.ColorScrolled:= GetAppColor('ScrollScrolled');
 
   ListboxOut.Color:= GetAppColor('ListBg');
