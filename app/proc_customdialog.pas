@@ -441,6 +441,12 @@ begin
         else
           (Ctl as TCustomEdit).BorderStyle:= bsNone;
       end;
+
+      if (Ctl is TListView) then
+      begin
+        (Ctl as TListView).GridLines:= StrToBool(SGetItem(SValue));
+      end;
+
       Continue;
     end;
 
