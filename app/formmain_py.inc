@@ -1505,6 +1505,11 @@ begin
             Result:= PyString_FromString(PChar(fmConsole.ed.Items.Text));
             Exit; //skip ReturnNone
           end;
+        LOG_CONSOLE_GET_LOG:
+          begin
+            Result:= PyUnicode_FromWideString(fmConsole.memo.Text);
+            Exit; //skip ReturnNone
+          end;
       end;
 
       Result:= ReturnNone;
