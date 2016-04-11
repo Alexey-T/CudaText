@@ -300,7 +300,7 @@ begin
 
   if strkey<>'' then
   begin
-    n:= ARect.Right-c.TextWidth(strkey)-4 - cATScrollWidth;
+    n:= list.ClientWidth-c.TextWidth(strkey)-4;
     c.Font.Color:= GetAppColor('ListFontHotkey');
     c.TextOut(n, pnt.y, strkey);
   end;

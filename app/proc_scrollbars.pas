@@ -39,6 +39,7 @@ type
     procedure DoScrolled; override;
   public
     constructor Create(AOwner: TComponent); override;
+    function ClientWidth: integer;
   end;
 
 const
@@ -88,6 +89,11 @@ begin
   FScroll.IndentBorder:= cATScrollBorderSize;
   FScroll.OnChange:= @ScrollChange;
   UpdScroll;
+end;
+
+function TATListboxMy.ClientWidth: integer;
+begin
+  Result:= inherited ClientWidth - FScroll.Width;
 end;
 
 { TTreeViewMy }
