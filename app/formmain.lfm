@@ -311,54 +311,54 @@ object fmMain: TfmMain
       Caption = '&File'
       Hint = 'top-file'
       object mnuFileNew: TMenuItem
-        Caption = 'New file'
+        Caption = '&New file'
       end
       object mnuFileOpen: TMenuItem
-        Caption = 'Open...'
+        Caption = '&Open...'
       end
       object mnuFileOpenSub: TMenuItem
-        Caption = 'Open recent'
+        Caption = 'Op&en recent'
         Hint = '_recents'
       end
       object mnuFileReopen: TMenuItem
-        Caption = 'Reopen'
+        Caption = '&Reopen'
       end
       object SepFile1: TMenuItem
         Caption = '-'
       end
       object mnuFileSave: TMenuItem
-        Caption = 'Save'
+        Caption = '&Save'
       end
       object mnuFileSaveAs: TMenuItem
-        Caption = 'Save as...'
+        Caption = 'Save &as...'
       end
       object mnuFileSaveAll: TMenuItem
-        Caption = 'Save all'
+        Caption = 'Sa&ve all'
       end
       object SepFile2: TMenuItem
         Caption = '-'
       end
       object mnuFileClose: TMenuItem
-        Caption = 'Close'
+        Caption = '&Close'
       end
       object mnuFileCloseAll: TMenuItem
-        Caption = 'Close all'
+        Caption = 'Close a&ll'
       end
       object mnuFileCloseOther: TMenuItem
-        Caption = 'Close other tabs'
+        Caption = 'Close ot&her tabs'
       end
       object mnuFileCloseDel: TMenuItem
-        Caption = 'Close and delete file'
+        Caption = 'Close and &delete file'
       end
       object SepFile3: TMenuItem
         Caption = '-'
       end
       object mnuFileEnc: TMenuItem
-        Caption = 'Encoding'
+        Caption = '&Encoding'
         Hint = '_enc'
       end
       object mnuFileEnds: TMenuItem
-        Caption = 'Line ends'
+        Caption = 'Li&ne ends'
         Hint = 'ends'
         object mnuFileEndWin: TMenuItem
           Caption = 'Win'
@@ -374,204 +374,204 @@ object fmMain: TfmMain
         Caption = '-'
       end
       object mnuFileHtml: TMenuItem
-        Caption = 'Export to HTML...'
+        Caption = 'E&xport to HTML...'
       end
       object mnuFileExit: TMenuItem
-        Caption = 'Quit'
+        Caption = '&Quit'
       end
     end
     object mnuEdit: TMenuItem
       Caption = '&Edit'
       Hint = 'top-edit'
       object mnuEditUndo: TMenuItem
-        Caption = 'Undo'
+        Caption = '&Undo'
       end
       object mnuEditRedo: TMenuItem
-        Caption = 'Redo'
+        Caption = '&Redo'
       end
       object SepEd1: TMenuItem
         Caption = '-'
       end
       object mnuEditCut: TMenuItem
-        Caption = 'Cut'
+        Caption = 'Cu&t'
       end
       object mnuEditCopy: TMenuItem
-        Caption = 'Copy'
+        Caption = '&Copy'
       end
       object mnuEditPaste: TMenuItem
-        Caption = 'Paste'
+        Caption = '&Paste'
       end
       object mnuEditDel: TMenuItem
-        Caption = 'Delete'
+        Caption = '&Delete'
       end
       object SepEd2: TMenuItem
         Caption = '-'
       end
       object mnuEditCopySub: TMenuItem
-        Caption = 'Copy to clipboard'
+        Caption = 'Cop&y to clipboard'
         Hint = 'copy'
         object mnuEditCopyLine: TMenuItem
-          Caption = 'Copy current line'
+          Caption = 'Copy &current line'
         end
         object mnuEditCopyAppend: TMenuItem
-          Caption = 'Copy/append selection'
+          Caption = 'Copy/&append selection'
         end
         object SepEd4: TMenuItem
           Caption = '-'
         end
         object mnuEditCopyFFull: TMenuItem
-          Caption = 'Copy full filepath'
+          Caption = 'Copy &full filepath'
         end
         object mnuEditCopyFDir: TMenuItem
-          Caption = 'Copy filepath only'
+          Caption = 'Copy file&path only'
         end
         object mnuEditCopyFName: TMenuItem
-          Caption = 'Copy filename only'
+          Caption = 'Copy file&name only'
         end
       end
       object mnuEditLineOp: TMenuItem
-        Caption = 'Line operations'
+        Caption = '&Line operations'
         Hint = 'lineop'
         object mnuEditLineDel: TMenuItem
-          Caption = 'Delete line(s)'
+          Caption = 'D&elete line(s)'
         end
         object mnuEditLineDup: TMenuItem
-          Caption = 'Duplicate line(s)'
+          Caption = 'Du&plicate line(s)'
         end
         object SepEd5: TMenuItem
           Caption = '-'
         end
         object mnuEditLineMoveUp: TMenuItem
-          Caption = 'Move line(s) up'
+          Caption = 'Move line(s) &up'
         end
         object mnuEditLineMoveDown: TMenuItem
-          Caption = 'Move line(s) down'
+          Caption = 'Move line(s) &down'
         end
       end
       object mnuEditIndentSub: TMenuItem
-        Caption = 'Blank operations'
+        Caption = '&Blank operations'
         Hint = 'blankop'
         object mnuEditIndent: TMenuItem
-          Caption = 'Indent'
+          Caption = '&Indent'
         end
         object mnuEditUnindent: TMenuItem
-          Caption = 'Unindent'
+          Caption = '&Unindent'
         end
         object SepEd6: TMenuItem
           Caption = '-'
         end
         object mnuEditTrimL: TMenuItem
-          Caption = 'Trim spaces: left'
+          Caption = 'Trim spaces: &left'
         end
         object mnuEditTrimR: TMenuItem
-          Caption = 'Trim spaces: right'
+          Caption = 'Trim spaces: &right'
         end
         object mnuEditTrim: TMenuItem
-          Caption = 'Trim spaces: all'
+          Caption = 'Trim spaces: &all'
         end
         object SepEd7: TMenuItem
           Caption = '-'
         end
         object mnuEditTabToSp: TMenuItem
-          Caption = 'Convert tabs to spaces'
+          Caption = 'Convert &tabs to spaces'
         end
         object mnuEditSpToTab: TMenuItem
-          Caption = 'Convert spaces (leading) to tabs'
+          Caption = 'Convert &spaces (leading) to tabs'
         end
       end
       object mnuCaseSub: TMenuItem
-        Caption = 'Convert case'
+        Caption = 'Con&vert case'
         Hint = 'case'
         object mnuCaseUp: TMenuItem
-          Caption = 'Upper case'
+          Caption = '&Upper case'
         end
         object mnuCaseLow: TMenuItem
-          Caption = 'Lower case'
+          Caption = '&Lower case'
         end
         object mnuCaseTitle: TMenuItem
-          Caption = 'Title case'
+          Caption = '&Title case'
         end
         object mnuCaseInvert: TMenuItem
-          Caption = 'Invert case'
+          Caption = '&Invert case'
         end
         object mnuCaseSent: TMenuItem
-          Caption = 'Sentence case'
+          Caption = '&Sentence case'
         end
       end
       object mnuSortSub: TMenuItem
-        Caption = 'Sort lines'
+        Caption = '&Sort lines'
         Hint = 'sort'
         object mnuSortAsc: TMenuItem
-          Caption = 'Sort lines asc'
+          Caption = 'Sort lines &ascending'
         end
         object mnuSortDesc: TMenuItem
-          Caption = 'Sort lines desc'
+          Caption = 'Sort lines &descending'
         end
       end
       object mnuCmtSub: TMenuItem
-        Caption = 'Comments'
+        Caption = 'Co&mments'
         Hint = 'cmt'
         object mnuCmtAdd: TMenuItem
-          Caption = 'Add line comment'
+          Caption = '&Add line comment'
         end
         object mnuCmtRemove: TMenuItem
-          Caption = 'Remove line comment'
+          Caption = '&Remove line comment'
         end
         object mnuCmtToggle: TMenuItem
-          Caption = 'Toggle line comment'
+          Caption = '&Toggle line comment'
         end
         object mnuCmtToggleStr: TMenuItem
-          Caption = 'Toggle stream comment'
+          Caption = 'Toggle &stream comment'
         end
       end
       object mnuEditCharmap: TMenuItem
-        Caption = 'Char map...'
+        Caption = 'Char m&ap...'
       end
     end
     object mnuSel: TMenuItem
       Caption = 'Select&ion'
       Hint = 'top-sel'
       object mnuSelAll: TMenuItem
-        Caption = 'Select all'
+        Caption = '&Select all'
       end
       object mnuSelSplit: TMenuItem
-        Caption = 'Split selection into lines'
+        Caption = 'S&plit selection into lines'
       end
       object mnuSelExtLine: TMenuItem
-        Caption = 'Extend selection by line'
+        Caption = '&Extend selection by line'
       end
       object mnuSelInvert: TMenuItem
-        Caption = 'Invert selection'
+        Caption = '&Invert selection'
       end
       object SepSel1: TMenuItem
         Caption = '-'
       end
       object mnuCaretsCancel: TMenuItem
-        Caption = 'Cancel carets'
+        Caption = '&Cancel carets'
       end
       object mnuCaretsExtSub: TMenuItem
-        Caption = 'More carets'
+        Caption = '&More carets'
         Hint = 'carets'
         object mnuCaretsUp1Line: TMenuItem
-          Caption = 'More carets, up, 1 line'
+          Caption = 'More carets, up, 1 &line'
         end
         object mnuCaretsUp1Page: TMenuItem
-          Caption = 'More carets, up, 1 page'
+          Caption = 'More carets, up, 1 &page'
         end
         object mnuCaretsUpBegin: TMenuItem
-          Caption = 'More carets, up, until begin'
+          Caption = 'More carets, up, &until begin'
         end
         object MenuItem12: TMenuItem
           Caption = '-'
         end
         object mnuCaretsDown1Line: TMenuItem
-          Caption = 'More carets, down, 1 line'
+          Caption = 'More carets, &down, 1 line'
         end
         object mnuCaretsDown1Page: TMenuItem
-          Caption = 'More carets, down, 1 page'
+          Caption = 'More carets, d&own, 1 page'
         end
         object mnuCaretsDownEnd: TMenuItem
-          Caption = 'More carets, down, until end'
+          Caption = 'More carets, down, until &end'
         end
       end
     end
@@ -579,58 +579,58 @@ object fmMain: TfmMain
       Caption = '&Search'
       Hint = 'top-sr'
       object mnuFindDlg: TMenuItem
-        Caption = 'Find...'
+        Caption = '&Find...'
       end
       object mnuFindRepDialog: TMenuItem
-        Caption = 'Replace...'
+        Caption = '&Replace...'
       end
       object mnuFindNext: TMenuItem
-        Caption = 'Find next'
+        Caption = 'Find &next'
       end
       object mnuFindPrev: TMenuItem
-        Caption = 'Find previous'
+        Caption = 'Find &previous'
       end
       object SepSr1: TMenuItem
         Caption = '-'
       end
       object mnuFindWordNext: TMenuItem
-        Caption = 'Find current word next'
+        Caption = 'Find current word ne&xt'
       end
       object mnuFindWordPrev: TMenuItem
-        Caption = 'Find current word previous'
+        Caption = 'Find current word pr&evious'
       end
       object SepSr2: TMenuItem
         Caption = '-'
       end
       object mnuGotoLine: TMenuItem
-        Caption = 'Go to line...'
+        Caption = '&Go to line...'
       end
       object mnuGotoBm: TMenuItem
-        Caption = 'Go to bookmark...'
+        Caption = 'Go &to bookmark...'
       end
       object mnuBmSub: TMenuItem
-        Caption = 'Bookmarks'
+        Caption = '&Bookmarks'
         Hint = 'bm'
         object mnuBmNext: TMenuItem
-          Caption = 'Go to next bookmark'
+          Caption = 'Go to &next bookmark'
         end
         object mnuBmPrev: TMenuItem
-          Caption = 'Go to previous bookmark'
+          Caption = 'Go to &previous bookmark'
         end
         object MenuItem14: TMenuItem
           Caption = '-'
         end
         object mnuBmToggle: TMenuItem
-          Caption = 'Toggle bookmark'
+          Caption = '&Toggle bookmark'
         end
         object mnuBmInvert: TMenuItem
-          Caption = 'Inverse bookmarks'
+          Caption = '&Inverse bookmarks'
         end
         object mnuBmCarets: TMenuItem
-          Caption = 'Place carets on bookmarks'
+          Caption = 'Place carets &on bookmarks'
         end
         object mnuBmClear: TMenuItem
-          Caption = 'Clear all bookmarks'
+          Caption = '&Clear all bookmarks'
         end
       end
     end
@@ -638,112 +638,112 @@ object fmMain: TfmMain
       Caption = '&View'
       Hint = 'top-view'
       object mnuGroups: TMenuItem
-        Caption = 'Groups'
+        Caption = '&Groups'
         Hint = 'groups'
         object mnuGr1: TMenuItem
-          Caption = 'One group'
+          Caption = 'O&ne group'
         end
         object mnuGr2V: TMenuItem
-          Caption = '2 vert'
+          Caption = '&2 vert'
         end
         object mnuGr2H: TMenuItem
-          Caption = '2 horz'
+          Caption = '2 &horz'
         end
         object mnuGr3V: TMenuItem
-          Caption = '3 vert'
+          Caption = '&3 vert'
         end
         object mnuGr3H: TMenuItem
-          Caption = '3 horz'
+          Caption = '3 h&orz'
         end
         object mnuGr1p2V: TMenuItem
-          Caption = '1+2 vert'
+          Caption = '&1+2 vert'
         end
         object mnuGr1p2H: TMenuItem
-          Caption = '1+2 horz'
+          Caption = '1+2 ho&rz'
         end
         object mnuGr4V: TMenuItem
-          Caption = '4 vert'
+          Caption = '&4 vert'
         end
         object mnuGr4H: TMenuItem
-          Caption = '4 horz'
+          Caption = '4 hor&z'
         end
         object mnuGr4G: TMenuItem
-          Caption = '4 grid'
+          Caption = '4 &grid'
         end
         object mnuGr6: TMenuItem
-          Caption = '6 grid'
+          Caption = '&6 grid'
         end
       end
       object mnuViewSplitSub: TMenuItem
-        Caption = 'Split tab'
+        Caption = '&Split tab'
         Hint = 'split'
         object mnuViewSplitDo: TMenuItem
-          Caption = 'Toggle split'
+          Caption = 'Toggle &split'
         end
         object mnuViewSplitHorz: TMenuItem
-          Caption = 'Toggle horizontal/vertical'
+          Caption = 'Toggle &horizontal/vertical'
         end
       end
       object SepV1: TMenuItem
         Caption = '-'
       end
       object mnuViewWrap: TMenuItem
-        Caption = 'Toggle word-wrap'
+        Caption = 'Toggle &word-wrap'
       end
       object mnuViewNums: TMenuItem
-        Caption = 'Toggle line numbers'
+        Caption = 'Toggle line &numbers'
       end
       object mnuViewFold: TMenuItem
-        Caption = 'Toggle code folding'
+        Caption = 'Toggle code &folding'
       end
       object mnuViewRuler: TMenuItem
-        Caption = 'Toggle ruler'
+        Caption = 'Toggle &ruler'
       end
       object mnuViewMinimap: TMenuItem
-        Caption = 'Toggle minimap'
+        Caption = 'Toggle &minimap'
       end
       object mnuViewUnpri: TMenuItem
-        Caption = 'Toggle unprinted chars'
+        Caption = 'Toggle &unprinted chars'
         Hint = 'unpri'
         object mnuViewUnpriShow: TMenuItem
-          Caption = 'Show'
+          Caption = '&Show'
         end
         object MenuItem10: TMenuItem
           Caption = '-'
         end
         object mnuViewUnpriSpaces: TMenuItem
-          Caption = 'Show spaces/tabs'
+          Caption = 'Show spaces/&tabs'
         end
         object mnuViewUnpriEnds: TMenuItem
-          Caption = 'Show ends'
+          Caption = 'Show &ends'
         end
         object mnuViewUnpriEndsDet: TMenuItem
-          Caption = 'Show ends details'
+          Caption = 'Show ends &details'
         end
       end
       object SepV2: TMenuItem
         Caption = '-'
       end
       object mnuViewToolbar: TMenuItem
-        Caption = 'Toggle toolbar'
+        Caption = 'Toggle &toolbar'
       end
       object mnuViewStatus: TMenuItem
-        Caption = 'Toggle statusbar'
+        Caption = 'Toggle st&atusbar'
       end
       object mnuViewSide: TMenuItem
-        Caption = 'Toggle side panel'
+        Caption = 'Toggle s&ide panel'
       end
       object mnuViewBottom: TMenuItem
-        Caption = 'Toggle bottom panel'
+        Caption = 'Toggle &bottom panel'
       end
       object mnuViewFullscr: TMenuItem
-        Caption = 'Toggle full screen'
+        Caption = 'Toggle full scr&een'
       end
       object SepV3: TMenuItem
         Caption = '-'
       end
       object mnuLexers: TMenuItem
-        Caption = 'Lexers'
+        Caption = 'Le&xers'
         Hint = '_lexers'
       end
     end
@@ -755,58 +755,58 @@ object fmMain: TfmMain
       Caption = '&Options'
       Hint = 'top-op'
       object mnuOpDefault: TMenuItem
-        Caption = 'Settings - default'
+        Caption = 'Settings - &default'
       end
       object mnuOpUser: TMenuItem
-        Caption = 'Settings - user'
+        Caption = 'Settings - &user'
       end
       object mnuOpMore: TMenuItem
-        Caption = 'Settings - more'
+        Caption = 'Settings - &more'
         Hint = 'set_more'
         object mnuOpLexer: TMenuItem
-          Caption = 'Settings - lexer'
+          Caption = 'Settings - le&xer'
         end
         object mnuOpFileTypes: TMenuItem
-          Caption = 'Settings - file types'
+          Caption = 'Settings - &file types'
         end
         object mnuOpColors: TMenuItem
-          Caption = 'Settings - colors'
+          Caption = 'Settings - &colors'
         end
         object mnuOpKeys: TMenuItem
-          Caption = 'Settings - keys'
+          Caption = 'Settings - &keys'
         end
       end
       object SepOp1: TMenuItem
         Caption = '-'
       end
       object mnuFontSub: TMenuItem
-        Caption = 'Fonts'
+        Caption = '&Fonts'
         Hint = 'set_font'
         object mnuFontText: TMenuItem
-          Caption = 'Select text font...'
+          Caption = 'Select &text font...'
         end
         object mnuFontUi: TMenuItem
-          Caption = 'Select UI font...'
+          Caption = 'Select &UI font...'
         end
         object mnuFontOutput: TMenuItem
-          Caption = 'Select output-panel font...'
+          Caption = 'Select &output-panel font...'
         end
       end
       object mnuOpLexSub: TMenuItem
-        Caption = 'Lexers'
+        Caption = '&Lexers'
         Hint = 'set_lex'
         object mnuOpLexProp: TMenuItem
-          Caption = 'Lexer properties...'
+          Caption = 'Lexer &properties...'
         end
         object mnuOpLexLib: TMenuItem
-          Caption = 'Lexer library...'
+          Caption = 'Lexer &library...'
         end
         object mnuOpLexMap: TMenuItem
-          Caption = 'Lexer styles mapping...'
+          Caption = 'Lexer styles &mapping...'
         end
       end
       object mnuThemes: TMenuItem
-        Caption = 'Color themes'
+        Caption = '&Color themes'
         Hint = '_themes'
         object mnuTst1: TMenuItem
           Caption = '--'
@@ -814,7 +814,7 @@ object fmMain: TfmMain
         end
       end
       object mnuLang: TMenuItem
-        Caption = 'Translations'
+        Caption = '&Translations'
         Hint = '_langs'
         object mnuTst2: TMenuItem
           Caption = '--'
@@ -825,34 +825,34 @@ object fmMain: TfmMain
       Caption = '&Help'
       Hint = 'top-help'
       object mnuHelpCmd: TMenuItem
-        Caption = 'Commands...'
+        Caption = '&Commands...'
       end
       object SepHelp1: TMenuItem
         Caption = '-'
       end
       object mnuHelpForum: TMenuItem
-        Caption = 'Forum'
+        Caption = '&Forum'
       end
       object mnuHelpWiki: TMenuItem
-        Caption = 'Wiki'
+        Caption = '&Wiki'
       end
       object mnuHelpMouse: TMenuItem
-        Caption = 'Mouse usage'
+        Caption = '&Mouse usage'
       end
       object mnuHelpLexers: TMenuItem
-        Caption = 'Lexers'
+        Caption = '&Lexers'
       end
       object mnuHelpChangelog: TMenuItem
-        Caption = 'Changelog'
+        Caption = 'C&hangelog'
       end
       object mnuHelpIssues: TMenuItem
-        Caption = 'Issue report'
+        Caption = '&Issue report'
       end
       object SepHelp2: TMenuItem
         Caption = '-'
       end
       object mnuHelpAbout: TMenuItem
-        Caption = 'About...'
+        Caption = '&About...'
       end
     end
   end
