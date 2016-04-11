@@ -1,7 +1,7 @@
 object SyntAnal70: TLibSyntAnalyzer
   Formats = <
     item
-      DisplayName = 'Type'
+      DisplayName = 'Prefix'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
@@ -41,10 +41,10 @@ object SyntAnal70: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Type'
-      StyleName = 'Type'
+      DisplayName = 'Prefix'
+      StyleName = 'Prefix'
       TokenType = 1
-      Expression = '^\S+'
+      Expression = '^\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -67,7 +67,7 @@ object SyntAnal70: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
-      Expression = '(?<=^\w+\s+) [^\(\)\|\x20]+'
+      Expression = '(?<=^\w+\x20+) [^\(\)\|\x20\n\r]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -75,13 +75,16 @@ object SyntAnal70: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    'type Name (some params) |Comment'
+    'type name (some params) |Comment'
     'typ name%20name params |Comment'
     'type name(params)'
-    'typ name')
+    'typ name'
+    'keyw some'
+    'keyw some(test)'
+    '')
   TokenTypeNames.Strings = (
     'Comment'
-    'Type'
+    'Prefix'
     'Id'
     'Params ')
   Extentions = 'acp'
