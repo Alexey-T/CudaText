@@ -132,6 +132,7 @@ const
   cmd_BookmarkClearAll  = 2663;
   cmd_BookmarkGotoNext  = 2664;
   cmd_BookmarkGotoPrev  = 2665;
+  cmd_BookmarkPlaceCarets = 2667;
 
   cmd_CommentLineAdd_AtNonspace    = 2670;
   cmd_CommentLineAdd_AtStart       = 2671;
@@ -342,11 +343,12 @@ begin
   M.Add(cmd_MoveTabToGroupNext, 'groups: move tab to next group', [], []);
   M.Add(cmd_MoveTabToGroupPrev, 'groups: move tab to previous group', [], []);
 
-  M.Add(cmd_BookmarkToggle, 'bookmarks: toggle current line', [], []);
+  M.Add(cmd_BookmarkToggle, 'bookmarks: toggle on current line', [], []);
   M.Add(cmd_BookmarkGotoNext, 'bookmarks: go to next', [], []);
   M.Add(cmd_BookmarkGotoPrev, 'bookmarks: go to previous', [], []);
   M.Add(cmd_BookmarkInvertAll, 'bookmarks: inverse all lines', [], []);
   M.Add(cmd_BookmarkClearAll, 'bookmarks: clear all', [], []);
+  M.Add(cmd_BookmarkPlaceCarets, 'bookmarks: place carets', [], []);
 
   M.Add(cmd_CommentLineAdd_AtNonspace, 'comments: add line comment, at non-space char', [], []);
   M.Add(cmd_CommentLineAdd_AtStart, 'comments: add line comment, at line start', [], []);

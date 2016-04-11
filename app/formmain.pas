@@ -94,6 +94,7 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    mnuBmCarets: TMenuItem;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
     mnuHelpIssues: TMenuItem;

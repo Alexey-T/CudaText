@@ -126,6 +126,7 @@ begin
     cmd_BookmarkInvertAll: begin EditorBookmarkInvertAll(CurrentEditor); UpdateFrame; end;
     cmd_BookmarkGotoNext: EditorBookmarkGotoNext(CurrentEditor, true);
     cmd_BookmarkGotoPrev: EditorBookmarkGotoNext(CurrentEditor, false);
+    cmd_BookmarkPlaceCarets: EditorBookmarkPlaceCarets(CurrentEditor);
 
     cmd_CommentLineAdd_AtNonspace: DoCommentAction(cCommentAdd_AtNonespace_IfNone);
     cmd_CommentLineAdd_AtStart: DoCommentAction(cCommentAdd_AtStart_IfNone);

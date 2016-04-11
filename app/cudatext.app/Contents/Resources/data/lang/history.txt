@@ -2,6 +2,9 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2016.04.11
++ [m_sr] b_ca
+
 2016.04.06
 + [se] OpenTooBig
 

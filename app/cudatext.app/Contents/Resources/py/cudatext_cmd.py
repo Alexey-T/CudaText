@@ -260,6 +260,7 @@ cmd_BookmarkInvertAll = 2662
 cmd_BookmarkClearAll  = 2663
 cmd_BookmarkGotoNext  = 2664
 cmd_BookmarkGotoPrev  = 2665
+cmd_BookmarkPlaceCarets = 2667
 
 cmd_CommentLineAdd_AtNonspace    = 2670
 cmd_CommentLineAdd_AtStart       = 2671

@@ -36,6 +36,7 @@ procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 procedure EditorBookmarkClearAll(ed: TATSynEdit);
 procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
 function EditorBookmarkIsStandard(NKind: integer): boolean;
+procedure EditorBookmarkPlaceCarets(ed: TATSynEdit);
 
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
@@ -979,6 +980,31 @@ begin
 
   Result:= true;
 end;
+
+
+procedure EditorBookmarkPlaceCarets(ed: TATSynEdit);
+var
+  i: integer;
+  X1, Y1, X2, Y2: integer;
+begin
+  if ed.Carets.Count=0 then exit;
+  with ed.Carets[0] do
+  begin
+    X1:= PosX;
+    Y1:= PosY;
+    X2:= EndX;
+    Y2:= EndY;
+  end;
+
+  ed.Carets.Clear;
+  for i:= 0 to ed.Strings.Count-1 do
+    if ed.Strings.LinesBm[i]>0 then
+      ed.Carets.Add(0, i);
+
+  if ed.Carets.Count=0 then
+    ed.DoCaretSingle(X1, Y1, X2, Y2, true);
+end;
+
 
 end.
 

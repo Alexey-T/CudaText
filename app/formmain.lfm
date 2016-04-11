@@ -626,6 +626,9 @@ object fmMain: TfmMain
         object mnuBmInvert: TMenuItem
           Caption = 'Inverse bookmarks'
         end
+        object mnuBmCarets: TMenuItem
+          Caption = 'Place carets on bookmarks'
+        end
         object mnuBmClear: TMenuItem
           Caption = 'Clear all bookmarks'
         end

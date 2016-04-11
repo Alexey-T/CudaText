@@ -506,6 +506,7 @@ begin
   UpKey(mnuBmPrev, cmd_BookmarkGotoPrev);
   UpKey(mnuBmToggle, cmd_BookmarkToggle);
   UpKey(mnuBmInvert, cmd_BookmarkInvertAll);
+  UpKey(mnuBmCarets, cmd_BookmarkPlaceCarets);
   UpKey(mnuBmClear, cmd_BookmarkClearAll);
 
   UpKey(mnuGr1, cmd_Groups1);

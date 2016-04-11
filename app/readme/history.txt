@@ -6,6 +6,7 @@ Legend:
 
 1.3.9
 + new themed scrollbars: editors, trees, listboxes
++ command "Place carets on bookmarks"
 + theme "darkwolf" preinstalled
 + upd lexer "acp files"
 + api

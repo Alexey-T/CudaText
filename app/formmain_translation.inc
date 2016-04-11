@@ -198,6 +198,7 @@ begin
     DoLocMenuitem(ini, mnuBmPrev, 'm_sr', 'b_p');
     DoLocMenuitem(ini, mnuBmToggle, 'm_sr', 'b_to');
     DoLocMenuitem(ini, mnuBmInvert, 'm_sr', 'b_in');
+    DoLocMenuitem(ini, mnuBmCarets, 'm_sr', 'b_ca');
     DoLocMenuitem(ini, mnuBmClear, 'm_sr', 'b_cl');
 
     DoLocMenuitem(ini, mnuView, 'm_v', '_');
