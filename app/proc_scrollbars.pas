@@ -43,8 +43,8 @@ type
   end;
 
 const
-  cATScrollWidth = 16;
-  cATScrollBorderSize = 0;
+  UiOps_ScrollbarWidth: integer = 14;
+  UiOps_ScrollbarBorderSize: integer = 0;
 
 
 implementation
@@ -85,8 +85,8 @@ begin
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= cATScrollWidth;
-  FScroll.IndentBorder:= cATScrollBorderSize;
+  FScroll.Width:= UiOps_ScrollbarWidth;
+  FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
   FScroll.OnChange:= @ScrollChange;
   UpdScroll;
 end;
@@ -106,8 +106,8 @@ begin
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= cATScrollWidth;
-  FScroll.IndentBorder:= cATScrollBorderSize;
+  FScroll.Width:= UiOps_ScrollbarWidth;
+  FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
   FScroll.OnChange:= @ScrollChange;
   UpdScroll;
 end;
