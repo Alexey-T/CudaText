@@ -1,5 +1,5 @@
 [map]
-Type=Id1
+Prefix=Id1
 Id=Id
-Params=Id3
+Params=String
 Comment=Comment

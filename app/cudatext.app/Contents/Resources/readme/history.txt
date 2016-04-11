@@ -4,10 +4,17 @@ Legend:
   * changed
 
 
+1.3.9
++ new themed scrollbars: editors, trees, listboxes
++ theme "darkwolf" preinstalled
++ upd lexer "acp files"
++ api
+
 1.3.8
 + memory optimizing (for 20M+ files w/o lexer)
 * autoclose bracket: don't do if inside text
 * opt unprinted_replace_spec defaults to "false"
++ spec-chars 0..31 shown shorter: xNN
 + theme color "statusbar alt, font"
 + api
 
