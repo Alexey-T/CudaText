@@ -35,8 +35,8 @@ type
     procedure ScrollChange(Sender: TObject);
     procedure UpdScroll;
   protected
+    procedure Changed; override;
     procedure Resize; override;
-    procedure DoScrolled; override;
   public
     constructor Create(AOwner: TComponent); override;
     function ClientWidth: integer;
@@ -65,13 +65,13 @@ begin
   FScroll.Position:= ItemTop;
 end;
 
-procedure TATListboxMy.Resize;
+procedure TATListboxMy.Changed;
 begin
   inherited;
   UpdScroll;
 end;
 
-procedure TATListboxMy.DoScrolled;
+procedure TATListboxMy.Resize;
 begin
   inherited;
   UpdScroll;
