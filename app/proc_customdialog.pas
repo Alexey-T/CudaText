@@ -335,6 +335,7 @@ begin
         (Ctl as TListView).ColumnClick:= false;
         (Ctl as TListView).ViewStyle:= vsReport;
         (Ctl as TListView).RowSelect:= true;
+        (Ctl as TListView).HideSelection:= false;
         (Ctl as TListView).Checkboxes:= (SValue='checklistview');
       end;
 
