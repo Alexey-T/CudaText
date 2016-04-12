@@ -404,7 +404,7 @@ class Editor:
         return ct.ed_markers(self.h, id, x, y, tag, len)
         
     def attr(self, id, tag=0, x=0, y=0, len=0,
-             color_font=0, color_bg=0, color_border=0,
+             color_font=0, color_bg=COLOR_NONE, color_border=0,
              font_bold=0, font_italic=0, font_strikeout=0,
              border_left=0, border_right=0, border_down=0, border_up=0
              ):

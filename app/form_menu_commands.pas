@@ -233,6 +233,7 @@ var
   r1: TRect;
   buf: string;
 begin
+  if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
   begin
     cl:= GetAppColor('ListSelBg');

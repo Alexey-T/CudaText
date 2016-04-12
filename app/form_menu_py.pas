@@ -209,6 +209,7 @@ var
   pnt: TPoint;
   r1: TRect;
 begin
+  if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
   begin
     c.Font.Color:= GetAppColor('ListSelFont');
