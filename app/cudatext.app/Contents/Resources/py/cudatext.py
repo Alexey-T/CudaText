@@ -222,6 +222,51 @@ GROUPS_4HORZ  = 9
 GROUPS_4GRID  = 10
 GROUPS_6GRID  = 11
 
+COLOR_ID_TextFont = 'EdTextFont'
+COLOR_ID_TextBg = 'EdTextBg'
+COLOR_ID_SelFont = 'EdSelFont'
+COLOR_ID_SelBg = 'EdSelBg'
+COLOR_ID_DisableFont = 'EdDisableFont'
+COLOR_ID_DisableBg = 'EdDisableBg'
+COLOR_ID_Caret = 'EdCaret'
+COLOR_ID_Markers = 'EdMarkers'
+COLOR_ID_CurLineBg = 'EdCurLineBg'
+COLOR_ID_IndentVLine = 'EdIndentVLine'
+COLOR_ID_UnprintFont = 'EdUnprintFont'
+COLOR_ID_UnprintBg = 'EdUnprintBg'
+COLOR_ID_UnprintHexFont = 'EdUnprintHexFont'
+COLOR_ID_MinimapBorder = 'EdMinimapBorder'
+COLOR_ID_MinimapSelBg = 'EdMinimapSelBg'
+COLOR_ID_StateChanged = 'EdStateChanged'
+COLOR_ID_StateAdded = 'EdStateAdded'
+COLOR_ID_StateSaved = 'EdStateSaved'
+COLOR_ID_BlockStaple = 'EdBlockStaple'
+COLOR_ID_BlockSepLine = 'EdBlockSepLine'
+COLOR_ID_LockedBg = 'EdLockedBg'
+COLOR_ID_ComboArrow = 'EdComboArrow'
+COLOR_ID_ComboArrowBg = 'EdComboArrowBg'
+COLOR_ID_FoldMarkLine = 'EdFoldMarkLine'
+COLOR_ID_FoldMarkFont = 'EdFoldMarkFont'
+COLOR_ID_FoldMarkBorder = 'EdFoldMarkBorder'
+COLOR_ID_FoldMarkBg = 'EdFoldMarkBg'
+COLOR_ID_GutterFont = 'EdGutterFont'
+COLOR_ID_GutterBg = 'EdGutterBg'
+COLOR_ID_GutterCaretFont = 'EdGutterCaretFont'
+COLOR_ID_GutterCaretBg = 'EdGutterCaretBg'
+COLOR_ID_BookmarkBg = 'EdBookmarkBg'
+COLOR_ID_RulerFont = 'EdRulerFont'
+COLOR_ID_RulerBg = 'EdRulerBg'
+COLOR_ID_FoldLine = 'EdFoldLine'
+COLOR_ID_FoldBg = 'EdFoldBg'
+COLOR_ID_FoldPlusLine = 'EdFoldPlusLine'
+COLOR_ID_FoldPlusBg = 'EdFoldPlusBg'
+COLOR_ID_MarginFixed = 'EdMarginFixed'
+COLOR_ID_MarginCaret = 'EdMarginCaret'
+COLOR_ID_MarginUser = 'EdMarginUser'
+COLOR_ID_MarkedRangeBg = 'EdMarkedRangeBg'
+COLOR_ID_Links = 'EdLinks'
+
+
 def app_exe_version():
     return ct.app_exe_version()
 def app_api_version():
@@ -404,10 +449,14 @@ class Editor:
         return ct.ed_markers(self.h, id, x, y, tag, len)
         
     def attr(self, id, tag=0, x=0, y=0, len=0,
-             color_font=0, color_bg=0, color_border=0,
+             color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
              font_bold=0, font_italic=0, font_strikeout=0,
              border_left=0, border_right=0, border_down=0, border_up=0
              ):
+        if color_font==COLOR_NONE:
+            color_font = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
+        if color_border==COLOR_NONE:
+            color_border = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
         return ct.ed_attr(self.h, id, tag, x, y, len,   
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,

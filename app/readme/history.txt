@@ -5,6 +5,7 @@ Legend:
 
 
 1.3.9.2
++ Shift+mwheel does horizontal scroll
 + checkmarks in top menu (Windows)
 + new JS completion-list (made from AndyJS2)
 - fix: mwheel in one-line edits
