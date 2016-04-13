@@ -215,14 +215,16 @@ function Py_msg_status(Self, Args: PPyObject): PPyObject; cdecl;
 var
   P: PChar;
   Str: string;
+  Flag: integer;
 begin
   with GetPythonEngine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 's:msg_status', @P)) then
+    if Bool(PyArg_ParseTuple(Args, 'si:msg_status', @P, @Flag)) then
     begin
       Str:= string(P);
       fmMain.MsgStatus(Str);
-      Application.ProcessMessages; //PluginManager calls loop with msg_status
+      if Bool(Flag) then
+        Application.ProcessMessages; //PluginManager calls loop with msg_status
     end;
     Result:= ReturnNone;
   end;
