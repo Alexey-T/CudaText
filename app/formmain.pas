@@ -450,6 +450,7 @@ type
     procedure mnuTreeFold9Click(Sender: TObject);
     procedure mnuTreeFoldAllClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
+    procedure mnuViewClick(Sender: TObject);
     procedure PopupNewdocPopup(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
@@ -2771,6 +2772,12 @@ end;
 procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
 begin
   Tree.FullExpand;
+end;
+
+procedure TfmMain.mnuViewClick(Sender: TObject);
+begin
+  //on Linux maybe not called
+  UpdateMenuChecked;
 end;
 
 

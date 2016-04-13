@@ -5,7 +5,9 @@ Legend:
 
 
 1.3.9.2
-+ new JS completion-list made from AndyJS2
++ checkmarks in top menu (Windows)
++ new JS completion-list (made from AndyJS2)
+- fix: mwheel in one-line edits
 
 1.3.9
 + new themed scrollbars: editors, trees, listboxes

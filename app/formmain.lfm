@@ -637,6 +637,7 @@ object fmMain: TfmMain
     object mnuView: TMenuItem
       Caption = '&View'
       Hint = 'top-view'
+      OnClick = mnuViewClick
       object mnuGroups: TMenuItem
         Caption = '&Groups'
         Hint = 'groups'

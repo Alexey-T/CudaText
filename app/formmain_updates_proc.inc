@@ -869,6 +869,10 @@ begin
   if F=nil then exit;
   if Ed=nil then exit;
 
+  //menu cleared? check View and one item only..
+  if mnuView=nil then exit;
+  if mnuViewWrap=nil then exit;
+
   mnuViewWrap.Checked:= Ed.OptWrapMode<>cWrapOff;
   mnuViewNums.Checked:= Ed.Gutter.Items[Ed.GutterBandNum].Visible;
   mnuViewFold.Checked:= Ed.Gutter.Items[Ed.GutterBandFold].Visible;
