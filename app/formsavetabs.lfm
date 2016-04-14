@@ -61,7 +61,7 @@ object fmSaveTabs: TfmSaveTabs
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Right = 6
-      Caption = '&Don''t save'
+      Caption = 'Don''&t save'
       Constraints.MinWidth = 90
       ModalResult = 11
       TabOrder = 1
