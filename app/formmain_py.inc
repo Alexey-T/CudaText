@@ -1199,6 +1199,29 @@ begin
   ACharsRight:= FPyComplete_CharsRight;
 end;
 
+procedure TfmMain.PyCompletionOnResult(Sender: TObject;
+  const ASnippetId: string; ASnippetIndex: integer);
+var
+  i: integer;
+  Str0, Str1, StrSnippet: string;
+begin
+  //find index-th line
+  Str0:= FPyComplete_Text;
+  for i:= 0 to ASnippetIndex do
+    Str1:= SGetItem(Str0, #10);
+  //in line snippet is 3rd column, skip 2 columns
+  Str0:= Str1;
+  Str1:= SGetItem(Str0, #9);
+  Str1:= SGetItem(Str0, #9);
+  StrSnippet:= Str0;
+
+  //ShowMessage('id: '+ASnippetId+#10+'text:'#10+StrSnippet);
+  DoPyEvent(CurrentEditor, cEventOnSnippet, [
+    SStringToPythonString(ASnippetId),
+    SStringToPythonString(StrSnippet)
+    ]);
+end;
+
 function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -1218,7 +1241,33 @@ begin
       fmMain.FPyComplete_CharsRight:= NChars2;
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
-      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp);
+      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil);
+
+      Result:= ReturnNone;
+    end;
+end;
+
+function Py_ed_complete_alt(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  PtrText, PtrId: PChar;
+  Ed: TATSynEdit;
+  StrText, StrId: string;
+  NChars: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lssi:complete_alt', @H, @PtrText, @PtrId, @NChars)) then
+    begin
+      Ed:= PyEditor(H);
+      StrText:= string(PtrText);
+      StrId:= string(PtrId);
+
+      fmMain.FPyComplete_Text:= StrText;
+      fmMain.FPyComplete_CharsLeft:= NChars;
+      fmMain.FPyComplete_CharsRight:= 0;
+      with Ed.Carets[0] do
+        fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
+      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId);
 
       Result:= ReturnNone;
     end;
@@ -2746,6 +2795,7 @@ begin
     AddMethod('ed_bookmark', @Py_ed_bookmark, '');
     AddMethod('ed_focus', @Py_ed_focus, '');
     AddMethod('ed_complete', @Py_ed_complete, '');
+    AddMethod('ed_complete_alt', @Py_ed_complete_alt, '');
     AddMethod('ed_convert', @Py_ed_convert, '');
     AddMethod('ed_markers', @Py_ed_markers, '');
     AddMethod('ed_attr', @Py_ed_attr, '');
