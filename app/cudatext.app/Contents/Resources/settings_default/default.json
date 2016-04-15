@@ -109,7 +109,7 @@
   //If not 0, special font size used for numbers
   "numbers_font_size": 0,
   //Numbers style: 0: all lines; 1: none; 2: each 10th line; 3: each 5th line
-  "numbers_style": 2,
+  "numbers_style": 0,
   //Show numbers for lines with carets
   "numbers_for_carets": false,
   //Center numbers on column
@@ -188,8 +188,8 @@
   //"Undo" enabled even after file saving
   "undo_after_save": false,
 
-  //Allow to place caret after end-of-line
-  "caret_after_end": true,
+  //Allow to place caret after end-of-line (virtual caret pos)
+  "caret_after_end": false,
   //Caret blink time (msec)
   "caret_blink_time": 600,
   //Caret blink enabled

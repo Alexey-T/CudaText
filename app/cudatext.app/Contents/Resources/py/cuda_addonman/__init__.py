@@ -101,8 +101,8 @@ class Command:
         if not items:
             msg_status('Cannot download list')
             return
-        names = [l[1] for l in items]
-        res = dlg_menu(MENU_LIST, '\n'.join(names))
+        names = [l[1]+'\t'+l[2] for l in items]
+        res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
         if res is None: return
         url = items[res][0]
         #resolve url
