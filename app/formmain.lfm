@@ -204,6 +204,7 @@ object fmMain: TfmMain
       Caption = 'e_del'
       ImageIndex = 9
       OnClick = tbDelClick
+      Visible = False
     end
     object tbSelAll: TToolButton
       Left = 277
@@ -212,6 +213,7 @@ object fmMain: TfmMain
       Caption = 'e_sel'
       ImageIndex = 10
       OnClick = tbSelAllClick
+      Visible = False
     end
     object tbUndo: TToolButton
       Left = 301
