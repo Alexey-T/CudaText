@@ -625,8 +625,14 @@ procedure InitEditorOps(var Op: TEditorOps);
 begin
   with Op do
   begin
-    OpFontName:= {$ifndef darwin} 'Courier New' {$else} 'Monaco' {$endif};
-    OpFontSize:= {$ifndef darwin} 9 {$else} 11 {$endif};
+    OpFontName:=
+      {$ifdef windows} 'Consolas' {$endif}
+      {$ifdef linux} 'Courier New' {$endif}
+      {$ifdef darwin} 'Monaco' {$endif} ;
+    OpFontSize:=
+      {$ifdef windows} 10 {$endif}
+      {$ifdef linux} 11 {$endif}
+      {$ifdef darwin} 9 {$endif} ;
     OpFontQuality:= fqDefault;
 
     OpSpacingX:= 0;
