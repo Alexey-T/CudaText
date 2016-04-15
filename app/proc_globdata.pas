@@ -656,7 +656,7 @@ begin
 
     OpNumbersShow:= true;
     OpNumbersFontSize:= 0;
-    OpNumbersStyle:= Ord(cNumbersEach10th);
+    OpNumbersStyle:= Ord(cNumbersAll);
     OpNumbersForCarets:= false;
     OpNumbersCenter:= true;
 

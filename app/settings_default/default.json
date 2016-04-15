@@ -109,7 +109,7 @@
   //If not 0, special font size used for numbers
   "numbers_font_size": 0,
   //Numbers style: 0: all lines; 1: none; 2: each 10th line; 3: each 5th line
-  "numbers_style": 2,
+  "numbers_style": 0,
   //Show numbers for lines with carets
   "numbers_for_carets": false,
   //Center numbers on column
