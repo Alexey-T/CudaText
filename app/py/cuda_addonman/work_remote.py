@@ -29,10 +29,10 @@ def get_channel_list(url):
     text = open(temp_fn, encoding='utf8').read()
     
     #regex has 3 groups: (..(type)..(name)..)
-    RE = r'(http.+/(\w+)\.(.+?)\.zip)'
+    RE = r'(http.+/(\w+)\.(.+?)\.zip)\b(.*)'
     
     res = re.findall(RE, text)
-    res = [(r[0], r[1]+': '+unquote(r[2])) for r in res]
+    res = [(r[0], r[1]+': '+unquote(r[2]), r[3]) for r in res]
     
     #print('debug:')
     #print(res)
