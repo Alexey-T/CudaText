@@ -274,7 +274,7 @@ begin
   if strkey<>'' then
   begin
     if not Multiline then
-      pnt:= Point(ARect.Right-cIndent-c.TextWidth(Utf8Encode(strkey)), pnt.y)
+      pnt:= Point(ARect.Left+List.ClientWidth-cIndent-c.TextWidth(Utf8Encode(strkey)), pnt.y)
     else
       pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2);
 
