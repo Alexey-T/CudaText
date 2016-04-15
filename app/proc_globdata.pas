@@ -702,7 +702,7 @@ begin
     OpCaretShapeNorm:= Ord(cInitCaretShapeIns);
     OpCaretShapeOvr:= Ord(cInitCaretShapeOvr);
     OpCaretShapeRO:= Ord(cInitCaretShapeRO);
-    OpCaretVirtual:= true;
+    OpCaretVirtual:= false;
     OpCaretMulti:= true;
     OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);
 
