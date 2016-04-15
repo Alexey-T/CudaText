@@ -144,8 +144,9 @@ begin
     cmd_GotoDefinition: DoGotoDefinition;
     cmd_ShowFunctionHint: DoShowFuncHint;
 
-    cmd_FoldingFoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, true);
-    cmd_FoldingUnfoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, false);
+    cmd_FoldingFoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFold);
+    cmd_FoldingUnfoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorUnfold);
+    cmd_FoldingToggleAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFoldUnfold);
 
     cmd_MenuEnc:
       begin

@@ -45,7 +45,11 @@ procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: bool
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
-procedure EditorFoldUnfoldRangeAtCurLine(Ed: TATSynEdit; AFold: boolean);
+
+type
+  TEditorFoldOp = (cEditorFold, cEditorUnfold, cEditorFoldUnfold);
+
+procedure EditorFoldUnfoldRangeAtCurLine(Ed: TATSynEdit; AOp: TEditorFoldOp);
 function EditorGetFoldString(Ed: TATSynEdit): string;
 procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
 
@@ -639,7 +643,7 @@ begin
 end;
 
 
-procedure EditorFoldUnfoldRangeAtCurLine(Ed: TATSynEdit; AFold: boolean);
+procedure EditorFoldUnfoldRangeAtCurLine(Ed: TATSynEdit; AOp: TEditorFoldOp);
 var
   NLine: integer;
   R: TATSynRange;
@@ -651,21 +655,31 @@ begin
   R:= Ed.Fold.FindRangeWithPlusAtLine(NLine);
   if R=nil then exit;
 
-  if AFold then
-  begin
-    if not R.Folded then
-    begin
-      Ed.DoRangeFold(R);
-      Ed.Update;
-    end;
-  end
-  else
-  begin
-    if R.Folded then
-    begin
-      Ed.DoRangeUnfold(R);
-      Ed.Update;
-    end;
+  case AOp of
+    cEditorFold:
+      begin
+        if not R.Folded then
+        begin
+          Ed.DoRangeFold(R);
+          Ed.Update;
+        end;
+      end;
+    cEditorUnfold:
+      begin
+        if R.Folded then
+        begin
+          Ed.DoRangeUnfold(R);
+          Ed.Update;
+        end;
+      end;
+    cEditorFoldUnfold:
+      begin
+        if R.Folded then
+          Ed.DoRangeUnfold(R)
+        else
+          Ed.DoRangeFold(R);
+        Ed.Update;
+      end;
   end;
 end;
 
