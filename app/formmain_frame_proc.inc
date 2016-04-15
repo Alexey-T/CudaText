@@ -140,7 +140,8 @@ end;
 
 procedure TfmMain.FrameParseBegin(Sender: TObject);
 begin
-  Tree.Items.Clear;
+  //dont clear, it's irritating
+  //Tree.Items.Clear;
 end;
 
 procedure TfmMain.FrameParseDone(Sender: TObject);

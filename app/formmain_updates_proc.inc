@@ -907,8 +907,6 @@ begin
 end;
 
 
-type TTreeHack = class(TTreeView);
-
 procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
 var
   Caret: TATCaretItem;
