@@ -116,34 +116,18 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String raw'
+      DisplayName = 'String2'
       StyleName = 'String'
       TokenType = 4
-      Expression = 'r('#39'|") .*? (\1|$)'
+      Expression = '(?s) [rbu]? ("""|'#39#39#39') .*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'String """'
+      DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s) ("""|'#39#39#39') .*? (\1|\Z)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'String '#39
-      StyleName = 'String'
-      TokenType = 4
-      Expression = '(?s)'#39' (\\.|.)*? ('#39'|$)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'String "'
-      StyleName = 'String'
-      TokenType = 4
-      Expression = '(?s)" (\\.|.)*? ("|$)'
+      Expression = '[rbu]? ("|'#39') (\\.|.)*? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -459,7 +443,7 @@ object SyntAnal2: TLibSyntAnalyzer
   SubAnalyzers = <>
   SampleText.Strings = (
     '#Comment'
-    '"""Doc'
+    'test = u"""Doc'
     'string"""'
     'import sys, sys2, sys3'
     'from csv import aa, bb'

@@ -20,6 +20,7 @@ EVENTS = [
     'on_panel',
     'on_save',
     'on_save_pre',
+    'on_snippet',
     'on_start',
   ] 
 
@@ -32,4 +33,5 @@ EVENTS_ADD_PARAMS = {
   'on_output_nav': 'text, tag',
   'on_macro': 'text',
   'on_panel': 'id_control, id_event',
+  'on_snippet': 'snippet_id, snippet_text',
   }

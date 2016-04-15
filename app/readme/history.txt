@@ -4,9 +4,10 @@ Legend:
   * changed
 
 
-1.3.9.2
-+ Shift+mwheel does horizontal scroll
-+ checkmarks in top menu (Windows)
+1.3.10
++ shift+mwheel does horizontal scroll
++ checkmarks in top menu (not Linux)
++ cmd "folding: fold/unfold at cur line"
 + new JS completion-list (made from AndyJS2)
 - fix: mwheel in one-line edits
 
