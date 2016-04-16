@@ -1,172 +1,149 @@
 object SyntAnal67: TLibSyntAnalyzer
-  Formats = <  
+  Formats = <
     item
       DisplayName = 'Heading'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
       Font.Height = -19
       Font.Name = 'Consolas'
       Font.Style = [fsBold]
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      FormatType = ftCustomFont
+    end
     item
       DisplayName = 'Comment'
-      Font.Color = clGray
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsItalic]
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Quote'
-      Font.Color = clTeal
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+      BgColor = 12645824
+    end
     item
       DisplayName = 'Text'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Consolas'
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Codeblock'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      BgColor = clCream
-      FormatType = ftBackGround
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+      BgColor = 15779980
+    end
     item
       DisplayName = 'Block'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      BgColor = 14745568
-      FormatType = ftBackGround
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+      BgColor = 15779980
+    end
     item
       DisplayName = 'Link'
-      Font.Color = clBlue
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 3289830
       Font.Height = -13
       Font.Name = 'Courier New'
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Image'
-      Font.Color = clOlive
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 15086130
       Font.Height = -13
       Font.Name = 'Courier New'
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Reference'
-      Font.Color = clPurple
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 13030
       Font.Height = -13
       Font.Name = 'Courier New'
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Footnote'
-      Font.Color = clNavy
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 3277030
       Font.Height = -13
       Font.Name = 'Courier New'
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'HTML Code'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 8404992
       Font.Height = -13
       Font.Name = 'Courier New'
-      BgColor = clMoneyGreen
-      FormatType = ftBackGround
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Bold'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Italic'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Bold-Italic'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold, fsItalic]
-    end  
+    end
     item
       DisplayName = 'Definition'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       BgColor = 14737357
       BorderColorLeft = 16384
-    end  
+    end
     item
       DisplayName = 'List'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
-      BgColor = 12632240
-      BorderColorLeft = clNone
-      BorderColorTop = clNone
-      BorderColorRight = clNone
-      BorderColorBottom = clNone
-    end  
+      Font.Style = []
+      BgColor = 16763594
+    end
     item
       DisplayName = 'Crossed out'
-      Font.Color = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsStrikeOut]
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Bold-Italic'
       StyleName = 'Bold-Italic'
@@ -174,7 +151,7 @@ object SyntAnal67: TLibSyntAnalyzer
       Expression = '(\*\*\*|___).*?(\*\*\*|___|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Bold'
       StyleName = 'Bold'
@@ -182,30 +159,30 @@ object SyntAnal67: TLibSyntAnalyzer
       Expression = '(\*\*|__).*?(\*\*|__|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Italic'
       StyleName = 'Italic'
       TokenType = 1
-      Expression = '(\*|_) \S.*? (\*|_|")'
+      Expression = '#char after * is non-space'#13#10'(\*|_) \S.*? (\*|_|")'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Heading'
       StyleName = 'Heading'
-      Expression = '^\#.* | .*\z--[-\x09\x20\|]* | .*\z=+'
+      Expression = '^\#.* |'#13#10'.*\z--[-\x09\x20\|]* |'#13#10'.*\z=+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 2
-      Expression = '(?s)\<!--.*?--\>  | (?s)/\*.*?\*/'
+      Expression = '(?s)\<!--.*?--\>  |'#13#10'(?s)/\*.*?\*/'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Quote'
       StyleName = 'Quote'
@@ -213,15 +190,23 @@ object SyntAnal67: TLibSyntAnalyzer
       Expression = '^>.*$'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
+    item
+      DisplayName = 'HTML pre'
+      StyleName = 'Codeblock'
+      TokenType = 4
+      Expression = '(?s) <pre> .+? </pre>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
     item
       DisplayName = 'HTML Code'
       StyleName = 'HTML Code'
       TokenType = 9
-      Expression = '\&[^;]+\; | \<[^\>]+>'
+      Expression = '\&[^;]+\; |'#13#10'</?\w+>'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Link github'
       StyleName = 'Link'
@@ -229,7 +214,7 @@ object SyntAnal67: TLibSyntAnalyzer
       Expression = '\[! \[ [^\]]+ \]\( [^\)]+ \) \] \( [^\)]+ \)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Link usual'
       StyleName = 'Link'
@@ -237,7 +222,7 @@ object SyntAnal67: TLibSyntAnalyzer
       Expression = '\[[^\]]+\]\([^\)]+\)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Image'
       StyleName = 'Image'
@@ -245,55 +230,61 @@ object SyntAnal67: TLibSyntAnalyzer
       Expression = '!\[[^\]]+\]\([^\)]+\)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Footnote'
       StyleName = 'Footnote'
       TokenType = 7
-      Expression = '^\[\^[^\]\^]+\]:.*?($|\z) | \[\^[^\]]+\]'
+      Expression = '^\[\^[^\]\^]+\]:.*?($|\z) |'#13#10'\[\^[^\]]+\]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'List'
       StyleName = 'List'
       TokenType = 13
-      Expression = '^[\x20\x09]*(\d\.|\-\ |+\ |\*\ |\+\ |[\(]?[a-z\d]?[\.\)]{1})| ^\(@[^\)]*\)'
+      Expression = 
+        '^[\x20\x09]*(\d\.|\-\ |+\ |\*\ |\+\ |[\(]?[a-z\d]?[\.\)]{1})|'#13#10'^' +
+        '\(@[^\)]*\)#pandoc list'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Reference'
       StyleName = 'Reference'
       TokenType = 6
-      Expression = '^\[[^\]\^]+\]:.*?($|\z) | \[[^\]]+\]\[[^\]]+\] | \(@[^\)]*\)'
+      Expression = 
+        '^\[[^\]\^]+\]:.*?($|\z) |'#13#10'\[[^\]]+\]\[[^\]]+\] |'#13#10'\(@[^\)]*\) #' +
+        'pandoc list reference'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Definition'
       StyleName = 'Definition'
       TokenType = 10
-      Expression = '^[\x20\t]*?.+(\z)+?*?^[\x20\t]*?:\ \ \'
+      Expression = 
+        '^[\x20\t]*?.+(\z)+?*?^[\x20\t]*?:\ \ \ '#13#10'# Pandoc Style (:\ \ \ ' +
+        ')'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Block'
       StyleName = 'Block'
       TokenType = 5
-      Expression = '(?s)(^```|`).*?(^```|`)| (?s)^~~~.*?^~~~)'
+      Expression = '(?s)(^```|`).*?(^```|`)|'#13#10'(?s)^~~~.*?^~~~)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Codeblock'
       StyleName = 'Codeblock'
       TokenType = 4
-      Expression = '^[\x20\x09]{4,}.+$'
+      Expression = '^[\x20\x09]{4,}.+$'#13#10'#Sometimes conflicts with Definition'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Crossed Out'
       StyleName = 'Crossed out'
@@ -301,23 +292,23 @@ object SyntAnal67: TLibSyntAnalyzer
       Expression = '(~~).*?(~~)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Footnote Inline'
       StyleName = 'Footnote'
       TokenType = 7
-      Expression = '\^\[.+?\]'
+      Expression = '\^\[.+?\] #Pandoc Inline-Style'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Link wiki'
       StyleName = 'Link'
       TokenType = 11
-      Expression = '\[.+?\]'
+      Expression = '\[.+?\] '
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Usual text'
       StyleName = 'Text'
@@ -326,10 +317,10 @@ object SyntAnal67: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Header'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 1
         end>
@@ -396,8 +387,7 @@ object SyntAnal67: TLibSyntAnalyzer
     'codeblock'
     '```'
     '    '
-    '    '
-  )
+    '    ')
   TokenTypeNames.Strings = (
     'Heading'
     'Text'
@@ -412,14 +402,12 @@ object SyntAnal67: TLibSyntAnalyzer
     'Definition'
     'Link'
     'Image'
-    'List'
-  )
+    'List')
   Extentions = 'md markdown mkd'
   LexerName = 'Markdown'
   SkipSpaces = False
   Notes.Strings = (
     'Author: NoSi (v1.0 2014-01-20)'
-    'Fixes: Alex (Synwrite) '
-  )
+    'Fixes: Alex (Synwrite) ')
   Charset = DEFAULT_CHARSET
 end
