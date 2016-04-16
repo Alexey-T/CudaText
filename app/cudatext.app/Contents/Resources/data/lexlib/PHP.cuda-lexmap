@@ -1,3 +1,6 @@
+[ref]
+0=HTML
+
 [map]
 Comment=Comment
 Comment doc=CommentDoc
@@ -8,12 +11,10 @@ String=String
 String exec=String2
 Var=IdVar
 Id=Id
-Id Keyword=IdKeyword
-Id Standard=Id1
+Id keyword=IdKeyword
+Id standard const=Id4
+Id standard class=Id2
 PHP_start=IncludeBG1
 PHP_end=IncludeBG1
 PHP_bg=SectionBG1
 Bracket=BracketBG
-
-[ref]
-0=HTML
