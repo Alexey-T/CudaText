@@ -5,11 +5,12 @@ Legend:
 
 
 1.3.10
-+ shift+mwheel does horizontal scroll
++ shift+mwheel does horiz scroll
 + checkmarks in top menu (not Linux gtk2)
 + cmd "folding: fold/unfold at cur line"
-+ update: JS completion-list
++ update: JS completions
 - fix: mwheel in one-line edits
+- fix: lexer Markdown
 
 1.3.9
 + new themed scrollbars: editors, trees, listboxes

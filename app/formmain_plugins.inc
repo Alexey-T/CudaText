@@ -208,7 +208,7 @@ begin
 
   if not IsLexerMatches(FPluginsCmd[Num].ItemLexers) then
   begin
-    MsgBox(msgStatusCommandOnlyForLexers+' '+FPluginsCmd[Num].ItemLexers, MB_OK+MB_ICONWARNING);
+    MsgStatus(msgStatusCommandOnlyForLexers+' '+FPluginsCmd[Num].ItemLexers);
     Exit
   end;
 
