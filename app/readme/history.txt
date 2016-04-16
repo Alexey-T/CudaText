@@ -10,7 +10,9 @@ Legend:
 + cmd "folding: fold/unfold at cur line"
 + update: JS completions
 - fix: mwheel in one-line edits
+- fix: lexer PHP keyw-lists
 - fix: lexer Markdown
+- fix: lexer Python
 
 1.3.9
 + new themed scrollbars: editors, trees, listboxes
