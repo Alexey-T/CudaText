@@ -11,7 +11,7 @@ object fmAbout: TfmAbout
   ClientWidth = 389
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object Label1: TLabel

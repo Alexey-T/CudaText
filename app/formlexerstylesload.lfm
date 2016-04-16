@@ -10,7 +10,7 @@ object fmLexerStylesRestore: TfmLexerStylesRestore
   ClientWidth = 588
   Color = clBtnFace
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object LabelInfo: TLabel

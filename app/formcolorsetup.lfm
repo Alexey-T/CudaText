@@ -9,7 +9,7 @@ object fmColorSetup: TfmColorSetup
   ClientHeight = 529
   ClientWidth = 543
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel

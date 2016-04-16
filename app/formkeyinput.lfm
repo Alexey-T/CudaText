@@ -10,7 +10,7 @@ object fmKeyInput: TfmKeyInput
   ClientWidth = 320
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel

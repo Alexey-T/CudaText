@@ -9,7 +9,7 @@ object fmLexerLib: TfmLexerLib
   ClientWidth = 459
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel

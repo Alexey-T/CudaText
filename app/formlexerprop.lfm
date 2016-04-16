@@ -12,7 +12,7 @@ object fmLexerProp: TfmLexerProp
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel
@@ -207,6 +207,7 @@ object fmLexerProp: TfmLexerProp
         OptLastLineOnTop = False
         OptOverwriteSel = True
         OptOverwriteAllowedOnPaste = False
+        OptScrollbarsNew = False
         OptShowURLs = True
         OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
         OptShowStapleStyle = cLineStyleSolid
@@ -277,6 +278,10 @@ object fmLexerProp: TfmLexerProp
         OptMouseNiceScroll = True
         OptMouseRightClickMovesCaret = False
         OptMouseGutterClickSelectsLine = True
+        OptMouseWheelScrollVert = True
+        OptMouseWheelScrollHorz = True
+        OptMouseWheelScrollHorzColumns = 30
+        OptMouseWheelWithCtrlChangeSize = True
         OptKeyBackspaceUnindent = True
         OptKeyPageKeepsRelativePos = True
         OptKeyUpDownNavigateWrapped = True

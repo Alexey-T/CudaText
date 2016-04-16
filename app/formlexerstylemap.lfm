@@ -10,7 +10,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
   ClientWidth = 581
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object ButtonPanel1: TButtonPanel

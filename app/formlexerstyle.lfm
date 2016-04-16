@@ -10,7 +10,7 @@ object fmLexerStyle: TfmLexerStyle
   ClientWidth = 435
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object Panel1: TPanel
