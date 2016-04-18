@@ -581,8 +581,9 @@ end;
 
 procedure TfmMain.UpdateKeymapDynamicItems;
 var
+  sl: TStringList;
+  str: string;
   i: integer;
-  sl: tstringlist;
 begin
   //del all dynamic items
   while AppKeymap[AppKeymap.Count-1].Command>=cmdFirstLexerCommand do
@@ -609,9 +610,14 @@ begin
   begin
     if FPluginsCmd[i].ItemModule='' then Break;
     if SEndsWith(FPluginsCmd[i].ItemCaption, '-') then Continue;
+
+    Str:= FPluginsCmd[i].ItemCaption;
+    Str:= StringReplace(Str, '\', ' - ', [rfReplaceAll]);
+    Str:= StringReplace(Str, '&', '', [rfReplaceAll]);
+
     AppKeymap.Add(
       cmdFirstPluginCommand+i,
-      'plugin: '+StringReplace(FPluginsCmd[i].ItemCaption, '\', ' - ', [rfReplaceAll]),
+      'plugin: '+Str,
       [], []);
   end;
 end;
