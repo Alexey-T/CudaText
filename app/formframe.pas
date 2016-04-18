@@ -61,6 +61,7 @@ type
     { private declarations }
     Ed1, Ed2: TATSynEdit;
     FTabCaption: string;
+    FTabCaptionFromApi: boolean;
     FFileName: string;
     FModified: boolean;
     FNotif: TATFileNotif;
@@ -159,6 +160,7 @@ type
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property FileName: string read FFileName write FFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
+    property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property Modified: boolean read FModified;
     procedure UpdateModifiedState;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
@@ -975,7 +977,8 @@ begin
   end;
 
   Editor.OnChange(Editor); //modified
-  TabCaption:= ExtractFileName(FFileName);
+  if not TabCaptionFromApi then
+    TabCaption:= ExtractFileName(FFileName);
 
   DoPyEvent(Editor, cEventOnSaveAfter, []);
   if Assigned(FOnSaveFile) then

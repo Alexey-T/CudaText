@@ -1862,7 +1862,10 @@ begin
         PROP_TAB_COLOR:
           F.TabColor:= ValueInt;
         PROP_TAB_TITLE:
-          F.TabCaption:= Str;
+          begin
+            F.TabCaption:= Str;
+            F.TabCaptionFromApi:= true;
+          end;
 
         PROP_ENC:
           F.EncodingName:= Str;
