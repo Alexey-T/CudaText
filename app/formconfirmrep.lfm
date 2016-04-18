@@ -9,6 +9,7 @@ object fmConfirmReplace: TfmConfirmReplace
   Caption = 'Confirm'
   ClientHeight = 64
   ClientWidth = 645
+  DefaultMonitor = dmMainForm
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
