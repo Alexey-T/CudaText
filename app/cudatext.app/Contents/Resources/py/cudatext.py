@@ -285,7 +285,7 @@ def app_log(id, text, tag=0):
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
-def msg_status(text, process_messages=True):
+def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
 def msg_status_alt(text, seconds):
     return ct.msg_status_alt(text, seconds)

@@ -66,7 +66,7 @@ object SyntAnal2: TLibSyntAnalyzer
     end>
   TokenRules = <
     item
-      DisplayName = 'Word1stTreeItem'
+      DisplayName = '1st Tree item'
       StyleName = 'Id keyword def'
       TokenType = 11
       Expression = '^[\x20\x09]*(def|class)\b'
@@ -74,7 +74,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Word1stKeyword'
+      DisplayName = '1st Keyword'
       StyleName = 'Id keyword'
       TokenType = 10
       Expression = 
@@ -84,7 +84,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Word1stInteger'
+      DisplayName = '1st Number'
       StyleName = 'Number'
       TokenType = 9
       Expression = '^[\x20\x09]* \d+(\.\d+)?'
@@ -92,7 +92,15 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Word1stId'
+      DisplayName = '1st String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s) ^[\x20\x09]* [rbu] ("""|'#39#39#39') .*? (\1|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = '1st Id'
       StyleName = 'Id'
       TokenType = 9
       Expression = '^[\x20\x09]*\w+'
@@ -100,7 +108,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Word1stAttrib'
+      DisplayName = '1st Attrib'
       StyleName = 'Symbol'
       TokenType = 9
       Expression = '^[\x20\x09]*@'
@@ -108,7 +116,8 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Word1stComment'
+      DisplayName = '1st Comment'
+      Enabled = False
       StyleName = 'Comment'
       TokenType = 13
       Expression = '^[\x20\x09]* \#.*'
@@ -444,7 +453,9 @@ object SyntAnal2: TLibSyntAnalyzer
   SampleText.Strings = (
     '#Comment'
     'test = u"""Doc'
-    'string"""'
+    'string""" +'
+    'r"""test'
+    '"""'
     'import sys, sys2, sys3'
     'from csv import aa, bb'
     'str = r'#39'\test\test'#39' + u'#39'test'#39' + r"\test"'

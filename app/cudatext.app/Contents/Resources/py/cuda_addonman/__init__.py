@@ -60,14 +60,18 @@ class Command:
         stopped = False
         app_proc(PROC_SET_ESCAPE, '0')
             
-        for (i, (url, title)) in enumerate(items):
+        for (i, item) in enumerate(items):
+            url = item[0]
+            title = item[1]
             if app_proc(PROC_GET_ESCAPE, '')==True:
                 app_proc(PROC_SET_ESCAPE, '0')
                 if msg_box('Stop downloading?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
                     stopped = True
                     break    
         
-            msg_status('Downloading file: %d/%d'%(i+1, len(items)))
+            #must use msg_status(.., True)
+            msg_status('Downloading file: %d/%d'%(i+1, len(items)), True)
+            
             while True:
                 try:
                     url = urllib.request.urlopen(url).geturl()
