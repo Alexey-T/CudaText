@@ -4,6 +4,10 @@ Legend:
   * changed
 
 
+1.3.11
++ indent/unindent col-blocks too
+- fix: lexer Python folding
+
 1.3.10
 + shift+mwheel does horiz scroll
 + checkmarks in top menu (not Linux gtk2)
