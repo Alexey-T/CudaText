@@ -1026,7 +1026,7 @@ var
   F: TEditorFrame;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'L', @H)) then
+    if Bool(PyArg_ParseTuple(Args, 'L:get_split', @H)) then
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
@@ -1050,7 +1050,7 @@ var
   F: TEditorFrame;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lid', @H, @NState, @NValue)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lid:set_split', @H, @NState, @NValue)) then
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
@@ -1073,6 +1073,31 @@ begin
 
   with GetPythonEngine do
     Result:= Py_BuildValue('(ii)', nMin, nMax);
+end;
+
+function Py_ed_group(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Index: Longint;
+  Pages: TATPages;
+  Data: TATTabData;
+  Ed: TATSynEdit;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'i:ed_group', @Index)) then
+    begin
+      //need 1-based index
+      Inc(Index, Low(TATGroupsNums));
+      if not (Index in [Low(TATGroupsNums)..High(TATGroupsNums)]) then
+        exit(ReturnNone);
+
+      Pages:= fmMain.Groups.Pages[Index];
+      Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
+      if Data=nil then
+        exit(ReturnNone);
+
+      Ed:= (Data.TabObject as TEditorFrame).Editor;
+      Result:= PyLong_FromLongLong(PtrInt(Ed));
+    end;
 end;
 
 
@@ -2806,6 +2831,7 @@ begin
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');
     AddMethod('ed_handles', @Py_ed_handles, '');
+    AddMethod('ed_group', @Py_ed_group, '');
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
     AddMethod('lexer_proc', @Py_lexer_proc, '');

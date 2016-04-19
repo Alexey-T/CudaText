@@ -341,6 +341,10 @@ def file_save(filename=''):
 def ed_handles():
     r0, r1 = ct.ed_handles()
     return range(r0, r1+1)
+def ed_group(n):
+    h = ct.ed_group(n)
+    if h:
+        return Editor(h)    
 
 def ini_read(filename, section, key, value):
     return ct.ini_read(filename, section, key, value)
