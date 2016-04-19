@@ -280,6 +280,7 @@ begin
   Ed.OptMouseEnableColumnSelection:= Op.OpMouseEnableColumnSelection;
   Ed.OptMouseHideCursorOnType:= Op.OpMouseHideCursorOnType;
   Ed.OptMouseGutterClickSelectsLine:= Op.OpMouseGutterClickSelectedLine;
+  Ed.OptMouseWheelWithCtrlChangeSize:= Op.OpMouseWheelZoom;
 
   Ed.OptKeyBackspaceUnindent:= Op.OpKeyBackspaceUnindent;
   Ed.OptKeyTabIndents:= Op.OpKeyTabIndents;

@@ -139,6 +139,7 @@ begin
   memo.OptCaretVirtual:= false;
   memo.ModeReadOnly:= true;
   memo.OptMouseRightClickMovesCaret:= true;
+  memo.OptMouseWheelWithCtrlChangeSize:= false;
 
   ed.OnCommand:= @ComboCommand;
   memo.OnClickDouble:= @MemoClickDbl;

@@ -275,6 +275,7 @@ type
     OpMouseEnableColumnSelection: boolean;
     OpMouseHideCursorOnType: boolean; //don't work on lin
     OpMouseGutterClickSelectedLine: boolean;
+    OpMouseWheelZoom: boolean;
 
     //keys
     OpKeyBackspaceUnindent: boolean;
@@ -735,6 +736,7 @@ begin
     OpMouseEnableColumnSelection:= true;
     OpMouseHideCursorOnType:= false;
     OpMouseGutterClickSelectedLine:= true;
+    OpMouseWheelZoom:= false;
 
     OpKeyBackspaceUnindent:= true;
     OpKeyTabIndents:= true;

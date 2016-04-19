@@ -281,7 +281,7 @@ object fmLexerProp: TfmLexerProp
         OptMouseWheelScrollVert = True
         OptMouseWheelScrollHorz = True
         OptMouseWheelScrollHorzColumns = 30
-        OptMouseWheelWithCtrlChangeSize = True
+        OptMouseWheelWithCtrlChangeSize = False
         OptKeyBackspaceUnindent = True
         OptKeyPageKeepsRelativePos = True
         OptKeyUpDownNavigateWrapped = True

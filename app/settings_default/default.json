@@ -348,6 +348,8 @@
   "mouse_column_selection": true,
   //Select entire line if clicked line number
   "mouse_gutter_click_sel": true,
+  //Allow to zoom text using Ctrl+mouse wheel
+  "mouse_wheel_zoom": false,
 
   //Key BkSp: do unindent too (if caret inside indented area)
   "key_bksp_unindent": true,
