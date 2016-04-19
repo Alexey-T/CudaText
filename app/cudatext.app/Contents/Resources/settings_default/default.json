@@ -342,12 +342,14 @@
   "mouse_rt_click_moves_caret": false,
   //Dbl-click and immediately drag makes selection by words
   "mouse_2click_drag_select_words": true,
-  //Middle-click shows circle and mouse-move makes auto-scroll
+  //Middle-click shows circle, then mouse-move near circle does auto-scrolling
   "mouse_browser_scroll": true,
   //Enable selection of vertical blocks (Alt+drag)
   "mouse_column_selection": true,
   //Select entire line if clicked line number
   "mouse_gutter_click_sel": true,
+  //Allow to zoom text using Ctrl+mouse wheel
+  "mouse_wheel_zoom": false,
 
   //Key BkSp: do unindent too (if caret inside indented area)
   "key_bksp_unindent": true,
