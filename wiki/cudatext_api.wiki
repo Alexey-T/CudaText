@@ -24,6 +24,7 @@ Supported events:
 * on_focus(self, ed_self): Called after editor is focused.
 * on_lexer(self, ed_self): Called after lexer is changed.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
+* on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt call.
 
 Code parsing
 
@@ -114,6 +115,13 @@ Performs application-wide action. Possible values of id:
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
 * PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items from PROC_SET_SUBCOMMANDS). Call it with str(N) from N=0 until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
 
+====Hotkeys====
+
+command_id can be: str(int_command_code) or "module,method" or "module,method,param".
+
+* PROC_GET_HOTKEY: Gets hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Gets empty str for unknown command_id.
+* PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Gets bool: command_id exists, changed.
+
 ====Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call). Also gets string: result of command.
 * PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be ","-separated: "module_name,method_name,param_string", where param_string can be missed, this is parameter(s) for method.
@@ -150,6 +158,7 @@ Actions:
 *** str(command_code) - int command code from module cudatext_cmd
 *** spec values: 
 **** "recents", "_recents" - recent-files submenu
+**** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
 **** "themes", "_themes" - color-themes submenu 
 **** "langs", "_langs" - translations submenu
 **** "lexers", "_lexers" - lexers submenu
@@ -159,7 +168,7 @@ Actions:
 ** menu_caption is caption, or "-" for menu separator.
 ** menu_index is str(index) for 0-based index at which to insert item; empty param or -1: add item at end.
 
-====Sidebar tabs====
+====Side panel====
 
 * PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: caption of tab, index of tab (0-based, -1 to add tab to end), type of control. Types of control allowed: "tree". Gets bool: params ok, tab was added.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
@@ -265,8 +274,9 @@ For "Python console" panel:
 ** If text empty or has "m" then memo-control (above) is cleared. 
 ** If text empty or has "e" then edit-control (below) is cleared.
 ** If text empty or has "h" then combobox history list is cleared.
-* LOG_CONSOLE_ADD: Adds line to console (combobox and memo).
-* LOG_CONSOLE_GET: Gets list of lines in console combobox.
+* LOG_CONSOLE_ADD: Adds line to console, combobox and memo.
+* LOG_CONSOLE_GET: Gets "\n"-separated lines of console combobox history.
+* LOG_CONSOLE_GET_LOG: Gets "\n"-separated lines of console memo text.
 
 Example for regex:
 
@@ -310,9 +320,11 @@ Gets int code of button pressed:
 
 ===msg_status===
 
- msg_status(text)
+ msg_status(text, process_messages=False)
 
-Shows given text in statusbar field.
+Shows given text in statusbar.
+
+Param process_messages: if True, function also does UI messages processing. It takes some time, it is needed to refresh status of Esc-key pressed. After call msg_status(..., True) you can get state of Esc-key pressed via PROC_GET_ESCAPE, else plugin gets old state, until UI messages are processed.
 
 ===msg_status_alt===
 
@@ -385,6 +397,12 @@ Shows select-color dialog with given initial color (int).
 
 Gets int color, or None if cancelled.
 
+===dlg_hotkey===
+
+ dlg_hotkey()
+
+Shows dialog to input hotkey. Gets str of hotkey (e.g. "F1", "Ctrl+Alt+B") or None if cancelled.
+
 ===dlg_hotkeys===
 
  dlg_hotkeys(text)
@@ -440,6 +458,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for edit, memo: read_only+","+font_monospaced+","+show_border (bool values, "1"/"0")
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
 ** for linklabel: URL (with http: or mailto:)
+** for listview: show_grid (bool values, "1"/"0")
 
 * "val": value of control (not for all):
 ** for check, radio, checkbutton: value "0"/"1"
@@ -495,6 +514,12 @@ Example command in console, prints filenames of all tabs:
 <syntaxhighlight>
 for h in ed_handles(): print(Editor(h).get_filename())
 </syntaxhighlight>
+
+===ed_group===
+
+ ed_group(index)
+
+Gets Editor object for active editor in tab-group with given group-index. Group-index: currently 0..5. Gets None for incorrect index, or if no tabs in this group.
 
 ===ini_read/ini_write===
 
@@ -739,6 +764,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_MARGIN_STRING: str: user-defined margins positions, e.g. "20 25".
 * PROP_INSERT: bool: insert/overwrite mode.
 * PROP_MODIFIED: bool: editor is modified.
+* PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: horz ruler is shown.
 * PROP_LINE_STATE: int: state of the line with index int(text). One of values: LINESTATE_NORMAL, LINESTATE_CHANGED, LINESTATE_ADDED, LINESTATE_SAVED.
 * PROP_COLOR: int: color property. Text must be one of COLOR_ID values, see module cudatext_colors. Gets None for incorrect id.
@@ -780,7 +806,7 @@ Param value is str. If needed bool - pass "0"/"1"; if needed int - pass str(int_
 Possible values of id:
 
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
-* PROP_GUTTER_FOLD: bool: show gutter column "folding".
+* PROP_GUTTER_FOLD: bool: show gutter column "folding". This don't enable/disable folding conmands, only showing of area.
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_WRAP: int: word-wrap mode. 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin. 
 * PROP_RO: bool: read-only mode.
@@ -811,6 +837,7 @@ Possible values of id:
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_TAB_COLOR: int: color of tab containing editor; set COLOR_NONE to reset.
+* PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 
 ===bookmark===
 
@@ -875,7 +902,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of id:
 ===attr===
 
  attr(id, tag=0, x=0, y=0, len=0,
-      color_font=0, color_bg=0, color_border=0,
+      color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
       font_bold=0, font_italic=0, font_strikeout=0,
       border_left=0, border_right=0, border_down=0, border_up=0 )
 
@@ -892,6 +919,11 @@ Controls additional color attributes. Possible values of id:
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
 * MARKERS_DELETE_BY_TAG: Deletes all fragments for specified tag value.
+
+Note:
+
+* color_bg value can be COLOR_NONE: it uses usual back-color.
+* color_font, color_border value can be COLOR_NONE: it uses usual text-color.
 
 ==Misc==
 
@@ -943,11 +975,28 @@ Gets None if coordinates incorrect (e.g. x<0).
 
 Shows auto-completion listbox with given items.
 
-* text: string with items, must be formatted as shown in the [[ATSynEdit#Auto-completion_lists]].
-* len1: count of chars to the left of the caret, to be replaced.
-* len2: count of chars to the right of the caret, to be replaced.
+Function gets None and listbox stays open. When user chooses listbox item, item's text is inserted.
+
+* Param text: string with items, must be formatted as shown in the [[ATSynEdit#Auto-completion_lists]].
+* Param len1: count of chars to the left of the caret, to be replaced.
+* Param len2: count of chars to the right of the caret, to be replaced.
 
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
+
+===complete_alt===
+
+ complete_alt(text, snippet_id, len_chars)
+
+Shows alternative completion listbox. This listbox allows to insert complex snippets, not only simple words. E.g. snippet text like "myobj.myfunc(${1:value1}, ${2:value2});".
+
+Function gets None and listbox stays open. When user chooses listbox item, event on_snippet is called, snippet text/id passed to event.
+
+* Param text: "\n"-separated lines, one line per snippet. Each line has 3 columns "\t"-separated.
+** Column 1 is shown on left side of listbox (good to show here name of function)
+** Column 2 is shown on right side of listbox (good to show here type of function)
+** Column 3 is snippet text in any format. Can contain "\t" but not "\n". Can have any chars escaped in any form.
+* Param snippet_id: any short string just to identify snippet kind between all plugins. E.g. plugin1/plugin2 may have snippets in different formats, they must handle only their snippets.
+* Param len_chars: listbox shows lefter than caret, by this count of chars.
 
 =Tech info=
 
@@ -975,10 +1024,39 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.139
+
+* change: msg_status default process_messages=False
+* add: ed_group()
+
+1.0.138
+
+* add: on_snippet
+* add: ed.complete_alt (uses on_snippet)
+* add: msg_status has param process_messages
+* add: ed.set_prop: PROP_TAB_TITLE writable
+
+1.0.137
+
+* change: cudatext_colors.py deleted, moved to cudatext.py
+* add: ed.attr: color_font, color_border can be COLOR_NONE
+
+1.0.136
+
+* add: dlg_hotkey
+* add: dlg_custom: listview props=
+* add: app_proc: PROC_GET_HOTKEY, PROC_SET_HOTKEY
+* add: app_log: LOG_CONSOLE_GET_LOG
+
+1.0.135
+
+* add: ed.get_prop: PROP_MODIFIED_VERSION
+
 1.0.134
 
 * add: app_proc: menu_id can be with "_": "_recents/_themes/_langs/_plugins"
 * add: app_proc: menu_id "lexers/_lexers"
+* add: app_proc: menu_id "enc/_enc"
 
 1.0.133
 

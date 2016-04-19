@@ -401,13 +401,14 @@ How to make translation zip package:
 * use standard locale names in filename, e.g. ru_RU pt_PT ja_JP (needed for plugins which uses Python translation API)
 * write your contacts in first commented lines. Comments must begin with ";" at line start. Also you can add other comments.
 * to set accelerator-chars for menus/dialogs, use "&" char (e.g. "Open &file"). If needed "&" as is, write "&&".
+* note: Linux Ubuntu font is 1.3x times wider (than WinXP)
 
 * make "install.inf" with such text:
 
-  [info]
-  title=LangName translation (by AuthorName)
-  type=cudatext-data
-  subdir=lang
+ [info]
+ title=LangName translation (by AuthorName)
+ type=cudatext-data
+ subdir=lang
 
 * make zip file "translation.nn_NN.zip" with files nn_NN.ini, install.inf
 * test this zip: open it in CudaText, and check it's installed
@@ -432,11 +433,11 @@ How to make translation zip package:
 * Your file is in the "data/themes" dir
 * Make such file "install.inf":
 
-  [info]
-  title=MyName theme (by AuthorName)
-  type=cudatext-data
-  subdir=themes
-  homepage=https://github.com/nnnn/pppp
+ [info]
+ title=MyName theme (by AuthorName)
+ type=cudatext-data
+ subdir=themes
+ homepage=https://github.com/nnnn/pppp
 
 * Make zip file "theme.MyName.zip" with files "MyTheme.json" and "install.inf"
 * Test zip file: open zip file in CudaText, confirm installation
