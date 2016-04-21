@@ -117,18 +117,18 @@ begin
     end;
 
   if not D.TabModified then
-    Res:= idok
+    Res:= ID_OK
   else
   begin
-    if ACanContinue then Btn:= mb_yesnocancel else Btn:= mb_okcancel;
+    if ACanContinue then Btn:= MB_YESNOCANCEL else Btn:= MB_OKCANCEL;
     Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaption]);
-    Res:= MsgBox(Msg, Btn or mb_iconquestion);
-    if (Res=idok) or (Res=idyes) then
+    Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
+    if (Res=ID_OK) or (Res=ID_YES) then
       Frame.DoFileSave(false, SaveDlg, nil);
   end;
 
-  ACanClose:= Res<>idcancel;
-  ACanContinue:= Res<>idcancel;
+  ACanClose:= Res<>ID_CANCEL;
+  ACanContinue:= Res<>ID_CANCEL;
 
   if ACanClose then
   begin
