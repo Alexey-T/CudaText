@@ -62,6 +62,7 @@ type
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
+procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
 
 procedure EditorApplyTheme(Ed: TATSynedit);
 procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
@@ -452,6 +453,12 @@ begin
   Result:= str;
   SReplaceAll(Result, '{tab}', IntToStr(Ed.OptTabSize));
   SReplaceAll(Result, '{_}', IfThen(Ed.OptTabSpaces, '_'));
+end;
+
+procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
+begin
+  ed.Attribs.Clear;
+  ed.Update;
 end;
 
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;

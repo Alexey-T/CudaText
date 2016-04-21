@@ -147,6 +147,7 @@ begin
     cmd_FoldingFoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFold);
     cmd_FoldingUnfoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorUnfold);
     cmd_FoldingToggleAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFoldUnfold);
+    cmd_DeleteNewColorAttrs: EditorDeleteNewColorAttribs(CurrentEditor);
 
     cmd_MenuEnc:
       begin
