@@ -22,6 +22,7 @@ EVENTS = [
     'on_save_pre',
     'on_snippet',
     'on_start',
+    'on_state',
   ] 
 
 EVENTS_ADD_PARAMS = {
@@ -34,4 +35,5 @@ EVENTS_ADD_PARAMS = {
   'on_macro': 'text',
   'on_panel': 'id_control, id_event',
   'on_snippet': 'snippet_id, snippet_text',
+  'on_state': 'state',
   }

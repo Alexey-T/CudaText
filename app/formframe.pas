@@ -38,7 +38,9 @@ uses
   proc_msg,
   proc_str,
   proc_py,
-  proc_miscutils, formlexerstylemap,
+  proc_py_const,
+  proc_miscutils,
+  formlexerstylemap,
   jsonConf,
   math;
 
@@ -252,9 +254,16 @@ const
 { TEditorFrame }
 
 procedure TEditorFrame.SetTabCaption(const AValue: string);
+var
+  Upd: boolean;
 begin
   if AValue='?' then Exit;
-  FTabCaption:= AValue; //don't check "if FTabCaption=AValue"
+  Upd:= FTabCaption<>AValue;
+
+  FTabCaption:= AValue; //don't check Upd here (for Win32)
+
+  if Upd then
+    DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_TAB_TITLE)]);
   DoOnChangeCaption;
 end;
 
