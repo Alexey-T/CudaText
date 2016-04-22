@@ -392,7 +392,7 @@ procedure TfmMain.DoApplyFrameOps(F: TEditorFrame;
 begin
   EditorApplyOps(F.Editor, Op, AForceApply);
   EditorApplyOps(F.Editor2, Op, AForceApply);
-  F.Adapter.DynamicHiliteEnabled:= Op.OpDynHilite;
+  F.Adapter.EnabledDynamicHilite:= Op.OpDynHilite;
 
   F.Editor.Update;
   if F.Splitted then
