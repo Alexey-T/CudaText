@@ -119,6 +119,7 @@ type
     procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     function GetCommentString: string;
+    function GetEnabledFolding: boolean;
     function GetEncodingName: string;
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
@@ -131,6 +132,7 @@ type
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
     procedure NotifChanged(Sender: TObject);
+    procedure SetEnabledFolding(AValue: boolean);
     procedure SetEncodingName(const Str: string);
     procedure SetLocked(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
@@ -193,6 +195,7 @@ type
     property Splitted: boolean read FSplitted write SetSplitted;
     property SplitHorz: boolean read FSplitHorz write SetSplitHorz;
     property SplitPos: double read FSplitPos write SetSplitPos;
+    property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     //file
     procedure DoFileOpen(const fn: string);
     function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog; ACheckFilenameOpened: TStrFunction): boolean;
@@ -1125,6 +1128,11 @@ begin
     Result:= an.LineComment;
 end;
 
+function TEditorFrame.GetEnabledFolding: boolean;
+begin
+  Result:= Editor.OptFoldEnabled;
+end;
+
 procedure TEditorFrame.DoOnChangeCaption;
 begin
   if Assigned(FOnChangeCaption) then
@@ -1505,6 +1513,12 @@ begin
     ID_CANCEL:
       NotifEnabled:= false;
   end;
+end;
+
+procedure TEditorFrame.SetEnabledFolding(AValue: boolean);
+begin
+  Editor.OptFoldEnabled:= AValue;
+  Editor2.OptFoldEnabled:= AValue;
 end;
 
 function TEditorFrame.PictureSizes: TPoint;

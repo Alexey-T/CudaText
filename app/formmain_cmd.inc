@@ -147,18 +147,8 @@ begin
     cmd_FoldingFoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFold);
     cmd_FoldingUnfoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorUnfold);
     cmd_FoldingToggleAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFoldUnfold);
-    cmd_FoldingEnable:
-      with CurrentFrame do
-      begin
-       Editor.OptFoldEnabled:= true;
-       Editor2.OptFoldEnabled:= true;
-      end;
-    cmd_FoldingDisable:
-      with CurrentFrame do
-      begin
-        Editor.OptFoldEnabled:= false;
-        Editor2.OptFoldEnabled:= false;
-      end;
+    cmd_FoldingEnable: CurrentFrame.EnabledFolding:= true;
+    cmd_FoldingDisable: CurrentFrame.EnabledFolding:= false;
     cmd_DeleteNewColorAttrs: EditorDeleteNewColorAttribs(CurrentEditor);
 
     cmd_MenuEnc:
