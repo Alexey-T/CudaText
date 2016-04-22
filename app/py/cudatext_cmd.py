@@ -278,6 +278,8 @@ cmd_FoldingFoldAtCurLine   = 2680
 cmd_FoldingUnfoldAtCurLine = 2681
 cmd_FoldingToggleAtCurLine = 2682
 cmd_DeleteNewColorAttrs    = 2683
+cmd_FoldingEnable          = 2684
+cmd_FoldingDisable         = 2685
 
 cmd_MenuEnc           = 2691
 cmd_MenuEnds          = 2692
