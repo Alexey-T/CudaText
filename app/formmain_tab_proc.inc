@@ -103,11 +103,12 @@ var
   Frame: TEditorFrame;
   Btn, Res: Integer;
   Msg: string;
-  NeedTreeUpd: boolean;
+  bNeedTreeUpd, bSavedOk: boolean;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
   Frame:= (D.TabObject as TEditorFrame);
-  NeedTreeUpd:= Frame.Visible;
+  bNeedTreeUpd:= Frame.Visible;
+  bSavedOk:= true;
 
   if Frame.IsEmpty then
     if FrameCount=1 then
@@ -124,11 +125,11 @@ begin
     Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaption]);
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
     if (Res=ID_OK) or (Res=ID_YES) then
-      Frame.DoFileSave(false, SaveDlg, nil);
+      bSavedOk:= Frame.DoFileSave(false, SaveDlg, nil);
   end;
 
-  ACanClose:= Res<>ID_CANCEL;
-  ACanContinue:= Res<>ID_CANCEL;
+  ACanClose:= (Res<>ID_CANCEL) and bSavedOk;
+  ACanContinue:= (Res<>ID_CANCEL);
 
   if ACanClose then
   begin
@@ -137,7 +138,7 @@ begin
     Frame.Free;
   end;
 
-  if NeedTreeUpd then
+  if bNeedTreeUpd then
     FrameParseBegin(nil);
 end;
 

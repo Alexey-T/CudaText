@@ -929,8 +929,8 @@ var
   NameBak: string;
 begin
   Result:= false;
-  if not IsText then Exit;
-  if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then Exit;
+  if not IsText then exit(true); //disable saving, but close
+  if DoPyEvent(Editor, cEventOnSaveBefore, [])=cPyFalse then exit(true); //disable saving, but close
 
   if ASaveAs or (FFileName='') then
   begin
@@ -949,7 +949,7 @@ begin
       ASaveDlg.Filter:= '';
     end;
 
-    if not ASaveDlg.Execute then Exit;
+    if not ASaveDlg.Execute then exit(false);
     if Assigned(ACheckFilenameOpened) and ACheckFilenameOpened(ASaveDlg.FileName) then
     begin
       MsgBox(
@@ -982,7 +982,7 @@ begin
     NotifEnabled:= PrevEnabled;
   except
     MsgBox(msgCannotSaveFile+#13+FFileName, MB_OK or MB_ICONERROR);
-    Exit;
+    Exit(false);
   end;
 
   Editor.OnChange(Editor); //modified
