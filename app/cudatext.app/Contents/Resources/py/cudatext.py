@@ -222,6 +222,9 @@ GROUPS_4HORZ  = 9
 GROUPS_4GRID  = 10
 GROUPS_6GRID  = 11
 
+#EDSTATE_WORDWRAP    = 1
+EDSTATE_TAB_TITLE   = 2
+
 COLOR_ID_TextFont = 'EdTextFont'
 COLOR_ID_TextBg = 'EdTextBg'
 COLOR_ID_SelFont = 'EdSelFont'

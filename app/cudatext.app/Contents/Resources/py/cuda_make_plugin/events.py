@@ -5,7 +5,6 @@ EVENTS = [
     'on_click',
     'on_click_dbl',
     'on_close',
-    'on_close_done',
     'on_complete',
     'on_console',
     'on_console_nav',
@@ -22,6 +21,8 @@ EVENTS = [
     'on_save_pre',
     'on_snippet',
     'on_start',
+    'on_state',
+    'on_tab_move',
   ] 
 
 EVENTS_ADD_PARAMS = {
@@ -34,4 +35,5 @@ EVENTS_ADD_PARAMS = {
   'on_macro': 'text',
   'on_panel': 'id_control, id_event',
   'on_snippet': 'snippet_id, snippet_text',
+  'on_state': 'state',
   }

@@ -7,7 +7,9 @@ Legend:
 1.3.11
 + indent/unindent col-blocks too
 + opt mouse_wheel_zoom
-- fix: lexer Python folding
++ cmd "enable/disable folding functionality"
+- fix: lexer Python (folding, update speed)
++ api
 
 1.3.10
 + shift+mwheel does horiz scroll
