@@ -78,7 +78,7 @@ object SyntAnal12: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       GroupIndex = 20
-      CollapseFmt = '%sz0 ...'
+      CollapseFmt = '%s0'
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
