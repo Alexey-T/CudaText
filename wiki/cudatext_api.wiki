@@ -24,6 +24,7 @@ Supported events:
 * on_focus(self, ed_self): Called after editor is focused.
 * on_lexer(self, ed_self): Called after lexer is changed.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
+* on_state(self, ed_self, state): Called after some app-state is changed. Param state is one of EDSTATE_nnnn numbers.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt call.
 
 Code parsing
@@ -1026,8 +1027,9 @@ Text is chr(1) separated items:
 
 1.0.139
 
-* change: msg_status default process_messages=False
+* add: on_state
 * add: ed_group()
+* change: msg_status default process_messages=False
 
 1.0.138
 
