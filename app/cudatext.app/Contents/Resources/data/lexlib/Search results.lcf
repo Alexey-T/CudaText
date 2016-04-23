@@ -23,6 +23,14 @@ object SyntAnal12: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Num'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -38,6 +46,14 @@ object SyntAnal12: TLibSyntAnalyzer
       StyleName = 'File'
       TokenType = 1
       Expression = '^[\x20\x09]* < .*? >'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Num'
+      StyleName = 'Num'
+      TokenType = 2
+      Expression = ': \x20+ \#.+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -62,7 +78,7 @@ object SyntAnal12: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       GroupIndex = 20
-      CollapseFmt = '%sz0 ...'
+      CollapseFmt = '%s0'
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
