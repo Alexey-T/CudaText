@@ -5,8 +5,9 @@ Legend:
 
 
 1.3.11.2
-+ theme "Sub" (Alexey)
-* theme renamed "verbis" to "ebony"
++ theme "Sub" (@Alexey)
+* theme rename: "verbis" to "ebony" (@myCrack)
+- fix: Markdown tree
 
 1.3.11
 + indent/unindent col-blocks too
