@@ -612,7 +612,7 @@ begin
     if SEndsWith(FPluginsCmd[i].ItemCaption, '-') then Continue;
 
     Str:= FPluginsCmd[i].ItemCaption;
-    Str:= StringReplace(Str, '\', ' - ', [rfReplaceAll]);
+    Str:= StringReplace(Str, '\', ': ', [rfReplaceAll]);
     Str:= StringReplace(Str, '&', '', [rfReplaceAll]);
 
     AppKeymap.Add(
