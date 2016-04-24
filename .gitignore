@@ -48,4 +48,6 @@ cuda_spell*/
 cuda_hex*/
 cuda_icon*/
 cuda_inst*/
+cuda_tst*
+cuda_mark*
 _test/
