@@ -369,7 +369,7 @@ end;
 function TfmMain.DoFindOptionsToString: string;
 begin
   Result:=
-    IfThen(FFinder.OptBack, 'b')+
+    //IfThen(FFinder.OptBack, 'b')+
     IfThen(FFinder.OptCase, 'c')+
     IfThen(FFinder.OptRegex, 'r')+
     IfThen(FFinder.OptWords, 'w')+
@@ -380,7 +380,7 @@ end;
 
 procedure TfmMain.DoFindOptionsFromString(const S: string);
 begin
-  FFinder.OptBack:= Pos('b', S)>0;
+  FFinder.OptBack:= false; //Pos('b', S)>0;
   FFinder.OptCase:= Pos('c', S)>0;
   FFinder.OptRegex:= Pos('r', S)>0;
   FFinder.OptWords:= Pos('w', S)>0;
@@ -392,16 +392,16 @@ end;
 
 procedure TfmMain.DoFindActionFromString(AStr: string);
 var
-  SRes, SFind, SRep, SOpt: string;
+  SAction, SFind, SRep, SOpt: string;
 begin
-  SRes:= SGetItem(AStr, #1);
+  SAction:= SGetItem(AStr, #1);
   SFind:= SGetItem(AStr, #1);
   SRep:= SGetItem(AStr, #1);
   SOpt:= SGetItem(AStr, #1);
 
-  FFinder.StrFind:= SFind;
-  FFinder.StrReplace:= SRep;
+  FFinder.StrFind:= UTF8Decode(SFind);
+  FFinder.StrReplace:= UTF8Decode(SRep);
   DoFindOptionsFromString(SOpt);
-  FindDialogDone(nil{skip dialog}, SRes);
+  FindDialogDone(nil{skip dialog}, SAction);
 end;
 
