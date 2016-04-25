@@ -4,7 +4,7 @@ Legend:
   * changed
 
 
-1.3.11.4
+1.3.12
 + rework indent of col-block: like Synwrite
 + theme "Sub" (@Alexey)
 * theme rename: "verbis" to "ebony" (@myCrack)
