@@ -86,8 +86,10 @@ object SyntAnal12: TLibSyntAnalyzer
         item
           TokenTypes = 2
         end>
+      EndOfTextClose = True
       DisplayInTree = False
       NameFmt = '%s0'
+      RefToCondEnd = True
       HighlightPos = cpAny
       GroupIndex = 20
       CollapseFmt = '%s0'
