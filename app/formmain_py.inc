@@ -1748,6 +1748,8 @@ begin
           Result:= PyInt_FromLong(F.TabColor);
         PROP_TAB_TITLE:
           Result:= PyUnicode_FromWideString(Utf8Decode(F.TabCaption));
+        PROP_TAB_ID:
+          Result:= PyLong_FromLong(F.TabId);
 
         PROP_ENC:
           Result:= PyUnicode_FromWideString(Utf8Decode(F.EncodingName));

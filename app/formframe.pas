@@ -64,6 +64,7 @@ type
     Ed1, Ed2: TATSynEdit;
     FTabCaption: string;
     FTabCaptionFromApi: boolean;
+    FTabId: integer;
     FFileName: string;
     FModified: boolean;
     FNotif: TATFileNotif;
@@ -165,6 +166,7 @@ type
     property FileName: string read FFileName write FFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
+    property TabId: integer read FTabId;
     property Modified: boolean read FModified;
     procedure UpdateModifiedState;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
@@ -253,6 +255,8 @@ const
   cSavBookmark    = '/bm';
   cSavFold        = '/folded';
 
+var
+  FLastTabId: integer = 0;
 
 { TEditorFrame }
 
@@ -755,6 +759,8 @@ begin
   FModified:= false;
   FActiveAlt:= false;
   FTabColor:= clNone;
+  Inc(FLastTabId);
+  FTabId:= FLastTabId;
   FNotInRecents:= false;
 
   InitEditor(Ed1);
