@@ -141,6 +141,20 @@ begin
 end;
 
 
+function Py_app_idle(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Flag: LongBool;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'i:app_idle', @Flag)) then
+    begin
+      Application.ProcessMessages;
+      Application.Idle(Flag);
+      Result:= GetPythonEngine.ReturnNone;
+    end;
+end;
+
+
 function Py_dlg_input(Self, Args : PPyObject): PPyObject; cdecl;
 var
   P1, P2: PChar;
@@ -2777,6 +2791,7 @@ begin
     AddMethod('app_path', @Py_app_path, '');
     AddMethod('app_proc', @Py_app_proc, '');
     AddMethod('app_log', @Py_app_log, '');
+    AddMethod('app_idle', @Py_app_idle, '');
 
     AddMethod('msg_status', @Py_msg_status, '');
     AddMethod('msg_status_alt', @Py_msg_status_alt, '');

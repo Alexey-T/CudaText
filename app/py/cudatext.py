@@ -284,7 +284,10 @@ def app_log(id, text, tag=0):
     if id==LOG_CONSOLE_GET:
         return res.splitlines()
     else:
-        return res    
+        return res
+        
+def app_idle(wait=False):
+    return ct.app_idle(wait)    
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
