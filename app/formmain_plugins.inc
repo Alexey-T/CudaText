@@ -310,19 +310,11 @@ begin
     DoPyCommand(PyLastCommandModule, PyLastCommandMethod, PyLastCommandParam);
 end;
 
-procedure TfmMain.DoPanel_Event(const AEvent: string);
-var
-  NTab: integer;
-  ATree: TTreeview;
+procedure TfmMain.DoPanel_Event(AControl: TControl; const AEvent: string);
 begin
-  NTab:= TabsLeft.TabIndex;
-  if NTab<0 then exit;
-
-  ATree:= FAppSidePanels[NTab].ItemTreeview;
-
   DoPyEvent(CurrentEditor, cEventOnPanel,
     [
-      IntToStr(PtrInt(ATree)),
+      IntToStr(PtrInt(AControl)),
       '"'+AEvent+'"'
     ]);
 end;
@@ -330,21 +322,21 @@ end;
 procedure TfmMain.DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
   var Handled: Boolean);
 begin
-  DoPanel_Event('on_menu');
+  DoPanel_Event(Sender as TControl, 'on_menu');
 end;
 
 procedure TfmMain.DoPanel_OnClick(Sender: TObject);
 begin
-  DoPanel_Event('on_click');
+  DoPanel_Event(Sender as TControl, 'on_click');
 end;
 
 procedure TfmMain.DoPanel_OnDblClick(Sender: TObject);
 begin
-  DoPanel_Event('on_dbl_click');
+  DoPanel_Event(Sender as TControl, 'on_dbl_click');
 end;
 
 procedure TfmMain.DoPanel_OnSelChanged(Sender: TObject);
 begin
-  DoPanel_Event('on_sel');
+  DoPanel_Event(Sender as TControl, 'on_sel');
 end;
 
