@@ -301,7 +301,7 @@ begin
     end;
 end;
 
-function TfmMain.DoSidebar_GetAppPanelsIndexOfCaption(const Str: string): integer;
+function TfmMain.DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
 var
   i: integer;
 begin
@@ -314,7 +314,7 @@ begin
     end;
 end;
 
-function TfmMain.DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
+function TfmMain.DoSidebar_CaptionToTabIndex(const Str: string): integer;
 var
   Data: TATTabData;
   i: integer;
@@ -334,7 +334,7 @@ const
 var
   Num: integer;
 begin
-  if DoSidebar_GetAppPanelsIndexOfCaption(ACaption)>=0 then exit(false);
+  if DoSidebar_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
   if (AControlType<>cTypeTree) then exit(false);
 
   Num:= 0;
@@ -373,24 +373,24 @@ function TfmMain.DoSidebar_ActivateTab(const ACaption: string): boolean;
 var
   Num: integer;
 begin
-  Num:= DoSidebar_GetTabIndexOfCaption(ACaption);
+  Num:= DoSidebar_CaptionToTabIndex(ACaption);
   Result:= Num>=0;
   if Result then
     fmMain.TabsLeft.TabIndex:= Num;
 end;
 
-function TfmMain.DoSidebar_GetControlHandle(const ACaption: string): PtrInt;
+function TfmMain.DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
 var
   Num: integer;
 begin
-  Num:= DoSidebar_GetAppPanelsIndexOfCaption(ACaption);
+  Num:= DoSidebar_CaptionToPanelsIndex(ACaption);
   if Num<0 then
     Result:= 0
   else
     Result:= PtrInt(FAppSidePanels[Num].ItemTreeview)
 end;
 
-function TfmMain.DoBottom_GetControlHandle(const ACaption: string): PtrInt;
+function TfmMain.DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
 begin
   Result:= 0;
 

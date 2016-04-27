@@ -733,6 +733,7 @@ begin
   fmConsole.memo.Update;
 
   ToolbarMain.Color:= GetAppColor('TabBg');
+  Self.Color:= ToolbarMain.Color;
 
   Status.Font.Color:= GetAppColor('StatusFont');
   Status.Color:= GetAppColor('StatusBg');

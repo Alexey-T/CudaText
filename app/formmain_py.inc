@@ -79,7 +79,7 @@ begin
   if SBeginsWith(Str, cPrefixSidebar) then
   begin
     Delete(Str, 1, Length(cPrefixSidebar));
-    N:= fmMain.DoSidebar_GetAppPanelsIndexOfCaption(Str);
+    N:= fmMain.DoSidebar_CaptionToPanelsIndex(Str);
     if N>=0 then
       exit(FAppSidePanels[N].ItemMenu.Items);
   end;
@@ -2192,7 +2192,7 @@ begin
 
         APP_PROC_SIDEPANEL_GET_CONTROL:
           begin
-            Num64:= fmMain.DoSidebar_GetControlHandle(Str);
+            Num64:= fmMain.DoSidebar_CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else
@@ -2201,7 +2201,7 @@ begin
 
         APP_PROC_BOTTOMPANEL_GET_CONTROL:
           begin
-            Num64:= fmMain.DoBottom_GetControlHandle(Str);
+            Num64:= fmMain.DoBottom_CaptionToControlHandle(Str);
             if Num64<>0 then
               Result:= PyLong_FromLongLong(Num64)
             else
