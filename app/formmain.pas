@@ -530,11 +530,12 @@ type
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoPanel_Event(AControl: TControl; const AEvent: string);
-    procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
-      var Handled: Boolean);
+    procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoPanel_OnSelChanged(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+    function DoSidebar_GetAppPanelsIndexOfCaption(const Str: string): integer;
+    function DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
     procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
@@ -545,7 +546,6 @@ type
     procedure DoGetSplitInfo(const Id: string; out BoolVert, BoolVisible: boolean;
       out NPos, NTotal: integer);
     function DoSidebar_GetControlHandle(const ACaption: string): PtrInt;
-    function DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
     function DoBottom_GetControlHandle(const ACaption: string): PtrInt;
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;

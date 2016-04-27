@@ -301,7 +301,7 @@ begin
     end;
 end;
 
-function TfmMain.DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
+function TfmMain.DoSidebar_GetAppPanelsIndexOfCaption(const Str: string): integer;
 var
   i: integer;
 begin
@@ -314,13 +314,27 @@ begin
     end;
 end;
 
+function TfmMain.DoSidebar_GetTabIndexOfCaption(const Str: string): integer;
+var
+  Data: TATTabData;
+  i: integer;
+begin
+  Result:= -1;
+  for i:= 0 to TabsLeft.TabCount-1 do
+  begin
+    Data:= TabsLeft.GetTabData(i);
+    if Assigned(Data) then
+      if Data.TabCaption=Str then exit(i)
+  end;
+end;
+
 function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
 const
   cTypeTree = 'tree';
 var
   Num: integer;
 begin
-  if DoSidebar_GetTabIndexOfCaption(ACaption)>=0 then exit(false);
+  if DoSidebar_GetAppPanelsIndexOfCaption(ACaption)>=0 then exit(false);
   if (AControlType<>cTypeTree) then exit(false);
 
   Num:= 0;
@@ -369,7 +383,7 @@ function TfmMain.DoSidebar_GetControlHandle(const ACaption: string): PtrInt;
 var
   Num: integer;
 begin
-  Num:= DoSidebar_GetTabIndexOfCaption(ACaption);
+  Num:= DoSidebar_GetAppPanelsIndexOfCaption(ACaption);
   if Num<0 then
     Result:= 0
   else

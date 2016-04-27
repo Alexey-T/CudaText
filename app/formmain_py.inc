@@ -79,7 +79,7 @@ begin
   if SBeginsWith(Str, cPrefixSidebar) then
   begin
     Delete(Str, 1, Length(cPrefixSidebar));
-    N:= fmMain.DoSidebar_GetTabIndexOfCaption(Str);
+    N:= fmMain.DoSidebar_GetAppPanelsIndexOfCaption(Str);
     if N>=0 then
       exit(FAppSidePanels[N].ItemMenu.Items);
   end;
