@@ -443,9 +443,27 @@ class Editor:
         return ct.ed_set_split(self.h, state, value)
         
     def get_prop(self, id, value=''):
-        return ct.ed_get_prop(self.h, id, value)
+        if id!=PROP_TAG:
+            return ct.ed_get_prop(self.h, id, value)
+        js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
+        key,dfv = value.split(':', 1) if ':' in value else ('_', value)
+        if not js_s:
+            return dfv
+        import json # move to head imports?
+        js = json.loads(js_s)
+        return js.get(key, dfv)
+
     def set_prop(self, id, value):
-        return ct.ed_set_prop(self.h, id, value)
+        if id!=PROP_TAG:
+            return ct.ed_set_prop(self.h, id, value)
+        key,val = value.split(':', 1) if ':' in value else ('_', value)
+        js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
+        js_s = js_s if js_s else '{}'
+        import json # move to head imports?
+        js = json.loads(js_s)
+        js[key] = val
+        js_s = json.dumps(js)
+        return ct.ed_set_prop(self.h, PROP_TAG, js_s)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)
