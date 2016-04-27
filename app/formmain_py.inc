@@ -774,7 +774,11 @@ begin
         Ed.Strings.LineAdd(Str)
       else
       if Ed.Strings.IsIndexValid(N) then
+      begin
         Ed.Strings.Lines[N]:= Str;
+        if Ed.Strings.LinesEnds[N]=cEndNone then
+          Ed.Strings.LinesEnds[N]:= Ed.Strings.Endings;
+      end;
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
