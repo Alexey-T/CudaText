@@ -421,7 +421,7 @@ begin
     //-------act
     if SName='act' then
     begin
-      Ctl.Tag:= 1;
+      Ctl.Tag:= StrToIntDef(SValue, 0);
       Continue;
     end;
 
