@@ -21,11 +21,16 @@ uses
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 
+function IsDialogCustomShown: boolean;
+
 
 implementation
 
 const
   cButtonResultStart=100;
+
+var
+  FDialogShown: boolean = false;
 
 type
   TCustomEditHack = class(TCustomEdit);
@@ -510,6 +515,7 @@ begin
 
   F:= TForm.Create(nil);
   Dummy:= TDummyClass.Create;
+  FDialogShown:= true;
   try
     F.BorderStyle:= bsDialog;
     F.Position:= poScreenCenter;
@@ -542,7 +548,13 @@ begin
   finally
     FreeAndNil(F);
     FreeAndNil(Dummy);
+    FDialogShown:= false;
   end;
+end;
+
+function IsDialogCustomShown: boolean;
+begin
+  Result:= FDialogShown;
 end;
 
 { TDummyClass }

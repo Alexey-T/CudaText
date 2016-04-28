@@ -953,6 +953,8 @@ var
   i: integer;
   FStyle: TFormStyle;
 begin
+  if IsDialogCustomShown then exit;
+
   for i:= 0 to ParamCount-1 do
     if FileExistsUTF8(Parameters[i]) then
       DoFileOpen(Parameters[i]);
