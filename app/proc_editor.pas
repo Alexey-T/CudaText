@@ -777,7 +777,11 @@ begin
   end;
 
   Ed.Carets.Sort;
-  Ed.DoGotoCaret(cEdgeTop);
+  Ed.DoGotoPos_AndUnfold(
+    //caret0 is already at marker
+    Point(Ed.Carets[0].PosX, Ed.Carets[0].PosY),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert);
   Ed.Update;
 end;
 
