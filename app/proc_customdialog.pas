@@ -43,6 +43,8 @@ type
     procedure DoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
+    procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
+    procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
   end;
 
 function StrToBool(const S: string): boolean;
@@ -270,9 +272,7 @@ begin
 end;
 
 
-procedure DoAddControl(AForm: TForm; ATextItems: string;
-  AOnChange: TNotifyEvent;
-  AOnSelChange: TSelectionChangeEvent);
+procedure DoAddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
 var
   SNameValue, SName, SValue, SListItem: string;
   NX1, NX2, NY1, NY2: integer;
@@ -293,12 +293,12 @@ begin
       if SValue='check' then
       begin
         Ctl:= TCheckBox.Create(AForm);
-        (Ctl as TCheckBox).OnChange:= AOnChange;
+        (Ctl as TCheckBox).OnChange:= @ADummy.DoOnChange;
       end;
       if SValue='radio' then
       begin
         Ctl:= TRadioButton.Create(AForm);
-        (Ctl as TRadioButton).OnChange:= AOnChange;
+        (Ctl as TRadioButton).OnChange:= @ADummy.DoOnChange;
       end;
       if SValue='edit' then
       begin
@@ -307,7 +307,7 @@ begin
       if SValue='listbox' then
       begin
         Ctl:= TListBox.Create(AForm);
-        (Ctl as TListBox).OnSelectionChange:= AOnSelChange;
+        (Ctl as TListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
       end;
       if SValue='spinedit' then
       begin
@@ -331,7 +331,7 @@ begin
         begin
           Ctl:= TComboBox.Create(AForm);
           (Ctl as TComboBox).ReadOnly:= true;
-          (Ctl as TComboBox).OnChange:= AOnChange;
+          (Ctl as TComboBox).OnChange:= @ADummy.DoOnChange;
         end;
       if SValue='button' then
         begin
@@ -342,7 +342,7 @@ begin
       if SValue='checkbutton' then
         begin
           Ctl:= TToggleBox.Create(AForm);
-          (Ctl as TToggleBox).OnChange:= AOnChange;
+          (Ctl as TToggleBox).OnChange:= @ADummy.DoOnChange;
           DoFixButtonHeight(Ctl);
         end;
       if SValue='radiogroup' then
@@ -356,6 +356,8 @@ begin
       if SValue='checklistbox' then
       begin
         Ctl:= TCheckListBox.Create(AForm);
+        (Ctl as TCheckListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
+        (Ctl as TCheckListBox).OnClickCheck:= @ADummy.DoOnChange;
       end;
 
       //disabled: label paints bad onto groupbox, Linux
@@ -372,6 +374,8 @@ begin
         (Ctl as TListView).RowSelect:= true;
         (Ctl as TListView).HideSelection:= false;
         (Ctl as TListView).Checkboxes:= (SValue='checklistview');
+        (Ctl as TListView).OnChange:= @ADummy.DoOnListviewChange;
+        (Ctl as TListView).OnSelectItem:= @ADummy.DoOnListviewSelect;
       end;
 
       if SValue='linklabel' then
@@ -564,7 +568,7 @@ begin
     repeat
       SItem:= SGetItem(AText, #10);
       if SItem='' then break;
-      DoAddControl(F, SItem, @Dummy.DoOnChange, @Dummy.DoOnSelChange);
+      DoAddControl(F, SItem, Dummy);
     until false;
 
     if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
@@ -623,6 +627,18 @@ begin
 end;
 
 procedure TDummyClass.DoOnSelChange(Sender: TObject; User: boolean);
+begin
+  DoOnChange(Sender);
+end;
+
+procedure TDummyClass.DoOnListviewChange(Sender: TObject; Item: TListItem;
+  Change: TItemChange);
+begin
+  DoOnChange(Sender);
+end;
+
+procedure TDummyClass.DoOnListviewSelect(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
 begin
   DoOnChange(Sender);
 end;
