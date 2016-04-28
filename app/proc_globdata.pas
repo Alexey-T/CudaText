@@ -818,7 +818,7 @@ begin
 
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
-    TreeTimeFocus:= 2000;
+    TreeTimeFocus:= 300;
     TreeShowLines:= true;
     PyChangeSlow:= 2000;
 
