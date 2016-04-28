@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
-  CheckLst, Spin, ComCtrls,
+  CheckLst, Spin, ComCtrls, Dialogs,
   LclProc, LclType,
   ATLinkLabel,
   ATStringProc;
@@ -41,6 +41,8 @@ type
   public
     Form: TForm;
     procedure DoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnChange(Sender: TObject);
+    procedure DoOnSelChange(Sender: TObject; User: boolean);
   end;
 
 function StrToBool(const S: string): boolean;
@@ -268,7 +270,9 @@ begin
 end;
 
 
-procedure DoAddControl(AForm: TForm; ATextItems: string);
+procedure DoAddControl(AForm: TForm; ATextItems: string;
+  AOnChange: TNotifyEvent;
+  AOnSelChange: TSelectionChangeEvent);
 var
   SNameValue, SName, SValue, SListItem: string;
   NX1, NX2, NY1, NY2: integer;
@@ -286,11 +290,29 @@ begin
     //-------type
     if SName='type' then
     begin
-      if SValue='check' then Ctl:= TCheckBox.Create(AForm);
-      if SValue='radio' then Ctl:= TRadioButton.Create(AForm);
-      if SValue='edit' then Ctl:= TEdit.Create(AForm);
-      if SValue='listbox' then Ctl:= TListBox.Create(AForm);
-      if SValue='spinedit' then Ctl:= TSpinEdit.Create(AForm);
+      if SValue='check' then
+      begin
+        Ctl:= TCheckBox.Create(AForm);
+        (Ctl as TCheckBox).OnChange:= AOnChange;
+      end;
+      if SValue='radio' then
+      begin
+        Ctl:= TRadioButton.Create(AForm);
+        (Ctl as TRadioButton).OnChange:= AOnChange;
+      end;
+      if SValue='edit' then
+      begin
+        Ctl:= TEdit.Create(AForm);
+      end;
+      if SValue='listbox' then
+      begin
+        Ctl:= TListBox.Create(AForm);
+        (Ctl as TListBox).OnSelectionChange:= AOnSelChange;
+      end;
+      if SValue='spinedit' then
+      begin
+        Ctl:= TSpinEdit.Create(AForm);
+      end;
       if SValue='memo' then
         begin
           Ctl:= TMemo.Create(AForm);
@@ -309,6 +331,7 @@ begin
         begin
           Ctl:= TComboBox.Create(AForm);
           (Ctl as TComboBox).ReadOnly:= true;
+          (Ctl as TComboBox).OnChange:= AOnChange;
         end;
       if SValue='button' then
         begin
@@ -319,14 +342,21 @@ begin
       if SValue='checkbutton' then
         begin
           Ctl:= TToggleBox.Create(AForm);
+          (Ctl as TToggleBox).OnChange:= AOnChange;
           DoFixButtonHeight(Ctl);
         end;
       if SValue='radiogroup' then
+      begin
         Ctl:= TRadioGroup.Create(AForm);
+      end;
       if SValue='checkgroup' then
+      begin
         Ctl:= TCheckGroup.Create(AForm);
+      end;
       if SValue='checklistbox' then
+      begin
         Ctl:= TCheckListBox.Create(AForm);
+      end;
 
       //disabled: label paints bad onto groupbox, Linux
       //if SValue='group' then
@@ -385,6 +415,13 @@ begin
     if SName='hint' then
     begin
       Ctl.Hint:= SValue;
+      Continue;
+    end;
+
+    //-------act
+    if SName='act' then
+    begin
+      Ctl.Tag:= 1;
       Continue;
     end;
 
@@ -527,7 +564,7 @@ begin
     repeat
       SItem:= SGetItem(AText, #10);
       if SItem='' then break;
-      DoAddControl(F, SItem);
+      DoAddControl(F, SItem, @Dummy.DoOnChange, @Dummy.DoOnSelChange);
     until false;
 
     if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
@@ -569,6 +606,25 @@ begin
     Key:= 0;
     exit;
   end;
+end;
+
+procedure TDummyClass.DoOnChange(Sender: TObject);
+var
+  i: integer;
+begin
+  //Tag=1 means that control change closes form
+  if (Sender as TControl).Tag=1 then
+    for i:= 0 to Form.ControlCount-1 do
+      if Form.Controls[i]=Sender then
+      begin
+        Form.ModalResult:= cButtonResultStart+i;
+        exit
+      end;
+end;
+
+procedure TDummyClass.DoOnSelChange(Sender: TObject; User: boolean);
+begin
+  DoOnChange(Sender);
 end;
 
 
