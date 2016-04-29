@@ -2555,7 +2555,8 @@ end;
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
-  IdAction, NIndex, NImageIndex, NX, NY: integer;
+  IdAction, NIndex, NImageIndex: integer;
+  Pnt1, Pnt2: TPoint;
   PtrText: PChar;
   StrText, Str: string;
   Tree: TTreeView;
@@ -2705,8 +2706,8 @@ begin
 
         TREE_ITEM_GET_SYNTAX_RANGE:
           begin
-            fmMain.TreeGetSyntaxRange(TreeNode, NX, NY);
-            Result:= Py_BuildValue('(ii)', NX, NY);
+            fmMain.TreeGetSyntaxRange(TreeNode, Pnt1, Pnt2);
+            Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
           end;
 
         TREE_ICON_ADD:
