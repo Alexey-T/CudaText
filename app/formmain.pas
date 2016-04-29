@@ -590,6 +590,7 @@ type
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
+    procedure TreeGetSyntaxRange(ANode: TTreeNode; out AX, AY: integer);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadLexlib;
@@ -937,6 +938,21 @@ begin
   CurrentEditor.DoGotoPos_AndUnfold(P, UiOps.FindIndentHorz, UiOps.FindIndentVert);
   CurrentEditor.SetFocus;
   FTreeClick:= false;
+end;
+
+procedure TfmMain.TreeGetSyntaxRange(ANode: TTreeNode; out AX, AY: integer);
+var
+  R: TecTextRange;
+  P: TPoint;
+begin
+  AX:= -1;
+  AY:= -1;
+  if ANode=nil then exit;
+  if ANode.Data=nil then exit;
+  R:= TecTextRange(ANode.Data);
+  P:= CurrentFrame.Adapter.TreeGetPositionOfRange(R);
+  AX:= P.X;
+  AY:= P.Y;
 end;
 
 procedure TfmMain.TreeMouseMove(Sender: TObject; Shift: TShiftState; X,

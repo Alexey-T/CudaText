@@ -2555,7 +2555,7 @@ end;
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
-  IdAction, NIndex, NImageIndex: integer;
+  IdAction, NIndex, NImageIndex, NX, NY: integer;
   PtrText: PChar;
   StrText, Str: string;
   Tree: TTreeView;
@@ -2701,6 +2701,12 @@ begin
               Tree.FullExpand;
             Tree.Invalidate;
             Result:= ReturnNone;
+          end;
+
+        TREE_ITEM_GET_SYNTAX_RANGE:
+          begin
+            fmMain.TreeGetSyntaxRange(TreeNode, NX, NY);
+            Result:= Py_BuildValue('(ii)', NX, NY);
           end;
 
         TREE_ICON_ADD:
