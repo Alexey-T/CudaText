@@ -134,6 +134,7 @@ PROP_MINIMAP = 44
 PROP_MICROMAP = 45
 PROP_LINK_AT_POS = 46
 PROP_MODIFIED_VERSION = 47
+PROP_TAB_ID = 48
 
 PROC_GET_CLIP = 0
 PROC_SET_CLIP = 1
@@ -284,7 +285,10 @@ def app_log(id, text, tag=0):
     if id==LOG_CONSOLE_GET:
         return res.splitlines()
     else:
-        return res    
+        return res
+        
+def app_idle(wait=False):
+    return ct.app_idle(wait)    
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
@@ -439,9 +443,27 @@ class Editor:
         return ct.ed_set_split(self.h, state, value)
         
     def get_prop(self, id, value=''):
-        return ct.ed_get_prop(self.h, id, value)
+        if id!=PROP_TAG:
+            return ct.ed_get_prop(self.h, id, value)
+        js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
+        key,dfv = value.split(':', 1) if ':' in value else ('_', value)
+        if not js_s:
+            return dfv
+        import json # move to head imports?
+        js = json.loads(js_s)
+        return js.get(key, dfv)
+
     def set_prop(self, id, value):
-        return ct.ed_set_prop(self.h, id, value)
+        if id!=PROP_TAG:
+            return ct.ed_set_prop(self.h, id, value)
+        key,val = value.split(':', 1) if ':' in value else ('_', value)
+        js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
+        js_s = js_s if js_s else '{}'
+        import json # move to head imports?
+        js = json.loads(js_s)
+        js[key] = val
+        js_s = json.dumps(js)
+        return ct.ed_set_prop(self.h, PROP_TAG, js_s)
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)

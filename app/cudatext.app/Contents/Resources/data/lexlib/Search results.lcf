@@ -67,14 +67,28 @@ object SyntAnal12: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'block begin'
+      DisplayName = 'block search'
       ConditionList = <
         item
-          TokenTypes = 3
+          TokenTypes = 1
+        end>
+      EndOfTextClose = True
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      GroupIndex = 20
+      CollapseFmt = '%s0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'block file'
+      ConditionList = <
+        item
+          TokenTypes = 2
         end>
       EndOfTextClose = True
       DisplayInTree = False
-      NameFmt = '"%s0"'
+      NameFmt = '%s0'
       RefToCondEnd = True
       HighlightPos = cpAny
       GroupIndex = 20
