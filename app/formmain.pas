@@ -1425,16 +1425,18 @@ end;
 procedure TfmMain.DoLoadParamstr;
 var
   fn: string;
-  cnt, i: integer;
+  i: integer;
 begin
-  cnt:= ParamCount;
-  for i:= 1 to cnt do
+  for i:= 1 to ParamCount do
   begin
     fn:= ParamStrUTF8(i);
 
+    {$ifdef darwin}
     //OSX 10.8 gives param "-psn**"
     if SBeginsWith(fn, '-psn') then Continue;
-    //don't try to open folder
+    {$endif}
+
+    //don't take folder
     if DirectoryExistsUTF8(fn) then Continue;
 
     if FileExistsUTF8(fn) then
