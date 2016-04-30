@@ -1435,6 +1435,8 @@ begin
     //OSX 10.8 gives "-psn**"
     if SBeginsWith(fn, '-') then Continue;
 
+    if DirectoryExistsUTF8(fn) then Continue;
+
     if FileExistsUTF8(fn) then
       DoFileOpen(fn)
     else
