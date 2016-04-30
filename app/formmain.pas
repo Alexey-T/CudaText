@@ -1432,9 +1432,9 @@ begin
   begin
     fn:= ParamStrUTF8(i);
 
-    //OSX 10.8 gives "-psn**"
-    if SBeginsWith(fn, '-') then Continue;
-
+    //OSX 10.8 gives param "-psn**"
+    if SBeginsWith(fn, '-psn') then Continue;
+    //don't try to open folder
     if DirectoryExistsUTF8(fn) then Continue;
 
     if FileExistsUTF8(fn) then

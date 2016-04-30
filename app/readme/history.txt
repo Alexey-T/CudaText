@@ -6,6 +6,7 @@ Legend:
 
 1.3.12.2
 + api
+- fix: dont open folder via cmd-line
 
 1.3.12
 + rework indent of col-block: like Synwrite
