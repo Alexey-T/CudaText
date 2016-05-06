@@ -504,6 +504,7 @@ begin
 
     Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
     Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
+    Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
 
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
     UiOps.LexerLibFilename:= c.GetValue('lexlib', UiOps.LexerLibFilename);

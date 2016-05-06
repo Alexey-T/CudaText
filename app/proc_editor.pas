@@ -265,6 +265,7 @@ begin
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptWordChars:= Op.OpWordChars;
+  Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   OptHexCharsUser:= Op.OpHexChars;
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
