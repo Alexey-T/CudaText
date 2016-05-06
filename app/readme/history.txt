@@ -4,6 +4,8 @@ Legend:
   * changed
 
 
++ op fold_style
+
 1.3.12.5
 + api
 - fix: dont open folder via cmd-line

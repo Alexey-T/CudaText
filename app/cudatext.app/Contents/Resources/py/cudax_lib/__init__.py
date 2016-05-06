@@ -18,7 +18,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.5.4 2016-02-24'
+    '0.5.5.at 2016-02-24'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 '''
@@ -78,9 +78,9 @@ class Command:
         bEmpSel     = False
         rWrks       = []
         pass;                  #LOG and log('ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN={}', (ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN))
+        crts        = ed_.get_carets()
         if False:pass
         elif ed_.get_sel_mode() == app.SEL_NORMAL:
-            crts        = ed_.get_carets()
             bEmpSel     = 1==len(crts) and -1==crts[0][3]
             for (cCrt, rCrt ,cEnd, rEnd) in crts:
                 (rCrtMin
@@ -162,6 +162,7 @@ class Command:
             #for rWrk
         bSkip    = get_opt('comment_move_down', True)
         if bEmpSel and bSkip:
+            (cCrt, rCrt, cEnd, rEnd)    = crts[0]
             _move_caret_down(cCrt, rCrt)
        #def _cmt_toggle_line
 
@@ -587,6 +588,43 @@ def _json_loads(s, **kw):
 #   return json.loads(s, **kw)
     #def _json_loads
 
+def get_tab_by_id(tab_id):
+    for h in app.ed_handles(): 
+        try_ed  = app.Editor(h)
+        if int(tab_id) == try_ed.get_prop(app.PROP_TAB_ID, ''):
+            return try_ed
+    return None
+
+def get_groups_count():
+    dct = {
+        app.GROUPS_ONE      : 1,
+        app.GROUPS_2VERT    : 2,
+        app.GROUPS_2HORZ    : 2,
+        app.GROUPS_3VERT    : 3,
+        app.GROUPS_3HORZ    : 3,
+        app.GROUPS_3PLUS    : 3,
+        app.GROUPS_1P2VERT  : 3,
+        app.GROUPS_1P2HORZ  : 3,
+        app.GROUPS_4VERT    : 4,
+        app.GROUPS_4HORZ    : 4,
+        app.GROUPS_4GRID    : 4,
+        app.GROUPS_6GRID    : 6
+    }
+    gr_mode = app.app_proc(app.PROC_GET_GROUPING, '')
+    return dct.get(gr_mode, 1)
+
+def get_enabled_lexers():
+    all_lxrs  = app.lexer_proc(app.LEXER_GET_LIST, '').splitlines()
+    enb_lxrs  = [lxr for lxr in all_lxrs if app.lexer_proc(app.LEXER_GET_ENABLED, lxr)]
+    return enb_lxrs
+def choose_avail_lexer(lxr_names):
+    """ Choose from lxr_names first enabled lexer """
+    all_lxrs  = get_enabled_lexers()
+    for lxr in lxr_names:
+        if lxr in all_lxrs:
+            return lxr
+    return ''
+
 def _get_log_file():
     return os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'cudax.log')
 
@@ -625,13 +663,13 @@ def html_color_to_int(s):
     """
     String '#RRGGBB' or '#RGB' to integer
     """
-    s = s.strip()
-    while s[0] == '#': s = s[1:]
+    s = s.strip().lstrip('#')
+#   while s[0] == '#': s = s[1:]
     if len(s)==3:
         s = s[0]*2 + s[1]*2 + s[2]*2
     if len(s)!=6:
         raise Exception('Incorrect color token: '+s)
-    s = s[-2:] + s[2:4] + s[:2]
+    s = s[4:6] + s[2:4] + s[0:2]
     color = int(s, 16)
     return color
 
@@ -649,7 +687,7 @@ def icase(*pars):
     return pars[-1] if 1==len(pars)%2 else None
     #def icase
 
-def log(msg='', *args):
+def log(msg='', *args, **kwargs):
     """ en:
         Light print-logger. Commands are included into msg:
             >> << {{    Expand/Narrow/Cancel gap
@@ -683,12 +721,22 @@ def log(msg='', *args):
         fun,ln  = (cls + frCaller[3]).replace('.__init__','()'), frCaller[2]
         lctn    = '{}:{} '.format(fun, ln)
 
-    if 0<len(args):
-        msg = msg.format(*args)
+    if args or kwargs:
+        msg = msg.format(*args, **kwargs)
     log_gap = log_gap + (chr(9) if '>>' in msg else '')
     msg     = log_gap + lctn + msg.replace('¬',chr(9)).replace('¶',chr(10))
 
-    print(msg)
+    _out_h  = kwargs.pop('_out_h', None)
+    _out_s  = kwargs.pop('_out_s', None)
+    pass;                      #print('_out_h={}, _out_s={}'.format(_out_h, _out_s))
+    if False:pass
+    elif _out_h:
+        _out_h.write(msg+chr(10))
+    elif _out_s:
+        with open(_out_s, 'a') as _out_h:
+            _out_h.write(msg+chr(10))
+    else:
+        print(msg)
 
     log_gap = icase('<<' in msg, log_gap[:-1]
                    ,'{{' in msg, ''

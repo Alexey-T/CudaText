@@ -59,6 +59,14 @@
   //HTML/XML hilites opening/closing tags when caret is inside tag
   "dyn_hilite": true,
 
+  //style of folding
+  //0: if texthint empty: ".." from fold-pos
+  //1: if texthint empty: trunc-line
+  //2: if texthint empty: ".." after line
+  //3: ".." after line
+  //4: horz line
+  "fold_style": 1,  
+
   //If no selection, "Copy" will take entire line with caret
   "copy_line_if_no_sel": true,
   //If no selection, "Cut" will take entire line with caret
