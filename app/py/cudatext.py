@@ -333,8 +333,8 @@ def dlg_file(is_open, init_filename, init_dir, filters):
 def dlg_dir(init_dir):
     return ct.dlg_dir(init_dir)
 
-def dlg_hotkey():
-    return ct.dlg_hotkey()
+def dlg_hotkey(title=''):
+    return ct.dlg_hotkey(title)
 def dlg_hotkeys(text):
     return ct.dlg_hotkeys(text)
     

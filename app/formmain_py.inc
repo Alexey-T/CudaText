@@ -1615,14 +1615,16 @@ begin
 end;
 
 
-function Py_dlg_hotkey(Self, Args : PPyObject): PPyObject; cdecl;
+function Py_dlg_hotkey(Self, Args: PPyObject): PPyObject; cdecl;
 var
+  Ptr: PChar;
   S: string;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, ':dlg_hotkey')) then
+    if Bool(PyArg_ParseTuple(Args, 's:dlg_hotkey', @Ptr)) then
     begin
-      S:= DoDialogHotkeyInput;
+      S:= string(Ptr);
+      S:= DoDialogHotkeyInput(S);
       if S<>'' then
         Result:= PyString_FromString(PChar(S))
       else

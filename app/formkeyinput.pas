@@ -25,7 +25,7 @@ type
     FHotkey: string;
   end;
 
-function DoDialogHotkeyInput: string;
+function DoDialogHotkeyInput(ATitle: string): string;
 
 
 implementation
@@ -53,7 +53,7 @@ end;
 
 {$R *.lfm}
 
-function DoDialogHotkeyInput: string;
+function DoDialogHotkeyInput(ATitle: string): string;
 var
   Form: TfmKeyInput;
 begin
@@ -61,6 +61,8 @@ begin
   Form:= TfmKeyInput.Create(nil);
   try
     DoLocalize_FormKeyInput(Form);
+    if ATitle<>'' then
+      Form.Caption:= ATitle;
     if Form.ShowModal=mrOk then
       Result:= Form.FHotkey;
   finally
