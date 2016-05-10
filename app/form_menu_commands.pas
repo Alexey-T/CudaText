@@ -302,6 +302,7 @@ begin
   if strkey<>'' then
   begin
     n:= list.ClientWidth-c.TextWidth(strkey)-4;
+    c.FillRect(n-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight);
     c.Font.Color:= GetAppColor('ListFontHotkey');
     c.TextOut(n, pnt.y, strkey);
   end;
