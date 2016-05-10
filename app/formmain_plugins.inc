@@ -58,7 +58,7 @@ end;
 procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
 var
   ini: TIniFile;
-  s_section, s_caption, s_module, s_method, s_lexers, s_hotkey,
+  s_section, s_caption, s_module, s_method, s_lexers, //s_hotkey,
   s_events, s_keys: string;
   s_inmenu: boolean;
   i, cnt: integer;
@@ -72,7 +72,7 @@ begin
       s_section:= ini.ReadString('item'+Inttostr(i), 'section', '');
       s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
       s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
-      s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
+      //s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
       s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
       s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
       s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');

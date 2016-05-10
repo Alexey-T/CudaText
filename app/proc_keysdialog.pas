@@ -59,7 +59,7 @@ begin
     begin
       AppKeymap[n].Keys1:= Keys1;
       AppKeymap[n].Keys2:= Keys2;
-      DoSaveKeyItem(AppKeymap[n], StrId);
+      DoOps_SaveKeyItem(AppKeymap[n], StrId);
     end;
   finally
     Free

@@ -306,7 +306,7 @@ function GetListboxItemHeight(const AFontName: string; AFontSize: integer): inte
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
-procedure DoSaveKeyItem(K: TATKeymapItem; const path: string);
+procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path: string);
 procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
@@ -900,7 +900,7 @@ begin
 end;
 
 
-procedure DoSaveKeyItem(K: TATKeymapItem; const path: string);
+procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path: string);
 var
   c: TJSONConfig;
   i: integer;
@@ -1162,6 +1162,9 @@ begin
   begin
     KeyArraySetFromString(Keys1, SKey1);
     KeyArraySetFromString(Keys2, SKey2);
+
+    //save to keys.json
+    DoOps_SaveKeyItem(AppKeymap[NIndex], SCmd);
   end;
   Result:= true;
 end;
