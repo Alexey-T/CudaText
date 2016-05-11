@@ -40,6 +40,7 @@ type
   TDummyClass = class
   public
     Form: TForm;
+    procedure DoOnShow(Sender: TObject);
     procedure DoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
@@ -231,16 +232,20 @@ end;
 
 
 procedure DoSetListviewState(C: TListView; SValue: string);
-// index;check0,check1,
 var
   N: integer;
   SItem: string;
 begin
+  //index
   SItem:= SGetItem(SValue, ';');
   N:= StrToIntDef(SItem, 0);
   if (N>=0) and (N<C.Items.Count) then
+  begin
     C.ItemFocused:= C.Items[N];
+    C.Selected:= C.ItemFocused;
+  end;
 
+  //check0,check1,..
   if C.Checkboxes then
   begin
     N:= 0;
@@ -579,6 +584,7 @@ begin
     Dummy.Form:= F;
     F.KeyPreview:= true;
     F.OnKeyDown:= @Dummy.DoKeyDown;
+    F.OnShow:= @Dummy.DoOnShow;
 
     Res:= F.ShowModal;
     if Res>=cButtonResultStart then
@@ -599,6 +605,17 @@ begin
 end;
 
 { TDummyClass }
+
+procedure TDummyClass.DoOnShow(Sender: TObject);
+var
+  i: integer;
+begin
+  for i:= 0 to Form.ControlCount-1 do
+    if Form.Controls[i] is TListview then
+      with (Form.Controls[i] as TListview) do
+        if ItemFocused<>nil then
+          ItemFocused.MakeVisible(false);
+end;
 
 procedure TDummyClass.DoKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
