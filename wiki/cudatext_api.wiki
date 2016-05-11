@@ -289,6 +289,12 @@ For line "line 10 column 20: text message here" the following regex and indexes 
 * file-name index "0" (not used)
 * zero-base flag "0" (off)
 
+===app_idle===
+
+ app_idle(wait=False)
+
+Performs application's message-processing. If wait=True, also waits for new UI event.
+
 ===msg_box===
 
  msg_box(text, flags)
@@ -400,7 +406,7 @@ Gets int color, or None if cancelled.
 
 ===dlg_hotkey===
 
- dlg_hotkey()
+ dlg_hotkey(title="")
 
 Shows dialog to input hotkey. Gets str of hotkey (e.g. "F1", "Ctrl+Alt+B") or None if cancelled.
 
@@ -446,6 +452,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "cap": caption of control (not for all)
 * "hint": string of floating hint, hint can be multiline, "\r"-separated
 * "en": enabled-state, "1"/"0" for on/off
+* "act": bool "0"/"1", for some controls (check, radio, combo_ro, checkbutton, listbox-es, listview-s), means that control's change closes dialog
 
 * "items": 
 ** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
@@ -471,13 +478,15 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 
 Parameter focused is index of control (0-base) which is focused on showing.
 
-Dialog is closed by any button. Gets 2-tuple: (button_index, state_text), gets None if cancelled by "x".
+====Result====
+Dialog is closed by clicking any button or by changing in any control which has "act=1". Gets 2-tuple: (control_index, state_text), gets None if cancelled.
 
-* button_index: index of control (in text) for pressed button
-* state_text: "\n"-separated values of controls (same count of items as in text)
+* control_index: index of control which closed dialog (0-based).
+* state_text: "\n"-separated values of controls (same count of items as in text).
 
-Notes:
+====Notes====
 
+* Property "act=" must be last for control.
 * Controls sizes differ on Win/Linux/OSX, picture shows controls (Linux/Win) auto-aligned, not in CudaText, only example app:
 
 [[File:controls_autosizes.png]]
@@ -586,6 +595,8 @@ Possible values of id_action:
 * TREE_ITEM_FOLD_DEEP: Folds item with subitems. Root-item allowed too.
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
+
+* TREE_ITEM_GET_SYNTAX_RANGE: Gets position of range, associated with given tree-node, as 4-tuple (start_x, start_y, end_x, end_y). Can be called only for tree-nodes of Syntax Tree panel.
 
 * TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
 * TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
@@ -782,7 +793,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers (if markers placed).
-* PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
+* PROP_TAG: str: some string attached to editor's tab. Param text must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
@@ -795,6 +806,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_MICROMAP: bool: micromap is visible.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
+* PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_LINK_AT_POS: str: URL in the document, at given position, text must be str(pos_x)+","+str(pos_y).
 
 ===set_prop===
@@ -829,7 +841,7 @@ Possible values of id:
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
-* PROP_TAG: str: just a string attached to editor's tab (you can put here any value).
+* PROP_TAG: str: some string attached to editor's tab. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
@@ -1021,9 +1033,26 @@ Text is chr(1) separated items:
 ** 'findmark'- mark all
 * item 1: text to find
 * item 2: text to replace with
-* item 3: several chars, each char is find-option: 'b' for back, 'c' for case-sens, 'r' for regex, 'w' for whole-words, 'f' for from-caret, 'o' for confirm-replaces, 'a' for wrapped-search
+* item 3: several chars, each char is find-option: 
+** 'c' for case-sens
+** 'r' for regex
+** 'w' for whole-words
+** 'f' for from-caret
+** 'o' for confirm-replaces
+** 'a' for wrapped-search
 
 =History=
+
+1.0.141
+* add: dlg_hotkey: title
+
+1.0.140
+
+* add: ed.get_prop: PROP_TAB_ID
+* add: ed.get_prop/set_prop: PROP_TAG extended, it has values for keys
+* add: dlg_custom: prop "act=1"
+* add: app_idle()
+* add: tree_proc: TREE_ITEM_GET_SYNTAX_RANGE
 
 1.0.139
 
