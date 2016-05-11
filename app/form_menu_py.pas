@@ -68,7 +68,12 @@ implementation
 
 procedure TfmMenuApi.FormShow(Sender: TObject);
 begin
+  //fit in scrn
+  Left:= Max(0, Left);
+  Left:= Min(Left, Screen.Width-Width);
+
   DoFilter;
+
   if (InitItemIndex>=0) and (InitItemIndex<List.ItemCount) then
   begin
     List.ItemIndex:= InitItemIndex;

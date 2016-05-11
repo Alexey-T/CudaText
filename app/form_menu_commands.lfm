@@ -81,6 +81,7 @@ object fmCommands: TfmCommands
     OptTabSpaces = False
     OptTabSize = 8
     OptFoldStyle = cFoldHereWithTruncatedText
+    OptFoldEnabled = True
     OptTextLocked = 'wait...'
     OptTextHintFontStyle = [fsItalic]
     OptTextHintCenter = False
