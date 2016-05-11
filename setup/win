@@ -8,3 +8,6 @@ zip -r ~/Public/$dname.zip data readme settings_default *.manifest *.dll py*.zip
 
 cd ~/Public/win_exe
 zip ~/Public/$dname.zip cudatext.exe
+
+cd ~/Downloads/cud
+zip -r ~/Public/$dname.zip src/

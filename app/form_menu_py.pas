@@ -284,7 +284,9 @@ begin
     else
       pnt:= Point(ARect.Left+cIndent2, pnt.y+list.ItemHeight div 2);
 
-    c.FillRect(pnt.x-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight-1);
+    if not FMultiline then
+      c.FillRect(pnt.x-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight-1);
+
     c.Font.Color:= GetAppColor('ListFontHotkey');
     c.TextOut(pnt.x, pnt.y, Utf8Encode(strkey));
   end;
