@@ -6,6 +6,7 @@ Legend:
 
 1.3.14.2
 + op ui_listbox_size_y
++ lexer ReST
 
 1.3.14
 + op fold_style

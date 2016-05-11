@@ -1,0 +1,13 @@
+[map]
+Head=Symbol2
+Comment=Comment
+Quote=IncludeBG1
+Code=IncludeBG2
+Code dot=IncludeBG3
+List=IncludeBG4
+Bold=TextBold
+Italic=TextItalic
+Bold-Italic=TextBoldItalic
+Crossed=TextCross
+Table=Symbol
+Sign=LightBG2
