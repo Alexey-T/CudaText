@@ -143,7 +143,7 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateInputForm(Form: TForm; APreferHeight: integer);
+procedure TfmMain.UpdateInputForm(Form: TForm);
 var
   Ed: TATSynEdit;
   P: TPoint;
@@ -152,7 +152,7 @@ begin
   P:= Ed.ClientToScreen(Point(0, 0));
   Form.Left:= Max(0, P.X+(Ed.Width-Form.Width) div 2);
   Form.Top:= Max(0, P.Y);
-  Form.Height:= Min(Ed.Height, APreferHeight);
+  Form.Height:= UiOps.ListboxHeight;
 end;
 
 

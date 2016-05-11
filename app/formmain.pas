@@ -725,7 +725,7 @@ type
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);
-    procedure UpdateInputForm(Form: TForm; APreferHeight: integer);
+    procedure UpdateInputForm(Form: TForm);
     procedure UpdateFrame(AUpdatedText: boolean= false);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
@@ -1872,10 +1872,7 @@ begin
 
   Form:= TfmCommands.Create(Self);
   try
-    UpdateInputForm(Form,
-      Form.edit.Height+
-      Form.edit.BorderSpacing.Around*3+
-      Form.list.ItemHeight*UiOps.ListboxItemCountCmd);
+    UpdateInputForm(Form);
     Form.keymap:= CurrentEditor.Keymap;
     Form.ShowModal;
     Cmd:= Form.ResultNum;
@@ -1972,9 +1969,7 @@ begin
     Num:= -1;
     Form:= TfmGotoList.Create(Self);
     try
-      UpdateInputForm(Form,
-        Form.List.ItemHeight*UiOps.ListboxItemCountBm +
-        Form.List.BorderSpacing.Around*2);
+      UpdateInputForm(Form);
       Form.Items:= items;
       Form.ShowModal;
       if Form.ResultIndex>=0 then
@@ -2871,11 +2866,7 @@ begin
       Form.listItems.Add(SItem);
     until false;
 
-    UpdateInputForm(Form,
-      Form.edit.Height+
-      Form.edit.BorderSpacing.Around*3+
-      Form.list.ItemHeight*UiOps.ListboxItemCountCmd);
-
+    UpdateInputForm(Form);
     Form.Multiline:= AMultiline;
     Form.InitItemIndex:= AInitIndex;
     Form.ShowModal;

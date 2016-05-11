@@ -81,9 +81,7 @@ type
     AutoCloseBrackets: string;
 
     ListboxWidth: integer;
-    ListboxItemCountCmd: integer;
-    ListboxItemCountBm: integer;
-    ListboxItemCountTabs: integer;
+    ListboxHeight: integer;
     ListboxCompleteSizeX: integer;
     ListboxCompleteSizeY: integer;
     ListboxFuzzySearch: boolean;
@@ -779,9 +777,7 @@ begin
     AutoCloseBrackets:= '([{';
 
     ListboxWidth:= 450;
-    ListboxItemCountCmd:= 15;
-    ListboxItemCountBm:= 10;
-    ListboxItemCountTabs:= 30;
+    ListboxHeight:= 400;
     ListboxCompleteSizeX:= 550;
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;

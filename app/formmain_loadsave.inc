@@ -539,6 +539,7 @@ begin
     UiOps.TabNumbers:= c.GetValue('ui_tab_numbers', UiOps.TabNumbers);
 
     UiOps.ListboxWidth:= c.GetValue('ui_listbox_size_x', UiOps.ListboxWidth);
+    UiOps.ListboxHeight:= c.GetValue('ui_listbox_size_y', UiOps.ListboxHeight);
     UiOps.ListboxCompleteSizeX:= c.GetValue('ui_listbox_complete_size_x', UiOps.ListboxCompleteSizeX);
     UiOps.ListboxCompleteSizeY:= c.GetValue('ui_listbox_complete_size_y', UiOps.ListboxCompleteSizeY);
     UiOps.ListboxFuzzySearch:= c.GetValue('ui_listbox_fuzzy', UiOps.ListboxFuzzySearch);

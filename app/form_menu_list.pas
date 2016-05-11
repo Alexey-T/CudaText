@@ -98,6 +98,7 @@ begin
   List.Color:= self.Color;
 
   self.Width:= UiOps.ListboxWidth;
+  self.Height:= UiOps.ListboxHeight;
   List.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
   Items:= nil;
   ResultIndex:= -1;

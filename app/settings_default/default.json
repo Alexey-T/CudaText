@@ -287,8 +287,9 @@
   //Show numbers on tabs
   "ui_tab_numbers": false,
 
-  //Commands listbox size
+  //Commands/API listbox size
   "ui_listbox_size_x": 450,
+  "ui_listbox_size_y": 400,
   //Auto-completion listbox size
   "ui_listbox_complete_size_x": 550,
   "ui_listbox_complete_size_y": 200,
