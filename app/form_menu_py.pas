@@ -107,8 +107,8 @@ begin
 
   ResultCode:= -1;
   list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
-  self.Width:= UiOps.ListboxWidth;
-  self.Height:= UiOps.ListboxHeight;
+  self.Width:= UiOps.ListboxSizeX;
+  self.Height:= UiOps.ListboxSizeY;
 
   listItems:= TStringlist.Create;
   listFiltered:= TList.Create;

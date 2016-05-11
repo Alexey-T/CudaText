@@ -80,8 +80,8 @@ type
     AutocompleteAutoshowLexers: string;
     AutoCloseBrackets: string;
 
-    ListboxWidth: integer;
-    ListboxHeight: integer;
+    ListboxSizeX: integer;
+    ListboxSizeY: integer;
     ListboxCompleteSizeX: integer;
     ListboxCompleteSizeY: integer;
     ListboxFuzzySearch: boolean;
@@ -776,8 +776,8 @@ begin
     AutocompleteAutoshowLexers:= '';
     AutoCloseBrackets:= '([{';
 
-    ListboxWidth:= 450;
-    ListboxHeight:= 400;
+    ListboxSizeX:= 450;
+    ListboxSizeY:= 300;
     ListboxCompleteSizeX:= 550;
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;

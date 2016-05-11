@@ -152,7 +152,7 @@ begin
   P:= Ed.ClientToScreen(Point(0, 0));
   Form.Left:= Max(0, P.X+(Ed.Width-Form.Width) div 2);
   Form.Top:= Max(0, P.Y);
-  Form.Height:= UiOps.ListboxHeight;
+  Form.Height:= UiOps.ListboxSizeY;
 end;
 
 

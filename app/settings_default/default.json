@@ -289,7 +289,7 @@
 
   //Commands/API listbox size
   "ui_listbox_size_x": 450,
-  "ui_listbox_size_y": 400,
+  "ui_listbox_size_y": 300,
   //Auto-completion listbox size
   "ui_listbox_complete_size_x": 550,
   "ui_listbox_complete_size_y": 200,

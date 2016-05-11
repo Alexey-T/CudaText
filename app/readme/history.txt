@@ -4,6 +4,9 @@ Legend:
   * changed
 
 
+1.3.14.2
++ op ui_listbox_size_y
+
 1.3.14
 + opt fold_style
 + api

@@ -104,8 +104,8 @@ begin
 
   ResultNum:= 0;
   list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
-  self.Width:= UiOps.ListboxWidth;
-  self.Height:= UiOps.ListboxHeight;
+  self.Width:= UiOps.ListboxSizeX;
+  self.Height:= UiOps.ListboxSizeY;
   keymapList:= TList.Create;
 end;
 
