@@ -162,6 +162,7 @@ type
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function Editor2: TATSynEdit;
+    procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property FileName: string read FFileName write FFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
@@ -319,6 +320,7 @@ end;
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
+  //res=False: block key
   if DoPyEvent(Sender as TATSynEdit,
     cEventOnKey,
     [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']) = cPyFalse then
@@ -327,6 +329,23 @@ begin
       Exit
     end;
 end;
+
+procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  //keyup: only for Ctrl/Shift/Alt
+  //no res.
+  case Key of
+    VK_CONTROL,
+    VK_MENU,
+    VK_SHIFT,
+    VK_RSHIFT:
+      DoPyEvent(Sender as TATSynEdit,
+        cEventOnKeyUp,
+        [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']);
+  end;
+end;
+
 
 procedure TEditorFrame.TimerChangeTimer(Sender: TObject);
 begin
@@ -748,6 +767,7 @@ begin
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnKeyDown:= @EditorOnKeyDown;
+  ed.OnKeyUp:=@EditorOnKeyUp;
   ed.OnDrawMicromap:=@EditorDrawMicromap;
 end;
 

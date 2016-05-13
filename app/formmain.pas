@@ -1271,6 +1271,11 @@ begin
   begin
     ANext:= not (ssShift in Shift);
     Groups.PagesCurrent.Tabs.SwitchTab(ANext);
+
+    //do on_key too
+    DoPyEvent(CurrentEditor, cEventOnKey,
+      [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']);
+
     Key:= 0;
     exit
   end;

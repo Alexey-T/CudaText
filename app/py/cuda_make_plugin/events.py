@@ -12,6 +12,7 @@ EVENTS = [
     'on_func_hint',
     'on_goto_def',
     'on_key',
+    'on_key_up',
     'on_lexer',
     'on_macro',
     'on_open',
@@ -27,6 +28,7 @@ EVENTS = [
 
 EVENTS_ADD_PARAMS = {
   'on_key': 'key, state',
+  'on_key_up': 'key, state',
   'on_click': 'state',
   'on_click_dbl': 'state',
   'on_console': 'text',
