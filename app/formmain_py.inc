@@ -733,22 +733,26 @@ var
   H: Int64;
   Ptr: PChar;
   Ed: TATSynEdit;
-  F: TEditorFrame;
   StrW: atString;
-  Enc: string;
+  Shift, PosAfter: TPoint;
+  i: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
 
       StrW:= UTF8Decode(string(Ptr));
-      Enc:= F.EncodingName;
-      Ed.DoCaretSingle(0, 0);
-      Ed.Strings.LoadFromString(StrW); //resets enc to utf16
-      Ed.DoEventChange;
-      F.EncodingName:= Enc;
+      Ed.Strings.BeginUndoGroup;
+      try
+        Ed.DoCaretSingle(0, 0);
+        for i:= Ed.Strings.Count-1 downto 0 do
+          Ed.Strings.TextDeleteLine(0, i, Shift, PosAfter);
+        Ed.Strings.TextInsert(0, 0, StrW, false, Shift, PosAfter);
+      finally
+        Ed.Strings.EndUndoGroup;
+        Ed.DoEventChange;
+      end;
 
       fmMain.UpdateFrame(true);
       fmMain.UpdateStatus;
