@@ -1269,12 +1269,13 @@ var
 begin
   if (Key=vk_tab) and (ssCtrl in Shift) then
   begin
-    ANext:= not (ssShift in Shift);
-    Groups.PagesCurrent.Tabs.SwitchTab(ANext);
-
-    //do on_key too
-    DoPyEvent(CurrentEditor, cEventOnKey,
-      [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']);
+    //check on_key
+    if DoPyEvent(CurrentEditor, cEventOnKey,
+      [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']) <> cPyFalse then
+    begin
+      ANext:= not (ssShift in Shift);
+      Groups.PagesCurrent.Tabs.SwitchTab(ANext);
+    end;
 
     Key:= 0;
     exit
