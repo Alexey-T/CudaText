@@ -4,9 +4,11 @@ Legend:
   * changed
 
 
-1.3.14.2
+1.3.14.5
++ dont put caret in folded [..]
 + op ui_listbox_size_y
-+ lexer ReST
++ lexer reST
+- fixes
 
 1.3.14
 + op fold_style
