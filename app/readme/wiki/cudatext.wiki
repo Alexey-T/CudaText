@@ -280,6 +280,17 @@ It has custom features:
 
 Search/replace uses TRegExpr engine (by Sorokin), almost fully Perl compatible, syntax is documented here: http://regexpstudio.com/TRegExpr/Help/regexp_syntax.html . Groups must be referenced as $0 .. $9. Engine is more reliable, fast.
 
+===Change case on replaces===
+
+You can change case of found fragments, use modifiers in replace-with field (case change works after position of modifier):
+
+* \l - First char to lower
+* \L - All chars to lower
+* \u - First char to upper
+* \U - All chars to upper
+
+E.g. if found a word, use replace-with field "\L$0" to change word to lowercase (here $0 is group 0, found text).
+
 ==How to restore lexers styles/colors after reinstalling app?==
 
 When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your custom styles/colors are saved to file "settings/lexer styles backup.ini". And to the lexer library of course. If you reinstall app, you overiwrite lexer library file. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).

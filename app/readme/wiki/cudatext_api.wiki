@@ -21,6 +21,7 @@ Supported events:
 * on_click(self, ed_self, state): Called after mouse click. state has the same meaning as in on_key.
 * on_click_dbl(self, ed_self, state): Called after mouse double-click. state has the same meaning as in on_key. Method can return False to disable default processing.
 * on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
+* on_key_up(self, ed_self, key, state): Called when user unpresses a key. Only for Ctrl/Shift/Alt (to not slow down).
 * on_focus(self, ed_self): Called after editor is focused.
 * on_lexer(self, ed_self): Called after lexer is changed.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
@@ -1042,6 +1043,9 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.142
+* add: on_key_up
 
 1.0.141
 * add: dlg_hotkey: title
