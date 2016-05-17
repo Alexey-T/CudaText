@@ -79,6 +79,9 @@ const
   cmd_DialogLexerStyleMap = 2550;
   cmd_RescanPythonPluginsInfFiles = 2551;
 
+  cmd_SwitchActiveTabToNext = 2578;
+  cmd_SwitchActiveTabToPrev = 2579;
+
   cmd_DialogGoto       = 2580;
   cmd_DialogGotoBookmark = 2581;
   cmd_DialogCommands   = 2582;
@@ -298,6 +301,9 @@ begin
   M.Add(cmd_ShowPanelOutput, 'ui: show bottom panel, output', [], []);
   M.Add(cmd_ShowPanelValidate, 'ui: show bottom panel, validate', [], []);
   M.Add(cmd_ShowPanelSearchRes, 'ui: show bottom panel, search results', [], []);
+
+  M.Add(cmd_SwitchActiveTabToNext, 'ui: switch active tab: to next', ['Ctrl+Tab'], []);
+  M.Add(cmd_SwitchActiveTabToPrev, 'ui: switch active tab: to prev', ['Ctrl+Shift+Tab'], []);
 
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DialogCommands, 'dialog: command list', ['F1'], []);

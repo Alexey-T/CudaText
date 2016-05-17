@@ -33,6 +33,9 @@ begin
     cmd_FileExit:            Close;
     cmd_FileExportHtml:      DoFileExportHtml;
 
+    cmd_SwitchActiveTabToNext: DoSwitchActiveTab(true);
+    cmd_SwitchActiveTabToPrev: DoSwitchActiveTab(false);
+
     cmd_DialogCommands:    DoDialogCommands;
     cmd_DialogGoto:        DoDialogGoto;
     cmd_DialogGotoBookmark: DoDialogGotoBookmk;

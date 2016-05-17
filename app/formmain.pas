@@ -569,6 +569,7 @@ type
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave;
     procedure DoFileSaveAs;
+    procedure DoSwitchActiveTab(ANext: boolean);
     function DoPyPanelAdd(AParams: string): boolean;
     function DoPyPanelDelete(const ACaption: string): boolean;
     function DoPyPanelFocus(const ACaption: string): boolean;
@@ -1264,23 +1265,7 @@ begin
 end;
 
 procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-var
-  ANext: boolean;
 begin
-  if (Key=vk_tab) and (ssCtrl in Shift) then
-  begin
-    //check on_key
-    if DoPyEvent(CurrentEditor, cEventOnKey,
-      [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']) <> cPyFalse then
-    begin
-      ANext:= not (ssShift in Shift);
-      Groups.PagesCurrent.Tabs.SwitchTab(ANext);
-    end;
-
-    Key:= 0;
-    exit
-  end;
-
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
     PyEscapeFlag:= true;
@@ -2585,6 +2570,11 @@ var
 begin
   F:= CurrentFrame;
   F.DoFileSave(true, SaveDlg, @DoCheckFilenameOpened);
+end;
+
+procedure TfmMain.DoSwitchActiveTab(ANext: boolean);
+begin
+  Groups.PagesCurrent.Tabs.SwitchTab(ANext);
 end;
 
 function TfmMain.DoCheckFilenameOpened(const AStr: string): boolean;
