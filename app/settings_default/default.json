@@ -121,7 +121,7 @@
   //Show numbers for lines with carets
   "numbers_for_carets": false,
   //Center numbers on column
-  "numbers_center": false,
+  "numbers_center": true,
 
   //Show horiz ruler at the top
   "ruler_show": false,
