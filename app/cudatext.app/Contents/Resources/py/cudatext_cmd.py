@@ -204,6 +204,9 @@ cmd_DialogSaveTabs = 2549
 cmd_DialogLexerStyleMap = 2550
 cmd_RescanPythonPluginsInfFiles = 2551
 
+cmd_SwitchActiveTabToNext = 2578
+cmd_SwitchActiveTabToPrev = 2579
+
 cmd_DialogGoto       = 2580
 cmd_DialogGotoBookmark = 2581
 cmd_DialogCommands   = 2582
@@ -211,6 +214,7 @@ cmd_DialogTabs       = 2583 #now deleted
 cmd_DialogFind       = 2584
 cmd_DialogReplace    = 2585
 
+cmd_FindFirst        = 2589
 cmd_FindNext         = 2590
 cmd_FindPrev         = 2591
 cmd_FindCurWordNext  = 2592

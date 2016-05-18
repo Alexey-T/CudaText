@@ -4,10 +4,10 @@ Legend:
   * changed
 
 
-1.3.15.2
-+ cmd "find, first"
+1.3.16
 + opt staples_show
 + hotkey Ctrl+Tab changeable
++ cmd "find, first"
 * del lexer TextFiles
 - fix: "Save tabs?" should only list modified tabs 
 - fix: "Find cur word" only works once 
