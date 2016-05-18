@@ -204,6 +204,8 @@ begin
   FFinder.Editor:= CurrentEditor;
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
+
+  FFinder.UpdateBuffer;
   ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
   FinderUpdateEditor(false);
   DoFindResult(ok);
