@@ -88,6 +88,7 @@ const
   cmd_DialogFind       = 2584;
   cmd_DialogReplace    = 2585;
 
+  cmd_FindFirst        = 2589;
   cmd_FindNext         = 2590;
   cmd_FindPrev         = 2591;
   cmd_FindCurWordNext  = 2592;
@@ -302,8 +303,8 @@ begin
   M.Add(cmd_ShowPanelValidate, 'ui: show bottom panel, validate', [], []);
   M.Add(cmd_ShowPanelSearchRes, 'ui: show bottom panel, search results', [], []);
 
-  M.Add(cmd_SwitchActiveTabToNext, 'ui: switch active tab: to next', ['Ctrl+Tab'], []);
-  M.Add(cmd_SwitchActiveTabToPrev, 'ui: switch active tab: to prev', ['Ctrl+Shift+Tab'], []);
+  M.Add(cmd_SwitchActiveTabToNext, 'ui: switch active tab, to next', ['Ctrl+Tab'], []);
+  M.Add(cmd_SwitchActiveTabToPrev, 'ui: switch active tab, to previous', ['Ctrl+Shift+Tab'], []);
 
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DialogCommands, 'dialog: command list', ['F1'], []);
@@ -318,6 +319,7 @@ begin
 
   M.Add(cmd_DialogFind, 'dialog: find', [cXControl+'+F'], []);
   M.Add(cmd_DialogReplace, 'dialog: replace', [cXControl+'+R'], []);
+  M.Add(cmd_FindFirst, 'find, first', [], []);
   M.Add(cmd_FindNext, 'find, next', ['F3'], []);
   M.Add(cmd_FindPrev, 'find, previous', ['Shift+F3'], []);
   M.Add(cmd_FindCurWordNext, 'find current word, next', [], []);

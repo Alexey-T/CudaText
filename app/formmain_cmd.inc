@@ -66,6 +66,7 @@ begin
     cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel('Tree');
     cmd_HideSidePanel: DoShowSidePanel('-');
 
+    cmd_FindFirst:       DoFindFirst;
     cmd_FindNext:        DoFindNext(true);
     cmd_FindPrev:        DoFindNext(false);
     cmd_FindCurWordNext: DoFindCurrentWordOrSel(true, true);

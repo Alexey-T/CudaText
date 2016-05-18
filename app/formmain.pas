@@ -642,6 +642,7 @@ type
     function DoFileCloseAll: boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoFindResult(ok: boolean);
+    procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
     procedure DoMoveTabTo(Num: Integer);
     procedure DoOnTabPopup(Sender: TObject);

@@ -188,6 +188,18 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoFindFirst;
+var
+  ok, bChanged: boolean;
+begin
+  FFinder.OptBack:= false;
+  FFinder.OptFromCaret:= false;
+  ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
+  FinderUpdateEditor(false);
+  DoFindResult(ok);
+end;
+
 procedure TfmMain.DoFindNext(ANext: boolean);
 var
   ok, fchanged: boolean;
