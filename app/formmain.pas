@@ -1490,6 +1490,7 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
+      if not F.Modified then Continue;
       List.Items.Add(F.TabCaption+IfThen(F.Filename<>'', '  ('+ExtractFileDir(F.Filename)+')'));
       List.Checked[List.Count-1]:= F.Modified;
     end;
