@@ -207,6 +207,7 @@ type
     OpMicromapWidth: integer;
     OpMargin: integer;
     OpMarginString: string;
+    OpStaplesShow: boolean;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -678,6 +679,7 @@ begin
 
     OpMargin:= cInitMarginRight;
     OpMarginString:= '';
+    OpStaplesShow:= true;
 
     OpUnprintedShow:= false;
     OpUnprintedSpaces:= true;

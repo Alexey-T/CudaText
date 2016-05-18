@@ -274,6 +274,11 @@ begin
   Ed.OptIndentSize:= Op.OpIndentSize;
   Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
 
+  if Op.OpStaplesShow then
+    Ed.OptShowStapleStyle:= cLineStyleSolid
+  else
+    Ed.OptShowStapleStyle:= cLineStyleNone;
+
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;
   ATSynEdit.OptMouseDragDropFocusesTargetEditor:= Op.OpMouseDragDropFocusTarget;
