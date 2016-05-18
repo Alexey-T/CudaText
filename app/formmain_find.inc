@@ -193,6 +193,15 @@ procedure TfmMain.DoFindFirst;
 var
   ok, bChanged: boolean;
 begin
+  if Assigned(fmFind) then
+    FFinder.StrFind:= fmFind.edFind.Text;
+  if FFinder.StrFind='' then
+  begin
+    DoDialogFind(false);
+    Exit
+  end;
+
+  FFinder.Editor:= CurrentEditor;
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
   ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
@@ -204,6 +213,8 @@ procedure TfmMain.DoFindNext(ANext: boolean);
 var
   ok, fchanged: boolean;
 begin
+  if Assigned(fmFind) then
+    FFinder.StrFind:= fmFind.edFind.Text;
   if FFinder.StrFind='' then
   begin
     DoDialogFind(false);
