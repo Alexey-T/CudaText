@@ -213,7 +213,7 @@ end;
 
 procedure TfmMain.DoFindNext(ANext: boolean);
 var
-  ok, fchanged: boolean;
+  ok, bChanged: boolean;
 begin
   if Assigned(fmFind) then
     FFinder.StrFind:= fmFind.edFind.Text;
@@ -230,10 +230,35 @@ begin
   FFinder.OptBack:= not ANext;
 
   FFinder.UpdateBuffer;
-  ok:= FFinder.DoFindOrReplace(false, false, false, fchanged);
+  ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
   FinderUpdateEditor(false);
   DoFindResult(ok);
 end;
+
+procedure TfmMain.DoFindMarkAll;
+var
+  cnt: integer;
+begin
+  if Assigned(fmFind) then
+    FFinder.StrFind:= fmFind.edFind.Text;
+  if FFinder.StrFind='' then
+  begin
+    DoDialogFind(false);
+    Exit
+  end;
+
+  FFinder.Editor:= CurrentEditor;
+  FFinder.OptBack:= false;
+  FFinder.OptFromCaret:= false;
+
+  FFinder.UpdateBuffer;
+  FFindMark:= true;
+  cnt:= FFinder.DoCountAll(true);
+  FFindMark:= false;
+  FinderUpdateEditor(false);
+  MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
+end;
+
 
 procedure TfmMain.FinderProgress(Sender: TObject; ACurPos, AMaxPos: integer;
   var AContinue: boolean);

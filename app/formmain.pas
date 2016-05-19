@@ -644,6 +644,7 @@ type
     procedure DoFindResult(ok: boolean);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
+    procedure DoFindMarkAll;
     procedure DoMoveTabTo(Num: Integer);
     procedure DoOnTabPopup(Sender: TObject);
     function DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;
