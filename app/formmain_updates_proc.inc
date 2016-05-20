@@ -914,14 +914,26 @@ begin
 end;
 
 
-procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
+procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
+  AForceUpdateAll: boolean);
 var
+  Ed: TATSynEdit;
   Caret: TATCaretItem;
 begin
   if AConsiderTreeVisible then
     if not ShowSidePanel then exit;
 
-  Caret:= CurrentEditor.Carets[0];
+  Ed:= CurrentEditor;
+  if Ed.Strings.Count=0 then exit;
+
+  if AForceUpdateAll then
+  begin
+    //do chg at begin of file(reanalize all)
+    Ed.Strings.Lines[0]:= Ed.Strings.Lines[0];
+    Ed.DoEventChange;
+  end;
+
+  Caret:= Ed.Carets[0];
   with CurrentFrame do
   begin
     while Adapter.TreeBusy do Application.ProcessMessages;

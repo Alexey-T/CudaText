@@ -723,7 +723,7 @@ type
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
-    procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true);
+    procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
     procedure UpKey(mi: TMenuItem; cmd: integer);
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);

@@ -317,7 +317,7 @@ begin
     cmd_TreeGotoParent: DoTreeviewJump(Tree, treeGoParent);
     cmd_TreeGotoNextBrother: DoTreeviewJump(Tree, treeGoNextBro);
     cmd_TreeGotoPrevBrother: DoTreeviewJump(Tree, treeGoPrevBro);
-    cmd_TreeUpdate: UpdateTree(true, false{ignore visible});
+    cmd_TreeUpdate: UpdateTree(true, false{ignore visible}, true{ForceUpdateAll});
 
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
