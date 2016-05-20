@@ -635,7 +635,7 @@ begin
     OpFontSize:=
       {$ifdef windows} 10 {$endif}
       {$ifdef linux} 11 {$endif}
-      {$ifdef darwin} 9 {$endif} ;
+      {$ifdef darwin} 12 {$endif} ;
     OpFontQuality:= fqDefault;
 
     OpSpacingX:= 0;
@@ -762,7 +762,10 @@ begin
   with Op do
   begin
     VarFontName:= 'default';
-    VarFontSize:= {$ifdef windows} 9 {$else} 10 {$endif};
+    VarFontSize:=
+      {$ifdef windows} 9 {$endif}
+      {$ifdef linux} 10 {$endif}
+      {$ifdef darwin} 12 {$endif} ;
 
     OutputFontName:= VarFontName;
     OutputFontSize:= VarFontSize;
