@@ -2021,7 +2021,11 @@ begin
         APP_PROC_GET_COMMAND:
           begin
             Num:= StrToIntDef(Str, -1);
-            if AppKeymap.IsIndexValid(Num) then
+            if (AppKeymap.IsIndexValid(Num)) and
+              not ((AppKeymap[Num].Command>=cmdFirstPluginCommand) and
+                   (AppKeymap[Num].Command<cmdLastPluginCommand)) and
+              not ((AppKeymap[Num].Command>=cmdFirstLexerCommand) and
+                   (AppKeymap[Num].Command<cmdLastLexerCommand)) then
               with AppKeymap[Num] do
                 Result:= Py_BuildValue('(isss)',
                   Command,
