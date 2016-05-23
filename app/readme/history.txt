@@ -4,6 +4,8 @@ Legend:
   * changed
 
 
+- fix lexer reST
+
 1.3.16
 + opt staples_show
 + hotkey Ctrl+Tab changeable

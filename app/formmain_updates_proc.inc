@@ -917,6 +917,7 @@ end;
 procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
   AForceUpdateAll: boolean);
 var
+  Frame: TEditorFrame;
   Ed: TATSynEdit;
   Caret: TATCaretItem;
 begin
@@ -924,19 +925,21 @@ begin
     if not ShowSidePanel then exit;
 
   Ed:= CurrentEditor;
+  Frame:= GetEditorFrame(Ed);
   if Ed.Strings.Count=0 then exit;
 
-  if AForceUpdateAll then
-  begin
-    //do chg at begin of file(reanalize all)
-    Ed.Strings.Lines[0]:= Ed.Strings.Lines[0];
-    Ed.DoEventChange;
-  end;
-
   Caret:= Ed.Carets[0];
-  with CurrentFrame do
+  with Frame do
   begin
-    while Adapter.TreeBusy do Application.ProcessMessages;
+    while Adapter.TreeBusy do
+      Application.ProcessMessages;
+
+    if AForceUpdateAll then
+    begin
+      Adapter.DoAnalize(Ed, true);
+      Ed.DoEventChange;
+    end;
+
     if AFill then
     begin
       //BeginUpdate/EndUpdate is to fix tree issue with incorrect vert-scrollbar,
