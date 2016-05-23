@@ -565,8 +565,8 @@ begin
   try
     F.BorderStyle:= bsDialog;
     F.Position:= poScreenCenter;
-    F.Width:= ASizeX;
-    F.Height:= ASizeY;
+    F.ClientWidth:= ASizeX;
+    F.ClientHeight:= ASizeY;
     F.Caption:= ATitle;
     F.ShowHint:= true;
 
