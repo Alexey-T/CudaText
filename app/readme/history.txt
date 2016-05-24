@@ -4,6 +4,7 @@ Legend:
   * changed
 
 
+- fix cmd "Update tree"
 - fix lexer reST
 
 1.3.16

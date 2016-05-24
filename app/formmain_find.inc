@@ -193,8 +193,9 @@ procedure TfmMain.DoFindFirst;
 var
   ok, bChanged: boolean;
 begin
-  if Assigned(fmFind) then
-    FFinder.StrFind:= fmFind.edFind.Text;
+  //if Assigned(fmFind) then
+  //  FFinder.StrFind:= fmFind.edFind.Text;
+
   if FFinder.StrFind='' then
   begin
     DoDialogFind(false);
@@ -215,8 +216,9 @@ procedure TfmMain.DoFindNext(ANext: boolean);
 var
   ok, bChanged: boolean;
 begin
-  if Assigned(fmFind) then
-    FFinder.StrFind:= fmFind.edFind.Text;
+  //if Assigned(fmFind) then
+  //  FFinder.StrFind:= fmFind.edFind.Text;
+
   if FFinder.StrFind='' then
   begin
     DoDialogFind(false);
@@ -239,8 +241,9 @@ procedure TfmMain.DoFindMarkAll;
 var
   cnt: integer;
 begin
-  if Assigned(fmFind) then
-    FFinder.StrFind:= fmFind.edFind.Text;
+  //if Assigned(fmFind) then
+  //  FFinder.StrFind:= fmFind.edFind.Text;
+
   if FFinder.StrFind='' then
   begin
     DoDialogFind(false);
