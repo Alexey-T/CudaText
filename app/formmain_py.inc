@@ -2305,6 +2305,12 @@ begin
             Result:= PyBool_FromLong(Ord(SetAppKeymapHotkey(Str)));
           end;
 
+        APP_PROC_GET_KEYSTATE:
+          begin
+            Str:= ConvertShiftStateToString(KeyboardStateToShiftState);
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
         else
           Result:= ReturnNone;
       end;
