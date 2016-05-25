@@ -2522,12 +2522,21 @@ begin
             X:= SCharPosToColumnPos(Str, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
+
         CONVERT_COL_TO_CHAR:
           begin
             Str:= Ed.Strings.Lines[Y];
             X:= SColumnPosToCharPos(Str, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
+
+        CONVERT_LINE_TABS_TO_SPACES:
+          begin
+            Str:= Ed.Strings.Lines[Y];
+            Str:= STabsToSpaces(Str, Ed.OptTabSize);
+            Result:= PyUnicode_FromWideString(Str);
+          end;
+
         else
           Result:= ReturnNone;
       end;
