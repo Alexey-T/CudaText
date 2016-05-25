@@ -1,0 +1,5 @@
+name=Tag link
+id=link
+lex=HTML,HTML_
+text=
+<link rel="${1:stylesheet}"${2: href="${3:global.css}"}${4: type="${5:text/css}"}/>${0}

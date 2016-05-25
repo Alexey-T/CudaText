@@ -1,0 +1,5 @@
+name=Tag samp
+id=samp
+lex=HTML,HTML_
+text=
+<samp>${0}</samp>

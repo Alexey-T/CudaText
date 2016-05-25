@@ -1,0 +1,5 @@
+name=<?php echo this->... ?>
+id=ethis
+lex=HTML,HTML_
+text=
+<?php echo this->${0} ?>

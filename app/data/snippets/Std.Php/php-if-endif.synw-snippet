@@ -1,0 +1,8 @@
+name=<?php if (...) ... endif ?>
+id=if
+lex=HTML,HTML_
+text=
+<?php if (${1:condition}): ?>
+	${0}
+<?php endif ?>
+

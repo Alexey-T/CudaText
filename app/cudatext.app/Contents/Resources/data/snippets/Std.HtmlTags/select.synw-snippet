@@ -1,0 +1,7 @@
+name=Tag select
+id=select
+lex=HTML,HTML_
+text=
+<select name="${1:test}">
+	${0}
+</select>

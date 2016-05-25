@@ -1,0 +1,5 @@
+name=Tag dfn
+id=dfn
+lex=HTML,HTML_
+text=
+<dfn>${0}</dfn>

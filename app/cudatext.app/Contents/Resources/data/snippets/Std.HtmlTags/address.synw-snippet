@@ -1,0 +1,5 @@
+name=Tag address
+id=address
+lex=HTML,HTML_
+text=
+<address>${0}</address>

@@ -1,0 +1,7 @@
+name=Tag datalist
+id=datalist
+lex=HTML,HTML_
+text=
+<datalist id="${1:name}">
+	${0}
+</datalist>

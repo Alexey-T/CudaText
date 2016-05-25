@@ -1,0 +1,7 @@
+name=Tag script
+id=script
+lex=HTML,HTML_
+text=
+<script type="${1:text/javascript}">
+	${0}
+</script>

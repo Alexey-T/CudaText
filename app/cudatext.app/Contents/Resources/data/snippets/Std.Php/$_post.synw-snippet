@@ -1,0 +1,5 @@
+name=POST['...']
+id=$_
+lex=PHP,PHP_
+text=
+$_POST['${1:variable}']

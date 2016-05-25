@@ -1,0 +1,8 @@
+name=case ...
+id=case
+lex=PHP,PHP_
+text=
+case '${1:variable}':
+	${0:# code...}
+	break;
+	

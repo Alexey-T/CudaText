@@ -1,0 +1,32 @@
+object EditorFrame: TEditorFrame
+  Left = 0
+  Height = 346
+  Top = 0
+  Width = 594
+  ClientHeight = 346
+  ClientWidth = 594
+  OnResize = FrameResize
+  TabOrder = 0
+  DesignLeft = 411
+  DesignTop = 394
+  object Splitter: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 5
+    Top = 341
+    Width = 594
+    Align = alBottom
+    AutoSnap = False
+    MinSize = 100
+    OnMoved = SplitterMoved
+    ResizeAnchor = akBottom
+    ResizeStyle = rsPattern
+  end
+  object TimerChange: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = TimerChangeTimer
+    left = 32
+    top = 56
+  end
+end

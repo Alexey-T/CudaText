@@ -1,0 +1,5 @@
+name=Tag base
+id=base
+lex=HTML,HTML_
+text=
+<base href="${1:http://www.com}"${2: target="${3:_blank}"}/>${0}

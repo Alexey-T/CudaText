@@ -1,0 +1,203 @@
+object SyntAnal3: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Id Param'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Var'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      Expression = '\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id Param'
+      StyleName = 'Id Param'
+      TokenType = 3
+      Expression = '^[\x20\x09]*\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 3
+      Expression = '\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Var'
+      StyleName = 'Var'
+      TokenType = 4
+      Expression = '%\{ .+? \}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 2
+      Expression = '("|'') (\\\1|.)*? \1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 1
+      Expression = '[/\*,\.\;:\(\)=<>\+\-\[\]\{\}%\|\&\\~\^\$!]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Block comment'
+      BlockName = 'Block comment'
+      NotParent = True
+      ConditionList = <      
+        item
+          TokenTypes = 1
+        end>
+      BlockEnd = 'Block comment end'
+      EndOfTextClose = True
+      DisplayInTree = False
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      CollapseFmt = '...'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Block comment end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          CondType = tcNotEqual
+          TokenTypes = 1
+        end      
+        item
+          TokenTypes = 1
+        end>
+      BlockEnd = 'Block comment'
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Tag'
+      ConditionList = <      
+        item
+          TokenTypes = 8
+        end      
+        item
+          TagList.Strings = (
+            '<'
+          )
+          TokenTypes = 2
+        end>
+      BlockOffset = 1
+      BlockEnd = 'Tag end'
+      NameFmt = '%sz1'
+      HighlightPos = cpAny
+      DrawStaple = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Tag end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 8
+        end      
+        item
+          TagList.Strings = (
+            '/'
+          )
+          TokenTypes = 2
+        end      
+        item
+          TagList.Strings = (
+            '<'
+          )
+          TokenTypes = 2
+        end>
+      BlockOffset = -1
+      SameIdent = True
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '<IfModule mod_rewrite.c>'
+    #9'RewriteEngine On'
+    #9'#RewriteBase /relative/web/path/'
+    ''
+    #9'RewriteCond %{REQUEST_URI} ''/favicon.ico'''
+    #9'RewriteRule ^(.*) index.php'
+    ''
+    #9'RewriteCond %{HTTP:Authorization}  !^$'
+    #9'RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}] '
+    '    '
+    '  <Tag1>'
+    '  #Folding none'
+    '  </TagOther> '
+    '  '
+    '  <Tag2>'
+    '  #Folding ok'
+    '  </Tag2>'
+    ''
+    '</IfModule>'
+  )
+  TokenTypeNames.Strings = (
+    'Comment'
+    'Symbol'
+    'String'
+    'Id'
+    'Var'
+  )
+  Extentions = '/.htaccess /.htpasswd /httpd.conf /fluentd.conf'
+  LexerName = 'Apache config'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Alexey (SynWrite)'
+  )
+  LineComment = '#'
+  Charset = DEFAULT_CHARSET
+end

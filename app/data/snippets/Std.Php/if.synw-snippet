@@ -1,0 +1,8 @@
+name=if ...
+id=if
+lex=PHP,PHP_
+text=
+if (${1:condition}) {
+	${0:# code...}
+}
+

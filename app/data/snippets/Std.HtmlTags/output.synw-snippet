@@ -1,0 +1,5 @@
+name=Tag output
+id=output
+lex=HTML,HTML_
+text=
+<output name="${1:x}"${2: for="${3:a b}"}>${0}</output>

@@ -1,0 +1,865 @@
+object SyntAnal57: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Identifier'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Identifier Ext'
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Symbol Ext'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      BorderTypeBottom = blWavyLine
+      BorderColorBottom = clSilver
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Keyword'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Function'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Function Ext'
+      Font.Color = 13266272
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      BorderTypeBottom = blWavyLine
+      BorderColorBottom = clSilver
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Expression'
+      Font.Color = 33023
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Current Block'
+      Font.Color = clNone
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clLime
+      BorderTypeLeft = blSolid
+      BorderTypeTop = blSolid
+      BorderTypeRight = blSolid
+      BorderTypeBottom = blSolid
+    end  
+    item
+      DisplayName = 'Test Style Main'
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Test Style Sub'
+      Font.Color = clLime
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Marked Block - Range'
+      Font.Color = clNone
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 15925237
+      FormatType = ftColor
+    end  
+    item
+      DisplayName = 'Tree (Main, Color)'
+      Font.Color = 14844018
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Tree (Main, Black)'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Tree (Main, Alias)'
+      Font.Color = 1482313
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Tree (Regular, Color)'
+      Font.Color = 14844018
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Tree (Regular, Black)'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Tree (Regular, Alias)'
+      Font.Color = 1550414
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Current Line'
+      Font.Color = clNone
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      FormatType = ftBackGround
+      BorderTypeLeft = blSolid2
+      BorderColorLeft = 4364526
+    end  
+    item
+      DisplayName = 'Alias'
+      Font.Color = 2086500
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end  
+    item
+      DisplayName = 'Table'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 5
+      Expression = '".*?("|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String 2'
+      StyleName = 'String'
+      TokenType = 5
+      Expression = '''.*?(''|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String 3'
+      StyleName = 'String'
+      TokenType = 5
+      Expression = '`.*?(`|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '--.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment Ext'
+      Enabled = False
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)\(\*.*?(\(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol 2'
+      StyleName = 'Symbol'
+      TokenType = 4
+      Expression = '!=|<>|\^=|<>|<=|>=|\(\+\)|\(\-\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 4
+      Expression = '[/,\.;:\(\)=<>\+\-\*]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Identifier'
+      StyleName = 'Identifier'
+      TokenType = 3
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Identifier Ext'
+      StyleName = 'Identifier Ext'
+      TokenType = 3
+      Expression = '(?r)\[[\w\x20]*\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 7
+      Expression = '\d+\.?\d+e[\+\-]?\d+|\d+\.\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 6
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Identifier Qualified'
+      Enabled = False
+      StyleName = 'Identifier'
+      TokenType = 2
+      Expression = '[a-z_]\w*(\.[a-z_]\w*){1,3}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Identifier Sub'
+      Enabled = False
+      StyleName = 'Test Style Sub'
+      TokenType = 9
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Identifier Main'
+      Enabled = False
+      StyleName = 'Test Style Main'
+      StrictParent = True
+      TokenType = 8
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Identifier Qualified Ext'
+      Enabled = False
+      StyleName = 'Identifier Ext'
+      TokenType = 3
+      Expression = '(?r)(\[[\w\x20]*\]|[a-z_]\c*)*(\.(\[[\w\x20]*\]|[a-z_]\c*)){1,3}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Keyword'
+      StyleName = 'Keyword'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'all'
+            'and'
+            'any'
+            'as'
+            'between'
+            'by'
+            'concat'
+            'distinct'
+            'exists'
+            'from'
+            'full'
+            'grant'
+            'group'
+            'having'
+            'in'
+            'index'
+            'inner'
+            'is'
+            'join'
+            'left'
+            'like'
+            'max'
+            'min'
+            'not'
+            'null'
+            'on'
+            'option'
+            'or'
+            'order'
+            'outer'
+            'select'
+            'some'
+            'table'
+            'union'
+            'view'
+            'where'
+          )
+          TokenTypes = 8
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      TokenType = 2
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Expression'
+      StyleName = 'Expression'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'case'
+            'else'
+            'end'
+            'then'
+            'when'
+          )
+          TokenTypes = 8
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      TokenType = 2
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Function'
+      StyleName = 'Function'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'avg'
+            'bitand'
+            'count'
+            'date_format'
+            'decode'
+            'substr'
+            'timediff'
+            'userenv'
+          )
+          TokenTypes = 8
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      TokenType = 2
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Function Ex'
+      StyleName = 'Function Ext'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'bitand'
+            'decode'
+            'userenv'
+          )
+          TokenTypes = 8192
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      TokenType = 2
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Symbol Ext'
+      StyleName = 'Symbol Ext'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '(-)'
+            '(+)'
+          )
+          TokenTypes = 16
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Bracket Close'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+          )
+          TokenTypes = 16
+        end>
+      BlockEnd = 'Bracket Open'
+      HighlightPos = cpAny
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Subquery Open'
+      StyleName = 'Current Block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'select'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 16
+        end>
+      BlockEnd = 'Subquery Close'
+      NotCollapsed = True
+      DisplayInTree = False
+      NameFmt = 'subquery'
+      RefToCondEnd = True
+      DynHighlight = dhBound
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'section end SELECT'
+      BlockName = 'section SELECT'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+            'from'
+            'group'
+            'having'
+            'order'
+            'select'
+            'union'
+          )
+          TokenTypes = 20
+          IgnoreCase = True
+        end>
+      BlockOffset = 1
+      BlockEnd = 'section SELECT'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'section end WHERE'
+      BlockName = 'section WHERE'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+            'from'
+            'group'
+            'having'
+            'order'
+            'select'
+            'union'
+          )
+          TokenTypes = 20
+          IgnoreCase = True
+        end>
+      BlockOffset = 1
+      BlockEnd = 'section WHERE'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Alias'
+      StyleName = 'Alias'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      TokenType = 8
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Table'
+      StyleName = 'Table'
+      BlockName = 'section FROM'
+      StrictParent = True
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          CondType = tcNotEqual
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 8
+        end>
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      TokenType = 8
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Bracket Open'
+      StyleName = 'Current Block'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'select'
+          )
+          CondType = tcNotEqual
+          TokenTypes = 4
+          IgnoreCase = True
+        end      
+        item
+          TagList.Strings = (
+            '('
+          )
+          TokenTypes = 16
+        end>
+      NotCollapsed = True
+      DisplayInTree = False
+      NameFmt = '('
+      RefToCondEnd = True
+      DynHighlight = dhBound
+      HighlightPos = cpBoundTagBegin
+      IgnoreAsParent = True
+    end  
+    item
+      DisplayName = 'section end FROM'
+      BlockName = 'section FROM'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+            'from'
+            'group'
+            'having'
+            'order'
+            'select'
+            'union'
+            'where'
+          )
+          TokenTypes = 20
+          IgnoreCase = True
+        end>
+      BlockOffset = 1
+      BlockEnd = 'section FROM'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'SECTION END'
+      BlockName = 'SECTION'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+            'from'
+            'group'
+            'having'
+            'order'
+            'select'
+            'union'
+            'where'
+          )
+          TokenTypes = 20
+          IgnoreCase = True
+        end      
+        item
+          TokenTypes = 4095
+        end>
+      BlockOffset = 1
+      BlockEnd = 'SECTION'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'STATEMENT END'
+      BlockName = 'STATEMENT'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+            'select'
+            'union'
+          )
+          TokenTypes = 20
+          IgnoreCase = True
+        end>
+      BlockOffset = 1
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Subquery Close'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            ')'
+          )
+          TokenTypes = 16
+        end>
+      BlockEnd = 'Subquery Open'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'sub-section end ON'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 4
+        end>
+      BlockOffset = 1
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'SECTION'
+      BlockName = 'STATEMENT'
+      StrictParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'from'
+            'group'
+            'having'
+            'order'
+            'where'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      EndOfTextClose = True
+      HighlightPos = cpAny
+      DynSelectMin = True
+      TreeItemStyle = 'Tree (Regular, Color)'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'STATEMENT'
+      StyleName = 'Marked Block - Range'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'select'
+            'union'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      BlockEnd = 'STATEMENT END'
+      EndOfTextClose = True
+      NameFmt = '%s0'
+      DynHighlight = dhRange
+      HighlightPos = cpRange
+      DynSelectMin = True
+      TreeItemStyle = 'Tree (Main, Black)'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'section SELECT'
+      BlockName = 'STATEMENT'
+      StrictParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'select'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      DisplayInTree = False
+      NameFmt = '__SELECT__'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'section FROM'
+      BlockName = 'SECTION'
+      StrictParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'from'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      DisplayInTree = False
+      NameFmt = '__FROM__'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'syb-section ON'
+      BlockName = 'section FROM'
+      StrictParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'on'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      BlockEnd = 'sub-section end ON'
+      DisplayInTree = False
+      NameFmt = '__ON__'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'section WHERE'
+      BlockName = 'SECTION'
+      StrictParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'where'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      DisplayInTree = False
+      NameFmt = '__WHERE__'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Table or Alias'
+      StyleName = 'Alias'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '.'
+          )
+          TokenTypes = 16
+        end      
+        item
+          TokenTypes = 8
+        end>
+      IdentIndex = 1
+      HighlightPos = cpBound
+      TokenType = 8
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '/*Syntax highlighting*/'
+    'SELECT c.session , c.username ,TIMEDIFF(max(c.datetime) , min(c.datetime))'
+    'FROM  livehelp_domain_user a , livehelp_users b, livehelp_messages c'
+    'WHERE a.id_domain = 29 AND'
+    '      a.id_user = b.id AND'
+    '      CONCAT( b.firstname, '' '',b.lastname)   = c.username AND'
+    '      DATE_FORMAT(c.datetime,''%m/%d/%Y'') =''09/21/2006'' AND'
+    '      (SELECT COUNT(data) from sometable where Fld = ''YES'') = 6 '
+    'GROUP BY c.session'
+    'ORDER BY c.session,c.username'
+    ''
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'KeyWord'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Integer'
+    'Float'
+    'Table'
+    'Field'
+  )
+  Gramma.Gramma = 'Skip = <Comment>;'#10
+  CurrentLineStyle = 'Current Line'
+  Extentions = 'sql'
+  LexerName = 'SQL'
+  SkipSpaces = False
+  RestartFromLineStart = True
+  LineComment = '--'
+  Charset = DEFAULT_CHARSET
+  AlwaysSyncBlockAnal = True
+  left = 144
+  top = 184
+end

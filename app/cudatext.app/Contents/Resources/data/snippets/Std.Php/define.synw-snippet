@@ -1,0 +1,6 @@
+name=define(..., ...)
+id=def
+lex=PHP,PHP_
+text=
+define('${1}', '${2}');
+${0}

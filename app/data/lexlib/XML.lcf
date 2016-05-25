@@ -1,0 +1,530 @@
+object SyntAnal22: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Tag bound'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Tag id'
+      Font.Color = 16744576
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Tag param'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Tag val'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'CDATA bound'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clSilver
+    end  
+    item
+      DisplayName = 'CDATA text'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BorderColorLeft = clGray
+      BorderColorTop = clGray
+      BorderColorRight = clGray
+      BorderColorBottom = clGray
+      MultiLineBorder = True
+    end  
+    item
+      DisplayName = 'Error content'
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Current tag'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 14540253
+      FormatType = ftBackGround
+    end  
+    item
+      DisplayName = 'Current tag id'
+      Font.Color = clNone
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      BgColor = 15400927
+      BorderTypeLeft = blSolid
+      BorderColorLeft = clGray
+      BorderTypeTop = blSolid
+      BorderColorTop = clGray
+      BorderTypeRight = blSolid
+      BorderColorRight = clGray
+      BorderTypeBottom = blSolid
+      BorderColorBottom = clGray
+    end  
+    item
+      DisplayName = 'DTD element type'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'DTD bound'
+      Font.Color = clPurple
+      Font.Height = -19
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Tree item (attribute)'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      FormatType = ftColor
+    end  
+    item
+      DisplayName = 'Tree item (tag)'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Spec char'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'XML header'
+      StyleName = 'Comment'
+      TokenType = 12
+      Expression = '(?s)<\?.*?(\?>|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment ?xml'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '<\?xml\s.*?\?>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)<!--.*?(-->|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'CDATA start'
+      StyleName = 'CDATA bound'
+      TokenType = 11
+      Expression = '<!\[CDATA\['
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'CDATA Text'
+      StyleName = 'CDATA text'
+      BlockName = 'CDATA begin'
+      Expression = '(?s)[^\]]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'CDATA end'
+      StyleName = 'Tag bound'
+      BlockName = 'CDATA begin'
+      TokenType = 14
+      Expression = '\]\]>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = '<'
+      StyleName = 'Tag bound'
+      TokenType = 9
+      Expression = '<[/!\-\:\?]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = '>'
+      StyleName = 'Tag bound'
+      TokenType = 10
+      Expression = '[/\?]?>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'DTD Element type'
+      StyleName = 'DTD element type'
+      BlockName = 'DTD element start'
+      TokenType = 2
+      Expression = '(?s)\((\(.*?\)|.)*?\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'DTD bounds: [ ] '
+      StyleName = 'DTD bound'
+      BlockName = 'DOCTYPE begin'
+      Expression = '[\[\]]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Tag param'
+      StyleName = 'Tag val'
+      BlockName = 'Tag begin'
+      TokenType = 4
+      Expression = '(?s) ("|'').*?(\1|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = '='
+      StyleName = 'Tag bound'
+      TokenType = 3
+      Expression = '='
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Tag ident'
+      StyleName = 'Tag param'
+      BlockName = 'Tag begin'
+      TokenType = 2
+      Expression = '[^>=\?/\s\[\]]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Error content'
+      StyleName = 'Error content'
+      BlockName = 'Tag begin'
+      Expression = '[^>\s]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = '&char'
+      StyleName = 'Spec char'
+      TokenType = 4
+      Expression = '&\w+;'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Text'
+      StyleName = 'CDATA text'
+      BlockName = 'CDATA begin'
+      NotParent = True
+      TokenType = 4
+      Expression = '[^<&]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Tag begin'
+      StyleName = 'Current tag'
+      ConditionList = <      
+        item
+          TokenTypes = 512
+        end>
+      BlockEnd = 'Tag end'
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhRangeNoBound
+      HighlightPos = cpRange
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Tag end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 1024
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'DTD element start'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'DOCTYPE'
+          )
+          CondType = tcNotEqual
+          TokenTypes = 4
+          IgnoreCase = True
+        end      
+        item
+          TagList.Strings = (
+            '<!'
+          )
+          TokenTypes = 512
+        end>
+      BlockOffset = 1
+      BlockEnd = 'DTD element end'
+      NameFmt = '%s-1'
+      HighlightPos = cpBound
+      CollapseFmt = '< %s0 %s-1 >'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'DTD element end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 1024
+        end>
+      HighlightPos = cpBound
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'DOCTYPE begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'DOCTYPE'
+          )
+          TokenTypes = 4
+          IgnoreCase = True
+        end      
+        item
+          TagList.Strings = (
+            '<!'
+          )
+          TokenTypes = 512
+        end>
+      BlockOffset = 1
+      BlockEnd = 'DOCTYPE end'
+      NameFmt = 'Document structure'
+      HighlightPos = cpBound
+      CollapseFmt = 'Document structure'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'DOCTYPE end'
+      BlockName = 'DOCTYPE begin'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '>'
+          )
+          TokenTypes = 1024
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Tag keys'
+      StyleName = 'Tag id'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TokenTypes = 4
+        end      
+        item
+          TokenTypes = 512
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Tag block begin'
+      StyleName = 'Current tag id'
+      ConditionList = <      
+        item
+          TokenTypes = 4
+        end      
+        item
+          TagList.Strings = (
+            '<'
+          )
+          TokenTypes = 512
+        end>
+      BlockEnd = 'Tag block end'
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
+      CollapseFmt = ' %s0 >'
+      TreeItemStyle = 'Tree item (tag)'
+      IgnoreAsParent = False
+      AutoCloseMode = acmCloseOpened
+      AutoCloseText = '</%s0>'
+    end  
+    item
+      DisplayName = 'Tag block end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 4
+          IgnoreCase = True
+        end      
+        item
+          TagList.Strings = (
+            '</'
+          )
+          TokenTypes = 512
+        end>
+      SameIdent = True
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'End of simple tag'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '/>'
+          )
+          TokenTypes = 1024
+        end>
+      BlockEnd = 'Tag block begin'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Comment begin'
+      ConditionList = <      
+        item
+          TokenTypes = 2
+        end>
+      BlockEnd = 'Comment end'
+      DisplayInTree = False
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Comment end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 2
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'CDATA end'
+      BlockName = 'CDATA begin'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 16384
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'CDATA begin'
+      ConditionList = <      
+        item
+          TokenTypes = 2048
+        end>
+      BlockEnd = 'CDATA end'
+      NameFmt = '%s-1'
+      HighlightPos = cpBound
+      CollapseFmt = 'CDATA'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Tag attribute'
+      StyleName = 'Tag val'
+      BlockName = 'Tag begin'
+      ConditionList = <      
+        item
+          TokenTypes = 16
+        end      
+        item
+          TokenTypes = 8
+        end      
+        item
+          TokenTypes = 4
+        end>
+      NameFmt = '%s0 %s-1 %s-2'
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      NoEndRule = True
+      TreeItemStyle = 'Tree item (attribute)'
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '<?xml version="1.0" encoding="ISO-8859-1" ?>'
+    ''
+    '<!DOCTYPE web-app ['
+    '  <!ELEMENT web-app (icon?, display-name?, ejb-local-ref*)>'
+    '  <!ELEMENT auth-method (#PCDATA)>'
+    '  <!ATTLIST exception-type id ID #IMPLIED>'
+    ']>'
+    ''
+    '<![CDATA['
+    '  Included text '
+    ']]>'
+    'Text &spec; text'
+    ''
+    '<web-app>'
+    '    <display-name abc="123" def="true"></display-name>'
+    '    <description></description>'
+    '    <filter-mapping>'
+    '        <filter-name></filter-name>'
+    '    </filter-mapping>'
+    '</web-app>'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Integer const'
+    'Float const'
+    'Hex const'
+    'Char const'
+    'Tag Open'
+    'Tag Close'
+    'CDATA'
+    'XML header'
+    'Attrib. value'
+    'CDATA end'
+  )
+  Extentions = 'xml xsl xslt mmpa mmpr sti bdsproj xsd rss wml svg xul xsd axl rdf xaml vcproj dproj plist storyboard msc csproj manifest lpi lpk sublime-snippet tmLanguage jsproj appxmanifest'
+  LexerName = 'XML'
+  Charset = DEFAULT_CHARSET
+  left = 140
+  top = 160
+end

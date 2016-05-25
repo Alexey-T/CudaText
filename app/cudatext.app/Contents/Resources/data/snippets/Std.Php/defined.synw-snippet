@@ -1,0 +1,5 @@
+name=defined(...)
+id=defd
+lex=PHP,PHP_
+text=
+${1}defined('${2}')${0}

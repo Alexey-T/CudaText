@@ -1,0 +1,10 @@
+[map]
+Symbol=Symbol
+Number=Number
+Id=Id
+Id keyword=IdKeyword
+Id type=Id2
+Comment=Comment
+String=String
+String regex=String2
+Current block=BracketBG

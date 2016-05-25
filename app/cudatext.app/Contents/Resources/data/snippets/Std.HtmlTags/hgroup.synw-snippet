@@ -1,0 +1,7 @@
+name=Tag hgroup
+id=hgroup
+lex=HTML,HTML_
+text=
+<hgroup>
+	${0}
+</hgroup>

@@ -1,0 +1,97 @@
+object SyntAnal70: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Prefix'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Params'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -11
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Cmt sys'
+      StyleName = 'Comment'
+      Expression = '^\#.+$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Prefix'
+      StyleName = 'Prefix'
+      TokenType = 1
+      Expression = '^\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Cmt'
+      StyleName = 'Comment'
+      Expression = '\|.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Params'
+      StyleName = 'Params'
+      TokenType = 3
+      Expression = '\(.*?\)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '(?<=^\w+\x20+) [^\(\)\|\x20\n\r]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'type name (some params) |Comment'
+    'typ name%20name params |Comment'
+    'type name(params)'
+    'typ name'
+    'keyw some'
+    'keyw some(test)'
+    '')
+  TokenTypeNames.Strings = (
+    'Comment'
+    'Prefix'
+    'Id'
+    'Params ')
+  Extentions = 'acp'
+  LexerName = 'SynWrite acp files'
+  Notes.Strings = (
+    'Alex (Synwrite)')
+  Charset = DEFAULT_CHARSET
+  Left = 144
+  Top = 184
+end

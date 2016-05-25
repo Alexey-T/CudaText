@@ -1,0 +1,7 @@
+name=Tag footer
+id=footer
+lex=HTML,HTML_
+text=
+<footer>
+	${0}
+</footer>

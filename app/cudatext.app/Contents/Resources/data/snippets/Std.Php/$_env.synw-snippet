@@ -1,0 +1,5 @@
+name=ENV['...']
+id=$_
+lex=PHP,PHP_
+text=
+$_ENV['${1:variable}']

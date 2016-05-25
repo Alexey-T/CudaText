@@ -1,0 +1,5 @@
+name=Tag iframe
+id=iframe
+lex=HTML,HTML_
+text=
+<iframe src="${1:example.htm}"${2: width="${3:10}"}${4: height="${5:10}"}${6: id="${7:test}"}${8: name="${9:test}"}>${0}</iframe>

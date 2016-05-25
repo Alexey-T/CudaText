@@ -1,0 +1,20 @@
+[map]
+Text=Id
+Tag bound=TagBound
+Comment=Comment
+Tag param=String
+Tag properties=TagProp
+Unknown tag content=IdBad
+Tag id correct=TagId
+Tag id incorrect=TagIdBad
+Number=Number
+Tag back hl=BracketBG
+Tag border hl=BracketBG
+Sublexer BG=IncludeBG1
+
+[ref]
+0=CSS
+1=VBScript
+2=JavaScript
+3=JavaScript
+4=VBScript

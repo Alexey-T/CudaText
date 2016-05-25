@@ -1,0 +1,289 @@
+object SyntAnal86: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Marked block'
+      Font.Color = clHighlightText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clHighlight
+      FormatType = ftColor
+    end  
+    item
+      DisplayName = 'Comm'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Str'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Symb'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      FormatType = ftColor
+    end  
+    item
+      DisplayName = 'IdRes'
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Num'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Class'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'DataType'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Comm'
+      StyleName = 'Comm'
+      TokenType = 1
+      Expression = '--[^\+\*/].*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comm2'
+      StyleName = 'Comm'
+      TokenType = 1
+      Expression = '(?s)\{-.*?(-\}|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Str'
+      StyleName = 'Str'
+      TokenType = 4
+      Expression = '"(\\"|.)*?("|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Char'
+      StyleName = 'Str'
+      TokenType = 8
+      Expression = '''.'''
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symb'
+      StyleName = 'Symb'
+      TokenType = 3
+      Expression = '[!\?\#\-\+/\*=<>\(\)\[\]\.\:;@\|\\_`\{\}~,&\$\^]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Num'
+      StyleName = 'Num'
+      TokenType = 5
+      Expression = '\d+\.\d+ | \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '[\w_'']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Key'
+      StyleName = 'IdRes'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'as'
+            'case'
+            'class'
+            'data'
+            'default'
+            'deriving'
+            'do'
+            'else'
+            'family'
+            'forall'
+            'foreign'
+            'hiding'
+            'if'
+            'import'
+            'in'
+            'infix'
+            'infixl'
+            'infixr'
+            'instance'
+            'let'
+            'mdo'
+            'module'
+            'newtype'
+            'of'
+            'proc'
+            'qualified'
+            'rec'
+            'then'
+            'type'
+            'where'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Classes'
+      StyleName = 'Class'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Bounded'
+            'Enum'
+            'Eq'
+            'EQ'
+            'Eval'
+            'False'
+            'Floating'
+            'Fractional'
+            'Functor'
+            'GT'
+            'Integral'
+            'Ix'
+            'Just'
+            'Left'
+            'LT'
+            'Monad'
+            'MonadPlus'
+            'MonadZero'
+            'Nothing'
+            'Num'
+            'Ord'
+            'Prelude'
+            'Read'
+            'Real'
+            'RealFloat'
+            'RealFrac'
+            'Right'
+            'Show'
+            'True'
+            'Void'
+          )
+          TokenTypes = 1028
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Data Type'
+      StyleName = 'DataType'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Addr'
+            'Bool'
+            'Char'
+            'Double'
+            'Either'
+            'EmptyRec'
+            'EmptyRow'
+            'FilePath'
+            'Float'
+            'Int'
+            'Integer'
+            'IO'
+            'IOError'
+            'IOResult'
+            'Long'
+            'Maybe'
+            'Ordering'
+            'Ratio'
+            'Rational'
+            'ReadS'
+            'Rec'
+            'ShowS'
+            'String'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'main = print "test", "t", ''_'' --comment'
+    '--this is comment'
+    '---this too'
+    'foobar --+ a_second_argument'
+    ''
+    '{-'
+    'comment'
+    'too'
+    '-}'
+    ''
+    'putStrLn $ "Chars: \"" ++ listedChars ++ "\""'
+    'f1,f2 :: Maybe Int -> String;'
+    ''
+    'if ''lookup == Nothing'
+    'then ''setHelper'
+  )
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Integer const'
+    'Float const'
+    'Hex const'
+    'Char const'
+  )
+  MarkedBlockStyle = 'Marked block'
+  Extentions = 'hs lhs as las'
+  LexerName = 'Haskell'
+  Notes.Strings = (
+    'Author:'
+    'A. Torgashin (uvviewsoft.com)'
+    ''
+    'Info:'
+    'http://www.haskell.org/haskellwiki/Keywords'
+    'Ex.files:'
+    'http://www.haskell.org/haskellwiki/Haskell_Tutorial_for_C_Programmers#Downloads'
+  )
+  LineComment = '--'
+  Charset = DEFAULT_CHARSET
+end

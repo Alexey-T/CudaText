@@ -1,0 +1,7 @@
+name=Tag ol
+id=ol
+lex=HTML,HTML_
+text=
+<ol>
+	${0}
+</ol>

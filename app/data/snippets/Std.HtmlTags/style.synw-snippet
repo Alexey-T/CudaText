@@ -1,0 +1,7 @@
+name=Tag style
+id=style
+lex=HTML,HTML_
+text=
+<style type="${1:text/css}">
+	${0}
+</style>

@@ -1,0 +1,5 @@
+name=Tag input
+id=input
+lex=HTML,HTML_
+text=
+<input type="${1:text}"${2: name="${3:test}"}${4: value="${5:value}"}/>${0}

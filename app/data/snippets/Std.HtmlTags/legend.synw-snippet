@@ -1,0 +1,5 @@
+name=Tag legend
+id=legend
+lex=HTML,HTML_
+text=
+<legend>${0}</legend>

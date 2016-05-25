@@ -1,0 +1,11 @@
+[map]
+Param=Id3
+Symbol=Symbol
+Comment=Comment
+Const=Id2
+String=String
+String Eval=String2
+Var=IdVar
+Id=Id
+Id Function=Id1
+Color=Color

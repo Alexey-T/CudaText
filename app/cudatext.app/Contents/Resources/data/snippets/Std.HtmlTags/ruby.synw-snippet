@@ -1,0 +1,7 @@
+name=Tag ruby
+id=ruby
+lex=HTML,HTML_
+text=
+<ruby>
+	${0}
+</ruby>

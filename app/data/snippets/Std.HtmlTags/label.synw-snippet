@@ -1,0 +1,5 @@
+name=Tag label
+id=label
+lex=HTML,HTML_
+text=
+<label for="${1:test}">${0}test</label>

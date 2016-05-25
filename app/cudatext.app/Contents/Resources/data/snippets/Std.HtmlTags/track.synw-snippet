@@ -1,0 +1,5 @@
+name=Tag track
+id=track
+lex=HTML,HTML_
+text=
+<track src="${0:subtitles_en.vtt}"${1: kind="${2:subtitles}"}${3: srclang="${4:en}"}${5: label="${6:English}"}>

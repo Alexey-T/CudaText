@@ -1,0 +1,20 @@
+[ref]
+0=HTML
+
+[map]
+Comment=Comment
+Comment doc=CommentDoc
+Number=Number
+Symbol operator=Symbol2
+Symbol single=Symbol
+String=String
+String exec=String2
+Var=IdVar
+Id=Id
+Id keyword=IdKeyword
+Id standard const=Id4
+Id standard class=Id2
+PHP_start=IncludeBG1
+PHP_end=IncludeBG1
+PHP_bg=SectionBG1
+Bracket=BracketBG

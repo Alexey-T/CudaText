@@ -1,0 +1,5 @@
+name=Tag noscript
+id=noscript
+lex=HTML,HTML_
+text=
+<noscript>${0}</noscript>

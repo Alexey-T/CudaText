@@ -1,0 +1,44 @@
+see
+http://wiki.freepascal.org/CudaText#How_to_make_translation
+
+
+2016.04.11
++ [m_sr] b_ca
+
+2016.04.06
++ [se] OpenTooBig
+
+2016.03.26
+* change [m_v] s_s, s_h
+
+2016.03.23
+* del [se] FindLexlib
+* del [sc] SaveModifiedLexerLib
+* del [d_lex_lib] add
+
+2016.03.19
++ [m_h] iss
++ [m_o] l_map
++ [d_lex_map]
++ [d_lex_prop] _style
++ [d_theme] sty
+
+2016.03.14
++ [se] FindBookmarks
+* del [si] PluginsJustPreinstalled
+
+2016.03.09
++ [si] PackageCommand PackageEvents InstalledNeedRestart
++ [d_lex_prop] bty_*
+
+2016.03.07
++ [d_f] items h_*
++ [ui] items b_*
+
+2016.03.06
++ [se]
++ [sc]
++ [si]
++ [ui] new items
+* [d_theme] all changed
+* del dup "ok"/"cancel"/"close"/"apply"

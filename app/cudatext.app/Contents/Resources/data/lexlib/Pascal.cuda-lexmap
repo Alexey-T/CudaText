@@ -1,0 +1,25 @@
+[map]
+Default=Id
+Symbol=Symbol
+Number=Number
+String=String
+Identifier=Id
+Reserved word=IdKeyword
+Comment=Comment
+Preprocessor=Comment2
+Assembler=IncludeBG1
+Marked block=-
+Interface section=SectionBG1
+Implemenation Section=SectionBG2
+Function separator=SeparLine
+Current block=BracketBG
+Current function=SectionBG3
+Current Line=-
+Search Match=-
+Group (tree)=-
+Intern. function (tree)=-
+class (tree)=-
+Invalid symbol=SymbolBad
+
+[ref]
+0=Assembly

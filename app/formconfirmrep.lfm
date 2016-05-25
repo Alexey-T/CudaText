@@ -1,0 +1,79 @@
+object fmConfirmReplace: TfmConfirmReplace
+  Left = 524
+  Height = 64
+  Top = 579
+  Width = 645
+  ActiveControl = bYes
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Confirm'
+  ClientHeight = 64
+  ClientWidth = 645
+  DefaultMonitor = dmMainForm
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  ShowInTaskBar = stNever
+  LCLVersion = '1.7'
+  object bYesAll: TATButton
+    Left = 152
+    Height = 25
+    Top = 32
+    Width = 120
+    TabStop = True
+    TabOrder = 1
+    Caption = 'Yes to all (a)'
+    Checked = False
+    Checkable = False
+    Focusable = True
+    OnClick = bYesAllClick
+  end
+  object bYes: TATButton
+    Left = 32
+    Height = 25
+    Top = 32
+    Width = 120
+    TabStop = True
+    TabOrder = 0
+    Caption = 'Yes (y)'
+    Checked = False
+    Checkable = False
+    Focusable = True
+    OnClick = bYesClick
+  end
+  object bNo: TATButton
+    Left = 296
+    Height = 25
+    Top = 32
+    Width = 120
+    TabStop = True
+    TabOrder = 2
+    Caption = 'No (n)'
+    Checked = False
+    Checkable = False
+    Focusable = True
+    OnClick = bNoClick
+  end
+  object bNoAll: TATButton
+    Left = 416
+    Height = 25
+    Top = 32
+    Width = 120
+    TabStop = True
+    TabOrder = 3
+    Caption = 'No to all (Esc)'
+    Checked = False
+    Checkable = False
+    Focusable = True
+    OnClick = bNoAllClick
+  end
+  object LabelInfo: TLabel
+    Left = 8
+    Height = 17
+    Top = 8
+    Width = 36
+    Caption = 'Repl?'
+    ParentColor = False
+  end
+end

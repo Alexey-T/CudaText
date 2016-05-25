@@ -1,0 +1,5 @@
+name=Tag kbd
+id=kbd
+lex=HTML,HTML_
+text=
+<kbd>${0}</kbd>

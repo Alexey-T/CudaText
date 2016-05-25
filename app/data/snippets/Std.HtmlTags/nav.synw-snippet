@@ -1,0 +1,7 @@
+name=Tag nav
+id=nav
+lex=HTML,HTML_
+text=
+<nav>
+	${0}
+</nav>

@@ -1,0 +1,5 @@
+name=Tag keygen
+id=keygen
+lex=HTML,HTML_
+text=
+<keygen name="${1:security}"/>${0}

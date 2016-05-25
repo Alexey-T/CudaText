@@ -1,0 +1,7 @@
+name=Tag dl
+id=dl
+lex=HTML,HTML_
+text=
+<dl>
+	${0}
+</dl>

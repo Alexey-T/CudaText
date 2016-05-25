@@ -1,0 +1,5 @@
+name=Tag h5
+id=h5
+lex=HTML,HTML_
+text=
+<h5>${0}</h5>

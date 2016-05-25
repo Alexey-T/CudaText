@@ -1,0 +1,423 @@
+object SyntAnal23: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Reserved word'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Preprocessor'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Control''s ID'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '"(\\"|.)*?("|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Preprocessor'
+      StyleName = 'Preprocessor'
+      TokenType = 9
+      Expression = '\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 1'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment 2'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'HEX'
+      StyleName = 'Number'
+      TokenType = 7
+      Expression = '0x[\da-f]+L*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      BlockName = 'Resource'
+      TokenType = 5
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Any name'
+      TokenType = 2
+      Expression = '\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[/\+\-\*:=<>&/\|\^\.\{\}]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Key Words'
+      StyleName = 'Reserved word'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'ACCELERATORS'
+            'BEGIN'
+            'BITMAP'
+            'CURSOR'
+            'DESIGNINFO'
+            'DIALOG'
+            'DIALOGEX'
+            'END'
+            'ICON'
+            'LANGUAGE'
+            'MENU'
+            'REGISTRY'
+            'STRINGTABLE'
+            'TEXTINCLUDE'
+            'TOOLBAR'
+            'TYPELIB'
+            'VERSIONINFO'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Menu & Toolbar controls'
+      StyleName = 'Control''s ID'
+      BlockName = 'Resource'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'BUTTON'
+            'MENUITEM'
+            'POPUP'
+            'SEPARATOR'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Dialog controls'
+      StyleName = 'Control''s ID'
+      BlockName = 'Resource'
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'AUTOCHECKBOX'
+            'CAPTION'
+            'COMBOBOX'
+            'CONTROL'
+            'CTEXT'
+            'DEFPUSHBUTTON'
+            'EDITTEXT'
+            'FONT'
+            'GROUPBOX'
+            'ICON'
+            'LISTBOX'
+            'LTEXT'
+            'PUSHBUTTON'
+            'RADIOBUTTON'
+            'RTEXT'
+            'STYLE'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'BEGIN'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'BEGIN'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'END'
+      DisplayInTree = False
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'END'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'END'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'String table'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'STRINGTABLE'
+          )
+          TokenTypes = 4
+        end>
+      BlockEnd = 'String table end'
+      NameFmt = '%e2 ...'
+      GroupFmt = '%s0'
+      HighlightPos = cpBound
+      CollapseFmt = '%s0'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'String table end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'END'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Resource'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'ACCELERATORS'
+            'DESIGNINFO'
+            'DIALOG'
+            'DIALOGEX'
+            'MENU'
+            'TEXTINCLUDE'
+            'TOOLBAR'
+            'VERSIONINFO'
+          )
+          TokenTypes = 4
+        end      
+        item
+          TokenTypes = 4
+        end>
+      IdentIndex = 1
+      BlockOffset = 1
+      BlockEnd = 'Resource end'
+      NameFmt = '%s1'
+      GroupFmt = '%s0'
+      HighlightPos = cpBound
+      CollapseFmt = '%s0 %s1'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Resource end'
+      BlockName = 'Resource'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'END'
+          )
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '#if'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '\#if'
+          )
+          CondType = tcMask
+          TokenTypes = 512
+        end>
+      BlockEnd = '#endif'
+      DisplayInTree = False
+      HighlightPos = cpBound
+      CollapseFmt = '%s0'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '#endif'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '\#endif'
+          )
+          CondType = tcMask
+          TokenTypes = 512
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'BITMAP begin'
+      BlockName = 'Resource'
+      NotParent = True
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'BITMAP'
+            'CURSOR'
+            'ICON'
+            'REGISTRY'
+            'TYPELIB'
+          )
+          TokenTypes = 4
+        end      
+        item
+          TokenTypes = 4
+        end>
+      BlockOffset = 1
+      BlockEnd = 'BITMAP end'
+      NameFmt = '%s1  ::  %s-1'
+      GroupFmt = '%s0'
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'BITMAP end'
+      BlockName = 'Resource'
+      NotParent = True
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'BITMAP'
+            'CURSOR'
+            'ICON'
+            'REGISTRY'
+            'TYPELIB'
+          )
+          TokenTypes = 4
+        end      
+        item
+          TokenTypes = 4
+        end>
+      BlockOffset = -1
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'End'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '}'
+          )
+          TokenTypes = 8
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Begin'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '{'
+          )
+          TokenTypes = 8
+        end>
+      IdentIndex = 1
+      BlockEnd = 'End'
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
+      DrawStaple = True
+      CollapseFmt = '{ ... %ez0'
+      IgnoreAsParent = False
+      AutoCloseMode = acmCloseNearest
+      AutoCloseText = '}'
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'Symbol'
+    'String'
+    'Integer const'
+    'Float const'
+    'Hex const'
+    'Char const'
+    'Preprocessor'
+  )
+  Extentions = 'rc rc2'
+  LexerName = 'Resource script'
+  LineComment = '//'
+  Charset = DEFAULT_CHARSET
+end

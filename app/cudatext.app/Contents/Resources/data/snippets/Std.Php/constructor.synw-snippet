@@ -1,0 +1,8 @@
+name=function __construct
+id=con
+lex=PHP,PHP_
+text=
+function __construct(${1:$foo} ${2:=} ${3:null}) {
+	$this->${4} = ${5};
+}
+

@@ -1,0 +1,80 @@
+object SyntAnal30: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Id'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'IdBad'
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clYellow
+    end  
+    item
+      DisplayName = 'Value'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Text'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = 14017507
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Text'
+      StyleName = 'Text'
+      TokenType = 3
+      Expression = '(?s)(?<=text\=\z).*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      Expression = '^(name|id|lex|text)\b='
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'IdBad'
+      StyleName = 'IdBad'
+      Expression = '^.+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Value'
+      StyleName = 'Value'
+      TokenType = 2
+      Expression = '.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'name=name'
+    'id=id'
+    'lex=Pascal'
+    'text='
+    'Text here'
+  )
+  TokenTypeNames.Strings = (
+    'Id'
+    'Symbol'
+    'Value'
+    'Text'
+  )
+  Extentions = 'synw-snippet'
+  LexerName = 'SynWrite snippets'
+  SkipSpaces = False
+  Charset = DEFAULT_CHARSET
+end

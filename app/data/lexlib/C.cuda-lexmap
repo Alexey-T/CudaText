@@ -1,0 +1,15 @@
+[map]
+Default=-
+Symbol=Symbol
+Number=Number
+String=String
+Identifier=Id
+Reserved word=IdKeyword
+Comment=Comment
+Preprocessor=Comment2
+Current block=CurBlockBG
+Asm BG=IncludeBG1
+
+[ref]
+0=Assembly
+1=Assembly

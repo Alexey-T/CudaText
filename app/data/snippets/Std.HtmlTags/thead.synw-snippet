@@ -1,0 +1,7 @@
+name=Tag thead
+id=thead
+lex=HTML,HTML_
+text=
+<thead>
+	${0}
+</thead>

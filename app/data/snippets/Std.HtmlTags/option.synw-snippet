@@ -1,0 +1,5 @@
+name=Tag option
+id=option
+lex=HTML,HTML_
+text=
+<option value="${1:val}"${2: selected="${3:selected}"}>${0}</option>

@@ -1,0 +1,5 @@
+name=Tag area
+id=area
+lex=HTML,HTML_
+text=
+<area shape="${1:rect}"${2: coords="${3:0,0,10,10}"}${4: href="${5:example.htm}"}${6: target="${7:_blank}"}${8: alt="${9:example}"}/>${0}

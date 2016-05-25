@@ -1,0 +1,8 @@
+name=<?php foreach (...) endforeach ?>
+id=foreach
+lex=HTML,HTML_
+text=
+<?php foreach ($${1:variable} as $${2:key} => $${3:value}): ?>
+	${0}
+<?php endforeach ?>
+

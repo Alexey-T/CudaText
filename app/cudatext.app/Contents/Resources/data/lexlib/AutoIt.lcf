@@ -1,0 +1,656 @@
+object SyntAnal85: TLibSyntAnalyzer
+  Formats = <  
+    item
+      DisplayName = 'Comment'
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end  
+    item
+      DisplayName = 'Id'
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Number'
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Dim'
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Operator'
+      Font.Color = 213
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Symbol'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'String'
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Variable'
+      Font.Color = cl3DDkShadow
+      Font.Height = -13
+      Font.Name = 'Courier New'
+    end  
+    item
+      DisplayName = 'Macro'
+      Font.Color = 31993
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Reserved Words'
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end  
+    item
+      DisplayName = 'Comment BG'
+      Font.Color = clNone
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      BgColor = clCream
+      FormatType = ftBackGround
+    end>
+  TokenRules = <  
+    item
+      DisplayName = 'Comment #'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '\#.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Comment ;'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = ';.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'One_liner_then'
+      StyleName = 'Reserved Words'
+      TokenType = 6
+      Expression = '(?i)then\b(?=[\x20\x09]+[^\s;])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 2
+      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ | \d+ \. \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 2
+      Expression = '0x[\da-f]+ | \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Operator'
+      StyleName = 'Operator'
+      TokenType = 3
+      Expression = '[!/\+\-\*:=<>&/\|\^~]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\{\}\(\)\[\],;\.]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(?s)(["''])(\1\1|.)*?(\1|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Variable'
+      StyleName = 'Variable'
+      TokenType = 5
+      Expression = '\$\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end  
+    item
+      DisplayName = 'Macro'
+      StyleName = 'Macro'
+      TokenType = 5
+      Expression = '\@\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <  
+    item
+      DisplayName = 'Reserved Words'
+      StyleName = 'Reserved Words'
+      AlwaysEnabled = True
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'And'
+            'ByRef'
+            'Case'
+            'Const'
+            'ContinueCase'
+            'ContinueLoop'
+            'Default'
+            'Dim'
+            'Do'
+            'Else'
+            'ElseIf'
+            'EndFunc'
+            'EndIf'
+            'EndSelect'
+            'EndSwitch'
+            'EndWith'
+            'Enum'
+            'Exit'
+            'ExitLoop'
+            'False'
+            'For'
+            'Func'
+            'Global'
+            'If'
+            'In'
+            'Local'
+            'Next'
+            'Not'
+            'Or'
+            'ReDim'
+            'Return'
+            'Select'
+            'Static'
+            'Step'
+            'Switch'
+            'Then'
+            'To'
+            'True'
+            'Until'
+            'WEnd'
+            'While'
+            'With'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      HighlightPos = cpBound
+      TreeItemImage = 1
+      TreeGroupImage = 1
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = 'Dim'
+      StyleName = 'Dim'
+      AlwaysEnabled = True
+      BlockType = btTagDetect
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Const'
+            'dim'
+            'Global'
+            'Local'
+            'redim'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_Func'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Func'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_EndFunc'
+      NameFmt = '%s0 %s-1'
+      HighlightPos = cpAny
+      DynSelectMin = True
+      CollapseFmt = '%s0 %s-1'
+      TreeItemImage = 5
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_EndFunc'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'EndFunc'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_Func'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_If'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'if'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_EndIf'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'EndIf'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_If'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_EndIf_OneLiner'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TokenTypes = 64
+        end>
+      BlockEnd = '_If'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_Select'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Select'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_EndSelect'
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_EndSelect'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'EndSelect'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_Select'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_Switch'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Switch'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_EndSwitch'
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_EndSwitch'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'EndSwitch'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_Switch'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_For'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'For'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_Next'
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_Next'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Next'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_For'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_While'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'While'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_WEnd'
+      EndOfTextClose = True
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_WEnd'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'WEnd'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_While'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_Do'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Do'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_Until'
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_Until'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Until'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_Do'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_With'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'With'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_Endwith'
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_Endwith'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            'Endwith'
+          )
+          TokenTypes = 1
+          IgnoreCase = True
+        end>
+      BlockEnd = '_With'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_#comments-start'
+      StyleName = 'Comment BG'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '\#comments-start'
+            '\#cs'
+          )
+          CondType = tcMask
+          IgnoreCase = True
+        end>
+      BlockEnd = '_#comments-end'
+      DisplayInTree = False
+      NameFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_#comments-end'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '\#ce'
+            '\#comments-end'
+          )
+          CondType = tcMask
+          IgnoreCase = True
+        end>
+      BlockEnd = '_#comments-start'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_#region'
+      StyleName = 'Comment'
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '\#region'
+          )
+          CondType = tcMask
+          TokenTypes = 2
+          IgnoreCase = True
+        end>
+      BlockEnd = '_#endregion'
+      DisplayInTree = False
+      HighlightPos = cpRange
+      DrawStaple = True
+      IgnoreAsParent = False
+    end  
+    item
+      DisplayName = '_#endregion'
+      BlockType = btRangeEnd
+      ConditionList = <      
+        item
+          TagList.Strings = (
+            '\#endregion'
+          )
+          CondType = tcMask
+          TokenTypes = 2
+          IgnoreCase = True
+        end>
+      BlockEnd = '_#region'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '  dim $t[3][2] = [["test;1;2;3", 123], _'
+    '    ['';'', Asc('';'')], _ ; This comment'
+    '    ["", 0]]           ; comment'
+    '  #region'#9#9'Begin region '
+    #9';'#9'#endregion'
+    #9'If @error Then'
+    #9#9'If @error = 2 Then $iMinIndex = $i'
+    #9'Else'
+    #9#9'Exit'
+    #9'EndIf '
+    '  #endregion'#9'End region'
+    ''
+    ' #comments-start test'
+    '  If SetIcon ($btnIcon, $sModulesPath & "\" & GUICtrlRead ($cmbSFXModule) & ",0") Then _'
+    #9'$bIsDefaultIcon = True'
+    '  #cs test'
+    '    test'
+    '  #ce'
+    ' #comments-end test'
+    ''
+    '#include'
+    '#include-once'
+    '#NoTrayIcon'
+    '#RequireAdmin'
+    ''
+    'Func Palitra_()'
+    '  /*$zzz = 0 */'
+    '  While $zzz <= 2'
+    '    //$xxx = 0'
+    '    While $xxx <= 5'
+    '      $yyy = 0'
+    '      While $yyy <= 5'
+    '        $PalitraColor = "0x"&$ColorArray[$zzz]&$ColorArray[$xxx]&$ColorArray[$yyy]'
+    '        GUICtrlCreateLabel( "", ($zzz)*$PalitraSize*6+$xxx*$PalitraSize+264, $yyy*$PalitraSize+368, $PalitraSize ,$PalitraSize)'
+    '        GUICtrlSetBkColor ( -1, $PalitraColor)'
+    '      WEnd'
+    '    $xxx = $xxx + 1'
+    '    WEnd'
+    '  $zzz = $zzz +1'
+    '  Wend'
+    'EndFunc'
+  )
+  TokenTypeNames.Strings = (
+    'Id'
+    'Comment'
+    'Number'
+    'Symbol'
+    'String'
+    'Variable'
+    'OneLinerThen'
+    'Macro'
+  )
+  Extentions = 'au3'
+  LexerName = 'AutoIt'
+  Notes.Strings = (
+    'Original by: 480499497, forum.wincmd.ru'
+    'Reworked: Alex (SynWrite)'
+  )
+  LineComment = ';'
+  Charset = DEFAULT_CHARSET
+end

@@ -1,0 +1,5 @@
+name=Tag time
+id=time
+lex=HTML,HTML_
+text=
+<time>${0}</time>

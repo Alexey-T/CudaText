@@ -1,0 +1,7 @@
+name=Tag figure
+id=figure
+lex=HTML,HTML_
+text=
+<figure>
+	${0}
+</figure>

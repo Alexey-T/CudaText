@@ -1,0 +1,7 @@
+name=Tag body
+id=body
+lex=HTML,HTML_
+text=
+<body>
+	${0}
+</body>

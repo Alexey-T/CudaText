@@ -1,0 +1,5 @@
+name=Tag bdi
+id=bdi
+lex=HTML,HTML_
+text=
+<bdi>${0}</bdi>

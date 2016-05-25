@@ -1,0 +1,12 @@
+[map]
+Symbol=Symbol
+Number=Number
+String=String
+Id=Id
+Id keyword=IdKeyword
+Comment=Comment
+Variable=IdVar
+Const=Id1
+String regex=String2
+String here-doc=CommentDoc
+Quote block=IncludeBG1

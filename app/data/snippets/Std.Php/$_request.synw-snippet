@@ -1,0 +1,5 @@
+name=REQUEST['...']
+id=$_
+lex=PHP,PHP_
+text=
+$_REQUEST['${1:variable}']

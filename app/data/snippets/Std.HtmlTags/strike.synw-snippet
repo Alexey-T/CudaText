@@ -1,0 +1,5 @@
+name=Tag strike
+id=strike
+lex=HTML,HTML_
+text=
+<strike>${0}</strike>

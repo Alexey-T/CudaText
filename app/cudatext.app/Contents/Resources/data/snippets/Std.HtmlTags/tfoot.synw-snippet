@@ -1,0 +1,7 @@
+name=Tag tfoot
+id=tfoot
+lex=HTML,HTML_
+text=
+<tfoot>
+	${0}
+</tfoot>

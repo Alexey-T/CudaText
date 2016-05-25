@@ -1,0 +1,7 @@
+name=Tag colgroup
+id=colgroup
+lex=HTML,HTML_
+text=
+<colgroup span="${1:2}">
+	${0}
+</colgroup>

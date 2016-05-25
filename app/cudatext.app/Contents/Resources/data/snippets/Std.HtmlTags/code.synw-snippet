@@ -1,0 +1,5 @@
+name=Tag code
+id=code
+lex=HTML,HTML_
+text=
+<code>${0}</code>

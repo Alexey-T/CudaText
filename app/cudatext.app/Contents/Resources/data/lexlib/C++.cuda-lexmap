@@ -1,0 +1,15 @@
+[map]
+Default=-
+Symbol=Symbol
+Number=Number
+String=String
+Id=Id
+Id keyword=IdKeyword
+Comment=Comment
+Preprocessor=Comment2
+Current block BG=BracketBG
+Asm BG=IncludeBG1
+Id in angles=Id1
+
+[ref]
+0=Assembly

@@ -1,0 +1,5 @@
+name=Tag del
+id=del
+lex=HTML,HTML_
+text=
+<del cite="${1:example.htm}"${2: datetime="${3:YYYYMMDD}"}>${0}</del>

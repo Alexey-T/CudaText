@@ -1,0 +1,12 @@
+[map]
+Symbol=Symbol
+Number=Number
+String=String
+Identifier=Id
+Reserved word=IdKeyword
+Comment=Comment
+Sub background=SectionBG1
+Macros=Id3
+Sent Keys=Id2
+Functions=Id1
+Registry=Id4

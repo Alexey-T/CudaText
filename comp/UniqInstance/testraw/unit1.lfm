@@ -1,0 +1,22 @@
+object Form1: TForm1
+  Left = 344
+  Height = 136
+  Top = 152
+  Width = 295
+  HorzScrollBar.Page = 294
+  VertScrollBar.Page = 135
+  Caption = 'Test UniqueInstanceRaw'
+  ClientHeight = 136
+  ClientWidth = 295
+  LCLVersion = '0.9.31'
+  object ButCrashApp: TButton
+    Left = 64
+    Height = 32
+    Top = 48
+    Width = 158
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Crash Application'
+    OnClick = ButCrashAppClick
+    TabOrder = 0
+  end
+end

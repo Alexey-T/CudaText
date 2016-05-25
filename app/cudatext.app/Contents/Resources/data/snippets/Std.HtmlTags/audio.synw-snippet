@@ -1,0 +1,7 @@
+name=Tag audio
+id=audio
+lex=HTML,HTML_
+text=
+<audio src="${1:/music/sample.mp3}"${2: controls="${3:controls}"}>
+	${0}
+</audio>

@@ -1,0 +1,8 @@
+#! /bin/sh
+cd ~/cuda/cuda/app
+
+name=~/Public/cudatext-linux-gtk2-amd64.tar
+
+rm ~/Public/*gtk*.xz
+tar -cf $name cudatext readme data settings_default py/*.py py/cuda_addonman/*.inf py/cuda_addonman/*.py py/cuda_make_plugin/*.inf py/cuda_make_plugin/*.py py/cuda_insert_time/*.inf py/cuda_insert_time/*.py py/cudax_lib/*.py
+xz -z $name

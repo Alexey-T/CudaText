@@ -1,0 +1,5 @@
+name=Tag sub
+id=sub
+lex=HTML,HTML_
+text=
+<sub>${0}</sub>

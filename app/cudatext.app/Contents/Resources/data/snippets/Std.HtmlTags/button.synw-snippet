@@ -1,0 +1,5 @@
+name=Tag button
+id=button
+lex=HTML,HTML_
+text=
+<button name="${1:test}"${2: type="${3:button}"}${4: value="${5:val}"}>${0}Button Text</button>

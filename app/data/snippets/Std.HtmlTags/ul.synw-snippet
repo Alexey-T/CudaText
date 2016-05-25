@@ -1,0 +1,7 @@
+name=Tag ul
+id=ul
+lex=HTML,HTML_
+text=
+<ul>
+	${0}
+</ul>

@@ -1,0 +1,5 @@
+name=Tag a
+id=a
+lex=HTML,HTML_
+text=
+<a href="${1:http://www.com/}"${2: title="${3:Title}"}${4: target="${5:_blank}"}>${0}</a>

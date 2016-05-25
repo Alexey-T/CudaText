@@ -1,0 +1,5 @@
+name=Tag progress
+id=progress
+lex=HTML,HTML_
+text=
+<progress value="${1:22}"${2: max="${3:100}"}>${0}</progress>

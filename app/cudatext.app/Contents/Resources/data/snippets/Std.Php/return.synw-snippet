@@ -1,0 +1,5 @@
+name=return
+id=ret
+lex=PHP,PHP_
+text=
+return${1};${0}

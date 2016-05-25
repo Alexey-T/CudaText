@@ -1,0 +1,266 @@
+object SyntAnal11: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Head'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -19
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+      FormatType = ftCustomFont
+    end
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Quote'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 12645824
+    end
+    item
+      DisplayName = 'Code'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 15779980
+    end
+    item
+      DisplayName = 'Code dot'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 14726867
+    end
+    item
+      DisplayName = 'List'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 16763594
+    end
+    item
+      DisplayName = 'Bold'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Italic'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Bold-Italic'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold, fsItalic]
+    end
+    item
+      DisplayName = 'Crossed'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsStrikeOut]
+    end
+    item
+      DisplayName = 'Table'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Sign'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Head'
+      StyleName = 'Head'
+      Expression = '^[\*=-]{2,}$ \z ^.+$ \z ^[\*=-]{2,}$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Bold-Italic'
+      StyleName = 'Bold-Italic'
+      TokenType = 1
+      Expression = '(?<!\*) (\*\*\*).+?(\*\*\*|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Bold'
+      StyleName = 'Bold'
+      TokenType = 1
+      Expression = '(?<!\*) (\*\*).+?(\*\*|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Italic'
+      StyleName = 'Italic'
+      TokenType = 1
+      Expression = '(?s) (?<!\*) (\*) \S.*? (\*|")'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Quote'
+      StyleName = 'Quote'
+      TokenType = 3
+      Expression = '`+ .+? `+_?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Sign'
+      StyleName = 'Sign'
+      TokenType = 3
+      Expression = '\| \w.+? \|'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Code dot'
+      StyleName = 'Code dot'
+      TokenType = 4
+      Expression = '^\x20* \.+ .+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Code'
+      StyleName = 'Code'
+      TokenType = 4
+      Expression = '^[\x20]+ .*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Table'
+      StyleName = 'Table'
+      TokenType = 7
+      Expression = '^[\+\|] [\-\+=]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'List'
+      StyleName = 'List'
+      TokenType = 6
+      Expression = '^\*+ [\x20] .+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = 'Head'
+      ConditionList = <
+        item
+          TokenTypes = 1
+        end>
+      EndOfTextClose = True
+      HighlightPos = cpAny
+      SelfClose = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '****************************************'
+    'HTTPie '
+    '****************************************'
+    ''
+    
+      'HTTPie (pronounced *aitch-tee-tee-pie*) is a **command line HTTP' +
+      ' client**.'
+    
+      'Its goal is to make CLI interaction with web services as **human' +
+      '-friendly**'
+    'as possible. It provides a simple ``http`` command'
+    ''
+    
+      '.. image:: https://raw.githubusercontent.com/jkbrzt/httpie/maste' +
+      'r/httpie.png'
+    '    :alt: HTTPie compared to cURL'
+    '    :align: center'
+    ''
+    ''
+    
+      'HTTPie is written in Python, and under the hood it uses the exce' +
+      'llent'
+    '`Requests`_ and `Pygments`_ libraries.'
+    ''
+    '============='
+    'Main Features'
+    '============='
+    ''
+    '* Expressive and intuitive syntax'
+    '* Formatted and colorized terminal output'
+    ''
+    '|pypi| |unix_build| |windows_build| |coverage| |gitter|'
+    ''
+    
+      '+-----------------------+---------------------------------------' +
+      '--------------+'
+    
+      '| Item Type             | Description                           ' +
+      '              |'
+    
+      '+=======================+=======================================' +
+      '==============+'
+    
+      '| HTTP Headers          | Arbitrary HTTP header, e.g. ``X-API-To' +
+      'ken:123``.    |'
+    
+      '| ``Name:Value``        |                                       ' +
+      '              |'
+    
+      '+-----------------------+---------------------------------------' +
+      '--------------+')
+  TokenTypeNames.Strings = (
+    'Head'
+    'Text'
+    'Comment'
+    'Quote'
+    'Code'
+    'Block'
+    'List'
+    'Table')
+  Extentions = 'rst'
+  LexerName = 'reStructuredText'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Alexey (Synwrite)'
+    'Test: https://github.com/jkbrzt/httpie/blob/master/README.rst')
+  Charset = DEFAULT_CHARSET
+end

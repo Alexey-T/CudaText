@@ -1,0 +1,11 @@
+[map]
+Label=Id3
+Comment=Comment
+Key words=IdKeyword
+Commands=Id1
+Params=Id
+Echo=Id4
+Symbol=Symbol
+QuotationMarks=String
+Variable=IdVar
+Int=Number

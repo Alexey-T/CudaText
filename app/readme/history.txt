@@ -1,0 +1,296 @@
+Legend:
+  + added
+  - fixed
+  * changed
+
+
+- fix cmd "Update tree"
+- fix lexer reST
+
+1.3.16
++ opt staples_show
++ hotkey Ctrl+Tab changeable
++ cmd "find, first"
++ cmd "find, mark all"
+* del lexer TextFiles
+
+1.3.15
++ info http://wiki.freepascal.org/CudaText#Change_case_on_replaces
+- fix: replace to "some\n" (win32)
++ dont put caret in folded [..]
++ op ui_listbox_size_y
++ lexer reST
+- fixes
+
+1.3.14
++ op fold_style
++ api
+- fix: dont open folder via cmd-line
+
+1.3.12
++ rework indent of col-block: like Synwrite
++ theme "Sub" (@Alexey)
+* theme rename: "verbis" to "ebony" (@myCrack)
++ updated PHP completion-list (@Sanchez)
+- fix: Markdown tree
+
+1.3.11
++ indent/unindent col-blocks too
++ opt mouse_wheel_zoom
++ cmd "enable/disable folding functionality"
+- fix: lexer Python (folding, update speed)
++ api
+
+1.3.10
++ shift+mwheel does horiz scroll
++ checkmarks in top menu (not Linux gtk2)
++ cmd "folding: fold/unfold at cur line"
++ update: JS completions
+- fix: mwheel in one-line edits
+- fix: lexer PHP word-lists
+- fix: lexer Markdown
+- fix: lexer Python
+- fix: for 2nd monitor
+
+1.3.9
++ new themed scrollbars: editors, trees, listboxes
++ command "Place carets on bookmarks"
++ theme "darkwolf" preinstalled
++ upd lexer "acp files"
++ api
+
+1.3.8
++ memory optimizing (for 20M+ files w/o lexer)
+* autoclose bracket: don't do if inside text
+* opt unprinted_replace_spec defaults to "false"
++ spec-chars 0..31 shown shorter: xNN
++ theme color "statusbar alt, font"
++ api
+
+1.3.7
++ opt ui_max_size_open
++ opt ui_max_size_lexer
++ small memory optimizing
+
+1.3.6
++ auto-close of quotes (read about auto_close_brackets)
++ auto-close of brackets/quotes works with selection
++ drag-cursor appears more correct
++ menuitem View--Lexers
+* AddonManager uses filelist in txt-file at github (slower download-all, but don't use fixed mirrors of SF, safe) 
+
+1.3.5
++ autocomplete for HTML: completion listbox inserts tag+ closing tag after caret
++ autocomplete for HTML: auto show when typed "<"+wordchar
++ autocomplete for HTML: better for a/img/link
++ autocomplete for CSS: auto show when wordchar typed on attribute pos
++ opt auto_close_brackets
+
+1.3.4
++ drag-drop text to other group: opt mouse_drag_drop_focus_target
++ drag-drop text to other group: Ctrl pressed means "copy"
++ drag-drop file from explorer: use group under cursor
++ lexer Python: keywords def/class/global/lambda have other style (like ST3)
+- rework restore caret on file-reload
+- fix MakePlugin
+
+1.3.3
++ drag-drop of tabs to other groups (all OSes)
++ drag-drop of select-text to other groups
++ cmd "rescan python plugins inf-files"
+- fix: Ansi encoding was broken (since using FPC 3)
+
+1.3.2
+* lexer-lib file (lib.lxl) not used. Used .lcf files instead. Sublexer links must be stored in .cuda-lexmap files. On start app suggests to convert lexer-lib file to .lcf files.
+* delete option "lexlib" (used only to convert lexer-lib to .lcf)
+
+1.3.1
++ opt ui_lexer_themes
++ color "editor, gutter font, lines with carets"
++ color "listbox, sel line font"
++ colors "statusbar, font/bg/border"
++ commands item "lexer: (none)"
+- many fixes (github)
+
+1.3.0
++ themes contain now 40 styles: to map to concrete lexer styles. Dialog "Lexer styles map" added. It shows on activating lexer w/o configured map. Maps are saved to "lexlib/*.cuda-lexmap".
+* not used anymore settings/plugins.json (delete it), used install.inf's only
+* renamed translations to nn_NN (e.g. ru_RU)
++ can show .gif pics
++ upd lexer XML
++ upd lexer LESS (style: color)
++ upd lexer SCSS (style: color)
++ upd lexer JS (style: doc comment)
++ upd lexer PHP (style: doc comment)
++ color "editor, combobox border"
++ statusbar macros {yb} {ye}
+- fixes
+
+1.2.29
++ lexer CSS handles @media{...}
++ char-map uses multi-carets on insert
++ more toolbar api
+
+1.2.28
++ translation possible: see menu item Options/Translations, see folder "data/lang"
++ translation Russian, in AddonManager
++ font opt named with suffix on Linux/OSX: font_name__linux, font_size__linux...
++ AddonManager has cmd "Visit plugin homepage"; plugins need field "homepage=" in install.inf
+- fix to handle line length 10k
+- fix to support SpellChecker/Linux 
+
+1.2.26
++ opt minimap_at_left
++ opt caret_after_paste_column
++ opt ui_statusbar_tabsize
++ opt ui_max_history_edits
+* opt spacing_y: default=1
++ cmds "open url at caret", "copy url at caret"
++ api
+
+1.2.25.2
+- fix major issue: lexerlib breaks on installing addon (reason: FPC 3)
+- fix cmds for line-comment
++ allow trailing comma in user.json
+
+1.2.25
++ used FPC 3.0
++ hilite URLs: opts links_hilite, links_regex
++ hilite URLs: commands to open/copy URL at pos of right-click
+
+1.2.24
++ opt font of bottom-panel listboxes
++ api (plugin Tabs List, bookmark hints in CudaLint)
+
+1.2.23
+- fix Addon Manager "Install" (SF.net blocked http)
+* change in api. Must update plugs: NumberedBookmarks, PythonIntel, CudaExt, Snippets
++ added 120+ snippets for HTML. These mimic hehaviour of Synwrite's feature "SmartTagTabbing". You need plugin Snippets.
++ autodelete markers in deleted selection
++ statusbar panel "msg" now autosized (can put "msg" to left)
+
+1.2.22
++ toolbar api
++ add ui_statusbar_panels panel "ins" (hidden by default)
++ add bottom pane "Search Res", for future
+- fix Qt build: Esc key in find/goto
+- fix: must set modified on conv-encoding
+
+1.2.21
++ opt micromap_show
++ opt micromap_width
++ opt autocomplete_autoshow_chars
++ opt autocomplete_autoshow_lexers
+- autocomplete now ignores case
++ improve picture mode
++ changed "Save tabs" dlg buttons (same look Win/Linux)
+
+1.2.20
++ can open pictures: bmp/png/jpg/ico
+* statusbar: remove macros {caret_line_nnn}, add {y2}
+* remove opt ui_tab_indent_y (center text)
+
+1.2.19
++ better support for CudaLint (new plugin)
+* statusbar: opts ui_stat_ renamed, some deleted (size_x, center)
++ statusbar: opt "ui_statusbar_panels", all status panels now customizable
++ statusbar: add macros {caret_line_top} {caret_line_btm}
++ opt "font_quality" (can disable Cleartype)
+- fix OSX rendering
+
+1.2.18
++ api: sidebar panels
++ grouping "1+2 horz" (some session files now not correct)
++ new lexer Makefile (for GNU makefile)
++ opt "ui_tree_show_lines"
++ cmd "ui: show side panel"
++ cmd "ui: show side panel, and syntax tree"
++ cmd "ui: hide side panel"
+
+1.2.16
++ add commands: column select to line begin/ line end/ page up/ page down
++ faster render on Linux gtk2
+- fix: grouped-undo was broken
+- fix: btn "cancel search" didnt work 
+
+1.2.15
++ opt "backup"
++ plugin autocomplete: reshow list if 1 char typed
++ improved "Make Plugin", can hide items in Plugins
++ with col-block of zero width, can use Del/BkSp too
++ replace dlg key Ctrl+Alt+Enter: replace and don't find next
+* changed hotkeys in Replace
+* output panel uses dbl-click
+- fixes
+
+1.2.14
++ selection keeps bold/italic of selected words
++ redone plugin "Make Plugin"
+* lexers HTML/HTML_/PHP/PHP_: rename, old pair removed to Addon Manager
++ opt autocomplete_html
++ opt autocomplete_css
+* opts deleted: under_color, under_color_size
++ opts added: underline_color_files, underline_color_size 
+- fix: caret at bad coord
+- fix: must unfold found text
+- fix: sort must set "modified"
+- fix: Html autocomplete in Html part of Php
+
+1.2.12
++ api (log panels api, splitters api)
+* removed lexers NSIS, Inno: to Addon Manager
+
+1.2.11
++ addon-manager: config dlg (restart to see item); common install dlg; no more using of Synwrite wiki
++ "undo" undoes also "*" mark
++ api (better support for ExtTools)
+
+1.2.10
++ addon-manager: items "Install plugin","Download all" (restart app 1-2 times to see menuitems)
++ opt ui_lexers_grouped
++ opt ui_reload_tail
++ add cmds "tree: select next/prev/parent/etc node"
++ add cmd "tree: update tree" (need if sidebar hidden)
++ use grouped-undo for mul-carets cmds
+
+1.2.9
+* removed cmd "search - go to tab" (better doable in plugin)
+* change: color-attrib api (pls update plugins BracketsHilite, HiliteOccurrences)
+* change: limit key-combo len to 3
++ improve dialog api
++ improve cmd "reset Python plugins"
+- small fixes
+
+1.2.8
++ custom-dialog api
++ dlg "Goto tab" shows paths
++ output panel has hotkeys (wiki help topic)
++ console: char ";" at end of cmd: don't log
+- fix on pasting n lines at line-end
+- fix replace regex "$"
+
+1.2.5
++ support for Macros plugin
++ theme "green"
++ cmd "convert tabs to spaces"
++ cmd "convert spaces (leading) to tabs"
++ files in session must not update recents
+- fix: json tree (e.g. file menu.json)
+- fix: grouped undo
+
+1.2.0:
++ commands for markers like Synwrite
++ support for Snippets plugin
++ opt ui_non_text (prompt/ open/ don't open)
++ opt ui_non_text_buffer
++ cmd "run last command plugin"
+- fix: ui_one_instance and non-text prompt
+
+1.1.0
+* changed format of keys.json (old fields read but not saved)
++ plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.
++ history saves folded-state
++ cmd "fold range at current line"
++ cmd "unfold range at current line"
++ cmd "goto next bookmark": from last goto first
++ color for "fold mark border"

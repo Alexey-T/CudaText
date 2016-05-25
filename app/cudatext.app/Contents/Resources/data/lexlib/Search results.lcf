@@ -1,0 +1,137 @@
+object SyntAnal12: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Search'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'File'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Text'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Num'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Search'
+      StyleName = 'Search'
+      AlwaysEnabled = True
+      Expression = '^[\x20\x09]* \+ .*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'File'
+      StyleName = 'File'
+      TokenType = 1
+      Expression = '^[\x20\x09]* < .*? >'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Num'
+      StyleName = 'Num'
+      TokenType = 2
+      Expression = ': \x20+ \#.+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Text'
+      StyleName = 'Text'
+      TokenType = 2
+      Expression = ':.+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = 'block search'
+      ConditionList = <
+        item
+          TokenTypes = 1
+        end>
+      EndOfTextClose = True
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      GroupIndex = 20
+      CollapseFmt = '%s0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'block file'
+      ConditionList = <
+        item
+          TokenTypes = 2
+        end>
+      EndOfTextClose = True
+      DisplayInTree = False
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      GroupIndex = 20
+      CollapseFmt = '%s0'
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    
+      '+Search for "smtH" in folder "c:\temp\try-ff" (10 matches in 7 f' +
+      'iles)'
+    #9'<c:\temp\try-ff\s1\t1-s1.txt>'
+    #9#9'<(3)>: SMTH'
+    #9#9'<(5)>: '#9'smth'
+    #9'<c:\temp\try-ff\s1\s1-2\t-s1-2.txt>'
+    #9#9'<(1)>: smth'
+    
+      '+Search for "smtH" in folder "c:\temp\try-ff" (10 matches in 7 f' +
+      'iles)'
+    #9'<c:\temp\try-ff\s1\t1-s1.txt(3)>: SMTH'
+    #9'<c:\temp\try-ff\s1\t1-s1.txt(5)>: '#9'smth'
+    #9'<c:\temp\try-ff\s1\s1-2\t-s1-2.txt(1)>: smth'
+    
+      '+Search for "smtH" in folder "c:\temp\try-ff" (10 matches in 7 f' +
+      'iles)'
+    #9'<c:\temp\try-ff\t1-root.txt>: #1'
+    #9'<c:\temp\try-ff\s1\t1-s1.txt>: #4'
+    
+      '+Search for "smtH" in folder "c:\temp\try-ff" (7 matches in 7 fi' +
+      'les)'
+    #9'<c:\temp\try-ff\s1\t2-s1.txt>'
+    #9'<c:\temp\try-ff\s1\s1-2\t-s1-2.txt>')
+  TokenTypeNames.Strings = (
+    '1Search'
+    '1File'
+    'Text'
+    'String')
+  Extentions = 'cuda-findres'
+  LexerName = 'Search results'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Lexer shows indentation-based folding'
+    'For search results in "Find in Files" plugin for CudaText')
+  Charset = DEFAULT_CHARSET
+end

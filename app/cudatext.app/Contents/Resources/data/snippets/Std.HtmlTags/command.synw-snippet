@@ -1,0 +1,5 @@
+name=Tag command
+id=command
+lex=HTML,HTML_
+text=
+<command type="${1:command}"${2: label="${3:Save}"}${4: onclick="${5:save()}"}>${0}</command>

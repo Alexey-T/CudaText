@@ -1,0 +1,12 @@
+[map]
+Symbol=Symbol
+Number=Number
+String=String
+String regex=String2
+Identifier=Id
+Id keyword=IdKeyword
+Id standard=Id1
+Id jquery=Id2
+Comment=Comment
+Comment doc=CommentDoc
+Current block=BracketBG

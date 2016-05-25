@@ -1,0 +1,24 @@
+﻿Mouse shortcuts
+
+Multi-carets:
+
+    Ctrl+click - add/delete caret
+    Ctrl+drag - add caret with selection
+    Ctrl+Shift+click - add carets column in several lines (from previous caret to clicked line) 
+
+Select:
+
+    Alt+drag - select column of text 
+      (Note: it may look weird if word-wrap on, because wrap is not considered here at all. 
+      Simple rectangle of coordinates [x1,y1]-[x2,y2] is always selected, even if this gives
+      bad looking screen)
+    drag on gutter's line numbers - select by entire lines
+    double-click and immediately drag - select text by words 
+
+Clicks:
+
+    double-click - select clicked word
+    triple-click - select entire line (limited by end-of-lines)
+    middle-button click - start "Browser Scroll" mode: circle mark appears and mouse moving around 
+      this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor 
+      from circle mark (any click to turn off) 

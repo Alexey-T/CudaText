@@ -1,0 +1,527 @@
+object MainForm: TMainForm
+  Left = 394
+  Height = 586
+  Top = 287
+  Width = 625
+  Caption = 'MainForm'
+  ClientHeight = 586
+  ClientWidth = 625
+  OnCreate = FormCreate
+  ShowHint = True
+  LCLVersion = '1.5'
+  object LeftPanel: TPanel
+    Left = 0
+    Height = 586
+    Top = 0
+    Width = 160
+    Align = alLeft
+    BevelOuter = bvNone
+    ClientHeight = 586
+    ClientWidth = 160
+    TabOrder = 0
+    object ColorSample: TShape
+      Left = 10
+      Height = 29
+      Top = 13
+      Width = 63
+    end
+    object LblColorInfo: TLabel
+      Left = 10
+      Height = 65
+      Top = 45
+      Width = 146
+      AutoSize = False
+      Caption = 'LblColorInfo'
+      Font.Color = clGreen
+      ParentColor = False
+      ParentFont = False
+      WordWrap = True
+    end
+    object BtnEditColor: TButton
+      Left = 83
+      Height = 19
+      Hint = 'Edit current color'
+      Top = 13
+      Width = 64
+      Caption = 'Edit'
+      OnClick = BtnEditColorClick
+      TabOrder = 0
+    end
+    object BtnLoadRndPalette: TButton
+      Left = 10
+      Height = 25
+      Top = 437
+      Width = 137
+      Caption = 'Load random palette'
+      Enabled = False
+      OnClick = BtnLoadRndPaletteClick
+      TabOrder = 5
+    end
+    object BtnCreateRndPalette: TButton
+      Left = 10
+      Height = 25
+      Top = 408
+      Width = 137
+      Caption = 'Create random palette'
+      OnClick = BtnCreateRndPaletteClick
+      TabOrder = 4
+    end
+    object BtnAddColor: TButton
+      Left = 10
+      Height = 25
+      Top = 514
+      Width = 137
+      Caption = 'Add color...'
+      OnClick = BtnAddColorClick
+      TabOrder = 7
+    end
+    object BtnLoadPalette: TButton
+      Left = 10
+      Height = 25
+      Top = 339
+      Width = 137
+      Caption = 'Load palette...'
+      OnClick = BtnLoadPaletteClick
+      TabOrder = 3
+    end
+    object BtnDeleteColor: TButton
+      Left = 10
+      Height = 25
+      Top = 543
+      Width = 137
+      Caption = 'Delete color #0'
+      OnClick = BtnDeleteColorClick
+      TabOrder = 8
+    end
+    object BtnSavePalette: TButton
+      Left = 10
+      Height = 25
+      Top = 475
+      Width = 137
+      Caption = 'Save palette...'
+      OnClick = BtnSavePaletteClick
+      TabOrder = 6
+    end
+    object LblGradientSteps: TLabel
+      Left = 10
+      Height = 15
+      Top = 276
+      Width = 116
+      Caption = 'Built-in gradient steps'
+      Enabled = False
+      FocusControl = EdGradientSteps
+      ParentColor = False
+    end
+    object EdGradientSteps: TSpinEdit
+      Left = 10
+      Height = 23
+      Top = 296
+      Width = 59
+      Alignment = taRightJustify
+      Enabled = False
+      MaxValue = 10
+      OnChange = EdGradientStepsChange
+      TabOrder = 2
+      Value = 3
+    end
+    object LblBuiltinPalettes: TLabel
+      Left = 10
+      Height = 15
+      Top = 224
+      Width = 83
+      Caption = 'Built-in palettes'
+      FocusControl = CbBuiltinPalettes
+      ParentColor = False
+    end
+    object CbBuiltinPalettes: TComboBox
+      Left = 10
+      Height = 23
+      Hint = 'Defines when the picked color is determined and when the OnPickColor event is generated:'#13#10#13#10'pmDefault: '#13#10'  Color selection at mouse-down, OnPickColor event at mouse-up if at same location'#13#10#13#10'pmImmediate:'#13#10'  Color selection and OnPickColor event at mouse-down'#13#10#13#10'pmContinuous:'#13#10'  Color selection and OnPickColor event while mouse is down'
+      Top = 244
+      Width = 137
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'Standard palette'
+        'Extended palette'
+        'System palette'
+        'Std + system palette'
+        'Ext + system palette'
+        'Gradient palette'
+        'HTML palette'
+        'Websafe palette'
+      )
+      OnSelect = CbBuiltinPalettesSelect
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'Standard palette'
+    end
+    object MouseColorSample: TShape
+      Left = 10
+      Height = 29
+      Top = 117
+      Width = 63
+      Visible = False
+    end
+    object LblMouseColorInfo: TLabel
+      Left = 10
+      Height = 65
+      Top = 149
+      Width = 146
+      AutoSize = False
+      Caption = 'LblMouseColorInfo'
+      Font.Color = clGreen
+      ParentColor = False
+      ParentFont = False
+      Visible = False
+      WordWrap = True
+    end
+    object BtnLoadPaletteAndProps: TButton
+      Left = 10
+      Height = 25
+      Top = 367
+      Width = 137
+      Caption = 'Load palette && props...'
+      OnClick = BtnLoadPaletteClick
+      TabOrder = 9
+    end
+  end
+  object Bevel1: TBevel
+    Left = 160
+    Height = 570
+    Top = 8
+    Width = 3
+    Align = alLeft
+    BorderSpacing.Top = 8
+    BorderSpacing.Bottom = 8
+    Shape = bsLeftLine
+  end
+  object RightPanel: TPanel
+    Left = 465
+    Height = 586
+    Top = 0
+    Width = 160
+    Align = alRight
+    BevelOuter = bvNone
+    ClientHeight = 586
+    ClientWidth = 160
+    TabOrder = 1
+    object LblButtonDistance: TLabel
+      Left = 83
+      Height = 15
+      Top = 358
+      Width = 65
+      Caption = 'Btn distance'
+      FocusControl = EdButtonDistance
+      ParentColor = False
+    end
+    object EdButtonDistance: TSpinEdit
+      Left = 83
+      Height = 23
+      Top = 378
+      Width = 58
+      Alignment = taRightJustify
+      MaxValue = 16
+      OnChange = EdButtonDistanceChange
+      TabOrder = 9
+      Value = 1
+    end
+    object LblButtonSize: TLabel
+      Left = 10
+      Height = 15
+      Top = 358
+      Width = 40
+      Caption = 'Btn size'
+      FocusControl = EdButtonSize
+      ParentColor = False
+    end
+    object EdButtonSize: TSpinEdit
+      Left = 10
+      Height = 23
+      Top = 378
+      Width = 59
+      Alignment = taRightJustify
+      MinValue = 1
+      OnChange = EdButtonSizeChange
+      TabOrder = 8
+      Value = 16
+    end
+    object LblButtonBorderColor: TLabel
+      Left = 10
+      Height = 15
+      Top = 258
+      Width = 89
+      Caption = 'Btn border color:'
+      FocusControl = CbButtonBorderColor
+      ParentColor = False
+    end
+    object CbButtonBorderColor: TColorBox
+      Left = 10
+      Height = 22
+      Top = 278
+      Width = 138
+      NoneColorColor = clWindow
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone]
+      ItemHeight = 16
+      OnSelect = CbButtonBorderColorSelect
+      TabOrder = 6
+    end
+    object CbPickMode: TComboBox
+      Left = 10
+      Height = 23
+      Hint = 'Defines when the picked color is determined and when the OnPickColor event is generated:'#13#10#13#10'pmDefault: '#13#10'  Color selection at mouse-down, OnPickColor event at mouse-up if at same location'#13#10#13#10'pmImmediate:'#13#10'  Color selection and OnPickColor event at mouse-down'#13#10#13#10'pmContinuous:'#13#10'  Color selection and OnPickColor event while mouse is down'
+      Top = 33
+      Width = 137
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'default'
+        'immediate'
+        'continuous'
+      )
+      OnSelect = CbPickModeSelect
+      Style = csDropDownList
+      TabOrder = 0
+      Text = 'default'
+    end
+    object LblPickMode: TLabel
+      Left = 10
+      Height = 15
+      Top = 13
+      Width = 56
+      Caption = 'Pick mode'
+      FocusControl = CbPickMode
+      ParentColor = False
+    end
+    object CbShowColorHints: TCheckBox
+      Left = 10
+      Height = 19
+      Top = 176
+      Width = 108
+      Caption = 'Show color hints'
+      Checked = True
+      OnChange = CbShowColorHintsChange
+      State = cbChecked
+      TabOrder = 3
+    end
+    object EdColCount: TSpinEdit
+      Left = 10
+      Height = 23
+      Top = 428
+      Width = 59
+      Alignment = taRightJustify
+      MinValue = 1
+      OnChange = EdColCountChange
+      TabOrder = 10
+      Value = 8
+    end
+    object LblColCount: TLabel
+      Left = 10
+      Height = 15
+      Top = 408
+      Width = 48
+      Caption = 'Columns'
+      FocusControl = EdColCount
+      ParentColor = False
+    end
+    object CbCustomHintText: TCheckBox
+      Left = 10
+      Height = 19
+      Top = 199
+      Width = 108
+      Caption = 'Custom hint text'
+      OnChange = CbCustomHintTextChange
+      TabOrder = 4
+    end
+    object CbUseSpacers: TCheckBox
+      Left = 10
+      Height = 19
+      Top = 224
+      Width = 131
+      Caption = 'Use clNone as spacer'
+      Checked = True
+      OnChange = CbUseSpacersChange
+      State = cbChecked
+      TabOrder = 5
+    end
+    object LblBkColor: TLabel
+      Left = 10
+      Height = 15
+      Top = 306
+      Width = 94
+      Caption = 'Background color'
+      FocusControl = CbBkColor
+      ParentColor = False
+    end
+    object CbBkColor: TColorBox
+      Left = 10
+      Height = 22
+      Top = 326
+      Width = 138
+      NoneColorColor = clWindow
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone]
+      ItemHeight = 16
+      OnSelect = CbBkColorSelect
+      TabOrder = 7
+    end
+    object LblSelKind: TLabel
+      Left = 10
+      Height = 15
+      Top = 67
+      Width = 74
+      Caption = 'Selection kind'
+      FocusControl = CbSelKind
+      ParentColor = False
+    end
+    object CbSelKind: TComboBox
+      Left = 10
+      Height = 23
+      Hint = 'Defines when the picked color is determined and when the OnPickColor event is generated:'#13#10#13#10'pmDefault: '#13#10'  Color selection at mouse-down, OnPickColor event at mouse-up if at same location'#13#10#13#10'pmImmediate:'#13#10'  Color selection and OnPickColor event at mouse-down'#13#10#13#10'pmContinuous:'#13#10'  Color selection and OnPickColor event while mouse is down'
+      Top = 87
+      Width = 137
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'none'
+        'thin'
+        'thin (inverted color)'
+        'thick'
+        'thick (inverted color)'
+      )
+      OnSelect = CbSelKindSelect
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'none'
+    end
+    object LblSelColor: TLabel
+      Left = 10
+      Height = 15
+      Top = 119
+      Width = 119
+      Caption = 'Color of selection rect:'
+      FocusControl = CbSelColor
+      ParentColor = False
+    end
+    object CbSelColor: TColorBox
+      Left = 9
+      Height = 22
+      Top = 139
+      Width = 138
+      NoneColorColor = clWindow
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone]
+      ItemHeight = 16
+      OnSelect = CbSelColorSelect
+      TabOrder = 2
+    end
+    object CbFlipped: TCheckBox
+      Left = 10
+      Height = 19
+      Top = 465
+      Width = 59
+      Caption = 'Flipped'
+      OnChange = CbFlippedChange
+      TabOrder = 11
+    end
+  end
+  object Bevel2: TBevel
+    Left = 462
+    Height = 570
+    Top = 8
+    Width = 3
+    Align = alRight
+    BorderSpacing.Top = 8
+    BorderSpacing.Bottom = 8
+    Shape = bsLeftLine
+  end
+  object ScrollBox: TScrollBox
+    Left = 168
+    Height = 570
+    Top = 8
+    Width = 287
+    HorzScrollBar.Increment = 15
+    HorzScrollBar.Page = 155
+    HorzScrollBar.Smooth = True
+    HorzScrollBar.Tracking = True
+    VertScrollBar.Increment = 4
+    VertScrollBar.Page = 42
+    VertScrollBar.Smooth = True
+    VertScrollBar.Tracking = True
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderStyle = bsNone
+    ClientHeight = 570
+    ClientWidth = 287
+    TabOrder = 2
+    object ColorPalette: TColorPalette
+      Left = 0
+      Height = 41
+      Hint = 'Click to select a color'
+      Top = 1
+      Width = 155
+      ButtonHeight = 20
+      ButtonWidth = 20
+      ColumnCount = 8
+      PickedIndex = 0
+      OnColorPick = ColorPaletteColorPick
+      OnGetHintText = ColorPaletteGetHintText
+      ParentColor = False
+      PopupMenu = PalettePopupMenu
+      OnDblClick = ColorPaletteDblClick
+      OnMouseMove = ColorPaletteMouseMove
+      OnMouseEnter = ColorPaletteMouseEnter
+      OnMouseLeave = ColorPaletteMouseLeave
+    end
+  end
+  object ColorDialog: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 384
+    top = 76
+  end
+  object SaveDialog: TSaveDialog
+    Title = 'Save palette as'
+    DefaultExt = '.pal'
+    Filter = 'Palette files (*.pal)|*.pal'
+    left = 384
+    top = 18
+  end
+  object PalettePopupMenu: TPopupMenu
+    left = 384
+    top = 136
+    object MnuEditPickedColor: TMenuItem
+      Caption = 'Edit picked color...'
+      OnClick = MnuEditPickedColorClick
+    end
+    object MnuDeletePickedColor: TMenuItem
+      Caption = 'Delete picked color'
+      OnClick = MnuDeletePickedColorClick
+    end
+  end
+  object OpenDialog: TOpenDialog
+    DefaultExt = '.pal'
+    Filter = 'Palette files (*.pal)|*.pal'
+    Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 384
+    top = 208
+  end
+end

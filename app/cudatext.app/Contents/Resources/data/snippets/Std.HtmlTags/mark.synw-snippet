@@ -1,0 +1,5 @@
+name=Tag mark
+id=mark
+lex=HTML,HTML_
+text=
+<mark>${0}</mark>

@@ -1,0 +1,5 @@
+name=echo "..."
+id=echo
+lex=PHP,PHP_
+text=
+echo "${1:string}"${0};

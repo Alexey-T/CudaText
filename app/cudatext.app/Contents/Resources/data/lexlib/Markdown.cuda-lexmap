@@ -1,0 +1,18 @@
+[map]
+Heading=IdKeyword
+Comment=Comment
+Quote=String
+Text=Id
+Codeblock=SectionBG1
+Block=SectionBG2
+Link=Id4
+Image=Id3
+Reference=Id2
+Footnote=Id1
+HTML Code=IncludeBG1
+Bold=TextBold
+Italic=TextItalic
+Bold-Italic=TextBoldItalic
+Definition=IncludeBG2
+List=LightBG5
+Crossed out=TextCross

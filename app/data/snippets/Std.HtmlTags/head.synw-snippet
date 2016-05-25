@@ -1,0 +1,7 @@
+name=Tag head
+id=head
+lex=HTML,HTML_
+text=
+<head>
+	${0}
+</head>

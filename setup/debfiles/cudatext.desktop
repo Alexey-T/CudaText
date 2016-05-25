@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=CudaText
+GenericName=Text Editor
+Comment=Advanced text editor. Supports syntax highlighting for lot of languages (more than 120 types). Supports Unicode UTF8 encoding. Multi-carets and multi-selections. Implemented many editing commands found in common text editors. Tabbed interface. Search and replace with regex.
+Exec=cudatext %F
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=text/plain;
+Categories=Utility;TextEditor;
+Icon=cudatext-256

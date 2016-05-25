@@ -1,0 +1,5 @@
+name=Tag noindex
+id=noindex
+lex=HTML,HTML_
+text=
+<noindex>${0}</noindex>

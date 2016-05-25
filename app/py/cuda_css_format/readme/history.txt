@@ -1,0 +1,7 @@
+
+1.0.2
++renamed .cfg - .py
++update format_proc.py
+
+1.0.0 (oct 2015)
+init
