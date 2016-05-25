@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal11: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -113,7 +113,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Bold-Italic'
       StyleName = 'Bold-Italic'
       TokenType = 1
-      Expression = '(?s) (\*\*\*).*?(\*\*\*|$)'
+      Expression = '(?<!\*) (\*\*\*).+?(\*\*\*|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -121,7 +121,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Bold'
       StyleName = 'Bold'
       TokenType = 1
-      Expression = '(?s) (\*\*).*?(\*\*|$)'
+      Expression = '(?<!\*) (\*\*).+?(\*\*|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -129,7 +129,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Italic'
       StyleName = 'Italic'
       TokenType = 1
-      Expression = '#char after * is non-space'#13#10'(?s) (\*) \S.*? (\*|")'
+      Expression = '(?s) (?<!\*) (\*) \S.*? (\*|")'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -150,18 +150,18 @@ object SyntAnal10: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Code'
-      StyleName = 'Code'
+      DisplayName = 'Code dot'
+      StyleName = 'Code dot'
       TokenType = 4
-      Expression = '^[\x20]+ .*'
+      Expression = '^\x20* \.+ .+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Code dot'
-      StyleName = 'Code dot'
+      DisplayName = 'Code'
+      StyleName = 'Code'
       TokenType = 4
-      Expression = '^\.+ .*'
+      Expression = '^[\x20]+ .*'
       ColumnFrom = 0
       ColumnTo = 0
     end

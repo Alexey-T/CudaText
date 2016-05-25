@@ -207,7 +207,6 @@ type
     function PagesSetIndex(ANum: Integer): boolean;
     procedure PagesSetNext(ANext: boolean);
     function PagesIndexOf(APages: TATPages): Integer;
-    function PagesIndexOfControl(ACtl: TControl): Integer;
     function PagesNextIndex(AIndex: Integer; ANext: boolean; AEnableEmpty: boolean): Integer;
     procedure PagesAndTabIndexOfControl(AObject: TObject; var NPages, NTab: Integer);
     //
@@ -1328,21 +1327,6 @@ begin
   PagesSetIndex(Num1);
 end;
 
-
-function TATGroups.PagesIndexOfControl(ACtl: TControl): Integer;
-var
-  i, j: Integer;
-begin
-  for i:= Low(Pages) to High(Pages) do
-    with Pages[i] do
-      for j:= 0 to Tabs.TabCount-1 do
-        if Tabs.GetTabData(j).TabObject = ACtl then
-        begin
-          Result:= i;
-          Exit
-        end;
-  Result:= -1;
-end;
 
 function TATGroups.PagesIndexOf(APages: TATPages): Integer;
 var

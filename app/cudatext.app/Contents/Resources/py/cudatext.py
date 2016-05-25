@@ -35,6 +35,7 @@ APP_FILE_SESSION = 4
 
 CONVERT_CHAR_TO_COL = 0
 CONVERT_COL_TO_CHAR = 1
+CONVERT_LINE_TABS_TO_SPACES = 2
 
 TOKEN_AT_POS = 0
 TOKEN_INDEX = 1
@@ -175,6 +176,7 @@ PROC_TOOLBAR_ICON_SET_SIZE = 38
 PROC_GET_LANG = 40
 PROC_GET_HOTKEY = 41
 PROC_SET_HOTKEY = 42
+PROC_GET_KEYSTATE = 43
 
 TREE_ITEM_ENUM = 1
 TREE_ITEM_ADD = 2
@@ -471,8 +473,8 @@ class Editor:
     def complete_alt(self, text, snippet_id, len1):
         return ct.ed_complete_alt(self.h, text, snippet_id, len1)
         
-    def convert(self, id, x, y):
-        return ct.ed_convert(self.h, id, x, y)
+    def convert(self, id, x, y, text=''):
+        return ct.ed_convert(self.h, id, x, y, text)
         
     def get_ranges(self):
         return ct.ed_get_ranges(self.h)

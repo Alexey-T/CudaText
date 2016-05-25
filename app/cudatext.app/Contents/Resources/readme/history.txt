@@ -4,6 +4,12 @@ Legend:
   * changed
 
 
+1.3.18
++ api (for plugin "Sort")
++ if ui_initial_dir empty, Open-dialog uses last dir, for unnamed file
+- fix cmd "Update tree"
+- fix lexer reST
+
 1.3.16
 + opt staples_show
 + hotkey Ctrl+Tab changeable
