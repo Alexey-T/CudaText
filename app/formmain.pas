@@ -1824,7 +1824,6 @@ end;
 
 procedure TfmMain.DoFileOpenDialog;
 var
-  ok: boolean;
   i: integer;
 begin
   with OpenDlg do
@@ -1841,9 +1840,8 @@ begin
         InitialDir:= FLastDirOfOpenDlg;
     end;
 
-    ok:= Execute;
+    if not Execute then exit;
     FLastDirOfOpenDlg:= ExtractFileDir(FileName);
-    if not ok then Exit;
 
     if Files.Count>1 then
     begin
