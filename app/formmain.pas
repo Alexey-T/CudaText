@@ -516,6 +516,7 @@ type
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
+    FLastDirOfOpenDlg: string;
 
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
@@ -1823,6 +1824,7 @@ end;
 
 procedure TfmMain.DoFileOpenDialog;
 var
+  ok: boolean;
   i: integer;
 begin
   with OpenDlg do
@@ -1832,9 +1834,16 @@ begin
     if CurrentFrame.FileName<>'' then
       InitialDir:= ExtractFileDir(CurrentFrame.FileName)
     else
-      InitialDir:= UiOps.InitialDir;
+    begin
+      if UiOps.InitialDir<>'' then
+        InitialDir:= UiOps.InitialDir
+      else
+        InitialDir:= FLastDirOfOpenDlg;
+    end;
 
-    if not Execute then Exit;
+    ok:= Execute;
+    FLastDirOfOpenDlg:= ExtractFileDir(FileName);
+    if not ok then Exit;
 
     if Files.Count>1 then
     begin

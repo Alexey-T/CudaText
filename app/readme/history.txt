@@ -4,6 +4,8 @@ Legend:
   * changed
 
 
+1.3.16.bb
++ if ui_initial_dir empty, Open-dialog must use last dir, for unnamed file
 - fix cmd "Update tree"
 - fix lexer reST
 
