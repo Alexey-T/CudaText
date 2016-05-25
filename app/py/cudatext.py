@@ -473,8 +473,8 @@ class Editor:
     def complete_alt(self, text, snippet_id, len1):
         return ct.ed_complete_alt(self.h, text, snippet_id, len1)
         
-    def convert(self, id, x, y):
-        return ct.ed_convert(self.h, id, x, y)
+    def convert(self, id, x, y, text=''):
+        return ct.ed_convert(self.h, id, x, y, text)
         
     def get_ranges(self):
         return ct.ed_get_ranges(self.h)

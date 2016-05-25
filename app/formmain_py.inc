@@ -2502,12 +2502,14 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Id, X, Y: integer;
+  Ptr: PChar;
   Str: atString;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liii:convert', @H, @Id, @X, @Y)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @Ptr)) then
     begin
       Ed:= PyEditor(H);
+      Str:= string(Ptr);
 
       if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
       begin
@@ -2532,7 +2534,6 @@ begin
 
         CONVERT_LINE_TABS_TO_SPACES:
           begin
-            Str:= Ed.Strings.Lines[Y];
             Str:= STabsToSpaces(Str, Ed.OptTabSize);
             Result:= PyUnicode_FromWideString(Str);
           end;
