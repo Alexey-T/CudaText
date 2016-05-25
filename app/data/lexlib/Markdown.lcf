@@ -235,7 +235,7 @@ object SyntAnal67: TLibSyntAnalyzer
       DisplayName = 'Codeblock'
       StyleName = 'Codeblock'
       TokenType = 4
-      Expression = '^([\x20]{4,}|[\x09]{1,}).+$'#13#10'#Sometimes conflicts with Definition'
+      Expression = '^(\x20{4,}|\x09{1,}).+$'#13#10'#Sometimes conflicts with Definition'
       ColumnFrom = 0
       ColumnTo = 0
     end
