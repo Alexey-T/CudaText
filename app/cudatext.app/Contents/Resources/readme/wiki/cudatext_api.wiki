@@ -123,6 +123,7 @@ command_id can be: str(int_command_code) or "module,method" or "module,method,pa
 
 * PROC_GET_HOTKEY: Gets hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Gets empty str for unknown command_id.
 * PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Gets bool: command_id exists, changed.
+* PROC_GET_KEYSTATE: Gets state of pressed special keys. String has "c" for Ctrl pressed, "a" for Alt, "s" for Shift, "m" for Meta (Windows key).
 
 ====Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call). Also gets string: result of command.
@@ -974,12 +975,13 @@ These lock, then unlock editor. Locked editor is not painted and shows text labe
 
 ===convert===
 
- convert(id, x, y)
+ convert(id, x, y, text="")
 
 Converts coordinates in editor. Possible values of id:
 
 * CONVERT_CHAR_TO_COL: Convert char-coordinates (x,y) to column-coordinates 2-tuple (column,y).
 * CONVERT_COL_TO_CHAR: Convert column-coordinates (x,y) to char-coordinates 2-tuple (chars,y).
+* CONVERT_LINE_TABS_TO_SPACES: Convert line (parameter text) from tab-chars to spaces (line not changed if no tab-chars in it), gets str.
 
 Gets None if coordinates incorrect (e.g. x<0).
 
@@ -1043,6 +1045,11 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.143
+* add: ed.convert: CONVERT_LINE_TABS_TO_SPACES
+* add: app_proc: PROC_GET_KEYSTATE
+* chg: app_proc(PROC_GET_COMMAND..) dont give plugin/lexer items
 
 1.0.142
 * add: on_key_up
