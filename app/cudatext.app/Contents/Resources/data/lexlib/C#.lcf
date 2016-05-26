@@ -939,7 +939,7 @@ object SyntAnal1: TLibSyntAnalyzer
     'Region name'
   )
   Gramma.Gramma = 'Complex_name =  <Identifier> | Complex_name "." <Identifier>;'#10'field = (''private'' | ''public'' | ''static'') Complex_name <Identifier> (''='' | '','' | '';'');'#10#10'Params = <Identifier> | Params <Identifier> | Params ('','' | ''.'' | '';'' | '':'' | ''['' | '']'');'#10'func = <Identifier> (''['' '']'')? Complex_name ''('' Params? '')'' ''{'';'#10
-  Extentions = 'cs c cpp h'
+  Extentions = 'cs'
   LexerName = 'C#'
   LineComment = '//'
   Charset = DEFAULT_CHARSET
