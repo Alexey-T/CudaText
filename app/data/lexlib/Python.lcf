@@ -429,7 +429,7 @@ object SyntAnal2: TLibSyntAnalyzer
       HighlightPos = cpAny
       DrawStaple = True
       GroupIndex = 20
-      CollapseFmt = '%sz0 ...'
+      CollapseFmt = '%s0 ...'
       IgnoreAsParent = False
     end
     item
