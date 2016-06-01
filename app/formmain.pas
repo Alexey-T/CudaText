@@ -1479,10 +1479,11 @@ end;
 
 function TfmMain.DoDialogSaveTabs: boolean;
 var
-  i: integer;
   F: TEditorFrame;
   res: TModalResult;
   Form: TfmSaveTabs;
+  i: integer;
+  SCaption: string;
 begin
   Result:= false;
   Form:= TfmSaveTabs.Create(nil);
@@ -1494,8 +1495,9 @@ begin
     begin
       F:= Frames[i];
       if not F.Modified then Continue;
-      List.Items.Add(F.TabCaption+IfThen(F.Filename<>'', '  ('+ExtractFileDir(F.Filename)+')'));
-      List.Checked[List.Count-1]:= F.Modified;
+      SCaption:= F.TabCaption+IfThen(F.Filename<>'', '  ('+ExtractFileDir(F.Filename)+')');
+      List.Items.AddObject(SCaption, F);
+      List.Checked[List.Count-1]:= true;
     end;
 
     res:= ShowModal;
@@ -1508,11 +1510,11 @@ begin
         begin
           Result:= true;
           for i:= 0 to List.Count-1 do
-          begin
-            F:= Frames[i];
             if List.Checked[i] then
+            begin
+              F:= List.Items.Objects[i] as TEditorFrame;
               F.DoFileSave(false, SaveDlg, nil);
-          end;
+            end;
         end;
     end;
   finally
