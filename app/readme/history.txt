@@ -4,6 +4,10 @@ Legend:
   * changed
 
 
+1.3.18.2
+- fix: dlg "Save tabs?" saving
+- fix: "change endings" for "none ending" line
+
 1.3.18
 + api (for plugin "Sort")
 + open-dialog remembers last dir (for untitled tabs, if ui_initial_dir empty)
