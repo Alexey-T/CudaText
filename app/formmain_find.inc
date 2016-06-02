@@ -374,7 +374,7 @@ var
   Str: atString;
   Ed: TATSynEdit;
   ok, bFlag: boolean;
-  bSavedWords, bSavedRegex: boolean;
+  bSavedWords, bSavedRegex, bSavedCase: boolean;
 begin
   Ed:= CurrentEditor;
 
@@ -394,6 +394,7 @@ begin
 
   bSavedWords:= FFinder.OptWords;
   bSavedRegex:= FFinder.OptRegex;
+  bSavedCase:= FFinder.OptCase;
   FFinder.OptRegex:= false;
   FFinder.OptWords:= AWordOrSel;
   FFinder.OptFromCaret:= true;
@@ -416,6 +417,7 @@ begin
 
   FFinder.OptWords:= bSavedWords;
   FFinder.OptRegex:= bSavedRegex;
+  FFinder.OptCase:= bSavedCase;
 end;
 
 
