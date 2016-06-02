@@ -4,8 +4,9 @@ Legend:
   * changed
 
 
-1.3.18.2
+1.3.18.4
 + opt unprinted_replace_to_code
+* cmd "Delete line" deletes sel lines
 - fix: dlg "Save tabs?" saving
 - fix: "change endings" for "none ending" line
 
