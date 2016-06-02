@@ -5,6 +5,7 @@ Legend:
 
 
 1.3.18.2
++ opt unprinted_replace_to_code
 - fix: dlg "Save tabs?" saving
 - fix: "change endings" for "none ending" line
 

@@ -89,7 +89,7 @@
   //Note: config read as utf8-no-bom.
   "word_chars": "",
 
-  //Show these unicode chars as "<NNNN>" hex codes.
+  //Show these unicode chars as "xNNNN" hex codes.
   //Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
   //Note: config is read as utf8-no-bom.
   "hex_chars": "",
@@ -166,9 +166,11 @@
   //Paint at line-end strings like "un", "win", "mac"
   "unprinted_end_details": false,
 
-  //Show special Ascii chars (code 0..31) as dots
-  //(else show them as "<NNNN>" hex code)
+  //Show control Ascii chars (codes 0..31) as replacement-char
+  //(else show them as "xNN" hex codes)
   "unprinted_replace_spec": false,
+  //Replacement-char hex code
+  "unprinted_replace_to_code": "A4",
 
   //Paint arrow-down at end-of-line, instead of dot
   "unprinted_end_arrow": true,

@@ -215,6 +215,7 @@ type
     OpUnprintedEnds: boolean;
     OpUnprintedEndDetails: boolean;
     OpUnprintedReplaceSpec: boolean;
+    OpUnprintedReplaceToCode: string;
 
     OpUnprintedEndArrow: boolean;
     OpUnprintedTabArrowLen: integer;
@@ -686,6 +687,7 @@ begin
     OpUnprintedEnds:= true;
     OpUnprintedEndDetails:= false;
     OpUnprintedReplaceSpec:= false;
+    OpUnprintedReplaceToCode:= 'A4';
 
     OpUnprintedEndArrow:= true;
     OpUnprintedTabArrowLen:= 1;

@@ -225,6 +225,7 @@ begin
   OptUnprintedEndFontScale:= Op.OpUnprintedEndFontScale;
   OptUnprintedTabPointerScale:= Op.OpUnprintedTabPointerScale;
   OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
+  OptUnprintedReplaceSpecToCode:= StrToInt('$'+Op.OpUnprintedReplaceToCode);
 
   if ForceApply then
   begin
