@@ -1805,7 +1805,7 @@ begin
     F:= CurrentFrame;
     if F.IsEmpty then
     begin
-      F.DoFileOpen(AFilename);
+      F.DoFileOpen(AFilename, true);
       Result:= F;
       UpdateStatus;
       MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
@@ -1816,7 +1816,7 @@ begin
 
   D:= DoTabAdd(APages, ExtractFileName(AFilename));
   F:= D.TabObject as TEditorFrame;
-  F.DoFileOpen(AFilename);
+  F.DoFileOpen(AFilename, true);
   Result:= F;
 
   UpdateStatus;

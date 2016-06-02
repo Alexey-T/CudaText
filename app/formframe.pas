@@ -200,7 +200,7 @@ type
     property SplitPos: double read FSplitPos write SetSplitPos;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     //file
-    procedure DoFileOpen(const fn: string);
+    procedure DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);
     function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog; ACheckFilenameOpened: TStrFunction): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
@@ -884,7 +884,7 @@ begin
       FOnSetLexer(Self);
 end;
 
-procedure TEditorFrame.DoFileOpen(const fn: string);
+procedure TEditorFrame.DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
@@ -931,7 +931,9 @@ begin
     FFileName:= fn;
     TabCaption:= ExtractFileName(FFileName);
   except
-    MsgBox(msgCannotOpenFile+#13+fn, MB_OK or MB_ICONERROR);
+    if AAllowErrorMsgBox then
+      MsgBox(msgCannotOpenFile+#13+fn, MB_OK or MB_ICONERROR);
+
     Editor.Strings.Clear;
     Editor.Strings.LineAdd('');
     Editor.DoCaretSingle(0, 0);
@@ -1053,7 +1055,7 @@ begin
     (NCaretY=Editor.Strings.Count-1);
 
   //reopen
-  DoFileOpen(FileName);
+  DoFileOpen(FileName, false{disable err msgbox});
   if Editor.Strings.Count=0 then exit;
 
   //restore LineTop, caret
