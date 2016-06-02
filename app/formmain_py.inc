@@ -2182,14 +2182,8 @@ begin
           end;
         APP_PROC_GET_FIND_STRINGS:
           begin
-            if Assigned(fmFind) then
-            begin
-              Str1:= Utf8Encode(fmFind.edFind.Text);
-              Str2:= Utf8Encode(fmFind.edRep.Text);
-              Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2));
-            end
-            else
-              Result:= ReturnNone;
+            fmMain.DoFindOptions_GetStrings(Str1, Str2);
+            Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2));
           end;
 
         APP_PROC_SIDEPANEL_ADD:

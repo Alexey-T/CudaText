@@ -518,6 +518,7 @@ type
     FPyComplete_CaretPos: TPoint;
     FLastDirOfOpenDlg: string;
 
+    procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;

@@ -444,6 +444,11 @@ begin
   FFinder.OptWrapped:= Pos('a', S)>0;
 end;
 
+procedure TfmMain.DoFindOptions_GetStrings(out AFind, AReplace: string);
+begin
+  AFind:= Utf8Encode(FFinder.StrFind);
+  AReplace:= Utf8Encode(FFinder.StrReplace);
+end;
 
 procedure TfmMain.DoFindActionFromString(AStr: string);
 var
