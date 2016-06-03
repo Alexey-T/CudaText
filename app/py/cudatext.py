@@ -471,8 +471,8 @@ class Editor:
     
     def complete(self, text, len1, len2):
         return ct.ed_complete(self.h, text, len1, len2)
-    def complete_alt(self, text, snippet_id, len1):
-        return ct.ed_complete_alt(self.h, text, snippet_id, len1)
+    def complete_alt(self, text, snippet_id, len_chars, selected=0):
+        return ct.ed_complete_alt(self.h, text, snippet_id, len_chars, selected)
         
     def convert(self, id, x, y, text=''):
         return ct.ed_convert(self.h, id, x, y, text)

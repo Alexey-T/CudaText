@@ -1304,10 +1304,10 @@ var
   PtrText, PtrId: PChar;
   Ed: TATSynEdit;
   StrText, StrId: string;
-  NChars: integer;
+  NChars, NSelIndex: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lssi:complete_alt', @H, @PtrText, @PtrId, @NChars)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lssii:complete_alt', @H, @PtrText, @PtrId, @NChars, @NSelIndex)) then
     begin
       Ed:= PyEditor(H);
       StrText:= string(PtrText);
@@ -1318,7 +1318,8 @@ begin
       fmMain.FPyComplete_CharsRight:= 0;
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
-      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId);
+
+      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId, NSelIndex);
 
       Result:= ReturnNone;
     end;
