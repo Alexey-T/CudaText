@@ -413,7 +413,7 @@ const
     );
 
 const
-  cMaxItemsInInstallInf = 200;
+  cMaxItemsInInstallInf = 400;
 
 type
   TAppPluginCmd = record
