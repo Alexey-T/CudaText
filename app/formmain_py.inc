@@ -1279,10 +1279,10 @@ var
   Ptr: PChar;
   Ed: TATSynEdit;
   Str: string;
-  NChars1, NChars2: integer;
+  NChars1, NChars2, NSelIndex: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lsii:complete', @H, @Ptr, @NChars1, @NChars2)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lsiii:complete', @H, @Ptr, @NChars1, @NChars2, @NSelIndex)) then
     begin
       Ed:= PyEditor(H);
       Str:= string(Ptr);
@@ -1292,7 +1292,7 @@ begin
       fmMain.FPyComplete_CharsRight:= NChars2;
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
-      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil);
+      DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil, '_', NSelIndex);
 
       Result:= ReturnNone;
     end;

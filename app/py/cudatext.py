@@ -469,8 +469,8 @@ class Editor:
         js_s = json.dumps(js)
         return ct.ed_set_prop(self.h, PROP_TAG, js_s)
     
-    def complete(self, text, len1, len2):
-        return ct.ed_complete(self.h, text, len1, len2)
+    def complete(self, text, len1, len2, selected=0):
+        return ct.ed_complete(self.h, text, len1, len2, selected)
     def complete_alt(self, text, snippet_id, len_chars, selected=0):
         return ct.ed_complete_alt(self.h, text, snippet_id, len_chars, selected)
         
