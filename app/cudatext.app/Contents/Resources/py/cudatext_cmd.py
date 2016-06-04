@@ -50,7 +50,7 @@ cCommand_KeyEnter = 154
 cCommand_KeyTab = 155
 
 cCommand_TextDeleteSelection = 170
-cCommand_TextDeleteLine = 171 | cCmdSelReset
+cCommand_TextDeleteLine = 171
 cCommand_TextDuplicateLine = 172 | cCmdSelReset
 cCommand_TextDeleteToLineBegin = 173 | cCmdSelReset
 cCommand_TextDeleteToLineEnd = 174 | cCmdSelReset

@@ -177,6 +177,7 @@ PROC_GET_LANG = 40
 PROC_GET_HOTKEY = 41
 PROC_SET_HOTKEY = 42
 PROC_GET_KEYSTATE = 43
+PROC_GET_FIND_STRINGS = 44
 
 TREE_ITEM_ENUM = 1
 TREE_ITEM_ADD = 2
@@ -468,10 +469,10 @@ class Editor:
         js_s = json.dumps(js)
         return ct.ed_set_prop(self.h, PROP_TAG, js_s)
     
-    def complete(self, text, len1, len2):
-        return ct.ed_complete(self.h, text, len1, len2)
-    def complete_alt(self, text, snippet_id, len1):
-        return ct.ed_complete_alt(self.h, text, snippet_id, len1)
+    def complete(self, text, len1, len2, selected=0):
+        return ct.ed_complete(self.h, text, len1, len2, selected)
+    def complete_alt(self, text, snippet_id, len_chars, selected=0):
+        return ct.ed_complete_alt(self.h, text, snippet_id, len_chars, selected)
         
     def convert(self, id, x, y, text=''):
         return ct.ed_convert(self.h, id, x, y, text)
