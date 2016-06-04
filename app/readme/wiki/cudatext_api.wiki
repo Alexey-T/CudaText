@@ -108,6 +108,7 @@ Performs application-wide action. Possible values of id:
 * PROC_SET_ESCAPE: Sets escape flag ("0"/"1").
 * PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
+* PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 * PROC_GET_LANG: Gets str: active translation. E.g. "ru_RU" if translation file is named "ru_RU.ini". Empty if built-in translation used.
 
 ====Plugin calls====
@@ -987,7 +988,7 @@ Gets None if coordinates incorrect (e.g. x<0).
 
 ===complete===
 
- complete(text, len1, len2)
+ complete(text, len1, len2, selected=0)
 
 Shows auto-completion listbox with given items.
 
@@ -996,12 +997,13 @@ Function gets None and listbox stays open. When user chooses listbox item, item'
 * Param text: string with items, must be formatted as shown in the [[ATSynEdit#Auto-completion_lists]].
 * Param len1: count of chars to the left of the caret, to be replaced.
 * Param len2: count of chars to the right of the caret, to be replaced.
+* Param selected: index of initially selected listbox item (0-based).
 
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
 ===complete_alt===
 
- complete_alt(text, snippet_id, len_chars)
+ complete_alt(text, snippet_id, len_chars, selected=0)
 
 Shows alternative completion listbox. This listbox allows to insert complex snippets, not only simple words. E.g. snippet text like "myobj.myfunc(${1:value1}, ${2:value2});".
 
@@ -1013,6 +1015,7 @@ Function gets None and listbox stays open. When user chooses listbox item, event
 ** Column 3 is snippet text in any format. Can contain "\t" but not "\n". Can have any chars escaped in any form.
 * Param snippet_id: any short string just to identify snippet kind between all plugins. E.g. plugin1/plugin2 may have snippets in different formats, they must handle only their snippets.
 * Param len_chars: listbox shows lefter than caret, by this count of chars.
+* Param selected: index of initially selected listbox item (0-based).
 
 =Tech info=
 
@@ -1045,6 +1048,10 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.144
+* add: ed.complete, ed.complete_alt: added param selected
+* add: app_proc: PROC_GET_FIND_STRINGS
 
 1.0.143
 * add: ed.convert: CONVERT_LINE_TABS_TO_SPACES
