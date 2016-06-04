@@ -139,7 +139,10 @@ begin
   end;
 
   if bNeedTreeUpd then
+  begin
+    Tree.Items.Clear;
     FrameParseBegin(nil);
+  end;
 end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject);
