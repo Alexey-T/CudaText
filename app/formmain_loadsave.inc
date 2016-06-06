@@ -492,7 +492,8 @@ begin
     Op.OpCaretAfterPasteColumn:= c.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);
 
     Op.OpShowCurLine:= c.GetValue('show_cur_line', Op.OpShowCurLine);
-    Op.OpShowCurLineMin:= c.GetValue('show_cur_line_minimal', Op.OpShowCurLineMin);
+    Op.OpShowCurLineMinimal:= c.GetValue('show_cur_line_minimal', Op.OpShowCurLineMinimal);
+    Op.OpShowCurLineOnlyFocused:= c.GetValue('show_cur_line_only_focused', Op.OpShowCurLineOnlyFocused);
     Op.OpShowCurCol:= c.GetValue('show_cur_column', Op.OpShowCurCol);
     Op.OpShowLastLineOnTop:= c.GetValue('show_last_line_on_top', Op.OpShowLastLineOnTop);
     Op.OpShowSelectBgFull:= c.GetValue('show_full_sel_bg', Op.OpShowSelectBgFull);

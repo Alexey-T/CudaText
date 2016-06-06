@@ -255,7 +255,8 @@ begin
   Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
 
   Ed.OptShowCurLine:= Op.OpShowCurLine;
-  Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMin;
+  Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMinimal;
+  Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
   Ed.OptShowCurColumn:= Op.OpShowCurCol;
   Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
   Ed.OptShowFullSel:= Op.OpShowSelectBgFull;

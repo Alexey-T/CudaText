@@ -39,12 +39,15 @@
   //Group lexers menu by 1st char of name  
   "ui_lexers_grouped": true,
 
-  //Hilite BG of lines with carets
+  //Highlight BG of lines with carets
   "show_cur_line": false,
-  //... only minimal part, if line wrapped
+  //..., only minimal part of line, if line wrapped
   "show_cur_line_minimal": true,
+  //..., only for focused editor
+  "show_cur_line_only_focused": false,
   //Show additional vert-lines at carets position
   "show_cur_column": false,
+  
   //Allow last line to scroll to the top of editor
   "show_last_line_on_top": false,
   //Hilite selected block BG till right edge of editor

@@ -245,7 +245,8 @@ type
 
     //general
     OpShowCurLine: boolean;
-    OpShowCurLineMin: boolean;
+    OpShowCurLineMinimal: boolean;
+    OpShowCurLineOnlyFocused: boolean;
     OpShowCurCol: boolean;
     OpShowLastLineOnTop: boolean;
     OpShowSelectBgFull: boolean;
@@ -713,7 +714,8 @@ begin
     OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);
 
     OpShowCurLine:= false;
-    OpShowCurLineMin:= true;
+    OpShowCurLineMinimal:= true;
+    OpShowCurLineOnlyFocused:= false;
     OpShowCurCol:= false;
     OpShowLastLineOnTop:= false;
     OpShowSelectBgFull:= false;
