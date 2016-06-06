@@ -58,16 +58,16 @@
   "show_hint_on_vert_scroll": false,
 
   //Enable caret-depending highlighting:
-  //e.g. Pascal hilites "begin"/"end" with green when caret is inside block;
-  //HTML/XML hilites opening/closing tags when caret is inside tag
+  //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block;
+  //  HTML/XML hilites opening/closing tags when caret is inside tag
   "dyn_hilite": true,
 
-  //style of folding
-  //0: if texthint empty: ".." from fold-pos
-  //1: if texthint empty: trunc-line
-  //2: if texthint empty: ".." after line
-  //3: ".." after line
-  //4: horz line
+  //Style of folding
+  //  0: if fold-hint empty: [..] from folded pos
+  //  1: if fold-hint empty: truncated line
+  //  2: if fold-hint empty: [..] after line
+  //  3: for any fold-hint: [..] after line 
+  //  4: horiz line below
   "fold_style": 1,  
 
   //If no selection, "Copy" will take entire line with caret
