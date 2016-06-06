@@ -1010,6 +1010,8 @@ object fmMain: TfmMain
   end
   object AppProps: TApplicationProperties
     ShowButtonGlyphs = sbgNever
+    OnActivate = AppPropsActivate
+    OnDeactivate = AppPropsActivate
     left = 32
     top = 176
   end

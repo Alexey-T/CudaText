@@ -377,6 +377,7 @@ type
     tbPaste: TToolButton;
     tbSplit2: TToolButton;
     UniqInstance: TUniqueInstance;
+    procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabsLeftClick(Sender: TObject);
@@ -1215,6 +1216,12 @@ end;
 procedure TfmMain.ButtonCancelClick(Sender: TObject);
 begin
   FFindStop:= true;
+end;
+
+procedure TfmMain.AppPropsActivate(Sender: TObject);
+begin
+  if EditorOps.OpShowCurLineOnlyFocused then
+    CurrentEditor.Update;
 end;
 
 procedure TfmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
