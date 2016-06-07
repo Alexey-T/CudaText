@@ -289,43 +289,10 @@ var
         keys[j]:= TextToShortCut(skeys[j]);
   end;
   //
-  procedure DoReadConfigToKeys_Old(path: string; var keys: TATKeyArray);
-  var
-    j: integer;
-  begin
-    c.GetValue(path, skeys, '');
-    for j:= 0 to skeys.count-1 do
-      if skeys[j]<>'' then
-        keys[j]:= StrToIntDef(skeys[j], 0);
-  end;
-  //
-  procedure DoReadConfigOneKey(const path_s, path_k: string; var KeyItem: TATKeyArray);
-  var
-    sl: TStringlist;
-    i: integer;
+  procedure DoReadConfigOneKey(const path_s: string; var KeyItem: TATKeyArray);
   begin
     FillChar(KeyItem, SizeOf(KeyItem), 0);
     DoReadConfigToKeys(path_s, KeyItem);
-
-    //this crap is support of old config: k1/k2 keys are old, s1/s2 keys are new,
-    //let's read k1/k2 and write s1/s2, and del k1/k2
-    if KeyItem[0]=0 then
-    begin
-      DoReadConfigToKeys_Old(path_k, KeyItem);
-      if KeyItem[0]=0 then exit;
-
-      sl:= TStringlist.Create;
-      try
-        sl.clear;
-        for i:= 0 to High(KeyItem) do
-          if KeyItem[i]<>0 then
-            sl.Add(ShortCutToText(KeyItem[i]));
-        c.SetValue(path_s, sl);
-        c.DeleteValue(path_k);
-      finally
-        sl.Free;
-      end;
-    end;
   end;
   //
 var
@@ -357,8 +324,8 @@ begin
       nitem:= AppKeymap.IndexOf(ncmd);
       if nitem<0 then Continue;
 
-      DoReadConfigOneKey(slist[i]+'/s1', slist[i]+'/k1', AppKeymap[nitem].Keys1);
-      DoReadConfigOneKey(slist[i]+'/s2', slist[i]+'/k2', AppKeymap[nitem].Keys2);
+      DoReadConfigOneKey(slist[i]+'/s1', AppKeymap[nitem].Keys1);
+      DoReadConfigOneKey(slist[i]+'/s2', AppKeymap[nitem].Keys2);
     end;
   finally
     skeys.Free;
