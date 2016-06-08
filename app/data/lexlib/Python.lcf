@@ -199,7 +199,8 @@ object SyntAnal2: TLibSyntAnalyzer
             'class'
             'def'
             'global'
-            'lambda')
+            'lambda'
+            'nonlocal')
           TokenTypes = 1540
         end>
       HighlightPos = cpAny
