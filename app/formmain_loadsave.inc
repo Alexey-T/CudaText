@@ -515,7 +515,7 @@ begin
     UiOps.ListboxFuzzySearch:= c.GetValue('ui_listbox_fuzzy', UiOps.ListboxFuzzySearch);
 
     UiOps.MaxHistoryEdits:= Max(0, Min(200, c.GetValue('ui_max_history_edits', UiOps.MaxHistoryEdits)));
-    UiOps.MaxHistoryMenu:= Max(0, Min(20, c.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
+    UiOps.MaxHistoryMenu:= Max(0, Min(50, c.GetValue('ui_max_history_menu', UiOps.MaxHistoryMenu)));
     UiOps.MaxHistoryFiles:= Max(0, Min(400, c.GetValue('ui_max_history_files', UiOps.MaxHistoryFiles)));
 
     UiOps.EscapeClose:= c.GetValue('ui_esc_close', UiOps.EscapeClose);
