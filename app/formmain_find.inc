@@ -371,7 +371,7 @@ end;
 
 procedure TfmMain.DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
 var
-  Str, bSavedFind: atString;
+  Str: atString;
   Ed: TATSynEdit;
   ok, bFlag: boolean;
   bSavedWords, bSavedRegex, bSavedCase: boolean;
@@ -388,7 +388,7 @@ begin
   end;
   if Str='' then exit;
 
-  bSavedFind:= FFinder.StrFind;
+  //SavedFind:= FFinder.StrFind; //don't save/restore
   bSavedWords:= FFinder.OptWords;
   bSavedRegex:= FFinder.OptRegex;
   bSavedCase:= FFinder.OptCase;
@@ -417,7 +417,7 @@ begin
   FinderUpdateEditor(false);
   DoFindResult(ok);
 
-  FFinder.StrFind:= bSavedFind;
+  //FFinder.StrFind:= SavedFind;
   FFinder.OptWords:= bSavedWords;
   FFinder.OptRegex:= bSavedRegex;
   FFinder.OptCase:= bSavedCase;

@@ -4,8 +4,10 @@ Legend:
   * changed
 
 
-1.3.19.x
+1.3.20
 + opt show_cur_line_only_focused
++ opt ui_max_history_menu: max_value=50
+- fix: must copy to clipd using active line-end
 
 1.3.19
 + opt unprinted_replace_to_code
