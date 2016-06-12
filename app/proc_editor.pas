@@ -752,16 +752,21 @@ end;
 procedure EditorMarkerGotoLast(Ed: TATSynEdit; AndDelete: boolean);
 var
   Mark: TATMarkerItem;
+  X1, Y1, X2, Y2: integer;
   NTag, i: integer;
 begin
   if Ed.Markers.Count=0 then exit;
   Mark:= Ed.Markers[Ed.Markers.Count-1];
 
-  Ed.Carets.Clear;
-  if Mark.SelLen<=0 then
-    Ed.Carets.Add(Mark.PosX, Mark.PosY)
-  else
-    Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.PosX+Mark.SelLen, Mark.PosY);
+  X1:= Mark.PosX;
+  Y1:= Mark.PosY;
+  X2:= -1;
+  Y2:= -1;
+  if Mark.SelLen>0 then
+  begin
+    X2:= X1+Mark.SelLen;
+    Y2:= Y1;
+  end;
 
   if AndDelete then
   begin
@@ -785,12 +790,9 @@ begin
       end;
   end;
 
-  Ed.Carets.Sort;
   Ed.DoGotoPos_AndUnfold(
-    //caret0 is already at marker
-    Point(Ed.Carets[0].PosX, Ed.Carets[0].PosY),
-    Point(Ed.Carets[0].EndX, Ed.Carets[0].EndY),
-
+    Point(X1, Y1),
+    Point(X2, Y2),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert);
   Ed.Update;
