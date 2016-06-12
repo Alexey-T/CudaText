@@ -224,6 +224,7 @@ cmd_FindCurSelPrev   = 2595
 cmd_FindAllAndSelect = 2596
 cmd_FindAllAndMarkers = 2597
 cmd_FindAllAndBookmarks = 2598
+cmd_FindMarkAll      = cmd_FindAllAndMarkers
 
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621
