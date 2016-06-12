@@ -306,7 +306,7 @@
 
   //Max items in comboboxes history (0..200)
   "ui_max_history_edits": 20,
-  //Max items in "recent files" menu (0..20)
+  //Max items in "recent files" menu (0..50)
   "ui_max_history_menu": 10,
   //Max items in "settings/history files.json" (0..400)
   "ui_max_history_files": 25,

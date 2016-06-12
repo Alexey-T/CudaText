@@ -214,7 +214,6 @@ cmd_DialogTabs       = 2583 #now deleted
 cmd_DialogFind       = 2584
 cmd_DialogReplace    = 2585
 
-cmd_FindMarkAll      = 2588
 cmd_FindFirst        = 2589
 cmd_FindNext         = 2590
 cmd_FindPrev         = 2591
@@ -222,6 +221,10 @@ cmd_FindCurWordNext  = 2592
 cmd_FindCurWordPrev  = 2593
 cmd_FindCurSelNext   = 2594
 cmd_FindCurSelPrev   = 2595
+cmd_FindAllAndSelect = 2596
+cmd_FindAllAndMarkers = 2597
+cmd_FindAllAndBookmarks = 2598
+cmd_FindMarkAll      = cmd_FindAllAndMarkers
 
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621
