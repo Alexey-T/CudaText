@@ -16,7 +16,11 @@ begin
   case FFindMarkingMode of
     markingNone:
       begin
-        Ed.DoGotoPos_AndUnfold(APos1, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+        Ed.DoGotoPos_AndUnfold(
+          APos1,
+          APos2,
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert);
       end;
 
     markingSelections:

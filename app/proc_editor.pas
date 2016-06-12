@@ -152,6 +152,7 @@ begin
     begin
       ed.DoGotoPos_AndUnfold(
         Point(0, n),
+        Point(-1, -1),
         UiOps.FindIndentHorz,
         UiOps.FindIndentVert);
       exit;
@@ -788,6 +789,8 @@ begin
   Ed.DoGotoPos_AndUnfold(
     //caret0 is already at marker
     Point(Ed.Carets[0].PosX, Ed.Carets[0].PosY),
+    Point(Ed.Carets[0].EndX, Ed.Carets[0].EndY),
+
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert);
   Ed.Update;

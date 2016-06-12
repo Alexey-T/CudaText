@@ -951,7 +951,12 @@ begin
   R:= TecTextRange(Tree.Selected.Data);
   P:= CurrentFrame.Adapter.TreeGetPositionOfRange(R);
   FTreeClick:= true;
-  CurrentEditor.DoGotoPos_AndUnfold(P, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+  CurrentEditor.DoGotoPos_AndUnfold(
+    P,
+    Point(-1, -1),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert
+    );
   CurrentEditor.SetFocus;
   FTreeClick:= false;
 end;
@@ -1956,7 +1961,11 @@ begin
     fmGoto.Hide;
     MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 
-    Ed.DoGotoPos_AndUnfold(Point(0, Num), UiOps.FindIndentHorz, UiOps.FindIndentVert);
+    Ed.DoGotoPos_AndUnfold(
+      Point(0, Num),
+      Point(-1, -1),
+      UiOps.FindIndentHorz,
+      UiOps.FindIndentVert);
     Ed.Update;
     Ed.SetFocus;
   end;
@@ -2013,6 +2022,7 @@ begin
 
   CurrentEditor.DoGotoPos_AndUnfold(
     Point(0, Num),
+    Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert);
   MsgStatus(Format(msgStatusGotoLine, [Num+1]));
