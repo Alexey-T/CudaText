@@ -77,34 +77,34 @@ implementation
 procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
   AOp: TAppBookmarkOp; const AHint: string);
 var
-  i: integer;
+  N: integer;
 begin
-  i:= ALine;
-  if i<0 then
-    i:= ed.Carets[0].PosY;
+  N:= ALine;
+  if N<0 then N:= ed.Carets[0].PosY;
+  if not ed.Strings.IsIndexValid(N) then exit;
 
   case AOp of
     bmOpSet:
       begin
-        ed.Strings.LinesBm[i]:= ABmKind;
-        ed.Strings.LinesHint[i]:= AHint;
+        ed.Strings.LinesBm[N]:= ABmKind;
+        ed.Strings.LinesHint[N]:= AHint;
       end;
     bmOpClear:
       begin
-        ed.Strings.LinesBm[i]:= 0;
-        ed.Strings.LinesHint[i]:= '';
+        ed.Strings.LinesBm[N]:= 0;
+        ed.Strings.LinesHint[N]:= '';
       end;
     bmOpToggle:
       begin
-        if ed.Strings.LinesBm[i]=0 then
+        if ed.Strings.LinesBm[N]=0 then
         begin
-          ed.Strings.LinesBm[i]:= ABmKind;
-          ed.Strings.LinesHint[i]:= AHint;
+          ed.Strings.LinesBm[N]:= ABmKind;
+          ed.Strings.LinesHint[N]:= AHint;
         end
         else
         begin
-          ed.Strings.LinesBm[i]:= 0;
-          ed.Strings.LinesHint[i]:= '';
+          ed.Strings.LinesBm[N]:= 0;
+          ed.Strings.LinesHint[N]:= '';
         end;
       end;
   end;

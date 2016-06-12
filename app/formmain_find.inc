@@ -39,6 +39,11 @@ begin
           NLen:= 0;
         Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen);
       end;
+
+    markingBookmarks:
+      begin
+        EditorBookmarkSet(Ed, APos1.Y, 1, bmOpSet, '');
+      end;
   end;
 end;
 
@@ -267,19 +272,29 @@ begin
 end;
 
 procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
+var
+  Ed: TATSynEdit;
 begin
+  Ed:= FFinder.Editor;
+  if Ed=nil then
+    raise Exception.Create('DoFindMarkingInit: Finder.Editor=nil');
+
   FFindMarkingMode:= AMode;
   FFindMarkingCaret1st:= true;
 
   case AMode of
-    markingMarkers:
-      begin
-        FFinder.Editor.DoCaretSingleAsIs;
-        FFinder.Editor.Markers.Clear;
-      end;
     markingSelections:
       begin
-        FFinder.Editor.DoCaretSingleAsIs;
+        Ed.DoCaretSingleAsIs;
+      end;
+    markingMarkers:
+      begin
+        Ed.DoCaretSingleAsIs;
+        Ed.Markers.Clear;
+      end;
+    markingBookmarks:
+      begin
+        Ed.DoCommand(cmd_BookmarkClearAll);
       end;
   end;
 end;

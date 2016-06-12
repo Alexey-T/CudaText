@@ -88,8 +88,6 @@ const
   cmd_DialogFind       = 2584;
   cmd_DialogReplace    = 2585;
 
-  cmd_FindSelectAll    = 2587;
-  cmd_FindMarkAll      = 2588;
   cmd_FindFirst        = 2589;
   cmd_FindNext         = 2590;
   cmd_FindPrev         = 2591;
@@ -97,6 +95,9 @@ const
   cmd_FindCurWordPrev  = 2593;
   cmd_FindCurSelNext   = 2594;
   cmd_FindCurSelPrev   = 2595;
+  cmd_FindAllAndSelect = 2596;
+  cmd_FindAllAndMarkers = 2597;
+  cmd_FindAllAndBookmarks = 2598;
 
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
@@ -324,8 +325,9 @@ begin
   M.Add(cmd_FindFirst, 'find, first', [], []);
   M.Add(cmd_FindNext, 'find, next', ['F3'], []);
   M.Add(cmd_FindPrev, 'find, previous', ['Shift+F3'], []);
-  M.Add(cmd_FindSelectAll, 'find, select all', [], []);
-  M.Add(cmd_FindMarkAll, 'find, mark all', [], []);
+  M.Add(cmd_FindAllAndSelect, 'find all, and select', [], []);
+  M.Add(cmd_FindAllAndMarkers, 'find all, and place markers', [], []);
+  M.Add(cmd_FindAllAndBookmarks, 'find all, and place bookmarks', [], []);
   M.Add(cmd_FindCurWordNext, 'find current word, next', [], []);
   M.Add(cmd_FindCurWordPrev, 'find current word, previous', [], []);
   M.Add(cmd_FindCurSelNext, 'find current selection, next', [], []);
