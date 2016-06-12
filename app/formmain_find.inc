@@ -36,12 +36,12 @@ begin
 
     markingMarkers:
       begin
-        //marker's sel can be only 1 line
+        //marker sel is only 1 line
         if APos2.Y=APos1.Y then
           NLen:= Abs(APos2.X-APos1.X)
         else
           NLen:= 0;
-        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen);
+        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen, nil, true{InsertToBegin});
       end;
 
     markingBookmarks:

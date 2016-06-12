@@ -93,7 +93,7 @@ type
     { public declarations }
     FHotkeyFind,
     FHotkeyRep: TShortCut;
-    StringHintMarkAll: string;
+    //StringHintMarkAll: string;
     procedure UpdateState;
     procedure UpdateFonts;
     property Replace: boolean read FReplace write FReplace;
@@ -201,8 +201,8 @@ begin
   edFind.OptTabSize:= 4;
   edRep.OptTabSize:= 4;
 
-  StringHintMarkAll:= 'To clear, command "markers: remove all"';
-  bMarkAll.Hint:= 'Alt+7'+#10+StringHintMarkAll;
+  //StringHintMarkAll:= 'To clear, command "markers: remove all"';
+  //bMarkAll.Hint:= 'Alt+7'+#10+StringHintMarkAll;
 end;
 
 procedure TfmFind.UpdateFonts;
