@@ -10,6 +10,7 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.FinderFound(Sender: TObject; APos1, APos2: TPoint);
 var
   Ed: TATSynEdit;
+  NLen: integer;
 begin
   Ed:= FFinder.Editor;
   case FFindMarkingMode of
@@ -17,14 +18,26 @@ begin
       begin
         Ed.DoGotoPos_AndUnfold(APos1, UiOps.FindIndentHorz, UiOps.FindIndentVert);
       end;
+
     markingSelections:
       begin
+        if FFindMarkingCaret1st then
+        begin
+          FFindMarkingCaret1st:= false;
+          Ed.Carets.Clear;
+        end;
         Ed.Carets.Add(APos1.X, APos1.Y, APos2.X, APos2.Y);
         Ed.Carets.Sort;
       end;
+
     markingMarkers:
       begin
-        Ed.Markers.Add(APos1.X, APos1.Y);
+        //marker's sel can be only 1 line
+        if APos2.Y=APos1.Y then
+          NLen:= Abs(APos2.X-APos1.X)
+        else
+          NLen:= 0;
+        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen);
       end;
   end;
 end;
@@ -256,6 +269,8 @@ end;
 procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
 begin
   FFindMarkingMode:= AMode;
+  FFindMarkingCaret1st:= true;
+
   case AMode of
     markingMarkers:
       begin

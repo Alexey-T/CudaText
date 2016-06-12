@@ -514,6 +514,9 @@ begin
     with fmFind.LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
     with fmFind.LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
+    with fmFind do StringHintMarkAll:= ini.ReadString(section, 'mk_hint', StringHintMarkAll);
+    with fmFind do bMarkAll.Hint:= 'Alt+7'#10+StringHintMarkAll;
+
     with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', 'Regular expressions')+hotkey_re;
     with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', 'Case sensitive')+hotkey_case;
     with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', 'Whole words')+hotkey_words;

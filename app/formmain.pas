@@ -513,6 +513,7 @@ type
     FFindStop: boolean;
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TATFindMarkingMode;
+    FFindMarkingCaret1st: boolean;
     FFullScreen: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
