@@ -507,6 +507,7 @@ begin
     with fmFind.bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
     with fmFind.bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
     with fmFind.bCount do Caption:= ini.ReadString(section, 'cnt', Caption);
+    with fmFind.bSelectAll do Caption:= ini.ReadString(section, 'sel', Caption);
     with fmFind.bMarkAll do Caption:= ini.ReadString(section, 'mk', Caption);
     with fmFind.bRep do Caption:= ini.ReadString(section, 'r_c', Caption);
     with fmFind.bRepAll do Caption:= ini.ReadString(section, 'r_a', Caption);

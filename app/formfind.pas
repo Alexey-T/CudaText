@@ -363,6 +363,7 @@ begin
   PanelBtnRep.Visible:= rep;
   PanelLabels.Left:= PanelOps.Left+4;
   bCount.Visible:= not rep;
+  bSelectAll.Visible:= not rep;
   bMarkAll.Visible:= not rep;
 
   bFindFirst.Enabled:= fill;
@@ -371,6 +372,7 @@ begin
   bRep.Enabled:= fill;
   bRepAll.Enabled:= fill;
   bCount.Enabled:= fill;
+  bSelectAll.Enabled:= fill;
   bMarkAll.Enabled:= fill;
 end;
 

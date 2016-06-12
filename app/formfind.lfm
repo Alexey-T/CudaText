@@ -576,7 +576,7 @@ object fmFind: TfmFind
         Height = 25
         Hint = 'Alt+5'
         Top = 0
-        Width = 85
+        Width = 100
         Align = alLeft
         TabStop = True
         TabOrder = 3
@@ -587,11 +587,11 @@ object fmFind: TfmFind
         OnClick = bCountClick
       end
       object bMarkAll: TATButton
-        Left = 425
+        Left = 455
         Height = 25
         Hint = 'Alt+7'
         Top = 0
-        Width = 85
+        Width = 100
         Align = alLeft
         TabStop = True
         TabOrder = 5
@@ -617,11 +617,11 @@ object fmFind: TfmFind
         OnClick = bFindPrevClick
       end
       object bSelectAll: TATButton
-        Left = 340
+        Left = 355
         Height = 25
         Hint = 'Alt+6'
         Top = 0
-        Width = 85
+        Width = 100
         Align = alLeft
         TabStop = True
         TabOrder = 4
