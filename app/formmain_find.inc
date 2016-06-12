@@ -12,14 +12,20 @@ var
   Ed: TATSynEdit;
 begin
   Ed:= FFinder.Editor;
-  if FFindMark then
-  begin
-    Ed.Carets.Add(APos1.X, APos1.Y, APos2.X, APos2.Y);
-    Ed.Carets.Sort;
-  end
-  else
-  begin
-    Ed.DoGotoPos_AndUnfold(APos1, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+  case FFindMarkingMode of
+    markingNone:
+      begin
+        Ed.DoGotoPos_AndUnfold(APos1, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+      end;
+    markingSelections:
+      begin
+        Ed.Carets.Add(APos1.X, APos1.Y, APos2.X, APos2.Y);
+        Ed.Carets.Sort;
+      end;
+    markingMarkers:
+      begin
+        Ed.Markers.Add(APos1.X, APos1.Y);
+      end;
   end;
 end;
 
@@ -105,15 +111,25 @@ begin
 
   if Res=cOpFindCount then
   begin
+    DoFindMarkingInit(markingNone);
     cnt:= FFinder.DoCountAll(false);
+    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
+  end;
+
+  if Res=cOpFindSelectAll then
+  begin
+    DoFindMarkingInit(markingSelections);
+    cnt:= FFinder.DoCountAll(true);
+    DoFindMarkingInit(markingNone);
+    FinderUpdateEditor(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
   end;
 
   if Res=cOpFindMarkAll then
   begin
-    FFindMark:= true;
+    DoFindMarkingInit(markingMarkers);
     cnt:= FFinder.DoCountAll(true);
-    FFindMark:= false;
+    DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
   end;
@@ -237,7 +253,23 @@ begin
   DoFindResult(ok);
 end;
 
-procedure TfmMain.DoFindMarkAll;
+procedure TfmMain.DoFindMarkingInit(AMode: TATFindMarkingMode);
+begin
+  FFindMarkingMode:= AMode;
+  case AMode of
+    markingMarkers:
+      begin
+        FFinder.Editor.DoCaretSingleAsIs;
+        FFinder.Editor.Markers.Clear;
+      end;
+    markingSelections:
+      begin
+        FFinder.Editor.DoCaretSingleAsIs;
+      end;
+  end;
+end;
+
+procedure TfmMain.DoFindMarkAll(AMode: TATFindMarkingMode);
 var
   cnt: integer;
 begin
@@ -255,9 +287,11 @@ begin
   FFinder.OptFromCaret:= false;
 
   FFinder.UpdateBuffer;
-  FFindMark:= true;
+
+  DoFindMarkingInit(AMode);
   cnt:= FFinder.DoCountAll(true);
-  FFindMark:= false;
+  DoFindMarkingInit(markingNone);
+
   FinderUpdateEditor(false);
   MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
 end;

@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 73
+  Left = 82
   Height = 62
-  Top = 773
+  Top = 543
   Width = 1204
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
@@ -235,6 +235,7 @@ object fmFind: TfmFind
       OptTabSpaces = False
       OptTabSize = 8
       OptFoldStyle = cFoldHereWithTruncatedText
+      OptFoldEnabled = True
       OptTextLocked = 'wait...'
       OptTextHintFontStyle = [fsItalic]
       OptTextHintCenter = False
@@ -248,6 +249,7 @@ object fmFind: TfmFind
       OptLastLineOnTop = False
       OptOverwriteSel = True
       OptOverwriteAllowedOnPaste = False
+      OptScrollbarsNew = False
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
       OptShowStapleStyle = cLineStyleSolid
@@ -257,6 +259,7 @@ object fmFind: TfmFind
       OptShowFullHilite = True
       OptShowCurLine = False
       OptShowCurLineMinimal = True
+      OptShowCurLineOnlyFocused = False
       OptShowScrollHint = False
       OptShowCurColumn = False
       OptCaretManyAllowed = False
@@ -318,6 +321,10 @@ object fmFind: TfmFind
       OptMouseNiceScroll = False
       OptMouseRightClickMovesCaret = False
       OptMouseGutterClickSelectsLine = True
+      OptMouseWheelScrollVert = True
+      OptMouseWheelScrollHorz = True
+      OptMouseWheelScrollHorzColumns = 30
+      OptMouseWheelWithCtrlChangeSize = True
       OptKeyBackspaceUnindent = True
       OptKeyPageKeepsRelativePos = True
       OptKeyUpDownNavigateWrapped = True
@@ -409,6 +416,7 @@ object fmFind: TfmFind
       OptTabSpaces = False
       OptTabSize = 8
       OptFoldStyle = cFoldHereWithTruncatedText
+      OptFoldEnabled = True
       OptTextLocked = 'wait...'
       OptTextHintFontStyle = [fsItalic]
       OptTextHintCenter = False
@@ -422,6 +430,7 @@ object fmFind: TfmFind
       OptLastLineOnTop = False
       OptOverwriteSel = True
       OptOverwriteAllowedOnPaste = False
+      OptScrollbarsNew = False
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
       OptShowStapleStyle = cLineStyleSolid
@@ -431,6 +440,7 @@ object fmFind: TfmFind
       OptShowFullHilite = True
       OptShowCurLine = False
       OptShowCurLineMinimal = True
+      OptShowCurLineOnlyFocused = False
       OptShowScrollHint = False
       OptShowCurColumn = False
       OptCaretManyAllowed = False
@@ -492,6 +502,10 @@ object fmFind: TfmFind
       OptMouseNiceScroll = False
       OptMouseRightClickMovesCaret = False
       OptMouseGutterClickSelectsLine = True
+      OptMouseWheelScrollVert = True
+      OptMouseWheelScrollHorz = True
+      OptMouseWheelScrollHorzColumns = 30
+      OptMouseWheelWithCtrlChangeSize = True
       OptKeyBackspaceUnindent = True
       OptKeyPageKeepsRelativePos = True
       OptKeyUpDownNavigateWrapped = True
@@ -573,14 +587,14 @@ object fmFind: TfmFind
         OnClick = bCountClick
       end
       object bMarkAll: TATButton
-        Left = 340
+        Left = 425
         Height = 25
-        Hint = 'Alt+6'
+        Hint = 'Alt+7'
         Top = 0
         Width = 85
         Align = alLeft
         TabStop = True
-        TabOrder = 4
+        TabOrder = 5
         Caption = 'Mark all'
         Checked = False
         Checkable = False
@@ -601,6 +615,21 @@ object fmFind: TfmFind
         Checkable = False
         Focusable = True
         OnClick = bFindPrevClick
+      end
+      object bSelectAll: TATButton
+        Left = 340
+        Height = 25
+        Hint = 'Alt+6'
+        Top = 0
+        Width = 85
+        Align = alLeft
+        TabStop = True
+        TabOrder = 4
+        Caption = 'Select all'
+        Checked = False
+        Checkable = False
+        Focusable = True
+        OnClick = bSelectAllClick
       end
     end
     object PanelBtnRep: TPanel

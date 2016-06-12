@@ -214,6 +214,7 @@ cmd_DialogTabs       = 2583 #now deleted
 cmd_DialogFind       = 2584
 cmd_DialogReplace    = 2585
 
+cmd_FindSelectAll    = 2587   
 cmd_FindMarkAll      = 2588
 cmd_FindFirst        = 2589
 cmd_FindNext         = 2590

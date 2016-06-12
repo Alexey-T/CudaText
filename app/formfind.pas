@@ -31,6 +31,7 @@ const
   cOpFindRepAndStop='repstop';
   cOpFindRepAll='repall';
   cOpFindCount='findcnt';
+  cOpFindSelectAll='findsel';
   cOpFindMarkAll='findmark';
   cOpFindClose='x';
 
@@ -44,6 +45,7 @@ type
     bFindNext: TATButton;
     bFindPrev: TATButton;
     bMarkAll: TATButton;
+    bSelectAll: TATButton;
     bRep: TATButton;
     bRepAll: TATButton;
     chkCase: TATButton;
@@ -70,6 +72,7 @@ type
     procedure bRepAllClick(Sender: TObject);
     procedure bCountClick(Sender: TObject);
     procedure bCancelClick(Sender: TObject);
+    procedure bSelectAllClick(Sender: TObject);
     procedure chkRegexChange(Sender: TObject);
     procedure chkRepChange(Sender: TObject);
     procedure bFindFirstClick(Sender: TObject);
@@ -143,6 +146,11 @@ end;
 procedure TfmFind.bCancelClick(Sender: TObject);
 begin
   DoDone(cOpFindClose);
+end;
+
+procedure TfmFind.bSelectAllClick(Sender: TObject);
+begin
+  DoDone(cOpFindSelectAll);
 end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
@@ -308,6 +316,8 @@ begin
   if (key=VK_5) and (Shift=[ssAlt]) then
     begin bCountClick(Self); key:= 0; exit end;
   if (key=VK_6) and (Shift=[ssAlt]) then
+    begin bSelectAllClick(Self); key:= 0; exit end;
+  if (key=VK_7) and (Shift=[ssAlt]) then
     begin bMarkAllClick(Self); key:= 0; exit end;
 end;
 

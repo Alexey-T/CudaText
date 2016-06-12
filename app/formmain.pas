@@ -83,6 +83,14 @@ uses
   math;
 
 type
+  TATFindMarkingMode = (
+    markingNone,
+    markingSelections,
+    markingMarkers,
+    markingBookmarks
+    );
+
+type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
@@ -504,7 +512,7 @@ type
     FFinder: TATEditorFinder;
     FFindStop: boolean;
     FFindConfirmAll: TModalResult;
-    FFindMark: boolean;
+    FFindMarkingMode: TATFindMarkingMode;
     FFullScreen: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
@@ -519,6 +527,7 @@ type
     FPyComplete_CaretPos: TPoint;
     FLastDirOfOpenDlg: string;
 
+    procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
@@ -647,7 +656,7 @@ type
     procedure DoFindResult(ok: boolean);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
-    procedure DoFindMarkAll;
+    procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabTo(Num: Integer);
     procedure DoOnTabPopup(Sender: TObject);
     function DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;

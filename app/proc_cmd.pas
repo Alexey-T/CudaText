@@ -88,6 +88,7 @@ const
   cmd_DialogFind       = 2584;
   cmd_DialogReplace    = 2585;
 
+  cmd_FindSelectAll    = 2587;
   cmd_FindMarkAll      = 2588;
   cmd_FindFirst        = 2589;
   cmd_FindNext         = 2590;
@@ -323,6 +324,7 @@ begin
   M.Add(cmd_FindFirst, 'find, first', [], []);
   M.Add(cmd_FindNext, 'find, next', ['F3'], []);
   M.Add(cmd_FindPrev, 'find, previous', ['Shift+F3'], []);
+  M.Add(cmd_FindSelectAll, 'find, select all', [], []);
   M.Add(cmd_FindMarkAll, 'find, mark all', [], []);
   M.Add(cmd_FindCurWordNext, 'find current word, next', [], []);
   M.Add(cmd_FindCurWordPrev, 'find current word, previous', [], []);
