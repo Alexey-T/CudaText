@@ -3374,23 +3374,27 @@ end;
 procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: string='');
 var
   Frame: TEditorFrame;
+  Ed: TATSynEdit;
 begin
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
   PyLastCommandParam:= AParam;
 
   Frame:= CurrentFrame;
-  if Assigned(Frame) then
-    if Frame.MacroRecord then
-      Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
+  if Frame=nil then exit;
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
 
-  CurrentEditor.Strings.BeginUndoGroup;
+  if Frame.MacroRecord then
+    Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
+
+  Ed.Strings.BeginUndoGroup;
   PyCommandRunning:= true;
   try
     Py_RunPlugin_Command(AModule, AMethod, AParam);
   finally
     PyCommandRunning:= false;
-    CurrentEditor.Strings.EndUndoGroup;
+    Ed.Strings.EndUndoGroup;
   end;
 end;
 
