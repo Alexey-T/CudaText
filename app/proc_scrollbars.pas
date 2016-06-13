@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
+  LMessages,
   ATScrollBar, ATListbox;
 
 type
@@ -19,9 +20,9 @@ type
   protected
     procedure DoSelectionChanged; override;
     procedure Resize; override;
-    procedure Changed; override;
     procedure Collapse(Node: TTreeNode); override;
     procedure Expand(Node: TTreeNode); override;
+    procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -35,8 +36,8 @@ type
     procedure ScrollChange(Sender: TObject);
     procedure UpdScroll;
   protected
-    procedure Changed; override;
     procedure Resize; override;
+    procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
   public
     constructor Create(AOwner: TComponent); override;
     function ClientWidth: integer;
@@ -65,7 +66,7 @@ begin
   FScroll.Position:= ItemTop;
 end;
 
-procedure TATListboxMy.Changed;
+procedure TATListboxMy.CMChanged(var Message: TLMessage);
 begin
   inherited;
   UpdScroll;
@@ -138,7 +139,7 @@ begin
   UpdScroll;
 end;
 
-procedure TTreeViewMy.Changed;
+procedure TTreeViewMy.CMChanged(var Message: TLMessage);
 begin
   inherited;
   UpdScroll;
