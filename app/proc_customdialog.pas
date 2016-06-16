@@ -87,7 +87,12 @@ begin
     Result:= (C as TEdit).Text;
 
   if C is TCheckBox then
-    Result:= IntToStr(Ord((C as TCheckBox).Checked));
+    with C as TCheckBox do
+      case State of
+        cbChecked: Result:= '1';
+        cbUnchecked: Result:= '0';
+        cbGrayed: Result:= '?';
+      end;
 
   if C is TToggleBox then
     Result:= IntToStr(Ord((C as TToggleBox).Checked));
@@ -521,7 +526,14 @@ begin
     //-------val
     if SName='val' then
     begin
-      if Ctl is TCheckBox then (Ctl as TCheckBox).Checked:= StrToBool(SValue);
+      if Ctl is TCheckBox then
+        with Ctl as TCheckBox do
+        begin
+          if SValue='1' then Checked:= true else
+          if SValue='0' then Checked:= false else
+          if SValue='?' then begin AllowGrayed:= true; State:= cbGrayed; end;
+        end;
+
       if Ctl is TToggleBox then (Ctl as TToggleBox).Checked:= StrToBool(SValue);
       if Ctl is TRadioButton then (Ctl as TRadioButton).Checked:= StrToBool(SValue);
       if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;

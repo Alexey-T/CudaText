@@ -16,7 +16,7 @@ uses
 
 const
   cAppExeVersion = '1.3.20.0';
-  cAppApiVersion = '1.0.144';
+  cAppApiVersion = '1.0.145';
 
 const
   msgTitle = 'CudaText';
