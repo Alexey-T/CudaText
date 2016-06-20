@@ -28,6 +28,7 @@ implementation
 
 const
   cButtonResultStart=100;
+  cTagActive = -1;
 
 var
   FDialogShown: boolean = false;
@@ -435,7 +436,8 @@ begin
     //-------act
     if SName='act' then
     begin
-      Ctl.Tag:= StrToIntDef(SValue, 0);
+      if SValue='1' then
+        Ctl.Tag:= cTagActive;
       Continue;
     end;
 
@@ -645,8 +647,8 @@ procedure TDummyClass.DoOnChange(Sender: TObject);
 var
   i: integer;
 begin
-  //Tag=1 means that control change closes form
-  if (Sender as TControl).Tag=1 then
+  //Tag=cTagActive means that control change closes form
+  if (Sender as TControl).Tag=cTagActive then
     for i:= 0 to Form.ControlCount-1 do
       if Form.Controls[i]=Sender then
       begin

@@ -32,10 +32,10 @@ cuda_sess*/
 cuda_insert_numbers/
 cuda_macros/
 cuda_snippets/
-cuda_html_*/
-cuda_css_*/
-cuda_js_*/
-cuda_yaml_*/
+cuda_html*/
+cuda_css*/
+cuda_js*/
+cuda_yaml*/
 cuda_lorem/
 cuda_kv*/
 cuda_lint*/
@@ -53,4 +53,6 @@ cuda_mark*
 cuda_in*
 cuda_sort*
 cuda_ftp*
+cuda_fav*
+
 _test/

@@ -15,13 +15,11 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.3.20.0';
+  cAppExeVersion = '1.3.20.1';
   cAppApiVersion = '1.0.145';
 
 const
   msgTitle = 'CudaText';
-
-const
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';
