@@ -340,10 +340,12 @@ begin
       if SValue='combo' then
         begin
           Ctl:= TComboBox.Create(AForm);
+          (Ctl as TComboBox).DropDownCount:= 20;
         end;
       if SValue='combo_ro' then
         begin
           Ctl:= TComboBox.Create(AForm);
+          (Ctl as TComboBox).DropDownCount:= 20;
           (Ctl as TComboBox).ReadOnly:= true;
           (Ctl as TComboBox).OnChange:= @ADummy.DoOnChange;
         end;
