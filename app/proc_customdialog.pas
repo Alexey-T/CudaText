@@ -140,6 +140,9 @@ begin
 
   if C is TListView then
     Result:= DoGetListviewState(C as TListView);
+
+  if C is TTabControl then
+    Result:= IntToStr((C as TTabControl).TabIndex);
 end;
 
 
@@ -371,10 +374,6 @@ begin
         (Ctl as TCheckListBox).OnClickCheck:= @ADummy.DoOnChange;
       end;
 
-      //disabled: label paints bad onto groupbox, Linux
-      //if SValue='group' then
-      //  Ctl:= TGroupBox.Create(AForm);
-
       if (SValue='listview') or
          (SValue='checklistview') then
       begin
@@ -392,6 +391,12 @@ begin
       if SValue='linklabel' then
       begin
         Ctl:= TLinkLabel.Create(AForm);
+      end;
+
+      if SValue='tabs' then
+      begin
+        Ctl:= TTabControl.Create(AForm);
+        (Ctl as TTabControl).OnChange:= @ADummy.DoOnChange;
       end;
 
       //set parent
@@ -506,6 +511,10 @@ begin
         (Ctl as TListView).GridLines:= StrToBool(SGetItem(SValue));
       end;
 
+      if (Ctl is TTabControl) then
+        if SValue='1' then
+          (Ctl as TTabControl).TabPosition:= tpBottom;
+
       Continue;
     end;
 
@@ -521,6 +530,7 @@ begin
         if Ctl is TRadioGroup then (Ctl as TRadioGroup).Items.Add(SListItem);
         if Ctl is TCheckListBox then (Ctl as TCheckListBox).Items.Add(SListItem);
         if Ctl is TListView then DoSetListviewItem(Ctl as TListView, SListItem);
+        if Ctl is TTabControl then (Ctl as TTabControl).Tabs.Add(SListItem);
       until false;
       Continue;
     end;
@@ -553,6 +563,7 @@ begin
       if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
       if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
       if Ctl is TListView then DoSetListviewState(Ctl as TListView, SValue);
+      if Ctl is TTabControl then (Ctl as TTabControl).TabIndex:= StrToIntDef(SValue, 0);
 
       Continue;
     end;
