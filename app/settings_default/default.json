@@ -463,6 +463,11 @@
   //  2) search for "libpython3",
   //  3) if not found, install Python 3, goto 2)
   //  4) use one of found filenames; if don't work, use filename with path
+  //
+  //Info for macOS:
+  //  Homebrew installs Python which don't have 32-bit *.dylib (on 64-bit OS)
+  //  So you need to install Python from Python.org, and it must be 32-bit (default 3.x is ok)
+  //
   "pylib": "?",
 
   //API: delay for on_change_slow
