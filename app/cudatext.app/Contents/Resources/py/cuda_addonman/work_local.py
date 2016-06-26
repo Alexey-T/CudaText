@@ -42,7 +42,7 @@ def do_remove_module(mod):
 def get_installed_list():
     d = app_path(APP_DIR_PY)
     l = os.listdir(d)
-    l = [s for s in l if not s.startswith('cuda_lint_') and not s.startswith('__')]
+    l = [s for s in l if not s.startswith('__')]
     l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
     return sorted(l)
     

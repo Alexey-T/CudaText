@@ -1,9 +1,11 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.06.26
+* change [se] FindInstallInfInZip
 
 2016.06.12
-+ [d_f] sel mk_hint
++ [d_f] sel
 
 2016.04.11
 + [m_sr] b_ca
