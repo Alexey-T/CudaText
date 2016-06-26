@@ -15,7 +15,6 @@ CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 ch_user = []
 ch_def = [
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-addons.txt',
-  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-linters.txt',
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-lexers.txt',
   ]
   

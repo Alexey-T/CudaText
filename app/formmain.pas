@@ -2143,6 +2143,14 @@ begin
   PythonEngine.DllPath:= ExtractFileDir(UiOps.PyLibrary);
   PythonEngine.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEngine.LoadDll;
+
+  try
+    GetPythonEngine.ExecString('import sys');
+  except
+    fmConsole.DoLogConsoleLine(msgCannotInitPython1);
+    fmConsole.DoLogConsoleLine(msgCannotInitPython2);
+    mnuPlug.Enabled:= false;
+  end;
 end;
 
 procedure TfmMain.MenuEncNoReloadClick(Sender: TObject);

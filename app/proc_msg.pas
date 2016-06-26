@@ -57,6 +57,8 @@ const
   msgEndUnix: string = 'Unix';
   msgEndMac: string = 'MacOS9';
 
+  msgCannotInitPython1: string = 'No Python engine (3.x) found. Python plugins don''t work now. To make it ok:';
+  msgCannotInitPython2: string = 'write option "pylib" in settings/user.json (see info in settings/default.json).';
   msgCannotOpenFile: string = 'Cannot open file:';
   msgCannotFindFile: string = 'Cannot find file:';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
