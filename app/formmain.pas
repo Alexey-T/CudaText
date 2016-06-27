@@ -501,6 +501,7 @@ type
     FListNewdoc: TStringList;
     FListThemes: TStringList;
     FListLangs: TStringList;
+    FConsoleMustShow: boolean;
     FThemeName: string;
     FSessionName: string;
     FColorDialog: TColorDialog;
@@ -2147,6 +2148,7 @@ begin
   try
     GetPythonEngine.ExecString('import sys');
   except
+    FConsoleMustShow:= true;
     fmConsole.DoLogConsoleLine(msgCannotInitPython1);
     fmConsole.DoLogConsoleLine(msgCannotInitPython2);
     mnuPlug.Enabled:= false;

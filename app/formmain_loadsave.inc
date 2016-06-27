@@ -251,6 +251,9 @@ begin
     PanelLeft.Width:= c.GetValue('size_side', 200);
     PanelBottom.Height:= c.GetValue('size_bottom', 200);
 
+    if FConsoleMustShow then
+      DoShowConsole;
+
     ////AppTheme
     FThemeName:= c.GetValue('theme', '');
     AppLangName:= c.GetValue('lang', '');
