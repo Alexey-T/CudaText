@@ -135,12 +135,19 @@ const
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+
-      'ATSynEdit, ATTabs, ATGroups, ATListbox, ATButton, Python wrapper: https://github.com/Alexey-T/'+sLineBreak+
-      'EControl parser: http://www.econtrol.ru, https://github.com/Alexey-T/'+sLineBreak+
-      'Helper Python code: Andrey Kvichanskiy, https://github.com/kvichans/'+sLineBreak+
-      'Toolbar icons: Silk icons, http://www.famfamfam.com'+sLineBreak+
+      '    http://www.lazarus-ide.org'+sLineBreak+
+      'ATSynEdit, ATTabs, ATGroups, ATListbox, ATButton, Python wrapper:'+sLineBreak+
+      '    https://github.com/Alexey-T/'+sLineBreak+
+      'EControl syntax parser:'+sLineBreak+
+      '    http://www.econtrol.ru'+sLineBreak+
+      '    https://github.com/Alexey-T/'+sLineBreak+
+      'Helper Python code: Andrey Kvichanskiy:'+sLineBreak+
+      '    https://github.com/kvichans/'+sLineBreak+
+      'Toolbar icons: Silk icons'+sLineBreak+
+      '    http://www.famfamfam.com'+sLineBreak+
       '    License: CC BY 2.5, http://creativecommons.org/licenses/by/2.5/'+sLineBreak+
-      'App icon: Snipicons, http://www.snipicons.com/'+sLineBreak+
+      'Main icon: Snipicons'+sLineBreak+
+      '    http://www.snipicons.com/'+sLineBreak+
       '    License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
       '';
 
