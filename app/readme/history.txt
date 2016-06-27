@@ -5,9 +5,10 @@ Legend:
 
 
 1.3.21
-+ api (for "Favorites")
-+ err in console, if Python can't init
 + AddonManager shows linters too
++ AddonManager has new channel for Kvichans' addons (about 10-15)
++ api (for "Favorites")
++ show msg in console, if Python can't init
 
 1.3.20
 + dlg Find: buttons Select-all, Mark-all (place selections or markers, can clear markers by cmd "markers: remove all")
