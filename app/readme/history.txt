@@ -9,6 +9,7 @@ Legend:
 + AddonManager has new channel for Kvichans' addons (about 10-15)
 + api (for "Favorites")
 + show msg in console, if Python can't init
++ cmd "toggle micro-map"
 
 1.3.20
 + dlg Find: buttons Select-all, Mark-all (place selections or markers, can clear markers by cmd "markers: remove all")
