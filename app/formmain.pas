@@ -600,6 +600,7 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    function IsAllowedToOpenFileNow: boolean;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
@@ -982,16 +983,21 @@ begin
   DoInvalidateEditors;
 end;
 
+
+function TfmMain.IsAllowedToOpenFileNow: boolean;
+begin
+  Result:= true;
+  if IsDialogCustomShown then exit(false);
+  if Assigned(fmCommands) and fmCommands.Visible then fmCommands.Close;
+end;
+
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
   ParamCount: Integer; Parameters: array of String);
 var
   FStyle: TFormStyle;
   i: integer;
 begin
-  //don't open files if modal form shown
-  if IsDialogCustomShown then exit;
-  if Assigned(fmCommands) and fmCommands.Visible then exit;
-  //----
+  if not IsAllowedToOpenFileNow then exit;
 
   for i:= 0 to ParamCount-1 do
     if FileExistsUTF8(Parameters[i]) then
@@ -1278,6 +1284,8 @@ var
   Pages: TATPages;
   i: integer;
 begin
+  if not IsAllowedToOpenFileNow then exit;
+
   //set group according to mouse cursor
   Pages:= nil;
   for i in [Low(TATGroupsNums)..High(TATGroupsNums)] do
