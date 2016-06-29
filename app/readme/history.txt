@@ -4,6 +4,10 @@ Legend:
   * changed
 
 
+1.3.22
++ api (for "Tern")
++ AddonManager warns, if linter installed without CudaLint
+
 1.3.21
 + AddonManager shows linters too
 + AddonManager has new channel for Kvichans' addons (about 10-15)

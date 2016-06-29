@@ -483,11 +483,10 @@ class Editor:
     def get_sublexer_ranges(self):
         res = ct.ed_get_sublexer_ranges(self.h)
         if res is None: return
-        #we must split string
-        res = res.split(';')
-        #EControl gives duplicated ranges, cannot find reason, del them here
-        res = [r for (index, r) in enumerate(res) if res[index] and ((index==0) or (res[index]!=res[index-1])) ]
-        res = [ r.split(',') for r in res ]
+        #split string to items
+        #note: EControl gives duplicated ranges, cannot find reason, del them here
+        res = res.rstrip(';').split(';')
+        res = [ r.split(',') for (index, r) in enumerate(res) if (index==0) or (res[index]!=res[index-1]) ]
         res = [ (r[4], int(r[0]), int(r[1]), int(r[2]), int(r[3])) for r in res ]
         return res 
         
