@@ -985,10 +985,13 @@ end;
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
   ParamCount: Integer; Parameters: array of String);
 var
-  i: integer;
   FStyle: TFormStyle;
+  i: integer;
 begin
+  //don't open files if modal form shown
   if IsDialogCustomShown then exit;
+  if Assigned(fmCommands) and fmCommands.Visible then exit;
+  //----
 
   for i:= 0 to ParamCount-1 do
     if FileExistsUTF8(Parameters[i]) then
@@ -1892,19 +1895,18 @@ end;
 
 procedure TfmMain.DoDialogCommands;
 var
-  Form: TfmCommands;
   Cmd: integer;
 begin
   MsgStatus(msgStatusHelpOnShowCommands);
 
-  Form:= TfmCommands.Create(Self);
+  fmCommands:= TfmCommands.Create(Self);
   try
-    UpdateInputForm(Form);
-    Form.keymap:= CurrentEditor.Keymap;
-    Form.ShowModal;
-    Cmd:= Form.ResultNum;
+    UpdateInputForm(fmCommands);
+    fmCommands.keymap:= CurrentEditor.Keymap;
+    fmCommands.ShowModal;
+    Cmd:= fmCommands.ResultNum;
   finally
-    FreeAndNil(Form);
+    FreeAndNil(fmCommands);
   end;
 
   if Cmd>0 then
