@@ -481,7 +481,15 @@ class Editor:
         return ct.ed_get_ranges(self.h)
         
     def get_sublexer_ranges(self):
-        return ct.ed_get_sublexer_ranges(self.h)
+        res = ct.ed_get_sublexer_ranges(self.h)
+        if res is None: return
+        #we must split string
+        res = res.split(';')
+        #EControl gives duplicated ranges, cannot find reason, del them here
+        res = [r for (index, r) in enumerate(res) if res[index] and ((index==0) or (res[index]!=res[index-1])) ]
+        res = [ r.split(',') for r in res ]
+        res = [ (r[4], int(r[0]), int(r[1]), int(r[2]), int(r[3])) for r in res ]
+        return res 
         
     def markers(self, id, x=0, y=0, tag=0, len=0):
         return ct.ed_markers(self.h, id, x, y, tag, len)
