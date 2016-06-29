@@ -2583,6 +2583,40 @@ begin
     end;
 end;
 
+
+function Py_ed_get_sublexer_ranges(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  Frame: TEditorFrame;
+  NLen, i: Integer;
+  PntStart, PntEnd: TPoint;
+  LexName, Str: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:get_sublexer_ranges', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      Frame:= fmMain.GetEditorFrame(Ed);
+
+      NLen:= Frame.Adapter.SublexerRangeCount;
+      if NLen>0 then
+      begin
+        Str:= '';
+        for i:= 0 to NLen-1 do
+          if Frame.Adapter.SublexerRangeProps(i, PntStart, PntEnd, LexName) then
+            Str:= Str + Format('%d,%d,%d,%d,%s;',
+              [ PntStart.X, PntStart.Y,
+                PntEnd.X, PntEnd.Y,
+                LexName ]);
+        Result:= PyString_FromString(PChar(Str));
+      end
+      else
+        Result:= ReturnNone;
+    end;
+end;
+
+
 //tree_proc(id_tree, id_action, id_item, index, text, icon)
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -2878,6 +2912,7 @@ begin
     AddMethod('ed_get_prop', @Py_ed_get_prop, '');
     AddMethod('ed_set_prop', @Py_ed_set_prop, '');
     AddMethod('ed_get_ranges', @Py_ed_get_ranges, '');
+    AddMethod('ed_get_sublexer_ranges', @Py_ed_get_sublexer_ranges, '');
     AddMethod('ed_get_token', @Py_ed_get_token, '');
 
     AddMethod('ed_save', @Py_ed_save, '');

@@ -480,6 +480,9 @@ class Editor:
     def get_ranges(self):
         return ct.ed_get_ranges(self.h)
         
+    def get_sublexer_ranges(self):
+        return ct.ed_get_sublexer_ranges(self.h)
+        
     def markers(self, id, x=0, y=0, tag=0, len=0):
         return ct.ed_markers(self.h, id, x, y, tag, len)
         
