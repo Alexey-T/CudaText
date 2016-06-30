@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 82
+  Left = 226
   Height = 62
-  Top = 543
+  Top = 747
   Width = 1204
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
@@ -38,20 +38,20 @@ object fmFind: TfmFind
     Left = 23
     Height = 62
     Top = 0
-    Width = 137
+    Width = 169
     Align = alLeft
     BevelOuter = bvNone
     ClientHeight = 62
-    ClientWidth = 137
+    ClientWidth = 169
     TabOrder = 1
     object PanelOps1: TPanel
       Left = 0
       Height = 25
       Top = 4
-      Width = 136
+      Width = 168
       BevelOuter = bvNone
       ClientHeight = 25
-      ClientWidth = 136
+      ClientWidth = 168
       TabOrder = 0
       object chkRegex: TATButton
         Left = 0
@@ -106,6 +106,20 @@ object fmFind: TfmFind
         Checkable = True
         Focusable = True
       end
+      object chkMulLine: TATButton
+        Left = 128
+        Height = 25
+        Top = 0
+        Width = 32
+        Align = alLeft
+        TabStop = True
+        TabOrder = 4
+        Caption = '+'
+        Checked = False
+        Checkable = True
+        Focusable = True
+        OnClick = chkMulLineClick
+      end
     end
     object PanelOps2: TPanel
       Left = 0
@@ -132,7 +146,7 @@ object fmFind: TfmFind
     end
   end
   object PanelLabels: TPanel
-    Left = 160
+    Left = 192
     Height = 62
     Top = 0
     Width = 96
@@ -161,14 +175,14 @@ object fmFind: TfmFind
     end
   end
   object PanelAll: TPanel
-    Left = 256
+    Left = 288
     Height = 62
     Top = 0
-    Width = 1004
+    Width = 972
     Align = alLeft
     BevelOuter = bvNone
     ClientHeight = 62
-    ClientWidth = 1004
+    ClientWidth = 972
     TabOrder = 3
     object edFind: TATComboEdit
       Left = 0
@@ -635,7 +649,7 @@ object fmFind: TfmFind
     object PanelBtnRep: TPanel
       Left = 368
       Height = 25
-      Top = 33
+      Top = 34
       Width = 352
       BevelOuter = bvNone
       ClientHeight = 25

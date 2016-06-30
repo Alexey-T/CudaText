@@ -50,6 +50,7 @@ type
     bRepAll: TATButton;
     chkCase: TATButton;
     chkConfirm: TATButton;
+    chkMulLine: TATButton;
     chkRegex: TATButton;
     chkWords: TATButton;
     chkWrap: TATButton;
@@ -73,6 +74,7 @@ type
     procedure bCountClick(Sender: TObject);
     procedure bCancelClick(Sender: TObject);
     procedure bSelectAllClick(Sender: TObject);
+    procedure chkMulLineClick(Sender: TObject);
     procedure chkRegexChange(Sender: TObject);
     procedure chkRepChange(Sender: TObject);
     procedure bFindFirstClick(Sender: TObject);
@@ -88,7 +90,9 @@ type
     { private declarations }
     FOnDone: TStrEvent;
     FReplace: boolean;
+    FMulLine: boolean;
     procedure DoDone(const Str: string);
+    procedure SetMulLine(Value: boolean);
   public
     { public declarations }
     FHotkeyFind,
@@ -98,6 +102,7 @@ type
     procedure UpdateFonts;
     property Replace: boolean read FReplace write FReplace;
     property OnDone: TStrEvent read FOnDone write FOnDone;
+    property MulLine: boolean read FMulLine write SetMulLine;
   end;
 
 var
@@ -154,6 +159,12 @@ begin
   DoDone(cOpFindSelectAll);
 end;
 
+procedure TfmFind.chkMulLineClick(Sender: TObject);
+begin
+  MulLine:= not MulLine;
+  UpdateState;
+end;
+
 procedure TfmFind.chkRepChange(Sender: TObject);
 begin
   UpdateState;
@@ -182,6 +193,7 @@ end;
 procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
+  //Ctrl+Down: copy Find to Replace
   if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
   begin
     edRep.Text:= edFind.Text;
@@ -200,9 +212,6 @@ procedure TfmFind.FormCreate(Sender: TObject);
 begin
   edFind.OptTabSize:= 4;
   edRep.OptTabSize:= 4;
-
-  //StringHintMarkAll:= 'To clear, command "markers: remove all"';
-  //bMarkAll.Hint:= 'Alt+7'+#10+StringHintMarkAll;
 end;
 
 procedure TfmFind.UpdateFonts;
@@ -260,6 +269,8 @@ begin
     if Shift=[] then DoDone(cOpFindNext);
     //Shift+Enter: find prev
     if Shift=[ssShift] then DoDone(cOpFindPrev);
+    //Ctrl+Enter: dont catch here, combobox must handle it as new-line
+    if Shift=[ssCtrl] then exit;
 
     if Replace then
     begin
@@ -349,6 +360,34 @@ begin
   end;
 end;
 
+procedure TfmFind.SetMulLine(Value: boolean);
+const
+  cScale = 2.6;
+var
+  NSizeY, NSmall: integer;
+begin
+  FMulLine:= Value;
+
+  NSmall:= 4;
+  NSizeY:= bFindFirst.Height;
+  if FMulLine then NSizeY:= Trunc(NSizeY*cScale);
+
+  edFind.Height:= NSizeY;
+  edRep.Height:= NSizeY;
+  edRep.Top:= edFind.Top+edFind.Height+NSmall;
+
+  LabelRep.Top:= edRep.Top+NSmall;
+  PanelBtnRep.Top:= edRep.Top;
+
+  PanelAll.Height:= IfThen(Replace,
+    edRep.Top+edRep.Height+NSmall,
+    edFind.Top+edFind.Height+NSmall);
+  ClientHeight:= PanelAll.Height;
+
+  edFind.ModeOneLine:= not FMulLine;
+  edRep.ModeOneLine:= not FMulLine;
+end;
+
 
 procedure TfmFind.UpdateState;
 var
@@ -359,6 +398,7 @@ begin
 
   Height:= IfThen(rep, edRep.Top+edRep.Height+4, edFind.Top+edFind.Height+4);
 
+  chkMulLine.Checked:= MulLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= rep;
   LabelRep.Visible:= rep;
