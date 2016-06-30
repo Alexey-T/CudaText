@@ -485,17 +485,26 @@ const
   hotkey_words = ' - Alt+W';
   hotkey_wrap = ' - Alt+N';
   hotkey_cfm = ' - Alt+Y';
+  hotkey_mul = ' - Alt+M';
+const
+  init_HintRegex = 'Regular expressions';
+  init_HintCase = 'Case sensitive';
+  init_HintWords = 'Whole words';
+  init_HintWrapped = 'Wrapped search';
+  init_HintConfRep = 'Confirm on replace';
+  init_HintMulLine = 'Multi-line inputs (Ctrl+Enter for new-line)';
 var
   fn: string;
   ini: TIniFile;
 begin
   if not Assigned(fmFind) then exit;
 
-  with fmFind.chkRegex do Hint:= 'Regular expressions'+hotkey_re;
-  with fmFind.chkCase do Hint:= 'Case sensitive'+hotkey_case;
-  with fmFind.chkWords do Hint:= 'Whole words'+hotkey_words;
-  with fmFind.chkWrap do Hint:= 'Wrapped search'+hotkey_wrap;
-  with fmFind.chkConfirm do Hint:= 'Confirm on replace'+hotkey_cfm;
+  with fmFind.chkRegex do Hint:= init_HintRegex+hotkey_re;
+  with fmFind.chkCase do Hint:= init_HintCase+hotkey_case;
+  with fmFind.chkWords do Hint:= init_HintWords+hotkey_words;
+  with fmFind.chkWrap do Hint:= init_HintWrapped+hotkey_wrap;
+  with fmFind.chkConfirm do Hint:= init_HintConfRep+hotkey_cfm;
+  with fmFind.chkMulLine do Hint:= init_HintMulLine+hotkey_mul;
 
 
   fn:= GetAppLangFilename;
@@ -514,14 +523,12 @@ begin
     with fmFind.LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
     with fmFind.LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
-    //with fmFind do StringHintMarkAll:= ini.ReadString(section, 'mk_hint', StringHintMarkAll);
-    //with fmFind do bMarkAll.Hint:= 'Alt+7'#10+StringHintMarkAll;
-
-    with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', 'Regular expressions')+hotkey_re;
-    with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', 'Case sensitive')+hotkey_case;
-    with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', 'Whole words')+hotkey_words;
-    with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', 'Wrapped search')+hotkey_wrap;
-    with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', 'Confirm on replace')+hotkey_cfm;
+    with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', init_HintRegex)+hotkey_re;
+    with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', init_HintCase)+hotkey_case;
+    with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', init_HintWords)+hotkey_words;
+    with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', init_HintWrapped)+hotkey_wrap;
+    with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)+hotkey_cfm;
+    with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine)+hotkey_mul;
 
     with fmFind.edFind do
     begin

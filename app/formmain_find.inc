@@ -178,6 +178,7 @@ begin
       cfg.Filename:= GetAppPath(cFileOptHistory);
       SLoadStringsFromFile(cfg, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
       SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
+      fmFind.MulLine:= cfg.GetValue('/find_mul_line', false);
     finally
       cfg.Free
     end;

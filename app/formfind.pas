@@ -325,6 +325,8 @@ begin
     begin with chkConfirm do checked:= not checked; key:= 0; exit end;
   if (key=VK_N) and (Shift=[ssAlt]) then
     begin with chkWrap do checked:= not checked; key:= 0; exit end;
+  if (key=VK_M) and (Shift=[ssAlt]) then
+    begin with chkMulLine do checked:= not checked; key:= 0; exit end;
 
   if (key=VK_A) and (Shift=[ssAlt]) then
     begin bRepAllClick(Self); key:= 0; exit end;

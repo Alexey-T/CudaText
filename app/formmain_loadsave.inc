@@ -42,6 +42,7 @@ begin
     begin
       SSaveStringsToFile(c, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
       SSaveStringsToFile(c, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
+      c.SetValue('/find_mul_line', fmFind.MulLine);
     end;
 
     SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
