@@ -258,15 +258,19 @@
   //  5: carets column on right 
   "caret_after_paste_column": 5,
 
-  //Suggest selection (of 1st caret) to Find dialog
+  //Find dialog: suggest selection (of 1st caret)
   "find_suggest_sel": false,
-  //Suggest word (at 1st caret) to Find dialog
+  //Find dialog: suggest word (at 1st caret)
   "find_suggest_cur_word": true,
-  //Find current selection next/prev: case-sensitive
-  //  0: case-sens off, 1: case-sens on; 2: use option from Find dialog
+  //Find current selection next/prev: case-sensitive state
+  //  0: case-sens off 
+  //  1: case-sens on
+  //  2: use option from Find dialog
   "find_sel_case": 2,
-  //Show "find first" dialog button
+  //Find dialog: show "find first" button
   "find_show_findfirst": true,
+  //Find dialog: multi-line mode: how height of inputs is increased
+  "find_multiline_scale": 2.5,  
 
   //When doing "go to" or "find", and new position out of screen,
   //   scroll to N chars from new position;

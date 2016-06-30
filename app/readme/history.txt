@@ -6,6 +6,7 @@ Legend:
 
 1.3.22
 + Find dialog: multi-line by "+" btn
++ opt find_multiline_scale  
 + AddonManager warns, on adding linter w/o CudaLint
 + api
 

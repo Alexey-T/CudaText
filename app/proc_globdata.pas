@@ -109,6 +109,7 @@ type
     FindShowFindfirst: boolean;
     FindIndentVert: integer;
     FindIndentHorz: integer;
+    FindMultiLineScale: double;
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
@@ -816,6 +817,7 @@ begin
     FindShowFindfirst:= true;
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
+    FindMultiLineScale:= 2.5;
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;

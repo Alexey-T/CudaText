@@ -363,8 +363,6 @@ begin
 end;
 
 procedure TfmFind.SetMulLine(Value: boolean);
-const
-  cScale = 2.6;
 var
   NSizeY, NSmall: integer;
 begin
@@ -372,7 +370,7 @@ begin
 
   NSmall:= 4;
   NSizeY:= bFindFirst.Height;
-  if FMulLine then NSizeY:= Trunc(NSizeY*cScale);
+  if FMulLine then NSizeY:= Trunc(NSizeY*UiOps.FindMultiLineScale);
 
   edFind.Height:= NSizeY;
   edRep.Height:= NSizeY;

@@ -499,6 +499,7 @@ begin
     UiOps.FindShowFindfirst:= c.GetValue('find_show_findfirst', UiOps.FindShowFindfirst);
     UiOps.FindIndentVert:= c.GetValue('find_indent_vert', UiOps.FindIndentVert);
     UiOps.FindIndentHorz:= c.GetValue('find_indent_horz', UiOps.FindIndentHorz);
+    UiOps.FindMultiLineScale:= c.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
 
     UiOps.TabWidth:= c.GetValue('ui_tab_size_x', UiOps.TabWidth);
     UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);
