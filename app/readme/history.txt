@@ -6,8 +6,8 @@ Legend:
 
 1.3.22
 + Find dialog: multi-line by "+" btn
-+ api (for "Tern")
-+ AddonManager warns, if linter installed without CudaLint
++ AddonManager warns, on adding linter w/o CudaLint
++ api
 
 1.3.21
 + AddonManager shows linters too

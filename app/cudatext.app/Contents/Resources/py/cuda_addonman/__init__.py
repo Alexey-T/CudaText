@@ -110,6 +110,13 @@ class Command:
         res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
         if res is None: return
         url = items[res][0]
+        
+        #check for CudaLint
+        if 'linter.' in url:
+            if not "cuda_lint" in get_installed_list():
+                msg_box('This is linter, it needs CudaLint plugin installed. Install CudaLint first.', MB_OK+MB_ICONWARNING)
+                return
+        
         #resolve url
         msg_status('Downloading file...')
         try:
