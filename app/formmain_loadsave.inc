@@ -76,6 +76,7 @@ var
   F: TEditorFrame;
   nGroup, nTab, i: integer;
   path: string;
+  bModified: boolean;
 begin
   if fn_session='' then exit;
   DeleteFile(fn_session);
@@ -94,14 +95,20 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      if F.Filename='' then Continue;
       if not F.IsText then Continue;
 
       path:= '/'+Format('%3.3d', [i]);
-      Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
 
+      Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
+      bModified:= (F.FileName='') or (F.Modified);
+
+      c.SetValue(path+'/modified', bModified);
       c.SetValue(path+'/file', F.Filename);
       c.SetValue(path+'/group', nGroup);
+
+      if bModified then
+        c.SetValue(path+'/text', F.Editor.Text);
+
       F.DoSaveHistoryEx(c, path);
     end;
   finally
@@ -117,6 +124,8 @@ var
   F: TEditorFrame;
   nGroup, i: integer;
   Pages: TATPages;
+  bModified: boolean;
+  sText: UnicodeString;
 begin
   if fn_session='' then exit;
   if not FileExists(fn_session) then exit;
@@ -136,19 +145,37 @@ begin
     begin
       fn:= c.GetValue('/'+list[i]+'/file', '');
       nGroup:= c.GetValue('/'+list[i]+'/group', Low(TATGroupsNums));
+      bModified:= c.GetValue('/'+list[i]+'/modified', false);
+      sText:= c.GetValue('/'+list[i]+'/text', '');
 
       Pages:= nil;
       if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
         Pages:= Groups.Pages[nGroup];
 
-      if FileExistsUTF8(fn) then
+      F:= nil;
+      if bModified then
       begin
-        F:= DoFileOpen(fn, Pages);
-        if F<>nil then
+        if (FrameCount>0) and Frames[0].IsEmpty then
+          F:= Frames[0]
+        else
+          F:= DoFileOpen('', Pages);
+        if fn<>'' then
         begin
-          F.NotInRecents:= true;
-          F.DoLoadHistoryEx(c, '/'+list[i]);
+          F.FileName:= fn;
+          F.TabCaption:= ExtractFileName(fn);
         end;
+        F.Editor.Text:= sText;
+        F.Editor.Modified:= bModified;
+        F.UpdateModifiedState;
+      end
+      else
+      if FileExistsUTF8(fn) then
+        F:= DoFileOpen(fn, Pages);
+
+      if Assigned(F) then
+      begin
+        F.NotInRecents:= true;
+        F.DoLoadHistoryEx(c, '/'+list[i]);
       end;
     end;
 

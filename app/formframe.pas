@@ -1338,7 +1338,6 @@ var
   items: TStringlist;
   N, i: integer;
 begin
-  if FileName='' then exit;
   if Lexer=nil then
     lexname:= ''
   else
@@ -1419,8 +1418,6 @@ var
   nTop, i: integer;
   items: TStringlist;
 begin
-  if FileName='' then exit;
-
   //file not listed?
   if c.GetValue(path+cSavTop, -1)<0 then exit;
 
@@ -1436,7 +1433,11 @@ begin
   if str<>str0 then
   begin
     EncodingName:= str;
-    Editor.LoadFromFile(FileName); //reread in enc
+    //reread in enc
+    //but only if not modified (modified means other text is loaded)
+    if FileName<>'' then
+      if not Editor.Modified then
+        Editor.LoadFromFile(FileName);
   end;
 
   TabColor:= StringToColorDef(c.GetValue(path+cSavColor, ''), clNone);
