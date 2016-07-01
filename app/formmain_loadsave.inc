@@ -153,6 +153,7 @@ begin
         Pages:= Groups.Pages[nGroup];
 
       F:= nil;
+      //modified tabs must restore text, and set filename (if not empty)
       if bModified then
       begin
         if (FrameCount>0) and Frames[0].IsEmpty then
@@ -169,9 +170,11 @@ begin
         F.UpdateModifiedState;
       end
       else
+      //unmodified+named tabs must load file again
       if FileExistsUTF8(fn) then
         F:= DoFileOpen(fn, Pages);
 
+      //load other props (caret/encoding/etc)
       if Assigned(F) then
       begin
         F.NotInRecents:= true;
@@ -179,6 +182,7 @@ begin
       end;
     end;
 
+    //restore tab-index, group-index
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
       Groups.Pages[i].Tabs.TabIndex:= c.GetValue('/tab_index/g'+Inttostr(i), 0);
 

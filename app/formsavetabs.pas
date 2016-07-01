@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
-  IniFiles, CheckLst, ExtCtrls, StdCtrls,
+  IniFiles, CheckLst, ExtCtrls, StdCtrls, StrUtils,
   LazUTF8, LazFileUtils,
   proc_globdata,
   proc_msg;
@@ -51,13 +51,15 @@ var
   ini: TIniFile;
   fn: string;
 begin
+  F.btnDontSave.Caption:= IfThen(UiOps.ShowLastFiles, 'Don''t save / Keep in session', 'Don''t save');
+
   fn:= GetAppLangFilename;
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.btnSave do Caption:= ini.ReadString(section, 'sav', Caption);
-    with F.btnDontSave do Caption:= ini.ReadString(section, 'no', Caption);
+    with F.btnDontSave do Caption:= ini.ReadString(section, IfThen(UiOps.ShowLastFiles, 'no_ses', 'no'), Caption);
     with F.btnCancel do Caption:= msgButtonCancel;
   finally
     FreeAndNil(ini);

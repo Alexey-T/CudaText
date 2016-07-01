@@ -1,7 +1,8 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
-2016.06.30
+2016.07.01
++ [d_save_tabs] no_ses
 + [d_f] h_mul
 
 2016.06.26

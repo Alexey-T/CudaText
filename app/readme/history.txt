@@ -5,9 +5,10 @@ Legend:
 
 
 1.3.22
-+ Find dialog: multi-line by "+" btn
-+ opt find_multiline_scale  
-+ AddonManager warns, on adding linter w/o CudaLint
++ Find dialog: multi-line mode by "+" btn
++ on closing with saving session, modified+untitled tabs' text saves to session
++ AddonManager warns on adding linter w/o CudaLint
++ opt find_multiline_scale
 + api
 
 1.3.21
