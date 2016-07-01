@@ -51,7 +51,7 @@ var
   ini: TIniFile;
   fn: string;
 begin
-  F.btnDontSave.Caption:= IfThen(UiOps.ShowLastFiles, 'Don''t save / Keep in session', 'Don''t save');
+  F.btnDontSave.Caption:= 'Don''&t save' + IfThen(UiOps.ShowLastFiles, ' / Keep in session');
 
   fn:= GetAppLangFilename;
   if not FileExists(fn) then exit;
