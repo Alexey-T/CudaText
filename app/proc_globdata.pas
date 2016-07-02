@@ -301,6 +301,7 @@ function GetAppLangFilename: string;
 function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOverrideFilename(AName: string): string;
+function GetAppKeymapOverrideFilename(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
 function SetAppKeymapHotkey(AParams: string): boolean;
 function GetActiveControl(Form: TWinControl): TWinControl;
@@ -861,13 +862,29 @@ begin
   end;
 end;
 
+
+procedure SReplaceSpecialFilenameChars(var S: string);
+begin
+  S:= StringReplace(S, '/', '_', [rfReplaceAll]);
+  S:= StringReplace(S, '\', '_', [rfReplaceAll]);
+  S:= StringReplace(S, '*', '_', [rfReplaceAll]);
+  S:= StringReplace(S, ':', '_', [rfReplaceAll]);
+  S:= StringReplace(S, '<', '_', [rfReplaceAll]);
+  S:= StringReplace(S, '>', '_', [rfReplaceAll]);
+end;
+
 function GetAppLexerOverrideFilename(AName: string): string;
 begin
-  AName:= StringReplace(AName, '/', '_', [rfReplaceAll]);
-  AName:= StringReplace(AName, '\', '_', [rfReplaceAll]);
-  AName:= StringReplace(AName, '*', '_', [rfReplaceAll]);
+  SReplaceSpecialFilenameChars(AName);
   Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer '+AName+'.json';
 end;
+
+function GetAppKeymapOverrideFilename(AName: string): string;
+begin
+  SReplaceSpecialFilenameChars(AName);
+  Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys lexer '+AName+'.json';
+end;
+
 
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 var
