@@ -22,6 +22,7 @@ uses
   ATSynEdit_Commands,
   proc_globdata,
   proc_colors,
+  proc_editor,
   proc_miscutils;
 
 const
@@ -217,6 +218,8 @@ begin
   edFind.Strings.Endings:= cEndUnix;
   edRep.Strings.Endings:= cEndUnix;
 
+  edFind.OptUnprintedSpaces:= false;
+  edRep.OptUnprintedSpaces:= false;
   edFind.OptUnprintedEndsDetails:= false;
   edRep.OptUnprintedEndsDetails:= false;
 end;
@@ -236,15 +239,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
-    Colors.TextFont:= GetAppColor('EdTextFont');
-    Colors.TextBG:= GetAppColor('EdTextBg');
-    Colors.TextSelFont:= GetAppColor('EdSelFont');
-    Colors.TextSelBG:= GetAppColor('EdSelBg');
-    Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
-    Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
-    Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
-    Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
-    Colors.BorderLine:= GetAppColor('EdBorder');
+    EditorApplyTheme(edFind);
     Update;
   end;
 
@@ -253,15 +248,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
-    Colors.TextFont:= GetAppColor('EdTextFont');
-    Colors.TextBG:= GetAppColor('EdTextBg');
-    Colors.TextSelFont:= GetAppColor('EdSelFont');
-    Colors.TextSelBG:= GetAppColor('EdSelBg');
-    Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
-    Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
-    Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
-    Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
-    Colors.BorderLine:= GetAppColor('EdBorder');
+    EditorApplyTheme(edRep);
     Update;
   end;
 

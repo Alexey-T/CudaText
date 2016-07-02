@@ -717,20 +717,8 @@ begin
   for i:= 0 to 9 do
     AppBookmarkSetup[240+i].Color:= GetAppColor('EdBookmarkBg');
 
-  fmConsole.ed.Colors.TextFont:= GetAppColor('EdTextFont');
-  fmConsole.ed.Colors.TextBG:= GetAppColor('EdTextBg');
-  fmConsole.ed.Colors.TextSelFont:= GetAppColor('EdSelFont');
-  fmConsole.ed.Colors.TextSelBG:= GetAppColor('EdSelBg');
-  fmConsole.ed.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
-  fmConsole.ed.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
-  fmConsole.ed.Colors.BorderLine:= GetAppColor('EdBorder');
-  fmConsole.ed.Update;
-
-  fmConsole.memo.Colors.TextFont:= GetAppColor('EdTextFont');
-  fmConsole.memo.Colors.TextBG:= GetAppColor('EdTextBg');
-  fmConsole.memo.Colors.TextSelFont:= GetAppColor('EdSelFont');
-  fmConsole.memo.Colors.TextSelBG:= GetAppColor('EdSelBg');
-  fmConsole.memo.Update;
+  EditorApplyTheme(fmConsole.ed);
+  EditorApplyTheme(fmConsole.memo);
 
   ToolbarMain.Color:= GetAppColor('TabBg');
   Self.Color:= ToolbarMain.Color;
@@ -799,12 +787,7 @@ begin
   begin
     fmGoto.Color:= GetAppColor('TabBg');
     fmGoto.LabelGoto.Font.Color:= GetAppColor('TabFont');
-    fmGoto.edInput.Colors.TextFont:= GetAppColor('EdTextFont');
-    fmGoto.edInput.Colors.TextBG:= GetAppColor('EdTextBg');
-    fmGoto.edInput.Colors.TextSelFont:= GetAppColor('EdSelFont');
-    fmGoto.edInput.Colors.TextSelBG:= GetAppColor('EdSelBg');
-    fmGoto.edInput.Colors.BorderLine:= GetAppColor('EdBorder');
-    fmGoto.edInput.Update;
+    EditorApplyTheme(fmGoto.edInput);
     fmGoto.Invalidate;
   end;
 
@@ -812,24 +795,8 @@ begin
   begin
     fmFind.Color:= GetAppColor('TabBg');
     fmFind.LabelFind.Font.Color:= GetAppColor('ListFont');
-    fmFind.edFind.Colors.TextFont:= GetAppColor('EdTextFont');
-    fmFind.edFind.Colors.TextBG:= GetAppColor('EdTextBg');
-    fmFind.edFind.Colors.TextSelFont:= GetAppColor('EdSelFont');
-    fmFind.edFind.Colors.TextSelBG:= GetAppColor('EdSelBg');
-    fmFind.edFind.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
-    fmFind.edFind.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
-    fmFind.edFind.Colors.BorderLine:= GetAppColor('EdBorder');
-    fmFind.edFind.Update;
-    fmFind.edRep.Colors.TextFont:= GetAppColor('EdTextFont');
-    fmFind.edRep.Colors.TextBG:= GetAppColor('EdTextBg');
-    fmFind.edRep.Colors.TextSelFont:= GetAppColor('EdSelFont');
-    fmFind.edRep.Colors.TextSelBG:= GetAppColor('EdSelBg');
-    fmFind.edRep.Colors.TextDisabledFont:= GetAppColor('EdDisableFont');
-    fmFind.edRep.Colors.TextDisabledBG:= GetAppColor('EdDisableBg');
-    fmFind.edRep.Colors.ComboboxArrow:= GetAppColor('EdComboArrow');
-    fmFind.edRep.Colors.ComboboxArrowBG:= GetAppColor('EdComboArrowBg');
-    fmFind.edRep.Colors.BorderLine:= GetAppColor('EdBorder');
-    fmFind.edRep.Update;
+    EditorApplyTheme(fmFind.edFind);
+    EditorApplyTheme(fmFind.edRep);
     fmFind.Invalidate;
   end;
 

@@ -544,6 +544,8 @@ begin
   Ed.Colors.MarginUser:= GetAppColor('EdMarginUser');
 
   Ed.Colors.MarkedLinesBG:= GetAppColor('EdMarkedRangeBg');
+
+  Ed.Update;
 end;
 
 
