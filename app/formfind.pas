@@ -16,6 +16,7 @@ uses
   StdCtrls, Buttons, ExtCtrls,
   LclType, LclProc, Math,
   ATButtons,
+  ATStringProc,
   ATSynEdit,
   ATSynEdit_Edits,
   ATSynEdit_Commands,
@@ -212,6 +213,12 @@ procedure TfmFind.FormCreate(Sender: TObject);
 begin
   edFind.OptTabSize:= 4;
   edRep.OptTabSize:= 4;
+
+  edFind.Strings.Endings:= cEndUnix;
+  edRep.Strings.Endings:= cEndUnix;
+
+  edFind.OptUnprintedEndsDetails:= false;
+  edRep.OptUnprintedEndsDetails:= false;
 end;
 
 procedure TfmFind.UpdateFonts;
@@ -386,6 +393,9 @@ begin
 
   edFind.ModeOneLine:= not FMulLine;
   edRep.ModeOneLine:= not FMulLine;
+
+  edFind.OptUnprintedVisible:= FMulLine;
+  edRep.OptUnprintedVisible:= FMulLine;
 end;
 
 
