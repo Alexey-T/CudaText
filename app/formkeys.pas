@@ -27,7 +27,7 @@ type
     bAdd2: TButton;
     bClear1: TButton;
     bClear2: TButton;
-    ButtonPanel1: TButtonPanel;
+    panelBtn: TButtonPanel;
     chkForLexer: TCheckBox;
     labelKey1: TLabel;
     labelKey2: TLabel;
@@ -73,13 +73,14 @@ begin
   ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
-    with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
+    with F.panelBtn.OKButton do Caption:= msgButtonOk;
+    with F.panelBtn.CancelButton do Caption:= msgButtonCancel;
 
     with F.bClear1 do Caption:= ini.ReadString(section, 'clr', Caption);
     with F.bAdd1 do Caption:= ini.ReadString(section, 'add', Caption);
     F.bClear2.Caption:= F.bClear1.Caption;
     F.bAdd2.Caption:= F.bAdd1.Caption;
+
     with F.panelPress do Caption:= ini.ReadString(section, 'wait', Caption);
     with F.chkForLexer do Caption:= ini.ReadString(section, 'lex', Caption);
   finally

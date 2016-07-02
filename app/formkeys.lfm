@@ -14,7 +14,7 @@ object fmKeys: TfmKeys
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
-  object ButtonPanel1: TButtonPanel
+  object panelBtn: TButtonPanel
     Left = 6
     Height = 29
     Top = 179
@@ -29,7 +29,7 @@ object fmKeys: TfmKeys
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 4
+    TabOrder = 5
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
   end
@@ -107,7 +107,7 @@ object fmKeys: TfmKeys
     BevelOuter = bvNone
     Caption = 'Press a key...'
     ParentColor = False
-    TabOrder = 5
+    TabOrder = 6
     Visible = False
   end
   object chkForLexer: TCheckBox
@@ -116,6 +116,6 @@ object fmKeys: TfmKeys
     Top = 152
     Width = 169
     Caption = 'For current lexer only'
-    TabOrder = 6
+    TabOrder = 4
   end
 end
