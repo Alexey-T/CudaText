@@ -51,6 +51,7 @@ begin
   try
     DoLocalize_FormKeys(Form);
     Caption:= Caption+' - '+AppKeymap[n].Name;
+    chkForLexer.Enabled:= ALexerName<>'';
     Keys1:= AppKeymap[n].Keys1;
     Keys2:= AppKeymap[n].Keys2;
 

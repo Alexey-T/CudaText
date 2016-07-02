@@ -81,6 +81,7 @@ begin
     F.bClear2.Caption:= F.bClear1.Caption;
     F.bAdd2.Caption:= F.bAdd1.Caption;
     with F.panelPress do Caption:= ini.ReadString(section, 'wait', Caption);
+    with F.chkForLexer do Caption:= ini.ReadString(section, 'lex', Caption);
   finally
     FreeAndNil(ini);
   end;

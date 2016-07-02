@@ -263,7 +263,7 @@ begin
 
   strfind:= Utf8Encode(Trim(edit.Text));
 
-  pnt:= Point(ARect.Left+4, ARect.Top+1);
+  pnt:= Point(ARect.Left+4, ARect.Top);
   c.TextOut(pnt.x, pnt.y, strname);
 
   c.Font.Color:= GetAppColor('ListFontHilite');

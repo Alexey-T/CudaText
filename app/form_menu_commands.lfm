@@ -105,6 +105,7 @@ object fmCommands: TfmCommands
     OptShowFullHilite = True
     OptShowCurLine = False
     OptShowCurLineMinimal = True
+    OptShowCurLineOnlyFocused = False
     OptShowScrollHint = False
     OptShowCurColumn = False
     OptCaretManyAllowed = False
