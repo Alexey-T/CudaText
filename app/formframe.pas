@@ -77,7 +77,6 @@ type
     FOnEditorCommand: TATSynEditCommandEvent;
     FOnEditorChangeCaretPos: TNotifyEvent;
     FOnSaveFile: TNotifyEvent;
-    FOnSetLexer: TNotifyEvent;
     FOnAddRecent: TNotifyEvent;
     FOnPyEvent: TEditorFramePyEvent;
     FSplitted: boolean;
@@ -227,7 +226,6 @@ type
     property OnEditorCommand: TATSynEditCommandEvent read FOnEditorCommand write FOnEditorCommand;
     property OnEditorChangeCaretPos: TNotifyEvent read FOnEditorChangeCaretPos write FOnEditorChangeCaretPos;
     property OnSaveFile: TNotifyEvent read FOnSaveFile write FOnSaveFile;
-    property OnSetLexer: TNotifyEvent read FOnSetLexer write FOnSetLexer;
     property OnAddRecent: TNotifyEvent read FOnAddRecent write FOnAddRecent;
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
   end;
@@ -879,10 +877,6 @@ begin
   if not DoApplyLexerStylesMap(an) then
     DoDialogLexerStylesMap(an);
   Adapter.Lexer:= an;
-
-  if Assigned(an) then
-    if Assigned(FOnSetLexer) then
-      FOnSetLexer(Self);
 end;
 
 procedure TEditorFrame.DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);

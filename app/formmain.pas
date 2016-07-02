@@ -401,7 +401,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnChangeCaretPos(Sender: TObject);
-    procedure FrameOnSetLexer(Sender: TObject);
     procedure FrameParseBegin(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
     procedure ListboxOutClick(Sender: TObject);
@@ -3547,9 +3546,9 @@ end;
 
 procedure TfmMain.FrameLexerChange(Sender: TObject);
 begin
+  DoOps_LoadOptionsOverride((Sender as TComponent).Owner as TEditorFrame); //options override
   DoPyEvent(CurrentEditor, cEventOnLexer, []);
-
-  DoOps_LoadKeymap; //keymap may be overridden for lexer
+  DoOps_LoadKeymap; //keymap override
 end;
 
 procedure TfmMain.DoToolbarAddButton(AStr: string);

@@ -133,14 +133,9 @@ begin
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply);
 end;
 
-procedure TfmMain.FrameOnSetLexer(Sender: TObject);
-begin
-  DoOps_LoadOptionsOverride(Sender as TEditorFrame);
-end;
-
 procedure TfmMain.FrameParseBegin(Sender: TObject);
 begin
-  //dont clear, it's irritating
+  //dont clear tree, it's irritating
   //Tree.Items.Clear;
 end;
 

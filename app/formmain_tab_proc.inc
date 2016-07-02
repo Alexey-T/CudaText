@@ -17,7 +17,6 @@ begin
   F.OnEditorClickMoveCaret:= @FrameOnEditorClickMoveCaret;
   F.OnEditorClickEndSelect:= @FrameOnEditorClickEndSelect;
   F.OnSaveFile:= @FrameOnSaveFile;
-  F.OnSetLexer:= @FrameOnSetLexer;
   F.OnAddRecent:= @FrameAddRecent;
   F.OnPyEvent:= @DoPyEvent;
 

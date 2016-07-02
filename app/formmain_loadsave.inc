@@ -623,6 +623,7 @@ var
   fn: string;
   Ops: TEditorOps;
 begin
+  if F=nil then exit;
   an:= F.Lexer;
   if an=nil then exit;
   if an.LexerName='' then exit;
