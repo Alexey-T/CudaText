@@ -630,6 +630,7 @@ type
     procedure DoOps_OpenFile_User;
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
     procedure DoOps_LoadKeymap;
+    procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string);
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
     procedure DoCopyFilenameDir;

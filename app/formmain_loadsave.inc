@@ -309,25 +309,26 @@ begin
     DoOps_LoadSession(GetSessionFilename);
 end;
 
+
 procedure TfmMain.DoOps_LoadKeymap;
+begin
+  DoOps_LoadKeymapFrom(GetAppPath(cFileOptKeymap));
+end;
+
+procedure TfmMain.DoOps_LoadKeymapFrom(const AFilenameKeymap: string);
 var
   c: TJSONConfig;
   slist, skeys: TStringList;
   //
-  procedure DoReadConfigToKeys(path: string; var keys: TATKeyArray);
+  procedure DoReadConfigToKeys(const path: string; var keys: TATKeyArray);
   var
     j: integer;
   begin
+    FillChar(keys, SizeOf(keys), 0);
     c.GetValue(path, skeys, '');
     for j:= 0 to skeys.count-1 do
       if skeys[j]<>'' then
         keys[j]:= TextToShortCut(skeys[j]);
-  end;
-  //
-  procedure DoReadConfigOneKey(const path_s: string; var KeyItem: TATKeyArray);
-  begin
-    FillChar(KeyItem, SizeOf(KeyItem), 0);
-    DoReadConfigToKeys(path_s, KeyItem);
   end;
   //
 var
@@ -339,7 +340,7 @@ begin
   skeys:= TStringList.Create;
 
   try
-    c.Filename:= GetAppPath(cFileOptKeymap);
+    c.Filename:= AFilenameKeymap;
     c.EnumSubKeys('/', slist);
     for i:= 0 to slist.count-1 do
     begin
@@ -359,8 +360,8 @@ begin
       nitem:= AppKeymap.IndexOf(ncmd);
       if nitem<0 then Continue;
 
-      DoReadConfigOneKey(slist[i]+'/s1', AppKeymap[nitem].Keys1);
-      DoReadConfigOneKey(slist[i]+'/s2', AppKeymap[nitem].Keys2);
+      DoReadConfigToKeys(slist[i]+'/s1', AppKeymap[nitem].Keys1);
+      DoReadConfigToKeys(slist[i]+'/s2', AppKeymap[nitem].Keys2);
     end;
   finally
     skeys.Free;
