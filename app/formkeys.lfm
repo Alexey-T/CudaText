@@ -1,12 +1,12 @@
 object fmKeys: TfmKeys
   Left = 603
-  Height = 214
+  Height = 182
   Top = 440
   Width = 420
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Command hotkeys'
-  ClientHeight = 214
+  ClientHeight = 182
   ClientWidth = 420
   KeyPreview = True
   OnKeyDown = FormKeyDown
@@ -17,7 +17,7 @@ object fmKeys: TfmKeys
   object panelBtn: TButtonPanel
     Left = 6
     Height = 29
-    Top = 179
+    Top = 147
     Width = 408
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -36,7 +36,7 @@ object fmKeys: TfmKeys
   object labelKey1: TLabel
     Left = 9
     Height = 17
-    Top = 16
+    Top = 8
     Width = 32
     Caption = 'Key1'
     ParentColor = False
@@ -46,7 +46,7 @@ object fmKeys: TfmKeys
     AnchorSideLeft.Side = asrBottom
     Left = 115
     Height = 29
-    Top = 40
+    Top = 28
     Width = 100
     AutoSize = True
     BorderSpacing.Around = 6
@@ -58,7 +58,7 @@ object fmKeys: TfmKeys
   object bClear1: TButton
     Left = 9
     Height = 29
-    Top = 40
+    Top = 28
     Width = 100
     AutoSize = True
     Caption = 'Clear'
@@ -69,7 +69,7 @@ object fmKeys: TfmKeys
   object labelKey2: TLabel
     Left = 10
     Height = 17
-    Top = 88
+    Top = 64
     Width = 32
     Caption = 'Key2'
     ParentColor = False
@@ -79,7 +79,7 @@ object fmKeys: TfmKeys
     AnchorSideLeft.Side = asrBottom
     Left = 115
     Height = 29
-    Top = 112
+    Top = 84
     Width = 100
     AutoSize = True
     BorderSpacing.Around = 6
@@ -91,7 +91,7 @@ object fmKeys: TfmKeys
   object bClear2: TButton
     Left = 9
     Height = 29
-    Top = 112
+    Top = 84
     Width = 100
     AutoSize = True
     Caption = 'Clear'
@@ -111,11 +111,11 @@ object fmKeys: TfmKeys
     Visible = False
   end
   object chkForLexer: TCheckBox
-    Left = 9
+    Left = 10
     Height = 24
-    Top = 152
-    Width = 169
-    Caption = 'For current lexer only'
+    Top = 120
+    Width = 138
+    Caption = 'For current lexer'
     TabOrder = 4
   end
 end
