@@ -309,7 +309,7 @@ function GetListboxItemHeight(const AFontName: string; AFontSize: integer): inte
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
-procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path: string);
+procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
 procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
@@ -926,17 +926,22 @@ begin
 end;
 
 
-procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path: string);
+procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
 var
   c: TJSONConfig;
+  sl: TStringList;
   i: integer;
-  sl: tstringlist;
 begin
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
   try
     c.Formatted:= true;
-    c.Filename:= GetAppPath(cFileOptKeymap);
+
+    if ALexerName<>'' then
+      c.Filename:= GetAppKeymapOverrideFilename(ALexerName)
+    else
+      c.Filename:= GetAppPath(cFileOptKeymap);
+
     c.SetValue(path+'/name', K.Name);
 
     sl.clear;
@@ -1190,7 +1195,8 @@ begin
     KeyArraySetFromString(Keys2, SKey2);
 
     //save to keys.json
-    DoOps_SaveKeyItem(AppKeymap[NIndex], SCmd);
+    DoOps_SaveKeyItem(AppKeymap[NIndex], SCmd,
+      ''); //Py API: no need lexer override
   end;
   Result:= true;
 end;

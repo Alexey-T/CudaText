@@ -18,13 +18,13 @@ uses
   proc_cmd,
   formkeys;
 
-function DoDialogHotkeys(ACmd: integer): boolean;
-function DoDialogHotkeys(const AModuleAndMethod: string): boolean;
+function DoDialogHotkeys(ACmd: integer; const ALexerName: string): boolean;
+function DoDialogHotkeys(const AModuleAndMethod: string; const ALexerName: string): boolean;
 
 
 implementation
 
-function DoDialogHotkeys(ACmd: integer): boolean;
+function DoDialogHotkeys(ACmd: integer; const ALexerName: string): boolean;
 var
   n: integer;
   Form: TfmKeys;
@@ -59,7 +59,8 @@ begin
     begin
       AppKeymap[n].Keys1:= Keys1;
       AppKeymap[n].Keys2:= Keys2;
-      DoOps_SaveKeyItem(AppKeymap[n], StrId);
+      DoOps_SaveKeyItem(AppKeymap[n], StrId,
+        IfThen(Form.chkForLexer.Checked, ALexerName));
     end;
   finally
     Free
@@ -67,7 +68,8 @@ begin
 end;
 
 
-function DoDialogHotkeys(const AModuleAndMethod: string): boolean;
+function DoDialogHotkeys(const AModuleAndMethod: string;
+  const ALexerName: string): boolean;
 var
   N: integer;
 begin
@@ -75,7 +77,7 @@ begin
   N:= CommandPlugins_GetIndexFromModuleAndMethod(AModuleAndMethod);
   if N<0 then exit;
 
-  Result:= DoDialogHotkeys(N+cmdFirstPluginCommand);
+  Result:= DoDialogHotkeys(N+cmdFirstPluginCommand, ALexerName);
 end;
 
 

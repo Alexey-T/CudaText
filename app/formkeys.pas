@@ -28,6 +28,7 @@ type
     bClear1: TButton;
     bClear2: TButton;
     ButtonPanel1: TButtonPanel;
+    chkForLexer: TCheckBox;
     labelKey1: TLabel;
     labelKey2: TLabel;
     panelPress: TPanel;

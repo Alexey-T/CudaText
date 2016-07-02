@@ -58,6 +58,7 @@ type
     { public declarations }
     keymap: TATKeymap;
     ResultNum: integer;
+    CurrentLexerName: string;
   end;
 
 var
@@ -203,7 +204,7 @@ var
   N: integer;
 begin
   N:= list.ItemIndex;
-  if DoDialogHotkeys(Cmd) then
+  if DoDialogHotkeys(Cmd, CurrentLexerName) then
   begin
     DoFilter;
     DoFindDupKeys;

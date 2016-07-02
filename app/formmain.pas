@@ -1911,6 +1911,7 @@ begin
   fmCommands:= TfmCommands.Create(Self);
   try
     UpdateInputForm(fmCommands);
+    fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.keymap:= CurrentEditor.Keymap;
     fmCommands.ShowModal;
     Cmd:= fmCommands.ResultNum;
@@ -3547,6 +3548,8 @@ end;
 procedure TfmMain.FrameLexerChange(Sender: TObject);
 begin
   DoPyEvent(CurrentEditor, cEventOnLexer, []);
+
+  DoOps_LoadKeymap; //keymap may be overridden for lexer
 end;
 
 procedure TfmMain.DoToolbarAddButton(AStr: string);

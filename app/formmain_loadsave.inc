@@ -311,8 +311,19 @@ end;
 
 
 procedure TfmMain.DoOps_LoadKeymap;
+var
+  F: TEditorFrame;
+  SName: string;
 begin
   DoOps_LoadKeymapFrom(GetAppPath(cFileOptKeymap));
+
+  F:= CurrentFrame;
+  if Assigned(F) then
+  begin
+    SName:= F.LexerName;
+    if SName<>'' then
+      DoOps_LoadKeymapFrom(GetAppKeymapOverrideFilename(SName));
+  end;
 end;
 
 procedure TfmMain.DoOps_LoadKeymapFrom(const AFilenameKeymap: string);

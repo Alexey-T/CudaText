@@ -1,12 +1,12 @@
 object fmKeys: TfmKeys
   Left = 603
-  Height = 196
+  Height = 214
   Top = 440
   Width = 420
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Command hotkeys'
-  ClientHeight = 196
+  ClientHeight = 214
   ClientWidth = 420
   KeyPreview = True
   OnKeyDown = FormKeyDown
@@ -17,7 +17,7 @@ object fmKeys: TfmKeys
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
-    Top = 161
+    Top = 179
     Width = 408
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -100,14 +100,22 @@ object fmKeys: TfmKeys
     TabOrder = 2
   end
   object panelPress: TPanel
-    Left = 208
+    Left = 232
     Height = 49
     Top = 16
-    Width = 201
+    Width = 177
     BevelOuter = bvNone
     Caption = 'Press a key...'
     ParentColor = False
     TabOrder = 5
     Visible = False
+  end
+  object chkForLexer: TCheckBox
+    Left = 9
+    Height = 24
+    Top = 152
+    Width = 169
+    Caption = 'For current lexer only'
+    TabOrder = 6
   end
 end

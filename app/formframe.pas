@@ -538,6 +538,7 @@ function TEditorFrame.LexerName: string;
 var
   an: TecSyntAnalyzer;
 begin
+  if Adapter=nil then exit('');
   an:= Adapter.Lexer;
   if an=nil then
     Result:= ''
