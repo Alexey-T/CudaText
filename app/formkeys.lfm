@@ -2,12 +2,12 @@ object fmKeys: TfmKeys
   Left = 603
   Height = 182
   Top = 440
-  Width = 420
+  Width = 371
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
-  Caption = 'Command hotkeys'
+  Caption = 'Hotkey'
   ClientHeight = 182
-  ClientWidth = 420
+  ClientWidth = 371
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = FormShow
@@ -18,7 +18,7 @@ object fmKeys: TfmKeys
     Left = 6
     Height = 29
     Top = 147
-    Width = 408
+    Width = 359
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
