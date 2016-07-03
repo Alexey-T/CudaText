@@ -5,8 +5,9 @@ Legend:
 
 
 1.3.23
-+ lexer-overrides enabled for keys-settings: option "For cur lexer" in hotkey dialog
++ lexer-overrides for hotkeys: option "For current lexer" in hotkey dialog (saved in "keys lexer NNN.json")
 + find dialog: unprinted line-ends for mul-line input
+- fix range-check err
 
 1.3.22
 + Find dialog: multi-line by "+" btn
