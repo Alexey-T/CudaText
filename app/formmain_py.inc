@@ -988,7 +988,7 @@ begin
 
         BOOKMARK_CLEAR_ALL:
           begin
-            Ed.DoCommand(cmd_BookmarkClearAll);
+            EditorBookmarkClearAll(Ed);
             Result:= ReturnNone;
           end;
 
