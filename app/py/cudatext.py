@@ -273,6 +273,7 @@ COLOR_ID_MarginCaret = 'EdMarginCaret'
 COLOR_ID_MarginUser = 'EdMarginUser'
 COLOR_ID_MarkedRangeBg = 'EdMarkedRangeBg'
 COLOR_ID_Links = 'EdLinks'
+COLOR_ID_Border = 'EdBorder'
 
 
 def app_exe_version():
