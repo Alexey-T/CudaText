@@ -39,8 +39,8 @@ uses
   LCLIntf, LCLProc, LCLType,
   StrUtils,
   IniFiles,
-  jsonConf,
   Zipper,
+  ATStringProc,
   proc_files,
   proc_globdata,
   proc_msg;
@@ -80,8 +80,8 @@ procedure DoInstallPlugin(
   var s_report: string);
 var
   ini: TIniFile;
-  s_section, s_caption, s_module, s_method,
-  s_events: string;
+  s_section, s_caption, s_module, s_method, s_events,
+  s_lexers, s_hotkey, s_lexer_item: string;
   i: integer;
 begin
   s_report:= '';
@@ -99,12 +99,32 @@ begin
       s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
       s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
       s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
+      s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
+      s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
 
       if s_section='commands' then
       begin
         if s_caption='' then Continue;
         if s_method='' then Continue;
-        s_report:= s_report+msgStatusPackageCommand+' '+s_caption+#13;
+        s_report:= s_report+msgStatusPackageCommand+' '+s_caption+
+          IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#13;
+
+        //handle "hotkey"
+        if s_hotkey<>'' then
+        begin
+          if s_lexers='' then
+            //set in keys.json
+            DoOps_SaveKey_ForPluginModuleAndMethod(
+              s_caption, s_module, s_method, '', s_hotkey)
+          else
+          repeat
+            //set in "keys lexer nnnn.json" for all items in s_lexers
+            s_lexer_item:= SGetItem(s_lexers);
+            if s_lexer_item='' then Break;
+            DoOps_SaveKey_ForPluginModuleAndMethod(
+              s_caption, s_module, s_method, s_lexer_item, s_hotkey);
+          until false;
+        end;
       end;
 
       if s_section='events' then

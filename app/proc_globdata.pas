@@ -310,6 +310,7 @@ function GetListboxItemHeight(const AFontName: string; AFontSize: integer): inte
 function MsgBox(const Str: string; Flags: Longint): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
+procedure DoOps_SaveKey_ForPluginModuleAndMethod(const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
@@ -963,6 +964,41 @@ begin
     sl.Free;
   end;
 end;
+
+
+procedure DoOps_SaveKey_ForPluginModuleAndMethod(const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
+var
+  c: TJSONConfig;
+  sl: TStringList;
+  path, s_items, s_item: string;
+begin
+  c:= TJSONConfig.Create(nil);
+  sl:= TStringlist.create;
+  try
+    c.Formatted:= true;
+
+    if ALexerName<>'' then
+      c.Filename:= GetAppKeymapOverrideFilename(ALexerName)
+    else
+      c.Filename:= GetAppPath(cFileOptKeymap);
+
+    path:= AModuleName+','+AMethodName;
+    c.SetValue(path+'/name', Utf8Decode(AMenuitemCaption));
+
+    sl.Clear;
+    s_items:= AHotkey;
+    repeat
+      s_item:= SGetItem(s_items, '|');
+      if s_item='' then Break;
+      sl.Add(s_item);
+    until false;
+    c.SetValue(path+'/s1', sl);
+  finally
+    c.Free;
+    sl.Free;
+  end;
+end;
+
 
 function GetActiveControl(Form: TWinControl): TWinControl;
 var
