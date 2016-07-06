@@ -309,8 +309,11 @@ function GetListboxItemHeight(const AFontName: string; AFontSize: integer): inte
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 function AppFindLexer(const fn: string): TecSyntAnalyzer;
+
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
-procedure DoOps_SaveKey_ForPluginModuleAndMethod(const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
+procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
+  const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
+
 procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
@@ -966,7 +969,8 @@ begin
 end;
 
 
-procedure DoOps_SaveKey_ForPluginModuleAndMethod(const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
+procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
+  const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 var
   c: TJSONConfig;
   sl: TStringList;
@@ -983,6 +987,9 @@ begin
       c.Filename:= GetAppPath(cFileOptKeymap);
 
     path:= AModuleName+','+AMethodName;
+    if not AOverwriteKey then
+      if c.GetValue(path+'/s1', sl, '') then exit;
+
     c.SetValue(path+'/name', Utf8Decode(AMenuitemCaption));
 
     sl.Clear;
