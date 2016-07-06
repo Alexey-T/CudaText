@@ -100,7 +100,7 @@ begin
       path:= '/'+Format('%3.3d', [i]);
 
       Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
-      bModified:= (F.FileName='') or (F.Modified);
+      bModified:= F.Modified or ((F.FileName='') and not F.IsEmpty);
 
       c.SetValue(path+'/modified', bModified);
       c.SetValue(path+'/file', F.Filename);
