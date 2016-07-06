@@ -4,6 +4,9 @@ Legend:
   * changed
 
 
+1.3.24
++ install.inf: can set for items "hotkey=" and "|"-separated hotkeys. Saved into keys.json (if no "lexers="), or to "keys lexer NNN.json" (if used "lexers=")
+
 1.3.23
 + lexer-overrides for hotkeys: option "For current lexer" in hotkey dialog (saved in "keys lexer NNN.json")
 + find dialog: unprinted line-ends for mul-line input
