@@ -436,6 +436,7 @@ begin
     DoLocString(msgStatusEndsChanged             , ini, 'si', 'EndsChanged');
     DoLocString(msgStatusEncChanged              , ini, 'si', 'EncChanged');
     DoLocString(msgStatusGotoLine                , ini, 'si', 'GotoLine');
+    DoLocString(msgStatusGotoFileLineCol         , ini, 'si', 'FileLineCol');
     DoLocString(msgStatusSorted                  , ini, 'si', 'Sorted');
     DoLocString(msgStatusHelpOnKeysConfig        , ini, 'si', 'HelpOnKeysConfig');
     DoLocString(msgStatusClickingLogLine         , ini, 'si', 'ClickingLogLine');

@@ -3197,7 +3197,7 @@ begin
   DoParseOutputLine(Prop^, SText, ResFilename, ResLine, ResCol);
   if (ResFilename<>'') and (ResLine>=0) then
   begin
-    MsgStatus(Format('file "%s", line %d, col %d', [ResFilename, ResLine, ResCol]));
+    MsgStatus(Format(msgStatusGotoFileLineCol, [ResFilename, ResLine+1, ResCol+1]));
     if FileExists(ResFilename) then
     begin
       DoFileOpen(ResFilename);
