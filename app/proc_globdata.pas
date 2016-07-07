@@ -978,6 +978,10 @@ var
   sl: TStringList;
   path, s_items, s_item: string;
 begin
+  //check-1: is key registered for any other command?
+  if not AOverwriteKey then
+    if AppKeymapHasDuplicateForKey(AHotkey) then exit;
+
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
   try
@@ -989,6 +993,8 @@ begin
       c.Filename:= GetAppPath(cFileOptKeymap);
 
     path:= AModuleName+','+AMethodName;
+
+    //check-2: this command has already any key?
     if not AOverwriteKey then
       if c.GetValue(path+'/s1', sl, '') then exit;
 
