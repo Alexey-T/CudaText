@@ -5,8 +5,9 @@ Legend:
 
 
 1.3.24
++ AddonManager: menuitem "Open plugin readme"
 + install.inf: can set for items "hotkey=" and "|"-separated hotkeys. Saved into keys.json (if no "lexers="), or to "keys lexer NNN.json" (if used "lexers=")
-* del lexer "Resource script" to AddonManager
+* del lexer "Resource script" to addons
 
 1.3.23
 + lexer-overrides for hotkeys: option "For current lexer" in hotkey dialog (saved in "keys lexer NNN.json")

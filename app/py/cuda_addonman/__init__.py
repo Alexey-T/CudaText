@@ -174,3 +174,12 @@ class Command:
         else:
             msg_box('Plugin "%s" doesn\'t have "homepage" field in install.inf' % \
               get_name_of_module(m), MB_OK+MB_ICONWARNING)
+
+    def do_readme(self):
+        m = get_installed_choice()
+        if m is None: return
+        s = get_readme_of_module(m)
+        if s:
+            file_open(s)
+        else:
+            msg_status('Plugin "%s" doesn\'t have readme' % get_name_of_module(m))

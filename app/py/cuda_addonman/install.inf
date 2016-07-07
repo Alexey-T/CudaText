@@ -28,3 +28,7 @@ method=do_config
 section=commands
 caption=Addons Manager\Visit plugin homepage...
 method=do_homepage
+[item7]
+section=commands
+caption=Addons Manager\Open plugin readme...
+method=do_readme

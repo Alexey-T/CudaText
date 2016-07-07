@@ -3,6 +3,17 @@ import os
 import collections
 from cudatext import *
 
+README_NAMES = ('readme.txt', 'readme.html', 'readme.htm', 'readme.md', 'readme.rst')
+
+def get_readme_of_module(mod):
+    for name in README_NAMES:
+        fn = os.path.join(app_path(APP_DIR_PY), mod, 'readme', name)
+        if os.path.isfile(fn):
+            return fn
+        fn = os.path.join(app_path(APP_DIR_PY), mod, name)
+        if os.path.isfile(fn):
+            return fn
+
 def get_installinf_of_module(mod):
     return os.path.join(app_path(APP_DIR_PY), mod, 'install.inf')
 
