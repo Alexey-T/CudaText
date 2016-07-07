@@ -206,7 +206,7 @@ begin
   if DoDialogHotkeys(Cmd, CurrentLexerName) then
   begin
     DoFilter;
-    AppKeymapHasDuplicateKeys;
+    AppKeymapHasDuplicates;
     list.ItemIndex:= N;
   end;
 end;

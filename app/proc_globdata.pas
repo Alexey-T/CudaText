@@ -308,7 +308,8 @@ function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
-function AppKeymapHasDuplicateKeys: boolean;
+function AppKeymapHasDuplicates: boolean;
+function AppKeymapHasDuplicateForKey(const AHotkey: string): boolean;
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
@@ -1246,7 +1247,7 @@ begin
 end;
 
 
-function AppKeymapHasDuplicateKeys: boolean;
+function AppKeymapHasDuplicates: boolean;
 var
   i, j: integer;
   item1, item2: TATKeymapItem;
@@ -1273,6 +1274,20 @@ begin
     end;
 end;
 
+function AppKeymapHasDuplicateForKey(const AHotkey: string): boolean;
+var
+  item: TATKeymapItem;
+  i: integer;
+begin
+  Result:= false;
+  if AHotkey='' then exit;
+  for i:= 0 to AppKeymap.Count-1 do
+  begin
+    item:= AppKeymap.Items[i];
+    if (KeyArrayToString(item.Keys1)=AHotkey) or
+       (KeyArrayToString(item.Keys1)=AHotkey) then exit(true);
+  end;
+end;
 
 
 initialization
