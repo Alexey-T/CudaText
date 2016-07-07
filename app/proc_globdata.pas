@@ -308,13 +308,14 @@ function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 
 function MsgBox(const Str: string; Flags: Longint): integer;
-function AppFindLexer(const fn: string): TecSyntAnalyzer;
+function AppKeymapHasDuplicateKeys: boolean;
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
-procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
+function DoLexerFindByFilename(const fn: string): TecSyntAnalyzer;
+procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
 function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
@@ -890,7 +891,7 @@ begin
 end;
 
 
-function AppFindLexer(const fn: string): TecSyntAnalyzer;
+function DoLexerFindByFilename(const fn: string): TecSyntAnalyzer;
 var
   c: TJsonConfig;
   fn_opt, s, ext: string;
@@ -1042,7 +1043,7 @@ begin
 end;
 
 
-procedure DoEnumLexers(L: TStringList; AlsoDisabled: boolean = false);
+procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 var
   i: Integer;
 begin
@@ -1243,6 +1244,35 @@ begin
   end;
   Result:= true;
 end;
+
+
+function AppKeymapHasDuplicateKeys: boolean;
+var
+  i, j: integer;
+  item1, item2: TATKeymapItem;
+begin
+  Result:= false;
+  for i:= 0 to AppKeymap.Count-1 do
+    for j:= i+1 to AppKeymap.Count-1 do
+    begin
+      item1:= AppKeymap.Items[i];
+      item2:= AppKeymap.Items[j];
+      if KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys1) or
+         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys2) or
+         KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys2) or
+         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys1) then
+        begin
+          MsgBox(msgStatusCommandsHaveSameHotkeys+#13+
+            item1.Name+#13+
+            item2.Name+#13+
+            #13+msgStatusCorrectOneOfTheseHotkeys,
+            MB_OK or MB_ICONWARNING);
+          Result:= true;
+          Exit
+        end;
+    end;
+end;
+
 
 
 initialization

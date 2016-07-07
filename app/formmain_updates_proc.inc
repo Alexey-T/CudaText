@@ -331,7 +331,7 @@ begin
 
     for i:= 0 to FListNewdoc.Count-1 do
     begin
-      an:= AppFindLexer(FListNewdoc[i]);
+      an:= DoLexerFindByFilename(FListNewdoc[i]);
       if an=nil then Continue;
 
       list.AddObject(

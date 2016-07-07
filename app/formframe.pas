@@ -937,7 +937,7 @@ begin
     exit
   end;
 
-  SetLexer(AppFindLexer(fn));
+  SetLexer(DoLexerFindByFilename(fn));
   DoLoadHistory;
 
   if IsFileReadonly(fn) then
@@ -985,7 +985,7 @@ begin
     end;
 
     FFileName:= ASaveDlg.FileName;
-    Lexer:= AppFindLexer(FFileName);
+    Lexer:= DoLexerFindByFilename(FFileName);
 
     //add to recents saved-as file:
     if Assigned(FOnAddRecent) then

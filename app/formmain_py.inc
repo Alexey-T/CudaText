@@ -2447,7 +2447,7 @@ begin
             List:= TStringList.Create;
             List.Sorted:= true;
             try
-              DoEnumLexers(List, true);
+              DoLexerEnum(List, true);
               Result:= PyString_FromString(PChar(List.Text));
             finally
               FreeAndNil(List);

@@ -50,7 +50,6 @@ type
     keymapList: TList;
     procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
-    function DoFindDupKeys: boolean;
     procedure DoResetKey(K: TATKeymapItem);
     function GetResultCmd: integer;
     function IsFiltered(Item: TATKeymapItem): boolean;
@@ -207,7 +206,7 @@ begin
   if DoDialogHotkeys(Cmd, CurrentLexerName) then
   begin
     DoFilter;
-    DoFindDupKeys;
+    AppKeymapHasDuplicateKeys;
     list.ItemIndex:= N;
   end;
 end;
@@ -357,33 +356,6 @@ begin
   begin
     Result:= SFindWordsInString(Item.Name, Str);
   end;
-end;
-
-function TfmCommands.DoFindDupKeys: boolean;
-var
-  i, j: integer;
-  item1, item2: TATKeymapItem;
-begin
-  Result:= false;
-  for i:= 0 to keymap.Count-1 do
-    for j:= i+1 to keymap.Count-1 do
-    begin
-      item1:= keymap.Items[i];
-      item2:= keymap.Items[j];
-      if KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys1) or
-         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys2) or
-         KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys2) or
-         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys1) then
-        begin
-          MsgBox(msgStatusCommandsHaveSameHotkeys+#13+
-            item1.Name+#13+
-            item2.Name+#13+
-            #13+msgStatusCorrectOneOfTheseHotkeys,
-            MB_OK or MB_ICONWARNING);
-          Result:= true;
-          Exit
-        end;
-    end;
 end;
 
 end.

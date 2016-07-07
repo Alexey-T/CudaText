@@ -2611,7 +2611,7 @@ begin
   F:= DoFileOpen('');
   if F=nil then exit;
   F.Editor.Strings.LoadFromFile(fn);
-  F.Lexer:= AppFindLexer(fn);
+  F.Lexer:= DoLexerFindByFilename(fn);
   UpdateFrame(true);
   UpdateStatus;
 end;
