@@ -125,6 +125,7 @@ class Command:
         except:
             msg_status('Cannot resolve URL')
             return
+            
         #download
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
@@ -132,6 +133,14 @@ class Command:
             return
         msg_status('Opened downloaded file')
         file_open(fn)
+        
+        #suggest readme
+        m = get_module_name_from_zip_filename(fn)
+        if m:
+            fn = get_readme_of_module(m)
+            if fn:
+                if msg_box('Open plugin\'s readme file?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
+                    file_open(fn)
         
 
     def do_install_lexer(self):

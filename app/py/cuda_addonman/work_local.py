@@ -1,9 +1,21 @@
 import json
 import os
 import collections
+import zipfile
+import tempfile
 from cudatext import *
 
 README_NAMES = ('readme.txt', 'readme.html', 'readme.htm', 'readme.md', 'readme.rst')
+
+
+def get_module_name_from_zip_filename(zip_fn):
+    temp_dir = tempfile.gettempdir()
+    z = zipfile.ZipFile(zip_fn, 'r')
+    z.extract('install.inf', temp_dir)
+    z.close()
+    fn = os.path.join(temp_dir, 'install.inf')
+    if os.path.isfile(fn):
+        return ini_read(fn, 'info', 'subdir', '')
 
 def get_readme_of_module(mod):
     for name in README_NAMES:
