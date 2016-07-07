@@ -309,7 +309,7 @@ function GetListboxItemHeight(const AFontName: string; AFontSize: integer): inte
 
 function MsgBox(const Str: string; Flags: Longint): integer;
 function AppKeymapHasDuplicates: boolean;
-function AppKeymapHasDuplicateForKey(const AHotkey: string): boolean;
+function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
@@ -973,6 +973,8 @@ end;
 
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
+const
+  cKeyComboSeparator = '|';
 var
   c: TJSONConfig;
   sl: TStringList;
@@ -980,7 +982,7 @@ var
 begin
   //check-1: is key registered for any other command?
   if not AOverwriteKey then
-    if AppKeymapHasDuplicateForKey(AHotkey) then exit;
+    if AppKeymapHasDuplicateForKey(AHotkey, cKeyComboSeparator) then exit;
 
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
@@ -1003,7 +1005,7 @@ begin
     sl.Clear;
     s_items:= AHotkey;
     repeat
-      s_item:= SGetItem(s_items, '|');
+      s_item:= SGetItem(s_items, cKeyComboSeparator);
       if s_item='' then Break;
       sl.Add(s_item);
     until false;
@@ -1280,13 +1282,17 @@ begin
     end;
 end;
 
-function AppKeymapHasDuplicateForKey(const AHotkey: string): boolean;
+function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
 var
   item: TATKeymapItem;
   i: integer;
 begin
   Result:= false;
   if AHotkey='' then exit;
+
+  //KeyArrayToString has separator ' * '
+  AHotkey:= StringReplace(AHotkey, AKeyComboSeparator, ' * ', [rfReplaceAll]);
+
   for i:= 0 to AppKeymap.Count-1 do
   begin
     item:= AppKeymap.Items[i];
