@@ -83,7 +83,12 @@ begin
 
   c:= TJSONConfig.Create(nil);
   try
-    c.Filename:= fn_session;
+    try
+      c.Filename:= fn_session;
+    except
+      //maybe folder incorrect, ignore
+      exit;
+    end;
     c.Formatted:= true;
 
     DoOps_SaveHistory_GroupView(c);
