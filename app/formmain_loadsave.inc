@@ -107,7 +107,11 @@ begin
       c.SetValue(path+'/group', nGroup);
 
       if bModified then
+      begin
         c.SetValue(path+'/text', F.Editor.Text);
+        if F.FileName<>'' then
+          c.SetValue(path+'/file_age', FileAgeUTF8(F.FileName));
+      end;
 
       F.DoSaveHistoryEx(c, path);
     end;
@@ -124,12 +128,13 @@ procedure TfmMain.DoOps_LoadSession(fn_session: string);
 var
   c: TJSONConfig;
   list: TStringlist;
-  fn: string;
+  fn, item_path: string;
   F: TEditorFrame;
   nGroup, i: integer;
   Pages: TATPages;
   bModified: boolean;
   sText: UnicodeString;
+  nAgeSaved, nAgeCurrent: Longint;
 begin
   if fn_session='' then exit;
   if not FileExists(fn_session) then exit;
@@ -151,6 +156,17 @@ begin
       nGroup:= c.GetValue('/'+list[i]+'/group', Low(TATGroupsNums));
       bModified:= c.GetValue('/'+list[i]+'/modified', false);
       sText:= c.GetValue('/'+list[i]+'/text', '');
+
+      //check, if text saved in session, but file was changed between app calls
+      if bModified and (fn<>'') then
+      begin
+        nAgeSaved:= c.GetValue('/'+list[i]+'/file_age', 0);
+        nAgeCurrent:= FileAgeUTF8(fn);
+        if nAgeSaved<>nAgeCurrent then
+          if MsgBox(Format(msgConfirmReloadInSessIfChanged, [fn]),
+                    MB_OKCANCEL+MB_ICONWARNING)=ID_OK then
+           bModified:= false;
+      end;
 
       Pages:= nil;
       if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
