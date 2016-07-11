@@ -1,6 +1,9 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.07.11
++ [sc] ReloadInSessIfChanged
+
 2016.07.06
 + [si] FileLineCol
 

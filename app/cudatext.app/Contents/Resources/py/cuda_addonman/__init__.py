@@ -9,8 +9,8 @@ from .work_remote import *
 from .work_dlg_config import *
 from urllib.parse import unquote
 
-DIR_DL = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
-CONFIG_FILE = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
+dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
+fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
 ch_user = []
 ch_def = [
@@ -18,36 +18,42 @@ ch_def = [
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-lexers.txt',
   'https://raw.githubusercontent.com/kvichans/CudaText-registry/master/registry-addons.txt',
   ]
+op_readme = True
   
 
 class Command:
     def __init__(self):
         global ch_user
-        if os.path.isfile(CONFIG_FILE):
-            op = json.loads(open(CONFIG_FILE).read(), object_pairs_hook=collections.OrderedDict)
+        global op_readme
+        if os.path.isfile(fn_config):
+            op = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
             ch_user = op.get('channels_user', ch_user)
+            op_readme = op.get('suggest_readme', True)
         
 
     def do_config(self):
-        global ch_def, ch_user
-        ch = dlg_config(ch_def, ch_user)
-        if ch is None: return
-        ch_user = ch
+        global ch_def, ch_user, op_readme
+        res = dlg_config(ch_def, ch_user, op_readme)
+        if res is None: return
+        (ch_user, op_readme) = res
         print('Now channels_user:', ch_user) 
           
         op = {}
         op['channels_user'] = ch_user
-        f = open(CONFIG_FILE, 'w')
-        f.write(json.dumps(op, indent=4))
+        op['suggest_readme'] = op_readme
+        with open(fn_config, 'w') as f:
+            f.write(json.dumps(op, indent=4))
         
 
     def do_download_all(self):
-        dir_dl = dlg_input('Dir to save files:', DIR_DL)
-        if not dir_dl: return
-        if not os.path.isdir(dir_dl):
-            os.mkdir(dir_dl)
-        if not os.path.isdir(dir_dl):
-            msg_box('Cannot create dir: '+dir_dl, MB_OK+MB_ICONERROR)
+        global dir_for_all
+        res = dlg_input('Folder to save files:', dir_for_all)
+        if not res: return
+        dir_for_all = res
+        if not os.path.isdir(dir_for_all):
+            os.mkdir(dir_for_all)
+        if not os.path.isdir(dir_for_all):
+            msg_box('Cannot create dir: '+dir_for_all, MB_OK+MB_ICONERROR)
             return
     
         msg_status('Downloading list...')
@@ -83,7 +89,7 @@ class Command:
                         break
                 
             name = unquote(url.split('/')[-1])
-            dir = os.path.join(dir_dl, name.split('.')[0])
+            dir = os.path.join(dir_for_all, name.split('.')[0])
             if not os.path.isdir(dir):
                 os.mkdir(dir)
             fn = os.path.join(dir, name)
@@ -125,6 +131,7 @@ class Command:
         except:
             msg_status('Cannot resolve URL')
             return
+            
         #download
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
@@ -132,6 +139,15 @@ class Command:
             return
         msg_status('Opened downloaded file')
         file_open(fn)
+        
+        #suggest readme
+        if op_readme:
+            m = get_module_name_from_zip_filename(fn)
+            if m:
+                fn = get_readme_of_module(m)
+                if fn:
+                    if msg_box('Open plugin\'s readme file?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
+                        file_open(fn)
         
 
     def do_install_lexer(self):
@@ -174,3 +190,12 @@ class Command:
         else:
             msg_box('Plugin "%s" doesn\'t have "homepage" field in install.inf' % \
               get_name_of_module(m), MB_OK+MB_ICONWARNING)
+
+    def do_readme(self):
+        m = get_installed_choice()
+        if m is None: return
+        s = get_readme_of_module(m)
+        if s:
+            file_open(s)
+        else:
+            msg_status('Plugin "%s" doesn\'t have readme' % get_name_of_module(m))
