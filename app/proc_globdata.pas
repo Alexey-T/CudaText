@@ -60,6 +60,13 @@ type
     );
 
 type
+  TATKeymapUndoItem = class
+    StrId: string;
+    KeyArray1,
+    KeyArray2: TATKeyArray;
+  end;
+
+type
   TUiOps = record
     VarFontName: string;
     VarFontSize: integer;
@@ -301,15 +308,17 @@ function GetAppLangFilename: string;
 function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOverrideFilename(AName: string): string;
+function GetActiveControl(Form: TWinControl): TWinControl;
+function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
+function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
+function MsgBox(const Str: string; Flags: Longint): integer;
+
 function GetAppKeymapOverrideFilename(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
 function SetAppKeymapHotkey(AParams: string): boolean;
-function GetActiveControl(Form: TWinControl): TWinControl;
-function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
-
-function MsgBox(const Str: string; Flags: Longint): integer;
 function AppKeymapHasDuplicates: boolean;
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
+procedure AppKeymap_ApplyUndoList(AUndoList: TList);
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
@@ -892,6 +901,21 @@ begin
 end;
 
 
+function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
+begin
+  //plugin item 'module,method'
+  if Pos(',', AId)>0 then
+  begin
+    Result:= CommandPlugins_GetIndexFromModuleAndMethod(AId);
+    if Result>=0 then
+      Inc(Result, cmdFirstPluginCommand);
+  end
+  else
+    //usual item
+    Result:= StrToIntDef(AId, -1);
+end;
+
+
 function DoLexerFindByFilename(const fn: string): TecSyntAnalyzer;
 var
   c: TJsonConfig;
@@ -1300,6 +1324,28 @@ begin
        (KeyArrayToString(item.Keys1)=AHotkey) then exit(true);
   end;
 end;
+
+
+procedure AppKeymap_ApplyUndoList(AUndoList: TList);
+var
+  UndoItem: TATKeymapUndoItem;
+  i, ncmd, nitem: integer;
+begin
+  for i:= 0 to AUndoList.Count-1 do
+  begin
+    UndoItem:= TATKeymapUndoItem(AUndoList[i]);
+
+    ncmd:= GetAppCommandCodeFromCommandStringId(UndoItem.StrId);
+    if ncmd<0 then Continue;
+
+    nitem:= AppKeymap.IndexOf(ncmd);
+    if nitem<0 then Continue;
+
+    AppKeymap.Items[nitem].Keys1:= UndoItem.KeyArray1;
+    AppKeymap.Items[nitem].Keys2:= UndoItem.KeyArray2;
+  end;
+end;
+
 
 
 initialization

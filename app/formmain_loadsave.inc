@@ -320,18 +320,22 @@ var
   F: TEditorFrame;
   SName: string;
 begin
-  DoOps_LoadKeymapFrom(GetAppPath(cFileOptKeymap));
+  AppKeymap_ApplyUndoList(FKeymapUndoList);
+  DoOps_LoadKeymapFrom(GetAppPath(cFileOptKeymap), nil);
+  FKeymapUndoList.Clear;
 
   F:= CurrentFrame;
   if Assigned(F) then
   begin
     SName:= F.LexerName;
     if SName<>'' then
-      DoOps_LoadKeymapFrom(GetAppKeymapOverrideFilename(SName));
+      DoOps_LoadKeymapFrom(GetAppKeymapOverrideFilename(SName), FKeymapUndoList);
   end;
 end;
 
-procedure TfmMain.DoOps_LoadKeymapFrom(const AFilenameKeymap: string);
+
+procedure TfmMain.DoOps_LoadKeymapFrom(const AFilenameKeymap: string;
+  AUndoList: TList);
 var
   c: TJSONConfig;
   slist, skeys: TStringList;
@@ -348,33 +352,33 @@ var
   end;
   //
 var
+  UndoItem: TATKeymapUndoItem;
   ncmd, nitem, i: integer;
 begin
   c:= TJSONConfig.Create(nil);
-  c.Formatted:= true;
   slist:= TStringList.Create;
   skeys:= TStringList.Create;
 
   try
+    c.Formatted:= true;
     c.Filename:= AFilenameKeymap;
     c.EnumSubKeys('/', slist);
     for i:= 0 to slist.count-1 do
     begin
-      //plugin item 'module,method'
-      if Pos(',', slist[i])>0 then
-      begin
-        ncmd:= CommandPlugins_GetIndexFromModuleAndMethod(slist[i]);
-        if ncmd<0 then Continue;
-        Inc(ncmd, cmdFirstPluginCommand);
-      end
-      else //usual item
-      begin
-        ncmd:= StrToIntDef(slist[i], -1);
-        if ncmd<0 then Continue;
-      end;
+      ncmd:= GetAppCommandCodeFromCommandStringId(slist[i]);
+      if ncmd<0 then Continue;
 
       nitem:= AppKeymap.IndexOf(ncmd);
       if nitem<0 then Continue;
+
+      if Assigned(AUndoList) then
+      begin
+        UndoItem:= TATKeymapUndoItem.Create;
+        UndoItem.StrId:= slist[i];
+        UndoItem.KeyArray1:= AppKeymap[nitem].Keys1;
+        UndoItem.KeyArray2:= AppKeymap[nitem].Keys2;
+        AUndoList.Add(UndoItem);
+      end;
 
       DoReadConfigToKeys(slist[i]+'/s1', AppKeymap[nitem].Keys1);
       DoReadConfigToKeys(slist[i]+'/s2', AppKeymap[nitem].Keys2);
