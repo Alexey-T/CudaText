@@ -83,13 +83,8 @@ begin
 
   c:= TJSONConfig.Create(nil);
   try
-    try
-      c.Filename:= fn_session;
-    except
-      //maybe folder incorrect, ignore
-      exit;
-    end;
     c.Formatted:= true;
+    c.Filename:= fn_session;
 
     DoOps_SaveHistory_GroupView(c);
 
@@ -117,7 +112,11 @@ begin
       F.DoSaveHistoryEx(c, path);
     end;
   finally
-    c.Free;
+    try
+      c.Free; //saves json file
+    except
+      //for incorrect sess folder
+    end;
   end;
 end;
 
