@@ -322,7 +322,6 @@ begin
   DoOps_LoadKeymapFrom(GetAppPath(cFileOptKeymap), nil);
   FKeymapUndoList.Clear;
 
-  FKeymapActiveLexerName:= '';
   F:= CurrentFrame;
   if Assigned(F) then
   begin
