@@ -1,6 +1,6 @@
 from cudatext import *
 from .colorcodes import *
-from .word_proc import *
+from .word_proc import *       
 
 class Command:
     def run(self):

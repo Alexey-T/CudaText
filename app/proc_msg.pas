@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.3.24.bb';
+  cAppExeVersion = '1.3.24.0';
   cAppApiVersion = '1.0.147';
 
 const
@@ -133,7 +133,7 @@ const
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
-  msgConfirmReloadInSessionIfDateChanged: string = 'File text was saved in session, but file is modified:'#10'%s'#10#10'Reload file?';
+  msgConfirmReloadInSessionIfChanged: string = 'File text was saved in session, but file is modified:'#10'%s'#10#10'Reload file?';
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+
