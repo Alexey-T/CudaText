@@ -127,9 +127,9 @@ end;
 procedure TfmMain.DoOps_LoadSession(fn_session: string);
 var
   c: TJSONConfig;
-  list: TStringlist;
-  fn, item_path: string;
   F: TEditorFrame;
+  list: TStringlist;
+  sFilename, item_path: string;
   nGroup, i: integer;
   Pages: TATPages;
   bModified: boolean;
@@ -152,18 +152,19 @@ begin
 
     for i:= 0 to list.Count-1 do
     begin
-      fn:= c.GetValue('/'+list[i]+'/file', '');
-      nGroup:= c.GetValue('/'+list[i]+'/group', Low(TATGroupsNums));
-      bModified:= c.GetValue('/'+list[i]+'/modified', false);
-      sText:= c.GetValue('/'+list[i]+'/text', '');
+      item_path:= '/'+list[i]+'/';
+      sFilename:= c.GetValue(item_path+'file', '');
+      sText:= c.GetValue(item_path+'text', '');
+      nGroup:= c.GetValue(item_path+'group', Low(TATGroupsNums));
+      bModified:= c.GetValue(item_path+'modified', false);
 
       //check, if text saved in session, but file was changed between app calls
-      if bModified and (fn<>'') then
+      if bModified and (sFilename<>'') then
       begin
-        nAgeSaved:= c.GetValue('/'+list[i]+'/file_age', 0);
-        nAgeCurrent:= FileAgeUTF8(fn);
+        nAgeSaved:= c.GetValue(item_path+'file_age', 0);
+        nAgeCurrent:= FileAgeUTF8(sFilename);
         if nAgeSaved<>nAgeCurrent then
-          if MsgBox(Format(msgConfirmReloadInSessIfChanged, [fn]),
+          if MsgBox(Format(msgConfirmReloadInSessIfChanged, [sFilename]),
                     MB_OKCANCEL+MB_ICONWARNING)=ID_OK then
            bModified:= false;
       end;
@@ -180,10 +181,10 @@ begin
           F:= Frames[0]
         else
           F:= DoFileOpen('', Pages);
-        if fn<>'' then
+        if sFilename<>'' then
         begin
-          F.FileName:= fn;
-          F.TabCaption:= ExtractFileName(fn);
+          F.FileName:= sFilename;
+          F.TabCaption:= ExtractFileName(sFilename);
         end;
         F.Editor.Text:= sText;
         F.Editor.Modified:= bModified;
@@ -191,8 +192,8 @@ begin
       end
       else
       //unmodified+named tabs must load file again
-      if FileExistsUTF8(fn) then
-        F:= DoFileOpen(fn, Pages);
+      if FileExistsUTF8(sFilename) then
+        F:= DoFileOpen(sFilename, Pages);
 
       //load other props (caret/encoding/etc)
       if Assigned(F) then
