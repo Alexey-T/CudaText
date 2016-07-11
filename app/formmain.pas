@@ -62,6 +62,7 @@ uses
   proc_keysdialog,
   proc_customdialog,
   proc_scrollbars,
+  proc_keymap_undolist,
   formconsole,
   formframe,
   form_menu_commands,
@@ -500,7 +501,7 @@ type
     FListNewdoc: TStringList;
     FListThemes: TStringList;
     FListLangs: TStringList;
-    FKeymapUndoList: TList;
+    FKeymapUndoList: TATKeymapUndoList;
     FConsoleMustShow: boolean;
     FThemeName: string;
     FSessionName: string;
@@ -630,7 +631,7 @@ type
     procedure DoOps_OpenFile_User;
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
     procedure DoOps_LoadKeymap;
-    procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TList);
+    procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
     procedure DoCopyFilenameDir;
@@ -1079,7 +1080,7 @@ begin
   FListNewdoc:= TStringList.Create;
   FListThemes:= TStringlist.Create;
   FListLangs:= TStringList.Create;
-  FKeymapUndoList:= TList.Create;
+  FKeymapUndoList:= TATKeymapUndoList.Create;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
@@ -1272,17 +1273,12 @@ begin
 end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
-var
-  i: integer;
 begin
   FreeAndNil(FListRecents);
   FreeAndNil(FListNewdoc);
   FreeAndNil(FListThemes);
   FreeAndNil(FListLangs);
   FreeAndNil(FPanelCaptions);
-
-  for i:= FKeymapUndoList.Count-1 downto 0 do
-    TObject(FKeymapUndoList[i]).Free;
   FreeAndNil(FKeymapUndoList);
 end;
 

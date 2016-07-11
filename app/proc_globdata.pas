@@ -27,6 +27,7 @@ uses
   proc_lexer,
   proc_msg,
   proc_scrollbars,
+  proc_keymap_undolist,
   ecSyntAnal;
 
 var
@@ -58,13 +59,6 @@ type
     cFileReadmeMouse,
     cFileReadmeLexerInst
     );
-
-type
-  TATKeymapUndoItem = class
-    StrId: string;
-    KeyArray1,
-    KeyArray2: TATKeyArray;
-  end;
 
 type
   TUiOps = record
@@ -318,7 +312,7 @@ function GetAppKeymapHotkey(const ACmdString: string): string;
 function SetAppKeymapHotkey(AParams: string): boolean;
 function AppKeymapHasDuplicates: boolean;
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
-procedure AppKeymap_ApplyUndoList(AUndoList: TList);
+procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
@@ -985,9 +979,6 @@ begin
       if K.Keys2[i]<>0 then
         sl.Add(ShortCutToText(K.Keys2[i]));
     c.SetValue(path+'/s2', sl);
-
-    c.DeleteValue(path+'/k1');
-    c.DeleteValue(path+'/k2');
   finally
     c.Free;
     sl.Free;
@@ -1326,14 +1317,14 @@ begin
 end;
 
 
-procedure AppKeymap_ApplyUndoList(AUndoList: TList);
+procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
 var
   UndoItem: TATKeymapUndoItem;
   i, ncmd, nitem: integer;
 begin
   for i:= 0 to AUndoList.Count-1 do
   begin
-    UndoItem:= TATKeymapUndoItem(AUndoList[i]);
+    UndoItem:= AUndoList[i];
 
     ncmd:= GetAppCommandCodeFromCommandStringId(UndoItem.StrId);
     if ncmd<0 then Continue;
@@ -1345,7 +1336,6 @@ begin
     AppKeymap.Items[nitem].Keys2:= UndoItem.KeyArray2;
   end;
 end;
-
 
 
 initialization

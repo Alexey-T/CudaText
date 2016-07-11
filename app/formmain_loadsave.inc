@@ -335,7 +335,7 @@ end;
 
 
 procedure TfmMain.DoOps_LoadKeymapFrom(const AFilenameKeymap: string;
-  AUndoList: TList);
+  AUndoList: TATKeymapUndoList);
 var
   c: TJSONConfig;
   slist, skeys: TStringList;
