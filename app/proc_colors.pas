@@ -203,12 +203,12 @@ begin
   Add(clGray, 'TabArrow', 'tabs, tab-list arrow-down');
   Add(clLtGray, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
 
-  Add(clBlack, 'TreeFont', 'syntax tree, font');
-  Add(clWhite, 'TreeBg', 'syntax tree, BG');
-  Add(clBlack, 'TreeSelFont', 'syntax tree, selected font');
-  Add($e0e0e0, 'TreeSelBg', 'syntax tree, selected BG');
-  Add(clLtGray, 'TreeLines', 'syntax tree, lines');
-  Add(clBlack, 'TreeSign', 'syntax tree, fold sign');
+  Add(clBlack, 'TreeFont', 'treeview, font');
+  Add(clWhite, 'TreeBg', 'treeview, BG');
+  Add(clBlack, 'TreeSelFont', 'treeview, selected font');
+  Add($e0e0e0, 'TreeSelBg', 'treeview, selected BG');
+  Add(clLtGray, 'TreeLines', 'treeview, lines');
+  Add(clBlack, 'TreeSign', 'treeview, fold sign');
 
   Add($e0e0e0, 'ListBg', 'listbox, BG');
   Add(clLtGray, 'ListSelBg', 'listbox, selected line BG');
