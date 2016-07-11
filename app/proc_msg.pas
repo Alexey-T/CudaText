@@ -133,7 +133,7 @@ const
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
-  msgConfirmReloadInSessIfChanged: string = 'File text was saved in session, but file modification date changed:'#10'%s'#10#10'Reload file from disk?';
+  msgConfirmReloadInSessionIfDateChanged: string = 'File text was saved in session, but file modification date changed:'#10'%s'#10#10'Reload file from disk?';
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+

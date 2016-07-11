@@ -134,6 +134,7 @@ type
     procedure NotifChanged(Sender: TObject);
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetEncodingName(const Str: string);
+    procedure SetFileName(const AValue: string);
     procedure SetLocked(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetNotifTime(AValue: integer);
@@ -163,7 +164,7 @@ type
     function Editor2: TATSynEdit;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
-    property FileName: string read FFileName write FFileName;
+    property FileName: string read FFileName write SetFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
@@ -475,6 +476,14 @@ begin
      if Str=cEncNameUtf16BE then begin Editor.Strings.Encoding:= cEncWideBE end else
       if Str=cEncNameAnsi then begin Editor.Strings.Encoding:= cEncAnsi; Editor.Strings.EncodingCodepage:= ''; end else
        begin Editor.Strings.Encoding:= cEncAnsi; Editor.Strings.EncodingCodepage:= Str; end;
+end;
+
+procedure TEditorFrame.SetFileName(const AValue: string);
+begin
+  if FFileName=AValue then Exit;
+  FFileName:= AValue;
+  //update Notif obj
+  NotifEnabled:= NotifEnabled;
 end;
 
 procedure TEditorFrame.SetLocked(AValue: boolean);
