@@ -502,6 +502,7 @@ type
     FListThemes: TStringList;
     FListLangs: TStringList;
     FKeymapUndoList: TATKeymapUndoList;
+    FKeymapActiveLexerName: string;
     FConsoleMustShow: boolean;
     FThemeName: string;
     FSessionName: string;

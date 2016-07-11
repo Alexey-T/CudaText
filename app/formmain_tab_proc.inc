@@ -75,6 +75,9 @@ begin
     F.Editor.SetFocus;
   end;
 
+  //load lexer keymap override
+  DoOps_LoadKeymap;
+
   UpdateStatus;
 end;
 

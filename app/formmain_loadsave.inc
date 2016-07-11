@@ -317,18 +317,23 @@ end;
 procedure TfmMain.DoOps_LoadKeymap;
 var
   F: TEditorFrame;
-  SName: string;
 begin
   AppKeymap_ApplyUndoList(FKeymapUndoList);
   DoOps_LoadKeymapFrom(GetAppPath(cFileOptKeymap), nil);
   FKeymapUndoList.Clear;
 
+  FKeymapActiveLexerName:= '';
   F:= CurrentFrame;
   if Assigned(F) then
   begin
-    SName:= F.LexerName;
-    if SName<>'' then
-      DoOps_LoadKeymapFrom(GetAppKeymapOverrideFilename(SName), FKeymapUndoList);
+    //dont load lexer override if tab changed, and same lexer active
+    if FKeymapActiveLexerName=F.LexerName then exit;
+    FKeymapActiveLexerName:= F.LexerName;
+
+    if FKeymapActiveLexerName<>'' then
+      DoOps_LoadKeymapFrom(
+        GetAppKeymapOverrideFilename(FKeymapActiveLexerName),
+        FKeymapUndoList);
   end;
 end;
 
