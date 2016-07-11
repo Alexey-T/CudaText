@@ -1,0 +1,174 @@
+object SyntAnal10: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Id begin'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id value'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'NewDoc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '\s* \# .*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'NewDoc'
+      StyleName = 'NewDoc'
+      TokenType = 1
+      Expression = '^---.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id begin'
+      StyleName = 'Id begin'
+      TokenType = 6
+      Expression = '^[\-\x20\x09]*? \w[\w\-]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id value'
+      StyleName = 'Id value'
+      TokenType = 2
+      Expression = '\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '('#39'|").*?\1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\:\.,;\-\+/\*\(\)\{\}\[\]<>=%!\#\|\?&]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = 'block'
+      ConditionList = <
+        item
+          TokenTypes = 64
+        end>
+      EndOfTextClose = True
+      HighlightPos = cpAny
+      GroupIndex = 20
+      CollapseFmt = '%s0'
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '--- Doc'
+    '# List'
+    'transformers:'
+    '  # Sample'
+    '- model: 10.20'
+    '  connector: 100'
+    '  connector_options:'
+    '    encoding: utf-8'
+    '    columns: from_header'
+    '  property_map:'
+    '    - property: __key__'
+    '      external_name: ID'
+    '      export_transform: datastore.Key.name'
+    '    - property: name'
+    '      import_template: "%(First Name)s %(Last Name)s"'
+    '      export:'
+    '        - external_name: First Name'
+    
+      '          export_transform: transform.regexp_extract('#39'([^ ]+) ?.' +
+      '*$'#39')'
+    '        - external_name: Last Name'
+    
+      '          export_transform: transform.regexp_extract('#39'[^ ]+ (.*)' +
+      '$'#39')'
+    '    - property: phone'
+    '      import_transform: transform.import_date_time('#39'%m/%d/%Y'#39')')
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Id'
+    'Symbol'
+    'String'
+    'Number'
+    '1Id'
+    '')
+  Extentions = 'yml yaml'
+  LexerName = 'YAML'
+  SkipSpaces = False
+  Notes.Strings = (
+    'Alex (Synwrite)')
+  LineComment = '#'
+  Charset = DEFAULT_CHARSET
+end

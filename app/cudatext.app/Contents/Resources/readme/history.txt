@@ -10,6 +10,7 @@ Legend:
 + install.inf: can set for items "hotkey=" and "|"-separated hotkey, e.g. "Ctrl+Alt+F|F|G". Saved into keys.json (if no "lexers=" for item), or to "keys lexer NNN.json" (if used "lexers=")
 + theme: Amy
 + theme: Cobalt
++ add lexer YAML from addons
 * del lexer "Resource script" to addons
 
 1.3.23
