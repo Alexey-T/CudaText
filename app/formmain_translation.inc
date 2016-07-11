@@ -461,6 +461,7 @@ begin
     DoLocString(msgConfirmCloseDelFile           , ini, 'sc', 'CloseDelFile');
     DoLocString(msgConfirmDeleteLexer            , ini, 'sc', 'DeleteLexer');
     DoLocString(msgConfirmRemoveStylesFromBackup , ini, 'sc', 'RemoveStylesFromBackup');
+    DoLocString(msgConfirmReloadInSessIfChanged  , ini, 'sc', 'ReloadInSessIfChanged');
 
   finally
     FreeAndNil(ini);
