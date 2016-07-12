@@ -16,34 +16,40 @@ begin
   TimerCmd.Enabled:= false;
   Cmd:= TimerCmd.Tag;
   case Cmd of
-    cmd_FileNew:             DoFileOpen('');
-    cmd_FileOpen:            DoFileOpenDialog;
-    cmd_FileReopen:          DoFileReopen;
 
     cmd_FileClose:
       begin
         Groups.CloseTabs(tabCloseCurrent, false);
         PyEditorMaybeDeleted:= true;
+        //for Linux: somehow console's edit gets focus after
+        ActiveControl:= CurrentEditor;
       end;
+
     cmd_FileCloseAll:
       begin
         Groups.CloseTabs(tabCloseAll, false);
         PyEditorMaybeDeleted:= true;
       end;
+
     cmd_FileCloseOtherThis:
       begin
         Groups.CloseTabs(tabCloseOthersThisPage, false);
       end;
+
     cmd_FileCloseOtherAll:
       begin
         Groups.CloseTabs(tabCloseOthersAllPages, false);
       end;
+
     cmd_FileCloseAndDelete:
       begin
         DoFileCloseAndDelete;
         PyEditorMaybeDeleted:= true;
       end;
 
+    cmd_FileNew:             DoFileOpen('');
+    cmd_FileOpen:            DoFileOpenDialog;
+    cmd_FileReopen:          DoFileReopen;
     cmd_FileSave:            DoFileSave;
     cmd_FileSaveAs:          DoFileSaveAs;
     cmd_FileSaveAll:         DoFileSaveAll;
