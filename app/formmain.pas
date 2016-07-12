@@ -963,7 +963,7 @@ begin
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert
     );
-  EditorFocus(CurrentEditor, Self);
+  EditorFocus(CurrentEditor);
   FTreeClick:= false;
 end;
 
@@ -1324,7 +1324,7 @@ begin
       if UiOps.EscapeCloseConsole then
         ShowBottom:= false
       else
-        EditorFocus(CurrentEditor, Self);
+        EditorFocus(CurrentEditor);
       Key:= 0;
       exit
     end;
@@ -1962,7 +1962,7 @@ begin
   if Res=cOpGotoClose then
   begin
     fmGoto.Hide;
-    EditorFocus(Ed, Self);
+    EditorFocus(Ed);
     Exit;
   end;
 
@@ -1986,7 +1986,7 @@ begin
       UiOps.FindIndentVert);
     Ed.Update;
 
-    EditorFocus(Ed, Self);
+    EditorFocus(Ed);
   end;
 end;
 
@@ -2101,7 +2101,7 @@ begin
 
   if not Value then
     if bBottom then
-      EditorFocus(CurrentEditor, Self);
+      EditorFocus(CurrentEditor);
 
   UpdateStatus;
 end;
@@ -2509,7 +2509,7 @@ begin
 
   if not fmFind.Visible then
     if bBottom then
-      EditorFocus(CurrentEditor, Self);
+      EditorFocus(CurrentEditor);
 end;
 
 procedure TfmMain.DoToggleToolbar;
@@ -3005,7 +3005,7 @@ begin
   //Esc
   if (Key=VK_ESCAPE) then
   begin
-    EditorFocus(CurrentEditor, Self);
+    EditorFocus(CurrentEditor);
     Key:= 0;
     exit
   end;

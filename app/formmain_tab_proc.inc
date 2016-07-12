@@ -72,7 +72,7 @@ begin
   if D<>nil then
   begin
     F:= D.TabObject as TEditorFrame;
-    EditorFocus(F.Editor, Self);
+    EditorFocus(F.Editor);
   end;
 
   //load lexer keymap override

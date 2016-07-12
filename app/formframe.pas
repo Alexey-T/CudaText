@@ -1564,8 +1564,8 @@ end;
 
 procedure TEditorFrame.DoFocusEditor;
 begin
-  if Visible and Enabled and Editor.CanFocus then
-    Application.MainForm.FocusControl(Editor);
+  if Visible and Enabled then
+    EditorFocus(Editor);
 end;
 
 end.

@@ -941,7 +941,7 @@ begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
       fmMain.SetFrame(F);
-      EditorFocus(Ed, fmMain);
+      EditorFocus(Ed);
 
       fmMain.UpdateFrame();
       fmMain.UpdateStatus;
