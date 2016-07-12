@@ -28,7 +28,7 @@ begin
   SMark:= IfThen(F.Editor.Modified, '*');
 
   SSession:= ChangeFileExt(ExtractFileName(FSessionName), '');
-  if SSession<>'history session' then
+  if (SSession<>'') and (SSession<>'history session') then
     SSession:= ' {'+SSession+'}'
   else
     SSession:= '';
