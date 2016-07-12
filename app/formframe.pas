@@ -211,7 +211,6 @@ type
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoRestoreFolding;
-    procedure DoFocusEditor;
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
@@ -1560,12 +1559,6 @@ begin
     Result:= Point(FImage.Picture.Width, FImage.Picture.Height)
   else
     Result:= Point(0, 0);
-end;
-
-procedure TEditorFrame.DoFocusEditor;
-begin
-  if Visible and Enabled then
-    EditorFocus(Editor);
 end;
 
 end.

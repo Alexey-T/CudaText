@@ -1783,7 +1783,7 @@ begin
   begin
     D:= DoTabAdd(APages, GetUntitledCaption);
     Result:= D.TabObject as TEditorFrame;
-    Result.DoFocusEditor;
+    EditorFocus(Result.Editor);
     Exit
   end;
 
@@ -1832,7 +1832,7 @@ begin
     begin
       SetFrame(F);
       Result:= F;
-      Result.DoFocusEditor;
+      EditorFocus(Result.Editor);
       UpdateStatus;
       UpdateTree(true);
       Exit
@@ -1862,7 +1862,7 @@ begin
   UpdateStatus;
   MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
   DoPyEvent(F.Editor, cEventOnOpen, []);
-  Result.DoFocusEditor;
+  EditorFocus(Result.Editor);
 end;
 
 procedure TfmMain.DoFileOpenDialog;

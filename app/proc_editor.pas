@@ -1051,7 +1051,7 @@ end;
 
 procedure EditorFocus(Ed: TATSynEdit);
 begin
-  if Ed.CanFocus and Ed.CanSetFocus then
+  if Ed.CanSetFocus then
   begin
     Ed.SetFocus;
 
@@ -1060,7 +1060,7 @@ begin
     //so added here too
     Application.MainForm.ActiveControl:= Ed;
 
-    //if need, try this
+    //if needed, try this, almost same as ActiveControl:=
     //Application.MainForm.FocusControl(Editor);
   end;
 end;
