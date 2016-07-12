@@ -17,6 +17,7 @@ var
   PyLastCommandParam: string = '';
   PyCommandRunning: boolean = false;
   PyEscapeFlag: boolean = false;
+  PyEditorMaybeDeleted: boolean = false;
 
 //func at begin
 function PyEditor(Handle: Int64): TATSynEdit;

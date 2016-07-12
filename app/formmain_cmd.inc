@@ -20,11 +20,29 @@ begin
     cmd_FileOpen:            DoFileOpenDialog;
     cmd_FileReopen:          DoFileReopen;
 
-    cmd_FileClose:           Groups.CloseTabs(tabCloseCurrent, false);
-    cmd_FileCloseAll:        Groups.CloseTabs(tabCloseAll, false);
-    cmd_FileCloseOtherThis:  Groups.CloseTabs(tabCloseOthersThisPage, false);
-    cmd_FileCloseOtherAll:   Groups.CloseTabs(tabCloseOthersAllPages, false);
-    cmd_FileCloseAndDelete:  DoFileCloseAndDelete;
+    cmd_FileClose:
+      begin
+        Groups.CloseTabs(tabCloseCurrent, false);
+        PyEditorMaybeDeleted:= true;
+      end;
+    cmd_FileCloseAll:
+      begin
+        Groups.CloseTabs(tabCloseAll, false);
+        PyEditorMaybeDeleted:= true;
+      end;
+    cmd_FileCloseOtherThis:
+      begin
+        Groups.CloseTabs(tabCloseOthersThisPage, false);
+      end;
+    cmd_FileCloseOtherAll:
+      begin
+        Groups.CloseTabs(tabCloseOthersAllPages, false);
+      end;
+    cmd_FileCloseAndDelete:
+      begin
+        DoFileCloseAndDelete;
+        PyEditorMaybeDeleted:= true;
+      end;
 
     cmd_FileSave:            DoFileSave;
     cmd_FileSaveAs:          DoFileSaveAs;

@@ -3405,6 +3405,7 @@ begin
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
   PyLastCommandParam:= AParam;
+  PyEditorMaybeDeleted:= false;
 
   Frame:= CurrentFrame;
   if Frame=nil then exit;
@@ -3420,7 +3421,8 @@ begin
     Py_RunPlugin_Command(AModule, AMethod, AParam);
   finally
     PyCommandRunning:= false;
-    Ed.Strings.EndUndoGroup;
+    if not PyEditorMaybeDeleted then
+      Ed.Strings.EndUndoGroup;
   end;
 end;
 
