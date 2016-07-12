@@ -60,7 +60,7 @@ begin
   if Res=cOpFindClose then
   begin
     if IsFocusedFind then
-      CurrentEditor.SetFocus; //must for Win
+      EditorFocus(CurrentEditor, Self);
     fmFind.Hide;
     UpdateAppForSearch(false);
     Exit;

@@ -191,7 +191,7 @@ begin
     if Assigned(fmFind) and fmFind.Visible then
       fmFind.edFind.SetFocus
     else
-      Ed.SetFocus;
+      EditorFocus(Ed, Self);
   end;
 
   Ed.DoEventCarets;

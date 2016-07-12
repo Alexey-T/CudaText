@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, StrUtils,
-  Dialogs,
+  Dialogs, Forms,
   ATSynEdit,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
@@ -41,6 +41,7 @@ procedure EditorBookmarkPlaceCarets(ed: TATSynEdit);
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
+procedure EditorFocus(Ed: TATSynEdit; AForm: TForm);
 procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
@@ -1047,6 +1048,19 @@ begin
     ed.DoCaretSingle(X1, Y1, X2, Y2, true);
 end;
 
+
+procedure EditorFocus(Ed: TATSynEdit; AForm: TForm);
+begin
+  if Ed.CanFocus and Ed.CanSetFocus then
+  begin
+    Ed.SetFocus;
+
+    //this fixes Linux gtk2 issue, if added to handling of cmd_FileClose,
+    //(focus goes to console, after closing tab),
+    //so added here too
+    AForm.ActiveControl:= Ed;
+  end;
+end;
 
 end.
 

@@ -21,14 +21,14 @@ begin
       begin
         Groups.CloseTabs(tabCloseCurrent, false);
         PyEditorMaybeDeleted:= true;
-        //for Linux: somehow console's edit gets focus after
-        ActiveControl:= CurrentEditor;
+        EditorFocus(CurrentEditor, Self);
       end;
 
     cmd_FileCloseAll:
       begin
         Groups.CloseTabs(tabCloseAll, false);
         PyEditorMaybeDeleted:= true;
+        EditorFocus(CurrentEditor, Self);
       end;
 
     cmd_FileCloseOtherThis:

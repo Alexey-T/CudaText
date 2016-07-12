@@ -955,6 +955,7 @@ begin
   if Tree.Selected.Data=nil then exit;
   R:= TecTextRange(Tree.Selected.Data);
   P:= CurrentFrame.Adapter.TreeGetPositionOfRange(R);
+
   FTreeClick:= true;
   CurrentEditor.DoGotoPos_AndUnfold(
     P,
@@ -962,7 +963,7 @@ begin
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert
     );
-  CurrentEditor.SetFocus;
+  EditorFocus(CurrentEditor, Self);
   FTreeClick:= false;
 end;
 
@@ -1323,7 +1324,7 @@ begin
       if UiOps.EscapeCloseConsole then
         ShowBottom:= false
       else
-        CurrentEditor.SetFocus;
+        EditorFocus(CurrentEditor, Self);
       Key:= 0;
       exit
     end;
@@ -1961,7 +1962,7 @@ begin
   if Res=cOpGotoClose then
   begin
     fmGoto.Hide;
-    Ed.SetFocus;
+    EditorFocus(Ed, Self);
     Exit;
   end;
 
@@ -1984,7 +1985,8 @@ begin
       UiOps.FindIndentHorz,
       UiOps.FindIndentVert);
     Ed.Update;
-    Ed.SetFocus;
+
+    EditorFocus(Ed, Self);
   end;
 end;
 
@@ -2099,7 +2101,7 @@ begin
 
   if not Value then
     if bBottom then
-      CurrentEditor.SetFocus;
+      EditorFocus(CurrentEditor, Self);
 
   UpdateStatus;
 end;
@@ -2507,7 +2509,7 @@ begin
 
   if not fmFind.Visible then
     if bBottom then
-      CurrentEditor.SetFocus;
+      EditorFocus(CurrentEditor, Self);
 end;
 
 procedure TfmMain.DoToggleToolbar;
@@ -3003,8 +3005,7 @@ begin
   //Esc
   if (Key=VK_ESCAPE) then
   begin
-    if CurrentEditor.CanSetFocus then
-      CurrentEditor.SetFocus;
+    EditorFocus(CurrentEditor, Self);
     Key:= 0;
     exit
   end;
