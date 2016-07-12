@@ -648,7 +648,7 @@ type
     procedure DoDialogLexerMap;
     procedure DoDialogLoadLexerStyles;
     procedure DoDialogColors;
-    procedure DoShowConsole;
+    procedure DoShowConsole(AFocusEdit: boolean);
     procedure DoShowOutput;
     procedure DoShowValidate;
     procedure DoShowSearchResults;
@@ -2534,11 +2534,12 @@ begin
 end;
 
 
-procedure TfmMain.DoShowConsole;
+procedure TfmMain.DoShowConsole(AFocusEdit: boolean);
 begin
   ShowBottom:= true;
   TabsBottom.TabIndex:= 0;
-  fmConsole.ed.SetFocus;
+  if AFocusEdit then
+    fmConsole.ed.SetFocus;
 end;
 
 procedure TfmMain.DoShowOutput;

@@ -82,7 +82,7 @@
   "ButtonFontDisabled" : "#D0D0D0",
   "ButtonBgPassive" : "#002D55",
   "ButtonBgOver" : "#26435C",
-  "ButtonBgChecked" : "#0030A0",
+  "ButtonBgChecked" : "#3C5870",
   "ButtonBgDisabled" : "#002240",
   "ButtonBorderPassive" : "#00182D",
   "ButtonBorderOver" : "#4A8193",

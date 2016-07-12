@@ -75,7 +75,7 @@ begin
     cmd_ToggleStatusbar:   DoToggleStatusbar;
 
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
-    cmd_ShowPanelConsole:  DoShowConsole;
+    cmd_ShowPanelConsole:  DoShowConsole(true);
     cmd_ShowPanelOutput:   DoShowOutput;
     cmd_ShowPanelValidate: DoShowValidate;
     cmd_ShowPanelSearchRes: DoShowSearchResults;

@@ -308,7 +308,7 @@ begin
     PanelBottom.Height:= c.GetValue('size_bottom', 200);
 
     if FConsoleMustShow then
-      DoShowConsole;
+      DoShowConsole(false);
 
     ////AppTheme
     FThemeName:= c.GetValue('theme', '');
