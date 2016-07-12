@@ -122,6 +122,7 @@ const
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmReloadIt: string = 'Reload it?';
   msgConfirmReloadItHotkeys: string = '(Yes: reload. No: don''t reload. Cancel [Esc]: no more notifications about this file.)';
+  msgConfirmReloadItHotkeysSess: string = '(Yes: reload. No: load text from previous session.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
   msgConfirmSaveColorsToFile: string = 'Save theme to file?';
   msgConfirmOpenNotText: string = 'File is maybe not text:'#13'%s'#13#13'Do you want to open it?';
@@ -133,7 +134,6 @@ const
   msgConfirmCloseDelFile: string = 'Close tab and delete its file?';
   msgConfirmDeleteLexer: string = 'Delete lexer "%s"?';
   msgConfirmRemoveStylesFromBackup: string = 'Remove checked styles from backup file?';
-  msgConfirmReloadInSessionIfChanged: string = 'File text was saved in session, but file is modified:'#10'%s'#10#10'Reload file?';
 
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+

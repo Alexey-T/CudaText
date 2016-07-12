@@ -1,6 +1,10 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.07.12
+* del [sc] ReloadInSessIfChanged
++ [sc] ReloadItHotkeysSess
+
 2016.07.11
 + [sc] ReloadInSessIfChanged
 

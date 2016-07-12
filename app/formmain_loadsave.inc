@@ -164,8 +164,11 @@ begin
         nAgeSaved:= c.GetValue(item_path+'file_age', 0);
         nAgeCurrent:= FileAgeUTF8(sFilename);
         if nAgeSaved<>nAgeCurrent then
-          if MsgBox(Format(msgConfirmReloadInSessionIfChanged, [sFilename]),
-                    MB_YESNO+MB_ICONWARNING)=ID_YES then
+          if MsgBox(
+            msgConfirmFileChangedOutside+#10+sFilename+#10#10+
+            msgConfirmReloadIt+#10+
+            msgConfirmReloadItHotkeysSess,
+            MB_YESNO+MB_ICONQUESTION)=ID_YES then
            bModified:= false;
       end;
 
