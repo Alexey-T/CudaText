@@ -212,7 +212,11 @@ begin
 
     nGroup:= c.GetValue('/tab_index/g_active', Low(TATGroupsNums));
     if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
+    begin
       Groups.PagesCurrent:= Groups.Pages[nGroup];
+      with Groups.PagesCurrent do
+        Tabs.TabIndex:= Tabs.TabIndex;
+    end;
   finally
     list.Free;
     c.Free;
