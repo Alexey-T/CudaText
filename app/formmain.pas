@@ -2578,6 +2578,15 @@ end;
 
 procedure TfmMain.SetFullscreen(AValue: boolean);
 begin
+  {$ifdef darwin}
+  MsgStatus('macOS: Full-screen not implemented');
+  exit;
+  {$endif}
+  {$ifdef linux}
+  MsgStatus('Linux: Full-screen not implemented');
+  exit;
+  {$endif}
+
   if FFullScreen=AValue then Exit;
   FFullScreen:=AValue;
 
