@@ -466,6 +466,7 @@ begin
     UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
     UiOps.FullScreenNoToolbar:= c.GetValue('ui_fullscreen_no_toolbar', UiOps.FullScreenNoToolbar);
+    UiOps.FullScreenNoBottom:= c.GetValue('ui_fullscreen_no_bottom', UiOps.FullScreenNoBottom);
     UiOps.BackupMode:= c.GetValue('backup', UiOps.BackupMode);
 
     Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);

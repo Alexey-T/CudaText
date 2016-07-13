@@ -520,7 +520,8 @@ type
     FFullScreen: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
-    FOrigToolbar: boolean;
+    FOrigShowToolbar: boolean;
+    FOrigShowBottom: boolean;
     FHandledOnShow: boolean;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
@@ -2584,14 +2585,19 @@ begin
 
   if AValue then
   begin
-    FOrigToolbar:= ShowToolbar;
+    FOrigShowToolbar:= ShowToolbar;
+    FOrigShowBottom:= ShowBottom;
     if UiOps.FullScreenNoToolbar then
       ShowToolbar:= false;
+    if UiOps.FullScreenNoBottom then
+      ShowBottom:= false;
   end
   else
   begin
     if UiOps.FullScreenNoToolbar then
-      ShowToolbar:= FOrigToolbar;
+      ShowToolbar:= FOrigShowToolbar;
+    if UiOps.FullScreenNoBottom then
+      ShowBottom:= FOrigShowBottom;
   end;
 
   {$ifdef windows}

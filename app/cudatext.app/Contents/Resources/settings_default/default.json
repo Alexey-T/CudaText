@@ -528,5 +528,7 @@
   "ui_max_size_lexer": 4,
 
   //On calling Full Screen mode, hide toolbar
-  "ui_fullscreen_no_toolbar": true,  
+  "ui_fullscreen_no_toolbar": true,
+  //On calling Full Screen mode, hide buttom panel
+  "ui_fullscreen_no_bottom": false,  
 }

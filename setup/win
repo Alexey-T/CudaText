@@ -3,7 +3,7 @@ cd ~/cuda/cuda/app
 
 dname=cudatext-win-x32
 
-rm ~/Public/*.zip
+rm ~/Public/$dname.zip
 zip -r ~/Public/$dname.zip data readme settings_default *.manifest *.dll py*.zip dlls/* py/*.py py/cuda_addonman/*.inf py/cuda_addonman/*.py py/cuda_make_plugin/*.inf py/cuda_make_plugin/*.py py/cuda_insert_time/*.inf py/cuda_insert_time/*.py py/cudax_lib/*.py
 
 cd ~/Public/win_exe

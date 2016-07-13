@@ -152,6 +152,7 @@ type
     ReloadFollowTail: boolean;
     BackupMode: string;
     FullScreenNoToolbar: boolean;
+    FullScreenNoBottom: boolean;
   end;
 var
   UiOps: TUiOps;
@@ -874,6 +875,7 @@ begin
     LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
     FullScreenNoToolbar:= true;
+    FullScreenNoBottom:= false;
     BackupMode:= '';
   end;
 end;
