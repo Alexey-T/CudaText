@@ -523,6 +523,7 @@ type
     FOrigShowToolbar: boolean;
     FOrigShowBottom: boolean;
     FOrigShowStatusbar: boolean;
+    FOrigShowSide: boolean;
     FHandledOnShow: boolean;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
@@ -2587,17 +2588,20 @@ begin
   if AValue then
   begin
     FOrigShowToolbar:= ShowToolbar;
-    FOrigShowBottom:= ShowBottom;
     FOrigShowStatusbar:= ShowStatus;
+    FOrigShowBottom:= ShowBottom;
+    FOrigShowSide:= ShowSidePanel;
     if Pos('t', UiOps.FullScreenHide)>0 then ShowToolbar:= false;
     if Pos('s', UiOps.FullScreenHide)>0 then ShowStatus:= false;
     if Pos('b', UiOps.FullScreenHide)>0 then ShowBottom:= false;
+    if Pos('S', UiOps.FullScreenHide)>0 then ShowSidePanel:= false;
   end
   else
   begin
     ShowToolbar:= FOrigShowToolbar;
-    ShowBottom:= FOrigShowBottom;
     ShowStatus:= FOrigShowStatusbar;
+    ShowBottom:= FOrigShowBottom;
+    ShowSidePanel:= FOrigShowSide;
   end;
 
   {$ifdef windows}
