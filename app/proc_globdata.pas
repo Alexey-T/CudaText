@@ -153,6 +153,7 @@ type
     BackupMode: string;
     FullScreenNoToolbar: boolean;
     FullScreenNoBottom: boolean;
+    FullScreenNoStatusbar: boolean;
   end;
 var
   UiOps: TUiOps;
@@ -876,6 +877,7 @@ begin
     ReloadFollowTail:= true;
     FullScreenNoToolbar:= true;
     FullScreenNoBottom:= false;
+    FullScreenNoStatusbar:= false;
     BackupMode:= '';
   end;
 end;

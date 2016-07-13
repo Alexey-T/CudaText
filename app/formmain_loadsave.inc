@@ -465,9 +465,11 @@ begin
     UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
     UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
+    UiOps.BackupMode:= c.GetValue('backup', UiOps.BackupMode);
+
     UiOps.FullScreenNoToolbar:= c.GetValue('ui_fullscreen_no_toolbar', UiOps.FullScreenNoToolbar);
     UiOps.FullScreenNoBottom:= c.GetValue('ui_fullscreen_no_bottom', UiOps.FullScreenNoBottom);
-    UiOps.BackupMode:= c.GetValue('backup', UiOps.BackupMode);
+    UiOps.FullScreenNoStatusbar:= c.GetValue('ui_fullscreen_no_statusbar', UiOps.FullScreenNoStatusbar);
 
     Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);
     Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);

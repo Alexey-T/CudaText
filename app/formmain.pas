@@ -522,6 +522,7 @@ type
     FOrigWndState: TWindowState;
     FOrigShowToolbar: boolean;
     FOrigShowBottom: boolean;
+    FOrigShowStatusbar: boolean;
     FHandledOnShow: boolean;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
@@ -2587,10 +2588,13 @@ begin
   begin
     FOrigShowToolbar:= ShowToolbar;
     FOrigShowBottom:= ShowBottom;
+    FOrigShowStatusbar:= ShowStatus;
     if UiOps.FullScreenNoToolbar then
       ShowToolbar:= false;
     if UiOps.FullScreenNoBottom then
       ShowBottom:= false;
+    if UiOps.FullScreenNoStatusbar then
+      ShowStatus:= false;
   end
   else
   begin
@@ -2598,6 +2602,8 @@ begin
       ShowToolbar:= FOrigShowToolbar;
     if UiOps.FullScreenNoBottom then
       ShowBottom:= FOrigShowBottom;
+    if UiOps.FullScreenNoStatusbar then
+      ShowStatus:= FOrigShowStatusbar;
   end;
 
   {$ifdef windows}

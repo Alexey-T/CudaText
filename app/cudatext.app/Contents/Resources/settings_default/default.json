@@ -527,8 +527,10 @@
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 4,
 
-  //On calling Full Screen mode, hide toolbar
+  //On calling Full Screen, hide toolbar
   "ui_fullscreen_no_toolbar": true,
-  //On calling Full Screen mode, hide buttom panel
-  "ui_fullscreen_no_bottom": false,  
+  //On calling Full Screen, hide bottom panel
+  "ui_fullscreen_no_bottom": false,
+  //On calling Full Screen, hide statusbar
+  "ui_fullscreen_no_statusbar": false,  
 }

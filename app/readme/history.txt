@@ -8,6 +8,7 @@ Legend:
 - macOS: don't assign F11/F12 by default
 + opt ui_fullscreen_no_toolbar
 + opt ui_fullscreen_no_bottom
++ opt ui_fullscreen_no_statusbar
 - fix: focus after opening session
 - fix: hotkeys-dlg on mac
 
