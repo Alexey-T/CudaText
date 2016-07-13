@@ -27,10 +27,11 @@ type
     bAdd2: TButton;
     bClear1: TButton;
     bClear2: TButton;
-    panelBtn: TButtonPanel;
     chkForLexer: TCheckBox;
     labelKey1: TLabel;
     labelKey2: TLabel;
+    panelInput: TPanel;
+    panelBtn: TButtonPanel;
     panelPress: TPanel;
     procedure bAdd1Click(Sender: TObject);
     procedure bAdd2Click(Sender: TObject);
@@ -162,16 +163,21 @@ begin
 end;
 
 function TfmKeys.GetHotkey: integer;
-var
-  s: string;
 begin
-  result:= 0;
+  Result:= 0;
+
   panelPress.Align:= alClient;
+  panelInput.Hide;
   panelPress.Show;
+
   FKeyPressed:= 0;
-  repeat Application.ProcessMessages until FKeyPressed<>0;
+  repeat
+    Application.ProcessMessages;
+  until FKeyPressed<>0;
+  Result:= FKeyPressed;
+
   panelPress.Hide;
-  result:= FKeyPressed;
+  panelInput.Show;
 end;
 
 procedure TfmKeys.DoUpdate;
