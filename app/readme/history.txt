@@ -4,9 +4,8 @@ Legend:
   * changed
 
 1.3.25
-+ Linux gtk2: native full-screen
-* Linux qt: disable full-screen, todo
-* macOS: disable full-screen, todo
++ Linux, macOS: native full-screen
+- fix: focus after opening session
 
 1.3.24
 + AddonManager: menuitem "Open plugin readme"

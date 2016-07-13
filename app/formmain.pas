@@ -606,8 +606,7 @@ type
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
-    procedure SetFullScreen_Linux(AValue: boolean);
-    procedure SetFullScreen_MacOS(AValue: boolean);
+    procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
@@ -785,10 +784,6 @@ var
 
 
 implementation
-
-{$IFDEF LCLGTK2}
-uses gtk2, gdk2, glib2;
-{$ENDIF}
 
 {$R *.lfm}
 
@@ -2590,37 +2585,22 @@ begin
 
   {$ifdef windows}
   SetFullScreen_Win32(AValue);
-  {$endif}
-
-  {$ifdef linux}
-  SetFullScreen_Linux(AValue);
-  {$endif}
-
-  {$ifdef darwin}
-  SetFullScreen_MacOS(AValue);
-  {$endif}
-end;
-
-procedure TfmMain.SetFullScreen_Linux(AValue: boolean);
-begin
-  {$ifdef LCLGTK2}
-  if AValue then
-    gdk_window_fullscreen(PGtkWidget(Handle)^.window)
-  else
-    gdk_window_unfullscreen(PGtkWidget(Handle)^.window);
   {$else}
-  MsgStatus('Linux QT: Full-screen not implemented');
+  SetFullScreen_Universal(AValue);
   {$endif}
 end;
 
-procedure TfmMain.SetFullScreen_MacOS(AValue: boolean);
+procedure TfmMain.SetFullScreen_Universal(AValue: boolean);
 begin
-  MsgStatus('macOS: Full-screen not implemented');
+  if AValue then
+    ShowWindow(Handle, SW_SHOWFULLSCREEN)
+  else
+    ShowWindow(Handle, SW_SHOWNORMAL);
 end;
 
 procedure TfmMain.SetFullScreen_Win32(AValue: boolean);
 begin
-  if FFullScreen then
+  if AValue then
   begin
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
