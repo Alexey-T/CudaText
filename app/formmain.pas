@@ -521,7 +521,6 @@ type
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
     FOrigToolbar: boolean;
-    FOrigStatus: boolean;
     FHandledOnShow: boolean;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
@@ -2583,6 +2582,18 @@ begin
   if FFullScreen=AValue then Exit;
   FFullScreen:= AValue;
 
+  if AValue then
+  begin
+    FOrigToolbar:= ShowToolbar;
+    if UiOps.FullScreenNoToolbar then
+      ShowToolbar:= false;
+  end
+  else
+  begin
+    if UiOps.FullScreenNoToolbar then
+      ShowToolbar:= FOrigToolbar;
+  end;
+
   {$ifdef windows}
   SetFullScreen_Win32(AValue);
   {$else}
@@ -2604,21 +2615,14 @@ begin
   begin
     FOrigWndState:= WindowState;
     FOrigBounds:= BoundsRect;
-    FOrigToolbar:= ShowToolbar;
-    FOrigStatus:= ShowStatus;
-
     BorderStyle:= bsNone;
     BoundsRect:= Monitor.BoundsRect;
-    ShowToolbar:= false;
-    ShowStatus:= false;
   end
   else
   begin
     WindowState:= FOrigWndState;
     BoundsRect:= FOrigBounds;
     BorderStyle:= bsSizeable;
-    ShowToolbar:= FOrigToolbar;
-    ShowStatus:= FOrigStatus;
     BoundsRect:= FOrigBounds; //again
   end;
 end;
