@@ -1148,6 +1148,7 @@ begin
       cAtArrowDown:
         begin
           FMouseDown:= false;
+          EndDrag(false);
           FTabIndexOver:= -1;
           Invalidate;
           ShowTabMenu;
