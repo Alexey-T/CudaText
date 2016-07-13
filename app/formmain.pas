@@ -2589,21 +2589,15 @@ begin
     FOrigShowToolbar:= ShowToolbar;
     FOrigShowBottom:= ShowBottom;
     FOrigShowStatusbar:= ShowStatus;
-    if UiOps.FullScreenNoToolbar then
-      ShowToolbar:= false;
-    if UiOps.FullScreenNoBottom then
-      ShowBottom:= false;
-    if UiOps.FullScreenNoStatusbar then
-      ShowStatus:= false;
+    if Pos('t', UiOps.FullScreenHide)>0 then ShowToolbar:= false;
+    if Pos('s', UiOps.FullScreenHide)>0 then ShowStatus:= false;
+    if Pos('b', UiOps.FullScreenHide)>0 then ShowBottom:= false;
   end
   else
   begin
-    if UiOps.FullScreenNoToolbar then
-      ShowToolbar:= FOrigShowToolbar;
-    if UiOps.FullScreenNoBottom then
-      ShowBottom:= FOrigShowBottom;
-    if UiOps.FullScreenNoStatusbar then
-      ShowStatus:= FOrigShowStatusbar;
+    ShowToolbar:= FOrigShowToolbar;
+    ShowBottom:= FOrigShowBottom;
+    ShowStatus:= FOrigShowStatusbar;
   end;
 
   {$ifdef windows}

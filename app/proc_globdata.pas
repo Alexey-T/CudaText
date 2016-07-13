@@ -151,9 +151,7 @@ type
     LexerMenuGrouped: boolean;
     ReloadFollowTail: boolean;
     BackupMode: string;
-    FullScreenNoToolbar: boolean;
-    FullScreenNoBottom: boolean;
-    FullScreenNoStatusbar: boolean;
+    FullScreenHide: string;
   end;
 var
   UiOps: TUiOps;
@@ -875,9 +873,7 @@ begin
     NonTextFilesBufferKb:= 64;
     LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
-    FullScreenNoToolbar:= true;
-    FullScreenNoBottom:= false;
-    FullScreenNoStatusbar:= false;
+    FullScreenHide:= 't';
     BackupMode:= '';
   end;
 end;
