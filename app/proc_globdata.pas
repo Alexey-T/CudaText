@@ -486,11 +486,16 @@ begin
     Result:= 'libpython3.4m.so.1.0';
   {$endif}
   {$ifdef darwin}
-    Result:= '/Library/Frameworks/Python.framework/Versions/3.3/lib/libpython3.3.dylib';
-    if FileExists(Result) then exit;
     Result:= '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib';
     if FileExists(Result) then exit;
     Result:= '/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib';
+    if FileExists(Result) then exit;
+    Result:= '/Library/Frameworks/Python.framework/Versions/3.6/lib/libpython3.6.dylib';
+    if FileExists(Result) then exit;
+    Result:= '/Library/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7.dylib';
+    if FileExists(Result) then exit;
+    Result:= '/Library/Frameworks/Python.framework/Versions/3.8/lib/libpython3.8.dylib';
+    if FileExists(Result) then exit;
   {$endif} ;
 end;
 
