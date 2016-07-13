@@ -401,6 +401,7 @@ begin
     DoLocString(msgCannotFindInstallInfInZip     , ini, 'se', 'FindInstallInfInZip');
     DoLocString(msgCannotFindBookmarks           , ini, 'se', 'FindBookmarks');
     DoLocString(msgCannotOpenTooBig              , ini, 'se', 'OpenTooBig');
+    DoLocString(msgCannotHandleZip               , ini, 'se', 'HandleZip');
 
     DoLocString(msgStatusIncorrectFilename       , ini, 'si', 'IncorrectFilename');
     DoLocString(msgStatusIncorrectInstallInfInZip, ini, 'si', 'IncorrectInstallInfInZip');

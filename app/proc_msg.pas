@@ -73,6 +73,7 @@ const
   msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in root-folder of zip file';
   msgCannotFindBookmarks: string = 'Cannot find bookmarks in text';
   msgCannotOpenTooBig: string = 'Cannot open file, it''s too big:';
+  msgCannotHandleZip: string = 'Cannot handle zip file:';
 
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';

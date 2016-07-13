@@ -26,7 +26,7 @@ type
 procedure DoInstallAddonFromZip(const fn_zip: string;
   Manager: TecSyntaxManager;
   const dir_acp: string;
-  out s_report: string;
+  out StrReport: string;
   out IsInstalled: boolean;
   out NAddonType: TAppAddonType);
 
@@ -232,7 +232,7 @@ begin
 end;
 
 procedure DoInstallAddonFromZip(const fn_zip: string;
-  Manager: TecSyntaxManager; const dir_acp: string; out s_report: string; out
+  Manager: TecSyntaxManager; const dir_acp: string; out StrReport: string; out
   IsInstalled: boolean; out NAddonType: TAppAddonType);
 var
   unzip: TUnZipper;
@@ -240,6 +240,7 @@ var
   dir, fn_inf: string;
   s_title, s_type, s_desc: string;
 begin
+  StrReport:= '';
   IsInstalled:= false;
   NAddonType:= cAddonTypeUnknown;
   dir:= GetTempDirCounted;
@@ -248,7 +249,7 @@ begin
     CreateDir(dir);
   if not DirectoryExists(dir) then
   begin
-    MsgBox(msgCannotCreateDir+#13+dir, mb_ok or mb_iconerror);
+    MsgBox(msgCannotCreateDir+#13+dir, MB_OK+MB_ICONERROR);
     exit
   end;
 
@@ -260,7 +261,12 @@ begin
   try
     unzip.FileName:= fn_zip;
     unzip.OutputPath:= dir;
-    unzip.Examine;
+    try
+      unzip.Examine;
+    except
+      MsgBox(msgCannotHandleZip+#13+fn_zip, MB_OK+MB_ICONERROR);
+      exit;
+    end;
 
     list:= TStringlist.create;
     try
@@ -313,23 +319,23 @@ begin
     msgConfirmInstallIt,
     MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
-  s_report:= '';
+  StrReport:= '';
   if s_type=cTypeLexer then
   begin
     NAddonType:= cAddonTypeLexer;
-    DoInstallLexer(fn_inf, dir_acp, Manager, s_report)
+    DoInstallLexer(fn_inf, dir_acp, Manager, StrReport)
   end
   else
   if s_type=cTypePlugin then
   begin
     NAddonType:= cAddonTypePlugin;
-    DoInstallPlugin(fn_inf, s_report)
+    DoInstallPlugin(fn_inf, StrReport)
   end
   else
   if s_type=cTypeData then
   begin
     NAddonType:= cAddonTypeData;
-    DoInstallData(fn_inf, s_report)
+    DoInstallData(fn_inf, StrReport)
   end;
 
   IsInstalled:= true;

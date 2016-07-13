@@ -1,7 +1,8 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
-2016.07.12
+2016.07.14
++ [se] HandleZip
 * del [sc] ReloadInSessIfChanged
 + [sc] ReloadItHotkeysSess
 
