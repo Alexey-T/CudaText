@@ -290,8 +290,8 @@ begin
   M.Add(cmd_RunLastCommandPlugin, 'plugins: run last command plugin', [], []);
   M.Add(cmd_RescanPythonPluginsInfFiles, 'plugins: rescan python plugins inf-files', [], []);
 
-  M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', [{$ifdef darwin}'Ctrl+Meta+F'{$else}'F11'{$endif}], []);
-  M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', ['F12'], []);
+  M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', [{$ifndef darwin}'F11'{$else}'Ctrl+Meta+F'{$endif}], []);
+  M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', [{$ifndef darwin}'F12'{$endif}], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
   M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);

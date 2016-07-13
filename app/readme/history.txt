@@ -4,7 +4,8 @@ Legend:
   * changed
 
 1.3.25
-+ Linux, macOS: native full-screen
++ macOS, Linux: correct full-screen
+- macOS: don't assign F11/F12 by default
 - fix: focus after opening session
 
 1.3.24
