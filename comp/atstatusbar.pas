@@ -106,12 +106,16 @@ uses
 
 function IsDoubleBufferedNeeded: boolean;
 begin
+  Result:= false;
+
   {$ifdef windows}
   exit(true);
   {$endif}
+
   {$ifdef darwin}
   exit(false);
   {$endif}
+
   {$ifdef linux}
   exit(false);
   {$endif}
@@ -196,7 +200,7 @@ procedure TATStatus.DoPaintPanelTo(C: TCanvas; ARect: TRect;
   AAlign: TATStatusAlign; const ACaption: string);
 var
   RText: TRect;
-  NSize, NOffset, NOffsetTop: Integer;
+  NOffsetLeft, NOffsetTop: Integer;
 begin
   C.Brush.Color:= Color;
   C.FillRect(ARect);
@@ -204,26 +208,25 @@ begin
   RText:= Rect(ARect.Left+FIndentLeft, ARect.Top, ARect.Right-FIndentLeft, ARect.Bottom);
   C.FillRect(RText);
 
-  NSize:= C.TextWidth(ACaption);
   case AAlign of
     saLeft:
-      NOffset:= 0;
+      NOffsetLeft:= 0;
     saRight:
-      NOffset:= (ARect.Right-ARect.Left) - NSize - FIndentLeft*2;
+      NOffsetLeft:= (ARect.Right-ARect.Left) - C.TextWidth(ACaption)- FIndentLeft*2;
     else
-      NOffset:= (ARect.Right-ARect.Left) div 2 - NSize div 2 - FIndentLeft;
+      NOffsetLeft:= (ARect.Right-ARect.Left) div 2 - C.TextWidth(ACaption) div 2 - FIndentLeft;
   end;
-
   NOffsetTop:= (ClientHeight - C.TextHeight(ACaption)) div 2;
+
+  C.Font.Assign(Self.Font);
   ExtTextOut(C.Handle,
-    ARect.Left+NOffset,
+    ARect.Left+NOffsetLeft+2,
     ARect.Top+NOffsetTop,
     ETO_CLIPPED+ETO_OPAQUE,
     @ARect,
     PChar(ACaption),
     Length(ACaption),
-    nil
-    );
+    nil);
 
   if FColorBorderR<>clNone then
   begin
