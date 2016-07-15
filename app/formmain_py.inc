@@ -1640,20 +1640,22 @@ end;
 
 function Py_dlg_hotkeys(Self, Args : PPyObject): PPyObject; cdecl;
 var
-  Ptr: PChar;
-  Str: string;
+  PtrCaption, PtrLexer: PChar;
+  StrCaption, StrLexer: string;
   Cmd: integer;
   Ok: boolean;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 's:dlg_hotkeys', @Ptr)) then
+    if Bool(PyArg_ParseTuple(Args, 'ss:dlg_hotkeys', @PtrCaption, @PtrLexer)) then
     begin
-      Str:= string(Ptr);
-      Cmd:= StrToIntDef(Str, 0);
+      StrCaption:= string(PtrCaption);
+      StrLexer:= string(PtrLexer);
+
+      Cmd:= StrToIntDef(StrCaption, 0);
       if Cmd>0 then
-        Ok:= DoDialogHotkeys(Cmd, '')
+        Ok:= DoDialogHotkeys(Cmd, StrLexer)
       else
-        Ok:= DoDialogHotkeys(Str, '');
+        Ok:= DoDialogHotkeys(StrCaption, StrLexer);
       Result:= PyBool_FromLong(Ord(Ok));
     end;
 end;
