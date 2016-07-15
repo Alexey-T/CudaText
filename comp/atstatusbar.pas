@@ -39,7 +39,6 @@ type
     ACanvas: TCanvas; const ARect: TRect; var ACanDraw: boolean) of object;
 
 type
-
   { TATStatus }
 
   TATStatus = class(TPanel)
@@ -104,6 +103,19 @@ implementation
 uses
   SysUtils, Forms, Math;
 
+function IsDoubleBufferedNeeded: boolean;
+begin
+  {$ifdef windows}
+  exit(true);
+  {$endif}
+  {$ifdef darwin}
+  exit(false);
+  {$endif}
+  {$ifdef linux}
+  exit(false);
+  {$endif}
+end;
+
 { TATStatus }
 
 function TATStatus.IsIndexOk(AIndex: Integer): boolean;
@@ -124,6 +136,7 @@ begin
   Caption:= '';
   BorderStyle:= bsNone;
   ControlStyle:= ControlStyle+[csOpaque];
+  DoubleBuffered:= IsDoubleBufferedNeeded;
 
   Width:= 400;
   Height:= 24;
@@ -172,11 +185,16 @@ end;
 
 procedure TATStatus.Paint;
 begin
-  if Assigned(FBitmap) then
+  if DoubleBuffered then
   begin
-    DoPaintTo(FBitmap.Canvas);
-    Canvas.CopyRect(ClientRect, FBitmap.Canvas, ClientRect);
-  end;
+    if Assigned(FBitmap) then
+    begin
+      DoPaintTo(FBitmap.Canvas);
+      Canvas.CopyRect(ClientRect, FBitmap.Canvas, ClientRect);
+    end;
+  end
+  else
+    DoPaintTo(Canvas);
 end;
 
 procedure TATStatus.DoPaintPanelTo(C: TCanvas; ARect: TRect;
