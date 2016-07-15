@@ -165,6 +165,7 @@ PROC_SIDEPANEL_ACTIVATE = 25
 PROC_SIDEPANEL_ENUM = 26
 PROC_SIDEPANEL_GET_CONTROL = 27
 PROC_BOTTOMPANEL_GET_CONTROL = 28
+PROC_SIDEPANEL_REMOVE = 29
 PROC_TOOLBAR_ENUM = 30
 PROC_TOOLBAR_ADD = 31
 PROC_TOOLBAR_DELETE = 32
@@ -339,8 +340,8 @@ def dlg_dir(init_dir):
 
 def dlg_hotkey(title=''):
     return ct.dlg_hotkey(title)
-def dlg_hotkeys(text):
-    return ct.dlg_hotkeys(text)
+def dlg_hotkeys(command, lexer=''):
+    return ct.dlg_hotkeys(command, lexer)
     
 def dlg_custom(title, size_x, size_y, text, focused=-1):    
     return ct.dlg_custom(title, size_x, size_y, text, focused)    

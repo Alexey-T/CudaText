@@ -4,7 +4,3 @@ http://sourceforge.net/projects/synwrite-addons/files/Lexers/
 
 These zip packages can be installed in CudaText: open any zip file via 
 "File--Open" and confirm installation.
-
-Note. After reinstalling of app, lexer library may be reset. You'll need to 
-re-add lexers you added. So make a copy of file in "data/lexlib" and set this 
-copy name in config: option "lexlib".
