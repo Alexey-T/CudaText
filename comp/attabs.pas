@@ -156,7 +156,6 @@ type
     FTabMenu: TatPopupMenu;
 
     FBitmap: TBitmap;
-    FBitmapText: TBitmap;
     FOnTabClick: TNotifyEvent;
     FOnTabPlusClick: TNotifyEvent;
     FOnTabClose: TATTabCloseEvent;
@@ -229,6 +228,7 @@ type
       var Accept: Boolean); override;
     procedure DragDrop(Source: TObject; X, Y: Integer); override;
   published
+    property DoubleBuffered;
     //colors
     property ColorBg: TColor read FColorBg write FColorBg;
     property ColorDrop: TColor read FColorDrop write FColorDrop;
@@ -298,6 +298,23 @@ uses
   Dialogs,
   Forms,
   Math;
+
+function IsDoubleBufferedNeeded: boolean;
+begin
+  Result:= false;
+
+  {$ifdef windows}
+  exit(true);
+  {$endif}
+
+  {$ifdef darwin}
+  exit(false);
+  {$endif}
+
+  {$ifdef linux}
+  exit(false);
+  {$endif}
+end;
 
 function _FindControl(Pnt: TPoint): TControl;
 begin
@@ -480,6 +497,7 @@ begin
   Caption:= '';
   BorderStyle:= bsNone;
   ControlStyle:= ControlStyle+[csOpaque];
+  DoubleBuffered:= IsDoubleBufferedNeeded;
 
   Width:= 400;
   Height:= 35;
@@ -543,11 +561,6 @@ begin
   FBitmap.Width:= 1600;
   FBitmap.Height:= 60;
 
-  FBitmapText:= TBitmap.Create;
-  FBitmapText.PixelFormat:= pf24bit;
-  FBitmapText.Width:= 600;
-  FBitmapText.Height:= 60;
-
   Font.Name:= 'Tahoma';
   Font.Color:= $E0E0E0;
   Font.Size:= 8;
@@ -576,18 +589,22 @@ begin
   end;
   FreeAndNil(FTabList);
 
-  FreeAndNil(FBitmapText);
   FreeAndNil(FBitmap);
   inherited;
 end;
 
 procedure TATTabs.Paint;
 begin
-  if Assigned(FBitmap) then
+  if DoubleBuffered then
   begin
-    DoPaintTo(FBitmap.Canvas);
-    Canvas.CopyRect(ClientRect, FBitmap.Canvas, ClientRect);
-  end;
+    if Assigned(FBitmap) then
+    begin
+      DoPaintTo(FBitmap.Canvas);
+      Canvas.CopyRect(ClientRect, FBitmap.Canvas, ClientRect);
+    end;
+  end
+  else
+    DoPaintTo(Canvas);
 end;
 
 procedure TATTabs.DoPaintTabTo(
@@ -596,7 +613,7 @@ procedure TATTabs.DoPaintTabTo(
   ACloseBtn, AModified: boolean);
 var
   PL1, PL2, PR1, PR2: TPoint;
-  RText: TRect;
+  RectText: TRect;
   NIndentL, NIndentR, NIndentTop: Integer;
   AType: TATTabElemType;
   AInvert: Integer;
@@ -618,9 +635,9 @@ begin
 
   NIndentL:= FTabAngle+FTabIndentLeft;
   NIndentR:= NIndentL+IfThen(ACloseBtn, FTabIndentXRight);
-  RText:= Rect(ARect.Left+FTabAngle, ARect.Top, ARect.Right-FTabAngle, ARect.Bottom);
-  C.FillRect(RText);
-  RText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
+  RectText:= Rect(ARect.Left+FTabAngle, ARect.Top, ARect.Right-FTabAngle, ARect.Bottom);
+  C.FillRect(RectText);
+  RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
 
   //left triangle
   PL1:= Point(ARect.Left+FTabAngle*AInvert, ARect.Top);
@@ -649,24 +666,26 @@ begin
   end;
 
   //caption
-  FBitmapText.Canvas.Brush.Color:= ATabBg;
-  FBitmapText.Canvas.FillRect(Rect(0, 0, FBitmapText.Width, FBitmapText.Height));
-  FBitmapText.Canvas.Font.Assign(Self.Font);
-
+  C.Font.Assign(Self.Font);
   if AModified then
-    FBitmapText.Canvas.Font.Color:= FColorFontModified;
+    C.Font.Color:= FColorFontModified;
+
   TempCaption:= IfThen(AModified, FTabShowModifiedText) + ACaption;
 
-  NIndentTop:= (FTabHeight - FBitmapText.Canvas.TextHeight('Wj')) div 2 + 1;
+  NIndentTop:= (FTabHeight - C.TextHeight('Wj')) div 2 + 1;
 
   {$ifdef WIDE}
-  Windows.TextOutW(FBitmapText.Canvas.Handle, 0, NIndentTop, PWideChar(TempCaption), Length(TempCaption));
+  ...copy from ExtTextOut below, todo
   {$else}
-  FBitmapText.Canvas.TextOut(0, NIndentTop, TempCaption);
+  ExtTextOut(C.Handle,
+    RectText.Left,
+    RectText.Top+NIndentTop,
+    ETO_CLIPPED{+ETO_OPAQUE},
+    @RectText,
+    PChar(TempCaption),
+    Length(TempCaption),
+    nil);
   {$endif}
-
-  C.CopyRect(RText, FBitmapText.Canvas,
-    Rect(0, 0, RText.Right-RText.Left, RText.Bottom-RText.Top));
 
   //borders
   if FTabBottom then
@@ -706,11 +725,11 @@ begin
       AType:= aeXButtonOver
     else
       AType:= aeXButton;
-    RText:= GetTabRect_X(ARect);
-    if IsPaintNeeded(AType, -1, C, RText) then
+    RectText:= GetTabRect_X(ARect);
+    if IsPaintNeeded(AType, -1, C, RectText) then
     begin
-      DoPaintXTo(C, RText, ATabBg, ATabCloseBg, ATabCloseBorder, ATabCloseXMark);
-      DoPaintAfter(AType, -1, C, RText);
+      DoPaintXTo(C, RectText, ATabBg, ATabCloseBg, ATabCloseBorder, ATabCloseXMark);
+      DoPaintAfter(AType, -1, C, RectText);
     end;
   end;
 end;
