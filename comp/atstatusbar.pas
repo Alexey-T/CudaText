@@ -88,6 +88,7 @@ type
     procedure WMEraseBkgnd(var Message: TMessage); message WM_ERASEBKGND;
     {$endif}
   published
+    property DoubleBuffered;
     property ColorBorderTop: TColor read FColorBorderTop write FColorBorderTop;
     property ColorBorderR: TColor read FColorBorderR write FColorBorderR;
     property ColorBorderL: TColor read FColorBorderL write FColorBorderL;
@@ -199,14 +200,14 @@ end;
 procedure TATStatus.DoPaintPanelTo(C: TCanvas; ARect: TRect;
   AAlign: TATStatusAlign; const ACaption: string);
 var
-  RText: TRect;
+  RectText: TRect;
   NOffsetLeft, NOffsetTop: Integer;
 begin
   C.Brush.Color:= Color;
   C.FillRect(ARect);
 
-  RText:= Rect(ARect.Left+FIndentLeft, ARect.Top, ARect.Right-FIndentLeft, ARect.Bottom);
-  C.FillRect(RText);
+  RectText:= Rect(ARect.Left+FIndentLeft, ARect.Top, ARect.Right-FIndentLeft, ARect.Bottom);
+  C.FillRect(RectText);
 
   case AAlign of
     saLeft:
@@ -223,7 +224,7 @@ begin
     ARect.Left+NOffsetLeft+2,
     ARect.Top+NOffsetTop,
     ETO_CLIPPED+ETO_OPAQUE,
-    @ARect,
+    @RectText,
     PChar(ACaption),
     Length(ACaption),
     nil);
