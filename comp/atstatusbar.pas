@@ -14,10 +14,12 @@ interface
 
 uses
   {$ifdef windows}
-  Windows, Messages,
+  Windows,
+  Messages,
   {$endif}
   {$ifdef FPC}
   LCLIntf,
+  LCLType,
   {$endif}
   Classes, Types, Graphics,
   Controls, ExtCtrls;
@@ -52,7 +54,6 @@ type
 
     FList: TList;
     FBitmap: TBitmap;
-    FBitmapText: TBitmap;
 
     FItemIndex: Integer;
     FOnPanelClick: TATStatusClickEvent;
@@ -159,11 +160,6 @@ begin
   FBitmap.Width:= 1600;
   FBitmap.Height:= 60;
 
-  FBitmapText:= TBitmap.Create;
-  FBitmapText.PixelFormat:= pf24bit;
-  FBitmapText.Width:= 1600;
-  FBitmapText.Height:= 60;
-
   FList:= TList.Create;
 end;
 
@@ -178,7 +174,6 @@ begin
   end;
   FreeAndNil(FList);
 
-  FreeAndNil(FBitmapText);
   FreeAndNil(FBitmap);
   inherited;
 end;
@@ -209,11 +204,7 @@ begin
   RText:= Rect(ARect.Left+FIndentLeft, ARect.Top, ARect.Right-FIndentLeft, ARect.Bottom);
   C.FillRect(RText);
 
-  FBitmapText.Canvas.Brush.Color:= Color;
-  FBitmapText.Canvas.FillRect(Rect(0, 0, FBitmapText.Width, FBitmapText.Height));
-  FBitmapText.Canvas.Font.Assign(Self.Font);
-
-  NSize:= FBitmapText.Canvas.TextWidth(ACaption);
+  NSize:= C.TextWidth(ACaption);
   case AAlign of
     saLeft:
       NOffset:= 0;
@@ -223,12 +214,16 @@ begin
       NOffset:= (ARect.Right-ARect.Left) div 2 - NSize div 2 - FIndentLeft;
   end;
 
-  NOffsetTop:= (ClientHeight - FBitmapText.Canvas.TextHeight(ACaption)) div 2;
-  FBitmapText.Canvas.TextOut(NOffset, NOffsetTop, ACaption);
-  C.CopyRect(
-    RText,
-    FBitmapText.Canvas,
-    Rect(0, 0, RText.Right-RText.Left, RText.Bottom-RText.Top));
+  NOffsetTop:= (ClientHeight - C.TextHeight(ACaption)) div 2;
+  ExtTextOut(C.Handle,
+    ARect.Left+NOffset,
+    ARect.Top+NOffsetTop,
+    ETO_CLIPPED+ETO_OPAQUE,
+    @ARect,
+    PChar(ACaption),
+    Length(ACaption),
+    nil
+    );
 
   if FColorBorderR<>clNone then
   begin
