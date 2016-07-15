@@ -1,8 +1,8 @@
 import os
 import shutil
 from cudatext import *
+from cudax_lib import html_color_to_int
 from .proc_brackets import *
-from .proc_colors import *
 
 MARKTAG = 10 #uniq value for all markers plugins
 CANNOT_USE_SEL = False #cannot work if selection
@@ -14,8 +14,8 @@ ini_def = os.path.join(os.path.dirname(__file__), NAME_INI)
 if not os.path.isfile(ini_app) and os.path.isfile(ini_def):
     shutil.copyfile(ini_def, ini_app)
 
-COLOR_FONT = string_to_color(ini_read(ini_app, 'color', 'fore', '#000000'))
-COLOR_BG = string_to_color(ini_read(ini_app, 'color', 'back', '#80c080'))
+COLOR_FONT = html_color_to_int(ini_read(ini_app, 'color', 'fore', '#000000'))
+COLOR_BG = html_color_to_int(ini_read(ini_app, 'color', 'back', '#80c080'))
 
 prev_lexer = None
 prev_chars = ''
@@ -82,16 +82,18 @@ class Command:
         self.do_find(True)
     def select(self):
         self.do_find(False)
+    def select_in(self):
+        self.do_find(False, True)
         
-    def do_find(self, is_jump):
+    def do_find(self, is_jump, select_inside=False):
         carets = ed.get_carets()
         if len(carets)!=1:
-            msg_status('Cannot goto bracket if multi-carets')
+            msg_status('Cannot go to bracket if multi-carets')
             return
         
         x, y, x1, y1 = carets[0]
         if x1>=0:
-            msg_status('Cannot goto bracket if selection')
+            msg_status('Cannot go to bracket if selection')
             return
         
         chars = get_chars()
@@ -99,17 +101,24 @@ class Command:
         
         res = find_matching_bracket(ed, x, y, chars)
         if res is None:
-            msg_status('Cannot find matching bracket')
+            msg_status('Cannot find pair bracket')
             return
         x1, y1 = res
         
         if is_jump:
             ed.set_caret(x1, y1)
-            msg_status('Go to bracket')
+            msg_status('Go to pair bracket')
         else:
             #select from (x,y) to (x1,y1)
+            sel_delta = -1 if select_inside else 0
             if (y1>y) or ((y1==y) and (x1>x)):
-                ed.set_caret(x1+1, y1, x, y) #sel down
+                #sel down
+                ed.set_caret(
+                  x1+1+sel_delta, y1,
+                  x-sel_delta, y) 
             else:
-                ed.set_caret(x1, y1, x+1, y) #sel up
-            msg_status('Selected to bracket')
+                #sel up
+                ed.set_caret(
+                  x1-sel_delta, y1, 
+                  x+1+sel_delta, y) 
+            msg_status('Selected to pair bracket')

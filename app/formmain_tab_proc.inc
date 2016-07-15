@@ -373,6 +373,29 @@ begin
   Result:= true;
 end;
 
+function TfmMain.DoSidebar_RemoveTab(const ACaption: string): boolean;
+var
+  Num, i: integer;
+begin
+  Num:= DoSidebar_CaptionToTabIndex(ACaption);
+  Result:= Num>=0;
+  if Result then
+  begin
+    fmMain.TabsLeft.DeleteTab(Num, false, false);
+
+    //hard to remov array item, so hide it by "?"
+    for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
+      if FAppSidePanels[i].ItemCaption=ACaption then
+      begin
+        FAppSidePanels[i].ItemCaption:= '?';
+        Break;
+      end;
+
+    if (Num>0) and (fmMain.TabsLeft.TabIndex=Num) then
+      fmMain.TabsLeft.TabIndex:= Num-1;
+  end;
+end;
+
 
 function TfmMain.DoSidebar_ActivateTab(const ACaption: string): boolean;
 var

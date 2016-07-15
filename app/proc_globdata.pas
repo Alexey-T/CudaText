@@ -468,7 +468,7 @@ type
   end;
 
 var
-  FAppSidePanels: array[0..10] of TAppSidePanel;
+  FAppSidePanels: array[0..20] of TAppSidePanel;
 
 
 implementation

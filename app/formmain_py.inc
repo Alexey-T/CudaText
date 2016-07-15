@@ -2197,6 +2197,13 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
+        APP_PROC_SIDEPANEL_REMOVE:
+          begin
+            StrCaption:= Str;
+            ok:= fmMain.DoSidebar_RemoveTab(StrCaption);
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
+
         APP_PROC_SIDEPANEL_ACTIVATE:
           begin
             ok:= fmMain.DoSidebar_ActivateTab(Str);

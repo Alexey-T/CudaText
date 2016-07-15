@@ -11,7 +11,7 @@ events=on_caret
 
 [item2]
 section=commands
-caption=Brackets Hilite\Goto pair bracket
+caption=Brackets Hilite\Go to pair bracket
 method=jump
 
 [item3]
@@ -21,5 +21,10 @@ method=select
 
 [item4]
 section=commands
-caption=Brackets Hilite\Edit config
+caption=Brackets Hilite\Select to pair bracket, inside
+method=select_in
+
+[item10]
+section=commands
+caption=Brackets Hilite\Config
 method=config

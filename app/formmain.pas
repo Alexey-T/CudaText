@@ -552,6 +552,7 @@ type
     procedure DoPanel_OnSelChanged(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+    function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;
     function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
