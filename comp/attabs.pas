@@ -37,7 +37,7 @@ uses
   Menus;
 
 type
-  atString = {$ifdef WIDE} UnicodeString {$else} string {$endif};
+  atString = {$ifdef WIDE} WideString {$else} string {$endif};
   TatPopupMenu = {$ifdef TNT} TTntPopupMenu {$else} TPopupMenu {$endif};
   TatMenuItem = {$ifdef TNT} TTntMenuItem {$else} TMenuItem {$endif};
 
@@ -304,7 +304,7 @@ begin
   Result:= false;
 
   {$ifdef windows}
-  exit(true);
+  Result:= true;
   {$endif}
 
   {$ifdef darwin}
@@ -675,7 +675,14 @@ begin
   NIndentTop:= (FTabHeight - C.TextHeight('Wj')) div 2 + 1;
 
   {$ifdef WIDE}
-  ...copy from ExtTextOut below, todo
+  ExtTextOutW(C.Handle,
+    RectText.Left,
+    RectText.Top+NIndentTop,
+    ETO_CLIPPED{+ETO_OPAQUE},
+    @RectText,
+    PWChar(TempCaption),
+    Length(TempCaption),
+    nil);
   {$else}
   ExtTextOut(C.Handle,
     RectText.Left,
