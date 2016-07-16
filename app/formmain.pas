@@ -8,7 +8,6 @@ Copyright (c) Alexey Torgashin
 unit FormMain;
 
 {$mode objfpc}{$H+}
-{$define import_cudatext_py}
 
 interface
 
@@ -2148,18 +2147,17 @@ procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
 var
   dir: string;
 begin
-  dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;
   {$ifdef windows}
+  dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;
   Py_SetSysPath([dir+'dlls', dir+ ChangeFileExt(UiOps.PyLibrary, '.zip')], false);
   {$endif}
   Py_SetSysPath([GetAppPath(cDirPy)], true);
 
-  {$ifdef import_cudatext_py}
   try
+    GetPythonEngine.ExecString('import sys; print("Python", sys.version)');
     GetPythonEngine.ExecString('from cudatext import *');
   except
   end;
-  {$endif}
 end;
 
 procedure TfmMain.InitPyEngine;

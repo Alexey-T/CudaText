@@ -279,10 +279,6 @@ object fmMain: TfmMain
     FatalAbort = False
     FatalMsgDlg = False
     UseLastKnownVersion = False
-    InitScript.Strings = (
-      'import sys'
-      'print(''Python'', sys.version)'
-    )
     IO = PythonIO
     PyFlags = [pfIgnoreEnvironmentFlag]
     OnAfterInit = PythonEngineAfterInit
