@@ -6,7 +6,8 @@ Legend:
 
 1.3.26
 + macOS: lot of code chged for Retina support
-- macOS: fix crash, run via commd-line
+- macOS: fix crash, on run with params
++ show shorter Python ver
 
 1.3.25
 + macOS, Linux: correct full-screen
