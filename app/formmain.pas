@@ -2145,16 +2145,28 @@ end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
 var
+  Str: array of string;
   dir: string;
+  PathAppend: boolean;
 begin
+  PathAppend:= true;
+  SetLength(Str, 0);
+
   {$ifdef windows}
+  PathAppend:= false;
   dir:= ExtractFileDir(Application.ExeName)+DirectorySeparator;
-  Py_SetSysPath([dir+'dlls', dir+ ChangeFileExt(UiOps.PyLibrary, '.zip')], false);
+  SetLength(Str, 2);
+  Str[0]:= dir+'dlls';
+  Str[1]:= dir+ChangeFileExt(UiOps.PyLibrary, '.zip');
   {$endif}
-  Py_SetSysPath([GetAppPath(cDirPy)], true);
+
+  SetLength(Str, Length(Str)+1);
+  Str[Length(Str)-1]:= GetAppPath(cDirPy);
+
+  Py_SetSysPath(Str, PathAppend);
 
   try
-    GetPythonEngine.ExecString('import sys; print("Python", sys.version)');
+    GetPythonEngine.ExecString('print("Python", sys.version.splitlines()[0] )');
     GetPythonEngine.ExecString('from cudatext import *');
   except
   end;
