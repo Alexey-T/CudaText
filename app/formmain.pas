@@ -1847,6 +1847,7 @@ begin
   if APages=Groups.PagesCurrent then
   begin
     F:= CurrentFrame;
+    if Assigned(F) then
     if F.IsEmpty then
     begin
       F.DoFileOpen(AFilename, true);
