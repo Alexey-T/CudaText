@@ -481,8 +481,10 @@ procedure TEditorFrame.SetFileName(const AValue: string);
 begin
   if FFileName=AValue then Exit;
   FFileName:= AValue;
+
   //update Notif obj
-  NotifEnabled:= NotifEnabled;
+  if IsText then
+    NotifEnabled:= NotifEnabled;
 end;
 
 procedure TEditorFrame.SetLocked(AValue: boolean);
@@ -895,7 +897,7 @@ begin
   if IsFilenameListedInExtensionList(fn, UiOps.PictureTypes) then
   begin
     TabCaption:= ExtractFileName(fn);
-    FileName:= '?';
+    FFileName:= '?';
 
     Ed1.Hide;
     Ed2.Hide;
@@ -951,7 +953,8 @@ begin
   if IsFileReadonly(fn) then
     Editor.ModeReadOnly:= true;
 
-  NotifEnabled:= NotifEnabled;
+  if IsText then
+    NotifEnabled:= NotifEnabled;
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog;
