@@ -223,7 +223,8 @@ end;
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: array of string): string;
 const
-  cTrueResultStopsThese = [cEventOnComplete{, cEventOnFuncHint}];
+  cTheseEventsStoppedByTrue = [cEventOnComplete];
+  cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
 var
   SCurLexer: string;
   bNeedGroup: boolean;
@@ -235,7 +236,7 @@ begin
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   SCurLexer:= Frame.LexerName;
-  bNeedGroup:= not (AEvent in [cEventOnCaret, cEventOnChange, cEventOnChangeSlow]);
+  bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
 
   for i:= Low(FPluginsEvents) to High(FPluginsEvents) do
     with FPluginsEvents[i] do
@@ -264,7 +265,7 @@ begin
 
           //True for some events means "stop"
           if Result=cPyTrue then
-            if AEvent in cTrueResultStopsThese then Exit;
+            if AEvent in cTheseEventsStoppedByTrue then Exit;
 
           //False means "stop", other results ignored
           if Result=cPyFalse then Exit;
