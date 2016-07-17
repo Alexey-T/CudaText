@@ -524,6 +524,7 @@ type
     FOrigShowStatusbar: boolean;
     FOrigShowSide: boolean;
     FHandledOnShow: boolean;
+    FFileNameDroppedInitially: string;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Text: string;
@@ -615,7 +616,7 @@ type
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuPlugins;
-    procedure DoOps_LoadLexlib;
+    procedure DoOps_LoadLexerLib;
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadHistory;
@@ -673,7 +674,7 @@ type
     procedure DoFileOpenDialog;
     procedure DoFileSaveAll;
     procedure DoFileReopen;
-    procedure DoLoadParamstr;
+    procedure DoLoadCommandLine;
     procedure DoSortSel(ed: TATSynEdit; Asc, ANocase: boolean);
     procedure DoToggleFullScreen;
     procedure DoToggleSidePanel;
@@ -1294,6 +1295,15 @@ var
   Pages: TATPages;
   i: integer;
 begin
+  //support mac: it drops file too early
+  //(dbl-click on file in Finder)
+  if not FHandledOnShow then
+  begin
+    if Length(FileNames)>0 then
+      FFileNameDroppedInitially:= FileNames[0];
+    exit;
+  end;
+
   if not IsAllowedToOpenFileNow then exit;
 
   //set group according to mouse cursor
@@ -1347,7 +1357,6 @@ end;
 procedure TfmMain.FormShow(Sender: TObject);
 begin
   if FHandledOnShow then exit;
-  FHandledOnShow:= true;
   TabsBottom.TabIndex:= 0;
 
   DoOps_LoadOptions(GetAppPath(cFileOptUser), EditorOps);
@@ -1355,10 +1364,12 @@ begin
   DoApplyFont_Ui;
   DoApplyFont_Output;
   DoApplyUiOps;
-  InitPyEngine;
-  DoOps_LoadLexlib;
 
+  InitPyEngine;
+  DoOps_LoadLexerLib;
   DoFileOpen('');
+  FHandledOnShow:= true;
+
   DoOps_LoadPlugins;
   DoOps_LoadHistory;
   DoOps_LoadKeymap;
@@ -1373,7 +1384,7 @@ begin
 
   ActiveControl:= CurrentEditor;
   UpdateStatus;
-  DoLoadParamstr;
+  DoLoadCommandLine;
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject);
@@ -1461,11 +1472,15 @@ begin
 end;
 
 
-procedure TfmMain.DoLoadParamstr;
+procedure TfmMain.DoLoadCommandLine;
 var
   fn: string;
   i: integer;
 begin
+  if FFileNameDroppedInitially<>'' then
+    if FileExistsUTF8(FFileNameDroppedInitially) then
+      DoFileOpen(FFileNameDroppedInitially);
+
   for i:= 1 to ParamCount do
   begin
     fn:= ParamStrUTF8(i);
@@ -2233,7 +2248,7 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.DoOps_LoadLexlib;
+procedure TfmMain.DoOps_LoadLexerLib;
 var
   dir, fn, lexname: string;
   L: TStringlist;
