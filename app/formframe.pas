@@ -483,8 +483,7 @@ begin
   FFileName:= AValue;
 
   //update Notif obj
-  if IsText then
-    NotifEnabled:= NotifEnabled;
+  NotifEnabled:= NotifEnabled;
 end;
 
 procedure TEditorFrame.SetLocked(AValue: boolean);
@@ -509,7 +508,7 @@ begin
   FNotif.Timer.Enabled:= false;
   FNotif.FileName:= '';
 
-  if AValue then
+  if IsText and AValue and FileExistsUTF8(FileName) then
   begin
     FNotif.FileName:= FileName;
     FNotif.Timer.Enabled:= true;
@@ -953,8 +952,7 @@ begin
   if IsFileReadonly(fn) then
     Editor.ModeReadOnly:= true;
 
-  if IsText then
-    NotifEnabled:= NotifEnabled;
+  NotifEnabled:= NotifEnabled;
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog;
