@@ -524,7 +524,7 @@ type
     FOrigShowStatusbar: boolean;
     FOrigShowSide: boolean;
     FHandledOnShow: boolean;
-    FFileNameDroppedInitially: string;
+    FFileNamesDroppedInitially: array of string;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Text: string;
@@ -1299,8 +1299,9 @@ begin
   //(dbl-click on file in Finder)
   if not FHandledOnShow then
   begin
-    if Length(FileNames)>0 then
-      FFileNameDroppedInitially:= FileNames[0];
+    SetLength(FFileNamesDroppedInitially, Length(FileNames));
+    for i:= 0 to Length(FileNames)-1 do
+      FFileNamesDroppedInitially[i]:= FileNames[i];
     exit;
   end;
 
@@ -1477,9 +1478,12 @@ var
   fn: string;
   i: integer;
 begin
-  if FFileNameDroppedInitially<>'' then
-    if FileExistsUTF8(FFileNameDroppedInitially) then
-      DoFileOpen(FFileNameDroppedInitially);
+  for i:= 0 to Length(FFileNamesDroppedInitially)-1 do
+  begin
+    fn:= FFileNamesDroppedInitially[i];
+    if FileExistsUTF8(fn) then
+      DoFileOpen(fn);
+  end;
 
   for i:= 1 to ParamCount do
   begin
