@@ -1826,6 +1826,10 @@ begin
     exit
   end;
 
+  //py event
+  if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
+    [SStringToPythonString(AFilename)]) = cPyFalse then exit;
+
   //NonTextFiles: 0: prompt, 1: open, 2: don't open
   if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
   if UiOps.NonTextFiles<>1 then

@@ -369,6 +369,7 @@ const
 type
   TAppPyEvent = (
     cEventOnOpen,
+    cEventOnOpenBefore,
     cEventOnClose,
     cEventOnSaveAfter,
     cEventOnSaveBefore,
@@ -399,6 +400,7 @@ type
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
     'on_open',
+    'on_open_pre',
     'on_close',
     'on_save',
     'on_save_pre',
