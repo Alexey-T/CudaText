@@ -772,6 +772,12 @@ begin
     Y2:= Y1;
   end;
 
+  Ed.DoGotoPos_AndUnfold(
+    Point(X1, Y1),
+    Point(X2, Y2),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert);
+
   if AndDelete then
   begin
     NTag:= Ed.Markers[Ed.Markers.Count-1].Tag;
@@ -794,11 +800,6 @@ begin
       end;
   end;
 
-  Ed.DoGotoPos_AndUnfold(
-    Point(X1, Y1),
-    Point(X2, Y2),
-    UiOps.FindIndentHorz,
-    UiOps.FindIndentVert);
   Ed.Update;
 end;
 
