@@ -131,6 +131,7 @@ procedure DoInitTheme(var D: TAppTheme);
   //
 const
   cl_back = $e4e4e4;
+  cl_back2 = $d0d0d0;
   cl_back_gutter = $d8d8d8;
   cl_arrow = clMedGray;
 begin
@@ -190,7 +191,7 @@ begin
   Add(clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
   Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
 
-  Add($f0f0f0, 'TabBg', 'tabs, toolbar BG');
+  Add(cl_back2, 'TabBg', 'tabs, toolbar BG');
   Add(clBlack, 'TabFont', 'tabs, font');
   Add($A00000, 'TabFontMod', 'tabs, font, modified tab');
   Add(cl_back, 'TabActive', 'tabs, active tab BG');
@@ -244,7 +245,7 @@ begin
   Add($d0d0d0, 'ScrollScrolled', 'scrollbar, scrolling area');
 
   Add(clBlack, 'StatusFont', 'statusbar, font');
-  Add($e0e0e0, 'StatusBg', 'statusbar, BG');
+  Add(cl_back2, 'StatusBg', 'statusbar, BG');
   Add(clMedGray, 'StatusLines', 'statusbar, border');
   Add(clBlack, 'StatusAltFont', 'statusbar alternative, font');
   Add(clCream, 'StatusAltBg', 'statusbar alternative, BG');
