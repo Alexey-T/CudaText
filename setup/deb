@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dname=cudatext_1.3.26.0-1_gtk2_amd64
+dname=cudatext_1.3.26.2-1_gtk2_amd64
 
 dd=~/tmp/$dname
 sudo rm -rf $dd

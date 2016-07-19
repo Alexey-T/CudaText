@@ -312,7 +312,7 @@ begin
   {$endif}
 
   {$ifdef linux}
-  exit(false);
+  exit(true);
   {$endif}
 end;
 

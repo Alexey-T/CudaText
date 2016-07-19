@@ -129,6 +129,10 @@ procedure DoInitTheme(var D: TAppTheme);
     D.Styles.Add(st);
   end;
   //
+const
+  cl_back = $e4e4e4;
+  cl_back_gutter = $d8d8d8;
+  cl_arrow = clMedGray;
 begin
   SetLength(D.Colors, 0);
 
@@ -139,13 +143,13 @@ begin
 
   //add colors
   Add(clBlack, 'EdTextFont', 'editor, font');
-  Add(clWhite, 'EdTextBg', 'editor, BG');
-  Add(clHighlightText, 'EdSelFont', 'editor, selection, font');
-  Add(clHighlight, 'EdSelBg', 'editor, selection, BG');
+  Add(cl_back, 'EdTextBg', 'editor, BG');
+  Add($e0e0e0, 'EdSelFont', 'editor, selection, font');
+  Add($b0a0a0, 'EdSelBg', 'editor, selection, BG');
   Add(clGray, 'EdDisableFont', 'editor, disabled state, font');
-  Add($f0f0f0, 'EdDisableBg', 'editor, disabled state, BG');
-  Add(clBlue, 'EdLinks', 'editor, links');
-  Add($e0e0e0, 'EdLockedBg', 'editor, locked state, BG');
+  Add($c0c0c0, 'EdDisableBg', 'editor, disabled state, BG');
+  Add($d08080, 'EdLinks', 'editor, links');
+  Add($c0c0c0, 'EdLockedBg', 'editor, locked state, BG');
   Add(clBlack, 'EdCaret', 'editor, caret');
   Add($0000d0, 'EdMarkers', 'editor, markers');
   Add($e0f0f0, 'EdCurLineBg', 'editor, current line BG');
@@ -157,12 +161,12 @@ begin
   Add($eeeeee, 'EdMinimapSelBg', 'editor, minimap, view BG');
   Add($e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
   Add($c0c0c0, 'EdMicromapViewBg', 'editor, micromap, view BG');
-  Add($00f0f0, 'EdStateChanged', 'editor, line states, changed');
-  Add($20c020, 'EdStateAdded', 'editor, line states, added');
+  Add($70b0b0, 'EdStateChanged', 'editor, line states, changed');
+  Add($80a080, 'EdStateAdded', 'editor, line states, added');
   Add(clMedGray, 'EdStateSaved', 'editor, line states, saved');
   Add(clMedGray, 'EdBlockStaple', 'editor, block staples (indent guides)');
-  Add(clGray, 'EdComboArrow', 'editor, combobox arrow-down');
-  Add($f0f0f0, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
+  Add(cl_arrow, 'EdComboArrow', 'editor, combobox arrow-down');
+  Add(cl_back, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
   Add(clMedGray, 'EdBorder', 'editor, combobox border');
   Add(clMedGray, 'EdBlockSepLine', 'editor, separator line');
   Add($a06060, 'EdFoldMarkLine', 'editor, folded line');
@@ -170,15 +174,15 @@ begin
   Add($e08080, 'EdFoldMarkBorder', 'editor, folded block mark, border');
   Add(clCream, 'EdFoldMarkBg', 'editor, folded block mark, BG');
   Add(clGray, 'EdGutterFont', 'editor, gutter font');
-  Add($e0e0e0, 'EdGutterBg', 'editor, gutter BG');
-  Add(clGray, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
-  Add($c8c8c8, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
+  Add(cl_back_gutter, 'EdGutterBg', 'editor, gutter BG');
+  Add($808080, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
+  Add($c4c4c4, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
   Add(clGray, 'EdRulerFont', 'editor, ruler font');
-  Add($e0e0e0, 'EdRulerBg', 'editor, ruler BG');
+  Add(cl_back, 'EdRulerBg', 'editor, ruler BG');
   Add(clGray, 'EdFoldLine', 'editor, gutter folding, lines');
-  Add($c8c8c8, 'EdFoldBg', 'editor, gutter folding, BG');
+  Add(cl_back_gutter, 'EdFoldBg', 'editor, gutter folding, BG');
   Add(clGray, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
-  Add($f4f4f4, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
+  Add(cl_back_gutter, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
   Add(clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
   Add(clLime, 'EdMarginCaret', 'editor, margins, for carets');
   Add(clYellow, 'EdMarginUser', 'editor, margins, user defined');
@@ -189,29 +193,29 @@ begin
   Add($f0f0f0, 'TabBg', 'tabs, toolbar BG');
   Add(clBlack, 'TabFont', 'tabs, font');
   Add($A00000, 'TabFontMod', 'tabs, font, modified tab');
-  Add(clWhite, 'TabActive', 'tabs, active tab BG');
-  Add($f0f0f0, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
-  Add($e0e0e0, 'TabPassive', 'tabs, passive tab BG');
-  Add($f0f0f0, 'TabOver', 'tabs, mouse-over tab BG');
+  Add(cl_back, 'TabActive', 'tabs, active tab BG');
+  Add($f4f4f4, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
+  Add($f4f4f4, 'TabPassive', 'tabs, passive tab BG');
+  Add($ffffff, 'TabOver', 'tabs, mouse-over tab BG');
   Add($c0c0c0, 'TabBorderActive', 'tabs, active tab border');
   Add($c0c0c0, 'TabBorderPassive', 'tabs, passive tab border');
   Add(clNone, 'TabCloseBg', 'tabs, close button BG');
-  Add($6060c0, 'TabCloseBgOver', 'tabs, close button BG, mouse-over');
-  Add($6060c0, 'TabCloseBorderOver', 'tabs, close button border');
-  Add(clGray, 'TabCloseX', 'tabs, close x mark');
-  Add(clWhite, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
-  Add(clGray, 'TabArrow', 'tabs, tab-list arrow-down');
-  Add(clLtGray, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
+  Add($9090c0, 'TabCloseBgOver', 'tabs, close button BG, mouse-over');
+  Add($9090c0, 'TabCloseBorderOver', 'tabs, close button border');
+  Add(cl_arrow, 'TabCloseX', 'tabs, close x mark');
+  Add(cl_back, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
+  Add(cl_arrow, 'TabArrow', 'tabs, tab-list arrow-down');
+  Add(cl_arrow, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
 
   Add(clBlack, 'TreeFont', 'treeview, font');
-  Add(clWhite, 'TreeBg', 'treeview, BG');
+  Add(cl_back, 'TreeBg', 'treeview, BG');
   Add(clBlack, 'TreeSelFont', 'treeview, selected font');
-  Add($e0e0e0, 'TreeSelBg', 'treeview, selected BG');
-  Add(clLtGray, 'TreeLines', 'treeview, lines');
-  Add(clBlack, 'TreeSign', 'treeview, fold sign');
+  Add($c8c8c8, 'TreeSelBg', 'treeview, selected BG');
+  Add(clMedGray, 'TreeLines', 'treeview, lines');
+  Add(clMedGray, 'TreeSign', 'treeview, fold sign');
 
-  Add($e0e0e0, 'ListBg', 'listbox, BG');
-  Add(clLtGray, 'ListSelBg', 'listbox, selected line BG');
+  Add(cl_back, 'ListBg', 'listbox, BG');
+  Add($c8c8c8, 'ListSelBg', 'listbox, selected line BG');
   Add(clBlack, 'ListFont', 'listbox, font');
   Add(clBlack, 'ListSelFont', 'listbox, selected line font');
   Add($802020, 'ListFontHotkey', 'listbox, font, hotkey');
@@ -233,11 +237,11 @@ begin
   Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
-  Add($e0e0e0, 'ScrollBack', 'scrollbar, BG');
-  Add($c8c8c8, 'ScrollRect', 'scrollbar, thumb border');
-  Add($c8c8c8, 'ScrollFill', 'scrollbar, thumb fill');
-  Add(clGray, 'ScrollArrow', 'scrollbar, arrow');
-  Add($e0b0b0, 'ScrollScrolled', 'scrollbar, scrolling area');
+  Add(cl_back_gutter, 'ScrollBack', 'scrollbar, BG');
+  Add($c0c0c0, 'ScrollRect', 'scrollbar, thumb border');
+  Add(cl_back, 'ScrollFill', 'scrollbar, thumb fill');
+  Add(cl_arrow, 'ScrollArrow', 'scrollbar, arrow');
+  Add($d0d0d0, 'ScrollScrolled', 'scrollbar, scrolling area');
 
   Add(clBlack, 'StatusFont', 'statusbar, font');
   Add($e0e0e0, 'StatusBg', 'statusbar, BG');
