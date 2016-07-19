@@ -4,6 +4,11 @@ Legend:
   * changed
 
 
+1.3.28
++ changed built-in theme
+- fix: bug on tabbing after snippet insert
+- fix: bug in file-notif (ui_notif)
+
 1.3.26
 + macOS: lot of code chged for Retina support
 - macOS: fix crash, on run with params

@@ -952,7 +952,7 @@ begin
   if IsFileReadonly(fn) then
     Editor.ModeReadOnly:= true;
 
-  NotifEnabled:= NotifEnabled;
+  NotifEnabled:= UiOps.NotifEnabled;
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog;

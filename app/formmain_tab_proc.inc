@@ -29,7 +29,7 @@ begin
   F.Editor.PopupText:= PopupText;
   F.Editor2.PopupText:= PopupText;
 
-  F.NotifEnabled:= UiOps.NotifEnabled;
+  F.NotifEnabled:= false;
   F.NotifTime:= UiOps.NotifTimeSec*1000;
 
   F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
