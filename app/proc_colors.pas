@@ -153,13 +153,13 @@ begin
   Add($b0a0a0, 'EdSelBg', 'editor, selection, BG');
   Add(clGray, 'EdDisableFont', 'editor, disabled state, font');
   Add($c0c0c0, 'EdDisableBg', 'editor, disabled state, BG');
-  Add($d08080, 'EdLinks', 'editor, links');
+  Add($c05050, 'EdLinks', 'editor, links');
   Add($c0c0c0, 'EdLockedBg', 'editor, locked state, BG');
   Add(clBlack, 'EdCaret', 'editor, caret');
-  Add($0000d0, 'EdMarkers', 'editor, markers');
+  Add($6060d0, 'EdMarkers', 'editor, markers');
   Add($e0f0f0, 'EdCurLineBg', 'editor, current line BG');
   Add(clMedGray, 'EdIndentVLine', 'editor, wrapped line indent vert-lines');
-  Add($5050f0, 'EdUnprintFont', 'editor, unprinted chars, font');
+  Add($6060d0, 'EdUnprintFont', 'editor, unprinted chars, font');
   Add($e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
   Add(clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
   Add(clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
@@ -189,15 +189,15 @@ begin
   Add(nColorGutterFont, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
   Add(nColorGutterBack, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
   Add(clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
-  Add(clLime, 'EdMarginCaret', 'editor, margins, for carets');
-  Add(clYellow, 'EdMarginUser', 'editor, margins, user defined');
+  Add($a0d0a0, 'EdMarginCaret', 'editor, margins, for carets');
+  Add($a0d0d0, 'EdMarginUser', 'editor, margins, user defined');
   Add(clMoneyGreen, 'EdBookmarkBg', 'editor, bookmark, line BG');
   Add(clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
   Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
 
   Add(nColorBack2, 'TabBg', 'tabs, toolbar BG');
   Add(nColorText, 'TabFont', 'tabs, font');
-  Add($A00000, 'TabFontMod', 'tabs, font, modified tab');
+  Add($c05050, 'TabFontMod', 'tabs, font, modified tab');
   Add(nColorBack, 'TabActive', 'tabs, active tab BG');
   Add($c8c8c8, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
   Add($f4f4f4, 'TabPassive', 'tabs, passive tab BG');
@@ -223,10 +223,10 @@ begin
   Add(nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
   Add(nColorText, 'ListFont', 'listbox, font');
   Add(nColorText, 'ListSelFont', 'listbox, selected line font');
-  Add($802020, 'ListFontHotkey', 'listbox, font, hotkey');
-  Add($f04040, 'ListFontHilite', 'listbox, font, search chars');
+  Add($c05050, 'ListFontHotkey', 'listbox, font, hotkey');
+  Add($c05050, 'ListFontHilite', 'listbox, font, search chars');
 
-  Add(clPurple, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
+  Add($c05050, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
   Add(clGray, 'ListCompleteParams', 'listbox, font, auto-complete params');
 
   Add($a0a0a0, 'GaugeFill', 'search progressbar, fill');
