@@ -130,9 +130,11 @@ procedure DoInitTheme(var D: TAppTheme);
   end;
   //
 const
+  nColorText = $202020;
   nColorBack = $e4e4e4;
   nColorBack2 = $d0d0d0;
-  nColorGutter = $d8d8d8;
+  nColorGutterBack = $d8d8d8;
+  nColorGutterFont = $909090;
   nColorArrow = $a0a0a0;
   nColorBorder = $c0c0c0;
 begin
@@ -144,7 +146,7 @@ begin
     D.Styles:= TList.Create;
 
   //add colors
-  Add(clBlack, 'EdTextFont', 'editor, font');
+  Add(nColorText, 'EdTextFont', 'editor, font');
   Add(nColorBack, 'EdTextBg', 'editor, BG');
   Add($e0e0e0, 'EdSelFont', 'editor, selection, font');
   Add($b0a0a0, 'EdSelBg', 'editor, selection, BG');
@@ -174,17 +176,17 @@ begin
   Add($a06060, 'EdFoldMarkLine', 'editor, folded line');
   Add($e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
   Add($e08080, 'EdFoldMarkBorder', 'editor, folded block mark, border');
-  Add(clCream, 'EdFoldMarkBg', 'editor, folded block mark, BG');
-  Add(clGray, 'EdGutterFont', 'editor, gutter font');
-  Add(nColorGutter, 'EdGutterBg', 'editor, gutter BG');
-  Add($808080, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
+  Add(nColorBack, 'EdFoldMarkBg', 'editor, folded block mark, BG');
+  Add(nColorGutterFont, 'EdGutterFont', 'editor, gutter font');
+  Add(nColorGutterBack, 'EdGutterBg', 'editor, gutter BG');
+  Add(nColorGutterFont, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
   Add($c4c4c4, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
-  Add(clGray, 'EdRulerFont', 'editor, ruler font');
+  Add(nColorGutterFont, 'EdRulerFont', 'editor, ruler font');
   Add(nColorBack, 'EdRulerBg', 'editor, ruler BG');
-  Add(clGray, 'EdFoldLine', 'editor, gutter folding, lines');
-  Add(nColorGutter, 'EdFoldBg', 'editor, gutter folding, BG');
-  Add(clGray, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
-  Add(nColorGutter, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
+  Add(nColorGutterFont, 'EdFoldLine', 'editor, gutter folding, lines');
+  Add(nColorGutterBack, 'EdFoldBg', 'editor, gutter folding, BG');
+  Add(nColorGutterFont, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
+  Add(nColorGutterBack, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
   Add(clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
   Add(clLime, 'EdMarginCaret', 'editor, margins, for carets');
   Add(clYellow, 'EdMarginUser', 'editor, margins, user defined');
@@ -193,7 +195,7 @@ begin
   Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
 
   Add(nColorBack2, 'TabBg', 'tabs, toolbar BG');
-  Add(clBlack, 'TabFont', 'tabs, font');
+  Add(nColorText, 'TabFont', 'tabs, font');
   Add($A00000, 'TabFontMod', 'tabs, font, modified tab');
   Add(nColorBack, 'TabActive', 'tabs, active tab BG');
   Add($c8c8c8, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
@@ -209,17 +211,17 @@ begin
   Add(nColorArrow, 'TabArrow', 'tabs, tab-list arrow-down');
   Add(nColorArrow, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
 
-  Add(clBlack, 'TreeFont', 'treeview, font');
+  Add(nColorText, 'TreeFont', 'treeview, font');
   Add(nColorBack, 'TreeBg', 'treeview, BG');
-  Add(clBlack, 'TreeSelFont', 'treeview, selected font');
+  Add(nColorText, 'TreeSelFont', 'treeview, selected font');
   Add($c8c8c8, 'TreeSelBg', 'treeview, selected BG');
-  Add(clMedGray, 'TreeLines', 'treeview, lines');
-  Add(clMedGray, 'TreeSign', 'treeview, fold sign');
+  Add(nColorGutterFont, 'TreeLines', 'treeview, lines');
+  Add(nColorGutterFont, 'TreeSign', 'treeview, fold sign');
 
   Add(nColorBack, 'ListBg', 'listbox, BG');
   Add($c8c8c8, 'ListSelBg', 'listbox, selected line BG');
-  Add(clBlack, 'ListFont', 'listbox, font');
-  Add(clBlack, 'ListSelFont', 'listbox, selected line font');
+  Add(nColorText, 'ListFont', 'listbox, font');
+  Add(nColorText, 'ListSelFont', 'listbox, selected line font');
   Add($802020, 'ListFontHotkey', 'listbox, font, hotkey');
   Add($f04040, 'ListFontHilite', 'listbox, font, search chars');
 
@@ -229,26 +231,26 @@ begin
   Add($a0a0a0, 'GaugeFill', 'search progressbar, fill');
   Add($e0e0e0, 'GaugeBg', 'search progressbar, BG');
 
-  Add($303030, 'ButtonFont', 'buttons, font');
+  Add(nColorText, 'ButtonFont', 'buttons, font');
   Add($808088, 'ButtonFontDisabled', 'buttons, font, disabled state');
-  Add($e0e0e0, 'ButtonBgPassive', 'buttons, BG, passive');
-  Add($e0e0e0, 'ButtonBgOver', 'buttons, BG, mouse-over');
+  Add(nColorBack, 'ButtonBgPassive', 'buttons, BG, passive');
+  Add(nColorBack2, 'ButtonBgOver', 'buttons, BG, mouse-over');
   Add($b0b0b0, 'ButtonBgChecked', 'buttons, BG, checked state');
   Add($c0c0d0, 'ButtonBgDisabled', 'buttons, BG, disabled state');
-  Add($a0a0a0, 'ButtonBorderPassive', 'buttons, border, passive');
-  Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
-  Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
+  Add(nColorBorder, 'ButtonBorderPassive', 'buttons, border, passive');
+  Add(nColorBorder, 'ButtonBorderOver', 'buttons, border, mouse-over');
+  Add(clGray, 'ButtonBorderFocused', 'buttons, border, focused');
 
-  Add(nColorGutter, 'ScrollBack', 'scrollbar, BG');
+  Add(nColorGutterBack, 'ScrollBack', 'scrollbar, BG');
   Add(nColorBorder, 'ScrollRect', 'scrollbar, thumb border');
   Add(nColorBack, 'ScrollFill', 'scrollbar, thumb fill');
   Add(nColorArrow, 'ScrollArrow', 'scrollbar, arrow');
   Add($d0d0d0, 'ScrollScrolled', 'scrollbar, scrolling area');
 
-  Add(clBlack, 'StatusFont', 'statusbar, font');
+  Add(nColorText, 'StatusFont', 'statusbar, font');
   Add(nColorBack2, 'StatusBg', 'statusbar, BG');
   Add(nColorBorder, 'StatusLines', 'statusbar, border');
-  Add(clBlack, 'StatusAltFont', 'statusbar alternative, font');
+  Add(nColorText, 'StatusAltFont', 'statusbar alternative, font');
   Add(clCream, 'StatusAltBg', 'statusbar alternative, BG');
 
   Add($e0e0e0, 'SplitMain', 'splitters, main');
@@ -272,9 +274,9 @@ begin
   AddStyle('String2', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('String3', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
-  AddStyle('Symbol', clMaroon, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Symbol2', $0000C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('SymbolBad', clMaroon, clNone, clRed, [fsBold], blNone, blNone, blNone, blDot, ftFontAttr);
+  AddStyle('Symbol', clMaroon, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Symbol2', $0000C0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blDot, ftFontAttr);
 
   AddStyle('Comment', clGray, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Comment2', $00C080, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
