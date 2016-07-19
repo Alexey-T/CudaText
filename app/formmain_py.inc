@@ -496,27 +496,28 @@ var
   Ed: TATSynEdit;
   ComArray: Variant;
   Mark: TATMarkerItem;
-  X, Y, NTag, NLen, i: integer;
+  X, Y, NTag, NLenX, NLenY, i: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiii:markers', @H, @Id, @X, @Y, @NTag, @NLen)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiii:markers', @H, @Id, @X, @Y, @NTag, @NLenX, @NLenY)) then
     begin
       Ed:= PyEditor(H);
 
       case Id of
         MARKERS_GET:
           begin
-            NLen:= Ed.Markers.Count;
-            if NLen>0 then
+            NLenX:= Ed.Markers.Count;
+            if NLenX>0 then
             begin
-              ComArray:= VarArrayCreate([0, NLen-1, 0, 3], varInteger);
-              for i:= 0 to NLen-1 do
+              ComArray:= VarArrayCreate([0, NLenX-1, 0, 4], varInteger);
+              for i:= 0 to NLenX-1 do
               begin
                 Mark:= Ed.Markers[i];
                 ComArray[i, 0]:= Mark.PosX;
                 ComArray[i, 1]:= Mark.PosY;
                 ComArray[i, 2]:= Mark.LenX;
-                ComArray[i, 3]:= Mark.Tag;
+                ComArray[i, 3]:= Mark.LenY;
+                ComArray[i, 4]:= Mark.Tag;
               end;
               Result:= VariantAsPyObject(ComArray);
             end
@@ -526,7 +527,7 @@ begin
 
         MARKERS_ADD:
           begin
-            Ed.Markers.Add(X, Y, NTag, NLen);
+            Ed.Markers.Add(X, Y, NTag, NLenX, NLenY);
             Ed.Update;
             fmMain.UpdateStatus;
             Result:= PyInt_FromLong(Ed.Markers.Count);
