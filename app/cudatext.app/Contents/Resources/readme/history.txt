@@ -4,10 +4,15 @@ Legend:
   * changed
 
 
+1.3.28
+- 3 major fixes (appeared after macOS work)
++ more calm built-in theme
+
 1.3.26
 + macOS: lot of code chged for Retina support
 - macOS: fix crash, on run with params
 + show shorter Python ver
+- fix: show pictures 
 
 1.3.25
 + macOS, Linux: correct full-screen

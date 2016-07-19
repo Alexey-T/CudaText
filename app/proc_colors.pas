@@ -130,11 +130,11 @@ procedure DoInitTheme(var D: TAppTheme);
   end;
   //
 const
-  cl_back = $e4e4e4;
-  cl_back2 = $d0d0d0;
-  cl_back_gutter = $d8d8d8;
-  cl_arrow = $a0a0a0;
-  cl_frame = $c0c0c0;
+  nColorBack = $e4e4e4;
+  nColorBack2 = $d0d0d0;
+  nColorGutter = $d8d8d8;
+  nColorArrow = $a0a0a0;
+  nColorBorder = $c0c0c0;
 begin
   SetLength(D.Colors, 0);
 
@@ -145,7 +145,7 @@ begin
 
   //add colors
   Add(clBlack, 'EdTextFont', 'editor, font');
-  Add(cl_back, 'EdTextBg', 'editor, BG');
+  Add(nColorBack, 'EdTextBg', 'editor, BG');
   Add($e0e0e0, 'EdSelFont', 'editor, selection, font');
   Add($b0a0a0, 'EdSelBg', 'editor, selection, BG');
   Add(clGray, 'EdDisableFont', 'editor, disabled state, font');
@@ -167,24 +167,24 @@ begin
   Add($80a080, 'EdStateAdded', 'editor, line states, added');
   Add(clMedGray, 'EdStateSaved', 'editor, line states, saved');
   Add(clMedGray, 'EdBlockStaple', 'editor, block staples (indent guides)');
-  Add(cl_arrow, 'EdComboArrow', 'editor, combobox arrow-down');
-  Add(cl_back, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
-  Add(cl_frame, 'EdBorder', 'editor, combobox border');
+  Add(nColorArrow, 'EdComboArrow', 'editor, combobox arrow-down');
+  Add(nColorBack, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
+  Add(nColorBorder, 'EdBorder', 'editor, combobox border');
   Add(clMedGray, 'EdBlockSepLine', 'editor, separator line');
   Add($a06060, 'EdFoldMarkLine', 'editor, folded line');
   Add($e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
   Add($e08080, 'EdFoldMarkBorder', 'editor, folded block mark, border');
   Add(clCream, 'EdFoldMarkBg', 'editor, folded block mark, BG');
   Add(clGray, 'EdGutterFont', 'editor, gutter font');
-  Add(cl_back_gutter, 'EdGutterBg', 'editor, gutter BG');
+  Add(nColorGutter, 'EdGutterBg', 'editor, gutter BG');
   Add($808080, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
   Add($c4c4c4, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
   Add(clGray, 'EdRulerFont', 'editor, ruler font');
-  Add(cl_back, 'EdRulerBg', 'editor, ruler BG');
+  Add(nColorBack, 'EdRulerBg', 'editor, ruler BG');
   Add(clGray, 'EdFoldLine', 'editor, gutter folding, lines');
-  Add(cl_back_gutter, 'EdFoldBg', 'editor, gutter folding, BG');
+  Add(nColorGutter, 'EdFoldBg', 'editor, gutter folding, BG');
   Add(clGray, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
-  Add(cl_back_gutter, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
+  Add(nColorGutter, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
   Add(clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
   Add(clLime, 'EdMarginCaret', 'editor, margins, for carets');
   Add(clYellow, 'EdMarginUser', 'editor, margins, user defined');
@@ -192,31 +192,31 @@ begin
   Add(clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
   Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
 
-  Add(cl_back2, 'TabBg', 'tabs, toolbar BG');
+  Add(nColorBack2, 'TabBg', 'tabs, toolbar BG');
   Add(clBlack, 'TabFont', 'tabs, font');
   Add($A00000, 'TabFontMod', 'tabs, font, modified tab');
-  Add(cl_back, 'TabActive', 'tabs, active tab BG');
+  Add(nColorBack, 'TabActive', 'tabs, active tab BG');
   Add($c8c8c8, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
   Add($f4f4f4, 'TabPassive', 'tabs, passive tab BG');
   Add($ffffff, 'TabOver', 'tabs, mouse-over tab BG');
-  Add(cl_frame, 'TabBorderActive', 'tabs, active tab border');
-  Add(cl_frame, 'TabBorderPassive', 'tabs, passive tab border');
+  Add(nColorBorder, 'TabBorderActive', 'tabs, active tab border');
+  Add(nColorBorder, 'TabBorderPassive', 'tabs, passive tab border');
   Add(clNone, 'TabCloseBg', 'tabs, close button BG');
   Add($9090c0, 'TabCloseBgOver', 'tabs, close button BG, mouse-over');
   Add($9090c0, 'TabCloseBorderOver', 'tabs, close button border');
-  Add(cl_arrow, 'TabCloseX', 'tabs, close x mark');
-  Add(cl_back, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
-  Add(cl_arrow, 'TabArrow', 'tabs, tab-list arrow-down');
-  Add(cl_arrow, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
+  Add(nColorArrow, 'TabCloseX', 'tabs, close x mark');
+  Add(nColorBack, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
+  Add(nColorArrow, 'TabArrow', 'tabs, tab-list arrow-down');
+  Add(nColorArrow, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
 
   Add(clBlack, 'TreeFont', 'treeview, font');
-  Add(cl_back, 'TreeBg', 'treeview, BG');
+  Add(nColorBack, 'TreeBg', 'treeview, BG');
   Add(clBlack, 'TreeSelFont', 'treeview, selected font');
   Add($c8c8c8, 'TreeSelBg', 'treeview, selected BG');
   Add(clMedGray, 'TreeLines', 'treeview, lines');
   Add(clMedGray, 'TreeSign', 'treeview, fold sign');
 
-  Add(cl_back, 'ListBg', 'listbox, BG');
+  Add(nColorBack, 'ListBg', 'listbox, BG');
   Add($c8c8c8, 'ListSelBg', 'listbox, selected line BG');
   Add(clBlack, 'ListFont', 'listbox, font');
   Add(clBlack, 'ListSelFont', 'listbox, selected line font');
@@ -239,15 +239,15 @@ begin
   Add($d0d0d0, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
-  Add(cl_back_gutter, 'ScrollBack', 'scrollbar, BG');
-  Add(cl_frame, 'ScrollRect', 'scrollbar, thumb border');
-  Add(cl_back, 'ScrollFill', 'scrollbar, thumb fill');
-  Add(cl_arrow, 'ScrollArrow', 'scrollbar, arrow');
+  Add(nColorGutter, 'ScrollBack', 'scrollbar, BG');
+  Add(nColorBorder, 'ScrollRect', 'scrollbar, thumb border');
+  Add(nColorBack, 'ScrollFill', 'scrollbar, thumb fill');
+  Add(nColorArrow, 'ScrollArrow', 'scrollbar, arrow');
   Add($d0d0d0, 'ScrollScrolled', 'scrollbar, scrolling area');
 
   Add(clBlack, 'StatusFont', 'statusbar, font');
-  Add(cl_back2, 'StatusBg', 'statusbar, BG');
-  Add(cl_frame, 'StatusLines', 'statusbar, border');
+  Add(nColorBack2, 'StatusBg', 'statusbar, BG');
+  Add(nColorBorder, 'StatusLines', 'statusbar, border');
   Add(clBlack, 'StatusAltFont', 'statusbar alternative, font');
   Add(clCream, 'StatusAltBg', 'statusbar alternative, BG');
 
