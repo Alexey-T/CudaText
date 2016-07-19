@@ -766,10 +766,22 @@ begin
   Y1:= Mark.PosY;
   X2:= -1;
   Y2:= -1;
-  if Mark.SelLen>0 then
+
+  if Mark.LenY<=0 then
   begin
-    X2:= X1+Mark.SelLen;
-    Y2:= Y1;
+    //LenX is selection len (1-line)
+    if Mark.LenX>0 then
+    begin
+      X2:= X1+Mark.LenX;
+      Y2:= Y1;
+    end;
+  end
+  else
+  begin
+    //LenX is selection end X-pos;
+    //LenY is count of sel lines
+    X2:= Mark.LenX;
+    Y2:= Y1+Mark.LenY;
   end;
 
   Ed.DoGotoPos_AndUnfold(
@@ -791,10 +803,13 @@ begin
         Mark:= Ed.Markers[i];
         if Mark.Tag=NTag then
         begin
-          if Mark.SelLen<=0 then
+          if Mark.LenY>0 then
+            Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.LenX, Mark.PosY+Mark.LenY)
+          else
+          if Mark.LenX<=0 then
             Ed.Carets.Add(Mark.PosX, Mark.PosY)
           else
-            Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.PosX+Mark.SelLen, Mark.PosY);
+            Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.PosX+Mark.LenX, Mark.PosY);
           Ed.Markers.Delete(i);
         end;
       end;

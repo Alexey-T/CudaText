@@ -515,7 +515,7 @@ begin
                 Mark:= Ed.Markers[i];
                 ComArray[i, 0]:= Mark.PosX;
                 ComArray[i, 1]:= Mark.PosY;
-                ComArray[i, 2]:= Mark.SelLen;
+                ComArray[i, 2]:= Mark.LenX;
                 ComArray[i, 3]:= Mark.Tag;
               end;
               Result:= VariantAsPyObject(ComArray);
@@ -592,7 +592,7 @@ begin
                 ComArray[i, 0]:= Mark.Tag;
                 ComArray[i, 1]:= Mark.PosX;
                 ComArray[i, 2]:= Mark.PosY;
-                ComArray[i, 3]:= Mark.SelLen;
+                ComArray[i, 3]:= Mark.LenX;
                 ComArray[i, 4]:= Obj.Data.ColorFont;
                 ComArray[i, 5]:= Obj.Data.ColorBG;
                 ComArray[i, 6]:= Obj.Data.ColorBorder;
@@ -624,7 +624,7 @@ begin
             Obj.Data.BorderDown:= TATLineStyle(NBorderD);
             Obj.Data.BorderUp:= TATLineStyle(NBorderU);
 
-            Ed.Attribs.Add(X, Y, NTag, NLen, Obj);
+            Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj);
             Ed.Update;
             fmMain.UpdateStatus;
             Result:= PyInt_FromLong(Ed.Attribs.Count);

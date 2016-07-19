@@ -41,7 +41,7 @@ begin
           NLen:= Abs(APos2.X-APos1.X)
         else
           NLen:= 0;
-        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen, nil, true{InsertToBegin});
+        Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen, 0, nil, true{InsertToBegin});
       end;
 
     markingBookmarks:
