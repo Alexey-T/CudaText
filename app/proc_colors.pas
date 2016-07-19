@@ -133,7 +133,8 @@ const
   cl_back = $e4e4e4;
   cl_back2 = $d0d0d0;
   cl_back_gutter = $d8d8d8;
-  cl_arrow = clMedGray;
+  cl_arrow = $a0a0a0;
+  cl_frame = $c0c0c0;
 begin
   SetLength(D.Colors, 0);
 
@@ -168,7 +169,7 @@ begin
   Add(clMedGray, 'EdBlockStaple', 'editor, block staples (indent guides)');
   Add(cl_arrow, 'EdComboArrow', 'editor, combobox arrow-down');
   Add(cl_back, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
-  Add(clMedGray, 'EdBorder', 'editor, combobox border');
+  Add(cl_frame, 'EdBorder', 'editor, combobox border');
   Add(clMedGray, 'EdBlockSepLine', 'editor, separator line');
   Add($a06060, 'EdFoldMarkLine', 'editor, folded line');
   Add($e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');
@@ -198,8 +199,8 @@ begin
   Add($c8c8c8, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
   Add($f4f4f4, 'TabPassive', 'tabs, passive tab BG');
   Add($ffffff, 'TabOver', 'tabs, mouse-over tab BG');
-  Add($c0c0c0, 'TabBorderActive', 'tabs, active tab border');
-  Add($c0c0c0, 'TabBorderPassive', 'tabs, passive tab border');
+  Add(cl_frame, 'TabBorderActive', 'tabs, active tab border');
+  Add(cl_frame, 'TabBorderPassive', 'tabs, passive tab border');
   Add(clNone, 'TabCloseBg', 'tabs, close button BG');
   Add($9090c0, 'TabCloseBgOver', 'tabs, close button BG, mouse-over');
   Add($9090c0, 'TabCloseBorderOver', 'tabs, close button border');
@@ -239,14 +240,14 @@ begin
   Add(clNavy, 'ButtonBorderFocused', 'buttons, border, focused');
 
   Add(cl_back_gutter, 'ScrollBack', 'scrollbar, BG');
-  Add($c0c0c0, 'ScrollRect', 'scrollbar, thumb border');
+  Add(cl_frame, 'ScrollRect', 'scrollbar, thumb border');
   Add(cl_back, 'ScrollFill', 'scrollbar, thumb fill');
   Add(cl_arrow, 'ScrollArrow', 'scrollbar, arrow');
   Add($d0d0d0, 'ScrollScrolled', 'scrollbar, scrolling area');
 
   Add(clBlack, 'StatusFont', 'statusbar, font');
   Add(cl_back2, 'StatusBg', 'statusbar, BG');
-  Add(clMedGray, 'StatusLines', 'statusbar, border');
+  Add(cl_frame, 'StatusLines', 'statusbar, border');
   Add(clBlack, 'StatusAltFont', 'statusbar alternative, font');
   Add(clCream, 'StatusAltBg', 'statusbar alternative, BG');
 
