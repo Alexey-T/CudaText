@@ -261,7 +261,7 @@ begin
 
   //--------------
   //add styles
-  AddStyle('Id', clBlack, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Id', nColorText, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Id1', clNavy, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Id2', clPurple, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Id3', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
@@ -299,10 +299,10 @@ begin
   AddStyle('CurBlockBG', clBlack, $E8E8E8, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
   AddStyle('SeparLine', clBlack, $00E000, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);
 
-  AddStyle('TagBound', clGray, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TagId', $F06060, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('TagIdBad', $F06060, clNone, clRed, [fsBold], blNone, blNone, blNone, blWavyLine, ftFontAttr);
-  AddStyle('TagProp', $40D040, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('TagBound', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('TagId', $F06060, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('TagIdBad', $F06060, clNone, clRed, [], blNone, blNone, blNone, blWavyLine, ftFontAttr);
+  AddStyle('TagProp', $40D040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AddStyle('LightBG1', clBlack, $8080FF, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('LightBG2', clBlack, clYellow, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
