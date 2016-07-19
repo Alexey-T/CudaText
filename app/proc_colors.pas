@@ -137,6 +137,7 @@ const
   nColorGutterFont = $909090;
   nColorArrow = $a0a0a0;
   nColorBorder = $c0c0c0;
+  nColorListSelBack = $c8c8c8;
 begin
   SetLength(D.Colors, 0);
 
@@ -180,7 +181,7 @@ begin
   Add(nColorGutterFont, 'EdGutterFont', 'editor, gutter font');
   Add(nColorGutterBack, 'EdGutterBg', 'editor, gutter BG');
   Add(nColorGutterFont, 'EdGutterCaretFont', 'editor, gutter font, lines with carets');
-  Add($c4c4c4, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
+  Add(nColorListSelBack, 'EdGutterCaretBg', 'editor, gutter BG, lines with carets');
   Add(nColorGutterFont, 'EdRulerFont', 'editor, ruler font');
   Add(nColorBack, 'EdRulerBg', 'editor, ruler BG');
   Add(nColorGutterFont, 'EdFoldLine', 'editor, gutter folding, lines');
@@ -214,12 +215,12 @@ begin
   Add(nColorText, 'TreeFont', 'treeview, font');
   Add(nColorBack, 'TreeBg', 'treeview, BG');
   Add(nColorText, 'TreeSelFont', 'treeview, selected font');
-  Add($c8c8c8, 'TreeSelBg', 'treeview, selected BG');
+  Add(nColorListSelBack, 'TreeSelBg', 'treeview, selected BG');
   Add(nColorGutterFont, 'TreeLines', 'treeview, lines');
   Add(nColorGutterFont, 'TreeSign', 'treeview, fold sign');
 
   Add(nColorBack, 'ListBg', 'listbox, BG');
-  Add($c8c8c8, 'ListSelBg', 'listbox, selected line BG');
+  Add(nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
   Add(nColorText, 'ListFont', 'listbox, font');
   Add(nColorText, 'ListSelFont', 'listbox, selected line font');
   Add($802020, 'ListFontHotkey', 'listbox, font, hotkey');
