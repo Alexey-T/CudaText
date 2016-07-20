@@ -254,8 +254,8 @@ begin
   Add(nColorText, 'StatusAltFont', 'statusbar alternative, font');
   Add(clCream, 'StatusAltBg', 'statusbar alternative, BG');
 
-  Add($e0e0e0, 'SplitMain', 'splitters, main');
-  Add($e0e0e0, 'SplitGroups', 'splitters, groups');
+  Add(nColorBack2, 'SplitMain', 'splitters, main');
+  Add(nColorBack2, 'SplitGroups', 'splitters, groups');
 
   Add(clWhite, 'ExportHtmlBg', 'export to html, BG');
   Add(clMedGray, 'ExportHtmlNumbers', 'export to html, line numbers');
