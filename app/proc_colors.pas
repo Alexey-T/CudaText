@@ -132,7 +132,7 @@ procedure DoInitTheme(var D: TAppTheme);
 const
   nColorText = $202020;
   nColorBack = $e4e4e4;
-  nColorBack2 = $d0d0d0;
+  nColorBack2 = $c8c8c8;
   nColorGutterBack = $d8d8d8;
   nColorGutterFont = $909090;
   nColorArrow = $a0a0a0;
@@ -157,9 +157,9 @@ begin
   Add($c0c0c0, 'EdLockedBg', 'editor, locked state, BG');
   Add(clBlack, 'EdCaret', 'editor, caret');
   Add($6060d0, 'EdMarkers', 'editor, markers');
-  Add($e0f0f0, 'EdCurLineBg', 'editor, current line BG');
+  Add($e8f0f0, 'EdCurLineBg', 'editor, current line BG');
   Add(clMedGray, 'EdIndentVLine', 'editor, wrapped line indent vert-lines');
-  Add($6060d0, 'EdUnprintFont', 'editor, unprinted chars, font');
+  Add($a0a0b8, 'EdUnprintFont', 'editor, unprinted chars, font');
   Add($e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
   Add(clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
   Add(clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
@@ -169,7 +169,7 @@ begin
   Add($70b0b0, 'EdStateChanged', 'editor, line states, changed');
   Add($80a080, 'EdStateAdded', 'editor, line states, added');
   Add(clMedGray, 'EdStateSaved', 'editor, line states, saved');
-  Add(clMedGray, 'EdBlockStaple', 'editor, block staples (indent guides)');
+  Add($b0b0b0, 'EdBlockStaple', 'editor, block staples (indent guides)');
   Add(nColorArrow, 'EdComboArrow', 'editor, combobox arrow-down');
   Add(nColorBack, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
   Add(nColorBorder, 'EdBorder', 'editor, combobox border');
@@ -189,8 +189,8 @@ begin
   Add(nColorGutterFont, 'EdFoldPlusLine', 'editor, gutter folding, "plus" border');
   Add(nColorGutterBack, 'EdFoldPlusBg', 'editor, gutter folding, "plus" BG');
   Add(clLtGray, 'EdMarginFixed', 'editor, margin, fixed position');
-  Add($a0d0a0, 'EdMarginCaret', 'editor, margins, for carets');
-  Add($a0d0d0, 'EdMarginUser', 'editor, margins, user defined');
+  Add($b0c0c0, 'EdMarginCaret', 'editor, margins, for carets');
+  Add($b0c0c0, 'EdMarginUser', 'editor, margins, user defined');
   Add(clMoneyGreen, 'EdBookmarkBg', 'editor, bookmark, line BG');
   Add(clMedGray, 'EdBookmarkIcon', 'editor, bookmark, gutter mark');
   Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
