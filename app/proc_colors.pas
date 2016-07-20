@@ -157,7 +157,7 @@ begin
   Add($c0c0c0, 'EdLockedBg', 'editor, locked state, BG');
   Add(clBlack, 'EdCaret', 'editor, caret');
   Add($6060d0, 'EdMarkers', 'editor, markers');
-  Add($e8f0f0, 'EdCurLineBg', 'editor, current line BG');
+  Add($eaf0f0, 'EdCurLineBg', 'editor, current line BG');
   Add(clMedGray, 'EdIndentVLine', 'editor, wrapped line indent vert-lines');
   Add($a0a0b8, 'EdUnprintFont', 'editor, unprinted chars, font');
   Add($e0e0e0, 'EdUnprintBg', 'editor, unprinted chars, BG');
