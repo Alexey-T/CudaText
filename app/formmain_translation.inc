@@ -48,6 +48,21 @@ begin
   SReplaceAll(AStr, '\n', #10);
 end;
 
+procedure DoLocToolbarButtonHint(AToolbar: TATButtonsToolbar; const ABtnCaption, ABtnNewHint: string);
+var
+  Btn: TATButton;
+  i: integer;
+begin
+  for i:= 0 to AToolbar.ButtonCount-1 do
+  begin
+    Btn:= AToolbar.Buttons[i];
+    if Btn.Caption=ABtnCaption then
+    begin
+      Btn.Hint:= ABtnNewHint;
+      exit;
+    end;
+  end;
+end;
 
 procedure TfmMain.DoLocalize;
 var
@@ -300,25 +315,22 @@ begin
     DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
     DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
 
-    {
-    DoLocControlHint(ini, tbNew, 'ui', 'tb_new');
-    DoLocControlHint(ini, tbOpen, 'ui', 'tb_op');
-    DoLocControlHint(ini, tbSave, 'ui', 'tb_sav');
-    DoLocControlHint(ini, tbFind, 'ui', 'tb_find');
-    DoLocControlHint(ini, tbGoto, 'ui', 'tb_go');
-
-    DoLocControlHint(tbCut, msgEditCut);
-    DoLocControlHint(tbCopy, msgEditCopy);
-    DoLocControlHint(tbPaste, msgEditPaste);
-    DoLocControlHint(tbDel, msgEditDelete);
-    DoLocControlHint(tbSelAll, msgEditSelectAll);
-    DoLocControlHint(tbUndo, msgEditUndo);
-    DoLocControlHint(tbRedo, msgEditRedo);
-    if Assigned(mnuViewUnpri) then DoLocControlHint(tbUnpri, mnuViewUnpri.Caption);
-    if Assigned(mnuViewSide) then DoLocControlHint(tbSidePanel, mnuViewSide.Caption);
-    if Assigned(mnuViewBottom) then DoLocControlHint(tbBtmPanel, mnuViewBottom.Caption);
-    if Assigned(mnuViewMinimap) then DoLocControlHint(tbMinimap, mnuViewMinimap.Caption);
-    }
+    DoLocToolbarButtonHint(Toolbar, 'f_new', ini.ReadString('ui', 'tb_new', ''));
+    DoLocToolbarButtonHint(Toolbar, 'f_open', ini.ReadString('ui', 'tb_op', ''));
+    DoLocToolbarButtonHint(Toolbar, 'f_save', ini.ReadString('ui', 'tb_sav', ''));
+    DoLocToolbarButtonHint(Toolbar, 'find', ini.ReadString('ui', 'tb_find', ''));
+    DoLocToolbarButtonHint(Toolbar, 'goto', ini.ReadString('ui', 'tb_go', ''));
+    DoLocToolbarButtonHint(Toolbar, 'e_cut', msgEditCut);
+    DoLocToolbarButtonHint(Toolbar, 'e_copy', msgEditCopy);
+    DoLocToolbarButtonHint(Toolbar, 'e_paste', msgEditPaste);
+    //DoLocToolbarButtonHint(Toolbar, 'e_del', msgEditDelete);
+    //DoLocToolbarButtonHint(Toolbar, 'e_sel', msgEditSelectAll);
+    DoLocToolbarButtonHint(Toolbar, 'e_undo', msgEditUndo);
+    DoLocToolbarButtonHint(Toolbar, 'e_redo', msgEditRedo);
+    DoLocToolbarButtonHint(Toolbar, 'unpri', mnuViewUnpri.Caption);
+    DoLocToolbarButtonHint(Toolbar, 'p_side', mnuViewSide.Caption);
+    DoLocToolbarButtonHint(Toolbar, 'p_btm', mnuViewBottom.Caption);
+    DoLocToolbarButtonHint(Toolbar, 'map', mnuViewMinimap.Caption);
 
     DoLocMenuitem(mnuTextUndo, msgEditUndo);
     DoLocMenuitem(mnuTextRedo, msgEditRedo);

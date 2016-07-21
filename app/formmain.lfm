@@ -107,8 +107,6 @@ object fmMain: TfmMain
     Width = 788
     Align = alTop
     BevelOuter = bvNone
-    ParentShowHint = False
-    ShowHint = True
     TabOrder = 1
     Images = ImageListBar
     SizeIncrementToIcon = 6
