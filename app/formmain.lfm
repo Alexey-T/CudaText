@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 339
+  Left = 350
   Height = 526
-  Top = 190
+  Top = 283
   Width = 788
   AllowDropFiles = True
   Caption = 'App'
@@ -59,6 +59,7 @@ object fmMain: TfmMain
         Top = 0
         Width = 112
         Color = clBtnFace
+        DoubleBuffered = False
         ParentColor = False
       end
       object ButtonCancel: TATButton
@@ -71,7 +72,9 @@ object fmMain: TfmMain
         Caption = 'Cancel'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = ButtonCancelClick
       end
     end
@@ -100,7 +103,7 @@ object fmMain: TfmMain
   object ToolbarMain: TToolBar
     Left = 0
     Height = 24
-    Top = 0
+    Top = 24
     Width = 788
     AutoSize = True
     ButtonHeight = 24
@@ -270,6 +273,15 @@ object fmMain: TfmMain
       ImageIndex = 15
       OnClick = tbMinimapClick
     end
+  end
+  object PanelToolbar: TPanel
+    Left = 0
+    Height = 24
+    Top = 0
+    Width = 788
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 2
   end
   object PythonEngine: TPythonEngine
     AutoLoad = False
@@ -897,7 +909,7 @@ object fmMain: TfmMain
     Interval = 3500
     OnTimer = TimerStatusTimer
     left = 280
-    top = 32
+    top = 48
   end
   object PopupTab: TPopupMenu
     OnPopup = PopupTabPopup

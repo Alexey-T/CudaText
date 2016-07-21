@@ -12,8 +12,8 @@ unit formgoto;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, ExtCtrls,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
+  StdCtrls, ExtCtrls, Dialogs,
   ATSynEdit_Edits,
   ATButtons,
   proc_globdata,

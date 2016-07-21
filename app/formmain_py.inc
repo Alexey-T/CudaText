@@ -2254,6 +2254,7 @@ begin
         APP_PROC_TOOLBAR_ADD:
           begin
             fmMain.DoToolbarAddButton(Str);
+            fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 
@@ -2262,6 +2263,7 @@ begin
             Num:= StrToIntDef(Str, -1);
             if (Num>=0) and (Num<fmMain.ToolbarMain.ButtonCount) then
               fmMain.ToolbarMain.Buttons[Num].Free;
+            fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 
@@ -2269,6 +2271,7 @@ begin
           begin
             for Num:= fmMain.ToolbarMain.ButtonCount-1 downto 0 do
               fmMain.ToolbarMain.Buttons[Num].Free;
+            fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 
@@ -2287,6 +2290,7 @@ begin
             Num:= StrToIntDef(Str1, -1);
             if (Num>=0) and (Num<fmMain.ToolbarMain.ButtonCount) then
               fmMain.ToolbarMain.Buttons[Num].ImageIndex:= StrToIntDef(Str2, -1);
+            fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 
@@ -2308,6 +2312,7 @@ begin
               ButtonWidth:= Images.Width+Num;
               ButtonHeight:= Images.Height+Num;
             end;
+            fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 

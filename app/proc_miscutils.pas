@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, Graphics, ImgList,
-  Dialogs, Buttons, Forms,
+  Dialogs, Forms,
   LclIntf, LclType, LazFileUtils, StrUtils,
   ATSynEdit,
   ATSynEdit_Export_HTML,

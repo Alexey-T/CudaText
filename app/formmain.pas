@@ -103,6 +103,7 @@ type
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
     mnuBmCarets: TMenuItem;
+    PanelToolbar: TPanel;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
     mnuHelpIssues: TMenuItem;
@@ -605,10 +606,12 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
+    procedure PopupForDropdownClick(Sender: TObject);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
     function SFindOptionsToTextHint: string;
@@ -746,6 +749,7 @@ type
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
+    procedure UpdateToolbar;
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
     procedure UpKey(mi: TMenuItem; cmd: integer);
     procedure UpdateCaption;
@@ -1042,6 +1046,8 @@ procedure TfmMain.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
+  InitToolbar;
+
   Tree:= TTreeView.Create(Self);
   Tree.Parent:= PanelLeft;
   Tree.Align:= alClient;
