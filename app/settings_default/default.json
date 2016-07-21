@@ -454,7 +454,7 @@
   "export_html_font_size": 12,
 
   //Sets Python 3.x engine.
-  //Option has suffix for OSes: empty (Windows), "__linux" (Linux), "__osx" (macOS)
+  //Option has suffix for OSes: Windows: no suffix, Linux: "__linux", macOS: "__osx"
   //If correct, you must see Python version info in console panel (Ctrl+`) 
   //and command "=sys.path" works in console.
   //
