@@ -197,10 +197,10 @@ begin
 
   Add(nColorBack2, 'TabBg', 'tabs, toolbar BG');
   Add(nColorText, 'TabFont', 'tabs, font');
-  Add($c05050, 'TabFontMod', 'tabs, font, modified tab');
+  Add($a00000, 'TabFontMod', 'tabs, font, modified tab');
   Add(nColorBack, 'TabActive', 'tabs, active tab BG');
-  Add($c8c8c8, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
-  Add($f4f4f4, 'TabPassive', 'tabs, passive tab BG');
+  Add($e4d0d0, 'TabActiveOthers', 'tabs, active tab BG, inactive groups');
+  Add(nColorBack2+$0a0a0a, 'TabPassive', 'tabs, passive tab BG');
   Add($ffffff, 'TabOver', 'tabs, mouse-over tab BG');
   Add(nColorBorder, 'TabBorderActive', 'tabs, active tab border');
   Add(nColorBorder, 'TabBorderPassive', 'tabs, passive tab border');
