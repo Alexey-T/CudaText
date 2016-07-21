@@ -58,7 +58,7 @@ begin
     Btn:= AToolbar.Buttons[i];
     if Btn.Caption=ABtnCaption then
     begin
-      Btn.Hint:= ABtnNewHint;
+      Btn.Hint:= StringReplace(ABtnNewHint, '&', '', [rfReplaceAll]);
       exit;
     end;
   end;
