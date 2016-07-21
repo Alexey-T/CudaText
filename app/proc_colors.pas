@@ -235,7 +235,7 @@ begin
   Add(nColorText, 'ButtonFont', 'buttons, font');
   Add($808088, 'ButtonFontDisabled', 'buttons, font, disabled state');
   Add(nColorBack, 'ButtonBgPassive', 'buttons, BG, passive');
-  Add((nColorBack+nColorBack2) div 2, 'ButtonBgOver', 'buttons, BG, mouse-over');
+  Add($d0b0b0, 'ButtonBgOver', 'buttons, BG, mouse-over');
   Add($b0b0b0, 'ButtonBgChecked', 'buttons, BG, checked state');
   Add($c0c0d0, 'ButtonBgDisabled', 'buttons, BG, disabled state');
   Add(nColorBorder, 'ButtonBorderPassive', 'buttons, border, passive');
