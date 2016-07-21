@@ -88,34 +88,27 @@ Animation shows this:
 Clipboard-related commands work with carets, both with selections and without them.
 Some details about this:
 
-<table border="1">
-	<tr>
-		<th>Command</th>
-		<th width="42%">Behaviour, when there're no selections</th>
-		<th width="42%">Behaviour, when at last one selection present</th>
-	</tr>
-	<tr>
-		<td>Copy to clipboard</td>
-		<td>Copies entire lines, containing carets.
-                    (Ignores multiple carets on same line.)</td>
-		<td>Copies only selections text.
-                    (Ignores carets without selections.)</td>
-	</tr>
-	<tr>
-		<td>Cut to clipboard</td>
-		<td>Similarly to "Copy" w/o selections.</td>
-		<td>Similarly to "Copy" with selections.</td>
-	</tr>
-	<tr>
-		<td>Paste from clipboard</td>
-		<td colspan="2">First, selections are cleared (deleted). Then, command pastes text into each caret position. Special case is when clipboard lines count equals to carets count - in this case, first line is inserted at first caret, second line is inserted at 2nd caret, etc.</td>
-	</tr>
-	<tr>
-		<td>Delete char</td>
-		<td>Deletes one char at each caret position.</td>
-		<td>Deletes only selections text. (Ignores carets without selections.)</td>
-	</tr>
-</table>
+{| class="wikitable"
+|-
+! Command 
+! Behaviour, when there're no selections
+! Behaviour, when at last one selection present
+|-		
+| Copy to clipboard 
+| Copies entire lines, containing carets. (Ignores multiple carets on same line.)
+| Copies only selections text. (Ignores carets without selections.)
+|-
+| Cut to clipboard
+| Similarly to "Copy" w/o selections.
+| Similarly to "Copy" with selections.
+|-		
+| Paste from clipboard
+| colspan="2" | First, selections are cleared (deleted). Then, command pastes text into each caret position. Special case is when clipboard lines count equals to carets count - in this case, first line is inserted at first caret, second line is inserted at 2nd caret, etc.
+|-		
+| Delete char
+| Deletes one char at each caret position.
+| Deletes only selections text. (Ignores carets without selections.)
+|}
 
 == Lexers ==
 
@@ -282,7 +275,7 @@ Search/replace uses TRegExpr engine (by Sorokin), almost fully Perl compatible, 
 
 ===Change case on replaces===
 
-You can change case of found fragments, use modifiers in replace-with field (case change works after position of modifier):
+With regex, you can change case of found fragments, use modifiers in replace-with field:
 
 * \l - First char to lower
 * \L - All chars to lower
@@ -290,6 +283,11 @@ You can change case of found fragments, use modifiers in replace-with field (cas
 * \U - All chars to upper
 
 E.g. if found a word, use replace-with field "\L$0" to change word to lowercase (here $0 is group 0, found text).
+
+Modifiers affect only element after them, element is:
+
+* one char (not string), so "\Uabc" and "\uabc" give same result "Abc" (only one char changed),
+* or group $0 ... $9, so modifier changes case of this group (not only one char).
 
 ==How to restore lexers styles/colors after reinstalling app?==
 
@@ -381,6 +379,12 @@ Click any cell in the grid to insert this char at caret position. Or select a ce
 
 [[File:cudatext-charmap.png]]
 
+== Tab-switcher using history ==
+
+SynWrite has the option "Use modern Tab-switcher" which makes special mode for Ctrl+Tab keys (switch to next tab). This mode shows special dialog which allows to switch tab using visit-history; ie press Ctrl, Tab+Tab+Tab, release Ctrl: this goes 3 steps back in visit-history. Visit-history is updated on activation of tabs (activated tab moves to the top of history).
+
+CudaText can do this with Ctrl+Tab, but without dialog. To do it, install CudaExt addon. It has [https://github.com/kvichans/cuda_ext/blob/master/readme/setup-tab-switcher.txt file in readme dir], which shows what to do.
+
 == more ==
 
 = Tech topics=
@@ -426,15 +430,23 @@ How to make translation zip package:
 * publish zip at CudaText forum or https://github.com/Alexey-T/CudaText/issues
 * if package ok, it will be at SF.net downloads, and in Addon Manager
 
-==How to see these color-theme items? ==
+==How to see all color-theme items ==
 
-* "editor, disabled state, font/bg" - editor shown with this color when mass-replace runs, with option "Confirm on replace" (during confirm message editor is disabled), if None lexer active
+* "editor, font" - color of font when no lexer is active. Click statusbar field with lexer-name, call "none".
+* "editor, disabled state, font/bg" - editor shown with this bg-color when Replace dialog runs action, with option "confirm on replace" (during confirm message editor is disabled), if none lexer active
 * "statusbar alt" - shown on 2nd statusbar, run in console: <syntaxhighlight>msg_status_alt('dd', 8)</syntaxhighlight>
+* "search progressbar" - to see it, call Replace dlg, with regex, with confirmation (2 options in Replace dlg), replace "." (any char) to "www"
 
 * "editor, marked range bg" - shows for marked-range, to set marked range from line 5 to 10 use console: <syntaxhighlight>ed.set_prop(PROP_MARKED_RANGE, '5,10')</syntaxhighlight>
 
-* "editor, markers" - to see markers, call command "drop marker at caret".
-* "editor, separator lines" - separ-lines show eg for lexer Pascal, above "function/procedure".
+* "editor, markers" - to see markers, call Commands dlg (F1), command "drop marker at caret".
+* "editor, separator lines" - lines show eg for lexer Pascal, above "function"/"procedure".
+
+* "listbox, ..." - call Commands dlg (F1 key)
+* "listbox, ..., auto-complete..." - call C or Pascal lexer, then press Ctrl+Space to call auto-completion (listbox has 3 columns, 3rd shows not for all items)
+
+* "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
+* "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
 
 ==How to make theme package==
 
@@ -485,6 +497,8 @@ Values of the "type" field:
 * cudatext-data: to copy any files into subdir of "data" dir
 * lexer: to install lexers (zip must be made by SynWrite's ExLexer addon)
 
+=== Plugins ===
+
 Example of inf for plugin (plugin adds 2 menu items with menu separator between):
 
   [info]
@@ -499,6 +513,7 @@ Example of inf for plugin (plugin adds 2 menu items with menu separator between)
   caption=MyPlugin\Cmd one
   method=run
   lexers=CSS,HTML
+  hotkey=Alt+F
   
   [item2]
   section=commands
@@ -511,8 +526,15 @@ Example of inf for plugin (plugin adds 2 menu items with menu separator between)
   method=run_more
   menu=0
 
+Section names: from "item1" to "item400", any numbers can be skipped.
+
 * Line "menu=0" means that item is not visible in Plugins menu.
 * Line "lexers=" means that command can be run only when such lexer(s) active.
+* Line "hotkey=" allowed. Value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G"). 
+** If "lexers=" param missed, then hotkey saves to file "keys.json" for all lexers. 
+** If "lexers=" param present, then hotkey saves to "keys lexer NNNN.json" for each mentioned lexer.
+
+===Data-files===
 
 Example of inf for data-files, to be copied into subdir of "data" dir (name of subdir can be any, for example "themes"):
 
@@ -522,7 +544,9 @@ Example of inf for data-files, to be copied into subdir of "data" dir (name of s
   type=cudatext-data
   subdir=mydir
 
-Section names: from "item1" to currently "item200", any numbers can be skipped.
+===Lexers===
+
+To see example of install.inf for lexers, download any lexer. To see complex example, download lexer zip for "HTML Smarty" which has 2 lexers inside, one lexer is linked to another.
 
 ==Format of snippet files==
 
@@ -538,7 +562,8 @@ After snippet insertion, tab-key goes to markers (and deletes them).
 
 * Markers can be in any order in snippet, tab-keys goes first to 1, 2, 3... and 0 is always last.
 * Markers with the same index will place multi-carets, when tab-key goes to them. 
-* Note that nested markers with def-text allowed, but only 1 level: ${2:text is {$3:here}}.
+* Nested markers with def-text allowed, but only 1 level: ${2:text is {$3:here}}.
+* Macro ${NN:...} with def-text can take n lines (ending "}" on next lines, so selection will be multi-line).
 
 The following macros are allowed in snippets text:
 
