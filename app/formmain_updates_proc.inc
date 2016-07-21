@@ -745,6 +745,7 @@ begin
   ATButtonTheme.ColorBgChecked:= GetAppColor('ButtonBgChecked');
   ATButtonTheme.ColorBgDisabled:= GetAppColor('ButtonBgDisabled');
   ATButtonTheme.ColorBorderPassive:= GetAppColor('ButtonBorderPassive');
+  ATButtonTheme.ColorArrows:= GetAppColor('TabArrow');
   ATButtonTheme.ColorBorderOver:= GetAppColor('ButtonBorderOver');
   ATButtonTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
 
