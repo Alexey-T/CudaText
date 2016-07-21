@@ -25,11 +25,17 @@ object fmFind: TfmFind
     ClientHeight = 62
     ClientWidth = 23
     TabOrder = 0
-    object bCancel: TSpeedButton
+    object bCancel: TATButton
       Left = 0
-      Height = 22
+      Height = 20
       Top = 4
       Width = 20
+      TabOrder = 0
+      Caption = 'x'
+      Checked = False
+      Checkable = False
+      ImageIndex = -1
+      Focusable = False
       Flat = True
       OnClick = bCancelClick
     end
@@ -64,7 +70,9 @@ object fmFind: TfmFind
         Caption = '.*'
         Checked = False
         Checkable = True
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = chkRegexChange
       end
       object chkCase: TATButton
@@ -78,7 +86,9 @@ object fmFind: TfmFind
         Caption = 'aA'
         Checked = False
         Checkable = True
+        ImageIndex = -1
         Focusable = True
+        Flat = False
       end
       object chkWords: TATButton
         Left = 64
@@ -91,7 +101,9 @@ object fmFind: TfmFind
         Caption = '“w”'
         Checked = False
         Checkable = True
+        ImageIndex = -1
         Focusable = True
+        Flat = False
       end
       object chkWrap: TATButton
         Left = 96
@@ -104,7 +116,9 @@ object fmFind: TfmFind
         Caption = 'O'
         Checked = False
         Checkable = True
+        ImageIndex = -1
         Focusable = True
+        Flat = False
       end
       object chkMulLine: TATButton
         Left = 128
@@ -117,7 +131,9 @@ object fmFind: TfmFind
         Caption = '+'
         Checked = False
         Checkable = True
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = chkMulLineClick
       end
     end
@@ -141,7 +157,9 @@ object fmFind: TfmFind
         Caption = '?!'
         Checked = False
         Checkable = True
+        ImageIndex = -1
         Focusable = True
+        Flat = False
       end
     end
   end
@@ -189,6 +207,7 @@ object fmFind: TfmFind
       Height = 25
       Top = 4
       Width = 359
+      DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
       ParentFont = False
@@ -371,6 +390,7 @@ object fmFind: TfmFind
       Height = 25
       Top = 34
       Width = 359
+      DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
       ParentFont = False
@@ -567,7 +587,9 @@ object fmFind: TfmFind
         Caption = 'Find first'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bFindFirstClick
       end
       object bFindNext: TATButton
@@ -582,7 +604,9 @@ object fmFind: TfmFind
         Caption = 'Find next'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bFindNextClick
       end
       object bCount: TATButton
@@ -597,7 +621,9 @@ object fmFind: TfmFind
         Caption = 'Count all'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bCountClick
       end
       object bMarkAll: TATButton
@@ -612,7 +638,9 @@ object fmFind: TfmFind
         Caption = 'Mark all'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bMarkAllClick
       end
       object bFindPrev: TATButton
@@ -627,7 +655,9 @@ object fmFind: TfmFind
         Caption = 'Find prev'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bFindPrevClick
       end
       object bSelectAll: TATButton
@@ -642,7 +672,9 @@ object fmFind: TfmFind
         Caption = 'Select all'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bSelectAllClick
       end
     end
@@ -667,7 +699,9 @@ object fmFind: TfmFind
         Caption = 'Replace cur'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bRepClick
       end
       object bRepAll: TATButton
@@ -682,7 +716,9 @@ object fmFind: TfmFind
         Caption = 'Replace all'
         Checked = False
         Checkable = False
+        ImageIndex = -1
         Focusable = True
+        Flat = False
         OnClick = bRepAllClick
       end
     end

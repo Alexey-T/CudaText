@@ -13,11 +13,12 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, Graphics, ImgList,
-  Dialogs, Buttons,
+  Dialogs, Buttons, Forms,
   LclIntf, LclType, LazFileUtils, StrUtils,
   ATSynEdit,
   ATSynEdit_Export_HTML,
   ATStringProc,
+  ATButtons,
   ecSyntAnal,
   proc_colors;
 
@@ -35,10 +36,17 @@ function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
-procedure UpdateButtonIconX(btn: TSpeedButton);
+procedure UpdateButtonIconX(btn: TATButton);
 
 
 implementation
+
+var
+  ImageListWithX: TImageList;
+  BitmapX: TBitmap = nil;
+
+const
+  cXSize = 7;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 var
@@ -207,43 +215,51 @@ begin
 end;
 
 
-var
-  bmpX: TBitmap = nil;
-
 function GetBitmapX(AColor: TColor): TBitmap;
 const
-  size=7;
   colBack=clWhite;
 begin
-  if not Assigned(bmpX) then
+  if not Assigned(BitmapX) then
   begin
-    bmpX:= TBitmap.Create;
-    bmpX.SetSize(size, size);
-    bmpX.Transparent:= true;
-    bmpX.TransparentColor:= colBack;
+    BitmapX:= TBitmap.Create;
+    BitmapX.SetSize(cXSize, cXSize);
+    BitmapX.Transparent:= true;
+    BitmapX.TransparentColor:= colBack;
   end;
 
-  with bmpX.Canvas do
+  with BitmapX.Canvas do
   begin
     Brush.Color:= colBack;
-    FillRect(0, 0, size, size);
+    FillRect(0, 0, cXSize, cXSize);
     Pen.Color:= AColor;
-    Line(1, 1, size, size);
-    Line(size, 0, 0, size);
+    Line(1, 1, cXSize, cXSize);
+    Line(cXSize, 0, 0, cXSize);
   end;
 
-  Result:= bmpX;
+  Result:= BitmapX;
 end;
 
-procedure UpdateButtonIconX(btn: TSpeedButton);
+procedure UpdateButtonIconX(btn: TATButton);
 begin
   {$ifdef darwin}
+  //for retina better to paint caption
   btn.Caption:= 'x';
   {$else}
-  btn.Glyph:= GetBitmapX(GetAppColor('ButtonFont'));
+  ImageListWithX.Clear;
+  ImageListWithX.Add(GetBitmapX(GetAppColor('ButtonFont')), nil);
+  btn.ImageList:= ImageListWithX;
+  btn.ImageIndex:= 0;
   {$endif}
 end;
 
+
+initialization
+  ImageListWithX:= TImageList.Create(nil);
+  ImageListWithX.Width:= cXSize;
+  ImageListWithX.Height:= cXSize;
+
+finalization
+  FreeAndNil(ImageListWithX);
 
 end.
 

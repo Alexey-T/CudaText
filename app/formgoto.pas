@@ -28,7 +28,7 @@ type
   { TfmGoto }
 
   TfmGoto = class(TForm)
-    bClose: TSpeedButton;
+    bClose: TATButton;
     edInput: TATEdit;
     bGoto: TATButton;
     LabelGoto: TLabel;
@@ -98,6 +98,8 @@ procedure TfmGoto.FormCreate(Sender: TObject);
 begin
   edInput.BorderStyle:= bsNone;
   edInput.OptBorderVisible:= true;
+
+  bClose.Caption:= '';
 end;
 
 procedure TfmGoto.UpdateFonts;

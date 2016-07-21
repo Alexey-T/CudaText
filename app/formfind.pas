@@ -41,7 +41,7 @@ type
   { TfmFind }
 
   TfmFind = class(TForm)
-    bCancel: TSpeedButton;
+    bCancel: TATButton;
     bCount: TATButton;
     bFindFirst: TATButton;
     bFindNext: TATButton;
@@ -222,6 +222,8 @@ begin
   edRep.OptUnprintedSpaces:= false;
   edFind.OptUnprintedEndsDetails:= false;
   edRep.OptUnprintedEndsDetails:= false;
+
+  bCancel.Caption:= '';
 end;
 
 procedure TfmFind.UpdateFonts;
