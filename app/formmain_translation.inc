@@ -300,6 +300,7 @@ begin
     DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
     DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
 
+    {
     DoLocControlHint(ini, tbNew, 'ui', 'tb_new');
     DoLocControlHint(ini, tbOpen, 'ui', 'tb_op');
     DoLocControlHint(ini, tbSave, 'ui', 'tb_sav');
@@ -317,6 +318,7 @@ begin
     if Assigned(mnuViewSide) then DoLocControlHint(tbSidePanel, mnuViewSide.Caption);
     if Assigned(mnuViewBottom) then DoLocControlHint(tbBtmPanel, mnuViewBottom.Caption);
     if Assigned(mnuViewMinimap) then DoLocControlHint(tbMinimap, mnuViewMinimap.Caption);
+    }
 
     DoLocMenuitem(mnuTextUndo, msgEditUndo);
     DoLocMenuitem(mnuTextRedo, msgEditRedo);

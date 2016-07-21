@@ -87,9 +87,9 @@ begin
 
   if SBeginsWith(Str, cPrefixToolmenu) then
   begin
-    for N:= 0 to fmMain.ToolbarMain.ButtonCount-1 do
-      if fmMain.ToolbarMain.Buttons[N].Caption=Str then
-        exit(fmMain.ToolbarMain.Buttons[N].MenuItem);
+    for N:= 0 to fmMain.Toolbar.ButtonCount-1 do
+      if fmMain.Toolbar.Buttons[N].Caption=Str then
+        exit(fmMain.Toolbar.Buttons[N].PopupMenu.Items);
   end;
 end;
 
@@ -2245,8 +2245,8 @@ begin
         APP_PROC_TOOLBAR_ENUM:
           begin
             Str:= '';
-            for Num:= 0 to fmMain.ToolbarMain.ButtonCount-1 do
-              with fmMain.ToolbarMain do
+            for Num:= 0 to fmMain.Toolbar.ButtonCount-1 do
+              with fmMain.Toolbar do
                 Str:= Str+Format('%s;%s'#10, [Buttons[Num].Hint, Buttons[Num].Caption]);
             Result:= PyString_FromString(PChar(Str));
           end;
@@ -2261,16 +2261,16 @@ begin
         APP_PROC_TOOLBAR_DELETE:
           begin
             Num:= StrToIntDef(Str, -1);
-            if (Num>=0) and (Num<fmMain.ToolbarMain.ButtonCount) then
-              fmMain.ToolbarMain.Buttons[Num].Free;
+            if (Num>=0) and (Num<fmMain.Toolbar.ButtonCount) then
+              fmMain.Toolbar.Buttons[Num].Free;
             fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 
         APP_PROC_TOOLBAR_DELETE_ALL:
           begin
-            for Num:= fmMain.ToolbarMain.ButtonCount-1 downto 0 do
-              fmMain.ToolbarMain.Buttons[Num].Free;
+            for Num:= fmMain.Toolbar.ButtonCount-1 downto 0 do
+              fmMain.Toolbar.Buttons[Num].Free;
             fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
@@ -2288,15 +2288,15 @@ begin
             Str1:= SGetItem(Str);
             Str2:= SGetItem(Str);
             Num:= StrToIntDef(Str1, -1);
-            if (Num>=0) and (Num<fmMain.ToolbarMain.ButtonCount) then
-              fmMain.ToolbarMain.Buttons[Num].ImageIndex:= StrToIntDef(Str2, -1);
+            if (Num>=0) and (Num<fmMain.Toolbar.ButtonCount) then
+              fmMain.Toolbar.Buttons[Num].ImageIndex:= StrToIntDef(Str2, -1);
             fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 
         APP_PROC_TOOLBAR_ICON_GET_SIZE:
           begin
-            with fmMain.ToolbarMain do
+            with fmMain.Toolbar do
               Result:= Py_BuildValue('(ii)', Images.Width, Images.Height);
           end;
 
@@ -2304,13 +2304,11 @@ begin
           begin
             Str1:= SGetItem(Str);
             Str2:= SGetItem(Str);
-            with fmMain.ToolbarMain do
+            with fmMain.Toolbar do
             begin
               Images.Width:= StrToIntDef(Str1, 16);
               Images.Height:= StrToIntDef(Str2, 16);
-              Num:= IfThen(Images.Width<=20, 8, 4); //increment for icon-size
-              ButtonWidth:= Images.Width+Num;
-              ButtonHeight:= Images.Height+Num;
+              SizeIncrementToIcon:= IfThen(Images.Width<=20, 8, 4);
             end;
             fmMain.UpdateToolbar;
             Result:= ReturnNone;

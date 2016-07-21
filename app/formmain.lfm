@@ -100,188 +100,19 @@ object fmMain: TfmMain
       ResizeStyle = rsPattern
     end
   end
-  object ToolbarMain: TToolBar
-    Left = 0
-    Height = 24
-    Top = 24
-    Width = 788
-    AutoSize = True
-    ButtonHeight = 24
-    ButtonWidth = 24
-    Caption = 'ToolbarMain'
-    EdgeBorders = []
-    EdgeInner = esNone
-    EdgeOuter = esNone
-    Images = ImageListBar
-    ParentShowHint = False
-    ShowHint = True
-    TabOrder = 1
-    object tbNew: TToolButton
-      Left = 1
-      Hint = 'Create new tab'
-      Top = 0
-      Caption = 'f_new'
-      DropdownMenu = PopupNewdoc
-      ImageIndex = 0
-      OnClick = tbNewClick
-      Style = tbsDropDown
-    end
-    object tbOpen: TToolButton
-      Left = 37
-      Hint = 'Open file'
-      Top = 0
-      Caption = 'f_open'
-      DropdownMenu = PopupRecents
-      ImageIndex = 1
-      OnClick = tbOpenClick
-      Style = tbsDropDown
-    end
-    object tbSave: TToolButton
-      Left = 73
-      Hint = 'Save file'
-      Top = 0
-      Caption = 'f_save'
-      ImageIndex = 2
-      OnClick = tbSaveClick
-    end
-    object tbSplit1: TToolButton
-      Left = 97
-      Height = 24
-      Top = 0
-      Width = 12
-      Style = tbsDivider
-    end
-    object tbFind: TToolButton
-      Left = 109
-      Hint = 'Dialog "Find"'
-      Top = 0
-      Caption = 'find'
-      DropdownMenu = PopupFind
-      ImageIndex = 3
-      OnClick = tbFindClick
-      Style = tbsDropDown
-    end
-    object tbGoto: TToolButton
-      Left = 145
-      Hint = 'Dialog "Go to"'
-      Top = 0
-      Caption = 'goto'
-      ImageIndex = 4
-      OnClick = tbGotoClick
-    end
-    object tbSplit2: TToolButton
-      Left = 169
-      Height = 24
-      Top = 0
-      Width = 12
-      Style = tbsDivider
-    end
-    object tbCut: TToolButton
-      Left = 181
-      Hint = 'Cut'
-      Top = 0
-      Caption = 'e_cut'
-      ImageIndex = 7
-      OnClick = tbCutClick
-    end
-    object tbCopy: TToolButton
-      Left = 205
-      Hint = 'Copy'
-      Top = 0
-      Caption = 'e_copy'
-      ImageIndex = 6
-      OnClick = tbCopyClick
-    end
-    object tbPaste: TToolButton
-      Left = 229
-      Hint = 'Paste'
-      Top = 0
-      Caption = 'e_paste'
-      ImageIndex = 8
-      OnClick = tbPasteClick
-    end
-    object tbDel: TToolButton
-      Left = 253
-      Hint = 'Delete selection'
-      Top = 0
-      Caption = 'e_del'
-      ImageIndex = 9
-      OnClick = tbDelClick
-      Visible = False
-    end
-    object tbSelAll: TToolButton
-      Left = 277
-      Hint = 'Select all'
-      Top = 0
-      Caption = 'e_sel'
-      ImageIndex = 10
-      OnClick = tbSelAllClick
-      Visible = False
-    end
-    object tbUndo: TToolButton
-      Left = 301
-      Hint = 'Undo'
-      Top = 0
-      Caption = 'e_undo'
-      ImageIndex = 11
-      OnClick = tbUndoClick
-    end
-    object tbRedo: TToolButton
-      Left = 325
-      Hint = 'Redo'
-      Top = 0
-      Caption = 'e_redo'
-      ImageIndex = 12
-      OnClick = tbRedoClick
-    end
-    object tbSplit3: TToolButton
-      Left = 349
-      Height = 24
-      Top = 0
-      Width = 12
-      Style = tbsDivider
-    end
-    object tbUnpri: TToolButton
-      Left = 361
-      Hint = 'Toggle unprinted chars'
-      Top = 0
-      Caption = 'unpri'
-      ImageIndex = 14
-      OnClick = tbUnpriClick
-    end
-    object tbSidePanel: TToolButton
-      Left = 385
-      Hint = 'Toggle side-panel'
-      Top = 0
-      Caption = 'p_side'
-      ImageIndex = 17
-      OnClick = tbSidePanelClick
-    end
-    object tbBtmPanel: TToolButton
-      Left = 409
-      Hint = 'Toggle bottom-panel'
-      Top = 0
-      Caption = 'p_btm'
-      ImageIndex = 16
-      OnClick = tbBtmPanelClick
-    end
-    object tbMinimap: TToolButton
-      Left = 433
-      Hint = 'Toggle minimap'
-      Top = 0
-      Caption = 'map'
-      ImageIndex = 15
-      OnClick = tbMinimapClick
-    end
-  end
-  object PanelToolbar: TPanel
+  object Toolbar: TATButtonsToolbar
     Left = 0
     Height = 24
     Top = 0
     Width = 788
     Align = alTop
     BevelOuter = bvNone
-    TabOrder = 2
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 1
+    Images = ImageListBar
+    SizeIncrementToIcon = 6
+    SizeSeparator = 14
   end
   object PythonEngine: TPythonEngine
     AutoLoad = False

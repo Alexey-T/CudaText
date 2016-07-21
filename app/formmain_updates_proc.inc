@@ -720,8 +720,8 @@ begin
   EditorApplyTheme(fmConsole.ed);
   EditorApplyTheme(fmConsole.memo);
 
-  ToolbarMain.Color:= GetAppColor('TabBg');
-  Self.Color:= ToolbarMain.Color;
+  Toolbar.Color:= GetAppColor('TabBg');
+  Self.Color:= Toolbar.Color;
 
   Status.Font.Color:= GetAppColor('StatusFont');
   Status.Color:= GetAppColor('StatusBg');
@@ -1132,111 +1132,37 @@ begin
 end;
 
 
-procedure TfmMain.PopupForDropdownClick(Sender: TObject);
-var
-  C: TControl;
-  P: TPoint;
-begin
-  C:= Sender as TControl;
-  P:= C.ClientToScreen(Point(0, C.Height));
-  C.PopupMenu.PopUp(P.X, P.Y);
-end;
-
 procedure TfmMain.InitToolbar;
-const
-  cSepSize = 14;
-  //
-  procedure AddItem(AImageIndex: integer; AOnClick: TNotifyEvent; AVisible: boolean = true);
-  var
-    b: TATButton;
-  begin
-    b:= TATButton.Create(Self);
-    b.Parent:= PanelToolbar;
-    b.Width:= 20;
-    b.Height:= 20;
-    b.Caption:= '';
-    b.Flat:= true;
-    b.ImageList:= ImageListBar;
-    b.ImageIndex:= AImageIndex;
-    b.OnClick:= AOnClick;
-    b.Visible:= AVisible;
-  end;
-  //
-  procedure AddDropdown(AMenu: TPopupMenu);
-  var
-    b: TATButton;
-  begin
-    b:= TATButton.Create(Self);
-    b.Parent:= PanelToolbar;
-    b.Width:= cSepSize;
-    b.Height:= 20;
-    b.Caption:= Utf8Encode(#$25be);
-    b.Flat:= true;
-    b.PopupMenu:= AMenu;
-    b.OnClick:= @PopupForDropdownClick;
-  end;
-  //
-  procedure AddSep;
-  var
-    p: TPanel;
-  begin
-    p:= TPanel.Create(Self);
-    p.BevelInner:= bvNone;
-    p.BevelOuter:= bvNone;
-    p.Parent:= PanelToolbar;
-    p.Width:= cSepSize;
-    p.Height:= 20;
-    p.Caption:= '';
-  end;
-  //
 begin
-  AddItem(0, tbNew.OnClick);
-  AddDropdown(PopupNewdoc);
-  AddItem(1, tbOpen.OnClick);
-  AddDropdown(PopupRecents);
-  AddItem(2, tbSave.OnClick);
-  AddSep;
-  AddItem(3, tbFind.OnClick);
-  AddDropdown(PopupFind);
-  AddItem(4, tbGoto.OnClick);
-  AddSep;
-  AddItem(7, tbCut.OnClick);
-  AddItem(6, tbCopy.OnClick);
-  AddItem(8, tbPaste.OnClick);
-  //AddItem(9, tbDel.OnClick, false);
-  //AddItem(10, tbSelAll.OnClick, false);
-  AddItem(11, tbUndo.OnClick);
-  AddItem(12, tbRedo.OnClick);
-  AddSep;
-  AddItem(14, tbUnpri.OnClick);
-  AddItem(17, tbSidePanel.OnClick);
-  AddItem(16, tbBtmPanel.OnClick);
-  AddItem(15, tbMinimap.OnClick);
+  Toolbar.AddButton(0, @tbNewClick);
+  Toolbar.AddDropdown(PopupNewdoc);
+  Toolbar.AddButton(1, @tbOpenClick);
+  Toolbar.AddDropdown(PopupRecents);
+  Toolbar.AddButton(2, @tbSaveClick);
+  Toolbar.AddSep;
+  Toolbar.AddButton(3, @tbFindClick);
+  Toolbar.AddDropdown(PopupFind);
+  Toolbar.AddButton(4, @tbGotoClick);
+  Toolbar.AddSep;
+  Toolbar.AddButton(7, @tbCutClick);
+  Toolbar.AddButton(6, @tbCopyClick);
+  Toolbar.AddButton(8, @tbPasteClick);
+  //Toolbar.AddButton(9, tbDel.OnClick, false);
+  //Toolbar.AddButton(10, tbSelAll.OnClick, false);
+  Toolbar.AddButton(11, @tbUndoClick);
+  Toolbar.AddButton(12, @tbRedoClick);
+  Toolbar.AddSep;
+  Toolbar.AddButton(14, @tbUnpriClick);
+  Toolbar.AddButton(17, @tbSidePanelClick);
+  Toolbar.AddButton(16, @tbBtmPanelClick);
+  Toolbar.AddButton(15, @tbMinimapClick);
 
   UpdateToolbar;
-  PanelToolbar.Hide;/////////todo- show
 end;
 
 procedure TfmMain.UpdateToolbar;
-const
-  cIncToIconSize = 6;
-var
-  C: TControl;
-  i: integer;
 begin
-  PanelToolbar.Height:= ImageListBar.Height+cIncToIconSize;
-  //align btns from left to right
-
-  for i:= PanelToolbar.ControlCount-1 downto 0 do
-  begin
-    C:= PanelToolbar.Controls[i];
-    C.Height:= ImageListBar.Height+cIncToIconSize;
-    if C is TATButton then
-      if (C as TATButton).ImageIndex>=0 then
-        C.Width:= ImageListBar.Width+cIncToIconSize;
-  end;
-
-  for i:= PanelToolbar.ControlCount-1 downto 1 do
-    PanelToolbar.Controls[i].AnchorToNeighbour(akLeft, 0, PanelToolbar.Controls[i-1]);
+  Toolbar.UpdateControls;
 end;
+
 

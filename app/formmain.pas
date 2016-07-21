@@ -22,6 +22,7 @@ uses
   UniqueInstance,
   ecSyntAnal,
   ATButtons,
+  ATButtonsToolbar,
   ATListbox,
   ATScrollBar,
   ATSynEdit,
@@ -103,7 +104,7 @@ type
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
     mnuBmCarets: TMenuItem;
-    PanelToolbar: TPanel;
+    Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
     mnuHelpIssues: TMenuItem;
@@ -365,26 +366,6 @@ type
     TimerCmd: TTimer;
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
-    ToolbarMain: TToolBar;
-    tbNew: TToolButton;
-    tbCopy: TToolButton;
-    tbSelAll: TToolButton;
-    tbUndo: TToolButton;
-    tbRedo: TToolButton;
-    tbDel: TToolButton;
-    tbMinimap: TToolButton;
-    tbSidePanel: TToolButton;
-    tbBtmPanel: TToolButton;
-    tbSplit3: TToolButton;
-    tbUnpri: TToolButton;
-    tbOpen: TToolButton;
-    tbSave: TToolButton;
-    tbFind: TToolButton;
-    tbSplit1: TToolButton;
-    tbGoto: TToolButton;
-    tbCut: TToolButton;
-    tbPaste: TToolButton;
-    tbSplit2: TToolButton;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
@@ -611,7 +592,6 @@ type
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
-    procedure PopupForDropdownClick(Sender: TObject);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
     function SFindOptionsToTextHint: string;
@@ -1539,7 +1519,7 @@ end;
 
 function TfmMain.GetShowToolbar: boolean;
 begin
-  Result:= ToolbarMain.Visible;
+  Result:= Toolbar.Visible;
 end;
 
 function TfmMain.GetShowBottom: boolean;
@@ -2450,7 +2430,7 @@ end;
 
 procedure TfmMain.SetShowToolbar(AValue: boolean);
 begin
-  ToolbarMain.Visible:= AValue;
+  Toolbar.Visible:= AValue;
 end;
 
 procedure TfmMain.DoFileSaveAll;
@@ -3637,16 +3617,12 @@ end;
 procedure TfmMain.DoToolbarAddButton(AStr: string);
 var
   SHint, SCmd, SImageIndex: string;
-  btn: TToolButton;
   mi: TMenuItem;
+  mnu: TPopupMenu;
 begin
   if AStr='' then
   begin
-    btn:= TToolButton.Create(Self);
-    btn.Parent:= ToolbarMain;
-    btn.Left:= ToolbarMain.ClientWidth;
-    btn.Style:= tbsDivider;
-    btn.Width:= 12;
+    Toolbar.AddSep;
     exit
   end;
 
@@ -3654,24 +3630,23 @@ begin
   SImageIndex:= SGetItem(AStr, ';');
   SCmd:= SGetItem(AStr, ';');
 
-  btn:= TToolButton.Create(Self);
-  btn.Parent:= ToolbarMain;
-  btn.Left:= ToolbarMain.ClientWidth;
-
   if SBeginsWith(SCmd, 'toolmenu:') then
   begin
     mi:= TMenuItem.Create(Self);
     mi.Caption:= '('+SCmd+')';
-    btn.Style:= tbsButtonDrop;
-    btn.MenuItem:= TPopupMenu.Create(Self).Items;
-    btn.MenuItem.Add(mi);
+    mnu:= TPopupMenu.Create(Self);
+    mnu.Items.Add(mi);
+    Toolbar.AddDropdown(mnu);
   end
   else
-    btn.OnClick:= @DoToolbarClick;
-
-  btn.Caption:= SCmd;
-  btn.Hint:= SHint;
-  btn.ImageIndex:= StrToIntDef(SImageIndex, -1);
+  begin
+    Toolbar.AddButton(
+      StrToIntDef(SImageIndex, -1),
+      @DoToolbarClick,
+      SCmd,
+      SHint
+      );
+  end;
 end;
 
 
@@ -3681,7 +3656,7 @@ var
   NCmd: integer;
 begin
   //'module,method,param' or 'NN'
-  SHint:= (Sender as TToolButton).Caption;
+  SHint:= (Sender as TATButton).Caption;
   NCmd:= StrToIntDef(SHint, 0);
 
   if NCmd=0 then

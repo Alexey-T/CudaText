@@ -247,7 +247,7 @@ begin
   {$else}
   ImageListWithX.Clear;
   ImageListWithX.Add(GetBitmapX(GetAppColor('ButtonFont')), nil);
-  btn.ImageList:= ImageListWithX;
+  btn.Images:= ImageListWithX;
   btn.ImageIndex:= 0;
   {$endif}
 end;
