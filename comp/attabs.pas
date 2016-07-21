@@ -72,6 +72,8 @@ type
     AElemType: TATTabElemType; ATabIndex: Integer;
     ACanvas: TCanvas; const ARect: TRect; var ACanDraw: boolean) of object;
   TATTabMoveEvent = procedure (Sender: TObject; NFrom, NTo: Integer) of object;  
+  TATTabChangeQueryEvent = procedure (Sender: TObject; ANewTabIndex: Integer;
+    var ACanChange: boolean) of object;
 
 type
   TATTriType = (triDown, triLeft, triRight);
@@ -165,6 +167,7 @@ type
     FOnTabEmpty: TNotifyEvent;
     FOnTabOver: TATTabOverEvent;
     FOnTabMove: TATTabMoveEvent;
+    FOnTabChangeQuery: TATTabChangeQueryEvent;
 
     procedure DoPaintTo(C: TCanvas);
     procedure DoPaintBgTo(C: TCanvas; const ARect: TRect);
@@ -288,6 +291,7 @@ type
     property OnTabEmpty: TNotifyEvent read FOnTabEmpty write FOnTabEmpty;
     property OnTabOver: TATTabOverEvent read FOnTabOver write FOnTabOver;
     property OnTabMove: TATTabMoveEvent read FOnTabMove write FOnTabMove;
+    property OnTabChangeQuery: TATTabChangeQueryEvent read FOnTabChangeQuery write FOnTabChangeQuery;
   end;
 
 implementation
@@ -307,12 +311,12 @@ begin
   Result:= true;
   {$endif}
 
-  {$ifdef darwin}
-  exit(false);
+  {$ifdef linux}
+  Result:= true;
   {$endif}
 
-  {$ifdef linux}
-  exit(true);
+  {$ifdef darwin}
+  Result:= false;
   {$endif}
 end;
 
@@ -576,6 +580,7 @@ begin
   FOnTabMenu:= nil;
   FOnTabDrawBefore:= nil;
   FOnTabDrawAfter:= nil;
+  FOnTabChangeQuery:= nil;
 end;
 
 destructor TATTabs.Destroy;
@@ -1323,9 +1328,18 @@ begin
 end;
 
 procedure TATTabs.SetTabIndex(AIndex: Integer);
+var
+  CanChange: boolean;
 begin
   if IsIndexOk(AIndex) then
   begin
+    CanChange:= true;
+    if Assigned(FOnTabChangeQuery) then
+    begin
+      FOnTabChangeQuery(Self, AIndex, CanChange);
+      if not CanChange then Exit;
+    end;
+
     FTabIndex:= AIndex;
     Invalidate;
     if Assigned(FOnTabClick) then

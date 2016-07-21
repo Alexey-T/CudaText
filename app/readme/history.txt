@@ -4,6 +4,8 @@ Legend:
   * changed
 
 
++ toolbar: full themed now (used another control)
+
 1.3.28
 - 3 major fixes (bugs after macOS work)
 + nicer gray built-in theme
