@@ -157,17 +157,17 @@ var
   UiOps: TUiOps;
 
 const
-  str_OsSuffix =
+  cOptionSystemSuffix =
     {$ifdef windows} '' {$endif}
     {$ifdef linux} '__linux' {$endif}
     {$ifdef darwin} '__osx' {$endif} ;
-  str_FontName = 'font_name'+str_OsSuffix;
-  str_FontSize = 'font_size'+str_OsSuffix;
-  str_FontQuality = 'font_quality'+str_OsSuffix;
-  str_UiFontName = 'ui_font_name'+str_OsSuffix;
-  str_UiFontSize = 'ui_font_size'+str_OsSuffix;
-  str_UiFontOutputName = 'ui_font_output_name'+str_OsSuffix;
-  str_UiFontOutputSize = 'ui_font_output_size'+str_OsSuffix;
+  str_FontName = 'font_name'+cOptionSystemSuffix;
+  str_FontSize = 'font_size'+cOptionSystemSuffix;
+  str_FontQuality = 'font_quality'+cOptionSystemSuffix;
+  str_UiFontName = 'ui_font_name'+cOptionSystemSuffix;
+  str_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
+  str_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
+  str_UiFontOutputSize = 'ui_font_output_size'+cOptionSystemSuffix;
 
 type
   TEditorOps = record
