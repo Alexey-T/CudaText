@@ -36,17 +36,9 @@ function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
-procedure UpdateButtonIconX(btn: TATButton);
 
 
 implementation
-
-var
-  ImageListWithX: TImageList;
-  BitmapX: TBitmap = nil;
-
-const
-  cXSize = 7;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 var
@@ -214,52 +206,6 @@ begin
   end;
 end;
 
-
-function GetBitmapX(AColor: TColor): TBitmap;
-const
-  colBack=clWhite;
-begin
-  if not Assigned(BitmapX) then
-  begin
-    BitmapX:= TBitmap.Create;
-    BitmapX.SetSize(cXSize, cXSize);
-    BitmapX.Transparent:= true;
-    BitmapX.TransparentColor:= colBack;
-  end;
-
-  with BitmapX.Canvas do
-  begin
-    Brush.Color:= colBack;
-    FillRect(0, 0, cXSize, cXSize);
-    Pen.Color:= AColor;
-    Line(1, 1, cXSize, cXSize);
-    Line(cXSize, 0, 0, cXSize);
-  end;
-
-  Result:= BitmapX;
-end;
-
-procedure UpdateButtonIconX(btn: TATButton);
-begin
-  {$ifdef darwin}
-  //for retina better to paint caption
-  btn.Caption:= 'x';
-  {$else}
-  ImageListWithX.Clear;
-  ImageListWithX.Add(GetBitmapX(GetAppColor('ButtonFont')), nil);
-  btn.Images:= ImageListWithX;
-  btn.ImageIndex:= 0;
-  {$endif}
-end;
-
-
-initialization
-  ImageListWithX:= TImageList.Create(nil);
-  ImageListWithX.Width:= cXSize;
-  ImageListWithX.Height:= cXSize;
-
-finalization
-  FreeAndNil(ImageListWithX);
 
 end.
 

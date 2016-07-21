@@ -1,7 +1,7 @@
 object fmGoto: TfmGoto
-  Left = 342
+  Left = 615
   Height = 32
-  Top = 553
+  Top = 599
   Width = 472
   BorderStyle = bsNone
   Caption = 'Goto'
@@ -21,11 +21,6 @@ object fmGoto: TfmGoto
     TabStop = True
     TabOrder = 1
     Caption = 'Go'
-    Checked = False
-    Checkable = False
-    ImageIndex = -1
-    Focusable = True
-    Flat = False
     OnClick = bGotoClick
   end
   object LabelGoto: TLabel
@@ -234,12 +229,9 @@ object fmGoto: TfmGoto
       Top = 4
       Width = 20
       TabOrder = 0
-      Caption = 'x'
-      Checked = False
-      Checkable = False
-      ImageIndex = -1
       Focusable = False
       Flat = True
+      SpecKind = abkCross
       OnClick = bCloseClick
     end
   end

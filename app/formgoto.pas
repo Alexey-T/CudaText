@@ -80,7 +80,6 @@ end;
 procedure TfmGoto.FormShow(Sender: TObject);
 begin
   UpdateFonts;
-  UpdateButtonIconX(bClose);
 end;
 
 procedure TfmGoto.DoDone(const S: string);

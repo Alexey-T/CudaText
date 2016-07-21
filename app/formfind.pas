@@ -337,7 +337,6 @@ end;
 procedure TfmFind.FormShow(Sender: TObject);
 begin
   UpdateFonts;
-  UpdateButtonIconX(bCancel);
 end;
 
 procedure TfmFind.DoDone(const Str: string);
