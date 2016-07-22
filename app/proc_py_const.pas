@@ -72,6 +72,7 @@ const
 
   EDSTATE_WORDWRAP    = 1;
   EDSTATE_TAB_TITLE   = 2;
+  EDSTATE_MODIFIED    = 3;
 
   PROP_GUTTER_NUM     = 1;
   PROP_GUTTER_FOLD    = 2;

@@ -11,6 +11,7 @@ To make plugin react to events, add method to class Command (like methods of com
 Supported events:
 
 * on_open(self, ed_self): Called after file is opened from disk.
+* on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
 * on_close(self, ed_self): Called just before closing tab (closing editor still active).
 * on_tab_move(self, ed_self): Called after closing tab (another tab already activated), or moving tab (by drag-n-drop, or UI command).
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
@@ -51,11 +52,10 @@ Macros
 ** if item is "number" then it's simple command.
 ** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
-** to run each item in log, call ed.cmd(): number is command code, all after comma is parameter text.
 
 Notes
 
-* Config plugins.json: Command plugins need registering in section "commands", event plugins need registering in section "events". Event plugins have optional key "lexers" - e.g. "CSS,HTML"; need key "events" - e.g. "on_key,on_open,on_save".
+* To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
 * You can control in what order events passed to plugins. Events passed in sort-order of module names. E.g. if plugins have on_key, modules are cuda_bb, cuda_aa, cuda_dd, cuda_cc, then plugins called in order: _aa _bb _cc _dd.
 
 =Global funcs=
@@ -132,9 +132,11 @@ command_id can be: str(int_command_code) or "module,method" or "module,method,pa
 
 ====Sessions====
 
-* PROC_SAVE_SESSION: Saves session to file with given name. Session is a set of opened named files, group-indexes for files, positions of groups. Session files are JSON.
+Session is a set of opened files + untitled tabs, with some properties of editors in these tabs, with group-indexes of tabs, with layout of groups. Session format is JSON.
+
+* PROC_SAVE_SESSION: Saves session to file with given name. 
 * PROC_LOAD_SESSION: Loads session from file with given name. 
-* PROC_SET_SESSION: Tells to app filename of session. This file will be saved on exit, loaded on start, shown in app title in {} brackets.
+* PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
 ====Menus====
 
@@ -175,6 +177,7 @@ Actions:
 ====Side panel====
 
 * PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: caption of tab, index of tab (0-based, -1 to add tab to end), type of control. Types of control allowed: "tree". Gets bool: params ok, tab was added.
+* PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, so control/menu for this tab is still in memory). Gets bool: tab was found/removed.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
 * PROC_SIDEPANEL_ENUM: Gets str, "\n"-separated captions of sidebar tabs.
 * PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, associated with tab (can pass this handle to tree_proc API). Text is caption of tab. Gets None if cannot find tab.
@@ -415,14 +418,16 @@ Shows dialog to input hotkey. Gets str of hotkey (e.g. "F1", "Ctrl+Alt+B") or No
 
 ===dlg_hotkeys===
 
- dlg_hotkeys(text)
+ dlg_hotkeys(command, lexer="")
 
 Shows dialog to configure hotkeys of internal command or plugin. Gets bool: OK pressed and hotkeys saved (to keys.json).
 
-Text can be:
+Param command can be:
 
 * str(int_command): for internal command codes (module cudatext_cmd).
 * "module_name,method_name" or "module_name,method_name,method_param": for command plugin.
+
+Param lexer is optional lexer name. If not empty, dialog enables checkbox "For current lexer" and (if checkbox checked) can save hotkey to "keys lexer NNNN.json".
 
 ===dlg_custom===
 
@@ -434,7 +439,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 
 * "type": type of control, values:
 ** "label"
-** "check" (checkbox, checked/unchecked)
+** "check" (checkbox, checked/unchecked/grayed)
 ** "radio" (radio checkbox, only one of these can be checked)
 ** "edit" (one-line edit)
 ** "combo" (combobox editable, value is text)
@@ -450,15 +455,16 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** "listview" (list with columns, with column headers, value is index)
 ** "checklistview" (listview with checkboxes, value is check-flags)
 ** "linklabel" (label which activates URL on click)
+** "tabs" (set of tabs headers, note: not pages which have controls)
 
 * "pos": position, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
 * "cap": caption of control (not for all)
-* "hint": string of floating hint, hint can be multiline, "\r"-separated
-* "en": enabled-state, "1"/"0" for on/off
-* "act": bool "0"/"1", for some controls (check, radio, combo_ro, checkbutton, listbox-es, listview-s), means that control's change closes dialog
+* "hint": tooltip/hint string, it can be multiline, "\r"-separated
+* "en": enabled-state, bool
+* "act": active-state, bool, for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
 
 * "items": 
-** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox: "\t"-separated lines
+** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox, tabs: "\t"-separated lines
 ** for listview, checklistview: "\t"-separated items.
 *** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +... 
 *** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
@@ -466,18 +472,21 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 
 * "props": control-specific properties:
 ** for button: default_for_enter (bool value, "1"/"0")
-** for edit, memo: read_only+","+font_monospaced+","+show_border (bool values, "1"/"0")
+** for edit, memo: read_only+","+font_monospaced+","+show_border (bool value)
 ** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
 ** for linklabel: URL (with http: or mailto:)
-** for listview: show_grid (bool values, "1"/"0")
+** for listview: show_grid (bool value)
+** for tabs: tabs_at_bottom (bool value)
 
 * "val": value of control (not for all):
-** for check, radio, checkbutton: value "0"/"1"
+** for check: value "0"/"1" or "?" (grayed)
+** for radio, checkbutton: value "0"/"1"
 ** for edit, combo, spinedit: text
 ** for memo: "\t"-separated lines (in lines "\t" must be replaced to chr(2))
 ** for combo_ro, listbox, radiogroup, listview: index
 ** for checkgroup: ","-separated checks (values "0"/"1")
 ** for checklistbox, checklistview: index+";"+checks
+** for tabs: index of active tab (0-based)
 
 Parameter focused is index of control (0-base) which is focused on showing.
 
@@ -493,6 +502,8 @@ Dialog is closed by clicking any button or by changing in any control which has 
 * Controls sizes differ on Win/Linux/OSX, picture shows controls (Linux/Win) auto-aligned, not in CudaText, only example app:
 
 [[File:controls_autosizes.png]]
+
+* Control "tabs" height cannot auto-size, please make correct height for control (it is usually like big buttons).
 
 ===file_open===
 
@@ -888,13 +899,30 @@ Gets list of fold-ranges in parsed lexer data. It is list of 5-lists: [y, y2, x,
 * staple: int (0/1) which shows that range has block staple.
 * folded: int (0/1) which shows that range is currently folded.
 
+===get_sublexer_ranges===
+
+ get_sublexer_ranges()
+
+Gets list of ranges which belong to nested lexers (sublexers of current lexer for entire file, e.g. "HTML" inside "PHP", or "CSS" inside "HTML"). Gets list of 5-tuples, or None if no ranges. Each tuple is:
+
+* str: sublexer name
+* int: start column (0-based)
+* int: start line (0-based)
+* int: end column
+* int: end line
+
 ===get_token===
 
  get_token(id, index1, index2)
 
-Gets info about tokens (it is minimal text fragment for lexer). 
+Gets info about one token ("token" is minimal text fragment for syntax parser). 
 
-Gets 4-tuple: ((start_x, start_y), (end_x, end_y), str_token, str_style), or None if no token found.
+Gets 4-tuple, or None if no such token. Tuple is:
+
+* (start_x, start_y)
+* (end_x, end_y)
+* string_token_type
+* string_style_name
 
 Possible values of id:
 
@@ -903,15 +931,19 @@ Possible values of id:
 
 ===markers===
 
- markers(id, x=0, y=0, tag=0, len=0)
+ markers(id, x=0, y=0, tag=0, len_x=0, len_y=0)
 
 Controls markers (used e.g. in Snippets plugin). Possible values of id:
 
-* MARKERS_GET: Gets list of markers, each item is list [x, y, tag, len]. Gets None if no markers.
-* MARKERS_ADD: Adds marker. Also gets number of markers. Props:
+* MARKERS_GET: Gets list of markers. Each list item is [x, y, len_x, len_y, tag]. Gets None if no markers.
+
+* MARKERS_ADD: Adds marker. Also gets number of markers. Params are used here:
 ** x, y: Start of marker (like caret pos).
-** Param tag>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (then markers are deleted). 
-** Param len>0 is needed if you want to place selection at marker, with this length, when "goto last marker" goes to this marker.
+** Param tag>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted). 
+** Params len_x, len_y are needed if you want to place selection at marker, when "goto last marker" command goes to this marker.
+*** if len_y==0: len_x is length of selection (single line),
+*** if len_y>0: len_y is y-delta of selection-end, and len_x is absolute x-pos of selection-end.
+
 * MARKERS_DELETE_ALL: Deletes all markers.
 * MARKERS_DELETE_LAST: Deletes last added marker.
 
@@ -1007,7 +1039,12 @@ Note: listbox disappears if you move caret or type text, unlike usual auto-compl
 
 Shows alternative completion listbox. This listbox allows to insert complex snippets, not only simple words. E.g. snippet text like "myobj.myfunc(${1:value1}, ${2:value2});".
 
-Function gets None and listbox stays open. When user chooses listbox item, event on_snippet is called, snippet text/id passed to event.
+Function gets None and listbox stays open. When user chooses listbox item, event on_snippet is called, event gets:
+
+* snippet_id from parameter (on_snippet should handle only known value of snippet_id)
+* snippet_text which is text of selected item (last column)
+
+Params:
 
 * Param text: "\n"-separated lines, one line per snippet. Each line has 3 columns "\t"-separated.
 ** Column 1 is shown on left side of listbox (good to show here name of function)
@@ -1036,7 +1073,8 @@ Text is chr(1) separated items:
 ** 'repstop'- replace next, don't find
 ** 'repall'- replace all
 ** 'findcnt'- count all
-** 'findmark'- mark all
+** 'findsel' - find all, make selections
+** 'findmark'- find all, place markers
 * item 1: text to find
 * item 2: text to replace with
 * item 3: several chars, each char is find-option: 
@@ -1049,8 +1087,28 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.150
+* add: ed.markers(MARKERS_ADD, ...) has param len_y
+* change: ed.markers(MARKERS_GET, ...) gets items with value len_y
+
+1.0.149
+* add: on_open_pre
+
+1.0.148
+* add: app_proc: PROC_SIDEPANEL_REMOVE
+* add: dlg_hotkeys: added param "lexer"
+
+1.0.147
+* add: ed.get_sublexer_ranges()
+
+1.0.146
+* add: dlg_custom: "type=tabs"
+
+1.0.145
+* add: dlg_custom: "check" has 3rd value "?"
+
 1.0.144
-* add: ed.complete, ed.complete_alt: added param selected
+* add: ed.complete, ed.complete_alt: added param "selected"
 * add: app_proc: PROC_GET_FIND_STRINGS
 
 1.0.143

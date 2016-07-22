@@ -649,6 +649,7 @@ begin
   begin
     FModified:= Editor.Modified;
     DoOnChangeCaption;
+    DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_MODIFIED)]);
   end;
 
   DoOnUpdateStatus;

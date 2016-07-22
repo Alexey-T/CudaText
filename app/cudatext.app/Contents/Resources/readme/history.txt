@@ -5,8 +5,9 @@ Legend:
 
 
 1.3.29
-* option "pylib" has suffix now (for universal config): for Win: empty, for Linux: "__linux", for macOS: "__osx"
-+ toolbar: full themed now (used another control)
+* option "pylib" has suffix now (for universal config): see default.json
++ toolbar full themed now (used another control)
+- fix: restoring scroll on opening files
 
 1.3.28
 - 3 major fixes (bugs after macOS work)
