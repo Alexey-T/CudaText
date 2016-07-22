@@ -85,6 +85,7 @@ type
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edRepEnter(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -95,7 +96,6 @@ type
     FMultiLine: boolean;
     FNarrow: boolean;
     procedure DoDone(const Str: string);
-    procedure SetNarrow(AValue: boolean);
     procedure SetMultiLine(Value: boolean);
   public
     { public declarations }
@@ -107,7 +107,7 @@ type
     property OnDone: TStrEvent read FOnDone write FOnDone;
     property IsReplace: boolean read FReplace write FReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
-    property IsNarrow: boolean read FNarrow write SetNarrow;
+    property IsNarrow: boolean read FNarrow write FNarrow;
   end;
 
 var
@@ -211,6 +211,11 @@ end;
 procedure TfmFind.edRepEnter(Sender: TObject);
 begin
   edRep.DoCommand(cCommand_SelectAll);
+end;
+
+procedure TfmFind.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caHide;
 end;
 
 procedure TfmFind.FormCreate(Sender: TObject);
@@ -459,11 +464,6 @@ begin
   bMarkAll.Enabled:= fill;
 
   UpdateSize;
-end;
-
-procedure TfmFind.SetNarrow(AValue: boolean);
-begin
-  FNarrow:= AValue;
 end;
 
 end.

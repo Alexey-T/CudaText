@@ -189,8 +189,8 @@ begin
       SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
       if fmFind.IsNarrow then
       begin
-        fmFind.Left:= cfg.GetValue('/find/pos_x', fmFind.Left);
-        fmFind.Top:= cfg.GetValue('/find/pos_y', fmFind.Top);
+        fmFind.Left:= cfg.GetValue('/find/pos_x', 200);
+        fmFind.Top:= cfg.GetValue('/find/pos_y', 400);
       end;
       fmFind.IsMultiLine:= cfg.GetValue('/find/multi_line', false);
     finally
@@ -235,8 +235,8 @@ begin
     chkWrap.Checked:= FFinder.OptWrapped;
     IsReplace:= AReplaceMode;
 
-    Show;
     UpdateState;
+    Show;
     edFind.SetFocus;
   end;
 end;
