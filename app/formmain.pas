@@ -2259,18 +2259,6 @@ begin
     FindAllFiles(L, dir, '*.lcf', false);
     L.Sort;
 
-    //upgrade from lexerlib to lcf files
-    //delete this block after 2016.05-.06
-    if L.Count=0 then
-      if FileExists(UiOps.LexerLibFilename) then
-      begin
-        AppManager.LoadFromFile(UiOps.LexerLibFilename);
-        Py_RunPlugin_Command('cudatext_upgrade_lexerlib', 'run', '');
-        AppManager.Clear;
-        FindAllFiles(L, dir, '*.lcf', false);
-        L.Sort;
-      end;
-
     if L.Count=0 then
     begin
       MsgStatusAlt('Cannot find lexer files: data/lexlib/*.lcf', 3);
