@@ -258,7 +258,7 @@
   //  5: carets column on right 
   "caret_after_paste_column": 5,
 
-  //Find dialog: show separate window, not docked to app bottom
+  //Find dialog: show window, not docked to app bottom (applied after restart)
   "find_separate_form": false,
   //Find dialog: suggest selection (of 1st caret)
   "find_suggest_sel": false,

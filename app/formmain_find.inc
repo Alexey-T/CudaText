@@ -187,12 +187,12 @@ begin
       cfg.Filename:= GetAppPath(cFileOptHistory);
       SLoadStringsFromFile(cfg, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
       SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
-      fmFind.IsMultiLine:= cfg.GetValue('/find/multi_line', false);
-      if UiOps.FindSeparateForm then
+      if fmFind.IsNarrow then
       begin
         fmFind.Left:= cfg.GetValue('/find/pos_x', fmFind.Left);
         fmFind.Top:= cfg.GetValue('/find/pos_y', fmFind.Top);
       end;
+      fmFind.IsMultiLine:= cfg.GetValue('/find/multi_line', false);
     finally
       cfg.Free
     end;

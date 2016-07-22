@@ -44,12 +44,12 @@ begin
     begin
       SSaveStringsToFile(c, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
       SSaveStringsToFile(c, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
-      c.SetValue('/find/multi_line', fmFind.IsMultiLine);
-      if UiOps.FindSeparateForm then
+      if fmFind.IsNarrow then
       begin
         c.SetValue('/find/pos_x', fmFind.Left);
         c.SetValue('/find/pos_y', fmFind.Top);
       end;
+      c.SetValue('/find/multi_line', fmFind.IsMultiLine);
     end;
 
     SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
