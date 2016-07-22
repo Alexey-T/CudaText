@@ -110,6 +110,7 @@ type
     FindIndentVert: integer;
     FindIndentHorz: integer;
     FindMultiLineScale: double;
+    FindSeparateForm: boolean;
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
@@ -834,6 +835,7 @@ begin
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;
+    FindSeparateForm:= false;
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;

@@ -38,11 +38,18 @@ begin
 
     ////recents
     SSaveStringsToFile(c, '/recent_files', FListRecents, UiOps.MaxHistoryMenu);
+
+    ////find dialog
     if Assigned(fmFind) then
     begin
       SSaveStringsToFile(c, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
       SSaveStringsToFile(c, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
-      c.SetValue('/find_mul_line', fmFind.MulLine);
+      c.SetValue('/find/multi_line', fmFind.IsMultiLine);
+      if UiOps.FindSeparateForm then
+      begin
+        c.SetValue('/find/pos_x', fmFind.Left);
+        c.SetValue('/find/pos_y', fmFind.Top);
+      end;
     end;
 
     SSaveStringsToFile(c, '/list_console', fmConsole.ed.Items, UiOps.MaxHistoryEdits);
@@ -579,6 +586,7 @@ begin
     UiOps.FindIndentVert:= c.GetValue('find_indent_vert', UiOps.FindIndentVert);
     UiOps.FindIndentHorz:= c.GetValue('find_indent_horz', UiOps.FindIndentHorz);
     UiOps.FindMultiLineScale:= c.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
+    UiOps.FindSeparateForm:= c.GetValue('find_separate_form', UiOps.FindSeparateForm);
 
     UiOps.TabWidth:= c.GetValue('ui_tab_size_x', UiOps.TabWidth);
     UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);

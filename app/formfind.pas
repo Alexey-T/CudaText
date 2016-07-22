@@ -92,19 +92,22 @@ type
     { private declarations }
     FOnDone: TStrEvent;
     FReplace: boolean;
-    FMulLine: boolean;
+    FMultiLine: boolean;
+    FNarrow: boolean;
     procedure DoDone(const Str: string);
-    procedure SetMulLine(Value: boolean);
+    procedure SetNarrow(AValue: boolean);
+    procedure SetMultiLine(Value: boolean);
   public
     { public declarations }
     FHotkeyFind,
     FHotkeyRep: TShortCut;
-    //StringHintMarkAll: string;
+    procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;
-    property Replace: boolean read FReplace write FReplace;
     property OnDone: TStrEvent read FOnDone write FOnDone;
-    property MulLine: boolean read FMulLine write SetMulLine;
+    property IsReplace: boolean read FReplace write FReplace;
+    property IsMultiLine: boolean read FMultiLine write SetMultiLine;
+    property IsNarrow: boolean read FNarrow write SetNarrow;
   end;
 
 var
@@ -163,7 +166,7 @@ end;
 
 procedure TfmFind.chkMulLineClick(Sender: TObject);
 begin
-  MulLine:= not MulLine;
+  IsMultiLine:= not IsMultiLine;
   UpdateState;
 end;
 
@@ -195,7 +198,7 @@ end;
 procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  //Ctrl+Down: copy Find to Replace
+  //Ctrl+Down: copy Find to IsReplace
   if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
   begin
     edRep.Text:= edFind.Text;
@@ -268,11 +271,11 @@ begin
     //Ctrl+Enter: dont catch here, combobox must handle it as new-line
     if Shift=[ssCtrl] then exit;
 
-    if Replace then
+    if IsReplace then
     begin
-      //Alt+Enter: replace
+      //Alt+Enter: IsReplace
       if Shift=[ssAlt] then DoDone(cOpFindRep);
-      //Ctrl+Alt+Enter: replace and dont find next
+      //Ctrl+Alt+Enter: IsReplace and dont find next
       if Shift=[ssAlt, ssCtrl] then DoDone(cOpFindRepAndStop);
     end;
 
@@ -357,56 +360,94 @@ begin
   end;
 end;
 
-procedure TfmFind.SetMulLine(Value: boolean);
+procedure TfmFind.SetMultiLine(Value: boolean);
 var
   NSizeY, NSmall: integer;
 begin
-  FMulLine:= Value;
+  FMultiLine:= Value;
+
+  edFind.ModeOneLine:= not FMultiLine;
+  edRep.ModeOneLine:= not FMultiLine;
+
+  edFind.OptUnprintedVisible:= FMultiLine;
+  edRep.OptUnprintedVisible:= FMultiLine;
 
   NSmall:= 4;
   NSizeY:= bFindFirst.Height;
-  if FMulLine then NSizeY:= Trunc(NSizeY*UiOps.FindMultiLineScale);
+  if FMultiLine then NSizeY:= Trunc(NSizeY*UiOps.FindMultiLineScale);
 
   edFind.Height:= NSizeY;
   edRep.Height:= NSizeY;
-  edRep.Top:= edFind.Top+edFind.Height+NSmall;
+
+  if not IsNarrow then
+  begin
+    edRep.Top:= edFind.Top+edFind.Height+NSmall;
+    PanelBtnRep.Top:= edRep.Top;
+  end
+  else
+  begin
+    PanelBtn.Left:= edFind.Left;
+    PanelBtn.Top:= edFind.Top+edFind.Height+4;
+    edRep.Top:= PanelBtn.Top+PanelBtn.Height+4;
+    PanelBtnRep.Left:= edRep.Left;
+    PanelBtnRep.Top:= edRep.Top+edRep.Height+4;
+  end;
 
   LabelRep.Top:= edRep.Top+NSmall;
-  PanelBtnRep.Top:= edRep.Top;
-
-  PanelAll.Height:= IfThen(Replace,
-    edRep.Top+edRep.Height+NSmall,
-    edFind.Top+edFind.Height+NSmall);
-  ClientHeight:= PanelAll.Height;
-
-  edFind.ModeOneLine:= not FMulLine;
-  edRep.ModeOneLine:= not FMulLine;
-
-  edFind.OptUnprintedVisible:= FMulLine;
-  edRep.OptUnprintedVisible:= FMulLine;
 end;
 
+procedure TfmFind.UpdateSize;
+  //
+  function GetR(C: TControl): integer;
+  var
+    P: TPoint;
+  begin
+    if not C.Visible then exit(0);
+    P:= Point(C.Width, 0);
+    P:= C.ClientToScreen(P);
+    P:= Self.ScreenToClient(P);
+    Result:= P.X;
+  end;
+  //
+  function GetB(C: TControl): integer;
+  var
+    P: TPoint;
+  begin
+    if not C.Visible then exit(0);
+    P:= Point(0, C.Height);
+    P:= C.ClientToScreen(P);
+    P:= Self.ScreenToClient(P);
+    Result:= P.Y;
+  end;
+  //
+begin
+  ClientWidth:= Max(
+    Max(GetR(edFind), GetR(bCount)),
+    Max(GetR(bMarkAll), GetR(bSelectAll))
+    ) +8;
+  ClientHeight:= Max(
+    Max(GetB(bFindFirst), GetB(edFind)),
+    IfThen(IsReplace, Max(GetB(bRep), GetB(edRep)), 0)
+    ) +2;
+end;
 
 procedure TfmFind.UpdateState;
 var
-  rep, fill: boolean;
+  fill: boolean;
 begin
-  rep:= FReplace;
   fill:= true; //edFind.Text<>'';
 
-  Height:= IfThen(rep, edRep.Top+edRep.Height+4, edFind.Top+edFind.Height+4);
-
-  chkMulLine.Checked:= MulLine;
+  chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
-  chkConfirm.Visible:= rep;
-  LabelRep.Visible:= rep;
-  edRep.Visible:= rep;
-  PanelLabels.Visible:= rep;
-  PanelBtnRep.Visible:= rep;
+  chkConfirm.Visible:= IsReplace;
+  LabelRep.Visible:= IsReplace;
+  edRep.Visible:= IsReplace;
+  PanelLabels.Visible:= IsReplace;
+  PanelBtnRep.Visible:= IsReplace;
   PanelLabels.Left:= PanelOps.Left+4;
-  bCount.Visible:= not rep;
-  bSelectAll.Visible:= not rep;
-  bMarkAll.Visible:= not rep;
+  bCount.Visible:= not IsReplace;
+  bSelectAll.Visible:= not IsReplace;
+  bMarkAll.Visible:= not IsReplace;
 
   bFindFirst.Enabled:= fill;
   bFindNext.Enabled:= fill;
@@ -416,6 +457,13 @@ begin
   bCount.Enabled:= fill;
   bSelectAll.Enabled:= fill;
   bMarkAll.Enabled:= fill;
+
+  UpdateSize;
+end;
+
+procedure TfmFind.SetNarrow(AValue: boolean);
+begin
+  FNarrow:= AValue;
 end;
 
 end.

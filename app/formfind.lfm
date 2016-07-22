@@ -1,13 +1,13 @@
 object fmFind: TfmFind
-  Left = 76
-  Height = 62
-  Top = 747
-  Width = 1204
+  Left = 53
+  Height = 65
+  Top = 667
+  Width = 1227
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsNone
+  BorderStyle = bsDialog
   Caption = 'Find/Replace'
-  ClientHeight = 62
-  ClientWidth = 1204
+  ClientHeight = 65
+  ClientWidth = 1227
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
@@ -17,12 +17,12 @@ object fmFind: TfmFind
   LCLVersion = '1.7'
   object PanelX: TPanel
     Left = 0
-    Height = 62
+    Height = 65
     Top = 0
     Width = 23
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 62
+    ClientHeight = 65
     ClientWidth = 23
     TabOrder = 0
     object bCancel: TATButton
@@ -31,6 +31,7 @@ object fmFind: TfmFind
       Top = 4
       Width = 20
       TabOrder = 0
+      Caption = 'Button'
       Focusable = False
       Flat = True
       SpecKind = abkCross
@@ -39,12 +40,12 @@ object fmFind: TfmFind
   end
   object PanelOps: TPanel
     Left = 23
-    Height = 62
+    Height = 65
     Top = 0
     Width = 169
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 62
+    ClientHeight = 65
     ClientWidth = 169
     TabOrder = 1
     object PanelOps1: TPanel
@@ -138,12 +139,12 @@ object fmFind: TfmFind
   end
   object PanelLabels: TPanel
     Left = 192
-    Height = 62
+    Height = 65
     Top = 0
     Width = 96
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 62
+    ClientHeight = 65
     ClientWidth = 96
     TabOrder = 2
     object LabelFind: TLabel
@@ -167,13 +168,13 @@ object fmFind: TfmFind
   end
   object PanelAll: TPanel
     Left = 288
-    Height = 62
+    Height = 65
     Top = 0
-    Width = 972
+    Width = 936
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 62
-    ClientWidth = 972
+    ClientHeight = 65
+    ClientWidth = 936
     TabOrder = 3
     object edFind: TATComboEdit
       Left = 0
@@ -367,7 +368,7 @@ object fmFind: TfmFind
       Font.Height = -12
       Font.Name = 'Courier New'
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 2
       TabStop = True
       OnEnter = edRepEnter
       OnKeyDown = edFindKeyDown
@@ -544,11 +545,11 @@ object fmFind: TfmFind
       Left = 368
       Height = 25
       Top = 4
-      Width = 605
+      Width = 568
       BevelOuter = bvNone
       ClientHeight = 25
-      ClientWidth = 605
-      TabOrder = 2
+      ClientWidth = 568
+      TabOrder = 1
       object bFindFirst: TATButton
         Left = 0
         Height = 25
@@ -624,7 +625,7 @@ object fmFind: TfmFind
     object PanelBtnRep: TPanel
       Left = 368
       Height = 25
-      Top = 34
+      Top = 33
       Width = 352
       BevelOuter = bvNone
       ClientHeight = 25

@@ -167,18 +167,32 @@ begin
   begin
     fmFind:= TfmFind.Create(Self);
     fmFind.OnDone:= @FindDialogDone;
-    fmFind.Parent:= PanelMain;
-    fmFind.Align:= alBottom;
     fmFind.FHotkeyFind:= AppKeymap.GetShortcutFromCommand(cmd_DialogFind);
     fmFind.FHotkeyRep:= AppKeymap.GetShortcutFromCommand(cmd_DialogReplace);
     fmFind.Color:= GetAppColor('TabBg');
+
+    if not UiOps.FindSeparateForm then
+    begin
+      fmFind.Parent:= PanelMain;
+      fmFind.Align:= alBottom;
+      fmFind.BorderStyle:= bsNone;
+    end
+    else
+    begin
+      fmFind.IsNarrow:= true;
+    end;
 
     cfg:= TJSONConfig.Create(nil);
     try
       cfg.Filename:= GetAppPath(cFileOptHistory);
       SLoadStringsFromFile(cfg, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
       SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
-      fmFind.MulLine:= cfg.GetValue('/find_mul_line', false);
+      fmFind.IsMultiLine:= cfg.GetValue('/find/multi_line', false);
+      if UiOps.FindSeparateForm then
+      begin
+        fmFind.Left:= cfg.GetValue('/find/pos_x', fmFind.Left);
+        fmFind.Top:= cfg.GetValue('/find/pos_y', fmFind.Top);
+      end;
     finally
       cfg.Free
     end;
@@ -219,7 +233,7 @@ begin
     //chkFromCaret.Checked:= FFinder.OptFromCaret;
     chkConfirm.Checked:= FFinder.OptConfirmReplace;
     chkWrap.Checked:= FFinder.OptWrapped;
-    Replace:= AReplaceMode;
+    IsReplace:= AReplaceMode;
 
     Show;
     UpdateState;
