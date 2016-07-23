@@ -68,6 +68,8 @@ type
   protected
     FJSON: TJSONObject;
     FModified: Boolean;
+    Procedure LoadFromFile(Const AFileName : String);
+    Procedure LoadFromStream(S : TStream); virtual;
     procedure Loaded; override;
     function FindPath(Const APath: UnicodeString; AllowCreate : Boolean) : TJSONObject;
     function FindObject(Const APath: UnicodeString; AllowCreate : Boolean) : TJSONObject;
@@ -673,11 +675,6 @@ end;
 
 procedure TJSONConfig.DoSetFilename(const AFilename: String; ForceReload: Boolean);
 
-Var
-  P : TJSONParser;
-  J : TJSONData;
-  F : TFileStream;
-  
 begin
   if (not ForceReload) and (FFilename = AFilename) then
     exit;
@@ -685,32 +682,11 @@ begin
 
   if csLoading in ComponentState then
     exit;
-
   Flush;
   If Not FileExists(AFileName) then
     Clear
   else
-    begin
-    F:=TFileStream.Create(AFileName,fmopenRead);
-    try
-      P:=TJSONParser.Create(F,FJSONOptions);
-      try
-        J:=P.Parse;
-        If (J is TJSONObject) then
-          begin
-          FreeAndNil(FJSON);
-          FJSON:=J as TJSONObject;
-          FKey:=FJSON;
-          end
-        else
-          Raise EJSONConfigError.CreateFmt(SErrInvalidJSONFile,[AFileName]);
-      finally
-        P.Free;
-      end;
-    finally
-      F.Free;
-    end;
-    end;
+    LoadFromFile(AFileName);
 end;
 
 procedure TJSONConfig.SetFilename(const AFilename: String);
@@ -739,6 +715,46 @@ begin
     Result:=Copy(P,1,L-1)
   else
     Result:=P;
+end;
+
+procedure TJSONConfig.LoadFromFile(const AFileName: String);
+
+Var
+  F : TFileStream;
+
+begin
+  F:=TFileStream.Create(AFileName,fmopenRead);
+  try
+    LoadFromStream(F);
+  finally
+    F.Free;
+  end;
+end;
+
+procedure TJSONConfig.LoadFromStream(S: TStream);
+
+Var
+  P : TJSONParser;
+  J : TJSONData;
+
+begin
+  P:=TJSONParser.Create(S,FJSONOptions);
+  try
+    J:=P.Parse;
+    If (J is TJSONObject) then
+      begin
+      FreeAndNil(FJSON);
+      FJSON:=J as TJSONObject;
+      FKey:=FJSON;
+      end
+    else
+      begin
+      FreeAndNil(J);
+      Raise EJSONConfigError.CreateFmt(SErrInvalidJSONFile,[FileName]);
+      end;
+  finally
+    P.Free;
+  end;
 end;
 
 

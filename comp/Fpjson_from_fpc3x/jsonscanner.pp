@@ -62,7 +62,7 @@ Type
 
   TJSONScanner = class
   private
-    FAllowComments: Boolean;
+    //FAllowComments: Boolean;
     FSource : TStringList;
     FCurRow: Integer;
     FCurToken: TJSONToken;
