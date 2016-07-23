@@ -523,12 +523,12 @@ begin
   with fmFind.chkConfirm do Hint:= init_HintConfRep+hotkey_cfm;
   with fmFind.chkMulLine do Hint:= init_HintMulLine+hotkey_mul;
 
-
   fn:= GetAppLangFilename;
   if not FileExists(fn) then exit;
 
   ini:= TIniFile.Create(fn);
   try
+    with fmFind do Caption:= ini.ReadString(section, '_', Caption);
     with fmFind.bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
     with fmFind.bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
     with fmFind.bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);
