@@ -54,7 +54,7 @@ type
   TJSONOptions = set of TJSONOption;
 
 Const
-  DefaultOptions = [joUTF8];
+  DefaultOptions = [joUTF8,joComments,joIgnoreTrailingComma]; //AT
 
 Type
 

@@ -31,7 +31,7 @@ uses
   SysUtils, Classes, fpjson, jsonscanner, jsonparser;
 
 Const
-  DefaultJSONOptions = [joUTF8,joComments,joIgnoreTrailingComma]; //AT add ignore-comma
+  DefaultJSONOptions = [joUTF8,joComments,joIgnoreTrailingComma];
 
 type
   EJSONConfigError = class(Exception);
@@ -154,22 +154,22 @@ end;
 procedure TJSONConfig.Flush;
 
 Var
-  F : Text;
+  F : TFileStream;
   S : TJSONStringType;
   
 begin
   if Modified then
     begin
-    AssignFile(F,FileName);
-    Rewrite(F);
+    F:=TFileStream.Create(FileName,fmCreate);
     Try
       if Formatted then
         S:=FJSON.FormatJSON(Formatoptions,FormatIndentSize)
       else
         S:=FJSON.AsJSON;
-      Writeln(F,S);  
+      if S>'' then
+        F.WriteBuffer(S[1],Length(S));  
     Finally
-      CloseFile(F);
+      F.Free;
     end;
     FModified := False;
     end;
