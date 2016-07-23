@@ -5,10 +5,10 @@ Legend:
 
 
 1.3.29
-+ opt find_separate_form
++ find-dialog can be separate (opt find_separate_form)
 + toolbar full themed now
 * option "pylib" has suffix now (for universal config): see default.json
-- fix: restoring scroll on opening files
+- fix: restoring scroll pos on opening files
 
 1.3.28
 - 3 major fixes (bugs after macOS work)
