@@ -3,6 +3,7 @@ object fmFind: TfmFind
   Height = 65
   Top = 667
   Width = 1227
+  ActiveControl = edFind
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Find/Replace'

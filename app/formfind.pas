@@ -167,7 +167,6 @@ end;
 procedure TfmFind.chkMulLineClick(Sender: TObject);
 begin
   IsMultiLine:= not IsMultiLine;
-  UpdateState;
 end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
@@ -399,11 +398,13 @@ begin
   end;
 
   LabelRep.Top:= edRep.Top+NSmall;
+
+  UpdateState;
 end;
 
 procedure TfmFind.UpdateSize;
   //
-  function GetR(C: TControl): integer;
+  function MaxX(C: TControl): integer;
   var
     P: TPoint;
   begin
@@ -414,7 +415,7 @@ procedure TfmFind.UpdateSize;
     Result:= P.X;
   end;
   //
-  function GetB(C: TControl): integer;
+  function MaxY(C: TControl): integer;
   var
     P: TPoint;
   begin
@@ -426,14 +427,16 @@ procedure TfmFind.UpdateSize;
   end;
   //
 begin
-  ClientWidth:= Max(
-    Max(GetR(edFind), GetR(bCount)),
-    Max(GetR(bMarkAll), GetR(bSelectAll))
-    ) +8;
+  if IsNarrow then
+    ClientWidth:= Max(
+      Max(MaxX(edFind), MaxX(bCount)),
+      Max(MaxX(bMarkAll), MaxX(bSelectAll))
+      ) + 8;
+
   ClientHeight:= Max(
-    Max(GetB(bFindFirst), GetB(edFind)),
-    IfThen(IsReplace, Max(GetB(bRep), GetB(edRep)), 0)
-    ) +2;
+    Max(MaxY(bFindFirst), MaxY(edFind)),
+    IfThen(IsReplace, Max(MaxY(bRep), MaxY(edRep)))
+    ) + IfThen(IsNarrow, 6);
 end;
 
 procedure TfmFind.UpdateState;
