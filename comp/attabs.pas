@@ -671,33 +671,36 @@ begin
   end;
 
   //caption
-  C.Font.Assign(Self.Font);
-  if AModified then
-    C.Font.Color:= FColorFontModified;
+  if RectText.Right-RectText.Left>=8 then
+  begin
+    C.Font.Assign(Self.Font);
+    if AModified then
+      C.Font.Color:= FColorFontModified;
 
-  TempCaption:= IfThen(AModified, FTabShowModifiedText) + ACaption;
+    TempCaption:= IfThen(AModified, FTabShowModifiedText) + ACaption;
 
-  NIndentTop:= (FTabHeight - C.TextHeight('Wj')) div 2 + 1;
+    NIndentTop:= (FTabHeight - C.TextHeight('Wj')) div 2 + 1;
 
-  {$ifdef WIDE}
-  ExtTextOutW(C.Handle,
-    RectText.Left,
-    RectText.Top+NIndentTop,
-    ETO_CLIPPED{+ETO_OPAQUE},
-    @RectText,
-    PWChar(TempCaption),
-    Length(TempCaption),
-    nil);
-  {$else}
-  ExtTextOut(C.Handle,
-    RectText.Left,
-    RectText.Top+NIndentTop,
-    ETO_CLIPPED{+ETO_OPAQUE},
-    @RectText,
-    PChar(TempCaption),
-    Length(TempCaption),
-    nil);
-  {$endif}
+    {$ifdef WIDE}
+    ExtTextOutW(C.Handle,
+      RectText.Left,
+      RectText.Top+NIndentTop,
+      ETO_CLIPPED{+ETO_OPAQUE},
+      @RectText,
+      PWChar(TempCaption),
+      Length(TempCaption),
+      nil);
+    {$else}
+    ExtTextOut(C.Handle,
+      RectText.Left,
+      RectText.Top+NIndentTop,
+      ETO_CLIPPED{+ETO_OPAQUE},
+      @RectText,
+      PChar(TempCaption),
+      Length(TempCaption),
+      nil);
+    {$endif}
+  end;
 
   //borders
   if FTabBottom then
