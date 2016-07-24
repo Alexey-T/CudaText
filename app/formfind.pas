@@ -445,15 +445,22 @@ var
 begin
   fill:= true; //edFind.Text<>'';
 
-  bCancel.Visible:= not FNarrow;
+  if IsNarrow then
+  begin
+    PanelOps.Align:= alTop;
+    PanelOps.Height:= chkRegex.Height+8;
+    PanelOps2.Top:= PanelOps1.Top;
+    PanelOps2.Left:= PanelOps1.Left+PanelOps1.Width;
+  end;
+
+  PanelX.Visible:= not IsNarrow;
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace;
   LabelRep.Visible:= IsReplace;
   edRep.Visible:= IsReplace;
-  PanelLabels.Visible:= IsReplace;
+  PanelLabels.Visible:= IsReplace or IsNarrow;
   PanelBtnRep.Visible:= IsReplace;
-  PanelLabels.Left:= PanelOps.Left+4;
   bCount.Visible:= not IsReplace;
   bSelectAll.Visible:= not IsReplace;
   bMarkAll.Visible:= not IsReplace;

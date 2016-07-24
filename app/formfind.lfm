@@ -21,11 +21,11 @@ object fmFind: TfmFind
     Left = 0
     Height = 65
     Top = 0
-    Width = 23
+    Width = 16
     Align = alLeft
     BevelOuter = bvNone
     ClientHeight = 65
-    ClientWidth = 23
+    ClientWidth = 16
     TabOrder = 0
     object bCancel: TATButton
       Left = 0
@@ -41,7 +41,7 @@ object fmFind: TfmFind
     end
   end
   object PanelOps: TPanel
-    Left = 23
+    Left = 16
     Height = 65
     Top = 0
     Width = 169
@@ -51,13 +51,13 @@ object fmFind: TfmFind
     ClientWidth = 169
     TabOrder = 1
     object PanelOps1: TPanel
-      Left = 0
+      Left = 8
       Height = 25
       Top = 4
-      Width = 168
+      Width = 160
       BevelOuter = bvNone
       ClientHeight = 25
-      ClientWidth = 168
+      ClientWidth = 160
       TabOrder = 0
       object chkRegex: TATButton
         Left = 0
@@ -118,17 +118,17 @@ object fmFind: TfmFind
       end
     end
     object PanelOps2: TPanel
-      Left = 0
-      Height = 26
+      Left = 8
+      Height = 25
       Top = 32
-      Width = 128
+      Width = 120
       BevelOuter = bvNone
-      ClientHeight = 26
-      ClientWidth = 128
+      ClientHeight = 25
+      ClientWidth = 120
       TabOrder = 1
       object chkConfirm: TATButton
         Left = 0
-        Height = 26
+        Height = 25
         Top = 0
         Width = 32
         Align = alLeft
@@ -140,27 +140,27 @@ object fmFind: TfmFind
     end
   end
   object PanelLabels: TPanel
-    Left = 192
+    Left = 185
     Height = 65
     Top = 0
-    Width = 96
+    Width = 111
     Align = alLeft
     BevelOuter = bvNone
     ClientHeight = 65
-    ClientWidth = 96
+    ClientWidth = 111
     TabOrder = 2
     object LabelFind: TLabel
       AnchorSideTop.Side = asrCenter
-      Left = 0
+      Left = 8
       Height = 17
-      Top = 8
+      Top = 7
       Width = 69
       Caption = 'Find what:'
       ParentColor = False
     end
     object LabelRep: TLabel
       AnchorSideTop.Side = asrCenter
-      Left = 0
+      Left = 8
       Height = 17
       Top = 38
       Width = 89
@@ -169,7 +169,7 @@ object fmFind: TfmFind
     end
   end
   object PanelAll: TPanel
-    Left = 288
+    Left = 296
     Height = 65
     Top = 0
     Width = 936
