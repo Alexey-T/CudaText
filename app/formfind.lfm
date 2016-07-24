@@ -370,7 +370,7 @@ object fmFind: TfmFind
       Font.Height = -12
       Font.Name = 'Courier New'
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 1
       TabStop = True
       OnEnter = edRepEnter
       OnKeyDown = edFindKeyDown
@@ -551,7 +551,7 @@ object fmFind: TfmFind
       BevelOuter = bvNone
       ClientHeight = 25
       ClientWidth = 568
-      TabOrder = 1
+      TabOrder = 2
       object bFindFirst: TATButton
         Left = 0
         Height = 25
