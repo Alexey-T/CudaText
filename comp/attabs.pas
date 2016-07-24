@@ -623,6 +623,7 @@ var
   AType: TATTabElemType;
   AInvert: Integer;
   TempCaption: atString;
+  bNeedMoreSpace: boolean;
 begin
   //optimize for 200 tabs
   if ARect.Left>=ClientWidth then exit;
@@ -638,9 +639,10 @@ begin
   else
     AInvert:= 1;
 
-  NIndentL:= FTabAngle+FTabIndentLeft;
-  NIndentR:= NIndentL+IfThen(ACloseBtn, FTabIndentXRight);
   RectText:= Rect(ARect.Left+FTabAngle, ARect.Top, ARect.Right-FTabAngle, ARect.Bottom);
+  bNeedMoreSpace:= (RectText.Right-RectText.Left<=30) and (ACaption<>TabShowPlusText);
+  NIndentL:= IfThen(not bNeedMoreSpace, FTabAngle+FTabIndentLeft, 2);
+  NIndentR:= NIndentL+IfThen(ACloseBtn, FTabIndentXRight);
   C.FillRect(RectText);
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
 
