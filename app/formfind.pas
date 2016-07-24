@@ -22,8 +22,7 @@ uses
   ATSynEdit_Commands,
   proc_globdata,
   proc_colors,
-  proc_editor,
-  proc_miscutils;
+  proc_editor;
 
 const
   cOpFindFirst='findfirst';
@@ -60,10 +59,13 @@ type
     edRep: TATComboEdit;
     LabelFind: TLabel;
     LabelRep: TLabel;
+    PanelTopOps: TPanel;
+    PanelTop: TPanel;
     PanelBtn: TPanel;
     PanelBtnRep: TPanel;
     PanelOps1: TPanel;
     PanelOps2: TPanel;
+    PanelTopBtn: TPanel;
     PanelX: TPanel;
     PanelOps: TPanel;
     PanelLabels: TPanel;
@@ -97,6 +99,7 @@ type
     FNarrow: boolean;
     procedure DoDone(const Str: string);
     procedure SetMultiLine(Value: boolean);
+    procedure SetNarrow(AValue: boolean);
   public
     { public declarations }
     FHotkeyFind,
@@ -107,7 +110,7 @@ type
     property OnDone: TStrEvent read FOnDone write FOnDone;
     property IsReplace: boolean read FReplace write FReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
-    property IsNarrow: boolean read FNarrow write FNarrow;
+    property IsNarrow: boolean read FNarrow write SetNarrow;
   end;
 
 var
@@ -384,23 +387,35 @@ begin
   edFind.Height:= NSizeY;
   edRep.Height:= NSizeY;
 
-  if not IsNarrow then
-  begin
-    edRep.Top:= edFind.Top+edFind.Height+NSmall;
-    PanelBtnRep.Top:= edRep.Top;
-  end
-  else
-  begin
-    PanelBtn.Left:= edFind.Left;
-    PanelBtn.Top:= edFind.Top+edFind.Height+4;
-    edRep.Top:= PanelBtn.Top+PanelBtn.Height+4;
-    PanelBtnRep.Left:= edRep.Left;
-    PanelBtnRep.Top:= edRep.Top+edRep.Height+4;
-  end;
-
+  edRep.Top:= edFind.Top+edFind.Height+NSmall;
+  PanelBtnRep.Top:= edRep.Top;
   LabelRep.Top:= edRep.Top+NSmall;
 
   UpdateState;
+end;
+
+procedure TfmFind.SetNarrow(AValue: boolean);
+begin
+  if FNarrow=AValue then Exit;
+  FNarrow:= AValue;
+
+  if FNarrow then
+  begin
+    chkRegex.Parent:= PanelTopOps;
+    chkCase.Parent:= PanelTopOps;
+    chkWords.Parent:= PanelTopOps;
+    chkWrap.Parent:= PanelTopOps;
+    chkMulLine.Parent:= PanelTopOps;
+    chkConfirm.Parent:= PanelTopOps;
+    chkConfirm.Left:= 400; //to right
+
+    bCount.Parent:= PanelTopBtn;
+    bSelectAll.Parent:= PanelTopBtn;
+    bMarkAll.Parent:= PanelTopBtn;
+  end;
+
+  PanelTopOps.Left:= PanelLabels.Width + edFind.Left;
+  PanelTopBtn.Left:= PanelLabels.Width + PanelBtn.Left;
 end;
 
 procedure TfmFind.UpdateSize;
@@ -427,60 +442,37 @@ procedure TfmFind.UpdateSize;
     Result:= P.Y;
   end;
   //
-var
-  NSizeX, NSizeY: integer;
 begin
-  NSizeX:=
-    MaxX(bMarkAll) + 8;
-    {
-    Max(
-      Max(MaxX(edFind), MaxX(bCount)),
-      Max(MaxX(bMarkAll), MaxX(bSelectAll))
-      ) + 8;
-      }
-
-  NSizeY:= Max(
-    Max(MaxY(bFindNext), MaxY(edFind)),
-    IfThen(IsReplace or IsNarrow, Max(MaxY(bRep), MaxY(edRep)))
-    ) + IfThen(IsNarrow, 6);
-
   if IsNarrow then
-    ClientWidth:= NSizeX;
-  ClientHeight:= NSizeY;
+    ClientWidth:= MaxX(bMarkAll) + 8;
+
+  ClientHeight:= IfThen(IsReplace or IsNarrow, MaxY(edRep), MaxY(edFind)) +
+                 IfThen(IsNarrow, 6);
 end;
 
 procedure TfmFind.UpdateState;
-var
-  fill: boolean;
 begin
-  fill:= true; //edFind.Text<>'';
-
-  if IsNarrow then
-  begin
-    PanelOps.Align:= alTop;
-    PanelOps.Height:= chkRegex.Height+8;
-    PanelOps2.Top:= PanelOps1.Top;
-    PanelOps2.Left:= PanelOps1.Left+PanelOps1.Width;
-  end;
-
+  PanelTop.Visible:= IsNarrow;
+  PanelOps.Visible:= not IsNarrow;
   PanelX.Visible:= not IsNarrow;
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
-  chkConfirm.Visible:= IsReplace;
+  chkConfirm.Visible:= IsReplace or IsNarrow;
   edRep.Visible:= IsReplace or IsNarrow;
   PanelLabels.Visible:= IsReplace or IsNarrow;
   PanelBtnRep.Visible:= IsReplace or IsNarrow;
 
-  bCount.Enabled:= not IsReplace and fill;
-  bSelectAll.Enabled:= not IsReplace and fill;
-  bMarkAll.Enabled:= not IsReplace and fill;
+  chkConfirm.Enabled:= IsReplace;
+  bCount.Enabled:= not IsReplace;
+  bSelectAll.Enabled:= not IsReplace;
+  bMarkAll.Enabled:= not IsReplace;
 
-  bFindFirst.Enabled:= fill;
-  bFindNext.Enabled:= fill;
-  bFindPrev.Enabled:= fill and not chkRegex.Checked;
+  bFindFirst.Enabled:= true;
+  bFindNext.Enabled:= true;
+  bFindPrev.Enabled:= not chkRegex.Checked;
   edRep.Enabled:= IsReplace;
-  bRep.Enabled:= IsReplace and fill;
-  bRepAll.Enabled:= IsReplace and fill;
+  bRep.Enabled:= IsReplace;
+  bRepAll.Enabled:= IsReplace;
 
   UpdateSize;
 end;
