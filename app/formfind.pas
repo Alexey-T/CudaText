@@ -434,7 +434,7 @@ begin
       ) + 8;
 
   ClientHeight:= Max(
-    Max(MaxY(bFindFirst), MaxY(edFind)),
+    Max(MaxY(bFindNext), MaxY(edFind)),
     IfThen(IsReplace, Max(MaxY(bRep), MaxY(edRep)))
     ) + IfThen(IsNarrow, 6);
 end;
@@ -445,6 +445,7 @@ var
 begin
   fill:= true; //edFind.Text<>'';
 
+  bCancel.Visible:= not FNarrow;
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace;
