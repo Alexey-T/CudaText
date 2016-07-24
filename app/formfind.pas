@@ -343,6 +343,7 @@ end;
 
 procedure TfmFind.FormShow(Sender: TObject);
 begin
+  UpdateSize;
   UpdateFonts;
 end;
 
@@ -426,17 +427,26 @@ procedure TfmFind.UpdateSize;
     Result:= P.Y;
   end;
   //
+var
+  NSizeX, NSizeY: integer;
 begin
-  if IsNarrow then
-    ClientWidth:= Max(
+  NSizeX:=
+    MaxX(bMarkAll) + 8;
+    {
+    Max(
       Max(MaxX(edFind), MaxX(bCount)),
       Max(MaxX(bMarkAll), MaxX(bSelectAll))
       ) + 8;
+      }
 
-  ClientHeight:= Max(
+  NSizeY:= Max(
     Max(MaxY(bFindNext), MaxY(edFind)),
-    IfThen(IsReplace, Max(MaxY(bRep), MaxY(edRep)))
+    IfThen(IsReplace or IsNarrow, Max(MaxY(bRep), MaxY(edRep)))
     ) + IfThen(IsNarrow, 6);
+
+  if IsNarrow then
+    ClientWidth:= NSizeX;
+  ClientHeight:= NSizeY;
 end;
 
 procedure TfmFind.UpdateState;
@@ -457,22 +467,20 @@ begin
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace;
-  LabelRep.Visible:= IsReplace;
-  edRep.Visible:= IsReplace;
+  edRep.Visible:= IsReplace or IsNarrow;
   PanelLabels.Visible:= IsReplace or IsNarrow;
-  PanelBtnRep.Visible:= IsReplace;
-  bCount.Visible:= not IsReplace;
-  bSelectAll.Visible:= not IsReplace;
-  bMarkAll.Visible:= not IsReplace;
+  PanelBtnRep.Visible:= IsReplace or IsNarrow;
+
+  bCount.Enabled:= not IsReplace and fill;
+  bSelectAll.Enabled:= not IsReplace and fill;
+  bMarkAll.Enabled:= not IsReplace and fill;
 
   bFindFirst.Enabled:= fill;
   bFindNext.Enabled:= fill;
   bFindPrev.Enabled:= fill and not chkRegex.Checked;
-  bRep.Enabled:= fill;
-  bRepAll.Enabled:= fill;
-  bCount.Enabled:= fill;
-  bSelectAll.Enabled:= fill;
-  bMarkAll.Enabled:= fill;
+  edRep.Enabled:= IsReplace;
+  bRep.Enabled:= IsReplace and fill;
+  bRepAll.Enabled:= IsReplace and fill;
 
   UpdateSize;
 end;

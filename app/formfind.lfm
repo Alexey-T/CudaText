@@ -179,10 +179,10 @@ object fmFind: TfmFind
     ClientWidth = 936
     TabOrder = 3
     object edFind: TATComboEdit
-      Left = 0
+      Left = 4
       Height = 25
       Top = 4
-      Width = 359
+      Width = 356
       DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
@@ -362,10 +362,10 @@ object fmFind: TfmFind
       OptComboboxArrowSize = 4
     end
     object edRep: TATComboEdit
-      Left = 0
+      Left = 4
       Height = 25
       Top = 34
-      Width = 359
+      Width = 356
       DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
