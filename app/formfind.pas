@@ -446,8 +446,9 @@ begin
   if IsNarrow then
     ClientWidth:= MaxX(bMarkAll) + 8;
 
-  ClientHeight:= IfThen(IsReplace or IsNarrow, MaxY(edRep), MaxY(edFind)) +
-                 IfThen(IsNarrow, 6);
+  ClientHeight:=
+    IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) +
+    IfThen(IsNarrow, 6);
 end;
 
 procedure TfmFind.UpdateState;
@@ -458,14 +459,15 @@ begin
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace or IsNarrow;
-  edRep.Visible:= IsReplace or IsNarrow;
+  edRep.Visible:= IsReplace;
   PanelLabels.Visible:= IsReplace or IsNarrow;
-  PanelBtnRep.Visible:= IsReplace or IsNarrow;
+  LabelRep.Visible:= IsReplace;
+  PanelBtnRep.Visible:= IsReplace;
 
   chkConfirm.Enabled:= IsReplace;
-  bCount.Enabled:= not IsReplace;
-  bSelectAll.Enabled:= not IsReplace;
-  bMarkAll.Enabled:= not IsReplace;
+  //bCount.Enabled:= not IsReplace;
+  //bSelectAll.Enabled:= not IsReplace;
+  //bMarkAll.Enabled:= not IsReplace;
 
   bFindFirst.Enabled:= true;
   bFindNext.Enabled:= true;

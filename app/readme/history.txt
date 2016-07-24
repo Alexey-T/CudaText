@@ -4,6 +4,9 @@
   * changed
 
 
+1.4.1
++ improved floating Find dlg
+
 1.4.0
 + find-dialog can be separate (opt find_separate_form)
 + toolbar full themed now
