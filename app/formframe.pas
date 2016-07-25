@@ -825,6 +825,7 @@ begin
   Ed1.Strings.Endings:= TATLineEnds(UiOps.NewdocEnds);
   Ed1.Strings.DoClearUndo;
   Ed1.Strings.Modified:= false;
+  Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
   EncodingName:= UiOps.NewdocEnc;
   Lexer:= AppManager.FindAnalyzer(UiOps.NewdocLexer);

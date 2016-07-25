@@ -629,6 +629,8 @@ begin
     UiOps.NewdocEnc:= c.GetValue('newdoc_encoding', UiOps.NewdocEnc);
     UiOps.NewdocEnds:= c.GetValue('newdoc_eol', UiOps.NewdocEnds);
 
+    UiOps.DefaultEncUtf8:= c.GetValue('def_encoding_utf8', UiOps.DefaultEncUtf8);
+
     Op.OpIndentAuto:= c.GetValue('indent_auto', Op.OpIndentAuto);
     Op.OpIndentAutoKind:= c.GetValue('indent_kind', Op.OpIndentAutoKind);
     Op.OpIndentSize:= c.GetValue('indent_size', Op.OpIndentSize);

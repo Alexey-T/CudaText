@@ -130,6 +130,8 @@ type
     NewdocEnc: string;
     NewdocEnds: integer;
 
+    DefaultEncUtf8: boolean;
+
     StatusNoSel: string;
     StatusSmallSel: string;
     StatusStreamSel: string;
@@ -852,8 +854,10 @@ begin
     PyChangeSlow:= 2000;
 
     NewdocLexer:= '';
-    NewdocEnc:= cEncNameUtf8;
+    NewdocEnc:= cEncNameUtf8NoBom;
     NewdocEnds:= {$ifdef windows} Ord(cEndWin) {$else} Ord(cEndUnix) {$endif};
+
+    DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
 
     StatusNoSel:= 'Ln {y}, Col {x}';
     StatusSmallSel:= 'Ln {y}, Col {x}, sel';

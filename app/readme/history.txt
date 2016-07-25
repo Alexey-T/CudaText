@@ -5,7 +5,9 @@
 
 
 1.4.1
-+ improved floating Find dlg
+- encoding: files opened in "UTF8 no bom" by default in 1.4.0. Now it is opt "def_encoding_utf8": open as ANSI (Windows) or as UTF8 no bom (Unix).
++ improve floating Find dlg
++ improve paint of tabs, if lot of em (30-40+)
 
 1.4.0
 + find-dialog can be separate (opt find_separate_form)

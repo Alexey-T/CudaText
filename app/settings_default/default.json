@@ -341,6 +341,10 @@
   "newdoc_encoding": "UTF-8",
   //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
   "newdoc_eol": 1,
+  
+  //When file opens, and cannot detect encoding, open it as "ANSI" (option=false) or "UTF8 no BOM" (option=true)
+  //Default: for Windows: false, otherwise: true
+  //"def_encoding_utf8": false,
 
   //Auto-indent by Enter (makes new line indented)
   "indent_auto": true,
