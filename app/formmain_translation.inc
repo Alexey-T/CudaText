@@ -528,7 +528,8 @@ begin
 
   ini:= TIniFile.Create(fn);
   try
-    with fmFind do Caption:= ini.ReadString(section, '_', Caption);
+    with fmFind do FCaptionFind:= ini.ReadString(section, '_f', FCaptionFind);
+    with fmFind do FCaptionReplace:= ini.ReadString(section, '_r', FCaptionReplace);
     with fmFind.bFindFirst do Caption:= ini.ReadString(section, 'f_f', Caption);
     with fmFind.bFindNext do Caption:= ini.ReadString(section, 'f_n', Caption);
     with fmFind.bFindPrev do Caption:= ini.ReadString(section, 'f_p', Caption);

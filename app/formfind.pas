@@ -100,15 +100,18 @@ type
     procedure DoDone(const Str: string);
     procedure SetMultiLine(Value: boolean);
     procedure SetNarrow(AValue: boolean);
+    procedure SetReplace(AValue: boolean);
   public
     { public declarations }
+    FCaptionFind,
+    FCaptionReplace: string;
     FHotkeyFind,
     FHotkeyRep: TShortCut;
     procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;
     property OnDone: TStrEvent read FOnDone write FOnDone;
-    property IsReplace: boolean read FReplace write FReplace;
+    property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
   end;
@@ -222,6 +225,9 @@ end;
 
 procedure TfmFind.FormCreate(Sender: TObject);
 begin
+  FCaptionFind:= 'Find';
+  FCaptionReplace:= 'Replace';
+
   edFind.OptTabSize:= 4;
   edRep.OptTabSize:= 4;
 
@@ -418,6 +424,13 @@ begin
   PanelTopBtn.Left:= PanelLabels.Width + PanelBtn.Left;
 end;
 
+procedure TfmFind.SetReplace(AValue: boolean);
+begin
+  if FReplace=AValue then Exit;
+  FReplace:= AValue;
+  UpdateState;
+end;
+
 procedure TfmFind.UpdateSize;
   //
   function MaxX(C: TControl): integer;
@@ -448,11 +461,16 @@ begin
 
   ClientHeight:=
     IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) +
-    IfThen(IsNarrow, 6);
+    + 4;
 end;
 
 procedure TfmFind.UpdateState;
 begin
+  if IsReplace then
+    Caption:= FCaptionReplace
+  else
+    Caption:= FCaptionFind;
+
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
   PanelX.Visible:= not IsNarrow;
