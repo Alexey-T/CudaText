@@ -31,7 +31,7 @@ object fmFind: TfmFind
       Left = 0
       Height = 20
       Top = 4
-      Width = 20
+      Width = 16
       TabOrder = 0
       Caption = 'Button'
       Focusable = False
@@ -143,11 +143,11 @@ object fmFind: TfmFind
     Left = 185
     Height = 108
     Top = 30
-    Width = 111
+    Width = 103
     Align = alLeft
     BevelOuter = bvNone
     ClientHeight = 108
-    ClientWidth = 111
+    ClientWidth = 103
     TabOrder = 2
     object LabelFind: TLabel
       AnchorSideTop.Side = asrCenter
@@ -169,7 +169,7 @@ object fmFind: TfmFind
     end
   end
   object PanelAll: TPanel
-    Left = 296
+    Left = 288
     Height = 108
     Top = 30
     Width = 936
@@ -182,7 +182,7 @@ object fmFind: TfmFind
       Left = 4
       Height = 25
       Top = 4
-      Width = 356
+      Width = 308
       DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
@@ -365,7 +365,7 @@ object fmFind: TfmFind
       Left = 4
       Height = 25
       Top = 33
-      Width = 356
+      Width = 308
       DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
@@ -544,13 +544,13 @@ object fmFind: TfmFind
       OptComboboxArrowSize = 4
     end
     object PanelBtn: TPanel
-      Left = 368
+      Left = 320
       Height = 25
       Top = 4
-      Width = 568
+      Width = 616
       BevelOuter = bvNone
       ClientHeight = 25
-      ClientWidth = 568
+      ClientWidth = 616
       TabOrder = 2
       object bFindFirst: TATButton
         Left = 0
@@ -625,13 +625,13 @@ object fmFind: TfmFind
       end
     end
     object PanelBtnRep: TPanel
-      Left = 368
+      Left = 320
       Height = 25
       Top = 33
-      Width = 352
+      Width = 400
       BevelOuter = bvNone
       ClientHeight = 25
-      ClientWidth = 352
+      ClientWidth = 400
       TabOrder = 3
       object bRep: TATButton
         Left = 0
