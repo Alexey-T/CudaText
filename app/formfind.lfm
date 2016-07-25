@@ -1,14 +1,14 @@
 object fmFind: TfmFind
-  Left = 53
+  Left = 106
   Height = 138
-  Top = 667
-  Width = 1227
+  Top = 688
+  Width = 1092
   ActiveControl = edFind
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Find/Replace'
   ClientHeight = 138
-  ClientWidth = 1227
+  ClientWidth = 1092
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
@@ -556,7 +556,7 @@ object fmFind: TfmFind
         Left = 0
         Height = 25
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 0
@@ -564,11 +564,11 @@ object fmFind: TfmFind
         OnClick = bFindFirstClick
       end
       object bFindNext: TATButton
-        Left = 100
+        Left = 90
         Height = 25
         Hint = 'Enter'
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 1
@@ -576,11 +576,11 @@ object fmFind: TfmFind
         OnClick = bFindNextClick
       end
       object bCount: TATButton
-        Left = 300
+        Left = 270
         Height = 25
         Hint = 'Alt+5'
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 3
@@ -588,11 +588,11 @@ object fmFind: TfmFind
         OnClick = bCountClick
       end
       object bMarkAll: TATButton
-        Left = 500
+        Left = 450
         Height = 25
         Hint = 'Alt+7'
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 5
@@ -600,11 +600,11 @@ object fmFind: TfmFind
         OnClick = bMarkAllClick
       end
       object bFindPrev: TATButton
-        Left = 200
+        Left = 180
         Height = 25
         Hint = 'Shift+Enter'
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 2
@@ -612,11 +612,11 @@ object fmFind: TfmFind
         OnClick = bFindPrevClick
       end
       object bSelectAll: TATButton
-        Left = 400
+        Left = 360
         Height = 25
         Hint = 'Alt+6'
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 4
@@ -638,7 +638,7 @@ object fmFind: TfmFind
         Height = 25
         Hint = 'Alt+Enter'
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 0
@@ -646,11 +646,11 @@ object fmFind: TfmFind
         OnClick = bRepClick
       end
       object bRepAll: TATButton
-        Left = 100
+        Left = 90
         Height = 25
         Hint = 'Alt+A'
         Top = 0
-        Width = 100
+        Width = 90
         Align = alLeft
         TabStop = True
         TabOrder = 1
@@ -663,11 +663,11 @@ object fmFind: TfmFind
     Left = 0
     Height = 30
     Top = 0
-    Width = 1227
+    Width = 1092
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 30
-    ClientWidth = 1227
+    ClientWidth = 1092
     TabOrder = 4
     object PanelTopOps: TPanel
       Left = 104
