@@ -152,9 +152,9 @@ begin
   Add($e0e0e0, 'EdSelFont', 'editor, selection, font');
   Add($b0a0a0, 'EdSelBg', 'editor, selection, BG');
   Add(clGray, 'EdDisableFont', 'editor, disabled state, font');
-  Add($c0c0c0, 'EdDisableBg', 'editor, disabled state, BG');
+  Add(nColorGutterBack, 'EdDisableBg', 'editor, disabled state, BG');
   Add($c05050, 'EdLinks', 'editor, links');
-  Add($c0c0c0, 'EdLockedBg', 'editor, locked state, BG');
+  Add(nColorGutterBack, 'EdLockedBg', 'editor, locked state, BG');
   Add(clBlack, 'EdCaret', 'editor, caret');
   Add($6060d0, 'EdMarkers', 'editor, markers');
   Add($eaf0f0, 'EdCurLineBg', 'editor, current line BG');
