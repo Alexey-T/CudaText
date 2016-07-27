@@ -245,7 +245,6 @@ object fmFind: TfmFind
       OptTabSize = 8
       OptFoldStyle = cFoldHereWithTruncatedText
       OptFoldEnabled = True
-      OptTextLocked = 'wait...'
       OptTextHintFontStyle = [fsItalic]
       OptTextHintCenter = False
       OptTextOffsetLeft = 2
@@ -427,7 +426,6 @@ object fmFind: TfmFind
       OptTabSize = 8
       OptFoldStyle = cFoldHereWithTruncatedText
       OptFoldEnabled = True
-      OptTextLocked = 'wait...'
       OptTextHintFontStyle = [fsItalic]
       OptTextHintCenter = False
       OptTextOffsetLeft = 2

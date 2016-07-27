@@ -297,7 +297,7 @@ begin
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
     msgThemeDefault:= ini.ReadString('ui', 'deft', msgThemeDefault);
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
-    msgEditorWait:= ini.ReadString('ui', 'ed_wt', msgEditorWait);
+    cTextEditorLocked:= ini.ReadString('ui', 'ed_w', cTextEditorLocked);
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;

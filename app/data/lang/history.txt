@@ -2,7 +2,7 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2016.07.28
-+ [ui] ed_wt
++ [ui] ed_w
 
 2016.07.25
 * del [d_f] _

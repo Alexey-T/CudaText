@@ -98,7 +98,6 @@ object fmGoto: TfmGoto
     OptTabSize = 8
     OptFoldStyle = cFoldHereWithTruncatedText
     OptFoldEnabled = True
-    OptTextLocked = 'wait...'
     OptTextHintFontStyle = [fsItalic]
     OptTextHintCenter = False
     OptTextOffsetLeft = 2

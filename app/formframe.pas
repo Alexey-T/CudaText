@@ -805,9 +805,6 @@ begin
   Ed1.EditorIndex:= 0;
   Ed2.EditorIndex:= 1;
 
-  Ed1.OptTextLocked:= msgEditorWait;
-  Ed2.OptTextLocked:= msgEditorWait;
-
   FSplitHorz:= true;
   FSplitPos:= 0.5;
   Splitted:= false;
