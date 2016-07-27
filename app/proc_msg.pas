@@ -25,6 +25,7 @@ const
   msgNoLexer: string = '(none)';
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
+  msgEditorWait: string = 'wait...';
 
   msgButtonOk: string = 'OK';
   msgButtonCancel: string = 'Cancel';
