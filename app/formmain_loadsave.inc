@@ -282,16 +282,15 @@ begin
     ////form size
     nPosX:= c.GetValue('/dialog/posx', 100);
     nPosY:= c.GetValue('/dialog/posy', 100);
-
-    if (nPosX>Screen.DesktopWidth-cReservePixels) or
-       (nPosY>Screen.DesktopHeight-cReservePixels) then
-    begin
-      nPosX:= 0;
-      nPosY:= 0;
-    end;
-
     nSizeX:= c.GetValue('/dialog/sizex', 800);
     nSizeY:= c.GetValue('/dialog/sizey', 550);
+
+    //fit form to screen
+    if nPosX>Screen.DesktopWidth-cReservePixels then
+      nPosX:= Screen.DesktopWidth-nSizeX;
+    if nPosY>Screen.DesktopHeight-cReservePixels then
+      nPosY:= Screen.DesktopHeight-nSizeY;
+
     SetBounds(nPosX, nPosY, nSizeX, nSizeY);
 
     if c.GetValue('/dialog/max', false) then

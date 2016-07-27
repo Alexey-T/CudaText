@@ -354,6 +354,10 @@ procedure TfmFind.FormShow(Sender: TObject);
 begin
   UpdateSize;
   UpdateFonts;
+
+  //fit form to screen
+  if Left>=Screen.DesktopWidth-50 then Left:= Screen.DesktopWidth-Width;
+  if Top>=Screen.DesktopHeight-50 then Top:= Screen.DesktopHeight-200;
 end;
 
 procedure TfmFind.DoDone(const Str: string);
