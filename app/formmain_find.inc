@@ -55,7 +55,8 @@ end;
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
   ok, bChanged: boolean;
-  cnt, NTop, NCaretX, NCaretY: integer;
+  cnt, NTop, NLeft,
+  NCaretX, NCaretY: integer;
 begin
   if Res=cOpFindClose then
   begin
@@ -114,6 +115,7 @@ begin
   if Res=cOpFindRepAll then
   begin
     NTop:= FFinder.Editor.LineTop;
+    NLeft:= FFinder.Editor.ColumnLeft;
     with FFinder.Editor do
       if Carets.Count>0 then
       begin
@@ -128,6 +130,7 @@ begin
 
     FFinder.Editor.DoCaretSingle(NCaretX, NCaretY);
     FFinder.Editor.LineTop:= NTop;
+    FFinder.Editor.ColumnLeft:= NLeft;
     MsgStatus(Format(msgStatusReplaceCount, [cnt]));
   end;
 
