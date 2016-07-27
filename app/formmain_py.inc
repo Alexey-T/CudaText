@@ -1829,6 +1829,8 @@ begin
           Result:= PyInt_FromLong(Ed.GetVisibleColumns);
         PROP_LINE_BOTTOM:
           Result:= PyInt_FromLong(Ed.LineBottom);
+        PROP_COLUMN_LEFT:
+          Result:= PyInt_FromLong(Ed.ColumnLeft);
 
         PROP_LINK_AT_POS:
           begin
@@ -1920,6 +1922,10 @@ begin
           begin
             F.TopLineTodo:= ValueInt;
             Ed.LineTop:= ValueInt;
+          end;
+        PROP_COLUMN_LEFT:
+          begin
+            Ed.ColumnLeft:= ValueInt;
           end;
 
         PROP_TAB_COLOR:
