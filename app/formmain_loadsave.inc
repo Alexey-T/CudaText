@@ -165,8 +165,8 @@ begin
       nGroup:= c.GetValue(item_path+'group', Low(TATGroupsNums));
       bModified:= c.GetValue(item_path+'modified', false);
 
-      //check, if text saved in session, but file was changed between app calls
-      if bModified and (sFilename<>'') then
+      //check, if text saved in session, but file was changed outside
+      if bModified and (sFilename<>'') and FileExistsUTF8(sFileName) then
       begin
         nAgeSaved:= c.GetValue(item_path+'file_age', 0);
         nAgeCurrent:= FileAgeUTF8(sFilename);
