@@ -13,7 +13,10 @@ def get_url(url, fn):
         os.remove(fn)
 
     if option_proxy:
-        proxy = urllib.request.ProxyHandler({'http': option_proxy})
+        proxy = urllib.request.ProxyHandler({
+            'http': option_proxy,
+            'https': option_proxy,
+            })
         opener = urllib.request.build_opener(proxy)
         urllib.request.install_opener(opener)
        
