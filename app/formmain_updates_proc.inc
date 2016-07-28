@@ -177,16 +177,16 @@ begin
     Gauge.Show;
     Gauge.Progress:= 0;
     UpdateEnabledAll(false);
-    FFinder.Editor.BeginUpdate;
-    FFinder.Editor.Enabled:= false;
+    Ed.BeginUpdate;
+    Ed.Enabled:= false;
   end
   else
   begin
     ButtonCancel.Hide;
     Gauge.Hide;
     UpdateEnabledAll(true);
-    FFinder.Editor.Enabled:= true;
-    FFinder.Editor.EndUpdate;
+    Ed.Enabled:= true;
+    Ed.EndUpdate;
 
     if Assigned(fmFind) and fmFind.Visible then
       fmFind.edFind.SetFocus
