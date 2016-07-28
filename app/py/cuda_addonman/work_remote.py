@@ -8,10 +8,7 @@ from urllib.parse import unquote
 option_proxy = ''
 
 
-def get_url(url, fn):
-    if os.path.isfile(fn):
-        os.remove(fn)
-
+def setup_proxy():
     if option_proxy:
         proxy = urllib.request.ProxyHandler({
             'http': option_proxy,
@@ -19,15 +16,26 @@ def get_url(url, fn):
             })
         opener = urllib.request.build_opener(proxy)
         urllib.request.install_opener(opener)
+        
+
+def get_url(url, fn):
+    if os.path.isfile(fn):
+        os.remove(fn)
+
+    try:
+        setup_proxy()
+        urllib.request.urlretrieve(url, filename=fn)
+    except Exception as e:
+        print(e)
        
-    while True: 
-        try:
-            urllib.request.urlretrieve(url, filename=fn)
-            break
-        except Exception as e:
-            print(e)
-            print('Pause, retrying...')
-            time.sleep(5)
+#    while True: 
+#        try:
+#            urllib.request.urlretrieve(url, filename=fn)
+#            break
+#        except Exception as e:
+#            print(e)
+#            print('Pause, retrying...')
+#            time.sleep(5)
         
 
 def get_plugin_zip(url):
