@@ -25,22 +25,25 @@ class Command:
     def __init__(self):
         global ch_user
         global op_readme
+        global option_proxy
         if os.path.isfile(fn_config):
             op = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
             ch_user = op.get('channels_user', ch_user)
             op_readme = op.get('suggest_readme', True)
+            option_proxy = op.get('proxy', '')
         
 
     def do_config(self):
-        global ch_def, ch_user, op_readme
-        res = dlg_config(ch_def, ch_user, op_readme)
+        global ch_def, ch_user, op_readme, option_proxy
+        res = dlg_config(ch_def, ch_user, op_readme, option_proxy)
         if res is None: return
-        (ch_user, op_readme) = res
+        (ch_user, op_readme, option_proxy) = res
         print('Now channels_user:', ch_user) 
           
         op = {}
         op['channels_user'] = ch_user
         op['suggest_readme'] = op_readme
+        op['proxy'] = option_proxy
         with open(fn_config, 'w') as f:
             f.write(json.dumps(op, indent=4))
         

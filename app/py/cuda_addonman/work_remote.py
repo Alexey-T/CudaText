@@ -2,16 +2,29 @@ import os
 import re
 import tempfile
 import urllib.request
+import time
 from urllib.parse import unquote
+
+option_proxy = ''
 
 
 def get_url(url, fn):
     if os.path.isfile(fn):
         os.remove(fn)
-    try:
-        urllib.request.urlretrieve(url, fn)
-    except Exception as e:
-        print(e)
+
+    if option_proxy:
+        proxy = urllib.request.ProxyHandler({'http': option_proxy})
+        opener = urllib.request.build_opener(proxy)
+        urllib.request.install_opener(opener)
+       
+    while True: 
+        try:
+            urllib.request.urlretrieve(url, filename=fn)
+            break
+        except Exception as e:
+            print(e)
+            print('Pause, retrying...')
+            time.sleep(5)
         
 
 def get_plugin_zip(url):
