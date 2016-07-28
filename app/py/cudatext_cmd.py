@@ -260,6 +260,7 @@ cmd_CopyFilenameName = 2653
 cmd_SortAsc          = 2654
 cmd_SortDesc         = 2655
 
+cmd_ToggleTabUsesSpaces = 2657
 cmd_ConvertTabsToSpaces = 2658
 cmd_ConvertSpacesToTabsLeading = 2659
 

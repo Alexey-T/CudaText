@@ -149,6 +149,7 @@ begin
     cmd_SortAsc: DoSortSel(CurrentEditor, true, false);
     cmd_SortDesc: DoSortSel(CurrentEditor, false, false);
 
+    cmd_ToggleTabUsesSpaces: with CurrentEditor do OptTabSpaces:= not OptTabSpaces;
     cmd_ConvertTabsToSpaces: EditorConvertTabsToSpaces(CurrentEditor);
     cmd_ConvertSpacesToTabsLeading: EditorConvertSpacesToTabsLeading(CurrentEditor);
 

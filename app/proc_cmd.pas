@@ -131,6 +131,8 @@ const
   cmd_CopyFilenameName = 2653;
   cmd_SortAsc          = 2654;
   cmd_SortDesc         = 2655;
+
+  cmd_ToggleTabUsesSpaces = 2657;
   cmd_ConvertTabsToSpaces = 2658;
   cmd_ConvertSpacesToTabsLeading = 2659;
 
@@ -341,6 +343,7 @@ begin
   M.Add(cmd_SortAsc, 'sort selection, asc', [], []);
   M.Add(cmd_SortDesc, 'sort selection, desc', [], []);
 
+  M.Add(cmd_ToggleTabUsesSpaces, 'toggle tab-key uses spaces', [], []);
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs to spaces', [], []);
   M.Add(cmd_ConvertSpacesToTabsLeading, 'convert spaces (leading) to tabs', [], []);
 
