@@ -8,6 +8,7 @@ from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
 from urllib.parse import unquote
+from . import work_remote
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
@@ -25,25 +26,24 @@ class Command:
     def __init__(self):
         global option_ch_user
         global option_readme
-        global option_proxy
         if os.path.isfile(fn_config):
             op = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
             option_ch_user = op.get('channels_user', option_ch_user)
             option_readme = op.get('suggest_readme', True)
-            option_proxy = op.get('proxy', '')
+            work_remote.option_proxy = op.get('proxy', '')
         
 
     def do_config(self):
-        global option_ch_def, option_ch_user, option_readme, option_proxy
-        res = dlg_config(option_ch_def, option_ch_user, option_readme, option_proxy)
+        global option_ch_def, option_ch_user, option_readme
+        res = dlg_config(option_ch_def, option_ch_user, option_readme, work_remote.option_proxy)
         if res is None: return
-        (option_ch_user, option_readme, option_proxy) = res
+        (option_ch_user, option_readme, work_remote.option_proxy) = res
         print('Now channels_user:', option_ch_user) 
           
         op = {}
         op['channels_user'] = option_ch_user
         op['suggest_readme'] = option_readme
-        op['proxy'] = option_proxy
+        op['proxy'] = work_remote.option_proxy
         with open(fn_config, 'w') as f:
             f.write(json.dumps(op, indent=4))
         

@@ -8,6 +8,8 @@ option_proxy = ''
 
 
 def get_url(url, fn):
+    global option_proxy
+    
     if os.path.isfile(fn):
         os.remove(fn)
 
@@ -15,6 +17,7 @@ def get_url(url, fn):
         proxy_dict = { 'http': option_proxy, 'https': option_proxy, }
     else:
         proxy_dict = None
+    #print('proxy', proxy_dict)
 
     try:
         r = requests.get(url, proxies=proxy_dict, stream=True)
