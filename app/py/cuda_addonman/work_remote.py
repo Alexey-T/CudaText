@@ -3,24 +3,21 @@ import re
 import tempfile
 import requests
 from urllib.parse import unquote
-
-option_proxy = ''
+from . import opt
 
 
 def get_url(url, fn):
-    global option_proxy
-    
     if os.path.isfile(fn):
         os.remove(fn)
 
-    if option_proxy:
-        proxy_dict = { 'http': option_proxy, 'https': option_proxy, }
+    if opt.proxy:
+        proxies = { 'http': opt.proxy, 'https': opt.proxy, }
     else:
-        proxy_dict = None
-    #print('proxy', proxy_dict)
+        proxies = None
+    #print('proxy', proxies)
 
     try:
-        r = requests.get(url, proxies=proxy_dict, stream=True)
+        r = requests.get(url, proxies=proxies, stream=True)
         with open(fn, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024): 
                 if chunk: # filter out keep-alive new chunks

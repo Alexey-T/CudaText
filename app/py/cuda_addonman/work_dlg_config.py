@@ -8,7 +8,7 @@ def dlg_config(ch_def, ch_user, suggest_readme, proxy):
     id_ok = 7
     all_size_x = 520
     all_size_y = 360
-    btn_size = 100
+    btn_size = 90
     
     text = '\n'.join([]+
       [c1.join(['type=label', 'pos=6,6,250,0', 'cap=&Default channels:'])]+

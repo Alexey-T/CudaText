@@ -4,48 +4,36 @@ import json
 import collections
 import webbrowser
 from cudatext import *
+from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
-from urllib.parse import unquote
-from . import work_remote
+from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
-
-option_ch_user = []
-option_ch_def = [
-  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-addons.txt',
-  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-lexers.txt',
-  'https://raw.githubusercontent.com/kvichans/CudaText-registry/master/registry-addons.txt',
-  ]
-option_readme = True
   
 
 class Command:
     def __init__(self):
-        global option_ch_user
-        global option_readme
         if os.path.isfile(fn_config):
-            op = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
-            option_ch_user = op.get('channels_user', option_ch_user)
-            option_readme = op.get('suggest_readme', True)
-            work_remote.option_proxy = op.get('proxy', '')
+            data = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
+            opt.ch_user = data.get('channels_user', opt.ch_user)
+            opt.readme = data.get('suggest_readme', True)
+            opt.proxy = data.get('proxy', '')
         
 
     def do_config(self):
-        global option_ch_def, option_ch_user, option_readme
-        res = dlg_config(option_ch_def, option_ch_user, option_readme, work_remote.option_proxy)
+        res = dlg_config(opt.ch_def, opt.ch_user, opt.readme, opt.proxy)
         if res is None: return
-        (option_ch_user, option_readme, work_remote.option_proxy) = res
-        print('Now channels_user:', option_ch_user) 
+        opt.ch_user, opt.readme, opt.proxy = res
           
-        op = {}
-        op['channels_user'] = option_ch_user
-        op['suggest_readme'] = option_readme
-        op['proxy'] = work_remote.option_proxy
+        data = {}
+        data['channels_user'] = opt.ch_user
+        data['suggest_readme'] = opt.readme
+        data['proxy'] = opt.proxy
         with open(fn_config, 'w') as f:
-            f.write(json.dumps(op, indent=4))
+            f.write(json.dumps(data, indent=4))
         
 
     def do_download_all(self):
@@ -60,7 +48,7 @@ class Command:
             return
     
         msg_status('Downloading list...')
-        items = get_remote_addons_list(option_ch_def+option_ch_user)
+        items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -101,7 +89,7 @@ class Command:
 
     def do_install_addon(self):
         msg_status('Downloading list...')
-        items = get_remote_addons_list(option_ch_def+option_ch_user)
+        items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -127,7 +115,7 @@ class Command:
         file_open(fn)
         
         #suggest readme
-        if option_readme:
+        if opt.readme:
             m = get_module_name_from_zip_filename(fn)
             if m:
                 fn = get_readme_of_module(m)
