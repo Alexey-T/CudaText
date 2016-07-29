@@ -24,14 +24,14 @@ class Command:
         
 
     def do_config(self):
-        res = dlg_config(opt.ch_def, opt.ch_user, opt.readme, opt.proxy)
+        res = do_config_dialog()
         if res is None: return
-        opt.ch_user, opt.readme, opt.proxy = res
           
         data = {}
         data['channels_user'] = opt.ch_user
         data['suggest_readme'] = opt.readme
         data['proxy'] = opt.proxy
+        
         with open(fn_config, 'w') as f:
             f.write(json.dumps(data, indent=4))
         
