@@ -14,7 +14,7 @@ def get_url(url, fn):
     if option_proxy:
         proxy_dict = { 'http': option_proxy, 'https': option_proxy, }
     else:
-        proxy_dict = {}
+        proxy_dict = None
 
     try:
         r = requests.get(url, proxies=proxy_dict, stream=True)
