@@ -1,8 +1,12 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.07.28
++ [ui] ed_w
+
 2016.07.25
-* [d_f]: del _, add _f _r
+* del [d_f] _
++ [d_f] _f _r
 
 2016.07.23
 + [d_f] _

@@ -12,35 +12,38 @@ from urllib.parse import unquote
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
-ch_user = []
-ch_def = [
+option_ch_user = []
+option_ch_def = [
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-addons.txt',
   'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-lexers.txt',
   'https://raw.githubusercontent.com/kvichans/CudaText-registry/master/registry-addons.txt',
   ]
-op_readme = True
+option_readme = True
   
 
 class Command:
     def __init__(self):
-        global ch_user
-        global op_readme
+        global option_ch_user
+        global option_readme
+        global option_proxy
         if os.path.isfile(fn_config):
             op = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
-            ch_user = op.get('channels_user', ch_user)
-            op_readme = op.get('suggest_readme', True)
+            option_ch_user = op.get('channels_user', option_ch_user)
+            option_readme = op.get('suggest_readme', True)
+            option_proxy = op.get('proxy', '')
         
 
     def do_config(self):
-        global ch_def, ch_user, op_readme
-        res = dlg_config(ch_def, ch_user, op_readme)
+        global option_ch_def, option_ch_user, option_readme, option_proxy
+        res = dlg_config(option_ch_def, option_ch_user, option_readme, option_proxy)
         if res is None: return
-        (ch_user, op_readme) = res
-        print('Now channels_user:', ch_user) 
+        (option_ch_user, option_readme, option_proxy) = res
+        print('Now channels_user:', option_ch_user) 
           
         op = {}
-        op['channels_user'] = ch_user
-        op['suggest_readme'] = op_readme
+        op['channels_user'] = option_ch_user
+        op['suggest_readme'] = option_readme
+        op['proxy'] = option_proxy
         with open(fn_config, 'w') as f:
             f.write(json.dumps(op, indent=4))
         
@@ -57,7 +60,7 @@ class Command:
             return
     
         msg_status('Downloading list...')
-        items = get_remote_addons_list(ch_def+ch_user)
+        items = get_remote_addons_list(option_ch_def+option_ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -107,7 +110,7 @@ class Command:
 
     def do_install_addon(self):
         msg_status('Downloading list...')
-        items = get_remote_addons_list(ch_def+ch_user)
+        items = get_remote_addons_list(option_ch_def+option_ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -141,7 +144,7 @@ class Command:
         file_open(fn)
         
         #suggest readme
-        if op_readme:
+        if option_readme:
             m = get_module_name_from_zip_filename(fn)
             if m:
                 fn = get_readme_of_module(m)
