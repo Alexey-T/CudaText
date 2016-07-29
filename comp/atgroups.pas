@@ -342,7 +342,10 @@ begin
   FTabs.OnTabEmpty:= TabEmpty;
   FTabs.OnTabOver:= TabOver;
   FTabs.OnTabMove:= TabMove;
+  {$ifdef fpc}
   FTabs.DragMode:= dmAutomatic; //allow DnD between groups
+    //it breaks all on Delphi7
+  {$endif}
 
   FTabs.TabAngle:= 0;
   FTabs.TabHeight:= 24;

@@ -5,7 +5,8 @@
 
 
 1.4.2
-+ addon manager can use proxy
++ Addon Manager can use proxy
++ python lib "requests" preinstalled
 + cmd "toggle tab-key uses spaces"
 - fix: replace-all must show "wait..."
 - fix: force Find dlg to desktop on show

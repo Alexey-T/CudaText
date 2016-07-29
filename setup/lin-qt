@@ -4,5 +4,5 @@ cd ~/cuda/cuda/app
 name=~/Public/cudatext-linux-qt-amd64.tar
 
 rm ~/Public/*qt*.xz
-tar -cf $name cudatext readme data settings_default py/*.py py/cuda_addonman/*.inf py/cuda_addonman/*.py py/cuda_make_plugin/*.inf py/cuda_make_plugin/*.py py/cuda_insert_time/*.inf py/cuda_insert_time/*.py py/cudax_lib/*.py
+tar -cf $name cudatext readme data settings_default py/*.py py/cuda_addonman/*.inf py/cuda_addonman/*.py py/cuda_make_plugin/*.inf py/cuda_make_plugin/*.py py/cuda_insert_time/*.inf py/cuda_insert_time/*.py py/cudax_lib/*.py py/requests/*
 xz -z $name

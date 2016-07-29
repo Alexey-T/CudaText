@@ -18,6 +18,7 @@ mkdir $dd/usr/share/cudatext/py/cuda_addonman
 mkdir $dd/usr/share/cudatext/py/cuda_make_plugin
 mkdir $dd/usr/share/cudatext/py/cuda_insert_time
 mkdir $dd/usr/share/cudatext/py/cudax_lib
+mkdir $dd/usr/share/cudatext/py/requests
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
 
@@ -37,6 +38,7 @@ cp -r ../app/py/cuda_make_plugin/*.inf $dd/usr/share/cudatext/py/cuda_make_plugi
 cp -r ../app/py/cuda_insert_time/*.py $dd/usr/share/cudatext/py/cuda_insert_time
 cp -r ../app/py/cuda_insert_time/*.inf $dd/usr/share/cudatext/py/cuda_insert_time
 cp -r ../app/py/cudax_lib/*.py $dd/usr/share/cudatext/py/cudax_lib
+cp -r ../app/py/requests/* $dd/usr/share/cudatext/py/requests
 
 
 sudo chmod -R 755 $dd
