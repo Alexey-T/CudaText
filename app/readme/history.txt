@@ -5,9 +5,10 @@
 
 
 1.4.2
++ addon manager can use proxy
++ cmd "toggle tab-key uses spaces"
 - fix: replace-all must show "wait..."
 - fix: force Find dlg to desktop on show
-+ cmd "toggle tab-key uses spaces"
 
 1.4.1
 - encoding: files were opened in "UTF8 no bom" by default. Now it is opt "def_encoding_utf8": open as ANSI (default for Windows) or UTF8 no bom.
