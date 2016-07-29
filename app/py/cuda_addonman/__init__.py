@@ -82,15 +82,6 @@ class Command:
             #must use msg_status(.., True)
             msg_status('Downloading file: %d/%d'%(i+1, len(items)), True)
             
-            while True:
-                try:
-                    url = urllib.request.urlopen(url).geturl()
-                    break
-                except:
-                    if msg_box('Cannot resolve URL:\n'+url+'\nRetry?', MB_RETRYCANCEL)==ID_CANCEL:
-                        err += 1
-                        break
-                
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_for_all, name.split('.')[0])
             if not os.path.isdir(dir):
@@ -126,16 +117,8 @@ class Command:
                 msg_box('This is linter, it needs CudaLint plugin installed. Install CudaLint first.', MB_OK+MB_ICONWARNING)
                 return
         
-        #resolve url
-        msg_status('Downloading file...')
-        try:
-            res = urllib.request.urlopen(url)
-            url = res.geturl()
-        except:
-            msg_status('Cannot resolve URL')
-            return
-            
         #download
+        msg_status('Downloading file...')
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
             msg_status('Cannot download file')
