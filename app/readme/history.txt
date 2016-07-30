@@ -5,6 +5,7 @@
 
 
 1.4.2
++ command-line options: http://wiki.freepascal.org/CudaText#Command_line_parameters
 + Addon Manager can use proxy
 + python lib "requests" preinstalled
 + cmd "toggle tab-key uses spaces"

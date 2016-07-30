@@ -70,11 +70,6 @@ object fmMain: TfmMain
         TabStop = True
         TabOrder = 2
         Caption = 'Cancel'
-        Checked = False
-        Checkable = False
-        ImageIndex = -1
-        Focusable = True
-        Flat = False
         OnClick = ButtonCancelClick
       end
     end
@@ -109,8 +104,6 @@ object fmMain: TfmMain
     BevelOuter = bvNone
     TabOrder = 1
     Images = ImageListBar
-    SizeIncrementToIcon = 6
-    SizeSeparator = 14
   end
   object PythonEngine: TPythonEngine
     AutoLoad = False

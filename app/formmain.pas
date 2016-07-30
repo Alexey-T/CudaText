@@ -514,6 +514,8 @@ type
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
     FLastDirOfOpenDlg: string;
+    FOption_OpenReadOnly: boolean;
+    FOption_OpenNewWindow: boolean;
 
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
@@ -599,6 +601,7 @@ type
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuPlugins;
+    procedure DoOps_LoadCommandLineOptions;
     procedure DoOps_LoadLexerLib;
     procedure DoOps_SaveHistory;
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
@@ -1346,6 +1349,7 @@ begin
   if FHandledOnShow then exit;
   TabsBottom.TabIndex:= 0;
 
+  DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptUser), EditorOps);
   DoApplyFont_Text;
   DoApplyFont_Ui;
@@ -1459,8 +1463,27 @@ begin
 end;
 
 
+procedure TfmMain.DoOps_LoadCommandLineOptions;
+var
+  SParam: string;
+  i: integer;
+begin
+  FOption_OpenReadOnly:= false;
+  FOption_OpenNewWindow:= false;
+
+  for i:= 1 to ParamCount do
+  begin
+    SParam:= ParamStrUTF8(i);
+    if not SBeginsWith(SParam, '--') then Continue;
+
+    if SParam='--ro' then FOption_OpenReadOnly:= true;
+    if SParam='--new' then FOption_OpenNewWindow:= true;
+  end;
+end;
+
 procedure TfmMain.DoLoadCommandLine;
 var
+  Frame: TEditorFrame;
   fn: string;
   i: integer;
 begin
@@ -1480,19 +1503,32 @@ begin
     if SBeginsWith(fn, '-psn') then Continue;
     {$endif}
 
+    //ignore special params
+    if SBeginsWith(fn, '--') then Continue;
+
     //don't take folder
     if DirectoryExistsUTF8(fn) then Continue;
 
+    Frame:= nil;
     if FileExistsUTF8(fn) then
-      DoFileOpen(fn)
+      Frame:= DoFileOpen(fn)
     else
     if MsgBox(
       Format(msgConfirmCreateNewFile, [fn]),
-      MB_OKCANCEL or MB_ICONQUESTION) = id_ok then
+      MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
     begin
       FCreateFile(fn);
       if FileExistsUTF8(fn) then
-        DoFileOpen(fn);
+        Frame:= DoFileOpen(fn);
+    end;
+
+    if Assigned(Frame) then
+    begin
+      if FOption_OpenReadOnly then
+      begin
+        Frame.ReadOnly:= true;
+        MsgStatus(''); //show [read-only]
+      end;
     end;
   end;
 end;
@@ -1759,7 +1795,7 @@ begin
   cCompleteFormSizeX:= UiOps.ListboxCompleteSizeX;
   cCompleteFormSizeY:= UiOps.ListboxCompleteSizeY;
 
-  if UiOps.OneInstance then
+  if UiOps.OneInstance and not FOption_OpenNewWindow then
     if not UniqInstance.Enabled then
     begin
       UniqInstance.Enabled:= true;
