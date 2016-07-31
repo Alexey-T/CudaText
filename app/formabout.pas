@@ -91,7 +91,7 @@ const
 
 procedure TfmAbout.FormCreate(Sender: TObject);
 var
-  Plat: string;
+  SWidget: string;
 begin
   FLabelLink:= TLinkLabel.Create(Self);
   FLabelLink.Parent:= Self;
@@ -100,12 +100,16 @@ begin
   FLabelLink.Left:= Label1.Left;
   FLabelLink.Top:= ClientHeight div 2;
 
-  Plat:= '';
+  SWidget:= '';
   if WidgetSet<>nil then
-    Plat:= PlatfNames[WidgetSet.LCLPlatform];
-  labelInf.Caption:=
-    Lowercase({$I %FPCTARGETOS%}) + '-' + {$I %FPCTARGETCPU%} + '-' + Plat +
-    ', fpc '+{$I %FPCVersion%};
+    SWidget:= PlatfNames[WidgetSet.LCLPlatform];
+
+  labelInf.Caption:= Format('%s-%s-%s, fpc %s', [
+    Lowercase({$I %FPCTARGETOS%}),
+    {$I %FPCTARGETCPU%},
+    SWidget,
+    {$I %FPCVersion%}
+    ]);
 end;
 
 procedure TfmAbout.FormShow(Sender: TObject);
