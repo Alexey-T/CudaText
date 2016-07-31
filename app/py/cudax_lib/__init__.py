@@ -659,9 +659,18 @@ def _opt_for_keys(dct_tree, keys=(), def_val=None):
 def minmax(v1, v2):
     return min(v1, v2), max(v1, v2)
 
+
+def int_to_html_color(n):
+    """
+    Convert int to HTML color '#rrggbb'
+    """
+    s = '%06x' % n
+    r, g, b = s[4:], s[2:4], s[:2]
+    return '#'+r+g+b
+
 def html_color_to_int(s):
     """
-    String '#RRGGBB' or '#RGB' to integer
+    Convert HTML color '#RRGGBB' or '#RGB' to int
     """
     s = s.strip().lstrip('#')
 #   while s[0] == '#': s = s[1:]
