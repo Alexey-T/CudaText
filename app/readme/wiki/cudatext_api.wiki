@@ -796,6 +796,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_COLOR: int: color property. Text must be one of COLOR_ID values, see module cudatext_colors. Gets None for incorrect id.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
+* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_ENC: str: encoding name.
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: text must be str(column)+","+str(line), column/line 0-based.
@@ -846,6 +847,7 @@ Possible values of id:
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be "color_id,color_int_value", where color_id is constant from module cudatext_colors.
 * PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
+* PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_ENC: str: encoding name. Possible values are shown in menu of encodings.
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
@@ -1086,6 +1088,12 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.152
+* add: ed.get_prop/set_prop: PROP_COLUMN_LEFT
+
+1.0.151
+* add: on_state called with EDSTATE_MODIFIED (when ed modifies)
 
 1.0.150
 * add: ed.markers(MARKERS_ADD, ...) has param len_y
