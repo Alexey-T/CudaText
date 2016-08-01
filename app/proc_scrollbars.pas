@@ -23,6 +23,8 @@ type
     procedure Collapse(Node: TTreeNode); override;
     procedure Expand(Node: TTreeNode); override;
     procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
+    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint
+      ): Boolean; override;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -142,6 +144,13 @@ end;
 procedure TTreeViewMy.CMChanged(var Message: TLMessage);
 begin
   inherited;
+  UpdScroll;
+end;
+
+function TTreeViewMy.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
+  MousePos: TPoint): Boolean;
+begin
+  Result:= inherited;
   UpdScroll;
 end;
 
