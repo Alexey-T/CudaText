@@ -18,7 +18,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.5.5.at 2016-02-24'
+    '0.5.7 2016-08-01'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 '''
@@ -659,7 +659,6 @@ def _opt_for_keys(dct_tree, keys=(), def_val=None):
 def minmax(v1, v2):
     return min(v1, v2), max(v1, v2)
 
-
 def int_to_html_color(n):
     """
     Convert int to HTML color '#rrggbb'
@@ -667,6 +666,7 @@ def int_to_html_color(n):
     s = '%06x' % n
     r, g, b = s[4:], s[2:4], s[:2]
     return '#'+r+g+b
+   #def int_to_html_color
 
 def html_color_to_int(s):
     """
@@ -681,6 +681,7 @@ def html_color_to_int(s):
     s = s[4:6] + s[2:4] + s[0:2]
     color = int(s, 16)
     return color
+   #def html_color_to_int
 
 def icase(*pars):
     """ Params    cond1,val1[, cond2,val2, ...[, valElse]...]
