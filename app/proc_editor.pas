@@ -72,8 +72,6 @@ function EditorGetColorById(Ed: TATSynEdit; const Id: string): TColor;
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
 function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 
-procedure EditorGotoLastEditingPoint(Ed: TATSynEdit);
-
 implementation
 
 procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
@@ -1040,23 +1038,6 @@ begin
 
   Result:= true;
 end;
-
-procedure EditorGotoLastEditingPoint(Ed: TATSynEdit);
-var
-  Pnt: TPoint;
-begin
-  Pnt:= Ed.GetLastEditingPoint;
-  if Ed.Strings.IsIndexValid(Pnt.Y) then
-  begin
-    Ed.DoGotoPos_AndUnfold(
-      Pnt,
-      Point(-1, -1),
-      UiOps.FindIndentHorz,
-      UiOps.FindIndentVert
-      );
-  end;
-end;
-
 
 procedure EditorBookmarkPlaceCarets(ed: TATSynEdit);
 var
