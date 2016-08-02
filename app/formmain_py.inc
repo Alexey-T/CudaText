@@ -343,7 +343,10 @@ begin
       StrName:= string(PtrName);
 
       if StrName<>'' then
+      begin
         Frame.FileName:= StrName;
+        Frame.Lexer:= DoLexerFindByFilename(Frame.FileName);
+      end;
 
       Ok:= false;
       if Assigned(Frame) then
