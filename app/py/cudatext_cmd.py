@@ -225,7 +225,7 @@ cmd_FindAllAndSelect = 2596
 cmd_FindAllAndMarkers = 2597
 cmd_FindAllAndBookmarks = 2598
 cmd_FindMarkAll      = cmd_FindAllAndMarkers
-cmd_GotoLastEditingPoint = 2599
+cmd_GotoLastEditingPos = 2599
 
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621
