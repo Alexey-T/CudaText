@@ -98,6 +98,7 @@ const
   cmd_FindAllAndSelect = 2596;
   cmd_FindAllAndMarkers = 2597;
   cmd_FindAllAndBookmarks = 2598;
+  cmd_GotoLastEditingPoint = 2599;
 
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
@@ -334,6 +335,7 @@ begin
   M.Add(cmd_FindCurWordPrev, 'find current word, previous', [], []);
   M.Add(cmd_FindCurSelNext, 'find current selection, next', [], []);
   M.Add(cmd_FindCurSelPrev, 'find current selection, previous', [], []);
+  M.Add(cmd_GotoLastEditingPoint, 'go to last editing point', [], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);

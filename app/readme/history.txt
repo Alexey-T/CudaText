@@ -4,8 +4,9 @@
   * changed
 
 
-1.4.2.2
-+ mouse-wheel should work in Commands dlg 
+1.4.3
++ mouse-wheel should work in Commands dlg
++ cmd "go to last editing point" 
 
 1.4.2
 + command-line options: http://wiki.freepascal.org/CudaText#Command_line_parameters
