@@ -140,9 +140,6 @@ begin
     cmd_SplitTab5050:   CurrentFrame.SplitPos:= 0.5;
     cmd_SplitTab6040:   CurrentFrame.SplitPos:= 0.4;
     cmd_SplitTab7030:   CurrentFrame.SplitPos:= 0.3;
-
-    cmd_GotoLastEditingPos: CurrentEditor.DoGotoLastEditPos;
-
     cmd_CopyLine:         DoCopyLine;
     cmd_CopyFilenameFull: DoCopyFilenameFull;
     cmd_CopyFilenameDir:  DoCopyFilenameDir;

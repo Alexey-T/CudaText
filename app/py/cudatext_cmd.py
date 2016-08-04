@@ -146,6 +146,7 @@ cCommand_Cancel = 2001
 cCommand_RepeatTextCommand = 2002
 cCommand_ZoomIn = 2003
 cCommand_ZoomOut = 2004
+cCommand_GotoLastEditPos = 2006
 
 cCommand_CaretsExtendDownLine = 2010
 cCommand_CaretsExtendDownPage = 2011
@@ -225,7 +226,6 @@ cmd_FindAllAndSelect = 2596
 cmd_FindAllAndMarkers = 2597
 cmd_FindAllAndBookmarks = 2598
 cmd_FindMarkAll      = cmd_FindAllAndMarkers
-cmd_GotoLastEditingPos = 2599
 
 cmd_SplitTabToggle   = 2620
 cmd_SplitTabHorzVert = 2621

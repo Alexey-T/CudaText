@@ -6,7 +6,8 @@
 
 1.4.3
 + mouse-wheel should work in Commands dlg
-+ cmd "go to last editing point" 
++ cmd "go to last editing pos"
+- fix: undo for BackSp 
 
 1.4.2
 + command-line options: http://wiki.freepascal.org/CudaText#Command_line_parameters
