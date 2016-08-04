@@ -754,7 +754,6 @@ begin
         for i:= Ed.Strings.Count-1 downto 0 do
           Ed.Strings.TextDeleteLine(0, i, Shift, PosAfter);
         Ed.Strings.TextInsert(0, 0, StrW, false, Shift, PosAfter);
-        Ed.Strings.DoSaveLastEditPos;
       finally
         Ed.Strings.EndUndoGroup;
         Ed.DoEventChange;
@@ -794,7 +793,6 @@ begin
           Ed.Strings.LinesEnds[N]:= Ed.Strings.Endings;
       end;
 
-      Ed.Strings.DoSaveLastEditPos;
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
@@ -816,7 +814,6 @@ begin
     begin
       Ed:= PyEditor(H);
       Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
-      Ed.Strings.DoSaveLastEditPos;
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
@@ -840,7 +837,6 @@ begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(string(Ptr));
       Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
-      Ed.Strings.DoSaveLastEditPos;
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
