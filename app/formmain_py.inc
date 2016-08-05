@@ -430,7 +430,7 @@ begin
 
         CARET_ADD:
           begin
-            Ed.Carets.Add(X2, Y2, X1, Y1);
+            Ed.Carets.Add(X1, Y1, X2, Y2);
             Ed.Carets.Sort;
             Result:= PyInt_FromLong(Ed.Carets.Count);
           end;

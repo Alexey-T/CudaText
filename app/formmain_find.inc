@@ -30,7 +30,7 @@ begin
           FFindMarkingCaret1st:= false;
           Ed.Carets.Clear;
         end;
-        Ed.Carets.Add(APos1.X, APos1.Y, APos2.X, APos2.Y);
+        Ed.Carets.Add(APos2.X, APos2.Y, APos1.X, APos1.Y);
         Ed.Carets.Sort;
       end;
 

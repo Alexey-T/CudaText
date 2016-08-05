@@ -803,12 +803,12 @@ begin
         if Mark.Tag=NTag then
         begin
           if Mark.LenY>0 then
-            Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.LenX, Mark.PosY+Mark.LenY)
+            Ed.Carets.Add(Mark.LenX, Mark.PosY+Mark.LenY, Mark.PosX, Mark.PosY)
           else
           if Mark.LenX<=0 then
             Ed.Carets.Add(Mark.PosX, Mark.PosY)
           else
-            Ed.Carets.Add(Mark.PosX, Mark.PosY, Mark.PosX+Mark.LenX, Mark.PosY);
+            Ed.Carets.Add(Mark.PosX+Mark.LenX, Mark.PosY, Mark.PosX, Mark.PosY);
           Ed.Markers.Delete(i);
         end;
       end;
