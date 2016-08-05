@@ -916,15 +916,15 @@ begin
       Caret.PosX+X,
       Caret.PosY,
       IfThen(AAndSelect, Caret.PosX, -1),
-      IfThen(AAndSelect, Caret.PosY, -1),
-      true)
+      IfThen(AAndSelect, Caret.PosY, -1)
+      )
   else
     Ed.DoCaretSingle(
       X,
       Caret.PosY+Y,
       IfThen(AAndSelect, Caret.PosX, -1),
-      IfThen(AAndSelect, Caret.PosY, -1),
-      true);
+      IfThen(AAndSelect, Caret.PosY, -1)
+      );
 
   Ed.Update;
 end;
@@ -1034,7 +1034,7 @@ begin
   if SSel='' then
     Ed.DoCommand(cCommand_KeyLeft)
   else
-    Ed.DoCaretSingle(X2+IfThen(Y1=Y2, 1), Y2, X1+1, Y1, true);
+    Ed.DoCaretSingle(X2+IfThen(Y1=Y2, 1), Y2, X1+1, Y1);
 
   Result:= true;
 end;
@@ -1059,7 +1059,7 @@ begin
       ed.Carets.Add(0, i);
 
   if ed.Carets.Count=0 then
-    ed.DoCaretSingle(X1, Y1, X2, Y2, true);
+    ed.DoCaretSingle(X1, Y1, X2, Y2);
 end;
 
 

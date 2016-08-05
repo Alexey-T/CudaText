@@ -421,7 +421,7 @@ begin
         CARET_SET_ONE:
           begin
             Ed.DoSelect_None;
-            Ed.DoCaretSingle(X1, Y1, X2, Y2, true);
+            Ed.DoCaretSingle(X1, Y1, X2, Y2);
             Ed.DoGotoPos(Point(X1, Y1),
               UiOps.FindIndentHorz,
               UiOps.FindIndentVert);
