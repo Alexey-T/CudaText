@@ -388,9 +388,10 @@ class Editor:
     def get_carets(self):
         big = 4294967295 #workaround for Py engine bug. it gives this, not -1.
         res = ct.ed_get_carets(self.h)
-        for item in res:
-            if item[2]==big: item[2]=-1
-            if item[3]==big: item[3]=-1
+        if res:
+            for item in res:
+                if item[2]==big: item[2]=-1
+                if item[3]==big: item[3]=-1
         return res
         
     def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE):

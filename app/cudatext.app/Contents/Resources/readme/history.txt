@@ -4,8 +4,15 @@
   * changed
 
 
+1.4.3
++ mouse-wheel should work in Commands dlg
++ cmd "go to last editing pos"
+- fix: undo for BackSp 
+
 1.4.2
-+ addon manager can use proxy
++ command-line options: http://wiki.freepascal.org/CudaText#Command_line_parameters
++ Addon Manager can use proxy
++ python lib "requests" preinstalled
 + cmd "toggle tab-key uses spaces"
 - fix: replace-all must show "wait..."
 - fix: force Find dlg to desktop on show

@@ -1,41 +1,30 @@
 import os
 import re
 import tempfile
-import urllib.request
-import time
+import requests
 from urllib.parse import unquote
+from . import opt
 
-option_proxy = ''
-
-
-def setup_proxy():
-    if option_proxy:
-        proxy = urllib.request.ProxyHandler({
-            'http': option_proxy,
-            'https': option_proxy,
-            })
-        opener = urllib.request.build_opener(proxy)
-        urllib.request.install_opener(opener)
-        
 
 def get_url(url, fn):
     if os.path.isfile(fn):
         os.remove(fn)
 
+    if opt.proxy:
+        proxies = { 'http': opt.proxy, 'https': opt.proxy, }
+    else:
+        proxies = None
+    #print('proxy', proxies)
+
     try:
-        setup_proxy()
-        urllib.request.urlretrieve(url, filename=fn)
+        r = requests.get(url, proxies=proxies, stream=True)
+        with open(fn, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024): 
+                if chunk: # filter out keep-alive new chunks
+                    f.write(chunk)
+                    #f.flush() commented by recommendation
     except Exception as e:
         print(e)
-       
-#    while True: 
-#        try:
-#            urllib.request.urlretrieve(url, filename=fn)
-#            break
-#        except Exception as e:
-#            print(e)
-#            print('Pause, retrying...')
-#            time.sleep(5)
         
 
 def get_plugin_zip(url):

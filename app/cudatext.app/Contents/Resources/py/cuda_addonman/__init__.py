@@ -4,48 +4,36 @@ import json
 import collections
 import webbrowser
 from cudatext import *
+from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
-from urllib.parse import unquote
+from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
-
-option_ch_user = []
-option_ch_def = [
-  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-addons.txt',
-  'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/registry-lexers.txt',
-  'https://raw.githubusercontent.com/kvichans/CudaText-registry/master/registry-addons.txt',
-  ]
-option_readme = True
   
 
 class Command:
     def __init__(self):
-        global option_ch_user
-        global option_readme
-        global option_proxy
         if os.path.isfile(fn_config):
-            op = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
-            option_ch_user = op.get('channels_user', option_ch_user)
-            option_readme = op.get('suggest_readme', True)
-            option_proxy = op.get('proxy', '')
+            data = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
+            opt.ch_user = data.get('channels_user', opt.ch_user)
+            opt.readme = data.get('suggest_readme', True)
+            opt.proxy = data.get('proxy', '')
         
 
     def do_config(self):
-        global option_ch_def, option_ch_user, option_readme, option_proxy
-        res = dlg_config(option_ch_def, option_ch_user, option_readme, option_proxy)
+        res = do_config_dialog()
         if res is None: return
-        (option_ch_user, option_readme, option_proxy) = res
-        print('Now channels_user:', option_ch_user) 
           
-        op = {}
-        op['channels_user'] = option_ch_user
-        op['suggest_readme'] = option_readme
-        op['proxy'] = option_proxy
+        data = {}
+        data['channels_user'] = opt.ch_user
+        data['suggest_readme'] = opt.readme
+        data['proxy'] = opt.proxy
+        
         with open(fn_config, 'w') as f:
-            f.write(json.dumps(op, indent=4))
+            f.write(json.dumps(data, indent=4))
         
 
     def do_download_all(self):
@@ -60,7 +48,7 @@ class Command:
             return
     
         msg_status('Downloading list...')
-        items = get_remote_addons_list(option_ch_def+option_ch_user)
+        items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -82,15 +70,6 @@ class Command:
             #must use msg_status(.., True)
             msg_status('Downloading file: %d/%d'%(i+1, len(items)), True)
             
-            while True:
-                try:
-                    url = urllib.request.urlopen(url).geturl()
-                    break
-                except:
-                    if msg_box('Cannot resolve URL:\n'+url+'\nRetry?', MB_RETRYCANCEL)==ID_CANCEL:
-                        err += 1
-                        break
-                
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_for_all, name.split('.')[0])
             if not os.path.isdir(dir):
@@ -110,7 +89,7 @@ class Command:
 
     def do_install_addon(self):
         msg_status('Downloading list...')
-        items = get_remote_addons_list(option_ch_def+option_ch_user)
+        items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
@@ -126,16 +105,8 @@ class Command:
                 msg_box('This is linter, it needs CudaLint plugin installed. Install CudaLint first.', MB_OK+MB_ICONWARNING)
                 return
         
-        #resolve url
-        msg_status('Downloading file...')
-        try:
-            res = urllib.request.urlopen(url)
-            url = res.geturl()
-        except:
-            msg_status('Cannot resolve URL')
-            return
-            
         #download
+        msg_status('Downloading file...')
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
             msg_status('Cannot download file')
@@ -144,7 +115,7 @@ class Command:
         file_open(fn)
         
         #suggest readme
-        if option_readme:
+        if opt.readme:
             m = get_module_name_from_zip_filename(fn)
             if m:
                 fn = get_readme_of_module(m)

@@ -46,6 +46,17 @@ Editor has config system in [[JSON]] files: call menu item "Settings-default" an
 '''Keys config''': you should not edit keys config by hands. Use the dialog, it's called from "Help--Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 (simple hotkey or key-combo) for any command (except dynamically added commands: lexers etc).
 
 = Help topics =
+== Command line parameters ==
+
+Usage:
+
+* cudatext [ key ... ] filename ...
+
+Supported "keys" in command line:
+
+* --ro - Open all files from command line in read-only mode
+* --new - Ignore option "reuse single instance", and open new editor window
+
 == Mouse shortcuts ==
 
 Multi-carets:
