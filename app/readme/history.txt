@@ -4,6 +4,9 @@
   * changed
 
 
+1.4.4
+- fix: C# lexer broken tree
+
 1.4.3
 + mouse-wheel should work in Commands dlg
 + cmd "go to last editing pos"
