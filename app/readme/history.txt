@@ -5,7 +5,8 @@
 
 
 1.4.4
-- fix: C# lexer broken tree
+- fix: no-carets after undo column-block
+- fix: C# lexer string-rule
 
 1.4.3
 + mouse-wheel should work in Commands dlg
