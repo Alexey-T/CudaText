@@ -337,7 +337,8 @@
   //[Properties of new tabs]
   //Lexer name in lexers menu
   "newdoc_lexer": "",
-  //Encoding name: "ANSI", "UTF-8", "UTF-8 no bom", "UTF-16 LE", "UTF-16 BE", "CP1250" etc
+  //Encoding name (allowed names: see encodings menu): 
+  //  "UTF-8", "UTF-8 with BOM", "UTF-16 LE with BOM", "ANSI", "CP1250" etc
   "newdoc_encoding": "UTF-8",
   //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
   "newdoc_eol": 1,
