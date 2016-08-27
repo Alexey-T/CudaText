@@ -3,6 +3,7 @@ object fmSaveTabs: TfmSaveTabs
   Height = 350
   Top = 141
   Width = 671
+  ActiveControl = btnSave
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Save tabs?'
   ClientHeight = 350
