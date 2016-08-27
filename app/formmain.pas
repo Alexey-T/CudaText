@@ -1771,7 +1771,7 @@ begin
     Tabsleft.Align:= alTop;
 
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
-  Groups.SetTabOption(tabOptionShowXButtons, Ord(UiOps.TabShowX));
+  Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
   Groups.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
   Groups.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
   Groups.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));

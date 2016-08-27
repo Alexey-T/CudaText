@@ -94,7 +94,7 @@ type
     TabAngle: integer;
     TabBottom: boolean;
     TabColorFull: boolean;
-    TabShowX: boolean;
+    TabShowX: integer;
     TabShowPlus: boolean;
     TabDblClickClose: boolean;
     TabNumbers: boolean;
@@ -823,7 +823,7 @@ begin
     TabAngle:= 3;
     TabBottom:= false;
     TabColorFull:= false;
-    TabShowX:= true;
+    TabShowX:= 1; //show all
     TabShowPlus:= true;
     TabDblClickClose:= false;
     TabNumbers:= false;
