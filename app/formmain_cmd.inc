@@ -199,10 +199,10 @@ begin
       end;
 
     cmd_Encoding_ansi_NoReload: SetFrameEncoding(CurrentFrame, cEncNameAnsi, false);
-    cmd_Encoding_utf8bom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8, false);
-    cmd_Encoding_utf8nobom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8NoBom, false);
-    cmd_Encoding_utf16le_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE, false);
-    cmd_Encoding_utf16be_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE, false);
+    cmd_Encoding_utf8bom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, false);
+    cmd_Encoding_utf8nobom_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, false);
+    cmd_Encoding_utf16le_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE_WithBom, false);
+    cmd_Encoding_utf16be_NoReload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE_WithBom, false);
     cmd_Encoding_cp1250_NoReload: SetFrameEncoding(CurrentFrame, cEncNameCP1250, false);
     cmd_Encoding_cp1251_NoReload: SetFrameEncoding(CurrentFrame, cEncNameCP1251, false);
     cmd_Encoding_cp1252_NoReload: SetFrameEncoding(CurrentFrame, cEncNameCP1252, false);
@@ -226,10 +226,10 @@ begin
     cmd_Encoding_cp950_NoReload: SetFrameEncoding(CurrentFrame, cEncNameCP950, false);
 
     cmd_Encoding_ansi_Reload: SetFrameEncoding(CurrentFrame, cEncNameAnsi, true);
-    cmd_Encoding_utf8bom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8, true);
-    cmd_Encoding_utf8nobom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8NoBom, true);
-    cmd_Encoding_utf16le_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE, true);
-    cmd_Encoding_utf16be_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE, true);
+    cmd_Encoding_utf8bom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_WithBom, true);
+    cmd_Encoding_utf8nobom_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf8_NoBom, true);
+    cmd_Encoding_utf16le_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16LE_WithBom, true);
+    cmd_Encoding_utf16be_Reload: SetFrameEncoding(CurrentFrame, cEncNameUtf16BE_WithBom, true);
     cmd_Encoding_cp1250_Reload: SetFrameEncoding(CurrentFrame, cEncNameCP1250, true);
     cmd_Encoding_cp1251_Reload: SetFrameEncoding(CurrentFrame, cEncNameCP1251, true);
     cmd_Encoding_cp1252_Reload: SetFrameEncoding(CurrentFrame, cEncNameCP1252, true);

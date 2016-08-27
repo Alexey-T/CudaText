@@ -408,14 +408,24 @@ begin
     cEncUTF8:
       begin
         if Editor.Strings.SaveSignUtf8 then
-          Result:= cEncNameUtf8
+          Result:= cEncNameUtf8_WithBom
         else
-          Result:= cEncNameUtf8NoBom;
+          Result:= cEncNameUtf8_NoBom;
       end;
     cEncWideLE:
-      Result:= cEncNameUtf16LE;
+      begin
+        if Editor.Strings.SaveSignWide then
+          Result:= cEncNameUtf16LE_WithBom
+        else
+          Result:= cEncNameUtf16LE_NoBom;
+      end;
     cEncWideBE:
-      Result:= cEncNameUtf16BE;
+      begin
+        if Editor.Strings.SaveSignWide then
+          Result:= cEncNameUtf16BE_WithBom
+        else
+          Result:= cEncNameUtf16BE_NoBom;
+      end;
     else
       Result:= '?';
   end;
@@ -469,12 +479,17 @@ end;
 procedure TEditorFrame.SetEncodingName(const Str: string);
 begin
   if Str=GetEncodingName then exit;
-  if Str=cEncNameUtf8 then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= true; end else
-   if Str=cEncNameUtf8NoBom then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= false; end else
-    if Str=cEncNameUtf16LE then begin Editor.Strings.Encoding:= cEncWideLE end else
-     if Str=cEncNameUtf16BE then begin Editor.Strings.Encoding:= cEncWideBE end else
-      if Str=cEncNameAnsi then begin Editor.Strings.Encoding:= cEncAnsi; Editor.Strings.EncodingCodepage:= ''; end else
-       begin Editor.Strings.Encoding:= cEncAnsi; Editor.Strings.EncodingCodepage:= Str; end;
+  if Str=cEncNameUtf8_WithBom then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= true; end else
+   if Str=cEncNameUtf8_NoBom then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= false; end else
+    if Str=cEncNameUtf16LE_WithBom then begin Editor.Strings.Encoding:= cEncWideLE; Editor.Strings.SaveSignWide:= true; end else
+     if Str=cEncNameUtf16LE_NoBom then begin Editor.Strings.Encoding:= cEncWideLE; Editor.Strings.SaveSignWide:= false; end else
+      if Str=cEncNameUtf16BE_WithBom then begin Editor.Strings.Encoding:= cEncWideBE; Editor.Strings.SaveSignWide:= true; end else
+       if Str=cEncNameUtf16BE_NoBom then begin Editor.Strings.Encoding:= cEncWideBE; Editor.Strings.SaveSignWide:= false; end else
+        if Str=cEncNameAnsi then begin Editor.Strings.Encoding:= cEncAnsi; Editor.Strings.EncodingCodepage:= ''; end else
+         begin
+           Editor.Strings.Encoding:= cEncAnsi;
+           Editor.Strings.EncodingCodepage:= Str;
+         end;
 end;
 
 procedure TEditorFrame.SetFileName(const AValue: string);

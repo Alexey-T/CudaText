@@ -340,10 +340,12 @@ type
   TStrFunction = function(const AStr: string): boolean of object;
 
 const
-  cEncNameUtf8 = 'UTF-8';
-  cEncNameUtf8NoBom = 'UTF-8 no bom';
-  cEncNameUtf16LE = 'UTF-16 LE';
-  cEncNameUtf16BE = 'UTF-16 BE';
+  cEncNameUtf8_WithBom = 'UTF-8 with BOM';
+  cEncNameUtf8_NoBom = 'UTF-8';
+  cEncNameUtf16LE_WithBom = 'UTF-16 LE with BOM';
+  cEncNameUtf16LE_NoBom = 'UTF-16 LE';
+  cEncNameUtf16BE_WithBom = 'UTF-16 BE with BOM';
+  cEncNameUtf16BE_NoBom = 'UTF-16 BE';
   cEncNameAnsi = 'ANSI';
 
   cEncNameCP1250 = 'CP1250';
@@ -854,7 +856,7 @@ begin
     PyChangeSlow:= 2000;
 
     NewdocLexer:= '';
-    NewdocEnc:= cEncNameUtf8NoBom;
+    NewdocEnc:= cEncNameUtf8_NoBom;
     NewdocEnds:= {$ifdef windows} Ord(cEndWin) {$else} Ord(cEndUnix) {$endif};
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
@@ -864,7 +866,7 @@ begin
     StatusStreamSel:= 'Ln {y}, Col {x}, {sel} lines sel';
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
-    StatusPanels:= 'caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000';
+    StatusPanels:= 'caret,C,170|enc,C,115|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000';
     StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;

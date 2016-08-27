@@ -929,12 +929,14 @@ end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
 var
-  cList: array[0..28] of record Sub, Name: string end = (
+  cList: array[0..30] of record Sub, Name: string end = (
+    (Sub: ''; Name: cEncNameUtf8_NoBom),
+    (Sub: ''; Name: cEncNameUtf8_WithBom),
+    (Sub: ''; Name: cEncNameUtf16LE_NoBom),
+    (Sub: ''; Name: cEncNameUtf16LE_WithBom),
+    (Sub: ''; Name: cEncNameUtf16BE_NoBom),
+    (Sub: ''; Name: cEncNameUtf16BE_WithBom),
     (Sub: ''; Name: cEncNameAnsi),
-    (Sub: ''; Name: cEncNameUtf8),
-    (Sub: ''; Name: cEncNameUtf8NoBom),
-    (Sub: ''; Name: cEncNameUtf16LE),
-    (Sub: ''; Name: cEncNameUtf16BE),
     (Sub: ''; Name: '-'),
     (Sub: 'eu'; Name: cEncNameCP1250),
     (Sub: 'eu'; Name: cEncNameCP1251),
