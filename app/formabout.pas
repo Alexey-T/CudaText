@@ -14,9 +14,14 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ButtonPanel, IniFiles,
-  LclProc, LclType, LclIntf,
+  LclProc, LclType, LclIntf, Menus,
   LazUTF8, LazFileUtils,
-  proc_msg, proc_globdata, ATLinkLabel;
+  proc_msg,
+  proc_globdata,
+  proc_editor,
+  ATLinkLabel,
+  ATSynEdit,
+  ATSynEdit_Commands;
 
 type
   { TfmAbout }
@@ -26,11 +31,19 @@ type
     Label1: TLabel;
     labelInf: TLabel;
     labelVer: TLabel;
-    memo: TMemo;
+    memo: TATSynEdit;
+    MenuItem37: TMenuItem;
+    mnuTextCopy: TMenuItem;
+    mnuTextOpenUrl: TMenuItem;
+    mnuTextSel: TMenuItem;
+    PopupText: TPopupMenu;
     procedure bCreditsClick(Sender: TObject);
     procedure bOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure mnuTextCopyClick(Sender: TObject);
+    procedure mnuTextOpenUrlClick(Sender: TObject);
+    procedure mnuTextSelClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -62,6 +75,10 @@ begin
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
     with F.ButtonPanel1.HelpButton do Caption:= ini.ReadString(section, 'cre', Caption);
+
+    with F.mnuTextCopy do Caption:= ini.ReadString('m_e', 'cp', Caption);
+    with F.mnuTextSel do Caption:= ini.ReadString('m_se', 'al', Caption);
+    with F.mnuTextOpenUrl do Caption:= ini.ReadString('ct', 'url', Caption);
   finally
     FreeAndNil(ini);
   end;
@@ -114,18 +131,37 @@ end;
 
 procedure TfmAbout.FormShow(Sender: TObject);
 begin
-  memo.visible:= false;
-  memo.top:= 6;
+  memo.Hide;
+  memo.Align:= alClient;
+  memo.Strings.Clear;
+  memo.Strings.LoadFromString(msgAboutCredits);
+  memo.DoCaretSingle(0, 0);
+  memo.ModeReadOnly:= true;
+end;
+
+procedure TfmAbout.mnuTextCopyClick(Sender: TObject);
+begin
+  memo.DoCommand(cCommand_ClipboardCopy);
+end;
+
+procedure TfmAbout.mnuTextOpenUrlClick(Sender: TObject);
+var
+  Str: string;
+begin
+  Str:= EditorGetLinkAtScreenCoord(memo, PopupText.PopupPoint);
+  if Str<>'' then
+    OpenURL(Str);
+end;
+
+procedure TfmAbout.mnuTextSelClick(Sender: TObject);
+begin
+  memo.DoCommand(cCommand_SelectAll);
 end;
 
 procedure TfmAbout.bCreditsClick(Sender: TObject);
 begin
-  memo.Align:= alClient;
-  memo.Lines.Clear;
-  memo.Lines.Add(msgAboutCredits);
-  memo.CaretPos:= Point(0, 0);
-  memo.visible:= true;
-  ButtonPanel1.HelpButton.enabled:= false;
+  memo.Show;
+  ButtonPanel1.HelpButton.Enabled:= false;
 end;
 
 end.
