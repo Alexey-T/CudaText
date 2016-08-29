@@ -1006,10 +1006,12 @@ begin
   end;
 
   Application.BringToFront;
-  Self.BringToFront;
-  //hack to force bring to front
+  BringToFront;
+  {$ifdef windows}
+  //hack
   FormStyle:= fsSystemStayOnTop;
   FormStyle:= fsNormal;
+  {$endif}
 
   //hack to show form
   FStyle:= FormStyle;
