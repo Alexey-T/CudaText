@@ -218,13 +218,14 @@ begin
   begin
     bFindFirst.Visible:= UiOps.FindShowFindfirst;
 
+    //change Find field only if options SuggestSel/SuggestWord on,
+    //else dont touch Find field
     if UiOps.FindSuggestSel and (StrSel<>'') then
       edFind.Text:= StrSel
     else
     if UiOps.FindSuggestWord and (StrWord<>'') then
-      edFind.Text:= StrWord
-    else
-      edFind.Text:= FFinder.StrFind;
+      edFind.Text:= StrWord;
+
     edFind.DoCommand(cCommand_SelectAll);
 
     edRep.Text:= FFinder.StrReplace;
