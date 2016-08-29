@@ -1004,7 +1004,12 @@ begin
     WindowState:= wsNormal;
     Application.ProcessMessages;
   end;
+
   Application.BringToFront;
+  Self.BringToFront;
+  //hack to force bring to front
+  FormStyle:= fsSystemStayOnTop;
+  FormStyle:= fsNormal;
 
   //hack to show form
   FStyle:= FormStyle;
