@@ -22,6 +22,7 @@ type
   { TfmSaveTabs }
 
   TfmSaveTabs = class(TForm)
+    btnDontSaveKeep: TButton;
     btnSave: TButton;
     btnDontSave: TButton;
     btnCancel: TButton;
@@ -51,15 +52,14 @@ var
   ini: TIniFile;
   fn: string;
 begin
-  F.btnDontSave.Caption:= 'Don''&t save' + IfThen(UiOps.ShowLastFiles, ' / Keep in session');
-
   fn:= GetAppLangFilename;
   if not FileExists(fn) then exit;
   ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.btnSave do Caption:= ini.ReadString(section, 'sav', Caption);
-    with F.btnDontSave do Caption:= ini.ReadString(section, IfThen(UiOps.ShowLastFiles, 'no_ses', 'no'), Caption);
+    with F.btnDontSave do Caption:= ini.ReadString(section, 'no', Caption);
+    with F.btnDontSaveKeep do Caption:= ini.ReadString(section, 'no_ses', Caption);
     with F.btnCancel do Caption:= msgButtonCancel;
   finally
     FreeAndNil(ini);
@@ -74,6 +74,9 @@ begin
   with List do
     if Items.Count>0 then
       ItemIndex:= 0;
+
+  btnDontSave.Visible:= not UiOps.ShowLastFiles;
+  btnDontSaveKeep.Visible:= UiOps.ShowLastFiles;
 end;
 
 end.
