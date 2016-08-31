@@ -227,8 +227,6 @@ begin
       edFind.Text:= StrWord;
 
     edFind.DoCommand(cCommand_SelectAll);
-
-    edRep.Text:= FFinder.StrReplace;
     edRep.DoCommand(cCommand_SelectAll);
 
     chkCase.Checked:= FFinder.OptCase;
