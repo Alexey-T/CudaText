@@ -1,7 +1,7 @@
 object fmSaveTabs: TfmSaveTabs
-  Left = 381
+  Left = 401
   Height = 350
-  Top = 141
+  Top = 232
   Width = 671
   ActiveControl = btnSave
   BorderIcons = [biSystemMenu, biMaximize]
@@ -64,7 +64,7 @@ object fmSaveTabs: TfmSaveTabs
       BorderSpacing.Right = 6
       Caption = 'Don''&t save'
       Constraints.MinWidth = 90
-      ModalResult = 11
+      ModalResult = 9
       TabOrder = 2
     end
     object btnCancel: TButton

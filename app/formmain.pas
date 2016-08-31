@@ -1599,6 +1599,11 @@ begin
         Result:= true;
       mrCancel:
         Result:= false;
+      mrNoToAll:
+        begin
+          Result:= true; //like for mrClose
+          UiOps.ShowLastFiles:= false; //dont save tabs to session
+        end;
       mrOk:
         begin
           Result:= true;
