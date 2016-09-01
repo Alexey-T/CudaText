@@ -4,6 +4,9 @@
   * changed
 
 
+1.4.4.2
++ AddonManager: menu item "Remove data files"
+
 1.4.4
 * breaking change (as file history saves encoding by name): renamed encodings "utf-8", "utf-8 no bom", "utf-16 le", "utf-16 be" to Sublime names "utf-8 with bom", "utf-8", "utf-16 le with bom", "utf-16 be with bom"
 + added enc: utf-16 le/be (without bom)

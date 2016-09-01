@@ -7,6 +7,14 @@ from cudatext import *
 
 README_NAMES = ('readme.txt', 'readme.html', 'readme.htm', 'readme.md', 'readme.rst')
 
+DATA_DIRS = (
+    ('autocomplete', '.acp'),
+    ('lang', '.ini'),
+    ('newdoc', ''),
+    ('snippets', ''),
+    ('themes', '.json'),
+    )
+
 
 def get_module_name_from_zip_filename(zip_fn):
     temp_dir = tempfile.gettempdir()
@@ -114,26 +122,17 @@ def get_installed_data_list():
     gets list of filenames+dirnames inside "data", only 1 level deep
     """
     res = []
-    DIRS = [
-        ('themes', '.json'),
-        ('snippets', ''),
-        ('newdoc', ''),
-        ('lang', '.ini'),
-        ('autocomplete', '.acp'),
-        ]
     dir_data = os.path.join(app_path(APP_DIR_DATA))
-    for dir_item in DIRS:
+    for dir_item in DATA_DIRS:
         dir1 = os.path.join(dir_data, dir_item[0])
         names = os.listdir(dir1)
-        #filter out incorrect extents
+        #filter out incorrect ext
         if dir_item[1]:
             names = [name for name in names if name.endswith(dir_item[1])]
         names = [os.path.join(dir1, name) for name in names]
         res += names
-    #print('res')
-    #for r in res:
-        #print('   ', r)
     return sorted(res)
+
 
 def get_installed_data_choice():
     """
