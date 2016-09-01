@@ -146,6 +146,22 @@ class Command:
             return
         if do_remove_module(m)==True:
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+            
+    def do_remove_data(self):
+        path = get_installed_data_choice()
+        if path is None:
+            return
+            
+        if os.path.isfile(path):
+            msg = 'Remove data file:'
+        else:
+            msg = 'Remove data folder:'
+        if msg_box(msg+'\n'+path, MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+            return
+            
+        if do_remove_data(path):
+            msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+            
 
     def do_edit(self):
         m = get_installed_choice()
