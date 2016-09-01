@@ -137,6 +137,7 @@ begin
   memo.Strings.LoadFromString(msgAboutCredits);
   memo.DoCaretSingle(0, 0);
   memo.ModeReadOnly:= true;
+  memo.Font.Name:= EditorOps.OpFontName;
 end;
 
 procedure TfmAbout.mnuTextCopyClick(Sender: TObject);
