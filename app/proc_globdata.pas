@@ -48,6 +48,7 @@ type
     cDirDataAcpSpec,
     cDirDataLangs,
     cDirReadme,
+    cDirLastInstalledAddon,
     cDirPy,
     cFileOptHistory,
     cFileOptDefault,
@@ -563,6 +564,10 @@ begin
     cDirReadme:
       begin
         Result:= OpDirLocal+DirectorySeparator+'readme';
+      end;
+    cDirLastInstalledAddon:
+      begin
+        Result:= AppFolderOfLastInstalledAddon;
       end;
     cDirPy:
       begin

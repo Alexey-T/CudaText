@@ -136,6 +136,8 @@ begin
           Result:= PyString_FromString(PChar(GetAppPath(cDirPy)));
         APP_FILE_SESSION:
           Result:= PyString_FromString(PChar(fmMain.GetSessionFilename));
+        APP_DIR_INSTALLED_ADDON:
+          Result:= PyString_FromString(PChar(GetAppPath(cDirLastInstalledAddon)));
         else
           Result:= ReturnNone;
       end;
