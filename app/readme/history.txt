@@ -5,9 +5,9 @@
 
 
 1.4.5
-* rework themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. More flexible system. Less work on themes.
-+ AddonManager: menu item "Remove data files"
+* reworked themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. any UI theme can be used with any Syntax theme. More flexible system. Less work on Syntax themes.
 + dlg Save Tabs: button to dont keep in session
++ AddonManager: menu item "Remove data files"
 
 1.4.4
 * breaking change (as file history saves encoding by name): renamed encodings "utf-8", "utf-8 no bom", "utf-16 le", "utf-16 be" to Sublime names "utf-8 with bom", "utf-8", "utf-16 le with bom", "utf-16 be with bom"
