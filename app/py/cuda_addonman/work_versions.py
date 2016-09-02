@@ -4,20 +4,23 @@ from functools import partial
 from cudatext import *
 
 def version_filename():
-    return os.path.join(app_path(APP_DIR_SETTINGS), 'versions.json')
+    return os.path.join(app_path(APP_DIR_SETTINGS), 'versions.ini')
     
 
 def version_section(url):
     """
-    "path/plugin.nnnnnnnnn.zip" -> "plugin"
+    get prefix: "nnnnnnnn/plugin.nnnnnnnnn.zip" -> "plugin"
     """
     s = os.path.basename(url)
-    n = s.find('.')
-    s = s[:n]
+    s = s[:s.find('.')]
     return s
 
 
-def filename_hash(filename):
+def get_file_hash(filename):
+    """
+    get md5 of file
+    http://stackoverflow.com/a/7829658
+    """
     with open(filename, mode='rb') as f:
         d = hashlib.md5()
         for buf in iter(partial(f.read, 128), b''):
@@ -26,9 +29,25 @@ def filename_hash(filename):
 
 
 def version_save(url, filename):
+    """
+    save hash to versions.ini
+    """
     ini_write(
       version_filename(),
       version_section(url),
       url,
-      filename_hash(filename)
+      get_file_hash(filename)
       )
+
+
+def version_saved_is_same(url, filename):
+    """
+    read hash in versions.ini, if saved value for this file, gets True
+    """
+    data = ini_read(
+      version_filename(),
+      version_section(url),
+      url,
+      ''
+      )
+    return data == get_file_hash(filename)
