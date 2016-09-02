@@ -8,6 +8,7 @@ from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
+from .work_versions import *
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
@@ -112,6 +113,8 @@ class Command:
             msg_status('Cannot download file')
             return
         msg_status('Opened downloaded file')
+
+        version_save(url, fn)
         file_open(fn)
         
         #suggest readme
