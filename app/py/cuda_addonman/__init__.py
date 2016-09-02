@@ -115,10 +115,9 @@ class Command:
         msg_status('Opened downloaded file')
         file_open(fn)
         
-        #save to versions.ini
-        dir_target = app_path(APP_DIR_INSTALLED_ADDON)
-        if dir_target:
-            version_save(url, fn, dir_target)
+        #dir_target = app_path(APP_DIR_INSTALLED_ADDON)
+        #if dir_target:
+            #version_save(url, fn, dir_target)
         
         #suggest readme
         if opt.readme:
