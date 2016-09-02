@@ -599,14 +599,20 @@ object fmMain: TfmMain
         object mnuOpLexer: TMenuItem
           Caption = 'Settings - le&xer'
         end
+        object mnuOpKeys: TMenuItem
+          Caption = 'Settings - &keys'
+        end
         object mnuOpFileTypes: TMenuItem
           Caption = 'Settings - &file types'
         end
-        object mnuOpColors: TMenuItem
-          Caption = 'Settings - &colors'
+        object MenuItem3: TMenuItem
+          Caption = '-'
         end
-        object mnuOpKeys: TMenuItem
-          Caption = 'Settings - &keys'
+        object mnuOpThemeUi: TMenuItem
+          Caption = 'Settings - theme - ui'
+        end
+        object mnuOpThemeSyntax: TMenuItem
+          Caption = 'Settings - theme - syntax'
         end
       end
       object SepOp1: TMenuItem
@@ -641,9 +647,17 @@ object fmMain: TfmMain
       object mnuThemes: TMenuItem
         Caption = '&Color themes'
         Hint = '_themes'
-        object mnuTst1: TMenuItem
-          Caption = '--'
-          Visible = False
+        object mnuThemesUI: TMenuItem
+          Caption = 'UI theme'
+          object MenuItem1: TMenuItem
+            Caption = '--'
+          end
+        end
+        object mnuThemesSyntax: TMenuItem
+          Caption = 'Syntax theme'
+          object MenuItem2: TMenuItem
+            Caption = '--'
+          end
         end
       end
       object mnuLang: TMenuItem

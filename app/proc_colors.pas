@@ -35,8 +35,8 @@ var
   AppTheme: TAppTheme;
 
 procedure DoInitTheme(var D: TAppTheme);
-procedure DoLoadTheme(const fn: string; var D: TAppTheme);
-procedure DoSaveTheme(const fn: string; const D: TAppTheme);
+procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
+procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 function GetAppColor(const name: string): TColor;
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
 
@@ -47,7 +47,7 @@ uses
   ATButtons,
   jsonConf;
 
-procedure DoLoadTheme(const fn: string; var D: TAppTheme);
+procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
 var
   c: TJsonConfig;
   //
@@ -77,15 +77,18 @@ begin
       Exit
     end;
 
-    //load colors
-    for i:= Low(D.Colors) to High(D.Colors) do
-      DoVal(D.Colors[i].color, D.Colors[i].name);
-
-    //load styles
-    for i:= 0 to d.Styles.Count-1 do
+    if IsThemeUI then
     begin
-      st:= TecSyntaxFormat(d.Styles[i]);
-      DoLoadLexerStyleFromFile(st, c, 'Lex_'+st.DisplayName);
+      for i:= Low(D.Colors) to High(D.Colors) do
+        DoVal(D.Colors[i].color, D.Colors[i].name);
+    end
+    else
+    begin
+      for i:= 0 to d.Styles.Count-1 do
+      begin
+        st:= TecSyntaxFormat(d.Styles[i]);
+        DoLoadLexerStyleFromFile(st, c, 'Lex_'+st.DisplayName);
+      end;
     end;
   finally
     c.Free;
@@ -321,7 +324,7 @@ begin
   AddStyle('TextCross', clBlack, clNone, clNone, [fsStrikeOut], blNone, blNone, blNone, blNone, ftFontAttr);
 end;
 
-procedure DoSaveTheme(const fn: string; const D: TAppTheme);
+procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 var
   c: TJSONConfig;
   i: integer;
@@ -339,15 +342,18 @@ begin
       exit;
     end;
 
-    //save colors
-    for i:= low(d.Colors) to high(d.Colors) do
-      c.SetValue(d.Colors[i].name, SColorToHtmlColor(d.Colors[i].color));
-
-    //save styles
-    for i:= 0 to d.Styles.Count-1 do
+    if IsThemeUI then
     begin
-      st:= TecSyntaxFormat(d.Styles[i]);
-      DoSaveLexerStyleToFile(st, c, 'Lex_'+st.DisplayName);
+      for i:= low(d.Colors) to high(d.Colors) do
+        c.SetValue(d.Colors[i].name, SColorToHtmlColor(d.Colors[i].color));
+    end
+    else
+    begin
+      for i:= 0 to d.Styles.Count-1 do
+      begin
+        st:= TecSyntaxFormat(d.Styles[i]);
+        DoSaveLexerStyleToFile(st, c, 'Lex_'+st.DisplayName);
+      end;
     end;
   finally
     c.Free;

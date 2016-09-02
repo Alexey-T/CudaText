@@ -176,7 +176,11 @@ begin
   Updatelist;
   List.ItemIndex:= 0;
   ListStyles.ItemIndex:= 0;
-  List.SetFocus;
+  if List.Enabled then
+    List.SetFocus
+  else
+  if ListStyles.Enabled then
+    ListStyles.SetFocus;
 end;
 
 procedure TfmColorSetup.HelpButtonClick(Sender: TObject);

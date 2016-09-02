@@ -58,7 +58,6 @@ const
   cmd_OpsReloadAndApply  = 2529;
   cmd_DialogLexerProp    = 2530;
   cmd_DialogLexerLib     = 2531;
-  cmd_DialogColors       = 2532;
   cmd_ToggleSidePanel    = 2533;
   cmd_ToggleBottomPanel  = 2534;
   cmd_ShowPanelConsole   = 2535;
@@ -78,6 +77,8 @@ const
   cmd_DialogSaveTabs = 2549;
   cmd_DialogLexerStyleMap = 2550;
   cmd_RescanPythonPluginsInfFiles = 2551;
+  cmd_DialogThemeUi       = 2552;
+  cmd_DialogThemeSyntax   = 2553;
 
   cmd_SwitchActiveTabToNext = 2578;
   cmd_SwitchActiveTabToPrev = 2579;
@@ -319,7 +320,8 @@ begin
   M.Add(cmd_DialogLexerLib, 'dialog: lexer library', [], []);
   M.Add(cmd_DialogLexerStyleMap, 'dialog: lexer styles map', [], []);
   M.Add(cmd_DialogLoadLexerStyles, 'dialog: restore lexer styles', [], []);
-  M.Add(cmd_DialogColors, 'dialog: config color theme', [], []);
+  M.Add(cmd_DialogThemeUi, 'dialog: config ui-theme', [], []);
+  M.Add(cmd_DialogThemeSyntax, 'dialog: config syntax-theme', [], []);
   M.Add(cmd_DialogCharMap, 'dialog: char map', [], []);
 
   M.Add(cmd_DialogFind, 'dialog: find', [cXControl+'+F'], []);
@@ -528,7 +530,8 @@ begin
     cmd_DialogLexerProp       ,
     cmd_DialogLexerLib        ,
     cmd_DialogLexerStyleMap   ,
-    cmd_DialogColors          ,
+    cmd_DialogThemeUi         ,
+    cmd_DialogThemeSyntax     ,
     cmd_ToggleSidePanel       ,
     cmd_ToggleBottomPanel     ,
     //cmd_ShowPanelConsole      ,
@@ -605,7 +608,8 @@ begin
     cmd_MacroStop,
     cmd_MacroCancel,
     cmd_DialogCommands,
-    cmd_DialogColors,
+    cmd_DialogThemeUi,
+    cmd_DialogThemeSyntax,
     cmd_DialogCharMap,
     cmd_DialogFind,
     cmd_DialogReplace,

@@ -63,7 +63,8 @@ begin
     c.SetValue('/finder/wrap', FFinder.OptWrapped);
 
     ////state
-    c.SetValue('theme', FThemeName);
+    c.SetValue('theme_ui', FThemeUi);
+    c.SetValue('theme_syntax', FThemeSyntax);
     c.SetValue('lang', AppLangName);
     c.SetValue('session', FSessionName);
 
@@ -321,16 +322,23 @@ begin
       DoShowConsole(false);
 
     ////AppTheme
-    FThemeName:= c.GetValue('theme', '');
+    FThemeUi:= c.GetValue('theme_ui', '');
+    FThemeSyntax:= c.GetValue('theme_syntax', '');
     AppLangName:= c.GetValue('lang', '');
     FSessionName:= c.GetValue('session', FSessionName);
 
     if AppLangName<>'' then
       DoLocalize;
 
-    if FThemeName<>'' then
+    if FThemeUi<>'' then
     begin
-      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeName+'.json', AppTheme);
+      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+'.cuda-theme-ui', AppTheme, true);
+      DoApplyTheme;
+    end;
+
+    if FThemeSyntax<>'' then
+    begin
+      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+'.cuda-theme-syntax', AppTheme, false);
       DoApplyTheme;
     end;
 

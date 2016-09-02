@@ -103,6 +103,11 @@ type
     ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    mnuOpThemeSyntax: TMenuItem;
+    mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
     Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
@@ -128,7 +133,7 @@ type
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
     MenuItem25: TMenuItem;
-    mnuTst1: TMenuItem;
+    mnuThemesUI: TMenuItem;
     SepEd6: TMenuItem;
     mnuFileEndUn: TMenuItem;
     mnuFileEndMac: TMenuItem;
@@ -163,7 +168,7 @@ type
     mnuViewSide: TMenuItem;
     mnuOpKeys: TMenuItem;
     mnuHelpWiki: TMenuItem;
-    mnuOpColors: TMenuItem;
+    mnuOpThemeUi: TMenuItem;
     mnuEditTrimL: TMenuItem;
     mnuEditTrimR: TMenuItem;
     mnuEditTrim: TMenuItem;
@@ -390,7 +395,7 @@ type
       const ARect: TRect);
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure MenuThemesClick(Sender: TObject);
+    procedure MenuThemesSyntaxClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
     procedure mnuTabsize2Click(Sender: TObject);
@@ -480,12 +485,14 @@ type
     { private declarations }
     FListRecents: TStringList;
     FListNewdoc: TStringList;
-    FListThemes: TStringList;
+    FListThemesUI: TStringList;
+    FListThemesSyntax: TStringList;
     FListLangs: TStringList;
     FKeymapUndoList: TATKeymapUndoList;
     FKeymapActiveLexerName: string;
     FConsoleMustShow: boolean;
-    FThemeName: string;
+    FThemeUi: string;
+    FThemeSyntax: string;
     FSessionName: string;
     FColorDialog: TColorDialog;
     Status: TATStatus;
@@ -564,7 +571,7 @@ type
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
     procedure DoOps_ShowEventPlugins;
-    function DoDialogConfColors(var AData: TAppTheme): boolean;
+    function DoDialogConfColors(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string; out DirTarget: string);
@@ -593,6 +600,7 @@ type
     function IsAllowedToOpenFileNow: boolean;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
+    procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
@@ -638,7 +646,8 @@ type
     procedure DoDialogLexerLib;
     procedure DoDialogLexerMap;
     procedure DoDialogLoadLexerStyles;
-    procedure DoDialogColors;
+    procedure DoDialogThemeUI;
+    procedure DoDialogThemeSyntax;
     procedure DoShowConsole(AFocusEdit: boolean);
     procedure DoShowOutput;
     procedure DoShowValidate;
@@ -728,7 +737,8 @@ type
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure UpdateMenuLangs(sub: TMenuItem);
-    procedure UpdateMenuThemes(sub: TMenuItem);
+    procedure UpdateMenuThemes(sub: TMenuItem; AListThemes: TStringList;
+      AThemeUI: boolean);
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
@@ -1081,7 +1091,8 @@ begin
   FPanelCaptions:= TStringList.Create;
   FListRecents:= TStringList.Create;
   FListNewdoc:= TStringList.Create;
-  FListThemes:= TStringlist.Create;
+  FListThemesUI:= TStringList.Create;
+  FListThemesSyntax:= TStringList.Create;
   FListLangs:= TStringList.Create;
   FKeymapUndoList:= TATKeymapUndoList.Create;
 
@@ -1279,7 +1290,8 @@ procedure TfmMain.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FListRecents);
   FreeAndNil(FListNewdoc);
-  FreeAndNil(FListThemes);
+  FreeAndNil(FListThemesUI);
+  FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
   FreeAndNil(FPanelCaptions);
   FreeAndNil(FKeymapUndoList);
@@ -1373,7 +1385,8 @@ begin
   DoOps_LoadKeymap;
 
   UpdateMenuPlugins;
-  UpdateMenuThemes(mnuThemes);
+  UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
+  UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
   UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
 
@@ -1458,7 +1471,8 @@ begin
     if AddonType=cAddonTypeData then
     begin
       UpdateMenuLangs(mnuLang);
-      UpdateMenuThemes(mnuThemes);
+      UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
+      UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
     end;
 
     if AddonType=cAddonTypePlugin then
@@ -2113,25 +2127,44 @@ begin
 end;
 
 
-procedure TfmMain.DoDialogColors;
-const
-  cDef = 'test';
+procedure TfmMain.DoDialogThemeUI;
 var
   str: string;
 begin
-  if DoDialogConfColors(AppTheme) then
+  if DoDialogConfColors(AppTheme, true) then
   begin
     DoApplyTheme;
     if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
     begin
-      str:= Trim(InputBox(msgTitle, msgThemeName, cDef));
+      str:= Trim(InputBox(msgTitle, msgThemeName, 'test'));
       if str='' then exit;
-      str:= GetAppPath(cDirDataThemes)+DirectorySeparator+str+'.json';
-      DoSaveTheme(str, AppTheme);
-      UpdateMenuThemes(mnuThemes);
+      str:= GetAppPath(cDirDataThemes)+DirectorySeparator+str+'.cuda-theme-ui';
+
+      DoSaveTheme(str, AppTheme, true);
+      UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
     end;
   end;
 end;
+
+procedure TfmMain.DoDialogThemeSyntax;
+var
+  str: string;
+begin
+  if DoDialogConfColors(AppTheme, false) then
+  begin
+    DoApplyTheme;
+    if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
+    begin
+      str:= Trim(InputBox(msgTitle, msgThemeName, 'test'));
+      if str='' then exit;
+      str:= GetAppPath(cDirDataThemes)+DirectorySeparator+str+'.cuda-theme-syntax';
+
+      DoSaveTheme(str, AppTheme, false);
+      UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
+    end;
+  end;
+end;
+
 
 function TfmMain.IsFocusedBottom: boolean;
 begin
@@ -3034,13 +3067,20 @@ begin
   end;
 end;
 
-function TfmMain.DoDialogConfColors(var AData: TAppTheme): boolean;
+function TfmMain.DoDialogConfColors(var AData: TAppTheme; AThemeUI: boolean
+  ): boolean;
 var
   Form: TfmColorSetup;
   i: integer;
 begin
   Form:= TfmColorSetup.Create(nil);
   try
+    Form.List.Enabled:= AThemeUI;
+    Form.ListStyles.Enabled:= not AThemeUI;
+    Form.bChange.Enabled:= AThemeUI;
+    Form.bNone.Enabled:= AThemeUI;
+    Form.bStyle.Enabled:= not AThemeUI;
+
     DoLocalize_FormColorSetup(Form);
     Form.OnApply:= @FormColorsApply;
     Form.Data:= AData;
@@ -3149,17 +3189,30 @@ begin
   end;
 end;
 
-procedure TfmMain.MenuThemesClick(Sender: TObject);
+procedure TfmMain.MenuThemesUiClick(Sender: TObject);
 var
   fn: string;
 begin
-  fn:= FListThemes[(Sender as TComponent).Tag];
-  FThemeName:= ExtractFileNameOnly(fn);
+  fn:= FListThemesUI[(Sender as TComponent).Tag];
+  FThemeUi:= ExtractFileNameOnly(fn);
 
   DoClearLexersAskedList;
-  DoLoadTheme(fn, AppTheme);
+  DoLoadTheme(fn, AppTheme, true);
   DoApplyTheme;
 end;
+
+procedure TfmMain.MenuThemesSyntaxClick(Sender: TObject);
+var
+  fn: string;
+begin
+  fn:= FListThemesSyntax[(Sender as TComponent).Tag];
+  FThemeSyntax:= ExtractFileNameOnly(fn);
+
+  DoClearLexersAskedList;
+  DoLoadTheme(fn, AppTheme, false);
+  DoApplyTheme;
+end;
+
 
 procedure TfmMain.MenuLangClick(Sender: TObject);
 var
@@ -3219,7 +3272,8 @@ end;
 
 procedure TfmMain.MenuThemeDefClick(Sender: TObject);
 begin
-  FThemeName:= '';
+  FThemeUi:= '';
+  FThemeSyntax:= '';
   DoClearLexersAskedList;
   DoInitTheme(AppTheme);
   DoApplyTheme;
@@ -3749,6 +3803,8 @@ begin
       mnuFileOpenSub:= nil;
       mnuFileEnc:= nil;
       mnuThemes:= nil;
+      mnuThemesUI:= nil;
+      mnuThemesSyntax:= nil;
       mnuLang:= nil;
       mnuPlug:= nil;
       mnuLexers:= nil;
@@ -3756,6 +3812,8 @@ begin
     if AStr=PyMenuId_TopOptions then
     begin
       mnuThemes:= nil;
+      mnuThemesUI:= nil;
+      mnuThemesSyntax:= nil;
       mnuLang:= nil;
     end;
     if AStr=PyMenuId_TopFile then
@@ -3809,10 +3867,16 @@ begin
       UpdateMenuRecent(nil);
     end
     else
-    if (StrCmd=PyMenuCmd_Themes) or (StrCmd='_'+PyMenuCmd_Themes) then
+    if (StrCmd=PyMenuCmd_ThemesUI) or (StrCmd='_'+PyMenuCmd_ThemesUI) then
     begin
-      mnuThemes:= mi;
-      UpdateMenuThemes(mi);
+      mnuThemesUI:= mi;
+      UpdateMenuThemes(mi, FListThemesUI, true);
+    end
+    else
+    if (StrCmd=PyMenuCmd_ThemesSyntax) or (StrCmd='_'+PyMenuCmd_ThemesSyntax) then
+    begin
+      mnuThemesSyntax:= mi;
+      UpdateMenuThemes(mi, FListThemesSyntax, false);
     end
     else
     if (StrCmd=PyMenuCmd_Langs) or (StrCmd='_'+PyMenuCmd_Langs) then

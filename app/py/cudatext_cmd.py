@@ -185,7 +185,7 @@ cmd_ToggleFullScreen   = 2528
 cmd_OpsReloadAndApply  = 2529
 cmd_DialogLexerProp    = 2530
 cmd_DialogLexerLib     = 2531
-cmd_DialogColors       = 2532
+cmd_DialogColors       = 2532 #deprecated
 cmd_ToggleSidePanel    = 2533
 cmd_ToggleBottomPanel  = 2534
 cmd_ShowPanelConsole   = 2535
@@ -205,6 +205,8 @@ cmd_HideSidePanel = 2548
 cmd_DialogSaveTabs = 2549
 cmd_DialogLexerStyleMap = 2550
 cmd_RescanPythonPluginsInfFiles = 2551
+cmd_DialogThemeUi       = 2552
+cmd_DialogThemeSyntax   = 2553
 
 cmd_SwitchActiveTabToNext = 2578
 cmd_SwitchActiveTabToPrev = 2579

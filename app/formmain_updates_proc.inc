@@ -554,7 +554,8 @@ begin
   UpKey(mnuOpLexProp, cmd_DialogLexerProp);
   UpKey(mnuOpLexLib, cmd_DialogLexerLib);
   UpKey(mnuOpLexMap, cmd_DialogLexerStyleMap);
-  UpKey(mnuOpColors, cmd_DialogColors);
+  UpKey(mnuOpThemeUi, cmd_DialogThemeUi);
+  UpKey(mnuOpThemeSyntax, cmd_DialogThemeSyntax);
 
   UpKey(mnuHelpCmd, cmd_DialogCommands);
   UpKey(mnuHelpForum, cmd_HelpForum);
@@ -623,34 +624,52 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuThemes(sub: TMenuItem);
+procedure TfmMain.UpdateMenuThemes(sub: TMenuItem; AListThemes: TStringList; AThemeUI: boolean);
 var
   mi: tmenuitem;
-  cap: string;
+  cap, FileMask: string;
   i: integer;
 begin
   if sub=nil then exit;
+  if sub=mnuThemes then raise Exception.Create('Incorrect mnuThemes param');
   sub.Clear;
 
-  mi:= tmenuitem.create(Self);
+  mi:= TMenuItem.create(Self);
   mi.caption:= msgThemeDefault;
   mi.OnClick:= @MenuThemeDefClick;
-  mi.Checked:= FThemeName='';
+  if AThemeUI then
+    mi.Checked:= FThemeUi=''
+  else
+    mi.Checked:= FThemeSyntax='';
+  if AThemeUI then
+    FileMask:= '*.cuda-theme-ui'
+  else
+    FileMask:= '*.cuda-theme-syntax';
   sub.Add(mi);
 
-  FFindFilesInDir(GetAppPath(cDirDataThemes), '*.json', FListThemes);
-  if FListThemes.count=0 then exit;
-  FListThemes.Sort;
+  FFindFilesInDir(GetAppPath(cDirDataThemes), FileMask, AListThemes);
+  if AListThemes.Count=0 then exit;
+  AListThemes.Sort;
 
-  for i:= 0 to FListThemes.count-1 do
+  for i:= 0 to AListThemes.count-1 do
   begin
-    cap:= LowerCase(ExtractFileNameOnly(FListThemes[i]));
+    cap:= LowerCase(ExtractFileNameOnly(AListThemes[i]));
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
     mi:= tmenuitem.create(Self);
     mi.caption:= cap;
     mi.tag:= i;
-    mi.OnClick:= @MenuThemesClick;
-    mi.Checked:= LowerCase(FThemeName)=LowerCase(mi.Caption);
+
+    if AThemeUI then
+    begin
+      mi.OnClick:= @MenuThemesUiClick;
+      mi.Checked:= LowerCase(FThemeUi)=LowerCase(mi.Caption);
+    end
+    else
+    begin
+      mi.OnClick:= @MenuThemesSyntaxClick;
+      mi.Checked:= LowerCase(FThemeSyntax)=LowerCase(mi.Caption);
+    end;
+
     sub.Add(mi);
   end;
 end;
@@ -692,7 +711,8 @@ var
   PropObject: TAppPanelPropsClass;
   i: integer;
 begin
-  UpdateMenuThemes(mnuThemes);
+  UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
+  UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
 
   ATScrollbarTheme.ColorBG:= GetAppColor('ScrollBack');
   ATScrollbarTheme.ColorThumbBorder:= GetAppColor('ScrollRect');

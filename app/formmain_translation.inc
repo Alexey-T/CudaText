@@ -260,7 +260,7 @@ begin
     DoLocMenuitem(ini, mnuOpMore, 'm_o', 'mr');
     DoLocMenuitem(ini, mnuOpLexer, 'm_o', 'lx');
     DoLocMenuitem(ini, mnuOpFileTypes, 'm_o', 'fi');
-    DoLocMenuitem(ini, mnuOpColors, 'm_o', 'co');
+    DoLocMenuitem(ini, mnuOpThemeUi, 'm_o', 'co');
     DoLocMenuitem(ini, mnuOpKeys, 'm_o', 'ke');
 
     DoLocMenuitem(ini, mnuFontSub, 'm_o', 'f_');

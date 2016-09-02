@@ -230,7 +230,8 @@ const
   PyMenuId_Text = 'text';
 
   PyMenuCmd_Recents = 'recents';
-  PyMenuCmd_Themes = 'themes';
+  PyMenuCmd_ThemesUI = 'themes-ui';
+  PyMenuCmd_ThemesSyntax = 'themes-syntax';
   PyMenuCmd_Langs = 'langs';
   PyMenuCmd_Plugins = 'plugins';
   PyMenuCmd_Lexers = 'lexers';
