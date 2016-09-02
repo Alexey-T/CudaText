@@ -7,6 +7,14 @@ from cudatext import *
 
 README_NAMES = ('readme.txt', 'readme.html', 'readme.htm', 'readme.md', 'readme.rst')
 
+DATA_DIRS = (
+    ('autocomplete', '.acp'),
+    ('lang', '.ini'),
+    ('newdoc', ''),
+    ('snippets', ''),
+    ('themes', '.json'),
+    )
+
 
 def get_module_name_from_zip_filename(zip_fn):
     temp_dir = tempfile.gettempdir()
@@ -42,6 +50,10 @@ def get_homepage_of_module(mod):
 
 
 def do_remove_module(mod):
+    """
+    move folder for py-module mod, into py/__trash
+    (make copy with _ suffix if nessesary)
+    """
     dir_mod = os.path.join(app_path(APP_DIR_PY), mod)
     dir_trash = os.path.join(app_path(APP_DIR_PY), '__trash')
     dir_dest = os.path.join(dir_trash, mod)
@@ -60,9 +72,34 @@ def do_remove_module(mod):
         msg_box('Cannot remove dir: '+dir_mod, MB_OK)
         return
     return True
+
+
+def do_remove_data(fn):
+    """
+    move filename/dirname from "data/..." to "data/__trash"
+    add suffix _ if nessesary
+    """
+    dir_trash = os.path.join(app_path(APP_DIR_DATA), '__trash')
+    fn_to = os.path.join(dir_trash, os.path.basename(fn))
+    while os.path.exists(fn_to):
+        fn_to += '_'
+    
+    if not os.path.isdir(dir_trash):
+        os.mkdir(dir_trash)
+    
+    try:
+        os.rename(fn, fn_to)
+        print('Moved "%s" to "%s"' % (fn, fn_to))
+    except OSError:
+        msg_box('Cannot move file/dir:\n%s\nto:\n%s' % (fn, fn_to), MB_OK)
+        return
+    return True
     
 
 def get_installed_list():
+    """
+    gets list of py-modules inside "py"
+    """
     d = app_path(APP_DIR_PY)
     l = os.listdir(d)
     l = [s for s in l if not s.startswith('__')]
@@ -70,6 +107,9 @@ def get_installed_list():
     return sorted(l)
     
 def get_installed_choice():
+    """
+    gets choice for get_installed_list()
+    """
     lmod = get_installed_list()
     ldesc = [get_name_of_module(l) for l in lmod]
     res = dlg_menu(MENU_LIST, '\n'.join(ldesc))
@@ -77,4 +117,32 @@ def get_installed_choice():
         return None
     return lmod[res]
     
-    
+def get_installed_data_list():
+    """
+    gets list of filenames+dirnames inside "data", only 1 level deep
+    """
+    res = []
+    dir_data = os.path.join(app_path(APP_DIR_DATA))
+    for dir_item in DATA_DIRS:
+        dir1 = os.path.join(dir_data, dir_item[0])
+        names = os.listdir(dir1)
+        #filter out incorrect ext
+        if dir_item[1]:
+            names = [name for name in names if name.endswith(dir_item[1])]
+        names = [os.path.join(dir1, name) for name in names]
+        res += names
+    return sorted(res)
+
+
+def get_installed_data_choice():
+    """
+    gets choice for get_installed_data_list()
+    """
+    names = get_installed_data_list()
+    dir_data = os.path.join(app_path(APP_DIR_DATA))
+    skip_len = len(dir_data)+1
+    desc = [item[skip_len:] for item in names]
+    res = dlg_menu(MENU_LIST, '\n'.join(desc))
+    if res is None:
+        return None
+    return names[res]

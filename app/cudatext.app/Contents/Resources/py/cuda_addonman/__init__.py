@@ -8,6 +8,7 @@ from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
+from .work_versions import *
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
@@ -114,6 +115,10 @@ class Command:
         msg_status('Opened downloaded file')
         file_open(fn)
         
+        #dir_target = app_path(APP_DIR_INSTALLED_ADDON)
+        #if dir_target:
+            #version_save(url, fn, dir_target)
+        
         #suggest readme
         if opt.readme:
             m = get_module_name_from_zip_filename(fn)
@@ -146,6 +151,22 @@ class Command:
             return
         if do_remove_module(m)==True:
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+            
+    def do_remove_data(self):
+        path = get_installed_data_choice()
+        if path is None:
+            return
+            
+        if os.path.isfile(path):
+            msg = 'Remove data file:'
+        else:
+            msg = 'Remove data folder:'
+        if msg_box(msg+'\n'+path, MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
+            return
+            
+        if do_remove_data(path):
+            msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
+            
 
     def do_edit(self):
         m = get_installed_choice()

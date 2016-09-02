@@ -4,6 +4,18 @@
   * changed
 
 
+1.4.5
+* reworked themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. any UI theme can be used with any Syntax theme. More flexible system. Less work on Syntax themes.
++ dlg Save Tabs: button to dont keep in session
++ AddonManager: menu item "Remove data files"
+
+1.4.4
+* breaking change (as file history saves encoding by name): renamed encodings "utf-8", "utf-8 no bom", "utf-16 le", "utf-16 be" to Sublime names "utf-8 with bom", "utf-8", "utf-16 le with bom", "utf-16 be with bom"
++ added enc: utf-16 le/be (without bom)
++ opt ui_tab_show_x: now number 0..3, can show "x" for mouse-over tab only
+- fix: no-carets after undo column-block
+- fix: C# lexer string-rule
+
 1.4.3
 + mouse-wheel should work in Commands dlg
 + cmd "go to last editing pos"

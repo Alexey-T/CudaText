@@ -290,8 +290,9 @@
   "ui_tab_angle": 3,
   //Show tabs at bottom
   "ui_tab_bottom": false,
-  //Show "x" buttons on tabs
-  "ui_tab_show_x": true,
+  //Show "x" buttons on tabs:
+  //  0: dont show; 1: for all tabs; 2: for active tab; 3: for mouse-over tab
+  "ui_tab_show_x": 1,
   //Show "+" pseudo-tab
   "ui_tab_show_plus": true,
   //Command "Set tab color" paints entire tab
@@ -337,7 +338,8 @@
   //[Properties of new tabs]
   //Lexer name in lexers menu
   "newdoc_lexer": "",
-  //Encoding name: "ANSI", "UTF-8", "UTF-8 no bom", "UTF-16 LE", "UTF-16 BE", "CP1250" etc
+  //Encoding name (allowed names: see encodings menu): 
+  //  "UTF-8", "UTF-8 with BOM", "UTF-16 LE with BOM", "ANSI", "CP1250" etc
   "newdoc_encoding": "UTF-8",
   //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
   "newdoc_eol": 1,
