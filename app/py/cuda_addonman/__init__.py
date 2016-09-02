@@ -113,9 +113,12 @@ class Command:
             msg_status('Cannot download file')
             return
         msg_status('Opened downloaded file')
-
-        version_save(url, fn)
         file_open(fn)
+        
+        #save to versions.ini
+        dir_target = app_path(APP_DIR_INSTALLED_ADDON)
+        if dir_target:
+            version_save(url, fn, dir_target)
         
         #suggest readme
         if opt.readme:

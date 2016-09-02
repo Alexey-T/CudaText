@@ -28,15 +28,15 @@ def get_file_hash(filename):
     return d.hexdigest()
 
 
-def version_save(url, filename):
+def version_save(url, filename, dir_target):
     """
-    save hash to versions.ini
+    save to versions.ini: hash of file, dir_target
     """
     ini_write(
       version_filename(),
       version_section(url),
       url,
-      get_file_hash(filename)
+      get_file_hash(filename)+','+dir_target
       )
 
 
