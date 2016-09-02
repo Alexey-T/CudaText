@@ -567,7 +567,7 @@ type
     function DoDialogConfColors(var AData: TAppTheme): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
     procedure DoFileExportHtml;
-    procedure DoFileInstallZip(const fn: string);
+    procedure DoFileInstallZip(const fn: string; out DirTarget: string);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave;
@@ -1439,13 +1439,15 @@ begin
   DeleteFileUTF8(GetAppPath(cFileHistoryList));
 end;
 
-procedure TfmMain.DoFileInstallZip(const fn: string);
+procedure TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string);
 var
   msg: string;
   IsOk: boolean;
   AddonType: TAppAddonType;
 begin
-  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, IsOk, AddonType);
+  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, IsOk,
+    AddonType, DirTarget);
+
   if IsOk then
   begin
     if AddonType=cAddonTypeLexer then
@@ -1823,7 +1825,7 @@ begin
 end;
 
 
-function TfmMain.DoFileOpen(AFilename: string; APages: TATPages = nil): TEditorFrame;
+function TfmMain.DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;
 var
   D: TATTabData;
   F: TEditorFrame;
@@ -1831,6 +1833,7 @@ var
   isOem: boolean;
 begin
   Result:= nil;
+  AppFolderOfLastInstalledAddon:= '';
   if Application.Terminated then exit;
 
   if APages=nil then
@@ -1856,7 +1859,7 @@ begin
   //zip files
   if ExtractFileExt(AFilename)='.zip' then
   begin
-    DoFileInstallZip(AFilename);
+    DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon);
     exit
   end;
 
@@ -2529,8 +2532,8 @@ end;
 
 procedure TfmMain.MenuRecentsClick(Sender: TObject);
 var
-  n: integer;
   fn: string;
+  n: integer;
 begin
   n:= (Sender as TComponent).Tag;
   fn:= FListRecents[n];

@@ -34,6 +34,7 @@ var
   AppBookmarkSetup: array[1..255] of
     record ImageIndex: integer; Color: TColor; end;
   AppBookmarkImagelist: TImageList = nil;
+  AppFolderOfLastInstalledAddon: string = '';
 
 type
   TAppPathId = (

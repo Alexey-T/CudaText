@@ -28,7 +28,8 @@ procedure DoInstallAddonFromZip(const fn_zip: string;
   const dir_acp: string;
   out StrReport: string;
   out IsInstalled: boolean;
-  out NAddonType: TAppAddonType);
+  out NAddonType: TAppAddonType;
+  out DirTarget: string);
 
 var
   cInstallLexerZipTitle: string = 'Install addon';
@@ -52,12 +53,14 @@ const
 
 procedure DoInstallData(
   const fn_inf: string;
-  var s_report: string);
+  out s_report: string;
+  out dir_target: string);
 var
   ini: TIniFile;
-  s_subdir, dir_from, dir_target: string;
+  s_subdir, dir_from: string;
 begin
   s_report:= '';
+  dir_target:= '';
 
   ini:= TIniFile.Create(fn_inf);
   try
@@ -77,7 +80,8 @@ end;
 
 procedure DoInstallPlugin(
   const fn_inf: string;
-  var s_report: string);
+  out s_report: string;
+  out dir_target: string);
 var
   ini: TIniFile;
   s_section, s_caption, s_module, s_method, s_events,
@@ -85,13 +89,15 @@ var
   i: integer;
 begin
   s_report:= '';
+  dir_target:= '';
 
   ini:= TIniFile.Create(fn_inf);
   try
     s_module:= ini.ReadString('info', 'subdir', '');
     if s_module='' then exit;
 
-    FCopyDir(ExtractFileDir(fn_inf), GetAppPath(cDirPy)+DirectorySeparator+s_module);
+    dir_target:= GetAppPath(cDirPy)+DirectorySeparator+s_module;
+    FCopyDir(ExtractFileDir(fn_inf), dir_target);
 
     for i:= 1 to cMaxItemsInInstallInf do
     begin
@@ -145,14 +151,17 @@ end;
 procedure DoInstallLexer(
   const fn_inf, dir_acp: string;
   Manager: TecSyntaxManager;
-  var s_report: string);
+  out s_report: string;
+  out dir_lexlib: string);
 var
   i_lexer, i_sub: integer;
-  s_lexer, dir_lexlib, fn_lexer, fn_acp, fn_lexmap: string;
+  s_lexer, fn_lexer, fn_acp, fn_lexmap: string;
   an, an_sub: TecSyntAnalyzer;
   ini_lexmap: TIniFile;
 begin
   s_report:= '';
+  dir_lexlib:= GetAppPath(cDirDataLexlib);
+
   with TIniFile.Create(fn_inf) do
   try
     for i_lexer:= 1 to 20 do
@@ -161,7 +170,6 @@ begin
       if s_lexer='' then Break;
 
       //lexer file
-      dir_lexlib:= GetAppPath(cDirDataLexlib);
       fn_lexer:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.lcf';
       fn_lexmap:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.cuda-lexmap';
       fn_acp:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.acp';
@@ -233,7 +241,7 @@ end;
 
 procedure DoInstallAddonFromZip(const fn_zip: string;
   Manager: TecSyntaxManager; const dir_acp: string; out StrReport: string; out
-  IsInstalled: boolean; out NAddonType: TAppAddonType);
+  IsInstalled: boolean; out NAddonType: TAppAddonType; out DirTarget: string);
 var
   unzip: TUnZipper;
   list: TStringlist;
@@ -243,6 +251,7 @@ begin
   StrReport:= '';
   IsInstalled:= false;
   NAddonType:= cAddonTypeUnknown;
+  DirTarget:= '';
   dir:= GetTempDirCounted;
 
   if not DirectoryExists(dir) then
@@ -323,19 +332,19 @@ begin
   if s_type=cTypeLexer then
   begin
     NAddonType:= cAddonTypeLexer;
-    DoInstallLexer(fn_inf, dir_acp, Manager, StrReport)
+    DoInstallLexer(fn_inf, dir_acp, Manager, StrReport, DirTarget)
   end
   else
   if s_type=cTypePlugin then
   begin
     NAddonType:= cAddonTypePlugin;
-    DoInstallPlugin(fn_inf, StrReport)
+    DoInstallPlugin(fn_inf, StrReport, DirTarget)
   end
   else
   if s_type=cTypeData then
   begin
     NAddonType:= cAddonTypeData;
-    DoInstallData(fn_inf, StrReport)
+    DoInstallData(fn_inf, StrReport, DirTarget)
   end;
 
   IsInstalled:= true;
