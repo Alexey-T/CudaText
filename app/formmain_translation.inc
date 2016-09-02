@@ -260,7 +260,8 @@ begin
     DoLocMenuitem(ini, mnuOpMore, 'm_o', 'mr');
     DoLocMenuitem(ini, mnuOpLexer, 'm_o', 'lx');
     DoLocMenuitem(ini, mnuOpFileTypes, 'm_o', 'fi');
-    DoLocMenuitem(ini, mnuOpThemeUi, 'm_o', 'co');
+    DoLocMenuitem(ini, mnuOpThemeUi, 'm_o', 'cou');
+    DoLocMenuitem(ini, mnuOpThemeSyntax, 'm_o', 'cos');
     DoLocMenuitem(ini, mnuOpKeys, 'm_o', 'ke');
 
     DoLocMenuitem(ini, mnuFontSub, 'm_o', 'f_');
@@ -275,6 +276,8 @@ begin
     DoLocMenuitem(ini, mnuOpLexMap, 'm_o', 'l_map');
 
     DoLocMenuitem(ini, mnuThemes, 'm_o', 'co_');
+    DoLocMenuitem(ini, mnuThemesUI, 'm_o', 'cou_');
+    DoLocMenuitem(ini, mnuThemesSyntax, 'm_o', 'cos_');
     DoLocMenuitem(ini, mnuLang, 'm_o', 'tr_');
 
     DoLocMenuitem(ini, mnuHelp, 'm_h', '_');

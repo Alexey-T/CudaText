@@ -571,7 +571,7 @@ type
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
     procedure DoOps_ShowEventPlugins;
-    function DoDialogConfColors(var AData: TAppTheme; AThemeUI: boolean): boolean;
+    function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string; out DirTarget: string);
@@ -2131,7 +2131,7 @@ procedure TfmMain.DoDialogThemeUI;
 var
   str: string;
 begin
-  if DoDialogConfColors(AppTheme, true) then
+  if DoDialogConfigTheme(AppTheme, true) then
   begin
     DoApplyTheme;
     if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
@@ -2150,7 +2150,7 @@ procedure TfmMain.DoDialogThemeSyntax;
 var
   str: string;
 begin
-  if DoDialogConfColors(AppTheme, false) then
+  if DoDialogConfigTheme(AppTheme, false) then
   begin
     DoApplyTheme;
     if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
@@ -3067,7 +3067,7 @@ begin
   end;
 end;
 
-function TfmMain.DoDialogConfColors(var AData: TAppTheme; AThemeUI: boolean
+function TfmMain.DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean
   ): boolean;
 var
   Form: TfmColorSetup;
@@ -3080,6 +3080,11 @@ begin
     Form.bChange.Enabled:= AThemeUI;
     Form.bNone.Enabled:= AThemeUI;
     Form.bStyle.Enabled:= not AThemeUI;
+
+    if AThemeUI then
+      Form.ListStyles.Color:= $d0d0d0
+    else
+      Form.List.Color:= $d0d0d0;
 
     DoLocalize_FormColorSetup(Form);
     Form.OnApply:= @FormColorsApply;

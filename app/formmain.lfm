@@ -648,13 +648,13 @@ object fmMain: TfmMain
         Caption = '&Color themes'
         Hint = '_themes'
         object mnuThemesUI: TMenuItem
-          Caption = 'UI theme'
+          Caption = 'UI'
           object MenuItem1: TMenuItem
             Caption = '--'
           end
         end
         object mnuThemesSyntax: TMenuItem
-          Caption = 'Syntax theme'
+          Caption = 'Syntax'
           object MenuItem2: TMenuItem
             Caption = '--'
           end

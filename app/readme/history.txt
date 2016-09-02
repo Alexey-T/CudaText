@@ -4,7 +4,8 @@
   * changed
 
 
-1.4.4.2
+1.4.5
+* rework themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. More flexible system. Less work on themes.
 + AddonManager: menu item "Remove data files"
 + dlg Save Tabs: button to dont keep in session
 
