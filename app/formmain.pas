@@ -3188,10 +3188,27 @@ end;
 
 procedure TfmMain.MenuThemesUiClick(Sender: TObject);
 var
-  fn: string;
+  fn, fn2, themeStr: string;
+  i: integer;
 begin
   fn:= FListThemesUI[(Sender as TComponent).Tag];
   FThemeUi:= ExtractFileNameOnly(fn);
+
+  //find Syntax theme with the same name
+  for i:= 0 to FListThemesSyntax.Count-1 do
+  begin
+    fn2:= FListThemesSyntax[i];
+    themeStr:= ExtractFileNameOnly(fn2);
+    if themeStr=FThemeUi then
+    begin
+      if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
+      begin
+        FThemeSyntax:= themeStr;
+        DoLoadTheme(fn2, AppTheme, false);
+      end;
+      Break;
+    end;
+  end;
 
   DoClearLexersAskedList;
   DoLoadTheme(fn, AppTheme, true);

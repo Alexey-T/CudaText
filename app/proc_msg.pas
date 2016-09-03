@@ -119,6 +119,7 @@ const
   msgStatusCommandsHaveSameHotkeys: string = 'Commands have same hotkeys:';
   msgStatusCorrectOneOfTheseHotkeys: string = 'Please correct one of these hotkeys.';
 
+  msgConfirmSyntaxThemeSameName: string = 'Syntax theme exists, with the same name as UI theme. Do you want to apply it too?';
   msgConfirmInstallIt: string = 'Do you want to install it?';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';
   msgConfirmReloadIt: string = 'Reload it?';

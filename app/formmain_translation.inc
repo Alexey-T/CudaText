@@ -465,6 +465,7 @@ begin
     DoLocString(msgStatusCommandsHaveSameHotkeys , ini, 'si', 'CommandsHaveSameHotkeys');
     DoLocString(msgStatusCorrectOneOfTheseHotkeys, ini, 'si', 'CorrectOneOfTheseHotkeys');
 
+    DoLocString(msgConfirmSyntaxThemeSameName    , ini, 'sc', 'ThemeSyntaxSame');
     DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');
     DoLocString(msgConfirmFileChangedOutside     , ini, 'sc', 'FileChangedOutside');
     DoLocString(msgConfirmReloadIt               , ini, 'sc', 'ReloadIt');
