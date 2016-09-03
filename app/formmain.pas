@@ -3075,25 +3075,17 @@ var
 begin
   Form:= TfmColorSetup.Create(nil);
   try
-    Form.List.Enabled:= AThemeUI;
-    Form.ListStyles.Enabled:= not AThemeUI;
-    Form.bChange.Enabled:= AThemeUI;
-    Form.bNone.Enabled:= AThemeUI;
-    Form.bStyle.Enabled:= not AThemeUI;
-
-    if AThemeUI then
-      Form.ListStyles.Color:= $d0d0d0
-    else
-      Form.List.Color:= $d0d0d0;
+    Form.PanelUi.Visible:= AThemeUI;
+    Form.PanelSyntax.Visible:= not AThemeUI;
 
     DoLocalize_FormColorSetup(Form);
     Form.OnApply:= @FormColorsApply;
     Form.Data:= AData;
     Result:= Form.ShowModal=mrOk;
+
     if Result then
     begin
       AData:= Form.Data;
-
       for i:= 0 to FrameCount-1 do
         with Frames[i] do Lexer:= Lexer;
       UpdateFrame;

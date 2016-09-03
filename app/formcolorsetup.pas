@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  IniFiles, ColorBox, StdCtrls,
+  IniFiles, ColorBox, StdCtrls, ExtCtrls,
   LazUTF8, LazFileUtils,
   ecSyntAnal,
   formlexerstyle,
@@ -35,6 +35,8 @@ type
     ColorDialog1: TColorDialog;
     List: TColorListBox;
     ListStyles: TListBox;
+    PanelSyntax: TPanel;
+    PanelUi: TPanel;
     procedure bChangeClick(Sender: TObject);
     procedure bNoneClick(Sender: TObject);
     procedure bStyleClick(Sender: TObject);
@@ -173,14 +175,18 @@ end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
 begin
+  PanelUi.Align:= alClient;
+  PanelSyntax.Align:= alClient;
+
   Updatelist;
   List.ItemIndex:= 0;
   ListStyles.ItemIndex:= 0;
-  if List.Enabled then
-    List.SetFocus
+
+  if PanelUi.Visible then
+    ActiveControl:= List
   else
-  if ListStyles.Enabled then
-    ListStyles.SetFocus;
+  if PanelSyntax.Visible then
+    ActiveControl:= ListStyles;
 end;
 
 procedure TfmColorSetup.HelpButtonClick(Sender: TObject);

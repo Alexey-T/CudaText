@@ -2,12 +2,12 @@ object fmColorSetup: TfmColorSetup
   Left = 450
   Height = 529
   Top = 339
-  Width = 543
+  Width = 558
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Color theme'
   ClientHeight = 529
-  ClientWidth = 543
+  ClientWidth = 558
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
@@ -16,7 +16,7 @@ object fmColorSetup: TfmColorSetup
     Left = 6
     Height = 29
     Top = 494
-    Width = 531
+    Width = 546
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -27,78 +27,104 @@ object fmColorSetup: TfmColorSetup
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 5
+    TabOrder = 0
     ShowButtons = [pbOK, pbCancel, pbHelp]
     ShowBevel = False
   end
-  object List: TColorListBox
-    Left = 6
-    Height = 280
-    Top = 8
-    Width = 362
-    ColorRectWidth = 32
-    ColorRectOffset = 1
-    NoneColorColor = clNone
-    Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-    ItemHeight = 0
-    OnKeyDown = ListKeyDown
-    TabOrder = 0
-  end
-  object bChange: TButton
-    AnchorSideLeft.Control = List
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 374
-    Height = 29
-    Top = 120
-    Width = 163
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    BorderSpacing.Around = 6
-    Caption = 'Change color...'
-    OnClick = bChangeClick
-    TabOrder = 2
-  end
-  object bNone: TButton
-    AnchorSideLeft.Control = bChange
-    AnchorSideTop.Control = bChange
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = bChange
-    AnchorSideRight.Side = asrBottom
-    Left = 374
-    Height = 29
-    Top = 155
-    Width = 163
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    Caption = 'Set "none color"'
-    OnClick = bNoneClick
-    TabOrder = 3
-  end
-  object ListStyles: TListBox
-    Left = 8
-    Height = 192
-    Top = 296
-    Width = 360
-    ItemHeight = 0
-    ScrollWidth = 358
+  object PanelUi: TPanel
+    Left = 56
+    Height = 242
+    Top = 0
+    Width = 520
+    BevelOuter = bvNone
+    ClientHeight = 242
+    ClientWidth = 520
     TabOrder = 1
-    TopIndex = -1
+    object List: TColorListBox
+      Left = 6
+      Height = 230
+      Top = 6
+      Width = 362
+      ColorRectWidth = 32
+      ColorRectOffset = 1
+      NoneColorColor = clNone
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+      Align = alLeft
+      BorderSpacing.Around = 6
+      ItemHeight = 0
+      OnKeyDown = ListKeyDown
+      TabOrder = 0
+    end
+    object bChange: TButton
+      AnchorSideLeft.Control = List
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideRight.Control = PanelUi
+      AnchorSideRight.Side = asrBottom
+      Left = 374
+      Height = 29
+      Top = 120
+      Width = 140
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = 'Change color...'
+      OnClick = bChangeClick
+      TabOrder = 1
+    end
+    object bNone: TButton
+      AnchorSideLeft.Control = bChange
+      AnchorSideTop.Control = bChange
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = bChange
+      AnchorSideRight.Side = asrBottom
+      Left = 374
+      Height = 29
+      Top = 155
+      Width = 140
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      Caption = 'Set "none color"'
+      OnClick = bNoneClick
+      TabOrder = 2
+    end
   end
-  object bStyle: TButton
-    AnchorSideLeft.Control = bChange
-    AnchorSideRight.Control = bChange
-    AnchorSideRight.Side = asrBottom
-    Left = 374
-    Height = 29
-    Top = 368
-    Width = 163
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    Caption = 'Config style...'
-    OnClick = bStyleClick
-    TabOrder = 4
+  object PanelSyntax: TPanel
+    Left = 32
+    Height = 194
+    Top = 200
+    Width = 538
+    BevelOuter = bvNone
+    ClientHeight = 194
+    ClientWidth = 538
+    TabOrder = 2
+    object ListStyles: TListBox
+      Left = 6
+      Height = 182
+      Top = 6
+      Width = 360
+      Align = alLeft
+      BorderSpacing.Around = 6
+      ItemHeight = 0
+      ScrollWidth = 358
+      TabOrder = 0
+      TopIndex = -1
+    end
+    object bStyle: TButton
+      AnchorSideLeft.Control = ListStyles
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideRight.Control = PanelSyntax
+      AnchorSideRight.Side = asrBottom
+      Left = 372
+      Height = 29
+      Top = 136
+      Width = 160
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Around = 6
+      Caption = 'Config style...'
+      OnClick = bStyleClick
+      TabOrder = 1
+    end
   end
   object ColorDialog1: TColorDialog
     Color = clBlack
@@ -124,7 +150,7 @@ object fmColorSetup: TfmColorSetup
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 216
-    top = 8
+    left = 112
+    top = 472
   end
 end
