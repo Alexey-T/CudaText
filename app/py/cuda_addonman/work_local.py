@@ -12,7 +12,7 @@ DATA_DIRS = (
     ('lang', '.ini'),
     ('newdoc', ''),
     ('snippets', ''),
-    ('themes', '.json'),
+    ('themes', ''),
     )
 
 

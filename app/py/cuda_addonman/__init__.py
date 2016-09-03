@@ -8,7 +8,6 @@ from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
-from .work_versions import *
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
@@ -114,10 +113,6 @@ class Command:
             return
         msg_status('Opened downloaded file')
         file_open(fn)
-        
-        #dir_target = app_path(APP_DIR_INSTALLED_ADDON)
-        #if dir_target:
-            #version_save(url, fn, dir_target)
         
         #suggest readme
         if opt.readme:
