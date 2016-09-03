@@ -72,6 +72,11 @@ begin
   {$ifdef windows}
   Ctl.Height:= 23; //smaller
   {$endif}
+
+  {$ifdef linux}
+  Ctl.Height:= 25;
+  {$endif}
+
   {$ifdef darwin}
   Ctl.Height:= 21; //smaller
   {$endif}
