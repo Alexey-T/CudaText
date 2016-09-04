@@ -646,15 +646,17 @@ object fmMain: TfmMain
       end
       object mnuThemes: TMenuItem
         Caption = '&Color themes'
-        Hint = '_themes'
+        Hint = 'set_themes'
         object mnuThemesUI: TMenuItem
           Caption = 'UI'
+          Hint = '_themes-ui'
           object MenuItem1: TMenuItem
             Caption = '--'
           end
         end
         object mnuThemesSyntax: TMenuItem
           Caption = 'Syntax'
+          Hint = '_themes-syntax'
           object MenuItem2: TMenuItem
             Caption = '--'
           end
