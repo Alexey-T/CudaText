@@ -646,8 +646,7 @@ type
     procedure DoDialogLexerLib;
     procedure DoDialogLexerMap;
     procedure DoDialogLoadLexerStyles;
-    procedure DoDialogThemeUI;
-    procedure DoDialogThemeSyntax;
+    procedure DoDialogTheme(AThemeUI: boolean);
     procedure DoShowConsole(AFocusEdit: boolean);
     procedure DoShowOutput;
     procedure DoShowValidate;
@@ -2127,40 +2126,36 @@ begin
 end;
 
 
-procedure TfmMain.DoDialogThemeUI;
+procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
-  str: string;
+  List: TStringList;
+  Str, StrExt: string;
+  MenuItem: TMenuItem;
 begin
-  if DoDialogConfigTheme(AppTheme, true) then
+  if AThemeUI then
   begin
-    DoApplyTheme;
-    if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
-    begin
-      str:= Trim(InputBox(msgTitle, msgThemeName, 'test'));
-      if str='' then exit;
-      str:= GetAppPath(cDirDataThemes)+DirectorySeparator+str+'.cuda-theme-ui';
-
-      DoSaveTheme(str, AppTheme, true);
-      UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
-    end;
+    StrExt:= '.cuda-theme-ui';
+    List:= FListThemesUI;
+    MenuItem:= mnuThemesUI;
+  end
+  else
+  begin
+    StrExt:= '.cuda-theme-syntax';
+    List:= FListThemesSyntax;
+    MenuItem:= mnuThemesSyntax;
   end;
-end;
 
-procedure TfmMain.DoDialogThemeSyntax;
-var
-  str: string;
-begin
-  if DoDialogConfigTheme(AppTheme, false) then
+  if DoDialogConfigTheme(AppTheme, AThemeUI) then
   begin
     DoApplyTheme;
-    if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
+    if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
     begin
-      str:= Trim(InputBox(msgTitle, msgThemeName, 'test'));
-      if str='' then exit;
-      str:= GetAppPath(cDirDataThemes)+DirectorySeparator+str+'.cuda-theme-syntax';
+      Str:= Trim(InputBox(msgTitle, msgThemeName, 'test'));
+      if Str='' then exit;
+      Str:= GetAppPath(cDirDataThemes)+DirectorySeparator+Str+StrExt;
 
-      DoSaveTheme(str, AppTheme, false);
-      UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
+      DoSaveTheme(Str, AppTheme, AThemeUI);
+      UpdateMenuThemes(MenuItem, List, AThemeUI);
     end;
   end;
 end;

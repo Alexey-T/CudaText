@@ -70,8 +70,8 @@ begin
     cmd_DialogLexerLib:    DoDialogLexerLib;
     cmd_DialogLexerStyleMap: DoDialogLexerMap;
     cmd_DialogLoadLexerStyles: DoDialogLoadLexerStyles;
-    cmd_DialogThemeUi:     DoDialogThemeUI;
-    cmd_DialogThemeSyntax: DoDialogThemeSyntax;
+    cmd_DialogThemeUi:     DoDialogTheme(true);
+    cmd_DialogThemeSyntax: DoDialogTheme(false);
     cmd_DialogCharMap:     DoDialogCharMap;
 
     cmd_ToggleFullScreen:  DoToggleFullScreen;
