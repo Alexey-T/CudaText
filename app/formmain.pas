@@ -736,8 +736,7 @@ type
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure UpdateMenuLangs(sub: TMenuItem);
-    procedure UpdateMenuThemes(sub: TMenuItem; AListThemes: TStringList;
-      AThemeUI: boolean);
+    procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
@@ -1384,8 +1383,8 @@ begin
   DoOps_LoadKeymap;
 
   UpdateMenuPlugins;
-  UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
-  UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
+  UpdateMenuThemes(true);
+  UpdateMenuThemes(false);
   UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
 
@@ -1470,8 +1469,8 @@ begin
     if AddonType=cAddonTypeData then
     begin
       UpdateMenuLangs(mnuLang);
-      UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
-      UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
+      UpdateMenuThemes(true);
+      UpdateMenuThemes(false);
     end;
 
     if AddonType=cAddonTypePlugin then
@@ -2128,22 +2127,12 @@ end;
 
 procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
-  List: TStringList;
   Str, StrExt: string;
-  MenuItem: TMenuItem;
 begin
   if AThemeUI then
-  begin
-    StrExt:= '.cuda-theme-ui';
-    List:= FListThemesUI;
-    MenuItem:= mnuThemesUI;
-  end
+    StrExt:= '.cuda-theme-ui'
   else
-  begin
     StrExt:= '.cuda-theme-syntax';
-    List:= FListThemesSyntax;
-    MenuItem:= mnuThemesSyntax;
-  end;
 
   if DoDialogConfigTheme(AppTheme, AThemeUI) then
   begin
@@ -2155,7 +2144,7 @@ begin
       Str:= GetAppPath(cDirDataThemes)+DirectorySeparator+Str+StrExt;
 
       DoSaveTheme(Str, AppTheme, AThemeUI);
-      UpdateMenuThemes(MenuItem, List, AThemeUI);
+      UpdateMenuThemes(AThemeUI);
     end;
   end;
 end;
@@ -3879,13 +3868,13 @@ begin
     if (StrCmd=PyMenuCmd_ThemesUI) or (StrCmd='_'+PyMenuCmd_ThemesUI) then
     begin
       mnuThemesUI:= mi;
-      UpdateMenuThemes(mi, FListThemesUI, true);
+      UpdateMenuThemes(true);
     end
     else
     if (StrCmd=PyMenuCmd_ThemesSyntax) or (StrCmd='_'+PyMenuCmd_ThemesSyntax) then
     begin
       mnuThemesSyntax:= mi;
-      UpdateMenuThemes(mi, FListThemesSyntax, false);
+      UpdateMenuThemes(false);
     end
     else
     if (StrCmd=PyMenuCmd_Langs) or (StrCmd='_'+PyMenuCmd_Langs) then

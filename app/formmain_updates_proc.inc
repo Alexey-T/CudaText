@@ -624,37 +624,46 @@ begin
 end;
 
 
-procedure TfmMain.UpdateMenuThemes(sub: TMenuItem; AListThemes: TStringList; AThemeUI: boolean);
+procedure TfmMain.UpdateMenuThemes(AThemeUI: boolean);
 var
   mi: TMenuItem;
   cap, FileMask: string;
+  ListThemes: TStringList;
+  sub: TMenuItem;
   i: integer;
 begin
+  if AThemeUI then
+    sub:= mnuThemesUI
+  else
+    sub:= mnuThemesSyntax;
+
   if sub=nil then exit;
   sub.Clear;
 
-  mi:= TMenuItem.create(Self);
+  mi:= TMenuItem.Create(Self);
   mi.Caption:= msgThemeDefault;
   mi.OnClick:= @MenuThemeDefClick;
   if AThemeUI then
   begin
     mi.Checked:= FThemeUi='';
+    ListThemes:= FListThemesUI;
     FileMask:= '*.cuda-theme-ui';
   end
   else
   begin
     mi.Checked:= FThemeSyntax='';
+    ListThemes:= FListThemesSyntax;
     FileMask:= '*.cuda-theme-syntax';
   end;
   sub.Add(mi);
 
-  FFindFilesInDir(GetAppPath(cDirDataThemes), FileMask, AListThemes);
-  if AListThemes.Count=0 then exit;
-  AListThemes.Sort;
+  FFindFilesInDir(GetAppPath(cDirDataThemes), FileMask, ListThemes);
+  if ListThemes.Count=0 then exit;
+  ListThemes.Sort;
 
-  for i:= 0 to AListThemes.count-1 do
+  for i:= 0 to ListThemes.Count-1 do
   begin
-    cap:= LowerCase(ExtractFileNameOnly(AListThemes[i]));
+    cap:= LowerCase(ExtractFileNameOnly(ListThemes[i]));
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
     mi:= TMenuItem.Create(Self);
     mi.Caption:= cap;
@@ -712,8 +721,8 @@ var
   PropObject: TAppPanelPropsClass;
   i: integer;
 begin
-  UpdateMenuThemes(mnuThemesUI, FListThemesUI, true);
-  UpdateMenuThemes(mnuThemesSyntax, FListThemesSyntax, false);
+  UpdateMenuThemes(true);
+  UpdateMenuThemes(false);
 
   ATScrollbarTheme.ColorBG:= GetAppColor('ScrollBack');
   ATScrollbarTheme.ColorThumbBorder:= GetAppColor('ScrollRect');
