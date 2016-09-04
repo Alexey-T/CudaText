@@ -2130,9 +2130,9 @@ var
   Str, StrExt: string;
 begin
   if AThemeUI then
-    StrExt:= '.cuda-theme-ui'
+    StrExt:= AppExtensionThemeUi
   else
-    StrExt:= '.cuda-theme-syntax';
+    StrExt:= AppExtensionThemeSyntax;
 
   if DoDialogConfigTheme(AppTheme, AThemeUI) then
   begin

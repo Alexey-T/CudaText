@@ -36,6 +36,11 @@ var
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
 
+const
+  AppExtensionThemeUi = '.cuda-theme-ui';
+  AppExtensionThemeSyntax = '.cuda-theme-syntax';
+
+
 type
   TAppPathId = (
     cDirSettings,

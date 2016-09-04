@@ -647,13 +647,13 @@ begin
   begin
     mi.Checked:= FThemeUi='';
     ListThemes:= FListThemesUI;
-    FileMask:= '*.cuda-theme-ui';
+    FileMask:= '*'+AppExtensionThemeUi;
   end
   else
   begin
     mi.Checked:= FThemeSyntax='';
     ListThemes:= FListThemesSyntax;
-    FileMask:= '*.cuda-theme-syntax';
+    FileMask:= '*'+AppExtensionThemeSyntax;
   end;
   sub.Add(mi);
 

@@ -332,13 +332,13 @@ begin
 
     if FThemeUi<>'' then
     begin
-      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+'.cuda-theme-ui', AppTheme, true);
+      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+AppExtensionThemeUi, AppTheme, true);
       DoApplyTheme;
     end;
 
     if FThemeSyntax<>'' then
     begin
-      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+'.cuda-theme-syntax', AppTheme, false);
+      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+AppExtensionThemeSyntax, AppTheme, false);
       DoApplyTheme;
     end;
 
