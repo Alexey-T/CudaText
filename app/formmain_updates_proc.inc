@@ -626,25 +626,26 @@ end;
 
 procedure TfmMain.UpdateMenuThemes(sub: TMenuItem; AListThemes: TStringList; AThemeUI: boolean);
 var
-  mi: tmenuitem;
+  mi: TMenuItem;
   cap, FileMask: string;
   i: integer;
 begin
   if sub=nil then exit;
-  if sub=mnuThemes then raise Exception.Create('Incorrect mnuThemes param');
   sub.Clear;
 
   mi:= TMenuItem.create(Self);
-  mi.caption:= msgThemeDefault;
+  mi.Caption:= msgThemeDefault;
   mi.OnClick:= @MenuThemeDefClick;
   if AThemeUI then
-    mi.Checked:= FThemeUi=''
+  begin
+    mi.Checked:= FThemeUi='';
+    FileMask:= '*.cuda-theme-ui';
+  end
   else
+  begin
     mi.Checked:= FThemeSyntax='';
-  if AThemeUI then
-    FileMask:= '*.cuda-theme-ui'
-  else
     FileMask:= '*.cuda-theme-syntax';
+  end;
   sub.Add(mi);
 
   FFindFilesInDir(GetAppPath(cDirDataThemes), FileMask, AListThemes);
@@ -655,9 +656,9 @@ begin
   begin
     cap:= LowerCase(ExtractFileNameOnly(AListThemes[i]));
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
-    mi:= tmenuitem.create(Self);
-    mi.caption:= cap;
-    mi.tag:= i;
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= cap;
+    mi.Tag:= i;
 
     if AThemeUI then
     begin
