@@ -4,6 +4,7 @@ http://wiki.freepascal.org/CudaText#How_to_make_translation
 2016.09.03
 + [m_o] cou cos cou_ cos_
 * del [m_o] co
++ [sc] ThemeSyntaxSame
 
 2016.07.28
 + [ui] ed_w
