@@ -1206,6 +1206,7 @@ begin
       cAtTabPlus:
         begin
           FMouseDown:= false;
+          EndDrag(false);
           FTabIndexOver:= -1;
           if Assigned(FOnTabPlusClick) then
             FOnTabPlusClick(Self);
@@ -1220,6 +1221,7 @@ begin
             R:= GetTabRect_X(R);
             if PtInRect(R, Point(X, Y)) then
             begin
+              EndDrag(false);
               DeleteTab(FTabIndexOver, true, true);
               Exit
             end;
