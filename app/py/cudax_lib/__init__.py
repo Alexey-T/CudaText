@@ -269,8 +269,8 @@ class Command:
             # Search lex-pair
             def_lexs_json   = os.path.join(get_def_setting_dir()             , 'default_lexers.json')
             usr_lexs_json   = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user_lexers.json')
-            def_lexs        = _json_loads(open(def_lexs_json).read())
-            usr_lexs        = _json_loads(open(usr_lexs_json).read()) if os.path.exists(usr_lexs_json) else {"Comments":{}, "CommentsForLines":{}}
+            def_lexs        = _json_loads(open(def_lexs_json, encoding='utf8').read())
+            usr_lexs        = _json_loads(open(usr_lexs_json, encoding='utf8').read()) if os.path.exists(usr_lexs_json) else {"Comments":{}, "CommentsForLines":{}}
             only_ln        = False
             if False:pass
             elif lex in   usr_lexs["Comments"]:
@@ -349,7 +349,7 @@ def get_app_default_opts(**kw):
     if not APP_DEFAULT_OPTS:
         # Once load def-opts
         def_json    = os.path.join(get_def_setting_dir(), 'default.json')
-        APP_DEFAULT_OPTS = _json_loads(open(def_json).read(), object_pairs_hook=collections.OrderedDict, **kw)
+        APP_DEFAULT_OPTS = _json_loads(open(def_json, encoding='utf8').read(), object_pairs_hook=collections.OrderedDict, **kw)
 #       APP_DEFAULT_OPTS = _json_loads(open(def_json).read(), **kw)
     return APP_DEFAULT_OPTS
    #def get_app_default_opts
@@ -363,13 +363,13 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
     mtime_os    = os.path.getmtime(opts_json)
     if opts_json not in LAST_FILE_OPTS:
         pass;                  #LOG and log('load "{}" with mtime_os={}',os.path.basename(opts_json), int(mtime_os))
-        opts    = _json_loads(open(opts_json).read(), **kw)
+        opts    = _json_loads(open(opts_json, encoding='utf8').read(), **kw)
         LAST_FILE_OPTS[opts_json]       = (opts, mtime_os)
     else:
         opts, mtime = LAST_FILE_OPTS[opts_json]
         if mtime_os > mtime:
             pass;              #LOG and log('reload "{}" with mtime, mtime_os={}',os.path.basename(opts_json), (int(mtime), int(mtime_os)))
-            opts= _json_loads(open(opts_json).read(), **kw)
+            opts= _json_loads(open(opts_json, encoding='utf8').read(), **kw)
             LAST_FILE_OPTS[opts_json]   = (opts, mtime_os)
     return opts
    #def _get_file_opts
@@ -510,11 +510,11 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
                     dic = dic.setdefault(key, {})
                 else:
                     dic[key] = value
-        open(cfg_json, 'w').write(json.dumps(dct, indent=4))
+        open(cfg_json, 'w', encoding='utf8').write(json.dumps(dct, indent=4))
         return value
 
     # Try to modify file
-    body    = open(cfg_json).read()
+    body    = open(cfg_json, encoding='utf8').read()
     value4js= json.dumps({'':value})[len('{"": '):-1]    # format for json
     if '/' in path:
         # Complex path
@@ -548,7 +548,7 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
                          '' if body[-1] in ',{' else ','
                        , path
                        , value4js)
-    open(cfg_json, 'w').write(body)
+    open(cfg_json, 'w', encoding='utf8').write(body)
     return value
    #def set_opt
 
