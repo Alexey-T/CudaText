@@ -607,6 +607,8 @@ type
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
+    procedure TreeKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuPlugins;
     procedure DoOps_LoadCommandLineOptions;
@@ -1052,6 +1054,7 @@ begin
   Tree.Images:= ImageListTree;
   Tree.OnDblClick:= @TreeClick;
   Tree.OnMouseMove:= @TreeMouseMove;
+  Tree.OnKeyDown:= @TreeKeyDown;
   Tree.PopupMenu:= PopupTree;
 
   TreeRes:= TTreeView.Create(Self);
@@ -3108,6 +3111,17 @@ end;
 procedure TfmMain.DoHelpWiki;
 begin
   OpenURL('http://wiki.freepascal.org/CudaText');
+end;
+
+procedure TfmMain.TreeKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key=VK_ESCAPE) then
+  begin
+    EditorFocus(CurrentEditor);
+    Key:= 0;
+    exit
+  end;
 end;
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;

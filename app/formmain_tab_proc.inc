@@ -363,6 +363,7 @@ begin
       ItemTreeview.OnDblClick:= @DoPanel_OnDblClick;
       ItemTreeview.OnSelectionChanged:= @DoPanel_OnSelChanged;
       ItemTreeview.OnContextPopup:=@DoPanel_OnContextPopup;
+      ItemTreeview.OnKeyDown:= @TreeKeyDown;
 
       fmMain.DoApplyThemeToTreeview(ItemTreeview);
       //just to see it ok
