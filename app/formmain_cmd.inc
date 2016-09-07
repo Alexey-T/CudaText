@@ -49,6 +49,7 @@ begin
 
     cmd_FileNew:             DoFileOpen('');
     cmd_FileOpen:            DoFileOpenDialog;
+    cmd_FileOpenRaw:         DoFileOpenDialogRaw;
     cmd_FileReopen:          DoFileReopen;
     cmd_FileSave:            DoFileSave;
     cmd_FileSaveAs:          DoFileSaveAs;

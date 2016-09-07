@@ -512,6 +512,7 @@ type
     FOrigShowBottom: boolean;
     FOrigShowStatusbar: boolean;
     FOrigShowSide: boolean;
+    FAllowEventOnOpenBefore: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
     FTreeClick: boolean;
@@ -668,6 +669,7 @@ type
     procedure DoOnTabPopup(Sender: TObject);
     function DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;
     procedure DoFileOpenDialog;
+    procedure DoFileOpenDialogRaw;
     procedure DoFileSaveAll;
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
@@ -1096,6 +1098,7 @@ begin
   FListThemesSyntax:= TStringList.Create;
   FListLangs:= TStringList.Create;
   FKeymapUndoList:= TATKeymapUndoList.Create;
+  FAllowEventOnOpenBefore:= true;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
@@ -1879,8 +1882,9 @@ begin
   end;
 
   //py event
-  if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
-    [SStringToPythonString(AFilename)]) = cPyFalse then exit;
+  if FAllowEventOnOpenBefore then
+    if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
+      [SStringToPythonString(AFilename)]) = cPyFalse then exit;
 
   //NonTextFiles: 0: prompt, 1: open, 2: don't open
   if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
@@ -1943,6 +1947,17 @@ begin
   MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
   DoPyEvent(F.Editor, cEventOnOpen, []);
   EditorFocus(Result.Editor);
+end;
+
+
+procedure TfmMain.DoFileOpenDialogRaw;
+begin
+  FAllowEventOnOpenBefore:= false;
+  try
+    DoFileOpenDialog;
+  finally
+    FAllowEventOnOpenBefore:= true;
+  end;
 end;
 
 procedure TfmMain.DoFileOpenDialog;

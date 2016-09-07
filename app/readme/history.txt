@@ -4,6 +4,10 @@
   * changed
 
 
+1.4.5.5
++ key Esc in left panels: focus editor
++ cmd "open file, ignore plugins" (to open project-files as raw text)
+
 1.4.5
 * reworked themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. any UI theme can be used with any Syntax theme. More flexible system. Less work on Syntax themes.
 + dlg Save Tabs: button to dont keep in session

@@ -39,6 +39,7 @@ const
   cmd_FileSaveAll        = 2504;
   cmd_FileReopen         = 2505;
   cmd_FileExit           = 2506;
+  cmd_FileOpenRaw        = 2507;
   cmd_FileClose          = 2510;
   cmd_FileCloseOtherThis = 2511;
   cmd_FileCloseOtherAll  = 2512;
@@ -266,6 +267,7 @@ procedure InitKeymapForApplication(M: TATKeymap);
 begin
   M.Add(cmd_FileNew, 'file: new file', [cXControl+'+N'], []);
   M.Add(cmd_FileOpen, 'file: open file', [cXControl+'+O'], []);
+  M.Add(cmd_FileOpenRaw, 'file: open file, ignore plugins', [], []);
   M.Add(cmd_FileSave, 'file: save file', [cXControl+'+S'], []);
   M.Add(cmd_FileSaveAs, 'file: save file as', [], []);
   M.Add(cmd_FileSaveAll, 'file: save all tabs', [], []);
@@ -507,6 +509,7 @@ begin
 
     cmd_FileNew               ,
     cmd_FileOpen              ,
+    cmd_FileOpenRaw           ,
     cmd_FileReopen            ,
     cmd_FileExit              ,
     cmd_FileClose             ,
@@ -622,6 +625,7 @@ begin
     cmd_DialogSaveTabs,
     cmd_FileNew,
     cmd_FileOpen,
+    cmd_FileOpenRaw,
     cmd_FileSaveAs,
     cmd_FileExit,
     cmd_FileClose,
