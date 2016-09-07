@@ -669,7 +669,7 @@ type
     procedure DoOnTabPopup(Sender: TObject);
     function DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;
     procedure DoFileOpenDialog;
-    procedure DoFileOpenDialogRaw;
+    procedure DoFileOpenDialog_NoPlugins;
     procedure DoFileSaveAll;
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
@@ -1950,7 +1950,7 @@ begin
 end;
 
 
-procedure TfmMain.DoFileOpenDialogRaw;
+procedure TfmMain.DoFileOpenDialog_NoPlugins;
 begin
   FAllowEventOnOpenBefore:= false;
   try
