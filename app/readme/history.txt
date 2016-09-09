@@ -4,7 +4,8 @@
   * changed
 
 
-1.4.5.5
+1.4.6
++ command line params: allow line numbers: "path/filename:nnnn"
 + key Esc in left panels: focus editor
 + cmd "open file, ignore plugins" (to open project-files as raw text)
 
