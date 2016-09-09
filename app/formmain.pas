@@ -1512,7 +1512,7 @@ procedure TfmMain.DoLoadCommandLine;
 var
   Frame: TEditorFrame;
   fn: string;
-  i: integer;
+  NLine, i: integer;
 begin
   for i:= 0 to Length(FFileNamesDroppedInitially)-1 do
   begin
@@ -1536,6 +1536,9 @@ begin
     //don't take folder
     if DirectoryExistsUTF8(fn) then Continue;
 
+    //get line number: "filename:nnn"
+    SParseFileNameLineNumber(fn, NLine);
+
     Frame:= nil;
     if FileExistsUTF8(fn) then
       Frame:= DoFileOpen(fn)
@@ -1551,10 +1554,22 @@ begin
 
     if Assigned(Frame) then
     begin
+      if NLine>0 then
+      begin
+        Frame.Editor.LineTop:= NLine-1;
+        Frame.TopLineTodo:= NLine-1;
+        Frame.Editor.DoGotoPos_AndUnfold(
+          Point(0, NLine-1),
+          Point(-1, -1),
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert);
+        Frame.Editor.Update;
+      end;
+
       if FOption_OpenReadOnly then
       begin
         Frame.ReadOnly:= true;
-        MsgStatus(''); //show [read-only]
+        MsgStatus(''); //show "[read-only]"
       end;
     end;
   end;
