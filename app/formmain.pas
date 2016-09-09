@@ -1512,7 +1512,8 @@ procedure TfmMain.DoLoadCommandLine;
 var
   Frame: TEditorFrame;
   fn: string;
-  NLine, i: integer;
+  NumLine, NumColumn: integer;
+  i: integer;
 begin
   for i:= 0 to Length(FFileNamesDroppedInitially)-1 do
   begin
@@ -1537,7 +1538,7 @@ begin
     if DirectoryExistsUTF8(fn) then Continue;
 
     //get line number (cut from fn)
-    NLine:= FParseFileNameWithLineNumber(fn);
+    SParseFilenameWithTwoNumbers(fn, NumLine, NumColumn);
 
     Frame:= nil;
     if FileExistsUTF8(fn) then
@@ -1554,12 +1555,12 @@ begin
 
     if Assigned(Frame) then
     begin
-      if NLine>0 then
+      if NumLine>0 then
       begin
-        Frame.Editor.LineTop:= NLine-1;
-        Frame.TopLineTodo:= NLine-1;
+        Frame.Editor.LineTop:= NumLine-1;
+        Frame.TopLineTodo:= NumLine-1;
         Frame.Editor.DoGotoPos_AndUnfold(
-          Point(0, NLine-1),
+          Point(IfThen(NumColumn>0, NumColumn-1, 0), NumLine-1),
           Point(-1, -1),
           UiOps.FindIndentHorz,
           UiOps.FindIndentVert);

@@ -42,6 +42,7 @@ procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStri
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
 function SGetFilenameBackup(const fn, mode: string): string;
+procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
 
 
 implementation
@@ -276,6 +277,43 @@ begin
   if mode='1' then exit(fn+'~');
   if mode='2' then exit(ChangeFileExt(fn, '.~'+Copy(ExtractFileExt(fn), 2, MaxInt)));
   if StrToIntDef(mode, -1)<0 then exit(fn+'.'+mode);
+end;
+
+
+function SParseFilenameWithNumber(var fn: string): integer;
+var
+  sNum: string;
+  n: integer;
+begin
+  Result:= 0;
+
+  n:= Length(fn);
+  while (n>0) and (fn[n]<>':') do Dec(n);
+  if n=0 then exit;
+
+  sNum:= Copy(fn, n+1, MaxInt);
+  Result:= StrToIntDef(sNum, 0);
+  if Result>0 then
+    SetLength(fn, Length(fn)-Length(sNum)-1);
+end;
+
+procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
+var
+  n1, n2: integer;
+begin
+  n1:= SParseFilenameWithNumber(fn);
+  n2:= SParseFilenameWithNumber(fn);
+
+  if n2>0 then
+  begin
+    NLine:= n2;
+    NColumn:= n1;
+  end
+  else
+  begin
+    NLine:= n1;
+    NColumn:= 0;
+  end;
 end;
 
 end.
