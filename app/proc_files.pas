@@ -27,7 +27,7 @@ function IsFileReadonly(const fn: string): boolean;
 procedure FFileAttrPrepare(const fn: string; var attr: Longint);
 procedure FFileAttrRestore(const fn: string; attr: Longint);
 
-procedure SParseFileNameLineNumber(var fn: string; out LineNum: integer);
+function FParseFileNameWithLineNumber(var fn: string): integer;
 
 implementation
 
@@ -203,19 +203,19 @@ begin
 end;
 
 
-procedure SParseFileNameLineNumber(var fn: string; out LineNum: integer);
+function FParseFileNameWithLineNumber(var fn: string): integer;
 var
   sName, sNum: string;
   n: integer;
 begin
-  LineNum:= 0;
+  Result:= 0;
   sName:= ExtractFileName(fn);
   n:= Pos(':', sName);
   if n=0 then exit;
 
   sNum:= Copy(sName, n+1, MaxInt);
-  LineNum:= StrToIntDef(sNum, LineNum);
-  if LineNum>0 then
+  Result:= StrToIntDef(sNum, 0);
+  if Result>0 then
     SetLength(fn, Length(fn)-Length(sNum)-1);
 end;
 

@@ -1536,8 +1536,8 @@ begin
     //don't take folder
     if DirectoryExistsUTF8(fn) then Continue;
 
-    //get line number: "filename:nnn"
-    SParseFileNameLineNumber(fn, NLine);
+    //get line number (cut from fn)
+    NLine:= FParseFileNameWithLineNumber(fn);
 
     Frame:= nil;
     if FileExistsUTF8(fn) then
