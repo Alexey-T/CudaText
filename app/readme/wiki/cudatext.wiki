@@ -57,6 +57,12 @@ Supported "keys" in command line:
 * --ro - Open all files from command line in read-only mode
 * --new - Ignore option "reuse single instance", and open new editor window
 
+To place caret in a file at line nnn, append ":nnn" to filename.
+To specify also the column mmm, append ":mmm" after line number.
+
+* cudatext filename:nnn
+* cudatext filename:nnn:mmm
+
 == Mouse shortcuts ==
 
 Multi-carets:
@@ -415,7 +421,10 @@ If program runs and cannot find "data/lexlib" near executable, it opens dirs fro
 ==Linux Qt==
 For CudaText Qt version, library libQt4Pas needed.
 
-* For Ubuntu: install it using apt-get.
+* For Ubuntu: run
+
+  sudo apt-get install libqt4pas-dev
+
 * For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
 
 ==How to make translation==
@@ -441,7 +450,37 @@ How to make translation zip package:
 * publish zip at CudaText forum or https://github.com/Alexey-T/CudaText/issues
 * if package ok, it will be at SF.net downloads, and in Addon Manager
 
-==How to see all color-theme items ==
+==Color themes==
+Two kinds of themes exist: 
+
+* UI themes, file extension .cuda-theme-ui
+* Syntax themes, file extension .cuda-theme-syntax
+
+(Before 1.4.5 themes were combined: UI+Syntax in one .json file.)
+
+Two dialogs allow to paint these kinds of themes. To paint a theme:
+
+* Call dialog: "Options/ Settings - more/ Settings - theme - nnnnn"
+* For UI themes: customize colors in dialog
+* For syntax themes: customize lexer-styles in dialog
+* For syntax themes: test theme at last on JS/HTML/CSS/C/Pascal/Ini/Markdown/Go lexers. You can use lexer sample codes in the "Lexer properties" dialog.
+* Your file will be saved in the dir "data/themes"
+
+===How to make theme package===
+
+* Make such file "install.inf":
+
+  [info]
+  title=MyName UI theme (by AuthorName)
+  type=cudatext-data
+  subdir=themes
+  homepage=https://github.com/nnnn/pppp
+
+* Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf"
+* Test zip file: open zip file in CudaText, confirm installation
+* Publish file at forum or https://github.com/Alexey-T/CudaText/issues
+
+===How to see all UI theme items===
 
 * "editor, font" - color of font when no lexer is active. Click statusbar field with lexer-name, call "none".
 * "editor, disabled state, font/bg" - editor shown with this bg-color when Replace dialog runs action, with option "confirm on replace" (during confirm message editor is disabled), if none lexer active
@@ -459,23 +498,6 @@ How to make translation zip package:
 * "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
 * "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
 
-==How to make theme package==
-
-* Call dialog "Options/ Settings - more/ Settings - colors"
-* Paint the theme
-* Note that "styles" are used across many lexers, so test theme on JS/HTML/CSS/Pascal/Ini/Markdown/Go/C lexers (you can use lexer sample codes in the "Lexer properties" dialog)
-* Your file is in the "data/themes" dir
-* Make such file "install.inf":
-
- [info]
- title=MyName theme (by AuthorName)
- type=cudatext-data
- subdir=themes
- homepage=https://github.com/nnnn/pppp
-
-* Make zip file "theme.MyName.zip" with files "MyTheme.json" and "install.inf"
-* Test zip file: open zip file in CudaText, confirm installation
-* Publish file at forum or https://github.com/Alexey-T/CudaText/issues
 
 ==More==
 
@@ -571,7 +593,8 @@ To specify markers:
 These place markers in text, marker index NN is 0 to 40.
 After snippet insertion, tab-key goes to markers (and deletes them).
 
-* Markers can be in any order in snippet, tab-keys goes first to 1, 2, 3... and 0 is always last.
+* Markers can be in any order in snippet (e.g. marker 4 can be between 1 and 2)
+* Tab-key goes first to marker 1, 2, 3... and marker 0 is always last by tab-key.
 * Markers with the same index will place multi-carets, when tab-key goes to them. 
 * Nested markers with def-text allowed, but only 1 level: ${2:text is {$3:here}}.
 * Macro ${NN:...} with def-text can take n lines (ending "}" on next lines, so selection will be multi-line).
