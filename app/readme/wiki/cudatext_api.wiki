@@ -813,6 +813,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
+* PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_MACRO_REC: bool: currently macro is recording.
 * PROP_MARKED_RANGE: 2-tuple: numbers of lines for "marked range" (both -1 if not set).
 * PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word-wrap).
@@ -862,6 +863,7 @@ Possible values of id:
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
+* PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
 * PROP_MARKED_RANGE: str: numbers of lines for "marked range" as "num1,num2" (pass empty str or "-1,-1" to remove range).
 * PROP_MINIMAP: bool: minimap is visible.
@@ -1092,6 +1094,9 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.154
+* add: ed.get_prop/set_prop: PROP_CARET_VIRTUAL
 
 1.0.153
 * add: app_path: APP_DIR_INSTALLED_ADDON

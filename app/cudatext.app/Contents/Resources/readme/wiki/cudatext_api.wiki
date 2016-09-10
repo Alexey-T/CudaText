@@ -87,6 +87,7 @@ Gets some path. Possible values of id:
 * APP_DIR_SETTINGS: Dir "settings".
 * APP_DIR_DATA: Dir "data".
 * APP_DIR_PY: Dir with Python data "py".
+* APP_DIR_INSTALLED_ADDON: Dir of last installed addon (for plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib"). This dir is updated only if addon installed via file_open() or from app (Open dialog or command line).
 * APP_FILE_SESSION: Filename of session, default is "history session.json" in dir "settings".
 
 Note: to get path of dir "settings_default", use base dir of "settings".
@@ -165,10 +166,11 @@ Actions:
 *** spec values: 
 **** "recents", "_recents" - recent-files submenu
 **** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
-**** "themes", "_themes" - color-themes submenu 
 **** "langs", "_langs" - translations submenu
 **** "lexers", "_lexers" - lexers submenu
 **** "plugins", "_plugins" - plugins submenu
+**** "themes-ui", "_themes-ui" - ui-themes submenu 
+**** "themes-syntax", "_themes-syntax" - syntax-themes submenu 
 *** s_module+","+s_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to Python method.
 *** any string (e.g. "0", value ignored) if submenu (note: submenu is detected not by menu_id string, but by presence of sub items)
 ** menu_caption is caption, or "-" for menu separator.
@@ -552,12 +554,14 @@ Gets Editor object for active editor in tab-group with given group-index. Group-
 
 Reads or writes single string to ini file. Params:
 
-* filename: Full path of ini file. Can be name w/o path, this means that path of "settings" dir is used.
+* filename: Path of ini file. Can be name w/o path, this means that path of "settings" dir is used.
 * section: str: Section of ini file.
 * key: str: Key in section.
-* value: On write: value to write. On read: default value which is returned if no such filename/section/key is found.
+* value: str:
+** on read: default value which is returned if no such filename/section/key was found.
+** on write: value to write. 
 
-Gets string which is read, gets None on write.
+On read: gets string value. On write: gets None.
 
 ===lexer_proc===
 
@@ -784,8 +788,6 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_EOL: str: end-of-line chars. Currently always gets "\n" since it's ignored in "insert" method.
 * PROP_WRAP: int: word-wrap mode. 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin.
 * PROP_RO: bool: read-only mode.
-* PROP_TAB_SPACES: bool: tab-key enters spaces.
-* PROP_TAB_SIZE: int: size of tab-char.
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: user-defined margins positions, e.g. "20 25".
 * PROP_INSERT: bool: insert/overwrite mode.
@@ -807,11 +809,11 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAB_COLLECT_MARKERS: bool: tab-keys collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAG: str: some string attached to editor's tab. Param text must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
+* PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_MACRO_REC: bool: currently macro is recording.
 * PROP_MARKED_RANGE: 2-tuple: numbers of lines for "marked range" (both -1 if not set).
 * PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word-wrap).
@@ -819,10 +821,13 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
+* PROP_LINK_AT_POS: str: URL in the document, at given position, text must be str(pos_x)+","+str(pos_y).
+* PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
+* PROP_TAB_SIZE: int: size of tab-char.
+* PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
-* PROP_LINK_AT_POS: str: URL in the document, at given position, text must be str(pos_x)+","+str(pos_y).
 
 ===set_prop===
 
@@ -838,8 +843,6 @@ Possible values of id:
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_WRAP: int: word-wrap mode. 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin. 
 * PROP_RO: bool: read-only mode.
-* PROP_TAB_SPACES: bool: tab-key enters spaces.
-* PROP_TAB_SIZE: int: size of tab-char.
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: space-separated user-margins columns.
 * PROP_INSERT: bool: insert/overwrite mode.
@@ -856,15 +859,18 @@ Possible values of id:
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
 * PROP_TAG: str: some string attached to editor's tab. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
+* PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
 * PROP_MARKED_RANGE: str: numbers of lines for "marked range" as "num1,num2" (pass empty str or "-1,-1" to remove range).
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
+* PROP_TAB_SPACES: bool: tab-key inserts spaces.
+* PROP_TAB_SIZE: int: size of tab-char.
+* PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
 * PROP_TAB_COLOR: int: color of tab containing editor; set COLOR_NONE to reset.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 
@@ -1088,6 +1094,12 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.154
+* add: ed.get_prop/set_prop: PROP_CARET_VIRTUAL
+
+1.0.153
+* add: app_path: APP_DIR_INSTALLED_ADDON
 
 1.0.152
 * add: ed.get_prop/set_prop: PROP_COLUMN_LEFT

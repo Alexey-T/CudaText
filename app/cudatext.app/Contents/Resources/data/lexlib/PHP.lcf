@@ -347,7 +347,8 @@ object SyntAnal97: TLibSyntAnalyzer
             'object'
             'resource'
             'string'
-            'true')
+            'true'
+            'false')
           TokenTypes = 2
         end>
       HighlightPos = cpAny

@@ -1824,6 +1824,9 @@ begin
         PROP_CARET_SHAPE_RO:
           Result:= PyInt_FromLong(Ord(Ed.OptCaretShapeRO));
 
+        PROP_CARET_VIRTUAL:
+          Result:= PyBool_FromLong(Ord(Ed.OptCaretVirtual));
+
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
         PROP_MICROMAP:
@@ -1986,6 +1989,9 @@ begin
           Ed.OptCaretShapeOvr:= TATSynCaretShape(StrToIntDef(Str, 0));
         PROP_CARET_SHAPE_RO:
           Ed.OptCaretShapeRO:= TATSynCaretShape(StrToIntDef(Str, 0));
+
+        PROP_CARET_VIRTUAL:
+          Ed.OptCaretVirtual:= ValueBool;
 
         PROP_MINIMAP:
           Ed.OptMinimapVisible:= ValueBool;
