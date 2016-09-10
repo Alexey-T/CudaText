@@ -8,6 +8,7 @@
 + command line allows line numbers: "cudatext filename:nnn"
 + key Esc in left panels: focus editor
 + cmd "open file, ignore plugins" (to open project-files as raw text)
++ lexer JS: upd keywords, hilite `strings`
 * del sorting built-in cmds (plugin Sort exists)
 
 1.4.5
