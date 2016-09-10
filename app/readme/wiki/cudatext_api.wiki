@@ -114,7 +114,10 @@ Performs application-wide action. Possible values of id:
 
 ====Plugin calls====
 
-* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". Event_list is what can be written in plugins.json, e.g. "on_open,on_save" or empty str to unsubscribe from all. Lexer_list, keycode_list is what can be written in plugins.json too.
+* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". 
+** event_list is comma-separated event names. e.g. "on_open,on_save", or empty str to unsubscribe from all. 
+** lexer_list is comma-separated lexer names.
+** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
 * PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items from PROC_SET_SUBCOMMANDS). Call it with str(N) from N=0 until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
@@ -130,6 +133,20 @@ command_id can be: str(int_command_code) or "module,method" or "module,method,pa
 ====Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call). Also gets string: result of command.
 * PROC_EXEC_PLUGIN: Runs Python plugin's method. Text must be ","-separated: "module_name,method_name,param_string", where param_string can be missed, this is parameter(s) for method.
+
+====Themes====
+
+Notes:
+* Theme names are short strings, lowercase, e.g. "cobalt", "sub". Empty string means built-in theme.
+* Setting default theme (empty str) resets both UI + syntax themes.
+* To enumerate themes, you need to list themes folder.
+
+Actions:
+
+* PROC_THEME_UI_GET: Gets UI-theme name.
+* PROC_THEME_UI_SET: Sets UI-theme name.
+* PROC_THEME_SYNTAX_GET: Gets syntax-theme name.
+* PROC_THEME_SYNTAX_SET: Sets syntax-theme name.
 
 ====Sessions====
 
@@ -1096,6 +1113,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.154
+* add: app_proc: PROC_THEME_UI_*, PROC_THEME_SYNTAX_*
 * add: ed.get_prop/set_prop: PROP_CARET_VIRTUAL
 
 1.0.153
