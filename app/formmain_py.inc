@@ -2352,6 +2352,25 @@ begin
             Result:= PyString_FromString(PChar(Str));
           end;
 
+        APP_PROC_THEME_UI_GET:
+          begin
+            Result:= PyString_FromString(PChar(fmMain.ThemeUi));
+          end;
+        APP_PROC_THEME_UI_SET:
+          begin
+            fmMain.ThemeUi:= Str;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_THEME_SYNTAX_GET:
+          begin
+            Result:= PyString_FromString(PChar(fmMain.ThemeSyntax));
+          end;
+        APP_PROC_THEME_SYNTAX_SET:
+          begin
+            fmMain.ThemeSyntax:= Str;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

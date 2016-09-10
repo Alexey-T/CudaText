@@ -322,25 +322,13 @@ begin
       DoShowConsole(false);
 
     ////AppTheme
-    FThemeUi:= c.GetValue('theme_ui', '');
-    FThemeSyntax:= c.GetValue('theme_syntax', '');
+    ThemeUi:= c.GetValue('theme_ui', '');
+    ThemeSyntax:= c.GetValue('theme_syntax', '');
     AppLangName:= c.GetValue('lang', '');
     FSessionName:= c.GetValue('session', FSessionName);
 
     if AppLangName<>'' then
       DoLocalize;
-
-    if FThemeUi<>'' then
-    begin
-      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+AppExtensionThemeUi, AppTheme, true);
-      DoApplyTheme;
-    end;
-
-    if FThemeSyntax<>'' then
-    begin
-      DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+AppExtensionThemeSyntax, AppTheme, false);
-      DoApplyTheme;
-    end;
 
     DoOps_LoadHistory_GroupView(c);
   finally

@@ -605,6 +605,8 @@ type
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
+    procedure SetThemeSyntax(AValue: string);
+    procedure SetThemeUi(AValue: string);
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
@@ -777,6 +779,8 @@ type
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
     property ShowBottom: boolean read GetShowBottom write SetShowBottom;
+    property ThemeUi: string read FThemeUi write SetThemeUi;
+    property ThemeSyntax: string read FThemeSyntax write SetThemeSyntax;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
   end;
@@ -2159,30 +2163,6 @@ begin
 end;
 
 
-procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
-var
-  Str, StrExt: string;
-begin
-  if AThemeUI then
-    StrExt:= AppExtensionThemeUi
-  else
-    StrExt:= AppExtensionThemeSyntax;
-
-  if DoDialogConfigTheme(AppTheme, AThemeUI) then
-  begin
-    DoApplyTheme;
-    if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
-    begin
-      Str:= Trim(InputBox(msgTitle, msgThemeName, 'test'));
-      if Str='' then exit;
-      Str:= GetAppPath(cDirDataThemes)+DirectorySeparator+Str+StrExt;
-
-      DoSaveTheme(Str, AppTheme, AThemeUI);
-      UpdateMenuThemes(AThemeUI);
-    end;
-  end;
-end;
-
 
 function TfmMain.IsFocusedBottom: boolean;
 begin
@@ -2748,6 +2728,7 @@ begin
   end;
 end;
 
+
 procedure TfmMain.DoEditorsLock(ALock: boolean);
 var
   i: integer;
@@ -3085,34 +3066,6 @@ begin
   end;
 end;
 
-function TfmMain.DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean
-  ): boolean;
-var
-  Form: TfmColorSetup;
-  i: integer;
-begin
-  Form:= TfmColorSetup.Create(nil);
-  try
-    Form.PanelUi.Visible:= AThemeUI;
-    Form.PanelSyntax.Visible:= not AThemeUI;
-
-    DoLocalize_FormColorSetup(Form);
-    Form.OnApply:= @FormColorsApply;
-    Form.Data:= AData;
-    Result:= Form.ShowModal=mrOk;
-
-    if Result then
-    begin
-      AData:= Form.Data;
-      for i:= 0 to FrameCount-1 do
-        with Frames[i] do Lexer:= Lexer;
-      UpdateFrame;
-    end;
-  finally
-    FreeAndNil(Form);
-  end;
-end;
-
 procedure TfmMain.SplitterOnPaint_Gr(Sender: TObject);
 var
   Sp: TSplitter;
@@ -3215,47 +3168,6 @@ begin
   end;
 end;
 
-procedure TfmMain.MenuThemesUiClick(Sender: TObject);
-var
-  fn, fn2, themeStr: string;
-  i: integer;
-begin
-  fn:= FListThemesUI[(Sender as TComponent).Tag];
-  FThemeUi:= ExtractFileNameOnly(fn);
-
-  //find Syntax theme with the same name
-  for i:= 0 to FListThemesSyntax.Count-1 do
-  begin
-    fn2:= FListThemesSyntax[i];
-    themeStr:= ExtractFileNameOnly(fn2);
-    if themeStr=FThemeUi then
-    begin
-      if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
-      begin
-        FThemeSyntax:= themeStr;
-        DoLoadTheme(fn2, AppTheme, false);
-      end;
-      Break;
-    end;
-  end;
-
-  DoClearLexersAskedList;
-  DoLoadTheme(fn, AppTheme, true);
-  DoApplyTheme;
-end;
-
-procedure TfmMain.MenuThemesSyntaxClick(Sender: TObject);
-var
-  fn: string;
-begin
-  fn:= FListThemesSyntax[(Sender as TComponent).Tag];
-  FThemeSyntax:= ExtractFileNameOnly(fn);
-
-  DoClearLexersAskedList;
-  DoLoadTheme(fn, AppTheme, false);
-  DoApplyTheme;
-end;
-
 
 procedure TfmMain.MenuLangClick(Sender: TObject);
 var
@@ -3311,15 +3223,6 @@ begin
   finally
     Free
   end;
-end;
-
-procedure TfmMain.MenuThemeDefClick(Sender: TObject);
-begin
-  FThemeUi:= '';
-  FThemeSyntax:= '';
-  DoClearLexersAskedList;
-  DoInitTheme(AppTheme);
-  DoApplyTheme;
 end;
 
 procedure TfmMain.mnuTabsize1Click(Sender: TObject);
@@ -3974,6 +3877,7 @@ end;
 {$I formmain_cmd.inc}
 {$I formmain_editing.inc}
 {$I formmain_plugins.inc}
+{$I formmain_themes.inc}
 
 
 end.

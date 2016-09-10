@@ -23,6 +23,7 @@ lib/
 backup/
 settings/
 __trash/
+_test/
 /app/cudatext
 cuda_python_intel/
 cuda_ext/
@@ -55,5 +56,4 @@ cuda_sort*
 cuda_ftp*
 cuda_fav*
 cuda_proj*
-
-_test/
+cuda_emmet*
