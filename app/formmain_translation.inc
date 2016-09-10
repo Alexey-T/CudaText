@@ -164,10 +164,6 @@ begin
     DoLocMenuitem(ini, mnuCaseInvert, 'm_e', 'cas_i');
     DoLocMenuitem(ini, mnuCaseSent, 'm_e', 'cas_s');
 
-    DoLocMenuitem(ini, mnuSortSub, 'm_e', 'sr_');
-    DoLocMenuitem(ini, mnuSortAsc, 'm_e', 'sr_a');
-    DoLocMenuitem(ini, mnuSortDesc, 'm_e', 'sr_d');
-
     DoLocMenuitem(ini, mnuCmtSub, 'm_e', 'com_');
     DoLocMenuitem(ini, mnuCmtAdd, 'm_e', 'com_l_a');
     DoLocMenuitem(ini, mnuCmtRemove, 'm_e', 'com_l_d');
@@ -456,7 +452,6 @@ begin
     DoLocString(msgStatusEncChanged              , ini, 'si', 'EncChanged');
     DoLocString(msgStatusGotoLine                , ini, 'si', 'GotoLine');
     DoLocString(msgStatusGotoFileLineCol         , ini, 'si', 'FileLineCol');
-    DoLocString(msgStatusSorted                  , ini, 'si', 'Sorted');
     DoLocString(msgStatusHelpOnKeysConfig        , ini, 'si', 'HelpOnKeysConfig');
     DoLocString(msgStatusClickingLogLine         , ini, 'si', 'ClickingLogLine');
     DoLocString(msgStatusNoGotoDefinitionPlugins , ini, 'si', 'NoGotoDefinitionPlugins');

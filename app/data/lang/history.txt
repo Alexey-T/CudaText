@@ -1,6 +1,10 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.09.10
+* del [si] Sorted
+* del [m_e] sr_ sr_a sr_d
+
 2016.09.03
 + [m_o] cou cos cou_ cos_
 * del [m_o] co

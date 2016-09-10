@@ -110,7 +110,6 @@ const
   msgStatusEncChanged: string = 'Encoding changed';
   msgStatusGotoLine: string = 'Go to line: %d';
   msgStatusGotoFileLineCol: string = 'File "%s", Line %d Col %d';
-  msgStatusSorted: string = 'Sorted %d lines';
   msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';

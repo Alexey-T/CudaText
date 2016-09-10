@@ -45,7 +45,6 @@ procedure EditorFocus(Ed: TATSynEdit);
 procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
-function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out ACount: integer): boolean;
 
 type
   TEditorFoldOp = (cEditorFold, cEditorUnfold, cEditorFoldUnfold);
@@ -304,94 +303,6 @@ begin
   Ed.OptKeyUpDownNavigateWrapped:= Op.OpKeyUpDownNavigateWrapped;
   Ed.OptKeyLeftRightSwapSel:= Op.OpKeyLeftRightSwapSel;
   Ed.OptKeyLeftRightSwapSelAndSelect:= Op.OpKeyLeftRightSwapSelAndSelect;
-end;
-
-function SortComp(List: TStringList; Index1, Index2: Integer): Integer;
-var
-  s1, s2: atString;
-begin
-  s1:= utf8decode(List[Index1]);
-  s2:= utf8decode(List[Index2]);
-  Result:= UnicodeCompareStr(s1, s2);
-end;
-
-function SortCompDesc(List: TStringList; Index1, Index2: Integer): Integer;
-begin
-  Result:= -SortComp(List, Index1, Index2);
-end;
-
-function SortCompNocase(List: TStringList; Index1, Index2: Integer): Integer;
-var
-  s1, s2: atString;
-begin
-  s1:= utf8decode(List[Index1]);
-  s2:= utf8decode(List[Index2]);
-  Result:= UnicodeCompareText(s1, s2);
-end;
-
-function SortCompNocaseDesc(List: TStringList; Index1, Index2: Integer): Integer;
-begin
-  Result:= -SortCompNocase(List, Index1, Index2);
-end;
-
-
-function EditorSortSel(ed: TATSynEdit; Asc, ANocase: boolean; out
-  ACount: integer): boolean;
-var
-  y1, y2: integer;
-  i: integer;
-  Str: atString;
-  caret: TATcaretitem;
-  list: TStringlist;
-begin
-  ACount:= 0;
-  caret:= ed.Carets[0];
-  caret.GetSelLines(y1, y2);
-  if y1=y2 then
-    exit(false);
-
-  list:= TStringlist.create;
-  list.Duplicates:= dupAccept;
-  try
-    for i:= y1 to y2 do
-    begin
-      str:= ed.Strings.Lines[i];
-      if Trim(str)<>'' then
-        list.Add(utf8encode(str));
-    end;
-
-    if not ANocase then
-    begin
-      if Asc then
-        list.CustomSort(@SortComp)
-      else
-        list.CustomSort(@SortCompDesc);
-    end
-    else
-    begin
-      if Asc then
-        list.CustomSort(@SortCompNocase)
-      else
-        list.CustomSort(@SortCompNocaseDesc);
-    end;
-
-    for i:= y2 downto y1 do
-      ed.Strings.LineDelete(i);
-
-    for i:= list.Count-1 downto 0 do
-    begin
-      str:= utf8decode(list[i]);
-      ed.Strings.LineInsert(y1, str);
-    end;
-
-    ed.Strings.Modified:= true;
-    ed.DoEventChange;
-
-    ACount:= list.Count;
-    Result:= true;
-  finally
-    list.free;
-  end;
 end;
 
 function EditorGetSelLines(ed: TATSynEdit): integer;

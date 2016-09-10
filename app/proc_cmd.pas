@@ -131,8 +131,6 @@ const
   cmd_CopyFilenameFull = 2651;
   cmd_CopyFilenameDir  = 2652;
   cmd_CopyFilenameName = 2653;
-  cmd_SortAsc          = 2654;
-  cmd_SortDesc         = 2655;
 
   cmd_ToggleTabUsesSpaces = 2657;
   cmd_ConvertTabsToSpaces = 2658;
@@ -343,9 +341,6 @@ begin
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);
   M.Add(cmd_CopyFilenameDir, 'clipboard: copy filepath only', [], []);
   M.Add(cmd_CopyFilenameName, 'clipboard: copy filename only', [], []);
-
-  M.Add(cmd_SortAsc, 'sort selection, asc', [], []);
-  M.Add(cmd_SortDesc, 'sort selection, desc', [], []);
 
   M.Add(cmd_ToggleTabUsesSpaces, 'toggle tabulation-key uses spaces', [], []);
   M.Add(cmd_ConvertTabsToSpaces, 'convert tabs to spaces', [], []);

@@ -482,9 +482,6 @@ begin
   UpKey(mnuCaseInvert, cCommand_TextCaseInvert);
   UpKey(mnuCaseSent, cCommand_TextCaseSentence);
 
-  UpKey(mnuSortAsc, cmd_SortAsc);
-  UpKey(mnuSortDesc, cmd_SortDesc);
-
   UpKey(mnuCmtAdd, cmd_CommentLineAdd_AtNonspace);
   UpKey(mnuCmtRemove, cmd_CommentLineRemove);
   UpKey(mnuCmtToggle, cmd_CommentLineToggle_AtNonspace);

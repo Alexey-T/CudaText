@@ -330,16 +330,6 @@ object fmMain: TfmMain
           Caption = '&Sentence case'
         end
       end
-      object mnuSortSub: TMenuItem
-        Caption = '&Sort lines'
-        Hint = 'sort'
-        object mnuSortAsc: TMenuItem
-          Caption = 'Sort lines &ascending'
-        end
-        object mnuSortDesc: TMenuItem
-          Caption = 'Sort lines &descending'
-        end
-      end
       object mnuCmtSub: TMenuItem
         Caption = 'Co&mments'
         Hint = 'cmt'

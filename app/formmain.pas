@@ -225,9 +225,6 @@ type
     mnuFindNext: TMenuItem;
     mnuFindDlg: TMenuItem;
     SepSr1: TMenuItem;
-    mnuSortSub: TMenuItem;
-    mnuSortAsc: TMenuItem;
-    mnuSortDesc: TMenuItem;
     mnuBmPrev: TMenuItem;
     mnuBmNext: TMenuItem;
     mnuGotoBm: TMenuItem;
@@ -675,7 +672,6 @@ type
     procedure DoFileSaveAll;
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
-    procedure DoSortSel(ed: TATSynEdit; Asc, ANocase: boolean);
     procedure DoToggleFullScreen;
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
