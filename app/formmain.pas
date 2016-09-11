@@ -596,6 +596,7 @@ type
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
+    function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);

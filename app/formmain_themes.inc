@@ -281,26 +281,37 @@ begin
   ThemeUi:= '';
 end;
 
+function TfmMain.IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
+var
+  List: TStringList;
+  StrName: string;
+  i: integer;
+begin
+  Result:= false;
+
+  if AThemeUI then
+    List:= FListThemesUI
+  else
+    List:= FListThemesSyntax;
+
+  for i:= 0 to List.Count-1 do
+  begin
+    StrName:= ExtractFileNameOnly(List[i]);
+    if StrName=AName then exit(true);
+  end;
+end;
+
 procedure TfmMain.MenuThemesUiClick(Sender: TObject);
 var
-  fn, fn2, StrName: string;
-  i: integer;
+  fn: string;
 begin
   fn:= FListThemesUI[(Sender as TComponent).Tag];
   ThemeUi:= ExtractFileNameOnly(fn);
 
-  //find Syntax theme with the same name
-  for i:= 0 to FListThemesSyntax.Count-1 do
-  begin
-    fn2:= FListThemesSyntax[i];
-    StrName:= ExtractFileNameOnly(fn2);
-    if StrName=ThemeUi then
-    begin
-      if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
-        ThemeSyntax:= StrName;
-      Break;
-    end;
-  end;
+  //find syntax-theme with the same name
+  if IsThemeNameExist(ThemeUi, true) then
+    if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
+      ThemeSyntax:= ThemeUi;
 end;
 
 procedure TfmMain.MenuThemesSyntaxClick(Sender: TObject);
