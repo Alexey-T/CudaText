@@ -3102,6 +3102,13 @@ begin
     Key:= 0;
     exit
   end;
+
+  if (Key=VK_RETURN) then
+  begin
+    (Sender as TTreeView).OnDblClick(Sender);
+    Key:= 0;
+    exit
+  end;
 end;
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;
