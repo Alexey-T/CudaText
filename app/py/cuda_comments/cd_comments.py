@@ -81,6 +81,7 @@ class Command:
            #while
            
         #Saving
+        self.pair4lex = {}
         usr_lexs["Comments"         if only_ln else "CommentsForLines"].pop(lex, None)
         usr_lexs["CommentsForLines" if only_ln else "Comments"        ][lex] = pair
         open(usr_lexs_json, 'w').write(json.dumps(usr_lexs, indent=2))
