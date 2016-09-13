@@ -143,13 +143,7 @@ const
   cmd_BookmarkGotoPrev  = 2665;
   cmd_BookmarkPlaceCarets = 2667;
 
-  cmd_CommentLineAdd_AtNonspace    = 2670;
-  cmd_CommentLineAdd_AtStart       = 2671;
-  cmd_CommentLineRemove            = 2672;
-  cmd_CommentLineToggle_AtNonspace = 2673;
-  cmd_CommentLineToggle_AtStart    = 2674;
-  cmd_CommentStreamToggle          = 2675;
-  cmd_DuplicateLineEx              = 2676;
+  cmd_DuplicateLineEx   = 2676;
 
   cmd_LineEndWin        = 2677;
   cmd_LineEndUnix       = 2678;
@@ -370,12 +364,6 @@ begin
   M.Add(cmd_BookmarkClearAll, 'bookmarks: clear all', [], []);
   M.Add(cmd_BookmarkPlaceCarets, 'bookmarks: place carets', [], []);
 
-  M.Add(cmd_CommentLineAdd_AtNonspace, 'comments: add line comment, at non-space char', [], []);
-  M.Add(cmd_CommentLineAdd_AtStart, 'comments: add line comment, at line start', [], []);
-  M.Add(cmd_CommentLineRemove, 'comments: remove line comment', [], []);
-  M.Add(cmd_CommentLineToggle_AtNonspace, 'comments: toggle line comment, at non-space char', [cXControl+'+/'], []);
-  M.Add(cmd_CommentLineToggle_AtStart, 'comments: toggle line comment, at line start', [], []);
-  M.Add(cmd_CommentStreamToggle, 'comments: toggle stream comment', ['Alt+/'], []);
   M.Add(cmd_DuplicateLineEx, 'duplicate line (advanced)', [], []);
 
   M.Add(cmd_SplitTabToggle, 'split tab: toggle split', [], []);

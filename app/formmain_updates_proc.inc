@@ -482,11 +482,6 @@ begin
   UpKey(mnuCaseInvert, cCommand_TextCaseInvert);
   UpKey(mnuCaseSent, cCommand_TextCaseSentence);
 
-  UpKey(mnuCmtAdd, cmd_CommentLineAdd_AtNonspace);
-  UpKey(mnuCmtRemove, cmd_CommentLineRemove);
-  UpKey(mnuCmtToggle, cmd_CommentLineToggle_AtNonspace);
-  UpKey(mnuCmtToggleStr, cmd_CommentStreamToggle);
-
   UpKey(mnuEditCharmap, cmd_DialogCharMap);
 
   UpKey(mnuFindDlg, cmd_DialogFind);

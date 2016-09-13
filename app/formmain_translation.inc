@@ -164,12 +164,6 @@ begin
     DoLocMenuitem(ini, mnuCaseInvert, 'm_e', 'cas_i');
     DoLocMenuitem(ini, mnuCaseSent, 'm_e', 'cas_s');
 
-    DoLocMenuitem(ini, mnuCmtSub, 'm_e', 'com_');
-    DoLocMenuitem(ini, mnuCmtAdd, 'm_e', 'com_l_a');
-    DoLocMenuitem(ini, mnuCmtRemove, 'm_e', 'com_l_d');
-    DoLocMenuitem(ini, mnuCmtToggle, 'm_e', 'com_l_t');
-    DoLocMenuitem(ini, mnuCmtToggleStr, 'm_e', 'com_s_t');
-
     DoLocMenuitem(ini, mnuEditCharmap, 'm_e', 'map');
 
     DoLocMenuitem(ini, mnuSel, 'm_se', '_');

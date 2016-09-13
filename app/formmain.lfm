@@ -330,22 +330,6 @@ object fmMain: TfmMain
           Caption = '&Sentence case'
         end
       end
-      object mnuCmtSub: TMenuItem
-        Caption = 'Co&mments'
-        Hint = 'cmt'
-        object mnuCmtAdd: TMenuItem
-          Caption = '&Add line comment'
-        end
-        object mnuCmtRemove: TMenuItem
-          Caption = '&Remove line comment'
-        end
-        object mnuCmtToggle: TMenuItem
-          Caption = '&Toggle line comment'
-        end
-        object mnuCmtToggleStr: TMenuItem
-          Caption = 'Toggle &stream comment'
-        end
-      end
       object mnuEditCharmap: TMenuItem
         Caption = 'Char m&ap...'
       end

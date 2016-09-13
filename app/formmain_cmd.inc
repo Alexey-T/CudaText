@@ -158,12 +158,6 @@ begin
     cmd_BookmarkGotoPrev: EditorBookmarkGotoNext(CurrentEditor, false);
     cmd_BookmarkPlaceCarets: EditorBookmarkPlaceCarets(CurrentEditor);
 
-    cmd_CommentLineAdd_AtNonspace: DoCommentAction(cCommentAdd_AtNonespace_IfNone);
-    cmd_CommentLineAdd_AtStart: DoCommentAction(cCommentAdd_AtStart_IfNone);
-    cmd_CommentLineRemove: DoCommentAction(cCommentRemove);
-    cmd_CommentLineToggle_AtNonspace: DoCudaLibAction('cmt_toggle_line_body'); //DoCommentAction(cCommentToggle_AtNonspace);
-    cmd_CommentLineToggle_AtStart: DoCudaLibAction('cmt_toggle_line_1st'); //DoCommentAction(cCommentToggle_AtStart);
-    cmd_CommentStreamToggle: DoCudaLibAction('cmt_toggle_stream');
     cmd_DuplicateLineEx: DoCudaLibAction('duplicate');
 
     cmd_LineEndWin: SetLineEnds(cEndWin);

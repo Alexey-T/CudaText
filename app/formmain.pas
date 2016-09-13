@@ -151,7 +151,6 @@ type
     MenuItem37: TMenuItem;
     mnuTextSel: TMenuItem;
     mnuTextGotoDef: TMenuItem;
-    mnuCmtToggleStr: TMenuItem;
     mnuPlug: TMenuItem;
     mnuFileHtml: TMenuItem;
     mnuTreeFold9: TMenuItem;
@@ -189,10 +188,6 @@ type
     mnuOpLexLib: TMenuItem;
     mnuOpLexSub: TMenuItem;
     mnuOpLexProp: TMenuItem;
-    mnuCmtAdd: TMenuItem;
-    mnuCmtRemove: TMenuItem;
-    mnuCmtToggle: TMenuItem;
-    mnuCmtSub: TMenuItem;
     mnuFileCloseDel: TMenuItem;
     mnuOpLexer: TMenuItem;
     mnuOpMore: TMenuItem;
@@ -679,7 +674,6 @@ type
     procedure DoToggleFindDialog;
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
-    procedure DoCommentAction(Act: TATCommentAction);
     procedure FindDialogDone(Sender: TObject; const Res: string);
     procedure FinderBadRegex(Sender: TObject);
     procedure FinderConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
@@ -3879,7 +3873,6 @@ end;
 {$I formmain_tab_proc.inc}
 {$I formmain_find.inc}
 {$I formmain_cmd.inc}
-{$I formmain_editing.inc}
 {$I formmain_plugins.inc}
 {$I formmain_themes.inc}
 
