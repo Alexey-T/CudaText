@@ -6,7 +6,7 @@ Version:
 ToDo: (see end of file)
 '''
 
-import  re, os
+import  re, os, json
 import  cudatext            as app
 from    cudatext        import ed
 import  cudatext_cmd        as cmds
@@ -153,7 +153,7 @@ class Command:
                 cmt_type    '1st'   at begin of line
                             'bod'   at first not blank
         '''
-        if not apx._check_API('1.0.108'):    return
+#       if not apx._check_API('1.0.108'):    return
         lex         = ed_.get_prop(app.PROP_LEXER_CARET)
         cmt_sgn     = app.lexer_proc(app.LEXER_GET_COMMENT, lex)
         pass;                  #LOG and log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
