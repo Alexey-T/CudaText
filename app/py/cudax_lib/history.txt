@@ -1,3 +1,6 @@
+0.6.1 2016-09-13
+Removed: commenting is moved to plugin cuda_comments
+
 0.5.6 2016-04-29
 Added: get_tab_by_id()
 Added: get_groups_count()
