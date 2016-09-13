@@ -28,8 +28,8 @@ class Command:
         if not lex: return app.msg_status(_("No lexer"))
         def_lexs_json   = os.path.join(apx.get_def_setting_dir()         , 'default_lexers.json')
         usr_lexs_json   = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user_lexers.json')
-        def_lexs        = apx._json_loads(open(def_lexs_json).read())
-        usr_lexs        = apx._json_loads(open(usr_lexs_json).read()) if os.path.exists(usr_lexs_json) else {"Comments":{}, "CommentsForLines":{}}
+        def_lexs        = apx._json_loads(open(def_lexs_json, encoding='utf8').read())
+        usr_lexs        = apx._json_loads(open(usr_lexs_json, encoding='utf8').read()) if os.path.exists(usr_lexs_json) else {"Comments":{}, "CommentsForLines":{}}
         pass;                  #LOG and log('usr_lexs={}',usr_lexs)
         only_ln         = False
         pair_df         = ['','']
@@ -84,7 +84,7 @@ class Command:
         self.pair4lex = {}
         usr_lexs["Comments"         if only_ln else "CommentsForLines"].pop(lex, None)
         usr_lexs["CommentsForLines" if only_ln else "Comments"        ][lex] = pair
-        open(usr_lexs_json, 'w').write(json.dumps(usr_lexs, indent=2))
+        open(usr_lexs_json, 'w', encoding='utf8').write(json.dumps(usr_lexs, indent=2))
         app.msg_status(f(_('File "{}" is updated'), usr_lexs_json))
        #def edit_strcomment_chars
     
