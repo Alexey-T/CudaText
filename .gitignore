@@ -18,7 +18,10 @@
 *.bak
 *.lps
 *.pyc
+*.dll
+python*.zip
 
+dlls/
 lib/
 backup/
 settings/
