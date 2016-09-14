@@ -3,8 +3,8 @@
   <noInheritable/>
   <assemblyIdentity
       type="win32"
-      name="DelphiApplication"
-      version="1.0.0.0" 
+      name="CudaText"
+      version="1.0" 
       processorArchitecture="*"/>
   <dependency>
     <dependentAssembly>
