@@ -79,12 +79,7 @@ class Command:
         ed.insert(cFr, rFr, sel_txt)
        #def duplicate
 
-    def __init__(self):
-        self.opts     = {}
-        self.pair4lex = {}
-        #def __init__
-
-    #class Command:
+    #class Command
 
 #################################################
 ## Common APP utils
