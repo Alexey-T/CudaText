@@ -494,7 +494,7 @@ end;
 function InitPyLibraryPath: string;
 begin
   {$ifdef windows}
-    Result:= 'python33.dll';
+    Result:= 'python35.dll';
   {$endif}
   {$ifdef linux}
     Result:= 'libpython3.4m.so.1.0';

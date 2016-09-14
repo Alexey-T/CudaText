@@ -4,6 +4,7 @@
   * changed
 
 1.4.7
++ Windows: Python 3.5
 * del built-in commands to comment/uncomment; now plugin Comments (by kvichans) preinstalled for this, with more options and config dlg
 + lexers JS, Python: keywords async/await
 
