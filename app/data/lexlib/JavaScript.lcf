@@ -1,4 +1,4 @@
-object SyntAnal38: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -132,14 +132,6 @@ object SyntAnal38: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String ticks'
-      StyleName = 'String regex'
-      TokenType = 4
-      Expression = '` .*? (`|$)'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
@@ -215,7 +207,7 @@ object SyntAnal38: TLibSyntAnalyzer
           TagList.Strings = (
             'abstract'
             'arguments'
-            'as'
+            'async'
             'await'
             'boolean'
             'break'
@@ -241,7 +233,6 @@ object SyntAnal38: TLibSyntAnalyzer
             'finally'
             'float'
             'for'
-            'from'
             'function'
             'goto'
             'if'
@@ -808,46 +799,47 @@ object SyntAnal38: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '//Comment'
+    '//Text'
+    'NaN Object $ offset'
     '/** DocBlock '
-    '*/'
-    '/* Comment */'
-    'var test = NaN + Object + $ + offset;'
-    'var s_regex = /^<\/?\w.*?>/gi;'
-    '    s_not_regex = 1 / 2 + (0xFF+10) / 3;'
-    '    s_ticks = `some str`;'
-    '    s_mulline = " \'
-    '      <div class='#39'"+some+"'#39'> \'
-    '      <td width='#39'200'#39'> \'
-    '      "+some+'#39'"...'#39';'
-    '    '
+    '*/   /* Comment */'
     'class MyClass {'
     '}'
     ''
-    'function funcMenu() {'
-    '  addMenuItem('#39'Txt'#39', '#39'Ctrl+\'#39#39');'
-    '  addMenuItem('#39'Txt3'#39', '#39'Ctrl+Alt+;'#39');'
+    'function init() {'
+    #9'addMenuItem('#39'Txt'#39', '#39'Ctrl+\'#39#39');'
+    #9'addMenuItem('#39'Txt3'#39', '#39'Ctrl+Alt+;'#39');'
     '}'
     ''
-    'funcVar: function(inc, offset) {'
-    '  return -1'
+    'var s_regex = /^<\/?\w.*?>/gi;'
+    '    not_regex = 1 / 2 + (0xFF+10) / 3;'
+    '    '
+    'findNewEditPoint: function(inc, offset) {'
+    #9'return -1'
     '}'
     '    '
-    'function funcEn(A, count)'
+    'function SetEnabled(A,count)'
     '{'
-    '  for(i=0; i<count; i++)'
+    '  for(i= 0; i< count;i++)'
     '    A(i).Enabled = !A(i).Enabled;'
     '}'
     ''
-    'function funcWork() {'
-    '  $('#39'#name'#39').html('#39#39');'
-    '  for (id in ids) {'
-    '    if (ids[id].q>0) {'
-    '      $.cookie('#39'some'#39', $.toJSON(someth), {path: '#39'/'#39'});'
-    '    } else {'
-    '      delete ids[id];'
-    '    }'
-    '  }'
+    'function render(){'
+    #9#9'$('#39'#basket'#39').html('#39#39');'
+    #9#9'for (id in basket){'
+    #9#9#9'if(basket[id].q>0){'
+    #9#9#9#9'b=b+" \'
+    #9#9#9#9#9'<div class='#39'"+cl+"'#39'> \'
+    #9#9#9#9#9#9'<td width='#39'166'#39' valign='#39'top'#39'> \'
+    #9#9#9#9#9#9#9'"+goods.n+'#39'"...'#39';'
+    ''
+    
+      #9#9#9#9'$.cookie('#39'basketForPHP4'#39', $.toJSON(basketForPHP4),{path: '#39'/'#39 +
+      '});'
+    #9#9#9'} else{'
+    #9#9#9#9'delete basket[id];'
+    #9#9#9'}'
+    #9#9'}'
     '}')
   TokenTypeNames.Strings = (
     'Unknown'

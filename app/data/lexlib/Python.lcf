@@ -1,4 +1,4 @@
-object SyntAnal2: TLibSyntAnalyzer
+object SyntAnal30: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -69,7 +69,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = '1st Tree item'
       StyleName = 'Id keyword def'
       TokenType = 11
-      Expression = '^[\x20\x09]*(def|class)\b'
+      Expression = '^[\x20\x09]*(def|class|async [\x20\x09]+ def)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -216,6 +216,8 @@ object SyntAnal2: TLibSyntAnalyzer
             'and'
             'as'
             'assert'
+            'async'
+            'await'
             'break'
             'continue'
             'del'
@@ -238,6 +240,7 @@ object SyntAnal2: TLibSyntAnalyzer
             'return'
             'try'
             'while'
+            'with'
             'yield')
           TokenTypes = 516
         end>
@@ -430,7 +433,7 @@ object SyntAnal2: TLibSyntAnalyzer
       HighlightPos = cpAny
       DrawStaple = True
       GroupIndex = 20
-      CollapseFmt = '%s0 ...'
+      CollapseFmt = '%sz0 ...'
       IgnoreAsParent = False
     end
     item
@@ -462,12 +465,17 @@ object SyntAnal2: TLibSyntAnalyzer
     'str = r'#39'\test\test'#39' + u'#39'test'#39' + r"\test"'
     'func = lambda x: x'
     ''
-    '  def func(num):'
+    'def func(num):'
     '    for n in range(len(sys.argv)):'
     '      print "Arg %s" % sys.argv[n]'
     '      if n>2:'
     '        return True'
-    '    return False        '
+    '    return False'
+    '    '
+    'async def get_json(client, url):  '
+    '    async with client.get(url) as response:'
+    '        assert response.status == 100'
+    '        return await response.read()'
     ''
     'class MyName(object):      '
     '  @staticmethod'
