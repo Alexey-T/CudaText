@@ -34,6 +34,7 @@ begin
       c.SetValue('show_bottom', ShowBottom);
       c.SetValue('size_side', PanelLeft.Width);
       c.SetValue('size_bottom', PanelBottom.Height);
+      c.SetValue('tab_left', TabNameLeft);
     end;
 
     ////recents
@@ -267,6 +268,20 @@ begin
 
   c.SetValue('/gr/p1_x', Groups.Panel1.Width);
   c.SetValue('/gr/p1_y', Groups.Panel1.Height);
+end;
+
+
+procedure TfmMain.DoOps_LoadHistory_AfterOnStart;
+var
+  c: TJSONConfig;
+begin
+  c:= TJSONConfig.Create(nil);
+  try
+    c.Filename:= GetAppPath(cFileOptHistory);
+    TabNameLeft:= c.GetValue('tab_left', '');
+  finally
+    FreeAndNil(c);
+  end;
 end;
 
 procedure TfmMain.DoOps_LoadHistory;

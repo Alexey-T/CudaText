@@ -239,7 +239,7 @@ begin
   end;
 end;
 
-procedure TfmMain.SetThemeUi(AValue: string);
+procedure TfmMain.SetThemeUi(const AValue: string);
 begin
   if FThemeUi=AValue then Exit;
   FThemeUi:= AValue;
@@ -257,7 +257,7 @@ begin
   DoApplyTheme;
 end;
 
-procedure TfmMain.SetThemeSyntax(AValue: string);
+procedure TfmMain.SetThemeSyntax(const AValue: string);
 begin
   if FThemeSyntax=AValue then Exit;
   FThemeSyntax:= AValue;

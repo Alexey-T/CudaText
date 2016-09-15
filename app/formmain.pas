@@ -589,6 +589,7 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    function GetTabNameLeft: string;
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
@@ -598,8 +599,9 @@ type
     procedure MsgStatusAlt(const S: string; const NSeconds: integer);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
-    procedure SetThemeSyntax(AValue: string);
-    procedure SetThemeUi(AValue: string);
+    procedure SetTabNameLeft(const AValue: string);
+    procedure SetThemeSyntax(const AValue: string);
+    procedure SetThemeUi(const AValue: string);
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
@@ -613,6 +615,7 @@ type
     procedure DoOps_SaveHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
+    procedure DoOps_LoadHistory_AfterOnStart;
     procedure DoOps_SaveSession(fn_session: string);
     procedure DoOps_LoadSession(fn_session: string);
     procedure DoOps_LoadOptionsAndApplyAll;
@@ -772,6 +775,7 @@ type
     property ShowBottom: boolean read GetShowBottom write SetShowBottom;
     property ThemeUi: string read FThemeUi write SetThemeUi;
     property ThemeSyntax: string read FThemeSyntax write SetThemeSyntax;
+    property TabNameLeft: string read GetTabNameLeft write SetTabNameLeft;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
   end;
@@ -1391,6 +1395,7 @@ begin
 
   DoPyEvent(CurrentEditor, cEventOnFocus, []);
   DoPyEvent(CurrentEditor, cEventOnStart, []);
+  DoOps_LoadHistory_AfterOnStart;
 
   ActiveControl:= CurrentEditor;
   UpdateStatus;
@@ -2716,6 +2721,23 @@ begin
     BoundsRect:= FOrigBounds;
     BorderStyle:= bsSizeable;
     BoundsRect:= FOrigBounds; //again
+  end;
+end;
+
+procedure TfmMain.SetTabNameLeft(const AValue: string);
+var
+  D: TATTabData;
+  i: integer;
+begin
+  for i:= 0 to TabsLeft.TabCount-1 do
+  begin
+    D:= TabsLeft.GetTabData(i);
+    if Assigned(D) then
+      if D.TabCaption=AValue then
+      begin
+        TabsLeft.TabIndex:= i;
+        Break
+      end;
   end;
 end;
 

@@ -178,6 +178,16 @@ begin
   end;
 end;
 
+function TfmMain.GetTabNameLeft: string;
+var
+  D: TATTabData;
+begin
+  Result:= '';
+  D:= TabsLeft.GetTabData(TabsLeft.TabIndex);
+  if Assigned(D) then
+    Result:= D.TabCaption;
+end;
+
 procedure TfmMain.FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt,
   ANewPnt: TPoint);
 var
