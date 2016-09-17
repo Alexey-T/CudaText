@@ -1,87 +1,104 @@
-object SyntAnal58: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal32: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Id keyword'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Variable'
-      Font.Color = clPurple
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Const'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'String regex'
-      Font.Color = clGreen
-      Font.Height = -13
-      Font.Name = 'Courier New'
-    end  
-    item
-      DisplayName = 'String here-doc'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String here-doc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
     item
       DisplayName = 'Quote block'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = clMoneyGreen
       FormatType = ftBackGround
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '(?s)=begin.*?=end'
+      Expression = '(?s)=begin.*?=end'#13#10
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment 2'
       StyleName = 'Comment'
@@ -89,7 +106,7 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '\# (?!\{) .*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String'
       StyleName = 'String'
@@ -97,23 +114,23 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '(?s)"(\\"|.)*?("|(?<!\\)$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String2'
       StyleName = 'String'
       TokenType = 4
-      Expression = '''.*?(''|$)'
+      Expression = #39'.*?('#39'|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '/(\\/|.)*?(/)'
+      Expression = '/(\\/|.)*?(/) [igm]?'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String regex2'
       StyleName = 'String regex'
@@ -121,15 +138,15 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '%r\{.*?(\})'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String HereDoc'
       StyleName = 'String here-doc'
       TokenType = 4
-      Expression = '(?s) \<\<[`"]? (\w+) [`"]? .*? ^\1'
+      Expression = '(?s)<<[`"\-~]? (\w+)\b .*? ^[\x20\x09]*\1'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'IfBegin'
       StyleName = 'Id keyword'
@@ -137,7 +154,7 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '^[\x20\x09]* (if|unless|while)\b'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
       StyleName = 'Id'
@@ -145,7 +162,7 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Hex'
       StyleName = 'Number'
@@ -153,7 +170,7 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '0x[\da-f]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Integer'
       StyleName = 'Number'
@@ -161,7 +178,7 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '\d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Single symbol'
       StyleName = 'Symbol'
@@ -169,28 +186,31 @@ object SyntAnal58: TLibSyntAnalyzer
       Expression = '[\{\}\(\)\[\],;\+\-\*\/\?\!=\.\<\>%\|:~\#&]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Variable - predefined'
       StyleName = 'Variable'
-      Expression = '\$([!$&"''*+,./0:;<=>?@\`~1-9]| -[0FIKadilpvw]| (deferr|defout|stderr|stdin|stdout| DEBUG|FILENAME|KCODE|LOADED_FEATURES|LOAD_PATH| PROGRAM_NAME|SAFE|VERBOSE)\b)'
+      Expression = 
+        '\$([!$&"'#39'*+,./0:;<=>?@\`~1-9]| -[0FIKadilpvw]| (deferr|defout|st' +
+        'derr|stdin|stdout| DEBUG|FILENAME|KCODE|LOADED_FEATURES|LOAD_PAT' +
+        'H| PROGRAM_NAME|SAFE|VERBOSE)\b)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Variable global'
       StyleName = 'Variable'
       Expression = '\$[a-zA-Z_][a-zA-Z0-9_]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Variable - instance'
       StyleName = 'Variable'
       Expression = '@[a-zA-Z_][a-zA-Z0-9_]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Variable - class'
       StyleName = 'Variable'
@@ -198,14 +218,16 @@ object SyntAnal58: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'keywords'
       StyleName = 'Id keyword'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
+            '__FILE__'
+            '__LINE__'
             'alias'
             'and'
             'begin'
@@ -222,16 +244,16 @@ object SyntAnal58: TLibSyntAnalyzer
             'END'
             'ensure'
             'false'
-            '__FILE__'
             'for'
             'if'
             'in'
-            '__LINE__'
             'module'
+            'new'
             'next'
             'nil'
             'not'
             'or'
+            'prepend'
             'raise'
             'redo'
             'require'
@@ -246,21 +268,19 @@ object SyntAnal58: TLibSyntAnalyzer
             'unless'
             'until'
             'when'
-            'while'
-          )
+            'while')
           TokenTypes = 4
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'comments-start'
       StyleName = 'Comment'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '=begin'
-          )
+            '=begin')
           IgnoreCase = True
         end>
       BlockEnd = 'comments-end'
@@ -271,23 +291,22 @@ object SyntAnal58: TLibSyntAnalyzer
       DrawStaple = True
       CollapseFmt = '%s0 %s-1 %s-2 %s-3 %s-4'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'comments-end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '=end'
-          )
+            '=end')
           IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'begin'
@@ -295,8 +314,7 @@ object SyntAnal58: TLibSyntAnalyzer
             'do'
             'for'
             'module'
-            'until'
-          )
+            'until')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -306,28 +324,26 @@ object SyntAnal58: TLibSyntAnalyzer
       HighlightPos = cpAny
       CollapseFmt = '%s0 ...'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'end'
-          )
+            'end')
           TokenTypes = 4
           IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'begin_def'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'def'
-          )
+            'def')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -336,14 +352,13 @@ object SyntAnal58: TLibSyntAnalyzer
       HighlightPos = cpAny
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'begin_class'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'class'
-          )
+            'class')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -352,10 +367,10 @@ object SyntAnal58: TLibSyntAnalyzer
       HighlightPos = cpAny
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'begin_if'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 576
         end>
@@ -365,27 +380,24 @@ object SyntAnal58: TLibSyntAnalyzer
       HighlightPos = cpAny
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'q{'
       StyleName = 'Quote block'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '{'
-          )
+            '{')
           TokenTypes = 8
-        end      
+        end
         item
           TagList.Strings = (
-            'q'
-          )
+            'q')
           TokenTypes = 4
-        end      
+        end
         item
           TagList.Strings = (
-            '%'
-          )
+            '%')
           TokenTypes = 8
         end>
       BlockEnd = '}'
@@ -395,14 +407,13 @@ object SyntAnal58: TLibSyntAnalyzer
       CancelNextRules = True
       CollapseFmt = '{ ... }'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '{'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '{'
-          )
+            '{')
           TokenTypes = 8
         end>
       BlockEnd = '}'
@@ -410,15 +421,14 @@ object SyntAnal58: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '}'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '}'
-          )
+            '}')
           TokenTypes = 8
         end>
       HighlightPos = cpAny
@@ -428,7 +438,7 @@ object SyntAnal58: TLibSyntAnalyzer
   SubAnalyzers = <>
   SampleText.Strings = (
     '#commment'
-    'require ''name.rb'''
+    'require '#39'name.rb'#39
     '=begin'
     ' multiline comment'
     '=end'
@@ -461,8 +471,7 @@ object SyntAnal58: TLibSyntAnalyzer
     'def func2'
     '  animals = %w(lions tigers bears)'
     '  animals.each{|kind| print kind}'
-    'end'
-  )
+    'end')
   TokenTypeNames.Strings = (
     'Var'
     'Comment'
@@ -470,8 +479,7 @@ object SyntAnal58: TLibSyntAnalyzer
     'Symbol'
     'String'
     'Number'
-    'If_begin'
-  )
+    'If_begin')
   Extentions = 'rb rbw'
   LexerName = 'Ruby'
   SkipSpaces = False
@@ -479,10 +487,9 @@ object SyntAnal58: TLibSyntAnalyzer
     '- Alexey (SynWrite)'
     '- Matthias (SynWrite admin)'
     ''
-    'Doc: http://www.tutorialspoint.com/ruby/ruby_syntax.htm'
-  )
+    'Doc: http://www.tutorialspoint.com/ruby/ruby_syntax.htm')
   LineComment = '#'
   Charset = DEFAULT_CHARSET
-  left = 144
-  top = 184
+  Left = 144
+  Top = 184
 end
