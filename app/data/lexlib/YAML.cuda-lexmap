@@ -1,7 +1,8 @@
 [map]
 Comment=Comment
-Id begin=Id
-Id value=Id1
+Id begin=Id1
+Id value=Id
+Id spec=Id2
 String=String
 Symbol=Symbol
 NewDoc=Comment2
