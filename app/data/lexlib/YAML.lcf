@@ -63,6 +63,14 @@ object SyntAnal40: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Timestamp'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -86,6 +94,16 @@ object SyntAnal40: TLibSyntAnalyzer
       StyleName = 'Id begin'
       TokenType = 6
       Expression = '^[\-\x20\x09]*? [a-z][\w\-]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Timestamp'
+      StyleName = 'Timestamp'
+      TokenType = 7
+      Expression = 
+        '\d{4}-\d{2}-\d{2} ([\x20 T] \d+:\d+:\d+\.\d+ (-\d+:\d+)? (\x20 Z' +
+        ')?)?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -209,7 +227,7 @@ object SyntAnal40: TLibSyntAnalyzer
     'String'
     'Number'
     '1Id'
-    '')
+    'Timestamp')
   Extentions = 'yml yaml'
   LexerName = 'YAML'
   SkipSpaces = False
