@@ -1,0 +1,94 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+# <- source.yaml comment
+
+# http://yaml.org/spec/1.2/spec.html#directive//
+
+
+##############################################################################
+## YAML DIRECTIVE
+# http://yaml.org/spec/1.2/spec.html#directive/YAML/
+
+%YAML 1.2
+#^^^^     keyword.other.directive.yaml
+#     ^^^ constant.numeric.yaml-version
+# <- meta.directive punctuation.definition.directive.begin
+%YAML 9821.2213213 # comment
+#     ^^^^^^^^^^^^   constant.numeric.yaml-version
+#                  ^ comment
+%YAML 9821.2213213 more
+#                  ^^^^ invalid.illegal
+
+
+##############################################################################
+## TAG DIRECTIVE
+# http://yaml.org/spec/1.2/spec.html#directive/TAG/
+
+%TAG
+#^^^ meta.directive keyword.other.directive.tag
+# <- meta.directive
+%TAG !
+#^^^ keyword.other.directive.tag
+#    ^ storage.type.tag-handle
+%TAG ! tag:example.com,2000:app/
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive
+#^^^                             keyword.other.directive.tag
+#    ^                           storage.type.tag-handle
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.tag-prefix
+%TAG !! tag:example.com,2000:app/
+#    ^^   storage.type.tag-handle
+#       ^ support.type.tag-prefix
+%TAG !e! tag:example.com,2000:app/ # comment
+#    ^^^   storage.type.tag-handle
+#        ^ support.type.tag-prefix
+#                                  ^ comment
+%TAG !e! !empty-
+#    ^^^         storage.type.tag-handle
+#        ^^^^^^^ support.type.tag-prefix
+
+%TAG !tag some text
+#     ^^^ invalid.illegal
+#         ^^^^ invalid.illegal
+#              ^^^^ invalid.illegal
+%TAG !yea-! [
+#    ^^^^^^   storage.type.tag-handle
+#           ^ invalid.illegal
+%TAG !y_ea! [
+#     ^^^^^ invalid.illegal
+%TAG !yea! tag more
+#              ^^^^ invalid.illegal
+%TAG !yea!%%YAML
+#         ^^^^^^ invalid.illegal
+
+
+##############################################################################
+## RESERVED DIRECTIVE
+# http://yaml.org/spec/1.2/spec.html#directive/reserved/
+
+%RESERVED
+#^^^^^^^^ meta.directive support.other.directive.reserved
+# <- meta.directive punctuation.definition.directive.begin
+%1
+#^ support.other.directive.reserved
+%RESERVED name
+#^^^^^^^^ support.other.directive.reserved
+#         ^ string.unquoted.directive-name
+%RESERVED name parameter #comment
+#^^^^^^^^                  support.other.directive.reserved
+#         ^^^^             string.unquoted.directive-name
+#              ^^^^^^^^^   string.unquoted.directive-parameter
+#                        ^ comment
+%RESERVED name parameter#no-comment
+#                       ^^^^^^^^^^^ invalid.illegal
+%RESERVED name parameter more
+#                        ^^^^ invalid.illegal
+
+
+##############################################################################
+## MISC
+
+%
+# <- meta.directive punctuation.definition.directive.begin
+% TAG
+# ^^^ invalid.illegal
+%%
+#^ invalid.illegal

@@ -1,0 +1,158 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+# <- source.yaml comment
+
+# http://yaml.org/spec/1.2/spec.html#style/flow/
+
+
+##############################################################################
+## Aliases
+# http://yaml.org/spec/1.2/spec.html#alias//
+
+*alias
+#^^^^^ variable.other.alias
+# <- keyword.control.flow.alias punctuation.alias
+
+*al[ias]
+#^^      variable.other.alias
+#  ^^^^^ invalid.illegal.character
+# <- keyword.control.flow.alias punctuation.alias
+
+
+##############################################################################
+## Double-quoted
+# http://yaml.org/spec/1.2/spec.html#style/flow/double-quoted
+
+"flow string"
+#^^^^^^^^^^^^ string.quoted.double
+#           ^ punctuation.definition.string.end
+# <- string.quoted.double punctuation.definition.string.begin
+
+"flow string
+ more string"
+#^^^^^^^^^^^^ string.quoted.double
+#           ^ punctuation.definition.string.end
+
+"\" \0 \\ \x12 \u1234 \U12345678"
+#^^                              constant.character.escape
+#   ^^                           constant.character.escape
+#      ^^                        constant.character.escape
+#         ^^^^                   constant.character.escape
+#              ^^^^^^            constant.character.escape
+#                     ^^^^^^^^^^ constant.character.escape
+#                    ^           -constant
+
+"\x1 \u123 \U1234567"
+#^^^^^^^^^^^^^^^^^^^ -constant.character.escape
+
+"\x123 \u12345 \U123456789"
+#^^^^                      constant.character.escape
+#    ^                     -constant.character.escape
+#      ^^^^^^              constant.character.escape
+#            ^             -constant.character.escape
+#              ^^^^^^^^^^  constant.character.escape
+#                        ^ -constant.character.escape
+
+# The following can't be tested because there must be a newline after the
+# backslash and comments are not allowed in strings.
+# Just verify manually that the \ is highlighted as
+# "constant.character.escape.newline".
+"string\
+continuation"
+
+
+##############################################################################
+## Single-quoted
+# http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
+
+'flow string'
+#^^^^^^^^^^^^ string.quoted.single
+#           ^ punctuation.definition.string.end
+# <- string.quoted.single punctuation.definition.string.begin
+
+'flow string
+ more string'
+#^^^^^^^^^^^^ string.quoted.single
+#           ^ punctuation.definition.string.end
+# <- string.quoted.single
+
+' '' '
+#^ -constant
+# ^^ constant.character.escape
+#   ^ -constant
+
+
+##############################################################################
+## Flow-sequence
+# http://yaml.org/spec/1.2/spec.html#style/flow/sequence
+
+[a, b, c,
+# <- meta.flow-sequence punctuation.definition.sequence.begin
+#^        string.unquoted.plain.in
+# ^       punctuation.separator.sequence
+#    ^    punctuation.separator.sequence
+*alias]
+#^^^^^ variable.other.alias
+#     ^ meta.flow-sequence punctuation.definition.sequence.end
+
+[a: b, c,'d', e: f, g:h]
+#^                      meta.flow-pair.key string.unquoted.plain.in entity.name.tag
+# ^                     meta.flow-pair punctuation.separator.mapping.key-value -meta.flow-pair.value
+#   ^                   meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
+#      ^                string.unquoted.plain.in
+#       ^               punctuation.separator.sequence
+#        ^^^            string.quoted.single
+#             ^         string.unquoted.plain.in entity.name.tag
+#              ^        punctuation.separator.mapping.key-value
+#                 ^     punctuation.separator.sequence
+#                   ^^^ string.unquoted.plain.in - entity.name.tag
+
+
+##############################################################################
+## Flow-mapping
+# http://yaml.org/spec/1.2/spec.html#style/flow/sequence
+
+{a: b, :c: :d,
+#^             meta.flow-pair.key string.unquoted.plain.in entity.name.tag
+# ^            meta.flow-pair punctuation.separator.mapping.key-value
+#   ^          meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
+#    ^         punctuation.separator.mapping
+#      ^^      string.unquoted.plain.in entity.name.tag
+#        ^     punctuation.separator.mapping.key-value
+#          ^^  string.unquoted.plain.in, -entity.name.tag
+#            ^ punctuation.separator.mapping
+# <- meta.flow-mapping punctuation.definition.mapping.begin
+*alias, e : f }
+#^^^^^          variable.other.alias
+#     ^         punctuation.separator.mapping
+#       ^       string.unquoted.plain.in entity.name.tag
+#        ^      -string
+#         ^     punctuation.separator.mapping.key-value
+#           ^   string.unquoted.plain.in, -entity.name.tag
+#             ^ meta.flow-mapping punctuation.definition.mapping.end
+
+{? !!str 'key' : !!str value,
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.flow-pair.explicit
+#               ^^^^^^^^^^^^  meta.flow-pair.value
+#                           ^ punctuation.separator.mapping -meta.flow-pair
+#^                            punctuation.definition.key-value.begin
+#  ^^^^^                      storage
+#        ^^^^^                string
+#        ^                    punctuation
+#            ^                punctuation
+#              ^              punctuation.separator.mapping.key-value
+#                ^^^^^        storage
+#                      ^^^^^  string
+ ? !!str foo : :bar
+#^ punctuation.definition.key-value.begin
+#  ^^^^^ storage
+#        ^^^ string entity.name.tag
+#            ^ punctuation.separator.mapping.key-value -string
+#              ^ string.unquoted.plain.in
+}
+
+!!set {this, is, a, set}
+#  ^ storage
+#      ^ string -entity
+#            ^ string -entity
+#                ^ string -entity
+#                   ^ string -entity

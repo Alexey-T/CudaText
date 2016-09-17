@@ -1,0 +1,23 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+# <- source.yaml comment
+
+
+##############################################################################
+## Comments
+# http://www.yaml.org/spec/1.2/spec.html#comment//
+
+# comment
+# <- comment.line.number-sign punctuation.definition.comment.line.number-sign
+#^^^^^^^^ comment.line.number-sign
+
+
+##############################################################################
+## Document markers
+
+---
+#^^ entity.other.document.begin
+# <- entity.other.document.begin
+
+...
+#^^ entity.other.document.end
+# <- entity.other.document.end

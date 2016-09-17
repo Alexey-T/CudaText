@@ -1,0 +1,126 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+# <- source.yaml comment
+
+# http://yaml.org/type/
+
+
+##############################################################################
+## Implicit Types
+
+##############################################################################
+## http://yaml.org/type/null.html
+
+- [null, Null, NULL, ~, nUll, ~ tilde]
+#  ^^^^                               constant.language.null
+#        ^^^^                         constant.language.null
+#              ^^^^                   constant.language.null
+#                    ^                constant.language.null
+#                       ^^^^^^^^^^^^^ -constant
+
+
+##############################################################################
+## http://yaml.org/type/bool.html
+
+- [yes, no, true, false, No, y, ON, off, Off, ~, oFF, nO, false true]
+#  ^^^                                                               constant.language.boolean
+#       ^^                                                           constant.language.boolean
+#           ^^^^                                                     constant.language.boolean
+#                 ^^^^^                                              constant.language.boolean
+#                        ^^                                          constant.language.boolean
+#                            ^                                       constant.language.boolean
+#                               ^^                                   constant.language.boolean
+#                                   ^^^                              constant.language.boolean
+#                                        ^^^                         constant.language.boolean
+#                                                ^^^^^^^^^^^^^^^^^^^ -constant
+
+
+##############################################################################
+## http://yaml.org/type/int.html
+
+- [0b0, +0b1_0_1, -0b1, ~, 0b, 0b2, 0b1 abc
+#  ^^^                                      constant.numeric.integer
+#       ^^^^^^^^                            constant.numeric.integer
+#                 ^^^^                      constant.numeric.integer
+#                          ^^^^^^^^^^^^^^^^ -constant
+
+   01, +0_761, -07, ~, 09, 0123 f
+#  ^^                             constant.numeric.integer
+#      ^^^^^^                     constant.numeric.integer
+#              ^^^                constant.numeric.integer
+#                      ^^^^^^^^^^ -constant
+
+   0, +1, -12_345, ~, 3 not a number
+#  ^                                 constant.numeric.integer
+#     ^^                             constant.numeric.integer
+#         ^^^^^^^                    constant.numeric.integer
+#                     ^^^^^^^^^^^^^^ -constant
+
+   0x0, +0x12_34_56, -0xabcdef, ~, 0xyz, 0x,
+#  ^^^                                      constant.numeric.integer
+#       ^^^^^^^^^^^                         constant.numeric.integer
+#                    ^^^^^^^^^              constant.numeric.integer
+#                                  ^^^^^^^^ -constant
+
+# Note: pyyaml does not handle hexagesimal literals correctly (for linting purposes)
+   1:20, +1:9, -1_234:59:00, ~, 1:60, :60, 1:2 s
+#  ^^^^                                          constant.numeric.integer
+#        ^^^^                                    constant.numeric.integer
+#              ^^^^^^^^^^^^                      constant.numeric.integer
+#                               ^^^^^^^^^^^^^^^^ -constant
+  ]
+
+
+##############################################################################
+## http://yaml.org/type/float.html
+
+- [0.1, +.293, -1_123.e-3, 2.234.567, ~, 0.1 f
+#  ^^^                                         constant.numeric.float
+#       ^^^^^                                  constant.numeric.float
+#              ^^^^^^^^^^                      constant.numeric.float
+#                          ^^^^^^^^^           constant.numeric.float
+#                                        ^^^^^ -constant
+   .inf, +.INF, -.Inf, ~, .inF, .inf .inf
+#  ^^^^                                   constant.numeric.float
+#        ^^^^^                            constant.numeric.float
+#               ^^^^^                     constant.numeric.float
+#                         ^^^^^^^^^^^^^^^ -constant
+   .NaN, ~, .Nan,
+#  ^^^^          constant.numeric.float
+#           ^^^^ -constant
+]
+
+
+##############################################################################
+## http://yaml.org/type/timestamp.html
+
+- [2015-08-15, 2015-08-15 1:20:30.123, 2015-08-15T12:20:30.123-9:00, 2015-08-15 1:20:30.123 Z]
+#  ^^^^^^^^^^                                                                                 constant.other.timestamp
+#              ^^^^^^^^^^^^^^^^^^^^^^                                                         constant.other.timestamp
+#                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^                           constant.other.timestamp
+#                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.timestamp
+
+
+##############################################################################
+## http://yaml.org/type/value.html http://yaml.org/type/merge.html
+- [=, <<, ~, << abc]
+#  ^                constant.language.value
+#     ^^            constant.language.merge
+#            ^^^^^^ -constant
+
+
+##############################################################################
+## In a mapping
+
+true: false
+#^^^        constant.language.boolean
+#   ^       punctuation
+#     ^^^^^ constant.language.boolean
+3.e-3: 3.e+3
+#^^^^        constant.numeric.float
+#    ^       punctuation
+#      ^^^^^ constant.numeric.float
+{.NaN: 2, 2: 2015-08-15}
+#^^^^                   constant.numeric.float
+#      ^                constant.numeric.integer
+#         ^             constant.numeric.integer
+#            ^^^^^^^^^^ constant.other.timestamp

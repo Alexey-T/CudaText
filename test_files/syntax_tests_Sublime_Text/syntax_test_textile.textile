@@ -1,0 +1,46 @@
+| SYNTAX TEST "Packages/Textile/Textile.sublime-syntax"
+
+h1. Heading
+| <- markup.heading entity.name.tag
+|^^ entity.name.tag
+|^^^^^^^^^^ markup.heading
+
+This is a paragraph. This is a *bold* word. _This is italic_.
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph
+|                              ^^^^^^ markup.bold
+|                                           ^^^^^^^^^^^^^^^^ markup.italic
+
+bq. This is a block quotation
+| <- markup.quote entity.name.tag
+|^^ entity.name.tag
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.quote
+
+This paragraph contains a reference[1].
+|                                  ^^^ entity.name.tag
+
+??Citation??
+| <- markup.italic.phrasemodifiers
+|^^^^^^^^^^^ markup.italic.phrasemodifiers
+
+@this.is(code)@
+| <- markup.italic.phrasemodifiers
+|^^^^^^^^^^^^^^ markup.italic.phrasemodifiers
+
+This is a -deleted- word.
+|         ^^^^^^^^^ markup.deleted
+This is an +added+ word.
+|          ^^^^^^^ markup.inserted
+
+The following number is superscript: ^2^.
+|                                    ^^^ markup.italic.phrasemodifiers
+
+The following word is strikethrough: ~word~
+|                                    ^^^^^^ markup.italic.phrasemodifiers
+
+A force %span%.
+|       ^^^^^^ markup.italic.phrasemodifiers
+
+fn1. This is the footnote
+| <- markup.other.footnote entity.name.tag
+|^^^ entity.name.tag
+|^^^^^^^^^^^^^^^^^^^^^^^^ markup.other.footnote

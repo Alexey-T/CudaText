@@ -1,0 +1,76 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+# <- source.yaml comment
+
+# http://yaml.org/spec/1.2/spec.html#style/flow/plain
+
+
+##############################################################################
+## Plain (flow-out, block-key)
+
+plain
+#^^^^ string.unquoted.plain.out
+#    ^ -string
+# <- string.unquoted.plain.out
+
+-plain- ?plain?  :plain
+#^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out
+# <- string.unquoted.plain.out
+
+
+plain - plain ? plain : plain: plain
+#^^^^^^^^^^^^^^^^^^^^                string.unquoted.plain.out
+#                    ^^^             -string
+#                       ^^^^^        string.unquoted.plain.out
+#                            ^^      -string
+#                              ^^^^^ string.unquoted.plain.out
+# <- string.unquoted.plain.out
+
+
+http://example.com/foo?baz#bar # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out - entity.name.tag
+#                         ^^^^ -comment
+#                              ^ comment -string
+# <- string.unquoted.plain.out
+
+pl[a]i,n
+#^^^^^^^ string.unquoted.plain.out
+# <- string.unquoted.plain.out
+
+
+##############################################################################
+## Plain (flow-in, flow-key)
+
+[
+plain
+#^^^^ string.unquoted.plain.in
+#    ^ -string
+# <- string.unquoted.plain.in
+
+-plain- ?plain?  :plain
+#^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.in
+# <- string.unquoted.plain.in
+
+plain - plain ? plain : plain: plain
+#^^^^^^^^^^^^^^^^^^^^                string.unquoted.plain.in
+#                    ^^^             -string
+#                       ^^^^^        string.unquoted.plain.in
+#                            ^^      -string
+#                              ^^^^^ string.unquoted.plain.in
+# <- string.unquoted.plain.in
+
+http://example.com/foo?baz#bar # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   string.unquoted.plain.in
+#                         ^^^^   -comment
+#                              ^ comment
+# <- string.unquoted.plain.in
+
+p[l]a,in:[]
+# <- string.unquoted.plain.in
+#^          -string
+# ^         string.unquoted.plain.in
+#  ^        -string
+#   ^       string.unquoted.plain.in
+#    ^      -string
+#     ^^    string.unquoted.plain.in
+#       ^^^ -string
+]

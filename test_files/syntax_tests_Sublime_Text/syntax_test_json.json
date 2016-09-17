@@ -1,0 +1,45 @@
+// SYNTAX TEST "Packages/JavaScript/JSON.sublime-syntax"
+
+{
+  "dict": { }
+//        ^^^ meta.structure.dictionary.json
+//        ^   punctuation.definition.dictionary.begin.json
+//          ^ punctuation.definition.dictionary.end.json
+
+,
+// <- punctuation.separator.dictionary.pair.json
+
+  "sep": {},
+//     ^ punctuation.separator.dictionary.key-value.json
+
+  "array": [ ],
+//         ^^^ meta.structure.array.json
+//         ^   punctuation.definition.array.begin.json
+//           ^ punctuation.definition.array.end.json
+
+  "string": "string",
+//          ^        punctuation.definition.string.begin.json
+//          ^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json
+//                 ^ punctuation.definition.string.end.json
+
+  "bool": false,
+//        ^^^^^ constant.language.json
+
+  "num": 20.09,
+//       ^^^^^ constant.numeric.json
+
+  "neg": -9,
+//       ^^ constant.numeric.json
+
+  "E": 20e10,
+//     ^^^^^ constant.numeric.json
+
+  "escape": "\n",
+//           ^^ constant.character.escape.json
+
+  "illegal": "\.",
+//            ^^ invalid.illegal.unrecognized-string-escape.json
+
+  []
+//^^ invalid.illegal.expected-dictionary-separator.json
+}

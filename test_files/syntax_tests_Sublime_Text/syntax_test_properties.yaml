@@ -1,0 +1,54 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+# <- source.yaml comment
+
+# http://yaml.org/spec/1.2/spec.html#node/property/
+
+
+##############################################################################
+## Tag Handles
+# http://yaml.org/spec/1.2/spec.html#tag/property/
+
+- !foo ""
+# ^^^^    meta.property storage.type.tag-handle
+#      ^^ -storage.type.tag-handle
+- !!str ""
+# ^^^^^ storage.type.tag-handle
+- !* ""
+# ^^ storage.type.tag-handle
+- !m-!y 1
+# ^^^^^   storage.type.tag-handle
+#       ^ -storage.type.tag-handle
+
+- !<!my-light> light
+# ^^^^^^^^^^^^       storage.type.tag-handle
+#              ^^^^^ -storage.type.tag-handle
+- !<tag:example.com,2000:app/int> 1 - 3
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ storage.type.tag-handle
+
+- !*! ""
+# ^^^ -storage, invalid.illegal.tag-handle
+- !*!str ""
+# ^^^^^^ invalid.illegal.tag-handle
+- !asd@asd!str ""
+# ^^^^^^^^^^^^ invalid.illegal.tag-handle
+- !justtyping!
+# ^^^^^^^^^^^^ invalid.illegal.tag-handle
+
+scalar !not-tag-handle
+#      ^^^^^^^^^^^^^^^ -storage.type.tag-handle
+
+
+##############################################################################
+## Anchors
+# http://yaml.org/spec/1.2/spec.html#&%20anchor//
+
+&anchor
+#^^^^^^ entity.name.other.anchor
+# <- keyword.control.property.anchor punctuation.anchor
+&an[chor]
+#^^ entity.name.other.anchor
+#  ^^^^^^ invalid.illegal.character
+# <- keyword.control.property.anchor punctuation.anchor
+
+scalar &not-anchor
+#      ^^^^^^^^^^^ -keyword.control.property.anchor

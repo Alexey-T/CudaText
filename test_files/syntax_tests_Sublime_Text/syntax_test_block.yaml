@@ -1,0 +1,128 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+# <- source.yaml comment
+
+# http://yaml.org/spec/1.2/spec.html#style/block/
+
+
+##############################################################################
+## Scalars
+# http://yaml.org/spec/1.2/spec.html#style/block/scalar
+
+# Headers ############################
+# (note that block scalars may be empty)
+- |
+# ^ punctuation.definition.block.scalar.literal
+
+- >
+# ^ punctuation.definition.block.scalar.folded
+
+- >1
+# ^ punctuation.definition.block.scalar
+#  ^ constant.numeric.indentation-indicator
+
+- |1-
+# ^ punctuation.definition.block.scalar
+#  ^ constant.numeric.indentation-indicator
+#   ^ support.other
+
+# Headers and content ################
+- |
+ literal
+#^^^^^^^ string.unquoted.block
+
+- >1
+  folded
+#^^^^^^^ string.unquoted.block
+
+- |+
+ keep
+#^^^^ string.unquoted.block
+
+- >1-
+  strip
+#^^^^^^ string.unquoted.block
+
+- >
+  content
+   # still content
+#^^^^^^^^^^^^^^^^^ string.unquoted.block
+
+- >
+  # content
+   # still content
+ # not content
+#^^^^^^^^^^^^^ comment
+
+# Empty blocks #######################
+- > asdf
+#  ^^^^^ invalid.illegal.expected-comment-or-newline
+- ># not comment
+#  ^^^^^^^^^^^^^ invalid.illegal.expected-comment-or-newline
+- |
+plain
+# <- -string.unquoted.block
+
+
+##############################################################################
+## Sequence
+# http://yaml.org/spec/1.2/spec.html#style/block/sequence
+
+-
+# <- punctuation.definition.block.sequence.item
+- -
+# <- punctuation.definition.block.sequence.item
+# ^ punctuation.definition.block.sequence.item
+- !!omap -
+# <- punctuation.definition.block.sequence.item
+#        ^ punctuation.definition.block.sequence.item
+-
+
+
+##############################################################################
+## Mapping
+# http://yaml.org/spec/1.2/spec.html#style/block/mapping
+
+key: value
+#^^        string.unquoted.plain.out entity.name.tag
+#  ^       punctuation.separator.mapping.key-value, -entity
+#    ^^^^^ string.unquoted.plain.out
+key#  :  value
+#^^^           string.unquoted.plain.out entity.name.tag
+#   ^          -string
+#     ^        punctuation.separator.mapping.key-value
+#        ^^^^^ string.unquoted.plain.out
+:
+# <- punctuation.separator.mapping.key-value
+
+_type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
+#^^^^^^^^^                         entity.name.tag
+#           ^^^^^^^^^^^^^^^^^^^^   -entity.name.tag
+#                                ^ comment
+
+key on line one:
+#^^^^^^^^^^^^^^ entity.name.tag
+  value on line two
+
+? explicit key # Empty value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-mapping
+# ^^^^^^^^^^^^               string.unquoted.plain.out
+#              ^^^^^^^^^^^^^ comment
+# <- meta.block-mapping punctuation.definition.key-value.begin
+
+? |
+  block key
+# ^^^^^^^^^ meta.block-mapping string.unquoted.block
+# ^^^^^^^^^ -meta.block-mapping meta.block-mapping
+: - one # Explicit compact
+# <- meta.block-mapping punctuation.separator.mapping.key-value
+  - two: :three # block value
+# ^ punctuation.definition.block.sequence
+#   ^^^ string.unquoted.plain.out entity.name.tag
+#      ^ punctuation.separator.mapping.key-value
+#        ^^^^^^ string.unquoted.plain.out
+
+? a key : not a value
+#       ^ meta.block-mapping invalid.illegal.expected-newline
+
+scalar
+# <- -meta.block-mapping
