@@ -3,10 +3,13 @@
   - fixed
   * changed
 
+1.4.8
++ improve lexers: Yaml
+
 1.4.7
 + Windows: Python 3.5
 * del built-in commands to comment/uncomment; now plugin Comments (by kvichans) preinstalled for this, with more options and config dlg
-+ restore last tab in side-panel
++ save/restore last tab in side-panel
 + lexers JS, Python: keywords async/await
 
 1.4.6
