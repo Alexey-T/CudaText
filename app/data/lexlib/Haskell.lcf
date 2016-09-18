@@ -1,68 +1,81 @@
-object SyntAnal86: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal14: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Marked block'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clHighlightText
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = clHighlight
       FormatType = ftColor
-    end  
+    end
     item
       DisplayName = 'Comm'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Str'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Symb'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       FormatType = ftColor
-    end  
+    end
     item
       DisplayName = 'IdRes'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Num'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Class'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'DataType'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comm'
       StyleName = 'Comm'
@@ -70,15 +83,15 @@ object SyntAnal86: TLibSyntAnalyzer
       Expression = '--[^\+\*/].*$'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comm2'
       StyleName = 'Comm'
       TokenType = 1
-      Expression = '(?s)\{-.*?(-\}|\Z)'
+      Expression = '(?s)\{- (\{.+?\}|.)*?(-\}|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Str'
       StyleName = 'Str'
@@ -86,15 +99,15 @@ object SyntAnal86: TLibSyntAnalyzer
       Expression = '"(\\"|.)*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Char'
       StyleName = 'Str'
       TokenType = 8
-      Expression = '''.'''
+      Expression = #39'.'#39
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symb'
       StyleName = 'Symb'
@@ -102,7 +115,7 @@ object SyntAnal86: TLibSyntAnalyzer
       Expression = '[!\?\#\-\+/\*=<>\(\)\[\]\.\:;@\|\\_`\{\}~,&\$\^]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Num'
       StyleName = 'Num'
@@ -110,21 +123,21 @@ object SyntAnal86: TLibSyntAnalyzer
       Expression = '\d+\.\d+ | \d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
-      Expression = '[\w_'']+'
+      Expression = '[\w_'#39']+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Key'
       StyleName = 'IdRes'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'as'
@@ -156,18 +169,17 @@ object SyntAnal86: TLibSyntAnalyzer
             'rec'
             'then'
             'type'
-            'where'
-          )
+            'where')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Classes'
       StyleName = 'Class'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'Bounded'
@@ -199,18 +211,17 @@ object SyntAnal86: TLibSyntAnalyzer
             'Right'
             'Show'
             'True'
-            'Void'
-          )
+            'Void')
           TokenTypes = 1028
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Data Type'
       StyleName = 'DataType'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'Addr'
@@ -235,8 +246,7 @@ object SyntAnal86: TLibSyntAnalyzer
             'ReadS'
             'Rec'
             'ShowS'
-            'String'
-          )
+            'String')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
@@ -245,7 +255,7 @@ object SyntAnal86: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    'main = print "test", "t", ''_'' --comment'
+    'main = print "test", "t", '#39'_'#39' --comment'
     '--this is comment'
     '---this too'
     'foobar --+ a_second_argument'
@@ -258,9 +268,8 @@ object SyntAnal86: TLibSyntAnalyzer
     'putStrLn $ "Chars: \"" ++ listedChars ++ "\""'
     'f1,f2 :: Maybe Int -> String;'
     ''
-    'if ''lookup == Nothing'
-    'then ''setHelper'
-  )
+    'if '#39'lookup == Nothing'
+    'then '#39'setHelper')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -270,8 +279,7 @@ object SyntAnal86: TLibSyntAnalyzer
     'Integer const'
     'Float const'
     'Hex const'
-    'Char const'
-  )
+    'Char const')
   MarkedBlockStyle = 'Marked block'
   Extentions = 'hs lhs as las'
   LexerName = 'Haskell'
@@ -282,8 +290,9 @@ object SyntAnal86: TLibSyntAnalyzer
     'Info:'
     'http://www.haskell.org/haskellwiki/Keywords'
     'Ex.files:'
-    'http://www.haskell.org/haskellwiki/Haskell_Tutorial_for_C_Programmers#Downloads'
-  )
+    
+      'http://www.haskell.org/haskellwiki/Haskell_Tutorial_for_C_Progra' +
+      'mmers#Downloads')
   LineComment = '--'
   Charset = DEFAULT_CHARSET
 end
