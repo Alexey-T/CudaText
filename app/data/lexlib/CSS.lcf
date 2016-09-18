@@ -93,22 +93,13 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Media block'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = clMoneyGreen
-      FormatType = ftBackGround
-    end
-    item
       DisplayName = 'ParamCustom'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clLime
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+      BorderTypeBottom = blDot
     end>
   TokenRules = <
     item
@@ -132,6 +123,14 @@ object SyntAnal10: TLibSyntAnalyzer
       StyleName = 'String'
       TokenType = 4
       Expression = '(?<=url \x20* \() .*? (?=\))'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'UnicodeRange'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = 'U\+[\w\?\-]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -1036,7 +1035,7 @@ object SyntAnal10: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Media begin'
-      StyleName = 'Media block'
+      StyleName = 'Current block'
       ConditionList = <
         item
           TagList.Strings = (
@@ -1053,10 +1052,12 @@ object SyntAnal10: TLibSyntAnalyzer
           TokenTypes = 32
         end>
       BlockEnd = 'Style end'
-      DisplayInTree = False
-      NameFmt = '@media'
+      NameFmt = '%sz0'
+      GroupFmt = 'AtRules'
       RefToCondEnd = True
-      HighlightPos = cpAny
+      DynHighlight = dhRange
+      HighlightPos = cpRange
+      DynSelectMin = True
       CancelNextRules = True
       CollapseFmt = '@{...}'
       IgnoreAsParent = False
