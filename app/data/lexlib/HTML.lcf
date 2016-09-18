@@ -1,73 +1,87 @@
-object SyntAnal96: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal15: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Text'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       MultiLineBorder = True
-    end  
+    end
     item
       DisplayName = 'Tag bound'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Tag param'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Tag properties'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 47360
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Unknown tag content'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold, fsUnderline]
-    end  
+    end
     item
       DisplayName = 'Tag id correct'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 16744448
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Tag id incorrect'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 16744448
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BorderTypeBottom = blWavyLine
       BorderColorBottom = clRed
-    end  
+    end
     item
       DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 53760
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Tag back hl'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = clMoneyGreen
       BorderTypeLeft = blSolid
       BorderColorLeft = clGray
@@ -77,23 +91,27 @@ object SyntAnal96: TLibSyntAnalyzer
       BorderColorRight = clGray
       BorderTypeBottom = blSolid
       BorderColorBottom = clGray
-    end  
+    end
     item
       DisplayName = 'Tag border hl'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = 12372132
-    end  
+    end
     item
       DisplayName = 'Sublexer BG'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNone
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = 14804688
       FormatType = ftBackGround
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
@@ -101,7 +119,7 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '(?ms)<!--.*?(-->|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment end'
       StyleName = 'Comment'
@@ -109,7 +127,7 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '-->'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment <!...>'
       StyleName = 'Comment'
@@ -117,7 +135,7 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '<! .*? >'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = '<'
       StyleName = 'Tag bound'
@@ -125,15 +143,15 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '<[/!\-%\?]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = '>'
       StyleName = 'Tag bound'
       TokenType = 11
-      Expression = '[%\?/]?>'
+      Expression = '[%\?/]?>'#13#10
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Integer'
       StyleName = 'Number'
@@ -142,7 +160,7 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '\d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Color'
       StyleName = 'Number'
@@ -151,16 +169,16 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '\#[a-f\d]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Tag param'
       StyleName = 'Tag param'
       BlockName = 'Tag begin'
       TokenType = 4
-      Expression = '(?s) ("|'') (<\?.+?\?>|.)*? (\1|\Z)'
+      Expression = '(?s) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Tag ident'
       BlockName = 'Tag begin'
@@ -168,16 +186,16 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '[^\s=>]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = '='
       StyleName = 'Tag bound'
       BlockName = 'Tag begin'
       TokenType = 3
-      Expression = '='
+      Expression = '='#13#10
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Unknow tag content'
       StyleName = 'Unknown tag content'
@@ -185,7 +203,7 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '[^>]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = '&...'
       StyleName = 'Tag id correct'
@@ -193,7 +211,7 @@ object SyntAnal96: TLibSyntAnalyzer
       Expression = '&\w+;'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Text'
       StyleName = 'Text'
@@ -202,30 +220,29 @@ object SyntAnal96: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Tag id incorrect'
       StyleName = 'Tag id incorrect'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 4
-        end      
+        end
         item
           TagList.Strings = (
             '<'
-            '</'
-          )
+            '</')
           TokenTypes = 1024
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag id'
       StyleName = 'Tag id correct'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'a'
@@ -358,60 +375,56 @@ object SyntAnal96: TLibSyntAnalyzer
             'ul'
             'var'
             'video'
-            'wbr'
-          )
+            'wbr')
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
             '<'
-            '</'
-          )
+            '</')
           TokenTypes = 1024
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag property'
       StyleName = 'Tag properties'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '='
-          )
+            '=')
           TokenTypes = 8
-        end      
+        end
         item
           TokenTypes = 4
         end>
       IdentIndex = 1
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag property value'
       StyleName = 'Tag param'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 20
-        end      
+        end
         item
           TagList.Strings = (
-            '='
-          )
+            '=')
           TokenTypes = 8
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag begin'
       StyleName = 'Tag border hl'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 1024
         end>
@@ -422,35 +435,33 @@ object SyntAnal96: TLibSyntAnalyzer
       HighlightPos = cpRange
       DynSelectMin = True
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2048
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Simple tag block'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'br'
             'hr'
             'image'
             'img'
-            'link'
-          )
+            'link')
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
-            '<'
-          )
+            '<')
           TokenTypes = 1024
         end>
       BlockEnd = 'Simple tag block end'
@@ -459,40 +470,38 @@ object SyntAnal96: TLibSyntAnalyzer
       DynSelectMin = True
       CollapseFmt = '%s0'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Simple tag block end'
       BlockName = 'Simple tag block'
       StrictParent = True
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2048
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag block begin'
       StyleName = 'Tag back hl'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'br'
             'hr'
             'image'
             'img'
-            'link'
-          )
+            'link')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
             '<'
-            '<!'
-          )
+            '<!')
           TokenTypes = 1024
         end>
       BlockEnd = 'Tag block end'
@@ -502,28 +511,27 @@ object SyntAnal96: TLibSyntAnalyzer
       DynSelectMin = True
       CollapseFmt = '<%s0>'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag block end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
-            '</'
-          )
+            '</')
           TokenTypes = 1024
         end>
       SameIdent = True
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Comment begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2
         end>
@@ -533,30 +541,29 @@ object SyntAnal96: TLibSyntAnalyzer
       DynSelectMin = True
       CollapseFmt = '<!--  ...  -->'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Comment end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag attribute'
       BlockName = 'Tag begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 20
-        end      
+        end
         item
           TagList.Strings = (
-            '='
-          )
+            '=')
           TokenTypes = 8
-        end      
+        end
         item
           TokenTypes = 4
         end>
@@ -568,48 +575,49 @@ object SyntAnal96: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <  
+  SubAnalyzers = <
     item
       DisplayName = 'Style sheet'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '(?si)<style[^>]*>'
-      EndExpression = '</style>'
-      SyntAnalyzer = SyntAnalyzer10
-    end  
+      StartExpression = '(?si)<style[^>]*> '#13#10
+      EndExpression = '</style>'#13#10
+      SyntAnalyzer = SyntAnal10
+    end
     item
       DisplayName = 'VB script'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
-      EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal56
-    end  
+      StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'#13#10
+      EndExpression = '(?i)(-->)?\s*</script>'#13#10
+      SyntAnalyzer = SyntAnal38
+    end
     item
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
-      EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal38
-    end  
+      EndExpression = '(?i)(//)?(-->)?\s*</script>'#13#10
+      SyntAnalyzer = SyntAnal18
+    end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal38
-    end  
+      SyntAnalyzer = SyntAnal18
+    end
     item
       DisplayName = 'ASP'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '<%[^@]'
+      StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal56
+      SyntAnalyzer = SyntAnal38
     end>
   SampleText.Strings = (
     '<!DOCUMENT test="123">'
+    ''
     '<META1 error />'
     '<meta2>error</meta3>'
     '<html> '
@@ -620,15 +628,16 @@ object SyntAnal96: TLibSyntAnalyzer
     '  <script type="text/javascript">'
     '    var n=10; '
     '  </script>'
-    '  <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js/jquery.js">'
+    
+      '  <script type="text/javascript" src="<?=SITE_TEMPLATE_PATH?>/js' +
+      '/jquery.js">'
     '    var n=10;'
     '  </script>'
     '      '
-    '  <body src="www.com" style=''aaa; aaa; aaa;''> '
+    '  <body src="www.com" style='#39'aaa; aaa; aaa;'#39'> '
     '    <h1>Text</h1> '
     '  </body> '
-    '</html>'
-  )
+    '</html>')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -641,12 +650,12 @@ object SyntAnal96: TLibSyntAnalyzer
     'Char const'
     'Text'
     'Open Tag'
-    'Close Tag'
-  )
-  Extentions = 'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asmx jsp hhc dtd'
+    'Close Tag')
+  Extentions = 
+    'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
+    'x jsp hhc dtd'
   LexerName = 'HTML'
   Notes.Strings = (
-    'Created by 480499497 from http://forum.wincmd.ru'
-  )
+    'Created by 480499497 from http://forum.wincmd.ru')
   Charset = DEFAULT_CHARSET
 end
