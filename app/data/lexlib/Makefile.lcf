@@ -1,64 +1,78 @@
-object SyntAnal21: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal22: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Param'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Id keyword'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Value'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Section'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Label'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
@@ -66,31 +80,31 @@ object SyntAnal21: TLibSyntAnalyzer
       Expression = '\#.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '".*? ("|$)'
+      Expression = '("|'#39') .*? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Param'
       StyleName = 'Param'
       TokenType = 5
-      Expression = '^\x20*? \w+ \x20*? (?=(=|:=))'
+      Expression = '^\x20*? \w+ \x20*? (?=(=|:=|\+=))  '
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Label'
       StyleName = 'Label'
       TokenType = 8
-      Expression = '^\x20*? \w+ \x20*? (?=:)'
+      Expression = '^\x20*? \w+ \x20*? (?=:)  '
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
       StyleName = 'Id'
@@ -98,14 +112,14 @@ object SyntAnal21: TLibSyntAnalyzer
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Value'
       StyleName = 'Value'
       Expression = '\$\(\w+\) | \$\{\w+\}'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Section'
       StyleName = 'Section'
@@ -113,7 +127,7 @@ object SyntAnal21: TLibSyntAnalyzer
       Expression = '\[\w+\]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
@@ -122,12 +136,12 @@ object SyntAnal21: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Keyword'
       StyleName = 'Id keyword'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'define'
@@ -145,18 +159,17 @@ object SyntAnal21: TLibSyntAnalyzer
             'sinclude'
             'undefine'
             'unexport'
-            'vpath'
-          )
+            'vpath')
           TokenTypes = 36
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Block comment'
       BlockName = 'Block comment'
       NotParent = True
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2
         end>
@@ -164,25 +177,25 @@ object SyntAnal21: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Block comment end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           CondType = tcNotEqual
           TokenTypes = 2
-        end      
+        end
         item
           TokenTypes = 2
         end>
       BlockOffset = 1
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Section'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 128
         end>
@@ -206,8 +219,7 @@ object SyntAnal21: TLibSyntAnalyzer
     'override PATH:=$(patsubst %/,%,$(subst \,/,$(PATH)))'
     'ifneq ($(findstring darwin,$(OSTYPE)),)'
     'inUnix=1 #darwin'
-    'SEARCHPATH:=$(filter-out .,$(subst :, ,$(PATH)))'
-  )
+    'SEARCHPATH:=$(filter-out .,$(subst :, ,$(PATH)))')
   TokenTypeNames.Strings = (
     'Value'
     'Comment'
@@ -217,14 +229,14 @@ object SyntAnal21: TLibSyntAnalyzer
     'Param'
     'Number'
     'Section'
-    'Label'
-  )
-  Extentions = '/makefile /makefile.gnu /makefile.gcc /makefile.bor /makefile.msc /makefile.vc /makefile.dm /makefile.bcc'
+    'Label')
+  Extentions = 
+    'mak /makefile /makefile.gnu /makefile.gcc /makefile.bor /makefil' +
+    'e.msc /makefile.vc /makefile.dm /makefile.bcc'
   LexerName = 'Makefile'
   Notes.Strings = (
     'Alex (Synwrite)'
-    'Sample: makefile in Lazarus'
-  )
+    'Sample: makefile in Lazarus')
   LineComment = '#'
   Charset = DEFAULT_CHARSET
 end

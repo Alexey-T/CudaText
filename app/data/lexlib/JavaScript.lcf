@@ -75,7 +75,7 @@ object SyntAnal18: TLibSyntAnalyzer
     item
       DisplayName = 'Comment doc'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
+      Font.Color = 12615808
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
@@ -124,6 +124,14 @@ object SyntAnal18: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Comment shebang'
+      StyleName = 'Comment doc'
+      TokenType = 1
+      Expression = '(?<=^[\x20]*) \#!.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
@@ -143,9 +151,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = 
-        '#before / must be some char'#13#10'(?<=[=\(&!]\s*) / (\\/|\\\\|.)*? (/' +
-        '[gim]*|$)'
+      Expression = '(?<=[=\(&!]\s*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -201,7 +207,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/\+\-\*:=<>&/\|\^~!%]'
+      Expression = '[/\+\-\*:=<>&/\|\^~!%\#@]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -558,6 +564,7 @@ object SyntAnal18: TLibSyntAnalyzer
             'self'
             'serialize'
             'serializeArray'
+            'set'
             'setTimeout'
             'shiftKey'
             'show'
@@ -628,6 +635,7 @@ object SyntAnal18: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       NotCollapsed = True
+      DisplayInTree = False
       NameFmt = '%sz0'
       RefToCondEnd = True
       HighlightPos = cpAny
@@ -648,6 +656,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpRange
       DrawStaple = True
+      CollapseFmt = '{ ... }'
       IgnoreAsParent = False
     end
     item
@@ -813,6 +822,7 @@ object SyntAnal18: TLibSyntAnalyzer
     '/** DocBlock '
     '*/'
     '/* Comment */'
+    '  #! Shebang'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
     '    s_not_regex = 1 / 2 + (0xFF+10) / 3;'
