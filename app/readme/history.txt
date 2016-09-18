@@ -4,7 +4,7 @@
   * changed
 
 1.4.8
-+ improve lexers: CSS, JS, PHP, Batch, Ruby, C, C#, Tcl, SQL, YAML, Markdown, Haskell, Makefile
++ improve lexers: CSS, JS, PHP, Batch, Ruby, C, C++, C#, Tcl, SQL, YAML, Markdown, Haskell, Makefile
 
 1.4.7
 + Windows: Python 3.5
