@@ -105,6 +105,14 @@ object SyntAnal38: TLibSyntAnalyzer
     end>
   TokenRules = <
     item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = #39'.* | rem\b .*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
@@ -157,14 +165,6 @@ object SyntAnal38: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = '&H[\da-f]+&? |'#13#10'&o[0-7]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Comment'
-      StyleName = 'Comment'
-      TokenType = 1
-      Expression = #39'.*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -495,6 +495,7 @@ object SyntAnal38: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            'default'
             'imports'
             'Inherits'
             'Overloads'
@@ -612,8 +613,8 @@ object SyntAnal38: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    #39'Test'
-    #39'Test'
+    #39'Comment'
+    'Test rem - comment'
     ''
     'Function PrintNumber'
     '  Dim Number'
