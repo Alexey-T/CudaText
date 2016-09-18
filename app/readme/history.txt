@@ -4,7 +4,8 @@
   * changed
 
 1.4.8
-+ improve lexers: CSS, JS, PHP, Batch, Ruby, C, C++, C#, Tcl, SQL, YAML, Markdown, Haskell, Makefile, VB (using Sublime syntax tests)
++ improved lexers: CSS, JS, PHP, Batch, Ruby, C, C++, C#, Tcl, SQL, YAML, VB, Markdown, Haskell, Makefile (using Sublime syntax tests)
+* del lexers to addons: AutoIt, AutoHotkey
 
 1.4.7
 + Windows: Python 3.5
