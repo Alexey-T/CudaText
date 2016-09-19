@@ -12,6 +12,7 @@ mkdir cudatext.app/Contents/Resources/py
 mkdir cudatext.app/Contents/Resources/py/cuda_addonman
 mkdir cudatext.app/Contents/Resources/py/cuda_insert_time
 mkdir cudatext.app/Contents/Resources/py/cuda_make_plugin
+mkdir cudatext.app/Contents/Resources/py/cuda_comments
 mkdir cudatext.app/Contents/Resources/py/cudax_lib
 mkdir cudatext.app/Contents/Resources/py/requests
 
