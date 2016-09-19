@@ -1,73 +1,85 @@
-object SyntAnal5: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal37: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Shebang'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Var'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Keywords'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Shebang'
       StyleName = 'Shebang'
       Expression = '\#!.*$'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '\#[\s\#\-].*$ | \#\z'
+      Expression = '\#.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Var'
       StyleName = 'Var'
@@ -75,15 +87,15 @@ object SyntAnal5: TLibSyntAnalyzer
       Expression = '[$@%][$]?[a-zA-Z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '("|'') (\\\1|.)*? \1'
+      Expression = '("|'#39') (\\\1|.)*? \1'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
       StyleName = 'Id'
@@ -91,7 +103,7 @@ object SyntAnal5: TLibSyntAnalyzer
       Expression = '[a-zA-Z_]\w* (::\w+)?'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
@@ -99,7 +111,7 @@ object SyntAnal5: TLibSyntAnalyzer
       Expression = '[\+\-/\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\#\\]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Number'
       StyleName = 'Number'
@@ -108,12 +120,12 @@ object SyntAnal5: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Keywords'
       StyleName = 'Keywords'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'after'
@@ -158,6 +170,8 @@ object SyntAnal5: TLibSyntAnalyzer
             'destroy'
             'destructor'
             'dict'
+            'else'
+            'elseif'
             'encoding'
             'entry'
             'env'
@@ -244,8 +258,8 @@ object SyntAnal5: TLibSyntAnalyzer
             'parray'
             'photo'
             'pid'
-            'pkg::create'
             'pkg_mkIndex'
+            'pkg::create'
             'place'
             'platform'
             'platform::shell'
@@ -254,13 +268,13 @@ object SyntAnal5: TLibSyntAnalyzer
             'pwd'
             'radiobutton'
             'raise'
+            're_syntax'
             'read'
             'refchan'
             'regexp'
             'registry'
             'regsub'
             'rename'
-            're_syntax'
             'return'
             'safe'
             'safe::loadTk'
@@ -290,17 +304,17 @@ object SyntAnal5: TLibSyntAnalyzer
             'tcl_pkgPath'
             'tcl_platform'
             'tcl_precision'
-            'tcl::prefix'
             'tcl_rcFileName'
             'tcl_startOfNextWord'
             'tcl_startOfPreviousWord'
-            'tcltest'
             'tcl_traceCompile'
             'tcl_traceExec'
             'tcl_version'
             'tcl_wordBreakAfter'
             'tcl_wordBreakBefore'
             'tcl_wordchars'
+            'tcl::prefix'
+            'tcltest'
             'tell'
             'text'
             'throw'
@@ -310,14 +324,12 @@ object SyntAnal5: TLibSyntAnalyzer
             'tk_chooseColor'
             'tk_chooseDirectory'
             'tk_dialog'
-            'tkerror'
             'tk_focusFollowsMouse'
             'tk_focusNext'
             'tk_focusPrev'
             'tk_getOpenFile'
             'tk_getSaveFile'
             'tk_library'
-            'tk::mac'
             'tk_menuSetFocus'
             'tk_messageBox'
             'tk_optionMenu'
@@ -329,18 +341,21 @@ object SyntAnal5: TLibSyntAnalyzer
             'tk_textCut'
             'tk_textPaste'
             'tk_version'
+            'tk::mac'
+            'tkerror'
             'tkwait'
             'tm'
             'toplevel'
             'trace'
             'transchan'
             'try'
+            'ttk_image'
+            'ttk_vsapi'
             'ttk::button'
             'ttk::checkbutton'
             'ttk::combobox'
             'ttk::entry'
             'ttk::frame'
-            'ttk_image'
             'ttk::intro'
             'ttk::label'
             'ttk::labelframe'
@@ -356,7 +371,6 @@ object SyntAnal5: TLibSyntAnalyzer
             'ttk::spinbox'
             'ttk::style'
             'ttk::treeview'
-            'ttk_vsapi'
             'ttk::widget'
             'unknown'
             'unload'
@@ -371,58 +385,56 @@ object SyntAnal5: TLibSyntAnalyzer
             'wm'
             'yield'
             'yieldto'
-            'zlib'
-          )
+            'zlib')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '{'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '{'
-          )
+            '{')
           TokenTypes = 8
         end>
       BlockEnd = '}'
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
+      CollapseFmt = '{ ... }'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '}'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '}'
-          )
+            '}')
           TokenTypes = 8
         end>
       BlockEnd = '{'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'proc'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'constructor'
             'destructor'
             'method'
             'oo::class'
-            'proc'
-          )
+            'proc')
           TokenTypes = 4
         end>
       NameFmt = '%sz0'
       RefToCondEnd = True
       HighlightPos = cpAny
+      CollapseFmt = '%s0 ...'
       NoEndRule = True
       IgnoreAsParent = False
     end>
@@ -432,24 +444,22 @@ object SyntAnal5: TLibSyntAnalyzer
     '#!/usr/bin/env tclsh'
     '# Example code'
     'set example {1 2 3}'
-    'e.g. {set''add example 4} -> {1 2 3 4}'
-    'e.g. {set''add example 4} -> {1 2 3 4}'
+    'e.g. {set'#39'add example 4} -> {1 2 3 4}'
+    'e.g. {set'#39'add example 4} -> {1 2 3 4}'
     'book open "name \"substr\""'
-    'proc set''remove {_set args} {'
+    'proc set'#39'remove {_set args} {'
     '   upvar 1 $_set set'
     '   foreach el $args {'
     '       set pos [lsearch -exact $set $el]'
     '   }'
-    '}'
-  )
+    '}')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
     'Id'
     'Symbol'
     'String'
-    'Number'
-  )
+    'Number')
   Extentions = 'tcl tk tm'
   LexerName = 'Tcl'
   SkipSpaces = False
@@ -460,8 +470,9 @@ object SyntAnal5: TLibSyntAnalyzer
     'Ref:'
     'http://www.tcl.tk/man/'
     'Not tested but maybe a good idea to test on:'
-    'http://www.subdude-site.com/WebPages_Local/RefInfo/Computer/TclTk/others_tcltkCode/others_tcltkCode.htm'
-  )
+    
+      'http://www.subdude-site.com/WebPages_Local/RefInfo/Computer/TclT' +
+      'k/others_tcltkCode/others_tcltkCode.htm')
   LineComment = '# '
   Charset = DEFAULT_CHARSET
 end

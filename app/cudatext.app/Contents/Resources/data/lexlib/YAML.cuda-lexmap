@@ -1,8 +1,13 @@
 [map]
 Comment=Comment
-Id begin=Id
-Id value=Id1
+Id begin=Id1
+Id value=Id
+Id spec=Id2
 String=String
 Symbol=Symbol
-NewDoc=Comment2
+NewDoc=CommentDoc
 Number=Number
+Timestamp=String2
+Handle=Id3
+Directive=Id4
+Alias=IdVar

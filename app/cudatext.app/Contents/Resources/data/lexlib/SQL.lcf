@@ -1,40 +1,49 @@
-object SyntAnal57: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal34: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Identifier'
-      Font.Color = clMaroon
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Identifier Ext'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'String'
-      Font.Color = clBlue
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Comment'
-      Font.Color = clRed
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Symbol Ext'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
@@ -42,32 +51,36 @@ object SyntAnal57: TLibSyntAnalyzer
       BorderTypeBottom = blWavyLine
       BorderColorBottom = clSilver
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Keyword'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Function'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Function Ext'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 13266272
       Font.Height = -13
       Font.Name = 'Courier New'
@@ -75,116 +88,137 @@ object SyntAnal57: TLibSyntAnalyzer
       BorderTypeBottom = blWavyLine
       BorderColorBottom = clSilver
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Expression'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 33023
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Current Block'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNone
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = clLime
       BorderTypeLeft = blSolid
       BorderTypeTop = blSolid
       BorderTypeRight = blSolid
       BorderTypeBottom = blSolid
-    end  
+    end
     item
       DisplayName = 'Test Style Main'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Test Style Sub'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clLime
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Marked Block - Range'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNone
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = 15925237
       FormatType = ftColor
-    end  
+    end
     item
       DisplayName = 'Tree (Main, Color)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 14844018
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Tree (Main, Black)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Tree (Main, Alias)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 1482313
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Tree (Regular, Color)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 14844018
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Tree (Regular, Black)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Tree (Regular, Alias)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 1550414
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Current Line'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNone
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       FormatType = ftBackGround
       BorderTypeLeft = blSolid2
       BorderColorLeft = 4364526
-    end  
+    end
     item
       DisplayName = 'Alias'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 2086500
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end  
+    end
     item
       DisplayName = 'Table'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'String'
       StyleName = 'String'
@@ -192,15 +226,15 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '".*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String 2'
       StyleName = 'String'
       TokenType = 5
-      Expression = '''.*?(''|$)'
+      Expression = #39'.*?('#39'|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String 3'
       StyleName = 'String'
@@ -208,15 +242,15 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '`.*?(`|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '(?s)/\*.*?(\*/|\Z)'
+      Expression = '(?s)/\*.*?(\*/|\Z)'#13#10
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment 2'
       StyleName = 'Comment'
@@ -224,7 +258,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '--.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment Ext'
       Enabled = False
@@ -233,7 +267,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '(?s)\(\*.*?(\(\*/|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol 2'
       StyleName = 'Symbol'
@@ -241,7 +275,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '!=|<>|\^=|<>|<=|>=|\(\+\)|\(\-\)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
@@ -249,7 +283,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '[/,\.;:\(\)=<>\+\-\*]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Identifier'
       StyleName = 'Identifier'
@@ -257,7 +291,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Identifier Ext'
       StyleName = 'Identifier Ext'
@@ -265,7 +299,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '(?r)\[[\w\x20]*\]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Float'
       StyleName = 'Number'
@@ -273,7 +307,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '\d+\.?\d+e[\+\-]?\d+|\d+\.\d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Integer'
       StyleName = 'Number'
@@ -281,7 +315,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '\d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Identifier Qualified'
       Enabled = False
@@ -290,7 +324,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '[a-z_]\w*(\.[a-z_]\w*){1,3}'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Identifier Sub'
       Enabled = False
@@ -299,7 +333,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Identifier Main'
       Enabled = False
@@ -309,7 +343,7 @@ object SyntAnal57: TLibSyntAnalyzer
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Identifier Qualified Ext'
       Enabled = False
@@ -319,12 +353,12 @@ object SyntAnal57: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Keyword'
       StyleName = 'Keyword'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'all'
@@ -362,40 +396,38 @@ object SyntAnal57: TLibSyntAnalyzer
             'table'
             'union'
             'view'
-            'where'
-          )
+            'where')
           TokenTypes = 8
           IgnoreCase = True
         end>
       HighlightPos = cpAny
       TokenType = 2
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Expression'
       StyleName = 'Expression'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'case'
             'else'
             'end'
             'then'
-            'when'
-          )
+            'when')
           TokenTypes = 8
           IgnoreCase = True
         end>
       HighlightPos = cpAny
       TokenType = 2
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Function'
       StyleName = 'Function'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'avg'
@@ -405,78 +437,72 @@ object SyntAnal57: TLibSyntAnalyzer
             'decode'
             'substr'
             'timediff'
-            'userenv'
-          )
+            'userenv')
           TokenTypes = 8
           IgnoreCase = True
         end>
       HighlightPos = cpAny
       TokenType = 2
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Function Ex'
       StyleName = 'Function Ext'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'bitand'
             'decode'
-            'userenv'
-          )
+            'userenv')
           TokenTypes = 8192
           IgnoreCase = True
         end>
       HighlightPos = cpAny
       TokenType = 2
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Symbol Ext'
       StyleName = 'Symbol Ext'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             '(-)'
-            '(+)'
-          )
+            '(+)')
           TokenTypes = 16
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Bracket Close'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            ')'
-          )
+            ')')
           TokenTypes = 16
         end>
       BlockEnd = 'Bracket Open'
       HighlightPos = cpAny
       CancelNextRules = True
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Subquery Open'
       StyleName = 'Current Block'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'select'
-          )
+            'select')
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
-            '('
-          )
+            '(')
           TokenTypes = 16
         end>
       BlockEnd = 'Subquery Close'
@@ -487,13 +513,13 @@ object SyntAnal57: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'section end SELECT'
       BlockName = 'section SELECT'
       StrictParent = True
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             ')'
@@ -502,8 +528,7 @@ object SyntAnal57: TLibSyntAnalyzer
             'having'
             'order'
             'select'
-            'union'
-          )
+            'union')
           TokenTypes = 20
           IgnoreCase = True
         end>
@@ -511,13 +536,13 @@ object SyntAnal57: TLibSyntAnalyzer
       BlockEnd = 'section SELECT'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'section end WHERE'
       BlockName = 'section WHERE'
       StrictParent = True
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             ')'
@@ -526,8 +551,7 @@ object SyntAnal57: TLibSyntAnalyzer
             'having'
             'order'
             'select'
-            'union'
-          )
+            'union')
           TokenTypes = 20
           IgnoreCase = True
         end>
@@ -535,33 +559,33 @@ object SyntAnal57: TLibSyntAnalyzer
       BlockEnd = 'section WHERE'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Alias'
       StyleName = 'Alias'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 8
-        end      
+        end
         item
           TokenTypes = 8
         end>
       HighlightPos = cpBound
       TokenType = 8
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Table'
       StyleName = 'Table'
       BlockName = 'section FROM'
       StrictParent = True
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           CondType = tcNotEqual
           TokenTypes = 8
-        end      
+        end
         item
           TokenTypes = 8
         end>
@@ -569,23 +593,21 @@ object SyntAnal57: TLibSyntAnalyzer
       HighlightPos = cpBound
       TokenType = 8
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Bracket Open'
       StyleName = 'Current Block'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'select'
-          )
+            'select')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
-            '('
-          )
+            '(')
           TokenTypes = 16
         end>
       NotCollapsed = True
@@ -595,13 +617,13 @@ object SyntAnal57: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpBoundTagBegin
       IgnoreAsParent = True
-    end  
+    end
     item
       DisplayName = 'section end FROM'
       BlockName = 'section FROM'
       StrictParent = True
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             ')'
@@ -611,8 +633,7 @@ object SyntAnal57: TLibSyntAnalyzer
             'order'
             'select'
             'union'
-            'where'
-          )
+            'where')
           TokenTypes = 20
           IgnoreCase = True
         end>
@@ -620,13 +641,13 @@ object SyntAnal57: TLibSyntAnalyzer
       BlockEnd = 'section FROM'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'SECTION END'
       BlockName = 'SECTION'
       StrictParent = True
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             ')'
@@ -636,11 +657,10 @@ object SyntAnal57: TLibSyntAnalyzer
             'order'
             'select'
             'union'
-            'where'
-          )
+            'where')
           TokenTypes = 20
           IgnoreCase = True
-        end      
+        end
         item
           TokenTypes = 4095
         end>
@@ -648,64 +668,61 @@ object SyntAnal57: TLibSyntAnalyzer
       BlockEnd = 'SECTION'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'STATEMENT END'
       BlockName = 'STATEMENT'
       StrictParent = True
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             ')'
             'select'
-            'union'
-          )
+            'union')
           TokenTypes = 20
           IgnoreCase = True
         end>
       BlockOffset = 1
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Subquery Close'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            ')'
-          )
+            ')')
           TokenTypes = 16
         end>
       BlockEnd = 'Subquery Open'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'sub-section end ON'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 4
         end>
       BlockOffset = 1
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'SECTION'
       BlockName = 'STATEMENT'
       StrictParent = True
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'from'
             'group'
             'having'
             'order'
-            'where'
-          )
+            'where')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -714,16 +731,15 @@ object SyntAnal57: TLibSyntAnalyzer
       DynSelectMin = True
       TreeItemStyle = 'Tree (Regular, Color)'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'STATEMENT'
       StyleName = 'Marked Block - Range'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'select'
-            'union'
-          )
+            'union')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -735,16 +751,15 @@ object SyntAnal57: TLibSyntAnalyzer
       DynSelectMin = True
       TreeItemStyle = 'Tree (Main, Black)'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'section SELECT'
       BlockName = 'STATEMENT'
       StrictParent = True
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'select'
-          )
+            'select')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -752,16 +767,15 @@ object SyntAnal57: TLibSyntAnalyzer
       NameFmt = '__SELECT__'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'section FROM'
       BlockName = 'SECTION'
       StrictParent = True
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'from'
-          )
+            'from')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -769,16 +783,15 @@ object SyntAnal57: TLibSyntAnalyzer
       NameFmt = '__FROM__'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'syb-section ON'
       BlockName = 'section FROM'
       StrictParent = True
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'on'
-          )
+            'on')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -787,16 +800,15 @@ object SyntAnal57: TLibSyntAnalyzer
       NameFmt = '__ON__'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'section WHERE'
       BlockName = 'SECTION'
       StrictParent = True
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'where'
-          )
+            'where')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -804,18 +816,17 @@ object SyntAnal57: TLibSyntAnalyzer
       NameFmt = '__WHERE__'
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Table or Alias'
       StyleName = 'Alias'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '.'
-          )
+            '.')
           TokenTypes = 16
-        end      
+        end
         item
           TokenTypes = 8
         end>
@@ -828,17 +839,20 @@ object SyntAnal57: TLibSyntAnalyzer
   SubAnalyzers = <>
   SampleText.Strings = (
     '/*Syntax highlighting*/'
-    'SELECT c.session , c.username ,TIMEDIFF(max(c.datetime) , min(c.datetime))'
-    'FROM  livehelp_domain_user a , livehelp_users b, livehelp_messages c'
+    
+      'SELECT c.session , c.username ,TIMEDIFF(max(c.datetime) , min(c.' +
+      'datetime))'
+    
+      'FROM  livehelp_domain_user a , livehelp_users b, livehelp_messag' +
+      'es c'
     'WHERE a.id_domain = 29 AND'
     '      a.id_user = b.id AND'
-    '      CONCAT( b.firstname, '' '',b.lastname)   = c.username AND'
-    '      DATE_FORMAT(c.datetime,''%m/%d/%Y'') =''09/21/2006'' AND'
-    '      (SELECT COUNT(data) from sometable where Fld = ''YES'') = 6 '
+    '      CONCAT( b.firstname, '#39' '#39',b.lastname)   = c.username AND'
+    '      DATE_FORMAT(c.datetime,'#39'%m/%d/%Y'#39') ='#39'09/21/2006'#39' AND'
+    '      (SELECT COUNT(data) from sometable where Fld = '#39'YES'#39') = 6 '
     'GROUP BY c.session'
     'ORDER BY c.session,c.username'
-    ''
-  )
+    '')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -849,17 +863,16 @@ object SyntAnal57: TLibSyntAnalyzer
     'Integer'
     'Float'
     'Table'
-    'Field'
-  )
-  Gramma.Gramma = 'Skip = <Comment>;'#10
+    'Field')
+  Gramma.Gramma = 'Skip = <Comment>;'#13#10
   CurrentLineStyle = 'Current Line'
   Extentions = 'sql'
   LexerName = 'SQL'
   SkipSpaces = False
   RestartFromLineStart = True
   LineComment = '--'
-  Charset = DEFAULT_CHARSET
   AlwaysSyncBlockAnal = True
-  left = 144
-  top = 184
+  Charset = DEFAULT_CHARSET
+  Left = 144
+  Top = 184
 end

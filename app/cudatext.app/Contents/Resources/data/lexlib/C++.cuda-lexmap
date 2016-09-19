@@ -1,3 +1,6 @@
+[ref]
+0=Assembly
+
 [map]
 Default=-
 Symbol=Symbol
@@ -5,11 +8,10 @@ Number=Number
 String=String
 Id=Id
 Id keyword=IdKeyword
+Id type=Id1
+Id special=Id2
 Comment=Comment
 Preprocessor=Comment2
 Current block BG=BracketBG
 Asm BG=IncludeBG1
-Id in angles=Id1
-
-[ref]
-0=Assembly
+Generic param=Id3

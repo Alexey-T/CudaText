@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal40: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -20,6 +20,14 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Id value'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id spec'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -55,13 +63,45 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Timestamp'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Handle'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Directive'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Alias'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clLime
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '\s* \# .*'
+      Expression = '[\x20\x09] \# .* |'#13#10'^\#.*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -77,7 +117,25 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Id begin'
       StyleName = 'Id begin'
       TokenType = 6
-      Expression = '^[\-\x20\x09]*? \w[\w\-]*'
+      Expression = '^[\-\x20\x09]*? [a-z][\w\-]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Timestamp'
+      StyleName = 'Timestamp'
+      TokenType = 7
+      Expression = 
+        '\d{4}-\d{2}-\d{2} ([\x20 T] \d+:\d+:\d+\.\d+ (-\d+:\d+)? (\x20 Z' +
+        ')?)?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '[0-9_]+ \. [0-9_]* e [\+\-]? [0-9_]+ |'#13#10'[0-9_]* \. [0-9_]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -85,7 +143,9 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = 
+        '0b[01_]+ |'#13#10'0x[0-9a-f_]+ |'#13#10'\d[\d_]* |'#13#10'[0-9_]+ \. e [\+\-]? [0-' +
+        '9_]+ |'#13#10'[0-9_]+ \. [0-9_]+ |'#13#10
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -93,7 +153,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Id value'
       StyleName = 'Id value'
       TokenType = 2
-      Expression = '\w+'
+      Expression = '[\w\.]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -101,7 +161,28 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '('#39'|").*?\1'
+      Expression = '(?s) ('#39'|") (\\\1|.)*? (\1|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Handle'
+      StyleName = 'Handle'
+      Expression = '!+[^\s]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Directive'
+      StyleName = 'Directive'
+      Expression = '^%\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Alias'
+      StyleName = 'Alias'
+      Expression = '[\*&]\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -109,7 +190,7 @@ object SyntAnal10: TLibSyntAnalyzer
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\:\.,;\-\+/\*\(\)\{\}\[\]<>=%!\#\|\?&]'
+      Expression = '[\:\.,;\-\+/\*\(\)\{\}\[\]<>=%!\#\|\?&~]'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -125,16 +206,51 @@ object SyntAnal10: TLibSyntAnalyzer
       GroupIndex = 20
       CollapseFmt = '%s0'
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Id spec'
+      StyleName = 'Id spec'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '.inf'
+            '.Inf'
+            '.INF'
+            '.NaN'
+            'false'
+            'no'
+            'No'
+            'null'
+            'Null'
+            'NULL'
+            'off'
+            'Off'
+            'ON'
+            'true'
+            'y'
+            'yes')
+          TokenTypes = 68
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
     '--- Doc'
-    '# List'
-    'transformers:'
-    '  # Sample'
+    'Null, null, no, .NaN, .inf'
+    '0x10_af + 0b1_01 + 12.2e+3'
+    '- !foo "Str"'
+    '- !!str "Tst"'
+    '&anchor'
+    '%Yaml'
+    '*Alias'
+    '# Comment'
+    'key# : value #Not comment at start'
+    'transformers: #Comment'
     '- model: 10.20'
-    '  connector: 100'
+    '  connector: Null'
     '  connector_options:'
     '    encoding: utf-8'
     '    columns: from_header'
@@ -163,7 +279,7 @@ object SyntAnal10: TLibSyntAnalyzer
     'String'
     'Number'
     '1Id'
-    '')
+    'Timestamp')
   Extentions = 'yml yaml'
   LexerName = 'YAML'
   SkipSpaces = False

@@ -1,3 +1,6 @@
+[ref]
+0=XML
+
 [map]
 Default=-
 Symbol=Symbol
@@ -8,6 +11,4 @@ Reserved word=IdKeyword
 Comment=Comment
 Preprocessor=Comment2
 Current block=BracketBG
-
-[ref]
-0=XML
+GenericParam=Id1

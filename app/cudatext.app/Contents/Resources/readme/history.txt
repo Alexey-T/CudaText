@@ -3,11 +3,23 @@
   - fixed
   * changed
 
+1.4.8
++ improved lexers: CSS, JS, PHP, Batch, Ruby, C, C++, C#, Tcl, SQL, YAML, VB, Markdown, Haskell, Makefile (using Sublime syntax tests)
+* del lexers to addons: AutoIt, AutoHotkey
+
+1.4.7
++ Windows: Python 3.5
+* del built-in commands to comment/uncomment; now plugin Comments (by kvichans) preinstalled for this, with more options and config dlg
++ save/restore last tab in side-panel
++ lexers JS, Python: keywords async/await
 
 1.4.6
 + command line allows line numbers: "cudatext filename:nnn"
 + key Esc in left panels: focus editor
++ key Enter in left panels: same as dbl-click
++ lexer JS: upd keywords, hilite `backtick-strings`
 + cmd "open file, ignore plugins" (to open project-files as raw text)
+* del sorting built-in cmds (plugin Sort exists)
 
 1.4.5
 * reworked themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. any UI theme can be used with any Syntax theme. More flexible system. Less work on Syntax themes.

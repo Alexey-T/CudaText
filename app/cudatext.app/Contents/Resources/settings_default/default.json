@@ -466,12 +466,6 @@
   //If correct, you must see Python version info in console panel (Ctrl+`) 
   //and command "=sys.path" works in console.
   //
-  //Default values:
-  //  Windows: python33.dll
-  //  Linux: libpython3.4m.so.1.0
-  //  macOS: /Library/Frameworks/Python.framework/Versions/3.x/lib/libpython3.x.dylib 
-  //        ("x" tried: "4" to "8")
-  //
   //Instruction for Linux, if Py engine not found:
   //  1) open file manager, goto PC root,
   //  2) search for "libpython3",
@@ -482,9 +476,10 @@
   //  Homebrew installs Python which don't have 32-bit *.dylib (on 64-bit OS)
   //  So you need to install Python from Python.org, and it must be 32-bit (default 3.x is ok)
   //
-  //"pylib": "python33.dll",
+  //"pylib": "python35.dll",
   //"pylib__linux": "libpython3.4m.so.1.0",
   //"pylib__osx": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
+  //              (for macOS: tried 3.5 to 3.8, which is found)
 
   //API: delay for on_change_slow
   "py_change_slow": 2000,

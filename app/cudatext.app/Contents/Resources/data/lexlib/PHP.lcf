@@ -1,4 +1,4 @@
-object SyntAnal97: TLibSyntAnalyzer
+object SyntAnal27: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -11,7 +11,7 @@ object SyntAnal97: TLibSyntAnalyzer
     item
       DisplayName = 'Comment doc'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
+      Font.Color = 12615808
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
@@ -44,6 +44,14 @@ object SyntAnal97: TLibSyntAnalyzer
       DisplayName = 'String'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String heredoc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -154,9 +162,16 @@ object SyntAnal97: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Comment block empty'
+      StyleName = 'Comment'
+      Expression = '/\*\*/'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Comment doc'
       StyleName = 'Comment doc'
-      Expression = '(?s)/\*\* .*? (\*/|\Z)'
+      Expression = '(?s)/\*\* .+? (\*/|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -198,10 +213,10 @@ object SyntAnal97: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String Heredoc'
-      StyleName = 'String'
+      DisplayName = 'String heredoc'
+      StyleName = 'String heredoc'
       TokenType = 3
-      Expression = '(?s)<<<(\w+)\z.+?\z\1;'
+      Expression = '(?s)<<<[\x20'#39']?(\w+)'#39'?\z.+?\z\1;'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -339,6 +354,7 @@ object SyntAnal97: TLibSyntAnalyzer
         item
           TagList.Strings = (
             'bool'
+            'false'
             'float'
             'int'
             'mixed'
@@ -348,7 +364,7 @@ object SyntAnal97: TLibSyntAnalyzer
             'resource'
             'string'
             'true'
-            'false')
+            'yield')
           TokenTypes = 2
         end>
       HighlightPos = cpAny
@@ -547,7 +563,7 @@ object SyntAnal97: TLibSyntAnalyzer
       HighlightPos = cpRange
       DynSelectMin = True
       DrawStaple = True
-      CollapseFmt = '...'
+      CollapseFmt = '{ ... }'
       Pen.Color = clRed
       Pen.Style = psDot
       IgnoreAsParent = False
@@ -791,7 +807,7 @@ object SyntAnal97: TLibSyntAnalyzer
       DisplayName = 'PHP_dev_HTML'
       StartExpression = '\?>'
       EndExpression = '<\?'
-      SyntAnalyzer = SyntAnal96
+      SyntAnalyzer = SyntAnal15
       FromTextBegin = True
     end>
   SampleText.Strings = (

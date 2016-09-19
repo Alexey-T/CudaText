@@ -20,6 +20,7 @@ method=do_remove
 section=commands
 caption=Addons Manager\Remove data files...
 method=do_remove_data
+menu=0
 
 [item9]
 section=commands
