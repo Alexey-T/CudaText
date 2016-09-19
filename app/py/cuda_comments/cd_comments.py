@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.8.1 2016-09-13'
+    '0.8.2 2016-09-18'
 ToDo: (see end of file)
 '''
 
@@ -75,7 +75,7 @@ class Command:
             only_ln     = vals['full']
             # Checking
             if not pair[0] or not pair[1]:
-                app.msg_box(USE_NOT_EMPTY, app.MB_OK)
+                app.msg_box(_("Set not empty values"), app.MB_OK)
                 continue #while
             break #while 
            #while
@@ -94,8 +94,8 @@ class Command:
         bUseFLn     = apx.get_opt('comment_full_line_if_no_sel' , True)
         bSkip       = apx.get_opt('comment_move_down'           , True)
         
-        save_s      = _('(Line commands) Try to save char positions in line after (un)commenting')
-        save_h      = _('Try to replace blank(s) to save text positions:'
+        save_s      = _('(Line commands) Try to to keep text positions in line after (un)commenting')
+        save_h      = _('Try to replace only blank(s) to keep text positions:'
                         '\rUncommented lines:'
                         '\r····foo1'
                         '\r····foo2'
