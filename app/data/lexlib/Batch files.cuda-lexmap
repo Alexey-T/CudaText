@@ -1,11 +1,9 @@
 [map]
-Label=Id3
+Label=Id1
 Comment=Comment
-Key words=IdKeyword
-Commands=Id1
-Params=Id
-Echo=Id4
+Keywords=IdKeyword
+Text=Id
+String=String
 Symbol=Symbol
-QuotationMarks=String
-Variable=IdVar
-Int=Number
+Number=Number
+Var=IdVar
