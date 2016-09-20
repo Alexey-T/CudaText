@@ -429,6 +429,10 @@ end;
 
 procedure TfmMain.DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
 begin
+  //tab closed: set flag
+  if NTo=-1 then
+    PyEditorMaybeDeleted:= true;
+
   DoPyEvent(CurrentEditor, cEventOnTabMove, []);
 end;
 

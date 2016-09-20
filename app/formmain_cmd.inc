@@ -20,14 +20,12 @@ begin
     cmd_FileClose:
       begin
         Groups.CloseTabs(tabCloseCurrent, false);
-        PyEditorMaybeDeleted:= true;
         EditorFocus(CurrentEditor);
       end;
 
     cmd_FileCloseAll:
       begin
         Groups.CloseTabs(tabCloseAll, false);
-        PyEditorMaybeDeleted:= true;
         EditorFocus(CurrentEditor);
       end;
 
@@ -44,7 +42,6 @@ begin
     cmd_FileCloseAndDelete:
       begin
         DoFileCloseAndDelete;
-        PyEditorMaybeDeleted:= true;
       end;
 
     cmd_FileNew:             DoFileOpen('');
