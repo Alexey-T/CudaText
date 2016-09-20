@@ -2537,6 +2537,8 @@ var
   i: integer;
 begin
   Result:= true;
+  PyEditorMaybeDeleted:= true;
+
   Groups.CloseTabs(tabCloseAll, false);
   for i:= 0 to FrameCount-1 do
     if Frames[i].Modified then
@@ -2552,8 +2554,11 @@ begin
   if fn='' then exit;
 
   if MsgBox(msgConfirmCloseDelFile+#13+fn, MB_OKCANCEL or MB_ICONWARNING)=id_ok then
+  begin
+    PyEditorMaybeDeleted:= true;
     if Groups.CloseTabs(tabCloseCurrent, false) then
       DeleteFileUTF8(fn);
+  end;
 end;
 
 
