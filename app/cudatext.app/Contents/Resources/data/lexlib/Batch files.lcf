@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal4: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Label'
@@ -6,7 +6,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     item
       DisplayName = 'Comment'
@@ -17,7 +17,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Key words'
+      DisplayName = 'Keywords'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
@@ -25,15 +25,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Commands'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNavy
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end
-    item
-      DisplayName = 'Params'
+      DisplayName = 'Text'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
@@ -41,7 +33,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Echo'
+      DisplayName = 'String'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
@@ -57,25 +49,17 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'QuotationMarks'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clTeal
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Variable'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Int'
+      DisplayName = 'Number'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Var'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -85,7 +69,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Comment'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '^\s*@?\s* rem\b .*'
+      Expression = '^[\x20\x09]* @? [\x20\x09]* rem\b .*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -101,20 +85,22 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Label'
       StyleName = 'Label'
       TokenType = 3
-      Expression = '^\s*:\w+|(?<=goto\s+)\S+'
+      Expression = '^[\x20\x09]* :\w+ |'#13#10'(?<=goto\x20+)\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Variable'
-      StyleName = 'Variable'
-      Expression = '%\d | %\w+(%|$)'
+      StyleName = 'Var'
+      TokenType = 7
+      Expression = '%\d | %\w+%'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'IP-Address'
-      StyleName = 'Int'
+      StyleName = 'Number'
+      TokenType = 5
       Expression = '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -122,14 +108,14 @@ object SyntAnal6: TLibSyntAnalyzer
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
-      TokenType = 2
-      Expression = '[\+\-\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\#@]'
+      TokenType = 6
+      Expression = '[\+\-\*\(\)\[\]\{\}<>\.,~!&\|;:=%\^\#@\\/]'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Echo'
-      StyleName = 'Echo'
+      StyleName = 'String'
       StrictParent = True
       TokenType = 4
       Expression = '(?<=\b echo \x20) [^<>\|\n\r&]*'
@@ -138,21 +124,23 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = 'String'
-      StyleName = 'QuotationMarks'
+      StyleName = 'String'
+      TokenType = 4
       Expression = '".*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Int'
-      StyleName = 'Int'
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 5
       Expression = '0x[0-9a-f]+ | \d+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Command'
-      StyleName = 'Params'
+      DisplayName = 'Text'
+      StyleName = 'Text'
       TokenType = 2
       Expression = '\w+'
       ColumnFrom = 0
@@ -161,7 +149,7 @@ object SyntAnal6: TLibSyntAnalyzer
   BlockRules = <
     item
       DisplayName = 'Keywords'
-      StyleName = 'Key words'
+      StyleName = 'Keywords'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -356,23 +344,25 @@ object SyntAnal6: TLibSyntAnalyzer
     '  @rem Comment'
     ':label'
     '::comment'
-    'pause'
+    'somecmd Test Param'
     'copy c:\%dirname%\*.pas "d:\dir name"'
-    'if errorlevel 1 echo Error in copy action!'
+    'if errorlevel 1 echo Error in copy action'
     'goto label'
-    'ping 10.10.10.100 ')
+    'ping 10.10.10.100')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Text'
     'Label'
-    'echo'
-    'echo cmd')
+    'String'
+    'Number'
+    'Symbol'
+    'Var')
   Extentions = 'bat cmd'
   LexerName = 'Batch files'
   SkipSpaces = False
   Notes.Strings = (
-    'Changes: Alexey (SynWrite)')
+    'Alexey (SynWrite)')
   RestartFromLineStart = True
   LineComment = '::'
   Charset = DEFAULT_CHARSET
