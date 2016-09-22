@@ -2,12 +2,10 @@
 
 dname=cudatext_1.4.8.0-1_gtk2_amd64
 
-dd_=~/tmp
 dd=~/tmp/$dname
 sudo rm -rf $dd
 
-mkdir $dd_
-mkdir $dd
+mkdir -p $dd
 mkdir $dd/DEBIAN
 cp debfiles/control $dd/DEBIAN
 
