@@ -2,10 +2,12 @@
 
 dname=cudatext_1.4.8.0-1_gtk2_amd64
 
+dd_=~/tmp
 dd=~/tmp/$dname
 sudo rm -rf $dd
- 
-mkdir -p $dd
+
+mkdir $dd_
+mkdir $dd
 mkdir $dd/DEBIAN
 cp debfiles/control $dd/DEBIAN
 
@@ -23,7 +25,7 @@ mkdir $dd/usr/share/cudatext/py/requests
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
 
-cp ../app/cudatext $dd/usr/bin
+cp -r ../app/cudatext.app $dd/usr/bin
 cp debfiles/cudatext.desktop $dd/usr/share/applications
 cp debfiles/cudatext-256.png $dd/usr/share/pixmaps
 cp -r ../app/data $dd/usr/share/cudatext
@@ -46,4 +48,4 @@ cp -r ../app/py/requests/* $dd/usr/share/cudatext/py/requests
 
 sudo chmod -R 755 $dd
 sudo chown -R root:root $dd
-dpkg-deb --build $dd ~/Public/$dname.deb
+dpkg-deb --build $dd ~/tmp/$dname/$dname.deb
