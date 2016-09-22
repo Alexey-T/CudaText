@@ -1,12 +1,13 @@
 #!/bin/sh
 
 . ./cuda_ver.sh
+suffix=gtk2_amd64
 
 outdir=~/Public
 mkdir -p $outdir
-dname=cudatext_$cuda_ver-1_gtk2_amd64
+debname=cudatext_$cuda_ver-1_$suffix
 
-dd=~/tmp/$dname
+dd=~/tmp/$debname
 sudo rm -rf $dd
 
 mkdir -p $dd
@@ -50,4 +51,4 @@ cp -r ../app/py/requests/* $dd/usr/share/cudatext/py/requests
 
 sudo chmod -R 755 $dd
 sudo chown -R root:root $dd
-dpkg-deb --build $dd $outdir/$dname.deb
+dpkg-deb --build $dd $outdir/$debname.deb
