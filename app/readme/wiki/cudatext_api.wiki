@@ -72,10 +72,10 @@ Gets version of API (string, contains 3 numbers, dot-separated).
 
 Example of version check:
 
-  import cudatext as _ct
+  import cudatext
   
-  if _ct.app_api_version() < '1.0.114':
-    _ct.msg_box('Plugin <Name> needs newer app version', _ct.MB_OK + _ct.MB_ICONWARNING)
+  if cudatext.app_api_version() < '1.0.140':
+    cudatext.msg_box('Plugin MyName needs newer app version', cudatext.MB_OK + cudatext.MB_ICONWARNING)
 
 ===app_path===
 
@@ -88,7 +88,7 @@ Gets some path. Possible values of id:
 * APP_DIR_DATA: Dir "data".
 * APP_DIR_PY: Dir with Python data "py".
 * APP_DIR_INSTALLED_ADDON: Dir of last installed addon (for plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib"). This dir is updated only if addon installed via file_open() or from app (Open dialog or command line).
-* APP_FILE_SESSION: Filename of session, default is "history session.json" in dir "settings".
+* APP_FILE_SESSION: Filename of current session. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used. 
 
 Note: to get path of dir "settings_default", use base dir of "settings".
 
@@ -98,19 +98,19 @@ Note: to get path of dir "settings_default", use base dir of "settings".
 
 Performs application-wide action. Possible values of id:
 
-====Misc====
+====Misc properties====
 
-* PROC_GET_CLIP: Gets clipboard text.
-* PROC_SET_CLIP: Copies text to clipboard.
+* PROC_GET_LANG: Gets string id of active translation. E.g. "ru_RU" if translation file is "ru_RU.ini". Or "translation template" if such file is used. Empty string if built-in English translation is used.
 * PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
-* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
-* PROC_GET_ESCAPE: Gets escape flag (bool). This flag is set when user presses Esc key (each Esc press is counted since app start, you need to clear flag). To allow app to handle key press, you must call msg_status() in loop.
-* PROC_SET_ESCAPE: Sets escape flag ("0"/"1").
 * PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
-* PROC_GET_LANG: Gets str: active translation. E.g. "ru_RU" if translation file is named "ru_RU.ini". Empty if built-in translation used.
+
+====Clipboard====
+
+* PROC_GET_CLIP: Gets clipboard text.
+* PROC_SET_CLIP: Copies text to clipboard.
 
 ====Plugin calls====
 
@@ -120,12 +120,15 @@ Performs application-wide action. Possible values of id:
 ** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
-* PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items from PROC_SET_SUBCOMMANDS). Call it with str(N) from N=0 until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
+* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. Call it with str(N), from N=0, until you get None. 
+* PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items which were set in PROC_SET_SUBCOMMANDS). Call it with str(N), from N=0, until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
 
 ====Hotkeys====
 
 command_id can be: str(int_command_code) or "module,method" or "module,method,param".
 
+* PROC_GET_ESCAPE: Gets escape flag (bool). This flag is set when user presses Esc key (each Esc press is counted since app start). Note: to allow app to handle key press in long loop, call msg_status('text', True).
+* PROC_SET_ESCAPE: Sets escape flag. Text must be "0"/"1".
 * PROC_GET_HOTKEY: Gets hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Gets empty str for unknown command_id.
 * PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Gets bool: command_id exists, changed.
 * PROC_GET_KEYSTATE: Gets state of pressed special keys. String has "c" for Ctrl pressed, "a" for Alt, "s" for Shift, "m" for Meta (Windows key).
