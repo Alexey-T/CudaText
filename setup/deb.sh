@@ -1,11 +1,12 @@
 #!/bin/sh
 
+outdir=~/Public
+mkdir -p $outdir
 dname=cudatext_1.4.8.4-1_gtk2_amd64
 
 dd=~/tmp/$dname
 sudo rm -rf $dd
 
-mkdir -p ~/Public 
 mkdir -p $dd
 mkdir $dd/DEBIAN
 cp debfiles/control $dd/DEBIAN
@@ -47,4 +48,4 @@ cp -r ../app/py/requests/* $dd/usr/share/cudatext/py/requests
 
 sudo chmod -R 755 $dd
 sudo chown -R root:root $dd
-dpkg-deb --build $dd ~/Public/$dname.deb
+dpkg-deb --build $dd $outdir/$dname.deb
