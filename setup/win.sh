@@ -1,18 +1,20 @@
 #!/bin/sh
+. ./cuda_ver.sh
 cd ../app
 
-zipname=cudatext-win-x32
+cpu=x32
+zipname=cudatext-win-$cpu-$cuda_ver.zip
 outdir=~/Public
 exedir=~/Public/win_exe
 mkdir -p $outdir
 mkdir $outdir/src 
 
-rm $outdir/$zipname.zip
-zip -r -x*.pyc $outdir/$zipname.zip data readme settings_default *.manifest *.dll py*.zip dlls/* py/*.py py/cuda_addonman py/cuda_make_plugin py/cuda_insert_time py/cudax_lib py/requests py/cuda_comments
+rm $outdir/$zipname
+zip -r -x*.pyc $outdir/$zipname data readme settings_default *.manifest *.dll py*.zip dlls/* py/*.py py/cuda_addonman py/cuda_make_plugin py/cuda_insert_time py/cudax_lib py/requests py/cuda_comments
 
 # Take exe
 cd $exedir
-zip $outdir/$zipname.zip cudatext.exe
+zip $outdir/$zipname cudatext.exe
 
 # Take sources
 cd $outdir/src
@@ -29,4 +31,4 @@ curl -L https://github.com/Alexey-T/EControl/archive/master.zip >EControl.zip
 curl -L https://github.com/Alexey-T/Python-for-Lazarus/archive/master.zip >Python.zip
 
 cd ..
-zip -r $outdir/$zipname.zip src/
+zip -r $outdir/$zipname src/

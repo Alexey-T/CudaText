@@ -1,8 +1,10 @@
 #!/bin/sh
 
+. ./cuda_ver.sh
+
 outdir=~/Public
 mkdir -p $outdir
-dname=cudatext_1.4.8.4-1_gtk2_amd64
+dname=cudatext_$cuda_ver-1_gtk2_amd64
 
 dd=~/tmp/$dname
 sudo rm -rf $dd
