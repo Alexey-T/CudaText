@@ -2,13 +2,14 @@
 0=XML
 
 [map]
-Default=-
 Symbol=Symbol
 Number=Number
 String=String
-Identifier=Id
-Reserved word=IdKeyword
+Id=Id
+Id keyword=IdKeyword
+Is spec=Id1
+Id Linq=Id2
 Comment=Comment
+Comment doc=CommentDoc
 Preprocessor=Comment2
-Current block=BracketBG
-GenericParam=Id1
+Bracket BG=BracketBG
