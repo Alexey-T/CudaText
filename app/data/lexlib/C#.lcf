@@ -41,7 +41,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Is spec'
+      DisplayName = 'Id spec'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
@@ -133,10 +133,10 @@ object SyntAnal6: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String raw'
+      DisplayName = 'String verbatim'
       StyleName = 'String'
       TokenType = 4
-      Expression = '@" .*? ("|$)'
+      Expression = '(?s) @" .*? ("|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -320,7 +320,7 @@ object SyntAnal6: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id types'
-      StyleName = 'Is spec'
+      StyleName = 'Id spec'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -884,7 +884,8 @@ object SyntAnal6: TLibSyntAnalyzer
     '   ///Comment doc'
     '   ///doc'
     '#  pragma Test'
-    'test = @"raw\" + "str\"d\"" + '#39'd'#39' + 0xA0F0;'
+    'test = @"begin'
+    'end\" + "str\"d\"" + '#39'd'#39' + 0xA0F0;'
     'from nn select dd; //Linq'
     'enum Days {P1, P2, P3};'
     ' '
