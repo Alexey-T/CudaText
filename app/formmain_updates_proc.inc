@@ -671,6 +671,11 @@ var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
 begin
+  if UiOps.TreeShowIcons then
+    Tree.Images:= ImageListTree
+  else
+    Tree.Images:= nil;
+
   if AConsiderTreeVisible then
     if not ShowSidePanel then exit;
 

@@ -131,6 +131,7 @@ type
     TreeTimeFill: integer;
     TreeTimeFocus: integer;
     TreeShowLines: boolean;
+    TreeShowIcons: boolean;
     PyChangeSlow: integer;
 
     NewdocLexer: string;
@@ -864,6 +865,7 @@ begin
     TreeTimeFill:= 2000;
     TreeTimeFocus:= 300;
     TreeShowLines:= true;
+    TreeShowIcons:= true;
     PyChangeSlow:= 2000;
 
     NewdocLexer:= '';

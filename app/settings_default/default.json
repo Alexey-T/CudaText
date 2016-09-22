@@ -326,14 +326,16 @@
   "ui_initial_dir": "",
 
   //[Syntax-tree]
-  //Focus tree-node for caret-position changed
+  //Focus another tree-node, after caret position changes
   "ui_tree_auto_sync": true,
   //Time (msec) after which tree filled
   "ui_tree_time_fill": 2000,
-  //Time (msec) after which tree-node for caret focused
+  //Time (msec) after which tree-node for caret focuses
   "ui_tree_time_focus": 300,
-  //Show lines at left side
+  //Show vertical/horiz lines in tree 
   "ui_tree_show_lines": true,
+  //Show icons in tree (for lexers which assign icons, e.g. C#)
+  "ui_tree_icons": true,
 
   //[Properties of new tabs]
   //Lexer name in lexers menu
