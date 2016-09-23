@@ -1,4 +1,4 @@
-object SyntAnal11: TLibSyntAnalyzer
+object SyntAnal29: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Head'
@@ -100,12 +100,35 @@ object SyntAnal11: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Text'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
       DisplayName = 'Head'
       StyleName = 'Head'
-      Expression = '^[\*=-]{2,}$ \z ^.+$ \z ^[\*=-]{2,}$'
+      Expression = '^[\*\#=-\^\"]{2,}$ \z '#13#10'^.+$ \z '#13#10'^[\*\#=-\^\"]{2,}$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Head 2'
+      StyleName = 'Head'
+      Expression = '^\w.+$ \z'#13#10'^[\-\+]{2,}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'List'
+      StyleName = 'List'
+      TokenType = 6
+      Expression = '^(\*+|\#+\.|\d+\.) \x20 .+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -113,7 +136,7 @@ object SyntAnal11: TLibSyntAnalyzer
       DisplayName = 'Bold-Italic'
       StyleName = 'Bold-Italic'
       TokenType = 1
-      Expression = '(?<!\*) (\*\*\*).+?(\*\*\*|$)'
+      Expression = '(?s) (\*\*\*)\S.*?(\*\*\*|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -121,7 +144,7 @@ object SyntAnal11: TLibSyntAnalyzer
       DisplayName = 'Bold'
       StyleName = 'Bold'
       TokenType = 1
-      Expression = '(?<!\*) (\*\*).+?(\*\*|$)'
+      Expression = '(?s) (\*\*)\S.*?(\*\*|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -129,7 +152,7 @@ object SyntAnal11: TLibSyntAnalyzer
       DisplayName = 'Italic'
       StyleName = 'Italic'
       TokenType = 1
-      Expression = '(?s) (?<!\*) (\*) \S.*? (\*|")'
+      Expression = '(?s) \* \S.*? (\*|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -150,18 +173,19 @@ object SyntAnal11: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Code dot'
-      StyleName = 'Code dot'
+      DisplayName = 'Code'
+      Enabled = False
+      StyleName = 'Code'
       TokenType = 4
-      Expression = '^\x20* \.+ .+'
+      Expression = '^[\x20\x09]{2,} .*'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Code'
-      StyleName = 'Code'
+      DisplayName = 'Code dot'
+      StyleName = 'Code dot'
       TokenType = 4
-      Expression = '^[\x20]+ .*'
+      Expression = '^\.+ .*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -174,10 +198,10 @@ object SyntAnal11: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'List'
-      StyleName = 'List'
-      TokenType = 6
-      Expression = '^\*+ [\x20] .+'
+      DisplayName = 'Text'
+      StyleName = 'Text'
+      TokenType = 1
+      Expression = '.'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -196,6 +220,19 @@ object SyntAnal11: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
+    'Head'
+    '+++++++'
+    ''
+    '** This is a bulleted list.'
+    '** It has two items, the second'
+    '  item uses two lines.'
+    ''
+    '1. This is a numbered list.'
+    '2. It has two items too.'
+    ''
+    '###. This is a numbered list.'
+    '###. It has two items too.'
+    ''
     '****************************************'
     'HTTPie '
     '****************************************'
