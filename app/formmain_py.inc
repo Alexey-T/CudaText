@@ -2371,6 +2371,46 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_SHOW_STATUSBAR_SET:
+          begin
+            fmMain.ShowStatus:= (Str='1');
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_STATUSBAR_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowStatus));
+          end;
+
+        APP_PROC_SHOW_TOOLBAR_SET:
+          begin
+            fmMain.ShowToolbar:= (Str='1');
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_TOOLBAR_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowToolbar));
+          end;
+
+        APP_PROC_SHOW_SIDEPANEL_SET:
+          begin
+            fmMain.ShowSidePanel:= (Str='1');
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_SIDEPANEL_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowSidePanel));
+          end;
+
+        APP_PROC_SHOW_BOTTOMPANEL_SET:
+          begin
+            fmMain.ShowBottom:= (Str='1');
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_BOTTOMPANEL_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowBottom));
+          end;
+
         else
           Result:= ReturnNone;
       end;
