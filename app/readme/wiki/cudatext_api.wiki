@@ -172,9 +172,10 @@ menu_id can be:
 
 Actions:
 
-* PROC_MENU_ENUM: Enumerates sub-items in menu item. Param text must be menu_id. Gets "\n"-separated string with string properties of sub-items. These strings can be:
+* PROC_MENU_ENUM: Enumerates sub-items in menu item. Param text must be menu_id. Gets str: "\n"-separated strings for sub-items. These strings are:
 ** for usual command items: "caption|int_command|menu_id" 
 ** for plugin command items: "caption|plugin_module,plugin_method|menu_id" 
+** for separator items: "-||menu_id"
 ** for submenu items: 2nd part (between "|" chars) is not a command code, such items are "caption||menu_id" or "caption|string_hint|menu_id"
 
 * PROC_MENU_CLEAR: Removes all sub-items from menu item. Param text must be menu_id.
@@ -285,6 +286,8 @@ Actions can get show-state of UI elements, or set show-state (pass "0" to hide, 
 * PROC_SHOW_SIDEPANEL_SET
 * PROC_SHOW_BOTTOMPANEL_GET
 * PROC_SHOW_BOTTOMPANEL_SET
+* PROC_SHOW_TABS_GET
+* PROC_SHOW_TABS_SET
 
 ===app_log===
 
@@ -1133,6 +1136,7 @@ Text is chr(1) separated items:
 * add: app_proc: PROC_SHOW_TOOLBAR_GET, PROC_SHOW_TOOLBAR_SET
 * add: app_proc: PROC_SHOW_SIDEPANEL_GET, PROC_SHOW_SIDEPANEL_SET
 * add: app_proc: PROC_SHOW_BOTTOMPANEL_GET, PROC_SHOW_BOTTOMPANEL_SET
+* add: app_proc: PROC_SHOW_TABS_GET, PROC_SHOW_TABS_SET
 
 1.0.154
 * add: app_proc: PROC_THEME_UI_*, PROC_THEME_SYNTAX_*
