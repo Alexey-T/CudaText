@@ -2411,6 +2411,16 @@ begin
             Result:= PyBool_FromLong(Ord(fmMain.ShowBottom));
           end;
 
+        APP_PROC_SHOW_TABS_SET:
+          begin
+            fmMain.ShowTabsMain:= (Str='1');
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_TABS_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowTabsMain));
+          end;
+
         else
           Result:= ReturnNone;
       end;

@@ -691,6 +691,7 @@ type
     function GetShowStatus: boolean;
     function GetShowToolbar: boolean;
     function GetShowBottom: boolean;
+    function GetShowTabsMain: boolean;
     procedure GotoDialogDone(Sender: TObject; const Res: string);
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
@@ -706,8 +707,11 @@ type
     procedure SetFrameEncoding(Frame: TEditorFrame; const AEnc: string;
       AAlsoReloadFile: boolean);
     procedure SetLexerIndex(N: integer);
+    procedure SetShowStatus(AValue: boolean);
+    procedure SetShowToolbar(AValue: boolean);
     procedure SetShowBottom(Value: boolean);
     procedure SetShowSidePanel(AValue: boolean);
+    procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure UpdateEditorTabsize(N: integer);
@@ -733,8 +737,6 @@ type
     procedure SetFullScreen(AValue: boolean);
     procedure SetLineEnds(Val: TATLineEnds);
     procedure MsgStatus(const S: string);
-    procedure SetShowStatus(AValue: boolean);
-    procedure SetShowToolbar(AValue: boolean);
     procedure UpdateMenuLangs(sub: TMenuItem);
     procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateStatusbarPanelAutosize;
@@ -773,6 +775,7 @@ type
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
     property ShowBottom: boolean read GetShowBottom write SetShowBottom;
+    property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
     property ThemeUi: string read FThemeUi write SetThemeUi;
     property ThemeSyntax: string read FThemeSyntax write SetThemeSyntax;
     property TabNameLeft: string read GetTabNameLeft write SetTabNameLeft;
@@ -2723,6 +2726,19 @@ begin
     BorderStyle:= bsSizeable;
     BoundsRect:= FOrigBounds; //again
   end;
+end;
+
+function TfmMain.GetShowTabsMain: boolean;
+begin
+  Result:= Groups.Pages1.Tabs.Visible;
+end;
+
+procedure TfmMain.SetShowTabsMain(AValue: boolean);
+var
+  i: integer;
+begin
+  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    Groups.Pages[i].Tabs.Visible:= AValue;
 end;
 
 procedure TfmMain.SetTabNameLeft(const AValue: string);
