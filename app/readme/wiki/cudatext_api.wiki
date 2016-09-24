@@ -86,9 +86,10 @@ Gets some path. Possible values of id:
 * APP_DIR_EXE: Dir of program executable.
 * APP_DIR_SETTINGS: Dir "settings".
 * APP_DIR_DATA: Dir "data".
-* APP_DIR_PY: Dir with Python data "py".
+* APP_DIR_PY: Dir "py" with Python files.
 * APP_DIR_INSTALLED_ADDON: Dir of last installed addon (for plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib"). This dir is updated only if addon installed via file_open() or from app (Open dialog or command line).
 * APP_FILE_SESSION: Filename of current session. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used. 
+* APP_FILE_RECENTS: Str: "\n"-separated filenames of recent files.
 
 Note: to get path of dir "settings_default", use base dir of "settings".
 
@@ -289,6 +290,24 @@ Actions can get show-state of UI elements, or set show-state (pass "0" to hide, 
 * PROC_SHOW_BOTTOMPANEL_SET
 * PROC_SHOW_TABS_GET
 * PROC_SHOW_TABS_SET
+
+====Screen coordinates====
+
+Notes:
+
+* When getting coords, you get 4-tuple of int: (x1, y1, x2, y2)
+* When setting coords, you should pass such string: '%d,%d,%d,%d' % (x1, y1, x2, y2)
+
+Actions:
+
+* PROC_COORD_WINDOW_GET: Gets coords of app window.
+* PROC_COORD_WINDOW_SET: Sets coords of app window.
+* PROC_COORD_DESKTOP: Gets coords of virtual desktop, which includes all monitors.
+* PROC_COORD_MONITOR: Gets coords of monitor with app window.
+* PROC_COORD_MONITOR0: Gets coords of 1st monitor.
+* PROC_COORD_MONITOR1: Gets coords of 2nd monitor, or None if no such monitor.
+* PROC_COORD_MONITOR2: Gets coords of 3rd monitor, or None if no such monitor.
+* PROC_COORD_MONITOR3: Gets coords of 4th monitor, or None if no such monitor.
 
 ===app_log===
 
@@ -796,20 +815,25 @@ Gets filename (str) of the editor's tab.
 * Empty str for untitled tab. 
 * String "?" if picture file loaded in tab.
 
-===get_split/set_split===
+===get_split===
 
  get_split()
- set_split(state, percent)
 
-Gets/sets tab splitting: each tab can be splitted to primary/second editors.
+Gets tab splitting: each tab can be splitted to primary/second editors.
 
-Gets 2-tuple:
+Gets 2-tuple: (state, percent):
 
 * int: state of splitting, one of the values
-** TAB_SPLIT_NO: tab not splitted
-** TAB_SPLIT_HORZ
-** TAB_SPLIT_VERT 
-* float: percent of splitting, it's 0.5 if tab splitted 50/50.
+** TAB_SPLIT_NO: tab is not splitted
+** TAB_SPLIT_HORZ: tab is splitted horizontally
+** TAB_SPLIT_VERT: tab is splitted vertically
+* float: percent of splitting, e.g. it's 0.5 if tab splitted 50/50.
+
+===set_split===
+
+ set_split(state, percent)
+
+Sets tab splitting. Meaning of params is the same as for get_split().
 
 ===get_prop===
 
@@ -1140,6 +1164,10 @@ Text is chr(1) separated items:
 ** PROC_SHOW_SIDEPANEL_GET, PROC_SHOW_SIDEPANEL_SET
 ** PROC_SHOW_BOTTOMPANEL_GET, PROC_SHOW_BOTTOMPANEL_SET
 ** PROC_SHOW_TABS_GET, PROC_SHOW_TABS_SET
+** PROC_COORD_WINDOW_GET, PROC_COORD_WINDOW_SET
+** PROC_COORD_DESKTOP
+** PROC_COORD_MONITOR* 
+* add: app_path: APP_FILE_RECENTS
 
 1.0.154
 * add: app_proc: PROC_THEME_UI_*, PROC_THEME_SYNTAX_*
