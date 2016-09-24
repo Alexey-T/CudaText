@@ -340,6 +340,7 @@ procedure CommandPlugins_DeleteItem(AIndex: integer);
 var
   AppManager: TecSyntaxManager = nil;
   AppKeymap: TATKeymap = nil;
+  AppKeymapInitial: TATKeymap = nil;
   AppShortcutEscape: TShortcut = 0;
   AppLangName: string = '';
 

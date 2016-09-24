@@ -2063,6 +2063,30 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_COMMAND_INITIAL:
+          begin
+            //AppKeymapInitial must be inited with _same_ code
+            //as AppKeymap in proc_global
+            if not Assigned(AppKeymapInitial) then
+            begin
+              AppKeymapInitial:= TATKeymap.Create;
+              InitKeymapFull(AppKeymapInitial);
+              InitKeymapForApplication(AppKeymapInitial);
+            end;
+
+            Num:= StrToIntDef(Str, -1);
+            if AppKeymapInitial.IsIndexValid(Num) then
+              with AppKeymapInitial[Num] do
+                Result:= Py_BuildValue('(isss)',
+                  Command,
+                  PChar(Name),
+                  PChar(KeyArrayToString(Keys1)),
+                  PChar(KeyArrayToString(Keys2))
+                  )
+            else
+              Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_COMMAND_PLUGIN:
           begin
             Num:= StrToIntDef(Str, -1);
