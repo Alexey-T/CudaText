@@ -2019,18 +2019,22 @@ end;
 
 function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Id, Num: integer;
+  Id, i: integer;
   Ptr: PChar;
   Str, Str1, Str2, Str3: string;
   StrCaption, StrId, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
+  ParamInt: integer;
+  ParamBool: boolean;
   Num64: Int64;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
     begin
       Str:= string(Ptr);
+      ParamInt:= StrToIntDef(Str, -1);
+      ParamBool:= (Str='1');
 
       case Id of
         APP_PROC_GET_CLIP:
@@ -2046,13 +2050,12 @@ begin
 
         APP_PROC_GET_COMMAND:
           begin
-            Num:= StrToIntDef(Str, -1);
-            if (AppKeymap.IsIndexValid(Num)) and
-              not ((AppKeymap[Num].Command>=cmdFirstPluginCommand) and
-                   (AppKeymap[Num].Command<cmdLastPluginCommand)) and
-              not ((AppKeymap[Num].Command>=cmdFirstLexerCommand) and
-                   (AppKeymap[Num].Command<cmdLastLexerCommand)) then
-              with AppKeymap[Num] do
+            if (AppKeymap.IsIndexValid(ParamInt)) and
+              not ((AppKeymap[ParamInt].Command>=cmdFirstPluginCommand) and
+                   (AppKeymap[ParamInt].Command<cmdLastPluginCommand)) and
+              not ((AppKeymap[ParamInt].Command>=cmdFirstLexerCommand) and
+                   (AppKeymap[ParamInt].Command<cmdLastLexerCommand)) then
+              with AppKeymap[ParamInt] do
                 Result:= Py_BuildValue('(isss)',
                   Command,
                   PChar(Name),
@@ -2074,9 +2077,8 @@ begin
               InitKeymapForApplication(AppKeymapInitial);
             end;
 
-            Num:= StrToIntDef(Str, -1);
-            if AppKeymapInitial.IsIndexValid(Num) then
-              with AppKeymapInitial[Num] do
+            if AppKeymapInitial.IsIndexValid(ParamInt) then
+              with AppKeymapInitial[ParamInt] do
                 Result:= Py_BuildValue('(isss)',
                   Command,
                   PChar(Name),
@@ -2089,16 +2091,15 @@ begin
 
         APP_PROC_GET_COMMAND_PLUGIN:
           begin
-            Num:= StrToIntDef(Str, -1);
-            if (Num>=Low(FPluginsCmd)) and
-               (Num<=High(FPluginsCmd)) and
-               (FPluginsCmd[Num].ItemModule<>'') then
+            if (ParamInt>=Low(FPluginsCmd)) and
+               (ParamInt<=High(FPluginsCmd)) and
+               (FPluginsCmd[ParamInt].ItemModule<>'') then
               Result:= Py_BuildValue('(sssss)',
-                PChar(FPluginsCmd[Num].ItemCaption),
-                PChar(FPluginsCmd[Num].ItemModule),
-                PChar(FPluginsCmd[Num].ItemProc),
-                PChar(FPluginsCmd[Num].ItemProcParam),
-                PChar(FPluginsCmd[Num].ItemLexers)
+                PChar(FPluginsCmd[ParamInt].ItemCaption),
+                PChar(FPluginsCmd[ParamInt].ItemModule),
+                PChar(FPluginsCmd[ParamInt].ItemProc),
+                PChar(FPluginsCmd[ParamInt].ItemProcParam),
+                PChar(FPluginsCmd[ParamInt].ItemLexers)
                 )
             else
                Result:= ReturnNone;
@@ -2204,7 +2205,7 @@ begin
           end;
         APP_PROC_SET_ESCAPE:
           begin
-            PyEscapeFlag:= Str='1';
+            PyEscapeFlag:= ParamBool;
             Result:= ReturnNone;
           end;
 
@@ -2261,8 +2262,8 @@ begin
         APP_PROC_SIDEPANEL_ENUM:
           begin
             Str:= '';
-            for Num:= 0 to fmMain.TabsLeft.TabCount-1 do
-              Str:= Str + IfThen(Num>0, #10) + fmMain.TabsLeft.GetTabData(Num).TabCaption;
+            for i:= 0 to fmMain.TabsLeft.TabCount-1 do
+              Str:= Str + IfThen(i>0, #10) + fmMain.TabsLeft.GetTabData(i).TabCaption;
             Result:= PyString_FromString(PChar(Str));
           end;
 
@@ -2287,9 +2288,9 @@ begin
         APP_PROC_TOOLBAR_ENUM:
           begin
             Str:= '';
-            for Num:= 0 to fmMain.Toolbar.ButtonCount-1 do
+            for i:= 0 to fmMain.Toolbar.ButtonCount-1 do
               with fmMain.Toolbar do
-                Str:= Str+Format('%s;%s'#10, [Buttons[Num].Hint, Buttons[Num].Caption]);
+                Str:= Str+Format('%s;%s'#10, [Buttons[i].Hint, Buttons[i].Caption]);
             Result:= PyString_FromString(PChar(Str));
           end;
 
@@ -2302,17 +2303,16 @@ begin
 
         APP_PROC_TOOLBAR_DELETE:
           begin
-            Num:= StrToIntDef(Str, -1);
-            if (Num>=0) and (Num<fmMain.Toolbar.ButtonCount) then
-              fmMain.Toolbar.Buttons[Num].Free;
+            if (ParamInt>=0) and (ParamInt<fmMain.Toolbar.ButtonCount) then
+              fmMain.Toolbar.Buttons[ParamInt].Free;
             fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
 
         APP_PROC_TOOLBAR_DELETE_ALL:
           begin
-            for Num:= fmMain.Toolbar.ButtonCount-1 downto 0 do
-              fmMain.Toolbar.Buttons[Num].Free;
+            for i:= fmMain.Toolbar.ButtonCount-1 downto 0 do
+              fmMain.Toolbar.Buttons[i].Free;
             fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
@@ -2329,9 +2329,9 @@ begin
           begin
             Str1:= SGetItem(Str);
             Str2:= SGetItem(Str);
-            Num:= StrToIntDef(Str1, -1);
-            if (Num>=0) and (Num<fmMain.Toolbar.ButtonCount) then
-              fmMain.Toolbar.Buttons[Num].ImageIndex:= StrToIntDef(Str2, -1);
+            ParamInt:= StrToIntDef(Str1, -1);
+            if (ParamInt>=0) and (ParamInt<fmMain.Toolbar.ButtonCount) then
+              fmMain.Toolbar.Buttons[ParamInt].ImageIndex:= StrToIntDef(Str2, -1);
             fmMain.UpdateToolbar;
             Result:= ReturnNone;
           end;
@@ -2397,7 +2397,7 @@ begin
 
         APP_PROC_SHOW_STATUSBAR_SET:
           begin
-            fmMain.ShowStatus:= (Str='1');
+            fmMain.ShowStatus:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_STATUSBAR_GET:
@@ -2407,7 +2407,7 @@ begin
 
         APP_PROC_SHOW_TOOLBAR_SET:
           begin
-            fmMain.ShowToolbar:= (Str='1');
+            fmMain.ShowToolbar:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_TOOLBAR_GET:
@@ -2417,7 +2417,7 @@ begin
 
         APP_PROC_SHOW_SIDEPANEL_SET:
           begin
-            fmMain.ShowSidePanel:= (Str='1');
+            fmMain.ShowSidePanel:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_SIDEPANEL_GET:
@@ -2427,7 +2427,7 @@ begin
 
         APP_PROC_SHOW_BOTTOMPANEL_SET:
           begin
-            fmMain.ShowBottom:= (Str='1');
+            fmMain.ShowBottom:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_BOTTOMPANEL_GET:
@@ -2437,7 +2437,7 @@ begin
 
         APP_PROC_SHOW_TABS_SET:
           begin
-            fmMain.ShowTabsMain:= (Str='1');
+            fmMain.ShowTabsMain:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_TABS_GET:
