@@ -13,15 +13,17 @@ interface
 
 uses
   SysUtils, Classes, Variants,
+  Forms,
   ATSynEdit,
-  PythonEngine,
-  proc_str;
+  PythonEngine;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const SModule, SCmd, SParam: string): string;
 function Py_RunPlugin_Event(const SModule, SCmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
-//function Py_StringList(List: TStrings): PPyObject; cdecl; //dont work
+
+function Py_rect(const R: TRect): PPyObject; cdecl;
+function Py_rect_monitor(N: Integer): PPyObject; cdecl;
 
 const
   cPyTrue = 'True';
@@ -111,28 +113,19 @@ begin
   end;
 end;
 
-(*
-function Py_StringList(List: TStrings): PPyObject; cdecl;
-var
-  NLen, i: Integer;
-  ComArray: Variant;
+function Py_rect(const R: TRect): PPyObject; cdecl;
 begin
   with GetPythonEngine do
-  begin
-    NLen:= List.Count;
-    if NLen>0 then
-    begin
-      ComArray:= VarArrayCreate([0, NLen-1], varOleStr);
-      for i:= 0 to NLen-1 do
-        ComArray[i]:= Utf8Decode(List[i]);
-      Result:= VariantAsPyObject(ComArray);
-    end
-    else
-      Result:= ReturnNone;
-  end;
+    Result:= Py_BuildValue('(iiii)', R.Left, R.Top, R.Right, R.Bottom);
 end;
-*)
 
+function Py_rect_monitor(N: Integer): PPyObject; cdecl;
+begin
+  if (N>=0) and (N<Screen.MonitorCount) then
+    Result:= Py_rect(Screen.Monitors[N].BoundsRect)
+  else
+    Result:= GetPythonEngine.ReturnNone;
+end;
 
 
 end.

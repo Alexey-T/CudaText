@@ -2030,6 +2030,7 @@ var
   SplitPos, SplitTotal: integer;
   ParamInt: integer;
   ParamBool: boolean;
+  ParamRect: TRect;
   Num64: Int64;
 begin
   with GetPythonEngine do
@@ -2447,6 +2448,32 @@ begin
           begin
             Result:= PyBool_FromLong(Ord(fmMain.ShowTabsMain));
           end;
+
+        APP_PROC_COORD_WINDOW_GET:
+          begin
+            Result:= Py_rect(Application.MainForm.BoundsRect);
+          end;
+        APP_PROC_COORD_WINDOW_SET:
+          begin
+            ParamRect.Left:= StrToIntDef(SGetItem(Str), 0);
+            ParamRect.Top:= StrToIntDef(SGetItem(Str), 0);
+            ParamRect.Right:= StrToIntDef(SGetItem(Str), 0);
+            ParamRect.Bottom:= StrToIntDef(SGetItem(Str), 0);
+            Application.MainForm.BoundsRect:= ParamRect;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_COORD_DESKTOP:
+          Result:= Py_rect(Screen.DesktopRect);
+        APP_PROC_COORD_MONITOR:
+          Result:= Py_rect(fmMain.Monitor.BoundsRect);
+        APP_PROC_COORD_MONITOR0:
+          Result:= Py_rect_monitor(0);
+        APP_PROC_COORD_MONITOR1:
+          Result:= Py_rect_monitor(1);
+        APP_PROC_COORD_MONITOR2:
+          Result:= Py_rect_monitor(2);
+        APP_PROC_COORD_MONITOR3:
+          Result:= Py_rect_monitor(3);
 
         else
           Result:= ReturnNone;
