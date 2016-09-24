@@ -4,8 +4,9 @@
   * changed
 
 1.4.9
-+ opt ui_tree_icons
 + improved lexers: C#, Bash, reST, Search results
++ opt ui_tree_icons
++ api
 
 1.4.8
 + improved lexers: CSS, JS, PHP, Batch, Ruby, C, C++, C#, Tcl, SQL, YAML, VB, Markdown, Haskell, Makefile (using Sublime syntax tests)

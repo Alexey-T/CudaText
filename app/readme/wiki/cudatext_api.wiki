@@ -120,7 +120,8 @@ Performs application-wide action. Possible values of id:
 ** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
-* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. Call it with str(N), from N=0, until you get None. 
+* PROC_GET_COMMAND: Gets info about item from application commands-list, with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enumerate all commands: call it from index "0", until you get None result.
+* PROC_GET_COMMAND_INITIAL: Same as PROC_GET_COMMAND, but gets info only about "initial state", which was before reading hotkey configs (main config and lexer-specific configs). 
 * PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items which were set in PROC_SET_SUBCOMMANDS). Call it with str(N), from N=0, until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
 
 ====Hotkeys====
@@ -1132,11 +1133,13 @@ Text is chr(1) separated items:
 =History=
 
 1.0.155
-* add: app_proc: PROC_SHOW_STATUSBAR_GET, PROC_SHOW_STATUSBAR_SET
-* add: app_proc: PROC_SHOW_TOOLBAR_GET, PROC_SHOW_TOOLBAR_SET
-* add: app_proc: PROC_SHOW_SIDEPANEL_GET, PROC_SHOW_SIDEPANEL_SET
-* add: app_proc: PROC_SHOW_BOTTOMPANEL_GET, PROC_SHOW_BOTTOMPANEL_SET
-* add: app_proc: PROC_SHOW_TABS_GET, PROC_SHOW_TABS_SET
+* add: app_proc: 
+** PROC_GET_COMMAND_INITIAL
+** PROC_SHOW_STATUSBAR_GET, PROC_SHOW_STATUSBAR_SET
+** PROC_SHOW_TOOLBAR_GET, PROC_SHOW_TOOLBAR_SET
+** PROC_SHOW_SIDEPANEL_GET, PROC_SHOW_SIDEPANEL_SET
+** PROC_SHOW_BOTTOMPANEL_GET, PROC_SHOW_BOTTOMPANEL_SET
+** PROC_SHOW_TABS_GET, PROC_SHOW_TABS_SET
 
 1.0.154
 * add: app_proc: PROC_THEME_UI_*, PROC_THEME_SYNTAX_*
