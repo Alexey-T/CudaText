@@ -1776,6 +1776,28 @@ procedure TfmMain.DoApplyUiOps;
 var
   i: integer;
 begin
+  //apply DoubleBuffered
+  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    Groups.Pages[i].Tabs.DoubleBuffered:= UiOps.DoubleBuffered;
+  for i:= 0 to FrameCount-1 do
+    with Frames[i] do
+    begin
+      Editor.DoubleBuffered:= UiOps.DoubleBuffered;
+      Editor2.DoubleBuffered:= UiOps.DoubleBuffered;
+    end;
+  Toolbar.DoubleBuffered:= UiOps.DoubleBuffered;
+  TabsLeft.DoubleBuffered:= UiOps.DoubleBuffered;
+  TabsBottom.DoubleBuffered:= UiOps.DoubleBuffered;
+  Status.DoubleBuffered:= UiOps.DoubleBuffered;
+  StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
+  ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
+  Gauge.DoubleBuffered:= UiOps.DoubleBuffered;
+  ListboxOut.DoubleBuffered:= UiOps.DoubleBuffered;
+  ListboxVal.DoubleBuffered:= UiOps.DoubleBuffered;
+  fmConsole.ed.DoubleBuffered:= UiOps.DoubleBuffered;
+  fmConsole.memo.DoubleBuffered:= UiOps.DoubleBuffered;
+  //end apply DoubleBuffered
+
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;

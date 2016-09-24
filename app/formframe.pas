@@ -766,6 +766,7 @@ begin
   ed:= TATSynEdit.Create(Self);
   ed.Parent:= Self;
 
+  ed.DoubleBuffered:= UiOps.DoubleBuffered;
   ed.Font.Name:= EditorOps.OpFontName;
   ed.Font.Size:= EditorOps.OpFontSize;
   ed.Font.Quality:= EditorOps.OpFontQuality;
@@ -773,8 +774,8 @@ begin
   ed.BorderStyle:= bsNone;
   ed.Keymap:= AppKeymap;
   ed.TabStop:= false;
-  ed.OptUnprintedVisible:= false;
-  ed.OptRulerVisible:= false;
+  ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
+  ed.OptRulerVisible:= EditorOps.OpRulerShow;
   ed.OptScrollbarsNew:= true;
 
   ed.OnClick:= @EditorOnClick;

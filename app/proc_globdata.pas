@@ -75,6 +75,8 @@ type
     OutputFontName: string;
     OutputFontSize: integer;
 
+    DoubleBuffered: boolean;
+
     PyLibrary: string;
     LexerThemes: boolean;
     PictureTypes: string;
@@ -178,6 +180,7 @@ const
   str_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
   str_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
   str_UiFontOutputSize = 'ui_font_output_size'+cOptionSystemSuffix;
+  str_UiDoubleBuffered = 'ui_buffered'+cOptionSystemSuffix;
 
 type
   TEditorOps = record
@@ -797,6 +800,24 @@ begin
 end;
 
 
+function IsDoubleBufferedNeeded: boolean;
+begin
+  Result:= false;
+
+  {$ifdef windows}
+  exit(true);
+  {$endif}
+
+  {$ifdef linux}
+  exit(true);
+  {$endif}
+
+  {$ifdef darwin}
+  exit(false);
+  {$endif}
+end;
+
+
 procedure InitUiOps(var Op: TUiOps);
 begin
   with Op do
@@ -809,6 +830,8 @@ begin
 
     OutputFontName:= VarFontName;
     OutputFontSize:= VarFontSize;
+
+    DoubleBuffered:= IsDoubleBufferedNeeded;
 
     LexerThemes:= true;
     PyLibrary:= InitPyLibraryPath;

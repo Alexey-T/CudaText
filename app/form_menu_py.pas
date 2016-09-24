@@ -91,6 +91,9 @@ end;
 
 procedure TfmMenuApi.FormCreate(Sender: TObject);
 begin
+  edit.DoubleBuffered:= UiOps.DoubleBuffered;
+  list.DoubleBuffered:= UiOps.DoubleBuffered;
+
   list.Font.Name:= UiOps.VarFontName;
   list.Font.Size:= UiOps.VarFontSize;
   edit.Font.Name:= EditorOps.OpFontName;

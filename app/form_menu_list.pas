@@ -91,6 +91,8 @@ end;
 
 procedure TfmGotoList.FormCreate(Sender: TObject);
 begin
+  List.DoubleBuffered:= UiOps.DoubleBuffered;
+
   List.Font.Name:= UiOps.VarFontName;
   List.Font.Size:= UiOps.VarFontSize;
 

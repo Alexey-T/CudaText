@@ -13,6 +13,13 @@
   //  5: Cleartype 
   //  6: Cleartype Natural 
   "font_quality": 0,
+  
+  //If app shows flickering, set to true
+  //If high-DPI monitor (eg Retina) shows blurred text, set to false
+  //Option has suffixes for main OSes
+  "ui_buffered": true,
+  "ui_buffered__linux": true,
+  "ui_buffered__osx": false,
 
   //UI elements font
   "ui_font_name": "default",

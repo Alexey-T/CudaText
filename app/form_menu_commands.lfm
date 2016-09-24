@@ -23,6 +23,7 @@ object fmCommands: TfmCommands
     Width = 488
     Align = alTop
     BorderSpacing.Around = 6
+    DoubleBuffered = True
     Font.Height = -12
     Font.Name = 'Courier New'
     ParentFont = False
