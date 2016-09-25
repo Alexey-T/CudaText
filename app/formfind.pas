@@ -391,6 +391,8 @@ begin
   edFind.DoubleBuffered:= AValue;
   edRep.DoubleBuffered:= AValue;
 
+  {
+  //no need
   chkRegex.DoubleBuffered:= AValue;
   chkCase.DoubleBuffered:= AValue;
   chkWords.DoubleBuffered:= AValue;
@@ -407,6 +409,7 @@ begin
   bRep.DoubleBuffered:= AValue;
   bRepAll.DoubleBuffered:= AValue;
   bCancel.DoubleBuffered:= AValue;
+  }
 end;
 
 procedure TfmFind.SetMultiLine(Value: boolean);

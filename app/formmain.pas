@@ -1778,6 +1778,7 @@ var
   i: integer;
 begin
   //apply DoubleBuffered
+  //no need for Toolbar and buttons
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     Groups.Pages[i].Tabs.DoubleBuffered:= UiOps.DoubleBuffered;
   for i:= 0 to FrameCount-1 do
@@ -1786,10 +1787,6 @@ begin
       Editor.DoubleBuffered:= UiOps.DoubleBuffered;
       Editor2.DoubleBuffered:= UiOps.DoubleBuffered;
     end;
-  with Toolbar do
-    for i:= 0 to ButtonCount-1 do
-      Buttons[i].DoubleBuffered:= UiOps.DoubleBuffered;
-
   TabsLeft.DoubleBuffered:= UiOps.DoubleBuffered;
   TabsBottom.DoubleBuffered:= UiOps.DoubleBuffered;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;

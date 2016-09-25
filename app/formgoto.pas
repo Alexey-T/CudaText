@@ -93,8 +93,11 @@ end;
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
 begin
   edInput.DoubleBuffered:= AValue;
+  {
+  //no need
   bGoto.DoubleBuffered:= AValue;
   bClose.DoubleBuffered:= AValue;
+  }
 end;
 
 procedure TfmGoto.UpdateState;
