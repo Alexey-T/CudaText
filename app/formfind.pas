@@ -98,6 +98,7 @@ type
     FMultiLine: boolean;
     FNarrow: boolean;
     procedure DoDone(const Str: string);
+    procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(Value: boolean);
     procedure SetNarrow(AValue: boolean);
     procedure SetReplace(AValue: boolean);
@@ -114,6 +115,7 @@ type
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
+    property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
   end;
 
 var
@@ -240,6 +242,8 @@ begin
   edRep.OptUnprintedEndsDetails:= false;
 
   bCancel.Caption:= '';
+
+  IsDoubleBuffered:= UiOps.DoubleBuffered;
 end;
 
 procedure TfmFind.UpdateFonts;
@@ -380,6 +384,29 @@ begin
     edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
   end;
+end;
+
+procedure TfmFind.SetIsDoubleBuffered(AValue: boolean);
+begin
+  edFind.DoubleBuffered:= AValue;
+  edRep.DoubleBuffered:= AValue;
+
+  chkRegex.DoubleBuffered:= AValue;
+  chkCase.DoubleBuffered:= AValue;
+  chkWords.DoubleBuffered:= AValue;
+  chkWrap.DoubleBuffered:= AValue;
+  chkMulLine.DoubleBuffered:= AValue;
+  chkConfirm.DoubleBuffered:= AValue;
+
+  bFindFirst.DoubleBuffered:= AValue;
+  bFindNext.DoubleBuffered:= AValue;
+  bFindPrev.DoubleBuffered:= AValue;
+  bCount.DoubleBuffered:= AValue;
+  bSelectAll.DoubleBuffered:= AValue;
+  bMarkAll.DoubleBuffered:= AValue;
+  bRep.DoubleBuffered:= AValue;
+  bRepAll.DoubleBuffered:= AValue;
+  bCancel.DoubleBuffered:= AValue;
 end;
 
 procedure TfmFind.SetMultiLine(Value: boolean);

@@ -43,11 +43,13 @@ type
     { private declarations }
     FOnDone: TStrEvent;
     procedure DoDone(const S: string);
+    procedure SetIsDoubleBuffered(AValue: boolean);
   public
     { public declarations }
     procedure UpdateState;
     procedure UpdateFonts;
     property OnDone: TStrEvent read FOnDone write FOnDone;
+    property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
   end;
 
 var
@@ -88,6 +90,13 @@ begin
     FOnDone(Self, S);
 end;
 
+procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
+begin
+  edInput.DoubleBuffered:= AValue;
+  bGoto.DoubleBuffered:= AValue;
+  bClose.DoubleBuffered:= AValue;
+end;
+
 procedure TfmGoto.UpdateState;
 begin
   bGoto.Enabled:= edInput.Text<>'';
@@ -99,6 +108,8 @@ begin
   edInput.OptBorderVisible:= true;
 
   bClose.Caption:= '';
+
+  IsDoubleBuffered:= UiOps.DoubleBuffered;
 end;
 
 procedure TfmGoto.UpdateFonts;

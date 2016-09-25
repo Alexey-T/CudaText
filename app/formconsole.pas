@@ -41,6 +41,7 @@ type
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoClearMemo(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
+    procedure SetIsDoubleBuffered(AValue: boolean);
   public
     { public declarations }
     ed: TATComboEdit;
@@ -51,6 +52,7 @@ type
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
+    property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
   end;
 
 var
@@ -124,6 +126,8 @@ begin
   memo.Parent:= Self;
   memo.Align:= alClient;
   memo.BorderStyle:= bsNone;
+
+  IsDoubleBuffered:= UiOps.DoubleBuffered;
 
   //Linux h-scroll paints bad (some gtk2 bug) so i disabled it
   memo.OptWrapMode:= cWrapOn;
@@ -205,6 +209,12 @@ begin
     S:= Memo.Strings.Lines[N];
     FOnNavigate(Utf8Encode(S));
   end;
+end;
+
+procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);
+begin
+  ed.DoubleBuffered:= AValue;
+  memo.DoubleBuffered:= AValue;
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;

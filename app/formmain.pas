@@ -1128,6 +1128,7 @@ begin
   StatusAlt.Align:= alBottom;
   StatusAlt.Top:= Status.Top-4;
   StatusAlt.Height:= Status.Height;
+  StatusAlt.IndentLeft:= 0;
   StatusAlt.AddPanel(5000, saLeft, '?');
   StatusAlt.Hide;
 
@@ -1785,7 +1786,10 @@ begin
       Editor.DoubleBuffered:= UiOps.DoubleBuffered;
       Editor2.DoubleBuffered:= UiOps.DoubleBuffered;
     end;
-  Toolbar.DoubleBuffered:= UiOps.DoubleBuffered;
+  with Toolbar do
+    for i:= 0 to ButtonCount-1 do
+      Buttons[i].DoubleBuffered:= UiOps.DoubleBuffered;
+
   TabsLeft.DoubleBuffered:= UiOps.DoubleBuffered;
   TabsBottom.DoubleBuffered:= UiOps.DoubleBuffered;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -1794,8 +1798,12 @@ begin
   Gauge.DoubleBuffered:= UiOps.DoubleBuffered;
   ListboxOut.DoubleBuffered:= UiOps.DoubleBuffered;
   ListboxVal.DoubleBuffered:= UiOps.DoubleBuffered;
-  fmConsole.ed.DoubleBuffered:= UiOps.DoubleBuffered;
-  fmConsole.memo.DoubleBuffered:= UiOps.DoubleBuffered;
+  if Assigned(fmConsole) then
+    fmConsole.IsDoubleBuffered:= UiOps.DoubleBuffered;
+  if Assigned(fmFind) then
+    fmFind.IsDoubleBuffered:= UiOps.DoubleBuffered;
+  if Assigned(fmGoto) then
+    fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
   //end apply DoubleBuffered
 
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);

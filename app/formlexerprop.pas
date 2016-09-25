@@ -187,6 +187,8 @@ end;
 procedure TfmLexerProp.FormCreate(Sender: TObject);
 begin
   Adapter:= TATAdapterEControl.Create(Self);
+
+  edSample.DoubleBuffered:= UiOps.DoubleBuffered;
   edSample.AdapterHilite:= Adapter;
   edSample.OptTabSize:= 4;
 
