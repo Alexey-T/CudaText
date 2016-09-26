@@ -631,11 +631,14 @@ Possible values of id:
 
 * LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
 * LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
-* LEXER_GET_COMMENT: Gets line-comment string for given lexer.
-* LEXER_GET_MODIFIED: Gets bool: is lexer library modified and not saved.
+* LEXER_GET_COMMENT: Gets string "comment until end of line" for given lexer.
+* LEXER_GET_COMMENT_STREAM: Gets "comment for range" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
+* LEXER_GET_COMMENT_LINED: Gets "comment for range of full lines" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
 * LEXER_GET_LIST: Gets string: "\n"-separated list of lexer names in library.   
 * LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
 * LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
+* LEXER_GET_STYLES_COMMENTS: Gets string: ","-separated list of styles of "syntax comments", for given lexer.
+* LEXER_GET_STYLES_STRINGS: Gets string: ","-separated list of styles of "syntax strings", for given lexer.
 * LEXER_SET_NAME: Sets for lexer with given name (substring 1) new name (substring 2).
 * LEXER_SET_ENABLED: Sets for lexer with given name enabled-flag (substring 2: "0" or "1").
 * LEXER_SET_EXT: Sets for lexer with given name file-extensions field (substring 2).
@@ -1157,6 +1160,11 @@ Text is chr(1) separated items:
 =History=
 
 1.0.155
+* add: lexer_proc:
+** LEXER_GET_COMMENT_STREAM
+** LEXER_GET_COMMENT_LINED
+** LEXER_GET_STYLES_COMMENTS
+** LEXER_GET_STYLES_STRINGS
 * add: app_proc: 
 ** PROC_GET_COMMAND_INITIAL
 ** PROC_SHOW_STATUSBAR_GET, PROC_SHOW_STATUSBAR_SET
@@ -1168,6 +1176,7 @@ Text is chr(1) separated items:
 ** PROC_COORD_DESKTOP
 ** PROC_COORD_MONITOR* 
 * add: app_path: APP_FILE_RECENTS
+* delete: lexer_proc: LEXER_GET_MODIFIED
 
 1.0.154
 * add: app_proc: PROC_THEME_UI_*, PROC_THEME_SYNTAX_*
