@@ -1,7 +1,7 @@
 object fmLexerProp: TfmLexerProp
-  Left = 572
+  Left = 615
   Height = 566
-  Top = 310
+  Top = 302
   Width = 623
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -32,26 +32,28 @@ object fmLexerProp: TfmLexerProp
     ShowButtons = [pbOK, pbCancel]
     ShowBevel = False
   end
-  object chkBorderT: TPageControl
+  object Pages: TPageControl
     Left = 0
     Height = 525
     Top = 0
     Width = 623
-    ActivePage = TabSheetGen
+    ActivePage = TabSheetGeneral
     Align = alClient
     TabIndex = 0
     TabOrder = 0
-    object TabSheetGen: TTabSheet
+    object TabSheetGeneral: TTabSheet
       Caption = 'General'
       ClientHeight = 494
       ClientWidth = 619
       object LabelLexerName: TLabel
+        AnchorSideTop.Control = TabSheetGeneral
         Left = 6
         Height = 17
-        Top = 0
+        Top = 6
         Width = 607
         Align = alTop
         BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
         BorderSpacing.Right = 6
         Caption = 'Lexer name:'
         FocusControl = edName
@@ -60,7 +62,7 @@ object fmLexerProp: TfmLexerProp
       object edName: TEdit
         Left = 6
         Height = 27
-        Top = 20
+        Top = 26
         Width = 607
         Align = alTop
         BorderSpacing.Left = 6
@@ -72,7 +74,7 @@ object fmLexerProp: TfmLexerProp
       object LabelFileTypes: TLabel
         Left = 6
         Height = 17
-        Top = 50
+        Top = 56
         Width = 607
         Align = alTop
         BorderSpacing.Left = 6
@@ -84,7 +86,7 @@ object fmLexerProp: TfmLexerProp
       object edExt: TEdit
         Left = 6
         Height = 27
-        Top = 70
+        Top = 76
         Width = 607
         Align = alTop
         BorderSpacing.Left = 6
@@ -93,34 +95,10 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Bottom = 3
         TabOrder = 1
       end
-      object LabelLineCmt: TLabel
-        Left = 6
-        Height = 17
-        Top = 100
-        Width = 607
-        Align = alTop
-        BorderSpacing.Left = 6
-        BorderSpacing.Right = 6
-        Caption = 'Line-comment string:'
-        FocusControl = edLineCmt
-        ParentColor = False
-      end
-      object edLineCmt: TEdit
-        Left = 6
-        Height = 27
-        Top = 120
-        Width = 607
-        Align = alTop
-        BorderSpacing.Left = 6
-        BorderSpacing.Top = 3
-        BorderSpacing.Right = 6
-        BorderSpacing.Bottom = 3
-        TabOrder = 2
-      end
       object LabelSample: TLabel
         Left = 6
         Height = 17
-        Top = 150
+        Top = 106
         Width = 607
         Align = alTop
         BorderSpacing.Left = 6
@@ -131,16 +109,17 @@ object fmLexerProp: TfmLexerProp
       end
       object edSample: TATSynEdit
         Left = 6
-        Height = 315
-        Top = 173
+        Height = 359
+        Top = 129
         Width = 607
         Align = alClient
         BorderSpacing.Around = 6
         BorderStyle = bsSingle
+        DoubleBuffered = True
         Font.Height = -12
         Font.Name = 'Courier New'
         ParentFont = False
-        TabOrder = 3
+        TabOrder = 2
         TabStop = True
         CursorText = crIBeam
         CursorBm = crHandPoint
@@ -194,6 +173,7 @@ object fmLexerProp: TfmLexerProp
         OptTabSpaces = False
         OptTabSize = 8
         OptFoldStyle = cFoldHereWithTruncatedText
+        OptFoldEnabled = True
         OptTextHintFontStyle = [fsItalic]
         OptTextHintCenter = False
         OptTextOffsetLeft = 0
@@ -216,6 +196,7 @@ object fmLexerProp: TfmLexerProp
         OptShowFullHilite = True
         OptShowCurLine = False
         OptShowCurLineMinimal = True
+        OptShowCurLineOnlyFocused = False
         OptShowScrollHint = False
         OptShowCurColumn = False
         OptCaretManyAllowed = True
@@ -306,6 +287,113 @@ object fmLexerProp: TfmLexerProp
         OptUndoAfterSave = True
         OptSavingForceFinalEol = False
         OptSavingTrimSpaces = False
+      end
+    end
+    object TabSheetComments: TTabSheet
+      Caption = 'Commenting'
+      ClientHeight = 494
+      ClientWidth = 619
+      object LabelCmtLine: TLabel
+        AnchorSideLeft.Control = TabSheetComments
+        AnchorSideTop.Control = TabSheetComments
+        Left = 6
+        Height = 17
+        Top = 6
+        Width = 144
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        BorderSpacing.Right = 6
+        Caption = 'Comment to line-end:'
+        FocusControl = edCmtLine
+        ParentColor = False
+      end
+      object edCmtLine: TEdit
+        AnchorSideLeft.Control = LabelCmtLine
+        AnchorSideTop.Control = LabelCmtLine
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 27
+        Top = 29
+        Width = 200
+        BorderSpacing.Top = 6
+        TabOrder = 0
+      end
+      object LabelCmtStream: TLabel
+        AnchorSideLeft.Control = LabelCmtLine
+        AnchorSideTop.Control = edCmtLine
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 17
+        Top = 62
+        Width = 120
+        BorderSpacing.Top = 6
+        Caption = 'Stream comment:'
+        ParentColor = False
+      end
+      object edCmtStream1: TEdit
+        AnchorSideLeft.Control = edCmtLine
+        AnchorSideTop.Control = LabelCmtStream
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = edCmtLine
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 27
+        Top = 85
+        Width = 200
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 6
+        TabOrder = 1
+      end
+      object edCmtStream2: TEdit
+        AnchorSideLeft.Control = edCmtStream1
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = edCmtStream1
+        Left = 212
+        Height = 27
+        Top = 85
+        Width = 200
+        BorderSpacing.Left = 6
+        TabOrder = 2
+      end
+      object LabelCmtFull: TLabel
+        AnchorSideLeft.Control = edCmtStream1
+        AnchorSideTop.Control = edCmtStream1
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 17
+        Top = 118
+        Width = 203
+        BorderSpacing.Top = 6
+        Caption = 'Stream comment for full lines:'
+        ParentColor = False
+      end
+      object edCmtFull1: TEdit
+        AnchorSideLeft.Control = edCmtStream1
+        AnchorSideTop.Control = LabelCmtFull
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = edCmtStream1
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 27
+        Top = 141
+        Width = 200
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 6
+        TabOrder = 3
+      end
+      object edCmtFull2: TEdit
+        AnchorSideLeft.Control = edCmtFull1
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = edCmtFull1
+        AnchorSideRight.Control = edCmtStream2
+        AnchorSideRight.Side = asrBottom
+        Left = 212
+        Height = 27
+        Top = 141
+        Width = 200
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 6
+        TabOrder = 4
       end
     end
     object TabSheetStyles: TTabSheet

@@ -35,14 +35,21 @@ type
     cbBorderT: TComboBox;
     cbBorderR: TComboBox;
     cbBorderB: TComboBox;
+    edCmtStream2: TEdit;
     edColorFont: TColorBox;
     edColorBG: TColorBox;
     edColorBorder: TColorBox;
+    edCmtLine: TEdit;
+    edCmtStream1: TEdit;
+    edCmtFull1: TEdit;
+    edCmtFull2: TEdit;
     edStyleType: TComboBox;
     edExt: TEdit;
-    edLineCmt: TEdit;
     edName: TEdit;
     edSample: TATSynEdit;
+    LabelCmtFull: TLabel;
+    LabelCmtStream: TLabel;
+    LabelCmtLine: TLabel;
     LabelSample: TLabel;
     LabelBorderL: TLabel;
     LabelBorderT: TLabel;
@@ -51,7 +58,6 @@ type
     LabelColorBorder: TLabel;
     LabelLexerName: TLabel;
     LabelFileTypes: TLabel;
-    LabelLineCmt: TLabel;
     edNotes: TMemo;
     LabelColorFont: TLabel;
     LabelStyleType: TLabel;
@@ -59,9 +65,10 @@ type
     LabelFontStyles: TLabel;
     LabelBorder: TLabel;
     ListStyles: TListBox;
-    chkBorderT: TPageControl;
+    Pages: TPageControl;
     Panel1: TPanel;
-    TabSheetGen: TTabSheet;
+    TabSheetComments: TTabSheet;
+    TabSheetGeneral: TTabSheet;
     TabSheetNotes: TTabSheet;
     TabSheetStyles: TTabSheet;
     procedure cbBorderLChange(Sender: TObject);
@@ -134,14 +141,18 @@ begin
     with F.ButtonPanel1.OKButton do Caption:= msgButtonOk;
     with F.ButtonPanel1.CancelButton do Caption:= msgButtonCancel;
 
-    with F.TabSheetGen do Caption:= ini.ReadString(section, 'tab_gen', Caption);
+    with F.TabSheetGeneral do Caption:= ini.ReadString(section, 'tab_gen', Caption);
+    with F.TabSheetComments do Caption:= ini.ReadString(section, 'tab_cmt', Caption);
     with F.TabSheetStyles do Caption:= ini.ReadString(section, 'tab_st', Caption);
     with F.TabSheetNotes do Caption:= ini.ReadString(section, 'tab_not', Caption);
 
     with F.LabelLexerName do Caption:= ini.ReadString(section, 'gen_nam', Caption);
     with F.LabelFileTypes do Caption:= ini.ReadString(section, 'gen_typ', Caption);
-    with F.LabelLineCmt do Caption:= ini.ReadString(section, 'gen_cmt_ln', Caption);
     with F.LabelSample do Caption:= ini.ReadString(section, 'gen_smp', Caption);
+
+    with F.LabelCmtLine do Caption:= ini.ReadString(section, 'cmt_line', Caption);
+    with F.LabelCmtStream do Caption:= ini.ReadString(section, 'cmt_str', Caption);
+    with F.LabelCmtFull do Caption:= ini.ReadString(section, 'cmt_full', Caption);
 
     with F.LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
     with F.LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
@@ -248,6 +259,8 @@ procedure TfmLexerProp.FormShow(Sender: TObject);
 var
   i: integer;
 begin
+  Pages.PageIndex:= 0;
+
   InitBorder(cbBorderL);
   InitBorder(cbBorderT);
   InitBorder(cbBorderR);
@@ -372,7 +385,7 @@ begin
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;
     F.edExt.Text:= an.Extentions;
-    F.edLineCmt.Text:= an.LineComment;
+    F.edCmtLine.Text:= an.LineComment;
     F.edNotes.Lines.AddStrings(an.Notes);
 
     F.edSample.Font.Name:= AFontName;
@@ -393,7 +406,7 @@ begin
 
     an.LexerName:= F.edName.Text;
     an.Extentions:= F.edExt.Text;
-    an.LineComment:= F.edLineCmt.Text;
+    an.LineComment:= F.edCmtLine.Text;
     an.Notes.Clear;
     an.Notes.AddStrings(F.edNotes.Lines);
   finally
