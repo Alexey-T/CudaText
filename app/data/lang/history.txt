@@ -4,6 +4,7 @@ http://wiki.freepascal.org/CudaText#How_to_make_translation
 2016.09.26
 + [d_lex_prop] tab_cmt
 + [d_lex_prop] cmt_line, cmt_str, cmt_full
++ [d_lex_prop] styles_cmt, styles_str
 * del [d_lex_prop] gen_cmt_ln
 
 2016.09.13

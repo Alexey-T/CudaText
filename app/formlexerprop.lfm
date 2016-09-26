@@ -37,9 +37,9 @@ object fmLexerProp: TfmLexerProp
     Height = 525
     Top = 0
     Width = 623
-    ActivePage = TabSheetStyles
+    ActivePage = TabSheetComments
     Align = alClient
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 0
     object TabSheetGeneral: TTabSheet
       Caption = 'General'
@@ -328,9 +328,9 @@ object fmLexerProp: TfmLexerProp
         Left = 6
         Height = 17
         Top = 62
-        Width = 120
+        Width = 111
         BorderSpacing.Top = 6
-        Caption = 'Stream comment:'
+        Caption = 'Comment range:'
         ParentColor = False
       end
       object edCmtStream1: TEdit
@@ -367,9 +367,9 @@ object fmLexerProp: TfmLexerProp
         Left = 6
         Height = 17
         Top = 118
-        Width = 203
+        Width = 198
         BorderSpacing.Top = 6
-        Caption = 'Stream comment for full lines:'
+        Caption = 'Comment range, for full lines:'
         ParentColor = False
       end
       object edCmtFull1: TEdit
@@ -401,6 +401,57 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Left = 6
         OnChange = edCmtStream1Change
         TabOrder = 4
+      end
+      object LabelStylesCmt: TLabel
+        AnchorSideLeft.Control = LabelCmtLine
+        AnchorSideTop.Control = edCmtFull1
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 17
+        Top = 238
+        Width = 136
+        BorderSpacing.Top = 70
+        Caption = 'Styles of comments:'
+        ParentColor = False
+      end
+      object edStylesCmt: TEdit
+        AnchorSideLeft.Control = LabelCmtLine
+        AnchorSideTop.Control = LabelStylesCmt
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 27
+        Top = 261
+        Width = 570
+        BorderSpacing.Top = 6
+        OnChange = edCmtStream1Change
+        TabOrder = 5
+      end
+      object LabelStylesStrings: TLabel
+        AnchorSideLeft.Control = LabelCmtLine
+        AnchorSideTop.Control = edStylesCmt
+        AnchorSideTop.Side = asrBottom
+        Left = 6
+        Height = 17
+        Top = 294
+        Width = 111
+        BorderSpacing.Top = 6
+        Caption = 'Styles of strings:'
+        ParentColor = False
+      end
+      object edStylesStrings: TEdit
+        AnchorSideLeft.Control = edStylesCmt
+        AnchorSideTop.Control = LabelStylesStrings
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = edStylesCmt
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 27
+        Top = 317
+        Width = 570
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 6
+        OnChange = edCmtStream1Change
+        TabOrder = 6
       end
     end
     object TabSheetStyles: TTabSheet

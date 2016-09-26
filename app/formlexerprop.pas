@@ -43,10 +43,14 @@ type
     edCmtStream1: TEdit;
     edCmtFull1: TEdit;
     edCmtFull2: TEdit;
+    edStylesStrings: TEdit;
+    edStylesCmt: TEdit;
     edStyleType: TComboBox;
     edExt: TEdit;
     edName: TEdit;
     edSample: TATSynEdit;
+    LabelStylesStrings: TLabel;
+    LabelStylesCmt: TLabel;
     LabelCmtFull: TLabel;
     LabelCmtStream: TLabel;
     LabelCmtLine: TLabel;
@@ -164,6 +168,9 @@ begin
     with F.LabelCmtStream do Caption:= ini.ReadString(section, 'cmt_str', Caption);
     with F.LabelCmtFull do Caption:= ini.ReadString(section, 'cmt_full', Caption);
 
+    with F.LabelStylesCmt do Caption:= ini.ReadString(section, 'styles_cmt', Caption);
+    with F.LabelStylesStrings do Caption:= ini.ReadString(section, 'styles_str', Caption);
+
     with F.LabelColorBg do Caption:= ini.ReadString(section, 'col_bg', Caption);
     with F.LabelColorFont do Caption:= ini.ReadString(section, 'col_fon', Caption);
     with F.LabelColorBorder do Caption:= ini.ReadString(section, 'col_bor', Caption);
@@ -259,6 +266,9 @@ begin
       DeleteKey('comments', 'full1');
       DeleteKey('comments', 'full2');
     end;
+
+    WriteString('comments', 'styles_cmt', edStylesCmt.Text);
+    WriteString('comments', 'styles_str', edStylesStrings.Text);
   finally
     Free
   end;
@@ -334,6 +344,8 @@ begin
     edCmtStream2.Text:= ReadString('comments', 'str2', '');
     edCmtFull1.Text:= ReadString('comments', 'full1', '');
     edCmtFull2.Text:= ReadString('comments', 'full2', '');
+    edStylesCmt.Text:= ReadString('comments', 'styles_cmt', '');
+    edStylesStrings.Text:= ReadString('comments', 'styles_str', '');
   finally
     Free
   end;
