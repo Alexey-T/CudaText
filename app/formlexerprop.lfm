@@ -37,9 +37,9 @@ object fmLexerProp: TfmLexerProp
     Height = 525
     Top = 0
     Width = 623
-    ActivePage = TabSheetGeneral
+    ActivePage = TabSheetStyles
     Align = alClient
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
     object TabSheetGeneral: TTabSheet
       Caption = 'General'
@@ -69,6 +69,7 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Top = 3
         BorderSpacing.Right = 6
         BorderSpacing.Bottom = 3
+        OnChange = edNameChange
         TabOrder = 0
       end
       object LabelFileTypes: TLabel
@@ -93,6 +94,7 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Top = 3
         BorderSpacing.Right = 6
         BorderSpacing.Bottom = 3
+        OnChange = edNameChange
         TabOrder = 1
       end
       object LabelSample: TLabel
@@ -316,6 +318,7 @@ object fmLexerProp: TfmLexerProp
         Top = 29
         Width = 200
         BorderSpacing.Top = 6
+        OnChange = edNameChange
         TabOrder = 0
       end
       object LabelCmtStream: TLabel
@@ -342,6 +345,7 @@ object fmLexerProp: TfmLexerProp
         Width = 200
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
+        OnChange = edCmtStream1Change
         TabOrder = 1
       end
       object edCmtStream2: TEdit
@@ -353,6 +357,7 @@ object fmLexerProp: TfmLexerProp
         Top = 85
         Width = 200
         BorderSpacing.Left = 6
+        OnChange = edCmtStream1Change
         TabOrder = 2
       end
       object LabelCmtFull: TLabel
@@ -379,6 +384,7 @@ object fmLexerProp: TfmLexerProp
         Width = 200
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 6
+        OnChange = edCmtStream1Change
         TabOrder = 3
       end
       object edCmtFull2: TEdit
@@ -393,6 +399,7 @@ object fmLexerProp: TfmLexerProp
         Width = 200
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 6
+        OnChange = edCmtStream1Change
         TabOrder = 4
       end
     end
@@ -434,7 +441,7 @@ object fmLexerProp: TfmLexerProp
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
           DropDownCount = 20
           ItemHeight = 0
-          OnChange = edColorFontChange
+          OnChange = edColorBGChange
           TabOrder = 2
         end
         object edColorBG: TColorBox

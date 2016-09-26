@@ -73,8 +73,9 @@ type
     TabSheetStyles: TTabSheet;
     procedure cbBorderLChange(Sender: TObject);
     procedure chkBoldChange(Sender: TObject);
+    procedure edCmtStream1Change(Sender: TObject);
     procedure edColorBGChange(Sender: TObject);
-    procedure edColorFontChange(Sender: TObject);
+    procedure edNameChange(Sender: TObject);
     procedure edStyleTypeChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -87,7 +88,14 @@ type
     FFormats: TecStylesCollection;
     FLockedUpdate: boolean;
     FStylesFilename: string;
+    FChangedAllowed: boolean;
+    FChangedLexer: boolean;
+    FChangedComments: boolean;
     procedure InitBorder(cb: TCombobox);
+    procedure SaveChangedComments;
+    procedure SaveChangedLexer;
+    procedure SetChangedComments(AValue: boolean);
+    procedure SetChangedLexer(AValue: boolean);
     procedure UpdateListboxStyles;
     procedure UpdateStlEn(fmt: TecFormatType);
     procedure UpdateStlFromListbox;
@@ -95,6 +103,8 @@ type
   public
     { public declarations }
     Adapter: TATAdapterEControl;
+    property IsChangedLexer: boolean read FChangedLexer write SetChangedLexer;
+    property IsChangedComments: boolean read FChangedComments write SetChangedComments;
   end;
 
 var
@@ -208,69 +218,87 @@ end;
 
 procedure TfmLexerProp.edStyleTypeChange(Sender: TObject);
 begin
+  IsChangedLexer:= true;
   UpdateStlEn(TecFormatType(edStyleType.ItemIndex));
   UpdateStlToListbox;
 end;
 
-procedure TfmLexerProp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfmLexerProp.SaveChangedLexer;
 var
   i: integer;
 begin
+  for i:= 0 to FAnalyzer.Formats.Count-1 do
+    FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
+
+  if FStylesFilename<>'' then
+    DoSaveLexerStylesToFile(FAnalyzer, FStylesFilename);
+end;
+
+procedure TfmLexerProp.SaveChangedComments;
+begin
+  with TIniFile.Create(GetAppLexerMapFilename(FAnalyzer.LexerName)) do
+  try
+    if edCmtStream1.Text<>'' then
+    begin
+      WriteString('comments', 'str1', edCmtStream1.Text);
+      WriteString('comments', 'str2', edCmtStream2.Text);
+    end
+    else
+    begin
+      DeleteKey('comments', 'str1');
+      DeleteKey('comments', 'str2');
+    end;
+
+    if edCmtFull1.Text<>'' then
+    begin
+      WriteString('comments', 'full1', edCmtFull1.Text);
+      WriteString('comments', 'full2', edCmtFull2.Text);
+    end
+    else
+    begin
+      DeleteKey('comments', 'full1');
+      DeleteKey('comments', 'full2');
+    end;
+  finally
+    Free
+  end;
+end;
+
+procedure TfmLexerProp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
   if ModalResult=mrOk then
   begin
-    for i:= 0 to FAnalyzer.Formats.Count-1 do
-      FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
-
-    if FStylesFilename<>'' then
-      DoSaveLexerStylesToFile(FAnalyzer, FStylesFilename);
-
-    with TIniFile.Create(GetAppLexerMapFilename(FAnalyzer.LexerName)) do
-    try
-      if edCmtStream1.Text<>'' then
-      begin
-        WriteString('comments', 'str1', edCmtStream1.Text);
-        WriteString('comments', 'str2', edCmtStream2.Text);
-      end
-      else
-      begin
-        DeleteKey('comments', 'str1');
-        DeleteKey('comments', 'str2');
-      end;
-
-      if edCmtFull1.Text<>'' then
-      begin
-        WriteString('comments', 'full1', edCmtFull1.Text);
-        WriteString('comments', 'full2', edCmtFull2.Text);
-      end
-      else
-      begin
-        DeleteKey('comments', 'full1');
-        DeleteKey('comments', 'full2');
-      end;
-    finally
-      Free
-    end;
+    if IsChangedLexer then SaveChangedLexer;
+    if IsChangedComments then SaveChangedComments;
   end;
 end;
 
 procedure TfmLexerProp.edColorBGChange(Sender: TObject);
 begin
+  IsChangedLexer:= true;
   UpdateStlToListbox;
 end;
 
 procedure TfmLexerProp.chkBoldChange(Sender: TObject);
 begin
+  IsChangedLexer:= true;
   UpdateStlToListbox;
+end;
+
+procedure TfmLexerProp.edCmtStream1Change(Sender: TObject);
+begin
+  IsChangedComments:= true;
 end;
 
 procedure TfmLexerProp.cbBorderLChange(Sender: TObject);
 begin
+  IsChangedLexer:= true;
   UpdateStlToListbox;
 end;
 
-procedure TfmLexerProp.edColorFontChange(Sender: TObject);
+procedure TfmLexerProp.edNameChange(Sender: TObject);
 begin
-  UpdateStlToListbox;
+  IsChangedLexer:= true;
 end;
 
 procedure TfmLexerProp.FormDestroy(Sender: TObject);
@@ -311,11 +339,14 @@ begin
   end;
 
   UpdateListboxStyles;
+  FChangedAllowed:= true;
 end;
 
 procedure TfmLexerProp.ListStylesClick(Sender: TObject);
 begin
+  FChangedAllowed:= false;
   UpdateStlFromListbox;
+  FChangedAllowed:= true;
 end;
 
 procedure TfmLexerProp.UpdateListboxStyles;
@@ -467,6 +498,18 @@ begin
     Add(msgBorderTypeWave);
     Add(msgBorderTypeDouble);
   end;
+end;
+
+procedure TfmLexerProp.SetChangedComments(AValue: boolean);
+begin
+  if not FChangedAllowed then exit;
+  FChangedComments:= AValue;
+end;
+
+procedure TfmLexerProp.SetChangedLexer(AValue: boolean);
+begin
+  if not FChangedAllowed then exit;
+  FChangedLexer:= AValue;
 end;
 
 end.
