@@ -660,6 +660,7 @@ object fmLexerProp: TfmLexerProp
         Width = 607
         Align = alClient
         BorderSpacing.Around = 6
+        ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
       end

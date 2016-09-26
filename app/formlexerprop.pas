@@ -223,6 +223,33 @@ begin
 
     if FStylesFilename<>'' then
       DoSaveLexerStylesToFile(FAnalyzer, FStylesFilename);
+
+    with TIniFile.Create(GetAppLexerMapFilename(FAnalyzer.LexerName)) do
+    try
+      if edCmtStream1.Text<>'' then
+      begin
+        WriteString('comments', 'str1', edCmtStream1.Text);
+        WriteString('comments', 'str2', edCmtStream2.Text);
+      end
+      else
+      begin
+        DeleteKey('comments', 'str1');
+        DeleteKey('comments', 'str2');
+      end;
+
+      if edCmtFull1.Text<>'' then
+      begin
+        WriteString('comments', 'full1', edCmtFull1.Text);
+        WriteString('comments', 'full2', edCmtFull2.Text);
+      end
+      else
+      begin
+        DeleteKey('comments', 'full1');
+        DeleteKey('comments', 'full2');
+      end;
+    finally
+      Free
+    end;
   end;
 end;
 
@@ -271,6 +298,16 @@ begin
   begin
     FFormats.Add;
     FFormats[FFormats.Count-1].Assign(FAnalyzer.Formats[i]);
+  end;
+
+  with TIniFile.Create(GetAppLexerMapFilename(FAnalyzer.LexerName)) do
+  try
+    edCmtStream1.Text:= ReadString('comments', 'str1', '');
+    edCmtStream2.Text:= ReadString('comments', 'str2', '');
+    edCmtFull1.Text:= ReadString('comments', 'full1', '');
+    edCmtFull2.Text:= ReadString('comments', 'full2', '');
+  finally
+    Free
   end;
 
   UpdateListboxStyles;

@@ -2386,7 +2386,7 @@ begin
   for i:= 0 to AppManager.AnalyzerCount-1 do
   begin
     an:= AppManager.Analyzers[i];
-    fn:= dir+DirectorySeparator+an.LexerName+'.cuda-lexmap';
+    fn:= GetAppLexerMapFilename(an.LexerName);
     if FileExists(fn) then
     begin
       ini:= TIniFile.Create(fn);
