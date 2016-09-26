@@ -46,7 +46,7 @@ type
     edStylesStrings: TEdit;
     edStylesCmt: TEdit;
     edStyleType: TComboBox;
-    edExt: TEdit;
+    edTypes: TEdit;
     edName: TEdit;
     edSample: TATSynEdit;
     LabelStylesStrings: TLabel;
@@ -464,7 +464,7 @@ begin
     F.FStylesFilename:= AStylesFilename;
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;
-    F.edExt.Text:= an.Extentions;
+    F.edTypes.Text:= an.Extentions;
     F.edCmtLine.Text:= an.LineComment;
     F.edNotes.Lines.AddStrings(an.Notes);
 
@@ -485,7 +485,7 @@ begin
     Result:= true;
 
     an.LexerName:= F.edName.Text;
-    an.Extentions:= F.edExt.Text;
+    an.Extentions:= F.edTypes.Text;
     an.LineComment:= F.edCmtLine.Text;
     an.Notes.Clear;
     an.Notes.AddStrings(F.edNotes.Lines);

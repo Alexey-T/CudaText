@@ -37,85 +37,98 @@ object fmLexerProp: TfmLexerProp
     Height = 525
     Top = 0
     Width = 623
-    ActivePage = TabSheetComments
+    ActivePage = TabSheetGeneral
     Align = alClient
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object TabSheetGeneral: TTabSheet
       Caption = 'General'
       ClientHeight = 494
       ClientWidth = 619
       object LabelLexerName: TLabel
+        AnchorSideLeft.Control = TabSheetGeneral
         AnchorSideTop.Control = TabSheetGeneral
         Left = 6
         Height = 17
         Top = 6
-        Width = 607
-        Align = alTop
+        Width = 82
         BorderSpacing.Left = 6
         BorderSpacing.Top = 6
-        BorderSpacing.Right = 6
         Caption = 'Lexer name:'
         FocusControl = edName
         ParentColor = False
       end
       object edName: TEdit
+        AnchorSideLeft.Control = TabSheetGeneral
+        AnchorSideTop.Control = LabelLexerName
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = TabSheetGeneral
+        AnchorSideRight.Side = asrBottom
         Left = 6
         Height = 27
         Top = 26
         Width = 607
-        Align = alTop
+        Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 6
         BorderSpacing.Top = 3
         BorderSpacing.Right = 6
-        BorderSpacing.Bottom = 3
         OnChange = edNameChange
         TabOrder = 0
       end
       object LabelFileTypes: TLabel
+        AnchorSideLeft.Control = LabelLexerName
+        AnchorSideTop.Control = edName
+        AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
         Top = 56
-        Width = 607
-        Align = alTop
-        BorderSpacing.Left = 6
-        BorderSpacing.Right = 6
+        Width = 68
+        BorderSpacing.Top = 3
         Caption = 'File types:'
-        FocusControl = edExt
+        FocusControl = edTypes
         ParentColor = False
       end
-      object edExt: TEdit
+      object edTypes: TEdit
+        AnchorSideLeft.Control = edName
+        AnchorSideTop.Control = LabelFileTypes
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = edName
+        AnchorSideRight.Side = asrBottom
         Left = 6
         Height = 27
         Top = 76
         Width = 607
-        Align = alTop
-        BorderSpacing.Left = 6
+        Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 3
-        BorderSpacing.Right = 6
-        BorderSpacing.Bottom = 3
         OnChange = edNameChange
         TabOrder = 1
       end
       object LabelSample: TLabel
+        AnchorSideLeft.Control = LabelFileTypes
+        AnchorSideTop.Control = edTypes
+        AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
         Top = 106
-        Width = 607
-        Align = alTop
-        BorderSpacing.Left = 6
-        BorderSpacing.Right = 6
+        Width = 85
+        BorderSpacing.Top = 3
         Caption = 'Sample text:'
         FocusControl = edSample
         ParentColor = False
       end
       object edSample: TATSynEdit
+        AnchorSideTop.Control = LabelSample
+        AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 359
-        Top = 129
+        Height = 362
+        Top = 126
         Width = 607
-        Align = alClient
-        BorderSpacing.Around = 6
+        Align = alBottom
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 6
+        BorderSpacing.Bottom = 6
         BorderStyle = bsSingle
         DoubleBuffered = True
         Font.Height = -12
@@ -304,7 +317,6 @@ object fmLexerProp: TfmLexerProp
         Width = 144
         BorderSpacing.Left = 6
         BorderSpacing.Top = 6
-        BorderSpacing.Right = 6
         Caption = 'Comment to line-end:'
         FocusControl = edCmtLine
         ParentColor = False
@@ -315,9 +327,9 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 27
-        Top = 29
+        Top = 26
         Width = 200
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         OnChange = edNameChange
         TabOrder = 0
       end
@@ -327,9 +339,9 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 62
+        Top = 56
         Width = 111
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         Caption = 'Comment range:'
         ParentColor = False
       end
@@ -341,10 +353,10 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Side = asrBottom
         Left = 6
         Height = 27
-        Top = 85
+        Top = 76
         Width = 200
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         OnChange = edCmtStream1Change
         TabOrder = 1
       end
@@ -354,7 +366,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Control = edCmtStream1
         Left = 212
         Height = 27
-        Top = 85
+        Top = 76
         Width = 200
         BorderSpacing.Left = 6
         OnChange = edCmtStream1Change
@@ -366,9 +378,9 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 118
+        Top = 106
         Width = 198
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         Caption = 'Comment range, for full lines:'
         ParentColor = False
       end
@@ -380,10 +392,10 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Side = asrBottom
         Left = 6
         Height = 27
-        Top = 141
+        Top = 126
         Width = 200
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         OnChange = edCmtStream1Change
         TabOrder = 3
       end
@@ -395,7 +407,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Side = asrBottom
         Left = 212
         Height = 27
-        Top = 141
+        Top = 126
         Width = 200
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 6
@@ -408,7 +420,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 238
+        Top = 223
         Width = 136
         BorderSpacing.Top = 70
         Caption = 'Styles of comments:'
@@ -420,9 +432,9 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 27
-        Top = 261
+        Top = 243
         Width = 570
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         OnChange = edCmtStream1Change
         TabOrder = 5
       end
@@ -432,9 +444,9 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Side = asrBottom
         Left = 6
         Height = 17
-        Top = 294
+        Top = 273
         Width = 111
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         Caption = 'Styles of strings:'
         ParentColor = False
       end
@@ -446,10 +458,10 @@ object fmLexerProp: TfmLexerProp
         AnchorSideRight.Side = asrBottom
         Left = 6
         Height = 27
-        Top = 317
+        Top = 293
         Width = 570
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 6
+        BorderSpacing.Top = 3
         OnChange = edCmtStream1Change
         TabOrder = 6
       end
