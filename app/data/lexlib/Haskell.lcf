@@ -1,17 +1,7 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal12: TLibSyntAnalyzer
   Formats = <
     item
-      DisplayName = 'Marked block'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clHighlightText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = clHighlight
-      FormatType = ftColor
-    end
-    item
-      DisplayName = 'Comm'
+      DisplayName = 'Comment'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
@@ -19,15 +9,15 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Str'
+      DisplayName = 'String'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
     end
     item
-      DisplayName = 'Symb'
+      DisplayName = 'Symbol'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
@@ -37,48 +27,48 @@ object SyntAnal14: TLibSyntAnalyzer
     item
       DisplayName = 'Id'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
       FormatType = ftColor
     end
     item
-      DisplayName = 'IdRes'
+      DisplayName = 'Id keyword'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Num'
+      DisplayName = 'Id class'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id type'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Number'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end
-    item
-      DisplayName = 'Class'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end
-    item
-      DisplayName = 'DataType'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
     end>
   TokenRules = <
     item
       DisplayName = 'Comm'
-      StyleName = 'Comm'
+      StyleName = 'Comment'
       TokenType = 1
       Expression = '--[^\+\*/].*$'
       ColumnFrom = 0
@@ -86,7 +76,7 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Comm2'
-      StyleName = 'Comm'
+      StyleName = 'Comment'
       TokenType = 1
       Expression = '(?s)\{- (\{.+?\}|.)*?(-\}|\Z)'
       ColumnFrom = 0
@@ -94,7 +84,7 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Str'
-      StyleName = 'Str'
+      StyleName = 'String'
       TokenType = 4
       Expression = '"(\\"|.)*?("|$)'
       ColumnFrom = 0
@@ -102,7 +92,7 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Char'
-      StyleName = 'Str'
+      StyleName = 'String'
       TokenType = 8
       Expression = #39'.'#39
       ColumnFrom = 0
@@ -110,7 +100,7 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Symb'
-      StyleName = 'Symb'
+      StyleName = 'Symbol'
       TokenType = 3
       Expression = '[!\?\#\-\+/\*=<>\(\)\[\]\.\:;@\|\\_`\{\}~,&\$\^]'
       ColumnFrom = 0
@@ -118,7 +108,7 @@ object SyntAnal14: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Num'
-      StyleName = 'Num'
+      StyleName = 'Number'
       TokenType = 5
       Expression = '\d+\.\d+ | \d+'
       ColumnFrom = 0
@@ -134,8 +124,8 @@ object SyntAnal14: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'Key'
-      StyleName = 'IdRes'
+      DisplayName = 'Id keywords'
+      StyleName = 'Id keyword'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -176,8 +166,8 @@ object SyntAnal14: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Classes'
-      StyleName = 'Class'
+      DisplayName = 'Id classes'
+      StyleName = 'Id class'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -218,8 +208,8 @@ object SyntAnal14: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Data Type'
-      StyleName = 'DataType'
+      DisplayName = 'Id types'
+      StyleName = 'Id type'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -280,19 +270,15 @@ object SyntAnal14: TLibSyntAnalyzer
     'Float const'
     'Hex const'
     'Char const')
-  MarkedBlockStyle = 'Marked block'
   Extentions = 'hs lhs as las'
   LexerName = 'Haskell'
   Notes.Strings = (
-    'Author:'
-    'A. Torgashin (uvviewsoft.com)'
+    'Alexey (SynWrite)'
     ''
-    'Info:'
-    'http://www.haskell.org/haskellwiki/Keywords'
-    'Ex.files:'
+    'Keywords: http://www.haskell.org/haskellwiki/Keywords'
     
-      'http://www.haskell.org/haskellwiki/Haskell_Tutorial_for_C_Progra' +
-      'mmers#Downloads')
+      'Example: http://www.haskell.org/haskellwiki/Haskell_Tutorial_for' +
+      '_C_Programmers#Downloads')
   LineComment = '--'
   Charset = DEFAULT_CHARSET
 end
