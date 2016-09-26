@@ -7,3 +7,7 @@ Number=Number
 Id=Id
 Keywords=IdKeyword
 Symbol=Symbol
+
+[comments]
+styles_cmt=Comment
+styles_str=String

@@ -16,3 +16,9 @@ Bold-Italic=TextBoldItalic
 Definition=IncludeBG2
 List=LightBG5
 Crossed out=TextCross
+
+[comments]
+str1=<!--
+str2=-->
+styles_cmt=Comment
+styles_str=Quote

@@ -23,3 +23,9 @@ Tree (Regular, Alias)=-
 Current Line=-
 Alias=IdVar
 Table=Id1
+
+[comments]
+str1=/*
+str2=*/
+styles_cmt=Comment
+styles_str=String

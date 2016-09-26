@@ -11,3 +11,7 @@ Timestamp=String2
 Handle=Id3
 Directive=Id4
 Alias=IdVar
+
+[comments]
+styles_cmt=Comment
+styles_str=String

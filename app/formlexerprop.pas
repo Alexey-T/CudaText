@@ -482,13 +482,15 @@ begin
 
     if F.ShowModal<>mrOk then exit;
     if Trim(F.edName.Text)='' then exit;
-    Result:= true;
-
-    an.LexerName:= F.edName.Text;
-    an.Extentions:= F.edTypes.Text;
-    an.LineComment:= F.edCmtLine.Text;
-    an.Notes.Clear;
-    an.Notes.AddStrings(F.edNotes.Lines);
+    Result:= F.IsChangedLexer;
+    if Result then
+    begin
+      an.LexerName:= F.edName.Text;
+      an.Extentions:= F.edTypes.Text;
+      an.LineComment:= F.edCmtLine.Text;
+      //an.Notes.Clear;
+      //an.Notes.AddStrings(F.edNotes.Lines);
+    end;
   finally
     F.Free;
   end;

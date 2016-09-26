@@ -18,3 +18,9 @@ Sublexer BG=IncludeBG1
 2=JavaScript
 3=JavaScript
 4=VBScript
+
+[comments]
+str1=<!--
+str2=-->
+styles_cmt=
+styles_str=

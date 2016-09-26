@@ -7,3 +7,7 @@ Id=Id
 Id keyword=Id1
 Id keyword def=IdKeyword
 Id function=Id2
+
+[comments]
+styles_cmt=Comment
+styles_str=String

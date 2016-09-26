@@ -12,3 +12,9 @@ Number=Number
 StyleSuffix=Id3
 Media block=IncludeBG1
 ParamCustom=Id4
+
+[comments]
+str1=/*
+str2=*/
+styles_cmt=Comment
+styles_str=String

@@ -13,3 +13,9 @@ Asm BG=IncludeBG1
 [ref]
 0=Assembly
 1=Assembly
+
+[comments]
+str1=/*
+str2=*/
+styles_cmt=Comment
+styles_str=String

@@ -9,3 +9,9 @@ Id=Id
 Id Function=Id2
 Commd=Id1
 Color=Color
+
+[comments]
+str1=/*
+str2=*/
+styles_cmt=Comment
+styles_str=String
