@@ -2498,15 +2498,6 @@ begin
       Str2:= SGetItem(Str, ';');
 
       case Id of
-        LEXER_GET_COMMENT:
-          begin
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              Result:= PyString_FromString(PChar(string(An.LineComment)))
-            else
-              Result:= ReturnNone;
-          end;
-
         LEXER_GET_ENABLED:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2521,6 +2512,71 @@ begin
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               Result:= PyString_FromString(PChar(string(An.Extentions)))
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_GET_COMMENT:
+          begin
+            An:= AppManager.FindAnalyzer(Str1);
+            if Assigned(An) then
+              Result:= PyString_FromString(PChar(string(An.LineComment)))
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_GET_COMMENT_STREAM:
+          begin
+            An:= AppManager.FindAnalyzer(Str1);
+            if Assigned(An) then
+            begin
+              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
+              Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'str2');
+              if (Str1<>'') and (Str2<>'') then
+                Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
+              else
+                Result:= ReturnNone;
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_GET_COMMENT_LINED:
+          begin
+            An:= AppManager.FindAnalyzer(Str1);
+            if Assigned(An) then
+            begin
+              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'full1');
+              Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'full2');
+              if (Str1<>'') and (Str2<>'') then
+                Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
+              else
+                Result:= ReturnNone;
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_GET_STYLES_COMMENTS:
+          begin
+            An:= AppManager.FindAnalyzer(Str1);
+            if Assigned(An) then
+            begin
+              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_cmt');
+              Result:= PyString_FromString(PChar(Str1));
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        LEXER_GET_STYLES_STRINGS:
+          begin
+            An:= AppManager.FindAnalyzer(Str1);
+            if Assigned(An) then
+            begin
+              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_str');
+              Result:= PyString_FromString(PChar(Str1));
+            end
             else
               Result:= ReturnNone;
           end;

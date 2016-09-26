@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics, ExtCtrls, ComCtrls,
   LclProc, LclType, LazFileUtils, LazUTF8,
-  jsonConf,
+  IniFiles, jsonConf,
   Process,
   ATSynEdit,
   ATSynEdit_Keymap,
@@ -313,9 +313,12 @@ var
 
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
+
 function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOverrideFilename(AName: string): string;
+function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
+
 function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
@@ -1386,6 +1389,16 @@ begin
 
     AppKeymap.Items[nitem].Keys1:= UndoItem.KeyArray1;
     AppKeymap.Items[nitem].Keys2:= UndoItem.KeyArray2;
+  end;
+end;
+
+function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
+begin
+  with TIniFile.Create(GetAppLexerMapFilename(ALexerName)) do
+  try
+    Result:= Trim(ReadString('comments', AKey, ''));
+  finally
+    Free
   end;
 end;
 
