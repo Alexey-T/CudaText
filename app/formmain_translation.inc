@@ -284,7 +284,11 @@ begin
     DoApplyTabCaption(TabsBottom, 1, ini.ReadString('ui', 't_out', 'Output'));
     DoApplyTabCaption(TabsBottom, 2, ini.ReadString('ui', 't_val', 'Validate'));
     DoApplyTabCaption(TabsBottom, 3, ini.ReadString('ui', 't_sr', 'Search Results'));
-    DoApplyTabCaption(TabsLeft, 0, ini.ReadString('ui', 't_tre', 'Tree'));
+
+    //Tree panel
+    s:= ini.ReadString('ui', 't_tre', 'Tree');
+    DoApplyTabCaption(TabsLeft, 0, s);
+    FAppSidePanels[0].ItemCaption:= s;
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
