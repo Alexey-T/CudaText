@@ -1,4 +1,4 @@
-object SyntAnal40: TLibSyntAnalyzer
+object SyntAnal38: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -117,7 +117,7 @@ object SyntAnal40: TLibSyntAnalyzer
       DisplayName = 'Id begin'
       StyleName = 'Id begin'
       TokenType = 6
-      Expression = '^[\-\x20\x09]*? [a-z][\w\-]*'
+      Expression = '^[\-\x20\x09]*? [a-z][\w\-]* (?=:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
