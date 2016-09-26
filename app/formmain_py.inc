@@ -2613,11 +2613,6 @@ begin
             AppManager.Modified:= true;
           end;
 
-        LEXER_GET_MODIFIED:
-          begin
-            Result:= PyBool_FromLong(Ord(AppManager.Modified));
-          end;
-
         LEXER_DELETE:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2642,18 +2637,6 @@ begin
             end
             else
               Result:= ReturnNone;
-          end;
-
-        LEXER_EXPORT:
-          begin
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-            begin
-              An.SaveToFile(Str2);
-              Result:= PyBool_FromLong(1);
-            end
-            else
-              Result:= PyBool_FromLong(0);
           end;
 
         LEXER_GET_LIST:
