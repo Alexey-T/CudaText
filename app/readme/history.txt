@@ -4,6 +4,7 @@
   * changed
 
 1.4.9
+* now special comments (for range, for full lines), styles-of-comments, styles-of-strings - must be specified in Lexer Props dialog (it has new fields). They save now to .cuda-lexmap files. So can publish with lexer zip files. You can delete files settings_default/default_lexers.json, user_lexers.json.
 + improved lexers: C#, Bash, reST, Search results
 + opt ui_buffered (if UI looks ok, don't touch)
 + opt ui_tree_icons
