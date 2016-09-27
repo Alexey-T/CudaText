@@ -1059,40 +1059,44 @@ end;
 
 procedure TEditorFrame.DoFileReload;
 var
-  NLineTop, NCaretX, NCaretY: integer;
-  bTail: boolean;
+  PrevLineTop,
+  PrevCaretX, PrevCaretY: integer;
+  PrevTail: boolean;
+  PrevLexer: string;
 begin
   if FileName='' then exit;
 
-  //remember LineTop, caret
-  NCaretX:= 0;
-  NCaretY:= 0;
-  NLineTop:= Editor.LineTop;
+  //remember props
+  PrevLexer:= LexerName;
+  PrevCaretX:= 0;
+  PrevCaretY:= 0;
+  PrevLineTop:= Editor.LineTop;
   if Editor.Carets.Count>0 then
     with Editor.Carets[0] do
-      begin NCaretX:= PosX; NCaretY:= PosY; end;
+      begin PrevCaretX:= PosX; PrevCaretY:= PosY; end;
 
-  bTail:= UiOps.ReloadFollowTail and
+  PrevTail:= UiOps.ReloadFollowTail and
     (Editor.Strings.Count>0) and
-    (NCaretY=Editor.Strings.Count-1);
+    (PrevCaretY=Editor.Strings.Count-1);
 
   //reopen
   DoFileOpen(FileName, false{disable err msgbox});
   if Editor.Strings.Count=0 then exit;
 
-  //restore LineTop, caret
-  NCaretY:= Min(NCaretY, Editor.Strings.Count-1);
-  if bTail then
+  //restore props
+  Lexer:= AppManager.FindAnalyzer(PrevLexer);
+  PrevCaretY:= Min(PrevCaretY, Editor.Strings.Count-1);
+  if PrevTail then
   begin
-    NCaretX:= 0;
-    NCaretY:= Editor.Strings.Count-1;
-    NLineTop:= NCaretY-Abs(UiOps.FindIndentVert);
+    PrevCaretX:= 0;
+    PrevCaretY:= Editor.Strings.Count-1;
+    PrevLineTop:= PrevCaretY-Abs(UiOps.FindIndentVert);
   end;
-  Editor.LineTop:= NLineTop;
-  FTopLineTodo:= NLineTop;
+  Editor.LineTop:= PrevLineTop;
+  FTopLineTodo:= PrevLineTop;
   Editor.Update;
 
-  Editor.DoCaretSingle(NCaretX, NCaretY);
+  Editor.DoCaretSingle(PrevCaretX, PrevCaretY);
   Editor.Update;
   OnUpdateStatus(Self);
 end;

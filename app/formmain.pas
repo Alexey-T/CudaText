@@ -2545,7 +2545,8 @@ end;
 procedure TfmMain.DoFileReopen;
 var
   F: TEditorFrame;
-  bRO: boolean;
+  PrevRO: boolean;
+  PrevLexer: string;
 begin
   F:= CurrentFrame;
   if F.FileName='' then exit;
@@ -2554,11 +2555,14 @@ begin
       Format(msgConfirmReopenModifiedTab, [F.FileName]),
       MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 
-  bRO:= F.ReadOnly;
+  PrevRO:= F.ReadOnly;
+  PrevLexer:= F.LexerName;
   F.ReadOnly:= false;
   F.DoFileReload;
-  F.ReadOnly:= bRO;
+  F.Lexer:= AppManager.FindAnalyzer(PrevLexer);
+  F.ReadOnly:= PrevRO;
 
+  UpdateStatus;
   MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));
 end;
 
