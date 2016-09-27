@@ -571,10 +571,10 @@ object fmMain: TfmMain
         Caption = 'Settings - &more'
         Hint = 'set_more'
         object mnuOpLexer: TMenuItem
-          Caption = 'Settings - le&xer'
+          Caption = 'Settings - le&xer specific'
         end
         object mnuOpKeys: TMenuItem
-          Caption = 'Settings - &keys'
+          Caption = 'Settings - &hotkeys'
         end
         object mnuOpFileTypes: TMenuItem
           Caption = 'Settings - &file types'
@@ -583,10 +583,10 @@ object fmMain: TfmMain
           Caption = '-'
         end
         object mnuOpThemeUi: TMenuItem
-          Caption = 'Settings - theme - ui'
+          Caption = 'Settings - theme - &ui'
         end
         object mnuOpThemeSyntax: TMenuItem
-          Caption = 'Settings - theme - syntax'
+          Caption = 'Settings - theme - &syntax'
         end
       end
       object SepOp1: TMenuItem
