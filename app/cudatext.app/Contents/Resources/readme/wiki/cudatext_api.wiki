@@ -72,10 +72,10 @@ Gets version of API (string, contains 3 numbers, dot-separated).
 
 Example of version check:
 
-  import cudatext as _ct
+  import cudatext
   
-  if _ct.app_api_version() < '1.0.114':
-    _ct.msg_box('Plugin <Name> needs newer app version', _ct.MB_OK + _ct.MB_ICONWARNING)
+  if cudatext.app_api_version() < '1.0.140':
+    cudatext.msg_box('Plugin MyName needs newer app version', cudatext.MB_OK + cudatext.MB_ICONWARNING)
 
 ===app_path===
 
@@ -86,9 +86,10 @@ Gets some path. Possible values of id:
 * APP_DIR_EXE: Dir of program executable.
 * APP_DIR_SETTINGS: Dir "settings".
 * APP_DIR_DATA: Dir "data".
-* APP_DIR_PY: Dir with Python data "py".
+* APP_DIR_PY: Dir "py" with Python files.
 * APP_DIR_INSTALLED_ADDON: Dir of last installed addon (for plugins it is folder in "py", for data-files it is folder in "data", for lexers it is folder "lexlib"). This dir is updated only if addon installed via file_open() or from app (Open dialog or command line).
-* APP_FILE_SESSION: Filename of session, default is "history session.json" in dir "settings".
+* APP_FILE_SESSION: Filename of current session. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used. 
+* APP_FILE_RECENTS: Str: "\n"-separated filenames of recent files.
 
 Note: to get path of dir "settings_default", use base dir of "settings".
 
@@ -98,19 +99,19 @@ Note: to get path of dir "settings_default", use base dir of "settings".
 
 Performs application-wide action. Possible values of id:
 
-====Misc====
+====Misc properties====
 
-* PROC_GET_CLIP: Gets clipboard text.
-* PROC_SET_CLIP: Copies text to clipboard.
+* PROC_GET_LANG: Gets string id of active translation. E.g. "ru_RU" if translation file is "ru_RU.ini". Or "translation template" if such file is used. Empty string if built-in English translation is used.
 * PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
-* PROC_GET_COMMAND: Gets info on internal command with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enum all commands, increase index from '0', until you get None result.
-* PROC_GET_ESCAPE: Gets escape flag (bool). This flag is set when user presses Esc key (each Esc press is counted since app start, you need to clear flag). To allow app to handle key press, you must call msg_status() in loop.
-* PROC_SET_ESCAPE: Sets escape flag ("0"/"1").
 * PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
-* PROC_GET_LANG: Gets str: active translation. E.g. "ru_RU" if translation file is named "ru_RU.ini". Empty if built-in translation used.
+
+====Clipboard====
+
+* PROC_GET_CLIP: Gets clipboard text.
+* PROC_SET_CLIP: Copies text to clipboard.
 
 ====Plugin calls====
 
@@ -120,12 +121,16 @@ Performs application-wide action. Possible values of id:
 ** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
-* PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items from PROC_SET_SUBCOMMANDS). Call it with str(N) from N=0 until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
+* PROC_GET_COMMAND: Gets info about item from application commands-list, with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enumerate all commands: call it from index "0", until you get None result.
+* PROC_GET_COMMAND_INITIAL: Same as PROC_GET_COMMAND, but gets info only about "initial state", which was before reading hotkey configs (main config and lexer-specific configs). 
+* PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items which were set in PROC_SET_SUBCOMMANDS). Call it with str(N), from N=0, until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
 
 ====Hotkeys====
 
 command_id can be: str(int_command_code) or "module,method" or "module,method,param".
 
+* PROC_GET_ESCAPE: Gets escape flag (bool). This flag is set when user presses Esc key (each Esc press is counted since app start). Note: to allow app to handle key press in long loop, call msg_status('text', True).
+* PROC_SET_ESCAPE: Sets escape flag. Text must be "0"/"1".
 * PROC_GET_HOTKEY: Gets hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Gets empty str for unknown command_id.
 * PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Gets bool: command_id exists, changed.
 * PROC_GET_KEYSTATE: Gets state of pressed special keys. String has "c" for Ctrl pressed, "a" for Alt, "s" for Shift, "m" for Meta (Windows key).
@@ -160,27 +165,30 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 
 menu_id can be:
 
-* str(int_value) to specify any submenu by unique int value
+* str(int_value) to specify menu item by unique int value
 * "top" to specify top menu
 * "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" to specify submenus File/Edit/Selection/Search/View/Options/Help
 * "text" to specify editor context menu
-* "side:"+tab_caption to specify menu of sidebar panel (e.g. "side:Tree")
-* "toolmenu:"+name to specify menu of toolbar button
+* "side:"+tab_caption to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
+* "toolmenu:"+name to specify drop-down submenu of toolbar button
 
 Actions:
 
-* PROC_MENU_ENUM: Gets "\n"-separated string with all items in submenu. Param text must be menu_id. Items have forms:
-** "caption|item_cmd|item_id" 
-** "caption|s_module,s_method|item_id". 
-** for submenus item_cmd not used, so item may be "caption||item_id" or "caption|item_str_hint|item_id".
+* PROC_MENU_ENUM: Enumerates sub-items in menu item. Param text must be menu_id. Gets str: "\n"-separated strings for sub-items. These strings are:
+** for usual command items: "caption|int_command|menu_id" 
+** for plugin command items: "caption|plugin_module,plugin_method|menu_id" 
+** for separator items: "-||menu_id"
+** for submenu items: 2nd part (between "|" chars) is not a command code, such items are "caption||menu_id" or "caption|string_hint|menu_id"
 
-* PROC_MENU_CLEAR: Clears some submenu. Param text must be menu_id.
+* PROC_MENU_CLEAR: Removes all sub-items from menu item. Param text must be menu_id.
 
-* PROC_MENU_ADD: Adds menu item to some submenu. Param text must be "menu_id;menu_cmd;menu_caption;menu_index". This returns string, str(int_value), with unique int value for added item. Use this string as menu_id for next calls.
-** menu_id is submenu item in which you add item. 
-** menu_cmd is:
-*** str(command_code) - int command code from module cudatext_cmd
-*** spec values: 
+* PROC_MENU_ADD: Adds sub-item to menu item. This returns string, menu_id for newly added sub-item. Param text must be "menu_id;menu_cmd;menu_caption;menu_index". Parts are:
+** menu_id is item in which you add sub-item. 
+** menu_caption is caption, or "-" for menu separator.
+** menu_index is str(index) for 0-based index at which to insert sub-item; empty menu_index or "-1": add item at end.
+** menu_cmd can be:
+*** str(int_command) - int command code, from module cudatext_cmd (pass 0 if item does nothing)
+*** special values: 
 **** "recents", "_recents" - recent-files submenu
 **** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
 **** "langs", "_langs" - translations submenu
@@ -188,22 +196,20 @@ Actions:
 **** "plugins", "_plugins" - plugins submenu
 **** "themes-ui", "_themes-ui" - ui-themes submenu 
 **** "themes-syntax", "_themes-syntax" - syntax-themes submenu 
-*** s_module+","+s_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to Python method.
-*** any string (e.g. "0", value ignored) if submenu (note: submenu is detected not by menu_id string, but by presence of sub items)
-** menu_caption is caption, or "-" for menu separator.
-** menu_index is str(index) for 0-based index at which to insert item; empty param or -1: add item at end.
+*** str_module+","+str_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to method (param can be of any primitive type).
+*** any string (e.g. empty string), if item will be used as submenu (item will be submenu, if any sub-items will be added to it)
 
 ====Side panel====
 
-* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: caption of tab, index of tab (0-based, -1 to add tab to end), type of control. Types of control allowed: "tree". Gets bool: params ok, tab was added.
+* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: "tab_caption,tab_index,control": caption of tab, index of tab (0-based, -1 to add tab to end), type of GUI control. Control type currently allowed: "tree". Gets bool: params ok, tab was added.
 * PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, so control/menu for this tab is still in memory). Gets bool: tab was found/removed.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
-* PROC_SIDEPANEL_ENUM: Gets str, "\n"-separated captions of sidebar tabs.
-* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, associated with tab (can pass this handle to tree_proc API). Text is caption of tab. Gets None if cannot find tab.
+* PROC_SIDEPANEL_ENUM: Enumerates tabs. Gets str, "\n"-separated captions of tabs.
+* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, inserted into tab. Pass this handle to tree_proc API. Text is caption of tab. Gets None if cannot find tab.
 
 ==== Bottom panel====
 
-* PROC_BOTTOMPANEL_GET_CONTROL: Gets int handle of control, associated with tab of bottom panel (can pass handle to tree_proc API). Text can be currently "Search Results" for treeview of "Search Results" panel. Gets None if cannot find tab.
+* PROC_BOTTOMPANEL_GET_CONTROL: Gets int handle of control, inserted into tab of bottom panel. Pass this handle to tree_proc API. Text is tab caption, currently it can be only "Search Results" for this special tab in bottom panel. Gets None if cannot find tab.
 
 ====Splitters====
 
@@ -269,6 +275,39 @@ Id:
 * PROC_TOOLBAR_ICON_SET: Changes icon of toolbar button. Text must be "btn_index,icon_index". Indexes are 0-based.
 * PROC_TOOLBAR_ICON_GET_SIZE: Gets icon size of toolbar, as 2-tuple (size_x, size_y).
 * PROC_TOOLBAR_ICON_SET_SIZE: Sets icon size of toolbar. Text must be str(size_x)+","+str(size_y).
+
+====Show/Hide UI elements====
+
+Actions can get show-state of UI elements, or set show-state (pass "0" to hide, "1" to show):
+
+* PROC_SHOW_STATUSBAR_GET
+* PROC_SHOW_STATUSBAR_SET
+* PROC_SHOW_TOOLBAR_GET
+* PROC_SHOW_TOOLBAR_SET
+* PROC_SHOW_SIDEPANEL_GET
+* PROC_SHOW_SIDEPANEL_SET
+* PROC_SHOW_BOTTOMPANEL_GET
+* PROC_SHOW_BOTTOMPANEL_SET
+* PROC_SHOW_TABS_GET
+* PROC_SHOW_TABS_SET
+
+====Screen coordinates====
+
+Notes:
+
+* When getting coords, you get 4-tuple of int: (x1, y1, x2, y2)
+* When setting coords, you should pass such string: '%d,%d,%d,%d' % (x1, y1, x2, y2)
+
+Actions:
+
+* PROC_COORD_WINDOW_GET: Gets coords of app window.
+* PROC_COORD_WINDOW_SET: Sets coords of app window.
+* PROC_COORD_DESKTOP: Gets coords of virtual desktop, which includes all monitors.
+* PROC_COORD_MONITOR: Gets coords of monitor with app window.
+* PROC_COORD_MONITOR0: Gets coords of 1st monitor.
+* PROC_COORD_MONITOR1: Gets coords of 2nd monitor, or None if no such monitor.
+* PROC_COORD_MONITOR2: Gets coords of 3rd monitor, or None if no such monitor.
+* PROC_COORD_MONITOR3: Gets coords of 4th monitor, or None if no such monitor.
 
 ===app_log===
 
@@ -592,11 +631,14 @@ Possible values of id:
 
 * LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
 * LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
-* LEXER_GET_COMMENT: Gets line-comment string for given lexer.
-* LEXER_GET_MODIFIED: Gets bool: is lexer library modified and not saved.
+* LEXER_GET_COMMENT: Gets string "comment until end of line" for given lexer.
+* LEXER_GET_COMMENT_STREAM: Gets "comment for range" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
+* LEXER_GET_COMMENT_LINED: Gets "comment for range of full lines" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
 * LEXER_GET_LIST: Gets string: "\n"-separated list of lexer names in library.   
 * LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
 * LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
+* LEXER_GET_STYLES_COMMENTS: Gets string: ","-separated list of styles of "syntax comments", for given lexer.
+* LEXER_GET_STYLES_STRINGS: Gets string: ","-separated list of styles of "syntax strings", for given lexer.
 * LEXER_SET_NAME: Sets for lexer with given name (substring 1) new name (substring 2).
 * LEXER_SET_ENABLED: Sets for lexer with given name enabled-flag (substring 2: "0" or "1").
 * LEXER_SET_EXT: Sets for lexer with given name file-extensions field (substring 2).
@@ -776,20 +818,25 @@ Gets filename (str) of the editor's tab.
 * Empty str for untitled tab. 
 * String "?" if picture file loaded in tab.
 
-===get_split/set_split===
+===get_split===
 
  get_split()
- set_split(state, percent)
 
-Gets/sets tab splitting: each tab can be splitted to primary/second editors.
+Gets tab splitting: each tab can be splitted to primary/second editors.
 
-Gets 2-tuple:
+Gets 2-tuple: (state, percent):
 
 * int: state of splitting, one of the values
-** TAB_SPLIT_NO: tab not splitted
-** TAB_SPLIT_HORZ
-** TAB_SPLIT_VERT 
-* float: percent of splitting, it's 0.5 if tab splitted 50/50.
+** TAB_SPLIT_NO: tab is not splitted
+** TAB_SPLIT_HORZ: tab is splitted horizontally
+** TAB_SPLIT_VERT: tab is splitted vertically
+* float: percent of splitting, e.g. it's 0.5 if tab splitted 50/50.
+
+===set_split===
+
+ set_split(state, percent)
+
+Sets tab splitting. Meaning of params is the same as for get_split().
 
 ===get_prop===
 
@@ -1111,6 +1158,25 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.155
+* add: lexer_proc:
+** LEXER_GET_COMMENT_STREAM
+** LEXER_GET_COMMENT_LINED
+** LEXER_GET_STYLES_COMMENTS
+** LEXER_GET_STYLES_STRINGS
+* add: app_proc: 
+** PROC_GET_COMMAND_INITIAL
+** PROC_SHOW_STATUSBAR_GET, PROC_SHOW_STATUSBAR_SET
+** PROC_SHOW_TOOLBAR_GET, PROC_SHOW_TOOLBAR_SET
+** PROC_SHOW_SIDEPANEL_GET, PROC_SHOW_SIDEPANEL_SET
+** PROC_SHOW_BOTTOMPANEL_GET, PROC_SHOW_BOTTOMPANEL_SET
+** PROC_SHOW_TABS_GET, PROC_SHOW_TABS_SET
+** PROC_COORD_WINDOW_GET, PROC_COORD_WINDOW_SET
+** PROC_COORD_DESKTOP
+** PROC_COORD_MONITOR* 
+* add: app_path: APP_FILE_RECENTS
+* delete: lexer_proc: LEXER_GET_MODIFIED
 
 1.0.154
 * add: app_proc: PROC_THEME_UI_*, PROC_THEME_SYNTAX_*

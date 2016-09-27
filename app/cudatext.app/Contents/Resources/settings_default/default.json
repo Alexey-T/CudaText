@@ -13,6 +13,14 @@
   //  5: Cleartype 
   //  6: Cleartype Natural 
   "font_quality": 0,
+  
+  //Double-buffering of UI controls
+  //  If app shows flickering, set to true
+  //  If high-DPI monitor (eg Retina) shows blurred text, set to false
+  //  Option has suffixes for main OSes
+  "ui_buffered": true,
+  "ui_buffered__linux": true,
+  "ui_buffered__osx": false,
 
   //UI elements font
   "ui_font_name": "default",
@@ -326,14 +334,16 @@
   "ui_initial_dir": "",
 
   //[Syntax-tree]
-  //Focus tree-node for caret-position changed
+  //Focus another tree-node, after caret position changes
   "ui_tree_auto_sync": true,
   //Time (msec) after which tree filled
   "ui_tree_time_fill": 2000,
-  //Time (msec) after which tree-node for caret focused
+  //Time (msec) after which tree-node for caret focuses
   "ui_tree_time_focus": 300,
-  //Show lines at left side
+  //Show vertical/horiz lines in tree 
   "ui_tree_show_lines": true,
+  //Show icons in tree (for lexers which assign icons, e.g. C#)
+  "ui_tree_icons": true,
 
   //[Properties of new tabs]
   //Lexer name in lexers menu

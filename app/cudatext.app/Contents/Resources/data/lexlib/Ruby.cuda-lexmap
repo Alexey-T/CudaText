@@ -10,3 +10,9 @@ Const=Id1
 String regex=String2
 String here-doc=CommentDoc
 Quote block=IncludeBG1
+
+[comments]
+full1==begin
+full2==end
+styles_cmt=Comment
+styles_str=String,String here-doc

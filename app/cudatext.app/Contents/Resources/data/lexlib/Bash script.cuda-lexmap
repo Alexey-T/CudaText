@@ -9,3 +9,7 @@ Symbol=Symbol
 Variable=IdVar
 Int=Number
 $(...)=SectionBG2
+
+[comments]
+styles_cmt=Comment
+styles_str=

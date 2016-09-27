@@ -8,3 +8,7 @@ Label=Id3
 Registers=Id4
 String=String
 Symbol=Symbol
+
+[comments]
+styles_cmt=Comment
+styles_str=String

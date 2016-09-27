@@ -1,10 +1,16 @@
+[comments]
+str1={-
+str2=-}
+styles_cmt=Comment
+styles_str=String
+
 [map]
-Marked block=-
-Comm=Comment
-Str=String
-Symb=Symbol
+Comment=Comment
+Symbol=Symbol
+String=String
+String tick=String2
 Id=Id
-IdRes=IdVar
-Num=Number
-Class=Id1
-DataType=Id2
+Id keyword=IdKeyword
+Id class=Id1
+Id type=Id2
+Number=Number

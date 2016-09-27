@@ -2,11 +2,11 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.8.2 2016-09-18'
+    '0.8.3 2016-09-27'
 ToDo: (see end of file)
 '''
 
-import  re, os, json
+import  os
 import  cudatext            as app
 from    cudatext        import ed
 import  cudatext_cmd        as cmds
@@ -16,77 +16,12 @@ from    .cd_plug_lib    import *
 # I18N
 _       = get_translation(__file__)
 
-pass;                           LOG     = (-1==-1)  # Do or dont logging.
+LOG = False
 
 class Command:
     def __init__(self):
         self.pair4lex = {}
         #def __init__
-    
-    def edit_strcomment_chars(self):
-        lex     = ed.get_prop(app.PROP_LEXER_CARET)
-        if not lex: return app.msg_status(_("No lexer"))
-        def_lexs_json   = os.path.join(apx.get_def_setting_dir()         , 'default_lexers.json')
-        usr_lexs_json   = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user_lexers.json')
-        def_lexs        = apx._json_loads(open(def_lexs_json, encoding='utf8').read())
-        usr_lexs        = apx._json_loads(open(usr_lexs_json, encoding='utf8').read()) if os.path.exists(usr_lexs_json) else {"Comments":{}, "CommentsForLines":{}}
-        pass;                  #LOG and log('usr_lexs={}',usr_lexs)
-        only_ln         = False
-        pair_df         = ['','']
-        pair            = ['','']
-        if False:pass
-        elif lex in   def_lexs["Comments"]:
-            pair_df = def_lexs["Comments"].get(lex)
-        elif lex in   def_lexs["CommentsForLines"]:
-            pair_df = def_lexs["CommentsForLines"].get(lex)
-            only_ln = True
-        if False:pass
-        elif lex in   usr_lexs["Comments"]:
-            pair    = usr_lexs["Comments"].get(lex)
-        elif lex in   usr_lexs["CommentsForLines"]:
-            pair    = usr_lexs["CommentsForLines"].get(lex)
-            only_ln = True
-        elif lex in   def_lexs["Comments"]:
-            pair    = def_lexs["Comments"].get(lex)
-        elif lex in   def_lexs["CommentsForLines"]:
-            pair    = def_lexs["CommentsForLines"].get(lex)
-            only_ln = True
-        vals        = dict(stcs=pair[   0]
-                          ,stdf=pair_df[0]
-                          ,encs=pair[   1]
-                          ,endf=pair_df[1]
-                          ,full=only_ln   )
-        while True:
-            btn,vals,chds   = dlg_wrapper(f(_('Stream comment chars for lexer "{}"'), lex), GAP*3+100+165*2, GAP+105+GAP,     #NOTE: dlg-str-cmnt
-                 [dict(           tp='lb'   ,t=GAP          ,l=GAP+100+GAP+165  ,w=165  ,cap=_('Default values')    ) #
-                 ,dict(           tp='lb'   ,tid='stcs'     ,l=GAP              ,w=100  ,cap=_('&Start chars')      ) # &s
-                 ,dict(cid='stcs',tp='ed'   ,t=GAP+20       ,l=GAP+100          ,w=165                              ) # 
-                 ,dict(cid='stdf',tp='ed'   ,tid='stcs'     ,l=GAP+100+GAP+165  ,w=165  ,props='1,0,1'              ) #     ro,mono,border
-                 ,dict(           tp='lb'   ,tid='encs'     ,l=GAP              ,w=100  ,cap=_('&Finish chars')     ) # &f
-                 ,dict(cid='encs',tp='ed'   ,t=GAP+50       ,l=GAP+100          ,w=165                              ) # 
-                 ,dict(cid='endf',tp='ed'   ,tid='encs'     ,l=GAP+100+GAP+165  ,w=165  ,props='1,0,1'              ) #     ro,mono,border
-                 ,dict(cid='full',tp='ch'   ,t=GAP+80       ,l=GAP+100          ,w=165  ,cap=_('Only f&ull lines')  ) # &u
-                 ,dict(cid='!'   ,tp='bt'   ,tid='full'     ,l=GAP+GAP+430-165  ,w=80   ,cap=_('OK'),props='1'      ) #     default
-                 ,dict(cid='-'   ,tp='bt'   ,tid='full'     ,l=GAP+GAP+430-80   ,w=80   ,cap=_('Cancel')            )
-                 ], vals, focus_cid='stcs')
-            pass;              #LOG and log('vals={}',(vals))
-            if btn is None or btn=='-': return None
-            pair        = [vals['stcs'], vals['encs']]
-            only_ln     = vals['full']
-            # Checking
-            if not pair[0] or not pair[1]:
-                app.msg_box(_("Set not empty values"), app.MB_OK)
-                continue #while
-            break #while 
-           #while
-           
-        #Saving
-        self.pair4lex = {}
-        usr_lexs["Comments"         if only_ln else "CommentsForLines"].pop(lex, None)
-        usr_lexs["CommentsForLines" if only_ln else "Comments"        ][lex] = pair
-        open(usr_lexs_json, 'w', encoding='utf8').write(json.dumps(usr_lexs, indent=2))
-        app.msg_status(f(_('File "{}" is updated'), usr_lexs_json))
-       #def edit_strcomment_chars
     
     def dlg_config(self):
         save_bd_col = apx.get_opt('comment_save_column'         , False)
@@ -94,7 +29,7 @@ class Command:
         bUseFLn     = apx.get_opt('comment_full_line_if_no_sel' , True)
         bSkip       = apx.get_opt('comment_move_down'           , True)
         
-        save_s      = _('(Line commands) Try to to keep text positions in line after (un)commenting')
+        save_s      = _('(Line commands) Try to keep text position after (un)commenting')
         save_h      = _('Try to replace only blank(s) to keep text positions:'
                         '\rUncommented lines:'
                         '\r····foo1'
@@ -356,25 +291,12 @@ class Command:
                 only_lines    True if each of *_sign must be whole line
         '''
         if lex not in self.pair4lex:
-            # Search lex-pair
-            def_lexs_json   = os.path.join(apx.get_def_setting_dir()         , 'default_lexers.json')
-            usr_lexs_json   = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user_lexers.json')
-            def_lexs        = apx._json_loads(open(def_lexs_json, encoding='utf8').read())
-            usr_lexs        = apx._json_loads(open(usr_lexs_json, encoding='utf8').read()) if os.path.exists(usr_lexs_json) else {"Comments":{}, "CommentsForLines":{}}
-            only_ln        = False
-            if False:pass
-            elif lex in   usr_lexs["Comments"]:
-                pair    = usr_lexs["Comments"].get(lex)
-            elif lex in   usr_lexs["CommentsForLines"]:
-                pair    = usr_lexs["CommentsForLines"].get(lex)
-                only_ln = True
-            elif lex in   def_lexs["Comments"]:
-                pair    = def_lexs["Comments"].get(lex)
-            elif lex in   def_lexs["CommentsForLines"]:
-                pair    = def_lexs["CommentsForLines"].get(lex)
-                only_ln = True
-            else:
-                pair    = ['','']
+            only_ln = False
+            pair1 = app.lexer_proc(app.LEXER_GET_COMMENT_STREAM, lex)
+            pair2 = app.lexer_proc(app.LEXER_GET_COMMENT_LINED, lex)
+            if pair1 is not None: pair = pair1
+            elif pair2 is not None: pair = pair2; only_ln = True
+            else: pair = ('', '')
             self.pair4lex[lex] = (pair, only_ln)
         return self.pair4lex[lex]
        #def _get_cmt_pair

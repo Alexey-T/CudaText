@@ -23,3 +23,9 @@ Invalid symbol=SymbolBad
 
 [ref]
 0=Assembly
+
+[comments]
+str1={
+str2=}
+styles_cmt=Comment
+styles_str=String

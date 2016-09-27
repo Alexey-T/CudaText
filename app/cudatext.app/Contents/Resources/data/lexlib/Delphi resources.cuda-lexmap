@@ -6,3 +6,9 @@ String=String
 Number=Number
 Symbol=Symbol
 Blob Data=String2
+
+[comments]
+str1={
+str2=}
+styles_cmt=Comment
+styles_str=String

@@ -51,12 +51,6 @@ section=commands
 caption=Comments\-
 method=_
 
-[item110]
-section=commands
-caption=Comments\Config stream comments for lexer
-method=edit_strcomment_chars
-;menu=0
-
 [item120]
 section=commands
 caption=Comments\Config
