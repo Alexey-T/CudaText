@@ -29,7 +29,7 @@ class Command:
         bUseFLn     = apx.get_opt('comment_full_line_if_no_sel' , True)
         bSkip       = apx.get_opt('comment_move_down'           , True)
         
-        save_s      = _('(Line commands) Try to to keep text positions in line after (un)commenting')
+        save_s      = _('(Line commands) Try to keep text position after (un)commenting')
         save_h      = _('Try to replace only blank(s) to keep text positions:'
                         '\rUncommented lines:'
                         '\r····foo1'
