@@ -168,7 +168,7 @@ object SyntAnal38: TLibSyntAnalyzer
     item
       DisplayName = 'Handle'
       StyleName = 'Handle'
-      Expression = '!+[^\s]+'
+      Expression = '!+[^\x20\n\r]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
