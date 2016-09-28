@@ -110,6 +110,8 @@ procedure TfmAbout.FormCreate(Sender: TObject);
 var
   SWidget: string;
 begin
+  memo.DoubleBuffered:= UiOps.DoubleBuffered;
+
   FLabelLink:= TLinkLabel.Create(Self);
   FLabelLink.Parent:= Self;
   FLabelLink.Caption:= 'UVviewsoft.com';
