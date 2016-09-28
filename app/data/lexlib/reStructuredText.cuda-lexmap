@@ -1,7 +1,7 @@
 [map]
-Head=Symbol2
+Head=IdKeyword
 Comment=Comment
-Quote=IncludeBG1
+Quote=String
 Code=IncludeBG2
 Code dot=IncludeBG3
 List=IncludeBG4

@@ -20,11 +20,10 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Quote'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 12645824
     end
     item
       DisplayName = 'Code'
@@ -113,14 +112,14 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Head'
       StyleName = 'Head'
-      Expression = '^[\*\#=-\^\"]{2,}$ \z '#13#10'^.+$ \z '#13#10'^[\*\#=-\^\"]{2,}$'
+      Expression = '^[\*\#=\-\+\^\"]{2,}$ \z '#13#10'^.+$ \z '#13#10'^[\*\#=\-\+\^\"]{2,}$'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Head 2'
       StyleName = 'Head'
-      Expression = '^\w.+$ \z'#13#10'^[\-\+]{2,}'
+      Expression = '^\w.+$ \z'#13#10'^[\*\#=\-\+\^\"]{2,}'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -128,7 +127,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'List'
       StyleName = 'List'
       TokenType = 6
-      Expression = '^(\*+|\#+\.|\d+\.) \x20 .+'
+      Expression = '^([\*\#]+\.|\-|\d+\.) \x20'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -160,7 +159,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'Quote'
       StyleName = 'Quote'
       TokenType = 3
-      Expression = '`+ .+? `+_?'
+      Expression = '`` .+? `` |'#13#10'(?s) ` .+? `_?'
       ColumnFrom = 0
       ColumnTo = 0
     end
