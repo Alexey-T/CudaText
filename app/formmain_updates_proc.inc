@@ -707,6 +707,8 @@ begin
         //Tree.Scrollbars:= ssVertical;
         Tree.EndUpdate;
       end;
+
+      Tree.UpdScroll;
     end;
     if UiOps.TreeAutoSync then
       Adapter.TreeShowItemForCaret(Tree, Point(Caret.PosX, Caret.PosY));

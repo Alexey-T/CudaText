@@ -16,7 +16,6 @@ type
   private
     FScroll: TATScroll;
     procedure ScrollChange(Sender: TObject);
-    procedure UpdScroll;
   protected
     procedure DoSelectionChanged; override;
     procedure Resize; override;
@@ -27,6 +26,7 @@ type
       ): Boolean; override;
   public
     constructor Create(AOwner: TComponent); override;
+    procedure UpdScroll;
   end;
 
 type
