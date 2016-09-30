@@ -61,7 +61,7 @@
     "CFont" : "#A6CAF0",
     "CBack" : "",
     "CBorder" : "#FF00FF",
-    "Border" : "0,0,0,2"
+    "Border" : "0,0,0,1"
   },
   "Lex_String" : {
     "Type" : 1,
@@ -106,10 +106,10 @@
   "Lex_SymbolBad" : {
     "Type" : 1,
     "Styles" : "b",
-    "CFont" : "#00FF00",
+    "CFont" : "#925777",
     "CBack" : "",
-    "CBorder" : "#FF0000",
-    "Border" : "0,0,0,3"
+    "CBorder" : "#FF00FF",
+    "Border" : "0,0,0,1"
   },
   "Lex_Comment" : {
     "Type" : 1,
@@ -139,6 +139,14 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#008080",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
+  "Lex_Label" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#B67E60",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"

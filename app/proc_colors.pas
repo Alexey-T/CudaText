@@ -272,21 +272,22 @@ begin
   AddStyle('Id4', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('IdKeyword', clBlack, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('IdVar', clGreen, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('IdBad', clBlack, clNone, clRed, [], blNone, blNone, blNone, blDot, ftFontAttr);
+  AddStyle('IdBad', clBlack, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
 
   AddStyle('String', clTeal, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('String2', clOlive, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('String3', clBlue, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('String3', $C8C040, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AddStyle('Symbol', clMaroon, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Symbol2', $0000C0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blDot, ftFontAttr);
+  AddStyle('SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
 
   AddStyle('Comment', clGray, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Comment2', $00C080, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('CommentDoc', $A0B090, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AddStyle('Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Label', $607EB6, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Color', $0080C0, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AddStyle('IncludeBG1', clBlack, clMoneyGreen, clNone, [], blNone, blNone, blNone, blNone, ftBackGround);

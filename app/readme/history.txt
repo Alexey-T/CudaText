@@ -4,7 +4,7 @@
   * changed
 
 1.4.10
-+ add theme style TagPropBad (for html, css)
++ add theme styles: Label, TagPropBad
 - minor fixes
 
 1.4.9

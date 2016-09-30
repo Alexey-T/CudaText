@@ -143,6 +143,14 @@
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
+  "Lex_Label" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#EB907F",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
   "Lex_Color" : {
     "Type" : 1,
     "Styles" : "b",

@@ -324,19 +324,25 @@ end;
 
 procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
-  Str, StrExt: string;
+  Str, StrName, StrExt: string;
 begin
   if AThemeUI then
-    StrExt:= AppExtensionThemeUi
+  begin
+    StrName:= ThemeUi;
+    StrExt:= AppExtensionThemeUi;
+  end
   else
+  begin
+    StrName:= ThemeSyntax;
     StrExt:= AppExtensionThemeSyntax;
+  end;
 
   if DoDialogConfigTheme(AppTheme, AThemeUI) then
   begin
     DoApplyTheme;
     if Msgbox(msgConfirmSaveColorsToFile, MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
     begin
-      Str:= Trim(InputBox(msgTitle, msgThemeName, 'test'));
+      Str:= Trim(InputBox(msgTitle, msgThemeName, StrName));
       if Str='' then exit;
       Str:= GetAppPath(cDirDataThemes)+DirectorySeparator+Str+StrExt;
 
