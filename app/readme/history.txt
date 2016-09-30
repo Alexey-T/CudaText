@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.4.10
++ add theme style TagPropBad (for html, css)
+- minor fixes
+
 1.4.9
 * now special comments (for range, for full lines), styles-of-comments, styles-of-strings: must be specified in Lexer Props dialog. They save now to .cuda-lexmap files. So can publish these with lexer zip files. You can delete: settings_default/default_lexers.json, user_lexers.json.
 + improved lexers: C#, Bash, reST, Haskell, Yaml, Search results
