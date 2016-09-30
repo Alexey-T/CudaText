@@ -236,7 +236,7 @@
     "Styles" : "",
     "CFont" : "#000000",
     "CBack" : "#808000",
-    "CBorder" : "",
+    "CBorder" : "#C8C8C8",
     "Border" : "0,0,0,0"
   },
   "Lex_TagBound" : {
@@ -257,7 +257,7 @@
   },
   "Lex_TagIdBad" : {
     "Type" : 1,
-    "Styles" : "b",
+    "Styles" : "",
     "CFont" : "#D287D2",
     "CBack" : "",
     "CBorder" : "#FF0000",
@@ -270,6 +270,14 @@
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
+  },
+  "Lex_TagPropBad" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#A6E22E",
+    "CBack" : "",
+    "CBorder" : "#FF0000",
+    "Border" : "0,0,0,8"
   },
   "Lex_LightBG1" : {
     "Type" : 1,

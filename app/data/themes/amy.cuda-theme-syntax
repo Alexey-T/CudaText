@@ -58,10 +58,10 @@
   "Lex_IdBad" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#FF00FF",
+    "CFont" : "#A6CAF0",
     "CBack" : "",
-    "CBorder" : "#FF0000",
-    "Border" : "0,0,0,3"
+    "CBorder" : "#FF00FF",
+    "Border" : "0,0,0,2"
   },
   "Lex_String" : {
     "Type" : 1,
@@ -145,8 +145,8 @@
   },
   "Lex_Color" : {
     "Type" : 1,
-    "Styles" : "",
-    "CFont" : "#B3B3FF",
+    "Styles" : "b",
+    "CFont" : "#808000",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
@@ -257,10 +257,10 @@
   },
   "Lex_TagIdBad" : {
     "Type" : 1,
-    "Styles" : "b",
-    "CFont" : "#D2D7FF",
+    "Styles" : "",
+    "CFont" : "#008A8A",
     "CBack" : "",
-    "CBorder" : "#550055",
+    "CBorder" : "#FF00FF",
     "Border" : "0,0,0,8"
   },
   "Lex_TagProp" : {
@@ -270,6 +270,14 @@
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
+  },
+  "Lex_TagPropBad" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#D0DDDF",
+    "CBack" : "",
+    "CBorder" : "#FF00FF",
+    "Border" : "0,0,0,8"
   },
   "Lex_LightBG1" : {
     "Type" : 3,

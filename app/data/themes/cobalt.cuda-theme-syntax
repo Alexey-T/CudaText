@@ -90,7 +90,7 @@
   "Lex_Symbol" : {
     "Type" : 1,
     "Styles" : "",
-    "CFont" : "#A6CAF0",
+    "CFont" : "#FFFBF0",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
@@ -270,6 +270,14 @@
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
+  },
+  "Lex_TagPropBad" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#A6CAF0",
+    "CBack" : "",
+    "CBorder" : "#FF772D",
+    "Border" : "0,0,0,8"
   },
   "Lex_LightBG1" : {
     "Type" : 3,
