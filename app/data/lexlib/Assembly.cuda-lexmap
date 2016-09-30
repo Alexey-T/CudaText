@@ -1,14 +1,14 @@
+[comments]
+styles_cmt=Comment
+styles_str=String
+
 [map]
 Default=-
 Comment=Comment
 Id=Id
 Id std=Id1
 Number=Number
-Label=Id3
-Registers=Id4
+Label=Label
+Registers=Id2
 String=String
 Symbol=Symbol
-
-[comments]
-styles_cmt=Comment
-styles_str=String
