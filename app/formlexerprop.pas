@@ -20,7 +20,9 @@ uses
   ATSynEdit_Adapter_EControl,
   proc_msg,
   proc_globdata,
-  proc_lexer_styles, proc_editor;
+  proc_lexer_styles,
+  proc_editor,
+  formlexerstylemap;
 
 type
   { TfmLexerProp }
@@ -459,6 +461,8 @@ begin
   F:= TfmLexerProp.Create(nil);
   try
     DoLocalize_FormLexerProp(F);
+
+    DoApplyLexerStylesMap(an);
     EditorApplyTheme(F.edSample);
 
     F.FStylesFilename:= AStylesFilename;
