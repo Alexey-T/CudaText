@@ -149,7 +149,7 @@ type
     procedure SetTabCaption(const AValue: string);
     procedure SetLineEnds(Value: TATLineEnds);
     procedure SetUnprintedSpaces(AValue: boolean);
-    procedure UpdateEds;
+    procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     function GetLexer: TecSyntAnalyzer;
     procedure SetLexer(an: TecSyntAnalyzer);
   protected
@@ -540,15 +540,15 @@ begin
   Ed1.Strings.ReadOnly:= AValue;
 end;
 
-procedure TEditorFrame.UpdateEds;
+procedure TEditorFrame.UpdateEds(AUpdateWrapInfo: boolean = false);
 begin
   Ed2.OptUnprintedVisible:= Ed1.OptUnprintedVisible;
   Ed2.OptUnprintedSpaces:= Ed1.OptUnprintedSpaces;
   Ed2.OptUnprintedEnds:= Ed1.OptUnprintedEnds;
   Ed2.OptUnprintedEndsDetails:= Ed1.OptUnprintedEndsDetails;
 
-  Ed1.Update;
-  Ed2.Update;
+  Ed1.Update(AUpdateWrapInfo);
+  Ed2.Update(AUpdateWrapInfo);
 end;
 
 function TEditorFrame.GetLexer: TecSyntAnalyzer;
@@ -1054,7 +1054,7 @@ begin
   Editor.Strings.EncodingDetect:= false;
   Editor.Strings.LoadFromFile(FileName);
   Editor.Strings.EncodingDetect:= true;
-  UpdateEds;
+  UpdateEds(true);
 end;
 
 procedure TEditorFrame.DoFileReload;
