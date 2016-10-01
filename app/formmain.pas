@@ -646,7 +646,7 @@ type
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
     procedure DoDialogLexerLib;
     procedure DoDialogLexerMap;
-    procedure DoDialogLoadLexerStyles;
+    procedure DoDialogRestoreLexerStyles;
     procedure DoDialogTheme(AThemeUI: boolean);
     procedure DoShowConsole(AFocusEdit: boolean);
     procedure DoShowOutput;
@@ -3460,7 +3460,7 @@ begin
 end;
 
 
-procedure TfmMain.DoDialogLoadLexerStyles;
+procedure TfmMain.DoDialogRestoreLexerStyles;
 var
   Form: TfmLexerStylesRestore;
   An: TecSyntAnalyzer;
@@ -3470,6 +3470,7 @@ begin
   try
     DoLocalize_FormLexerRestoreStyles(Form);
     Form.StylesFilename:= GetAppPath(cFileLexerStyles);
+
     if Form.ShowModal=mrOk then
     begin
       for i:= 0 to Form.List.Count-1 do
@@ -3482,7 +3483,6 @@ begin
             MsgBox(msgCannotFindLexerInLibrary+' '+Form.List.Items[i], MB_OK);
         end;
 
-      //DoOps_SaveLexlib(false);
       UpdateFrame;
     end;
   finally

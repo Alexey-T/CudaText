@@ -44,7 +44,8 @@ uses
   ATStringProc,
   proc_files,
   proc_globdata,
-  proc_msg;
+  proc_msg,
+  proc_lexer_styles;
 
 const
   cTypeLexer = 'lexer';
@@ -169,7 +170,7 @@ begin
       s_lexer:= ReadString('lexer'+Inttostr(i_lexer), 'file', '');
       if s_lexer='' then Break;
 
-      //lexer file
+      //copy lexer file
       fn_lexer:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.lcf';
       fn_lexmap:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.cuda-lexmap';
       fn_acp:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.acp';
@@ -188,13 +189,22 @@ begin
         if dir_acp<>'' then
           CopyFile(fn_acp, dir_acp+DirectorySeparator+ExtractFileName(fn_acp));
 
+      //install from file
       an:= Manager.FindAnalyzer(s_lexer);
       if an=nil then
         an:= Manager.AddAnalyzer;
       an.LoadFromFile(fn_lexer);
+
+      //also "restore lexer styles"
+      if not UiOps.LexerThemes then
+      begin
+        DoLoadLexerStylesFromFile(an, GetAppPath(cFileLexerStyles));
+        DoLexerExportFromLibToFile(an);
+      end;
+
       s_report:= s_report+s_lexer+#13;
 
-      //links
+      //set sublexer links
       for i_sub:= 0 to an.SubAnalyzers.Count-1 do
       begin
         s_lexer:= ReadString('lexer'+Inttostr(i_lexer), 'link'+Inttostr(i_sub+1), '');
