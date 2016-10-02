@@ -241,6 +241,9 @@ begin
   edFind.OptUnprintedEndsDetails:= false;
   edRep.OptUnprintedEndsDetails:= false;
 
+  edFind.OptPasteAtEndMakesFinalEmptyLine:= false;
+  edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
+
   bCancel.Caption:= '';
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
