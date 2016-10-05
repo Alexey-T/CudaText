@@ -650,14 +650,16 @@ Possible values of id:
 
  tree_proc(id_tree, id_action, id_item=0, index=0, text="", image_index=-1)
 
-Controls treeview-control. 
+Perform action on treeview UI-control.
 
 * Param id_tree is int handle of treeview. 
-* Param id_item is int handle of treeview item. Can be 0 for invisible root-item, e.g. you can remove all using root-item, enumerate root level using root-item.
+* Param id_item is int handle of tree-item. Can be 0 for invisible root-item:
+** can clear entire tree using root-item
+** can enumerate root level using root-item.
 
 Possible values of id_action:
 
-* TREE_ITEM_ENUM: Gets list of subitems of item, or None. Param id_item. Gets list of 2-tuples: (int_handle, str_caption).
+* TREE_ITEM_ENUM: Enumerates subitems on given item. Param id_item. Gets list of 2-tuples: (int_handle, str_caption), or None.
 * TREE_ITEM_ADD: Adds subitem as item's child. Param id_item. Param index: at which subitem index to insert (0-based), or -1 to append. Param text: caption of item. Param image_index: index in tree's icon list or -1 to not show icon. Gets int handle of subitem.
 * TREE_ITEM_DELETE: Deletes item (with all subitems). Param id_item.
 * TREE_ITEM_SET_TEXT: Sets item's text. Params: id_item, text.
