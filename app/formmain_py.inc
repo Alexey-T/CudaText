@@ -1211,10 +1211,6 @@ begin
       Dlg:= TSelectDirectoryDialog.Create(nil);
       try
         Dlg.InitialDir:= StrFolder;
-        Dlg.Options:= Dlg.Options
-          -[ofViewDetail]
-          +[ofCreatePrompt, ofPathMustExist];
-          //Win32: hide editbox, show "create dir" btn
         if Dlg.Execute then
           Result:= PyUnicode_FromWideString(Utf8Decode(Dlg.FileName))
         else
