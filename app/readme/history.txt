@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+
+1.4.11
++ previous version: can install plugin's zip with install.inf only in root; now: can install zip with install.inf (and files) in subfolder.
+
 1.4.10
 + add theme styles: Label, TagPropBad
 - minor fixes

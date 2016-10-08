@@ -249,13 +249,34 @@ begin
   end;
 end;
 
+function GetZipDirForInstallInf(unzip: TUnZipper): string;
+var
+  dir: string;
+  i: integer;
+begin
+  Result:= '';
+  //find .inf in root
+  for i:= 0 to unzip.Entries.Count-1 do
+    if unzip.Entries[i].ArchiveFileName = 'install.inf' then exit;
+
+  //get name of 1st subdir
+  with unzip.Entries[0] do
+    if (Attributes and faDirectory)<>0 then
+    begin
+      dir:= ArchiveFileName;
+      //find .inf in this subdir
+      for i:= 0 to unzip.Entries.Count-1 do
+        if unzip.Entries[i].ArchiveFileName = dir+'install.inf' then exit(dir);
+    end;
+end;
+
 procedure DoInstallAddonFromZip(const fn_zip: string;
   Manager: TecSyntaxManager; const dir_acp: string; out StrReport: string; out
   IsInstalled: boolean; out NAddonType: TAppAddonType; out DirTarget: string);
 var
   unzip: TUnZipper;
   list: TStringlist;
-  dir, fn_inf: string;
+  dir, dir_zipped, fn_inf: string;
   s_title, s_type, s_desc: string;
 begin
   StrReport:= '';
@@ -272,24 +293,27 @@ begin
     exit
   end;
 
-  fn_inf:= dir+DirectorySeparator+'install.inf';
-  if FileExists(fn_inf) then
-    DeleteFile(fn_inf);
-
   unzip:= TUnZipper.Create;
   try
     unzip.FileName:= fn_zip;
     unzip.OutputPath:= dir;
     try
       unzip.Examine;
+      if unzip.Entries.Count=0 then
+        raise Exception.Create('Zip is empty');
     except
       MsgBox(msgCannotHandleZip+#13+fn_zip, MB_OK+MB_ICONERROR);
       exit;
     end;
 
-    list:= TStringlist.create;
+    dir_zipped:= GetZipDirForInstallInf(unzip);
+    fn_inf:= dir+DirectorySeparator+dir_zipped+'install.inf';
+    if FileExists(fn_inf) then
+      DeleteFile(fn_inf);
+
+    list:= TStringList.create;
     try
-      list.Add('install.inf');
+      list.Add(dir_zipped+'install.inf');
       unzip.UnZipFiles(list);
     finally
       FreeAndNil(list);
