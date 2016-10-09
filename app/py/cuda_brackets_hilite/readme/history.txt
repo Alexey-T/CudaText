@@ -1,4 +1,7 @@
 
+2016.07.14
++ cmd "Select to bracket, inside"
+
 0.6.6
 + renamed section in ini "colors"-"color"; used #rrggbb color codes
 

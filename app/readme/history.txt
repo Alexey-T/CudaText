@@ -5,7 +5,7 @@
 
 
 1.4.11
-+ previous version: can install plugin's zip with install.inf only in root; now: can install zip with install.inf (and files) in subfolder.
++ can install addon zip with install.inf (and files) in subfolder. previously: can install zip with install.inf only in root.
 
 1.4.10
 + add theme styles: Label, TagPropBad

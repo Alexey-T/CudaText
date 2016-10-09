@@ -1,12 +1,15 @@
 Plugin for CudaText
-Finds and hilites (with back-color) bracket under caret and its pair bracket
-(pair bracket searched considering nested brackets).
-Brackets are configured per lexer in config file.
+Finds and highlightes bracket under caret and its pair bracket (pair bracket is searched considering nested brackets).
 
-Gives items in Plugins: 
-- edit config file
-- jump to pair bracket
-- select text to pair bracket
+Gives items in Plugins menu:
+- go to pair bracket
+- select to pair bracket 
+- select to pair bracket, inside
+- config
+
+Config file:
+- Brackets, which are considered, per lexer, e.g. "()[]{}" 
+- Color of hiliting (use Color Picker plugin to edit HTML colors here)
 
 Author: Alexey T.
 License: MIT

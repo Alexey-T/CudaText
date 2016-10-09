@@ -5,7 +5,15 @@ import zipfile
 import tempfile
 from cudatext import *
 
-README_NAMES = ('readme.txt', 'readme.html', 'readme.htm', 'readme.md', 'readme.rst')
+README_NAMES = (
+    'readme.txt', 
+    'readme.html', 
+    'readme.htm', 
+    'readme.md', 
+    'README.md', 
+    'readme.rst',
+    'README.rst',
+    )
 
 DATA_DIRS = (
     ('autocomplete', '.acp'),
