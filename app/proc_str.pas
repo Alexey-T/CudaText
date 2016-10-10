@@ -12,7 +12,7 @@ unit proc_str;
 interface
 
 uses
-  SysUtils, Classes, StrUtils,
+  SysUtils, Classes,
   LazFileUtils,
   ATStringProc,
   jsonConf,
@@ -29,6 +29,7 @@ type
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
 function SFindWordsInString(SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
+function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
 
 function IsLexerListed(const ALexer, ANameList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
@@ -190,12 +191,26 @@ begin
 end;
 
 function IsLexerListed(const ALexer, ANameList: string): boolean;
+const
+  cRegexPrefix = 'regex:';
+var
+  SRegex: string;
 begin
   if ANameList='' then exit(true);
   if ALexer='' then exit(false);
-  Result:= Pos(
-    ','+LowerCase(ALexer)+',',
-    ','+LowerCase(ANameList)+',' )>0;
+
+  if SBeginsWith(ANameList, cRegexPrefix) then
+  begin
+    SRegex:= ANameList;
+    Delete(SRegex, 1, Length(cRegexPrefix));
+    Result:= SRegexMatchesString(ALexer, SRegex, true);
+  end
+  else
+  begin
+    Result:= Pos(
+      ','+LowerCase(ALexer)+',',
+      ','+LowerCase(ANameList)+',' )>0;
+  end;
 end;
 
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
@@ -231,6 +246,29 @@ begin
     Obj.Free;
   end;
 end;
+
+function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
+var
+  Obj: TRegExpr;
+begin
+  Result:= false;
+  if AStr='' then exit;
+  if AStrRegex='' then exit;
+
+  Obj:= TRegExpr.Create;
+  try
+    try
+      Obj.ModifierS:= false;
+      Obj.ModifierI:= not ACaseSensitive;
+      Obj.Expression:= AStrRegex;
+      Result:= Obj.Exec(AStr) and (Obj.MatchLen[0]=Length(AStr));
+    except
+    end;
+  finally
+    Obj.Free;
+  end;
+end;
+
 
 
 function SReadOptionFromJson(const fn, path, def_value: string): string;
@@ -315,6 +353,11 @@ begin
     NColumn:= 0;
   end;
 end;
+
+
+initialization
+  //debug
+  //ShowMessage(inttostr(ord(SRegexMatchesString('wwwa--ddd', '\w+\-+\w{3}'))));
 
 end.
 
