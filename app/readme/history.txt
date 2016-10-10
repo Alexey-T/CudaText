@@ -6,7 +6,8 @@
 
 1.4.11
 + can install zipped addons with files in subfolder. previously: zip must have files only in root.
-+ install.inf: can define variable $name in [info] and use it in lines "lexers=$name" (needed for long lexers list) 
++ install.inf: can define variable $name in [info] and use it in lines "lexers=$name" (needed for long lexers list)
++ install.inf: can write lexers list by RegEx: [info] $name=regex:.*SQL.* 
 
 1.4.10
 + add theme styles: Label, TagPropBad
