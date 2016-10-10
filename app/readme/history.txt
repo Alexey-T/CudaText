@@ -5,7 +5,8 @@
 
 
 1.4.11
-+ can install addon zip with install.inf (and files) in subfolder. previously: can install zip with install.inf only in root.
++ can install zipped addons with files in subfolder. previously: zip must have files only in root.
++ install.inf: can define variable $name in [info] and use it in lines "lexers=$name" (needed for long lexers list) 
 
 1.4.10
 + add theme styles: Label, TagPropBad

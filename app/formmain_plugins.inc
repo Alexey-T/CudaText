@@ -73,7 +73,11 @@ begin
       s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
       s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
       //s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
+
       s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
+      if SBeginsWith(s_lexers, '$') then //var $name defined in [info]
+        s_lexers:= ini.ReadString('info', s_lexers, '');
+
       s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
       s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');
       s_inmenu:= ini.ReadBool('item'+Inttostr(i), 'menu', true);
