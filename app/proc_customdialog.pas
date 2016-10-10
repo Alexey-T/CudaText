@@ -294,7 +294,7 @@ end;
 procedure DoAddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
 var
   SNameValue, SName, SValue, SListItem: string;
-  NX1, NX2, NY1, NY2: integer;
+  NValue, NX1, NX2, NY1, NY2: integer;
   Ctl, CtlPrev: TControl;
 begin
   Ctl:= nil;
@@ -404,6 +404,14 @@ begin
       begin
         Ctl:= TTabControl.Create(AForm);
         (Ctl as TTabControl).OnChange:= @ADummy.DoOnChange;
+      end;
+
+      if SValue='colorpanel' then
+      begin
+        Ctl:= TPanel.Create(AForm);
+        (Ctl as TPanel).BorderStyle:= bsNone;
+        (Ctl as TPanel).BevelInner:= bvNone;
+        (Ctl as TPanel).BevelOuter:= bvNone;
       end;
 
       //set parent
@@ -521,6 +529,18 @@ begin
       if (Ctl is TTabControl) then
         if SValue='1' then
           (Ctl as TTabControl).TabPosition:= tpBottom;
+
+      if (Ctl is TPanel) then
+      begin
+        NValue:= StrToIntDef(SGetItem(SValue), 0);
+        if NValue>0 then
+        begin
+          (Ctl as TPanel).BevelOuter:= bvRaised;
+          (Ctl as TPanel).BevelWidth:= NValue;
+        end;
+        (Ctl as TPanel).Color:= StrToIntDef(SGetItem(SValue), clDefault);
+        (Ctl as TPanel).Font.Color:= StrToIntDef(SGetItem(SValue), clDefault);
+      end;
 
       Continue;
     end;
