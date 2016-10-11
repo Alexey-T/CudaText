@@ -367,8 +367,6 @@ type
     procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
-    procedure DoOnTabsLeftClick(Sender: TObject);
-    procedure DoOnTabsBottomClick(Sender: TObject);
     procedure FinderFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -534,12 +532,14 @@ type
     procedure DoPanel_Event(AControl: TControl; const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoPanel_OnSelChanged(Sender: TObject);
+    procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;
     function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
+    procedure DoBottom_OnTabClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoAutoComplete;
@@ -1162,7 +1162,7 @@ begin
   TabsBottom.AddTab(-1, 'Output', nil);
   TabsBottom.AddTab(-1, 'Validate', nil);
   TabsBottom.AddTab(-1, 'Search Results', nil);
-  TabsBottom.OnTabClick:= @DoOnTabsBottomClick;
+  TabsBottom.OnTabClick:= @DoBottom_OnTabClick;
 
   TabsLeft:= TATTabs.Create(Self);
   TabsLeft.Parent:= PanelLeft;
@@ -1170,7 +1170,7 @@ begin
   TabsLeft.TabDragEnabled:= false;
 
   TabsLeft.AddTab(-1, 'Tree', nil);
-  TabsLeft.OnTabClick:= @DoOnTabsLeftClick;
+  TabsLeft.OnTabClick:= @DoSidebar_OnTabClick;
 
   with FAppSidePanels[0] do
   begin
@@ -1201,55 +1201,6 @@ begin
   Groups.Splitter5.OnPaint:= @SplitterOnPaint_Gr;
   SplitterVert.OnPaint:= @SplitterOnPaint_Main;
   SplitterHorz.OnPaint:= @SplitterOnPaint_Main;
-end;
-
-procedure TfmMain.DoOnTabsBottomClick(Sender: TObject);
-var
-  N: integer;
-  Data: TATTabData;
-  Ctl: TWinControl;
-begin
-  fmConsole.Hide;
-  ListboxOut.Hide;
-  ListboxVal.Hide;
-  TreeRes.Hide;
-  //hide api-added panels
-  for N:= 0 to FPanelCaptions.Count-1 do
-    (FPanelCaptions.Objects[N] as TAppPanelPropsClass).Data.Listbox.Hide;
-
-  case TabsBottom.TabIndex of
-    0:
-      begin
-        fmConsole.Show;
-        fmConsole.Ed.SetFocus;
-      end;
-    1:
-      begin
-        ListboxOut.Show;
-        ListboxOut.SetFocus;
-      end;
-    2:
-      begin
-        ListboxVal.Show;
-        ListboxVal.SetFocus;
-      end;
-    3:
-      begin
-        TreeRes.Show;
-        TreeRes.SetFocus;
-      end;
-    else
-      begin
-        Data:= TabsBottom.GetTabData(TabsBottom.TabIndex);
-        if Data=nil then exit;
-        N:= FPanelCaptions.IndexOf(Data.TabCaption);
-        if N<0 then exit;
-        Ctl:= (FPanelCaptions.Objects[N] as TAppPanelPropsClass).Data.Listbox;
-        Ctl.Show;
-        if Ctl.CanFocus and Ctl.CanSetFocus then
-          Ctl.SetFocus;
-      end;
-  end;
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -2188,16 +2139,6 @@ begin
   MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 end;
 
-
-
-function TfmMain.IsFocusedBottom: boolean;
-begin
-  Result:=
-    fmConsole.ed.Focused or
-    fmConsole.memo.Focused or
-    ListboxOut.Focused or
-    ListboxVal.Focused;
-end;
 
 function TfmMain.IsFocusedFind: boolean;
 begin
@@ -3945,6 +3886,8 @@ end;
 {$I formmain_cmd.inc}
 {$I formmain_plugins.inc}
 {$I formmain_themes.inc}
+{$I formmain_sidepanel.inc}
+{$I formmain_bottompanel.inc}
 
 
 end.
