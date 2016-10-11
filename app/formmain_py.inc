@@ -1283,16 +1283,35 @@ begin
     ]);
 end;
 
+
+procedure ApplyCompletionListboxStyle(Alt: boolean);
+begin
+  if Alt then
+  begin
+    //id|prefix|desc
+    cCompleteColorFont[0]:= GetAppColor('ListFont');
+    cCompleteColorFont[1]:= GetAppColor('ListCompletePrefix');
+    cCompleteIndexOfText:= 0;
+  end
+  else
+  begin
+    //prefix|id|desc
+    cCompleteColorFont[0]:= GetAppColor('ListCompletePrefix');
+    cCompleteColorFont[1]:= GetAppColor('ListFont');
+    cCompleteIndexOfText:= 1;
+  end;
+end;
+
 function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ptr: PChar;
   Ed: TATSynEdit;
   Str: string;
-  NChars1, NChars2, NSelIndex: integer;
+  NChars1, NChars2, NSelIndex, NAltOrder: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lsiii:complete', @H, @Ptr, @NChars1, @NChars2, @NSelIndex)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lsiiii:complete', @H, @Ptr, @NChars1, @NChars2, @NSelIndex, @NAltOrder)) then
     begin
       Ed:= PyEditor(H);
       Str:= string(Ptr);
@@ -1302,6 +1321,8 @@ begin
       fmMain.FPyComplete_CharsRight:= NChars2;
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
+
+      ApplyCompletionListboxStyle(Bool(NAltOrder));
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil, '_', NSelIndex);
 
       Result:= ReturnNone;
@@ -1329,6 +1350,7 @@ begin
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
 
+      ApplyCompletionListboxStyle(false);
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId, NSelIndex);
 
       Result:= ReturnNone;

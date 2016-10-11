@@ -362,7 +362,6 @@
       <Unit48>
         <Filename Value="formmain_sidepanel.inc"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Unit1"/>
       </Unit48>
       <Unit49>
         <Filename Value="formmain_bottompanel.inc"/>
