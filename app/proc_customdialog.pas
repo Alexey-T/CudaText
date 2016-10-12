@@ -154,14 +154,22 @@ end;
 function DoGetFormResult(AForm: TForm): string;
 var
   Str: string;
-  i: integer;
+  NActive, i: integer;
 begin
   Result:= '';
+
+  NActive:= -1;
   for i:= 0 to AForm.ControlCount-1 do
   begin
+    if AForm.Controls[i]=AForm.ActiveControl then
+      NActive:= i;
+
     Str:= DoGetControlState(AForm.Controls[i]);
     Result:= Result+Str+#10;
   end;
+
+  //append NActive
+  Result:= Result+'focused='+IntToStr(NActive)+#10;
 end;
 
 
