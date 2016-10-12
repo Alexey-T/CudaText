@@ -2417,6 +2417,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_HOTKEY_INT_TO_STR:
+          begin
+            Str:= ShortCutToText(StrToIntDef(Str, 0));
+            Result:= PyString_FromString(PChar(Str));
+          end;
+        APP_PROC_HOTKEY_STR_TO_INT:
+          begin
+            Str:= IntToStr(TextToShortCut(Str));
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
         APP_PROC_SHOW_STATUSBAR_SET:
           begin
             fmMain.ShowStatus:= ParamBool;
