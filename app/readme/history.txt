@@ -4,6 +4,10 @@
   * changed
 
 
+1.4.11.2
+- fix: "restore lex styles"
+- fix: "copy to clipbd" on gtk2
+
 1.4.11
 + can install zipped addons with files in subfolder. previously: zip must have files only in root.
 + install.inf: can define variable $name in [info] and use it in lines "lexers=$name" (needed for long lexers list)
