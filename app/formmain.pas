@@ -3419,7 +3419,10 @@ begin
         begin
           An:= AppManager.FindAnalyzer(Form.List.Items[i]);
           if Assigned(An) then
-            DoLoadLexerStylesFromFile(An, Form.StylesFilename)
+          begin
+            DoLoadLexerStylesFromFile(An, Form.StylesFilename);
+            DoLexerExportFromLibToFile(An);
+          end
           else
             MsgBox(msgCannotFindLexerInLibrary+' '+Form.List.Items[i], MB_OK);
         end;
