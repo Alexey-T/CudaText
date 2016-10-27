@@ -243,6 +243,7 @@ LEXER_SET_NAME            = 10
 LEXER_SET_ENABLED         = 11
 LEXER_SET_EXT             = 12
 LEXER_SET_LINKS           = 13
+LEXER_DETECT              = 20
 LEXER_DELETE              = 21
 LEXER_IMPORT              = 22
 LEXER_GET_STYLES_COMMENTS = 30

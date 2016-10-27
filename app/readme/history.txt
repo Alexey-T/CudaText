@@ -5,7 +5,7 @@
 
 
 1.4.11.2
-- fix: "restore lex styles"
+- fix: "restore lex styles" must save file
 - fix: "copy to clipbd" on gtk2
 
 1.4.11

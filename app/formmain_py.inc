@@ -2642,6 +2642,15 @@ begin
             AppManager.Modified:= true;
           end;
 
+        LEXER_DETECT:
+          begin
+            An:= DoLexerFindByFilename(Str1);
+            if Assigned(An) then
+              Result:= PyString_FromString(PChar(string(An.LexerName)))
+            else
+              Result:= ReturnNone;
+          end;
+
         LEXER_DELETE:
           begin
             An:= AppManager.FindAnalyzer(Str1);
