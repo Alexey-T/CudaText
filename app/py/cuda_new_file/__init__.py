@@ -18,11 +18,15 @@ class Command:
         
         lexer = lexers[res]
         files = sorted([item[0] for item in files if item[1]==lexer])
+        if not files: return
         
-        res = dlg_menu(MENU_LIST, '\n'.join(files))
-        if res is None: return
-        
-        fn = files[res]
+        if len(files)==1:
+            fn = files[0]
+        else:
+            res = dlg_menu(MENU_LIST, '\n'.join(files))
+            if res is None: return
+            fn = files[res]
+            
         lexer = lexer_proc(LEXER_DETECT, fn)
         msg_status('New file from "%s", lexer "%s"' % (fn, lexer))
 
