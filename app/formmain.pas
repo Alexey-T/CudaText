@@ -191,7 +191,6 @@ type
     mnuFileCloseDel: TMenuItem;
     mnuOpLexer: TMenuItem;
     mnuOpMore: TMenuItem;
-    MenuItem21: TMenuItem;
     mnuViewStatus: TMenuItem;
     mnuViewFullscr: TMenuItem;
     mnuFindWordNext: TMenuItem;
@@ -349,7 +348,6 @@ type
     PopupText: TPopupMenu;
     PopupTree: TPopupMenu;
     PopupTabSize: TPopupMenu;
-    PopupNewdoc: TPopupMenu;
     PopupRecents: TPopupMenu;
     PopupTab: TPopupMenu;
     PythonEngine: TPythonEngine;
@@ -391,7 +389,6 @@ type
     procedure mnuTabsize2Click(Sender: TObject);
     procedure mnuTabsize4Click(Sender: TObject);
     procedure mnuTabsize8Click(Sender: TObject);
-    procedure MenuNewdocClick(Sender: TObject);
     procedure MenuRecentsClear(Sender: TObject);
     procedure mnuFind2NextClick(Sender: TObject);
     procedure mnuFind2PrevClick(Sender: TObject);
@@ -436,7 +433,6 @@ type
     procedure mnuTreeFoldAllClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
     procedure mnuViewClick(Sender: TObject);
-    procedure PopupNewdocPopup(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
@@ -474,7 +470,6 @@ type
   private
     { private declarations }
     FListRecents: TStringList;
-    FListNewdoc: TStringList;
     FListThemesUI: TStringList;
     FListThemesSyntax: TStringList;
     FListLangs: TStringList;
@@ -515,6 +510,7 @@ type
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
 
+    procedure DoNewFileMenu(Sender: TObject);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     function GetSessionFilename: string;
@@ -753,7 +749,6 @@ type
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
     procedure UpdateAppForSearch(AStart: boolean);
-    procedure UpdateMenuNewdoc;
     procedure UpdateStatus;
     procedure UpdateMenuRecent(F: TEditorFrame);
     procedure InitStatusButton;
@@ -1095,7 +1090,6 @@ begin
 
   FPanelCaptions:= TStringList.Create;
   FListRecents:= TStringList.Create;
-  FListNewdoc:= TStringList.Create;
   FListThemesUI:= TStringList.Create;
   FListThemesSyntax:= TStringList.Create;
   FListLangs:= TStringList.Create;
@@ -1247,7 +1241,6 @@ end;
 procedure TfmMain.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FListRecents);
-  FreeAndNil(FListNewdoc);
   FreeAndNil(FListThemesUI);
   FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
@@ -1367,15 +1360,6 @@ begin
   if FTreeClick then exit;
   TimerTreeFocus.Enabled:= false;
   TimerTreeFocus.Enabled:= true;
-end;
-
-procedure TfmMain.MenuNewdocClick(Sender: TObject);
-var
-  N: integer;
-begin
-  N:= (Sender as TComponent).Tag;
-  if (N>=0) and (N<FListNewdoc.Count) then
-    DoFileNewFrom(FListNewdoc[N]);
 end;
 
 procedure TfmMain.MenuRecentsClear(Sender: TObject);
@@ -2177,11 +2161,6 @@ begin
   SplitterVert.Left:= PanelLeft.Width;
   if AValue then
     UpdateTree(true);
-end;
-
-procedure TfmMain.PopupNewdocPopup(Sender: TObject);
-begin
-  UpdateMenuNewdoc;
 end;
 
 
@@ -3876,6 +3855,11 @@ begin
 
     Result:= IntToStr(PtrInt(mi));
   end;
+end;
+
+procedure TfmMain.DoNewFileMenu(Sender: TObject);
+begin
+  DoPyCommand('cuda_new_file', 'menu');
 end;
 
 

@@ -2,11 +2,11 @@ object fmMain: TfmMain
   Left = 350
   Height = 526
   Top = 283
-  Width = 788
+  Width = 872
   AllowDropFiles = True
   Caption = 'App'
   ClientHeight = 526
-  ClientWidth = 788
+  ClientWidth = 872
   KeyPreview = True
   Menu = MainMenu
   OnClose = FormClose
@@ -22,21 +22,21 @@ object fmMain: TfmMain
     Left = 0
     Height = 230
     Top = 296
-    Width = 788
+    Width = 872
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 230
-    ClientWidth = 788
+    ClientWidth = 872
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
       Height = 135
       Top = 0
-      Width = 788
+      Width = 872
       Align = alClient
       BevelOuter = bvNone
       ClientHeight = 135
-      ClientWidth = 788
+      ClientWidth = 872
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
@@ -77,7 +77,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 90
       Top = 140
-      Width = 788
+      Width = 872
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
@@ -87,7 +87,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 5
       Top = 135
-      Width = 788
+      Width = 872
       Align = alBottom
       AutoSnap = False
       MinSize = 60
@@ -99,7 +99,7 @@ object fmMain: TfmMain
     Left = 0
     Height = 24
     Top = 0
-    Width = 788
+    Width = 872
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
@@ -713,7 +713,7 @@ object fmMain: TfmMain
     top = 192
   end
   object PopupLex: TPopupMenu
-    left = 840
+    left = 808
     top = 32
   end
   object TimerStatus: TTimer
@@ -1450,14 +1450,6 @@ object fmMain: TfmMain
     object mnuFind2WordPrev: TMenuItem
       Caption = 'Find current word previous'
       OnClick = mnuFind2WordPrevClick
-    end
-  end
-  object PopupNewdoc: TPopupMenu
-    OnPopup = PopupNewdocPopup
-    left = 840
-    top = 88
-    object MenuItem21: TMenuItem
-      Caption = 'Test'
     end
   end
   object PopupTabSize: TPopupMenu

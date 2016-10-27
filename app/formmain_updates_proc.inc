@@ -313,60 +313,6 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateMenuNewdoc;
-var
-  sub: TPopupMenu;
-  mi, miSub: TMenuItem;
-  list: TStringList;
-  i, index: integer;
-  subname: string;
-  an: TecSyntAnalyzer;
-begin
-  sub:= PopupNewdoc;
-  sub.Items.Clear;
-
-  list:= TStringList.Create;
-  try
-    FFindFilesInDir(GetAppPath(cDirDataNewdoc), GetAllFilesMask, FListNewdoc);
-
-    for i:= 0 to FListNewdoc.Count-1 do
-    begin
-      an:= DoLexerFindByFilename(FListNewdoc[i]);
-      if an=nil then Continue;
-
-      list.AddObject(
-        an.LexerName+' - '+ExtractFileNameOnly(FListNewdoc[i]),
-        TObject(ptrint(i)));
-      list.Sort;
-    end;
-
-    miSub:= nil;
-    for i:= 0 to list.Count-1 do
-    begin
-      index:= ptrint(list.Objects[i]);
-      subname:= list[i][1];
-
-      if (miSub=nil) or (miSub.Caption<>subname) then
-      begin
-        miSub:= TMenuItem.Create(Self);
-        miSub.Caption:= subname;
-        sub.Items.Add(miSub);
-      end;
-
-      if miSub<>nil then
-      begin
-        mi:= TMenuItem.Create(Self);
-        mi.Caption:= list[i];
-        mi.Tag:= index;
-        mi.OnClick:= @MenuNewdocClick;
-        miSub.Add(mi);
-      end;
-    end;
-  finally
-    list.Free;
-  end;
-end;
-
 procedure TfmMain.DoApplyAllOps;
 var
   F: TEditorFrame;
@@ -925,7 +871,7 @@ end;
 procedure TfmMain.InitToolbar;
 begin
   Toolbar.AddButton(0, @tbNewClick, 'f_new', 'Create new tab');
-  Toolbar.AddDropdown(PopupNewdoc);
+  Toolbar.AddDropdown(nil, @DoNewFileMenu);
   Toolbar.AddButton(1, @tbOpenClick, 'f_open', 'Open file');
   Toolbar.AddDropdown(PopupRecents);
   Toolbar.AddButton(2, @tbSaveClick, 'f_save', 'Save file');
