@@ -5,9 +5,10 @@
 
 
 1.5.0
-+ added plugin: New File; used for dropdown arrow near "New file" tool button
++ added plugin: New File; used for dropdown arrow near "New file" tool button; not shown in Plugins
 - fix: "restore lexer styles" must save lex file
-- fix: "copy to clipbd" on gtk2
+- fix: gtk2: "copy to clipbd"
+- fix: windows: menus on high DPI
 
 1.4.11
 + can install zipped addons with files in subfolder. previously: zip must have files only in root.
