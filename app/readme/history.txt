@@ -5,6 +5,7 @@
 
 
 1.4.11.2
++ added plugin: New File
 - fix: "restore lex styles" must save file
 - fix: "copy to clipbd" on gtk2
 

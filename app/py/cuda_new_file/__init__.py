@@ -5,13 +5,16 @@ DIR_NEWDOC = os.path.join(app_path(APP_DIR_DATA), 'newdoc')
 
 class Command:
     def menu(self):
+        if not os.path.isdir(DIR_NEWDOC): return
         files = os.listdir(DIR_NEWDOC)
-        if not files: return
+        if not files:
+            msg_status('No files in data/newdoc')
+            return
         
         files = [(item, lexer_proc(LEXER_DETECT, item)) for item in files]
         
         lexers = sorted(list(set([item[1] for item in files])))
-        print('Templates found for:', ', '.join(lexers))
+        #print('Templates found for:', ', '.join(lexers))
         
         res = dlg_menu(MENU_LIST, '\n'.join(lexers))
         if res is None: return
