@@ -15,7 +15,7 @@ object fmAbout: TfmAbout
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object Label1: TLabel
-    Left = 112
+    Left = 104
     Height = 29
     Top = 32
     Width = 123
@@ -27,7 +27,7 @@ object fmAbout: TfmAbout
     ParentFont = False
   end
   object labelVer: TLabel
-    Left = 112
+    Left = 104
     Height = 17
     Top = 64
     Width = 51
@@ -35,7 +35,7 @@ object fmAbout: TfmAbout
     ParentColor = False
   end
   object labelInf: TLabel
-    Left = 112
+    Left = 104
     Height = 17
     Top = 80
     Width = 51
@@ -241,6 +241,7 @@ object fmAbout: TfmAbout
     OptUndoAfterSave = True
     OptSavingForceFinalEol = False
     OptSavingTrimSpaces = False
+    OptPasteAtEndMakesFinalEmptyLine = True
   end
   object PopupText: TPopupMenu
     left = 240

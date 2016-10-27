@@ -4,9 +4,9 @@
   * changed
 
 
-1.4.11.2
+1.5.0
 + added plugin: New File; used for dropdown arrow near "New file" tool button
-- fix: "restore lex styles" must save file
+- fix: "restore lexer styles" must save lex file
 - fix: "copy to clipbd" on gtk2
 
 1.4.11
