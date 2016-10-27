@@ -13,8 +13,8 @@ class Command:
         
         files = [(item, lexer_proc(LEXER_DETECT, item)) for item in files]
         
-        lexers = sorted(list(set([item[1] for item in files])))
-        #print('Templates found for:', ', '.join(lexers))
+        lexers = sorted(list(set([item[1] for item in files if item[1]])))
+        if not lexers: return
         
         res = dlg_menu(MENU_LIST, '\n'.join(lexers))
         if res is None: return
