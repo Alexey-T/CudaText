@@ -5,6 +5,7 @@
 
 
 1.5.1
++ AddonMan: suggests readme+history
 + api: added events priority
 
 1.5.0

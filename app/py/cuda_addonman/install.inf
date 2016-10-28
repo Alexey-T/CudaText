@@ -34,11 +34,19 @@ method=do_download_all
 section=commands
 caption=Addons Manager\Config...
 method=do_config
+[item29]
+section=commands
+caption=Addons Manager\-
+method=_
 [item30]
 section=commands
-caption=Addons Manager\Visit plugin homepage...
+caption=Addons Manager\Visit plugin's homepage...
 method=do_homepage
 [item31]
 section=commands
-caption=Addons Manager\Open plugin readme...
+caption=Addons Manager\View plugin's readme...
 method=do_readme
+[item32]
+section=commands
+caption=Addons Manager\View plugin's history...
+method=do_history

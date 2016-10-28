@@ -15,6 +15,15 @@ README_NAMES = (
     'README.rst',
     )
 
+HISTORY_NAMES = (
+    'history.txt',
+    'history.html',
+    'history.htm',
+    'history.md',
+    'history.rst',
+    'history',
+)    
+
 DATA_DIRS = (
     ('autocomplete', '.acp'),
     ('lang', '.ini'),
@@ -41,6 +50,16 @@ def get_readme_of_module(mod):
         fn = os.path.join(app_path(APP_DIR_PY), mod, name)
         if os.path.isfile(fn):
             return fn
+
+def get_history_of_module(mod):
+    for name in HISTORY_NAMES:
+        fn = os.path.join(app_path(APP_DIR_PY), mod, 'readme', name)
+        if os.path.isfile(fn):
+            return fn
+        fn = os.path.join(app_path(APP_DIR_PY), mod, name)
+        if os.path.isfile(fn):
+            return fn
+
 
 def get_installinf_of_module(mod):
     return os.path.join(app_path(APP_DIR_PY), mod, 'install.inf')
