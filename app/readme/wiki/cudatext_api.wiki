@@ -8,7 +8,7 @@ This is API for [[CudaText]] in Python.
 
 To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event on_save. Event methods have additional parameter ed_self: Editor object in which event occured (this object is the same as "ed" in 99% cases, but in rare cases event occurs in non-focused editor).
 
-Supported events:
+==Common==
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
@@ -29,13 +29,13 @@ Supported events:
 * on_state(self, ed_self, state): Called after some app-state is changed. Param state is one of EDSTATE_nnnn numbers.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt call.
 
-Code parsing
+==Code parsing==
 
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
 * on_func_hint(self, ed_self): Called by function-hint command (default hotkey: Ctrl+Shift+Space). Method must return function-hint string (comma-separated parameters, brackets are optional). Empty str or None means no hint found.
 
-Panels
+==Panels==
 
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
@@ -46,17 +46,23 @@ Panels
 ** "on_sel"
 ** "on_menu"
 
-Macros
+==Macros==
 
 * on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
 ** if item is "number" then it's simple command.
 ** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
 
-Notes
+Notes:
 
 * To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
-* You can control in what order events passed to plugins. Events passed in sort-order of module names. E.g. if plugins have on_key, modules are cuda_bb, cuda_aa, cuda_dd, cuda_cc, then plugins called in order: _aa _bb _cc _dd.
+
+==Events priority==
+
+By default all events in all plugins have prior=0. So for any event, if 2+ plugins have this event, they're called in order on module names (e.g. cuda_aa, then cuda_dd, then cuda_mmm).
+
+You may want to handle some event first.
+To change prior for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher prior. So first called "on_key" with maximal number of "+", last called "on_key" w/o "+".
 
 =Global funcs=
 
@@ -72,10 +78,10 @@ Gets version of API (string, contains 3 numbers, dot-separated).
 
 Example of version check:
 
-  import cudatext
+  from cudatext import *
   
-  if cudatext.app_api_version() < '1.0.140':
-    cudatext.msg_box('Plugin MyName needs newer app version', cudatext.MB_OK + cudatext.MB_ICONWARNING)
+  if app_api_version() < '1.0.140':
+      msg_box('Plugin MyName needs newer app version', MB_OK+MB_ICONWARNING)
 
 ===app_path===
 
@@ -1173,6 +1179,9 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.158 
+* add: events priority (e.g. "on_key++")
 
 1.0.157
 * add: lexer_proc: LEXER_DETECT
