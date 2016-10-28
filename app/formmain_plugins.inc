@@ -7,19 +7,34 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
+procedure TfmMain.DoPyStringToEvents(const AEventStr: string;
+  out AEvents: TAppPyEvents;
+  out AEventsPrior: TAppPyEventsPrior);
 var
   str, strItem: string;
-  i_event: TAppPyEvent;
+  event: TAppPyEvent;
+  nPrior: byte;
 begin
   AEvents:= [];
+  FillChar(AEventsPrior, SizeOf(AEventsPrior), 0);
   str:= AEventStr;
   repeat
     strItem:= SGetItem(str);
     if strItem='' then Break;
-    for i_event in TAppPyEvent do
-      if strItem=cAppPyEvent[i_event] then
-        Include(AEvents, i_event);
+
+    nPrior:= 0;
+    while SEndsWith(strItem, '+') do
+    begin
+      Inc(nPrior);
+      Delete(strItem, Length(strItem), 1);
+    end;
+
+    for event in TAppPyEvent do
+      if strItem=cAppPyEvent[event] then
+      begin
+        Include(AEvents, event);
+        AEventsPrior[event]:= nPrior;
+      end;
   until false;
 end;
 
@@ -108,7 +123,9 @@ begin
         if cnt>=High(FPluginsEvents) then Break;
 
         FPluginsEvents[cnt].ItemModule:= s_module;
-        DoPyStringToEvents(s_events, FPluginsEvents[cnt].ItemEvents);
+        DoPyStringToEvents(s_events,
+          FPluginsEvents[cnt].ItemEvents,
+          FPluginsEvents[cnt].ItemEventsPrior);
         FPluginsEvents[cnt].ItemLexers:= s_lexers;
         FPluginsEvents[cnt].ItemKeys:= s_keys;
       end;
@@ -233,7 +250,7 @@ var
   SCurLexer: string;
   bNeedGroup: boolean;
   Frame: TEditorFrame;
-  i: integer;
+  MaxPrior, i_plugin, i_prior: integer;
 begin
   //empty string result means "no handlers for event"
   Result:= '';
@@ -242,39 +259,51 @@ begin
   SCurLexer:= Frame.LexerName;
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
 
-  for i:= Low(FPluginsEvents) to High(FPluginsEvents) do
-    with FPluginsEvents[i] do
+  //get max priority for AEvent
+  MaxPrior:= 0;
+  for i_plugin:= Low(FPluginsEvents) to High(FPluginsEvents) do
+    with FPluginsEvents[i_plugin] do
     begin
       if (ItemModule='') then Break;
       if (AEvent in ItemEvents) then
-        if (ItemLexers='') or IsLexerListed(SCurLexer, ItemLexers) then
-        begin
-          //check that OnKey event is called for supported keys
-          if (AEvent=cEventOnKey) then
-            if Length(AParams)>0 then
-              if (ItemKeys<>'') and not IsLexerListed(AParams[0], ItemKeys) then
-                Continue;
-
-          //call Python
-          if bNeedGroup then
-            AEd.Strings.BeginUndoGroup;
-          PyCommandRunning:= true;
-          try
-            Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
-          finally
-            PyCommandRunning:= false;
-            if bNeedGroup then
-              AEd.Strings.EndUndoGroup;
-          end;
-
-          //True for some events means "stop"
-          if Result=cPyTrue then
-            if AEvent in cTheseEventsStoppedByTrue then Exit;
-
-          //False means "stop", other results ignored
-          if Result=cPyFalse then Exit;
-        end;
+        MaxPrior:= Max(MaxPrior, ItemEventsPrior[AEvent]);
     end;
+
+  //see all items for prior= MaxPrior..0
+  for i_prior:= MaxPrior downto 0 do
+    for i_plugin:= Low(FPluginsEvents) to High(FPluginsEvents) do
+      with FPluginsEvents[i_plugin] do
+      begin
+        if (ItemModule='') then Break;
+        if not (AEvent in ItemEvents) then Continue;
+        if (i_prior<>ItemEventsPrior[AEvent]) then Continue;
+        if not ((ItemLexers='') or IsLexerListed(SCurLexer, ItemLexers)) then Continue;
+
+        //check that OnKey event is called for supported keys
+        if (AEvent=cEventOnKey) then
+          if Length(AParams)>0 then
+            if (ItemKeys<>'') and not IsLexerListed(AParams[0], ItemKeys) then
+              Continue;
+
+        //call Python
+        if bNeedGroup then
+          AEd.Strings.BeginUndoGroup;
+        PyCommandRunning:= true;
+        try
+          Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
+        finally
+          PyCommandRunning:= false;
+          if bNeedGroup then
+            AEd.Strings.EndUndoGroup;
+        end;
+
+        //True for some events means "stop"
+        if Result=cPyTrue then
+          if AEvent in cTheseEventsStoppedByTrue then Exit;
+
+        //False means "stop", other results ignored
+        if Result=cPyFalse then Exit;
+      end;
 end;
 
 

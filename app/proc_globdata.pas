@@ -415,6 +415,7 @@ type
     cEventOnMacro
     );
   TAppPyEvents = set of TAppPyEvent;
+  TAppPyEventsPrior = array[TAppPyEvent] of byte; //0: default, 1,2...: higher priority
 
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
@@ -466,6 +467,7 @@ type
     ItemModule: string;
     ItemLexers: string;
     ItemEvents: TAppPyEvents;
+    ItemEventsPrior: TAppPyEventsPrior;
     ItemKeys: string;
   end;
   TAppPluginEventArray = array[0..100] of TAppPluginEvent;

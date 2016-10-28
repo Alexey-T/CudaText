@@ -575,7 +575,9 @@ type
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
     procedure DoPyRescanPlugins;
-    procedure DoPyStringToEvents(const AEventStr: string; var AEvents: TAppPyEvents);
+    procedure DoPyStringToEvents(const AEventStr: string;
+      out AEvents: TAppPyEvents;
+      out AEventsPrior: TAppPyEventsPrior);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     procedure DoSetSplitInfo(const Id: string; NPos: integer);
     procedure DoPanel_OnClick(Sender: TObject);
@@ -3431,7 +3433,7 @@ begin
   begin
     if ItemModule='' then
       ItemModule:= AModuleName;
-    DoPyStringToEvents(AEventStr, ItemEvents);
+    DoPyStringToEvents(AEventStr, ItemEvents, ItemEventsPrior);
     ItemLexers:= ALexerStr;
     ItemKeys:= AKeyStr;
   end;
