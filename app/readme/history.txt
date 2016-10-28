@@ -4,6 +4,9 @@
   * changed
 
 
+1.5.1
++ api: added events priority
+
 1.5.0
 + added plugin: New File; used for dropdown arrow near "New file" tool button; not shown in Plugins
 - fix: "restore lexer styles" must save lex file

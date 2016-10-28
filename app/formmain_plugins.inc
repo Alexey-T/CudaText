@@ -259,9 +259,9 @@ begin
   SCurLexer:= Frame.LexerName;
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
 
-  //get max priority for AEvent
+  //get max prior for AEvent
   MaxPrior:= 0;
-  for i_plugin:= Low(FPluginsEvents) to High(FPluginsEvents) do
+  for i_plugin in TAppPluginEventArray do
     with FPluginsEvents[i_plugin] do
     begin
       if (ItemModule='') then Break;
@@ -269,9 +269,9 @@ begin
         MaxPrior:= Max(MaxPrior, ItemEventsPrior[AEvent]);
     end;
 
-  //see all items for prior= MaxPrior..0
+  //see all items for prior=MaxPrior..0
   for i_prior:= MaxPrior downto 0 do
-    for i_plugin:= Low(FPluginsEvents) to High(FPluginsEvents) do
+    for i_plugin in TAppPluginEventArray do
       with FPluginsEvents[i_plugin] do
       begin
         if (ItemModule='') then Break;

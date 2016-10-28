@@ -415,7 +415,8 @@ type
     cEventOnMacro
     );
   TAppPyEvents = set of TAppPyEvent;
-  TAppPyEventsPrior = array[TAppPyEvent] of byte; //0: default, 1,2...: higher priority
+  TAppPyEventsPrior = array[TAppPyEvent] of byte;
+    //0: default, 1,2...: higher priority
 
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
