@@ -15,19 +15,26 @@ var
   Ctl: TWinControl;
   i: integer;
 begin
+  //hide std panels
   fmConsole.Hide;
   ListboxOut.Hide;
   ListboxVal.Hide;
 
-  //hide panels from app_log(log_panel_add)
+  //hide panels from log_panel_add
   for i:= 0 to FAppBottomPanelsListbox.Count-1 do
-    (FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass).Data.Listbox.Hide;
+  begin
+    Ctl:= (FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass).Data.Listbox;
+    if Assigned(Ctl) then
+      Ctl.Hide;
+  end;
 
-  //hide panels from app_proc(proc_bottompanel_add)
+  //hide panels from proc_bottompanel_add
   for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
-    with FAppBottomPanels[i] do
-      if Assigned(ItemTreeview) then
-        ItemTreeview.Hide;
+  begin
+    Ctl:= FAppBottomPanels[i].ItemTreeview;
+    if Assigned(Ctl) then
+      Ctl.Hide;
+  end;
 
   case TabsBottom.TabIndex of
     0:
