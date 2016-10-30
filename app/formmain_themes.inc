@@ -117,10 +117,17 @@ begin
   end;
 
   DoApplyThemeToTreeview(Tree);
-  DoApplyThemeToTreeview(TreeRes);
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
+    begin
+      if ItemCaption='' then break;
+      if Assigned(ItemTreeview) then
+        DoApplyThemeToTreeview(ItemTreeview);
+    end;
+
+  for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
+    with FAppBottomPanels[i] do
     begin
       if ItemCaption='' then break;
       if Assigned(ItemTreeview) then

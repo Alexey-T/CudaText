@@ -493,6 +493,7 @@ type
 
 var
   FAppSidePanels: array[0..20] of TAppSidePanel;
+  FAppBottomPanels: array[0..50] of TAppSidePanel;
 
 
 implementation
@@ -1419,6 +1420,7 @@ initialization
   AppBookmarkImagelist:= TImageList.Create(nil);
 
   FillChar(FAppSidePanels, SizeOf(FAppSidePanels), 0);
+  FillChar(FAppBottomPanels, SizeOf(FAppBottomPanels), 0);
 
   AppShortcutEscape:= ShortCut(vk_escape, []);
   Mouse.DragImmediate:= false;

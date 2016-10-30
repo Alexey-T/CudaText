@@ -2307,6 +2307,22 @@ begin
               Result:= ReturnNone;
           end;
 
+        APP_PROC_BOTTOMPANEL_ADD:
+          begin
+            StrCaption:= SGetItem(Str); //caption
+            StrIndex:= SGetItem(Str); //tab index
+            StrId:= SGetItem(Str); //type of control
+            ok:= fmMain.DoBottom_AddTab(StrCaption, StrId, StrToIntDef(StrIndex, -1));
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
+
+        {
+        APP_PROC_BOTTOMPANEL_ACTIVATE = 81;
+        APP_PROC_BOTTOMPANEL_ENUM = 82;
+        APP_PROC_BOTTOMPANEL_REMOVE = 84;
+        }
+
+
         APP_PROC_TOOLBAR_ENUM:
           begin
             Str:= '';

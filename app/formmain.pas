@@ -95,7 +95,6 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
-    ImageListTreeRes: TImageList;
     ButtonCancel: TATButton;
     FontDlg: TFontDialog;
     Gauge: TGauge;
@@ -510,6 +509,7 @@ type
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
 
+    function DoBottom_CaptionToTabIndex(const Str: string): integer;
     procedure DoNewFileMenu(Sender: TObject);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
@@ -529,6 +529,8 @@ type
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoPanel_OnSelChanged(Sender: TObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);
+    procedure DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
+      const ACaption: string; AParent: TWinControl);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
@@ -537,6 +539,9 @@ type
     function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
     procedure DoBottom_OnTabClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
+    function DoBottom_AddTab(const ACaption, AControlType: string;
+      ATabIndex: integer): boolean;
+    function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
     procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
@@ -757,7 +762,6 @@ type
   public
     { public declarations }
     Tree: TTreeView;
-    TreeRes: TTreeView;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
     FPanelCaptions: TStringlist;
@@ -1058,11 +1062,6 @@ begin
   Tree.OnKeyDown:= @TreeKeyDown;
   Tree.PopupMenu:= PopupTree;
 
-  TreeRes:= TTreeView.Create(Self);
-  TreeRes.Parent:= PanelBottom;
-  TreeRes.Align:= alClient;
-  TreeRes.Images:= ImageListTreeRes;
-
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.Parent:= PanelBottom;
   ListboxOut.Align:= alClient;
@@ -1136,7 +1135,6 @@ begin
 
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
-  TreeRes.Align:= alClient;
 
   Groups:= TATGroups.Create(Self);
   Groups.Parent:= PanelMain;
@@ -1157,7 +1155,6 @@ begin
   TabsBottom.AddTab(-1, 'Console', nil);
   TabsBottom.AddTab(-1, 'Output', nil);
   TabsBottom.AddTab(-1, 'Validate', nil);
-  TabsBottom.AddTab(-1, 'Search Results', nil);
   TabsBottom.OnTabClick:= @DoBottom_OnTabClick;
 
   TabsLeft:= TATTabs.Create(Self);

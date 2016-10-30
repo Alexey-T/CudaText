@@ -2183,9 +2183,4 @@ object fmMain: TfmMain
     left = 328
     top = 144
   end
-  object ImageListTreeRes: TImageList
-    AllocBy = 10
-    left = 600
-    top = 272
-  end
 end
