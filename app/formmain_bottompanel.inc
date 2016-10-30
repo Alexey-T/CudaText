@@ -18,11 +18,11 @@ begin
   ListboxOut.Hide;
   ListboxVal.Hide;
 
+  //hide panels from app_log(log_panel_add)
   for i:= 0 to FPanelCaptions.Count-1 do
     (FPanelCaptions.Objects[i] as TAppPanelPropsClass).Data.Listbox.Hide;
-  ///??need?
 
-  //hide api-added panels
+  //hide panels from app_proc(proc_bottompanel_add)
   for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
     with FAppBottomPanels[i] do
       if Assigned(ItemTreeview) then
@@ -122,5 +122,38 @@ begin
   DoSidebar_InitPanelTreeview(FAppBottomPanels[Num], ACaption, PanelBottom);
   TabsBottom.AddTab(ATabIndex, ACaption);
   Result:= true;
+end;
+
+function TfmMain.DoBottom_RemoveTab(const ACaption: string): boolean;
+var
+  Num, i: integer;
+begin
+  Num:= DoBottom_CaptionToTabIndex(ACaption);
+  Result:= Num>=0;
+  if Result then
+  begin
+    fmMain.TabsBottom.DeleteTab(Num, false, false);
+
+    //hard to remov array item, so hide it by "?"
+    for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
+      if FAppBottomPanels[i].ItemCaption=ACaption then
+      begin
+        FAppBottomPanels[i].ItemCaption:= '?';
+        Break;
+      end;
+
+    if (Num>0) and (fmMain.TabsBottom.TabIndex=Num) then
+      fmMain.TabsBottom.TabIndex:= Num-1;
+  end;
+end;
+
+function TfmMain.DoBottom_ActivateTab(const ACaption: string): boolean;
+var
+  Num: integer;
+begin
+  Num:= DoBottom_CaptionToTabIndex(ACaption);
+  Result:= Num>=0;
+  if Result then
+    fmMain.TabsBottom.TabIndex:= Num;
 end;
 

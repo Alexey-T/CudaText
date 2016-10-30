@@ -6,7 +6,8 @@
 
 1.5.1
 + AddonMan: suggests readme+history
-+ api: added events priority
++ api: events priority
++ api: for bottom-panel
 
 1.5.0
 + added plugin: New File; used for dropdown arrow near "New file" tool button; not shown in Plugins

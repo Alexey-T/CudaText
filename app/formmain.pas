@@ -509,7 +509,6 @@ type
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
 
-    function DoBottom_CaptionToTabIndex(const Str: string): integer;
     procedure DoNewFileMenu(Sender: TObject);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
@@ -542,6 +541,9 @@ type
     function DoBottom_AddTab(const ACaption, AControlType: string;
       ATabIndex: integer): boolean;
     function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
+    function DoBottom_ActivateTab(const ACaption: string): boolean;
+    function DoBottom_CaptionToTabIndex(const Str: string): integer;
+    function DoBottom_RemoveTab(const ACaption: string): boolean;
     procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);

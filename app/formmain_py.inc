@@ -2259,6 +2259,7 @@ begin
             Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2));
           end;
 
+        //-------------------
         APP_PROC_SIDEPANEL_ADD:
           begin
             StrCaption:= SGetItem(Str); //caption
@@ -2298,6 +2299,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //-------------------
         APP_PROC_BOTTOMPANEL_GET_CONTROL:
           begin
             Num64:= fmMain.DoBottom_CaptionToControlHandle(Str);
@@ -2316,13 +2318,28 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
-        {
-        APP_PROC_BOTTOMPANEL_ACTIVATE = 81;
-        APP_PROC_BOTTOMPANEL_ENUM = 82;
-        APP_PROC_BOTTOMPANEL_REMOVE = 84;
-        }
+        APP_PROC_BOTTOMPANEL_REMOVE:
+          begin
+            StrCaption:= Str;
+            ok:= fmMain.DoBottom_RemoveTab(StrCaption);
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
 
+        APP_PROC_BOTTOMPANEL_ACTIVATE:
+          begin
+            ok:= fmMain.DoBottom_ActivateTab(Str);
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
 
+        APP_PROC_BOTTOMPANEL_ENUM:
+          begin
+            Str:= '';
+            for i:= 0 to fmMain.TabsBottom.TabCount-1 do
+              Str:= Str + IfThen(i>0, #10) + fmMain.TabsBottom.GetTabData(i).TabCaption;
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
+        //-------------------
         APP_PROC_TOOLBAR_ENUM:
           begin
             Str:= '';
