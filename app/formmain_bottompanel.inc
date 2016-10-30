@@ -12,6 +12,7 @@ end;
 procedure TfmMain.DoBottom_OnTabClick(Sender: TObject);
 var
   SCaption: string;
+  Ctl: TWinControl;
   i: integer;
 begin
   fmConsole.Hide;
@@ -47,6 +48,19 @@ begin
     else
       begin
         SCaption:= TabsBottom.GetTabData(TabsBottom.TabIndex).TabCaption;
+
+        //tabs for api log_panel_add
+        i:= FPanelCaptions.IndexOf(SCaption);
+        if i>=0 then
+        begin
+          Ctl:= (FPanelCaptions.Objects[i] as TAppPanelPropsClass).Data.Listbox;
+          Ctl.Show;
+          if PanelBottom.Visible then
+            if Ctl.CanFocus then
+              Ctl.SetFocus;
+        end;
+
+        //tabs for api proc_bottom_panel
         for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
           with FAppBottomPanels[i] do
           begin
@@ -54,14 +68,18 @@ begin
             if Assigned(ItemTreeview) then
             begin
               ItemTreeview.Visible:= ItemCaption=SCaption;
-              if PanelBottom.Visible and ItemTreeview.Visible then
-                if ItemTreeview.CanFocus then
-                  ItemTreeview.SetFocus;
+              if PanelBottom.Visible then
+                if ItemTreeview.Visible then
+                  if ItemTreeview.CanFocus then
+                    ItemTreeview.SetFocus;
             end;
             if Assigned(ItemListbox) then
             begin
               ItemListbox.Visible:= ItemCaption=SCaption;
-              if ItemListbox.Visible then ItemListbox.SetFocus;
+              if PanelBottom.Visible then
+                if ItemListbox.Visible then
+                  if ItemListbox.CanFocus then
+                    ItemListbox.SetFocus;
             end;
           end;
       end;
