@@ -45,7 +45,7 @@ type
 var
   fmLexerStyleMap: TfmLexerStyleMap;
 
-function DoApplyLexerStylesMap(an: TecSyntAnalyzer): boolean;
+function DoApplyLexerStylesMap(an: TecSyntAnalyzer; out anNotCorrect: TecSyntAnalyzer): boolean;
 function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
 procedure DoClearLexersAskedList(an: TecSyntAnalyzer = nil);
 
@@ -115,13 +115,14 @@ begin
 end;
 
 
-function DoApplyLexerStylesMap(an: TecSyntAnalyzer): boolean;
+function DoApplyLexerStylesMap(an: TecSyntAnalyzer; out anNotCorrect: TecSyntAnalyzer): boolean;
 var
   value: string;
   st: TecSyntaxFormat;
   i: integer;
 begin
   Result:= true;
+  anNotCorrect:= an;
   if an=nil then exit;
   if an.Formats.Count=0 then exit;
   if not UiOps.LexerThemes then exit;
@@ -132,8 +133,11 @@ begin
   //work for sublexers
   for i:= 0 to an.SubAnalyzers.Count-1 do
     if Assigned(an.SubAnalyzers[i]) then
-      if not DoApplyLexerStylesMap(an.SubAnalyzers[i].SyntAnalyzer) then
+      if not DoApplyLexerStylesMap(an.SubAnalyzers[i].SyntAnalyzer, anNotCorrect) then
+      begin
+        anNotCorrect:= an.SubAnalyzers[i].SyntAnalyzer;
         Result:= false; //not exit
+      end;
 
   with TIniFile.Create(GetAppLexerMapFilename(an.LexerName)) do
   try
@@ -155,6 +159,7 @@ end;
 function DoDialogLexerStylesMap(an: TecSyntAnalyzer): boolean;
 var
   F: TfmLexerStyleMap;
+  anNotCorrent: TecSyntAnalyzer;
   i: integer;
 begin
   Result:= false;
@@ -187,7 +192,7 @@ begin
     begin
       F.DoSave;
       DoClearLexersAskedList(an);
-      DoApplyLexerStylesMap(an);
+      DoApplyLexerStylesMap(an, anNotCorrent);
     end;
   finally
     F.Free;

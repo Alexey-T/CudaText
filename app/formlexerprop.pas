@@ -454,6 +454,7 @@ function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
   AFontSize: integer; const AStylesFilename: string): boolean;
 var
   F: TfmLexerProp;
+  an2: TecSyntAnalyzer;
 begin
   Result:= false;
   if an=nil then exit;
@@ -462,7 +463,7 @@ begin
   try
     DoLocalize_FormLexerProp(F);
 
-    DoApplyLexerStylesMap(an);
+    DoApplyLexerStylesMap(an, an2);
     EditorApplyTheme(F.edSample);
 
     F.FStylesFilename:= AStylesFilename;
