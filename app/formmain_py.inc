@@ -1488,9 +1488,9 @@ begin
     Result:= @AppPanelProp_Val
   else
   begin
-    N:= fmMain.FPanelCaptions.IndexOf(ACaption);
+    N:= fmMain.FAppBottomPanelsListbox.IndexOf(ACaption);
     if N<0 then exit;
-    PropObject:= fmMain.FPanelCaptions.Objects[N] as TAppPanelPropsClass;
+    PropObject:= fmMain.FAppBottomPanelsListbox.Objects[N] as TAppPanelPropsClass;
     Result:= @PropObject.Data;
   end;
 end;
@@ -1507,9 +1507,9 @@ begin
   if AListbox=fmMain.ListboxVal then
     exit(@AppPanelProp_Val);
 
-  for i:= 0 to fmMain.FPanelCaptions.Count-1 do
+  for i:= 0 to fmMain.FAppBottomPanelsListbox.Count-1 do
   begin
-    PropObject:= fmMain.FPanelCaptions.Objects[i] as TAppPanelPropsClass;
+    PropObject:= fmMain.FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass;
     if PropObject.Data.Listbox=AListbox then
       exit(@PropObject.Data);
   end;

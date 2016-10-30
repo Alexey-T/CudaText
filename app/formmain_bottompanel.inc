@@ -20,8 +20,8 @@ begin
   ListboxVal.Hide;
 
   //hide panels from app_log(log_panel_add)
-  for i:= 0 to FPanelCaptions.Count-1 do
-    (FPanelCaptions.Objects[i] as TAppPanelPropsClass).Data.Listbox.Hide;
+  for i:= 0 to FAppBottomPanelsListbox.Count-1 do
+    (FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass).Data.Listbox.Hide;
 
   //hide panels from app_proc(proc_bottompanel_add)
   for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
@@ -50,10 +50,10 @@ begin
         SCaption:= TabsBottom.GetTabData(TabsBottom.TabIndex).TabCaption;
 
         //tabs for api log_panel_add
-        i:= FPanelCaptions.IndexOf(SCaption);
+        i:= FAppBottomPanelsListbox.IndexOf(SCaption);
         if i>=0 then
         begin
-          Ctl:= (FPanelCaptions.Objects[i] as TAppPanelPropsClass).Data.Listbox;
+          Ctl:= (FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass).Data.Listbox;
           Ctl.Show;
           if PanelBottom.Visible then
             if Ctl.CanFocus then

@@ -766,7 +766,7 @@ type
     Tree: TTreeView;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
-    FPanelCaptions: TStringlist;
+    FAppBottomPanelsListbox: TStringlist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
@@ -1091,7 +1091,7 @@ begin
   AppManager:= TecSyntaxManager.Create(Self);
   FSessionName:= 'history session.json';
 
-  FPanelCaptions:= TStringList.Create;
+  FAppBottomPanelsListbox:= TStringList.Create;
   FListRecents:= TStringList.Create;
   FListThemesUI:= TStringList.Create;
   FListThemesSyntax:= TStringList.Create;
@@ -1245,7 +1245,7 @@ begin
   FreeAndNil(FListThemesUI);
   FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
-  FreeAndNil(FPanelCaptions);
+  FreeAndNil(FAppBottomPanelsListbox);
   FreeAndNil(FKeymapUndoList);
 end;
 
@@ -3526,7 +3526,7 @@ begin
   if (SCaption='Console') or
      (SCaption='Output') or
      (SCaption='Validate') then exit;
-  if FPanelCaptions.IndexOf(SCaption)>=0 then exit;
+  if FAppBottomPanelsListbox.IndexOf(SCaption)>=0 then exit;
 
   Listbox:= TATListbox.Create(Self);
   Listbox.Hide;
@@ -3542,7 +3542,7 @@ begin
   Props:= TAppPanelPropsClass.Create;
   Props.Data.Listbox:= Listbox;
 
-  FPanelCaptions.AddObject(SCaption, Props);
+  FAppBottomPanelsListbox.AddObject(SCaption, Props);
   TabsBottom.AddTab(-1, SCaption, nil);
   Result:= true;
 end;
@@ -3556,12 +3556,12 @@ var
 begin
   Result:= false;
 
-  N:= FPanelCaptions.IndexOf(ACaption);
+  N:= FAppBottomPanelsListbox.IndexOf(ACaption);
   if N<0 then exit;
-  PropObject:= fmMain.FPanelCaptions.Objects[N] as TAppPanelPropsClass;
+  PropObject:= fmMain.FAppBottomPanelsListbox.Objects[N] as TAppPanelPropsClass;
   PropObject.Data.Listbox.Free;
   PropObject.Free;
-  FPanelCaptions.Delete(N);
+  FAppBottomPanelsListbox.Delete(N);
 
   for N:= TabsBottom.TabCount-1 downto 0 do
   begin

@@ -22,9 +22,9 @@ begin
   ListboxVal.Color:= ListboxOut.Color;
   ListboxVal.Invalidate;
 
-  for i:= 0 to FPanelCaptions.Count-1 do
+  for i:= 0 to FAppBottomPanelsListbox.Count-1 do
   begin
-    PropObject:= FPanelCaptions.Objects[i] as TAppPanelPropsClass;
+    PropObject:= FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass;
     PropObject.Data.Listbox.Color:= ListboxOut.Color;
     PropObject.Data.Listbox.Invalidate;
   end;
