@@ -118,10 +118,18 @@ class Command:
         if opt.readme:
             m = get_module_name_from_zip_filename(fn)
             if m:
+                names = []
                 fn = get_readme_of_module(m)
                 if fn:
-                    if msg_box('Open plugin\'s readme file?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
-                        file_open(fn)
+                    names.append((get_name_of_module(m)+': view readme', fn))
+                fn = get_history_of_module(m)
+                if fn:
+                    names.append((get_name_of_module(m)+': view history', fn))
+                
+                if names:
+                    res = dlg_menu(MENU_LIST, '\n'.join([s[0] for s in names]))
+                    if res is None: return
+                    file_open(names[res][1])
         
 
     def do_install_lexer(self):
@@ -189,3 +197,12 @@ class Command:
             file_open(s)
         else:
             msg_status('Plugin "%s" doesn\'t have readme' % get_name_of_module(m))
+
+    def do_history(self):
+        m = get_installed_choice()
+        if m is None: return
+        s = get_history_of_module(m)
+        if s:
+            file_open(s)
+        else:
+            msg_status('Plugin "%s" doesn\'t have history' % get_name_of_module(m))

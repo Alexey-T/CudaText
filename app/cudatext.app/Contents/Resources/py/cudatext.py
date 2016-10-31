@@ -165,12 +165,13 @@ PROC_GET_SPLIT = 20
 PROC_SET_SPLIT = 21
 PROC_GET_FIND_OPTIONS = 22
 PROC_SET_FIND_OPTIONS = 23
+#
 PROC_SIDEPANEL_ADD = 24
 PROC_SIDEPANEL_ACTIVATE = 25
 PROC_SIDEPANEL_ENUM = 26
 PROC_SIDEPANEL_GET_CONTROL = 27
-PROC_BOTTOMPANEL_GET_CONTROL = 28
 PROC_SIDEPANEL_REMOVE = 29
+#
 PROC_TOOLBAR_ENUM = 30
 PROC_TOOLBAR_ADD = 31
 PROC_TOOLBAR_DELETE = 32
@@ -179,6 +180,7 @@ PROC_TOOLBAR_ICON_ADD = 34
 PROC_TOOLBAR_ICON_SET = 35
 PROC_TOOLBAR_ICON_GET_SIZE = 36
 PROC_TOOLBAR_ICON_SET_SIZE = 38
+#
 PROC_GET_LANG = 40
 PROC_GET_HOTKEY = 41
 PROC_SET_HOTKEY = 42
@@ -188,6 +190,14 @@ PROC_THEME_UI_GET = 46
 PROC_THEME_UI_SET = 47
 PROC_THEME_SYNTAX_GET = 48
 PROC_THEME_SYNTAX_SET = 49
+PROC_HOTKEY_INT_TO_STR = 60
+PROC_HOTKEY_STR_TO_INT = 61
+#
+PROC_BOTTOMPANEL_ADD = 80
+PROC_BOTTOMPANEL_ACTIVATE = 81
+PROC_BOTTOMPANEL_ENUM = 82
+PROC_BOTTOMPANEL_GET_CONTROL = 83
+PROC_BOTTOMPANEL_REMOVE = 84
 #
 PROC_SHOW_STATUSBAR_GET = 100
 PROC_SHOW_STATUSBAR_SET = 101
@@ -241,6 +251,7 @@ LEXER_SET_NAME            = 10
 LEXER_SET_ENABLED         = 11
 LEXER_SET_EXT             = 12
 LEXER_SET_LINKS           = 13
+LEXER_DETECT              = 20
 LEXER_DELETE              = 21
 LEXER_IMPORT              = 22
 LEXER_GET_STYLES_COMMENTS = 30
@@ -504,8 +515,8 @@ class Editor:
         js_s = json.dumps(js)
         return ct.ed_set_prop(self.h, PROP_TAG, js_s)
     
-    def complete(self, text, len1, len2, selected=0):
-        return ct.ed_complete(self.h, text, len1, len2, selected)
+    def complete(self, text, len1, len2, selected=0, alt_order=False):
+        return ct.ed_complete(self.h, text, len1, len2, selected, alt_order)
     def complete_alt(self, text, snippet_id, len_chars, selected=0):
         return ct.ed_complete_alt(self.h, text, snippet_id, len_chars, selected)
         

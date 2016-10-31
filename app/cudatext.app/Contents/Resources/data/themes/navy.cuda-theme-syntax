@@ -143,6 +143,14 @@
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
+  "Lex_Label" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#B67E60",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
   "Lex_Color" : {
     "Type" : 1,
     "Styles" : "b",
@@ -236,7 +244,7 @@
     "Styles" : "",
     "CFont" : "#000000",
     "CBack" : "#0040C0",
-    "CBorder" : "",
+    "CBorder" : "#C8C8C8",
     "Border" : "0,0,0,0"
   },
   "Lex_TagBound" : {
@@ -266,10 +274,18 @@
   "Lex_TagProp" : {
     "Type" : 1,
     "Styles" : "b",
-    "CFont" : "#40F040",
+    "CFont" : "#40D040",
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
+  },
+  "Lex_TagPropBad" : {
+    "Type" : 1,
+    "Styles" : "b",
+    "CFont" : "#40D040",
+    "CBack" : "",
+    "CBorder" : "#FF0000",
+    "Border" : "0,0,0,8"
   },
   "Lex_LightBG1" : {
     "Type" : 1,
@@ -315,7 +331,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#E0E0A0",
-    "CBack" : "",
+    "CBack" : "#800000",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -323,7 +339,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#A0E0E0",
-    "CBack" : "",
+    "CBack" : "#1D2021",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -331,7 +347,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#E0E0E0",
-    "CBack" : "",
+    "CBack" : "#1D2021",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },

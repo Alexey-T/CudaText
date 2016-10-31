@@ -143,6 +143,14 @@
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
+  "Lex_Label" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#EB907F",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
   "Lex_Color" : {
     "Type" : 1,
     "Styles" : "",
@@ -236,7 +244,7 @@
     "Styles" : "",
     "CFont" : "#000000",
     "CBack" : "#00BC00",
-    "CBorder" : "",
+    "CBorder" : "#C8C8C8",
     "Border" : "0,0,0,0"
   },
   "Lex_TagBound" : {
@@ -270,6 +278,14 @@
     "CBack" : "",
     "CBorder" : "",
     "Border" : "0,0,0,0"
+  },
+  "Lex_TagPropBad" : {
+    "Type" : 1,
+    "Styles" : "",
+    "CFont" : "#83A36A",
+    "CBack" : "",
+    "CBorder" : "#D65555",
+    "Border" : "0,0,0,8"
   },
   "Lex_LightBG1" : {
     "Type" : 1,
@@ -315,7 +331,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#542C2C",
-    "CBack" : "",
+    "CBack" : "#800000",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -323,7 +339,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#473D26",
-    "CBack" : "",
+    "CBack" : "#1D2021",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -331,7 +347,7 @@
     "Type" : 1,
     "Styles" : "",
     "CFont" : "#2D2F56",
-    "CBack" : "",
+    "CBack" : "#1D2021",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },

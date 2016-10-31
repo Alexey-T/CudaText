@@ -1,7 +1,13 @@
+[comments]
+str1=/*
+str2=*/
+styles_cmt=Comment
+styles_str=String
+
 [map]
-Style=Id1
-Param correct=Id
-Param incorrect=IdBad
+Style=Id
+Param correct=TagProp
+Param incorrect=TagPropBad
 Value=Id2
 Symbol=Symbol
 Comment=Comment
@@ -10,11 +16,4 @@ Color=Color
 String=String
 Number=Number
 StyleSuffix=Id3
-Media block=IncludeBG1
 ParamCustom=Id4
-
-[comments]
-str1=/*
-str2=*/
-styles_cmt=Comment
-styles_str=String

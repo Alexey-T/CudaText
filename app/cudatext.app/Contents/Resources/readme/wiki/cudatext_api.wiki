@@ -8,7 +8,7 @@ This is API for [[CudaText]] in Python.
 
 To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event on_save. Event methods have additional parameter ed_self: Editor object in which event occured (this object is the same as "ed" in 99% cases, but in rare cases event occurs in non-focused editor).
 
-Supported events:
+==Common==
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
@@ -29,13 +29,13 @@ Supported events:
 * on_state(self, ed_self, state): Called after some app-state is changed. Param state is one of EDSTATE_nnnn numbers.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt call.
 
-Code parsing
+==Code parsing==
 
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
 * on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
 * on_func_hint(self, ed_self): Called by function-hint command (default hotkey: Ctrl+Shift+Space). Method must return function-hint string (comma-separated parameters, brackets are optional). Empty str or None means no hint found.
 
-Panels
+==Panels==
 
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
@@ -46,17 +46,23 @@ Panels
 ** "on_sel"
 ** "on_menu"
 
-Macros
+==Macros==
 
 * on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
 ** if item is "number" then it's simple command.
 ** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
 
-Notes
+Notes:
 
 * To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
-* You can control in what order events passed to plugins. Events passed in sort-order of module names. E.g. if plugins have on_key, modules are cuda_bb, cuda_aa, cuda_dd, cuda_cc, then plugins called in order: _aa _bb _cc _dd.
+
+==Events priority==
+
+By default all events in all plugins have prior=0. So for any event, if 2+ plugins have this event, they're called in order on module names (e.g. cuda_aa, then cuda_dd, then cuda_mmm).
+
+You may want to handle some event first.
+To change prior for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher prior. So first called "on_key" with maximal number of "+", last called "on_key" w/o "+".
 
 =Global funcs=
 
@@ -72,10 +78,10 @@ Gets version of API (string, contains 3 numbers, dot-separated).
 
 Example of version check:
 
-  import cudatext
+  from cudatext import *
   
-  if cudatext.app_api_version() < '1.0.140':
-    cudatext.msg_box('Plugin MyName needs newer app version', cudatext.MB_OK + cudatext.MB_ICONWARNING)
+  if app_api_version() < '1.0.140':
+      msg_box('Plugin MyName needs newer app version', MB_OK+MB_ICONWARNING)
 
 ===app_path===
 
@@ -127,13 +133,19 @@ Performs application-wide action. Possible values of id:
 
 ====Hotkeys====
 
-command_id can be: str(int_command_code) or "module,method" or "module,method,param".
+Notes:
 
-* PROC_GET_ESCAPE: Gets escape flag (bool). This flag is set when user presses Esc key (each Esc press is counted since app start). Note: to allow app to handle key press in long loop, call msg_status('text', True).
-* PROC_SET_ESCAPE: Sets escape flag. Text must be "0"/"1".
+* command_id can be: str(int_command_code) or "module,method" or "module,method,param".
+
+Actions:
+
+* PROC_GET_ESCAPE: Gets Esc-key state (bool). This flag is set when user presses Esc key (each Esc press is counted since app start). Note: to allow app to handle key press in long loop, call msg_status('text', True).
+* PROC_SET_ESCAPE: Sets Esc-key flag. Text must be "0"/"1".
 * PROC_GET_HOTKEY: Gets hotkeys strings for given command_id. Examples of result: "F1", "Ctrl+B * B", "Ctrl+B * B * C|Ctrl+B * D" (two hotkeys for one command). Gets empty str for unknown command_id.
 * PROC_SET_HOTKEY: Sets hotkeys for given command_id from strings. Text must be "command_id|hotkey1|hotkey2", where hotkey1/hotkey2 examples: "F1", "Ctrl+B * B", "Ctrl+B * B * C". Symbol "*" can be without near spaces. Gets bool: command_id exists, changed.
 * PROC_GET_KEYSTATE: Gets state of pressed special keys. String has "c" for Ctrl pressed, "a" for Alt, "s" for Shift, "m" for Meta (Windows key).
+* PROC_HOTKEY_INT_TO_STR: Converts given int hotkey to string. Gets empty str for unknown code.
+* PROC_HOTKEY_STR_TO_INT: Converts given string hotkey to int. Gets 0 for incorrect string. Example: converts "alt+shift+z" to "41050", which is then converted to "Shift+Alt+Z".
 
 ====Python====
 * PROC_EXEC_PYTHON: Runs Python string in the context of Console (it is not the same as exec() call). Also gets string: result of command.
@@ -209,7 +221,11 @@ Actions:
 
 ==== Bottom panel====
 
-* PROC_BOTTOMPANEL_GET_CONTROL: Gets int handle of control, inserted into tab of bottom panel. Pass this handle to tree_proc API. Text is tab caption, currently it can be only "Search Results" for this special tab in bottom panel. Gets None if cannot find tab.
+* PROC_BOTTOMPANEL_ADD: Adds tab. Same as for PROC_SIDEPANEL_ADD.
+* PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
+* PROC_BOTTOMPANEL_ACTIVATE: Activates tab. Same as for PROC_SIDEPANEL_ACTIVATE.
+* PROC_BOTTOMPANEL_ENUM: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM.
+* PROC_BOTTOMPANEL_GET_CONTROL: Gets int handle of control. Same as for PROC_SIDEPANEL_GET_CONTROL.
 
 ====Splitters====
 
@@ -514,6 +530,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** "checklistview" (listview with checkboxes, value is check-flags)
 ** "linklabel" (label which activates URL on click)
 ** "tabs" (set of tabs headers, note: not pages which have controls)
+** "colorpanel" (panel with caption, color of background, color of font)
 
 * "pos": position, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
 * "cap": caption of control (not for all)
@@ -535,6 +552,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for linklabel: URL (with http: or mailto:)
 ** for listview: show_grid (bool value)
 ** for tabs: tabs_at_bottom (bool value)
+** for colorpanel: str(border_width_from_0)+","+str(int_color_back)+","+str(int_color_font)
 
 * "val": value of control (not for all):
 ** for check: value "0"/"1" or "?" (grayed)
@@ -549,10 +567,11 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 Parameter focused is index of control (0-base) which is focused on showing.
 
 ====Result====
-Dialog is closed by clicking any button or by changing in any control which has "act=1". Gets 2-tuple: (control_index, state_text), gets None if cancelled.
+Dialog is closed by clicking any button or by changing of any control which has "act=1". Gets 2-tuple: (control_index, state_text), gets None if cancelled.
 
 * control_index: index of control which closed dialog (0-based).
-* state_text: "\n"-separated values of controls (same count of items as in text).
+* state_text: "\n"-separated values of controls. Same count of items as in text, plus optional additional lines in the form "key=value":
+** focused=N: index of last focused control (0-based) or -1.
 
 ====Notes====
 
@@ -643,6 +662,7 @@ Possible values of id:
 * LEXER_SET_ENABLED: Sets for lexer with given name enabled-flag (substring 2: "0" or "1").
 * LEXER_SET_EXT: Sets for lexer with given name file-extensions field (substring 2).
 * LEXER_SET_LINKS: Sets for given lexer - names of its sublexers. Substring 2 must be "|"-separated list of lexer names (any number allowed, only actual number will be used).
+* LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/dd/makefile.gcc" gives "Makefile").
 * LEXER_DELETE: Deletes given lexer from library.
 * LEXER_IMPORT: Imports lexer into library, from given filename (substring 1). Gets name of this lexer, or None if import failed.
 
@@ -650,14 +670,16 @@ Possible values of id:
 
  tree_proc(id_tree, id_action, id_item=0, index=0, text="", image_index=-1)
 
-Controls treeview-control. 
+Perform action on treeview UI-control.
 
 * Param id_tree is int handle of treeview. 
-* Param id_item is int handle of treeview item. Can be 0 for invisible root-item, e.g. you can remove all using root-item, enumerate root level using root-item.
+* Param id_item is int handle of tree-item. Can be 0 for invisible root-item:
+** can clear entire tree using root-item
+** can enumerate root level using root-item.
 
 Possible values of id_action:
 
-* TREE_ITEM_ENUM: Gets list of subitems of item, or None. Param id_item. Gets list of 2-tuples: (int_handle, str_caption).
+* TREE_ITEM_ENUM: Enumerates subitems on given item. Param id_item. Gets list of 2-tuples: (int_handle, str_caption), or None.
 * TREE_ITEM_ADD: Adds subitem as item's child. Param id_item. Param index: at which subitem index to insert (0-based), or -1 to append. Param text: caption of item. Param image_index: index in tree's icon list or -1 to not show icon. Gets int handle of subitem.
 * TREE_ITEM_DELETE: Deletes item (with all subitems). Param id_item.
 * TREE_ITEM_SET_TEXT: Sets item's text. Params: id_item, text.
@@ -1092,16 +1114,19 @@ Gets None if coordinates incorrect (e.g. x<0).
 
 ===complete===
 
- complete(text, len1, len2, selected=0)
+ complete(text, len1, len2, selected=0, alt_order=False)
 
 Shows auto-completion listbox with given items.
 
-Function gets None and listbox stays open. When user chooses listbox item, item's text is inserted.
+Function gets None and listbox stays open. When user chooses listbox item, its data is inserted.
 
 * Param text: string with items, must be formatted as shown in the [[ATSynEdit#Auto-completion_lists]].
 * Param len1: count of chars to the left of the caret, to be replaced.
 * Param len2: count of chars to the right of the caret, to be replaced.
 * Param selected: index of initially selected listbox item (0-based).
+* Param alt_order:
+** alt_order=False: pass items in each line: prefix, id, desc. Listbox shows prefix at the left edge.
+** alt_order=True: pass items in each line in such order: id, prefix, desc. Listbox shows id at the left edge. Use it if plugin needs to show long "prefixes".
 
 Note: listbox disappears if you move caret or type text, unlike usual auto-completion listboxes (they can recalculate items for new caret pos).
 
@@ -1158,6 +1183,22 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.158 
+* add: events priority (e.g. "on_key++")
+* add: app_proc: PROC_BOTTOMPANEL_ADD, PROC_BOTTOMPANEL_REMOVE, PROC_BOTTOMPANEL_ACTIVATE, PROC_BOTTOMPANEL_ENUM
+
+1.0.157
+* add: lexer_proc: LEXER_DETECT
+
+1.0.156
+* add: ed.complete: added param alt_order
+* add: app_proc: PROC_HOTKEY_INT_TO_STR, PROC_HOTKEY_STR_TO_INT
+* add: dlg_custom: "type=colorpanel"
+* add: dlg_custom: result has additional line "focused=N"
+* add: file_open can install addons, where files are not in root, but in subdir
+* add: install.inf: can write lexers list in [info] $var=Name1,Name2,Name3 ; use it like "lexers=$var"
+* add: install.inf: can write lexers list with regex, e.g. [info] $var=regex:.*SQL.*
 
 1.0.155
 * add: lexer_proc:

@@ -3,6 +3,27 @@
   - fixed
   * changed
 
+
+1.5.1
++ AddonMan: suggests readme+history
++ api: events priority
++ api: for bottom-panel
+
+1.5.0
++ added plugin: New File; used for dropdown arrow near "New file" tool button; not shown in Plugins
+- fix: "restore lexer styles" must save lex file
+- fix: gtk2: "copy to clipbd"
+- fix: windows: menus on high DPI
+
+1.4.11
++ can install zipped addons with files in subfolder. previously: zip must have files only in root.
++ install.inf: can define variable $name in [info] and use it in lines "lexers=$name" (needed for long lexers list)
++ install.inf: can write lexers list by RegEx: [info] $name=regex:.*SQL.* 
+
+1.4.10
++ add theme styles: Label, TagPropBad
+- minor fixes
+
 1.4.9
 * now special comments (for range, for full lines), styles-of-comments, styles-of-strings: must be specified in Lexer Props dialog. They save now to .cuda-lexmap files. So can publish these with lexer zip files. You can delete: settings_default/default_lexers.json, user_lexers.json.
 + improved lexers: C#, Bash, reST, Haskell, Yaml, Search results

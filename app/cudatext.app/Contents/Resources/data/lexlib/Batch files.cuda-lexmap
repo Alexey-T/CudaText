@@ -1,5 +1,9 @@
+[comments]
+styles_cmt=Comment
+styles_str=
+
 [map]
-Label=Id1
+Label=Label
 Comment=Comment
 Keywords=IdKeyword
 Text=Id
@@ -7,7 +11,3 @@ String=String
 Symbol=Symbol
 Number=Number
 Var=IdVar
-
-[comments]
-styles_cmt=Comment
-styles_str=
