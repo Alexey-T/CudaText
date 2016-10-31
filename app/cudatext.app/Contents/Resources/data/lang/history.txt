@@ -1,6 +1,10 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+
+2016.10.31
+* del [ui] t_sr
+
 2016.09.26
 + [d_lex_prop] tab_cmt
 + [d_lex_prop] cmt_line, cmt_str, cmt_full

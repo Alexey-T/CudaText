@@ -283,7 +283,6 @@ begin
     DoApplyTabCaption(TabsBottom, 0, ini.ReadString('ui', 't_con', 'Console'));
     DoApplyTabCaption(TabsBottom, 1, ini.ReadString('ui', 't_out', 'Output'));
     DoApplyTabCaption(TabsBottom, 2, ini.ReadString('ui', 't_val', 'Validate'));
-    DoApplyTabCaption(TabsBottom, 3, ini.ReadString('ui', 't_sr', 'Search Results'));
 
     //Tree panel
     s:= ini.ReadString('ui', 't_tre', 'Tree');
