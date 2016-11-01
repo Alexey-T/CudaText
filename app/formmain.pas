@@ -3008,8 +3008,10 @@ begin
     SaveDlg.Options:= Opt;
   end;
 
+  CurrentFrame.Adapter.EnabledDynamicHilite:= false;
   Ed:= CurrentEditor;
   Ed.DoCommand(cCommand_SelectNone);
+
   DoEditorExportToHTML(Ed, SaveDlg.FileName, STitle,
     UiOps.ExportHtmlFontName,
     UiOps.ExportHtmlFontSize,
@@ -3017,6 +3019,9 @@ begin
     GetAppColor('ExportHtmlBg'),
     GetAppColor('ExportHtmlNumbers')
     );
+
+  CurrentFrame.Adapter.EnabledDynamicHilite:= EditorOps.OpDynHilite;
+  UpdateFrame(true);
 
   if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then
     OpenDocument(SaveDlg.FileName);
