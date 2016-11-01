@@ -680,8 +680,13 @@ begin
   if Id='checkbutton' then C:= TToggleBox.Create(nil) else
   exit;
 
-  Result:= C.Height;
-  FreeAndNil(C);
+  try
+    C.Caption:= 'WpJj';
+    C.Parent:= Application.Mainform;
+    Result:= C.Height;
+  finally
+    FreeAndNil(C);
+  end;
 end;
 
 { TDummyClass }
