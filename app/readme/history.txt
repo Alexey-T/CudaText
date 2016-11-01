@@ -4,6 +4,10 @@
   * changed
 
 
+1.5.2
++ api
+- fix: Python lex
+
 1.5.1
 + AddonMan: suggests readme+history
 + api: events priority
