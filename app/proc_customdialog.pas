@@ -22,7 +22,7 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 
 function IsDialogCustomShown: boolean;
-
+function DoGetDialogCustomControlHeight(const Id: string): integer;
 
 implementation
 
@@ -662,6 +662,26 @@ end;
 function IsDialogCustomShown: boolean;
 begin
   Result:= FDialogShown;
+end;
+
+function DoGetDialogCustomControlHeight(const Id: string): integer;
+var
+  C: TControl;
+begin
+  Result:= 0;
+  if Id='button' then C:= TButton.Create(nil) else
+  if Id='label' then C:= TLabel.Create(nil) else
+  if Id='combo' then C:= TComboBox.Create(nil) else
+  if Id='combo_ro' then begin C:= TComboBox.Create(nil); TCombobox(C).ReadOnly:= true; end else
+  if Id='edit' then C:= TEdit.Create(nil) else
+  if Id='spinedit' then C:= TSpinEdit.Create(nil) else
+  if Id='check' then C:= TCheckbox.Create(nil) else
+  if Id='radio' then C:= TRadioButton.Create(nil) else
+  if Id='checkbutton' then C:= TToggleBox.Create(nil) else
+  exit;
+
+  Result:= C.Height;
+  FreeAndNil(C);
 end;
 
 { TDummyClass }

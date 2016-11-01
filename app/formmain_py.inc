@@ -2259,6 +2259,15 @@ begin
             Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2));
           end;
 
+        APP_PROC_GET_GUI_HEIGHT:
+          begin
+            i:= DoGetDialogCustomControlHeight(Str);
+            if i>0 then
+              Result:= PyInt_FromLong(i)
+            else
+              Result:= ReturnNone;
+          end;
+
         //-------------------
         APP_PROC_SIDEPANEL_ADD:
           begin
