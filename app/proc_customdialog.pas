@@ -22,7 +22,7 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 
 function IsDialogCustomShown: boolean;
-function DoGetDialogCustomControlHeight(const Id: string): integer;
+function DoDialogCustomGetControlHeight(const Id: string): integer;
 
 implementation
 
@@ -664,7 +664,7 @@ begin
   Result:= FDialogShown;
 end;
 
-function DoGetDialogCustomControlHeight(const Id: string): integer;
+function DoDialogCustomGetControlHeight(const Id: string): integer;
 var
   C: TControl;
 begin
@@ -681,8 +681,8 @@ begin
   exit;
 
   try
-    C.Caption:= 'WpJj';
-    C.Parent:= Application.Mainform;
+    C.Caption:= 'WpJj'; //for label autosize
+    C.Parent:= Application.MainForm; //else height incorrect
     Result:= C.Height;
   finally
     FreeAndNil(C);
