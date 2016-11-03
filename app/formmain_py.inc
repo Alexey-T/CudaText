@@ -1636,7 +1636,7 @@ begin
 
         LOG_CONSOLE_GET:
           begin
-            Result:= PyString_FromString(PChar(fmConsole.ed.Items.Text));
+            Result:= StringsToPyList(fmConsole.ed.Items);
             Exit; //skip ReturnNone
           end;
         LOG_CONSOLE_GET_LOG:

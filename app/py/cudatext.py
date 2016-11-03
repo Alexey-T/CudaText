@@ -331,11 +331,7 @@ def app_proc(id, text):
     return ct.app_proc(id, text)    
 
 def app_log(id, text, tag=0):
-    res = ct.app_log(id, text, tag)
-    if id==LOG_CONSOLE_GET:
-        return res.splitlines()
-    else:
-        return res
+    return ct.app_log(id, text, tag)
         
 def app_idle(wait=False):
     return ct.app_idle(wait)    
