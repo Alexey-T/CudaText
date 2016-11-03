@@ -2898,20 +2898,26 @@ begin
 end;
 
 
+type
+  TTreeEnumItem = record
+    Id: PtrInt;
+    Text: string;
+  end;
+  TTreeEnumArray = array of TTreeEnumItem;
+
 //tree_proc(id_tree, id_action, id_item, index, text, icon)
-//
-// todo: try ArrayToList in enum
-//
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
   IdAction, NIndex, NImageIndex: integer;
   Pnt1, Pnt2: TPoint;
   PtrText: PChar;
-  StrText, Str: string;
+  StrText: string;
   Tree: TTreeView;
   TreeNode, Node1: TTreeNode;
+  ItemArray: TTreeEnumArray;
   ok: boolean;
+  i: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
@@ -2929,13 +2935,23 @@ begin
               Node1:= Tree.Items.GetFirstNode;
             if Node1=nil then exit(ReturnNone);
 
-            Str:= '';
+            SetLength(ItemArray, 0);
             repeat
-              Str:= Str+(IntToStr(PtrInt(Node1))+'='+Node1.Text+#10);
+              SetLength(ItemArray, Length(ItemArray)+1);
+              with ItemArray[Length(ItemArray)-1] do
+              begin
+                Id:= PtrInt(Node1);
+                Text:= Node1.Text;
+              end;
               Node1:= TreeNode.GetNextChild(Node1);
             until Node1=nil;
 
-            Result:= PyString_FromString(PChar(Str));
+            Result:= PyList_New(Length(ItemArray));
+            if not Assigned(Result) then
+              raise EPythonError.Create('Could not create a new list object');
+            for i:= 0 to Length(ItemArray)-1 do
+              PyList_SetItem(Result, i,
+                Py_BuildValue('(Ls)', ItemArray[i].Id, PChar(ItemArray[i].Text) ));
           end;
 
         TREE_ITEM_ADD:

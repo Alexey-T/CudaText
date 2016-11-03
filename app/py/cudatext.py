@@ -398,13 +398,7 @@ def lexer_proc(id, value):
     return ct.lexer_proc(id, value)
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
-    res = ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
-    if res is None: return
-    if id_action==TREE_ITEM_ENUM:
-        res = res.splitlines()
-        res = [r.split('=', 1) for r in res]
-        res = [(int(r[0]), r[1]) for r in res]
-    return res
+    return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
     
 
 #Editor
