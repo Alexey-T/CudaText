@@ -1183,11 +1183,10 @@ begin
 
         if Dlg.Execute then
         begin
-          if ofAllowMultiSelect in Dlg.Options then
-            StrFilename:= Dlg.Files.Text
+          if (ofAllowMultiSelect in Dlg.Options) and (Dlg.Files.Count>1) then
+            Result:= StringsToPyList(Dlg.Files)
           else
-            StrFilename:= Dlg.FileName;
-          Result:= PyUnicode_FromWideString(Utf8Decode(StrFilename));
+            Result:= PyString_FromString(PChar(Dlg.FileName));
         end
         else
           Result:= ReturnNone;

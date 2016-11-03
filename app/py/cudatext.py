@@ -371,13 +371,7 @@ def dlg_menu(id, text, focused=0):
     return ct.dlg_menu(id, text, focused)        
 
 def dlg_file(is_open, init_filename, init_dir, filters):
-    res = ct.dlg_file(is_open, init_filename, init_dir, filters)
-    if res is None:
-        return None
-    res = res.splitlines()
-    if len(res)==1:
-        res=res[0]
-    return res
+    return ct.dlg_file(is_open, init_filename, init_dir, filters)
 
 def dlg_dir(init_dir):
     return ct.dlg_dir(init_dir)
