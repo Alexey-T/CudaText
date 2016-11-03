@@ -353,15 +353,11 @@ def dlg_input_ex(number, caption,
                  label4='', text4='', label5='', text5='', label6='', text6='',
                  label7='', text7='', label8='', text8='', label9='', text9='',
                  label10='', text10=''):
-    result = ct.dlg_input_ex(number, caption,
+    return ct.dlg_input_ex(number, caption,
                  label1, text1, label2, text2, label3, text3,
                  label4, text4, label5, text5, label6, text6,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
-    if result is None:
-        return None
-    else:
-        return result.splitlines()
         
 def dlg_menu(id, text, focused=0):
     return ct.dlg_menu(id, text, focused)        

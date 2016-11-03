@@ -185,6 +185,7 @@ var
   PLabel, PText: array[1..10] of PChar;
   SCaption: string;
   Labels, Values: array of string;
+  List: TStringList;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'isssssssssssssssssssss:dlg_input_ex',
@@ -205,10 +206,14 @@ begin
 
       if InputQuery(SCaption, Labels, Values) then
       begin
-        SCaption:= '';
-        for i:= 0 to Number-1 do
-          SCaption:= SCaption+Values[i]+#10;
-        Result:= PyString_FromString(PChar(SCaption))
+        List:= TStringList.Create;
+        try
+          for i:= 0 to Number-1 do
+            List.Add(Values[i]);
+          Result:= StringsToPyList(List);
+        finally
+          FreeAndNil(List);
+        end;
       end
       else
         Result:= ReturnNone;
