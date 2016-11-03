@@ -2895,6 +2895,9 @@ end;
 
 
 //tree_proc(id_tree, id_action, id_item, index, text, icon)
+//
+// todo: try ArrayToList in enum
+//
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
