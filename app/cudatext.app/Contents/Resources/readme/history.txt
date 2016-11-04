@@ -5,8 +5,9 @@
 
 
 1.5.2
-+ api: optimised in 3-4 functions code
++ api: optimised in 4-5 functions code
 - fix: Python lex
+- fix: export html
 
 1.5.1
 + AddonMan: suggests readme+history
