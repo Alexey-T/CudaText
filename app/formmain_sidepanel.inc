@@ -1,5 +1,29 @@
 {$ifdef nn}begin end;{$endif}
 
+procedure TfmMain.DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
+  AIndex: integer; const ARect: TRect);
+const
+  cDx=4; cDy=1;
+var
+  Listbox: TATListboxMy;
+begin
+  if AIndex<0 then exit;
+  Listbox:= Sender as TATListboxMy;
+
+  C.Font.Color:= GetAppColor('ListFont');
+  C.Brush.Color:= GetAppColor('ListBg');
+
+  if AIndex=Listbox.ItemIndex then
+  begin
+    C.Font.Color:= GetAppColor('ListSelFont');
+    C.Brush.Color:= GetAppColor('ListSelBg');
+    C.FillRect(ARect);
+  end;
+
+  C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Listbox.Items[AIndex]);
+end;
+
+
 procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
   NTab, i: integer;
@@ -120,6 +144,12 @@ begin
     ItemListbox.Parent:= AParent;
     ItemListbox.Align:= alClient;
     ItemListbox.PopupMenu:= ItemMenu;
+
+    ItemListbox.OnDrawItem:= @DoSidebar_ListboxDrawItem;
+    ItemListbox.Color:= GetAppColor('ListBg');
+    ItemListbox.ItemHeight:= ListboxOut.ItemHeight;
+    ItemListbox.CanGetFocus:= true;
+
     {
     ItemListbox.OnClick:= @DoPanel_OnClick;
     ItemListbox.OnDblClick:= @DoPanel_OnDblClick;
@@ -127,9 +157,6 @@ begin
     ItemListbox.OnContextPopup:=@DoPanel_OnContextPopup;
     ItemListbox.OnKeyDown:= @TreeKeyDown;
     }
-
-    //just to see it ok
-    ItemListbox.Items.Add('panel '+ACaption);
   end;
 end;
 

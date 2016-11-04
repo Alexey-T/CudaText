@@ -410,8 +410,8 @@ def lexer_proc(id, value):
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
 
-def listbox_proc(id_listbox, id_action, index=0, text=""):
-    return ct.listbox_proc(id_listbox, id_action, index, text)
+def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
+    return ct.listbox_proc(id_listbox, id_action, index, text, tag)
 
 
 #Editor

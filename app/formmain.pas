@@ -514,6 +514,8 @@ type
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
+    procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
+      AIndex: integer; const ARect: TRect);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;

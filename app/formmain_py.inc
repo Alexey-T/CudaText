@@ -2898,29 +2898,54 @@ end;
 //listbox_proc(id_listbox, id_action, index, text)
 function Py_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  IdList: Int64;
+  IdList, NTag: Int64;
   IdAction, NIndex: integer;
   PtrText: PChar;
   StrText: string;
-  List: TATListbox;
+  Listbox: TATListboxMy;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liis:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiisL:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @NTag)) then
     begin
-      List:= TATListbox(PtrInt(IdList));
+      Listbox:= TATListboxMy(PtrInt(IdList));
       StrText:= string(PtrText);
 
-      //todo: fill code
       case IdAction of
-        LISTBOX_ENUM         ,
-        LISTBOX_ADD          ,
-        LISTBOX_DELETE       ,
-        LISTBOX_DELETE_ALL   ,
+        LISTBOX_ADD:
+          begin
+            Listbox.Items.AddObject(StrText, TObject(PtrInt(NTag)));
+            Listbox.ItemCount:= Listbox.Items.Count;
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+        LISTBOX_DELETE:
+          begin
+            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+            begin
+              Listbox.Items.Delete(NIndex);
+              Listbox.ItemCount:= Listbox.Items.Count;
+              if Listbox.ItemIndex>=Listbox.ItemCount then
+                Listbox.ItemIndex:= Listbox.ItemCount-1;
+              Listbox.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+        LISTBOX_DELETE_ALL:
+          begin
+            Listbox.Items.Clear;
+            Listbox.ItemCount:= 0;
+            Listbox.ItemIndex:= -1;
+            Listbox.ItemTop:= 0;
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
         LISTBOX_SET          ,
         LISTBOX_SELECT       ,
         LISTBOX_GET_SELECTED ,
         LISTBOX_LOCK         ,
-        LISTBOX_UNLOCK       :
+        LISTBOX_UNLOCK       ,
+        LISTBOX_ENUM:
+          //todo: do
           Result:= ReturnNone;
         else
           Result:= ReturnNone;
