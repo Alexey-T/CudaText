@@ -485,8 +485,7 @@ type
   TAppSidePanel = record
     ItemCaption: string;
     ItemTreeview: TTreeView;
-    ItemListbox: TATListbox;
-    ItemListboxStrings: TStringList;
+    ItemListbox: TATListboxMy;
     ItemImagelist: TImageList;
     ItemMenu: TPopupMenu;
   end;

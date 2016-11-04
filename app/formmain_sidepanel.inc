@@ -11,18 +11,23 @@ begin
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
     begin
-      if ItemCaption='' then break;
+      if ItemCaption='' then Break;
       if Assigned(ItemTreeview) then
       begin
         ItemTreeview.Visible:= ItemCaption=SCaption;
-        if PanelLeft.Visible and ItemTreeview.Visible then
-          if ItemTreeview.CanFocus then
-            ItemTreeview.SetFocus;
-      end;
+        if PanelLeft.Visible then
+          if ItemTreeview.Visible then
+            if ItemTreeview.CanFocus then
+              ItemTreeview.SetFocus;
+      end
+      else
       if Assigned(ItemListbox) then
       begin
         ItemListbox.Visible:= ItemCaption=SCaption;
-        if ItemListbox.Visible then ItemListbox.SetFocus;
+        if PanelLeft.Visible then
+          if ItemListbox.Visible then
+            if ItemListbox.CanFocus then
+              ItemListbox.SetFocus;
       end;
     end;
 end;
@@ -44,11 +49,18 @@ function TfmMain.DoSidebar_CaptionToControlHandle(const ACaption: string): PtrIn
 var
   Num: integer;
 begin
+  Result:= 0;
   Num:= DoSidebar_CaptionToPanelsIndex(ACaption);
-  if Num<0 then
-    Result:= 0
-  else
-    Result:= PtrInt(FAppSidePanels[Num].ItemTreeview)
+  if Num<0 then exit;
+
+  with FAppSidePanels[Num] do
+  begin
+    if Assigned(ItemTreeview) then
+      Result:= PtrInt(ItemTreeview)
+    else
+    if Assigned(ItemListbox) then
+      Result:= PtrInt(ItemListbox);
+  end;
 end;
 
 function TfmMain.DoSidebar_CaptionToTabIndex(const Str: string): integer;
@@ -92,20 +104,54 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
+  const ACaption: string; AParent: TWinControl);
+begin
+  with AItem do
+  begin
+    ItemCaption:= ACaption;
+    ItemMenu:= TPopupMenu.Create(Self);
+    ItemImagelist:= nil;
+    ItemTreeview:= nil;
+    ItemListbox:= TATListboxMy.Create(Self);
+
+    ItemListbox.Hide;
+    ItemListbox.Parent:= AParent;
+    ItemListbox.Align:= alClient;
+    ItemListbox.PopupMenu:= ItemMenu;
+    {
+    ItemListbox.OnClick:= @DoPanel_OnClick;
+    ItemListbox.OnDblClick:= @DoPanel_OnDblClick;
+    ItemListbox.OnSelectionChanged:= @DoPanel_OnSelChanged;
+    ItemListbox.OnContextPopup:=@DoPanel_OnContextPopup;
+    ItemListbox.OnKeyDown:= @TreeKeyDown;
+    }
+
+    //just to see it ok
+    ItemListbox.Items.Add('panel '+ACaption);
+  end;
+end;
+
+
 function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
-const
-  cTypeTree = 'tree';
 var
   Num: integer;
 begin
   if DoSidebar_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
-  if (AControlType<>cTypeTree) then exit(false);
 
   Num:= 0;
   while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(FAppSidePanels) then exit(false);
 
-  DoSidebar_InitPanelTreeview(FAppSidePanels[Num], ACaption, PanelLeft);
+  if AControlType=PyPanelControl_Tree then
+    DoSidebar_InitPanelTreeview(FAppSidePanels[Num], ACaption, PanelLeft)
+  else
+  if AControlType=PyPanelControl_Listbox then
+    DoSidebar_InitPanelListbox(FAppSidePanels[Num], ACaption, PanelLeft)
+  else
+    exit(false);
+
   TabsLeft.AddTab(ATabIndex, ACaption);
   Result:= true;
 end;

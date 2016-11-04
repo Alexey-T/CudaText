@@ -288,6 +288,10 @@ const
   PyMenuCmd_Lexers = 'lexers';
   PyMenuCmd_Enc = 'enc';
 
+  PyPanelControl_Tree = 'tree';
+  PyPanelControl_Listbox = 'listbox';
+
+
 implementation
 
 end.

@@ -79,7 +79,8 @@ begin
                 if ItemTreeview.Visible then
                   if ItemTreeview.CanFocus then
                     ItemTreeview.SetFocus;
-            end;
+            end
+            else
             if Assigned(ItemListbox) then
             begin
               ItemListbox.Visible:= ItemCaption=SCaption;
@@ -110,11 +111,18 @@ function TfmMain.DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt
 var
   Num: integer;
 begin
+  Result:= 0;
   Num:= DoBottom_CaptionToPanelsIndex(ACaption);
-  if Num<0 then
-    Result:= 0
-  else
-    Result:= PtrInt(FAppBottomPanels[Num].ItemTreeview)
+  if Num<0 then exit;
+
+  with FAppBottomPanels[Num] do
+  begin
+    if Assigned(ItemTreeview) then
+      Result:= PtrInt(ItemTreeview)
+    else
+    if Assigned(ItemListbox) then
+      Result:= PtrInt(ItemListbox);
+  end;
 end;
 
 function TfmMain.DoBottom_CaptionToTabIndex(const Str: string): integer;
@@ -132,19 +140,23 @@ begin
 end;
 
 function TfmMain.DoBottom_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
-const
-  cTypeTree = 'tree';
 var
   Num: integer;
 begin
   if DoBottom_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
-  if (AControlType<>cTypeTree) then exit(false);
 
   Num:= 0;
   while FAppBottomPanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(FAppBottomPanels) then exit(false);
 
-  DoSidebar_InitPanelTreeview(FAppBottomPanels[Num], ACaption, PanelBottom);
+  if AControlType=PyPanelControl_Tree then
+    DoSidebar_InitPanelTreeview(FAppBottomPanels[Num], ACaption, PanelBottom)
+  else
+  if AControlType=PyPanelControl_Listbox then
+    DoSidebar_InitPanelListbox(FAppBottomPanels[Num], ACaption, PanelBottom)
+  else
+    exit(false);
+
   TabsBottom.AddTab(ATabIndex, ACaption);
   Result:= true;
 end;
