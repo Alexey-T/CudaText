@@ -2903,12 +2903,15 @@ var
   PtrText: PChar;
   StrText: string;
   Listbox: TATListboxMy;
+  IndexOk: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiisL:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @NTag)) then
     begin
+      if IdList=0 then exit(ReturnNone);
       Listbox:= TATListboxMy(PtrInt(IdList));
       StrText:= string(PtrText);
+      IndexOk:= (NIndex>=0) and (NIndex<Listbox.Items.Count);
 
       case IdAction of
         LISTBOX_GET_COUNT:
@@ -2917,10 +2920,10 @@ begin
           end;
         LISTBOX_ADD:
           begin
-            if (NIndex=-1) then
+            if NIndex=-1 then
               Listbox.Items.AddObject(StrText, TObject(PtrInt(NTag)))
             else
-            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+            if IndexOk then
               Listbox.Items.InsertObject(NIndex, StrText, TObject(PtrInt(NTag)));
             Listbox.ItemCount:= Listbox.Items.Count;
             Listbox.Invalidate;
@@ -2928,7 +2931,7 @@ begin
           end;
         LISTBOX_DELETE:
           begin
-            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+            if IndexOk then
             begin
               Listbox.Items.Delete(NIndex);
               Listbox.ItemCount:= Listbox.Items.Count;
@@ -2949,7 +2952,7 @@ begin
           end;
         LISTBOX_GET_ITEM:
           begin
-            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+            if IndexOk then
               Result:= Py_BuildValue('(sL)',
                 PChar(Listbox.Items[NIndex]),
                 Int64(Listbox.Items.Objects[NIndex]) )
@@ -2958,10 +2961,36 @@ begin
           end;
         LISTBOX_SET_ITEM:
           begin
-            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+            if IndexOk then
             begin
               Listbox.Items[NIndex]:= StrText;
               Listbox.Items.Objects[NIndex]:= TObject(PtrInt(NTag));
+              Listbox.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+        LISTBOX_GET_SEL:
+          begin
+            Result:= PyInt_FromLong(Listbox.ItemIndex);
+          end;
+        LISTBOX_SET_SEL:
+          begin
+            if IndexOk then
+            begin
+              Listbox.ItemIndex:= NIndex;
+              Listbox.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+        LISTBOX_GET_TOP:
+          begin
+            Result:= PyInt_FromLong(Listbox.ItemTop);
+          end;
+        LISTBOX_SET_TOP:
+          begin
+            if IndexOk then
+            begin
+              Listbox.ItemTop:= NIndex;
               Listbox.Invalidate;
             end;
             Result:= ReturnNone;
