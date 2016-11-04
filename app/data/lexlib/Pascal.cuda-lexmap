@@ -1,3 +1,12 @@
+[ref]
+0=Assembly
+
+[comments]
+str1={
+str2=}
+styles_cmt=Comment
+styles_str=String
+
 [map]
 Default=Id
 Symbol=Symbol
@@ -20,12 +29,5 @@ Group (tree)=-
 Intern. function (tree)=-
 class (tree)=-
 Invalid symbol=SymbolBad
-
-[ref]
-0=Assembly
-
-[comments]
-str1={
-str2=}
-styles_cmt=Comment
-styles_str=String
+Id types=Id1
+Id messages=Id2

@@ -6,6 +6,7 @@
 
 1.5.2
 + api: optimised in 4-5 functions code
++ lex Pascal: more keyword hilites
 - fix: Python lex
 - fix: export html
 
