@@ -33,7 +33,7 @@ APP_DIR_DATA = 2
 APP_DIR_PY = 3
 APP_FILE_SESSION = 4
 APP_DIR_INSTALLED_ADDON = 5
-APP_FILE_RECENTS = 6 
+APP_FILE_RECENTS = 6
 
 CONVERT_CHAR_TO_COL = 0
 CONVERT_COL_TO_CHAR = 1
@@ -240,6 +240,16 @@ TREE_PROP_SHOW_ROOT = 30
 TREE_LOCK = 31
 TREE_UNLOCK = 32
 
+LISTBOX_ENUM         = 0
+LISTBOX_ADD          = 1
+LISTBOX_DELETE       = 2
+LISTBOX_DELETE_ALL   = 3
+LISTBOX_SET          = 4
+LISTBOX_SELECT       = 5
+LISTBOX_GET_SELECTED = 6
+LISTBOX_LOCK         = 20
+LISTBOX_UNLOCK       = 21
+
 LEXER_GET_LIST            = 0
 LEXER_GET_ENABLED         = 1
 LEXER_GET_EXT             = 2
@@ -328,13 +338,13 @@ def app_api_version():
 def app_path(id):
     return ct.app_path(id)
 def app_proc(id, text):
-    return ct.app_proc(id, text)    
+    return ct.app_proc(id, text)
 
 def app_log(id, text, tag=0):
     return ct.app_log(id, text, tag)
-        
+
 def app_idle(wait=False):
-    return ct.app_idle(wait)    
+    return ct.app_idle(wait)
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
@@ -342,11 +352,11 @@ def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
 def msg_status_alt(text, seconds):
     return ct.msg_status_alt(text, seconds)
-    
+
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)
 def dlg_color(value):
-    return ct.dlg_color(value)    
+    return ct.dlg_color(value)
 
 def dlg_input_ex(number, caption,
                  label1   , text1='', label2='', text2='', label3='', text3='',
@@ -358,9 +368,9 @@ def dlg_input_ex(number, caption,
                  label4, text4, label5, text5, label6, text6,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
-        
+
 def dlg_menu(id, text, focused=0):
-    return ct.dlg_menu(id, text, focused)        
+    return ct.dlg_menu(id, text, focused)
 
 def dlg_file(is_open, init_filename, init_dir, filters):
     return ct.dlg_file(is_open, init_filename, init_dir, filters)
@@ -372,9 +382,9 @@ def dlg_hotkey(title=''):
     return ct.dlg_hotkey(title)
 def dlg_hotkeys(command, lexer=''):
     return ct.dlg_hotkeys(command, lexer)
-    
-def dlg_custom(title, size_x, size_y, text, focused=-1):    
-    return ct.dlg_custom(title, size_x, size_y, text, focused)    
+
+def dlg_custom(title, size_x, size_y, text, focused=-1):
+    return ct.dlg_custom(title, size_x, size_y, text, focused)
 
 def file_open(filename, group=-1):
     return ct.file_open(filename, group)
@@ -387,19 +397,19 @@ def ed_handles():
 def ed_group(n):
     h = ct.ed_group(n)
     if h:
-        return Editor(h)    
+        return Editor(h)
 
 def ini_read(filename, section, key, value):
     return ct.ini_read(filename, section, key, value)
 def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
-    
+
 def lexer_proc(id, value):
     return ct.lexer_proc(id, value)
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
-    
+
 
 #Editor
 class Editor:
@@ -409,7 +419,7 @@ class Editor:
 
     def get_carets(self):
         return ct.ed_get_carets(self.h)
-        
+
     def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE):
         return ct.ed_set_caret(self.h, x1, y1, x2, y2, id)
 
@@ -419,7 +429,7 @@ class Editor:
     def get_text_all(self):
         items = [self.get_text_line(i) for i in range(self.get_line_count())]
         return '\n'.join(items)
-        
+
     def set_text_all(self, text):
         return ct.ed_set_text_all(self.h, text)
     def get_text_sel(self):
@@ -466,7 +476,7 @@ class Editor:
         return ct.ed_get_split(self.h)
     def set_split(self, state, value):
         return ct.ed_set_split(self.h, state, value)
-        
+
     def get_prop(self, id, value=''):
         if id!=PROP_TAG:
             return ct.ed_get_prop(self.h, id, value)
@@ -489,18 +499,18 @@ class Editor:
         js[key] = val
         js_s = json.dumps(js)
         return ct.ed_set_prop(self.h, PROP_TAG, js_s)
-    
+
     def complete(self, text, len1, len2, selected=0, alt_order=False):
         return ct.ed_complete(self.h, text, len1, len2, selected, alt_order)
     def complete_alt(self, text, snippet_id, len_chars, selected=0):
         return ct.ed_complete_alt(self.h, text, snippet_id, len_chars, selected)
-        
+
     def convert(self, id, x, y, text=''):
         return ct.ed_convert(self.h, id, x, y, text)
-        
+
     def get_ranges(self):
         return ct.ed_get_ranges(self.h)
-        
+
     def get_sublexer_ranges(self):
         res = ct.ed_get_sublexer_ranges(self.h)
         if res is None: return
@@ -509,11 +519,11 @@ class Editor:
         res = res.rstrip(';').split(';')
         res = [ r.split(',') for (index, r) in enumerate(res) if (index==0) or (res[index]!=res[index-1]) ]
         res = [ (r[4], int(r[0]), int(r[1]), int(r[2]), int(r[3])) for r in res ]
-        return res 
-        
+        return res
+
     def markers(self, id, x=0, y=0, tag=0, len_x=0, len_y=0):
         return ct.ed_markers(self.h, id, x, y, tag, len_x, len_y)
-        
+
     def attr(self, id, tag=0, x=0, y=0, len=0,
              color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
              font_bold=0, font_italic=0, font_strikeout=0,
@@ -523,12 +533,12 @@ class Editor:
             color_font = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
         if color_border==COLOR_NONE:
             color_border = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
-        return ct.ed_attr(self.h, id, tag, x, y, len,   
+        return ct.ed_attr(self.h, id, tag, x, y, len,
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up
                           )
-                          
+
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)
     #end

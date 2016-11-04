@@ -223,6 +223,16 @@ const
   TREE_LOCK = 31;
   TREE_UNLOCK = 32;
 
+  LISTBOX_ENUM         = 0;
+  LISTBOX_ADD          = 1;
+  LISTBOX_DELETE       = 2;
+  LISTBOX_DELETE_ALL   = 3;
+  LISTBOX_SET          = 4;
+  LISTBOX_SELECT       = 5;
+  LISTBOX_GET_SELECTED = 6;
+  LISTBOX_LOCK         = 20;
+  LISTBOX_UNLOCK       = 21;
+
   LEXER_GET_LIST            = 0;
   LEXER_GET_ENABLED         = 1;
   LEXER_GET_EXT             = 2;
