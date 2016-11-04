@@ -5,7 +5,7 @@
 
 
 1.5.2
-+ api
++ api: optimised in 3-4 functions code
 - fix: Python lex
 
 1.5.1
