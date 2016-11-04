@@ -186,6 +186,7 @@ PROC_GET_HOTKEY = 41
 PROC_SET_HOTKEY = 42
 PROC_GET_KEYSTATE = 43
 PROC_GET_FIND_STRINGS = 44
+PROC_GET_GUI_HEIGHT = 45
 PROC_THEME_UI_GET = 46
 PROC_THEME_UI_SET = 47
 PROC_THEME_SYNTAX_GET = 48
@@ -330,11 +331,7 @@ def app_proc(id, text):
     return ct.app_proc(id, text)    
 
 def app_log(id, text, tag=0):
-    res = ct.app_log(id, text, tag)
-    if id==LOG_CONSOLE_GET:
-        return res.splitlines()
-    else:
-        return res
+    return ct.app_log(id, text, tag)
         
 def app_idle(wait=False):
     return ct.app_idle(wait)    
@@ -356,27 +353,17 @@ def dlg_input_ex(number, caption,
                  label4='', text4='', label5='', text5='', label6='', text6='',
                  label7='', text7='', label8='', text8='', label9='', text9='',
                  label10='', text10=''):
-    result = ct.dlg_input_ex(number, caption,
+    return ct.dlg_input_ex(number, caption,
                  label1, text1, label2, text2, label3, text3,
                  label4, text4, label5, text5, label6, text6,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
-    if result is None:
-        return None
-    else:
-        return result.splitlines()
         
 def dlg_menu(id, text, focused=0):
     return ct.dlg_menu(id, text, focused)        
 
 def dlg_file(is_open, init_filename, init_dir, filters):
-    res = ct.dlg_file(is_open, init_filename, init_dir, filters)
-    if res is None:
-        return None
-    res = res.splitlines()
-    if len(res)==1:
-        res=res[0]
-    return res
+    return ct.dlg_file(is_open, init_filename, init_dir, filters)
 
 def dlg_dir(init_dir):
     return ct.dlg_dir(init_dir)
@@ -411,13 +398,7 @@ def lexer_proc(id, value):
     return ct.lexer_proc(id, value)
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
-    res = ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
-    if res is None: return
-    if id_action==TREE_ITEM_ENUM:
-        res = res.splitlines()
-        res = [r.split('=', 1) for r in res]
-        res = [(int(r[0]), r[1]) for r in res]
-    return res
+    return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
     
 
 #Editor
@@ -427,13 +408,7 @@ class Editor:
         self.h = handle
 
     def get_carets(self):
-        big = 4294967295 #workaround for Py engine bug. it gives this, not -1.
-        res = ct.ed_get_carets(self.h)
-        if res:
-            for item in res:
-                if item[2]==big: item[2]=-1
-                if item[3]==big: item[3]=-1
-        return res
+        return ct.ed_get_carets(self.h)
         
     def set_caret(self, x1, y1, x2=-1, y2=-1, id=CARET_SET_ONE):
         return ct.ed_set_caret(self.h, x1, y1, x2, y2, id)

@@ -501,7 +501,6 @@ object SyntAnal30: TLibSyntAnalyzer
   Extentions = 'py pyw rpy cpy sconstruct'
   LexerName = 'Python'
   SkipSpaces = False
-  FullRefreshSize = 1000
   Notes.Strings = (
     'New Python lexer, by Alex (SynWrite)'
     'For indent-based folding lexer must be tweaked:'
