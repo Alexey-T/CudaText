@@ -485,7 +485,7 @@ type
   TAppSidePanel = record
     ItemCaption: string;
     ItemTreeview: TTreeView;
-    ItemListbox: TATListboxMy;
+    ItemListbox: TATListbox;
     ItemImagelist: TImageList;
     ItemMenu: TPopupMenu;
   end;
@@ -493,6 +493,24 @@ type
 var
   FAppSidePanels: array[0..20] of TAppSidePanel;
   FAppBottomPanels: array[0..50] of TAppSidePanel;
+
+type
+  PAppPanelProps = ^TAppPanelProps;
+  TAppPanelProps = record
+    Listbox: TATListbox;
+    RegexStr: string;
+    RegexIdLine,
+    RegexIdCol,
+    RegexIdName: integer;
+    DefFilename: string;
+    ZeroBase: boolean;
+    Encoding: string;
+  end;
+
+type
+  TAppPanelPropsClass = class
+    Data: TAppPanelProps;
+  end;
 
 
 implementation

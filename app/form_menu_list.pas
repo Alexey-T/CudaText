@@ -23,9 +23,6 @@ uses
   proc_scrollbars;
 
 type
-  TATListbox = type TATListboxMy;
-
-type
   { TfmGotoList }
 
   TfmGotoList = class(TForm)

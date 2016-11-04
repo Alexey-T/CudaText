@@ -23,7 +23,6 @@ uses
   ecSyntAnal,
   ATButtons,
   ATButtonsToolbar,
-  ATListbox,
   ATScrollBar,
   ATSynEdit,
   ATSynEdit_Keymap,
@@ -549,6 +548,7 @@ type
     function DoBottom_CaptionToTabIndex(const Str: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     procedure DoApplyThemeToTreeview(C: TTreeview);
+    procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;

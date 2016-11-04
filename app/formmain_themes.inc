@@ -22,13 +22,6 @@ begin
   ListboxVal.Color:= ListboxOut.Color;
   ListboxVal.Invalidate;
 
-  for i:= 0 to FAppBottomPanelsListbox.Count-1 do
-  begin
-    PropObject:= FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass;
-    PropObject.Data.Listbox.Color:= ListboxOut.Color;
-    PropObject.Data.Listbox.Invalidate;
-  end;
-
   for i:= 0 to 9 do
     AppBookmarkSetup[240+i].Color:= GetAppColor('EdBookmarkBg');
 
@@ -118,21 +111,34 @@ begin
 
   DoApplyThemeToTreeview(Tree);
 
+  //side: proc_sidepanel_add
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
     begin
       if ItemCaption='' then break;
       if Assigned(ItemTreeview) then
         DoApplyThemeToTreeview(ItemTreeview);
+      if Assigned(ItemListbox) then
+        DoApplyThemeToListbox(ItemListbox);
     end;
 
+  //bottom: proc_bottompanel_add
   for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
     with FAppBottomPanels[i] do
     begin
       if ItemCaption='' then break;
       if Assigned(ItemTreeview) then
         DoApplyThemeToTreeview(ItemTreeview);
+      if Assigned(ItemListbox) then
+        DoApplyThemeToListbox(ItemListbox);
     end;
+
+  //bottom: log_panel_add
+  for i:= 0 to FAppBottomPanelsListbox.Count-1 do
+  begin
+    PropObject:= FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass;
+    DoApplyThemeToListbox(PropObject.Data.Listbox);
+  end;
 
   //apply AppTheme to all frames
   for i:= 0 to FrameCount-1 do
@@ -183,6 +189,12 @@ begin
   C.RightClickSelect:= true;
   C.ReadOnly:= true;
 
+  C.Invalidate;
+end;
+
+procedure TfmMain.DoApplyThemeToListbox(C: proc_globdata.TATListbox);
+begin
+  C.Color:= GetAppColor('ListBg');
   C.Invalidate;
 end;
 

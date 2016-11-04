@@ -5,10 +5,10 @@ procedure TfmMain.DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
 const
   cDx=4; cDy=1;
 var
-  Listbox: TATListboxMy;
+  Listbox: TATListbox;
 begin
   if AIndex<0 then exit;
-  Listbox:= Sender as TATListboxMy;
+  Listbox:= Sender as TATListbox;
 
   C.Font.Color:= GetAppColor('ListFont');
   C.Brush.Color:= GetAppColor('ListBg');
@@ -138,7 +138,7 @@ begin
     ItemMenu:= TPopupMenu.Create(Self);
     ItemImagelist:= nil;
     ItemTreeview:= nil;
-    ItemListbox:= TATListboxMy.Create(Self);
+    ItemListbox:= TATListbox.Create(Self);
 
     ItemListbox.Hide;
     ItemListbox.Parent:= AParent;
@@ -146,11 +146,12 @@ begin
     ItemListbox.PopupMenu:= ItemMenu;
 
     ItemListbox.OnDrawItem:= @DoSidebar_ListboxDrawItem;
-    ItemListbox.Color:= GetAppColor('ListBg');
     ItemListbox.ItemHeight:= ListboxOut.ItemHeight;
     ItemListbox.CanGetFocus:= true;
 
+    DoApplyThemeToListbox(ItemListbox);
     {
+    //todo: events
     ItemListbox.OnClick:= @DoPanel_OnClick;
     ItemListbox.OnDblClick:= @DoPanel_OnDblClick;
     ItemListbox.OnSelectionChanged:= @DoPanel_OnSelChanged;

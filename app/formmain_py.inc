@@ -1453,24 +1453,6 @@ begin
     end;
 end;
 
-type
-  PAppPanelProps = ^TAppPanelProps;
-  TAppPanelProps = record
-    Listbox: TATListbox;
-    RegexStr: string;
-    RegexIdLine,
-    RegexIdCol,
-    RegexIdName: integer;
-    DefFilename: string;
-    ZeroBase: boolean;
-    Encoding: string;
-  end;
-
-type
-  TAppPanelPropsClass = class
-    Data: TAppPanelProps;
-  end;
-
 var
   AppPanelProp_Out: TAppPanelProps;
   AppPanelProp_Val: TAppPanelProps;
@@ -2902,14 +2884,14 @@ var
   IdAction, NIndex: integer;
   PtrText: PChar;
   StrText: string;
-  Listbox: TATListboxMy;
+  Listbox: TATListbox;
   IndexOk: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'LiisL:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText, @NTag)) then
     begin
       if IdList=0 then exit(ReturnNone);
-      Listbox:= TATListboxMy(PtrInt(IdList));
+      Listbox:= TATListbox(PtrInt(IdList));
       StrText:= string(PtrText);
       IndexOk:= (NIndex>=0) and (NIndex<Listbox.Items.Count);
 

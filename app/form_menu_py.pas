@@ -28,9 +28,6 @@ uses
   math;
 
 type
-  TATListbox = type TATListboxMy;
-
-type
   { TfmMenuApi }
 
   TfmMenuApi = class(TForm)
