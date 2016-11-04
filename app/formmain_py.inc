@@ -2895,6 +2895,39 @@ begin
     end;
 end;
 
+//listbox_proc(id_listbox, id_action, index, text)
+function Py_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdList: Int64;
+  IdAction, NIndex: integer;
+  PtrText: PChar;
+  StrText: string;
+  List: TATListbox;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liis:listbox_proc', @IdList, @IdAction, @NIndex, @PtrText)) then
+    begin
+      List:= TATListbox(PtrInt(IdList));
+      StrText:= string(PtrText);
+
+      //todo: fill code
+      case IdAction of
+        LISTBOX_ENUM         ,
+        LISTBOX_ADD          ,
+        LISTBOX_DELETE       ,
+        LISTBOX_DELETE_ALL   ,
+        LISTBOX_SET          ,
+        LISTBOX_SELECT       ,
+        LISTBOX_GET_SELECTED ,
+        LISTBOX_LOCK         ,
+        LISTBOX_UNLOCK       :
+          Result:= ReturnNone;
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
 
 type
   TTreeEnumItem = record
@@ -3233,6 +3266,7 @@ begin
     AddMethod('ini_write', @Py_ini_write, '');
     AddMethod('lexer_proc', @Py_lexer_proc, '');
     AddMethod('tree_proc', @Py_tree_proc, '');
+    AddMethod('listbox_proc', @Py_listbox_proc, '');
   end;
 end;
 
