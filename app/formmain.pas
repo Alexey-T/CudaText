@@ -527,7 +527,7 @@ type
     function DoMenuEnum(const AStr: string): string;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
-    procedure DoPanel_Event(AControl: TControl; const AEvent: string);
+    procedure DoPanel_Event(AControl: TObject; const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoPanel_OnSelChanged(Sender: TObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);

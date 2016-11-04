@@ -149,15 +149,12 @@ begin
     ItemListbox.ItemHeight:= ListboxOut.ItemHeight;
     ItemListbox.CanGetFocus:= true;
 
-    DoApplyThemeToListbox(ItemListbox);
-    {
-    //todo: events
     ItemListbox.OnClick:= @DoPanel_OnClick;
     ItemListbox.OnDblClick:= @DoPanel_OnDblClick;
-    ItemListbox.OnSelectionChanged:= @DoPanel_OnSelChanged;
+    ItemListbox.OnChangedSel:= @DoPanel_OnSelChanged;
     ItemListbox.OnContextPopup:=@DoPanel_OnContextPopup;
-    ItemListbox.OnKeyDown:= @TreeKeyDown;
-    }
+
+    DoApplyThemeToListbox(ItemListbox);
   end;
 end;
 
