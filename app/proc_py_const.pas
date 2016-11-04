@@ -223,13 +223,16 @@ const
   TREE_LOCK = 31;
   TREE_UNLOCK = 32;
 
-  LISTBOX_ENUM         = 0;
+  LISTBOX_GET_COUNT    = 0;
   LISTBOX_ADD          = 1;
   LISTBOX_DELETE       = 2;
   LISTBOX_DELETE_ALL   = 3;
-  LISTBOX_SET          = 4;
-  LISTBOX_SELECT       = 5;
-  LISTBOX_GET_SELECTED = 6;
+  LISTBOX_GET_ITEM     = 4;
+  LISTBOX_SET_ITEM     = 5;
+  LISTBOX_GET_SEL      = 10;
+  LISTBOX_SET_SEL      = 11;
+  LISTBOX_GET_TOP      = 12;
+  LISTBOX_SET_TOP      = 13;
   LISTBOX_LOCK         = 20;
   LISTBOX_UNLOCK       = 21;
 

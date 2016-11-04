@@ -2911,9 +2911,17 @@ begin
       StrText:= string(PtrText);
 
       case IdAction of
+        LISTBOX_GET_COUNT:
+          begin
+            Result:= PyInt_FromLong(Listbox.Items.Count);
+          end;
         LISTBOX_ADD:
           begin
-            Listbox.Items.AddObject(StrText, TObject(PtrInt(NTag)));
+            if (NIndex=-1) then
+              Listbox.Items.AddObject(StrText, TObject(PtrInt(NTag)))
+            else
+            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+              Listbox.Items.InsertObject(NIndex, StrText, TObject(PtrInt(NTag)));
             Listbox.ItemCount:= Listbox.Items.Count;
             Listbox.Invalidate;
             Result:= ReturnNone;
@@ -2939,14 +2947,25 @@ begin
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
-        LISTBOX_SET          ,
-        LISTBOX_SELECT       ,
-        LISTBOX_GET_SELECTED ,
-        LISTBOX_LOCK         ,
-        LISTBOX_UNLOCK       ,
-        LISTBOX_ENUM:
-          //todo: do
-          Result:= ReturnNone;
+        LISTBOX_GET_ITEM:
+          begin
+            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+              Result:= Py_BuildValue('(sL)',
+                PChar(Listbox.Items[NIndex]),
+                Int64(Listbox.Items.Objects[NIndex]) )
+            else
+              Result:= ReturnNone;
+          end;
+        LISTBOX_SET_ITEM:
+          begin
+            if (NIndex>=0) and (NIndex<Listbox.Items.Count) then
+            begin
+              Listbox.Items[NIndex]:= StrText;
+              Listbox.Items.Objects[NIndex]:= TObject(PtrInt(NTag));
+              Listbox.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
         else
           Result:= ReturnNone;
       end;
