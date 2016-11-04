@@ -475,7 +475,6 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  ComArray: Variant;
   NLen, i: Integer;
 begin
   with GetPythonEngine do
@@ -485,16 +484,15 @@ begin
       NLen:= Ed.Carets.Count;
       if NLen>0 then
       begin
-        ComArray:= VarArrayCreate([0, NLen-1, 0, 3], varInteger);
+        Result:= PyList_New(NLen);
+        if not Assigned(Result) then
+          raise EPythonError.Create('Could not create a new list object');
         for i:= 0 to NLen-1 do
         begin
           Caret:= Ed.Carets[i];
-          ComArray[i, 0]:= Caret.PosX;
-          ComArray[i, 1]:= Caret.PosY;
-          ComArray[i, 2]:= Caret.EndX; //todo: fix, gets maxdword, not -1
-          ComArray[i, 3]:= Caret.EndY;
+          PyList_SetItem(Result, i,
+            Py_BuildValue('(iiii)', Caret.PosX, Caret.PosY, Caret.EndX, Caret.EndY));
         end;
-        Result:= VariantAsPyObject(ComArray);
       end
       else
         Result:= ReturnNone;
