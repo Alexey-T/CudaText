@@ -5,9 +5,9 @@
 
 
 1.5.2
-+ api: optimised in 5 functions
-+ lex Pascal: keywords hilites for "types", "msgs"
-- fix: Python lex
++ api: added, optimised in 5 funcs
++ lex Pascal: hilites for "types", "msgs"
+- fix: lex Python
 
 1.5.1
 + AddonMan: suggests readme+history

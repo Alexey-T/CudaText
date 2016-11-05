@@ -2946,7 +2946,7 @@ begin
             if IndexOk then
               Result:= Py_BuildValue('(sL)',
                 PChar(Listbox.Items[NIndex]),
-                Int64(Listbox.Items.Objects[NIndex]) )
+                PtrInt(Listbox.Items.Objects[NIndex]) )
             else
               Result:= ReturnNone;
           end;
