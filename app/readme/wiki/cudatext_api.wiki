@@ -113,6 +113,7 @@ Performs application-wide action. Possible values of id:
 * PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
+* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton'. Gets None for other values.
 
 ====Clipboard====
 
@@ -182,6 +183,7 @@ menu_id can be:
 * "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" to specify submenus File/Edit/Selection/Search/View/Options/Help
 * "text" to specify editor context menu
 * "side:"+tab_caption to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
+* "btm:"+tab_caption to specify context menu of bottom panel
 * "toolmenu:"+name to specify drop-down submenu of toolbar button
 
 Actions:
@@ -213,11 +215,11 @@ Actions:
 
 ====Side panel====
 
-* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: "tab_caption,tab_index,control": caption of tab, index of tab (0-based, -1 to add tab to end), type of GUI control. Control type currently allowed: "tree". Gets bool: params ok, tab was added.
+* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: "tab_caption,tab_index,control_type": caption of tab, index of tab (0-based, -1 to append), type of GUI control. Types of control allowed: "tree" to use tree_proc() API, "listbox" to use listbox_proc() API. Gets bool: params ok, tab was added.
 * PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, so control/menu for this tab is still in memory). Gets bool: tab was found/removed.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Gets str, "\n"-separated captions of tabs.
-* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, inserted into tab. Pass this handle to tree_proc API. Text is caption of tab. Gets None if cannot find tab.
+* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, inserted into tab. Pass this handle to tree_proc() or listbox_proc() API. Text is caption of tab. Gets None if cannot find tab.
 
 ==== Bottom panel====
 
@@ -705,6 +707,28 @@ Possible values of id_action:
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
 
+===listbox_proc===
+
+ listbox_proc(id_listbox, id_action, index=0, text="", tag=0)
+
+Perform action on listbox UI-control.
+
+* Param id_listbox: int handle of listbox.
+* Param index: index of item (0-base). 
+
+Possible values of id_action:
+
+* LISTBOX_GET_COUNT: Gets number if items.
+* LISTBOX_ADD: Adds item (str) with associated tag (int). Param index: at which index to add, -1 to append.
+* LISTBOX_DELETE: Deletes item with given index.
+* LISTBOX_DELETE_ALL: Deletes all items.
+* LISTBOX_GET_ITEM: Gets item with given index as 2-tuple (text, tag). Gets None if index incorrect.
+* LISTBOX_SET_ITEM: Sets item with given index, to given text and tag.
+* LISTBOX_GET_SEL: Gets selected index. -1 for none.
+* LISTBOX_SET_SEL: Sets selected index. -1 for none.
+* LISTBOX_GET_TOP: Gets index of top visible item.
+* LISTBOX_SET_TOP: Sets index of top visible item.
+
 ===more===
 
 =Editor class=
@@ -1183,6 +1207,14 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.160
+* add: can add to side/bottom panel UI-control "listbox"
+* add: listbox_proc func
+* add: menu api prefix "btm:"
+
+1.0.159
+* add: app_proc: PROC_GET_GUI_HEIGHT
 
 1.0.158 
 * add: events priority (e.g. "on_key++")
