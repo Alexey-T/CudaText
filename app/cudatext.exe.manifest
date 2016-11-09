@@ -4,7 +4,7 @@
   <assemblyIdentity
       type="win32"
       name="CudaText"
-      version="1.0.0.0" 
+      version="1.5.0.0" 
       processorArchitecture="*"/>
   <dependency>
     <dependentAssembly>
@@ -20,7 +20,7 @@
   </trustInfo>
   <asmv3:application  xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" >
     <asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
-      <dpiAware>true</dpiAware>
+      <dpiAware>True/PM</dpiAware>
     </asmv3:windowsSettings>
   </asmv3:application>
 </assembly>
