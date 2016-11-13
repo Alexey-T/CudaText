@@ -1,0 +1,6 @@
+gtk2winapi.inc
+    begin
+      //DebugLn('WARNING: TGtk2WidgetSet.InvalidateRect refused invalidating during paint message: ',
+      //  LCLObject.ClassName);
+      exit(False);
+    end;

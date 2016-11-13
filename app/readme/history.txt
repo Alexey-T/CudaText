@@ -4,6 +4,10 @@
   * changed
 
 
+1.5.3
+- fix: windows manifest (high DPI)
++ upd: lex Pascal
+
 1.5.2
 + api: added, optimised in 5 funcs
 + lex Pascal: hilites for "types", "msgs"
