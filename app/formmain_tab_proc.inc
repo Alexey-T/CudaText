@@ -190,10 +190,22 @@ begin
 end;
 
 procedure TfmMain.DoMoveTabTo(Num: Integer);
+var
+  Pages: TATPages;
+  NIndex: integer;
 begin
+  Pages:= Groups.PopupPages;
+  NIndex:= Groups.PopupTabIndex;
+
+  //force 2 groups if only one
   if (Num=2) and (Groups.Mode=gmOne) then
+  begin
     Groups.Mode:= gm2Horz;
-  Groups.MoveTab(Groups.PopupPages, Groups.PopupTabIndex, Groups.Pages[Num], -1, false);
+    Groups.Update; //maybe no need
+    Pages:= Groups.Pages1; //maybe no need
+  end;
+
+  Groups.MoveTab(Pages, NIndex, Groups.Pages[Num], -1, false);
 end;
 
 procedure TfmMain.mnuTabMove1Click(Sender: TObject);
