@@ -210,14 +210,6 @@ object SyntAnal23: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-    end
-    item
-      DisplayName = 'Id messages'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
     end>
   TokenRules = <
     item
@@ -240,9 +232,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 6
-      Expression = 
-        '#with exp. dot is optional '#13#10'(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'#wit' +
-        'hout exp. dot is required'#13#10'\d+ \. \d+'
+      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -300,7 +290,7 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'HEX'
+      DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 7
       Expression = '\$[a-f\d]+'
@@ -702,21 +692,6 @@ object SyntAnal23: TLibSyntAnalyzer
             'WideString'
             'Word'
             'WordBool')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Id messages'
-      StyleName = 'Id messages'
-      BlockType = btTagDetect
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '(WM|LM|CM)_\w+')
-          CondType = tcMask
           TokenTypes = 4
           IgnoreCase = True
         end>
