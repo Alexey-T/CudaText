@@ -2660,6 +2660,13 @@ end;
 
 procedure TfmMain.SetFullScreen_Universal(AValue: boolean);
 begin
+  {$ifdef darwin}
+  if AValue then
+    BorderStyle:= bsNone
+  else
+    BorderStyle:= bsSizeable;
+  {$endif}
+
   if AValue then
     ShowWindow(Handle, SW_SHOWFULLSCREEN)
   else
