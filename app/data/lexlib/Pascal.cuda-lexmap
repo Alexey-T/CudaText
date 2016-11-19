@@ -30,3 +30,4 @@ Intern. function (tree)=-
 class (tree)=-
 Invalid symbol=SymbolBad
 Id types=Id1
+Id exit=Id2

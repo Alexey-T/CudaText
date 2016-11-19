@@ -210,6 +210,14 @@ object SyntAnal23: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Id exit'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
@@ -351,7 +359,6 @@ object SyntAnal23: TLibSyntAnalyzer
             'else'
             'end'
             'except'
-            'exit'
             'exports'
             'external'
             'file'
@@ -692,6 +699,22 @@ object SyntAnal23: TLibSyntAnalyzer
             'WideString'
             'Word'
             'WordBool')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Id exit'
+      StyleName = 'Id exit'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'Exit'
+            'Halt'
+            'Result')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -1688,11 +1711,10 @@ object SyntAnal23: TLibSyntAnalyzer
     ' Number: integer;'
     ' FloatNumber: double;'
     'begin'
-    ' Number := 123;  // View integer number style'
-    
-      ' Caption := '#39'This Number is '#39' + IntToStr(Number); // View string' +
-      ' style'
-    ' Inc(Number, $1FA7); // View HEX style'
+    ' Number := 10 + 1.2e-3 + $eb;'
+    ' Caption := '#39'Number is '#39' + IntToStr(Number);'
+    ' Result := Number;'
+    ' if Result>1 then Exit;'
     ' {Assembler style}'
     ' asm'
     '   MOV  AX, 1234H'
@@ -1701,7 +1723,7 @@ object SyntAnal23: TLibSyntAnalyzer
     'end;'
     ''
     'begin'
-    '  if A then'
+    '  if Flag then'
     '  begin'
     '    Do_;'
     '  end;'
