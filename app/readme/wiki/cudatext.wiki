@@ -308,7 +308,7 @@ Modifiers affect only element after them, element is:
 
 ==How to restore lexers styles/colors after reinstalling app?==
 
-When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your custom styles/colors are saved to file "settings/lexer styles backup.ini". And to the lexer library of course. If you reinstall app, you overiwrite lexer library file. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
+When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your styles/colors are saved to the lexer file (in "data/lexlib") and also to file "settings/lexer styles backup.ini". If you reinstall app, you overwrite standard lexers. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
 
 [[File:cudatext_restore_styles.png]]
 
