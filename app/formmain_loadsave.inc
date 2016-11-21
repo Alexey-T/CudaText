@@ -501,6 +501,7 @@ begin
 
     Op.OpLinks:= c.GetValue('links_hilite', Op.OpLinks);
     Op.OpLinksRegex:= c.GetValue('links_regex', Op.OpLinksRegex);
+    Op.OpMaxTabPosExpanded:= c.GetValue('tab_max_pos_expanded', Op.OpMaxTabPosExpanded);
 
     Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
     Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);

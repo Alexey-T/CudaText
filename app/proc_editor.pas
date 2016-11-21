@@ -209,6 +209,7 @@ begin
 
   Ed.OptShowURLs:= Op.OpLinks;
   Ed.OptShowURLsRegex:= Op.OpLinksRegex;
+  cMaxTabPositionToExpand:= Op.OpMaxTabPosExpanded;
 
   if ForceApply then
   begin

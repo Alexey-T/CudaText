@@ -199,6 +199,7 @@ type
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
     OpLinksRegex: string;
+    OpMaxTabPosExpanded: integer;
 
     //view
     OpGutterShow: boolean;
@@ -716,6 +717,7 @@ begin
     OpUnderlineColorSize:= 3;
     OpLinks:= true;
     OpLinksRegex:= ATSynEdit.cUrlRegexInitial;
+    OpMaxTabPosExpanded:= 500;
 
     OpGutterShow:= true;
     OpGutterFold:= true;
