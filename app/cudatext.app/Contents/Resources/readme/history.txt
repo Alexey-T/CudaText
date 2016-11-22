@@ -4,6 +4,12 @@
   * changed
 
 
+1.5.3
++ opt tab_max_pos_expanded
++ lex Pascal: hilite "exit/result"
+- fix: windows manifest (high DPI)
+- fix: folded-blocks show on Python
+
 1.5.2
 + api: added, optimised in 5 funcs
 + lex Pascal: hilites for "types", "msgs"

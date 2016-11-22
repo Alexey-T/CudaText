@@ -5,9 +5,10 @@
 
 
 1.5.3
-- fix: windows manifest (high DPI)
 + opt tab_max_pos_expanded
-+ lex Pascal: hilite "exit/halt/result"
++ lex Pascal: hilite "exit/result"
+- fix: windows manifest (high DPI)
+- fix: folded-blocks show on Python
 
 1.5.2
 + api: added, optimised in 5 funcs

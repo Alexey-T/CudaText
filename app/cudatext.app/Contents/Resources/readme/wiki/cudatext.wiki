@@ -37,13 +37,13 @@ Versions for Windows, Linux, OS X.
 
 Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit lines in this '''user config'''. Default config is not read, only user config is read.
 
-'''Lexer-override config''': settings for single lexer only. E.g., if you open Pascal file, lexer-override for Pascal is read after user config. You can call it via Options menu. You should not write "ui_" options to lexer-override config, and few others, like option "lexlib".
+'''Lexer-specific config''': settings which are read when some lexer activates. E.g., if you open Pascal file, config for Pascal is read after user config. You should not write "ui_" options to lexer-override config (it will give some weird effects on changing lexers), and few others, like option "lexlib" (it is read only once).
 
-'''File-types config''': specify in it mapping between file types (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it. You can call it via Options menu.
+'''File-types config''': specify in it mapping between file names (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it.
 
-'''Color-theme''': one of color theme configs may be selected via Options menu. It defines all interface colors in app (not colors of syntax elements). You can create new color themes also via Options menu, "Color theme" dialog.
+'''Themes''': UI themes and syntax themes. They specify interface colors in app (UI themes) and colors of text/syntax elements in the editor (syntax themes). You can change preinstalled themes, and create new themes, e.g. based on preinstalled.
 
-'''Keys config''': you should not edit keys config by hands. Use the dialog, it's called from "Help--Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 (simple hotkey or key-combo) for any command (except dynamically added commands: lexers etc).
+'''Keys config'''. Special dialog allows to change all hotkeys in app. You should not edit config file here. Dialog is called from "Help--Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
 
 = Help topics =
 == Command line parameters ==
@@ -129,14 +129,14 @@ Some details about this:
 
 == Lexers ==
 
-Lexers (syntax hiliters) from SynWrite editor used. Used EControl.ru syntax parser with mods. Main mod is support for folding in Python.
+Lexers (syntax highlighters) from SynWrite editor are used. Used EControl.ru syntax parser with mods. Main mod is support for folding in Python (and other lexers with indent-based folding).
 
-* Dialog "Lexer properties" allows to config props of current lexer (selected via statusbar panel in CudaText). You can config: lexer name, file types, line-comment-string for language, colors of tokens, font-styles (bold/italic/underline), borders around tokens.
-* Dialog "Lexer library" shows list of all lexers. Library is in file "data/lexlib/lib.lxl" (can be changed by option). You can delete lexers, add lexers from Zip files.
+* Dialog "Lexer properties" allows to config props of current lexer (selected via statusbar panel in CudaText). You can config: lexer name, file types, commenting for language, colors of tokens, font-styles (bold/italic/underline), borders around tokens.
+* Dialog "Lexer library" shows list of installed lexers. Dialog shows lexers which are in the folder "data/lexlib".
 
 [[File:cudatext-lexer-library.png]]
 
-== Lexers at sf.net ==
+=== Lexers at sf.net ===
 
 Lexer library file has only subset of lexers.
 Other lexers, from SynWrite, are here:
@@ -144,10 +144,7 @@ http://sourceforge.net/projects/synwrite-addons/files/Lexers/
 
 These zip packages can be installed in CudaText: open any zip file via "File--Open" and confirm installation.
 
-After reinstalling of app, lex-library may be overwritten. You'll need to re-add lexers. 
-To prevent it: make a copy of file in "data/lexlib" and set this file name in config: option "lexlib". Your lex-library file will not be overwritten.
-
-== Lexers editing ==
+=== Lexers editing ===
 
 You can modify/create lexers. But not in CudaText. Install SynWrite (needed Wine on Linux) and in it you have lexer editor dialog. 
 
@@ -162,7 +159,7 @@ Screenshot of SynWrite dialog:
 
 == File-types config ==
 
-Menu item "Settings - file-types" allows to edit file-types config. To override mapping "file name -> lexer name".
+Menu item "Settings - file-types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
 Example of file:
 
   {
@@ -170,11 +167,14 @@ Example of file:
     "myconfig.conf": "Nginx",
     ".profile": "Bash script",
   }
-  
+
 This allows to open files with extension "mht" with custom lexer, and file with name "myconfig.conf" with another custom lexer.
 Value "-" means "don't activate lexer".
 
-Other method to specify this mapping is to call "Lexer props" dialog and change file-types in it. But this saves option to the lexer-library file, so it's reset on reinstalling.
+Other method to specify this mapping is to call "Lexer properties" dialog. But:
+
+* This saves option to the lexer file (.lcf), so it will be reset on reinstall.
+* This can specify file extension, or name+extension, but cannot set file mask with "*".
 
 ==Encodings==
 
@@ -308,7 +308,7 @@ Modifiers affect only element after them, element is:
 
 ==How to restore lexers styles/colors after reinstalling app?==
 
-When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your custom styles/colors are saved to file "settings/lexer styles backup.ini". And to the lexer library of course. If you reinstall app, you overiwrite lexer library file. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
+When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your styles/colors are saved to the lexer file (in "data/lexlib") and also to file "settings/lexer styles backup.ini". If you reinstall app, you overwrite standard lexers. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
 
 [[File:cudatext_restore_styles.png]]
 

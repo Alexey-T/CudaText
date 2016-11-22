@@ -212,9 +212,9 @@ object SyntAnal23: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Id messages'
+      DisplayName = 'Id exit'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -240,9 +240,7 @@ object SyntAnal23: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 6
-      Expression = 
-        '#with exp. dot is optional '#13#10'(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'#wit' +
-        'hout exp. dot is required'#13#10'\d+ \. \d+'
+      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -300,7 +298,7 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'HEX'
+      DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 7
       Expression = '\$[a-f\d]+'
@@ -361,7 +359,6 @@ object SyntAnal23: TLibSyntAnalyzer
             'else'
             'end'
             'except'
-            'exit'
             'exports'
             'external'
             'file'
@@ -451,26 +448,57 @@ object SyntAnal23: TLibSyntAnalyzer
             'ByteBool'
             'Cardinal'
             'Char'
+            'Comp'
+            'Currency'
             'Double'
             'DWord'
             'Extended'
+            'FILETIME'
             'Float'
+            'Float128'
             'HBitmap'
+            'HCursor'
             'HDC'
+            'HIcon'
             'HResult'
             'HWnd'
+            'Int32'
             'Int64'
             'Integer'
+            'LARGE_INT'
+            'LARGE_UINT'
+            'Largeint'
+            'LargeUint'
             'LongBool'
             'LongInt'
             'LongWord'
             'LResult'
             'NativeInt'
             'PAnsiChar'
+            'PByte'
             'PChar'
+            'PDouble'
+            'PDWord'
+            'PExtended'
+            'PFileTime'
+            'PFloat'
+            'PFloat128'
+            'PGUID'
+            'PInt64'
+            'PInteger'
+            'PLargeInt'
+            'PLargeuInt'
+            'PLongint'
             'Pointer'
+            'PPoint'
+            'PRect'
+            'PSingle'
+            'PSize'
+            'PSmallInt'
+            'PSmallPoint'
             'PtrInt'
             'PWideChar'
+            'PWord'
             'QWord'
             'Real'
             'ShortInt'
@@ -483,6 +511,8 @@ object SyntAnal23: TLibSyntAnalyzer
             'TActionEvent'
             'TActionList'
             'TActionListState'
+            'TagPoint'
+            'TagSize'
             'TAlign'
             'TAlignSet'
             'TAnchorKind'
@@ -520,6 +550,7 @@ object SyntAnal23: TLibSyntAnalyzer
             'TColorButton'
             'TColorDialog'
             'TColorListbox'
+            'TColumnIndex'
             'TCombobox'
             'TComboboxEx'
             'TComponent'
@@ -553,6 +584,8 @@ object SyntAnal23: TLibSyntAnalyzer
             'TEditButton'
             'TFileListbox'
             'TFilenameEdit'
+            'TFileStream'
+            'TFileTime'
             'TFilterCombobox'
             'TFindDialog'
             'TFloatSpinEdit'
@@ -565,6 +598,7 @@ object SyntAnal23: TLibSyntAnalyzer
             'TGlyphShowMode'
             'TGraphic'
             'TGroupBox'
+            'TGUID'
             'THandle'
             'THeaderControl'
             'THelpContext'
@@ -586,6 +620,7 @@ object SyntAnal23: TLibSyntAnalyzer
             'TMainMenu'
             'TMaskEdit'
             'TMemo'
+            'TMemoryStream'
             'TMenuItem'
             'TMessage'
             'TMetafile'
@@ -633,9 +668,11 @@ object SyntAnal23: TLibSyntAnalyzer
             'TSplitter'
             'TStaticText'
             'TStatusbar'
+            'TStream'
             'TStringGrid'
             'TStringList'
             'TStrings'
+            'TStringStream'
             'TTabControl'
             'TTabSheet'
             'TTaskDialog'
@@ -655,6 +692,7 @@ object SyntAnal23: TLibSyntAnalyzer
             'TWinControl'
             'TWriter'
             'TypeInfo'
+            'UInt32'
             'UnicodeString'
             'Variant'
             'WideChar'
@@ -668,14 +706,15 @@ object SyntAnal23: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Id messages'
-      StyleName = 'Id messages'
+      DisplayName = 'Id exit'
+      StyleName = 'Id exit'
       BlockType = btTagDetect
       ConditionList = <
         item
           TagList.Strings = (
-            '(WM|LM|CM)_\w+')
-          CondType = tcMask
+            'Exit'
+            'Halt'
+            'Result')
           TokenTypes = 4
           IgnoreCase = True
         end>
@@ -1672,11 +1711,10 @@ object SyntAnal23: TLibSyntAnalyzer
     ' Number: integer;'
     ' FloatNumber: double;'
     'begin'
-    ' Number := 123;  // View integer number style'
-    
-      ' Caption := '#39'This Number is '#39' + IntToStr(Number); // View string' +
-      ' style'
-    ' Inc(Number, $1FA7); // View HEX style'
+    ' Number := 10 + 1.2e-3 + $eb;'
+    ' Caption := '#39'Number is '#39' + IntToStr(Number);'
+    ' Result := Number;'
+    ' if Result>1 then Exit;'
     ' {Assembler style}'
     ' asm'
     '   MOV  AX, 1234H'
@@ -1685,7 +1723,7 @@ object SyntAnal23: TLibSyntAnalyzer
     'end;'
     ''
     'begin'
-    '  if A then'
+    '  if Flag then'
     '  begin'
     '    Do_;'
     '  end;'
@@ -1713,7 +1751,7 @@ object SyntAnal23: TLibSyntAnalyzer
     't = '#39'('#39' IdentList '#39')'#39';'#13#10'IdentList = <Identifier> ('#39','#39' <Identifie' +
     'r>)*;'#13#10
   CurrentLineStyle = 'Current Line'
-  Extentions = 'pas inc dpr dpk lpr p pp'
+  Extentions = 'pas inc dpr dpk lpr lpk p pp'
   LexerName = 'Pascal'
   Notes.Strings = (
     'Changed by Alexey')

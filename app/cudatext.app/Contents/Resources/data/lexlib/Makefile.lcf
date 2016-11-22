@@ -1,4 +1,4 @@
-object SyntAnal22: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -232,7 +232,7 @@ object SyntAnal22: TLibSyntAnalyzer
     'Label')
   Extentions = 
     'mak /makefile /makefile.gnu /makefile.gcc /makefile.bor /makefil' +
-    'e.msc /makefile.vc /makefile.dm /makefile.bcc'
+    'e.msc /makefile.vc /makefile.dm /makefile.bcc /makefile.fpc'
   LexerName = 'Makefile'
   Notes.Strings = (
     'Alex (Synwrite)'

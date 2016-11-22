@@ -113,6 +113,8 @@
   "tab_size": 8,
   //Tab-key enters spaces
   "tab_spaces": false,
+  //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)   
+  "tab_max_pos_expanded": 500,
 
   //Enable gutter (all columns at the left side)
   "gutter_show": true,
