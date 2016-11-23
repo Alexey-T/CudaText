@@ -43,9 +43,11 @@ object fmCharmaps: TfmCharmaps
       TabOrder = 2
     end
     object LabelInfo: TLabel
+      AnchorSideTop.Control = btnAnsi
+      AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 17
-      Top = 16
+      Top = 13
       Width = 12
       Caption = '---'
       ParentColor = False
@@ -100,8 +102,9 @@ object fmCharmaps: TfmCharmaps
       AnchorSideBottom.Side = asrBottom
       Left = 6
       Height = 31
-      Top = 6
+      Top = 2
       Width = 330
+      Anchors = [akLeft, akBottom]
       BorderSpacing.Around = 6
       DropDownCount = 30
       ItemHeight = 0
@@ -110,10 +113,14 @@ object fmCharmaps: TfmCharmaps
       TabOrder = 0
     end
     object comboAnsi: TComboBox
+      AnchorSideBottom.Control = PanelInfo
+      AnchorSideBottom.Side = asrBottom
       Left = 6
       Height = 27
       Top = 6
       Width = 330
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Around = 6
       DropDownCount = 30
       ItemHeight = 0
       ItemIndex = 0
@@ -139,6 +146,7 @@ object fmCharmaps: TfmCharmaps
     end
   end
   object Grid: TStringGrid
+    AnchorSideBottom.Control = PanelInfo
     Left = 6
     Height = 430
     Top = 6
@@ -149,12 +157,9 @@ object fmCharmaps: TfmCharmaps
     DefaultDrawing = False
     DefaultRowHeight = 24
     ExtendedSelect = False
-    Font.Height = -13
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goThumbTracking, goSmoothScroll]
-    ParentFont = False
     RowCount = 17
     TabOrder = 0
-    TitleFont.Height = -13
     OnMouseDown = GridMouseDown
     OnMouseMove = GridMouseMove
     OnSelectCell = GridSelectCell
