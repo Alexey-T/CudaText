@@ -40,31 +40,50 @@ object fmLexerStyleMap: TfmLexerStyleMap
     ParentColor = False
   end
   object LabelTh: TLabel
-    Left = 272
+    AnchorSideLeft.Control = ListLex
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = LabelLex
+    Left = 270
     Height = 17
     Top = 4
     Width = 101
+    BorderSpacing.Left = 6
     Caption = 'Styles in theme'
     FocusControl = ListTh
     ParentColor = False
   end
   object ListLex: TListBox
+    AnchorSideTop.Control = LabelLex
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = ButtonPanel1
     Left = 6
-    Height = 343
+    Height = 342
     Top = 24
     Width = 258
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Top = 3
+    BorderSpacing.Bottom = 3
     ItemHeight = 0
     ScrollWidth = 256
     TabOrder = 0
     TopIndex = -1
   end
   object ListTh: TListBox
-    Left = 272
-    Height = 343
+    AnchorSideLeft.Control = ListLex
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = ListLex
+    AnchorSideRight.Control = btnSet
+    AnchorSideBottom.Control = ListLex
+    AnchorSideBottom.Side = asrBottom
+    Left = 270
+    Height = 342
     Top = 24
-    Width = 144
+    Width = 148
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 6
     ItemHeight = 0
-    ScrollWidth = 142
+    ScrollWidth = 146
     TabOrder = 1
     TopIndex = -1
   end
