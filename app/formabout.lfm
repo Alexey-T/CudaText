@@ -14,7 +14,7 @@ object fmAbout: TfmAbout
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
-  object Label1: TLabel
+  object LabelName: TLabel
     Left = 104
     Height = 29
     Top = 32
@@ -27,18 +27,24 @@ object fmAbout: TfmAbout
     ParentFont = False
   end
   object labelVer: TLabel
+    AnchorSideTop.Control = LabelName
+    AnchorSideTop.Side = asrBottom
     Left = 104
     Height = 17
-    Top = 64
+    Top = 73
     Width = 51
+    BorderSpacing.Top = 12
     Caption = 'Version'
     ParentColor = False
   end
   object labelInf: TLabel
+    AnchorSideTop.Control = labelVer
+    AnchorSideTop.Side = asrBottom
     Left = 104
     Height = 17
-    Top = 80
+    Top = 93
     Width = 51
+    BorderSpacing.Top = 3
     Caption = 'labelInf'
     ParentColor = False
   end

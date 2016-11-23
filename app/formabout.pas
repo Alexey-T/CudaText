@@ -28,7 +28,7 @@ type
 
   TfmAbout = class(TForm)
     ButtonPanel1: TButtonPanel;
-    Label1: TLabel;
+    LabelName: TLabel;
     labelInf: TLabel;
     labelVer: TLabel;
     memo: TATSynEdit;
@@ -116,8 +116,10 @@ begin
   FLabelLink.Parent:= Self;
   FLabelLink.Caption:= 'UVviewsoft.com';
   FLabelLink.Link:= 'http://uvviewsoft.com';
-  FLabelLink.Left:= Label1.Left;
-  FLabelLink.Top:= ClientHeight div 2;
+  FLabelLink.Left:= LabelName.Left;
+  FLabelLink.AnchorSideTop.Control:= labelInf;
+  FLabelLink.AnchorSideTop.Side:= asrBottom;
+  FLabelLink.BorderSpacing.Top:= labelInf.BorderSpacing.Top;
 
   SWidget:= '';
   if WidgetSet<>nil then

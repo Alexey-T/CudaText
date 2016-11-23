@@ -153,7 +153,7 @@ object fmFind: TfmFind
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 17
-      Top = 7
+      Top = 4
       Width = 69
       Caption = 'Find what:'
       ParentColor = False
@@ -162,7 +162,7 @@ object fmFind: TfmFind
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 17
-      Top = 38
+      Top = 33
       Width = 89
       Caption = 'Replace with:'
       ParentColor = False
@@ -358,6 +358,7 @@ object fmFind: TfmFind
       OptUndoAfterSave = True
       OptSavingForceFinalEol = False
       OptSavingTrimSpaces = False
+      OptPasteAtEndMakesFinalEmptyLine = True
       OptComboboxArrowSize = 4
     end
     object edRep: TATComboEdit
@@ -539,6 +540,7 @@ object fmFind: TfmFind
       OptUndoAfterSave = True
       OptSavingForceFinalEol = False
       OptSavingTrimSpaces = False
+      OptPasteAtEndMakesFinalEmptyLine = True
       OptComboboxArrowSize = 4
     end
     object PanelBtn: TPanel

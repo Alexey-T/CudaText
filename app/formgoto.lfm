@@ -14,7 +14,7 @@ object fmGoto: TfmGoto
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
   object bGoto: TATButton
-    Left = 208
+    Left = 232
     Height = 25
     Top = 4
     Width = 64
@@ -24,6 +24,7 @@ object fmGoto: TfmGoto
     OnClick = bGotoClick
   end
   object LabelGoto: TLabel
+    AnchorSideTop.Control = edInput
     AnchorSideTop.Side = asrCenter
     Left = 24
     Height = 17
@@ -33,7 +34,7 @@ object fmGoto: TfmGoto
     ParentColor = False
   end
   object edInput: TATEdit
-    Left = 80
+    Left = 104
     Height = 25
     Top = 4
     Width = 123
@@ -211,6 +212,7 @@ object fmGoto: TfmGoto
     OptUndoAfterSave = True
     OptSavingForceFinalEol = False
     OptSavingTrimSpaces = False
+    OptPasteAtEndMakesFinalEmptyLine = True
   end
   object PanelX: TPanel
     Left = 0
