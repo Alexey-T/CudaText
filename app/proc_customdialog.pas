@@ -24,6 +24,8 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 function IsDialogCustomShown: boolean;
 function DoDialogCustomGetControlHeight(const Id: string): integer;
 
+procedure DoScaleForHighDpi(F: TForm);
+
 implementation
 
 const
@@ -646,6 +648,9 @@ begin
     F.OnKeyDown:= @Dummy.DoKeyDown;
     F.OnShow:= @Dummy.DoOnShow;
 
+    //scale for high-DPI
+    DoScaleForHighDpi(F);
+
     Res:= F.ShowModal;
     if Res>=cButtonResultStart then
     begin
@@ -687,6 +692,14 @@ begin
   finally
     FreeAndNil(C);
   end;
+end;
+
+procedure DoScaleForHighDpi(F: TForm);
+begin
+  if Screen.PixelsPerInch<>F.DesignTimeDPI then
+    F.AutoAdjustLayout(lapAutoAdjustForDPI,
+      F.DesignTimeDPI, Screen.PixelsPerInch,
+      F.Width, ScaleX(F.Width, F.DesignTimeDPI));
 end;
 
 { TDummyClass }
