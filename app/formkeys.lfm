@@ -1,12 +1,12 @@
 object fmKeys: TfmKeys
   Left = 603
-  Height = 210
+  Height = 215
   Top = 440
   Width = 371
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Hotkey'
-  ClientHeight = 210
+  ClientHeight = 215
   ClientWidth = 371
   KeyPreview = True
   OnKeyDown = FormKeyDown
@@ -17,7 +17,7 @@ object fmKeys: TfmKeys
   object panelBtn: TButtonPanel
     Left = 6
     Height = 29
-    Top = 175
+    Top = 180
     Width = 359
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -35,8 +35,8 @@ object fmKeys: TfmKeys
   end
   object panelPress: TPanel
     Left = 272
-    Height = 35
-    Top = 134
+    Height = 174
+    Top = 0
     Width = 99
     Align = alRight
     BevelOuter = bvNone
@@ -47,14 +47,15 @@ object fmKeys: TfmKeys
   end
   object panelInput: TPanel
     Left = 0
-    Height = 134
+    Height = 174
     Top = 0
-    Width = 371
-    Align = alTop
+    Width = 272
+    Align = alClient
     AutoSize = True
+    BorderSpacing.Bottom = 3
     BevelOuter = bvNone
-    ClientHeight = 134
-    ClientWidth = 371
+    ClientHeight = 174
+    ClientWidth = 272
     TabOrder = 2
     object labelKey1: TLabel
       AnchorSideTop.Control = panelInput
@@ -143,11 +144,13 @@ object fmKeys: TfmKeys
       AnchorSideLeft.Control = labelKey1
       AnchorSideTop.Control = bClear2
       AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = panelInput
+      AnchorSideBottom.Side = asrBottom
       Left = 9
       Height = 24
-      Top = 110
+      Top = 150
       Width = 138
-      BorderSpacing.Top = 3
+      Anchors = [akLeft, akBottom]
       Caption = 'For current lexer'
       TabOrder = 4
     end
