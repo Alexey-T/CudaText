@@ -102,7 +102,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="50">
+    <Units Count="51">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -368,6 +368,11 @@
         <Filename Value="formmain_bottompanel.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit49>
+      <Unit50>
+        <Filename Value="atcolorpanel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ATColorPanel"/>
+      </Unit50>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

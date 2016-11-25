@@ -15,7 +15,7 @@ uses
   formcolorsetup, formabout, formkeys, formlexerstylesload, formcharmaps,
   proc_keysdialog, proc_customdialog, proc_miscutils, ATLinkLabel,
   formlexerstyle, formlexerstylemap, formkeyinput, proc_scrollbars, 
-  proc_keymap_undolist;
+  proc_keymap_undolist, atcolorpanel;
 
 {$R *.res}
 

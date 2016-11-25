@@ -16,7 +16,8 @@ uses
   CheckLst, Spin, ComCtrls, Dialogs,
   LclProc, LclType,
   ATLinkLabel,
-  ATStringProc;
+  ATStringProc,
+  ATColorPanel;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
@@ -418,7 +419,7 @@ begin
 
       if SValue='colorpanel' then
       begin
-        Ctl:= TPanel.Create(AForm);
+        Ctl:= TATColorPanel.Create(AForm);
         (Ctl as TPanel).BorderStyle:= bsNone;
         (Ctl as TPanel).BevelInner:= bvNone;
         (Ctl as TPanel).BevelOuter:= bvNone;
@@ -541,16 +542,12 @@ begin
         if SValue='1' then
           (Ctl as TTabControl).TabPosition:= tpBottom;
 
-      if (Ctl is TPanel) then
+      if (Ctl is TATColorPanel) then
       begin
-        NValue:= StrToIntDef(SGetItem(SValue), 0);
-        if NValue>0 then
-        begin
-          (Ctl as TPanel).BevelOuter:= bvRaised;
-          (Ctl as TPanel).BevelWidth:= NValue;
-        end;
+        (Ctl as TPanel).BorderWidth:= StrToIntDef(SGetItem(SValue), 0);
         (Ctl as TPanel).Color:= StrToIntDef(SGetItem(SValue), clDefault);
         (Ctl as TPanel).Font.Color:= StrToIntDef(SGetItem(SValue), clDefault);
+        (Ctl as TATColorPanel).BorderColor:= StrToIntDef(SGetItem(SValue), clBlack);
       end;
 
       Continue;
