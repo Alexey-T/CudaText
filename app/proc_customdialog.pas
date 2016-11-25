@@ -422,6 +422,7 @@ begin
         (Ctl as TPanel).BorderStyle:= bsNone;
         (Ctl as TPanel).BevelInner:= bvNone;
         (Ctl as TPanel).BevelOuter:= bvNone;
+        (Ctl as TPanel).OnClick:= @ADummy.DoOnChange;
       end;
 
       //set parent
