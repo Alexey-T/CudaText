@@ -646,9 +646,7 @@ begin
     F.OnKeyDown:= @Dummy.DoKeyDown;
     F.OnShow:= @Dummy.DoOnShow;
 
-    //scale for high-DPI
     DoScaleForHighDpi(F);
-
     Res:= F.ShowModal;
     if Res>=cButtonResultStart then
     begin
@@ -694,7 +692,8 @@ end;
 
 procedure DoScaleForHighDpi(F: TForm);
 begin
-  if Screen.PixelsPerInch<>F.DesignTimeDPI then
+  //ignore case: Screen dpi is smaller (OSX)
+  if Screen.PixelsPerInch>F.DesignTimeDPI then
     F.AutoAdjustLayout(lapAutoAdjustForDPI,
       F.DesignTimeDPI, Screen.PixelsPerInch,
       F.Width, ScaleX(F.Width, F.DesignTimeDPI));
