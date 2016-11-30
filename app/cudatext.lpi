@@ -76,33 +76,30 @@
         </UserOverrides>
       </environment>
     </RunParams>
-    <RequiredPackages Count="8">
+    <RequiredPackages Count="7">
       <Item1>
         <PackageName Value="uniqueinstance_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="LazColorPalette"/>
+        <PackageName Value="gauge_pkg"/>
       </Item2>
       <Item3>
-        <PackageName Value="gauge_pkg"/>
+        <PackageName Value="atbuttons_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="atbuttons_package"/>
+        <PackageName Value="econtrol_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="econtrol_package"/>
+        <PackageName Value="atsynedit_package"/>
       </Item5>
       <Item6>
-        <PackageName Value="atsynedit_package"/>
+        <PackageName Value="python4lazarus_pkg"/>
       </Item6>
       <Item7>
-        <PackageName Value="python4lazarus_pkg"/>
-      </Item7>
-      <Item8>
         <PackageName Value="LCL"/>
-      </Item8>
+      </Item7>
     </RequiredPackages>
-    <Units Count="50">
+    <Units Count="49">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -225,147 +222,143 @@
         <IsPartOfProject Value="True"/>
       </Unit22>
       <Unit23>
-        <Filename Value="formmain_editing.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit23>
-      <Unit24>
         <Filename Value="formlexerprop.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerProp"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit24>
-      <Unit25>
+      </Unit23>
+      <Unit24>
         <Filename Value="formlexerlib.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerLib"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="proc_msg.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit25>
       <Unit26>
-        <Filename Value="proc_msg.pas"/>
+        <Filename Value="proc_install_zip.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit26>
       <Unit27>
-        <Filename Value="proc_install_zip.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit27>
-      <Unit28>
         <Filename Value="formcolorsetup.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmColorSetup"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit28>
-      <Unit29>
+      </Unit27>
+      <Unit28>
         <Filename Value="formabout.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit29>
-      <Unit30>
+      </Unit28>
+      <Unit29>
         <Filename Value="formkeys.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeys"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="formmain_py.inc"/>
+        <IsPartOfProject Value="True"/>
       </Unit30>
       <Unit31>
-        <Filename Value="formmain_py.inc"/>
+        <Filename Value="proc_py_const.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit31>
       <Unit32>
-        <Filename Value="proc_py_const.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit32>
-      <Unit33>
         <Filename Value="form_menu_py.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmMenuApi"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit33>
-      <Unit34>
+      </Unit32>
+      <Unit33>
         <Filename Value="formmain_plugins.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit34>
-      <Unit35>
+      </Unit33>
+      <Unit34>
         <Filename Value="formlexerstylesload.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStylesRestore"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit35>
-      <Unit36>
+      </Unit34>
+      <Unit35>
         <Filename Value="formcharmaps.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmCharmaps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="proc_keysdialog.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit36>
       <Unit37>
-        <Filename Value="proc_keysdialog.pas"/>
+        <Filename Value="proc_customdialog.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit37>
       <Unit38>
-        <Filename Value="proc_customdialog.pas"/>
+        <Filename Value="proc_miscutils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit38>
       <Unit39>
-        <Filename Value="proc_miscutils.pas"/>
+        <Filename Value="formmain_translation.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit39>
       <Unit40>
-        <Filename Value="formmain_translation.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit40>
-      <Unit41>
         <Filename Value="formlexerstyle.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStyle"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit41>
-      <Unit42>
+      </Unit40>
+      <Unit41>
         <Filename Value="formlexerstylemap.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmLexerStyleMap"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit42>
-      <Unit43>
+      </Unit41>
+      <Unit42>
         <Filename Value="formkeyinput.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmKeyInput"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="proc_scrollbars.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit43>
       <Unit44>
-        <Filename Value="proc_scrollbars.pas"/>
+        <Filename Value="proc_keymap_undolist.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit44>
       <Unit45>
-        <Filename Value="proc_keymap_undolist.pas"/>
+        <Filename Value="formmain_themes.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit45>
       <Unit46>
-        <Filename Value="formmain_themes.inc"/>
+        <Filename Value="formmain_sidepanel.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit46>
       <Unit47>
-        <Filename Value="formmain_sidepanel.inc"/>
+        <Filename Value="formmain_bottompanel.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit47>
       <Unit48>
-        <Filename Value="formmain_bottompanel.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit48>
-      <Unit49>
         <Filename Value="atcolorpanel.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ATColorPanel"/>
-      </Unit49>
+      </Unit48>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

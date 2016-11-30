@@ -45,7 +45,6 @@ uses
   atsynedit_form_complete_css,
   atsynedit_form_complete_html,
   Gauges,
-  ColorPalette,
   proc_str,
   proc_py,
   proc_py_const,
