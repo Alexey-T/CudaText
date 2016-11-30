@@ -45,6 +45,9 @@ cuda_kv*/
 cuda_lint*/
 cuda_num*/
 cuda_find*/
+cuda_sql*/
+cuda_tern/
+cuda_bracket*/
 cuda_config*/
 cuda_openfiles/
 cuda_tabs*/

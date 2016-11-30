@@ -4,6 +4,10 @@
   * changed
 
 
+1.5.4
++ tab context menu "Set tab color" dialog redone by kvichans (in plugin), dialog has N palettes (option)
++ export to html: optimized file
+
 1.5.3
 + opt tab_max_pos_expanded
 + lex Pascal: hilite "exit/result"
