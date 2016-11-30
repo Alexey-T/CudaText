@@ -75,7 +75,6 @@ uses
   formlexerlib,
   formlexerstylesload,
   formlexerstylemap,
-  formpalette,
   formcolorsetup,
   formabout,
   formcharmaps,
@@ -3208,26 +3207,30 @@ begin
   MsgBox(msgStatusHelpOnKeysConfig, MB_OK or MB_ICONINFORMATION);
 end;
 
+
 procedure TfmMain.mnuTabColorClick(Sender: TObject);
 var
   F: TEditorFrame;
-  Form: TfmPalette;
+  NColor: TColor;
+  SCaption: string;
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  Form:= TfmPalette.Create(Self);
-  with Form do
+  with TIniFile.Create(GetAppLangFilename) do
   try
-    DoLocalize_FormPalette(Form);
-    ResColor:= F.TabColor;
-    case ShowModal of
-      mrOk: F.TabColor:= ResColor;
-      mrNo: F.TabColor:= clNone;
-    end;
+    SCaption:= ReadString('d_tab_color', '_', 'Colors');
   finally
     Free
   end;
+
+  NColor:= Py_DialogColorPicker(SCaption, F.TabColor);
+  if NColor<0 then exit;
+
+  if NColor=clNone then
+    F.TabColor:= clNone
+  else
+    F.TabColor:= NColor;
 end;
 
 procedure TfmMain.mnuTabsize1Click(Sender: TObject);

@@ -11,7 +11,7 @@ uses
   Forms, uniqueinstance_package, FormMain, FormConsole, proc_str, proc_py,
   proc_py_const, proc_globdata, FormFrame, form_menu_commands, formgoto,
   proc_cmd, form_menu_list, formsavetabs, formconfirmrep, formlexerprop,
-  formlexerlib, proc_msg, lazcolorpalette, formpalette, proc_install_zip,
+  formlexerlib, proc_msg, lazcolorpalette, proc_install_zip,
   formcolorsetup, formabout, formkeys, formlexerstylesload, formcharmaps,
   proc_keysdialog, proc_customdialog, proc_miscutils, ATLinkLabel,
   formlexerstyle, formlexerstylemap, formkeyinput, proc_scrollbars, 

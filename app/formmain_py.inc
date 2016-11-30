@@ -3335,3 +3335,14 @@ begin
 end;
 
 
+function Py_DialogColorPicker(const ACaption: string; AColor: integer): integer;
+var
+  SRes: string;
+begin
+  Result:= -1;
+  SRes:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette',
+    ['"'+ACaption+'"', IntToStr(AColor)]);
+  if SRes=cPyNone then exit;
+  Result:= StrToIntDef(SRes, Result);
+end;
+

@@ -21,6 +21,7 @@ procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const SModule, SCmd, SParam: string): string;
 function Py_RunPlugin_Event(const SModule, SCmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
+function Py_RunModuleFunction(const SModule, SFunc: string; SParams: array of string): string;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
@@ -127,6 +128,28 @@ begin
     Result:= GetPythonEngine.ReturnNone;
 end;
 
+
+function Py_RunModuleFunction(const SModule, SFunc: string; SParams: array of string): string;
+var
+  SCmd1, SCmd2, SList: string;
+  i: integer;
+begin
+  SList:= '';
+  for i:= 0 to Length(SParams)-1 do
+  begin
+    if SList<>'' then SList:= SList+', ';
+    SList:= SList+SParams[i];
+  end;
+
+  SCmd1:= Format('import %s', [SModule]);
+  SCmd2:= Format('%s.%s(%s)', [SModule, SFunc, SList]);
+
+  try
+    GetPythonEngine.ExecString(SCmd1);
+    Result:= GetPythonEngine.EvalStringAsStr(SCmd2);
+  except
+  end;
+end;
 
 end.
 
