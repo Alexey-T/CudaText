@@ -42,6 +42,7 @@ REDUCTS = {'lb'     :'label'
         }
 
 def f(s, *args, **kwargs):return s.format(*args, **kwargs)
+def to01(bool_val):return '1' if bool_val else '0'
 
 def log(msg='', *args, **kwargs):
     if args or kwargs:
@@ -530,7 +531,7 @@ def dlg_wrapper(title, w, h, cnts, in_vals={}, focus_cid=None):
            #in_val = ','.join(in_val)
         elif tp in ['checklistbox', 'checklistview'] and isinstance(in_val, tuple):
             an_val = an_val.split(';')
-            an_val = (an_val[0], an_val[1].split(','))
+            an_val = (an_val[0], an_val[1].strip(',').split(','))
            #in_val = ';'.join(in_val[0], ','.join(in_val[1]))
         elif isinstance(in_val, bool): 
             an_val = an_val=='1'
