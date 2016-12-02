@@ -692,11 +692,13 @@ end;
 
 procedure DoScaleForHighDpi(F: TForm);
 begin
-  //ignore case: Screen dpi is smaller (OSX)
+  //ignore if Screen dpi is smaller (macOS: 72)
   if Screen.PixelsPerInch>F.DesignTimeDPI then
     F.AutoAdjustLayout(lapAutoAdjustForDPI,
       F.DesignTimeDPI, Screen.PixelsPerInch,
-      F.Width, ScaleX(F.Width, F.DesignTimeDPI));
+      F.Width, ScaleX(F.Width, F.DesignTimeDPI)
+      , false //ScaleFonts, Laz 1.7 trunk
+      );
 end;
 
 { TDummyClass }
