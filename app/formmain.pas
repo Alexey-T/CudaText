@@ -3211,19 +3211,11 @@ procedure TfmMain.mnuTabColorClick(Sender: TObject);
 var
   F: TEditorFrame;
   NColor: TColor;
-  SCaption: string;
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
 
-  with TIniFile.Create(GetAppLangFilename) do
-  try
-    SCaption:= ReadString('d_tab_color', '_', 'Colors');
-  finally
-    Free
-  end;
-
-  NColor:= Py_DialogColorPicker(SCaption, F.TabColor);
+  NColor:= Py_DialogColorPicker(F.TabColor);
   if NColor<0 then exit;
 
   if NColor=clNone then

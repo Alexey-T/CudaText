@@ -1,6 +1,9 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.12.02
++ [d_tab_color] nocolor, named, nearby
+* del [d_tab_color] res
 
 2016.10.31
 * del [ui] t_sr

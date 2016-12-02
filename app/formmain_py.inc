@@ -3335,13 +3335,30 @@ begin
 end;
 
 
-function Py_DialogColorPicker(const ACaption: string; AColor: integer): integer;
+function Py_DialogColorPicker(AColor: integer): integer;
 var
-  SRes: string;
+  StrCaption, StrCancel, StrNoColor, StrNamed, StrNearby: string;
+  SRes, SOptLoc: string;
+const
+  cLoc= '{"cancel":"%s", "nocolor":"%s", "named":"%s", "nearby":"%s"}';
 begin
   Result:= -1;
+
+  with TIniFile.Create(GetAppLangFilename) do
+  try
+    StrCaption:= ReadString('d_tab_color', '_', 'Colors');
+    StrCancel:= msgButtonCancel;
+    StrNoColor:= ReadString('d_tab_color', 'nocolor', 'No color');
+    StrNamed:= ReadString('d_tab_color', 'named', 'Named');
+    StrNearby:= ReadString('d_tab_color', 'nearby', 'Nearby');
+  finally
+    Free
+  end;
+
+  SOptLoc:= Format(cLoc, [StrCancel, StrNoColor, StrNamed, StrNearby]);
   SRes:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette',
-    ['"'+ACaption+'"', IntToStr(AColor)]);
+    ['"'+StrCaption+'"', IntToStr(AColor), 'i18n='+SOptLoc
+    ]);
   if SRes=cPyNone then exit;
   Result:= StrToIntDef(SRes, Result);
 end;
