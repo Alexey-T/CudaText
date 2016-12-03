@@ -612,9 +612,10 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 var
   F: TForm;
-  Res: integer;
+  Res, i: integer;
   SItem: string;
   Dummy: TDummyClass;
+  List: TStringList;
 begin
   AButtonIndex:= -1;
   AStateText:= '';
@@ -630,11 +631,25 @@ begin
     F.Caption:= ATitle;
     F.ShowHint:= true;
 
+    List:= TStringList.Create;
+    try
+      List.StrictDelimiter:= true;
+      List.Delimiter:= #10;
+      List.DelimitedText:= AText;
+      for i:= 0 to List.Count-1 do
+        DoAddControl(F, List[i], Dummy);
+    finally
+      FreeAndNil(List);
+    end;
+
+    {
+    //prev variant, it was stable, slower
     repeat
       SItem:= SGetItem(AText, #10);
       if SItem='' then break;
       DoAddControl(F, SItem, Dummy);
     until false;
+    }
 
     if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
       if F.Controls[AFocusedIndex].Enabled then
