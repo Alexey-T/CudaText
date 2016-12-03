@@ -20,7 +20,7 @@ uses
   ATColorPanel;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
-  AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
+  const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 
 function IsDialogCustomShown: boolean;
 function DoDialogCustomGetControlHeight(const Id: string): integer;
@@ -159,6 +159,7 @@ var
   List: TStringList;
   Str: string;
   NActive, i: integer;
+  C: TControl;
 begin
   Result:= '';
 
@@ -169,10 +170,9 @@ begin
     NActive:= -1;
     for i:= 0 to AForm.ControlCount-1 do
     begin
-      if AForm.Controls[i]=AForm.ActiveControl then
-        NActive:= i;
-
-      List.Add(DoGetControlState(AForm.Controls[i]));
+      C:= AForm.Controls[i];
+      if C=AForm.ActiveControl then NActive:= i;
+      List.Add(DoGetControlState(C));
     end;
 
     //append NActive
@@ -618,13 +618,13 @@ end;
 
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
-  AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
+  const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 var
   F: TForm;
   Res, i: integer;
-  SItem: string;
   Dummy: TDummyClass;
   List: TStringList;
+  C: TControl;
 begin
   AButtonIndex:= -1;
   AStateText:= '';
@@ -661,9 +661,12 @@ begin
     }
 
     if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
-      if F.Controls[AFocusedIndex].Enabled then
-        if F.Controls[AFocusedIndex] is TWinControl then
-          F.ActiveControl:= F.Controls[AFocusedIndex] as TWinControl;
+    begin
+      C:= F.Controls[AFocusedIndex];
+      if C.Enabled then
+        if C is TWinControl then
+          F.ActiveControl:= C as TWinControl;
+    end;
 
     Dummy.Form:= F;
     F.KeyPreview:= true;
@@ -729,13 +732,17 @@ end;
 
 procedure TDummyClass.DoOnShow(Sender: TObject);
 var
+  C: TControl;
   i: integer;
 begin
   for i:= 0 to Form.ControlCount-1 do
-    if Form.Controls[i] is TListview then
-      with (Form.Controls[i] as TListview) do
+  begin
+    C:= Form.Controls[i];
+    if C is TListview then
+      with (C as TListview) do
         if ItemFocused<>nil then
           ItemFocused.MakeVisible(false);
+  end;
 end;
 
 procedure TDummyClass.DoKeyDown(Sender: TObject; var Key: Word;
