@@ -545,7 +545,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for listview, checklistview: "\t"-separated items.
 *** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +... 
 *** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
-*** other items are data: cell1+"\r"+cell2+"\r"+... (count if cells may be less than columns)
+*** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
 
 * "props": control-specific properties:
 ** for button: default_for_enter (bool value, "1"/"0")
@@ -554,7 +554,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for linklabel: URL (with http: or mailto:)
 ** for listview: show_grid (bool value)
 ** for tabs: tabs_at_bottom (bool value)
-** for colorpanel: str(border_width_from_0)+","+str(int_color_back)+","+str(int_color_font)
+** for colorpanel: str(border_width_from_0)+","+str(int_color_fill)+","+str(int_color_font)+","+str(int_color_border)
 
 * "val": value of control (not for all):
 ** for check: value "0"/"1" or "?" (grayed)
@@ -1207,6 +1207,9 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.161
+* add: dlg_custom: colorpanel has new "props" value, color_border
 
 1.0.160
 * add: can add to side/bottom panel UI-control "listbox"
