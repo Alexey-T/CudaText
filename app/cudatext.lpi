@@ -99,7 +99,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="49">
+    <Units Count="50">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -359,6 +359,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ATColorPanel"/>
       </Unit48>
+      <Unit49>
+        <Filename Value="proc_customdialog_dummy.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit49>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

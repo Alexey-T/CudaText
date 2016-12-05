@@ -14,10 +14,7 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
   CheckLst, Spin, ComCtrls, Dialogs,
-  LclProc, LclType,
-  ATLinkLabel,
-  ATStringProc,
-  ATColorPanel;
+  LclProc, LclType;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
@@ -25,13 +22,13 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
 
-procedure DoForm_Scale(F: TForm);
-
 implementation
 
-const
-  cButtonResultStart=100;
-  cTagActive = -1;
+uses
+  ATLinkLabel,
+  ATStringProc,
+  ATColorPanel,
+  proc_customdialog_dummy;
 
 var
   FDialogShown: boolean = false;
@@ -39,22 +36,20 @@ var
 type
   TCustomEditHack = class(TCustomEdit);
 
-type
-  { TDummyClass }
-  TDummyClass = class
-  public
-    Form: TForm;
-    procedure DoOnShow(Sender: TObject);
-    procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoOnChange(Sender: TObject);
-    procedure DoOnSelChange(Sender: TObject; User: boolean);
-    procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
-    procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
-  end;
-
 function StrToBool(const S: string): boolean;
 begin
   Result:= S<>'0';
+end;
+
+procedure DoForm_Scale(F: TForm);
+begin
+  //ignore if Screen dpi is smaller (macOS: 72)
+  if Screen.PixelsPerInch>F.DesignTimeDPI then
+    F.AutoAdjustLayout(lapAutoAdjustForDPI,
+      F.DesignTimeDPI, Screen.PixelsPerInch,
+      F.Width, ScaleX(F.Width, F.DesignTimeDPI)
+      , false //AScaleFonts, Laz 1.7 trunk
+      );
 end;
 
 function DoControl_IsAutosizeY(C: TControl): boolean;
@@ -377,7 +372,7 @@ begin
       if SValue='button' then
         begin
           Ctl:= TButton.Create(AForm);
-          (Ctl as TButton).ModalResult:= cButtonResultStart+ AForm.ControlCount;
+          (Ctl as TButton).ModalResult:= Dummy_ResultStart+ AForm.ControlCount;
           DoControl_FixButtonHeight(Ctl);
         end;
       if SValue='checkbutton' then
@@ -478,7 +473,7 @@ begin
     if SName='act' then
     begin
       if SValue='1' then
-        Ctl.Tag:= cTagActive;
+        Ctl.Tag:= Dummy_TagActive;
       Continue;
     end;
 
@@ -692,9 +687,9 @@ begin
     FDialogShown:= true;
     Res:= F.ShowModal;
 
-    if Res>=cButtonResultStart then
+    if Res>=Dummy_ResultStart then
     begin
-      AButtonIndex:= Res-cButtonResultStart;
+      AButtonIndex:= Res-Dummy_ResultStart;
       AStateText:= DoForm_GetResult(F);
     end;
   finally
@@ -732,77 +727,6 @@ begin
   finally
     FreeAndNil(C);
   end;
-end;
-
-procedure DoForm_Scale(F: TForm);
-begin
-  //ignore if Screen dpi is smaller (macOS: 72)
-  if Screen.PixelsPerInch>F.DesignTimeDPI then
-    F.AutoAdjustLayout(lapAutoAdjustForDPI,
-      F.DesignTimeDPI, Screen.PixelsPerInch,
-      F.Width, ScaleX(F.Width, F.DesignTimeDPI)
-      , false //AScaleFonts, Laz 1.7 trunk
-      );
-end;
-
-{ TDummyClass }
-
-procedure TDummyClass.DoOnShow(Sender: TObject);
-var
-  C: TControl;
-  i: integer;
-begin
-  for i:= 0 to Form.ControlCount-1 do
-  begin
-    C:= Form.Controls[i];
-    if C is TListview then
-      with (C as TListview) do
-        if ItemFocused<>nil then
-          ItemFocused.MakeVisible(false);
-  end;
-end;
-
-procedure TDummyClass.DoOnKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key=VK_ESCAPE) then
-  begin
-    if Assigned(Form) then
-      Form.ModalResult:= mrCancel;
-    Key:= 0;
-    exit;
-  end;
-end;
-
-procedure TDummyClass.DoOnChange(Sender: TObject);
-var
-  i: integer;
-begin
-  //Tag=cTagActive means that control change closes form
-  if (Sender as TControl).Tag=cTagActive then
-    for i:= 0 to Form.ControlCount-1 do
-      if Form.Controls[i]=Sender then
-      begin
-        Form.ModalResult:= cButtonResultStart+i;
-        exit
-      end;
-end;
-
-procedure TDummyClass.DoOnSelChange(Sender: TObject; User: boolean);
-begin
-  DoOnChange(Sender);
-end;
-
-procedure TDummyClass.DoOnListviewChange(Sender: TObject; Item: TListItem;
-  Change: TItemChange);
-begin
-  DoOnChange(Sender);
-end;
-
-procedure TDummyClass.DoOnListviewSelect(Sender: TObject; Item: TListItem;
-  Selected: Boolean);
-begin
-  DoOnChange(Sender);
 end;
 
 
