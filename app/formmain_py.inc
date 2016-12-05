@@ -3337,10 +3337,12 @@ end;
 
 function Py_DialogColorPicker(AColor: integer): integer;
 var
-  StrCaption, StrCancel, StrNoColor, StrNamed, StrNearby: string;
+  StrCaption, StrCancel, StrNoColor, StrNamed, StrNearby,
+  StrHintMore, StrHintNamed, StrHintNearby, StrHintInname: string;
   SRes, SOptLoc: string;
 const
-  cLoc= '{"cancel":"%s", "nocolor":"%s", "named":"%s", "nearby":"%s"}';
+  cLoc= '{"cancel":"%s", "nocolor":"%s", "named":"%s", "nearby":"%s",'+
+        ' "more_hint":"%s", "named_hint":"%s", "nearby_hint":"%s", "inname_hint":"%s", }';
 begin
   Result:= -1;
 
@@ -3351,11 +3353,17 @@ begin
     StrNoColor:= ReadString('d_tab_color', 'nocolor', 'No color');
     StrNamed:= ReadString('d_tab_color', 'named', 'Named');
     StrNearby:= ReadString('d_tab_color', 'nearby', 'Nearby');
+    StrHintMore:= SEscapeForPython(ReadString('d_tab_color', 'h_more', 'Show/hide advanced options'));
+    StrHintNamed:= SEscapeForPython(ReadString('d_tab_color', 'h_named', 'Mark named colors with "!"'));
+    StrHintNearby:= SEscapeForPython(ReadString('d_tab_color', 'h_nearby', 'Assign names to some colors, which are "near" named colors. Marks show distance to these near colors:\r"!" if distance is very low,\r"." if distance is small,\r".." for others'));
+    StrHintInname:= SEscapeForPython(ReadString('d_tab_color', 'h_inname', 'Point colors which names include typed string'));
   finally
     Free
   end;
 
-  SOptLoc:= Format(cLoc, [StrCancel, StrNoColor, StrNamed, StrNearby]);
+  SOptLoc:= Format(cLoc, [StrCancel, StrNoColor, StrNamed, StrNearby,
+                          StrHintMore, StrHintNamed, StrHintNearby, StrHintInname]);
+
   SRes:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette',
     ['"'+StrCaption+'"', IntToStr(AColor), 'i18n='+SOptLoc
     ]);

@@ -38,7 +38,9 @@ type
   TRegexParts = array[1..8] of string;
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 
+function SEscapeForPython(const Str: string): string;
 function SStringToPythonString(const Str: string): string;
+
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
@@ -73,13 +75,27 @@ begin
   until False;
 end;
 
-function SStringToPythonString(const Str: string): string;
+function SEscapeForPython(const Str: string): string;
 const
   Decode: array[0..3] of TStringReplacePart =
+    (
+      (SFrom: '"'; STo: '\"'),
+      (SFrom: #10; STo: '\n'),
+      (SFrom: #13; STo: '\r'),
+      (SFrom: #9; STo: '\t')
+    );
+begin
+  Result:= SReplaceParts(Str, Decode);
+end;
+
+function SStringToPythonString(const Str: string): string;
+const
+  Decode: array[0..4] of TStringReplacePart =
     (
       (SFrom: '\'; STo: '\\'),
       (SFrom: '"'; STo: '"+''"''+"'),
       (SFrom: #10; STo: '\n'),
+      (SFrom: #13; STo: '\r'),
       (SFrom: #9; STo: '\t')
     );
 begin
