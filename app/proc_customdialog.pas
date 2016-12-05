@@ -23,9 +23,9 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 
 function IsDialogCustomShown: boolean;
-function DoDialogCustomGetControlHeight(const Id: string): integer;
+function DoDialogCustom_GetControlHeight(const Id: string): integer;
 
-procedure DoFormScale(F: TForm);
+procedure DoForm_Scale(F: TForm);
 
 implementation
 
@@ -617,6 +617,19 @@ begin
 end;
 
 
+procedure DoForm_FocusControl(F: TForm; AIndex: integer);
+var
+  C: TControl;
+begin
+  if (AIndex>=0) and (AIndex<F.ControlCount) then
+  begin
+    C:= F.Controls[AIndex];
+    if C.Enabled then
+      if C is TWinControl then
+        F.ActiveControl:= C as TWinControl;
+  end;
+end;
+
 procedure DoDialogCustom_FillContent(
   F: TForm; Dummy: TDummyClass;
   const AContent: string; AFocusedIndex: integer);
@@ -648,20 +661,13 @@ begin
   until false;
   }
 
-  if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
-  begin
-    C:= F.Controls[AFocusedIndex];
-    if C.Enabled then
-      if C is TWinControl then
-        F.ActiveControl:= C as TWinControl;
-  end;
-
   Dummy.Form:= F;
   F.KeyPreview:= true;
   F.OnKeyDown:= @Dummy.DoKeyDown;
   F.OnShow:= @Dummy.DoOnShow;
 
-  DoFormScale(F);
+  DoForm_FocusControl(F, AFocusedIndex);
+  DoForm_Scale(F);
 end;
 
 
@@ -704,7 +710,7 @@ begin
   Result:= FDialogShown;
 end;
 
-function DoDialogCustomGetControlHeight(const Id: string): integer;
+function DoDialogCustom_GetControlHeight(const Id: string): integer;
 var
   C: TControl;
 begin
@@ -721,7 +727,7 @@ begin
   exit;
 
   try
-    C.Caption:= 'WpJj'; //for label autosize
+    C.Caption:= 'WpPJjy'; //for label autosize
     C.Parent:= Application.MainForm; //else height incorrect
     Result:= C.Height;
   finally
@@ -729,7 +735,7 @@ begin
   end;
 end;
 
-procedure DoFormScale(F: TForm);
+procedure DoForm_Scale(F: TForm);
 begin
   //ignore if Screen dpi is smaller (macOS: 72)
   if Screen.PixelsPerInch>F.DesignTimeDPI then
