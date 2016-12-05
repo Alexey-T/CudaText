@@ -2,11 +2,11 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.9.0 2016-11-30'
+    '0.9.5 2016-12-05'
 ToDo: (see end of file)
 '''
 
-import  colorsys
+import  re, colorsys
 import  cudatext        as app
 #from    cudatext    import ed
 #import  cudatext_cmd    as cmds
@@ -17,6 +17,9 @@ _   = get_translation(__file__) # I18N
 pass;                           # Logging
 pass;                           LOG = (-2==-2)  # Do or dont logging.
 
+Rc  = lambda c: (c&0x0000FF)
+Gc  = lambda c: (c&0x00FF00) >> 8
+Bc  = lambda c: (c&0xFF0000) >> 16
 def int_to_rgb(clr):
     return  255&clr      ,  255&(clr>>8)      ,  255&(clr>>16)
 def int_to_rgb01(clr):
@@ -27,12 +30,15 @@ def rgb01_to_int(r,g,b):
     return int(255*r)    | (int(255*g)<<8)    | (int(255*b)<<16)
 clr_h2i = apx.html_color_to_int
 
+BLUE    = 0xff0000
+YELLOW  = 0x00ffff
 COLOR_NAMES={}
 PLTYPES = [ '60 colors: 3*20'
         ,   '142 colors: 7-hexagon'
         ,   '216 web-colors: 9-hexagon'
         ,   '216 web-colors: dragon'
         ,   '216 web-colors: candles'
+#       ,   '343 colors: 18*19'
         ,   '3221 colors: 7-hexagon, dialog'
         ,   '146 named colors'
         ,   '420 named colors: 12*35'
@@ -52,10 +58,17 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
             None                  If "Cancel"
     """
     pass;                      #LOG and log('caption, old_color, palette_type={}',(caption, old_color, palette_type))
+    pass;                       sltr        = 0
+    pass;                      #sltr        = 37    # for 7
+    pass;                      #sltr        = 43    # for 6
+    pass;                       rc4exch_src = None
+    new_color           = None
     active_plts         = apx.get_opt('active_palettes', '|'.join(PLTYPES)).split('|')
     if not active_plts:
         # All if never Config
         active_plts     = PLTYPES[:]
+    else:
+        active_plts     = [plt for plt in active_plts if plt in PLTYPES]
     if palette_type     in PLTYPES and \
        palette_type not in active_plts:
        # Add to list if in params
@@ -65,51 +78,97 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
         palette_type    = apx.get_opt('last_palette_type', active_plts[0])
         palette_type    = palette_type if palette_type in active_plts else active_plts[0]
     grey_clr_for_plt    = apx.get_opt('last_palette_grey_level', 0)
+    view_more           = apx.get_opt('palette_more', False)
     
-    cnRGBs  = []
+    cnRGBs  = [(int_to_rgb(c), c, s) for (c, s) in COLOR_NAMES.items()]
     
-    MIN_PLT_WIDTH = 500
-    C_NMED  = i18n.get('named'  , _('M&ark named'))
-    C_NRBY  = i18n.get('nearby' , _('N&earby'))
-    C_NOTH  = i18n.get('nocolor', _('&No color'))
-    C_CANC  = i18n.get('cancel' , _('Cancel'))
+    brd_c   = clr_h2i('#b6feff')
+    MIN_PLT_WIDTH = 555
+    C_NMED  = i18n.get('named'      ,_('M&ark named'))
+    C_NRBY  = i18n.get('nearby'     ,_('N&earby'))
+    C_NOTH  = i18n.get('nocolor'    ,_('&No color'))
+    C_CANC  = i18n.get('cancel'     ,_('Cancel'))
+
+    H_MORE  = i18n.get('more_hint'  ,_('Show/Hide advanced options'))
+    H_NMED  = i18n.get('named_hint' ,_('Mark named colors with "!"'))
+    H_NRBY  = i18n.get('nearby_hint',_('Assign names to some colors, which are "near" named colors. Marks show distance to these near colors:'
+                '\r"!" if distance is very low,'
+                '\r"." if distance is small, '
+                '\r".." all others'
+                ))
+    H_NFLT  = i18n.get('inname_hint',_('Point colors which name includes the string'))
     
-    H_NMED  = _('Point named colors with "!"')
-    H_NRBY  = _('Point the nearest name for all colors'
-                '\r"!"  - [almost] exactly'
-                '\r"."  - surely'
-                '\r".." - doubtful'
-                )
-    H_NFLT  = _('Point colors which name includes the string')
-    H_AFLT  = _('Apply filter')
-    fid     = 'type'
-    vals    = dict(pltp=active_plts.index(palette_type)
+    def clr_data(clr, vw_nrby, nflt):
+        R, G, B     = int_to_rgb(clr)
+        H, S, V     = list(int(255*c) for c in colorsys.rgb_to_hsv(R/255, G/255, B/255))
+        nmd         = clr in COLOR_NAMES
+        nm          = COLOR_NAMES.get(clr, '')
+        sure,ma     = '', 0
+        cn          = clr if nm else 0
+        if not nm and vw_nrby:
+            d,ma,   \
+            nm,cn   = min(    (abs(R-cnR)+abs(G-cnG)+abs(B-cnB)
+                         , max(abs(R-cnR),abs(G-cnG),abs(B-cnB))
+                         , sn, c) for ((cnR, cnG, cnB), c, sn) in cnRGBs)
+            sure    = sure_by_ma(ma)
+            nm      = nm if sure else ''
+        fltd        = nflt and nm and nflt in nm.upper()
+        flt_c       = YELLOW
+        pass                        #;flt_s  = ''
+        if not fltd:pass
+        elif (R+G+B)>230*3:
+            flt_c   = BLUE          #;flt_s  = 'L'
+        elif V>220 and not abs(H-170) < 50:
+            flt_c   = BLUE          #;flt_s  = 'Lb'
+        elif B>=R and B>=G:
+            pass                    #;flt_s  = 'B'
+        elif R>220:
+            flt_c   = BLUE          #;flt_s  = 'R'
+        elif G>220: 
+            flt_c   = BLUE          #;flt_s  = 'G'
+        elif R+G>190*2:
+            flt_c   = BLUE          #;flt_s  = 'RG'
+        hint        = f('{h}\rRGB:{R},{G},{B}\rHSV:{H},{S},{V}{n}'
+                       , h=apx.int_to_html_color(clr).upper()
+                       , R=R, G=G, B=B
+                       , H=H, S=S, V=V
+                       , n='\r'+nm+('' if nmd else f('\r({})',apx.int_to_html_color(cn).upper())) if nm else '')
+        return (R,G,B, H,S,V
+               ,nmd,nm,sure,ma,cn
+               ,fltd,flt_c               #,flt_s
+               ,hint)
+    fid         = 'pltp'
+    vals        = dict(pltp=active_plts.index(palette_type)
                   ,nmed=False
                   ,nrby=False
                   ,nflt=''
                   )
+    pre_plt     = ''
+    pre_grey    = -1
     while True:
-        if not cnRGBs:
-            cnRGBs  = [(int_to_rgb(c)
-                       , c, s) for (c, s) in COLOR_NAMES.items()]
-
-        clrs,       \
-        w,h,        \
-        sp_clrs,    \
-        sp_w,sp_h   = _dlg_color_palette_clrs(active_plts[vals['pltp']], grey_clr_for_plt)
+        C_MORE      = '&>>' if view_more else '&<<'
+        if pre_plt != vals['pltp'] or pre_grey != grey_clr_for_plt:
+            clrs,       \
+            w,h,        \
+            sp_clrs,    \
+            sp_w,sp_h   = _dlg_color_palette_clrs(active_plts[vals['pltp']], grey_clr_for_plt)
+            pre_plt     = vals['pltp']
+            pre_grey    = grey_clr_for_plt
         
-        vw_nmed = vals['nmed']                      # Point of named color
-        vw_nrby = vals['nrby'] and vw_nmed          # Point color names with nearby
-        nflt    = vals['nflt']                      # Filter value
-        nflt    = nflt.upper()
+        vw_nmed     = vals['nmed']                      # Point of named color
+        vw_nrby     = vals['nrby'] and vw_nmed          # Point color names with nearby
+        nflt        = vals['nflt'].upper()              # Filter value
         pass;                  #LOG and log('nflt={}',(nflt))
 
         max_cnt     = max(len(r) for ir,r in enumerate(   clrs))
         sp_max_cnt  = max(len(r) for ir,r in enumerate(sp_clrs)) if sp_clrs else 0
-        plt_w       =    w *    max_cnt
-        sp_plt_w    = sp_w * sp_max_cnt
-        plt_w       = max(plt_w, sp_plt_w, MIN_PLT_WIDTH)
+        plt_w       = max(   w *    max_cnt
+                         ,sp_w * sp_max_cnt
+                         ,MIN_PLT_WIDTH)
         
+        sure_by_ma  = lambda ma:'!'   if ma<=3 else \
+                                '.'   if ma<=9 else \
+                                '..'
         cnts    = []
         # Main plt
         pass;                  #LOG and log('?? main plt (==',())
@@ -117,73 +176,24 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
             shft    = (plt_w - w *len(crow)) // 2
             for icol,clr  in enumerate(crow):
                 if clr is None: continue
-                R, G, B     = int_to_rgb(clr)
-                H, S, V     = list(int(255*c) for c in colorsys.rgb_to_hsv(R/255, G/255, B/255))
-                nmd         = clr in COLOR_NAMES
-                nm          = COLOR_NAMES.get(clr, '')
-                sure,ma     = '', ''
-                cn          = clr if nm else 0
-                if not nm and vw_nrby:
-                    d,ma,   \
-                    nm,cn   = min((abs(R-cnR)+abs(G-cnG)+abs(B-cnB), max(abs(R-cnR),abs(G-cnG),abs(B-cnB)), sn, c) for ((cnR, cnG, cnB), c, sn) in cnRGBs)
-                    sure    = '!'   if ma<=3 else \
-                              '.'   if ma<=9 else \
-                              '..'
-                    nm      = nm if sure else ''
-                fltd        = nflt and (nflt=='*' or nm and nflt in nm.upper())
-                mrk_c           = 0xff0000  # =Blue
-                pass;mrk_s      = ''
-                bB1             = abs(H-170) < 50                   #   H is near Blue
-                bB2             = B          > 127                  #   large B-part
-                bD1             = V          < 200                  #   dark (by V)
-                bL1             = V          > 220                  #   light (by V)
-                bL2             = R>190 or G>190 or (R+G+B)/3>180   #   light (by R+G+B)
-                bD2             = R<127 and G<127 and B<150         #   dark (by R,G,B)
-                if not fltd:pass
-                elif bB1 and not (bL1 or bL2):      #   H is near Blue AND not Light
-                    mrk_c       = 0x00ffff
-                    pass;mrk_s  = 'B1'
-                elif bD1:                           #   dark (by V)
-                    mrk_c       = 0x00ffff
-                    pass;mrk_s  = 'D1'
-                elif bD2:                           #   dark (by R+G+B)
-                    mrk_c       = 0x00ffff
-                    pass;mrk_s  = 'D2'
-                elif bL1:                           #   light (by V)
-                    mrk_c       = 0xff0000
-                    pass;mrk_s  = 'L1'
-                elif bL2:                           #   light (by R+G+B)
-                    mrk_c       = 0xff0000
-                    pass;mrk_s  = 'L2'
-                elif bB2:                           #   large B-part
-                    mrk_c       = 0x00ffff
-                    pass;mrk_s  = 'B2'
-#               mrk_c       = 0x00ffff if (True and     # =Yellow if
-#                           (   abs(H-170)  <50         #   H is near Blue
-#                           or  B           >127        #   large B-part
-#                           or  V           <127        #   dark (by V)
-#                           or  (R+G+B)/3   <127        #   dark (by R+G+B)
-#                                   ) else 0xff0000     # =Blue
+                (R,G,B, H,S,V
+                ,nmd,nm,sure,ma,cn
+                ,fltd,flt_c                  #,flt_s
+                ,hint)= clr_data(clr, vw_nrby, nflt)
+                if nflt and not fltd: continue#for
+                fg_c    = (0xffffff if (R+G+B)/3<128 else 0x000000)
                 cnts += [dict(tp='clr'
-                        ,cid=f('c{}', clr)  
-                        ,t=5+irow*h, h=h, l=shft+10+icol*w, w=w
-                        ,props=f('{bord_w},{bg},{fg},{bord_c}'  , bord_w=(2                 if clr in (old_color,grey_clr_for_plt) or fltd else 
-                                                                          1)
-                                                                , bg    = clr
-                                                                , fg    =(0xffffff          if (R+G+B)/3<125 else 
-                                                                          0x000000)
-                                                                , bord_c=(0                 if clr==old_color else 
-                                                                          0xffffff          if clr==grey_clr_for_plt else 
-                                                                          mrk_c             if fltd else
-                                                                          clr_h2i('#b6feff')) )
-                        ,cap=                                     ('!'                      if vw_nmed and nmd else 
-                                                                   sure)        #+mrk_s #+ str(ma)
-                        ,hint=f('{h}\rRGB:{R},{G},{B}\rHSV:{H},{S},{V}{n}'
-                                                                , h=apx.int_to_html_color(clr).upper()
-                                                                , R=R, G=G, B=B
-                                                                , H=H, S=S, V=V
-                                                                , n='\r'+nm+('' if nmd else f('\r({})',apx.int_to_html_color(cn).upper())) if nm else '')
-                        ,act='1'
+                        ,cid    =f('c{}', clr)  
+                        ,t      =10+irow*h        ,h=h+1
+                        ,l      =shft+10+icol*w   ,w=w+1
+                        ,props  =f('1,{bg},{fg},{bord_c}', bg=clr, fg=fg_c, bord_c= brd_c )
+                        ,cap    =('!'                      if vw_nmed and nmd else 
+                                  sure        #+flt_s #+ str(ma)
+                                               +(f('{}{}{}', R//sltr, G//sltr, B//sltr) if sltr else '')
+                                 )
+                        ,hint   =hint
+                        ,rc     =(irow,icol)
+                        ,act    ='1'
                     )]
         plt_h   = h * len(clrs)
         pass;                  #LOG and log('ok main plt',())
@@ -194,69 +204,121 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
             shft    = (plt_w - sp_w *len(crow)) // 2
             for icol,clr  in enumerate(crow):
                 if clr is None: continue
-                R, G, B     = int_to_rgb(clr)
-                H, S, V     = list(int(255*c) for c in colorsys.rgb_to_hsv(R/255, G/255, B/255))
-                nmd         = clr in COLOR_NAMES
-                nm          = COLOR_NAMES.get(clr, '')
-                sure        = ''
-                if not nm and vw_nrby:
-                    d,ma,   \
-                    nm,cn   = min((abs(R-cnR)+abs(G-cnG)+abs(B-cnB), max(abs(R-cnR),abs(G-cnG),abs(B-cnB)), sn, c) for ((cnR, cnG, cnB), c, sn) in cnRGBs)
-                    sure    = '!'   if ma<=3 else \
-                              '.'   if ma<=9 else \
-                              '..'
-                    nm      = nm if sure else ''
+                (R,G,B, H,S,V
+                ,nmd,nm,sure,ma,cn
+                ,fltd,flt_c                  #,flt_s
+                ,hint)= clr_data(clr, vw_nrby, nflt)
                 cnts += [dict(tp='clr'
-                        ,cid=f('s{}', clr)  
-                        ,t=plt_h+5+irow*sp_h, h=sp_h, l=shft+10+icol*sp_w, w=sp_w
-                        ,props=f('{bord_w},{bg},{fg},{bord_c}'  , bord_w=1 #(2 if clr in (old_color,grey_clr_for_plt) else 1)
-                                                                , bg    =clr
-                                                                , fg    =(0xffffff if (R+G+B)/3<128 else 0x000000)
-                                                                , bord_c=(0 if clr==old_color else 0xffffff if clr==grey_clr_for_plt else clr_h2i('#b6feff')) )
-                        ,cap=                                   '^' if clr==grey_clr_for_plt else '' #if vw_nmed and nmd else sure
-                        ,hint=f('{h}\rRGB:{R},{G},{B}\rHSV:{H},{S},{V}{n}'
-                                                                , h=apx.int_to_html_color(clr).upper()
-                                                                , R=R, G=G, B=B
-                                                                , H=H, S=S, V=V
-                                                                , n=('\r'+nm+('' if nmd else f('\r({})',apx.int_to_html_color(cn).upper()))) if nm else '')
-                        ,act='1'
+                        ,cid    =f('s{}', clr)  
+                        ,t      =plt_h+10+irow*sp_h ,h=sp_h+1
+                        ,l      =shft+10+icol*sp_w  ,w=sp_w+1
+                        ,props  =f('1,{bg},{fg},{bord_c}', bg=clr, fg=fg_c, bord_c=brd_c)
+                        ,cap=   '^' if clr==grey_clr_for_plt else ''
+                        ,hint   =hint
+                        ,act=   '1'
                     )]
         sp_plt_h    = sp_h * len(sp_clrs)
         pass;                  #LOG and log('ok spec plt',())
 
         plt_h       = plt_h + sp_plt_h
         
-        cnts   += [dict(cid='pltp'  ,tp='cb-ro' ,t=5+plt_h+15   ,l=10           ,w=380,items=active_plts+[_('Config...')]   ,act='1'                        )]
-        cnts   += [dict(cid='nflt'  ,tp='ed'    ,tid='----'     ,l= 10          ,w=100                      ,hint=H_NFLT                                    )]
-        cnts   += [dict(cid='nmed'  ,tp='ch'    ,tid='----'     ,l=130          ,w=150,cap=C_NMED           ,hint=H_NMED    ,act='1'                        )]
-        cnts   += [dict(cid='nrby'  ,tp='ch'    ,tid='----'     ,l=280          ,w=150,cap=C_NRBY           ,hint=H_NRBY    ,act='1',en=bool(vals['nmed'])  )]
-        cnts   += [dict(cid='noth'  ,tp='bt'    ,t=5+plt_h+15   ,l=10+plt_w-110 ,w=110,cap=C_NOTH                                                           )]
-        cnts   += [dict(cid='----'  ,tp='bt'    ,t=5+plt_h+45   ,l=10+plt_w-110 ,w=110,cap=C_CANC                                                           )]
-        cnts   += [dict(cid='aflt'  ,tp='bt'    ,tid='----'     ,l=  0          ,w=0  ,cap='!'              ,hint=H_AFLT            ,props='1'              )] #default
+        if old_color is not None:
+            (old_R,old_G,old_B, old_H,old_S,old_V
+            ,old_nmd,old_nm,old_sure,old_ma,old_cn
+            ,old_fltd,old_flt_c                  #,flt_s
+            ,old_hint)  = clr_data(old_color, vw_nrby, nflt)
+            idold       = 'c'+str(old_color)
+        if new_color is not None:
+            (new_R,new_G,new_B, new_H,new_S,new_V
+            ,new_nmd,new_nm,new_sure,new_ma,new_cn
+            ,new_fltd,new_flt_c                  #,flt_s
+            ,new_hint)  = clr_data(new_color, vw_nrby, nflt)
+            idnew       = 'c'+str(new_color)
+        if view_more:
+            cnts+=     [dict(cid='aflt'  ,tp='bt'   ,tid='----'     ,l=  0          ,w=0  ,cap=''                                       ,props='1'      )] #default
+            cnts+=     [dict(cid='pltp'  ,tp='cb-ro',tid='noth'     ,l= 10          ,w=385,items=active_plts+[_('Config...')]   ,act='1'                )]
+            cnts+=     [dict(cid='nflt'  ,tp='ed'   ,tid='----'     ,l= 10          ,w=100                      ,hint=H_NFLT                            )]
+            cnts+=     [dict(cid='nmed'  ,tp='ch'   ,tid='----'     ,l=130          ,w=150,cap=C_NMED           ,hint=H_NMED    ,act='1'                )]
+            cnts+=     [dict(cid='nrby'  ,tp='ch'   ,tid='----'     ,l=260          ,w=150,cap=C_NRBY           ,hint=H_NRBY    ,act='1',en=vals['nmed'])]
+            if new_color is not None:
+                cnts+= [dict(cid=idnew   ,tp='clr'  ,t=10+plt_h+ 7  ,l=10+plt_w-165 ,w= 50, h=30,cap=''
+                            ,props=f('1,{bg},0,{bc}',bg=new_color,bc=brd_c)             ,hint='New color\r'+new_hint            ,act='1'                )]
+            if old_color is not None:
+                cnts+= [dict(cid=idold   ,tp='clr'  ,t=10+plt_h+36  ,l=10+plt_w-165 ,w= 50, h=30,cap=''
+                            ,props=f('1,{bg},0,{bc}',bg=old_color,bc=brd_c)             ,hint='Old color\r'+old_hint            ,act='1'                )]
+            cnts+=     [dict(cid='more'  ,tp='bt'   ,tid='----'     ,l=10+plt_w-205 ,w= 35,cap=C_MORE           ,hint=H_MORE                            )]
+            cnts+=     [dict(cid='noth'  ,tp='bt'   ,t=10+plt_h+10  ,l=10+plt_w-110 ,w=110,cap=C_NOTH                                                   )]
+            cnts+=     [dict(cid='----'  ,tp='bt'   ,t=10+plt_h+40  ,l=10+plt_w-110 ,w=110,cap=C_CANC                                                   )]
+        else:
+            cnts+=     [dict(cid='more'  ,tp='bt'   ,tid='----'     ,l=10           ,w= 35,cap=C_MORE           ,hint=H_MORE                            )]
+            if old_color is not None:
+                cnts+= [dict(cid=idold   ,tp='clr'  ,t=10+plt_h+ 7  ,l=10+plt_w-275 ,w= 50, h=30,cap=''
+                            ,props=f('1,{bg},0,{bc}',bg=old_color,bc=brd_c)             ,hint='Old color\r'+old_hint            ,act='1'                )]
+            cnts+=     [dict(cid='noth'  ,tp='bt'   ,t=10+plt_h+10  ,l=10+plt_w-220 ,w=110,cap=C_NOTH                                                   )]
+            cnts+=     [dict(cid='----'  ,tp='bt'   ,t=10+plt_h+10  ,l=10+plt_w-110 ,w=110,cap=C_CANC                                                   )]
         dlg_w   = 10 + plt_w + 10
-        dlg_h   = 5  + plt_h + 15 + 30 + 25 + 5
+        dlg_h   = 5  + plt_h + 15 + 30 + (30 if view_more else 0) #+ 5
 
         pass;                  #LOG and log('?? dlg_wrapper ==)',())
-        aid,vals,*_t = dlg_wrapper(caption + _(' (Ctrl+Click to copy hint)'), dlg_w, dlg_h, cnts, vals, focus_cid=fid)
+        aid,vals,*_t = dlg_wrapper(caption + (_(' (Shift+Click to preview. Ctrl+Click to copy data)') if view_more else '')
+                                  ,dlg_w, dlg_h, cnts
+                                  ,vals if view_more else {}
+                                  ,focus_cid=fid)
         pass;                  #LOG and log('aid,vals={}',(aid,vals))
-
         if not aid or aid=='----': return None
-        if aid=='noth': return app.COLOR_NONE
+        if aid=='more':
+            view_more   = not view_more
+            apx.set_opt('palette_more', view_more)
+            if view_more:
+                fid     = 'pltp'
+                vals    = dict(pltp=active_plts.index(palette_type)
+                              ,nmed=False
+                              ,nrby=False
+                              ,nflt=''
+                              )
+            continue#while
 
         scam    = app.app_proc(app.PROC_GET_KEYSTATE, '') if app.app_api_version()>='1.0.143' else ''
-        if aid[0]=='c' and scam=='c':
-            hint    = [cnt['hint'] for cnt in cnts if aid==cnt['cid']][0]
-            hint    = hint.replace('\r', '\n')
-            app.app_proc(app.PROC_SET_CLIP, hint)
-            continue#while
-        if aid[0]=='c': return int(aid[1:])
+        if sltr and \
+           aid=='noth' and sltr and scam=='sc':  # Show 0-6 main plt
+            pass;              #LOG and log('clrs={}',(clrs))
+            pass;               plt_s   = '\n'.join(' '.join(f('{}{}{}',Rc(cl)//sltr, Gc(cl)//sltr, Bc(cl)//sltr) for cl in r)+' ' for r in clrs) + '\n'
+            pass;               plt_s   = re.sub(r'(\d\d\d \d\d\d \d\d\d )', r'\1    ', plt_s)
+            pass;               app.app_proc(app.PROC_SET_CLIP, plt_s)
+            pass;               dlg_wrapper('Plt', 5+600+5, 5+600+5, [dict(cid='plt' ,tp='me',t=5,h=600  ,l=5,w=600)], dict(plt=plt_s))
+            pass;               continue#while
+        if aid=='noth': return app.COLOR_NONE
 
-        fid     = 'nflt'    if aid in ('nmed', 'nrby', 'aflt') else 'type'
+        if aid[0]=='c':
+            new_color   = int(aid[1:])
+            if scam=='':
+                return new_color
+            cnt = [cnt for cnt in cnts if aid==cnt['cid']][0]
+            if sltr:
+                pass;           rc4exch = cnt['rc']
+            if scam=='c':
+                app.app_proc(app.PROC_SET_CLIP, cnt['hint'].replace('\r', '\n'))
+            if scam=='a' and sltr and rc4exch_src is not None and rc4exch!=rc4exch_src:
+                    pass;      #LOG and log('?? clrs={}',clrs)
+                    pass;       clrs[rc4exch_src[0]][rc4exch_src[1]] ,  \
+                                clrs[rc4exch    [0]][rc4exch    [1]]    = clrs[rc4exch    [0]][rc4exch    [1]] , \
+                                                                          clrs[rc4exch_src[0]][rc4exch_src[1]]
+                    pass;       LOG and log('exch! {} with {}',rc4exch,rc4exch_src)
+                    pass;      #LOG and log('!! clrs={}',clrs)
+#               continue#while
+            if scam=='s':
+                if sltr:
+                    pass;       rc4exch_src = rc4exch
+                    pass;       LOG and log('rc4exch_src={}',(rc4exch_src))
+            continue#while
+
+        fid     = 'nflt'    if aid in ('nmed', 'nrby', 'aflt') else     'pltp'
+        pass;                  #LOG and log('aid, fid={}',(aid, fid))
         
         if aid[0]=='s':    # Special color
             clr     = int(aid[1:])
             R, G, B = int_to_rgb(clr) #255&clr, 255&(clr>>8), 255&(clr>>16)
-            if R==G and G==B:
+            if R==G==B:
                 grey_clr_for_plt    = clr
                 apx.set_opt('last_palette_grey_level', clr)
             continue#while
@@ -293,22 +355,62 @@ def _dlg_color_palette_clrs(palette_type, grey_clr_for_plt=0):
     R1          = 0x000033
     G1          = 0x003300
     B1          = 0x330000
-    inversed    = True
+    inversedRGB = True
     clrs        = ()
     w,h         = 21,21
     sp_clrs     = ()
     sp_w,sp_h   = 21,21
     
-    def invert_HML(clrs):
+    def inverse_RGB(clrs):
         return list(list(
             (c & 0x0000ff)<<16 | (c & 0x00ff00) | (c & 0xff0000)>>16 
                 if c is not None else c
             for c in row) for row in clrs)
 
     if False:pass
+    elif palette_type=='343 colors: 18*19':
+        #  9-hexagon:  9*2 + 10*2 + 11*2 + 12*2 + 13*2 + 14*2 + 15*2 + 16*2 + 17                            = 217
+        # 10-hexagon:        10*2 + 11*2 + 12*2 + 13*2 + 14*2 + 15*2 + 16*2 + 17*2 + 18*2 + 19              = 271
+        # 11-hexagon:               11*2 + 12*2 + 13*2 + 14*2 + 15*2 + 16*2 + 17*2 + 18*2 + 19*2 + 20*2 + 21= 331
+        # 343 = 7*7*7 = 8*27 + 127 = 331 + 12 = 7 + 7*48 = 7 + 7*6*8 = 7 + 16*21 = 16*22 - 9 = 7 + 12*28 = 7 + 6*7*8 = 12*29 - 5 = 18*19 + 1
+        RPrts   = (0x000000,0x00002a,0x000055,0x00007f,0x0000aa,0x0000d4,0x0000ff)
+        GPrts   = (0x000000,0x002a00,0x005500,0x007f00,0x00aa00,0x00d400,0x00ff00)
+        BPrts   = (0x000000,0x2a0000,0x550000,0x7f0000,0xaa0000,0xd40000,0xff0000)
+        _t      = """
+000 010 020 030         060     100 110 120 130         160     200 210 220 230 240 250         300 310 320 330 340 350 360 
+001 011 021 031                 101 111 121 131 141             201 211 221 231 241 251 261     301 311 321 331 341 351 361 
+002 012 022 032 042             102 112 122 132 142 152         202 212 222 232 242 252 262     302 312 322 332 342 352 362 
+003 013 023 033 043 053 063     103 113 123 133 143 153 163     203 213 223 233 243 253 263     303 313 323 333 343 353 363 
+        024 034 044                 114 124 134 144 154         204 214 224 234 244 254 264     304 314 324 334 344 354 364 
+            035                         125 135 145             205 215 225 235 245 255 265     305 315 325 335 345 355 365 
+006         036         066     106         136         166         216 226 236 246 256         306 316 326 336 346 356 366 
+
+    410 420 430 440 450         500         530         560     600         630         660 
+401 411 421 431 441 451 461             521 531 541                         631             
+402 412 422 432 442 452 462         512 522 532 542 552                 622 632 642         
+403 413 423 433 443 453 463     503 513 523 533 543 553 563     603 613 623 633 643 653 663 
+404 414 424 434 444 454 464         514 524 534 544 554 564             624 634 644 654 664 
+405 415 425 435 445 455 465             525 535 545 555 565                 635 645 655 665 
+    416 426 436 446 456 466     506         536 546 556 566     606         636 646 656 666 
+
+/==   B =/=     =\=  GB ==\     ==/  G  /==     \== RG  =\=     =/= R   ==/     ==\ R B \== """
+        clls_t  = '((0x' + """
+016 006 106     056 066 065     061 060 050     560 660 650     610 600 601     605 606 506     
+005 005 115     046 166 064     062 160 040     561 661 550     510 500 620     626 616 406     
+004 014 104     045 266 054     052 051 041     540 662 640     602 612 611     604 515 505     
+116 115 126     156 165 164     162 150 161     641 551 651     621 511 502     614 516 504     
+025 026 206     146 055 155     151 140 260     652 562 460     501 520 400     625 526 615     
+""".strip('\n').replace('     ', ' ').replace(' \n', ')\n,(0x').replace(' ', ',0x')[:-3] + '))'
+        pass;                  #LOG and log('clls_t={}',(clls_t))
+        clls16  = eval(clls_t)
+#       clls16  = list( list(clls16[ir][ic] for ir in range(len(clls16))) for ic in range(len(clls16[0])) )   # Transposition
+        clrs    = list(list(( RPrts[(cll&0xF00)>>8] | GPrts[(cll&0x0F0)>>4] | BPrts[cll&0x00F] if cll else None) for cll in clls_row) for clls_row in clls16)
+        w,h     = 31,31
+        inversedRGB = False
+
     elif palette_type=='3221 colors: 7-hexagon, dialog':
         # 6*6 + 35 * (6+7+8+9+10+11+10+9+8+7+6) = 36 + 35 *91 = 3221
-        inversed= False
+        inversedRGB= False
         clrs    = (
                                (0x00ffff,0x00d4ff,0x00aaff,0x007fff,0x0055ff,0x002aff,0x0000ff)                                     # 0
 ,                           (0x00ffd4,None    ,None    ,None    ,None    ,None    ,None    ,0x2a00ff)                               # 1
@@ -332,8 +434,8 @@ def _dlg_color_palette_clrs(palette_type, grey_clr_for_plt=0):
   0x4b4b4b, 0x434343, 0x3c3c3c, 0x343434, 0x2d2d2d, 0x252525, 0x1e1e1e, 0x161616, 0x0f0f0f, 0x070707, 0x000000),
         )
         sp_w,sp_h   = 11,23
-        clrs    = invert_HML(clrs)
-        sp_clrs = invert_HML(sp_clrs)
+        clrs    = inverse_RGB(clrs)
+        sp_clrs = inverse_RGB(sp_clrs)
         # Center
         clrs[6][6]  = grey_clr_for_plt
 
@@ -597,7 +699,7 @@ def _dlg_color_palette_clrs(palette_type, grey_clr_for_plt=0):
         w,h     = 27,27
 
 #   elif palette_type=='???:hsv':
-#       inversed= False
+#       inversedRGB= False
 #       clls    = ((
 #),((200,255,255),(190,255,255),(180,255,255),(170,255,255),(160,255,255),(150,255,255),(140,255,255),(130,255,255),(120,255,255),(110,255,255),(100,255,255),( 90,255,255),( 80,255,255),( 70,255,255),( 60,255,255),( 50,255,255),( 40,255,255),( 30,255,255),( 20,255,255),( 10,255,255),
 #),((200,255,255),(190,255,255),(180,255,255),(170,255,255),(160,255,255),(150,255,255),(140,255,255),(130,255,255),(120,255,255),(110,255,255),(100,255,255),( 90,255,255),( 80,255,255),( 70,255,255),( 60,255,255),( 50,255,255),( 40,255,255),( 30,255,255),( 20,255,255),( 10,255,255),
@@ -607,11 +709,6 @@ def _dlg_color_palette_clrs(palette_type, grey_clr_for_plt=0):
 #       w,h     = 27,27
 #       pass;                   LOG and log('clrs[0][0]={}',(clrs[0][0]))
     
-#   elif palette_type=='343: 7*7*7':
-#       # 343 = 8*27 
-#       #     + 127
-#       pass
-
 #   elif palette_type=='216web:8*27rand':
 #       # 0123456789abcdef
 #       # 0  3  6  9  c  f
@@ -721,8 +818,8 @@ def _dlg_color_palette_clrs(palette_type, grey_clr_for_plt=0):
 ##       clrs    = (cb for i, c in enumerate(cube))
 #       w,h     = 25,25
                           #LOG and log('clrs={}',(clrs))
-    if inversed:
-        clrs    = invert_HML(clrs)
+    if inversedRGB:
+        clrs    = inverse_RGB(clrs)
 
     return clrs,w,h, sp_clrs,sp_w,sp_h
    #def _dlg_color_palette_clrs
@@ -1079,7 +1176,7 @@ COLOR_NAMES[clr_h2i('#65000B')]=_('Rosewood')
 COLOR_NAMES[clr_h2i('#654321')]=_('Dark brown')
 COLOR_NAMES[clr_h2i('#66023C')]=_('Imperial purple')
 COLOR_NAMES[clr_h2i('#663399')]=_('Rebecca purple')
-COLOR_NAMES[clr_h2i('#663854')]=_('Halaya ube')
+COLOR_NAMES[clr_h2i('#663854')]=_('Halaya ube')
 COLOR_NAMES[clr_h2i('#664228')]=_('Van dyke brown')
 COLOR_NAMES[clr_h2i('#66424D')]=_('Deep tuscan red')
 COLOR_NAMES[clr_h2i('#664C28')]=_('Donkey brown')
