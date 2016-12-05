@@ -2254,7 +2254,7 @@ begin
 
         APP_PROC_GET_GUI_HEIGHT:
           begin
-            i:= DoDialogCustom_GetControlHeight(Str);
+            i:= DoControl_GetAutoHeight(Str);
             if i>0 then
               Result:= PyInt_FromLong(i)
             else

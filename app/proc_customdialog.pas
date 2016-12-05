@@ -23,7 +23,7 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 
 function IsDialogCustomShown: boolean;
-function DoDialogCustom_GetControlHeight(const Id: string): integer;
+function DoControl_GetAutoHeight(const Id: string): integer;
 
 procedure DoForm_Scale(F: TForm);
 
@@ -45,7 +45,7 @@ type
   public
     Form: TForm;
     procedure DoOnShow(Sender: TObject);
-    procedure DoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -57,7 +57,7 @@ begin
   Result:= S<>'0';
 end;
 
-function IsControlAutosizeY(C: TControl): boolean;
+function DoControl_IsAutosizeY(C: TControl): boolean;
 begin
   Result:=
     (C is TLabel) or
@@ -70,7 +70,7 @@ begin
     (C is TSpinEdit);
 end;
 
-procedure DoFixButtonHeight(Ctl: TControl);
+procedure DoControl_FixButtonHeight(Ctl: TControl);
 begin
   {$ifdef windows}
   Ctl.Height:= 23; //smaller
@@ -85,8 +85,8 @@ begin
   {$endif}
 end;
 
-function DoGetListviewState(C: TListView): string; forward;
-function DoGetControlState(C: TControl): string;
+function DoControl_GetState_Listview(C: TListView): string; forward;
+function DoControl_GetState(C: TControl): string;
 var
   i: integer;
 begin
@@ -147,14 +147,14 @@ begin
     Result:= IntToStr((C as TSpinEdit).Value);
 
   if C is TListView then
-    Result:= DoGetListviewState(C as TListView);
+    Result:= DoControl_GetState_Listview(C as TListView);
 
   if C is TTabControl then
     Result:= IntToStr((C as TTabControl).TabIndex);
 end;
 
 
-function DoGetFormResult(AForm: TForm): string;
+function DoForm_GetResult(AForm: TForm): string;
 var
   List: TStringList;
   Str: string;
@@ -172,7 +172,7 @@ begin
     begin
       C:= AForm.Controls[i];
       if C=AForm.ActiveControl then NActive:= i;
-      List.Add(DoGetControlState(C));
+      List.Add(DoControl_GetState(C));
     end;
 
     //append NActive
@@ -185,7 +185,7 @@ begin
 end;
 
 
-procedure DoSetMemoState(C: TMemo; AValue: string);
+procedure DoControl_SetState_Memo(C: TMemo; AValue: string);
 var
   SItem: string;
 begin
@@ -197,7 +197,7 @@ begin
   until false;
 end;
 
-procedure DoSetCheckgroupState(C: TCheckGroup; AValue: string);
+procedure DoControl_SetState_Checkgroup(C: TCheckGroup; AValue: string);
 var
   SItem: string;
   N: integer;
@@ -212,7 +212,7 @@ begin
   until false;
 end;
 
-procedure DoSetChecklistboxState(C: TCheckListBox; AValue: string);
+procedure DoControl_SetState_Checklistbox(C: TCheckListBox; AValue: string);
 var
   SItem: string;
   N: integer;
@@ -230,7 +230,7 @@ begin
 end;
 
 
-procedure DoSetListviewItem(C: TListView; SListItem: string);
+procedure DoControl_SetState_ListviewItem(C: TListView; SListItem: string);
 var
   SItem: string;
   Col: TListColumn;
@@ -265,7 +265,7 @@ begin
 end;
 
 
-procedure DoSetListviewState(C: TListView; SValue: string);
+procedure DoControl_SetState_Listview(C: TListView; SValue: string);
 var
   N: integer;
   SItem: string;
@@ -294,7 +294,7 @@ begin
 end;
 
 
-function DoGetListviewState(C: TListView): string;
+function DoControl_GetState_Listview(C: TListView): string;
 // index;check0,check1,
 var
   i: integer;
@@ -311,10 +311,10 @@ begin
 end;
 
 
-procedure DoAddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
+procedure DoForm_AddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
 var
   SNameValue, SName, SValue, SListItem: string;
-  NValue, NX1, NX2, NY1, NY2: integer;
+  NX1, NX2, NY1, NY2: integer;
   Ctl, CtlPrev: TControl;
 begin
   Ctl:= nil;
@@ -378,13 +378,13 @@ begin
         begin
           Ctl:= TButton.Create(AForm);
           (Ctl as TButton).ModalResult:= cButtonResultStart+ AForm.ControlCount;
-          DoFixButtonHeight(Ctl);
+          DoControl_FixButtonHeight(Ctl);
         end;
       if SValue='checkbutton' then
         begin
           Ctl:= TToggleBox.Create(AForm);
           (Ctl as TToggleBox).OnChange:= @ADummy.DoOnChange;
-          DoFixButtonHeight(Ctl);
+          DoControl_FixButtonHeight(Ctl);
         end;
       if SValue='radiogroup' then
       begin
@@ -496,7 +496,7 @@ begin
       Ctl.Left:= NX1;
       Ctl.Width:= NX2-NX1;
       Ctl.Top:= NY1;
-      if not IsControlAutosizeY(Ctl) then
+      if not DoControl_IsAutosizeY(Ctl) then
         Ctl.Height:= NY2-NY1;
       Continue;
     end;
@@ -573,7 +573,7 @@ begin
         if Ctl is TCheckGroup then (Ctl as TCheckGroup).Items.Add(SListItem);
         if Ctl is TRadioGroup then (Ctl as TRadioGroup).Items.Add(SListItem);
         if Ctl is TCheckListBox then (Ctl as TCheckListBox).Items.Add(SListItem);
-        if Ctl is TListView then DoSetListviewItem(Ctl as TListView, SListItem);
+        if Ctl is TListView then DoControl_SetState_ListviewItem(Ctl as TListView, SListItem);
         if Ctl is TTabControl then (Ctl as TTabControl).Tabs.Add(SListItem);
       until false;
       Continue;
@@ -602,11 +602,11 @@ begin
       end;
       if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TRadioGroup then (Ctl as TRadioGroup).ItemIndex:= StrToIntDef(SValue, 0);
-      if Ctl is TCheckGroup then DoSetCheckgroupState(Ctl as TCheckGroup, SValue);
-      if Ctl is TCheckListBox then DoSetChecklistboxState(Ctl as TCheckListBox, SValue);
-      if Ctl is TMemo then DoSetMemoState(Ctl as TMemo, SValue);
+      if Ctl is TCheckGroup then DoControl_SetState_Checkgroup(Ctl as TCheckGroup, SValue);
+      if Ctl is TCheckListBox then DoControl_SetState_Checklistbox(Ctl as TCheckListBox, SValue);
+      if Ctl is TMemo then DoControl_SetState_Memo(Ctl as TMemo, SValue);
       if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
-      if Ctl is TListView then DoSetListviewState(Ctl as TListView, SValue);
+      if Ctl is TListView then DoControl_SetState_Listview(Ctl as TListView, SValue);
       if Ctl is TTabControl then (Ctl as TTabControl).TabIndex:= StrToIntDef(SValue, 0);
 
       Continue;
@@ -646,7 +646,7 @@ begin
     List.Delimiter:= #10;
     List.DelimitedText:= AContent;
     for i:= 0 to List.Count-1 do
-      DoAddControl(F, List[i], Dummy);
+      DoForm_AddControl(F, List[i], Dummy);
   finally
     FreeAndNil(List);
   end;
@@ -656,13 +656,13 @@ begin
   repeat
     SItem:= SGetItem(AText, #10);
     if SItem='' then break;
-    DoAddControl(F, SItem, Dummy);
+    DoForm_AddControl(F, SItem, Dummy);
   until false;
   }
 
   Dummy.Form:= F;
   F.KeyPreview:= true;
-  F.OnKeyDown:= @Dummy.DoKeyDown;
+  F.OnKeyDown:= @Dummy.DoOnKeyDown;
   F.OnShow:= @Dummy.DoOnShow;
 
   DoForm_Scale(F);
@@ -695,7 +695,7 @@ begin
     if Res>=cButtonResultStart then
     begin
       AButtonIndex:= Res-cButtonResultStart;
-      AStateText:= DoGetFormResult(F);
+      AStateText:= DoForm_GetResult(F);
     end;
   finally
     FreeAndNil(F);
@@ -709,7 +709,7 @@ begin
   Result:= FDialogShown;
 end;
 
-function DoDialogCustom_GetControlHeight(const Id: string): integer;
+function DoControl_GetAutoHeight(const Id: string): integer;
 var
   C: TControl;
 begin
@@ -741,7 +741,7 @@ begin
     F.AutoAdjustLayout(lapAutoAdjustForDPI,
       F.DesignTimeDPI, Screen.PixelsPerInch,
       F.Width, ScaleX(F.Width, F.DesignTimeDPI)
-      , false //ScaleFonts, Laz 1.7 trunk
+      , false //AScaleFonts, Laz 1.7 trunk
       );
 end;
 
@@ -762,7 +762,7 @@ begin
   end;
 end;
 
-procedure TDummyClass.DoKeyDown(Sender: TObject; var Key: Word;
+procedure TDummyClass.DoOnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key=VK_ESCAPE) then
