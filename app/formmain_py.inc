@@ -3337,37 +3337,49 @@ end;
 
 function Py_DialogColorPicker(AColor: integer): integer;
 var
-  StrCaption, StrCancel, StrNoColor, StrNamed, StrNearby,
-  StrHintMore, StrHintNamed, StrHintNearby, StrHintInname: string;
-  SRes, SOptLoc: string;
-const
-  cLoc= '{"cancel":"%s", "nocolor":"%s", "named":"%s", "nearby":"%s",'+
-        ' "more_hint":"%s", "named_hint":"%s", "nearby_hint":"%s", "inname_hint":"%s", }';
+  s_Caption, s_Cancel, s_NoColor, s_Named, s_Nearby: string;
+  s_HintMore, s_HintNamed, s_HintNearby, s_HintInname: string;
+  s_HintCaption, s_HintColorNew, s_HintColorOld, s_Config: string;
+  SRes, SLoc: string;
 begin
   Result:= -1;
 
   with TIniFile.Create(GetAppLangFilename) do
   try
-    StrCaption:= ReadString('d_tab_color', '_', 'Colors');
-    StrCancel:= msgButtonCancel;
-    StrNoColor:= ReadString('d_tab_color', 'nocolor', 'No color');
-    StrNamed:= ReadString('d_tab_color', 'named', 'Named');
-    StrNearby:= ReadString('d_tab_color', 'nearby', 'Nearby');
-    StrHintMore:= SEscapeForPython(ReadString('d_tab_color', 'h_more', 'Show/hide advanced options'));
-    StrHintNamed:= SEscapeForPython(ReadString('d_tab_color', 'h_named', 'Mark named colors with "!"'));
-    StrHintNearby:= SEscapeForPython(ReadString('d_tab_color', 'h_nearby', 'Assign names to some colors, which are "near" named colors. Marks show distance to these near colors:\r"!" if distance is very low,\r"." if distance is small,\r".." for others'));
-    StrHintInname:= SEscapeForPython(ReadString('d_tab_color', 'h_inname', 'Point colors which names include typed string'));
+    s_Caption:= ReadString('d_tab_color', '_', 'Colors');
+    s_Cancel:= msgButtonCancel;
+    s_NoColor:= ReadString('d_tab_color', 'nocolor', 'No color');
+    s_Named:= ReadString('d_tab_color', 'named', 'Named');
+    s_Nearby:= ReadString('d_tab_color', 'nearby', 'Nearby');
+
+    s_HintMore:= SEscapeForPython(ReadString('d_tab_color', 'h_more', 'Show/hide advanced options'));
+    s_HintNamed:= SEscapeForPython(ReadString('d_tab_color', 'h_named', 'Mark named colors with "!"'));
+    s_HintNearby:= SEscapeForPython(ReadString('d_tab_color', 'h_nearby', 'Assign names to some colors, which are "near" named colors. Marks show distance to these near colors:\r"!" if distance is very low,\r"." if distance is small,\r".." for others'));
+    s_HintInname:= SEscapeForPython(ReadString('d_tab_color', 'h_inname', 'Point colors which names include typed string'));
+
+    s_HintCaption:= SEscapeForPython(ReadString('d_tab_color', 'h_title', '(Shift+click to preview, Ctrl+click to copy data)'));
+    s_HintColorNew:= SEscapeForPython(ReadString('d_tab_color', 'h_c_new', 'New color'));
+    s_HintColorOld:= SEscapeForPython(ReadString('d_tab_color', 'h_c_old', 'Old color'));
+    s_Config:= SEscapeForPython(ReadString('d_tab_color', 'cfg', 'Config...'));
   finally
     Free
   end;
 
-  SOptLoc:= Format(cLoc, [StrCancel, StrNoColor, StrNamed, StrNearby,
-                          StrHintMore, StrHintNamed, StrHintNearby, StrHintInname]);
+  SLoc:= Format(
+    '{'+
+    '"cancel":"%s", "nocolor":"%s", "named":"%s", "nearby":"%s", '+
+    '"more_hint":"%s", "named_hint":"%s", "nearby_hint":"%s", "inname_hint":"%s", '+
+    '"help_hint":"%s", "new_c_hint":"%s", "old_c_hint":"%s", "config":"%s", '+
+    '}',
+    [s_Cancel, s_NoColor, s_Named, s_Nearby,
+    s_HintMore, s_HintNamed, s_HintNearby, s_HintInname,
+    s_HintCaption, s_HintColorNew, s_HintColorOld, s_Config
+    ]);
 
   SRes:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette',
-    ['"'+StrCaption+'"', IntToStr(AColor), 'i18n='+SOptLoc
+    ['"'+s_Caption+'"', IntToStr(AColor), 'i18n='+SLoc
     ]);
-  if SRes=cPyNone then exit;
-  Result:= StrToIntDef(SRes, Result);
+  if SRes<>cPyNone then
+    Result:= StrToIntDef(SRes, Result);
 end;
 
