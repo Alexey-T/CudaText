@@ -630,12 +630,11 @@ begin
   end;
 end;
 
-procedure DoDialogCustom_FillContent(
+procedure DoForm_FillContent(
   F: TForm; Dummy: TDummyClass;
-  const AContent: string; AFocusedIndex: integer);
+  const AContent: string);
 var
   List: TStringList;
-  C: TControl;
   i: integer;
 begin
   F.BorderStyle:= bsDialog;
@@ -653,7 +652,7 @@ begin
   end;
 
   {
-  //prev variant, it was stable, slower
+  //prev variant, slower
   repeat
     SItem:= SGetItem(AText, #10);
     if SItem='' then break;
@@ -666,7 +665,6 @@ begin
   F.OnKeyDown:= @Dummy.DoKeyDown;
   F.OnShow:= @Dummy.DoOnShow;
 
-  DoForm_FocusControl(F, AFocusedIndex);
   DoForm_Scale(F);
 end;
 
@@ -684,7 +682,8 @@ begin
   F:= TForm.Create(nil);
   Dummy:= TDummyClass.Create;
   try
-    DoDialogCustom_FillContent(F, Dummy, AText, AFocusedIndex);
+    DoForm_FillContent(F, Dummy, AText);
+    DoForm_FocusControl(F, AFocusedIndex);
     F.Position:= poScreenCenter;
     F.ClientWidth:= ASizeX;
     F.ClientHeight:= ASizeY;
