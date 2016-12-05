@@ -25,7 +25,7 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 function IsDialogCustomShown: boolean;
 function DoDialogCustomGetControlHeight(const Id: string): integer;
 
-procedure DoScaleForHighDpi(F: TForm);
+procedure DoFormScale(F: TForm);
 
 implementation
 
@@ -617,64 +617,76 @@ begin
 end;
 
 
+procedure DoDialogCustom_FillContent(
+  F: TForm; Dummy: TDummyClass;
+  const AContent: string; AFocusedIndex: integer);
+var
+  List: TStringList;
+  C: TControl;
+  i: integer;
+begin
+  F.BorderStyle:= bsDialog;
+  F.ShowHint:= true;
+
+  List:= TStringList.Create;
+  try
+    List.StrictDelimiter:= true;
+    List.Delimiter:= #10;
+    List.DelimitedText:= AContent;
+    for i:= 0 to List.Count-1 do
+      DoAddControl(F, List[i], Dummy);
+  finally
+    FreeAndNil(List);
+  end;
+
+  {
+  //prev variant, it was stable, slower
+  repeat
+    SItem:= SGetItem(AText, #10);
+    if SItem='' then break;
+    DoAddControl(F, SItem, Dummy);
+  until false;
+  }
+
+  if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
+  begin
+    C:= F.Controls[AFocusedIndex];
+    if C.Enabled then
+      if C is TWinControl then
+        F.ActiveControl:= C as TWinControl;
+  end;
+
+  Dummy.Form:= F;
+  F.KeyPreview:= true;
+  F.OnKeyDown:= @Dummy.DoKeyDown;
+  F.OnShow:= @Dummy.DoOnShow;
+
+  DoFormScale(F);
+end;
+
+
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 var
   F: TForm;
-  Res, i: integer;
+  Res: integer;
   Dummy: TDummyClass;
-  List: TStringList;
-  C: TControl;
 begin
   AButtonIndex:= -1;
   AStateText:= '';
 
   F:= TForm.Create(nil);
   Dummy:= TDummyClass.Create;
-  FDialogShown:= true;
   try
-    F.BorderStyle:= bsDialog;
+    DoDialogCustom_FillContent(F, Dummy, AText, AFocusedIndex);
     F.Position:= poScreenCenter;
     F.ClientWidth:= ASizeX;
     F.ClientHeight:= ASizeY;
     F.Caption:= ATitle;
-    F.ShowHint:= true;
 
-    List:= TStringList.Create;
-    try
-      List.StrictDelimiter:= true;
-      List.Delimiter:= #10;
-      List.DelimitedText:= AText;
-      for i:= 0 to List.Count-1 do
-        DoAddControl(F, List[i], Dummy);
-    finally
-      FreeAndNil(List);
-    end;
-
-    {
-    //prev variant, it was stable, slower
-    repeat
-      SItem:= SGetItem(AText, #10);
-      if SItem='' then break;
-      DoAddControl(F, SItem, Dummy);
-    until false;
-    }
-
-    if (AFocusedIndex>=0) and (AFocusedIndex<F.ControlCount) then
-    begin
-      C:= F.Controls[AFocusedIndex];
-      if C.Enabled then
-        if C is TWinControl then
-          F.ActiveControl:= C as TWinControl;
-    end;
-
-    Dummy.Form:= F;
-    F.KeyPreview:= true;
-    F.OnKeyDown:= @Dummy.DoKeyDown;
-    F.OnShow:= @Dummy.DoOnShow;
-
-    DoScaleForHighDpi(F);
+    FDialogShown:= true;
     Res:= F.ShowModal;
+
     if Res>=cButtonResultStart then
     begin
       AButtonIndex:= Res-cButtonResultStart;
@@ -717,7 +729,7 @@ begin
   end;
 end;
 
-procedure DoScaleForHighDpi(F: TForm);
+procedure DoFormScale(F: TForm);
 begin
   //ignore if Screen dpi is smaller (macOS: 72)
   if Screen.PixelsPerInch>F.DesignTimeDPI then
