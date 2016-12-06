@@ -41,18 +41,7 @@ begin
   Result:= S<>'0';
 end;
 
-procedure DoForm_Scale(F: TForm);
-begin
-  //ignore if Screen dpi is smaller (macOS: 72)
-  if Screen.PixelsPerInch>F.DesignTimeDPI then
-    F.AutoAdjustLayout(lapAutoAdjustForDPI,
-      F.DesignTimeDPI, Screen.PixelsPerInch,
-      F.Width, ScaleX(F.Width, F.DesignTimeDPI)
-      , false //AScaleFonts, Laz 1.7 trunk
-      );
-end;
-
-function DoControl_IsAutosizeY(C: TControl): boolean;
+function DoControl_IsAutoHeight(C: TControl): boolean;
 begin
   Result:=
     (C is TLabel) or
@@ -65,22 +54,23 @@ begin
     (C is TSpinEdit);
 end;
 
-procedure DoControl_FixButtonHeight(Ctl: TControl);
+procedure DoControl_FixButtonHeight(C: TControl);
 begin
   {$ifdef windows}
-  Ctl.Height:= 23; //smaller
+  C.Height:= 23; //smaller
   {$endif}
 
   {$ifdef linux}
-  Ctl.Height:= 25;
+  C.Height:= 25;
   {$endif}
 
   {$ifdef darwin}
-  Ctl.Height:= 21; //smaller
+  C.Height:= 21; //smaller
   {$endif}
 end;
 
 function DoControl_GetState_Listview(C: TListView): string; forward;
+
 function DoControl_GetState(C: TControl): string;
 var
   i: integer;
@@ -146,37 +136,6 @@ begin
 
   if C is TTabControl then
     Result:= IntToStr((C as TTabControl).TabIndex);
-end;
-
-
-function DoForm_GetResult(AForm: TForm): string;
-var
-  List: TStringList;
-  Str: string;
-  NActive, i: integer;
-  C: TControl;
-begin
-  Result:= '';
-
-  List:= TStringList.Create;
-  try
-    List.TextLineBreakStyle:= tlbsLF;
-
-    NActive:= -1;
-    for i:= 0 to AForm.ControlCount-1 do
-    begin
-      C:= AForm.Controls[i];
-      if C=AForm.ActiveControl then NActive:= i;
-      List.Add(DoControl_GetState(C));
-    end;
-
-    //append NActive
-    List.Add('focused='+IntToStr(NActive));
-
-    Result:= List.Text;
-  finally
-    FreeAndNil(List);
-  end;
 end;
 
 
@@ -305,6 +264,47 @@ begin
   end;
 end;
 
+
+procedure DoForm_Scale(F: TForm);
+begin
+  //dont scale if Screen dpi is smaller (macOS: 72)
+  if Screen.PixelsPerInch>F.DesignTimeDPI then
+    F.AutoAdjustLayout(lapAutoAdjustForDPI,
+      F.DesignTimeDPI, Screen.PixelsPerInch,
+      F.Width, ScaleX(F.Width, F.DesignTimeDPI)
+      , false //AScaleFonts, Laz 1.7 trunk
+      );
+end;
+
+
+function DoForm_GetResult(AForm: TForm): string;
+var
+  List: TStringList;
+  NActive, i: integer;
+  C: TControl;
+begin
+  Result:= '';
+
+  List:= TStringList.Create;
+  try
+    List.TextLineBreakStyle:= tlbsLF;
+
+    NActive:= -1;
+    for i:= 0 to AForm.ControlCount-1 do
+    begin
+      C:= AForm.Controls[i];
+      if C=AForm.ActiveControl then NActive:= i;
+      List.Add(DoControl_GetState(C));
+    end;
+
+    //append NActive
+    List.Add('focused='+IntToStr(NActive));
+
+    Result:= List.Text;
+  finally
+    FreeAndNil(List);
+  end;
+end;
 
 procedure DoForm_AddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
 var
@@ -491,7 +491,7 @@ begin
       Ctl.Left:= NX1;
       Ctl.Width:= NX2-NX1;
       Ctl.Top:= NY1;
-      if not DoControl_IsAutosizeY(Ctl) then
+      if not DoControl_IsAutoHeight(Ctl) then
         Ctl.Height:= NY2-NY1;
       Continue;
     end;
@@ -709,7 +709,7 @@ var
   C: TControl;
 begin
   Result:= 0;
-  if Id='button' then C:= TButton.Create(nil) else
+  if Id='button' then begin C:= TButton.Create(nil); DoControl_FixButtonHeight(C); end else
   if Id='label' then C:= TLabel.Create(nil) else
   if Id='combo' then C:= TComboBox.Create(nil) else
   if Id='combo_ro' then begin C:= TComboBox.Create(nil); TCombobox(C).ReadOnly:= true; end else
