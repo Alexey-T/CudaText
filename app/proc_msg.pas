@@ -59,7 +59,7 @@ const
 
   msgCannotInitPython1: string = 'No Python engine (3.x) found. Python plugins don''t work now. To make it ok:';
   {$ifdef darwin}
-  msgCannotInitPython2: string = 'install Python from official site www.python.org, it should be found by CudaText then.';
+  msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
   {$else}
   msgCannotInitPython2: string = 'write option "pylib" to user.json. See info in default config: Options / Settings-default.';
   {$endif}
