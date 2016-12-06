@@ -157,6 +157,21 @@ Screenshot of SynWrite dialog:
 
 [[File:synwrite-lexer-editor.png]]
 
+=== Why Comments-plugin dont comment blocks in lexer? ===
+
+Plugin "Comments" can comment
+
+* line comments (to end of line): comment-chars are configured inside lexer .lcf file, no need to change usually
+* stream comments (from offset to offset): some lexers are configured with stream-comment-chars, and some are not.
+
+To configure stream-comment-chars, open CudaText dialog "Lexer properties" for lexer, and dialog tab "Commenting" shows inputs for these chars.
+
+* Comment to line-end (usually this is configured)
+* Comment range (often not configured)
+* Comment range, for full lines (this is very rarely supported by lexers)
+
+Stream-comment-chars are saved to separate file, lexername.cuda-lexmap. If plugin cannot comment, your lexer misses this file, or file misses the option. Check that file is absent in folder "data/lexlib". If it's absent, create file via "Lexer properties" dialog. To share file, put it to lexer's ZIP file. You can make ZIP file from SynWrite, from plugin "ExLexer", then add to it .cuda-lexmap file. CudaText and SynWrite both install this .cuda-lexmap file on installing lexer's zip file.
+
 == File-types config ==
 
 Menu item "Settings - file-types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
@@ -566,6 +581,23 @@ Section names: from "item1" to "item400", any numbers can be skipped.
 * Line "hotkey=" allowed. Value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G"). 
 ** If "lexers=" param missed, then hotkey saves to file "keys.json" for all lexers. 
 ** If "lexers=" param present, then hotkey saves to "keys lexer NNNN.json" for each mentioned lexer.
+
+==== Lexer lists ====
+
+If plugin has many [itemN] sections, it is possible to set list of lexers using vairable (not to write each time "lexers=name,name2,name3"). Declare list of lexers in [info] section like this, any variable name:
+
+ [info]
+ $var=Name1,Name2,Name3
+
+In [itemN] sections set lexers like this:
+
+ [itemN]
+ lexers=$var
+
+You can set lexers by reg-ex, e.g. reg-ex ".*SQL.*" means all names with substring "SQL". To do it, write variable with prefix:
+
+ [info]
+ $var=regex:.*SQL.*
 
 ===Data-files===
 

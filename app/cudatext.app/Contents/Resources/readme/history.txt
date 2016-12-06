@@ -4,6 +4,11 @@
   * changed
 
 
+1.5.4
++ tab context menu "Set tab color" dialog redone by kvichans (in Python), dialog has N palettes (option)
++ export to html: optimized file
+* lex Pascal: drop hilites of "types", "implementation backgnd"
+
 1.5.3
 + opt tab_max_pos_expanded
 + lex Pascal: hilite "exit/result"
