@@ -29,7 +29,7 @@ cp py/cuda_comments/*.py cudatext.app/Contents/Resources/py/cuda_comments
 cp py/cuda_comments/*.inf cudatext.app/Contents/Resources/py/cuda_comments
 cp py/cuda_new_file/*.py cudatext.app/Contents/Resources/py/cuda_new_file
 cp py/cuda_new_file/*.inf cudatext.app/Contents/Resources/py/cuda_new_file
-cp py/cuda_palette/*.py cudatext.app/Contents/Resources/py/cuda_palette
+cp -rf py/cuda_palette/* cudatext.app/Contents/Resources/py/cuda_palette
 cp py/cudax_lib/*.py cudatext.app/Contents/Resources/py/cudax_lib
 cp -rf py/requests cudatext.app/Contents/Resources/py
 

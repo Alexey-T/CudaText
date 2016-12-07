@@ -1,0 +1,4652 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2016-12-07 09:41+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1251\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: __init__.py:87
+msgid "M&ark named"
+msgstr ""
+
+#: __init__.py:88
+msgid "N&earby"
+msgstr ""
+
+#: __init__.py:89
+msgid "&No color"
+msgstr ""
+
+#: __init__.py:90 __init__.py:351
+msgid "Cancel"
+msgstr ""
+
+#: __init__.py:91
+msgid "Config..."
+msgstr ""
+
+#: __init__.py:93
+msgid " (Shift+Click to preview. Ctrl+Click to copy data)"
+msgstr ""
+
+#: __init__.py:94
+msgid "Show/Hide advanced options"
+msgstr ""
+
+#: __init__.py:95
+msgid "Mark named colors with \"!\""
+msgstr ""
+
+#: __init__.py:96
+msgid "Assign names to some colors, which are \"near\" named colors. Marks show distance to these near colors:\r\"!\" if distance is very low,\r\".\" if distance is small, \r\"..\" all others"
+msgstr ""
+
+#: __init__.py:101
+msgid "Point colors which name includes the string"
+msgstr ""
+
+#: __init__.py:102
+msgid "New color"
+msgstr ""
+
+#: __init__.py:103
+msgid "Old color"
+msgstr ""
+
+#: __init__.py:348
+msgid "Select active palettes"
+msgstr ""
+
+#: __init__.py:350
+msgid "OK"
+msgstr ""
+
+#: __init__.py:356
+msgid "Select some palettes"
+msgstr ""
+
+#: __init__.py:843
+msgid "Black"
+msgstr ""
+
+#: __init__.py:844
+msgid "Navy"
+msgstr ""
+
+#: __init__.py:845
+msgid "Dark blue"
+msgstr ""
+
+#: __init__.py:846
+msgid "Duke blue"
+msgstr ""
+
+#: __init__.py:847
+msgid "Medium blue"
+msgstr ""
+
+#: __init__.py:848 __init__.py:849 __init__.py:853 __init__.py:903
+#: __init__.py:909 __init__.py:953 __init__.py:1005 __init__.py:1046
+msgid "Blue"
+msgstr ""
+
+#: __init__.py:850
+msgid "Phthalo blue"
+msgstr ""
+
+#: __init__.py:851 __init__.py:868
+msgid "Dark imperial blue"
+msgstr ""
+
+#: __init__.py:852
+msgid "Zaffre"
+msgstr ""
+
+#: __init__.py:854
+msgid "Maastricht blue"
+msgstr ""
+
+#: __init__.py:855
+msgid "Oxford blue"
+msgstr ""
+
+#: __init__.py:856 __init__.py:1020 __init__.py:1062 __init__.py:1082
+#: __init__.py:1085 __init__.py:1103
+msgid "Royal blue"
+msgstr ""
+
+#: __init__.py:857
+msgid "Resolution blue"
+msgstr ""
+
+#: __init__.py:858
+msgid "Imperial blue"
+msgstr ""
+
+#: __init__.py:859
+msgid "Cool black"
+msgstr ""
+
+#: __init__.py:860
+msgid "International Klein blue"
+msgstr ""
+
+#: __init__.py:861 __init__.py:1173
+msgid "Air Force blue"
+msgstr ""
+
+#: __init__.py:862
+msgid "Prussian blue"
+msgstr ""
+
+#: __init__.py:863
+msgid "Dark midnight blue"
+msgstr ""
+
+#: __init__.py:864
+msgid "Smalt, Dark powder blue"
+msgstr ""
+
+#: __init__.py:865
+msgid "UA blue"
+msgstr ""
+
+#: __init__.py:866
+msgid "Royal azure"
+msgstr ""
+
+#: __init__.py:867 __init__.py:948 __init__.py:949
+msgid "Rich black"
+msgstr ""
+
+#: __init__.py:869
+msgid "British racing green"
+msgstr ""
+
+#: __init__.py:870
+msgid "Warm black"
+msgstr ""
+
+#: __init__.py:871
+msgid "Cobalt blue"
+msgstr ""
+
+#: __init__.py:872
+msgid "Absolute zero"
+msgstr ""
+
+#: __init__.py:873
+msgid "Midnight green, Eagle green"
+msgstr ""
+
+#: __init__.py:874
+msgid "Deep jungle green"
+msgstr ""
+
+#: __init__.py:875
+msgid "USAFA blue"
+msgstr ""
+
+#: __init__.py:876
+msgid "Sacramento state green"
+msgstr ""
+
+#: __init__.py:877 __init__.py:950
+msgid "Dark green"
+msgstr ""
+
+#: __init__.py:878
+msgid "Pakistan green"
+msgstr ""
+
+#: __init__.py:879
+msgid "Sapphire blue"
+msgstr ""
+
+#: __init__.py:880 __init__.py:913 __init__.py:924 __init__.py:927
+msgid "Deep sky blue"
+msgstr ""
+
+#: __init__.py:881
+msgid "Sea blue"
+msgstr ""
+
+#: __init__.py:882
+msgid "Bottle green"
+msgstr ""
+
+#: __init__.py:883
+msgid "Cadmium green"
+msgstr ""
+
+#: __init__.py:884
+msgid "Honolulu blue"
+msgstr ""
+
+#: __init__.py:885
+msgid "Dartmouth green"
+msgstr ""
+
+#: __init__.py:886
+msgid "Spanish blue"
+msgstr ""
+
+#: __init__.py:887
+msgid "Brandeis blue"
+msgstr ""
+
+#: __init__.py:888
+msgid "French blue"
+msgstr ""
+
+#: __init__.py:889
+msgid "True blue"
+msgstr ""
+
+#: __init__.py:890
+msgid "Skobeloff"
+msgstr ""
+
+#: __init__.py:891
+msgid "Tropical rain forest"
+msgstr ""
+
+#: __init__.py:892
+msgid "Ocean boat blue"
+msgstr ""
+
+#: __init__.py:893
+msgid "CG blue"
+msgstr ""
+
+#: __init__.py:894
+msgid "Celadon blue"
+msgstr ""
+
+#: __init__.py:895
+msgid "Star command blue"
+msgstr ""
+
+#: __init__.py:896
+msgid "Spanish viridian"
+msgstr ""
+
+#: __init__.py:897
+msgid "Generic viridian"
+msgstr ""
+
+#: __init__.py:898 __init__.py:1323 __init__.py:1661 __init__.py:1865
+msgid "Azure"
+msgstr ""
+
+#: __init__.py:899 __init__.py:904 __init__.py:916 __init__.py:917
+#: __init__.py:920 __init__.py:923 __init__.py:934 __init__.py:939
+#: __init__.py:999 __init__.py:1205
+msgid "Green"
+msgstr ""
+
+#: __init__.py:900
+msgid "Teal"
+msgstr ""
+
+#: __init__.py:901
+msgid "Teal green"
+msgstr ""
+
+#: __init__.py:902 __init__.py:929 __init__.py:938 __init__.py:942
+#: __init__.py:1079
+msgid "Turquoise"
+msgstr ""
+
+#: __init__.py:905 __init__.py:935 __init__.py:940 __init__.py:945
+msgid "Spring green"
+msgstr ""
+
+#: __init__.py:906
+msgid "Dark cyan"
+msgstr ""
+
+#: __init__.py:907
+msgid "Islamic green"
+msgstr ""
+
+#: __init__.py:908
+msgid "Spanish green"
+msgstr ""
+
+#: __init__.py:910
+msgid "Bondi blue"
+msgstr ""
+
+#: __init__.py:911
+msgid "Viridian green"
+msgstr ""
+
+#: __init__.py:912
+msgid "Green-cyan"
+msgstr ""
+
+#: __init__.py:914
+msgid "Paolo Veronese green"
+msgstr ""
+
+#: __init__.py:915
+msgid "Shamrock green"
+msgstr ""
+
+#: __init__.py:918
+msgid "Persian green"
+msgstr ""
+
+#: __init__.py:919
+msgid "Jade"
+msgstr ""
+
+#: __init__.py:921
+msgid "Vivid cerulean"
+msgstr ""
+
+#: __init__.py:922
+msgid "GO green"
+msgstr ""
+
+#: __init__.py:925 __init__.py:936 __init__.py:941
+msgid "Cyan"
+msgstr ""
+
+#: __init__.py:926
+msgid "Blue bolt"
+msgstr ""
+
+#: __init__.py:928
+msgid "Amazonite"
+msgstr ""
+
+#: __init__.py:930
+msgid "Vivid malachite"
+msgstr ""
+
+#: __init__.py:931
+msgid "Caribbean green"
+msgstr ""
+
+#: __init__.py:932
+msgid "Robin egg blue"
+msgstr ""
+
+#: __init__.py:933
+msgid "Vivid sky blue"
+msgstr ""
+
+#: __init__.py:937
+msgid "Dark turquoise"
+msgstr ""
+
+#: __init__.py:943
+msgid "Medium spring green"
+msgstr ""
+
+#: __init__.py:944
+msgid "Lime green "
+msgstr ""
+
+#: __init__.py:946
+msgid "Turquoise blue"
+msgstr ""
+
+#: __init__.py:947
+msgid "Cyan, Spanish sky blue"
+msgstr ""
+
+#: __init__.py:951
+msgid "Forest green (traditional)"
+msgstr ""
+
+#: __init__.py:952
+msgid "Pine green"
+msgstr ""
+
+#: __init__.py:954
+msgid "Medium electric blue"
+msgstr ""
+
+#: __init__.py:955
+msgid "Dark pastel green"
+msgstr ""
+
+#: __init__.py:956
+msgid "Deep green"
+msgstr ""
+
+#: __init__.py:957
+msgid "North Texas green"
+msgstr ""
+
+#: __init__.py:958
+msgid "Catalina blue"
+msgstr ""
+
+#: __init__.py:959
+msgid "Dark cerulean"
+msgstr ""
+
+#: __init__.py:960
+msgid "La Salle green"
+msgstr ""
+
+#: __init__.py:961
+msgid "Rich electric blue"
+msgstr ""
+
+#: __init__.py:962
+msgid "Bright turquoise"
+msgstr ""
+
+#: __init__.py:963
+msgid "Indigo dye"
+msgstr ""
+
+#: __init__.py:964
+msgid "Metallic seaweed"
+msgstr ""
+
+#: __init__.py:965
+msgid "Tiffany blue"
+msgstr ""
+
+#: __init__.py:966
+msgid "Malachite"
+msgstr ""
+
+#: __init__.py:967
+msgid "Blue-green"
+msgstr ""
+
+#: __init__.py:968
+msgid "Deep green-cyan turquoise"
+msgstr ""
+
+#: __init__.py:969
+msgid "Yale blue"
+msgstr ""
+
+#: __init__.py:970
+msgid "Sapphire"
+msgstr ""
+
+#: __init__.py:971
+msgid "Spiro Disco Ball"
+msgstr ""
+
+#: __init__.py:972
+msgid "Smoky black"
+msgstr ""
+
+#: __init__.py:973
+msgid "Egyptian blue"
+msgstr ""
+
+#: __init__.py:974 __init__.py:983 __init__.py:997 __init__.py:1003
+msgid "Dodger blue"
+msgstr ""
+
+#: __init__.py:975
+msgid "Green-blue"
+msgstr ""
+
+#: __init__.py:976
+msgid "Phthalo green"
+msgstr ""
+
+#: __init__.py:977
+msgid "Blue sapphire"
+msgstr ""
+
+#: __init__.py:978
+msgid "India green"
+msgstr ""
+
+#: __init__.py:979
+msgid "Denim"
+msgstr ""
+
+#: __init__.py:980
+msgid "Vomit+indogo+Lopen+Gabriel"
+msgstr ""
+
+#: __init__.py:981
+msgid "Dark spring green"
+msgstr ""
+
+#: __init__.py:982
+msgid "MSU green"
+msgstr ""
+
+#: __init__.py:984
+msgid "Cyan cornflower blue"
+msgstr ""
+
+#: __init__.py:985
+msgid "Midnight blue"
+msgstr ""
+
+#: __init__.py:986
+msgid "Lincoln green"
+msgstr ""
+
+#: __init__.py:987
+msgid "Bright navy blue"
+msgstr ""
+
+#: __init__.py:988
+msgid "Licorice"
+msgstr ""
+
+#: __init__.py:989
+msgid "Dark jungle green"
+msgstr ""
+
+#: __init__.py:990
+msgid "Eerie black"
+msgstr ""
+
+#: __init__.py:991
+msgid "English green"
+msgstr ""
+
+#: __init__.py:992 __init__.py:1054 __init__.py:1128 __init__.py:1495
+#: __init__.py:1611 __init__.py:1918
+msgid "Grey"
+msgstr ""
+
+#: __init__.py:993
+msgid "Bluebonnet"
+msgstr ""
+
+#: __init__.py:994
+msgid "Yankees blue"
+msgstr ""
+
+#: __init__.py:995
+msgid "Medium jungle green"
+msgstr ""
+
+#: __init__.py:996
+msgid "Persian blue"
+msgstr ""
+
+#: __init__.py:998
+msgid "Pacific blue"
+msgstr ""
+
+#: __init__.py:1000
+msgid "Space cadet"
+msgstr ""
+
+#: __init__.py:1001
+msgid "Battery charged blue"
+msgstr ""
+
+#: __init__.py:1002
+msgid "Cal Poly Pomona green"
+msgstr ""
+
+#: __init__.py:1004
+msgid "Dark gunmetal"
+msgstr ""
+
+#: __init__.py:1006
+msgid "Light sea green"
+msgstr ""
+
+#: __init__.py:1007
+msgid "Middle Red purple"
+msgstr ""
+
+#: __init__.py:1008
+msgid "New car"
+msgstr ""
+
+#: __init__.py:1009
+msgid "Ball blue"
+msgstr ""
+
+#: __init__.py:1010
+msgid "Denim blue"
+msgstr ""
+
+#: __init__.py:1011
+msgid "Forest green"
+msgstr ""
+
+#: __init__.py:1012
+msgid "St. Patrick's blue"
+msgstr ""
+
+#: __init__.py:1013
+msgid "Charleston green"
+msgstr ""
+
+#: __init__.py:1014
+msgid "Raisin black"
+msgstr ""
+
+#: __init__.py:1015
+msgid "Button blue"
+msgstr ""
+
+#: __init__.py:1016
+msgid "Black leather jacket"
+msgstr ""
+
+#: __init__.py:1017
+msgid "Japanese indigo"
+msgstr ""
+
+#: __init__.py:1018
+msgid "Lapis lazuli"
+msgstr ""
+
+#: __init__.py:1019
+msgid "Palatinate blue"
+msgstr ""
+
+#: __init__.py:1021
+msgid "Cyan cobalt blue"
+msgstr ""
+
+#: __init__.py:1022
+msgid "Slimy green"
+msgstr ""
+
+#: __init__.py:1023
+msgid "Jungle green"
+msgstr ""
+
+#: __init__.py:1024
+msgid "Gunmetal"
+msgstr ""
+
+#: __init__.py:1025
+msgid "Cerulean blue"
+msgstr ""
+
+#: __init__.py:1026
+msgid "Napier green"
+msgstr ""
+
+#: __init__.py:1027
+msgid "Zinnwaldite brown"
+msgstr ""
+
+#: __init__.py:1028
+msgid "Cosmic cobalt"
+msgstr ""
+
+#: __init__.py:1029
+msgid "B'dazzled blue"
+msgstr ""
+
+#: __init__.py:1030 __init__.py:1087 __init__.py:1125 __init__.py:1151
+msgid "Sea green"
+msgstr ""
+
+#: __init__.py:1031 __init__.py:1141 __init__.py:1278 __init__.py:1422
+#: __init__.py:1460
+msgid "Dark slate gray"
+msgstr ""
+
+#: __init__.py:1032
+msgid "Celadon green"
+msgstr ""
+
+#: __init__.py:1033
+msgid "Dark purple"
+msgstr ""
+
+#: __init__.py:1034
+msgid "Mughal green"
+msgstr ""
+
+#: __init__.py:1035
+msgid "Mountain Meadow"
+msgstr ""
+
+#: __init__.py:1036
+msgid "Maximum blue green"
+msgstr ""
+
+#: __init__.py:1037
+msgid "Myrtle green"
+msgstr ""
+
+#: __init__.py:1038
+msgid "Bleu de France"
+msgstr ""
+
+#: __init__.py:1039
+msgid "Illuminating emerald"
+msgstr ""
+
+#: __init__.py:1040
+msgid "Persian indigo"
+msgstr ""
+
+#: __init__.py:1041
+msgid "Russian violet"
+msgstr ""
+
+#: __init__.py:1042
+msgid "Violet-blue"
+msgstr ""
+
+#: __init__.py:1043
+msgid "Lime green"
+msgstr ""
+
+#: __init__.py:1044
+msgid "Deep violet"
+msgstr ""
+
+#: __init__.py:1045
+msgid "Deep koamaru"
+msgstr ""
+
+#: __init__.py:1047
+msgid "Brilliant azure"
+msgstr ""
+
+#: __init__.py:1048
+msgid "Jet"
+msgstr ""
+
+#: __init__.py:1049
+msgid "Wageningen green"
+msgstr ""
+
+#: __init__.py:1050
+msgid "Onyx"
+msgstr ""
+
+#: __init__.py:1051
+msgid "Kombu green"
+msgstr ""
+
+#: __init__.py:1052
+msgid "Deep moss green"
+msgstr ""
+
+#: __init__.py:1053
+msgid "Interdimensional blue"
+msgstr ""
+
+#: __init__.py:1055
+msgid "Charcoal"
+msgstr ""
+
+#: __init__.py:1056 __init__.py:1095 __init__.py:1132 __init__.py:1169
+#: __init__.py:1186
+msgid "Steel blue"
+msgstr ""
+
+#: __init__.py:1057
+msgid "Ming"
+msgstr ""
+
+#: __init__.py:1058
+msgid "Teal blue"
+msgstr ""
+
+#: __init__.py:1059
+msgid "Pixie powder"
+msgstr ""
+
+#: __init__.py:1060
+msgid "Zomp"
+msgstr ""
+
+#: __init__.py:1061
+msgid "Neon green"
+msgstr ""
+
+#: __init__.py:1063
+msgid "Keppel"
+msgstr ""
+
+#: __init__.py:1064
+msgid "Pullman green"
+msgstr ""
+
+#: __init__.py:1065
+msgid "Black olive"
+msgstr ""
+
+#: __init__.py:1066
+msgid "Arsenic"
+msgstr ""
+
+#: __init__.py:1067
+msgid "Amazon"
+msgstr ""
+
+#: __init__.py:1068
+msgid "Dark sienna"
+msgstr ""
+
+#: __init__.py:1069
+msgid "Olive Drab #7"
+msgstr ""
+
+#: __init__.py:1070
+msgid "Medium sea green"
+msgstr ""
+
+#: __init__.py:1071
+msgid "UFO green"
+msgstr ""
+
+#: __init__.py:1072
+msgid "Black bean"
+msgstr ""
+
+#: __init__.py:1073
+msgid "Bistre"
+msgstr ""
+
+#: __init__.py:1074
+msgid "Tufts blue"
+msgstr ""
+
+#: __init__.py:1075
+msgid "Mint"
+msgstr ""
+
+#: __init__.py:1076
+msgid "Ultramarine"
+msgstr ""
+
+#: __init__.py:1077
+msgid "Harlequin"
+msgstr ""
+
+#: __init__.py:1078
+msgid "Deep aquamarine"
+msgstr ""
+
+#: __init__.py:1080
+msgid "Outer space"
+msgstr ""
+
+#: __init__.py:1081
+msgid "Ultramarine blue"
+msgstr ""
+
+#: __init__.py:1083
+msgid "Old burgundy"
+msgstr ""
+
+#: __init__.py:1084
+msgid "Queen blue"
+msgstr ""
+
+#: __init__.py:1086
+msgid "Verdigris"
+msgstr ""
+
+#: __init__.py:1088
+msgid "Rifle green"
+msgstr ""
+
+#: __init__.py:1089
+msgid "Han blue"
+msgstr ""
+
+#: __init__.py:1090
+msgid "Eucalyptus"
+msgstr ""
+
+#: __init__.py:1091 __init__.py:1206 __init__.py:1265 __init__.py:1302
+msgid "Chartreuse"
+msgstr ""
+
+#: __init__.py:1092 __init__.py:1266 __init__.py:1303
+msgid "Aquamarine"
+msgstr ""
+
+#: __init__.py:1093
+msgid "Picton blue"
+msgstr ""
+
+#: __init__.py:1094
+msgid "Gray-asparagus"
+msgstr ""
+
+#: __init__.py:1096
+msgid "Cyan-blue azure"
+msgstr ""
+
+#: __init__.py:1097
+msgid "Harlequin green"
+msgstr ""
+
+#: __init__.py:1098 __init__.py:1220 __init__.py:1224 __init__.py:1280
+#: __init__.py:1320
+msgid "Slate blue"
+msgstr ""
+
+#: __init__.py:1099
+msgid "Maximum blue"
+msgstr ""
+
+#: __init__.py:1100
+msgid "Bulgarian rose"
+msgstr ""
+
+#: __init__.py:1101
+msgid "Taupe"
+msgstr ""
+
+#: __init__.py:1102
+msgid "Dark slate blue"
+msgstr ""
+
+#: __init__.py:1104
+msgid "Ocean green"
+msgstr ""
+
+#: __init__.py:1105
+msgid "Medium turquoise"
+msgstr ""
+
+#: __init__.py:1106
+msgid "Hooker's green"
+msgstr ""
+
+#: __init__.py:1107
+msgid "Celestial blue"
+msgstr ""
+
+#: __init__.py:1108
+msgid "Dark moss green"
+msgstr ""
+
+#: __init__.py:1109
+msgid "Deep space sparkle"
+msgstr ""
+
+#: __init__.py:1110 __init__.py:1232 __init__.py:1298 __init__.py:1341
+#: __init__.py:1343
+msgid "Sky blue"
+msgstr ""
+
+#: __init__.py:1111
+msgid "Chlorophyll green"
+msgstr ""
+
+#: __init__.py:1112
+msgid "Indigo"
+msgstr ""
+
+#: __init__.py:1113
+msgid "Cafe noir"
+msgstr ""
+
+#: __init__.py:1114
+msgid "Army green"
+msgstr ""
+
+#: __init__.py:1115
+msgid "Sea serpent"
+msgstr ""
+
+#: __init__.py:1116
+msgid "Spanish violet"
+msgstr ""
+
+#: __init__.py:1117
+msgid "Independence"
+msgstr ""
+
+#: __init__.py:1118
+msgid "May green"
+msgstr ""
+
+#: __init__.py:1119
+msgid "Kelly green"
+msgstr ""
+
+#: __init__.py:1120
+msgid "Feldgrau"
+msgstr ""
+
+#: __init__.py:1121
+msgid "Middle green"
+msgstr ""
+
+#: __init__.py:1122
+msgid "French puce"
+msgstr ""
+
+#: __init__.py:1123
+msgid "Purple navy"
+msgstr ""
+
+#: __init__.py:1124
+msgid "Cyan azure"
+msgstr ""
+
+#: __init__.py:1126
+msgid "Dark puce"
+msgstr ""
+
+#: __init__.py:1127
+msgid "Ocean blue"
+msgstr ""
+
+#: __init__.py:1129
+msgid "Stormcloud"
+msgstr ""
+
+#: __init__.py:1130
+msgid "Fern green"
+msgstr ""
+
+#: __init__.py:1131
+msgid "Blueberry"
+msgstr ""
+
+#: __init__.py:1133
+msgid "Purple taupe"
+msgstr ""
+
+#: __init__.py:1134
+msgid "Blue yonder"
+msgstr ""
+
+#: __init__.py:1135
+msgid "Sap green"
+msgstr ""
+
+#: __init__.py:1136
+msgid "Emerald"
+msgstr ""
+
+#: __init__.py:1137
+msgid "KSU purple"
+msgstr ""
+
+#: __init__.py:1138
+msgid "Quartz"
+msgstr ""
+
+#: __init__.py:1139
+msgid "Han purple"
+msgstr ""
+
+#: __init__.py:1140
+msgid "Regalia"
+msgstr ""
+
+#: __init__.py:1142
+msgid "Dark liver"
+msgstr ""
+
+#: __init__.py:1143
+msgid "Cadet"
+msgstr ""
+
+#: __init__.py:1144
+msgid "Dark electric blue"
+msgstr ""
+
+#: __init__.py:1145
+msgid "UCLA blue"
+msgstr ""
+
+#: __init__.py:1146 __init__.py:1178 __init__.py:1282 __init__.py:1426
+#: __init__.py:1468
+msgid "Cadet blue"
+msgstr ""
+
+#: __init__.py:1147
+msgid "Dark liver (horses)"
+msgstr ""
+
+#: __init__.py:1148
+msgid "Liberty"
+msgstr ""
+
+#: __init__.py:1149
+msgid "Black Coral"
+msgstr ""
+
+#: __init__.py:1150 __init__.py:1293 __init__.py:1469 __init__.py:1485
+msgid "Pale green"
+msgstr ""
+
+#: __init__.py:1152 __init__.py:1295 __init__.py:1433 __init__.py:1487
+#: __init__.py:1501
+msgid "Purple"
+msgstr ""
+
+#: __init__.py:1153
+msgid "Blue-magenta violet"
+msgstr ""
+
+#: __init__.py:1154
+msgid "Davy's grey"
+msgstr ""
+
+#: __init__.py:1155
+msgid "Ebony"
+msgstr ""
+
+#: __init__.py:1156 __init__.py:1236 __init__.py:1522 __init__.py:1637
+#: __init__.py:1697
+msgid "Dark olive green"
+msgstr ""
+
+#: __init__.py:1157
+msgid "Dark scarlet"
+msgstr ""
+
+#: __init__.py:1158
+msgid "Pineapple"
+msgstr ""
+
+#: __init__.py:1159
+msgid "Avocado"
+msgstr ""
+
+#: __init__.py:1160
+msgid "Wintergreen Dream"
+msgstr ""
+
+#: __init__.py:1161
+msgid "Carolina blue"
+msgstr ""
+
+#: __init__.py:1162
+msgid "Cyber grape"
+msgstr ""
+
+#: __init__.py:1163
+msgid "Seal brown"
+msgstr ""
+
+#: __init__.py:1164
+msgid "Caput mortuum"
+msgstr ""
+
+#: __init__.py:1165
+msgid "Plump purple"
+msgstr ""
+
+#: __init__.py:1166
+msgid "Iris"
+msgstr ""
+
+#: __init__.py:1167
+msgid "Japanese violet"
+msgstr ""
+
+#: __init__.py:1168
+msgid "United nations blue"
+msgstr ""
+
+#: __init__.py:1170
+msgid "Dark byzantium"
+msgstr ""
+
+#: __init__.py:1171 __init__.py:1356 __init__.py:1443 __init__.py:1506
+#: __init__.py:1560
+msgid "Medium purple"
+msgstr ""
+
+#: __init__.py:1172
+msgid "Silver lake blue"
+msgstr ""
+
+#: __init__.py:1174
+msgid "Polished Pine"
+msgstr ""
+
+#: __init__.py:1175
+msgid "Blue jeans"
+msgstr ""
+
+#: __init__.py:1176
+msgid "Maximum green"
+msgstr ""
+
+#: __init__.py:1177
+msgid "Steel teal"
+msgstr ""
+
+#: __init__.py:1179
+msgid "Shiny shamrock"
+msgstr ""
+
+#: __init__.py:1180
+msgid "Imperial"
+msgstr ""
+
+#: __init__.py:1181
+msgid "Majorelle blue"
+msgstr ""
+
+#: __init__.py:1182 __init__.py:1342 __init__.py:1420 __init__.py:1527
+#: __init__.py:1588
+msgid "Light sky blue"
+msgstr ""
+
+#: __init__.py:1183
+msgid "Glaucous"
+msgstr ""
+
+#: __init__.py:1184
+msgid "Eggplant"
+msgstr ""
+
+#: __init__.py:1185
+msgid "Umber"
+msgstr ""
+
+#: __init__.py:1187
+msgid "Pullman brown"
+msgstr ""
+
+#: __init__.py:1188
+msgid "Wenge"
+msgstr ""
+
+#: __init__.py:1189
+msgid "Cornflower blue"
+msgstr ""
+
+#: __init__.py:1190
+msgid "Very light malachite green"
+msgstr ""
+
+#: __init__.py:1191
+msgid "Rosewood"
+msgstr ""
+
+#: __init__.py:1192
+msgid "Dark brown"
+msgstr ""
+
+#: __init__.py:1193
+msgid "Imperial purple"
+msgstr ""
+
+#: __init__.py:1194
+msgid "Rebecca purple"
+msgstr ""
+
+#: __init__.py:1195
+msgid "Halaya ube"
+msgstr ""
+
+#: __init__.py:1196
+msgid "Van dyke brown"
+msgstr ""
+
+#: __init__.py:1197
+msgid "Deep tuscan red"
+msgstr ""
+
+#: __init__.py:1198
+msgid "Donkey brown"
+msgstr ""
+
+#: __init__.py:1199
+msgid "Antique bronze"
+msgstr ""
+
+#: __init__.py:1200
+msgid "Dark blue-gray"
+msgstr ""
+
+#: __init__.py:1201
+msgid "Very light blue"
+msgstr ""
+
+#: __init__.py:1202 __init__.py:1457 __init__.py:1631 __init__.py:2278
+msgid "Pale turquoise"
+msgstr ""
+
+#: __init__.py:1203
+msgid "Desaturated cyan"
+msgstr ""
+
+#: __init__.py:1204
+msgid "Livid"
+msgstr ""
+
+#: __init__.py:1207 __init__.py:1208
+msgid "Medium aquamarine"
+msgstr ""
+
+#: __init__.py:1209
+msgid "Bright green"
+msgstr ""
+
+#: __init__.py:1210
+msgid "Screamin' green"
+msgstr ""
+
+#: __init__.py:1211
+msgid "Wine dregs"
+msgstr ""
+
+#: __init__.py:1212
+msgid "Rose ebony"
+msgstr ""
+
+#: __init__.py:1213
+msgid "Medium taupe"
+msgstr ""
+
+#: __init__.py:1214
+msgid "Granite Gray"
+msgstr ""
+
+#: __init__.py:1215
+msgid "Russian green"
+msgstr ""
+
+#: __init__.py:1216 __init__.py:1472 __init__.py:1480 __init__.py:1591
+#: __init__.py:1645
+msgid "Dark orchid"
+msgstr ""
+
+#: __init__.py:1217
+msgid "Palatinate purple"
+msgstr ""
+
+#: __init__.py:1218 __init__.py:1483 __init__.py:1571 __init__.py:1594
+#: __init__.py:1650
+msgid "Light blue"
+msgstr ""
+
+#: __init__.py:1219
+msgid "Purple heart"
+msgstr ""
+
+#: __init__.py:1221
+msgid "Dim gray"
+msgstr ""
+
+#: __init__.py:1222 __init__.py:1226 __init__.py:1601 __init__.py:1657
+msgid "Olive drab"
+msgstr ""
+
+#: __init__.py:1223 __init__.py:1429 __init__.py:1491 __init__.py:1605
+#: __init__.py:1662
+msgid "Dark sea green"
+msgstr ""
+
+#: __init__.py:1225
+msgid "Kobicha"
+msgstr ""
+
+#: __init__.py:1227
+msgid "Liver (organ)"
+msgstr ""
+
+#: __init__.py:1228
+msgid "Eminence"
+msgstr ""
+
+#: __init__.py:1229
+msgid "Field drab"
+msgstr ""
+
+#: __init__.py:1230 __init__.py:1248 __init__.py:1509 __init__.py:1623
+#: __init__.py:1679
+msgid "Slate gray"
+msgstr ""
+
+#: __init__.py:1231
+msgid "Little boy blue"
+msgstr ""
+
+#: __init__.py:1233
+msgid "Cerulean frost"
+msgstr ""
+
+#: __init__.py:1234 __init__.py:1521 __init__.py:1586 __init__.py:1635
+#: __init__.py:1696
+msgid "Light steel blue"
+msgstr ""
+
+#: __init__.py:1235
+msgid "Auro metal saurus"
+msgstr ""
+
+#: __init__.py:1237
+msgid "Green Sheen"
+msgstr ""
+
+#: __init__.py:1238
+msgid "Electric indigo"
+msgstr ""
+
+#: __init__.py:1239
+msgid "Grape"
+msgstr ""
+
+#: __init__.py:1240
+msgid "Tuscan brown"
+msgstr ""
+
+#: __init__.py:1241
+msgid "Palm Leaf"
+msgstr ""
+
+#: __init__.py:1242
+msgid "Persian plum"
+msgstr ""
+
+#: __init__.py:1243
+msgid "Midnight"
+msgstr ""
+
+#: __init__.py:1244
+msgid "Byzantium"
+msgstr ""
+
+#: __init__.py:1245
+msgid "Catawba"
+msgstr ""
+
+#: __init__.py:1246
+msgid "Sepia"
+msgstr ""
+
+#: __init__.py:1247
+msgid "Roast coffee"
+msgstr ""
+
+#: __init__.py:1249
+msgid "Iceberg"
+msgstr ""
+
+#: __init__.py:1250
+msgid "Iguana green"
+msgstr ""
+
+#: __init__.py:1251
+msgid "Puce red"
+msgstr ""
+
+#: __init__.py:1252
+msgid "Nickel"
+msgstr ""
+
+#: __init__.py:1253
+msgid "Air superiority blue"
+msgstr ""
+
+#: __init__.py:1254
+msgid "Maximum purple"
+msgstr ""
+
+#: __init__.py:1255
+msgid "Dark lavender"
+msgstr ""
+
+#: __init__.py:1256
+msgid "Bronze yellow"
+msgstr ""
+
+#: __init__.py:1257
+msgid "Smoke"
+msgstr ""
+
+#: __init__.py:1258
+msgid "Xanadu"
+msgstr ""
+
+#: __init__.py:1259
+msgid "Moonstone blue"
+msgstr ""
+
+#: __init__.py:1260
+msgid "Maya blue"
+msgstr ""
+
+#: __init__.py:1261
+msgid "Toolbox"
+msgstr ""
+
+#: __init__.py:1262
+msgid "Very light azure"
+msgstr ""
+
+#: __init__.py:1263
+msgid "Mantis"
+msgstr ""
+
+#: __init__.py:1264
+msgid "Sonic silver"
+msgstr ""
+
+#: __init__.py:1267
+msgid "Rhythm"
+msgstr ""
+
+#: __init__.py:1268
+msgid "Light slate gray"
+msgstr ""
+
+#: __init__.py:1269
+msgid "Shadow blue"
+msgstr ""
+
+#: __init__.py:1270
+msgid "Dark pastel blue"
+msgstr ""
+
+#: __init__.py:1271
+msgid "French sky blue"
+msgstr ""
+
+#: __init__.py:1272
+msgid "Pastel green"
+msgstr ""
+
+#: __init__.py:1273
+msgid "Pansy purple"
+msgstr ""
+
+#: __init__.py:1274
+msgid "Royal purple"
+msgstr ""
+
+#: __init__.py:1275
+msgid "Camouflage green"
+msgstr ""
+
+#: __init__.py:1276
+msgid "Medium tuscan red"
+msgstr ""
+
+#: __init__.py:1277
+msgid "Old lavender"
+msgstr ""
+
+#: __init__.py:1279 __init__.py:1602 __init__.py:1626 __init__.py:1794
+#: __init__.py:1861
+msgid "Medium orchid"
+msgstr ""
+
+#: __init__.py:1281 __init__.py:1604 __init__.py:1798 __init__.py:1866
+msgid "Light cyan"
+msgstr ""
+
+#: __init__.py:1283
+msgid "UP maroon"
+msgstr ""
+
+#: __init__.py:1284
+msgid "Chocolate (traditional)"
+msgstr ""
+
+#: __init__.py:1285
+msgid "Medium slate blue"
+msgstr ""
+
+#: __init__.py:1286
+msgid "Bud green"
+msgstr ""
+
+#: __init__.py:1287
+msgid "Barn red"
+msgstr ""
+
+#: __init__.py:1288
+msgid "Kenyan copper"
+msgstr ""
+
+#: __init__.py:1289
+msgid "Tuscan red"
+msgstr ""
+
+#: __init__.py:1290
+msgid "Weldon blue"
+msgstr ""
+
+#: __init__.py:1291
+msgid "Vista blue"
+msgstr ""
+
+#: __init__.py:1292
+msgid "Aero"
+msgstr ""
+
+#: __init__.py:1294
+msgid "Lawn green"
+msgstr ""
+
+#: __init__.py:1296
+msgid "Electric blue"
+msgstr ""
+
+#: __init__.py:1297
+msgid "Deep taupe"
+msgstr ""
+
+#: __init__.py:1299
+msgid "Middle blue"
+msgstr ""
+
+#: __init__.py:1300 __init__.py:1335 __init__.py:1427
+msgid "Violet"
+msgstr ""
+
+#: __init__.py:1301
+msgid "Claret"
+msgstr ""
+
+#: __init__.py:1304 __init__.py:1369 __init__.py:1729 __init__.py:1945
+#: __init__.py:2134
+msgid "Maroon"
+msgstr ""
+
+#: __init__.py:1305
+msgid "Burgundy"
+msgstr ""
+
+#: __init__.py:1306
+msgid "Patriarch, purple"
+msgstr ""
+
+#: __init__.py:1307
+msgid "Falu red"
+msgstr ""
+
+#: __init__.py:1308
+msgid "Russet"
+msgstr ""
+
+#: __init__.py:1309
+msgid "Spanish bistre"
+msgstr ""
+
+#: __init__.py:1310
+msgid "Olive"
+msgstr ""
+
+#: __init__.py:1311
+msgid "Trolley grey"
+msgstr ""
+
+#: __init__.py:1312
+msgid "Medium sky blue"
+msgstr ""
+
+#: __init__.py:1313
+msgid "French plum"
+msgstr ""
+
+#: __init__.py:1314
+msgid "Coyote brown"
+msgstr ""
+
+#: __init__.py:1315
+msgid "Deep maroon"
+msgstr ""
+
+#: __init__.py:1316
+msgid "Raw umber"
+msgstr ""
+
+#: __init__.py:1317
+msgid "Dolphin gray"
+msgstr ""
+
+#: __init__.py:1318
+msgid "Smokey topaz"
+msgstr ""
+
+#: __init__.py:1319
+msgid "Pastel brown"
+msgstr ""
+
+#: __init__.py:1321
+msgid "Roman silver"
+msgstr ""
+
+#: __init__.py:1322 __init__.py:1660 __init__.py:1864 __init__.py:2004
+msgid "Honeydew"
+msgstr ""
+
+#: __init__.py:1324
+msgid "Antique ruby"
+msgstr ""
+
+#: __init__.py:1325
+msgid "Deep ruby"
+msgstr ""
+
+#: __init__.py:1326
+msgid "Light slate blue"
+msgstr ""
+
+#: __init__.py:1327
+msgid "Old silver"
+msgstr ""
+
+#: __init__.py:1328
+msgid "Alien armpit"
+msgstr ""
+
+#: __init__.py:1329
+msgid "Deep red"
+msgstr ""
+
+#: __init__.py:1330
+msgid "Chinese violet"
+msgstr ""
+
+#: __init__.py:1331
+msgid "French bistre"
+msgstr ""
+
+#: __init__.py:1332
+msgid "Gold Fusion"
+msgstr ""
+
+#: __init__.py:1333
+msgid "Dollar bill"
+msgstr ""
+
+#: __init__.py:1334
+msgid "Red devil"
+msgstr ""
+
+#: __init__.py:1336
+msgid "French lilac"
+msgstr ""
+
+#: __init__.py:1337
+msgid "Old moss green"
+msgstr ""
+
+#: __init__.py:1338
+msgid "Dark raspberry"
+msgstr ""
+
+#: __init__.py:1339
+msgid "Boysenberry"
+msgstr ""
+
+#: __init__.py:1340
+msgid "Asparagus"
+msgstr ""
+
+#: __init__.py:1344
+msgid "Pale cyan"
+msgstr ""
+
+#: __init__.py:1345
+msgid "Spring Frost"
+msgstr ""
+
+#: __init__.py:1346
+msgid "Mardi gras"
+msgstr ""
+
+#: __init__.py:1347
+msgid "French violet"
+msgstr ""
+
+#: __init__.py:1348 __init__.py:1379 __init__.py:1512 __init__.py:1742
+#: __init__.py:1955 __init__.py:2174
+msgid "Sienna"
+msgstr ""
+
+#: __init__.py:1349
+msgid "Grizzly"
+msgstr ""
+
+#: __init__.py:1350
+msgid "Dark brown-tangelo"
+msgstr ""
+
+#: __init__.py:1351
+msgid "Ube"
+msgstr ""
+
+#: __init__.py:1352
+msgid "Light cobalt blue"
+msgstr ""
+
+#: __init__.py:1353
+msgid "Pearl aqua"
+msgstr ""
+
+#: __init__.py:1354
+msgid "Solid pink"
+msgstr ""
+
+#: __init__.py:1355
+msgid "Cordovan"
+msgstr ""
+
+#: __init__.py:1357
+msgid "Baby blue"
+msgstr ""
+
+#: __init__.py:1358
+msgid "Blue-violet"
+msgstr ""
+
+#: __init__.py:1359
+msgid "Burnt umber"
+msgstr ""
+
+#: __init__.py:1360
+msgid "Twilight lavender"
+msgstr ""
+
+#: __init__.py:1361
+msgid "Shadow"
+msgstr ""
+
+#: __init__.py:1362
+msgid "Rocket metallic"
+msgstr ""
+
+#: __init__.py:1363
+msgid "Turtle green"
+msgstr ""
+
+#: __init__.py:1364
+msgid "Jordy blue"
+msgstr ""
+
+#: __init__.py:1365
+msgid "Dark red"
+msgstr ""
+
+#: __init__.py:1366
+msgid "Dark magenta"
+msgstr ""
+
+#: __init__.py:1367 __init__.py:1727 __init__.py:1942 __init__.py:2127
+msgid "Deep pink"
+msgstr ""
+
+#: __init__.py:1368 __init__.py:1590 __init__.py:1728 __init__.py:1944
+#: __init__.py:2132
+msgid "Firebrick"
+msgstr ""
+
+#: __init__.py:1370 __init__.py:1730 __init__.py:1788 __init__.py:1946
+#: __init__.py:2138
+msgid "Violet red"
+msgstr ""
+
+#: __init__.py:1371 __init__.py:1731 __init__.py:1947
+msgid "Brown"
+msgstr ""
+
+#: __init__.py:1372 __init__.py:1732 __init__.py:1948
+msgid "Orange red"
+msgstr ""
+
+#: __init__.py:1373 __init__.py:1733 __init__.py:1949 __init__.py:2154
+msgid "Tomato"
+msgstr ""
+
+#: __init__.py:1374 __init__.py:1734 __init__.py:1737 __init__.py:1950
+#: __init__.py:2159
+msgid "Indian red"
+msgstr ""
+
+#: __init__.py:1375 __init__.py:1739 __init__.py:1952 __init__.py:2158
+#: __init__.py:2162
+msgid "Hot pink"
+msgstr ""
+
+#: __init__.py:1376 __init__.py:1951 __init__.py:2164 __init__.py:2172
+msgid "Coral"
+msgstr ""
+
+#: __init__.py:1377 __init__.py:1740 __init__.py:1953 __init__.py:2170
+#: __init__.py:2179
+msgid "Dark orange"
+msgstr ""
+
+#: __init__.py:1378
+msgid "Saddle brown"
+msgstr ""
+
+#: __init__.py:1380 __init__.py:1743 __init__.py:1956 __init__.py:2175
+msgid "Pale violet red"
+msgstr ""
+
+#: __init__.py:1381 __init__.py:1744 __init__.py:1834 __init__.py:1957
+#: __init__.py:2176
+msgid "Orchid"
+msgstr ""
+
+#: __init__.py:1382 __init__.py:1745 __init__.py:1958 __init__.py:2059
+#: __init__.py:2180
+msgid "Salmon"
+msgstr ""
+
+#: __init__.py:1383 __init__.py:1747 __init__.py:1960 __init__.py:2190
+msgid "Light salmon"
+msgstr ""
+
+#: __init__.py:1384 __init__.py:1748 __init__.py:1961 __init__.py:2073
+#: __init__.py:2150 __init__.py:2193
+msgid "Orange"
+msgstr ""
+
+#: __init__.py:1385 __init__.py:1800 __init__.py:1962 __init__.py:2194
+msgid "Tan"
+msgstr ""
+
+#: __init__.py:1386
+msgid "Spicy mix"
+msgstr ""
+
+#: __init__.py:1387 __init__.py:1750 __init__.py:1963 __init__.py:2200
+#: __init__.py:2206
+msgid "Light pink"
+msgstr ""
+
+#: __init__.py:1388 __init__.py:1751 __init__.py:1816 __init__.py:1964
+#: __init__.py:2205 __init__.py:2214
+msgid "Pink"
+msgstr ""
+
+#: __init__.py:1389 __init__.py:1621 __init__.py:1752 __init__.py:1965
+#: __init__.py:2208
+msgid "Dark goldenrod"
+msgstr ""
+
+#: __init__.py:1390 __init__.py:1424 __init__.py:1754 __init__.py:1966
+#: __init__.py:2210
+msgid "Plum"
+msgstr ""
+
+#: __init__.py:1391 __init__.py:1755 __init__.py:1837 __init__.py:1967
+#: __init__.py:2215
+msgid "Goldenrod"
+msgstr ""
+
+#: __init__.py:1392 __init__.py:1632 __init__.py:1756 __init__.py:1968
+#: __init__.py:2216
+msgid "Rosy brown"
+msgstr ""
+
+#: __init__.py:1393
+msgid "Middle blue purple"
+msgstr ""
+
+#: __init__.py:1394 __init__.py:1758 __init__.py:1853 __init__.py:1969
+#: __init__.py:2226
+msgid "Burlywood"
+msgstr ""
+
+#: __init__.py:1395 __init__.py:1759 __init__.py:1970 __init__.py:2227
+msgid "Gold"
+msgstr ""
+
+#: __init__.py:1396 __init__.py:1760 __init__.py:1971 __init__.py:2229
+msgid "Peach puff"
+msgstr ""
+
+#: __init__.py:1397 __init__.py:1761 __init__.py:1972 __init__.py:2235
+msgid "Navajo white"
+msgstr ""
+
+#: __init__.py:1398 __init__.py:1762 __init__.py:1820 __init__.py:1974
+#: __init__.py:2240
+msgid "Thistle"
+msgstr ""
+
+#: __init__.py:1399 __init__.py:1763 __init__.py:1975 __init__.py:2243
+msgid "Bisque"
+msgstr ""
+
+#: __init__.py:1400 __init__.py:1764 __init__.py:1976 __init__.py:2245
+msgid "Misty rose"
+msgstr ""
+
+#: __init__.py:1401 __init__.py:1765 __init__.py:1977 __init__.py:2031
+#: __init__.py:2247
+msgid "Wheat"
+msgstr ""
+
+#: __init__.py:1402 __init__.py:1766 __init__.py:2250 __init__.py:2277
+msgid "Light goldenrod"
+msgstr ""
+
+#: __init__.py:1403 __init__.py:1767 __init__.py:1979 __init__.py:2253
+msgid "Antique white"
+msgstr ""
+
+#: __init__.py:1404 __init__.py:1768 __init__.py:1980 __init__.py:2255
+msgid "Lavender blush"
+msgstr ""
+
+#: __init__.py:1405
+msgid "Taupe gray"
+msgstr ""
+
+#: __init__.py:1406 __init__.py:1669 __init__.py:1770 __init__.py:1983
+#: __init__.py:2259
+msgid "Khaki"
+msgstr ""
+
+#: __init__.py:1407 __init__.py:1769 __init__.py:1981 __init__.py:2257
+msgid "Seashell"
+msgstr ""
+
+#: __init__.py:1408 __init__.py:1771 __init__.py:1985 __init__.py:2261
+msgid "Cornsilk"
+msgstr ""
+
+#: __init__.py:1409 __init__.py:1772 __init__.py:1986 __init__.py:2263
+msgid "Lemon chiffon"
+msgstr ""
+
+#: __init__.py:1410 __init__.py:1773 __init__.py:1987 __init__.py:2265
+msgid "Snow"
+msgstr ""
+
+#: __init__.py:1411 __init__.py:1774 __init__.py:1988 __init__.py:1994
+#: __init__.py:2087 __init__.py:2112 __init__.py:2113 __init__.py:2267
+msgid "Yellow"
+msgstr ""
+
+#: __init__.py:1412 __init__.py:1775 __init__.py:1989 __init__.py:2273
+msgid "Light yellow"
+msgstr ""
+
+#: __init__.py:1413 __init__.py:1776 __init__.py:2274
+msgid "Ivory"
+msgstr ""
+
+#: __init__.py:1414
+msgid "Pewter blue"
+msgstr ""
+
+#: __init__.py:1415
+msgid "Cool grey, Gray-blue"
+msgstr ""
+
+#: __init__.py:1416
+msgid "Dark sky blue"
+msgstr ""
+
+#: __init__.py:1417
+msgid "Razzmic berry"
+msgstr ""
+
+#: __init__.py:1418
+msgid "Morning blue"
+msgstr ""
+
+#: __init__.py:1419
+msgid "Apple green"
+msgstr ""
+
+#: __init__.py:1421
+msgid "Middle blue green"
+msgstr ""
+
+#: __init__.py:1423
+msgid "Quinacridone magenta"
+msgstr ""
+
+#: __init__.py:1425
+msgid "Kiwi"
+msgstr ""
+
+#: __init__.py:1428
+msgid "Artichoke"
+msgstr ""
+
+#: __init__.py:1430
+msgid "Sheen green"
+msgstr ""
+
+#: __init__.py:1431
+msgid "Rose taupe"
+msgstr ""
+
+#: __init__.py:1432
+msgid "Light green"
+msgstr ""
+
+#: __init__.py:1434
+msgid "Sugar plum"
+msgstr ""
+
+#: __init__.py:1435
+msgid "Antique fuchsia"
+msgstr ""
+
+#: __init__.py:1436
+msgid "Mauve taupe"
+msgstr ""
+
+#: __init__.py:1437
+msgid "Dark tan"
+msgstr ""
+
+#: __init__.py:1438
+msgid "Cadet grey"
+msgstr ""
+
+#: __init__.py:1439
+msgid "Sangria"
+msgstr ""
+
+#: __init__.py:1440
+msgid "Vivid auburn"
+msgstr ""
+
+#: __init__.py:1441
+msgid "Ceil"
+msgstr ""
+
+#: __init__.py:1442
+msgid "Smoky Topaz"
+msgstr ""
+
+#: __init__.py:1444
+msgid "Pistachio"
+msgstr ""
+
+#: __init__.py:1445
+msgid "Light cornflower blue"
+msgstr ""
+
+#: __init__.py:1446
+msgid "Dark violet"
+msgstr ""
+
+#: __init__.py:1447
+msgid "Lavender indigo, Navy purple"
+msgstr ""
+
+#: __init__.py:1448
+msgid "Chestnut"
+msgstr ""
+
+#: __init__.py:1449
+msgid "Carmine, Heidelberg red"
+msgstr ""
+
+#: __init__.py:1450
+msgid "Brown (traditional)"
+msgstr ""
+
+#: __init__.py:1451
+msgid "Coconut"
+msgstr ""
+
+#: __init__.py:1452
+msgid "Dark pastel purple"
+msgstr ""
+
+#: __init__.py:1453
+msgid "Sandy taupe"
+msgstr ""
+
+#: __init__.py:1454
+msgid "Purple mountain majesty"
+msgstr ""
+
+#: __init__.py:1455
+msgid "Lavender purple"
+msgstr ""
+
+#: __init__.py:1456
+msgid "Eton blue"
+msgstr ""
+
+#: __init__.py:1458
+msgid "Pale robin egg blue"
+msgstr ""
+
+#: __init__.py:1459
+msgid "Manatee"
+msgstr ""
+
+#: __init__.py:1461
+msgid "Pink raspberry"
+msgstr ""
+
+#: __init__.py:1462
+msgid "Dark chestnut"
+msgstr ""
+
+#: __init__.py:1463
+msgid "Liver chestnut"
+msgstr ""
+
+#: __init__.py:1464
+msgid "Pale brown"
+msgstr ""
+
+#: __init__.py:1465
+msgid "Bazaar"
+msgstr ""
+
+#: __init__.py:1466
+msgid "Cinereous"
+msgstr ""
+
+#: __init__.py:1467
+msgid "Spanish gray"
+msgstr ""
+
+#: __init__.py:1470
+msgid "Mint green"
+msgstr ""
+
+#: __init__.py:1471
+msgid "Crimson red"
+msgstr ""
+
+#: __init__.py:1473
+msgid "Deep lilac"
+msgstr ""
+
+#: __init__.py:1474
+msgid "Golden brown"
+msgstr ""
+
+#: __init__.py:1475
+msgid "Gamboge orange (brown)"
+msgstr ""
+
+#: __init__.py:1476
+msgid "Copper rose"
+msgstr ""
+
+#: __init__.py:1477
+msgid "Amethyst"
+msgstr ""
+
+#: __init__.py:1478
+msgid "Mountbatten pink"
+msgstr ""
+
+#: __init__.py:1479
+msgid "Teal deer"
+msgstr ""
+
+#: __init__.py:1481
+msgid "Purpureus"
+msgstr ""
+
+#: __init__.py:1482
+msgid "Olivine"
+msgstr ""
+
+#: __init__.py:1484
+msgid "Yellow-green"
+msgstr ""
+
+#: __init__.py:1486
+msgid "Ruby red"
+msgstr ""
+
+#: __init__.py:1488
+msgid "Dirt"
+msgstr ""
+
+#: __init__.py:1489
+msgid "Dark yellow"
+msgstr ""
+
+#: __init__.py:1490
+msgid "Pale cerulean"
+msgstr ""
+
+#: __init__.py:1492
+msgid "Big dip o'ruby"
+msgstr ""
+
+#: __init__.py:1493
+msgid "Purple Plum"
+msgstr ""
+
+#: __init__.py:1494
+msgid "Metallic sunburst"
+msgstr ""
+
+#: __init__.py:1496
+msgid "Japanese carmine"
+msgstr ""
+
+#: __init__.py:1497
+msgid "Limerick"
+msgstr ""
+
+#: __init__.py:1498
+msgid "Spartan crimson"
+msgstr ""
+
+#: __init__.py:1499
+msgid "Rose dust"
+msgstr ""
+
+#: __init__.py:1500
+msgid "French lime"
+msgstr ""
+
+#: __init__.py:1502
+msgid "Vivid violet"
+msgstr ""
+
+#: __init__.py:1503
+msgid "Vivid burgundy"
+msgstr ""
+
+#: __init__.py:1504
+msgid "Amaranth deep purple"
+msgstr ""
+
+#: __init__.py:1505
+msgid "Magenta haze"
+msgstr ""
+
+#: __init__.py:1507
+msgid "Beaver"
+msgstr ""
+
+#: __init__.py:1508
+msgid "Citron"
+msgstr ""
+
+#: __init__.py:1510
+msgid "Sea Foam green"
+msgstr ""
+
+#: __init__.py:1511
+msgid "Purple, Veronica"
+msgstr ""
+
+#: __init__.py:1513
+msgid "Chamoisee"
+msgstr ""
+
+#: __init__.py:1514
+msgid "Turquoise green"
+msgstr ""
+
+#: __init__.py:1515
+msgid "Winter wizard"
+msgstr ""
+
+#: __init__.py:1516
+msgid "Burnished brown"
+msgstr ""
+
+#: __init__.py:1517
+msgid "Baby blue eyes"
+msgstr ""
+
+#: __init__.py:1518
+msgid "Flirt"
+msgstr ""
+
+#: __init__.py:1519
+msgid "Blue bell"
+msgstr ""
+
+#: __init__.py:1520
+msgid "Wild blue yonder"
+msgstr ""
+
+#: __init__.py:1523
+msgid "Cambridge blue"
+msgstr ""
+
+#: __init__.py:1524
+msgid "Dark candy apple red"
+msgstr ""
+
+#: __init__.py:1525
+msgid "Redwood"
+msgstr ""
+
+#: __init__.py:1526
+msgid "Android green"
+msgstr ""
+
+#: __init__.py:1528
+msgid "Non-photo blue"
+msgstr ""
+
+#: __init__.py:1529
+msgid "Waterspout"
+msgstr ""
+
+#: __init__.py:1530
+msgid "Jazzberry jam"
+msgstr ""
+
+#: __init__.py:1531
+msgid "Auburn, brown"
+msgstr ""
+
+#: __init__.py:1532
+msgid "Middle red purple"
+msgstr ""
+
+#: __init__.py:1533
+msgid "Blast-off bronze"
+msgstr ""
+
+#: __init__.py:1534
+msgid "Maximum red purple"
+msgstr ""
+
+#: __init__.py:1535
+msgid "French beige, Tuscan tan"
+msgstr ""
+
+#: __init__.py:1536
+msgid "Quick silver"
+msgstr ""
+
+#: __init__.py:1537
+msgid "Vivid lime green"
+msgstr ""
+
+#: __init__.py:1538
+msgid "Fresh air"
+msgstr ""
+
+#: __init__.py:1539
+msgid "Windsor tan"
+msgstr ""
+
+#: __init__.py:1540
+msgid "Rich lavender"
+msgstr ""
+
+#: __init__.py:1541
+msgid "Green lizard"
+msgstr ""
+
+#: __init__.py:1542
+msgid "Spring bud"
+msgstr ""
+
+#: __init__.py:1543
+msgid "Rufous"
+msgstr ""
+
+#: __init__.py:1544
+msgid "Sweet brown"
+msgstr ""
+
+#: __init__.py:1545
+msgid "China rose"
+msgstr ""
+
+#: __init__.py:1546
+msgid "Granny Smith apple"
+msgstr ""
+
+#: __init__.py:1547
+msgid "Deep carmine"
+msgstr ""
+
+#: __init__.py:1548
+msgid "Deep puce"
+msgstr ""
+
+#: __init__.py:1549
+msgid "Grullo"
+msgstr ""
+
+#: __init__.py:1550
+msgid "Dark medium gray"
+msgstr ""
+
+#: __init__.py:1551
+msgid "Laurel green"
+msgstr ""
+
+#: __init__.py:1552
+msgid "Heliotrope magenta"
+msgstr ""
+
+#: __init__.py:1553
+msgid "Chinese red"
+msgstr ""
+
+#: __init__.py:1554
+msgid "Medium ruby"
+msgstr ""
+
+#: __init__.py:1555
+msgid "Heliotrope gray, Rose quartz"
+msgstr ""
+
+#: __init__.py:1556
+msgid "Magic mint"
+msgstr ""
+
+#: __init__.py:1557
+msgid "Amaranth purple"
+msgstr ""
+
+#: __init__.py:1558
+msgid "English red"
+msgstr ""
+
+#: __init__.py:1559
+msgid "Rose vale"
+msgstr ""
+
+#: __init__.py:1561
+msgid "Glossy grape"
+msgstr ""
+
+#: __init__.py:1562
+msgid "Pale cornflower blue"
+msgstr ""
+
+#: __init__.py:1563
+msgid "French wine"
+msgstr ""
+
+#: __init__.py:1564
+msgid "Silver chalice"
+msgstr ""
+
+#: __init__.py:1565
+msgid "Maximum blue purple"
+msgstr ""
+
+#: __init__.py:1566
+msgid "Middle green yellow"
+msgstr ""
+
+#: __init__.py:1567
+msgid "Celadon"
+msgstr ""
+
+#: __init__.py:1568
+msgid "Blizzard blue, Blue Lagoon"
+msgstr ""
+
+#: __init__.py:1569
+msgid "Mystic maroon"
+msgstr ""
+
+#: __init__.py:1570
+msgid "Copper penny"
+msgstr ""
+
+#: __init__.py:1572
+msgid "Light moss green"
+msgstr ""
+
+#: __init__.py:1573
+msgid "Green-yellow"
+msgstr ""
+
+#: __init__.py:1574
+msgid "Mordant red 19"
+msgstr ""
+
+#: __init__.py:1575
+msgid "Upsdell red"
+msgstr ""
+
+#: __init__.py:1576
+msgid "Lilac luster"
+msgstr ""
+
+#: __init__.py:1577
+msgid "Pastel blue"
+msgstr ""
+
+#: __init__.py:1578
+msgid "Alabama crimson"
+msgstr ""
+
+#: __init__.py:1579
+msgid "Pale carmine"
+msgstr ""
+
+#: __init__.py:1580
+msgid "Brown sugar"
+msgstr ""
+
+#: __init__.py:1581
+msgid "Pale blue"
+msgstr ""
+
+#: __init__.py:1582
+msgid "Rich maroon"
+msgstr ""
+
+#: __init__.py:1583
+msgid "Giant's club"
+msgstr ""
+
+#: __init__.py:1584
+msgid "Ginger"
+msgstr ""
+
+#: __init__.py:1585
+msgid "Acid green"
+msgstr ""
+
+#: __init__.py:1587
+msgid "Powder blue"
+msgstr ""
+
+#: __init__.py:1589
+msgid "Light pastel purple"
+msgstr ""
+
+#: __init__.py:1592
+msgid "African violet"
+msgstr ""
+
+#: __init__.py:1593
+msgid "Ash grey"
+msgstr ""
+
+#: __init__.py:1595
+msgid "Inchworm"
+msgstr ""
+
+#: __init__.py:1596
+msgid "Celeste, Italian sky blue"
+msgstr ""
+
+#: __init__.py:1597
+msgid "Carnelian, Cornell red"
+msgstr ""
+
+#: __init__.py:1598
+msgid "Irresistible, Raspberry rose"
+msgstr ""
+
+#: __init__.py:1599
+msgid "Light taupe"
+msgstr ""
+
+#: __init__.py:1600
+msgid "Pastel purple"
+msgstr ""
+
+#: __init__.py:1603
+msgid "English lavender"
+msgstr ""
+
+#: __init__.py:1606
+msgid "Fandango"
+msgstr ""
+
+#: __init__.py:1607
+msgid "Light brown"
+msgstr ""
+
+#: __init__.py:1608
+msgid "Turkish rose"
+msgstr ""
+
+#: __init__.py:1609
+msgid "Lavender (floral)"
+msgstr ""
+
+#: __init__.py:1610
+msgid "Brass"
+msgstr ""
+
+#: __init__.py:1612
+msgid "Rich lilac"
+msgstr ""
+
+#: __init__.py:1613
+msgid "Rust"
+msgstr ""
+
+#: __init__.py:1614
+msgid "Pearly purple"
+msgstr ""
+
+#: __init__.py:1615
+msgid "Rose gold"
+msgstr ""
+
+#: __init__.py:1616
+msgid "Opera mauve"
+msgstr ""
+
+#: __init__.py:1617
+msgid "University of California Gold"
+msgstr ""
+
+#: __init__.py:1618
+msgid "Vivid mulberry"
+msgstr ""
+
+#: __init__.py:1619
+msgid "Liver (dogs)"
+msgstr ""
+
+#: __init__.py:1620
+msgid "Copper"
+msgstr ""
+
+#: __init__.py:1622
+msgid "Deep chestnut"
+msgstr ""
+
+#: __init__.py:1624
+msgid "Diamond"
+msgstr ""
+
+#: __init__.py:1625
+msgid "International orange"
+msgstr ""
+
+#: __init__.py:1627
+msgid "Deer"
+msgstr ""
+
+#: __init__.py:1628
+msgid "Medium red-violet"
+msgstr ""
+
+#: __init__.py:1629
+msgid "Ruddy brown"
+msgstr ""
+
+#: __init__.py:1630
+msgid "Misty moss"
+msgstr ""
+
+#: __init__.py:1633
+msgid "Pale taupe"
+msgstr ""
+
+#: __init__.py:1634
+msgid "Sage"
+msgstr ""
+
+#: __init__.py:1636
+msgid "Pale aqua"
+msgstr ""
+
+#: __init__.py:1638
+msgid "Byzantine"
+msgstr ""
+
+#: __init__.py:1639
+msgid "Dark khaki"
+msgstr ""
+
+#: __init__.py:1640
+msgid "June bud"
+msgstr ""
+
+#: __init__.py:1641
+msgid "Crimson glory"
+msgstr ""
+
+#: __init__.py:1642
+msgid "Popstar"
+msgstr ""
+
+#: __init__.py:1643 __init__.py:1787
+msgid "Gray"
+msgstr ""
+
+#: __init__.py:1644
+msgid "Electric purple"
+msgstr ""
+
+#: __init__.py:1646
+msgid "Bittersweet shimmer"
+msgstr ""
+
+#: __init__.py:1647
+msgid "Bright lavender"
+msgstr ""
+
+#: __init__.py:1648
+msgid "Black shadows"
+msgstr ""
+
+#: __init__.py:1649
+msgid "Silver sand"
+msgstr ""
+
+#: __init__.py:1651
+msgid "Bitter lime"
+msgstr ""
+
+#: __init__.py:1652
+msgid "International orange (Golden Gate Bridge)"
+msgstr ""
+
+#: __init__.py:1653
+msgid "Mahogany"
+msgstr ""
+
+#: __init__.py:1654
+msgid "Old rose"
+msgstr ""
+
+#: __init__.py:1655
+msgid "Tuscany"
+msgstr ""
+
+#: __init__.py:1656
+msgid "Silver"
+msgstr ""
+
+#: __init__.py:1658
+msgid "Deep fuchsia"
+msgstr ""
+
+#: __init__.py:1659
+msgid "Camel, Desert, Wood brown"
+msgstr ""
+
+#: __init__.py:1663
+msgid "Rose red"
+msgstr ""
+
+#: __init__.py:1664
+msgid "Dark pastel red"
+msgstr ""
+
+#: __init__.py:1665
+msgid "Sand"
+msgstr ""
+
+#: __init__.py:1666
+msgid "Pictorial carmine"
+msgstr ""
+
+#: __init__.py:1667
+msgid "Bright maroon"
+msgstr ""
+
+#: __init__.py:1668
+msgid "Aztec gold"
+msgstr ""
+
+#: __init__.py:1670 __init__.py:1725 __init__.py:1935 __init__.py:1940
+#: __init__.py:1943 __init__.py:2009 __init__.py:2106 __init__.py:2115
+msgid "Red"
+msgstr ""
+
+#: __init__.py:1671
+msgid "Cardinal"
+msgstr ""
+
+#: __init__.py:1672
+msgid "Alloy orange"
+msgstr ""
+
+#: __init__.py:1673
+msgid "Silver pink"
+msgstr ""
+
+#: __init__.py:1674
+msgid "Lavender gray"
+msgstr ""
+
+#: __init__.py:1675
+msgid "Columbia blue"
+msgstr ""
+
+#: __init__.py:1676
+msgid "Dingy dungeon"
+msgstr ""
+
+#: __init__.py:1677
+msgid "Mulberry"
+msgstr ""
+
+#: __init__.py:1678
+msgid "Vegas gold"
+msgstr ""
+
+#: __init__.py:1680
+msgid "Medium violet-red"
+msgstr ""
+
+#: __init__.py:1681
+msgid "French raspberry"
+msgstr ""
+
+#: __init__.py:1682
+msgid "Fuchsia rose"
+msgstr ""
+
+#: __init__.py:1683
+msgid "Venetian red"
+msgstr ""
+
+#: __init__.py:1684
+msgid "Smitten"
+msgstr ""
+
+#: __init__.py:1685
+msgid "Lilac"
+msgstr ""
+
+#: __init__.py:1686
+msgid "Light french beige"
+msgstr ""
+
+#: __init__.py:1687
+msgid "Harvard crimson"
+msgstr ""
+
+#: __init__.py:1688
+msgid "Cedar Chest"
+msgstr ""
+
+#: __init__.py:1689
+msgid "Wisteria"
+msgstr ""
+
+#: __init__.py:1690
+msgid "Pale silver"
+msgstr ""
+
+#: __init__.py:1691
+msgid "Medium spring bud"
+msgstr ""
+
+#: __init__.py:1692
+msgid "Aero blue"
+msgstr ""
+
+#: __init__.py:1693
+msgid "Magenta (dye)"
+msgstr ""
+
+#: __init__.py:1694
+msgid "Royal fuchsia"
+msgstr ""
+
+#: __init__.py:1695
+msgid "Bitter lemon"
+msgstr ""
+
+#: __init__.py:1698
+msgid "Sinopia"
+msgstr ""
+
+#: __init__.py:1699
+msgid "Brick red"
+msgstr ""
+
+#: __init__.py:1700
+msgid "Copper red"
+msgstr ""
+
+#: __init__.py:1701
+msgid "Pastel violet"
+msgstr ""
+
+#: __init__.py:1702
+msgid "Satin sheen gold"
+msgstr ""
+
+#: __init__.py:1703
+msgid "Boston university red"
+msgstr ""
+
+#: __init__.py:1704
+msgid "Vivid crimson"
+msgstr ""
+
+#: __init__.py:1705
+msgid "Deep magenta"
+msgstr ""
+
+#: __init__.py:1706
+msgid "Vivid orchid"
+msgstr ""
+
+#: __init__.py:1707
+msgid "Persian red"
+msgstr ""
+
+#: __init__.py:1708
+msgid "Madder lake"
+msgstr ""
+
+#: __init__.py:1709
+msgid "Magenta-pink"
+msgstr ""
+
+#: __init__.py:1710
+msgid "Steel pink"
+msgstr ""
+
+#: __init__.py:1711
+msgid "Fuchsia purple"
+msgstr ""
+
+#: __init__.py:1712
+msgid "English vermillion"
+msgstr ""
+
+#: __init__.py:1713
+msgid "Dark terra cotta"
+msgstr ""
+
+#: __init__.py:1714
+msgid "Burnt orange"
+msgstr ""
+
+#: __init__.py:1715
+msgid "Fuzzy Wuzzy"
+msgstr ""
+
+#: __init__.py:1716
+msgid "Ochre"
+msgstr ""
+
+#: __init__.py:1717
+msgid "Puce"
+msgstr ""
+
+#: __init__.py:1718
+msgid "Vivid amber"
+msgstr ""
+
+#: __init__.py:1719
+msgid "Brown yellow"
+msgstr ""
+
+#: __init__.py:1720
+msgid "Light grayish magenta"
+msgstr ""
+
+#: __init__.py:1721
+msgid "Pale violet"
+msgstr ""
+
+#: __init__.py:1722
+msgid "Lemon curry"
+msgstr ""
+
+#: __init__.py:1723
+msgid "Lavender blue, Periwinkle"
+msgstr ""
+
+#: __init__.py:1724
+msgid "Fluorescent yellow"
+msgstr ""
+
+#: __init__.py:1726 __init__.py:1789 __init__.py:1941 __init__.py:2123
+msgid "Magenta"
+msgstr ""
+
+#: __init__.py:1735
+msgid "Tenne (tawny)"
+msgstr ""
+
+#: __init__.py:1736
+msgid "Dark coral"
+msgstr ""
+
+#: __init__.py:1738
+msgid "Cinnamon satin"
+msgstr ""
+
+#: __init__.py:1741 __init__.py:1954 __init__.py:2171
+msgid "Chocolate"
+msgstr ""
+
+#: __init__.py:1746
+msgid "Bronze"
+msgstr ""
+
+#: __init__.py:1749
+msgid "Peru"
+msgstr ""
+
+#: __init__.py:1753
+msgid "Antique brass"
+msgstr ""
+
+#: __init__.py:1757
+msgid "Tropical violet"
+msgstr ""
+
+#: __init__.py:1777
+msgid "Fire engine red"
+msgstr ""
+
+#: __init__.py:1778
+msgid "Ruber"
+msgstr ""
+
+#: __init__.py:1779
+msgid "Soap"
+msgstr ""
+
+#: __init__.py:1780
+msgid "Volt"
+msgstr ""
+
+#: __init__.py:1781
+msgid "Lava"
+msgstr ""
+
+#: __init__.py:1782
+msgid "Telemagenta"
+msgstr ""
+
+#: __init__.py:1783
+msgid "Super pink"
+msgstr ""
+
+#: __init__.py:1784
+msgid "Sky magenta"
+msgstr ""
+
+#: __init__.py:1785
+msgid "Old gold"
+msgstr ""
+
+#: __init__.py:1786
+msgid "Pastel gray"
+msgstr ""
+
+#: __init__.py:1790
+msgid "Tea green"
+msgstr ""
+
+#: __init__.py:1791
+msgid "Arctic lime"
+msgstr ""
+
+#: __init__.py:1792
+msgid "Spanish carmine"
+msgstr ""
+
+#: __init__.py:1793
+msgid "Rubine red"
+msgstr ""
+
+#: __init__.py:1795
+msgid "Bright ube"
+msgstr ""
+
+#: __init__.py:1796
+msgid "Dark vanilla"
+msgstr ""
+
+#: __init__.py:1797
+msgid "Pear"
+msgstr ""
+
+#: __init__.py:1799
+msgid "Chocolate, Cocoa brown"
+msgstr ""
+
+#: __init__.py:1801
+msgid "Utah Crimson"
+msgstr ""
+
+#: __init__.py:1802
+msgid "Amaranth red"
+msgstr ""
+
+#: __init__.py:1803
+msgid "Light medium orchid"
+msgstr ""
+
+#: __init__.py:1804
+msgid "Light gray"
+msgstr ""
+
+#: __init__.py:1805
+msgid "Rosso corsa"
+msgstr ""
+
+#: __init__.py:1806
+msgid "Wild orchid"
+msgstr ""
+
+#: __init__.py:1807
+msgid "Deep mauve"
+msgstr ""
+
+#: __init__.py:1808
+msgid "Gold (metallic)"
+msgstr ""
+
+#: __init__.py:1809
+msgid "Mystic"
+msgstr ""
+
+#: __init__.py:1810
+msgid "Raw sienna"
+msgstr ""
+
+#: __init__.py:1811
+msgid "Languid lavender"
+msgstr ""
+
+#: __init__.py:1812
+msgid "Rich carmine"
+msgstr ""
+
+#: __init__.py:1813
+msgid "Debian red"
+msgstr ""
+
+#: __init__.py:1814
+msgid "Dogwood rose"
+msgstr ""
+
+#: __init__.py:1815
+msgid "Jasper"
+msgstr ""
+
+#: __init__.py:1817
+msgid "New York pink"
+msgstr ""
+
+#: __init__.py:1818
+msgid "Bright lilac"
+msgstr ""
+
+#: __init__.py:1819
+msgid "Pink lavender"
+msgstr ""
+
+#: __init__.py:1821
+msgid "UA red"
+msgstr ""
+
+#: __init__.py:1822
+msgid "Maximum red"
+msgstr ""
+
+#: __init__.py:1823
+msgid "Vermilion"
+msgstr ""
+
+#: __init__.py:1824
+msgid "Medium vermilion"
+msgstr ""
+
+#: __init__.py:1825
+msgid "Middle purple"
+msgstr ""
+
+#: __init__.py:1826
+msgid "Shimmering blush"
+msgstr ""
+
+#: __init__.py:1827
+msgid "Persian orange"
+msgstr ""
+
+#: __init__.py:1828
+msgid "Parrot pink"
+msgstr ""
+
+#: __init__.py:1829
+msgid "Maximum green yellow"
+msgstr ""
+
+#: __init__.py:1830
+msgid "Vivid cerise"
+msgstr ""
+
+#: __init__.py:1831
+msgid "Rusty red"
+msgstr ""
+
+#: __init__.py:1832
+msgid "Deep cerise"
+msgstr ""
+
+#: __init__.py:1833
+msgid "Jelly bean"
+msgstr ""
+
+#: __init__.py:1835
+msgid "Pale copper"
+msgstr ""
+
+#: __init__.py:1836
+msgid "Harvest gold"
+msgstr ""
+
+#: __init__.py:1838
+msgid "Pale red-violet"
+msgstr ""
+
+#: __init__.py:1839
+msgid "Timberwolf"
+msgstr ""
+
+#: __init__.py:1840
+msgid "Azureish white"
+msgstr ""
+
+#: __init__.py:1841
+msgid "Crimson"
+msgstr ""
+
+#: __init__.py:1842
+msgid "Pale lavender"
+msgstr ""
+
+#: __init__.py:1843
+msgid "Gainsboro"
+msgstr ""
+
+#: __init__.py:1844
+msgid "Medium lavender magenta, Pale plum"
+msgstr ""
+
+#: __init__.py:1845
+msgid "Pale chestnut"
+msgstr ""
+
+#: __init__.py:1846
+msgid "Booger buster"
+msgstr ""
+
+#: __init__.py:1847
+msgid "Cherry"
+msgstr ""
+
+#: __init__.py:1848
+msgid "Fandango pink"
+msgstr ""
+
+#: __init__.py:1849
+msgid "Blush"
+msgstr ""
+
+#: __init__.py:1850
+msgid "China pink, Liseran purple"
+msgstr ""
+
+#: __init__.py:1851
+msgid "Pastel pink"
+msgstr ""
+
+#: __init__.py:1852
+msgid "Tumbleweed"
+msgstr ""
+
+#: __init__.py:1854
+msgid "Phlox, Psychedelic purple"
+msgstr ""
+
+#: __init__.py:1855
+msgid "Vivid red-tangelo"
+msgstr ""
+
+#: __init__.py:1856
+msgid "Heliotrope"
+msgstr ""
+
+#: __init__.py:1857
+msgid "Chartreuse (traditional)"
+msgstr ""
+
+#: __init__.py:1858
+msgid "Ruby"
+msgstr ""
+
+#: __init__.py:1859
+msgid "Barbie pink"
+msgstr ""
+
+#: __init__.py:1860
+msgid "CG red"
+msgstr ""
+
+#: __init__.py:1862
+msgid "Tiger's eye"
+msgstr ""
+
+#: __init__.py:1863
+msgid "Mauve"
+msgstr ""
+
+#: __init__.py:1867
+msgid "Permanent geranium lake"
+msgstr ""
+
+#: __init__.py:1868
+msgid "Ruddy pink"
+msgstr ""
+
+#: __init__.py:1869
+msgid "Earth yellow"
+msgstr ""
+
+#: __init__.py:1870
+msgid "Urobilin"
+msgstr ""
+
+#: __init__.py:1871
+msgid "Medium candy apple red"
+msgstr ""
+
+#: __init__.py:1872
+msgid "Raspberry pink"
+msgstr ""
+
+#: __init__.py:1873
+msgid "Flame"
+msgstr ""
+
+#: __init__.py:1874
+msgid "Terra cotta"
+msgstr ""
+
+#: __init__.py:1875
+msgid "Cadmium red"
+msgstr ""
+
+#: __init__.py:1876
+msgid "Raspberry"
+msgstr ""
+
+#: __init__.py:1877
+msgid "Razzmatazz"
+msgstr ""
+
+#: __init__.py:1878
+msgid "Alizarin crimson, Rose madder"
+msgstr ""
+
+#: __init__.py:1879
+msgid "Cinnabar, Vermilion"
+msgstr ""
+
+#: __init__.py:1880
+msgid "Indian yellow"
+msgstr ""
+
+#: __init__.py:1881
+msgid "Sunray"
+msgstr ""
+
+#: __init__.py:1882
+msgid "Bone"
+msgstr ""
+
+#: __init__.py:1883
+msgid "Mindaro"
+msgstr ""
+
+#: __init__.py:1884
+msgid "Lemon lime"
+msgstr ""
+
+#: __init__.py:1885
+msgid "Red-purple"
+msgstr ""
+
+#: __init__.py:1886
+msgid "Mexican pink"
+msgstr ""
+
+#: __init__.py:1887
+msgid "Tango pink"
+msgstr ""
+
+#: __init__.py:1888
+msgid "Fulvous"
+msgstr ""
+
+#: __init__.py:1889
+msgid "Gamboge"
+msgstr ""
+
+#: __init__.py:1890
+msgid "Citrine"
+msgstr ""
+
+#: __init__.py:1891
+msgid "Straw"
+msgstr ""
+
+#: __init__.py:1892
+msgid "Spanish crimson"
+msgstr ""
+
+#: __init__.py:1893
+msgid "Amaranth"
+msgstr ""
+
+#: __init__.py:1894
+msgid "Vivid vermilion"
+msgstr ""
+
+#: __init__.py:1895
+msgid "Middle red"
+msgstr ""
+
+#: __init__.py:1896
+msgid "Fawn"
+msgstr ""
+
+#: __init__.py:1897
+msgid "Meat brown"
+msgstr ""
+
+#: __init__.py:1898
+msgid "Dust storm"
+msgstr ""
+
+#: __init__.py:1899
+msgid "Platinum"
+msgstr ""
+
+#: __init__.py:1900
+msgid "Spanish red"
+msgstr ""
+
+#: __init__.py:1901
+msgid "Lust"
+msgstr ""
+
+#: __init__.py:1902
+msgid "Paradise pink"
+msgstr ""
+
+#: __init__.py:1903
+msgid "Light carmine pink"
+msgstr ""
+
+#: __init__.py:1904
+msgid "Light Thulian pink"
+msgstr ""
+
+#: __init__.py:1905
+msgid "Light orchid"
+msgstr ""
+
+#: __init__.py:1906
+msgid "Pale gold"
+msgstr ""
+
+#: __init__.py:1907
+msgid "Peridot"
+msgstr ""
+
+#: __init__.py:1908
+msgid "Lavender mist"
+msgstr ""
+
+#: __init__.py:1909
+msgid "Glitter"
+msgstr ""
+
+#: __init__.py:1910
+msgid "Dark pink"
+msgstr ""
+
+#: __init__.py:1911
+msgid "Kobi"
+msgstr ""
+
+#: __init__.py:1912
+msgid "Pink pearl"
+msgstr ""
+
+#: __init__.py:1913
+msgid "Bubbles"
+msgstr ""
+
+#: __init__.py:1914
+msgid "KU crimson"
+msgstr ""
+
+#: __init__.py:1915
+msgid "Spanish orange"
+msgstr ""
+
+#: __init__.py:1916
+msgid "Big foot feet"
+msgstr ""
+
+#: __init__.py:1917
+msgid "Queen pink"
+msgstr ""
+
+#: __init__.py:1919
+msgid "Key Lime"
+msgstr ""
+
+#: __init__.py:1920
+msgid "Frostbite"
+msgstr ""
+
+#: __init__.py:1921
+msgid "Deep carrot orange"
+msgstr ""
+
+#: __init__.py:1922
+msgid "Burnt sienna, Light red ochre"
+msgstr ""
+
+#: __init__.py:1923
+msgid "Dark salmon"
+msgstr ""
+
+#: __init__.py:1924
+msgid "Arylide yellow"
+msgstr ""
+
+#: __init__.py:1925
+msgid "Nyanza"
+msgstr ""
+
+#: __init__.py:1926
+msgid "Desire"
+msgstr ""
+
+#: __init__.py:1927
+msgid "Marigold"
+msgstr ""
+
+#: __init__.py:1928
+msgid "Pearl"
+msgstr ""
+
+#: __init__.py:1929
+msgid "Carmine pink"
+msgstr ""
+
+#: __init__.py:1930
+msgid "Cerise pink"
+msgstr ""
+
+#: __init__.py:1931
+msgid "Persimmon"
+msgstr ""
+
+#: __init__.py:1932
+msgid "Middle yellow red"
+msgstr ""
+
+#: __init__.py:1933
+msgid "Sandstorm"
+msgstr ""
+
+#: __init__.py:1934
+msgid "Pale spring bud"
+msgstr ""
+
+#: __init__.py:1936
+msgid "Imperial red"
+msgstr ""
+
+#: __init__.py:1937
+msgid "Cadmium orange"
+msgstr ""
+
+#: __init__.py:1938
+msgid "Carrot orange"
+msgstr ""
+
+#: __init__.py:1939
+msgid "Desert sand"
+msgstr ""
+
+#: __init__.py:1959
+msgid "Lavender magenta, Violet"
+msgstr ""
+
+#: __init__.py:1973
+msgid "Safety yellow"
+msgstr ""
+
+#: __init__.py:1978
+msgid "Flax, Light goldenrod"
+msgstr ""
+
+#: __init__.py:1982
+msgid "Titanium yellow"
+msgstr ""
+
+#: __init__.py:1984
+msgid "Pale goldenrod"
+msgstr ""
+
+#: __init__.py:1990
+msgid "vory"
+msgstr ""
+
+#: __init__.py:1991
+msgid "Deep carmine pink"
+msgstr ""
+
+#: __init__.py:1992
+msgid "Mauvelous"
+msgstr ""
+
+#: __init__.py:1993
+msgid "Cameo pink"
+msgstr ""
+
+#: __init__.py:1995
+msgid "Almond"
+msgstr ""
+
+#: __init__.py:1996
+msgid "Dutch white"
+msgstr ""
+
+#: __init__.py:1997
+msgid "Vivid tangelo"
+msgstr ""
+
+#: __init__.py:1998
+msgid "Light coral"
+msgstr ""
+
+#: __init__.py:1999
+msgid "Buff"
+msgstr ""
+
+#: __init__.py:2000
+msgid "Dandelion"
+msgstr ""
+
+#: __init__.py:2001
+msgid "Light khaki"
+msgstr ""
+
+#: __init__.py:2002
+msgid "Eggshell"
+msgstr ""
+
+#: __init__.py:2003
+msgid "Alice blue"
+msgstr ""
+
+#: __init__.py:2005
+msgid "Azure mist"
+msgstr ""
+
+#: __init__.py:2006
+msgid "Amaranth pink"
+msgstr ""
+
+#: __init__.py:2007
+msgid "Rich brilliant lavender"
+msgstr ""
+
+#: __init__.py:2008
+msgid "Champagne pink"
+msgstr ""
+
+#: __init__.py:2010
+msgid "Tangerine"
+msgstr ""
+
+#: __init__.py:2011
+msgid "Maximum yellow red"
+msgstr ""
+
+#: __init__.py:2012
+msgid "Orchid pink"
+msgstr ""
+
+#: __init__.py:2013
+msgid "Alabaster"
+msgstr ""
+
+#: __init__.py:2014
+msgid "Sunny"
+msgstr ""
+
+#: __init__.py:2015
+msgid "Anti-flash white"
+msgstr ""
+
+#: __init__.py:2016
+msgid "Mandarin"
+msgstr ""
+
+#: __init__.py:2017
+msgid "Vanilla ice"
+msgstr ""
+
+#: __init__.py:2018
+msgid "Medium champagne, Vanilla"
+msgstr ""
+
+#: __init__.py:2019
+msgid "Fashion fuchsia, Hollywood cerise"
+msgstr ""
+
+#: __init__.py:2020
+msgid "Pastel magenta"
+msgstr ""
+
+#: __init__.py:2021
+msgid "Sandy brown"
+msgstr ""
+
+#: __init__.py:2022
+msgid "Brilliant lavender"
+msgstr ""
+
+#: __init__.py:2023
+msgid "Baby pink, Tea rose"
+msgstr ""
+
+#: __init__.py:2024
+msgid "Saffron"
+msgstr ""
+
+#: __init__.py:2025
+msgid "Jonquil"
+msgstr ""
+
+#: __init__.py:2026
+msgid "Isabelline"
+msgstr ""
+
+#: __init__.py:2027
+msgid "Light crimson"
+msgstr ""
+
+#: __init__.py:2028
+msgid "Cyclamen"
+msgstr ""
+
+#: __init__.py:2029
+msgid "Princeton orange"
+msgstr ""
+
+#: __init__.py:2030
+msgid "Deep lemon"
+msgstr ""
+
+#: __init__.py:2032
+msgid "Minion yellow"
+msgstr ""
+
+#: __init__.py:2033
+msgid "Beige"
+msgstr ""
+
+#: __init__.py:2034
+msgid "White smoke"
+msgstr ""
+
+#: __init__.py:2035
+msgid "Mint cream"
+msgstr ""
+
+#: __init__.py:2036
+msgid "French rose"
+msgstr ""
+
+#: __init__.py:2037
+msgid "Nadeshiko pink"
+msgstr ""
+
+#: __init__.py:2038
+msgid "Lemon meringue"
+msgstr ""
+
+#: __init__.py:2039
+msgid "Vivid red"
+msgstr ""
+
+#: __init__.py:2040
+msgid "Violet-red"
+msgstr ""
+
+#: __init__.py:2041
+msgid "University of Tennessee orange"
+msgstr ""
+
+#: __init__.py:2042
+msgid "Persian pink"
+msgstr ""
+
+#: __init__.py:2043
+msgid "Pink sherbet"
+msgstr ""
+
+#: __init__.py:2044
+msgid "Spanish pink"
+msgstr ""
+
+#: __init__.py:2045
+msgid "Champagne"
+msgstr ""
+
+#: __init__.py:2046
+msgid "Flavescent"
+msgstr ""
+
+#: __init__.py:2047
+msgid "Coral pink, Tea rose"
+msgstr ""
+
+#: __init__.py:2048
+msgid "Mellow apricot"
+msgstr ""
+
+#: __init__.py:2049
+msgid "Orange-yellow"
+msgstr ""
+
+#: __init__.py:2050
+msgid "Jasmine, Mellow yellow"
+msgstr ""
+
+#: __init__.py:2051
+msgid "Magnolia"
+msgstr ""
+
+#: __init__.py:2052
+msgid "Ghost white"
+msgstr ""
+
+#: __init__.py:2053
+msgid "Rose bonbon"
+msgstr ""
+
+#: __init__.py:2054
+msgid "Tangelo"
+msgstr ""
+
+#: __init__.py:2055
+msgid "Pale magenta"
+msgstr ""
+
+#: __init__.py:2056
+msgid "Light fuchsia pink"
+msgstr ""
+
+#: __init__.py:2057
+msgid "Orange soda"
+msgstr ""
+
+#: __init__.py:2058
+msgid "Begonia"
+msgstr ""
+
+#: __init__.py:2060
+msgid "Deep champagne, Sunset, Tuscan"
+msgstr ""
+
+#: __init__.py:2061
+msgid "Royal yellow"
+msgstr ""
+
+#: __init__.py:2062
+msgid "Pale pink"
+msgstr ""
+
+#: __init__.py:2063
+msgid "Peach-yellow"
+msgstr ""
+
+#: __init__.py:2064
+msgid "Banana mania"
+msgstr ""
+
+#: __init__.py:2065
+msgid "Antique white, Moccasin"
+msgstr ""
+
+#: __init__.py:2066
+msgid "Blond"
+msgstr ""
+
+#: __init__.py:2067
+msgid "Linen"
+msgstr ""
+
+#: __init__.py:2068
+msgid "Maximum yellow"
+msgstr ""
+
+#: __init__.py:2069
+msgid "Light goldenrod yellow"
+msgstr ""
+
+#: __init__.py:2070
+msgid "Tart orange"
+msgstr ""
+
+#: __init__.py:2071
+msgid "Orioles orange"
+msgstr ""
+
+#: __init__.py:2072
+msgid "Brink pink"
+msgstr ""
+
+#: __init__.py:2074
+msgid "Lavender rose"
+msgstr ""
+
+#: __init__.py:2075
+msgid "Rajah"
+msgstr ""
+
+#: __init__.py:2076
+msgid "Lavender pink"
+msgstr ""
+
+#: __init__.py:2077
+msgid "Classic rose"
+msgstr ""
+
+#: __init__.py:2078
+msgid "Apricot"
+msgstr ""
+
+#: __init__.py:2079
+msgid "Corn"
+msgstr ""
+
+#: __init__.py:2080
+msgid "Shocking pink"
+msgstr ""
+
+#: __init__.py:2081
+msgid "Strawberry"
+msgstr ""
+
+#: __init__.py:2082
+msgid "Ultra red, Wild watermelon"
+msgstr ""
+
+#: __init__.py:2083
+msgid "Pink Flamingo"
+msgstr ""
+
+#: __init__.py:2084
+msgid "Tickle me pink"
+msgstr ""
+
+#: __init__.py:2085
+msgid "Flamingo pink"
+msgstr ""
+
+#: __init__.py:2086
+msgid "Golden poppy"
+msgstr ""
+
+#: __init__.py:2088
+msgid "Icterine"
+msgstr ""
+
+#: __init__.py:2089
+msgid "Scarlet, Tractor red"
+msgstr ""
+
+#: __init__.py:2090
+msgid "Red Salsa"
+msgstr ""
+
+#: __init__.py:2091
+msgid "French fuchsia"
+msgstr ""
+
+#: __init__.py:2092
+msgid "Ogre odor"
+msgstr ""
+
+#: __init__.py:2093
+msgid "Willpower orange"
+msgstr ""
+
+#: __init__.py:2094
+msgid "Sunset orange"
+msgstr ""
+
+#: __init__.py:2095
+msgid "French pink"
+msgstr ""
+
+#: __init__.py:2096
+msgid "Coral reef"
+msgstr ""
+
+#: __init__.py:2097
+msgid "Melon"
+msgstr ""
+
+#: __init__.py:2098
+msgid "Feldspar, Light apricot"
+msgstr ""
+
+#: __init__.py:2099
+msgid "Sandy tan"
+msgstr ""
+
+#: __init__.py:2100
+msgid "Piggy pink"
+msgstr ""
+
+#: __init__.py:2101
+msgid "Aureolin"
+msgstr ""
+
+#: __init__.py:2102
+msgid "Old lace"
+msgstr ""
+
+#: __init__.py:2103
+msgid "Pastel yellow"
+msgstr ""
+
+#: __init__.py:2104
+msgid "Lemon glacier"
+msgstr ""
+
+#: __init__.py:2105
+msgid "Milk"
+msgstr ""
+
+#: __init__.py:2107
+msgid "Persian rose"
+msgstr ""
+
+#: __init__.py:2108
+msgid "Neon fuchsia"
+msgstr ""
+
+#: __init__.py:2109
+msgid "Purple pizzazz"
+msgstr ""
+
+#: __init__.py:2110
+msgid "Giants orange"
+msgstr ""
+
+#: __init__.py:2111
+msgid "Bittersweet"
+msgstr ""
+
+#: __init__.py:2114
+msgid "Baby powder"
+msgstr ""
+
+#: __init__.py:2116
+msgid "Ruddy"
+msgstr ""
+
+#: __init__.py:2117
+msgid "Carmine red"
+msgstr ""
+
+#: __init__.py:2118
+msgid "Electric crimson"
+msgstr ""
+
+#: __init__.py:2119
+msgid "Folly"
+msgstr ""
+
+#: __init__.py:2120
+msgid "Vivid raspberry"
+msgstr ""
+
+#: __init__.py:2121
+msgid "Winter sky"
+msgstr ""
+
+#: __init__.py:2122
+msgid "Bright pink, Rose"
+msgstr ""
+
+#: __init__.py:2124
+msgid "Fuchsia, Magenta"
+msgstr ""
+
+#: __init__.py:2125
+msgid "American rose"
+msgstr ""
+
+#: __init__.py:2126
+msgid "Candy apple red"
+msgstr ""
+
+#: __init__.py:2128
+msgid "Hot magenta"
+msgstr ""
+
+#: __init__.py:2129
+msgid "Awesome"
+msgstr ""
+
+#: __init__.py:2130
+msgid "Scarlet"
+msgstr ""
+
+#: __init__.py:2131
+msgid "Ferrari red"
+msgstr ""
+
+#: __init__.py:2133
+msgid "Razzle dazzle rose"
+msgstr ""
+
+#: __init__.py:2135
+msgid "Radical red"
+msgstr ""
+
+#: __init__.py:2136
+msgid "Coquelicot"
+msgstr ""
+
+#: __init__.py:2137
+msgid "Sizzling red"
+msgstr ""
+
+#: __init__.py:2139
+msgid "Brown, Coral red"
+msgstr ""
+
+#: __init__.py:2140
+msgid "Sunburnt cyclops"
+msgstr ""
+
+#: __init__.py:2141
+msgid "Wild strawberry"
+msgstr ""
+
+#: __init__.py:2142
+msgid "Magic potion"
+msgstr ""
+
+#: __init__.py:2143
+msgid "Orange-red"
+msgstr ""
+
+#: __init__.py:2144
+msgid "Sasquatch socks"
+msgstr ""
+
+#: __init__.py:2145
+msgid "Infra red"
+msgstr ""
+
+#: __init__.py:2146
+msgid "International orange (aerospace)"
+msgstr ""
+
+#: __init__.py:2147
+msgid "Red-orange"
+msgstr ""
+
+#: __init__.py:2148
+msgid "Fiery Rose"
+msgstr ""
+
+#: __init__.py:2149
+msgid "Brilliant rose"
+msgstr ""
+
+#: __init__.py:2151
+msgid "Portland orange"
+msgstr ""
+
+#: __init__.py:2152
+msgid "Light deep pink"
+msgstr ""
+
+#: __init__.py:2153
+msgid "Vivid orange"
+msgstr ""
+
+#: __init__.py:2155
+msgid "Rose pink"
+msgstr ""
+
+#: __init__.py:2156 __init__.py:2167
+msgid "Safety orange"
+msgstr ""
+
+#: __init__.py:2157
+msgid "Pastel red"
+msgstr ""
+
+#: __init__.py:2160
+msgid "Smashed pumpkin"
+msgstr ""
+
+#: __init__.py:2161
+msgid "Outrageous orange"
+msgstr ""
+
+#: __init__.py:2163
+msgid "Ultra pink"
+msgstr ""
+
+#: __init__.py:2165
+msgid "Pumpkin"
+msgstr ""
+
+#: __init__.py:2166
+msgid "Fuchsia pink"
+msgstr ""
+
+#: __init__.py:2168
+msgid "Heat wave"
+msgstr ""
+
+#: __init__.py:2169
+msgid "Amber"
+msgstr ""
+
+#: __init__.py:2173
+msgid "Mango tango"
+msgstr ""
+
+#: __init__.py:2177
+msgid "Princess perfume"
+msgstr ""
+
+#: __init__.py:2178
+msgid "Tulip"
+msgstr ""
+
+#: __init__.py:2181
+msgid "Salmon pink"
+msgstr ""
+
+#: __init__.py:2182
+msgid "Baker-Miller pink, Schauss pink"
+msgstr ""
+
+#: __init__.py:2183
+msgid "Vivid gamboge"
+msgstr ""
+
+#: __init__.py:2184
+msgid "Deep saffron"
+msgstr ""
+
+#: __init__.py:2185
+msgid "Atomic tangerine"
+msgstr ""
+
+#: __init__.py:2186
+msgid "Light salmon pink"
+msgstr ""
+
+#: __init__.py:2187
+msgid "Pale magenta-pink"
+msgstr ""
+
+#: __init__.py:2188
+msgid "Orange peel"
+msgstr ""
+
+#: __init__.py:2189
+msgid "Vivid orange peel"
+msgstr ""
+
+#: __init__.py:2191
+msgid "Vivid tangerine"
+msgstr ""
+
+#: __init__.py:2192
+msgid "Neon Carrot"
+msgstr ""
+
+#: __init__.py:2195
+msgid "Carnation pink"
+msgstr ""
+
+#: __init__.py:2196
+msgid "Chrome yellow"
+msgstr ""
+
+#: __init__.py:2197
+msgid "Dark tangerine"
+msgstr ""
+
+#: __init__.py:2198
+msgid "Bright yellow"
+msgstr ""
+
+#: __init__.py:2199
+msgid "Yellow orange"
+msgstr ""
+
+#: __init__.py:2201
+msgid "Very light tangelo"
+msgstr ""
+
+#: __init__.py:2202
+msgid "UCLA Gold"
+msgstr ""
+
+#: __init__.py:2203
+msgid "Pastel orange"
+msgstr ""
+
+#: __init__.py:2204
+msgid "Light hot pink"
+msgstr ""
+
+#: __init__.py:2207
+msgid "Cherry blossom pink"
+msgstr ""
+
+#: __init__.py:2209
+msgid "Selective yellow"
+msgstr ""
+
+#: __init__.py:2211
+msgid "Cotton candy"
+msgstr ""
+
+#: __init__.py:2212
+msgid "Macaroni and cheese"
+msgstr ""
+
+#: __init__.py:2213
+msgid "Amber, Fluorescent orange"
+msgstr ""
+
+#: __init__.py:2217
+msgid "Bubble gum"
+msgstr ""
+
+#: __init__.py:2218
+msgid "Mikado yellow"
+msgstr ""
+
+#: __init__.py:2219
+msgid "Topaz"
+msgstr ""
+
+#: __init__.py:2220
+msgid "Deep peach"
+msgstr ""
+
+#: __init__.py:2221
+msgid "Tangerine yellow"
+msgstr ""
+
+#: __init__.py:2222
+msgid "Sunglow"
+msgstr ""
+
+#: __init__.py:2223
+msgid "Peach-orange"
+msgstr ""
+
+#: __init__.py:2224
+msgid "Shampoo"
+msgstr ""
+
+#: __init__.py:2225
+msgid "Cyber yellow"
+msgstr ""
+
+#: __init__.py:2228
+msgid "School bus yellow"
+msgstr ""
+
+#: __init__.py:2230
+msgid "Mimi pink"
+msgstr ""
+
+#: __init__.py:2231
+msgid "Sizzling sunrise"
+msgstr ""
+
+#: __init__.py:2232
+msgid "Mustard"
+msgstr ""
+
+#: __init__.py:2233
+msgid "Unbleached silk"
+msgstr ""
+
+#: __init__.py:2234
+msgid "Pink lace"
+msgstr ""
+
+#: __init__.py:2236
+msgid "Golden yellow"
+msgstr ""
+
+#: __init__.py:2237
+msgid "Gargoyle gas"
+msgstr ""
+
+#: __init__.py:2238
+msgid "Very pale orange"
+msgstr ""
+
+#: __init__.py:2239
+msgid "Banana yellow"
+msgstr ""
+
+#: __init__.py:2241
+msgid "Vivid yellow"
+msgstr ""
+
+#: __init__.py:2242
+msgid "Moccasin"
+msgstr ""
+
+#: __init__.py:2244
+msgid "Lumber"
+msgstr ""
+
+#: __init__.py:2246
+msgid "Peach"
+msgstr ""
+
+#: __init__.py:2248
+msgid "Middle yellow"
+msgstr ""
+
+#: __init__.py:2249
+msgid "Blanched almond"
+msgstr ""
+
+#: __init__.py:2251
+msgid "Canary yellow"
+msgstr ""
+
+#: __init__.py:2252
+msgid "Papaya whip"
+msgstr ""
+
+#: __init__.py:2254
+msgid "Yellow rose"
+msgstr ""
+
+#: __init__.py:2256
+msgid "Lemon yellow"
+msgstr ""
+
+#: __init__.py:2258
+msgid "Cadmium yellow"
+msgstr ""
+
+#: __init__.py:2260
+msgid "Lemon, Yellow sunshine"
+msgstr ""
+
+#: __init__.py:2262
+msgid "Cosmic latte"
+msgstr ""
+
+#: __init__.py:2264
+msgid "Floral white"
+msgstr ""
+
+#: __init__.py:2266
+msgid "Cream"
+msgstr ""
+
+#: __init__.py:2268
+msgid "Daffodil"
+msgstr ""
+
+#: __init__.py:2269
+msgid "Electric yellow"
+msgstr ""
+
+#: __init__.py:2270
+msgid "Unmellow yellow"
+msgstr ""
+
+#: __init__.py:2271
+msgid "Canary"
+msgstr ""
+
+#: __init__.py:2272
+msgid "Very pale yellow"
+msgstr ""
+
+#: __init__.py:2275
+msgid "White"
+msgstr ""
+
