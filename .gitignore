@@ -20,6 +20,7 @@
 *.pyc
 *.dll
 python*.zip
+Stata.*
 
 dlls/
 lib/
@@ -63,3 +64,4 @@ cuda_ftp*
 cuda_fav*
 cuda_proj*
 cuda_emmet*
+cuda_stata*
