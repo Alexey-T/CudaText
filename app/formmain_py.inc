@@ -3337,20 +3337,20 @@ end;
 
 function Py_DialogColorPicker(AColor: integer): integer;
 var
-  s_Caption: string;
-  SRes: string;
+  SCaption, SRes: string;
 begin
   Result:= -1;
 
   with TIniFile.Create(GetAppLangFilename) do
   try
-    s_Caption:= ReadString('d_tab_color', '_', 'Colors');
+    SCaption:= ReadString('d_tab_color', '_', 'Colors');
   finally
     Free
   end;
 
-  SRes:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette',
-    ['"'+s_Caption+'"', IntToStr(AColor)
+  SRes:= Py_RunModuleFunction('cuda_palette', 'dlg_color_palette', [
+    '"'+SCaption+'"',
+    IntToStr(AColor)
     ]);
   if SRes<>cPyNone then
     Result:= StrToIntDef(SRes, Result);
