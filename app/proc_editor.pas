@@ -269,6 +269,7 @@ begin
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
+  Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
   OptHexCharsUser:= Op.OpHexChars;
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
@@ -276,11 +277,6 @@ begin
     Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
   Ed.OptIndentSize:= Op.OpIndentSize;
   Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
-
-  if Op.OpStaplesShow then
-    Ed.OptShowStapleStyle:= cLineStyleSolid
-  else
-    Ed.OptShowStapleStyle:= cLineStyleNone;
 
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;

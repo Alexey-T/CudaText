@@ -530,7 +530,7 @@ begin
 
     Op.OpMargin:= c.GetValue('margin', Op.OpMargin);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
-    Op.OpStaplesShow:= c.GetValue('staples_show', Op.OpStaplesShow);
+    Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
 
     Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);
     Op.OpUnprintedSpaces:= c.GetValue('unprinted_spaces', Op.OpUnprintedSpaces);
