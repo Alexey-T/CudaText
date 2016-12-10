@@ -4,6 +4,8 @@
   * changed
 
 
+- fix: lex Markdown
+
 1.5.4
 + tab context menu "Set tab color" dialog redone by kvichans (in Python), dialog has N palettes (option)
 + export to html: optimized file

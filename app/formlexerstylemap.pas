@@ -144,8 +144,12 @@ begin
     for i:= 0 to an.Formats.Count-1 do
     begin
       value:= ReadString(cSectionMap, an.Formats[i].DisplayName, '');
-      if value='' then Result:= false; //not exit
       if value='-' then Continue;
+      if value='' then
+      begin
+        anNotCorrect:= an;
+        Result:= false; //not exit
+      end;
 
       st:= GetAppStyleFromName(value);
       if Assigned(st) then
