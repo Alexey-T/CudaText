@@ -5,8 +5,8 @@
 
 
 1.5.5
-+ added: opt "staples_style"
-* deleted: opt "staples_show"
++ add: opt "staples_style"
+* delete: opt "staples_show"
 - fix: lex Markdown
 
 1.5.4

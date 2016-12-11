@@ -4,6 +4,11 @@
   * changed
 
 
+1.5.5
++ add: opt "staples_style"
+* delete: opt "staples_show"
+- fix: lex Markdown
+
 1.5.4
 + tab context menu "Set tab color" dialog redone by kvichans (in Python), dialog has N palettes (option)
 + export to html: optimized file
