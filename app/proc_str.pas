@@ -14,9 +14,9 @@ interface
 uses
   SysUtils, Classes,
   LazFileUtils,
-  ATStringProc,
   jsonConf,
-  RegExpr;
+  ATStringProc,
+  ATSynEdit_RegExpr;
 
 //function SReadOptionFromJson(const fn, path, def_value: string): string;
 //procedure SWriteOptionToJson(const fn, path, value: string);
