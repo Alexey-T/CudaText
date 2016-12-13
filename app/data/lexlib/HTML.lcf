@@ -7,7 +7,6 @@ object SyntAnal13: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      MultiLineBorder = True
     end
     item
       DisplayName = 'Tag bound'
@@ -50,7 +49,7 @@ object SyntAnal13: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Tag unkown text'
+      DisplayName = 'Tag unknown text'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
@@ -210,7 +209,7 @@ object SyntAnal13: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Tag id'
-      StyleName = 'Tag unkown text'
+      StyleName = 'Tag unknown text'
       BlockName = 'Tag begin'
       TokenType = 2
       Expression = '[^\s<>/=]+'
