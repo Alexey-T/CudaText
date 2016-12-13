@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal13: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -15,7 +15,7 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     item
       DisplayName = 'Comment'
@@ -26,7 +26,15 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Tag param'
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Tag string'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
@@ -34,20 +42,22 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Tag properties'
+      DisplayName = 'Tag prop'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 47360
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     item
-      DisplayName = 'Unknown tag content'
+      DisplayName = 'Tag unkown text'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clFuchsia
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold, fsUnderline]
+      Font.Style = []
+      BorderTypeBottom = blWavyLine
+      BorderColorBottom = clRed
     end
     item
       DisplayName = 'Tag id correct'
@@ -55,7 +65,7 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Color = 16744448
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     item
       DisplayName = 'Tag id incorrect'
@@ -68,21 +78,14 @@ object SyntAnal15: TLibSyntAnalyzer
       BorderColorBottom = clRed
     end
     item
-      DisplayName = 'Number'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 53760
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end
-    item
-      DisplayName = 'Tag back hl'
+      DisplayName = 'Tag id hilite BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
       BgColor = clMoneyGreen
+      FormatType = ftBackGround
       BorderTypeLeft = blSolid
       BorderColorLeft = clGray
       BorderTypeTop = blSolid
@@ -93,13 +96,14 @@ object SyntAnal15: TLibSyntAnalyzer
       BorderColorBottom = clGray
     end
     item
-      DisplayName = 'Tag border hl'
+      DisplayName = 'Tag brackets hilite BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 12372132
+      BgColor = clMoneyGreen
+      FormatType = ftBackGround
     end
     item
       DisplayName = 'Sublexer BG'
@@ -110,6 +114,22 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Style = []
       BgColor = 14804688
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Color'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Text escaped'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end>
   TokenRules = <
     item
@@ -129,7 +149,7 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment <!...>'
+      DisplayName = 'Comment 2'
       StyleName = 'Comment'
       TokenType = 1
       Expression = '<! .*? >'
@@ -148,12 +168,12 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = '>'
       StyleName = 'Tag bound'
       TokenType = 11
-      Expression = '[%\?/]?>'#13#10
+      Expression = '[%\?/]?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Integer'
+      DisplayName = 'Number'
       StyleName = 'Number'
       BlockName = 'Tag begin'
       TokenType = 5
@@ -163,7 +183,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Color'
-      StyleName = 'Number'
+      StyleName = 'Color'
       BlockName = 'Tag begin'
       TokenType = 7
       Expression = '\#[a-f\d]+'
@@ -172,7 +192,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Tag param'
-      StyleName = 'Tag param'
+      StyleName = 'Tag string'
       BlockName = 'Tag begin'
       TokenType = 4
       Expression = '(?s) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
@@ -180,33 +200,26 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Tag ident'
-      BlockName = 'Tag begin'
-      TokenType = 2
-      Expression = '[^\s=>]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = '='
+      DisplayName = 'Tag ='
       StyleName = 'Tag bound'
       BlockName = 'Tag begin'
       TokenType = 3
-      Expression = '='#13#10
+      Expression = '='
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Unknow tag content'
-      StyleName = 'Unknown tag content'
+      DisplayName = 'Tag id'
+      StyleName = 'Tag unkown text'
       BlockName = 'Tag begin'
-      Expression = '[^>]*'
+      TokenType = 2
+      Expression = '[^\s<>/=]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = '&...'
-      StyleName = 'Tag id correct'
+      DisplayName = 'Text escaped'
+      StyleName = 'Text escaped'
       TokenType = 9
       Expression = '&\w+;'
       ColumnFrom = 0
@@ -390,7 +403,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Tag property'
-      StyleName = 'Tag properties'
+      StyleName = 'Tag prop'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -407,7 +420,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Tag property value'
-      StyleName = 'Tag param'
+      StyleName = 'Tag string'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -423,7 +436,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Tag begin'
-      StyleName = 'Tag border hl'
+      StyleName = 'Tag brackets hilite BG'
       ConditionList = <
         item
           TokenTypes = 1024
@@ -485,7 +498,7 @@ object SyntAnal15: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Tag block begin'
-      StyleName = 'Tag back hl'
+      StyleName = 'Tag id hilite BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -577,35 +590,35 @@ object SyntAnal15: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <
     item
-      DisplayName = 'Style sheet'
+      DisplayName = 'CSS'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '(?si)<style[^>]*> '#13#10
-      EndExpression = '</style>'#13#10
-      SyntAnalyzer = SyntAnal10
+      StartExpression = '(?si)<style[^>]*>'
+      EndExpression = '</style>'
+      SyntAnalyzer = SyntAnal8
     end
     item
-      DisplayName = 'VB script'
+      DisplayName = 'VBScript'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
-      StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'#13#10
-      EndExpression = '(?i)(-->)?\s*</script>'#13#10
-      SyntAnalyzer = SyntAnal38
+      StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
+      EndExpression = '(?i)(-->)?\s*</script>'
+      SyntAnalyzer = SyntAnal36
     end
     item
       DisplayName = 'JavaScript'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
-      EndExpression = '(?i)(//)?(-->)?\s*</script>'#13#10
-      SyntAnalyzer = SyntAnal18
+      EndExpression = '(?i)(//)?(-->)?\s*</script>'
+      SyntAnalyzer = SyntAnal16
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal18
+      SyntAnalyzer = SyntAnal16
     end
     item
       DisplayName = 'ASP'
@@ -613,16 +626,15 @@ object SyntAnal15: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal38
+      SyntAnalyzer = SyntAnal36
     end>
   SampleText.Strings = (
     '<!DOCUMENT test="123">'
-    ''
-    '<META1 error />'
+    '<meta1/>'
     '<meta2>error</meta3>'
     '<html> '
     '  <head>'
-    '    <title test="15">Text</title>'
+    '    <title test="15" #$@ >Text</title>'
     '  </head>'
     ''
     '  <script type="text/javascript">'
@@ -635,7 +647,7 @@ object SyntAnal15: TLibSyntAnalyzer
     '  </script>'
     '      '
     '  <body src="www.com" style='#39'aaa; aaa; aaa;'#39'> '
-    '    <h1>Text</h1> '
+    '    <h1 color=#dde>Text &1020;</h1> '
     '  </body> '
     '</html>')
   TokenTypeNames.Strings = (
@@ -644,10 +656,10 @@ object SyntAnal15: TLibSyntAnalyzer
     'Identifier'
     'Symbol'
     'String'
-    'Integer const'
-    'Float const'
-    'Hex const'
-    'Char const'
+    'Number'
+    'Number2'
+    'Color'
+    'String2'
     'Text'
     'Open Tag'
     'Close Tag')
@@ -656,6 +668,7 @@ object SyntAnal15: TLibSyntAnalyzer
     'x jsp hhc dtd'
   LexerName = 'HTML'
   Notes.Strings = (
-    'Created by 480499497 from http://forum.wincmd.ru')
+    'Created by 480499497 from forum.wincmd.ru'
+    'Hardly changed by Alexey (Synwrite)')
   Charset = DEFAULT_CHARSET
 end
