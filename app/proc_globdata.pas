@@ -1113,7 +1113,7 @@ end;
 function GetActiveControl(Form: TWinControl): TWinControl;
 var
   Ctl: TControl;
-  i, j: integer;
+  i: integer;
 begin
   Result:= nil;
   for i:= 0 to Form.ControlCount-1 do
