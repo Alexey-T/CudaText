@@ -1,17 +1,3 @@
-[map]
-Text=Id
-Tag bound=TagBound
-Comment=Comment
-Tag param=String
-Tag properties=TagProp
-Unknown tag content=IdBad
-Tag id correct=TagId
-Tag id incorrect=TagIdBad
-Number=Number
-Tag back hl=BracketBG
-Tag border hl=BracketBG
-Sublexer BG=IncludeBG1
-
 [ref]
 0=CSS
 1=VBScript
@@ -22,5 +8,21 @@ Sublexer BG=IncludeBG1
 [comments]
 str1=<!--
 str2=-->
-styles_cmt=
-styles_str=
+styles_cmt=Comment
+styles_str=Tag string
+
+[map]
+Text=Id
+Tag bound=TagBound
+Comment=Comment
+Number=Number
+Tag string=String
+Tag prop=TagProp
+Tag unknown text=TagPropBad
+Tag id correct=TagId
+Tag id incorrect=TagIdBad
+Tag id hilite BG=BracketBG
+Tag brackets hilite BG=BracketBG
+Sublexer BG=IncludeBG1
+Color=Color
+Text escaped=Symbol

@@ -163,7 +163,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#406030",
+    "CBack" : "#304525",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -171,7 +171,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#927449",
+    "CBack" : "#706040",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -179,7 +179,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#897080",
+    "CBack" : "#605060",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },
@@ -187,7 +187,7 @@
     "Type" : 3,
     "Styles" : "",
     "CFont" : "#000000",
-    "CBack" : "#309070",
+    "CBack" : "#207060",
     "CBorder" : "",
     "Border" : "0,0,0,0"
   },

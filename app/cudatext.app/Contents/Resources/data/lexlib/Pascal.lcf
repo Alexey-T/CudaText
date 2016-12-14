@@ -807,8 +807,6 @@ object SyntAnal23: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Implementation section'
-      Enabled = False
-      StyleName = 'Implemenation Section'
       StatesAdd = 2
       StatesRemove = 15
       ConditionList = <

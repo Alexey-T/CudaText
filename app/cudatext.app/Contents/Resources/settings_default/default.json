@@ -68,14 +68,18 @@
   //Enable caret-depending highlighting:
   //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block;
   //  HTML/XML hilites opening/closing tags when caret is inside tag
-  "dyn_hilite": true,
+  "lexer_dynamic_hilite": true,
+  
+  //Enable lexers' horizontal line separators
+  //  (used e.g. by Pascal lexer: green lines above funcs)
+  "lexer_line_separators": false,
 
   //Style of folding
-  //  0: if fold-hint empty: [..] from folded pos
-  //  1: if fold-hint empty: truncated line
-  //  2: if fold-hint empty: [..] after line
-  //  3: for any fold-hint: [..] after line 
-  //  4: horiz line below
+  //  0: if fold-hint empty: [...] from fold-pos, else hint
+  //  1: if fold-hint empty: [line...] from fold-pos, else hint
+  //  2: if fold-hint empty: [...] after line, else hint
+  //  3: always [...] after line
+  //  4: horiz colored line below line text
   "fold_style": 1,  
 
   //If no selection, "Copy" will take entire line with caret
