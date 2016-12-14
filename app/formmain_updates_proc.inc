@@ -338,7 +338,9 @@ procedure TfmMain.DoApplyFrameOps(F: TEditorFrame;
 begin
   EditorApplyOps(F.Editor, Op, AForceApply);
   EditorApplyOps(F.Editor2, Op, AForceApply);
-  F.Adapter.EnabledDynamicHilite:= Op.OpDynHilite;
+
+  F.Adapter.EnabledDynamicHilite:= Op.OpLexerDynamicHilite;
+  F.Adapter.EnabledLineSeparators:= Op.OpLexerLineSeparators;
 
   F.Editor.Update;
   if F.Splitted then

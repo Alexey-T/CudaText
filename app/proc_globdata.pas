@@ -273,7 +273,8 @@ type
     OpSavingTrimSpaces: boolean;
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
-    OpDynHilite: boolean;
+    OpLexerDynamicHilite: boolean;
+    OpLexerLineSeparators: boolean;
 
     OpWordChars: UnicodeString;
     OpHexChars: UnicodeString;
@@ -790,7 +791,8 @@ begin
     OpSavingTrimSpaces:= false;
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;
-    OpDynHilite:= true;
+    OpLexerDynamicHilite:= true;
+    OpLexerLineSeparators:= false;
 
     OpWordChars:= '';
     OpHexChars:= '';

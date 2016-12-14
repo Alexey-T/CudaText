@@ -68,7 +68,11 @@
   //Enable caret-depending highlighting:
   //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block;
   //  HTML/XML hilites opening/closing tags when caret is inside tag
-  "dyn_hilite": true,
+  "lexer_dynamic_hilite": true,
+  
+  //Enable lexers' horizontal line separators
+  //  (used e.g. by Pascal lexer: green lines above funcs)
+  "lexer_line_separators": false,
 
   //Style of folding
   //  0: if fold-hint empty: [..] from folded pos

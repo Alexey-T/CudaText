@@ -7,8 +7,6 @@ object EditorFrame: TEditorFrame
   ClientWidth = 594
   OnResize = FrameResize
   TabOrder = 0
-  DesignLeft = 411
-  DesignTop = 394
   object Splitter: TSplitter
     Cursor = crVSplit
     Left = 0
