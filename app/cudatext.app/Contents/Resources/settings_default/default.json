@@ -66,12 +66,16 @@
   "show_hint_on_vert_scroll": false,
 
   //Enable caret-depending highlighting:
-  //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block;
+  //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
   //  HTML/XML hilites opening/closing tags when caret is inside tag
   "lexer_dynamic_hilite": true,
   
+  //Max number of lines in editor, for which dynamic-hilite works
+  //Reason for option: dynamic-hilite disables hiliting cache, so slows down scrolling
+  "lexer_dynamic_hilite_max_lines": 2000,
+  
   //Enable lexers' horizontal line separators
-  //  (used e.g. by Pascal lexer: green lines above funcs)
+  //  e.g. Pascal lexer: green lines above funcs
   "lexer_line_separators": false,
 
   //Style of folding

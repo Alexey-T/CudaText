@@ -770,7 +770,6 @@ object SyntAnal23: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Interface section'
-      StyleName = 'Interface section'
       BlockName = 'program'
       StrictParent = True
       StatesAdd = 1

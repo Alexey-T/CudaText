@@ -5,12 +5,14 @@
 
 
 1.5.6
-+ improved lex HTML (hilite entities &nnnn;, hilite incorrect tag props; hilite colors #nnn)
-+ added opt "staples_style"
-+ added opt "lexer_line_separators"
-* deleted opt "staples_show"
++ lexer-hiliting now cached: scrolling up/down must be faster, for 5K+ lines
 * renamed opt "dyn_hilite" to "lexer_dynamic_hilite"
-- fix: lex Markdown
++ added opt "lexer_dynamic_hilite_max_lines"
++ added opt "lexer_line_separators"
++ added opt "staples_style"
+* deleted opt "staples_show"
++ improved lex HTML (hilite entities &nnnn;, hilite incorrect tag props; hilite colors #nnn)
+- fixed lex Markdown
 
 1.5.4
 + tab context menu "Set tab color" dialog redone by kvichans (in Python), dialog has N palettes (option)
