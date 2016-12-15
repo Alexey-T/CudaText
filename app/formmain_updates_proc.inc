@@ -339,8 +339,8 @@ begin
   EditorApplyOps(F.Editor, Op, AForceApply);
   EditorApplyOps(F.Editor2, Op, AForceApply);
 
-  F.Adapter.EnabledDynamicHilite:= Op.OpLexerDynamicHilite;
-  F.Adapter.EnabledDynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
+  F.Adapter.DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
+  F.Adapter.DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
   F.Adapter.EnabledLineSeparators:= Op.OpLexerLineSeparators;
 
   F.Editor.Update;

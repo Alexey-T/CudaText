@@ -273,7 +273,7 @@ type
     OpSavingTrimSpaces: boolean;
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
-    OpLexerDynamicHilite: boolean;
+    OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
 
@@ -792,8 +792,8 @@ begin
     OpSavingTrimSpaces:= false;
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;
-    OpLexerDynamicHilite:= true;
-    OpLexerDynamicHiliteMaxLines:= 1000;
+    OpLexerDynamicHiliteEnabled:= true;
+    OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
 
     OpWordChars:= '';

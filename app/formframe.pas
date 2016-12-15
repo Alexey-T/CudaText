@@ -826,8 +826,8 @@ begin
   Splitted:= false;
 
   Adapter:= TATAdapterEControl.Create(Self);
-  Adapter.EnabledDynamicHilite:= EditorOps.OpLexerDynamicHilite;
-  Adapter.EnabledDynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
+  Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
+  Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
   Adapter.EnabledLineSeparators:= EditorOps.OpLexerLineSeparators;
 
   Adapter.AddEditor(Ed1);
