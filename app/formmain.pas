@@ -3017,8 +3017,7 @@ begin
     SaveDlg.Options:= Opt;
   end;
 
-  //turn off for html
-  CurrentFrame.Adapter.EnabledDynamicHilite:= false;
+  CurrentFrame.Adapter.EnabledDynamicHilite:= false; //turn off for html
 
   Ed:= CurrentEditor;
   Ed.DoCommand(cCommand_SelectNone);
@@ -3031,8 +3030,7 @@ begin
     GetAppColor('ExportHtmlNumbers')
     );
 
-  //turn back
-  CurrentFrame.Adapter.EnabledDynamicHilite:= EditorOps.OpLexerDynamicHilite;
+  CurrentFrame.Adapter.EnabledDynamicHilite:= EditorOps.OpLexerDynamicHilite; //turn back
   UpdateFrame(true);
 
   if MsgBox(msgConfirmOpenCreatedDoc, MB_OKCANCEL or MB_ICONQUESTION)=id_ok then

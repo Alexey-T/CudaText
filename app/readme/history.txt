@@ -8,6 +8,7 @@
 + improved lex HTML (hilite entities &nnnn;, hilite incorrect tag props; hilite colors #nnn)
 + added opt "staples_style"
 + added opt "lexer_line_separators"
++ added opt "lexer_dynamic_hilite_max_lines"
 * deleted opt "staples_show"
 * renamed opt "dyn_hilite" to "lexer_dynamic_hilite"
 - fix: lex Markdown

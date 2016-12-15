@@ -274,6 +274,7 @@ type
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
     OpLexerDynamicHilite: boolean;
+    OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
 
     OpWordChars: UnicodeString;
@@ -792,6 +793,7 @@ begin
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;
     OpLexerDynamicHilite:= true;
+    OpLexerDynamicHiliteMaxLines:= 1000;
     OpLexerLineSeparators:= false;
 
     OpWordChars:= '';

@@ -70,6 +70,10 @@
   //  HTML/XML hilites opening/closing tags when caret is inside tag
   "lexer_dynamic_hilite": true,
   
+  //Max number of lines in editor, for which dynamic-hilite works
+  //Reason for option: dynamic-hilite disables hiliting-cache, this slows down scrolling
+  "lexer_dynamic_hilite_max_lines": 1000,  
+  
   //Enable lexers' horizontal line separators
   //  (used e.g. by Pascal lexer: green lines above funcs)
   "lexer_line_separators": false,

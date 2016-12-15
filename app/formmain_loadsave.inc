@@ -575,6 +575,7 @@ begin
     Op.OpSavingForceFinalEol:= c.GetValue('saving_force_final_eol', Op.OpSavingForceFinalEol);
     Op.OpShowHintOnVertScroll:= c.GetValue('show_hint_on_vert_scroll', Op.OpShowHintOnVertScroll);
     Op.OpLexerDynamicHilite:= c.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHilite);
+    Op.OpLexerDynamicHiliteMaxLines:= c.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
     Op.OpLexerLineSeparators:= c.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
 
     Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
