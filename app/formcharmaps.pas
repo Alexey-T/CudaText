@@ -142,8 +142,11 @@ end;
 
 procedure TfmCharmaps.FormShow(Sender: TObject);
 var
+  {$ifdef windows}
   str: string;
-  cp, i, j: integer;
+  cp: integer;
+  {$endif}
+  i, j: integer;
 begin
   {$ifdef windows}
   //select comboAnsi item for system codepage

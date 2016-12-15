@@ -15,6 +15,7 @@ object fmCharmaps: TfmCharmaps
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
+  Visible = False
   object PanelBtm: TPanel
     Left = 0
     Height = 42
