@@ -217,9 +217,9 @@ end;
 procedure TfmLexerProp.FormCreate(Sender: TObject);
 begin
   Adapter:= TATAdapterEControl.Create(Self);
+  Adapter.AddEditor(edSample);
 
   edSample.DoubleBuffered:= UiOps.DoubleBuffered;
-  edSample.AdapterHilite:= Adapter;
   edSample.OptTabSize:= 4;
 
   FFormats:= TecStylesCollection.Create;
@@ -315,7 +315,7 @@ end;
 
 procedure TfmLexerProp.FormDestroy(Sender: TObject);
 begin
-  edSample.AdapterHilite:= nil;
+  Adapter.AddEditor(nil);
   FreeAndNil(Adapter);
 
   FFormats.Clear;

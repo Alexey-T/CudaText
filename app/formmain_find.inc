@@ -439,7 +439,6 @@ procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean);
 var
   Pnt: TPoint;
 begin
-  //call to AdapterHilite:
   if AUpdateText then
     FFinder.Editor.DoEventChange;
 

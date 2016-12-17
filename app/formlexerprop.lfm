@@ -15,6 +15,7 @@ object fmLexerProp: TfmLexerProp
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
+  Visible = False
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29

@@ -832,8 +832,6 @@ begin
 
   Adapter.AddEditor(Ed1);
   Adapter.AddEditor(Ed2);
-  Ed1.AdapterHilite:= Adapter;
-  Ed2.AdapterHilite:= Adapter;
 
   //load options
   EditorApplyOps(Ed1, EditorOps, true);
