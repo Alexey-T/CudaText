@@ -13,9 +13,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ButtonPanel, IniFiles,
-  LclProc, LclType, LclIntf, Menus,
-  LazUTF8, LazFileUtils,
+  Menus, ButtonPanel, IniFiles,
+  LCLProc, LCLType, LCLIntf, LCLPlatformDef,
   proc_msg,
   proc_globdata,
   proc_editor,
