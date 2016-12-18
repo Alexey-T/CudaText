@@ -529,7 +529,7 @@ begin
     Result:= 'python35.dll';
   {$endif}
   {$ifdef linux}
-    Result:= 'libpython3.4m.so.1.0';
+    Result:= 'libpython3.5m.so.1.0';
   {$endif}
   {$ifdef darwin}
     Result:= '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib';
