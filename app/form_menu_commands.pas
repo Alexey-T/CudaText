@@ -209,7 +209,7 @@ begin
   if DoDialogHotkeys(Cmd, CurrentLexerName) then
   begin
     DoFilter;
-    AppKeymapHasDuplicates;
+    AppKeymapCheckDuplicateForCommand(Cmd, CurrentLexerName);
     list.ItemIndex:= N;
   end;
 end;

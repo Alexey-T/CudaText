@@ -120,9 +120,8 @@ const
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';
   msgStatusFilenameAlreadyOpened: string = 'File name is already opened in another tab:';
   msgStatusNeedToCloseTabSavedOrDup: string = 'You need to close tab: saved-as or duplicate.';
-  msgStatusCommandsHaveSameHotkeys: string = 'Commands have same hotkeys:';
-  msgStatusCorrectOneOfTheseHotkeys: string = 'Please correct one of these hotkeys.';
 
+  msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#13'%s'#13'Overwrite it?';
   msgConfirmSyntaxThemeSameName: string = 'Syntax theme exists, with the same name as UI theme. Do you want to apply it too?';
   msgConfirmInstallIt: string = 'Do you want to install it?';
   msgConfirmFileChangedOutside: string = 'File was changed outside:';

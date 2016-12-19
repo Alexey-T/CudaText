@@ -330,7 +330,7 @@ function MsgBox(const Str: string; Flags: Longint): integer;
 function GetAppKeymapOverrideFilename(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
 function SetAppKeymapHotkey(AParams: string): boolean;
-function AppKeymapHasDuplicates: boolean;
+procedure AppKeymapCheckDuplicateForCommand(ACommand: integer; const ALexerName: string);
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
 procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
 
@@ -1352,31 +1352,39 @@ begin
 end;
 
 
-function AppKeymapHasDuplicates: boolean;
+procedure AppKeymapCheckDuplicateForCommand(ACommand: integer; const ALexerName: string);
 var
-  i, j: integer;
-  item1, item2: TATKeymapItem;
+  itemSrc, item: TATKeymapItem;
+  itemKeyPtr: ^TATKeyArray;
+  i: integer;
 begin
-  Result:= false;
+  i:= AppKeymap.IndexOf(ACommand);
+  if i<0 then exit;
+  itemSrc:= AppKeymap[i];
+
   for i:= 0 to AppKeymap.Count-1 do
-    for j:= i+1 to AppKeymap.Count-1 do
+  begin
+    item:= AppKeymap.Items[i];
+    if item.Command=ACommand then Continue;
+
+    if KeyArraysEqualNotEmpty(itemSrc.Keys1, item.Keys1) or
+       KeyArraysEqualNotEmpty(itemSrc.Keys2, item.Keys1) then itemKeyPtr:= @item.Keys1 else
+    if KeyArraysEqualNotEmpty(itemSrc.Keys1, item.Keys2) or
+       KeyArraysEqualNotEmpty(itemSrc.Keys2, item.Keys2) then itemKeyPtr:= @item.Keys2 else
+    Continue;
+
+    if MsgBox(Format(msgConfirmHotkeyBusy, [item.Name]), MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
     begin
-      item1:= AppKeymap.Items[i];
-      item2:= AppKeymap.Items[j];
-      if KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys1) or
-         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys2) or
-         KeyArraysEqualNotEmpty(item1.Keys1, item2.Keys2) or
-         KeyArraysEqualNotEmpty(item1.Keys2, item2.Keys1) then
-        begin
-          MsgBox(msgStatusCommandsHaveSameHotkeys+#13+
-            item1.Name+#13+
-            item2.Name+#13+
-            #13+msgStatusCorrectOneOfTheseHotkeys,
-            MB_OK or MB_ICONWARNING);
-          Result:= true;
-          Exit
-        end;
+      //clear in memory
+      KeyArrayClear(itemKeyPtr^);
+
+      //save to: user.json
+      DoOps_SaveKeyItem(item, IntToStr(item.Command), '');
+      //save to: lexer*.json
+      if ALexerName<>'' then
+        DoOps_SaveKeyItem(item, IntToStr(item.Command), ALexerName);
     end;
+  end;
 end;
 
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;

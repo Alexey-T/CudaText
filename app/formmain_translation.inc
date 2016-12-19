@@ -454,8 +454,6 @@ begin
     DoLocString(msgStatusNoGotoDefinitionPlugins , ini, 'si', 'NoGotoDefinitionPlugins');
     DoLocString(msgStatusFilenameAlreadyOpened   , ini, 'si', 'FilenameAlreadyOpened');
     DoLocString(msgStatusNeedToCloseTabSavedOrDup, ini, 'si', 'NeedToCloseTabSavedOrDup');
-    DoLocString(msgStatusCommandsHaveSameHotkeys , ini, 'si', 'CommandsHaveSameHotkeys');
-    DoLocString(msgStatusCorrectOneOfTheseHotkeys, ini, 'si', 'CorrectOneOfTheseHotkeys');
 
     DoLocString(msgConfirmSyntaxThemeSameName    , ini, 'sc', 'ThemeSyntaxSame');
     DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');
