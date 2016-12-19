@@ -90,21 +90,6 @@ begin
   ModalResult:= mrCancel;
 end;
 
-const
-  PlatfNames: array[TLCLPlatform] of string = (
-        'gtk1',
-        'gtk2',
-        'gtk3',
-        'win32/win64',
-        'wince',
-        'carbon',
-        'qt',
-        'fpGUI',
-        'NoGUI',
-        'cocoa',
-        'customdraw'
-      );
-
 procedure TfmAbout.FormCreate(Sender: TObject);
 var
   SWidget: string;
@@ -120,9 +105,7 @@ begin
   FLabelLink.AnchorSideTop.Side:= asrBottom;
   FLabelLink.BorderSpacing.Top:= labelInf.BorderSpacing.Top;
 
-  SWidget:= '';
-  if WidgetSet<>nil then
-    SWidget:= PlatfNames[WidgetSet.LCLPlatform];
+  SWidget:= LCLPlatformDirNames[WidgetSet.LCLPlatform];
 
   labelInf.Caption:= Format('%s-%s-%s, fpc %s', [
     Lowercase({$I %FPCTARGETOS%}),
