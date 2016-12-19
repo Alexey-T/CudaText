@@ -679,14 +679,23 @@ begin
     if DirectoryExistsUTF8(OpDirPrecopy) then
     begin
       {$ifdef linux}
-      RunCommand(Format('cp -R -u -t %s /usr/share/cudatext/py /usr/share/cudatext/data /usr/share/cudatext/readme /usr/share/cudatext/settings_default', [OpDirLocal]), S);
+      RunCommand('cp', ['-R', '-u', '-t',
+        OpDirLocal,
+        '/usr/share/cudatext/py',
+        '/usr/share/cudatext/data',
+        '/usr/share/cudatext/readme',
+        '/usr/share/cudatext/settings_default'
+        ], S);
       {$endif}
       {$ifdef darwin}
       //see rsync help. need options:
       // -u (update)
       // -r (recursive)
       // -t (preserve times)
-      RunCommand(Format('rsync -urt "%s/" "%s"', [OpDirPrecopy, OpDirLocal]), S);
+      RunCommand('rsync', ['-urt',
+        Format('"%s/"', [OpDirPrecopy]),
+        Format('"%s"', [OpDirLocal])
+        ], S);
       {$endif}
     end;
   end;
