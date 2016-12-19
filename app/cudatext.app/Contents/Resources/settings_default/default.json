@@ -503,9 +503,9 @@
   //  So you need to install Python from Python.org, and it must be 32-bit (default 3.x is ok)
   //
   //"pylib": "python35.dll",
-  //"pylib__linux": "libpython3.4m.so.1.0",
+  //"pylib__linux": "libpython3.5m.so.1.0",
   //"pylib__osx": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
-  //              (for macOS: tried 3.5 to 3.8, which is found)
+  //              (for macOS: tried 3.4 to 3.8, which is found)
 
   //API: delay for on_change_slow
   "py_change_slow": 2000,

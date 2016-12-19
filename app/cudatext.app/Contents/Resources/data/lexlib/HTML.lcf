@@ -151,7 +151,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Comment 2'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '<! .*? >'
+      Expression = '(?s)<! .*? >'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -628,7 +628,7 @@ object SyntAnal13: TLibSyntAnalyzer
       SyntAnalyzer = SyntAnal36
     end>
   SampleText.Strings = (
-    '<!DOCUMENT test="123">'
+    '<!doctype test="123">'
     '<meta1/>'
     '<meta2>error</meta3>'
     '<html> '

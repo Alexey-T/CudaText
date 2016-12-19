@@ -51,7 +51,7 @@ cCommand_KeyTab = 155
 
 cCommand_TextDeleteSelection = 170
 cCommand_TextDeleteLine = 171
-cCommand_TextDuplicateLine = 172 | cCmdSelReset
+cCommand_TextDuplicateLine = 172
 cCommand_TextDeleteToLineBegin = 173 | cCmdSelReset
 cCommand_TextDeleteToLineEnd = 174 | cCmdSelReset
 cCommand_TextDeleteToTextEnd = 175 | cCmdSelReset
