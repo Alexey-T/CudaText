@@ -472,6 +472,7 @@ begin
     DoLocString(msgConfirmCloseDelFile           , ini, 'sc', 'CloseDelFile');
     DoLocString(msgConfirmDeleteLexer            , ini, 'sc', 'DeleteLexer');
     DoLocString(msgConfirmRemoveStylesFromBackup , ini, 'sc', 'RemoveStylesFromBackup');
+    DoLocString(msgConfirmHotkeyBusy             , ini, 'sc', 'HotkeyBusy');
 
   finally
     FreeAndNil(ini);

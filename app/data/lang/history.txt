@@ -1,6 +1,10 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.12.18
++ [sc] HotkeyBusy
+* del [si] CommandsHaveSameHotkeys, CorrectOneOfTheseHotkeys
+
 2016.12.06
 * del [d_tab_color] res
 
