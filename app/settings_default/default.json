@@ -86,14 +86,14 @@
   //  4: horiz colored line below line text
   "fold_style": 1,  
 
-  //If no selection, "Copy" will take entire line with caret
+  //If no selection, "Copy to clipboard" will take entire line with caret
   "copy_line_if_no_sel": true,
-  //If no selection, "Cut" will take entire line with caret
+  //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
 
   //If text typed, delete selection first
   "ovr_sel": true,
-  //If text pasted from clip, and "overwrite" mode on (Ins key),
+  //If text pasted from clipboard, and "overwrite" mode on (Ins key),
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
 
@@ -113,13 +113,13 @@
   //Note: config is read as utf8-no-bom.
   "hex_chars": "",
 
-  //Additional pixels per char
+  //Additional pixels per char-cell
   "spacing_x": 0,
   "spacing_y": 1,
 
   //Tab-char width
   "tab_size": 8,
-  //Tab-key enters spaces
+  //Tab-key enters spaces (instead of tab-char)
   "tab_spaces": false,
   //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)   
   "tab_max_pos_expanded": 500,
@@ -181,7 +181,7 @@
   "micromap_width": 12,
 
   //Fixed margin (vertical line) column.
-  //Fixed margin is always shown, to hide set it to eg 2000.
+  //It is always shown, to hide: set value to eg 2000.
   "margin": 80,
   //Additional margins, list of columns like "10 20 25" space-separated
   "margin_string": "",
