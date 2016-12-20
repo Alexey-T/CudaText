@@ -177,6 +177,7 @@ begin
 
   Ed.OptGutterVisible:= Op.OpGutterShow;
   Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
+  Ed.OptGutterIcons:= TATGutterIconsKind(Op.OpGutterIcons);
   Ed.Gutter[Ed.GutterBandBm].Visible:= Op.OpGutterBookmk;
   Ed.Gutter[Ed.GutterBandFold].Visible:= Op.OpGutterFold;
   Ed.Gutter[Ed.GutterBandNum].Visible:= Op.OpNumbersShow;
@@ -204,12 +205,12 @@ begin
   Ed.OptMicromapVisible:= Op.OpMicromapShow;
   Ed.OptMicromapWidth:= Op.OpMicromapWidth;
 
-  Ed.OptMarginRight:= Op.OpMargin;
+  Ed.OptMarginRight:= Op.OpMarginFixed;
   Ed.OptMarginString:= Op.OpMarginString;
 
   Ed.OptShowURLs:= Op.OpLinks;
   Ed.OptShowURLsRegex:= Op.OpLinksRegex;
-  cMaxTabPositionToExpand:= Op.OpMaxTabPosExpanded;
+  cMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
 
   if ForceApply then
   begin

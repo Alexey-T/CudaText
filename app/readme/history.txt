@@ -4,6 +4,8 @@
   * changed
 
 
++ add opt "gutter_icons"
+
 1.5.6
 + syntax hiliting uses cache: scrolling up/down must be faster, for 3K+ lines
 * rename opt "dyn_hilite" to "lexer_dynamic_hilite"

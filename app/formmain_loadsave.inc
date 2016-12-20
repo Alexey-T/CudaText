@@ -492,6 +492,7 @@ begin
 
     Op.OpTabSize:= c.GetValue('tab_size', Op.OpTabSize);
     Op.OpTabSpaces:= c.GetValue('tab_spaces', Op.OpTabSpaces);
+    Op.OpTabMaxPosExpanded:= c.GetValue('tab_max_pos_expanded', Op.OpTabMaxPosExpanded);
 
     Op.OpOvrSel:= c.GetValue('ovr_sel', Op.OpOvrSel);
     Op.OpOvrOnPaste:= c.GetValue('ovr_on_paste', Op.OpOvrOnPaste);
@@ -501,12 +502,12 @@ begin
 
     Op.OpLinks:= c.GetValue('links_hilite', Op.OpLinks);
     Op.OpLinksRegex:= c.GetValue('links_regex', Op.OpLinksRegex);
-    Op.OpMaxTabPosExpanded:= c.GetValue('tab_max_pos_expanded', Op.OpMaxTabPosExpanded);
 
     Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
     Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);
     Op.OpGutterFoldAlways:= c.GetValue('gutter_fold_always', Op.OpGutterFoldAlways);
     Op.OpGutterBookmk:= c.GetValue('gutter_bookmarks', Op.OpGutterBookmk);
+    Op.OpGutterIcons:= c.GetValue('gutter_icons', Op.OpGutterIcons);
 
     Op.OpNumbersShow:= c.GetValue('numbers_show', Op.OpNumbersShow);
     Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);
@@ -528,7 +529,7 @@ begin
     Op.OpMicromapShow:= c.GetValue('micromap_show', Op.OpMicromapShow);
     Op.OpMicromapWidth:= c.GetValue('micromap_width', Op.OpMicromapWidth);
 
-    Op.OpMargin:= c.GetValue('margin', Op.OpMargin);
+    Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
     Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
 

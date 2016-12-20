@@ -192,6 +192,7 @@ type
     OpSpacingY: integer;
     OpTabSize: integer;
     OpTabSpaces: boolean;
+    OpTabMaxPosExpanded: integer;
 
     OpOvrSel: boolean;
     OpOvrOnPaste: boolean;
@@ -199,22 +200,25 @@ type
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
     OpLinksRegex: string;
-    OpMaxTabPosExpanded: integer;
 
     //view
     OpGutterShow: boolean;
     OpGutterFold: boolean;
     OpGutterFoldAlways: boolean;
     OpGutterBookmk: boolean;
+    OpGutterIcons: integer;
+
     OpNumbersShow: boolean;
     OpNumbersFontSize: integer;
     OpNumbersStyle: integer;
     OpNumbersForCarets: boolean;
     OpNumbersCenter: boolean;
+
     OpRulerShow: boolean;
     OpRulerFontSize: integer;
     OpRulerSize: integer;
     OpRulerTextIndent: integer;
+
     OpMinimapShow: boolean;
     OpMinimapShowSelAlways: boolean;
     OpMinimapShowSelBorder: boolean;
@@ -222,7 +226,7 @@ type
     OpMinimapAtLeft: boolean;
     OpMicromapShow: boolean;
     OpMicromapWidth: integer;
-    OpMargin: integer;
+    OpMarginFixed: integer;
     OpMarginString: string;
     OpStaplesStyle: integer;
 
@@ -720,6 +724,7 @@ begin
 
     OpTabSize:= 8;
     OpTabSpaces:= false;
+    OpTabMaxPosExpanded:= 500;
 
     OpOvrSel:= true;
     OpOvrOnPaste:= false;
@@ -728,12 +733,12 @@ begin
     OpUnderlineColorSize:= 3;
     OpLinks:= true;
     OpLinksRegex:= ATSynEdit.cUrlRegexInitial;
-    OpMaxTabPosExpanded:= 500;
 
     OpGutterShow:= true;
     OpGutterFold:= true;
     OpGutterFoldAlways:= true;
     OpGutterBookmk:= true;
+    OpGutterIcons:= 0;
 
     OpNumbersShow:= true;
     OpNumbersFontSize:= 0;
@@ -755,7 +760,7 @@ begin
     OpMicromapShow:= false;
     OpMicromapWidth:= 12;
 
-    OpMargin:= cInitMarginRight;
+    OpMarginFixed:= cInitMarginRight;
     OpMarginString:= '';
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
 
