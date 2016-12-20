@@ -205,8 +205,8 @@ type
     OpGutterShow: boolean;
     OpGutterFold: boolean;
     OpGutterFoldAlways: boolean;
-    OpGutterBookmk: boolean;
-    OpGutterIcons: integer;
+    OpGutterFoldIcons: integer;
+    OpGutterBookmarks: boolean;
 
     OpNumbersShow: boolean;
     OpNumbersFontSize: integer;
@@ -737,8 +737,8 @@ begin
     OpGutterShow:= true;
     OpGutterFold:= true;
     OpGutterFoldAlways:= true;
-    OpGutterBookmk:= true;
-    OpGutterIcons:= 0;
+    OpGutterBookmarks:= true;
+    OpGutterFoldIcons:= 0;
 
     OpNumbersShow:= true;
     OpNumbersFontSize:= 0;

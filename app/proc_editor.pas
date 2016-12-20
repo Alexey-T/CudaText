@@ -177,8 +177,8 @@ begin
 
   Ed.OptGutterVisible:= Op.OpGutterShow;
   Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
-  Ed.OptGutterIcons:= TATGutterIconsKind(Op.OpGutterIcons);
-  Ed.Gutter[Ed.GutterBandBm].Visible:= Op.OpGutterBookmk;
+  Ed.OptGutterIcons:= TATGutterIconsKind(Op.OpGutterFoldIcons);
+  Ed.Gutter[Ed.GutterBandBm].Visible:= Op.OpGutterBookmarks;
   Ed.Gutter[Ed.GutterBandFold].Visible:= Op.OpGutterFold;
   Ed.Gutter[Ed.GutterBandNum].Visible:= Op.OpNumbersShow;
   Ed.Gutter.Update;

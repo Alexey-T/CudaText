@@ -506,8 +506,8 @@ begin
     Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
     Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);
     Op.OpGutterFoldAlways:= c.GetValue('gutter_fold_always', Op.OpGutterFoldAlways);
-    Op.OpGutterBookmk:= c.GetValue('gutter_bookmarks', Op.OpGutterBookmk);
-    Op.OpGutterIcons:= c.GetValue('gutter_icons', Op.OpGutterIcons);
+    Op.OpGutterFoldIcons:= c.GetValue('gutter_fold_icons', Op.OpGutterFoldIcons);
+    Op.OpGutterBookmarks:= c.GetValue('gutter_bookmarks', Op.OpGutterBookmarks);
 
     Op.OpNumbersShow:= c.GetValue('numbers_show', Op.OpNumbersShow);
     Op.OpNumbersFontSize:= c.GetValue('numbers_font_size', Op.OpNumbersFontSize);

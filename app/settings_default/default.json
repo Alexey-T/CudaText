@@ -130,10 +130,10 @@
   "gutter_fold": true,
   //If false, folding lines auto-hide on mouse-leave
   "gutter_fold_always": true,
+  //Style of folding icons: 0: plus/minus; 1: triangles
+  "gutter_fold_icons": 0,
   //Show gutter's bookmarks column
   "gutter_bookmarks": true,
-  //Gutter folding icons: 0: plus/minus; 1: triangles
-  "gutter_icons": 0,
 
   //Show gutter's numbers column
   "numbers_show": true,
