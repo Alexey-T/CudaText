@@ -228,7 +228,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 9
-      Expression = '[^<&]*'
+      Expression = '[^<>&\{\}]*'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -630,7 +630,7 @@ object SyntAnal13: TLibSyntAnalyzer
   SampleText.Strings = (
     '<!doctype test="123">'
     '<meta1/>'
-    '<meta2>error</meta3>'
+    '<meta2>text</meta3>'
     '<html> '
     '  <head>'
     '    <title test="15" #$@ >Text</title>'
