@@ -331,6 +331,21 @@ COLOR_ID_MarkedRangeBg = 'EdMarkedRangeBg'
 COLOR_ID_Links = 'EdLinks'
 COLOR_ID_Border = 'EdBorder'
 
+CANVAS_SET_FONT      = 1
+CANVAS_SET_PEN       = 2
+CANVAS_SET_BRUSH     = 3
+CANVAS_GET_FONT      = 11
+CANVAS_GET_PEN       = 12
+CANVAS_GET_BRUSH     = 13
+CANVAS_GET_TEXT_SIZE = 14 
+CANVAS_TEXT          = 20
+CANVAS_LINE          = 21
+CANVAS_IMAGE         = 22
+CANVAS_RECT          = 25
+CANVAS_RECT_FILL     = 26
+CANVAS_ELLIPSE       = 27
+CANVAS_ELLIPSE_FILL  = 28 
+
 
 def app_exe_version():
     return ct.app_exe_version()
