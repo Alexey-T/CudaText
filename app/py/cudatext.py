@@ -428,6 +428,9 @@ def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
+    
+def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, par1=-1, par2=-1):
+    return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, par1, par2)
 
 
 #Editor

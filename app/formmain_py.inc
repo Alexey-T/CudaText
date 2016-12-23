@@ -3259,6 +3259,45 @@ begin
     end;
 end;
 
+
+//canvas_proc(id, canvas_id, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, par1=-1, par2=-1)
+function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  C: TCanvas;
+  IdCanvas: Int64;
+  IdAction, NColor, NSize, NX, NY, NX2, NY2, NPar1, NPar2: integer;
+  PtrText: PChar;
+  StrText: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiii:canvas_proc',
+         @IdCanvas, @IdAction, @PtrText, @NColor, @NSize, @NX, @NY, @NX2, @NY2, @NPar1, @NPar2)) then
+    begin
+      //if IdCanvas=0 then Exit(ReturnNone);
+      //C:= TCanvas(PtrInt(IdCanvas));
+      C:= PyEditor(0).Canvas;////////
+      StrText:= string(PtrText);
+
+      case IdAction of
+        CANVAS_TEXT:
+          begin
+            C.TextOut(NX, NY, StrText);
+            Result:= ReturnNone;
+          end;
+        CANVAS_GET_TEXT_SIZE:
+          begin
+            C.GetTextSize(StrText, NX, NY);
+            Result:= Py_BuildValue('(ii)', NX, NY);
+          end
+        else
+          Result:= ReturnNone;
+      end;
+
+      PyEditor(0).Invalidate;///////////
+    end;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -3331,6 +3370,7 @@ begin
     AddMethod('lexer_proc', @Py_lexer_proc, '');
     AddMethod('tree_proc', @Py_tree_proc, '');
     AddMethod('listbox_proc', @Py_listbox_proc, '');
+    AddMethod('canvas_proc', @Py_canvas_proc, '');
   end;
 end;
 
