@@ -285,6 +285,7 @@ const
   CANVAS_RECT_FRAME    = 31;
   CANVAS_RECT_FILL     = 32;
   CANVAS_RECT_ROUND    = 33;
+  CANVAS_POLYGON       = 35;
   CANVAS_ELLIPSE       = 40;
 
   FONT_B = 1;

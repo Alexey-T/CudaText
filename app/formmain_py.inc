@@ -3269,6 +3269,26 @@ begin
   if (Num and FONT_S)<>0 then Include(Result, fsStrikeOut);
 end;
 
+procedure Py_Canvas_PolygonFromSting(C: TCanvas; Str: string);
+var
+  S1, S2: string;
+  P: TPoint;
+  Pnt: array of TPoint;
+begin
+  SetLength(Pnt, 0);
+  repeat
+    S1:= SGetItem(Str, ',');
+    S2:= SGetItem(Str, ',');
+    if (S1='') or (S2='') then Break;
+    P.X:= StrToIntDef(S1, MaxInt);
+    P.Y:= StrToIntDef(S2, MaxInt);
+    if (P.X=MaxInt) or (P.Y=MaxInt) then Exit;
+    SetLength(Pnt, Length(Pnt)+1);
+    Pnt[Length(Pnt)-1]:= P;
+  until false;
+  C.Polygon(Pnt);
+end;
+
 function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
@@ -3378,6 +3398,12 @@ begin
         CANVAS_ELLIPSE:
           begin
             C.Ellipse(NX, NY, NX2, NY2);
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_POLYGON:
+          begin
+            Py_Canvas_PolygonFromSting(C, StrText);
             Result:= ReturnNone;
           end;
 
