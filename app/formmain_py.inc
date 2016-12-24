@@ -3286,21 +3286,24 @@ begin
     SetLength(Pnt, Length(Pnt)+1);
     Pnt[Length(Pnt)-1]:= P;
   until false;
-  C.Polygon(Pnt);
+
+  if Length(Pnt)>2 then
+    C.Polygon(Pnt);
 end;
 
 function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
   IdCanvas: Int64;
-  IdAction, NColor, NSize, NX, NY, NX2, NY2, NStyle, NP1, NP2: integer;
+  IdAction, NColor, NSize, NStyle, NX, NY, NX2, NY2, NP1, NP2: integer;
   PtrText: PChar;
   StrText: string;
   Bmp: TPortableNetworkGraphic;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiiii:canvas_proc',
-         @IdCanvas, @IdAction, @PtrText, @NColor, @NSize, @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
+              @IdCanvas, @IdAction, @PtrText, @NColor, @NSize,
+              @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
     begin
       if IdCanvas=0 then //support debug
       begin
