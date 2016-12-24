@@ -105,7 +105,7 @@ object fmMain: TfmMain
     TabOrder = 1
     Images = ImageListBar
   end
-  object PaintBox1: TPaintBox
+  object PaintTest: TPaintBox
     Left = 0
     Height = 150
     Top = 24

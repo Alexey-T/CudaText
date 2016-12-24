@@ -105,7 +105,7 @@ type
     mnuOpThemeSyntax: TMenuItem;
     mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
-    PaintBox1: TPaintBox;
+    PaintTest: TPaintBox;
     Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;

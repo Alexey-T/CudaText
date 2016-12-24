@@ -3307,9 +3307,9 @@ begin
     begin
       if IdCanvas=0 then //support debug
       begin
-        fmMain.PaintBox1.Show;
+        fmMain.PaintTest.Show;
         Application.ProcessMessages;
-        C:= fmMain.PaintBox1.Canvas;
+        C:= fmMain.PaintTest.Canvas;
       end
       else
         C:= TCanvas(PtrInt(IdCanvas));
@@ -3409,6 +3409,19 @@ begin
             Py_Canvas_PolygonFromSting(C, StrText);
             Result:= ReturnNone;
           end;
+
+        CANVAS_SET_TESTPANEL:
+          begin
+            if NSize<20 then
+              fmMain.PaintTest.Hide
+            else
+            begin
+              fmMain.PaintTest.Show;
+              fmMain.PaintTest.Height:= Min(NSize, 300);
+            end;
+            with fmMain.PaintTest do
+              Result:= Py_BuildValue('(ii)', Width, Height);
+          end
 
         else
           Result:= ReturnNone;
