@@ -3446,7 +3446,7 @@ begin
         GAP_MAKE_BITMAP:
           begin
             Num1:= Max(8, Min(2000, Num1));
-            Num2:= Max(8, Min(300, Num2));
+            Num2:= Max(8, Min(500, Num2));
 
             Bmp:= TBitmap.Create;
             Bmp.PixelFormat:= pf24bit;
@@ -3461,9 +3461,12 @@ begin
             if Ed.Strings.IsIndexValid(Num1) then
             begin
               Bmp:= TBitmap(Num2);
+              Ed.Gaps.DeleteForLineRange(Num1, Num1);
               if Ed.Gaps.Add(Num1, Bmp.Height+2{borders}, Bmp) then
               begin
-                Ed.OptLastLineOnTop:= true;
+                //to allow last gap visible
+                if Num1=Ed.Strings.Count-1 then
+                  Ed.OptLastLineOnTop:= true;
                 Ed.Update;
                 Result:= PyBool_FromLong(1);
               end
