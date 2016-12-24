@@ -3432,36 +3432,38 @@ end;
 
 function Py_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H: Int64;
+  H, Num1, Num2: Int64;
+  Id: integer;
   Ed: TATSynEdit;
-  Id, Num, Num2, Num3: integer;
   Bmp: TBitmap;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiii:gap', @H, @Id, @Num, @Num2, @Num3)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLL:gap', @H, @Id, @Num1, @Num2)) then
     begin
       Ed:= PyEditor(H);
 
       case Id of
+        GAP_MAKE_BITMAP:
+          begin
+            Num1:= Max(8, Min(2000, Num1));
+            Num2:= Max(8, Min(300, Num2));
+
+            Bmp:= TBitmap.Create;
+            Bmp.PixelFormat:= pf24bit;
+            Bmp.SetSize(Num1, Num2);
+            Bmp.Canvas.Brush.Color:= clMoneyGreen;
+            Bmp.Canvas.FillRect(0, 0, Bmp.Width, Bmp.Height);
+            Result:= Py_BuildValue('(LL)', Int64(Bmp), Int64(Bmp.Canvas));
+          end;
+
         GAP_ADD:
           begin
-            if Ed.Strings.IsIndexValid(Num) and (Num2>=8) and (Num3>=8) then
+            if Ed.Strings.IsIndexValid(Num1) then
             begin
-              Bmp:= TBitmap.Create;
-              Bmp.PixelFormat:= pf24bit;
-              Bmp.SetSize(Num2, Num3);
-              Bmp.Canvas.Brush.Color:= clMoneyGreen;
-              Bmp.Canvas.FillRect(0, 0, Bmp.Width, Bmp.Height);
-
-              fmMain.DoPyEvent(Ed, cEventOnGapPaint, [
-                IntToStr(Num),
-                IntToStr(Num2),
-                IntToStr(Num3),
-                IntToStr(PtrInt(Bmp.Canvas)
-                )]);
-
-              if Ed.Gaps.Add(Num, Num3+2{borders}, Bmp) then
+              Bmp:= TBitmap(Num2);
+              if Ed.Gaps.Add(Num1, Bmp.Height+2{borders}, Bmp) then
               begin
+                Ed.OptLastLineOnTop:= true;
                 Ed.Update;
                 Result:= PyBool_FromLong(1);
               end
@@ -3474,8 +3476,8 @@ begin
 
         GAP_DELETE:
           begin
-            if Num2<Num then Num2:= Num; //allow value -1
-            if Ed.Gaps.DeleteForLineRange(Num, Num2) then
+            if Num2<Num1 then Num2:= Num1; //allow value Num2=-1
+            if Ed.Gaps.DeleteForLineRange(Num1, Num2) then
               Ed.Update;
             Result:= ReturnNone;
           end;

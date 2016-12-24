@@ -294,9 +294,10 @@ const
   FONT_U = 4;
   FONT_S = 8;
 
-  GAP_ADD = 0;
-  GAP_DELETE = 1;
-  GAP_DELETE_ALL = 2;
+  GAP_MAKE_BITMAP = 1;
+  GAP_ADD         = 2;
+  GAP_DELETE      = 3;
+  GAP_DELETE_ALL  = 4;
 
 
   PyMenuId_Top = 'top';

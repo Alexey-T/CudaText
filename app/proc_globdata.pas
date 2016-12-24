@@ -419,7 +419,6 @@ type
     cEventOnConsoleNav,
     cEventOnOutputNav,
     cEventOnSnippet,
-    cEventOnGapPaint,
     cEventOnMacro
     );
   TAppPyEvents = set of TAppPyEvent;
@@ -453,7 +452,6 @@ const
     'on_console_nav',
     'on_output_nav',
     'on_snippet',
-    'on_gap_paint',
     'on_macro'
     );
 
