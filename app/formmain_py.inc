@@ -3377,6 +3377,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        CANVAS_PIXEL:
+          begin
+            C.Pixels[NX, NY]:= NColor;
+            Result:= ReturnNone;
+          end;
+
         CANVAS_RECT:
           begin
             C.Rectangle(NX, NY, NX2, NY2);
