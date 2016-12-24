@@ -105,6 +105,14 @@ object fmMain: TfmMain
     TabOrder = 1
     Images = ImageListBar
   end
+  object PaintBox1: TPaintBox
+    Left = 0
+    Height = 72
+    Top = 24
+    Width = 872
+    Align = alTop
+    Visible = False
+  end
   object PythonEngine: TPythonEngine
     AutoLoad = False
     DllName = 'python25.dll'

@@ -334,17 +334,46 @@ COLOR_ID_Border = 'EdBorder'
 CANVAS_SET_FONT      = 1
 CANVAS_SET_PEN       = 2
 CANVAS_SET_BRUSH     = 3
-CANVAS_GET_FONT      = 11
-CANVAS_GET_PEN       = 12
-CANVAS_GET_BRUSH     = 13
-CANVAS_GET_TEXT_SIZE = 14 
+#CANVAS_GET_FONT      = 11
+#CANVAS_GET_PEN       = 12
+#CANVAS_GET_BRUSH     = 13
+CANVAS_GET_TEXT_SIZE = 15 
 CANVAS_TEXT          = 20
 CANVAS_LINE          = 21
 CANVAS_IMAGE         = 22
-CANVAS_RECT          = 25
-CANVAS_RECT_FILL     = 26
-CANVAS_ELLIPSE       = 27
-CANVAS_ELLIPSE_FILL  = 28 
+CANVAS_RECT          = 30
+CANVAS_RECT_FRAME    = 31
+CANVAS_RECT_FILL     = 32
+CANVAS_RECT_ROUND    = 33
+CANVAS_ELLIPSE       = 40
+
+CANVAS_FONT_B = 1
+CANVAS_FONT_I = 2
+CANVAS_FONT_U = 4
+CANVAS_FONT_S = 8
+
+#TFPPenStyle = (psSolid, psDash, psDot, psDashDot, psDashDotDot, psinsideFrame, psPattern, psClear);
+CANVAS_PEN_SOLID       = 0
+CANVAS_PEN_DASH        = 1
+CANVAS_PEN_DOT         = 2
+CANVAS_PEN_DASHDOT     = 3
+CANVAS_PEN_DASHDOTDOT  = 4
+CANVAS_PEN_INSIDEFRAME = 5
+CANVAS_PEN_PATTERN     = 6
+CANVAS_PEN_CLEAR       = 7
+
+#  TFPBrushStyle = (bsSolid, bsClear, bsHorizontal, bsVertical, bsFDiagonal,
+#                   bsBDiagonal, bsCross, bsDiagCross, bsImage, bsPattern);
+CANVAS_BRUSH_SOLID     = 0 
+CANVAS_BRUSH_CLEAR     = 1
+CANVAS_BRUSH_HORZ      = 2
+CANVAS_BRUSH_VERT      = 3
+CANVAS_BRUSH_FDIAGONAL = 4 
+CANVAS_BRUSH_BDIAGONAL = 5
+CANVAS_BRUSH_CROSS     = 6
+CANVAS_BRUSH_DIAGCROSS = 7 
+CANVAS_BRUSH_IMAGE     = 8
+CANVAS_BRUSH_PATTERN   = 9
 
 
 def app_exe_version():

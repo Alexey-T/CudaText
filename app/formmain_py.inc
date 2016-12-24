@@ -3268,6 +3268,8 @@ var
   IdAction, NColor, NSize, NX, NY, NX2, NY2, NPar1, NPar2: integer;
   PtrText: PChar;
   StrText: string;
+  Style: TFontStyles;
+  Bmp: TPortableNetworkGraphic;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiii:canvas_proc',
@@ -3275,25 +3277,109 @@ begin
     begin
       //if IdCanvas=0 then Exit(ReturnNone);
       //C:= TCanvas(PtrInt(IdCanvas));
-      C:= PyEditor(0).Canvas;////////
+      /////debug
+      fmMain.PaintBox1.Show;
+      C:= fmMain.PaintBox1.Canvas;
+
       StrText:= string(PtrText);
 
       case IdAction of
+        CANVAS_SET_FONT:
+          begin
+            if StrText<>'' then C.Font.Name:= StrText;
+            if NSize>0 then C.Font.Size:= NSize;
+            if NColor>=0 then C.Font.Color:= NColor;
+            if NPar1>=0 then
+            begin
+              Style:= [];
+              if (NPar1 and CANVAS_FONT_B)<>0 then Include(Style, fsBold);
+              if (NPar1 and CANVAS_FONT_I)<>0 then Include(Style, fsItalic);
+              if (NPar1 and CANVAS_FONT_U)<>0 then Include(Style, fsUnderline);
+              if (NPar1 and CANVAS_FONT_S)<>0 then Include(Style, fsStrikeOut);
+              C.Font.Style:= Style;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_SET_PEN:
+          begin
+            if NSize>0 then C.Pen.Width:= NSize;
+            if NColor>=0 then C.Pen.Color:= NColor;
+            if NPar1>=0 then C.Pen.Style:= TPenStyle(NPar1);
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_SET_BRUSH:
+          begin
+            if NColor>=0 then C.Brush.Color:= NColor;
+            if NPar1>=0 then C.Brush.Style:= TBrushStyle(NPar1);
+            Result:= ReturnNone;
+          end;
+
         CANVAS_TEXT:
           begin
             C.TextOut(NX, NY, StrText);
             Result:= ReturnNone;
           end;
+
         CANVAS_GET_TEXT_SIZE:
           begin
             C.GetTextSize(StrText, NX, NY);
             Result:= Py_BuildValue('(ii)', NX, NY);
-          end
+          end;
+
+        CANVAS_LINE:
+          begin
+            C.Line(NX, NY, NX2, NY2);
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_IMAGE:
+          begin
+            if FileExistsUTF8(StrText) then
+            begin
+              Bmp:= TPortableNetworkGraphic.Create;
+              try
+                Bmp.LoadFromFile(StrText);
+                Bmp.Transparent:= true;
+                C.Draw(NX, NY, Bmp);
+              finally
+                FreeAndNil(Bmp);
+              end;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_RECT:
+          begin
+            C.Rectangle(NX, NY, NX2, NY2);
+            Result:= ReturnNone;
+          end;
+        CANVAS_RECT_FRAME:
+          begin
+            C.FrameRect(NX, NY, NX2, NY2);
+            Result:= ReturnNone;
+          end;
+        CANVAS_RECT_FILL:
+          begin
+            C.FillRect(NX, NY, NX2, NY2);
+            Result:= ReturnNone;
+          end;
+        CANVAS_RECT_ROUND:
+          begin
+            C.RoundRect(NX, NY, NX2, NY2, NPar1, NPar1{Rx=Ry});
+            Result:= ReturnNone;
+          end;
+
+        CANVAS_ELLIPSE:
+          begin
+            C.Ellipse(NX, NY, NX2, NY2);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
-
-      PyEditor(0).Invalidate;///////////
     end;
 end;
 
