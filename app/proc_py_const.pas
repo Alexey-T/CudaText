@@ -287,10 +287,10 @@ const
   CANVAS_RECT_ROUND    = 33;
   CANVAS_ELLIPSE       = 40;
 
-  CANVAS_FONT_B = 1;
-  CANVAS_FONT_I = 2;
-  CANVAS_FONT_U = 4;
-  CANVAS_FONT_S = 8;
+  FONT_B = 1;
+  FONT_I = 2;
+  FONT_U = 4;
+  FONT_S = 8;
 
 
   PyMenuId_Top = 'top';

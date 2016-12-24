@@ -3263,10 +3263,10 @@ end;
 function Py_Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 begin
   Result:= [];
-  if (Num and CANVAS_FONT_B)<>0 then Include(Result, fsBold);
-  if (Num and CANVAS_FONT_I)<>0 then Include(Result, fsItalic);
-  if (Num and CANVAS_FONT_U)<>0 then Include(Result, fsUnderline);
-  if (Num and CANVAS_FONT_S)<>0 then Include(Result, fsStrikeOut);
+  if (Num and FONT_B)<>0 then Include(Result, fsBold);
+  if (Num and FONT_I)<>0 then Include(Result, fsItalic);
+  if (Num and FONT_U)<>0 then Include(Result, fsUnderline);
+  if (Num and FONT_S)<>0 then Include(Result, fsStrikeOut);
 end;
 
 function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
