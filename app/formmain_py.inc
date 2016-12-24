@@ -3343,6 +3343,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        CANVAS_SET_ANTIALIAS:
+          begin
+            if NStyle>=0 then C.AntialiasingMode:= TAntialiasingMode(NStyle);
+            Result:= ReturnNone;
+          end;
+
         CANVAS_TEXT:
           begin
             C.TextOut(NX, NY, StrText);

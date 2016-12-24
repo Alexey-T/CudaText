@@ -274,6 +274,7 @@ const
   CANVAS_SET_FONT      = 1;
   CANVAS_SET_PEN       = 2;
   CANVAS_SET_BRUSH     = 3;
+  CANVAS_SET_ANTIALIAS = 4;
   CANVAS_SET_TESTPANEL = 9;
   //#CANVAS_GET_FONT      = 11
   //#CANVAS_GET_PEN       = 12
