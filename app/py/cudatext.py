@@ -362,8 +362,18 @@ CANVAS_PEN_INSIDEFRAME = 5
 CANVAS_PEN_PATTERN     = 6
 CANVAS_PEN_CLEAR       = 7
 
-#  TFPBrushStyle = (bsSolid, bsClear, bsHorizontal, bsVertical, bsFDiagonal,
-#                   bsBDiagonal, bsCross, bsDiagCross, bsImage, bsPattern);
+#TFPPenEndCap = (pecRound, pecSquare, pecFlat);
+CANVAS_PENCAP_ROUND  = 0
+CANVAS_PENCAP_SQUARE = 1
+CANVAS_PENCAP_FLAT   = 2
+
+#TFPPenJoinStyle = (pjsRound, pjsBevel, pjsMiter);
+CANVAS_PENJOIN_ROUND = 0
+CANVAS_PENJOIN_BEVEL = 1
+CANVAS_PENJOIN_MITER = 2
+
+#TFPBrushStyle = (bsSolid, bsClear, bsHorizontal, bsVertical, bsFDiagonal,
+#                 bsBDiagonal, bsCross, bsDiagCross, bsImage, bsPattern);
 CANVAS_BRUSH_SOLID     = 0 
 CANVAS_BRUSH_CLEAR     = 1
 CANVAS_BRUSH_HORZ      = 2
@@ -372,8 +382,8 @@ CANVAS_BRUSH_FDIAGONAL = 4
 CANVAS_BRUSH_BDIAGONAL = 5
 CANVAS_BRUSH_CROSS     = 6
 CANVAS_BRUSH_DIAGCROSS = 7 
-CANVAS_BRUSH_IMAGE     = 8
-CANVAS_BRUSH_PATTERN   = 9
+#CANVAS_BRUSH_IMAGE     = 8
+#CANVAS_BRUSH_PATTERN   = 9
 
 
 def app_exe_version():

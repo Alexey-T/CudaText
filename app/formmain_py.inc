@@ -3308,6 +3308,8 @@ begin
             if NSize>0 then C.Pen.Width:= NSize;
             if NColor>=0 then C.Pen.Color:= NColor;
             if NStyle>=0 then C.Pen.Style:= TPenStyle(NStyle);
+            if NP1>=0 then C.Pen.EndCap:= TPenEndCap(NP1);
+            if NP2>=0 then C.Pen.JoinStyle:= TPenJoinStyle(NP2);
             Result:= ReturnNone;
           end;
 
