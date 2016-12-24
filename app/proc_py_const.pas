@@ -294,6 +294,10 @@ const
   FONT_U = 4;
   FONT_S = 8;
 
+  GAP_ADD = 0;
+  GAP_DELETE = 1;
+  GAP_DELETE_ALL = 2;
+
 
   PyMenuId_Top = 'top';
   PyMenuId_TopEdit = 'top-edit';

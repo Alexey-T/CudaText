@@ -387,6 +387,10 @@ BRUSH_DIAGCROSS = 7
 #BRUSH_IMAGE     = 8
 #BRUSH_PATTERN   = 9
 
+GAP_ADD = 0
+GAP_DELETE = 1
+GAP_DELETE_ALL = 2
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -604,6 +608,9 @@ class Editor:
 
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)
+        
+    def gap(self, id, num, num2=-1, num3=-1):
+        return ct.ed_gap(self.h, id, num, num2, num3)
     #end
 
 #objects

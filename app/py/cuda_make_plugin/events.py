@@ -10,6 +10,7 @@ EVENTS = [
     'on_console_nav',
     'on_focus',
     'on_func_hint',
+    'on_gap_paint',
     'on_goto_def',
     'on_key',
     'on_key_up',
@@ -40,4 +41,5 @@ EVENTS_ADD_PARAMS = {
   'on_panel': 'id_control, id_event',
   'on_snippet': 'snippet_id, snippet_text',
   'on_state': 'state',
+  'on_gap_paint': 'line_num, sizex, sizey, id_canvas',
   }

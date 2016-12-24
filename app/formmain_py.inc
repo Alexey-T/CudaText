@@ -3430,6 +3430,70 @@ begin
 end;
 
 
+function Py_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  Id, Num, Num2, Num3: integer;
+  Bmp: TBitmap;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liiii:gap', @H, @Id, @Num, @Num2, @Num3)) then
+    begin
+      Ed:= PyEditor(H);
+
+      case Id of
+        GAP_ADD:
+          begin
+            if Ed.Strings.IsIndexValid(Num) and (Num2>=8) and (Num3>=8) then
+            begin
+              Bmp:= TBitmap.Create;
+              Bmp.PixelFormat:= pf24bit;
+              Bmp.SetSize(Num2, Num3);
+              Bmp.Canvas.Brush.Color:= clMoneyGreen;
+              Bmp.Canvas.FillRect(0, 0, Bmp.Width, Bmp.Height);
+
+              fmMain.DoPyEvent(Ed, cEventOnGapPaint, [
+                IntToStr(Num),
+                IntToStr(Num2),
+                IntToStr(Num3),
+                IntToStr(PtrInt(Bmp.Canvas)
+                )]);
+
+              if Ed.Gaps.Add(Num, Num3+2{borders}, Bmp) then
+              begin
+                Ed.Update;
+                Result:= PyBool_FromLong(1);
+              end
+              else
+                Result:= PyBool_FromLong(0);
+            end
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
+        GAP_DELETE:
+          begin
+            if Num2<Num then Num2:= Num; //allow value -1
+            if Ed.Gaps.DeleteForLineRange(Num, Num2) then
+              Ed.Update;
+            Result:= ReturnNone;
+          end;
+
+        GAP_DELETE_ALL:
+          begin
+            Ed.Gaps.Clear;
+            Ed.Update;
+            Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -3492,6 +3556,7 @@ begin
     AddMethod('ed_convert', @Py_ed_convert, '');
     AddMethod('ed_markers', @Py_ed_markers, '');
     AddMethod('ed_attr', @Py_ed_attr, '');
+    AddMethod('ed_gap', @Py_ed_gap, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');
