@@ -3269,19 +3269,18 @@ begin
   if (Num and CANVAS_FONT_S)<>0 then Include(Result, fsStrikeOut);
 end;
 
-//canvas_proc(id, canvas_id, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, par1=-1, par2=-1)
 function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
   IdCanvas: Int64;
-  IdAction, NColor, NSize, NX, NY, NX2, NY2, NPar1, NPar2: integer;
+  IdAction, NColor, NSize, NX, NY, NX2, NY2, NStyle, NP1, NP2: integer;
   PtrText: PChar;
   StrText: string;
   Bmp: TPortableNetworkGraphic;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiii:canvas_proc',
-         @IdCanvas, @IdAction, @PtrText, @NColor, @NSize, @NX, @NY, @NX2, @NY2, @NPar1, @NPar2)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiiii:canvas_proc',
+         @IdCanvas, @IdAction, @PtrText, @NColor, @NSize, @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
     begin
       if IdCanvas=0 then //support debug
       begin
@@ -3300,7 +3299,7 @@ begin
             if StrText<>'' then C.Font.Name:= StrText;
             if NSize>0 then C.Font.Size:= NSize;
             if NColor>=0 then C.Font.Color:= NColor;
-            if NPar1>=0 then C.Font.Style:= Py_Canvas_NumberToFontStyles(NPar1);
+            if NStyle>=0 then C.Font.Style:= Py_Canvas_NumberToFontStyles(NStyle);
             Result:= ReturnNone;
           end;
 
@@ -3308,14 +3307,14 @@ begin
           begin
             if NSize>0 then C.Pen.Width:= NSize;
             if NColor>=0 then C.Pen.Color:= NColor;
-            if NPar1>=0 then C.Pen.Style:= TPenStyle(NPar1);
+            if NStyle>=0 then C.Pen.Style:= TPenStyle(NStyle);
             Result:= ReturnNone;
           end;
 
         CANVAS_SET_BRUSH:
           begin
             if NColor>=0 then C.Brush.Color:= NColor;
-            if NPar1>=0 then C.Brush.Style:= TBrushStyle(NPar1);
+            if NStyle>=0 then C.Brush.Style:= TBrushStyle(NStyle);
             Result:= ReturnNone;
           end;
 
@@ -3370,7 +3369,7 @@ begin
           end;
         CANVAS_RECT_ROUND:
           begin
-            C.RoundRect(NX, NY, NX2, NY2, NPar1, NPar1{Rx=Ry});
+            C.RoundRect(NX, NY, NX2, NY2, NStyle, NStyle{Rx=Ry});
             Result:= ReturnNone;
           end;
 
