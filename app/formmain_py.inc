@@ -3260,6 +3260,15 @@ begin
 end;
 
 
+function Py_Canvas_NumberToFontStyles(Num: integer): TFontStyles;
+begin
+  Result:= [];
+  if (Num and CANVAS_FONT_B)<>0 then Include(Result, fsBold);
+  if (Num and CANVAS_FONT_I)<>0 then Include(Result, fsItalic);
+  if (Num and CANVAS_FONT_U)<>0 then Include(Result, fsUnderline);
+  if (Num and CANVAS_FONT_S)<>0 then Include(Result, fsStrikeOut);
+end;
+
 //canvas_proc(id, canvas_id, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, par1=-1, par2=-1)
 function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -3268,18 +3277,20 @@ var
   IdAction, NColor, NSize, NX, NY, NX2, NY2, NPar1, NPar2: integer;
   PtrText: PChar;
   StrText: string;
-  Style: TFontStyles;
   Bmp: TPortableNetworkGraphic;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiii:canvas_proc',
          @IdCanvas, @IdAction, @PtrText, @NColor, @NSize, @NX, @NY, @NX2, @NY2, @NPar1, @NPar2)) then
     begin
-      //if IdCanvas=0 then Exit(ReturnNone);
-      //C:= TCanvas(PtrInt(IdCanvas));
-      /////debug
-      fmMain.PaintBox1.Show;
-      C:= fmMain.PaintBox1.Canvas;
+      if IdCanvas=0 then //support debug
+      begin
+        fmMain.PaintBox1.Show;
+        Application.ProcessMessages;
+        C:= fmMain.PaintBox1.Canvas;
+      end
+      else
+        C:= TCanvas(PtrInt(IdCanvas));
 
       StrText:= string(PtrText);
 
@@ -3289,15 +3300,7 @@ begin
             if StrText<>'' then C.Font.Name:= StrText;
             if NSize>0 then C.Font.Size:= NSize;
             if NColor>=0 then C.Font.Color:= NColor;
-            if NPar1>=0 then
-            begin
-              Style:= [];
-              if (NPar1 and CANVAS_FONT_B)<>0 then Include(Style, fsBold);
-              if (NPar1 and CANVAS_FONT_I)<>0 then Include(Style, fsItalic);
-              if (NPar1 and CANVAS_FONT_U)<>0 then Include(Style, fsUnderline);
-              if (NPar1 and CANVAS_FONT_S)<>0 then Include(Style, fsStrikeOut);
-              C.Font.Style:= Style;
-            end;
+            if NPar1>=0 then C.Font.Style:= Py_Canvas_NumberToFontStyles(NPar1);
             Result:= ReturnNone;
           end;
 

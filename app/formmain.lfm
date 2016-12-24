@@ -107,7 +107,7 @@ object fmMain: TfmMain
   end
   object PaintBox1: TPaintBox
     Left = 0
-    Height = 72
+    Height = 150
     Top = 24
     Width = 872
     Align = alTop
