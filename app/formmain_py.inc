@@ -3267,7 +3267,7 @@ var
   IdAction, NColor, NSize, NStyle, NX, NY, NX2, NY2, NP1, NP2: integer;
   PtrText: PChar;
   StrText: string;
-  Bmp: TPortableNetworkGraphic;
+  Ok: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiiii:canvas_proc',
@@ -3339,8 +3339,8 @@ begin
         CANVAS_IMAGE,
         CANVAS_IMAGE_SIZED:
           begin
-            Canvas_PaintImage(C, StrText, Rect(NX, NY, NX2, NY2), IdAction=CANVAS_IMAGE_SIZED);
-            Result:= ReturnNone;
+            Ok:= Canvas_PaintImage(C, StrText, Rect(NX, NY, NX2, NY2), IdAction=CANVAS_IMAGE_SIZED);
+            Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         CANVAS_PIXEL:

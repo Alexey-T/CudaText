@@ -275,13 +275,12 @@ begin
         C.StretchDraw(ARect, Bmp)
       else
         C.Draw(ARect.Left, ARect.Top, Bmp);
+      Result:= true;
     finally
       FreeAndNil(Bmp);
     end;
   except
   end;
-
-  Result:= true;
 end;
 
 
