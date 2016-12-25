@@ -729,6 +729,50 @@ Possible values of id_action:
 * LISTBOX_GET_TOP: Gets index of top visible item.
 * LISTBOX_SET_TOP: Sets index of top visible item.
 
+===canvas_proc===
+
+ canvas_proc(id_canvas, id_action,
+   text="", color=-1, size=-1,
+   x=-1, y=-1, x2=-1, y2=-1,
+   style=-1, p1=-1, p2=-1)
+
+Performs action on canvas (drawing surface of some GUI control).
+Id_canvas is handle of canvas of some GUI control. Special value 0 means testing empty panel, it appears at the top of app, when used.
+
+Possible values of id_action:
+
+* CANVAS_SET_FONT: Sets props of font. Params: 
+** text - font name; 
+** color; 
+** size; 
+** style - 0 for normal, or sum of values FONT_B (bold), FONT_I (italic), FONT_U (underline), FONT_S (strikeout)
+
+* CANVAS_SET_PEN: Sets props of pen. Params: 
+** color; 
+** size; 
+** style - one of PEN_STYLE_nnnn; 
+** p1 - end caps style - one of PEN_CAPS_nnnn; 
+** p2 - line joining style - one of PEN_JOIN_nnnn
+
+* CANVAS_SET_BRUSH: Sets props of brush. Params:
+** color;
+** style - one of BRUSH_nnnn. Usually used: BRUSH_SOLID (filled background), BRUSH_CLEAR (transparent background).
+
+* CANVAS_SET_ANTIALIAS: Sets anti-aliasing mode of canvas. Params: style - ANTIALIAS_NONE, _ON, _OFF.
+* CANVAS_GET_TEXT_SIZE: Gets size of text on canvas, as 2-tuple (size_x, size_y). Uses font. Params: text.
+* CANVAS_TEXT: Paints text at given coords. Uses font and brush. Params: text, x, y.
+* CANVAS_LINE: Paints line at given coords. Uses pen. Params: x, y, x2, y2.
+* CANVAS_PIXEL: Paints one pixel at given coords. Params: x, y, color.
+* CANVAS_IMAGE: Paints picture from file [png, gif, jpeg, bmp] at given coords. Params: text - file name, x, y. Gets bool: file correct.
+* CANVAS_IMAGE_SIZED: Paints picture from file, sized for given rectangle. Params: text - file name, x, y, x2, y2. Gets bool: file correct.
+* CANVAS_RECT: Paints rectangle. Uses pen and brush. Params: x, y, x2, y2.
+* CANVAS_RECT_FRAME: Paints rectangle. Uses only pen. Params: x, y, x2, y2.
+* CANVAS_RECT_FILL: Paints rectangle. Uses only brush. Params: x, y, x2, y2.
+* CANVAS_RECT_ROUND: Paints rounded rectangle. Uses pen and brush. Params: x, y, x2, y2, style - radius of corners.
+* CANVAS_ELLIPSE: Paints ellipse or circle. Uses pen and brush. Params: x, y, x2, y2.
+* CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params: text - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
+* CANVAS_SET_TESTPANEL: Sets height of testing panel at the top. Params: size. If it's "too small", panel hides; for big size, size is limited.
+
 ===more===
 
 =Editor class=
@@ -1175,6 +1219,43 @@ Params:
 * Param len_chars: listbox shows lefter than caret, by this count of chars.
 * Param selected: index of initially selected listbox item (0-based).
 
+===gap===
+
+ gap(id, num1, num2)
+
+Performs action on inter-line gaps (they don't overlap text above/below).
+Possible values of id:
+
+* GAP_MAKE_BITMAP: Makes new bitmap for future gap. Size of bitmap is num1 x num2. Gets 2-tuple (id_bitmap, id_canvas). 
+** id_bitmap is needed to later call GAP_ADD.
+** id_canvas is needed to paint an image on bitmap, by canvas_proc().
+
+* GAP_ADD: Adds gap to editor, with ready bitmap. Params: num1 - line index; num2 - id_bitmap you got before. Gets bool: params correct, gap added.
+
+* GAP_DELETE: Deletes gaps for lines: from num1 to num2.
+* GAP_DELETE_ALL: Deletes all gaps.
+
+Example plugin:
+
+<syntaxhighlight lang="python">
+from cudatext import *
+class Command:
+    def run(self):
+        for i in range(ed.get_line_count()//2):
+            self.do_gap(i*2)
+
+    def do_gap(self, num):
+        id_bitmap, id_canvas = ed.gap(GAP_MAKE_BITMAP, 600, 50)
+        canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xa0ffa0)
+        canvas_proc(id_canvas, CANVAS_POLYGON, '200,0,300,30,200,50')
+        canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_CLEAR)
+        canvas_proc(id_canvas, CANVAS_TEXT, x=230, y=10, text='gap %d'%(num+1))
+        canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_SOLID)
+        ed.gap(GAP_ADD, num, id_bitmap)
+</syntaxhighlight>
+
+===more===
+
 =Tech info=
 
 ==Format of text for cmd_MouseClick==
@@ -1207,6 +1288,10 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.162
+* add: ed.gap (Gaps api)
+* add: canvas_proc
 
 1.0.161
 * add: dlg_custom: colorpanel has new "props" value, color_border
