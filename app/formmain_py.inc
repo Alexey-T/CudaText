@@ -3260,37 +3260,6 @@ begin
 end;
 
 
-function Py_Canvas_NumberToFontStyles(Num: integer): TFontStyles;
-begin
-  Result:= [];
-  if (Num and FONT_B)<>0 then Include(Result, fsBold);
-  if (Num and FONT_I)<>0 then Include(Result, fsItalic);
-  if (Num and FONT_U)<>0 then Include(Result, fsUnderline);
-  if (Num and FONT_S)<>0 then Include(Result, fsStrikeOut);
-end;
-
-procedure Py_Canvas_PolygonFromSting(C: TCanvas; Str: string);
-var
-  S1, S2: string;
-  P: TPoint;
-  Pnt: array of TPoint;
-begin
-  SetLength(Pnt, 0);
-  repeat
-    S1:= SGetItem(Str, ',');
-    S2:= SGetItem(Str, ',');
-    if (S1='') or (S2='') then Break;
-    P.X:= StrToIntDef(S1, MaxInt);
-    P.Y:= StrToIntDef(S2, MaxInt);
-    if (P.X=MaxInt) or (P.Y=MaxInt) then Exit;
-    SetLength(Pnt, Length(Pnt)+1);
-    Pnt[Length(Pnt)-1]:= P;
-  until false;
-
-  if Length(Pnt)>2 then
-    C.Polygon(Pnt);
-end;
-
 function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
@@ -3322,7 +3291,7 @@ begin
             if StrText<>'' then C.Font.Name:= StrText;
             if NSize>0 then C.Font.Size:= NSize;
             if NColor>=0 then C.Font.Color:= NColor;
-            if NStyle>=0 then C.Font.Style:= Py_Canvas_NumberToFontStyles(NStyle);
+            if NStyle>=0 then C.Font.Style:= Canvas_NumberToFontStyles(NStyle);
             Result:= ReturnNone;
           end;
 
@@ -3367,19 +3336,10 @@ begin
             Result:= ReturnNone;
           end;
 
-        CANVAS_IMAGE:
+        CANVAS_IMAGE,
+        CANVAS_IMAGE_SIZED:
           begin
-            if FileExistsUTF8(StrText) then
-            begin
-              Bmp:= TPortableNetworkGraphic.Create;
-              try
-                Bmp.LoadFromFile(StrText);
-                Bmp.Transparent:= true;
-                C.Draw(NX, NY, Bmp);
-              finally
-                FreeAndNil(Bmp);
-              end;
-            end;
+            Canvas_PaintImage(C, StrText, Rect(NX, NY, NX2, NY2), IdAction=CANVAS_IMAGE_SIZED);
             Result:= ReturnNone;
           end;
 
@@ -3418,7 +3378,7 @@ begin
 
         CANVAS_POLYGON:
           begin
-            Py_Canvas_PolygonFromSting(C, StrText);
+            Canvas_PaintPolygonFromSting(C, StrText);
             Result:= ReturnNone;
           end;
 

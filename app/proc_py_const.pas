@@ -283,7 +283,8 @@ const
   CANVAS_TEXT          = 20;
   CANVAS_LINE          = 21;
   CANVAS_IMAGE         = 22;
-  CANVAS_PIXEL         = 23;
+  CANVAS_IMAGE_SIZED   = 23;
+  CANVAS_PIXEL         = 24;
   CANVAS_RECT          = 30;
   CANVAS_RECT_FRAME    = 31;
   CANVAS_RECT_FILL     = 32;

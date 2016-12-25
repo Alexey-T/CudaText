@@ -20,7 +20,12 @@ uses
   ATStringProc,
   ATButtons,
   ecSyntAnal,
+  proc_py_const,
   proc_colors;
+
+function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
+procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
+function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -204,6 +209,79 @@ begin
     end;
   except
   end;
+end;
+
+
+function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
+begin
+  Result:= [];
+  if (Num and FONT_B)<>0 then Include(Result, fsBold);
+  if (Num and FONT_I)<>0 then Include(Result, fsItalic);
+  if (Num and FONT_U)<>0 then Include(Result, fsUnderline);
+  if (Num and FONT_S)<>0 then Include(Result, fsStrikeOut);
+end;
+
+procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
+var
+  S1, S2: string;
+  P: TPoint;
+  Pnt: array of TPoint;
+begin
+  SetLength(Pnt, 0);
+  repeat
+    S1:= SGetItem(Str, ',');
+    S2:= SGetItem(Str, ',');
+    if (S1='') or (S2='') then Break;
+    P.X:= StrToIntDef(S1, MaxInt);
+    P.Y:= StrToIntDef(S2, MaxInt);
+    if (P.X=MaxInt) or (P.Y=MaxInt) then Exit;
+    SetLength(Pnt, Length(Pnt)+1);
+    Pnt[Length(Pnt)-1]:= P;
+  until false;
+
+  if Length(Pnt)>2 then
+    C.Polygon(Pnt);
+end;
+
+
+function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
+var
+  Bmp: TGraphic;
+  ext: string;
+begin
+  Result:= false;
+  if not FileExistsUTF8(AFilename) then exit;
+  ext:= LowerCase(ExtractFileExt(AFilename));
+
+  if ext='.png' then
+    Bmp:= TPortableNetworkGraphic.Create
+  else
+  if ext='.gif' then
+    Bmp:= TGIFImage.Create
+  else
+  if ext='.bmp' then
+    Bmp:= TBitmap.Create
+  else
+  if SBeginsWith(ext, '.j') then //jpg, jpeg, jpe, jfif
+    Bmp:= TJPEGImage.Create
+  else
+    exit;
+
+  try
+    try
+      Bmp.LoadFromFile(AFilename);
+      Bmp.Transparent:= true;
+      if AResize then
+        C.StretchDraw(ARect, Bmp)
+      else
+        C.Draw(ARect.Left, ARect.Top, Bmp);
+    finally
+      FreeAndNil(Bmp);
+    end;
+  except
+  end;
+
+  Result:= true;
 end;
 
 
