@@ -4,6 +4,9 @@
   * changed
 
 
++ add opt "gutter_fold_icons"
+* big internal changes in core: to support inter-line gaps (it is called "phantoms" in Sublime)
+
 1.5.6
 + syntax hiliting uses cache: scrolling up/down must be faster, for 3K+ lines
 * rename opt "dyn_hilite" to "lexer_dynamic_hilite"

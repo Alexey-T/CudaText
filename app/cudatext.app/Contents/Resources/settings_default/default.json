@@ -56,11 +56,11 @@
   //Show additional vert-lines at carets position
   "show_cur_column": false,
   
-  //Allow last line to scroll to the top of editor
-  "show_last_line_on_top": false,
-  //Hilite selected block BG till right edge of editor
+  //Allow last line to scroll to the top of window
+  "show_last_line_on_top": true,
+  //Hilite selected block BG till right edge of window
   "show_full_sel_bg": false,
-  //Hilite syntax-defined blocks BG till right edge if editor
+  //Hilite syntax-defined blocks BG till right edge if window
   "show_full_syntax_bg": true,
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
@@ -86,14 +86,14 @@
   //  4: horiz colored line below line text
   "fold_style": 1,  
 
-  //If no selection, "Copy" will take entire line with caret
+  //If no selection, "Copy to clipboard" will take entire line with caret
   "copy_line_if_no_sel": true,
-  //If no selection, "Cut" will take entire line with caret
+  //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
 
   //If text typed, delete selection first
   "ovr_sel": true,
-  //If text pasted from clip, and "overwrite" mode on (Ins key),
+  //If text pasted from clipboard, and "overwrite" mode on (Ins key),
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
 
@@ -113,13 +113,13 @@
   //Note: config is read as utf8-no-bom.
   "hex_chars": "",
 
-  //Additional pixels per char
+  //Additional pixels per char-cell
   "spacing_x": 0,
   "spacing_y": 1,
 
   //Tab-char width
   "tab_size": 8,
-  //Tab-key enters spaces
+  //Tab-key enters spaces (instead of tab-char)
   "tab_spaces": false,
   //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)   
   "tab_max_pos_expanded": 500,
@@ -130,6 +130,8 @@
   "gutter_fold": true,
   //If false, folding lines auto-hide on mouse-leave
   "gutter_fold_always": true,
+  //Style of folding icons: 0: plus/minus; 1: triangles
+  "gutter_fold_icons": 0,
   //Show gutter's bookmarks column
   "gutter_bookmarks": true,
 
@@ -179,7 +181,7 @@
   "micromap_width": 12,
 
   //Fixed margin (vertical line) column.
-  //Fixed margin is always shown, to hide set it to eg 2000.
+  //It is always shown, to hide: set value to eg 2000.
   "margin": 80,
   //Additional margins, list of columns like "10 20 25" space-separated
   "margin_string": "",

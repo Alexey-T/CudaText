@@ -331,6 +331,74 @@ COLOR_ID_MarkedRangeBg = 'EdMarkedRangeBg'
 COLOR_ID_Links = 'EdLinks'
 COLOR_ID_Border = 'EdBorder'
 
+CANVAS_SET_FONT      = 1
+CANVAS_SET_PEN       = 2
+CANVAS_SET_BRUSH     = 3
+CANVAS_SET_ANTIALIAS = 4
+CANVAS_SET_TESTPANEL = 9
+#CANVAS_GET_FONT      = 11
+#CANVAS_GET_PEN       = 12
+#CANVAS_GET_BRUSH     = 13
+CANVAS_GET_TEXT_SIZE = 15 
+CANVAS_TEXT          = 20
+CANVAS_LINE          = 21
+CANVAS_IMAGE         = 22
+CANVAS_IMAGE_SIZED   = 23
+CANVAS_PIXEL         = 24
+CANVAS_RECT          = 30
+CANVAS_RECT_FRAME    = 31
+CANVAS_RECT_FILL     = 32
+CANVAS_RECT_ROUND    = 33
+CANVAS_POLYGON       = 35
+CANVAS_ELLIPSE       = 40
+
+FONT_B = 1
+FONT_I = 2
+FONT_U = 4
+FONT_S = 8
+
+#TFPPenStyle = (psSolid, psDash, psDot, psDashDot, psDashDotDot, psinsideFrame, psPattern, psClear);
+PEN_STYLE_SOLID       = 0
+PEN_STYLE_DASH        = 1
+PEN_STYLE_DOT         = 2
+PEN_STYLE_DASHDOT     = 3
+PEN_STYLE_DASHDOTDOT  = 4
+PEN_STYLE_INSIDEFRAME = 5
+PEN_STYLE_PATTERN     = 6
+PEN_STYLE_CLEAR       = 7
+
+#TFPPenEndCap = (pecRound, pecSquare, pecFlat);
+PEN_CAPS_ROUND  = 0
+PEN_CAPS_SQUARE = 1
+PEN_CAPS_FLAT   = 2
+
+#TFPPenJoinStyle = (pjsRound, pjsBevel, pjsMiter);
+PEN_JOIN_ROUND = 0
+PEN_JOIN_BEVEL = 1
+PEN_JOIN_MITER = 2
+
+#TFPBrushStyle = (bsSolid, bsClear, bsHorizontal, bsVertical, bsFDiagonal,
+#                 bsBDiagonal, bsCross, bsDiagCross, bsImage, bsPattern);
+BRUSH_SOLID     = 0 
+BRUSH_CLEAR     = 1
+BRUSH_HORZ      = 2
+BRUSH_VERT      = 3
+BRUSH_FDIAGONAL = 4 
+BRUSH_BDIAGONAL = 5
+BRUSH_CROSS     = 6
+BRUSH_DIAGCROSS = 7 
+#BRUSH_IMAGE     = 8
+#BRUSH_PATTERN   = 9
+
+ANTIALIAS_NONE = 0
+ANTIALIAS_ON   = 1
+ANTIALIAS_OFF  = 2
+
+GAP_MAKE_BITMAP = 1
+GAP_ADD         = 2
+GAP_DELETE      = 3
+GAP_DELETE_ALL  = 4
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -413,6 +481,9 @@ def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
+    
+def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
+    return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
 
 
 #Editor
@@ -545,6 +616,9 @@ class Editor:
 
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)
+        
+    def gap(self, id, num1, num2):
+        return ct.ed_gap(self.h, id, num1, num2)
     #end
 
 #objects
