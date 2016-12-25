@@ -798,7 +798,7 @@ begin
     OpShowCurLineMinimal:= true;
     OpShowCurLineOnlyFocused:= false;
     OpShowCurCol:= false;
-    OpShowLastLineOnTop:= false;
+    OpShowLastLineOnTop:= true;
     OpShowSelectBgFull:= false;
     OpShowSyntaxBgFull:= true;
     OpCopyLineIfNoSel:= true;
