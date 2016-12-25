@@ -3436,9 +3436,10 @@ begin
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
               if Ed.Gaps.Add(Num1, Bmp.Height+2{borders}, Bmp) then
               begin
-                //to allow last gap visible
-                if Num1=Ed.Strings.Count-1 then
+                //if Num1=Ed.Strings.Count-1 then
+                //better do always, to fix [v-scroll cannot reach end for many gaps at end]
                   Ed.OptLastLineOnTop:= true;
+
                 Ed.Update;
                 Result:= PyBool_FromLong(1);
               end
