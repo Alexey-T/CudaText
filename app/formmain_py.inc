@@ -3425,7 +3425,7 @@ begin
             Bmp.SetSize(Num1, Num2);
             Bmp.Canvas.Brush.Color:= clMoneyGreen;
             Bmp.Canvas.FillRect(0, 0, Bmp.Width, Bmp.Height);
-            Result:= Py_BuildValue('(LL)', Int64(Bmp), Int64(Bmp.Canvas));
+            Result:= Py_BuildValue('(LL)', Int64(PtrInt(Bmp)), Int64(PtrInt(Bmp.Canvas)));
           end;
 
         GAP_ADD:
