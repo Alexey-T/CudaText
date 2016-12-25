@@ -697,8 +697,8 @@ begin
       // -r (recursive)
       // -t (preserve times)
       RunCommand('rsync', ['-urt',
-        Format('"%s/"', [OpDirPrecopy]),
-        Format('"%s"', [OpDirLocal])
+        OpDirPrecopy+'/',
+        OpDirLocal
         ], S);
       {$endif}
     end;
