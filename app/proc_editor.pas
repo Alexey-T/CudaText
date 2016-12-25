@@ -841,11 +841,11 @@ end;
 
 function EditorGetLinkAtScreenCoord(Ed: TATSynEdit; P: TPoint): atString;
 var
-  bEnd: boolean;
+  Details: TATPosDetails;
 begin
   Result:= '';
   P:= Ed.ScreenToClient(P);
-  P:= Ed.ClientPosToCaretPos(P, bEnd);
+  P:= Ed.ClientPosToCaretPos(P, Details);
   Result:= Ed.DoGetLinkAtPos(P.X, P.Y);
   if SBeginsWith(Result, 'www') then
     Result:= 'http://'+Result;
