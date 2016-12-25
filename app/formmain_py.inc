@@ -3432,7 +3432,7 @@ begin
           begin
             if Ed.Strings.IsIndexValid(Num1) then
             begin
-              Bmp:= TBitmap(Num2);
+              Bmp:= TBitmap(PtrInt(Num2));
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
               if Ed.Gaps.Add(Num1, Bmp.Height+2{borders}, Bmp) then
               begin
