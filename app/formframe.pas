@@ -931,6 +931,7 @@ begin
     FImage.Align:= alClient;
     try
       FImage.Picture.LoadFromFile(fn);
+      FImage.Transparent:= true;
       FImageFilename:= fn;
     except
       FImageFilename:= '';
