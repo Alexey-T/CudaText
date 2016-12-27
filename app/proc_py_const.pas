@@ -302,12 +302,13 @@ const
   GAP_DELETE      = 3;
   GAP_DELETE_ALL  = 4;
 
-  FOLDING_GET_LIST   = 0;
-  FOLDING_FOLD       = 1;
-  FOLDING_UNFOLD     = 2;
-  FOLDING_ADD        = 3;
-  FOLDING_DELETE     = 4;
-  FOLDING_DELETE_ALL = 5;
+  FOLDING_GET_LIST           = 0;
+  FOLDING_FOLD               = 1;
+  FOLDING_UNFOLD             = 2;
+  FOLDING_ADD                = 3;
+  FOLDING_DELETE             = 4;
+  FOLDING_DELETE_ALL         = 5;
+  FOLDING_FIND               = 6;
   FOLDING_CHECK_RANGE_INSIDE = 10;
   FOLDING_CHECK_RANGES_SAME  = 11;
 

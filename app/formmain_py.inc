@@ -3476,6 +3476,7 @@ var
   StrText: string;
   Ed: TATSynEdit;
   Ok: boolean;
+  Rng: TATSynRange;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiiis:folding', @H, @Id, @NItem, @NX, @NY, @NY2, @NStaple, @PtrText)) then
@@ -3540,6 +3541,17 @@ begin
             Ed.Fold.Clear;
             Ed.Update(true);
             Result:= ReturnNone;
+          end;
+
+        FOLDING_FIND:
+          begin
+            Rng:= nil;
+            if Ed.Strings.IsIndexValid(NY) then
+              Rng:= Ed.Fold.FindRangeWithPlusAtLine(NY);
+            if Assigned(Rng) then
+              Result:= PyInt_FromLong(Ed.Fold.FindIndexOfRange(Rng))
+            else
+              Result:= ReturnNone;
           end;
 
         FOLDING_CHECK_RANGE_INSIDE:
