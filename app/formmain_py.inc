@@ -3530,6 +3530,13 @@ begin
             Result:= ReturnNone;
           end;
 
+        FOLDING_DELETE_ALL:
+          begin
+            Ed.Fold.Clear;
+            Ed.Update(true);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
