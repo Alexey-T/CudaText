@@ -21,6 +21,7 @@ uses
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Carets,
+  ATSynEdit_Gaps,
   ATSynEdit_CanvasProc,
   ATSynEdit_Commands,
   ATStrings,
@@ -106,11 +107,11 @@ type
     procedure EditorOnChange1(Sender: TObject);
     procedure EditorOnChange2(Sender: TObject);
     procedure EditorOnClick(Sender: TObject);
+    procedure EditorOnClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
-    procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer;
-      const AText: string);
+    procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
     procedure EditorOnEnter(Sender: TObject);
     procedure EditorOnDrawLine(Sender: TObject; C: TCanvas; AX, AY: integer;
@@ -755,6 +756,33 @@ begin
   AHandled:= Str=cPyFalse;
 end;
 
+procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
+  AGapItem: TATSynGapItem; APos: TPoint);
+var
+  Ed: TATSynEdit;
+  NLine, NSizeX, NSizeY: integer;
+  //AHandled: boolean;
+  //Str: string;
+begin
+  if not Assigned(AGapItem) then exit;
+  Ed:= Sender as TATSynEdit;
+  NLine:= AGapItem.LineIndex;
+  NSizeX:= AGapItem.Bitmap.Width;
+  NSizeY:= AGapItem.Bitmap.Height;
+
+  //Str:=
+  DoPyEvent(Ed, cEventOnClickGap, [
+          '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
+          IntToStr(NLine),
+          IntToStr(NSizeX),
+          IntToStr(NSizeY),
+          IntToStr(APos.X),
+          IntToStr(APos.Y)
+          ]);
+  //AHandled:= Str=cPyFalse;
+end;
+
+
 procedure TEditorFrame.DoOnResize;
 begin
   inherited;
@@ -782,6 +810,7 @@ begin
   ed.OnClickDouble:= @EditorOnClickDouble;
   ed.OnClickMoveCaret:= @EditorClickMoveCaret;
   ed.OnClickEndSelect:= @EditorClickEndSelect;
+  ed.OnClickGap:= @EditorOnClickGap;
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChangeState:= @EditorOnChangeCommon;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
