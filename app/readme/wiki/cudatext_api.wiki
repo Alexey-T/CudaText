@@ -1049,17 +1049,26 @@ Notes:
 * nkind must be 1..255.
 * nkind values 240..249 have setup by default: they have blue icons "0" to "9".
 
-===get_ranges===
+===folding===
 
- get_ranges()
+ folding(id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint="")
 
-Gets list of fold-ranges in parsed lexer data. It is list of 5-lists: [y, y2, x, staple, folded].
+Performs action on folding ranges. Values of id:
 
-* y: line of range start.
-* y2: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
-* x: x-offset of range start (char index in start line).
-* staple: int (0/1) which shows that range has block staple.
-* folded: int (0/1) which shows that range is currently folded.
+* FOLDING_GET_LIST: Gets list of folding ranges. List of 5-tuples (y, y2, x, staple, folded), or None.
+** y: int: line of range start.
+** y2: int: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
+** x: int: x-offset of range start (char index in start line).
+** staple: bool: range has block staple.
+** folded: bool: range is currently folded.
+* FOLDING_FOLD: Folds range with given index (index in list from FOLDING_GET_LIST).
+* FOLDING_UNFOLD: Unfolds range with given index.
+* FOLDING_ADD: Adds folding range. Params needed: item_x, item_y, item_y2. Params optional: item_staple, item_hint (hint shows when range is folded). Meaning is like in FOLDING_GET_LIST. If index is 0..last, then range inserts at this index, else appends.
+* FOLDING_DELETE: Deletes folding range with given index.
+* FOLDING_DELETE_ALL: Deletes all folding ranges.
+* FOLDING_FIND: Gets index of range, which starts at line index =item_y, or None.
+* FOLDING_CHECK_RANGE_INSIDE: For 2 ranges with indexes [index, item_x], detects: 1st range is inside 2nd. Gets bool. Gets False if indexes incorrect.
+* FOLDING_CHECK_RANGES_SAME: For 2 ranges with indexes [index, item_x], detects: ranges are same (x/y/y2 may differ). Gets bool. Gets False if indexes incorrect.
 
 ===get_sublexer_ranges===
 
@@ -1291,7 +1300,9 @@ Text is chr(1) separated items:
 
 1.0.162
 * add: ed.gap (Gaps api)
+* add: ed.folding (Folding api)
 * add: canvas_proc
+* delete: ed.get_ranges (use ed.folding)
 
 1.0.161
 * add: dlg_custom: colorpanel has new "props" value, color_border
