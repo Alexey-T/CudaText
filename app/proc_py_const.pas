@@ -297,6 +297,7 @@ const
   FONT_U = 4;
   FONT_S = 8;
 
+  GAP_GET_LIST    = 0;
   GAP_MAKE_BITMAP = 1;
   GAP_ADD         = 2;
   GAP_DELETE      = 3;

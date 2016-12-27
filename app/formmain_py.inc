@@ -3402,6 +3402,37 @@ begin
 end;
 
 
+function Py_ed_gap_getlist(Ed: TATSynEdit): PPyObject; cdecl;
+var
+  Item: TATSynGapItem;
+  NLen, i: Integer;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= Ed.Gaps.Count;
+    if NLen>0 then
+    begin
+      Result:= PyList_New(NLen);
+      if not Assigned(Result) then
+        raise EPythonError.Create(cPythonListError);
+      for i:= 0 to NLen-1 do
+      begin
+        Item:= Ed.Gaps[i];
+        PyList_SetItem(Result, i,
+          Py_BuildValue('{sisisisi}',
+            'line', Item.LineIndex,
+            'tag', Item.Tag,
+            'size_x', Item.Bitmap.Width,
+            'size_y', Item.Bitmap.Height
+            ));
+      end;
+    end
+    else
+      Result:= ReturnNone;
+  end;
+end;
+
+
 function Py_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H, Num1, Num2: Int64;
@@ -3415,6 +3446,11 @@ begin
       Ed:= PyEditor(H);
 
       case Id of
+        GAP_GET_LIST:
+          begin
+            Result:= Py_ed_gap_getlist(Ed);
+          end;
+
         GAP_MAKE_BITMAP:
           begin
             Num1:= Max(8, Min(2000, Num1));
