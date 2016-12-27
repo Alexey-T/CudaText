@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -119,7 +119,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Comment line'
       StyleName = 'Comment'
       TokenType = 1
-      Expression = '#handle comment before </script>'#13#10'//.*? (?=<[/\w]) |'#13#10'//.* '
+      Expression = '//.*? (?=</script>) |'#13#10'//.* '
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -871,7 +871,6 @@ object SyntAnal18: TLibSyntAnalyzer
   LexerName = 'JavaScript'
   Notes.Strings = (
     'Reworked by Alexey (Synwrite)'
-    '-tree: added if/for/var'
     '-tree: func params shown'
     '-strings oneline '#39'...'#39
     '-strings multiline "..."'
