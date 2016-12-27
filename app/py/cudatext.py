@@ -399,6 +399,12 @@ GAP_ADD         = 2
 GAP_DELETE      = 3
 GAP_DELETE_ALL  = 4
 
+FOLDING_GET_LIST = 0
+FOLDING_FOLD     = 1
+FOLDING_UNFOLD   = 2
+FOLDING_ADD      = 3
+FOLDING_DELETE   = 4
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -619,6 +625,9 @@ class Editor:
         
     def gap(self, id, num1, num2):
         return ct.ed_gap(self.h, id, num1, num2)
+        
+    def folding(self, id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint=''):
+        return ct.ed_folding(self.h, id, index, item_x, item_y, item_y2, item_staple, item_hint)
     #end
 
 #objects

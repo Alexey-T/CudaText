@@ -302,6 +302,11 @@ const
   GAP_DELETE      = 3;
   GAP_DELETE_ALL  = 4;
 
+  FOLDING_GET_LIST = 0;
+  FOLDING_FOLD     = 1;
+  FOLDING_UNFOLD   = 2;
+  FOLDING_ADD      = 3;
+  FOLDING_DELETE   = 4;
 
   PyMenuId_Top = 'top';
   PyMenuId_TopEdit = 'top-edit';
