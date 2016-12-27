@@ -3475,6 +3475,7 @@ var
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
+  Ok: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiiiiis:folding', @H, @Id, @NItem, @NX, @NY, @NY2, @NStaple, @PtrText)) then
@@ -3512,7 +3513,11 @@ begin
           begin
             if Ed.Strings.IsIndexValid(NY) and Ed.Strings.IsIndexValid(NY2) and (NX>=0) then
             begin
-              Ed.Fold.Add(NX+1, NY, NY2, Bool(NStaple), StrText);
+              if Ed.Fold.IsIndexValid(NItem) then
+                Ed.Fold.Insert(NItem, NX+1, NY, NY2, Bool(NStaple), StrText)
+              else
+                Ed.Fold.Add(NX+1, NY, NY2, Bool(NStaple), StrText);
+
               Ed.Update(true);
               Result:= PyBool_FromLong(1);
             end
@@ -3535,6 +3540,22 @@ begin
             Ed.Fold.Clear;
             Ed.Update(true);
             Result:= ReturnNone;
+          end;
+
+        FOLDING_CHECK_RANGE_INSIDE:
+          begin
+            Ok:= Ed.Fold.IsIndexValid(NItem) and
+                 Ed.Fold.IsIndexValid(NX) and
+                 Ed.Fold.IsRangeInsideOther(Ed.Fold.Items[NItem], Ed.Fold.Items[NX]);
+            Result:= PyBool_FromLong(Ord(Ok));
+          end;
+
+        FOLDING_CHECK_RANGES_SAME:
+          begin
+            Ok:= Ed.Fold.IsIndexValid(NItem) and
+                 Ed.Fold.IsIndexValid(NX) and
+                 Ed.Fold.IsRangesSame(Ed.Fold.Items[NItem], Ed.Fold.Items[NX]);
+            Result:= PyBool_FromLong(Ord(Ok));
           end;
 
         else

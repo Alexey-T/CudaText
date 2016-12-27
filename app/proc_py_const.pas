@@ -308,6 +308,8 @@ const
   FOLDING_ADD        = 3;
   FOLDING_DELETE     = 4;
   FOLDING_DELETE_ALL = 5;
+  FOLDING_CHECK_RANGE_INSIDE = 10;
+  FOLDING_CHECK_RANGES_SAME  = 11;
 
   PyMenuId_Top = 'top';
   PyMenuId_TopEdit = 'top-edit';
