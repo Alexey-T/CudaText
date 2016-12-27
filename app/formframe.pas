@@ -768,6 +768,7 @@ begin
   DoPyEvent(Ed, cEventOnClickGap, [
     '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
     IntToStr(AGapItem.LineIndex),
+    IntToStr(AGapItem.Tag),
     IntToStr(AGapItem.Bitmap.Width),
     IntToStr(AGapItem.Bitmap.Height),
     IntToStr(APos.X),

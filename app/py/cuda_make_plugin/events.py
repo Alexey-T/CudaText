@@ -33,7 +33,7 @@ EVENTS_ADD_PARAMS = {
   'on_key_up': 'key, state',
   'on_click': 'state',
   'on_click_dbl': 'state',
-  'on_click_gap': 'state, nline, size_x, size_y, pos_x, pos_y',
+  'on_click_gap': 'state, nline, ntag, size_x, size_y, pos_x, pos_y',
   'on_console': 'text',
   'on_console_nav': 'text',
   'on_output_nav': 'text, tag',

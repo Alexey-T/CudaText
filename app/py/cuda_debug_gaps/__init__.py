@@ -12,4 +12,4 @@ class Command:
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_CLEAR)
         canvas_proc(id_canvas, CANVAS_TEXT, x=230, y=10, text='gap %d'%(num+1))
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_SOLID)
-        ed.gap(GAP_ADD, num, id_bitmap)
+        ed.gap(GAP_ADD, num, id_bitmap, tag=10)

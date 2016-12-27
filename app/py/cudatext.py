@@ -627,8 +627,8 @@ class Editor:
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)
         
-    def gap(self, id, num1, num2):
-        return ct.ed_gap(self.h, id, num1, num2)
+    def gap(self, id, num1, num2, tag=-1):
+        return ct.ed_gap(self.h, id, num1, num2, tag)
         
     def folding(self, id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint=''):
         return ct.ed_folding(self.h, id, index, item_x, item_y, item_y2, item_staple, item_hint)

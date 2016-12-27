@@ -3405,12 +3405,12 @@ end;
 function Py_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H, Num1, Num2: Int64;
-  Id: integer;
+  Id, NTag: integer;
   Ed: TATSynEdit;
   Bmp: TBitmap;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLL:gap', @H, @Id, @Num1, @Num2)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLLi:gap', @H, @Id, @Num1, @Num2, @NTag)) then
     begin
       Ed:= PyEditor(H);
 
@@ -3434,7 +3434,7 @@ begin
             begin
               Bmp:= TBitmap(PtrInt(Num2));
               Ed.Gaps.DeleteForLineRange(Num1, Num1);
-              if Ed.Gaps.Add(Num1, Bmp.Height+2{borders}, Bmp) then
+              if Ed.Gaps.Add(Num1, Bmp.Height+2{borders}, Bmp, NTag) then
               begin
                 //if Num1=Ed.Strings.Count-1 then
                 //better do always, to fix [v-scroll cannot reach end for many gaps at end]
