@@ -10,6 +10,7 @@ Copyright (c) Alexey Torgashin
 const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
+  cPythonListError = 'Cannot create new list object';
 
 var
   PyLastCommandModule: string = '';
@@ -495,7 +496,7 @@ begin
       begin
         Result:= PyList_New(NLen);
         if not Assigned(Result) then
-          raise EPythonError.Create('Could not create a new list object');
+          raise EPythonError.Create(cPythonListError);
         for i:= 0 to NLen-1 do
         begin
           Caret:= Ed.Carets[i];
@@ -2823,26 +2824,29 @@ end;
 
 function Py_ed_folding_getlist(Ed: TATSynEdit): PPyObject; cdecl;
 var
-  ComArray: Variant;
-  NLen, i: Integer;
   Range: TATSynRange;
+  NLen, i: Integer;
 begin
   with GetPythonEngine do
   begin
     NLen:= Ed.Fold.Count;
     if NLen>0 then
     begin
-      ComArray:= VarArrayCreate([0, NLen-1, 0, 4], varInteger);
+      Result:= PyList_New(NLen);
+      if not Assigned(Result) then
+        raise EPythonError.Create(cPythonListError);
       for i:= 0 to NLen-1 do
       begin
         Range:= Ed.Fold[i];
-        ComArray[i, 0]:= Range.Y;
-        ComArray[i, 1]:= Range.Y2;
-        ComArray[i, 2]:= Range.X-1;
-        ComArray[i, 3]:= Ord(Range.Staple);
-        ComArray[i, 4]:= Ord(Range.Folded);
+        PyList_SetItem(Result, i,
+          Py_BuildValue('(iiiOO)',
+            Range.Y,
+            Range.Y2,
+            Range.X-1,
+            PyBool_FromLong(Ord(Range.Staple)),
+            PyBool_FromLong(Ord(Range.Folded))
+            ));
       end;
-      Result:= VariantAsPyObject(ComArray);
     end
     else
       Result:= ReturnNone;
@@ -3039,7 +3043,7 @@ begin
 
             Result:= PyList_New(Length(ItemArray));
             if not Assigned(Result) then
-              raise EPythonError.Create('Could not create a new list object');
+              raise EPythonError.Create(cPythonListError);
             for i:= 0 to Length(ItemArray)-1 do
               PyList_SetItem(Result, i,
                 Py_BuildValue('(Ls)', ItemArray[i].Id, PChar(ItemArray[i].Text) ));
