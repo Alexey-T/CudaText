@@ -2821,7 +2821,7 @@ begin
 end;
 
 
-function Py_ed_get_ranges(Ed: TATSynEdit): PPyObject; cdecl;
+function Py_ed_folding_getlist(Ed: TATSynEdit): PPyObject; cdecl;
 var
   ComArray: Variant;
   NLen, i: Integer;
@@ -3485,7 +3485,7 @@ begin
       case Id of
         FOLDING_GET_LIST:
           begin
-            Result:= Py_ed_get_ranges(Ed);
+            Result:= Py_ed_folding_getlist(Ed);
           end;
 
         FOLDING_FOLD:
