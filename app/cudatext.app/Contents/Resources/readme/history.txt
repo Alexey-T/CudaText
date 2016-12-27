@@ -4,8 +4,10 @@
   * changed
 
 
+1.6.0
 + add opt "gutter_fold_icons"
 * big internal changes in core: to support inter-line gaps (it is called "phantoms" in Sublime)
+- fix: Linux: hotkeys with Ru layout
 
 1.5.6
 + syntax hiliting uses cache: scrolling up/down must be faster, for 3K+ lines
