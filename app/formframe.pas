@@ -760,25 +760,19 @@ procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
   AGapItem: TATSynGapItem; APos: TPoint);
 var
   Ed: TATSynEdit;
-  NLine, NSizeX, NSizeY: integer;
-  //AHandled: boolean;
-  //Str: string;
 begin
   if not Assigned(AGapItem) then exit;
   Ed:= Sender as TATSynEdit;
-  NLine:= AGapItem.LineIndex;
-  NSizeX:= AGapItem.Bitmap.Width;
-  NSizeY:= AGapItem.Bitmap.Height;
 
   //Str:=
   DoPyEvent(Ed, cEventOnClickGap, [
-          '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
-          IntToStr(NLine),
-          IntToStr(NSizeX),
-          IntToStr(NSizeY),
-          IntToStr(APos.X),
-          IntToStr(APos.Y)
-          ]);
+    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"',
+    IntToStr(AGapItem.LineIndex),
+    IntToStr(AGapItem.Bitmap.Width),
+    IntToStr(AGapItem.Bitmap.Height),
+    IntToStr(APos.X),
+    IntToStr(APos.Y)
+    ]);
   //AHandled:= Str=cPyFalse;
 end;
 
