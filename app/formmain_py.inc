@@ -3419,11 +3419,11 @@ begin
       begin
         Item:= Ed.Gaps[i];
         PyList_SetItem(Result, i,
-          Py_BuildValue('{sisisisi}',
-            'line', Item.LineIndex,
-            'tag', Item.Tag,
-            'size_x', Item.Bitmap.Width,
-            'size_y', Item.Bitmap.Height
+          Py_BuildValue('(iiii)',
+            Item.LineIndex,
+            Item.Tag,
+            Item.Bitmap.Width,
+            Item.Bitmap.Height
             ));
       end;
     end
