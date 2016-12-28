@@ -14,6 +14,7 @@ interface
 uses
   Classes, SysUtils, Graphics, StrUtils,
   Dialogs, Forms,
+  Clipbrd,
   ATSynEdit,
   ATSynEdit_CanvasProc,
   ATSynEdit_Carets,
@@ -37,6 +38,8 @@ procedure EditorBookmarkClearAll(ed: TATSynEdit);
 procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
 function EditorBookmarkIsStandard(NKind: integer): boolean;
 procedure EditorBookmarkPlaceCarets(ed: TATSynEdit);
+procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
+procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
 
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
@@ -969,6 +972,44 @@ begin
 
   if ed.Carets.Count=0 then
     ed.DoCaretSingle(X1, Y1, X2, Y2);
+end;
+
+procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
+var
+  List: TStringList;
+  i: integer;
+begin
+  List:= TStringList.Create;
+  try
+    for i:= 0 to Ed.Strings.Count-1 do
+      if Ed.Strings.LinesBm[i]>0 then
+        List.Add(UTF8Encode(Ed.Strings.Lines[i]));
+    if List.Count>0 then
+      Clipboard.AsText:= List.Text;
+  finally
+    FreeAndNil(List);
+  end;
+end;
+
+procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
+var
+  bMod: boolean;
+  i: integer;
+begin
+  bMod:= false;
+  for i:= Ed.Strings.Count-1 downto 0 do
+    if Ed.Strings.LinesBm[i]>0 then
+    begin
+      Ed.Strings.LineDelete(i);
+      bMod:= true;
+    end;
+
+  if bMod then
+  begin
+    Ed.Update(true);
+    Ed.UpdateIncorrectCaretPositions;
+    Ed.DoEventChange;
+  end;
 end;
 
 

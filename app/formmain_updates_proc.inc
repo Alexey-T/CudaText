@@ -449,6 +449,8 @@ begin
   UpKey(mnuBmInvert, cmd_BookmarkInvertAll);
   UpKey(mnuBmCarets, cmd_BookmarkPlaceCarets);
   UpKey(mnuBmClear, cmd_BookmarkClearAll);
+  UpKey(mnuBmCopyLines, cmd_BookmarkCopyMarkedLines);
+  UpKey(mnuBmDeleteLines, cmd_BookmarkDeleteMarkedLines);
 
   UpKey(mnuGr1, cmd_Groups1);
   UpKey(mnuGr2V, cmd_Groups2horz);

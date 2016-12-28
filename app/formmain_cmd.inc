@@ -154,6 +154,8 @@ begin
     cmd_BookmarkGotoNext: EditorBookmarkGotoNext(CurrentEditor, true);
     cmd_BookmarkGotoPrev: EditorBookmarkGotoNext(CurrentEditor, false);
     cmd_BookmarkPlaceCarets: EditorBookmarkPlaceCarets(CurrentEditor);
+    cmd_BookmarkCopyMarkedLines: EditorBookmarkCopyMarkedLines(CurrentEditor);
+    cmd_BookmarkDeleteMarkedLines: EditorBookmarkDeleteMarkedLines(CurrentEditor);
 
     cmd_DuplicateLineEx: DoCudaLibAction('duplicate');
 

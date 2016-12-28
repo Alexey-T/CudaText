@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 350
+  Left = 344
   Height = 526
-  Top = 283
+  Top = 661
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
@@ -447,6 +447,12 @@ object fmMain: TfmMain
         end
         object mnuBmClear: TMenuItem
           Caption = '&Clear all bookmarks'
+        end
+        object mnuBmCopyLines: TMenuItem
+          Caption = 'Copy bookmarked lines'
+        end
+        object mnuBmDeleteLines: TMenuItem
+          Caption = 'Delete bookmarked lines'
         end
       end
     end

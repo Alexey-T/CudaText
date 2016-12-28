@@ -8,8 +8,10 @@
 + big internal changes in core, to support inter-line gaps (it is like "phantoms" in Sublime)
 + opt "gutter_fold_icons"
 + paint unprinted arrow-left at end-of-file
++ cmd "Copy bookmarked lines"
++ cmd "Delete bookmarked lines"
 - fix: Linux: hotkeys broken, if Ru layout active at start (bug in Lazarus)
-- fix: after fold/unfold-all cmds, editor didn't scroll
+- fix: issues with caret/scroll, after fold/unfold cmds
 
 1.5.6
 + syntax hiliting uses cache: scrolling up/down must be faster, for 3K+ lines

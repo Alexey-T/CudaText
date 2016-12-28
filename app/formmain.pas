@@ -103,6 +103,8 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
+    mnuBmDeleteLines: TMenuItem;
+    mnuBmCopyLines: TMenuItem;
     mnuOpThemeSyntax: TMenuItem;
     mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
