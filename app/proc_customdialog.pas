@@ -266,12 +266,15 @@ end;
 
 
 procedure DoForm_Scale(F: TForm);
+var
+  PrevPPI, NewPPI: integer;
 begin
-  //dont scale if Screen dpi is smaller (macOS: 72)
-  if Screen.PixelsPerInch>F.DesignTimeDPI then
+  PrevPPI:= F.DesignTimePPI;
+  NewPPI:= Screen.PixelsPerInch;
+  if NewPPI>PrevPPI then
     F.AutoAdjustLayout(lapAutoAdjustForDPI,
-      F.DesignTimeDPI, Screen.PixelsPerInch,
-      F.Width, ScaleX(F.Width, F.DesignTimeDPI)
+      PrevPPI, NewPPI,
+      F.Width, ScaleX(F.Width, PrevPPI)
       , false //AScaleFonts, Laz 1.7 trunk
       );
 end;
@@ -677,12 +680,12 @@ begin
   F:= TForm.Create(nil);
   Dummy:= TDummyClass.Create;
   try
-    DoForm_FillContent(F, Dummy, AText);
-    DoForm_FocusControl(F, AFocusedIndex);
     F.Position:= poScreenCenter;
+    F.Caption:= ATitle;
     F.ClientWidth:= ASizeX;
     F.ClientHeight:= ASizeY;
-    F.Caption:= ATitle;
+    DoForm_FillContent(F, Dummy, AText);
+    DoForm_FocusControl(F, AFocusedIndex);
 
     FDialogShown:= true;
     Res:= F.ShowModal;
