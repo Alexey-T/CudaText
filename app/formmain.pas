@@ -650,7 +650,7 @@ type
     procedure DoCopyLine;
     procedure DoDialogCommands;
     procedure DoDialogGoto;
-    procedure DoDialogGotoBookmk;
+    procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
     procedure DoDialogLexerLib;
@@ -2071,17 +2071,19 @@ begin
   end;
 end;
 
-procedure TfmMain.DoDialogGotoBookmk;
+procedure TfmMain.DoDialogGotoBookmark;
 var
-  ed: TATSynEdit;
+  Ed: TATSynEdit;
   Form: TfmGotoList;
   Num, NumMax: integer;
   items: TStringlist;
   str: atString;
   i: integer;
 begin
-  ed:= CurrentEditor;
+  Ed:= CurrentEditor;
+  NumMax:= Ed.Strings.Count-1;
   items:= TStringlist.Create;
+
   try
     for i:= 0 to ed.Strings.Count-1 do
       if ed.Strings.LinesBm[i]>0 then
@@ -2112,19 +2114,16 @@ begin
   end;
 
   if Num<0 then
-  begin
-    MsgStatus(msgStatusCancelled);
-    Exit
-  end;
+    begin MsgStatus(msgStatusCancelled); Exit end;
+  if Num>NumMax then
+    Num:= NumMax;
 
-  NumMax:= CurrentEditor.Strings.Count-1;
-  if Num>NumMax then Num:= NumMax;
-
-  CurrentEditor.DoGotoPos_AndUnfold(
+  Ed.DoGotoPos_AndUnfold(
     Point(0, Num),
     Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert);
+
   MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 end;
 

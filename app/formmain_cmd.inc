@@ -60,7 +60,7 @@ begin
 
     cmd_DialogCommands:    DoDialogCommands;
     cmd_DialogGoto:        DoDialogGoto;
-    cmd_DialogGotoBookmark: DoDialogGotoBookmk;
+    cmd_DialogGotoBookmark: DoDialogGotoBookmark;
     cmd_DialogFind:        DoDialogFind(false);
     cmd_DialogReplace:     DoDialogFind(true);
     cmd_DialogSaveTabs:    DoDialogSaveTabs;
