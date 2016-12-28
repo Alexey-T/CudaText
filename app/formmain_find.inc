@@ -372,7 +372,15 @@ end;
 procedure TfmMain.DoFindResult(ok: boolean);
 begin
   if ok then
-    MsgStatus(msgStatusFoundNextMatch)
+  begin
+    MsgStatus(msgStatusFoundNextMatch);
+
+    //these 3 lines- to scroll to found pos
+    //(was bad, if found pos in folded blk)
+    FFinder.Editor.EndUpdate;
+    Application.ProcessMessages;
+    FFinder.Editor.DoGotoCaret(cEdgeTop);
+  end
   else
     MsgStatus(msgCannotFindMatch+' ('+SFindOptionsToTextHint+'): '+Utf8Encode(FFinder.StrFind));
 end;
