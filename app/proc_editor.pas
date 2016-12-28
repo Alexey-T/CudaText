@@ -984,8 +984,7 @@ begin
     for i:= 0 to Ed.Strings.Count-1 do
       if Ed.Strings.LinesBm[i]>0 then
         List.Add(UTF8Encode(Ed.Strings.Lines[i]));
-    if List.Count>0 then
-      Clipboard.AsText:= List.Text;
+    Clipboard.AsText:= List.Text;
   finally
     FreeAndNil(List);
   end;
@@ -1006,8 +1005,8 @@ begin
 
   if bMod then
   begin
-    Ed.Update(true);
     Ed.UpdateIncorrectCaretPositions;
+    Ed.Update(true);
     Ed.DoEventChange;
   end;
 end;
