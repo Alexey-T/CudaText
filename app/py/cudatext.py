@@ -633,6 +633,9 @@ class Editor:
         
     def folding(self, id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint=''):
         return ct.ed_folding(self.h, id, index, item_x, item_y, item_y2, item_staple, item_hint)
+        
+    def analyze(self, line, wait):
+        return ct.ed_analyze(self.h, line, wait)
     #end
 
 #objects

@@ -3402,6 +3402,26 @@ begin
 end;
 
 
+function Py_ed_analyze(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Num1, Num2: integer;
+  Ed: TATSynEdit;
+  F: TEditorFrame;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lii:analyze', @H, @Num1, @Num2)) then
+    begin
+      Ed:= PyEditor(H);
+      F:= fmMain.GetEditorFrame(Ed);
+      if Assigned(F) and Assigned(F.Lexer) then
+        if Ed.Strings.IsIndexValid(Num1) then
+           F.Adapter.DoAnalyzeFromLine(Num1, Bool(Num2));
+      Result:= ReturnNone;
+    end;
+end;
+
+
 function Py_ed_gap_getlist(Ed: TATSynEdit): PPyObject; cdecl;
 var
   Item: TATSynGapItem;
@@ -3679,6 +3699,7 @@ begin
     AddMethod('ed_markers', @Py_ed_markers, '');
     AddMethod('ed_attr', @Py_ed_attr, '');
     AddMethod('ed_gap', @Py_ed_gap, '');
+    AddMethod('ed_analyze', @Py_ed_analyze, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');
