@@ -205,6 +205,8 @@ begin
     DoLocMenuitem(ini, mnuBmInvert, 'm_sr', 'b_in');
     DoLocMenuitem(ini, mnuBmCarets, 'm_sr', 'b_ca');
     DoLocMenuitem(ini, mnuBmClear, 'm_sr', 'b_cl');
+    DoLocMenuitem(ini, mnuBmCopyLines, 'm_sr', 'b_cp');
+    DoLocMenuitem(ini, mnuBmDeleteLines, 'm_sr', 'b_de');
 
     DoLocMenuitem(ini, mnuView, 'm_v', '_');
     DoLocMenuitem(ini, mnuGroups, 'm_v', 'g_');

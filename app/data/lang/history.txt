@@ -1,6 +1,9 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2016.12.28
++ [m_sr] b_cp, b_de
+
 2016.12.18
 + [sc] HotkeyBusy
 * del [si] CommandsHaveSameHotkeys, CorrectOneOfTheseHotkeys
