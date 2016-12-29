@@ -19,8 +19,6 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_change(self, ed_self): Called after text is changed.
 * on_change_slow(self, ed_self): Called after text is changed, after few seconds. This is for Lint plugins, they need to react to change after a delay.
 * on_caret(self, ed_self): Called after caret position/selection changed.
-* on_click(self, ed_self, state): Called after mouse click. state has the same meaning as in on_key.
-* on_click_dbl(self, ed_self, state): Called after mouse double-click. state has the same meaning as in on_key. Method can return False to disable default processing.
 * on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
 * on_key_up(self, ed_self, key, state): Called when user unpresses a key. Only for Ctrl/Shift/Alt (to not slow down).
 * on_focus(self, ed_self): Called after editor is focused.
@@ -28,6 +26,12 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
 * on_state(self, ed_self, state): Called after some app-state is changed. Param state is one of EDSTATE_nnnn numbers.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt call.
+
+==Clicks==
+
+* on_click(self, ed_self, state): Called after mouse click. state has the same meaning as in on_key.
+* on_click_dbl(self, ed_self, state): Called after mouse double-click. state has the same meaning as in on_key. Method can return False to disable default processing.
+* on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap().
 
 ==Code parsing==
 
@@ -1230,16 +1234,21 @@ Params:
 
 ===gap===
 
- gap(id, num1, num2)
+ gap(id, num1, num2, tag=-1)
 
 Performs action on inter-line gaps (they don't overlap text above/below).
 Possible values of id:
+
+* GAP_GET_LIST: Gets list of gaps. List of 4-tuples (nline, ntag, bitmap_size_x, bitmap_size_y), or None.
 
 * GAP_MAKE_BITMAP: Makes new bitmap for future gap. Size of bitmap is num1 x num2. Gets 2-tuple (id_bitmap, id_canvas). 
 ** id_bitmap is needed to later call GAP_ADD.
 ** id_canvas is needed to paint an image on bitmap, by canvas_proc().
 
-* GAP_ADD: Adds gap to editor, with ready bitmap. Params: num1 - line index; num2 - id_bitmap you got before. Gets bool: params correct, gap added.
+* GAP_ADD: Adds gap to editor, with ready bitmap. Gets bool: params correct, gap added. Params: 
+** num1 - line index 
+** num2 - id_bitmap you got before
+** tag - some int value to separate gaps from few plugins, use tag>=0
 
 * GAP_DELETE: Deletes gaps for lines: from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
@@ -1262,6 +1271,14 @@ class Command:
         canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_SOLID)
         ed.gap(GAP_ADD, num, id_bitmap)
 </syntaxhighlight>
+
+===lexer_scan===
+
+ lexer_scan(nline)
+
+Runs lexer analysis (if lexer active) from given line index. Waits until analysis finishes.
+
+Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, else folding won't appear for these lines.
 
 ===more===
 
@@ -1301,7 +1318,9 @@ Text is chr(1) separated items:
 1.0.162
 * add: ed.gap (Gaps api)
 * add: ed.folding (Folding api)
+* add: ed.lexer_scan
 * add: canvas_proc
+* add: on_click_gap
 * delete: ed.get_ranges (use ed.folding)
 
 1.0.161
