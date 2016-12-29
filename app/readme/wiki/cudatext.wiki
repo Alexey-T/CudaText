@@ -172,6 +172,17 @@ To configure stream-comment-chars, open CudaText dialog "Lexer properties" for l
 
 Stream-comment-chars are saved to separate file, lexername.cuda-lexmap. If plugin cannot comment, your lexer misses this file, or file misses the option. Check that file is absent in folder "data/lexlib". If it's absent, create file via "Lexer properties" dialog. To share file, put it to lexer's ZIP file. You can make ZIP file from SynWrite, from plugin "ExLexer", then add to it .cuda-lexmap file. CudaText and SynWrite both install this .cuda-lexmap file on installing lexer's zip file.
 
+=== How to setup styles of hidden sublexer? ===
+
+Some lexers 're distributed in zip files together with child lexers, child lexer is hidden. Example: "HTML Django" with sublexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). And other "HTML xxxxx" lexers.
+Users, which have "ui_lexer_themes" off, want to configure styles of all lexers. But how to configure hidden lexer?
+
+* Open "Lexer library" dialog (Options / Lexer / Lexer library)
+* In dialog focus needed lexer, press "Config"
+* Dialog "Lexer properties" will open for selected lexer
+* In dialog's Styles tab, configure all you need
+* (You can make lexer visible, by checking its item in the "Lexer library")
+
 == File-types config ==
 
 Menu item "Settings - file-types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
