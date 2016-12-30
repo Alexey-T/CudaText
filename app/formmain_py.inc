@@ -2993,14 +2993,6 @@ begin
 end;
 
 
-type
-  TTreeEnumItem = record
-    Id: PtrInt;
-    Text: string;
-  end;
-  TTreeEnumArray = array of TTreeEnumItem;
-
-//tree_proc(id_tree, id_action, id_item, index, text, icon)
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
@@ -3042,7 +3034,9 @@ begin
                 raise EPythonError.Create(cPythonListError);
               for i:= 0 to ItemList.Count-1 do
                 PyList_SetItem(Result, i,
-                  Py_BuildValue('(Ls)', Int64(ItemList[i]), PChar(TTreeNode(ItemList[i]).Text) ));
+                  Py_BuildValue('(Ls)',
+                    Int64(PtrInt(ItemList[i])),
+                    PChar(TTreeNode(ItemList[i]).Text) ));
             finally
               FreeAndNil(ItemList);
             end;
