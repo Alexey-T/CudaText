@@ -3010,7 +3010,7 @@ var
   StrText: string;
   Tree: TTreeView;
   TreeNode, Node1: TTreeNode;
-  ItemArray: TTreeEnumArray;
+  ItemList: TList;
   ok: boolean;
   i: integer;
 begin
@@ -3030,23 +3030,22 @@ begin
               Node1:= Tree.Items.GetFirstNode;
             if Node1=nil then exit(ReturnNone);
 
-            SetLength(ItemArray, 0);
-            repeat
-              SetLength(ItemArray, Length(ItemArray)+1);
-              with ItemArray[Length(ItemArray)-1] do
-              begin
-                Id:= PtrInt(Node1);
-                Text:= Node1.Text;
-              end;
-              Node1:= TreeNode.GetNextChild(Node1);
-            until Node1=nil;
+            ItemList:= TList.Create;
+            try
+              repeat
+                ItemList.Add(Node1);
+                Node1:= TreeNode.GetNextChild(Node1);
+              until Node1=nil;
 
-            Result:= PyList_New(Length(ItemArray));
-            if not Assigned(Result) then
-              raise EPythonError.Create(cPythonListError);
-            for i:= 0 to Length(ItemArray)-1 do
-              PyList_SetItem(Result, i,
-                Py_BuildValue('(Ls)', ItemArray[i].Id, PChar(ItemArray[i].Text) ));
+              Result:= PyList_New(ItemList.Count);
+              if not Assigned(Result) then
+                raise EPythonError.Create(cPythonListError);
+              for i:= 0 to ItemList.Count-1 do
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('(Ls)', Int64(ItemList[i]), PChar(TTreeNode(ItemList[i]).Text) ));
+            finally
+              FreeAndNil(ItemList);
+            end;
           end;
 
         TREE_ITEM_ADD:
