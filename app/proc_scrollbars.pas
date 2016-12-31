@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
   LMessages,
-  ATScrollBar, ATListbox;
+  ATSynEdit_ScrollBar,
+  ATListbox;
 
 type
   { TTreeViewMy }
