@@ -4,6 +4,7 @@ object fmLexerLib: TfmLexerLib
   Top = 338
   Width = 459
   BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'Lexer library'
   ClientHeight = 468
   ClientWidth = 459
