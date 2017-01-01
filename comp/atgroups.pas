@@ -476,7 +476,7 @@ begin
       Parent:= Self;
       Align:= alLeft;
       //
-      OnContextPopup:= Self.TabPopup;
+      Tabs.OnContextPopup:= Self.TabPopup;
       OnTabEmpty:= Self.TabEmpty;
       OnTabFocus:= Self.TabFocus;
       OnTabClose:= Self.TabClose;
