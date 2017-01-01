@@ -12,10 +12,10 @@ class Command:
         res = dlg_make_plugin()
         if res is None: return
         (s_caption, s_module, cmd_list, event_list) = res
-        
+
         if len(cmd_list)>1:
             prefix = s_caption+'\\'
-            cmd_list = [(prefix+s[0], s[1], s[2]) for s in cmd_list] 
+            cmd_list = [(prefix+s[0], s[1], s[2]) for s in cmd_list]
 
         #-------------
         # create dir
@@ -23,13 +23,13 @@ class Command:
         if os.path.isdir(dir_plugin):
             msg_box('Cannot create plugin, folder already exists:\n' + dir_plugin, MB_OK+MB_ICONERROR)
             return
-            
+
         try:
             os.mkdir(dir_plugin)
         except:
             msg_box('Cannot create dir:\n' + dir_plugin, MB_OK+MB_ICONERROR)
             return
-        
+
         #-------------
         # create __init__.py
         fn_py = os.path.join(dir_plugin, '__init__.py')
@@ -65,10 +65,16 @@ class Command:
             f.write('subdir='+s_module+'\n')
             f.write('homepage=\n')
             f.write('\n')
-            
+
+            if event_list:
+                f.write('[item1]\n')
+                f.write('section=events\n')
+                f.write('events='+','.join(event_list)+'\n')
+                f.write('\n')
+
             if cmd_list:
                 for (n, item) in enumerate(cmd_list):
-                    f.write('[item%d]\n'%(n+1))
+                    f.write('[item%d]\n'%(n+2)) #start at [item2]
                     f.write('section=commands\n')
                     f.write('caption='+item[0]+'\n')
                     f.write('method='+item[1]+'\n')
@@ -76,13 +82,7 @@ class Command:
                         f.write('menu=0\n')
                     f.write('\n')
 
-            if event_list:            
-                f.write('[item%d]\n'%(len(cmd_list)+1))
-                f.write('section=events\n')
-                f.write('events='+','.join(event_list)+'\n')
-                f.write('\n')
-                
-        
+
         #------------
         # done
         file_open(fn_py)
