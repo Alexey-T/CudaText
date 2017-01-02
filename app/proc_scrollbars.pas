@@ -40,7 +40,7 @@ type
     procedure UpdScroll;
   protected
     procedure Resize; override;
-    procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
+    procedure ChangedSelection; override;
   public
     constructor Create(AOwner: TComponent); override;
     function ClientWidth: integer;
@@ -69,7 +69,7 @@ begin
   FScroll.Position:= ItemTop;
 end;
 
-procedure TATListboxMy.CMChanged(var Message: TLMessage);
+procedure TATListboxMy.ChangedSelection;
 begin
   inherited;
   UpdScroll;
