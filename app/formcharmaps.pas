@@ -249,6 +249,7 @@ end;
 
 procedure TfmCharmaps.DoShowAnsi;
 var
+  Str: string;
   i, j, code: integer;
 begin
   FUnicode:= false;
@@ -271,8 +272,9 @@ begin
     for j:= 1 to 16 do
     begin
       code:= i-1 + (j-1)*16;
-      if (code=0) or (code=8) or (code=9) then Continue;
-      Grid.Cells[i, j]:= CodeToString(code);
+      if (code<16) then Continue;
+      Str:= CodeToString(code);
+      Grid.Cells[i, j]:= Str;
     end;
 
   DoShowStatus(Grid.Col, Grid.Row);
