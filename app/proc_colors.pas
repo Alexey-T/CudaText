@@ -141,7 +141,7 @@ const
   nColorArrow = $969696;
   nColorBorder = $c0c0c0;
   nColorListBack = $d0d0d0;
-  nColorListSelBack = $e0c0c0;
+  nColorListSelBack = $c0c0c0;
 begin
   SetLength(D.Colors, 0);
 
