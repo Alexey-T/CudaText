@@ -79,6 +79,7 @@ const
   msgCannotFindBookmarks: string = 'Cannot find bookmarks in text';
   msgCannotOpenTooBig: string = 'Cannot open file, it''s too big:';
   msgCannotHandleZip: string = 'Cannot handle zip file:';
+  msgCannotSetHotkey: string = 'Cannot set hotkey for this item';
 
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';

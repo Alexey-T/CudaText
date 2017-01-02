@@ -510,6 +510,7 @@ type
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
 
+    procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
     procedure DoNewFileMenu(Sender: TObject);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
@@ -1999,6 +2000,7 @@ begin
   fmCommands:= TfmCommands.Create(Self);
   try
     UpdateInputForm(fmCommands);
+    fmCommands.OnMsg:=@DoCommandsMsgStatus;
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.keymap:= CurrentEditor.Keymap;
     fmCommands.ShowModal;
@@ -3875,6 +3877,11 @@ end;
 procedure TfmMain.DoNewFileMenu(Sender: TObject);
 begin
   DoPyCommand('cuda_new_file', 'menu');
+end;
+
+procedure TfmMain.DoCommandsMsgStatus(Sender: TObject; const ARes: string);
+begin
+  MsgStatus(ARes);
 end;
 
 

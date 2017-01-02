@@ -24,6 +24,7 @@ uses
   LclIntf,
   proc_globdata,
   proc_msg,
+  proc_cmd,
   proc_colors,
   proc_str,
   proc_keysdialog,
@@ -48,16 +49,19 @@ type
   private
     { private declarations }
     keymapList: TList;
+    FOnMsg: TStrEvent;
     procedure DoConfigKey(Cmd: integer);
     procedure DoFilter;
     procedure DoResetKey(K: TATKeymapItem);
     function GetResultCmd: integer;
     function IsFiltered(Item: TATKeymapItem): boolean;
+    procedure DoMsgStatus(const S: string);
   public
     { public declarations }
     keymap: TATKeymap;
     ResultNum: integer;
     CurrentLexerName: string;
+    property OnMsg: TStrEvent read FOnMsg write FOnMsg;
   end;
 
 var
@@ -205,6 +209,15 @@ procedure TfmCommands.DoConfigKey(Cmd: integer);
 var
   N: integer;
 begin
+  DoMsgStatus('');
+
+  if (Cmd>=cmdFirstLexerCommand) and
+     (Cmd<=cmdLastLexerCommand) then
+  begin
+    DoMsgStatus(msgCannotSetHotkey);
+    exit
+  end;
+
   N:= list.ItemIndex;
   if DoDialogHotkeys(Cmd, CurrentLexerName) then
   begin
@@ -359,6 +372,12 @@ begin
   begin
     Result:= SFindWordsInString(Item.Name, Str);
   end;
+end;
+
+procedure TfmCommands.DoMsgStatus(const S: string);
+begin
+  if Assigned(FOnMsg) then
+    FOnMsg(Self, S);
 end;
 
 end.
