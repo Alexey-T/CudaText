@@ -140,7 +140,8 @@ const
   nColorGutterFont = $909090;
   nColorArrow = $969696;
   nColorBorder = $c0c0c0;
-  nColorListSelBack = $c8c8c8;
+  nColorListBack = $d0d0d0;
+  nColorListSelBack = $e0c0c0;
 begin
   SetLength(D.Colors, 0);
 
@@ -222,7 +223,7 @@ begin
   Add(nColorGutterFont, 'TreeLines', 'treeview, lines');
   Add(nColorGutterFont, 'TreeSign', 'treeview, fold sign');
 
-  Add(nColorBack, 'ListBg', 'listbox, BG');
+  Add(nColorListBack, 'ListBg', 'listbox, BG');
   Add(nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');
   Add(nColorText, 'ListFont', 'listbox, font');
   Add(nColorText, 'ListSelFont', 'listbox, selected line font');
