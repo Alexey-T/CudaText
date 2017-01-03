@@ -3693,7 +3693,8 @@ begin
       @DoToolbarClick,
       SCaption,
       SHint,
-      SCmd
+      SCmd,
+      SCaption<>''
       );
   end;
 end;
@@ -3701,22 +3702,22 @@ end;
 
 procedure TfmMain.DoToolbarClick(Sender: TObject);
 var
-  SHint, SModule, SMethod, SParam: string;
+  SData, SModule, SMethod, SParam: string;
   NCmd: integer;
 begin
   //'module,method,param' or 'NN'
-  SHint:= (Sender as TATButton).Caption;
-  NCmd:= StrToIntDef(SHint, 0);
+  SData:= (Sender as TATButton).DataString;
+  NCmd:= StrToIntDef(SData, 0);
 
-  if NCmd=0 then
-  begin
-    SModule:= SGetItem(SHint);
-    SMethod:= SGetItem(SHint);
-    SParam:= SHint; //not SGetItem, allows to use ","
-    DoPyCommand(SModule, SMethod, SParam);
-  end
+  if NCmd>0 then
+    CurrentEditor.DoCommand(NCmd)
   else
-    CurrentEditor.DoCommand(NCmd);
+  begin
+    SModule:= SGetItem(SData);
+    SMethod:= SGetItem(SData);
+    SParam:= SData; //not SGetItem, allows to use ","
+    DoPyCommand(SModule, SMethod, SParam);
+  end;
 
   UpdateFrame;
   UpdateStatus;

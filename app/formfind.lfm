@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 106
+  Left = 359
   Height = 138
-  Top = 688
+  Top = 701
   Width = 1092
   ActiveControl = edFind
   BorderIcons = [biSystemMenu]
@@ -32,11 +32,11 @@ object fmFind: TfmFind
       Height = 20
       Top = 4
       Width = 16
+      Alignment = taCenter
       TabOrder = 0
-      Caption = 'Button'
       Focusable = False
       Flat = True
-      SpecKind = abkCross
+      Kind = abuCross
       OnClick = bCancelClick
     end
   end
@@ -65,6 +65,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 0
         Caption = '.*'
@@ -77,6 +78,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 1
         Caption = 'aA'
@@ -88,6 +90,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 2
         Caption = '“w”'
@@ -99,6 +102,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 3
         Caption = 'O'
@@ -110,6 +114,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 4
         Caption = '+'
@@ -132,6 +137,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 0
         Caption = '?!'
@@ -286,6 +292,7 @@ object fmFind: TfmFind
       OptGutterShowFoldAlways = True
       OptGutterShowFoldLines = True
       OptGutterShowFoldLinesAll = False
+      OptGutterIcons = cGutterIconsPlusMinus
       OptBorderVisible = True
       OptRulerVisible = False
       OptRulerSize = 20
@@ -318,6 +325,8 @@ object fmFind: TfmFind
       OptUnprintedSpaces = True
       OptUnprintedEnds = True
       OptUnprintedEndsDetails = True
+      OptUnprintedEof = True
+      OptMouseEnableAll = True
       OptMouseEnableNormalSelection = True
       OptMouseEnableColumnSelection = True
       OptMouseDownForPopup = False
@@ -468,6 +477,7 @@ object fmFind: TfmFind
       OptGutterShowFoldAlways = True
       OptGutterShowFoldLines = True
       OptGutterShowFoldLinesAll = False
+      OptGutterIcons = cGutterIconsPlusMinus
       OptBorderVisible = True
       OptRulerVisible = False
       OptRulerSize = 20
@@ -500,6 +510,8 @@ object fmFind: TfmFind
       OptUnprintedSpaces = True
       OptUnprintedEnds = True
       OptUnprintedEndsDetails = True
+      OptUnprintedEof = True
+      OptMouseEnableAll = True
       OptMouseEnableNormalSelection = True
       OptMouseEnableColumnSelection = True
       OptMouseDownForPopup = False
@@ -558,6 +570,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 0
         Caption = 'Find first'
@@ -570,6 +583,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 1
         Caption = 'Find next'
@@ -582,6 +596,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 3
         Caption = 'Count all'
@@ -594,6 +609,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 5
         Caption = 'Mark all'
@@ -606,6 +622,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 2
         Caption = 'Find prev'
@@ -618,6 +635,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 4
         Caption = 'Select all'
@@ -640,6 +658,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 0
         Caption = 'Replace cur'
@@ -652,6 +671,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Alignment = taCenter
         TabStop = True
         TabOrder = 1
         Caption = 'Replace all'

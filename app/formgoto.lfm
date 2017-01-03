@@ -18,6 +18,7 @@ object fmGoto: TfmGoto
     Height = 25
     Top = 4
     Width = 64
+    Alignment = taCenter
     TabStop = True
     TabOrder = 1
     Caption = 'Go'
@@ -140,6 +141,7 @@ object fmGoto: TfmGoto
     OptGutterShowFoldAlways = True
     OptGutterShowFoldLines = True
     OptGutterShowFoldLinesAll = False
+    OptGutterIcons = cGutterIconsPlusMinus
     OptBorderVisible = True
     OptRulerVisible = False
     OptRulerSize = 20
@@ -172,6 +174,8 @@ object fmGoto: TfmGoto
     OptUnprintedSpaces = True
     OptUnprintedEnds = True
     OptUnprintedEndsDetails = True
+    OptUnprintedEof = True
+    OptMouseEnableAll = True
     OptMouseEnableNormalSelection = True
     OptMouseEnableColumnSelection = True
     OptMouseDownForPopup = False
@@ -229,11 +233,11 @@ object fmGoto: TfmGoto
       Height = 20
       Top = 4
       Width = 16
+      Alignment = taCenter
       TabOrder = 0
-      Caption = 'Button'
       Focusable = False
       Flat = True
-      SpecKind = abkCross
+      Kind = abuCross
       OnClick = bCloseClick
     end
   end

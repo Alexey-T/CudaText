@@ -2412,7 +2412,6 @@ begin
             begin
               Images.Width:= StrToIntDef(Str1, 16);
               Images.Height:= StrToIntDef(Str2, 16);
-              SizeIncrementToIcon:= IfThen(Images.Width<=20, 8, 4);
             end;
             fmMain.UpdateToolbar;
             Result:= ReturnNone;

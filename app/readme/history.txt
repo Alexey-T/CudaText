@@ -5,8 +5,9 @@
 
 
 1.6.1
+- fixed toolbar API
 + new dialog "Addon installed"
-* don't use .manifest file
+* don't use cudatext.exe.manifest file
 
 1.6.0
 + big internal changes in core, to support inter-line gaps (it is like "phantoms" in Sublime)
