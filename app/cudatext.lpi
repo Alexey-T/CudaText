@@ -9,8 +9,11 @@
       <AutoCreateForms Value="False"/>
       <Title Value="CudaText"/>
       <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True/PM"/>
+        <TextName Value="UVviewsoft.CudaText"/>
+        <TextDesc Value="Advanced text editor"/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
