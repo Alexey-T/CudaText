@@ -3663,7 +3663,7 @@ end;
 
 procedure TfmMain.DoToolbarAddButton(AStr: string);
 var
-  SHint, SCmd, SImageIndex: string;
+  SHint, SCmd, SCaption, SImageIndex: string;
   mi: TMenuItem;
   mnu: TPopupMenu;
 begin
@@ -3676,6 +3676,7 @@ begin
   SHint:= SGetItem(AStr, ';');
   SImageIndex:= SGetItem(AStr, ';');
   SCmd:= SGetItem(AStr, ';');
+  SCaption:= SGetItem(AStr, ';');
 
   if SBeginsWith(SCmd, 'toolmenu:') then
   begin
@@ -3683,15 +3684,16 @@ begin
     mi.Caption:= '('+SCmd+')';
     mnu:= TPopupMenu.Create(Self);
     mnu.Items.Add(mi);
-    Toolbar.AddDropdown(mnu);
+    Toolbar.AddDropdown(mnu, nil, SCaption, SHint, SCmd);
   end
   else
   begin
     Toolbar.AddButton(
       StrToIntDef(SImageIndex, -1),
       @DoToolbarClick,
-      SCmd,
-      SHint
+      SCaption,
+      SHint,
+      SCmd
       );
   end;
 end;

@@ -98,7 +98,7 @@ begin
   if SBeginsWith(Str, cPrefixToolmenu) then
   begin
     for N:= 0 to fmMain.Toolbar.ButtonCount-1 do
-      if fmMain.Toolbar.Buttons[N].Caption=Str then
+      if fmMain.Toolbar.Buttons[N].DataString=Str then
         exit(fmMain.Toolbar.Buttons[N].PopupMenu.Items);
   end;
 end;
