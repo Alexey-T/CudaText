@@ -1,0 +1,53 @@
+object fmAddonReport: TfmAddonReport
+  Left = 388
+  Height = 259
+  Top = 399
+  Width = 538
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Addon installed'
+  ClientHeight = 259
+  ClientWidth = 538
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.7'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 29
+    Top = 224
+    Width = 526
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbOK]
+    ShowBevel = False
+  end
+  object PanelInfo: TPanel
+    Left = 0
+    Height = 26
+    Top = 192
+    Width = 538
+    Align = alBottom
+    BevelOuter = bvNone
+    Caption = 'PanelInfo'
+    TabOrder = 1
+  end
+  object ListBox1: TListBox
+    Left = 6
+    Height = 180
+    Top = 6
+    Width = 526
+    Align = alClient
+    BorderSpacing.Around = 6
+    ItemHeight = 0
+    ScrollWidth = 524
+    TabOrder = 2
+    TopIndex = -1
+  end
+end

@@ -97,7 +97,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="50">
+    <Units Count="51">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -361,6 +361,13 @@
         <Filename Value="proc_customdialog_dummy.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit49>
+      <Unit50>
+        <Filename Value="form_addon_report.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmAddonReport"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit50>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

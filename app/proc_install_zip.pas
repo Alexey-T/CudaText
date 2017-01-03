@@ -23,10 +23,11 @@ type
     cAddonTypeData
     );
 
-procedure DoInstallAddonFromZip(const fn_zip: string;
+procedure DoInstallAddonFromZip(
+  const fn_zip: string;
   Manager: TecSyntaxManager;
   const dir_acp: string;
-  out StrReport: string;
+  out StrReport, StrMessage: string;
   out IsInstalled: boolean;
   out NAddonType: TAppAddonType;
   out DirTarget: string);
@@ -83,17 +84,14 @@ procedure DoInstallPlugin(
   const fn_inf: string;
   out s_report: string;
   out dir_target: string);
-const
-  cManyItems = 20;
 var
   ini: TIniFile;
   s_section, s_caption, s_module, s_method, s_events,
   s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
-  nItems, i: integer;
+  i: integer;
 begin
   s_report:= '';
   dir_target:= '';
-  nItems:= 0;
 
   ini:= TIniFile.Create(fn_inf);
   try
@@ -117,16 +115,9 @@ begin
         if s_caption='' then Continue;
         if s_method='' then Continue;
 
-        Inc(nItems);
-        if nItems<cManyItems then
-        begin
-          if not SEndsWith(s_caption, '\-') then
-            s_report:= s_report+msgStatusPackageCommand+' '+s_caption+
-              IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#13
-        end
-        else
-        if nItems=cManyItems then
-          s_report:= s_report+'...'#13;
+        if not SEndsWith(s_caption, '\-') then
+          s_report:= s_report+msgStatusPackageCommand+' '+s_caption+
+            IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#13;
 
         s_caption_nice:= 'plugin: '+ StringReplace(s_caption, '\', ': ', [rfReplaceAll]);
 
@@ -154,8 +145,6 @@ begin
         s_report:= s_report+msgStatusPackageEvents+' '+s_events+#13;
       end;
     end;
-
-    s_report:= s_report+#13+msgStatusInstalledNeedRestart;
   finally
     FreeAndNil(ini);
   end;
@@ -282,9 +271,14 @@ begin
     end;
 end;
 
-procedure DoInstallAddonFromZip(const fn_zip: string;
-  Manager: TecSyntaxManager; const dir_acp: string; out StrReport: string; out
-  IsInstalled: boolean; out NAddonType: TAppAddonType; out DirTarget: string);
+procedure DoInstallAddonFromZip(
+  const fn_zip: string;
+  Manager: TecSyntaxManager;
+  const dir_acp: string;
+  out StrReport, StrMessage: string;
+  out IsInstalled: boolean;
+  out NAddonType: TAppAddonType;
+  out DirTarget: string);
 var
   unzip: TUnZipper;
   list: TStringlist;
@@ -292,6 +286,7 @@ var
   s_title, s_type, s_desc: string;
 begin
   StrReport:= '';
+  StrMessage:= '';
   IsInstalled:= false;
   NAddonType:= cAddonTypeUnknown;
   DirTarget:= '';
@@ -384,6 +379,7 @@ begin
   if s_type=cTypePlugin then
   begin
     NAddonType:= cAddonTypePlugin;
+    StrMessage:= msgStatusInstalledNeedRestart;
     DoInstallPlugin(fn_inf, StrReport, DirTarget)
   end
   else

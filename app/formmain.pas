@@ -78,7 +78,7 @@ uses
   formcolorsetup,
   formabout,
   formcharmaps,
-  formkeyinput,
+  formkeyinput, form_addon_report,
   math;
 
 type
@@ -1405,12 +1405,12 @@ end;
 
 procedure TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string);
 var
-  msg: string;
+  msg, msg2: string;
   IsOk: boolean;
   AddonType: TAppAddonType;
 begin
-  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, IsOk,
-    AddonType, DirTarget);
+  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, msg2,
+    IsOk, AddonType, DirTarget);
 
   if IsOk then
   begin
@@ -1432,7 +1432,7 @@ begin
       UpdateMenuPlugins;
     end;
 
-    MsgBox(msgStatusInstalled+#10+msg, MB_OK or MB_ICONINFORMATION);
+    DoDialogAddonInstalledReport(msg, msg2);
   end;
 end;
 

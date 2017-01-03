@@ -95,7 +95,7 @@ const
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';
   msgStatusOpenedBrowser: string = 'Opened browser';
   msgStatusCopiedLink: string = 'Copied link';
-  msgStatusInstalled: string = 'Installed:';
+  msgStatusAddonInstalled: string = 'Addon installed';
   msgStatusOpened: string = 'Opened:';
   msgStatusReopened: string = 'Re-opened:';
   msgStatusBadRegex: string = 'Incorrect regex passed:';

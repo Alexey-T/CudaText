@@ -424,13 +424,13 @@ begin
     DoLocString(msgStatusPackageType             , ini, 'si', 'PackageType');
     DoLocString(msgStatusPackageDesc             , ini, 'si', 'PackageDesc');
     DoLocString(msgStatusPackageCommand          , ini, 'si', 'PackageCommand');
-    DoLocString(msgStatusPackageEvents           , ini, 'si', 'PackageEvent');
+    DoLocString(msgStatusPackageEvents           , ini, 'si', 'PackageEvents');
     DoLocString(msgStatusInstalledNeedRestart    , ini, 'si', 'InstalledNeedRestart');
     DoLocString(msgStatusErrorInConfigFile       , ini, 'si', 'ErrorInConfigFile');
     DoLocString(msgStatusCommandOnlyForLexers    , ini, 'si', 'CommandOnlyForLexers');
     DoLocString(msgStatusOpenedBrowser           , ini, 'si', 'OpenedBrowser');
     DoLocString(msgStatusCopiedLink              , ini, 'si', 'CopiedLink');
-    DoLocString(msgStatusInstalled               , ini, 'si', 'Installed');
+    DoLocString(msgStatusAddonInstalled          , ini, 'si', 'AddonInstalled');
     DoLocString(msgStatusOpened                  , ini, 'si', 'Opened');
     DoLocString(msgStatusReopened                , ini, 'si', 'Reopened');
     DoLocString(msgStatusBadRegex                , ini, 'si', 'BadRegex');
