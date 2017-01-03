@@ -3,9 +3,9 @@
 cd ../app
 
 widget=$1
-cpu=amd64
+cpu=$2
+outdir=$3
 
-outdir=~/Public
 mkdir -p $outdir
 name=$outdir/cudatext-linux-$widget-$cpu-$cuda_ver.tar
 
