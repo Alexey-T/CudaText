@@ -2348,7 +2348,11 @@ begin
             Str:= '';
             for i:= 0 to fmMain.Toolbar.ButtonCount-1 do
               with fmMain.Toolbar do
-                Str:= Str+Format('%s;%s'#10, [Buttons[i].Hint, Buttons[i].Caption]);
+                Str:= Str+Format('%s;%s;%s'#10, [
+                  Buttons[i].Hint,
+                  Buttons[i].Caption,
+                  Buttons[i].DataString
+                  ]);
             Result:= PyString_FromString(PChar(Str));
           end;
 
