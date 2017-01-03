@@ -117,7 +117,7 @@ begin
 
         if not SEndsWith(s_caption, '\-') then
           s_report:= s_report+msgStatusPackageCommand+' '+s_caption+
-            IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#13;
+            IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#10;
 
         s_caption_nice:= 'plugin: '+ StringReplace(s_caption, '\', ': ', [rfReplaceAll]);
 
@@ -142,7 +142,7 @@ begin
       if s_section='events' then
       begin
         if s_events='' then Continue;
-        s_report:= s_report+msgStatusPackageEvents+' '+s_events+#13;
+        s_report:= s_report+msgStatusPackageEvents+' '+s_events+#10;
       end;
     end;
   finally
@@ -203,7 +203,7 @@ begin
         DoLexerExportFromLibToFile(an);
       end;
 
-      s_report:= s_report+s_lexer+#13;
+      s_report:= s_report+s_lexer+#10;
 
       //set sublexer links
       for i_sub:= 0 to an.SubAnalyzers.Count-1 do
@@ -296,7 +296,7 @@ begin
     CreateDir(dir);
   if not DirectoryExists(dir) then
   begin
-    MsgBox(msgCannotCreateDir+#13+dir, MB_OK+MB_ICONERROR);
+    MsgBox(msgCannotCreateDir+#10+dir, MB_OK+MB_ICONERROR);
     exit
   end;
 
@@ -309,7 +309,7 @@ begin
       if unzip.Entries.Count=0 then
         raise Exception.Create('Zip is empty');
     except
-      MsgBox(msgCannotHandleZip+#13+fn_zip, MB_OK+MB_ICONERROR);
+      MsgBox(msgCannotHandleZip+#10+fn_zip, MB_OK+MB_ICONERROR);
       exit;
     end;
 
@@ -361,11 +361,11 @@ begin
     exit
   end;
 
-  if MsgBox(msgStatusPackageContains+#13#13+
-    msgStatusPackageName+' '+s_title+#13+
-    IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#13)+
-    msgStatusPackageType+' '+s_type+#13+
-    #13+
+  if MsgBox(msgStatusPackageContains+#10#10+
+    msgStatusPackageName+' '+s_title+#10+
+    IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
+    msgStatusPackageType+' '+s_type+#10+
+    #10+
     msgConfirmInstallIt,
     MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
 

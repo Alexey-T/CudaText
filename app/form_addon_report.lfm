@@ -1,12 +1,12 @@
 object fmAddonReport: TfmAddonReport
   Left = 388
-  Height = 259
+  Height = 264
   Top = 399
   Width = 538
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Addon installed'
-  ClientHeight = 259
+  ClientHeight = 264
   ClientWidth = 538
   OnShow = FormShow
   Position = poScreenCenter
@@ -14,7 +14,7 @@ object fmAddonReport: TfmAddonReport
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
-    Top = 224
+    Top = 229
     Width = 526
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -30,8 +30,8 @@ object fmAddonReport: TfmAddonReport
   end
   object PanelInfo: TPanel
     Left = 0
-    Height = 26
-    Top = 192
+    Height = 18
+    Top = 205
     Width = 538
     Align = alBottom
     BevelOuter = bvNone
@@ -40,7 +40,7 @@ object fmAddonReport: TfmAddonReport
   end
   object ListBox1: TListBox
     Left = 6
-    Height = 180
+    Height = 193
     Top = 6
     Width = 526
     Align = alClient

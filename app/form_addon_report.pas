@@ -7,11 +7,11 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   ExtCtrls, StdCtrls, IniFiles,
+  ATStringProc,
   proc_globdata,
   proc_msg;
 
 type
-
   { TfmAddonReport }
 
   TfmAddonReport = class(TForm)
@@ -20,9 +20,7 @@ type
     PanelInfo: TPanel;
     procedure FormShow(Sender: TObject);
   private
-
   public
-
   end;
 
 procedure DoDialogAddonInstalledReport(const SItems, SMsg: string);
@@ -34,18 +32,21 @@ implementation
 procedure DoDialogAddonInstalledReport(const SItems, SMsg: string);
 var
   F: TfmAddonReport;
-  List: TStringList;
+  SAll, S: string;
 begin
   F:= TfmAddonReport.Create(nil);
-  List:= TStringList.Create;
   try
-    List.Text:= SItems;
+    SAll:= SItems;
+    repeat
+      S:= SGetItem(SAll, #10);
+      if S='' then Break;
+      F.ListBox1.Items.Add(S);
+    until false;
+
     F.PanelInfo.Caption:= SMsg;
     F.PanelInfo.Visible:= SMsg<>'';
-    F.ListBox1.Items.AddStrings(List);
     F.ShowModal;
   finally
-    FreeAndNil(List);
     FreeAndNil(F);
   end;
 end;
