@@ -1,7 +1,7 @@
 object fmGoto: TfmGoto
-  Left = 615
+  Left = 543
   Height = 32
-  Top = 599
+  Top = 624
   Width = 472
   BorderStyle = bsNone
   Caption = 'Goto'
@@ -18,7 +18,6 @@ object fmGoto: TfmGoto
     Height = 25
     Top = 4
     Width = 64
-    Alignment = taCenter
     TabStop = True
     TabOrder = 1
     Caption = 'Go'
@@ -233,8 +232,8 @@ object fmGoto: TfmGoto
       Height = 20
       Top = 4
       Width = 16
-      Alignment = taCenter
       TabOrder = 0
+      Caption = 'Button'
       Focusable = False
       Flat = True
       Kind = abuCross
