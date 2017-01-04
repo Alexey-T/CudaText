@@ -14,6 +14,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics, ExtCtrls, ComCtrls,
+  InterfaceBase,
   LclProc, LclType, LazFileUtils, LazUTF8,
   IniFiles, jsonConf,
   Process,
@@ -848,19 +849,7 @@ end;
 
 function IsDoubleBufferedNeeded: boolean;
 begin
-  Result:= false;
-
-  {$ifdef windows}
-  exit(true);
-  {$endif}
-
-  {$ifdef linux}
-  exit(true);
-  {$endif}
-
-  {$ifdef darwin}
-  exit(false);
-  {$endif}
+  Result:= WidgetSet.GetLCLCapability(lcCanDrawOutsideOnPaint) = LCL_CAPABILITY_YES;
 end;
 
 
