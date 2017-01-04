@@ -1,7 +1,7 @@
 {
 ATStatusBar component for Delphi/Lazarus
 Copyright (c) Alexey Torgashin (UVViewSoft)
-License: MPL 2.0
+License: MPL 2.0 or LGPL
 }
 
 unit ATStatusBar;

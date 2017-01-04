@@ -1,7 +1,7 @@
 {
 ATGroups - several page-controls, each based on ATTabs
-Copyright (c) Alexey Torgashin
-License: MPL 2.0
+Copyright (c) Alexey Torgashin (UVViewSoft)
+License: MPL 2.0 or LGPL
 }
 
 {$ifdef FPC}
