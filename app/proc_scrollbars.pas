@@ -41,6 +41,7 @@ type
   protected
     procedure Resize; override;
     procedure ChangedSelection; override;
+    procedure Scrolled; override;
   public
     constructor Create(AOwner: TComponent); override;
     function ClientWidth: integer;
@@ -70,6 +71,12 @@ begin
 end;
 
 procedure TATListboxMy.ChangedSelection;
+begin
+  inherited;
+  UpdScroll;
+end;
+
+procedure TATListboxMy.Scrolled;
 begin
   inherited;
   UpdScroll;
