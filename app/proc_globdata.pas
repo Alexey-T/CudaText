@@ -849,6 +849,11 @@ end;
 
 function IsDoubleBufferedNeeded: boolean;
 begin
+  {$ifdef linux}
+  //Qt needs true (else caret dont blink, and tab angled borders paint bad)
+  Exit(true);
+  {$endif}
+
   Result:= WidgetSet.GetLCLCapability(lcCanDrawOutsideOnPaint) = LCL_CAPABILITY_YES;
 end;
 
