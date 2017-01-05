@@ -608,7 +608,7 @@ type
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);
-    procedure MsgStatusAlt(const S: string; const NSeconds: integer);
+    procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
     procedure SetTabNameLeft(const AValue: string);
@@ -2439,12 +2439,18 @@ begin
   TimerStatus.Enabled:= true;
 end;
 
-procedure TfmMain.MsgStatusAlt(const S: string; const NSeconds: integer);
+procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
+const
+  cMin=1;
+  cMax=30;
 begin
-  StatusAlt[0]:= S;
+  if ASeconds<cMin then ASeconds:= cMin;
+  if ASeconds>cMax then ASeconds:= cMax;
+
+  StatusAlt[0]:= AText;
   StatusAlt.Show;
-  StatusAlt.Top:= Status.Top-4;
-  TimerStatusAlt.Interval:= Max(1, Min(30, NSeconds))*1000;
+  StatusAlt.Top:= Status.Top-4; //place above statusbar
+  TimerStatusAlt.Interval:= ASeconds*1000;
   TimerStatusAlt.Enabled:= false;
   TimerStatusAlt.Enabled:= true;
 end;
