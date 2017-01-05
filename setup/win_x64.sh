@@ -1,2 +1,2 @@
 #!/bin/sh
-./win_common.sh x64 ~/Public ~/Public/win_exe/x64 ../app64
+./win_common.sh x64 ~/Public ~/Public/cuda_win/x64 ../app64
