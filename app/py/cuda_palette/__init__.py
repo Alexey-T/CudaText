@@ -257,11 +257,11 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
             if old_color is not None:
                 cnts+= [dict(cid=idold   ,tp='clr'  ,t=10+plt_h+36  ,l=10+plt_w-165 ,w= 50, h=30,cap=''
                             ,props=f('1,{bg},0,{bc}',bg=old_color,bc=brd_c)             ,hint=H_OLDC+'\r'+old_hint  ,c=old_color,act='1'                )]
-            cnts+=     [dict(cid='more'  ,tp='bt'   ,tid='----'     ,l=10+plt_w-205 ,w= 35,cap=C_MORE           ,hint=H_MORE                            )]
+            cnts+=     [dict(cid='more'  ,tp='bt'   ,tid='----'     ,l=10+plt_w-215 ,w= 45,cap=C_MORE           ,hint=H_MORE                            )]
             cnts+=     [dict(cid='noth'  ,tp='bt'   ,t=10+plt_h+10  ,l=10+plt_w-110 ,w=110,cap=C_NOTH                                                   )]
             cnts+=     [dict(cid='----'  ,tp='bt'   ,t=10+plt_h+40  ,l=10+plt_w-110 ,w=110,cap=C_CANC                                                   )]
         else:
-            cnts+=     [dict(cid='more'  ,tp='bt'   ,tid='----'     ,l=10           ,w= 35,cap=C_MORE           ,hint=H_MORE                            )]
+            cnts+=     [dict(cid='more'  ,tp='bt'   ,tid='----'     ,l=10           ,w= 45,cap=C_MORE           ,hint=H_MORE                            )]
             if old_color is not None:
                 cnts+= [dict(cid=idold   ,tp='clr'  ,t=10+plt_h+ 7  ,l=10+plt_w-275 ,w= 50, h=30,cap=''
                             ,props=f('1,{bg},0,{bc}',bg=old_color,bc=brd_c)             ,hint=H_OLDC+'\r'+old_hint  ,c=old_color,act='1'                )]
