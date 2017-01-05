@@ -1469,7 +1469,7 @@ object SyntAnal23: TLibSyntAnalyzer
     't = '#39'('#39' IdentList '#39')'#39';'#13#10'IdentList = <Identifier> ('#39','#39' <Identifie' +
     'r>)*;'#13#10
   CurrentLineStyle = 'Current Line'
-  Extentions = 'pas inc dpr dpk lpr lpk p pp'
+  Extentions = 'pas inc dpr lpr p pp'
   LexerName = 'Pascal'
   Notes.Strings = (
     'Changed by Alexey')
