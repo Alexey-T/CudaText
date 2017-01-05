@@ -3451,13 +3451,13 @@ end;
 
 function Py_ed_gap(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  H, Num1, Num2: Int64;
-  Id, NTag: integer;
+  H, Num1, Num2, NTag: Int64;
+  Id: integer;
   Ed: TATSynEdit;
   Bmp: TBitmap;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'LiLLi:gap', @H, @Id, @Num1, @Num2, @NTag)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiLLL:gap', @H, @Id, @Num1, @Num2, @NTag)) then
     begin
       Ed:= PyEditor(H);
 
