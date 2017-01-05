@@ -246,7 +246,8 @@ end;
 
 function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
 var
-  Bmp: TGraphic;
+  Pic: TGraphic;
+  Bitmap: TBitmap;
   ext: string;
 begin
   Result:= false;
@@ -254,30 +255,42 @@ begin
   ext:= LowerCase(ExtractFileExt(AFilename));
 
   if ext='.png' then
-    Bmp:= TPortableNetworkGraphic.Create
+    Pic:= TPortableNetworkGraphic.Create
   else
   if ext='.gif' then
-    Bmp:= TGIFImage.Create
+    Pic:= TGIFImage.Create
   else
   if ext='.bmp' then
-    Bmp:= TBitmap.Create
+    Pic:= TBitmap.Create
   else
   if SBeginsWith(ext, '.j') then //jpg, jpeg, jpe, jfif
-    Bmp:= TJPEGImage.Create
+    Pic:= TJPEGImage.Create
   else
     exit;
 
   try
     try
-      Bmp.LoadFromFile(AFilename);
-      Bmp.Transparent:= true;
+      Pic.LoadFromFile(AFilename);
+      Pic.Transparent:= true;
+
       if AResize then
-        C.StretchDraw(ARect, Bmp)
+      begin
+        Bitmap:= TBitmap.Create;
+        try
+          Bitmap.PixelFormat:= pf24bit;
+          Bitmap.SetSize(Pic.Width, Pic.Height);
+          Bitmap.Canvas.Draw(0, 0, Pic);
+          C.AntialiasingMode:= amOn;
+          C.StretchDraw(ARect, Bitmap);
+        finally
+          FreeAndNil(Bitmap);
+        end;
+      end
       else
-        C.Draw(ARect.Left, ARect.Top, Bmp);
+        C.Draw(ARect.Left, ARect.Top, Pic);
       Result:= true;
     finally
-      FreeAndNil(Bmp);
+      FreeAndNil(Pic);
     end;
   except
   end;
