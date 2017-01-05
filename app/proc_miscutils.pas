@@ -279,6 +279,8 @@ begin
         try
           Bitmap.PixelFormat:= pf24bit;
           Bitmap.SetSize(Pic.Width, Pic.Height);
+          Bitmap.Canvas.Brush.Color:= clWhite;
+          Bitmap.Canvas.FillRect(0, 0, Bitmap.Width, Bitmap.Height);
           Bitmap.Canvas.Draw(0, 0, Pic);
           C.AntialiasingMode:= amOn;
           C.StretchDraw(ARect, Bitmap);
