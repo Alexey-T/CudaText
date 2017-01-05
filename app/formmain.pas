@@ -748,7 +748,7 @@ type
     procedure SetFrame(Frame: TEditorFrame);
     procedure SetFullScreen(AValue: boolean);
     procedure SetLineEnds(Val: TATLineEnds);
-    procedure MsgStatus(const S: string);
+    procedure MsgStatus(const AText: string);
     procedure UpdateMenuLangs(sub: TMenuItem);
     procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateStatusbarPanelAutosize;
@@ -2414,23 +2414,25 @@ begin
   end;
 end;
 
-procedure TfmMain.MsgStatus(const S: string);
+procedure TfmMain.MsgStatus(const AText: string);
 var
   Frame: TEditorFrame;
-  msg: string;
+  S: string;
 begin
   Frame:= CurrentFrame;
-  msg:= s;
+  S:= AText;
+  SReplaceAll(S, #10, ' ');
+  SReplaceAll(S, #13, ' ');
 
   if Frame.IsText then
   begin
     if Frame.ReadOnly then
-      msg:= msgStatusReadonly + ' ' +msg;
+      S:= msgStatusReadonly+' '+S;
     if Frame.MacroRecord then
-      msg:= msgStatusMacroRec + ' ' +msg;
+      S:= msgStatusMacroRec+' '+S;
   end;
 
-  Status[cStatusMsg]:= msg;
+  Status[cStatusMsg]:= S;
 
   if S='' then exit;
   TimerStatus.Enabled:= false;
