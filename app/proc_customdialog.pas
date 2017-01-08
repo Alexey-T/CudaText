@@ -166,7 +166,7 @@ begin
   until false;
 end;
 
-procedure DoControl_SetState_Checklistbox(C: TCheckListBox; AValue: string);
+procedure DoControl_SetState_CheckListbox(C: TCheckListBox; AValue: string);
 var
   SItem: string;
   N: integer;
@@ -219,6 +219,27 @@ begin
 end;
 
 
+procedure DoControl_SetState_Combobox(C: TCombobox; const SValue: string);
+var
+  N: integer;
+begin
+  if C.ReadOnly then
+  begin
+    N:= StrToIntDef(SValue, -1);
+    if (N>=0) and (N<C.Items.Count) then
+      C.ItemIndex:= N;
+  end
+  else
+    C.Text:= SValue;
+end;
+
+procedure DoControl_SetState_Checkbox(C: TCheckbox; const SValue: string);
+begin
+  if SValue='1' then C.Checked:= true else
+  if SValue='0' then C.Checked:= false else
+  if SValue='?' then begin C.AllowGrayed:= true; C.State:= cbGrayed; end;
+end;
+
 procedure DoControl_SetState_Listbox(C: TListbox; const SValue: string);
 var
   N: integer;
@@ -226,6 +247,35 @@ begin
   N:= StrToIntDef(SValue, -1);
   if (N>=0) and (N<C.Items.Count) then
     C.ItemIndex:= N;
+end;
+
+procedure DoControl_SetState_RadioGroup(C: TRadioGroup; const SValue: string);
+var
+  N: integer;
+begin
+  N:= StrToIntDef(SValue, -1);
+  if (N>=0) and (N<C.Items.Count) then
+    C.ItemIndex:= N;
+end;
+
+
+procedure DoControl_SetState_TabControl(C: TTabControl; const SValue: string);
+var
+  N: integer;
+begin
+  N:= StrToIntDef(SValue, -1);
+  if (N>=0) and (N<C.Tabs.Count) then
+    C.TabIndex:= N;
+end;
+
+procedure DoControl_SetState_SpinEdit(C: TSpinEdit; const SValue: string);
+var
+  N: integer;
+begin
+  N:= StrToIntDef(SValue, -10000);
+  if N<C.MinValue then N:= C.MinValue;
+  if N>C.MaxValue then N:= C.MaxValue;
+  C.Value:= N;
 end;
 
 procedure DoControl_SetState_Listview(C: TListView; SValue: string);
@@ -590,32 +640,19 @@ begin
     //-------val
     if SName='val' then
     begin
-      if Ctl is TCheckBox then
-        with Ctl as TCheckBox do
-        begin
-          if SValue='1' then Checked:= true else
-          if SValue='0' then Checked:= false else
-          if SValue='?' then begin AllowGrayed:= true; State:= cbGrayed; end;
-        end;
-
+      if Ctl is TCheckBox then DoControl_SetState_Checkbox(Ctl as TCheckbox, SValue);
       if Ctl is TToggleBox then (Ctl as TToggleBox).Checked:= StrToBool(SValue);
       if Ctl is TRadioButton then (Ctl as TRadioButton).Checked:= StrToBool(SValue);
       if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;
-      if Ctl is TComboBox then
-      begin
-        if (Ctl as TCombobox).ReadOnly then
-          (Ctl as TCombobox).ItemIndex:= StrToIntDef(SValue, 0)
-        else
-          (Ctl as TCombobox).Text:= SValue;
-      end;
+      if Ctl is TComboBox then DoControl_SetState_Combobox(Ctl as TCombobox, SValue);
       if Ctl is TListBox then DoControl_SetState_Listbox(Ctl as TListbox, SValue);
-      if Ctl is TRadioGroup then (Ctl as TRadioGroup).ItemIndex:= StrToIntDef(SValue, 0);
-      if Ctl is TCheckGroup then DoControl_SetState_Checkgroup(Ctl as TCheckGroup, SValue);
-      if Ctl is TCheckListBox then DoControl_SetState_Checklistbox(Ctl as TCheckListBox, SValue);
+      if Ctl is TRadioGroup then DoControl_SetState_RadioGroup(Ctl as TRadioGroup, SValue);
+      if Ctl is TCheckGroup then DoControl_SetState_CheckGroup(Ctl as TCheckGroup, SValue);
+      if Ctl is TCheckListBox then DoControl_SetState_CheckListbox(Ctl as TCheckListBox, SValue);
       if Ctl is TMemo then DoControl_SetState_Memo(Ctl as TMemo, SValue);
-      if Ctl is TSpinEdit then (Ctl as TSpinEdit).Value:= StrToIntDef(SValue, 0);
+      if Ctl is TSpinEdit then DoControl_SetState_SpinEdit(Ctl as TSpinEdit, SValue);
       if Ctl is TListView then DoControl_SetState_Listview(Ctl as TListView, SValue);
-      if Ctl is TTabControl then (Ctl as TTabControl).TabIndex:= StrToIntDef(SValue, 0);
+      if Ctl is TTabControl then DoControl_SetState_TabControl(Ctl as TTabControl, SValue);
 
       Continue;
     end;
