@@ -219,6 +219,15 @@ begin
 end;
 
 
+procedure DoControl_SetState_Listbox(C: TListbox; const SValue: string);
+var
+  N: integer;
+begin
+  N:= StrToIntDef(SValue, -1);
+  if (N>=0) and (N<C.Items.Count) then
+    C.ItemIndex:= N;
+end;
+
 procedure DoControl_SetState_Listview(C: TListView; SValue: string);
 var
   N: integer;
@@ -308,6 +317,7 @@ begin
     FreeAndNil(List);
   end;
 end;
+
 
 procedure DoForm_AddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
 var
@@ -598,7 +608,7 @@ begin
         else
           (Ctl as TCombobox).Text:= SValue;
       end;
-      if Ctl is TListBox then (Ctl as TListBox).ItemIndex:= StrToIntDef(SValue, 0);
+      if Ctl is TListBox then DoControl_SetState_Listbox(Ctl as TListbox, SValue);
       if Ctl is TRadioGroup then (Ctl as TRadioGroup).ItemIndex:= StrToIntDef(SValue, 0);
       if Ctl is TCheckGroup then DoControl_SetState_Checkgroup(Ctl as TCheckGroup, SValue);
       if Ctl is TCheckListBox then DoControl_SetState_Checklistbox(Ctl as TCheckListBox, SValue);
