@@ -101,6 +101,11 @@ begin
       c.SetValue('/tab_index/g'+Inttostr(i), Groups.Pages[i].Tabs.TabIndex);
     c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
+    c.SetValue('/panels/side_show', ShowSidePanel);
+    c.SetValue('/panels/side_size', PanelLeft.Width);
+    c.SetValue('/panels/bottom_show', ShowBottom);
+    c.SetValue('/panels/bottom_size', PanelBottom.Height);
+
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
@@ -226,6 +231,13 @@ begin
       with Groups.PagesCurrent do
         Tabs.TabIndex:= Tabs.TabIndex;
     end;
+
+    //restore panel sizes
+    ShowSidePanel:= c.GetValue('/panels/side_show', ShowSidePanel);
+    ShowBottom:= c.GetValue('/panels/bottom_show', ShowBottom);
+    PanelLeft.Width:= c.GetValue('/panels/side_size', PanelLeft.Width);
+    PanelBottom.Height:= c.GetValue('/panels/bottom_size', PanelBottom.Height);
+
   finally
     list.Free;
     c.Free;
