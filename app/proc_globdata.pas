@@ -227,6 +227,7 @@ type
     OpMinimapAtLeft: boolean;
     OpMicromapShow: boolean;
     OpMicromapWidth: integer;
+    OpMicromapWidthSmall: integer;
     OpMarginFixed: integer;
     OpMarginString: string;
     OpStaplesStyle: integer;
@@ -762,6 +763,7 @@ begin
 
     OpMicromapShow:= false;
     OpMicromapWidth:= 12;
+    OpMicromapWidthSmall:= 4;
 
     OpMarginFixed:= cInitMarginRight;
     OpMarginString:= '';

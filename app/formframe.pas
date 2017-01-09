@@ -1288,8 +1288,6 @@ end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
   const ARect: TRect);
-const
-  cColSize = 3; //column width, pixels
 var
   NScale: double;
 //
@@ -1297,7 +1295,7 @@ var
   begin
     Result.Left:= ARect.Left;
     Result.Top:= ARect.Top+Trunc(NLine1*NScale);
-    Result.Right:= Result.Left+cColSize;
+    Result.Right:= Result.Left+ EditorOps.OpMicromapWidthSmall;
     Result.Bottom:= Max(Result.Top+2, ARect.Top+Trunc((NLine2+1)*NScale));
   end;
 //
@@ -1346,7 +1344,7 @@ begin
     if NLine1<0 then Continue;
     R1:= GetItemRect(NLine1, NLine2);
     R1.Right:= ARect.Right;
-    R1.Left:= R1.Right-cColSize;
+    R1.Left:= R1.Right - EditorOps.OpMicromapWidthSmall;
     C.FillRect(R1);
   end;
 end;
