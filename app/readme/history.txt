@@ -5,7 +5,8 @@
 
 
 1.6.2
-+ session contain state (visible/size) of side/bottom panels
++ session contains state (visible/size) of side/bottom panels
++ micromap: paint stuff for selections of carets
 
 1.6.1
 - fixed toolbar API

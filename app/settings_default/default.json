@@ -176,7 +176,7 @@
   "minimap_at_left": false,
 
   //Show micromap: small vertical bar at the right edge
-  "micromap_show": true,
+  "micromap_show": false,
   //Micromap width, pixels
   "micromap_width": 12,
 

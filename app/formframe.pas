@@ -1288,46 +1288,65 @@ end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
   const ARect: TRect);
+const
+  cColSize = 3; //column width, pixels
+var
+  NScale: double;
+//
+  function GetItemRect(NLine1, NLine2: integer): TRect; inline;
+  begin
+    Result.Left:= ARect.Left;
+    Result.Top:= ARect.Top+Trunc(NLine1*NScale);
+    Result.Right:= Result.Left+cColSize;
+    Result.Bottom:= Max(Result.Top+2, ARect.Top+Trunc((NLine2+1)*NScale));
+  end;
+//
 var
   Ed: TATSynEdit;
   NColor: TColor;
-  St: TATLineState;
+  Caret: TATCaretItem;
+  State: TATLineState;
   R1: TRect;
-  Mul: double;
-  i: integer;
+  NLine1, NLine2, i: integer;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Strings.Count=0 then exit;
-  Mul:= (ARect.Bottom-ARect.Top) / Ed.Strings.Count;
+  NScale:= (ARect.Bottom-ARect.Top) / Ed.Strings.Count;
 
   C.Brush.Color:= GetAppColor('EdMicromapBg');
   C.FillRect(ARect);
 
-  R1.Left:= ARect.Left;
-  R1.Top:= ARect.Top+Trunc(Ed.LineTop*Mul);
+  R1:= GetItemRect(Ed.LineTop, Ed.LineBottom);
   R1.Right:= ARect.Right;
-  R1.Bottom:= Max(R1.Top+2, ARect.Top+Trunc((Ed.LineBottom+1)*Mul));
 
   C.Brush.Color:= GetAppColor('EdMicromapViewBg');
   C.FillRect(R1);
 
+  //paint line states
   for i:= 0 to Ed.Strings.Count-1 do
   begin
-    St:= Ed.Strings.LinesState[i];
-    case St of
+    State:= Ed.Strings.LinesState[i];
+    case State of
       cLineStateNone: Continue;
       cLineStateAdded: NColor:= Ed.Colors.StateAdded;
       cLineStateChanged: NColor:= Ed.Colors.StateChanged;
       cLineStateSaved: NColor:= Ed.Colors.StateSaved;
       else Continue;
     end;
-
-    R1.Left:= ARect.Left;
-    R1.Top:= ARect.Top+Trunc(i*Mul);
-    R1.Right:= R1.Left+3;
-    R1.Bottom:= Max(R1.Top+2, ARect.Top+Trunc((i+1)*Mul));
-
     C.Brush.Color:= NColor;
+    C.FillRect(GetItemRect(i, i));
+  end;
+
+  //paint selections
+  C.Brush.Color:= Ed.Colors.TextSelBG;
+  for i:= 0 to Ed.Carets.Count-1 do
+  begin
+    Caret:= Ed.Carets[i];
+    Caret.GetSelLines(NLine1, NLine2, false);
+    if NLine1<0 then Continue;
+    R1:= GetItemRect(NLine1, NLine2);
+    R1.Right:= ARect.Right;
+    R1.Left:= R1.Right-cColSize;
     C.FillRect(R1);
   end;
 end;
