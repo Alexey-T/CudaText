@@ -22,6 +22,7 @@ uses
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Carets,
   ATSynEdit_Gaps,
+  ATSynEdit_Markers,
   ATSynEdit_CanvasProc,
   ATSynEdit_Commands,
   ATStrings,
@@ -1288,6 +1289,8 @@ end;
 
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
   const ARect: TRect);
+const
+  cSpellCheckTag = 105; //like in SpellChecker plugin
 var
   NScale: double;
 //
@@ -1304,6 +1307,7 @@ var
   NColor: TColor;
   Caret: TATCaretItem;
   State: TATLineState;
+  Mark: TATMarkerItem;
   R1: TRect;
   NLine1, NLine2, i: integer;
 begin
@@ -1343,6 +1347,18 @@ begin
     Caret.GetSelLines(NLine1, NLine2, false);
     if NLine1<0 then Continue;
     R1:= GetItemRect(NLine1, NLine2);
+    R1.Right:= ARect.Right;
+    R1.Left:= R1.Right - EditorOps.OpMicromapWidthSmall;
+    C.FillRect(R1);
+  end;
+
+  //paint spell-check errs
+  C.Brush.Color:= clRed;
+  for i:= 0 to Ed.Attribs.Count-1 do
+  begin
+    Mark:= Ed.Attribs[i];
+    if Mark.Tag<>cSpellCheckTag then Continue;
+    R1:= GetItemRect(Mark.PosY, Mark.PosY);
     R1.Right:= ARect.Right;
     R1.Left:= R1.Right - EditorOps.OpMicromapWidthSmall;
     C.FillRect(R1);
