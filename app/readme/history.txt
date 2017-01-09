@@ -4,6 +4,9 @@
   * changed
 
 
+1.6.2
++ session contain state (visible/size) of side/bottom panels
+
 1.6.1
 - fixed toolbar API
 + new dialog "Addon installed"

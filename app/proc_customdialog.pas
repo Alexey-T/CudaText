@@ -171,7 +171,9 @@ var
   SItem: string;
   N: integer;
 begin
-  C.ItemIndex:= StrToIntDef(SGetItem(AValue, ';'), 0);
+  N:= StrToIntDef(SGetItem(AValue, ';'), -1);
+  if (N>=0) and (N<C.Items.Count) then
+    C.ItemIndex:= N;
 
   N:= 0;
   repeat
