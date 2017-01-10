@@ -4,6 +4,8 @@
   * changed
 
 
++ lexer Python upd for Py3.6
+
 1.6.2
 + session contains state (visible/size) of side/bottom panels
 + micromap shows selections (e.g. after "Find/ Select all")
