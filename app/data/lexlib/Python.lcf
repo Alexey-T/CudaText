@@ -87,7 +87,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = '1st Number'
       StyleName = 'Number'
       TokenType = 9
-      Expression = '^[\x20\x09]* \d(_?\d)* (\.\d(_?\d)*)?'
+      Expression = '^[\x20\x09]* \d(_?\d)* (\.(_?\d)*)?'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -95,7 +95,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = '1st String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s) ^[\x20\x09]* [a-z]? ("""|'#39#39#39') .*? (\1|\Z)'
+      Expression = '(?s) ^[\x20\x09]* [rbuf]? ("""|'#39#39#39') .*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -128,7 +128,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = 'String2'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s) [a-z]? ("""|'#39#39#39') .*? (\1|\Z)'
+      Expression = '(?s) [rbuf]? ("""|'#39#39#39') .*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -136,7 +136,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '[a-z]? ("|'#39') (\\.|.)*? (\1|$)'
+      Expression = '[rbuf]? ("|'#39') (\\.|.)*? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -152,7 +152,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = 'Int hex'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\b 0x[0-9a-f] (_?[0-9a-f])*'
+      Expression = '\b 0x(_?[0-9a-f])+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -160,7 +160,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = 'Int octal'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\b 0o[0-7] (_?[0-7])*'
+      Expression = '\b 0o(_?[0-7])+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -168,7 +168,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = 'Int bin'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\b 0b[01] (_?[01])*'
+      Expression = '\b 0b(_?[01])+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -176,7 +176,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\b \d(_?\d)* (\.\d? (_?\d)*)?'
+      Expression = '\b \d(_?\d)* (\.(_?\d)*)? |'#13#10'\.(_?\d)+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -475,7 +475,8 @@ object SyntAnal28: TLibSyntAnalyzer
     'test = u"""Doc'
     'string""" +'
     'r"""test'
-    '""" + 11_22_3.44_5 + 0xFF_aa_b_0 + 0b10_1_0'
+    '""" + 11_22_3.44_5 + 0x_FF_aa_b_0 + 0b10_1_0'
+    '+ 3. + .3 + 3.0'
     ''
     'import sys, sys2, sys3'
     'from csv import aa, bb'
