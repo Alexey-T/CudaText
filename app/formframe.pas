@@ -1294,11 +1294,19 @@ const
 var
   NScale: double;
 //
-  function GetItemRect(NLine1, NLine2: integer): TRect; inline;
+  function GetItemRect(NLine1, NLine2: integer; ALeft: boolean): TRect;
   begin
-    Result.Left:= ARect.Left;
+    if ALeft then
+    begin
+      Result.Left:= ARect.Left;
+      Result.Right:= Result.Left + EditorOps.OpMicromapWidthSmall;
+    end
+    else
+    begin
+      Result.Right:= ARect.Right;
+      Result.Left:= Result.Right - EditorOps.OpMicromapWidthSmall;
+    end;
     Result.Top:= ARect.Top+Trunc(NLine1*NScale);
-    Result.Right:= Result.Left+ EditorOps.OpMicromapWidthSmall;
     Result.Bottom:= Max(Result.Top+2, ARect.Top+Trunc((NLine2+1)*NScale));
   end;
 //
@@ -1318,7 +1326,7 @@ begin
   C.Brush.Color:= GetAppColor('EdMicromapBg');
   C.FillRect(ARect);
 
-  R1:= GetItemRect(Ed.LineTop, Ed.LineBottom);
+  R1:= GetItemRect(Ed.LineTop, Ed.LineBottom, true);
   R1.Right:= ARect.Right;
 
   C.Brush.Color:= GetAppColor('EdMicromapViewBg');
@@ -1336,7 +1344,7 @@ begin
       else Continue;
     end;
     C.Brush.Color:= NColor;
-    C.FillRect(GetItemRect(i, i));
+    C.FillRect(GetItemRect(i, i, true));
   end;
 
   //paint selections
@@ -1346,9 +1354,7 @@ begin
     Caret:= Ed.Carets[i];
     Caret.GetSelLines(NLine1, NLine2, false);
     if NLine1<0 then Continue;
-    R1:= GetItemRect(NLine1, NLine2);
-    R1.Right:= ARect.Right;
-    R1.Left:= R1.Right - EditorOps.OpMicromapWidthSmall;
+    R1:= GetItemRect(NLine1, NLine2, false);
     C.FillRect(R1);
   end;
 
@@ -1358,9 +1364,7 @@ begin
   begin
     Mark:= Ed.Attribs[i];
     if Mark.Tag<>cSpellCheckTag then Continue;
-    R1:= GetItemRect(Mark.PosY, Mark.PosY);
-    R1.Right:= ARect.Right;
-    R1.Left:= R1.Right - EditorOps.OpMicromapWidthSmall;
+    R1:= GetItemRect(Mark.PosY, Mark.PosY, false);
     C.FillRect(R1);
   end;
 end;

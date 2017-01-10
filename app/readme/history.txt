@@ -6,7 +6,8 @@
 
 1.6.2
 + session contains state (visible/size) of side/bottom panels
-+ micromap: paint stuff for selections of carets
++ micromap: show selections (e.g. after "Find/ Select all")
++ micromap: show spell-check errs
 
 1.6.1
 - fixed toolbar API
