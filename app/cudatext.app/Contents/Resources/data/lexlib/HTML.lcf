@@ -220,7 +220,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Text escaped'
       StyleName = 'Text escaped'
       TokenType = 9
-      Expression = '&\w+;'
+      Expression = '&[a-z]+;'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -228,7 +228,7 @@ object SyntAnal13: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 9
-      Expression = '[^<>&\{\}]*'
+      Expression = '[^<>&\{\}\[\]/\\=\x20]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -646,7 +646,7 @@ object SyntAnal13: TLibSyntAnalyzer
     '  </script>'
     '      '
     '  <body src="www.com" style='#39'aaa; aaa; aaa;'#39'> '
-    '    <h1 color=#dde>Text &1020;</h1> '
+    '    <h1 color=#dde>Text &nbsp;</h1> '
     '  </body> '
     '</html>')
   TokenTypeNames.Strings = (

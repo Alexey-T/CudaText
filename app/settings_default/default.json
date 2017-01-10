@@ -164,15 +164,15 @@
   //Ruler numbers indent from top, pixels
   "ruler_text_indent": 0,
 
-  //Show ST3-like minimap at the right edge
+  //Show minimap
   "minimap_show": false,
-  //If false: show selection area only on mouse-over
+  //Show selection area always. If false: show selection area only on mouse-over.
   "minimap_sel_always": false,
-  //Show 1pixel frame around selection area
+  //Show 1-pixel border around selection area
   "minimap_sel_border": false,
   //Minimap width: 0: autosize, >0: fixed width in chars
   "minimap_char_width": 0,
-  //Minimap placed at left side
+  //Place minimap to the left side
   "minimap_at_left": false,
 
   //Show micromap: small vertical bar at the right edge

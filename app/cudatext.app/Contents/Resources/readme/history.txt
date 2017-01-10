@@ -4,6 +4,11 @@
   * changed
 
 
+1.6.2
++ session contains state (visible/size) of side/bottom panels
++ micromap shows selections (e.g. after "Find/ Select all")
++ micromap shows spell-check errs
+
 1.6.1
 - fixed toolbar API
 + new dialog "Addon installed"
