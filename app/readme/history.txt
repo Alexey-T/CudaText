@@ -4,7 +4,7 @@
   * changed
 
 
-+ lexer Python upd for Py3.6
++ lexer Python: update for Py3.6
 
 1.6.2
 + session contains state (visible/size) of side/bottom panels
