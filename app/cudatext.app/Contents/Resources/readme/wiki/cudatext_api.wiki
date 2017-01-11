@@ -288,9 +288,15 @@ Btn_command can be:
 Id:
 
 * PROC_TOOLBAR_ENUM: Enumerates toolbar buttons. Gets "\n"-separated lines for buttons: 
-** "btn_hint;btn_string_id" for predefined buttons (btn_string_id is not a number, it is short string)
-** "btn_hint;btn_command" for new buttons.
-* PROC_TOOLBAR_ADD: Adds toolbar button. Text must "btn_hint;icon_index;btn_command" or empty str to add separator.
+** "btn_hint;btn_string_id;btn_caption" for predefined buttons (btn_string_id is not a number, it is short string)
+** "btn_hint;btn_command;btn_caption" for new buttons.
+* PROC_TOOLBAR_ADD: Adds toolbar button. Text must be "btn_hint;icon_index;btn_command;btn_caption" or empty str to add separator. Styles of buttons:
+** caption (e.g. "hint;-1;2700;caption")
+** icon + caption (e.g. "hint;0;2700;caption")
+** arrow (e.g. "hint;-1;toolmenu:main;")
+** caption + arrow (e.g. "hint;-1;toolmenu:main;caption")
+** separator line ("")
+
 * PROC_TOOLBAR_DELETE: Deletes one toolbar button. Text must be str(button_index).
 * PROC_TOOLBAR_DELETE_ALL: Deletes all toolbar buttons.
 * PROC_TOOLBAR_ICON_ADD: Adds icon to imagelist of toolbar. Text must be path to .bmp or .png file. Gets int icon index (0-based), or None if cannot read icon.
@@ -1248,7 +1254,7 @@ Possible values of id:
 * GAP_ADD: Adds gap to editor, with ready bitmap. Gets bool: params correct, gap added. Params: 
 ** num1 - line index 
 ** num2 - id_bitmap you got before
-** tag - some int value to separate gaps from few plugins, use tag>=0
+** tag - some int value to separate gaps from few plugins. (Internally it's signed 64-bit.)
 
 * GAP_DELETE: Deletes gaps for lines: from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
@@ -1314,6 +1320,12 @@ Text is chr(1) separated items:
 ** 'a' for wrapped-search
 
 =History=
+
+1.0.164
+* change: ed.gap: tag is 64-bit signed (was 32-bit)
+
+1.0.163
+* change: app_proc toolbar api: _add allows to set caption; _enum gets also captions
 
 1.0.162
 * add: ed.gap (Gaps api)
