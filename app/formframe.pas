@@ -1290,7 +1290,8 @@ end;
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
   const ARect: TRect);
 const
-  cSpellCheckTag = 105; //like in SpellChecker plugin
+  cTagOccur = 101; //see plugin Hilite Occurrences
+  cTagSpell = 105; //see SpellChecker plugin
 var
   NScale: double;
 //
@@ -1316,6 +1317,7 @@ var
   Caret: TATCaretItem;
   State: TATLineState;
   Mark: TATMarkerItem;
+  NColorSelected, NColorOccur, NColorSpell: TColor;
   R1: TRect;
   NLine1, NLine2, i: integer;
 begin
@@ -1331,6 +1333,10 @@ begin
 
   C.Brush.Color:= GetAppColor('EdMicromapViewBg');
   C.FillRect(R1);
+
+  NColorSelected:= Ed.Colors.TextSelBG;
+  NColorOccur:= GetAppColor('EdMicromapOccur');
+  NColorSpell:= GetAppColor('EdMicromapSpell');
 
   //paint line states
   for i:= 0 to Ed.Strings.Count-1 do
@@ -1348,7 +1354,7 @@ begin
   end;
 
   //paint selections
-  C.Brush.Color:= Ed.Colors.TextSelBG;
+  C.Brush.Color:= NColorSelected;
   for i:= 0 to Ed.Carets.Count-1 do
   begin
     Caret:= Ed.Carets[i];
@@ -1358,14 +1364,22 @@ begin
     C.FillRect(R1);
   end;
 
-  //paint spell-check errs
-  C.Brush.Color:= clRed;
+  //paint marks for plugins
   for i:= 0 to Ed.Attribs.Count-1 do
   begin
     Mark:= Ed.Attribs[i];
-    if Mark.Tag<>cSpellCheckTag then Continue;
-    R1:= GetItemRect(Mark.PosY, Mark.PosY, false);
-    C.FillRect(R1);
+    case Mark.Tag of
+      cTagSpell:
+        begin
+          C.Brush.Color:= NColorSpell;
+          C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
+        end;
+      cTagOccur:
+        begin
+          C.Brush.Color:= NColorOccur;
+          C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
+        end;
+    end;
   end;
 end;
 

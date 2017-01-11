@@ -169,7 +169,9 @@ begin
   Add(clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
   Add($eeeeee, 'EdMinimapSelBg', 'editor, minimap, view BG');
   Add($e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
-  Add($c0c0c0, 'EdMicromapViewBg', 'editor, micromap, view BG');
+  Add($c0c0c0, 'EdMicromapViewBg', 'editor, micromap, current view area');
+  Add($c05050, 'EdMicromapOccur', 'editor, micromap, word occurrences');
+  Add($6060d0, 'EdMicromapSpell', 'editor, micromap, misspelled marks');
   Add($70b0b0, 'EdStateChanged', 'editor, line states, changed');
   Add($80a080, 'EdStateAdded', 'editor, line states, added');
   Add(clMedGray, 'EdStateSaved', 'editor, line states, saved');

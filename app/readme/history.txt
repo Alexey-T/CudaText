@@ -4,12 +4,12 @@
   * changed
 
 
+1.6.3
 + lexer Python: update for Py3.6
-
-1.6.2
 + session contains state (visible/size) of side/bottom panels
 + micromap shows selections (e.g. after "Find/ Select all")
-+ micromap shows spell-check errs
++ micromap shows marks for "Hilite Occurrences" plugin; add theme color
++ micromap shows marks for "Spell Checker"; add theme color
 
 1.6.1
 - fixed toolbar API
