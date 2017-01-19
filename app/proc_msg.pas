@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.6.3.0';
+  cAppExeVersion = '1.6.4.0';
   cAppApiVersion = '1.0.164';
 
 const
@@ -116,7 +116,7 @@ const
   msgStatusEncChanged: string = 'Encoding changed';
   msgStatusGotoLine: string = 'Go to line: %d';
   msgStatusGotoFileLineCol: string = 'File "%s", Line %d Col %d';
-  msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Commands dialog, focus any command, and press F9, you''ll see additional dialog';
+  msgStatusHelpOnKeysConfig: string = 'To customize hotkeys, call Help/Commands dialog, focus needed command, and press F9, you''ll see additional dialog';
   msgStatusClickingLogLine: string = 'Clicking log line';
   msgStatusNoGotoDefinitionPlugins: string = 'No goto-definition plugins installed for this lexer';
   msgStatusFilenameAlreadyOpened: string = 'File name is already opened in another tab:';
