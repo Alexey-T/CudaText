@@ -131,8 +131,9 @@ cCommand_TextTrimSpacesLeft = 1026
 cCommand_TextTrimSpacesRight = 1027
 cCommand_TextTrimSpacesAll = 1028
 
+cCommand_UnfoldAll = 1029
 cCommand_FoldAll = 1030
-cCommand_UnfoldAll = 1031
+cCommand_FoldLevel1 = 1031
 cCommand_FoldLevel2 = 1032
 cCommand_FoldLevel3 = 1033
 cCommand_FoldLevel4 = 1034

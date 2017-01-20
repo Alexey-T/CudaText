@@ -4,6 +4,14 @@
   * changed
 
 
+1.6.4.2
++ cmd "Fold level 1" (was only 2..9)
++ cmd "Fold all" folds with nested ranges
+
+1.6.4
+- fix deleting block, till begin of line
+- fix replace-all, regex "\n" to "__"
+
 1.6.3
 + lexer Python: update for Py3.6
 + session contains state (visible/size) of side/bottom panels
