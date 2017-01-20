@@ -20,12 +20,9 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <BuildModes Count="2">
-      <Item1 Name="Default" Default="True"/>
-      <Item2 Name="QT">
-        <MacroValues Count="1">
-          <Macro1 Name="LCLWidgetType" Value="qt"/>
-        </MacroValues>
+    <BuildModes Count="4">
+      <Item1 Name="x32 def" Default="True"/>
+      <Item2 Name="x64 def">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -34,7 +31,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\comp"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -45,8 +42,8 @@
           <CodeGeneration>
             <Checks>
               <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
             </Checks>
+            <TargetCPU Value="x86_64"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -58,10 +55,96 @@
               </Win32>
             </Options>
           </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
         </CompilerOptions>
       </Item2>
-      <SharedMatrixOptions Count="1">
-        <Item1 ID="768150883430" Modes="QT" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
+      <Item3 Name="x64 Qt">
+        <MacroValues Count="1">
+          <Macro1 Name="LCLWidgetType" Value="qt"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="x86_64"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item3>
+      <Item4 Name="x32 Cocoa">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="cocoa"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="i386"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item4>
+      <SharedMatrixOptions Count="2">
+        <Item1 ID="768150883430" Modes="x64 Qt" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
+        <Item2 ID="728289161338" Modes="x32 Cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -393,6 +476,7 @@
       <Checks>
         <RangeChecks Value="True"/>
       </Checks>
+      <TargetCPU Value="i386"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
