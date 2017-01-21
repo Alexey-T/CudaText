@@ -4,6 +4,9 @@
   * changed
 
 
+1.6.5
+- fix lexer-parser, bug when Python part inside Latex file
+
 1.6.4.2
 + cmd "Fold level 1" (was only 2..9)
 + cmd "Fold all" folds with nested ranges
