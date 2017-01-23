@@ -75,7 +75,7 @@ const
   msgCannotReadConf: string = 'Cannot read/parse config:';
   msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';
   msgCannotFindMatch: string = 'Cannot find';
-  msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in root-folder of zip file';
+  msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in zip file';
   msgCannotFindBookmarks: string = 'Cannot find bookmarks in text';
   msgCannotOpenTooBig: string = 'Cannot open file, it''s too big:';
   msgCannotHandleZip: string = 'Cannot handle zip file:';
