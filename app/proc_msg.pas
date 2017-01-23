@@ -61,14 +61,14 @@ const
   {$ifdef darwin}
   msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
   {$else}
-  msgCannotInitPython2: string = 'write option "pylib" to user.json. See info in default config: Options / Settings-default.';
+  msgCannotInitPython2: string = 'write option "pylib'+ {$ifdef linux}'__linux'+{$endif} '" to user.json. See info in default config: Options / Settings-default.';
   {$endif}
 
   msgCannotOpenFile: string = 'Cannot open file:';
   msgCannotFindFile: string = 'Cannot find file:';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
-  msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer in library:';
+  msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
   msgCannotCreateDir: string = 'Cannot create dir:';
   msgCannotSaveFile: string = 'Cannot save file:';
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';

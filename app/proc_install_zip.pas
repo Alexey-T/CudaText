@@ -237,7 +237,7 @@ begin
         end
         else
         begin
-          MsgBox(msgCannotFindSublexerInLibrary+' '+s_lexer, MB_OK or MB_ICONWARNING);
+          s_report:= s_report+(msgCannotFindSublexerInLibrary+' '+s_lexer)+#10;
           Continue;
         end;
       end;
