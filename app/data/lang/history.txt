@@ -2,7 +2,7 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2017.01.23
-+ [si] Lexer, Autocompl
++ [si] PackageLexer, PackageAutocompl, PackageMissLexmap
 
 2017.01.03
 - [si] Installed

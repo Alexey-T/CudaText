@@ -424,9 +424,10 @@ begin
     DoLocString(msgStatusPackageType             , ini, 'si', 'PackageType');
     DoLocString(msgStatusPackageDesc             , ini, 'si', 'PackageDesc');
     DoLocString(msgStatusPackageCommand          , ini, 'si', 'PackageCommand');
+    DoLocString(msgStatusPackageEvents           , ini, 'si', 'PackageEvents');
     DoLocString(msgStatusPackageLexer            , ini, 'si', 'PackageLexer');
     DoLocString(msgStatusPackageAutoCompletion   , ini, 'si', 'PackageAutocompl');
-    DoLocString(msgStatusPackageEvents           , ini, 'si', 'PackageEvents');
+    DoLocString(msgStatusPackageMissedLexerMap   , ini, 'si', 'PackageMissLexmap');
     DoLocString(msgStatusInstalledNeedRestart    , ini, 'si', 'InstalledNeedRestart');
     DoLocString(msgStatusErrorInConfigFile       , ini, 'si', 'ErrorInConfigFile');
     DoLocString(msgStatusCommandOnlyForLexers    , ini, 'si', 'CommandOnlyForLexers');

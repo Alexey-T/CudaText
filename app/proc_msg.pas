@@ -92,6 +92,7 @@ const
   msgStatusPackageEvents: string = 'events:';
   msgStatusPackageLexer: string = 'lexer:';
   msgStatusPackageAutoCompletion: string = 'static auto-completion:';
+  msgStatusPackageMissedLexerMap: string = 'lexer misses themes support (.cuda-lexmap file)';
   msgStatusInstalledNeedRestart: string = 'Program should be restarted to see new plugin';
   msgStatusErrorInConfigFile: string = 'Error in config file';
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';

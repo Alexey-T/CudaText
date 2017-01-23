@@ -189,7 +189,9 @@ begin
       end;
 
       if FileExists(fn_lexmap) then
-        CopyFile(fn_lexmap, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexmap));
+        CopyFile(fn_lexmap, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexmap))
+      else
+        s_report:= s_report+msgStatusPackageMissedLexerMap+#10;
 
       if FileExists(fn_acp) then
       begin
