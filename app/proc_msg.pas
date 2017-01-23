@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.6.4.3';
+  cAppExeVersion = '1.6.4.5';
   cAppApiVersion = '1.0.164';
 
 const
@@ -90,6 +90,8 @@ const
   msgStatusPackageDesc: string = 'description:';
   msgStatusPackageCommand: string = 'command:';
   msgStatusPackageEvents: string = 'events:';
+  msgStatusPackageLexer: string = 'lexer:';
+  msgStatusPackageAutoCompletion: string = 'static auto-completion:';
   msgStatusInstalledNeedRestart: string = 'Program should be restarted to see new plugin';
   msgStatusErrorInConfigFile: string = 'Error in config file';
   msgStatusCommandOnlyForLexers: string = 'Command is only for lexers:';

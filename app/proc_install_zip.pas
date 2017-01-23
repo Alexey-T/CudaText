@@ -183,12 +183,20 @@ begin
       end;
 
       if FileExists(fn_lexer) then
+      begin
         CopyFile(fn_lexer, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexer));
+        s_report:= s_report+msgStatusPackageLexer+' '+s_lexer+#10;
+      end;
+
       if FileExists(fn_lexmap) then
         CopyFile(fn_lexmap, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexmap));
+
       if FileExists(fn_acp) then
+      begin
         if dir_acp<>'' then
           CopyFile(fn_acp, dir_acp+DirectorySeparator+ExtractFileName(fn_acp));
+        s_report:= s_report+msgStatusPackageAutoCompletion+' '+s_lexer+#10;
+      end;
 
       //install from file
       an:= Manager.FindAnalyzer(s_lexer);
@@ -202,8 +210,6 @@ begin
         DoLoadLexerStylesFromFile(an, GetAppPath(cFileLexerStyles));
         DoLexerExportFromLibToFile(an);
       end;
-
-      s_report:= s_report+s_lexer+#10;
 
       //set sublexer links
       for i_sub:= 0 to an.SubAnalyzers.Count-1 do
