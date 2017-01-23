@@ -1,4 +1,4 @@
-object SyntAnal13: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -585,6 +585,166 @@ object SyntAnal13: TLibSyntAnalyzer
       HighlightPos = cpBound
       NoEndRule = True
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Colors'
+      StyleName = 'Color'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'AliceBlue'
+            'AntiqueWhite'
+            'Aqua'
+            'Aquamarine'
+            'Azure'
+            'Beige'
+            'Bisque'
+            'Black'
+            'BlanchedAlmond'
+            'Blue'
+            'BlueViolet'
+            'Brown'
+            'BurlyWood'
+            'CadetBlue'
+            'Chartreuse'
+            'Chocolate'
+            'Coral'
+            'CornflowerBlue'
+            'Cornsilk'
+            'Crimson'
+            'Cyan'
+            'DarkBlue'
+            'DarkCyan'
+            'DarkGoldenRod'
+            'DarkGray'
+            'DarkGreen'
+            'DarkGrey'
+            'DarkKhaki'
+            'DarkMagenta'
+            'DarkOliveGreen'
+            'Darkorange'
+            'DarkOrchid'
+            'DarkRed'
+            'DarkSalmon'
+            'DarkSeaGreen'
+            'DarkSlateBlue'
+            'DarkSlateGray'
+            'DarkSlateGrey'
+            'DarkTurquoise'
+            'DarkViolet'
+            'DeepPink'
+            'DeepSkyBlue'
+            'DimGray'
+            'DimGrey'
+            'DodgerBlue'
+            'FireBrick'
+            'FloralWhite'
+            'ForestGreen'
+            'Fuchsia'
+            'Gainsboro'
+            'GhostWhite'
+            'Gold'
+            'GoldenRod'
+            'Gray'
+            'Green'
+            'GreenYellow'
+            'Grey'
+            'HoneyDew'
+            'HotPink'
+            'IndianRed'
+            'Indigo'
+            'Ivory'
+            'Khaki'
+            'Lavender'
+            'LavenderBlush'
+            'LawnGreen'
+            'LemonChiffon'
+            'LightBlue'
+            'LightCoral'
+            'LightCyan'
+            'LightGoldenRodYellow'
+            'LightGray'
+            'LightGreen'
+            'LightGrey'
+            'LightPink'
+            'LightSalmon'
+            'LightSeaGreen'
+            'LightSkyBlue'
+            'LightSlateGray'
+            'LightSlateGrey'
+            'LightSteelBlue'
+            'LightYellow'
+            'Lime'
+            'LimeGreen'
+            'Linen'
+            'Magenta'
+            'Maroon'
+            'MediumAquaMarine'
+            'MediumBlue'
+            'MediumOrchid'
+            'MediumPurple'
+            'MediumSeaGreen'
+            'MediumSlateBlue'
+            'MediumSpringGreen'
+            'MediumTurquoise'
+            'MediumVioletRed'
+            'MidnightBlue'
+            'MintCream'
+            'MistyRose'
+            'Moccasin'
+            'NavajoWhite'
+            'Navy'
+            'OldLace'
+            'Olive'
+            'OliveDrab'
+            'Orange'
+            'OrangeRed'
+            'Orchid'
+            'PaleGoldenRod'
+            'PaleGreen'
+            'PaleTurquoise'
+            'PaleVioletRed'
+            'PapayaWhip'
+            'PeachPuff'
+            'Peru'
+            'Pink'
+            'Plum'
+            'PowderBlue'
+            'Purple'
+            'Red'
+            'RosyBrown'
+            'RoyalBlue'
+            'SaddleBrown'
+            'Salmon'
+            'SandyBrown'
+            'SeaGreen'
+            'SeaShell'
+            'Sienna'
+            'Silver'
+            'SkyBlue'
+            'SlateBlue'
+            'SlateGray'
+            'SlateGrey'
+            'Snow'
+            'SpringGreen'
+            'SteelBlue'
+            'Tan'
+            'Teal'
+            'Thistle'
+            'Tomato'
+            'Turquoise'
+            'Violet'
+            'Wheat'
+            'White'
+            'WhiteSmoke'
+            'Yellow'
+            'YellowGreen')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -594,7 +754,7 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'VBScript'
@@ -602,7 +762,7 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal36
+      SyntAnalyzer = SyntAnal43
     end
     item
       DisplayName = 'JavaScript'
@@ -610,14 +770,14 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal18
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal16
+      SyntAnalyzer = SyntAnal18
     end
     item
       DisplayName = 'ASP'
@@ -625,7 +785,7 @@ object SyntAnal13: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal36
+      SyntAnalyzer = SyntAnal43
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
@@ -646,7 +806,7 @@ object SyntAnal13: TLibSyntAnalyzer
     '  </script>'
     '      '
     '  <body src="www.com" style='#39'aaa; aaa; aaa;'#39'> '
-    '    <h1 color=#dde>Text &nbsp;</h1> '
+    '    <h1 color=#dde color=yellow color=violet >Text &nbsp;</h1> '
     '  </body> '
     '</html>')
   TokenTypeNames.Strings = (
