@@ -1,6 +1,10 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+
+2017.01.26
++ [d_lex_prop] info_theme
+
 2017.01.23
 + [si] PackageLexer, PackageAutocompl, PackageMissLexmap
 

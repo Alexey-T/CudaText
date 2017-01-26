@@ -51,6 +51,7 @@ type
     edTypes: TEdit;
     edName: TEdit;
     edSample: TATSynEdit;
+    LabelInfoThemes: TLabel;
     LabelStylesStrings: TLabel;
     LabelStylesCmt: TLabel;
     LabelCmtFull: TLabel;
@@ -195,6 +196,8 @@ begin
     with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
     with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
 
+    with F.LabelInfoThemes do Caption:= ini.ReadString(section, 'info_theme', Caption);
+
     DoLocString(msgBorderTypeNone, ini, section, 'bty_none');
     DoLocString(msgBorderTypeSolid, ini, section, 'bty_solid');
     DoLocString(msgBorderTypeDash, ini, section, 'bty_dash');
@@ -223,6 +226,8 @@ begin
   edSample.OptTabSize:= 4;
 
   FFormats:= TecStylesCollection.Create;
+
+  LabelInfoThemes.Visible:= UiOps.LexerThemes;
 end;
 
 procedure TfmLexerProp.edStyleTypeChange(Sender: TObject);
@@ -410,6 +415,12 @@ end;
 
 procedure TfmLexerProp.UpdateStlEn(fmt: TecFormatType);
 begin
+  if UiOps.LexerThemes then
+  begin
+    Panel1.Enabled:= false;
+    Exit;
+  end;
+
   edColorFont.Enabled:= fmt in [ftCustomFont, ftFontAttr, ftColor];
   edColorBG.Enabled:= true;
 

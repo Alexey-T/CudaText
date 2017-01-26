@@ -1,7 +1,7 @@
 object fmLexerProp: TfmLexerProp
-  Left = 448
+  Left = 441
   Height = 566
-  Top = 312
+  Top = 195
   Width = 623
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -37,9 +37,9 @@ object fmLexerProp: TfmLexerProp
     Height = 525
     Top = 0
     Width = 623
-    ActivePage = TabSheetGeneral
+    ActivePage = TabSheetStyles
     Align = alClient
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
     object TabSheetGeneral: TTabSheet
       Caption = 'General'
@@ -363,7 +363,7 @@ object fmLexerProp: TfmLexerProp
       ClientWidth = 619
       object ListStyles: TListBox
         Left = 6
-        Height = 482
+        Height = 424
         Top = 6
         Width = 176
         Align = alLeft
@@ -376,20 +376,20 @@ object fmLexerProp: TfmLexerProp
       end
       object Panel1: TPanel
         Left = 188
-        Height = 482
+        Height = 424
         Top = 6
         Width = 425
         Align = alClient
         BorderSpacing.Around = 6
         BevelOuter = bvNone
-        ClientHeight = 482
+        ClientHeight = 424
         ClientWidth = 425
         TabOrder = 1
         object edColorFont: TColorBox
           AnchorSideTop.Control = edColorBG
           Left = 208
           Height = 31
-          Top = 74
+          Top = 70
           Width = 190
           ColorRectWidth = 22
           NoneColorColor = clNone
@@ -404,7 +404,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 31
-          Top = 74
+          Top = 70
           Width = 190
           ColorRectWidth = 22
           NoneColorColor = clNone
@@ -419,7 +419,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelColorBg
           Left = 208
           Height = 17
-          Top = 54
+          Top = 50
           Width = 91
           Caption = 'Color of font:'
           FocusControl = edColorFont
@@ -429,7 +429,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelStyleType
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 31
+          Height = 27
           Top = 20
           Width = 190
           BorderSpacing.Top = 3
@@ -458,7 +458,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 54
+          Top = 50
           Width = 81
           BorderSpacing.Top = 3
           Caption = 'Color of BG:'
@@ -470,7 +470,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 108
+          Top = 104
           Width = 77
           BorderSpacing.Top = 3
           Caption = 'Font styles:'
@@ -481,7 +481,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 24
-          Top = 128
+          Top = 124
           Width = 57
           BorderSpacing.Top = 3
           Caption = 'Bold'
@@ -492,7 +492,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = chkBold
           Left = 104
           Height = 24
-          Top = 128
+          Top = 124
           Width = 59
           Caption = 'Italic'
           OnChange = chkBoldChange
@@ -502,7 +502,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = chkBold
           Left = 304
           Height = 24
-          Top = 128
+          Top = 124
           Width = 83
           Caption = 'Stikeout'
           OnChange = chkBoldChange
@@ -512,7 +512,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = chkBold
           Left = 192
           Height = 24
-          Top = 128
+          Top = 124
           Width = 91
           Caption = 'Underline'
           OnChange = chkBoldChange
@@ -523,7 +523,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 155
+          Top = 151
           Width = 58
           BorderSpacing.Top = 3
           Caption = 'Borders:'
@@ -534,7 +534,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 31
-          Top = 195
+          Top = 191
           Width = 100
           BorderSpacing.Top = 3
           DropDownCount = 20
@@ -547,7 +547,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = cbBorderL
           Left = 112
           Height = 31
-          Top = 195
+          Top = 191
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
@@ -559,7 +559,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = cbBorderL
           Left = 216
           Height = 31
-          Top = 195
+          Top = 191
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
@@ -571,7 +571,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = cbBorderL
           Left = 320
           Height = 31
-          Top = 195
+          Top = 191
           Width = 100
           DropDownCount = 20
           ItemHeight = 0
@@ -584,7 +584,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 175
+          Top = 171
           Width = 28
           BorderSpacing.Top = 3
           Caption = 'Left'
@@ -595,7 +595,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelBorderL
           Left = 112
           Height = 17
-          Top = 175
+          Top = 171
           Width = 25
           Caption = 'Top'
           FocusControl = cbBorderT
@@ -605,7 +605,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelBorderL
           Left = 216
           Height = 17
-          Top = 175
+          Top = 171
           Width = 35
           Caption = 'Right'
           FocusControl = cbBorderR
@@ -615,7 +615,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Control = LabelBorderL
           Left = 320
           Height = 17
-          Top = 175
+          Top = 171
           Width = 52
           Caption = 'Bottom'
           FocusControl = cbBorderB
@@ -626,7 +626,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 17
-          Top = 229
+          Top = 225
           Width = 109
           BorderSpacing.Top = 3
           Caption = 'Color of border:'
@@ -638,7 +638,7 @@ object fmLexerProp: TfmLexerProp
           AnchorSideTop.Side = asrBottom
           Left = 8
           Height = 31
-          Top = 249
+          Top = 245
           Width = 190
           ColorRectWidth = 22
           NoneColorColor = clNone
@@ -649,6 +649,19 @@ object fmLexerProp: TfmLexerProp
           OnChange = edColorBGChange
           TabOrder = 11
         end
+      end
+      object LabelInfoThemes: TLabel
+        Left = 6
+        Height = 52
+        Top = 436
+        Width = 607
+        Align = alBottom
+        Alignment = taCenter
+        AutoSize = False
+        BorderSpacing.Around = 6
+        Caption = 'Option "ui_lexer_themes" is on, so styles are used from current syntax-theme, not from this dialog.'
+        ParentColor = False
+        WordWrap = True
       end
     end
     object TabSheetNotes: TTabSheet
