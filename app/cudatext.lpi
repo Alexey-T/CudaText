@@ -20,6 +20,12 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="1"/>
+      <MinorVersionNr Value="6"/>
+      <StringTable CompanyName="UVviewsoft.com" FileDescription="Advanced text editor" InternalName="CudaText" LegalCopyright="(c) 2015 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
+    </VersionInfo>
     <BuildModes Count="4">
       <Item1 Name="x32 def" Default="True"/>
       <Item2 Name="x64 def">
