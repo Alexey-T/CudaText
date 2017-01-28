@@ -67,7 +67,7 @@ procedure TfmMenuApi.FormShow(Sender: TObject);
 begin
   //fit in scrn
   Left:= Max(0, Left);
-  Left:= Min(Left, Screen.Width-Width);
+  Left:= Min(Left, Screen.DesktopWidth-Width);
 
   DoFilter;
 
