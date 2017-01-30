@@ -111,7 +111,7 @@ object fmFind: TfmFind
         Width = 32
         Align = alLeft
         TabStop = True
-        TabOrder = 4
+        TabOrder = 5
         Caption = '+'
         Checkable = True
         OnClick = chkMulLineClick
@@ -123,7 +123,7 @@ object fmFind: TfmFind
         Width = 32
         Align = alLeft
         TabStop = True
-        TabOrder = 5
+        TabOrder = 4
         Caption = '[..]'
         Checkable = True
       end
