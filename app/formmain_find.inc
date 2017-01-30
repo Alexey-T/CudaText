@@ -157,10 +157,12 @@ begin
   begin
     DoFindMarkingInit(markingSelections);
     cnt:= FFinder.DoCountAll(true);
-    DoFindOptions_ResetInSelection;
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
-    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
+    MsgStatus(
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]) +
+      ' ('+SFindOptionsToTextHint+')');
+    DoFindOptions_ResetInSelection;
   end;
 
   if Res=cOpFindMarkAll then
@@ -169,7 +171,9 @@ begin
     cnt:= FFinder.DoCountAll(true);
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
-    MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
+    MsgStatus(
+      Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]) +
+      ' ('+SFindOptionsToTextHint+')');
   end;
 
   UpdateAppForSearch(false);
