@@ -82,6 +82,7 @@ const
   msgCannotSaveUserConf: string = 'Cannot save user config (read only?)';
   msgCannotReadConf: string = 'Cannot read/parse config:';
   msgCannotReloadUntitledTab: string = 'Cannot reload untitled tab';
+  msgCannotFindInMultiSel: string = 'Cannot find in multi-selections, yet';
   msgCannotFindMatch: string = 'Cannot find';
   msgCannotFindInstallInfInZip: string = 'Cannot find install.inf in zip file';
   msgCannotFindBookmarks: string = 'Cannot find bookmarks in text';

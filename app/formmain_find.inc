@@ -92,6 +92,10 @@ begin
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
   end;
 
+  if FFinder.OptInSelection then
+    if CurrentEditor.Carets.Count>1 then
+      MsgBox(msgCannotFindInMultiSel, MB_OK+MB_ICONWARNING);
+
   with CurrentFrame do
     if MacroRecord then
       MacroString:= MacroString+(Format('%d,%s'#1'%s'#1'%s'#1'%s',
