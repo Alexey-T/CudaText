@@ -2,6 +2,9 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2017.01.30
++ [d_f] h_sel
+
 2017.01.26
 + [d_lex_prop] info_theme
 

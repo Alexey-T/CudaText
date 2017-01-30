@@ -79,6 +79,7 @@ begin
     FFinder.OptWords:= chkWords.Checked;
     FFinder.OptRegex:= chkRegex.Checked;
     FFinder.OptWrapped:= chkWrap.Checked;
+    FFinder.OptInSelection:= chkInSel.Checked;
     FFinder.OptFromCaret:= (Res=cOpFindNext) or (Res=cOpFindPrev) or (Res=cOpFindRep);
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
   end;
@@ -234,6 +235,7 @@ begin
     //chkFromCaret.Checked:= FFinder.OptFromCaret;
     chkConfirm.Checked:= FFinder.OptConfirmReplace;
     chkWrap.Checked:= FFinder.OptWrapped;
+    chkInSel.Checked:= FFinder.OptInSelection;
     IsReplace:= AReplaceMode;
 
     UpdateState;
@@ -359,6 +361,7 @@ begin
   if FFinder.OptWords then Result:= Result+'words, ';
   if FFinder.OptBack then Result:= Result+'back, ';
   if FFinder.OptWrapped then Result:= Result+'wrapped, ';
+  if FFinder.OptInSelection then Result:= Result+'in-sel, ';
   if FFinder.OptFromCaret then Result:= Result+'from-caret, ';
   if SEndsWith(Result, ', ') then
     SetLength(Result, Length(Result)-2);
@@ -518,6 +521,7 @@ begin
     IfThen(FFinder.OptRegex, 'r')+
     IfThen(FFinder.OptWords, 'w')+
     IfThen(FFinder.OptFromCaret, 'f')+
+    IfThen(FFinder.OptInSelection, 's')+
     IfThen(FFinder.OptConfirmReplace, 'o')+
     IfThen(FFinder.OptWrapped, 'a')
 end;
@@ -529,6 +533,7 @@ begin
   FFinder.OptRegex:= Pos('r', S)>0;
   FFinder.OptWords:= Pos('w', S)>0;
   FFinder.OptFromCaret:= Pos('f', S)>0;
+  FFinder.OptInSelection:= Pos('s', S)>0;
   FFinder.OptConfirmReplace:= Pos('o', S)>0;
   FFinder.OptWrapped:= Pos('a', S)>0;
 end;

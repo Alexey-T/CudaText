@@ -504,6 +504,7 @@ const
   hotkey_wrap = ' - Alt+N';
   hotkey_cfm = ' - Alt+Y';
   hotkey_mul = ' - Alt+M';
+  hotkey_sel = ' - Alt+X';
 const
   init_HintRegex = 'Regular expressions';
   init_HintCase = 'Case sensitive';
@@ -511,6 +512,7 @@ const
   init_HintWrapped = 'Wrapped search';
   init_HintConfRep = 'Confirm on replace';
   init_HintMulLine = 'Multi-line inputs (Ctrl+Enter for new-line)';
+  init_HintInSel = 'Search in selection';
 var
   fn: string;
   ini: TIniFile;
@@ -522,6 +524,7 @@ begin
   with fmFind.chkWords do Hint:= init_HintWords+hotkey_words;
   with fmFind.chkWrap do Hint:= init_HintWrapped+hotkey_wrap;
   with fmFind.chkConfirm do Hint:= init_HintConfRep+hotkey_cfm;
+  with fmFind.chkInSel do Hint:= init_HintInSel+hotkey_sel;
   with fmFind.chkMulLine do Hint:= init_HintMulLine+hotkey_mul;
 
   fn:= GetAppLangFilename;
@@ -547,6 +550,7 @@ begin
     with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', init_HintWords)+hotkey_words;
     with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', init_HintWrapped)+hotkey_wrap;
     with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)+hotkey_cfm;
+    with fmFind.chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSel)+hotkey_sel;
     with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine)+hotkey_mul;
 
     with fmFind.edFind do

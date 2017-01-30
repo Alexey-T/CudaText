@@ -52,6 +52,7 @@ type
     chkCase: TATButton;
     chkConfirm: TATButton;
     chkMulLine: TATButton;
+    chkInSel: TATButton;
     chkRegex: TATButton;
     chkWords: TATButton;
     chkWrap: TATButton;
@@ -344,6 +345,8 @@ begin
     begin with chkConfirm do checked:= not checked; key:= 0; exit end;
   if (key=VK_N) and (Shift=[ssAlt]) then
     begin with chkWrap do checked:= not checked; key:= 0; exit end;
+  if (key=VK_X) and (Shift=[ssAlt]) then
+    begin with chkInSel do checked:= not checked; key:= 0; exit end;
   if (key=VK_M) and (Shift=[ssAlt]) then
     begin chkMulLineClick(Self); key:= 0; exit end;
 
@@ -452,6 +455,7 @@ begin
     chkCase.Parent:= PanelTopOps;
     chkWords.Parent:= PanelTopOps;
     chkWrap.Parent:= PanelTopOps;
+    chkInSel.Parent:= PanelTopOps;
     chkMulLine.Parent:= PanelTopOps;
     chkConfirm.Parent:= PanelTopOps;
     chkConfirm.Left:= 400; //to right
