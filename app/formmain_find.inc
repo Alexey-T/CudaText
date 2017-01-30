@@ -529,7 +529,7 @@ end;
 function TfmMain.DoFindOptionsToString: string;
 begin
   Result:=
-    //IfThen(FFinder.OptBack, 'b')+
+    //ignore OptBack
     IfThen(FFinder.OptCase, 'c')+
     IfThen(FFinder.OptRegex, 'r')+
     IfThen(FFinder.OptWords, 'w')+
@@ -541,7 +541,7 @@ end;
 
 procedure TfmMain.DoFindOptionsFromString(const S: string);
 begin
-  FFinder.OptBack:= false; //Pos('b', S)>0;
+  FFinder.OptBack:= false; //ignore OptBack
   FFinder.OptCase:= Pos('c', S)>0;
   FFinder.OptRegex:= Pos('r', S)>0;
   FFinder.OptWords:= Pos('w', S)>0;
