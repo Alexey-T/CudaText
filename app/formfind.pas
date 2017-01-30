@@ -79,11 +79,13 @@ type
     procedure bCountClick(Sender: TObject);
     procedure bCancelClick(Sender: TObject);
     procedure bSelectAllClick(Sender: TObject);
+    procedure chkInSelClick(Sender: TObject);
     procedure chkMulLineClick(Sender: TObject);
     procedure chkRegexChange(Sender: TObject);
     procedure chkRepChange(Sender: TObject);
     procedure bFindFirstClick(Sender: TObject);
     procedure chkRepClick(Sender: TObject);
+    procedure chkWrapClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -173,6 +175,11 @@ begin
   DoDone(cOpFindSelectAll);
 end;
 
+procedure TfmFind.chkInSelClick(Sender: TObject);
+begin
+  UpdateState;
+end;
+
 procedure TfmFind.chkMulLineClick(Sender: TObject);
 begin
   IsMultiLine:= not IsMultiLine;
@@ -189,6 +196,11 @@ begin
 end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
+begin
+  UpdateState;
+end;
+
+procedure TfmFind.chkWrapClick(Sender: TObject);
 begin
   UpdateState;
 end;
@@ -522,11 +534,12 @@ begin
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace or IsNarrow;
+  chkInSel.Enabled:= not chkWrap.Checked;
+  chkWrap.Enabled:= not chkInSel.Checked;
   edRep.Visible:= IsReplace;
   PanelLabels.Visible:= IsReplace or IsNarrow;
   LabelRep.Visible:= IsReplace;
   PanelBtnRep.Visible:= IsReplace;
-
   chkConfirm.Enabled:= IsReplace;
   //bCount.Enabled:= not IsReplace;
   //bSelectAll.Enabled:= not IsReplace;

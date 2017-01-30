@@ -103,6 +103,7 @@ object fmFind: TfmFind
         TabOrder = 3
         Caption = 'O'
         Checkable = True
+        OnClick = chkWrapClick
       end
       object chkMulLine: TATButton
         Left = 160
@@ -126,6 +127,7 @@ object fmFind: TfmFind
         TabOrder = 4
         Caption = '[..]'
         Checkable = True
+        OnClick = chkInSelClick
       end
     end
     object PanelOps2: TPanel
