@@ -52,6 +52,14 @@ begin
 end;
 
 
+procedure TfmMain.DoFindOptions_ResetInSelection;
+begin
+  //todo: maybe rework and dont reset opt
+  FFinder.OptInSelection:= false;
+  if Assigned(fmFind) then
+    fmFind.chkInSel.Checked:= false;
+end;
+
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
   ok, bChanged: boolean;
@@ -158,6 +166,15 @@ begin
     FinderUpdateEditor(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
   end;
+
+  //reset [x] in selection
+  if (Res=cOpFindFirst) or
+    (Res=cOpFindNext) or
+    (Res=cOpFindPrev) or
+    (Res=cOpFindRep) or
+    (Res=cOpFindRepAndStop) or
+    (Res=cOpFindSelectAll) then
+    DoFindOptions_ResetInSelection;
 
   UpdateAppForSearch(false);
 end;
