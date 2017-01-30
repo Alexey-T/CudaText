@@ -106,6 +106,8 @@ begin
     ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(false);
     DoFindResult(ok);
+    if ok then
+      DoFindOptions_ResetInSelection;
   end;
 
   if (Res=cOpFindRep) or (Res=cOpFindRepAndStop) then
@@ -118,6 +120,8 @@ begin
         ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(true);
     DoFindResult(ok);
+    if ok then
+      DoFindOptions_ResetInSelection;
   end;
 
   if Res=cOpFindRepAll then
@@ -153,6 +157,7 @@ begin
   begin
     DoFindMarkingInit(markingSelections);
     cnt:= FFinder.DoCountAll(true);
+    DoFindOptions_ResetInSelection;
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
@@ -166,15 +171,6 @@ begin
     FinderUpdateEditor(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
   end;
-
-  //reset [x] in selection
-  if (Res=cOpFindFirst) or
-    (Res=cOpFindNext) or
-    (Res=cOpFindPrev) or
-    (Res=cOpFindRep) or
-    (Res=cOpFindRepAndStop) or
-    (Res=cOpFindSelectAll) then
-    DoFindOptions_ResetInSelection;
 
   UpdateAppForSearch(false);
 end;
