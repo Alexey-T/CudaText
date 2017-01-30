@@ -2,7 +2,8 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
-2017.01.30
+2017.01.31
++ [ui] fnd_*
 + [d_f] h_sel
 
 2017.01.26

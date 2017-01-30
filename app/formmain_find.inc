@@ -370,17 +370,19 @@ begin
 end;
 
 function TfmMain.SFindOptionsToTextHint: string;
+const
+  Sep=', ';
 begin
   Result:= '';
-  if FFinder.OptRegex then Result:= Result+'regex, ';
-  if FFinder.OptCase then Result:= Result+'case, ';
-  if FFinder.OptWords then Result:= Result+'words, ';
-  if FFinder.OptBack then Result:= Result+'back, ';
-  if FFinder.OptWrapped then Result:= Result+'wrapped, ';
-  if FFinder.OptInSelection then Result:= Result+'in-sel, ';
-  if FFinder.OptFromCaret then Result:= Result+'from-caret, ';
-  if SEndsWith(Result, ', ') then
-    SetLength(Result, Length(Result)-2);
+  if FFinder.OptRegex then Result:= Result+msgFinderHintRegex+Sep;
+  if FFinder.OptCase then Result:= Result+msgFinderHintCase+Sep;
+  if FFinder.OptWords then Result:= Result+msgFinderHintWords+Sep;
+  if FFinder.OptBack then Result:= Result+msgFinderHintBack+Sep;
+  if FFinder.OptWrapped then Result:= Result+msgFinderHintWrapped+Sep;
+  if FFinder.OptInSelection then Result:= Result+msgFinderHintInSel+Sep;
+  if FFinder.OptFromCaret then Result:= Result+msgFinderHintFromCaret+Sep;
+  if SEndsWith(Result, Sep) then
+    SetLength(Result, Length(Result)-Length(Sep));
 end;
 
 procedure TfmMain.DoFindResult(ok: boolean);

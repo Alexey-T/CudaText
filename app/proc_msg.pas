@@ -26,6 +26,14 @@ const
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
 
+  msgFinderHintRegex: string = 'regex';
+  msgFinderHintCase: string = 'case';
+  msgFinderHintWords: string = 'words';
+  msgFinderHintBack: string = 'back';
+  msgFinderHintWrapped: string = 'wrapped';
+  msgFinderHintInSel: string = 'in-sel';
+  msgFinderHintFromCaret: string = 'from-caret';
+
   msgButtonOk: string = 'OK';
   msgButtonCancel: string = 'Cancel';
   msgButtonApply: string = 'Apply';

@@ -302,6 +302,14 @@ begin
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);
     UpdateMenuRecent(nil);
 
+    DoLocString(msgFinderHintRegex,     ini, 'ui', 'fnd_re');
+    DoLocString(msgFinderHintCase,      ini, 'ui', 'fnd_case');
+    DoLocString(msgFinderHintWords,     ini, 'ui', 'fnd_word');
+    DoLocString(msgFinderHintBack,      ini, 'ui', 'fnd_back');
+    DoLocString(msgFinderHintWrapped,   ini, 'ui', 'fnd_wrap');
+    DoLocString(msgFinderHintInSel,     ini, 'ui', 'fnd_sel');
+    DoLocString(msgFinderHintFromCaret, ini, 'ui', 'fnd_crt');
+
     DoLocString(msgButtonOk,     ini, 'ui', 'b_ok');
     DoLocString(msgButtonCancel, ini, 'ui', 'b_can');
     DoLocString(msgButtonApply,  ini, 'ui', 'b_ap');
