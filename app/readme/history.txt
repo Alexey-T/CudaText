@@ -4,6 +4,9 @@
   * changed
 
 
+1.6.6
++ find dialog: opt "in selection"
+
 1.6.5
 + windows version-info, for antivir
 + improve report, after installing lexer

@@ -249,7 +249,6 @@ begin
     chkCase.Checked:= FFinder.OptCase;
     chkWords.Checked:= FFinder.OptWords;
     chkRegex.Checked:= FFinder.OptRegex;
-    //chkFromCaret.Checked:= FFinder.OptFromCaret;
     chkConfirm.Checked:= FFinder.OptConfirmReplace;
     chkWrap.Checked:= FFinder.OptWrapped;
     chkInSel.Checked:= FFinder.OptInSelection;
