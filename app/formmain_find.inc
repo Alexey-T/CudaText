@@ -186,7 +186,7 @@ begin
   if not Assigned(fmFind) then
   begin
     fmFind:= TfmFind.Create(Self);
-    fmFind.OnDone:= @FindDialogDone;
+    fmFind.OnResult:= @FindDialogDone;
     fmFind.FHotkeyFind:= AppKeymap.GetShortcutFromCommand(cmd_DialogFind);
     fmFind.FHotkeyRep:= AppKeymap.GetShortcutFromCommand(cmd_DialogReplace);
     fmFind.Color:= GetAppColor('TabBg');

@@ -96,11 +96,11 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
-    FOnDone: TStrEvent;
+    FOnResult: TStrEvent;
     FReplace: boolean;
     FMultiLine: boolean;
     FNarrow: boolean;
-    procedure DoDone(const Str: string);
+    procedure DoResult(const Str: string);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(Value: boolean);
     procedure SetNarrow(AValue: boolean);
@@ -114,7 +114,7 @@ type
     procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;
-    property OnDone: TStrEvent read FOnDone write FOnDone;
+    property OnResult: TStrEvent read FOnResult write FOnResult;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -137,42 +137,42 @@ end;
 
 procedure TfmFind.bRepClick(Sender: TObject);
 begin
-  DoDone(cOpFindRep);
+  DoResult(cOpFindRep);
 end;
 
 procedure TfmFind.bFindNextClick(Sender: TObject);
 begin
-  DoDone(cOpFindNext);
+  DoResult(cOpFindNext);
 end;
 
 procedure TfmFind.bFindPrevClick(Sender: TObject);
 begin
-  DoDone(cOpFindPrev);
+  DoResult(cOpFindPrev);
 end;
 
 procedure TfmFind.bMarkAllClick(Sender: TObject);
 begin
-  DoDone(cOpFindMarkAll);
+  DoResult(cOpFindMarkAll);
 end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
-  DoDone(cOpFindRepAll);
+  DoResult(cOpFindRepAll);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
 begin
-  DoDOne(cOpFindCount);
+  DoResult(cOpFindCount);
 end;
 
 procedure TfmFind.bCancelClick(Sender: TObject);
 begin
-  DoDone(cOpFindClose);
+  DoResult(cOpFindClose);
 end;
 
 procedure TfmFind.bSelectAllClick(Sender: TObject);
 begin
-  DoDone(cOpFindSelectAll);
+  DoResult(cOpFindSelectAll);
 end;
 
 procedure TfmFind.chkInSelClick(Sender: TObject);
@@ -192,7 +192,7 @@ end;
 
 procedure TfmFind.bFindFirstClick(Sender: TObject);
 begin
-  DoDone(cOpFindFirst);
+  DoResult(cOpFindFirst);
 end;
 
 procedure TfmFind.chkRepClick(Sender: TObject);
@@ -298,18 +298,18 @@ begin
   if key=VK_RETURN then
   begin
     //Enter: find next
-    if Shift=[] then DoDone(cOpFindNext);
+    if Shift=[] then DoResult(cOpFindNext);
     //Shift+Enter: find prev
-    if Shift=[ssShift] then DoDone(cOpFindPrev);
+    if Shift=[ssShift] then DoResult(cOpFindPrev);
     //Ctrl+Enter: dont catch here, combobox must handle it as new-line
     if Shift=[ssCtrl] then exit;
 
     if IsReplace then
     begin
       //Alt+Enter: IsReplace
-      if Shift=[ssAlt] then DoDone(cOpFindRep);
+      if Shift=[ssAlt] then DoResult(cOpFindRep);
       //Ctrl+Alt+Enter: IsReplace and dont find next
-      if Shift=[ssAlt, ssCtrl] then DoDone(cOpFindRepAndStop);
+      if Shift=[ssAlt, ssCtrl] then DoResult(cOpFindRepAndStop);
     end;
 
     key:= 0;
@@ -318,7 +318,7 @@ begin
 
   if key=VK_ESCAPE then
   begin
-    DoDone(cOpFindClose);
+    DoResult(cOpFindClose);
     key:= 0;
     exit;
   end;
@@ -332,44 +332,34 @@ begin
   end;
 
   if (FHotkeyFind<>0) and (FHotkeyFind=KeyToShortCut(Key, Shift)) then
-  begin
-    FReplace:= false;
-    UpdateState;
-    key:= 0;
-    exit;
-  end;
+    begin FReplace:= false; UpdateState; key:= 0; exit; end;
 
   if (FHotkeyRep<>0) and (FHotkeyRep=KeyToShortCut(Key, Shift)) then
-  begin
-    FReplace:= true;
-    UpdateState;
-    key:= 0;
-    exit;
-  end;
+    begin FReplace:= true; UpdateState; key:= 0; exit; end;
 
   if (key=VK_R) and (Shift=[ssAlt]) then
-    begin with chkRegex do checked:= not checked; chkRegexChange(Self); key:= 0; exit end;
+    begin with chkRegex do checked:= not checked;   UpdateState; key:= 0; exit end;
   if (key=VK_C) and (Shift=[ssAlt]) then
-    begin with chkCase do checked:= not checked; key:= 0; exit end;
+    begin with chkCase do checked:= not checked;    UpdateState; key:= 0; exit end;
   if (key=VK_W) and (Shift=[ssAlt]) then
-    begin with chkWords do checked:= not checked; key:= 0; exit end;
+    begin with chkWords do checked:= not checked;   UpdateState; key:= 0; exit end;
   if (key=VK_Y) and (Shift=[ssAlt]) then
-    begin with chkConfirm do checked:= not checked; key:= 0; exit end;
+    begin with chkConfirm do checked:= not checked; UpdateState; key:= 0; exit end;
   if (key=VK_N) and (Shift=[ssAlt]) then
-    begin with chkWrap do checked:= not checked; key:= 0; exit end;
+    begin with chkWrap do checked:= not checked;    UpdateState; key:= 0; exit end;
   if (key=VK_X) and (Shift=[ssAlt]) then
-    begin with chkInSel do checked:= not checked; key:= 0; exit end;
+    begin with chkInSel do checked:= not checked;   UpdateState; key:= 0; exit end;
   if (key=VK_M) and (Shift=[ssAlt]) then
-    begin chkMulLineClick(Self); key:= 0; exit end;
+    begin chkMulLineClick(Self);                    UpdateState; key:= 0; exit end;
 
   if (key=VK_A) and (Shift=[ssAlt]) then
-    begin bRepAllClick(Self); key:= 0; exit end;
+    begin bRepAllClick(Self);                       UpdateState; key:= 0; exit end;
   if (key=VK_5) and (Shift=[ssAlt]) then
-    begin bCountClick(Self); key:= 0; exit end;
+    begin bCountClick(Self);                        UpdateState; key:= 0; exit end;
   if (key=VK_6) and (Shift=[ssAlt]) then
-    begin bSelectAllClick(Self); key:= 0; exit end;
+    begin bSelectAllClick(Self);                    UpdateState; key:= 0; exit end;
   if (key=VK_7) and (Shift=[ssAlt]) then
-    begin bMarkAllClick(Self); key:= 0; exit end;
+    begin bMarkAllClick(Self);                      UpdateState; key:= 0; exit end;
 end;
 
 procedure TfmFind.FormShow(Sender: TObject);
@@ -386,7 +376,7 @@ begin
     Top:= Screen.DesktopHeight-200;
 end;
 
-procedure TfmFind.DoDone(const Str: string);
+procedure TfmFind.DoResult(const Str: string);
 begin
   if Str=cOpFindPrev then
     if chkRegex.Checked then exit;
@@ -394,14 +384,16 @@ begin
   if edFind.Text='' then
     if Str<>cOpFindClose then exit;
 
-  if Assigned(FOnDone) then
-    FOnDone(Self, Str);
+  if Assigned(FOnResult) then
+    FOnResult(Self, Str);
 
   if Str<>cOpFindClose then
   begin
     edFind.DoAddLineToHistory(edFind.Text, UiOps.MaxHistoryEdits);
     edRep.DoAddLineToHistory(edRep.Text, UiOps.MaxHistoryEdits);
   end;
+
+  UpdateState;
 end;
 
 procedure TfmFind.SetIsDoubleBuffered(AValue: boolean);
