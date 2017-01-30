@@ -90,7 +90,6 @@ begin
 
 
   UpdateAppForSearch(true);
-  FFinder.UpdateBuffer;
 
   if (Res=cOpFindFirst) or (Res=cOpFindNext) or (Res=cOpFindPrev) then
   begin
@@ -261,7 +260,6 @@ begin
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
 
-  FFinder.UpdateBuffer;
   ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
   FinderUpdateEditor(false);
   DoFindResult(ok);
@@ -286,7 +284,6 @@ begin
     FFinder.OptRegex:= false;
   FFinder.OptBack:= not ANext;
 
-  FFinder.UpdateBuffer;
   ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
   FinderUpdateEditor(false);
   DoFindResult(ok);
@@ -336,8 +333,6 @@ begin
   FFinder.Editor:= CurrentEditor;
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
-
-  FFinder.UpdateBuffer;
 
   DoFindMarkingInit(AMode);
   cnt:= FFinder.DoCountAll(true);
@@ -504,7 +499,6 @@ begin
       end;
   end;
 
-  FFinder.UpdateBuffer;
   ok:= FFinder.DoFindOrReplace(false, false, false, bFlag);
   FinderUpdateEditor(false);
   DoFindResult(ok);
