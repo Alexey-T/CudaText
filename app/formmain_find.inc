@@ -103,7 +103,7 @@ begin
   if (Res=cOpFindFirst) or (Res=cOpFindNext) or (Res=cOpFindPrev) then
   begin
     FFinder.OptBack:= (Res=cOpFindPrev);
-    ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
+    ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(false);
     DoFindResult(ok);
     if ok then
@@ -113,11 +113,11 @@ begin
   if (Res=cOpFindRep) or (Res=cOpFindRepAndStop) then
   begin
     //replace match
-    ok:= FFinder.DoReplaceSelectedMatch;
+    ok:= FFinder.DoAction_ReplaceSelected;
     //after match is replaced, do find-next
     if Res=cOpFindRep then
       if ok then
-        ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
+        ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
     FinderUpdateEditor(true);
     DoFindResult(ok);
     if ok then
@@ -136,7 +136,7 @@ begin
       end;
 
     FFinder.Editor.Strings.BeginUndoGroup;
-    cnt:= FFinder.DoReplaceAll;
+    cnt:= FFinder.DoAction_ReplaceAll;
     FFinder.Editor.Strings.EndUndoGroup;
     FinderUpdateEditor(true);
 
@@ -149,14 +149,14 @@ begin
   if Res=cOpFindCount then
   begin
     DoFindMarkingInit(markingNone);
-    cnt:= FFinder.DoCountAll(false);
+    cnt:= FFinder.DoAction_CountAll(false);
     MsgStatus(Format(msgStatusFindCount, [Utf8Encode(FFinder.StrFind), cnt]));
   end;
 
   if Res=cOpFindSelectAll then
   begin
     DoFindMarkingInit(markingSelections);
-    cnt:= FFinder.DoCountAll(true);
+    cnt:= FFinder.DoAction_CountAll(true);
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
     MsgStatus(
@@ -168,7 +168,7 @@ begin
   if Res=cOpFindMarkAll then
   begin
     DoFindMarkingInit(markingMarkers);
-    cnt:= FFinder.DoCountAll(true);
+    cnt:= FFinder.DoAction_CountAll(true);
     DoFindMarkingInit(markingNone);
     FinderUpdateEditor(false);
     MsgStatus(
@@ -278,7 +278,7 @@ begin
   FFinder.OptBack:= false;
   FFinder.OptFromCaret:= false;
 
-  ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
+  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
   FinderUpdateEditor(false);
   DoFindResult(ok);
 end;
@@ -302,7 +302,7 @@ begin
     FFinder.OptRegex:= false;
   FFinder.OptBack:= not ANext;
 
-  ok:= FFinder.DoFindOrReplace(false, false, false, bChanged);
+  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bChanged);
   FinderUpdateEditor(false);
   DoFindResult(ok);
 end;
@@ -353,7 +353,7 @@ begin
   FFinder.OptFromCaret:= false;
 
   DoFindMarkingInit(AMode);
-  cnt:= FFinder.DoCountAll(true);
+  cnt:= FFinder.DoAction_CountAll(true);
   DoFindMarkingInit(markingNone);
 
   FinderUpdateEditor(false);
@@ -518,7 +518,7 @@ begin
       end;
   end;
 
-  ok:= FFinder.DoFindOrReplace(false, false, false, bFlag);
+  ok:= FFinder.DoAction_FindOrReplace(false, false, false, bFlag);
   FinderUpdateEditor(false);
   DoFindResult(ok);
 
