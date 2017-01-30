@@ -523,7 +523,7 @@ begin
     IfThen(FFinder.OptFromCaret, 'f')+
     IfThen(FFinder.OptInSelection, 's')+
     IfThen(FFinder.OptConfirmReplace, 'o')+
-    IfThen(FFinder.OptWrapped, 'a')
+    IfThen(FFinder.OptWrapped, 'a');
 end;
 
 procedure TfmMain.DoFindOptionsFromString(const S: string);

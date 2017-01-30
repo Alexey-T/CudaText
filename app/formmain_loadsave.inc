@@ -62,6 +62,7 @@ begin
     c.SetValue('/finder/back', FFinder.OptBack);
     c.SetValue('/finder/confirm', FFinder.OptConfirmReplace);
     c.SetValue('/finder/wrap', FFinder.OptWrapped);
+    c.SetValue('/finder/insel', FFinder.OptInSelection);
 
     ////state
     c.SetValue('theme_ui', FThemeUi);
@@ -336,6 +337,7 @@ begin
     FFinder.OptBack:= c.GetValue('/finder/back', false);
     FFinder.OptConfirmReplace:= c.GetValue('/finder/confirm', false);
     FFinder.OptWrapped:= c.GetValue('/finder/wrap', false);
+    FFinder.OptInSelection:= c.GetValue('/finder/insel', false);
 
     ////state
     ShowToolbar:= c.GetValue('show_toolbar', true);
