@@ -1,7 +1,7 @@
 object fmMain: TfmMain
   Left = 344
   Height = 526
-  Top = 661
+  Top = 369
   Width = 872
   AllowDropFiles = True
   Caption = 'App'

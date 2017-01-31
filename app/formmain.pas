@@ -1130,8 +1130,7 @@ begin
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
-  StatusAlt.Align:= alBottom;
-  StatusAlt.Top:= Status.Top-4;
+  StatusAlt.Align:= alNone;
   StatusAlt.Height:= Status.Height;
   StatusAlt.IndentLeft:= 0;
   StatusAlt.AddPanel(5000, saLeft, '?');
@@ -2441,6 +2440,8 @@ begin
 end;
 
 procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
+var
+  Ed: TATSynEdit;
 const
   cMin=1;
   cMax=30;
@@ -2448,9 +2449,13 @@ begin
   if ASeconds<cMin then ASeconds:= cMin;
   if ASeconds>cMax then ASeconds:= cMax;
 
+  Ed:= CurrentEditor;
+  StatusAlt.Parent:= Ed;
+  StatusAlt.Align:= alBottom;
+
   StatusAlt[0]:= AText;
   StatusAlt.Show;
-  StatusAlt.Top:= Status.Top-4; //place above statusbar
+
   TimerStatusAlt.Interval:= ASeconds*1000;
   TimerStatusAlt.Enabled:= false;
   TimerStatusAlt.Enabled:= true;
