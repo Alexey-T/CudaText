@@ -526,8 +526,6 @@ begin
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace or IsNarrow;
-  chkInSel.Enabled:= not chkWrap.Checked;
-  chkWrap.Enabled:= not chkInSel.Checked;
   edRep.Visible:= IsReplace;
   PanelLabels.Visible:= IsReplace or IsNarrow;
   LabelRep.Visible:= IsReplace;
