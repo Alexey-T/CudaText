@@ -68,6 +68,7 @@ var
 begin
   if Res=cOpFindClose then
   begin
+    FFinder.OptInSelection:= false;
     if IsFocusedFind then
       EditorFocus(CurrentEditor);
     fmFind.Hide;
@@ -513,6 +514,7 @@ begin
   FFinder.OptWords:= AWordOrSel;
   FFinder.OptFromCaret:= true;
   FFinder.OptBack:= not ANext;
+  FFinder.OptInSelection:= false;
 
   case UiOps.FindSelCase of
     0: FFinder.OptCase:= false;
