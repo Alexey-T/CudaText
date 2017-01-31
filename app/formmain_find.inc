@@ -41,6 +41,8 @@ begin
           NLen:= Abs(APos2.X-APos1.X)
         else
           NLen:= 0;
+
+        //ShowMessage(Format('mark at %d:%d', [APos1.Y, APos1.X]));//debug
         Ed.Markers.Add(APos1.X, APos1.Y, 0, NLen, 0, nil, true{InsertToBegin});
       end;
 
