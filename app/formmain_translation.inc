@@ -421,7 +421,6 @@ begin
     DoLocString(msgCannotFindMatch               , ini, 'se', 'FindMatch');
     DoLocString(msgCannotFindInstallInfInZip     , ini, 'se', 'FindInstallInfInZip');
     DoLocString(msgCannotFindBookmarks           , ini, 'se', 'FindBookmarks');
-    DoLocString(msgCannotFindInMultiSel          , ini, 'se', 'FindInMultiSel');
     DoLocString(msgCannotOpenTooBig              , ini, 'se', 'OpenTooBig');
     DoLocString(msgCannotHandleZip               , ini, 'se', 'HandleZip');
 

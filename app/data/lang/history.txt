@@ -3,7 +3,6 @@ http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
 2017.01.31
-+ [se] FindInMultiSel
 + [ui] fnd_*
 + [d_f] h_sel
 
