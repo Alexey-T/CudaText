@@ -328,7 +328,6 @@ begin
   case AMode of
     markingSelections:
       begin
-        Ed.DoCaretSingleAsIs;
       end;
     markingMarkers:
       begin
