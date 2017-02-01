@@ -178,8 +178,10 @@ begin
     Gauge.Progress:= 0;
     UpdateEnabledAll(false);
     if AEdLock then
+    begin
       Ed.BeginUpdate;
-    Ed.Enabled:= false;
+      Ed.Enabled:= false;
+    end;
   end
   else
   begin
