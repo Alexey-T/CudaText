@@ -163,7 +163,7 @@ begin
     fmFind.Enabled:= b;
 end;
 
-procedure TfmMain.UpdateAppForSearch(AStart: boolean);
+procedure TfmMain.UpdateAppForSearch(AStart: boolean; AEdLock: boolean);
 var
   Ed: TATSynEdit;
 begin
@@ -177,7 +177,8 @@ begin
     Gauge.Show;
     Gauge.Progress:= 0;
     UpdateEnabledAll(false);
-    Ed.BeginUpdate;
+    if AEdLock then
+      Ed.BeginUpdate;
     Ed.Enabled:= false;
   end
   else

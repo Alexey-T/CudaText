@@ -764,7 +764,7 @@ type
     procedure UpdateFrame(AUpdatedText: boolean= false);
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
-    procedure UpdateAppForSearch(AStart: boolean);
+    procedure UpdateAppForSearch(AStart: boolean; AEdLock: boolean);
     procedure UpdateStatus;
     procedure UpdateMenuRecent(F: TEditorFrame);
     procedure InitStatusButton;

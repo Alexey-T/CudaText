@@ -64,7 +64,7 @@ end;
 
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
-  ok, bChanged: boolean;
+  ok, bChanged, bDoLock: boolean;
   cnt, NTop, NLeft,
   NCaretX, NCaretY: integer;
 begin
@@ -76,7 +76,7 @@ begin
     if IsFocusedFind then
       EditorFocus(CurrentEditor);
     fmFind.Hide;
-    UpdateAppForSearch(false);
+    UpdateAppForSearch(false, false);
     Exit;
   end;
 
@@ -107,7 +107,11 @@ begin
         [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, DoFindOptionsToString])+#10);
 
 
-  UpdateAppForSearch(true);
+  bDoLock:=
+    (Res=cOpFindRep) or
+    (Res=cOpFindRepAndStop) or
+    (Res=cOpFindRepAll);
+  UpdateAppForSearch(true, bDoLock);
 
   if (Res=cOpFindFirst) or (Res=cOpFindNext) or (Res=cOpFindPrev) then
   begin
@@ -185,7 +189,7 @@ begin
       ' ('+SFindOptionsToTextHint+')');
   end;
 
-  UpdateAppForSearch(false);
+  UpdateAppForSearch(false, false);
 end;
 
 procedure TfmMain.InitFormFind;
