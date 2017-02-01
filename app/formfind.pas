@@ -443,6 +443,8 @@ begin
 
   edRep.Top:= edFind.Top+edFind.Height+NSmall;
   PanelBtnRep.Top:= edRep.Top;
+
+  LabelFind.Top:= edFind.Top+NSmall;
   LabelRep.Top:= edRep.Top+NSmall;
 
   UpdateState;

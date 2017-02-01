@@ -6,6 +6,7 @@
 
 1.6.6
 + find/replace: opt "in selection"
+* api msg_status_alt shows text on editor's bottom
 
 1.6.5
 + windows version-info, for antivir

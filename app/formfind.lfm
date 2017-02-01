@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 150
+  Left = 188
   Height = 138
-  Top = 647
+  Top = 635
   Width = 1092
   ActiveControl = edFind
   BorderIcons = [biSystemMenu]
