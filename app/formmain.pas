@@ -365,7 +365,6 @@ type
     procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
-    procedure FinderFound(Sender: TObject; APos1, APos2: TPoint);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormColorsApply(const AColors: TAppTheme);
@@ -691,11 +690,11 @@ type
     procedure DoToggleToolbar;
     procedure DoToggleStatusbar;
     procedure FindDialogDone(Sender: TObject; const Res: string);
-    procedure FinderBadRegex(Sender: TObject);
-    procedure FinderConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
+    procedure FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
+    procedure FinderOnBadRegex(Sender: TObject);
+    procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean);
-    procedure FinderProgress(Sender: TObject; ACurPos, AMaxPos: integer;
-      var AContinue: boolean);
+    procedure FinderOnProgress(Sender: TObject; ACurPos, AMaxPos: integer; var AContinue: boolean);
     procedure FinderUpdateEditor(AUpdateText: boolean);
     procedure FrameOnSaveFile(Sender: TObject);
     procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
@@ -1184,10 +1183,10 @@ begin
 
   FFinder:= TATEditorFinder.Create;
   FFinder.OptRegex:= true;
-  FFinder.OnConfirmReplace:= @FinderConfirmReplace;
-  FFinder.OnProgress:= @FinderProgress;
-  FFinder.OnBadRegex:= @FinderBadRegex;
-  FFinder.OnFound:=@FinderFound;
+  FFinder.OnConfirmReplace:= @FinderOnConfirmReplace;
+  FFinder.OnProgress:= @FinderOnProgress;
+  FFinder.OnBadRegex:= @FinderOnBadRegex;
+  FFinder.OnFound:=@FinderOnFound;
 
   UpdateMenuEnc(PopupEnc.Items);
   UpdateMenuEnc(mnuFileEnc);

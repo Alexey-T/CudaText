@@ -7,7 +7,7 @@ Copyright (c) Alexey Torgashin
 *)
 {$ifdef nn}begin end;{$endif}
 
-procedure TfmMain.FinderFound(Sender: TObject; APos1, APos2: TPoint);
+procedure TfmMain.FinderOnFound(Sender: TObject; APos1, APos2: TPoint);
 var
   Ed: TATSynEdit;
   NLen: integer;
@@ -70,7 +70,9 @@ var
 begin
   if Res=cOpFindClose then
   begin
+    //handy to reset in-sel, on closing dialog
     FFinder.OptInSelection:= false;
+
     if IsFocusedFind then
       EditorFocus(CurrentEditor);
     fmFind.Hide;
@@ -366,7 +368,7 @@ begin
 end;
 
 
-procedure TfmMain.FinderProgress(Sender: TObject; ACurPos, AMaxPos: integer;
+procedure TfmMain.FinderOnProgress(Sender: TObject; ACurPos, AMaxPos: integer;
   var AContinue: boolean);
 begin
   Gauge.Progress:= ACurPos * 100 div AMaxPos;
@@ -406,7 +408,7 @@ begin
     MsgStatus(msgCannotFindMatch+' ('+SFindOptionsToTextHint+'): '+Utf8Encode(FFinder.StrFind));
 end;
 
-procedure TfmMain.FinderConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
+procedure TfmMain.FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
   AForMany: boolean; var AConfirm, AContinue: boolean);
 var
   Res: TModalResult;
@@ -457,11 +459,11 @@ begin
     FFindConfirmAll:= Res;
 end;
 
-procedure TfmMain.FinderBadRegex(Sender: TObject);
+procedure TfmMain.FinderOnBadRegex(Sender: TObject);
 begin
   MsgBox(
-    msgStatusBadRegex+#13+Utf8Encode(FFinder.StrFind),
-    mb_ok or mb_iconerror);
+    msgStatusBadRegex+#10+Utf8Encode(FFinder.StrFind),
+    MB_OK or MB_ICONERROR);
 end;
 
 procedure TfmMain.FinderUpdateEditor(AUpdateText: boolean);
