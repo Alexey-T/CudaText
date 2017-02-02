@@ -403,6 +403,11 @@ begin
       begin
         Ctl:= TEdit.Create(AForm);
       end;
+      if SValue='edit_pwd' then
+      begin
+        Ctl:= TEdit.Create(AForm);
+        TEdit(Ctl).EchoMode:= emPassword;
+      end;
       if SValue='listbox' then
       begin
         Ctl:= TListBox.Create(AForm);
@@ -600,9 +605,6 @@ begin
           (Ctl as TCustomEdit).BorderStyle:= bsSingle
         else
           (Ctl as TCustomEdit).BorderStyle:= bsNone;
-        //Password-style
-        if StrToBool(SGetItem(SValue)) then
-          (Ctl as TCustomEdit).EchoMode:= emPassword;
       end;
 
       if (Ctl is TListView) then
