@@ -600,6 +600,9 @@ begin
           (Ctl as TCustomEdit).BorderStyle:= bsSingle
         else
           (Ctl as TCustomEdit).BorderStyle:= bsNone;
+        //Password-style
+        if StrToBool(SGetItem(SValue)) then
+          (Ctl as TCustomEdit).EchoMode:= emPassword;
       end;
 
       if (Ctl is TListView) then
