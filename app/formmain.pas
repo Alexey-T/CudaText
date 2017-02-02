@@ -2442,11 +2442,17 @@ procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
 var
   Ed: TATSynEdit;
 const
-  cMin=1;
   cMax=30;
 begin
-  if ASeconds<cMin then ASeconds:= cMin;
-  if ASeconds>cMax then ASeconds:= cMax;
+  if ASeconds<=0 then
+  begin
+    TimerStatusAlt.Enabled:= false;
+    StatusAlt.Hide;
+    Exit
+  end;
+
+  if ASeconds>cMax then
+    ASeconds:= cMax;
 
   Ed:= CurrentEditor;
   StatusAlt.Parent:= Ed;
