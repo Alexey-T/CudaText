@@ -433,6 +433,8 @@ begin
       EditorMouseClickFromString(Ed, AText, true);
     cmd_FinderAction:
       DoFindActionFromString(AText);
+    cmd_GotoLastEditingPos:
+      EditorGotoLastEditingPos(Ed, UiOps.FindIndentHorz, UiOps.FindIndentVert);
 
     else
       AHandled:= false;

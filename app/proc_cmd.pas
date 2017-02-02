@@ -30,6 +30,7 @@ const
   cmd_MouseClick = 2490;
   cmd_MouseSelect = 2491;
   cmd_FinderAction = 2492;
+  cmd_GotoLastEditingPos = 2006;
 
   //normal commands
   cmd_FileNew            = 2500;
@@ -332,6 +333,7 @@ begin
   M.Add(cmd_FindCurWordPrev, 'find current word, previous', [], []);
   M.Add(cmd_FindCurSelNext, 'find current selection, next', [], []);
   M.Add(cmd_FindCurSelPrev, 'find current selection, previous', [], []);
+  M.Add(cmd_GotoLastEditingPos, 'go to last editing pos', [], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);

@@ -66,6 +66,7 @@ function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
+procedure EditorGotoLastEditingPos(Ed: TATSynEdit; AIndentHorz, AIndentVert: integer);
 
 procedure EditorApplyTheme(Ed: TATSynedit);
 procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
@@ -1025,6 +1026,25 @@ begin
 
     //if needed, try this, almost same as ActiveControl:=
     //Application.MainForm.FocusControl(Editor);
+  end;
+end;
+
+
+procedure EditorGotoLastEditingPos(Ed: TATSynEdit;
+  AIndentHorz, AIndentVert: integer);
+var
+  Caret: TATCaretItem;
+begin
+  Ed.Strings.DoGotoLastEditPos;
+  if Ed.Carets.Count>0 then
+  begin
+    Caret:= Ed.Carets[0];
+    Ed.DoGotoPos_AndUnfold(
+      Point(Caret.PosX, Caret.PosY),
+      Point(-1, -1),
+      AIndentHorz,
+      AIndentVert
+      );
   end;
 end;
 
