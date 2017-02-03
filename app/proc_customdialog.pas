@@ -270,6 +270,15 @@ begin
     C.TabIndex:= N;
 end;
 
+procedure DoControl_SetState_Image(C: TImage; const SValue: string);
+begin
+  try
+    C.Picture.LoadFromFile(SValue);
+    C.Transparent:= true;
+  except
+  end;
+end;
+
 procedure DoControl_SetState_SpinEdit(C: TSpinEdit; const SValue: string);
 var
   N: integer;
@@ -475,6 +484,14 @@ begin
     (Ctl as TPanel).OnClick:= @ADummy.DoOnChange;
     exit;
   end;
+
+  if S='image' then
+  begin
+    Ctl:= TImage.Create(AForm);
+    (Ctl as TImage).Proportional:= true;
+    (Ctl as TImage).AntialiasingMode:= amOn;
+    exit;
+  end;
 end;
 
 procedure DoForm_Scale(F: TForm);
@@ -665,6 +682,16 @@ begin
         (Ctl as TATColorPanel).BorderColor:= StrToIntDef(SGetItem(SValue), clBlack);
       end;
 
+      if (Ctl is TImage) then
+      begin
+        (Ctl as TImage).Center:= StrToBool(SGetItem(SValue));
+        (Ctl as TImage).Stretch:= StrToBool(SGetItem(SValue));
+        (Ctl as TImage).StretchInEnabled:= StrToBool(SGetItem(SValue));
+        (Ctl as TImage).StretchOutEnabled:= StrToBool(SGetItem(SValue));
+        (Ctl as TImage).KeepOriginXWhenClipped:= StrToBool(SGetItem(SValue));
+        (Ctl as TImage).KeepOriginYWhenClipped:= StrToBool(SGetItem(SValue));
+      end;
+
       Continue;
     end;
 
@@ -701,6 +728,7 @@ begin
       if Ctl is TSpinEdit then DoControl_SetState_SpinEdit(Ctl as TSpinEdit, SValue);
       if Ctl is TListView then DoControl_SetState_Listview(Ctl as TListView, SValue);
       if Ctl is TTabControl then DoControl_SetState_TabControl(Ctl as TTabControl, SValue);
+      if Ctl is TImage then DoControl_SetState_Image(Ctl as TImage, SValue);
 
       Continue;
     end;
