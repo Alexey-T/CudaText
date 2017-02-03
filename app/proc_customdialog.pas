@@ -698,6 +698,8 @@ begin
     //-------items
     if SName='items' then
     begin
+      if Ctl is TImage then DoControl_SetState_Image(Ctl as TImage, SValue)
+      else
       repeat
         SListItem:= SGetItem(SValue, #9);
         if SListItem='' then break;
@@ -728,7 +730,6 @@ begin
       if Ctl is TSpinEdit then DoControl_SetState_SpinEdit(Ctl as TSpinEdit, SValue);
       if Ctl is TListView then DoControl_SetState_Listview(Ctl as TListView, SValue);
       if Ctl is TTabControl then DoControl_SetState_TabControl(Ctl as TTabControl, SValue);
-      if Ctl is TImage then DoControl_SetState_Image(Ctl as TImage, SValue);
 
       Continue;
     end;
