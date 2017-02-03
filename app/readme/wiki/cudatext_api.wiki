@@ -611,6 +611,7 @@ Dialog is closed by clicking any button or by changing of any control which has 
 
 [[File:controls_autosizes.png]]
 
+* So it's good to use common height for single-line controls, 30 pixels is ok for edit/button/check/radio, 36 for combobox.
 * Control "tabs" height cannot auto-size, please make correct height for control (it is usually like big buttons).
 
 ===file_open===
