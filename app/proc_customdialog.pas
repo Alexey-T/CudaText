@@ -78,31 +78,33 @@ begin
   Result:= '';
 
   if C is TEdit then
-    Result:= (C as TEdit).Text;
+    exit((C as TEdit).Text);
 
   if C is TCheckBox then
-    with C as TCheckBox do
-      case State of
-        cbChecked: Result:= '1';
-        cbUnchecked: Result:= '0';
-        cbGrayed: Result:= '?';
-      end;
+  begin
+    case (C as TCheckBox).State of
+      cbChecked: Result:= '1';
+      cbUnchecked: Result:= '0';
+      cbGrayed: Result:= '?';
+    end;
+    exit;
+  end;
 
   if C is TToggleBox then
-    Result:= IntToStr(Ord((C as TToggleBox).Checked));
+    exit(IntToStr(Ord((C as TToggleBox).Checked)));
 
   if C is TRadioButton then
-    Result:= IntToStr(Ord((C as TRadioButton).Checked));
+    exit(IntToStr(Ord((C as TRadioButton).Checked)));
 
   if C is TListBox then
-    Result:= IntToStr((C as TListBox).ItemIndex);
+    exit(IntToStr((C as TListBox).ItemIndex));
 
   if C is TComboBox then
   begin
     if (C as TComboBox).ReadOnly then
-      Result:= IntToStr((C as TComboBox).ItemIndex)
+      exit(IntToStr((C as TComboBox).ItemIndex))
     else
-      Result:= (C as TComboBox).Text;
+      exit((C as TComboBox).Text);
   end;
 
   if C is TMemo then
@@ -112,30 +114,35 @@ begin
     Result:= StringReplace(Result, #13#10, #9, [rfReplaceAll]);
     Result:= StringReplace(Result, #13, #9, [rfReplaceAll]);
     Result:= StringReplace(Result, #10, #9, [rfReplaceAll]);
+    exit;
   end;
 
   if C is TRadioGroup then
-    Result:= IntToStr((C as TRadioGroup).ItemIndex);
+    exit(IntToStr((C as TRadioGroup).ItemIndex));
 
   if C is TCheckGroup then
+  begin
     for i:= 0 to (C as TCheckGroup).Items.Count-1 do
       Result:= Result+IntToStr(Ord((C as TCheckGroup).Checked[i]))+',';
+    exit;
+  end;
 
   if C is TCheckListBox then
   begin
     Result:= IntToStr((C as TCheckListBox).ItemIndex)+';';
     for i:= 0 to (C as TCheckListBox).Items.Count-1 do
       Result:= Result+IntToStr(Ord((C as TCheckListBox).Checked[i]))+',';
+    exit;
   end;
 
   if C is TSpinEdit then
-    Result:= IntToStr((C as TSpinEdit).Value);
+    exit(IntToStr((C as TSpinEdit).Value));
 
   if C is TListView then
-    Result:= DoControl_GetState_Listview(C as TListView);
+    exit(DoControl_GetState_Listview(C as TListView));
 
   if C is TTabControl then
-    Result:= IntToStr((C as TTabControl).TabIndex);
+    exit(IntToStr((C as TTabControl).TabIndex));
 end;
 
 
