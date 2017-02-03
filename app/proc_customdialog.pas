@@ -326,6 +326,157 @@ begin
 end;
 
 
+procedure DoControl_CreateNew(
+  const S: string;
+  AForm: TForm;
+  ADummy: TDummyClass;
+  var Ctl: TControl);
+begin
+  if S='check' then
+  begin
+    Ctl:= TCheckBox.Create(AForm);
+    (Ctl as TCheckBox).OnChange:= @ADummy.DoOnChange;
+    exit;
+  end;
+
+  if S='edit' then
+  begin
+    Ctl:= TEdit.Create(AForm);
+    exit;
+  end;
+
+  if S='edit_pwd' then
+  begin
+    Ctl:= TEdit.Create(AForm);
+    TEdit(Ctl).EchoMode:= emPassword;
+    exit;
+  end;
+
+  if S='spinedit' then
+  begin
+    Ctl:= TSpinEdit.Create(AForm);
+    exit;
+  end;
+
+  if S='memo' then
+  begin
+    Ctl:= TMemo.Create(AForm);
+    (Ctl as TMemo).WordWrap:= false;
+    (Ctl as TMemo).ScrollBars:= ssBoth;
+    exit;
+  end;
+
+  if S='label' then
+  begin
+    Ctl:= TLabel.Create(AForm);
+    exit;
+  end;
+
+  if S='combo' then
+  begin
+    Ctl:= TComboBox.Create(AForm);
+    (Ctl as TComboBox).DropDownCount:= 20;
+    exit;
+  end;
+
+  if S='combo_ro' then
+  begin
+    Ctl:= TComboBox.Create(AForm);
+    (Ctl as TComboBox).DropDownCount:= 20;
+    (Ctl as TComboBox).ReadOnly:= true;
+    (Ctl as TComboBox).OnChange:= @ADummy.DoOnChange;
+    exit;
+  end;
+
+  if S='button' then
+  begin
+    Ctl:= TButton.Create(AForm);
+    (Ctl as TButton).ModalResult:= Dummy_ResultStart+ AForm.ControlCount;
+    DoControl_FixButtonHeight(Ctl);
+    exit;
+  end;
+
+  if S='checkbutton' then
+  begin
+    Ctl:= TToggleBox.Create(AForm);
+    (Ctl as TToggleBox).OnChange:= @ADummy.DoOnChange;
+    DoControl_FixButtonHeight(Ctl);
+    exit;
+  end;
+
+  if S='listbox' then
+  begin
+    Ctl:= TListBox.Create(AForm);
+    (Ctl as TListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
+    exit;
+  end;
+
+  if S='radio' then
+  begin
+    Ctl:= TRadioButton.Create(AForm);
+    (Ctl as TRadioButton).OnChange:= @ADummy.DoOnChange;
+    exit;
+  end;
+
+  if S='radiogroup' then
+  begin
+    Ctl:= TRadioGroup.Create(AForm);
+    exit;
+  end;
+
+  if S='checkgroup' then
+  begin
+    Ctl:= TCheckGroup.Create(AForm);
+    exit;
+  end;
+
+  if S='checklistbox' then
+  begin
+    Ctl:= TCheckListBox.Create(AForm);
+    (Ctl as TCheckListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
+    (Ctl as TCheckListBox).OnClickCheck:= @ADummy.DoOnChange;
+    exit;
+  end;
+
+  if (S='listview') or
+     (S='checklistview') then
+  begin
+    Ctl:= TListView.Create(AForm);
+    (Ctl as TListView).ReadOnly:= true;
+    (Ctl as TListView).ColumnClick:= false;
+    (Ctl as TListView).ViewStyle:= vsReport;
+    (Ctl as TListView).RowSelect:= true;
+    (Ctl as TListView).HideSelection:= false;
+    (Ctl as TListView).Checkboxes:= (S='checklistview');
+    (Ctl as TListView).OnChange:= @ADummy.DoOnListviewChange;
+    (Ctl as TListView).OnSelectItem:= @ADummy.DoOnListviewSelect;
+    exit;
+  end;
+
+  if S='linklabel' then
+  begin
+    Ctl:= TLinkLabel.Create(AForm);
+    exit;
+  end;
+
+  if S='tabs' then
+  begin
+    Ctl:= TTabControl.Create(AForm);
+    (Ctl as TTabControl).OnChange:= @ADummy.DoOnChange;
+    exit;
+  end;
+
+  if S='colorpanel' then
+  begin
+    Ctl:= TATColorPanel.Create(AForm);
+    (Ctl as TPanel).BorderStyle:= bsNone;
+    (Ctl as TPanel).BevelInner:= bvNone;
+    (Ctl as TPanel).BevelOuter:= bvNone;
+    (Ctl as TPanel).OnClick:= @ADummy.DoOnChange;
+    exit;
+  end;
+end;
+
 procedure DoForm_Scale(F: TForm);
 var
   PrevPPI, NewPPI: integer;
@@ -389,117 +540,7 @@ begin
     //-------type
     if SName='type' then
     begin
-      if SValue='check' then
-      begin
-        Ctl:= TCheckBox.Create(AForm);
-        (Ctl as TCheckBox).OnChange:= @ADummy.DoOnChange;
-      end;
-      if SValue='radio' then
-      begin
-        Ctl:= TRadioButton.Create(AForm);
-        (Ctl as TRadioButton).OnChange:= @ADummy.DoOnChange;
-      end;
-      if SValue='edit' then
-      begin
-        Ctl:= TEdit.Create(AForm);
-      end;
-      if SValue='edit_pwd' then
-      begin
-        Ctl:= TEdit.Create(AForm);
-        TEdit(Ctl).EchoMode:= emPassword;
-      end;
-      if SValue='listbox' then
-      begin
-        Ctl:= TListBox.Create(AForm);
-        (Ctl as TListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
-      end;
-      if SValue='spinedit' then
-      begin
-        Ctl:= TSpinEdit.Create(AForm);
-      end;
-      if SValue='memo' then
-        begin
-          Ctl:= TMemo.Create(AForm);
-          (Ctl as TMemo).WordWrap:= false;
-          (Ctl as TMemo).ScrollBars:= ssBoth;
-        end;
-      if SValue='label' then
-        begin
-          Ctl:= TLabel.Create(AForm);
-        end;
-      if SValue='combo' then
-        begin
-          Ctl:= TComboBox.Create(AForm);
-          (Ctl as TComboBox).DropDownCount:= 20;
-        end;
-      if SValue='combo_ro' then
-        begin
-          Ctl:= TComboBox.Create(AForm);
-          (Ctl as TComboBox).DropDownCount:= 20;
-          (Ctl as TComboBox).ReadOnly:= true;
-          (Ctl as TComboBox).OnChange:= @ADummy.DoOnChange;
-        end;
-      if SValue='button' then
-        begin
-          Ctl:= TButton.Create(AForm);
-          (Ctl as TButton).ModalResult:= Dummy_ResultStart+ AForm.ControlCount;
-          DoControl_FixButtonHeight(Ctl);
-        end;
-      if SValue='checkbutton' then
-        begin
-          Ctl:= TToggleBox.Create(AForm);
-          (Ctl as TToggleBox).OnChange:= @ADummy.DoOnChange;
-          DoControl_FixButtonHeight(Ctl);
-        end;
-      if SValue='radiogroup' then
-      begin
-        Ctl:= TRadioGroup.Create(AForm);
-      end;
-      if SValue='checkgroup' then
-      begin
-        Ctl:= TCheckGroup.Create(AForm);
-      end;
-      if SValue='checklistbox' then
-      begin
-        Ctl:= TCheckListBox.Create(AForm);
-        (Ctl as TCheckListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
-        (Ctl as TCheckListBox).OnClickCheck:= @ADummy.DoOnChange;
-      end;
-
-      if (SValue='listview') or
-         (SValue='checklistview') then
-      begin
-        Ctl:= TListView.Create(AForm);
-        (Ctl as TListView).ReadOnly:= true;
-        (Ctl as TListView).ColumnClick:= false;
-        (Ctl as TListView).ViewStyle:= vsReport;
-        (Ctl as TListView).RowSelect:= true;
-        (Ctl as TListView).HideSelection:= false;
-        (Ctl as TListView).Checkboxes:= (SValue='checklistview');
-        (Ctl as TListView).OnChange:= @ADummy.DoOnListviewChange;
-        (Ctl as TListView).OnSelectItem:= @ADummy.DoOnListviewSelect;
-      end;
-
-      if SValue='linklabel' then
-      begin
-        Ctl:= TLinkLabel.Create(AForm);
-      end;
-
-      if SValue='tabs' then
-      begin
-        Ctl:= TTabControl.Create(AForm);
-        (Ctl as TTabControl).OnChange:= @ADummy.DoOnChange;
-      end;
-
-      if SValue='colorpanel' then
-      begin
-        Ctl:= TATColorPanel.Create(AForm);
-        (Ctl as TPanel).BorderStyle:= bsNone;
-        (Ctl as TPanel).BevelInner:= bvNone;
-        (Ctl as TPanel).BevelOuter:= bvNone;
-        (Ctl as TPanel).OnClick:= @ADummy.DoOnChange;
-      end;
-
+      DoControl_CreateNew(SValue, AForm, ADummy, Ctl);
       //set parent
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
