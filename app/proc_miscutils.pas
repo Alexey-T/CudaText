@@ -26,6 +26,7 @@ uses
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
 function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
+function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -244,35 +245,47 @@ begin
 end;
 
 
-function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
+function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 var
-  Pic: TGraphic;
-  Bitmap: TBitmap;
   ext: string;
 begin
-  Result:= false;
+  Result:= nil;
   if not FileExistsUTF8(AFilename) then exit;
   ext:= LowerCase(ExtractFileExt(AFilename));
 
   if ext='.png' then
-    Pic:= TPortableNetworkGraphic.Create
+    Result:= TPortableNetworkGraphic.Create
   else
   if ext='.gif' then
-    Pic:= TGIFImage.Create
+    Result:= TGIFImage.Create
   else
   if ext='.bmp' then
-    Pic:= TBitmap.Create
+    Result:= TBitmap.Create
   else
   if SBeginsWith(ext, '.j') then //jpg, jpeg, jpe, jfif
-    Pic:= TJPEGImage.Create
+    Result:= TJPEGImage.Create
   else
     exit;
 
   try
-    try
-      Pic.LoadFromFile(AFilename);
-      Pic.Transparent:= true;
+    Result.LoadFromFile(AFilename);
+    Result.Transparent:= true;
+  except
+    FreeAndNil(Result);
+  end;
+end;
 
+function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
+var
+  Pic: TGraphic;
+  Bitmap: TBitmap;
+begin
+  Result:= false;
+  Pic:= DoPictureLoadFromFile(AFilename);
+  if Pic=nil then exit;
+
+  try
+    try
       if AResize then
       begin
         Bitmap:= TBitmap.Create;
