@@ -36,9 +36,9 @@ var
 type
   TCustomEditHack = class(TCustomEdit);
 
-function StrToBool(const S: string): boolean;
+function StrToBool(const S: string): boolean; inline;
 begin
-  Result:= S<>'0';
+  Result:= S='1';
 end;
 
 function DoControl_IsAutoHeight(C: TControl): boolean;
@@ -54,7 +54,7 @@ begin
     (C is TSpinEdit);
 end;
 
-procedure DoControl_FixButtonHeight(C: TControl);
+procedure DoControl_FixButtonHeight(C: TControl); inline;
 begin
   {$ifdef windows}
   C.Height:= 23; //smaller
