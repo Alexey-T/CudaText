@@ -111,6 +111,7 @@ type
     procedure EditorOnClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
+    procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
@@ -757,6 +758,22 @@ begin
   AHandled:= Str=cPyFalse;
 end;
 
+procedure TEditorFrame.EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= Sender as TATSynEdit;
+
+  AY:= AY * Ed.Strings.Count div Ed.ClientHeight;
+
+  Ed.DoGotoPos_AndUnfold(
+    Point(0, AY),
+    Point(-1, -1),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert
+    );
+end;
+
 procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
   AGapItem: TATSynGapItem; APos: TPoint);
 var
@@ -807,6 +824,7 @@ begin
   ed.OnClickMoveCaret:= @EditorClickMoveCaret;
   ed.OnClickEndSelect:= @EditorClickEndSelect;
   ed.OnClickGap:= @EditorOnClickGap;
+  ed.OnClickMicromap:=@EditorOnClickMicroMap;
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChangeState:= @EditorOnChangeCommon;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
