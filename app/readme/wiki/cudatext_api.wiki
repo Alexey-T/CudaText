@@ -429,7 +429,9 @@ Param process_messages: if True, function also does UI messages processing. It t
 
  msg_status_alt(text, seconds)
 
-Shows given text in alternative statusbar, just above normal statusbar. Status has entire window width. Status shows only for some seconds (1..30).
+Shows given text in alternative statusbar; it has yellowish color and shows on the bottom of current editor.
+
+Time in seconds: 1..30; seconds<=0 hides statusbar (if shown before).
 
 ===dlg_input===
 
@@ -521,28 +523,37 @@ Param lexer is optional lexer name. If not empty, dialog enables checkbox "For c
 
 Shows dialog with controls of many types.
 
-Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props. Each prop is s_name+"="+s_value. Possible names (and names' values):
+==== Possible types ====
 
-* "type": type of control, values:
-** "label"
-** "check" (checkbox, checked/unchecked/grayed)
-** "radio" (radio checkbox, only one of these can be checked)
-** "edit" (one-line edit)
-** "combo" (combobox editable, value is text)
-** "combo_ro" (combobox read-only, value is index)
-** "listbox"
-** "button"
-** "checkbutton" (looks like button, but don't close dialog, checked/unchecked)
-** "memo" (multi-line edit)
-** "checkgroup" (group of checkboxes)
-** "radiogroup" (group of radiobuttons)
-** "checklistbox" (listbox with checkboxes)
-** "spinedit" (edit for numbers, has min-value, max-value, increment)
-** "listview" (list with columns, with column headers, value is index)
-** "checklistview" (listview with checkboxes, value is check-flags)
-** "linklabel" (label which activates URL on click)
-** "tabs" (set of tabs headers, note: not pages which have controls)
-** "colorpanel" (panel with caption, color of background, color of font)
+Control types allowed:
+
+* "label": simple text shown in rectangle
+* "check": checkbox, checked/unchecked/grayed
+* "radio": radio checkbox, only one of these can be checked
+* "edit": single-line input
+* "edit_pwd": single-line input for password, text is masked
+* "combo": combobox, editable, value is text
+* "combo_ro": combobox, read-only, value is index
+* "listbox": list of items with one item selected
+* "button"
+* "checkbutton": looks like button, but don't close dialog, checked/unchecked
+* "memo": multi-line input
+* "checkgroup": group of check-boxes
+* "radiogroup": group of radio-buttons
+* "checklistbox": listbox with checkboxes
+* "spinedit": input for numbers, has min-value, max-value, increment
+* "listview": list with columns, with column headers, value is index
+* "checklistview": listview with checkboxes, value is check-flags
+* "linklabel": label which activates URL on click
+* "tabs": set of tabs headers (note: not pages which have controls in them)
+* "colorpanel": panel with caption, color of background, color of font
+* "image": picture, which shows picture-file
+
+==== Properties ====
+
+Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props. Each prop is s_name+"="+s_value. Possible names and their values:
+
+* "type": type of control, values are listed above.
 
 * "pos": position, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
 * "cap": caption of control (not for all)
@@ -556,20 +567,28 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 *** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +... 
 *** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
 *** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
+** for image: full path of picture file (png/gif/jpg/bmp)
 
 * "props": control-specific properties:
-** for button: default_for_enter (bool value, "1"/"0")
-** for edit, memo: read_only+","+font_monospaced+","+show_border (bool value)
-** for spinedit: str(min_value)+","+str(max_value)+","+str(increment)
-** for linklabel: URL (with http: or mailto:)
-** for listview: show_grid (bool value)
-** for tabs: tabs_at_bottom (bool value)
-** for colorpanel: str(border_width_from_0)+","+str(int_color_fill)+","+str(int_color_font)+","+str(int_color_border)
+** for button: bool_default_for_enter (bool value "0"/"1")
+** for edit, memo: bool_read_only+","+bool_font_monospaced+","+bool_show_border
+** for spinedit: int_min_value+","+int_max_value+","+int_increment
+** for linklabel: URL ("http:" or "mailto:", other kinds possible too, but may not run)
+** for listview: bool_show_grid
+** for tabs: bool_tabs_at_bottom
+** for colorpanel: int_border_width_from_0+","+int_color_fill+","+int_color_font+","+int_color_border
+** for image: bool values ","-separated:
+*** bool_center
+*** bool_stretch
+*** bool_stretch_in_enabled
+*** bool_stretch_out_enabled
+*** bool_keep_origin_x_when_clipped
+*** bool_keep_origin_y_when_clipped
 
 * "val": value of control (not for all):
 ** for check: value "0"/"1" or "?" (grayed)
 ** for radio, checkbutton: value "0"/"1"
-** for edit, combo, spinedit: text
+** for edit, edit_pwd, spinedit, combo: text
 ** for memo: "\t"-separated lines (in lines "\t" must be replaced to chr(2))
 ** for combo_ro, listbox, radiogroup, listview: index
 ** for checkgroup: ","-separated checks (values "0"/"1")
@@ -1254,9 +1273,9 @@ Possible values of id:
 * GAP_ADD: Adds gap to editor, with ready bitmap. Gets bool: params correct, gap added. Params: 
 ** num1 - line index 
 ** num2 - id_bitmap you got before
-** tag - some int value to separate gaps from few plugins. (Internally it's signed 64-bit.)
+** tag - int value (signed 64 bit) to separate gaps from several plugins.
 
-* GAP_DELETE: Deletes gaps for lines: from num1 to num2.
+* GAP_DELETE: Deletes gaps, for line indexes from num1 to num2.
 * GAP_DELETE_ALL: Deletes all gaps.
 
 Example plugin:
@@ -1318,8 +1337,18 @@ Text is chr(1) separated items:
 ** 'f' for from-caret
 ** 'o' for confirm-replaces
 ** 'a' for wrapped-search
+** 's' for search in selection
 
 =History=
+
+1.0.166
+* chg: dlg_custom: "image" uses "items=" now
+
+1.0.165
+* add: find/replace in selection, flag in cmd_FinderAction
+* add: msg_status_alt: allowed seconds<=0
+* add: dlg_custom: type "edit_pwd" (password input)
+* add: dlg_custom: type "image"
 
 1.0.164
 * change: ed.gap: tag is 64-bit signed (was 32-bit)
