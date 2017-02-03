@@ -387,8 +387,8 @@
   //Indent size for Indent/Unindent commands:
   //  in chars (n>0) or in tabs (n<0)
   "indent_size": 2,
-  //Unindent command: don't unindent block more, if any line
-  //in block has empty indent
+  //Unindent command (Shift+Tab): if several lines (in block) have different indent,
+  //stop unindent if one line already at left edge (other lines wont be moved)
   "unindent_keeps_align": true,
 
   //Drag-drop of text blocks

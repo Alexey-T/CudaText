@@ -6,3 +6,7 @@ Value=Id
 Symbol=Symbol
 Comment=Comment
 Number=Number
+
+[comments]
+styles_cmt=Comment
+styles_str=
