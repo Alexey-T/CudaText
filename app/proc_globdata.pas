@@ -788,7 +788,7 @@ begin
 
     OpUndoLimit:= 5000;
     OpUndoGrouped:= true;
-    OpUndoAfterSave:= false;
+    OpUndoAfterSave:= true;
 
     OpCaretBlinkTime:= cInitTimerBlink;
     OpCaretBlinkEn:= true;
