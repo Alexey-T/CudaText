@@ -472,7 +472,7 @@
 
   //Show full file path in window title
   "ui_title_path": false,
-  //Restore session (all named tabs) at start
+  //Restore session (all named+unnamed tabs) at start
   "ui_reopen_session": true,
 
   //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
