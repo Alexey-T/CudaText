@@ -3662,6 +3662,7 @@ begin
               fmMain.FListTimers.AddObject(StrName, Timer);
             end;
             if NId=TIMER_START_ONE then Timer.Tag:= 1 else Timer.Tag:= 0;
+            Timer.Enabled:= false;
             Timer.Interval:= NValue;
             Timer.Enabled:= true;
             Exit(PyBool_FromLong(1));

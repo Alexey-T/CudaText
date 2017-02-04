@@ -336,8 +336,8 @@ const
 
   TIMER_START     = 0;
   TIMER_START_ONE = 1;
-  TIMER_STOP      = 4;
-  TIMER_DELETE    = 5;
+  TIMER_STOP      = 2;
+  TIMER_DELETE    = 3;
 
 
 implementation
