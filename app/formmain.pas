@@ -366,7 +366,7 @@ type
     procedure ButtonCancelClick(Sender: TObject);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormCloseQuery(Sender: TObject; var ACanClose: boolean);
     procedure FormColorsApply(const AColors: TAppTheme);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -1228,17 +1228,12 @@ begin
     CurrentEditor.Update;
 end;
 
-procedure TfmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
-var
-  cfm: boolean;
+procedure TfmMain.FormCloseQuery(Sender: TObject; var ACanClose: boolean);
 begin
   if GetModifiedCount>0 then
-    cfm:= DoDialogSaveTabs
+    ACanClose:= DoDialogSaveTabs
   else
-    cfm:= true;
-  CanClose:= cfm;
-  //old code
-  //CanClose:= DoFileCloseAll;
+    ACanClose:= true;
 end;
 
 procedure TfmMain.FormColorsApply(const AColors: TAppTheme);
