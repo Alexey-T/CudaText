@@ -228,7 +228,7 @@
   //"Undo" takes group of commands (groups are separated eg by mouse clicks)
   "undo_grouped": true,
   //"Undo" enabled even after file saving
-  "undo_after_save": false,
+  "undo_after_save": true,
 
   //Allow to place caret after end-of-line (virtual caret pos)
   "caret_after_end": false,
@@ -472,7 +472,7 @@
 
   //Show full file path in window title
   "ui_title_path": false,
-  //Restore session (all named tabs) at start
+  //Restore session (all named+unnamed tabs) at start
   "ui_reopen_session": true,
 
   //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
