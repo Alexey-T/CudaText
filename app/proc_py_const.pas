@@ -334,6 +334,10 @@ const
   PyPanelControl_Tree = 'tree';
   PyPanelControl_Listbox = 'listbox';
 
+  TIMER_START  = 0;
+  TIMER_STOP   = 1;
+  TIMER_DELETE = 2;
+
 
 implementation
 

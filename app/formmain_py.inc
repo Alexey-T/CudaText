@@ -3632,6 +3632,66 @@ begin
     end;
 end;
 
+
+function Py_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  NId, NValue, N: integer;
+  PtrName: PChar;
+  StrName: string;
+  Timer: TTimer;
+begin
+  with GetPythonEngine do
+  begin
+    if Bool(PyArg_ParseTuple(Args, 'isi:timer_proc', @NId, @PtrName, @NValue)) then
+    begin
+      StrName:= string(PtrName);
+      if not SRegexMatchesString(StrName, '[a-z]\w+\.[a-z]\w*', false) then
+        Exit(PyBool_FromLong(0));
+
+      case NId of
+        TIMER_START:
+          begin
+            N:= fmMain.FListTimers.IndexOf(StrName);
+            if N>=0 then
+              Timer:= TTimer(fmMain.FListTimers.Objects[N])
+            else
+            begin
+              Timer:= TTimer.Create(fmMain);
+              Timer.OnTimer:= @fmMain.DoPyTimerTick;
+              fmMain.FListTimers.AddObject(StrName, Timer);
+            end;
+            Timer.Interval:= NValue;
+            Timer.Enabled:= true;
+            Exit(PyBool_FromLong(1));
+          end;
+
+        TIMER_STOP,
+        TIMER_DELETE:
+          begin
+            N:= fmMain.FListTimers.IndexOf(StrName);
+            if N<0 then
+              Exit(PyBool_FromLong(0));
+            Timer:= TTimer(fmMain.FListTimers.Objects[N]);
+            Timer.Enabled:= false;
+
+            if NId=TIMER_DELETE then
+            begin
+              Timer.Free;
+              fmMain.FListTimers.Delete(N);
+            end;
+
+            Exit(PyBool_FromLong(1));
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+  end;
+end;
+
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -3707,6 +3767,7 @@ begin
     AddMethod('tree_proc', @Py_tree_proc, '');
     AddMethod('listbox_proc', @Py_listbox_proc, '');
     AddMethod('canvas_proc', @Py_canvas_proc, '');
+    AddMethod('timer_proc', @Py_timer_proc, '');
   end;
 end;
 

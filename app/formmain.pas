@@ -472,6 +472,7 @@ type
     FListThemesUI: TStringList;
     FListThemesSyntax: TStringList;
     FListLangs: TStringList;
+    FListTimers: TStringList;
     FKeymapUndoList: TATKeymapUndoList;
     FKeymapActiveLexerName: string;
     FConsoleMustShow: boolean;
@@ -514,6 +515,7 @@ type
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
+    procedure DoPyTimerTick(Sender: TObject);
     procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
@@ -1103,6 +1105,7 @@ begin
   FListThemesUI:= TStringList.Create;
   FListThemesSyntax:= TStringList.Create;
   FListLangs:= TStringList.Create;
+  FListTimers:= TStringList.Create;
   FKeymapUndoList:= TATKeymapUndoList.Create;
   FAllowEventOnOpenBefore:= true;
 
@@ -1246,7 +1249,13 @@ begin
 end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
+var
+  i: integer;
 begin
+  for i:= 0 to FListTimers.Count-1 do
+    TTimer(FListTimers.Objects[i]).Enabled:= false;
+  FreeAndNil(FListTimers);
+
   FreeAndNil(FListRecents);
   FreeAndNil(FListThemesUI);
   FreeAndNil(FListThemesSyntax);
@@ -3906,6 +3915,16 @@ begin
   MsgStatus(ARes);
 end;
 
+procedure TfmMain.DoPyTimerTick(Sender: TObject);
+var
+  N: integer;
+  SCallback: string;
+begin
+  N:= FListTimers.IndexOfObject(Sender);
+  if N<0 then exit;
+  SCallback:= FListTimers[N];
+  ShowMessage('timer: '+SCallback);
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

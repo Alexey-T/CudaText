@@ -70,6 +70,10 @@ TAB_SPLIT_NO   = 0
 TAB_SPLIT_HORZ = 1
 TAB_SPLIT_VERT = 2
 
+TIMER_START  = 0
+TIMER_STOP   = 1
+TIMER_DELETE = 2
+
 LOG_CLEAR           = 0
 LOG_ADD             = 1
 LOG_SET_PANEL       = 2
@@ -495,6 +499,9 @@ def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
+    
+def timer_proc(id, name, value):
+    return ct.timer_proc(id, name, value)
 
 
 #Editor
