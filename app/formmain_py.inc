@@ -3634,6 +3634,8 @@ end;
 
 
 function Py_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
+const
+  cMinTime = 50;
 var
   NId, NValue, N: integer;
   PtrName: PChar;
@@ -3652,6 +3654,9 @@ begin
         TIMER_START,
         TIMER_START_ONE:
           begin
+            if NValue<cMinTime then
+              Exit(PyBool_FromLong(0));
+
             N:= fmMain.FListTimers.IndexOf(StrName);
             if N>=0 then
               Timer:= TTimer(fmMain.FListTimers.Objects[N])
@@ -3661,7 +3666,12 @@ begin
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
               fmMain.FListTimers.AddObject(StrName, Timer);
             end;
-            if NId=TIMER_START_ONE then Timer.Tag:= 1 else Timer.Tag:= 0;
+
+            if NId=TIMER_START_ONE then
+              Timer.Tag:= 1
+            else
+              Timer.Tag:= 0;
+
             Timer.Enabled:= false;
             Timer.Interval:= NValue;
             Timer.Enabled:= true;
