@@ -515,7 +515,6 @@ type
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
-    procedure DoPyTimerTick(Sender: TObject);
     procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
@@ -585,6 +584,7 @@ type
     procedure DoFileSave;
     procedure DoFileSaveAs;
     procedure DoSwitchActiveTab(ANext: boolean);
+    procedure DoPyTimerTick(Sender: TObject);
     function DoPyPanelAdd(AParams: string): boolean;
     function DoPyPanelDelete(const ACaption: string): boolean;
     function DoPyPanelFocus(const ACaption: string): boolean;
@@ -3917,13 +3917,21 @@ end;
 
 procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
+  Timer: TTimer;
   N: integer;
-  SCallback: string;
+  SName, SName1, SName2: string;
 begin
-  N:= FListTimers.IndexOfObject(Sender);
+  Timer:= Sender as TTimer;
+  N:= FListTimers.IndexOfObject(Timer);
   if N<0 then exit;
-  SCallback:= FListTimers[N];
-  ShowMessage('timer: '+SCallback);
+
+  if Timer.Tag=1 then
+    Timer.Enabled:= false;
+
+  SName:= FListTimers[N];
+  SName1:= SGetItem(SName, '.');
+  SName2:= SName;
+  DoPyCommand(SName1, SName2);
 end;
 
 //----------------------------

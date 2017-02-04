@@ -3649,7 +3649,8 @@ begin
         Exit(PyBool_FromLong(0));
 
       case NId of
-        TIMER_START:
+        TIMER_START,
+        TIMER_START_ONE:
           begin
             N:= fmMain.FListTimers.IndexOf(StrName);
             if N>=0 then
@@ -3660,6 +3661,7 @@ begin
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
               fmMain.FListTimers.AddObject(StrName, Timer);
             end;
+            if NId=TIMER_START_ONE then Timer.Tag:= 1 else Timer.Tag:= 0;
             Timer.Interval:= NValue;
             Timer.Enabled:= true;
             Exit(PyBool_FromLong(1));
