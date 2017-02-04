@@ -4,6 +4,10 @@
   * changed
 
 
+1.6.7
++ api for timer
+* change default for undo_after_save
+
 1.6.6
 + find/replace: opt "in selection"
 + cmd "goto last editing pos" uses find_indent_vert/horz
