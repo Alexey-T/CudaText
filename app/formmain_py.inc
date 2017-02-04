@@ -3635,7 +3635,7 @@ end;
 
 function Py_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
-  cMinTime = 50;
+  cMinTime = 150;
 var
   NId, NValue, N: integer;
   PtrName: PChar;
