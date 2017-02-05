@@ -736,15 +736,13 @@ begin
     if (UiOps.AutocompleteAutoshowChars>0) and
        (UiOps.AutocompleteAutoshowLexers<>'') then
     begin
-      SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
-      if SLexerName='' then SLexerName:= '-';
-
       Inc(FTextCharsTyped);
       if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
         if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
         begin
           FTextCharsTyped:= 0;
           Ed.DoCommand(cmd_AutoComplete);
+          exit;
         end;
     end
     else
