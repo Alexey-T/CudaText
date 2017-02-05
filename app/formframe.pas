@@ -706,7 +706,7 @@ begin
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
 
-  //autoshow autocomplete for HTML/CSS
+  //autoshow autocomplete
   if (ACommand=cCommand_TextInsert) and
      (Length(AText)=1) and
      IsCharWord(AText[1], '') then
@@ -714,6 +714,7 @@ begin
     SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
     if SLexerName='' then SLexerName:= '-';
 
+    //autoshow for HTML
     if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
     begin
       Str:= Ed.Strings.Lines[Caret.PosY];
@@ -722,6 +723,7 @@ begin
       exit;
     end;
 
+    //autoshow for CSS
     if UiOps.AutocompleteCss and (SLexerName='CSS') then
     begin
       Str:= Ed.Strings.Lines[Caret.PosY];
@@ -729,28 +731,25 @@ begin
         Ed.DoCommand(cmd_AutoComplete);
       exit;
     end;
+
+    //autoshow for others, when typed N chars
+    if (UiOps.AutocompleteAutoshowChars>0) and
+       (UiOps.AutocompleteAutoshowLexers<>'') then
+    begin
+      SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
+      if SLexerName='' then SLexerName:= '-';
+
+      Inc(FTextCharsTyped);
+      if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
+        if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
+        begin
+          FTextCharsTyped:= 0;
+          Ed.DoCommand(cmd_AutoComplete);
+        end;
+    end
+    else
+      FTextCharsTyped:= 0;
   end;
-
-  //autoshow autocomplete for others, when typed N chars
-  if (UiOps.AutocompleteAutoshowChars>0) and
-     (UiOps.AutocompleteAutoshowLexers<>'') and
-     (ACommand=cCommand_TextInsert) and
-     (Length(AText)=1) and
-     IsCharWord(AText[1], '') then
-  begin
-    SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
-    if SLexerName='' then SLexerName:= '-';
-
-    Inc(FTextCharsTyped);
-    if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
-      if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
-      begin
-        FTextCharsTyped:= 0;
-        Ed.DoCommand(cmd_AutoComplete);
-      end;
-  end
-  else
-    FTextCharsTyped:= 0;
 end;
 
 procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
