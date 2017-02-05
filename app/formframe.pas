@@ -711,6 +711,7 @@ begin
     Caret:= Ed.Carets[0];
     if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
     SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
+    if SLexerName='' then SLexerName:= '-';
 
     if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
     begin
@@ -738,12 +739,11 @@ begin
   begin
     Inc(FTextCharsTyped);
     if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
-      with Ed.Carets[0] do
-        if IsLexerListed(LexerNameAtPos(Point(PosX, PosY)), UiOps.AutocompleteAutoshowLexers) then
-        begin
-          FTextCharsTyped:= 0;
-          Ed.DoCommand(cmd_AutoComplete);
-        end;
+      if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
+      begin
+        FTextCharsTyped:= 0;
+        Ed.DoCommand(cmd_AutoComplete);
+      end;
   end
   else
     FTextCharsTyped:= 0;

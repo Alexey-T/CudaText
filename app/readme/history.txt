@@ -4,6 +4,9 @@
   * changed
 
 
+1.6.7.1
++ option "autocomplete_autoshow_lexers" can have none-lexer as "-"
+
 1.6.7
 + api for timer
 * change default for undo_after_save
