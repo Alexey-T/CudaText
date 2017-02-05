@@ -14,7 +14,7 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     c.Formatted:= true; //needs last jsonConf.pp
-    c.Filename:= GetAppPath(cFileOptHistory);
+    c.Filename:= GetAppPath(cFileOptionsHistory);
 
     ////form
     if not ShowFullscreen then
@@ -290,7 +290,7 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.Filename:= GetAppPath(cFileOptHistory);
+    c.Filename:= GetAppPath(cFileOptionsHistory);
     TabNameLeft:= c.GetValue('tab_left', '');
   finally
     FreeAndNil(c);
@@ -306,7 +306,7 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.Filename:= GetAppPath(cFileOptHistory);
+    c.Filename:= GetAppPath(cFileOptionsHistory);
 
     ////form size
     nPosX:= c.GetValue('/dialog/posx', 100);
@@ -374,7 +374,7 @@ var
   F: TEditorFrame;
 begin
   AppKeymap_ApplyUndoList(FKeymapUndoList);
-  DoOps_LoadKeymapFrom(GetAppPath(cFileOptKeymap), nil);
+  DoOps_LoadKeymapFrom(GetAppPath(cFileOptionsKeymap), nil);
   FKeymapUndoList.Clear;
 
   F:= CurrentFrame;
@@ -754,7 +754,7 @@ var
   cfg: TJsonConfig;
   fn: string;
 begin
-  fn:= GetAppPath(cFileOptUser);
+  fn:= GetAppPath(cFileOptionsUser);
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
@@ -784,7 +784,7 @@ end;
 
 procedure TfmMain.DoOps_LoadOptionsAndApplyAll;
 begin
-  DoOps_LoadOptions(GetAppPath(cFileOptUser), EditorOps);
+  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
   DoApplyAllOps;
   MsgStatus(msgStatusReadingOps);
 end;

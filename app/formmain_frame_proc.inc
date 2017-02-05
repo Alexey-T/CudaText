@@ -128,7 +128,7 @@ begin
   fn:= F.Filename;
   MsgStatus(msgStatusSavedFile+' '+ExtractFileName(fn)+' ('+ExtractFileDir(fn)+')');
 
-  if fn=GetAppPath(cFileOptUser) then
+  if fn=GetAppPath(cFileOptionsUser) then
     //must use timer
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply);
 end;

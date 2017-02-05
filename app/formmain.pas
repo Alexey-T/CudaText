@@ -1331,7 +1331,7 @@ begin
   TabsBottom.TabIndex:= 0;
 
   DoOps_LoadCommandLineOptions;
-  DoOps_LoadOptions(GetAppPath(cFileOptUser), EditorOps);
+  DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
   DoApplyFont_Text;
   DoApplyFont_Ui;
   DoApplyFont_Output;
@@ -1403,7 +1403,7 @@ begin
   FListRecents.Clear;
   UpdateMenuRecent(nil);
   //
-  DeleteFileUTF8(GetAppPath(cFileHistoryList));
+  DeleteFileUTF8(GetAppPath(cFileOptionsHistoryFiles));
 end;
 
 procedure TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string);
@@ -1412,7 +1412,7 @@ var
   IsOk: boolean;
   AddonType: TAppAddonType;
 begin
-  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAcp), msg, msg2,
+  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAutocomplete), msg, msg2,
     IsOk, AddonType, DirTarget);
 
   if IsOk then
@@ -1611,7 +1611,7 @@ begin
   if DoShowDialogLexerProp(an,
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStyles)) then
+    GetAppPath(cFileLexerStylesBackup)) then
   begin
     DoLexerExportFromLibToFile(an);
     UpdateMenuLexers;
@@ -1623,10 +1623,10 @@ end;
 procedure TfmMain.DoDialogLexerLib;
 begin
   if DoShowDialogLexerLib(
-    GetAppPath(cDirDataAcp),
+    GetAppPath(cDirDataAutocomplete),
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStyles)) then
+    GetAppPath(cFileLexerStylesBackup)) then
   begin
     UpdateMenuLexers;
     UpdateStatus;
@@ -1695,12 +1695,12 @@ end;
 
 procedure TfmMain.DoHelpChangelog;
 begin
-  DoFileOpen(GetAppPath(cFileReadmeHist));
+  DoFileOpen(GetAppPath(cFileReadmeHistory));
 end;
 
 procedure TfmMain.DoHelpMouse;
 begin
-  DoFileOpen(GetAppPath(cFileReadmeMouse));
+  DoFileOpen(GetAppPath(cFileReadmeHelpMouse));
 end;
 
 procedure TfmMain.MenuWindowClick(Sender: TObject);
@@ -2292,7 +2292,7 @@ begin
   AppManager.Clear;
 
   //load .lcf files to lib
-  dir:= GetAppPath(cDirDataLexlib);
+  dir:= GetAppPath(cDirDataLexerlib);
   L:= TStringlist.Create;
   try
     FindAllFiles(L, dir, '*.lcf', false);
@@ -2804,7 +2804,7 @@ procedure TfmMain.DoOps_OpenFile_Default;
 var
   fn: string;
 begin
-  fn:= GetAppPath(cFileOptDefault);
+  fn:= GetAppPath(cFileOptionsDefault);
   DoFileOpen(fn);
 end;
 
@@ -2812,7 +2812,7 @@ procedure TfmMain.DoOps_OpenFile_User;
 var
   fn: string;
 begin
-  fn:= GetAppPath(cFileOptUser);
+  fn:= GetAppPath(cFileOptionsUser);
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
@@ -2826,7 +2826,7 @@ procedure TfmMain.DoOps_OpenFile_FileTypes;
 var
   fn: string;
 begin
-  fn:= GetAppPath(cFileOptFiletypes);
+  fn:= GetAppPath(cFileOptionsFiletypes);
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
@@ -2931,9 +2931,9 @@ begin
   IsHtml:= UiOps.AutocompleteHtml and (Pos('HTML', LexName)>0);
   IsCss:= UiOps.AutocompleteCss and (LexName='CSS');
   IsCaseSens:= false; //cannot detect it yet
-  FileCss:= GetAppPath(cDirDataAcpSpec)+DirectorySeparator+'css_list.ini';
-  FileHtml:= GetAppPath(cDirDataAcpSpec)+DirectorySeparator+'html_list.ini';
-  FileAcp:= GetAppPath(cDirDataAcp)+DirectorySeparator+LexName+'.acp';
+  FileCss:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'css_list.ini';
+  FileHtml:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'html_list.ini';
+  FileAcp:= GetAppPath(cDirDataAutocomplete)+DirectorySeparator+LexName+'.acp';
 
   if IsHtml then
   begin
@@ -3222,7 +3222,7 @@ end;
 
 procedure TfmMain.DoHelpLexers;
 begin
-  DoFileOpen(GetAppPath(cFileReadmeLexerInst));
+  DoFileOpen(GetAppPath(cFileReadmeHelpLexers));
 end;
 
 procedure TfmMain.DoHelpIssues;
@@ -3429,7 +3429,7 @@ begin
   Form:= TfmLexerStylesRestore.Create(nil);
   try
     DoLocalize_FormLexerRestoreStyles(Form);
-    Form.StylesFilename:= GetAppPath(cFileLexerStyles);
+    Form.StylesFilename:= GetAppPath(cFileLexerStylesBackup);
 
     if Form.ShowModal=mrOk then
     begin

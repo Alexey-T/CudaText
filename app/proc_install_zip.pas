@@ -162,7 +162,7 @@ var
   ini_lexmap: TIniFile;
 begin
   s_report:= '';
-  dir_lexlib:= GetAppPath(cDirDataLexlib);
+  dir_lexlib:= GetAppPath(cDirDataLexerlib);
 
   with TIniFile.Create(fn_inf) do
   try
@@ -209,7 +209,7 @@ begin
       //also "restore lexer styles"
       if not UiOps.LexerThemes then
       begin
-        DoLoadLexerStylesFromFile(an, GetAppPath(cFileLexerStyles));
+        DoLoadLexerStylesFromFile(an, GetAppPath(cFileLexerStylesBackup));
         DoLexerExportFromLibToFile(an);
       end;
 

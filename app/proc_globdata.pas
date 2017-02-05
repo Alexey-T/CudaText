@@ -45,27 +45,27 @@ const
 type
   TAppPathId = (
     cDirSettings,
-    cDirSettingsDef,
+    cDirSettingsDefault,
     cDirData,
-    cDirDataLexlib,
+    cDirDataLexerlib,
     cDirDataNewdoc,
     cDirDataThemes,
-    cDirDataAcp,
-    cDirDataAcpSpec,
+    cDirDataAutocomplete,
+    cDirDataAutocompleteSpec,
     cDirDataLangs,
     cDirReadme,
     cDirLastInstalledAddon,
     cDirPy,
-    cFileOptHistory,
-    cFileOptDefault,
-    cFileOptUser,
-    cFileOptFiletypes,
-    cFileOptKeymap,
-    cFileHistoryList,
-    cFileLexerStyles,
-    cFileReadmeHist,
-    cFileReadmeMouse,
-    cFileReadmeLexerInst
+    cFileOptionsHistory,
+    cFileOptionsDefault,
+    cFileOptionsUser,
+    cFileOptionsFiletypes,
+    cFileOptionsKeymap,
+    cFileOptionsHistoryFiles,
+    cFileLexerStylesBackup,
+    cFileReadmeHistory,
+    cFileReadmeHelpMouse,
+    cFileReadmeHelpLexers
     );
 
 type
@@ -574,7 +574,7 @@ begin
         Result:= OpDirLocal+DirectorySeparator+'settings';
         CreateDirUTF8(Result);
       end;
-    cDirSettingsDef:
+    cDirSettingsDefault:
       begin
         Result:= OpDirLocal+DirectorySeparator+'settings_default';
       end;
@@ -582,7 +582,7 @@ begin
       begin
         Result:= OpDirLocal+DirectorySeparator+'data';
       end;
-    cDirDataLexlib:
+    cDirDataLexerlib:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lexlib';
       end;
@@ -594,11 +594,11 @@ begin
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'themes';
       end;
-    cDirDataAcp:
+    cDirDataAutocomplete:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'autocomplete';
       end;
-    cDirDataAcpSpec:
+    cDirDataAutocompleteSpec:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'autocompletespec';
       end;
@@ -619,44 +619,44 @@ begin
         Result:= OpDirLocal+DirectorySeparator+'py';
       end;
 
-    cFileOptDefault:
+    cFileOptionsDefault:
       begin
-        Result:= GetAppPath(cDirSettingsDef)+DirectorySeparator+'default.json';
+        Result:= GetAppPath(cDirSettingsDefault)+DirectorySeparator+'default.json';
       end;
-    cFileOptHistory:
+    cFileOptionsHistory:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history.json';
       end;
-    cFileOptUser:
+    cFileOptionsUser:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'user.json';
       end;
-    cFileOptFiletypes:
+    cFileOptionsFiletypes:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'filetypes.json';
       end;
-    cFileOptKeymap:
+    cFileOptionsKeymap:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys.json';
       end;
-    cFileHistoryList:
+    cFileOptionsHistoryFiles:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'history files.json';
       end;
-    cFileLexerStyles:
+    cFileLexerStylesBackup:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer styles backup.ini';
       end;
 
-    cFileReadmeHist:
+    cFileReadmeHistory:
       begin
         Result:= GetAppPath(cDirReadme)+DirectorySeparator+'history.txt';
       end;
-    cFileReadmeMouse:
+    cFileReadmeHelpMouse:
       begin
         Result:= GetAppPath(cDirReadme)+DirectorySeparator+'help mouse.txt';
       end;
-    cFileReadmeLexerInst:
+    cFileReadmeHelpLexers:
       begin
         Result:= GetAppPath(cDirReadme)+DirectorySeparator+'help lexers install.txt';
       end;
@@ -1009,7 +1009,7 @@ var
   c: TJsonConfig;
   fn_opt, s, ext: string;
 begin
-  fn_opt:= GetAppPath(cFileOptFiletypes);
+  fn_opt:= GetAppPath(cFileOptionsFiletypes);
   if FileExistsUTF8(fn_opt) then
   begin
     c:= TJsonConfig.Create(nil);
@@ -1058,7 +1058,7 @@ begin
     if ALexerName<>'' then
       c.Filename:= GetAppKeymapOverrideFilename(ALexerName)
     else
-      c.Filename:= GetAppPath(cFileOptKeymap);
+      c.Filename:= GetAppPath(cFileOptionsKeymap);
 
     c.SetValue(path+'/name', K.Name);
 
@@ -1101,7 +1101,7 @@ begin
     if ALexerName<>'' then
       c.Filename:= GetAppKeymapOverrideFilename(ALexerName)
     else
-      c.Filename:= GetAppPath(cFileOptKeymap);
+      c.Filename:= GetAppPath(cFileOptionsKeymap);
 
     path:= AModuleName+','+AMethodName;
 
@@ -1292,7 +1292,7 @@ begin
     ALexName:= StringReplace(ALexName, '/', '_', [rfReplaceAll]);
     ALexName:= StringReplace(ALexName, '\', '_', [rfReplaceAll]);
     ALexName:= StringReplace(ALexName, '*', '_', [rfReplaceAll]);
-    Result:= GetAppPath(cDirDataLexlib)+DirectorySeparator+ALexName+AExt;
+    Result:= GetAppPath(cDirDataLexerlib)+DirectorySeparator+ALexName+AExt;
   end
   else
     Result:= '';

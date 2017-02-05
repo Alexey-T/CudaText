@@ -1430,7 +1430,7 @@ begin
   try
     try
       c.Formatted:= true;
-      c.Filename:= GetAppPath(cFileHistoryList);
+      c.Filename:= GetAppPath(cFileOptionsHistoryFiles);
     except
       Showmessage(msgCannotReadConf+#13+c.Filename);
       exit
@@ -1523,7 +1523,7 @@ begin
   try
     try
       c.Formatted:= true;
-      c.Filename:= GetAppPath(cFileHistoryList);
+      c.Filename:= GetAppPath(cFileOptionsHistoryFiles);
     except
       Showmessage(msgCannotReadConf+#13+c.Filename);
       exit
