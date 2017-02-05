@@ -702,14 +702,15 @@ var
   SLexerName: string;
 begin
   Ed:= Sender as TATSynEdit;
+  if Ed.Carets.Count<>1 then exit;
+  Caret:= Ed.Carets[0];
+  if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
 
   //autoshow autocomplete for HTML/CSS
   if (ACommand=cCommand_TextInsert) and
-     (Ed.Carets.Count=1) and
-     (Length(AText)=1) and IsCharWord(AText[1], '') then
+     (Length(AText)=1) and
+     IsCharWord(AText[1], '') then
   begin
-    Caret:= Ed.Carets[0];
-    if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
     SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
     if SLexerName='' then SLexerName:= '-';
 
@@ -734,9 +735,12 @@ begin
   if (UiOps.AutocompleteAutoshowChars>0) and
      (UiOps.AutocompleteAutoshowLexers<>'') and
      (ACommand=cCommand_TextInsert) and
-     (Ed.Carets.Count=1) and
-     (Length(AText)=1) and IsCharWord(AText[1], '') then
+     (Length(AText)=1) and
+     IsCharWord(AText[1], '') then
   begin
+    SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
+    if SLexerName='' then SLexerName:= '-';
+
     Inc(FTextCharsTyped);
     if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
       if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
