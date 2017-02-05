@@ -808,17 +808,17 @@ Possible values of id_action:
 
  timer_proc(id, callback, interval)
 
-Perform action on timers.
+Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
 
 * callback: String in the form "module_name.method_name". App will call "method_name()" in the class "Command", in specified module (e.g. "cuda_my_plugin").
-* interval: Timer delay in msec, 150 or bigger. Specify on starting timer.
+* interval: Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
 
 Possible values of id:
 
-* TIMER_START - Create (if needed) and start timer, infinite ticks.
+* TIMER_START - Create (if needed) and start timer, infinite ticks. If timer already created, then it's restated.
 * TIMER_START_ONE - Create (if needed) and start timer, for single tick.
 * TIMER_STOP - Stop timer (timer must be created before).
-* TIMER_DELETE - Stop timer and delete it (free memory).
+* TIMER_DELETE - Stop timer, and delete it from list of timers. Usually don't use it, use only to save memory if created lot of timers.
 
 Result is True if params ok; False if params not ok (callback str incorrect, interval incorrect, not created callback on stopping); or None (for unknown id).
 
