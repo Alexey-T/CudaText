@@ -1,3 +1,4 @@
+import json
 import cudatext_api as ct
 
 MB_OK               = 0x00000000
@@ -505,6 +506,18 @@ def timer_proc(id, name, value):
     return ct.timer_proc(id, name, value)
 
 
+def to_str(v):
+    if isinstance(v, list) or isinstance(v, tuple):
+        return ','.join(map(to_str, v))
+
+    if isinstance(v, bool):
+        if v:
+            return '1'
+        else:
+            return '0'
+
+    return str(v)
+
 #Editor
 class Editor:
     h = 0
@@ -572,25 +585,23 @@ class Editor:
         return ct.ed_set_split(self.h, state, value)
 
     def get_prop(self, id, value=''):
-        value = str(value)
+        value = to_str(value)
         if id!=PROP_TAG:
             return ct.ed_get_prop(self.h, id, value)
         js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
         key,dfv = value.split(':', 1) if ':' in value else ('_', value)
         if not js_s:
             return dfv
-        import json # move to head imports?
         js = json.loads(js_s)
         return js.get(key, dfv)
 
     def set_prop(self, id, value):
-        value = str(value)
+        value = to_str(value)
         if id!=PROP_TAG:
             return ct.ed_set_prop(self.h, id, value)
         key,val = value.split(':', 1) if ':' in value else ('_', value)
         js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
         js_s = js_s if js_s else '{}'
-        import json # move to head imports?
         js = json.loads(js_s)
         js[key] = val
         js_s = json.dumps(js)
