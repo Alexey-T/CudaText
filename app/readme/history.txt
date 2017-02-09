@@ -4,8 +4,9 @@
   * changed
 
 
-1.6.7.1
+1.6.7.3
 + option "autocomplete_autoshow_lexers" can have none-lexer as "-"
+- dont suggest multiline sel to Find dlg
 
 1.6.7
 + api for timer
