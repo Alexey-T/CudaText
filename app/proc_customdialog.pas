@@ -600,7 +600,8 @@ begin
     //-------hint
     if SName='hint' then
     begin
-      Ctl.Hint:= SValue;
+      //replace #13: QT cannot handle it in hint
+      Ctl.Hint:= StringReplace(SValue, #13, #10, [rfReplaceAll]);
       Continue;
     end;
 
