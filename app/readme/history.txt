@@ -4,9 +4,11 @@
   * changed
 
 
-1.6.7.3
+1.6.8
 + option "autocomplete_autoshow_lexers" can have none-lexer as "-"
-- dont suggest multiline sel to Find dlg
++ AddonManager: use temp-file on downloading (safer)
++ AddonManager: message retry/ignore/abort on download err
+- dont suggest multi-line sel to Find dlg
 
 1.6.7
 + api for timer
