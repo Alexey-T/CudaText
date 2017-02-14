@@ -423,6 +423,7 @@ begin
     DoLocString(msgCannotFindBookmarks           , ini, 'se', 'FindBookmarks');
     DoLocString(msgCannotOpenTooBig              , ini, 'se', 'OpenTooBig');
     DoLocString(msgCannotHandleZip               , ini, 'se', 'HandleZip');
+    DoLocString(msgCannotInstallAddonApi         , ini, 'se', 'AddonApi');
 
     DoLocString(msgStatusIncorrectFilename       , ini, 'si', 'IncorrectFilename');
     DoLocString(msgStatusIncorrectInstallInfInZip, ini, 'si', 'IncorrectInstallInfInZip');
