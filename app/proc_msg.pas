@@ -89,7 +89,7 @@ const
   msgCannotOpenTooBig: string = 'Cannot open file, it''s too big:';
   msgCannotHandleZip: string = 'Cannot handle zip file:';
   msgCannotSetHotkey: string = 'Cannot set hotkey for this item';
-  msgCannotInstallAddonApi: string = 'Cannot install add-on "%s", it requires API version %s';
+  msgCannotInstallAddonApi: string = 'Cannot install add-on "%s", it needs newer application version (API %s)';
 
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
