@@ -8,6 +8,7 @@
 + option "autocomplete_autoshow_lexers" can have none-lexer as "-"
 + AddonManager: use temp-file on downloading (safer)
 + AddonManager: message retry/ignore/abort on download err
++ addons install.inf has field for API ver
 - dont suggest multi-line sel to Find dlg
 
 1.6.7

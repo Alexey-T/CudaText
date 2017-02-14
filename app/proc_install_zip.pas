@@ -291,7 +291,7 @@ var
   unzip: TUnZipper;
   list: TStringlist;
   dir, dir_zipped, fn_inf: string;
-  s_title, s_type, s_desc: string;
+  s_title, s_type, s_desc, s_api: string;
 begin
   StrReport:= '';
   StrMessage:= '';
@@ -351,13 +351,20 @@ begin
     s_title:= ReadString('info', 'title', '');
     s_desc:= ReadString('info', 'desc', '');
     s_type:= ReadString('info', 'type', '');
+    s_api:= ReadString('info', 'api', '');
   finally
     Free
   end;
 
+  if (s_api<>'') and (s_api>cAppApiVersion) then
+  begin
+    MsgBox(Format(msgCannotInstallAddonApi, [s_title, s_api]), MB_OK or MB_ICONERROR);
+    exit
+  end;
+
   if (s_title='') or (s_type='') then
   begin
-    MsgBox(msgStatusIncorrectInstallInfInZip, mb_ok or mb_iconerror);
+    MsgBox(msgStatusIncorrectInstallInfInZip, MB_OK or MB_ICONERROR);
     exit
   end;
 
@@ -365,7 +372,7 @@ begin
     (s_type<>cTypePlugin) and
     (s_type<>cTypeData) then
   begin
-    MsgBox(msgStatusUnsupportedAddonType+' '+s_type, mb_ok or mb_iconerror);
+    MsgBox(msgStatusUnsupportedAddonType+' '+s_type, MB_OK or MB_ICONERROR);
     exit
   end;
 
@@ -375,7 +382,7 @@ begin
     msgStatusPackageType+' '+s_type+#10+
     #10+
     msgConfirmInstallIt,
-    MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
+    MB_OKCANCEL or MB_ICONQUESTION)<>ID_OK then exit;
 
   StrReport:= '';
   if s_type=cTypeLexer then
