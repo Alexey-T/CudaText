@@ -501,6 +501,122 @@ begin
   end;
 end;
 
+
+procedure DoControl_SetPropsFromString(C: TControl; S: string);
+begin
+  if C is TButton then
+  begin
+    (C as TButton).Default:= StrToBool(SGetItem(S));
+    exit
+  end;
+
+  if C is TSpinEdit then
+  begin
+    (C as TSpinEdit).MinValue:= StrToIntDef(SGetItem(S), 0);
+    (C as TSpinEdit).MaxValue:= StrToIntDef(SGetItem(S), 100);
+    (C as TSpinEdit).Increment:= StrToIntDef(SGetItem(S), 1);
+    exit
+  end;
+
+  if C is TLinkLabel then
+  begin
+    (C as TLinkLabel).Link:= S;
+    exit
+  end;
+
+  if C is TLabel then
+  begin
+    if StrToBool(SGetItem(S)) then
+    begin
+      (C as TLabel).AutoSize:= false;
+      (C as TLabel).Alignment:= taRightJustify;
+    end;
+    exit
+  end;
+
+  if (C is TEdit) or (C is TMemo) then
+  begin
+    //RO
+    if StrToBool(SGetItem(S)) then
+    begin
+      (C as TCustomEdit).ReadOnly:= true;
+      TCustomEditHack(C).ParentColor:= true;
+    end;
+    //Monospaced
+    if StrToBool(SGetItem(S)) then
+    begin
+      C.Font.Name:= 'Courier New';
+      {$ifdef windows}
+      Ctl.Font.Size:= 9;
+      {$endif}
+    end;
+    //Border
+    if StrToBool(SGetItem(S)) then
+      (C as TCustomEdit).BorderStyle:= bsSingle
+    else
+      (C as TCustomEdit).BorderStyle:= bsNone;
+
+    exit;
+  end;
+
+  if (C is TListView) then
+  begin
+    (C as TListView).GridLines:= StrToBool(SGetItem(S));
+    exit
+  end;
+
+  if (C is TTabControl) then
+  begin
+    if StrToBool(S) then
+      (C as TTabControl).TabPosition:= tpBottom;
+    exit
+  end;
+
+  if (C is TATColorPanel) then
+  begin
+    (C as TPanel).BorderWidth:= StrToIntDef(SGetItem(S), 0);
+    (C as TPanel).Color:= StrToIntDef(SGetItem(S), clDefault);
+    (C as TPanel).Font.Color:= StrToIntDef(SGetItem(S), clDefault);
+    (C as TATColorPanel).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
+    exit
+  end;
+
+  if (C is TImage) then
+  begin
+    (C as TImage).Center:= StrToBool(SGetItem(S));
+    (C as TImage).Stretch:= StrToBool(SGetItem(S));
+    (C as TImage).StretchInEnabled:= StrToBool(SGetItem(S));
+    (C as TImage).StretchOutEnabled:= StrToBool(SGetItem(S));
+    (C as TImage).KeepOriginXWhenClipped:= StrToBool(SGetItem(S));
+    (C as TImage).KeepOriginYWhenClipped:= StrToBool(SGetItem(S));
+    exit
+  end;
+end;
+
+
+procedure DoControl_SetItemsFromString(C: TControl; S: string);
+var
+  SItem: string;
+begin
+  if C is TImage then
+  begin
+    DoControl_SetState_Image(C as TImage, S);
+    exit
+  end;
+
+  repeat
+    SItem:= SGetItem(S, #9);
+    if SItem='' then Break;
+    if C is TListbox then (C as TListbox).Items.Add(SItem);
+    if C is TComboBox then (C as TComboBox).Items.Add(SItem);
+    if C is TCheckGroup then (C as TCheckGroup).Items.Add(SItem);
+    if C is TRadioGroup then (C as TRadioGroup).Items.Add(SItem);
+    if C is TCheckListBox then (C as TCheckListBox).Items.Add(SItem);
+    if C is TListView then DoControl_SetState_ListviewItem(C as TListView, SItem);
+    if C is TTabControl then (C as TTabControl).Tabs.Add(SItem);
+  until false;
+end;
+
 procedure DoForm_Scale(F: TForm);
 var
   PrevPPI, NewPPI: integer;
@@ -635,99 +751,14 @@ begin
     //-------props
     if SName='props' then
     begin
-      if Ctl is TButton then
-      begin
-        (Ctl as TButton).Default:= StrToBool(SGetItem(SValue));
-      end;
-
-      if Ctl is TSpinEdit then
-      begin
-        (Ctl as TSpinEdit).MinValue:= StrToIntDef(SGetItem(SValue), 0);
-        (Ctl as TSpinEdit).MaxValue:= StrToIntDef(SGetItem(SValue), 100);
-        (Ctl as TSpinEdit).Increment:= StrToIntDef(SGetItem(SValue), 1);
-      end;
-
-      if Ctl is TLinkLabel then
-        (Ctl as TLinkLabel).Link:= SValue;
-
-      if Ctl is TLabel then
-      begin
-        if StrToBool(SGetItem(SValue)) then
-        begin
-          (Ctl as TLabel).AutoSize:= false;
-          (Ctl as TLabel).Alignment:= taRightJustify;
-        end;
-      end;
-
-      if (Ctl is TEdit) or (Ctl is TMemo) then
-      begin
-        //RO
-        if StrToBool(SGetItem(SValue)) then
-        begin
-          (Ctl as TCustomEdit).ReadOnly:= true;
-          TCustomEditHack(Ctl).ParentColor:= true;
-        end;
-        //Monospaced
-        if StrToBool(SGetItem(SValue)) then
-        begin
-          Ctl.Font.Name:= 'Courier New';
-          {$ifdef windows}
-          Ctl.Font.Size:= 9;
-          {$endif}
-        end;
-        //Border
-        if StrToBool(SGetItem(SValue)) then
-          (Ctl as TCustomEdit).BorderStyle:= bsSingle
-        else
-          (Ctl as TCustomEdit).BorderStyle:= bsNone;
-      end;
-
-      if (Ctl is TListView) then
-      begin
-        (Ctl as TListView).GridLines:= StrToBool(SGetItem(SValue));
-      end;
-
-      if (Ctl is TTabControl) then
-        if SValue='1' then
-          (Ctl as TTabControl).TabPosition:= tpBottom;
-
-      if (Ctl is TATColorPanel) then
-      begin
-        (Ctl as TPanel).BorderWidth:= StrToIntDef(SGetItem(SValue), 0);
-        (Ctl as TPanel).Color:= StrToIntDef(SGetItem(SValue), clDefault);
-        (Ctl as TPanel).Font.Color:= StrToIntDef(SGetItem(SValue), clDefault);
-        (Ctl as TATColorPanel).BorderColor:= StrToIntDef(SGetItem(SValue), clBlack);
-      end;
-
-      if (Ctl is TImage) then
-      begin
-        (Ctl as TImage).Center:= StrToBool(SGetItem(SValue));
-        (Ctl as TImage).Stretch:= StrToBool(SGetItem(SValue));
-        (Ctl as TImage).StretchInEnabled:= StrToBool(SGetItem(SValue));
-        (Ctl as TImage).StretchOutEnabled:= StrToBool(SGetItem(SValue));
-        (Ctl as TImage).KeepOriginXWhenClipped:= StrToBool(SGetItem(SValue));
-        (Ctl as TImage).KeepOriginYWhenClipped:= StrToBool(SGetItem(SValue));
-      end;
-
+      DoControl_SetPropsFromString(Ctl, SValue);
       Continue;
     end;
 
     //-------items
     if SName='items' then
     begin
-      if Ctl is TImage then DoControl_SetState_Image(Ctl as TImage, SValue)
-      else
-      repeat
-        SListItem:= SGetItem(SValue, #9);
-        if SListItem='' then break;
-        if Ctl is TListbox then (Ctl as TListbox).Items.Add(SListItem);
-        if Ctl is TComboBox then (Ctl as TComboBox).Items.Add(SListItem);
-        if Ctl is TCheckGroup then (Ctl as TCheckGroup).Items.Add(SListItem);
-        if Ctl is TRadioGroup then (Ctl as TRadioGroup).Items.Add(SListItem);
-        if Ctl is TCheckListBox then (Ctl as TCheckListBox).Items.Add(SListItem);
-        if Ctl is TListView then DoControl_SetState_ListviewItem(Ctl as TListView, SListItem);
-        if Ctl is TTabControl then (Ctl as TTabControl).Tabs.Add(SListItem);
-      until false;
+      DoControl_SetItemsFromString(Ctl, SValue);
       Continue;
     end;
 
