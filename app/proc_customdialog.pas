@@ -617,6 +617,104 @@ begin
   until false;
 end;
 
+
+procedure DoControl_SetPosFromString(C: TControl; S: string);
+var
+  NX1, NY1, NX2, NY2: integer;
+begin
+  NX1:= StrToIntDef(SGetItem(S, ','), -1);
+  NY1:= StrToIntDef(SGetItem(S, ','), -1);
+  NX2:= StrToIntDef(SGetItem(S, ','), -1);
+  NY2:= StrToIntDef(SGetItem(S, ','), -1);
+  if NX1<0 then exit;
+  if NX2<0 then exit;
+  if NY1<0 then exit;
+  if NY2<0 then exit;
+  C.Left:= NX1;
+  C.Width:= NX2-NX1;
+  C.Top:= NY1;
+  if not DoControl_IsAutoHeight(C) then
+    C.Height:= NY2-NY1;
+end;
+
+
+procedure DoControl_SetHintFromString(C: TControl; const S: string);
+begin
+  //QT cannot handle #13 in hint
+  C.Hint:= StringReplace(S, #13, #10, [rfReplaceAll]);
+end;
+
+
+procedure DoControl_SetStateFromString(C: TControl; const S: string);
+begin
+  if C is TCheckBox then
+  begin
+    DoControl_SetState_Checkbox(C as TCheckbox, S);
+    exit
+  end;
+  if C is TToggleBox then
+  begin
+    (C as TToggleBox).Checked:= StrToBool(S);
+    exit
+  end;
+  if C is TRadioButton then
+  begin
+    (C as TRadioButton).Checked:= StrToBool(S);
+    exit
+  end;
+  if C is TEdit then
+  begin
+    (C as TEdit).Text:= S;
+    exit
+  end;
+  if C is TComboBox then
+  begin
+    DoControl_SetState_Combobox(C as TCombobox, S);
+    exit
+  end;
+  if C is TListBox then
+  begin
+    DoControl_SetState_Listbox(C as TListbox, S);
+    exit
+  end;
+  if C is TRadioGroup then
+  begin
+    DoControl_SetState_RadioGroup(C as TRadioGroup, S);
+    exit
+  end;
+  if C is TCheckGroup then
+  begin
+    DoControl_SetState_CheckGroup(C as TCheckGroup, S);
+    exit
+  end;
+  if C is TCheckListBox then
+  begin
+    DoControl_SetState_CheckListbox(C as TCheckListBox, S);
+    exit
+  end;
+  if C is TMemo then
+  begin
+    DoControl_SetState_Memo(C as TMemo, S);
+    exit
+  end;
+  if C is TSpinEdit then
+  begin
+    DoControl_SetState_SpinEdit(C as TSpinEdit, S);
+    exit
+  end;
+  if C is TListView then
+  begin
+    DoControl_SetState_Listview(C as TListView, S);
+    exit
+  end;
+  if C is TTabControl then
+  begin
+    DoControl_SetState_TabControl(C as TTabControl, S);
+    exit
+  end;
+end;
+
+
 procedure DoForm_Scale(F: TForm);
 var
   PrevPPI, NewPPI: integer;
@@ -664,8 +762,7 @@ end;
 
 procedure DoForm_AddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
 var
-  SNameValue, SName, SValue, SListItem: string;
-  NX1, NX2, NY1, NY2: integer;
+  SNameValue, SName, SValue: string;
   Ctl, CtlPrev: TControl;
 begin
   Ctl:= nil;
@@ -716,15 +813,14 @@ begin
     //-------hint
     if SName='hint' then
     begin
-      //replace #13: QT cannot handle it in hint
-      Ctl.Hint:= StringReplace(SValue, #13, #10, [rfReplaceAll]);
+      DoControl_SetHintFromString(Ctl, SValue);
       Continue;
     end;
 
     //-------act
     if SName='act' then
     begin
-      if SValue='1' then
+      if StrToBool(SValue) then
         Ctl.Tag:= Dummy_TagActive;
       Continue;
     end;
@@ -732,19 +828,7 @@ begin
     //-------pos
     if SName='pos' then
     begin
-      NX1:= StrToIntDef(SGetItem(SValue, ','), -1);
-      NY1:= StrToIntDef(SGetItem(SValue, ','), -1);
-      NX2:= StrToIntDef(SGetItem(SValue, ','), -1);
-      NY2:= StrToIntDef(SGetItem(SValue, ','), -1);
-      if NX1<0 then Continue;
-      if NX2<0 then Continue;
-      if NY1<0 then Continue;
-      if NY2<0 then Continue;
-      Ctl.Left:= NX1;
-      Ctl.Width:= NX2-NX1;
-      Ctl.Top:= NY1;
-      if not DoControl_IsAutoHeight(Ctl) then
-        Ctl.Height:= NY2-NY1;
+      DoControl_SetPosFromString(Ctl, SValue);
       Continue;
     end;
 
@@ -765,20 +849,7 @@ begin
     //-------val
     if SName='val' then
     begin
-      if Ctl is TCheckBox then DoControl_SetState_Checkbox(Ctl as TCheckbox, SValue);
-      if Ctl is TToggleBox then (Ctl as TToggleBox).Checked:= StrToBool(SValue);
-      if Ctl is TRadioButton then (Ctl as TRadioButton).Checked:= StrToBool(SValue);
-      if Ctl is TEdit then (Ctl as TEdit).Text:= SValue;
-      if Ctl is TComboBox then DoControl_SetState_Combobox(Ctl as TCombobox, SValue);
-      if Ctl is TListBox then DoControl_SetState_Listbox(Ctl as TListbox, SValue);
-      if Ctl is TRadioGroup then DoControl_SetState_RadioGroup(Ctl as TRadioGroup, SValue);
-      if Ctl is TCheckGroup then DoControl_SetState_CheckGroup(Ctl as TCheckGroup, SValue);
-      if Ctl is TCheckListBox then DoControl_SetState_CheckListbox(Ctl as TCheckListBox, SValue);
-      if Ctl is TMemo then DoControl_SetState_Memo(Ctl as TMemo, SValue);
-      if Ctl is TSpinEdit then DoControl_SetState_SpinEdit(Ctl as TSpinEdit, SValue);
-      if Ctl is TListView then DoControl_SetState_Listview(Ctl as TListView, SValue);
-      if Ctl is TTabControl then DoControl_SetState_TabControl(Ctl as TTabControl, SValue);
-
+      DoControl_SetStateFromString(Ctl, SValue);
       Continue;
     end;
 
