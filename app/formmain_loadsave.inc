@@ -119,6 +119,7 @@ begin
 
       c.SetValue(path+'/modified', bModified);
       c.SetValue(path+'/file', F.Filename);
+      c.SetValue(path+'/tab_title', F.TabCaption);
       c.SetValue(path+'/group', nGroup);
 
       if bModified then
@@ -144,7 +145,7 @@ var
   c: TJSONConfig;
   F: TEditorFrame;
   list: TStringlist;
-  sFilename, item_path: string;
+  sFilename, sTabTitle, item_path: string;
   nGroup, i: integer;
   Pages: TATPages;
   bModified: boolean;
@@ -169,6 +170,7 @@ begin
     begin
       item_path:= '/'+list[i]+'/';
       sFilename:= c.GetValue(item_path+'file', '');
+      sTabTitle:= c.GetValue(item_path+'tab_title', '');
       sText:= c.GetValue(item_path+'text', '');
       nGroup:= c.GetValue(item_path+'group', Low(TATGroupsNums));
       bModified:= c.GetValue(item_path+'modified', false);
@@ -206,6 +208,8 @@ begin
         end;
         F.Editor.Text:= sText;
         F.Editor.Modified:= bModified;
+        if sTabTitle<>'' then
+          F.TabCaption:= sTabTitle;
         F.UpdateModifiedState;
       end
       else
