@@ -650,6 +650,15 @@ begin
       if Ctl is TLinkLabel then
         (Ctl as TLinkLabel).Link:= SValue;
 
+      if Ctl is TLabel then
+      begin
+        if StrToBool(SGetItem(SValue)) then
+        begin
+          (Ctl as TLabel).AutoSize:= false;
+          (Ctl as TLabel).Alignment:= taRightJustify;
+        end;
+      end;
+
       if (Ctl is TEdit) or (Ctl is TMemo) then
       begin
         //RO
