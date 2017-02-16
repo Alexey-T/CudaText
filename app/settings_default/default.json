@@ -407,6 +407,14 @@
   "mouse_gutter_click_sel": true,
   //Allow to zoom text using Ctrl+mouse wheel
   "mouse_wheel_zoom": false,
+  
+  //Call Goto-Definition command, by click with modifier key
+  //  "": disabled
+  //  "a": by Alt+click
+  //  "sa": by Shift+Alt+click
+  //  "ca": by Ctrl+Alt+click
+  //  "sca": by Shift+Ctrl+Alt+click
+  "mouse_goto_definition": "a",
 
   //Key BkSp: do unindent too (if caret inside indented area)
   "key_bksp_unindent": true,

@@ -504,6 +504,7 @@ begin
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
     UiOps.FullScreenHide:= c.GetValue('ui_fullscreen_hide', UiOps.FullScreenHide);
     UiOps.BackupMode:= c.GetValue('backup', UiOps.BackupMode);
+    UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
 
     Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);
     Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);

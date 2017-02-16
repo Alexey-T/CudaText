@@ -165,6 +165,7 @@ type
     ReloadFollowTail: boolean;
     BackupMode: string;
     FullScreenHide: string;
+    MouseGotoDefinition: string;
   end;
 var
   UiOps: TUiOps;
@@ -962,6 +963,7 @@ begin
     ReloadFollowTail:= true;
     FullScreenHide:= 't';
     BackupMode:= '';
+    MouseGotoDefinition:= 'a';
   end;
 end;
 
