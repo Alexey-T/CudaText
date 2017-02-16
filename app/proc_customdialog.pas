@@ -547,7 +547,7 @@ begin
     begin
       C.Font.Name:= 'Courier New';
       {$ifdef windows}
-      Ctl.Font.Size:= 9;
+      C.Font.Size:= 9;
       {$endif}
     end;
     //Border
