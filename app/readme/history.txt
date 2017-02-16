@@ -5,7 +5,8 @@
 
 
 1.6.8
-+ Alt+click now does goto-definition; opt mouse_goto_definition
++ Alt+click now does goto-definition
++ opt "mouse_goto_definition"
 + AddonManager: use temp-file on downloading (safer)
 + AddonManager: message retry/ignore/abort on download err
 + option "autocomplete_autoshow_lexers" can have none-lexer as "-"

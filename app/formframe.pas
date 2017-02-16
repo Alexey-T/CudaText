@@ -280,7 +280,7 @@ procedure TEditorFrame.EditorOnClick(Sender: TObject);
 var
   NewAlt: boolean;
   State: TShiftState;
-  Opt: string;
+  StateString: string;
 begin
   NewAlt:= Sender=Ed2;
   if NewAlt<>FActiveAlt then
@@ -290,23 +290,16 @@ begin
   end;
 
   State:= KeyboardStateToShiftState;
+  StateString:= ConvertShiftStateToString(State);
 
-  if (State<>[]) and (UiOps.MouseGotoDefinition<>'') then
-  begin
-    Opt:= '';
-    if (State=[ssAlt]) or (State=[ssAltGr]) then Opt:= 'a' else
-     if (State=[ssAlt, ssShift]) then Opt:= 'sa' else
-      if (State=[ssAlt, ssCtrl]) then Opt:= 'ca' else
-       if (State=[ssAlt, ssCtrl, ssShift]) then Opt:= 'sca';
-    if Opt=UiOps.MouseGotoDefinition then
+  if UiOps.MouseGotoDefinition<>'' then
+    if StateString=UiOps.MouseGotoDefinition then
     begin
       DoPyEvent(Sender as TATSynEdit, cEventOnGotoDef, []);
       exit;
     end;
-  end;
 
-  DoPyEvent(Sender as TATSynEdit, cEventOnClick,
-    ['"'+ConvertShiftStateToString(State)+'"']);
+  DoPyEvent(Sender as TATSynEdit, cEventOnClick, ['"'+StateString+'"']);
 end;
 
 procedure TEditorFrame.SplitterMoved(Sender: TObject);
