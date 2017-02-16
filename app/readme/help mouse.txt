@@ -17,6 +17,7 @@ Select:
 
 Clicks:
 
+    Alt+click - call "Goto definition" command (if plugin installed for cur lexer)
     double-click - select clicked word
     triple-click - select entire line (limited by end-of-lines)
     middle-button click - start "Browser Scroll" mode: circle mark appears and mouse moving around 

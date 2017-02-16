@@ -5,9 +5,10 @@
 
 
 1.6.8
-+ option "autocomplete_autoshow_lexers" can have none-lexer as "-"
++ Alt+click now does goto-definition
 + AddonManager: use temp-file on downloading (safer)
 + AddonManager: message retry/ignore/abort on download err
++ option "autocomplete_autoshow_lexers" can have none-lexer as "-"
 + addons install.inf has field for API ver
 - dont suggest multi-line sel to Find dlg
 

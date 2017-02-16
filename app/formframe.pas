@@ -279,6 +279,7 @@ end;
 procedure TEditorFrame.EditorOnClick(Sender: TObject);
 var
   NewAlt: boolean;
+  State: TShiftState;
 begin
   NewAlt:= Sender=Ed2;
   if NewAlt<>FActiveAlt then
@@ -287,8 +288,12 @@ begin
     DoOnUpdateStatus;
   end;
 
-  DoPyEvent(Sender as TATSynEdit, cEventOnClick,
-    ['"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"']);
+  State:= KeyboardStateToShiftState;
+  if (State=[ssAlt]) or (State=[ssAltGr]) then
+    DoPyEvent(Sender as TATSynEdit, cEventOnGotoDef, [])
+  else
+    DoPyEvent(Sender as TATSynEdit, cEventOnClick,
+      ['"'+ConvertShiftStateToString(State)+'"']);
 end;
 
 procedure TEditorFrame.SplitterMoved(Sender: TObject);
