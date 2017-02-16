@@ -243,9 +243,11 @@ begin
 
   StrWord:= Ed.TextCurrentWord;
   StrSel:= Ed.TextSelected;
+
   //ignore multi-line sel
   if Pos(#10, StrSel)>0 then StrSel:= '';
   if Pos(#13, StrSel)>0 then StrSel:= '';
+  if not Ed.IsSelRectEmpty then StrSel:= '';
 
   InitFormFind;
   with fmFind do
