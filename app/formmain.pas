@@ -630,8 +630,8 @@ type
     procedure DoOps_LoadHistory;
     procedure DoOps_LoadHistory_GroupView(c: TJsonConfig);
     procedure DoOps_LoadHistory_AfterOnStart;
-    procedure DoOps_SaveSession(fn_session: string);
-    procedure DoOps_LoadSession(fn_session: string);
+    function DoOps_SaveSession(fn_session: string): boolean;
+    function DoOps_LoadSession(fn_session: string): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsOverride(F: TEditorFrame);
     procedure DoOps_OpenFile_FileTypes;
@@ -2521,12 +2521,11 @@ function TfmMain.DoFileCloseAll: boolean;
 var
   i: integer;
 begin
-  Result:= true;
+  Result:= Groups.CloseTabs(tabCloseAll, false);
+  if not Result then exit;
 
-  Groups.CloseTabs(tabCloseAll, false);
   for i:= 0 to FrameCount-1 do
-    if Frames[i].Modified then
-      begin Result:= false; Break end;
+    if Frames[i].Modified then exit(false);
 end;
 
 procedure TfmMain.DoFileCloseAndDelete;

@@ -1471,7 +1471,7 @@ procedure TEditorFrame.DoSaveHistoryEx(c: TJsonConfig; const path: string);
 var
   lexname: string;
   caret: TATCaretItem;
-  items: TStringlist;
+  items: TStringList;
   N, i: integer;
 begin
   if Lexer=nil then
@@ -1509,13 +1509,13 @@ begin
     c.SetValue(path+cSavCaret+'/y2', caret.EndY);
   end;
 
-  items:= TStringlist.Create;
+  items:= TStringList.Create;
   try
     for i:= 0 to Editor.Strings.Count-1 do
     begin
       N:= Editor.Strings.LinesBm[i];
       if (N>0) and EditorBookmarkIsStandard(N) then
-        items.Add(Inttostr(i));
+        items.Add(IntToStr(i));
     end;
     c.SetValue(path+cSavBookmark, items);
   finally

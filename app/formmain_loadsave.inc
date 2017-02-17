@@ -80,7 +80,7 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_SaveSession(fn_session: string);
+function TfmMain.DoOps_SaveSession(fn_session: string): boolean;
 var
   c: TJSONConfig;
   F: TEditorFrame;
@@ -88,6 +88,7 @@ var
   path: string;
   bModified: boolean;
 begin
+  Result:= false;
   if fn_session='' then exit;
   DeleteFile(fn_session);
 
@@ -131,6 +132,8 @@ begin
 
       F.DoSaveHistoryEx(c, path);
     end;
+
+    Result:= true;
   finally
     try
       c.Free; //saves json file
@@ -140,7 +143,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadSession(fn_session: string);
+function TfmMain.DoOps_LoadSession(fn_session: string): boolean;
 var
   c: TJSONConfig;
   F: TEditorFrame;
@@ -152,12 +155,13 @@ var
   sText: UnicodeString;
   nAgeSaved, nAgeCurrent: Longint;
 begin
+  Result:= false;
   if fn_session='' then exit;
   if not FileExists(fn_session) then exit;
-  DoFileCloseAll;
+  if not DoFileCloseAll then exit;
 
   c:= TJSONConfig.Create(nil);
-  list:= TStringlist.Create;
+  list:= TStringList.Create;
   try
     c.Filename:= fn_session;
 
@@ -243,6 +247,7 @@ begin
     PanelLeft.Width:= c.GetValue('/panels/side_size', PanelLeft.Width);
     PanelBottom.Height:= c.GetValue('/panels/bottom_size', PanelBottom.Height);
 
+    Result:= true;
   finally
     list.Free;
     c.Free;

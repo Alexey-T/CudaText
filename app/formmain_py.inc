@@ -2123,13 +2123,13 @@ begin
 
         APP_PROC_SAVE_SESSION:
           begin
-            fmMain.DoOps_SaveSession(Str);
-            Result:= ReturnNone;
+            ParamBool:= fmMain.DoOps_SaveSession(Str);
+            Result:= PyBool_FromLong(Ord(ParamBool));
           end;
         APP_PROC_LOAD_SESSION:
           begin
-            fmMain.DoOps_LoadSession(Str);
-            Result:= ReturnNone;
+            ParamBool:= fmMain.DoOps_LoadSession(Str);
+            Result:= PyBool_FromLong(Ord(ParamBool));
           end;
         APP_PROC_SET_SESSION:
           begin
