@@ -574,6 +574,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 ** for edit, memo: bool_read_only+","+bool_font_monospaced+","+bool_show_border
 ** for spinedit: int_min_value+","+int_max_value+","+int_increment
 ** for linklabel: URL ("http:" or "mailto:", other kinds possible too, but may not run)
+** for label: bool_right_aligned
 ** for listview: bool_show_grid
 ** for tabs: bool_tabs_at_bottom
 ** for colorpanel: int_border_width_from_0+","+int_color_fill+","+int_color_font+","+int_color_border
@@ -979,11 +980,11 @@ Sets tab splitting. Meaning of params is the same as for get_split().
 
 ===get_prop===
 
- get_prop(id, text="")
+ get_prop(id, value="")
 
 Gets editor's property. 
 
-Param text gives additional parameter(s) if mentioned. Possible values of id:
+Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible values of id: 
 
 * PROP_GUTTER_NUM: bool: is gutter column for line numbers shown.
 * PROP_GUTTER_FOLD: bool: is gutter column for folding shown.
@@ -997,14 +998,14 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: horz ruler is shown.
-* PROP_LINE_STATE: int: state of the line with index int(text). One of values: LINESTATE_NORMAL, LINESTATE_CHANGED, LINESTATE_ADDED, LINESTATE_SAVED.
-* PROP_COLOR: int: color property. Text must be one of COLOR_ID values, see module cudatext_colors. Gets None for incorrect id.
+* PROP_LINE_STATE: int: state of the line with given index. One of values: LINESTATE_NORMAL, LINESTATE_CHANGED, LINESTATE_ADDED, LINESTATE_SAVED.
+* PROP_COLOR: int: color property. Value must be one of COLOR_ID values, see module cudatext_colors. Gets None for incorrect id.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_ENC: str: encoding name.
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
-* PROP_LEXER_POS: str: name of lexer at specified position: text must be str(column)+","+str(line), column/line 0-based.
+* PROP_LEXER_POS: str: name of lexer at specified position: value must be str(column)+","+str(line), column/line 0-based.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
@@ -1012,7 +1013,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
-* PROP_TAG: str: some string attached to editor's tab. Param text must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
+* PROP_TAG: str: some string attached to editor's tab. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
 * PROP_CARET_SHAPE: int: shape of caret, normal mode.
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
@@ -1024,7 +1025,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
-* PROP_LINK_AT_POS: str: URL in the document, at given position, text must be str(pos_x)+","+str(pos_y).
+* PROP_LINK_AT_POS: str: URL in the document, at given position. Value must be str(pos_x)+","+str(pos_y).
 * PROP_TAB_SPACES: bool: tab-key inserts spaces (not tab-char).
 * PROP_TAB_SIZE: int: size of tab-char.
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
@@ -1038,8 +1039,7 @@ Param text gives additional parameter(s) if mentioned. Possible values of id:
 
 Sets editor's property.
 
-Param value is str. If needed bool - pass "0"/"1"; if needed int - pass str(int_value).
-Possible values of id:
+Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible values of id:
 
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding". This don't enable/disable folding conmands, only showing of area.
@@ -1360,6 +1360,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.168
+* add: dlg_custom: "label" has prop to right-align
+* add: ed.get_prop/set_prop: value can be int/bool too
 
 1.0.167
 * add: timer_proc.
@@ -1695,3 +1699,4 @@ Text is chr(1) separated items:
 * add: dlg_file: can take filename "!"
 * add: app_path: APP_FILE_SESSION
 * add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION
+

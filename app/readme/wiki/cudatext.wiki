@@ -389,9 +389,10 @@ Option-buttons have hotkeys too: hover mouse over them to see hints:
 
 * ".*" - Regular expressions - Alt+R
 * "aA" - Case sensitive - Alt+C
-* "w" - Whole words only - Alt+W
-* "O" - Wrap search (search from begin after reaching the end) - Alt+N
-* "?!" - Confirm on replace - Alt+Y
+* "w" - Search for whole words only - Alt+W
+* "O" - Wrap search, ie search from beginning after reaching the end, and vice versa - Alt+N
+* "[..]" - Search in selection only - Alt+X
+* "?!" - Show confirmation on each replace - Alt+Y
 
 ==Comments==
 
@@ -440,12 +441,23 @@ Colored marks on micromap:
 
 * wide+tall mark: current visible area of editor
 * on left side: line-states marks (3 states: line changed, line added, line saved)
-* on right side: marks for selection(s), made e.g. by "Find/ Select all"
-* on right side: red marks for Spell Checker plugin results
+* on right side: marks for selections (made e.g. by "Find/ Select all", usually blue)
+* on right side: marks from Spell Checker plugin (usually red)
 
 == more ==
 
 = Tech topics=
+==How to compile program==
+
+* install Lazarus IDE release, install "svn", then install Lazarus "trunk", see page [[Getting_Lazarus]]
+* download ATnnnnnn packages, EControl package, from https://github.com/Alexey-T/
+* download CudaText source too
+* install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
+* in IDE, in component palette, you must see: 
+** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TLinkLabel, TGauge
+** in System tab: TUniqueInstance
+* in IDE, open "cudatext.lpi" like usual Lazarus project, compile it
+
 == Python API ==
 
 See [[CudaText API]].
@@ -497,15 +509,18 @@ Two kinds of themes exist:
 * UI themes, file extension .cuda-theme-ui
 * Syntax themes, file extension .cuda-theme-syntax
 
-(Before 1.4.5 themes were combined: UI+Syntax in one .json file.)
-
 Two dialogs allow to paint these kinds of themes. To paint a theme:
 
 * Call dialog: "Options/ Settings - more/ Settings - theme - nnnnn"
 * For UI themes: customize colors in dialog
 * For syntax themes: customize lexer-styles in dialog
-* For syntax themes: test theme at last on JS/HTML/CSS/C/Pascal/Ini/Markdown/Go lexers. You can use lexer sample codes in the "Lexer properties" dialog.
-* Your file will be saved in the dir "data/themes"
+* For syntax themes: test theme at last on JS/HTML/CSS/C/Pascal/Ini/Markdown/Go lexers. 
+** You can use sample codes in the Lexer Properties dialog. 
+** You can use sample files from https://github.com/Alexey-T/lexer_tests/tree/master/test_CudaText_color_themes
+* New theme files are saved in the subdir "data/themes"
+
+Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_lexer_themes" is on, because syntax-theme will override all your colors from that dialog. You can config these colors though, if option is off.
+
 
 ===How to make theme package===
 
@@ -539,7 +554,6 @@ Two dialogs allow to paint these kinds of themes. To paint a theme:
 * "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
 * "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
 
-
 ==More==
 
 =Formats of files=
@@ -565,11 +579,18 @@ For example, if word chars are minus, dot, and # sign, the control line should b
 
 User can open addons in zip files (using "File-Open") and install them.
 To make such zip file, pack into zip also "install.inf" with meta-info.
-Values of the "type" field:
 
-* cudatext-plugin: to install plugin to subdir of "py" dir
-* cudatext-data: to copy any files into subdir of "data" dir
-* lexer: to install lexers (zip must be made by SynWrite's ExLexer addon)
+* "title" field (required)
+* "desc" field, long text for install prompt dialog
+* "type" field (required) must be one of:
+** cudatext-plugin: to install plugin to subdir of "py" dir
+** cudatext-data: to copy any files into subdir of "data" dir
+** lexer: to install lexers (zip must be made by SynWrite's ExLexer addon)
+
+* "subdir" field (required), for plugins it should begin with prefix "cuda_"
+* "homepage" field, URL on Github
+* "api" field, specify if plugin cannot work on old API versions
+
 
 === Plugins ===
 
@@ -581,6 +602,7 @@ Example of inf for plugin (plugin adds 2 menu items with menu separator between)
   type=cudatext-plugin
   subdir=cuda_test
   homepage=http://github.com/some/name/
+  api=1.0.160
   
   [item1]
   section=commands
@@ -639,6 +661,24 @@ Example of inf for data-files, to be copied into subdir of "data" dir (name of s
 
 To see example of install.inf for lexers, download any lexer. To see complex example, download lexer zip for "HTML Smarty" which has 2 lexers inside, one lexer is linked to another.
 
+  [info]
+  title=HTML Smarty
+  type=lexer
+  subdir=-
+  
+  [lexer1]
+  file=HTML Smarty internal
+  [lexer2]
+  file=HTML Smarty
+  link1=CSS
+  link2=VBScript
+  link3=JavaScript
+  link4=JavaScript
+  link5=VBScript
+  link6=PHP
+  link7=PHP
+  link8=HTML Smarty internal
+
 ==Format of snippet files==
 
 '''Contents'''
@@ -687,3 +727,4 @@ Then follows the line "text=" without value, and all next lines - are snippet te
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
 [[Category: Tools]]
+
