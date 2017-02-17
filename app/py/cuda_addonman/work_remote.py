@@ -28,6 +28,8 @@ def get_url(url, fn):
                         #f.flush() commented by recommendation
 
             if os.path.isfile(fn_temp):
+                if os.path.isfile(fn):
+                    os.remove(fn)
                 os.rename(fn_temp, fn)
             return
 
