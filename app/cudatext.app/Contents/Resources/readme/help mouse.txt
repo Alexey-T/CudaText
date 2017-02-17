@@ -21,4 +21,6 @@ Clicks:
     triple-click - select entire line (limited by end-of-lines)
     middle-button click - start "Browser Scroll" mode: circle mark appears and mouse moving around 
       this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor 
-      from circle mark (any click to turn off) 
+      from circle mark (any click to turn off)
+       
+    Alt+click (option mouse_goto_definition) - call "Goto definition" command (if plugin installed)

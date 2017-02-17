@@ -1,3 +1,4 @@
+import json
 import cudatext_api as ct
 
 MB_OK               = 0x00000000
@@ -69,6 +70,11 @@ MARKERS_DELETE_BY_TAG = 4
 TAB_SPLIT_NO   = 0
 TAB_SPLIT_HORZ = 1
 TAB_SPLIT_VERT = 2
+
+TIMER_START     = 0
+TIMER_START_ONE = 1
+TIMER_STOP      = 2
+TIMER_DELETE    = 3
 
 LOG_CLEAR           = 0
 LOG_ADD             = 1
@@ -339,7 +345,7 @@ CANVAS_SET_TESTPANEL = 9
 #CANVAS_GET_FONT      = 11
 #CANVAS_GET_PEN       = 12
 #CANVAS_GET_BRUSH     = 13
-CANVAS_GET_TEXT_SIZE = 15 
+CANVAS_GET_TEXT_SIZE = 15
 CANVAS_TEXT          = 20
 CANVAS_LINE          = 21
 CANVAS_IMAGE         = 22
@@ -379,14 +385,14 @@ PEN_JOIN_MITER = 2
 
 #TFPBrushStyle = (bsSolid, bsClear, bsHorizontal, bsVertical, bsFDiagonal,
 #                 bsBDiagonal, bsCross, bsDiagCross, bsImage, bsPattern);
-BRUSH_SOLID     = 0 
+BRUSH_SOLID     = 0
 BRUSH_CLEAR     = 1
 BRUSH_HORZ      = 2
 BRUSH_VERT      = 3
-BRUSH_FDIAGONAL = 4 
+BRUSH_FDIAGONAL = 4
 BRUSH_BDIAGONAL = 5
 BRUSH_CROSS     = 6
-BRUSH_DIAGCROSS = 7 
+BRUSH_DIAGCROSS = 7
 #BRUSH_IMAGE     = 8
 #BRUSH_PATTERN   = 9
 
@@ -492,10 +498,25 @@ def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
-    
+
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
 
+def timer_proc(id, name, value):
+    return ct.timer_proc(id, name, value)
+
+
+def to_str(v):
+    if isinstance(v, list) or isinstance(v, tuple):
+        return ','.join(map(to_str, v))
+
+    if isinstance(v, bool):
+        if v:
+            return '1'
+        else:
+            return '0'
+
+    return str(v)
 
 #Editor
 class Editor:
@@ -564,23 +585,23 @@ class Editor:
         return ct.ed_set_split(self.h, state, value)
 
     def get_prop(self, id, value=''):
+        value = to_str(value)
         if id!=PROP_TAG:
             return ct.ed_get_prop(self.h, id, value)
         js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
         key,dfv = value.split(':', 1) if ':' in value else ('_', value)
         if not js_s:
             return dfv
-        import json # move to head imports?
         js = json.loads(js_s)
         return js.get(key, dfv)
 
     def set_prop(self, id, value):
+        value = to_str(value)
         if id!=PROP_TAG:
             return ct.ed_set_prop(self.h, id, value)
         key,val = value.split(':', 1) if ':' in value else ('_', value)
         js_s = ct.ed_get_prop(self.h, PROP_TAG, '')
         js_s = js_s if js_s else '{}'
-        import json # move to head imports?
         js = json.loads(js_s)
         js[key] = val
         js_s = json.dumps(js)
@@ -627,13 +648,13 @@ class Editor:
 
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)
-        
+
     def gap(self, id, num1, num2, tag=-1):
         return ct.ed_gap(self.h, id, num1, num2, tag)
-        
+
     def folding(self, id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint=''):
         return ct.ed_folding(self.h, id, index, item_x, item_y, item_y2, item_staple, item_hint)
-        
+
     def lexer_scan(self, num):
         return ct.ed_lexer_scan(self.h, num)
     #end

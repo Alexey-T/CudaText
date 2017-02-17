@@ -4,6 +4,19 @@
   * changed
 
 
+1.6.8
++ Alt+click now does goto-definition
++ opt "mouse_goto_definition"
++ opt "autocomplete_autoshow_lexers" can have none-lexer as "-"
++ AddonManager: use temp-file on downloading (safer)
++ AddonManager: message retry/ignore/abort on download err
++ addons install.inf has field for API ver
+- dont suggest multi-line sel to Find dlg
+
+1.6.7
++ api for timer
+* change default for undo_after_save
+
 1.6.6
 + find/replace: opt "in selection"
 + cmd "goto last editing pos" uses find_indent_vert/horz

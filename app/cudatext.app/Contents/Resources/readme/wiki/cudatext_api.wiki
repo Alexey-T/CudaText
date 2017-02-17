@@ -803,6 +803,25 @@ Possible values of id_action:
 * CANVAS_POLYGON: Paints polygon from any number of points (>2). Uses pen and brush. Params: text - comma separated list of (x,y) coords. Example: "10,10,200,50,10,100" - 3 points.
 * CANVAS_SET_TESTPANEL: Sets height of testing panel at the top. Params: size. If it's "too small", panel hides; for big size, size is limited.
 
+=== timer_proc ===
+
+
+ timer_proc(id, callback, interval)
+
+Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
+
+* callback: String in the form "module_name.method_name". App will call "method_name()" in the class "Command", in specified module (e.g. "cuda_my_plugin").
+* interval: Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
+
+Possible values of id:
+
+* TIMER_START - Create (if needed) and start timer, infinite ticks. If timer already created, then it's restated.
+* TIMER_START_ONE - Create (if needed) and start timer, for single tick.
+* TIMER_STOP - Stop timer (timer must be created before).
+* TIMER_DELETE - Stop timer, and delete it from list of timers. Usually don't use it, use only to save memory if created lot of timers.
+
+Result is True if params ok; False if params not ok (callback str incorrect, interval incorrect, not created callback on stopping); or None (for unknown id).
+
 ===more===
 
 =Editor class=
@@ -1341,6 +1360,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.167
+* add: timer_proc.
 
 1.0.166
 * chg: dlg_custom: "image" uses "items=" now
