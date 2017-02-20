@@ -854,6 +854,10 @@ begin
     begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(string(Ptr));
+
+      if not Ed.Strings.IsIndexValid(Y1) then
+        Exit(ReturnNone);
+
       Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
       Ed.DoEventChange;
 
