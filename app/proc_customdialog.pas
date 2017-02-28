@@ -725,7 +725,7 @@ begin
     F.AutoAdjustLayout(lapAutoAdjustForDPI,
       PrevPPI, NewPPI,
       F.Width, ScaleX(F.Width, PrevPPI)
-      , false //AScaleFonts, Laz 1.7 trunk
+      //, false //AScaleFonts, Laz 1.7 trunk
       );
 end;
 
