@@ -524,7 +524,7 @@ type
     procedure DoLocalize;
     procedure DoLocalize_FormFind;
     procedure DoLocalize_FormGoto;
-    function DoCheckFilenameOpened(const AStr: string): boolean;
+    function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd(AStr: string): string;
     procedure DoMenuClear(const AStr: string);
@@ -1597,7 +1597,7 @@ begin
             if List.Checked[i] then
             begin
               F:= List.Items.Objects[i] as TEditorFrame;
-              F.DoFileSave(false, SaveDlg, nil);
+              F.DoFileSave(false, SaveDlg);
             end;
         end;
     end;
@@ -2489,7 +2489,7 @@ begin
   begin
     F:= Frames[i];
     if F.Modified then
-      F.DoFileSave(false, SaveDlg, nil);
+      F.DoFileSave(false, SaveDlg);
   end;
 end;
 
@@ -2773,7 +2773,7 @@ var
 begin
   F:= CurrentFrame;
   if F.Modified or (F.FileName='') then
-    F.DoFileSave(false, SaveDlg, nil);
+    F.DoFileSave(false, SaveDlg);
 end;
 
 procedure TfmMain.DoFileSaveAs;
@@ -2781,7 +2781,7 @@ var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
-  F.DoFileSave(true, SaveDlg, @DoCheckFilenameOpened);
+  F.DoFileSave(true, SaveDlg);
 end;
 
 procedure TfmMain.DoSwitchActiveTab(ANext: boolean);
@@ -2789,14 +2789,18 @@ begin
   Groups.PagesCurrent.Tabs.SwitchTab(ANext);
 end;
 
-function TfmMain.DoCheckFilenameOpened(const AStr: string): boolean;
+function TfmMain.DoCheckFilenameOpened(const AName: string): boolean;
 var
+  SName: string;
   i: integer;
 begin
   Result:= false;
-  if AStr='' then exit;
+  if AName='' then exit;
   for i:= 0 to FrameCount-1 do
-    if Frames[i].FileName=AStr then exit(true);
+  begin
+    SName:= Frames[i].FileName;
+    if SameFileName(SName, AName) then exit(true);
+  end;
 end;
 
 procedure TfmMain.DoOps_OpenFile_Default;

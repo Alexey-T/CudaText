@@ -97,6 +97,7 @@ type
     FImage: TImage;
     FImagePanel: TPanel;
     FImageFilename: string;
+    FCheckFilenameOpened: TStrFunction;
     procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
@@ -204,7 +205,7 @@ type
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     //file
     procedure DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);
-    function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog; ACheckFilenameOpened: TStrFunction): boolean;
+    function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoSaveHistory;
@@ -221,6 +222,7 @@ type
     property MacroString: string read FMacroString write FMacroString;
 
     //events
+    property OnCheckFilenameOpened: TStrFunction read FCheckFilenameOpened write FCheckFilenameOpened;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
@@ -1033,8 +1035,7 @@ begin
   NotifEnabled:= UiOps.NotifEnabled;
 end;
 
-function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog;
-  ACheckFilenameOpened: TStrFunction): boolean;
+function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
 var
   an: TecSyntAnalyzer;
   attr: integer;
@@ -1063,12 +1064,13 @@ begin
     end;
 
     if not ASaveDlg.Execute then exit(false);
-    if Assigned(ACheckFilenameOpened) and ACheckFilenameOpened(ASaveDlg.FileName) then
+    if OnCheckFilenameOpened(ASaveDlg.FileName) then
     begin
       MsgBox(
         msgStatusFilenameAlreadyOpened+#10+
         ExtractFileName(ASaveDlg.FileName)+#10#10+
         msgStatusNeedToCloseTabSavedOrDup, MB_OK or MB_ICONWARNING);
+      exit;
     end;
 
     FFileName:= ASaveDlg.FileName;

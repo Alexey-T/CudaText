@@ -19,6 +19,7 @@ begin
   F.OnSaveFile:= @FrameOnSaveFile;
   F.OnAddRecent:= @FrameAddRecent;
   F.OnPyEvent:= @DoPyEvent;
+  F.OnCheckFilenameOpened:= @DoCheckFilenameOpened;
 
   F.Groups:= Groups;
 
@@ -127,7 +128,7 @@ begin
     Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaption]);
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
     if (Res=ID_OK) or (Res=ID_YES) then
-      bSavedOk:= Frame.DoFileSave(false, SaveDlg, nil);
+      bSavedOk:= Frame.DoFileSave(false, SaveDlg);
   end;
 
   ACanClose:= (Res<>ID_CANCEL) and bSavedOk;
@@ -254,7 +255,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  F.DoFileSave(true, SaveDlg, @DoCheckFilenameOpened);
+  F.DoFileSave(true, SaveDlg);
 end;
 
 procedure TfmMain.mnuTabSaveClick(Sender: TObject);
@@ -263,7 +264,7 @@ var
 begin
   F:= FrameOfPopup;
   if F=nil then exit;
-  F.DoFileSave(false, SaveDlg, nil);
+  F.DoFileSave(false, SaveDlg);
 end;
 
 procedure TfmMain.mnuTabsizeSpaceClick(Sender: TObject);
