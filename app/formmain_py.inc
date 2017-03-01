@@ -855,10 +855,14 @@ begin
       Ed:= PyEditor(H);
       Str:= UTF8Decode(string(Ptr));
 
-      if not Ed.Strings.IsIndexValid(Y1) then
+      if Y1<0 then
         Exit(ReturnNone);
 
-      Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
+      //too big index- do append
+      if Y1>=Ed.Strings.Count then
+        Ed.Strings.TextAppend(Str, Shift, PosAfter)
+      else
+        Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
