@@ -1597,7 +1597,7 @@ begin
             if List.Checked[i] then
             begin
               F:= List.Items.Objects[i] as TEditorFrame;
-              F.DoFileSave(false, SaveDlg);
+              F.DoFileSave(false);
             end;
         end;
     end;
@@ -2489,7 +2489,7 @@ begin
   begin
     F:= Frames[i];
     if F.Modified then
-      F.DoFileSave(false, SaveDlg);
+      F.DoFileSave(false);
   end;
 end;
 
@@ -2773,7 +2773,7 @@ var
 begin
   F:= CurrentFrame;
   if F.Modified or (F.FileName='') then
-    F.DoFileSave(false, SaveDlg);
+    F.DoFileSave(false);
 end;
 
 procedure TfmMain.DoFileSaveAs;
@@ -2781,7 +2781,7 @@ var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
-  F.DoFileSave(true, SaveDlg);
+  F.DoFileSave(true);
 end;
 
 procedure TfmMain.DoSwitchActiveTab(ANext: boolean);

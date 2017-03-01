@@ -98,6 +98,8 @@ type
     FImagePanel: TPanel;
     FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
+    FSaveDialog: TSaveDialog;
+
     procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
@@ -203,9 +205,10 @@ type
     property SplitHorz: boolean read FSplitHorz write SetSplitHorz;
     property SplitPos: double read FSplitPos write SetSplitPos;
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
+    property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
     procedure DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);
-    function DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
+    function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoSaveHistory;
@@ -1035,7 +1038,7 @@ begin
   NotifEnabled:= UiOps.NotifEnabled;
 end;
 
-function TEditorFrame.DoFileSave(ASaveAs: boolean; ASaveDlg: TSaveDialog): boolean;
+function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
 var
   an: TecSyntAnalyzer;
   attr: integer;
@@ -1048,32 +1051,32 @@ begin
 
   if ASaveAs or (FFileName='') then
   begin
-    ASaveDlg.FileName:= ExtractFileName(Self.FileName);
-    ASaveDlg.InitialDir:= ExtractFileDir(Self.FileName);
+    SaveDialog.FileName:= ExtractFileName(Self.FileName);
+    SaveDialog.InitialDir:= ExtractFileDir(Self.FileName);
 
     an:= Lexer;
     if an<>nil then
     begin
-      ASaveDlg.DefaultExt:= DoGetLexerDefaultExt(an);
-      ASaveDlg.Filter:= DoGetLexerFileFilter(an, msgAllFiles);
+      SaveDialog.DefaultExt:= DoGetLexerDefaultExt(an);
+      SaveDialog.Filter:= DoGetLexerFileFilter(an, msgAllFiles);
     end
     else
     begin
-      ASaveDlg.DefaultExt:= 'txt';
-      ASaveDlg.Filter:= '';
+      SaveDialog.DefaultExt:= 'txt';
+      SaveDialog.Filter:= '';
     end;
 
-    if not ASaveDlg.Execute then exit(false);
-    if OnCheckFilenameOpened(ASaveDlg.FileName) then
+    if not SaveDialog.Execute then exit(false);
+    if OnCheckFilenameOpened(SaveDialog.FileName) then
     begin
       MsgBox(
         msgStatusFilenameAlreadyOpened+#10+
-        ExtractFileName(ASaveDlg.FileName)+#10#10+
+        ExtractFileName(SaveDialog.FileName)+#10#10+
         msgStatusNeedToCloseTabSavedOrDup, MB_OK or MB_ICONWARNING);
       exit;
     end;
 
-    FFileName:= ASaveDlg.FileName;
+    FFileName:= SaveDialog.FileName;
     Lexer:= DoLexerFindByFilename(FFileName);
 
     //add to recents saved-as file:
