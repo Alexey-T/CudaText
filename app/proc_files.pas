@@ -76,7 +76,7 @@ begin
     FillChar(Buffer^, BufSize, 0);
 
     try
-      Str:= TFileStreamUTF8.Create(fn, fmOpenRead);
+      Str:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyNone);
     except
       Result:= false;
       Exit

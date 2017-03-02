@@ -723,7 +723,7 @@ Var
   F : TFileStream;
 
 begin
-  F:=TFileStream.Create(AFileName,fmOpenRead+fmShareDenyNone);
+  F:=TFileStream.Create(AFileName,fmOpenRead or fmShareDenyNone);
   try
     LoadFromStream(F);
   finally
