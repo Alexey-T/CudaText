@@ -485,6 +485,7 @@ type
     Groups: TATGroups;
     TabsLeft: TATTabs;
     TabsBottom: TATTabs;
+    mnuAlt_ViewWrap: TMenuItem;
     FFinder: TATEditorFinder;
     FFindStop: boolean;
     FFindConfirmAll: TModalResult;
@@ -619,10 +620,7 @@ type
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
-    procedure TreeKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure UpdateMenuLexersTo(AMenu: TMenuItem);
-    procedure UpdateMenuPlugins;
+    procedure TreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOps_LoadCommandLineOptions;
     procedure DoOps_LoadLexerLib;
     procedure DoOps_SaveHistory;
@@ -730,6 +728,15 @@ type
     procedure SplitterOnPaint_Main(Sender: TObject);
     procedure UpdateEditorTabsize(N: integer);
     procedure UpdateKeymapDynamicItems;
+    procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
+    procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
+    procedure UpdateMenuLangs(sub: TMenuItem);
+    procedure UpdateMenuThemes(AThemeUI: boolean);
+    procedure UpdateMenuLexersTo(AMenu: TMenuItem);
+    procedure UpdateMenuRecent(F: TEditorFrame);
+    procedure UpdateMenuHotkeys;
+    procedure UpdateMenuLexers;
+    procedure UpdateMenuPlugins;
     procedure UpdateMenuChecked;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
@@ -751,24 +758,18 @@ type
     procedure SetFullScreen(AValue: boolean);
     procedure SetLineEnds(Val: TATLineEnds);
     procedure MsgStatus(const AText: string);
-    procedure UpdateMenuLangs(sub: TMenuItem);
-    procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateToolbar;
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
-    procedure UpKey(mi: TMenuItem; cmd: integer);
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);
     procedure UpdateInputForm(Form: TForm);
     procedure UpdateFrame(AUpdatedText: boolean= false);
-    procedure UpdateMenuHotkeys;
-    procedure UpdateMenuLexers;
     procedure UpdateAppForSearch(AStart: boolean; AEdLock: boolean);
     procedure UpdateStatus;
-    procedure UpdateMenuRecent(F: TEditorFrame);
     procedure InitStatusButton;
   public
     { public declarations }
@@ -3403,15 +3404,15 @@ procedure TfmMain.PopupTextPopup(Sender: TObject);
 var
   Ed: TATSynEdit;
 begin
-  UpKey(mnuTextUndo, cCommand_Undo);
-  UpKey(mnuTextRedo, cCommand_Redo);
-  UpKey(mnuTextCut, cCommand_ClipboardCut);
-  UpKey(mnuTextCopy, cCommand_ClipboardCopy);
-  UpKey(mnuTextPaste, cCommand_ClipboardPaste);
-  UpKey(mnuTextDelete, cCommand_TextDeleteSelection);
-  UpKey(mnuTextSel, cCommand_SelectAll);
-  UpKey(mnuTextGotoDef, cmd_GotoDefinition);
-  UpKey(mnuTextOpenUrl, cmd_LinkAtPopup_Open);
+  UpdateMenuItemHotkey(mnuTextUndo, cCommand_Undo);
+  UpdateMenuItemHotkey(mnuTextRedo, cCommand_Redo);
+  UpdateMenuItemHotkey(mnuTextCut, cCommand_ClipboardCut);
+  UpdateMenuItemHotkey(mnuTextCopy, cCommand_ClipboardCopy);
+  UpdateMenuItemHotkey(mnuTextPaste, cCommand_ClipboardPaste);
+  UpdateMenuItemHotkey(mnuTextDelete, cCommand_TextDeleteSelection);
+  UpdateMenuItemHotkey(mnuTextSel, cCommand_SelectAll);
+  UpdateMenuItemHotkey(mnuTextGotoDef, cmd_GotoDefinition);
+  UpdateMenuItemHotkey(mnuTextOpenUrl, cmd_LinkAtPopup_Open);
 
   Ed:= CurrentEditor;
   if assigned(mnuTextCut) then mnuTextCut.Enabled:= not Ed.ModeReadOnly;
@@ -3840,9 +3841,12 @@ begin
     mi:= TMenuItem.Create(Self);
     mi.Caption:= StrCaption;
 
-    Num:= StrToIntDef(StrCmd, 0);
+    Num:= StrToIntDef(StrCmd, 0); //command code
     if Num>0 then
-      UpKey(mi, Num)
+    begin
+      UpdateMenuItemHotkey(mi, Num);
+      UpdateMenuItemAltObject(mi, Num);
+    end
     else
     if (StrCmd=PyMenuCmd_Recents) or (StrCmd='_'+PyMenuCmd_Recents) then
     begin
