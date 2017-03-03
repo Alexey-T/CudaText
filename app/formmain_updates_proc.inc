@@ -570,6 +570,12 @@ begin
 end;
 
 
+procedure UpdateMenuItemChecked(mi: TMenuItem; b: boolean); inline;
+begin
+  if Assigned(mi) then
+    mi.Checked:= b;
+end;
+
 procedure TfmMain.UpdateMenuChecked;
 var
   F: TEditorFrame;
@@ -581,40 +587,40 @@ begin
   if Ed=nil then exit;
 
   //menu cleared? check View and one item only..
-  if mnuView=nil then exit;
-  if mnuViewWrap=nil then exit;
+  //if mnuView=nil then exit;
+  //if mnuViewWrap=nil then exit;
 
-  mnuViewWrap.Checked:= Ed.OptWrapMode<>cWrapOff;
-  mnuViewNums.Checked:= Ed.Gutter.Items[Ed.GutterBandNum].Visible;
-  mnuViewFold.Checked:= Ed.Gutter.Items[Ed.GutterBandFold].Visible;
-  mnuViewRuler.Checked:= Ed.OptRulerVisible;
-  mnuViewMinimap.Checked:= Ed.OptMinimapVisible;
+  UpdateMenuItemChecked(mnuViewWrap, Ed.OptWrapMode<>cWrapOff);
+  UpdateMenuItemChecked(mnuViewNums, Ed.Gutter.Items[Ed.GutterBandNum].Visible);
+  UpdateMenuItemChecked(mnuViewFold, Ed.Gutter.Items[Ed.GutterBandFold].Visible);
+  UpdateMenuItemChecked(mnuViewRuler, Ed.OptRulerVisible);
+  UpdateMenuItemChecked(mnuViewMinimap, Ed.OptMinimapVisible);
 
-  mnuViewSplitDo.Checked:= F.Splitted;
-  mnuViewSplitHorz.Checked:= F.SplitHorz;
+  UpdateMenuItemChecked(mnuViewSplitDo, F.Splitted);
+  UpdateMenuItemChecked(mnuViewSplitHorz, F.SplitHorz);
 
-  mnuViewUnpriShow.Checked:= Ed.OptUnprintedVisible;
-  mnuViewUnpriSpaces.Checked:= Ed.OptUnprintedSpaces;
-  mnuViewUnpriEnds.Checked:= Ed.OptUnprintedEnds;
-  mnuViewUnpriEndsDet.Checked:= Ed.OptUnprintedEndsDetails;
+  UpdateMenuItemChecked(mnuViewUnpriShow, Ed.OptUnprintedVisible);
+  UpdateMenuItemChecked(mnuViewUnpriSpaces, Ed.OptUnprintedSpaces);
+  UpdateMenuItemChecked(mnuViewUnpriEnds, Ed.OptUnprintedEnds);
+  UpdateMenuItemChecked(mnuViewUnpriEndsDet, Ed.OptUnprintedEndsDetails);
 
-  mnuViewToolbar.Checked:= ShowToolbar;
-  mnuViewStatus.Checked:= ShowStatus;
-  mnuViewFullscr.Checked:= ShowFullscreen;
-  mnuViewSide.Checked:= ShowSidePanel;
-  mnuViewBottom.Checked:= ShowBottom;
+  UpdateMenuItemChecked(mnuViewToolbar, ShowToolbar);
+  UpdateMenuItemChecked(mnuViewStatus, ShowStatus);
+  UpdateMenuItemChecked(mnuViewFullscr, ShowFullscreen);
+  UpdateMenuItemChecked(mnuViewSide, ShowSidePanel);
+  UpdateMenuItemChecked(mnuViewBottom, ShowBottom);
 
-  mnuGr1.Checked:= Groups.Mode= gmOne;
-  mnuGr2H.Checked:= Groups.Mode= gm2Vert;
-  mnuGr2V.Checked:= Groups.Mode= gm2Horz;
-  mnuGr3H.Checked:= Groups.Mode= gm3Vert;
-  mnuGr3V.Checked:= Groups.Mode= gm3Horz;
-  mnuGr1p2V.Checked:= Groups.Mode= gm1plus2Vert;
-  mnuGr1p2H.Checked:= Groups.Mode= gm1plus2Horz;
-  mnuGr4H.Checked:= Groups.Mode= gm4Vert;
-  mnuGr4V.Checked:= Groups.Mode= gm4Horz;
-  mnuGr4G.Checked:= Groups.Mode= gm4Grid;
-  mnuGr6.Checked:= Groups.Mode= gm6Grid;
+  UpdateMenuItemChecked(mnuGr1, Groups.Mode= gmOne);
+  UpdateMenuItemChecked(mnuGr2H, Groups.Mode= gm2Vert);
+  UpdateMenuItemChecked(mnuGr2V, Groups.Mode= gm2Horz);
+  UpdateMenuItemChecked(mnuGr3H, Groups.Mode= gm3Vert);
+  UpdateMenuItemChecked(mnuGr3V, Groups.Mode= gm3Horz);
+  UpdateMenuItemChecked(mnuGr1p2V, Groups.Mode= gm1plus2Vert);
+  UpdateMenuItemChecked(mnuGr1p2H, Groups.Mode= gm1plus2Horz);
+  UpdateMenuItemChecked(mnuGr4H, Groups.Mode= gm4Vert);
+  UpdateMenuItemChecked(mnuGr4V, Groups.Mode= gm4Horz);
+  UpdateMenuItemChecked(mnuGr4G, Groups.Mode= gm4Grid);
+  UpdateMenuItemChecked(mnuGr6, Groups.Mode= gm6Grid);
 end;
 
 
