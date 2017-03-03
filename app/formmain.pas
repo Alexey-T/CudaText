@@ -89,6 +89,12 @@ type
     markingBookmarks
     );
 
+  TATMenuItemsAlt = record
+    item0: TMenuItem;
+    item1: TMenuItem;
+    active0: boolean;
+  end;
+
 type
   { TfmMain }
   TfmMain = class(TForm)
@@ -512,7 +518,7 @@ type
     mnuGr4H_Alt,
     mnuGr4V_Alt,
     mnuGr4G_Alt,
-    mnuGr6_Alt: TMenuItem;
+    mnuGr6_Alt: TATMenuItemsAlt;
 
     FFinder: TATEditorFinder;
     FFindStop: boolean;

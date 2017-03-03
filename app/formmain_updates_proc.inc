@@ -366,26 +366,33 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
+  //
+  procedure DoSave(mi: TMenuItem; var save: TATMenuItemsAlt); inline;
+  begin
+    if save.active0 then save.item0:= mi else save.item1:= mi;
+    save.active0:= not save.active0;
+  end;
+  //
 begin
   //fmConsole.DoLogConsoleLine('cmd'+inttostr(cmd));
   if cmd>0 then
   case cmd of
-    cCommand_ToggleWordWrap : mnuViewWrap_Alt:= mi;
-    cCommand_ToggleLineNums : mnuViewNums_Alt:= mi;
-    cCommand_ToggleFolding : mnuViewFold_Alt:= mi;
-    cCommand_ToggleRuler : mnuViewRuler_Alt:= mi;
-    cCommand_ToggleMinimap : mnuViewMinimap_Alt:= mi;
-    cmd_SplitTabToggle : mnuViewSplitDo_Alt:= mi;
-    cmd_SplitTabHorzVert : mnuViewSplitHorz_Alt:= mi;
-    cCommand_ToggleUnprinted : mnuViewUnpriShow_Alt:= mi;
-    cCommand_ToggleUnprintedSpaces : mnuViewUnpriSpaces_Alt:= mi;
-    cCommand_ToggleUnprintedEnds : mnuViewUnpriEnds_Alt:= mi;
-    cCommand_ToggleUnprintedEndDetails : mnuViewUnpriEndsDet_Alt:= mi;
-    cmd_ToggleToolbar : mnuViewToolbar_Alt:= mi;
-    cmd_ToggleStatusbar : mnuViewStatus_Alt:= mi;
-    cmd_ToggleFullScreen : mnuViewFullscr_Alt:= mi;
-    cmd_ToggleSidePanel : mnuViewSide_Alt:= mi;
-    cmd_ToggleBottomPanel : mnuViewBottom_Alt:= mi;
+    cCommand_ToggleWordWrap : DoSave(mi, mnuViewWrap_Alt);
+    cCommand_ToggleLineNums : DoSave(mi, mnuViewNums_Alt);
+    cCommand_ToggleFolding : DoSave(mi, mnuViewFold_Alt);
+    cCommand_ToggleRuler : DoSave(mi, mnuViewRuler_Alt);
+    cCommand_ToggleMinimap : DoSave(mi, mnuViewMinimap_Alt);
+    cmd_SplitTabToggle : DoSave(mi, mnuViewSplitDo_Alt);
+    cmd_SplitTabHorzVert : DoSave(mi, mnuViewSplitHorz_Alt);
+    cCommand_ToggleUnprinted : DoSave(mi, mnuViewUnpriShow_Alt);
+    cCommand_ToggleUnprintedSpaces : DoSave(mi, mnuViewUnpriSpaces_Alt);
+    cCommand_ToggleUnprintedEnds : DoSave(mi, mnuViewUnpriEnds_Alt);
+    cCommand_ToggleUnprintedEndDetails : DoSave(mi, mnuViewUnpriEndsDet_Alt);
+    cmd_ToggleToolbar : DoSave(mi, mnuViewToolbar_Alt);
+    cmd_ToggleStatusbar : DoSave(mi, mnuViewStatus_Alt);
+    cmd_ToggleFullScreen : DoSave(mi, mnuViewFullscr_Alt);
+    cmd_ToggleSidePanel : DoSave(mi, mnuViewSide_Alt);
+    cmd_ToggleBottomPanel : DoSave(mi, mnuViewBottom_Alt);
     //cmd_Groups1 : mnuGr1_Alt:= mi;
     //cmd_Groups2horz : mnuGr2H_Alt:= mi;
     //cmd_Groups2vert : mnuGr2V_Alt:= mi;
@@ -605,10 +612,11 @@ begin
 end;
 
 
-procedure UpdateMenuItemChecked(mi1, mi2: TMenuItem; Value: boolean); inline;
+procedure UpdateMenuItemChecked(mi: TMenuItem; save: TATMenuItemsAlt; Value: boolean); inline;
 begin
-  if Assigned(mi1) then mi1.Checked:= Value;
-  if Assigned(mi2) then mi2.Checked:= Value;
+  if Assigned(mi) then mi.Checked:= Value;
+  if Assigned(save.item0) then save.item0.Checked:= Value;
+  if Assigned(save.item1) then save.item1.Checked:= Value;
 end;
 
 procedure TfmMain.UpdateMenuChecks;
