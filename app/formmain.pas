@@ -1375,19 +1375,19 @@ begin
   DoOps_LoadHistory;
   DoOps_LoadKeymap;
 
+  DoPyEvent(CurrentEditor, cEventOnFocus, []);
+  DoPyEvent(CurrentEditor, cEventOnStart, []);
+  DoOps_LoadHistory_AfterOnStart;
+
   UpdateMenuPlugins;
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
   UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
-
-  DoPyEvent(CurrentEditor, cEventOnFocus, []);
-  DoPyEvent(CurrentEditor, cEventOnStart, []);
-  DoOps_LoadHistory_AfterOnStart;
+  UpdateMenuChecks;
 
   ActiveControl:= CurrentEditor;
   UpdateStatus;
-  UpdateMenuChecks;
   DoLoadCommandLine;
 end;
 
