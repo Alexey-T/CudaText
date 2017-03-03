@@ -4,6 +4,9 @@
   * changed
 
 
+1.6.10
++ menu checks visible for ConfigMenu plugin too
+
 1.6.9
 - fixes, adds in api
 
