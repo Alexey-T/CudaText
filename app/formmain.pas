@@ -485,7 +485,35 @@ type
     Groups: TATGroups;
     TabsLeft: TATTabs;
     TabsBottom: TATTabs;
-    mnuAlt_ViewWrap: TMenuItem;
+
+    mnuViewWrap_Alt,
+    mnuViewNums_Alt,
+    mnuViewFold_Alt,
+    mnuViewRuler_Alt,
+    mnuViewMinimap_Alt,
+    mnuViewSplitDo_Alt,
+    mnuViewSplitHorz_Alt,
+    mnuViewUnpriShow_Alt,
+    mnuViewUnpriSpaces_Alt,
+    mnuViewUnpriEnds_Alt,
+    mnuViewUnpriEndsDet_Alt,
+    mnuViewToolbar_Alt,
+    mnuViewStatus_Alt,
+    mnuViewFullscr_Alt,
+    mnuViewSide_Alt,
+    mnuViewBottom_Alt,
+    mnuGr1_Alt,
+    mnuGr2H_Alt,
+    mnuGr2V_Alt,
+    mnuGr3H_Alt,
+    mnuGr3V_Alt,
+    mnuGr1p2V_Alt,
+    mnuGr1p2H_Alt,
+    mnuGr4H_Alt,
+    mnuGr4V_Alt,
+    mnuGr4G_Alt,
+    mnuGr6_Alt: TMenuItem;
+
     FFinder: TATEditorFinder;
     FFindStop: boolean;
     FFindConfirmAll: TModalResult;
@@ -737,7 +765,7 @@ type
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
     procedure UpdateMenuPlugins;
-    procedure UpdateMenuChecked;
+    procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
     procedure InitPyEngine;
@@ -2893,6 +2921,7 @@ begin
 
   UpdateFrame;
   UpdateStatus;
+  UpdateMenuChecks;
 end;
 
 procedure TfmMain.SetLexerIndex(N: integer);
@@ -3006,7 +3035,7 @@ end;
 procedure TfmMain.mnuViewClick(Sender: TObject);
 begin
   //on Linux maybe not called
-  UpdateMenuChecked;
+  UpdateMenuChecks;
 end;
 
 
