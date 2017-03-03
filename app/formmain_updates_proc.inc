@@ -48,6 +48,8 @@ begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
 
+  UpdateMenuChecks;
+
   if not F.IsText then
   begin
     Size:= F.PictureSizes;
@@ -388,22 +390,24 @@ begin
     cCommand_ToggleUnprintedSpaces : DoSave(mi, mnuViewUnpriSpaces_Alt);
     cCommand_ToggleUnprintedEnds : DoSave(mi, mnuViewUnpriEnds_Alt);
     cCommand_ToggleUnprintedEndDetails : DoSave(mi, mnuViewUnpriEndsDet_Alt);
+
     cmd_ToggleToolbar : DoSave(mi, mnuViewToolbar_Alt);
     cmd_ToggleStatusbar : DoSave(mi, mnuViewStatus_Alt);
     cmd_ToggleFullScreen : DoSave(mi, mnuViewFullscr_Alt);
     cmd_ToggleSidePanel : DoSave(mi, mnuViewSide_Alt);
     cmd_ToggleBottomPanel : DoSave(mi, mnuViewBottom_Alt);
-    //cmd_Groups1 : mnuGr1_Alt:= mi;
-    //cmd_Groups2horz : mnuGr2H_Alt:= mi;
-    //cmd_Groups2vert : mnuGr2V_Alt:= mi;
-    //cmd_Groups3horz : mnuGr3H_Alt:= mi;
-    //cmd_Groups3vert : mnuGr3V_Alt:= mi;
-    //cmd_Groups : mnuGr1p2V_Alt:= mi;
-    //cmd_Groups : mnuGr1p2H_Alt:= mi;
-    //cmd_Group : mnuGr4H_Alt:= mi;
-    //cmd_Group : mnuGr4V_Alt:= mi;
-    //cmd_Group : mnuGr4G_Alt:= mi;
-    //cmd_Group : mnuGr6_Alt:= mi;
+
+    cmd_Groups1 : DoSave(mi, mnuGr1_Alt);
+    cmd_Groups2horz : DoSave(mi, mnuGr2H_Alt);
+    cmd_Groups2vert : DoSave(mi, mnuGr2V_Alt);
+    cmd_Groups3horz : DoSave(mi, mnuGr3H_Alt);
+    cmd_Groups3vert : DoSave(mi, mnuGr3V_Alt);
+    cmd_Groups3plus : DoSave(mi, mnuGr1p2V_Alt);
+    cmd_Groups3plushorz : DoSave(mi, mnuGr1p2H_Alt);
+    cmd_Groups4horz : DoSave(mi, mnuGr4H_Alt);
+    cmd_Groups4vert : DoSave(mi, mnuGr4V_Alt);
+    cmd_Groups4grid : DoSave(mi, mnuGr4G_Alt);
+    cmd_Groups6grid : DoSave(mi, mnuGr6_Alt);
   end;
 end;
 
@@ -650,14 +654,14 @@ begin
   UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, ShowBottom);
 
   UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, Groups.Mode= gmOne);
-  UpdateMenuItemChecked(mnuGr2H, mnuGr2H_Alt, Groups.Mode= gm2Vert);
-  UpdateMenuItemChecked(mnuGr2V, mnuGr2V_Alt, Groups.Mode= gm2Horz);
-  UpdateMenuItemChecked(mnuGr3H, mnuGr3H_Alt, Groups.Mode= gm3Vert);
-  UpdateMenuItemChecked(mnuGr3V, mnuGr3V_Alt, Groups.Mode= gm3Horz);
+  UpdateMenuItemChecked(mnuGr2V, mnuGr2V_Alt, Groups.Mode= gm2Vert);
+  UpdateMenuItemChecked(mnuGr2H, mnuGr2H_Alt, Groups.Mode= gm2Horz);
+  UpdateMenuItemChecked(mnuGr3V, mnuGr3V_Alt, Groups.Mode= gm3Vert);
+  UpdateMenuItemChecked(mnuGr3H, mnuGr3H_Alt, Groups.Mode= gm3Horz);
   UpdateMenuItemChecked(mnuGr1p2V, mnuGr1p2V_Alt, Groups.Mode= gm1plus2Vert);
   UpdateMenuItemChecked(mnuGr1p2H, mnuGr1p2H_Alt, Groups.Mode= gm1plus2Horz);
-  UpdateMenuItemChecked(mnuGr4H, mnuGr4H_Alt, Groups.Mode= gm4Vert);
-  UpdateMenuItemChecked(mnuGr4V, mnuGr4V_Alt, Groups.Mode= gm4Horz);
+  UpdateMenuItemChecked(mnuGr4V, mnuGr4V_Alt, Groups.Mode= gm4Vert);
+  UpdateMenuItemChecked(mnuGr4H, mnuGr4H_Alt, Groups.Mode= gm4Horz);
   UpdateMenuItemChecked(mnuGr4G, mnuGr4G_Alt, Groups.Mode= gm4Grid);
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
 end;

@@ -32,23 +32,23 @@ object fmMain: TfmMain
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
-      Height = 135
+      Height = 131
       Top = 0
-      Width = 872
+      Width = 868
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 135
-      ClientWidth = 872
+      ClientHeight = 131
+      ClientWidth = 868
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
-        Height = 135
+        Height = 127
         Top = 0
         Width = 4
       end
       object PanelLeft: TPanel
         Left = 0
-        Height = 135
+        Height = 127
         Top = 0
         Width = 202
         Align = alLeft
@@ -78,8 +78,8 @@ object fmMain: TfmMain
     object PanelBottom: TPanel
       Left = 0
       Height = 90
-      Top = 140
-      Width = 872
+      Top = 136
+      Width = 868
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
@@ -88,8 +88,8 @@ object fmMain: TfmMain
       Cursor = crVSplit
       Left = 0
       Height = 5
-      Top = 135
-      Width = 872
+      Top = 131
+      Width = 868
       Align = alBottom
       AutoSnap = False
       MinSize = 60
@@ -459,7 +459,6 @@ object fmMain: TfmMain
     object mnuView: TMenuItem
       Caption = '&View'
       Hint = 'top-view'
-      OnClick = mnuViewClick
       object mnuGroups: TMenuItem
         Caption = '&Groups'
         Hint = 'groups'

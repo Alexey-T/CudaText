@@ -437,7 +437,6 @@ type
     procedure mnuTreeFold9Click(Sender: TObject);
     procedure mnuTreeFoldAllClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
-    procedure mnuViewClick(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
@@ -1390,7 +1389,6 @@ begin
   UpdateMenuThemes(false);
   UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
-  UpdateMenuChecks;
 
   ActiveControl:= CurrentEditor;
   UpdateStatus;
@@ -2928,7 +2926,6 @@ begin
 
   UpdateFrame;
   UpdateStatus;
-  UpdateMenuChecks;
 end;
 
 procedure TfmMain.SetLexerIndex(N: integer);
@@ -3037,12 +3034,6 @@ end;
 procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
 begin
   Tree.FullExpand;
-end;
-
-procedure TfmMain.mnuViewClick(Sender: TObject);
-begin
-  //on Linux maybe not called
-  UpdateMenuChecks;
 end;
 
 
