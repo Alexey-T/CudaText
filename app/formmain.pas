@@ -1387,6 +1387,7 @@ begin
 
   ActiveControl:= CurrentEditor;
   UpdateStatus;
+  UpdateMenuChecks;
   DoLoadCommandLine;
 end;
 
