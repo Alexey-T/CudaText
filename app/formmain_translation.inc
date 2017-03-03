@@ -334,10 +334,14 @@ begin
     //DoLocToolbarButtonHint(Toolbar, 'e_sel', msgEditSelectAll);
     DoLocToolbarButtonHint(Toolbar, 'e_undo', msgEditUndo);
     DoLocToolbarButtonHint(Toolbar, 'e_redo', msgEditRedo);
-    DoLocToolbarButtonHint(Toolbar, 'unpri', mnuViewUnpri.Caption);
-    DoLocToolbarButtonHint(Toolbar, 'p_side', mnuViewSide.Caption);
-    DoLocToolbarButtonHint(Toolbar, 'p_btm', mnuViewBottom.Caption);
-    DoLocToolbarButtonHint(Toolbar, 'map', mnuViewMinimap.Caption);
+    if Assigned(mnuViewUnpri) then
+      DoLocToolbarButtonHint(Toolbar, 'unpri', mnuViewUnpri.Caption);
+    if Assigned(mnuViewSide) then
+      DoLocToolbarButtonHint(Toolbar, 'p_side', mnuViewSide.Caption);
+    if Assigned(mnuViewBottom) then
+      DoLocToolbarButtonHint(Toolbar, 'p_btm', mnuViewBottom.Caption);
+    if Assigned(mnuViewMinimap) then
+      DoLocToolbarButtonHint(Toolbar, 'map', mnuViewMinimap.Caption);
 
     DoLocMenuitem(mnuTextUndo, msgEditUndo);
     DoLocMenuitem(mnuTextRedo, msgEditRedo);
