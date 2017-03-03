@@ -941,9 +941,9 @@ begin
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
 
-    StatusNoSel:= 'Ln {y}, Col {x}';
-    StatusSmallSel:= 'Ln {y}, Col {x}, sel';
-    StatusStreamSel:= 'Ln {y}, Col {x}, {sel} lines sel';
+    StatusNoSel:= 'Ln {y}, Col {xx}';
+    StatusSmallSel:= 'Ln {y}, Col {xx}, sel';
+    StatusStreamSel:= 'Ln {y}, Col {xx}, {sel} lines sel';
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
     StatusPanels:= 'caret,C,170|enc,C,115|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,4000';

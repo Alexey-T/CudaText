@@ -5,7 +5,9 @@
 
 
 1.6.10
-+ menu checks visible for ConfigMenu plugin too
++ menu checks visible for ConfigMenu's menu too
++ defaults for "ui_statusbar..." change {x} to {xx}
+- fixes in api
 
 1.6.9
 - fixes, adds in api
