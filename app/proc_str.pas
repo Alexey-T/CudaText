@@ -44,7 +44,6 @@ function SStringToPythonString(const Str: string): string;
 procedure SLoadStringsFromFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 procedure SSaveStringsToFile(cfg: TJsonConfig; const path: string; List: TStrings; MaxItems: integer);
 function SMaskFilenameSlashes(const fn: string): string;
-function SGetFilenameBackup(const fn, mode: string): string;
 procedure SParseFilenameWithTwoNumbers(var fn: string; out NLine, NColumn: integer);
 
 
@@ -321,16 +320,6 @@ begin
   finally
     cfg.Free;
   end;
-end;
-
-
-function SGetFilenameBackup(const fn, mode: string): string;
-begin
-  Result:= '';
-  if mode='' then exit;
-  if mode='1' then exit(fn+'~');
-  if mode='2' then exit(ChangeFileExt(fn, '.~'+Copy(ExtractFileExt(fn), 2, MaxInt)));
-  if StrToIntDef(mode, -1)<0 then exit(fn+'.'+mode);
 end;
 
 

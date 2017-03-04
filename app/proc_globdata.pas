@@ -163,7 +163,6 @@ type
     NonTextFilesBufferKb: integer;
     LexerMenuGrouped: boolean;
     ReloadFollowTail: boolean;
-    BackupMode: string;
     FullScreenHide: string;
     MouseGotoDefinition: string;
   end;
@@ -962,7 +961,6 @@ begin
     LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
     FullScreenHide:= 't';
-    BackupMode:= '';
     MouseGotoDefinition:= 'a';
   end;
 end;

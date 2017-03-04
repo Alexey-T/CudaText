@@ -508,7 +508,13 @@ begin
     UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
     UiOps.FullScreenHide:= c.GetValue('ui_fullscreen_hide', UiOps.FullScreenHide);
-    UiOps.BackupMode:= c.GetValue('backup', UiOps.BackupMode);
+
+    //option deleted
+    if c.GetValue('backup', '')<>'' then
+      MsgBox('Option "backup" was deleted, remove it from user config.'#10+
+             'Use good plugin "Backup File" instead.',
+             MB_OK or MB_ICONWARNING);
+
     UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
 
     Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);

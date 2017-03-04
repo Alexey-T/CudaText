@@ -1043,7 +1043,6 @@ var
   an: TecSyntAnalyzer;
   attr: integer;
   PrevEnabled: boolean;
-  NameBak: string;
 begin
   Result:= false;
   if not IsText then exit(true); //disable saving, but close
@@ -1083,11 +1082,6 @@ begin
     if Assigned(FOnAddRecent) then
       FOnAddRecent(Self);
   end;
-
-  NameBak:= SGetFilenameBackup(FFileName, UiOps.BackupMode);
-  if NameBak<>'' then
-    if FileExistsUTF8(FFileName) then
-      CopyFile(FFileName, NameBak, true{PreserveTime});
 
   try
     PrevEnabled:= NotifEnabled;
