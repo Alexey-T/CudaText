@@ -7,10 +7,12 @@ import cudatext as app
 from . import opt
 
 
-def get_url(url, fn):
+def get_url(url, fn, del_first=False):
     fn_temp = fn+'.download'
     if os.path.isfile(fn_temp):
         os.remove(fn_temp)
+    if del_first and os.path.isfile(fn):
+        os.remove(fn)
 
     if opt.proxy:
         proxies = { 'http': opt.proxy, 'https': opt.proxy, }
@@ -28,6 +30,8 @@ def get_url(url, fn):
                         #f.flush() commented by recommendation
 
             if os.path.isfile(fn_temp):
+                if os.path.isfile(fn):
+                    os.remove(fn)
                 os.rename(fn_temp, fn)
             return
 
@@ -47,7 +51,7 @@ def get_plugin_zip(url):
 
 def get_channel_list(url):
     temp_fn = os.path.join(tempfile.gettempdir(), 'cuda_addons_dir.txt')
-    get_url(url, temp_fn)
+    get_url(url, temp_fn, True)
     if not os.path.isfile(temp_fn): return
 
     text = open(temp_fn, encoding='utf8').read()

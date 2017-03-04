@@ -457,9 +457,9 @@
   //  {carets}: number of carets
   //  {sel}: number of lines affected by selection(s)
   //  {cols}: number of columns in column-selection
-  "ui_statusbar_no_sel": "Ln {y}, Col {x}",
-  "ui_statusbar_small_sel": "Ln {y}, Col {x}, sel",
-  "ui_statusbar_str_sel": "Ln {y}, Col {x}, {sel} lines sel",
+  "ui_statusbar_no_sel": "Ln {y}, Col {xx}",
+  "ui_statusbar_small_sel": "Ln {y}, Col {xx}, sel",
+  "ui_statusbar_str_sel": "Ln {y}, Col {xx}, {sel} lines sel",
   "ui_statusbar_col_sel": "{sel}x{cols} column",
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
 

@@ -5,8 +5,8 @@
 
 
 1.6.10
-* removed opt "backup", use plugin Backup File instead (warning shows of opt set)
-+ menu checks visible for ConfigMenu's menu too
+* removed opt "backup", use plugin Backup File instead (warning shows if opt set)
++ menu checkmarks visible for ConfigMenu's menu too
 + default for "ui_statusbar..." changes {x} to {xx}
 - fixes in api
 

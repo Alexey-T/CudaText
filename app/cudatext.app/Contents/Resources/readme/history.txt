@@ -4,6 +4,15 @@
   * changed
 
 
+1.6.10
+* removed opt "backup", use plugin Backup File instead (warning shows if opt set)
++ menu checkmarks visible for ConfigMenu's menu too
++ default for "ui_statusbar..." changes {x} to {xx}
+- fixes in api
+
+1.6.9
+- fixes, adds in api
+
 1.6.8
 + Alt+click now does goto-definition
 + opt "mouse_goto_definition"
