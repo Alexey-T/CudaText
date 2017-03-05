@@ -1699,7 +1699,9 @@ var
 begin
   if AText='' then exit;
   STime:= FormatDateTime('yyyy-mm-dd_hh-mm-ss', Now);
-  SLog:= Format(GetTempDir+DirectorySeparator+'dlg_'+STime+'_%dx%d.txt', [ASizeX, ASizeY]);
+  SLog:= Format(GetTempDir+'dlg_'+STime+'_%dx%d.txt', [ASizeX, ASizeY]);
+
+  fmConsole.DoLogConsoleLine('Dialog logged: '+SLog);
 
   with TFileStream.Create(SLog, fmCreate) do
   try
