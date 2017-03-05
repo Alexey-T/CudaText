@@ -727,4 +727,3 @@ Then follows the line "text=" without value, and all next lines - are snippet te
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
 [[Category: Tools]]
-

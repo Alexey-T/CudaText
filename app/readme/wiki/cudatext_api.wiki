@@ -174,8 +174,8 @@ Actions:
 
 Session is a set of opened files + untitled tabs, with some properties of editors in these tabs, with group-indexes of tabs, with layout of groups. Session format is JSON.
 
-* PROC_SAVE_SESSION: Saves session to file with given name. 
-* PROC_LOAD_SESSION: Loads session from file with given name. 
+* PROC_SAVE_SESSION: Saves session to file with given name. Gets bool: session was saved.
+* PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Gets bool: tabs closed w/o pressing Cancel, session was loaded.
 * PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
 ====Menus====
@@ -886,7 +886,10 @@ Gets substring from position (x1, y1) to position (x2, y2). Second position must
 
  delete(x1, y1, x2, y2)
 
-Deletes range from position (x1, y1) to bigger position (x2, y2). (Too big x1/x2 are allowed).
+Deletes range from position (x1, y1) to bigger position (x2, y2). 
+
+* Too big x1/x2 are allowed (after line-end)
+* Too big y2 means delete to end of file
 
 Note: don't pass tuple from get_carets()[0], this tuple has not sorted pos=(x1, y1), end=(x2, y2), you need to sort them (first sort by y, then by x).
 
@@ -908,9 +911,10 @@ Example replaces selection of 1st caret with text:
 
  insert(x, y, text)
 
-Inserts given text at position (x, y). Text can be multi-line, all CR LF are converted to currently used line-ends.
+Inserts given text at position (x, y). If y too big, appends block to end (even to final line w/out line-end).
+Text can be multi-line, all CR LF are converted to currently used line-ends.
 
-Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line.
+Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Gets None if cannot insert, e.g. y is too big.
 
 ==Selection==
 
@@ -1361,7 +1365,12 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.169
+* add: ed.insert does append, if y too big
+* add: ed.delete can use too big y2
+
 1.0.168
+* add: app_proc: PROC_SAVE_SESSION/ PROC_LOAD_SESSION get bool (session was saved/loaded)
 * add: dlg_custom: "label" has prop to right-align
 * add: ed.get_prop/set_prop: value can be int/bool too
 
@@ -1699,4 +1708,3 @@ Text is chr(1) separated items:
 * add: dlg_file: can take filename "!"
 * add: app_path: APP_FILE_SESSION
 * add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION
-
