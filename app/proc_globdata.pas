@@ -77,6 +77,7 @@ type
     OutputFontSize: integer;
 
     DoubleBuffered: boolean;
+    LogCustomDialogs: boolean;
 
     PyLibrary: string;
     LexerThemes: boolean;
@@ -874,6 +875,7 @@ begin
     OutputFontSize:= VarFontSize;
 
     DoubleBuffered:= IsDoubleBufferedNeeded;
+    LogCustomDialogs:= false;
 
     LexerThemes:= true;
     PyLibrary:= InitPyLibraryPath;

@@ -1693,6 +1693,27 @@ begin
     end;
 end;
 
+procedure DoLogDialog(ASizeX, ASizeY: integer; const AText: string);
+var
+  STime, SLog: string;
+begin
+  if AText='' then exit;
+
+  STime:= TimeToStr(Now);
+  STime:= StringReplace(STime, ':', '-', [rfReplaceAll]);
+  STime:= StringReplace(STime, '/', '-', [rfReplaceAll]);
+  STime:= StringReplace(STime, '\', '-', [rfReplaceAll]);
+
+  SLog:= Format(GetTempDir+DirectorySeparator+'dlg_time_'+STime+'_%dx%d.txt', [ASizeX, ASizeY]);
+
+  with TFileStream.Create(SLog, fmCreate) do
+  try
+    WriteBuffer(AText[1], Length(AText));
+  finally
+    Free;
+  end;
+end;
+
 
 function Py_dlg_custom(Self, Args : PPyObject): PPyObject; cdecl;
 var
@@ -1705,6 +1726,9 @@ begin
     begin
       StrTitle:= string(PtrTitle);
       StrText:= string(PtrText);
+      if UiOps.LogCustomDialogs then
+        DoLogDialog(NSizeX, NSizeY, StrText);
+
       DoDialogCustom(StrTitle, NSizeX, NSizeY, StrText, NFocused, NButton, StrStateText);
       if NButton<0 then
         Result:= ReturnNone

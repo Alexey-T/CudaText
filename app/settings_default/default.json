@@ -578,4 +578,8 @@
   //  if value has "S": side panel
   "ui_fullscreen_hide": "t",
   
+  //Enable to make log files, for plugin dialogs (dlg_custom)
+  //Files are %temp%\dlg_nnnnnn_time_nnnnn.txt
+  "log_dialogs": false,
+  
 }

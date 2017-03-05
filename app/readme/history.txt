@@ -8,6 +8,7 @@
 * removed opt "backup" (warning shows if opt set), use plugin Backup File instead
 + menu checkmarks visible for ConfigMenu's menu too
 + default for "ui_statusbar..." changes {x} to {xx}
++ option "log_dialogs"
 - fixes in api
 
 1.6.9
