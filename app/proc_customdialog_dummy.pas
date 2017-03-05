@@ -18,9 +18,10 @@ uses
 type
   { TDummyClass }
   TDummyClass = class
+  private
+    FormShown: boolean;
   public
     Form: TForm;
-    OnChangeActive: boolean;
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnChange(Sender: TObject);
@@ -43,7 +44,7 @@ var
   C: TControl;
   i: integer;
 begin
-  OnChangeActive:= true;
+  FormShown:= true;
   for i:= 0 to Form.ControlCount-1 do
   begin
     C:= Form.Controls[i];
@@ -70,8 +71,8 @@ procedure TDummyClass.DoOnChange(Sender: TObject);
 var
   i: integer;
 begin
-  //workarnd for bug on MacOS
-  if not OnChangeActive then exit;
+  //workarnd for bug on Mac (flicker on More>> press in BackupFile dialog)
+  if not FormShown then exit;
 
   //Tag=Dummy_TagActive means that control change closes form
   if (Sender as TControl).Tag=Dummy_TagActive then
