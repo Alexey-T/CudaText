@@ -1698,13 +1698,8 @@ var
   STime, SLog: string;
 begin
   if AText='' then exit;
-
-  STime:= TimeToStr(Now);
-  STime:= StringReplace(STime, ':', '-', [rfReplaceAll]);
-  STime:= StringReplace(STime, '/', '-', [rfReplaceAll]);
-  STime:= StringReplace(STime, '\', '-', [rfReplaceAll]);
-
-  SLog:= Format(GetTempDir+DirectorySeparator+'dlg_time_'+STime+'_%dx%d.txt', [ASizeX, ASizeY]);
+  STime:= FormatDateTime('yyyy-mm-dd_hh-mm-ss', Now);
+  SLog:= Format(GetTempDir+DirectorySeparator+'dlg_'+STime+'_%dx%d.txt', [ASizeX, ASizeY]);
 
   with TFileStream.Create(SLog, fmCreate) do
   try
