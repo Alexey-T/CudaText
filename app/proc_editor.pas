@@ -46,8 +46,9 @@ procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
 procedure EditorFocus(Ed: TATSynEdit);
-procedure EditorMouseClickAtCursor(Ed: TATSynEdit; AAndSelect: boolean);
-procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
+procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
+procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
+
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
 
@@ -812,7 +813,7 @@ begin
   end;
 end;
 
-procedure EditorMouseClickAtCursor(Ed: TATSynEdit; AAndSelect: boolean);
+procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 var
   Pnt: TPoint;
   Details: TATPosDetails;
@@ -834,13 +835,13 @@ begin
   Ed.Update;
 end;
 
-procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
+procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
 var
   X, Y: integer;
   Caret: TATCaretItem;
 begin
-  X:= StrToIntDef(SGetItem(S), MaxInt);
-  Y:= StrToIntDef(SGetItem(S), MaxInt);
+  X:= StrToIntDef(SGetItem(AParams), MaxInt);
+  Y:= StrToIntDef(SGetItem(AParams), MaxInt);
   if X=MaxInt then exit;
   if Y=MaxInt then exit;
 

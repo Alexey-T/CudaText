@@ -428,13 +428,13 @@ begin
       end;
 
     cmd_MouseClickAtCursor:
-      EditorMouseClickAtCursor(Ed, false);
+      EditorMouseClick_AtCursor(Ed, false);
     cmd_MouseClickAtCursorAndSelect:
-      EditorMouseClickAtCursor(Ed, true);
+      EditorMouseClick_AtCursor(Ed, true);
     cmd_MouseClickNearCaret:
-      EditorMouseClickFromString(Ed, AText, false);
+      EditorMouseClick_NearCaret(Ed, AText, false);
     cmd_MouseSelect:
-      EditorMouseClickFromString(Ed, AText, true);
+      EditorMouseClick_NearCaret(Ed, AText, true);
     cmd_FinderAction:
       DoFindActionFromString(AText);
     cmd_GotoLastEditingPos:
