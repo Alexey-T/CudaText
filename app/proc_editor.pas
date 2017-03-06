@@ -46,7 +46,7 @@ procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
 procedure EditorFocus(Ed: TATSynEdit);
-procedure EditorMouseClickAtCursor(Ed: TATSynEdit);
+procedure EditorMouseClickAtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
@@ -812,15 +812,26 @@ begin
   end;
 end;
 
-procedure EditorMouseClickAtCursor(Ed: TATSynEdit);
+procedure EditorMouseClickAtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 var
   Pnt: TPoint;
   Details: TATPosDetails;
+  Caret: TATCaretItem;
 begin
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
+
   Pnt:= Mouse.CursorPos;
   Pnt:= Ed.ScreenToClient(Pnt);
   Pnt:= Ed.ClientPosToCaretPos(Pnt, Details);
-  Ed.DoCaretSingle(Pnt.X, Pnt.Y, true);
+
+  Ed.DoCaretSingle(
+    Pnt.X,
+    Pnt.Y,
+    IfThen(AAndSelect, Caret.PosX, -1),
+    IfThen(AAndSelect, Caret.PosY, -1)
+    );
+  Ed.Update;
 end;
 
 procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);

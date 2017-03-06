@@ -28,6 +28,7 @@ const
 
   //for macros
   cmd_MouseClickAtCursor = 2480;
+  cmd_MouseClickAtCursorAndSelect = 2481;
   cmd_MouseClickNearCaret = 2490;
   cmd_MouseSelect = 2491;
   cmd_FinderAction = 2492;

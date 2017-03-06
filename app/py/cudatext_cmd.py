@@ -157,6 +157,7 @@ cCommand_CaretsExtendUpPage = 2014
 cCommand_CaretsExtendUpToTop = 2015
 
 cmd_MouseClickAtCursor = 2480
+cmd_MouseClickAtCursorAndSelect = 2481
 cmd_MouseClickNearCaret = 2490
 cmd_MouseClick = cmd_MouseClickNearCaret
 cmd_MouseSelect = 2491
