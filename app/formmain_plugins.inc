@@ -205,20 +205,41 @@ begin
     begin
       mi.OnClick:= @MenuPluginClick;
       mi.Tag:= i;
-
-      //disabled yet: this gives side problem: after chg of hotkey in Commands,
-      //need call UpdateMenuPlugins(not done)
-      //UpdateMenuItemHotkey(mi, cmdFirstPluginCommand+i);
     end;
   end;
 end;
 
-procedure TfmMain.UpdateMenuPlugins_OnlyHotkeys;
+procedure TfmMain.UpdateMenuPlugins_Shortcuts;
+var
+  CurKeymap: TATKeymap;
+  //
+  procedure UpdMenu(miMenu: TMenuItem);
+  var
+    miSub: TMenuItem;
+    i: integer;
+  begin
+    for i:= 0 to miMenu.Count-1 do
+    begin
+      miSub:= miMenu.Items[i];
+      if miSub.Count>0 then
+        UpdMenu(miSub)
+      else
+        if miSub.Tag>0 then
+          miSub.ShortCut:= CurKeymap.GetShortcutFromCommand(cmdFirstPluginCommand+miSub.Tag);
+    end;
+  end;
+  //
+var
+  NewLexer: string;
 begin
-  showmessage('upd pl hotkeys');
-  //todo
-  //read mi.tag, do
-  //UpdateMenuItemHotkey(mi, cmdFirstPluginCommand+mi.tag);
+  if Application.Terminated then exit;
+  NewLexer:= CurrentFrame.LexerName;
+  if FLastLexerForPluginsMenu=NewLexer then exit;
+  FLastLexerForPluginsMenu:= NewLexer;
+
+  //ShowMessage('upd pl hotkeys');
+  CurKeymap:= CurrentEditor.Keymap;
+  UpdMenu(mnuPlug);
 end;
 
 

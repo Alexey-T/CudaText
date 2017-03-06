@@ -541,6 +541,7 @@ type
     FPyComplete_CharsRight: integer;
     FPyComplete_CaretPos: TPoint;
     FLastDirOfOpenDlg: string;
+    FLastLexerForPluginsMenu: string;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
 
@@ -770,7 +771,7 @@ type
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
     procedure UpdateMenuPlugins;
-    procedure UpdateMenuPlugins_OnlyHotkeys;
+    procedure UpdateMenuPlugins_Shortcuts;
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
@@ -1240,6 +1241,9 @@ begin
   Groups.Splitter5.OnPaint:= @SplitterOnPaint_Gr;
   SplitterVert.OnPaint:= @SplitterOnPaint_Main;
   SplitterHorz.OnPaint:= @SplitterOnPaint_Main;
+
+  FLastDirOfOpenDlg:= '';
+  FLastLexerForPluginsMenu:= '-';
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -1386,6 +1390,7 @@ begin
   DoOps_LoadHistory_AfterOnStart;
 
   UpdateMenuPlugins;
+  UpdateMenuPlugins_Shortcuts;
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
   UpdateMenuLangs(mnuLang);
@@ -3714,6 +3719,8 @@ begin
   DoOps_LoadOptionsOverride((Sender as TComponent).Owner as TEditorFrame); //options override
   DoPyEvent(CurrentEditor, cEventOnLexer, []);
   DoOps_LoadKeymap; //keymap override
+
+  UpdateMenuPlugins_Shortcuts;
 end;
 
 procedure TfmMain.DoToolbarAddButton(AStr: string);

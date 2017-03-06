@@ -39,8 +39,10 @@ var
 begin
   F:= (Sender as TWinControl).Parent as TEditorFrame;
   Groups.PagesCurrent:= F.Parent as TATPages;
+
   UpdateCaption;
   UpdateTabsActiveColor(F);
+  UpdateMenuPlugins_Shortcuts;
 
   if FNewClickedEditor<>CurrentEditor then
   begin
