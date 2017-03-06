@@ -298,7 +298,7 @@ type
     OpMouse2ClickDragSelectsWords: boolean;
     OpMouseDragDrop: boolean;
     OpMouseDragDropFocusTarget: boolean;
-    OpMouseNiceScroll: boolean;
+    OpMouseMiddleClickNiceScroll: boolean;
     OpMouseRightClickMovesCaret: boolean;
     OpMouseEnableColumnSelection: boolean;
     OpMouseHideCursorOnType: boolean; //don't work on lin
@@ -828,7 +828,7 @@ begin
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;
     OpMouseDragDropFocusTarget:= true;
-    OpMouseNiceScroll:= true;
+    OpMouseMiddleClickNiceScroll:= true;
     OpMouseRightClickMovesCaret:= false;
     OpMouseEnableColumnSelection:= true;
     OpMouseHideCursorOnType:= false;

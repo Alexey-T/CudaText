@@ -400,7 +400,7 @@
   //Dbl-click and immediately drag makes selection by words
   "mouse_2click_drag_select_words": true,
   //Middle-click shows circle, then mouse-move near circle does auto-scrolling
-  "mouse_browser_scroll": true,
+  "mouse_mid_click_scroll": true,
   //Enable selection of vertical blocks (Alt+drag)
   "mouse_column_selection": true,
   //Select entire line if clicked line number
