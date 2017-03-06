@@ -115,6 +115,7 @@ type
     procedure EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
     procedure EditorOnClickMicroMap(Sender: TObject; AX, AY: integer);
+    procedure EditorOnClickMiddle(Sender: TObject; var AHandled: boolean);
     procedure EditorOnCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure EditorOnCommandAfter(Sender: TObject; ACommand: integer; const AText: string);
     procedure EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer; const ARect: TRect);
@@ -791,6 +792,17 @@ begin
     );
 end;
 
+procedure TEditorFrame.EditorOnClickMiddle(Sender: TObject; var AHandled: boolean);
+begin
+  AHandled:= false;
+  if EditorOps.OpMouseMiddleClickPaste then
+  begin
+    AHandled:= true;
+    (Sender as TATSynEdit).DoCommand(cCommand_ClipboardPaste);
+    exit;
+  end;
+end;
+
 procedure TEditorFrame.EditorOnClickGap(Sender: TObject;
   AGapItem: TATSynGapItem; APos: TPoint);
 var
@@ -838,10 +850,11 @@ begin
 
   ed.OnClick:= @EditorOnClick;
   ed.OnClickDouble:= @EditorOnClickDouble;
+  ed.OnClickMiddle:= @EditorOnClickMiddle;
   ed.OnClickMoveCaret:= @EditorClickMoveCaret;
   ed.OnClickEndSelect:= @EditorClickEndSelect;
   ed.OnClickGap:= @EditorOnClickGap;
-  ed.OnClickMicromap:=@EditorOnClickMicroMap;
+  ed.OnClickMicromap:= @EditorOnClickMicroMap;
   ed.OnEnter:= @EditorOnEnter;
   ed.OnChangeState:= @EditorOnChangeCommon;
   ed.OnChangeCaretPos:= @EditorOnChangeCaretPos;
@@ -852,8 +865,8 @@ begin
   ed.OnDrawBookmarkIcon:= @EditorOnDrawBookmarkIcon;
   ed.OnDrawLine:= @EditorOnDrawLine;
   ed.OnKeyDown:= @EditorOnKeyDown;
-  ed.OnKeyUp:=@EditorOnKeyUp;
-  ed.OnDrawMicromap:=@EditorDrawMicromap;
+  ed.OnKeyUp:= @EditorOnKeyUp;
+  ed.OnDrawMicromap:= @EditorDrawMicromap;
 end;
 
 constructor TEditorFrame.Create(TheOwner: TComponent);
