@@ -771,7 +771,7 @@ type
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
     procedure UpdateMenuPlugins;
-    procedure UpdateMenuPlugins_Shortcuts;
+    procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
@@ -1390,7 +1390,7 @@ begin
   DoOps_LoadHistory_AfterOnStart;
 
   UpdateMenuPlugins;
-  UpdateMenuPlugins_Shortcuts;
+  UpdateMenuPlugins_Shortcuts(true);
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
   UpdateMenuLangs(mnuLang);

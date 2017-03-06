@@ -209,7 +209,7 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateMenuPlugins_Shortcuts;
+procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
 var
   CurKeymap: TATKeymap;
   //
@@ -233,9 +233,12 @@ var
   NewLexer: string;
 begin
   if Application.Terminated then exit;
-  NewLexer:= CurrentFrame.LexerName;
-  if FLastLexerForPluginsMenu=NewLexer then exit;
-  FLastLexerForPluginsMenu:= NewLexer;
+  if not AForceUpdate then
+  begin
+    NewLexer:= CurrentFrame.LexerName;
+    if FLastLexerForPluginsMenu=NewLexer then exit;
+    FLastLexerForPluginsMenu:= NewLexer;
+  end;
 
   //ShowMessage('upd pl hotkeys');
   CurKeymap:= CurrentEditor.Keymap;
