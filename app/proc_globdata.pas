@@ -299,6 +299,7 @@ type
     OpMouseDragDrop: boolean;
     OpMouseDragDropFocusTarget: boolean;
     OpMouseMiddleClickNiceScroll: boolean;
+    OpMouseMiddleClickPaste: boolean;
     OpMouseRightClickMovesCaret: boolean;
     OpMouseEnableColumnSelection: boolean;
     OpMouseHideCursorOnType: boolean; //don't work on lin
@@ -829,6 +830,7 @@ begin
     OpMouseDragDrop:= true;
     OpMouseDragDropFocusTarget:= true;
     OpMouseMiddleClickNiceScroll:= true;
+    OpMouseMiddleClickPaste:= false;
     OpMouseRightClickMovesCaret:= false;
     OpMouseEnableColumnSelection:= true;
     OpMouseHideCursorOnType:= false;

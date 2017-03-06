@@ -401,6 +401,8 @@
   "mouse_2click_drag_select_words": true,
   //Middle-click shows circle, then mouse-move near circle does auto-scrolling
   "mouse_mid_click_scroll": true,
+  //Middle-click does paste from clipboard (usual in Linux apps)
+  "mouse_mid_click_paste": false,
   //Enable selection of vertical blocks (Alt+drag)
   "mouse_column_selection": true,
   //Select entire line if clicked line number
