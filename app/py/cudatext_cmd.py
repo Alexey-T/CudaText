@@ -156,7 +156,9 @@ cCommand_CaretsExtendUpLine = 2013
 cCommand_CaretsExtendUpPage = 2014
 cCommand_CaretsExtendUpToTop = 2015
 
-cmd_MouseClick = 2490
+cmd_MouseClickAtCursor = 2480
+cmd_MouseClickNearCaret = 2490
+cmd_MouseClick = cmd_MouseClickNearCaret
 cmd_MouseSelect = 2491
 cmd_FinderAction = 2492
 
@@ -285,7 +287,7 @@ cmd_CommentLineToggle_AtNonspace = 2673 #deleted
 cmd_CommentLineToggle_AtStart    = 2674 #deleted
 cmd_CommentStreamToggle          = 2675 #deleted
 cmd_DuplicateLineEx              = 2676
-  
+
 cmd_LineEndWin        = 2677
 cmd_LineEndUnix       = 2678
 cmd_LineEndMac        = 2679

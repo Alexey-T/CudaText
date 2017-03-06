@@ -798,6 +798,7 @@ begin
   if EditorOps.OpMouseMiddleClickPaste then
   begin
     AHandled:= true;
+    (Sender as TATSynEdit).DoCommand(cmd_MouseClickAtCursor);
     (Sender as TATSynEdit).DoCommand(cCommand_ClipboardPaste);
     exit;
   end;

@@ -13,6 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, StrUtils,
+  Controls,
   Dialogs, Forms,
   Clipbrd,
   ATSynEdit,
@@ -45,6 +46,7 @@ procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
 procedure EditorFocus(Ed: TATSynEdit);
+procedure EditorMouseClickAtCursor(Ed: TATSynEdit);
 procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
@@ -810,6 +812,16 @@ begin
   end;
 end;
 
+procedure EditorMouseClickAtCursor(Ed: TATSynEdit);
+var
+  Pnt: TPoint;
+  Details: TATPosDetails;
+begin
+  Pnt:= Mouse.CursorPos;
+  Pnt:= Ed.ScreenToClient(Pnt);
+  Pnt:= Ed.ClientPosToCaretPos(Pnt, Details);
+  Ed.DoCaretSingle(Pnt.X, Pnt.Y, true);
+end;
 
 procedure EditorMouseClickFromString(Ed: TATSynEdit; S: string; AAndSelect: boolean);
 var

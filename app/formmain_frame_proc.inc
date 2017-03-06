@@ -176,7 +176,7 @@ begin
   if F.MacroRecord then
   begin
     Pnt:= ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt);
-    F.MacroString:= F.MacroString+(Format('%d,%d,%d', [cmd_MouseClick, Pnt.X, Pnt.Y])+#10);
+    F.MacroString:= F.MacroString+(Format('%d,%d,%d', [cmd_MouseClickNearCaret, Pnt.X, Pnt.Y])+#10);
   end;
 end;
 

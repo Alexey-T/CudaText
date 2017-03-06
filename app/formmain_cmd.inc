@@ -427,7 +427,9 @@ begin
         end;
       end;
 
-    cmd_MouseClick:
+    cmd_MouseClickAtCursor:
+      EditorMouseClickAtCursor(Ed);
+    cmd_MouseClickNearCaret:
       EditorMouseClickFromString(Ed, AText, false);
     cmd_MouseSelect:
       EditorMouseClickFromString(Ed, AText, true);
