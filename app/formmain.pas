@@ -770,6 +770,7 @@ type
     procedure UpdateMenuHotkeys;
     procedure UpdateMenuLexers;
     procedure UpdateMenuPlugins;
+    procedure UpdateMenuPlugins_OnlyHotkeys;
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;

@@ -213,6 +213,15 @@ begin
   end;
 end;
 
+procedure TfmMain.UpdateMenuPlugins_OnlyHotkeys;
+begin
+  showmessage('upd pl hotkeys');
+  //todo
+  //read mi.tag, do
+  //UpdateMenuItemHotkey(mi, cmdFirstPluginCommand+mi.tag);
+end;
+
+
 function TfmMain.IsLexerMatches(const ANameList: string): boolean;
 begin
   Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
