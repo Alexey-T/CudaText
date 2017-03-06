@@ -5,6 +5,7 @@
 
 
 1.7.0
+* rename opt "mouse_browser_scroll" to "mouse_mid_click_scroll"
 * removed opt "backup" (warning shows if opt set), use plugin Backup File instead
 + menu checkmarks visible for ConfigMenu's menu too
 + default for "ui_statusbar..." changes {x} to {xx}
