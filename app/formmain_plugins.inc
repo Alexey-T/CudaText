@@ -231,6 +231,7 @@ var
   //
 var
   NewLexer: string;
+  Ed: TATSynEdit;
 begin
   if Application.Terminated then exit;
   if not AForceUpdate then
@@ -241,8 +242,12 @@ begin
   end;
 
   //ShowMessage('upd pl hotkeys');
-  CurKeymap:= CurrentEditor.Keymap;
-  UpdMenu(mnuPlug);
+  Ed:= CurrentEditor;
+  if Assigned(Ed) then
+  begin
+    CurKeymap:= Ed.Keymap;
+    UpdMenu(mnuPlug);
+  end;
 end;
 
 
