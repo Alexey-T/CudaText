@@ -433,7 +433,7 @@ begin
       EditorMouseClick_AtCursor(Ed, true);
     cmd_MouseClickNearCaret:
       EditorMouseClick_NearCaret(Ed, AText, false);
-    cmd_MouseSelect:
+    cmd_MouseClickNearCaretAndSelect:
       EditorMouseClick_NearCaret(Ed, AText, true);
     cmd_FinderAction:
       DoFindActionFromString(AText);
