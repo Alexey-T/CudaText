@@ -30,4 +30,5 @@ Clicks:
 Misc:
        
     Alt+click (with option mouse_goto_definition) - call "Goto definition" command (if plugin installed).
-    Ctrl+ scroll mouse wheel - scroll text horizontally.
+    Shift+ scroll mouse wheel - scroll text horizontally.
+    Ctrl+ scroll mouse wheel (with option mouse_wheel_zoom) - zoom text in/out.
