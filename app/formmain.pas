@@ -17,6 +17,9 @@ uses
   Clipbrd, StrUtils, Variants, IniFiles,
   LclType, LclProc, LclIntf,
   LazFileUtils, LazUTF8, FileUtil,
+  {$ifdef LCLGTK2}
+  fix_gtk_clipboard,
+  {$endif}
   jsonConf,
   PythonEngine,
   UniqueInstance,

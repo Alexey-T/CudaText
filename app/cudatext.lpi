@@ -91,6 +91,9 @@
               <RangeChecks Value="True"/>
             </Checks>
             <TargetCPU Value="x86_64"/>
+            <Optimizations>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
