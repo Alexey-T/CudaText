@@ -67,21 +67,30 @@ To specify also the column mmm, append ":mmm" after line number.
 
 Multi-carets:
 
-* Ctrl+click - add/delete caret
-* Ctrl+drag - add caret with selection
-* Ctrl+Shift+click - add carets column in several lines (from previous caret to clicked line)
+* Ctrl+click - add/remove caret.
+* Ctrl+drag - add caret with selection.
+* Ctrl+Shift+click - add carets column in several lines (from previous caret to clicked line).
 
 Select:
 
-* Alt+drag - select column of text (Note: it may look weird if word-wrap on, because wrap is not considered here at all. Simple rectangle of coordinates [x1,y1]-[x2,y2] is always selected, even if this gives bad looking screen)
-* drag on gutter's line numbers - select by entire lines
-* double-click and immediately drag - select text by words 
+* Alt+drag - select column of text. (Note: it may look weird if word-wrap on, because wrap is not considered here at all. Simple rectangle of coordinates [x1,y1]-[x2,y2] is always selected, even if this gives bad looking screen.)
+* drag on gutter's line numbers - select by entire lines.
+* double-click and immediately drag - select text by words.
 
 Clicks:
 
-* double-click - select clicked word  
-* triple-click - select entire line (limited by end-of-lines)
-* middle-button click - start "Browser Scroll" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off)
+* double-click - select clicked word (see option word_chars).
+* triple-click - select entire line (limited by end-of-lines).
+    
+* middle-button click (with option mouse_mid_click_scroll) - start "Browser Scroll" mode: circle mark appears and mouse moving around this mark auto-scrolls text in 4 directions; speed of scrolling depends on distance of cursor from circle mark (any click to turn off).
+
+* middle-button click (with option mouse_mid_click_paste) - paste from clipboard. This is like in Linux. Additionally it's good to install plugin "Auto-Copy to Clipboard".
+
+Misc:
+       
+* Alt+click (with option mouse_goto_definition) - call "Goto definition" command (if plugin installed).
+* Shift+ scroll mouse wheel - scroll text horizontally.
+* Ctrl+ scroll mouse wheel (with option mouse_wheel_zoom) - zoom text in/out.
 
 == Multi-carets ==
 
@@ -449,7 +458,9 @@ Colored marks on micromap:
 = Tech topics=
 ==How to compile program==
 
-* install Lazarus IDE release, install "svn", then install Lazarus "trunk", see page [[Getting_Lazarus]]
+* install FPC (FreePascal) 3.x (will be used by Lazarus)
+* install SVN (program "svn" needed to install Lazarus trunk and/or FPC)
+* install Lazarus IDE release, then install Lazarus "trunk" (using SVN), see page [[Getting_Lazarus]]
 * download ATnnnnnn packages, EControl package, from https://github.com/Alexey-T/
 * download CudaText source too
 * install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
