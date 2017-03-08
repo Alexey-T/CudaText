@@ -121,6 +121,13 @@ cCommand_ClipboardCopy = 1006
 cCommand_ClipboardCopyAdd = 1007
 cCommand_ClipboardCut = 1008
 
+#same as above, but use "Primary selection" (alternative clipboard on gtk2)
+cCommand_ClipboardAltPaste = 1010
+cCommand_ClipboardAltPaste_Select = 1011
+cCommand_ClipboardAltPaste_KeepCaret = 1012
+cCommand_ClipboardAltPaste_Column = 1013 or cCmdSelReset
+cCommand_ClipboardAltPaste_ColumnKeepCaret = 1014 or cCmdSelReset
+
 cCommand_TextCaseLower = 1020
 cCommand_TextCaseUpper = 1021
 cCommand_TextCaseTitle = 1022

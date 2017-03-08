@@ -4,6 +4,9 @@
   * changed
 
 
+1.7.1
++ Linux gtk2: middle-click-paste uses "primary selection" (like gtk apps do), cmd Copy copies to primary selection too
+
 1.7.0
 + option "mouse_mid_click_paste"
 + option "log_dialogs"

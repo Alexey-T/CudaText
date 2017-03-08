@@ -799,7 +799,7 @@ begin
   begin
     AHandled:= true;
     (Sender as TATSynEdit).DoCommand(cmd_MouseClickAtCursor);
-    (Sender as TATSynEdit).DoCommand(cCommand_ClipboardPaste);
+    (Sender as TATSynEdit).DoCommand(cCommand_ClipboardAltPaste); //uses PrimarySelection:TClipboard
     exit;
   end;
 end;
