@@ -4,10 +4,14 @@
   * changed
 
 
-1.6.10
-* removed opt "backup", use plugin Backup File instead (warning shows if opt set)
-+ menu checkmarks visible for ConfigMenu's menu too
-+ default for "ui_statusbar..." changes {x} to {xx}
+1.7.0
++ option "mouse_mid_click_paste"
++ option "log_dialogs"
++ checkmarks visible for ConfigMenu's menu too
+* default for "ui_statusbar..." changes {x} to {xx}
+* renamed opt "mouse_browser_scroll" to "mouse_mid_click_scroll"
+* deleted opt "backup" (warning shows if opt set), use plugin Backup File instead
+- Linux gtk2: keep clipboard text on exit
 - fixes in api
 
 1.6.9

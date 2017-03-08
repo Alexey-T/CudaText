@@ -400,7 +400,9 @@
   //Dbl-click and immediately drag makes selection by words
   "mouse_2click_drag_select_words": true,
   //Middle-click shows circle, then mouse-move near circle does auto-scrolling
-  "mouse_browser_scroll": true,
+  "mouse_mid_click_scroll": true,
+  //Middle-click does paste from clipboard (usual in Linux apps)
+  "mouse_mid_click_paste": false,
   //Enable selection of vertical blocks (Alt+drag)
   "mouse_column_selection": true,
   //Select entire line if clicked line number
@@ -577,5 +579,9 @@
   //  if value has "b": bottom panel
   //  if value has "S": side panel
   "ui_fullscreen_hide": "t",
+  
+  //Enable to make log files, for plugin dialogs (dlg_custom)
+  //Files are %temp%\dlg_nnnnnnnnnnnnn.txt
+  "log_dialogs": false,
   
 }
