@@ -2090,6 +2090,9 @@ begin
         APP_PROC_SET_CLIP:
           begin
             Clipboard.AsText:= Str;
+            {$ifndef windows}
+            PrimarySelection.AsText:= Str; //for gtk2
+            {$endif}
             Result:= ReturnNone;
           end;
 
