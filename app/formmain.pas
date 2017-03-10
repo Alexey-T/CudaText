@@ -2039,7 +2039,8 @@ end;
 
 procedure TfmMain.DoDialogCommands;
 var
-  Cmd: integer;
+  NCmd: integer;
+  KeysChanged: boolean;
 begin
   MsgStatus(msgStatusHelpOnShowCommands);
 
@@ -2050,16 +2051,18 @@ begin
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.keymap:= CurrentEditor.Keymap;
     fmCommands.ShowModal;
-    Cmd:= fmCommands.ResultCommand;
-    if fmCommands.ResultHotkeysConfigured then
-      UpdateMenuPlugins_Shortcuts(true);
+    NCmd:= fmCommands.ResultCommand;
+    KeysChanged:= fmCommands.ResultHotkeysChanged;
   finally
     FreeAndNil(fmCommands);
   end;
 
-  if Cmd>0 then
+  if KeysChanged then
+    UpdateMenuPlugins_Shortcuts(true);
+
+  if NCmd>0 then
   begin
-    CurrentEditor.DoCommand(Cmd);
+    CurrentEditor.DoCommand(NCmd);
     UpdateFrame;
   end;
 end;
