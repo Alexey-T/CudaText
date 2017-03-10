@@ -59,7 +59,8 @@ type
   public
     { public declarations }
     keymap: TATKeymap;
-    ResultNum: integer;
+    ResultCommand: integer;
+    ResultHotkeysConfigured: boolean;
     CurrentLexerName: string;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
   end;
@@ -109,7 +110,9 @@ begin
   edit.Colors.BorderLine:= GetAppColor('EdBorder');
   list.Color:= GetAppColor('ListBg');
 
-  ResultNum:= 0;
+  ResultCommand:= 0;
+  ResultHotkeysConfigured:= false;
+
   list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
   self.Width:= UiOps.ListboxSizeX;
   self.Height:= UiOps.ListboxSizeY;
@@ -185,7 +188,7 @@ begin
   begin
     if (list.ItemIndex>=0) and (list.ItemCount>0) then
     begin
-      ResultNum:= GetResultCmd;
+      ResultCommand:= GetResultCmd;
       Close;
     end;
     key:= 0;
@@ -195,6 +198,7 @@ begin
   if (key=vk_F9) and (shift=[]) then
   begin
     DoConfigKey(GetResultCmd);
+    ResultHotkeysConfigured:= true;
     key:= 0;
     exit
   end;

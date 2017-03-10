@@ -2050,7 +2050,9 @@ begin
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.keymap:= CurrentEditor.Keymap;
     fmCommands.ShowModal;
-    Cmd:= fmCommands.ResultNum;
+    Cmd:= fmCommands.ResultCommand;
+    if fmCommands.ResultHotkeysConfigured then
+      UpdateMenuPlugins_Shortcuts(true);
   finally
     FreeAndNil(fmCommands);
   end;
