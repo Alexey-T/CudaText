@@ -453,6 +453,17 @@ Colored marks on micromap:
 * on right side: marks for selections (made e.g. by "Find/ Select all", usually blue)
 * on right side: marks from Spell Checker plugin (usually red)
 
+== Paste with middle-button-click ==
+
+(From version 1.7.0.3)
+To paste like in Linux, with middle-click, you need
+
+* set option "mouse_mid_click_paste"
+* install plugin "Auto-Copy to Clipboard" 
+
+Note: this will make auto-copy of selection, and paste to position of mouse cursor on middle-click. 
+But it will work only for "editor frame", and not work for: Console read-only editor, single-line inputs. So this method is limited.
+
 == more ==
 
 = Tech topics=
@@ -460,7 +471,7 @@ Colored marks on micromap:
 
 * install FPC (FreePascal) 3.x (will be used by Lazarus)
 * install SVN (program "svn" needed to install Lazarus trunk and/or FPC)
-* install Lazarus IDE release, then install Lazarus "trunk" (using SVN), see page [[Getting_Lazarus]]
+* install Lazarus IDE release, then install Lazarus "trunk" (1.6.4 is not Ok, you need at last 1.7). See this info: [[Getting_Lazarus]].
 * download ATnnnnnn packages, EControl package, from https://github.com/Alexey-T/
 * download CudaText source too
 * install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
@@ -468,6 +479,14 @@ Colored marks on micromap:
 ** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TLinkLabel, TGauge
 ** in System tab: TUniqueInstance
 * in IDE, open "cudatext.lpi" like usual Lazarus project, compile it
+
+Install order
+
+* first install package ATSynEdit
+* next install package EControl
+* package ATSynEdit has one file, which depends on EControl. It is atsynedit_adapter_econtrol.pas. It is here to not make new package for 1 file. When you compile CudaText, FPC shows error about this file, you need to add dir "atsynedit" to project's search dirs.
+* package ATSynEdit has files, which depend on ATListbox package. atsynedit_form_*.pas. They are here to not make new package. You added dir to "atsynedit" to project's dirs, so files will be found.
+* then install other packages
 
 == Python API ==
 
