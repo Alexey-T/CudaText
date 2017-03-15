@@ -1496,9 +1496,24 @@ begin
     SParam:= ParamStrUTF8(i);
     if not SBeginsWith(SParam, '--') then Continue;
 
-    if SParam='--ro' then FOption_OpenReadOnly:= true;
-    if SParam='--new' then FOption_OpenNewWindow:= true;
-    if SParam='--help' then begin Writeln(msgCommandLineHelp); Halt; end;
+    if SParam='--ro' then
+    begin
+      FOption_OpenReadOnly:= true;
+      Continue;
+    end;
+    if SParam='--new' then
+    begin
+      FOption_OpenNewWindow:= true;
+      Continue;
+    end;
+    if SParam='--help' then
+    begin
+      Writeln(msgCommandLineHelp);
+      Halt;
+    end;
+
+    Writeln(Format(msgCommandLineUnknownOption, [SParam]));
+    Halt;
   end;
 end;
 

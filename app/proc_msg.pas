@@ -183,8 +183,9 @@ const
       ''+sLineBreak+
       'To place caret in a file at line nnn, append ":nnn" to filename. To specify also the column mmm, append ":mmm" after line number.'+sLineBreak+
       '  cudatext filename:nnn'+sLineBreak+
-      '  cudatext filename:nnn:mmm'+sLineBreak+
-      ''+sLineBreak;
+      '  cudatext filename:nnn:mmm'+sLineBreak;
+  msgCommandLineUnknownOption =
+      'Unknown option %s'#10'Run ''cudatext --help'' to see list of command line options.';
 
 
 function GetUntitledCaption: string;
