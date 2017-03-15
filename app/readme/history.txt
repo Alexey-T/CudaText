@@ -3,6 +3,9 @@
   - fixed
   * changed
 
+1.7.2
++ command-line key --help (Linux users angry)
++ writes to stdout on using command-line filename/dir
 
 1.7.1
 + Linux gtk2: middle-click-paste uses "primary selection" (alternate gtk clipboard), cmd Copy copies to primary selection too
