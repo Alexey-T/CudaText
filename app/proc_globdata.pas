@@ -1456,9 +1456,10 @@ end;
 
 procedure MsgStdout(const S: string);
 begin
-  //runtime err on Windows
-  {$ifndef windows}
-  Writeln(S);
+  {$ifdef windows}
+  MsgBox(S, MB_OK+MB_ICONINFORMATION);
+  {$else}
+  System.Writeln(S);
   {$endif}
 end;
 
