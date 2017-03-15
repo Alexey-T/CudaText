@@ -1508,11 +1508,11 @@ begin
     end;
     if SParam='--help' then
     begin
-      Writeln(msgCommandLineHelp);
+      MsgStdout(msgCommandLineHelp);
       Halt;
     end;
 
-    Writeln(Format(msgCommandLineUnknownOption, [SParam]));
+    MsgStdout(Format(msgCommandLineUnknownOption, [SParam]));
     Halt;
   end;
 end;
@@ -1546,7 +1546,7 @@ begin
     //don't take folder
     if DirectoryExistsUTF8(fn) then
     begin
-      Writeln('CudaText: cannot open folder: '+fn);
+      MsgStdout('CudaText: cannot open folder: '+fn);
       Continue;
     end;
 
@@ -1556,7 +1556,7 @@ begin
     Frame:= nil;
     if FileExistsUTF8(fn) then
     begin
-      Writeln('CudaText: opened file: '+fn);
+      MsgStdout('CudaText: opened file: '+fn);
       Frame:= DoFileOpen(fn)
     end
     else
@@ -1564,7 +1564,7 @@ begin
       Format(msgConfirmCreateNewFile, [fn]),
       MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
     begin
-      Writeln('CudaText: created file: '+fn);
+      MsgStdout('CudaText: created file: '+fn);
       FCreateFile(fn);
       if FileExistsUTF8(fn) then
         Frame:= DoFileOpen(fn);

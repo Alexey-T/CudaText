@@ -334,6 +334,7 @@ function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
 function MsgBox(const Str: string; Flags: Longint): integer;
+procedure MsgStdout(const S: string);
 
 function GetAppKeymapOverrideFilename(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
@@ -1451,6 +1452,14 @@ begin
   finally
     Free
   end;
+end;
+
+procedure MsgStdout(const S: string);
+begin
+  //runtime err on Windows
+  {$ifndef windows}
+  Writeln(S);
+  {$endif}
 end;
 
 
