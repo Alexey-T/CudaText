@@ -547,6 +547,7 @@ type
     FLastLexerForPluginsMenu: string;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
+    FOption_WindowPos: string;
 
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
     procedure DoNewFileMenu(Sender: TObject);
@@ -1402,6 +1403,14 @@ begin
   ActiveControl:= CurrentEditor;
   UpdateStatus;
   DoLoadCommandLine;
+
+  if FOption_WindowPos<>'' then
+  begin
+    Left:= StrToIntDef(SGetItem(FOption_WindowPos), Left);
+    Top:= StrToIntDef(SGetItem(FOption_WindowPos), Top);
+    Width:= StrToIntDef(SGetItem(FOption_WindowPos), Width);
+    Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
+  end;
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject);
@@ -1490,6 +1499,7 @@ var
 begin
   FOption_OpenReadOnly:= false;
   FOption_OpenNewWindow:= false;
+  FOption_WindowPos:= '';
 
   for i:= 1 to ParamCount do
   begin
@@ -1515,6 +1525,11 @@ begin
     begin
       MsgStdout(msgCommandLineHelp, true);
       Halt;
+    end;
+    if SBeginsWith(SParam, '--window=') then
+    begin
+      FOption_WindowPos:= Copy(SParam, Length('--window=')+1, MaxInt);
+      Continue;
     end;
 
     MsgStdout(Format(msgCommandLineUnknownOption, [SParam]));

@@ -6,6 +6,7 @@
 1.7.2
 + command-line key --help (Linux users angry)
 + command-line key --version
++ command-line key --window=x,y,width,height
 + writes to stdout on using command-line filename/dir
 
 1.7.1
