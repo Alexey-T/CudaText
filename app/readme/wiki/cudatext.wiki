@@ -35,7 +35,7 @@ Versions for Windows, Linux, OS X.
 
 = Configs =
 
-Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit lines in this '''user config'''. Default config is not read, only user config is read.
+Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit lines in this '''user config'''. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show options to user.
 
 '''Lexer-specific config''': settings which are read when some lexer activates. E.g., if you open Pascal file, config for Pascal is read after user config. You should not write "ui_" options to lexer-override config (it will give some weird effects on changing lexers), and few others, like option "lexlib" (it is read only once).
 
@@ -299,6 +299,18 @@ Can enter commands from CudaText API. Example clears all bookmarks and sets book
 ed.bookmark(BOOKMARK_CLEAR_ALL, 0)
 ed.bookmark(BOOKMARK_SET, 10)
 </syntaxhighlight>
+
+===How to use Console as calculator===
+
+Call Console panel with Ctrl+` (Ctrl+tilde). In its input field, enter valid Python expressions with leading "=" char. To use "sin", "cos", "pi" etc, first enter command "from math import *".
+
+Example of 3 entered lines and their log in console:
+
+  >>> from math import *
+  >>> =pi
+  3.141592653589793
+  >>> =100/5+2
+  22.0
 
 == Search in Commands dialog ==
 
