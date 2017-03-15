@@ -180,7 +180,7 @@ const
       '  --help    - Show this options help'+sLineBreak+
       '  --ro      - Open all files from command line in read-only mode'+sLineBreak+
       '  --new     - Ignore option "ui_one_instance", force new app window'+sLineBreak+
-      '  --version - Show version string'+sLineBreak+
+      '  --version - Show application version'+sLineBreak+
       ''+sLineBreak+
       'To place caret in a file at line nnn, append ":nnn" to filename. To specify also the column mmm, append ":mmm" after line number.'+sLineBreak+
       '  cudatext filename:nnn'+sLineBreak+
@@ -189,7 +189,7 @@ const
   msgCommandLineUnknownOption =
       'Unknown option %s'#10'Run ''cudatext --help'' to see list of command line options.';
   msgCommandLineVersion =
-      'CudaText version '+cAppExeVersion;
+      'CudaText version %s';
 
 
 function GetUntitledCaption: string;

@@ -1508,7 +1508,7 @@ begin
     end;
     if SParam='--version' then
     begin
-      MsgStdout(msgCommandLineVersion);
+      MsgStdout(Format(msgCommandLineVersion, [cAppExeVersion]));
       Halt;
     end;
     if SParam='--help' then
