@@ -1498,6 +1498,7 @@ begin
 
     if SParam='--ro' then FOption_OpenReadOnly:= true;
     if SParam='--new' then FOption_OpenNewWindow:= true;
+    if SParam='--help' then begin Writeln(msgCommandLineHelp); Halt; end;
   end;
 end;
 
@@ -1528,19 +1529,27 @@ begin
     if SBeginsWith(fn, '--') then Continue;
 
     //don't take folder
-    if DirectoryExistsUTF8(fn) then Continue;
+    if DirectoryExistsUTF8(fn) then
+    begin
+      Writeln('CudaText: cannot open folder: '+fn);
+      Continue;
+    end;
 
     //get line number (cut from fn)
     SParseFilenameWithTwoNumbers(fn, NumLine, NumColumn);
 
     Frame:= nil;
     if FileExistsUTF8(fn) then
+    begin
+      Writeln('CudaText: opened file: '+fn);
       Frame:= DoFileOpen(fn)
+    end
     else
     if MsgBox(
       Format(msgConfirmCreateNewFile, [fn]),
       MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
     begin
+      Writeln('CudaText: created file: '+fn);
       FCreateFile(fn);
       if FileExistsUTF8(fn) then
         Frame:= DoFileOpen(fn);

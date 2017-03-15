@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.7.1.0';
+  cAppExeVersion = '1.7.2.b1';
   cAppApiVersion = '1.0.170';
 
 const
@@ -171,6 +171,21 @@ const
       '    http://www.snipicons.com/'+sLineBreak+
       '    License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
       '';
+
+  msgCommandLineHelp =
+      'Usage:'+sLineBreak+
+      '  cudatext [ key ... ] filename ...'+sLineBreak+
+      ''+sLineBreak+
+      'Supported "keys" in command line:'+sLineBreak+
+      '  --help  - Show this help info'+sLineBreak+
+      '  --ro    - Open all files from command line in read-only mode'+sLineBreak+
+      '  --new   - Ignore option "ui_one_instance", force new app window'+sLineBreak+
+      ''+sLineBreak+
+      'To place caret in a file at line nnn, append ":nnn" to filename. To specify also the column mmm, append ":mmm" after line number.'+sLineBreak+
+      '  cudatext filename:nnn'+sLineBreak+
+      '  cudatext filename:nnn:mmm'+sLineBreak+
+      ''+sLineBreak;
+
 
 function GetUntitledCaption: string;
 
