@@ -334,7 +334,7 @@ function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
 function MsgBox(const Str: string; Flags: Longint): integer;
-procedure MsgStdout(const S: string);
+procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
 function GetAppKeymapOverrideFilename(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
@@ -1454,12 +1454,13 @@ begin
   end;
 end;
 
-procedure MsgStdout(const S: string);
+procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 begin
   {$ifdef windows}
-  MsgBox(S, MB_OK+MB_ICONINFORMATION);
+  if AllowMsgBox then
+    MsgBox(Str, MB_OK+MB_ICONINFORMATION);
   {$else}
-  System.Writeln(S);
+  System.Writeln(Str);
   {$endif}
 end;
 
