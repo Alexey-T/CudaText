@@ -1506,6 +1506,11 @@ begin
       FOption_OpenNewWindow:= true;
       Continue;
     end;
+    if SParam='--version' then
+    begin
+      MsgStdout(msgCommandLineVersion);
+      Halt;
+    end;
     if SParam='--help' then
     begin
       MsgStdout(msgCommandLineHelp);
