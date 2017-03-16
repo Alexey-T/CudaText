@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+
+1.7.2.1
++ Ctrl+[drag-drop] does copying of block
+
 1.7.2
 + command-line key --help (Linux users angry)
 + command-line key --version
