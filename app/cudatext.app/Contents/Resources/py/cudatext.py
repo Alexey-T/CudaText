@@ -147,6 +147,7 @@ PROP_MODIFIED_VERSION      = 47
 PROP_TAB_ID                = 48
 PROP_COLUMN_LEFT           = 49
 
+PROC_SET_CLIP_ALT        = -1
 PROC_GET_CLIP            = 0
 PROC_SET_CLIP            = 1
 PROC_GET_COMMAND         = 2

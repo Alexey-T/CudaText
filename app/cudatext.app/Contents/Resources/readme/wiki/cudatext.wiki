@@ -35,7 +35,7 @@ Versions for Windows, Linux, OS X.
 
 = Configs =
 
-Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit lines in this '''user config'''. Default config is not read, only user config is read.
+Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit lines in this '''user config'''. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show options to user.
 
 '''Lexer-specific config''': settings which are read when some lexer activates. E.g., if you open Pascal file, config for Pascal is read after user config. You should not write "ui_" options to lexer-override config (it will give some weird effects on changing lexers), and few others, like option "lexlib" (it is read only once).
 
@@ -300,6 +300,18 @@ ed.bookmark(BOOKMARK_CLEAR_ALL, 0)
 ed.bookmark(BOOKMARK_SET, 10)
 </syntaxhighlight>
 
+===How to use Console as calculator===
+
+Call Console panel with Ctrl+` (Ctrl+tilde). In its input field, enter valid Python expressions with leading "=" char. To use "sin", "cos", "pi" etc, first enter command "from math import *".
+
+Example of 3 entered lines and their log in console:
+
+  >>> from math import *
+  >>> =pi
+  3.141592653589793
+  >>> =100/5+2
+  22.0
+
 == Search in Commands dialog ==
 
 Commands dialog (and menu dialog in Python API) has filter field. Filter has fuzzy search, if option (search for "fuzzy") is on. Fuzzy means that filter leaves only those listbox items, which contain all filter chars in ascending order. Example of fuzzy matches:
@@ -453,6 +465,17 @@ Colored marks on micromap:
 * on right side: marks for selections (made e.g. by "Find/ Select all", usually blue)
 * on right side: marks from Spell Checker plugin (usually red)
 
+== Paste with middle-button-click ==
+
+(From version 1.7.0.3)
+To paste like in Linux, with middle-click, you need
+
+* set option "mouse_mid_click_paste"
+* install plugin "Auto-Copy to Clipboard" 
+
+Note: this will make auto-copy of selection, and paste to position of mouse cursor on middle-click. 
+But it will work only for "editor frame", and not work for: Console read-only editor, single-line inputs. So this method is limited.
+
 == more ==
 
 = Tech topics=
@@ -460,7 +483,7 @@ Colored marks on micromap:
 
 * install FPC (FreePascal) 3.x (will be used by Lazarus)
 * install SVN (program "svn" needed to install Lazarus trunk and/or FPC)
-* install Lazarus IDE release, then install Lazarus "trunk" (using SVN), see page [[Getting_Lazarus]]
+* install Lazarus IDE release, then install Lazarus "trunk" (1.6.4 is not Ok, you need at last 1.7). See this info: [[Getting_Lazarus]].
 * download ATnnnnnn packages, EControl package, from https://github.com/Alexey-T/
 * download CudaText source too
 * install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
@@ -468,6 +491,14 @@ Colored marks on micromap:
 ** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TLinkLabel, TGauge
 ** in System tab: TUniqueInstance
 * in IDE, open "cudatext.lpi" like usual Lazarus project, compile it
+
+Install order
+
+* first install package ATSynEdit
+* next install package EControl
+* package ATSynEdit has one file, which depends on EControl. It is atsynedit_adapter_econtrol.pas. It is here to not make new package for 1 file. When you compile CudaText, FPC shows error about this file, you need to add dir "atsynedit" to project's search dirs.
+* package ATSynEdit has files, which depend on ATListbox package. atsynedit_form_*.pas. They are here to not make new package. You added dir to "atsynedit" to project's dirs, so files will be found.
+* then install other packages
 
 == Python API ==
 
