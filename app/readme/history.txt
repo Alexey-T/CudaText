@@ -8,6 +8,8 @@
 + command-line key --version
 + command-line key --window=x,y,width,height
 + writes to stdout on using command-line filename/dir
+- fix: macOS: caret not visible on dark theme
+- fix: any click should show caret
 
 1.7.1
 + Linux gtk2: middle-click-paste uses "primary selection" (alternate gtk clipboard), cmd Copy copies to primary selection too
