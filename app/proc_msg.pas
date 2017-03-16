@@ -183,9 +183,9 @@ const
       '  --version - Show application version'+sLineBreak+
       '  --window=left,top,width,height - Set position/size of app window'+sLineBreak+
       ''+sLineBreak+
-      'To specify caret''s line, append ":n" to filename. To specify column, append ":m" after line.'+sLineBreak+
-      '  cudatext filename:line'+sLineBreak+
-      '  cudatext filename:line:col'+sLineBreak;
+      'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+
+      'Folders cannot be loaded yet.'+sLineBreak+
+      'Projects (.cuda-proj) can be loaded, if Project Manager installed.'+sLineBreak;
 
   msgCommandLineUnknownOption =
       'Unknown option %s'#10'Run ''cudatext --help'' to see list of command line options.';
