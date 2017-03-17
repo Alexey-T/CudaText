@@ -54,7 +54,10 @@ begin
     Btn:= ToolbarSide.Buttons[i];
     Btn.Checked:= Btn=Sender;
     if Btn.Checked then
+    begin
       SCaption:= Btn.Caption;
+      PanelLeftTitle.Caption:= SCaption;
+    end;
   end;
   if SCaption='' then Exit;
 

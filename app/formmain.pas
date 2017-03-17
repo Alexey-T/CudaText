@@ -102,6 +102,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    PanelLeftTitle: TPanel;
     ToolbarSide: TATButtonsToolbar;
     ButtonCancel: TATButton;
     FontDlg: TFontDialog;
@@ -1858,6 +1859,8 @@ begin
   TabsBottom.Height:= UiOps.TabHeight;
   TabsBottom.TabHeight:= UiOps.TabHeightInner;
   TabsBottom.TabWidthMax:= UiOps.TabWidth;
+
+  PanelLeftTitle.Height:= UiOps.TabHeight;
 
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);

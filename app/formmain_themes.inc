@@ -83,6 +83,8 @@ begin
   TabsBottom.ColorBorderPassive:= GetAppColor('TabBorderPassive');
   TabsBottom.Invalidate;
 
+  PanelLeftTitle.Font.Color:= TabsBottom.Font.Color;
+
   if assigned(fmGoto) then
   begin
     fmGoto.Color:= GetAppColor('TabBg');

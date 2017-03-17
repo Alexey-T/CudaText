@@ -22,38 +22,50 @@ object fmMain: TfmMain
   Visible = True
   object PanelAll: TPanel
     Left = 0
-    Height = 326
-    Top = 200
+    Height = 422
+    Top = 104
     Width = 872
     Align = alBottom
     BevelOuter = bvNone
-    ClientHeight = 326
+    ClientHeight = 422
     ClientWidth = 872
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
-      Height = 57
-      Top = 174
+      Height = 169
+      Top = 158
       Width = 872
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 57
+      ClientHeight = 169
       ClientWidth = 872
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
-        Height = 57
+        Height = 169
         Top = 0
         Width = 4
       end
       object PanelLeft: TPanel
         Left = 0
-        Height = 57
+        Height = 169
         Top = 0
         Width = 202
         Align = alLeft
         BevelOuter = bvNone
+        ClientHeight = 169
+        ClientWidth = 202
         TabOrder = 1
+        object PanelLeftTitle: TPanel
+          Left = 0
+          Height = 20
+          Top = 0
+          Width = 202
+          Align = alTop
+          BevelOuter = bvNone
+          Caption = 'PanelLeftTitle'
+          TabOrder = 0
+        end
       end
       object Gauge: TGauge
         Left = 760
@@ -78,7 +90,7 @@ object fmMain: TfmMain
     object PanelBottom: TPanel
       Left = 0
       Height = 90
-      Top = 236
+      Top = 332
       Width = 872
       Align = alBottom
       BevelOuter = bvNone
@@ -88,7 +100,7 @@ object fmMain: TfmMain
       Cursor = crVSplit
       Left = 0
       Height = 5
-      Top = 231
+      Top = 327
       Width = 872
       Align = alBottom
       AutoSnap = False
@@ -108,7 +120,7 @@ object fmMain: TfmMain
     end
     object PaintTest: TPaintBox
       Left = 0
-      Height = 150
+      Height = 134
       Top = 24
       Width = 872
       Align = alTop
@@ -117,17 +129,17 @@ object fmMain: TfmMain
   end
   object PanelSide: TPanel
     Left = 0
-    Height = 200
+    Height = 104
     Top = 0
     Width = 40
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 200
+    ClientHeight = 104
     ClientWidth = 40
     TabOrder = 1
     object ToolbarSide: TATButtonsToolbar
       Left = 0
-      Height = 200
+      Height = 104
       Top = 0
       Width = 40
       Align = alClient
