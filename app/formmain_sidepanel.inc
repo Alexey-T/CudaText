@@ -202,7 +202,7 @@ begin
   else
     exit(false);
 
-  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, ACaption, '', '', true);
+  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, ACaption, ACaption, '', true);
   ToolbarSide.UpdateControls;
   Result:= true;
 end;
