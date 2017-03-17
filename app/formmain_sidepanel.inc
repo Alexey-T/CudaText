@@ -42,7 +42,6 @@ begin
   if Btn.Checked then
   begin
     Btn.Checked:= false;
-    Btn.Flat:= true;
     CurrentEditor.DoCommand(cmd_HideSidePanel);
     Exit
   end;
@@ -54,7 +53,6 @@ begin
   begin
     Btn:= ToolbarSide.Buttons[i];
     Btn.Checked:= Btn=Sender;
-    Btn.Flat:= not Btn.Checked;
     if Btn.Checked then
       SCaption:= Btn.Caption;
   end;
