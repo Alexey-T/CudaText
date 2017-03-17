@@ -1209,7 +1209,7 @@ begin
   TabsBottom.AddTab(-1, 'Validate', nil);
   TabsBottom.OnTabClick:= @DoBottom_OnTabClick;
 
-  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, 'Tree', '', '', true, true);
+  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, 'Tree', '', '', true);
 
   with FAppSidePanels[0] do
   begin

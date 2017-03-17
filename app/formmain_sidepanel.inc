@@ -34,22 +34,31 @@ end;
 procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
   Btn: TATButton;
-  NTab, i: integer;
   SCaption: string;
+  i: integer;
 begin
+  //toggle side panel?
+  Btn:= (Sender as TATButton);
+  if Btn.Checked then
+  begin
+    Btn.Checked:= false;
+    Btn.Flat:= true;
+    CurrentEditor.DoCommand(cmd_HideSidePanel);
+    Exit
+  end;
+
+  CurrentEditor.DoCommand(cmd_ShowSidePanelAsIs);
+
   SCaption:= '';
-  NTab:= -1;
   for i:= 0 to ToolbarSide.ButtonCount-1 do
   begin
     Btn:= ToolbarSide.Buttons[i];
     Btn.Checked:= Btn=Sender;
-    if Btn=Sender then
-    begin
+    Btn.Flat:= not Btn.Checked;
+    if Btn.Checked then
       SCaption:= Btn.Caption;
-      NTab:= i;
-    end;
   end;
-  if NTab<0 then exit;
+  if SCaption='' then Exit;
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
@@ -192,7 +201,7 @@ begin
   else
     exit(false);
 
-  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, ACaption, '', '', true, true);
+  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, ACaption, '', '', true);
   ToolbarSide.UpdateControls;
   Result:= true;
 end;
