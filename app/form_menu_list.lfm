@@ -1,7 +1,7 @@
 object fmGotoList: TfmGotoList
-  Left = 282
+  Left = 266
   Height = 233
-  Top = 450
+  Top = 549
   Width = 500
   BorderStyle = bsNone
   Caption = 'Goto list'
@@ -24,7 +24,9 @@ object fmGotoList: TfmGotoList
     BorderSpacing.Around = 6
     CanGetFocus = False
     Color = clWhite
+    DoubleBuffered = True
     ItemHeight = 28
+    ParentColor = False
     ShowScrollbar = False
     OnClick = ListClick
     OnDrawItem = ListDrawItem
