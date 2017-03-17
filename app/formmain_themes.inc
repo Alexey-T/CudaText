@@ -83,15 +83,6 @@ begin
   TabsBottom.ColorBorderPassive:= GetAppColor('TabBorderPassive');
   TabsBottom.Invalidate;
 
-  TabsLeft.Font.Color:= TabsBottom.Font.Color;
-  TabsLeft.ColorBg:= TabsBottom.ColorBg;
-  TabsLeft.ColorTabActive:= TabsBottom.ColorTabActive;
-  TabsLeft.ColorTabPassive:= TabsBottom.ColorTabPassive;
-  TabsLeft.ColorTabOver:= TabsBottom.ColorTabOver;
-  TabsLeft.ColorBorderActive:= TabsBottom.ColorBorderActive;
-  TabsLeft.ColorBorderPassive:= TabsBottom.ColorBorderPassive;
-  TabsLeft.Invalidate;
-
   if assigned(fmGoto) then
   begin
     fmGoto.Color:= GetAppColor('TabBg');

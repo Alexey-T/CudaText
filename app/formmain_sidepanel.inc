@@ -33,12 +33,24 @@ end;
 
 procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
+  Btn: TATButton;
   NTab, i: integer;
   SCaption: string;
 begin
-  NTab:= TabsLeft.TabIndex;
+  SCaption:= '';
+  NTab:= -1;
+  for i:= 0 to ToolbarSide.ButtonCount-1 do
+  begin
+    Btn:= ToolbarSide.Buttons[i];
+    Btn.Checked:= Btn=Sender;
+    if Btn=Sender then
+    begin
+      SCaption:= Btn.Caption;
+      NTab:= i;
+    end;
+  end;
   if NTab<0 then exit;
-  SCaption:= TabsLeft.GetTabData(NTab).TabCaption;
+
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
     begin
@@ -96,16 +108,12 @@ end;
 
 function TfmMain.DoSidebar_CaptionToTabIndex(const Str: string): integer;
 var
-  Data: TATTabData;
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to TabsLeft.TabCount-1 do
-  begin
-    Data:= TabsLeft.GetTabData(i);
-    if Assigned(Data) then
-      if Data.TabCaption=Str then exit(i)
-  end;
+  for i:= 0 to ToolbarSide.ButtonCount-1 do
+    if SameText(ToolbarSide.Buttons[i].Caption, Str) then
+      Exit(i);
 end;
 
 procedure TfmMain.DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
@@ -184,7 +192,8 @@ begin
   else
     exit(false);
 
-  TabsLeft.AddTab(ATabIndex, ACaption);
+  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, ACaption, '', '', true, true);
+  ToolbarSide.UpdateControls;
   Result:= true;
 end;
 
@@ -196,7 +205,8 @@ begin
   Result:= Num>=0;
   if Result then
   begin
-    fmMain.TabsLeft.DeleteTab(Num, false, false);
+    ToolbarSide.Buttons[Num].Free;
+    ToolbarSide.UpdateControls;
 
     //hard to remov array item, so hide it by "?"
     for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
@@ -205,20 +215,21 @@ begin
         FAppSidePanels[i].ItemCaption:= '?';
         Break;
       end;
-
-    if (Num>0) and (fmMain.TabsLeft.TabIndex=Num) then
-      fmMain.TabsLeft.TabIndex:= Num-1;
   end;
 end;
 
 function TfmMain.DoSidebar_ActivateTab(const ACaption: string): boolean;
 var
+  Btn: TATButton;
   Num: integer;
 begin
   Num:= DoSidebar_CaptionToTabIndex(ACaption);
   Result:= Num>=0;
   if Result then
-    fmMain.TabsLeft.TabIndex:= Num;
+  begin
+    Btn:= ToolbarSide.Buttons[Num];
+    Btn.OnClick(Btn);
+  end;
 end;
 
 

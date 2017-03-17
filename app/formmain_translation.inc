@@ -288,7 +288,7 @@ begin
 
     //Tree panel
     s:= ini.ReadString('ui', 't_tre', 'Tree');
-    DoApplyTabCaption(TabsLeft, 0, s);
+    //DoApplyTabCaption(TabsLeft, 0, s);
     FAppSidePanels[0].ItemCaption:= s;
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);

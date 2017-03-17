@@ -238,7 +238,6 @@ begin
 
   Groups.SetTabFont(Self.Font);
   TabsBottom.Font:= Self.Font;
-  TabsLeft.Font:= Self.Font;
   Status.Font:= Self.Font;
   StatusAlt.Font:= Self.Font;
   Gauge.Font:= Self.Font;

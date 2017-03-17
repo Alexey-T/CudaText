@@ -102,6 +102,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    ToolbarSide: TATButtonsToolbar;
     ButtonCancel: TATButton;
     FontDlg: TFontDialog;
     Gauge: TGauge;
@@ -118,6 +119,7 @@ type
     mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
     PaintTest: TPaintBox;
+    PanelSide: TPanel;
     Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
@@ -491,7 +493,6 @@ type
     Status: TATStatus;
     StatusAlt: TATStatus;
     Groups: TATGroups;
-    TabsLeft: TATTabs;
     TabsBottom: TATTabs;
 
     mnuViewWrap_Alt,
@@ -1208,13 +1209,7 @@ begin
   TabsBottom.AddTab(-1, 'Validate', nil);
   TabsBottom.OnTabClick:= @DoBottom_OnTabClick;
 
-  TabsLeft:= TATTabs.Create(Self);
-  TabsLeft.Parent:= PanelLeft;
-  TabsLeft.Align:= alTop;
-  TabsLeft.TabDragEnabled:= false;
-
-  TabsLeft.AddTab(-1, 'Tree', nil);
-  TabsLeft.OnTabClick:= @DoSidebar_OnTabClick;
+  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, 'Tree', '', '', true, true);
 
   with FAppSidePanels[0] do
   begin
@@ -1372,6 +1367,7 @@ procedure TfmMain.FormShow(Sender: TObject);
 begin
   if FHandledOnShow then exit;
   TabsBottom.TabIndex:= 0;
+  ToolbarSide.UpdateControls;
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
@@ -1820,7 +1816,6 @@ begin
       Editor.DoubleBuffered:= UiOps.DoubleBuffered;
       Editor2.DoubleBuffered:= UiOps.DoubleBuffered;
     end;
-  TabsLeft.DoubleBuffered:= UiOps.DoubleBuffered;
   TabsBottom.DoubleBuffered:= UiOps.DoubleBuffered;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -1863,23 +1858,6 @@ begin
   TabsBottom.Height:= UiOps.TabHeight;
   TabsBottom.TabHeight:= UiOps.TabHeightInner;
   TabsBottom.TabWidthMax:= UiOps.TabWidth;
-
-  TabsLeft.TabBottom:= UiOps.TabBottom;
-  TabsLeft.TabShowPlus:= false;
-  TabsLeft.TabShowMenu:= false;
-  TabsLeft.TabShowClose:= tbShowNone;
-  TabsLeft.TabDoubleClickClose:= false;
-  TabsLeft.TabMiddleClickClose:= false;
-  TabsLeft.TabAngle:= UiOps.TabAngle;
-  TabsLeft.TabIndentTop:= IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop);
-  TabsLeft.TabIndentInit:= UiOps.TabIndentInit;
-  TabsLeft.Height:= UiOps.TabHeight;
-  TabsLeft.TabHeight:= UiOps.TabHeightInner;
-  TabsLeft.TabWidthMax:= UiOps.TabWidth;
-  if UiOps.TabBottom then
-    TabsLeft.Align:= alBottom
-  else
-    Tabsleft.Align:= alTop;
 
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
@@ -2823,18 +2801,17 @@ end;
 
 procedure TfmMain.SetTabNameLeft(const AValue: string);
 var
-  D: TATTabData;
+  Btn: TATButton;
   i: integer;
 begin
-  for i:= 0 to TabsLeft.TabCount-1 do
+  for i:= 0 to ToolbarSide.ButtonCount-1 do
   begin
-    D:= TabsLeft.GetTabData(i);
-    if Assigned(D) then
-      if D.TabCaption=AValue then
-      begin
-        TabsLeft.TabIndex:= i;
-        Break
-      end;
+    Btn:= ToolbarSide.Buttons[i];
+    if Btn.Caption=AValue then
+    begin
+      Btn.OnClick(Btn);
+      Break
+    end;
   end;
 end;
 

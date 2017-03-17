@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 344
+  Left = 408
   Height = 526
-  Top = 369
+  Top = 354
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
@@ -22,33 +22,33 @@ object fmMain: TfmMain
   Visible = True
   object PanelAll: TPanel
     Left = 0
-    Height = 230
-    Top = 296
+    Height = 326
+    Top = 200
     Width = 872
     Align = alBottom
     BevelOuter = bvNone
-    ClientHeight = 230
+    ClientHeight = 326
     ClientWidth = 872
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
-      Height = 131
-      Top = 0
-      Width = 868
+      Height = 57
+      Top = 174
+      Width = 872
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 131
-      ClientWidth = 868
+      ClientHeight = 57
+      ClientWidth = 872
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
-        Height = 127
+        Height = 57
         Top = 0
         Width = 4
       end
       object PanelLeft: TPanel
         Left = 0
-        Height = 127
+        Height = 57
         Top = 0
         Width = 202
         Align = alLeft
@@ -56,18 +56,18 @@ object fmMain: TfmMain
         TabOrder = 1
       end
       object Gauge: TGauge
-        Left = 408
+        Left = 760
         Height = 19
-        Top = 0
+        Top = 152
         Width = 112
         Color = clBtnFace
         DoubleBuffered = False
         ParentColor = False
       end
       object ButtonCancel: TATButton
-        Left = 416
+        Left = 760
         Height = 25
-        Top = 24
+        Top = 176
         Width = 100
         TabStop = True
         TabOrder = 2
@@ -78,8 +78,8 @@ object fmMain: TfmMain
     object PanelBottom: TPanel
       Left = 0
       Height = 90
-      Top = 136
-      Width = 868
+      Top = 236
+      Width = 872
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
@@ -88,32 +88,55 @@ object fmMain: TfmMain
       Cursor = crVSplit
       Left = 0
       Height = 5
-      Top = 131
-      Width = 868
+      Top = 231
+      Width = 872
       Align = alBottom
       AutoSnap = False
       MinSize = 60
       ResizeAnchor = akBottom
       ResizeStyle = rsPattern
     end
+    object Toolbar: TATButtonsToolbar
+      Left = 0
+      Height = 24
+      Top = 0
+      Width = 872
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 3
+      Images = ImageListBar
+    end
+    object PaintTest: TPaintBox
+      Left = 0
+      Height = 150
+      Top = 24
+      Width = 872
+      Align = alTop
+      Visible = False
+    end
   end
-  object Toolbar: TATButtonsToolbar
+  object PanelSide: TPanel
     Left = 0
-    Height = 24
+    Height = 200
     Top = 0
-    Width = 872
-    Align = alTop
+    Width = 40
+    Align = alLeft
     BevelOuter = bvNone
+    ClientHeight = 200
+    ClientWidth = 40
     TabOrder = 1
-    Images = ImageListBar
-  end
-  object PaintTest: TPaintBox
-    Left = 0
-    Height = 150
-    Top = 24
-    Width = 872
-    Align = alTop
-    Visible = False
+    object ToolbarSide: TATButtonsToolbar
+      Left = 0
+      Height = 200
+      Top = 0
+      Width = 40
+      Align = alClient
+      BevelOuter = bvNone
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+      KindVertical = True
+    end
   end
   object PythonEngine: TPythonEngine
     AutoLoad = False
@@ -126,8 +149,7 @@ object fmMain: TfmMain
     IO = PythonIO
     PyFlags = [pfIgnoreEnvironmentFlag]
     OnAfterInit = PythonEngineAfterInit
-    left = 32
-    top = 32
+    left = 352
   end
   object PythonIO: TPythonInputOutput
     MaxLineLength = 2000
@@ -135,16 +157,16 @@ object fmMain: TfmMain
     OnSendUniData = PythonIOSendUniData
     UnicodeIO = True
     RawOutput = False
-    left = 80
-    top = 56
+    left = 400
+    top = 8
   end
   object PythonMod: TPythonModule
     Engine = PythonEngine
     OnInitialization = PythonModInitialization
     ModuleName = 'cudatext_api'
     Errors = <>
-    left = 128
-    top = 80
+    left = 448
+    top = 24
   end
   object MainMenu: TMainMenu
     left = 568
@@ -699,8 +721,8 @@ object fmMain: TfmMain
     Height = 718
     Title = 'Open file'
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofEnableSizing]
-    left = 88
-    top = 144
+    left = 344
+    top = 424
   end
   object PopupEnc: TPopupMenu
     left = 656
@@ -724,8 +746,8 @@ object fmMain: TfmMain
   end
   object SaveDlg: TSaveDialog
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofEnableSizing, ofDontAddToRecent, ofViewDetail]
-    left = 88
-    top = 192
+    left = 400
+    top = 424
   end
   object PopupLex: TPopupMenu
     left = 808
@@ -847,14 +869,14 @@ object fmMain: TfmMain
     ShowButtonGlyphs = sbgNever
     OnActivate = AppPropsActivate
     OnDeactivate = AppPropsActivate
-    left = 32
-    top = 176
+    left = 520
+    top = 424
   end
   object FontDlg: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
-    left = 88
-    top = 240
+    left = 456
+    top = 424
   end
   object ImageListBar: TImageList
     AllocBy = 16
@@ -2150,8 +2172,8 @@ object fmMain: TfmMain
   object UniqInstance: TUniqueInstance
     Identifier = 'cudatext.0'
     OnOtherInstance = UniqInstanceOtherInstance
-    left = 32
-    top = 128
+    left = 232
+    top = 16
   end
   object PopupText: TPopupMenu
     OnPopup = PopupTextPopup

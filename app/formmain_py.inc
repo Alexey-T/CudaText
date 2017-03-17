@@ -2322,8 +2322,8 @@ begin
         APP_PROC_SIDEPANEL_ENUM:
           begin
             Str:= '';
-            for i:= 0 to fmMain.TabsLeft.TabCount-1 do
-              Str:= Str + IfThen(i>0, #10) + fmMain.TabsLeft.GetTabData(i).TabCaption;
+            for i:= 0 to fmMain.ToolbarSide.ButtonCount-1 do
+              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSide.Buttons[i].Caption;
             Result:= PyString_FromString(PChar(Str));
           end;
 

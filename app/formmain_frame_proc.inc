@@ -182,12 +182,16 @@ end;
 
 function TfmMain.GetTabNameLeft: string;
 var
-  D: TATTabData;
+  Btn: TATButton;
+  i: integer;
 begin
   Result:= '';
-  D:= TabsLeft.GetTabData(TabsLeft.TabIndex);
-  if Assigned(D) then
-    Result:= D.TabCaption;
+  for i:= 0 to ToolbarSide.ButtonCount-1 do
+  begin
+    Btn:= ToolbarSide.Buttons[i];
+    if Btn.Checked then
+      Exit(Btn.Caption);
+  end;
 end;
 
 procedure TfmMain.FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt,
