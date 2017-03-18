@@ -374,6 +374,7 @@ type
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
     ToolbarBtm: TATButtonsToolbar;
+    ToolbarBtm2: TATButtonsToolbar;
     ToolbarSide: TATButtonsToolbar;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
@@ -590,6 +591,7 @@ type
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;
     function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
     procedure DoBottom_OnTabClick(Sender: TObject);
+    procedure DoBottom_AddonsClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption, AControlType: string;
       ATabIndex, AImageIndex: integer): boolean;
@@ -649,6 +651,7 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    procedure InitSidebar;
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
@@ -1209,16 +1212,7 @@ begin
   Groups.OnTabPopup:= @DoOnTabPopup;
   Groups.OnTabOver:= @DoOnTabOver;
 
-  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
-
-  ToolbarSide.AddButton(0, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.AddButton(1, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.AddButton(2, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.AddButton(3, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
+  InitSidebar;
 
   with FAppSidePanels[0] do
   begin
@@ -1380,6 +1374,7 @@ begin
 
   ToolbarSide.UpdateControls;
   ToolbarBtm.UpdateControls;
+  ToolbarBtm2.UpdateControls;
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);

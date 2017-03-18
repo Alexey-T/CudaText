@@ -955,3 +955,30 @@ begin
 end;
 
 
+procedure TfmMain.InitSidebar;
+var
+  Str: string;
+  NIconTree,
+  NIconConsole,
+  NIconOutput,
+  NIconValidate,
+  NIconAddons: integer;
+begin
+  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');     NIconTree:= ImageListSide.Count-1;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');  NIconConsole:= ImageListSide.Count-1;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');   NIconOutput:= ImageListSide.Count-1;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png'); NIconValidate:= ImageListSide.Count-1;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'addons.png');   NIconAddons:= ImageListSide.Count-1;
+
+  //
+  ToolbarSide.AddButton(NIconTree, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
+  //
+  ToolbarBtm.AddButton(NIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(NIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(NIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
+  //
+  //ToolbarBtm2.AddSep;
+  ToolbarBtm2.AddButton(NIconAddons, @DoBottom_AddonsClick, 'Add-ons', 'Install add-on', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm2.AddSep;
+end;

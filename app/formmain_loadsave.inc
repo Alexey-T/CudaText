@@ -301,9 +301,9 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     c.Filename:= GetAppPath(cFileOptionsHistory);
+    SCaption:= c.GetValue('tab_left', '');
 
     //if plugin didnt load, caption not valid
-    SCaption:= c.GetValue('tab_left', '');
     if DoSidebar_CaptionToTabIndex(SCaption)<0 then
       SCaption:= 'Tree';
 
