@@ -652,6 +652,7 @@ type
     procedure MenuLangClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure SetSidebarPanel(const ACaption: string);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
     procedure SetThemeSyntax(const AValue: string);
@@ -833,7 +834,7 @@ type
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
     property ThemeUi: string read FThemeUi write SetThemeUi;
     property ThemeSyntax: string read FThemeSyntax write SetThemeSyntax;
-    property SidebarPanel: string read FLastSidebarPanel write DoShowSidePanel;
+    property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
   end;
@@ -2246,10 +2247,9 @@ begin
     PanelLeft.Visible:= AValue;
     SplitterVert.Visible:= AValue;
     SplitterVert.Left:= PanelLeft.Width;
+    if AValue then
+      UpdateTree(true);
   end;
-
-  if AValue then
-    UpdateTree(true);
   UpdateSidebarButtons;
 end;
 
@@ -2547,6 +2547,13 @@ begin
   TimerStatusAlt.Interval:= ASeconds*1000;
   TimerStatusAlt.Enabled:= false;
   TimerStatusAlt.Enabled:= true;
+end;
+
+procedure TfmMain.SetSidebarPanel(const ACaption: string);
+begin
+  if (ACaption<>'-') and (ACaption<>'') then
+    if ShowSidePanel then
+      DoShowSidePanel(ACaption);
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
