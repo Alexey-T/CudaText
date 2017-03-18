@@ -3795,6 +3795,8 @@ begin
       SCaption<>''
       );
   end;
+
+  Toolbar.UpdateControls;
 end;
 
 

@@ -197,6 +197,7 @@ begin
     exit(false);
 
   ToolbarBtm.AddButton(AImageIndex, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.UpdateControls;
   Result:= true;
 end;
 
