@@ -356,7 +356,7 @@ begin
     PanelLeft.Width:= c.GetValue('size_side', 200);
     PanelBottom.Height:= c.GetValue('size_bottom', 200);
 
-    if FConsoleMustShow then
+    if ShowBottom or FConsoleMustShow then
       DoShowConsole(false);
 
     ////AppTheme
