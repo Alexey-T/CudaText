@@ -560,8 +560,7 @@ type
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     procedure DoShowBottomPanel(const ATabCaption: string);
-    function DoSidebar_AddTab_Wrapper(ACaption, AControlType,
-      AIconFilename: string; ATabIndex: integer): boolean;
+    function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
@@ -593,7 +592,7 @@ type
     procedure DoBottom_OnTabClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption, AControlType: string;
-      ATabIndex: integer): boolean;
+      ATabIndex, AImageIndex: integer): boolean;
     function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
     function DoBottom_ActivateTab(const ACaption: string): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
@@ -3636,16 +3635,19 @@ end;
 
 function TfmMain.DoPyPanelAdd(AParams: string): boolean;
 var
-  SCaption: string;
+  SCaption, SFilename: string;
   Listbox: TATListbox;
   Props: TAppPanelPropsClass;
+  NImageIndex: integer;
 begin
   Result:= false;
   SCaption:= SGetItem(AParams, ';');
+  SFilename:= SGetItem(AParams, ';');
+  NImageIndex:= DoSidebar_FilenameToImageIndex(SCaption, SFilename);
 
-  if (SCaption='Console') or
-     (SCaption='Output') or
-     (SCaption='Validate') then exit;
+  if SameText(SCaption, 'Console') or
+     SameText(SCaption, 'Output') or
+     SameText(SCaption, 'Validate') then exit;
   if FAppBottomPanelsListbox.IndexOf(SCaption)>=0 then exit;
 
   Listbox:= TATListbox.Create(Self);
@@ -3663,7 +3665,7 @@ begin
   Props.Data.Listbox:= Listbox;
 
   FAppBottomPanelsListbox.AddObject(SCaption, Props);
-  ToolbarBtm.AddButton(-1, @DoBottom_OnTabClick, SCaption, SCaption, '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(NImageIndex, @DoBottom_OnTabClick, SCaption, SCaption, '', UiOps.ShowSidebarCaptions);
   Result:= true;
 end;
 

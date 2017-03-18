@@ -194,21 +194,17 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_AddTab_Wrapper(ACaption, AControlType, AIconFilename: string; ATabIndex: integer): boolean;
-var
-  NImageIndex: integer;
+function TfmMain.DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
 begin
-  if AIconFilename='' then
-    AIconFilename:= LowerCase(ACaption)+'.png';
-  if ExtractFileDir(AIconFilename)='' then
-    AIconFilename:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+AIconFilename;
+  if AFilename='' then
+    AFilename:= LowerCase(ATabCaption)+'.png';
+  if ExtractFileDir(AFilename)='' then
+    AFilename:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+AFilename;
 
-  if UpdateImagelistWithIconFromFile(ImageListSide, AIconFilename) then
-    NImageIndex:= fmMain.ImageListSide.Count-1
+  if UpdateImagelistWithIconFromFile(ImageListSide, AFilename) then
+    Result:= fmMain.ImageListSide.Count-1
   else
-    NImageIndex:= -1;
-
-  Result:= DoSidebar_AddTab(ACaption, AControlType, ATabIndex, NImageIndex);
+    Result:= -1;
 end;
 
 function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string;

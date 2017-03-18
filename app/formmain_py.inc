@@ -2304,7 +2304,12 @@ begin
             StrId:= SGetItem(Str); //type of control
             StrFilename:= SGetItem(Str); //icon filename
 
-            ok:= fmMain.DoSidebar_AddTab_Wrapper(StrCaption, StrId, StrFilename, StrToIntDef(StrIndex, -1));
+            ok:= fmMain.DoSidebar_AddTab(
+              StrCaption,
+              StrId,
+              StrToIntDef(StrIndex, -1),
+              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename));
+
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
@@ -2353,7 +2358,14 @@ begin
             StrCaption:= SGetItem(Str); //caption
             StrIndex:= SGetItem(Str); //tab index
             StrId:= SGetItem(Str); //type of control
-            ok:= fmMain.DoBottom_AddTab(StrCaption, StrId, StrToIntDef(StrIndex, -1));
+            StrFilename:= SGetItem(Str); //icon filename
+
+            ok:= fmMain.DoBottom_AddTab(
+              StrCaption,
+              StrId,
+              StrToIntDef(StrIndex, -1),
+              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename));
+
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

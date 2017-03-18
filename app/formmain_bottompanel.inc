@@ -177,7 +177,8 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+function TfmMain.DoBottom_AddTab(const ACaption, AControlType: string;
+  ATabIndex, AImageIndex: integer): boolean;
 var
   Num: integer;
 begin
@@ -195,7 +196,7 @@ begin
   else
     exit(false);
 
-  ToolbarBtm.AddButton(-1, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(AImageIndex, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   Result:= true;
 end;
 
