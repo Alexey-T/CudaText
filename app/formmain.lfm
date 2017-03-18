@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 408
+  Left = 272
   Height = 495
-  Top = 314
+  Top = 339
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
@@ -32,28 +32,28 @@ object fmMain: TfmMain
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
-      Height = 78
+      Height = 82
       Top = 158
-      Width = 868
+      Width = 872
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 78
-      ClientWidth = 868
+      ClientHeight = 82
+      ClientWidth = 872
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
-        Height = 74
+        Height = 82
         Top = 0
         Width = 4
       end
       object PanelLeft: TPanel
         Left = 0
-        Height = 74
+        Height = 82
         Top = 0
         Width = 202
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 74
+        ClientHeight = 82
         ClientWidth = 202
         Color = clSilver
         ParentColor = False
@@ -62,7 +62,7 @@ object fmMain: TfmMain
           Left = 0
           Height = 20
           Top = 0
-          Width = 198
+          Width = 202
           Align = alTop
           BevelOuter = bvNone
           Caption = '?'
@@ -74,7 +74,7 @@ object fmMain: TfmMain
       object Gauge: TGauge
         Left = 752
         Height = 19
-        Top = 88
+        Top = 50
         Width = 112
         Color = clBtnFace
         DoubleBuffered = False
@@ -83,7 +83,7 @@ object fmMain: TfmMain
       object ButtonCancel: TATButton
         Left = 760
         Height = 25
-        Top = 176
+        Top = 20
         Width = 100
         TabStop = True
         TabOrder = 2
@@ -94,8 +94,8 @@ object fmMain: TfmMain
     object PanelBottom: TPanel
       Left = 0
       Height = 90
-      Top = 241
-      Width = 868
+      Top = 245
+      Width = 872
       Align = alBottom
       BevelOuter = bvNone
       Color = clSilver
@@ -106,8 +106,8 @@ object fmMain: TfmMain
       Cursor = crVSplit
       Left = 0
       Height = 5
-      Top = 236
-      Width = 868
+      Top = 240
+      Width = 872
       Align = alBottom
       AutoSnap = False
       MinSize = 60
@@ -119,7 +119,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 24
       Top = 0
-      Width = 868
+      Width = 872
       Align = alTop
       BevelOuter = bvNone
       Color = clSilver
@@ -131,7 +131,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 134
       Top = 24
-      Width = 868
+      Width = 872
       Align = alTop
       Visible = False
     end
@@ -149,8 +149,8 @@ object fmMain: TfmMain
     object ToolbarBtm: TATButtonsToolbar
       Left = 0
       Height = 30
-      Top = 126
-      Width = 28
+      Top = 130
+      Width = 32
       Align = alBottom
       AutoSize = True
       BevelOuter = bvNone
@@ -163,9 +163,9 @@ object fmMain: TfmMain
     end
     object ToolbarSide: TATButtonsToolbar
       Left = 0
-      Height = 96
+      Height = 100
       Top = 0
-      Width = 28
+      Width = 32
       Align = alClient
       BevelOuter = bvNone
       Color = clSilver
@@ -179,8 +179,8 @@ object fmMain: TfmMain
     object ToolbarBtm2: TATButtonsToolbar
       Left = 0
       Height = 30
-      Top = 96
-      Width = 28
+      Top = 100
+      Width = 32
       Align = alBottom
       AutoSize = True
       BevelOuter = bvNone
