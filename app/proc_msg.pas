@@ -170,6 +170,9 @@ const
       'Main icon: Snipicons'+sLineBreak+
       '    http://www.snipicons.com/'+sLineBreak+
       '    License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
+      'Sidebar icons: Entypo'+sLineBreak+
+      '    https://www.iconfinder.com/iconsets/entypo'+sLineBreak+
+      '    License: CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
       '';
 
   msgCommandLineHelp =
