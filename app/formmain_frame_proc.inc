@@ -180,20 +180,6 @@ begin
   end;
 end;
 
-function TfmMain.GetTabNameLeft: string;
-var
-  Btn: TATButton;
-  i: integer;
-begin
-  Result:= '';
-  for i:= 0 to ToolbarSide.ButtonCount-1 do
-  begin
-    Btn:= ToolbarSide.Buttons[i];
-    if Btn.Checked then
-      Exit(Btn.Caption);
-  end;
-end;
-
 procedure TfmMain.FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt,
   ANewPnt: TPoint);
 var

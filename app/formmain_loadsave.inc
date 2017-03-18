@@ -34,7 +34,7 @@ begin
       c.SetValue('show_bottom', ShowBottom);
       c.SetValue('size_side', PanelLeft.Width);
       c.SetValue('size_bottom', PanelBottom.Height);
-      c.SetValue('tab_left', TabNameLeft);
+      c.SetValue('tab_left', SidebarPanel);
     end;
 
     ////recents
@@ -300,7 +300,7 @@ begin
   c:= TJSONConfig.Create(nil);
   try
     c.Filename:= GetAppPath(cFileOptionsHistory);
-    TabNameLeft:= c.GetValue('tab_left', '');
+    SidebarPanel:= c.GetValue('tab_left', '');
   finally
     FreeAndNil(c);
   end;

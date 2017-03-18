@@ -67,7 +67,7 @@ procedure TfmMain.UpdateSidebarPanels(const ACaption: string);
 var
   i: integer;
 begin
-  FLastSidePanel:= ACaption;
+  FLastSidebarPanel:= ACaption;
   PanelLeftTitle.Caption:= ACaption;
   CurrentEditor.DoCommand(cmd_ShowSidePanelAsIs);
 
@@ -253,7 +253,7 @@ begin
   for i:= 0 to ToolbarSide.ButtonCount-1 do
   begin
     Btn:= ToolbarSide.Buttons[i];
-    Btn.Checked:= SameText(Btn.Caption, FLastSidePanel) and PanelLeft.Visible;
+    Btn.Checked:= SameText(Btn.Caption, FLastSidebarPanel) and PanelLeft.Visible;
   end;
 end;
 

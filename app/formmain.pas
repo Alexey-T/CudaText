@@ -547,7 +547,7 @@ type
     FPyComplete_CaretPos: TPoint;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
-    FLastSidePanel: string;
+    FLastSidebarPanel: string;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -645,7 +645,6 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
-    function GetTabNameLeft: string;
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
@@ -655,7 +654,6 @@ type
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
-    procedure SetTabNameLeft(const AValue: string);
     procedure SetThemeSyntax(const AValue: string);
     procedure SetThemeUi(const AValue: string);
     function SFindOptionsToTextHint: string;
@@ -705,7 +703,7 @@ type
     procedure DoShowOutput;
     procedure DoShowValidate;
     procedure DoShowSearchResults;
-    procedure DoShowSidePanel(ATabCaption: string);
+    procedure DoShowSidePanel(const ATabCaption: string);
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
@@ -835,7 +833,7 @@ type
     property ShowTabsMain: boolean read GetShowTabsMain write SetShowTabsMain;
     property ThemeUi: string read FThemeUi write SetThemeUi;
     property ThemeSyntax: string read FThemeSyntax write SetThemeSyntax;
-    property TabNameLeft: string read GetTabNameLeft write SetTabNameLeft;
+    property SidebarPanel: string read FLastSidebarPanel write DoShowSidePanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
   end;
@@ -1247,7 +1245,7 @@ begin
 
   FLastDirOfOpenDlg:= '';
   FLastLexerForPluginsMenu:= '-';
-  FLastSidePanel:= '';
+  FLastSidebarPanel:= '';
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -2719,7 +2717,7 @@ begin
   TabsBottom.TabIndex:= 3;
 end;
 
-procedure TfmMain.DoShowSidePanel(ATabCaption: string);
+procedure TfmMain.DoShowSidePanel(const ATabCaption: string);
 begin
   if ATabCaption='-' then
   begin
@@ -2810,22 +2808,6 @@ var
 begin
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     Groups.Pages[i].Tabs.Visible:= AValue;
-end;
-
-procedure TfmMain.SetTabNameLeft(const AValue: string);
-var
-  Btn: TATButton;
-  i: integer;
-begin
-  for i:= 0 to ToolbarSide.ButtonCount-1 do
-  begin
-    Btn:= ToolbarSide.Buttons[i];
-    if Btn.Caption=AValue then
-    begin
-      Btn.OnClick(Btn);
-      Break
-    end;
-  end;
 end;
 
 
