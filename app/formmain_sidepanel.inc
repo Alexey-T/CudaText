@@ -54,12 +54,21 @@ begin
     if Btn.Checked then
     begin
       SCaption:= Btn.Caption;
-      FLastSidePanel:= SCaption;
-      PanelLeftTitle.Caption:= SCaption;
     end;
   end;
-  if SCaption='' then Exit;
 
+  if SCaption<>'' then
+    UpdateSidebarPanels(SCaption)
+  else
+    CurrentEditor.DoCommand(cmd_HideSidePanel);
+end;
+
+procedure TfmMain.UpdateSidebarPanels(const ACaption: string);
+var
+  i: integer;
+begin
+  FLastSidePanel:= ACaption;
+  PanelLeftTitle.Caption:= ACaption;
   CurrentEditor.DoCommand(cmd_ShowSidePanelAsIs);
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
@@ -68,7 +77,7 @@ begin
       if ItemCaption='' then Break;
       if Assigned(ItemTreeview) then
       begin
-        ItemTreeview.Visible:= ItemCaption=SCaption;
+        ItemTreeview.Visible:= ItemCaption=ACaption;
         if PanelLeft.Visible then
           if ItemTreeview.Visible then
             if ItemTreeview.CanFocus then
@@ -77,7 +86,7 @@ begin
       else
       if Assigned(ItemListbox) then
       begin
-        ItemListbox.Visible:= ItemCaption=SCaption;
+        ItemListbox.Visible:= ItemCaption=ACaption;
         if PanelLeft.Visible then
           if ItemListbox.Visible then
             if ItemListbox.CanFocus then
@@ -230,17 +239,10 @@ begin
 end;
 
 function TfmMain.DoSidebar_ActivateTab(const ACaption: string): boolean;
-var
-  Btn: TATButton;
-  Num: integer;
 begin
-  Num:= DoSidebar_CaptionToTabIndex(ACaption);
-  Result:= Num>=0;
+  Result:= DoSidebar_CaptionToTabIndex(ACaption)>=0;
   if Result then
-  begin
-    Btn:= ToolbarSide.Buttons[Num];
-    Btn.OnClick(Btn);
-  end;
+    UpdateSidebarPanels(ACaption);
 end;
 
 procedure TfmMain.UpdateSidebarButtons;

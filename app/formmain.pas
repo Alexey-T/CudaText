@@ -705,7 +705,7 @@ type
     procedure DoShowOutput;
     procedure DoShowValidate;
     procedure DoShowSearchResults;
-    procedure DoShowSidePanel(const ATabCaption: string);
+    procedure DoShowSidePanel(ATabCaption: string);
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
@@ -801,6 +801,7 @@ type
     procedure SetLineEnds(Val: TATLineEnds);
     procedure MsgStatus(const AText: string);
     procedure UpdateSidebarButtons;
+    procedure UpdateSidebarPanels(const ACaption: string);
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
@@ -1246,6 +1247,7 @@ begin
 
   FLastDirOfOpenDlg:= '';
   FLastLexerForPluginsMenu:= '-';
+  FLastSidePanel:= '';
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -2241,10 +2243,12 @@ end;
 
 procedure TfmMain.SetShowSidePanel(AValue: boolean);
 begin
-  if GetShowSidePanel=AValue then Exit;
-  PanelLeft.Visible:= AValue;
-  SplitterVert.Visible:= AValue;
-  SplitterVert.Left:= PanelLeft.Width;
+  if GetShowSidePanel<>AValue then
+  begin
+    PanelLeft.Visible:= AValue;
+    SplitterVert.Visible:= AValue;
+    SplitterVert.Left:= PanelLeft.Width;
+  end;
 
   if AValue then
     UpdateTree(true);
@@ -2715,15 +2719,15 @@ begin
   TabsBottom.TabIndex:= 3;
 end;
 
-procedure TfmMain.DoShowSidePanel(const ATabCaption: string);
+procedure TfmMain.DoShowSidePanel(ATabCaption: string);
 begin
   if ATabCaption='-' then
   begin
-    if PanelLeft.Visible then DoToggleSidePanel;
+    ShowSidePanel:= false;
   end
   else
   begin
-    if not PanelLeft.Visible then DoToggleSidePanel;
+    ShowSidePanel:= true;
     if ATabCaption<>'' then
       DoSidebar_ActivateTab(ATabCaption);
   end;

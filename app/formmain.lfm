@@ -63,7 +63,7 @@ object fmMain: TfmMain
           Width = 198
           Align = alTop
           BevelOuter = bvNone
-          Caption = 'PanelLeftTitle'
+          Caption = '?'
           TabOrder = 0
         end
       end
