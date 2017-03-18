@@ -46,8 +46,6 @@ begin
     Exit
   end;
 
-  CurrentEditor.DoCommand(cmd_ShowSidePanelAsIs);
-
   SCaption:= '';
   for i:= 0 to ToolbarSide.ButtonCount-1 do
   begin
@@ -56,10 +54,13 @@ begin
     if Btn.Checked then
     begin
       SCaption:= Btn.Caption;
+      FLastSidePanel:= SCaption;
       PanelLeftTitle.Caption:= SCaption;
     end;
   end;
   if SCaption='' then Exit;
+
+  CurrentEditor.DoCommand(cmd_ShowSidePanelAsIs);
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
@@ -239,6 +240,18 @@ begin
   begin
     Btn:= ToolbarSide.Buttons[Num];
     Btn.OnClick(Btn);
+  end;
+end;
+
+procedure TfmMain.UpdateSidebarButtons;
+var
+  Btn: TATButton;
+  i: integer;
+begin
+  for i:= 0 to ToolbarSide.ButtonCount-1 do
+  begin
+    Btn:= ToolbarSide.Buttons[i];
+    Btn.Checked:= SameText(Btn.Caption, FLastSidePanel) and PanelLeft.Visible;
   end;
 end;
 

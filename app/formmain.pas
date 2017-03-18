@@ -547,6 +547,7 @@ type
     FPyComplete_CaretPos: TPoint;
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
+    FLastSidePanel: string;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -799,6 +800,7 @@ type
     procedure SetFullScreen(AValue: boolean);
     procedure SetLineEnds(Val: TATLineEnds);
     procedure MsgStatus(const AText: string);
+    procedure UpdateSidebarButtons;
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
@@ -2243,8 +2245,10 @@ begin
   PanelLeft.Visible:= AValue;
   SplitterVert.Visible:= AValue;
   SplitterVert.Left:= PanelLeft.Width;
+
   if AValue then
     UpdateTree(true);
+  UpdateSidebarButtons;
 end;
 
 
@@ -2723,6 +2727,8 @@ begin
     if ATabCaption<>'' then
       DoSidebar_ActivateTab(ATabCaption);
   end;
+
+  UpdateSidebarButtons;
 end;
 
 procedure TfmMain.SetFullScreen(AValue: boolean);
