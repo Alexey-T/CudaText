@@ -53,6 +53,7 @@ type
     cDirDataAutocomplete,
     cDirDataAutocompleteSpec,
     cDirDataLangs,
+    cDirDataSideIcons,
     cDirReadme,
     cDirLastInstalledAddon,
     cDirPy,
@@ -608,6 +609,10 @@ begin
     cDirDataLangs:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lang';
+      end;
+    cDirDataSideIcons:
+      begin
+        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'sideicons';
       end;
     cDirReadme:
       begin

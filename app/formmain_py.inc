@@ -2066,9 +2066,9 @@ var
   Id, i: integer;
   Ptr: PChar;
   Str, Str1, Str2, Str3: string;
-  StrCaption, StrId, StrCmd, StrIndex: string;
+  StrCaption, StrId, StrFilename, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
-  SplitPos, SplitTotal: integer;
+  SplitPos, SplitTotal, NImageIndex: integer;
   ParamInt: integer;
   ParamBool: boolean;
   ParamRect: TRect;
@@ -2302,7 +2302,19 @@ begin
             StrCaption:= SGetItem(Str); //caption
             StrIndex:= SGetItem(Str); //tab index
             StrId:= SGetItem(Str); //type of control
-            ok:= fmMain.DoSidebar_AddTab(StrCaption, StrId, StrToIntDef(StrIndex, -1));
+            StrFilename:= SGetItem(Str); //icon filename
+
+            if StrFilename='' then
+              StrFilename:= LowerCase(StrCaption)+'.png';
+            if ExtractFileDir(StrFilename)='' then
+              StrFilename:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+StrFilename;
+
+            if UpdateImagelistWithIconFromFile(fmMain.ImageListSide, StrFilename) then
+              NImageIndex:= fmMain.ImageListSide.Count-1
+            else
+              NImageIndex:= -1;
+
+            ok:= fmMain.DoSidebar_AddTab(StrCaption, StrId, StrToIntDef(StrIndex, -1), NImageIndex);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

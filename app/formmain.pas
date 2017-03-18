@@ -102,6 +102,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    ImageListSide: TImageList;
     PanelLeftTitle: TPanel;
     ToolbarSide: TATButtonsToolbar;
     ButtonCancel: TATButton;
@@ -580,7 +581,7 @@ type
     procedure DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
     function DoSidebar_ActivateTab(const ACaption: string): boolean;
-    function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+    function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex, AImageIndex: integer): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;
@@ -1104,6 +1105,7 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
+  Str: string;
   i: integer;
 begin
   InitToolbar;
@@ -1212,7 +1214,9 @@ begin
   TabsBottom.AddTab(-1, 'Validate', nil);
   TabsBottom.OnTabClick:= @DoBottom_OnTabClick;
 
-  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', true);
+  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+'tree.png';
+  UpdateImagelistWithIconFromFile(ImageListSide, Str);
+  ToolbarSide.AddButton(0, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', true);
 
   with FAppSidePanels[0] do
   begin

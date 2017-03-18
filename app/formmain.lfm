@@ -147,6 +147,7 @@ object fmMain: TfmMain
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
+      Images = ImageListSide
       KindVertical = True
     end
   end
@@ -2231,5 +2232,12 @@ object fmMain: TfmMain
     OnTimer = TimerStatusAltTimer
     left = 328
     top = 144
+  end
+  object ImageListSide: TImageList
+    AllocBy = 8
+    Height = 20
+    Width = 20
+    left = 721
+    top = 263
   end
 end

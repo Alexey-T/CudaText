@@ -4,7 +4,8 @@
   * changed
 
 
-1.7.2.1
+1.7.3
+* different layout of sidebar tabs (I find it more useful)
 + Ctrl+[drag-drop] does copying of block
 
 1.7.2

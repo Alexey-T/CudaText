@@ -194,7 +194,8 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex: integer): boolean;
+function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string;
+  ATabIndex, AImageIndex: integer): boolean;
 var
   Num: integer;
 begin
@@ -212,7 +213,7 @@ begin
   else
     exit(false);
 
-  ToolbarSide.AddButton(-1, @DoSidebar_OnTabClick, ACaption, ACaption, '', true);
+  ToolbarSide.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', true);
   ToolbarSide.UpdateControls;
   Result:= true;
 end;
