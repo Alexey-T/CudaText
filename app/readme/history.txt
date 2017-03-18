@@ -5,7 +5,8 @@
 
 
 1.7.3
-* different layout of sidebar tabs (I find it more useful)
+* different UI of sidebar tabs (I find it more useful)
++ theme color "side-toolbar BG"
 + Ctrl+[drag-drop] does copying of block
 
 1.7.2
