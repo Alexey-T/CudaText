@@ -766,7 +766,7 @@ type
     procedure SetLexerIndex(N: integer);
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
-    procedure SetShowBottom(Value: boolean);
+    procedure SetShowBottom(AValue: boolean);
     procedure SetShowSidePanel(AValue: boolean);
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
@@ -1254,6 +1254,7 @@ begin
   FLastDirOfOpenDlg:= '';
   FLastLexerForPluginsMenu:= '-';
   FLastSidebarPanel:= '';
+  FLastBottomPanel:= '';
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -1409,6 +1410,8 @@ begin
   UpdateMenuHotkeys;
 
   ActiveControl:= CurrentEditor;
+  UpdateSidebarButtons;
+  UpdateBottomButtons;
   UpdateStatus;
   DoLoadCommandLine;
 
@@ -2216,20 +2219,22 @@ begin
 end;
 
 
-procedure TfmMain.SetShowBottom(Value: boolean);
+procedure TfmMain.SetShowBottom(AValue: boolean);
 var
   bBottom: boolean;
 begin
-  if GetShowBottom=Value then exit;
-  bBottom:= IsFocusedBottom;
+  if GetShowBottom<>AValue then
+  begin
+    bBottom:= IsFocusedBottom;
 
-  PanelBottom.Visible:= Value;
-  SplitterHorz.Visible:= Value;
-  SplitterHorz.Top:= 0;
+    PanelBottom.Visible:= AValue;
+    SplitterHorz.Visible:= AValue;
+    SplitterHorz.Top:= 0;
 
-  if not Value then
-    if bBottom then
-      EditorFocus(CurrentEditor);
+    if not AValue then
+      if bBottom then
+        EditorFocus(CurrentEditor);
+  end;
 
   UpdateBottomButtons;
   UpdateStatus;
@@ -2695,29 +2700,24 @@ end;
 
 procedure TfmMain.DoShowConsole(AFocusEdit: boolean);
 begin
-  ShowBottom:= true;
-  DoShowBottomPanel('console');
+  DoShowBottomPanel('Console');
   if AFocusEdit then
     fmConsole.ed.SetFocus;
 end;
 
 procedure TfmMain.DoShowOutput;
 begin
-  ShowBottom:= true;
-  DoShowBottomPanel('output');
+  DoShowBottomPanel('Output');
 end;
 
 procedure TfmMain.DoShowValidate;
 begin
-  ShowBottom:= true;
-  DoShowBottomPanel('validate');
+  DoShowBottomPanel('Validate');
 end;
 
 procedure TfmMain.DoShowSearchResults;
 begin
-  ShowBottom:= true;
-  //TabsBottom.TabIndex:= 3;
-  //todo
+  //no need yet
 end;
 
 procedure TfmMain.DoShowSidePanel(const ATabCaption: string);

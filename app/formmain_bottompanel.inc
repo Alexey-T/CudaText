@@ -236,7 +236,7 @@ begin
   for i:= 0 to ToolbarBtm.ButtonCount-1 do
   begin
     Btn:= ToolbarBtm.Buttons[i];
-    Btn.Checked:= SameText(Btn.Caption, FLastBottomPanel) and PanelBottom.Visible;
+    Btn.Checked:= SameText(Btn.Caption, FLastBottomPanel) and ShowBottom;
   end;
 end;
 

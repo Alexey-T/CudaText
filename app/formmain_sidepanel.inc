@@ -271,7 +271,7 @@ begin
   for i:= 0 to ToolbarSide.ButtonCount-1 do
   begin
     Btn:= ToolbarSide.Buttons[i];
-    Btn.Checked:= SameText(Btn.Caption, FLastSidebarPanel) and PanelLeft.Visible;
+    Btn.Checked:= SameText(Btn.Caption, FLastSidebarPanel) and ShowSidePanel;
   end;
 end;
 
