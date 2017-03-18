@@ -102,9 +102,9 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    PanelSide: TPanel;
     ImageListSide: TImageList;
     PanelLeftTitle: TPanel;
-    ToolbarSide: TATButtonsToolbar;
     ButtonCancel: TATButton;
     FontDlg: TFontDialog;
     Gauge: TGauge;
@@ -121,7 +121,6 @@ type
     mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
     PaintTest: TPaintBox;
-    PanelSide: TPanel;
     Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
@@ -374,6 +373,8 @@ type
     TimerCmd: TTimer;
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
+    ToolbarBtm: TATButtonsToolbar;
+    ToolbarSide: TATButtonsToolbar;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
@@ -495,7 +496,6 @@ type
     Status: TATStatus;
     StatusAlt: TATStatus;
     Groups: TATGroups;
-    TabsBottom: TATTabs;
 
     mnuViewWrap_Alt,
     mnuViewNums_Alt,
@@ -549,6 +549,7 @@ type
     FLastDirOfOpenDlg: string;
     FLastLexerForPluginsMenu: string;
     FLastSidebarPanel: string;
+    FLastBottomPanel: string;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -558,6 +559,7 @@ type
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
+    procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_AddTab_Wrapper(ACaption, AControlType,
       AIconFilename: string; ATabIndex: integer): boolean;
     procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
@@ -594,7 +596,7 @@ type
       ATabIndex: integer): boolean;
     function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
     function DoBottom_ActivateTab(const ACaption: string): boolean;
-    function DoBottom_CaptionToTabIndex(const Str: string): integer;
+    function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
@@ -769,6 +771,7 @@ type
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
+    procedure UpdateBottomPanels(const ACaption: string);
     procedure UpdateEditorTabsize(N: integer);
     procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
@@ -806,6 +809,7 @@ type
     procedure UpdateSidebarPanels(const ACaption: string);
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
+    procedure UpdateBottomButtons;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateToolbar;
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
@@ -1206,19 +1210,16 @@ begin
   Groups.OnTabPopup:= @DoOnTabPopup;
   Groups.OnTabOver:= @DoOnTabOver;
 
-  TabsBottom:= TATTabs.Create(Self);
-  TabsBottom.Parent:= PanelBottom;
-  TabsBottom.Align:= alBottom;
-  TabsBottom.TabDragEnabled:= false;
+  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
 
-  TabsBottom.AddTab(-1, 'Console', nil);
-  TabsBottom.AddTab(-1, 'Output', nil);
-  TabsBottom.AddTab(-1, 'Validate', nil);
-  TabsBottom.OnTabClick:= @DoBottom_OnTabClick;
-
-  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+'tree.png';
-  UpdateImagelistWithIconFromFile(ImageListSide, Str);
   ToolbarSide.AddButton(0, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(1, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(2, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(3, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
 
   with FAppSidePanels[0] do
   begin
@@ -1376,12 +1377,9 @@ end;
 procedure TfmMain.FormShow(Sender: TObject);
 begin
   if FHandledOnShow then exit;
-  TabsBottom.TabIndex:= 0;
 
-  //ToolbarSide.Align=alClient workd bad in Laz1.7, its width less by 2-3pix
-  ToolbarSide.Align:= alLeft;
-  ToolbarSide.Width:= ToolbarSide.Parent.Width;
   ToolbarSide.UpdateControls;
+  ToolbarBtm.UpdateControls;
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
@@ -1830,7 +1828,6 @@ begin
       Editor.DoubleBuffered:= UiOps.DoubleBuffered;
       Editor2.DoubleBuffered:= UiOps.DoubleBuffered;
     end;
-  TabsBottom.DoubleBuffered:= UiOps.DoubleBuffered;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
   ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -1859,19 +1856,6 @@ begin
       if Assigned(ItemTreeview) then
         ItemTreeview.ShowLines:= UiOps.TreeShowLines;
     end;
-
-  TabsBottom.TabBottom:= true;
-  TabsBottom.TabShowPlus:= false;
-  TabsBottom.TabShowMenu:= false;
-  TabsBottom.TabShowClose:= tbShowNone;
-  TabsBottom.TabDoubleClickClose:= false;
-  TabsBottom.TabMiddleClickClose:= false;
-  TabsBottom.TabAngle:= UiOps.TabAngle;
-  TabsBottom.TabIndentTop:= 0;
-  TabsBottom.TabIndentInit:= UiOps.TabIndentInit;
-  TabsBottom.Height:= UiOps.TabHeight;
-  TabsBottom.TabHeight:= UiOps.TabHeightInner;
-  TabsBottom.TabWidthMax:= UiOps.TabWidth;
 
   PanelLeftTitle.Height:= UiOps.TabHeight;
 
@@ -2247,6 +2231,7 @@ begin
     if bBottom then
       EditorFocus(CurrentEditor);
 
+  UpdateBottomButtons;
   UpdateStatus;
 end;
 
@@ -2711,7 +2696,7 @@ end;
 procedure TfmMain.DoShowConsole(AFocusEdit: boolean);
 begin
   ShowBottom:= true;
-  TabsBottom.TabIndex:= 0;
+  DoShowBottomPanel('console');
   if AFocusEdit then
     fmConsole.ed.SetFocus;
 end;
@@ -2719,19 +2704,20 @@ end;
 procedure TfmMain.DoShowOutput;
 begin
   ShowBottom:= true;
-  TabsBottom.TabIndex:= 1;
+  DoShowBottomPanel('output');
 end;
 
 procedure TfmMain.DoShowValidate;
 begin
   ShowBottom:= true;
-  TabsBottom.TabIndex:= 2;
+  DoShowBottomPanel('validate');
 end;
 
 procedure TfmMain.DoShowSearchResults;
 begin
   ShowBottom:= true;
-  TabsBottom.TabIndex:= 3;
+  //TabsBottom.TabIndex:= 3;
+  //todo
 end;
 
 procedure TfmMain.DoShowSidePanel(const ATabCaption: string);
@@ -2748,6 +2734,23 @@ begin
   end;
 
   UpdateSidebarButtons;
+end;
+
+
+procedure TfmMain.DoShowBottomPanel(const ATabCaption: string);
+begin
+  if ATabCaption='-' then
+  begin
+    ShowBottom:= false;
+  end
+  else
+  begin
+    ShowBottom:= true;
+    if ATabCaption<>'' then
+      DoBottom_ActivateTab(ATabCaption);
+  end;
+
+  UpdateBottomButtons;
 end;
 
 procedure TfmMain.SetFullScreen(AValue: boolean);
@@ -3660,7 +3663,7 @@ begin
   Props.Data.Listbox:= Listbox;
 
   FAppBottomPanelsListbox.AddObject(SCaption, Props);
-  TabsBottom.AddTab(-1, SCaption, nil);
+  ToolbarBtm.AddButton(-1, @DoBottom_OnTabClick, SCaption, SCaption, '', UiOps.ShowSidebarCaptions);
   Result:= true;
 end;
 
@@ -3668,7 +3671,7 @@ end;
 function TfmMain.DoPyPanelDelete(const ACaption: string): boolean;
 var
   PropObject: TAppPanelPropsClass;
-  Data: TATTabData;
+  Btn: TATButton;
   N: integer;
 begin
   Result:= false;
@@ -3680,13 +3683,14 @@ begin
   PropObject.Free;
   FAppBottomPanelsListbox.Delete(N);
 
-  for N:= TabsBottom.TabCount-1 downto 0 do
+  for N:= ToolbarBtm.ButtonCount-1 downto 0 do
   begin
-    Data:= TabsBottom.GetTabData(N);
-    if Assigned(Data) and (Data.TabCaption=ACaption) then
+    Btn:= ToolbarBtm.Buttons[N];
+    if SameText(Btn.Caption, ACaption) then
     begin
-      TabsBottom.DeleteTab(N, false, false);
-      break
+      Btn.Free;
+      ToolbarBtm.UpdateControls;
+      Break
     end;
   end;
 
@@ -3695,20 +3699,9 @@ end;
 
 
 function TfmMain.DoPyPanelFocus(const ACaption: string): boolean;
-var
-  Data: TATTabData;
-  i: integer;
 begin
-  Result:= false;
-  for i:= 0 to TabsBottom.TabCount-1 do
-  begin
-    Data:= TabsBottom.GetTabData(i);
-    if Assigned(Data) and (Data.TabCaption=ACaption) then
-    begin
-      TabsBottom.TabIndex:= i;
-      exit(true);
-    end;
-  end;
+  Result:= true;
+  DoShowBottomPanel(ACaption);
 end;
 
 

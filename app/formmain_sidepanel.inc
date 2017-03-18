@@ -42,7 +42,7 @@ begin
   if Btn.Checked then
   begin
     Btn.Checked:= false;
-    CurrentEditor.DoCommand(cmd_HideSidePanel);
+    ShowSidePanel:= false;
     Exit
   end;
 
@@ -60,7 +60,7 @@ begin
   if SCaption<>'' then
     UpdateSidebarPanels(SCaption)
   else
-    CurrentEditor.DoCommand(cmd_HideSidePanel);
+    ShowSidePanel:= false;
 end;
 
 procedure TfmMain.UpdateSidebarPanels(const ACaption: string);
@@ -69,7 +69,7 @@ var
 begin
   FLastSidebarPanel:= ACaption;
   PanelLeftTitle.Caption:= ACaption;
-  CurrentEditor.DoCommand(cmd_ShowSidePanelAsIs);
+  ShowSidePanel:= true;
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do

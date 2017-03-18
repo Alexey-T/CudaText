@@ -140,24 +140,38 @@ object fmMain: TfmMain
     Left = 0
     Height = 73
     Top = 0
-    Width = 30
+    Width = 32
     Align = alLeft
     BevelOuter = bvNone
     ClientHeight = 73
-    ClientWidth = 30
+    ClientWidth = 32
     TabOrder = 1
+    object ToolbarBtm: TATButtonsToolbar
+      Left = 0
+      Height = 1
+      Top = 72
+      Width = 32
+      Align = alBottom
+      AutoSize = True
+      BevelOuter = bvNone
+      Color = clOlive
+      ParentColor = False
+      TabOrder = 0
+      Images = ImageListSide
+      KindVertical = True
+    end
     object ToolbarSide: TATButtonsToolbar
       Left = 0
-      Height = 73
+      Height = 72
       Top = 0
-      Width = 30
+      Width = 32
       Align = alClient
       BevelOuter = bvNone
       Color = clSilver
       ParentColor = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 0
+      TabOrder = 1
       Images = ImageListSide
       KindVertical = True
     end

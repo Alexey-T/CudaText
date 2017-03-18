@@ -18,10 +18,44 @@ end;
 
 procedure TfmMain.DoBottom_OnTabClick(Sender: TObject);
 var
+  Btn: TATButton;
   SCaption: string;
+  i: integer;
+begin
+  Btn:= Sender as TATButton;
+  if Btn.Checked then
+  begin
+    Btn.Checked:= false;
+    ShowBottom:= false;
+    Exit
+  end;
+
+  SCaption:= '';
+  for i:= 0 to ToolbarBtm.ButtonCount-1 do
+  begin
+    Btn:= ToolbarBtm.Buttons[i];
+    Btn.Checked:= Btn=Sender;
+    if Btn.Checked then
+    begin
+      SCaption:= Btn.Caption;
+    end;
+  end;
+
+  if SCaption<>'' then
+    UpdateBottomPanels(SCaption)
+  else
+    ShowBottom:= false;
+end;
+
+
+procedure TfmMain.UpdateBottomPanels(const ACaption: string);
+var
   Ctl: TWinControl;
   i: integer;
 begin
+  FLastBottomPanel:= ACaption;
+  ShowBottom:= true;
+
   //hide std panels
   fmConsole.Hide;
   ListboxOut.Hide;
@@ -43,60 +77,58 @@ begin
       Ctl.Hide;
   end;
 
-  case TabsBottom.TabIndex of
-    0:
-      begin
-        fmConsole.Show;
-        fmConsole.Ed.SetFocus;
-      end;
-    1:
-      begin
-        ListboxOut.Show;
-        ListboxOut.SetFocus;
-      end;
-    2:
-      begin
-        ListboxVal.Show;
-        ListboxVal.SetFocus;
-      end;
-    else
-      begin
-        SCaption:= TabsBottom.GetTabData(TabsBottom.TabIndex).TabCaption;
+  if SameText(ACaption, 'console') then
+  begin
+    fmConsole.Show;
+    fmConsole.Ed.SetFocus;
+  end
+  else
+  if SameText(ACaption, 'output') then
+  begin
+    ListboxOut.Show;
+    ListboxOut.SetFocus;
+  end
+  else
+  if SameText(ACaption, 'validate') then
+  begin
+    ListboxVal.Show;
+    ListboxVal.SetFocus;
+  end
+  else
+  begin
+    //tabs for api log_panel_add
+    i:= FAppBottomPanelsListbox.IndexOf(ACaption);
+    if i>=0 then
+    begin
+      Ctl:= (FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass).Data.Listbox;
+      Ctl.Show;
+      if PanelBottom.Visible then
+        if Ctl.CanFocus then
+          Ctl.SetFocus;
+    end;
 
-        //tabs for api log_panel_add
-        i:= FAppBottomPanelsListbox.IndexOf(SCaption);
-        if i>=0 then
+    //tabs for api proc_bottom_panel
+    for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
+      with FAppBottomPanels[i] do
+      begin
+        if ItemCaption='' then break;
+        if Assigned(ItemTreeview) then
         begin
-          Ctl:= (FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass).Data.Listbox;
-          Ctl.Show;
+          ItemTreeview.Visible:= SameText(ItemCaption, ACaption);
           if PanelBottom.Visible then
-            if Ctl.CanFocus then
-              Ctl.SetFocus;
+            if ItemTreeview.Visible then
+              if ItemTreeview.CanFocus then
+                ItemTreeview.SetFocus;
+        end
+        else
+        if Assigned(ItemListbox) then
+        begin
+          ItemListbox.Visible:= SameText(ItemCaption, ACaption);
+          if PanelBottom.Visible then
+            if ItemListbox.Visible then
+              if ItemListbox.CanFocus then
+                ItemListbox.SetFocus;
         end;
-
-        //tabs for api proc_bottom_panel
-        for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
-          with FAppBottomPanels[i] do
-          begin
-            if ItemCaption='' then break;
-            if Assigned(ItemTreeview) then
-            begin
-              ItemTreeview.Visible:= ItemCaption=SCaption;
-              if PanelBottom.Visible then
-                if ItemTreeview.Visible then
-                  if ItemTreeview.CanFocus then
-                    ItemTreeview.SetFocus;
-            end
-            else
-            if Assigned(ItemListbox) then
-            begin
-              ItemListbox.Visible:= ItemCaption=SCaption;
-              if PanelBottom.Visible then
-                if ItemListbox.Visible then
-                  if ItemListbox.CanFocus then
-                    ItemListbox.SetFocus;
-            end;
-          end;
       end;
   end;
 end;
@@ -132,17 +164,16 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_CaptionToTabIndex(const Str: string): integer;
+function TfmMain.DoBottom_CaptionToTabIndex(const ACaption: string): integer;
 var
-  Data: TATTabData;
+  Btn: TATButton;
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to TabsBottom.TabCount-1 do
+  for i:= 0 to ToolbarBtm.ButtonCount-1 do
   begin
-    Data:= TabsBottom.GetTabData(i);
-    if Assigned(Data) then
-      if Data.TabCaption=Str then exit(i)
+    Btn:= ToolbarBtm.Buttons[i];
+    if SameText(Btn.Caption, ACaption) then exit(i);
   end;
 end;
 
@@ -164,7 +195,7 @@ begin
   else
     exit(false);
 
-  TabsBottom.AddTab(ATabIndex, ACaption);
+  ToolbarBtm.AddButton(-1, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   Result:= true;
 end;
 
@@ -176,7 +207,8 @@ begin
   Result:= Num>=0;
   if Result then
   begin
-    fmMain.TabsBottom.DeleteTab(Num, false, false);
+    ToolbarBtm.Buttons[Num].Free;
+    ToolbarBtm.UpdateControls;
 
     //hard to remov array item, so hide it by "?"
     for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
@@ -185,19 +217,27 @@ begin
         FAppBottomPanels[i].ItemCaption:= '?';
         Break;
       end;
-
-    if (Num>0) and (fmMain.TabsBottom.TabIndex=Num) then
-      fmMain.TabsBottom.TabIndex:= Num-1;
   end;
 end;
 
 function TfmMain.DoBottom_ActivateTab(const ACaption: string): boolean;
-var
-  Num: integer;
 begin
-  Num:= DoBottom_CaptionToTabIndex(ACaption);
-  Result:= Num>=0;
+  Result:= DoBottom_CaptionToTabIndex(ACaption)>=0;
   if Result then
-    fmMain.TabsBottom.TabIndex:= Num;
+    UpdateBottomPanels(ACaption);
 end;
+
+
+procedure TfmMain.UpdateBottomButtons;
+var
+  Btn: TATButton;
+  i: integer;
+begin
+  for i:= 0 to ToolbarBtm.ButtonCount-1 do
+  begin
+    Btn:= ToolbarBtm.Buttons[i];
+    Btn.Checked:= SameText(Btn.Caption, FLastBottomPanel) and PanelBottom.Visible;
+  end;
+end;
+
 

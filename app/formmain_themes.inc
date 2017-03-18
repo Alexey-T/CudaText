@@ -30,8 +30,10 @@ begin
 
   Toolbar.Color:= GetAppColor('TabBg');
   Self.Color:= Toolbar.Color;
+
   PanelLeftTitle.Color:= Toolbar.Color;
   ToolbarSide.Color:= GetAppColor('SideBg');
+  ToolbarBtm.Color:= ToolbarSide.Color;
 
   Status.Font.Color:= GetAppColor('StatusFont');
   Status.Color:= GetAppColor('StatusBg');
@@ -76,16 +78,7 @@ begin
   Groups.SetTabOption(tabColorCloseXOver, GetAppColor('TabCloseXOver'));
   Groups.Invalidate;
 
-  TabsBottom.Font.Color:= GetAppColor('TabFont');
-  TabsBottom.ColorBg:= GetAppColor('TabBg');
-  TabsBottom.ColorTabActive:= GetAppColor('TabActive');
-  TabsBottom.ColorTabPassive:= GetAppColor('TabPassive');
-  TabsBottom.ColorTabOver:= GetAppColor('TabOver');
-  TabsBottom.ColorBorderActive:= GetAppColor('TabBorderActive');
-  TabsBottom.ColorBorderPassive:= GetAppColor('TabBorderPassive');
-  TabsBottom.Invalidate;
-
-  PanelLeftTitle.Font.Color:= TabsBottom.Font.Color;
+  PanelLeftTitle.Font.Color:= GetAppColor('TabFont');
 
   if assigned(fmGoto) then
   begin

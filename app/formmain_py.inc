@@ -2373,8 +2373,8 @@ begin
         APP_PROC_BOTTOMPANEL_ENUM:
           begin
             Str:= '';
-            for i:= 0 to fmMain.TabsBottom.TabCount-1 do
-              Str:= Str + IfThen(i>0, #10) + fmMain.TabsBottom.GetTabData(i).TabCaption;
+            for i:= 0 to fmMain.ToolbarBtm.ButtonCount-1 do
+              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarBtm.Buttons[i].Caption;
             Result:= PyString_FromString(PChar(Str));
           end;
 
