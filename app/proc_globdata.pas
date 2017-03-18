@@ -156,6 +156,7 @@ type
     StatusAltTime: integer;
     StatusTabsize: string;
 
+    ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
     ShowLastFiles: boolean;
     OneInstance: boolean;
@@ -961,6 +962,7 @@ begin
     StatusAltTime:= 7;
     StatusTabsize:= 'Tab size {tab}{_}';
 
+    ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
     ShowLastFiles:= true;
     OneInstance:= false;

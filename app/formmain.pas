@@ -558,6 +558,8 @@ type
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
+    function DoSidebar_AddTab_Wrapper(ACaption, AControlType,
+      AIconFilename: string; ATabIndex: integer): boolean;
     procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
@@ -1216,7 +1218,7 @@ begin
 
   Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+'tree.png';
   UpdateImagelistWithIconFromFile(ImageListSide, Str);
-  ToolbarSide.AddButton(0, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', true);
+  ToolbarSide.AddButton(0, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
 
   with FAppSidePanels[0] do
   begin

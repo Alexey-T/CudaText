@@ -194,6 +194,23 @@ begin
 end;
 
 
+function TfmMain.DoSidebar_AddTab_Wrapper(ACaption, AControlType, AIconFilename: string; ATabIndex: integer): boolean;
+var
+  NImageIndex: integer;
+begin
+  if AIconFilename='' then
+    AIconFilename:= LowerCase(ACaption)+'.png';
+  if ExtractFileDir(AIconFilename)='' then
+    AIconFilename:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+AIconFilename;
+
+  if UpdateImagelistWithIconFromFile(ImageListSide, AIconFilename) then
+    NImageIndex:= fmMain.ImageListSide.Count-1
+  else
+    NImageIndex:= -1;
+
+  Result:= DoSidebar_AddTab(ACaption, AControlType, ATabIndex, NImageIndex);
+end;
+
 function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string;
   ATabIndex, AImageIndex: integer): boolean;
 var
@@ -213,7 +230,7 @@ begin
   else
     exit(false);
 
-  ToolbarSide.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', true);
+  ToolbarSide.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   ToolbarSide.UpdateControls;
   Result:= true;
 end;
