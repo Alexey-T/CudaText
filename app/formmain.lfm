@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 225
+  Left = 421
   Height = 495
-  Top = 323
+  Top = 314
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
@@ -66,7 +66,7 @@ object fmMain: TfmMain
           Align = alTop
           BevelOuter = bvNone
           Caption = '?'
-          Color = clMedGray
+          Color = clGray
           ParentColor = False
           TabOrder = 0
         end
@@ -148,13 +148,14 @@ object fmMain: TfmMain
     TabOrder = 1
     object ToolbarBtm: TATButtonsToolbar
       Left = 0
-      Height = 1
-      Top = 72
+      Height = 30
+      Top = 43
       Width = 32
       Align = alBottom
       AutoSize = True
       BevelOuter = bvNone
-      Color = clOlive
+      Color = clGray
+      Constraints.MinHeight = 30
       ParentColor = False
       TabOrder = 0
       Images = ImageListSide
@@ -162,7 +163,7 @@ object fmMain: TfmMain
     end
     object ToolbarSide: TATButtonsToolbar
       Left = 0
-      Height = 72
+      Height = 43
       Top = 0
       Width = 32
       Align = alClient
