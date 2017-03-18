@@ -3666,6 +3666,7 @@ begin
 
   FAppBottomPanelsListbox.AddObject(SCaption, Props);
   ToolbarBtm.AddButton(NImageIndex, @DoBottom_OnTabClick, SCaption, SCaption, '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.UpdateControls;
   Result:= true;
 end;
 
