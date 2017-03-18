@@ -280,15 +280,14 @@ begin
     DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
 
+    DoTranslateToolbarButtonHint(ToolbarSide, 0, ini.ReadString('ui', 't_tre', 'Tree'));
+    //FAppSidePanels[0].ItemCaption:= s;
+    //
     DoTranslateToolbarButtonHint(ToolbarBtm, 0, ini.ReadString('ui', 't_con', 'Console'));
     DoTranslateToolbarButtonHint(ToolbarBtm, 1, ini.ReadString('ui', 't_out', 'Output'));
     DoTranslateToolbarButtonHint(ToolbarBtm, 2, ini.ReadString('ui', 't_val', 'Validate'));
-
-    //Tree panel
-    s:= ini.ReadString('ui', 't_tre', 'Tree');
-    DoTranslateToolbarButtonHint(ToolbarSide, 0, S);
-    //DoApplyTabCaption(TabsLeft, 0, s);
-    FAppSidePanels[0].ItemCaption:= s;
+    //
+    DoTranslateToolbarButtonHint(ToolbarBtm2, 0, ini.ReadString('ui', 't_addon', 'Install add-on'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
