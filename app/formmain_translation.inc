@@ -1,13 +1,11 @@
 {$ifdef nn}begin end;{$endif}
 
-procedure DoApplyTabCaption(ATabs: TATTabs; AIndex: integer; const Str: string);
+procedure DoTranslateToolbarButtonHint(AToolbar: TATButtonsToolbar; AIndex: integer; const AText: string);
 var
-  data: TATTabData;
+  Btn: TATButton;
 begin
-  data:= ATabs.GetTabData(AIndex);
-  if Assigned(data) then
-    data.TabCaption:= Str;
-  ATabs.Invalidate;
+  Btn:= AToolbar.Buttons[AIndex];
+  Btn.Hint:= AText;
 end;
 
 procedure DoLocMenuitem(ini: TIniFile; c: TMenuItem; const ASection, AKey: string);
@@ -282,12 +280,13 @@ begin
     DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
 
-    //DoApplyTabCaption(TabsBottom, 0, ini.ReadString('ui', 't_con', 'Console'));
-    //DoApplyTabCaption(TabsBottom, 1, ini.ReadString('ui', 't_out', 'Output'));
-    //DoApplyTabCaption(TabsBottom, 2, ini.ReadString('ui', 't_val', 'Validate'));
+    DoTranslateToolbarButtonHint(ToolbarBtm, 0, ini.ReadString('ui', 't_con', 'Console'));
+    DoTranslateToolbarButtonHint(ToolbarBtm, 1, ini.ReadString('ui', 't_out', 'Output'));
+    DoTranslateToolbarButtonHint(ToolbarBtm, 2, ini.ReadString('ui', 't_val', 'Validate'));
 
     //Tree panel
     s:= ini.ReadString('ui', 't_tre', 'Tree');
+    DoTranslateToolbarButtonHint(ToolbarSide, 0, S);
     //DoApplyTabCaption(TabsLeft, 0, s);
     FAppSidePanels[0].ItemCaption:= s;
 
