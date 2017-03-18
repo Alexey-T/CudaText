@@ -1377,6 +1377,10 @@ procedure TfmMain.FormShow(Sender: TObject);
 begin
   if FHandledOnShow then exit;
   TabsBottom.TabIndex:= 0;
+
+  //ToolbarSide.Align=alClient workd bad in Laz1.7, its width less by 2-3pix
+  ToolbarSide.Align:= alLeft;
+  ToolbarSide.Width:= ToolbarSide.Parent.Width;
   ToolbarSide.UpdateControls;
 
   DoOps_LoadCommandLineOptions;

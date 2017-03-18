@@ -30,6 +30,7 @@ begin
 
   Toolbar.Color:= GetAppColor('TabBg');
   Self.Color:= Toolbar.Color;
+  PanelLeftTitle.Color:= Toolbar.Color;
   ToolbarSide.Color:= GetAppColor('SideBg');
 
   Status.Font.Color:= GetAppColor('StatusFont');

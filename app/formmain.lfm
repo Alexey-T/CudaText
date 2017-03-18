@@ -1,11 +1,11 @@
 object fmMain: TfmMain
-  Left = 408
-  Height = 526
-  Top = 354
+  Left = 225
+  Height = 495
+  Top = 323
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
-  ClientHeight = 526
+  ClientHeight = 495
   ClientWidth = 872
   Constraints.MinHeight = 100
   Constraints.MinWidth = 100
@@ -23,7 +23,7 @@ object fmMain: TfmMain
   object PanelAll: TPanel
     Left = 0
     Height = 422
-    Top = 104
+    Top = 73
     Width = 872
     Align = alBottom
     BevelOuter = bvNone
@@ -55,6 +55,8 @@ object fmMain: TfmMain
         BevelOuter = bvNone
         ClientHeight = 169
         ClientWidth = 202
+        Color = clSilver
+        ParentColor = False
         TabOrder = 1
         object PanelLeftTitle: TPanel
           Left = 0
@@ -64,13 +66,15 @@ object fmMain: TfmMain
           Align = alTop
           BevelOuter = bvNone
           Caption = '?'
+          Color = clMedGray
+          ParentColor = False
           TabOrder = 0
         end
       end
       object Gauge: TGauge
-        Left = 760
+        Left = 752
         Height = 19
-        Top = 152
+        Top = 88
         Width = 112
         Color = clBtnFace
         DoubleBuffered = False
@@ -94,6 +98,8 @@ object fmMain: TfmMain
       Width = 872
       Align = alBottom
       BevelOuter = bvNone
+      Color = clSilver
+      ParentColor = False
       TabOrder = 1
     end
     object SplitterHorz: TSplitter
@@ -105,6 +111,7 @@ object fmMain: TfmMain
       Align = alBottom
       AutoSnap = False
       MinSize = 60
+      ParentColor = False
       ResizeAnchor = akBottom
       ResizeStyle = rsPattern
     end
@@ -115,6 +122,8 @@ object fmMain: TfmMain
       Width = 872
       Align = alTop
       BevelOuter = bvNone
+      Color = clSilver
+      ParentColor = False
       TabOrder = 3
       Images = ImageListBar
     end
@@ -129,21 +138,23 @@ object fmMain: TfmMain
   end
   object PanelSide: TPanel
     Left = 0
-    Height = 104
+    Height = 73
     Top = 0
     Width = 30
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 104
+    ClientHeight = 73
     ClientWidth = 30
     TabOrder = 1
     object ToolbarSide: TATButtonsToolbar
       Left = 0
-      Height = 104
+      Height = 73
       Top = 0
       Width = 30
       Align = alClient
       BevelOuter = bvNone
+      Color = clSilver
+      ParentColor = False
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
