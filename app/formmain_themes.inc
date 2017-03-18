@@ -29,8 +29,8 @@ begin
   EditorApplyTheme(fmConsole.memo);
 
   Toolbar.Color:= GetAppColor('TabBg');
-  ToolbarSide.color:= GetAppColor('SideBg');
   Self.Color:= Toolbar.Color;
+  ToolbarSide.Color:= GetAppColor('SideBg');
 
   Status.Font.Color:= GetAppColor('StatusFont');
   Status.Color:= GetAppColor('StatusBg');
