@@ -54,14 +54,17 @@ Usage:
 
 Supported "keys" in command line:
 
+* --help - Show command-line help
 * --ro - Open all files from command line in read-only mode
-* --new - Ignore option "reuse single instance", and open new editor window
+* --new - Ignore option "ui_one_instance", and force new app window
+* --version - Show application version
+* --window=left,top,width,height - Set position/size of app window, 4 numbers specified, any can be missed to keep previous value
 
-To place caret in a file at line nnn, append ":nnn" to filename.
-To specify also the column mmm, append ":mmm" after line number.
+Notes:
 
-* cudatext filename:nnn
-* cudatext filename:nnn:mmm
+* Filenames can be with ":line" or ":line:column" suffix to place caret.
+* Folders cannot be loaded yet.
+* Projects (.cuda-proj files) can be loaded, if Project Manager plugin installed.
 
 == Mouse shortcuts ==
 
@@ -206,10 +209,10 @@ Example of file:
 This allows to open files with extension "mht" with custom lexer, and file with name "myconfig.conf" with another custom lexer.
 Value "-" means "don't activate lexer".
 
-Other method to specify this mapping is to call "Lexer properties" dialog. But:
+Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
 
-* This saves option to the lexer file (.lcf), so it will be reset on reinstall.
-* This can specify file extension, or name+extension, but cannot set file mask with "*".
+* It saves option to the lexer file (.lcf), so setting will be reset on reinstalling lexer.
+* It can specify file extension, or name+extension, but cannot set complex file mask with "*".
 
 ==Encodings==
 
