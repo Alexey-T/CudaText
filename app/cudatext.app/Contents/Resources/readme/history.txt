@@ -3,6 +3,12 @@
   - fixed
   * changed
 
+
+1.7.4
+* different UI of sidebar tabs (I find it more useful)
++ theme color "side-toolbar BG"
++ Ctrl+[drag-drop] does copying of block
+
 1.7.2
 + command-line key --help (Linux users angry)
 + command-line key --version
