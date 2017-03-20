@@ -292,6 +292,7 @@ var
 begin
   //empty string result means "no handlers for event"
   Result:= '';
+  if not PythonOK then exit;
   Frame:= CurrentFrame;
   if Frame=nil then exit;
   SCurLexer:= Frame.LexerName;

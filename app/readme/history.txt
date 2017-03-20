@@ -8,6 +8,7 @@
 * different UI of sidebar tabs (I find it more useful)
 + theme color "side-toolbar BG"
 + Ctrl+[drag-drop] does copying of block
+- Alt+[drag-drop] fixed if scrolls editor up/down 
 
 1.7.2
 + command-line key --help (Linux users angry)

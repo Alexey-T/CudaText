@@ -2271,6 +2271,8 @@ var
   dir: string;
   PathAppend: boolean;
 begin
+  if not PythonOK then exit;
+
   PathAppend:= true;
   SetLength(Str, 0);
 
@@ -3603,6 +3605,7 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
 begin
+  if not PythonOK then exit;
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
   PyLastCommandParam:= AParam;
