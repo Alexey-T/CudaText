@@ -2302,9 +2302,10 @@ begin
   PythonEngine.DllName:= ExtractFileName(UiOps.PyLibrary);
   PythonEngine.LoadDll;
 
-  try
-    GetPythonEngine.ExecString('import sys');
-  except
+  if PythonOK then
+    GetPythonEngine.ExecString('import sys')
+  else
+  begin
     FConsoleMustShow:= true;
     fmConsole.DoLogConsoleLine(msgCannotInitPython1);
     fmConsole.DoLogConsoleLine(msgCannotInitPython2);
