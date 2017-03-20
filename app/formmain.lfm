@@ -140,17 +140,17 @@ object fmMain: TfmMain
     Left = 0
     Height = 160
     Top = 0
-    Width = 32
+    Width = 30
     Align = alLeft
     BevelOuter = bvNone
     ClientHeight = 160
-    ClientWidth = 32
+    ClientWidth = 30
     TabOrder = 1
     object ToolbarBtm: TATButtonsToolbar
       Left = 0
       Height = 30
       Top = 130
-      Width = 32
+      Width = 30
       Align = alBottom
       AutoSize = True
       BevelOuter = bvNone
@@ -165,7 +165,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 100
       Top = 0
-      Width = 32
+      Width = 30
       Align = alClient
       BevelOuter = bvNone
       Color = clSilver
@@ -180,7 +180,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 30
       Top = 100
-      Width = 32
+      Width = 30
       Align = alBottom
       AutoSize = True
       BevelOuter = bvNone
