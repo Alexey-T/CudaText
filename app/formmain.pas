@@ -2132,6 +2132,7 @@ begin
   if Res=cOpGotoClose then
   begin
     DoDialogGoto_Hide;
+    UpdateStatus;
     Exit;
   end;
 
