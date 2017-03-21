@@ -7,6 +7,7 @@
 1.7.5
 - fix: moving window to 2nd monitor (Win10)
 - fix: auto-scroll-horz didnt start on moving mouse on scrollbar/minimap
+- fix: vertical block selection until file end
 
 1.7.4
 * different UI of sidebar tabs (I find it more useful)
