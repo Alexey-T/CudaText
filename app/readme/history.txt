@@ -6,7 +6,9 @@
 
 1.7.6
 + option "ui_sidebar_theme"
-+ sidebar buttons for "Search", "Go to"
+* sidebar buttons for "Search", "Go to"; deleted toolbar icons for the same
+* toolbar hidden by default
+* you should delete old files data/sideicons/*.png, now folder here
 
 1.7.5
 - fix: moving window to 2nd monitor (Win10)

@@ -356,7 +356,7 @@ begin
     FFinder.OptInSelection:= c.GetValue('/finder/insel', false);
 
     ////state
-    ShowToolbar:= c.GetValue('show_toolbar', true);
+    ShowToolbar:= c.GetValue('show_toolbar', false);
     ShowStatus:= c.GetValue('show_status', true);
     ShowSidePanel:= c.GetValue('show_sidepanel', true);
     ShowBottom:= c.GetValue('show_bottom', false);
