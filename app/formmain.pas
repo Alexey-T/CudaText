@@ -375,7 +375,7 @@ type
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
     ToolbarBtm: TATButtonsToolbar;
-    ToolbarBtm2: TATButtonsToolbar;
+    ToolbarAlt: TATButtonsToolbar;
     ToolbarSide: TATButtonsToolbar;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
@@ -1376,7 +1376,7 @@ begin
 
   ToolbarSide.UpdateControls;
   ToolbarBtm.UpdateControls;
-  ToolbarBtm2.UpdateControls;
+  ToolbarAlt.UpdateControls;
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);

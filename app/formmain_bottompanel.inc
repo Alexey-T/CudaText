@@ -54,13 +54,25 @@ begin
 end;
 
 procedure TfmMain.DoBottom_FindClick(Sender: TObject);
+var
+  bShown: boolean;
 begin
-  DoDialogFind(false);
+  bShown:= Assigned(fmFind) and fmFind.Visible;
+  if bShown then
+    fmFind.Hide
+  else
+    DoDialogFind(false);
 end;
 
 procedure TfmMain.DoBottom_GotoClick(Sender: TObject);
+var
+  bShown: boolean;
 begin
-  DoDialogGoto;
+  bShown:= Assigned(fmGoto) and fmGoto.Visible;
+  if bShown then
+    fmGoto.Hide
+  else
+    DoDialogGoto;
 end;
 
 procedure TfmMain.UpdateBottomPanels(const ACaption: string);

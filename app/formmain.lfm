@@ -176,7 +176,7 @@ object fmMain: TfmMain
       Images = ImageListSide
       KindVertical = True
     end
-    object ToolbarBtm2: TATButtonsToolbar
+    object ToolbarAlt: TATButtonsToolbar
       Left = 0
       Height = 30
       Top = 96

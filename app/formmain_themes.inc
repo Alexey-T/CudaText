@@ -34,7 +34,7 @@ begin
   PanelLeftTitle.Color:= Toolbar.Color;
   ToolbarSide.Color:= GetAppColor('SideBg');
   ToolbarBtm.Color:= ToolbarSide.Color;
-  ToolbarBtm2.Color:= ToolbarSide.Color;
+  ToolbarAlt.Color:= ToolbarSide.Color;
 
   Status.Font.Color:= GetAppColor('StatusFont');
   Status.Color:= GetAppColor('StatusBg');

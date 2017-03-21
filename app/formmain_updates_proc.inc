@@ -931,10 +931,10 @@ begin
   Toolbar.AddDropdown(PopupRecents);
   Toolbar.AddButton(2, @tbSaveClick, 'f_save', 'Save file', '', false);
   Toolbar.AddSep;
-  Toolbar.AddButton(3, @tbFindClick, 'find', 'Dialog "Find"', '', false);
-  Toolbar.AddDropdown(PopupFind);
-  Toolbar.AddButton(4, @tbGotoClick, 'goto', 'Dialog "Go to"', '', false);
-  Toolbar.AddSep;
+  //Toolbar.AddButton(3, @tbFindClick, 'find', 'Dialog "Find"', '', false);
+  //Toolbar.AddDropdown(PopupFind);
+  //Toolbar.AddButton(4, @tbGotoClick, 'goto', 'Dialog "Go to"', '', false);
+  //Toolbar.AddSep;
   Toolbar.AddButton(7, @tbCutClick, 'e_cut', 'Cut', '', false);
   Toolbar.AddButton(6, @tbCopyClick, 'e_copy', 'Copy', '', false);
   Toolbar.AddButton(8, @tbPasteClick, 'e_paste', 'Paste', '', false);
@@ -960,9 +960,8 @@ const
   cSidebarIconConsole  = 1;
   cSidebarIconOutput   = 2;
   cSidebarIconValidate = 3;
-  cSidebarIconAddons   = 4;
-  cSidebarIconFind     = 5;
-  cSidebarIconGoto     = 6;
+  cSidebarIconFind     = 4;
+  cSidebarIconGoto     = 5;
 
 procedure TfmMain.DoOps_LoadSidebarIcons;
 var
@@ -974,7 +973,6 @@ begin
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'addons.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');
 end;
@@ -988,9 +986,7 @@ begin
   ToolbarBtm.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
   ToolbarBtm.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
   //
-  //ToolbarBtm2.AddSep;
-  ToolbarBtm2.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm2.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm2.AddButton(cSidebarIconAddons, @DoBottom_AddonsClick, 'Addons', 'Install add-on', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm2.AddSep;
+  ToolbarAlt.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
+  ToolbarAlt.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
+  ToolbarAlt.AddSep;
 end;

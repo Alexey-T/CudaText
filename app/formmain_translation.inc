@@ -287,7 +287,7 @@ begin
     DoTranslateToolbarButtonHint(ToolbarBtm, 1, ini.ReadString('ui', 't_out', 'Output'));
     DoTranslateToolbarButtonHint(ToolbarBtm, 2, ini.ReadString('ui', 't_val', 'Validate'));
     //
-    DoTranslateToolbarButtonHint(ToolbarBtm2, 0, ini.ReadString('ui', 't_addon', 'Install add-on'));
+    DoTranslateToolbarButtonHint(ToolbarAlt, 0, ini.ReadString('ui', 't_addon', 'Install add-on'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
