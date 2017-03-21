@@ -593,6 +593,8 @@ type
     function DoSidebar_CaptionToControlHandle(const ACaption: string): PtrInt;
     procedure DoBottom_OnTabClick(Sender: TObject);
     procedure DoBottom_AddonsClick(Sender: TObject);
+    procedure DoBottom_FindClick(Sender: TObject);
+    procedure DoBottom_GotoClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption, AControlType: string;
       ATabIndex, AImageIndex: integer): boolean;

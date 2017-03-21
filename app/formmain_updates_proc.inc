@@ -942,8 +942,8 @@ begin
   Toolbar.AddButton(12, @tbRedoClick, 'e_redo', 'Redo', '', false);
   Toolbar.AddSep;
   Toolbar.AddButton(14, @tbUnpriClick, 'unpri', 'Toggle unprinted chars', '', false);
-  Toolbar.AddButton(17, @tbSidePanelClick, 'p_side', 'Toggle side panel', '', false);
-  Toolbar.AddButton(16, @tbBtmPanelClick, 'p_btm', 'Toggle bottom panel', '', false);
+  //Toolbar.AddButton(17, @tbSidePanelClick, 'p_side', 'Toggle side panel', '', false);
+  //Toolbar.AddButton(16, @tbBtmPanelClick, 'p_btm', 'Toggle bottom panel', '', false);
   Toolbar.AddButton(15, @tbMinimapClick, 'map', 'Toggle minimap', '', false);
 
   UpdateToolbar;
@@ -962,7 +962,9 @@ var
   NIconConsole,
   NIconOutput,
   NIconValidate,
-  NIconAddons: integer;
+  NIconAddons,
+  NIconFind,
+  NIconGoto: integer;
 begin
   Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');     NIconTree:= ImageListSide.Count-1;
@@ -970,6 +972,8 @@ begin
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');   NIconOutput:= ImageListSide.Count-1;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png'); NIconValidate:= ImageListSide.Count-1;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'addons.png');   NIconAddons:= ImageListSide.Count-1;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');     NIconFind:= ImageListSide.Count-1;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');     NIconGoto:= ImageListSide.Count-1;
 
   //
   ToolbarSide.AddButton(NIconTree, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
@@ -979,6 +983,8 @@ begin
   ToolbarBtm.AddButton(NIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
   //
   //ToolbarBtm2.AddSep;
-  ToolbarBtm2.AddButton(NIconAddons, @DoBottom_AddonsClick, 'Add-ons', 'Install add-on', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm2.AddButton(NIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm2.AddButton(NIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm2.AddButton(NIconAddons, @DoBottom_AddonsClick, 'Addons', 'Install add-on', '', UiOps.ShowSidebarCaptions);
   ToolbarBtm2.AddSep;
 end;

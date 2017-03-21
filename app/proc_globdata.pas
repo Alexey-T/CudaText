@@ -82,6 +82,7 @@ type
 
     PyLibrary: string;
     LexerThemes: boolean;
+    SidebarTheme: string;
     PictureTypes: string;
     MaxFileSizeToOpen: integer;
     MaxFileSizeForLexer: integer;
@@ -613,7 +614,7 @@ begin
       end;
     cDirDataSideIcons:
       begin
-        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'sideicons';
+        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'sideicons'+DirectorySeparator+UiOps.SidebarTheme;
       end;
     cDirReadme:
       begin
@@ -887,6 +888,7 @@ begin
     LogCustomDialogs:= false;
 
     LexerThemes:= true;
+    SidebarTheme:= 'default_20x20';
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
     MaxFileSizeToOpen:= 30;

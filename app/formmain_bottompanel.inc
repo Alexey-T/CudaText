@@ -53,6 +53,16 @@ begin
   DoPyCommand('cuda_addonman', 'do_install_addon');
 end;
 
+procedure TfmMain.DoBottom_FindClick(Sender: TObject);
+begin
+  DoDialogFind(false);
+end;
+
+procedure TfmMain.DoBottom_GotoClick(Sender: TObject);
+begin
+  DoDialogGoto;
+end;
+
 procedure TfmMain.UpdateBottomPanels(const ACaption: string);
 var
   Ctl: TWinControl;
