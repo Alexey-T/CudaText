@@ -279,6 +279,19 @@ begin
   end;
 end;
 
+procedure TfmMain.DoDialogFind_Hide;
+begin
+  if Assigned(fmFind) and fmFind.Visible then
+  begin
+    //handy to reset in-sel, on closing dialog
+    FFinder.OptInSelection:= false;
+
+    EditorFocus(CurrentEditor);
+    fmFind.Hide;
+    UpdateAppForSearch(false, false);
+  end;
+end;
+
 
 procedure TfmMain.DoFindFirst;
 var

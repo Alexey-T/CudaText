@@ -59,7 +59,7 @@ var
 begin
   bShown:= Assigned(fmFind) and fmFind.Visible;
   if bShown then
-    fmFind.Hide
+    DoDialogFind_Hide
   else
     DoDialogFind(false);
   UpdateStatus;
@@ -71,7 +71,7 @@ var
 begin
   bShown:= Assigned(fmGoto) and fmGoto.Visible;
   if bShown then
-    fmGoto.Hide
+    DoDialogGoto_Hide
   else
     DoDialogGoto;
   UpdateStatus;

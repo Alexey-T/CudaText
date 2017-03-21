@@ -704,6 +704,7 @@ type
     procedure DoCopyLine;
     procedure DoDialogCommands;
     procedure DoDialogGoto;
+    procedure DoDialogGoto_Hide;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
@@ -722,6 +723,7 @@ type
       var AHandled: boolean);
     function DoFileCloseAll: boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
+    procedure DoDialogFind_Hide;
     procedure DoFindResult(ok: boolean);
     procedure DoFindFirst;
     procedure DoFindNext(ANext: boolean);
@@ -2089,6 +2091,16 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoDialogGoto_Hide;
+begin
+  if Assigned(fmGoto) and fmGoto.Visible then
+  begin
+    EditorFocus(CurrentEditor);
+    fmGoto.Hide;
+  end;
+end;
+
 procedure TfmMain.DoDialogGoto;
 begin
   if not Assigned(fmGoto) then
@@ -2119,8 +2131,7 @@ begin
 
   if Res=cOpGotoClose then
   begin
-    fmGoto.Hide;
-    EditorFocus(Ed);
+    DoDialogGoto_Hide;
     Exit;
   end;
 
