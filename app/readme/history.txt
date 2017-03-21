@@ -4,6 +4,10 @@
   * changed
 
 
+1.7.6
++ option "ui_sidebar_theme"
++ sidebar buttons for "Search", "Go to"
+
 1.7.5
 - fix: moving window to 2nd monitor (Win10)
 - fix: auto-scroll-horz didnt start on moving mouse on scrollbar/minimap

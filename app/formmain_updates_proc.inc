@@ -955,36 +955,42 @@ begin
 end;
 
 
-procedure TfmMain.InitSidebar;
+const
+  cSidebarIconTree     = 0;
+  cSidebarIconConsole  = 1;
+  cSidebarIconOutput   = 2;
+  cSidebarIconValidate = 3;
+  cSidebarIconAddons   = 4;
+  cSidebarIconFind     = 5;
+  cSidebarIconGoto     = 6;
+
+procedure TfmMain.InitSidebarIcons;
 var
   Str: string;
-  NIconTree,
-  NIconConsole,
-  NIconOutput,
-  NIconValidate,
-  NIconAddons,
-  NIconFind,
-  NIconGoto: integer;
 begin
   Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');     NIconTree:= ImageListSide.Count-1;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');  NIconConsole:= ImageListSide.Count-1;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');   NIconOutput:= ImageListSide.Count-1;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png'); NIconValidate:= ImageListSide.Count-1;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'addons.png');   NIconAddons:= ImageListSide.Count-1;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');     NIconFind:= ImageListSide.Count-1;
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');     NIconGoto:= ImageListSide.Count-1;
+  ImageListSide.Clear;
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'addons.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');
+end;
 
+procedure TfmMain.InitSidebar;
+begin
   //
-  ToolbarSide.AddButton(NIconTree, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
+  ToolbarSide.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
   //
-  ToolbarBtm.AddButton(NIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.AddButton(NIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.AddButton(NIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
   //
   //ToolbarBtm2.AddSep;
-  ToolbarBtm2.AddButton(NIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm2.AddButton(NIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm2.AddButton(NIconAddons, @DoBottom_AddonsClick, 'Addons', 'Install add-on', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm2.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm2.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
+  ToolbarBtm2.AddButton(cSidebarIconAddons, @DoBottom_AddonsClick, 'Addons', 'Install add-on', '', UiOps.ShowSidebarCaptions);
   ToolbarBtm2.AddSep;
 end;

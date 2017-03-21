@@ -622,6 +622,8 @@ begin
     Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
 
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
+    UiOps.SidebarTheme:= c.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
+
     UiOps.PyLibrary:= c.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
     UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
     UiOps.MaxFileSizeToOpen:= c.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);

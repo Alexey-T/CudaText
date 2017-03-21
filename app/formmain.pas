@@ -655,6 +655,7 @@ type
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure InitSidebar;
+    procedure InitSidebarIcons;
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
@@ -1116,10 +1117,10 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
-  Str: string;
   i: integer;
 begin
   InitToolbar;
+  InitSidebar;
 
   Tree:= TTreeView.Create(Self);
   Tree.Parent:= PanelLeft;
@@ -1214,8 +1215,6 @@ begin
   Groups.OnTabMove:= @DoOnTabMove;
   Groups.OnTabPopup:= @DoOnTabPopup;
   Groups.OnTabOver:= @DoOnTabOver;
-
-  InitSidebar;
 
   with FAppSidePanels[0] do
   begin
@@ -1387,6 +1386,7 @@ begin
   DoApplyUiOps;
 
   InitPyEngine;
+  InitSidebarIcons;
   DoOps_LoadLexerLib;
   DoFileOpen('');
   FHandledOnShow:= true;
