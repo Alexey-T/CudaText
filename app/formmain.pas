@@ -655,7 +655,6 @@ type
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure InitSidebar;
-    procedure InitSidebarIcons;
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
@@ -672,6 +671,7 @@ type
     procedure StatusResize(Sender: TObject);
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
     procedure TreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOps_LoadSidebarIcons;
     procedure DoOps_LoadCommandLineOptions;
     procedure DoOps_LoadLexerLib;
     procedure DoOps_SaveHistory;
@@ -1386,7 +1386,7 @@ begin
   DoApplyUiOps;
 
   InitPyEngine;
-  InitSidebarIcons;
+  DoOps_LoadSidebarIcons;
   DoOps_LoadLexerLib;
   DoFileOpen('');
   FHandledOnShow:= true;

@@ -964,7 +964,7 @@ const
   cSidebarIconFind     = 5;
   cSidebarIconGoto     = 6;
 
-procedure TfmMain.InitSidebarIcons;
+procedure TfmMain.DoOps_LoadSidebarIcons;
 var
   Str: string;
 begin
