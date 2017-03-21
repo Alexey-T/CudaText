@@ -169,6 +169,7 @@ var
   str, strItem: string;
   i, idx: integer;
 begin
+  if not PythonOK then exit;
   if mnuPlug=nil then exit;
   mnuPlug.Clear;
 

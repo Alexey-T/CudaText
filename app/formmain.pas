@@ -102,6 +102,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    mnuPlugEmpty: TMenuItem;
     PanelSide: TPanel;
     ImageListSide: TImageList;
     PanelLeftTitle: TPanel;
@@ -2309,6 +2310,7 @@ begin
     FConsoleMustShow:= true;
     fmConsole.DoLogConsoleLine(msgCannotInitPython1);
     fmConsole.DoLogConsoleLine(msgCannotInitPython2);
+    //disable Plugins menu
     mnuPlug.Enabled:= false;
   end;
 end;
