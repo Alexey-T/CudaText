@@ -62,6 +62,7 @@ begin
     fmFind.Hide
   else
     DoDialogFind(false);
+  UpdateStatus;
 end;
 
 procedure TfmMain.DoBottom_GotoClick(Sender: TObject);
@@ -73,6 +74,7 @@ begin
     fmGoto.Hide
   else
     DoDialogGoto;
+  UpdateStatus;
 end;
 
 procedure TfmMain.UpdateBottomPanels(const ACaption: string);

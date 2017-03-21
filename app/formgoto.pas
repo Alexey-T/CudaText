@@ -28,11 +28,9 @@ type
   { TfmGoto }
 
   TfmGoto = class(TForm)
-    bClose: TATButton;
     edInput: TATEdit;
     bGoto: TATButton;
     LabelGoto: TLabel;
-    PanelX: TPanel;
     procedure bCloseClick(Sender: TObject);
     procedure bGotoClick(Sender: TObject);
     procedure edInputChange(Sender: TObject);
@@ -110,8 +108,6 @@ begin
   edInput.BorderStyle:= bsNone;
   edInput.OptBorderVisible:= true;
 
-  bClose.Caption:= '';
-
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 end;
 
@@ -131,7 +127,7 @@ begin
   LabelGoto.Font.Size:= UiOps.VarFontSize;
   LabelGoto.Font.Color:= GetAppColor('TabFont');
 
-  bClose.Font.Assign(LabelGoto.Font);
+  //bClose.Font.Assign(LabelGoto.Font);
 end;
 
 procedure TfmGoto.bGotoClick(Sender: TObject);

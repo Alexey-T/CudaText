@@ -50,6 +50,9 @@ begin
 
   UpdateMenuChecks;
 
+  ToolbarAlt.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
+  ToolbarAlt.Buttons[1].Checked:= Assigned(fmGoto) and fmGoto.Visible;
+
   if not F.IsText then
   begin
     Size:= F.PictureSizes;

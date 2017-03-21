@@ -17,31 +17,8 @@ object fmFind: TfmFind
   ShowHint = True
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
-  object PanelX: TPanel
-    Left = 0
-    Height = 108
-    Top = 30
-    Width = 16
-    Align = alLeft
-    BevelOuter = bvNone
-    ClientHeight = 108
-    ClientWidth = 16
-    TabOrder = 0
-    object bCancel: TATButton
-      Left = 0
-      Height = 20
-      Top = 4
-      Width = 16
-      TabOrder = 0
-      Caption = 'Button'
-      Focusable = False
-      Flat = True
-      Kind = abuCross
-      OnClick = bCancelClick
-    end
-  end
   object PanelOps: TPanel
-    Left = 16
+    Left = 0
     Height = 108
     Top = 30
     Width = 200
@@ -49,7 +26,7 @@ object fmFind: TfmFind
     BevelOuter = bvNone
     ClientHeight = 108
     ClientWidth = 200
-    TabOrder = 1
+    TabOrder = 0
     object PanelOps1: TPanel
       Left = 8
       Height = 25
@@ -153,7 +130,7 @@ object fmFind: TfmFind
     end
   end
   object PanelLabels: TPanel
-    Left = 216
+    Left = 200
     Height = 108
     Top = 30
     Width = 103
@@ -161,7 +138,7 @@ object fmFind: TfmFind
     BevelOuter = bvNone
     ClientHeight = 108
     ClientWidth = 103
-    TabOrder = 2
+    TabOrder = 1
     object LabelFind: TLabel
       AnchorSideTop.Side = asrCenter
       Left = 8
@@ -182,7 +159,7 @@ object fmFind: TfmFind
     end
   end
   object PanelAll: TPanel
-    Left = 319
+    Left = 303
     Height = 108
     Top = 30
     Width = 936
@@ -190,7 +167,7 @@ object fmFind: TfmFind
     BevelOuter = bvNone
     ClientHeight = 108
     ClientWidth = 936
-    TabOrder = 3
+    TabOrder = 2
     object edFind: TATComboEdit
       Left = 4
       Height = 25
@@ -483,7 +460,7 @@ object fmFind: TfmFind
     BevelOuter = bvNone
     ClientHeight = 30
     ClientWidth = 1092
-    TabOrder = 4
+    TabOrder = 3
     object PanelTopOps: TPanel
       Left = 104
       Height = 25

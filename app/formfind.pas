@@ -40,7 +40,6 @@ type
   { TfmFind }
 
   TfmFind = class(TForm)
-    bCancel: TATButton;
     bCount: TATButton;
     bFindFirst: TATButton;
     bFindNext: TATButton;
@@ -67,7 +66,6 @@ type
     PanelOps1: TPanel;
     PanelOps2: TPanel;
     PanelTopBtn: TPanel;
-    PanelX: TPanel;
     PanelOps: TPanel;
     PanelLabels: TPanel;
     PanelAll: TPanel;
@@ -257,7 +255,7 @@ begin
   edFind.OptPasteAtEndMakesFinalEmptyLine:= false;
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
 
-  bCancel.Caption:= '';
+  //bCancel.Caption:= '';
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 end;
@@ -290,7 +288,7 @@ begin
     Update;
   end;
 
-  bCancel.Font.Assign(LabelFind.Font);
+  //bCancel.Font.Assign(LabelFind.Font);
 end;
 
 procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -524,7 +522,7 @@ begin
 
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
-  PanelX.Visible:= not IsNarrow;
+  //PanelX.Visible:= not IsNarrow;
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace or IsNarrow;
