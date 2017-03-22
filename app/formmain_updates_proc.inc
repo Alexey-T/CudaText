@@ -1005,3 +1005,4 @@ begin
   ToolbarAlt.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
   ToolbarAlt.AddSep;
 end;
+
