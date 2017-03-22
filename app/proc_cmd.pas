@@ -92,6 +92,8 @@ const
   cmd_DialogCommands   = 2582;
   cmd_DialogFind       = 2584;
   cmd_DialogReplace    = 2585;
+  cmd_DialogFind_Hide  = 2586;
+  cmd_DialogGoto_Hide  = 2587;
 
   cmd_FindFirst        = 2589;
   cmd_FindNext         = 2590;
@@ -325,6 +327,9 @@ begin
 
   M.Add(cmd_DialogFind, 'dialog: find', [cXControl+'+F'], []);
   M.Add(cmd_DialogReplace, 'dialog: replace', [cXControl+'+R'], []);
+  M.Add(cmd_DialogFind_Hide, 'hide dialog: find', [], []);
+  M.Add(cmd_DialogGoto_Hide, 'hide dialog: go to', [], []);
+
   M.Add(cmd_FindFirst, 'find, first', [], []);
   M.Add(cmd_FindNext, 'find, next', ['F3'], []);
   M.Add(cmd_FindPrev, 'find, previous', ['Shift+F3'], []);

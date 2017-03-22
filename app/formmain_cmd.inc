@@ -60,8 +60,10 @@ begin
 
     cmd_DialogCommands:    DoDialogCommands;
     cmd_DialogGoto:        DoDialogGoto;
+    cmd_DialogGoto_Hide:   DoDialogGoto_Hide;
     cmd_DialogGotoBookmark: DoDialogGotoBookmark;
     cmd_DialogFind:        DoDialogFind(false);
+    cmd_DialogFind_Hide:   DoDialogFind_Hide;
     cmd_DialogReplace:     DoDialogFind(true);
     cmd_DialogSaveTabs:    DoDialogSaveTabs;
     cmd_DialogLexerProp:   DoDialogLexerProp(CurrentFrame.Lexer);

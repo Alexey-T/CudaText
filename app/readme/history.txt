@@ -9,6 +9,8 @@
 * sidebar buttons for "Search", "Go to"; deleted toolbar icons for the same
 * toolbar hidden by default
 * you should delete old files data/sideicons/*.png, now folder here
++ cmd "hide dialog: find"
++ cmd "hide dialog: go to"
 
 1.7.5
 - fix: moving window to 2nd monitor (Win10)
