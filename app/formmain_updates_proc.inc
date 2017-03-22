@@ -968,16 +968,28 @@ const
 
 procedure TfmMain.DoOps_LoadSidebarIcons;
 var
+  Parts: TRegexParts;
   Str: string;
 begin
-  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
+  SRegexFindParts('.+_(\d+)x(\d+)', UiOps.SidebarTheme, Parts);
+
+  ImageListSide.Width:= StrToIntDef(Parts[1], ImageListSide.Width);
+  ImageListSide.Height:= StrToIntDef(Parts[2], ImageListSide.Height);
   ImageListSide.Clear;
+
+  PanelSide.Width:= ImageListSide.Width+8;
+
+  Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'console.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');
+
+  ToolbarSide.UpdateControls;
+  ToolbarBtm.UpdateControls;
+  ToolbarAlt.UpdateControls;
 end;
 
 procedure TfmMain.InitSidebar;

@@ -1376,10 +1376,6 @@ procedure TfmMain.FormShow(Sender: TObject);
 begin
   if FHandledOnShow then exit;
 
-  ToolbarSide.UpdateControls;
-  ToolbarBtm.UpdateControls;
-  ToolbarAlt.UpdateControls;
-
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
   DoApplyFont_Text;
