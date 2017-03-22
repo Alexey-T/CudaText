@@ -4,10 +4,24 @@
   * changed
 
 
+1.7.6
++ option "ui_sidebar_theme"
+* sidebar buttons for "Search", "Go to"; deleted toolbar icons for the same
+* toolbar hidden by default
+* you should delete old files data/sideicons/*.png, now folder here
++ cmd "hide dialog: find"
++ cmd "hide dialog: go to"
+
+1.7.5
+- fix: moving window to 2nd monitor (Win10)
+- fix: auto-scroll-horz didnt start on moving mouse on scrollbar/minimap
+- fix: vertical block selection until file end
+
 1.7.4
 * different UI of sidebar tabs (I find it more useful)
 + theme color "side-toolbar BG"
 + Ctrl+[drag-drop] does copying of block
+- Alt+[drag-drop] fixed if scrolls editor up/down 
 
 1.7.2
 + command-line key --help (Linux users angry)

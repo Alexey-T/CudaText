@@ -122,7 +122,11 @@ Performs application-wide action. Possible values of id:
 ====Clipboard====
 
 * PROC_GET_CLIP: Gets clipboard text.
-* PROC_SET_CLIP: Copies text to clipboard.
+* PROC_SET_CLIP: Copies text to clipboard (usual).
+* PROC_SET_CLIP_ALT: Copies text to alternate clipboard on Linux gtk2, called "primary selection" (also "secondary selection" exists, but no API for it here). 
+** CudaText copy commands put text to usual clipboard + primary selection.
+** CudaText paste commands get text from usual clipboard.
+** CudaText option "mouse_mid_click_paste" gets text from primary selection.
 
 ====Plugin calls====
 
@@ -219,7 +223,12 @@ Actions:
 
 ====Side panel====
 
-* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Text is ","-separated params: "tab_caption,tab_index,control_type": caption of tab, index of tab (0-based, -1 to append), type of GUI control. Types of control allowed: "tree" to use tree_proc() API, "listbox" to use listbox_proc() API. Gets bool: params ok, tab was added.
+* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Gets bool: params ok, tab was added. Text is ","-separated values: "tab_caption,tab_index,control_type,icon_filename":
+** Caption of tab
+** Index of tab, 0-based, -1 to add to end of list
+** Type of GUI control. Types allowed: "tree" to use tree_proc() API, "listbox" to use listbox_proc() API.
+** Name of png file for icon for sidebar. Currently must be 20x20. If filename w/o path, then CudaText subdir "data/sideicons" is used.
+
 * PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, so control/menu for this tab is still in memory). Gets bool: tab was found/removed.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Gets str, "\n"-separated captions of tabs.
@@ -357,7 +366,7 @@ Possible values of id:
 * LOG_GET_LINES: Gets str: "\n"-separated lines in listbox. Each line is text+"\r"+str(tag).
 * LOG_GET_LINEINDEX: Gets index of selected line in listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in listbox.
-* LOG_PANEL_ADD: Adds new panel next to Output/Validate. Text is caption of panel. Gets True if panel was added; gets False for incorrect caption: caption of standard or already added panel.
+* LOG_PANEL_ADD: Adds new panel next to Output/Validate. Text must be "tab_caption;icon_filename". Gets True if panel was added; gets False for incorrect caption (caption of standard or already added panel).
 * LOG_PANEL_DELETE: Deletes panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel found and deleted.
 * LOG_PANEL_FOCUS: Focuses panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel found and focused.
 
@@ -1364,6 +1373,15 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.171
+* add: app_proc: PROC_SIDEPANEL_ADD takes additional value icon_filename
+* deprecated: app_log: LOG_PANEL_ADD
+* deprecated: app_log: LOG_PANEL_DELETE
+* deprecated: app_log: LOG_PANEL_FOCUS
+
+1.0.170
+* add: app_proc: PROC_SET_CLIP_ALT
 
 1.0.169
 * add: ed.insert does append, if y too big
