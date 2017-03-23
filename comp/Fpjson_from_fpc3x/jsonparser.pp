@@ -29,7 +29,7 @@ Type
   Private
     FScanner : TJSONScanner;
     function GetO(AIndex: TJSONOption): Boolean;
-    function GetOptions: TJSONOptions;
+    function GetOptions: TJSONOptions; inline;
     function ParseNumber: TJSONNumber;
     procedure SetO(AIndex: TJSONOption; AValue: Boolean);
     procedure SetOptions(AValue: TJSONOptions);
@@ -38,7 +38,7 @@ Type
     function DoParse(AtCurrent,AllowEOF: Boolean): TJSONData;
     function GetNextToken: TJSONToken;
     function CurrentTokenString: String;
-    function CurrentToken: TJSONToken;
+    function CurrentToken: TJSONToken; inline;
     function ParseArray: TJSONArray;
     function ParseObject: TJSONObject;
     Property Scanner : TJSONScanner read FScanner;
@@ -65,7 +65,6 @@ Resourcestring
   SErrUnexpectedEOF   = 'Unexpected EOF encountered.';
   SErrUnexpectedToken = 'Unexpected token (%s) encountered.';
   SErrExpectedColon   = 'Expected colon (:), got token "%s".';
-  SErrUnexpectedComma = 'Invalid comma encountered.';
   SErrEmptyElement = 'Empty element encountered.';
   SErrExpectedElementName    = 'Expected element name, got token "%s"';
   SExpectedCommaorBraceClose = 'Expected , or ], got token "%s".';
@@ -148,6 +147,7 @@ begin
       tkSQuaredBraceClose : DoError(SErrUnexpectedToken);
       tkNumber : Result:=ParseNumber;
       tkComma : DoError(SErrUnexpectedToken);
+      tkIdentifier : DoError(SErrUnexpectedToken);
     end;
   except
     FreeAndNil(Result);

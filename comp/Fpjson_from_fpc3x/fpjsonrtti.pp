@@ -28,7 +28,10 @@ Type
                        jsoDateTimeAsString,       // Format a TDateTime value as a string
                        jsoUseFormatString,        // Use FormatString when creating JSON strings.
                        jsoCheckEmptyDateTime,     // If TDateTime value is empty and jsoDateTimeAsString is used, 0 date returns empty string
-                       jsoLegacyDateTime);         // Set this to enable old date/time formatting. Current behaviour is to save date/time as a ISO 9601 value.
+                       jsoLegacyDateTime,         // Set this to enable old date/time formatting. Current behaviour is to save date/time as a ISO 9601 value.
+                       jsoLowerPropertyNames,     // Set this to force lowercase names when streaming to JSON.
+                       jsoStreamTList             // Set this to assume that TList contains a list of TObjects. Use with care!
+                       );  
   TJSONStreamOptions = Set of TJSONStreamOption;
 
   TJSONFiler = Class(TComponent)
@@ -70,6 +73,8 @@ Type
     function StreamCollection(Const ACollection: TCollection): TJSONArray;
     // Stream an objectlist - always returns an array
     function StreamObjectList(Const AnObjectList: TObjectList): TJSONArray;
+    // Stream a List - always returns an array
+    function StreamTList(Const AList: TList): TJSONArray;
     // Stream a TStrings instance as an array
     function StreamTStringsArray(Const AStrings: TStrings): TJSONArray;
     // Stream a TStrings instance as an object
@@ -519,7 +524,7 @@ begin
     try
       For I:=0 to PIL.Count-1 do
         begin
-        J:=JSON.IndexOfName(Pil.Items[i]^.Name,FCaseInsensitive);
+        J:=JSON.IndexOfName(Pil.Items[i]^.Name,(jdoCaseInsensitive in Options));
         If (J<>-1) then
           RestoreProperty(AObject,PIL.Items[i],JSON.Items[J]);
         end;
@@ -741,6 +746,8 @@ begin
       Result.Add('Items',StreamCollection(TCollection(AObject)))
     else If AObject is TObjectList then
       Result.Add('Objects',StreamObjectList(TObjectList(AObject)))
+    else if (jsoStreamTlist in Options) and (AObject is TList) then
+      Result := TJSONObject(StreamTList(TList(AObject)))
     else
       begin
       PIL:=TPropInfoList.Create(AObject,tkProperties);
@@ -748,8 +755,12 @@ begin
         For I:=0 to PIL.Count-1 do
           begin
           PD:=StreamProperty(AObject,PIL.Items[i]);
-          If (PD<>Nil) then
+            If (PD<>Nil) then begin
+              if jsoLowerPropertyNames in Options then
+                Result.Add(LowerCase(PIL.Items[I]^.Name),PD)
+              else
             Result.Add(PIL.Items[I]^.Name,PD);
+          end;
           end;
       finally
         FReeAndNil(Pil);
@@ -893,6 +904,24 @@ begin
       Result:=D.AsJSON;
   finally
     FreeAndNil(D);
+  end;
+end;
+
+function TJSONStreamer.StreamTList(const AList: TList): TJSONArray;
+var
+  I : Integer;
+  o : TJSONObject;
+begin
+  Result:=TJSONArray.Create;
+  try
+    for I:=0 to AList.Count-1 do begin
+      o := ObjectToJSON(TObject(AList.Items[i]));
+      if Assigned(o) then
+        Result.Add(o);
+    end;
+  except
+    FreeAndNil(Result);
+    Raise;
   end;
 end;
 

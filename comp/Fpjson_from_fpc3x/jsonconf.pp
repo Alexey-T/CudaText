@@ -637,6 +637,7 @@ begin
         Node.Delete(L);
       end;
     end;
+  FModified:=True;  
 end;
 
 procedure TJSONConfig.DeleteValue(const APath: UnicodeString);
