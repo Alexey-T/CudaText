@@ -729,8 +729,8 @@ begin
       {$ifdef darwin} 'Monaco' {$endif} ;
     OpFontSize:=
       {$ifdef windows} 10 {$endif}
-      {$ifdef linux} 11 {$endif}
-      {$ifdef darwin} 12 {$endif} ;
+      {$ifdef linux} 10 {$endif}
+      {$ifdef darwin} 10 {$endif} ;
     OpFontQuality:= fqDefault;
 
     OpSpacingX:= 0;
@@ -879,7 +879,7 @@ begin
     VarFontSize:=
       {$ifdef windows} 9 {$endif}
       {$ifdef linux} 10 {$endif}
-      {$ifdef darwin} 12 {$endif} ;
+      {$ifdef darwin} 10 {$endif} ;
 
     OutputFontName:= VarFontName;
     OutputFontSize:= VarFontSize;
