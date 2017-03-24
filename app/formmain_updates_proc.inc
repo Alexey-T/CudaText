@@ -423,6 +423,7 @@ begin
   UpdateMenuItemHotkey(mnuEndsMac, cmd_LineEndMac);
 
   UpdateMenuItemHotkey(mnuFileNew, cmd_FileNew);
+  UpdateMenuItemHotkey(mnuFileNewMenu, cmd_FileNewMenu);
   UpdateMenuItemHotkey(mnuFileOpen, cmd_FileOpen);
   UpdateMenuItemHotkey(mnuFileReopen, cmd_FileReopen);
   UpdateMenuItemHotkey(mnuFileSave, cmd_FileSave);
@@ -929,7 +930,7 @@ end;
 procedure TfmMain.InitToolbar;
 begin
   Toolbar.AddButton(0, @tbNewClick, 'f_new', 'Create new tab', '', false);
-  Toolbar.AddDropdown(nil, @DoNewFileMenu);
+  Toolbar.AddDropdown(nil, @DoFileNewMenu);
   Toolbar.AddButton(1, @tbOpenClick, 'f_open', 'Open file', '', false);
   Toolbar.AddDropdown(PopupRecents);
   Toolbar.AddButton(2, @tbSaveClick, 'f_save', 'Save file', '', false);

@@ -45,6 +45,7 @@ begin
       end;
 
     cmd_FileNew:             DoFileOpen('');
+    cmd_FileNewMenu:         DoFileNewMenu(nil);
     cmd_FileOpen:            DoFileOpenDialog;
     cmd_FileOpen_NoPlugins:  DoFileOpenDialog_NoPlugins;
     cmd_FileReopen:          DoFileReopen;

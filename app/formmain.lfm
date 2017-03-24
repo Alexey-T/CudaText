@@ -231,6 +231,9 @@ object fmMain: TfmMain
       object mnuFileNew: TMenuItem
         Caption = '&New file'
       end
+      object mnuFileNewMenu: TMenuItem
+        Caption = 'New from &template...'
+      end
       object mnuFileOpen: TMenuItem
         Caption = '&Open...'
       end

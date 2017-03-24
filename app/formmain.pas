@@ -102,6 +102,7 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    mnuFileNewMenu: TMenuItem;
     mnuPlugEmpty: TMenuItem;
     PanelSide: TPanel;
     ImageListSide: TImageList;
@@ -557,7 +558,6 @@ type
     FOption_WindowPos: string;
 
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
-    procedure DoNewFileMenu(Sender: TObject);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
@@ -631,6 +631,7 @@ type
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string; out DirTarget: string);
     procedure DoFileCloseAndDelete;
+    procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave;
     procedure DoFileSaveAs;
@@ -3992,7 +3993,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoNewFileMenu(Sender: TObject);
+procedure TfmMain.DoFileNewMenu(Sender: TObject);
 begin
   DoPyCommand('cuda_new_file', 'menu');
 end;
