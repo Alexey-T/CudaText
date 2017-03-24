@@ -75,6 +75,7 @@ begin
   try
     DoLocMenuitem(ini, mnuFile, 'm_f', '_');
     DoLocMenuitem(ini, mnuFileNew, 'm_f', 'new');
+    DoLocMenuitem(ini, mnuFileNewMenu, 'm_f', 'newm');
     DoLocMenuitem(ini, mnuFileOpen, 'm_f', 'op');
     DoLocMenuitem(ini, mnuFileOpenSub, 'm_f', 'rec');
     DoLocMenuitem(ini, mnuFileReopen, 'm_f', 'reop');
