@@ -567,6 +567,8 @@ type
       const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
       AIndex: integer; const ARect: TRect);
+    procedure FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
+      MaxWidth, MaxHeight: TConstraintSize);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
@@ -1157,6 +1159,7 @@ begin
     AppBookmarkSetup[240+i].ImageIndex:= i;
   end;
 
+  Self.OnConstrainedResize:= @FormConstrainedResize; //not published in LCL<1.7
   PanelAll.Align:= alClient;
   AppManager:= TecSyntaxManager.Create(Self);
   FSessionName:= 'history session.json';

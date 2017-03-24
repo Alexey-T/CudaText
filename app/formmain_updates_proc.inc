@@ -1007,3 +1007,12 @@ begin
   ToolbarAlt.AddSep;
 end;
 
+
+procedure TfmMain.FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
+  MaxWidth, MaxHeight: TConstraintSize);
+begin
+  //event needed only on Mac, to disable resize below Dock
+  {$ifndef darwin} exit; {$endif}
+  MaxHeight:= Screen.DesktopHeight-Top;
+end;
+
