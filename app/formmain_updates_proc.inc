@@ -1008,6 +1008,7 @@ begin
 end;
 
 
+(*
 procedure TfmMain.FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
   MaxWidth, MaxHeight: TConstraintSize);
 const
@@ -1015,12 +1016,11 @@ const
 var
   RWork: TRect;
 begin
-  exit; //disabled, gives problem on moving window by caption to bottom
-
   //event needed only on Mac, to disable resize below Dock
   {$ifndef darwin} exit; {$endif}
 
   RWork:= Screen.PrimaryMonitor.WorkareaRect;
   MaxHeight:= Max(cMinHeight, RWork.Bottom - RWork.Top - Top);
 end;
+*)
 

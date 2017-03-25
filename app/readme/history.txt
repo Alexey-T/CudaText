@@ -8,6 +8,7 @@
 + menu item "File - New from template" (same as click on arrow near "new icon")
 + updated FCL-JSON lib from current FPC trunk
 + dont escape "/" in user.json
+* changed ui_sidebar_theme to "octicons_20x20"
 
 1.7.6
 + option "ui_sidebar_theme"
