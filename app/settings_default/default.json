@@ -517,7 +517,7 @@
   //"pylib": "python35.dll",
   //"pylib__linux": "libpython3.5m.so.1.0",
   //"pylib__osx": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
-  //              (for macOS: tried 3.4 to 3.8, which is found)
+  //              (for macOS: tried 3.4 to 3.9, which is found)
 
   //API: delay for on_change_slow
   "py_change_slow": 2000,
@@ -552,13 +552,6 @@
   //Auto-close brackets/quotes. Skips escaped chars, eg \(. 
   //Value can have only chars: ( [ { ' " ` (double-quote needs escape in json) 
   "auto_close_brackets": "([{",
-  
-  //File backup
-  //  "": no backup
-  //  "1": symbol after filename: filename.txt~
-  //  "2": symbol before ext: filename.~txt
-  //  not number, eg "bak": additional ext: filename.txt.bak
-  "backup": "",
   
   //Extensions of picture files (shown as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
