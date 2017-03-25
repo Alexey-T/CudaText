@@ -4,6 +4,11 @@
   * changed
 
 
+1.7.7
++ menu item "File - New from template" (same as click on arrow near "new icon")
++ updated FCL-JSON lib from current FPC trunk
++ dont escape "/" in user.json
+
 1.7.6
 + option "ui_sidebar_theme"
 * sidebar buttons for "Search", "Go to"; deleted toolbar icons for the same

@@ -180,6 +180,7 @@ cmd_FileSaveAll        = 2504
 cmd_FileReopen         = 2505
 cmd_FileExit           = 2506
 cmd_FileOpen_NoPlugins = 2507
+cmd_FileNewMenu        = 2508
 cmd_FileClose          = 2510
 cmd_FileCloseOtherThis = 2511
 cmd_FileCloseOtherAll  = 2512
