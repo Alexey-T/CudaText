@@ -2,7 +2,8 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
-2017.03.24
+2017.03.25
++ [ui] t_proj
 + [m_f] newm
 
 2017.03.22

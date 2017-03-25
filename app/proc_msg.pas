@@ -25,6 +25,8 @@ const
   msgNoLexer: string = '(none)';
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
+  msgPanelTree: string = 'Tree';
+  msgPanelProject: string = 'Project';
 
   msgFinderHintRegex: string = 'regex';
   msgFinderHintCase: string = 'case';

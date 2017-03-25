@@ -68,8 +68,15 @@ var
   i: integer;
 begin
   FLastSidebarPanel:= ACaption;
-  PanelLeftTitle.Caption:= ACaption;
   ShowSidePanel:= true;
+
+  if ACaption='Tree' then
+    PanelLeftTitle.Caption:= msgPanelTree
+  else
+  if ACaption='Project' then
+    PanelLeftTitle.Caption:= msgPanelProject
+  else
+    PanelLeftTitle.Caption:= ACaption;
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
