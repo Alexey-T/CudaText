@@ -1017,6 +1017,6 @@ begin
   {$ifndef darwin} exit; {$endif}
 
   RWork:= Screen.Monitors[0].WorkareaRect;
-  MaxHeight:= RWork.Bottom - RWork.Top - Top;
+  MaxHeight:= Max(100, RWork.Bottom - RWork.Top - Top);
 end;
 
