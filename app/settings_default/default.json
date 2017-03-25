@@ -581,7 +581,7 @@
   "ui_fullscreen_hide": "t",
   
   //Name of sidebar icon theme (subdir inside data/sideicons)
-  "ui_sidebar_theme": "default_20x20",
+  "ui_sidebar_theme": "octicons_20x20",
   
   //Enable to make log files, for plugin dialogs (dlg_custom)
   //Files are %temp%\dlg_nnnnnnnnnnnnn.txt

@@ -897,7 +897,7 @@ begin
     LogCustomDialogs:= false;
 
     LexerThemes:= true;
-    SidebarTheme:= 'default_20x20';
+    SidebarTheme:= 'octicons_20x20';
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
     MaxFileSizeToOpen:= 30;
