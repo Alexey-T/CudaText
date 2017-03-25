@@ -281,8 +281,10 @@ begin
     DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
 
-    msgPanelTree:= ini.ReadString('ui', 't_tre', 'Tree');
-    msgPanelProject:= ini.ReadString('ui', 't_proj', 'Project');
+    msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree);
+    msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject);
+    msgPanelTabs:= ini.ReadString('ui', 't_tabs', msgPanelTabs);
+    //
     DoTranslateToolbarButtonHint(ToolbarSide, 0, msgPanelTree);
     //
     DoTranslateToolbarButtonHint(ToolbarBtm, 0, ini.ReadString('ui', 't_con', 'Console'));

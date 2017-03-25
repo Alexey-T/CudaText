@@ -76,6 +76,9 @@ begin
   if ACaption='Project' then
     PanelLeftTitle.Caption:= msgPanelProject
   else
+  if ACaption='Tabs' then
+    PanelLeftTitle.Caption:= msgPanelTabs
+  else
     PanelLeftTitle.Caption:= ACaption;
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
