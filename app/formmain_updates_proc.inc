@@ -1015,6 +1015,8 @@ const
 var
   RWork: TRect;
 begin
+  exit; //disabled, gives problem on moving window by caption to bottom
+
   //event needed only on Mac, to disable resize below Dock
   {$ifndef darwin} exit; {$endif}
 
