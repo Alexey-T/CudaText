@@ -537,26 +537,35 @@ begin
   Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
 end;
 
+
 function InitPyLibraryPath: string;
+  //
+  function GetMacPath(NMinorVersion: integer): string;
+  begin
+    Result:= Format('/Library/Frameworks/Python.framework/Versions/3.%d/lib/libpython3.%d.dylib',
+      [NMinorVersion, NMinorVersion]);
+  end;
+  //
+var
+  N: integer;
 begin
+  Result:= '';
+
   {$ifdef windows}
-    Result:= 'python35.dll';
+  exit('python35.dll');
   {$endif}
+
   {$ifdef linux}
-    Result:= 'libpython3.5m.so.1.0';
+  exit('libpython3.5m.so.1.0');
   {$endif}
+
   {$ifdef darwin}
-    Result:= '/Library/Frameworks/Python.framework/Versions/3.4/lib/libpython3.4.dylib';
+  for N:= 4 to 9 do
+  begin
+    Result:= GetMacPath(N);
     if FileExists(Result) then exit;
-    Result:= '/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib';
-    if FileExists(Result) then exit;
-    Result:= '/Library/Frameworks/Python.framework/Versions/3.6/lib/libpython3.6.dylib';
-    if FileExists(Result) then exit;
-    Result:= '/Library/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7.dylib';
-    if FileExists(Result) then exit;
-    Result:= '/Library/Frameworks/Python.framework/Versions/3.8/lib/libpython3.8.dylib';
-    if FileExists(Result) then exit;
-  {$endif} ;
+  end;
+  {$endif}
 end;
 
 var
