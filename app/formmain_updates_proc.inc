@@ -1010,13 +1010,15 @@ end;
 
 procedure TfmMain.FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
   MaxWidth, MaxHeight: TConstraintSize);
+const
+  cMinHeight = 200;
 var
   RWork: TRect;
 begin
   //event needed only on Mac, to disable resize below Dock
   {$ifndef darwin} exit; {$endif}
 
-  RWork:= Screen.Monitors[0].WorkareaRect;
-  MaxHeight:= Max(100, RWork.Bottom - RWork.Top - Top);
+  RWork:= Screen.PrimaryMonitor.WorkareaRect;
+  MaxHeight:= Max(cMinHeight, RWork.Bottom - RWork.Top - Top);
 end;
 
