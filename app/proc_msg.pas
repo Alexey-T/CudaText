@@ -161,22 +161,28 @@ const
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+
       '    http://www.lazarus-ide.org'+sLineBreak+
-      'ATSynEdit, ATTabs, ATGroups, ATListbox, ATButton, Python wrapper:'+sLineBreak+
+      'ATSynEdit, ATTabs, ATGroups, ATListbox, ATButton, Python wrapper'+sLineBreak+
       '    https://github.com/Alexey-T/'+sLineBreak+
-      'EControl syntax parser:'+sLineBreak+
-      '    http://www.econtrol.ru'+sLineBreak+
-      '    https://github.com/Alexey-T/'+sLineBreak+
-      'Helper Python code: Andrey Kvichanskiy:'+sLineBreak+
+      'EControl syntax parser'+sLineBreak+
+      '    Delphi version: http://www.econtrol.ru'+sLineBreak+
+      '    Lazarus port: https://github.com/Alexey-T/'+sLineBreak+
+      'Helper Python code: Andrey Kvichanskiy'+sLineBreak+
       '    https://github.com/kvichans/'+sLineBreak+
-      'Toolbar icons: Silk icons'+sLineBreak+
-      '    http://www.famfamfam.com'+sLineBreak+
-      '    License: CC BY 2.5, http://creativecommons.org/licenses/by/2.5/'+sLineBreak+
-      'Main icon: Snipicons'+sLineBreak+
-      '    http://www.snipicons.com/'+sLineBreak+
-      '    License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
-      'Sidebar icons: Entypo'+sLineBreak+
-      '    https://www.iconfinder.com/iconsets/entypo'+sLineBreak+
-      '    License: CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
+      'Main icon'+sLineBreak+
+      '    Snipicons'+sLineBreak+
+      '      http://www.snipicons.com/'+sLineBreak+
+      '      License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
+      'Toolbar icons'+sLineBreak+
+      '    Silk icons'+sLineBreak+
+      '      http://www.famfamfam.com'+sLineBreak+
+      '      License: CC BY 2.5, http://creativecommons.org/licenses/by/2.5/'+sLineBreak+
+      'Sidebar icons'+sLineBreak+
+      '    Octicons'+sLineBreak+
+      '      https://octicons.github.com/'+sLineBreak+
+      '      License: MIT License'+sLineBreak+
+      '    Entypo'+sLineBreak+
+      '      https://www.iconfinder.com/iconsets/entypo'+sLineBreak+
+      '      License: CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
       '';
 
   msgCommandLineHelp =
