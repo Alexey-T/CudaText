@@ -176,13 +176,9 @@ const
       '    Silk icons'+sLineBreak+
       '      http://www.famfamfam.com'+sLineBreak+
       '      License: CC BY 2.5, http://creativecommons.org/licenses/by/2.5/'+sLineBreak+
-      'Sidebar icons'+sLineBreak+
       '    Octicons'+sLineBreak+
       '      https://octicons.github.com/'+sLineBreak+
       '      License: MIT License'+sLineBreak+
-      '    Entypo'+sLineBreak+
-      '      https://www.iconfinder.com/iconsets/entypo'+sLineBreak+
-      '      License: CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
       '';
 
   msgCommandLineHelp =
