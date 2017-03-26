@@ -44,7 +44,7 @@ type
 type
   { TATStatus }
 
-  TATStatus = class(TPanel)
+  TATStatus = class(TCustomControl)
   private
     FColorBorderTop: TColor;
     FColorBorderR: TColor;
@@ -89,13 +89,19 @@ type
     procedure WMEraseBkgnd(var Message: TMessage); message WM_ERASEBKGND;
     {$endif}
   published
+    property Align;
     property DoubleBuffered;
+    property Enabled;
+    property Visible;
     property ColorBorderTop: TColor read FColorBorderTop write FColorBorderTop;
     property ColorBorderR: TColor read FColorBorderR write FColorBorderR;
     property ColorBorderL: TColor read FColorBorderL write FColorBorderL;
     property ColorBorderU: TColor read FColorBorderU write FColorBorderU;
     property ColorBorderD: TColor read FColorBorderD write FColorBorderD;
     property IndentLeft: Integer read FIndentLeft write FIndentLeft;
+    property OnClick;
+    property OnDblClick;
+    property OnResize;
     property OnPanelClick: TATStatusClickEvent read FOnPanelClick write FOnPanelClick;
     property OnPanelDrawBefore: TATStatusDrawEvent read FOnPanelDrawBefore write FOnPanelDrawBefore;
     property OnPanelDrawAfter: TATStatusDrawEvent read FOnPanelDrawAfter write FOnPanelDrawAfter;
