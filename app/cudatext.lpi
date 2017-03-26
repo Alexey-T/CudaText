@@ -192,7 +192,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="51">
+    <Units Count="52">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -463,6 +463,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit50>
+      <Unit51>
+        <Filename Value="formmain_commandline.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit51>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

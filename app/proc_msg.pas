@@ -198,7 +198,7 @@ const
       'Sessions (.cuda-session) can be loaded, if Session Manager installed.'+sLineBreak;
 
   msgCommandLineUnknownOption =
-      'Unknown option %s'#10'Run "cudatext --help" to see list of command line options.';
+      'CudaText: unknown key %s'#10'Run "cudatext --help" to see command line help.';
   msgCommandLineVersion =
       'CudaText version %s';
 
