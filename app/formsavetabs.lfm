@@ -3,7 +3,6 @@ object fmSaveTabs: TfmSaveTabs
   Height = 350
   Top = 232
   Width = 671
-  ActiveControl = btnSave
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Save tabs?'
   ClientHeight = 350
@@ -25,17 +24,13 @@ object fmSaveTabs: TfmSaveTabs
     TabOrder = 0
     TopIndex = -1
   end
-  object Panel1: TPanel
+  object Panel1: TATPanelSimple
     Left = 0
     Height = 41
     Top = 309
     Width = 671
     Align = alBottom
     AutoSize = True
-    BevelOuter = bvNone
-    ClientHeight = 41
-    ClientWidth = 671
-    TabOrder = 1
     object btnSave: TButton
       AnchorSideTop.Control = btnDontSave
       AnchorSideRight.Control = btnDontSaveKeep

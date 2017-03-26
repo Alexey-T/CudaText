@@ -18,6 +18,7 @@ uses
   LclType, LclProc, LCLUnicodeData, LConvEncoding,
   LazUTF8, LazFileUtils,
   {$ifdef windows} Windows, {$endif}
+  ATPanelSimple,
   proc_msg,
   proc_globdata;
 
@@ -33,9 +34,9 @@ type
     comboAnsi: TComboBox;
     comboUnicode: TComboBox;
     LabelInfo: TLabel;
-    PanelInfo: TPanel;
-    PanelBtm: TPanel;
+    PanelBtm: TATPanelSimple;
     Grid: TStringGrid;
+    PanelInfo: TATPanelSimple;
     procedure btnAnsiClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnUnicodeClick(Sender: TObject);

@@ -15,17 +15,30 @@ object fmCharmaps: TfmCharmaps
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
-  Visible = False
-  object PanelBtm: TPanel
+  object Grid: TStringGrid
+    Left = 6
+    Height = 430
+    Top = 6
+    Width = 504
+    Align = alClient
+    AutoEdit = False
+    BorderSpacing.Around = 6
+    DefaultDrawing = False
+    DefaultRowHeight = 24
+    ExtendedSelect = False
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goThumbTracking, goSmoothScroll]
+    RowCount = 17
+    TabOrder = 0
+    OnMouseDown = GridMouseDown
+    OnMouseMove = GridMouseMove
+    OnSelectCell = GridSelectCell
+  end
+  object PanelBtm: TATPanelSimple
     Left = 0
     Height = 42
     Top = 481
     Width = 516
     Align = alBottom
-    BevelOuter = bvNone
-    ClientHeight = 42
-    ClientWidth = 516
-    TabOrder = 2
     object btnClose: TButton
       AnchorSideRight.Control = PanelBtm
       AnchorSideRight.Side = asrBottom
@@ -84,16 +97,12 @@ object fmCharmaps: TfmCharmaps
       TabOrder = 1
     end
   end
-  object PanelInfo: TPanel
+  object PanelInfo: TATPanelSimple
     Left = 0
     Height = 39
     Top = 442
     Width = 516
     Align = alBottom
-    BevelOuter = bvNone
-    ClientHeight = 39
-    ClientWidth = 516
-    TabOrder = 1
     object comboUnicode: TComboBox
       AnchorSideLeft.Control = PanelInfo
       AnchorSideTop.Control = PanelInfo
@@ -145,24 +154,5 @@ object fmCharmaps: TfmCharmaps
       TabOrder = 1
       Text = 'cp1250 - Central and East European Latin'
     end
-  end
-  object Grid: TStringGrid
-    AnchorSideBottom.Control = PanelInfo
-    Left = 6
-    Height = 430
-    Top = 6
-    Width = 504
-    Align = alClient
-    AutoEdit = False
-    BorderSpacing.Around = 6
-    DefaultDrawing = False
-    DefaultRowHeight = 24
-    ExtendedSelect = False
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goThumbTracking, goSmoothScroll]
-    RowCount = 17
-    TabOrder = 0
-    OnMouseDown = GridMouseDown
-    OnMouseMove = GridMouseMove
-    OnSelectCell = GridSelectCell
   end
 end

@@ -15,6 +15,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   IniFiles, CheckLst, ExtCtrls, StdCtrls, StrUtils,
   LazUTF8, LazFileUtils,
+  ATPanelSimple,
   proc_globdata,
   proc_msg;
 
@@ -22,12 +23,12 @@ type
   { TfmSaveTabs }
 
   TfmSaveTabs = class(TForm)
+    btnCancel: TButton;
+    btnDontSave: TButton;
     btnDontSaveKeep: TButton;
     btnSave: TButton;
-    btnDontSave: TButton;
-    btnCancel: TButton;
     List: TCheckListBox;
-    Panel1: TPanel;
+    Panel1: TATPanelSimple;
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
