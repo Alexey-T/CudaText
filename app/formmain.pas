@@ -102,13 +102,12 @@ type
   { TfmMain }
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
+    ButtonCancel: TATButton;
+    Gauge: TGauge;
     mnuFileNewMenu: TMenuItem;
     mnuPlugEmpty: TMenuItem;
     ImageListSide: TImageList;
-    PanelLeftTitle: TPanel;
-    ButtonCancel: TATButton;
     FontDlg: TFontDialog;
-    Gauge: TGauge;
     ImageListBm: TImageList;
     ImageListBar: TImageList;
     ImageListTree: TImageList;
@@ -122,8 +121,12 @@ type
     mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
     PaintTest: TPaintBox;
+    PanelAll: TATPanelSimple;
+    PanelBottom: TATPanelSimple;
+    PanelLeft: TATPanelSimple;
+    PanelLeftTitle: TPanel;
+    PanelMain: TATPanelSimple;
     PanelSide: TATPanelSimple;
-    Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
     mnuHelpIssues: TMenuItem;
@@ -351,10 +354,6 @@ type
     mnuFileSaveAs: TMenuItem;
     mnuFileClose: TMenuItem;
     OpenDlg: TOpenDialog;
-    PanelBottom: TPanel;
-    PanelLeft: TPanel;
-    PanelMain: TPanel;
-    PanelAll: TPanel;
     PopupEnc: TPopupMenu;
     PopupEnds: TPopupMenu;
     PopupLex: TPopupMenu;
@@ -368,13 +367,14 @@ type
     PythonIO: TPythonInputOutput;
     PythonMod: TPythonModule;
     SaveDlg: TSaveDialog;
-    SplitterVert: TSplitter;
     SplitterHorz: TSplitter;
+    SplitterVert: TSplitter;
     TimerStatusAlt: TTimer;
     TimerTreeFill: TTimer;
     TimerCmd: TTimer;
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
+    Toolbar: TATButtonsToolbar;
     ToolbarAlt: TATButtonsToolbar;
     ToolbarBtm: TATButtonsToolbar;
     ToolbarSide: TATButtonsToolbar;

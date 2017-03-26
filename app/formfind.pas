@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls,
   LclType, LclProc, Math,
-  ATButtons,
+  ATButtons, ATPanelSimple,
   ATStringProc,
   ATSynEdit,
   ATSynEdit_Edits,
@@ -45,13 +45,13 @@ type
     bFindNext: TATButton;
     bFindPrev: TATButton;
     bMarkAll: TATButton;
-    bSelectAll: TATButton;
     bRep: TATButton;
     bRepAll: TATButton;
+    bSelectAll: TATButton;
     chkCase: TATButton;
     chkConfirm: TATButton;
-    chkMulLine: TATButton;
     chkInSel: TATButton;
+    chkMulLine: TATButton;
     chkRegex: TATButton;
     chkWords: TATButton;
     chkWrap: TATButton;
@@ -59,16 +59,16 @@ type
     edRep: TATComboEdit;
     LabelFind: TLabel;
     LabelRep: TLabel;
-    PanelTopOps: TPanel;
-    PanelTop: TPanel;
-    PanelBtn: TPanel;
-    PanelBtnRep: TPanel;
-    PanelOps1: TPanel;
-    PanelOps2: TPanel;
-    PanelTopBtn: TPanel;
-    PanelOps: TPanel;
-    PanelLabels: TPanel;
-    PanelAll: TPanel;
+    PanelAll: TATPanelSimple;
+    PanelBtn: TATPanelSimple;
+    PanelBtnRep: TATPanelSimple;
+    PanelLabels: TATPanelSimple;
+    PanelOps: TATPanelSimple;
+    PanelOps1: TATPanelSimple;
+    PanelOps2: TATPanelSimple;
+    PanelTop: TATPanelSimple;
+    PanelTopBtn: TATPanelSimple;
+    PanelTopOps: TATPanelSimple;
     procedure bFindNextClick(Sender: TObject);
     procedure bFindPrevClick(Sender: TObject);
     procedure bMarkAllClick(Sender: TObject);

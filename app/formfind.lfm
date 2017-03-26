@@ -3,7 +3,6 @@ object fmFind: TfmFind
   Height = 138
   Top = 635
   Width = 1092
-  ActiveControl = edFind
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Find/Replace'
@@ -17,25 +16,34 @@ object fmFind: TfmFind
   ShowHint = True
   ShowInTaskBar = stNever
   LCLVersion = '1.7'
-  object PanelOps: TPanel
+  object PanelOps: TATPanelSimple
     Left = 0
     Height = 108
     Top = 30
     Width = 200
     Align = alLeft
-    BevelOuter = bvNone
-    ClientHeight = 108
-    ClientWidth = 200
-    TabOrder = 0
-    object PanelOps1: TPanel
+    object PanelOps2: TATPanelSimple
+      Left = 8
+      Height = 25
+      Top = 32
+      Width = 120
+      object chkConfirm: TATButton
+        Left = 0
+        Height = 25
+        Top = 0
+        Width = 32
+        Align = alLeft
+        TabStop = True
+        TabOrder = 0
+        Caption = '?!'
+        Checkable = True
+      end
+    end
+    object PanelOps1: TATPanelSimple
       Left = 8
       Height = 25
       Top = 4
       Width = 200
-      BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 200
-      TabOrder = 0
       object chkRegex: TATButton
         Left = 0
         Height = 25
@@ -107,38 +115,13 @@ object fmFind: TfmFind
         OnClick = chkInSelClick
       end
     end
-    object PanelOps2: TPanel
-      Left = 8
-      Height = 25
-      Top = 32
-      Width = 120
-      BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 120
-      TabOrder = 1
-      object chkConfirm: TATButton
-        Left = 0
-        Height = 25
-        Top = 0
-        Width = 32
-        Align = alLeft
-        TabStop = True
-        TabOrder = 0
-        Caption = '?!'
-        Checkable = True
-      end
-    end
   end
-  object PanelLabels: TPanel
+  object PanelLabels: TATPanelSimple
     Left = 200
     Height = 108
     Top = 30
     Width = 103
     Align = alLeft
-    BevelOuter = bvNone
-    ClientHeight = 108
-    ClientWidth = 103
-    TabOrder = 1
     object LabelFind: TLabel
       AnchorSideTop.Side = asrCenter
       Left = 8
@@ -158,16 +141,12 @@ object fmFind: TfmFind
       ParentColor = False
     end
   end
-  object PanelAll: TPanel
+  object PanelAll: TATPanelSimple
     Left = 303
     Height = 108
     Top = 30
     Width = 936
     Align = alLeft
-    BevelOuter = bvNone
-    ClientHeight = 108
-    ClientWidth = 936
-    TabOrder = 2
     object edFind: TATComboEdit
       Left = 4
       Height = 25
@@ -335,15 +314,11 @@ object fmFind: TfmFind
       OptAllowReadOnly = False
       OptUndoLimit = 200
     end
-    object PanelBtn: TPanel
+    object PanelBtn: TATPanelSimple
       Left = 320
       Height = 25
       Top = 4
       Width = 616
-      BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 616
-      TabOrder = 2
       object bFindFirst: TATButton
         Left = 0
         Height = 25
@@ -416,15 +391,11 @@ object fmFind: TfmFind
         OnClick = bSelectAllClick
       end
     end
-    object PanelBtnRep: TPanel
+    object PanelBtnRep: TATPanelSimple
       Left = 320
       Height = 25
       Top = 33
       Width = 400
-      BevelOuter = bvNone
-      ClientHeight = 25
-      ClientWidth = 400
-      TabOrder = 3
       object bRep: TATButton
         Left = 0
         Height = 25
@@ -451,31 +422,23 @@ object fmFind: TfmFind
       end
     end
   end
-  object PanelTop: TPanel
+  object PanelTop: TATPanelSimple
     Left = 0
     Height = 30
     Top = 0
     Width = 1092
     Align = alTop
-    BevelOuter = bvNone
-    ClientHeight = 30
-    ClientWidth = 1092
-    TabOrder = 3
-    object PanelTopOps: TPanel
+    object PanelTopOps: TATPanelSimple
       Left = 104
       Height = 25
       Top = 4
       Width = 250
-      BevelOuter = bvNone
-      TabOrder = 0
     end
-    object PanelTopBtn: TPanel
+    object PanelTopBtn: TATPanelSimple
       Left = 320
       Height = 25
       Top = 4
       Width = 394
-      BevelOuter = bvNone
-      TabOrder = 1
     end
   end
 end

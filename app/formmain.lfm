@@ -20,121 +20,6 @@ object fmMain: TfmMain
   OnShow = FormShow
   LCLVersion = '1.7'
   Visible = True
-  object PanelAll: TPanel
-    Left = 0
-    Height = 335
-    Top = 169
-    Width = 872
-    Align = alBottom
-    BevelOuter = bvNone
-    ClientHeight = 335
-    ClientWidth = 872
-    TabOrder = 0
-    object PanelMain: TPanel
-      Left = 0
-      Height = 82
-      Top = 158
-      Width = 872
-      Align = alClient
-      BevelOuter = bvNone
-      ClientHeight = 82
-      ClientWidth = 872
-      TabOrder = 0
-      object SplitterVert: TSplitter
-        Left = 202
-        Height = 82
-        Top = 0
-        Width = 4
-      end
-      object PanelLeft: TPanel
-        Left = 0
-        Height = 82
-        Top = 0
-        Width = 202
-        Align = alLeft
-        BevelOuter = bvNone
-        ClientHeight = 82
-        ClientWidth = 202
-        Color = clSilver
-        ParentColor = False
-        TabOrder = 1
-        object PanelLeftTitle: TPanel
-          Left = 0
-          Height = 20
-          Top = 0
-          Width = 202
-          Align = alTop
-          BevelOuter = bvNone
-          Caption = '?'
-          Color = clGray
-          ParentColor = False
-          TabOrder = 0
-        end
-      end
-      object Gauge: TGauge
-        Left = 752
-        Height = 19
-        Top = 50
-        Width = 112
-        Color = clBtnFace
-        DoubleBuffered = False
-        ParentColor = False
-      end
-      object ButtonCancel: TATButton
-        Left = 760
-        Height = 25
-        Top = 20
-        Width = 100
-        TabStop = True
-        TabOrder = 2
-        Caption = 'Cancel'
-        OnClick = ButtonCancelClick
-      end
-    end
-    object PanelBottom: TPanel
-      Left = 0
-      Height = 90
-      Top = 245
-      Width = 872
-      Align = alBottom
-      BevelOuter = bvNone
-      Color = clSilver
-      ParentColor = False
-      TabOrder = 1
-    end
-    object SplitterHorz: TSplitter
-      Cursor = crVSplit
-      Left = 0
-      Height = 5
-      Top = 240
-      Width = 872
-      Align = alBottom
-      AutoSnap = False
-      MinSize = 60
-      ParentColor = False
-      ResizeAnchor = akBottom
-      ResizeStyle = rsPattern
-    end
-    object Toolbar: TATButtonsToolbar
-      Left = 0
-      Height = 24
-      Top = 0
-      Width = 872
-      Align = alTop
-      AutoSize = True
-      Color = clSilver
-      ParentColor = False
-      Images = ImageListBar
-    end
-    object PaintTest: TPaintBox
-      Left = 0
-      Height = 134
-      Top = 24
-      Width = 872
-      Align = alTop
-      Visible = False
-    end
-  end
   object PanelSide: TATPanelSimple
     Left = 0
     Height = 169
@@ -178,6 +63,107 @@ object fmMain: TfmMain
       ParentColor = False
       Images = ImageListSide
       KindVertical = True
+    end
+  end
+  object PanelAll: TATPanelSimple
+    Left = 0
+    Height = 335
+    Top = 169
+    Width = 872
+    Align = alBottom
+    object SplitterHorz: TSplitter
+      Cursor = crVSplit
+      Left = 0
+      Height = 5
+      Top = 240
+      Width = 872
+      Align = alBottom
+      AutoSnap = False
+      MinSize = 60
+      ParentColor = False
+      ResizeAnchor = akBottom
+      ResizeStyle = rsPattern
+    end
+    object Toolbar: TATButtonsToolbar
+      Left = 0
+      Height = 24
+      Top = 0
+      Width = 872
+      Align = alTop
+      AutoSize = True
+      Color = clSilver
+      ParentColor = False
+      Images = ImageListBar
+    end
+    object PaintTest: TPaintBox
+      Left = 0
+      Height = 134
+      Top = 24
+      Width = 872
+      Align = alTop
+      Visible = False
+    end
+    object PanelMain: TATPanelSimple
+      Left = 0
+      Height = 82
+      Top = 158
+      Width = 872
+      Align = alClient
+      object SplitterVert: TSplitter
+        Left = 202
+        Height = 82
+        Top = 0
+        Width = 4
+      end
+      object Gauge: TGauge
+        Left = 752
+        Height = 19
+        Top = 50
+        Width = 112
+        Color = clBtnFace
+        DoubleBuffered = False
+        ParentColor = False
+      end
+      object ButtonCancel: TATButton
+        Left = 760
+        Height = 25
+        Top = 20
+        Width = 100
+        TabStop = True
+        TabOrder = 1
+        Caption = 'Cancel'
+        OnClick = ButtonCancelClick
+      end
+      object PanelLeft: TATPanelSimple
+        Left = 0
+        Height = 82
+        Top = 0
+        Width = 202
+        Align = alLeft
+        Color = clSilver
+        ParentColor = False
+        object PanelLeftTitle: TPanel
+          Left = 0
+          Height = 20
+          Top = 0
+          Width = 202
+          Align = alTop
+          BevelOuter = bvNone
+          Caption = '?'
+          Color = clGray
+          ParentColor = False
+          TabOrder = 0
+        end
+      end
+    end
+    object PanelBottom: TATPanelSimple
+      Left = 0
+      Height = 90
+      Top = 245
+      Width = 872
+      Align = alBottom
+      Color = clSilver
+      ParentColor = False
     end
   end
   object PythonEngine: TPythonEngine
