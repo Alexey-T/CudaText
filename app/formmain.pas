@@ -25,7 +25,7 @@ uses
   UniqueInstance,
   ecSyntAnal,
   ATButtons,
-  ATButtonsToolbar,
+  ATButtonsToolbar, ATPanelSimple,
   ATSynEdit,
   ATSynEdit_ScrollBar,
   ATSynEdit_Keymap,
@@ -122,7 +122,7 @@ type
     mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
     PaintTest: TPaintBox;
-    PanelSide: TATButtonsToolbar;
+    PanelSide: TATPanelSimple;
     Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
