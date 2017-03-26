@@ -81,7 +81,7 @@ begin
     {$endif}
 
     //ignore special params
-    if SBeginsWith(fn, '--') then Continue;
+    if SBeginsWith(fn, '-') then Continue;
 
     //don't take folder
     if DirectoryExistsUTF8(fn) then
