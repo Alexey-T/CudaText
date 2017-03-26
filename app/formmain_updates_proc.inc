@@ -720,40 +720,6 @@ end;
 
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
-var
-  cList: array[0..30] of record Sub, Name: string end = (
-    (Sub: ''; Name: cEncNameUtf8_NoBom),
-    (Sub: ''; Name: cEncNameUtf8_WithBom),
-    (Sub: ''; Name: cEncNameUtf16LE_NoBom),
-    (Sub: ''; Name: cEncNameUtf16LE_WithBom),
-    (Sub: ''; Name: cEncNameUtf16BE_NoBom),
-    (Sub: ''; Name: cEncNameUtf16BE_WithBom),
-    (Sub: ''; Name: cEncNameAnsi),
-    (Sub: ''; Name: '-'),
-    (Sub: 'eu'; Name: cEncNameCP1250),
-    (Sub: 'eu'; Name: cEncNameCP1251),
-    (Sub: 'eu'; Name: cEncNameCP1252),
-    (Sub: 'eu'; Name: cEncNameCP1253),
-    (Sub: 'eu'; Name: cEncNameCP1257),
-    (Sub: 'eu'; Name: '-'),
-    (Sub: 'eu'; Name: cEncNameCP437),
-    (Sub: 'eu'; Name: cEncNameCP850),
-    (Sub: 'eu'; Name: cEncNameCP852),
-    (Sub: 'eu'; Name: cEncNameCP866),
-    (Sub: 'eu'; Name: '-'),
-    (Sub: 'eu'; Name: cEncNameISO1),
-    (Sub: 'eu'; Name: cEncNameISO2),
-    (Sub: 'eu'; Name: cEncNameMac),
-    (Sub: 'mi'; Name: cEncNameCP1254),
-    (Sub: 'mi'; Name: cEncNameCP1255),
-    (Sub: 'mi'; Name: cEncNameCP1256),
-    (Sub: 'as'; Name: cEncNameCP874),
-    (Sub: 'as'; Name: cEncNameCP932),
-    (Sub: 'as'; Name: cEncNameCP936),
-    (Sub: 'as'; Name: cEncNameCP949),
-    (Sub: 'as'; Name: cEncNameCP950),
-    (Sub: 'as'; Name: cEncNameCP1258)
-  );
   //
   procedure DoAdd(AMenu: TMenuItem; Sub, SName: string; AReloadFile: boolean);
   var
@@ -807,10 +773,10 @@ begin
   AMenu.Add(miReload);
   AMenu.Add(miNoReload);
 
-  for i:= Low(cList) to High(cList) do
+  for i:= Low(cATEncodingList) to High(cATEncodingList) do
   begin
-    DoAdd(miReload, cList[i].Sub, cList[i].Name, true);
-    DoAdd(miNoReload, cList[i].Sub, cList[i].Name, false);
+    DoAdd(miReload, cATEncodingList[i].Sub, cATEncodingList[i].Name, true);
+    DoAdd(miNoReload, cATEncodingList[i].Sub, cATEncodingList[i].Name, false);
   end;
 end;
 

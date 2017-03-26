@@ -401,6 +401,49 @@ const
   cEncNameCP950 = 'CP950';
 
 type
+  TATEncodingRecord = record
+    Sub,
+    Name,
+    ShortName: string;
+  end;
+
+const
+  cATEncodingList: array[0..30] of TATEncodingRecord = (
+    (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
+    (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
+    (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
+    (Sub: ''; Name: cEncNameUtf16LE_WithBom; ShortName: 'utf16le_bom'),
+    (Sub: ''; Name: cEncNameUtf16BE_NoBom; ShortName: 'utf16be'),
+    (Sub: ''; Name: cEncNameUtf16BE_WithBom; ShortName: 'utf16be_bom'),
+    (Sub: ''; Name: cEncNameAnsi; ShortName: 'ansi'),
+    (Sub: ''; Name: '-'; ShortName: ''),
+    (Sub: 'eu'; Name: cEncNameCP1250; ShortName: cEncNameCP1250),
+    (Sub: 'eu'; Name: cEncNameCP1251; ShortName: cEncNameCP1251),
+    (Sub: 'eu'; Name: cEncNameCP1252; ShortName: cEncNameCP1252),
+    (Sub: 'eu'; Name: cEncNameCP1253; ShortName: cEncNameCP1253),
+    (Sub: 'eu'; Name: cEncNameCP1257; ShortName: cEncNameCP1257),
+    (Sub: 'eu'; Name: '-'; ShortName: ''),
+    (Sub: 'eu'; Name: cEncNameCP437; ShortName: cEncNameCP437),
+    (Sub: 'eu'; Name: cEncNameCP850; ShortName: cEncNameCP850),
+    (Sub: 'eu'; Name: cEncNameCP852; ShortName: cEncNameCP852),
+    (Sub: 'eu'; Name: cEncNameCP866; ShortName: cEncNameCP866),
+    (Sub: 'eu'; Name: '-'; ShortName: ''),
+    (Sub: 'eu'; Name: cEncNameISO1; ShortName: cEncNameISO1),
+    (Sub: 'eu'; Name: cEncNameISO2; ShortName: cEncNameISO2),
+    (Sub: 'eu'; Name: cEncNameMac; ShortName: 'mac'),
+    (Sub: 'mi'; Name: cEncNameCP1254; ShortName: cEncNameCP1254),
+    (Sub: 'mi'; Name: cEncNameCP1255; ShortName: cEncNameCP1255),
+    (Sub: 'mi'; Name: cEncNameCP1256; ShortName: cEncNameCP1256),
+    (Sub: 'as'; Name: cEncNameCP874; ShortName: cEncNameCP874),
+    (Sub: 'as'; Name: cEncNameCP932; ShortName: cEncNameCP932),
+    (Sub: 'as'; Name: cEncNameCP936; ShortName: cEncNameCP936),
+    (Sub: 'as'; Name: cEncNameCP949; ShortName: cEncNameCP949),
+    (Sub: 'as'; Name: cEncNameCP950; ShortName: cEncNameCP950),
+    (Sub: 'as'; Name: cEncNameCP1258; ShortName: cEncNameCP1258)
+  );
+
+
+type
   TAppPyEvent = (
     cEventOnOpen,
     cEventOnOpenBefore,
