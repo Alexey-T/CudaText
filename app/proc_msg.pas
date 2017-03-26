@@ -200,6 +200,8 @@ const
 
   msgCommandLineUnknownOption =
       'CudaText: unknown key %s'#10'Run "cudatext --help" to see command line help.';
+  msgCommandLineUnknownEncoding =
+      'CudaText: unknown encoding: %s';
   msgCommandLineVersion =
       'CudaText version %s';
 

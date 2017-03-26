@@ -55,9 +55,14 @@ begin
       Delete(SParam, 1, Pos('=', SParam));
       FOption_Encoding:= AppEncodingShortnameToFullname(SParam);
       if FOption_Encoding='' then
-        MsgStdout('CudaText: unknown encoding name: '+SParam);
+        MsgStdout(Format(msgCommandLineUnknownEncoding, [SParam]));
       Continue;
     end;
+
+    {$ifdef darwin}
+    //macOS gives param -psn** for debugger
+    if SBeginsWith(SParam, '-psn') then Continue;
+    {$endif}
 
     MsgStdout(Format(msgCommandLineUnknownOption, [SParam]));
     Halt;
@@ -81,11 +86,6 @@ begin
   for i:= 1 to ParamCount do
   begin
     fn:= ParamStrUTF8(i);
-
-    {$ifdef darwin}
-    //OSX 10.8 gives param "-psn**"
-    if SBeginsWith(fn, '-psn') then Continue;
-    {$endif}
 
     //ignore special params
     if SBeginsWith(fn, '-') then Continue;
