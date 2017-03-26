@@ -30,6 +30,7 @@ uses
   ATStringProc_HtmlColor,
   ATFileNotif,
   ATButtons,
+  ATPanelSimple,
   ecSyntAnal,
   proc_globdata,
   proc_lexer,
@@ -95,7 +96,7 @@ type
     FMacroRecord: boolean;
     FMacroString: string;
     FImage: TImage;
-    FImagePanel: TPanel;
+    FImagePanel: TATPanelSimple;
     FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
     FSaveDialog: TSaveDialog;
@@ -1011,13 +1012,11 @@ begin
       FImageFilename:= '';
     end;
 
-    FImagePanel:= TPanel.Create(Self);
+    FImagePanel:= TATPanelSimple.Create(Self);
     FImagePanel.OnPaint:=@DoImagePanelPaint;
     FImagePanel.Parent:= Self;
     FImagePanel.SetBounds(0, 0, 400, 400);
     FImagePanel.BorderStyle:= bsNone;
-    FImagePanel.BevelInner:= bvNone;
-    FImagePanel.BevelOuter:= bvNone;
     FImagePanel.Color:= clSkyBlue;
     FImage.Parent:= FImagePanel;
 
