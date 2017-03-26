@@ -485,10 +485,7 @@ begin
   if S='colorpanel' then
   begin
     Ctl:= TATColorPanel.Create(AForm);
-    (Ctl as TPanel).BorderStyle:= bsNone;
-    (Ctl as TPanel).BevelInner:= bvNone;
-    (Ctl as TPanel).BevelOuter:= bvNone;
-    (Ctl as TPanel).OnClick:= @ADummy.DoOnChange;
+    (Ctl as TATColorPanel).OnClick:= @ADummy.DoOnChange;
     exit;
   end;
 
@@ -574,9 +571,9 @@ begin
 
   if (C is TATColorPanel) then
   begin
-    (C as TPanel).BorderWidth:= StrToIntDef(SGetItem(S), 0);
-    (C as TPanel).Color:= StrToIntDef(SGetItem(S), clDefault);
-    (C as TPanel).Font.Color:= StrToIntDef(SGetItem(S), clDefault);
+    (C as TATColorPanel).BorderWidth:= StrToIntDef(SGetItem(S), 0);
+    (C as TATColorPanel).Color:= StrToIntDef(SGetItem(S), clDefault);
+    (C as TATColorPanel).Font.Color:= StrToIntDef(SGetItem(S), clDefault);
     (C as TATColorPanel).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
     exit
   end;

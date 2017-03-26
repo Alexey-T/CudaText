@@ -12,11 +12,12 @@ unit ATColorPanel;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Controls, ExtCtrls;
+  Classes, SysUtils, Graphics, Controls, ExtCtrls, Types;
 
 type
   { TATColorPanel }
-  TATColorPanel = class(TPanel)
+
+  TATColorPanel = class(TCustomControl)
   private
     FBorderColor: TColor;
   public
@@ -24,7 +25,18 @@ type
   protected
     procedure Paint; override;
   published
+    property Align;
+    property Caption;
+    property Color;
+    property ParentColor;
+    property Enabled;
+    property Font;
+    property Visible;
     property BorderColor: TColor read FBorderColor write FBorderColor default clBlack;
+    property BorderWidth;
+    property OnClick;
+    property OnDblClick;
+    property OnResize;
   end;
 
 
@@ -35,18 +47,31 @@ implementation
 constructor TATColorPanel.Create(AOwner: TComponent);
 begin
   inherited;
+  Caption:= '';
+  BorderStyle:= bsNone;
+  BorderWidth:= 0;
   BorderColor:= clBlack;
 end;
 
 procedure TATColorPanel.Paint;
 var
   R: TRect;
+  Pnt: TPoint;
+  Size: TSize;
 begin
-  inherited;
+  //inherited;
+
+  R:= ClientRect;
   if BorderWidth>0 then
-  begin
-    R:= ClientRect;
     Canvas.Frame3d(R, BorderColor, BorderColor, BorderWidth);
+
+  if Caption<>'' then
+  begin
+    Canvas.Font.Assign(Self.Font);
+    Size:= Canvas.TextExtent(Caption);
+    Pnt.X:= (R.Right-Size.cx) div 2;
+    Pnt.Y:= (R.Bottom-Size.cy) div 2;
+    Canvas.TextOut(Pnt.X, Pnt.Y, Caption);
   end;
 end;
 
