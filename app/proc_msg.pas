@@ -185,19 +185,20 @@ const
       'Usage:'+sLineBreak+
       '  cudatext [ key ... ] filename ...'+sLineBreak+
       ''+sLineBreak+
-      'Supported "keys" in command line:'+sLineBreak+
-      '  --help    - Show this options help'+sLineBreak+
-      '  --ro      - Open all files from command line in read-only mode'+sLineBreak+
-      '  --new     - Ignore option "ui_one_instance", force new app window'+sLineBreak+
-      '  --version - Show application version'+sLineBreak+
-      '  --window=left,top,width,height - Set position/size of app window'+sLineBreak+
+      'Supported keys:'+sLineBreak+
+      '  -h, --help      - Show this help'+sLineBreak+
+      '  -v, --version   - Show application version'+sLineBreak+
+      '  -r, --readonly  - Open all files from command line in read-only mode'+sLineBreak+
+      '  -n, --new       - Ignore option "ui_one_instance", force new app window'+sLineBreak+
+      '  -w, --window=left,top,width,height - Set position/size of app window'+sLineBreak+
       ''+sLineBreak+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+
       'Folders cannot be loaded yet.'+sLineBreak+
-      'Projects (.cuda-proj) can be loaded, if Project Manager installed.'+sLineBreak;
+      'Projects (.cuda-proj) can be loaded, if Project Manager installed.'+sLineBreak+
+      'Sessions (.cuda-session) can be loaded, if Session Manager installed.'+sLineBreak;
 
   msgCommandLineUnknownOption =
-      'Unknown option %s'#10'Run ''cudatext --help'' to see list of command line options.';
+      'Unknown option %s'#10'Run "cudatext --help" to see list of command line options.';
   msgCommandLineVersion =
       'CudaText version %s';
 
