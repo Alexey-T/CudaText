@@ -1824,7 +1824,10 @@ begin
           Result:= PyLong_FromLong(F.TabId);
 
         PROP_ENC:
-          Result:= PyUnicode_FromWideString(Utf8Decode(F.EncodingName));
+          begin
+            Str:= AppEncodingFullnameToShortname(F.EncodingName);
+            Result:= PyUnicode_FromWideString(Utf8Decode(Str));
+          end;
 
         PROP_INDEX_GROUP:
           begin
@@ -1990,7 +1993,7 @@ begin
           end;
 
         PROP_ENC:
-          F.EncodingName:= Str;
+          F.EncodingName:= AppEncodingShortnameToFullname(Str);
 
         PROP_TAG:
           F.TagString:= Str;

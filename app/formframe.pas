@@ -499,7 +499,9 @@ end;
 
 procedure TEditorFrame.SetEncodingName(const Str: string);
 begin
+  if Str='' then exit;
   if SameText(Str, GetEncodingName) then exit;
+
   if SameText(Str, cEncNameUtf8_WithBom) then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= true; end else
    if SameText(Str, cEncNameUtf8_NoBom) then begin Editor.Strings.Encoding:= cEncUTF8; Editor.Strings.SaveSignUtf8:= false; end else
     if SameText(Str, cEncNameUtf16LE_WithBom) then begin Editor.Strings.Encoding:= cEncWideLE; Editor.Strings.SaveSignWide:= true; end else

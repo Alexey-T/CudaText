@@ -1550,7 +1550,7 @@ begin
   for i:= Low(AppEncodings) to High(AppEncodings) do
     with AppEncodings[i] do
       if SameText(S, Name) then
-        Exit(ShortName);
+        Exit(LowerCase(ShortName));
 end;
 
 
