@@ -1,7 +1,7 @@
 object fmMain: TfmMain
-  Left = 408
+  Left = 452
   Height = 504
-  Top = 352
+  Top = 345
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
@@ -142,17 +142,27 @@ object fmMain: TfmMain
         Align = alLeft
         Color = clSilver
         ParentColor = False
-        object PanelLeftTitle: TPanel
+        object PanelLeftTitle: TATPanelSimple
           Left = 0
-          Height = 20
+          Height = 24
           Top = 0
           Width = 202
           Align = alTop
-          BevelOuter = bvNone
-          Caption = '?'
           Color = clGray
           ParentColor = False
-          TabOrder = 0
+          object LabelSideTitle: TLabel
+            AnchorSideTop.Control = PanelLeftTitle
+            AnchorSideTop.Side = asrCenter
+            AnchorSideRight.Side = asrBottom
+            Left = 0
+            Height = 24
+            Top = 0
+            Width = 202
+            Alignment = taCenter
+            Anchors = [akTop, akLeft, akRight]
+            Caption = '?'
+            ParentColor = False
+          end
         end
       end
     end

@@ -63,23 +63,28 @@ begin
     ShowSidePanel:= false;
 end;
 
+
+function TfmMain.DoSidebar_TranslatedCaption(const ACaption: string): string;
+begin
+  if ACaption='Tree' then
+    Result:= msgPanelTree
+  else
+  if ACaption='Project' then
+    Result:= msgPanelProject
+  else
+  if ACaption='Tabs' then
+    Result:= msgPanelTabs
+  else
+    Result:= ACaption;
+end;
+
 procedure TfmMain.UpdateSidebarPanels(const ACaption: string);
 var
   i: integer;
 begin
   FLastSidebarPanel:= ACaption;
   ShowSidePanel:= true;
-
-  if ACaption='Tree' then
-    PanelLeftTitle.Caption:= msgPanelTree
-  else
-  if ACaption='Project' then
-    PanelLeftTitle.Caption:= msgPanelProject
-  else
-  if ACaption='Tabs' then
-    PanelLeftTitle.Caption:= msgPanelTabs
-  else
-    PanelLeftTitle.Caption:= ACaption;
+  LabelSideTitle.Caption:= DoSidebar_TranslatedCaption(ACaption);
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do

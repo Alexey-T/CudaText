@@ -104,6 +104,7 @@ type
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
     Gauge: TGauge;
+    LabelSideTitle: TLabel;
     mnuFileNewMenu: TMenuItem;
     mnuPlugEmpty: TMenuItem;
     ImageListSide: TImageList;
@@ -124,7 +125,7 @@ type
     PanelAll: TATPanelSimple;
     PanelBottom: TATPanelSimple;
     PanelLeft: TATPanelSimple;
-    PanelLeftTitle: TPanel;
+    PanelLeftTitle: TATPanelSimple;
     PanelMain: TATPanelSimple;
     PanelSide: TATPanelSimple;
     SepV3: TMenuItem;
@@ -567,6 +568,7 @@ type
       const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
       AIndex: integer; const ARect: TRect);
+    function DoSidebar_TranslatedCaption(const ACaption: string): string;
     //procedure FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
     //  MaxWidth, MaxHeight: TConstraintSize);
     function GetSessionFilename: string;
