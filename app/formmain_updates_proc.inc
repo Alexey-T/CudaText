@@ -773,10 +773,10 @@ begin
   AMenu.Add(miReload);
   AMenu.Add(miNoReload);
 
-  for i:= Low(cATEncodingList) to High(cATEncodingList) do
+  for i:= Low(AppEncodings) to High(AppEncodings) do
   begin
-    DoAdd(miReload, cATEncodingList[i].Sub, cATEncodingList[i].Name, true);
-    DoAdd(miNoReload, cATEncodingList[i].Sub, cATEncodingList[i].Name, false);
+    DoAdd(miReload, AppEncodings[i].Sub, AppEncodings[i].Name, true);
+    DoAdd(miNoReload, AppEncodings[i].Sub, AppEncodings[i].Name, false);
   end;
 end;
 

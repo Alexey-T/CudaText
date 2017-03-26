@@ -401,14 +401,14 @@ const
   cEncNameCP950 = 'CP950';
 
 type
-  TATEncodingRecord = record
+  TAppEncodingRecord = record
     Sub,
     Name,
     ShortName: string;
   end;
 
 const
-  cATEncodingList: array[0..30] of TATEncodingRecord = (
+  AppEncodings: array[0..30] of TAppEncodingRecord = (
     (Sub: ''; Name: cEncNameUtf8_NoBom; ShortName: 'utf8'),
     (Sub: ''; Name: cEncNameUtf8_WithBom; ShortName: 'utf8_bom'),
     (Sub: ''; Name: cEncNameUtf16LE_NoBom; ShortName: 'utf16le'),
