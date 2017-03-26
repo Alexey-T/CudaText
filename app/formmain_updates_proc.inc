@@ -978,6 +978,7 @@ begin
   ImageListSide.Height:= StrToIntDef(Parts[2], ImageListSide.Height);
   ImageListSide.Clear;
 
+  PanelSide.AutoSize:= false;
   PanelSide.Width:= ImageListSide.Width+8;
 
   Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;

@@ -104,7 +104,6 @@ type
     AppProps: TApplicationProperties;
     mnuFileNewMenu: TMenuItem;
     mnuPlugEmpty: TMenuItem;
-    PanelSide: TPanel;
     ImageListSide: TImageList;
     PanelLeftTitle: TPanel;
     ButtonCancel: TATButton;
@@ -123,6 +122,7 @@ type
     mnuThemesSyntax: TMenuItem;
     mnuBmCarets: TMenuItem;
     PaintTest: TPaintBox;
+    PanelSide: TATButtonsToolbar;
     Toolbar: TATButtonsToolbar;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
@@ -375,8 +375,8 @@ type
     TimerCmd: TTimer;
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
-    ToolbarBtm: TATButtonsToolbar;
     ToolbarAlt: TATButtonsToolbar;
+    ToolbarBtm: TATButtonsToolbar;
     ToolbarSide: TATButtonsToolbar;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);

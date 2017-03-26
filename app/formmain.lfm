@@ -32,28 +32,28 @@ object fmMain: TfmMain
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
-      Height = 82
+      Height = 78
       Top = 158
-      Width = 872
+      Width = 868
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 82
-      ClientWidth = 872
+      ClientHeight = 78
+      ClientWidth = 868
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
-        Height = 82
+        Height = 74
         Top = 0
         Width = 4
       end
       object PanelLeft: TPanel
         Left = 0
-        Height = 82
+        Height = 74
         Top = 0
         Width = 202
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 82
+        ClientHeight = 74
         ClientWidth = 202
         Color = clSilver
         ParentColor = False
@@ -62,7 +62,7 @@ object fmMain: TfmMain
           Left = 0
           Height = 20
           Top = 0
-          Width = 202
+          Width = 198
           Align = alTop
           BevelOuter = bvNone
           Caption = '?'
@@ -94,8 +94,8 @@ object fmMain: TfmMain
     object PanelBottom: TPanel
       Left = 0
       Height = 90
-      Top = 245
-      Width = 872
+      Top = 241
+      Width = 868
       Align = alBottom
       BevelOuter = bvNone
       Color = clSilver
@@ -106,8 +106,8 @@ object fmMain: TfmMain
       Cursor = crVSplit
       Left = 0
       Height = 5
-      Top = 240
-      Width = 872
+      Top = 236
+      Width = 868
       Align = alBottom
       AutoSnap = False
       MinSize = 60
@@ -119,7 +119,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 24
       Top = 0
-      Width = 872
+      Width = 868
       Align = alTop
       AutoSize = True
       Color = clSilver
@@ -130,26 +130,22 @@ object fmMain: TfmMain
       Left = 0
       Height = 134
       Top = 24
-      Width = 872
+      Width = 868
       Align = alTop
       Visible = False
     end
   end
-  object PanelSide: TPanel
+  object PanelSide: TATButtonsToolbar
     Left = 0
     Height = 169
     Top = 0
-    Width = 30
+    Width = 75
     Align = alLeft
-    BevelOuter = bvNone
-    ClientHeight = 169
-    ClientWidth = 30
-    TabOrder = 1
     object ToolbarBtm: TATButtonsToolbar
       Left = 0
       Height = 30
       Top = 139
-      Width = 30
+      Width = 75
       Align = alBottom
       AutoSize = True
       Color = clOlive
@@ -161,7 +157,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 109
       Top = 0
-      Width = 30
+      Width = 75
       Align = alClient
       AutoSize = True
       Color = clSilver
@@ -175,7 +171,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 30
       Top = 109
-      Width = 30
+      Width = 75
       Align = alBottom
       AutoSize = True
       Color = clMoneyGreen
