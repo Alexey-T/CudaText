@@ -1,11 +1,11 @@
 object fmMain: TfmMain
-  Left = 454
-  Height = 503
-  Top = 353
+  Left = 408
+  Height = 504
+  Top = 352
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
-  ClientHeight = 503
+  ClientHeight = 504
   ClientWidth = 872
   Constraints.MinHeight = 100
   Constraints.MinWidth = 100
@@ -23,7 +23,7 @@ object fmMain: TfmMain
   object PanelAll: TPanel
     Left = 0
     Height = 335
-    Top = 168
+    Top = 169
     Width = 872
     Align = alBottom
     BevelOuter = bvNone
@@ -32,28 +32,28 @@ object fmMain: TfmMain
     TabOrder = 0
     object PanelMain: TPanel
       Left = 0
-      Height = 78
+      Height = 82
       Top = 158
-      Width = 868
+      Width = 872
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 78
-      ClientWidth = 868
+      ClientHeight = 82
+      ClientWidth = 872
       TabOrder = 0
       object SplitterVert: TSplitter
         Left = 202
-        Height = 74
+        Height = 82
         Top = 0
         Width = 4
       end
       object PanelLeft: TPanel
         Left = 0
-        Height = 74
+        Height = 82
         Top = 0
         Width = 202
         Align = alLeft
         BevelOuter = bvNone
-        ClientHeight = 74
+        ClientHeight = 82
         ClientWidth = 202
         Color = clSilver
         ParentColor = False
@@ -62,7 +62,7 @@ object fmMain: TfmMain
           Left = 0
           Height = 20
           Top = 0
-          Width = 198
+          Width = 202
           Align = alTop
           BevelOuter = bvNone
           Caption = '?'
@@ -94,8 +94,8 @@ object fmMain: TfmMain
     object PanelBottom: TPanel
       Left = 0
       Height = 90
-      Top = 241
-      Width = 868
+      Top = 245
+      Width = 872
       Align = alBottom
       BevelOuter = bvNone
       Color = clSilver
@@ -106,8 +106,8 @@ object fmMain: TfmMain
       Cursor = crVSplit
       Left = 0
       Height = 5
-      Top = 236
-      Width = 868
+      Top = 240
+      Width = 872
       Align = alBottom
       AutoSnap = False
       MinSize = 60
@@ -119,47 +119,49 @@ object fmMain: TfmMain
       Left = 0
       Height = 24
       Top = 0
-      Width = 868
+      Width = 872
       Align = alTop
       AutoSize = True
+      Color = clSilver
+      ParentColor = False
       Images = ImageListBar
     end
     object PaintTest: TPaintBox
       Left = 0
       Height = 134
       Top = 24
-      Width = 868
+      Width = 872
       Align = alTop
       Visible = False
     end
   end
   object PanelSide: TPanel
     Left = 0
-    Height = 168
+    Height = 169
     Top = 0
     Width = 30
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 168
+    ClientHeight = 169
     ClientWidth = 30
     TabOrder = 1
     object ToolbarBtm: TATButtonsToolbar
       Left = 0
       Height = 30
-      Top = 134
-      Width = 26
+      Top = 139
+      Width = 30
       Align = alBottom
       AutoSize = True
-      Color = clGray
+      Color = clOlive
       ParentColor = False
       Images = ImageListSide
       KindVertical = True
     end
     object ToolbarSide: TATButtonsToolbar
       Left = 0
-      Height = 104
+      Height = 109
       Top = 0
-      Width = 26
+      Width = 30
       Align = alClient
       AutoSize = True
       Color = clSilver
@@ -172,8 +174,8 @@ object fmMain: TfmMain
     object ToolbarAlt: TATButtonsToolbar
       Left = 0
       Height = 30
-      Top = 104
-      Width = 26
+      Top = 109
+      Width = 30
       Align = alBottom
       AutoSize = True
       Color = clMoneyGreen

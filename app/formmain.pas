@@ -1159,7 +1159,6 @@ begin
     AppBookmarkSetup[240+i].ImageIndex:= i;
   end;
 
-  //Self.OnConstrainedResize:= @FormConstrainedResize; //not published in LCL<1.7
   PanelAll.Align:= alClient;
   AppManager:= TecSyntaxManager.Create(Self);
   FSessionName:= 'history session.json';
