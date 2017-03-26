@@ -1,11 +1,11 @@
 object fmMain: TfmMain
-  Left = 272
-  Height = 495
-  Top = 339
+  Left = 454
+  Height = 503
+  Top = 353
   Width = 872
   AllowDropFiles = True
   Caption = 'App'
-  ClientHeight = 495
+  ClientHeight = 503
   ClientWidth = 872
   Constraints.MinHeight = 100
   Constraints.MinWidth = 100
@@ -23,7 +23,7 @@ object fmMain: TfmMain
   object PanelAll: TPanel
     Left = 0
     Height = 335
-    Top = 160
+    Top = 168
     Width = 872
     Align = alBottom
     BevelOuter = bvNone
@@ -121,10 +121,7 @@ object fmMain: TfmMain
       Top = 0
       Width = 868
       Align = alTop
-      BevelOuter = bvNone
-      Color = clSilver
-      ParentColor = False
-      TabOrder = 3
+      AutoSize = True
       Images = ImageListBar
     end
     object PaintTest: TPaintBox
@@ -138,56 +135,49 @@ object fmMain: TfmMain
   end
   object PanelSide: TPanel
     Left = 0
-    Height = 160
+    Height = 168
     Top = 0
     Width = 30
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 160
+    ClientHeight = 168
     ClientWidth = 30
     TabOrder = 1
     object ToolbarBtm: TATButtonsToolbar
       Left = 0
       Height = 30
-      Top = 126
+      Top = 134
       Width = 26
       Align = alBottom
       AutoSize = True
-      BevelOuter = bvNone
-      Color = clGreen
-      Constraints.MinHeight = 30
+      Color = clGray
       ParentColor = False
-      TabOrder = 0
       Images = ImageListSide
       KindVertical = True
     end
     object ToolbarSide: TATButtonsToolbar
       Left = 0
-      Height = 96
+      Height = 104
       Top = 0
       Width = 26
       Align = alClient
-      BevelOuter = bvNone
+      AutoSize = True
       Color = clSilver
+      ShowHint = True
       ParentColor = False
       ParentShowHint = False
-      ShowHint = True
-      TabOrder = 1
       Images = ImageListSide
       KindVertical = True
     end
     object ToolbarAlt: TATButtonsToolbar
       Left = 0
       Height = 30
-      Top = 96
+      Top = 104
       Width = 26
       Align = alBottom
       AutoSize = True
-      BevelOuter = bvNone
-      Color = clOlive
-      Constraints.MinHeight = 30
+      Color = clMoneyGreen
       ParentColor = False
-      TabOrder = 2
       Images = ImageListSide
       KindVertical = True
     end
