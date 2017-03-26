@@ -2223,7 +2223,7 @@ end;
 
 procedure TfmMain.SetFrameEncoding(Frame: TEditorFrame; const AEnc: string; AAlsoReloadFile: boolean);
 begin
-  if Frame.EncodingName=AEnc then exit;
+  if SameText(Frame.EncodingName, AEnc) then exit;
   Frame.EncodingName:= AEnc;
 
   if AAlsoReloadFile then
