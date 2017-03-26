@@ -53,7 +53,9 @@ begin
     if SBeginsWith(SParam, '--enc=') or SBeginsWith(SParam, '-e=') then
     begin
       Delete(SParam, 1, Pos('=', SParam));
-      FOption_Encoding:= SParam;
+      FOption_Encoding:= AppEncodingShortnameToFullname(SParam);
+      if FOption_Encoding='' then
+        MsgStdout('CudaText: unknown encoding name: '+SParam);
       Continue;
     end;
 

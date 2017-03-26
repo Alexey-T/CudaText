@@ -572,6 +572,9 @@ type
     Data: TAppPanelProps;
   end;
 
+function AppEncodingShortnameToFullname(const S: string): string;
+function AppEncodingFullnameToShortname(const S: string): string;
+
 
 implementation
 
@@ -1523,6 +1526,31 @@ begin
   {$else}
   System.Writeln(Str);
   {$endif}
+end;
+
+
+function AppEncodingShortnameToFullname(const S: string): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  if S='' then exit;
+  for i:= Low(AppEncodings) to High(AppEncodings) do
+    with AppEncodings[i] do
+      if SameText(S, ShortName) then
+        Exit(Name);
+end;
+
+function AppEncodingFullnameToShortname(const S: string): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  if S='' then exit;
+  for i:= Low(AppEncodings) to High(AppEncodings) do
+    with AppEncodings[i] do
+      if SameText(S, Name) then
+        Exit(ShortName);
 end;
 
 
