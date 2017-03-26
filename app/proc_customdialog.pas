@@ -27,7 +27,7 @@ implementation
 uses
   ATLinkLabel,
   ATStringProc,
-  ATColorPanel,
+  ATPanelColor,
   proc_customdialog_dummy;
 
 var
@@ -484,8 +484,8 @@ begin
 
   if S='colorpanel' then
   begin
-    Ctl:= TATColorPanel.Create(AForm);
-    (Ctl as TATColorPanel).OnClick:= @ADummy.DoOnChange;
+    Ctl:= TATPanelColor.Create(AForm);
+    (Ctl as TATPanelColor).OnClick:= @ADummy.DoOnChange;
     exit;
   end;
 
@@ -569,12 +569,12 @@ begin
     exit
   end;
 
-  if (C is TATColorPanel) then
+  if (C is TATPanelColor) then
   begin
-    (C as TATColorPanel).BorderWidth:= StrToIntDef(SGetItem(S), 0);
-    (C as TATColorPanel).Color:= StrToIntDef(SGetItem(S), clDefault);
-    (C as TATColorPanel).Font.Color:= StrToIntDef(SGetItem(S), clDefault);
-    (C as TATColorPanel).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
+    (C as TATPanelColor).BorderWidth:= StrToIntDef(SGetItem(S), 0);
+    (C as TATPanelColor).Color:= StrToIntDef(SGetItem(S), clDefault);
+    (C as TATPanelColor).Font.Color:= StrToIntDef(SGetItem(S), clDefault);
+    (C as TATPanelColor).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
     exit
   end;
 
