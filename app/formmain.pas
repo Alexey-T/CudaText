@@ -1851,7 +1851,7 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-    if CompareFilenames(F.FileName, AFilename)=0 then
+    if SameFileName(F.FileName, AFilename) then
     begin
       SetFrame(F);
       Result:= F;
