@@ -557,6 +557,7 @@ type
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
+    FOption_Encoding: string;
 
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);

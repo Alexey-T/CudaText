@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.7.7.2';
+  cAppExeVersion = '1.7.8.b';
   cAppApiVersion = '1.0.171';
 
 const
@@ -188,8 +188,9 @@ const
       'Supported keys:'+sLineBreak+
       '  -h, --help      - Show this help'+sLineBreak+
       '  -v, --version   - Show application version'+sLineBreak+
-      '  -r, --readonly  - Open all files from command line in read-only mode'+sLineBreak+
       '  -n, --new       - Ignore option "ui_one_instance", force new app window'+sLineBreak+
+      '  -r, --readonly  - Open all files from command line in read-only mode'+sLineBreak+
+      '  -e, --enc=value - Open all files from command line in given encoding (see Wiki)'+sLineBreak+
       '  -w, --window=left,top,width,height - Set position/size of app window'+sLineBreak+
       ''+sLineBreak+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+

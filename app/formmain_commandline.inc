@@ -15,6 +15,7 @@ begin
   FOption_OpenReadOnly:= false;
   FOption_OpenNewWindow:= false;
   FOption_WindowPos:= '';
+  FOption_Encoding:= '';
 
   for i:= 1 to ParamCount do
   begin
@@ -41,14 +42,18 @@ begin
       MsgStdout(msgCommandLineHelp, true);
       Halt;
     end;
-    if SBeginsWith(SParam, '--window=') then
+
+    if SBeginsWith(SParam, '--window=') or SBeginsWith(SParam, '-w=') then
     begin
-      FOption_WindowPos:= Copy(SParam, Length('--window=')+1, MaxInt);
+      Delete(SParam, 1, Pos('=', SParam));
+      FOption_WindowPos:= SParam;
       Continue;
     end;
-    if SBeginsWith(SParam, '-w=') then
+
+    if SBeginsWith(SParam, '--enc=') or SBeginsWith(SParam, '-e=') then
     begin
-      FOption_WindowPos:= Copy(SParam, Length('-w=')+1, MaxInt);
+      Delete(SParam, 1, Pos('=', SParam));
+      FOption_Encoding:= SParam;
       Continue;
     end;
 
@@ -128,6 +133,11 @@ begin
       begin
         Frame.ReadOnly:= true;
         MsgStatus(''); //show "[read-only]"
+      end;
+
+      if FOption_Encoding<>'' then
+      begin
+        SetFrameEncoding(Frame, FOption_Encoding, true);
       end;
     end;
   end;
