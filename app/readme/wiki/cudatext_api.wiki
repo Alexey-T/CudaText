@@ -1016,7 +1016,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
-* PROP_ENC: str: encoding name.
+* PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: value must be str(column)+","+str(line), column/line 0-based.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
@@ -1067,7 +1067,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_COLOR: color property, value must be "color_id,color_int_value", where color_id is constant from module cudatext_colors.
 * PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
-* PROP_ENC: str: encoding name. Possible values are shown in menu of encodings.
+* PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
@@ -1373,6 +1373,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.172
+* change: PROP_ENC now uses short names, see [[CudaText#Encodings]]
 
 1.0.171
 * add: app_proc: PROC_SIDEPANEL_ADD takes additional value icon_filename
