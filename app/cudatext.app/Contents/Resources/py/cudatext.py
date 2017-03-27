@@ -53,6 +53,10 @@ COLOR_NONE = 0x1FFFFFFF
 MENU_LIST     = 0
 MENU_LIST_ALT = 1
 
+MENU_CLEAR = 0
+MENU_ENUM  = 1
+MENU_ADD   = 2
+
 BOOKMARK_GET         = 0
 BOOKMARK_SET         = 1
 BOOKMARK_CLEAR       = 2
@@ -496,6 +500,9 @@ def lexer_proc(id, value):
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
+
+def menu_proc(id_menu, id_action, command="", caption="", index=-1):
+    return ct.menu_proc(str(id_menu), id_action, command, caption, index)
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
