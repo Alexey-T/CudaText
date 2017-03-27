@@ -5,6 +5,7 @@
 
 
 1.7.8
++ mac: horiz scrolling should work now
 + command line: improved help (--help)
 + command line: aliases for keys (-h -v -r -n -w)
 + command line: added key --enc=
