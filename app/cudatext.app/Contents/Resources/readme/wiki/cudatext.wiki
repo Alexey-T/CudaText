@@ -52,19 +52,21 @@ Usage:
 
 * cudatext [ key ... ] filename ...
 
-Supported "keys" in command line:
+Supported keys:
 
-* --help - Show command-line help
-* --ro - Open all files from command line in read-only mode
-* --new - Ignore option "ui_one_instance", and force new app window
-* --version - Show application version
-* --window=left,top,width,height - Set position/size of app window, 4 numbers specified, any can be missed to keep previous value
+* -h, --help - Show command-line help
+* -v, --version - Show application version
+* -n, --new - Ignore option "ui_one_instance", and force new app window
+* -r, --readonly - Open all files from command line in read-only mode
+* -w, --window=left,top,width,height - Set position/size of app window, 4 numbers specified, any can be missed to keep previous value
+* -e, --enc=value - Open all files from command line in given encoding. See names in "Encodings" topic.
 
 Notes:
 
 * Filenames can be with ":line" or ":line:column" suffix to place caret.
 * Folders cannot be loaded yet.
 * Projects (.cuda-proj files) can be loaded, if Project Manager plugin installed.
+* Sessions (.cuda-session files) can be loaded, if Session Manager installed.
 
 == Mouse shortcuts ==
 
@@ -200,11 +202,13 @@ Users, which have "ui_lexer_themes" off, want to configure styles of all lexers.
 Menu item "Settings - file-types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
 Example of file:
 
-  {
-    "*.mht": "HTML",
-    "myconfig.conf": "Nginx",
-    ".profile": "Bash script",
-  }
+<syntaxhighlight lang="javascript">
+{
+  "*.mht": "HTML",
+  "myconfig.conf": "Nginx",
+  ".profile": "Bash script",
+}
+</syntaxhighlight>
 
 This allows to open files with extension "mht" with custom lexer, and file with name "myconfig.conf" with another custom lexer.
 Value "-" means "don't activate lexer".
@@ -216,9 +220,43 @@ Another method to specify this mapping is dialog "Lexer properties", in which yo
 
 ==Encodings==
 
-You can change encoding of file using click on statusbar item. Menu will give list of encodings: ANSI, UTF8 etc. Only encodings supported by LConvEncoding are shown.
+You can change encoding of file using click on statusbar item. Menu will give list of encodings. Also menu gives 2 choices: 
 
-If you change enc for untitled tab, then enc is changed only in-memory (next file save will use this encoding). If you change enc for named tab, then additional confirmation shows: "Do you also want to reload file?". Choose Ok to reload file from disk using new encoding. Choose Cancel to only change encoding in-memory (call Save then to apply enc to file).
+* reload file in given encoding from disk
+* change encoding in memory only (this doesn't save file)
+
+If you change enc for untitled tab, then enc is changed only in-memory (next file save will use this encoding). If you change enc for named tab, then additional confirmation shows: "Do you also want to reload file?". Choose Ok to reload file from disk; choose Cancel to change encoding in memory.
+
+Encoding names for command-line:
+
+* ansi
+* utf8
+* utf8_bom
+* utf16le
+* utf16le_bom
+* utf16be
+* utf16be_bom
+* cp1250
+* cp1251
+* cp1252
+* cp1253
+* cp1254
+* cp1255
+* cp1256
+* cp1257
+* cp1258
+* cp437
+* cp850
+* cp852
+* cp866
+* cp874
+* cp932
+* cp936
+* cp949
+* cp950
+* iso-8859-1
+* iso-8859-2
+* mac
 
 ==Line ends==
 
