@@ -1,7 +1,7 @@
 object fmLexerProp: TfmLexerProp
-  Left = 430
+  Left = 394
   Height = 569
-  Top = 303
+  Top = 340
   Width = 623
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -43,7 +43,7 @@ object fmLexerProp: TfmLexerProp
     TabOrder = 0
     object TabSheetGeneral: TTabSheet
       Caption = 'General'
-      ClientHeight = 497
+      ClientHeight = 524
       ClientWidth = 619
       object LabelLexerName: TLabel
         AnchorSideLeft.Control = TabSheetGeneral
@@ -120,7 +120,7 @@ object fmLexerProp: TfmLexerProp
         AnchorSideTop.Control = LabelSample
         AnchorSideTop.Side = asrBottom
         Left = 6
-        Height = 365
+        Height = 392
         Top = 126
         Width = 607
         Align = alBottom
@@ -188,7 +188,6 @@ object fmLexerProp: TfmLexerProp
         OptNumbersStyle = cNumbersNone
         OptNumbersSkippedChar = '.'
         OptUnprintedVisible = False
-        OptMouseWheelWithCtrlChangeSize = False
       end
     end
     object TabSheetComments: TTabSheet
@@ -370,6 +369,7 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Around = 6
         ItemHeight = 0
         OnClick = ListStylesClick
+        Options = [lboDrawFocusRect]
         ScrollWidth = 174
         TabOrder = 0
         TopIndex = -1
