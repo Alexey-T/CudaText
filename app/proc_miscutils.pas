@@ -42,6 +42,7 @@ function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
+function FormatFileDateAsNiceString(const AFilename: string): string;
 
 
 implementation
@@ -311,6 +312,16 @@ begin
   end;
 end;
 
+
+function FormatFileDateAsNiceString(const AFilename: string): string;
+var
+  N: Longint;
+  D: TDateTime;
+begin
+  N:= FileAgeUTF8(AFilename);
+  D:= FileDateToDateTime(N);
+  Result:= FormatDateTime('yyyy-mm-dd_hh-nn-ss', D);
+end;
 
 end.
 

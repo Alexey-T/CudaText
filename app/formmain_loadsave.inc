@@ -127,7 +127,7 @@ begin
       begin
         c.SetValue(path+'/text', F.Editor.Text);
         if F.FileName<>'' then
-          c.SetValue(path+'/file_age', FileAgeUTF8(F.FileName));
+          c.SetValue(path+'/file_date', FormatFileDateAsNiceString(F.FileName));
       end;
 
       F.DoSaveHistoryEx(c, path);
@@ -153,7 +153,7 @@ var
   Pages: TATPages;
   bModified: boolean;
   sText: UnicodeString;
-  nAgeSaved, nAgeCurrent: Longint;
+  sDateSaved, sDateCurrent: string;
 begin
   Result:= false;
   if fn_session='' then exit;
@@ -182,9 +182,9 @@ begin
       //check, if text saved in session, but file was changed outside
       if bModified and (sFilename<>'') and FileExistsUTF8(sFileName) then
       begin
-        nAgeSaved:= c.GetValue(item_path+'file_age', 0);
-        nAgeCurrent:= FileAgeUTF8(sFilename);
-        if nAgeSaved<>nAgeCurrent then
+        sDateSaved:= c.GetValue(item_path+'file_date', '');
+        sDateCurrent:= FormatFileDateAsNiceString(sFilename);
+        if sDateSaved<>sDateCurrent then
           if MsgBox(
             msgConfirmFileChangedOutside+#10+sFilename+#10#10+
             msgConfirmReloadIt+#10+

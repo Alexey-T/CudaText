@@ -12,6 +12,7 @@
 + command line: aliases for keys (-h -v -r -n -w)
 + command line: added key --enc=
 * command line: renamed key: --readonly
+* sessions: changed format of file date in session (was number, now readable)
 
 1.7.7
 + menu item "File - New from template" (same as click on arrow near "new icon")
