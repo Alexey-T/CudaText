@@ -832,6 +832,22 @@ Possible values of id:
 
 Result is True if params ok; False if params not ok (callback str incorrect, interval incorrect, not created callback on stopping); or None (for unknown id).
 
+===menu_proc===
+
+ menu_proc(id_menu, id_action, command="", caption="", index=-1)
+
+Performs action on menu items.
+
+Possible values of id_action:
+
+* MENU_CLEAR - Removes all subitems from given menu.
+* MENU_ENUM - Enumerates subitems of given menu.
+* MENU_ADD - Adds new subitem to given menu.
+
+Meaning of other params is described above, about PROC_MENU_CLEAR, PROC_MENU_ENUM, PROC_MENU_ADD. That PROC_MENU_ api is deprecated, and this is new one.
+
+Note: menu_proc can take int values of id_menu.
+
 ===more===
 
 =Editor class=
@@ -1375,6 +1391,8 @@ Text is chr(1) separated items:
 =History=
 
 1.0.172
+* add: menu_proc()
+* deprecated: app_proc actions: PROC_MENU_*
 * change: PROP_ENC now uses short names, see [[CudaText#Encodings]]
 
 1.0.171
