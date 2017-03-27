@@ -313,24 +313,27 @@ begin
 end;
 
 
-function FormatFileDateAsNiceString(const AFilename: string): string;
+function ConvertDateTimeToNiceString(const ADate: TDateTime): string;
 var
-  N: Longint;
-  D, DT: TDateTime;
+  DTime: TDateTime;
   NHour, NMinute, NSec, NMilSec: word;
 begin
-  N:= FileAgeUTF8(AFilename);
-  D:= FileDateToDateTime(N);
-
   //fix result: make millisec=0, make seconds even int
-  DecodeTime(D, NHour, NMinute, NSec, NMilSec);
+  DecodeTime(ADate, NHour, NMinute, NSec, NMilSec);
   NMilSec:= 0;
   NSec:= NSec div 2 * 2;
-  DT:= EncodeTime(NHour, NMinute, NSec, NMilSec);
-  D:= ComposeDateTime(D, DT);
-
-  Result:= FormatDateTime('yyyy-mm-dd_hh-nn-ss', D);
+  DTime:= EncodeTime(NHour, NMinute, NSec, NMilSec);
+  Result:= FormatDateTime('yyyy-mm-dd_hh-nn-ss', ComposeDateTime(ADate, DTime));
 end;
+
+function FormatFileDateAsNiceString(const AFilename: string): string;
+var
+  D: TDateTime;
+begin
+  D:= FileDateToDateTime(FileAgeUTF8(AFilename));
+  Result:= ConvertDateTimeToNiceString(D);
+end;
+
 
 end.
 
