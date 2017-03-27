@@ -2138,7 +2138,11 @@ begin
     SplitterVert.Visible:= AValue;
     SplitterVert.Left:= PanelLeft.Width;
     if AValue then
+    begin
+      if SidebarPanel='' then
+        SidebarPanel:= 'Tree';
       UpdateTree(true);
+    end;
   end;
   UpdateSidebarButtons;
 end;
