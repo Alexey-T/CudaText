@@ -2192,7 +2192,7 @@ begin
 
         APP_PROC_MENU_ADD:
           begin
-            Str:= fmMain.DoMenuAdd(Str);
+            Str:= fmMain.DoMenuAdd_FromString(Str);
             if Str<>'' then
               Result:= PyString_FromString(PChar(Str))
             else

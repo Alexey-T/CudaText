@@ -579,9 +579,11 @@ type
     procedure DoLocalize_FormGoto;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
-    function DoMenuAdd(AStr: string): string;
-    procedure DoMenuClear(const AStr: string);
-    function DoMenuEnum(const AStr: string): string;
+    function DoMenuAdd_FromString(AStr: string): string;
+    function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption: string;
+      AIndex: integer): string;
+    procedure DoMenuClear(const AMenuId: string);
+    function DoMenuEnum(const AMenuId: string): string;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoPanel_Event(AControl: TObject; const AEvent: string);
@@ -3725,7 +3727,7 @@ begin
 end;
 
 
-function TfmMain.DoMenuEnum(const AStr: string): string;
+function TfmMain.DoMenuEnum(const AMenuId: string): string;
 var
   mi: TMenuItem;
   i: integer;
@@ -3735,7 +3737,7 @@ begin
   //this updates PopupText items tags
   PopupText.OnPopup(nil);
 
-  mi:= Py_MenuItemFromId(AStr);
+  mi:= Py_MenuItemFromId(AMenuId);
   if Assigned(mi) then
     for i:= 0 to mi.Count-1 do
       Result:= Result+
@@ -3748,15 +3750,15 @@ begin
 end;
 
 
-procedure TfmMain.DoMenuClear(const AStr: string);
+procedure TfmMain.DoMenuClear(const AMenuId: string);
 var
   mi: TMenuItem;
 begin
-  mi:= Py_MenuItemFromId(AStr);
+  mi:= Py_MenuItemFromId(AMenuId);
   if Assigned(mi) then
   begin
     mi.Clear;
-    if AStr=PyMenuId_Top then
+    if AMenuId=PyMenuId_Top then
     begin
       mnuFileOpenSub:= nil;
       mnuFileEnc:= nil;
@@ -3767,22 +3769,22 @@ begin
       mnuPlug:= nil;
       mnuLexers:= nil;
     end;
-    if AStr=PyMenuId_TopOptions then
+    if AMenuId=PyMenuId_TopOptions then
     begin
       mnuThemes:= nil;
       mnuThemesUI:= nil;
       mnuThemesSyntax:= nil;
       mnuLang:= nil;
     end;
-    if AStr=PyMenuId_TopFile then
+    if AMenuId=PyMenuId_TopFile then
     begin
       mnuFileOpenSub:= nil;
     end;
-    if AStr=PyMenuId_TopView then
+    if AMenuId=PyMenuId_TopView then
     begin
       mnuLexers:= nil;
     end;
-    if AStr=PyMenuId_Text then
+    if AMenuId=PyMenuId_Text then
     begin
       mnuTextCopy:= nil;
       mnuTextCut:= nil;
@@ -3797,68 +3799,75 @@ begin
   end;
 end;
 
-function TfmMain.DoMenuAdd(AStr: string): string;
+function TfmMain.DoMenuAdd_FromString(AStr: string): string;
 var
   StrId, StrCmd, StrCaption, StrIndex: string;
-  mi, miMain: TMenuItem;
-  Num: integer;
+  NIndex: integer;
 begin
-  Result:= '';
   StrId:= SGetItem(AStr, ';');
   StrCmd:= SGetItem(AStr, ';');
   StrCaption:= SGetItem(AStr, ';');
   StrIndex:= SGetItem(AStr, ';');
+  NIndex:= StrToIntDef(StrIndex, -1);
+  Result:= DoMenuAdd_Params(StrId, StrCmd, StrCaption, NIndex);
+end;
 
-  miMain:= Py_MenuItemFromId(StrId);
-  if Assigned(miMain) and (StrCaption<>'') then
+function TfmMain.DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption: string; AIndex: integer): string;
+var
+  mi, miMain: TMenuItem;
+  Num: integer;
+begin
+  Result:= '';
+  miMain:= Py_MenuItemFromId(AMenuId);
+  if Assigned(miMain) and (AMenuCaption<>'') then
   begin
     mi:= TMenuItem.Create(Self);
-    mi.Caption:= StrCaption;
+    mi.Caption:= AMenuCaption;
 
-    Num:= StrToIntDef(StrCmd, 0); //command code
+    Num:= StrToIntDef(AMenuCmd, 0); //command code
     if Num>0 then
     begin
       UpdateMenuItemHotkey(mi, Num);
       UpdateMenuItemAltObject(mi, Num);
     end
     else
-    if (StrCmd=PyMenuCmd_Recents) or (StrCmd='_'+PyMenuCmd_Recents) then
+    if (AMenuCmd=PyMenuCmd_Recents) or (AMenuCmd='_'+PyMenuCmd_Recents) then
     begin
       mnuFileOpenSub:= mi;
       UpdateMenuRecent(nil);
     end
     else
-    if (StrCmd=PyMenuCmd_ThemesUI) or (StrCmd='_'+PyMenuCmd_ThemesUI) then
+    if (AMenuCmd=PyMenuCmd_ThemesUI) or (AMenuCmd='_'+PyMenuCmd_ThemesUI) then
     begin
       mnuThemesUI:= mi;
       UpdateMenuThemes(true);
     end
     else
-    if (StrCmd=PyMenuCmd_ThemesSyntax) or (StrCmd='_'+PyMenuCmd_ThemesSyntax) then
+    if (AMenuCmd=PyMenuCmd_ThemesSyntax) or (AMenuCmd='_'+PyMenuCmd_ThemesSyntax) then
     begin
       mnuThemesSyntax:= mi;
       UpdateMenuThemes(false);
     end
     else
-    if (StrCmd=PyMenuCmd_Langs) or (StrCmd='_'+PyMenuCmd_Langs) then
+    if (AMenuCmd=PyMenuCmd_Langs) or (AMenuCmd='_'+PyMenuCmd_Langs) then
     begin
       mnuLang:= mi;
       UpdateMenuLangs(mi);
     end
     else
-    if (StrCmd=PyMenuCmd_Plugins) or (StrCmd='_'+PyMenuCmd_Plugins) then
+    if (AMenuCmd=PyMenuCmd_Plugins) or (AMenuCmd='_'+PyMenuCmd_Plugins) then
     begin
       mnuPlug:= mi;
       UpdateMenuPlugins;
     end
     else
-    if (StrCmd=PyMenuCmd_Lexers) or (StrCmd='_'+PyMenuCmd_Lexers) then
+    if (AMenuCmd=PyMenuCmd_Lexers) or (AMenuCmd='_'+PyMenuCmd_Lexers) then
     begin
       mnuLexers:= mi;
       UpdateMenuLexers;
     end
     else
-    if (StrCmd=PyMenuCmd_Enc) or (StrCmd='_'+PyMenuCmd_Enc) then
+    if (AMenuCmd=PyMenuCmd_Enc) or (AMenuCmd='_'+PyMenuCmd_Enc) then
     begin
       mnuFileEnc:= mi;
       UpdateMenuEnc(mi);
@@ -3866,14 +3875,13 @@ begin
     else
     begin
       mi.Tag:= -1;
-      mi.Hint:= StrCmd;
-      if StrCmd<>'0' then
+      mi.Hint:= AMenuCmd;
+      if AMenuCmd<>'0' then
         mi.OnClick:= @MenuMainClick;
     end;
 
-    Num:= StrToIntDef(StrIndex, -1);
-    if Num>=0 then
-      miMain.Insert(Num, mi)
+    if AIndex>=0 then
+      miMain.Insert(AIndex, mi)
     else
       miMain.Add(mi);
 
