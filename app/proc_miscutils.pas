@@ -316,10 +316,19 @@ end;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 var
   N: Longint;
-  D: TDateTime;
+  D, DT: TDateTime;
+  NHour, NMinute, NSec, NMilSec: word;
 begin
   N:= FileAgeUTF8(AFilename);
   D:= FileDateToDateTime(N);
+
+  //fix result: make millisec=0, make seconds even int
+  DecodeTime(D, NHour, NMinute, NSec, NMilSec);
+  NMilSec:= 0;
+  NSec:= NSec div 2 * 2;
+  DT:= EncodeTime(NHour, NMinute, NSec, NMilSec);
+  D:= ComposeDateTime(D, DT);
+
   Result:= FormatDateTime('yyyy-mm-dd_hh-nn-ss', D);
 end;
 
