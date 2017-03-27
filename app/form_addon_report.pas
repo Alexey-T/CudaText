@@ -40,10 +40,6 @@ begin
     repeat
       S:= SGetItem(SAll, #10);
       if S='' then Break;
-
-      S:= StringReplace(S, '&', '', [rfReplaceAll]);
-      S:= StringReplace(S, '\', ': ', [rfReplaceAll]);
-
       F.ListBox1.Items.Add(S);
     until false;
 

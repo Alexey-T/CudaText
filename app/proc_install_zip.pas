@@ -115,11 +115,13 @@ begin
         if s_caption='' then Continue;
         if s_method='' then Continue;
 
-        if not SEndsWith(s_caption, '\-') then
-          s_report:= s_report+msgStatusPackageCommand+' '+s_caption+
-            IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#10;
+        s_caption_nice:= s_caption;
+        s_caption_nice:= StringReplace(s_caption_nice, '&', '', [rfReplaceAll]);
+        s_caption_nice:= StringReplace(s_caption_nice, '\', ': ', [rfReplaceAll]);
 
-        s_caption_nice:= 'plugin: '+ StringReplace(s_caption, '\', ': ', [rfReplaceAll]);
+        if not SEndsWith(s_caption, '\-') then
+          s_report:= s_report+msgStatusPackageCommand+' '+s_caption_nice+
+            IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#10;
 
         //handle "hotkey"
         if s_hotkey<>'' then
@@ -127,14 +129,14 @@ begin
           if s_lexers='' then
             //set in keys.json
             DoOps_SaveKey_ForPluginModuleAndMethod(false,
-              s_caption_nice, s_module, s_method, '', s_hotkey)
+              'plugin: '+s_caption_nice, s_module, s_method, '', s_hotkey)
           else
           repeat
             //set in "keys lexer nnnn.json" for all items in s_lexers
             s_lexer_item:= SGetItem(s_lexers);
             if s_lexer_item='' then Break;
             DoOps_SaveKey_ForPluginModuleAndMethod(false,
-              s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
+              'plugin: '+s_caption_nice, s_module, s_method, s_lexer_item, s_hotkey);
           until false;
         end;
       end;
