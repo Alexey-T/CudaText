@@ -5,7 +5,7 @@
 
 
 1.7.8
-+ mac: horiz scrolling should work now
++ mac: horiz scroll by trackpad should work now
 + option mouse_wheel_speed_vert
 + option mouse_wheel_speed_horz
 + command line: improved help (--help)
