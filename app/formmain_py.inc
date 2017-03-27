@@ -2940,6 +2940,47 @@ begin
     end;
 end;
 
+
+//menu_proc(id_menu, id_action, command, caption, index)
+function Py_menu_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  PtrMenu, PtrCaption, PtrCmd: PChar;
+  StrMenu, StrCaption, StrCmd, StrResult: string;
+  NAction, NIndex: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'sissi:menu_proc', @PtrMenu, @NAction, @PtrCmd, @PtrCaption, @NIndex)) then
+    begin
+      StrMenu:= string(PtrMenu);
+      StrCaption:= string(PtrCaption);
+      StrCmd:= string(PtrCmd);
+
+      case NAction of
+        MENU_CLEAR:
+          begin
+            fmMain.DoMenuClear(StrMenu);
+            Result:= ReturnNone;
+          end;
+
+        MENU_ENUM:
+          begin
+            StrResult:= fmMain.DoMenuEnum(StrMenu);
+            Result:= PyString_FromString(PChar(StrResult));
+          end;
+
+        MENU_ADD:
+          begin
+            StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, NIndex);
+            Result:= PyString_FromString(PChar(StrResult));
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 //listbox_proc(id_listbox, id_action, index, text)
 function Py_listbox_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -3827,8 +3868,10 @@ begin
     AddMethod('ed_group', @Py_ed_group, '');
     AddMethod('ini_read', @Py_ini_read, '');
     AddMethod('ini_write', @Py_ini_write, '');
+
     AddMethod('lexer_proc', @Py_lexer_proc, '');
     AddMethod('tree_proc', @Py_tree_proc, '');
+    AddMethod('menu_proc', @Py_menu_proc, '');
     AddMethod('listbox_proc', @Py_listbox_proc, '');
     AddMethod('canvas_proc', @Py_canvas_proc, '');
     AddMethod('timer_proc', @Py_timer_proc, '');

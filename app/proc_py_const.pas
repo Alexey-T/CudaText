@@ -235,6 +235,10 @@ const
   LISTBOX_GET_TOP      = 14;
   LISTBOX_SET_TOP      = 15;
 
+  MENU_CLEAR = 0;
+  MENU_ENUM  = 1;
+  MENU_ADD   = 2;
+
   LEXER_GET_LIST            = 0;
   LEXER_GET_ENABLED         = 1;
   LEXER_GET_EXT             = 2;
