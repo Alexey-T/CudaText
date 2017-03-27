@@ -458,21 +458,21 @@ Option-buttons have hotkeys too: hover mouse over them to see hints:
 
 ==Comments==
 
-Comments supported:
+You can add/remove code comments, via "Comments" plugin. Plugin is preinstalled in CudaText. It gives about 6 commands in menu "Plugins - Comments - ...". Plugin supports only adding/removing of comments, not syntax highlighting for them.
 
-* '''Line comments''': from substring to line-end. E.g. in C lexer: "//text here". Comment-chars are editable in dialog "Lexer properties".
-* '''Stream comments''': from substring1 to substring2. E.g. in C lexer: "/* text here */". Comment-chars are editable by plugin CudaExt:
-** install CudaExt
-** call Commands dialog
-** search for command "Edit stream comment chars", run it
-** CudaExt gives dialog to edit chars, it saves them in '''settings/user_lexers.json''' (defaults for some lexers present in the file '''settings_default/default_lexers.json''').
+* '''Line comments''': from substring to line-end. E.g. in C lexer: "//text here", in Python lexer: "# text here".
+* '''Comments for range''' ('''Stream comments'''): from substring-1 to substring-2. E.g. in C lexer: "/* text here */". 
+* '''Comments for full lines''': from newline to another newline. E.g. used in PowerShell.
 
-Commands for commenting/uncommenting in menu: Edit--Comments (submenu).
+For ex, Python lexer supports only line comment, and don't support stream comments. PowerShell lexer supports comments for full lines, while don't support comments for any block.
 
-Line comments can be added by 2 commands:
+Comment chars are editable in dialog "Lexer properties" (after you called needed lexer), in tab "Commenting" you see few input fields.
+Command "Toggle stream comment" in plugin adds/removes comments of last 2 types: for range, for full lines (plugin chooses needed kind).
 
-* at line-start
-* at first non-space char
+Comment chars are saved:
+
+* Line comments: in lexer file (data/lexlib/lexername.lcf)
+* Comments for range/ for full lines: in separate files (data/lexlib/lexername.cuda-lexmap), which not exist for many lexers yet. On installing a lexer without .cuda-lexmap file, you'll see a warning about it in "Addon installed" dialog. In this case, open "Lexer properties" dialog and configure these chars.
 
 == Char map ==
 
