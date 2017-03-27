@@ -295,6 +295,8 @@ begin
   Ed.OptMouseHideCursorOnType:= Op.OpMouseHideCursorOnType;
   Ed.OptMouseGutterClickSelectsLine:= Op.OpMouseGutterClickSelectedLine;
   Ed.OptMouseWheelZooms:= Op.OpMouseWheelZoom;
+  Ed.OptMouseWheelScrollVertSpeed:= Op.OpMouseWheelSpeedVert;
+  Ed.OptMouseWheelScrollHorzSpeed:= Op.OpMouseWheelSpeedHorz;
 
   Ed.OptKeyBackspaceUnindent:= Op.OpKeyBackspaceUnindent;
   Ed.OptKeyTabIndents:= Op.OpKeyTabIndents;

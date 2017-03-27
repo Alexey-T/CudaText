@@ -407,8 +407,12 @@
   "mouse_column_selection": true,
   //Select entire line if clicked line number
   "mouse_gutter_click_sel": true,
-  //Allow to zoom text using Ctrl+mouse wheel
+  //Allow to zoom text using Ctrl+wheel
   "mouse_wheel_zoom": false,
+  //Mouse wheel scrolling speed, vertical (in lines)
+  "mouse_wheel_speed_vert": 3,
+  //Mouse wheel scrolling speed, horizontal (in chars)
+  "mouse_wheel_speed_horz": 10,
   
   //Call Goto-Definition command, by click with modifier key
   //  "": disabled

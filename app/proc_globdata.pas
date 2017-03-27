@@ -308,6 +308,8 @@ type
     OpMouseHideCursorOnType: boolean; //don't work on lin
     OpMouseGutterClickSelectedLine: boolean;
     OpMouseWheelZoom: boolean;
+    OpMouseWheelSpeedVert: integer;
+    OpMouseWheelSpeedHorz: integer;
 
     //keys
     OpKeyBackspaceUnindent: boolean;
@@ -899,6 +901,8 @@ begin
     OpMouseHideCursorOnType:= false;
     OpMouseGutterClickSelectedLine:= true;
     OpMouseWheelZoom:= false;
+    OpMouseWheelSpeedVert:= 3;
+    OpMouseWheelSpeedHorz:= 10;
 
     OpKeyBackspaceUnindent:= true;
     OpKeyTabIndents:= true;
