@@ -184,42 +184,16 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 
 ====Menus====
 
-menu_id can be:
+PROC_MENU_ APIs are deprecated. The meaning of parameters: menu_id, menu_cmd, menu_caption, menu_index: is described in the topic about menu_proc().
 
-* str(int_value) to specify menu item by unique int value
-* "top" to specify top menu
-* "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" to specify submenus File/Edit/Selection/Search/View/Options/Help
-* "text" to specify editor context menu
-* "side:"+tab_caption to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
-* "btm:"+tab_caption to specify context menu of bottom panel
-* "toolmenu:"+name to specify drop-down submenu of toolbar button
-
-Actions:
-
+* PROC_MENU_CLEAR: Removes all sub-items from menu item. Param text must be menu_id.
 * PROC_MENU_ENUM: Enumerates sub-items in menu item. Param text must be menu_id. Gets str: "\n"-separated strings for sub-items. These strings are:
-** for usual command items: "caption|int_command|menu_id" 
-** for plugin command items: "caption|plugin_module,plugin_method|menu_id" 
+** for usual command items: "caption|int_command|menu_id"
+** for plugin command items: "caption|plugin_module,plugin_method|menu_id"
 ** for separator items: "-||menu_id"
 ** for submenu items: 2nd part (between "|" chars) is not a command code, such items are "caption||menu_id" or "caption|string_hint|menu_id"
 
-* PROC_MENU_CLEAR: Removes all sub-items from menu item. Param text must be menu_id.
-
-* PROC_MENU_ADD: Adds sub-item to menu item. This returns string, menu_id for newly added sub-item. Param text must be "menu_id;menu_cmd;menu_caption;menu_index". Parts are:
-** menu_id is item in which you add sub-item. 
-** menu_caption is caption, or "-" for menu separator.
-** menu_index is str(index) for 0-based index at which to insert sub-item; empty menu_index or "-1": add item at end.
-** menu_cmd can be:
-*** str(int_command) - int command code, from module cudatext_cmd (pass 0 if item does nothing)
-*** special values: 
-**** "recents", "_recents" - recent-files submenu
-**** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
-**** "langs", "_langs" - translations submenu
-**** "lexers", "_lexers" - lexers submenu
-**** "plugins", "_plugins" - plugins submenu
-**** "themes-ui", "_themes-ui" - ui-themes submenu 
-**** "themes-syntax", "_themes-syntax" - syntax-themes submenu 
-*** str_module+","+str_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to method (param can be of any primitive type).
-*** any string (e.g. empty string), if item will be used as submenu (item will be submenu, if any sub-items will be added to it)
+* PROC_MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Param text must be "menu_id;menu_cmd;menu_caption;menu_index".
 
 ====Side panel====
 
@@ -832,6 +806,59 @@ Possible values of id:
 
 Result is True if params ok; False if params not ok (callback str incorrect, interval incorrect, not created callback on stopping); or None (for unknown id).
 
+===menu_proc===
+
+ menu_proc(id_menu, id_action, command="", caption="", index=-1)
+
+Perform action on menu items.
+
+Param id_menu can be:
+
+* int_value or str(int_value) - to specify menu item by unique int value
+* "top" - to specify top menu
+* "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" - to specify submenus of the main menu: File/Edit/Selection/Search/View/Options/Help
+* "text" - to specify editor context menu
+* "side:"+tab_caption - to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
+* "btm:"+tab_caption - to specify context menu of bottom panel
+* "toolmenu:"+name - to specify drop-down sub-menu of toolbar button
+
+Possible values of id_action:
+
+* MENU_CLEAR: Removes all sub-items from menu item. Params used: id_menu.
+
+* MENU_ENUM: Enumerates sub-items in menu item. Params used: id_menu. If id_menu valid, gets list of dict, else gets None. Dict items are: {"id": int_id_menu; "cap": str_caption; "cmd": int_command; "hint": str_command}.
+** for usual command items: "cmd" value is >0
+** for plugin command items: "cmd" value is <=0; "hint" value is "plugin_module,plugin_method" 
+** for separator items: "cap" value is "-"
+** for sub-menu items: "cmd" value is <=0; "hint" value is some simple string
+
+* MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params used:
+** id_menu - item in which you add sub-item. 
+** caption - caption of menu item, or "-" for menu separator.
+** index - 0-based index at which to insert sub-item. Default: append item to the end.
+** command - describes action for menu item. Can be:
+*** int_command or str(int_command) - int command code, from module cudatext_cmd (pass 0 if item does nothing)
+*** special values: 
+**** "recents", "_recents" - recent-files submenu
+**** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
+**** "langs", "_langs" - translations submenu
+**** "lexers", "_lexers" - lexers submenu
+**** "plugins", "_plugins" - plugins submenu
+**** "themes-ui", "_themes-ui" - ui-themes submenu 
+**** "themes-syntax", "_themes-syntax" - syntax-themes submenu 
+*** str_module+","+str_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to method (param can be of any primitive type).
+*** any string (e.g. empty string), if item will be used as submenu (item will be submenu, if any sub-items will be added to it)
+
+====Example==== 
+
+Example adds item "Misc" to the main menu, and sub-items: "About-1", "About-2", separator, "Rename file" (from CudaExt plugin):
+
+  menuid = menu_proc('top', MENU_ADD, caption='Misc')
+  n = menu_proc(menuid, MENU_ADD, command=2700, caption='About-1')
+  n = menu_proc(menuid, MENU_ADD, command=2700, caption='About-2')
+  n = menu_proc(menuid, MENU_ADD, caption='-')
+  n = menu_proc(menuid, MENU_ADD, command='cuda_ext,rename_file', caption='Rename file')
+
 ===more===
 
 =Editor class=
@@ -1375,6 +1402,8 @@ Text is chr(1) separated items:
 =History=
 
 1.0.172
+* add: menu_proc()
+* deprecated: app_proc actions: PROC_MENU_*
 * change: PROP_ENC now uses short names, see [[CudaText#Encodings]]
 
 1.0.171
