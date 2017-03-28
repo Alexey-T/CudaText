@@ -299,6 +299,11 @@ type
     property OnTabChangeQuery: TATTabChangeQueryEvent read FOnTabChangeQuery write FOnTabChangeQuery;
   end;
 
+var
+  cTabsMouseMinDistanceToDrag: integer = 10; //mouse must move >=N pixels to start drag-drop
+  cTabsMouseMaxDistanceToClick: integer = 4; //if mouse moves during mouse-down >=N pixels, dont click
+
+
 implementation
 
 uses
@@ -1135,11 +1140,10 @@ begin
 end;
 
 procedure TATTabs.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-const
-  cMaxMoveDuringClick = 8;
 begin
   if FMouseDown and not FMouseDrag then
-    if (Abs(X-FMouseDownPnt.X) + Abs(Y-FMouseDownPnt.Y)) < cMaxMoveDuringClick then
+    if (Abs(X-FMouseDownPnt.X) < cTabsMouseMaxDistanceToClick) and
+       (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick) then
     begin
       FMouseDown:= false;
       DoHandleClick;
@@ -1209,22 +1213,18 @@ begin
     case FTabIndexOver of
       cAtArrowDown:
         begin
-          FMouseDown:= false;
           EndDrag(false);
           FTabIndexOver:= -1;
           Invalidate;
           ShowTabMenu;
-          Exit
         end;
 
       cAtTabPlus:
         begin
-          FMouseDown:= false;
           EndDrag(false);
           FTabIndexOver:= -1;
           if Assigned(FOnTabPlusClick) then
             FOnTabPlusClick(Self);
-          Exit;
         end;
 
       else
@@ -1237,7 +1237,6 @@ begin
             begin
               EndDrag(false);
               DeleteTab(FTabIndexOver, true, true);
-              Exit
             end;
           end;
         end;
@@ -1249,8 +1248,6 @@ type
   TControl2 = class(TControl);
 
 procedure TATTabs.MouseMove(Shift: TShiftState; X, Y: Integer);
-const
-  cDragMin = 10; //mouse must move by NN pixels to start drag
 begin
   inherited;
   FTabIndexOver:= GetTabAt(X, Y);
@@ -1261,10 +1258,11 @@ begin
 
   if FMouseDown and FTabDragEnabled and (TabCount>0) then
   begin
-    if (Abs(X-FMouseDownPnt.X)>cDragMin) or
-       (Abs(Y-FMouseDownPnt.Y)>cDragMin) then
+    if (Abs(X-FMouseDownPnt.X)>cTabsMouseMinDistanceToDrag) or
+       (Abs(Y-FMouseDownPnt.Y)>cTabsMouseMinDistanceToDrag) then
     begin
       FMouseDrag:= true;
+      Screen.Cursor:= crDrag;
     end;
   end;
 
