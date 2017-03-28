@@ -577,7 +577,7 @@
   //  if value has "S": side panel
   "ui_fullscreen_hide": "t",
 
-  //Show sidebar (vertical panel with buttons on the left)
+  //Show sidebar (vertical panel with buttons, but not side panels like Tree)
   "ui_sidebar_show": true,
   //Name of sidebar icon theme (subdir inside data/sideicons)
   "ui_sidebar_theme": "octicons_20x20",
