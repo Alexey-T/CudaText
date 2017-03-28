@@ -669,7 +669,7 @@ object SyntAnal3: TLibSyntAnalyzer
     'echo text'
     'echo cmd'
     'Symbol')
-  Extentions = 'sh csh bash /.bashrc /.zshrc'
+  Extentions = 'sh csh bash command /.bashrc /.zshrc'
   LexerName = 'Bash script'
   SkipSpaces = False
   Notes.Strings = (
