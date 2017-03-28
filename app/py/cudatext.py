@@ -502,7 +502,7 @@ def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
 
 def menu_proc(id_menu, id_action, command="", caption="", index=-1):
-    return ct.menu_proc(str(id_menu), id_action, command, caption, index)
+    return ct.menu_proc(str(id_menu), id_action, str(command), caption, index)
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
