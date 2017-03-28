@@ -96,6 +96,8 @@ type
     FMouseDown: boolean;
     FMouseDownPnt: TPoint;
     FMouseDownDbl: boolean;
+    FMouseDownButton: TMouseButton;
+    FMouseDownShift: TShiftState;
     FMouseDrag: boolean;
 
     //colors
@@ -170,6 +172,7 @@ type
     FOnTabMove: TATTabMoveEvent;
     FOnTabChangeQuery: TATTabChangeQueryEvent;
 
+    procedure DoHandleClick;
     procedure DoPaintTo(C: TCanvas);
     procedure DoPaintBgTo(C: TCanvas; const ARect: TRect);
     procedure DoPaintTabTo(C: TCanvas; ARect: TRect; const ACaption: atString;
@@ -1132,9 +1135,18 @@ begin
 end;
 
 procedure TATTabs.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+const
+  cMaxMoveDuringClick = 8;
 begin
+  if FMouseDown and not FMouseDrag then
+    if (Abs(X-FMouseDownPnt.X) + Abs(Y-FMouseDownPnt.Y)) < cMaxMoveDuringClick then
+    begin
+      FMouseDown:= false;
+      DoHandleClick;
+      Exit
+    end;
+
   FMouseDown:= false;
-  FMouseDownPnt:= Point(0, 0);
   Cursor:= crDefault;
   Screen.Cursor:= crDefault;
 
@@ -1165,17 +1177,26 @@ begin
   end;
 end;
 
-
 procedure TATTabs.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
-var
-  R: TRect;
 begin
   FMouseDown:= true;
   FMouseDownPnt:= Point(X, Y);
-  FTabIndexOver:= GetTabAt(X, Y);
+  FMouseDownButton:= Button;
+  FMouseDownShift:= Shift;
 
-  if Button=mbMiddle then
+  FTabIndexOver:= GetTabAt(X, Y);
+  SetTabIndex(FTabIndexOver);
+
+  Invalidate;
+end;
+
+
+procedure TATTabs.DoHandleClick;
+var
+  R: TRect;
+begin
+  if FMouseDownButton=mbMiddle then
   begin
     if FTabMiddleClickClose then
       if FTabIndexOver>=0 then
@@ -1183,7 +1204,7 @@ begin
     Exit;
   end;
 
-  if Button=mbLeft then
+  if FMouseDownButton=mbLeft then
   begin
     case FTabIndexOver of
       cAtArrowDown:
@@ -1212,14 +1233,13 @@ begin
           begin
             R:= GetTabRect(FTabIndexOver);
             R:= GetTabRect_X(R);
-            if PtInRect(R, Point(X, Y)) then
+            if PtInRect(R, FMouseDownPnt) then
             begin
               EndDrag(false);
               DeleteTab(FTabIndexOver, true, true);
               Exit
             end;
           end;
-          SetTabIndex(FTabIndexOver);
         end;
     end;
   end;
