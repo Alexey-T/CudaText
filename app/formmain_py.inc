@@ -2177,7 +2177,7 @@ begin
 
         APP_PROC_MENU_ENUM:
           begin
-            Str:= fmMain.DoMenuEnum(Str);
+            Str:= fmMain.DoMenuEnum_Deprecated(Str);
             if Str<>'' then
               Result:= PyString_FromString(PChar(Str))
             else
@@ -2964,8 +2964,7 @@ begin
 
         MENU_ENUM:
           begin
-            StrResult:= fmMain.DoMenuEnum(StrMenu);
-            Result:= PyString_FromString(PChar(StrResult));
+            Result:= fmMain.DoMenuEnum_New(StrMenu);
           end;
 
         MENU_ADD:

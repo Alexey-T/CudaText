@@ -583,7 +583,8 @@ type
     function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption: string;
       AIndex: integer): string;
     procedure DoMenuClear(const AMenuId: string);
-    function DoMenuEnum(const AMenuId: string): string;
+    function DoMenuEnum_Deprecated(const AMenuId: string): string;
+    function DoMenuEnum_New(const AMenuId: string): PPyObject;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoPanel_Event(AControl: TObject; const AEvent: string);
@@ -3727,7 +3728,7 @@ begin
 end;
 
 
-function TfmMain.DoMenuEnum(const AMenuId: string): string;
+function TfmMain.DoMenuEnum_Deprecated(const AMenuId: string): string;
 var
   mi: TMenuItem;
   i: integer;
@@ -3747,6 +3748,39 @@ begin
                mi.Items[i].Hint) +'|'+
         IntToStr(PtrInt(mi.Items[i]))
         +#10;
+end;
+
+function TfmMain.DoMenuEnum_New(const AMenuId: string): PPyObject;
+var
+  mi: TMenuItem;
+  NLen, i: integer;
+begin
+  //this updates PopupText items tags
+  PopupText.OnPopup(nil);
+
+  with GetPythonEngine do
+  begin
+    mi:= Py_MenuItemFromId(AMenuId);
+    if not Assigned(mi) then
+      exit(ReturnNone);
+
+    NLen:= mi.Count;
+    Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(cPythonListError);
+    for i:= 0 to NLen-1 do
+      PyList_SetItem(Result, i,
+        Py_BuildValue('{sLsssLss}',
+          'id',
+          Int64(PtrInt(mi.Items[i])),
+          'cap',
+          PChar(mi.Items[i].Caption),
+          'cmd',
+          Int64(mi.Items[i].Tag),
+          'hint',
+          PChar(mi.Items[i].Hint)
+          ));
+  end;
 end;
 
 
