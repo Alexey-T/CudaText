@@ -314,6 +314,7 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      Enabled = False
       DisplayName = 'Invalid symbol'
       StyleName = 'Invalid symbol'
       Expression = '.'
