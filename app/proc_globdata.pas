@@ -82,6 +82,7 @@ type
 
     PyLibrary: string;
     LexerThemes: boolean;
+    SidebarShow: boolean;
     SidebarTheme: string;
     PictureTypes: string;
     MaxFileSizeToOpen: integer;
@@ -947,6 +948,7 @@ begin
     LogCustomDialogs:= false;
 
     LexerThemes:= true;
+    SidebarShow:= true;
     SidebarTheme:= 'octicons_20x20';
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';

@@ -622,6 +622,7 @@ begin
     Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
 
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
+    UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
     UiOps.SidebarTheme:= c.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
 
     UiOps.PyLibrary:= c.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);

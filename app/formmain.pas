@@ -1743,6 +1743,7 @@ begin
         ItemTreeview.ShowLines:= UiOps.TreeShowLines;
     end;
 
+  PanelSide.Visible:= UiOps.SidebarShow;
   PanelLeftTitle.Height:= UiOps.TabHeight;
 
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
