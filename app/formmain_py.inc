@@ -1309,16 +1309,16 @@ begin
   if Alt then
   begin
     //id|prefix|desc
-    cCompleteColorFont[0]:= GetAppColor('ListFont');
-    cCompleteColorFont[1]:= GetAppColor('ListCompletePrefix');
-    cCompleteIndexOfText:= 0;
+    CompletionOptions.ColorFont[0]:= GetAppColor('ListFont');
+    CompletionOptions.ColorFont[1]:= GetAppColor('ListCompletePrefix');
+    CompletionOptions.IndexOfText:= 0;
   end
   else
   begin
     //prefix|id|desc
-    cCompleteColorFont[0]:= GetAppColor('ListCompletePrefix');
-    cCompleteColorFont[1]:= GetAppColor('ListFont');
-    cCompleteIndexOfText:= 1;
+    CompletionOptions.ColorFont[0]:= GetAppColor('ListCompletePrefix');
+    CompletionOptions.ColorFont[1]:= GetAppColor('ListFont');
+    CompletionOptions.IndexOfText:= 1;
   end;
 end;
 

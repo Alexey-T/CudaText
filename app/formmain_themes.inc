@@ -143,11 +143,11 @@ begin
   SplitterHorz.Invalidate;
   SplitterVert.Invalidate;
 
-  cCompleteColorBg:= GetAppColor('ListBg');
-  cCompleteColorSelBg:= GetAppColor('ListSelBg');
-  cCompleteColorFont[0]:= GetAppColor('ListCompletePrefix');
-  cCompleteColorFont[1]:= GetAppColor('ListFont');
-  cCompleteColorFont[2]:= GetAppColor('ListCompleteParams');
+  CompletionOptions.ColorBg:= GetAppColor('ListBg');
+  CompletionOptions.ColorSelBg:= GetAppColor('ListSelBg');
+  CompletionOptions.ColorFont[0]:= GetAppColor('ListCompletePrefix');
+  CompletionOptions.ColorFont[1]:= GetAppColor('ListFont');
+  CompletionOptions.ColorFont[2]:= GetAppColor('ListCompleteParams');
 end;
 
 procedure TfmMain.DoApplyThemeToTreeview(C: TTreeview);
