@@ -658,7 +658,6 @@ type
     procedure DoSetSplitInfo(const Id: string; NPos: integer);
     procedure DoPanel_OnClick(Sender: TObject);
     procedure DoPanel_OnDblClick(Sender: TObject);
-    procedure DoToolbarAddButton(AStr: string);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -828,7 +827,6 @@ type
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
-    procedure UpdateToolbar;
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
@@ -3664,46 +3662,6 @@ begin
   DoOps_LoadKeymap; //keymap override
 
   UpdateMenuPlugins_Shortcuts;
-end;
-
-procedure TfmMain.DoToolbarAddButton(AStr: string);
-var
-  SHint, SCmd, SCaption, SImageIndex: string;
-  mi: TMenuItem;
-  mnu: TPopupMenu;
-begin
-  if AStr='' then
-  begin
-    Toolbar.AddSep;
-    exit
-  end;
-
-  SHint:= SGetItem(AStr, ';');
-  SImageIndex:= SGetItem(AStr, ';');
-  SCmd:= SGetItem(AStr, ';');
-  SCaption:= SGetItem(AStr, ';');
-
-  if SBeginsWith(SCmd, 'toolmenu:') then
-  begin
-    mi:= TMenuItem.Create(Self);
-    mi.Caption:= '('+SCmd+')';
-    mnu:= TPopupMenu.Create(Self);
-    mnu.Items.Add(mi);
-    Toolbar.AddDropdown(mnu, nil, SCaption, SHint, SCmd);
-  end
-  else
-  begin
-    Toolbar.AddButton(
-      StrToIntDef(SImageIndex, -1),
-      @DoToolbarClick,
-      SCaption,
-      SHint,
-      SCmd,
-      SCaption<>''
-      );
-  end;
-
-  Toolbar.UpdateControls;
 end;
 
 

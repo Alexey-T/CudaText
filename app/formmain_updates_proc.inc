@@ -916,11 +916,6 @@ begin
   //Toolbar.AddButton(16, @tbBtmPanelClick, 'p_btm', 'Toggle bottom panel', '', false);
   Toolbar.AddButton(15, @tbMinimapClick, 'map', 'Toggle minimap', '', false);
 
-  UpdateToolbar;
-end;
-
-procedure TfmMain.UpdateToolbar;
-begin
   Toolbar.UpdateControls;
 end;
 

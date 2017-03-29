@@ -2397,37 +2397,24 @@ begin
         //-------------------
         APP_PROC_TOOLBAR_ENUM:
           begin
-            Str:= '';
-            for i:= 0 to fmMain.Toolbar.ButtonCount-1 do
-              with fmMain.Toolbar do
-                Str:= Str+Format('%s;%s;%s'#10, [
-                  Buttons[i].Hint,
-                  Buttons[i].Caption,
-                  Buttons[i].DataString
-                  ]);
-            Result:= PyString_FromString(PChar(Str));
+            Result:= DoToolbar_Enum_Deprecated(fmMain.Toolbar);
           end;
 
         APP_PROC_TOOLBAR_ADD:
           begin
-            fmMain.DoToolbarAddButton(Str);
-            fmMain.UpdateToolbar;
+            DoToolbar_AddButton_FromString_Deprecated(fmMain.Toolbar, Str);
             Result:= ReturnNone;
           end;
 
         APP_PROC_TOOLBAR_DELETE:
           begin
-            if (ParamInt>=0) and (ParamInt<fmMain.Toolbar.ButtonCount) then
-              fmMain.Toolbar.Buttons[ParamInt].Free;
-            fmMain.UpdateToolbar;
+            DoToolbar_DeleteButton(fmMain.Toolbar, ParamInt);
             Result:= ReturnNone;
           end;
 
         APP_PROC_TOOLBAR_DELETE_ALL:
           begin
-            for i:= fmMain.Toolbar.ButtonCount-1 downto 0 do
-              fmMain.Toolbar.Buttons[i].Free;
-            fmMain.UpdateToolbar;
+            DoToolbar_Clear(fmMain.Toolbar);
             Result:= ReturnNone;
           end;
 
@@ -2465,6 +2452,7 @@ begin
             Result:= ReturnNone;
           end;
 
+        //-------------------
         APP_PROC_GET_LANG:
           begin
             Result:= PyString_FromString(PChar(AppLangName));
