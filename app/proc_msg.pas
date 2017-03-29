@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.7.8.0';
+  cAppExeVersion = '1.7.8.2';
   cAppApiVersion = '1.0.172';
 
 const
@@ -190,7 +190,8 @@ const
       '  -v, --version   - Show application version'+sLineBreak+
       '  -n, --new       - Ignore option "ui_one_instance", force new app window'+sLineBreak+
       '  -r, --readonly  - Open all files from command line in read-only mode'+sLineBreak+
-      '  -e, --enc=value - Open all files from command line in given encoding (see Wiki)'+sLineBreak+
+      '  -e, --enc=value - Open all files from command line in given encoding'+sLineBreak+
+      '  -el, --enclist  - Show supported encoding names'+sLineBreak+
       '  -w, --window=left,top,width,height - Set position/size of app window'+sLineBreak+
       ''+sLineBreak+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+

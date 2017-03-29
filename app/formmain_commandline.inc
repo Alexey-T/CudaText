@@ -59,6 +59,12 @@ begin
       Continue;
     end;
 
+    if (SParam='--enclist') or (SParam='-el') then
+    begin
+      MsgStdout(AppEncodingListAsString, true);
+      Halt;
+    end;
+
     {$ifdef darwin}
     //macOS gives param -psn** for debugger
     if SBeginsWith(SParam, '-psn') then Continue;

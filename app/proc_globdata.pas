@@ -577,6 +577,7 @@ type
 
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
+function AppEncodingListAsString: string;
 
 
 implementation
@@ -1557,6 +1558,17 @@ begin
     with AppEncodings[i] do
       if SameText(S, Name) then
         Exit(LowerCase(ShortName));
+end;
+
+function AppEncodingListAsString: string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= Low(AppEncodings) to High(AppEncodings) do
+    with AppEncodings[i] do
+      if ShortName<>'' then
+        Result:= Result + LowerCase(ShortName) + #10;
 end;
 
 
