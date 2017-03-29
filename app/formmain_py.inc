@@ -1304,7 +1304,7 @@ begin
 end;
 
 
-procedure ApplyCompletionListboxStyle(Alt: boolean);
+procedure DoApplyCompletionListboxStyle(Alt: boolean);
 begin
   if Alt then
   begin
@@ -1321,6 +1321,7 @@ begin
     CompletionOps.IndexOfText:= 1;
   end;
 end;
+
 
 function Py_ed_complete(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -1342,7 +1343,7 @@ begin
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
 
-      ApplyCompletionListboxStyle(Bool(NAltOrder));
+      DoApplyCompletionListboxStyle(Bool(NAltOrder));
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, nil, '_', NSelIndex);
 
       Result:= ReturnNone;
@@ -1370,7 +1371,7 @@ begin
       with Ed.Carets[0] do
         fmMain.FPyComplete_CaretPos:= Point(PosX, PosY);
 
-      ApplyCompletionListboxStyle(false);
+      DoApplyCompletionListboxStyle(false);
       DoEditorCompletionListbox(Ed, @fmMain.PyCompletionOnGetProp, @fmMain.PyCompletionOnResult, StrId, NSelIndex);
 
       Result:= ReturnNone;
