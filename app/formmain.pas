@@ -1768,8 +1768,8 @@ begin
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
 
-  CompletionOptions.FormSizeX:= UiOps.ListboxCompleteSizeX;
-  CompletionOptions.FormSizeY:= UiOps.ListboxCompleteSizeY;
+  CompletionOps.FormSizeX:= UiOps.ListboxCompleteSizeX;
+  CompletionOps.FormSizeY:= UiOps.ListboxCompleteSizeY;
 
   if UiOps.OneInstance and not FOption_OpenNewWindow then
     if not UniqInstance.Enabled then

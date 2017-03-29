@@ -251,9 +251,9 @@ begin
   if Assigned(fmFind) then fmFind.UpdateFonts;
   if Assigned(fmGoto) then fmGoto.UpdateFonts;
 
-  CompletionOptions.FontName:= UiOps.VarFontName;
-  CompletionOptions.FontSize:= UiOps.VarFontSize;
-  CompletionOptions.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
+  CompletionOps.FontName:= UiOps.VarFontName;
+  CompletionOps.FontSize:= UiOps.VarFontSize;
+  CompletionOps.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
 end;
 
 procedure TfmMain.DoApplyFont_Output;
