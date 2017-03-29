@@ -881,6 +881,8 @@ var
   cStatusMsg: integer = 5;
 
 { TfmMain }
+
+{$I formmain_py_toolbars.inc}
 {$I formmain_py.inc}
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);

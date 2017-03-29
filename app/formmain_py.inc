@@ -2433,39 +2433,35 @@ begin
 
         APP_PROC_TOOLBAR_ICON_ADD:
           begin
-            if UpdateImagelistWithIconFromFile(fmMain.ImageListBar, Str) then
-              Result:= PyInt_FromLong(fmMain.ImageListBar.Count-1)
-            else
-              Result:= ReturnNone;
+            Result:= DoToolbar_AddImage(fmMain.Toolbar, Str);
           end;
 
         APP_PROC_TOOLBAR_ICON_SET:
           begin
             Str1:= SGetItem(Str);
             Str2:= SGetItem(Str);
-            ParamInt:= StrToIntDef(Str1, -1);
-            if (ParamInt>=0) and (ParamInt<fmMain.Toolbar.ButtonCount) then
-              fmMain.Toolbar.Buttons[ParamInt].ImageIndex:= StrToIntDef(Str2, -1);
-            fmMain.UpdateToolbar;
+            DoToolbar_SetImageIndex(
+              fmMain.Toolbar,
+              StrToIntDef(Str1, -1),
+              StrToIntDef(Str2, -1)
+              );
             Result:= ReturnNone;
           end;
 
         APP_PROC_TOOLBAR_ICON_GET_SIZE:
           begin
-            with fmMain.Toolbar do
-              Result:= Py_BuildValue('(ii)', Images.Width, Images.Height);
+            Result:= DoToolbar_GetImageSizes(fmMain.Toolbar);
           end;
 
         APP_PROC_TOOLBAR_ICON_SET_SIZE:
           begin
             Str1:= SGetItem(Str);
             Str2:= SGetItem(Str);
-            with fmMain.Toolbar do
-            begin
-              Images.Width:= StrToIntDef(Str1, 16);
-              Images.Height:= StrToIntDef(Str2, 16);
-            end;
-            fmMain.UpdateToolbar;
+            DoToolbar_SetImageSizes(
+              fmMain.Toolbar,
+              StrToIntDef(Str1, 16),
+              StrToIntDef(Str2, 16)
+              );
             Result:= ReturnNone;
           end;
 
