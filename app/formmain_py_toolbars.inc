@@ -68,6 +68,7 @@ procedure DoToolbar_AddButton(
   const ACaption: string;
   const ACommand: string;
   const AHint: string;
+  AButtonIndex: integer;
   AImageIndex: integer);
 var
   mi: TMenuItem;
@@ -76,9 +77,8 @@ begin
   if ACaption='-' then
   begin
     AToolbar.AddSep;
-    exit
-  end;
-
+  end
+  else
   if SBeginsWith(ACommand, 'toolmenu:') then
   begin
     mi:= TMenuItem.Create(fmMain);
@@ -99,6 +99,11 @@ begin
       );
   end;
 
+  if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
+    AToolbar.SetControlIndex(
+      AToolbar.Controls[AToolbar.ControlCount-1],
+      AButtonIndex);
+
   AToolbar.UpdateControls;
 end;
 
@@ -118,6 +123,7 @@ begin
     SCaption,
     SCmd,
     SHint,
+    -1,
     StrToIntDef(SImageIndex, -1)
     );
 end;
@@ -145,15 +151,15 @@ end;
 
 const
   cATButtonKinds: array[TATButtonKind] of string = (
-    'text_only',
-    'icon_only',
-    'text_icon_horz',
-    'text_icon_vert',
+    'text',
+    'icon',
+    'text_icon',
+    'text_icon',
     'text_arrow',
-    'arrow_only',
-    'sep_horz',
-    'sep_vert',
-    'cross'
+    'arrow',
+    'sep',
+    'sep',
+    'x'
     );
 
 function DoToolbar_Enum(AToolbar: TATButtonsToolbar): PPyObject;

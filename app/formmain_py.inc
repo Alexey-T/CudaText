@@ -3865,6 +3865,18 @@ begin
           begin
             DoToolbar_Clear(FToolbar);
             Result:= ReturnNone;
+          end;
+
+        TOOLBAR_DELETE_BUTTON:
+          begin
+            DoToolbar_DeleteButton(FToolbar, NIndex1);
+            Result:= ReturnNone;
+          end;
+
+        TOOLBAR_ADD_BUTTON:
+          begin
+            DoToolbar_AddButton(FToolbar, StrText, StrCmd, StrText2, NIndex1, NIndex2);
+            Result:= ReturnNone;
           end
 
         else
