@@ -474,6 +474,9 @@ def dlg_hotkey(title=''):
 def dlg_hotkeys(command, lexer=''):
     return ct.dlg_hotkeys(command, lexer)
 
+def dlg_commands(options="cp"):
+    return ct.dlg_commands(options)
+
 def dlg_custom(title, size_x, size_y, text, focused=-1):
     return ct.dlg_custom(title, size_x, size_y, text, focused)
 

@@ -1694,6 +1694,29 @@ begin
     end;
 end;
 
+
+function Py_dlg_commands(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  PtrOps: PChar;
+  StrOps: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 's:dlg_commands', @PtrOps)) then
+    begin
+      StrOps:= string(PtrOps);
+      StrOps:= fmMain.DoDialogCommandsChoice(
+        Pos('c', StrOps)>0,
+        Pos('p', StrOps)>0,
+        Pos('l', StrOps)>0
+        );
+      if StrOps='' then
+        Result:= ReturnNone
+      else
+        Result:= PyString_FromString(PChar(StrOps));
+    end;
+end;
+
+
 procedure DoLogDialog(ASizeX, ASizeY: integer; const AText: string);
 var
   STime, SLog: string;
@@ -3805,6 +3828,7 @@ begin
     AddMethod('dlg_hotkey', @Py_dlg_hotkey, '');
     AddMethod('dlg_hotkeys', @Py_dlg_hotkeys, '');
     AddMethod('dlg_custom', @Py_dlg_custom, '');
+    AddMethod('dlg_commands', @Py_dlg_commands, '');
 
     AddMethod('ed_get_carets', @Py_ed_get_carets, '');
     AddMethod('ed_set_caret', @Py_ed_set_caret, '');

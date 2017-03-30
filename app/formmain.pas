@@ -711,6 +711,7 @@ type
     procedure DoCopyFilenameName;
     procedure DoCopyLine;
     procedure DoDialogCommands;
+    function DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers: boolean): string;
     procedure DoDialogGoto;
     procedure DoDialogGoto_Hide;
     procedure DoDialogGotoBookmark;
@@ -1974,6 +1975,39 @@ begin
     CurrentEditor.DoCommand(NCmd);
     UpdateFrame;
   end;
+end;
+
+
+function TfmMain.DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers: boolean): string;
+var
+  NCmd: integer;
+begin
+  Result:= '';
+  fmCommands:= TfmCommands.Create(Self);
+  try
+    UpdateInputForm(fmCommands);
+    fmCommands.OptShowUsual:= AShowUsual;
+    fmCommands.OptShowPlugins:= AShowPlugins;
+    fmCommands.OptShowLexers:= AShowLexers;
+    fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
+    fmCommands.Keymap:= CurrentEditor.Keymap;
+    fmCommands.ShowModal;
+    NCmd:= fmCommands.ResultCommand;
+  finally
+    FreeAndNil(fmCommands);
+  end;
+
+  if (NCmd<=0) then
+    Result:= ''
+  else
+  if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
+    with FPluginsCmd[NCmd-cmdFirstPluginCommand] do
+      Result:= 'p:'+ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
+  else
+  if (NCmd>=cmdFirstLexerCommand) and (NCmd<cmdFirstLexerCommand+AppManager.AnalyzerCount) then
+    Result:= 'l:'+AppManager.Analyzers[NCmd-cmdFirstLexerCommand].LexerName
+  else
+    Result:= 'c:'+IntToStr(NCmd);
 end;
 
 

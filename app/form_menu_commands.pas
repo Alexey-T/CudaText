@@ -58,10 +58,13 @@ type
     procedure DoMsgStatus(const S: string);
   public
     { public declarations }
-    keymap: TATKeymap;
+    Keymap: TATKeymap;
     ResultCommand: integer;
     ResultHotkeysChanged: boolean;
     CurrentLexerName: string;
+    OptShowUsual: boolean;
+    OptShowPlugins: boolean;
+    OptShowLexers: boolean;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
   end;
 
@@ -93,6 +96,10 @@ end;
 
 procedure TfmCommands.FormCreate(Sender: TObject);
 begin
+  OptShowUsual:= true;
+  OptShowPlugins:= true;
+  OptShowLexers:= true;
+
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 
@@ -354,6 +361,24 @@ var
   Ar: TATIntArray;
 begin
   Result:= false;
+
+  //filter by options
+  if (Item.Command>=cmdFirstPluginCommand) and (Item.Command<=cmdLastPluginCommand) then
+  begin
+    if not OptShowPlugins then exit(false);
+  end
+  else
+  if (Item.Command>=cmdFirstLexerCommand) and (Item.Command<=cmdLastLexerCommand) then
+  begin
+    if not OptShowLexers then exit(false);
+  end
+  else
+  if (Item.Command>0) then
+  begin
+    if not OptShowUsual then exit(false);
+  end;
+
+  //filter by input field
   Str:= Trim(edit.Text);
   if Str='' then exit(true);
 
