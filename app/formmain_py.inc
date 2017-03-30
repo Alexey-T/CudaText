@@ -1703,7 +1703,7 @@ begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'i:dlg_commands', @NOps)) then
     begin
-      Str:= fmMain.DoDialogCommandsChoice(
+      Str:= fmMain.DoDialogCommands_Py(
         (NOps and COMMANDS_USUAL)<>0,
         (NOps and COMMANDS_PLUGINS)<>0,
         (NOps and COMMANDS_LEXERS)<>0,

@@ -711,8 +711,8 @@ type
     procedure DoCopyFilenameName;
     procedure DoCopyLine;
     procedure DoDialogCommands;
-    function DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers,
-      AAllowConfig: boolean): string;
+    function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): integer;
+    function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
     procedure DoDialogGoto;
     procedure DoDialogGoto_Hide;
     procedure DoDialogGotoBookmark;
@@ -1951,26 +1951,9 @@ end;
 procedure TfmMain.DoDialogCommands;
 var
   NCmd: integer;
-  KeysChanged: boolean;
 begin
   MsgStatus(msgStatusHelpOnShowCommands);
-
-  fmCommands:= TfmCommands.Create(Self);
-  try
-    UpdateInputForm(fmCommands);
-    fmCommands.OnMsg:=@DoCommandsMsgStatus;
-    fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
-    fmCommands.keymap:= CurrentEditor.Keymap;
-    fmCommands.ShowModal;
-    NCmd:= fmCommands.ResultCommand;
-    KeysChanged:= fmCommands.ResultHotkeysChanged;
-  finally
-    FreeAndNil(fmCommands);
-  end;
-
-  if KeysChanged then
-    UpdateMenuPlugins_Shortcuts(true);
-
+  NCmd:= DoDialogCommands_Custom(true, true, true, true);
   if NCmd>0 then
   begin
     CurrentEditor.DoCommand(NCmd);
@@ -1979,11 +1962,34 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
+function TfmMain.DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
 var
   NCmd: integer;
 begin
   Result:= '';
+  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig);
+  if NCmd<=0 then exit;
+
+  if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
+  begin
+    with FPluginsCmd[NCmd-cmdFirstPluginCommand] do
+      Result:= 'p:'+ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
+  end
+  else
+  if (NCmd>=cmdFirstLexerCommand) and (NCmd<cmdFirstLexerCommand+AppManager.AnalyzerCount) then
+  begin
+    Result:= 'l:'+AppManager.Analyzers[NCmd-cmdFirstLexerCommand].LexerName
+  end
+  else
+    Result:= 'c:'+IntToStr(NCmd);
+end;
+
+
+function TfmMain.DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): integer;
+var
+  bKeysChanged: boolean;
+begin
+  Result:= 0;
   fmCommands:= TfmCommands.Create(Self);
   try
     UpdateInputForm(fmCommands);
@@ -1991,25 +1997,18 @@ begin
     fmCommands.OptShowPlugins:= AShowPlugins;
     fmCommands.OptShowLexers:= AShowLexers;
     fmCommands.OptAllowConfig:= AAllowConfig;
+    fmCommands.OnMsg:= @DoCommandsMsgStatus;
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.Keymap:= CurrentEditor.Keymap;
     fmCommands.ShowModal;
-    NCmd:= fmCommands.ResultCommand;
+    Result:= fmCommands.ResultCommand;
+    bKeysChanged:= fmCommands.ResultHotkeysChanged;
   finally
     FreeAndNil(fmCommands);
   end;
 
-  if (NCmd<=0) then
-    Result:= ''
-  else
-  if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
-    with FPluginsCmd[NCmd-cmdFirstPluginCommand] do
-      Result:= 'p:'+ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
-  else
-  if (NCmd>=cmdFirstLexerCommand) and (NCmd<cmdFirstLexerCommand+AppManager.AnalyzerCount) then
-    Result:= 'l:'+AppManager.Analyzers[NCmd-cmdFirstLexerCommand].LexerName
-  else
-    Result:= 'c:'+IntToStr(NCmd);
+  if bKeysChanged then
+    UpdateMenuPlugins_Shortcuts(true);
 end;
 
 

@@ -193,6 +193,7 @@ begin
     key:= 0;
     exit
   end;
+
   if key=VK_RETURN then
   begin
     if (list.ItemIndex>=0) and (list.ItemCount>0) then
@@ -204,10 +205,13 @@ begin
     exit
   end;
 
-  if (key=vk_F9) and (shift=[]) then
+  if (key=VK_F9) and (shift=[]) then
   begin
-    DoConfigKey(GetResultCmd);
-    ResultHotkeysChanged:= true;
+    if OptAllowConfig then
+    begin
+      DoConfigKey(GetResultCmd);
+      ResultHotkeysChanged:= true;
+    end;
     key:= 0;
     exit
   end;
@@ -222,7 +226,6 @@ procedure TfmCommands.DoConfigKey(Cmd: integer);
 var
   N: integer;
 begin
-  if not OptAllowConfig then exit;
   DoMsgStatus('');
 
   if (Cmd>=cmdFirstLexerCommand) and
