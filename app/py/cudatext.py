@@ -421,6 +421,11 @@ FOLDING_FIND               = 6
 FOLDING_CHECK_RANGE_INSIDE = 10
 FOLDING_CHECK_RANGES_SAME  = 11
 
+COMMANDS_USUAL   = 1
+COMMANDS_PLUGINS = 2
+COMMANDS_LEXERS  = 4
+COMMANDS_CONFIG  = 8
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -474,7 +479,7 @@ def dlg_hotkey(title=''):
 def dlg_hotkeys(command, lexer=''):
     return ct.dlg_hotkeys(command, lexer)
 
-def dlg_commands(options="cp"):
+def dlg_commands(options):
     return ct.dlg_commands(options)
 
 def dlg_custom(title, size_x, size_y, text, focused=-1):

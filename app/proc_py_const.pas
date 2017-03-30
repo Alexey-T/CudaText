@@ -344,6 +344,11 @@ const
   TIMER_STOP      = 2;
   TIMER_DELETE    = 3;
 
+  COMMANDS_USUAL   = 1;
+  COMMANDS_PLUGINS = 2;
+  COMMANDS_LEXERS  = 4;
+  COMMANDS_CONFIG  = 8;
+
 
 implementation
 

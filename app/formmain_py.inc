@@ -1697,22 +1697,22 @@ end;
 
 function Py_dlg_commands(Self, Args : PPyObject): PPyObject; cdecl;
 var
-  PtrOps: PChar;
-  StrOps: string;
+  NOps: integer;
+  Str: string;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 's:dlg_commands', @PtrOps)) then
+    if Bool(PyArg_ParseTuple(Args, 'i:dlg_commands', @NOps)) then
     begin
-      StrOps:= string(PtrOps);
-      StrOps:= fmMain.DoDialogCommandsChoice(
-        Pos('c', StrOps)>0,
-        Pos('p', StrOps)>0,
-        Pos('l', StrOps)>0
+      Str:= fmMain.DoDialogCommandsChoice(
+        (NOps and COMMANDS_USUAL)<>0,
+        (NOps and COMMANDS_PLUGINS)<>0,
+        (NOps and COMMANDS_LEXERS)<>0,
+        (NOps and COMMANDS_CONFIG)<>0
         );
-      if StrOps='' then
+      if Str='' then
         Result:= ReturnNone
       else
-        Result:= PyString_FromString(PChar(StrOps));
+        Result:= PyString_FromString(PChar(Str));
     end;
 end;
 

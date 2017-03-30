@@ -65,6 +65,7 @@ type
     OptShowUsual: boolean;
     OptShowPlugins: boolean;
     OptShowLexers: boolean;
+    OptAllowConfig: boolean;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
   end;
 
@@ -99,6 +100,7 @@ begin
   OptShowUsual:= true;
   OptShowPlugins:= true;
   OptShowLexers:= true;
+  OptAllowConfig:= true;
 
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -220,6 +222,7 @@ procedure TfmCommands.DoConfigKey(Cmd: integer);
 var
   N: integer;
 begin
+  if not OptAllowConfig then exit;
   DoMsgStatus('');
 
   if (Cmd>=cmdFirstLexerCommand) and

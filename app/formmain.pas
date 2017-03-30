@@ -711,7 +711,8 @@ type
     procedure DoCopyFilenameName;
     procedure DoCopyLine;
     procedure DoDialogCommands;
-    function DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers: boolean): string;
+    function DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers,
+      AAllowConfig: boolean): string;
     procedure DoDialogGoto;
     procedure DoDialogGoto_Hide;
     procedure DoDialogGotoBookmark;
@@ -1978,7 +1979,7 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers: boolean): string;
+function TfmMain.DoDialogCommandsChoice(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
 var
   NCmd: integer;
 begin
@@ -1989,6 +1990,7 @@ begin
     fmCommands.OptShowUsual:= AShowUsual;
     fmCommands.OptShowPlugins:= AShowPlugins;
     fmCommands.OptShowLexers:= AShowLexers;
+    fmCommands.OptAllowConfig:= AAllowConfig;
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.Keymap:= CurrentEditor.Keymap;
     fmCommands.ShowModal;
