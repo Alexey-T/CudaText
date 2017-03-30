@@ -10,7 +10,6 @@ Copyright (c) Alexey Torgashin
 const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
-  cPythonListError = 'Cannot create new list object';
 
 var
   PyLastCommandModule: string = '';
@@ -3803,6 +3802,78 @@ begin
 end;
 
 
+//toolbar_proc(id_toolbar, id_action, text="", text2="", command="", index=-1, index2=-1)
+function Py_toolbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  PtrToolbar, PtrText, PtrText2, PtrCmd: PChar;
+  StrToolbar, StrText, StrText2, StrCmd: string;
+  FToolbar: TATButtonsToolbar;
+  FButton: TATButton;
+  NAction: integer;
+  NIndex1, NIndex2: integer;
+begin
+  with GetPythonEngine do
+  begin
+    if Bool(PyArg_ParseTuple(Args, 'sisssii:toolbar_proc',
+      @PtrToolbar, @NAction, @PtrText, @PtrText2, @PtrCmd, @NIndex1, @NIndex2)) then
+    begin
+      StrToolbar:= string(PtrToolbar);
+      StrText:= string(PtrText);
+      StrText2:= string(PtrText2);
+      StrCmd:= string(PtrCmd);
+
+      FToolbar:= DoToolbar_GetToolbarFromId(StrToolbar);
+      if FToolbar=nil then
+        exit(ReturnNone);
+
+      case NAction of
+        TOOLBAR_ENUM:
+          begin
+            Result:= DoToolbar_Enum(FToolbar);
+          end;
+
+        TOOLBAR_GET_ICON_SIZES:
+          begin
+            Result:= DoToolbar_GetImageSizes(FToolbar);
+          end;
+
+        TOOLBAR_SET_ICON_SIZES:
+          begin
+            if (NIndex1>=8) and
+               (NIndex2>=8) and
+               (NIndex1<=128) and
+               (NIndex2<=128) then
+            begin
+              DoToolbar_SetImageSizes(FToolbar, NIndex1, NIndex2);
+              Result:= PyBool_FromLong(1);
+            end
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
+        TOOLBAR_SET_BUTTON:
+          begin
+            Result:= DoToolbar_SetButtonProps(FToolbar, NIndex1, NIndex2, StrText, StrText2);
+          end;
+
+        TOOLBAR_ADD_ICON:
+          begin
+            Result:= DoToolbar_AddImage(FToolbar, StrText);
+          end;
+
+        TOOLBAR_DELETE_ALL:
+          begin
+            DoToolbar_Clear(FToolbar);
+            Result:= ReturnNone;
+          end
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+  end;
+end;
+
 
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
@@ -3880,6 +3951,7 @@ begin
     AddMethod('lexer_proc', @Py_lexer_proc, '');
     AddMethod('tree_proc', @Py_tree_proc, '');
     AddMethod('menu_proc', @Py_menu_proc, '');
+    AddMethod('toolbar_proc', @Py_toolbar_proc, '');
     AddMethod('listbox_proc', @Py_listbox_proc, '');
     AddMethod('canvas_proc', @Py_canvas_proc, '');
     AddMethod('timer_proc', @Py_timer_proc, '');

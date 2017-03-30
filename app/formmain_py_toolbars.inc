@@ -1,5 +1,13 @@
 {$ifdef nnnn}begin end;{$endif}
 
+function DoToolbar_GetToolbarFromId(const Str: string): TATButtonsToolbar;
+begin
+  Result:= nil;
+  if Str='top' then
+    exit(fmMain.Toolbar);
+end;
+
+
 function DoToolbar_GetImageSizes(AToolbar: TATButtonsToolbar): PPyObject;
 begin
   with GetPythonEngine do
@@ -132,5 +140,77 @@ begin
           ]);
     Result:= PyString_FromString(PChar(Str));
   end;
+end;
+
+
+const
+  cATButtonKinds: array[TATButtonKind] of string = (
+    'text_only',
+    'icon_only',
+    'text_icon_horz',
+    'text_icon_vert',
+    'text_arrow',
+    'arrow_only',
+    'sep_horz',
+    'sep_vert',
+    'cross'
+    );
+
+function DoToolbar_Enum(AToolbar: TATButtonsToolbar): PPyObject;
+var
+  NLen: integer;
+  Btn: TATButton;
+  i: integer;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= AToolbar.ButtonCount;
+    Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(cPythonListError);
+    for i:= 0 to NLen-1 do
+    begin
+      Btn:= AToolbar.Buttons[i];
+      PyList_SetItem(Result, i,
+        Py_BuildValue('{sssssssiss}',
+          'cap',
+          PChar(Btn.Caption),
+          'hint',
+          PChar(Btn.Hint),
+          'cmd',
+          PChar(Btn.DataString),
+          'icon',
+          Btn.ImageIndex,
+          'kind',
+          PChar(cATButtonKinds[Btn.Kind])
+          ));
+    end;
+  end;
+end;
+
+
+function DoToolbar_SetButtonProps(
+  AToolbar: TATButtonsToolbar;
+  AButtonIndex, AImageIndex: integer;
+  const ACaption, AHint: string
+  ): PPyObject;
+var
+  Btn: TATButton;
+begin
+  with GetPythonEngine do
+    if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
+    begin
+      Btn:= AToolbar.Buttons[AButtonIndex];
+      Btn.ImageIndex:= AImageIndex;
+      if ACaption<>'' then
+        Btn.Caption:= ACaption;
+      if AHint<>'' then
+        Btn.Hint:= AHint;
+
+      Btn.Invalidate;
+      Result:= PyBool_FromLong(1);
+    end
+    else
+      Result:= PyBool_FromLong(0);
 end;
 

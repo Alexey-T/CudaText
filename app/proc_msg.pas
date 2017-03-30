@@ -19,6 +19,9 @@ const
   cAppApiVersion = '1.0.173';
 
 const
+  cPythonListError = 'Cannot create new list object';
+
+const
   msgTitle = 'CudaText';
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';

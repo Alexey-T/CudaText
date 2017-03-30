@@ -426,6 +426,15 @@ COMMANDS_PLUGINS = 2
 COMMANDS_LEXERS  = 4
 COMMANDS_CONFIG  = 8
 
+TOOLBAR_ENUM           = 0
+TOOLBAR_GET_ICON_SIZES = 1
+TOOLBAR_SET_ICON_SIZES = 2
+TOOLBAR_ADD_ICON       = 3
+TOOLBAR_SET_BUTTON     = 4
+TOOLBAR_ADD_BUTTON     = 5
+TOOLBAR_DELETE_ALL     = 6
+TOOLBAR_DELETE_BUTTON  = 7
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -514,6 +523,9 @@ def menu_proc(id_menu, id_action, command="", caption="", index=-1):
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
+
+def toolbar_proc(id_toolbar, id_action, text="", text2="", command="", index=-1, index2=-1):
+    return ct.toolbar_proc(id_toolbar, id_action, text, text2, command, index, index2)
 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
