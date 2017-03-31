@@ -598,6 +598,21 @@ Dialog is closed by clicking any button or by changing of any control which has 
 * So it's good to use common height for single-line controls, 30 pixels is ok for edit/button/check/radio, 36 for combobox.
 * Control "tabs" height cannot auto-size, please make correct height for control (it is usually like big buttons).
 
+===dlg_commands===
+
+ dlg_commands(options)
+
+Show commands dialog, which is like customizable version of F1 dialog in CudaText.
+
+Param options is sum of int flags:
+
+* COMMANDS_USUAL - Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
+* COMMANDS_PLUGINS - Show plugins commands. Function gets "p:module,method" or "p:module,method,param" for them.
+* COMMANDS_LEXERS - Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
+* COMMANDS_CONFIG - Allow to call Configure Hotkeys dialog by F9 key.
+
+Gets string if command selected, or None if cancelled.
+
 ===file_open===
 
  file_open(filename, group=-1)
@@ -858,6 +873,57 @@ Example adds item "Misc" to the main menu, and sub-items: "About-1", "About-2", 
   n = menu_proc(menuid, MENU_ADD, command=2700, caption='About-2')
   n = menu_proc(menuid, MENU_ADD, caption='-')
   n = menu_proc(menuid, MENU_ADD, command='cuda_ext,rename_file', caption='Rename file')
+
+===toolbar_proc===
+
+ toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, index2=-1)
+
+Perform action on some toolbar. 
+
+Param id_toolbar: currently can be "top" for main toolbar. Function gets None, if id_toolbar not correct.
+
+Param id_action possible values:
+
+* TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
+* TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: 
+** index - icon width
+** index2 - icon height
+
+* TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
+** index - index of button
+** index2 - new icon index, or -1 for none
+** text - new button caption, or empty str to not change
+** text2 - new button hint, or empty str to not change
+
+* TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
+
+* TOOLBAR_DELETE_ALL: Delete all buttons.
+* TOOLBAR_DELETE_BUTTON: Delete one button. Params: index - button index.
+
+* TOOLBAR_ADD_BUTTON: Add one button. Params:
+** text - button caption, use "-" for separator
+** text2 - button hint (tooltip)
+** index - button index, >=0 to insert or -1 to append
+** index2 - icon index, or -1 for none
+** command - description of command: 
+*** int_command or str(int_command)
+*** "py_module,method" or "py_module,method,param"
+*** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
+
+* TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": str}. Here "kind" is one of strings: "text", "icon", "text_icon", "text_arrow", "arrow", "sep".
+
+====Example====
+
+Example adds button to show About dialog:
+
+ toolbar_proc('top', TOOLBAR_ADD_BUTTON, text='About', text2='about program...', index2=4, command=2700)
+
+Example adds button with dropdown submenu, which has 2 items:
+
+ toolbar_proc('top', TOOLBAR_ADD_BUTTON, text='Dropdown', index2=4, command="toolmenu:drop")
+ menu_proc('toolmenu:drop', MENU_CLEAR)
+ menu_proc('toolmenu:drop', MENU_ADD, caption='About...', command=2700)
+ menu_proc('toolmenu:drop', MENU_ADD, caption='Edit plugin...', command="cuda_addonman,do_edit")
 
 ===more===
 
@@ -1400,6 +1466,11 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.173
+* add: dlg_commands()
+* add: toolbar_proc()
+* deprecated: app_proc actions: PROC_TOOLBAR_*
 
 1.0.172
 * add: menu_proc()

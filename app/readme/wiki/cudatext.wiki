@@ -637,6 +637,33 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 * "splitters, main" - shown near Sidebar (vertical) and above Bottom panel (horizontal)
 * "splitters, groups" - shown between groups (vert/horz), activate 2-3 groups using "View" menu
 
+==How to use on Windows XP==
+
+Q: I have Windows XP, what version of CudaText and Python should I have to have plugins working?
+
+A: You need any version of CudaText (after 1.7), but older Python 3.4 DLLs. You must replace these Python files:
+
+* *.dll
+* *.zip
+* folder DLLs
+
+with Python files from this WinXP build: https://sourceforge.net/projects/cudatextbuildlinuxi386/files/release/
+
+==How to copy to clipboard word under caret==
+
+A1: Install "Macros" plugin. In its dialog start recording a macro, and call these commands (in F1-Commands dialog), later assign to this macro a hotkey:
+
+* command "select words at carets"
+* command "copy to clipboard"
+* command "cancel carets", i.e. unselect
+
+A2: Plugin CudaExt has commands:
+
+* plugin: CudaExt: Copy word or [expression] or 'expression' without selection
+* plugin: CudaExt: Replace word or [expression] or 'expression' with clip
+
+I use these commands with hotkeys Alt+Left and Alt+Right.
+
 ==More==
 
 =Formats of files=
