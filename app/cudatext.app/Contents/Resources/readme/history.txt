@@ -4,6 +4,13 @@
   * changed
 
 
+1.7.9
++ autocomplete listbox: chars .,;=<> should input to editor and close listbox
++ command line: added key --enclist
++ api
+- fix: wrong minimap view color
+- fix: minimap click scrolled editor to right 
+
 1.7.8
 + macOS: horiz scroll by trackpad should work now
 + option ui_sidebar_show
