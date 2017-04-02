@@ -364,16 +364,18 @@
   "ui_tree_icons": true,
 
   //[Properties of new tabs]
-  //Lexer name in lexers menu
+  //Lexer name
   "newdoc_lexer": "",
-  //Encoding name (allowed names: see encodings menu): 
-  //  "UTF-8", "UTF-8 with BOM", "UTF-16 LE with BOM", "ANSI", "CP1250" etc
-  "newdoc_encoding": "UTF-8",
+  //Encoding name
+  //  See names list in Wiki. Examples:
+  //  utf8, utf8_bom, utf16le, utf16le_bom, ansi, cp1250 etc  
+  "newdoc_encoding": "utf8",
   //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
+  //  Default for Windows: 1, otherwise: 2
   "newdoc_eol": 1,
   
-  //When file opens, and cannot detect encoding, open it as "ANSI" (option=false) or "UTF8 no BOM" (option=true)
-  //Default: for Windows: false, otherwise: true
+  //When file opens, and cannot detect encoding, open it as "ANSI" (option=false) or "UTF8" (option=true)
+  //  Default for Windows: false, otherwise: true
   //"def_encoding_utf8": false,
 
   //Auto-indent by Enter (makes new line indented)

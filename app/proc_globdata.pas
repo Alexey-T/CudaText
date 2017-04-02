@@ -1010,7 +1010,7 @@ begin
     PyChangeSlow:= 2000;
 
     NewdocLexer:= '';
-    NewdocEnc:= cEncNameUtf8_NoBom;
+    NewdocEnc:= 'utf8';
     NewdocEnds:= {$ifdef windows} Ord(cEndWin) {$else} Ord(cEndUnix) {$endif};
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};

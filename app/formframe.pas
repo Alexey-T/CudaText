@@ -922,7 +922,7 @@ begin
   Ed1.Strings.Modified:= false;
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
-  EncodingName:= UiOps.NewdocEnc;
+  EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
   Lexer:= AppManager.FindAnalyzer(UiOps.NewdocLexer);
 
   FNotif:= TATFileNotif.Create(Self);
