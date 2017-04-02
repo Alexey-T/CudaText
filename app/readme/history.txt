@@ -4,6 +4,9 @@
   * changed
 
 
+1.7.10
+* changed values for "newdoc_encoding" to short, like API has
+
 1.7.9
 + autocomplete listbox: chars .,;=<> should input to editor and close listbox
 + command line: added key --enclist
