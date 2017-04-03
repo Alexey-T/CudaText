@@ -917,24 +917,23 @@ procedure DoForm_SetupFilters(F: TForm);
 const
   cSuffixFilter = '_filter';
 var
-  i, j: integer;
+  SName: string;
+  C: TControl;
+  i: integer;
 begin
   for i:= 0 to F.ControlCount-1 do
   begin
-    if F.Controls[i] is TListFilterEdit then
+    C:= F.Controls[i];
+    if C is TListFilterEdit then
     begin
-      for j:= 0 to F.ControlCount-1 do
-        if F.Controls[j] is TListbox then
-          if F.Controls[i].Name = F.Controls[j].Name + cSuffixFilter then
-            (F.Controls[i] as TListFilterEdit).FilteredListbox:= F.Controls[j] as TListbox;
+      SName:= Copy(C.Name, 1, Length(C.Name)-Length(cSuffixFilter));
+      (C as TListFilterEdit).FilteredListbox:= F.FindChildControl(SName) as TListbox;
     end
     else
-    if F.Controls[i] is TListViewFilterEdit then
+    if C is TListViewFilterEdit then
     begin
-      for j:= 0 to F.ControlCount-1 do
-        if F.Controls[j] is TListView then
-          if F.Controls[i].Name = F.Controls[j].Name + cSuffixFilter then
-            (F.Controls[i] as TListViewFilterEdit).FilteredListview:= F.Controls[j] as TListView;
+      SName:= Copy(C.Name, 1, Length(C.Name)-Length(cSuffixFilter));
+      (C as TListViewFilterEdit).FilteredListview:= F.FindChildControl(SName) as TListView;
     end;
   end;
 end;
