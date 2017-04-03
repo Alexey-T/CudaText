@@ -793,6 +793,13 @@ begin
           (CtlPrev as TLabel).FocusControl:= Ctl as TWinControl;
       end;
 
+    //-------name
+    if SName='name' then
+    begin
+      Ctl.Name:= SValue;
+      Continue;
+    end;
+
     //-------en
     if SName='en' then
     begin
