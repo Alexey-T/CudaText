@@ -838,6 +838,15 @@ begin
       Continue;
     end;
 
+    //-------font
+    if SName='font' then
+    begin
+      Ctl.Font.Name:= SGetItem(SValue);
+      Ctl.Font.Size:= StrToIntDef(SGetItem(SValue), Ctl.Font.Size);
+      Ctl.Font.Color:= StrToIntDef(SGetItem(SValue), Ctl.Font.Color);
+      Continue;
+    end;
+
     //-------en
     if SName='en' then
     begin
