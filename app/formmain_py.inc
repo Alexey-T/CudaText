@@ -2601,6 +2601,9 @@ begin
         APP_PROC_COORD_MONITOR3:
           Result:= Py_rect_monitor(3);
 
+        APP_PROC_ENUM_FONTS:
+          Result:= StringsToPyList(Screen.Fonts);
+
         else
           Result:= ReturnNone;
       end;

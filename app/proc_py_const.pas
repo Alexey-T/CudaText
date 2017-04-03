@@ -204,6 +204,8 @@ const
   APP_PROC_COORD_MONITOR2 = 146;
   APP_PROC_COORD_MONITOR3 = 147;
 
+  APP_PROC_ENUM_FONTS     = 160;
+
   TREE_ITEM_ENUM             = 1;
   TREE_ITEM_ADD              = 2;
   TREE_ITEM_DELETE           = 3;
