@@ -924,7 +924,7 @@ end;
 
 procedure DoForm_SetupFilters(F: TForm);
 const
-  cSuffixFilter = '_filter';
+  cPrefix = 'f_';
 var
   SName: string;
   C: TControl;
@@ -935,13 +935,13 @@ begin
     C:= F.Controls[i];
     if C is TListFilterEdit then
     begin
-      SName:= Copy(C.Name, 1, Length(C.Name)-Length(cSuffixFilter));
+      SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
       (C as TListFilterEdit).FilteredListbox:= F.FindChildControl(SName) as TListbox;
     end
     else
     if C is TListViewFilterEdit then
     begin
-      SName:= Copy(C.Name, 1, Length(C.Name)-Length(cSuffixFilter));
+      SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
       (C as TListViewFilterEdit).FilteredListview:= F.FindChildControl(SName) as TListView;
     end;
   end;
