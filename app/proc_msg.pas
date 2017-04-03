@@ -15,8 +15,8 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.7.9.1';
-  cAppApiVersion = '1.0.173';
+  cAppExeVersion = '1.7.9.2';
+  cAppApiVersion = '1.0.174';
 
 const
   cPythonListError = 'Cannot create new list object';

@@ -14,6 +14,8 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls, StdCtrls, ExtCtrls, Forms,
   CheckLst, Spin, ComCtrls, Dialogs,
+  ListFilterEdit,
+  ListViewFilterEdit,
   LclProc, LclType;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
@@ -51,7 +53,9 @@ begin
     (C is TComboBox) or
     (C is TCheckBox) or
     (C is TRadioButton) or
-    (C is TSpinEdit);
+    (C is TSpinEdit) or
+    (C is TListFilterEdit) or
+    (C is TListViewFilterEdit);
 end;
 
 procedure DoControl_FixButtonHeight(C: TControl); inline;
@@ -143,6 +147,12 @@ begin
 
   if C is TTabControl then
     exit(IntToStr((C as TTabControl).TabIndex));
+
+  if C is TListFilterEdit then
+    exit((C as TListFilterEdit).Text);
+
+  if C is TListViewFilterEdit then
+    exit((C as TListViewFilterEdit).Text);
 end;
 
 
@@ -496,6 +506,18 @@ begin
     (Ctl as TImage).AntialiasingMode:= amOn;
     exit;
   end;
+
+  if S='filter_listbox' then
+  begin
+    Ctl:= TListFilterEdit.Create(AForm);
+    exit;
+  end;
+
+  if S='filter_listview' then
+  begin
+    Ctl:= TListViewFilterEdit.Create(AForm);
+    exit;
+  end;
 end;
 
 
@@ -586,6 +608,12 @@ begin
     (C as TImage).StretchOutEnabled:= StrToBool(SGetItem(S));
     (C as TImage).KeepOriginXWhenClipped:= StrToBool(SGetItem(S));
     (C as TImage).KeepOriginYWhenClipped:= StrToBool(SGetItem(S));
+    exit
+  end;
+
+  if (C is TListViewFilterEdit) then
+  begin
+    (C as TListViewFilterEdit).ByAllFields:= StrToBool(SGetItem(S));
     exit
   end;
 end;
@@ -707,6 +735,16 @@ begin
   if C is TTabControl then
   begin
     DoControl_SetState_TabControl(C as TTabControl, S);
+    exit
+  end;
+  if C is TListFilterEdit then
+  begin
+    (C as TListFilterEdit).Text:= S;
+    exit
+  end;
+  if C is TListViewFilterEdit then
+  begin
+    (C as TListViewFilterEdit).Text:= S;
     exit
   end;
 end;
@@ -875,6 +913,33 @@ begin
   end;
 end;
 
+procedure DoForm_SetupFilters(F: TForm);
+const
+  cSuffixFilter = '_filter';
+var
+  i, j: integer;
+begin
+  for i:= 0 to F.ControlCount-1 do
+  begin
+    if F.Controls[i] is TListFilterEdit then
+    begin
+      for j:= 0 to F.ControlCount-1 do
+        if F.Controls[j] is TListbox then
+          if F.Controls[i].Name = F.Controls[j].Name + cSuffixFilter then
+            (F.Controls[i] as TListFilterEdit).FilteredListbox:= F.Controls[j] as TListbox;
+    end
+    else
+    if F.Controls[i] is TListViewFilterEdit then
+    begin
+      for j:= 0 to F.ControlCount-1 do
+        if F.Controls[j] is TListView then
+          if F.Controls[i].Name = F.Controls[j].Name + cSuffixFilter then
+            (F.Controls[i] as TListViewFilterEdit).FilteredListview:= F.Controls[j] as TListView;
+    end;
+  end;
+end;
+
+
 procedure DoForm_FillContent(
   F: TForm; Dummy: TDummyClass;
   const AContent: string);
@@ -933,6 +998,7 @@ begin
     F.ClientHeight:= ASizeY;
     DoForm_FillContent(F, Dummy, AText);
     DoForm_FocusControl(F, AFocusedIndex);
+    DoForm_SetupFilters(F);
 
     FDialogShown:= true;
     Res:= F.ShowModal;
@@ -963,7 +1029,7 @@ begin
   if Id='label' then C:= TLabel.Create(nil) else
   if Id='combo' then C:= TComboBox.Create(nil) else
   if Id='combo_ro' then begin C:= TComboBox.Create(nil); TCombobox(C).ReadOnly:= true; end else
-  if Id='edit' then C:= TEdit.Create(nil) else
+  if (Id='edit') or (Id='filter_listview') or (Id='filter_listbox') then C:= TEdit.Create(nil) else
   if Id='spinedit' then C:= TSpinEdit.Create(nil) else
   if Id='check' then C:= TCheckbox.Create(nil) else
   if Id='radio' then C:= TRadioButton.Create(nil) else
