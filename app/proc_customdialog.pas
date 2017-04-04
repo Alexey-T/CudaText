@@ -927,7 +927,9 @@ const
   cPrefix = 'f_';
 var
   SName: string;
-  C: TControl;
+  C, C2: TControl;
+  CFilterListbox: TListFilterEdit;
+  CFilterListview: TListViewFilterEdit;
   i: integer;
 begin
   for i:= 0 to F.ControlCount-1 do
@@ -936,13 +938,29 @@ begin
     if C is TListFilterEdit then
     begin
       SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
-      (C as TListFilterEdit).FilteredListbox:= F.FindChildControl(SName) as TListbox;
+      C2:= F.FindChildControl(SName);
+      if not (C2 is TListbox) then Continue;
+
+      CFilterListbox:= C as TListFilterEdit;
+      CFilterListbox.FilteredListbox:= C2 as TListbox;
+
+      SName:= CFilterListbox.Text;
+      CFilterListbox.Text:= '';
+      CFilterListbox.Text:= SName;
     end
     else
     if C is TListViewFilterEdit then
     begin
       SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
-      (C as TListViewFilterEdit).FilteredListview:= F.FindChildControl(SName) as TListView;
+      C2:= F.FindChildControl(SName);
+      if not (C2 is TListView) then Continue;
+
+      CFilterListview:= C as TListViewFilterEdit;
+      CFilterListview.FilteredListview:= C2 as TListView;
+
+      SName:= CFilterListview.Text;
+      CFilterListview.Text:= '';
+      CFilterListview.Text:= SName;
     end;
   end;
 end;
