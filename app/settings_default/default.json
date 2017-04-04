@@ -110,20 +110,21 @@
   //On saving file: force end-of-line chars at file end (if not entered)
   "saving_force_final_eol": false,
 
-  //jump-next-word, jump-prev-word, select-word (double-click) will
-  //see these additional chars as "letters" and select them like letters.
-  //Don't enter here: Latin/Rus/Greek/German letters, "0".."9", "_".
-  //Note: config read as utf8-no-bom.
+  //Commands Jump-next-word, Jump-previous-word, Select-word (double-click) will
+  //see these chars as "letters" and select them like letters.
+  //  Don't enter here: Latin/Rus/Greek/German letters, "0".."9", "_".
+  //  Note: config read as utf8.
   "word_chars": "",
 
-  //Show these unicode chars as "xNNNN" hex codes.
-  //Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
-  //Note: config is read as utf8-no-bom.
+  //Show these unicode chars as "xNNNN" hex strings.
+  //  Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
+  //  Note: config is read as utf8.
   "hex_chars": "",
 
-  //Additional pixels per char-cell
-  "spacing_x": 0,
+  //Additional pixels per each line (vertically)
   "spacing_y": 1,
+  //Additional pixels per each char (horizontally)
+  "spacing_x": 0,
 
   //Tab-char width
   "tab_size": 8,
@@ -535,22 +536,21 @@
   //                (for macOS: tried 3.4 to 3.9, which is found)
   "pylib": "python35.dll",
 
-  //API: delay for on_change_slow
+  //API: delay for event on_change_slow (used e.g. in CudaLint)
   "py_change_slow": 2000,
 
-  //[Settings for command "toggle line comment"]
-  //If no selection then comment full line
+  //Commenting: If no selection then comment full line
   "comment_full_line_if_no_sel": true,
-  //If no selection then move caret to next line
+  //Commenting: If no selection then move caret to next line
   "comment_move_down": true,
-  //Try to save chars positions in line after commenting/uncommenting
+  //Commenting: Try to save chars positions in line after commenting/uncommenting
   "comment_save_column": false,
-  //If selected >1 lines, insert comment at maximal common indent
+  //Commenting: If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,
-  //[Settings for command "duplicate line (advanced)"]
-  //If no selection then duplicate full line
+  
+  //Duplicating line: If no selection then duplicate full line
   "duplicate_full_line_if_no_sel": true,
-  //If no selection then move caret to next line
+  //Duplicating line: If no selection then move caret to next line
   "duplicate_move_down": true,
 
   //Enable special auto-completion for HTML lexer (see wiki)
@@ -560,16 +560,17 @@
   //Auto-show auto-completion after typing N word-chars (0: disabled)
   "autocomplete_autoshow_chars": 0,
   //Addition to prev option: for which lexers (comma-separated, empty: disabled)
-  //Don't add here lexers HTML/CSS, they have own auto-show
-  //(which is intelligent, only at needed HTML/CSS place).
-  //Use "-" for none-lexer.
+  //  Don't add here lexers HTML/CSS, they have own auto-show
+  //  (which is intelligent, only at needed HTML/CSS place).
+  //  Use "-" for none-lexer.
   "autocomplete_autoshow_lexers": "",
 
   //Auto-close brackets/quotes. Skips escaped chars, eg \(. 
-  //Value can have only chars: ( [ { ' " ` (double-quote needs escape in json) 
+  //  Value can have only chars: ( [ { ' " `
+  //  (don't forget that json needs escaped double-quote) 
   "auto_close_brackets": "([{",
   
-  //Extensions of picture files (shown as pictures)
+  //Extensions of picture files (they show as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
   //Highlight URLs (font color+ underline)
@@ -595,7 +596,7 @@
   "ui_sidebar_theme": "octicons_20x20",
   
   //Enable to make log files, for plugin dialogs (dlg_custom)
-  //Files are %temp%\dlg_nnnnnnnnnnnnn.txt
+  //  Files are %temp%\dlg_nnnnnnnnnnnnn.txt
   "log_dialogs": false,
   
 }
