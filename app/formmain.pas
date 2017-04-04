@@ -1748,6 +1748,11 @@ begin
   PanelSide.Visible:= UiOps.SidebarShow;
   PanelLeftTitle.Height:= UiOps.TabHeight;
 
+  if UiOps.TabBottom then
+    PanelLeftTitle.Align:= alBottom
+  else
+    PanelLeftTitle.Align:= alTop;
+
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
   Groups.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));

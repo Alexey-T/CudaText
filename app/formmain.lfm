@@ -1,5 +1,5 @@
 object fmMain: TfmMain
-  Left = 452
+  Left = 408
   Height = 504
   Top = 345
   Width = 872
@@ -155,8 +155,8 @@ object fmMain: TfmMain
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
             Left = 0
-            Height = 24
-            Top = 0
+            Height = 17
+            Top = 4
             Width = 202
             Alignment = taCenter
             Anchors = [akTop, akLeft, akRight]
