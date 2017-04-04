@@ -178,6 +178,7 @@ type
     property TabId: integer read FTabId;
     property Modified: boolean read FModified;
     procedure UpdateModifiedState;
+    procedure UpdateReadOnlyFromFile;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
@@ -1046,11 +1047,15 @@ begin
 
   SetLexer(DoLexerFindByFilename(fn));
   DoLoadHistory;
-
-  if IsFileReadonly(fn) then
-    ReadOnly:= true;
+  UpdateReadOnlyFromFile;
 
   NotifEnabled:= UiOps.NotifEnabled;
+end;
+
+procedure TEditorFrame.UpdateReadOnlyFromFile;
+begin
+  if IsFileReadonly(FileName) then
+    ReadOnly:= true;
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
