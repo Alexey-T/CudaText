@@ -20,7 +20,7 @@
   //  Option has suffixes for main OSes
   "ui_buffered": true,
   "ui_buffered__linux": true,
-  "ui_buffered__osx": false,
+  "ui_buffered__mac": false,
 
   //UI elements font
   "ui_font_name": "default",
@@ -506,7 +506,7 @@
   "export_html_font_size": 12,
 
   //Sets Python 3.x engine.
-  //Option has suffix for OSes: Windows: no suffix, Linux: "__linux", macOS: "__osx"
+  //Option has suffix for OSes: Windows: no suffix, Linux: "__linux", macOS: "__mac"
   //If correct, you must see Python version info in console panel (Ctrl+`) 
   //and command "=sys.path" works in console.
   //
@@ -522,7 +522,7 @@
   //
   //"pylib": "python35.dll",
   //"pylib__linux": "libpython3.5m.so.1.0",
-  //"pylib__osx": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
+  //"pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
   //              (for macOS: tried 3.4 to 3.9, which is found)
 
   //API: delay for on_change_slow

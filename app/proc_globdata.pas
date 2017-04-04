@@ -179,7 +179,7 @@ const
   cOptionSystemSuffix =
     {$ifdef windows} '' {$endif}
     {$ifdef linux} '__linux' {$endif}
-    {$ifdef darwin} '__osx' {$endif} ;
+    {$ifdef darwin} '__mac' {$endif} ;
   str_FontName = 'font_name'+cOptionSystemSuffix;
   str_FontSize = 'font_size'+cOptionSystemSuffix;
   str_FontQuality = 'font_quality'+cOptionSystemSuffix;
