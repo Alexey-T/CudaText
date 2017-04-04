@@ -469,7 +469,7 @@ end;
 
 function TEditorFrame.GetReadOnly: boolean;
 begin
-  Result:= Ed1.Strings.ReadOnly;
+  Result:= Ed1.ModeReadOnly;
 end;
 
 function TEditorFrame.GetTabKeyCollectMarkers: boolean;
@@ -560,7 +560,8 @@ end;
 
 procedure TEditorFrame.SetReadOnly(AValue: boolean);
 begin
-  Ed1.Strings.ReadOnly:= AValue;
+  Ed1.ModeReadOnly:= AValue;
+  Ed2.ModeReadOnly:= AValue;
 end;
 
 procedure TEditorFrame.UpdateEds(AUpdateWrapInfo: boolean = false);
@@ -999,9 +1000,8 @@ begin
 
     Ed1.Hide;
     Ed2.Hide;
-    Ed1.ModeReadOnly:= true;
-    Ed2.ModeReadOnly:= true;
     Splitter.Hide;
+    ReadOnly:= true;
 
     FImage:= TImage.Create(Self);
     FImage.Parent:= Self;
@@ -1048,7 +1048,7 @@ begin
   DoLoadHistory;
 
   if IsFileReadonly(fn) then
-    Editor.ModeReadOnly:= true;
+    ReadOnly:= true;
 
   NotifEnabled:= UiOps.NotifEnabled;
 end;
@@ -1497,7 +1497,7 @@ begin
   c.SetValue(path+cSavEnc, EncodingName);
   c.SetValue(path+cSavTop, Editor.LineTop);
   c.SetValue(path+cSavWrap, Ord(Editor.OptWrapMode));
-  c.SetValue(path+cSavRO, Editor.ModeReadOnly);
+  c.SetValue(path+cSavRO, ReadOnly);
   c.SetValue(path+cSavRuler, Editor.OptRulerVisible);
   c.SetValue(path+cSavMinimap, Editor.OptMinimapVisible);
   c.SetValue(path+cSavTabSize, Editor.OptTabSize);
@@ -1592,8 +1592,8 @@ begin
 
   TabColor:= StringToColorDef(c.GetValue(path+cSavColor, ''), clNone);
 
+  ReadOnly:= c.GetValue(path+cSavRO, ReadOnly);
   Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cSavWrap, Ord(Editor.OptWrapMode)));
-  Editor.ModeReadOnly:= c.GetValue(path+cSavRO, Editor.ModeReadOnly);
   Editor.OptRulerVisible:= c.GetValue(path+cSavRuler, Editor.OptRulerVisible);
   Editor.OptMinimapVisible:= c.GetValue(path+cSavMinimap, Editor.OptMinimapVisible);
   Editor.OptTabSize:= c.GetValue(path+cSavTabSize, Editor.OptTabSize);
