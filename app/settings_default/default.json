@@ -1,10 +1,15 @@
-//"default" config file is for copying parts to "user" config file,
-//it's not read as actual config. "user" file is read.
+//default.json config is for copying parts to user.json config,
+//it's not read as actual config. User config is read.
+//
+//Some options must have suffix in key name, for OSes:
+//  Windows: none, Linux: "__linux", macOS: "__mac"
 {
-  //Editor font
+  //Text font name [has suffix]
   "font_name": "Courier New",
+  //Text font size [has suffix]
   "font_size": 9,
-  //Editor font quality
+  
+  //Text font rendering quality [has suffix]
   //  0: Default 
   //  1: Draft 
   //  2: Proof 
@@ -14,32 +19,35 @@
   //  6: Cleartype Natural 
   "font_quality": 0,
   
-  //Double-buffering of UI controls
-  //  If app shows flickering, set to true
-  //  If high-DPI monitor (eg Retina) shows blurred text, set to false
-  //  Option has suffixes for main OSes
+  //Double-buffering of UI controls [has suffix]
+  //  If app shows flickering, set to true.
+  //  If high-DPI monitor (e.g. Retina) shows blurred text, set to false.
+  //  Defaults: Win: true; Linux: true; macOS: false
   "ui_buffered": true,
-  "ui_buffered__linux": true,
-  "ui_buffered__mac": false,
 
-  //UI elements font
+  //UI elements font name [has suffix]
   "ui_font_name": "default",
+  //UI elements font size [has suffix]
   "ui_font_size": 9,
 
-  //Output/Validate panel font
+  //Output panel font name [has suffix]
   "ui_font_output_name" : "default",
+  //Output panel font size [has suffix]
   "ui_font_output_size" : 9,
 
-  //Allow to run only one instance of program
+  //Allow to run only one instance of CudaText
   "ui_one_instance": false,
   //File-change notification: enabled
   "ui_notif": true,
   //File-change notification: watch timer interval, seconds
   "ui_notif_time": 2,
   
-  //Non-text files: 0: prompt, 1: open, 2: don't open
+  //Non-text files: allow to open
+  //  0: prompt
+  //  1: open
+  //  2: don't open
   "ui_non_text": 0,
-  //Non-text files detection buffer size, kb
+  //Non-text files: detection buffer size, Kb
   "ui_non_text_buffer": 64,
 
   //Command "Reload": if caret on last line, after reload put caret to new last line
@@ -363,20 +371,21 @@
   //Show icons in tree (for lexers which assign icons, e.g. C#)
   "ui_tree_icons": true,
 
-  //[Properties of new tabs]
-  //Lexer name
+  //New empty tabs: Lexer name
   "newdoc_lexer": "",
-  //Encoding name
-  //  See names list in Wiki. Examples:
-  //  utf8, utf8_bom, utf16le, utf16le_bom, ansi, cp1250 etc  
+  //New empty tabs: Encoding name
+  //  See names list in Wiki. Examples: utf8, utf8_bom, utf16le, ansi, cp1250 etc  
   "newdoc_encoding": "utf8",
-  //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
-  //  Default for Windows: 1, otherwise: 2
+  //New empty tabs: End-of-lines chars
+  //  1: Win
+  //  2: Unix
+  //  3: MacOS 9
+  //  Defaults: Windows: 1, Linux/macOS: 2
   "newdoc_eol": 1,
   
   //When file opens, and cannot detect encoding, open it as "ANSI" (option=false) or "UTF8" (option=true)
-  //  Default for Windows: false, otherwise: true
-  //"def_encoding_utf8": false,
+  //  Defaults: Windows: false, Linux/macOS: true
+  "def_encoding_utf8": false,
 
   //Auto-indent by Enter (makes new line indented)
   "indent_auto": true,
@@ -505,25 +514,26 @@
   "export_html_font_name": "Courier New",
   "export_html_font_size": 12,
 
-  //Sets Python 3.x engine.
-  //Option has suffix for OSes: Windows: no suffix, Linux: "__linux", macOS: "__mac"
-  //If correct, you must see Python version info in console panel (Ctrl+`) 
-  //and command "=sys.path" works in console.
+  //Sets Python3 engine [has suffix]
+  //  If correct, you must see Python version in console panel (Ctrl+`) 
+  //  and command "=sys.path" must work in console.
   //
-  //Instruction for Linux, if Py engine not found:
+  //  Instruction for Linux, if Py engine not found:
   //  1) open file manager, goto PC root,
   //  2) search for "libpython3",
   //  3) if not found, install Python 3, goto 2)
   //  4) use one of found filenames; if don't work, use filename with path
   //
-  //Info for macOS:
+  //  Info for macOS:
   //  Homebrew installs Python which don't have 32-bit *.dylib (on 64-bit OS)
-  //  So you need to install Python from Python.org, and it must be 32-bit (default 3.x is ok)
+  //  So you must install Python from Python.org, and it must be 32-bit (any 3.x is ok)
   //
-  //"pylib": "python35.dll",
-  //"pylib__linux": "libpython3.5m.so.1.0",
-  //"pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
-  //              (for macOS: tried 3.4 to 3.9, which is found)
+  //  Defaults:
+  //  "pylib": "python35.dll",
+  //  "pylib__linux": "libpython3.5m.so.1.0",
+  //  "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
+  //                (for macOS: tried 3.4 to 3.9, which is found)
+  "pylib": "python35.dll",
 
   //API: delay for on_change_slow
   "py_change_slow": 2000,
