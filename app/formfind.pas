@@ -321,14 +321,6 @@ begin
     exit;
   end;
 
-  //handle Tab/ShiftTab: needed coz Mainmenu item handles ShiftTab (unindent)
-  if key=VK_TAB then
-  begin
-    SelectNext(GetActiveControl(Self), not (ssShift in Shift), true);
-    key:= 0;
-    exit
-  end;
-
   if (FHotkeyFind<>0) and (FHotkeyFind=KeyToShortCut(Key, Shift)) then
     begin FReplace:= false; UpdateState; key:= 0; exit; end;
 

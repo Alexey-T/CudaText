@@ -24,6 +24,7 @@ uses
   ATStringProc,
   ATButtons,
   ATListbox,
+  ATPanelSimple,
   proc_cmd,
   proc_lexer,
   proc_msg,
@@ -336,7 +337,7 @@ function GetAppLexerMapFilename(const ALexName: string): string;
 function GetAppLexerOverrideFilename(AName: string): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
 
-function GetActiveControl(Form: TWinControl): TWinControl;
+//function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
 function MsgBox(const Str: string; Flags: Longint): integer;
@@ -1202,6 +1203,7 @@ begin
 end;
 
 
+(*
 function GetActiveControl(Form: TWinControl): TWinControl;
 var
   Ctl: TControl;
@@ -1213,14 +1215,20 @@ begin
     Ctl:= Form.Controls[i];
     if (Ctl is TWinControl) then
       if (Ctl as TWinControl).Focused then
-        begin Result:= Ctl as TWinControl; exit end;
+        exit(Ctl as TWinControl);
     if Ctl is TPanel then
     begin
       Result:= GetActiveControl(Ctl as TPanel);
-      if Result<>nil then exit;
+      if Assigned(Result) then exit;
+    end;
+    if Ctl is TATPanelSimple then
+    begin
+      Result:= GetActiveControl(Ctl as TATPanelSimple);
+      if Assigned(Result) then exit;
     end;
   end;
 end;
+*)
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 var

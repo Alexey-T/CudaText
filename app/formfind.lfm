@@ -1,7 +1,7 @@
 object fmFind: TfmFind
   Left = 188
   Height = 138
-  Top = 635
+  Top = 524
   Width = 1092
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
