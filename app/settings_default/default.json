@@ -40,7 +40,7 @@
   //Allow to run only one instance of CudaText
   "ui_one_instance": false,
   
-  //[Notification]
+  //[File]
   //File-change notification: enabled
   "ui_notif": true,
   //File-change notification: watch timer interval, seconds
@@ -105,7 +105,7 @@
   //  4: horiz colored line below line text
   "fold_style": 1,  
 
-  //[Clipboard]
+  //[Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret
   "copy_line_if_no_sel": true,
   //If no selection, "Cut to clipboard" will take entire line with caret
