@@ -398,22 +398,23 @@
   //  Defaults: Windows: 1, Linux/macOS: 2
   "newdoc_eol": 1,
   
-  //When file opens, and cannot detect encoding, open it as "ANSI" (option=false) or "UTF8" (option=true)
+  //When file opens, and cannot detect encoding, open it as "ANSI" (option=false)
+  //or "UTF8" (option=true) [has suffix]
   //  Defaults: Windows: false, Linux/macOS: true
   "def_encoding_utf8": false,
 
-  //Auto-indent by Enter (makes new line indented)
+  //Indents: Auto-indent by Enter (makes new line indented)
   "indent_auto": true,
-  //Auto-indent kind:
-  //  0: indent like in prev line
+  //Indents: Auto-indent kind
+  //  0: indent like in previous line
   //  1: by spaces
   //  2: by tabs+spaces
   //  3: by tabs only
   "indent_kind": 0,
-  //Indent size for Indent/Unindent commands:
-  //  in chars (n>0) or in tabs (n<0)
+  //Indents: Indent size for Indent/Unindent commands:
+  //in chars (value>0) or in tabs (value<0)
   "indent_size": 2,
-  //Unindent command (Shift+Tab): if several lines (in block) have different indent,
+  //Indents: Unindent command (Shift+Tab): if several lines (in block) have different indent,
   //stop unindent if one line already at left edge (other lines wont be moved)
   "unindent_keeps_align": true,
 
