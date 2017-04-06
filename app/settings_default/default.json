@@ -7,8 +7,12 @@
   //[Font]
   //Text font name [has suffix]
   "font_name": "Courier New",
+  "font_name__linux": "Courier New",
+  "font_name__mac": "Courier New",
   //Text font size [has suffix]
   "font_size": 9,
+  "font_size__linux": 9,
+  "font_size__mac": 9,
   
   //Text font rendering quality [has suffix]
   //  0: Default 
@@ -19,16 +23,26 @@
   //  5: Cleartype 
   //  6: Cleartype Natural 
   "font_quality": 0,
+  "font_quality__linux": 0,
+  "font_quality__mac": 0,
   
   //UI elements font name [has suffix]
   "ui_font_name": "default",
+  "ui_font_name__linux": "default",
+  "ui_font_name__mac": "default",
   //UI elements font size [has suffix]
   "ui_font_size": 9,
+  "ui_font_size__linux": 9,
+  "ui_font_size__mac": 9,
 
   //Output panel font name [has suffix]
   "ui_font_output_name" : "default",
+  "ui_font_output_name__linux" : "default",
+  "ui_font_output_name__mac" : "default",
   //Output panel font size [has suffix]
   "ui_font_output_size" : 9,
+  "ui_font_output_size__linux" : 9,
+  "ui_font_output_size__mac" : 9,
 
   //[UI]
   //Double-buffering of UI controls [has suffix]
@@ -36,6 +50,8 @@
   //  If high-DPI monitor (e.g. Retina) shows blurred text, set to false.
   //  Defaults: Win: true; Linux: true; macOS: false
   "ui_buffered": true,
+  "ui_buffered__linux": true,
+  "ui_buffered__mac": false,
 
   //Allow to run only one instance of CudaText
   "ui_one_instance": false,
@@ -437,6 +453,8 @@
   //or UTF8 (value=true) [has suffix]
   //  Defaults: Windows: false, Linux/macOS: true
   "def_encoding_utf8": false,
+  "def_encoding_utf8__linux": true,
+  "def_encoding_utf8__mac": true,
 
   //[Indent]
   //Auto-indent by Enter (makes new line indented)
@@ -595,6 +613,8 @@
   //  "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
   //                (for macOS: tried 3.4 to 3.9, which is found)
   "pylib": "python35.dll",
+  "pylib__linux": "libpython3.5m.so.1.0",
+  "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
 
   //API: delay for event on_change_slow (used e.g. in CudaLint)
   "py_change_slow": 2000,
