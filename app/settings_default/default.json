@@ -299,32 +299,32 @@
   "caret_multi": true,
 
   //Possible caret shapes:
-  //  0: Full,
-  //  1: VertPixels1,
-  //  2: VertPixels2,
-  //  3: VertPixels3,
-  //  4: VertPixels4,
-  //  5: VertPercents10,
-  //  6: VertPercents15,
-  //  7: VertPercents20,
-  //  8: VertPercents25,
-  //  9: VertPercents30,
-  // 10: VertPercents35,
-  // 11: VertPercents40,
-  // 12: VertPercents50,
-  // 13: HorzPixels1,
-  // 14: HorzPixels2,
-  // 15: HorzPixels3,
-  // 16: HorzPixels4,
-  // 17: HorzPixels5,
-  // 18: HorzPercents10,
-  // 19: HorzPercents15,
-  // 20: HorzPercents20,
-  // 21: HorzPercents25,
-  // 22: HorzPercents30,
-  // 23: HorzPercents35,
-  // 24: HorzPercents40,
-  // 25: HorzPercents50,
+  //  0: Full block
+  //  1: Vert 1 pixels
+  //  2: Vert 2 pixels
+  //  3: Vert 3 pixels
+  //  4: Vert 4 pixels
+  //  5: Vert 10 %
+  //  6: Vert 15 %
+  //  7: Vert 20 %
+  //  8: Vert 25 %
+  //  9: Vert 30 %
+  // 10: Vert 35 %
+  // 11: Vert 40 %
+  // 12: Vert 50 %
+  // 13: Horz 1 pixels
+  // 14: Horz 2 pixels
+  // 15: Horz 3 pixels
+  // 16: Horz 4 pixels
+  // 17: Horz 5 pixels
+  // 18: Horz 10%
+  // 19: Horz 15%
+  // 20: Horz 20%
+  // 21: Horz 25%
+  // 22: Horz 30%
+  // 23: Horz 35%
+  // 24: Horz 40%
+  // 25: Horz 50%
   // 26: Frame
   //
   //Caret: shape for normal state
