@@ -304,14 +304,14 @@
   //  2: Vert 2 pixels
   //  3: Vert 3 pixels
   //  4: Vert 4 pixels
-  //  5: Vert 10 %
-  //  6: Vert 15 %
-  //  7: Vert 20 %
-  //  8: Vert 25 %
-  //  9: Vert 30 %
-  // 10: Vert 35 %
-  // 11: Vert 40 %
-  // 12: Vert 50 %
+  //  5: Vert 10%
+  //  6: Vert 15%
+  //  7: Vert 20%
+  //  8: Vert 25%
+  //  9: Vert 30%
+  // 10: Vert 35%
+  // 11: Vert 40%
+  // 12: Vert 50%
   // 13: Horz 1 pixels
   // 14: Horz 2 pixels
   // 15: Horz 3 pixels
