@@ -117,7 +117,8 @@ Performs application-wide action. Possible values of id:
 * PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
-* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton'. Gets None for other values.
+* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Gets None for other values.
+* PROC_ENUM_FONTS: Gets list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
 
 ====Clipboard====
 
@@ -531,16 +532,20 @@ Control types allowed:
 * "tabs": set of tabs headers (note: not pages which have controls in them)
 * "colorpanel": panel with caption, color of background, color of font
 * "image": picture, which shows picture-file
+* "filter_listbox": input, which filters content of another "listbox" control
+* "filter_listview": input, which filter content of another "listview" control
 
 ==== Properties ====
 
 Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props. Each prop is s_name+"="+s_value. Possible names and their values:
 
 * "type": type of control, values are listed above.
-
 * "pos": position, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
 * "cap": caption of control (not for all)
 * "hint": tooltip/hint string, it can be multiline, "\r"-separated
+* "font": ","-separated values: font name, font size, font color (RGB)
+* "name": some unique word-like name of control.
+** Required for "filter_*" controls: you must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. "name=mylistbox" with "name=f_mylistbox").
 * "en": enabled-state, bool
 * "act": active-state, bool, for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
 
@@ -568,11 +573,12 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 *** bool_stretch_out_enabled
 *** bool_keep_origin_x_when_clipped
 *** bool_keep_origin_y_when_clipped
+** for filter_listview: bool_filter_by_all_columns
 
 * "val": value of control (not for all):
 ** for check: value "0"/"1" or "?" (grayed)
 ** for radio, checkbutton: value "0"/"1"
-** for edit, edit_pwd, spinedit, combo: text
+** for edit, edit_pwd, spinedit, combo, filter_*: text
 ** for memo: "\t"-separated lines (in lines "\t" must be replaced to chr(2))
 ** for combo_ro, listbox, radiogroup, listview: index
 ** for checkgroup: ","-separated checks (values "0"/"1")
@@ -1466,6 +1472,12 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.174
+* add: dlg_custom: "name=" (not required)
+* add: dlg_custom: "font="
+* add: dlg_custom: "type=filter_listbox", "type=filter_listview". To setup these filter controls, you must set "name=" for filter and its listbox/listview
+* add: app_proc: PROC_ENUM_FONTS
 
 1.0.173
 * add: dlg_commands()

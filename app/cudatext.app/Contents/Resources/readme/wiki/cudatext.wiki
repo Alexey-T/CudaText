@@ -29,9 +29,10 @@ Screenshot:
 = Download =
 
 * Homepage: http://uvviewsoft.com/
-* Source: https://github.com/Alexey-T/CudaText
+* SourceForge downloads: http://cudatext.sf.net
+* Github: https://github.com/Alexey-T/CudaText
 
-Versions for Windows, Linux, OS X.
+Versions for Windows, macOS, Linux.
 
 = Configs =
 
@@ -58,8 +59,9 @@ Supported keys:
 * -v, --version - Show application version
 * -n, --new - Ignore option "ui_one_instance", and force new app window
 * -r, --readonly - Open all files from command line in read-only mode
+* -e, --enc=value - Open all files from command line in given encoding
+* -el, --enclist - Show possible encoding names
 * -w, --window=left,top,width,height - Set position/size of app window, 4 numbers specified, any can be missed to keep previous value
-* -e, --enc=value - Open all files from command line in given encoding. See names in "Encodings" topic.
 
 Notes:
 
