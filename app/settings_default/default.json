@@ -1,8 +1,8 @@
 //default.json config is for copying parts to user.json config,
 //it's not read as actual config. User config is read.
 //
-//Some options must have suffix in key name, for OSes:
-//  Windows: none, Linux: "__linux", macOS: "__mac"
+//Some options have suffix in key name, for OSes:
+//Windows: none, Linux: "__linux", macOS: "__mac"
 {
   //[Font]
   //Text font name [has suffix]
@@ -607,16 +607,13 @@
   //  Homebrew installs Python which don't have 32-bit *.dylib (on 64-bit OS)
   //  So you must install Python from Python.org, and it must be 32-bit (any 3.x is ok)
   //
-  //  Defaults:
-  //  "pylib": "python35.dll",
-  //  "pylib__linux": "libpython3.5m.so.1.0",
-  //  "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
-  //                (for macOS: tried 3.4 to 3.9, which is found)
+  //  Default for macOS: easy to find file, tried 3.4 to 3.9, used first found.
+  //
   "pylib": "python35.dll",
   "pylib__linux": "libpython3.5m.so.1.0",
   "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
 
-  //API: delay for event on_change_slow (used e.g. in CudaLint)
+  //API: delay for event on_change_slow in msec (used in CudaLint)
   "py_change_slow": 2000,
 
   //[Commands]
