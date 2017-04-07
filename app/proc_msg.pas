@@ -15,14 +15,13 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.8.0.b';
+  cAppExeVersion = '1.8.0.0';
   cAppApiVersion = '1.0.174';
 
 const
-  cPythonListError = 'Cannot create new list object';
+  msgTitle = 'CudaText'; //no need i18n
+  msgPythonListError = 'Cannot create new list object'; //no need i18n
 
-const
-  msgTitle = 'CudaText';
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';

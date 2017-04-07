@@ -3768,7 +3768,7 @@ begin
     NLen:= mi.Count;
     Result:= PyList_New(NLen);
     if not Assigned(Result) then
-      raise EPythonError.Create(cPythonListError);
+      raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
       PyList_SetItem(Result, i,
         Py_BuildValue('{sLsssLss}',

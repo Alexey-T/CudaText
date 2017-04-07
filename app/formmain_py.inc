@@ -495,7 +495,7 @@ begin
       begin
         Result:= PyList_New(NLen);
         if not Assigned(Result) then
-          raise EPythonError.Create(cPythonListError);
+          raise EPythonError.Create(msgPythonListError);
         for i:= 0 to NLen-1 do
         begin
           Caret:= Ed.Carets[i];
@@ -2898,7 +2898,7 @@ begin
     begin
       Result:= PyList_New(NLen);
       if not Assigned(Result) then
-        raise EPythonError.Create(cPythonListError);
+        raise EPythonError.Create(msgPythonListError);
       for i:= 0 to NLen-1 do
       begin
         Range:= Ed.Fold[i];
@@ -3135,7 +3135,7 @@ begin
 
               Result:= PyList_New(ItemList.Count);
               if not Assigned(Result) then
-                raise EPythonError.Create(cPythonListError);
+                raise EPythonError.Create(msgPythonListError);
               for i:= 0 to ItemList.Count-1 do
                 PyList_SetItem(Result, i,
                   Py_BuildValue('(Ls)',
@@ -3531,7 +3531,7 @@ begin
     begin
       Result:= PyList_New(NLen);
       if not Assigned(Result) then
-        raise EPythonError.Create(cPythonListError);
+        raise EPythonError.Create(msgPythonListError);
       for i:= 0 to NLen-1 do
       begin
         Item:= Ed.Gaps[i];

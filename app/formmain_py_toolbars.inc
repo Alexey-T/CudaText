@@ -173,7 +173,7 @@ begin
     NLen:= AToolbar.ButtonCount;
     Result:= PyList_New(NLen);
     if not Assigned(Result) then
-      raise EPythonError.Create(cPythonListError);
+      raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
     begin
       Btn:= AToolbar.Buttons[i];
