@@ -1,10 +1,20 @@
-//"default" config file is for copying parts to "user" config file,
-//it's not read as actual config. "user" file is read.
+//default.json config is for copying parts to user.json config,
+//it's not read as actual config. User config is read.
+//
+//Some options have suffix in key name, for OSes:
+//Windows: none, Linux: "__linux", macOS: "__mac"
 {
-  //Editor font
+  //[Font]
+  //Text font name [has suffix]
   "font_name": "Courier New",
+  "font_name__linux": "Courier New",
+  "font_name__mac": "Courier New",
+  //Text font size [has suffix]
   "font_size": 9,
-  //Editor font quality
+  "font_size__linux": 9,
+  "font_size__mac": 9,
+  
+  //Text font rendering quality [has suffix]
   //  0: Default 
   //  1: Draft 
   //  2: Proof 
@@ -13,47 +23,70 @@
   //  5: Cleartype 
   //  6: Cleartype Natural 
   "font_quality": 0,
+  "font_quality__linux": 0,
+  "font_quality__mac": 0,
   
-  //Double-buffering of UI controls
-  //  If app shows flickering, set to true
-  //  If high-DPI monitor (eg Retina) shows blurred text, set to false
-  //  Option has suffixes for main OSes
+  //UI elements font name [has suffix]
+  "ui_font_name": "default",
+  "ui_font_name__linux": "default",
+  "ui_font_name__mac": "default",
+  //UI elements font size [has suffix]
+  "ui_font_size": 9,
+  "ui_font_size__linux": 9,
+  "ui_font_size__mac": 9,
+
+  //Output panel font name [has suffix]
+  "ui_font_output_name" : "default",
+  "ui_font_output_name__linux" : "default",
+  "ui_font_output_name__mac" : "default",
+  //Output panel font size [has suffix]
+  "ui_font_output_size" : 9,
+  "ui_font_output_size__linux" : 9,
+  "ui_font_output_size__mac" : 9,
+
+  //[UI]
+  //Double-buffering of UI controls [has suffix]
+  //  If app shows flickering, set to true.
+  //  If high-DPI monitor (e.g. Retina) shows blurred text, set to false.
+  //  Defaults: Win: true; Linux: true; macOS: false
   "ui_buffered": true,
   "ui_buffered__linux": true,
-  "ui_buffered__osx": false,
+  "ui_buffered__mac": false,
 
-  //UI elements font
-  "ui_font_name": "default",
-  "ui_font_size": 9,
-
-  //Output/Validate panel font
-  "ui_font_output_name" : "default",
-  "ui_font_output_size" : 9,
-
-  //Allow to run only one instance of program
+  //Allow to run only one instance of CudaText
   "ui_one_instance": false,
+  
+  //[File]
   //File-change notification: enabled
   "ui_notif": true,
   //File-change notification: watch timer interval, seconds
   "ui_notif_time": 2,
   
-  //Non-text files: 0: prompt, 1: open, 2: don't open
+  //[NonText]
+  //Non-text files: allow to open
+  //  0: prompt
+  //  1: open
+  //  2: don't open
   "ui_non_text": 0,
-  //Non-text files detection buffer size, kb
+  //Non-text files: detection buffer size, Kb
   "ui_non_text_buffer": 64,
 
+  //[File]
   //Command "Reload": if caret on last line, after reload put caret to new last line
   "ui_reload_tail": true,
+  
+  //[Lexer]
   //Group lexers menu by 1st char of name  
   "ui_lexers_grouped": true,
 
-  //Highlight BG of lines with carets
+  //[Text]
+  //Highlight background of lines with carets
   "show_cur_line": false,
-  //..., only minimal part of line, if line wrapped
+  //Highlight background of lines with carets: only minimal part of line, if line wrapped
   "show_cur_line_minimal": true,
-  //..., only for focused editor
+  //Highlight background of lines with carets: only for focused editor
   "show_cur_line_only_focused": false,
-  //Show additional vert-lines at carets position
+  //Show additional vertical-lines at caret position(s)
   "show_cur_column": false,
   
   //Allow last line to scroll to the top of window
@@ -65,19 +98,21 @@
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
 
-  //Enable caret-depending highlighting:
+  //[Lexer]
+  //Enable caret-depending highlighting
   //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
   //  HTML/XML hilites opening/closing tags when caret is inside tag
   "lexer_dynamic_hilite": true,
   
-  //Max number of lines in editor, for which dynamic-hilite works
-  //Reason for option: dynamic-hilite disables hiliting cache, so slows down scrolling
+  //Max number of lines in editor, for which dynamic-hiliting works
+  //  Reason for option: dynamic-hiliting disables hiliting cache, so slows down scrolling
   "lexer_dynamic_hilite_max_lines": 2000,
   
   //Enable lexers' horizontal line separators
-  //  e.g. Pascal lexer: green lines above funcs
+  //  e.g. Pascal lexer: green lines above procedure/function
   "lexer_line_separators": false,
 
+  //[Fold]
   //Style of folding
   //  0: if fold-hint empty: [...] from fold-pos, else hint
   //  1: if fold-hint empty: [line...] from fold-pos, else hint
@@ -86,68 +121,81 @@
   //  4: horiz colored line below line text
   "fold_style": 1,  
 
+  //[Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret
   "copy_line_if_no_sel": true,
   //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
 
+  //[Text]
   //If text typed, delete selection first
   "ovr_sel": true,
   //If text pasted from clipboard, and "overwrite" mode on (Ins key),
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
 
+  //[Event]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
   //On saving file: force end-of-line chars at file end (if not entered)
   "saving_force_final_eol": false,
 
-  //jump-next-word, jump-prev-word, select-word (double-click) will
-  //see these additional chars as "letters" and select them like letters.
-  //Don't enter here: Latin/Rus/Greek/German letters, "0".."9", "_".
-  //Note: config read as utf8-no-bom.
+  //[Text]
+  //Commands Jump-next-word, Jump-previous-word, Select-word (double-click) will
+  //see these chars as "letters" and select them like letters.
+  //  Don't enter here: Latin/Rus/Greek/German letters, "0".."9", "_".
+  //  Note: config read as utf8.
   "word_chars": "",
 
-  //Show these unicode chars as "xNNNN" hex codes.
-  //Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
-  //Note: config is read as utf8-no-bom.
+  //Show these unicode chars as "xNNNN" hex strings.
+  //  Some chars are here by default: http://unicode.org/reports/tr9/#Directional_Formatting_Characters
+  //  Note: config is read as utf8.
   "hex_chars": "",
 
-  //Additional pixels per char-cell
-  "spacing_x": 0,
+  //Additional pixels per each line (vertically)
   "spacing_y": 1,
+  //Additional pixels per each char (horizontally)
+  "spacing_x": 0,
 
   //Tab-char width
   "tab_size": 8,
-  //Tab-key enters spaces (instead of tab-char)
+  //Tab-key enters spaces, instead of tab-char
   "tab_spaces": false,
   //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)   
   "tab_max_pos_expanded": 500,
-
-  //Enable gutter (all columns at the left side)
+    
+  //[Gutter]
+  //Gutter: Enable gutter (all columns at the left side)
   "gutter_show": true,
-  //Show gutter's folding column
+  //Gutter: Show gutter's folding column
   "gutter_fold": true,
-  //If false, folding lines auto-hide on mouse-leave
+  //Gutter: If false, folding lines auto-hide on mouse-leave
   "gutter_fold_always": true,
-  //Style of folding icons: 0: plus/minus; 1: triangles
+  //Gutter: Style of folding icons
+  //  0: plus/minus
+  //  1: triangles
   "gutter_fold_icons": 0,
-  //Show gutter's bookmarks column
+  //Gutter: Show gutter's bookmarks column
   "gutter_bookmarks": true,
 
-  //Show gutter's numbers column
+  //[LineNumbers]
+  //Line numbers: Show gutter's numbers column
   "numbers_show": true,
-  //If not 0, special font size used for numbers
+  //Line numbers: If not 0, special font size used for numbers
   "numbers_font_size": 0,
-  //Numbers style: 0: all lines; 1: none; 2: each 10th line; 3: each 5th line
+  //Line numbers: Numbers style
+  //  0: all lines
+  //  1: none
+  //  2: each 10th line
+  //  3: each 5th line
   "numbers_style": 0,
-  //Show numbers for lines with carets
+  //Line numbers: Show numbers for lines with carets
   "numbers_for_carets": false,
-  //Center numbers on column
+  //Line numbers: Center numbers on column
   "numbers_center": true,
-
-  //Style of block-staples (indentation guides)
-  //(vert lines lefter of {..} blocks)
+    
+  //[Text]
+  //Style of block staples (aka indentation guides)
   //  0: don't show
   //  1: normal lines
   //  2: dash/dotted lines
@@ -155,65 +203,74 @@
   //  4: dotted lines
   "staples_style": 1,
 
-  //Show horiz ruler at the top
+  //[Ruler]
+  //Ruler: show ruler (horizontal, on the top)
   "ruler_show": false,
-  //If not 0, special font size used for ruler
+  //Ruler: if not 0, special font size used for ruler
   "ruler_font_size": 8,
-  //Ruler height, pixels
+  //Ruler: ruler height, pixels
   "ruler_size": 20,
-  //Ruler numbers indent from top, pixels
+  //Ruler: numbers indent from top, pixels
   "ruler_text_indent": 0,
 
-  //Show minimap
+  //[Minimap]
+  //Minimap: Show
   "minimap_show": false,
-  //Show selection area always. If false: show selection area only on mouse-over.
+  //Minimap: Show selection area always. If false: show only on mouse-over.
   "minimap_sel_always": false,
-  //Show 1-pixel border around selection area
+  //Minimap: Show 1-pixel border around selection area
   "minimap_sel_border": false,
-  //Minimap width: 0: autosize, >0: fixed width in chars
+  //Minimap: Width
+  //  0: autosize
+  //  >0: fixed width in chars
   "minimap_char_width": 0,
-  //Place minimap to the left side
+  //Minimap: Place minimap to the left side
   "minimap_at_left": false,
 
-  //Show micromap: small vertical bar at the right edge
+  //[Micromap]
+  //Micromap: show (small vertical bar at the right edge)
   "micromap_show": false,
-  //Micromap width, pixels
+  //Micromap: width, pixels
   "micromap_width": 12,
 
+  //[Text]
   //Fixed margin (vertical line) column.
-  //It is always shown, to hide: set value to eg 2000.
+  //It's always shown, to hide: set value to eg 2000.
   "margin": 80,
-  //Additional margins, list of columns like "10 20 25" space-separated
+  //Additional margins.
+  //List of columns like "10 20 25" space-separated.
   "margin_string": "",
 
-  //Global enable-flag for unprinted_ options below (spaces, ends, details)
+  //[Unprinted]
+  //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
   "unprinted_show": false,
-  //Show unprinted spaces/tabs
+  //Unprinted: Show unprinted spaces/tabs
   "unprinted_spaces": true,
-  //Show unprinted end-of-line marks
+  //Unprinted: Show unprinted end-of-line marks
   "unprinted_ends": true,
-  //Paint at line-end strings like "un", "win", "mac"
+  //Unprinted: Paint at line-end strings like "un", "win", "mac"
   "unprinted_end_details": false,
 
-  //Show control Ascii chars (codes 0..31) as replacement-char
+  //Unprinted: Show control ASCII chars (codes 0..31) as replacement-char
   //(else show them as "xNN" hex codes)
   "unprinted_replace_spec": false,
-  //Replacement-char hex code
+  //Unprinted: Replacement-char hex code for control ASCII chars
   "unprinted_replace_to_code": "A4",
 
-  //Paint arrow-down at end-of-line, instead of dot
+  //Unprinted: Paint arrow-down at end-of-line, instead of dot
   "unprinted_end_arrow": true,
-  //Length of arrow for tab-char (1 is minimal, 0 means full size)
+  //Unprinted: Length of arrow for tab-char (1 is minimal, 0 means full size)
   "unprinted_tab_len": 1,
-  //Scale (% of char height) of space dot
+  //Unprinted: Scale (% of char height) of space dot
   "unprinted_space_dot_scale": 15,
-  //Scale of end-of-line dot (if dot shown, not arrow)
+  //Unprinted: Scale of end-of-line dot (if dot shown, not arrow)
   "unprinted_end_dot_scale": 30,
-  //Scale of end-of-line text: "un", "win", "mac"
+  //Unprinted: Scale of end-of-line text: "un", "win", "mac"
   "unprinted_end_font_scale": 80,
-  //Scale of tab-arrow pointer (15..50)
+  //Unprinted: Scale of tab-arrow pointer (15..50)
   "unprinted_tab_ptr_scale": 22,
 
+  //[Wrap]
   //Wrap mode:
   //  0: off (faster)
   //  1: wrap at editor edge (changed on window resize)
@@ -223,59 +280,61 @@
   //(if line begins with spaces/tabs)
   "wrap_indented": true,
 
-  //Max count of commands which can "undo"
+  //[Undo]
+  //Undo: Max count of commands which can be undone
   "undo_limit": 5000,
-  //"Undo" takes group of commands (groups are separated eg by mouse clicks)
+  //Undo: Undo commands by groups (groups are separated eg by mouse clicks)
   "undo_grouped": true,
-  //"Undo" enabled even after file saving
+  //Undo: Enabled even after file saving
   "undo_after_save": true,
 
-  //Allow to place caret after end-of-line (virtual caret pos)
+  //[Caret]
+  //Caret: Allow to place caret after end-of-line (virtual caret pos)
   "caret_after_end": false,
-  //Caret blink time (msec)
+  //Caret: Caret blink time (msec)
   "caret_blink_time": 600,
-  //Caret blink enabled
+  //Caret: Caret blink enabled
   "caret_blink_en": true,
-  //Enable multi-carets, see "Help--Mouse usage"
+  //Caret: Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
 
   //Possible caret shapes:
-  //  0: Full,
-  //  1: VertPixels1,
-  //  2: VertPixels2,
-  //  3: VertPixels3,
-  //  4: VertPixels4,
-  //  5: VertPercents10,
-  //  6: VertPercents15,
-  //  7: VertPercents20,
-  //  8: VertPercents25,
-  //  9: VertPercents30,
-  // 10: VertPercents35,
-  // 11: VertPercents40,
-  // 12: VertPercents50,
-  // 13: HorzPixels1,
-  // 14: HorzPixels2,
-  // 15: HorzPixels3,
-  // 16: HorzPixels4,
-  // 17: HorzPixels5,
-  // 18: HorzPercents10,
-  // 19: HorzPercents15,
-  // 20: HorzPercents20,
-  // 21: HorzPercents25,
-  // 22: HorzPercents30,
-  // 23: HorzPercents35,
-  // 24: HorzPercents40,
-  // 25: HorzPercents50,
+  //  0: Full block
+  //  1: Vert 1 pixels
+  //  2: Vert 2 pixels
+  //  3: Vert 3 pixels
+  //  4: Vert 4 pixels
+  //  5: Vert 10%
+  //  6: Vert 15%
+  //  7: Vert 20%
+  //  8: Vert 25%
+  //  9: Vert 30%
+  // 10: Vert 35%
+  // 11: Vert 40%
+  // 12: Vert 50%
+  // 13: Horz 1 pixels
+  // 14: Horz 2 pixels
+  // 15: Horz 3 pixels
+  // 16: Horz 4 pixels
+  // 17: Horz 5 pixels
+  // 18: Horz 10%
+  // 19: Horz 15%
+  // 20: Horz 20%
+  // 21: Horz 25%
+  // 22: Horz 30%
+  // 23: Horz 35%
+  // 24: Horz 40%
+  // 25: Horz 50%
   // 26: Frame
   //
-  //Caret shape, normal state
+  //Caret: shape for normal state
   "caret_shape": 1,
-  //Caret shape, overwrite mode (Ins key: insert/overwrite)
+  //Caret: shape for overwrite state (Ins key: insert/overwrite)
   "caret_shape_ovr": 0,
-  //Caret shape, read-only mode
+  //Caret: shape for read-only mode
   "caret_shape_ro": 13,
 
-  //Caret pos after pasting column-block:
+  //Caret: positions after pasting column-block
   //  0: no change
   //  1: left-bottom
   //  2: right-bottom
@@ -284,6 +343,7 @@
   //  5: carets column on right 
   "caret_after_paste_column": 5,
 
+  //[Find]
   //Find dialog: show window, not docked to app bottom (applied after restart)
   "find_separate_form": false,
   //Find dialog: suggest selection (of 1st caret)
@@ -301,96 +361,118 @@
   "find_multiline_scale": 2.5,  
 
   //When doing "go to" or "find", and new position out of screen,
-  //   scroll to N chars from new position;
-  //Vert indent: N<0: always indent from top;
-  //             N>=0: indent from top (goto up) or bottom (goto down)
+  //scroll by N chars from new position
+  //  Vert indent: N<0: always indent from top;
+  //               N>=0: indent from top (goto up) or bottom (goto down)
+  //  Horz indent: N>=0
   "find_indent_vert": -5,
   "find_indent_horz": 10,
 
-  //Tabs width, height
+  //[UiTabs]
+  //UI tabs: Width
   "ui_tab_size_x": 170,
+  //UI tabs: Height
   "ui_tab_size_y": 25,
-  //Indent of text on tabs
+  //UI tabs: Indent of text on tabs
   "ui_tab_indent_x": 5,
-  //Angle of tab edge, it's set in pixel shift, 0..10
+  //UI tabs: Angle of tab edge, it's set in pixel shift, 0..10
   "ui_tab_angle": 3,
-  //Show tabs at bottom
+  //UI tabs: Show tabs on bottom
   "ui_tab_bottom": false,
-  //Show "x" buttons on tabs:
-  //  0: dont show; 1: for all tabs; 2: for active tab; 3: for mouse-over tab
+  //UI tabs: Show "x" buttons on tabs
+  //  0: dont show
+  //  1: for all tabs
+  //  2: for active tab
+  //  3: for mouse-over tab
   "ui_tab_show_x": 1,
-  //Show "+" pseudo-tab
+  //UI tabs: Show "+" pseudo-tab
   "ui_tab_show_plus": true,
-  //Command "Set tab color" paints entire tab
+  //UI tabs: Command "Set tab color" paints entire tab
   "ui_tab_fullcolor": false,
-  //Double-click closes tab
+  //UI tabs: Double-click closes tab
   "ui_tab_2click_closes": false,
-  //Show numbers on tabs
+  //UI tabs: Show numbers on tabs
   "ui_tab_numbers": false,
 
-  //Commands/API listbox size
+  //[UiListbox]
+  //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,
+  //Listboxes: Commands/API listbox height
   "ui_listbox_size_y": 300,
-  //Auto-completion listbox size
+  //Listboxes: Auto-completion listbox width
   "ui_listbox_complete_size_x": 550,
+  //Listboxes: Auto-completion listbox height
   "ui_listbox_complete_size_y": 200,
-  //Enables fuzzy search in menu-dialogs (else search is normal)
+  //Listboxes: Enable fuzzy search in menu dialogs (see Wiki)
   "ui_listbox_fuzzy": true,
 
-  //Max items in comboboxes history (0..200)
+  //[History]
+  //History: Max items in comboboxes history (0..200)
   "ui_max_history_edits": 20,
-  //Max items in "recent files" menu (0..50)
+  //History: Max items in "recent files" menu (0..50)
   "ui_max_history_menu": 10,
-  //Max items in "settings/history files.json" (0..400)
+  //History: Max items in "settings/history files.json" (0..400)
   "ui_max_history_files": 25,
 
+  //[UI]
   //Close program by Esc key
   "ui_esc_close": false,
   //Close Console by Esc key
   "ui_esc_close_console": true,
+  
   //Initial folder of Open/Save-as dialogs, for untitled tabs
   "ui_initial_dir": "",
 
-  //[Syntax-tree]
-  //Focus another tree-node, after caret position changes
+  //[UiTree]
+  //Tree: Focus another tree-node, after caret position changes
   "ui_tree_auto_sync": true,
-  //Time (msec) after which tree filled
+  //Tree: Time (msec) after which tree filled
   "ui_tree_time_fill": 2000,
-  //Time (msec) after which tree-node for caret focuses
+  //Tree: Time (msec) after which tree-node for caret focuses
   "ui_tree_time_focus": 300,
-  //Show vertical/horiz lines in tree 
+  //Tree: Show vertical/horiz lines in tree 
   "ui_tree_show_lines": true,
-  //Show icons in tree (for lexers which assign icons, e.g. C#)
+  //Tree: Show icons in tree (for lexers which assign icons, e.g. C#)
   "ui_tree_icons": true,
 
-  //[Properties of new tabs]
-  //Lexer name in lexers menu
+  //[NewDoc]
+  //New tabs: Lexer name
   "newdoc_lexer": "",
-  //Encoding name (allowed names: see encodings menu): 
-  //  "UTF-8", "UTF-8 with BOM", "UTF-16 LE with BOM", "ANSI", "CP1250" etc
-  "newdoc_encoding": "UTF-8",
-  //End-of-lines: 1: Win; 2: Unix; 3: MacOS 9
+  //New tabs: Encoding name
+  //  See names list in Wiki. Examples: utf8, utf8_bom, utf16le, ansi, cp1250 etc  
+  "newdoc_encoding": "utf8",
+  //New tabs: End-of-lines chars
+  //  1: Win
+  //  2: Unix
+  //  3: MacOS 9
+  //  Defaults: Windows: 1, Linux/macOS: 2
   "newdoc_eol": 1,
   
-  //When file opens, and cannot detect encoding, open it as "ANSI" (option=false) or "UTF8 no BOM" (option=true)
-  //Default: for Windows: false, otherwise: true
-  //"def_encoding_utf8": false,
+  //[File]
+  //When file opens, and cannot detect encoding, open it as ANSI (value=false)
+  //or UTF8 (value=true) [has suffix]
+  //  Defaults: Windows: false, Linux/macOS: true
+  "def_encoding_utf8": false,
+  "def_encoding_utf8__linux": true,
+  "def_encoding_utf8__mac": true,
 
+  //[Indent]
   //Auto-indent by Enter (makes new line indented)
   "indent_auto": true,
-  //Auto-indent kind:
-  //  0: indent like in prev line
+  //Auto-indent kind
+  //  0: indent like in previous line
   //  1: by spaces
   //  2: by tabs+spaces
   //  3: by tabs only
   "indent_kind": 0,
   //Indent size for Indent/Unindent commands:
-  //  in chars (n>0) or in tabs (n<0)
+  //in chars (value>0) or in tabs (value<0)
   "indent_size": 2,
   //Unindent command (Shift+Tab): if several lines (in block) have different indent,
   //stop unindent if one line already at left edge (other lines wont be moved)
   "unindent_keeps_align": true,
 
+  //[Mouse]
   //Drag-drop of text blocks
   "mouse_drag_drop": true,
   //After drag-drop of text block to another group, focus target editor
@@ -422,6 +504,7 @@
   //  "sca": by Shift+Ctrl+Alt+click
   "mouse_goto_definition": "a",
 
+  //[Keys]
   //Key BkSp: do unindent too (if caret inside indented area)
   "key_bksp_unindent": true,
   //Key Tab: do block-indent too (if selection)
@@ -449,7 +532,7 @@
   //... and keep previous selection
   "key_left_right_swap_sel_and_select": false,
 
-  //[Statusbar: caret-panel]
+  //[UiStatusbar]
   //States: no-selection, small-selection (1 line), stream-selection (>1 lines),
   //  column-selection, mul-carets.
   //Macros:
@@ -484,63 +567,71 @@
   //  {_}: char "_" if spaces used
   "ui_statusbar_tabsize": "Tab size {tab}{_}",
 
+  //[UI]
   //Show full file path in window title
   "ui_title_path": false,
+  
+  //[File]
   //Restore session (all named+unnamed tabs) at start
   "ui_reopen_session": true,
 
+  //[Lexer]
   //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
   "ui_lexer_themes": true,
 
-  //[Underline HTML color tokens like #008080, #0a0]
-  //File extensions, comma-separated, w/o dot; "*" for all files, empty str to disable
+  //[HTML]
+  //Underline HTML color codes (like #008080, #0a0) in these file extensions, 
+  //comma-separated, w/o dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
   //Width of line, pixels
   "underline_color_size": 3,
 
+  //[FileExport]
   //Options for "File--Export to HTML"
   "export_html_numbers": false,
   "export_html_font_name": "Courier New",
   "export_html_font_size": 12,
 
-  //Sets Python 3.x engine.
-  //Option has suffix for OSes: Windows: no suffix, Linux: "__linux", macOS: "__osx"
-  //If correct, you must see Python version info in console panel (Ctrl+`) 
-  //and command "=sys.path" works in console.
+  //[Python]
+  //Sets Python3 engine [has suffix]
+  //  If correct, you must see Python version in console panel (Ctrl+`) 
+  //  and command "=sys.path" must work in console.
   //
-  //Instruction for Linux, if Py engine not found:
+  //  Instruction for Linux, if Py engine not found:
   //  1) open file manager, goto PC root,
   //  2) search for "libpython3",
   //  3) if not found, install Python 3, goto 2)
   //  4) use one of found filenames; if don't work, use filename with path
   //
-  //Info for macOS:
+  //  Info for macOS:
   //  Homebrew installs Python which don't have 32-bit *.dylib (on 64-bit OS)
-  //  So you need to install Python from Python.org, and it must be 32-bit (default 3.x is ok)
+  //  So you must install Python from Python.org, and it must be 32-bit (any 3.x is ok)
   //
-  //"pylib": "python35.dll",
-  //"pylib__linux": "libpython3.5m.so.1.0",
-  //"pylib__osx": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
-  //              (for macOS: tried 3.4 to 3.9, which is found)
+  //  Default for macOS: easy to find file, tried 3.4 to 3.9, used first found.
+  //
+  "pylib": "python35.dll",
+  "pylib__linux": "libpython3.5m.so.1.0",
+  "pylib__mac": "/Library/Frameworks/Python.framework/Versions/3.5/lib/libpython3.5.dylib",
 
-  //API: delay for on_change_slow
+  //API: delay for event on_change_slow in msec (used in CudaLint)
   "py_change_slow": 2000,
 
-  //[Settings for command "toggle line comment"]
-  //If no selection then comment full line
+  //[Commands]
+  //Commenting: If no selection then comment full line
   "comment_full_line_if_no_sel": true,
-  //If no selection then move caret to next line
+  //Commenting: If no selection then move caret to next line
   "comment_move_down": true,
-  //Try to save chars positions in line after commenting/uncommenting
+  //Commenting: Try to save chars positions in line after commenting/uncommenting
   "comment_save_column": false,
-  //If selected >1 lines, insert comment at maximal common indent
+  //Commenting: If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,
-  //[Settings for command "duplicate line (advanced)"]
-  //If no selection then duplicate full line
+  
+  //Duplicating line: If no selection then duplicate full line
   "duplicate_full_line_if_no_sel": true,
-  //If no selection then move caret to next line
+  //Duplicating line: If no selection then move caret to next line
   "duplicate_move_down": true,
 
+  //[Completion]
   //Enable special auto-completion for HTML lexer (see wiki)
   "autocomplete_html": true,
   //Enable special auto-completion for CSS lexer (see wiki)
@@ -548,28 +639,33 @@
   //Auto-show auto-completion after typing N word-chars (0: disabled)
   "autocomplete_autoshow_chars": 0,
   //Addition to prev option: for which lexers (comma-separated, empty: disabled)
-  //Don't add here lexers HTML/CSS, they have own auto-show
-  //(which is intelligent, only at needed HTML/CSS place).
-  //Use "-" for none-lexer.
+  //  Don't add here lexers HTML/CSS, they have own auto-show
+  //  (which is intelligent, only at needed HTML/CSS place).
+  //  Use "-" for none-lexer.
   "autocomplete_autoshow_lexers": "",
 
   //Auto-close brackets/quotes. Skips escaped chars, eg \(. 
-  //Value can have only chars: ( [ { ' " ` (double-quote needs escape in json) 
+  //  Value can have only chars: ( [ { ' " `
+  //  (don't forget that json needs escaped double-quote) 
   "auto_close_brackets": "([{",
   
-  //Extensions of picture files (shown as pictures)
+  //[File]
+  //Extensions of picture files (they show as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
+  //[Url]
   //Highlight URLs (font color+ underline)
   "links_hilite": true,
   //Reg-ex which finds URLs
   "links_regex": "\\b(https?://|ftp://|magnet:\\?|www\\.)\\w[^<>''\"\\s]+",
 
+  //[File]
   //Maximal file size, to open, in Mb
   "ui_max_size_open": 30,
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 4,
 
+  //[UI]
   //On calling Full Screen, hide these elements
   //  if value has "t": toolbar
   //  if value has "s": statusbar
@@ -577,12 +673,14 @@
   //  if value has "S": side panel
   "ui_fullscreen_hide": "t",
 
+  //[UiSidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)
   "ui_sidebar_show": true,
   //Name of sidebar icon theme (subdir inside data/sideicons)
   "ui_sidebar_theme": "octicons_20x20",
   
-  //Enable to make log files, for plugin dialogs (dlg_custom)
+  //[Python]
+  //Enable to save log files, for plugin dialogs
   //Files are %temp%\dlg_nnnnnnnnnnnnn.txt
   "log_dialogs": false,
   

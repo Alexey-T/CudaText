@@ -53,7 +53,7 @@ method=_
 
 [item120]
 section=commands
-caption=Comments\Config
+caption=Comments\Config...
 method=dlg_config
 ;menu=0
 
