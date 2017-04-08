@@ -221,8 +221,8 @@
   //Minimap: Show 1-pixel border around selection area
   "minimap_sel_border": false,
   //Minimap: Width
-  //  0: autosize
-  //  >0: fixed width in chars
+  //  value=0: autosize
+  //  value>0: fixed width in chars
   "minimap_char_width": 0,
   //Minimap: Place minimap to the left side
   "minimap_at_left": false,
@@ -518,8 +518,10 @@
   "key_home_end_nav_wrapped": true,
   //Keys PageUp/PageDown: keep relative offset from top of editor
   "key_page_keeps_rel_pos": true,
-  //Keys PageUp/PageDown page size:
-  //  0: full height; 1: full minus 1; 2: half height
+  //Keys PageUp/PageDown page size
+  //  0: full height
+  //  1: full height minus 1
+  //  2: half height
   "key_page_size": 1,
   //Keys Up/Down: try to keep caret column
   //(if moving from long line, to short line, to long line again)
