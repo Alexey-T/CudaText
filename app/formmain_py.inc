@@ -3938,9 +3938,9 @@ begin
             Result:= ReturnNone;
           end;
 
-        DLG_CLOSE:
+        DLG_HIDE:
           begin
-            Form.Close;
+            Form.Hide;
             Result:= ReturnNone;
           end;
 
