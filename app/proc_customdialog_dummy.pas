@@ -25,6 +25,9 @@ var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
 
 type
+
+  { TFormDummy }
+
   TFormDummy = class(TForm)
   private
     FormShown: boolean;
@@ -85,17 +88,19 @@ begin
     for i:= 0 to ControlCount-1 do
       if Controls[i]=Sender then
       begin
-        //for modal form set modalresult; for nonmodal call on_dlg_change
-        if fsModal in FFormState then
-          ModalResult:= Dummy_ResultStart+i
-        else
-        if Assigned(CustomDialog_DoPyEvent) then
-          CustomDialog_DoPyEvent(nil, cEventOnDlg,
-            [
-              IntToStr(PtrInt(Self)), //id_dlg
-              IntToStr(i), //id_ctl
-              '"on_change"' //id_event
-            ]);
+        ModalResult:= Dummy_ResultStart+i;
+
+        if not (fsModal in FFormState) then
+        begin
+          if Assigned(CustomDialog_DoPyEvent) then
+            CustomDialog_DoPyEvent(nil, cEventOnDlg,
+              [
+                IntToStr(PtrInt(Self)), //id_dlg
+                IntToStr(i), //id_ctl
+                '"on_change"' //id_event
+              ]);
+        end;
+
         exit
       end;
 end;

@@ -425,7 +425,8 @@ begin
   if S='button' then
   begin
     Ctl:= TButton.Create(AForm);
-    (Ctl as TButton).ModalResult:= Dummy_ResultStart+ AForm.ControlCount;
+    Ctl.Tag:= Dummy_TagActive; //button always active
+    (Ctl as TButton).OnClick:= @AForm.DoOnChange;
     DoControl_FixButtonHeight(Ctl);
     exit;
   end;
