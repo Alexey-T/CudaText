@@ -1167,10 +1167,9 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssssisisisisssO}',
+    Result:= Py_BuildValue('{sssssisisisisssO}',
       'name', PChar(C.Name),
       'cap', PChar(C.Caption),
-      'hint', PChar(C.Hint),
       PChar(string('x')), C.Left,
       PChar(string('y')), C.Top,
       PChar(string('w')), C.Width,

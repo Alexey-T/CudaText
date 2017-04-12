@@ -14,10 +14,10 @@ class Command:
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'TestDlg', 'x':100, 'y':50, 'w':400, 'h':300})
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'label', 'x':10, 'y':10, 'w':50, 'act':True})
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'l1', 'cap':'label', 'x':10, 'y':10, 'w':50, 'act':True})
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'chk', 'x':60, 'y':10, 'w':200, 'act':True})
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'chk', 'x':60, 'y':10, 'w':200, 'act':True})
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'val':'edit1', 'x':10, 'y':30, 'w':200} )
@@ -40,6 +40,7 @@ class Command:
         self.init_dlg()
         dlg_proc(h, DLG_SHOW_MODAL)
         self.show_res()
+        dlg_proc(h, DLG_FREE)
 
     def show_res(self):
         global h
@@ -50,4 +51,3 @@ class Command:
         for n in range(cnt):
             res = dlg_proc(h, DLG_CTL_PROP_GET, index=n)
             print('ctl%d:'%n, res)
-        dlg_proc(h, DLG_FREE)
