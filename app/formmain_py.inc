@@ -3926,7 +3926,6 @@ begin
 
         DLG_FREE:
           begin
-            Form.Close;
             Form.Free;
             Result:= ReturnNone;
           end;

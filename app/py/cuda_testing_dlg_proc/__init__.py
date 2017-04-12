@@ -6,7 +6,7 @@ class Command:
     def on_dlg(self, ed_self, id_dlg, id_ctl, id_event):
         print(id_event)
         self.show_res()
-        dlg_proc(id_dlg, DLG_FREE)
+        dlg_proc(id_dlg, DLG_HIDE)
 
     def init_dlg(self):
         global h
