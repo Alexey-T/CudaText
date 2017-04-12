@@ -3890,6 +3890,26 @@ begin
 end;
 
 
+//dlg_proc(id_dlg, id_action, text="", index=-1)
+function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  Form: TForm;
+  PtrText: PChar;
+  StrText: string;
+  NAction, NIndex: integer;
+begin
+  with GetPythonEngine do
+  begin
+    if Bool(PyArg_ParseTuple(Args, 'Lisi:dlg_proc',
+      @Form, @NAction, @PtrText, @NIndex)) then
+    begin
+      StrText:= string(PtrText);
+      Result:= PyInt_FromLong(NAction);
+    end;
+  end;
+end;
+
+
 //func at end (uses funcs above)
 procedure TfmMain.PythonModInitialization(Sender: TObject);
 begin
@@ -3970,6 +3990,7 @@ begin
     AddMethod('listbox_proc', @Py_listbox_proc, '');
     AddMethod('canvas_proc', @Py_canvas_proc, '');
     AddMethod('timer_proc', @Py_timer_proc, '');
+    AddMethod('dlg_proc', @Py_dlg_proc, '');
   end;
 end;
 
