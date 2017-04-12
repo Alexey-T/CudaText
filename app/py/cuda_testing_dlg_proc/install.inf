@@ -1,0 +1,16 @@
+[info]
+title=TstDlg
+desc=Some description
+type=cudatext-plugin
+subdir=cuda_tst_dlg
+homepage=
+
+[item1]
+section=events
+events=on_dlg
+
+[item2]
+section=commands
+caption=TstDlg
+method=run
+
