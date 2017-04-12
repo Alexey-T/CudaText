@@ -16,12 +16,10 @@ uses
   ComCtrls, LclType;
 
 type
-  { TDummyClass }
-  TDummyClass = class
+  TFormDummy = class(TForm)
   private
     FormShown: boolean;
   public
-    Form: TForm;
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnChange(Sender: TObject);
@@ -39,15 +37,15 @@ implementation
 
 { TDummyClass }
 
-procedure TDummyClass.DoOnShow(Sender: TObject);
+procedure TFormDummy.DoOnShow(Sender: TObject);
 var
   C: TControl;
   i: integer;
 begin
   FormShown:= true;
-  for i:= 0 to Form.ControlCount-1 do
+  for i:= 0 to ControlCount-1 do
   begin
-    C:= Form.Controls[i];
+    C:= Controls[i];
     if C is TListview then
       with (C as TListview) do
         if ItemFocused<>nil then
@@ -55,19 +53,18 @@ begin
   end;
 end;
 
-procedure TDummyClass.DoOnKeyDown(Sender: TObject; var Key: Word;
+procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key=VK_ESCAPE) then
   begin
-    if Assigned(Form) then
-      Form.ModalResult:= mrCancel;
+    ModalResult:= mrCancel;
     Key:= 0;
     exit;
   end;
 end;
 
-procedure TDummyClass.DoOnChange(Sender: TObject);
+procedure TFormDummy.DoOnChange(Sender: TObject);
 var
   i: integer;
 begin
@@ -76,26 +73,26 @@ begin
 
   //Tag=Dummy_TagActive means that control change closes form
   if (Sender as TControl).Tag=Dummy_TagActive then
-    for i:= 0 to Form.ControlCount-1 do
-      if Form.Controls[i]=Sender then
+    for i:= 0 to ControlCount-1 do
+      if Controls[i]=Sender then
       begin
-        Form.ModalResult:= Dummy_ResultStart+i;
+        ModalResult:= Dummy_ResultStart+i;
         exit
       end;
 end;
 
-procedure TDummyClass.DoOnSelChange(Sender: TObject; User: boolean);
+procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);
 begin
   DoOnChange(Sender);
 end;
 
-procedure TDummyClass.DoOnListviewChange(Sender: TObject; Item: TListItem;
+procedure TFormDummy.DoOnListviewChange(Sender: TObject; Item: TListItem;
   Change: TItemChange);
 begin
   DoOnChange(Sender);
 end;
 
-procedure TDummyClass.DoOnListviewSelect(Sender: TObject; Item: TListItem;
+procedure TFormDummy.DoOnListviewSelect(Sender: TObject; Item: TListItem;
   Selected: Boolean);
 begin
   DoOnChange(Sender);

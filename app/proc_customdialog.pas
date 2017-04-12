@@ -359,14 +359,13 @@ end;
 
 procedure DoControl_CreateNew(
   const S: string;
-  AForm: TForm;
-  ADummy: TDummyClass;
+  AForm: TFormDummy;
   var Ctl: TControl);
 begin
   if S='check' then
   begin
     Ctl:= TCheckBox.Create(AForm);
-    (Ctl as TCheckBox).OnChange:= @ADummy.DoOnChange;
+    (Ctl as TCheckBox).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -415,7 +414,7 @@ begin
     Ctl:= TComboBox.Create(AForm);
     (Ctl as TComboBox).DropDownCount:= 20;
     (Ctl as TComboBox).ReadOnly:= true;
-    (Ctl as TComboBox).OnChange:= @ADummy.DoOnChange;
+    (Ctl as TComboBox).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -430,7 +429,7 @@ begin
   if S='checkbutton' then
   begin
     Ctl:= TToggleBox.Create(AForm);
-    (Ctl as TToggleBox).OnChange:= @ADummy.DoOnChange;
+    (Ctl as TToggleBox).OnChange:= @AForm.DoOnChange;
     DoControl_FixButtonHeight(Ctl);
     exit;
   end;
@@ -438,14 +437,14 @@ begin
   if S='listbox' then
   begin
     Ctl:= TListBox.Create(AForm);
-    (Ctl as TListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
+    (Ctl as TListBox).OnSelectionChange:= @AForm.DoOnSelChange;
     exit;
   end;
 
   if S='radio' then
   begin
     Ctl:= TRadioButton.Create(AForm);
-    (Ctl as TRadioButton).OnChange:= @ADummy.DoOnChange;
+    (Ctl as TRadioButton).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -464,8 +463,8 @@ begin
   if S='checklistbox' then
   begin
     Ctl:= TCheckListBox.Create(AForm);
-    (Ctl as TCheckListBox).OnSelectionChange:= @ADummy.DoOnSelChange;
-    (Ctl as TCheckListBox).OnClickCheck:= @ADummy.DoOnChange;
+    (Ctl as TCheckListBox).OnSelectionChange:= @AForm.DoOnSelChange;
+    (Ctl as TCheckListBox).OnClickCheck:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -479,8 +478,8 @@ begin
     (Ctl as TListView).RowSelect:= true;
     (Ctl as TListView).HideSelection:= false;
     (Ctl as TListView).Checkboxes:= (S='checklistview');
-    (Ctl as TListView).OnChange:= @ADummy.DoOnListviewChange;
-    (Ctl as TListView).OnSelectItem:= @ADummy.DoOnListviewSelect;
+    (Ctl as TListView).OnChange:= @AForm.DoOnListviewChange;
+    (Ctl as TListView).OnSelectItem:= @AForm.DoOnListviewSelect;
     exit;
   end;
 
@@ -493,14 +492,14 @@ begin
   if S='tabs' then
   begin
     Ctl:= TTabControl.Create(AForm);
-    (Ctl as TTabControl).OnChange:= @ADummy.DoOnChange;
+    (Ctl as TTabControl).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
   if S='colorpanel' then
   begin
     Ctl:= TATPanelColor.Create(AForm);
-    (Ctl as TATPanelColor).OnClick:= @ADummy.DoOnChange;
+    (Ctl as TATPanelColor).OnClick:= @AForm.DoOnChange;
     exit;
   end;
 
@@ -800,7 +799,7 @@ begin
 end;
 
 
-procedure DoForm_AddControl(AForm: TForm; ATextItems: string; ADummy: TDummyClass);
+procedure DoForm_AddControl(AForm: TFormDummy; ATextItems: string);
 var
   SNameValue, SName, SValue: string;
   Ctl, CtlPrev: TControl;
@@ -817,7 +816,7 @@ begin
     //-------type
     if SName='type' then
     begin
-      DoControl_CreateNew(SValue, AForm, ADummy, Ctl);
+      DoControl_CreateNew(SValue, AForm, Ctl);
       //set parent
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
@@ -972,7 +971,7 @@ end;
 
 
 procedure DoForm_FillContent(
-  F: TForm; Dummy: TDummyClass;
+  F: TFormDummy;
   const AContent: string);
 var
   List: TStringList;
@@ -987,7 +986,7 @@ begin
     List.Delimiter:= #10;
     List.DelimitedText:= AContent;
     for i:= 0 to List.Count-1 do
-      DoForm_AddControl(F, List[i], Dummy);
+      DoForm_AddControl(F, List[i]);
   finally
     FreeAndNil(List);
   end;
@@ -1001,10 +1000,9 @@ begin
   until false;
   }
 
-  Dummy.Form:= F;
   F.KeyPreview:= true;
-  F.OnKeyDown:= @Dummy.DoOnKeyDown;
-  F.OnShow:= @Dummy.DoOnShow;
+  F.OnKeyDown:= @F.DoOnKeyDown;
+  F.OnShow:= @F.DoOnShow;
 
   DoForm_Scale(F);
 end;
@@ -1013,21 +1011,19 @@ end;
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 var
-  F: TForm;
+  F: TFormDummy;
   Res: integer;
-  Dummy: TDummyClass;
 begin
   AButtonIndex:= -1;
   AStateText:= '';
 
-  F:= TForm.Create(nil);
-  Dummy:= TDummyClass.Create;
+  F:= TFormDummy.CreateNew(Application);
   try
     F.Position:= poScreenCenter;
     F.Caption:= ATitle;
     F.ClientWidth:= ASizeX;
     F.ClientHeight:= ASizeY;
-    DoForm_FillContent(F, Dummy, AText);
+    DoForm_FillContent(F, AText);
     DoForm_FocusControl(F, AFocusedIndex);
     DoForm_SetupFilters(F);
 
@@ -1041,7 +1037,6 @@ begin
     end;
   finally
     FreeAndNil(F);
-    FreeAndNil(Dummy);
     FDialogShown:= false;
   end;
 end;

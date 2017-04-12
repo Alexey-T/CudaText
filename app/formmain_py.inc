@@ -3955,6 +3955,15 @@ begin
             Result:= ReturnNone;
           end;
 
+        DLG_CTL_COUNT:
+          begin
+            Result:= PyInt_FromLong(Form.ControlCount);
+          end;
+
+        DLG_CTL_ADD:
+          begin
+          end;
+
         else
           Result:= ReturnNone;
       end;
