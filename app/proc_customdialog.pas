@@ -26,10 +26,10 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
 procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; var Ctl: TControl);
-procedure DoControl_SetPropsFromString_New(C: TControl; AText: string);
-
-function DoForm_GetPropsAsDict(F: TForm): PPyObject;
-procedure DoForm_SetPropsFromString(F: TForm; AText: string);
+function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
+procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
+function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
+procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
 
 
 implementation
@@ -1090,7 +1090,7 @@ begin
 end;
 
 
-function DoForm_GetPropsAsDict(F: TForm): PPyObject;
+function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
 var
   ResObj: PPyObject;
   NActive, i: integer;
@@ -1125,7 +1125,7 @@ begin
 end;
 
 
-procedure DoForm_SetPropsFromString(F: TForm; AText: string);
+procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
 var
   SItem, SKey, SValue: string;
 begin
@@ -1142,7 +1142,25 @@ begin
 end;
 
 
-procedure DoControl_SetPropsFromString_New(C: TControl; AText: string);
+
+function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
+begin
+  with GetPythonEngine do
+  begin
+    Result:= Py_BuildValue('{sssssisisisiss}',
+      'name', PChar(C.Name),
+      'cap', PChar(C.Caption),
+      PChar(string('x')), C.Left,
+      PChar(string('y')), C.Top,
+      PChar(string('w')), C.Width,
+      PChar(string('h')), C.Height,
+      'val', PChar(DoControl_GetState(C))
+      );
+  end;
+end;
+
+
+procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 var
   SItem, SKey, SValue: string;
 begin

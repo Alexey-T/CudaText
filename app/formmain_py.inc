@@ -3947,12 +3947,12 @@ begin
 
         DLG_PROP_GET:
           begin
-            Result:= DoForm_GetPropsAsDict(Form);
+            Result:= DoForm_GetPropsAsStringDict(Form);
           end;
 
         DLG_PROP_SET:
           begin
-            DoForm_SetPropsFromString(Form, StrText);
+            DoForm_SetPropsFromStringDict(Form, StrText);
             Result:= ReturnNone;
           end;
 
@@ -3973,12 +3973,20 @@ begin
               Result:= ReturnNone;
           end;
 
+        DLG_CTL_PROP_GET:
+          begin
+            if (NIndex>=0) and (NIndex<Form.ControlCount) then
+              Result:= DoControl_GetPropsAsStringDict(Form.Controls[NIndex])
+            else
+              Result:= ReturnNone;
+          end;
+
         DLG_CTL_PROP_SET:
           begin
             if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              DoControl_SetPropsFromString_New(Form.Controls[NIndex], StrText);
+              DoControl_SetPropsFromStringDict(Form.Controls[NIndex], StrText);
             Result:= ReturnNone;
-          end
+          end;
 
         else
           Result:= ReturnNone;
