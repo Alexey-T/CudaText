@@ -90,9 +90,12 @@ begin
           ModalResult:= Dummy_ResultStart+i
         else
         if Assigned(CustomDialog_DoPyEvent) then
-          CustomDialog_DoPyEvent(nil, cEventOnDlgChange,
-            [IntToStr(PtrInt(Self)), IntToStr(i)]
-            );
+          CustomDialog_DoPyEvent(nil, cEventOnDlg,
+            [
+              IntToStr(PtrInt(Self)), //id_dlg
+              IntToStr(i), //id_ctl
+              '"on_change"' //id_event
+            ]);
         exit
       end;
 end;

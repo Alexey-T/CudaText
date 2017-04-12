@@ -9,6 +9,7 @@ EVENTS = [
     'on_complete',
     'on_console',
     'on_console_nav',
+    'on_dlg',
     'on_focus',
     'on_func_hint',
     'on_goto_def',
@@ -26,7 +27,7 @@ EVENTS = [
     'on_start',
     'on_state',
     'on_tab_move',
-  ] 
+  ]
 
 EVENTS_ADD_PARAMS = {
   'on_key': 'key, state',
@@ -36,6 +37,7 @@ EVENTS_ADD_PARAMS = {
   'on_click_gap': 'state, nline, ntag, size_x, size_y, pos_x, pos_y',
   'on_console': 'text',
   'on_console_nav': 'text',
+  'on_dlg': 'id_dlg, id_control, id_event'
   'on_output_nav': 'text, tag',
   'on_macro': 'text',
   'on_open_pre': 'filename',
