@@ -1,12 +1,15 @@
 from cudatext import *
 
+h=0
+
 class Command:
     def on_dlg(self, ed_self, id_dlg, id_ctl, id_event):
         print(id_event)
+        self.show_res()
         dlg_proc(id_dlg, DLG_FREE)
 
-
-    def run(self):
+    def init_dlg(self):
+        global h
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'TestDlg', 'x':100, 'y':50, 'w':400, 'h':300})
 
@@ -26,14 +29,25 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'&Btn', 'x':100, 'y':60, 'w':200} )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
-        dlg_proc(h, DLG_SHOW_NONMODAL)
-        return
 
+    def nonmodal(self):
+        global h
+        self.init_dlg()
+        dlg_proc(h, DLG_SHOW_NONMODAL)
+
+    def modal(self):
+        global h
+        self.init_dlg()
+        dlg_proc(h, DLG_SHOW_MODAL)
+        self.show_res()
+
+    def show_res(self):
+        global h
         res = dlg_proc(h, DLG_PROP_GET)
         print('dlg_proc:', res)
 
         cnt = dlg_proc(h, DLG_CTL_COUNT)
         for n in range(cnt):
             res = dlg_proc(h, DLG_CTL_PROP_GET, index=n)
-            print('ctl', n, ':', res)
+            print('ctl%d:'%n, res)
         dlg_proc(h, DLG_FREE)

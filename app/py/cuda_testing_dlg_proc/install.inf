@@ -1,16 +1,20 @@
 [info]
-title=TstDlg
-desc=Some description
+title=Test dlg_proc
+desc=Testing plugin
 type=cudatext-plugin
-subdir=cuda_tst_dlg
+subdir=cuda_testing_dlg_proc
 homepage=
 
 [item1]
 section=events
 events=on_dlg
 
-[item2]
+[item10]
 section=commands
-caption=TstDlg
-method=run
+caption=dlg_proc\modal
+method=modal
 
+[item11]
+section=commands
+caption=dlg_proc\nonmodal
+method=nonmodal
