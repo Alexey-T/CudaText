@@ -43,6 +43,7 @@ function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
 function FormatFileDateAsNiceString(const AFilename: string): string;
+procedure DoForm_SetPropertyFromPair(F: TForm; const AName, AValue: string);
 
 
 implementation
@@ -332,6 +333,26 @@ var
 begin
   D:= FileDateToDateTime(FileAgeUTF8(AFilename));
   Result:= ConvertDateTimeToNiceString(D);
+end;
+
+procedure DoForm_SetPropertyFromPair(F: TForm; const AName, AValue: string);
+begin
+  if AName='cap' then
+    F.Caption:= AValue
+  else
+  if AName='x' then
+    F.Left:= StrToIntDef(AValue, F.Left)
+  else
+  if AName='y' then
+    F.Top:= StrToIntDef(AValue, F.Top)
+  else
+  if AName='w' then
+    F.Width:= StrToIntDef(AValue, F.Width)
+  else
+  if AName='h' then
+    F.Height:= StrToIntDef(AValue, F.Height)
+  else
+  exit;
 end;
 
 

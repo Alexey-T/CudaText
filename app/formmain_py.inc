@@ -3895,7 +3895,7 @@ function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Form: TForm;
   PtrText: PChar;
-  StrText: string;
+  StrText, SItem, SKey, SValue: string;
   NAction, NIndex: integer;
 begin
   with GetPythonEngine do
@@ -3904,7 +3904,81 @@ begin
       @Form, @NAction, @PtrText, @NIndex)) then
     begin
       StrText:= string(PtrText);
-      Result:= PyInt_FromLong(NAction);
+      if NAction<>DLG_CREATE then
+        if Form=nil then
+          exit(ReturnNone);
+
+      case NAction of
+        DLG_CREATE:
+          begin
+            Form:= TForm.Create(Application);
+            Form.Caption:= 'Form';
+            Form.Position:= poScreenCenter;
+            Form.BorderStyle:= bsDialog;
+            Result:= PyLong_FromLongLong(PtrInt(Form));
+          end;
+
+        DLG_FREE:
+          begin
+            Form.Close;
+            Form.Free;
+            Result:= ReturnNone;
+          end;
+
+        DLG_SHOW_MODAL:
+          begin
+            Form.ShowModal;
+            Result:= ReturnNone;
+          end;
+
+        DLG_SHOW_NONMODAL:
+          begin
+            Form.Show;
+            Result:= ReturnNone;
+          end;
+
+        DLG_CLOSE:
+          begin
+            Form.Close;
+            Result:= ReturnNone;
+          end;
+
+        DLG_PROP_GET:
+          begin
+            Result:= Py_BuildValue('{sssisisisi}',
+              'cap',
+              PChar(Form.Caption),
+              PChar(string('x')),
+              Form.Left,
+              PChar(string('y')),
+              Form.Top,
+              PChar(string('w')),
+              Form.Width,
+              PChar(string('h')),
+              Form.Height
+              );
+          end;
+
+        DLG_PROP_SET:
+          begin
+            //text is '{key1:value1;key2:value2}' from to_str()
+            if StrText='' then
+              exit(ReturnNone);
+            if StrText[1]='{' then
+              StrText:= Copy(StrText, 2, Length(StrText)-2);
+            repeat
+              SItem:= SGetItem(StrText, ';');
+              if SItem='' then Break;
+              SKey:= SGetItem(SItem, ':');
+              SValue:= SItem;
+              DoForm_SetPropertyFromPair(Form, SKey, SValue);
+            until false;
+            Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
     end;
   end;
 end;

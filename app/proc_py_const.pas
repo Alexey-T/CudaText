@@ -360,6 +360,16 @@ const
   TOOLBAR_DELETE_ALL     = 6;
   TOOLBAR_DELETE_BUTTON  = 7;
 
+  DLG_CREATE        = 0;
+  DLG_FREE          = 1;
+  DLG_SHOW_MODAL    = 5;
+  DLG_SHOW_NONMODAL = 6;
+  DLG_CLOSE         = 7;
+  DLG_PROP_SET      = 10;
+  DLG_PROP_GET      = 11;
+  DLG_CTL_ADD       = 20;
+  DLG_CTL_COUNT     = 21;
+
 
 implementation
 
