@@ -540,6 +540,12 @@ def to_str(v):
     if isinstance(v, list) or isinstance(v, tuple):
         return ','.join(map(to_str, v))
 
+    if isinstance(v, dict):
+        res = ''
+        for key in v:
+            res = res + to_str(key) + ':' + to_str(v[key]) + ';'
+        return '{'+res+'}'
+
     if isinstance(v, bool):
         if v:
             return '1'
@@ -547,6 +553,11 @@ def to_str(v):
             return '0'
 
     return str(v)
+
+
+def dlg_proc(id_dialog, id_action, text='', index=-1):
+    return ct.dlg_proc(id_dialog, id_action, to_str(text), index)
+
 
 #Editor
 class Editor:
