@@ -3987,6 +3987,19 @@ begin
             Result:= ReturnNone;
           end;
 
+        DLG_FOCUS:
+          begin
+            Form.SetFocus;
+            Result:= ReturnNone;
+          end;
+
+        DLG_CTL_FOCUS:
+          begin
+            if (NIndex>=0) and (NIndex<Form.ControlCount) then
+              DoForm_FocusControl(Form, NIndex);
+            Result:= ReturnNone;
+          end
+
         else
           Result:= ReturnNone;
       end;

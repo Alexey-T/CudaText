@@ -365,7 +365,7 @@ const
   DLG_SHOW_MODAL     = 5;
   DLG_SHOW_NONMODAL  = 6;
   DLG_HIDE           = 7;
-  DLG_FOCUS          = 8;//todo
+  DLG_FOCUS          = 8;
   DLG_PROP_GET       = 10;
   DLG_PROP_SET       = 11;
   DLG_CTL_COUNT      = 20;
@@ -374,7 +374,7 @@ const
   DLG_CTL_PROP_SET   = 23;
   DLG_CTL_DELETE     = 24;//todo
   DLG_CTL_DELETE_ALL = 25;//todo
-  DLG_CTL_FOCUS      = 30;//todo
+  DLG_CTL_FOCUS      = 30;
 
 
 implementation

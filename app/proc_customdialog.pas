@@ -30,6 +30,7 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
+procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 
 
 implementation
@@ -815,12 +816,12 @@ begin
   end;
   if AName='w' then
   begin
-    C.Width:= StrToIntDef(AValue, C.Width);
+    C.ClientWidth:= StrToIntDef(AValue, C.ClientWidth);
     exit;
   end;
   if AName='h' then
   begin
-    C.Height:= StrToIntDef(AValue, C.Height);
+    C.ClientHeight:= StrToIntDef(AValue, C.ClientHeight);
     exit;
   end;
 
@@ -1102,10 +1103,10 @@ begin
     F.Top:= StrToIntDef(AValue, F.Top)
   else
   if AName='w' then
-    F.Width:= StrToIntDef(AValue, F.Width)
+    F.ClientWidth:= StrToIntDef(AValue, F.ClientWidth)
   else
   if AName='h' then
-    F.Height:= StrToIntDef(AValue, F.Height)
+    F.ClientHeight:= StrToIntDef(AValue, F.ClientHeight)
   else
   exit;
 end;
@@ -1113,20 +1114,20 @@ end;
 
 function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
 var
-  NActive, NClicked, i: integer;
+  NFocused, NClicked, i: integer;
 begin
   with GetPythonEngine do
   begin
     NClicked:= F.ModalResult-Dummy_ResultStart;
     if NClicked<0 then
-      NClicked:= -1;
+      exit(ReturnNone);
 
-    NActive:= -1;
+    NFocused:= -1;
     for i:= 0 to F.ControlCount-1 do
     begin
       if F.Controls[i]=F.ActiveControl then
       begin
-        NActive:= i;
+        NFocused:= i;
         Break;
       end;
     end;
@@ -1138,7 +1139,7 @@ begin
       PChar(string('w')), F.Width,
       PChar(string('h')), F.Height,
       'clicked', NClicked,
-      'focused', NActive
+      'focused', NFocused
       );
   end;
 end;
@@ -1165,14 +1166,16 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssisisisiss}',
+    Result:= Py_BuildValue('{sssssssisisisisssO}',
       'name', PChar(C.Name),
       'cap', PChar(C.Caption),
+      'hint', PChar(C.Hint),
       PChar(string('x')), C.Left,
       PChar(string('y')), C.Top,
       PChar(string('w')), C.Width,
       PChar(string('h')), C.Height,
-      'val', PChar(DoControl_GetState(C))
+      'val', PChar(DoControl_GetState(C)),
+      'act', PyBool_FromLong(Ord(C.Tag=Dummy_TagActive))
       );
   end;
 end;
