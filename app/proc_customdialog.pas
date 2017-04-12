@@ -1113,15 +1113,13 @@ end;
 
 function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
 var
-  ResObj: PPyObject;
-  NActive, i: integer;
+  NActive, NClicked, i: integer;
 begin
   with GetPythonEngine do
   begin
-    if F.ModalResult<Dummy_ResultStart then
-      ResObj:= ReturnNone
-    else
-      ResObj:= PyInt_FromLong(F.ModalResult-Dummy_ResultStart);
+    NClicked:= F.ModalResult-Dummy_ResultStart;
+    if NClicked<0 then
+      NClicked:= -1;
 
     NActive:= -1;
     for i:= 0 to F.ControlCount-1 do
@@ -1133,14 +1131,14 @@ begin
       end;
     end;
 
-    Result:= Py_BuildValue('{sssisisisisOsi}',
+    Result:= Py_BuildValue('{sssisisisisisi}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
       PChar(string('w')), F.Width,
       PChar(string('h')), F.Height,
-      'res', ResObj,
-      'focus', NActive
+      'clicked', NClicked,
+      'focused', NActive
       );
   end;
 end;
@@ -1161,7 +1159,6 @@ begin
     DoForm_SetPropFromPair(F, SKey, SValue);
   until false;
 end;
-
 
 
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
