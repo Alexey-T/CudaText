@@ -567,8 +567,8 @@ def to_str(v):
     return str(v)
 
 
-def dlg_proc(id_dialog, id_action, text='', index=-1):
-    return ct.dlg_proc(id_dialog, id_action, to_str(text), index)
+def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
+    return ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
 
 
 #Editor

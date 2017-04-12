@@ -3894,18 +3894,17 @@ end;
 function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Form: TFormDummy;
-  PtrText: PChar;
-  StrText: string;
-  NAction, NIndex: integer;
+  PtrProp: PChar;
+  StrProp: string;
+  NAction, NIndex, NIndex2: integer;
   Ctl: TControl;
-  ok: boolean;
 begin
   with GetPythonEngine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'Lisi:dlg_proc',
-      @Form, @NAction, @PtrText, @NIndex)) then
+    if Bool(PyArg_ParseTuple(Args, 'Lisii:dlg_proc',
+      @Form, @NAction, @PtrProp, @NIndex, @NIndex2)) then
     begin
-      StrText:= string(PtrText);
+      StrProp:= string(PtrProp);
       if NAction<>DLG_CREATE then
         if Form=nil then
           exit(ReturnNone);
@@ -3952,7 +3951,7 @@ begin
 
         DLG_PROP_SET:
           begin
-            DoForm_SetPropsFromStringDict(Form, StrText);
+            DoForm_SetPropsFromStringDict(Form, StrProp);
             Result:= ReturnNone;
           end;
 
@@ -3963,7 +3962,7 @@ begin
 
         DLG_CTL_ADD:
           begin
-            DoControl_CreateNew(StrText, Form, Ctl);
+            DoControl_CreateNew(StrProp, Form, Ctl);
             if Assigned(Ctl) then
             begin
               Ctl.Parent:= Form;
@@ -3984,7 +3983,7 @@ begin
         DLG_CTL_PROP_SET:
           begin
             if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              DoControl_SetPropsFromStringDict(Form.Controls[NIndex], StrText);
+              DoControl_SetPropsFromStringDict(Form.Controls[NIndex], StrProp);
             Result:= ReturnNone;
           end;
 
