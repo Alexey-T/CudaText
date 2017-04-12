@@ -372,8 +372,8 @@ const
   DLG_CTL_ADD        = 21;
   DLG_CTL_PROP_GET   = 22;
   DLG_CTL_PROP_SET   = 23;
-  DLG_CTL_DELETE     = 24;//todo
-  DLG_CTL_DELETE_ALL = 25;//todo
+  DLG_CTL_DELETE     = 24;
+  DLG_CTL_DELETE_ALL = 25;
   DLG_CTL_FOCUS      = 30;
 
 

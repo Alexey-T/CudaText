@@ -3987,6 +3987,20 @@ begin
             Result:= ReturnNone;
           end;
 
+        DLG_CTL_DELETE:
+          begin
+            if (NIndex>=0) and (NIndex<Form.ControlCount) then
+              Form.Controls[NIndex].Free;
+            Result:= ReturnNone;
+          end;
+
+        DLG_CTL_DELETE_ALL:
+          begin
+            for NIndex:= Form.ControlCount-1 downto 0 do
+              Form.Controls[NIndex].Free;
+            Result:= ReturnNone;
+          end;
+
         DLG_FOCUS:
           begin
             Form.SetFocus;
@@ -3998,7 +4012,7 @@ begin
             if (NIndex>=0) and (NIndex<Form.ControlCount) then
               DoForm_FocusControl(Form, NIndex);
             Result:= ReturnNone;
-          end
+          end;
 
         else
           Result:= ReturnNone;
