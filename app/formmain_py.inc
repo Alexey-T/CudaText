@@ -3893,11 +3893,12 @@ end;
 //dlg_proc(id_dlg, id_action, text="", index=-1)
 function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Form: TForm;
+  Form: TFormDummy;
   PtrText: PChar;
-  StrText, SItem, SKey, SValue: string;
+  StrText: string;
   NAction, NIndex: integer;
-  ResObject: PPyObject;
+  Ctl: TControl;
+  ok: boolean;
 begin
   with GetPythonEngine do
   begin
@@ -3912,7 +3913,7 @@ begin
       case NAction of
         DLG_CREATE:
           begin
-            Form:= TForm.Create(Application);
+            Form:= TFormDummy.CreateNew(Application);
             Form.Caption:= 'Form';
             Form.Position:= poScreenCenter;
             Form.BorderStyle:= bsDialog;
@@ -3962,6 +3963,14 @@ begin
 
         DLG_CTL_ADD:
           begin
+            DoControl_CreateNew(StrText, Form, Ctl);
+            if Assigned(Ctl) then
+            begin
+              Ctl.Parent:= Form;
+              Result:= PyInt_FromLong(Form.ControlCount-1);
+            end
+            else
+              Result:= ReturnNone;
           end;
 
         else

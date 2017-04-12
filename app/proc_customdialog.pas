@@ -17,6 +17,7 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   LclProc, LclType,
+  proc_customdialog_dummy,
   PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
@@ -24,6 +25,7 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
+procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; var Ctl: TControl);
 
 function DoForm_GetPropsAsDict(F: TForm): PPyObject;
 procedure DoForm_SetPropsFromString(F: TForm; StrText: string);
@@ -34,8 +36,7 @@ implementation
 uses
   ATLinkLabel,
   ATStringProc,
-  ATPanelColor,
-  proc_customdialog_dummy;
+  ATPanelColor;
 
 var
   FDialogShown: boolean = false;
