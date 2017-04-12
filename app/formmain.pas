@@ -1133,6 +1133,8 @@ procedure TfmMain.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
+  CustomDialog_DoPyEvent:= @DoPyEvent;
+
   InitToolbar;
   InitSidebar;
 

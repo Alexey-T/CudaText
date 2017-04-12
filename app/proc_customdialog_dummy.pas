@@ -13,7 +13,16 @@ interface
 
 uses
   Classes, SysUtils, Controls, StdCtrls, Forms,
-  ComCtrls, LclType;
+  ComCtrls, LclType,
+  ATSynEdit,
+  proc_globdata;
+
+type
+  TAppPyEventCallback = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
+      const AParams: array of string): string of object;
+
+var
+  CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
 
 type
   TFormDummy = class(TForm)
@@ -76,7 +85,14 @@ begin
     for i:= 0 to ControlCount-1 do
       if Controls[i]=Sender then
       begin
-        ModalResult:= Dummy_ResultStart+i;
+        //for modal form set modalresult; for nonmodal call on_dlg_change
+        if fsModal in FFormState then
+          ModalResult:= Dummy_ResultStart+i
+        else
+        if Assigned(CustomDialog_DoPyEvent) then
+          CustomDialog_DoPyEvent(nil, cEventOnDlgChange,
+            [IntToStr(PtrInt(Self)), IntToStr(i)]
+            );
         exit
       end;
 end;
