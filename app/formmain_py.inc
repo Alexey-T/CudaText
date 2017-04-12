@@ -3897,6 +3897,7 @@ var
   PtrText: PChar;
   StrText, SItem, SKey, SValue: string;
   NAction, NIndex: integer;
+  ResObject: PPyObject;
 begin
   with GetPythonEngine do
   begin
@@ -3945,7 +3946,12 @@ begin
 
         DLG_PROP_GET:
           begin
-            Result:= Py_BuildValue('{sssisisisi}',
+            if Form.ModalResult<Dummy_ResultStart then
+              ResObject:= ReturnNone
+            else
+              ResObject:= PyInt_FromLong(Form.ModalResult-Dummy_ResultStart);
+
+            Result:= Py_BuildValue('{sssisisisisO}',
               'cap',
               PChar(Form.Caption),
               PChar(string('x')),
@@ -3955,7 +3961,9 @@ begin
               PChar(string('w')),
               Form.Width,
               PChar(string('h')),
-              Form.Height
+              Form.Height,
+              'res',
+              ResObject
               );
           end;
 

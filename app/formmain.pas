@@ -63,6 +63,7 @@ uses
   proc_lexer_styles,
   proc_keysdialog,
   proc_customdialog,
+  proc_customdialog_dummy,
   proc_scrollbars,
   proc_keymap_undolist,
   formconsole,

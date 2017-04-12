@@ -23,6 +23,8 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
+procedure DoForm_SetPropertyFromPair(F: TForm; const AName, AValue: string);
+
 
 implementation
 
@@ -1069,6 +1071,27 @@ begin
   finally
     FreeAndNil(C);
   end;
+end;
+
+
+procedure DoForm_SetPropertyFromPair(F: TForm; const AName, AValue: string);
+begin
+  if AName='cap' then
+    F.Caption:= AValue
+  else
+  if AName='x' then
+    F.Left:= StrToIntDef(AValue, F.Left)
+  else
+  if AName='y' then
+    F.Top:= StrToIntDef(AValue, F.Top)
+  else
+  if AName='w' then
+    F.Width:= StrToIntDef(AValue, F.Width)
+  else
+  if AName='h' then
+    F.Height:= StrToIntDef(AValue, F.Height)
+  else
+  exit;
 end;
 
 
