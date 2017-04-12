@@ -16,14 +16,17 @@ uses
   CheckLst, Spin, ComCtrls, Dialogs,
   ListFilterEdit,
   ListViewFilterEdit,
-  LclProc, LclType;
+  LclProc, LclType,
+  PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
   const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
 
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
-procedure DoForm_SetPropertyFromPair(F: TForm; const AName, AValue: string);
+
+function DoForm_GetPropsAsDict(F: TForm): PPyObject;
+procedure DoForm_SetPropsFromString(F: TForm; StrText: string);
 
 
 implementation
@@ -1074,7 +1077,7 @@ begin
 end;
 
 
-procedure DoForm_SetPropertyFromPair(F: TForm; const AName, AValue: string);
+procedure DoForm_SetPropFromPair(F: TForm; const AName, AValue: string);
 begin
   if AName='cap' then
     F.Caption:= AValue
@@ -1094,6 +1097,57 @@ begin
   exit;
 end;
 
+
+function DoForm_GetPropsAsDict(F: TForm): PPyObject;
+var
+  ResObj: PPyObject;
+  NActive, i: integer;
+begin
+  with GetPythonEngine do
+  begin
+    if F.ModalResult<Dummy_ResultStart then
+      ResObj:= ReturnNone
+    else
+      ResObj:= PyInt_FromLong(F.ModalResult-Dummy_ResultStart);
+
+    NActive:= -1;
+    for i:= 0 to F.ControlCount-1 do
+    begin
+      if F.Controls[i]=F.ActiveControl then
+      begin
+        NActive:= i;
+        Break;
+      end;
+    end;
+
+    Result:= Py_BuildValue('{sssisisisisOsi}',
+      'cap', PChar(F.Caption),
+      PChar(string('x')), F.Left,
+      PChar(string('y')), F.Top,
+      PChar(string('w')), F.Width,
+      PChar(string('h')), F.Height,
+      'res', ResObj,
+      'focus', NActive
+      );
+  end;
+end;
+
+
+procedure DoForm_SetPropsFromString(F: TForm; StrText: string);
+var
+  SItem, SKey, SValue: string;
+begin
+  //text is '{key1:value1;key2:value2}' from to_str()
+  if StrText[1]='{' then
+    StrText:= Copy(StrText, 2, Length(StrText)-2);
+  repeat
+    SItem:= SGetItem(StrText, ';');
+    if SItem='' then Break;
+    SKey:= SGetItem(SItem, ':');
+    SValue:= SItem;
+    DoForm_SetPropFromPair(F, SKey, SValue);
+  until false;
+end;
 
 end.
 

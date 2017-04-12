@@ -3946,41 +3946,12 @@ begin
 
         DLG_PROP_GET:
           begin
-            if Form.ModalResult<Dummy_ResultStart then
-              ResObject:= ReturnNone
-            else
-              ResObject:= PyInt_FromLong(Form.ModalResult-Dummy_ResultStart);
-
-            Result:= Py_BuildValue('{sssisisisisO}',
-              'cap',
-              PChar(Form.Caption),
-              PChar(string('x')),
-              Form.Left,
-              PChar(string('y')),
-              Form.Top,
-              PChar(string('w')),
-              Form.Width,
-              PChar(string('h')),
-              Form.Height,
-              'res',
-              ResObject
-              );
+            Result:= DoForm_GetPropsAsDict(Form);
           end;
 
         DLG_PROP_SET:
           begin
-            //text is '{key1:value1;key2:value2}' from to_str()
-            if StrText='' then
-              exit(ReturnNone);
-            if StrText[1]='{' then
-              StrText:= Copy(StrText, 2, Length(StrText)-2);
-            repeat
-              SItem:= SGetItem(StrText, ';');
-              if SItem='' then Break;
-              SKey:= SGetItem(SItem, ':');
-              SValue:= SItem;
-              DoForm_SetPropertyFromPair(Form, SKey, SValue);
-            until false;
+            DoForm_SetPropsFromString(Form, StrText);
             Result:= ReturnNone;
           end;
 
