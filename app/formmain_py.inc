@@ -3973,6 +3973,13 @@ begin
               Result:= ReturnNone;
           end;
 
+        DLG_CTL_PROP_SET:
+          begin
+            if (NIndex>=0) and (NIndex<Form.ControlCount) then
+              DoControl_SetPropsFromString_New(Form.Controls[NIndex], StrText);
+            Result:= ReturnNone;
+          end
+
         else
           Result:= ReturnNone;
       end;

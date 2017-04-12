@@ -26,9 +26,10 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
 procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; var Ctl: TControl);
+procedure DoControl_SetPropsFromString_New(C: TControl; AText: string);
 
 function DoForm_GetPropsAsDict(F: TForm): PPyObject;
-procedure DoForm_SetPropsFromString(F: TForm; StrText: string);
+procedure DoForm_SetPropsFromString(F: TForm; AText: string);
 
 
 implementation
@@ -526,7 +527,7 @@ begin
 end;
 
 
-procedure DoControl_SetPropsFromString(C: TControl; S: string);
+procedure DoControl_SetPropsFromString_Adv(C: TControl; S: string);
 begin
   if C is TButton then
   begin
@@ -755,6 +756,73 @@ begin
 end;
 
 
+procedure DoControl_SetPropFromPair(C: TControl; AName, AValue: string);
+begin
+  if AName='name' then
+  begin
+    C.Name:= AValue;
+    exit;
+  end;
+
+  if AName='font' then
+  begin
+    C.Font.Name:= SGetItem(AValue);
+    C.Font.Size:= StrToIntDef(SGetItem(AValue), C.Font.Size);
+    C.Font.Color:= StrToIntDef(SGetItem(AValue), C.Font.Color);
+    exit;
+  end;
+
+  if AName='en' then
+  begin
+    C.Enabled:= StrToBool(AValue);
+    exit;
+  end;
+
+  if AName='cap' then
+  begin
+    C.Caption:= AValue;
+    exit;
+  end;
+
+  if AName='hint' then
+  begin
+    DoControl_SetHintFromString(C, AValue);
+    exit;
+  end;
+
+  if AName='act' then
+  begin
+    if StrToBool(AValue) then
+      C.Tag:= Dummy_TagActive;
+    exit;
+  end;
+
+  if AName='pos' then
+  begin
+    DoControl_SetPosFromString(C, AValue);
+    exit;
+  end;
+
+  if AName='props' then
+  begin
+    DoControl_SetPropsFromString_Adv(C, AValue);
+    exit;
+  end;
+
+  if AName='items' then
+  begin
+    DoControl_SetItemsFromString(C, AValue);
+    exit;
+  end;
+
+  if AName='val' then
+  begin
+    DoControl_SetStateFromString(C, AValue);
+    exit;
+  end;
+end;
+
+
 procedure DoForm_Scale(F: TForm);
 var
   PrevPPI, NewPPI: integer;
@@ -836,79 +904,7 @@ begin
           (CtlPrev as TLabel).FocusControl:= Ctl as TWinControl;
       end;
 
-    //-------name
-    if SName='name' then
-    begin
-      Ctl.Name:= SValue;
-      Continue;
-    end;
-
-    //-------font
-    if SName='font' then
-    begin
-      Ctl.Font.Name:= SGetItem(SValue);
-      Ctl.Font.Size:= StrToIntDef(SGetItem(SValue), Ctl.Font.Size);
-      Ctl.Font.Color:= StrToIntDef(SGetItem(SValue), Ctl.Font.Color);
-      Continue;
-    end;
-
-    //-------en
-    if SName='en' then
-    begin
-      Ctl.Enabled:= StrToBool(SValue);
-      Continue;
-    end;
-
-    //-------cap
-    if SName='cap' then
-    begin
-      Ctl.Caption:= SValue;
-      Continue;
-    end;
-
-    //-------hint
-    if SName='hint' then
-    begin
-      DoControl_SetHintFromString(Ctl, SValue);
-      Continue;
-    end;
-
-    //-------act
-    if SName='act' then
-    begin
-      if StrToBool(SValue) then
-        Ctl.Tag:= Dummy_TagActive;
-      Continue;
-    end;
-
-    //-------pos
-    if SName='pos' then
-    begin
-      DoControl_SetPosFromString(Ctl, SValue);
-      Continue;
-    end;
-
-    //-------props
-    if SName='props' then
-    begin
-      DoControl_SetPropsFromString(Ctl, SValue);
-      Continue;
-    end;
-
-    //-------items
-    if SName='items' then
-    begin
-      DoControl_SetItemsFromString(Ctl, SValue);
-      Continue;
-    end;
-
-    //-------val
-    if SName='val' then
-    begin
-      DoControl_SetStateFromString(Ctl, SValue);
-      Continue;
-    end;
-
+    DoControl_SetPropFromPair(Ctl, SName, SValue);
     //-------more?
   until false;
 end;
@@ -1129,21 +1125,39 @@ begin
 end;
 
 
-procedure DoForm_SetPropsFromString(F: TForm; StrText: string);
+procedure DoForm_SetPropsFromString(F: TForm; AText: string);
 var
   SItem, SKey, SValue: string;
 begin
   //text is '{key1:value1;key2:value2}' from to_str()
-  if StrText[1]='{' then
-    StrText:= Copy(StrText, 2, Length(StrText)-2);
+  if AText[1]='{' then
+    AText:= Copy(AText, 2, Length(AText)-2);
   repeat
-    SItem:= SGetItem(StrText, ';');
+    SItem:= SGetItem(AText, ';');
     if SItem='' then Break;
     SKey:= SGetItem(SItem, ':');
     SValue:= SItem;
     DoForm_SetPropFromPair(F, SKey, SValue);
   until false;
 end;
+
+
+procedure DoControl_SetPropsFromString_New(C: TControl; AText: string);
+var
+  SItem, SKey, SValue: string;
+begin
+  //text is '{key1:value1;key2:value2}' from to_str()
+  if AText[1]='{' then
+    AText:= Copy(AText, 2, Length(AText)-2);
+  repeat
+    SItem:= SGetItem(AText, ';');
+    if SItem='' then Break;
+    SKey:= SGetItem(SItem, ':');
+    SValue:= SItem;
+    DoControl_SetPropFromPair(C, SKey, SValue);
+  until false;
+end;
+
 
 end.
 
