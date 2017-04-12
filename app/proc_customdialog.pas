@@ -803,6 +803,27 @@ begin
     exit;
   end;
 
+  if AName='x' then
+  begin
+    C.Left:= StrToIntDef(AValue, C.Left);
+    exit;
+  end;
+  if AName='y' then
+  begin
+    C.Top:= StrToIntDef(AValue, C.Top);
+    exit;
+  end;
+  if AName='w' then
+  begin
+    C.Width:= StrToIntDef(AValue, C.Width);
+    exit;
+  end;
+  if AName='h' then
+  begin
+    C.Height:= StrToIntDef(AValue, C.Height);
+    exit;
+  end;
+
   if AName='props' then
   begin
     DoControl_SetPropsFromString_Adv(C, AValue);
