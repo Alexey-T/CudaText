@@ -31,6 +31,7 @@ procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
+procedure DoForm_Scale(F: TForm);
 
 
 implementation
