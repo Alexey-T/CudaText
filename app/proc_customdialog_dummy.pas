@@ -31,9 +31,10 @@ type
   TFormDummy = class(TForm)
   private
     FormShown: boolean;
-  public
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  public
+    constructor Create(TheOwner: TComponent); override;
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -48,6 +49,19 @@ const
 implementation
 
 { TDummyClass }
+
+constructor TFormDummy.Create(TheOwner: TComponent);
+begin
+  inherited CreateNew(TheOwner);
+
+  BorderStyle:= bsDialog;
+  KeyPreview:= true;
+  Position:= poScreenCenter;
+  ShowHint:= true;
+
+  OnShow:= @DoOnShow;
+  OnKeyDown:= @DoOnKeyDown;
+end;
 
 procedure TFormDummy.DoOnShow(Sender: TObject);
 var

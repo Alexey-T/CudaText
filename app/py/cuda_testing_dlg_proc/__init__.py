@@ -14,7 +14,7 @@ class Command:
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'TestDlg', 'x':100, 'y':50, 'w':400, 'h':300})
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label1', 'cap':'label', 'x':10, 'y':10, 'w':50, 'act':True})
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'lab1', 'cap':'label', 'x':10, 'y':10, 'w':50})
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'chk (active)', 'x':60, 'y':10, 'w':200, 'act':True})

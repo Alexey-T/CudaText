@@ -998,9 +998,6 @@ var
   List: TStringList;
   i: integer;
 begin
-  F.BorderStyle:= bsDialog;
-  F.ShowHint:= true;
-
   List:= TStringList.Create;
   try
     List.StrictDelimiter:= true;
@@ -1021,10 +1018,6 @@ begin
   until false;
   }
 
-  F.KeyPreview:= true;
-  F.OnKeyDown:= @F.DoOnKeyDown;
-  F.OnShow:= @F.DoOnShow;
-
   DoForm_Scale(F);
 end;
 
@@ -1038,9 +1031,8 @@ begin
   AButtonIndex:= -1;
   AStateText:= '';
 
-  F:= TFormDummy.CreateNew(Application);
+  F:= TFormDummy.Create(nil);
   try
-    F.Position:= poScreenCenter;
     F.Caption:= ATitle;
     F.ClientWidth:= ASizeX;
     F.ClientHeight:= ASizeY;

@@ -3912,15 +3912,7 @@ begin
       case NAction of
         DLG_CREATE:
           begin
-            Form:= TFormDummy.CreateNew(Application);
-            Form.Caption:= 'Form';
-            Form.Position:= poScreenCenter;
-            Form.BorderStyle:= bsDialog;
-            Form.ShowHint:= true;
-            Form.KeyPreview:= true;
-            Form.OnKeyDown:= @Form.DoOnKeyDown;
-            Form.OnShow:= @Form.DoOnShow;
-            Form.Scaled:= true;
+            Form:= TFormDummy.Create(nil);
             Result:= PyLong_FromLongLong(PtrInt(Form));
           end;
 
