@@ -4,7 +4,17 @@ h=0
 
 class Command:
     def on_dlg(self, ed_self, id_dlg, id_ctl, id_event):
-        print(id_event)
+        global h
+        if id_dlg!=h: return
+
+        if id_ctl==4:
+            d = dlg_proc(h, DLG_CTL_PROP_GET, index=id_ctl)
+            dlg_proc(h, DLG_CTL_PROP_SET, index=id_ctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
+
+        if id_ctl==3:
+            d = dlg_proc(h, DLG_CTL_PROP_GET, index=2)
+            dlg_proc(h, DLG_PROP_SET, prop={'cap': 'entered: '+d['val'] } )
+
         self.show_res()
         #dlg_proc(id_dlg, DLG_HIDE)
 
@@ -23,10 +33,10 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'val':'edit1', 'x':10, 'y':30, 'w':200} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'&Btn1', 'x':10, 'y':60, 'w':80} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'Btn&1: caption', 'x':10, 'y':60, 'w':100} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'&Btn2', 'x':100, 'y':60, 'w':80} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'Btn&2: move', 'x':120, 'y':60, 'w':100} )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
 
