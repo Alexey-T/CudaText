@@ -28,7 +28,7 @@ function DoControl_GetAutoHeight(const Id: string): integer;
 procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; var Ctl: TControl);
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
-function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
+function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 
@@ -1012,6 +1012,7 @@ begin
 
   F:= TFormDummy.Create(nil);
   try
+    F.IsDlgCustom:= true;
     F.Caption:= ATitle;
     F.ClientWidth:= ASizeX;
     F.ClientHeight:= ASizeY;
@@ -1100,35 +1101,18 @@ begin
 end;
 
 
-function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
-var
-  NFocused, NClicked, i: integer;
+function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    NClicked:= F.ModalResult-Dummy_ResultStart;
-    if NClicked<0 then
-      NClicked:= -1;
-      //exit(ReturnNone);
-
-    NFocused:= -1;
-    for i:= 0 to F.ControlCount-1 do
-    begin
-      if F.Controls[i]=F.ActiveControl then
-      begin
-        NFocused:= i;
-        Break;
-      end;
-    end;
-
     Result:= Py_BuildValue('{sssisisisisisiss}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
       PChar(string('w')), F.Width,
       PChar(string('h')), F.Height,
-      'clicked', NClicked,
-      'focused', NFocused,
+      'clicked', F.IdClicked,
+      'focused', F.IdFocused,
       'tag', PChar(F.HelpKeyword)
       );
   end;

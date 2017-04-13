@@ -25,7 +25,6 @@ var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
 
 type
-
   { TFormDummy }
 
   TFormDummy = class(TForm)
@@ -33,9 +32,13 @@ type
     FormShown: boolean;
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoOnResize(Sender: TObject);
+    procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
   public
+    IsDlgCustom: boolean;
+    IdClicked: integer;
+    function IdFocused: integer;
     constructor Create(TheOwner: TComponent); override;
+    procedure DoOnResize; override;
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -61,9 +64,13 @@ begin
   ShowHint:= true;
   Scaled:= true;
 
+  IsDlgCustom:= false;
+  FormShown:= false;
+  IdClicked:= -1;
+
   OnShow:= @DoOnShow;
+  OnClose:= @DoOnClose;
   OnKeyDown:= @DoOnKeyDown;
-  OnResize:= @DoOnResize;
 end;
 
 procedure TFormDummy.DoOnShow(Sender: TObject);
@@ -87,23 +94,49 @@ procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word;
 begin
   if (Key=VK_ESCAPE) then
   begin
-    ModalResult:= mrCancel;
+    IdClicked:= -1;
+
+    if fsModal in FFormState then
+      ModalResult:= mrCancel
+    else
+      Close;
+
     Key:= 0;
     exit;
   end;
 end;
 
-procedure TFormDummy.DoOnResize(Sender: TObject);
+procedure TFormDummy.DoOnResize;
 begin
   if BorderStyle<>bsSizeable then exit;
+  CustomDialog_DoPyEvent(nil, cEventOnDlg,
+    [
+      IntToStr(PtrInt(Self)), //id_dlg
+      '-1', //id_ctl
+      '"on_resize"' //id_event
+    ]);
+end;
 
-  if Assigned(CustomDialog_DoPyEvent) then
-    CustomDialog_DoPyEvent(nil, cEventOnDlg,
-      [
-        IntToStr(PtrInt(Self)), //id_dlg
-        '0', //id_ctl
-        '"on_resize"' //id_event
-      ]);
+procedure TFormDummy.DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  IdClicked:= -1;
+  CloseAction:= caHide;
+  CustomDialog_DoPyEvent(nil, cEventOnDlg,
+    [
+      IntToStr(PtrInt(Self)), //id_dlg
+      '-1', //id_ctl
+      '"on_close"' //id_event
+    ]);
+end;
+
+function TFormDummy.IdFocused: integer;
+var
+  i: integer;
+begin
+  Result:= -1;
+  for i:= 0 to ControlCount-1 do
+    if Controls[i]=ActiveControl then
+      exit(i);
 end;
 
 
@@ -114,24 +147,21 @@ begin
   //workarnd for bug on Mac (flicker on More>> press in BackupFile dialog)
   if not FormShown then exit;
 
-  //Tag=Dummy_TagActive means that control change closes form
   if (Sender as TControl).Tag=Dummy_TagActive then
     for i:= 0 to ControlCount-1 do
       if Controls[i]=Sender then
       begin
-        ModalResult:= Dummy_ResultStart+i;
+        IdClicked:= i;
 
-        if not (fsModal in FFormState) then
-        begin
-          if Assigned(CustomDialog_DoPyEvent) then
-            CustomDialog_DoPyEvent(nil, cEventOnDlg,
-              [
-                IntToStr(PtrInt(Self)), //id_dlg
-                IntToStr(i), //id_ctl
-                '"on_change"' //id_event
-              ]);
-        end;
-
+        if IsDlgCustom then
+          ModalResult:= Dummy_ResultStart+i
+        else
+        CustomDialog_DoPyEvent(nil, cEventOnDlg,
+          [
+            IntToStr(PtrInt(Self)), //id_dlg
+            IntToStr(i), //id_ctl
+            '"on_change"' //id_event
+          ]);
         exit
       end;
 end;
