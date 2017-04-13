@@ -21,13 +21,13 @@ class Command:
     def init_dlg(self):
         global h
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'TestDlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'TestDlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'tag': 'form_tag' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'lab1', 'cap':'label', 'x':10, 'y':10, 'w':50})
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'lab1', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'chk (active)', 'x':60, 'y':10, 'w':200, 'act':True})
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'chk (active)', 'x':60, 'y':10, 'w':200, 'act':True })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'val':'edit1', 'x':10, 'y':30, 'w':200} )

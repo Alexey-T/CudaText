@@ -843,6 +843,12 @@ begin
     DoControl_SetStateFromString(C, AValue);
     exit;
   end;
+
+  if AName='tag' then
+  begin
+    C.HelpKeyword:= AValue;
+    exit;
+  end;
 end;
 
 
@@ -1082,7 +1088,7 @@ begin
     F.ClientHeight:= StrToIntDef(AValue, F.ClientHeight)
   else
   if AName='tag' then
-    F.Tag:= StrToIntDef(AValue, 0)
+    F.HelpKeyword:= AValue
   else
   if AName='resize' then
   begin
@@ -1114,7 +1120,7 @@ begin
       end;
     end;
 
-    Result:= Py_BuildValue('{sssisisisisisisL}',
+    Result:= Py_BuildValue('{sssisisisisisiss}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
@@ -1122,7 +1128,7 @@ begin
       PChar(string('h')), F.Height,
       'clicked', NClicked,
       'focused', NFocused,
-      'tag', Int64(F.Tag)
+      'tag', PChar(F.HelpKeyword)
       );
   end;
 end;
@@ -1149,9 +1155,11 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssisisisisssO}',
+    Result:= Py_BuildValue('{sssssssssisisisisssO}',
       'name', PChar(C.Name),
       'cap', PChar(C.Caption),
+      'hint', PChar(C.Hint),
+      'tag', PChar(C.HelpKeyword),
       PChar(string('x')), C.Left,
       PChar(string('y')), C.Top,
       PChar(string('w')), C.Width,
