@@ -58,6 +58,7 @@ begin
   KeyPreview:= true;
   Position:= poScreenCenter;
   ShowHint:= true;
+  Scaled:= true;
 
   OnShow:= @DoOnShow;
   OnKeyDown:= @DoOnKeyDown;

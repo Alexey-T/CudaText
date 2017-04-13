@@ -31,7 +31,6 @@ procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TForm): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
-procedure DoForm_Scale(F: TForm);
 
 
 implementation
@@ -847,21 +846,6 @@ begin
 end;
 
 
-procedure DoForm_Scale(F: TForm);
-var
-  PrevPPI, NewPPI: integer;
-begin
-  PrevPPI:= F.DesignTimePPI;
-  NewPPI:= Screen.PixelsPerInch;
-  if NewPPI>PrevPPI then
-    F.AutoAdjustLayout(lapAutoAdjustForDPI,
-      PrevPPI, NewPPI,
-      F.Width, ScaleX(F.Width, PrevPPI)
-      //, false //AScaleFonts, Laz 1.7 trunk
-      );
-end;
-
-
 function DoForm_GetResult(AForm: TForm): string;
 var
   List: TStringList;
@@ -1008,17 +992,6 @@ begin
   finally
     FreeAndNil(List);
   end;
-
-  {
-  //prev variant, slower
-  repeat
-    SItem:= SGetItem(AText, #10);
-    if SItem='' then break;
-    DoForm_AddControl(F, SItem, Dummy);
-  until false;
-  }
-
-  DoForm_Scale(F);
 end;
 
 
