@@ -1064,10 +1064,16 @@ begin
     F.Caption:= AValue
   else
   if AName='x' then
+  begin
+    F.Position:= poDesigned;
     F.Left:= StrToIntDef(AValue, F.Left)
+  end
   else
   if AName='y' then
+  begin
+    F.Position:= poDesigned;
     F.Top:= StrToIntDef(AValue, F.Top)
+  end
   else
   if AName='w' then
     F.ClientWidth:= StrToIntDef(AValue, F.ClientWidth)
@@ -1075,7 +1081,16 @@ begin
   if AName='h' then
     F.ClientHeight:= StrToIntDef(AValue, F.ClientHeight)
   else
-  exit;
+  if AName='tag' then
+    F.Tag:= StrToIntDef(AValue, 0)
+  else
+  if AName='resize' then
+  begin
+    if StrToBool(AValue) then
+      F.BorderStyle:= bsSizeable
+    else
+      F.BorderStyle:= bsDialog;
+  end;
 end;
 
 
@@ -1099,14 +1114,15 @@ begin
       end;
     end;
 
-    Result:= Py_BuildValue('{sssisisisisisi}',
+    Result:= Py_BuildValue('{sssisisisisisisL}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
       PChar(string('w')), F.Width,
       PChar(string('h')), F.Height,
       'clicked', NClicked,
-      'focused', NFocused
+      'focused', NFocused,
+      'tag', Int64(F.Tag)
       );
   end;
 end;
