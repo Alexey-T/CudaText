@@ -1108,7 +1108,8 @@ begin
   begin
     NClicked:= F.ModalResult-Dummy_ResultStart;
     if NClicked<0 then
-      exit(ReturnNone);
+      NClicked:= -1;
+      //exit(ReturnNone);
 
     NFocused:= -1;
     for i:= 0 to F.ControlCount-1 do

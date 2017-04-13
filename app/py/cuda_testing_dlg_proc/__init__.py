@@ -6,17 +6,23 @@ class Command:
     def on_dlg(self, ed_self, id_dlg, id_ctl, id_event):
         global h
         if id_dlg!=h: return
+        print(id_event)
 
-        if id_ctl==4:
-            d = dlg_proc(h, DLG_CTL_PROP_GET, index=id_ctl)
-            dlg_proc(h, DLG_CTL_PROP_SET, index=id_ctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
+        if id_event=='on_change':
+            if id_ctl==4:
+                d = dlg_proc(h, DLG_CTL_PROP_GET, index=id_ctl)
+                dlg_proc(h, DLG_CTL_PROP_SET, index=id_ctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
 
-        if id_ctl==3:
-            d = dlg_proc(h, DLG_CTL_PROP_GET, index=2)
-            dlg_proc(h, DLG_PROP_SET, prop={'cap': 'entered: '+d['val'] } )
+            if id_ctl==3:
+                d = dlg_proc(h, DLG_CTL_PROP_GET, index=2)
+                dlg_proc(h, DLG_PROP_SET, prop={'cap': 'entered: '+d['val'] } )
 
-        self.show_res()
-        #dlg_proc(id_dlg, DLG_HIDE)
+            self.show_res()
+
+        if id_event=='on_resize':
+            d = dlg_proc(h, DLG_PROP_GET)
+            dlg_proc(h, DLG_CTL_PROP_SET, index=5, prop={'x': d['w']-20, 'h': d['h']-10 } )
+
 
     def init_dlg(self):
         global h
@@ -37,6 +43,9 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'Btn&2: move', 'x':120, 'y':60, 'w':100} )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0) } )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
 

@@ -33,6 +33,7 @@ type
     FormShown: boolean;
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnResize(Sender: TObject);
   public
     constructor Create(TheOwner: TComponent); override;
     procedure DoOnChange(Sender: TObject);
@@ -62,6 +63,7 @@ begin
 
   OnShow:= @DoOnShow;
   OnKeyDown:= @DoOnKeyDown;
+  OnResize:= @DoOnResize;
 end;
 
 procedure TFormDummy.DoOnShow(Sender: TObject);
@@ -90,6 +92,20 @@ begin
     exit;
   end;
 end;
+
+procedure TFormDummy.DoOnResize(Sender: TObject);
+begin
+  if BorderStyle<>bsSizeable then exit;
+
+  if Assigned(CustomDialog_DoPyEvent) then
+    CustomDialog_DoPyEvent(nil, cEventOnDlg,
+      [
+        IntToStr(PtrInt(Self)), //id_dlg
+        '0', //id_ctl
+        '"on_resize"' //id_event
+      ]);
+end;
+
 
 procedure TFormDummy.DoOnChange(Sender: TObject);
 var
