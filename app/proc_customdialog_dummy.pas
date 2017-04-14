@@ -179,28 +179,37 @@ end;
 
 procedure TFormDummy.DoOnChange(Sender: TObject);
 var
+  Props: TAppControlProps;
   i: integer;
 begin
-  //workarnd for bug on Mac (flicker on More>> press in BackupFile dialog)
+  //workarnd for bug on Mac
+  //(flicker on More>> press in BackupFile dialog)
   if not FormShown then exit;
 
-  if TAppControlProps((Sender as TControl).Tag).FActive then
-    for i:= 0 to ControlCount-1 do
-      if Controls[i]=Sender then
-      begin
-        IdClicked:= i;
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  if not Props.FActive then exit;
 
-        if IsDlgCustom then
-          ModalResult:= mrOk
-        else
-        CustomDialog_DoPyEvent(nil, cEventOnDlg,
-          [
-            IntToStr(PtrInt(Self)), //id_dlg
-            IntToStr(i), //id_ctl
-            '"on_change"' //id_event
-          ]);
-        exit
-      end;
+  IdClicked:= -1;
+  for i:= 0 to ControlCount-1 do
+    if Controls[i]=Sender then
+    begin
+      IdClicked:= i;
+      Break;
+    end;
+
+  if IsDlgCustom then
+  begin
+    ModalResult:= mrOk;
+    exit;
+  end;
+
+  CustomDialog_DoPyEvent(nil, cEventOnDlg,
+    [
+      IntToStr(PtrInt(Self)), //id_dlg
+      IntToStr(IdClicked), //id_ctl
+      '"on_change"' //id_event
+    ]);
+  exit
 end;
 
 procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);
