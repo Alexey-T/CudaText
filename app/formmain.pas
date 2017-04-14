@@ -1136,6 +1136,7 @@ var
   i: integer;
 begin
   CustomDialog_DoPyEvent:= @DoPyEvent;
+  CustomDialog_DoPyCall:= @DoPyCallFromAPI;
 
   InitToolbar;
   InitSidebar;

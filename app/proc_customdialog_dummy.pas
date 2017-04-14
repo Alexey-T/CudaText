@@ -20,9 +20,11 @@ uses
 type
   TAppPyEventCallback = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
       const AParams: array of string): string of object;
+  TAppPyCallCallback = procedure(AStr: string) of object;
 
 var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
+  CustomDialog_DoPyCall: TAppPyCallCallback = nil;
 
 type
   { TAppControlProps }
@@ -203,13 +205,15 @@ begin
     exit;
   end;
 
-  CustomDialog_DoPyEvent(nil, cEventOnDlg,
-    [
-      IntToStr(PtrInt(Self)), //id_dlg
-      IntToStr(IdClicked), //id_ctl
-      '"on_change"' //id_event
-    ]);
-  exit
+  if Props.FCallback<>'' then
+    CustomDialog_DoPyCall(Props.FCallback)
+  else
+    CustomDialog_DoPyEvent(nil, cEventOnDlg,
+      [
+        IntToStr(PtrInt(Self)), //id_dlg
+        IntToStr(IdClicked), //id_ctl
+        '"on_change"' //id_event
+      ]);
 end;
 
 procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);

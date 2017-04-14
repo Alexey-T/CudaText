@@ -11,7 +11,6 @@ class Command:
         n_chk = dlg_proc(h, DLG_CTL_FIND_NAME, 'chk1')
         n_edit = dlg_proc(h, DLG_CTL_FIND_NAME, 'edit1')
         n_btn1 = dlg_proc(h, DLG_CTL_FIND_NAME, 'btn1')
-        n_btn2 = dlg_proc(h, DLG_CTL_FIND_NAME, 'btn2')
         n_btn_dlg = dlg_proc(h, DLG_CTL_FIND_NAME, 'btn_dlg')
         n_color = dlg_proc(h, DLG_CTL_FIND_NAME, 'color')
 
@@ -19,10 +18,6 @@ class Command:
             if id_ctl==n_chk:
                 d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_color)
                 dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'vis': not d['vis']} )
-
-            if id_ctl==n_btn2:
-                d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_btn2)
-                dlg_proc(h, DLG_CTL_PROP_SET, index=n_btn2, prop={'x': d['x']+10, 'y': d['y']+8 } )
 
             if id_ctl==n_btn1:
                 d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_edit)
@@ -36,6 +31,13 @@ class Command:
         if id_event=='on_resize':
             d = dlg_proc(h, DLG_PROP_GET)
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
+
+    def do_move_callback(self):
+        global h
+        n_btn2 = dlg_proc(h, DLG_CTL_FIND_NAME, 'btn2')
+        d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_btn2)
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n_btn2, prop={'x': d['x']+10, 'y': d['y']+8 } )
+        print('button via callback')
 
 
     def init_dlg(self):
@@ -56,7 +58,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn1', 'cap':'Btn&1: caption', 'x':10, 'y':60, 'w':100} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn2', 'cap':'Btn&2: move', 'x':120, 'y':60, 'w':100} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn2', 'cap':'Btn&2: move', 'x':120, 'y':60, 'w':100, 'callback': 'cuda_testing_dlg_proc.c.do_move_callback'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'color', 'cap': ' ', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0) } )
