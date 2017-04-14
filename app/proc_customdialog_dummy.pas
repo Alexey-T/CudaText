@@ -25,6 +25,18 @@ var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
 
 type
+  { TAppControlProps }
+
+  TAppControlProps = class
+  public
+    FTypeString: string;
+    FActive: boolean;
+    FTagString: string;
+    constructor Create(const ATypeName: string);
+  end;
+
+
+type
   { TFormDummy }
 
   TFormDummy = class(TForm)
@@ -52,6 +64,16 @@ const
 
 
 implementation
+
+{ TAppControlProps }
+
+constructor TAppControlProps.Create(const ATypeName: string);
+begin
+  inherited Create;
+  FTypeString:= ATypeName;
+  FActive:= false;
+  FTagString:= '';
+end;
 
 { TDummyClass }
 
@@ -164,7 +186,7 @@ begin
   //workarnd for bug on Mac (flicker on More>> press in BackupFile dialog)
   if not FormShown then exit;
 
-  if (Sender as TControl).Tag=Dummy_TagActive then
+  if TAppControlProps((Sender as TControl).Tag).FActive then
     for i:= 0 to ControlCount-1 do
       if Controls[i]=Sender then
       begin

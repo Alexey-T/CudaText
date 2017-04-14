@@ -25,7 +25,7 @@ procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
 
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
-procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; var Ctl: TControl);
+procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; out Ctl: TControl);
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
@@ -363,8 +363,13 @@ end;
 procedure DoControl_CreateNew(
   const S: string;
   AForm: TFormDummy;
-  var Ctl: TControl);
+  out Ctl: TControl);
+var
+  Props: TAppControlProps;
 begin
+  Ctl:= nil;
+
+ try
   if S='check' then
   begin
     Ctl:= TCheckBox.Create(AForm);
@@ -424,7 +429,6 @@ begin
   if S='button' then
   begin
     Ctl:= TButton.Create(AForm);
-    Ctl.Tag:= Dummy_TagActive; //button always active
     (Ctl as TButton).OnClick:= @AForm.DoOnChange;
     DoControl_FixButtonHeight(Ctl);
     exit;
@@ -526,6 +530,16 @@ begin
     Ctl:= TListViewFilterEdit.Create(AForm);
     exit;
   end;
+
+ finally
+   if Assigned(Ctl) then
+   begin
+     Props:= TAppControlProps.Create(S);
+     if S='button' then
+       Props.FActive:= true;
+     Ctl.Tag:= PtrInt(Props);
+   end;
+ end;
 end;
 
 
@@ -800,8 +814,7 @@ begin
 
   if AName='act' then
   begin
-    if StrToBool(AValue) then
-      C.Tag:= Dummy_TagActive;
+    TAppControlProps(C.Tag).FActive:= StrToBool(AValue);
     exit;
   end;
 
@@ -852,7 +865,7 @@ begin
 
   if AName='tag' then
   begin
-    C.HelpKeyword:= AValue;
+    TAppControlProps(C.Tag).FTagString:= AValue;
     exit;
   end;
 end;
@@ -902,11 +915,10 @@ begin
     SValue:= SNameValue;
     if SName='' then Continue;
 
-    //-------type
+    //type
     if SName='type' then
     begin
       DoControl_CreateNew(SValue, AForm, Ctl);
-      //set parent
       if Assigned(Ctl) then
         Ctl.Parent:= AForm;
       Continue;
@@ -1094,9 +1106,6 @@ begin
   if AName='h' then
     F.ClientHeight:= StrToIntDef(AValue, F.ClientHeight)
   else
-  if AName='tag' then
-    F.HelpKeyword:= AValue
-  else
   if AName='resize' then
   begin
     if StrToBool(AValue) then
@@ -1111,15 +1120,14 @@ function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssisisisisisiss}',
+    Result:= Py_BuildValue('{sssisisisisisi}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
       PChar(string('w')), F.Width,
       PChar(string('h')), F.Height,
       'clicked', F.IdClicked,
-      'focused', F.IdFocused,
-      'tag', PChar(F.HelpKeyword)
+      'focused', F.IdFocused
       );
   end;
 end;
@@ -1146,17 +1154,18 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssssssisisisisssOsOsO}',
+    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsO}',
       'name', PChar(C.Name),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
-      'tag', PChar(C.HelpKeyword),
+      'type', PChar(TAppControlProps(C.Tag).FTypeString),
+      'tag', PChar(TAppControlProps(C.Tag).FTagString),
       PChar(string('x')), C.Left,
       PChar(string('y')), C.Top,
       PChar(string('w')), C.Width,
       PChar(string('h')), C.Height,
       'val', PChar(DoControl_GetState(C)),
-      'act', PyBool_FromLong(Ord(C.Tag=Dummy_TagActive)),
+      'act', PyBool_FromLong(Ord(TAppControlProps(C.Tag).FActive)),
       'en', PyBool_FromLong(Ord(C.Enabled)),
       'vis', PyBool_FromLong(Ord(C.Visible))
       );
