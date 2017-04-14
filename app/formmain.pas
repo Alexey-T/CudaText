@@ -887,7 +887,6 @@ var
 
 {$I formmain_py_toolbars.inc}
 {$I formmain_py_api.inc}
-{$I formmain_py_panels.inc}
 {$I formmain_py_helpers.inc}
 {$I formmain_py_pluginwork.inc}
 

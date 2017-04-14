@@ -59,6 +59,7 @@ type
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
+    procedure DoEvent(AIdControl: integer; const AEvent: string);
   end;
 
 
@@ -132,12 +133,7 @@ end;
 procedure TFormDummy.DoOnResize;
 begin
   if BorderStyle<>bsSizeable then exit;
-  CustomDialog_DoPyEvent(nil, cEventOnDlg,
-    [
-      IntToStr(PtrInt(Self)), //id_dlg
-      '-1', //id_ctl
-      '"on_resize"' //id_event
-    ]);
+  DoEvent(-1, '"on_resize"');
 end;
 
 procedure TFormDummy.DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -150,12 +146,7 @@ begin
 
   IdClicked:= -1;
   CloseAction:= caHide;
-  CustomDialog_DoPyEvent(nil, cEventOnDlg,
-    [
-      IntToStr(PtrInt(Self)), //id_dlg
-      '-1', //id_ctl
-      '"on_close"' //id_event
-    ]);
+  DoEvent(-1, '"on_close"');
 end;
 
 function TFormDummy.IdFocused: integer;
@@ -208,12 +199,7 @@ begin
   if Props.FCallback<>'' then
     CustomDialog_DoPyCall(Props.FCallback)
   else
-    CustomDialog_DoPyEvent(nil, cEventOnDlg,
-      [
-        IntToStr(PtrInt(Self)), //id_dlg
-        IntToStr(IdClicked), //id_ctl
-        '"on_change"' //id_event
-      ]);
+    DoEvent(IdClicked, '"on_change"');
 end;
 
 procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);
@@ -231,6 +217,16 @@ procedure TFormDummy.DoOnListviewSelect(Sender: TObject; Item: TListItem;
   Selected: Boolean);
 begin
   DoOnChange(Sender);
+end;
+
+procedure TFormDummy.DoEvent(AIdControl: integer; const AEvent: string);
+begin
+  CustomDialog_DoPyEvent(nil, cEventOnDlg,
+    [
+      IntToStr(PtrInt(Self)), //id_dlg
+      IntToStr(AIdControl), //id_ctl
+      AEvent //id_event
+    ]);
 end;
 
 end.
