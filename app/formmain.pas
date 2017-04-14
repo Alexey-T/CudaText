@@ -863,7 +863,7 @@ type
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
-    procedure DoPyCallFromAPI(AStr: string);
+    procedure DoPyCallFromAPI(const AStr: string);
   end;
 
 var
@@ -3583,20 +3583,33 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCallFromAPI(AStr: string);
-// 'module.method' or
-// 'module.c.method' for Command class
+procedure TfmMain.DoPyCallFromAPI(const AStr: string);
+const
+  cRegex_DotCommand = '([a-z]\w+)\.([a-z]\w*)';
+  cRegex_SignCommand = 'module=(.+);cmd=(.+);';
+  cRegex_SignFunc = 'module=(.+);func=(.+);';
 var
-  SItem1, SItem2, SItem3: string;
+  Parts: TRegexParts;
+  SModule, SFunc: string;
 begin
-  SItem1:= SGetItem(AStr, '.');
-  SItem2:= SGetItem(AStr, '.');
-  SItem3:= SGetItem(AStr, '.');
+  if SRegexFindParts(cRegex_DotCommand, AStr, Parts) or
+     SRegexFindParts(cRegex_SignCommand, AStr, Parts) then
+  begin
+    SModule:= Parts[1];
+    SFunc:= Parts[2];
+    Py_RunPlugin_Command(SModule, SFunc, '');
+    exit;
+  end;
 
-  if SItem2='c' then
-    Py_RunPlugin_Command(SItem1, SItem3, '')
-  else
-    Py_RunModuleFunction(SItem1, SItem2, []);
+  if SRegexFindParts(cRegex_SignFunc, AStr, Parts) then
+  begin
+    SModule:= Parts[1];
+    SFunc:= Parts[2];
+    Py_RunModuleFunction(SModule, SFunc, []);
+    exit;
+  end;
+
+  fmConsole.DoLogConsoleLine(Format(msgBadApiCall, [AStr]));
 end;
 
 

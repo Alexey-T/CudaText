@@ -20,7 +20,7 @@ uses
 type
   TAppPyEventCallback = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
       const AParams: array of string): string of object;
-  TAppPyCallCallback = procedure(AStr: string) of object;
+  TAppPyCallCallback = procedure(const AStr: string) of object;
 
 var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;

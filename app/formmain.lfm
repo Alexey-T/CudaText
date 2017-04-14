@@ -18,7 +18,7 @@ object fmMain: TfmMain
   OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
