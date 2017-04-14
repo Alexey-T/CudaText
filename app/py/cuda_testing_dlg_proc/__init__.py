@@ -17,6 +17,9 @@ class Command:
                 d = dlg_proc(h, DLG_CTL_PROP_GET, index=2)
                 dlg_proc(h, DLG_PROP_SET, prop={'cap': 'entered: '+d['val'] } )
 
+            if id_ctl==6:
+                self.temp_dlg()
+
             self.show_res()
 
         if id_event=='on_resize':
@@ -47,6 +50,9 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0) } )
 
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'temp dlg', 'x':10, 'y':200, 'w':100} )
+
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
 
     def nonmodal(self):
@@ -70,3 +76,13 @@ class Command:
         for n in range(cnt):
             res = dlg_proc(h, DLG_CTL_PROP_GET, index=n)
             print('ctl%d:'%n, res)
+
+    def temp_dlg(self):
+        h=dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'TempDlg', 'x':200, 'y':200, 'w':300, 'h':200 })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'OK', 'x':100, 'y':50, 'w':100 })
+
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
