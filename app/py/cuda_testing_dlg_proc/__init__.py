@@ -9,6 +9,10 @@ class Command:
         print(id_event)
 
         if id_event=='on_change':
+            if id_ctl==1:
+                d = dlg_proc(h, DLG_CTL_PROP_GET, index=5)
+                dlg_proc(h, DLG_CTL_PROP_SET, index=5, prop={'vis': not d['vis']} )
+
             if id_ctl==4:
                 d = dlg_proc(h, DLG_CTL_PROP_GET, index=id_ctl)
                 dlg_proc(h, DLG_CTL_PROP_SET, index=id_ctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
@@ -36,7 +40,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'lab1', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'chk (active)', 'x':60, 'y':10, 'w':200, 'act':True })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'show panel (active)', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'val':'edit1', 'x':10, 'y':30, 'w':200} )
