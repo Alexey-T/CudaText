@@ -122,13 +122,14 @@ begin
   FCallback:= '';
 end;
 
-{ TDummyClass }
+{ TFormDummy }
 
 constructor TFormDummy.Create(TheOwner: TComponent);
 begin
   inherited CreateNew(TheOwner);
 
   BorderStyle:= bsDialog;
+  BorderIcons:= [biSystemMenu];
   KeyPreview:= true;
   Position:= poScreenCenter;
   ShowHint:= true;

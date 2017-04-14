@@ -4013,6 +4013,14 @@ begin
             Result:= PyInt_FromLong(Form.IdFromName(StrProp));
           end;
 
+        DLG_CTL_HANDLE:
+          begin
+            if (NIndex>=0) and (NIndex<Form.ControlCount) then
+              Result:= PyLong_FromLongLong(Int64(PtrInt(Form.Controls[NIndex])))
+            else
+              Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
