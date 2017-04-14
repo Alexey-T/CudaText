@@ -886,7 +886,7 @@ var
 { TfmMain }
 
 {$I formmain_py_toolbars.inc}
-{$I formmain_py.inc}
+{$I formmain_py_api.inc}
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 begin
