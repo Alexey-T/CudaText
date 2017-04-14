@@ -887,6 +887,7 @@ var
 
 {$I formmain_py_toolbars.inc}
 {$I formmain_py_api.inc}
+{$I formmain_py_helpers.inc}
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 begin
@@ -3483,31 +3484,6 @@ begin
 end;
 
 
-procedure TfmMain.DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
-var
-  i, N: integer;
-begin
-  //find index of plugin (get first empty index if not listed)
-  N:= -1;
-  for i:= Low(FPluginsEvents) to High(FPluginsEvents) do
-    with FPluginsEvents[i] do
-      if (ItemModule=AModuleName) or (ItemModule='') then
-        begin N:= i; Break end;
-  if N<0 then Exit;
-
-  //update record
-  with FPluginsEvents[N] do
-  begin
-    if ItemModule='' then
-      ItemModule:= AModuleName;
-    DoPyStringToEvents(AEventStr, ItemEvents, ItemEventsPrior);
-    ItemLexers:= ALexerStr;
-    ItemKeys:= AKeyStr;
-  end;
-end;
-
-
-
 procedure TfmMain.CharmapOnInsert(const AStr: string);
 var
   Ed: TATSynEdit;
@@ -3550,141 +3526,6 @@ function TfmMain.DoOnMacro(const Str: string): boolean;
 begin
   Result:= DoPyEvent(CurrentEditor, cEventOnMacro,
     [SStringToPythonString(Str)]) <> cPyFalse;
-end;
-
-procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: string='');
-var
-  Frame: TEditorFrame;
-  Ed: TATSynEdit;
-begin
-  if not PythonOK then exit;
-  PyLastCommandModule:= AModule;
-  PyLastCommandMethod:= AMethod;
-  PyLastCommandParam:= AParam;
-  PyEditorMaybeDeleted:= false;
-
-  Frame:= CurrentFrame;
-  if Frame=nil then exit;
-  Ed:= CurrentEditor;
-  if Ed=nil then exit;
-
-  if Frame.MacroRecord then
-    Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
-
-  Ed.Strings.BeginUndoGroup;
-  PyCommandRunning:= true;
-  try
-    Py_RunPlugin_Command(AModule, AMethod, AParam);
-  finally
-    PyCommandRunning:= false;
-    if not PyEditorMaybeDeleted then
-      Ed.Strings.EndUndoGroup;
-  end;
-end;
-
-
-procedure TfmMain.DoPyCallFromAPI(const AStr: string);
-const
-  cRegex_DotCommand = '([a-z]\w+)\.([a-z]\w*)';
-  cRegex_SignCommand = 'module=(.+);cmd=(.+);';
-  cRegex_SignFunc = 'module=(.+);func=(.+);';
-var
-  Parts: TRegexParts;
-  SModule, SFunc: string;
-begin
-  if SRegexFindParts(cRegex_DotCommand, AStr, Parts) or
-     SRegexFindParts(cRegex_SignCommand, AStr, Parts) then
-  begin
-    SModule:= Parts[1];
-    SFunc:= Parts[2];
-    Py_RunPlugin_Command(SModule, SFunc, '');
-    exit;
-  end;
-
-  if SRegexFindParts(cRegex_SignFunc, AStr, Parts) then
-  begin
-    SModule:= Parts[1];
-    SFunc:= Parts[2];
-    Py_RunModuleFunction(SModule, SFunc, []);
-    exit;
-  end;
-
-  fmConsole.DoLogConsoleLine(Format(msgBadApiCall, [AStr]));
-end;
-
-
-function TfmMain.DoPyPanelAdd(AParams: string): boolean;
-var
-  SCaption, SFilename: string;
-  Listbox: TATListbox;
-  Props: TAppPanelPropsClass;
-  NImageIndex: integer;
-begin
-  Result:= false;
-  SCaption:= SGetItem(AParams, ';');
-  SFilename:= SGetItem(AParams, ';');
-  NImageIndex:= DoSidebar_FilenameToImageIndex(SCaption, SFilename);
-
-  if SameText(SCaption, 'Console') or
-     SameText(SCaption, 'Output') or
-     SameText(SCaption, 'Validate') then exit;
-  if FAppBottomPanelsListbox.IndexOf(SCaption)>=0 then exit;
-
-  Listbox:= TATListbox.Create(Self);
-  Listbox.Hide;
-  Listbox.Parent:= PanelBottom;
-  Listbox.Align:= alClient;
-  Listbox.OnClick:= @ListboxOutClick;
-  Listbox.OnDrawItem:= @ListboxOutDrawItem;
-  Listbox.OnKeyDown:= @ListboxOutKeyDown;
-  Listbox.Color:= GetAppColor('ListBg');
-  Listbox.ItemHeight:= ListboxOut.ItemHeight;
-  Listbox.CanGetFocus:= true;
-
-  Props:= TAppPanelPropsClass.Create;
-  Props.Data.Listbox:= Listbox;
-
-  FAppBottomPanelsListbox.AddObject(SCaption, Props);
-  ToolbarBtm.AddButton(NImageIndex, @DoBottom_OnTabClick, SCaption, SCaption, '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.UpdateControls;
-  Result:= true;
-end;
-
-
-function TfmMain.DoPyPanelDelete(const ACaption: string): boolean;
-var
-  PropObject: TAppPanelPropsClass;
-  Btn: TATButton;
-  N: integer;
-begin
-  Result:= false;
-
-  N:= FAppBottomPanelsListbox.IndexOf(ACaption);
-  if N<0 then exit;
-  PropObject:= fmMain.FAppBottomPanelsListbox.Objects[N] as TAppPanelPropsClass;
-  PropObject.Data.Listbox.Free;
-  PropObject.Free;
-  FAppBottomPanelsListbox.Delete(N);
-
-  for N:= ToolbarBtm.ButtonCount-1 downto 0 do
-  begin
-    Btn:= ToolbarBtm.Buttons[N];
-    if SameText(Btn.Caption, ACaption) then
-    begin
-      Btn.Free;
-      ToolbarBtm.UpdateControls;
-      Break
-    end;
-  end;
-
-  Result:= true;
-end;
-
-
-function TfmMain.DoPyPanelFocus(const ACaption: string): boolean;
-begin
-  Result:= true;
-  DoShowBottomPanel(ACaption);
 end;
 
 
@@ -3968,21 +3809,6 @@ end;
 procedure TfmMain.DoCommandsMsgStatus(Sender: TObject; const ARes: string);
 begin
   MsgStatus(ARes);
-end;
-
-procedure TfmMain.DoPyTimerTick(Sender: TObject);
-var
-  Timer: TTimer;
-  N: integer;
-begin
-  Timer:= Sender as TTimer;
-  N:= FListTimers.IndexOfObject(Timer);
-  if N<0 then exit;
-
-  if Timer.Tag=1 then
-    Timer.Enabled:= false;
-
-  DoPyCallFromAPI(FListTimers[N]);
 end;
 
 
