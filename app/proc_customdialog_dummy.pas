@@ -32,6 +32,7 @@ type
     FTypeString: string;
     FActive: boolean;
     FTagString: string;
+    FCallback: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -69,6 +70,7 @@ begin
   FActive:= false;
   FTypeString:= ATypeString;
   FTagString:= '';
+  FCallback:= '';
 end;
 
 { TDummyClass }
