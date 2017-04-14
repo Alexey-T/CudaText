@@ -774,15 +774,21 @@ begin
     exit;
   end;
 
+  if AName='cap' then
+  begin
+    C.Caption:= AValue;
+    exit;
+  end;
+
   if AName='en' then
   begin
     C.Enabled:= StrToBool(AValue);
     exit;
   end;
 
-  if AName='cap' then
+  if AName='vis' then
   begin
-    C.Caption:= AValue;
+    C.Visible:= StrToBool(AValue);
     exit;
   end;
 
@@ -1140,7 +1146,7 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssssssisisisisssO}',
+    Result:= Py_BuildValue('{sssssssssisisisisssOsOsO}',
       'name', PChar(C.Name),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
@@ -1150,7 +1156,9 @@ begin
       PChar(string('w')), C.Width,
       PChar(string('h')), C.Height,
       'val', PChar(DoControl_GetState(C)),
-      'act', PyBool_FromLong(Ord(C.Tag=Dummy_TagActive))
+      'act', PyBool_FromLong(Ord(C.Tag=Dummy_TagActive)),
+      'en', PyBool_FromLong(Ord(C.Enabled)),
+      'vis', PyBool_FromLong(Ord(C.Visible))
       );
   end;
 end;
