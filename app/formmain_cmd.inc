@@ -356,7 +356,7 @@ begin
 
     cmdFirstPluginCommand..
     cmdLastPluginCommand:
-      Py_RunPlugin_Index(Cmd-cmdFirstPluginCommand);
+      DoPyCommand_ByPluginIndex(Cmd-cmdFirstPluginCommand);
   end;
 
   UpdateStatus;

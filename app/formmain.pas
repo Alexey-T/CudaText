@@ -780,7 +780,7 @@ type
       out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject;
       const ASnippetId: string; ASnippetIndex: integer);
-    procedure Py_RunPlugin_Index(Num: integer);
+    procedure DoPyCommand_ByPluginIndex(AIndex: integer);
     procedure SetFrameEncoding(Frame: TEditorFrame; const AEnc: string;
       AAlsoReloadFile: boolean);
     procedure SetLexerIndex(N: integer);
@@ -887,7 +887,10 @@ var
 
 {$I formmain_py_toolbars.inc}
 {$I formmain_py_api.inc}
+{$I formmain_py_panels.inc}
 {$I formmain_py_helpers.inc}
+{$I formmain_py_pluginwork.inc}
+
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 begin
@@ -3811,6 +3814,11 @@ begin
   MsgStatus(ARes);
 end;
 
+function TfmMain.IsLexerMatches(const ANameList: string): boolean;
+begin
+  Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
@@ -3820,7 +3828,6 @@ end;
 {$I formmain_tab_proc.inc}
 {$I formmain_find.inc}
 {$I formmain_cmd.inc}
-{$I formmain_plugins.inc}
 {$I formmain_themes.inc}
 {$I formmain_sidepanel.inc}
 {$I formmain_bottompanel.inc}

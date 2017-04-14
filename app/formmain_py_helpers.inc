@@ -32,6 +32,24 @@ begin
 end;
 
 
+procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer);
+begin
+  if not ((AIndex>=Low(FPluginsCmd)) and (AIndex<=High(FPluginsCmd))) then exit;
+
+  if not IsLexerMatches(FPluginsCmd[AIndex].ItemLexers) then
+  begin
+    MsgStatus(msgStatusCommandOnlyForLexers+' '+FPluginsCmd[AIndex].ItemLexers);
+    Exit
+  end;
+
+  DoPyCommand(
+    FPluginsCmd[AIndex].ItemModule,
+    FPluginsCmd[AIndex].ItemProc,
+    FPluginsCmd[AIndex].ItemProcParam
+    );
+end;
+
+
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: array of string): string;
 const

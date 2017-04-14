@@ -1,10 +1,3 @@
-(*
-This Source Code Form is subject to the terms of the Mozilla Public
-License, v. 2.0. If a copy of the MPL was not distributed with this
-file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
-Copyright (c) Alexey Torgashin
-*)
 {$ifdef nn}begin end;{$endif}
 
 procedure TfmMain.DoPyStringToEvents(const AEventStr: string;
@@ -252,61 +245,9 @@ begin
 end;
 
 
-function TfmMain.IsLexerMatches(const ANameList: string): boolean;
-begin
-  Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
-end;
-
 procedure TfmMain.MenuPluginClick(Sender: TObject);
 begin
-  Py_RunPlugin_Index((Sender as TComponent).Tag);
+  DoPyCommand_ByPluginIndex((Sender as TComponent).Tag);
 end;
 
-procedure TfmMain.Py_RunPlugin_Index(Num: integer);
-begin
-  if not ((Num>=Low(FPluginsCmd)) and (Num<=High(FPluginsCmd))) then exit;
-
-  if not IsLexerMatches(FPluginsCmd[Num].ItemLexers) then
-  begin
-    MsgStatus(msgStatusCommandOnlyForLexers+' '+FPluginsCmd[Num].ItemLexers);
-    Exit
-  end;
-
-  DoPyCommand(
-    FPluginsCmd[Num].ItemModule,
-    FPluginsCmd[Num].ItemProc,
-    FPluginsCmd[Num].ItemProcParam
-    );
-end;
-
-
-procedure TfmMain.DoPanel_Event(AControl: TObject; const AEvent: string);
-begin
-  DoPyEvent(CurrentEditor, cEventOnPanel,
-    [
-      IntToStr(PtrInt(AControl)),
-      '"'+AEvent+'"'
-    ]);
-end;
-
-procedure TfmMain.DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint;
-  var Handled: Boolean);
-begin
-  DoPanel_Event(Sender, 'on_menu');
-end;
-
-procedure TfmMain.DoPanel_OnClick(Sender: TObject);
-begin
-  DoPanel_Event(Sender, 'on_click');
-end;
-
-procedure TfmMain.DoPanel_OnDblClick(Sender: TObject);
-begin
-  DoPanel_Event(Sender, 'on_dbl_click');
-end;
-
-procedure TfmMain.DoPanel_OnSelChanged(Sender: TObject);
-begin
-  DoPanel_Event(Sender, 'on_sel');
-end;
 
