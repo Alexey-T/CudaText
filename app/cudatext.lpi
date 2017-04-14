@@ -513,7 +513,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="10">
+    <Exceptions Count="12">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -544,6 +544,12 @@
       <Item10>
         <Name Value="EPyTypeError"/>
       </Item10>
+      <Item11>
+        <Name Value="EPyAttributeError"/>
+      </Item11>
+      <Item12>
+        <Name Value="ERegExpr"/>
+      </Item12>
     </Exceptions>
   </Debugging>
 </CONFIG>

@@ -3737,6 +3737,7 @@ end;
 function Py_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
   cMinTime = 150;
+  cAllowedNames = '[a-z]\w+(\.c)?\.[a-z]\w*';
 var
   NId, NValue, N: integer;
   PtrName: PChar;
@@ -3748,7 +3749,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'isi:timer_proc', @NId, @PtrName, @NValue)) then
     begin
       StrName:= string(PtrName);
-      if not SRegexMatchesString(StrName, '[a-z]\w+\.[a-z]\w*', false) then
+      if not SRegexMatchesString(StrName, cAllowedNames, false) then
         Exit(PyBool_FromLong(0));
 
       case NId of

@@ -863,6 +863,7 @@ type
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
+    procedure DoPyCallFromAPI(AStr: string);
   end;
 
 var
@@ -3581,6 +3582,23 @@ begin
 end;
 
 
+procedure TfmMain.DoPyCallFromAPI(AStr: string);
+// 'module.method' or
+// 'module.c.method' for Command class
+var
+  SItem1, SItem2, SItem3: string;
+begin
+  SItem1:= SGetItem(AStr, '.');
+  SItem2:= SGetItem(AStr, '.');
+  SItem3:= SGetItem(AStr, '.');
+
+  if SItem2='c' then
+    Py_RunPlugin_Command(SItem1, SItem3, '')
+  else
+    Py_RunModuleFunction(SItem1, SItem2, []);
+end;
+
+
 function TfmMain.DoPyPanelAdd(AParams: string): boolean;
 var
   SCaption, SFilename: string;
@@ -3942,7 +3960,6 @@ procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
   Timer: TTimer;
   N: integer;
-  SName, SName1, SName2: string;
 begin
   Timer:= Sender as TTimer;
   N:= FListTimers.IndexOfObject(Timer);
@@ -3951,11 +3968,9 @@ begin
   if Timer.Tag=1 then
     Timer.Enabled:= false;
 
-  SName:= FListTimers[N];
-  SName1:= SGetItem(SName, '.');
-  SName2:= SName;
-  DoPyCommand(SName1, SName2);
+  DoPyCallFromAPI(FListTimers[N]);
 end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}
