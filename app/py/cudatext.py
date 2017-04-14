@@ -558,16 +558,10 @@ def to_str(v):
 
     if isinstance(v, dict):
         #put 'val' to end
-        keys = list(v.keys())
-        try:
-            n = keys.index('val')
-            keys.append(keys.pop(n))
-        except:
-            pass
-
-        res = ''
-        for k in keys:
-            res = res + to_str(k) + ':' + to_str(v[k]) + ';'
+        res = ';'.join(
+                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k!='val'] +
+                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
+                )+';'
         return '{'+res+'}'
 
     if isinstance(v, bool):
