@@ -8,11 +8,11 @@ class Command:
         print(id_event)
         if id_dlg!=h: return
 
-        n_chk = dlg_proc(h, DLG_CTL_FIND_NAME, 'chk1')
-        n_edit = dlg_proc(h, DLG_CTL_FIND_NAME, 'edit1')
-        n_btn1 = dlg_proc(h, DLG_CTL_FIND_NAME, 'btn1')
-        n_btn_dlg = dlg_proc(h, DLG_CTL_FIND_NAME, 'btn_dlg')
-        n_color = dlg_proc(h, DLG_CTL_FIND_NAME, 'color')
+        n_chk = dlg_proc(h, DLG_CTL_FIND_NAME, prop='chk1')
+        n_edit = dlg_proc(h, DLG_CTL_FIND_NAME, prop='edit1')
+        n_btn1 = dlg_proc(h, DLG_CTL_FIND_NAME, prop='btn1')
+        n_btn_dlg = dlg_proc(h, DLG_CTL_FIND_NAME, prop='btn_dlg')
+        n_color = dlg_proc(h, DLG_CTL_FIND_NAME, prop='color')
 
         if id_event=='on_change':
             if id_ctl==n_chk:
@@ -32,9 +32,10 @@ class Command:
             d = dlg_proc(h, DLG_PROP_GET)
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
 
+
     def do_move_callback(self):
         global h
-        n_btn2 = dlg_proc(h, DLG_CTL_FIND_NAME, 'btn2')
+        n_btn2 = dlg_proc(h, DLG_CTL_FIND_NAME, prop='btn2')
         d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_btn2)
         dlg_proc(h, DLG_CTL_PROP_SET, index=n_btn2, prop={'x': d['x']+10, 'y': d['y']+8 } )
         print('button via callback')
