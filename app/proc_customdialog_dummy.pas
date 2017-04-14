@@ -32,7 +32,7 @@ type
     FTypeString: string;
     FActive: boolean;
     FTagString: string;
-    constructor Create(const ATypeName: string);
+    constructor Create(const ATypeString: string);
   end;
 
 
@@ -58,20 +58,16 @@ type
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
   end;
 
-const
-  Dummy_ResultStart = 100;
-  Dummy_TagActive = -1;
-
 
 implementation
 
 { TAppControlProps }
 
-constructor TAppControlProps.Create(const ATypeName: string);
+constructor TAppControlProps.Create(const ATypeString: string);
 begin
   inherited Create;
-  FTypeString:= ATypeName;
   FActive:= false;
+  FTypeString:= ATypeString;
   FTagString:= '';
 end;
 
@@ -193,7 +189,7 @@ begin
         IdClicked:= i;
 
         if IsDlgCustom then
-          ModalResult:= Dummy_ResultStart+i
+          ModalResult:= mrOk
         else
         CustomDialog_DoPyEvent(nil, cEventOnDlg,
           [

@@ -20,8 +20,12 @@ uses
   proc_customdialog_dummy,
   PythonEngine;
 
-procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
-  const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
+procedure DoDialogCustom(const ATitle: string;
+  ASizeX, ASizeY: integer;
+  const AText: string;
+  const AFocusedIndex: integer;
+  out AResultIndex: integer;
+  out AResultText: string);
 
 function IsDialogCustomShown: boolean;
 function DoControl_GetAutoHeight(const Id: string): integer;
@@ -1019,14 +1023,17 @@ begin
 end;
 
 
-procedure DoDialogCustom(const ATitle: string; ASizeX, ASizeY: integer;
-  const AText: string; AFocusedIndex: integer; out AButtonIndex: integer; out AStateText: string);
+procedure DoDialogCustom(const ATitle: string;
+  ASizeX, ASizeY: integer;
+  const AText: string;
+  const AFocusedIndex: integer;
+  out AResultIndex: integer;
+  out AResultText: string);
 var
   F: TFormDummy;
-  Res: integer;
 begin
-  AButtonIndex:= -1;
-  AStateText:= '';
+  AResultIndex:= -1;
+  AResultText:= '';
 
   F:= TFormDummy.Create(nil);
   try
@@ -1039,12 +1046,10 @@ begin
     DoForm_SetupFilters(F);
 
     FDialogShown:= true;
-    Res:= F.ShowModal;
-
-    if Res>=Dummy_ResultStart then
+    if F.ShowModal=mrOk then
     begin
-      AButtonIndex:= Res-Dummy_ResultStart;
-      AStateText:= DoForm_GetResult(F);
+      AResultIndex:= F.IdClicked;
+      AResultText:= DoForm_GetResult(F);
     end;
   finally
     FreeAndNil(F);
