@@ -195,7 +195,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="54">
+    <Units Count="53">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -470,13 +470,9 @@
         <IsPartOfProject Value="True"/>
       </Unit51>
       <Unit52>
-        <Filename Value="formmain_py_panels.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit52>
-      <Unit53>
         <Filename Value="formmain_py_pluginwork.inc"/>
         <IsPartOfProject Value="True"/>
-      </Unit53>
+      </Unit52>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
