@@ -14,6 +14,8 @@ interface
 uses
   Classes, SysUtils, Controls, StdCtrls, Forms,
   ComCtrls, LclType,
+  ListFilterEdit,
+  ListViewFilterEdit,
   ATSynEdit,
   proc_globdata;
 
@@ -65,6 +67,50 @@ type
 
 implementation
 
+procedure DoForm_SetupFilters(F: TForm);
+const
+  cPrefix = 'f_';
+var
+  SName: string;
+  C, C2: TControl;
+  CFilterListbox: TListFilterEdit;
+  CFilterListview: TListViewFilterEdit;
+  i: integer;
+begin
+  for i:= 0 to F.ControlCount-1 do
+  begin
+    C:= F.Controls[i];
+    if C is TListFilterEdit then
+    begin
+      SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
+      C2:= F.FindChildControl(SName);
+      if not (C2 is TListbox) then Continue;
+
+      CFilterListbox:= C as TListFilterEdit;
+      CFilterListbox.FilteredListbox:= C2 as TListbox;
+
+      SName:= CFilterListbox.Text;
+      CFilterListbox.Text:= '';
+      CFilterListbox.Text:= SName;
+    end
+    else
+    if C is TListViewFilterEdit then
+    begin
+      SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
+      C2:= F.FindChildControl(SName);
+      if not (C2 is TListView) then Continue;
+
+      CFilterListview:= C as TListViewFilterEdit;
+      CFilterListview.FilteredListview:= C2 as TListView;
+
+      SName:= CFilterListview.Text;
+      CFilterListview.Text:= '';
+      CFilterListview.Text:= SName;
+    end;
+  end;
+end;
+
+
 { TAppControlProps }
 
 constructor TAppControlProps.Create(const ATypeString: string);
@@ -103,6 +149,8 @@ var
   i: integer;
 begin
   FormShown:= true;
+  DoForm_SetupFilters(Self);
+
   for i:= 0 to ControlCount-1 do
   begin
     C:= Controls[i];
