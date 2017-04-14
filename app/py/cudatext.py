@@ -452,6 +452,7 @@ DLG_CTL_PROP_SET   = 23
 DLG_CTL_DELETE     = 24
 DLG_CTL_DELETE_ALL = 25
 DLG_CTL_FOCUS      = 30
+DLG_CTL_FIND_NAME  = 31
 
 
 def app_exe_version():

@@ -37,6 +37,7 @@ type
     IsDlgCustom: boolean;
     IdClicked: integer;
     function IdFocused: integer;
+    function IdFromName(const AName: string): integer;
     constructor Create(TheOwner: TComponent); override;
     procedure DoOnResize; override;
     procedure DoOnChange(Sender: TObject);
@@ -136,6 +137,16 @@ begin
   Result:= -1;
   for i:= 0 to ControlCount-1 do
     if Controls[i]=ActiveControl then
+      exit(i);
+end;
+
+function TFormDummy.IdFromName(const AName: string): integer;
+var
+  i: integer;
+begin
+  Result:= -1;
+  for i:= 0 to ControlCount-1 do
+    if Controls[i].Name=AName then
       exit(i);
 end;
 

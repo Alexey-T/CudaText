@@ -4010,6 +4010,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        DLG_CTL_FIND_NAME:
+          begin
+            Result:= PyInt_FromLong(Form.IdFromName(StrProp));
+          end;
+
         else
           Result:= ReturnNone;
       end;
