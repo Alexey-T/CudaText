@@ -5,8 +5,8 @@ h=0
 class Command:
     def on_dlg(self, ed_self, id_dlg, id_ctl, id_event):
         global h
-        if id_dlg!=h: return
         print(id_event)
+        if id_dlg!=h: return
 
         n_chk = dlg_proc(h, DLG_CTL_FIND_NAME, 'chk1')
         n_edit = dlg_proc(h, DLG_CTL_FIND_NAME, 'edit1')
@@ -97,3 +97,7 @@ class Command:
 
         dlg_proc(h, DLG_SHOW_MODAL)
         dlg_proc(h, DLG_FREE)
+
+
+    def run_dlgcustom(self):
+        dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')

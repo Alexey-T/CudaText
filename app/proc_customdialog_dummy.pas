@@ -120,6 +120,12 @@ end;
 
 procedure TFormDummy.DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  if IsDlgCustom then
+  begin
+    CloseAction:= caFree;
+    exit
+  end;
+
   IdClicked:= -1;
   CloseAction:= caHide;
   CustomDialog_DoPyEvent(nil, cEventOnDlg,

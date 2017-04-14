@@ -18,3 +18,8 @@ method=modal
 section=commands
 caption=dlg_proc\nonmodal
 method=nonmodal
+
+[item20]
+section=commands
+caption=dlg_proc\test dlg_custom
+method=run_dlgcustom
