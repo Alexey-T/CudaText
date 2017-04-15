@@ -3756,43 +3756,56 @@ end;
 
 function Py_timer_proc(Self, Args: PPyObject): PPyObject; cdecl;
 const
-  cMinTime = 150;
+  cMinInterval = 150;
 var
-  NId, NValue, N: integer;
-  PtrName: PChar;
-  StrName: string;
+  NIdAction, NInterval, N: integer;
+  PtrCallback, PtrTag: PChar;
+  StrCallback, StrTag: string;
   Timer: TTimer;
+  SAll, SItem: string;
 begin
   with GetPythonEngine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'isi:timer_proc', @NId, @PtrName, @NValue)) then
+    if Bool(PyArg_ParseTuple(Args, 'isis:timer_proc',
+            @NIdAction, @PtrCallback, @NInterval, @PtrTag)) then
     begin
-      StrName:= string(PtrName);
+      StrCallback:= string(PtrCallback);
+      StrTag:= string(PtrTag);
 
-      case NId of
+      //find timer by StrCallback
+      Timer:= nil;
+      for N:= 0 to fmMain.FListTimers.Count-1 do
+      begin
+        SAll:= fmMain.FListTimers[N];
+        SItem:= SGetItem(SAll, '|');
+        if SItem=StrCallback then
+        begin
+          Timer:= TTimer(fmMain.FListTimers.Objects[N]);
+          Break
+        end;
+      end;
+
+      case NIdAction of
         TIMER_START,
         TIMER_START_ONE:
           begin
-            if NValue<cMinTime then
+            if NInterval<cMinInterval then
               Exit(PyBool_FromLong(0));
 
-            N:= fmMain.FListTimers.IndexOf(StrName);
-            if N>=0 then
-              Timer:= TTimer(fmMain.FListTimers.Objects[N])
-            else
+            if Timer=nil then
             begin
               Timer:= TTimer.Create(fmMain);
               Timer.OnTimer:= @fmMain.DoPyTimerTick;
-              fmMain.FListTimers.AddObject(StrName, Timer);
+              fmMain.FListTimers.AddObject(StrCallback+'|'+StrTag, Timer);
             end;
 
-            if NId=TIMER_START_ONE then
+            if NIdAction=TIMER_START_ONE then
               Timer.Tag:= 1
             else
               Timer.Tag:= 0;
 
             Timer.Enabled:= false;
-            Timer.Interval:= NValue;
+            Timer.Interval:= NInterval;
             Timer.Enabled:= true;
             Exit(PyBool_FromLong(1));
           end;
@@ -3800,16 +3813,16 @@ begin
         TIMER_STOP,
         TIMER_DELETE:
           begin
-            N:= fmMain.FListTimers.IndexOf(StrName);
-            if N<0 then
+            if Timer=nil then
               Exit(PyBool_FromLong(0));
-            Timer:= TTimer(fmMain.FListTimers.Objects[N]);
             Timer.Enabled:= false;
 
-            if NId=TIMER_DELETE then
+            if NIdAction=TIMER_DELETE then
             begin
               Timer.Free;
-              fmMain.FListTimers.Delete(N);
+              N:= fmMain.FListTimers.IndexOfObject(Timer);
+              if N>=0 then
+                fmMain.FListTimers.Delete(N);
             end;
 
             Exit(PyBool_FromLong(1));

@@ -117,33 +117,45 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCallFromAPI(const AStr: string);
+procedure TfmMain.DoPyCallFromAPI(ACallback, AParam: string);
 const
   cRegex_DotCommand = '([a-z]\w+)\.([a-z]\w*)';
   cRegex_SignCommand = 'module=(.+);cmd=(.+);';
   cRegex_SignFunc = 'module=(.+);func=(.+);';
 var
   Parts: TRegexParts;
+  CallParams: array of string;
   SModule, SFunc: string;
 begin
-  if SRegexFindParts(cRegex_DotCommand, AStr, Parts) or
-     SRegexFindParts(cRegex_SignCommand, AStr, Parts) then
+  if AParam<>'' then
+    AParam:= SStringToPythonString(AParam);
+
+  if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) or
+     SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-    Py_RunPlugin_Command(SModule, SFunc, '');
+    Py_RunPlugin_Command(SModule, SFunc, AParam);
     exit;
   end;
 
-  if SRegexFindParts(cRegex_SignFunc, AStr, Parts) then
+  if SRegexFindParts(cRegex_SignFunc, ACallback, Parts) then
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-    Py_RunModuleFunction(SModule, SFunc, []);
+
+    SetLength(CallParams, 0);
+    if AParam<>'' then
+    begin
+      SetLength(CallParams, 1);
+      CallParams[0]:= AParam;
+    end;
+
+    Py_RunModuleFunction(SModule, SFunc, CallParams);
     exit;
   end;
 
-  fmConsole.DoLogConsoleLine(Format(msgBadApiCall, [AStr]));
+  fmConsole.DoLogConsoleLine(Format(msgBadApiCall, [ACallback]));
 end;
 
 
@@ -318,16 +330,22 @@ end;
 procedure TfmMain.DoPyTimerTick(Sender: TObject);
 var
   Timer: TTimer;
+  SAll, SCallback, STag: string;
   N: integer;
 begin
   Timer:= Sender as TTimer;
   N:= FListTimers.IndexOfObject(Timer);
   if N<0 then exit;
 
+  //if timer_start_one
   if Timer.Tag=1 then
     Timer.Enabled:= false;
 
-  DoPyCallFromAPI(FListTimers[N]);
+  SAll:= FListTimers[N];
+  SCallback:= SGetItem(SAll, '|');
+  STag:= SAll;
+
+  DoPyCallFromAPI(SCallback, STag);
 end;
 
 

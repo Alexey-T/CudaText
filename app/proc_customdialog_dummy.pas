@@ -22,7 +22,7 @@ uses
 type
   TAppPyEventCallback = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
       const AParams: array of string): string of object;
-  TAppPyCallCallback = procedure(const AStr: string) of object;
+  TAppPyCallCallback = procedure(ACallback, AParam: string) of object;
 
 var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
@@ -246,7 +246,7 @@ begin
   end;
 
   if Props.FCallback<>'' then
-    CustomDialog_DoPyCall(Props.FCallback)
+    CustomDialog_DoPyCall(Props.FCallback, '')
   else
     DoEvent(IdClicked, '"on_change"');
 end;

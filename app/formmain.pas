@@ -863,7 +863,7 @@ type
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
-    procedure DoPyCallFromAPI(const AStr: string);
+    procedure DoPyCallFromAPI(ACallback, AParam: string);
   end;
 
 var

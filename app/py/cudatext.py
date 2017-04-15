@@ -554,8 +554,8 @@ def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
 
-def timer_proc(id, name, value):
-    return ct.timer_proc(id, name, value)
+def timer_proc(id, callback, interval, tag=''):
+    return ct.timer_proc(id, callback, interval, tag)
 
 
 def to_str(v):
