@@ -379,6 +379,8 @@ const
   DLG_CTL_FOCUS      = 30;
   DLG_CTL_FIND_NAME  = 31;
   DLG_CTL_HANDLE     = 32;
+  DLG_COORD_LOCAL_TO_SCREEN = 40;
+  DLG_COORD_SCREEN_TO_LOCAL = 41;
 
 
 implementation

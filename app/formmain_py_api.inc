@@ -3916,6 +3916,7 @@ var
   StrProp: string;
   NAction, NIndex, NIndex2: integer;
   Ctl: TControl;
+  Pnt: TPoint;
 begin
   with GetPythonEngine do
   begin
@@ -4039,6 +4040,20 @@ begin
               Result:= PyLong_FromLongLong(Int64(PtrInt(Form.Controls[NIndex])))
             else
               Result:= ReturnNone;
+          end;
+
+        DLG_COORD_LOCAL_TO_SCREEN:
+          begin
+            Pnt:= Point(NIndex, NIndex2);
+            Pnt:= Form.ClientToScreen(Pnt);
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        DLG_COORD_SCREEN_TO_LOCAL:
+          begin
+            Pnt:= Point(NIndex, NIndex2);
+            Pnt:= Form.ScreenToClient(Pnt);
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
         else

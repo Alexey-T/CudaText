@@ -112,11 +112,11 @@ class Command:
     def do_menu(self):
         global h
         nctl = dlg_proc(h, DLG_CTL_FIND_NAME, prop='btn_menu')
-        d0 = dlg_proc(h, DLG_PROP_GET)
         d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
 
-        nx = d['x'] + d0['x']
-        ny = d['y'] + d['h'] + d0['y']
+        nx = d['x']
+        ny = d['y']+d['h']
+        nx, ny = dlg_proc(h, DLG_COORD_LOCAL_TO_SCREEN, index=nx, index2=ny)
 
         h_menu = menu_proc(0, MENU_CREATE)
         menu_proc(h_menu, MENU_ADD, command=2700, caption='About1')
