@@ -127,8 +127,13 @@ var
   CallParams: array of string;
   SModule, SFunc: string;
 begin
+  SetLength(CallParams, 0);
   if AParam<>'' then
+  begin
     AParam:= SStringToPythonString(AParam);
+    SetLength(CallParams, 1);
+    CallParams[0]:= AParam;
+  end;
 
   if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) or
      SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
@@ -143,14 +148,6 @@ begin
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-
-    SetLength(CallParams, 0);
-    if AParam<>'' then
-    begin
-      SetLength(CallParams, 1);
-      CallParams[0]:= AParam;
-    end;
-
     Py_RunModuleFunction(SModule, SFunc, CallParams);
     exit;
   end;
