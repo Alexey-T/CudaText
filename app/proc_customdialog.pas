@@ -784,14 +784,6 @@ begin
     exit;
   end;
 
-  if AName='font' then
-  begin
-    C.Font.Name:= SGetItem(AValue);
-    C.Font.Size:= StrToIntDef(SGetItem(AValue), C.Font.Size);
-    C.Font.Color:= StrToIntDef(SGetItem(AValue), C.Font.Color);
-    exit;
-  end;
-
   if AName='cap' then
   begin
     C.Caption:= AValue;
@@ -876,6 +868,30 @@ begin
   if AName='callback' then
   begin
     TAppControlProps(C.Tag).FCallback:= AValue;
+    exit;
+  end;
+
+  if AName='color' then
+  begin
+    C.Color:= StrToIntDef(AValue, C.Color);
+    exit;
+  end;
+
+  if AName='font_name' then
+  begin
+    C.Font.Name:= AValue;
+    exit;
+  end;
+
+  if AName='font_size' then
+  begin
+    C.Font.Size:= StrToIntDef(AValue, C.Font.Size);
+    exit;
+  end;
+
+  if AName='font_color' then
+  begin
+    C.Font.Color:= StrToIntDef(AValue, C.Font.Color);
     exit;
   end;
 end;
