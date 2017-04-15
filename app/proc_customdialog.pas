@@ -1074,13 +1074,27 @@ begin
   if AName='h' then
     F.ClientHeight:= StrToIntDef(AValue, F.ClientHeight)
   else
+  if AName='w_min' then
+    F.Constraints.MinWidth:= StrToIntDef(AValue, 0)
+  else
+  if AName='w_max' then
+    F.Constraints.MaxWidth:= StrToIntDef(AValue, 1000)
+  else
+  if AName='h_min' then
+    F.Constraints.MinHeight:= StrToIntDef(AValue, 0)
+  else
+  if AName='h_max' then
+    F.Constraints.MaxHeight:= StrToIntDef(AValue, 1000)
+  else
   if AName='resize' then
   begin
     if StrToBool(AValue) then
       F.BorderStyle:= bsSizeable
     else
       F.BorderStyle:= bsDialog;
-  end;
+  end
+  else
+  ;
 end;
 
 
