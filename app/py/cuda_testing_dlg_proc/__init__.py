@@ -33,14 +33,6 @@ class Command:
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
 
 
-    def do_move_callback(self):
-        global h
-        n_btn2 = dlg_proc(h, DLG_CTL_FIND_NAME, prop='btn2')
-        d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_btn2)
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n_btn2, prop={'x': d['x']+10, 'y': d['y']+8 } )
-        print('button via callback')
-
-
     def init_dlg(self):
         global h
         h=dlg_proc(0, DLG_CREATE)
@@ -66,6 +58,9 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100} )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'callback': 'cuda_testing_dlg_proc.do_menu'} )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
 
@@ -104,3 +99,27 @@ class Command:
 
     def run_dlgcustom(self):
         dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
+
+
+    def do_move_callback(self):
+        global h
+        nctl = dlg_proc(h, DLG_CTL_FIND_NAME, prop='btn2')
+        d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
+        dlg_proc(h, DLG_CTL_PROP_SET, index=nctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
+        print('button via callback')
+
+
+    def do_menu(self):
+        global h
+        nctl = dlg_proc(h, DLG_CTL_FIND_NAME, prop='btn_menu')
+        d0 = dlg_proc(h, DLG_PROP_GET)
+        d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
+
+        nx = d['x'] + d0['x']
+        ny = d['y'] + d['h'] + d0['y']
+
+        h_menu = menu_proc(0, MENU_CREATE)
+        menu_proc(h_menu, MENU_ADD, command=2700, caption='About1')
+        menu_proc(h_menu, MENU_ADD, command=2700, caption='About2')
+        menu_proc(h_menu, MENU_ADD, command=2700, caption='About3')
+        menu_proc(h_menu, MENU_SHOW, command='%d,%d'%(nx, ny))
