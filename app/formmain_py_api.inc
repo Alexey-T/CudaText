@@ -2957,6 +2957,8 @@ var
   PtrMenu, PtrCaption, PtrCmd: PChar;
   StrMenu, StrCaption, StrCmd, StrResult: string;
   NAction, NIndex: integer;
+  Popup: TPopupMenu;
+  NX, NY: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'sissi:menu_proc', @PtrMenu, @NAction, @PtrCmd, @PtrCaption, @NIndex)) then
@@ -2981,6 +2983,23 @@ begin
           begin
             StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, NIndex);
             Result:= PyString_FromString(PChar(StrResult));
+          end;
+
+        MENU_CREATE:
+          begin
+            Popup:= TPopupMenu.Create(fmMain);
+            StrResult:= IntToStr(PtrInt(Popup.Items));
+            Result:= PyString_FromString(PChar(StrResult));
+          end;
+
+        MENU_SHOW:
+          begin
+            NX:= StrToIntDef(SGetItem(StrCmd), 0);
+            NY:= StrToIntDef(SGetItem(StrCmd), 0);
+            Popup:= TPopupMenu(TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0))).Owner);
+            if Popup<>nil then
+              Popup.PopUp(NX, NY);
+            Result:= ReturnNone;
           end;
 
         else
