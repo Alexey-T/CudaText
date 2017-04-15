@@ -50,6 +50,16 @@ To make plugin react to events, add method to class Command (like methods of com
 ** "on_sel"
 ** "on_menu"
 
+==Dialogs==
+
+* on_dlg(self, ed_self, id_dlg, id_ctl, id_event): Called when user works in dialog from dlg_proc(). Params:
+** id_dlg: int handle of dialog. Plugin must ignore event, if handle is not from this plugin.
+** id_ctl: int index of control in dialog.
+** id_event: name of sub-event, can be:
+*** "on_change": Called on button clicks, and on change of "active" controls.
+*** "on_resize": Called when dialog is resized.
+*** "on_close": Called after closing dialog.
+
 ==Macros==
 
 * on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
@@ -507,9 +517,9 @@ Param lexer is optional lexer name. If not empty, dialog enables checkbox "For c
 
 Shows dialog with controls of many types.
 
-==== Possible types ====
+====Types====
 
-Control types allowed:
+Possible types of controls:
 
 * "label": simple text shown in rectangle
 * "check": checkbox, checked/unchecked/grayed
@@ -535,19 +545,30 @@ Control types allowed:
 * "filter_listbox": input, which filters content of another "listbox" control
 * "filter_listview": input, which filter content of another "listview" control
 
+Notes:
+
+* Control property "name" is required for filter_ controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. "name=mylistbox" with "name=f_mylistbox").
+
 ==== Properties ====
 
 Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props. Each prop is s_name+"="+s_value. Possible names and their values:
 
-* "type": type of control, values are listed above.
-* "pos": position, ","-separated values: left, top, right, bottom (e.g. "10,10,200,30"); some one-line controls ignore bottom-value and do autosize
-* "cap": caption of control (not for all)
-* "hint": tooltip/hint string, it can be multiline, "\r"-separated
-* "font": ","-separated values: font name, font size, font color (RGB)
-* "name": some unique word-like name of control.
-** Required for "filter_*" controls: you must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. "name=mylistbox" with "name=f_mylistbox").
-* "en": enabled-state, bool
-* "act": active-state, bool, for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
+* "type": type of control; must be specified first
+* "cap": caption
+* "x", "y": position, left/top
+* "w", "h": size, width/height
+* "pos": position, str in the form "left,top,right,bottom"; some one-line controls ignore bottom and do auto size
+* "en": enabled state, bool
+* "vis": visible state, bool
+* "hint": hint string for mouse-over; can be multiline, "\r"-separated
+* "color": background color
+* "font_name": font name
+* "font_size": font size
+* "font_color": font color
+* "name": optional word-like name of control
+* "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
+* "props": advanced control-specific properties. Described below.
+* "val": value of control. Described below.
 
 * "items": 
 ** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox, tabs: "\t"-separated lines
@@ -557,37 +578,55 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 *** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
 ** for image: full path of picture file (png/gif/jpg/bmp)
 
-* "props": control-specific properties:
-** for button: bool_default_for_enter (bool value "0"/"1")
-** for edit, memo: bool_read_only+","+bool_font_monospaced+","+bool_show_border
-** for spinedit: int_min_value+","+int_max_value+","+int_increment
-** for linklabel: URL ("http:" or "mailto:", other kinds possible too, but may not run)
-** for label: bool_right_aligned
-** for listview: bool_show_grid
-** for tabs: bool_tabs_at_bottom
-** for colorpanel: int_border_width_from_0+","+int_color_fill+","+int_color_font+","+int_color_border
-** for image: bool values ","-separated:
-*** bool_center
-*** bool_stretch
-*** bool_stretch_in_enabled
-*** bool_stretch_out_enabled
-*** bool_keep_origin_x_when_clipped
-*** bool_keep_origin_y_when_clipped
-** for filter_listview: bool_filter_by_all_columns
+====Control values====
 
-* "val": value of control (not for all):
-** for check: value "0"/"1" or "?" (grayed)
-** for radio, checkbutton: value "0"/"1"
-** for edit, edit_pwd, spinedit, combo, filter_*: text
-** for memo: "\t"-separated lines (in lines "\t" must be replaced to chr(2))
-** for combo_ro, listbox, radiogroup, listview: index
-** for checkgroup: ","-separated checks (values "0"/"1")
-** for checklistbox, checklistview: index+";"+checks
-** for tabs: index of active tab (0-based)
+* check: "0", "1" or "?" (grayed state)
+* radio, checkbutton: "0", "1"
+* edit, edit_pwd, spinedit, combo, filter_*: text
+* memo: "\t"-separated lines, in lines "\t" must be replaced to chr(2)
+* combo_ro, listbox, radiogroup, listview: current index
+* checkgroup: ","-separated checked states ("0", "1")
+* checklistbox, checklistview: index + ";" + checks
+* tabs: index of active tab
 
-Parameter focused is index of control (0-base) which is focused on showing.
+====Advanced properties====
+
+Advanced control-specific properties, set by "props".
+
+* For dlg_custom, must be str with items ","-separated, "0"/"1" for bool. 
+* For dlg_proc, can use str or tuple, e.g. (True,False) instead of "1,0".
+
+Props:
+
+* button: bool_default_for_enter
+* edit, memo: 
+** bool_read_only
+** bool_font_monospaced
+** bool_show_border
+* spinedit: 
+** int_min_value
+** int_max_value
+** int_increment
+* label: bool_right_aligned
+* linklabel: URL ("http:" or "mailto:", other kinds possible too, but may not run)
+* listview: bool_show_grid
+* tabs: bool_tabs_at_bottom
+* colorpanel:
+** int_border_width_from_0
+** int_color_fill
+** int_color_font
+** int_color_border
+* filter_listview: bool_filter_by_all_columns
+* image: 
+** bool_center
+** bool_stretch
+** bool_stretch_in_enabled
+** bool_stretch_out_enabled
+** bool_keep_origin_x_when_clipped
+** bool_keep_origin_y_when_clipped
 
 ====Result====
+
 Dialog is closed by clicking any button or by changing of any control which has "act=1". Gets 2-tuple: (control_index, state_text), gets None if cancelled.
 
 * control_index: index of control which closed dialog (0-based).
@@ -596,13 +635,87 @@ Dialog is closed by clicking any button or by changing of any control which has 
 
 ====Notes====
 
-* Property "act=" must be last for control.
+* Property "type" must be first.
+* Property "act" must be set after "val".
+
 * Controls sizes differ on Win/Linux/OSX, picture shows controls (Linux/Win) auto-aligned, not in CudaText, only example app:
 
 [[File:controls_autosizes.png]]
 
 * So it's good to use common height for single-line controls, 30 pixels is ok for edit/button/check/radio, 36 for combobox.
 * Control "tabs" height cannot auto-size, please make correct height for control (it is usually like big buttons).
+
+
+===dlg_proc===
+
+ dlg_proc(id_dialog, id_action, prop="", index=-1, index2=-1)
+
+Advanced work with dialogs (forms). More advanced than dlg_custom(), e.g. dialogs can show as modal/nonmodal.
+Dialogs use on_dlg event, it's described in events section.
+
+====Form properties====
+
+* "cap": str: Caption of form.
+* "x", "y": int: Position (screen coordinates), left/top.
+* "w", "h": int: Size, width/height.
+* "w_min", "w_max": int: Constraints for width, min/max value.
+* "h_min", "h_max": int: Constraints for height, min/max value.
+* "resize": bool: Allows form to resize.
+
+====Control properties====
+
+* "name": str: Optional word-like string, name of control, to find control later by name.
+* "cap": str: Caption.
+* "x", "y": int: Position (coordinates relative to dialog), left/top.
+* "w", "h": int: Size, width/height.
+* "en": bool: Enabled state.
+* "vis": bool: Visible state.
+* "color": int: Color.
+* "font_name": str: Font name.
+* "font_size": int: Font size.
+* "font_color": int: Font color.
+* "hint": str: Hint (tooltip) for mouse-over. Newlines must be "\r".
+* "act": bool: Active state. For active control, change of value calls the event (on_dlg or custom callback). Buttons are active by default.
+* "props": str: Advanced control-specific props. Described in dlg_custom.
+* "items": str: Usually tab-separated items. Described in dlg_custom.
+* "val": str: Value of control. Described in dlg_custom.
+* "tag": str: Any string, set by plugin.
+
+* "callback": str: If not empty, active control calls this callback instead of on_dlg event. Has one of forms:
+** "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm (mmm is usually subfolder in the "cudatext/py", but can be any module name)
+** "mmm.nnn" - the same, to call method, short form
+** "module=mmm;func=nnn;" - to call function nnn in root of module mmm
+
+====Actions====
+
+Param prop: it can be of any simple type (str, int, bool), also tuple/list (of any simple type), also dict (keys: str, values: simple type or tuple/list). Most used is dict. Example of control props: prop={"cap": "...", "x": 10, "y": 10, "w": 600, "en": False}.
+
+Param id_dialog: int, form handle. Ignored only for DLG_CREATE (pass 0).
+
+Possible values of id_action:
+
+* DLG_CREATE: Creates new form, gets form handle.
+* DLG_HIDE: Hides from.
+* DLG_FREE: Hides and deletes form.
+* DLG_SHOW_MODAL: Shows form in modal mode (blocks input to other forms).
+* DLG_SHOW_NONMODAL: Shows form in non-modal mode.
+* DLG_FOCUS: Focuses form (in non-modal mode).
+* DLG_PROP_GET: Gets form props, as dict.
+* DLG_PROP_SET: Sets from props. Param "prop" is dict with props. See example above, see list of possible form props.
+* DLG_CTL_COUNT: Gets count of controls on form.
+* DLG_CTL_ADD: Adds new control to form, gets its index, or None if cannot add. Param "prop" is type of control. See description in dlg_custom.
+* DLG_CTL_PROP_GET: Gets control props, as dict. Param "index" is index of control.
+* DLG_CTL_PROP_SET: Sets control props. Param "index" is index of control. Param "prop" is dict with props.
+* DLG_CTL_FOCUS: Focuses control. Param "index" is index of control.
+* DLG_CTL_DELETE: Deletes control. Param "index" is index of control. Controls are stored in list, so after a control deleted, indexes of next controls shift by -1. So don't use fixed indexes if you delete some, use DLG_CTL_FIND.
+* DLG_CTL_DELETE_ALL: Deletes all controls.
+* DLG_CTL_FIND: Gets index of control by name, or -1 if cannot find. Param "prop" is name.
+* DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
+* DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
+
+====Example====
+
+Detailed demo plugin exists, it shows many dlg_proc actions, shows modal/nonmodal forms, uses callbacks, moves control by button click, moves control on form resize. It is in the CudaText repo with name "cuda_testing_dlg_proc".
 
 ===dlg_commands===
 
@@ -811,12 +924,17 @@ Possible values of id_action:
 === timer_proc ===
 
 
- timer_proc(id, callback, interval)
+ timer_proc(id, callback, interval, tag="")
 
 Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
 
-* callback: String in the form "module_name.method_name". App will call "method_name()" in the class "Command", in specified module (e.g. "cuda_my_plugin").
+* callback: String in the forms:
+** "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm (mmm is usually subfolder in the "cudatext/py", but can be any module name)
+** "mmm.nnn" - the same, to call method, short form
+** "module=mmm;func=nnn;" - to call function nnn in root of module mmm
+
 * interval: Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
+* tag: Some string, if not empty, it will be parameter to callback. If it's empty, callback is called without params.
 
 Possible values of id:
 
@@ -870,6 +988,9 @@ Possible values of id_action:
 *** str_module+","+str_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to method (param can be of any primitive type).
 *** any string (e.g. empty string), if item will be used as submenu (item will be submenu, if any sub-items will be added to it)
 
+* MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
+* MENU_SHOW: Shows given popup-menu (note: only popup-menu id can be used here, not id of top menus). Param command must be "x,y" where x/y are show coordinates.
+
 ====Example==== 
 
 Example adds item "Misc" to the main menu, and sub-items: "About-1", "About-2", separator, "Rename file" (from CudaExt plugin):
@@ -879,6 +1000,12 @@ Example adds item "Misc" to the main menu, and sub-items: "About-1", "About-2", 
   n = menu_proc(menuid, MENU_ADD, command=2700, caption='About-2')
   n = menu_proc(menuid, MENU_ADD, caption='-')
   n = menu_proc(menuid, MENU_ADD, command='cuda_ext,rename_file', caption='Rename file')
+
+Example creates popup-menu with one item and shows it at (x=100, y=100):
+
+  h = menu_proc(0, MENU_CREATE)
+  menu_proc(h, MENU_ADD, command=2700, caption='About...')
+  menu_proc(h, MENU_SHOW, command='100,100')
 
 ===toolbar_proc===
 
@@ -1472,6 +1599,13 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.175
+* add: dlg_proc()
+* add: dlg_custom: added props x= y= w= h= vis= color= font_name= font_size= font_color=
+* add: timer_proc: can also use callbacks "module=nnn;cmd=nnn;" and "module=nnn;func=nnn;"
+* add: timer_proc: added param "tag"
+* add: menu_proc: actions MENU_CREATE, MENU_SHOW
 
 1.0.174
 * add: dlg_custom: "name=" (not required)
