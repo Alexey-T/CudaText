@@ -2958,6 +2958,7 @@ var
   StrMenu, StrCaption, StrCmd, StrResult: string;
   NAction, NIndex: integer;
   Popup: TPopupMenu;
+  PopupItem: TMenuItem;
   NX, NY: integer;
 begin
   with GetPythonEngine do
@@ -2996,9 +2997,9 @@ begin
           begin
             NX:= StrToIntDef(SGetItem(StrCmd), 0);
             NY:= StrToIntDef(SGetItem(StrCmd), 0);
-            Popup:= TPopupMenu(TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0))).Owner);
-            if Popup<>nil then
-              Popup.PopUp(NX, NY);
+            PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
+            Popup:= TPopupMenu(PopupItem.Owner);
+            Popup.PopUp(NX, NY);
             Result:= ReturnNone;
           end;
 
