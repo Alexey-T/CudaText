@@ -551,7 +551,7 @@ Notes:
 
 ==== Properties ====
 
-Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props. Each prop is s_name+"="+s_value. Possible names and their values:
+Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props in the form "key=value". Possible props:
 
 * "type": type of control; must be specified first
 * "cap": caption
@@ -569,14 +569,18 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
 * "props": advanced control-specific properties. Described below.
 * "val": value of control. Described below.
+* "items": list of items. Described below.
 
-* "items": 
-** for combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox, tabs: "\t"-separated lines
-** for listview, checklistview: "\t"-separated items.
-*** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +... 
-*** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
-*** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
-** for image: full path of picture file (png/gif/jpg/bmp)
+====Items====
+
+Possible values of "items":
+
+* combo, combo_ro, listbox, checkgroup, radiogroup, checklistbox, tabs: "\t"-separated lines
+* listview, checklistview: "\t"-separated items.
+** first item is column headers: title1+"="+size1 + "\r" + title2+"="+size2 + "\r" +... 
+** size1...sizeN can be with lead char to specify alignment of column: L (default), R, C
+** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
+* image: full path of picture file (png/gif/jpg/bmp)
 
 ====Control values====
 
@@ -594,7 +598,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 Advanced control-specific properties, set by "props".
 
 * For dlg_custom, must be str with items ","-separated, "0"/"1" for bool. 
-* For dlg_proc, can use str or tuple, e.g. (True,False) instead of "1,0".
+* For dlg_proc, can also use simple types bool/int/str or tuple of simple types, e.g. (True,False) instead of "1,0".
 
 Props:
 
