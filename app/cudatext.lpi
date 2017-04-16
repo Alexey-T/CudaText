@@ -13,7 +13,7 @@
       <XPManifest>
         <DpiAware Value="True"/>
         <TextName Value="UVviewsoft.CudaText"/>
-        <TextDesc Value="Advanced text editor"/>
+        <TextDesc Value="CudaText"/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
