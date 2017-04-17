@@ -4,6 +4,10 @@
   * changed
 
 
+1.8.1
++ api (dlg_proc) for powerful dialogs
++ Linux: better support for font ligatures (std lexers changed a little)
+
 1.8.0
 * changed values for "newdoc_encoding" to short (like in API)
 * changed suffix for macOS config keys from "__osx" to "__mac"
