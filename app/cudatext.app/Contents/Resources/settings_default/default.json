@@ -112,7 +112,7 @@
   //  e.g. Pascal lexer: green lines above procedure/function
   "lexer_line_separators": false,
 
-  //[Fold]
+  //[Text]
   //Style of folding
   //  0: if fold-hint empty: [...] from fold-pos, else hint
   //  1: if fold-hint empty: [line...] from fold-pos, else hint
@@ -134,7 +134,7 @@
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
 
-  //[Event]
+  //[FileSave]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
   //On saving file: force end-of-line chars at file end (if not entered)
@@ -581,7 +581,7 @@
   //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
   "ui_lexer_themes": true,
 
-  //[HTML]
+  //[Web]
   //Underline HTML color codes (like #008080, #0a0) in these file extensions, 
   //comma-separated, w/o dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
@@ -655,7 +655,7 @@
   //Extensions of picture files (they show as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
-  //[Url]
+  //[Web]
   //Highlight URLs (font color+ underline)
   "links_hilite": true,
   //Reg-ex which finds URLs

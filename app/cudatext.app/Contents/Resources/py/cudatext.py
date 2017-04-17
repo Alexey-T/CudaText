@@ -53,9 +53,11 @@ COLOR_NONE = 0x1FFFFFFF
 MENU_LIST     = 0
 MENU_LIST_ALT = 1
 
-MENU_CLEAR = 0
-MENU_ENUM  = 1
-MENU_ADD   = 2
+MENU_CLEAR  = 0
+MENU_ENUM   = 1
+MENU_ADD    = 2
+MENU_CREATE = 10
+MENU_SHOW   = 12
 
 BOOKMARK_GET         = 0
 BOOKMARK_SET         = 1
@@ -437,6 +439,26 @@ TOOLBAR_ADD_BUTTON     = 5
 TOOLBAR_DELETE_ALL     = 6
 TOOLBAR_DELETE_BUTTON  = 7
 
+DLG_CREATE         = 0
+DLG_FREE           = 1
+DLG_SHOW_MODAL     = 5
+DLG_SHOW_NONMODAL  = 6
+DLG_HIDE           = 7
+DLG_FOCUS          = 8
+DLG_PROP_GET       = 10
+DLG_PROP_SET       = 11
+DLG_CTL_COUNT      = 20
+DLG_CTL_ADD        = 21
+DLG_CTL_PROP_GET   = 22
+DLG_CTL_PROP_SET   = 23
+DLG_CTL_DELETE     = 24
+DLG_CTL_DELETE_ALL = 25
+DLG_CTL_FOCUS      = 30
+DLG_CTL_FIND       = 31
+DLG_CTL_HANDLE     = 32
+DLG_COORD_LOCAL_TO_SCREEN = 40
+DLG_COORD_SCREEN_TO_LOCAL = 41
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -532,13 +554,21 @@ def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
 
-def timer_proc(id, name, value):
-    return ct.timer_proc(id, name, value)
+def timer_proc(id, callback, interval, tag=''):
+    return ct.timer_proc(id, callback, interval, tag)
 
 
 def to_str(v):
     if isinstance(v, list) or isinstance(v, tuple):
         return ','.join(map(to_str, v))
+
+    if isinstance(v, dict):
+        #put 'val' to end
+        res = ';'.join(
+                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k!='val'] +
+                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
+                )+';'
+        return '{'+res+'}'
 
     if isinstance(v, bool):
         if v:
@@ -547,6 +577,11 @@ def to_str(v):
             return '0'
 
     return str(v)
+
+
+def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
+    return ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
+
 
 #Editor
 class Editor:
