@@ -3772,6 +3772,7 @@ begin
     if (AMenuCmd=PyMenuCmd_Plugins) or (AMenuCmd='_'+PyMenuCmd_Plugins) then
     begin
       mnuPlug:= mi;
+      mnuPlug.Hint:= 'plugins';
       UpdateMenuPlugins;
     end
     else
