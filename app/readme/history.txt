@@ -5,7 +5,7 @@
 
 
 1.8.2
-+ Windows: support font ligatures (font "Fira Code")
++ Windows: support font ligatures (font Fira Code, only if caret not on line)
 + dlg Find shows on top of CudaText dialogs
 
 1.8.1
