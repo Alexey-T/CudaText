@@ -2,6 +2,23 @@ from cudatext import *
 
 h=0
 
+def do_menu():
+    global h
+    print('callback do_menu')
+    nctl = dlg_proc(h, DLG_CTL_FIND, prop='btn_menu')
+    d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
+
+    nx = d['x']
+    ny = d['y']+d['h']
+    nx, ny = dlg_proc(h, DLG_COORD_LOCAL_TO_SCREEN, index=nx, index2=ny)
+
+    h_menu = menu_proc(0, MENU_CREATE)
+    menu_proc(h_menu, MENU_ADD, command=2700, caption='About1')
+    menu_proc(h_menu, MENU_ADD, command=2700, caption='About2')
+    menu_proc(h_menu, MENU_ADD, command=2700, caption='About3')
+    menu_proc(h_menu, MENU_SHOW, command='%d,%d'%(nx, ny))
+
+
 class Command:
     def on_dlg(self, ed_self, id_dlg, id_ctl, id_event):
         global h
@@ -60,7 +77,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'callback': 'cuda_testing_dlg_proc.do_menu'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'callback': 'module=cuda_testing_dlg_proc;func=do_menu;'} )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
 
@@ -107,19 +124,3 @@ class Command:
         d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
         dlg_proc(h, DLG_CTL_PROP_SET, index=nctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
         print('button via callback')
-
-
-    def do_menu(self):
-        global h
-        nctl = dlg_proc(h, DLG_CTL_FIND, prop='btn_menu')
-        d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
-
-        nx = d['x']
-        ny = d['y']+d['h']
-        nx, ny = dlg_proc(h, DLG_COORD_LOCAL_TO_SCREEN, index=nx, index2=ny)
-
-        h_menu = menu_proc(0, MENU_CREATE)
-        menu_proc(h_menu, MENU_ADD, command=2700, caption='About1')
-        menu_proc(h_menu, MENU_ADD, command=2700, caption='About2')
-        menu_proc(h_menu, MENU_ADD, command=2700, caption='About3')
-        menu_proc(h_menu, MENU_SHOW, command='%d,%d'%(nx, ny))
