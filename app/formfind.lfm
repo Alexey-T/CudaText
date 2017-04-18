@@ -8,6 +8,7 @@ object fmFind: TfmFind
   Caption = 'Find/Replace'
   ClientHeight = 138
   ClientWidth = 1092
+  FormStyle = fsStayOnTop
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
@@ -15,7 +16,7 @@ object fmFind: TfmFind
   OnShow = FormShow
   ShowHint = True
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   object PanelOps: TATPanelSimple
     Left = 0
     Height = 108
