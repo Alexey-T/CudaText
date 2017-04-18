@@ -564,10 +564,10 @@ def to_str(v):
 
     if isinstance(v, dict):
         #put 'val' to end
-        res = ';'.join(
+        res = chr(1).join(
                 [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k!='val'] +
                 [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
-                )+';'
+                )
         return '{'+res+'}'
 
     if isinstance(v, bool):

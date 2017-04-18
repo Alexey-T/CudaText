@@ -1147,7 +1147,7 @@ begin
   if AText[1]='{' then
     AText:= Copy(AText, 2, Length(AText)-2);
   repeat
-    SItem:= SGetItem(AText, ';');
+    SItem:= SGetItem(AText, chr(1));
     if SItem='' then Break;
     SKey:= SGetItem(SItem, ':');
     SValue:= SItem;
@@ -1188,7 +1188,7 @@ begin
   if AText[1]='{' then
     AText:= Copy(AText, 2, Length(AText)-2);
   repeat
-    SItem:= SGetItem(AText, ';');
+    SItem:= SGetItem(AText, chr(1));
     if SItem='' then Break;
     SKey:= SGetItem(SItem, ':');
     SValue:= SItem;
