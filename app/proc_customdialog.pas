@@ -1110,6 +1110,14 @@ begin
       F.BorderStyle:= bsDialog;
   end
   else
+  if AName='topmost' then
+  begin
+    if StrToBool(AValue) then
+      F.FormStyle:= fsStayOnTop
+    else
+      F.FormStyle:= fsNormal;
+  end
+  else
   ;
 end;
 
