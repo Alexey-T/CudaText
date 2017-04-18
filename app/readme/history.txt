@@ -4,6 +4,10 @@
   * changed
 
 
+1.8.2
++ Windows: support font ligatures (font "Fira Code")
++ dlg Find shows on top of CudaText dialogs
+
 1.8.1
 + api (dlg_proc) for powerful dialogs
 + Linux: better support for font ligatures (std lexers changed a little)
