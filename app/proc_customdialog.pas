@@ -18,6 +18,7 @@ uses
   ListViewFilterEdit,
   LclProc, LclType,
   proc_customdialog_dummy,
+  formconsole,
   PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string;
@@ -782,8 +783,8 @@ begin
   begin
     try
       C.Name:= AValue;
-      //exception if dupl name
     except
+      fmConsole.DoLogConsoleLine(Format('API: incorrect or duplicate control name "%s"', [AValue]));
     end;
     exit;
   end;
