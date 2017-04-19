@@ -863,7 +863,7 @@ type
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
-    procedure DoPyCallFromAPI(ACallback, AParam: string);
+    procedure DoPyCallbackFromAPI(ACallback, AParam: string);
   end;
 
 var
@@ -1139,7 +1139,7 @@ var
   i: integer;
 begin
   CustomDialog_DoPyEvent:= @DoPyEvent;
-  CustomDialog_DoPyCall:= @DoPyCallFromAPI;
+  CustomDialog_DoPyCall:= @DoPyCallbackFromAPI;
 
   InitToolbar;
   InitSidebar;

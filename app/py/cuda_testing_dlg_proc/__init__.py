@@ -56,7 +56,7 @@ class Command:
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'TestDlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 100, 'topmost':True })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': '$#..incorrect', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': '', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'show panel (active)', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True })
@@ -78,6 +78,9 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'callback': 'module=cuda_testing_dlg_proc;func=do_menu;'} )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':10, 'y':260, 'w':100, 'callback': 'module=cuda_testing_dlg_proc.testcall;func=do_call;'} )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
 

@@ -117,9 +117,9 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCallFromAPI(ACallback, AParam: string);
+procedure TfmMain.DoPyCallbackFromAPI(ACallback, AParam: string);
 const
-  cRegex_DotCommand = '([a-z]\w+)\.([a-z]\w*)';
+  cRegex_DotCommand = '([a-z_]\w+)\.(\w+)$';
   cRegex_SignCommand = 'module=(.+);cmd=(.+);';
   cRegex_SignFunc = 'module=(.+);func=(.+);';
 var
@@ -342,7 +342,7 @@ begin
   SCallback:= SGetItem(SAll, '|');
   STag:= SAll;
 
-  DoPyCallFromAPI(SCallback, STag);
+  DoPyCallbackFromAPI(SCallback, STag);
 end;
 
 
