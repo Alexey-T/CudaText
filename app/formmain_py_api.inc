@@ -3968,7 +3968,7 @@ begin
 
         DLG_HIDE:
           begin
-            Form.Hide;
+            Form.Close; //not .Hide
             Result:= ReturnNone;
           end;
 
