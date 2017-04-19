@@ -2,15 +2,14 @@ from cudatext import *
 
 h=0
 
-def do_menu():
-    global h
+def do_menu(id_dlg, id_ctl):
     print('callback do_menu')
-    nctl = dlg_proc(h, DLG_CTL_FIND, prop='btn_menu')
-    d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
+    nctl = dlg_proc(id_dlg, DLG_CTL_FIND, prop='btn_menu')
+    d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=nctl)
 
     nx = d['x']
     ny = d['y']+d['h']
-    nx, ny = dlg_proc(h, DLG_COORD_LOCAL_TO_SCREEN, index=nx, index2=ny)
+    nx, ny = dlg_proc(id_dlg, DLG_COORD_LOCAL_TO_SCREEN, index=nx, index2=ny)
 
     h_menu = menu_proc(0, MENU_CREATE)
     menu_proc(h_menu, MENU_ADD, command=2700, caption='About1')
@@ -121,9 +120,7 @@ class Command:
         dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
 
 
-    def do_move_callback(self):
-        global h
-        nctl = dlg_proc(h, DLG_CTL_FIND, prop='btn2')
-        d = dlg_proc(h, DLG_CTL_PROP_GET, index=nctl)
-        dlg_proc(h, DLG_CTL_PROP_SET, index=nctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
+    def do_move_callback(self, id_dlg, id_ctl):
+        d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=id_ctl)
+        dlg_proc(id_dlg, DLG_CTL_PROP_SET, index=id_ctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
         print('button via callback')

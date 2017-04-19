@@ -250,7 +250,10 @@ begin
   end;
 
   if Props.FCallback<>'' then
-    CustomDialog_DoPyCallback(Props.FCallback, [])
+    CustomDialog_DoPyCallback(Props.FCallback, [
+      IntToStr(PtrInt(Self)), //id_dlg
+      IntToStr(IdClicked) //id_ctl
+    ])
   else
     DoEvent(IdClicked, '"on_change"');
 end;
