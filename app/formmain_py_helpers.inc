@@ -1,7 +1,8 @@
 {$ifdef nn}begin end;{$endif}
 
 
-procedure TfmMain.DoPyCommand(const AModule, AMethod: string; const AParam: string='');
+procedure TfmMain.DoPyCommand(const AModule, AMethod: string;
+  const AParams: array of string);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -9,7 +10,9 @@ begin
   if not PythonOK then exit;
   PyLastCommandModule:= AModule;
   PyLastCommandMethod:= AMethod;
-  PyLastCommandParam:= AParam;
+  PyLastCommandParam:= '';
+  if Length(AParams)>0 then
+    PyLastCommandParam:= AParams[0];
   PyEditorMaybeDeleted:= false;
 
   Frame:= CurrentFrame;
@@ -18,12 +21,12 @@ begin
   if Ed=nil then exit;
 
   if Frame.MacroRecord then
-    Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+AParam+#10);
+    Frame.MacroString:= Frame.MacroString+ ('py:'+AModule+','+AMethod+','+PyLastCommandParam+#10);
 
   Ed.Strings.BeginUndoGroup;
   PyCommandRunning:= true;
   try
-    Py_RunPlugin_Command(AModule, AMethod, AParam);
+    Py_RunPlugin_Command(AModule, AMethod, AParams);
   finally
     PyCommandRunning:= false;
     if not PyEditorMaybeDeleted then
@@ -117,30 +120,22 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCallbackFromAPI(ACallback, AParam: string);
+procedure TfmMain.DoPyCallbackFromAPI(const ACallback: string;
+  const AParams: array of string);
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
   cRegex_SignCommand = 'module=(.+);cmd=(.+);$';
   cRegex_SignFunc = 'module=(.+);func=(.+);$';
 var
   Parts: TRegexParts;
-  CallParams: array of string;
   SModule, SFunc: string;
 begin
-  SetLength(CallParams, 0);
-  if AParam<>'' then
-  begin
-    AParam:= SStringToPythonString(AParam);
-    SetLength(CallParams, 1);
-    CallParams[0]:= AParam;
-  end;
-
   if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) or
      SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-    Py_RunPlugin_Command(SModule, SFunc, AParam);
+    Py_RunPlugin_Command(SModule, SFunc, AParams);
     exit;
   end;
 
@@ -148,7 +143,7 @@ begin
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-    Py_RunModuleFunction(SModule, SFunc, CallParams);
+    Py_RunModuleFunction(SModule, SFunc, AParams);
     exit;
   end;
 

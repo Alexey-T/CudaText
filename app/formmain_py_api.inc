@@ -2242,10 +2242,10 @@ begin
 
         APP_PROC_GET_LAST_PLUGIN:
           begin
-            Result:= PyString_FromString(PChar(
-              PyLastCommandModule+','+PyLastCommandMethod+
-                IfThen(PyLastCommandParam<>'', ','+PyLastCommandParam)
-              ));
+            Str:= PyLastCommandModule+','+PyLastCommandMethod;
+            if PyLastCommandParam<>'' then
+              Str:= Str+','+PyLastCommandParam;
+            Result:= PyString_FromString(PChar(Str));
           end;
 
         APP_PROC_GET_GROUPING:

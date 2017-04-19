@@ -20,13 +20,17 @@ uses
   proc_globdata;
 
 type
-  TAppPyEventCallback = function(AEd: TATSynEdit; AEvent: TAppPyEvent;
+  TAppPyEventCallback = function(
+      AEd: TATSynEdit;
+      AEvent: TAppPyEvent;
       const AParams: array of string): string of object;
-  TAppPyCallCallback = procedure(ACallback, AParam: string) of object;
+  TAppPyCommonCallback = procedure(
+      const ACallback: string;
+      const AParams: array of string) of object;
 
 var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
-  CustomDialog_DoPyCall: TAppPyCallCallback = nil;
+  CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
 
 type
   { TAppControlProps }
@@ -246,7 +250,7 @@ begin
   end;
 
   if Props.FCallback<>'' then
-    CustomDialog_DoPyCall(Props.FCallback, '')
+    CustomDialog_DoPyCallback(Props.FCallback, [])
   else
     DoEvent(IdClicked, '"on_change"');
 end;

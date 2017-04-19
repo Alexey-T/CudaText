@@ -18,7 +18,7 @@ uses
   PythonEngine;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
-function Py_RunPlugin_Command(const SModule, SCmd, SParam: string): string;
+function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
 function Py_RunPlugin_Event(const SModule, SCmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): string;
@@ -49,18 +49,34 @@ begin
   GetPythonEngine.ExecString(Str);
 end;
 
-function Py_RunPlugin_Command(const SModule, SCmd, SParam: string): string;
+
+function Py_ArgListToString(const AParams: array of string): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to Length(AParams)-1 do
+  begin
+    if Result<>'' then
+      Result:= Result+', ';
+    Result:= Result+AParams[i];
+  end;
+end;
+
+
+function Py_RunPlugin_Command(const AModule, AMethod: string;
+  const AParams: array of string): string;
 var
   SObj: string;
   SCmd1, SCmd2: string;
 begin
-  SObj:= '_cudacmd_' + SModule;
+  SObj:= '_cudacmd_' + AModule;
   SCmd1:=
-    Format('import %s               ', [SModule]) + SLineBreak +
+    Format('import %s               ', [AModule]) + SLineBreak +
     Format('if "%s" not in locals():', [SObj]) + SLineBreak +
-    Format('    %s = %s.%s()        ', [SObj, SModule, 'Command']);
+    Format('    %s = %s.Command()   ', [SObj, AModule]);
   SCmd2:=
-    Format('%s.%s(%s)', [SObj, SCmd, SParam]);
+    Format('%s.%s(%s)', [SObj, AMethod, Py_ArgListToString(AParams)]);
 
   try
     GetPythonEngine.ExecString(SCmd1);
@@ -126,20 +142,6 @@ begin
     Result:= Py_rect(Screen.Monitors[N].BoundsRect)
   else
     Result:= GetPythonEngine.ReturnNone;
-end;
-
-
-function Py_ArgListToString(const AParams: array of string): string;
-var
-  i: integer;
-begin
-  Result:= '';
-  for i:= 0 to Length(AParams)-1 do
-  begin
-    if Result<>'' then
-      Result:= Result+', ';
-    Result:= Result+AParams[i];
-  end;
 end;
 
 

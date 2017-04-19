@@ -50,7 +50,7 @@ end;
 
 procedure TfmMain.DoBottom_AddonsClick(Sender: TObject);
 begin
-  DoPyCommand('cuda_addonman', 'do_install_addon');
+  DoPyCommand('cuda_addonman', 'do_install_addon', []);
 end;
 
 procedure TfmMain.DoBottom_FindClick(Sender: TObject);

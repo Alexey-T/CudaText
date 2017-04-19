@@ -862,8 +862,8 @@ type
     property ThemeSyntax: string read FThemeSyntax write SetThemeSyntax;
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
-    procedure DoPyCommand(const AModule, AMethod: string; const AParam: string='');
-    procedure DoPyCallbackFromAPI(ACallback, AParam: string);
+    procedure DoPyCommand(const AModule, AMethod: string; const AParams: array of string);
+    procedure DoPyCallbackFromAPI(const ACallback: string; const AParams: array of string);
   end;
 
 var
@@ -1139,7 +1139,7 @@ var
   i: integer;
 begin
   CustomDialog_DoPyEvent:= @DoPyEvent;
-  CustomDialog_DoPyCall:= @DoPyCallbackFromAPI;
+  CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
 
   InitToolbar;
   InitSidebar;
@@ -2642,7 +2642,7 @@ begin
   Ed:= CurrentEditor;
   Ed.Strings.BeginUndoGroup;
   try
-    DoPyCommand('cudax_lib', AMethod);
+    DoPyCommand('cudax_lib', AMethod, []);
   finally
     Ed.Strings.EndUndoGroup;
   end;
@@ -3806,7 +3806,7 @@ end;
 
 procedure TfmMain.DoFileNewMenu(Sender: TObject);
 begin
-  DoPyCommand('cuda_new_file', 'menu');
+  DoPyCommand('cuda_new_file', 'menu', []);
 end;
 
 procedure TfmMain.DoCommandsMsgStatus(Sender: TObject; const ARes: string);
