@@ -119,9 +119,9 @@ end;
 
 procedure TfmMain.DoPyCallbackFromAPI(ACallback, AParam: string);
 const
-  cRegex_DotCommand = '([a-z_]\w+)\.(\w+)$';
-  cRegex_SignCommand = 'module=(.+);cmd=(.+);';
-  cRegex_SignFunc = 'module=(.+);func=(.+);';
+  cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
+  cRegex_SignCommand = 'module=(.+);cmd=(.+);$';
+  cRegex_SignFunc = 'module=(.+);func=(.+);$';
 var
   Parts: TRegexParts;
   CallParams: array of string;
