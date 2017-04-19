@@ -780,7 +780,11 @@ procedure DoControl_SetPropFromPair(C: TControl; AName, AValue: string);
 begin
   if AName='name' then
   begin
-    C.Name:= AValue;
+    try
+      C.Name:= AValue;
+      //exception if dupl name
+    except
+    end;
     exit;
   end;
 
