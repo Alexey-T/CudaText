@@ -298,10 +298,18 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol single'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\(\)\[\]]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/\*,\.;:\(\)=<>\+\-\[\]\^@]'
+      Expression = '[/\*,\.;:=<>\+\-\^@]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -314,7 +322,6 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      Enabled = False
       DisplayName = 'Invalid symbol'
       StyleName = 'Invalid symbol'
       Expression = '.'

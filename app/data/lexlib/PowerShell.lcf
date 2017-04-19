@@ -1,64 +1,78 @@
-object SyntAnal6: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal26: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'StringHere'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Identifier'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Reserved word'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Variable'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Cmd'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
@@ -66,7 +80,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '\#.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment 2'
       StyleName = 'Comment'
@@ -74,7 +88,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '(?s) <\# .*? (\#>|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String'
       StyleName = 'String'
@@ -82,15 +96,15 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '" (`"|""|.)*? ("|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String2'
       StyleName = 'String'
       TokenType = 4
-      Expression = ''' .*? (''|$)'
+      Expression = #39' .*? ('#39'|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'HereString'
       StyleName = 'StringHere'
@@ -98,7 +112,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '(?s) @"$ .+? ^"@'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'IdVariable'
       StyleName = 'Variable'
@@ -106,7 +120,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '\$\w+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
       StyleName = 'Identifier'
@@ -114,7 +128,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '[a-z_][\w-]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Hex'
       StyleName = 'Number'
@@ -122,15 +136,15 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '0x[\da-f]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ | \d+\.\d+'
+      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'\d+\.\d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Integer'
       StyleName = 'Number'
@@ -138,21 +152,29 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = '\d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
+    item
+      DisplayName = 'Symbol single'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\{\}\(\)\[\]]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\],;\./\+\-\*:=<>&/\|\^~!\?%]'
+      Expression = '[,;\./\+\-\*:=<>&/\|\^~!\?%]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Keyw'
       StyleName = 'Reserved word'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'Begin'
@@ -185,19 +207,18 @@ object SyntAnal6: TLibSyntAnalyzer
             'Try'
             'Until'
             'Where'
-            'While'
-          )
+            'While')
           TokenTypes = 4
           IgnoreCase = True
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Cmd'
       StyleName = 'Cmd'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'add-content'
@@ -328,20 +349,18 @@ object SyntAnal6: TLibSyntAnalyzer
             'write-output'
             'write-progress'
             'write-verbose'
-            'write-warning'
-          )
+            'write-warning')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '{'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '{'
-          )
+            '{')
           TokenTypes = 8
         end>
       BlockEnd = '}'
@@ -349,15 +368,14 @@ object SyntAnal6: TLibSyntAnalyzer
       RefToCondEnd = True
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '}'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '}'
-          )
+            '}')
           TokenTypes = 8
         end>
       HighlightPos = cpAny
@@ -367,18 +385,19 @@ object SyntAnal6: TLibSyntAnalyzer
   SubAnalyzers = <>
   SampleText.Strings = (
     '# Convert any text file to UTF-8'
-    'param( [string] $infile = $(throw "Please specify a filename.") )'
+    
+      'param( [string] $infile = $(throw "Please specify a filename.") ' +
+      ')'
     '$outfile = "$infile.utf8"'
     'get-content -Path $infile | out-file $outfile -encoding utf8'
     ''
-    '$s = "My name is `"Joe"", hi" + ''Joe''''test'' test'
+    '$s = "My name is `"Joe"", hi" + '#39'Joe'#39#39'test'#39' test'
     '$string = @"'
     'one'
     '"@'
     ''
     '<# Block comment'
-    '#>'
-  )
+    '#>')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -387,15 +406,13 @@ object SyntAnal6: TLibSyntAnalyzer
     'String'
     'Integer const'
     'Float const'
-    'Hex const'
-  )
+    'Hex const')
   Extentions = 'ps1'
   LexerName = 'PowerShell'
   Notes.Strings = (
     'Author: Alex, uvviewsoft.com'
     'Test:'
-    'http://www.robvanderwoude.com/powershellexamples.php'
-  )
+    'http://www.robvanderwoude.com/powershellexamples.php')
   LineComment = '# '
   Charset = DEFAULT_CHARSET
 end

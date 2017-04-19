@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal25: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -221,18 +221,18 @@ object SyntAnal27: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol op'
-      StyleName = 'Symbol operator'
-      TokenType = 4
-      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol single'
       StyleName = 'Symbol single'
       TokenType = 5
       Expression = '[\{\}\(\)\[\],;\.\\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol op'
+      StyleName = 'Symbol operator'
+      TokenType = 4
+      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -807,7 +807,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'PHP_dev_HTML'
       StartExpression = '\?>'
       EndExpression = '<\?'
-      SyntAnalyzer = SyntAnal15
+      SyntAnalyzer = SyntAnal13
       FromTextBegin = True
     end>
   SampleText.Strings = (

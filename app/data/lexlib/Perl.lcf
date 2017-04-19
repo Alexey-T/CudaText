@@ -1,80 +1,97 @@
-object SyntAnal8: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal24: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Default'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       FormatType = ftCustomFont
-    end  
+    end
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Identifier'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Reserved word'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Marked block'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clHighlightText
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = clHighlight
       FormatType = ftColor
-    end  
+    end
     item
       DisplayName = 'Variable'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Something'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsUnderline]
-    end  
+    end
     item
       DisplayName = 'String regex'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
@@ -82,39 +99,39 @@ object SyntAnal8: TLibSyntAnalyzer
       Expression = '\#.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Variable'
       StyleName = 'Variable'
       TokenType = 8
-      Expression = '\$\w+::\w+ | [\$\#%@]+\w+'
+      Expression = '\$\w+::\w+ |'#13#10'[\$\#%@]+\w+'#13#10
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String Regex subst'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = 's/ (\\/|.)*? / (\\/|.)*? / \w*'
+      Expression = 's/ (\\/|.)*? / (\\/|.)*? / \w* '
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '\w* / (\\/|.)+? (/|$) \w*'
+      Expression = '\w* / (\\/|.)+? (/|$) \w* '
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = 'Any name'
+      DisplayName = 'Id'
       StyleName = 'Identifier'
       TokenType = 2
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String'
       StyleName = 'String'
@@ -122,31 +139,39 @@ object SyntAnal8: TLibSyntAnalyzer
       Expression = '"(\\\\|\\"|.)*?("|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'String 2'
       StyleName = 'Something'
       TokenType = 9
-      Expression = '''.*?(''|$)'
+      Expression = #39'.*?('#39'|$)'#13#10
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
+    item
+      DisplayName = 'Symbol single'
+      StyleName = 'Symbol'
+      TokenType = 3
+      Expression = '[\(\)\[\]\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[/\*,\.;:\(\)=<>\+\-\[\]\{\}\?!@&%\|~]'
+      Expression = '[/\*,\.;:=<>\+\-\?!@&%\|~]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 6
-      Expression = '\d+ \.? \d+ e [\+\-]? \d+ | \d+ \. \d+'
+      Expression = '\d+ \.? \d+ e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Integer'
       StyleName = 'Number'
@@ -155,14 +180,19 @@ object SyntAnal8: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Key words'
       StyleName = 'Reserved word'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
+            '__DATA__'
+            '__END__'
+            '__FILE__'
+            '__LINE__'
+            '__PACKAGE__'
             'abs'
             'accept'
             'alarm'
@@ -190,7 +220,6 @@ object SyntAnal8: TLibSyntAnalyzer
             'CORE'
             'cos'
             'crypt'
-            '__DATA__'
             'dbmclose'
             'dbmopen'
             'define'
@@ -204,7 +233,6 @@ object SyntAnal8: TLibSyntAnalyzer
             'else'
             'elsif'
             'END'
-            '__END__'
             'endgrent'
             'endhostent'
             'endnetent'
@@ -219,7 +247,6 @@ object SyntAnal8: TLibSyntAnalyzer
             'exit'
             'exp'
             'fcntl'
-            '__FILE__'
             'fileno'
             'flock'
             'for'
@@ -273,7 +300,6 @@ object SyntAnal8: TLibSyntAnalyzer
             'lcfirst'
             'LE'
             'length'
-            '__LINE__'
             'link'
             'listen'
             'local'
@@ -303,7 +329,6 @@ object SyntAnal8: TLibSyntAnalyzer
             'our'
             'pack'
             'package'
-            '__PACKAGE__'
             'pipe'
             'pop'
             'pos'
@@ -410,33 +435,30 @@ object SyntAnal8: TLibSyntAnalyzer
             'write'
             'x'
             'xor'
-            'y'
-          )
+            'y')
           TokenTypes = 4
           IgnoreCase = True
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Sub'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '{'
-          )
+            '{')
           TokenTypes = 8
-        end      
+        end
         item
           CondType = tcSkip
-        end      
+        end
         item
           TokenTypes = 4
-        end      
+        end
         item
           TagList.Strings = (
-            'sub'
-          )
+            'sub')
           TokenTypes = 1028
         end>
       BlockEnd = '}'
@@ -445,14 +467,13 @@ object SyntAnal8: TLibSyntAnalyzer
       HighlightPos = cpAny
       CollapseFmt = 'sub %s-1'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '{'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '{'
-          )
+            '{')
           TokenTypes = 8
         end>
       BlockEnd = '}'
@@ -461,15 +482,14 @@ object SyntAnal8: TLibSyntAnalyzer
       DrawStaple = True
       CollapseFmt = '...'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '}'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '}'
-          )
+            '}')
           TokenTypes = 8
         end>
       HighlightPos = cpAny
@@ -481,7 +501,7 @@ object SyntAnal8: TLibSyntAnalyzer
     '#!/bin/perl'
     'require "cgi-lib.pl";   '
     'use sigtrap;'
-    'do ''envars.pl'';'
+    'do '#39'envars.pl'#39';'
     ''
     '$re = m/text/i; #Usual regex'
     '$sLine =~ s/x/y/; #Subst regex'
@@ -505,8 +525,7 @@ object SyntAnal8: TLibSyntAnalyzer
     '  while (test) {'
     '    print "TT";'
     '  }  '
-    '}'
-  )
+    '}')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -517,14 +536,12 @@ object SyntAnal8: TLibSyntAnalyzer
     'Float const'
     'Hex const'
     'Char const'
-    'String 2'
-  )
+    'String 2')
   MarkedBlockStyle = 'Marked block'
   Extentions = 'pl pm cgi pod plx'
   LexerName = 'Perl'
   Notes.Strings = (
-    'Fixes by Alex, uvviewsoft.com'
-  )
+    'Fixes by Alex, uvviewsoft.com')
   LineComment = '#'
   Charset = DEFAULT_CHARSET
 end
