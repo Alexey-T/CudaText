@@ -61,16 +61,16 @@ type
     function IdFocused: integer;
     function IdFromName(const AName: string): integer;
     constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
     procedure DoOnResize; override;
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoEvent(AIdControl: integer; const AEvent: string);
+    procedure DoEmulatedModalShow;
+    procedure DoEmulatedModalClose;
   end;
-
-
-procedure DoFormEmulatedModalShow(AForm: TFormDummy);
 
 
 implementation
@@ -119,36 +119,6 @@ begin
 end;
 
 
-procedure DoFormEmulatedModalShow(AForm: TFormDummy);
-var
-  F: TForm;
-  i: integer;
-begin
-  for i:= 0 to Screen.FormCount-1 do
-  begin
-    F:= Screen.Forms[i];
-    if F=AForm then Continue; //skip AForm
-    if F.Parent<>nil then Continue; //skip docked
-    if F.Enabled then
-    begin
-      AForm.PrevForms.Add(F);
-      F.Enabled:= false;
-    end;
-  end;
-  AForm.FormStyle:= fsStayOnTop;
-  AForm.Show;
-end;
-
-procedure DoFormEmulatedModalClose(AForm: TFormDummy);
-var
-  i: integer;
-begin
-  for i:= AForm.PrevForms.Count-1 downto 0 do
-    TForm(AForm.PrevForms[i]).Enabled:= true;
-  AForm.PrevForms.Clear;
-end;
-
-
 { TAppControlProps }
 
 constructor TAppControlProps.Create(const ATypeString: string);
@@ -182,6 +152,12 @@ begin
   OnKeyDown:= @DoOnKeyDown;
 
   PrevForms:= TList.Create;
+end;
+
+destructor TFormDummy.Destroy;
+begin
+  FreeAndNil(PrevForms);
+  inherited;
 end;
 
 procedure TFormDummy.DoOnShow(Sender: TObject);
@@ -230,8 +206,7 @@ begin
   CloseAction:= caHide; //caFree gives crash on btn clicks on win
   if IsDlgCustom then exit;
 
-  DoFormEmulatedModalClose(Self);
-
+  DoEmulatedModalClose;
   IdClicked:= -1;
   DoEvent(-1, '"on_close"');
 end;
@@ -318,6 +293,36 @@ begin
       AEvent //id_event
     ]);
 end;
+
+procedure TFormDummy.DoEmulatedModalShow;
+var
+  F: TForm;
+  i: integer;
+begin
+  for i:= 0 to Screen.FormCount-1 do
+  begin
+    F:= Screen.Forms[i];
+    if F=Self then Continue; //skip self
+    if F.Parent<>nil then Continue; //skip docked
+    if F.Enabled then
+    begin
+      PrevForms.Add(F);
+      F.Enabled:= false;
+    end;
+  end;
+  FormStyle:= fsStayOnTop;
+  Show;
+end;
+
+procedure TFormDummy.DoEmulatedModalClose;
+var
+  i: integer;
+begin
+  for i:= PrevForms.Count-1 downto 0 do
+    TForm(PrevForms[i]).Enabled:= true;
+  PrevForms.Clear;
+end;
+
 
 end.
 

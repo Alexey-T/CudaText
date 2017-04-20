@@ -3861,7 +3861,7 @@ begin
 
         DLG_SHOW_MODAL:
           begin
-            DoFormEmulatedModalShow(Form);
+            Form.DoEmulatedModalShow;
             Result:= ReturnNone;
           end;
 
