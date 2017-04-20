@@ -108,47 +108,6 @@ begin
 end;
 
 
-procedure DoToolbar_AddButton_FromString_Deprecated(
-  AToolbar: TATButtonsToolbar; AStr: string);
-var
-  SHint, SCmd, SCaption, SImageIndex: string;
-begin
-  SHint:= SGetItem(AStr, ';');
-  SImageIndex:= SGetItem(AStr, ';');
-  SCmd:= SGetItem(AStr, ';');
-  SCaption:= SGetItem(AStr, ';');
-
-  DoToolbar_AddButton(
-    AToolbar,
-    SCaption,
-    SCmd,
-    SHint,
-    -1,
-    StrToIntDef(SImageIndex, -1)
-    );
-end;
-
-
-function DoToolbar_Enum_Deprecated(AToolbar: TATButtonsToolbar): PPyObject;
-var
-  Str: string;
-  i: integer;
-begin
-  with GetPythonEngine do
-  begin
-    Str:= '';
-    for i:= 0 to AToolbar.ButtonCount-1 do
-      with AToolbar do
-        Str:= Str+Format('%s;%s;%s'#10, [
-          Buttons[i].Hint,
-          Buttons[i].Caption,
-          Buttons[i].DataString
-          ]);
-    Result:= PyString_FromString(PChar(Str));
-  end;
-end;
-
-
 const
   cATButtonKinds: array[TATButtonKind] of string = (
     'text',

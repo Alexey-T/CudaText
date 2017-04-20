@@ -2380,64 +2380,6 @@ begin
           end;
 
         //-------------------
-        APP_PROC_TOOLBAR_ENUM:
-          begin
-            Result:= DoToolbar_Enum_Deprecated(fmMain.Toolbar);
-          end;
-
-        APP_PROC_TOOLBAR_ADD:
-          begin
-            DoToolbar_AddButton_FromString_Deprecated(fmMain.Toolbar, Str);
-            Result:= ReturnNone;
-          end;
-
-        APP_PROC_TOOLBAR_DELETE:
-          begin
-            DoToolbar_DeleteButton(fmMain.Toolbar, ParamInt);
-            Result:= ReturnNone;
-          end;
-
-        APP_PROC_TOOLBAR_DELETE_ALL:
-          begin
-            DoToolbar_Clear(fmMain.Toolbar);
-            Result:= ReturnNone;
-          end;
-
-        APP_PROC_TOOLBAR_ICON_ADD:
-          begin
-            Result:= DoToolbar_AddImage(fmMain.Toolbar, Str);
-          end;
-
-        APP_PROC_TOOLBAR_ICON_SET:
-          begin
-            Str1:= SGetItem(Str);
-            Str2:= SGetItem(Str);
-            DoToolbar_SetImageIndex(
-              fmMain.Toolbar,
-              StrToIntDef(Str1, -1),
-              StrToIntDef(Str2, -1)
-              );
-            Result:= ReturnNone;
-          end;
-
-        APP_PROC_TOOLBAR_ICON_GET_SIZE:
-          begin
-            Result:= DoToolbar_GetImageSizes(fmMain.Toolbar);
-          end;
-
-        APP_PROC_TOOLBAR_ICON_SET_SIZE:
-          begin
-            Str1:= SGetItem(Str);
-            Str2:= SGetItem(Str);
-            DoToolbar_SetImageSizes(
-              fmMain.Toolbar,
-              StrToIntDef(Str1, 16),
-              StrToIntDef(Str2, 16)
-              );
-            Result:= ReturnNone;
-          end;
-
-        //-------------------
         APP_PROC_GET_LANG:
           begin
             Result:= PyString_FromString(PChar(AppLangName));
