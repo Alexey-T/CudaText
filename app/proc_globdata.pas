@@ -576,11 +576,6 @@ type
     Encoding: string;
   end;
 
-type
-  TAppPanelPropsClass = class
-    Data: TAppPanelProps;
-  end;
-
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
 function AppEncodingListAsString: string;

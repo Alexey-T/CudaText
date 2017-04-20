@@ -1478,43 +1478,22 @@ var
 
 
 function GetAppPanelProps_ByCaption(const ACaption: string): PAppPanelProps;
-var
-  N: integer;
-  PropObject: TAppPanelPropsClass;
 begin
   Result:= nil;
   if ACaption='0' then
     Result:= @AppPanelProp_Out
   else
   if ACaption='1' then
-    Result:= @AppPanelProp_Val
-  else
-  begin
-    N:= fmMain.FAppBottomPanelsListbox.IndexOf(ACaption);
-    if N<0 then exit;
-    PropObject:= fmMain.FAppBottomPanelsListbox.Objects[N] as TAppPanelPropsClass;
-    Result:= @PropObject.Data;
-  end;
+    Result:= @AppPanelProp_Val;
 end;
 
 function GetAppPanelProps_ByListbox(AListbox: TATListbox): PAppPanelProps;
-var
-  PropObject: TAppPanelPropsClass;
-  i: integer;
 begin
   Result:= nil;
-
   if AListbox=fmMain.ListboxOut then
     exit(@AppPanelProp_Out);
   if AListbox=fmMain.ListboxVal then
     exit(@AppPanelProp_Val);
-
-  for i:= 0 to fmMain.FAppBottomPanelsListbox.Count-1 do
-  begin
-    PropObject:= fmMain.FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass;
-    if PropObject.Data.Listbox=AListbox then
-      exit(@PropObject.Data);
-  end;
 end;
 
 
@@ -1589,22 +1568,6 @@ begin
         LOG_SET_LINEINDEX:
           begin
             Prop^.Listbox.ItemIndex:= StrToIntDef(Str, 0);
-          end;
-
-        LOG_PANEL_ADD:
-          begin
-            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelAdd(Str)));
-            Exit; //skip ReturnNone
-          end;
-        LOG_PANEL_DELETE:
-          begin
-            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelDelete(Str)));
-            Exit; //skip ReturnNone
-          end;
-        LOG_PANEL_FOCUS:
-          begin
-            Result:= PyBool_FromLong(Ord(fmMain.DoPyPanelFocus(Str)));
-            Exit; //skip ReturnNone
           end;
 
         LOG_CONSOLE_CLEAR:

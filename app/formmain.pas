@@ -647,9 +647,6 @@ type
     procedure DoFileSaveAs;
     procedure DoSwitchActiveTab(ANext: boolean);
     procedure DoPyTimerTick(Sender: TObject);
-    function DoPyPanelAdd(AParams: string): boolean;
-    function DoPyPanelDelete(const ACaption: string): boolean;
-    function DoPyPanelFocus(const ACaption: string): boolean;
     procedure DoPyRunLastPlugin;
     procedure DoPyResetPlugins;
     procedure DoPyRescanPlugins;
@@ -845,7 +842,6 @@ type
     Tree: TTreeView;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
-    FAppBottomPanelsListbox: TStringlist;
     function FrameCount: integer;
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
@@ -1180,7 +1176,6 @@ begin
   AppManager:= TecSyntaxManager.Create(Self);
   FSessionName:= 'history session.json';
 
-  FAppBottomPanelsListbox:= TStringList.Create;
   FListRecents:= TStringList.Create;
   FListThemesUI:= TStringList.Create;
   FListThemesSyntax:= TStringList.Create;
@@ -1322,7 +1317,6 @@ begin
   FreeAndNil(FListThemesUI);
   FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
-  FreeAndNil(FAppBottomPanelsListbox);
   FreeAndNil(FKeymapUndoList);
 end;
 

@@ -3,7 +3,7 @@
 procedure TfmMain.DoApplyTheme;
 var
   F: TEditorFrame;
-  PropObject: TAppPanelPropsClass;
+  //PropObject: TAppPanelPropsClass;
   i: integer;
 begin
   UpdateMenuThemes(true);
@@ -121,13 +121,6 @@ begin
       if Assigned(ItemListbox) then
         DoApplyThemeToListbox(ItemListbox);
     end;
-
-  //bottom: log_panel_add
-  for i:= 0 to FAppBottomPanelsListbox.Count-1 do
-  begin
-    PropObject:= FAppBottomPanelsListbox.Objects[i] as TAppPanelPropsClass;
-    DoApplyThemeToListbox(PropObject.Data.Listbox);
-  end;
 
   //apply AppTheme to all frames
   for i:= 0 to FrameCount-1 do
