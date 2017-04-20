@@ -2,6 +2,10 @@ from cudatext import *
 
 h=0
 
+def do_close(id_dlg, id_ctl):
+    print('callback do_close')
+    dlg_proc(id_dlg, DLG_HIDE)
+
 def do_menu(id_dlg, id_ctl):
     print('callback do_menu')
     nctl = dlg_proc(id_dlg, DLG_CTL_FIND, prop='btn_menu')
@@ -79,7 +83,10 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'callback': 'module=cuda_testing_dlg_proc;func=do_menu;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':10, 'y':260, 'w':100, 'callback': 'module=cuda_testing_dlg_proc.testcall;func=do_call;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'callback': 'module=cuda_testing_dlg_proc.testcall;func=do_call;'} )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'callback': 'module=cuda_testing_dlg_proc;func=do_close;'} )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
 
