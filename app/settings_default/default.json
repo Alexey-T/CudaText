@@ -14,6 +14,9 @@
   "font_size__linux": 9,
   "font_size__mac": 9,
   
+  //Enable to render font ligatures. Option works only on Windows yet. [has suffix]
+  "font_ligatures": true,
+  
   //Text font rendering quality [has suffix]
   //  0: Default 
   //  1: Draft 

@@ -185,6 +185,7 @@ const
   str_FontName = 'font_name'+cOptionSystemSuffix;
   str_FontSize = 'font_size'+cOptionSystemSuffix;
   str_FontQuality = 'font_quality'+cOptionSystemSuffix;
+  str_FontLigatures = 'font_ligatures'+cOptionSystemSuffix;
   str_UiFontName = 'ui_font_name'+cOptionSystemSuffix;
   str_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
   str_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
@@ -197,6 +198,7 @@ type
     OpFontName: string;
     OpFontSize: integer;
     OpFontQuality: TFontQuality;
+    OpFontLigatures: boolean;
 
     OpSpacingX: integer;
     OpSpacingY: integer;
@@ -787,11 +789,9 @@ begin
       {$ifdef windows} 'Consolas' {$endif}
       {$ifdef linux} 'Courier New' {$endif}
       {$ifdef darwin} 'Monaco' {$endif} ;
-    OpFontSize:=
-      {$ifdef windows} 10 {$endif}
-      {$ifdef linux} 10 {$endif}
-      {$ifdef darwin} 10 {$endif} ;
+    OpFontSize:= 10; //for all OS
     OpFontQuality:= fqDefault;
+    OpFontLigatures:= true;
 
     OpSpacingX:= 0;
     OpSpacingY:= 1;

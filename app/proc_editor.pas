@@ -172,6 +172,7 @@ begin
   Ed.Font.Name:= Op.OpFontName;
   Ed.Font.Size:= Op.OpFontSize;
   Ed.Font.Quality:= Op.OpFontQuality;
+  Ed.OptShowFontLigatures:= Op.OpFontLigatures;
 
   Ed.OptCharSpacingX:= Op.OpSpacingX;
   Ed.OptCharSpacingY:= Op.OpSpacingY;
