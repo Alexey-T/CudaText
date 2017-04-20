@@ -58,7 +58,7 @@ begin
   end;
 
   if SCaption<>'' then
-    UpdateSidebarPanels(SCaption)
+    UpdateSidebarPanels(SCaption, true)
   else
     ShowSidePanel:= false;
 end;
@@ -78,7 +78,7 @@ begin
     Result:= ACaption;
 end;
 
-procedure TfmMain.UpdateSidebarPanels(const ACaption: string);
+procedure TfmMain.UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
 var
   i: integer;
 begin
@@ -93,6 +93,7 @@ begin
       if Assigned(ItemTreeview) then
       begin
         ItemTreeview.Visible:= ItemCaption=ACaption;
+        if AndFocus then
         if PanelLeft.Visible then
           if ItemTreeview.Visible then
             if ItemTreeview.CanFocus then
@@ -102,6 +103,7 @@ begin
       if Assigned(ItemListbox) then
       begin
         ItemListbox.Visible:= ItemCaption=ACaption;
+        if AndFocus then
         if PanelLeft.Visible then
           if ItemListbox.Visible then
             if ItemListbox.CanFocus then
@@ -267,11 +269,11 @@ begin
   end;
 end;
 
-function TfmMain.DoSidebar_ActivateTab(const ACaption: string): boolean;
+function TfmMain.DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
   Result:= DoSidebar_CaptionToTabIndex(ACaption)>=0;
   if Result then
-    UpdateSidebarPanels(ACaption);
+    UpdateSidebarPanels(ACaption, AndFocus);
 end;
 
 procedure TfmMain.UpdateSidebarButtons;

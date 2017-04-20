@@ -2311,7 +2311,7 @@ begin
 
         APP_PROC_SIDEPANEL_ACTIVATE:
           begin
-            ok:= fmMain.DoSidebar_ActivateTab(Str);
+            ok:= fmMain.DoSidebar_ActivateTab(Str, true);
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

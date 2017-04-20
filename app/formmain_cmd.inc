@@ -88,9 +88,9 @@ begin
     cmd_ShowPanelValidate: DoShowValidate;
     cmd_ShowPanelSearchRes: DoShowSearchResults;
 
-    cmd_ShowSidePanelAsIs: DoShowSidePanel('');
-    cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel('Tree');
-    cmd_HideSidePanel: DoShowSidePanel('-');
+    cmd_ShowSidePanelAsIs: DoShowSidePanel('', false);
+    cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel('Tree', false);
+    cmd_HideSidePanel: DoShowSidePanel('-', false);
 
     cmd_FindFirst:       DoFindFirst;
     cmd_FindNext:        DoFindNext(true);

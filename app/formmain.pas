@@ -595,7 +595,8 @@ type
     procedure DoSidebar_OnTabClick(Sender: TObject);
     procedure DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
-    function DoSidebar_ActivateTab(const ACaption: string): boolean;
+    function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean
+      ): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex, AImageIndex: integer): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
@@ -725,7 +726,7 @@ type
     procedure DoShowOutput;
     procedure DoShowValidate;
     procedure DoShowSearchResults;
-    procedure DoShowSidePanel(const ATabCaption: string);
+    procedure DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
     procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
@@ -823,7 +824,7 @@ type
     procedure SetLineEnds(Val: TATLineEnds);
     procedure MsgStatus(const AText: string);
     procedure UpdateSidebarButtons;
-    procedure UpdateSidebarPanels(const ACaption: string);
+    procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
@@ -2187,7 +2188,7 @@ begin
     if AValue then
     begin
       if SidebarPanel='' then
-        SidebarPanel:= 'Tree';
+        DoShowSidePanel('Tree', false);
       UpdateTree(true);
     end;
   end;
@@ -2498,7 +2499,7 @@ procedure TfmMain.SetSidebarPanel(const ACaption: string);
 begin
   if (ACaption<>'-') and (ACaption<>'') then
     if ShowSidePanel then
-      DoShowSidePanel(ACaption);
+      DoShowSidePanel(ACaption, true);
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
@@ -2665,7 +2666,7 @@ begin
   //no need yet
 end;
 
-procedure TfmMain.DoShowSidePanel(const ATabCaption: string);
+procedure TfmMain.DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
 begin
   if ATabCaption='-' then
   begin
@@ -2675,7 +2676,7 @@ begin
   begin
     ShowSidePanel:= true;
     if ATabCaption<>'' then
-      DoSidebar_ActivateTab(ATabCaption);
+      DoSidebar_ActivateTab(ATabCaption, AndFocus);
   end;
 
   UpdateSidebarButtons;
