@@ -191,14 +191,10 @@ end;
 
 procedure TFormDummy.DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  if IsDlgCustom then
-  begin
-    CloseAction:= caFree;
-    exit
-  end;
+  CloseAction:= caHide; //caFree gives crash on btn clicks on win
 
+  if IsDlgCustom then exit;
   IdClicked:= -1;
-  CloseAction:= caHide;
   DoEvent(-1, '"on_close"');
 end;
 
