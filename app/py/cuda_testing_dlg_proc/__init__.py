@@ -99,8 +99,6 @@ class Command:
         global h
         self.init_dlg()
         dlg_proc(h, DLG_SHOW_MODAL)
-        self.show_res()
-        dlg_proc(h, DLG_FREE)
 
     def show_res(self):
         global h
@@ -120,7 +118,6 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'cap':'OK', 'x':100, 'y':50, 'w':100 })
 
         dlg_proc(h, DLG_SHOW_MODAL)
-        dlg_proc(h, DLG_FREE)
 
 
     def run_dlgcustom(self):

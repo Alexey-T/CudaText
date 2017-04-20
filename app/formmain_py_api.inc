@@ -3861,7 +3861,7 @@ begin
 
         DLG_SHOW_MODAL:
           begin
-            Form.ShowModal;
+            DoFormEmulatedModalShow(Form);
             Result:= ReturnNone;
           end;
 
@@ -3873,7 +3873,7 @@ begin
 
         DLG_HIDE:
           begin
-            Form.Close; //not .Hide
+            Form.Close;
             Result:= ReturnNone;
           end;
 

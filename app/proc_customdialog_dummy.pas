@@ -57,6 +57,7 @@ type
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
+    PrevForms: TList;
     function IdFocused: integer;
     function IdFromName(const AName: string): integer;
     constructor Create(TheOwner: TComponent); override;
@@ -67,6 +68,9 @@ type
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoEvent(AIdControl: integer; const AEvent: string);
   end;
+
+
+procedure DoFormEmulatedModalShow(AForm: TFormDummy);
 
 
 implementation
@@ -115,6 +119,36 @@ begin
 end;
 
 
+procedure DoFormEmulatedModalShow(AForm: TFormDummy);
+var
+  F: TForm;
+  i: integer;
+begin
+  for i:= 0 to Screen.FormCount-1 do
+  begin
+    F:= Screen.Forms[i];
+    if F=AForm then Continue; //skip AForm
+    if F.Parent<>nil then Continue; //skip docked
+    if F.Enabled then
+    begin
+      AForm.PrevForms.Add(F);
+      F.Enabled:= false;
+    end;
+  end;
+  AForm.FormStyle:= fsStayOnTop;
+  AForm.Show;
+end;
+
+procedure DoFormEmulatedModalClose(AForm: TFormDummy);
+var
+  i: integer;
+begin
+  for i:= AForm.PrevForms.Count-1 downto 0 do
+    TForm(AForm.PrevForms[i]).Enabled:= true;
+  AForm.PrevForms.Clear;
+end;
+
+
 { TAppControlProps }
 
 constructor TAppControlProps.Create(const ATypeString: string);
@@ -146,6 +180,8 @@ begin
   OnShow:= @DoOnShow;
   OnClose:= @DoOnClose;
   OnKeyDown:= @DoOnKeyDown;
+
+  PrevForms:= TList.Create;
 end;
 
 procedure TFormDummy.DoOnShow(Sender: TObject);
@@ -192,8 +228,10 @@ end;
 procedure TFormDummy.DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caHide; //caFree gives crash on btn clicks on win
-
   if IsDlgCustom then exit;
+
+  DoFormEmulatedModalClose(Self);
+
   IdClicked:= -1;
   DoEvent(-1, '"on_close"');
 end;
