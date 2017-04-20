@@ -14,8 +14,9 @@
   "font_size__linux": 9,
   "font_size__mac": 9,
   
-  //Enable to render font ligatures. Option works only on Windows yet. [has suffix]
-  "font_ligatures": true,
+  //Enable to render font ligatures (tested on font Fira Code)
+  //Option works only on Windows yet. Gives 1-2 truncated pixels on "W" chars.
+  "font_ligatures": false,
   
   //Text font rendering quality [has suffix]
   //  0: Default 

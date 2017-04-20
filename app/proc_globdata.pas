@@ -185,7 +185,7 @@ const
   str_FontName = 'font_name'+cOptionSystemSuffix;
   str_FontSize = 'font_size'+cOptionSystemSuffix;
   str_FontQuality = 'font_quality'+cOptionSystemSuffix;
-  str_FontLigatures = 'font_ligatures'+cOptionSystemSuffix;
+  str_FontLigatures = 'font_ligatures'; //+cOptionSystemSuffix;
   str_UiFontName = 'ui_font_name'+cOptionSystemSuffix;
   str_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
   str_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
@@ -791,7 +791,7 @@ begin
       {$ifdef darwin} 'Monaco' {$endif} ;
     OpFontSize:= 10; //for all OS
     OpFontQuality:= fqDefault;
-    OpFontLigatures:= true;
+    OpFontLigatures:= false;
 
     OpSpacingX:= 0;
     OpSpacingY:= 1;
