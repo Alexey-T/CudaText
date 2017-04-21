@@ -12,12 +12,12 @@ events=on_dlg
 [item10]
 section=commands
 caption=dlg_proc\modal
-method=modal
+method=run_modal
 
 [item11]
 section=commands
 caption=dlg_proc\nonmodal
-method=nonmodal
+method=run_nonmodal
 
 [item20]
 section=commands
