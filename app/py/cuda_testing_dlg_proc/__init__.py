@@ -1,11 +1,11 @@
 from cudatext import *
 
 
-def callback_main_close(id_dlg, id_ctl, id_event=''):
+def callback_main_close(id_dlg, id_ctl, id_event='', info=''):
     print('callback_main_close')
     dlg_proc(id_dlg, DLG_HIDE)
 
-def callback_main_menu(id_dlg, id_ctl, id_event=''):
+def callback_main_menu(id_dlg, id_ctl, id_event='', info=''):
     print('callback_main_menu')
     nctl = dlg_proc(id_dlg, DLG_CTL_FIND, prop='btn_menu')
     d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=nctl)
@@ -36,7 +36,7 @@ class Command:
     def run_dlgcustom(self):
         dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
 
-    def callback_maindlg(self, id_dlg, id_ctl, id_event=''):
+    def callback_maindlg(self, id_dlg, id_ctl, id_event='', info=''):
         print('callback_maindlg', id_event)
         h = id_dlg
 
@@ -64,12 +64,17 @@ class Command:
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
 
 
-    def callback_tempdlg(self, id_dlg, id_ctl, id_event=''):
+    def callback_tempdlg(self, id_dlg, id_ctl, id_event='', info=''):
         print('callback_tempdlg', id_event)
 
         n_close = dlg_proc(id_dlg, DLG_CTL_FIND, 'btn_close')
         n_clone = dlg_proc(id_dlg, DLG_CTL_FIND, 'btn_clonedlg')
         n_canclose = dlg_proc(id_dlg, DLG_CTL_FIND, 'chk_canclose')
+        n_info = dlg_proc(id_dlg, DLG_CTL_FIND, 'label_info')
+
+        if id_event=='on_key_down':
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, index=n_info, prop={'cap': 'keypress: %d, state: %s'%(id_ctl, info) })
+            return True
 
         if id_event=='on_close_query':
             d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=n_canclose)
@@ -151,6 +156,9 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_canclose', 'cap':'can close form', 'x':50, 'y':80, 'w':100, 'val':True })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'label')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_info', 'cap':'--', 'x':50, 'y':160, 'w':100 })
 
         return h
 

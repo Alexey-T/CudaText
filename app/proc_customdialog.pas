@@ -1129,6 +1129,9 @@ begin
   if AName='vis' then
     F.Visible:= StrToBool(AValue)
   else
+  if AName='keypreview' then
+    F.KeyPreview:= StrToBool(AValue)
+  else
   ;
 end;
 
@@ -1137,7 +1140,7 @@ function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssisisisisisisOsOsO}',
+    Result:= Py_BuildValue('{sssisisisisisisOsOsOsO}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
@@ -1147,7 +1150,8 @@ begin
       'focused', F.IdFocused,
       'vis', PyBool_FromLong(Ord(F.Visible)),
       'resize', PyBool_FromLong(Ord(F.BorderStyle=bsSizeable)),
-      'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop))
+      'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop)),
+      'keypreview', PyBool_FromLong(Ord(F.KeyPreview))
       );
   end;
 end;

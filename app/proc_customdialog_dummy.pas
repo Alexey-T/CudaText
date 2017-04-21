@@ -17,7 +17,8 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   ATSynEdit,
-  proc_globdata;
+  proc_globdata,
+  proc_miscutils;
 
 type
   TAppPyEventCallback = function(
@@ -69,7 +70,7 @@ type
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
-    function DoEvent(AIdControl: integer; const AEvent: string): string;
+    function DoEvent(AIdControl: integer; const AEvent, AInfo: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
   end;
@@ -184,7 +185,17 @@ end;
 
 procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  Str: string;
 begin
+  Str:= DoEvent(Key, '"on_key_down"',
+    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"' );
+  if Str='False' then
+  begin
+    Key:= 0;
+    exit;
+  end;
+
   if (Key=VK_ESCAPE) then
   begin
     IdClicked:= -1;
@@ -203,14 +214,14 @@ procedure TFormDummy.DoOnResize;
 begin
   if BorderStyle<>bsSizeable then exit;
   if not IsFormShownAlready then exit;
-  DoEvent(-1, '"on_resize"');
+  DoEvent(-1, '"on_resize"', '');
 end;
 
 procedure TFormDummy.DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
 var
   Str: string;
 begin
-  Str:= DoEvent(-1, '"on_close_query"');
+  Str:= DoEvent(-1, '"on_close_query"', '');
   CanClose:= Str<>'False';
 end;
 
@@ -222,7 +233,7 @@ begin
 
   DoEmulatedModalClose;
   IdClicked:= -1;
-  DoEvent(-1, '"on_close"');
+  DoEvent(-1, '"on_close"', '');
 end;
 
 function TFormDummy.IdFocused: integer;
@@ -279,7 +290,7 @@ begin
       '"on_change"' //id_event
     ])
   else
-    DoEvent(IdClicked, '"on_change"');
+    DoEvent(IdClicked, '"on_change"', '');
 end;
 
 procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);
@@ -299,14 +310,15 @@ begin
   DoOnChange(Sender);
 end;
 
-function TFormDummy.DoEvent(AIdControl: integer; const AEvent: string): string;
+function TFormDummy.DoEvent(AIdControl: integer; const AEvent, AInfo: string): string;
 var
   Params: array of string;
 begin
-  SetLength(Params, 3);
+  SetLength(Params, 4);
   Params[0]:= IntToStr(PtrInt(Self)); //id_dlg
   Params[1]:= IntToStr(AIdControl); //id_ctl
   Params[2]:= AEvent; //id_event
+  Params[3]:= AInfo;
 
   if Callback<>'' then
     Result:= CustomDialog_DoPyCallback(Callback, Params)
