@@ -34,7 +34,7 @@ procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; out Ctl: TCont
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
-procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
+procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 
 
@@ -1072,7 +1072,7 @@ begin
 end;
 
 
-procedure DoForm_SetPropFromPair(F: TForm; const AName, AValue: string);
+procedure DoForm_SetPropFromPair(F: TFormDummy; const AName, AValue: string);
 begin
   if AName='cap' then
     F.Caption:= AValue
@@ -1123,6 +1123,9 @@ begin
       F.FormStyle:= fsNormal;
   end
   else
+  if AName='callback' then
+    F.Callback:= AValue
+  else
   ;
 end;
 
@@ -1146,7 +1149,7 @@ begin
 end;
 
 
-procedure DoForm_SetPropsFromStringDict(F: TForm; AText: string);
+procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 var
   SItem, SKey, SValue: string;
 begin

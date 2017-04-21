@@ -57,6 +57,7 @@ type
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
+    Callback: string;
     PrevForms: TList;
     function IdFocused: integer;
     function IdFromName(const AName: string): integer;
@@ -146,6 +147,7 @@ begin
   IsDlgCustom:= false;
   FormShown:= false;
   IdClicked:= -1;
+  Callback:= '';
 
   OnShow:= @DoOnShow;
   OnClose:= @DoOnClose;
@@ -285,13 +287,18 @@ begin
 end;
 
 procedure TFormDummy.DoEvent(AIdControl: integer; const AEvent: string);
+var
+  Params: array of string;
 begin
-  CustomDialog_DoPyEvent(nil, cEventOnDlg,
-    [
-      IntToStr(PtrInt(Self)), //id_dlg
-      IntToStr(AIdControl), //id_ctl
-      AEvent //id_event
-    ]);
+  SetLength(Params, 3);
+  Params[0]:= IntToStr(PtrInt(Self)); //id_dlg
+  Params[1]:= IntToStr(AIdControl); //id_ctl
+  Params[2]:= AEvent; //id_event
+
+  if Callback<>'' then
+    CustomDialog_DoPyCallback(Callback, Params)
+  else
+    CustomDialog_DoPyEvent(nil, cEventOnDlg, Params);
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;
