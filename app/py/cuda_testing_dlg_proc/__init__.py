@@ -1,18 +1,16 @@
 from cudatext import *
 
-h=0
-
-def callback_temp_dlg(id_dlg, id_ctl, id_event=''):
-    print('tempdlg', id_event)
+def callback_tempdlg(id_dlg, id_ctl, id_event=''):
+    print('callback_tempdlg', id_event)
     if id_ctl==0:
         dlg_proc(id_dlg, DLG_HIDE)
 
 
-def callback_main_close(id_dlg, id_ctl):
+def callback_main_close(id_dlg, id_ctl, id_event=''):
     print('callback_main_close')
     dlg_proc(id_dlg, DLG_HIDE)
 
-def callback_main_menu(id_dlg, id_ctl):
+def callback_main_menu(id_dlg, id_ctl, id_event=''):
     print('callback_main_menu')
     nctl = dlg_proc(id_dlg, DLG_CTL_FIND, prop='btn_menu')
     d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=nctl)
@@ -29,10 +27,20 @@ def callback_main_menu(id_dlg, id_ctl):
 
 
 class Command:
-    def on_dlg(self, ed_self, id_dlg, id_ctl, id_event):
-        global h
-        print(id_event)
-        if id_dlg!=h: return
+    def run_modal(self):
+        h = self.init_maindlg()
+        dlg_proc(h, DLG_SHOW_MODAL)
+
+    def run_nonmodal(self):
+        h = self.init_maindlg()
+        dlg_proc(h, DLG_SHOW_NONMODAL)
+
+    def run_dlgcustom(self):
+        dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
+
+    def callback_maindlg(self, id_dlg, id_ctl, id_event=''):
+        print('callback_maindlg', id_event)
+        h = id_dlg
 
         n_chk = dlg_proc(h, DLG_CTL_FIND, prop='chk1')
         n_edit = dlg_proc(h, DLG_CTL_FIND, prop='edit1')
@@ -50,25 +58,23 @@ class Command:
                 dlg_proc(h, DLG_PROP_SET, prop={'cap': 'entered: '+d['val'] } )
 
             if id_ctl==n_btn_dlg:
-                self.temp_dlg()
-
-            #self.show_res()
+                hh = self.init_tempdlg()
+                dlg_proc(hh, DLG_SHOW_MODAL)
 
         if id_event=='on_resize':
             d = dlg_proc(h, DLG_PROP_GET)
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
 
 
-    def init_dlg(self):
-        global h
+    def init_maindlg(self):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'TestDlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 100, 'topmost':True })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 100, 'topmost':True, 'callback': 'cuda_testing_dlg_proc.callback_maindlg' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': '', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'show panel (active)', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'show panel', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit1', 'val':'edit1', 'x':10, 'y':30, 'w':200} )
@@ -95,42 +101,28 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'callback': 'module=cuda_testing_dlg_proc;func=callback_main_close;'} )
 
         dlg_proc(h, DLG_CTL_FOCUS, index=3)
+        return h
 
-    def run_nonmodal(self):
-        global h
-        self.init_dlg()
-        dlg_proc(h, DLG_SHOW_NONMODAL)
-
-    def run_modal(self):
-        global h
-        self.init_dlg()
-        dlg_proc(h, DLG_SHOW_MODAL)
-
-    def show_res(self):
-        global h
+    def show_form_prop(self, h):
         res = dlg_proc(h, DLG_PROP_GET)
-        print('dlg_proc:', res)
+        print('form prop:', res)
 
         cnt = dlg_proc(h, DLG_CTL_COUNT)
         for n in range(cnt):
             res = dlg_proc(h, DLG_CTL_PROP_GET, index=n)
-            print('ctl%d:'%n, res)
+            print('c%d:'%n, res)
 
-    def temp_dlg(self):
+
+    def init_tempdlg(self):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':200, 'y':200, 'w':300, 'h':200, 'callback': 'module=cuda_testing_dlg_proc;func=callback_temp_dlg;' })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':200, 'y':200, 'w':300, 'h':200, 'callback': 'module=cuda_testing_dlg_proc;func=callback_tempdlg;' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':100, 'y':50, 'w':100 })
-
-        dlg_proc(h, DLG_SHOW_MODAL)
-
-
-    def run_dlgcustom(self):
-        dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
+        return h
 
 
-    def callback_main_movebtn(self, id_dlg, id_ctl):
+    def callback_main_movebtn(self, id_dlg, id_ctl, id_event=''):
         print('callback_main_movebtn')
         d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=id_ctl)
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, index=id_ctl, prop={'x': d['x']+10, 'y': d['y']+8 } )

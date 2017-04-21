@@ -50,7 +50,7 @@ type
 
   TFormDummy = class(TForm)
   private
-    FormShown: boolean;
+    IsFormShownAlready: boolean;
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -145,7 +145,7 @@ begin
   Scaled:= true;
 
   IsDlgCustom:= false;
-  FormShown:= false;
+  IsFormShownAlready:= false;
   IdClicked:= -1;
   Callback:= '';
 
@@ -167,7 +167,7 @@ var
   C: TControl;
   i: integer;
 begin
-  FormShown:= true;
+  IsFormShownAlready:= true;
   DoForm_SetupFilters(Self);
 
   for i:= 0 to ControlCount-1 do
@@ -200,6 +200,7 @@ end;
 procedure TFormDummy.DoOnResize;
 begin
   if BorderStyle<>bsSizeable then exit;
+  if not IsFormShownAlready then exit;
   DoEvent(-1, '"on_resize"');
 end;
 
@@ -241,7 +242,7 @@ var
 begin
   //workarnd for bug on Mac
   //(flicker on More>> press in BackupFile dialog)
-  if not FormShown then exit;
+  if not IsFormShownAlready then exit;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
   if not Props.FActive then exit;
@@ -263,7 +264,8 @@ begin
   if Props.FCallback<>'' then
     CustomDialog_DoPyCallback(Props.FCallback, [
       IntToStr(PtrInt(Self)), //id_dlg
-      IntToStr(IdClicked) //id_ctl
+      IntToStr(IdClicked), //id_ctl
+      '"on_change"' //id_event
     ])
   else
     DoEvent(IdClicked, '"on_change"');
