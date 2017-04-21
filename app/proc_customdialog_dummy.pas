@@ -321,9 +321,7 @@ begin
   Params[3]:= AInfo;
 
   if Callback<>'' then
-    Result:= CustomDialog_DoPyCallback(Callback, Params)
-  else
-    Result:= CustomDialog_DoPyEvent(nil, cEventOnDlg, Params);
+    Result:= CustomDialog_DoPyCallback(Callback, Params);
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;
