@@ -1126,6 +1126,9 @@ begin
   if AName='callback' then
     F.Callback:= AValue
   else
+  if AName='vis' then
+    F.Visible:= StrToBool(AValue)
+  else
   ;
 end;
 
@@ -1134,7 +1137,7 @@ function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 begin
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssisisisisisisOsO}',
+    Result:= Py_BuildValue('{sssisisisisisisOsOsO}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
@@ -1142,6 +1145,7 @@ begin
       PChar(string('h')), F.Height,
       'clicked', F.IdClicked,
       'focused', F.IdFocused,
+      'vis', PyBool_FromLong(Ord(F.Visible)),
       'resize', PyBool_FromLong(Ord(F.BorderStyle=bsSizeable)),
       'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop))
       );

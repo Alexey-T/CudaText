@@ -24,7 +24,9 @@ def callback_main_menu(id_dlg, id_ctl, id_event=''):
 class Command:
     def run_modal(self):
         h = self.init_maindlg()
+        print('run_modal')
         dlg_proc(h, DLG_SHOW_MODAL)
+        print('run_modal closed')
 
     def run_nonmodal(self):
         h = self.init_maindlg()
