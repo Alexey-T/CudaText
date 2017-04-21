@@ -1,7 +1,4 @@
 from cudatext import *
-from time import sleep
-
-SLEEPTIME=0.01
 
 
 def callback_main_close(id_dlg, id_ctl, id_event=''):
@@ -29,15 +26,7 @@ class Command:
         print('run_modal begin')
         h = self.init_maindlg()
         dlg_proc(h, DLG_SHOW_MODAL)
-
-        #wait to close
-        while True:
-            app_idle()
-            sleep(SLEEPTIME)
-            d = dlg_proc(h, DLG_PROP_GET)
-            if not d['vis']:
-                break
-
+        dlg_proc(h, DLG_WAIT)
         dlg_proc(h, DLG_FREE)
         print('run_modal end')
 
@@ -91,15 +80,7 @@ class Command:
                 d = dlg_proc(id_dlg, DLG_PROP_GET)
                 hh = self.init_tempdlg(d['x']+20, d['y']+20)
                 dlg_proc(hh, DLG_SHOW_MODAL)
-
-                #wait to close
-                while True:
-                    app_idle()
-                    sleep(SLEEPTIME)
-                    d = dlg_proc(hh, DLG_PROP_GET)
-                    if not d['vis']:
-                        break
-
+                dlg_proc(hh, DLG_WAIT)
                 dlg_proc(hh, DLG_FREE)
                 print('  tempdlg end')
 

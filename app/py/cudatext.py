@@ -1,5 +1,7 @@
 import json
+from time import sleep
 import cudatext_api as ct
+
 
 MB_OK               = 0x00000000
 MB_OKCANCEL         = 0x00000001
@@ -429,6 +431,7 @@ TOOLBAR_DELETE_BUTTON  = 7
 
 DLG_CREATE         = 0
 DLG_FREE           = 1
+DLG_WAIT           = 4
 DLG_SHOW_MODAL     = 5
 DLG_SHOW_NONMODAL  = 6
 DLG_HIDE           = 7
@@ -568,6 +571,14 @@ def to_str(v):
 
 
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
+    if id_action == DLG_WAIT:
+        while True:
+            app_idle()
+            sleep(0.01)
+            d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1)
+            if not d['vis']:
+                return
+
     return ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
 
 
