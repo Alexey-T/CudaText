@@ -18,6 +18,7 @@ uses
   ListViewFilterEdit,
   LclProc, LclType,
   proc_customdialog_dummy,
+  proc_miscutils,
   formconsole,
   PythonEngine;
 
@@ -494,6 +495,14 @@ begin
     (Ctl as TListView).OnChange:= @AForm.DoOnListviewChange;
     (Ctl as TListView).OnSelectItem:= @AForm.DoOnListviewSelect;
     exit;
+  end;
+
+  if (S='treeview') then
+  begin
+    Ctl:= TTreeView.Create(AForm);
+    (Ctl as TTreeView).ReadOnly:= true;
+    (Ctl as TTreeView).RowSelect:= true;
+    DoApplyThemeToTreeview(Ctl as TTreeView, false);
   end;
 
   if S='linklabel' then

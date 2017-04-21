@@ -155,16 +155,19 @@ class Command:
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':50, 'y':20, 'w':100 })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':20, 'y':20, 'w':100 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_clonedlg', 'cap':'clone dlg', 'x':50, 'y':50, 'w':100 })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_clonedlg', 'cap':'clone dlg', 'x':20, 'y':50, 'w':100 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_canclose', 'cap':'can close form', 'x':50, 'y':80, 'w':100, 'val':True })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_canclose', 'cap':'can close form', 'x':20, 'y':80, 'w':100, 'val':True })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_info', 'cap':'(shows key press)', 'x':50, 'y':160, 'w':100 })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_info', 'cap':'(shows key press)', 'x':20, 'y':160, 'w':100 })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'treeview')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'tree', 'x':160, 'y':10, 'w':130, 'h': 150 })
 
         return h
 

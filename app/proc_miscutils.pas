@@ -12,14 +12,15 @@ unit proc_miscutils;
 interface
 
 uses
-  Classes, SysUtils, Controls, ComCtrls, Graphics, ImgList,
-  Dialogs, Forms,
+  Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics,
+  ImgList, Dialogs, Forms,
   LclIntf, LclType, LazFileUtils, StrUtils,
   ATSynEdit,
   ATSynEdit_Export_HTML,
   ATStringProc,
   ATButtons,
   ecSyntAnal,
+  proc_globdata,
   proc_py_const,
   proc_colors;
 
@@ -35,6 +36,7 @@ procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer
 type
   TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
+procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean=true);
 
 procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
 
@@ -332,6 +334,45 @@ var
 begin
   D:= FileDateToDateTime(FileAgeUTF8(AFilename));
   Result:= ConvertDateTimeToNiceString(D);
+end;
+
+
+procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean);
+begin
+  if AThemed then
+  begin
+    C.Font.Color:= GetAppColor('TreeFont');
+    C.BackgroundColor:= GetAppColor('TreeBg');
+    C.SelectionFontColor:= GetAppColor('TreeSelFont'); //lew Laz
+    C.SelectionFontColorUsed:= true; //new Laz
+    C.SelectionColor:= GetAppColor('TreeSelBg');
+    C.TreeLineColor:= GetAppColor('TreeLines');
+    C.TreeLinePenStyle:= psSolid;
+    C.ExpandSignColor:= GetAppColor('TreeSign');
+  end;
+
+  C.BorderStyle:= bsNone;
+  C.ExpandSignType:= tvestArrowFill;
+  C.HideSelection:= false;
+  C.Options:= [
+    tvoAutoItemHeight,
+    tvoKeepCollapsedNodes,
+    tvoShowButtons,
+    tvoShowLines,
+    tvoShowRoot,
+    tvoToolTips
+    ];
+  C.ShowLines:= UiOps.TreeShowLines;
+  C.RowSelect:= true;
+  C.RightClickSelect:= true;
+  C.ReadOnly:= true;
+
+  if AThemed then
+    C.ScrollBars:= ssNone
+  else
+    C.ScrollBars:= ssVertical;
+
+  C.Invalidate;
 end;
 
 

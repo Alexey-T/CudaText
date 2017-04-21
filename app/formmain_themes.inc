@@ -143,37 +143,6 @@ begin
   CompletionOps.ColorFont[2]:= GetAppColor('ListCompleteParams');
 end;
 
-procedure TfmMain.DoApplyThemeToTreeview(C: TTreeview);
-begin
-  C.Font.Color:= GetAppColor('TreeFont');
-  C.BackgroundColor:= GetAppColor('TreeBg');
-  C.SelectionFontColor:= GetAppColor('TreeSelFont'); //lew Laz
-  C.SelectionFontColorUsed:= true; //new Laz
-  C.SelectionColor:= GetAppColor('TreeSelBg');
-  C.TreeLineColor:= GetAppColor('TreeLines');
-  C.TreeLinePenStyle:= psSolid;
-  C.ExpandSignColor:= GetAppColor('TreeSign');
-
-  C.BorderStyle:= bsNone;
-  C.ExpandSignType:= tvestArrowFill;
-  C.HideSelection:= false;
-  C.Options:= [
-    tvoAutoItemHeight,
-    tvoKeepCollapsedNodes,
-    tvoShowButtons,
-    tvoShowLines,
-    tvoShowRoot,
-    tvoToolTips
-    ];
-  C.ShowLines:= UiOps.TreeShowLines;
-  C.ScrollBars:= ssNone; //ssVertical;
-  C.RowSelect:= true;
-  C.RightClickSelect:= true;
-  C.ReadOnly:= true;
-
-  C.Invalidate;
-end;
-
 procedure TfmMain.DoApplyThemeToListbox(C: proc_globdata.TATListbox);
 begin
   C.Color:= GetAppColor('ListBg');

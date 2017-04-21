@@ -613,7 +613,6 @@ type
     function DoBottom_ActivateTab(const ACaption: string): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
-    procedure DoApplyThemeToTreeview(C: TTreeview);
     procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
