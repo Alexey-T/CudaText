@@ -26,7 +26,6 @@ class Command:
         print('run_modal begin')
         h = self.init_maindlg()
         dlg_proc(h, DLG_SHOW_MODAL)
-        dlg_proc(h, DLG_WAIT)
         dlg_proc(h, DLG_FREE)
         print('run_modal end')
 
@@ -80,7 +79,6 @@ class Command:
                 d = dlg_proc(id_dlg, DLG_PROP_GET)
                 hh = self.init_tempdlg(d['x']+20, d['y']+20)
                 dlg_proc(hh, DLG_SHOW_MODAL)
-                dlg_proc(hh, DLG_WAIT)
                 dlg_proc(hh, DLG_FREE)
                 print('  tempdlg end')
 

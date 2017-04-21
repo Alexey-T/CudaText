@@ -431,7 +431,6 @@ TOOLBAR_DELETE_BUTTON  = 7
 
 DLG_CREATE         = 0
 DLG_FREE           = 1
-DLG_WAIT           = 4
 DLG_SHOW_MODAL     = 5
 DLG_SHOW_NONMODAL  = 6
 DLG_HIDE           = 7
@@ -570,16 +569,19 @@ def to_str(v):
     return str(v)
 
 
-def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
-    if id_action == DLG_WAIT:
-        while True:
-            app_idle()
-            sleep(0.01)
-            d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1)
-            if not d['vis']:
-                return
+def dlg_proc_wait(id_dialog):
+    while True:
+        app_idle()
+        sleep(0.01) #10 msec seems ok for CPU load
+        d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1)
+        if not d['vis']:
+            return
 
-    return ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
+def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
+    res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
+    if id_action == DLG_SHOW_MODAL:
+        dlg_proc_wait(id_dialog)
+    return res
 
 
 #Editor
