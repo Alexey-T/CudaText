@@ -19,8 +19,7 @@ uses
   ListViewFilterEdit,
   proc_globdata,
   proc_miscutils,
-  ATSynEdit,
-  ATListbox;
+  ATSynEdit;
 
 type
   TAppPyEventCallback = function(
@@ -73,7 +72,6 @@ type
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
-    procedure DoOnATListboxDrawItem(Sender: TObject; C: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
     function DoEvent(AIdControl: integer; const AEvent, AInfo: string): string;
     procedure DoEmulatedModalShow;
@@ -371,33 +369,6 @@ begin
   PrevForms.Clear;
 end;
 
-
-procedure TFormDummy.DoOnATListboxDrawItem(Sender: TObject; C: TCanvas;
-  AIndex: integer; const ARect: TRect);
-const
-  cIndent = 4;
-var
-  List: TATListbox;
-  str: string;
-begin
-  List:= Sender as TATListbox;
-  if AIndex<0 then exit;
-  if AIndex=List.ItemIndex then
-  begin
-    c.Font.Color:= clWhite;
-    c.Brush.Color:= clMedGray;
-  end
-  else
-  begin
-    c.Font.Color:= clBlack;
-    c.Brush.Color:= clWhite;
-  end;
-  c.Pen.Color:= c.Brush.Color;
-  c.FillRect(ARect);
-
-  str:= List.Items[AIndex];
-  c.TextOut(ARect.Left+cIndent, ARect.Top+1, str);
-end;
 
 procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
 begin

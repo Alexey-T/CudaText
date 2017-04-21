@@ -510,7 +510,6 @@ begin
   begin
     Ctl:= TATListbox.Create(AForm);
     (Ctl as TATListbox).CanGetFocus:= true;
-    (Ctl as TATListbox).OnDrawItem:= @AForm.DoOnATListboxDrawItem;
     (Ctl as TATListbox).OnChangedSel:= @AForm.DoOnChange;
     exit;
   end;
