@@ -23,8 +23,8 @@ def callback_main_menu(id_dlg, id_ctl, id_event=''):
 
 class Command:
     def run_modal(self):
+        print('run_modal begin')
         h = self.init_maindlg()
-        print('run_modal')
         dlg_proc(h, DLG_SHOW_MODAL)
 
         #wait to close
@@ -34,7 +34,8 @@ class Command:
             if not d['vis']:
                 break
 
-        print('run_modal closed')
+        dlg_proc(h, DLG_FREE)
+        print('run_modal end')
 
     def run_nonmodal(self):
         h = self.init_maindlg()
@@ -73,14 +74,30 @@ class Command:
 
     def callback_tempdlg(self, id_dlg, id_ctl, id_event=''):
         print('callback_tempdlg', id_event)
+
+        n_close = dlg_proc(id_dlg, DLG_CTL_FIND, 'btn_close')
+        n_clone = dlg_proc(id_dlg, DLG_CTL_FIND, 'btn_clonedlg')
+
         if id_event=='on_change':
-            if id_ctl==0:
+            if id_ctl==n_close:
                 dlg_proc(id_dlg, DLG_HIDE)
 
-            if id_ctl==1:
+            if id_ctl==n_clone:
+                print('  tempdlg begin')
                 d = dlg_proc(id_dlg, DLG_PROP_GET)
                 hh = self.init_tempdlg(d['x']+20, d['y']+20)
                 dlg_proc(hh, DLG_SHOW_MODAL)
+
+                #wait to close
+                while True:
+                    app_idle()
+                    d = dlg_proc(hh, DLG_PROP_GET)
+                    if not d['vis']:
+                        break
+
+                dlg_proc(hh, DLG_FREE)
+                print('  tempdlg end')
+
 
 
     def init_maindlg(self):
