@@ -69,6 +69,12 @@ class Command:
 
         n_close = dlg_proc(id_dlg, DLG_CTL_FIND, 'btn_close')
         n_clone = dlg_proc(id_dlg, DLG_CTL_FIND, 'btn_clonedlg')
+        n_canclose = dlg_proc(id_dlg, DLG_CTL_FIND, 'chk_canclose')
+
+        if id_event=='on_close_query':
+            d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=n_canclose)
+            #print('canclose:', d['val'])
+            return d['val']=='1'
 
         if id_event=='on_change':
             if id_ctl==n_close:
@@ -142,6 +148,9 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_clonedlg', 'cap':'clone dlg', 'x':50, 'y':50, 'w':100 })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'check')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_canclose', 'cap':'can close form', 'x':50, 'y':80, 'w':100, 'val':True })
 
         return h
 

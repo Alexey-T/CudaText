@@ -24,9 +24,9 @@ type
       AEd: TATSynEdit;
       AEvent: TAppPyEvent;
       const AParams: array of string): string of object;
-  TAppPyCommonCallback = procedure(
+  TAppPyCommonCallback = function(
       const ACallback: string;
-      const AParams: array of string) of object;
+      const AParams: array of string): string of object;
 
 var
   CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
@@ -69,7 +69,7 @@ type
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
-    procedure DoEvent(AIdControl: integer; const AEvent: string);
+    function DoEvent(AIdControl: integer; const AEvent: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
   end;
@@ -207,8 +207,11 @@ begin
 end;
 
 procedure TFormDummy.DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
+var
+  Str: string;
 begin
-  CanClose:= Enabled;
+  Str:= DoEvent(-1, '"on_close_query"');
+  CanClose:= Str<>'False';
 end;
 
 
@@ -296,7 +299,7 @@ begin
   DoOnChange(Sender);
 end;
 
-procedure TFormDummy.DoEvent(AIdControl: integer; const AEvent: string);
+function TFormDummy.DoEvent(AIdControl: integer; const AEvent: string): string;
 var
   Params: array of string;
 begin
@@ -306,9 +309,9 @@ begin
   Params[2]:= AEvent; //id_event
 
   if Callback<>'' then
-    CustomDialog_DoPyCallback(Callback, Params)
+    Result:= CustomDialog_DoPyCallback(Callback, Params)
   else
-    CustomDialog_DoPyEvent(nil, cEventOnDlg, Params);
+    Result:= CustomDialog_DoPyEvent(nil, cEventOnDlg, Params);
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;

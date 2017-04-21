@@ -120,8 +120,8 @@ begin
 end;
 
 
-procedure TfmMain.DoPyCallbackFromAPI(const ACallback: string;
-  const AParams: array of string);
+function TfmMain.DoPyCallbackFromAPI(const ACallback: string;
+  const AParams: array of string): string;
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
   cRegex_SignCommand = 'module=(.+);cmd=(.+);$';
@@ -130,12 +130,14 @@ var
   Parts: TRegexParts;
   SModule, SFunc: string;
 begin
+  Result:= '';
+
   if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) or
      SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-    Py_RunPlugin_Command(SModule, SFunc, AParams);
+    Result:= Py_RunPlugin_Command(SModule, SFunc, AParams);
     exit;
   end;
 
@@ -143,7 +145,7 @@ begin
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-    Py_RunModuleFunction(SModule, SFunc, AParams);
+    Result:= Py_RunModuleFunction(SModule, SFunc, AParams);
     exit;
   end;
 
