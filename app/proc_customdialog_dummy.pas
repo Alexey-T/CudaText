@@ -54,6 +54,7 @@ type
     IsFormShownAlready: boolean;
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
   public
@@ -155,6 +156,7 @@ begin
   OnClose:= @DoOnClose;
   OnCloseQuery:= @DoOnCloseQuery;
   OnKeyDown:= @DoOnKeyDown;
+  OnKeyUp:= @DoOnKeyUp;
 
   PrevForms:= TList.Create;
 end;
@@ -183,8 +185,7 @@ begin
   end;
 end;
 
-procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Str: string;
 begin
@@ -205,6 +206,19 @@ begin
     else
       Close;
 
+    Key:= 0;
+    exit;
+  end;
+end;
+
+procedure TFormDummy.DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Str: string;
+begin
+  Str:= DoEvent(Key, '"on_key_up"',
+    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"' );
+  if Str='False' then
+  begin
     Key:= 0;
     exit;
   end;
