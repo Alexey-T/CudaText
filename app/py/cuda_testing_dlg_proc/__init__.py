@@ -1,10 +1,5 @@
 from cudatext import *
 
-def callback_tempdlg(id_dlg, id_ctl, id_event=''):
-    print('callback_tempdlg', id_event)
-    if id_ctl==0:
-        dlg_proc(id_dlg, DLG_HIDE)
-
 
 def callback_main_close(id_dlg, id_ctl, id_event=''):
     print('callback_main_close')
@@ -66,6 +61,18 @@ class Command:
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
 
 
+    def callback_tempdlg(self, id_dlg, id_ctl, id_event=''):
+        print('callback_tempdlg', id_event)
+        if id_event=='on_change':
+            if id_ctl==0:
+                dlg_proc(id_dlg, DLG_HIDE)
+
+            if id_ctl==1:
+                d = dlg_proc(id_dlg, DLG_PROP_GET)
+                hh = self.init_tempdlg(d['x']+20, d['y']+20)
+                dlg_proc(hh, DLG_SHOW_MODAL)
+
+
     def init_maindlg(self):
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 100, 'topmost':True, 'callback': 'cuda_testing_dlg_proc.callback_maindlg' })
@@ -100,8 +107,10 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'callback': 'module=cuda_testing_dlg_proc;func=callback_main_close;'} )
 
-        dlg_proc(h, DLG_CTL_FOCUS, index=3)
+        nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
+        dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)
         return h
+
 
     def show_form_prop(self, h):
         res = dlg_proc(h, DLG_PROP_GET)
@@ -113,12 +122,16 @@ class Command:
             print('c%d:'%n, res)
 
 
-    def init_tempdlg(self):
+    def init_tempdlg(self, x=150, y=150):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':200, 'y':200, 'w':300, 'h':200, 'callback': 'module=cuda_testing_dlg_proc;func=callback_tempdlg;' })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':100, 'y':50, 'w':100 })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':50, 'y':20, 'w':100 })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_clonedlg', 'cap':'clone dlg', 'x':50, 'y':50, 'w':100 })
+
         return h
 
 

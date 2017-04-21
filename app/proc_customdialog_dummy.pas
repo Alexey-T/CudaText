@@ -54,6 +54,7 @@ type
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
@@ -151,6 +152,7 @@ begin
 
   OnShow:= @DoOnShow;
   OnClose:= @DoOnClose;
+  OnCloseQuery:= @DoOnCloseQuery;
   OnKeyDown:= @DoOnKeyDown;
 
   PrevForms:= TList.Create;
@@ -203,6 +205,12 @@ begin
   if not IsFormShownAlready then exit;
   DoEvent(-1, '"on_resize"');
 end;
+
+procedure TFormDummy.DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+  CanClose:= Enabled;
+end;
+
 
 procedure TFormDummy.DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
