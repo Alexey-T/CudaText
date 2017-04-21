@@ -1,4 +1,7 @@
 from cudatext import *
+from time import sleep
+
+SLEEPTIME=0.01
 
 
 def callback_main_close(id_dlg, id_ctl, id_event=''):
@@ -30,6 +33,7 @@ class Command:
         #wait to close
         while True:
             app_idle()
+            sleep(SLEEPTIME)
             d = dlg_proc(h, DLG_PROP_GET)
             if not d['vis']:
                 break
@@ -91,6 +95,7 @@ class Command:
                 #wait to close
                 while True:
                     app_idle()
+                    sleep(SLEEPTIME)
                     d = dlg_proc(hh, DLG_PROP_GET)
                     if not d['vis']:
                         break
