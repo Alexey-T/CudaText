@@ -17,6 +17,7 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   LclProc, LclType,
+  ATListbox,
   proc_customdialog_dummy,
   proc_miscutils,
   formconsole,
@@ -500,9 +501,14 @@ begin
   if (S='treeview') then
   begin
     Ctl:= TTreeView.Create(AForm);
-    (Ctl as TTreeView).ReadOnly:= true;
-    (Ctl as TTreeView).RowSelect:= true;
-    DoApplyThemeToTreeview(Ctl as TTreeView, false);
+    DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
+    exit
+  end;
+
+  if (S='listbox_ex') then
+  begin
+    Ctl:= TATListbox.Create(AForm);
+    exit;
   end;
 
   if S='linklabel' then
