@@ -502,12 +502,16 @@ begin
   begin
     Ctl:= TTreeView.Create(AForm);
     DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
+    (Ctl as TTreeView).OnChange:= @AForm.DoOnTreeviewChange;
     exit
   end;
 
   if (S='listbox_ex') then
   begin
     Ctl:= TATListbox.Create(AForm);
+    (Ctl as TATListbox).CanGetFocus:= true;
+    (Ctl as TATListbox).OnDrawItem:= @AForm.DoOnATListboxDrawItem;
+    (Ctl as TATListbox).OnChangedSel:= @AForm.DoOnChange;
     exit;
   end;
 

@@ -167,7 +167,13 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_info', 'cap':'(shows key press)', 'x':20, 'y':160, 'w':100 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'listbox_ex')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'tree', 'x':160, 'y':10, 'w':130, 'h': 150 })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'list1', 'x':160, 'y':10, 'w':130, 'h': 140 })
+
+        h_list = dlg_proc(h, DLG_CTL_HANDLE, index=n)
+        listbox_proc(h_list, LISTBOX_ADD, index=-1, text='listitem-a')
+        listbox_proc(h_list, LISTBOX_ADD, index=-1, text='listitem-b')
+        listbox_proc(h_list, LISTBOX_ADD, index=-1, text='listitem-c')
+        listbox_proc(h_list, LISTBOX_SET_SEL, index=2)
 
         return h
 
