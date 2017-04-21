@@ -26,6 +26,14 @@ class Command:
         h = self.init_maindlg()
         print('run_modal')
         dlg_proc(h, DLG_SHOW_MODAL)
+
+        #wait to close
+        while True:
+            app_idle()
+            d = dlg_proc(h, DLG_PROP_GET)
+            if not d['vis']:
+                break
+
         print('run_modal closed')
 
     def run_nonmodal(self):
