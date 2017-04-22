@@ -166,6 +166,9 @@ begin
   if C is TTrackBar then
     exit(IntToStr((C as TTrackBar).Position));
 
+  if C is TProgressBar then
+    exit(IntToStr((C as TProgressBar).Position));
+
   if C is TListFilterEdit then
     exit((C as TListFilterEdit).Text);
 
@@ -554,6 +557,14 @@ begin
     exit;
   end;
 
+  if S='progressbar' then
+  begin
+    Ctl:= TProgressBar.Create(AForm);
+    (Ctl as TProgressBar).Min:= -100000;
+    (Ctl as TProgressBar).Max:= 100000;
+    exit;
+  end;
+
   if S='filter_listbox' then
   begin
     Ctl:= TListFilterEdit.Create(AForm);
@@ -678,6 +689,18 @@ begin
     (C as TTrackBar).Reversed:= StrToBool(SGetItem(S));
     (C as TTrackBar).TickMarks:= TTickMark(StrToIntDef(SGetItem(S), 0));
     (C as TTrackBar).TickStyle:= TTickStyle(StrToIntDef(SGetItem(S), 0));
+    exit;
+  end;
+
+  if (C is TProgressBar) then
+  begin
+    (C as TProgressBar).Orientation:= TProgressBarOrientation(StrToIntDef(SGetItem(S), 0));
+    (C as TProgressBar).Min:= StrToIntDef(SGetItem(S), 0);
+    (C as TProgressBar).Max:= StrToIntDef(SGetItem(S), 100);
+    (C as TProgressBar).Smooth:= StrToBool(SGetItem(S));
+    (C as TProgressBar).Step:= StrToIntDef(SGetItem(S), 1);
+    (C as TProgressBar).Style:= TProgressBarStyle(StrToIntDef(SGetItem(S), 0));
+    (C as TProgressBar).BarShowText:= StrToBool(SGetItem(S));
     exit;
   end;
 
@@ -810,6 +833,11 @@ begin
   if C is TTrackBar then
   begin
     (C as TTrackBar).Position:= StrToIntDef(S, 0);
+    exit
+  end;
+  if C is TProgressBar then
+  begin
+    (C as TProgressBar).Position:= StrToIntDef(S, 0);
     exit
   end;
   if C is TListFilterEdit then
