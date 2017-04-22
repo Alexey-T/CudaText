@@ -73,11 +73,12 @@ class Command:
         n_info = dlg_proc(id_dlg, DLG_CTL_FIND, 'label_info')
 
         if id_event=='on_key_down':
+            state = app_proc(PROC_GET_KEYSTATE, '')
             str_key =\
-                ('Meta+' if 'm' in info else '')+\
-                ('Ctrl+' if 'c' in info else '')+\
-                ('Alt+' if 'a' in info else '')+\
-                ('Shift+' if 's' in info else '')+\
+                ('Meta+' if 'm' in state else '')+\
+                ('Ctrl+' if 'c' in state else '')+\
+                ('Alt+' if 'a' in state else '')+\
+                ('Shift+' if 's' in state else '')+\
                 app_proc(PROC_HOTKEY_INT_TO_STR, str(id_ctl))
             dlg_proc(id_dlg, DLG_CTL_PROP_SET, index=n_info, prop={'cap': 'keypress: '+str_key })
             return True

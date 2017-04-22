@@ -191,8 +191,7 @@ procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftSt
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, '"on_key_down"',
-    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"' );
+  Str:= DoEvent(Key, '"on_key_down"', '');
   if Str='False' then
   begin
     Key:= 0;
@@ -217,8 +216,7 @@ procedure TFormDummy.DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftStat
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, '"on_key_up"',
-    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"' );
+  Str:= DoEvent(Key, '"on_key_up"', '');
   if Str='False' then
   begin
     Key:= 0;
