@@ -163,6 +163,9 @@ begin
   if C is TTabControl then
     exit(IntToStr((C as TTabControl).TabIndex));
 
+  if C is TTrackBar then
+    exit(IntToStr((C as TTrackBar).Position));
+
   if C is TListFilterEdit then
     exit((C as TListFilterEdit).Text);
 
@@ -542,6 +545,15 @@ begin
     exit;
   end;
 
+  if S='trackbar' then
+  begin
+    Ctl:= TTrackBar.Create(AForm);
+    (Ctl as TTrackBar).Min:= -100000;
+    (Ctl as TTrackBar).Max:= 100000;
+    (Ctl as TTrackBar).OnChange:= @AForm.DoOnChange;
+    exit;
+  end;
+
   if S='filter_listbox' then
   begin
     Ctl:= TListFilterEdit.Create(AForm);
@@ -654,6 +666,19 @@ begin
     (C as TImage).KeepOriginXWhenClipped:= StrToBool(SGetItem(S));
     (C as TImage).KeepOriginYWhenClipped:= StrToBool(SGetItem(S));
     exit
+  end;
+
+  if (C is TTrackBar) then
+  begin
+    (C as TTrackBar).Orientation:= TTrackBarOrientation(StrToIntDef(SGetItem(S), 0));
+    (C as TTrackBar).Min:= StrToIntDef(SGetItem(S), 0);
+    (C as TTrackBar).Max:= StrToIntDef(SGetItem(S), 100);
+    (C as TTrackBar).LineSize:= StrToIntDef(SGetItem(S), 1);
+    (C as TTrackBar).PageSize:= StrToIntDef(SGetItem(S), 10);
+    (C as TTrackBar).Reversed:= StrToBool(SGetItem(S));
+    (C as TTrackBar).TickMarks:= TTickMark(StrToIntDef(SGetItem(S), 0));
+    (C as TTrackBar).TickStyle:= TTickStyle(StrToIntDef(SGetItem(S), 0));
+    exit;
   end;
 
   if (C is TListViewFilterEdit) then
@@ -780,6 +805,11 @@ begin
   if C is TTabControl then
   begin
     DoControl_SetState_TabControl(C as TTabControl, S);
+    exit
+  end;
+  if C is TTrackBar then
+  begin
+    (C as TTrackBar).Position:= StrToIntDef(S, 0);
     exit
   end;
   if C is TListFilterEdit then
