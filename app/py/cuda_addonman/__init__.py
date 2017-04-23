@@ -98,7 +98,10 @@ class Command:
         names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
         res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
         if res is None: return
+
         url = items[res]['url']
+        version = items[res]['v']
+        kind = items[res]['kind']
 
         #check for CudaLint
         if 'linter.' in url:
@@ -114,6 +117,14 @@ class Command:
             return
         msg_status('Opened downloaded file')
         file_open(fn)
+
+        #save version
+        if kind in ['plugin', 'linter']:
+            dir_addon = app_path(APP_DIR_INSTALLED_ADDON)
+            if dir_addon:
+                filename_ver = os.path.join(dir_addon, 'v.inf')
+                with open(filename_ver, 'w') as f:
+                    f.write(version)
 
         #suggest readme
         if opt.readme:
