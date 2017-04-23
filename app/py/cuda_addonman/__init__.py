@@ -218,3 +218,80 @@ class Command:
             file_open(s)
         else:
             msg_status('Plugin "%s" doesn\'t have history' % get_name_of_module(m))
+
+
+    def do_update(self):
+
+        msg_status('Downloading list...')
+        remotes = get_remote_addons_list(opt.ch_def+opt.ch_user)
+        msg_status('')
+        if not remotes:
+            msg_status('Cannot download list')
+            return
+
+        modules = get_installed_list()
+        modules_selected = []
+        text_col = []
+
+        for m in modules:
+            name = get_name_of_module(m)
+            col_item = name+'\r'+m+'\r?\r?'
+
+            v_local = '?'
+            fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
+            if os.path.isfile(fn_ver):
+                v_local = open(fn_ver).read()
+
+            remote_item = [d for d in remotes if d.get('module', '')==m]
+            if remote_item:
+                v_remote = remote_item[0]['v']
+                col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
+                s = '1' if v_local=='?' or v_local<v_remote else '0'
+            else:
+                s = '0'
+
+            modules_selected.append(s)
+            text_col.append(col_item)
+
+        text_col_head = 'Name=220\rFolder=140\rLocal=90\rAvailable=90'
+        text_items = '\t'.join([text_col_head]+text_col)
+        text_val = '0;'+','.join(modules_selected)
+
+        id_ok = 0
+        id_listview = 2
+        c1 = chr(1)
+        text = '\n'.join([
+          c1.join(['type=button', 'pos=374,480,474,0', 'cap=OK']),
+          c1.join(['type=button', 'pos=480,480,580,0', 'cap=Cancel']),
+          c1.join(['type=checklistview', 'pos=6,6,580,470', 'items='+text_items, 'val='+text_val, 'props=1']),
+          ])
+
+        res = dlg_custom('Update plugins', 586, 512, text)
+        if res is None: return
+
+        res, text = res
+        if res != id_ok: return
+
+        text = text.splitlines()[id_listview]
+        text = text.split(';')[1].split(',')
+
+        modules = [m for (i, m) in enumerate(modules) if text[i]=='1']
+        if not modules: return
+        print('Updating modules:')
+
+        for remote in remotes:
+            m = remote.get('module', '')
+            if not m in modules: continue
+            print('  '+ remote['name'])
+            url = remote['url']
+
+            fn = get_plugin_zip(url)
+            if not fn: continue
+            file_open(fn)
+
+            fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
+            with open(fn_ver, 'w') as f:
+                f.write(remote['v'])
+
+        text = 'Updated %d modules' % len(modules)
+        msg_status(text)
