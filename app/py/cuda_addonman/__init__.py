@@ -277,12 +277,15 @@ class Command:
 
         modules = [m for (i, m) in enumerate(modules) if text[i]=='1']
         if not modules: return
-        print('Updating modules:')
+        print('Updating addons:')
 
         for remote in remotes:
             m = remote.get('module', '')
             if not m in modules: continue
+
             print('  '+ remote['name'])
+            msg_status('Updating: '+remote['name'], True)
+
             url = remote['url']
 
             fn = get_plugin_zip(url)
@@ -293,5 +296,4 @@ class Command:
             with open(fn_ver, 'w') as f:
                 f.write(remote['v'])
 
-        text = 'Updated %d modules' % len(modules)
-        msg_status(text)
+        msg_status('Updated')
