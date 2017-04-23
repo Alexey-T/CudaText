@@ -302,24 +302,26 @@ end;
 
 function Py_file_open(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Ptr: PChar;
-  Str: string;
+  PtrFile, PtrArgs: PChar;
+  StrFile, StrArgs: string;
   Num: integer;
-  Ok: boolean;
+  Ok, bSilent: boolean;
   Pages: TATPages;
 begin
   with GetPythonEngine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'si:file_open', @Ptr, @Num)) then
+    if Bool(PyArg_ParseTuple(Args, 'sis:file_open', @PtrFile, @Num, @PtrArgs)) then
     begin
-      Str:= string(Ptr);
+      StrFile:= string(PtrFile);
+      StrArgs:= string(PtrArgs);
 
       Pages:= nil;
       Inc(Num, Low(TATGroupsNums)); //was 0-based, need 1-based
       if (Num>=Low(TATGroupsNums)) and (Num<=High(TATGroupsNums)) then
         Pages:= fmMain.Groups.Pages[Num];
 
-      Ok:= fmMain.DoFileOpen(Str, Pages)<>nil;
+      bSilent:= Pos('/silent', StrArgs)>0;
+      Ok:= fmMain.DoFileOpen(StrFile, Pages, bSilent)<>nil;
       Result:= PyBool_FromLong(Ord(Ok));
     end;
   end;

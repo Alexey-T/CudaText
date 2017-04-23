@@ -639,7 +639,7 @@ type
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
     procedure DoFileExportHtml;
-    procedure DoFileInstallZip(const fn: string; out DirTarget: string);
+    procedure DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean);
     procedure DoFileCloseAndDelete;
     procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
@@ -739,7 +739,7 @@ type
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabTo(Num: Integer);
     procedure DoOnTabPopup(Sender: TObject);
-    function DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;
+    function DoFileOpen(AFilename: string; APages: TATPages=nil; ASilent: boolean=false): TEditorFrame;
     procedure DoFileOpenDialog;
     procedure DoFileOpenDialog_NoPlugins;
     procedure DoFileSaveAll;
@@ -1478,14 +1478,15 @@ begin
   DeleteFileUTF8(GetAppPath(cFileOptionsHistoryFiles));
 end;
 
-procedure TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string);
+procedure TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
+  ASilent: boolean);
 var
   msg, msg2: string;
   IsOk: boolean;
   AddonType: TAppAddonType;
 begin
   DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAutocomplete), msg, msg2,
-    IsOk, AddonType, DirTarget);
+    IsOk, AddonType, DirTarget, ASilent);
 
   if IsOk then
   begin
@@ -1507,7 +1508,8 @@ begin
       UpdateMenuPlugins;
     end;
 
-    DoDialogAddonInstalledReport(msg, msg2);
+    if not ASilent then
+      DoDialogAddonInstalledReport(msg, msg2);
   end;
 end;
 
@@ -1797,7 +1799,9 @@ begin
 end;
 
 
-function TfmMain.DoFileOpen(AFilename: string; APages: TATPages=nil): TEditorFrame;
+function TfmMain.DoFileOpen(AFilename: string;
+  APages: TATPages=nil;
+  ASilent: boolean=false): TEditorFrame;
 var
   D: TATTabData;
   F: TEditorFrame;
@@ -1831,7 +1835,7 @@ begin
   //zip files
   if ExtractFileExt(AFilename)='.zip' then
   begin
-    DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon);
+    DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, ASilent);
     exit
   end;
 

@@ -508,8 +508,9 @@ def dlg_commands(options):
 def dlg_custom(title, size_x, size_y, text, focused=-1):
     return ct.dlg_custom(title, size_x, size_y, text, focused)
 
-def file_open(filename, group=-1):
-    return ct.file_open(filename, group)
+def file_open(filename, group=-1, args=''):
+    return ct.file_open(filename, group, args)
+    
 def file_save(filename=''):
     return ct.file_save(filename)
 

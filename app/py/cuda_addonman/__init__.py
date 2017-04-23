@@ -287,7 +287,7 @@ class Command:
 
             fn = get_plugin_zip(url)
             if not fn: continue
-            file_open(fn)
+            file_open(fn, args='/silent')
 
             fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
             with open(fn_ver, 'w') as f:

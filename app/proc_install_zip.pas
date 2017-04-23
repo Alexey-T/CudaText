@@ -30,7 +30,8 @@ procedure DoInstallAddonFromZip(
   out StrReport, StrMessage: string;
   out IsInstalled: boolean;
   out NAddonType: TAppAddonType;
-  out DirTarget: string);
+  out DirTarget: string;
+  Silent: boolean);
 
 var
   cInstallLexerZipTitle: string = 'Install addon';
@@ -288,7 +289,8 @@ procedure DoInstallAddonFromZip(
   out StrReport, StrMessage: string;
   out IsInstalled: boolean;
   out NAddonType: TAppAddonType;
-  out DirTarget: string);
+  out DirTarget: string;
+  Silent: boolean);
 var
   unzip: TUnZipper;
   list: TStringlist;
@@ -378,6 +380,7 @@ begin
     exit
   end;
 
+  if not Silent then
   if MsgBox(msgStatusPackageContains+#10#10+
     msgStatusPackageName+' '+s_title+#10+
     IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
