@@ -51,12 +51,18 @@ def get_plugin_zip(url):
 
 
 def get_channel(url):
+    RE = r'http.+/(\w+)\.(.+?)\.zip'
     temp_fn = os.path.join(tempfile.gettempdir(), 'cuda_addons_dir.json')
     get_url(url, temp_fn, True)
     if not os.path.isfile(temp_fn): return
 
     text = open(temp_fn, encoding='utf8').read()
     d = json.loads(text)
+
+    for item in d:
+        parse = re.findall(RE, item['url'])
+        item['kind'] = parse[0][0]
+        item['name'] = unquote(parse[0][1])
     return d
 
 
@@ -69,20 +75,3 @@ def get_remote_addons_list(channels):
         if items:
             res += items
     return res
-
-
-def get_kind_from_url(url):
-    RE = r'http.+/(\w+)\..+'
-    res = re.findall(RE, url)
-    if res:
-        return res[0]
-    else:
-        return '?'
-
-def get_shortname_from_url(url):
-    RE = r'http.+/\w+\.(.+?)\.zip'
-    res = re.findall(RE, url)
-    if res:
-        return unquote(res[0])
-    else:
-        return '?'

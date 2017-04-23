@@ -9,6 +9,7 @@
 + Windows: support font ligatures (font Fira Code, only if caret not on line)
 + option font_ligatures
 + dlg Find shows on top of CudaText dialogs
+* Addon Manager uses new channels url
 
 1.8.1
 + api (dlg_proc) for powerful dialogs

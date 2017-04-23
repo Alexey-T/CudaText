@@ -95,11 +95,7 @@ class Command:
         if not items:
             msg_status('Cannot download list')
             return
-        names = [
-          get_kind_from_url(item['url'])+': '+get_shortname_from_url(item['url']) +\
-          '\t' + item['desc'] \
-          for item in items
-          ]
+        names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
         res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
         if res is None: return
         url = items[res]['url']
