@@ -59,8 +59,7 @@ class Command:
         app_proc(PROC_SET_ESCAPE, '0')
 
         for (i, item) in enumerate(items):
-            url = item[0]
-            title = item[1]
+            url = item['url']
             if app_proc(PROC_GET_ESCAPE, '')==True:
                 app_proc(PROC_SET_ESCAPE, '0')
                 if msg_box('Stop downloading?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
@@ -68,7 +67,7 @@ class Command:
                     break
 
             #must use msg_status(.., True)
-            msg_status('Downloading file: %d/%d'%(i+1, len(items)), True)
+            msg_status('Downloading: %d/%d'%(i+1, len(items)), True)
 
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_for_all, name.split('.')[0])
@@ -96,10 +95,14 @@ class Command:
         if not items:
             msg_status('Cannot download list')
             return
-        names = [l[1]+'\t'+l[2] for l in items]
+        names = [
+          get_kind_from_url(item['url'])+': '+get_shortname_from_url(item['url']) +\
+          '\t' + item['desc'] \
+          for item in items
+          ]
         res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
         if res is None: return
-        url = items[res][0]
+        url = items[res]['url']
 
         #check for CudaLint
         if 'linter.' in url:

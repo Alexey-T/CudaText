@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import tempfile
 import requests
 from urllib.parse import unquote
@@ -49,30 +50,39 @@ def get_plugin_zip(url):
     return fn
 
 
-def get_channel_list(url):
-    temp_fn = os.path.join(tempfile.gettempdir(), 'cuda_addons_dir.txt')
+def get_channel(url):
+    temp_fn = os.path.join(tempfile.gettempdir(), 'cuda_addons_dir.json')
     get_url(url, temp_fn, True)
     if not os.path.isfile(temp_fn): return
 
     text = open(temp_fn, encoding='utf8').read()
-
-    #regex has 3 groups: (..(type)..(name)..)
-    RE = r'(http.+/(\w+)\.(.+?)\.zip)\b(.*)'
-
-    res = re.findall(RE, text)
-    res = [(r[0], r[1]+': '+unquote(r[2]), r[3]) for r in res]
-
-    #print('debug:')
-    #print(res)
-    return res
+    d = json.loads(text)
+    return d
 
 
 def get_remote_addons_list(channels):
     res = []
     print('Read channels:')
-    for s in channels: print('  '+s)
     for ch in channels:
-        items = get_channel_list(ch)
+        print('  '+ch)
+        items = get_channel(ch)
         if items:
-            res+=items
-    return sorted(res)
+            res += items
+    return res
+
+
+def get_kind_from_url(url):
+    RE = r'http.+/(\w+)\..+'
+    res = re.findall(RE, url)
+    if res:
+        return res[0]
+    else:
+        return '?'
+
+def get_shortname_from_url(url):
+    RE = r'http.+/\w+\.(.+?)\.zip'
+    res = re.findall(RE, url)
+    if res:
+        return unquote(res[0])
+    else:
+        return '?'
