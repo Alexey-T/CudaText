@@ -21,7 +21,6 @@ STD_MODULES = (
   'cuda_new_file',
   'cuda_palette',
   'cudax_lib',
-  'requests',
   )
 
 class Command:
@@ -265,6 +264,10 @@ class Command:
 
             modules_selected.append(s)
             text_col.append(col_item)
+
+        #move preinstalled to end
+        text_col = [t for t in text_col if 'preinstalled' not in t] +\
+                   [t for t in text_col if 'preinstalled' in t]
 
         text_col_head = 'Name=220\rFolder=140\rLocal=90\rAvailable=90'
         text_items = '\t'.join([text_col_head]+text_col)
