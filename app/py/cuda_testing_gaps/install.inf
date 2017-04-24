@@ -1,11 +1,11 @@
 [info]
-title=TestGaps
-desc=TestGaps
+title=Test gaps
+desc=
 type=cudatext-plugin
-subdir=cuda_debug_gaps
+subdir=cuda_testing_gaps
 homepage=
 
 [item1]
 section=commands
-caption=TestGaps
+caption=Test gaps
 method=run
