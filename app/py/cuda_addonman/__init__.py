@@ -13,6 +13,7 @@ from . import opt
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
+PREINST = 'preinstalled'
 STD_MODULES = (
   'cuda_addonman',
   'cuda_comments',
@@ -247,7 +248,7 @@ class Command:
 
             v_local = '?'
             if m in STD_MODULES:
-                v_local = 'preinstalled'
+                v_local = PREINST
             col_item = name+'\r'+m+'\r'+v_local+'\r?'
 
             fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
@@ -258,7 +259,14 @@ class Command:
             if remote_item:
                 v_remote = remote_item[0]['v']
                 col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
-                s = '1' if v_local=='?' or v_local<v_remote else '0'
+                if v_local == PREINST:
+                    s = '0'
+                elif v_local == '?':
+                    s = '1'
+                elif v_local < v_remote:
+                    s = '1'
+                else:
+                    s = '0'
             else:
                 s = '0'
 
@@ -266,8 +274,9 @@ class Command:
             text_col.append(col_item)
 
         #move preinstalled to end
-        text_col = [t for t in text_col if 'preinstalled' not in t] +\
-                   [t for t in text_col if 'preinstalled' in t]
+        #--breaks checks, commented
+        #text_col = [t for t in text_col if PREINST not in t] +\
+                   #[t for t in text_col if PREINST in t]
 
         text_col_head = 'Name=220\rFolder=140\rLocal=90\rAvailable=90'
         text_items = '\t'.join([text_col_head]+text_col)
