@@ -13,6 +13,16 @@ from . import opt
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
+STD_MODULES = (
+  'cuda_addonman',
+  'cuda_comments',
+  'cuda_insert_time',
+  'cuda_make_plugin',
+  'cuda_new_file',
+  'cuda_palette',
+  'cudax_lib',
+  'requests',
+  )
 
 class Command:
     def __init__(self):
@@ -235,9 +245,12 @@ class Command:
 
         for m in modules:
             name = get_name_of_module(m)
-            col_item = name+'\r'+m+'\r?\r?'
 
             v_local = '?'
+            if m in STD_MODULES:
+                v_local = 'preinstalled'
+            col_item = name+'\r'+m+'\r'+v_local+'\r?'
+
             fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
             if os.path.isfile(fn_ver):
                 v_local = open(fn_ver).read()
