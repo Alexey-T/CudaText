@@ -739,7 +739,7 @@ type
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabTo(Num: Integer);
     procedure DoOnTabPopup(Sender: TObject);
-    function DoFileOpen(AFilename: string; APages: TATPages=nil; ASilent: boolean=false): TEditorFrame;
+    function DoFileOpen(AFilename: string; APages: TATPages=nil; const AArgs: string=''): TEditorFrame;
     procedure DoFileOpenDialog;
     procedure DoFileOpenDialog_NoPlugins;
     procedure DoFileSaveAll;
@@ -1799,14 +1799,13 @@ begin
 end;
 
 
-function TfmMain.DoFileOpen(AFilename: string;
-  APages: TATPages=nil;
-  ASilent: boolean=false): TEditorFrame;
+function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
+  const AArgs: string): TEditorFrame;
 var
   D: TATTabData;
   F: TEditorFrame;
   i: integer;
-  isOem: boolean;
+  isOem, bSilent: boolean;
 begin
   Result:= nil;
   AppFolderOfLastInstalledAddon:= '';
@@ -1835,7 +1834,8 @@ begin
   //zip files
   if ExtractFileExt(AFilename)='.zip' then
   begin
-    DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, ASilent);
+    bSilent:= Pos('/silent', AArgs)>0;
+    DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent);
     exit
   end;
 

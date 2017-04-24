@@ -305,8 +305,8 @@ var
   PtrFile, PtrArgs: PChar;
   StrFile, StrArgs: string;
   Num: integer;
-  Ok, bSilent: boolean;
   Pages: TATPages;
+  Ok: boolean;
 begin
   with GetPythonEngine do
   begin
@@ -320,8 +320,7 @@ begin
       if (Num>=Low(TATGroupsNums)) and (Num<=High(TATGroupsNums)) then
         Pages:= fmMain.Groups.Pages[Num];
 
-      bSilent:= Pos('/silent', StrArgs)>0;
-      Ok:= fmMain.DoFileOpen(StrFile, Pages, bSilent)<>nil;
+      Ok:= fmMain.DoFileOpen(StrFile, Pages, StrArgs)<>nil;
       Result:= PyBool_FromLong(Ord(Ok));
     end;
   end;
