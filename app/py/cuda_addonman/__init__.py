@@ -279,7 +279,7 @@ class Command:
         #text_col = [t for t in text_col if PREINST not in t] +\
                    #[t for t in text_col if PREINST in t]
 
-        text_col_head = 'Name=220\rFolder=140\rLocal=90\rAvailable=90'
+        text_col_head = 'Name=220\rFolder=140\rLocal=120\rAvailable=120'
         text_items = '\t'.join([text_col_head]+text_col)
         text_val = '0;'+','.join(modules_selected)
         text_val_initial = text_val
@@ -293,14 +293,14 @@ class Command:
 
         while True:
             text = '\n'.join([
-              c1.join(['type=button', 'pos=374,480,474,0', 'cap=Update', 'props=1']),
-              c1.join(['type=button', 'pos=480,480,580,0', 'cap=Cancel']),
-              c1.join(['type=checklistview', 'pos=6,6,580,470', 'items='+text_items, 'val='+text_val, 'props=1']),
-              c1.join(['type=button', 'pos=6,480,100,0', 'cap=Deselect all']),
-              c1.join(['type=button', 'pos=106,480,200,0', 'cap=Select new']),
+              c1.join(['type=button', 'pos=434,500,534,0', 'cap=Update', 'props=1']),
+              c1.join(['type=button', 'pos=540,500,640,0', 'cap=Cancel']),
+              c1.join(['type=checklistview', 'pos=6,6,640,490', 'items='+text_items, 'val='+text_val, 'props=1']),
+              c1.join(['type=button', 'pos=6,500,100,0', 'cap=Deselect all']),
+              c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
               ])
 
-            res = dlg_custom('Update plugins', 586, 512, text)
+            res = dlg_custom('Update plugins', 646, 532, text)
             if res is None: return
 
             res, text = res
