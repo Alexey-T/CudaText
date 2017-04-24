@@ -256,23 +256,40 @@ class Command:
         text_col_head = 'Name=220\rFolder=140\rLocal=90\rAvailable=90'
         text_items = '\t'.join([text_col_head]+text_col)
         text_val = '0;'+','.join(modules_selected)
+        text_val_initial = text_val
 
-        id_ok = 0
-        id_listview = 2
+        RES_OK = 0
+        RES_CANCEL = 1
+        RES_LIST = 2
+        RES_SEL_NONE = 3
+        RES_SEL_NEW = 4
         c1 = chr(1)
-        text = '\n'.join([
-          c1.join(['type=button', 'pos=374,480,474,0', 'cap=OK']),
-          c1.join(['type=button', 'pos=480,480,580,0', 'cap=Cancel']),
-          c1.join(['type=checklistview', 'pos=6,6,580,470', 'items='+text_items, 'val='+text_val, 'props=1']),
-          ])
 
-        res = dlg_custom('Update plugins', 586, 512, text)
-        if res is None: return
+        while True:
+            text = '\n'.join([
+              c1.join(['type=button', 'pos=374,480,474,0', 'cap=Update', 'props=1']),
+              c1.join(['type=button', 'pos=480,480,580,0', 'cap=Cancel']),
+              c1.join(['type=checklistview', 'pos=6,6,580,470', 'items='+text_items, 'val='+text_val, 'props=1']),
+              c1.join(['type=button', 'pos=6,480,100,0', 'cap=Deselect all']),
+              c1.join(['type=button', 'pos=106,480,200,0', 'cap=Select new']),
+              ])
 
-        res, text = res
-        if res != id_ok: return
+            res = dlg_custom('Update plugins', 586, 512, text)
+            if res is None: return
 
-        text = text.splitlines()[id_listview]
+            res, text = res
+            if res == RES_SEL_NONE:
+                text_val = '0;'
+                continue
+            if res == RES_SEL_NEW:
+                text_val = text_val_initial
+                continue
+            if res == RES_CANCEL:
+                return
+            if res == RES_OK:
+                break
+
+        text = text.splitlines()[RES_LIST]
         text = text.split(';')[1].split(',')
 
         modules = [m for (i, m) in enumerate(modules) if text[i]=='1']
