@@ -240,6 +240,7 @@ class Command:
             return
 
         modules = get_installed_list()
+        modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
         modules_selected = []
         text_col = []
 
