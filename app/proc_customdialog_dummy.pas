@@ -65,6 +65,7 @@ type
     IdClicked: integer;
     Callback: string;
     PrevForms: TList;
+    Events: string;
     function IdFocused: integer;
     function IdFromName(const AName: string): integer;
     constructor Create(TheOwner: TComponent); override;
@@ -81,6 +82,9 @@ type
     procedure DoEmulatedModalClose;
     function FindControlByOurName(const AName: string): TControl;
   end;
+
+
+function IsEventItemListed(const SItem, SList: string): boolean;
 
 
 implementation
@@ -350,10 +354,28 @@ begin
   DoOnChange(Sender);
 end;
 
+
+function IsEventItemListed(const SItem, SList: string): boolean;
+begin
+  if SList='' then exit(false);
+  if SList='*' then exit(true);
+  Result:= Pos(','+SItem+',', ','+SList+',')>0;
+end;
+
+
 function TFormDummy.DoEvent(AIdControl: integer; const AEvent, AInfo: string; ASpecificForControl: boolean): string;
 var
   Params: array of string;
 begin
+  if ASpecificForControl then
+  begin
+    //todo, now all allowed
+  end
+  else
+  begin
+    if not IsEventItemListed(AEvent, Events) then exit;
+  end;
+
   SetLength(Params, 4);
   Params[0]:= IntToStr(PtrInt(Self)); //id_dlg
   Params[1]:= IntToStr(AIdControl); //id_ctl

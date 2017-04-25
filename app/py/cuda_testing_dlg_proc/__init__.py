@@ -26,6 +26,7 @@ class Command:
         print('run_modal begin')
         h = self.init_maindlg()
         dlg_proc(h, DLG_SHOW_MODAL)
+        self.show_form_prop(h)
         dlg_proc(h, DLG_FREE)
         print('run_modal end')
 
@@ -104,7 +105,7 @@ class Command:
 
     def init_maindlg(self):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 100, 'topmost':True, 'callback': 'cuda_testing_dlg_proc.callback_maindlg' })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 100, 'topmost':True, 'callback': 'cuda_testing_dlg_proc.callback_maindlg', 'events': '*' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': '', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
@@ -153,7 +154,7 @@ class Command:
 
     def init_tempdlg(self, x=150, y=150):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg' })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg', 'events': '*' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':20, 'y':20, 'w':100 })

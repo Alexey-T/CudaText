@@ -1218,15 +1218,29 @@ begin
   if AName='keypreview' then
     F.KeyPreview:= StrToBool(AValue)
   else
+  if AName='events' then
+    F.Events:= AValue
+  else
   ;
 end;
 
 
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
+var
+  List: TStringList;
+  SAll, SItem: string;
 begin
+  List:= TStringList.Create;
+  SAll:= F.Events;
+  repeat
+    SItem:= SGetItem(SAll);
+    if SItem='' then break;
+    List.Add(SItem);
+  until false;
+
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssisisisisisisOsOsOsO}',
+    Result:= Py_BuildValue('{sssisisisisisisOsOsOsOsO}',
       'cap', PChar(F.Caption),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
@@ -1237,9 +1251,12 @@ begin
       'vis', PyBool_FromLong(Ord(F.Visible)),
       'resize', PyBool_FromLong(Ord(F.BorderStyle=bsSizeable)),
       'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop)),
-      'keypreview', PyBool_FromLong(Ord(F.KeyPreview))
+      'keypreview', PyBool_FromLong(Ord(F.KeyPreview)),
+      'events', StringsToPyList(List)
       );
   end;
+
+  FreeAndNil(List);
 end;
 
 
