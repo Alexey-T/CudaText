@@ -26,7 +26,7 @@
       <MinorVersionNr Value="6"/>
       <StringTable CompanyName="UVviewsoft.com" FileDescription="Advanced text editor" InternalName="CudaText" LegalCopyright="(c) 2015 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
-    <BuildModes Count="4">
+    <BuildModes Count="5">
       <Item1 Name="x32 def" Default="True"/>
       <Item2 Name="x64 def">
         <CompilerOptions>
@@ -151,6 +151,44 @@
           </Other>
         </CompilerOptions>
       </Item4>
+      <Item5 Name="arm">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="arm"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item5>
       <SharedMatrixOptions Count="2">
         <Item1 ID="768150883430" Modes="x64 Qt" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="x32 Cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
