@@ -975,6 +975,20 @@ begin
     C.Font.Color:= StrToIntDef(AValue, C.Font.Color);
     exit;
   end;
+
+  if AName='tab_stop' then
+  begin
+    if C is TWinControl then
+      (C as TWinControl).TabStop:= StrToBool(AValue);
+    exit;
+  end;
+
+  if AName='tab_order' then
+  begin
+    if C is TWinControl then
+      (C as TWinControl).TabOrder:= StrToIntDef(AValue, -1);
+    exit;
+  end;
 end;
 
 
@@ -1251,10 +1265,21 @@ end;
 
 
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
+var
+  bTabStop: boolean;
+  nTabOrder: integer;
 begin
+  bTabStop:= false;
+  nTabOrder:= -1;
+  if C is TWinControl then
+  begin
+    bTabStop:= (C as TWinControl).TabStop;
+    nTabOrder:= (C as TWinControl).TabOrder;
+  end;
+
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssssssssssisisisisssOsOsO}',
+    Result:= Py_BuildValue('{sssssssssssssisisisisssOsOsOsOsi}',
       'name', PChar(C.Name),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
@@ -1268,7 +1293,9 @@ begin
       'val', PChar(DoControl_GetState(C)),
       'act', PyBool_FromLong(Ord(TAppControlProps(C.Tag).FActive)),
       'en', PyBool_FromLong(Ord(C.Enabled)),
-      'vis', PyBool_FromLong(Ord(C.Visible))
+      'vis', PyBool_FromLong(Ord(C.Visible)),
+      'tab_stop', PyBool_FromLong(Ord(bTabStop)),
+      'tab_order', nTabOrder
       );
   end;
 end;
