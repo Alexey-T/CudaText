@@ -722,6 +722,14 @@ begin
     exit
   end;
 
+  if C is TListbox then (C as TListbox).Items.Clear;
+  if C is TComboBox then (C as TComboBox).Items.Clear;
+  if C is TCheckGroup then (C as TCheckGroup).Items.Clear;
+  if C is TRadioGroup then (C as TRadioGroup).Items.Clear;
+  if C is TCheckListBox then (C as TCheckListBox).Items.Clear;
+  if C is TListView then (C as TListView).Items.Clear;
+  if C is TTabControl then (C as TTabControl).Tabs.Clear;
+
   repeat
     SItem:= SGetItem(S, #9);
     if SItem='' then Break;
