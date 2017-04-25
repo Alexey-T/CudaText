@@ -44,6 +44,7 @@ type
     FActive: boolean;
     FTagString: string;
     FCallback: string;
+    FEvents: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -74,7 +75,8 @@ type
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
-    function DoEvent(AIdControl: integer; const AEvent, AInfo: string): string;
+    function DoEvent(AIdControl: integer; const AEvent, AInfo: string;
+      ASpecificForControl: boolean): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
     function FindControlByOurName(const AName: string): TControl;
@@ -139,6 +141,7 @@ begin
   FTypeString:= ATypeString;
   FTagString:= '';
   FCallback:= '';
+  FEvents:= '';
 end;
 
 { TFormDummy }
@@ -196,7 +199,7 @@ procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftSt
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, '"on_key_down"', '');
+  Str:= DoEvent(Key, '"on_key_down"', '', false);
   if Str='False' then
   begin
     Key:= 0;
@@ -221,7 +224,7 @@ procedure TFormDummy.DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftStat
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, '"on_key_up"', '');
+  Str:= DoEvent(Key, '"on_key_up"', '', false);
   if Str='False' then
   begin
     Key:= 0;
@@ -233,14 +236,14 @@ procedure TFormDummy.DoOnResize;
 begin
   if BorderStyle<>bsSizeable then exit;
   if not IsFormShownAlready then exit;
-  DoEvent(-1, '"on_resize"', '');
+  DoEvent(-1, '"on_resize"', '', false);
 end;
 
 procedure TFormDummy.DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
 var
   Str: string;
 begin
-  Str:= DoEvent(-1, '"on_close_query"', '');
+  Str:= DoEvent(-1, '"on_close_query"', '', false);
   CanClose:= Str<>'False';
 end;
 
@@ -252,7 +255,7 @@ begin
 
   DoEmulatedModalClose;
   IdClicked:= -1;
-  DoEvent(-1, '"on_close"', '');
+  DoEvent(-1, '"on_close"', '', false);
 end;
 
 function TFormDummy.IdFocused: integer;
@@ -327,7 +330,7 @@ begin
       '"on_change"' //id_event
     ])
   else
-    DoEvent(IdClicked, '"on_change"', '');
+    DoEvent(IdClicked, '"on_change"', '', true);
 end;
 
 procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);
@@ -347,7 +350,7 @@ begin
   DoOnChange(Sender);
 end;
 
-function TFormDummy.DoEvent(AIdControl: integer; const AEvent, AInfo: string): string;
+function TFormDummy.DoEvent(AIdControl: integer; const AEvent, AInfo: string; ASpecificForControl: boolean): string;
 var
   Params: array of string;
 begin
