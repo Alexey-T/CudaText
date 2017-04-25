@@ -39,6 +39,7 @@ type
 
   TAppControlProps = class
   public
+    FName: string;
     FTypeString: string;
     FActive: boolean;
     FTagString: string;
@@ -76,12 +77,13 @@ type
     function DoEvent(AIdControl: integer; const AEvent, AInfo: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
+    function FindControlByOurName(const AName: string): TControl;
   end;
 
 
 implementation
 
-procedure DoForm_SetupFilters(F: TForm);
+procedure DoForm_SetupFilters(F: TFormDummy);
 const
   cPrefix = 'f_';
 var
@@ -94,10 +96,12 @@ begin
   for i:= 0 to F.ControlCount-1 do
   begin
     C:= F.Controls[i];
+    SName:= TAppControlProps(C.Tag).FName;
+
     if C is TListFilterEdit then
     begin
-      SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
-      C2:= F.FindChildControl(SName);
+      SName:= Copy(SName, Length(cPrefix)+1, MaxInt);
+      C2:= F.FindControlByOurName(SName);
       if not (C2 is TListbox) then Continue;
 
       CFilterListbox:= C as TListFilterEdit;
@@ -110,8 +114,8 @@ begin
     else
     if C is TListViewFilterEdit then
     begin
-      SName:= Copy(C.Name, Length(cPrefix)+1, MaxInt);
-      C2:= F.FindChildControl(SName);
+      SName:= Copy(SName, Length(cPrefix)+1, MaxInt);
+      C2:= F.FindControlByOurName(SName);
       if not (C2 is TListView) then Continue;
 
       CFilterListview:= C as TListViewFilterEdit;
@@ -130,6 +134,7 @@ end;
 constructor TAppControlProps.Create(const ATypeString: string);
 begin
   inherited Create;
+  FName:= '';
   FActive:= false;
   FTypeString:= ATypeString;
   FTagString:= '';
@@ -260,14 +265,32 @@ begin
       exit(i);
 end;
 
+function TFormDummy.FindControlByOurName(const AName: string): TControl;
+var
+  C: TControl;
+  i: integer;
+begin
+  Result:= nil;
+  for i:= 0 to ControlCount-1 do
+  begin
+    C:= Controls[i];
+    if SameText(TAppControlProps(C.Tag).FName, AName) then
+      exit(C);
+  end;
+end;
+
 function TFormDummy.IdFromName(const AName: string): integer;
 var
+  C: TControl;
   i: integer;
 begin
   Result:= -1;
   for i:= 0 to ControlCount-1 do
-    if Controls[i].Name=AName then
+  begin
+    C:= Controls[i];
+    if SameText(TAppControlProps(C.Tag).FName, AName) then
       exit(i);
+  end;
 end;
 
 

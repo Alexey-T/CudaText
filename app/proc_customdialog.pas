@@ -857,11 +857,7 @@ procedure DoControl_SetPropFromPair(C: TControl; AName, AValue: string);
 begin
   if AName='name' then
   begin
-    try
-      C.Name:= AValue;
-    except
-      fmConsole.DoLogConsoleLine(Format('API: incorrect or duplicate control name "%s"', [AValue]));
-    end;
+    TAppControlProps(C.Tag).FName:= AValue;
     exit;
   end;
 
@@ -1280,7 +1276,7 @@ begin
   with GetPythonEngine do
   begin
     Result:= Py_BuildValue('{sssssssssssssisisisisssOsOsOsOsi}',
-      'name', PChar(C.Name),
+      'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
       'type', PChar(TAppControlProps(C.Tag).FTypeString),
