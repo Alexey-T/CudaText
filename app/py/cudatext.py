@@ -510,7 +510,7 @@ def dlg_custom(title, size_x, size_y, text, focused=-1):
 
 def file_open(filename, group=-1, args=''):
     return ct.file_open(filename, group, args)
-    
+
 def file_save(filename=''):
     return ct.file_save(filename)
 
@@ -579,6 +579,7 @@ def dlg_proc_wait(id_dialog):
             return
 
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
+    #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
     if id_action == DLG_SHOW_MODAL:
         dlg_proc_wait(id_dialog)

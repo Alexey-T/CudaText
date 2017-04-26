@@ -167,15 +167,16 @@ begin
 
   mi:= TMenuItem.Create(Self);
   mi.Caption:= msgThemeDefault;
-  mi.OnClick:= @MenuThemeDefClick;
   if AThemeUI then
   begin
+    mi.OnClick:= @MenuThemeDefaultUiClick;
     mi.Checked:= FThemeUi='';
     ListThemes:= FListThemesUI;
     FileMask:= '*'+AppExtensionThemeUi;
   end
   else
   begin
+    mi.OnClick:= @MenuThemeDefaultSyntaxClick;
     mi.Checked:= FThemeSyntax='';
     ListThemes:= FListThemesSyntax;
     FileMask:= '*'+AppExtensionThemeSyntax;
@@ -210,15 +211,17 @@ begin
 end;
 
 procedure TfmMain.SetThemeUi(const AValue: string);
+var
+  SName: string;
 begin
-  if FThemeUi=AValue then Exit;
   FThemeUi:= AValue;
 
   if FThemeUi='' then
   begin
-    //both themes reset
-    FThemeSyntax:= '';
-    DoInitTheme(AppTheme);
+    SName:= FThemeSyntax;
+    DoInitTheme(AppTheme); //resets UI+Syntax
+    if SName<>'' then
+      SetThemeSyntax(SName);
   end
   else
     DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+AppExtensionThemeUi, AppTheme, true);
@@ -228,15 +231,17 @@ begin
 end;
 
 procedure TfmMain.SetThemeSyntax(const AValue: string);
+var
+  SName: string;
 begin
-  if FThemeSyntax=AValue then Exit;
   FThemeSyntax:= AValue;
 
   if FThemeSyntax='' then
   begin
-    //both themes reset
-    FThemeUi:= '';
-    DoInitTheme(AppTheme);
+    SName:= FThemeUi;
+    DoInitTheme(AppTheme); //resets UI+Syntax
+    if SName<>'' then
+      SetThemeUi(SName);
   end
   else
     DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+AppExtensionThemeSyntax, AppTheme, false);
@@ -245,11 +250,16 @@ begin
   DoApplyTheme;
 end;
 
-procedure TfmMain.MenuThemeDefClick(Sender: TObject);
+procedure TfmMain.MenuThemeDefaultUiClick(Sender: TObject);
 begin
-  //this resets both themes
   ThemeUi:= '';
 end;
+
+procedure TfmMain.MenuThemeDefaultSyntaxClick(Sender: TObject);
+begin
+  ThemeSyntax:= '';
+end;
+
 
 function TfmMain.IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
 var

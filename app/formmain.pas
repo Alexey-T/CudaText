@@ -667,6 +667,9 @@ type
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
+    procedure MenuPluginClick(Sender: TObject);
+    procedure MenuThemeDefaultUiClick(Sender: TObject);
+    procedure MenuThemeDefaultSyntaxClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetSidebarPanel(const ACaption: string);
@@ -771,8 +774,6 @@ type
     function IsFocusedBottom: boolean;
     function IsFocusedFind: boolean;
     function IsLexerMatches(const ANameList: string): boolean;
-    procedure MenuPluginClick(Sender: TObject);
-    procedure MenuThemeDefClick(Sender: TObject);
     procedure PyCompletionOnGetProp(Sender: TObject; out AText: string;
       out ACharsLeft, ACharsRight: integer);
     procedure PyCompletionOnResult(Sender: TObject;
