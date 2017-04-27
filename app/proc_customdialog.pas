@@ -90,9 +90,44 @@ end;
 
 function DoControl_GetState_Listview(C: TListView): string; forward;
 
-function DoControl_GetState(C: TControl): string;
+function DoControl_GetState_CheckListBox(C: TCheckListBox): string;
 var
   i: integer;
+begin
+  Result:= IntToStr(C.ItemIndex)+';';
+  for i:= 0 to C.Items.Count-1 do
+    Result:= Result+IntToStr(Ord(C.Checked[i]))+',';
+end;
+
+function DoControl_GetState_CheckGroup(C: TCheckGroup): string;
+var
+  i: integer;
+begin
+  Result:= '';
+  for i:= 0 to C.Items.Count-1 do
+    Result:= Result+IntToStr(Ord(C.Checked[i]))+',';
+end;
+
+function DoControl_GetState_Memo(C: TMemo): string;
+begin
+  Result:= C.Lines.Text;
+  Result:= StringReplace(Result, #9, #2, [rfReplaceAll]);
+  Result:= StringReplace(Result, #13#10, #9, [rfReplaceAll]);
+  Result:= StringReplace(Result, #13, #9, [rfReplaceAll]);
+  Result:= StringReplace(Result, #10, #9, [rfReplaceAll]);
+end;
+
+function DoControl_GetState_CheckBox(C: TCheckBox): string;
+begin
+  case C.State of
+    cbChecked: Result:= '1';
+    cbUnchecked: Result:= '0';
+    cbGrayed: Result:= '?';
+    else Result:= '';
+  end;
+end;
+
+function DoControl_GetState(C: TControl): string;
 begin
   Result:= '';
 
@@ -100,14 +135,7 @@ begin
     exit((C as TEdit).Text);
 
   if C is TCheckBox then
-  begin
-    case (C as TCheckBox).State of
-      cbChecked: Result:= '1';
-      cbUnchecked: Result:= '0';
-      cbGrayed: Result:= '?';
-    end;
-    exit;
-  end;
+    exit(DoControl_GetState_CheckBox(C as TCheckbox));
 
   if C is TToggleBox then
     exit(IntToStr(Ord((C as TToggleBox).Checked)));
@@ -127,32 +155,16 @@ begin
   end;
 
   if C is TMemo then
-  begin
-    Result:= (C as TMemo).Lines.Text;
-    Result:= StringReplace(Result, #9, #2, [rfReplaceAll]);
-    Result:= StringReplace(Result, #13#10, #9, [rfReplaceAll]);
-    Result:= StringReplace(Result, #13, #9, [rfReplaceAll]);
-    Result:= StringReplace(Result, #10, #9, [rfReplaceAll]);
-    exit;
-  end;
+    exit(DoControl_GetState_Memo(C as TMemo));
 
   if C is TRadioGroup then
     exit(IntToStr((C as TRadioGroup).ItemIndex));
 
   if C is TCheckGroup then
-  begin
-    for i:= 0 to (C as TCheckGroup).Items.Count-1 do
-      Result:= Result+IntToStr(Ord((C as TCheckGroup).Checked[i]))+',';
-    exit;
-  end;
+    exit(DoControl_GetState_CheckGroup(C as TCheckGroup));
 
   if C is TCheckListBox then
-  begin
-    Result:= IntToStr((C as TCheckListBox).ItemIndex)+';';
-    for i:= 0 to (C as TCheckListBox).Items.Count-1 do
-      Result:= Result+IntToStr(Ord((C as TCheckListBox).Checked[i]))+',';
-    exit;
-  end;
+    exit(DoControl_GetState_CheckListBox(C as TCheckListBox));
 
   if C is TSpinEdit then
     exit(IntToStr((C as TSpinEdit).Value));
