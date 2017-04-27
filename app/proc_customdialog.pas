@@ -18,6 +18,7 @@ uses
   ListViewFilterEdit,
   LclProc, LclType,
   ATListbox,
+  Gauges,
   proc_customdialog_dummy,
   proc_miscutils,
   PythonEngine;
@@ -179,6 +180,9 @@ begin
 
   if C is TProgressBar then
     exit(IntToStr((C as TProgressBar).Position));
+
+  if C is TGauge then
+    exit(IntToStr((C as TGauge).Progress));
 
   if C is TListFilterEdit then
     exit((C as TListFilterEdit).Text);
@@ -564,8 +568,8 @@ begin
   if S='trackbar' then
   begin
     Ctl:= TTrackBar.Create(AForm);
-    (Ctl as TTrackBar).Min:= -100000;
-    (Ctl as TTrackBar).Max:= 100000;
+    (Ctl as TTrackBar).Min:= -1000000;
+    (Ctl as TTrackBar).Max:= 1000000;
     (Ctl as TTrackBar).OnChange:= @AForm.DoOnChange;
     exit;
   end;
@@ -573,8 +577,16 @@ begin
   if S='progressbar' then
   begin
     Ctl:= TProgressBar.Create(AForm);
-    (Ctl as TProgressBar).Min:= -100000;
-    (Ctl as TProgressBar).Max:= 100000;
+    (Ctl as TProgressBar).Min:= -1000000;
+    (Ctl as TProgressBar).Max:= 1000000;
+    exit;
+  end;
+
+  if S='progressbar_ex' then
+  begin
+    Ctl:= TGauge.Create(AForm);
+    (Ctl as TGauge).MinValue:= -1000000;
+    (Ctl as TGauge).MaxValue:= 1000000;
     exit;
   end;
 
@@ -714,6 +726,18 @@ begin
     (C as TProgressBar).Step:= StrToIntDef(SGetItem(S), 1);
     (C as TProgressBar).Style:= TProgressBarStyle(StrToIntDef(SGetItem(S), 0));
     (C as TProgressBar).BarShowText:= StrToBool(SGetItem(S));
+    exit;
+  end;
+
+  if (C is TGauge) then
+  begin
+    (C as TGauge).Kind:= TGaugeKind(StrToIntDef(SGetItem(S), 0));
+    (C as TGauge).MinValue:= StrToIntDef(SGetItem(S), 0);
+    (C as TGauge).MaxValue:= StrToIntDef(SGetItem(S), 100);
+    (C as TGauge).ShowText:= StrToBool(SGetItem(S));
+    (C as TGauge).BackColor:= StrToIntDef(SGetItem(S), clWhite);
+    (C as TGauge).ForeColor:= StrToIntDef(SGetItem(S), clNavy);
+    (C as TGauge).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
     exit;
   end;
 
@@ -859,6 +883,11 @@ begin
   if C is TProgressBar then
   begin
     (C as TProgressBar).Position:= StrToIntDef(S, 0);
+    exit
+  end;
+  if C is TGauge then
+  begin
+    (C as TGauge).Progress:= StrToIntDef(S, 0);
     exit
   end;
   if C is TListFilterEdit then
