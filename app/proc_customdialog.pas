@@ -959,12 +959,12 @@ begin
   end;
   if AName='w' then
   begin
-    C.ClientWidth:= StrToIntDef(AValue, C.ClientWidth);
+    C.Width:= StrToIntDef(AValue, C.Width);
     exit;
   end;
   if AName='h' then
   begin
-    C.ClientHeight:= StrToIntDef(AValue, C.ClientHeight);
+    C.Height:= StrToIntDef(AValue, C.Height);
     exit;
   end;
 
