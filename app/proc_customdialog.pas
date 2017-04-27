@@ -192,12 +192,14 @@ procedure DoControl_SetState_Memo(C: TMemo; AValue: string);
 var
   SItem: string;
 begin
+  C.Lines.BeginUpdate;
   C.Lines.Clear;
   repeat
     SItem:= SGetItem(AValue, #9);
     if SItem='' then break;
     C.Lines.Add(SItem);
   until false;
+  C.Lines.EndUpdate;
 end;
 
 procedure DoControl_SetState_Checkgroup(C: TCheckGroup; AValue: string);
