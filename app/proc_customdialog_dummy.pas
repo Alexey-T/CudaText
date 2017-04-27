@@ -66,6 +66,7 @@ type
     Callback: string;
     PrevForms: TList;
     Events: string;
+    BlockedOnChange: boolean;
     function IdFocused: integer;
     function IdFromName(const AName: string): integer;
     constructor Create(TheOwner: TComponent); override;
@@ -165,6 +166,7 @@ begin
   IsFormShownAlready:= false;
   IdClicked:= -1;
   Callback:= '';
+  BlockedOnChange:= false;
 
   OnShow:= @DoOnShow;
   OnClose:= @DoOnClose;
@@ -306,6 +308,8 @@ var
   Props: TAppControlProps;
   i: integer;
 begin
+  if BlockedOnChange then exit;
+
   //workarnd for bug on Mac
   //(flicker on More>> press in BackupFile dialog)
   if not IsFormShownAlready then exit;

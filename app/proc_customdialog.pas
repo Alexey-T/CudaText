@@ -20,7 +20,6 @@ uses
   ATListbox,
   proc_customdialog_dummy,
   proc_miscutils,
-  formconsole,
   PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string;

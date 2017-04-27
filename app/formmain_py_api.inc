@@ -3917,7 +3917,14 @@ begin
         DLG_CTL_PROP_SET:
           begin
             if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              DoControl_SetPropsFromStringDict(Form.Controls[NIndex], StrProp);
+            begin
+              Form.BlockedOnChange:= true;
+              try
+                DoControl_SetPropsFromStringDict(Form.Controls[NIndex], StrProp);
+              finally
+                Form.BlockedOnChange:= false;
+              end;
+            end;
             Result:= ReturnNone;
           end;
 
