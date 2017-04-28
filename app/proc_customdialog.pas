@@ -1243,6 +1243,9 @@ begin
   if AName='h_max' then
     F.Constraints.MaxHeight:= StrToIntDef(AValue, 1000)
   else
+  if AName='tag' then
+    F.TagString:= AValue
+  else
   if AName='resize' then
   begin
     if StrToBool(AValue) then
@@ -1290,8 +1293,9 @@ begin
 
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssisisisisisisOsOsOsOsO}',
+    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsO}',
       'cap', PChar(F.Caption),
+      'tag', PChar(F.TagString),
       PChar(string('x')), F.Left,
       PChar(string('y')), F.Top,
       PChar(string('w')), F.Width,

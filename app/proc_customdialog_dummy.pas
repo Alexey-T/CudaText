@@ -64,6 +64,7 @@ type
     IsDlgCustom: boolean;
     IdClicked: integer;
     Callback: string;
+    TagString: string;
     PrevForms: TList;
     Events: string;
     BlockedOnChange: boolean;
@@ -166,6 +167,7 @@ begin
   IsFormShownAlready:= false;
   IdClicked:= -1;
   Callback:= '';
+  TagString:= '';
   BlockedOnChange:= false;
 
   OnShow:= @DoOnShow;
