@@ -349,6 +349,8 @@ const
   TOOLBAR_ADD_BUTTON     = 5;
   TOOLBAR_DELETE_ALL     = 6;
   TOOLBAR_DELETE_BUTTON  = 7;
+  TOOLBAR_GET_CHECKED    = 10;
+  TOOLBAR_SET_CHECKED    = 11;
 
   DLG_CREATE         = 0;
   DLG_FREE           = 1;

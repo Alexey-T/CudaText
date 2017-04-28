@@ -62,6 +62,20 @@ begin
   AToolbar.UpdateControls;
 end;
 
+function DoToolbar_GetChecked(AToolbar: TATButtonsToolbar; AButtonIndex: integer): boolean;
+begin
+  if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
+    Result:= AToolbar.Buttons[AButtonIndex].Checked
+  else
+    Result:= false;
+end;
+
+procedure DoToolbar_SetChecked(AToolbar: TATButtonsToolbar; AButtonIndex: integer; AValue: boolean);
+begin
+  if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
+    AToolbar.Buttons[AButtonIndex].Checked:= AValue;
+end;
+
 
 procedure DoToolbar_AddButton(
   AToolbar: TATButtonsToolbar;

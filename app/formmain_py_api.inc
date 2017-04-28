@@ -3748,7 +3748,6 @@ var
   PtrToolbar, PtrText, PtrText2, PtrCmd: PChar;
   StrToolbar, StrText, StrText2, StrCmd: string;
   FToolbar: TATButtonsToolbar;
-  FButton: TATButton;
   NAction: integer;
   NIndex1, NIndex2: integer;
 begin
@@ -3817,7 +3816,18 @@ begin
           begin
             DoToolbar_AddButton(FToolbar, StrText, StrCmd, StrText2, NIndex1, NIndex2);
             Result:= ReturnNone;
-          end
+          end;
+
+        TOOLBAR_GET_CHECKED:
+          begin
+            Result:= PyBool_FromLong(Ord(DoToolbar_GetChecked(FToolbar, NIndex1)));
+          end;
+
+        TOOLBAR_SET_CHECKED:
+          begin
+            DoToolbar_SetChecked(FToolbar, NIndex1, Bool(NIndex2));
+            Result:= ReturnNone;
+          end;
 
         else
           Result:= ReturnNone;
