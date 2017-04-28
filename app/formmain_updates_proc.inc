@@ -895,23 +895,23 @@ end;
 
 procedure TfmMain.InitToolbar;
 begin
-  Toolbar.AddButton(0, @tbNewClick, 'f_new', 'Create new tab', '', false);
+  Toolbar.AddButton(0, @DoToolbarClick, '', 'Create new tab', IntToStr(cmd_FileNew), false);
   Toolbar.AddDropdown(nil, @DoFileNewMenu);
-  Toolbar.AddButton(1, @tbOpenClick, 'f_open', 'Open file', '', false);
+  Toolbar.AddButton(1, @DoToolbarClick, '', 'Open file', IntToStr(cmd_FileOpen), false);
   Toolbar.AddDropdown(PopupRecents);
-  Toolbar.AddButton(2, @tbSaveClick, 'f_save', 'Save file', '', false);
+  Toolbar.AddButton(2, @DoToolbarClick, '', 'Save file', IntToStr(cmd_FileSave), false);
   Toolbar.AddSep;
-  Toolbar.AddButton(7, @tbCutClick, 'e_cut', 'Cut', '', false);
-  Toolbar.AddButton(6, @tbCopyClick, 'e_copy', 'Copy', '', false);
-  Toolbar.AddButton(8, @tbPasteClick, 'e_paste', 'Paste', '', false);
-  Toolbar.AddButton(11, @tbUndoClick, 'e_undo', 'Undo', '', false);
-  Toolbar.AddButton(12, @tbRedoClick, 'e_redo', 'Redo', '', false);
+  Toolbar.AddButton(7, @DoToolbarClick, '', 'Cut', IntToStr(cCommand_ClipboardCut), false);
+  Toolbar.AddButton(6, @DoToolbarClick, '', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
+  Toolbar.AddButton(8, @DoToolbarClick, '', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
+  Toolbar.AddButton(11, @DoToolbarClick, '', 'Undo', IntToStr(cCommand_Undo), false);
+  Toolbar.AddButton(12, @DoToolbarClick, '', 'Redo', IntToStr(cCommand_Redo), false);
   Toolbar.AddSep;
-  Toolbar.AddButton(14, @tbUnpriClick, 'unpri', 'Toggle unprinted chars', '', false);
-  Toolbar.AddButton(15, @tbMinimapClick, 'map', 'Toggle minimap', '', false);
+  Toolbar.AddButton(14, @DoToolbarClick, '', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
+  Toolbar.AddButton(15, @DoToolbarClick, '', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
   Toolbar.AddSep;
-  Toolbar.AddButton(3, @tbIndentClick, 'indent', 'Indent block', '', false);
-  Toolbar.AddButton(4, @tbUnIndentClick, 'unindent', 'Unindent block', '', false);
+  Toolbar.AddButton(3, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
+  Toolbar.AddButton(4, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
   Toolbar.UpdateControls;
 end;
