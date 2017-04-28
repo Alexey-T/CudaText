@@ -476,6 +476,8 @@ type
     procedure tbSidePanelClick(Sender: TObject);
     procedure tbUndoClick(Sender: TObject);
     procedure tbUnpriClick(Sender: TObject);
+    procedure tbIndentClick(Sender: TObject);
+    procedure tbUnIndentClick(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
     procedure TimerStatusAltTimer(Sender: TObject);
     procedure TimerStatusTimer(Sender: TObject);
@@ -1017,6 +1019,16 @@ end;
 procedure TfmMain.tbUnpriClick(Sender: TObject);
 begin
   CurrentEditor.DoCommand(cCommand_ToggleUnprinted);
+end;
+
+procedure TfmMain.tbIndentClick(Sender: TObject);
+begin
+  CurrentEditor.DoCommand(cCommand_TextIndent);
+end;
+
+procedure TfmMain.tbUnIndentClick(Sender: TObject);
+begin
+  CurrentEditor.DoCommand(cCommand_TextUnIndent);
 end;
 
 procedure TfmMain.TimerStatusTimer(Sender: TObject);

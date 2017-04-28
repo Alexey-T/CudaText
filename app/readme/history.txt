@@ -11,6 +11,7 @@
 + Addon Manager: dialog Update (like SynWrite)
 * Addon Manager: uses new channels url
 + dlg Find shows on top of CudaText dialogs
++ toolbar buttons Indent, Unindent
 
 1.8.1
 + api (dlg_proc) for powerful dialogs

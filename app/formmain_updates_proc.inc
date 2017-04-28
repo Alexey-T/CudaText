@@ -901,10 +901,6 @@ begin
   Toolbar.AddDropdown(PopupRecents);
   Toolbar.AddButton(2, @tbSaveClick, 'f_save', 'Save file', '', false);
   Toolbar.AddSep;
-  //Toolbar.AddButton(3, @tbFindClick, 'find', 'Dialog "Find"', '', false);
-  //Toolbar.AddDropdown(PopupFind);
-  //Toolbar.AddButton(4, @tbGotoClick, 'goto', 'Dialog "Go to"', '', false);
-  //Toolbar.AddSep;
   Toolbar.AddButton(7, @tbCutClick, 'e_cut', 'Cut', '', false);
   Toolbar.AddButton(6, @tbCopyClick, 'e_copy', 'Copy', '', false);
   Toolbar.AddButton(8, @tbPasteClick, 'e_paste', 'Paste', '', false);
@@ -912,9 +908,10 @@ begin
   Toolbar.AddButton(12, @tbRedoClick, 'e_redo', 'Redo', '', false);
   Toolbar.AddSep;
   Toolbar.AddButton(14, @tbUnpriClick, 'unpri', 'Toggle unprinted chars', '', false);
-  //Toolbar.AddButton(17, @tbSidePanelClick, 'p_side', 'Toggle side panel', '', false);
-  //Toolbar.AddButton(16, @tbBtmPanelClick, 'p_btm', 'Toggle bottom panel', '', false);
   Toolbar.AddButton(15, @tbMinimapClick, 'map', 'Toggle minimap', '', false);
+  Toolbar.AddSep;
+  Toolbar.AddButton(3, @tbIndentClick, 'indent', 'Indent block', '', false);
+  Toolbar.AddButton(4, @tbUnIndentClick, 'unindent', 'Unindent block', '', false);
 
   Toolbar.UpdateControls;
 end;
