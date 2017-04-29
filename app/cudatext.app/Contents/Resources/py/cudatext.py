@@ -1,5 +1,7 @@
 import json
+from time import sleep
 import cudatext_api as ct
+
 
 MB_OK               = 0x00000000
 MB_OKCANCEL         = 0x00000001
@@ -94,9 +96,6 @@ LOG_SET_ZEROBASE    = 8
 LOG_GET_LINES       = 9
 LOG_GET_LINEINDEX   = 10
 LOG_SET_LINEINDEX   = 11
-LOG_PANEL_ADD       = 12
-LOG_PANEL_DELETE    = 13
-LOG_PANEL_FOCUS     = 14
 LOG_CONSOLE_CLEAR   = 20
 LOG_CONSOLE_ADD     = 21
 LOG_CONSOLE_GET     = 22
@@ -184,15 +183,6 @@ PROC_SIDEPANEL_ACTIVATE    = 25
 PROC_SIDEPANEL_ENUM        = 26
 PROC_SIDEPANEL_GET_CONTROL = 27
 PROC_SIDEPANEL_REMOVE      = 29
-#
-PROC_TOOLBAR_ENUM          = 30
-PROC_TOOLBAR_ADD           = 31
-PROC_TOOLBAR_DELETE        = 32
-PROC_TOOLBAR_DELETE_ALL    = 33
-PROC_TOOLBAR_ICON_ADD      = 34
-PROC_TOOLBAR_ICON_SET      = 35
-PROC_TOOLBAR_ICON_GET_SIZE = 36
-PROC_TOOLBAR_ICON_SET_SIZE = 38
 #
 PROC_GET_LANG          = 40
 PROC_GET_HOTKEY        = 41
@@ -438,6 +428,8 @@ TOOLBAR_SET_BUTTON     = 4
 TOOLBAR_ADD_BUTTON     = 5
 TOOLBAR_DELETE_ALL     = 6
 TOOLBAR_DELETE_BUTTON  = 7
+TOOLBAR_GET_CHECKED    = 10
+TOOLBAR_SET_CHECKED    = 11
 
 DLG_CREATE         = 0
 DLG_FREE           = 1
@@ -518,8 +510,9 @@ def dlg_commands(options):
 def dlg_custom(title, size_x, size_y, text, focused=-1):
     return ct.dlg_custom(title, size_x, size_y, text, focused)
 
-def file_open(filename, group=-1):
-    return ct.file_open(filename, group)
+def file_open(filename, group=-1, args=''):
+    return ct.file_open(filename, group, args)
+
 def file_save(filename=''):
     return ct.file_save(filename)
 
@@ -564,10 +557,10 @@ def to_str(v):
 
     if isinstance(v, dict):
         #put 'val' to end
-        res = ';'.join(
+        res = chr(1).join(
                 [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k!='val'] +
                 [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
-                )+';'
+                )
         return '{'+res+'}'
 
     if isinstance(v, bool):
@@ -579,8 +572,20 @@ def to_str(v):
     return str(v)
 
 
+def dlg_proc_wait(id_dialog):
+    while True:
+        app_idle()
+        sleep(0.01) #10 msec seems ok for CPU load
+        d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1)
+        if not d['vis']:
+            return
+
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
-    return ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
+    #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
+    res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
+    if id_action == DLG_SHOW_MODAL:
+        dlg_proc_wait(id_dialog)
+    return res
 
 
 #Editor

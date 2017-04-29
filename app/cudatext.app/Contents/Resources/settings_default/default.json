@@ -9,10 +9,15 @@
   "font_name": "Courier New",
   "font_name__linux": "Courier New",
   "font_name__mac": "Courier New",
+  
   //Text font size [has suffix]
   "font_size": 9,
   "font_size__linux": 9,
   "font_size__mac": 9,
+  
+  //Enable to render font ligatures (e.g. font Fira Code)
+  //Option works only on Windows yet
+  "font_ligatures": false,
   
   //Text font rendering quality [has suffix]
   //  0: Default 
@@ -30,6 +35,7 @@
   "ui_font_name": "default",
   "ui_font_name__linux": "default",
   "ui_font_name__mac": "default",
+
   //UI elements font size [has suffix]
   "ui_font_size": 9,
   "ui_font_size__linux": 9,
@@ -39,6 +45,7 @@
   "ui_font_output_name" : "default",
   "ui_font_output_name__linux" : "default",
   "ui_font_output_name__mac" : "default",
+
   //Output panel font size [has suffix]
   "ui_font_output_size" : 9,
   "ui_font_output_size__linux" : 9,
@@ -46,9 +53,9 @@
 
   //[UI]
   //Double-buffering of UI controls [has suffix]
-  //  If app shows flickering, set to true.
-  //  If high-DPI monitor (e.g. Retina) shows blurred text, set to false.
-  //  Defaults: Win: true; Linux: true; macOS: false
+  //  Use only if problems with rendering.
+  //  If app shows flickering, change to true.
+  //  If high-DPI monitor (e.g. Retina) shows blurred text, change to false.
   "ui_buffered": true,
   "ui_buffered__linux": true,
   "ui_buffered__mac": false,
@@ -155,6 +162,7 @@
   //Additional pixels per each line (vertically)
   "spacing_y": 1,
   //Additional pixels per each char (horizontally)
+  //Works only on Windows yet
   "spacing_x": 0,
 
   //Tab-char width

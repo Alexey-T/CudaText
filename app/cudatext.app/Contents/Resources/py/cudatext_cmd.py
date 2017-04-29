@@ -2,36 +2,36 @@
 #prefix cmd: high-level commands of CudaText
 #don't use flags cCmdNNN
 
-cCmdSelKeep   = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
-cCmdSelReset  = 0x20000 #before command reset selection
-cCmdCaret     = 0x80000 #cmd moves caret and makes new undo-group
+_CmdFlag_SelKeep    = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
+_CmdFlag_SelReset   = 0x20000 #before command, reset selection
+_CmdFlag_MovesCaret = 0x80000 #cmd moves caret and makes new undo-group
 
-_base_KeyUp       = 100 | cCmdCaret
-_base_KeyDown     = 101 | cCmdCaret
-_base_KeyLeft     = 102 | cCmdCaret
-_base_KeyRight    = 103 | cCmdCaret
-_base_KeyHome     = 104 | cCmdCaret
-_base_KeyEnd      = 105 | cCmdCaret
-_base_KeyPageUp   = 106 | cCmdCaret
-_base_KeyPageDown = 107 | cCmdCaret
+_base_KeyUp       = 100 | _CmdFlag_MovesCaret
+_base_KeyDown     = 101 | _CmdFlag_MovesCaret
+_base_KeyLeft     = 102 | _CmdFlag_MovesCaret
+_base_KeyRight    = 103 | _CmdFlag_MovesCaret
+_base_KeyHome     = 104 | _CmdFlag_MovesCaret
+_base_KeyEnd      = 105 | _CmdFlag_MovesCaret
+_base_KeyPageUp   = 106 | _CmdFlag_MovesCaret
+_base_KeyPageDown = 107 | _CmdFlag_MovesCaret
 
-cCommand_KeyUp           = _base_KeyUp | cCmdSelReset
-cCommand_KeyDown         = _base_KeyDown | cCmdSelReset
+cCommand_KeyUp           = _base_KeyUp | _CmdFlag_SelReset
+cCommand_KeyDown         = _base_KeyDown | _CmdFlag_SelReset
 cCommand_KeyLeft         = _base_KeyLeft #handles sel
 cCommand_KeyRight        = _base_KeyRight #handles sel
-cCommand_KeyHome         = _base_KeyHome | cCmdSelReset
-cCommand_KeyEnd          = _base_KeyEnd | cCmdSelReset
-cCommand_KeyPageUp       = _base_KeyPageUp | cCmdSelReset
-cCommand_KeyPageDown     = _base_KeyPageDown | cCmdSelReset
+cCommand_KeyHome         = _base_KeyHome | _CmdFlag_SelReset
+cCommand_KeyEnd          = _base_KeyEnd | _CmdFlag_SelReset
+cCommand_KeyPageUp       = _base_KeyPageUp | _CmdFlag_SelReset
+cCommand_KeyPageDown     = _base_KeyPageDown | _CmdFlag_SelReset
 
-cCommand_KeyUp_Sel       = _base_KeyUp | cCmdSelKeep
-cCommand_KeyDown_Sel     = _base_KeyDown | cCmdSelKeep
-cCommand_KeyLeft_Sel     = _base_KeyLeft | cCmdSelKeep
-cCommand_KeyRight_Sel    = _base_KeyRight | cCmdSelKeep
-cCommand_KeyHome_Sel     = _base_KeyHome | cCmdSelKeep
-cCommand_KeyEnd_Sel      = _base_KeyEnd | cCmdSelKeep
-cCommand_KeyPageUp_Sel   = _base_KeyPageUp | cCmdSelKeep
-cCommand_KeyPageDown_Sel = _base_KeyPageDown | cCmdSelKeep
+cCommand_KeyUp_Sel       = _base_KeyUp | _CmdFlag_SelKeep
+cCommand_KeyDown_Sel     = _base_KeyDown | _CmdFlag_SelKeep
+cCommand_KeyLeft_Sel     = _base_KeyLeft | _CmdFlag_SelKeep
+cCommand_KeyRight_Sel    = _base_KeyRight | _CmdFlag_SelKeep
+cCommand_KeyHome_Sel     = _base_KeyHome | _CmdFlag_SelKeep
+cCommand_KeyEnd_Sel      = _base_KeyEnd | _CmdFlag_SelKeep
+cCommand_KeyPageUp_Sel   = _base_KeyPageUp | _CmdFlag_SelKeep
+cCommand_KeyPageDown_Sel = _base_KeyPageDown | _CmdFlag_SelKeep
 
 cCommand_ColSelectUp    = 110
 cCommand_ColSelectDown  = 111
@@ -52,29 +52,29 @@ cCommand_KeyTab = 155
 cCommand_TextDeleteSelection = 170
 cCommand_TextDeleteLine = 171
 cCommand_TextDuplicateLine = 172
-cCommand_TextDeleteToLineBegin = 173 | cCmdSelReset
-cCommand_TextDeleteToLineEnd = 174 | cCmdSelReset
-cCommand_TextDeleteToTextEnd = 175 | cCmdSelReset
-cCommand_TextDeleteWordNext = 176 | cCmdSelReset
-cCommand_TextDeleteWordPrev = 177 | cCmdSelReset
+cCommand_TextDeleteToLineBegin = 173 | _CmdFlag_SelReset
+cCommand_TextDeleteToLineEnd = 174 | _CmdFlag_SelReset
+cCommand_TextDeleteToTextEnd = 175 | _CmdFlag_SelReset
+cCommand_TextDeleteWordNext = 176 | _CmdFlag_SelReset
+cCommand_TextDeleteWordPrev = 177 | _CmdFlag_SelReset
 
-_base_GotoTextBegin = 200 | cCmdCaret
-_base_GotoTextEnd   = 201 | cCmdCaret
-_base_GotoWordNext  = 202 | cCmdCaret
-_base_GotoWordPrev  = 203 | cCmdCaret
+_base_GotoTextBegin = 200 | _CmdFlag_MovesCaret
+_base_GotoTextEnd   = 201 | _CmdFlag_MovesCaret
+_base_GotoWordNext  = 202 | _CmdFlag_MovesCaret
+_base_GotoWordPrev  = 203 | _CmdFlag_MovesCaret
 
-cCommand_GotoTextBegin = _base_GotoTextBegin | cCmdSelReset
-cCommand_GotoTextEnd = _base_GotoTextEnd | cCmdSelReset
-cCommand_GotoWordNext = _base_GotoWordNext | cCmdSelReset
-cCommand_GotoWordPrev = _base_GotoWordPrev | cCmdSelReset
+cCommand_GotoTextBegin = _base_GotoTextBegin | _CmdFlag_SelReset
+cCommand_GotoTextEnd = _base_GotoTextEnd | _CmdFlag_SelReset
+cCommand_GotoWordNext = _base_GotoWordNext | _CmdFlag_SelReset
+cCommand_GotoWordPrev = _base_GotoWordPrev | _CmdFlag_SelReset
 
-cCommand_GotoTextBegin_Sel = _base_GotoTextBegin | cCmdSelKeep
-cCommand_GotoTextEnd_Sel = _base_GotoTextEnd | cCmdSelKeep
-cCommand_GotoWordNext_Sel = _base_GotoWordNext | cCmdSelKeep
-cCommand_GotoWordPrev_Sel = _base_GotoWordPrev | cCmdSelKeep
+cCommand_GotoTextBegin_Sel = _base_GotoTextBegin | _CmdFlag_SelKeep
+cCommand_GotoTextEnd_Sel = _base_GotoTextEnd | _CmdFlag_SelKeep
+cCommand_GotoWordNext_Sel = _base_GotoWordNext | _CmdFlag_SelKeep
+cCommand_GotoWordPrev_Sel = _base_GotoWordPrev | _CmdFlag_SelKeep
 
-cCommand_Undo = 235 | cCmdSelReset
-cCommand_Redo = 236 | cCmdSelReset
+cCommand_Undo = 235 | _CmdFlag_SelReset
+cCommand_Redo = 236 | _CmdFlag_SelReset
 
 cCommand_TextIndent = 240
 cCommand_TextUnindent = 241
@@ -86,18 +86,18 @@ cCommand_ScrollToCaretBottom = 253
 cCommand_ScrollToCaretLeft = 254
 cCommand_ScrollToCaretRight = 255
 
-cCommand_SelectAll = 260 | cCmdSelReset | cCmdCaret
-cCommand_SelectNone = 261 | cCmdSelReset | cCmdCaret
-cCommand_SelectWords = 262 | cCmdSelReset | cCmdCaret
-cCommand_SelectLines = 263 | cCmdSelReset | cCmdCaret
-cCommand_SelectInverted = 264 | cCmdCaret
-cCommand_SelectSplitToLines = 265 | cCmdCaret
-cCommand_SelectExtendByLine = 266 | cCmdCaret
+cCommand_SelectAll = 260 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
+cCommand_SelectNone = 261 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
+cCommand_SelectWords = 262 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
+cCommand_SelectLines = 263 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
+cCommand_SelectInverted = 264 | _CmdFlag_MovesCaret
+cCommand_SelectSplitToLines = 265 | _CmdFlag_MovesCaret
+cCommand_SelectExtendByLine = 266 | _CmdFlag_MovesCaret
 
-cCommand_MoveSelectionUp = 268 | cCmdCaret
-cCommand_MoveSelectionDown = 269 | cCmdCaret
-cCommand_TextInsertEmptyAbove = 270 | cCmdSelReset | cCmdCaret
-cCommand_TextInsertEmptyBelow = 271 | cCmdSelReset | cCmdCaret
+cCommand_MoveSelectionUp = 268 | _CmdFlag_MovesCaret
+cCommand_MoveSelectionDown = 269 | _CmdFlag_MovesCaret
+cCommand_TextInsertEmptyAbove = 270 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
+cCommand_TextInsertEmptyBelow = 271 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 
 cCommand_ToggleOverwrite = 300
 cCommand_ToggleReadOnly = 301
@@ -115,8 +115,8 @@ cCommand_ToggleMicromap = 311
 cCommand_ClipboardPaste = 1000
 cCommand_ClipboardPaste_Select = 1001
 cCommand_ClipboardPaste_KeepCaret = 1002
-cCommand_ClipboardPaste_Column = 1003 | cCmdSelReset
-cCommand_ClipboardPaste_ColumnKeepCaret = 1004 | cCmdSelReset
+cCommand_ClipboardPaste_Column = 1003 | _CmdFlag_SelReset
+cCommand_ClipboardPaste_ColumnKeepCaret = 1004 | _CmdFlag_SelReset
 cCommand_ClipboardCopy = 1006
 cCommand_ClipboardCopyAdd = 1007
 cCommand_ClipboardCut = 1008
@@ -125,8 +125,8 @@ cCommand_ClipboardCut = 1008
 cCommand_ClipboardAltPaste = 1010
 cCommand_ClipboardAltPaste_Select = 1011
 cCommand_ClipboardAltPaste_KeepCaret = 1012
-cCommand_ClipboardAltPaste_Column = 1013 or cCmdSelReset
-cCommand_ClipboardAltPaste_ColumnKeepCaret = 1014 or cCmdSelReset
+cCommand_ClipboardAltPaste_Column = 1013 or _CmdFlag_SelReset
+cCommand_ClipboardAltPaste_ColumnKeepCaret = 1014 or _CmdFlag_SelReset
 #these use "Secondary selection" (alternative clipboard on gtk2)
 cCommand_ClipboardAltAltPaste = 1015
 

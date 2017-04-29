@@ -13,6 +13,16 @@ from . import opt
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
+PREINST = 'preinstalled'
+STD_MODULES = (
+  'cuda_addonman',
+  'cuda_comments',
+  'cuda_insert_time',
+  'cuda_make_plugin',
+  'cuda_new_file',
+  'cuda_palette',
+  'cudax_lib',
+  )
 
 class Command:
     def __init__(self):
@@ -59,8 +69,7 @@ class Command:
         app_proc(PROC_SET_ESCAPE, '0')
 
         for (i, item) in enumerate(items):
-            url = item[0]
-            title = item[1]
+            url = item['url']
             if app_proc(PROC_GET_ESCAPE, '')==True:
                 app_proc(PROC_SET_ESCAPE, '0')
                 if msg_box('Stop downloading?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
@@ -68,7 +77,7 @@ class Command:
                     break
 
             #must use msg_status(.., True)
-            msg_status('Downloading file: %d/%d'%(i+1, len(items)), True)
+            msg_status('Downloading: %d/%d'%(i+1, len(items)), True)
 
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_for_all, name.split('.')[0])
@@ -96,10 +105,13 @@ class Command:
         if not items:
             msg_status('Cannot download list')
             return
-        names = [l[1]+'\t'+l[2] for l in items]
+        names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
         res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
         if res is None: return
-        url = items[res][0]
+
+        url = items[res]['url']
+        version = items[res]['v']
+        kind = items[res]['kind']
 
         #check for CudaLint
         if 'linter.' in url:
@@ -115,6 +127,14 @@ class Command:
             return
         msg_status('Opened downloaded file')
         file_open(fn)
+
+        #save version
+        if kind in ['plugin', 'linter']:
+            dir_addon = app_path(APP_DIR_INSTALLED_ADDON)
+            if dir_addon:
+                filename_ver = os.path.join(dir_addon, 'v.inf')
+                with open(filename_ver, 'w') as f:
+                    f.write(version)
 
         #suggest readme
         if opt.readme:
@@ -208,3 +228,115 @@ class Command:
             file_open(s)
         else:
             msg_status('Plugin "%s" doesn\'t have history' % get_name_of_module(m))
+
+
+    def do_update(self):
+
+        msg_status('Downloading list...')
+        remotes = get_remote_addons_list(opt.ch_def+opt.ch_user)
+        msg_status('')
+        if not remotes:
+            msg_status('Cannot download list')
+            return
+
+        modules = get_installed_list()
+        modules = [m for m in modules if m not in STD_MODULES] + [m for m in modules if m in STD_MODULES]
+        modules_selected = []
+        text_col = []
+
+        for m in modules:
+            name = get_name_of_module(m)
+
+            v_local = '?'
+            if m in STD_MODULES:
+                v_local = PREINST
+            col_item = name+'\r'+m+'\r'+v_local+'\r?'
+
+            fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
+            if os.path.isfile(fn_ver):
+                v_local = open(fn_ver).read()
+
+            remote_item = [d for d in remotes if d.get('module', '')==m]
+            if remote_item:
+                v_remote = remote_item[0]['v']
+                col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
+                if v_local == PREINST:
+                    s = '0'
+                elif v_local == '?':
+                    s = '1'
+                elif v_local < v_remote:
+                    s = '1'
+                else:
+                    s = '0'
+            else:
+                s = '0'
+
+            modules_selected.append(s)
+            text_col.append(col_item)
+
+        #move preinstalled to end
+        #--breaks checks, commented
+        #text_col = [t for t in text_col if PREINST not in t] +\
+                   #[t for t in text_col if PREINST in t]
+
+        text_col_head = 'Name=220\rFolder=140\rLocal=120\rAvailable=120'
+        text_items = '\t'.join([text_col_head]+text_col)
+        text_val = '0;'+','.join(modules_selected)
+        text_val_initial = text_val
+
+        RES_OK = 0
+        RES_CANCEL = 1
+        RES_LIST = 2
+        RES_SEL_NONE = 3
+        RES_SEL_NEW = 4
+        c1 = chr(1)
+
+        while True:
+            text = '\n'.join([
+              c1.join(['type=button', 'pos=434,500,534,0', 'cap=Update', 'props=1']),
+              c1.join(['type=button', 'pos=540,500,640,0', 'cap=Cancel']),
+              c1.join(['type=checklistview', 'pos=6,6,640,490', 'items='+text_items, 'val='+text_val, 'props=1']),
+              c1.join(['type=button', 'pos=6,500,100,0', 'cap=Deselect all']),
+              c1.join(['type=button', 'pos=106,500,200,0', 'cap=Select new']),
+              ])
+
+            res = dlg_custom('Update plugins', 646, 532, text)
+            if res is None: return
+
+            res, text = res
+            if res == RES_SEL_NONE:
+                text_val = '0;'
+                continue
+            if res == RES_SEL_NEW:
+                text_val = text_val_initial
+                continue
+            if res == RES_CANCEL:
+                return
+            if res == RES_OK:
+                break
+
+        text = text.splitlines()[RES_LIST]
+        text = text.split(';')[1].split(',')
+
+        modules = [m for (i, m) in enumerate(modules) if text[i]=='1']
+        if not modules: return
+        print('Updating addons:')
+
+        for remote in remotes:
+            m = remote.get('module', '')
+            if not m in modules: continue
+
+            print('  '+ remote['name'])
+            msg_status('Updating: '+remote['name'], True)
+
+            url = remote['url']
+
+            fn = get_plugin_zip(url)
+            if not fn: continue
+            file_open(fn, args='/silent')
+
+            fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
+            with open(fn_ver, 'w') as f:
+                f.write(remote['v'])
+
+        msg_status('Updated')
