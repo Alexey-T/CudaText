@@ -557,6 +557,12 @@ begin
     exit;
   end;
 
+  if S='bevel' then
+  begin
+    Ctl:= TBevel.Create(AForm);
+    exit;
+  end;
+
   if S='image' then
   begin
     Ctl:= TImage.Create(AForm);
@@ -691,6 +697,12 @@ begin
     (C as TATPanelColor).Font.Color:= StrToIntDef(SGetItem(S), clDefault);
     (C as TATPanelColor).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
     exit
+  end;
+
+  if (C is TBevel) then
+  begin
+    (C as TBevel).Shape:= TBevelShape(StrToIntDef(SGetItem(S), 0));
+    exit;
   end;
 
   if (C is TImage) then
