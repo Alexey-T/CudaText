@@ -810,6 +810,8 @@ type
     procedure UpdateStatusbarPanelAutosize;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
+    procedure UpdateStatus_ToolButton(AToolbar: TATButtonsToolbar; ACmd: integer;
+      AChecked: boolean);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
     procedure UpdateCaption;

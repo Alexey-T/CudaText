@@ -37,6 +37,25 @@ begin
   Application.Title:= SMark + F.TabCaption + ' - ' + msgTitle;
 end;
 
+
+procedure TfmMain.UpdateStatus_ToolButton(AToolbar: TATButtonsToolbar;
+  ACmd: integer; AChecked: boolean);
+var
+  Btn: TATButton;
+  i: integer;
+begin
+  for i:= 0 to AToolbar.ButtonCount-1 do
+  begin
+    Btn:= AToolbar.Buttons[i];
+    if Btn.DataString=IntToStr(ACmd) then
+    begin
+      Btn.Checked:= AChecked;
+      exit
+    end;
+  end;
+end;
+
+
 procedure TfmMain.UpdateStatus;
 var
   Ed: TATSynEdit;
@@ -52,6 +71,9 @@ begin
 
   ToolbarAlt.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
   ToolbarAlt.Buttons[1].Checked:= Assigned(fmGoto) and fmGoto.Visible;
+
+  UpdateStatus_ToolButton(Toolbar, cCommand_ToggleMinimap, Ed.OptMinimapVisible);
+  UpdateStatus_ToolButton(Toolbar, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible);
 
   if not F.IsText then
   begin
