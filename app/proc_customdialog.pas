@@ -560,6 +560,7 @@ begin
   if S='bevel' then
   begin
     Ctl:= TBevel.Create(AForm);
+    (Ctl as TBevel).Shape:= bsFrame;
     exit;
   end;
 
@@ -701,7 +702,7 @@ begin
 
   if (C is TBevel) then
   begin
-    (C as TBevel).Shape:= TBevelShape(StrToIntDef(SGetItem(S), 0));
+    (C as TBevel).Shape:= TBevelShape(StrToIntDef(SGetItem(S), 1{bsFrame}));
     exit;
   end;
 
