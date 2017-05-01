@@ -32,7 +32,7 @@ Screenshot:
 * SourceForge downloads: http://cudatext.sf.net
 * Github: https://github.com/Alexey-T/CudaText
 
-Versions for Windows, macOS, Linux.
+Versions for Windows, macOS, Linux, Linux-ARM (for Raspberry Pi 3).
 
 = Configs =
 

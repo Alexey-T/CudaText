@@ -50,16 +50,6 @@ To make plugin react to events, add method to class Command (like methods of com
 ** "on_sel"
 ** "on_menu"
 
-==Dialogs==
-
-* on_dlg(self, ed_self, id_dlg, id_ctl, id_event): Called when user works in dialog from dlg_proc(). Params:
-** id_dlg: int handle of dialog. Plugin must ignore event, if handle is not from this plugin.
-** id_ctl: int index of control in dialog.
-** id_event: name of sub-event, can be:
-*** "on_change": Called on button clicks, and on change of "active" controls.
-*** "on_resize": Called when dialog is resized.
-*** "on_close": Called after closing dialog.
-
 ==Macros==
 
 * on_macro(self, ed_self, text): Called when command "macros: stop recording" runs. In text the "\n"-separated list of macro items is passed. These items were run after command "macros: start recording" and before command "macros: stop recording".
@@ -271,33 +261,6 @@ How groups-splitters are placed in views:
           t G1 t G2 t     
 </pre>
 
-====Toolbar====
-
-Btn_command can be:
-
-* str(int_command) for predefined commands
-* "module,method,params" for plugin commands
-* "toolmenu:"+name for button which shows menu (customize this menu using PROC_MENU_nnnnn)
-
-Id:
-
-* PROC_TOOLBAR_ENUM: Enumerates toolbar buttons. Gets "\n"-separated lines for buttons: 
-** "btn_hint;btn_string_id;btn_caption" for predefined buttons (btn_string_id is not a number, it is short string)
-** "btn_hint;btn_command;btn_caption" for new buttons.
-* PROC_TOOLBAR_ADD: Adds toolbar button. Text must be "btn_hint;icon_index;btn_command;btn_caption" or empty str to add separator. Styles of buttons:
-** caption (e.g. "hint;-1;2700;caption")
-** icon + caption (e.g. "hint;0;2700;caption")
-** arrow (e.g. "hint;-1;toolmenu:main;")
-** caption + arrow (e.g. "hint;-1;toolmenu:main;caption")
-** separator line ("")
-
-* PROC_TOOLBAR_DELETE: Deletes one toolbar button. Text must be str(button_index).
-* PROC_TOOLBAR_DELETE_ALL: Deletes all toolbar buttons.
-* PROC_TOOLBAR_ICON_ADD: Adds icon to imagelist of toolbar. Text must be path to .bmp or .png file. Gets int icon index (0-based), or None if cannot read icon.
-* PROC_TOOLBAR_ICON_SET: Changes icon of toolbar button. Text must be "btn_index,icon_index". Indexes are 0-based.
-* PROC_TOOLBAR_ICON_GET_SIZE: Gets icon size of toolbar, as 2-tuple (size_x, size_y).
-* PROC_TOOLBAR_ICON_SET_SIZE: Sets icon size of toolbar. Text must be str(size_x)+","+str(size_y).
-
 ====Show/Hide UI elements====
 
 Actions can get show-state of UI elements, or set show-state (pass "0" to hide, "1" to show):
@@ -351,11 +314,8 @@ Possible values of id:
 * LOG_GET_LINES: Gets str: "\n"-separated lines in listbox. Each line is text+"\r"+str(tag).
 * LOG_GET_LINEINDEX: Gets index of selected line in listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in listbox.
-* LOG_PANEL_ADD: Adds new panel next to Output/Validate. Text must be "tab_caption;icon_filename". Gets True if panel was added; gets False for incorrect caption (caption of standard or already added panel).
-* LOG_PANEL_DELETE: Deletes panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel found and deleted.
-* LOG_PANEL_FOCUS: Focuses panel added with LOG_PANEL_ADD. Text is caption of panel. Gets True if panel found and focused.
 
-For "Python console" panel:
+For "Python Console" panel:
 
 * LOG_CONSOLE_CLEAR: Clears controls in console. 
 ** If text empty or has "m" then memo-control (above) is cleared. 
@@ -365,7 +325,7 @@ For "Python console" panel:
 * LOG_CONSOLE_GET: Gets "\n"-separated lines of console combobox history.
 * LOG_CONSOLE_GET_LOG: Gets "\n"-separated lines of console memo text.
 
-Example for regex:
+====Example====
 
 For line "line 10 column 20: text message here" the following regex and indexes can be used:
 
@@ -521,15 +481,16 @@ Shows dialog with controls of many types.
 
 Possible types of controls:
 
-* "label": simple text shown in rectangle
+* "button"
+* "label": simple text
 * "check": checkbox, checked/unchecked/grayed
-* "radio": radio checkbox, only one of these can be checked
+* "radio": radio-button, only one of radio-buttons can be checked
 * "edit": single-line input
 * "edit_pwd": single-line input for password, text is masked
 * "combo": combobox, editable, value is text
 * "combo_ro": combobox, read-only, value is index
 * "listbox": list of items with one item selected
-* "button"
+* "listbox_ex": like listbox, but works via listbox_proc()
 * "checkbutton": looks like button, but don't close dialog, checked/unchecked
 * "memo": multi-line input
 * "checkgroup": group of check-boxes
@@ -537,17 +498,24 @@ Possible types of controls:
 * "checklistbox": listbox with checkboxes
 * "spinedit": input for numbers, has min-value, max-value, increment
 * "listview": list with columns, with column headers, value is index
+* "treeview": tree structure with nodes and nested nodes, works via tree_proc()
 * "checklistview": listview with checkboxes, value is check-flags
 * "linklabel": label which activates URL on click
 * "tabs": set of tabs headers (note: not pages which have controls in them)
 * "colorpanel": panel with caption, color of background, color of font
 * "image": picture, which shows picture-file
+* "trackbar": horiz/vert bar with handler, has position
+* "progressbar": horiz/vert bar, only shows position
+* "progressbar_ex": like progressbar, with new styles
 * "filter_listbox": input, which filters content of another "listbox" control
 * "filter_listview": input, which filter content of another "listview" control
+* "bevel": only line, w/o value, w/o caption (at 1 side or at all 4 sides)
 
 Notes:
 
 * Control property "name" is required for filter_ controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. "name=mylistbox" with "name=f_mylistbox").
+* Control type "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
+* Control type "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
 
 ==== Properties ====
 
@@ -557,7 +525,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "cap": caption
 * "x", "y": position, left/top
 * "w", "h": size, width/height
-* "pos": position, str in the form "left,top,right,bottom"; some one-line controls ignore bottom and do auto size
+* "pos": position, str in the form "left,top,right,bottom". Some one-line controls ignore bottom and do auto size. If specified "x/y/w/h" together with "pos", then last mentioned prop has effect.
 * "en": enabled state, bool
 * "vis": visible state, bool
 * "hint": hint string for mouse-over; can be multiline, "\r"-separated
@@ -565,7 +533,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "font_name": font name
 * "font_size": font size
 * "font_color": font color
-* "name": optional word-like name of control
+* "name": optional name of control; it may be not unique for all controls 
 * "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
 * "props": advanced control-specific properties. Described below.
 * "val": value of control. Described below.
@@ -590,8 +558,9 @@ Possible values of "items":
 * memo: "\t"-separated lines, in lines "\t" must be replaced to chr(2)
 * combo_ro, listbox, radiogroup, listview: current index
 * checkgroup: ","-separated checked states ("0", "1")
-* checklistbox, checklistview: index + ";" + checks
+* checklistbox, checklistview: index + ";" + checked_states
 * tabs: index of active tab
+* trackbar, progressbar: int position
 
 ====Advanced properties====
 
@@ -628,6 +597,33 @@ Props:
 ** bool_stretch_out_enabled
 ** bool_keep_origin_x_when_clipped
 ** bool_keep_origin_y_when_clipped
+* trackbar:
+** int_orientation (0: horz, 1: vert)
+** int_min
+** int_max
+** int_line_size
+** int_page_size
+** bool_reversed
+** int_tick_marks (0: bottom-right, 1: top-left, 2: both)
+** int_tick_style (0: none, 1: auto, 2: manual)
+* progressbar:
+** int_orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down)
+** int_min
+** int_max
+** bool_smooth
+** int_step
+** int_style (0: normal, 1: marquee)
+** bool_show_text (only some OSes)
+* progressbar_ex:
+** int_style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie)
+** int_min
+** int_max
+** bool_show_text
+** int_color_back
+** int_color_fore
+** int_color_border
+* bevel:
+** int_shape (0: box, 1: frame, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: empty spacer)
 
 ====Result====
 
@@ -654,8 +650,7 @@ Dialog is closed by clicking any button or by changing of any control which has 
 
  dlg_proc(id_dialog, id_action, prop="", index=-1, index2=-1)
 
-Advanced work with dialogs (forms). More advanced than dlg_custom(), e.g. dialogs can show as modal/nonmodal.
-Dialogs use on_dlg event, it's described in events section.
+Advanced work with dialogs (forms). More advanced than dlg_custom(), forms can show modal/nonmodal, controls can change value during form showing.
 
 ====Form properties====
 
@@ -664,11 +659,17 @@ Dialogs use on_dlg event, it's described in events section.
 * "w", "h": int: Size, width/height.
 * "w_min", "w_max": int: Constraints for width, min/max value.
 * "h_min", "h_max": int: Constraints for height, min/max value.
+* "tag": str: Any string, set by plugin. 
 * "resize": bool: Allows form to resize.
+* "topmost": bool: Makes form stay on top of other forms in CudaText.
+* "callback": str: Default callback for controls on form (used if controls don't have own callbacks).
+* "vis": bool: Visible state.
+* "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
+* "events": list of str: List of sub-event names, which go to callback. E.g. ['on_resize', 'on_close']. If it's "*" or ["*"] then all events go to callback.
 
 ====Control properties====
 
-* "name": str: Optional word-like string, name of control, to find control later by name.
+* "name": str: Optional name of control, to find control later by name. May be not unique for controls.
 * "cap": str: Caption.
 * "x", "y": int: Position (coordinates relative to dialog), left/top.
 * "w", "h": int: Size, width/height.
@@ -679,41 +680,88 @@ Dialogs use on_dlg event, it's described in events section.
 * "font_size": int: Font size.
 * "font_color": int: Font color.
 * "hint": str: Hint (tooltip) for mouse-over. Newlines must be "\r".
-* "act": bool: Active state. For active control, change of value calls the event (on_dlg or custom callback). Buttons are active by default.
+* "act": bool: Active state. For active control, change of its value runs the callback. Buttons are active by default.
 * "props": str: Advanced control-specific props. Described in dlg_custom.
 * "items": str: Usually tab-separated items. Described in dlg_custom.
 * "val": str: Value of control. Described in dlg_custom.
 * "tag": str: Any string, set by plugin.
 
-* "callback": str: If not empty, active control calls this callback instead of on_dlg event. Has one of forms:
-** "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm (mmm is usually subfolder in the "cudatext/py", but can be any module name)
-** "mmm.nnn" - the same, to call method, short form
-** "module=mmm;func=nnn;" - to call function nnn in root of module mmm
+* "callback": str: Callback specific to this control, called instead of default form callback. Control must be active, ie has "act":True; buttons don't need "act", they are active by default. Callbacks are described below.
+
+* "tab_stop": bool: Allows tab-key to jump to this control.
+* "tab_order": int: Tab-key jumps to controls using tab_orders. First activated is control with tab_order=0, next with =1, etc. If tab_orders not set, controls activated by creation order.
+
+====Callbacks====
+
+Callback is str in one of forms:
+
+* "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm (mmm is usually subfolder in the "cudatext/py", but can be any module name)
+* "mmm.nnn" - the same, to call method, short form
+* "module=mmm;func=nnn;" - to call function nnn in root of module mmm
+
+For ex, if you need to call function "f" from plugin cuda_my, from file "py/cuda_my/__init__.py", callback must be "module=cuda_my;func=f;". If you need to call it from file "py/cuda_my/lib/mod.py", callback must be "module=cuda_my.lib.mod;func=f;".
+
+Callbacks in dlg_proc have form:
+
+<syntaxhighlight lang="python">
+#function
+def my(id_dlg, id_ctl, id_event, info):
+  pass
+#method
+class Command:
+  def my(self, id_dlg, id_ctl, id_event, info):
+    pass
+</syntaxhighlight>
+
+====Callback params====
+
+* id_dlg: Int handle of form.
+* id_ctl: Index of control in form.
+* id_event: Name of sub-event. Can be:
+** "on_change": Called after change of "active" controls (also on button clicks).
+** "on_resize": Called after form is resized.
+** "on_close": Called after form is closed.
+** "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
+** "on_key_down": Called when key is pressed in form (form should have "keypreview":True). For this event, id_ctl contains int key code, and info contains key-state string (few chars, "c" for Ctrl, "a" for Alt, "s" for Shift, "m" for Meta). If plugin returns False, key is blocked.
+** "on_key_up": Called when key is released (after on_key_down). If plugin returns False, key is blocked.
+* info: Additional info for events.
+
+How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=27 and info="ca":
+
+<syntaxhighlight lang="python">
+    str_key =\
+      ('Meta+' if 'm' in info else '')+\
+      ('Ctrl+' if 'c' in info else '')+\
+      ('Alt+' if 'a' in info else '')+\
+      ('Shift+' if 's' in info else '')+\
+      app_proc(PROC_HOTKEY_INT_TO_STR, str(id_ctl))
+</syntaxhighlight>
 
 ====Actions====
 
-Param prop: it can be of any simple type (str, int, bool), also tuple/list (of any simple type), also dict (keys: str, values: simple type or tuple/list). Most used is dict. Example of control props: prop={"cap": "...", "x": 10, "y": 10, "w": 600, "en": False}.
+Param prop: it can be of any simple type (str, int, bool), also tuple/list (of any simple type), also dict (keys: str, values: simple type or tuple/list). Most used is dict. Example: prop={"cap": "...", "x": 10, "y": 10, "w": 600, "en": False}.
 
 Param id_dialog: int, form handle. Ignored only for DLG_CREATE (pass 0).
 
 Possible values of id_action:
 
 * DLG_CREATE: Creates new form, gets form handle.
-* DLG_HIDE: Hides from.
+* DLG_HIDE: Hides form.
 * DLG_FREE: Hides and deletes form.
-* DLG_SHOW_MODAL: Shows form in modal mode (blocks input to other forms).
-* DLG_SHOW_NONMODAL: Shows form in non-modal mode.
+* DLG_SHOW_MODAL: Shows form in modal mode. Waits for form to hide, then returns.
+* DLG_SHOW_NONMODAL: Shows form in non-modal mode. Returns immediately.
 * DLG_FOCUS: Focuses form (in non-modal mode).
-* DLG_PROP_GET: Gets form props, as dict.
-* DLG_PROP_SET: Sets from props. Param "prop" is dict with props. See example above, see list of possible form props.
+* DLG_PROP_GET: Gets form props, as dict. See example plugin, which props are returned.
+* DLG_PROP_SET: Sets form props, from dict. Param "prop" is dict. Only props mentioned in "prop" are applied, other props don't change.
 * DLG_CTL_COUNT: Gets count of controls on form.
 * DLG_CTL_ADD: Adds new control to form, gets its index, or None if cannot add. Param "prop" is type of control. See description in dlg_custom.
 * DLG_CTL_PROP_GET: Gets control props, as dict. Param "index" is index of control.
-* DLG_CTL_PROP_SET: Sets control props. Param "index" is index of control. Param "prop" is dict with props.
+* DLG_CTL_PROP_SET: Sets control props. Param "index" is index of control. Param "prop" is dict with props. Only props mentioned in "prop" are applied, other props don't change. To "reset" some props, you must mention them with some value.
 * DLG_CTL_FOCUS: Focuses control. Param "index" is index of control.
 * DLG_CTL_DELETE: Deletes control. Param "index" is index of control. Controls are stored in list, so after a control deleted, indexes of next controls shift by -1. So don't use fixed indexes if you delete some, use DLG_CTL_FIND.
 * DLG_CTL_DELETE_ALL: Deletes all controls.
 * DLG_CTL_FIND: Gets index of control by name, or -1 if cannot find. Param "prop" is name.
+* DLG_CTL_HANDLE: Gets int handle of control. Param "index" is index of control. This handle is currently useful for types: "treeview" (pass handle to tree_proc), "listbox_ex" (pass handle to listbox_proc).
 * DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
 * DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
 
@@ -738,13 +786,15 @@ Gets string if command selected, or None if cancelled.
 
 ===file_open===
 
- file_open(filename, group=-1)
+ file_open(filename, group=-1, args="")
 
 Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
 
 Param group is index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 
-Gets bool: filename is empty or sucessfully opened.
+Param args is optional string. If it has "/silent" then zipped add-on will install w/o prompt and report.
+
+Gets bool: filename is empty or successfully opened.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -927,16 +977,11 @@ Possible values of id_action:
 
 === timer_proc ===
 
-
  timer_proc(id, callback, interval, tag="")
 
 Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
 
-* callback: String in the forms:
-** "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm (mmm is usually subfolder in the "cudatext/py", but can be any module name)
-** "mmm.nnn" - the same, to call method, short form
-** "module=mmm;func=nnn;" - to call function nnn in root of module mmm
-
+* callback: Callback string, see below.
 * interval: Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
 * tag: Some string, if not empty, it will be parameter to callback. If it's empty, callback is called without params.
 
@@ -948,6 +993,21 @@ Possible values of id:
 * TIMER_DELETE - Stop timer, and delete it from list of timers. Usually don't use it, use only to save memory if created lot of timers.
 
 Result is True if params ok; False if params not ok (callback str incorrect, interval incorrect, not created callback on stopping); or None (for unknown id).
+
+====Callbacks====
+
+Callback str must be in one of forms, described in dlg_proc.
+Callbacks in timer_proc have form:
+
+<syntaxhighlight lang="python">
+#function
+def myfunc(tag=''):
+  pass
+#method
+class Command:
+  def myfunc(self, tag=''):
+    pass
+</syntaxhighlight>
 
 ===menu_proc===
 
@@ -1048,6 +1108,9 @@ Param id_action possible values:
 *** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
 
 * TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": str}. Here "kind" is one of strings: "text", "icon", "text_icon", "text_arrow", "arrow", "sep".
+
+* TOOLBAR_GET_CHECKED: Gets checked-state of button. Params: index - button index.
+* TOOLBAR_SET_CHECKED: Sets checked-state of button. Params: index - button index, index2 - bool value.
 
 ====Example====
 
@@ -1603,6 +1666,21 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.176
+* reworked dlg_proc, many form props+events added
+* add: dlg_proc/dlg_custom: control type "treeview"
+* add: dlg_proc/dlg_custom: control type "listbox_ex"
+* add: dlg_proc/dlg_custom: control type "trackbar"
+* add: dlg_proc/dlg_custom: control type "progressbar"
+* add: dlg_proc/dlg_custom: control type "progressbar_ex"
+* add: dlg_proc/dlg_custom: control type "bevel"
+* add: file_open: added param "args"
+* add: toolbar_proc: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED
+* delete: event on_dlg
+* delete: dlg_proc/dlg_custom: prop "font" (use font_name, font_size, font_color)
+* delete: deprecated APIs LOG_PANEL_ADD LOG_PANEL_DELETE LOG_PANEL_FOCUS
+* delete: deprecated APIs PROC_TOOLBAR_* 
 
 1.0.175
 * add: dlg_proc()
