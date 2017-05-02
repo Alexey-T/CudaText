@@ -150,6 +150,7 @@ const
   cmd_BookmarkPlaceCarets = 2667;
   cmd_BookmarkCopyMarkedLines = 2668;
   cmd_BookmarkDeleteMarkedLines = 2669;
+  cmd_BookmarkPlaceBookmarksOnCarets = 2670;
 
   cmd_DuplicateLineEx   = 2676;
 
@@ -375,9 +376,10 @@ begin
   M.Add(cmd_BookmarkGotoPrev, 'bookmarks: go to previous', [], []);
   M.Add(cmd_BookmarkInvertAll, 'bookmarks: inverse all lines', [], []);
   M.Add(cmd_BookmarkClearAll, 'bookmarks: clear all', [], []);
-  M.Add(cmd_BookmarkPlaceCarets, 'bookmarks: place carets', [], []);
   M.Add(cmd_BookmarkCopyMarkedLines, 'bookmarks: copy bookmarked lines to clipboard', [], []);
   M.Add(cmd_BookmarkDeleteMarkedLines, 'bookmarks: delete bookmarked lines', [], []);
+  M.Add(cmd_BookmarkPlaceCarets, 'bookmarks: place carets on bookmarks', [], []);
+  M.Add(cmd_BookmarkPlaceBookmarksOnCarets, 'bookmarks: place bookmarks on carets', [], []);
 
   M.Add(cmd_DuplicateLineEx, 'duplicate line (advanced)', [], []);
 

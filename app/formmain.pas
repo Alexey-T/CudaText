@@ -107,6 +107,8 @@ type
     ButtonCancel: TATButton;
     Gauge: TGauge;
     LabelSideTitle: TLabel;
+    MenuItem4: TMenuItem;
+    mnuBmPlaceOnCarets: TMenuItem;
     mnuFileNewMenu: TMenuItem;
     mnuPlugEmpty: TMenuItem;
     ImageListSide: TImageList;
@@ -122,7 +124,7 @@ type
     mnuBmCopyLines: TMenuItem;
     mnuOpThemeSyntax: TMenuItem;
     mnuThemesSyntax: TMenuItem;
-    mnuBmCarets: TMenuItem;
+    mnuBmPlaceCarets: TMenuItem;
     PaintTest: TPaintBox;
     PanelAll: TATPanelSimple;
     PanelBottom: TATPanelSimple;

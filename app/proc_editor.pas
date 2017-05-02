@@ -38,7 +38,8 @@ procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 procedure EditorBookmarkClearAll(ed: TATSynEdit);
 procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
 function EditorBookmarkIsStandard(NKind: integer): boolean;
-procedure EditorBookmarkPlaceCarets(ed: TATSynEdit);
+procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
+procedure EditorBookmarkPlaceBookmarksOnCarets(ed: TATSynEdit);
 procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
 procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
 
@@ -982,7 +983,7 @@ begin
   Result:= true;
 end;
 
-procedure EditorBookmarkPlaceCarets(ed: TATSynEdit);
+procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
 var
   i: integer;
   X1, Y1, X2, Y2: integer;
@@ -1004,6 +1005,21 @@ begin
   if ed.Carets.Count=0 then
     ed.DoCaretSingle(X1, Y1, X2, Y2);
 end;
+
+procedure EditorBookmarkPlaceBookmarksOnCarets(ed: TATSynEdit);
+var
+  Caret: TATCaretItem;
+  i: integer;
+begin
+  EditorBookmarkClearAll(ed);
+  for i:= 0 to ed.Carets.Count-1 do
+  begin
+    Caret:= ed.Carets[i];
+    if ed.Strings.IsIndexValid(Caret.PosY) then
+      ed.Strings.LinesBm[Caret.PosY]:= 1;
+  end;
+end;
+
 
 procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
 var

@@ -520,7 +520,8 @@ begin
   UpdateMenuItemHotkey(mnuBmPrev, cmd_BookmarkGotoPrev);
   UpdateMenuItemHotkey(mnuBmToggle, cmd_BookmarkToggle);
   UpdateMenuItemHotkey(mnuBmInvert, cmd_BookmarkInvertAll);
-  UpdateMenuItemHotkey(mnuBmCarets, cmd_BookmarkPlaceCarets);
+  UpdateMenuItemHotkey(mnuBmPlaceCarets, cmd_BookmarkPlaceCarets);
+  UpdateMenuItemHotkey(mnuBmPlaceOnCarets, cmd_BookmarkPlaceBookmarksOnCarets);
   UpdateMenuItemHotkey(mnuBmClear, cmd_BookmarkClearAll);
   UpdateMenuItemHotkey(mnuBmCopyLines, cmd_BookmarkCopyMarkedLines);
   UpdateMenuItemHotkey(mnuBmDeleteLines, cmd_BookmarkDeleteMarkedLines);

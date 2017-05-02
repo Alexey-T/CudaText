@@ -202,7 +202,8 @@ begin
     DoLocMenuitem(ini, mnuBmPrev, 'm_sr', 'b_p');
     DoLocMenuitem(ini, mnuBmToggle, 'm_sr', 'b_to');
     DoLocMenuitem(ini, mnuBmInvert, 'm_sr', 'b_in');
-    DoLocMenuitem(ini, mnuBmCarets, 'm_sr', 'b_ca');
+    DoLocMenuitem(ini, mnuBmPlaceCarets, 'm_sr', 'b_ca');
+    DoLocMenuitem(ini, mnuBmPlaceOnCarets, 'm_sr', 'b_ca2');
     DoLocMenuitem(ini, mnuBmClear, 'm_sr', 'b_cl');
     DoLocMenuitem(ini, mnuBmCopyLines, 'm_sr', 'b_cp');
     DoLocMenuitem(ini, mnuBmDeleteLines, 'm_sr', 'b_de');

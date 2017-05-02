@@ -156,7 +156,8 @@ begin
     cmd_BookmarkInvertAll: begin EditorBookmarkInvertAll(CurrentEditor); UpdateFrame; end;
     cmd_BookmarkGotoNext: EditorBookmarkGotoNext(CurrentEditor, true);
     cmd_BookmarkGotoPrev: EditorBookmarkGotoNext(CurrentEditor, false);
-    cmd_BookmarkPlaceCarets: EditorBookmarkPlaceCarets(CurrentEditor);
+    cmd_BookmarkPlaceCarets: EditorBookmarkPlaceCaretsOnBookmarks(CurrentEditor);
+    cmd_BookmarkPlaceBookmarksOnCarets: EditorBookmarkPlaceBookmarksOnCarets(CurrentEditor);
     cmd_BookmarkCopyMarkedLines: EditorBookmarkCopyMarkedLines(CurrentEditor);
     cmd_BookmarkDeleteMarkedLines: EditorBookmarkDeleteMarkedLines(CurrentEditor);
 
