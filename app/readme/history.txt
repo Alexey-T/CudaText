@@ -6,12 +6,12 @@
 
 1.8.3
 + api (reworked dlg_proc)
++ Addon Manager: plugin Updater (like SynWrite)
+* Addon Manager: used new channels url
 + Windows: support font ligatures (font Fira Code, only if caret not on line)
 + option font_ligatures
-+ Addon Manager: dialog Update (like SynWrite)
-* Addon Manager: uses new channels url
-+ dlg Find shows on top of CudaText dialogs
-+ toolbar buttons Indent, Unindent
++ dlg Find: must show on top of CudaText dialogs
++ toolbar: add buttons Indent, Unindent
 
 1.8.1
 + api (dlg_proc) for powerful dialogs

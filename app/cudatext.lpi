@@ -200,6 +200,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
+        <Display Use="True"/>
       </local>
       <environment>
         <UserOverrides Count="1">
