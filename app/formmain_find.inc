@@ -161,7 +161,7 @@ begin
     FFinder.Editor.ColumnLeft:= NLeft;
     MsgStatus(
       Format(msgStatusReplaceCount, [cnt])+
-      Format(' (%d sec)', [NTime]) );
+      Format(' (%d s)', [NTime]) );
   end;
 
   if Res=cOpFindCount then
