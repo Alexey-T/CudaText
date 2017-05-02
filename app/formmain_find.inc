@@ -67,6 +67,7 @@ var
   ok, bChanged, bDoLock: boolean;
   cnt, NTop, NLeft,
   NCaretX, NCaretY: integer;
+  NTick, NTime: QWord;
 begin
   if Res=cOpFindClose then
   begin
@@ -148,15 +149,19 @@ begin
         NCaretY:= Carets[0].PosY;
       end;
 
+    NTick:= GetTickCount64;
     FFinder.Editor.Strings.BeginUndoGroup;
     cnt:= FFinder.DoAction_ReplaceAll;
     FFinder.Editor.Strings.EndUndoGroup;
     FinderUpdateEditor(true);
+    NTime:= (GetTickCount64-NTick) div 1000;
 
     FFinder.Editor.DoCaretSingle(NCaretX, NCaretY);
     FFinder.Editor.LineTop:= NTop;
     FFinder.Editor.ColumnLeft:= NLeft;
-    MsgStatus(Format(msgStatusReplaceCount, [cnt]));
+    MsgStatus(
+      Format(msgStatusReplaceCount, [cnt])+
+      Format(' (%d sec)', [NTime]) );
   end;
 
   if Res=cOpFindCount then
