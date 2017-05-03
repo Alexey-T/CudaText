@@ -12,7 +12,8 @@ object fmGoto: TfmGoto
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
+  Scaled = False
   object bGoto: TATButton
     Left = 224
     Height = 25

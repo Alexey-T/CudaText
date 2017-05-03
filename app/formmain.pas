@@ -1020,6 +1020,12 @@ begin
   CustomDialog_DoPyEvent:= @DoPyEvent;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
 
+  {$ifdef windows}
+  //cannot be in globdata
+  UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
+  {$endif}
+  //UiOps.ScreenScale:= 200;///test
+
   Toolbar.ScalePercents:= UiOps.ScreenScale;
   ToolbarSide.ScalePercents:= UiOps.ScreenScale;
   ToolbarBtm.ScalePercents:= UiOps.ScreenScale;
