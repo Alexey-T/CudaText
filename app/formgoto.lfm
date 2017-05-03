@@ -1,11 +1,11 @@
 object fmGoto: TfmGoto
   Left = 466
-  Height = 32
+  Height = 35
   Top = 652
   Width = 472
   BorderStyle = bsNone
   Caption = 'Goto'
-  ClientHeight = 32
+  ClientHeight = 35
   ClientWidth = 472
   KeyPreview = True
   OnCreate = FormCreate
@@ -35,10 +35,16 @@ object fmGoto: TfmGoto
     ParentColor = False
   end
   object edInput: TATEdit
+    AnchorSideTop.Control = bGoto
+    AnchorSideRight.Control = bGoto
+    AnchorSideBottom.Control = bGoto
+    AnchorSideBottom.Side = asrBottom
     Left = 96
     Height = 25
     Top = 4
-    Width = 123
+    Width = 122
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Right = 6
     BorderStyle = bsSingle
     DoubleBuffered = True
     Font.Height = -12

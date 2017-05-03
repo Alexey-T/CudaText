@@ -21,6 +21,7 @@ uses
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   proc_globdata,
+  proc_miscutils,
   proc_colors,
   proc_editor;
 
@@ -98,7 +99,6 @@ type
     FMultiLine: boolean;
     FNarrow: boolean;
     procedure DoResult(const Str: string);
-    procedure DoScale(APanel: TWinControl);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(Value: boolean);
     procedure SetNarrow(AValue: boolean);
@@ -256,28 +256,9 @@ begin
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
-  DoScale(Self);
+  DoScalePanelControls(Self);
 end;
 
-procedure TfmFind.DoScale(APanel: TWinControl);
-var
-  Ctl: TControl;
-  i: integer;
-begin
-  for i:= 0 to APanel.ControlCount-1 do
-  begin
-    Ctl:= APanel.Controls[i];
-
-    if (Ctl is TATButton) or (Ctl is TATPanelSimple) then
-    begin
-      Ctl.Width:= MulDiv(Ctl.Width, UiOps.ScreenScale, 100);
-      Ctl.Height:= MulDiv(Ctl.Height, UiOps.ScreenScale, 100);
-    end;
-
-    if Ctl is TATPanelSimple then
-      DoScale(Ctl as TATPanelSimple)
-  end;
-end;
 
 procedure TfmFind.UpdateFonts;
 begin

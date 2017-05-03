@@ -19,6 +19,7 @@ uses
   ATSynEdit_Export_HTML,
   ATStringProc,
   ATButtons,
+  ATPanelSimple,
   ecSyntAnal,
   proc_globdata,
   proc_py_const,
@@ -28,6 +29,7 @@ function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
 function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
+procedure DoScalePanelControls(APanel: TWinControl);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -375,6 +377,26 @@ begin
   C.Invalidate;
 end;
 
+
+procedure DoScalePanelControls(APanel: TWinControl);
+var
+  Ctl: TControl;
+  i: integer;
+begin
+  for i:= 0 to APanel.ControlCount-1 do
+  begin
+    Ctl:= APanel.Controls[i];
+
+    if (Ctl is TATButton) or (Ctl is TATPanelSimple) then
+    begin
+      Ctl.Width:= MulDiv(Ctl.Width, UiOps.ScreenScale, 100);
+      Ctl.Height:= MulDiv(Ctl.Height, UiOps.ScreenScale, 100);
+    end;
+
+    if Ctl is TATPanelSimple then
+      DoScalePanelControls(Ctl as TATPanelSimple)
+  end;
+end;
 
 end.
 

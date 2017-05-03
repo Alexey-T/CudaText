@@ -80,6 +80,7 @@ end;
 procedure TfmGoto.FormShow(Sender: TObject);
 begin
   UpdateFonts;
+  ClientHeight:= bGoto.Height+8;
 end;
 
 procedure TfmGoto.DoDone(const S: string);
@@ -109,6 +110,8 @@ begin
   edInput.OptBorderVisible:= true;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
+
+  DoScalePanelControls(Self);
 end;
 
 procedure TfmGoto.UpdateFonts;
