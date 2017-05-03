@@ -269,11 +269,13 @@ begin
   StatusAlt.Font:= Self.Font;
   Gauge.Font:= Self.Font;
 
+  //dont set font for PanelLeft/PanelBottom, side effects
+  //(Treeviews scale once, ATListboxes scale 2times, LCL bug?)
   NScaledSize:= MulDiv(UiOps.VarFontSize, Screen.PixelsPerInch, DesignTimePPI);
-  PanelLeft.Font.Name:= UiOps.VarFontName;
-  PanelLeft.Font.Size:= NScaledSize;
-  PanelBottom.Font.Name:= UiOps.VarFontName;
-  PanelBottom.Font.Size:= NScaledSize;
+  Tree.Font.Name:= UiOps.VarFontName;
+  Tree.Font.Size:= NScaledSize;
+  PanelLeftTitle.Font.Name:= UiOps.VarFontName;
+  PanelLeftTitle.Font.Size:= NScaledSize;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
