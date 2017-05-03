@@ -1,13 +1,13 @@
 object fmFind: TfmFind
-  Left = 188
-  Height = 138
-  Top = 524
-  Width = 1092
+  Left = 68
+  Height = 148
+  Top = 539
+  Width = 1189
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Find/Replace'
-  ClientHeight = 138
-  ClientWidth = 1092
+  ClientHeight = 148
+  ClientWidth = 1189
   FormStyle = fsStayOnTop
   KeyPreview = True
   OnClose = FormClose
@@ -20,15 +20,19 @@ object fmFind: TfmFind
   Scaled = False
   object PanelOps: TATPanelSimple
     Left = 0
-    Height = 108
+    Height = 118
     Top = 30
     Width = 200
     Align = alLeft
     object PanelOps2: TATPanelSimple
+      AnchorSideLeft.Control = PanelOps1
+      AnchorSideTop.Control = PanelOps1
+      AnchorSideTop.Side = asrBottom
       Left = 8
       Height = 25
-      Top = 32
+      Top = 33
       Width = 120
+      BorderSpacing.Top = 4
       object chkConfirm: TATButton
         Left = 0
         Height = 25
@@ -118,39 +122,17 @@ object fmFind: TfmFind
       end
     end
   end
-  object PanelLabels: TATPanelSimple
-    Left = 200
-    Height = 108
-    Top = 30
-    Width = 103
-    Align = alLeft
-    object LabelFind: TLabel
-      AnchorSideTop.Side = asrCenter
-      Left = 8
-      Height = 17
-      Top = 4
-      Width = 69
-      Caption = 'Find what:'
-      ParentColor = False
-    end
-    object LabelRep: TLabel
-      AnchorSideTop.Side = asrCenter
-      Left = 8
-      Height = 17
-      Top = 33
-      Width = 89
-      Caption = 'Replace with:'
-      ParentColor = False
-    end
-  end
   object PanelAll: TATPanelSimple
-    Left = 303
-    Height = 108
+    Left = 200
+    Height = 118
     Top = 30
-    Width = 936
+    Width = 2248
     Align = alLeft
     object edFind: TATComboEdit
-      Left = 4
+      AnchorSideTop.Control = PanelBtn
+      AnchorSideBottom.Control = PanelBtn
+      AnchorSideBottom.Side = asrBottom
+      Left = 96
       Height = 25
       Top = 4
       Width = 308
@@ -234,10 +216,19 @@ object fmFind: TfmFind
       OptUndoLimit = 200
     end
     object edRep: TATComboEdit
-      Left = 4
+      AnchorSideLeft.Control = edFind
+      AnchorSideTop.Control = edFind
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = edFind
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = PanelBtnRep
+      AnchorSideBottom.Side = asrBottom
+      Left = 96
       Height = 25
       Top = 33
       Width = 308
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
       DoubleBuffered = True
       Font.Height = -12
       Font.Name = 'Courier New'
@@ -317,10 +308,13 @@ object fmFind: TfmFind
       OptUndoLimit = 200
     end
     object PanelBtn: TATPanelSimple
-      Left = 320
+      AnchorSideLeft.Control = edFind
+      AnchorSideLeft.Side = asrBottom
+      Left = 412
       Height = 25
       Top = 4
       Width = 616
+      BorderSpacing.Left = 8
       object bFindFirst: TATButton
         Left = 0
         Height = 25
@@ -394,7 +388,9 @@ object fmFind: TfmFind
       end
     end
     object PanelBtnRep: TATPanelSimple
-      Left = 320
+      AnchorSideLeft.Control = PanelBtn
+      AnchorSideTop.Control = edRep
+      Left = 412
       Height = 25
       Top = 33
       Width = 400
@@ -423,12 +419,37 @@ object fmFind: TfmFind
         OnClick = bRepAllClick
       end
     end
+    object LabelFind: TLabel
+      AnchorSideLeft.Control = PanelAll
+      AnchorSideTop.Control = edFind
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = edFind
+      Left = 4
+      Height = 17
+      Top = 8
+      Width = 69
+      BorderSpacing.Left = 4
+      Caption = 'Find what:'
+      ParentColor = False
+    end
+    object LabelRep: TLabel
+      AnchorSideLeft.Control = LabelFind
+      AnchorSideTop.Control = edRep
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = edRep
+      Left = 4
+      Height = 17
+      Top = 37
+      Width = 89
+      Caption = 'Replace with:'
+      ParentColor = False
+    end
   end
   object PanelTop: TATPanelSimple
     Left = 0
     Height = 30
     Top = 0
-    Width = 1092
+    Width = 1189
     Align = alTop
     object PanelTopOps: TATPanelSimple
       Left = 104

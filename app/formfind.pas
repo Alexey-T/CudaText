@@ -62,7 +62,6 @@ type
     PanelAll: TATPanelSimple;
     PanelBtn: TATPanelSimple;
     PanelBtnRep: TATPanelSimple;
-    PanelLabels: TATPanelSimple;
     PanelOps: TATPanelSimple;
     PanelOps1: TATPanelSimple;
     PanelOps2: TATPanelSimple;
@@ -263,21 +262,20 @@ end;
 procedure TfmFind.DoScale(APanel: TWinControl);
 var
   Ctl: TControl;
-  Btn: TATButton;
   i: integer;
 begin
   for i:= 0 to APanel.ControlCount-1 do
   begin
     Ctl:= APanel.Controls[i];
+
+    if (Ctl is TATButton) or (Ctl is TATPanelSimple) then
+    begin
+      Ctl.Width:= MulDiv(Ctl.Width, UiOps.ScreenScale, 100);
+      Ctl.Height:= MulDiv(Ctl.Height, UiOps.ScreenScale, 100);
+    end;
+
     if Ctl is TATPanelSimple then
       DoScale(Ctl as TATPanelSimple)
-    else
-    if Ctl is TATButton then
-    begin
-      Btn:= Ctl as TATButton;
-      Btn.Width:= MulDiv(Btn.Width, UiOps.ScreenScale, 100);
-      Btn.Height:= MulDiv(Btn.Height, UiOps.ScreenScale, 100);
-    end;
   end;
 end;
 
@@ -435,7 +433,7 @@ end;
 
 procedure TfmFind.SetMultiLine(Value: boolean);
 var
-  NSizeY, NSmall: integer;
+  NSizeY: integer;
 begin
   FMultiLine:= Value;
 
@@ -445,18 +443,11 @@ begin
   edFind.OptUnprintedVisible:= FMultiLine;
   edRep.OptUnprintedVisible:= FMultiLine;
 
-  NSmall:= 4;
   NSizeY:= bFindFirst.Height;
   if FMultiLine then NSizeY:= Trunc(NSizeY*UiOps.FindMultiLineScale);
 
   edFind.Height:= NSizeY;
   edRep.Height:= NSizeY;
-
-  edRep.Top:= edFind.Top+edFind.Height+NSmall;
-  PanelBtnRep.Top:= edRep.Top;
-
-  LabelFind.Top:= edFind.Top+NSmall;
-  LabelRep.Top:= edRep.Top+NSmall;
 
   UpdateState;
 end;
@@ -482,8 +473,8 @@ begin
     bMarkAll.Parent:= PanelTopBtn;
   end;
 
-  PanelTopOps.Left:= PanelLabels.Width + edFind.Left;
-  PanelTopBtn.Left:= PanelLabels.Width + PanelBtn.Left;
+  PanelTopOps.Left:= edFind.Left;
+  PanelTopBtn.Left:= PanelBtn.Left;
 end;
 
 procedure TfmFind.SetReplace(AValue: boolean);
@@ -535,12 +526,10 @@ begin
 
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
-  //PanelX.Visible:= not IsNarrow;
   chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace or IsNarrow;
   edRep.Visible:= IsReplace;
-  PanelLabels.Visible:= IsReplace or IsNarrow;
   LabelRep.Visible:= IsReplace;
   PanelBtnRep.Visible:= IsReplace;
   chkConfirm.Enabled:= IsReplace;
