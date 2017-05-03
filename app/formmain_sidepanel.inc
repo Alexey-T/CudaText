@@ -165,6 +165,7 @@ begin
 
     ItemTreeview.Hide;
     ItemTreeview.Parent:= AParent;
+    ItemTreeview.Font:= Tree.Font;
     ItemTreeview.Align:= alClient;
     ItemTreeview.Images:= ItemImagelist;
     ItemTreeview.PopupMenu:= ItemMenu;

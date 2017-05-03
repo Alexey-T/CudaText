@@ -255,7 +255,10 @@ begin
   if Assigned(fmGoto) then fmGoto.UpdateFonts;
 end;
 
+
 procedure TfmMain.DoApplyFont_Ui;
+var
+  NScaledSize: integer;
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= UiOps.VarFontSize;
@@ -265,7 +268,12 @@ begin
   Status.Font:= Self.Font;
   StatusAlt.Font:= Self.Font;
   Gauge.Font:= Self.Font;
-  Tree.Font:= Self.Font;
+
+  NScaledSize:= MulDiv(UiOps.VarFontSize, Screen.PixelsPerInch, DesignTimePPI);
+  PanelLeft.Font.Name:= UiOps.VarFontName;
+  PanelLeft.Font.Size:= NScaledSize;
+  PanelBottom.Font.Name:= UiOps.VarFontName;
+  PanelBottom.Font.Size:= NScaledSize;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
@@ -277,6 +285,7 @@ begin
   CompletionOps.FontSize:= UiOps.VarFontSize;
   CompletionOps.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
 end;
+
 
 procedure TfmMain.DoApplyFont_Output;
 begin

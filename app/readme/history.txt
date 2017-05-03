@@ -5,9 +5,9 @@
 
 
 1.8.4
-+ replace-all: show elapsed time in sec.
-+ replace-all: faster
 + command "place bookmarks on carets"
++ replace-all: show elapsed time in sec.
+- fixes to Windows high dpi
 
 1.8.3
 + api (reworked dlg_proc)
