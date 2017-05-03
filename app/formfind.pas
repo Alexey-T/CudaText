@@ -99,6 +99,7 @@ type
     FMultiLine: boolean;
     FNarrow: boolean;
     procedure DoResult(const Str: string);
+    procedure DoScale(APanel: TWinControl);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(Value: boolean);
     procedure SetNarrow(AValue: boolean);
@@ -255,9 +256,29 @@ begin
   edFind.OptPasteAtEndMakesFinalEmptyLine:= false;
   edRep.OptPasteAtEndMakesFinalEmptyLine:= false;
 
-  //bCancel.Caption:= '';
-
   IsDoubleBuffered:= UiOps.DoubleBuffered;
+  DoScale(Self);
+end;
+
+procedure TfmFind.DoScale(APanel: TWinControl);
+var
+  Ctl: TControl;
+  Btn: TATButton;
+  i: integer;
+begin
+  for i:= 0 to APanel.ControlCount-1 do
+  begin
+    Ctl:= APanel.Controls[i];
+    if Ctl is TATPanelSimple then
+      DoScale(Ctl as TATPanelSimple)
+    else
+    if Ctl is TATButton then
+    begin
+      Btn:= Ctl as TATButton;
+      Btn.Width:= MulDiv(Btn.Width, UiOps.ScreenScale, 100);
+      Btn.Height:= MulDiv(Btn.Height, UiOps.ScreenScale, 100);
+    end;
+  end;
 end;
 
 procedure TfmFind.UpdateFonts;

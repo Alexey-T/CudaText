@@ -72,6 +72,8 @@ type
 
 type
   TUiOps = record
+    ScreenScale: integer;
+
     VarFontName: string;
     VarFontSize: integer;
 
@@ -935,6 +937,13 @@ procedure InitUiOps(var Op: TUiOps);
 begin
   with Op do
   begin
+    ScreenScale:= 100; //test it
+    {$ifdef windows}
+    //Mac: not needed
+    //Linux: don't know how to test
+    ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
+    {$endif}
+
     VarFontName:= 'default';
     VarFontSize:=
       {$ifdef windows} 9 {$endif}

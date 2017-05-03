@@ -271,7 +271,7 @@ begin
 
   //dont set font for PanelLeft/PanelBottom, side effects
   //(Treeviews scale once, ATListboxes scale 2times, LCL bug?)
-  NScaledSize:= MulDiv(UiOps.VarFontSize, Screen.PixelsPerInch, DesignTimePPI);
+  NScaledSize:= MulDiv(UiOps.VarFontSize, UiOps.ScreenScale, 100);
   Tree.Font.Name:= UiOps.VarFontName;
   Tree.Font.Size:= NScaledSize;
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
@@ -971,7 +971,7 @@ begin
   ImageListSide.Clear;
 
   PanelSide.AutoSize:= false;
-  PanelSide.Width:= ImageListSide.Width+8;
+  PanelSide.Width:= MulDiv(ImageListSide.Width+8, UiOps.ScreenScale, 100);
 
   Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');

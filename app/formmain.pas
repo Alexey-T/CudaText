@@ -1020,6 +1020,11 @@ begin
   CustomDialog_DoPyEvent:= @DoPyEvent;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
 
+  Toolbar.ScalePercents:= UiOps.ScreenScale;
+  ToolbarSide.ScalePercents:= UiOps.ScreenScale;
+  ToolbarBtm.ScalePercents:= UiOps.ScreenScale;
+  ToolbarAlt.ScalePercents:= UiOps.ScreenScale;
+
   InitToolbar;
   InitSidebar;
 
