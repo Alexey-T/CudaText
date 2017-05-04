@@ -1646,14 +1646,6 @@ begin
         ItemTreeview.ShowLines:= UiOps.TreeShowLines;
     end;
 
-  PanelSide.Visible:= UiOps.SidebarShow;
-  PanelLeftTitle.Height:= UiOps.TabHeight;
-
-  if UiOps.TabBottom then
-    PanelLeftTitle.Align:= alBottom
-  else
-    PanelLeftTitle.Align:= alTop;
-
   Groups.ScalePercents:= UiOps.ScreenScale;
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
@@ -1671,6 +1663,14 @@ begin
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
   Groups.SetTabOption(tabOptionIndentXRight, 10);
   Groups.SetTabOption(tabOptionIndentXSize, 12);
+
+  PanelSide.Visible:= UiOps.SidebarShow;
+  PanelLeftTitle.Height:= Groups.Pages1.Tabs.Height;
+
+  if UiOps.TabBottom then
+    PanelLeftTitle.Align:= alBottom
+  else
+    PanelLeftTitle.Align:= alTop;
 
   Status.Height:= MulDiv(UiOps.StatusHeight, UiOps.ScreenScale, 100);
   TimerStatus.Interval:= UiOps.StatusTime*1000;
