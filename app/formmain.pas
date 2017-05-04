@@ -1654,6 +1654,7 @@ begin
   else
     PanelLeftTitle.Align:= alTop;
 
+  Groups.ScalePercents:= UiOps.ScreenScale;
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
   Groups.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
@@ -1668,6 +1669,8 @@ begin
   Groups.SetTabOption(tabOptionIndentColor, 4);
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
+  Groups.SetTabOption(tabOptionIndentXRight, 10);
+  Groups.SetTabOption(tabOptionIndentXSize, 12);
 
   Status.Height:= MulDiv(UiOps.StatusHeight, UiOps.ScreenScale, 100);
   TimerStatus.Interval:= UiOps.StatusTime*1000;
