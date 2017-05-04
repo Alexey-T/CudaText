@@ -52,11 +52,12 @@ type
     FColorBorderU: TColor;
     FColorBorderD: TColor;
     FIndentLeft: Integer;
+    FItemIndex: Integer;
+    FScalePercents: integer;
 
     FList: TList;
     FBitmap: TBitmap;
 
-    FItemIndex: Integer;
     FOnPanelClick: TATStatusClickEvent;
     FOnPanelDrawBefore: TATStatusDrawEvent;
     FOnPanelDrawAfter: TATStatusDrawEvent;
@@ -80,6 +81,7 @@ type
     procedure DeletePanels;
     property Captions[Index: integer]: string read GetCaption write SetCaption; default;
     procedure DoPanelAutosize(AIndex: integer);
+    property ScalePercents: integer read FScalePercents write FScalePercents default 100;
   protected
     procedure Paint; override;
     procedure Resize; override;
@@ -150,6 +152,7 @@ begin
   Font.Color:= clBlack;
   Font.Size:= 8;
 
+  FScalePercents:= 100;
   FIndentLeft:= 5;
 
   Color:= $E0E0E0;
@@ -341,7 +344,7 @@ var
   Data: TATStatusData;
 begin
   Data:= TATStatusData.Create;
-  Data.ItemWidth:= AWidth;
+  Data.ItemWidth:= MulDiv(AWidth, ScalePercents,  100);
   Data.ItemAlign:= AAlign;
   Data.ItemCaption:= ACaption;
   FList.Add(Data);
