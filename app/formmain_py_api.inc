@@ -887,7 +887,8 @@ begin
       Ed:= PyEditor(H);
       StrText:= string(PtrText);
 
-      Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2, StrText, Shift, PosAfter);
+      Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2,
+        UTF8Decode(StrText), Shift, PosAfter);
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
