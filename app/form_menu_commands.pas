@@ -123,8 +123,8 @@ begin
   ResultHotkeysChanged:= false;
 
   list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);
-  self.Width:= UiOps.ListboxSizeX;
-  self.Height:= UiOps.ListboxSizeY;
+  self.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
+  self.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
   keymapList:= TList.Create;
 end;
 

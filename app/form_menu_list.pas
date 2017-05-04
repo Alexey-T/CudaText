@@ -96,8 +96,8 @@ begin
   self.Color:= GetAppColor('ListBg');
   List.Color:= self.Color;
 
-  self.Width:= UiOps.ListboxSizeX;
-  self.Height:= UiOps.ListboxSizeY;
+  self.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
+  self.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
   List.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
   Items:= nil;
   ResultIndex:= -1;
