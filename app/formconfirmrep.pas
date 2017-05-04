@@ -17,6 +17,7 @@ uses
   LazUTF8, LazFileUtils,
   ATButtons,
   proc_globdata,
+  proc_miscutils,
   proc_colors;
 
 type
@@ -85,6 +86,8 @@ begin
 
   LabelInfo.Font.Name:= UiOps.VarFontName;
   LabelInfo.Font.Size:= UiOps.VarFontSize;
+
+  DoScalePanelControls(Self);
 end;
 
 procedure TfmConfirmReplace.FormKeyDown(Sender: TObject; var Key: Word;
@@ -99,6 +102,9 @@ end;
 procedure TfmConfirmReplace.FormShow(Sender: TObject);
 begin
   LabelInfo.Caption:= Format(MsgReplaceMatch, [MsgLineNumber]);
+
+  Self.ClientWidth:= bNoAll.Left+bNoAll.Width+8;
+  Self.ClientHeight:= bYes.Top+bYes.Height+8;
 end;
 
 procedure TfmConfirmReplace.bYesClick(Sender: TObject);

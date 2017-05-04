@@ -1,13 +1,13 @@
 object fmConfirmReplace: TfmConfirmReplace
   Left = 524
-  Height = 64
+  Height = 63
   Top = 579
   Width = 645
   ActiveControl = bYes
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Confirm'
-  ClientHeight = 64
+  ClientHeight = 63
   ClientWidth = 645
   DefaultMonitor = dmMainForm
   KeyPreview = True
@@ -17,40 +17,59 @@ object fmConfirmReplace: TfmConfirmReplace
   ShowInTaskBar = stNever
   LCLVersion = '1.9.0.0'
   object bYesAll: TATButton
-    Left = 152
-    Height = 25
+    AnchorSideLeft.Control = bYes
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = bYes
+    AnchorSideBottom.Control = bYes
+    AnchorSideBottom.Side = asrBottom
+    Left = 104
+    Height = 24
     Top = 32
     Width = 120
+    Anchors = [akTop, akLeft, akBottom]
     TabStop = True
     TabOrder = 1
     Caption = 'Yes to all (a)'
     OnClick = bYesAllClick
   end
   object bYes: TATButton
-    Left = 32
-    Height = 25
+    Left = 8
+    Height = 24
     Top = 32
-    Width = 120
+    Width = 96
     TabStop = True
     TabOrder = 0
     Caption = 'Yes (y)'
     OnClick = bYesClick
   end
   object bNo: TATButton
-    Left = 296
-    Height = 25
+    AnchorSideLeft.Control = bYesAll
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = bYes
+    AnchorSideBottom.Control = bYes
+    AnchorSideBottom.Side = asrBottom
+    Left = 244
+    Height = 24
     Top = 32
     Width = 120
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 20
     TabStop = True
     TabOrder = 2
     Caption = 'No (n)'
     OnClick = bNoClick
   end
   object bNoAll: TATButton
-    Left = 416
-    Height = 25
+    AnchorSideLeft.Control = bNo
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = bYes
+    AnchorSideBottom.Control = bYes
+    AnchorSideBottom.Side = asrBottom
+    Left = 364
+    Height = 24
     Top = 32
     Width = 120
+    Anchors = [akTop, akLeft, akBottom]
     TabStop = True
     TabOrder = 3
     Caption = 'No to all (Esc)'
