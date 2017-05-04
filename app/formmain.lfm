@@ -24,13 +24,14 @@ object fmMain: TfmMain
     Left = 0
     Height = 169
     Top = 0
-    Width = 35
+    Width = 75
     Align = alLeft
+    AutoSize = True
     object ToolbarBtm: TATButtonsToolbar
       Left = 0
       Height = 30
       Top = 139
-      Width = 35
+      Width = 75
       Align = alBottom
       AutoSize = True
       Color = clOlive
@@ -42,7 +43,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 109
       Top = 0
-      Width = 35
+      Width = 75
       Align = alClient
       AutoSize = True
       Color = clSilver
@@ -56,7 +57,7 @@ object fmMain: TfmMain
       Left = 0
       Height = 30
       Top = 109
-      Width = 35
+      Width = 75
       Align = alBottom
       AutoSize = True
       Color = clMoneyGreen

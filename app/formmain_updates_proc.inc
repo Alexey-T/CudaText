@@ -970,8 +970,10 @@ begin
   ImageListSide.Height:= StrToIntDef(Parts[2], ImageListSide.Height);
   ImageListSide.Clear;
 
-  PanelSide.AutoSize:= false;
-  PanelSide.Width:= MulDiv(ImageListSide.Width+8, UiOps.ScreenScale, 100);
+  //set ButtonWidth for vertical bars
+  ToolbarSide.ButtonWidth:= MulDiv(ImageListSide.Width+8, UiOps.ScreenScale, 100);
+  ToolbarBtm.ButtonWidth:= ToolbarSide.ButtonWidth;
+  ToolbarAlt.ButtonWidth:= ToolbarSide.ButtonWidth;
 
   Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
