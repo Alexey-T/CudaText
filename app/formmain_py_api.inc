@@ -898,6 +898,38 @@ begin
 end;
 
 
+function Py_ed_replace_lines(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Y1, Y2: Integer;
+  Ed: TATSynEdit;
+  PtrText: PChar;
+  Lines: TStringList;
+  Res: boolean;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liis:replace_lines', @H, @Y1, @Y2, @PtrText)) then
+    begin
+      Ed:= PyEditor(H);
+
+      Lines:= TStringList.Create;
+      try
+        Lines.LineBreak:= #10;
+        Lines.Text:= string(PtrText);
+
+        Res:= Ed.Strings.TextReplaceLines_UTF8(Y1, Y2, Lines);
+        Ed.DoEventChange;
+      finally
+        FreeAndNil(Lines);
+      end;
+
+      fmMain.UpdateFrame(true);
+      fmMain.UpdateStatus;
+      Result:= PyBool_FromLong(Ord(Res));
+    end;
+end;
+
+
 function Py_ed_get_line_count(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -4069,6 +4101,7 @@ begin
     AddMethod('ed_delete', @Py_ed_delete, '');
     AddMethod('ed_insert', @Py_ed_insert, '');
     AddMethod('ed_replace', @Py_ed_replace, '');
+    AddMethod('ed_replace_lines', @Py_ed_replace_lines, '');
 
     Addmethod('ed_get_filename', @Py_ed_get_filename, '');
     AddMethod('ed_get_split', @Py_ed_get_split, '');
