@@ -424,11 +424,12 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edFind
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = edFind
-      Left = 6
+      Left = 43
       Height = 17
       Top = 8
       Width = 33
-      BorderSpacing.Left = 6
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 4
       Caption = 'Find:'
       ParentColor = False
     end
@@ -437,10 +438,12 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edRep
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = edRep
-      Left = 6
+      Left = 19
       Height = 17
       Top = 37
       Width = 57
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 4
       Caption = 'Replace:'
       ParentColor = False
     end
