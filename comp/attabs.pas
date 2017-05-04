@@ -152,14 +152,13 @@ type
     FTabDragEnabled: boolean; //enable drag-drop
     FTabDragOutEnabled: boolean; //also enable drag-drop to another controls
 
-    //others
+    //otherrs
     FTabWidth: Integer;
     FTabIndex: Integer;
     FTabIndexOver: Integer;
     FTabIndexDrop: Integer;
     FTabList: TList;
     FTabMenu: TatPopupMenu;
-    FScalePercents: integer;
 
     FBitmap: TBitmap;
     FOnTabClick: TNotifyEvent;
@@ -173,7 +172,6 @@ type
     FOnTabMove: TATTabMoveEvent;
     FOnTabChangeQuery: TATTabChangeQueryEvent;
 
-    function DoScale(N: integer): integer;
     procedure DoHandleClick;
     procedure DoPaintTo(C: TCanvas);
     procedure DoPaintBgTo(C: TCanvas; const ARect: TRect);
@@ -223,7 +221,6 @@ type
     procedure ShowTabMenu;
     procedure SwitchTab(ANext: boolean);
     procedure MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
-    property ScalePercents: integer read FScalePercents write FScalePercents default 100;
   protected
     procedure Paint; override;
     procedure Resize; override;
@@ -510,7 +507,6 @@ begin
 
   Width:= 400;
   Height:= 35;
-  FScalePercents:= 100;
 
   FMouseDown:= false;
   FMouseDownPnt:= Point(0, 0);
@@ -828,12 +824,12 @@ begin
   R.Left:= FTabIndentInit+FTabAngle;
   R.Right:= R.Left;
   R.Top:= FTabIndentTop;
-  R.Bottom:= R.Top+DoScale(FTabHeight);
+  R.Bottom:= R.Top+FTabHeight;
 
   for i:= 0 to TabCount-1 do
   begin
-    R.Left:= R.Right + DoScale(FTabIndentInter);
-    R.Right:= R.Left + DoScale(FTabWidth);
+    R.Left:= R.Right + FTabIndentInter;
+    R.Right:= R.Left + FTabWidth;
     Data:= GetTabData(i);
     if Assigned(Data) then
       Data.TabRect:= R;
@@ -1634,14 +1630,6 @@ begin
   if not (Source is TATTabs) then exit;
   if (Source=Self) then exit; //internal DnD not allowed here
   (Source as TATTabs).DoTabDropToOtherControl(Self, Point(X, Y));
-end;
-
-function TATTabs.DoScale(N: integer): integer;
-begin
-  if ScalePercents<=100 then
-    Result:= N
-  else
-    Result:= MulDiv(N, ScalePercents, 100);
 end;
 
 end.
