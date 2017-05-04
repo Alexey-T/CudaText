@@ -1024,7 +1024,7 @@ begin
   //cannot be in globdata
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
   {$endif}
-  //UiOps.ScreenScale:= 200;///test
+  //UiOps.ScreenScale:= 200; ////test
 
   Toolbar.ScalePercents:= UiOps.ScreenScale;
   ToolbarSide.ScalePercents:= UiOps.ScreenScale;
@@ -1085,6 +1085,7 @@ begin
 
   Status:= TATStatus.Create(Self);
   Status.Parent:= Self;
+  Status.ScalePercents:= UiOps.ScreenScale;
   Status.Align:= alBottom;
   Status.Top:= Height;
   Status.Height:= 23;
@@ -1101,6 +1102,7 @@ begin
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
+  StatusAlt.ScalePercents:= UiOps.ScreenScale;
   StatusAlt.Align:= alNone;
   StatusAlt.Height:= Status.Height;
   StatusAlt.IndentLeft:= 0;
@@ -1667,8 +1669,9 @@ begin
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
 
-  Status.Height:= UiOps.StatusHeight;
+  Status.Height:= MulDiv(UiOps.StatusHeight, UiOps.ScreenScale, 100);
   ButtonCancel.Height:= UiOps.StatusHeight-2;
+  Gauge.Height:= ButtonCancel.Height;
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;

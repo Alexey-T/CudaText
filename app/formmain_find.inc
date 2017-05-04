@@ -474,7 +474,7 @@ begin
       Pnt:= fmFind.ClientToScreen(Point(0, 0));
       fmConfirmReplace.Left:= Pnt.X;
       fmConfirmReplace.Top:= Pnt.Y;
-      fmConfirmReplace.Width:= fmFind.Width;
+      //fmConfirmReplace.Width:= fmFind.Width;
     end;
     Res:= fmConfirmReplace.ShowModal;
   finally
