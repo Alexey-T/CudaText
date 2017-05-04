@@ -128,25 +128,26 @@ end;
 
 procedure TfmMain.InitStatusButton;
 begin
+  //place Gauge+ButtonCancel onto Statusbar and anchor to right
   with Gauge do
   begin
     Parent:= Status;
     AnchorSideRight.Control:= Status;
     AnchorSideRight.Side:= asrBottom;
     AnchorSideBottom.Control:= Status;
-    AnchorSideBottom.Side:= asrCenter;
-    Anchors:= [akRight, akBottom];
-    BorderSpacing.Right:= 5;
+    AnchorSideBottom.Side:= asrBottom;
+    AnchorSideTop.Control:= Status;
+    AnchorSideTop.Side:= asrTop;
+    Anchors:= [akRight, akTop, akBottom];
   end;
   with ButtonCancel do
   begin
     Parent:= Status;
     AnchorSideRight.Control:= Gauge;
-    AnchorSideRight.Side:= asrLeft;
-    AnchorSideBottom.Control:= Status;
-    AnchorSideBottom.Side:= asrCenter;
-    Anchors:= [akRight, akBottom];
-    BorderSpacing.Right:= 5;
+    AnchorSideBottom.Control:= Gauge;
+    AnchorSideBottom.Side:= asrBottom;
+    AnchorSideTop.Control:= Gauge;
+    Anchors:= [akRight, akTop, akBottom];
   end;
   Gauge.Hide;
   ButtonCancel.Hide;

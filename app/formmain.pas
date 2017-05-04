@@ -1670,8 +1670,6 @@ begin
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
 
   Status.Height:= MulDiv(UiOps.StatusHeight, UiOps.ScreenScale, 100);
-  ButtonCancel.Height:= UiOps.StatusHeight-2;
-  Gauge.Height:= ButtonCancel.Height;
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
