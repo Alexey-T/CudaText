@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
-  LMessages,
+  LMessages, LCLType,
   ATSynEdit_ScrollBar,
   ATListbox;
 
@@ -50,6 +50,7 @@ type
 const
   UiOps_ScrollbarWidth: integer = 14;
   UiOps_ScrollbarBorderSize: integer = 0;
+  UiOps_ScreenScale: integer = 100;
 
 
 implementation
@@ -96,7 +97,7 @@ begin
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= UiOps_ScrollbarWidth;
+  FScroll.Width:= MulDiv(UiOps_ScrollbarWidth, UiOps_ScreenScale, 100);
   FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
   FScroll.OnChange:= @ScrollChange;
   UpdScroll;
@@ -117,7 +118,7 @@ begin
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= UiOps_ScrollbarWidth;
+  FScroll.Width:= MulDiv(UiOps_ScrollbarWidth, UiOps_ScreenScale, 100); ;
   FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
   FScroll.OnChange:= @ScrollChange;
   UpdScroll;

@@ -1021,10 +1021,10 @@ begin
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
 
   {$ifdef windows}
-  //cannot be in globdata
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
   {$endif}
   //UiOps.ScreenScale:= 200; ////test
+  UiOps_ScreenScale:= UiOps.ScreenScale;
 
   Toolbar.ScalePercents:= UiOps.ScreenScale;
   ToolbarSide.ScalePercents:= UiOps.ScreenScale;
