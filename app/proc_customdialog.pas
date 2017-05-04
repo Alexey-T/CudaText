@@ -17,7 +17,6 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   LclProc, LclType,
-  ATListbox,
   Gauges,
   proc_customdialog_dummy,
   proc_miscutils,
@@ -43,6 +42,7 @@ procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 implementation
 
 uses
+  ATListbox,
   ATLinkLabel,
   ATStringProc,
   ATPanelColor;

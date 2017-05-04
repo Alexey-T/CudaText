@@ -1760,7 +1760,7 @@ end;
 function Py_dlg_custom(Self, Args : PPyObject): PPyObject; cdecl;
 var
   PtrTitle, PtrText: PChar;
-  StrTitle, StrText, StrStateText: string;
+  StrTitle, StrText, StrResult: string;
   NSizeX, NSizeY, NFocused, NButton: integer;
 begin
   with GetPythonEngine do
@@ -1771,11 +1771,11 @@ begin
       if UiOps.LogCustomDialogs then
         DoLogDialog(NSizeX, NSizeY, StrText);
 
-      DoDialogCustom(StrTitle, NSizeX, NSizeY, StrText, NFocused, NButton, StrStateText);
+      DoDialogCustom(StrTitle, NSizeX, NSizeY, StrText, NFocused, NButton, StrResult);
       if NButton<0 then
         Result:= ReturnNone
       else
-        Result:= Py_BuildValue('(is)', NButton, PChar(StrStateText));
+        Result:= Py_BuildValue('(is)', NButton, PChar(StrResult));
     end;
 end;
 
