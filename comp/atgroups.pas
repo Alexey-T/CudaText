@@ -153,6 +153,7 @@ type
     FPos5: Real;
     FPrevWidth,
     FPrevHeight: Integer;
+    FScalePercents: integer;
     FSplitPopup: TMyPopupMenu;
     FMode: TATGroupsMode;
     FOnTabPopup: TNotifyEvent;
@@ -163,6 +164,7 @@ type
     FOnTabMove: TATTabMoveEvent;
     FPopupPages: TATPages;
     FPopupTabIndex: Integer;
+    function DoScale(N: integer): integer;
     procedure TabFocus(Sender: TObject);
     procedure TabEmpty(Sender: TObject);
     procedure TabPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -200,6 +202,7 @@ type
     property Splitter3: TMySplitter read FSplit3;
     property Splitter4: TMySplitter read FSplit4;
     property Splitter5: TMySplitter read FSplit5;
+    property ScalePercents: integer read FScalePercents write FScalePercents default 100;
     //
     constructor Create(AOwner: TComponent); override;
     //
@@ -260,6 +263,9 @@ uses
   SysUtils, StrUtils,
   {$ifdef SP}
   SpTbxSkins,
+  {$endif}
+  {$ifdef FPC}
+  LCLType,
   {$endif}
   Math, Dialogs;
 
@@ -448,6 +454,7 @@ begin
   BorderStyle:= bsNone;
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
+  FScalePercents:= 100;
 
   Pages1:= TATPages.Create(Self);
   Pages2:= TATPages.Create(Self);
@@ -1461,7 +1468,7 @@ begin
           begin
             Font.Size:= N;
             TabHeight:= Trunc(N * 1.8) + 8; //tested for sizes 8..38
-            Height:= TabHeight+TabIndentTop+1;
+            Height:= DoScale(TabHeight+TabIndentTop+1);
           end;
         //
         tabOptionBottomTabs:
@@ -1476,18 +1483,18 @@ begin
         tabOptionShowEntireColor:  TabShowEntireColor:= Boolean(N);
         tabOptionDoubleClickClose: TabDoubleClickClose:= Boolean(N);
         tabOptionDragDrop:         TabDragEnabled:= Boolean(N);
-        tabOptionAngle:            TabAngle:= N;
-        tabOptionHeight:           Height:= N;
-        tabOptionHeightInner:      TabHeight:= N;
-        tabOptionWidthMin:         TabWidthMin:= N;
-        tabOptionWidthMax:         TabWidthMax:= N;
-        tabOptionIndentTop:        TabIndentTop:= N;
-        tabOptionIndentInit:       TabIndentInit:= N;
-        tabOptionIndentInter:      TabIndentInter:= N;
-        tabOptionIndentColor:      TabIndentColor:= N;
-        tabOptionIndentXRight:     TabIndentXRight:= N;
-        tabOptionIndentXSize:      TabIndentXSize:= N;
-        tabOptionWidecharModified: TabShowModifiedText:= Widechar(N);
+        tabOptionAngle:            TabAngle:= DoScale(N);
+        tabOptionHeight:           Height:= DoScale(N);
+        tabOptionHeightInner:      TabHeight:= DoScale(N);
+        tabOptionWidthMin:         TabWidthMin:= DoScale(N);
+        tabOptionWidthMax:         TabWidthMax:= DoScale(N);
+        tabOptionIndentTop:        TabIndentTop:= DoScale(N);
+        tabOptionIndentInit:       TabIndentInit:= DoScale(N);
+        tabOptionIndentInter:      TabIndentInter:= DoScale(N);
+        tabOptionIndentColor:      TabIndentColor:= DoScale(N);
+        tabOptionIndentXRight:     TabIndentXRight:= DoScale(N);
+        tabOptionIndentXSize:      TabIndentXSize:= DoScale(N);
+        tabOptionWidecharModified: TabShowModifiedText:= WideChar(N);
       end;
 end;
 
@@ -1696,6 +1703,14 @@ begin
             Exit
           end;
       end;
+end;
+
+function TATGroups.DoScale(N: integer): integer;
+begin
+  if ScalePercents<=100 then
+    Result:= N
+  else
+    Result:= MulDiv(N, ScalePercents, 100);
 end;
 
 end.
