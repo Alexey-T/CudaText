@@ -629,8 +629,12 @@ class Editor:
 
     def delete(self, x1, y1, x2, y2):
         return ct.ed_delete(self.h, x1, y1, x2, y2)
+
     def insert(self, x1, y1, text):
         return ct.ed_insert(self.h, x1, y1, text)
+
+    def replace(self, x1, y1, x2, y2, text):
+        return ct.ed_replace(self.h, x1, y1, x2, y2, text)
 
     def get_filename(self):
         return ct.ed_get_filename(self.h)
