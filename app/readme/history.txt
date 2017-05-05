@@ -4,8 +4,9 @@
   * changed
 
 
-1.8.4
-- fixes for Windows high dpi
+1.8.5
+- fixed for Windows high dpi (scale more UI items)
+- fix slow scrolling with minimap shown
 + option ui_tree_theme
 + command "place bookmarks on carets"
 + replace-all: show elapsed time in sec.
