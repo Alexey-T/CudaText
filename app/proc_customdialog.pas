@@ -37,6 +37,7 @@ procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
+procedure DoForm_ScaleAuto(F: TForm);
 
 
 implementation
@@ -1135,6 +1136,13 @@ begin
   end;
 end;
 
+procedure DoForm_ScaleAuto(F: TForm);
+begin
+  F.AutoAdjustLayout(lapAutoAdjustForDPI,
+    96, Screen.PixelsPerInch,
+    F.Width, F.ScaleCoord96(F.Width));
+end;
+
 
 procedure DoForm_FillContent(
   F: TFormDummy;
@@ -1177,6 +1185,7 @@ begin
 
     DoForm_FillContent(F, AText);
     DoForm_FocusControl(F, AFocusedIndex);
+    DoForm_ScaleAuto(F);
 
     FDialogShown:= true;
     if F.ShowModal=mrOk then
@@ -1287,6 +1296,9 @@ begin
   if AName='events' then
     F.Events:= AValue
   else
+  if AName='scaled' then
+    F.Scaled:= StrToBool(AValue)
+  else
   ;
 end;
 
@@ -1306,7 +1318,7 @@ begin
 
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsO}',
+    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsOsO}',
       'cap', PChar(F.Caption),
       'tag', PChar(F.TagString),
       PChar(string('x')), F.Left,
@@ -1319,6 +1331,7 @@ begin
       'resize', PyBool_FromLong(Ord(F.BorderStyle=bsSizeable)),
       'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop)),
       'keypreview', PyBool_FromLong(Ord(F.KeyPreview)),
+      'scaled', PyBool_FromLong(Ord(F.Scaled)),
       'events', StringsToPyList(List)
       );
   end;
