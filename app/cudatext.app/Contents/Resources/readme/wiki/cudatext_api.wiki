@@ -473,7 +473,7 @@ Param lexer is optional lexer name. If not empty, dialog enables checkbox "For c
 
 ===dlg_custom===
 
- dlg_custom(title, size_x, size_y, text, focused=-1)
+ dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False)
 
 Shows dialog with controls of many types.
 
@@ -509,7 +509,7 @@ Possible types of controls:
 * "progressbar_ex": like progressbar, with new styles
 * "filter_listbox": input, which filters content of another "listbox" control
 * "filter_listview": input, which filter content of another "listview" control
-* "bevel": only line, w/o value, w/o caption (at 1 side or at all 4 sides)
+* "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
 
 Notes:
 
@@ -623,15 +623,17 @@ Props:
 ** int_color_fore
 ** int_color_border
 * bevel:
-** int_shape (0: box, 1: frame, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: empty spacer)
+** int_shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
 
 ====Result====
 
-Dialog is closed by clicking any button or by changing of any control which has "act=1". Gets 2-tuple: (control_index, state_text), gets None if cancelled.
+Dialog is closed by clicking any button or by changing of any control which has "act=1". 
 
-* control_index: index of control which closed dialog (0-based).
-* state_text: "\n"-separated values of controls. Same count of items as in text, plus optional additional lines in the form "key=value":
-** focused=N: index of last focused control (0-based) or -1.
+* If cancelled, gets None
+* If get_dict=True, gets dict: {0: str_value_0, 1: str_value_1, ..., 'clicked': N, 'focused': N}
+* If get_dict=False, gets 2-tuple: (clicked_index, state_text)
+** clicked_index: index of control which closed dialog (0-based).
+** state_text: "\n"-separated values of controls. Same count of items as in text, plus optional additional lines in the form "key=value". Line "focused=N" with index of last focused control (0-based) or -1.
 
 ====Notes====
 
@@ -645,12 +647,15 @@ Dialog is closed by clicking any button or by changing of any control which has 
 * So it's good to use common height for single-line controls, 30 pixels is ok for edit/button/check/radio, 36 for combobox.
 * Control "tabs" height cannot auto-size, please make correct height for control (it is usually like big buttons).
 
-
 ===dlg_proc===
 
  dlg_proc(id_dialog, id_action, prop="", index=-1, index2=-1)
 
 Advanced work with dialogs (forms). More advanced than dlg_custom(), forms can show modal/nonmodal, controls can change value during form showing.
+
+====Types====
+
+Described in dlg_custom, see [[#Types]].
 
 ====Form properties====
 
@@ -1199,9 +1204,7 @@ Example replaces selection of 1st caret with text:
 
 <syntaxhighlight lang="Python">
         x0, y0, x1, y1 = ed.get_carets()[0]
-        if (y1>y0) or ((y1==y0) and (x1>=x0)):
-            pass
-        else:
+        if (y0, x0) >= (y1, x1): #note that y first
             x0, y0, x1, y1 = x1, y1, x0, y0 
         
         ed.set_caret(x0, y0)
@@ -1217,6 +1220,34 @@ Inserts given text at position (x, y). If y too big, appends block to end (even 
 Text can be multi-line, all CR LF are converted to currently used line-ends.
 
 Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Gets None if cannot insert, e.g. y is too big.
+
+===replace===
+
+ replace(x1, y1, x2, y2, text)
+
+Replaces range from position (x1, y1) to bigger position (x2, y2), with new text.
+
+* Too big x1/x2 are allowed (after line-end)
+* Too big y2 means delete to end of file
+
+Function does the same as delete+insert, but
+
+* optimized for replace inside one line (when y1==y2 and no EOLs in text)
+* for multi-line it also makes grouped-undo for delete+insert
+
+Gets 2-tuple (x, y) of position after inserted text.
+
+===replace_lines===
+
+ replace_lines(y1, y2, lines)
+
+Deletes whole lines from index y1 to y2, then inserts new lines from specified list.
+
+* Index y1 must be valid index (0 to count-1)
+* Index y2 can be less than y1 (to not delete), and can be too big (to delete lines to end)
+* Param lines is list/tuple of str. Can be empty list to just delete lines. Inside items should not be "\n" and "\r": "\n" will generate additonal lines, "\r" not handled. 
+
+Gets bool: index y1 correct, replace done.
 
 ==Selection==
 
@@ -1666,6 +1697,11 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.177
+* add: dlg_custom: parameter "get_dict" to get new dict result (not tuple)
+* add: ed.replace
+* add: ed.replace_lines
 
 1.0.176
 * reworked dlg_proc, many form props+events added
