@@ -17,7 +17,7 @@ object fmGoto: TfmGoto
   object bGoto: TATButton
     AnchorSideLeft.Control = edInput
     AnchorSideLeft.Side = asrBottom
-    Left = 151
+    Left = 149
     Height = 25
     Top = 4
     Width = 72
@@ -46,12 +46,12 @@ object fmGoto: TfmGoto
     AnchorSideRight.Control = bGoto
     AnchorSideBottom.Control = bGoto
     AnchorSideBottom.Side = asrBottom
-    Left = 55
+    Left = 53
     Height = 25
     Top = 4
     Width = 90
     Anchors = [akTop, akLeft, akBottom]
-    BorderSpacing.Left = 6
+    BorderSpacing.Left = 4
     BorderStyle = bsSingle
     DoubleBuffered = True
     Font.Height = -12
