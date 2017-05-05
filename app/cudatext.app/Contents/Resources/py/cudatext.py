@@ -507,8 +507,34 @@ def dlg_hotkeys(command, lexer=''):
 def dlg_commands(options):
     return ct.dlg_commands(options)
 
-def dlg_custom(title, size_x, size_y, text, focused=-1):
-    return ct.dlg_custom(title, size_x, size_y, text, focused)
+def _dlg_custom_dict(res, count):
+    """Parse dlg_custom str result to dict"""
+    clicked, vals = res
+    vals = vals.splitlines()
+    res = {}
+    #res[i]
+    for i in range(count):
+        res[i] = vals[i]
+    #res['clicked']
+    res['clicked'] = clicked
+    #res['focused']
+    for i in range(count, len(vals)):
+        s = vals[i].split('=', 1)
+        s_key = s[0]
+        s_val = s[1]
+        if s_val.isdigit():
+            s_val = int(s_val)
+        res[s_key] = s_val
+    return res
+
+def dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False):
+    res = ct.dlg_custom(title, size_x, size_y, text, focused)
+    if res is None:
+        return
+    if not get_dict:
+        return res
+    else:
+        return _dlg_custom_dict(res, count=len(text.splitlines()) )
 
 def file_open(filename, group=-1, args=''):
     return ct.file_open(filename, group, args)
@@ -629,8 +655,16 @@ class Editor:
 
     def delete(self, x1, y1, x2, y2):
         return ct.ed_delete(self.h, x1, y1, x2, y2)
+
     def insert(self, x1, y1, text):
         return ct.ed_insert(self.h, x1, y1, text)
+
+    def replace(self, x1, y1, x2, y2, text):
+        return ct.ed_replace(self.h, x1, y1, x2, y2, text)
+
+    def replace_lines(self, y1, y2, lines):
+        text = '\n'.join(lines)
+        return ct.ed_replace_lines(self.h, y1, y2, text)
 
     def get_filename(self):
         return ct.ed_get_filename(self.h)

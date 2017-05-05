@@ -292,13 +292,8 @@ cmd_BookmarkGotoPrev  = 2665
 cmd_BookmarkPlaceCarets = 2667
 cmd_BookmarkCopyMarkedLines = 2668
 cmd_BookmarkDeleteMarkedLines = 2669
+cmd_BookmarkPlaceBookmarksOnCarets = 2670
 
-cmd_CommentLineAdd_AtNonspace    = 2670 #deleted
-cmd_CommentLineAdd_AtStart       = 2671 #deleted
-cmd_CommentLineRemove            = 2672 #deleted
-cmd_CommentLineToggle_AtNonspace = 2673 #deleted
-cmd_CommentLineToggle_AtStart    = 2674 #deleted
-cmd_CommentStreamToggle          = 2675 #deleted
 cmd_DuplicateLineEx              = 2676
 
 cmd_LineEndWin        = 2677
