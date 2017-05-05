@@ -170,8 +170,6 @@ end;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   ForceApply: boolean);
 begin
-  Ed.ScalePercents:= UiOps.ScreenScale;
-
   Ed.Font.Name:= Op.OpFontName;
   Ed.Font.Size:= Op.OpFontSize;
   Ed.Font.Quality:= Op.OpFontQuality;
