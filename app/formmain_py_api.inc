@@ -2344,6 +2344,11 @@ begin
               Result:= ReturnNone;
           end;
 
+       APP_PROC_GET_SYSTEM_PPI:
+         begin
+           Result:= PyInt_FromLong(Screen.PixelsPerInch);
+         end;
+
         //-------------------
         APP_PROC_SIDEPANEL_ADD:
           begin
