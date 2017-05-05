@@ -47,6 +47,7 @@ type
   TAppPathId = (
     cDirSettings,
     cDirSettingsDefault,
+    cDirPy,
     cDirData,
     cDirDataLexerlib,
     cDirDataNewdoc,
@@ -55,9 +56,9 @@ type
     cDirDataAutocompleteSpec,
     cDirDataLangs,
     cDirDataSideIcons,
+    cDirDataTreeIcons,
     cDirReadme,
     cDirLastInstalledAddon,
-    cDirPy,
     cFileOptionsHistory,
     cFileOptionsDefault,
     cFileOptionsUser,
@@ -84,6 +85,8 @@ type
     LogCustomDialogs: boolean;
 
     PyLibrary: string;
+    PyChangeSlow: integer;
+
     LexerThemes: boolean;
     SidebarShow: boolean;
     SidebarTheme: string;
@@ -137,12 +140,12 @@ type
     ExportHtmlFontName: string;
     ExportHtmlFontSize: integer;
 
+    TreeTheme: string;
     TreeAutoSync: boolean;
     TreeTimeFill: integer;
     TreeTimeFocus: integer;
     TreeShowLines: boolean;
     TreeShowIcons: boolean;
-    PyChangeSlow: integer;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -646,6 +649,11 @@ begin
       begin
         Result:= OpDirLocal+DirectorySeparator+'settings_default';
       end;
+    cDirPy:
+      begin
+        Result:= OpDirLocal+DirectorySeparator+'py';
+      end;
+
     cDirData:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data';
@@ -678,6 +686,11 @@ begin
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'sideicons'+DirectorySeparator+UiOps.SidebarTheme;
       end;
+    cDirDataTreeIcons:
+      begin
+        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'codetreeicons'+DirectorySeparator+UiOps.TreeTheme;
+      end;
+
     cDirReadme:
       begin
         Result:= OpDirLocal+DirectorySeparator+'readme';
@@ -686,11 +699,6 @@ begin
       begin
         Result:= AppFolderOfLastInstalledAddon;
       end;
-    cDirPy:
-      begin
-        Result:= OpDirLocal+DirectorySeparator+'py';
-      end;
-
     cFileOptionsDefault:
       begin
         Result:= GetAppPath(cDirSettingsDefault)+DirectorySeparator+'default.json';
@@ -954,8 +962,11 @@ begin
     LexerThemes:= true;
     SidebarShow:= true;
     SidebarTheme:= 'octicons_20x20';
+    TreeTheme:= 'default_16x16';
+
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
+
     MaxFileSizeToOpen:= 30;
     MaxFileSizeForLexer:= 4;
 

@@ -989,6 +989,32 @@ begin
   ToolbarAlt.UpdateControls;
 end;
 
+
+procedure TfmMain.DoOps_LoadTreeIcons;
+var
+  Parts: TRegexParts;
+  Str: string;
+begin
+  SRegexFindParts('.+_(\d+)x(\d+)', UiOps.TreeTheme, Parts);
+
+  ImageListTree.Width:= StrToIntDef(Parts[1], ImageListTree.Width);
+  ImageListTree.Height:= StrToIntDef(Parts[2], ImageListTree.Height);
+  ImageListTree.Clear;
+
+  Str:= GetAppPath(cDirDataTreeIcons)+DirectorySeparator;
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'dir.png');
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'st1.png');
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'st2.png');
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'st3.png');
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'box.png');
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'fx.png');
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar1.png');
+  UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar2.png');
+
+  Tree.Invalidate;
+end;
+
+
 procedure TfmMain.InitSidebar;
 begin
   //

@@ -666,6 +666,7 @@ type
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
     procedure TreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOps_LoadSidebarIcons;
+    procedure DoOps_LoadTreeIcons;
     procedure DoOps_LoadCommandLineOptions;
     procedure DoOps_LoadLexerLib;
     procedure DoOps_SaveHistory;
@@ -1295,6 +1296,7 @@ begin
 
   InitPyEngine;
   DoOps_LoadSidebarIcons;
+  DoOps_LoadTreeIcons;
   DoOps_LoadLexerLib;
   DoFileOpen('');
   FHandledOnShow:= true;

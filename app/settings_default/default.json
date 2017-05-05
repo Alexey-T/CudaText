@@ -442,6 +442,8 @@
   "ui_tree_show_lines": true,
   //Tree: Show icons in tree (for lexers which assign icons, e.g. C#)
   "ui_tree_icons": true,
+  //Tree: Icons theme, i.e. dir inside "data/codetreeicons"
+  "ui_tree_theme": "default_16x16",  
 
   //[NewDoc]
   //New tabs: Lexer name
@@ -686,7 +688,7 @@
   //[UiSidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)
   "ui_sidebar_show": true,
-  //Name of sidebar icon theme (subdir inside data/sideicons)
+  //Sidebar icons theme, i.e. dir inside "data/sideicons"
   "ui_sidebar_theme": "octicons_20x20",
   
   //[Python]

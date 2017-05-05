@@ -625,6 +625,7 @@ begin
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
     UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
     UiOps.SidebarTheme:= c.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
+    UiOps.TreeTheme:= c.GetValue('ui_tree_theme', UiOps.TreeTheme);
 
     UiOps.PyLibrary:= c.GetValue('pylib'+cOptionSystemSuffix, UiOps.PyLibrary);
     UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
