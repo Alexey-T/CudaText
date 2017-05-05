@@ -519,8 +519,12 @@ def _dlg_custom_dict(res, count):
     res['clicked'] = clicked
     #res['focused']
     for i in range(count, len(vals)):
-        s = vals[i].split('=')
-        res[s[0]] = s[1]
+        s = vals[i].split('=', 1)
+        s_key = s[0]
+        s_val = s[1]
+        if s_val.isdigit():
+            s_val = int(s_val)
+        res[s_key] = s_val
     return res
 
 def dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False):
