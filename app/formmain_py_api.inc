@@ -4016,6 +4016,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        DLG_SCALE:
+          begin
+            DoForm_ScaleAuto(Form);
+            Result:= ReturnNone;
+          end;
+
         DLG_CTL_FOCUS:
           begin
             if (NIndex>=0) and (NIndex<Form.ControlCount) then

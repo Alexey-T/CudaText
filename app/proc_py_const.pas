@@ -358,6 +358,7 @@ const
   DLG_SHOW_NONMODAL  = 6;
   DLG_HIDE           = 7;
   DLG_FOCUS          = 8;
+  DLG_SCALE          = 9;
   DLG_PROP_GET       = 10;
   DLG_PROP_SET       = 11;
   DLG_CTL_COUNT      = 20;
