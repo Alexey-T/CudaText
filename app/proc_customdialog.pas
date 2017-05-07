@@ -1138,9 +1138,14 @@ end;
 
 procedure DoForm_ScaleAuto(F: TForm);
 begin
+  {$ifdef windows}
+  //Linux: cannot test
+  //macOS: gives bad result, tool big labels
+
   F.AutoAdjustLayout(lapAutoAdjustForDPI,
     96, Screen.PixelsPerInch,
     F.Width, F.ScaleCoord96(F.Width));
+  {$endif}
 end;
 
 
