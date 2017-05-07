@@ -161,7 +161,7 @@ begin
   KeyPreview:= true;
   Position:= poScreenCenter;
   ShowHint:= true;
-  Scaled:= true;
+  Scaled:= false;
 
   IsDlgCustom:= false;
   IsFormShownAlready:= false;

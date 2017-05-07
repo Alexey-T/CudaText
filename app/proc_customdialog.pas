@@ -1182,6 +1182,7 @@ begin
     F.Caption:= ATitle;
     F.ClientWidth:= ASizeX;
     F.ClientHeight:= ASizeY;
+    F.Scaled:= true; //safe for dlg_custom
 
     DoForm_FillContent(F, AText);
     DoForm_FocusControl(F, AFocusedIndex);
