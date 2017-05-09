@@ -1,67 +1,81 @@
 object fmLexerStyle: TfmLexerStyle
   Left = 521
-  Height = 318
+  Height = 343
   Top = 453
   Width = 435
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Lexer style'
-  ClientHeight = 318
+  ClientHeight = 343
   ClientWidth = 435
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   object Panel1: TPanel
     Left = 6
-    Height = 271
+    Height = 296
     Top = 6
     Width = 423
     Align = alClient
     BorderSpacing.Around = 6
     BevelOuter = bvNone
-    ClientHeight = 271
+    ClientHeight = 296
     ClientWidth = 423
     TabOrder = 0
     object edColorFont: TColorBox
-      Left = 208
+      AnchorSideLeft.Control = edColorBG
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = edColorBG
+      Left = 202
       Height = 31
-      Top = 65
+      Top = 75
       Width = 190
       ColorRectWidth = 22
       NoneColorColor = clNone
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+      BorderSpacing.Left = 6
       DropDownCount = 20
       ItemHeight = 0
       TabOrder = 2
     end
     object edColorBG: TColorBox
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = LabelColorBg
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 31
-      Top = 65
+      Top = 75
       Width = 190
       ColorRectWidth = 22
       NoneColorColor = clNone
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+      BorderSpacing.Top = 2
       DropDownCount = 20
       ItemHeight = 0
       TabOrder = 1
     end
     object LabelColorFont: TLabel
-      Left = 208
+      AnchorSideLeft.Control = edColorFont
+      AnchorSideTop.Control = LabelColorBg
+      Left = 202
       Height = 17
-      Top = 49
+      Top = 56
       Width = 91
       Caption = 'Color of font:'
       FocusControl = edColorFont
       ParentColor = False
     end
     object edStyleType: TComboBox
-      Left = 8
-      Height = 31
-      Top = 18
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = LabelStyleType
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 27
+      Top = 25
       Width = 190
+      BorderSpacing.Top = 2
       ItemHeight = 0
       Items.Strings = (
         'Misc font (not supp.)'
@@ -74,164 +88,226 @@ object fmLexerStyle: TfmLexerStyle
       TabOrder = 0
     end
     object LabelStyleType: TLabel
-      Left = 8
+      Left = 6
       Height = 17
-      Top = 0
+      Top = 6
       Width = 70
       Caption = 'Style type:'
       FocusControl = edStyleType
       ParentColor = False
     end
     object LabelColorBg: TLabel
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = edStyleType
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 17
-      Top = 48
+      Top = 56
       Width = 81
+      BorderSpacing.Top = 4
       Caption = 'Color of BG:'
       FocusControl = edColorBG
       ParentColor = False
     end
     object LabelFontStyles: TLabel
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = edColorBG
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 17
-      Top = 104
+      Top = 110
       Width = 77
+      BorderSpacing.Top = 4
       Caption = 'Font styles:'
       ParentColor = False
     end
     object chkBold: TCheckBox
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = LabelFontStyles
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 24
-      Top = 120
+      Top = 129
       Width = 57
+      BorderSpacing.Top = 2
       Caption = 'Bold'
       TabOrder = 3
     end
     object chkItalic: TCheckBox
-      Left = 96
+      AnchorSideLeft.Control = chkBold
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = chkBold
+      Left = 73
       Height = 24
-      Top = 120
+      Top = 129
       Width = 59
+      BorderSpacing.Left = 10
       Caption = 'Italic'
       TabOrder = 4
     end
     object chkStrik: TCheckBox
-      Left = 304
+      AnchorSideLeft.Control = chkUnder
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = chkBold
+      Left = 243
       Height = 24
-      Top = 120
+      Top = 129
       Width = 83
+      BorderSpacing.Left = 10
       Caption = 'Stikeout'
       TabOrder = 6
     end
     object chkUnder: TCheckBox
-      Left = 184
+      AnchorSideLeft.Control = chkItalic
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = chkBold
+      Left = 142
       Height = 24
-      Top = 120
+      Top = 129
       Width = 91
+      BorderSpacing.Left = 10
       Caption = 'Underline'
       TabOrder = 5
     end
     object LabelBorder: TLabel
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = chkBold
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 17
-      Top = 148
+      Top = 159
       Width = 58
+      BorderSpacing.Top = 6
       Caption = 'Borders:'
       ParentColor = False
     end
     object cbBorderL: TComboBox
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = LabelBorderL
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 31
-      Top = 184
+      Top = 197
       Width = 100
+      BorderSpacing.Top = 2
       DropDownCount = 20
       ItemHeight = 0
       Style = csDropDownList
       TabOrder = 7
     end
     object cbBorderT: TComboBox
+      AnchorSideLeft.Control = cbBorderL
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbBorderL
       Left = 112
       Height = 31
-      Top = 184
+      Top = 197
       Width = 100
+      BorderSpacing.Left = 6
       DropDownCount = 20
       ItemHeight = 0
       Style = csDropDownList
       TabOrder = 8
     end
     object cbBorderR: TComboBox
-      Left = 216
+      AnchorSideLeft.Control = cbBorderT
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbBorderL
+      Left = 218
       Height = 31
-      Top = 184
+      Top = 197
       Width = 100
+      BorderSpacing.Left = 6
       DropDownCount = 20
       ItemHeight = 0
       Style = csDropDownList
       TabOrder = 9
     end
     object cbBorderB: TComboBox
-      Left = 320
+      AnchorSideLeft.Control = cbBorderR
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbBorderL
+      Left = 324
       Height = 31
-      Top = 184
+      Top = 197
       Width = 100
+      BorderSpacing.Left = 6
       DropDownCount = 20
       ItemHeight = 0
       Style = csDropDownList
       TabOrder = 10
     end
     object LabelBorderL: TLabel
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = LabelBorder
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 17
-      Top = 166
+      Top = 178
       Width = 28
+      BorderSpacing.Top = 2
       Caption = 'Left'
       FocusControl = cbBorderL
       ParentColor = False
     end
     object LabelBorderT: TLabel
+      AnchorSideLeft.Control = cbBorderT
+      AnchorSideTop.Control = LabelBorderL
       Left = 112
       Height = 17
-      Top = 166
+      Top = 178
       Width = 25
       Caption = 'Top'
       FocusControl = cbBorderT
       ParentColor = False
     end
     object LabelBorderR: TLabel
-      Left = 216
+      AnchorSideLeft.Control = cbBorderR
+      AnchorSideTop.Control = LabelBorderL
+      Left = 218
       Height = 17
-      Top = 166
+      Top = 178
       Width = 35
       Caption = 'Right'
       FocusControl = cbBorderR
       ParentColor = False
     end
     object LabelBorderB: TLabel
-      Left = 320
+      AnchorSideLeft.Control = cbBorderB
+      AnchorSideTop.Control = LabelBorderL
+      Left = 324
       Height = 17
-      Top = 166
+      Top = 178
       Width = 52
       Caption = 'Bottom'
       FocusControl = cbBorderB
       ParentColor = False
     end
     object LabelColorBorder: TLabel
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = cbBorderL
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 17
-      Top = 216
+      Top = 232
       Width = 109
+      BorderSpacing.Top = 4
       Caption = 'Color of border:'
       FocusControl = edColorBorder
       ParentColor = False
     end
     object edColorBorder: TColorBox
-      Left = 8
+      AnchorSideLeft.Control = LabelStyleType
+      AnchorSideTop.Control = LabelColorBorder
+      AnchorSideTop.Side = asrBottom
+      Left = 6
       Height = 31
-      Top = 232
+      Top = 251
       Width = 190
       ColorRectWidth = 22
       NoneColorColor = clNone
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbCustomColor, cbPrettyNames]
+      BorderSpacing.Top = 2
       DropDownCount = 20
       ItemHeight = 0
       TabOrder = 11
@@ -240,7 +316,7 @@ object fmLexerStyle: TfmLexerStyle
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 29
-    Top = 283
+    Top = 308
     Width = 423
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
