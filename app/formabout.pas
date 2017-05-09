@@ -95,6 +95,8 @@ var
   SWidget: string;
 begin
   memo.DoubleBuffered:= UiOps.DoubleBuffered;
+  memo.Font.Name:= EditorOps.OpFontName;
+  memo.Font.Size:= EditorOps.OpFontSize;
 
   FLabelLink:= TLinkLabel.Create(Self);
   FLabelLink.Parent:= Self;
@@ -113,7 +115,12 @@ begin
     SWidget,
     {$I %FPCVersion%}
     ]);
+
+  AutoAdjustLayout(lapAutoAdjustForDPI,
+    96, Screen.PixelsPerInch,
+    Width, ScaleCoord96(Width));
 end;
+
 
 procedure TfmAbout.FormShow(Sender: TObject);
 begin
