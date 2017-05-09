@@ -510,14 +510,13 @@ Colored marks on micromap:
 
 == Paste with middle-button-click ==
 
-(From version 1.7.0.3)
 To paste like in Linux, with middle-click, you need
 
 * set option "mouse_mid_click_paste"
 * install plugin "Auto-Copy to Clipboard" 
 
-Note: this will make auto-copy of selection, and paste to position of mouse cursor on middle-click. 
-But it will work only for "editor frame", and not work for: Console read-only editor, single-line inputs. So this method is limited.
+This activates auto-copy of selection (copy to clipboard after text selection changes), and paste to position of mouse cursor on middle-click. 
+But it works only for "editor frame", and don't work for: Console read-only editor, single-line inputs. So this method is limited.
 
 == more ==
 
