@@ -24,8 +24,7 @@ type
     procedure Collapse(Node: TTreeNode); override;
     procedure Expand(Node: TTreeNode); override;
     procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
-    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint
-      ): Boolean; override;
+    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -93,13 +92,16 @@ constructor TATListboxMy.Create(AOwner: TComponent);
 begin
   inherited;
   ShowScrollbar:= false;
+
   FScroll:= TATScroll.Create(Self);
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= MulDiv(UiOps_ScrollbarWidth, UiOps_ScreenScale, 100);
+  FScroll.Width:= UiOps_ScrollbarWidth;
   FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
+  FScroll.AutoAdjustLayout(lapDefault, 100, UiOps_ScreenScale, 1, 1);
   FScroll.OnChange:= @ScrollChange;
+
   UpdScroll;
 end;
 
@@ -114,13 +116,16 @@ constructor TTreeViewMy.Create(AOwner: TComponent);
 begin
   inherited;
   ScrollBars:= ssNone;
+
   FScroll:= TATScroll.Create(Self);
   FScroll.Parent:= Self;
   FScroll.Kind:= sbVertical;
   FScroll.Align:= alRight;
-  FScroll.Width:= MulDiv(UiOps_ScrollbarWidth, UiOps_ScreenScale, 100); ;
+  FScroll.Width:= UiOps_ScrollbarWidth;
   FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
+  FScroll.AutoAdjustLayout(lapDefault, 100, UiOps_ScreenScale, 1, 1);
   FScroll.OnChange:= @ScrollChange;
+
   UpdScroll;
 end;
 
