@@ -843,7 +843,7 @@ begin
   ed.Parent:= Self;
 
   ed.DoubleBuffered:= UiOps.DoubleBuffered;
-  ed.ScalePercents:= UiOps.ScreenScale;
+  ed.AutoAdjustLayout(lapDefault, 100, UiOps.ScreenScale, 1, 1);
 
   ed.Font.Name:= EditorOps.OpFontName;
   ed.Font.Size:= EditorOps.OpFontSize;
