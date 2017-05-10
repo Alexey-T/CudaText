@@ -3973,6 +3973,7 @@ begin
             if Assigned(Ctl) then
             begin
               Ctl.Parent:= Form;
+              DoForm_AdjustLabelForNewControl(Form, Ctl);
               Result:= PyInt_FromLong(Form.ControlCount-1);
             end
             else

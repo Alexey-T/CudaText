@@ -4,8 +4,11 @@
   * changed
 
 
+1.8.6
+- fixes for Windows hi-dpi (dialogs, folding bar)
+
 1.8.5
-- fixed for Windows high dpi (scale more UI items)
+- fixed for Windows hi-dpi (scale more UI items)
 - fix slow scrolling with minimap shown
 + option ui_tree_theme
 + command "place bookmarks on carets"

@@ -36,6 +36,7 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
+procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 procedure DoForm_ScaleAuto(F: TForm);
 
@@ -1082,6 +1083,20 @@ begin
 end;
 
 
+procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
+var
+  CtlPrev: TControl;
+begin
+  if Ctl is TWinControl then
+    if F.ControlCount>=2 then
+    begin
+      CtlPrev:= F.Controls[F.ControlCount-2];
+      if CtlPrev is TLabel then
+        (CtlPrev as TLabel).FocusControl:= Ctl as TWinControl;
+    end;
+end;
+
+
 procedure DoForm_AddControl(AForm: TFormDummy; ATextItems: string);
 var
   SNameValue, SName, SValue: string;
@@ -1105,20 +1120,10 @@ begin
       Continue;
     end;
 
-    //first name must be "type"
     if not Assigned(Ctl) then exit;
-
-    //adjust previous label's FocusControl
-    if Ctl is TWinControl then
-      if AForm.ControlCount>=2 then
-      begin
-        CtlPrev:= AForm.Controls[AForm.ControlCount-2];
-        if CtlPrev is TLabel then
-          (CtlPrev as TLabel).FocusControl:= Ctl as TWinControl;
-      end;
-
+    DoForm_AdjustLabelForNewControl(AForm, Ctl);
     DoControl_SetPropFromPair(Ctl, SName, SValue);
-    //-------more?
+
   until false;
 end;
 

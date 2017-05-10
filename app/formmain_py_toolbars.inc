@@ -131,8 +131,7 @@ const
     'text_arrow',
     'arrow',
     'sep',
-    'sep',
-    'x'
+    'sep'
     );
 
 function DoToolbar_Enum(AToolbar: TATButtonsToolbar): PPyObject;
