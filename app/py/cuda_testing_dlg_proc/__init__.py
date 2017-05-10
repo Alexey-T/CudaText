@@ -154,7 +154,7 @@ class Command:
 
     def init_tempdlg(self, x=150, y=150):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg', 'events': '*' })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg', 'events': '*', 'color': 0xc0c0c0 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':20, 'y':20, 'w':100 })

@@ -1307,8 +1307,8 @@ begin
   if AName='events' then
     F.Events:= AValue
   else
-  if AName='scaled' then
-    F.Scaled:= StrToBool(AValue)
+  if AName='color' then
+    F.Color:= StrToIntDef(AValue, F.Color)
   else
   ;
 end;
@@ -1329,7 +1329,7 @@ begin
 
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsOsO}',
+    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsO}',
       'cap', PChar(F.Caption),
       'tag', PChar(F.TagString),
       PChar(string('x')), F.Left,
@@ -1342,7 +1342,6 @@ begin
       'resize', PyBool_FromLong(Ord(F.BorderStyle=bsSizeable)),
       'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop)),
       'keypreview', PyBool_FromLong(Ord(F.KeyPreview)),
-      'scaled', PyBool_FromLong(Ord(F.Scaled)),
       'events', StringsToPyList(List)
       );
   end;
