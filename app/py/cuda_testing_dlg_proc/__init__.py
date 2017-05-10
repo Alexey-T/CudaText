@@ -46,6 +46,7 @@ class Command:
         n_btn1 = dlg_proc(h, DLG_CTL_FIND, prop='btn1')
         n_btn_dlg = dlg_proc(h, DLG_CTL_FIND, prop='btn_dlg')
         n_color = dlg_proc(h, DLG_CTL_FIND, prop='color')
+        n_chk_dock = dlg_proc(h, DLG_CTL_FIND, prop='chk_dock')
 
         if id_event=='on_change':
             if id_ctl==n_chk:
@@ -58,7 +59,13 @@ class Command:
 
             if id_ctl==n_btn_dlg:
                 hh = self.init_tempdlg()
-                dlg_proc(hh, DLG_SHOW_MODAL)
+                docked = dlg_proc(h, DLG_CTL_PROP_GET, index=n_chk_dock)['val'] == '1'
+                if docked:
+                    dlg_proc(hh, DLG_DOCK, prop='R', index=h)
+                    dlg_proc(hh, DLG_SHOW_NONMODAL)
+                else:
+                    dlg_proc(hh, DLG_SHOW_MODAL)
+
 
         if id_event=='on_resize':
             d = dlg_proc(h, DLG_PROP_GET)
@@ -136,6 +143,9 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'callback': 'module=cuda_testing_dlg_proc;func=callback_main_close;'} )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'check')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120 } )
 
         nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
         dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)

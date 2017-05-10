@@ -66,6 +66,7 @@ type
     Callback: string;
     TagString: string;
     PrevForms: TList;
+    PrevBorderStyle: TFormBorderStyle;
     Events: string;
     BlockedOnChange: boolean;
     function IdFocused: integer;
@@ -176,6 +177,7 @@ begin
   OnKeyDown:= @DoOnKeyDown;
   OnKeyUp:= @DoOnKeyUp;
 
+  PrevBorderStyle:= BorderStyle;
   PrevForms:= TList.Create;
 end;
 
@@ -401,6 +403,7 @@ begin
   begin
     F:= Screen.Forms[i];
     if F=Self then Continue; //skip self
+    if F=Self.Parent then Continue;
     if F.Parent<>nil then Continue; //skip docked
     if F.Enabled then
     begin

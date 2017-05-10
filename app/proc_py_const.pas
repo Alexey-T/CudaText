@@ -362,6 +362,8 @@ const
   DLG_SCALE          = 9;
   DLG_PROP_GET       = 10;
   DLG_PROP_SET       = 11;
+  DLG_DOCK           = 12;
+  DLG_UNDOCK         = 13;
   DLG_CTL_COUNT      = 20;
   DLG_CTL_ADD        = 21;
   DLG_CTL_PROP_GET   = 22;

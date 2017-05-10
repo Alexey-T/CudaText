@@ -3906,13 +3906,14 @@ var
   Form: TFormDummy;
   PtrProp: PChar;
   StrProp: string;
-  NAction, NIndex, NIndex2: integer;
+  NAction: integer;
+  NIndex, NIndex2: Int64;
   Ctl: TControl;
   Pnt: TPoint;
 begin
   with GetPythonEngine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'Lisii:dlg_proc',
+    if Bool(PyArg_ParseTuple(Args, 'LisLL:dlg_proc',
       @Form, @NAction, @PtrProp, @NIndex, @NIndex2)) then
     begin
       StrProp:= string(PtrProp);
@@ -3947,6 +3948,7 @@ begin
 
         DLG_HIDE:
           begin
+            //DoForm_CloseDockedForms(Form); //not needed
             Form.Close;
             Result:= ReturnNone;
           end;
@@ -4025,6 +4027,25 @@ begin
         DLG_SCALE:
           begin
             DoForm_ScaleAuto(Form);
+            Result:= ReturnNone;
+          end;
+
+        DLG_DOCK:
+          begin
+            Form.PrevBorderStyle:= Form.BorderStyle;
+            Form.BorderStyle:= bsNone;
+            Form.Parent:= TForm(PtrInt(NIndex));
+            if StrProp='L' then Form.Align:= alLeft else
+             if StrProp='R' then Form.Align:= alRight else
+              if StrProp='T' then Form.Align:= alTop else
+               Form.Align:= alBottom;
+            Result:= ReturnNone;
+          end;
+
+        DLG_UNDOCK:
+          begin
+            Form.Parent:= nil;
+            Form.BorderStyle:= Form.PrevBorderStyle;
             Result:= ReturnNone;
           end;
 

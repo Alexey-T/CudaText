@@ -39,6 +39,7 @@ procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 procedure DoForm_ScaleAuto(F: TForm);
+procedure DoForm_CloseDockedForms(F: TForm);
 
 
 implementation
@@ -1382,6 +1383,10 @@ begin
 
   with GetPythonEngine do
   begin
+    //is it docked form?
+    if C.Tag=0 then
+      exit(ReturnNone);
+
     Result:= Py_BuildValue('{sssssssssssssisisisisssOsOsOsOsi}',
       'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
@@ -1418,6 +1423,24 @@ begin
     SValue:= SItem;
     DoControl_SetPropFromPair(C, SKey, SValue);
   until false;
+end;
+
+
+procedure DoForm_CloseDockedForms(F: TForm);
+var
+  C: TControl;
+  i: integer;
+begin
+  for i:= F.ControlCount-1 downto 0 do
+  begin
+    C:= F.Controls[i];
+    if C is TForm then
+    begin
+      showmessage(C.Caption); //dont run, so code not needed
+      (C as TForm).Parent:= nil;
+      (C as TForm).Close;
+    end;
+  end;
 end;
 
 
