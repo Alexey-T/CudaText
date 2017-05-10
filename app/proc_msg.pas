@@ -15,8 +15,8 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.8.5.0';
-  cAppApiVersion = '1.0.177';
+  cAppExeVersion = '1.8.6.0';
+  cAppApiVersion = '1.0.178';
 
 const
   msgTitle = 'CudaText'; //no need i18n

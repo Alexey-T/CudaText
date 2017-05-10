@@ -5,7 +5,8 @@
 
 
 1.8.6
-- fixes for Windows hi-dpi (dialogs, folding bar)
+- fixes for Windows hi-dpi (dialogs, folding icons)
++ api
 
 1.8.5
 - fixed for Windows hi-dpi (scale more UI items)
