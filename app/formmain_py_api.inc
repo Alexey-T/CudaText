@@ -4034,7 +4034,12 @@ begin
           begin
             Form.PrevBorderStyle:= Form.BorderStyle;
             Form.BorderStyle:= bsNone;
-            Form.Parent:= TForm(PtrInt(NIndex));
+
+            if NIndex=0 then
+              Form.Parent:= fmMain
+            else
+              Form.Parent:= TForm(PtrInt(NIndex));
+
             if StrProp='L' then Form.Align:= alLeft else
              if StrProp='R' then Form.Align:= alRight else
               if StrProp='T' then Form.Align:= alTop else
