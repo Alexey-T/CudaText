@@ -34,6 +34,7 @@ function DoControl_GetAutoHeight(const Id: string): integer;
 procedure DoControl_CreateNew(const S: string; AForm: TFormDummy; out Ctl: TControl);
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
+procedure DoControl_SetSpacing_FromString(C: TControl; AStr: string);
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
@@ -1444,6 +1445,30 @@ begin
       (C as TForm).Close;
     end;
   end;
+end;
+
+
+procedure DoControl_SetSpacing_FromString(C: TControl; AStr: string);
+var
+  SName: string;
+  NValue: integer;
+begin
+  SName:= SGetItem(AStr);
+  NValue:= StrToIntDef(SGetItem(AStr), 0);
+  if SName='L' then
+    C.BorderSpacing.Left:= NValue
+  else
+  if SName='R' then
+    C.BorderSpacing.Right:= NValue
+  else
+  if SName='T' then
+    C.BorderSpacing.Top:= NValue
+  else
+  if SName='B' then
+    C.BorderSpacing.Bottom:= NValue
+  else
+  if SName='C' then
+    C.BorderSpacing.Around:= NValue;
 end;
 
 
