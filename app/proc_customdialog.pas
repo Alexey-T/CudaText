@@ -1420,7 +1420,7 @@ begin
     if C.Tag=0 then
       exit(ReturnNone);
 
-    Result:= Py_BuildValue('{sssssssssssssisisisisssOsOsOsOsi}',
+    Result:= Py_BuildValue('{sssssssssssssisisisisssOsOsOsOsisisisisisi}',
       'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
@@ -1436,7 +1436,12 @@ begin
       'en', PyBool_FromLong(Ord(C.Enabled)),
       'vis', PyBool_FromLong(Ord(C.Visible)),
       'tab_stop', PyBool_FromLong(Ord(bTabStop)),
-      'tab_order', nTabOrder
+      'tab_order', nTabOrder,
+      'space_l', C.BorderSpacing.Left,
+      'space_r', C.BorderSpacing.Right,
+      'space_t', C.BorderSpacing.Top,
+      'space_b', C.BorderSpacing.Bottom,
+      'space_a', C.BorderSpacing.Around
       );
   end;
 end;
