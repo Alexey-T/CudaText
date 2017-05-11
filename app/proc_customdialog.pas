@@ -615,7 +615,6 @@ begin
  finally
    if Assigned(Ctl) then
    begin
-     Ctl.Anchors:= [];
      Props:= TAppControlProps.Create(S);
      if S='button' then
        Props.FActive:= true;

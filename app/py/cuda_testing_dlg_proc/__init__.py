@@ -67,9 +67,9 @@ class Command:
                     dlg_proc(hh, DLG_SHOW_MODAL)
 
 
-        if id_event=='on_resize':
-            d = dlg_proc(h, DLG_PROP_GET)
-            dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
+        #if id_event=='on_resize':
+        #    d = dlg_proc(h, DLG_PROP_GET)
+        #    dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'x': d['w']-20, 'h': d['h']-10 } )
 
 
     def callback_tempdlg(self, id_dlg, id_ctl, id_event='', info=''):
@@ -131,6 +131,8 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'color', 'cap': ' ', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0) } )
+        #anchors of colorpanel
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={ 'a_l': None, 'a_r': ('', ']'), 'a_b': ('', ']'), 'sp_a': 6  } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100} )
