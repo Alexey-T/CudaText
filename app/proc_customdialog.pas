@@ -624,6 +624,13 @@ begin
 end;
 
 
+procedure DoControl_SetAnchorFromString(C: TControl; AKind: TAnchorKind; AValue: string);
+begin
+
+
+end;
+
+
 procedure DoControl_SetPropsFromString_Adv(C: TControl; S: string);
 begin
   if C is TButton then
@@ -1079,6 +1086,30 @@ begin
   if AName='space_a' then
   begin
     C.BorderSpacing.Around:= StrToIntDef(AValue, 0);
+    exit;
+  end;
+
+  if AName='a_l' then
+  begin
+    DoControl_SetAnchorFromString(C, akLeft, AValue);
+    exit;
+  end;
+
+  if AName='a_r' then
+  begin
+    DoControl_SetAnchorFromString(C, akRight, AValue);
+    exit;
+  end;
+
+  if AName='a_t' then
+  begin
+    DoControl_SetAnchorFromString(C, akTop, AValue);
+    exit;
+  end;
+
+  if AName='a_b' then
+  begin
+    DoControl_SetAnchorFromString(C, akBottom, AValue);
     exit;
   end;
 end;

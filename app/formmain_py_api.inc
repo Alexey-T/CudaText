@@ -4018,12 +4018,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        DLG_CTL_ANCHOR:
-          begin
-
-            Result:= ReturnNone;
-          end;
-
         DLG_FOCUS:
           begin
             Form.SetFocus;
