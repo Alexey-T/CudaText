@@ -37,6 +37,7 @@ procedure DoControl_SetPropsFromStringDict(C: TControl; AText: string);
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
+procedure DoForm_FocusControl(F: TForm; C: TControl);
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 procedure DoForm_ScaleAuto(F: TForm);
 procedure DoForm_CloseDockedForms(F: TForm);
@@ -1216,18 +1217,19 @@ begin
 end;
 
 
+procedure DoForm_FocusControl(F: TForm; C: TControl);
+begin
+  if C.Enabled and C.Visible then
+    if C is TWinControl then
+      F.ActiveControl:= C as TWinControl;
+end;
+
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
-var
-  C: TControl;
 begin
   if (AIndex>=0) and (AIndex<F.ControlCount) then
-  begin
-    C:= F.Controls[AIndex];
-    if C.Enabled then
-      if C is TWinControl then
-        F.ActiveControl:= C as TWinControl;
-  end;
+    DoForm_FocusControl(F, F.Controls[AIndex]);
 end;
+
 
 procedure DoForm_ScaleAuto(F: TForm);
 begin

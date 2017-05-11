@@ -3904,8 +3904,8 @@ end;
 function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Form: TFormDummy;
-  PtrProp: PChar;
-  StrProp: string;
+  PtrProp, PtrName: PChar;
+  StrProp, StrName: string;
   NAction: integer;
   NIndex, NIndex2: Int64;
   Ctl: TControl;
@@ -3913,13 +3913,32 @@ var
 begin
   with GetPythonEngine do
   begin
-    if Bool(PyArg_ParseTuple(Args, 'LisLL:dlg_proc',
-      @Form, @NAction, @PtrProp, @NIndex, @NIndex2)) then
+    if Bool(PyArg_ParseTuple(Args, 'LisLLs:dlg_proc',
+      @Form, @NAction, @PtrProp, @NIndex, @NIndex2, @PtrName)) then
     begin
       StrProp:= string(PtrProp);
+      StrName:= string(PtrName);
+
       if NAction<>DLG_CREATE then
         if Form=nil then
           exit(ReturnNone);
+
+      //find control by name, then by index
+      Ctl:= nil;
+      case NAction of
+        DLG_CTL_PROP_GET,
+        DLG_CTL_PROP_SET,
+        DLG_CTL_DELETE,
+        DLG_CTL_FOCUS,
+        DLG_CTL_HANDLE:
+          begin
+            if StrName<>'' then
+              Ctl:= Form.FindControlByOurName(StrName)
+            else
+            if (NIndex>=0) and (NIndex<Form.ControlCount) then
+              Ctl:= Form.Controls[NIndex];
+          end;
+      end;
 
       case NAction of
         DLG_CREATE:
@@ -3984,19 +4003,19 @@ begin
 
         DLG_CTL_PROP_GET:
           begin
-            if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              Result:= DoControl_GetPropsAsStringDict(Form.Controls[NIndex])
+            if Assigned(Ctl) then
+              Result:= DoControl_GetPropsAsStringDict(Ctl)
             else
               Result:= ReturnNone;
           end;
 
         DLG_CTL_PROP_SET:
           begin
-            if (NIndex>=0) and (NIndex<Form.ControlCount) then
+            if Assigned(Ctl) then
             begin
               Form.BlockedOnChange:= true;
               try
-                DoControl_SetPropsFromStringDict(Form.Controls[NIndex], StrProp);
+                DoControl_SetPropsFromStringDict(Ctl, StrProp);
               finally
                 Form.BlockedOnChange:= false;
               end;
@@ -4006,8 +4025,8 @@ begin
 
         DLG_CTL_DELETE:
           begin
-            if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              Form.Controls[NIndex].Free;
+            if Assigned(Ctl) then
+              Ctl.Free;
             Result:= ReturnNone;
           end;
 
@@ -4056,8 +4075,8 @@ begin
 
         DLG_CTL_FOCUS:
           begin
-            if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              DoForm_FocusControl(Form, NIndex);
+            if Assigned(Ctl) then
+              DoForm_FocusControl(Form, Ctl);
             Result:= ReturnNone;
           end;
 
@@ -4068,8 +4087,8 @@ begin
 
         DLG_CTL_HANDLE:
           begin
-            if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              Result:= PyLong_FromLongLong(Int64(PtrInt(Form.Controls[NIndex])))
+            if Assigned(Ctl) then
+              Result:= PyLong_FromLongLong(Int64(PtrInt(Ctl)))
             else
               Result:= ReturnNone;
           end;
