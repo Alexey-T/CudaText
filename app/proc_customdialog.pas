@@ -1086,31 +1086,31 @@ begin
     exit;
   end;
 
-  if AName='space_l' then
+  if AName='sp_l' then
   begin
     C.BorderSpacing.Left:= StrToIntDef(AValue, 0);
     exit;
   end;
 
-  if AName='space_r' then
+  if AName='sp_r' then
   begin
     C.BorderSpacing.Right:= StrToIntDef(AValue, 0);
     exit;
   end;
 
-  if AName='space_t' then
+  if AName='sp_t' then
   begin
     C.BorderSpacing.Top:= StrToIntDef(AValue, 0);
     exit;
   end;
 
-  if AName='space_b' then
+  if AName='sp_b' then
   begin
     C.BorderSpacing.Bottom:= StrToIntDef(AValue, 0);
     exit;
   end;
 
-  if AName='space_a' then
+  if AName='sp_a' then
   begin
     C.BorderSpacing.Around:= StrToIntDef(AValue, 0);
     exit;
@@ -1495,11 +1495,11 @@ begin
       'vis', PyBool_FromLong(Ord(C.Visible)),
       'tab_stop', PyBool_FromLong(Ord(bTabStop)),
       'tab_order', nTabOrder,
-      'space_l', C.BorderSpacing.Left,
-      'space_r', C.BorderSpacing.Right,
-      'space_t', C.BorderSpacing.Top,
-      'space_b', C.BorderSpacing.Bottom,
-      'space_a', C.BorderSpacing.Around
+      'sp_l', C.BorderSpacing.Left,
+      'sp_r', C.BorderSpacing.Right,
+      'sp_t', C.BorderSpacing.Top,
+      'sp_b', C.BorderSpacing.Bottom,
+      'sp_a', C.BorderSpacing.Around
       );
   end;
 end;
