@@ -4024,15 +4024,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        DLG_CTL_SPACING:
-          begin
-            if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              DoControl_SetSpacing_FromString(
-                Form.Controls[NIndex],
-                StrProp);
-            Result:= ReturnNone;
-          end;
-
         DLG_FOCUS:
           begin
             Form.SetFocus;
