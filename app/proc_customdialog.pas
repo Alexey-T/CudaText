@@ -615,6 +615,7 @@ begin
  finally
    if Assigned(Ctl) then
    begin
+     Ctl.Anchors:= [];
      Props:= TAppControlProps.Create(S);
      if S='button' then
        Props.FActive:= true;
@@ -625,9 +626,35 @@ end;
 
 
 procedure DoControl_SetAnchorFromString(C: TControl; AKind: TAnchorKind; AValue: string);
+var
+  CTo: TControl;
+  SName, SSide: string;
+  NSide: TAnchorSideReference;
+  Form: TFormDummy;
 begin
+  if AValue='' then
+  begin
+    C.AnchorSide[AKind].Control:= nil;
+    C.Anchors:= C.Anchors-[AKind];
+    exit;
+  end;
 
+  SName:= SGetItem(AValue);
+  SSide:= SGetItem(AValue);
 
+  Form:= C.Owner as TFormDummy;
+  if SName='' then
+    CTo:= Form
+  else
+    CTo:= Form.FindControlByOurName(SName);
+
+  if SSide='[' then NSide:= asrLeft else
+   if SSide=']' then NSide:= asrRight else
+    NSide:= asrCenter;
+
+  C.AnchorSide[AKind].Control:= CTo;
+  C.AnchorSide[AKind].Side:= NSide;
+  C.Anchors:= C.Anchors+[AKind];
 end;
 
 
