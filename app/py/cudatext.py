@@ -584,6 +584,8 @@ def timer_proc(id, callback, interval, tag=''):
 
 
 def to_str(v):
+    if v is None: return ''
+
     if isinstance(v, list) or isinstance(v, tuple):
         return ','.join(map(to_str, v))
 
