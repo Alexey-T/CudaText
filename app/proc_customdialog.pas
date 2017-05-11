@@ -1311,6 +1311,9 @@ begin
   if AName='color' then
     F.Color:= StrToIntDef(AValue, F.Color)
   else
+  if AName='autosize' then
+    F.AutoSize:= StrToBool(AValue)
+  else
   ;
 end;
 
