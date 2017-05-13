@@ -3910,6 +3910,7 @@ var
   NIndex, NIndex2: Int64;
   Ctl: TControl;
   Pnt: TPoint;
+  Num64: Int64;
 begin
   with GetPythonEngine do
   begin
@@ -4088,7 +4089,13 @@ begin
         DLG_CTL_HANDLE:
           begin
             if Assigned(Ctl) then
-              Result:= PyLong_FromLongLong(Int64(PtrInt(Ctl)))
+            begin
+              if Ctl is TPaintBox then
+                Num64:= PtrInt(TPaintBox(Ctl).Canvas)
+              else
+                Num64:= PtrInt(Ctl);
+              Result:= PyLong_FromLongLong(Num64);
+            end
             else
               Result:= ReturnNone;
           end;

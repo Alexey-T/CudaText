@@ -45,8 +45,10 @@ class Command:
         n_edit = dlg_proc(h, DLG_CTL_FIND, prop='edit1')
         n_btn1 = dlg_proc(h, DLG_CTL_FIND, prop='btn1')
         n_btn_dlg = dlg_proc(h, DLG_CTL_FIND, prop='btn_dlg')
+        n_btn_paint = dlg_proc(h, DLG_CTL_FIND, prop='btn_paint')
         n_color = dlg_proc(h, DLG_CTL_FIND, prop='color')
         n_chk_dock = dlg_proc(h, DLG_CTL_FIND, prop='chk_dock')
+        n_paint = dlg_proc(h, DLG_CTL_FIND, prop='paint')
 
         if id_event=='on_change':
             if id_ctl==n_chk:
@@ -66,6 +68,10 @@ class Command:
                 else:
                     dlg_proc(hh, DLG_SHOW_MODAL)
 
+            if id_ctl==n_btn_paint:
+                canvas_id = dlg_proc(h, DLG_CTL_HANDLE, index=n_paint)
+                canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=0xA0A0)
+                canvas_proc(canvas_id, CANVAS_ELLIPSE, x=0, y=0, x2=50, y2=50)
 
         #if id_event=='on_resize':
         #    d = dlg_proc(h, DLG_PROP_GET)
@@ -141,6 +147,9 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'callback': 'module=cuda_testing_dlg_proc;func=callback_main_menu;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100 } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'callback': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
@@ -148,6 +157,9 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120 } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'paintbox')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':220, 'y':260, 'w':50, 'h':50 } )
 
         nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
         dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)

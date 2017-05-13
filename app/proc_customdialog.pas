@@ -601,6 +601,12 @@ begin
     exit;
   end;
 
+  if S='paintbox' then
+  begin
+    Ctl:= TPaintBox.Create(AForm);
+    exit;
+  end;
+
   if S='filter_listbox' then
   begin
     Ctl:= TListFilterEdit.Create(AForm);
