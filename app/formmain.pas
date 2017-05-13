@@ -972,7 +972,6 @@ end;
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
   ParamCount: Integer; Parameters: array of String);
 var
-  FStyle: TFormStyle;
   i: integer;
 begin
   if not IsAllowedToOpenFileNow then exit;
@@ -988,17 +987,7 @@ begin
   end;
 
   Application.BringToFront;
-  BringToFront;
-  {$ifdef windows}
-  //hack
-  FormStyle:= fsSystemStayOnTop;
-  FormStyle:= fsNormal;
-  {$endif}
-
-  //hack to show form
-  FStyle:= FormStyle;
-  FormStyle:= fsStayOnTop;
-  FormStyle:= FStyle;
+  SetForegroundWindow(Handle);
 end;
 
 function TfmMain.GetSessionFilename: string;
