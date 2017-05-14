@@ -3900,7 +3900,7 @@ begin
 end;
 
 
-//dlg_proc(id_dlg, id_action, text="", index=-1)
+//dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name='')
 function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Form: TFormDummy;
@@ -3911,6 +3911,7 @@ var
   Ctl: TControl;
   Pnt: TPoint;
   Num64: Int64;
+  i: integer;
 begin
   with GetPythonEngine do
   begin
@@ -4033,8 +4034,8 @@ begin
 
         DLG_CTL_DELETE_ALL:
           begin
-            for NIndex:= Form.ControlCount-1 downto 0 do
-              Form.Controls[NIndex].Free;
+            for i:= Form.ControlCount-1 downto 0 do
+              Form.Controls[i].Free;
             Result:= ReturnNone;
           end;
 
