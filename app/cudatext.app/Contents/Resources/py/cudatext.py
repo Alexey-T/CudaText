@@ -583,6 +583,8 @@ def timer_proc(id, callback, interval, tag=''):
 
 
 def to_str(v):
+    if v is None: return ''
+
     if isinstance(v, list) or isinstance(v, tuple):
         return ','.join(map(to_str, v))
 
@@ -603,7 +605,7 @@ def to_str(v):
     return str(v)
 
 
-def dlg_proc_wait(id_dialog):
+def _dlg_proc_wait(id_dialog):
     while True:
         app_idle()
         sleep(0.01) #10 msec seems ok for CPU load
@@ -611,11 +613,11 @@ def dlg_proc_wait(id_dialog):
         if not d['vis']:
             return
 
-def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1):
+def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
-    res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2)
+    res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
     if id_action == DLG_SHOW_MODAL:
-        dlg_proc_wait(id_dialog)
+        _dlg_proc_wait(id_dialog)
     return res
 
 

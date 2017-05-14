@@ -443,7 +443,7 @@
   //Tree: Show icons in tree (for lexers which assign icons, e.g. C#)
   "ui_tree_icons": true,
   //Tree: Icons theme
-  //Folders from: data/codetreeicons
+  //Folders from: codetreeicons
   "ui_tree_theme": "default_16x16",  
 
   //[NewDoc]
@@ -690,7 +690,7 @@
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)
   "ui_sidebar_show": true,
   //Sidebar icons theme
-  //Folders from: data/sideicons
+  //Folders from: sideicons
   "ui_sidebar_theme": "octicons_20x20",
   
   //[Python]

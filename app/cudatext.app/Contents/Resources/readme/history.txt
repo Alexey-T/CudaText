@@ -5,11 +5,11 @@
 
 
 1.8.6
-- fixes for Windows hi-dpi (dialogs, folding icons)
+- fixes for Windows high-dpi (dialogs, toolbar btns, folding icons)
 + api
 
 1.8.5
-- fixed for Windows hi-dpi (scale more UI items)
+- fixed for Windows high-dpi (scale more UI items)
 - fix slow scrolling with minimap shown
 + option ui_tree_theme
 + command "place bookmarks on carets"
