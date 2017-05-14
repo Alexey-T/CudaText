@@ -117,8 +117,12 @@ Performs application-wide action. Possible values of id:
 * PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
-* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Gets None for other values.
+
+====System====
+
 * PROC_ENUM_FONTS: Gets list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
+* PROC_GET_SYSTEM_PPI: Gets int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
+* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Gets None for other values.
 
 ====Clipboard====
 
@@ -510,12 +514,14 @@ Possible types of controls:
 * "filter_listbox": input, which filters content of another "listbox" control
 * "filter_listview": input, which filter content of another "listview" control
 * "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
+* "paintbox": control which must be painted by plugin via canvas_proc()
 
 Notes:
 
 * Control property "name" is required for filter_ controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. "name=mylistbox" with "name=f_mylistbox").
-* Control type "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
-* Control type "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
+* Control "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
+* Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
+* Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
 
 ==== Properties ====
 
@@ -649,9 +655,13 @@ Dialog is closed by clicking any button or by changing of any control which has 
 
 ===dlg_proc===
 
- dlg_proc(id_dialog, id_action, prop="", index=-1, index2=-1)
+ dlg_proc(id_dialog, id_action, prop="", index=-1, index2=-1, name="")
 
 Advanced work with dialogs (forms). More advanced than dlg_custom(), forms can show modal/nonmodal, controls can change value during form showing.
+
+If an action needs control, you can use 2 ways: 
+* set param "name" to control's name (name is searched if not empty), 
+* set param "index" to control's index (you should use DLG_CTL_FIND to find it).
 
 ====Types====
 
@@ -669,8 +679,10 @@ Described in dlg_custom, see [[#Types]].
 * "topmost": bool: Makes form stay on top of other forms in CudaText.
 * "callback": str: Default callback for controls on form (used if controls don't have own callbacks).
 * "vis": bool: Visible state.
+* "color": int: Background color.
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
 * "events": list of str: List of sub-event names, which go to callback. E.g. ['on_resize', 'on_close']. If it's "*" or ["*"] then all events go to callback.
+* "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
 
 ====Control properties====
 
@@ -695,6 +707,12 @@ Described in dlg_custom, see [[#Types]].
 
 * "tab_stop": bool: Allows tab-key to jump to this control.
 * "tab_order": int: Tab-key jumps to controls using tab_orders. First activated is control with tab_order=0, next with =1, etc. If tab_orders not set, controls activated by creation order.
+
+* "sp_l", "sp_r", "sp_t", "sp_b", "sp_a": int: Border space of control, ie padding from anchored controls (or parent form). 5 values: left, right, top, bottom, around (around value is added to all 4 sides).
+
+* "a_l", "a_r", "a_t", "a_b": 2-tuple (str_control_name, str_side): Anchors of control. See [[#Anchors]]. Value is 2-tuple, or None to disable anchor. 
+** Item-0: name of target control, or empty str to use parent form. 
+** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
 
 ====Callbacks====
 
@@ -756,19 +774,82 @@ Possible values of id_action:
 * DLG_SHOW_MODAL: Shows form in modal mode. Waits for form to hide, then returns.
 * DLG_SHOW_NONMODAL: Shows form in non-modal mode. Returns immediately.
 * DLG_FOCUS: Focuses form (in non-modal mode).
+* DLG_SCALE: Scales form, with all controls, for the current OS high-DPI value. E.g. of OS scale is 150%, all will be scaled by 1.5.
+
 * DLG_PROP_GET: Gets form props, as dict. See example plugin, which props are returned.
 * DLG_PROP_SET: Sets form props, from dict. Param "prop" is dict. Only props mentioned in "prop" are applied, other props don't change.
+
+* DLG_DOCK: Docks (inserts) form into another form. Param "index" is handle of another form, and 0 means main CudaText form. Param "prop" can be: "L", "R", "T", "B" for sides left/right/top/bottom (default is bottom).
+* DLG_UNDOCK: Undocks form from it's current parent form.
+
 * DLG_CTL_COUNT: Gets count of controls on form.
 * DLG_CTL_ADD: Adds new control to form, gets its index, or None if cannot add. Param "prop" is type of control. See description in dlg_custom.
-* DLG_CTL_PROP_GET: Gets control props, as dict. Param "index" is index of control.
-* DLG_CTL_PROP_SET: Sets control props. Param "index" is index of control. Param "prop" is dict with props. Only props mentioned in "prop" are applied, other props don't change. To "reset" some props, you must mention them with some value.
-* DLG_CTL_FOCUS: Focuses control. Param "index" is index of control.
-* DLG_CTL_DELETE: Deletes control. Param "index" is index of control. Controls are stored in list, so after a control deleted, indexes of next controls shift by -1. So don't use fixed indexes if you delete some, use DLG_CTL_FIND.
+* DLG_CTL_PROP_GET: Gets control props, as dict. Control must be specified by name or index.
+* DLG_CTL_PROP_SET: Sets control props.  Control must be specified by name or index. Param "prop" is dict with props. Only props mentioned in "prop" are applied, other props don't change. To "reset" some props, you must mention them with some value.
+* DLG_CTL_FOCUS: Focuses control.  Control must be specified by name or index.
+* DLG_CTL_DELETE: Deletes control.  Control must be specified by name or index. Controls are stored in list, so after a control deleted, indexes of next controls shift by -1. So don't use fixed indexes if you delete some, use DLG_CTL_FIND.
 * DLG_CTL_DELETE_ALL: Deletes all controls.
 * DLG_CTL_FIND: Gets index of control by name, or -1 if cannot find. Param "prop" is name.
-* DLG_CTL_HANDLE: Gets int handle of control. Param "index" is index of control. This handle is currently useful for types: "treeview" (pass handle to tree_proc), "listbox_ex" (pass handle to listbox_proc).
+* DLG_CTL_HANDLE: Gets int handle of control.  Control must be specified by name or index. This handle is currently useful for types: 
+** type "treeview": pass handle to tree_proc()
+** type "listbox_ex": pass handle to listbox_proc()
+** type "paintbox": pass handle to canvas_proc()
+
 * DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
 * DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
+
+====Anchors====
+
+Anchor is attaching of control's side to another control, or to the parent form, so control is auto positioned, initially and on form resize. Lazarus IDE has such Anchor Editor dialog:
+
+[[Image:Anchor_Editor_en.png]]
+
+In this dialog you see, that all 4 sides of control attach to one of 3 sides of another control (or parent form).
+
+* Anchors override absolute positions, e.g. anchor of left side overrides prop "x".
+* Anchoring to invisible control is allowed. 
+* Anchoring circles (A to B to C to A) is not allowed, but should not give errors.
+
+To change anchors of control, set its properties: a_l, a_r, a_t, a_b.
+Initially left/top anchors are set (to the parent form). 
+
+Side value "[" aligns control to left/top side of target:
+
+          +--------+
+          | target |
+          +--------+
+     
+          +--------------+
+          |   control    |
+          +--------------+
+
+Side value "]" aligns control to right/bottom side of target:
+
+           +--------+
+           | target |
+           +--------+
+     
+     +--------------+
+     |   control    |
+     +--------------+
+
+Side value "-" centers control relative to target:
+
+           +--------+
+           | target |
+           +--------+
+     
+        +--------------+
+        |   control    |
+        +--------------+
+
+Example: to attach control to the right side of form, clear left anchor, and add right/bottom anchors, example:
+
+<syntaxhighlight lang="python">
+  #attach colorpanel to the right
+  dlg_proc(id_form, DLG_CTL_PROP_SET, index=n, prop=
+      { 'a_l': None, 'a_r': ('', ']'), 'a_b': ('', ']'), 'sp_a': 6  } )
+</syntaxhighlight>
 
 ====Example====
 
@@ -1698,10 +1779,20 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.178
+* add: dlg_proc: control props for anchors/spacing: "a_*", "sp_*"
+* add: dlg_proc: param "name" to specify controls by name
+* add: dlg_proc: form prop "color"
+* add: dlg_proc: form prop "autosize"
+* add: dlg_proc: actions DLG_DOCK, DLG_UNDOCK
+* add: dlg_custom/dlg_proc: control type "paintbox"
+
 1.0.177
-* add: dlg_custom: parameter "get_dict" to get new dict result (not tuple)
 * add: ed.replace
 * add: ed.replace_lines
+* add: dlg_custom: parameter "get_dict" to get new dict result (not tuple)
+* add: dlg_proc: action DLG_SCALE
+* add: app_proc: action PROC_GET_SYSTEM_PPI
 
 1.0.176
 * reworked dlg_proc, many form props+events added
