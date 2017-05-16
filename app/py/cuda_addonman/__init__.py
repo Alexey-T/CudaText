@@ -339,4 +339,5 @@ class Command:
             with open(fn_ver, 'w') as f:
                 f.write(remote['v'])
 
+        print('Updated')
         msg_status('Updated')
