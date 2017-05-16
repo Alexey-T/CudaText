@@ -526,7 +526,8 @@ type
     FOrigShowToolbar: boolean;
     FOrigShowBottom: boolean;
     FOrigShowStatusbar: boolean;
-    FOrigShowSide: boolean;
+    FOrigShowSidePanel: boolean;
+    FOrigShowSideBar: boolean;
     FAllowEventOnOpenBefore: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
@@ -749,6 +750,7 @@ type
     procedure FrameOnSaveFile(Sender: TObject);
     procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
     function GetModifiedCount: integer;
+    function GetShowSideBar: boolean;
     function GetShowSidePanel: boolean;
     function GetShowStatus: boolean;
     function GetShowToolbar: boolean;
@@ -770,6 +772,7 @@ type
     procedure SetShowStatus(AValue: boolean);
     procedure SetShowToolbar(AValue: boolean);
     procedure SetShowBottom(AValue: boolean);
+    procedure SetShowSideBar(AValue: boolean);
     procedure SetShowSidePanel(AValue: boolean);
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
@@ -837,6 +840,7 @@ type
     function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
     function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
     property ShowFullscreen: boolean read FFullScreen write SetFullScreen;
+    property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
     property ShowSidePanel: boolean read GetShowSidePanel write SetShowSidePanel;
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
@@ -1429,6 +1433,11 @@ end;
 function TfmMain.GetShowBottom: boolean;
 begin
   Result:= PanelBottom.Visible;
+end;
+
+function TfmMain.GetShowSideBar: boolean;
+begin
+  Result:= PanelSide.Visible;
 end;
 
 function TfmMain.DoDialogSaveTabs: boolean;
@@ -2394,6 +2403,11 @@ begin
       DoShowSidePanel(ACaption, true);
 end;
 
+procedure TfmMain.SetShowSideBar(AValue: boolean);
+begin
+  PanelSide.Visible:= AValue;
+end;
+
 procedure TfmMain.SetShowStatus(AValue: boolean);
 begin
   Status.Visible:= AValue;
@@ -2601,18 +2615,22 @@ begin
     FOrigShowToolbar:= ShowToolbar;
     FOrigShowStatusbar:= ShowStatus;
     FOrigShowBottom:= ShowBottom;
-    FOrigShowSide:= ShowSidePanel;
+    FOrigShowSidePanel:= ShowSidePanel;
+    FOrigShowSideBar:= ShowSideBar;
+
     if Pos('t', UiOps.FullScreenHide)>0 then ShowToolbar:= false;
-    if Pos('s', UiOps.FullScreenHide)>0 then ShowStatus:= false;
     if Pos('b', UiOps.FullScreenHide)>0 then ShowBottom:= false;
+    if Pos('s', UiOps.FullScreenHide)>0 then ShowStatus:= false;
     if Pos('S', UiOps.FullScreenHide)>0 then ShowSidePanel:= false;
+    if Pos('a', UiOps.FullScreenHide)>0 then ShowSideBar:= false;
   end
   else
   begin
     ShowToolbar:= FOrigShowToolbar;
     ShowStatus:= FOrigShowStatusbar;
     ShowBottom:= FOrigShowBottom;
-    ShowSidePanel:= FOrigShowSide;
+    ShowSidePanel:= FOrigShowSidePanel;
+    ShowSideBar:= FOrigShowSideBar;
   end;
 
   {$ifdef windows}

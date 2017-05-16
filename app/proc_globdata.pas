@@ -1050,7 +1050,7 @@ begin
     NonTextFilesBufferKb:= 64;
     LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
-    FullScreenHide:= 't';
+    FullScreenHide:= 'taS';
     MouseGotoDefinition:= 'a';
   end;
 end;
