@@ -243,8 +243,8 @@
 
   //[Text]
   //Fixed margin (vertical line) column.
-  //It's always shown, to hide: set value to eg 2000.
-  "margin": 80,
+  //It's always shown, to hide: set to big value, eg 2000.
+  "margin": 2000,
   //Additional margins.
   //List of columns like "10 20 25" space-separated.
   "margin_string": "",

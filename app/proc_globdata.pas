@@ -843,7 +843,7 @@ begin
     OpMicromapWidth:= 12;
     OpMicromapWidthSmall:= 4;
 
-    OpMarginFixed:= cInitMarginRight;
+    OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
 
