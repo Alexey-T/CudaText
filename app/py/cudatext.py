@@ -609,7 +609,7 @@ def _dlg_proc_wait(id_dialog):
     while True:
         app_idle()
         sleep(0.01) #10 msec seems ok for CPU load
-        d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1)
+        d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1, '')
         if not d['vis']:
             return
 
