@@ -384,11 +384,16 @@ begin
     if not IsEventItemListed(AEvent, Events) then exit;
   end;
 
-  SetLength(Params, 4);
+  SetLength(Params, 3);
   Params[0]:= IntToStr(PtrInt(Self)); //id_dlg
   Params[1]:= IntToStr(AIdControl); //id_ctl
   Params[2]:= AEvent; //id_event
-  Params[3]:= AInfo;
+
+  if AInfo<>'' then
+  begin
+    SetLength(Params, Length(Params)+1);
+    Params[Length(Params)-1]:= 'info='+AInfo;
+  end;
 
   if Callback<>'' then
     Result:= CustomDialog_DoPyCallback(Callback, Params);
