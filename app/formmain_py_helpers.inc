@@ -124,17 +124,23 @@ function TfmMain.DoPyCallbackFromAPI(const ACallback: string;
   const AParams: array of string): string;
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
-  cRegex_SignCommand = 'module=(.+);cmd=(.+);$';
-  cRegex_SignFunc = 'module=(.+);func=(.+);$';
+  cRegex_SignCommand = 'module=(.+);cmd=(.+);(info=(.+);)?$';
+  cRegex_SignFunc = 'module=(.+);func=(.+);(info=(.+);)?$';
   cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
 var
   Parts: TRegexParts;
-  SModule, SFunc, SParam: string;
+  ParamList: array of string;
+  SModule, SFunc, SParam, SInfo: string;
+  i: integer;
 begin
   Result:= '';
 
-  if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) or
-     SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
+  //ParamList: same as AParams, with additional item 'info=...'
+  SetLength(ParamList, Length(AParams));
+  for i:= 0 to Length(AParams)-1 do
+    ParamList[i]:= AParams[i];
+
+  if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) then
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
@@ -142,11 +148,35 @@ begin
     exit;
   end;
 
+  if SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
+  begin
+    SModule:= Parts[1];
+    SFunc:= Parts[2];
+    SInfo:= Parts[4];
+
+    if SInfo<>'' then
+    begin
+      SetLength(ParamList, Length(ParamList)+1);
+      ParamList[Length(ParamList)-1]:= 'info='+SInfo;
+    end;
+
+    Result:= Py_RunPlugin_Command(SModule, SFunc, ParamList);
+    exit;
+  end;
+
   if SRegexFindParts(cRegex_SignFunc, ACallback, Parts) then
   begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
-    Result:= Py_RunModuleFunction(SModule, SFunc, AParams);
+    SInfo:= Parts[4];
+
+    if SInfo<>'' then
+    begin
+      SetLength(ParamList, Length(ParamList)+1);
+      ParamList[Length(ParamList)-1]:= 'info='+SInfo;
+    end;
+
+    Result:= Py_RunModuleFunction(SModule, SFunc, ParamList);
     exit;
   end;
 
