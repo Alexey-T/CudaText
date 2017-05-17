@@ -302,9 +302,9 @@ begin
 
   SAll:= FListTimers[N];
   SCallback:= SGetItem(SAll, '|');
-  STag:= SAll;
+  STag:= 'tag="'+SAll+'"';
 
-  DoPyCallbackFromAPI(SCallback, STag);
+  DoPyCallbackFromAPI(SCallback, [STag]);
 end;
 
 
