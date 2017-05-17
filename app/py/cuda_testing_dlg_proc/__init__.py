@@ -150,7 +150,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100 } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'callback': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'callback': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;info=1234;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'callback': 'module=cuda_testing_dlg_proc;func=callback_main_close;'} )
