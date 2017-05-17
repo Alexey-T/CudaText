@@ -126,9 +126,10 @@ const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';
   cRegex_SignCommand = 'module=(.+);cmd=(.+);$';
   cRegex_SignFunc = 'module=(.+);func=(.+);$';
+  cRegex_CommaCommand = '([a-z_]\w*),([a-z_]\w*)(,(.+))?$'; //compatible with menu_proc, with 3rd param
 var
   Parts: TRegexParts;
-  SModule, SFunc: string;
+  SModule, SFunc, SParam: string;
 begin
   Result:= '';
 
@@ -146,6 +147,15 @@ begin
     SModule:= Parts[1];
     SFunc:= Parts[2];
     Result:= Py_RunModuleFunction(SModule, SFunc, AParams);
+    exit;
+  end;
+
+  if SRegexFindParts(cRegex_CommaCommand, ACallback, Parts) then
+  begin
+    SModule:= Parts[1];
+    SFunc:= Parts[2];
+    SParam:= Parts[4];
+    Result:= Py_RunPlugin_Command(SModule, SFunc, [SParam]);
     exit;
   end;
 

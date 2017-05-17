@@ -2818,14 +2818,11 @@ begin
   if not EdFocus then
     if (Cmd>0) and (Cmd<cmdFirstAppCommand) then exit;
 
-  //-1 means run plugin: Hint='module,method,param'
+  //-1 means run plugin: Hint contains callback
   if (Cmd=-1) then
   begin
-    SModule:= SGetItem(SHint);
-    SMethod:= SGetItem(SHint);
-    SParam:= SHint; //not SGetItem, allows to use ","
-    if (SModule<>'') and (SMethod<>'') then
-      DoPyCommand(SModule, SMethod, SParam);
+    if SHint<>'' then
+      DoPyCallbackFromAPI(SHint, []);
   end
   else
     CurrentEditor.DoCommand(Cmd);
