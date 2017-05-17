@@ -16,7 +16,7 @@ uses
 
 const
   cAppExeVersion = '1.8.7.0';
-  cAppApiVersion = '1.0.178';
+  cAppApiVersion = '1.0.179';
 
 const
   msgTitle = 'CudaText'; //no need i18n
