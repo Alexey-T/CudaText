@@ -456,6 +456,7 @@ DLG_CTL_HANDLE     = 32
 DLG_COORD_LOCAL_TO_SCREEN = 40
 DLG_COORD_SCREEN_TO_LOCAL = 41
 
+_live = {}    # sid:ref   ##kv 18may17
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -566,7 +567,15 @@ def lexer_proc(id, value):
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
 
+def _menu_proc_callback_proxy(info=''):##kv 18may17
+    if info in _live:
+        _live[info]()
+
 def menu_proc(id_menu, id_action, command="", caption="", index=-1):
+    if callable(command):##kv 18may17
+        sid_callback = str(command)
+        _live[sid_callback] = command
+        command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
     return ct.menu_proc(str(id_menu), id_action, str(command), caption, index)
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
@@ -578,7 +587,15 @@ def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
 
+def _timer_proc_callback_proxy(tag='', info=''):##kv 18may17
+    if info in _live:
+        _live[info](tag)
+
 def timer_proc(id, callback, interval, tag=''):
+    if callable(callback):##kv 18may17
+        sid_callback = str(callback)
+        _live[sid_callback] = callback
+        callback = 'module={};func=_timer_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
     return ct.timer_proc(id, callback, interval, tag)
 
 
@@ -589,9 +606,12 @@ def to_str(v):
         return ','.join(map(to_str, v))
 
     if isinstance(v, dict):
+        #put 'min/max' to top
         #put 'val' to end
         res = chr(1).join(
-                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k!='val'] +
+                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if     ('min' in k or 'max' in k)] +
+                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if not ('min' in k or 'max' in k)
+                                                                   and k!='val'] +
                 [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
                 )
         return '{'+res+'}'
@@ -613,8 +633,22 @@ def _dlg_proc_wait(id_dialog):
         if not d['vis']:
             return
 
+
+def _dlg_proc_callback_proxy(id_dlg, id_ctl, id_event='', info=''):##kv 18may17
+    if info in _live:
+        _live[info](id_dlg, id_ctl, id_event)
+
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
+    if id_action == DLG_FREE:##kv 18may17
+        for k in [k for k in _live.keys() if k.startswith(str(id_dialog)+':')]:
+            _live.pop(k)
+
+    if isinstance(prop, dict) and 'callback' in prop and callable(prop['callback']):##kv 18may17    
+        sid_callback = '{}:{}'.format(id_dialog, prop['callback'])
+        _live[sid_callback] = prop['callback']
+        prop['callback'] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
+
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
     if id_action == DLG_SHOW_MODAL:
         _dlg_proc_wait(id_dialog)
