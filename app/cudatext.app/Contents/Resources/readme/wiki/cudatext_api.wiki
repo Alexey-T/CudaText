@@ -68,6 +68,26 @@ By default all events in all plugins have prior=0. So for any event, if 2+ plugi
 You may want to handle some event first.
 To change prior for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher prior. So first called "on_key" with maximal number of "+", last called "on_key" w/o "+".
 
+=Callback param=
+
+Callback parameter is supported in several API functions: dlg_proc, timer_proc, menu_proc (maybe more later).
+
+Parameter can be in these forms:
+
+* callable, i.e. name of a function
+* string "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm, where mmm is usually sub-dir in the "cudatext/py", but can be any module name
+* string "module=mmm;cmd=nnn;info=iii;" - the same, and callback will get param "info" with your value
+* string "mmm.nnn" - the same, to call method, short form
+* string "module=mmm;func=nnn;" - to call function nnn in root of module mmm
+* string "module=mmm;func=nnn;info=iii;" - the same, and callback will get param "info" with your value
+
+For example:
+
+* If you need to call function "f" from plugin cuda_my, from file "py/cuda_my/__init__.py", callback must be "module=cuda_my;func=f;"
+* If you need to call it from file "py/cuda_my/lib/mod.py", callback must be "module=cuda_my.lib.mod;func=f;".
+
+Value after "info=" can be of any type, e.g. "info=20;" will pass int 20 to callback, "info='my';" will pass string 'my'.
+
 =Global funcs=
 
 ===version===
@@ -716,23 +736,17 @@ Described in dlg_custom, see [[#Types]].
 
 ====Callbacks====
 
-Callback is str in one of forms:
+Callback param must be in one of these forms: [[#Callback_param]].
 
-* "module=mmm;cmd=nnn;" - to call method nnn (in class Command) in plugin mmm (mmm is usually subfolder in the "cudatext/py", but can be any module name)
-* "mmm.nnn" - the same, to call method, short form
-* "module=mmm;func=nnn;" - to call function nnn in root of module mmm
-
-For ex, if you need to call function "f" from plugin cuda_my, from file "py/cuda_my/__init__.py", callback must be "module=cuda_my;func=f;". If you need to call it from file "py/cuda_my/lib/mod.py", callback must be "module=cuda_my.lib.mod;func=f;".
-
-Callbacks in dlg_proc have form:
+Callbacks for dlg_proc must be declared as:
 
 <syntaxhighlight lang="python">
 #function
-def my(id_dlg, id_ctl, id_event, info):
+def my(id_dlg, id_ctl, id_event, info=""):
   pass
 #method
 class Command:
-  def my(self, id_dlg, id_ctl, id_event, info):
+  def my(self, id_dlg, id_ctl, id_event, info=""):
     pass
 </syntaxhighlight>
 
@@ -843,7 +857,7 @@ Side value "-" centers control relative to target:
         |   control    |
         +--------------+
 
-Example: to attach control to the right side of form, clear left anchor, and add right/bottom anchors, example:
+Example: to attach "colorpanel" to the right side of form, clear left anchor (set to None), and add right/bottom anchors. This also sets spacing-aroung (padding) to 6 pixels. 
 
 <syntaxhighlight lang="python">
   #attach colorpanel to the right
@@ -1082,16 +1096,17 @@ Result is True if params ok; False if params not ok (callback str incorrect, int
 
 ====Callbacks====
 
-Callback str must be in one of forms, described in dlg_proc.
-Callbacks in timer_proc have form:
+Callback param must be in one of these forms: [[#Callback_param]].
+
+Callbacks in timer_proc must be declared as:
 
 <syntaxhighlight lang="python">
 #function
-def myfunc(tag=''):
+def my(tag='', info=''):
   pass
 #method
 class Command:
-  def myfunc(self, tag=''):
+  def my(self, tag='', info=''):
     pass
 </syntaxhighlight>
 
@@ -1101,7 +1116,9 @@ class Command:
 
 Perform action on menu items.
 
-Param id_menu can be:
+====Menu id====
+
+Value of "id_menu" param can be:
 
 * int_value or str(int_value) - to specify menu item by unique int value
 * "top" - to specify top menu
@@ -1110,6 +1127,27 @@ Param id_menu can be:
 * "side:"+tab_caption - to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
 * "btm:"+tab_caption - to specify context menu of bottom panel
 * "toolmenu:"+name - to specify drop-down sub-menu of toolbar button
+
+====Command for new items====
+
+Value of "command" parameter for MENU_ADD can be:
+
+* int_command or str(int_command) - int command code, from module cudatext_cmd (pass 0 if item does nothing)
+* callback in one of these forms: [[#Callback_param]].
+* (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
+
+* to create usual sub-menus, special values: 
+** "recents", "_recents" - recent-files submenu
+** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
+** "langs", "_langs" - translations submenu
+** "lexers", "_lexers" - lexers submenu
+** "plugins", "_plugins" - plugins submenu
+** "themes-ui", "_themes-ui" - ui-themes submenu 
+** "themes-syntax", "_themes-syntax" - syntax-themes submenu 
+
+* any string (e.g. empty), if item will be used as sub-menu (item is a sub-menu, if any sub-items are added to it)
+
+====Actions====
 
 Possible values of id_action:
 
@@ -1125,18 +1163,7 @@ Possible values of id_action:
 ** id_menu - item in which you add sub-item. 
 ** caption - caption of menu item, or "-" for menu separator.
 ** index - 0-based index at which to insert sub-item. Default: append item to the end.
-** command - describes action for menu item. Can be:
-*** int_command or str(int_command) - int command code, from module cudatext_cmd (pass 0 if item does nothing)
-*** special values: 
-**** "recents", "_recents" - recent-files submenu
-**** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
-**** "langs", "_langs" - translations submenu
-**** "lexers", "_lexers" - lexers submenu
-**** "plugins", "_plugins" - plugins submenu
-**** "themes-ui", "_themes-ui" - ui-themes submenu 
-**** "themes-syntax", "_themes-syntax" - syntax-themes submenu 
-*** str_module+","+str_method - method in command plugin. Also allowed to add here ","+s_param - to pass parameter to method (param can be of any primitive type).
-*** any string (e.g. empty string), if item will be used as submenu (item will be submenu, if any sub-items will be added to it)
+** command - possible values are described above.
 
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu (note: only popup-menu id can be used here, not id of top menus). Param command must be "x,y" where x/y are show coordinates.
@@ -1778,6 +1805,12 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.179
+* add: dlg_proc/timer_proc/menu_proc: callbacks can be "callable", ie function names
+* add: dlg_proc/timer_proc: callbacks can be with "info=...;" at end
+* add: menu_proc: can use new-style callbacks like in dlg_proc
+* deprecated: menu_proc old-style callbacks "module,method[,param]"
 
 1.0.178
 * add: dlg_proc: control props for anchors/spacing: "a_*", "sp_*"

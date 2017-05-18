@@ -243,8 +243,8 @@
 
   //[Text]
   //Fixed margin (vertical line) column.
-  //It's always shown, to hide: set value to eg 2000.
-  "margin": 80,
+  //It's always shown, to hide: set to big value, eg 2000.
+  "margin": 2000,
   //Additional margins.
   //List of columns like "10 20 25" space-separated.
   "margin_string": "",
@@ -680,11 +680,12 @@
 
   //[UI]
   //On calling Full Screen, hide these elements
-  //  if value has "t": toolbar
-  //  if value has "s": statusbar
-  //  if value has "b": bottom panel
-  //  if value has "S": side panel
-  "ui_fullscreen_hide": "t",
+  //  if string has "t": toolbar
+  //  if string has "b": bottom panel
+  //  if string has "s": statusbar
+  //  if string has "S": side panels (eg Tree)
+  //  if string has "a": sidebar
+  "ui_fullscreen_hide": "taS",
 
   //[UiSidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)

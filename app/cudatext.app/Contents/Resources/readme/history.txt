@@ -4,6 +4,11 @@
   * changed
 
 
+1.8.7
+* option "margin": change default to 2000 (ie, hide)
++ option "ui_fullscreen_hide" can hide sidebar; changed default
++ api
+
 1.8.6
 - fixes for Windows high-dpi (dialogs, toolbar btns, folding icons)
 + api
