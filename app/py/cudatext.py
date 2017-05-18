@@ -630,7 +630,7 @@ def _dlg_proc_wait(id_dialog):
         app_idle()
         sleep(0.01) #10 msec seems ok for CPU load
         d = ct.dlg_proc(id_dialog, DLG_PROP_GET, '', -1, -1, '')
-        if not d['vis']:
+        if isinstance(d, dict) and not d['vis']:
             return
 
 
@@ -644,7 +644,7 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
         for k in [k for k in _live.keys() if k.startswith(str(id_dialog)+':')]:
             _live.pop(k)
 
-    if isinstance(prop, dict) and 'callback' in prop and callable(prop['callback']):##kv 18may17    
+    if isinstance(prop, dict) and 'callback' in prop and callable(prop['callback']):##kv 18may17
         sid_callback = '{}:{}'.format(id_dialog, prop['callback'])
         _live[sid_callback] = prop['callback']
         prop['callback'] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
