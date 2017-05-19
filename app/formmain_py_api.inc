@@ -2544,6 +2544,16 @@ begin
             Result:= PyBool_FromLong(Ord(fmMain.ShowTabsMain));
           end;
 
+        APP_PROC_SHOW_SIDEBAR_SET:
+          begin
+            fmMain.ShowSideBar:= ParamBool;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_SIDEBAR_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowSideBar));
+          end;
+
         APP_PROC_COORD_WINDOW_GET:
           begin
             Result:= Py_rect(Application.MainForm.BoundsRect);
