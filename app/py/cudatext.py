@@ -458,16 +458,19 @@ DLG_CTL_HANDLE     = 32
 DLG_COORD_LOCAL_TO_SCREEN = 40
 DLG_COORD_SCREEN_TO_LOCAL = 41
 
-_live = {}    # sid:ref   ##kv 18may17
+_live = {}    # text:callable   ##kv 18may17
 
 def app_exe_version():
     return ct.app_exe_version()
+
 def app_api_version():
     return ct.app_api_version()
+
 def app_path(id):
     return ct.app_path(id)
+
 def app_proc(id, text):
-    return ct.app_proc(id, text)
+    return ct.app_proc(id, to_str(text))
 
 def app_log(id, text, tag=0):
     return ct.app_log(id, text, tag)
@@ -477,13 +480,16 @@ def app_idle(wait=False):
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
+
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
+
 def msg_status_alt(text, seconds):
     return ct.msg_status_alt(text, seconds)
 
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)
+
 def dlg_color(value):
     return ct.dlg_color(value)
 
