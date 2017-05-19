@@ -1195,12 +1195,12 @@ end;
 procedure DoForm_AddControl(AForm: TFormDummy; ATextItems: string);
 var
   SNameValue, SName, SValue: string;
-  Ctl, CtlPrev: TControl;
+  Ctl: TControl;
 begin
   Ctl:= nil;
 
   repeat
-    SNameValue:= SGetItem(ATextItems, Chr(1));
+    SNameValue:= SGetItem(ATextItems, #1);
     if SNameValue='' then break;
     SName:= SGetItem(SNameValue, '=');
     SValue:= SNameValue;
@@ -1457,10 +1457,11 @@ begin
   if AText[1]='{' then
     AText:= Copy(AText, 2, Length(AText)-2);
   repeat
-    SItem:= SGetItem(AText, chr(1));
+    SItem:= SGetItem(AText, #1);
     if SItem='' then Break;
     SKey:= SGetItem(SItem, ':');
     SValue:= SItem;
+    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
     DoForm_SetPropFromPair(F, SKey, SValue);
   until false;
 end;
@@ -1520,10 +1521,11 @@ begin
   if AText[1]='{' then
     AText:= Copy(AText, 2, Length(AText)-2);
   repeat
-    SItem:= SGetItem(AText, chr(1));
+    SItem:= SGetItem(AText, #1);
     if SItem='' then Break;
     SKey:= SGetItem(SItem, ':');
     SValue:= SItem;
+    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
     DoControl_SetPropFromPair(C, SKey, SValue);
   until false;
 end;

@@ -607,12 +607,18 @@ def timer_proc(id, callback, interval, tag=''):
     return ct.timer_proc(id, callback, interval, tag)
 
 
-def to_str(v):
+def to_str(v, escape=False):
+    def _pair(a, b):
+        return to_str(a, True) + ':' + to_str(b, True)
+
     if v is None:
         return ''
 
     if isinstance(v, str):
-        return v
+        s = v
+        if escape:
+            s = s.replace(',', chr(2))
+        return s
 
     if isinstance(v, bool):
         return ('1' if v else '0')
@@ -621,14 +627,13 @@ def to_str(v):
         return ','.join(map(to_str, v))
 
     if isinstance(v, dict):
-        #put 'min/max' to top
+        #put '*min*', '*max*' to begin
         #put 'val' to end
         res = chr(1).join(
-                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if     ('min' in k or 'max' in k)] +
-                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if not ('min' in k or 'max' in k)
-                                                                   and k!='val'] +
-                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
-                )
+            [_pair(k, vv) for k,vv in v.items() if     ('min' in k or 'max' in k)] +
+            [_pair(k, vv) for k,vv in v.items() if not ('min' in k or 'max' in k) and k!='val'] +
+            [_pair(k, vv) for k,vv in v.items() if k=='val']
+            )
         return '{'+res+'}'
 
     return str(v)
