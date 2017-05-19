@@ -151,6 +151,7 @@ PROP_LINK_AT_POS           = 46
 PROP_MODIFIED_VERSION      = 47
 PROP_TAB_ID                = 48
 PROP_COLUMN_LEFT           = 49
+PROP_COORDS                = 50
 
 PROC_SET_CLIP_ALT        = -1
 PROC_GET_CLIP            = 0
@@ -215,6 +216,8 @@ PROC_SHOW_BOTTOMPANEL_GET = 106
 PROC_SHOW_BOTTOMPANEL_SET = 107
 PROC_SHOW_TABS_GET        = 108
 PROC_SHOW_TABS_SET        = 109
+PROC_SHOW_SIDEBAR_GET     = 110
+PROC_SHOW_SIDEBAR_SET     = 111
 #
 PROC_COORD_WINDOW_GET = 140
 PROC_COORD_WINDOW_SET = 141
@@ -456,16 +459,19 @@ DLG_CTL_HANDLE     = 32
 DLG_COORD_LOCAL_TO_SCREEN = 40
 DLG_COORD_SCREEN_TO_LOCAL = 41
 
-_live = {}    # sid:ref   ##kv 18may17
+_live = {}    # text:callable   ##kv 18may17
 
 def app_exe_version():
     return ct.app_exe_version()
+
 def app_api_version():
     return ct.app_api_version()
+
 def app_path(id):
     return ct.app_path(id)
+
 def app_proc(id, text):
-    return ct.app_proc(id, text)
+    return ct.app_proc(id, to_str(text))
 
 def app_log(id, text, tag=0):
     return ct.app_log(id, text, tag)
@@ -475,13 +481,16 @@ def app_idle(wait=False):
 
 def msg_box(text, flags):
     return ct.msg_box(text, flags)
+
 def msg_status(text, process_messages=False):
     return ct.msg_status(text, process_messages)
+
 def msg_status_alt(text, seconds):
     return ct.msg_status_alt(text, seconds)
 
 def dlg_input(label, defvalue):
     return ct.dlg_input(label, defvalue)
+
 def dlg_color(value):
     return ct.dlg_color(value)
 
@@ -599,28 +608,34 @@ def timer_proc(id, callback, interval, tag=''):
     return ct.timer_proc(id, callback, interval, tag)
 
 
-def to_str(v):
-    if v is None: return ''
+def to_str(v, escape=False):
+    def _pair(a, b):
+        return to_str(a, True) + ':' + to_str(b, True)
+
+    if v is None:
+        return ''
+
+    if isinstance(v, str):
+        s = v
+        if escape:
+            s = s.replace(',', chr(2))
+        return s
+
+    if isinstance(v, bool):
+        return ('1' if v else '0')
 
     if isinstance(v, list) or isinstance(v, tuple):
         return ','.join(map(to_str, v))
 
     if isinstance(v, dict):
-        #put 'min/max' to top
+        #put '*min*', '*max*' to begin
         #put 'val' to end
         res = chr(1).join(
-                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if     ('min' in k or 'max' in k)] +
-                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if not ('min' in k or 'max' in k)
-                                                                   and k!='val'] +
-                [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
-                )
+            [_pair(k, vv) for k,vv in v.items() if     ('min' in k or 'max' in k)] +
+            [_pair(k, vv) for k,vv in v.items() if not ('min' in k or 'max' in k) and k!='val'] +
+            [_pair(k, vv) for k,vv in v.items() if k=='val']
+            )
         return '{'+res+'}'
-
-    if isinstance(v, bool):
-        if v:
-            return '1'
-        else:
-            return '0'
 
     return str(v)
 

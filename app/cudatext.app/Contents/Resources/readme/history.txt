@@ -4,9 +4,10 @@
   * changed
 
 
-1.8.7
-* option "margin": change default to 2000 (ie, hide)
-+ option "ui_fullscreen_hide" can hide sidebar; changed default
+1.9.0
+* option "margin" changed default to 2000 (ie, hide)
+* removed option "ui_fullscreen_hide"
++ added option "ui_fullscreen" with new values
 + api
 
 1.8.6
