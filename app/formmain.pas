@@ -2683,11 +2683,8 @@ begin
 end;
 
 procedure TfmMain.SetShowTabsMain(AValue: boolean);
-var
-  i: integer;
 begin
-  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-    Groups.Pages[i].Tabs.Visible:= AValue;
+  Groups.SetTabOption(tabOptionShowTabs, Ord(AValue));
 end;
 
 
