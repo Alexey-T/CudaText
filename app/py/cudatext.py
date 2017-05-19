@@ -608,7 +608,14 @@ def timer_proc(id, callback, interval, tag=''):
 
 
 def to_str(v):
-    if v is None: return ''
+    if v is None:
+        return ''
+
+    if isinstance(v, str):
+        return v
+
+    if isinstance(v, bool):
+        return ('1' if v else '0')
 
     if isinstance(v, list) or isinstance(v, tuple):
         return ','.join(map(to_str, v))
@@ -623,12 +630,6 @@ def to_str(v):
                 [to_str(k) + ':' + to_str(vv) for k,vv in v.items() if k=='val']
                 )
         return '{'+res+'}'
-
-    if isinstance(v, bool):
-        if v:
-            return '1'
-        else:
-            return '0'
 
     return str(v)
 
