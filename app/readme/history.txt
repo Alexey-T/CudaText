@@ -9,6 +9,7 @@
 * removed option "ui_fullscreen_hide"
 + added option "ui_fullscreen" with new values
 + api
+- fixed: old issue when 2nd Cudatext instance cannot popup to front
 
 1.8.6
 - fixes for Windows high-dpi (dialogs, toolbar btns, folding icons)

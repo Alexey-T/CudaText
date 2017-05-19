@@ -20,6 +20,7 @@ uses
   {$ifdef LCLGTK2}
   fix_gtk_clipboard,
   {$endif}
+  fix_focus_window,
   jsonConf,
   PythonEngine,
   UniqueInstance,
@@ -992,7 +993,7 @@ begin
   end;
 
   Application.BringToFront;
-  SetForegroundWindow(Handle);
+  DoFocusWindow(Handle);
 end;
 
 function TfmMain.GetSessionFilename: string;
