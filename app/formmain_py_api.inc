@@ -1952,6 +1952,11 @@ begin
             end;
           end;
 
+        PROP_COORDS:
+          begin
+            Result:= Py_rect_control(Ed);
+          end
+
         else
           Result:= ReturnNone;
       end;

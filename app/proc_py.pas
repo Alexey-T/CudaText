@@ -12,7 +12,7 @@ unit proc_py;
 interface
 
 uses
-  SysUtils, Classes, Variants,
+  SysUtils, Classes, Variants, Controls,
   Forms,
   ATSynEdit,
   PythonEngine;
@@ -25,6 +25,7 @@ function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of st
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
 function Py_rect_monitor(N: Integer): PPyObject; cdecl;
+function Py_rect_control(C: TControl): PPyObject; cdecl;
 
 const
   cPyTrue = 'True';
@@ -142,6 +143,21 @@ begin
     Result:= Py_rect(Screen.Monitors[N].BoundsRect)
   else
     Result:= GetPythonEngine.ReturnNone;
+end;
+
+
+function Py_rect_control(C: TControl): PPyObject; cdecl;
+var
+  P1, P2: TPoint;
+  R: TRect;
+begin
+  P1:= C.ClientToScreen(Point(0, 0));
+  P2:= C.ClientToScreen(Point(C.Width, C.Height));
+  R.Left:= P1.X;
+  R.Top:= P1.Y;
+  R.Right:= P2.X;
+  R.Bottom:= P2.Y;
+  Result:= Py_rect(R);
 end;
 
 
