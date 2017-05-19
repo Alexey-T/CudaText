@@ -16,12 +16,12 @@ uses
 
 const
   cAppExeVersion = '1.9.0.0';
-  cAppApiVersion = '1.0.179';
+  cAppApiVersion = '1.0.180';
 
 const
   msgTitle = 'CudaText'; //no need i18n
   msgPythonListError = 'Cannot create new list object'; //no need i18n
-  msgBadApiCall = 'Bad API call, report to plugin author: %s';
+  msgBadApiCallback = 'Bad API callback, report to plugin author: %s';
 
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';

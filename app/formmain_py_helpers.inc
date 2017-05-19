@@ -189,7 +189,7 @@ begin
     exit;
   end;
 
-  fmConsole.DoLogConsoleLine(Format(msgBadApiCall, [ACallback]));
+  fmConsole.DoLogConsoleLine(Format(msgBadApiCallback, [ACallback]));
 end;
 
 
