@@ -528,6 +528,7 @@ type
     FOrigShowStatusbar: boolean;
     FOrigShowSidePanel: boolean;
     FOrigShowSideBar: boolean;
+    FOrigShowTabs: boolean;
     FAllowEventOnOpenBefore: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
@@ -2617,12 +2618,14 @@ begin
     FOrigShowBottom:= ShowBottom;
     FOrigShowSidePanel:= ShowSidePanel;
     FOrigShowSideBar:= ShowSideBar;
+    FOrigShowTabs:= ShowTabsMain;
 
     if Pos('t', UiOps.FullScreen)>0 then ShowToolbar:= false;
     if Pos('b', UiOps.FullScreen)>0 then ShowBottom:= false;
     if Pos('i', UiOps.FullScreen)>0 then ShowStatus:= false;
     if Pos('p', UiOps.FullScreen)>0 then ShowSidePanel:= false;
     if Pos('a', UiOps.FullScreen)>0 then ShowSideBar:= false;
+    if Pos('u', UiOps.FullScreen)>0 then ShowTabsMain:= false;
   end
   else
   begin
@@ -2631,6 +2634,7 @@ begin
     ShowBottom:= FOrigShowBottom;
     ShowSidePanel:= FOrigShowSidePanel;
     ShowSideBar:= FOrigShowSideBar;
+    ShowTabsMain:= FOrigShowTabs;
   end;
 
   {$ifdef windows}

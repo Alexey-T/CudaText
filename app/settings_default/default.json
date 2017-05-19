@@ -685,6 +685,7 @@
   //  if string has "b": bottom panels (eg Console)
   //  if string has "p": side panels (eg Tree)
   //  if string has "a": sidebar
+  //  if string has "u": tabs
   "ui_fullscreen": "tapb",
 
   //[UiSidebar]
