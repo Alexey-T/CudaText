@@ -174,7 +174,7 @@ type
     NonTextFilesBufferKb: integer;
     LexerMenuGrouped: boolean;
     ReloadFollowTail: boolean;
-    FullScreenHide: string;
+    FullScreen: string;
     MouseGotoDefinition: string;
   end;
 var
@@ -1050,7 +1050,7 @@ begin
     NonTextFilesBufferKb:= 64;
     LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
-    FullScreenHide:= 'taS';
+    FullScreen:= 'tapb';
     MouseGotoDefinition:= 'a';
   end;
 end;

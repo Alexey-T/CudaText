@@ -2618,11 +2618,11 @@ begin
     FOrigShowSidePanel:= ShowSidePanel;
     FOrigShowSideBar:= ShowSideBar;
 
-    if Pos('t', UiOps.FullScreenHide)>0 then ShowToolbar:= false;
-    if Pos('b', UiOps.FullScreenHide)>0 then ShowBottom:= false;
-    if Pos('s', UiOps.FullScreenHide)>0 then ShowStatus:= false;
-    if Pos('S', UiOps.FullScreenHide)>0 then ShowSidePanel:= false;
-    if Pos('a', UiOps.FullScreenHide)>0 then ShowSideBar:= false;
+    if Pos('t', UiOps.FullScreen)>0 then ShowToolbar:= false;
+    if Pos('b', UiOps.FullScreen)>0 then ShowBottom:= false;
+    if Pos('i', UiOps.FullScreen)>0 then ShowStatus:= false;
+    if Pos('p', UiOps.FullScreen)>0 then ShowSidePanel:= false;
+    if Pos('a', UiOps.FullScreen)>0 then ShowSideBar:= false;
   end
   else
   begin

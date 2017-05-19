@@ -679,13 +679,13 @@
   "ui_max_size_lexer": 4,
 
   //[UI]
-  //On calling Full Screen, hide these elements
+  //On calling Full Screen, hide these UI elements
   //  if string has "t": toolbar
-  //  if string has "b": bottom panel
-  //  if string has "s": statusbar
-  //  if string has "S": side panels (eg Tree)
+  //  if string has "i": statusbar
+  //  if string has "b": bottom panels (eg Console)
+  //  if string has "p": side panels (eg Tree)
   //  if string has "a": sidebar
-  "ui_fullscreen_hide": "taS",
+  "ui_fullscreen": "tapb",
 
   //[UiSidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)

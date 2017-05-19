@@ -516,7 +516,7 @@ begin
     UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
     UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
-    UiOps.FullScreenHide:= c.GetValue('ui_fullscreen_hide', UiOps.FullScreenHide);
+    UiOps.FullScreen:= c.GetValue('ui_fullscreen', UiOps.FullScreen);
 
     //option deleted
     if c.GetValue('backup', '')<>'' then
