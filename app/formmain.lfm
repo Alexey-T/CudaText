@@ -632,7 +632,7 @@ object fmMain: TfmMain
         Caption = '-'
       end
       object mnuViewFullscr: TMenuItem
-        Caption = 'Toggle full scr&een'
+        Caption = 'Toggle full-scr&een'
       end
       object mnuViewDistFree: TMenuItem
         Caption = 'Toggle distraction-free'
