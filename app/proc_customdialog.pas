@@ -502,6 +502,21 @@ begin
     exit;
   end;
 
+  if S='panel' then
+  begin
+    Ctl:= TPanel.Create(AForm);
+    (Ctl as TPanel).BevelInner:= bvNone;
+    (Ctl as TPanel).BevelOuter:= bvNone;
+    (Ctl as TPanel).BorderStyle:= bsNone;
+    exit;
+  end;
+
+  if S='group' then
+  begin
+    Ctl:= TGroupBox.Create(AForm);
+    exit;
+  end;
+
   if S='checklistbox' then
   begin
     Ctl:= TCheckListBox.Create(AForm);
