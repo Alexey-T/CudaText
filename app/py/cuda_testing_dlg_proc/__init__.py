@@ -141,6 +141,9 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={ 'a_l': None, 'a_r': ('', ']'), 'a_b': ('', ']'), 'sp_a': 6  } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_x_panel', 'cap':'x', 'x':0, 'y':0, 'w':15, 'h':15, 'p': 'color', 'a_t': ('color', '-') } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')

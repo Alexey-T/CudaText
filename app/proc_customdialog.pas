@@ -646,6 +646,21 @@ begin
 end;
 
 
+procedure DoControl_SetParentFromString(C: TControl; const AValue: string);
+var
+  P: TControl;
+  Form: TFormDummy;
+begin
+  Form:= C.Owner as TFormDummy;
+  P:= Form.FindControlByOurName(AValue);
+  if P=nil then
+    C.Parent:= Form
+  else
+  if P is TWinControl then
+    C.Parent:= P as TWinControl;
+end;
+
+
 procedure DoControl_SetAnchorFromString(C: TControl; AKind: TAnchorKind; AValue: string);
 var
   CTo: TControl;
@@ -985,6 +1000,12 @@ begin
   if AName='cap' then
   begin
     C.Caption:= AValue;
+    exit;
+  end;
+
+  if AName='p' then
+  begin
+    DoControl_SetParentFromString(C, AValue);
     exit;
   end;
 
