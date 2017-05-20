@@ -2,6 +2,9 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2017.05.20
++ [m_v] t_dis
+
 2017.05.04
 * [d_f] f_tx, r_tx
 + [m_sr] b_ca2

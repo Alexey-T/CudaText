@@ -1,8 +1,10 @@
 =Intro=
 This is API for [[CudaText]] in Python. 
 
-* Main Py module is cudatext. Main module has constants, funcs, class Editor, objects of class Editor.
-* Additional module: cudatext_cmd has constants for command runner func.
+* Main module: cudatext. Has constants, funcs, class Editor, objects of class Editor.
+* Additional module: cudatext_cmd, constants for ed.cmd().
+* Additional module: cudatext_keys, constants for on_key.
+* Additional module: cudax_lib, some high-level functions for plugins.
 
 =Event plugins=
 
@@ -127,7 +129,9 @@ Note: to get path of dir "settings_default", use base dir of "settings".
 
  app_proc(id, text)
 
-Performs application-wide action. Possible values of id:
+Performs application-wide action.
+
+Parameter "text" is usually string, but can be of other types (bool, int, float, tuple/list of simple types).
 
 ====Misc properties====
 
@@ -293,6 +297,8 @@ Actions can get show-state of UI elements, or set show-state (pass "0" to hide, 
 * PROC_SHOW_STATUSBAR_SET
 * PROC_SHOW_TOOLBAR_GET
 * PROC_SHOW_TOOLBAR_SET
+* PROC_SHOW_SIDEBAR_GET
+* PROC_SHOW_SIDEBAR_SET
 * PROC_SHOW_SIDEPANEL_GET
 * PROC_SHOW_SIDEPANEL_SET
 * PROC_SHOW_BOTTOMPANEL_GET
@@ -1477,6 +1483,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
+* PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 
 ===set_prop===
 
@@ -1805,6 +1812,11 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.180
+* add: app_proc: PROC_SHOW_SIDEBAR_GET, PROC_SHOW_SIDEBAR_SET
+* add: app_proc: can pass not only string value
+* add: ed.get_prop: PROP_COORDS
 
 1.0.179
 * add: dlg_proc/timer_proc/menu_proc: callbacks can be "callable", ie function names
