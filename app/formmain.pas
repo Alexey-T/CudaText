@@ -524,7 +524,6 @@ type
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TATFindMarkingMode;
     FFindMarkingCaret1st: boolean;
-    FShowDistractionFree: boolean;
     FShowFullScreen: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
@@ -579,7 +578,6 @@ type
     function DoMenuEnum_Deprecated(const AMenuId: string): string;
     function DoMenuEnum_New(const AMenuId: string): PPyObject;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
-    procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoPanel_Event(AControl: TObject; const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoPanel_OnSelChanged(Sender: TObject);
@@ -604,7 +602,6 @@ type
     function DoBottom_ActivateTab(const ACaption: string): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
-    procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
     procedure DoAutoComplete;
     procedure DoCudaLibAction(const AMethod: string);
     procedure DoDialogCharMap;
@@ -615,8 +612,9 @@ type
       out NPos, NTotal: integer);
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;
-    procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps;
-      AForceApply: boolean);
+    procedure DoApplyGutterVisible(AValue: boolean);
+    procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
+    procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
     procedure DoApplyFont_Ui;
     procedure DoApplyFont_Output;
@@ -626,7 +624,6 @@ type
     function DoOnConsole(const Str: string): boolean;
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
-    procedure DoOps_ShowEventPlugins;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
     procedure DoFileExportHtml;
@@ -675,6 +672,8 @@ type
     procedure StatusResize(Sender: TObject);
     procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
     procedure TreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOps_ShowEventPlugins;
+    procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoOps_LoadSidebarIcons;
     procedure DoOps_LoadTreeIcons;
     procedure DoOps_LoadCommandLineOptions;
@@ -849,7 +848,7 @@ type
     function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
     function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
-    property ShowDistractionFree: boolean read FShowDistractionFree write SetShowDistractionFree;
+    property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
     property ShowSidePanel: boolean read GetShowSidePanel write SetShowSidePanel;
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
@@ -2624,18 +2623,27 @@ procedure TfmMain.SetShowFullScreen(AValue: boolean);
 begin
   if FShowFullScreen=AValue then Exit;
   FShowFullScreen:= AValue;
-  if AValue then
-    FShowDistractionFree:= true;
   SetFullScreen_Ex(AValue, false);
 end;
 
 procedure TfmMain.SetShowDistractionFree(AValue: boolean);
 begin
-  if FShowDistractionFree=AValue then Exit;
-  FShowDistractionFree:= AValue;
-  if AValue then
-    FShowFullScreen:= true;
+  if FShowFullScreen=AValue then Exit;
+  FShowFullScreen:= AValue;
   SetFullScreen_Ex(AValue, true);
+end;
+
+
+procedure TfmMain.DoApplyGutterVisible(AValue: boolean);
+var
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+    with Frames[i] do
+    begin
+      Editor.OptGutterVisible:= AValue;
+      Editor2.OptGutterVisible:= AValue;
+    end;
 end;
 
 procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
@@ -2655,6 +2663,7 @@ begin
     if AHideAll or (Pos('p', UiOps.FullScreen)>0) then ShowSidePanel:= false;
     if AHideAll or (Pos('a', UiOps.FullScreen)>0) then ShowSideBar:= false;
     if AHideAll or (Pos('u', UiOps.FullScreen)>0) then ShowTabsMain:= false;
+    if AHideAll or (Pos('g', UiOps.FullScreen)>0) then DoApplyGutterVisible(false);
   end
   else
   begin
@@ -2664,6 +2673,7 @@ begin
     ShowSidePanel:= FOrigShowSidePanel;
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
+    DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
 
   {$ifdef windows}
