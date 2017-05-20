@@ -49,7 +49,7 @@
   "EdBookmarkIcon" : "#6F6F6F",
   "EdMarkedRangeBg" : "#261D3F",
   "TabBg" : "#303030",
-  "SideBg" : "#505050",
+  "SideBg" : "#303030",
   "TabFont" : "#999999",
   "TabFontMod" : "#E57124",
   "TabActive" : "#202020",
