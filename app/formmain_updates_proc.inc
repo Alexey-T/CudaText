@@ -429,6 +429,7 @@ begin
     cmd_ToggleToolbar : DoSave(mi, mnuViewToolbar_Alt);
     cmd_ToggleStatusbar : DoSave(mi, mnuViewStatus_Alt);
     cmd_ToggleFullScreen : DoSave(mi, mnuViewFullscr_Alt);
+    cmd_ToggleDistractionFree : DoSave(mi, mnuViewDistFree_Alt);
     cmd_ToggleSidePanel : DoSave(mi, mnuViewSide_Alt);
     cmd_ToggleBottomPanel : DoSave(mi, mnuViewBottom_Alt);
 
@@ -565,6 +566,7 @@ begin
   UpdateMenuItemHotkey(mnuViewUnpriEndsDet, cCommand_ToggleUnprintedEndDetails);
 
   UpdateMenuItemHotkey(mnuViewFullscr, cmd_ToggleFullScreen);
+  UpdateMenuItemHotkey(mnuViewDistFree, cmd_ToggleDistractionFree);
   UpdateMenuItemHotkey(mnuViewSide, cmd_ToggleSidePanel);
   UpdateMenuItemHotkey(mnuViewBottom, cmd_ToggleBottomPanel);
   UpdateMenuItemHotkey(mnuViewToolbar, cmd_ToggleToolbar);
@@ -687,6 +689,7 @@ begin
   UpdateMenuItemChecked(mnuViewToolbar, mnuViewToolbar_Alt, ShowToolbar);
   UpdateMenuItemChecked(mnuViewStatus, mnuViewStatus_Alt, ShowStatus);
   UpdateMenuItemChecked(mnuViewFullscr, mnuViewFullscr_Alt, ShowFullscreen);
+  UpdateMenuItemChecked(mnuViewDistFree, mnuViewDistFree_Alt, ShowDistractionFree);
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, ShowSidePanel);
   UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, ShowBottom);
 

@@ -686,7 +686,7 @@
   //  if string has "p": side panels (eg Tree)
   //  if string has "a": sidebar
   //  if string has "u": tabs
-  "ui_fullscreen": "tapb",
+  "ui_fullscreen": "tp",
 
   //[UiSidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)

@@ -109,6 +109,8 @@ type
     Gauge: TGauge;
     LabelSideTitle: TLabel;
     MenuItem4: TMenuItem;
+    mnuViewDistFree: TMenuItem;
+    SepV4: TMenuItem;
     mnuBmPlaceOnCarets: TMenuItem;
     mnuFileNewMenu: TMenuItem;
     mnuPlugEmpty: TMenuItem;
@@ -502,6 +504,7 @@ type
     mnuViewToolbar_Alt,
     mnuViewStatus_Alt,
     mnuViewFullscr_Alt,
+    mnuViewDistFree_Alt,
     mnuViewSide_Alt,
     mnuViewBottom_Alt,
     mnuGr1_Alt,
@@ -521,7 +524,8 @@ type
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TATFindMarkingMode;
     FFindMarkingCaret1st: boolean;
-    FFullScreen: boolean;
+    FShowDistractionFree: boolean;
+    FShowFullScreen: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
     FOrigShowToolbar: boolean;
@@ -660,6 +664,9 @@ type
     procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetSidebarPanel(const ACaption: string);
+    procedure SetShowDistractionFree(AValue: boolean);
+    procedure SetShowFullScreen(AValue: boolean);
+    procedure SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
     procedure SetFullScreen_Universal(AValue: boolean);
     procedure SetFullScreen_Win32(AValue: boolean);
     procedure SetThemeSyntax(const AValue: string);
@@ -737,6 +744,7 @@ type
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
     procedure DoToggleFullScreen;
+    procedure DoToggleDistractionFree;
     procedure DoToggleSidePanel;
     procedure DoToggleBottomPanel;
     procedure DoToggleFindDialog;
@@ -810,7 +818,6 @@ type
     procedure MenuMainClick(Sender: TObject);
     procedure MenuRecentsClick(Sender: TObject);
     procedure SetFrame(Frame: TEditorFrame);
-    procedure SetFullScreen(AValue: boolean);
     procedure SetLineEnds(Val: TATLineEnds);
     procedure MsgStatus(const AText: string);
     procedure UpdateSidebarButtons;
@@ -841,7 +848,8 @@ type
     function CurrentEditor: TATSynEdit;
     function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
     function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
-    property ShowFullscreen: boolean read FFullScreen write SetFullScreen;
+    property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
+    property ShowDistractionFree: boolean read FShowDistractionFree write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
     property ShowSidePanel: boolean read GetShowSidePanel write SetShowSidePanel;
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
@@ -2504,6 +2512,11 @@ begin
   ShowFullscreen:= not ShowFullscreen;
 end;
 
+procedure TfmMain.DoToggleDistractionFree;
+begin
+  ShowDistractionFree:= not ShowDistractionFree;
+end;
+
 procedure TfmMain.DoToggleSidePanel;
 begin
   ShowSidePanel:= not ShowSidePanel;
@@ -2607,11 +2620,26 @@ begin
   UpdateBottomButtons;
 end;
 
-procedure TfmMain.SetFullScreen(AValue: boolean);
+procedure TfmMain.SetShowFullScreen(AValue: boolean);
 begin
-  if FFullScreen=AValue then Exit;
-  FFullScreen:= AValue;
+  if FShowFullScreen=AValue then Exit;
+  FShowFullScreen:= AValue;
+  if AValue then
+    FShowDistractionFree:= true;
+  SetFullScreen_Ex(AValue, false);
+end;
 
+procedure TfmMain.SetShowDistractionFree(AValue: boolean);
+begin
+  if FShowDistractionFree=AValue then Exit;
+  FShowDistractionFree:= AValue;
+  if AValue then
+    FShowFullScreen:= true;
+  SetFullScreen_Ex(AValue, true);
+end;
+
+procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
+begin
   if AValue then
   begin
     FOrigShowToolbar:= ShowToolbar;
@@ -2621,12 +2649,12 @@ begin
     FOrigShowSideBar:= ShowSideBar;
     FOrigShowTabs:= ShowTabsMain;
 
-    if Pos('t', UiOps.FullScreen)>0 then ShowToolbar:= false;
-    if Pos('b', UiOps.FullScreen)>0 then ShowBottom:= false;
-    if Pos('i', UiOps.FullScreen)>0 then ShowStatus:= false;
-    if Pos('p', UiOps.FullScreen)>0 then ShowSidePanel:= false;
-    if Pos('a', UiOps.FullScreen)>0 then ShowSideBar:= false;
-    if Pos('u', UiOps.FullScreen)>0 then ShowTabsMain:= false;
+    if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
+    if AHideAll or (Pos('b', UiOps.FullScreen)>0) then ShowBottom:= false;
+    if AHideAll or (Pos('i', UiOps.FullScreen)>0) then ShowStatus:= false;
+    if AHideAll or (Pos('p', UiOps.FullScreen)>0) then ShowSidePanel:= false;
+    if AHideAll or (Pos('a', UiOps.FullScreen)>0) then ShowSideBar:= false;
+    if AHideAll or (Pos('u', UiOps.FullScreen)>0) then ShowTabsMain:= false;
   end
   else
   begin

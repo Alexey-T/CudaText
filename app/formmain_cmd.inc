@@ -76,6 +76,7 @@ begin
     cmd_DialogCharMap:     DoDialogCharMap;
 
     cmd_ToggleFullScreen:  DoToggleFullScreen;
+    cmd_ToggleDistractionFree: DoToggleDistractionFree;
     cmd_ToggleSidePanel:   DoToggleSidePanel;
     cmd_ToggleBottomPanel: DoToggleBottomPanel;
     cmd_ToggleFindDialog:  DoToggleFindDialog;

@@ -1050,7 +1050,7 @@ begin
     NonTextFilesBufferKb:= 64;
     LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
-    FullScreen:= 'tapb';
+    FullScreen:= 'tp';
     MouseGotoDefinition:= 'a';
   end;
 end;

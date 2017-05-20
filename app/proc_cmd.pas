@@ -63,6 +63,7 @@ const
   cmd_OpsReloadAndApply  = 2529;
   cmd_DialogLexerProp    = 2530;
   cmd_DialogLexerLib     = 2531;
+  cmd_ToggleDistractionFree = 2532;
   cmd_ToggleSidePanel    = 2533;
   cmd_ToggleBottomPanel  = 2534;
   cmd_ShowPanelConsole   = 2535;
@@ -298,6 +299,7 @@ begin
   M.Add(cmd_RescanPythonPluginsInfFiles, 'plugins: rescan python plugins inf-files', [], []);
 
   M.Add(cmd_ToggleFullScreen, 'ui: toggle full-screen mode', [{$ifndef darwin}'F11'{$else}'Ctrl+Meta+F'{$endif}], []);
+  M.Add(cmd_ToggleDistractionFree, 'ui: toggle distraction-free mode', [], []);
   M.Add(cmd_ToggleSidePanel, 'ui: toggle side panel', [{$ifndef darwin}'F12'{$endif}], []);
   M.Add(cmd_ToggleBottomPanel, 'ui: toggle bottom panel', [], []);
   M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
@@ -530,6 +532,7 @@ begin
     cmd_OpsFontOutput,
     cmd_DialogSaveTabs,
     cmd_ToggleFullScreen,
+    cmd_ToggleDistractionFree,
     cmd_OpsReloadAndApply,
     cmd_DialogLexerProp,
     cmd_DialogLexerLib,
@@ -640,6 +643,7 @@ begin
     cmd_ToggleSidePanel,
     cmd_ToggleFindDialog,
     cmd_ToggleFullScreen,
+    cmd_ToggleDistractionFree,
     cmd_ToggleStatusbar,
     cmd_ToggleToolbar,
     cmd_Groups1,

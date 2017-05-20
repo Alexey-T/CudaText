@@ -628,8 +628,14 @@ object fmMain: TfmMain
       object mnuViewBottom: TMenuItem
         Caption = 'Toggle &bottom panel'
       end
+      object SepV4: TMenuItem
+        Caption = '-'
+      end
       object mnuViewFullscr: TMenuItem
         Caption = 'Toggle full scr&een'
+      end
+      object mnuViewDistFree: TMenuItem
+        Caption = 'Toggle distraction-free'
       end
       object SepV3: TMenuItem
         Caption = '-'

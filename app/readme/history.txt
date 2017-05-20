@@ -5,11 +5,12 @@
 
 
 1.9.0
-* option "margin" changed default to 2000 (ie, hide)
-* removed option "ui_fullscreen_hide"
++ command "View - Toggle distraction-free" (like full-screen, but hides all)
 + added option "ui_fullscreen" with new values
+* removed option "ui_fullscreen_hide"
+* option "margin" changed default to 2000 (ie, hide)
 + api
-- fixed: old issue when 2nd Cudatext instance cannot popup to front
+- fixed: Win10 old issue when 2nd app instance cannot popup to front
 
 1.8.6
 - fixes for Windows high-dpi (dialogs, toolbar btns, folding icons)
