@@ -680,7 +680,7 @@ begin
 
   Form:= C.Owner as TFormDummy;
   if SName='' then
-    CTo:= Form
+    CTo:= C.Parent
   else
     CTo:= Form.FindControlByOurName(SName);
 
