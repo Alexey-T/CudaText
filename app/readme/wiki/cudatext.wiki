@@ -190,14 +190,14 @@ Stream-comment-chars are saved to separate file, lexername.cuda-lexmap. If plugi
 
 === How to setup styles of hidden sublexer? ===
 
-Some lexers 're distributed in zip files together with child lexers, child lexer is hidden. Example: "HTML Django" with sublexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). And other "HTML xxxxx" lexers.
-Users, which have "ui_lexer_themes" off, want to configure styles of all lexers. But how to configure hidden lexer?
+Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
 
-* Open "Lexer library" dialog (Options / Lexer / Lexer library)
-* In dialog focus needed lexer, press "Config"
+* Open "Lexer library" dialog (Options - Lexer - Lexer library).
+* In dialog you see all lexers, focus needed lexer, press "Config"
 * Dialog "Lexer properties" will open for selected lexer
-* In dialog's Styles tab, configure all you need
-* (You can make lexer visible, by checking its item in the "Lexer library")
+* In dialog's "Styles" tab, configure all you need
+
+You can make lexer hidden/visible, by toggling its check-box in the "Lexer library" dialog.
 
 == File-types config ==
 
@@ -518,7 +518,18 @@ To paste like in Linux, with middle-click, you need
 This activates auto-copy of selection (copy to clipboard after text selection changes), and paste to position of mouse cursor on middle-click. 
 But it works only for "editor frame", and don't work for: Console read-only editor, single-line inputs. So this method is limited.
 
-== more ==
+==Full-screen==
+
+There are two menu items in the View menu:
+
+* Toggle '''Full-screen'''. This maximizes app window (in a special way, OS-dependant, even OS taskbar hides), and also, optionally, turns off some UI elements: toolbar, statusbar, sidebar, side panels (Tree, Project, FTP), bottom panels (Console) etc. Option "ui_fullscreen" has set of chars, each char for one UI element to hide. E.g. option value "tp" hides 2 UI elements ("t" for toolbar, "p" for side panels).
+* Toggle '''Distraction-free'''. Like full-screen, but all UI elements hide. No option currently to configure which elements.
+
+Notes:
+
+* On macOS full-screen modes hide top menu. To show it w/o returning back, just move the mouse cursor to the top of the screen and hold a little.
+
+==more==
 
 = Tech topics=
 ==How to compile program==
@@ -664,6 +675,16 @@ A2: Plugin CudaExt has commands:
 * plugin: CudaExt: Replace word or [expression] or 'expression' with clip
 
 I use these commands with hotkeys Alt+Left and Alt+Right.
+
+==Why on Linux, chars are duplicated==
+
+This is known problem, related to some Input Methods (IM) in Linux.
+To see what is your active IM, open Terminal and enter:
+
+ echo $GTK_IM_MODULE
+
+Known IMs with problems: scim, xim.
+To fix: change IM from e.g."XIM" to "none" in the Language Support settings, then chars should not duplicate.
 
 ==More==
 
