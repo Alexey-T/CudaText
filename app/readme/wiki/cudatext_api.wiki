@@ -291,7 +291,7 @@ How groups-splitters are placed in views:
 
 ====Show/Hide UI elements====
 
-Actions can get show-state of UI elements, or set show-state (pass "0" to hide, "1" to show):
+Actions can get/set show state of UI elements (pass "0"/"1" or False/True):
 
 * PROC_SHOW_STATUSBAR_GET
 * PROC_SHOW_STATUSBAR_SET
