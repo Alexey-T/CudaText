@@ -291,7 +291,7 @@ How groups-splitters are placed in views:
 
 ====Show/Hide UI elements====
 
-Actions can get show-state of UI elements, or set show-state (pass "0" to hide, "1" to show):
+Actions can get/set show state of UI elements (pass "0"/"1" or False/True):
 
 * PROC_SHOW_STATUSBAR_GET
 * PROC_SHOW_STATUSBAR_SET
@@ -531,8 +531,10 @@ Possible types of controls:
 * "treeview": tree structure with nodes and nested nodes, works via tree_proc()
 * "checklistview": listview with checkboxes, value is check-flags
 * "linklabel": label which activates URL on click
+* "panel": rectangle with centered caption only
+* "colorpanel": rectangle with centered caption, border, colored background
+* "group": panel which has themed border and caption on it
 * "tabs": set of tabs headers (note: not pages which have controls in them)
-* "colorpanel": panel with caption, color of background, color of font
 * "image": picture, which shows picture-file
 * "trackbar": horiz/vert bar with handler, has position
 * "progressbar": horiz/vert bar, only shows position
@@ -737,8 +739,10 @@ Described in dlg_custom, see [[#Types]].
 * "sp_l", "sp_r", "sp_t", "sp_b", "sp_a": int: Border space of control, ie padding from anchored controls (or parent form). 5 values: left, right, top, bottom, around (around value is added to all 4 sides).
 
 * "a_l", "a_r", "a_t", "a_b": 2-tuple (str_control_name, str_side): Anchors of control. See [[#Anchors]]. Value is 2-tuple, or None to disable anchor. 
-** Item-0: name of target control, or empty str to use parent form. 
+** Item-0: name of target control, or empty str to use control's parent (it is form by default).
 ** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
+
+* "p": str: Name of control's parent, or empty to use the form. Note that coordinates x/y of control are relative to the current parent. If parent's x/y change, control's x/y don't change.
 
 ====Callbacks====
 
@@ -1817,6 +1821,8 @@ Text is chr(1) separated items:
 * add: app_proc: PROC_SHOW_SIDEBAR_GET, PROC_SHOW_SIDEBAR_SET
 * add: app_proc: can pass not only string value
 * add: ed.get_prop: PROP_COORDS
+* add: dlg_proc/dlg_custom: type "panel", type "group"
+* add: dlg_proc: control prop "p" (parent)
 
 1.0.179
 * add: dlg_proc/timer_proc/menu_proc: callbacks can be "callable", ie function names

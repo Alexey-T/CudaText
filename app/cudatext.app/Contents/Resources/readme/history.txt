@@ -5,12 +5,12 @@
 
 
 1.9.0
-+ command "View - Toggle distraction-free" (like full-screen, but hides all)
++ distraction-free mode, see http://wiki.freepascal.org/CudaText#Full-screen
 + added option "ui_fullscreen" with new values
 * removed option "ui_fullscreen_hide"
 * option "margin" changed default to 2000 (ie, hide)
-+ api
 - fixed: Win10 old issue when 2nd app instance cannot popup to front
++ api
 
 1.8.6
 - fixes for Windows high-dpi (dialogs, toolbar btns, folding icons)

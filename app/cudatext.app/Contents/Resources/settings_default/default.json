@@ -51,7 +51,7 @@
   "ui_font_output_size__linux" : 9,
   "ui_font_output_size__mac" : 9,
 
-  //[UI]
+  //[Ui]
   //Double-buffering of UI controls [has suffix]
   //  Use only if problems with rendering.
   //  If app shows flickering, change to true.
@@ -422,7 +422,7 @@
   //History: Max items in "settings/history files.json" (0..400)
   "ui_max_history_files": 25,
 
-  //[UI]
+  //[Ui]
   //Close program by Esc key
   "ui_esc_close": false,
   //Close Console by Esc key
@@ -580,7 +580,7 @@
   //  {_}: char "_" if spaces used
   "ui_statusbar_tabsize": "Tab size {tab}{_}",
 
-  //[UI]
+  //[Ui]
   //Show full file path in window title
   "ui_title_path": false,
   
@@ -678,14 +678,16 @@
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 4,
 
-  //[UI]
-  //On calling Full Screen, hide these UI elements
-  //  if string has "t": toolbar
-  //  if string has "i": statusbar
-  //  if string has "b": bottom panels (eg Console)
-  //  if string has "p": side panels (eg Tree)
-  //  if string has "a": sidebar
-  //  if string has "u": tabs
+  //[Ui]
+  //On calling Full-Screen, hide these UI elements
+  //Value is string of few chars
+  //  if "t" in value: toolbar
+  //  if "i" in value: statusbar
+  //  if "a" in value: sidebar
+  //  if "p" in value: side panels (eg Tree)
+  //  if "b" in value: bottom panels (eg Console)
+  //  if "u" in value: tabs
+  //  if "g" in value: gutter (all columns: numbers, bookmarks...)
   "ui_fullscreen": "tp",
 
   //[UiSidebar]
