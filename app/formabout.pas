@@ -118,7 +118,7 @@ begin
 
   AutoAdjustLayout(lapAutoAdjustForDPI,
     96, Screen.PixelsPerInch,
-    Width, ScaleCoord96(Width));
+    Width, Scale96ToForm(Width));
 end;
 
 
