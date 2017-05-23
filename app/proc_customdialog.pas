@@ -657,18 +657,16 @@ procedure DoControl_SetParentFromString(C: TControl; AValue: string);
 var
   P: TControl;
   Form: TFormDummy;
-  N, NPage: integer;
+  NPage: integer;
+  SItem1, SItem2: string;
 begin
   Form:= C.Owner as TFormDummy;
 
-  //handle "control_name.N"
-  NPage:= -1;
-  N:= Pos('.', AValue);
-  if N>0 then
-  begin
-    NPage:= StrToIntDef(Copy(AValue, N+1, MaxInt), -1);
-    Delete(AValue, N, MaxInt);
-  end;
+  //handle "name.N"
+  SItem1:= SGetItem(AValue, '.');
+  SItem2:= AValue;
+  AValue:= SItem1;
+  NPage:= StrToIntDef(SItem2, -1);
 
   P:= Form.FindControlByOurName(AValue);
   if P=nil then
