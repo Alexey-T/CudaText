@@ -569,6 +569,13 @@ begin
     exit;
   end;
 
+  if S='pages' then
+  begin
+    Ctl:= TPageControl.Create(AForm);
+    (Ctl as TPageControl).OnChange:= @AForm.DoOnChange;
+    exit;
+  end;
+
   if S='colorpanel' then
   begin
     Ctl:= TATPanelColor.Create(AForm);
@@ -646,15 +653,32 @@ begin
 end;
 
 
-procedure DoControl_SetParentFromString(C: TControl; const AValue: string);
+procedure DoControl_SetParentFromString(C: TControl; AValue: string);
 var
   P: TControl;
   Form: TFormDummy;
+  N, NPage: integer;
 begin
   Form:= C.Owner as TFormDummy;
+
+  //handle "control_name.N"
+  NPage:= -1;
+  N:= Pos('.', AValue);
+  if N>0 then
+  begin
+    NPage:= StrToIntDef(Copy(AValue, N+1, MaxInt), -1);
+    Delete(AValue, N, MaxInt);
+  end;
+
   P:= Form.FindControlByOurName(AValue);
   if P=nil then
     C.Parent:= Form
+  else
+  if P is TPageControl then
+  begin
+    if NPage>=0 then
+      C.Parent:= TPageControl(P).Pages[NPage];
+  end
   else
   if P is TWinControl then
     C.Parent:= P as TWinControl;
@@ -838,6 +862,7 @@ end;
 procedure DoControl_SetItemsFromString(C: TControl; S: string);
 var
   SItem: string;
+  i: integer;
 begin
   if C is TImage then
   begin
@@ -853,6 +878,12 @@ begin
   if C is TListView then (C as TListView).Items.Clear;
   if C is TTabControl then (C as TTabControl).Tabs.Clear;
 
+  if C is TPageControl then
+  begin
+    for i:= TPageControl(C).PageCount-1 downto 0 do
+      TPageControl(C).Pages[i].Free;
+  end;
+
   repeat
     SItem:= SGetItem(S, #9);
     if SItem='' then Break;
@@ -863,6 +894,7 @@ begin
     if C is TCheckListBox then (C as TCheckListBox).Items.Add(SItem);
     if C is TListView then DoControl_SetState_ListviewItem(C as TListView, SItem);
     if C is TTabControl then (C as TTabControl).Tabs.Add(SItem);
+    if C is TPageControl then (C as TPageControl).AddTabSheet.Caption:= SItem;
   until false;
 end;
 
