@@ -531,10 +531,9 @@ Possible types of controls:
 * "treeview": tree structure with nodes and nested nodes, works via tree_proc()
 * "checklistview": listview with checkboxes, value is check-flags
 * "linklabel": label which activates URL on click
-* "panel": rectangle with centered caption only
-* "colorpanel": rectangle with centered caption, border, colored background
-* "group": panel which has themed border and caption on it
-* "tabs": set of tabs headers (note: not pages which have controls in them)
+* "panel": rectangle with centered caption only (client area is entire rect)
+* "group": rectangle with OS-themed border and caption on border (client area is decreased by this border)
+* "colorpanel": panel, with N-pixels colored border, with colored background
 * "image": picture, which shows picture-file
 * "trackbar": horiz/vert bar with handler, has position
 * "progressbar": horiz/vert bar, only shows position
@@ -543,6 +542,8 @@ Possible types of controls:
 * "filter_listview": input, which filter content of another "listview" control
 * "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
 * "paintbox": control which must be painted by plugin via canvas_proc()
+* "tabs": TabControl: set of tabs, w/o pages attached to them
+* "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
 
 Notes:
 
@@ -742,7 +743,7 @@ Described in dlg_custom, see [[#Types]].
 ** Item-0: name of target control, or empty str to use control's parent (it is form by default).
 ** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
 
-* "p": str: Name of control's parent, or empty to use the form. Note that coordinates x/y of control are relative to the current parent. If parent's x/y change, control's x/y don't change.
+* "p": str: Name of control's parent, or empty to use the form. Coordinates x/y of control are relative to the current parent. If parent's position changes, control's position don't change. To place control on PageControl's page with index N, specify such parent name: pages_name+"."+str(N).
 
 ====Callbacks====
 
@@ -765,7 +766,8 @@ class Command:
 * id_dlg: Int handle of form.
 * id_ctl: Index of control in form.
 * id_event: Name of sub-event. Can be:
-** "on_change": Called after change of "active" controls (also on button clicks).
+** "on_change": Called after change of "active" control state, including button click.
+** "on_click": Called after click on "non-active" control. Currently only for control types: "paintbox". For this event, info is tuple (x, y) with control-coordinates of click.
 ** "on_resize": Called after form is resized.
 ** "on_close": Called after form is closed.
 ** "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
@@ -1816,6 +1818,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.181
+* add: dlg_proc/dlg_custom: type "pages"
+* add: dlg_proc: control "paintbox" has sub-event "on_click" with info="x,y"
 
 1.0.180
 * add: app_proc: PROC_SHOW_SIDEBAR_GET, PROC_SHOW_SIDEBAR_SET
