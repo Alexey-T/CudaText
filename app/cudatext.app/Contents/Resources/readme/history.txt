@@ -4,6 +4,11 @@
   * changed
 
 
+1.9.1
++ finder: replace-all made much faster (note: when confirmation is on, you will see unchanged text, it will replace later)
+- finder: count-all must find w/o overlaps (non-regex mode)
++ api
+
 1.9.0
 + distraction-free mode, see http://wiki.freepascal.org/CudaText#Full-screen
 + added option "ui_fullscreen" with new values
