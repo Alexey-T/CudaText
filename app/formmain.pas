@@ -1020,7 +1020,6 @@ procedure TfmMain.FormCreate(Sender: TObject);
 var
   i: integer;
 begin
-  CustomDialog_DoPyEvent:= @DoPyEvent;
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
 
   {$ifdef windows}

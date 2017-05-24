@@ -626,6 +626,7 @@ begin
   if S='paintbox' then
   begin
     Ctl:= TPaintBox.Create(AForm);
+    Ctl.OnClick:= @AForm.DoOnClick; //paintbox needs OnClick
     exit;
   end;
 

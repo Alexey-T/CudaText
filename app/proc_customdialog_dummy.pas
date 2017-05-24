@@ -31,7 +31,6 @@ type
       const AParams: array of string): string of object;
 
 var
-  CustomDialog_DoPyEvent: TAppPyEventCallback = nil;
   CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
 
 type
@@ -74,6 +73,7 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure DoOnResize; override;
+    procedure DoOnClick(Sender: TObject);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -203,6 +203,22 @@ begin
         if ItemFocused<>nil then
           ItemFocused.MakeVisible(false);
   end;
+end;
+
+procedure TFormDummy.DoOnClick(Sender: TObject);
+var
+  SInfo: string;
+  P: TPoint;
+  i: integer;
+begin
+  for i:= 0 to ControlCount-1 do
+    if Controls[i]=Sender then
+    begin
+      P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
+      SInfo:= Format('"%d,%d"', [P.X, P.Y]);
+      DoEvent(i, '"on_click"', SInfo, true);
+      exit;
+    end;
 end;
 
 procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
