@@ -4099,7 +4099,7 @@ begin
 
         DLG_CTL_FIND:
           begin
-            Result:= PyInt_FromLong(Form.IdFromName(StrProp));
+            Result:= PyInt_FromLong(Form.FindControlIndexByOurName(StrProp));
           end;
 
         DLG_CTL_HANDLE:

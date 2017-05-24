@@ -65,7 +65,6 @@ type
     Events: string;
     BlockedOnChange: boolean;
     function IdFocused: integer;
-    function IdFromName(const AName: string): integer;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure DoOnResize; override;
@@ -81,6 +80,7 @@ type
     procedure DoEmulatedModalClose;
     function FindControlByOurName(const AName: string): TControl;
     function FindControlIndexByOurObject(Sender: TObject): integer;
+    function FindControlIndexByOurName(const AName: string): integer;
   end;
 
 
@@ -307,7 +307,7 @@ begin
   end;
 end;
 
-function TFormDummy.IdFromName(const AName: string): integer;
+function TFormDummy.FindControlIndexByOurName(const AName: string): integer;
 var
   C: TControl;
   i: integer;
