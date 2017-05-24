@@ -38,7 +38,7 @@ class Command:
         dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
 
     def callback_maindlg(self, id_dlg, id_ctl, id_event='', info=''):
-        print('callback_maindlg(id_event="%s", info="%s")' % (id_event, info))
+        print('callback_maindlg(id_event="%s", info=%s)' % (id_event, repr(info)))
         h = id_dlg
 
         n_chk = dlg_proc(h, DLG_CTL_FIND, prop='chk1')

@@ -22,13 +22,9 @@ uses
   ATSynEdit;
 
 type
-  TAppPyEventCallback = function(
-      AEd: TATSynEdit;
-      AEvent: TAppPyEvent;
-      const AParams: array of string): string of object;
   TAppPyCommonCallback = function(
-      const ACallback: string;
-      const AParams: array of string): string of object;
+    const ACallback: string;
+    const AParams: array of string): string of object;
 
 var
   CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
@@ -84,6 +80,7 @@ type
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
     function FindControlByOurName(const AName: string): TControl;
+    function FindControlIndexByOurObject(Sender: TObject): integer;
   end;
 
 
@@ -207,18 +204,14 @@ end;
 
 procedure TFormDummy.DoOnClick(Sender: TObject);
 var
+  IdControl: integer;
   SInfo: string;
   P: TPoint;
-  i: integer;
 begin
-  for i:= 0 to ControlCount-1 do
-    if Controls[i]=Sender then
-    begin
-      P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
-      SInfo:= Format('"%d,%d"', [P.X, P.Y]);
-      DoEvent(i, '"on_click"', SInfo, true);
-      exit;
-    end;
+  IdControl:= FindControlIndexByOurObject(Sender);
+  P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
+  SInfo:= Format('(%d,%d)', [P.X, P.Y]);
+  DoEvent(IdControl, '"on_click"', SInfo, true);
 end;
 
 procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -285,12 +278,18 @@ begin
 end;
 
 function TFormDummy.IdFocused: integer;
+begin
+  Result:= FindControlIndexByOurObject(ActiveControl);
+end;
+
+
+function TFormDummy.FindControlIndexByOurObject(Sender: TObject): integer;
 var
   i: integer;
 begin
   Result:= -1;
   for i:= 0 to ControlCount-1 do
-    if Controls[i]=ActiveControl then
+    if Controls[i]=Sender then
       exit(i);
 end;
 
@@ -337,13 +336,7 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   if not Props.FActive then exit;
 
-  IdClicked:= -1;
-  for i:= 0 to ControlCount-1 do
-    if Controls[i]=Sender then
-    begin
-      IdClicked:= i;
-      Break;
-    end;
+  IdClicked:= FindControlIndexByOurObject(Sender);
 
   if IsDlgCustom then
   begin
