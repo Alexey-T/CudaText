@@ -204,14 +204,25 @@ end;
 
 procedure TFormDummy.DoOnClick(Sender: TObject);
 var
+  Props: TAppControlProps;
   IdControl: integer;
   SInfo: string;
   P: TPoint;
 begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
   SInfo:= Format('(%d,%d)', [P.X, P.Y]);
-  DoEvent(IdControl, '"on_click"', SInfo, true);
+
+  if Props.FCallback<>'' then
+    CustomDialog_DoPyCallback(Props.FCallback, [
+      IntToStr(PtrInt(Self)), //id_dlg
+      IntToStr(IdControl), //id_ctl
+      '"on_click"', //id_event
+      'info='+SInfo //info
+    ])
+  else
+    DoEvent(IdControl, '"on_click"', SInfo, true);
 end;
 
 procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -325,12 +336,11 @@ end;
 procedure TFormDummy.DoOnChange(Sender: TObject);
 var
   Props: TAppControlProps;
-  i: integer;
 begin
   if BlockedOnChange then exit;
 
   //workarnd for bug on Mac
-  //(flicker on More>> press in BackupFile dialog)
+  //(flickering on More>> press in BackupFile dialog)
   if not IsFormShownAlready then exit;
 
   Props:= TAppControlProps((Sender as TControl).Tag);
