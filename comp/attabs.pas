@@ -1184,7 +1184,7 @@ end;
 procedure TATTabs.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
-  FMouseDown:= true;
+  FMouseDown:= Button=mbLeft;
   FMouseDownPnt:= Point(X, Y);
   FMouseDownButton:= Button;
   FMouseDownShift:= Shift;
