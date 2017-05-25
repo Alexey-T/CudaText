@@ -96,9 +96,9 @@ begin
 
   if SBeginsWith(Str, cPrefixToolmenu) then
   begin
-    for N:= 0 to fmMain.Toolbar.ButtonCount-1 do
-      if fmMain.Toolbar.Buttons[N].DataString=Str then
-        exit(fmMain.Toolbar.Buttons[N].PopupMenu.Items);
+    for N:= 0 to fmMain.ToolbarMain.ButtonCount-1 do
+      if fmMain.ToolbarMain.Buttons[N].DataString=Str then
+        exit(fmMain.ToolbarMain.Buttons[N].PopupMenu.Items);
   end;
 end;
 
@@ -2387,8 +2387,8 @@ begin
         APP_PROC_SIDEPANEL_ENUM:
           begin
             Str:= '';
-            for i:= 0 to fmMain.ToolbarSide.ButtonCount-1 do
-              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSide.Buttons[i].Caption;
+            for i:= 0 to fmMain.ToolbarSideTop.ButtonCount-1 do
+              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideTop.Buttons[i].Caption;
             Result:= PyString_FromString(PChar(Str));
           end;
 
@@ -2443,8 +2443,8 @@ begin
         APP_PROC_BOTTOMPANEL_ENUM:
           begin
             Str:= '';
-            for i:= 0 to fmMain.ToolbarBtm.ButtonCount-1 do
-              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarBtm.Buttons[i].Caption;
+            for i:= 0 to fmMain.ToolbarSideLow.ButtonCount-1 do
+              Str:= Str + IfThen(i>0, #10) + fmMain.ToolbarSideLow.Buttons[i].Caption;
             Result:= PyString_FromString(PChar(Str));
           end;
 

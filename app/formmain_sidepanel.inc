@@ -47,9 +47,9 @@ begin
   end;
 
   SCaption:= '';
-  for i:= 0 to ToolbarSide.ButtonCount-1 do
+  for i:= 0 to ToolbarSideTop.ButtonCount-1 do
   begin
-    Btn:= ToolbarSide.Buttons[i];
+    Btn:= ToolbarSideTop.Buttons[i];
     Btn.Checked:= Btn=Sender;
     if Btn.Checked then
     begin
@@ -148,8 +148,8 @@ var
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to ToolbarSide.ButtonCount-1 do
-    if SameText(ToolbarSide.Buttons[i].Caption, Str) then
+  for i:= 0 to ToolbarSideTop.ButtonCount-1 do
+    if SameText(ToolbarSideTop.Buttons[i].Caption, Str) then
       Exit(i);
 end;
 
@@ -244,8 +244,8 @@ begin
   else
     exit(false);
 
-  ToolbarSide.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
-  ToolbarSide.UpdateControls;
+  ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
+  ToolbarSideTop.UpdateControls;
   Result:= true;
 end;
 
@@ -257,8 +257,8 @@ begin
   Result:= Num>=0;
   if Result then
   begin
-    ToolbarSide.Buttons[Num].Free;
-    ToolbarSide.UpdateControls;
+    ToolbarSideTop.Buttons[Num].Free;
+    ToolbarSideTop.UpdateControls;
 
     //hard to remov array item, so hide it by "?"
     for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
@@ -282,9 +282,9 @@ var
   Btn: TATButton;
   i: integer;
 begin
-  for i:= 0 to ToolbarSide.ButtonCount-1 do
+  for i:= 0 to ToolbarSideTop.ButtonCount-1 do
   begin
-    Btn:= ToolbarSide.Buttons[i];
+    Btn:= ToolbarSideTop.Buttons[i];
     Btn.Checked:= SameText(Btn.Caption, FLastSidebarPanel) and ShowSidePanel;
   end;
 end;

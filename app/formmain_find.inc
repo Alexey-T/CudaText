@@ -400,7 +400,7 @@ procedure TfmMain.FinderOnProgress(Sender: TObject; ACurPos, AMaxPos: integer;
   var AContinue: boolean);
 begin
   if AMaxPos<=0 then exit;
-  Gauge.Progress:= ACurPos * 100 div AMaxPos;
+  StatusProgress.Progress:= ACurPos * 100 div AMaxPos;
   Application.ProcessMessages;
   if FFindStop then AContinue:= false;
 end;

@@ -69,11 +69,11 @@ begin
 
   UpdateMenuChecks;
 
-  ToolbarAlt.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
-  ToolbarAlt.Buttons[1].Checked:= Assigned(fmGoto) and fmGoto.Visible;
+  ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
+  ToolbarSideMid.Buttons[1].Checked:= Assigned(fmGoto) and fmGoto.Visible;
 
-  UpdateStatus_ToolButton(Toolbar, cCommand_ToggleMinimap, Ed.OptMinimapVisible);
-  UpdateStatus_ToolButton(Toolbar, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible);
+  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible);
+  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible);
 
   if not F.IsText then
   begin
@@ -128,8 +128,8 @@ end;
 
 procedure TfmMain.InitStatusButton;
 begin
-  //place Gauge+ButtonCancel onto Statusbar and anchor to right
-  with Gauge do
+  //place StatusProgress+ButtonCancel onto Statusbar and anchor to right
+  with StatusProgress do
   begin
     Parent:= Status;
     AnchorSideRight.Control:= Status;
@@ -143,13 +143,13 @@ begin
   with ButtonCancel do
   begin
     Parent:= Status;
-    AnchorSideRight.Control:= Gauge;
-    AnchorSideBottom.Control:= Gauge;
+    AnchorSideRight.Control:= StatusProgress;
+    AnchorSideBottom.Control:= StatusProgress;
     AnchorSideBottom.Side:= asrBottom;
-    AnchorSideTop.Control:= Gauge;
+    AnchorSideTop.Control:= StatusProgress;
     Anchors:= [akRight, akTop, akBottom];
   end;
-  Gauge.Hide;
+  StatusProgress.Hide;
   ButtonCancel.Hide;
 end;
 
@@ -202,8 +202,8 @@ begin
     FFindStop:= false;
     FFindConfirmAll:= mrNone;
     ButtonCancel.Show;
-    Gauge.Show;
-    Gauge.Progress:= 0;
+    StatusProgress.Show;
+    StatusProgress.Progress:= 0;
     UpdateEnabledAll(false);
     if AEdLock then
     begin
@@ -214,7 +214,7 @@ begin
   else
   begin
     ButtonCancel.Hide;
-    Gauge.Hide;
+    StatusProgress.Hide;
     UpdateEnabledAll(true);
     Ed.Enabled:= true;
     Ed.EndUpdate;
@@ -268,7 +268,7 @@ begin
   Groups.SetTabFont(Self.Font);
   Status.Font:= Self.Font;
   StatusAlt.Font:= Self.Font;
-  Gauge.Font:= Self.Font;
+  StatusProgress.Font:= Self.Font;
 
   //dont set font for PanelLeft/PanelBottom, side effects
   //(Treeviews scale once, ATListboxes scale 2times, LCL bug?)
@@ -933,25 +933,25 @@ end;
 
 procedure TfmMain.InitToolbar;
 begin
-  Toolbar.AddButton(0, @DoToolbarClick, '', 'Create new tab', IntToStr(cmd_FileNew), false);
-  Toolbar.AddDropdown(nil, @DoFileNewMenu);
-  Toolbar.AddButton(1, @DoToolbarClick, '', 'Open file', IntToStr(cmd_FileOpen), false);
-  Toolbar.AddDropdown(PopupRecents);
-  Toolbar.AddButton(2, @DoToolbarClick, '', 'Save file', IntToStr(cmd_FileSave), false);
-  Toolbar.AddSep;
-  Toolbar.AddButton(7, @DoToolbarClick, '', 'Cut', IntToStr(cCommand_ClipboardCut), false);
-  Toolbar.AddButton(6, @DoToolbarClick, '', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
-  Toolbar.AddButton(8, @DoToolbarClick, '', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
-  Toolbar.AddButton(11, @DoToolbarClick, '', 'Undo', IntToStr(cCommand_Undo), false);
-  Toolbar.AddButton(12, @DoToolbarClick, '', 'Redo', IntToStr(cCommand_Redo), false);
-  Toolbar.AddSep;
-  Toolbar.AddButton(14, @DoToolbarClick, '', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
-  Toolbar.AddButton(15, @DoToolbarClick, '', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
-  Toolbar.AddSep;
-  Toolbar.AddButton(3, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
-  Toolbar.AddButton(4, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
+  ToolbarMain.AddButton(0, @DoToolbarClick, '', 'Create new tab', IntToStr(cmd_FileNew), false);
+  ToolbarMain.AddDropdown(nil, @DoFileNewMenu);
+  ToolbarMain.AddButton(1, @DoToolbarClick, '', 'Open file', IntToStr(cmd_FileOpen), false);
+  ToolbarMain.AddDropdown(PopupRecents);
+  ToolbarMain.AddButton(2, @DoToolbarClick, '', 'Save file', IntToStr(cmd_FileSave), false);
+  ToolbarMain.AddSep;
+  ToolbarMain.AddButton(7, @DoToolbarClick, '', 'Cut', IntToStr(cCommand_ClipboardCut), false);
+  ToolbarMain.AddButton(6, @DoToolbarClick, '', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
+  ToolbarMain.AddButton(8, @DoToolbarClick, '', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
+  ToolbarMain.AddButton(11, @DoToolbarClick, '', 'Undo', IntToStr(cCommand_Undo), false);
+  ToolbarMain.AddButton(12, @DoToolbarClick, '', 'Redo', IntToStr(cCommand_Redo), false);
+  ToolbarMain.AddSep;
+  ToolbarMain.AddButton(14, @DoToolbarClick, '', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
+  ToolbarMain.AddButton(15, @DoToolbarClick, '', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
+  ToolbarMain.AddSep;
+  ToolbarMain.AddButton(3, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
+  ToolbarMain.AddButton(4, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
-  Toolbar.UpdateControls;
+  ToolbarMain.UpdateControls;
 end;
 
 
@@ -975,9 +975,9 @@ begin
   ImageListSide.Clear;
 
   //set ButtonWidth for vertical bars
-  ToolbarSide.ButtonWidth:= MulDiv(ImageListSide.Width+8, UiOps.ScreenScale, 100);
-  ToolbarBtm.ButtonWidth:= ToolbarSide.ButtonWidth;
-  ToolbarAlt.ButtonWidth:= ToolbarSide.ButtonWidth;
+  ToolbarSideTop.ButtonWidth:= MulDiv(ImageListSide.Width+8, UiOps.ScreenScale, 100);
+  ToolbarSideLow.ButtonWidth:= ToolbarSideTop.ButtonWidth;
+  ToolbarSideMid.ButtonWidth:= ToolbarSideTop.ButtonWidth;
 
   Str:= GetAppPath(cDirDataSideIcons)+DirectorySeparator;
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'tree.png');
@@ -987,9 +987,9 @@ begin
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');
 
-  ToolbarSide.UpdateControls;
-  ToolbarBtm.UpdateControls;
-  ToolbarAlt.UpdateControls;
+  ToolbarSideTop.UpdateControls;
+  ToolbarSideLow.UpdateControls;
+  ToolbarSideMid.UpdateControls;
 end;
 
 
@@ -1021,15 +1021,15 @@ end;
 procedure TfmMain.InitSidebar;
 begin
   //
-  ToolbarSide.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
   //
-  ToolbarBtm.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
-  ToolbarBtm.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideLow.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideLow.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
   //
-  ToolbarAlt.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
-  ToolbarAlt.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
-  ToolbarAlt.AddSep;
+  ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideMid.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideMid.AddSep;
 end;
 
 

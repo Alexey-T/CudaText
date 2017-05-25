@@ -27,7 +27,7 @@ object fmMain: TfmMain
     Width = 75
     Align = alLeft
     AutoSize = True
-    object ToolbarBtm: TATButtonsToolbar
+    object ToolbarSideLow: TATButtonsToolbar
       Left = 0
       Height = 30
       Top = 139
@@ -39,7 +39,7 @@ object fmMain: TfmMain
       Images = ImageListSide
       KindVertical = True
     end
-    object ToolbarSide: TATButtonsToolbar
+    object ToolbarSideTop: TATButtonsToolbar
       Left = 0
       Height = 109
       Top = 0
@@ -53,7 +53,7 @@ object fmMain: TfmMain
       Images = ImageListSide
       KindVertical = True
     end
-    object ToolbarAlt: TATButtonsToolbar
+    object ToolbarSideMid: TATButtonsToolbar
       Left = 0
       Height = 30
       Top = 109
@@ -85,7 +85,7 @@ object fmMain: TfmMain
       ResizeAnchor = akBottom
       ResizeStyle = rsPattern
     end
-    object Toolbar: TATButtonsToolbar
+    object ToolbarMain: TATButtonsToolbar
       Left = 0
       Height = 24
       Top = 0
@@ -116,7 +116,7 @@ object fmMain: TfmMain
         Top = 0
         Width = 4
       end
-      object Gauge: TGauge
+      object StatusProgress: TGauge
         Left = 752
         Height = 19
         Top = 50

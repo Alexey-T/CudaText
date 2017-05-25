@@ -4,7 +4,7 @@ function DoToolbar_GetToolbarFromId(const Str: string): TATButtonsToolbar;
 begin
   Result:= nil;
   if Str='top' then
-    exit(fmMain.Toolbar);
+    exit(fmMain.ToolbarMain);
 end;
 
 

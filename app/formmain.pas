@@ -106,7 +106,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
-    Gauge: TGauge;
+    StatusProgress: TGauge;
     LabelSideTitle: TLabel;
     MenuItem4: TMenuItem;
     mnuViewDistFree: TMenuItem;
@@ -382,10 +382,10 @@ type
     TimerCmd: TTimer;
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
-    Toolbar: TATButtonsToolbar;
-    ToolbarAlt: TATButtonsToolbar;
-    ToolbarBtm: TATButtonsToolbar;
-    ToolbarSide: TATButtonsToolbar;
+    ToolbarMain: TATButtonsToolbar;
+    ToolbarSideMid: TATButtonsToolbar;
+    ToolbarSideLow: TATButtonsToolbar;
+    ToolbarSideTop: TATButtonsToolbar;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
@@ -1028,10 +1028,10 @@ begin
   //UiOps.ScreenScale:= 200; ////test
   UiOps_ScreenScale:= UiOps.ScreenScale;
 
-  Toolbar.ScalePercents:= UiOps.ScreenScale;
-  ToolbarSide.ScalePercents:= UiOps.ScreenScale;
-  ToolbarBtm.ScalePercents:= UiOps.ScreenScale;
-  ToolbarAlt.ScalePercents:= UiOps.ScreenScale;
+  ToolbarMain.ScalePercents:= UiOps.ScreenScale;
+  ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
+  ToolbarSideLow.ScalePercents:= UiOps.ScreenScale;
+  ToolbarSideMid.ScalePercents:= UiOps.ScreenScale;
 
   InitToolbar;
   InitSidebar;
@@ -1435,7 +1435,7 @@ end;
 
 function TfmMain.GetShowToolbar: boolean;
 begin
-  Result:= Toolbar.Visible;
+  Result:= ToolbarMain.Visible;
 end;
 
 function TfmMain.GetShowBottom: boolean;
@@ -1616,7 +1616,7 @@ var
   i: integer;
 begin
   //apply DoubleBuffered
-  //no need for Toolbar and buttons
+  //no need for ToolbarMain and buttons
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     Groups.Pages[i].Tabs.DoubleBuffered:= UiOps.DoubleBuffered;
   for i:= 0 to FrameCount-1 do
@@ -1628,7 +1628,7 @@ begin
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
   ButtonCancel.DoubleBuffered:= UiOps.DoubleBuffered;
-  Gauge.DoubleBuffered:= UiOps.DoubleBuffered;
+  StatusProgress.DoubleBuffered:= UiOps.DoubleBuffered;
   ListboxOut.DoubleBuffered:= UiOps.DoubleBuffered;
   ListboxVal.DoubleBuffered:= UiOps.DoubleBuffered;
   if Assigned(fmConsole) then
@@ -2423,7 +2423,7 @@ end;
 
 procedure TfmMain.SetShowToolbar(AValue: boolean);
 begin
-  Toolbar.Visible:= AValue;
+  ToolbarMain.Visible:= AValue;
 end;
 
 procedure TfmMain.DoFileSaveAll;

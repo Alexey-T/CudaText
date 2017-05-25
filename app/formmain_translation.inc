@@ -287,14 +287,14 @@ begin
     msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject);
     msgPanelTabs:= ini.ReadString('ui', 't_tabs', msgPanelTabs);
     //
-    DoTranslateToolbarButtonHint(ToolbarSide, 0, msgPanelTree);
+    DoTranslateToolbarButtonHint(ToolbarSideTop, 0, msgPanelTree);
     //
-    DoTranslateToolbarButtonHint(ToolbarBtm, 0, ini.ReadString('ui', 't_con', 'Console'));
-    DoTranslateToolbarButtonHint(ToolbarBtm, 1, ini.ReadString('ui', 't_out', 'Output'));
-    DoTranslateToolbarButtonHint(ToolbarBtm, 2, ini.ReadString('ui', 't_val', 'Validate'));
+    DoTranslateToolbarButtonHint(ToolbarSideLow, 0, ini.ReadString('ui', 't_con', 'Console'));
+    DoTranslateToolbarButtonHint(ToolbarSideLow, 1, ini.ReadString('ui', 't_out', 'Output'));
+    DoTranslateToolbarButtonHint(ToolbarSideLow, 2, ini.ReadString('ui', 't_val', 'Validate'));
     //
-    DoTranslateToolbarButtonHint(ToolbarAlt, 0, ini.ReadString('ui', 't_find', 'Search/Replace'));
-    DoTranslateToolbarButtonHint(ToolbarAlt, 1, ini.ReadString('ui', 't_goto', 'Go to'));
+    DoTranslateToolbarButtonHint(ToolbarSideMid, 0, ini.ReadString('ui', 't_find', 'Search/Replace'));
+    DoTranslateToolbarButtonHint(ToolbarSideMid, 1, ini.ReadString('ui', 't_goto', 'Go to'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
@@ -327,26 +327,26 @@ begin
     DoLocString(msgButtonRetry,  ini, 'ui', 'b_re');
     DoLocString(msgButtonIgnore, ini, 'ui', 'b_ig');
 
-    DoLocToolbarButtonHint(Toolbar, 'f_new', ini.ReadString('ui', 'tb_new', ''));
-    DoLocToolbarButtonHint(Toolbar, 'f_open', ini.ReadString('ui', 'tb_op', ''));
-    DoLocToolbarButtonHint(Toolbar, 'f_save', ini.ReadString('ui', 'tb_sav', ''));
-    DoLocToolbarButtonHint(Toolbar, 'find', ini.ReadString('ui', 'tb_find', ''));
-    DoLocToolbarButtonHint(Toolbar, 'goto', ini.ReadString('ui', 'tb_go', ''));
-    DoLocToolbarButtonHint(Toolbar, 'e_cut', msgEditCut);
-    DoLocToolbarButtonHint(Toolbar, 'e_copy', msgEditCopy);
-    DoLocToolbarButtonHint(Toolbar, 'e_paste', msgEditPaste);
-    //DoLocToolbarButtonHint(Toolbar, 'e_del', msgEditDelete);
-    //DoLocToolbarButtonHint(Toolbar, 'e_sel', msgEditSelectAll);
-    DoLocToolbarButtonHint(Toolbar, 'e_undo', msgEditUndo);
-    DoLocToolbarButtonHint(Toolbar, 'e_redo', msgEditRedo);
+    DoLocToolbarButtonHint(ToolbarMain, 'f_new', ini.ReadString('ui', 'tb_new', ''));
+    DoLocToolbarButtonHint(ToolbarMain, 'f_open', ini.ReadString('ui', 'tb_op', ''));
+    DoLocToolbarButtonHint(ToolbarMain, 'f_save', ini.ReadString('ui', 'tb_sav', ''));
+    DoLocToolbarButtonHint(ToolbarMain, 'find', ini.ReadString('ui', 'tb_find', ''));
+    DoLocToolbarButtonHint(ToolbarMain, 'goto', ini.ReadString('ui', 'tb_go', ''));
+    DoLocToolbarButtonHint(ToolbarMain, 'e_cut', msgEditCut);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_copy', msgEditCopy);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_paste', msgEditPaste);
+    //DoLocToolbarButtonHint(ToolbarMain, 'e_del', msgEditDelete);
+    //DoLocToolbarButtonHint(ToolbarMain, 'e_sel', msgEditSelectAll);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_undo', msgEditUndo);
+    DoLocToolbarButtonHint(ToolbarMain, 'e_redo', msgEditRedo);
     if Assigned(mnuViewUnpri) then
-      DoLocToolbarButtonHint(Toolbar, 'unpri', mnuViewUnpri.Caption);
+      DoLocToolbarButtonHint(ToolbarMain, 'unpri', mnuViewUnpri.Caption);
     if Assigned(mnuViewSide) then
-      DoLocToolbarButtonHint(Toolbar, 'p_side', mnuViewSide.Caption);
+      DoLocToolbarButtonHint(ToolbarMain, 'p_side', mnuViewSide.Caption);
     if Assigned(mnuViewBottom) then
-      DoLocToolbarButtonHint(Toolbar, 'p_btm', mnuViewBottom.Caption);
+      DoLocToolbarButtonHint(ToolbarMain, 'p_btm', mnuViewBottom.Caption);
     if Assigned(mnuViewMinimap) then
-      DoLocToolbarButtonHint(Toolbar, 'map', mnuViewMinimap.Caption);
+      DoLocToolbarButtonHint(ToolbarMain, 'map', mnuViewMinimap.Caption);
 
     DoLocMenuitem(mnuTextUndo, msgEditUndo);
     DoLocMenuitem(mnuTextRedo, msgEditRedo);

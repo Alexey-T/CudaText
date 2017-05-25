@@ -28,13 +28,13 @@ begin
   EditorApplyTheme(fmConsole.ed);
   EditorApplyTheme(fmConsole.memo);
 
-  Toolbar.Color:= GetAppColor('TabBg');
-  Self.Color:= Toolbar.Color;
+  ToolbarMain.Color:= GetAppColor('TabBg');
+  Self.Color:= ToolbarMain.Color;
 
-  PanelLeftTitle.Color:= Toolbar.Color;
-  ToolbarSide.Color:= GetAppColor('SideBg');
-  ToolbarBtm.Color:= ToolbarSide.Color;
-  ToolbarAlt.Color:= ToolbarSide.Color;
+  PanelLeftTitle.Color:= ToolbarMain.Color;
+  ToolbarSideTop.Color:= GetAppColor('SideBg');
+  ToolbarSideLow.Color:= ToolbarSideTop.Color;
+  ToolbarSideMid.Color:= ToolbarSideTop.Color;
 
   Status.Font.Color:= GetAppColor('StatusFont');
   Status.Color:= GetAppColor('StatusBg');
@@ -46,10 +46,10 @@ begin
   StatusAlt.ColorBorderTop:= Status.ColorBorderTop;
   StatusAlt.ColorBorderR:= Status.ColorBorderR;
 
-  Gauge.Font.Color:= Status.Font.Color;
-  Gauge.ForeColor:= GetAppColor('GaugeFill');
-  Gauge.BackColor:= GetAppColor('GaugeBg');
-  Gauge.BorderColor:= GetAppColor('ButtonBorderPassive');
+  StatusProgress.Font.Color:= Status.Font.Color;
+  StatusProgress.ForeColor:= GetAppColor('GaugeFill');
+  StatusProgress.BackColor:= GetAppColor('GaugeBg');
+  StatusProgress.BorderColor:= GetAppColor('ButtonBorderPassive');
 
   ATButtonTheme.ColorFont:= GetAppColor('ButtonFont');
   ATButtonTheme.ColorFontDisabled:= GetAppColor('ButtonFontDisabled');
