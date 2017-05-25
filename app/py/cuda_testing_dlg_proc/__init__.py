@@ -70,6 +70,9 @@ class Command:
 
             if id_ctl==n_btn_paint:
                 canvas_id = dlg_proc(h, DLG_CTL_HANDLE, index=n_paint)
+                canvas_proc(canvas_id, CANVAS_SET_PEN, color=0xA0)
+                canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=0xA0FF00)
+                canvas_proc(canvas_id, CANVAS_RECT, x=0, y=0, x2=50, y2=50)
                 canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=0xA0A0)
                 canvas_proc(canvas_id, CANVAS_ELLIPSE, x=0, y=0, x2=50, y2=50)
 
@@ -162,7 +165,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120 } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'paintbox')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':220, 'y':260, 'w':50, 'h':50 } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':250, 'y':200, 'w':60, 'h':60 } )
 
         nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
         dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)
