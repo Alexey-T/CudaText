@@ -193,7 +193,7 @@ object fmFind: TfmFind
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
       OptTextOffsetLeft = 2
-      OptTextOffsetTop = 2
+      OptTextOffsetTop = 5
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
       OptCaretManyAllowed = False
@@ -285,7 +285,7 @@ object fmFind: TfmFind
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
       OptTextOffsetLeft = 2
-      OptTextOffsetTop = 2
+      OptTextOffsetTop = 5
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
       OptCaretManyAllowed = False
@@ -424,10 +424,10 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edFind
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = edFind
-      Left = 43
+      Left = 42
       Height = 17
       Top = 8
-      Width = 33
+      Width = 34
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 4
       Caption = 'Find:'

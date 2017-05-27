@@ -467,17 +467,6 @@ end;
 
 procedure TfmFind.UpdateSize;
   //
-  function MaxX(C: TControl): integer;
-  var
-    P: TPoint;
-  begin
-    if not C.Visible then exit(0);
-    P:= Point(C.Width, 0);
-    P:= C.ClientToScreen(P);
-    P:= Self.ScreenToClient(P);
-    Result:= P.X;
-  end;
-  //
   function MaxY(C: TControl): integer;
   var
     P: TPoint;
@@ -491,11 +480,8 @@ procedure TfmFind.UpdateSize;
   //
 begin
   if IsNarrow then
-    ClientWidth:= MaxX(bMarkAll) + 8;
-
-  ClientHeight:=
-    IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) +
-    + 4;
+    ClientWidth:= 680;
+  ClientHeight:= IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) + 4;
 end;
 
 procedure TfmFind.UpdateState;
