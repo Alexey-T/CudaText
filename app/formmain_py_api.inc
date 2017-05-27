@@ -2349,10 +2349,25 @@ begin
               Result:= ReturnNone;
           end;
 
-       APP_PROC_GET_SYSTEM_PPI:
-         begin
-           Result:= PyInt_FromLong(Screen.PixelsPerInch);
-         end;
+        APP_PROC_GET_SYSTEM_PPI:
+          begin
+            Result:= PyInt_FromLong(Screen.PixelsPerInch);
+          end;
+
+        APP_PROC_PROGRESSBAR:
+          begin
+            Num64:= StrToIntDef(Str, -1);
+            if Num64<0 then
+              fmMain.StatusProgress.Hide
+            else
+            begin
+              fmMain.StatusProgress.Show;
+              fmMain.StatusProgress.MinValue:= 0;
+              fmMain.StatusProgress.MaxValue:= 100;
+              fmMain.StatusProgress.Progress:= Num64;
+            end;
+            Result:= ReturnNone;
+          end;
 
         //-------------------
         APP_PROC_SIDEPANEL_ADD:
