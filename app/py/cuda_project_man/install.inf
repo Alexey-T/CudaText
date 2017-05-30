@@ -1,0 +1,111 @@
+[info]
+title=Project Manager
+desc=Allows to manage "projects" (groups of files/dirs), shows Project-panel in the side-panel
+type=cudatext-plugin
+subdir=cuda_project_man
+homepage=https://github.com/pohmelie/cuda_project_man
+
+[item1]
+section=events
+events=on_panel,on_open_pre,on_start
+
+[item2]
+section=commands
+caption=&Project Manager\&Show Project panel
+method=show_panel
+
+[item3]
+section=commands
+caption=&Project Manager\&Focus Project panel
+method=focus_panel
+
+[item9]
+section=commands
+caption=&Project Manager\Open &recent project...
+method=menu_recents
+
+[item10]
+section=commands
+caption=&Project Manager\New project, &Open folder...
+method=new_project_open_dir
+
+[item15]
+section=commands
+caption=&Project Manager\&Go to file...
+method=menu_goto
+
+[item16]
+section=commands
+caption=&Project Manager\&Sync to editor file
+method=sync_to_ed
+
+
+[item50]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item51]
+section=commands
+caption=&Project Manager\&Project properties...
+method=config_proj
+
+[item52]
+section=commands
+caption=&Project Manager\&Config...
+method=config
+
+
+[item100]
+section=commands
+caption=&Project Manager\Context menu\Add directory...
+method=contextmenu_add_dir
+menu=0
+
+[item101]
+section=commands
+caption=&Project Manager\Context menu\Add file...
+method=contextmenu_add_file
+menu=0
+
+[item102]
+section=commands
+caption=&Project Manager\Context menu\New project
+method=contextmenu_new_proj
+menu=0
+
+[item103]
+section=commands
+caption=&Project Manager\Context menu\Open project...
+method=contextmenu_open_proj
+menu=0
+
+[item104]
+section=commands
+caption=&Project Manager\Context menu\Save project as...
+method=contextmenu_save_proj_as
+menu=0
+
+[item105]
+section=commands
+caption=&Project Manager\Context menu\Refresh
+method=contextmenu_refresh
+menu=0
+
+[item106]
+section=commands
+caption=&Project Manager\Context menu\Remove node
+method=contextmenu_remove_node
+menu=0
+
+[item107]
+section=commands
+caption=&Project Manager\Context menu\Clear project
+method=contextmenu_clear_proj
+menu=0
+
+[item108]
+section=commands
+caption=&Project Manager\Context menu\Set as main file
+method=contextmenu_set_as_main_file
+menu=0
