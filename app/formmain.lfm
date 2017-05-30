@@ -226,6 +226,10 @@ object fmMain: TfmMain
         Caption = 'Op&en recent'
         Hint = '_recents'
       end
+      object mnuFileOpenDir: TMenuItem
+        Caption = 'Open folder...'
+        OnClick = mnuFileOpenDirClick
+      end
       object mnuFileReopen: TMenuItem
         Caption = '&Reopen'
       end

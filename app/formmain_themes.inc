@@ -302,6 +302,7 @@ begin
   ThemeSyntax:= ExtractFileNameOnly(fn);
 end;
 
+
 procedure TfmMain.DoDialogTheme(AThemeUI: boolean);
 var
   Str, StrName, StrExt: string;
