@@ -96,10 +96,11 @@ begin
     //ignore special params
     if SBeginsWith(fn, '-') then Continue;
 
-    //don't take folder
+    //if dir, open in ProjManager
     if DirectoryExistsUTF8(fn) then
     begin
-      MsgStdout('CudaText: cannot open folder: '+fn);
+      MsgStdout('CudaText: opening dir: '+fn);
+      DoPyCommand('cuda_project_man', 'open_dir', ['"'+fn+'"']);
       Continue;
     end;
 

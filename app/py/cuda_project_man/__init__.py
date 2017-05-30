@@ -614,13 +614,9 @@ class Command:
         self.init_panel()
         self.action_open_project(items[res])
 
-    def new_project_open_dir(self):
+    def do_unfold_first(self):
 
-        self.init_panel()
-        self.action_new_project()
-        self.action_add_directory()
-
-        # unfold 1st item under root
+        """unfold 1st item under root"""
         items = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
         if not items:
             return
@@ -630,6 +626,20 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_UNFOLD, items[0][0])
         tree_proc(self.tree, TREE_ITEM_SELECT, items[0][0])
 
+    def new_project_open_dir(self):
+
+        self.init_panel()
+        self.action_new_project()
+        self.action_add_directory()
+        self.do_unfold_first()
+        app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+
+    def open_dir(self, dirname):
+
+        self.init_panel()
+        self.action_new_project()
+        self.add_node(lambda: dirname)
+        self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def on_open_pre(self, ed_self, filename):
@@ -797,4 +807,4 @@ class Command:
         if fn:
             if self.jump_to_filename(fn): #gets False if found
                 msg_status('Cannot jump to file: '+fn)
-  
+
