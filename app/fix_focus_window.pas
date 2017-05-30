@@ -34,7 +34,11 @@ var
 procedure DoFocusWindow(h: THandle);
 begin
   if Assigned(SwitchFunc) then
+  begin
+    ShowWindow(h, SW_HIDE);
+    ShowWindow(h, SW_SHOW);
     SwitchFunc(h, false)
+  end
   else
     LCLIntf.SetForegroundWindow(h);
 end;
