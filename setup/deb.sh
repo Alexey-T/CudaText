@@ -25,6 +25,7 @@ mkdir $dd/usr/share/cudatext/py/cuda_make_plugin
 mkdir $dd/usr/share/cudatext/py/cuda_insert_time
 mkdir $dd/usr/share/cudatext/py/cuda_new_file
 mkdir $dd/usr/share/cudatext/py/cuda_palette
+mkdir $dd/usr/share/cudatext/py/cuda_project_man
 mkdir $dd/usr/share/cudatext/py/cudax_lib
 mkdir $dd/usr/share/cudatext/py/requests
 mkdir $dd/usr/share/pixmaps
@@ -49,6 +50,8 @@ cp -r ../app/py/cuda_insert_time/*.py $dd/usr/share/cudatext/py/cuda_insert_time
 cp -r ../app/py/cuda_insert_time/*.inf $dd/usr/share/cudatext/py/cuda_insert_time
 cp -r ../app/py/cuda_new_file/*.py $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_new_file/*.inf $dd/usr/share/cudatext/py/cuda_new_file
+cp -r ../app/py/cuda_project_man/*.py $dd/usr/share/cudatext/py/cuda_project_man
+cp -r ../app/py/cuda_project_man/*.inf $dd/usr/share/cudatext/py/cuda_project_man
 cp -r ../app/py/cuda_palette/* $dd/usr/share/cudatext/py/cuda_palette
 cp -r ../app/py/cudax_lib/*.py $dd/usr/share/cudatext/py/cudax_lib
 cp -r ../app/py/requests/* $dd/usr/share/cudatext/py/requests
