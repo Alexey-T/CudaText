@@ -4,6 +4,11 @@
   * changed
 
 
+1.9.2
++ preinstalled Project Manager plugin
++ can open folder names from command line, e.g. "cudatext ."
++ menuitem "File - Open folder" (calls Project Manager, no new command for it)
+
 1.9.1
 + finder: replace-all made much faster (note: when confirmation is on, you will see unchanged text, it will replace later)
 - finder: count-all must find w/o overlaps (non-regex mode)

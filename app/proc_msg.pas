@@ -198,9 +198,9 @@ const
       '  -w, --window=left,top,width,height - Set position/size of app window'+sLineBreak+
       ''+sLineBreak+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+
-      'Folders cannot be loaded yet.'+sLineBreak+
-      'Projects (.cuda-proj) can be loaded, if Project Manager installed.'+sLineBreak+
-      'Sessions (.cuda-session) can be loaded, if Session Manager installed.'+sLineBreak;
+      'Folder can be passed, will be opened in Project Manager plugin.'+sLineBreak+
+      'Projects (.cuda-proj) can be passed, will be opened in Project Manager.'+sLineBreak+
+      'Sessions (.cuda-session) can be passed, if Session Manager installed.'+sLineBreak;
 
   msgCommandLineUnknownOption =
       'CudaText: unknown key %s'#10'Run "cudatext --help" to see command line help.';
