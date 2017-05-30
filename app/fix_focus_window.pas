@@ -35,9 +35,11 @@ procedure DoFocusWindow(h: THandle);
 begin
   if Assigned(SwitchFunc) then
   begin
+    //2 ShowWindow calls are patch from https://github.com/Alexey-T/CudaText/issues/595
     ShowWindow(h, SW_HIDE);
     ShowWindow(h, SW_SHOW);
-    SwitchFunc(h, false)
+    
+    SwitchFunc(h, false);
   end
   else
     LCLIntf.SetForegroundWindow(h);
