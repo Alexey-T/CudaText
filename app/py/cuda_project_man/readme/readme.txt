@@ -18,4 +18,6 @@ Tech notes:
 - When you call "Remove node", node on top project level is removed, and selection inside that node is ignored.
 - You can open project files from Open dialog, or command line. Instead of opening raw JSON content, project will be loaded.
 
+Authors: pohmelie, Alexey T.
+License: MIT
 Homepage: https://github.com/pohmelie/cuda_project_man

@@ -1,4 +1,7 @@
 
+2017.05.31
++ method open_dir to integrate with Cudatext
+
 2016.11.02
 + cmd "sync to curr file"
 
