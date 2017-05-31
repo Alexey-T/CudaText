@@ -214,3 +214,24 @@ class Command:
         print('callback_main_movebtn')
         d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=id_ctl)
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, index=id_ctl, prop={'x': d['x']+10, 'y': d['y']+8 } )
+
+
+    def test_pages(self):
+        id = dlg_proc(0, DLG_CREATE)
+
+        dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=pages'})
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'pages')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'pages0', 'x':10, 'y':10, 'w':380, 'h':280, 'items': 'page-A\tpage-B' })
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'check')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'check0', 'x':10, 'y':10, 'w':300, 'cap':'check-A', 'p':'pages0.0' })
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'check')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'check1', 'x':20, 'y':20, 'w':300, 'cap':'check-B', 'p':'pages0.1' })
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'label')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'lab1', 'x':20, 'y':50, 'w':300, 'cap':'label-B', 'p':'pages0.1' })
+
+        dlg_proc(id, DLG_SHOW_MODAL)
+        dlg_proc(id, DLG_FREE)

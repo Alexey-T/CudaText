@@ -23,3 +23,8 @@ method=run_nonmodal
 section=commands
 caption=dlg_proc\test dlg_custom
 method=run_dlgcustom
+
+[item22]
+section=commands
+caption=dlg_proc\test type=pages
+method=test_pages
