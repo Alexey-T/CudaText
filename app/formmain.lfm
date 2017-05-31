@@ -217,18 +217,18 @@ object fmMain: TfmMain
         Caption = '&New file'
       end
       object mnuFileNewMenu: TMenuItem
-        Caption = 'New from &template...'
+        Caption = 'New from te&mplate...'
       end
       object mnuFileOpen: TMenuItem
-        Caption = '&Open...'
-      end
-      object mnuFileOpenSub: TMenuItem
-        Caption = 'Op&en recent'
-        Hint = '_recents'
+        Caption = '&Open file...'
       end
       object mnuFileOpenDir: TMenuItem
-        Caption = 'Open folder...'
+        Caption = 'Open &folder...'
         OnClick = mnuFileOpenDirClick
+      end
+      object mnuFileOpenSub: TMenuItem
+        Caption = 'Open recen&t'
+        Hint = '_recents'
       end
       object mnuFileReopen: TMenuItem
         Caption = '&Reopen'
@@ -268,7 +268,7 @@ object fmMain: TfmMain
         Hint = '_enc'
       end
       object mnuFileEnds: TMenuItem
-        Caption = 'Li&ne ends'
+        Caption = 'L&ine ends'
         Hint = 'ends'
         object mnuFileEndWin: TMenuItem
           Caption = 'Win'
