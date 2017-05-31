@@ -2,7 +2,8 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
-2017.05.30
+2017.06.01
++ [m_h] chk
 + [m_f] op_dir
 
 2017.05.20

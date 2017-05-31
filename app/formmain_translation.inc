@@ -283,6 +283,7 @@ begin
     DoLocMenuitem(ini, mnuHelpChangelog, 'm_h', 'ch');
     DoLocMenuitem(ini, mnuHelpIssues, 'm_h', 'iss');
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
+    DoLocMenuitem(ini, mnuHelpCheckUpd, 'm_h', 'chk');
 
     msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree);
     msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject);
