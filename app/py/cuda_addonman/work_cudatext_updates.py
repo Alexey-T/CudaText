@@ -11,16 +11,13 @@ DOWNLOAD_PAGE = \
     'https://sourceforge.net/projects/cudatext/files/release/Linux/' if p=='linux'\
     else 'https://sourceforge.net/projects/cudatext/files/release/Windows/' if p=='win32'\
     else 'https://sourceforge.net/projects/cudatext/files/release/macOS/' if p=='darwin'\
-    else None
+    else '?'
 
 DOWNLOAD_REGEX = \
-    'a href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-linux-gtk2-\w+-([\d\.]+?)\.tar\.xz/download)"' if p=='linux'\
-    else 'a href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?-([\d\.]+?)\.zip/download)"' if p=='win32'\
-    else 'a href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?-([\d\.]+?)\.dmg/download)"' if p=='darwin'\
-    else None
+    ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
 
 
-def get_cudatext_last_url():
+def check_cudatext():
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
     app.msg_status('Downloading: '+DOWNLOAD_PAGE, True)
@@ -41,9 +38,15 @@ def get_cudatext_last_url():
     url = items[0][0]
     ver = items[0][1]
     ver_local = app.app_exe_version()
+    ###ver_local = '0' #to test
 
     if ver<=ver_local:
         app.msg_box('Latest CudaText is already here\nLocal: %s\nHomepage: %s'%(ver_local, ver), app.MB_OK+app.MB_ICONINFO)
         return
 
-    return url
+    text = '\n'.join([
+        'type=label\1pos=6,20,500,0\1cap=CudaText newer version is available at this URL:',
+        'type=linklabel\1pos=20,45,600,0\1cap='+url+'\1props='+url+'\1font_size=8',
+        'type=button\1pos=300,100,400,0\1cap=OK\1props=1'
+        ])
+    app.dlg_custom('CudaText update', 700, 130, text)

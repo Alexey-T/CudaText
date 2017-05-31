@@ -9,7 +9,7 @@ from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
-from .work_cudatext_updates import get_cudatext_last_url
+from .work_cudatext_updates import check_cudatext
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
@@ -348,8 +348,4 @@ class Command:
 
     def check_cudatext_updates(self):
 
-        url = get_cudatext_last_url()
-        if url is None:
-            return
-
-        msg_box('CudaText has newer version:\n'+url, MB_OK or MB_ICONINFO)
+        check_cudatext()
