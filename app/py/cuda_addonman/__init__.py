@@ -23,6 +23,7 @@ STD_MODULES = (
   'cuda_make_plugin',
   'cuda_new_file',
   'cuda_palette',
+  'cuda_project_man',
   'cudax_lib',
   )
 
