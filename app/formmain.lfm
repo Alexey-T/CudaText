@@ -770,6 +770,10 @@ object fmMain: TfmMain
       object mnuHelpIssues: TMenuItem
         Caption = '&Issue report'
       end
+      object mnuHelpCheckUpd: TMenuItem
+        Caption = 'Check for &updates'
+        OnClick = mnuHelpCheckUpdClick
+      end
       object SepHelp2: TMenuItem
         Caption = '-'
       end

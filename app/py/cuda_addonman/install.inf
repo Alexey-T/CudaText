@@ -38,6 +38,12 @@ method=do_download_all
 section=commands
 caption=Addons Manager\Config...
 method=do_config
+
+[item28]
+section=commands
+caption=Addons Manager\Check for CudaText updates...
+method=check_cudatext_updates
+
 [item29]
 section=commands
 caption=Addons Manager\-
@@ -54,9 +60,4 @@ method=do_readme
 section=commands
 caption=Addons Manager\View plugin's history...
 method=do_history
-
-[item50]
-section=commands
-caption=Addons Manager\Check for CudaText updates...
-method=check_cudatext_updates
 

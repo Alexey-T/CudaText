@@ -106,6 +106,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuHelpCheckUpd: TMenuItem;
     StatusProgress: TGauge;
     LabelSideTitle: TLabel;
     MenuItem4: TMenuItem;
@@ -410,6 +411,7 @@ type
       Shift: TShiftState);
     procedure MenuThemesSyntaxClick(Sender: TObject);
     procedure mnuFileOpenDirClick(Sender: TObject);
+    procedure mnuHelpCheckUpdClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
     procedure mnuTabsize2Click(Sender: TObject);
@@ -3766,6 +3768,11 @@ end;
 procedure TfmMain.mnuFileOpenDirClick(Sender: TObject);
 begin
   DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
+end;
+
+procedure TfmMain.mnuHelpCheckUpdClick(Sender: TObject);
+begin
+  DoPyCommand('cuda_addonman', 'check_cudatext_updates', []);
 end;
 
 
