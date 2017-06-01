@@ -251,7 +251,7 @@ class Command:
         n = dlg_proc(id, DLG_CTL_ADD, 'toolbar')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'tb', 'x':0, 'y':0, 'w':20, 'h':40, 'a_r': ('', ']'), 'color': 0x80B080 })
         
-        tb_id = str(dlg_proc(id, DLG_CTL_HANDLE, index=n))
+        tb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
         
         toolbar_proc(tb_id, TOOLBAR_SET_ICON_SIZES, index=24, index2=24)
         n1 = toolbar_proc(tb_id, TOOLBAR_ADD_ICON, text=icon1)
