@@ -1562,6 +1562,7 @@ var
   Str: string;
   Id, NTag, i: integer;
   Prop: PAppPanelProps;
+  List: TStringList;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'isi:app_log', @Id, @Ptr, @NTag)) then
@@ -1659,11 +1660,31 @@ begin
             fmConsole.ed.Update(true);
           end;
 
+        LOG_CONSOLE_GET_COMBO_LINES:
+          begin
+            Result:= StringsToPyList(fmConsole.ed.Items);
+            Exit; //skip ReturnNone
+          end;
+
+        LOG_CONSOLE_GET_MEMO_LINES:
+          begin
+            List:= TStringList.Create;
+            try
+              List.TextLineBreakStyle:= tlbsLF;
+              List.Text:= UTF8Encode(fmConsole.memo.Text);
+              Result:= StringsToPyList(List);
+            finally
+              FreeAndNil(List);
+            end;
+            Exit; //skip ReturnNone
+          end;
+
         LOG_CONSOLE_GET:
           begin
             Result:= StringsToPyList(fmConsole.ed.Items);
             Exit; //skip ReturnNone
           end;
+
         LOG_CONSOLE_GET_LOG:
           begin
             Result:= PyUnicode_FromWideString(fmConsole.memo.Text);
