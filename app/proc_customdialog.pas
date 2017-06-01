@@ -17,6 +17,7 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   LclProc, LclType,
+  ATButtonsToolbar,
   Gauges,
   proc_customdialog_dummy,
   proc_miscutils,
@@ -627,6 +628,13 @@ begin
   begin
     Ctl:= TPaintBox.Create(AForm);
     Ctl.OnClick:= @AForm.DoOnClick; //paintbox needs OnClick
+    exit;
+  end;
+
+  if S='toolbar' then
+  begin
+    Ctl:= TATButtonsToolbar.Create(AForm);
+    TATButtonsToolbar(Ctl).Images:= TImageList.Create(AForm);
     exit;
   end;
 

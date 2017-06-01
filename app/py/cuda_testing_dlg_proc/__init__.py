@@ -235,3 +235,19 @@ class Command:
 
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
+
+    def test_toolbar(self):
+        id = dlg_proc(0, DLG_CREATE)
+
+        dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=toolbar', 'resize':True})
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'toolbar')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'tb', 'x':0, 'y':0, 'w':20, 'h':40, 'a_r': ('', ']'), 'color': 0x80B080 })
+        
+        tb_id = str(dlg_proc(id, DLG_CTL_HANDLE, index=n))
+        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='About app', command=2700)
+        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Hotkeys help', command=2707)
+
+        dlg_proc(id, DLG_SHOW_MODAL)
+        dlg_proc(id, DLG_FREE)
+        

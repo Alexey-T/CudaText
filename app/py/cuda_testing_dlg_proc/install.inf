@@ -28,3 +28,8 @@ method=run_dlgcustom
 section=commands
 caption=dlg_proc\test type=pages
 method=test_pages
+
+[item23]
+section=commands
+caption=dlg_proc\test type=toolbar
+method=test_toolbar

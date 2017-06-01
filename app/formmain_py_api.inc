@@ -65,7 +65,7 @@ begin
   Result:= nil;
 
   N:= StrToInt64Def(Str, 0);
-  if N>0 then exit(TMenuItem(N));
+  if N<>0 then exit(TMenuItem(N));
 
   if Str=PyMenuId_Top then exit(fmMain.MainMenu.Items);
   if Str=PyMenuId_TopEdit then exit(fmMain.mnuEdit);

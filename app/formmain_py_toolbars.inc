@@ -1,10 +1,17 @@
 {$ifdef nnnn}begin end;{$endif}
 
 function DoToolbar_GetToolbarFromId(const Str: string): TATButtonsToolbar;
+var
+  N: PtrInt;
 begin
   Result:= nil;
+
   if Str='top' then
     exit(fmMain.ToolbarMain);
+
+  N:= StrToInt64Def(Str, 0);
+  if N<>0 then
+    exit(TATButtonsToolbar(N));
 end;
 
 
