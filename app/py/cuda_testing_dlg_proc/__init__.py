@@ -1,3 +1,4 @@
+import os
 from cudatext import *
 
 
@@ -237,6 +238,12 @@ class Command:
         dlg_proc(id, DLG_FREE)
 
     def test_toolbar(self):
+        dir_icons = os.path.join(app_path(APP_DIR_DATA), 'sideicons', 'octicons_24x24')
+        icon1 = os.path.join(dir_icons, 'console.png')
+        icon2 = os.path.join(dir_icons, 'find.png')
+        print('icon1:', icon1)
+        print('icon2:', icon2)
+    
         id = dlg_proc(0, DLG_CREATE)
 
         dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=toolbar', 'resize':True})
@@ -245,8 +252,13 @@ class Command:
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'tb', 'x':0, 'y':0, 'w':20, 'h':40, 'a_r': ('', ']'), 'color': 0x80B080 })
         
         tb_id = str(dlg_proc(id, DLG_CTL_HANDLE, index=n))
-        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='About app', command=2700)
-        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Hotkeys help', command=2707)
+        
+        toolbar_proc(tb_id, TOOLBAR_SET_ICON_SIZES, index=24, index2=24)
+        n1 = toolbar_proc(tb_id, TOOLBAR_ADD_ICON, text=icon1)
+        n2 = toolbar_proc(tb_id, TOOLBAR_ADD_ICON, text=icon2)
+        print('icon indexes:', n1, n2)
+        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='About app', command=2700, index2=n1)
+        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Hotkeys help', command=2707, index2=n2)
 
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
