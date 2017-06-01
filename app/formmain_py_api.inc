@@ -1560,7 +1560,7 @@ function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Ptr: PChar;
   Str: string;
-  Id, NTag, i: integer;
+  Id, NTag, NLen, i: integer;
   Prop: PAppPanelProps;
   List: TStringList;
 begin
@@ -1617,6 +1617,18 @@ begin
               Str:= Str + Prop^.Listbox.Items[i] + #13 + IntToStr(PtrInt(Prop^.Listbox.Items.Objects[i]))
                     + IfThen(i<Prop^.Listbox.Items.Count-1, #10);
             Result:= PyString_FromString(PChar(Str));
+            exit; //skip ReturnNone
+          end;
+
+        LOG_GET_LINES_LIST:
+          begin
+            NLen:= Prop^.Listbox.Items.Count;
+            Result:= PyList_New(NLen);
+            for i:= 0 to NLen-1 do
+              PyList_SetItem(Result, i, Py_BuildValue('(sL)',
+                  PChar(Prop^.Listbox.Items[i]),
+                  PtrInt(Prop^.Listbox.Items.Objects[i])
+                  ));
             exit; //skip ReturnNone
           end;
 
