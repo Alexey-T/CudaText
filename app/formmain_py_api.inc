@@ -1573,16 +1573,12 @@ begin
       if Id=LOG_SET_PANEL then
       begin
         AppPanelActive:= Str;
-        Result:= ReturnNone;
-        exit
+        exit(ReturnNone);
       end;
 
       Prop:= GetAppPanelProps_ByCaption(AppPanelActive);
       if Prop=nil then
-      begin
-        Result:= ReturnNone;
-        exit
-      end;
+        exit(ReturnNone);
 
       case Id of
         LOG_CLEAR:
@@ -1590,34 +1586,60 @@ begin
             Prop^.Listbox.Items.Clear;
             Prop^.Listbox.ItemCount:= 0;
             Prop^.Listbox.Invalidate;
+            Result:= ReturnNone;
           end;
+
         LOG_ADD:
           begin
             Prop^.Listbox.Items.AddObject(Str, TObject(PtrInt(NTag)));
             Prop^.Listbox.ItemCount:= Prop^.Listbox.Items.Count;
             Prop^.Listbox.Invalidate;
+            Result:= ReturnNone;
           end;
-        LOG_SET_REGEX:
-          Prop^.RegexStr:= Str;
-        LOG_SET_LINE_ID:
-          Prop^.RegexIdLine:= StrToIntDef(Str, 0);
-        LOG_SET_COL_ID:
-          Prop^.RegexIdCol:= StrToIntDef(Str, 0);
-        LOG_SET_NAME_ID:
-          Prop^.RegexIdName:= StrToIntDef(Str, 0);
-        LOG_SET_FILENAME:
-          Prop^.DefFilename:= Str;
-        LOG_SET_ZEROBASE:
-          Prop^.ZeroBase:= Bool(StrToIntDef(Str, 0));
 
-        LOG_GET_LINES:
+        LOG_SET_REGEX:
+          begin
+            Prop^.RegexStr:= Str;
+            Result:= ReturnNone;
+          end;
+
+        LOG_SET_LINE_ID:
+          begin
+            Prop^.RegexIdLine:= StrToIntDef(Str, 0);
+            Result:= ReturnNone;
+          end;
+
+        LOG_SET_COL_ID:
+          begin
+            Prop^.RegexIdCol:= StrToIntDef(Str, 0);
+            Result:= ReturnNone;
+          end;
+
+        LOG_SET_NAME_ID:
+          begin
+            Prop^.RegexIdName:= StrToIntDef(Str, 0);
+            Result:= ReturnNone;
+          end;
+
+        LOG_SET_FILENAME:
+          begin
+            Prop^.DefFilename:= Str;
+            Result:= ReturnNone;
+          end;
+
+        LOG_SET_ZEROBASE:
+          begin
+            Prop^.ZeroBase:= Bool(StrToIntDef(Str, 0));
+            Result:= ReturnNone;
+          end;
+
+        LOG_GET_LINES: //deprecated
           begin
             Str:= '';
             for i:= 0 to Prop^.Listbox.Items.Count-1 do
               Str:= Str + Prop^.Listbox.Items[i] + #13 + IntToStr(PtrInt(Prop^.Listbox.Items.Objects[i]))
                     + IfThen(i<Prop^.Listbox.Items.Count-1, #10);
             Result:= PyString_FromString(PChar(Str));
-            exit; //skip ReturnNone
           end;
 
         LOG_GET_LINES_LIST:
@@ -1627,23 +1649,22 @@ begin
             for i:= 0 to NLen-1 do
               PyList_SetItem(Result, i, Py_BuildValue('(sL)',
                   PChar(Prop^.Listbox.Items[i]),
-                  PtrInt(Prop^.Listbox.Items.Objects[i])
+                  Int64(PtrInt(Prop^.Listbox.Items.Objects[i]))
                   ));
-            exit; //skip ReturnNone
           end;
 
         LOG_GET_LINEINDEX:
           begin
             Result:= PyInt_FromLong(Prop^.Listbox.ItemIndex);
-            exit; //skip ReturnNone
           end;
+
         LOG_SET_LINEINDEX:
           begin
             Prop^.Listbox.ItemIndex:= StrToIntDef(Str, 0);
+            Result:= ReturnNone;
           end;
 
         LOG_CONSOLE_CLEAR:
-          with fmMain do
           begin
             if (Str='') or (Pos('m', Str)>0) then
             begin
@@ -1661,6 +1682,7 @@ begin
             begin
               fmConsole.ed.Items.Clear;
             end;
+            Result:= ReturnNone;
           end;
 
         LOG_CONSOLE_ADD:
@@ -1670,12 +1692,12 @@ begin
             fmConsole.ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
             fmConsole.ed.Text:= '';
             fmConsole.ed.Update(true);
+            Result:= ReturnNone;
           end;
 
         LOG_CONSOLE_GET_COMBO_LINES:
           begin
             Result:= StringsToPyList(fmConsole.ed.Items);
-            Exit; //skip ReturnNone
           end;
 
         LOG_CONSOLE_GET_MEMO_LINES:
@@ -1688,23 +1710,21 @@ begin
             finally
               FreeAndNil(List);
             end;
-            Exit; //skip ReturnNone
           end;
 
-        LOG_CONSOLE_GET:
+        LOG_CONSOLE_GET: //deprecated
           begin
             Result:= StringsToPyList(fmConsole.ed.Items);
-            Exit; //skip ReturnNone
           end;
 
-        LOG_CONSOLE_GET_LOG:
+        LOG_CONSOLE_GET_LOG: //deprecated
           begin
             Result:= PyUnicode_FromWideString(fmConsole.memo.Text);
-            Exit; //skip ReturnNone
           end;
-      end;
 
-      Result:= ReturnNone;
+        else
+          Result:= ReturnNone;
+      end;
     end;
 end;
 
