@@ -47,20 +47,20 @@ def check_cudatext():
     items = sorted(items, key=lambda i:i[1], reverse=True)
     print('Found links:')
     for i in items:
-        print('  ', i[0])
+        print('  '+i[0])
 
     url = items[0][0]
     ver = items[0][1]
     ver_local = app.app_exe_version()
-    ###ver_local = '0' #to test
+    #ver_local = '0' #to test
 
     if ver<=ver_local:
-        app.msg_box('Latest CudaText is already here\nLocal: %s\nWeb: %s'%(ver_local, ver), app.MB_OK+app.MB_ICONINFO)
+        app.msg_box('Latest CudaText is already here\nHere: %s\nInternet: %s'%(ver_local, ver), app.MB_OK+app.MB_ICONINFO)
         return
 
     text = '\n'.join([
         'type=label\1pos=6,20,500,0\1cap=CudaText newer version is available at this URL:',
-        'type=linklabel\1pos=20,45,600,0\1cap='+url+'\1props='+url+'\1font_size=8',
+        'type=linklabel\1pos=6,45,800,0\1cap='+url+'\1props='+url+'\1font_size=9',
         'type=button\1pos=300,100,400,0\1cap=OK\1props=1'
         ])
-    app.dlg_custom('CudaText update', 700, 130, text)
+    app.dlg_custom('CudaText update', 700, 132, text)
