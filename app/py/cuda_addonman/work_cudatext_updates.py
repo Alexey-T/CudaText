@@ -1,11 +1,15 @@
 import sys
 import os
 import re
+import platform
 import tempfile
 import cudatext as app
 from .work_remote import *
 
 p = sys.platform
+X64 = platform.architecture()[0]=='64bit'
+##p = 'win32'
+##X64 = False
 
 DOWNLOAD_PAGE = \
     'https://sourceforge.net/projects/cudatext/files/release/Linux/' if p=='linux'\
@@ -13,8 +17,14 @@ DOWNLOAD_PAGE = \
     else 'https://sourceforge.net/projects/cudatext/files/release/macOS/' if p=='darwin'\
     else '?'
 
+if p=='darwin':
+    TEXT_CPU = ''
+else:
+    TEXT_CPU = '64' if X64 else '(386|32)'
+
 DOWNLOAD_REGEX = \
-    ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
+    ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
+
 
 
 def check_cudatext():
@@ -35,13 +45,17 @@ def check_cudatext():
         return
 
     items = sorted(items, key=lambda i:i[1], reverse=True)
+    print('Found links:')
+    for i in items:
+        print('  ', i[0])
+
     url = items[0][0]
     ver = items[0][1]
     ver_local = app.app_exe_version()
     ###ver_local = '0' #to test
 
     if ver<=ver_local:
-        app.msg_box('Latest CudaText is already here\nLocal: %s\nHomepage: %s'%(ver_local, ver), app.MB_OK+app.MB_ICONINFO)
+        app.msg_box('Latest CudaText is already here\nLocal: %s\nWeb: %s'%(ver_local, ver), app.MB_OK+app.MB_ICONINFO)
         return
 
     text = '\n'.join([
