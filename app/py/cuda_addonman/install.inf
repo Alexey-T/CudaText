@@ -41,7 +41,7 @@ method=do_config
 
 [item28]
 section=commands
-caption=Addons Manager\Check for CudaText updates...
+caption=Addons Manager\Check for CudaText updates
 method=check_cudatext_updates
 menu=0
 

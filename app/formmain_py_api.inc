@@ -2312,19 +2312,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        APP_PROC_GET_SPLIT:
-          begin
-            fmMain.DoGetSplitInfo(Str, SplitVert, SplitVisible, SplitPos, SplitTotal);
-            Result:= Py_BuildValue('(iiii)', Ord(SplitVert), Ord(SplitVisible), SplitPos, SplitTotal);
-          end;
-        APP_PROC_SET_SPLIT:
-          begin
-            Str1:= SGetItem(Str, ';');
-            Str2:= SGetItem(Str, ';');
-            fmMain.DoSetSplitInfo(Str1, StrToIntDef(Str2, -1));
-            Result:= ReturnNone;
-          end;
-
         APP_PROC_GET_FIND_OPTIONS:
           begin
             Result:= PyString_FromString(PChar(fmMain.DoFindOptionsToString));
@@ -2602,6 +2589,60 @@ begin
 
         APP_PROC_ENUM_FONTS:
           Result:= StringsToPyList(Screen.Fonts);
+
+        APP_PROC_GET_SPLIT:
+          begin
+            fmMain.DoSplitter_GetInfo(
+              fmMain.DoSplitter_StringToId(Str),
+              SplitVert,
+              SplitVisible,
+              SplitPos,
+              SplitTotal);
+            Result:= Py_BuildValue('(iiii)',
+              Ord(SplitVert),
+              Ord(SplitVisible),
+              SplitPos,
+              SplitTotal
+              );
+          end;
+
+        APP_PROC_SET_SPLIT:
+          begin
+            Str1:= SGetItem(Str, ';');
+            Str2:= SGetItem(Str, ';');
+            fmMain.DoSplitter_SetInfo(
+              fmMain.DoSplitter_StringToId(Str1),
+              StrToIntDef(Str2, -1)
+              );
+            Result:= ReturnNone;
+          end;
+
+        APP_PROC_SPLITTER_GET:
+          begin
+            fmMain.DoSplitter_GetInfo(
+              StrToIntDef(Str, -1),
+              SplitVert,
+              SplitVisible,
+              SplitPos,
+              SplitTotal);
+            Result:= Py_BuildValue('(OOii)',
+              PyBool_FromLong(Ord(SplitVert)),
+              PyBool_FromLong(Ord(SplitVisible)),
+              SplitPos,
+              SplitTotal
+              );
+          end;
+
+        APP_PROC_SPLITTER_SET:
+          begin
+            Str1:= SGetItem(Str, ',');
+            Str2:= SGetItem(Str, ',');
+            fmMain.DoSplitter_SetInfo(
+              StrToIntDef(Str1, -1),
+              StrToIntDef(Str2, -1)
+              );
+            Result:= ReturnNone;
+          end;
 
         else
           Result:= ReturnNone;

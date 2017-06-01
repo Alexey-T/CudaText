@@ -612,8 +612,6 @@ type
     procedure DoFindActionFromString(AStr: string);
     procedure DoFindOptionsFromString(const S: string);
     function DoFindOptionsToString: string;
-    procedure DoGetSplitInfo(const Id: string; out BoolVert, BoolVisible: boolean;
-      out NPos, NTotal: integer);
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;
     procedure DoApplyGutterVisible(AValue: boolean);
@@ -646,7 +644,10 @@ type
       out AEvents: TAppPyEvents;
       out AEventsPrior: TAppPyEventsPrior);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
-    procedure DoSetSplitInfo(const Id: string; NPos: integer);
+    function DoSplitter_StringToId(const AStr: string): integer;
+    procedure DoSplitter_GetInfo(const Id: integer;
+      out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);
+    procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
     procedure DoPanel_OnClick(Sender: TObject);
     procedure DoPanel_OnDblClick(Sender: TObject);
     procedure DoToolbarClick(Sender: TObject);
@@ -3476,7 +3477,17 @@ begin
 end;
 
 
-procedure TfmMain.DoGetSplitInfo(const Id: string;
+function TfmMain.DoSplitter_StringToId(const AStr: string): integer;
+begin
+  Result:= -1;
+  if AStr='L' then exit(SPLITTER_SIDE);
+  if AStr='B' then exit(SPLITTER_BOTTOM);
+  if AStr='G1' then exit(SPLITTER_G1);
+  if AStr='G2' then exit(SPLITTER_G2);
+  if AStr='G3' then exit(SPLITTER_G3);
+end;
+
+procedure TfmMain.DoSplitter_GetInfo(const Id: integer;
   out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);
   //----
   procedure GetSp(Sp: TSplitter);
@@ -3493,30 +3504,34 @@ begin
   NPos:= 0;
   NTotal:= 0;
 
-  if Id='L' then GetSp(SplitterVert) else
-  if Id='B' then GetSp(SplitterHorz) else
-  if Id='G1' then GetSp(Groups.Splitter1) else
-  if Id='G2' then GetSp(Groups.Splitter2) else
-  if Id='G3' then GetSp(Groups.Splitter3) else
-  ;
+  case Id of
+    SPLITTER_SIDE: GetSp(SplitterVert);
+    SPLITTER_BOTTOM: GetSp(SplitterHorz);
+    SPLITTER_G1: GetSp(Groups.Splitter1);
+    SPLITTER_G2: GetSp(Groups.Splitter2);
+    SPLITTER_G3: GetSp(Groups.Splitter3);
+  end;
 end;
 
 
-procedure TfmMain.DoSetSplitInfo(const Id: string; NPos: integer);
+procedure TfmMain.DoSplitter_SetInfo(const Id: integer; NPos: integer);
+  //
   procedure SetSp(Sp: TSplitter);
   begin
     Sp.SetSplitterPosition(NPos);
     if Assigned(Sp.OnMoved) then
       Sp.OnMoved(Self);
   end;
+  //
 begin
   if NPos<0 then exit;
-  if Id='L' then SetSp(SplitterVert) else
-  if Id='B' then SetSp(SplitterHorz) else
-  if Id='G1' then SetSp(Groups.Splitter1) else
-  if Id='G2' then SetSp(Groups.Splitter2) else
-  if Id='G3' then SetSp(Groups.Splitter3) else
-  ;
+  case Id of
+    SPLITTER_SIDE: SetSp(SplitterVert);
+    SPLITTER_BOTTOM: SetSp(SplitterHorz);
+    SPLITTER_G1: SetSp(Groups.Splitter1);
+    SPLITTER_G2: SetSp(Groups.Splitter2);
+    SPLITTER_G3: SetSp(Groups.Splitter3);
+  end;
 end;
 
 procedure TfmMain.FrameLexerChange(Sender: TObject);
