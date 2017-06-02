@@ -2,17 +2,16 @@ import json
 from time import sleep
 import cudatext_api as ct
 
-
-MB_OK               = 0x00000000
-MB_OKCANCEL         = 0x00000001
-MB_ABORTRETRYIGNORE = 0x00000002
-MB_YESNOCANCEL      = 0x00000003
-MB_YESNO            = 0x00000004
-MB_RETRYCANCEL      = 0x00000005
-MB_ICONERROR        = 0x00000010
-MB_ICONQUESTION     = 0x00000020
-MB_ICONWARNING      = 0x00000030
-MB_ICONINFO         = 0x00000040
+MB_OK               = 0x00
+MB_OKCANCEL         = 0x01
+MB_ABORTRETRYIGNORE = 0x02
+MB_YESNOCANCEL      = 0x03
+MB_YESNO            = 0x04
+MB_RETRYCANCEL      = 0x05
+MB_ICONERROR        = 0x10
+MB_ICONQUESTION     = 0x20
+MB_ICONWARNING      = 0x30
+MB_ICONINFO         = 0x40
 
 ID_OK     = 1
 ID_CANCEL = 2
@@ -93,13 +92,16 @@ LOG_SET_COL_ID      = 5
 LOG_SET_NAME_ID     = 6
 LOG_SET_FILENAME    = 7
 LOG_SET_ZEROBASE    = 8
-LOG_GET_LINES       = 9
+LOG_GET_LINES       = 9 #deprecated
 LOG_GET_LINEINDEX   = 10
 LOG_SET_LINEINDEX   = 11
+LOG_GET_LINES_LIST  = 12
 LOG_CONSOLE_CLEAR   = 20
 LOG_CONSOLE_ADD     = 21
-LOG_CONSOLE_GET     = 22
-LOG_CONSOLE_GET_LOG = 23
+LOG_CONSOLE_GET     = 22 #deprecated
+LOG_CONSOLE_GET_LOG = 23 #deprecated
+LOG_CONSOLE_GET_COMBO_LINES = 24
+LOG_CONSOLE_GET_MEMO_LINES  = 25
 
 LOG_PANEL_OUTPUT   = "0"
 LOG_PANEL_VALIDATE = "1"
@@ -153,6 +155,12 @@ PROP_TAB_ID                = 48
 PROP_COLUMN_LEFT           = 49
 PROP_COORDS                = 50
 
+SPLITTER_SIDE    = 0
+SPLITTER_BOTTOM  = 1
+SPLITTER_G1      = 5
+SPLITTER_G2      = 6
+SPLITTER_G3      = 7
+
 PROC_SET_CLIP_ALT        = -1
 PROC_GET_CLIP            = 0
 PROC_SET_CLIP            = 1
@@ -174,8 +182,8 @@ PROC_SET_SUBCOMMANDS     = 16
 PROC_GET_ESCAPE          = 17
 PROC_SET_ESCAPE          = 18
 PROC_GET_COMMAND_PLUGIN  = 19
-PROC_GET_SPLIT           = 20
-PROC_SET_SPLIT           = 21
+PROC_GET_SPLIT           = 20 #deprecated
+PROC_SET_SPLIT           = 21 #deprecated
 PROC_GET_FIND_OPTIONS    = 22
 PROC_SET_FIND_OPTIONS    = 23
 #
@@ -184,6 +192,9 @@ PROC_SIDEPANEL_ACTIVATE    = 25
 PROC_SIDEPANEL_ENUM        = 26
 PROC_SIDEPANEL_GET_CONTROL = 27
 PROC_SIDEPANEL_REMOVE      = 29
+#
+PROC_SPLITTER_GET      = 38
+PROC_SPLITTER_SET      = 39
 #
 PROC_GET_LANG          = 40
 PROC_GET_HOTKEY        = 41
@@ -196,6 +207,7 @@ PROC_THEME_UI_SET      = 47
 PROC_THEME_SYNTAX_GET  = 48
 PROC_THEME_SYNTAX_SET  = 49
 PROC_GET_SYSTEM_PPI    = 50
+PROC_PROGRESSBAR       = 51
 #
 PROC_HOTKEY_INT_TO_STR = 60
 PROC_HOTKEY_STR_TO_INT = 61
@@ -591,7 +603,7 @@ def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
 
 def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, index2=-1):
-    return ct.toolbar_proc(id_toolbar, id_action, text, text2, str(command), index, index2)
+    return ct.toolbar_proc(str(id_toolbar), id_action, text, text2, str(command), index, index2)
 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)

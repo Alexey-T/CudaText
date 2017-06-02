@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import json
 import collections
@@ -8,6 +9,7 @@ from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
+from .work_cudatext_updates import check_cudatext
 from . import opt
 
 dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
@@ -21,8 +23,10 @@ STD_MODULES = (
   'cuda_make_plugin',
   'cuda_new_file',
   'cuda_palette',
+  'cuda_project_man',
   'cudax_lib',
   )
+
 
 class Command:
     def __init__(self):
@@ -341,3 +345,8 @@ class Command:
 
         print('Updated')
         msg_status('Updated')
+
+
+    def check_cudatext_updates(self):
+
+        check_cudatext()

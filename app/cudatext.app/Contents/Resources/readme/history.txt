@@ -4,6 +4,13 @@
   * changed
 
 
+1.9.3
++ preinstalled Project Manager plugin
++ can open folder names from command line, e.g. "cudatext ." like Atom/Sublime can do
++ menuitem "File - Open folder", it calls Project Manager
++ menuitem "Help - Check for updates", it calls Addon Manager
++ api
+
 1.9.1
 + finder: replace-all made much faster (note: when confirmation is on, you will see unchanged text, it will replace later)
 - finder: count-all must find w/o overlaps (non-regex mode)
