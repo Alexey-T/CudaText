@@ -1,0 +1,53 @@
+
+2017.05.31
++ method open_dir to integrate with Cudatext
+
+2016.11.02
++ cmd "sync to curr file"
+
+2016.09.26
++ new context-menu, compact
+- must force UTF8, for Mac
+
+2016.09.09
+* moved icon-files
+
+2016.09.07
++ commands-item "Focus Project panel"
+
+2016.09.06
++ add project_variables() api
+
+2016.09.02
++ Plugins item "Project properties"
++ ctx menu item "Set as main file"
++ proj saves vars + mainfile
+
+2016.08.31
++ ctx-menu item for dirs: "Find in directory", calls dialog in plugin "Find in files"
+
+2016.08.06
++ warn msgbox on deleting file/dir
+
+2016.08.04
++ cmds differ for selected file/dir/prj
++ new menu cmds for file/dir selected
+
+2016.07.26
++ add global_project_info for oth plugins
+
+2016.07.19
++ cmd "Go to file"
++ more statusbar msgs
+
+2016.07.18
++ dlg Commands has items for context-menu items
++ option dialog reworked
+
+2016.07.18
++ allow to open prj from Open dlg
++ more menuitems in Plugins
++ filter in Open/Save dlg
+
+2016.07.14
+init version
