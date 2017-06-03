@@ -221,6 +221,7 @@ type
     procedure ShowTabMenu;
     procedure SwitchTab(ANext: boolean);
     procedure MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
+    procedure DragDrop(Source: TObject; X, Y: Integer); override;
   protected
     procedure Paint; override;
     procedure Resize; override;
@@ -232,9 +233,7 @@ type
     {$ifdef windows}
     procedure WMEraseBkgnd(var Message: TMessage); message WM_ERASEBKGND;
     {$endif}
-    procedure DragOver(Source: TObject; X, Y: Integer; State: TDragState;
-      var Accept: Boolean); override;
-    procedure DragDrop(Source: TObject; X, Y: Integer); override;
+    procedure DragOver(Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean); override;
   published
     property DoubleBuffered;
     //colors
@@ -960,6 +959,7 @@ begin
     ARect:= GetTabRect_Plus;
     AColorXBg:= clNone;
     AColorXBorder:= clNone;
+    AColorXMark:= clWhite;
     if FTabIndexOver=cAtTabPlus then
       AType:= aeTabPlusOver
     else
