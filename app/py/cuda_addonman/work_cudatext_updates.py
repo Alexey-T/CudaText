@@ -27,6 +27,15 @@ DOWNLOAD_REGEX = \
 
 
 
+def versions_ordered(s1, s2):
+    """
+    compare "1.10.0" and "1.9.0" correctly
+    """
+    n1 = list(map(int, s1.split('.')))
+    n2 = list(map(int, s2.split('.')))
+    return n1<=n2
+
+
 def check_cudatext():
 
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_download.html')
@@ -50,12 +59,14 @@ def check_cudatext():
         print('  '+i[0])
 
     url = items[0][0]
-    ver = items[0][1]
+    ver_inet = items[0][1]
     ver_local = app.app_exe_version()
-    #ver_local = '0' #to test
 
-    if ver<=ver_local:
-        app.msg_box('Latest CudaText is already here\nHere: %s\nInternet: %s'%(ver_local, ver), app.MB_OK+app.MB_ICONINFO)
+    #ver_inet = '1.10.0.2' #test
+    #ver_local = '0' #test
+
+    if versions_ordered(ver_inet, ver_local):
+        app.msg_box('Latest CudaText is already here\nHere: %s\nInternet: %s'%(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
         return
 
     text = '\n'.join([
