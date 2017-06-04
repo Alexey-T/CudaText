@@ -789,11 +789,13 @@ begin
 
   AY:= AY * Ed.Strings.Count div Ed.ClientHeight;
 
-  Ed.DoGotoPos_AndUnfold(
+  Ed.DoGotoPos(
     Point(0, AY),
     Point(-1, -1),
     UiOps.FindIndentHorz,
-    UiOps.FindIndentVert
+    UiOps.FindIndentVert,
+    true,
+    true
     );
 end;
 

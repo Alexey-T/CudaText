@@ -442,9 +442,14 @@ begin
           begin
             Ed.DoSelect_None;
             Ed.DoCaretSingle(X1, Y1, X2, Y2);
-            Ed.DoGotoPos(Point(X1, Y1),
+            Ed.DoGotoPos(
+              Point(X1, Y1),
+              Point(-1, -1),
               UiOps.FindIndentHorz,
-              UiOps.FindIndentVert);
+              UiOps.FindIndentVert,
+              true,
+              false
+              );
             Result:= ReturnNone;
           end;
 

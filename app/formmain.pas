@@ -949,11 +949,13 @@ begin
   P:= CurrentFrame.Adapter.TreeGetPositionOfRange(R);
 
   FTreeClick:= true;
-  CurrentEditor.DoGotoPos_AndUnfold(
+  CurrentEditor.DoGotoPos(
     P,
     Point(-1, -1),
     UiOps.FindIndentHorz,
-    UiOps.FindIndentVert
+    UiOps.FindIndentVert,
+    true,
+    true
     );
   EditorFocus(CurrentEditor);
   FTreeClick:= false;
@@ -1992,11 +1994,14 @@ begin
     fmGoto.Hide;
     MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 
-    Ed.DoGotoPos_AndUnfold(
+    Ed.DoGotoPos(
       Point(0, Num),
       Point(-1, -1),
       UiOps.FindIndentHorz,
-      UiOps.FindIndentVert);
+      UiOps.FindIndentVert,
+      true,
+      true
+      );
     Ed.Update;
 
     EditorFocus(Ed);
@@ -2050,11 +2055,14 @@ begin
   if Num>NumMax then
     Num:= NumMax;
 
-  Ed.DoGotoPos_AndUnfold(
+  Ed.DoGotoPos(
     Point(0, Num),
     Point(-1, -1),
     UiOps.FindIndentHorz,
-    UiOps.FindIndentVert);
+    UiOps.FindIndentVert,
+    true,
+    true
+    );
 
   MsgStatus(Format(msgStatusGotoLine, [Num+1]));
 end;

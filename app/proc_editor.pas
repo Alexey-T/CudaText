@@ -157,11 +157,14 @@ begin
 
     if ed.Strings.LinesBm[n]>0 then
     begin
-      ed.DoGotoPos_AndUnfold(
+      ed.DoGotoPos(
         Point(0, n),
         Point(-1, -1),
         UiOps.FindIndentHorz,
-        UiOps.FindIndentVert);
+        UiOps.FindIndentVert,
+        true,
+        true
+        );
       exit;
     end;
   until false;
@@ -706,11 +709,14 @@ begin
     Y2:= Y1+Mark.LenY;
   end;
 
-  Ed.DoGotoPos_AndUnfold(
+  Ed.DoGotoPos(
     Point(X1, Y1),
     Point(X2, Y2),
     UiOps.FindIndentHorz,
-    UiOps.FindIndentVert);
+    UiOps.FindIndentVert,
+    true,
+    true
+    );
 
   if AndDelete then
   begin
@@ -1085,11 +1091,13 @@ begin
   if Ed.Carets.Count>0 then
   begin
     Caret:= Ed.Carets[0];
-    Ed.DoGotoPos_AndUnfold(
+    Ed.DoGotoPos(
       Point(Caret.PosX, Caret.PosY),
       Point(-1, -1),
       AIndentHorz,
-      AIndentVert
+      AIndentVert,
+      true,
+      true
       );
   end;
 end;

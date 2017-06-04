@@ -16,11 +16,14 @@ begin
   case FFindMarkingMode of
     markingNone:
       begin
-        Ed.DoGotoPos_AndUnfold(
+        Ed.DoGotoPos(
           APos1,
           APos2,
           UiOps.FindIndentHorz,
-          UiOps.FindIndentVert);
+          UiOps.FindIndentVert,
+          true,
+          true
+          );
       end;
 
     markingSelections:
@@ -509,7 +512,14 @@ begin
   end;
 
   FFinder.Editor.Update(AUpdateText);
-  FFinder.Editor.DoGotoPos(Pnt, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+  FFinder.Editor.DoGotoPos(
+    Pnt,
+    Point(-1, -1),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert,
+    true,
+    true
+    );
   UpdateStatus;
 end;
 
