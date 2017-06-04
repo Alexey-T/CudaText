@@ -199,6 +199,21 @@ Some lexers are distributed in packages together with sub-lexer, and sub-lexer i
 
 You can make lexer hidden/visible, by toggling its check-box in the "Lexer library" dialog.
 
+===I have made new lexer - how to distribute it?===
+
+In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib. 
+If you configured "Commenting" options, also file .cuda-lexmap is created.
+Now you need to create .zip installation of lexer, for both editors: SynWrite, CudaText.
+
+* In lexer file, replace system colors to usual colors: replace "clWindowText" to "clBlack" (clWindowText may be light on CudaText on Linux); replace "clInfoText" and "clInfoBk" too. 
+* In SynWrite, in Addon Manager, install plugin "ExLexer".
+* In SynWrite, run menu item "Plugins - ExLexer", to create .zip for your lexer.
+* In CudaText, open this new zip file, this installs lexer to CudaText.
+* In CudaText, activate your lexer, dialog should show: "Lexer style mapping". Fill items in this dialog.
+* In CudaText, test this "lexer style map" in action: open file with your lexer active, and activate "default" UI theme, then activate "sub" UI theme. Main themes must show nice colors in your syntax file. Call dialog "Options - Lexers - Lexer style mapping" to fix colors.
+* In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
+* Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
+
 == File-types config ==
 
 Menu item "Settings - file-types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
