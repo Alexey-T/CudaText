@@ -205,6 +205,7 @@ In SynWrite, you've created .lcf file in folder SynWrite/Data/LexLib.
 If you configured "Commenting" options, also file .cuda-lexmap is created.
 Now you need to create .zip installation of lexer, for both editors: SynWrite, CudaText.
 
+* In lexer file, replace system colors to usual colors: replace "clWindowText" to "clBlack" (clWindowText may be light on CudaText on Linux); replace "clInfoText" and "clInfoBk" too. 
 * In SynWrite, in Addon Manager, install plugin "ExLexer".
 * In SynWrite, run menu item "Plugins - ExLexer", to create .zip for your lexer.
 * In CudaText, open this new zip file, this installs lexer to CudaText.
