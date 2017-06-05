@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.8.3 2016-09-27'
+    '0.8.4 2017-06-05'
 ToDo: (see end of file)
 '''
 
@@ -16,7 +16,7 @@ from    .cd_plug_lib    import *
 # I18N
 _       = get_translation(__file__)
 
-LOG = False
+pass;                           LOG     = (-1==-1)  # Do or dont logging.
 
 class Command:
     def __init__(self):
@@ -98,6 +98,8 @@ class Command:
         # Analize
         bEmpSel     = False
         rWrks       = []
+        bUseRepLns  = app.app_api_version()>='1.0.177'
+        y1,y2,lines = (-1, -1, []) if bUseRepLns else (None, None, None) # To use API replace_lines
         pass;                  #LOG and log('ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN={}', (ed_.get_sel_mode(),app.SEL_NORMAL,app.SEL_COLUMN))
         crts        = ed_.get_carets()
         if False:pass
@@ -109,6 +111,7 @@ class Command:
                 if -1!=rEnd and rCrt>rEnd and 0==cCrt:
                     rCrtMax = rCrtMax-1    # For direct section along left bound
                 rWrks      += list(range(rCrtMin, rCrtMax+1))
+            bUseRepLns  = bUseRepLns and 1==len(crts)
         elif ed_.get_sel_mode() == app.SEL_COLUMN:
             (cBgn
             ,rSelBgn
@@ -117,6 +120,9 @@ class Command:
             rWrks       = list(range(rSelBgn, rSelEnd+1))
         if not rWrks:
             rWrks       = [crts[0][1]]
+        pass;                  #LOG and log('rWrks={}', (rWrks))
+        y1,y2       = (rWrks[0],rWrks[-1]) if bUseRepLns else (y1,y2)
+        pass;                  #LOG and log('y1,y2,lines={}', (y1,y2,lines))
         do_uncmt    = ed_.get_text_line(rWrks[0]).lstrip().startswith(cmt_sgn) \
                         if cmt_act=='bgn' else \
                       True \
@@ -145,6 +151,8 @@ class Command:
                 # Uncomment!
                 if not line[pos_body:].startswith(cmt_sgn):
                     # Already no comment
+                    if bUseRepLns:
+                        lines += [line]
                     continue    #for rWrk
                 if False:pass
                 elif len(line)==len(cmt_sgn): # and line.startswith(cmt_sgn)
@@ -159,6 +167,8 @@ class Command:
                 # Comment!
                 if cmt_type=='bod' and line[pos_body:].startswith(cmt_sgn):
                     # Body comment already sets - willnot double it
+                    if bUseRepLns:
+                        lines += [line]
                     continue    #for rWrk
                 if False:pass
                 elif cmt_type=='1st' and save_bd_col and line.startswith(blnks4cmt) :
@@ -183,8 +193,13 @@ class Command:
                    #line = line[:pos_body]             +cmt_sgn+line[pos_body:]
 
             pass;              #LOG and log('new line={}', (line))
-            ed_.set_text_line(rWrk, line)
+            if bUseRepLns:
+                lines += [line]
+            else:
+                ed_.set_text_line(rWrk, line)
             #for rWrk
+        if bUseRepLns:
+            ed_.replace_lines(y1, y2, lines)
         bSkip    = apx.get_opt('comment_move_down', True)
         if bEmpSel and bSkip:
             (cCrt, rCrt, cEnd, rEnd)    = crts[0]
@@ -294,9 +309,13 @@ class Command:
             only_ln = False
             pair1 = app.lexer_proc(app.LEXER_GET_COMMENT_STREAM, lex)
             pair2 = app.lexer_proc(app.LEXER_GET_COMMENT_LINED, lex)
-            if pair1 is not None: pair = pair1
-            elif pair2 is not None: pair = pair2; only_ln = True
-            else: pair = ('', '')
+            if pair1 is not None: 
+                pair = pair1
+            elif pair2 is not None: 
+                pair = pair2
+                only_ln = True
+            else: 
+                pair = ('', '')
             self.pair4lex[lex] = (pair, only_ln)
         return self.pair4lex[lex]
        #def _get_cmt_pair
