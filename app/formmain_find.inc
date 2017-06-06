@@ -517,7 +517,7 @@ begin
     Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
-    true,
+    false,
     true
     );
   UpdateStatus;
