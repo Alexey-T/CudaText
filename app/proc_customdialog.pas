@@ -153,7 +153,7 @@ begin
 
   if C is TComboBox then
   begin
-    if (C as TComboBox).ReadOnly then
+    if (C as TComboBox).Style=csDropDownList then
       exit(IntToStr((C as TComboBox).ItemIndex))
     else
       exit((C as TComboBox).Text);
@@ -456,7 +456,7 @@ begin
   begin
     Ctl:= TComboBox.Create(AForm);
     (Ctl as TComboBox).DropDownCount:= 20;
-    (Ctl as TComboBox).ReadOnly:= true;
+    (Ctl as TComboBox).Style:= csDropDownList;
     (Ctl as TComboBox).OnChange:= @AForm.DoOnChange;
     exit;
   end;
@@ -1394,7 +1394,7 @@ begin
   if Id='button' then begin C:= TButton.Create(nil); DoControl_FixButtonHeight(C); end else
   if Id='label' then C:= TLabel.Create(nil) else
   if Id='combo' then C:= TComboBox.Create(nil) else
-  if Id='combo_ro' then begin C:= TComboBox.Create(nil); TCombobox(C).ReadOnly:= true; end else
+  if Id='combo_ro' then begin C:= TComboBox.Create(nil); TCombobox(C).Style:= csDropDownList; end else
   if (Id='edit') or (Id='filter_listview') or (Id='filter_listbox') then C:= TEdit.Create(nil) else
   if Id='spinedit' then C:= TSpinEdit.Create(nil) else
   if Id='check' then C:= TCheckbox.Create(nil) else
