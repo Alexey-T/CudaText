@@ -1129,6 +1129,24 @@ begin
     exit;
   end;
 
+  if AName='callback_on_select' then
+  begin
+    TAppControlProps(C.Tag).FCallbackOnSelect:= AValue;
+    exit;
+  end;
+
+  if AName='callback_on_fold' then
+  begin
+    TAppControlProps(C.Tag).FCallbackOnFold:= AValue;
+    exit;
+  end;
+
+  if AName='callback_on_unfold' then
+  begin
+    TAppControlProps(C.Tag).FCallbackOnUnfold:= AValue;
+    exit;
+  end;
+
   if AName='color' then
   begin
     C.Color:= StrToIntDef(AValue, C.Color);

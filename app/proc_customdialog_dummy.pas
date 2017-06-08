@@ -39,7 +39,9 @@ type
     FActive: boolean;
     FTagString: string;
     FCallback: string;
-    FEvents: string;
+    FCallbackOnSelect: string;
+    FCallbackOnFold: string;
+    FCallbackOnUnfold: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -145,7 +147,6 @@ begin
   FTypeString:= ATypeString;
   FTagString:= '';
   FCallback:= '';
-  FEvents:= '';
 end;
 
 { TFormDummy }
