@@ -1,0 +1,20 @@
+[info]
+title=Tabs List
+desc=Shows list of opened tabs, in the side panel "Tabs"
+type=cudatext-plugin
+subdir=cuda_tabs_list
+homepage=https://github.com/CudaText-addons/cuda_tabs_list
+
+[item1]
+section=events
+events=on_focus,on_open,on_tab_move,on_panel,on_state,on_start
+
+[item2]
+section=commands
+caption=Tabs List\Show panel
+method=open
+
+[item3]
+section=commands
+caption=Tabs List\Config...
+method=config

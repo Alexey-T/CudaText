@@ -18,6 +18,7 @@ mkdir $app/Contents/Resources/py/cuda_comments
 mkdir $app/Contents/Resources/py/cuda_new_file
 mkdir $app/Contents/Resources/py/cuda_palette
 mkdir $app/Contents/Resources/py/cuda_project_man
+mkdir $app/Contents/Resources/py/cuda_tabs_list
 mkdir $app/Contents/Resources/py/cudax_lib
 mkdir $app/Contents/Resources/py/requests
 
@@ -34,6 +35,8 @@ cp $from/py/cuda_new_file/*.py $app/Contents/Resources/py/cuda_new_file
 cp $from/py/cuda_new_file/*.inf $app/Contents/Resources/py/cuda_new_file
 rm -rf $from/py/cuda_project_man/__pycache__
 cp -rf $from/py/cuda_project_man/* $app/Contents/Resources/py/cuda_project_man
+rm -rf $from/py/cuda_tabs_list/__pycache__
+cp -rf $from/py/cuda_tabs_list/* $app/Contents/Resources/py/cuda_tabs_list
 cp -rf $from/py/cuda_palette/* $app/Contents/Resources/py/cuda_palette
 cp $from/py/cudax_lib/*.py $app/Contents/Resources/py/cudax_lib
 cp -rf $from/py/requests $app/Contents/Resources/py
