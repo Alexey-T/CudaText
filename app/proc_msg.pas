@@ -21,7 +21,8 @@ const
 const
   msgTitle = 'CudaText'; //no need i18n
   msgPythonListError = 'Cannot create new list object'; //no need i18n
-  msgBadApiCallback = 'Bad API callback, report to plugin author: %s';
+  msgCallbackBad = 'Bad API callback, report to plugin author: %s';
+  msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s';
 
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
