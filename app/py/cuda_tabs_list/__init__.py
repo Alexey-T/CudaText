@@ -19,12 +19,13 @@ class Command:
         if activate_tab:
             app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
-        app_proc(PROC_MENU_CLEAR, 'side:'+self.title)
-        app_proc(PROC_MENU_ADD, 'side:'+self.title+';cuda_tabs_list,menu_close_sel;Close;-1')
-        app_proc(PROC_MENU_ADD, 'side:'+self.title+';cuda_tabs_list,menu_close_others;Close others;-1')
-        app_proc(PROC_MENU_ADD, 'side:'+self.title+';0;-;-1')
-        app_proc(PROC_MENU_ADD, 'side:'+self.title+';cuda_tabs_list,menu_copy_file_name;Copy filename only;-1')
-        app_proc(PROC_MENU_ADD, 'side:'+self.title+';cuda_tabs_list,menu_copy_file_path;Copy full filepath;-1')
+        self.h_menu = 'side:'+self.title
+        menu_proc(self.h_menu, MENU_CLEAR)
+        menu_proc(self.h_menu, MENU_ADD, caption='Close', command='cuda_tabs_list.menu_close_sel')
+        menu_proc(self.h_menu, MENU_ADD, caption='Close others', command='cuda_tabs_list.menu_close_others')
+        menu_proc(self.h_menu, MENU_ADD, caption='-', command='')
+        menu_proc(self.h_menu, MENU_ADD, caption='Copy filename only', command='cuda_tabs_list.menu_copy_file_name')
+        menu_proc(self.h_menu, MENU_ADD, caption='Copy full filepath', command='cuda_tabs_list.menu_copy_file_path')
 
         self.h_tree = app_proc(PROC_SIDEPANEL_GET_CONTROL, self.title)
         tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
