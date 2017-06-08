@@ -67,7 +67,6 @@ type
     TagString: string;
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
-    Events: string;
     BlockedOnChange: boolean;
     function IdFocused: integer;
     constructor Create(TheOwner: TComponent); override;
@@ -398,15 +397,6 @@ function TFormDummy.DoEvent(AIdControl: integer; const AEvent, AInfo: string; AS
 var
   Params: array of string;
 begin
-  if ASpecificForControl then
-  begin
-    //todo, now all allowed
-  end
-  else
-  begin
-    if not IsEventItemListed(AEvent, Events) then exit;
-  end;
-
   SetLength(Params, 3);
   Params[0]:= IntToStr(PtrInt(Self)); //id_dlg
   Params[1]:= IntToStr(AIdControl); //id_ctl

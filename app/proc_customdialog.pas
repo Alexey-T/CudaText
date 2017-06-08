@@ -1511,9 +1511,6 @@ begin
   if AName='keypreview' then
     F.KeyPreview:= StrToBool(AValue)
   else
-  if AName='events' then
-    F.Events:= AValue
-  else
   if AName='color' then
     F.Color:= StrToIntDef(AValue, F.Color)
   else
@@ -1525,21 +1522,10 @@ end;
 
 
 function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
-var
-  List: TStringList;
-  SAll, SItem: string;
 begin
-  List:= TStringList.Create;
-  SAll:= F.Events;
-  repeat
-    SItem:= SGetItem(SAll);
-    if SItem='' then break;
-    List.Add(SItem);
-  until false;
-
   with GetPythonEngine do
   begin
-    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsOsO}',
+    Result:= Py_BuildValue('{sssssisisisisisisOsOsOsO}',
       'cap', PChar(F.Caption),
       'tag', PChar(F.TagString),
       PChar(string('x')), F.Left,
@@ -1551,12 +1537,9 @@ begin
       'vis', PyBool_FromLong(Ord(F.Visible)),
       'resize', PyBool_FromLong(Ord(F.BorderStyle=bsSizeable)),
       'topmost', PyBool_FromLong(Ord(F.FormStyle=fsStayOnTop)),
-      'keypreview', PyBool_FromLong(Ord(F.KeyPreview)),
-      'events', StringsToPyList(List)
+      'keypreview', PyBool_FromLong(Ord(F.KeyPreview))
       );
   end;
-
-  FreeAndNil(List);
 end;
 
 
