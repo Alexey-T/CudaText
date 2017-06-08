@@ -1502,8 +1502,20 @@ begin
       F.FormStyle:= fsNormal;
   end
   else
-  if AName='callback' then
-    F.Callback:= AValue
+  if AName='callback_on_resize' then
+    F.CallbackOnResize:= AValue
+  else
+  if AName='callback_on_close' then
+    F.CallbackOnClose:= AValue
+  else
+  if AName='callback_on_close_query' then
+    F.CallbackOnCloseQuery:= AValue
+  else
+  if AName='callback_on_key_down' then
+    F.CallbackOnKeyDown:= AValue
+  else
+  if AName='callback_on_key_up' then
+    F.CallbackOnKeyUp:= AValue
   else
   if AName='vis' then
     F.Visible:= StrToBool(AValue)

@@ -63,7 +63,11 @@ type
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
-    Callback: string;
+    CallbackOnClose: string;
+    CallbackOnCloseQuery: string;
+    CallbackOnKeyDown: string;
+    CallbackOnKeyUp: string;
+    CallbackOnResize: string;
     TagString: string;
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
@@ -78,8 +82,7 @@ type
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
-    function DoEvent(AIdControl: integer; const AEvent, AInfo: string;
-      ASpecificForControl: boolean): string;
+    function DoEvent(AIdControl: integer; const ACallback, AInfo: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
     function FindControlByOurName(const AName: string): TControl;
@@ -167,7 +170,6 @@ begin
   IsDlgCustom:= false;
   IsFormShownAlready:= false;
   IdClicked:= -1;
-  Callback:= '';
   TagString:= '';
   BlockedOnChange:= false;
 
@@ -217,22 +219,14 @@ begin
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
   SInfo:= Format('(%d,%d)', [P.X, P.Y]);
 
-  if Props.FCallback<>'' then
-    CustomDialog_DoPyCallback(Props.FCallback, [
-      IntToStr(PtrInt(Self)), //id_dlg
-      IntToStr(IdControl), //id_ctl
-      '"on_click"', //id_event
-      'info='+SInfo //info
-    ])
-  else
-    DoEvent(IdControl, '"on_click"', SInfo, true);
+  DoEvent(IdControl, Props.FCallback, SInfo);
 end;
 
 procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, '"on_key_down"', '', false);
+  Str:= DoEvent(Key, CallbackOnKeyDown, '');
   if Str='False' then
   begin
     Key:= 0;
@@ -257,7 +251,7 @@ procedure TFormDummy.DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftStat
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, '"on_key_up"', '', false);
+  Str:= DoEvent(Key, CallbackOnKeyUp, '');
   if Str='False' then
   begin
     Key:= 0;
@@ -269,14 +263,14 @@ procedure TFormDummy.DoOnResize;
 begin
   if BorderStyle<>bsSizeable then exit;
   if not IsFormShownAlready then exit;
-  DoEvent(-1, '"on_resize"', '', false);
+  DoEvent(-1, CallbackOnResize, '');
 end;
 
 procedure TFormDummy.DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
 var
   Str: string;
 begin
-  Str:= DoEvent(-1, '"on_close_query"', '', false);
+  Str:= DoEvent(-1, CallbackOnCloseQuery, '');
   CanClose:= Str<>'False';
 end;
 
@@ -288,7 +282,7 @@ begin
 
   DoEmulatedModalClose;
   IdClicked:= -1;
-  DoEvent(-1, '"on_close"', '', false);
+  DoEvent(-1, CallbackOnClose, '');
 end;
 
 function TFormDummy.IdFocused: integer;
@@ -357,14 +351,7 @@ begin
     exit;
   end;
 
-  if Props.FCallback<>'' then
-    CustomDialog_DoPyCallback(Props.FCallback, [
-      IntToStr(PtrInt(Self)), //id_dlg
-      IntToStr(IdClicked), //id_ctl
-      '"on_change"' //id_event
-    ])
-  else
-    DoEvent(IdClicked, '"on_change"', '', true);
+  DoEvent(IdClicked, Props.FCallback, '');
 end;
 
 procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);
@@ -393,14 +380,15 @@ begin
 end;
 
 
-function TFormDummy.DoEvent(AIdControl: integer; const AEvent, AInfo: string; ASpecificForControl: boolean): string;
+function TFormDummy.DoEvent(AIdControl: integer; const ACallback, AInfo: string): string;
 var
   Params: array of string;
 begin
-  SetLength(Params, 3);
-  Params[0]:= IntToStr(PtrInt(Self)); //id_dlg
-  Params[1]:= IntToStr(AIdControl); //id_ctl
-  Params[2]:= AEvent; //id_event
+  if ACallback='' then exit('');
+
+  SetLength(Params, 2);
+  Params[0]:= 'id_dlg='+IntToStr(PtrInt(Self));
+  Params[1]:= 'id_ctl='+IntToStr(AIdControl);
 
   if AInfo<>'' then
   begin
@@ -408,8 +396,7 @@ begin
     Params[Length(Params)-1]:= 'info='+AInfo;
   end;
 
-  if Callback<>'' then
-    Result:= CustomDialog_DoPyCallback(Callback, Params);
+  Result:= CustomDialog_DoPyCallback(ACallback, Params);
 end;
 
 procedure TFormDummy.DoEmulatedModalShow;
