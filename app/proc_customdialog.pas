@@ -1147,6 +1147,24 @@ begin
     exit;
   end;
 
+  if AName='callback_on_menu' then
+  begin
+    TAppControlProps(C.Tag).FCallbackOnMenu:= AValue;
+    exit;
+  end;
+
+  if AName='callback_on_click' then
+  begin
+    TAppControlProps(C.Tag).FCallbackOnClick:= AValue;
+    exit;
+  end;
+
+  if AName='callback_on_click_dbl' then
+  begin
+    TAppControlProps(C.Tag).FCallbackOnClickDbl:= AValue;
+    exit;
+  end;
+
   if AName='color' then
   begin
     C.Color:= StrToIntDef(AValue, C.Color);

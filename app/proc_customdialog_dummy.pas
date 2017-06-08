@@ -39,6 +39,9 @@ type
     FActive: boolean;
     FTagString: string;
     FCallback: string;
+    FCallbackOnClick: string;
+    FCallbackOnClickDbl: string;
+    FCallbackOnMenu: string;
     FCallbackOnSelect: string;
     FCallbackOnFold: string;
     FCallbackOnUnfold: string;
