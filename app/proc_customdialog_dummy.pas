@@ -84,6 +84,8 @@ type
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
+    procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
+    procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
     procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     function DoEvent(AIdControl: integer; const ACallback, AInfo: string): string;
     procedure DoEmulatedModalShow;
@@ -460,6 +462,28 @@ end;
 procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
 begin
   DoOnChange(Sender);
+end;
+
+procedure TFormDummy.DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode;
+  var AllowExpansion: Boolean);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnUnfold, IntToStr(PtrInt(Node)));
+end;
+
+procedure TFormDummy.DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode;
+  var AllowCollapse: Boolean);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnFold, IntToStr(PtrInt(Node)));
 end;
 
 end.

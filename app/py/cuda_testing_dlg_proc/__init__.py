@@ -278,27 +278,29 @@ class Command:
 
         n = dlg_proc(id, DLG_CTL_ADD, 'treeview')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'my', 'x':10, 'y':10, 'w':380, 'h':280, 
-            'on_fold': 'cuda_testing_dlg_proc.on_fold', 
-            'on_unfold': 'cuda_testing_dlg_proc.on_unfold', 
+            'on_fold': 'cuda_testing_dlg_proc.callback_treeview_on_fold', 
+            'on_unfold': 'cuda_testing_dlg_proc.callback_treeview_on_unfold', 
             })
-        h_tree = dlg_proc(id, DLG_CTL_HANDLE, index=n)
+        self.h_tree = dlg_proc(id, DLG_CTL_HANDLE, index=n)
         
-        item0a = tree_proc(h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0a')
-        item0b = tree_proc(h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0b')
-        item1a = tree_proc(h_tree, TREE_ITEM_ADD, id_item=item0a, index=-1, text='sub item 1a')
-        item1b = tree_proc(h_tree, TREE_ITEM_ADD, id_item=item0a, index=-1, text='sub item 1b')
-        item2a = tree_proc(h_tree, TREE_ITEM_ADD, id_item=item1a, index=-1, text='sub item 2a')
+        item0a = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0a')
+        item0b = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0b')
+        item1a = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=item0a, index=-1, text='sub item 1a')
+        item1b = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=item0a, index=-1, text='sub item 1b')
+        item2a = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=item1a, index=-1, text='sub item 2a')
 
-        tree_proc(h_tree, TREE_ITEM_UNFOLD_DEEP, id_item=0)
+        tree_proc(self.h_tree, TREE_ITEM_UNFOLD_DEEP, id_item=0)
 
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
 
 
     def callback_treeview_on_fold(self, id_dlg, id_ctl, info=''):
-        print('callback_treeview_on_fold(info=%s)'%repr(info))
+        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=info)
+        print('callback_treeview_on_fold,', 'item "%s"'%prop[0])
 
     def callback_treeview_on_unfold(self, id_dlg, id_ctl, info=''):
-        print('callback_treeview_on_unfold(info=%s)'%repr(info))
+        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=info)
+        print('callback_treeview_on_unfold,', 'item "%s"'%prop[0])
         
     

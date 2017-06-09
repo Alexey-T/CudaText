@@ -546,7 +546,9 @@ begin
   begin
     Ctl:= TTreeView.Create(AForm);
     DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
-    (Ctl as TTreeView).OnChange:= @AForm.DoOnTreeviewChange;
+    TTreeView(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
+    TTreeView(Ctl).OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
+    TTreeView(Ctl).OnExpanding:= @AForm.DoOnTreeviewExpanding;
     exit
   end;
 
