@@ -460,8 +460,13 @@ end;
 
 
 procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
 begin
-  DoOnChange(Sender);
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnChange, IntToStr(PtrInt(Node)));
 end;
 
 procedure TFormDummy.DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode;

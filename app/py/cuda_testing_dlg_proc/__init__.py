@@ -81,7 +81,6 @@ class Command:
 
 
     def callback_maindlg_paint_click(self, id_dlg, id_ctl, info=''):
-        print('paintbox on_click')
         self.do_paint_mark(id_dlg, id_ctl)
 
     def callback_tempdlg_on_key_down(self, id_dlg, id_ctl, info=''):
