@@ -60,6 +60,7 @@ type
     procedure DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
@@ -77,6 +78,7 @@ type
     destructor Destroy; override;
     procedure DoOnResize; override;
     procedure DoOnClick(Sender: TObject);
+    procedure DoOnDblClick(Sender: TObject);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnSelChange(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -207,7 +209,7 @@ begin
   end;
 end;
 
-procedure TFormDummy.DoOnClick(Sender: TObject);
+procedure TFormDummy._HandleClickEvent(Sender: TObject; ADblClick: boolean);
 var
   Props: TAppControlProps;
   IdControl: integer;
@@ -219,7 +221,20 @@ begin
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
   SInfo:= Format('(%d,%d)', [P.X, P.Y]);
 
-  DoEvent(IdControl, Props.FEventOnChange, SInfo);
+  if ADblClick then
+    DoEvent(IdControl, Props.FEventOnClickDbl, SInfo)
+  else
+    DoEvent(IdControl, Props.FEventOnClick, SInfo);
+end;
+
+procedure TFormDummy.DoOnClick(Sender: TObject);
+begin
+  _HandleClickEvent(Sender, false);
+end;
+
+procedure TFormDummy.DoOnDblClick(Sender: TObject);
+begin
+  _HandleClickEvent(Sender, true);
 end;
 
 procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
