@@ -270,3 +270,24 @@ class Command:
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
 
+
+    def test_treeview(self):
+        id = dlg_proc(0, DLG_CREATE)
+
+        dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=treeview'})
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'treeview')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'my', 'x':10, 'y':10, 'w':380, 'h':280 })
+        h_tree = dlg_proc(id, DLG_CTL_HANDLE, index=n)
+        
+        item0a = tree_proc(h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0a')
+        item0b = tree_proc(h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0b')
+        item1a = tree_proc(h_tree, TREE_ITEM_ADD, id_item=item0a, index=-1, text='sub item 1a')
+        item1b = tree_proc(h_tree, TREE_ITEM_ADD, id_item=item0a, index=-1, text='sub item 1b')
+        item2a = tree_proc(h_tree, TREE_ITEM_ADD, id_item=item1a, index=-1, text='sub item 2a')
+
+        tree_proc(h_tree, TREE_ITEM_UNFOLD_DEEP, id_item=0)
+
+        dlg_proc(id, DLG_SHOW_MODAL)
+        dlg_proc(id, DLG_FREE)
+

@@ -33,3 +33,9 @@ method=test_pages
 section=commands
 caption=Test dlg_proc\test type=toolbar
 method=test_toolbar
+
+[item25]
+section=commands
+caption=Test dlg_proc\test type=treeview
+method=test_treeview
+
