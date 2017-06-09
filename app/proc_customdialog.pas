@@ -56,6 +56,7 @@ var
   FDialogShown: boolean = false;
 
 type
+  TControlHack = class(TControl);
   TCustomEditHack = class(TCustomEdit);
 
 function StrToBool(const S: string): boolean; inline;
@@ -627,8 +628,6 @@ begin
   if S='paintbox' then
   begin
     Ctl:= TPaintBox.Create(AForm);
-    Ctl.OnClick:= @AForm.DoOnClick; //paintbox needs
-    TPaintBox(Ctl).OnDblClick:= @AForm.DoOnDblClick; //paintbox needs
     exit;
   end;
 
@@ -658,6 +657,11 @@ begin
      if S='button' then
        Props.FActive:= true;
      Ctl.Tag:= PtrInt(Props);
+
+     if not Assigned(Ctl.OnClick) then
+       Ctl.OnClick:= @AForm.DoOnClick;
+     TControlHack(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+     TControlHack(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
    end;
  end;
 end;

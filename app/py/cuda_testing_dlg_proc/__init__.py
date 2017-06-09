@@ -1,5 +1,6 @@
 import os
 from cudatext import *
+from random import randint
 
 
 def callback_main_close(id_dlg, id_ctl, info=''):
@@ -49,7 +50,6 @@ class Command:
         n_btn_paint = dlg_proc(h, DLG_CTL_FIND, prop='btn_paint')
         n_color = dlg_proc(h, DLG_CTL_FIND, prop='color')
         n_chk_dock = dlg_proc(h, DLG_CTL_FIND, prop='chk_dock')
-        n_paint = dlg_proc(h, DLG_CTL_FIND, prop='paint')
 
         if id_ctl==n_chk:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_color)
@@ -68,14 +68,21 @@ class Command:
             else:
                 dlg_proc(hh, DLG_SHOW_MODAL)
 
-        if id_ctl==n_btn_paint:
-            canvas_id = dlg_proc(h, DLG_CTL_HANDLE, index=n_paint)
-            canvas_proc(canvas_id, CANVAS_SET_PEN, color=0xA0)
-            canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=0xA0FF00)
-            canvas_proc(canvas_id, CANVAS_RECT, x=0, y=0, x2=50, y2=50)
-            canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=0xA0A0)
-            canvas_proc(canvas_id, CANVAS_ELLIPSE, x=0, y=0, x2=50, y2=50)
+        
+    def do_paint_mark(self, id_dlg, id_ctl):        
+        print('do_paint_mark')
+        n = randint(0, 0xfffff)
+        canvas_id = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='paint')
+        canvas_proc(canvas_id, CANVAS_SET_PEN, color=0xA0)
+        canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=n+0xA0FF00)
+        canvas_proc(canvas_id, CANVAS_RECT, x=0, y=0, x2=50, y2=50)
+        canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=n+0xA0A0)
+        canvas_proc(canvas_id, CANVAS_ELLIPSE, x=0, y=0, x2=50, y2=50)
 
+
+    def callback_maindlg_paint_click(self, id_dlg, id_ctl, info=''):
+        print('paintbox on_click')
+        self.do_paint_mark(id_dlg, id_ctl)
 
     def callback_tempdlg_on_key_down(self, id_dlg, id_ctl, info=''):
         print('callback_tempdlg_on_key_down')
@@ -150,7 +157,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'on_change': 'module=cuda_testing_dlg_proc;func=callback_main_menu;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg_paint_click' } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'on_change': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;info=1234;'} )
@@ -162,7 +169,7 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'paintbox')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':250, 'y':200, 'w':60, 'h':60 } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':250, 'y':200, 'w':60, 'h':60, 'on_click': 'cuda_testing_dlg_proc.callback_maindlg_paint_click' } )
 
         nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
         dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)

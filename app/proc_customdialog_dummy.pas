@@ -84,6 +84,7 @@ type
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
+    procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     function DoEvent(AIdControl: integer; const ACallback, AInfo: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -287,6 +288,17 @@ var
 begin
   Str:= DoEvent(-1, FEventOnCloseQuery, '');
   CanClose:= Str<>'False';
+end;
+
+procedure TFormDummy.DoOnControlMenu(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnMenu, '');
 end;
 
 
