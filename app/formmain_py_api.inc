@@ -2285,6 +2285,7 @@ begin
 
         APP_PROC_MENU_ENUM:
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_MENU_ENUM)']));
             Str:= fmMain.DoMenuEnum_Deprecated(Str);
             if Str<>'' then
               Result:= PyString_FromString(PChar(Str))
@@ -2300,6 +2301,7 @@ begin
 
         APP_PROC_MENU_ADD:
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_MENU_ADD)']));
             Str:= fmMain.DoMenuAdd_FromString(Str);
             if Str<>'' then
               Result:= PyString_FromString(PChar(Str))

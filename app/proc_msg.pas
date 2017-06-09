@@ -23,6 +23,7 @@ const
   msgPythonListError = 'Cannot create new list object'; //no need i18n
   msgCallbackBad = 'Bad API callback, report to plugin author: %s';
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s';
+  msgApiDeprecated = 'Deprecated API usage: %s';
 
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
