@@ -80,10 +80,11 @@ type
     procedure DoOnClick(Sender: TObject);
     procedure DoOnDblClick(Sender: TObject);
     procedure DoOnChange(Sender: TObject);
-    procedure DoOnSelChange(Sender: TObject; User: boolean);
+    procedure DoOnListboxSelect(Sender: TObject; User: boolean);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
+    procedure DoOnTreeviewSelect(Sender: TObject);
     procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
     procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
     procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -383,7 +384,7 @@ begin
   DoEvent(IdClicked, Props.FEventOnChange, '');
 end;
 
-procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);
+procedure TFormDummy.DoOnListboxSelect(Sender: TObject; User: boolean);
 begin
   DoOnChange(Sender);
 end;
@@ -490,6 +491,17 @@ begin
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnFold, IntToStr(PtrInt(Node)));
 end;
+
+procedure TFormDummy.DoOnTreeviewSelect(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnSelect, '');
+end;
+
 
 end.
 

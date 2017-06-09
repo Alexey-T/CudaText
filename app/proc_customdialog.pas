@@ -481,7 +481,7 @@ begin
   if S='listbox' then
   begin
     Ctl:= TListBox.Create(AForm);
-    (Ctl as TListBox).OnSelectionChange:= @AForm.DoOnSelChange;
+    (Ctl as TListBox).OnSelectionChange:= @AForm.DoOnListboxSelect;
     exit;
   end;
 
@@ -522,7 +522,7 @@ begin
   if S='checklistbox' then
   begin
     Ctl:= TCheckListBox.Create(AForm);
-    (Ctl as TCheckListBox).OnSelectionChange:= @AForm.DoOnSelChange;
+    (Ctl as TCheckListBox).OnSelectionChange:= @AForm.DoOnListboxSelect;
     (Ctl as TCheckListBox).OnClickCheck:= @AForm.DoOnChange;
     exit;
   end;
@@ -547,6 +547,7 @@ begin
     Ctl:= TTreeView.Create(AForm);
     DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
     TTreeView(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
+    TTreeView(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
     TTreeView(Ctl).OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
     TTreeView(Ctl).OnExpanding:= @AForm.DoOnTreeviewExpanding;
     exit
