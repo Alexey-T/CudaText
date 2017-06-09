@@ -7,7 +7,9 @@
 1.9.4
 + preinstalled plugin Tabs List
 * finder: don't put backward selection on find-backward
-+ lexer help file converted from CHM format to ODT
+* lexer help file converted from CHM format to ODT
++ api
+- fix: loosing editor focus on Linux
 
 1.9.3
 + preinstalled Project Manager plugin
