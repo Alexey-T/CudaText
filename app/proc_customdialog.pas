@@ -531,14 +531,14 @@ begin
      (S='checklistview') then
   begin
     Ctl:= TListView.Create(AForm);
-    (Ctl as TListView).ReadOnly:= true;
-    (Ctl as TListView).ColumnClick:= false;
-    (Ctl as TListView).ViewStyle:= vsReport;
-    (Ctl as TListView).RowSelect:= true;
-    (Ctl as TListView).HideSelection:= false;
-    (Ctl as TListView).Checkboxes:= (S='checklistview');
-    (Ctl as TListView).OnChange:= @AForm.DoOnListviewChange;
-    (Ctl as TListView).OnSelectItem:= @AForm.DoOnListviewSelect;
+    TListView(Ctl).ReadOnly:= true;
+    TListView(Ctl).ColumnClick:= false;
+    TListView(Ctl).ViewStyle:= vsReport;
+    TListView(Ctl).RowSelect:= true;
+    TListView(Ctl).HideSelection:= false;
+    TListView(Ctl).Checkboxes:= (S='checklistview');
+    TListView(Ctl).OnChange:= @AForm.DoOnListviewChange;
+    TListView(Ctl).OnSelectItem:= @AForm.DoOnListviewSelect;
     exit;
   end;
 

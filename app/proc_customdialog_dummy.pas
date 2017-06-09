@@ -398,7 +398,7 @@ end;
 procedure TFormDummy.DoOnListviewSelect(Sender: TObject; Item: TListItem;
   Selected: Boolean);
 begin
-  DoOnChange(Sender);
+  DoOnTreeviewSelect(Sender);
 end;
 
 
