@@ -124,16 +124,16 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': '', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'show panel', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True, 'callback': 'cuda_testing_dlg_proc.callback_maindlg' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'show panel', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit1', 'val':'edit1', 'x':10, 'y':30, 'w':200} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn1', 'cap':'Btn&1: caption', 'x':10, 'y':60, 'w':100, 'callback': 'cuda_testing_dlg_proc.callback_maindlg'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn1', 'cap':'Btn&1: caption', 'x':10, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn2', 'cap':'Btn&2: move', 'x':120, 'y':60, 'w':100, 'callback': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn2', 'cap':'Btn&2: move', 'x':120, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'color', 'cap': ' ', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0) } )
@@ -141,25 +141,25 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={ 'a_l': None, 'a_r': ('', ']'), 'a_b': ('', ']'), 'sp_a': 6  } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_x_panel', 'cap':'x', 'x':0, 'y':0, 'w':15, 'h':15, 'p': 'color', 'a_t': ('color', '-'), 'callback': 'cuda_testing_dlg_proc.callback_maindlg' } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_x_panel', 'cap':'x', 'x':0, 'y':0, 'w':15, 'h':15, 'p': 'color', 'a_t': ('color', '-'), 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100, 'callback': 'cuda_testing_dlg_proc.callback_maindlg'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'callback': 'module=cuda_testing_dlg_proc;func=callback_main_menu;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'on_change': 'module=cuda_testing_dlg_proc;func=callback_main_menu;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100, 'callback': 'cuda_testing_dlg_proc.callback_maindlg' } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'callback': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;info=1234;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'on_change': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;info=1234;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'callback': 'module=cuda_testing_dlg_proc;func=callback_main_close;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'on_change': 'module=cuda_testing_dlg_proc;func=callback_main_close;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120, 'callback': 'cuda_testing_dlg_proc.callback_maindlg' } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'paintbox')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':250, 'y':200, 'w':60, 'h':60 } )
@@ -183,15 +183,15 @@ class Command:
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200,
             'color': 0xc0c0c0,
-            'callback_on_key_down': 'cuda_testing_dlg_proc.callback_tempdlg_on_key_down',
-            'callback_on_close_query': 'cuda_testing_dlg_proc.callback_tempdlg_on_close_query',
+            'on_key_down': 'cuda_testing_dlg_proc.callback_tempdlg_on_key_down',
+            'on_close_query': 'cuda_testing_dlg_proc.callback_tempdlg_on_close_query',
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':20, 'y':20, 'w':100, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':20, 'y':20, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_tempdlg' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_clonedlg', 'cap':'clone dlg', 'x':20, 'y':50, 'w':100, 'callback': 'cuda_testing_dlg_proc.callback_tempdlg' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_clonedlg', 'cap':'clone dlg', 'x':20, 'y':50, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_tempdlg' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_canclose', 'cap':'can close form', 'x':20, 'y':80, 'w':100, 'val':True })

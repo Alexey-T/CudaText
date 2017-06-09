@@ -38,13 +38,13 @@ type
     FTypeString: string;
     FActive: boolean;
     FTagString: string;
-    FCallback: string;
-    FCallbackOnClick: string;
-    FCallbackOnClickDbl: string;
-    FCallbackOnMenu: string;
-    FCallbackOnSelect: string;
-    FCallbackOnFold: string;
-    FCallbackOnUnfold: string;
+    FEventOnChange: string;
+    FEventOnClick: string;
+    FEventOnClickDbl: string;
+    FEventOnMenu: string;
+    FEventOnSelect: string;
+    FEventOnFold: string;
+    FEventOnUnfold: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -63,11 +63,11 @@ type
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
-    CallbackOnClose: string;
-    CallbackOnCloseQuery: string;
-    CallbackOnKeyDown: string;
-    CallbackOnKeyUp: string;
-    CallbackOnResize: string;
+    FEventOnClose: string;
+    FEventOnCloseQuery: string;
+    FEventOnKeyDown: string;
+    FEventOnKeyUp: string;
+    FEventOnResize: string;
     TagString: string;
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
@@ -151,7 +151,7 @@ begin
   FActive:= false;
   FTypeString:= ATypeString;
   FTagString:= '';
-  FCallback:= '';
+  FEventOnChange:= '';
 end;
 
 { TFormDummy }
@@ -219,14 +219,14 @@ begin
   P:= (Sender as TControl).ScreenToClient(Mouse.CursorPos);
   SInfo:= Format('(%d,%d)', [P.X, P.Y]);
 
-  DoEvent(IdControl, Props.FCallback, SInfo);
+  DoEvent(IdControl, Props.FEventOnChange, SInfo);
 end;
 
 procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, CallbackOnKeyDown, '');
+  Str:= DoEvent(Key, FEventOnKeyDown, '');
   if Str='False' then
   begin
     Key:= 0;
@@ -251,7 +251,7 @@ procedure TFormDummy.DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftStat
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, CallbackOnKeyUp, '');
+  Str:= DoEvent(Key, FEventOnKeyUp, '');
   if Str='False' then
   begin
     Key:= 0;
@@ -263,14 +263,14 @@ procedure TFormDummy.DoOnResize;
 begin
   if BorderStyle<>bsSizeable then exit;
   if not IsFormShownAlready then exit;
-  DoEvent(-1, CallbackOnResize, '');
+  DoEvent(-1, FEventOnResize, '');
 end;
 
 procedure TFormDummy.DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
 var
   Str: string;
 begin
-  Str:= DoEvent(-1, CallbackOnCloseQuery, '');
+  Str:= DoEvent(-1, FEventOnCloseQuery, '');
   CanClose:= Str<>'False';
 end;
 
@@ -282,7 +282,7 @@ begin
 
   DoEmulatedModalClose;
   IdClicked:= -1;
-  DoEvent(-1, CallbackOnClose, '');
+  DoEvent(-1, FEventOnClose, '');
 end;
 
 function TFormDummy.IdFocused: integer;
@@ -351,7 +351,7 @@ begin
     exit;
   end;
 
-  DoEvent(IdClicked, Props.FCallback, '');
+  DoEvent(IdClicked, Props.FEventOnChange, '');
 end;
 
 procedure TFormDummy.DoOnSelChange(Sender: TObject; User: boolean);

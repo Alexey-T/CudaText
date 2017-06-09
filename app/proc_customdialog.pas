@@ -1123,45 +1123,45 @@ begin
     exit;
   end;
 
-  if AName='callback' then
+  if AName='on_change' then
   begin
-    TAppControlProps(C.Tag).FCallback:= AValue;
+    TAppControlProps(C.Tag).FEventOnChange:= AValue;
     exit;
   end;
 
-  if AName='callback_on_select' then
+  if AName='on_select' then
   begin
-    TAppControlProps(C.Tag).FCallbackOnSelect:= AValue;
+    TAppControlProps(C.Tag).FEventOnSelect:= AValue;
     exit;
   end;
 
-  if AName='callback_on_fold' then
+  if AName='on_fold' then
   begin
-    TAppControlProps(C.Tag).FCallbackOnFold:= AValue;
+    TAppControlProps(C.Tag).FEventOnFold:= AValue;
     exit;
   end;
 
-  if AName='callback_on_unfold' then
+  if AName='on_unfold' then
   begin
-    TAppControlProps(C.Tag).FCallbackOnUnfold:= AValue;
+    TAppControlProps(C.Tag).FEventOnUnfold:= AValue;
     exit;
   end;
 
-  if AName='callback_on_menu' then
+  if AName='on_menu' then
   begin
-    TAppControlProps(C.Tag).FCallbackOnMenu:= AValue;
+    TAppControlProps(C.Tag).FEventOnMenu:= AValue;
     exit;
   end;
 
-  if AName='callback_on_click' then
+  if AName='on_click' then
   begin
-    TAppControlProps(C.Tag).FCallbackOnClick:= AValue;
+    TAppControlProps(C.Tag).FEventOnClick:= AValue;
     exit;
   end;
 
-  if AName='callback_on_click_dbl' then
+  if AName='on_click_dbl' then
   begin
-    TAppControlProps(C.Tag).FCallbackOnClickDbl:= AValue;
+    TAppControlProps(C.Tag).FEventOnClickDbl:= AValue;
     exit;
   end;
 
@@ -1502,20 +1502,20 @@ begin
       F.FormStyle:= fsNormal;
   end
   else
-  if AName='callback_on_resize' then
-    F.CallbackOnResize:= AValue
+  if AName='on_resize' then
+    F.FEventOnResize:= AValue
   else
-  if AName='callback_on_close' then
-    F.CallbackOnClose:= AValue
+  if AName='on_close' then
+    F.FEventOnClose:= AValue
   else
-  if AName='callback_on_close_query' then
-    F.CallbackOnCloseQuery:= AValue
+  if AName='on_close_query' then
+    F.FEventOnCloseQuery:= AValue
   else
-  if AName='callback_on_key_down' then
-    F.CallbackOnKeyDown:= AValue
+  if AName='on_key_down' then
+    F.FEventOnKeyDown:= AValue
   else
-  if AName='callback_on_key_up' then
-    F.CallbackOnKeyUp:= AValue
+  if AName= 'on_key_up' then
+    F.FEventOnKeyUp:= AValue
   else
   if AName='vis' then
     F.Visible:= StrToBool(AValue)
@@ -1592,13 +1592,12 @@ begin
     if C.Tag=0 then
       exit(ReturnNone);
 
-    Result:= Py_BuildValue('{sssssssssssssisisisisssOsOsOsOsisisisisisi}',
+    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsisisisisisi}',
       'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
       'type', PChar(TAppControlProps(C.Tag).FTypeString),
       'tag', PChar(TAppControlProps(C.Tag).FTagString),
-      'callback', PChar(TAppControlProps(C.Tag).FCallback),
       PChar(string('x')), C.Left,
       PChar(string('y')), C.Top,
       PChar(string('w')), C.Width,
