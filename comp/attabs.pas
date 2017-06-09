@@ -201,6 +201,7 @@ type
     procedure DoUpdateTabRects;
   public
     constructor Create(AOnwer: TComponent); override;
+    function CanFocus: boolean; override;
     destructor Destroy; override;
     function GetTabRectWidth(APlusBtn: boolean): Integer;
     function GetTabRect(AIndex: Integer): TRect;
@@ -582,6 +583,11 @@ begin
   FOnTabDrawBefore:= nil;
   FOnTabDrawAfter:= nil;
   FOnTabChangeQuery:= nil;
+end;
+
+function TATTabs.CanFocus: boolean;
+begin
+  Result:= false;
 end;
 
 destructor TATTabs.Destroy;
