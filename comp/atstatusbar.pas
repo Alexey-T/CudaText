@@ -83,6 +83,7 @@ type
     procedure DoPanelAutosize(AIndex: integer);
     property ScalePercents: integer read FScalePercents write FScalePercents default 100;
   protected
+    function CanFocus: boolean; override;
     procedure Paint; override;
     procedure Resize; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
@@ -328,6 +329,11 @@ begin
   FItemIndex:= GetPanelAt(X, Y);
 end;
 
+function TATStatus.CanFocus: boolean;
+begin
+  Result:= false;
+end;
+
 procedure TATStatus.Resize;
 begin
   inherited;
@@ -442,5 +448,6 @@ begin
   if Assigned(D) then
     D.ItemWidth:= Max(0, Width-NSize);
 end;
+
 
 end.
