@@ -661,20 +661,30 @@ def _dlg_proc_wait(id_dialog):
             return
 
 
-def _dlg_proc_callback_proxy(id_dlg, id_ctl, id_event='', info=''):##kv 18may17
+def _dlg_proc_callback_proxy(id_dlg, id_ctl, data='', info=''):  ##kv 10jun17
     if info in _live:
-        _live[info](id_dlg, id_ctl, id_event)
+        _live[info](id_dlg, id_ctl, data=data)
+
+def _alter_live(id_dialog, prop, callback_name):  ##kv 10jun17
+    callback_param = prop[callback_name]
+    if callable(callback_param):
+        sid_callback = '{}:{}'.format(id_dialog, callback_param)
+        _live[sid_callback] = callback_param
+        prop[callback_name] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
 
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
-    if id_action == DLG_FREE:##kv 18may17
+
+    #cleanup storage of live callbacks ##kv 18may17
+    if id_action == DLG_FREE:
         for k in [k for k in _live.keys() if k.startswith(str(id_dialog)+':')]:
             _live.pop(k)
 
-    if isinstance(prop, dict) and 'callback' in prop and callable(prop['callback']):##kv 18may17
-        sid_callback = '{}:{}'.format(id_dialog, prop['callback'])
-        _live[sid_callback] = prop['callback']
-        prop['callback'] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
+    #support live callbacks by replacing them to str ##kv 10jun17
+    if isinstance(prop, dict):
+        for k in prop:
+            if k.startswith('on_'):
+                _alter_live(id_dialog, prop, k)
 
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
     if id_action == DLG_SHOW_MODAL:
