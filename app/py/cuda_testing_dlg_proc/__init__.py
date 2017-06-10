@@ -3,11 +3,11 @@ from cudatext import *
 from random import randint
 
 
-def callback_main_close(id_dlg, id_ctl, info=''):
+def callback_main_close(id_dlg, id_ctl, data='', info=''):
     print('callback_main_close')
     dlg_proc(id_dlg, DLG_HIDE)
 
-def callback_main_menu(id_dlg, id_ctl, info=''):
+def callback_main_menu(id_dlg, id_ctl, data='', info=''):
     print('callback_main_menu')
     nctl = dlg_proc(id_dlg, DLG_CTL_FIND, prop='btn_menu')
     d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=nctl)
@@ -39,7 +39,7 @@ class Command:
     def run_dlgcustom(self):
         dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
 
-    def callback_maindlg(self, id_dlg, id_ctl, info=''):
+    def callback_maindlg(self, id_dlg, id_ctl, data='', info=''):
         print('callback_maindlg(info=%s)' % repr(info))
         h = id_dlg
 
@@ -80,10 +80,10 @@ class Command:
         canvas_proc(canvas_id, CANVAS_ELLIPSE, x=0, y=0, x2=50, y2=50)
 
 
-    def callback_maindlg_paint_click(self, id_dlg, id_ctl, info=''):
+    def callback_maindlg_paint_click(self, id_dlg, id_ctl, data='', info=''):
         self.do_paint_mark(id_dlg, id_ctl)
 
-    def callback_tempdlg_on_key_down(self, id_dlg, id_ctl, info=''):
+    def callback_tempdlg_on_key_down(self, id_dlg, id_ctl, data='', info=''):
         print('callback_tempdlg_on_key_down')
 
         state = app_proc(PROC_GET_KEYSTATE, '')
@@ -98,13 +98,13 @@ class Command:
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, index=n_info, prop={'cap': 'keypress: '+str_key })
         return True
 
-    def callback_tempdlg_on_close_query(self, id_dlg, id_ctl, info=''):
+    def callback_tempdlg_on_close_query(self, id_dlg, id_ctl, data='', info=''):
         print('callback_tempdlg_on_close_query')
         n_canclose = dlg_proc(id_dlg, DLG_CTL_FIND, 'chk_canclose')
         d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=n_canclose)
         return d['val']=='1'
 
-    def callback_tempdlg(self, id_dlg, id_ctl, info=''):
+    def callback_tempdlg(self, id_dlg, id_ctl, data='', info=''):
         print('callback_tempdlg')
 
         n_close = dlg_proc(id_dlg, DLG_CTL_FIND, 'btn_close')
@@ -153,22 +153,23 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'on_change': 'module=cuda_testing_dlg_proc;func=callback_main_menu;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100, 'on_change': callback_main_menu } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg_paint_click' } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100, 'on_change': self.callback_maindlg_paint_click } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120, 'on_change': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;info=1234;'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'on_change': 'module=cuda_testing_dlg_proc;func=callback_main_close;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120, 'on_change': callback_main_close } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120 } )
 
+        #test for live callback
         n=dlg_proc(h, DLG_CTL_ADD, 'paintbox')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':250, 'y':200, 'w':60, 'h':60, 'on_click': 'cuda_testing_dlg_proc.callback_maindlg_paint_click' } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':250, 'y':200, 'w':60, 'h':60, 'on_click': self.callback_maindlg_paint_click } )
 
         nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
         dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)
@@ -294,11 +295,11 @@ class Command:
         dlg_proc(id, DLG_FREE)
 
 
-    def callback_treeview_on_fold(self, id_dlg, id_ctl, info=''):
+    def callback_treeview_on_fold(self, id_dlg, id_ctl, data='', info=''):
         prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=info)
         print('callback_treeview_on_fold,', 'item "%s"'%prop[0])
 
-    def callback_treeview_on_unfold(self, id_dlg, id_ctl, info=''):
+    def callback_treeview_on_unfold(self, id_dlg, id_ctl, data='', info=''):
         prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=info)
         print('callback_treeview_on_unfold,', 'item "%s"'%prop[0])
         
