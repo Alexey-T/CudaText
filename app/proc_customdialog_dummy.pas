@@ -14,11 +14,10 @@ interface
 uses
   Classes, SysUtils, Controls, Graphics,
   StdCtrls, Forms, ComCtrls,
-  LclType,
+  LCLType,
   ListFilterEdit,
   ListViewFilterEdit,
   proc_globdata,
-  proc_miscutils,
   ATSynEdit;
 
 type
@@ -88,7 +87,7 @@ type
     procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
     procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
     procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    function DoEvent(AIdControl: integer; const ACallback, AInfo: string): string;
+    function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
     function FindControlByOurName(const AName: string): TControl;
@@ -410,7 +409,7 @@ begin
 end;
 
 
-function TFormDummy.DoEvent(AIdControl: integer; const ACallback, AInfo: string): string;
+function TFormDummy.DoEvent(AIdControl: integer; const ACallback, AData: string): string;
 var
   Params: array of string;
 begin
@@ -420,10 +419,10 @@ begin
   Params[0]:= 'id_dlg='+IntToStr(PtrInt(Self));
   Params[1]:= 'id_ctl='+IntToStr(AIdControl);
 
-  if AInfo<>'' then
+  if AData<>'' then
   begin
     SetLength(Params, Length(Params)+1);
-    Params[Length(Params)-1]:= 'info='+AInfo;
+    Params[Length(Params)-1]:= 'data='+AData;
   end;
 
   Result:= CustomDialog_DoPyCallback(ACallback, Params);
