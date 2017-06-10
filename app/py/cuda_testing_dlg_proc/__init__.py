@@ -68,8 +68,8 @@ class Command:
             else:
                 dlg_proc(hh, DLG_SHOW_MODAL)
 
-        
-    def do_paint_mark(self, id_dlg, id_ctl):        
+
+    def do_paint_mark(self, id_dlg, id_ctl):
         print('do_paint_mark')
         n = randint(0, 0xfffff)
         canvas_id = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='paint')
@@ -277,12 +277,12 @@ class Command:
         dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=treeview'})
 
         n = dlg_proc(id, DLG_CTL_ADD, 'treeview')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'my', 'x':10, 'y':10, 'w':380, 'h':280, 
-            'on_fold': 'cuda_testing_dlg_proc.callback_treeview_on_fold', 
-            'on_unfold': 'cuda_testing_dlg_proc.callback_treeview_on_unfold', 
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'my', 'x':10, 'y':10, 'w':380, 'h':280,
+            'on_fold': self.callback_treeview_on_fold,
+            'on_unfold': self.callback_treeview_on_unfold,
             })
         self.h_tree = dlg_proc(id, DLG_CTL_HANDLE, index=n)
-        
+
         item0a = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0a')
         item0b = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0b')
         item1a = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=item0a, index=-1, text='sub item 1a')
@@ -296,11 +296,11 @@ class Command:
 
 
     def callback_treeview_on_fold(self, id_dlg, id_ctl, data='', info=''):
-        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=info)
+        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=data)
         print('callback_treeview_on_fold,', 'item "%s"'%prop[0])
 
     def callback_treeview_on_unfold(self, id_dlg, id_ctl, data='', info=''):
-        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=info)
+        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=data)
         print('callback_treeview_on_unfold,', 'item "%s"'%prop[0])
-        
-    
+
+
