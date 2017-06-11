@@ -558,6 +558,7 @@ type
 type
   TAppSidePanel = record
     ItemCaption: string;
+    ItemControl: TCustomControl;
     ItemTreeview: TTreeView;
     ItemListbox: TATListbox;
     ItemImagelist: TImageList;

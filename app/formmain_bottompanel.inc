@@ -93,7 +93,7 @@ begin
   //hide panels from proc_bottompanel_add
   for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
   begin
-    Ctl:= FAppBottomPanels[i].ItemTreeview;
+    Ctl:= FAppBottomPanels[i].ItemControl;
     if Assigned(Ctl) then
       Ctl.Hide;
   end;
@@ -117,28 +117,19 @@ begin
   end
   else
   begin
-    //tabs for api proc_bottom_panel
+    //tabs for api proc_bottompanel
     for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
       with FAppBottomPanels[i] do
       begin
         if ItemCaption='' then break;
-        if Assigned(ItemTreeview) then
+        if Assigned(ItemControl) then
         begin
-          ItemTreeview.Visible:= SameText(ItemCaption, ACaption);
+          ItemControl.Visible:= SameText(ItemCaption, ACaption);
           if PanelBottom.Visible then
-            if ItemTreeview.Visible then
-              if ItemTreeview.CanFocus then
-                ItemTreeview.SetFocus;
+            if ItemControl.Visible then
+              if ItemControl.CanFocus then
+                ItemControl.SetFocus;
         end
-        else
-        if Assigned(ItemListbox) then
-        begin
-          ItemListbox.Visible:= SameText(ItemCaption, ACaption);
-          if PanelBottom.Visible then
-            if ItemListbox.Visible then
-              if ItemListbox.CanFocus then
-                ItemListbox.SetFocus;
-        end;
       end;
   end;
 end;
@@ -165,13 +156,8 @@ begin
   if Num<0 then exit;
 
   with FAppBottomPanels[Num] do
-  begin
-    if Assigned(ItemTreeview) then
-      Result:= PtrInt(ItemTreeview)
-    else
-    if Assigned(ItemListbox) then
-      Result:= PtrInt(ItemListbox);
-  end;
+    if Assigned(ItemControl) then
+      Result:= PtrInt(ItemControl);
 end;
 
 function TfmMain.DoBottom_CaptionToTabIndex(const ACaption: string): integer;

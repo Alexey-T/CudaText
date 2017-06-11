@@ -90,25 +90,15 @@ begin
     with FAppSidePanels[i] do
     begin
       if ItemCaption='' then Break;
-      if Assigned(ItemTreeview) then
+      if Assigned(ItemControl) then
       begin
-        ItemTreeview.Visible:= ItemCaption=ACaption;
+        ItemControl.Visible:= SameText(ItemCaption, ACaption);
         if AndFocus then
-        if PanelLeft.Visible then
-          if ItemTreeview.Visible then
-            if ItemTreeview.CanFocus then
-              ItemTreeview.SetFocus;
+          if PanelLeft.Visible then
+            if ItemControl.Visible then
+              if ItemControl.CanFocus then
+                ItemControl.SetFocus;
       end
-      else
-      if Assigned(ItemListbox) then
-      begin
-        ItemListbox.Visible:= ItemCaption=ACaption;
-        if AndFocus then
-        if PanelLeft.Visible then
-          if ItemListbox.Visible then
-            if ItemListbox.CanFocus then
-              ItemListbox.SetFocus;
-      end;
     end;
 end;
 
@@ -134,13 +124,8 @@ begin
   if Num<0 then exit;
 
   with FAppSidePanels[Num] do
-  begin
-    if Assigned(ItemTreeview) then
-      Result:= PtrInt(ItemTreeview)
-    else
-    if Assigned(ItemListbox) then
-      Result:= PtrInt(ItemListbox);
-  end;
+    if Assigned(ItemControl) then
+      Result:= PtrInt(ItemControl);
 end;
 
 function TfmMain.DoSidebar_CaptionToTabIndex(const Str: string): integer;
@@ -162,6 +147,7 @@ begin
     ItemMenu:= TPopupMenu.Create(Self);
     ItemImagelist:= TImageList.Create(Self);
     ItemTreeview:= TTreeView.Create(Self);
+    ItemControl:= ItemTreeview;
 
     ItemTreeview.Hide;
     ItemTreeview.Parent:= AParent;
@@ -192,6 +178,7 @@ begin
     ItemImagelist:= nil;
     ItemTreeview:= nil;
     ItemListbox:= TATListbox.Create(Self);
+    ItemControl:= ItemListbox;
 
     ItemListbox.Hide;
     ItemListbox.Parent:= AParent;

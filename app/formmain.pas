@@ -1138,6 +1138,7 @@ begin
   with FAppSidePanels[0] do
   begin
     ItemCaption:= 'Tree';
+    ItemControl:= Tree;
     ItemTreeview:= Tree;
     ItemImagelist:= ImageListTree;
     ItemMenu:= PopupTree;
