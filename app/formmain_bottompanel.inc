@@ -174,7 +174,7 @@ begin
 end;
 
 function TfmMain.DoBottom_AddTab(const ACaption, AControlType: string;
-  ATabIndex, AImageIndex: integer): boolean;
+  AImageIndex: integer; AHandle: PtrInt): boolean;
 var
   Num: integer;
 begin
@@ -184,6 +184,9 @@ begin
   while FAppBottomPanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(FAppBottomPanels) then exit(false);
 
+  if AControlType=PyPanelControl_Form then
+    DoSidebar_InitPanelForm(FAppBottomPanels[Num], ACaption, TCustomForm(AHandle), PanelBottom)
+  else
   if AControlType=PyPanelControl_Tree then
     DoSidebar_InitPanelTreeview(FAppBottomPanels[Num], ACaption, PanelBottom)
   else

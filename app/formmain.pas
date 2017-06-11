@@ -559,6 +559,8 @@ type
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
+    procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
+      const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
     procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
@@ -592,7 +594,8 @@ type
     procedure DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
-    function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex, AImageIndex: integer): boolean;
+    function DoSidebar_AddTab(const ACaption, AControlType: string;
+      AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;
@@ -603,7 +606,7 @@ type
     procedure DoBottom_GotoClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption, AControlType: string;
-      ATabIndex, AImageIndex: integer): boolean;
+      AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
     function DoBottom_ActivateTab(const ACaption: string): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;

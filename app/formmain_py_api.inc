@@ -2427,8 +2427,8 @@ begin
             ok:= fmMain.DoSidebar_AddTab(
               StrCaption,
               StrId,
-              StrToIntDef(StrIndex, -1),
-              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename));
+              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
+              0);
 
             Result:= PyBool_FromLong(Ord(ok));
           end;
@@ -2483,8 +2483,8 @@ begin
             ok:= fmMain.DoBottom_AddTab(
               StrCaption,
               StrId,
-              StrToIntDef(StrIndex, -1),
-              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename));
+              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
+              0);
 
             Result:= PyBool_FromLong(Ord(ok));
           end;

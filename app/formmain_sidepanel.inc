@@ -199,6 +199,24 @@ begin
 end;
 
 
+procedure TfmMain.DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
+  const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
+begin
+  with AItem do
+  begin
+    ItemCaption:= ACaption;
+    ItemMenu:= nil;
+    ItemImagelist:= nil;
+    ItemTreeview:= nil;
+    ItemListbox:= nil;
+    ItemControl:= AForm;
+
+    AForm.Parent:= AParent;
+    AForm.Align:= alClient;
+  end;
+end;
+
+
 function TfmMain.DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
 begin
   if AFilename='' then
@@ -212,8 +230,9 @@ begin
     Result:= -1;
 end;
 
+
 function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string;
-  ATabIndex, AImageIndex: integer): boolean;
+  AImageIndex: integer; AHandle: PtrInt): boolean;
 var
   Num: integer;
 begin
@@ -223,6 +242,9 @@ begin
   while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(FAppSidePanels) then exit(false);
 
+  if AControlType=PyPanelControl_Form then
+    DoSidebar_InitPanelForm(FAppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft)
+  else
   if AControlType=PyPanelControl_Tree then
     DoSidebar_InitPanelTreeview(FAppSidePanels[Num], ACaption, PanelLeft)
   else
