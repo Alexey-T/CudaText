@@ -615,7 +615,6 @@ type
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;
     procedure DoApplyGutterVisible(AValue: boolean);
-    procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
     procedure DoApplyFrameOps(F: TEditorFrame; const Op: TEditorOps; AForceApply: boolean);
     procedure DoApplyFont_Text;
     procedure DoApplyFont_Ui;

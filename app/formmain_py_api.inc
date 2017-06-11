@@ -3133,6 +3133,7 @@ begin
           begin
             Result:= PyInt_FromLong(Listbox.Items.Count);
           end;
+
         LISTBOX_ADD:
           begin
             if NIndex=-1 then
@@ -3144,6 +3145,7 @@ begin
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
+
         LISTBOX_DELETE:
           begin
             if IndexOk then
@@ -3156,6 +3158,7 @@ begin
             end;
             Result:= ReturnNone;
           end;
+
         LISTBOX_DELETE_ALL:
           begin
             Listbox.Items.Clear;
@@ -3165,6 +3168,7 @@ begin
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
+
         LISTBOX_GET_ITEM:
           begin
             if IndexOk then
@@ -3174,6 +3178,7 @@ begin
             else
               Result:= ReturnNone;
           end;
+
         LISTBOX_SET_ITEM:
           begin
             if IndexOk then
@@ -3184,10 +3189,12 @@ begin
             end;
             Result:= ReturnNone;
           end;
+
         LISTBOX_GET_SEL:
           begin
             Result:= PyInt_FromLong(Listbox.ItemIndex);
           end;
+
         LISTBOX_SET_SEL:
           begin
             if IndexOk then
@@ -3197,10 +3204,12 @@ begin
             end;
             Result:= ReturnNone;
           end;
+
         LISTBOX_GET_TOP:
           begin
             Result:= PyInt_FromLong(Listbox.ItemTop);
           end;
+
         LISTBOX_SET_TOP:
           begin
             if IndexOk then
@@ -3210,6 +3219,13 @@ begin
             end;
             Result:= ReturnNone;
           end;
+
+        LISTBOX_THEME:
+          begin
+            DoApplyThemeToListbox(Listbox);
+            Result:= ReturnNone;
+          end
+
         else
           Result:= ReturnNone;
       end;

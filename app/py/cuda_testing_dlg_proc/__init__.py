@@ -281,7 +281,9 @@ class Command:
             'on_fold': self.callback_treeview_on_fold,
             'on_unfold': self.callback_treeview_on_unfold,
             })
+            
         self.h_tree = dlg_proc(id, DLG_CTL_HANDLE, index=n)
+        tree_proc(self.h_tree, TREE_THEME)
 
         item0a = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0a')
         item0b = tree_proc(self.h_tree, TREE_ITEM_ADD, id_item=0, index=-1, text='item 0b')

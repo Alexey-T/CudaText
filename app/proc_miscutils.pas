@@ -30,7 +30,6 @@ procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
 function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 procedure DoScalePanelControls(APanel: TWinControl);
-function AppStrToBool(const S: string): boolean; inline;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -40,6 +39,7 @@ type
   TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean=true);
+procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
 
 procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
 
@@ -48,6 +48,7 @@ function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
 function FormatFileDateAsNiceString(const AFilename: string): string;
+function AppStrToBool(const S: string): boolean; inline;
 
 
 implementation
@@ -375,6 +376,13 @@ begin
   else
     C.ScrollBars:= ssVertical;
 
+  C.Invalidate;
+end;
+
+
+procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
+begin
+  C.Color:= GetAppColor('ListBg');
   C.Invalidate;
 end;
 

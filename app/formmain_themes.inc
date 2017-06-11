@@ -143,11 +143,6 @@ begin
   CompletionOps.ColorFont[2]:= GetAppColor('ListCompleteParams');
 end;
 
-procedure TfmMain.DoApplyThemeToListbox(C: proc_globdata.TATListbox);
-begin
-  C.Color:= GetAppColor('ListBg');
-  C.Invalidate;
-end;
 
 procedure TfmMain.UpdateMenuThemes(AThemeUI: boolean);
 var
