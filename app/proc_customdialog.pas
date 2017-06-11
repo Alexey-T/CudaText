@@ -21,6 +21,7 @@ uses
   Gauges,
   proc_customdialog_dummy,
   proc_miscutils,
+  proc_globdata,
   PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string;
@@ -539,7 +540,7 @@ begin
 
   if (S='treeview') then
   begin
-    Ctl:= TTreeView.Create(AForm);
+    Ctl:= proc_globdata.TTreeView.Create(AForm);
     DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
     TTreeView(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
     TTreeView(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
