@@ -38,6 +38,8 @@ procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer
 type
   TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
+procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
+
 procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean=true);
 procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
 
@@ -410,6 +412,26 @@ end;
 function AppStrToBool(const S: string): boolean; inline;
 begin
   Result:= S='1';
+end;
+
+
+procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
+var
+  Node: TTreeNode;
+  i: integer;
+begin
+  ATree.Items.BeginUpdate;
+  ATree.FullExpand;
+  try
+    for i:= 0 to ATree.Items.Count-1 do
+    begin
+      Node:= ATree.Items[i];
+      if Node.Level>=ALevel-1 then
+        Node.Collapse(true);
+    end;
+  finally
+    ATree.Items.EndUpdate;
+  end;
 end;
 
 

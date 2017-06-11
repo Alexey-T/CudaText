@@ -675,7 +675,6 @@ type
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
     procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
-    procedure DoTreeCollapseLevel(ALevel: integer);
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoOps_LoadSidebarIcons;
@@ -2941,42 +2940,42 @@ end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(2);
+  DoTreeviewFoldLevel(Tree, 2);
 end;
 
 procedure TfmMain.mnuTreeFold3Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(3);
+  DoTreeviewFoldLevel(Tree, 3);
 end;
 
 procedure TfmMain.mnuTreeFold4Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(4);
+  DoTreeviewFoldLevel(Tree, 4);
 end;
 
 procedure TfmMain.mnuTreeFold5Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(5);
+  DoTreeviewFoldLevel(Tree, 5);
 end;
 
 procedure TfmMain.mnuTreeFold6Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(6);
+  DoTreeviewFoldLevel(Tree, 6);
 end;
 
 procedure TfmMain.mnuTreeFold7Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(7);
+  DoTreeviewFoldLevel(Tree, 7);
 end;
 
 procedure TfmMain.mnuTreeFold8Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(8);
+  DoTreeviewFoldLevel(Tree, 8);
 end;
 
 procedure TfmMain.mnuTreeFold9Click(Sender: TObject);
 begin
-  DoTreeCollapseLevel(9);
+  DoTreeviewFoldLevel(Tree, 9);
 end;
 
 procedure TfmMain.mnuTreeFoldAllClick(Sender: TObject);
@@ -2989,25 +2988,6 @@ begin
   Tree.FullExpand;
 end;
 
-
-procedure TfmMain.DoTreeCollapseLevel(ALevel: integer);
-var
-  Node: TTreeNode;
-  i: integer;
-begin
-  Tree.Items.BeginUpdate;
-  Tree.FullExpand;
-  try
-    for i:= 0 to Tree.Items.Count-1 do
-    begin
-      Node:= Tree.Items[i];
-      if Node.Level>=ALevel-1 then
-        Node.Collapse(true);
-    end;
-  finally
-    Tree.Items.EndUpdate;
-  end;
-end;
 
 procedure TfmMain.DoFileExportHtml;
 var
