@@ -306,3 +306,13 @@ class Command:
         print('callback_treeview_on_unfold,', 'item "%s"'%prop[0])
 
 
+    def test_sidepanel(self):
+        print('test_sidepanel')
+        h = self.init_maindlg()
+        title = 'Side dialog'
+        
+        app_proc(PROC_SIDEPANEL_ADD_DIALOG, '%s,%s,%s'%(title, str(h), 'project.png') )
+        app_proc(PROC_SIDEPANEL_ACTIVATE, title)
+        
+        
+        

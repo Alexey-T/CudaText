@@ -39,3 +39,8 @@ section=commands
 caption=Test dlg_proc\test type=treeview
 method=test_treeview
 
+[item50]
+section=commands
+caption=Test dlg_proc\test side-panel
+method=test_sidepanel
+
