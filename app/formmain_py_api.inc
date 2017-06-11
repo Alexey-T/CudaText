@@ -2433,6 +2433,22 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
+        APP_PROC_SIDEPANEL_ADD_DIALOG:
+          begin
+            StrCaption:= SGetItem(Str); //caption
+            StrIndex:= SGetItem(Str); //handle
+            StrFilename:= SGetItem(Str); //icon filename
+
+            ok:= fmMain.DoSidebar_AddTab(
+              StrCaption,
+              PyPanelControl_Form,
+              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
+              StrToInt64Def(StrIndex, 0)
+              );
+
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
+
         APP_PROC_SIDEPANEL_REMOVE:
           begin
             StrCaption:= Str;
@@ -2485,6 +2501,22 @@ begin
               StrId,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               0);
+
+            Result:= PyBool_FromLong(Ord(ok));
+          end;
+
+        APP_PROC_BOTTOMPANEL_ADD_DIALOG:
+          begin
+            StrCaption:= SGetItem(Str); //caption
+            StrIndex:= SGetItem(Str); //handle
+            StrFilename:= SGetItem(Str); //icon filename
+
+            ok:= fmMain.DoBottom_AddTab(
+              StrCaption,
+              PyPanelControl_Form,
+              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
+              StrToInt64Def(StrIndex, 0)
+              );
 
             Result:= PyBool_FromLong(Ord(ok));
           end;
