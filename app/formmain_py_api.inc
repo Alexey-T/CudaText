@@ -3371,6 +3371,7 @@ begin
             Tree.Invalidate;
             Result:= ReturnNone;
           end;
+
         TREE_ITEM_FOLD_DEEP:
           begin
             if Assigned(TreeNode) then
@@ -3381,6 +3382,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        TREE_ITEM_FOLD_LEVEL:
+          begin
+            DoTreeviewFoldLevel(Tree, NIndex);
+            Result:= ReturnNone;
+          end;
+
         TREE_ITEM_UNFOLD:
           begin
             if Assigned(TreeNode) then
@@ -3388,6 +3395,7 @@ begin
             Tree.Invalidate;
             Result:= ReturnNone;
           end;
+
         TREE_ITEM_UNFOLD_DEEP:
           begin
             if Assigned(TreeNode) then

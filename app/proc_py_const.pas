@@ -226,6 +226,7 @@ const
   TREE_ITEM_GET_PROP         = 12;
   TREE_ITEM_GET_PARENT       = 13;
   TREE_ITEM_GET_SYNTAX_RANGE = 14;
+  TREE_ITEM_FOLD_LEVEL       = 15;
   TREE_ICON_ADD              = 20;
   TREE_ICON_DELETE           = 21;
   TREE_PROP_SHOW_ROOT        = 30;
