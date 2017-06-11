@@ -308,11 +308,9 @@ class Command:
 
     def test_sidepanel(self):
         print('test_sidepanel')
-        h = self.init_maindlg()
         title = 'Side dialog'
+        id_dlg = self.init_maindlg()
+        icon_name = 'project.png'
         
-        app_proc(PROC_SIDEPANEL_ADD_DIALOG, '%s,%s,%s'%(title, str(h), 'project.png') )
+        app_proc(PROC_SIDEPANEL_ADD_DIALOG, (title, id_dlg, icon_name) )
         app_proc(PROC_SIDEPANEL_ACTIVATE, title)
-        
-        
-        
