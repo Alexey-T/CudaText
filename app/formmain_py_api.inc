@@ -3400,7 +3400,7 @@ begin
 
         TREE_ITEM_GET_SYNTAX_RANGE:
           begin
-            fmMain.TreeGetSyntaxRange(TreeNode, Pnt1, Pnt2);
+            fmMain.DoTreeGetSyntaxRange(TreeNode, Pnt1, Pnt2);
             Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
           end;
 

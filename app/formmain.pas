@@ -472,8 +472,6 @@ type
     procedure TimerStatusTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
     procedure TimerTreeFocusTimer(Sender: TObject);
-    procedure TreeClick(Sender: TObject);
-    procedure TreeMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
       Parameters: array of String);
   private
@@ -582,14 +580,18 @@ type
     function DoMenuEnum_Deprecated(const AMenuId: string): string;
     function DoMenuEnum_New(const AMenuId: string): PPyObject;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
+    procedure DoPanel_TreeviewOnDblClick(Sender: TObject);
+    procedure DoPanel_TreeviewOnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure DoPanel_TreeviewOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoPanel_OnClick(Sender: TObject);
+    procedure DoPanel_OnDblClick(Sender: TObject);
     procedure DoPanel_Event(AControl: TObject; const AEvent: string);
     procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoPanel_OnSelChanged(Sender: TObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     procedure DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
       const ACaption: string; AParent: TWinControl);
-    function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean
-      ): boolean;
+    function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption, AControlType: string; ATabIndex, AImageIndex: integer): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
@@ -647,8 +649,6 @@ type
     procedure DoSplitter_GetInfo(const Id: integer;
       out BoolVert, BoolVisible: boolean; out NPos, NTotal: integer);
     procedure DoSplitter_SetInfo(const Id: integer; NPos: integer);
-    procedure DoPanel_OnClick(Sender: TObject);
-    procedure DoPanel_OnDblClick(Sender: TObject);
     procedure DoToolbarClick(Sender: TObject);
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
@@ -674,8 +674,8 @@ type
     procedure SetThemeUi(const AValue: string);
     function SFindOptionsToTextHint: string;
     procedure StatusResize(Sender: TObject);
-    procedure TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
-    procedure TreeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
+    procedure DoTreeCollapseLevel(ALevel: integer);
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoOps_LoadSidebarIcons;
@@ -727,7 +727,6 @@ type
     procedure DoShowValidate;
     procedure DoShowSearchResults;
     procedure DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
-    procedure DoTreeCollapseLevel(ALevel: integer);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
       var AHandled: boolean);
@@ -937,7 +936,7 @@ begin
   UpdateTree(false);
 end;
 
-procedure TfmMain.TreeClick(Sender: TObject);
+procedure TfmMain.DoPanel_TreeviewOnDblClick(Sender: TObject);
 var
   R: TecTextRange;
   P: TPoint;
@@ -960,7 +959,7 @@ begin
   FTreeClick:= false;
 end;
 
-procedure TfmMain.TreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
+procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
 var
   R: TecTextRange;
 begin
@@ -972,7 +971,7 @@ begin
   CurrentFrame.Adapter.TreeGetPositionOfRange(R, P1, P2);
 end;
 
-procedure TfmMain.TreeMouseMove(Sender: TObject; Shift: TShiftState; X,
+procedure TfmMain.DoPanel_TreeviewOnMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   //fix to hide parts on Tree's hints on editor canvas (Win32, moving mouse from
@@ -1046,9 +1045,9 @@ begin
   Tree.Parent:= PanelLeft;
   Tree.Align:= alClient;
   Tree.Images:= ImageListTree;
-  Tree.OnDblClick:= @TreeClick;
-  Tree.OnMouseMove:= @TreeMouseMove;
-  Tree.OnKeyDown:= @TreeKeyDown;
+  Tree.OnDblClick:= @DoPanel_TreeviewOnDblClick;
+  Tree.OnMouseMove:= @DoPanel_TreeviewOnMouseMove;
+  Tree.OnKeyDown:= @DoPanel_TreeviewOnKeyDown;
   Tree.PopupMenu:= PopupTree;
 
   ListboxOut:= TATListbox.Create(Self);
@@ -3107,7 +3106,7 @@ begin
   OpenURL('http://wiki.freepascal.org/CudaText');
 end;
 
-procedure TfmMain.TreeKeyDown(Sender: TObject; var Key: Word;
+procedure TfmMain.DoPanel_TreeviewOnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key=VK_ESCAPE) then
