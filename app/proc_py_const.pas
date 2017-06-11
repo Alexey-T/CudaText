@@ -231,6 +231,7 @@ const
   TREE_PROP_SHOW_ROOT        = 30;
   TREE_LOCK                  = 31;
   TREE_UNLOCK                = 32;
+  TREE_THEME                 = 33;
 
   LISTBOX_GET_COUNT    = 0;
   LISTBOX_ADD          = 1;
@@ -242,6 +243,7 @@ const
   LISTBOX_SET_SEL      = 11;
   LISTBOX_GET_TOP      = 14;
   LISTBOX_SET_TOP      = 15;
+  LISTBOX_THEME        = 20;
 
   LEXER_GET_LIST            = 0;
   LEXER_GET_ENABLED         = 1;

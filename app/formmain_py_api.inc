@@ -3426,6 +3426,12 @@ begin
             Result:= ReturnNone;
           end;
 
+        TREE_THEME:
+          begin
+            DoApplyThemeToTreeview(Tree, true);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
