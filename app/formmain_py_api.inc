@@ -2419,6 +2419,8 @@ begin
         //-------------------
         APP_PROC_SIDEPANEL_ADD:
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_SIDEPANEL_ADD)']));
+
             StrCaption:= SGetItem(Str); //caption
             StrIndex:= SGetItem(Str); //tab index
             StrId:= SGetItem(Str); //type of control
@@ -2491,6 +2493,8 @@ begin
 
         APP_PROC_BOTTOMPANEL_ADD:
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_BOTTOMPANEL_ADD)']));
+
             StrCaption:= SGetItem(Str); //caption
             StrIndex:= SGetItem(Str); //tab index
             StrId:= SGetItem(Str); //type of control
