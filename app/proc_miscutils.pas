@@ -347,6 +347,8 @@ procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean);
 begin
   if AThemed then
   begin
+    C.Font.Name:= UiOps.VarFontName;
+    C.Font.Size:= UiOps.VarFontSize;
     C.Font.Color:= GetAppColor('TreeFont');
     C.BackgroundColor:= GetAppColor('TreeBg');
     C.SelectionFontColor:= GetAppColor('TreeSelFont'); //lew Laz
@@ -384,6 +386,9 @@ end;
 
 procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
 begin
+  C.Font.Name:= UiOps.VarFontName;
+  C.Font.Size:= UiOps.VarFontSize;
+  C.Font.Color:= GetAppColor('ListFont');
   C.Color:= GetAppColor('ListBg');
   C.Invalidate;
 end;
