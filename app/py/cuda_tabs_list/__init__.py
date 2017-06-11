@@ -3,11 +3,13 @@ from cudatext import *
 import cudatext_cmd
 
 fn_config = 'cuda_tabs_list.ini'
+fn_icon = 'tabs.png'
 
 class Command:
     title = 'Tabs'
     h_dlg = None
     h_tree = None
+    h_menu = None
     busy_update = False
     open_on_start = False
 
@@ -21,23 +23,29 @@ class Command:
         self.h_dlg = dlg_proc(0, DLG_CREATE)
         
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={'name':'tree', 'a_r':('',']'), 'a_b':('',']')  } )
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name':'tree', 
+            'a_r':('',']'), #anchor to entire form: l,r,t,b
+            'a_b':('',']'),
+            'on_select': 'cuda_tabs_list.tree_on_sel',
+            'on_menu': 'cuda_tabs_list.tree_on_menu',  
+            } )
 
         self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         tree_proc(self.h_tree, TREE_THEME)
         tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
         
-        app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'tabs.png'))
+        app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, fn_icon))
         if activate_tab:
             app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
-        #self.h_menu = 'side:'+self.title
-        #menu_proc(self.h_menu, MENU_CLEAR)
-        #menu_proc(self.h_menu, MENU_ADD, caption='Close', command='cuda_tabs_list.menu_close_sel')
-        #menu_proc(self.h_menu, MENU_ADD, caption='Close others', command='cuda_tabs_list.menu_close_others')
-        #menu_proc(self.h_menu, MENU_ADD, caption='-', command='')
-        #menu_proc(self.h_menu, MENU_ADD, caption='Copy filename only', command='cuda_tabs_list.menu_copy_file_name')
-        #menu_proc(self.h_menu, MENU_ADD, caption='Copy full filepath', command='cuda_tabs_list.menu_copy_file_path')
+        self.h_menu = menu_proc(0, MENU_CREATE)
+        menu_proc(self.h_menu, MENU_CLEAR)
+        menu_proc(self.h_menu, MENU_ADD, caption='Close', command='cuda_tabs_list.menu_close_sel')
+        menu_proc(self.h_menu, MENU_ADD, caption='Close others', command='cuda_tabs_list.menu_close_others')
+        menu_proc(self.h_menu, MENU_ADD, caption='-', command='')
+        menu_proc(self.h_menu, MENU_ADD, caption='Copy filename only', command='cuda_tabs_list.menu_copy_file_name')
+        menu_proc(self.h_menu, MENU_ADD, caption='Copy full filepath', command='cuda_tabs_list.menu_copy_file_path')
 
         self.update()
 
@@ -72,14 +80,6 @@ class Command:
 
         self.busy_update = False
 
-    def on_panel(self, ed_self, id_control, id_event):
-        if self.h_tree is None: return
-        if self.h_tree!=id_control: return
-        if self.busy_update: return
-
-        if id_event=='on_sel':
-            e = self.ed_of_sel()
-            e.focus()
 
     def on_state(self, ed_self, state):
         if state in [EDSTATE_TAB_TITLE, EDSTATE_MODIFIED]:
@@ -128,3 +128,14 @@ class Command:
 
         self.open_on_start = res[0]=='1'
         ini_write(fn_config, 'op', 'on_start', '1' if self.open_on_start else '0')
+
+    def tree_on_sel(self, id_dlg, id_ctl, data='', info=''):
+        if self.h_tree is None: return
+        if self.busy_update: return
+
+        e = self.ed_of_sel()
+        e.focus()
+
+    def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
+        if self.h_menu is None: return
+        menu_proc(self.h_menu, MENU_SHOW, command='')
