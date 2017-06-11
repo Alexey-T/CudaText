@@ -3131,11 +3131,16 @@ begin
 
         MENU_SHOW:
           begin
-            NX:= StrToIntDef(SGetItem(StrCmd), 0);
-            NY:= StrToIntDef(SGetItem(StrCmd), 0);
             PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
             Popup:= TPopupMenu(PopupItem.Owner);
-            Popup.PopUp(NX, NY);
+            if StrCmd='' then
+              Popup.PopUp //at cursor position
+            else
+            begin
+              NX:= StrToIntDef(SGetItem(StrCmd), 0);
+              NY:= StrToIntDef(SGetItem(StrCmd), 0);
+              Popup.PopUp(NX, NY);
+            end;
             Result:= ReturnNone;
           end;
 
