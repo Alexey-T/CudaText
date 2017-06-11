@@ -59,11 +59,6 @@ type
   TControlHack = class(TControl);
   TCustomEditHack = class(TCustomEdit);
 
-function StrToBool(const S: string): boolean; inline;
-begin
-  Result:= S='1';
-end;
-
 function DoControl_IsAutoHeight(C: TControl): boolean;
 begin
   Result:=
@@ -222,7 +217,7 @@ begin
     if N>=C.Items.Count then exit;
     SItem:= SGetItem(AValue);
     if SItem='' then break;
-    C.Checked[N]:= StrToBool(SItem);
+    C.Checked[N]:= AppStrToBool(SItem);
     Inc(N);
   until false;
 end;
@@ -241,7 +236,7 @@ begin
     if N>=C.Items.Count then exit;
     SItem:= SGetItem(AValue);
     if SItem='' then break;
-    C.Checked[N]:= StrToBool(SItem);
+    C.Checked[N]:= AppStrToBool(SItem);
     Inc(N);
   until false;
 end;
@@ -372,7 +367,7 @@ begin
       if N>=C.Items.Count then break;
       SItem:= SGetItem(SValue);
       if SItem='' then break;
-      C.Items[N].Checked:= StrToBool(SItem);
+      C.Items[N].Checked:= AppStrToBool(SItem);
       Inc(N);
     until false;
   end;
@@ -737,7 +732,7 @@ procedure DoControl_SetPropsFromString_Adv(C: TControl; S: string);
 begin
   if C is TButton then
   begin
-    (C as TButton).Default:= StrToBool(SGetItem(S));
+    (C as TButton).Default:= AppStrToBool(SGetItem(S));
     exit
   end;
 
@@ -757,7 +752,7 @@ begin
 
   if C is TLabel then
   begin
-    if StrToBool(SGetItem(S)) then
+    if AppStrToBool(SGetItem(S)) then
     begin
       (C as TLabel).AutoSize:= false;
       (C as TLabel).Alignment:= taRightJustify;
@@ -768,13 +763,13 @@ begin
   if (C is TEdit) or (C is TMemo) then
   begin
     //RO
-    if StrToBool(SGetItem(S)) then
+    if AppStrToBool(SGetItem(S)) then
     begin
       (C as TCustomEdit).ReadOnly:= true;
       TCustomEditHack(C).ParentColor:= true;
     end;
     //Monospaced
-    if StrToBool(SGetItem(S)) then
+    if AppStrToBool(SGetItem(S)) then
     begin
       C.Font.Name:= 'Courier New';
       {$ifdef windows}
@@ -782,7 +777,7 @@ begin
       {$endif}
     end;
     //Border
-    if StrToBool(SGetItem(S)) then
+    if AppStrToBool(SGetItem(S)) then
       (C as TCustomEdit).BorderStyle:= bsSingle
     else
       (C as TCustomEdit).BorderStyle:= bsNone;
@@ -792,13 +787,13 @@ begin
 
   if (C is TListView) then
   begin
-    (C as TListView).GridLines:= StrToBool(SGetItem(S));
+    (C as TListView).GridLines:= AppStrToBool(SGetItem(S));
     exit
   end;
 
   if (C is TTabControl) then
   begin
-    if StrToBool(S) then
+    if AppStrToBool(S) then
       (C as TTabControl).TabPosition:= tpBottom;
     exit
   end;
@@ -820,12 +815,12 @@ begin
 
   if (C is TImage) then
   begin
-    (C as TImage).Center:= StrToBool(SGetItem(S));
-    (C as TImage).Stretch:= StrToBool(SGetItem(S));
-    (C as TImage).StretchInEnabled:= StrToBool(SGetItem(S));
-    (C as TImage).StretchOutEnabled:= StrToBool(SGetItem(S));
-    (C as TImage).KeepOriginXWhenClipped:= StrToBool(SGetItem(S));
-    (C as TImage).KeepOriginYWhenClipped:= StrToBool(SGetItem(S));
+    (C as TImage).Center:= AppStrToBool(SGetItem(S));
+    (C as TImage).Stretch:= AppStrToBool(SGetItem(S));
+    (C as TImage).StretchInEnabled:= AppStrToBool(SGetItem(S));
+    (C as TImage).StretchOutEnabled:= AppStrToBool(SGetItem(S));
+    (C as TImage).KeepOriginXWhenClipped:= AppStrToBool(SGetItem(S));
+    (C as TImage).KeepOriginYWhenClipped:= AppStrToBool(SGetItem(S));
     exit
   end;
 
@@ -836,7 +831,7 @@ begin
     (C as TTrackBar).Max:= StrToIntDef(SGetItem(S), 100);
     (C as TTrackBar).LineSize:= StrToIntDef(SGetItem(S), 1);
     (C as TTrackBar).PageSize:= StrToIntDef(SGetItem(S), 10);
-    (C as TTrackBar).Reversed:= StrToBool(SGetItem(S));
+    (C as TTrackBar).Reversed:= AppStrToBool(SGetItem(S));
     (C as TTrackBar).TickMarks:= TTickMark(StrToIntDef(SGetItem(S), 0));
     (C as TTrackBar).TickStyle:= TTickStyle(StrToIntDef(SGetItem(S), 0));
     exit;
@@ -847,10 +842,10 @@ begin
     (C as TProgressBar).Orientation:= TProgressBarOrientation(StrToIntDef(SGetItem(S), 0));
     (C as TProgressBar).Min:= StrToIntDef(SGetItem(S), 0);
     (C as TProgressBar).Max:= StrToIntDef(SGetItem(S), 100);
-    (C as TProgressBar).Smooth:= StrToBool(SGetItem(S));
+    (C as TProgressBar).Smooth:= AppStrToBool(SGetItem(S));
     (C as TProgressBar).Step:= StrToIntDef(SGetItem(S), 1);
     (C as TProgressBar).Style:= TProgressBarStyle(StrToIntDef(SGetItem(S), 0));
-    (C as TProgressBar).BarShowText:= StrToBool(SGetItem(S));
+    (C as TProgressBar).BarShowText:= AppStrToBool(SGetItem(S));
     exit;
   end;
 
@@ -859,7 +854,7 @@ begin
     (C as TGauge).Kind:= TGaugeKind(StrToIntDef(SGetItem(S), 0));
     (C as TGauge).MinValue:= StrToIntDef(SGetItem(S), 0);
     (C as TGauge).MaxValue:= StrToIntDef(SGetItem(S), 100);
-    (C as TGauge).ShowText:= StrToBool(SGetItem(S));
+    (C as TGauge).ShowText:= AppStrToBool(SGetItem(S));
     (C as TGauge).BackColor:= StrToIntDef(SGetItem(S), clWhite);
     (C as TGauge).ForeColor:= StrToIntDef(SGetItem(S), clNavy);
     (C as TGauge).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
@@ -868,7 +863,7 @@ begin
 
   if (C is TListViewFilterEdit) then
   begin
-    (C as TListViewFilterEdit).ByAllFields:= StrToBool(SGetItem(S));
+    (C as TListViewFilterEdit).ByAllFields:= AppStrToBool(SGetItem(S));
     exit
   end;
 end;
@@ -950,12 +945,12 @@ begin
   end;
   if C is TToggleBox then
   begin
-    (C as TToggleBox).Checked:= StrToBool(S);
+    (C as TToggleBox).Checked:= AppStrToBool(S);
     exit
   end;
   if C is TRadioButton then
   begin
-    (C as TRadioButton).Checked:= StrToBool(S);
+    (C as TRadioButton).Checked:= AppStrToBool(S);
     exit
   end;
   if C is TEdit then
@@ -1058,13 +1053,13 @@ begin
 
   if AName='en' then
   begin
-    C.Enabled:= StrToBool(AValue);
+    C.Enabled:= AppStrToBool(AValue);
     exit;
   end;
 
   if AName='vis' then
   begin
-    C.Visible:= StrToBool(AValue);
+    C.Visible:= AppStrToBool(AValue);
     exit;
   end;
 
@@ -1076,7 +1071,7 @@ begin
 
   if AName='act' then
   begin
-    TAppControlProps(C.Tag).FActive:= StrToBool(AValue);
+    TAppControlProps(C.Tag).FActive:= AppStrToBool(AValue);
     exit;
   end;
 
@@ -1200,7 +1195,7 @@ begin
   if AName='tab_stop' then
   begin
     if C is TWinControl then
-      (C as TWinControl).TabStop:= StrToBool(AValue);
+      (C as TWinControl).TabStop:= AppStrToBool(AValue);
     exit;
   end;
 
@@ -1496,7 +1491,7 @@ begin
   else
   if AName='resize' then
   begin
-    if StrToBool(AValue) then
+    if AppStrToBool(AValue) then
       F.BorderStyle:= bsSizeable
     else
       F.BorderStyle:= bsDialog;
@@ -1504,7 +1499,7 @@ begin
   else
   if AName='topmost' then
   begin
-    if StrToBool(AValue) then
+    if AppStrToBool(AValue) then
       F.FormStyle:= fsStayOnTop
     else
       F.FormStyle:= fsNormal;
@@ -1526,16 +1521,16 @@ begin
     F.FEventOnKeyUp:= AValue
   else
   if AName='vis' then
-    F.Visible:= StrToBool(AValue)
+    F.Visible:= AppStrToBool(AValue)
   else
   if AName='keypreview' then
-    F.KeyPreview:= StrToBool(AValue)
+    F.KeyPreview:= AppStrToBool(AValue)
   else
   if AName='color' then
     F.Color:= StrToIntDef(AValue, F.Color)
   else
   if AName='autosize' then
-    F.AutoSize:= StrToBool(AValue)
+    F.AutoSize:= AppStrToBool(AValue)
   else
   ;
 end;

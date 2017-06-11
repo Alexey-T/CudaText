@@ -30,6 +30,7 @@ procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
 function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 procedure DoScalePanelControls(APanel: TWinControl);
+function AppStrToBool(const S: string): boolean; inline;
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
@@ -397,6 +398,12 @@ begin
       DoScalePanelControls(Ctl as TATPanelSimple)
   end;
 end;
+
+function AppStrToBool(const S: string): boolean; inline;
+begin
+  Result:= S='1';
+end;
+
 
 end.
 

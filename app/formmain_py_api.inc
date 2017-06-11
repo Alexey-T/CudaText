@@ -2039,7 +2039,7 @@ begin
       F:= fmMain.GetEditorFrame(Ed);
       Str:= string(Ptr);
 
-      ValueBool:= Str<>'0';
+      ValueBool:= AppStrToBool(Str);
       ValueInt:= StrToIntDef(Str, 0);
 
       case Id of
@@ -2190,7 +2190,7 @@ begin
     begin
       Str:= string(Ptr);
       ParamInt:= StrToIntDef(Str, -1);
-      ParamBool:= (Str='1');
+      ParamBool:= AppStrToBool(Str);
 
       case Id of
         APP_PROC_GET_CLIP:
@@ -2814,7 +2814,7 @@ begin
           begin
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
-              An.Internal:= Str2='0';
+              An.Internal:= not AppStrToBool(Str2);
             Result:= ReturnNone;
 
             AppManager.Modified:= true;
@@ -3421,7 +3421,7 @@ begin
 
         TREE_PROP_SHOW_ROOT:
           begin
-            Tree.ShowRoot:= StrText<>'0';
+            Tree.ShowRoot:= AppStrToBool(StrText);
             Tree.Invalidate;
             Result:= ReturnNone;
           end;
