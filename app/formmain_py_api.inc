@@ -1640,6 +1640,8 @@ begin
 
         LOG_GET_LINES: //deprecated
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_log(LOG_GET_LINES)']));
+
             Str:= '';
             for i:= 0 to Prop^.Listbox.Items.Count-1 do
               Str:= Str + Prop^.Listbox.Items[i] + #13 + IntToStr(PtrInt(Prop^.Listbox.Items.Objects[i]))
@@ -1719,11 +1721,13 @@ begin
 
         LOG_CONSOLE_GET: //deprecated
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_log(LOG_CONSOLE_GET)']));
             Result:= StringsToPyList(fmConsole.ed.Items);
           end;
 
         LOG_CONSOLE_GET_LOG: //deprecated
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_log(LOG_CONSOLE_GET_LOG)']));
             Result:= PyUnicode_FromWideString(fmConsole.memo.Text);
           end;
 
@@ -2686,8 +2690,9 @@ begin
         APP_PROC_ENUM_FONTS:
           Result:= StringsToPyList(Screen.Fonts);
 
-        APP_PROC_GET_SPLIT:
+        APP_PROC_GET_SPLIT: //deprecated
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_GET_SPLIT)']));
             fmMain.DoSplitter_GetInfo(
               fmMain.DoSplitter_StringToId(Str),
               SplitVert,
@@ -2702,8 +2707,9 @@ begin
               );
           end;
 
-        APP_PROC_SET_SPLIT:
+        APP_PROC_SET_SPLIT: //deprecated
           begin
+            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_SET_SPLIT)']));
             Str1:= SGetItem(Str, ';');
             Str2:= SGetItem(Str, ';');
             fmMain.DoSplitter_SetInfo(
