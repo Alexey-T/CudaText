@@ -12,10 +12,12 @@ import cudatext_cmd
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
+NEED_API = '1.0.181'
 
 NODES = NODE_PROJECT, NODE_DIR, NODE_FILE = range(3)
 
 global_project_info = {}
+
 
 def project_variables():
     """
@@ -112,6 +114,10 @@ class Command:
         #already inited?
         if self.tree:
             return
+            
+        if app_api_version() < NEED_API:
+            msg_box('Project Manager needs newer app version', MB_OK+MB_ICONERROR)
+            return
 
         app_proc(PROC_SIDEPANEL_ADD, self.title + ",-1,tree")
 
@@ -160,13 +166,7 @@ class Command:
 
     def add_context_menu_node(self, parent, action, name):
 
-        desc = str.format(
-            "{};{};{};-1",
-            parent,
-            action,
-            name,
-        )
-        return app_proc(PROC_MENU_ADD, desc)
+        return menu_proc(parent, MENU_ADD, command=action, caption=name)
 
     def generate_context_menu(self):
 
@@ -179,7 +179,7 @@ class Command:
             node_type = None
 
         menu_all = "side:" + self.title
-        app_proc(PROC_MENU_CLEAR, menu_all)
+        menu_proc(menu_all, MENU_CLEAR)
         menu_proj = self.add_context_menu_node(menu_all, "0", "Project file")
         menu_nodes = self.add_context_menu_node(menu_all, "0", "Root nodes")
         if node_type==NODE_FILE:
@@ -208,7 +208,7 @@ class Command:
             else:
 
                 action_name = item_caption.lower().replace(" ", "_").rstrip(".")
-                action = "cuda_project_man,action_" + action_name
+                action = "cuda_project_man.action_" + action_name
 
             menu_added = self.add_context_menu_node(menu_use, action, item_caption)
 
@@ -216,7 +216,7 @@ class Command:
 
                 for path in self.options["recent_projects"]:
 
-                    action = str.format("cuda_project_man,action_open_project,r'{}'", path)
+                    action = str.format("module=cuda_project_man;cmd=action_open_project;info=r'{}';", path)
                     self.add_context_menu_node(menu_added, action, path)
 
 
@@ -443,26 +443,26 @@ class Command:
         self.new_project()
         self.action_refresh()
 
-    def action_open_project(self, path=None):
+    def action_open_project(self, info=None):
 
-        if path is None:
+        if info is None:
 
-            path = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
+            info = dlg_file(True, "", "", PROJECT_DIALOG_FILTER)
 
-        if path:
+        if info:
 
-            if Path(path).exists():
+            if Path(info).exists():
 
-                with open(path, encoding='utf8') as fin:
+                with open(info, encoding='utf8') as fin:
 
                     self.project = json.load(fin)
-                    self.project_file_path = Path(path)
-                    self.add_recent(path)
+                    self.project_file_path = Path(info)
+                    self.add_recent(info)
                     self.action_refresh()
                     self.save_options()
 
                 self.update_global_data()
-                msg_status("Project opened: "+path)
+                msg_status("Project opened: "+info)
 
             else:
 
