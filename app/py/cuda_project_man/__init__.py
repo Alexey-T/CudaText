@@ -475,7 +475,8 @@ class Command:
             index = tree_proc(self.tree, TREE_ITEM_GET_PARENT, index)
 
         path.reverse()
-        full_path = Path(self.top_nodes.get(index, '') / str.join(os.sep, path))
+        node = self.top_nodes.get(index, None)
+        full_path = Path(node / str.join(os.sep, path)) if node else Path('')
 
         return full_path
 
