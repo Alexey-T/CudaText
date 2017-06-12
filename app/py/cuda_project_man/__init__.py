@@ -91,7 +91,7 @@ class Command:
         "recent_projects": [],
         "masks_ignore": DEFAULT_MASKS_IGNORE,
         "on_start": False,
-        "directory_lazy_reveal": False,
+        "lazy": False,
     }
     tree = None
 
@@ -108,7 +108,7 @@ class Command:
         # already inited?
         if self.tree:
             return
-            
+
         if app_api_version() < NEED_API:
             msg_box('Project Manager needs newer app version', MB_OK+MB_ICONERROR)
             return
@@ -362,7 +362,7 @@ class Command:
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
 
-            if not self.options.get("directory_lazy_reveal", False):
+            if not self.options.get("lazy", False):
                 if path.is_dir():
                     sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
                     self.action_refresh(index, sub_nodes)
@@ -488,7 +488,7 @@ class Command:
             info = self.get_info(self.selected)
             path = self.get_location_by_index(self.selected)
             if info.image == NODE_DIR:
-                if self.options.get("directory_lazy_reveal", False):
+                if self.options.get("lazy", False):
                     self.action_refresh(self.selected, path.iterdir())
                     tree_proc(self.tree, TREE_ITEM_UNFOLD, self.selected)
         elif id_event == "on_dbl_click":
