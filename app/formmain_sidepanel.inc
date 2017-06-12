@@ -211,6 +211,7 @@ begin
     ItemListbox:= nil;
     ItemControl:= AForm;
 
+    AForm.BorderStyle:= bsNone;
     AForm.Parent:= AParent;
     AForm.Align:= alClient;
   end;
