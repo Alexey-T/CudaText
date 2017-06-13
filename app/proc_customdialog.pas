@@ -17,10 +17,15 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   LclProc, LclType,
+  ATListbox,
   ATButtonsToolbar,
+  ATLinkLabel,
+  ATStringProc,
+  ATPanelColor,
   Gauges,
   proc_customdialog_dummy,
   proc_miscutils,
+  proc_globdata,
   proc_scrollbars,
   PythonEngine;
 
@@ -45,13 +50,10 @@ procedure DoForm_ScaleAuto(F: TForm);
 procedure DoForm_CloseDockedForms(F: TForm);
 
 
-implementation
+var
+  CustomDialog_Listbox_OnDrawItem: TATListboxDrawItemEvent = nil;
 
-uses
-  ATListbox,
-  ATLinkLabel,
-  ATStringProc,
-  ATPanelColor;
+implementation
 
 var
   FDialogShown: boolean = false;
@@ -541,7 +543,7 @@ begin
   if (S='treeview') then
   begin
     Ctl:= TTreeViewMy.Create(AForm);
-    DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
+    DoApplyThemeToTreeview(TTreeViewMy(Ctl), false{not themed});
     TTreeView(Ctl).Images:= TImageList.Create(AForm);
     TTreeView(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
     TTreeView(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
@@ -553,8 +555,10 @@ begin
   if (S='listbox_ex') then
   begin
     Ctl:= TATListboxMy.Create(AForm);
-    (Ctl as TATListbox).CanGetFocus:= true;
-    (Ctl as TATListbox).OnChangedSel:= @AForm.DoOnChange;
+    TATListbox(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
+    TATListbox(Ctl).CanGetFocus:= true;
+    TATListbox(Ctl).OnDrawItem:= CustomDialog_Listbox_OnDrawItem;
+    TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     exit;
   end;
 
