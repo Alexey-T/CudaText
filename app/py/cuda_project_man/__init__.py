@@ -14,7 +14,7 @@ PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
 NEED_API = '1.0.184'
 
-NODES = NODE_PROJECT, NODE_DIR, NODE_FILE = range(3)
+NODES = NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 
 global_project_info = {}
 
@@ -43,6 +43,7 @@ icon_names = {
     NODE_PROJECT: "icon-project.png",
     NODE_DIR: "icon-dir.png",
     NODE_FILE: "icon-file.png",
+    NODE_BAD: "icon-bad.png",
 }
 
 NodeInfo = collections.namedtuple("NodeInfo", "caption index image level")
@@ -372,7 +373,7 @@ class Command:
                 parent,
                 -1,
                 path.name,
-                NODE_DIR if path.is_dir() else NODE_FILE,
+                NODE_DIR if path.is_dir() else NODE_FILE if path.is_file() else NODE_BAD,
             )
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path

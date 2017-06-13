@@ -1,5 +1,6 @@
 
 2017.05.14
++ show X icon for file/dir deleted from disk
 + now not all sub-dirs are read from disk, but only dirs of top level; next subdirs are read on unfolding them; much faster for dirs with huge count of dirs/files, e.g. "/usr" [patch by pohmelie]
 
 2017.05.13
