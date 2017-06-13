@@ -4,8 +4,9 @@
   * changed
 
 
-1.9.4
+1.9.5
 + preinstalled plugin Tabs List
++ plugin Project Manager: read only toplevel dirs from disk, and read other dirs only on unfolding them in treeview (patch by @pohmelie)
 * finder: don't put backward selection on find-backward
 * lexer help file converted from CHM format to ODT
 + api
