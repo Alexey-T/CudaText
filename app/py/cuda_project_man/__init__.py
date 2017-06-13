@@ -91,7 +91,6 @@ class Command:
         "recent_projects": [],
         "masks_ignore": DEFAULT_MASKS_IGNORE,
         "on_start": False,
-        "lazy": False,
     }
 
     tree = None
@@ -117,24 +116,24 @@ class Command:
             return
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
-        
+
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name':'tree', 
+            'name':'tree',
             'a_r':('',']'), #anchor to entire form: l,r,t,b
             'a_b':('',']'),
-            'on_menu': 'cuda_project_man.tree_on_menu',  
-            'on_unfold': 'cuda_project_man.tree_on_unfold',  
-            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',  
+            'on_menu': 'cuda_project_man.tree_on_menu',
+            'on_unfold': 'cuda_project_man.tree_on_unfold',
+            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         tree_proc(self.tree, TREE_THEME)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-        
+
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
-        
+
         base = Path(__file__).parent
         for n in NODES:
             path = base / 'icons' / icon_names[n]
@@ -165,7 +164,6 @@ class Command:
         return tree_proc(self.tree, TREE_ITEM_GET_SELECTED)
 
     def add_context_menu_node(self, parent, action, name):
-
         return menu_proc(parent, MENU_ADD, command=action, caption=name)
 
 
@@ -177,7 +175,7 @@ class Command:
 
         if not self.h_menu:
             self.h_menu = menu_proc(0, MENU_CREATE)
-            
+
         menu_all = self.h_menu
         menu_proc(menu_all, MENU_CLEAR)
         menu_proj = self.add_context_menu_node(menu_all, "0", "Project file")
@@ -215,7 +213,6 @@ class Command:
             menu_added = self.add_context_menu_node(menu_use, action, item_caption)
             if item_caption == "Recent projects":
                 for path in self.options["recent_projects"]:
-
                     action = str.format("module=cuda_project_man;cmd=action_open_project;info=r'{}';", path)
                     self.add_context_menu_node(menu_added, action, path)
 
@@ -232,7 +229,6 @@ class Command:
             self.project["nodes"].sort(key=Command.node_ordering)
             self.action_refresh()
             if self.project_file_path:
-
                 self.action_save_project_as(self.project_file_path)
 
     def new_project(self):
@@ -346,7 +342,7 @@ class Command:
         msg_status('Called "Find in Files" for "%s"' % location)
         fif.show_dlg(what="", opts={"fold": location})
 
-    def action_refresh(self, parent=None, nodes=None):
+    def action_refresh(self, parent=None, nodes=None, depth=2):
         unfold = parent is None
         if parent is None:
             tree_proc(self.tree, TREE_ITEM_DELETE, 0)
@@ -381,10 +377,9 @@ class Command:
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
 
-            if not self.options.get("lazy", False):
-                if path.is_dir():
-                    sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
-                    self.action_refresh(index, sub_nodes)
+            if path.is_dir() and depth > 1:
+                sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
+                self.action_refresh(index, sub_nodes, depth - 1)
 
         if unfold:
             tree_proc(self.tree, TREE_ITEM_UNFOLD, parent)
@@ -529,7 +524,6 @@ class Command:
         tree_proc(self.tree, TREE_ITEM_SELECT, items[0][0])
 
     def new_project_open_dir(self):
-
         self.init_panel()
         self.action_new_project()
         self.action_add_directory()
@@ -537,7 +531,6 @@ class Command:
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def open_dir(self, dirname):
-
         self.init_panel()
         self.action_new_project()
         self.add_node(lambda: dirname)
@@ -687,17 +680,17 @@ class Command:
 
 
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
-        prop = tree_proc(id_dlg, TREE_ITEM_GET_PROP, id_item=data)
-        print('on_unfold,', 'item "%s"'%prop[0])
-        
-        #info = self.get_info(self.selected)
-        #path = self.get_location_by_index(self.selected)
-        #if info.image == NODE_DIR:
-        #    if self.options.get("lazy", False):
-        #        self.action_refresh(self.selected, path.iterdir())
-        #        tree_proc(self.tree, TREE_ITEM_UNFOLD, self.selected)
-        #
-        
+        info = self.get_info(data)
+        path = self.get_location_by_index(data)
+        if info.image != NODE_DIR:
+            return
+        items = tree_proc(self.tree, TREE_ITEM_ENUM, data)
+        if items:
+            for handle, _ in items:
+                tree_proc(self.tree, TREE_ITEM_DELETE, handle)
+        sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
+        self.action_refresh(data, sub_nodes)
+
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
         self.generate_context_menu()
         menu_proc(self.h_menu, MENU_SHOW, command='')
@@ -707,4 +700,4 @@ class Command:
         path = self.get_location_by_index(self.selected)
         if info.image == NODE_FILE:
             file_open(str(path))
-                
+
