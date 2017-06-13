@@ -27,6 +27,7 @@ type
 
 var
   CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
+  CustomDialogs: TList;
 
 type
   { TAppControlProps }
@@ -186,10 +187,18 @@ begin
 
   PrevBorderStyle:= BorderStyle;
   PrevForms:= TList.Create;
+
+  CustomDialogs.Add(Self);
 end;
 
 destructor TFormDummy.Destroy;
+var
+  n: integer;
 begin
+  n:= CustomDialogs.IndexOf(Self);
+  if n>=0 then
+    CustomDialogs.Delete(n);
+
   FreeAndNil(PrevForms);
   inherited;
 end;
@@ -502,6 +511,12 @@ begin
   DoEvent(IdControl, Props.FEventOnSelect, '');
 end;
 
+
+initialization
+  CustomDialogs:= TList.Create;
+
+finalization
+  CustomDialogs.Free;
 
 end.
 

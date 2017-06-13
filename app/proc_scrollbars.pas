@@ -16,6 +16,7 @@ type
   TTreeViewMy = class(TTreeView)
   private
     FScroll: TATScroll;
+    FThemed: boolean;
     procedure ScrollChange(Sender: TObject);
     procedure UpdScroll;
   protected
@@ -27,6 +28,7 @@ type
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
   public
     constructor Create(AOwner: TComponent); override;
+    property Themed: boolean read FThemed write FThemed;
   end;
 
 type
@@ -35,6 +37,7 @@ type
   TATListboxMy = class(TATListbox)
   private
     FScroll: TATScroll;
+    FThemed: boolean;
     procedure ScrollChange(Sender: TObject);
     procedure UpdScroll;
   protected
@@ -44,6 +47,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     function ClientWidth: integer;
+    property Themed: boolean read FThemed write FThemed;
   end;
 
 const

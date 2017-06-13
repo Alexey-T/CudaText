@@ -3269,6 +3269,7 @@ begin
 
         LISTBOX_THEME:
           begin
+            Listbox.Themed:= true;
             DoApplyThemeToListbox(Listbox);
             Result:= ReturnNone;
           end
@@ -3499,7 +3500,8 @@ begin
 
         TREE_THEME:
           begin
-            DoApplyThemeToTreeview(Tree, true);
+            Tree.Themed:= true;
+            DoApplyThemeToTreeview(Tree, true, false);
             Result:= ReturnNone;
           end;
 

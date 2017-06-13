@@ -19,6 +19,7 @@ uses
   ATSynEdit_Export_HTML,
   ATStringProc,
   ATButtons,
+  ATListbox,
   ATPanelSimple,
   ecSyntAnal,
   proc_globdata,
@@ -40,8 +41,8 @@ type
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 
-procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean=true);
-procedure DoApplyThemeToListbox(C: TATListbox);
+procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed, AChangeShowRoot: boolean);
+procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
 
 procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
 
@@ -343,7 +344,7 @@ begin
 end;
 
 
-procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean);
+procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed, AChangeShowRoot: boolean);
 begin
   if AThemed then
   begin
@@ -366,10 +367,11 @@ begin
     tvoAutoItemHeight,
     tvoKeepCollapsedNodes,
     tvoShowButtons,
-    tvoShowLines,
-    tvoShowRoot,
     tvoToolTips
     ];
+
+  if AChangeShowRoot then
+    C.ShowRoot:= true;
   C.ShowLines:= UiOps.TreeShowLines;
   C.RowSelect:= true;
   C.RightClickSelect:= true;
@@ -384,7 +386,7 @@ begin
 end;
 
 
-procedure DoApplyThemeToListbox(C: TATListbox);
+procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
 begin
   C.Font.Name:= UiOps.VarFontName;
   C.Font.Size:= UiOps.VarFontSize;

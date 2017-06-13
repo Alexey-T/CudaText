@@ -543,7 +543,7 @@ begin
   if (S='treeview') then
   begin
     Ctl:= TTreeViewMy.Create(AForm);
-    DoApplyThemeToTreeview(TTreeViewMy(Ctl), false{not themed});
+    DoApplyThemeToTreeview(TTreeViewMy(Ctl), false, true);
     TTreeViewMy(Ctl).Images:= TImageList.Create(AForm);
     TTreeViewMy(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
     TTreeViewMy(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;

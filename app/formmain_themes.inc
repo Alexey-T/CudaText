@@ -1,5 +1,24 @@
 {$ifdef nnnn}begin end;{$endif}
 
+procedure DoApplyThemeToCustomDialog(F: TFormDummy);
+var
+  C: TControl;
+  i: integer;
+begin
+  for i:= 0 to F.ControlCount-1 do
+  begin
+    C:= F.Controls[i];
+
+    if C is TATListboxMy then
+      if (C as TATListboxMy).Themed then
+        DoApplyThemeToListbox(C as ATListbox.TATListbox);
+
+    if C is TTreeViewMy then
+      if (C as TTreeViewMy).Themed then
+        DoApplyThemeToTreeview(C as ComCtrls.TTreeview, true, false);
+  end;
+end;
+
 procedure TfmMain.DoApplyTheme;
 var
   F: TEditorFrame;
@@ -98,7 +117,7 @@ begin
     fmFind.Invalidate;
   end;
 
-  DoApplyThemeToTreeview(Tree);
+  DoApplyThemeToTreeview(Tree, true, true);
 
   //side: proc_sidepanel_add
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
@@ -106,7 +125,7 @@ begin
     begin
       if ItemCaption='' then break;
       if Assigned(ItemTreeview) then
-        DoApplyThemeToTreeview(ItemTreeview);
+        DoApplyThemeToTreeview(ItemTreeview, true, false);
       if Assigned(ItemListbox) then
         DoApplyThemeToListbox(ItemListbox);
     end;
@@ -117,10 +136,14 @@ begin
     begin
       if ItemCaption='' then break;
       if Assigned(ItemTreeview) then
-        DoApplyThemeToTreeview(ItemTreeview);
+        DoApplyThemeToTreeview(ItemTreeview, true, false);
       if Assigned(ItemListbox) then
         DoApplyThemeToListbox(ItemListbox);
     end;
+
+  //proc_sidepanel_add_dialog
+  for i:= 0 to CustomDialogs.Count-1 do
+    DoApplyThemeToCustomDialog(TFormDummy(CustomDialogs[i]));
 
   //apply AppTheme to all frames
   for i:= 0 to FrameCount-1 do

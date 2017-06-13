@@ -27,6 +27,7 @@ uses
   ecSyntAnal,
   ATButtons,
   ATButtonsToolbar,
+  ATListbox,
   ATPanelSimple,
   ATSynEdit,
   ATSynEdit_ScrollBar,

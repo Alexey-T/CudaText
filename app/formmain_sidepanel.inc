@@ -161,7 +161,7 @@ begin
     ItemTreeview.OnContextPopup:=@DoPanel_OnContextPopup;
     ItemTreeview.OnKeyDown:= @DoPanel_TreeviewOnKeyDown;
 
-    DoApplyThemeToTreeview(ItemTreeview);
+    DoApplyThemeToTreeview(ItemTreeview, true, true);
     //just to see it ok
     ItemTreeview.Items.Add(nil, 'panel '+ACaption);
   end;
