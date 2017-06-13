@@ -255,6 +255,7 @@ begin
   begin
     IdClicked:= -1;
 
+    if Parent=nil then //dont handle Esc if parented to some ctl
     if fsModal in FFormState then
       ModalResult:= mrCancel
     else
