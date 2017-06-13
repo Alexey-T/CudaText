@@ -122,6 +122,7 @@ class Command:
             'a_b':('',']'),
             'on_menu': 'cuda_project_man.tree_on_menu',  
             'on_unfold': 'cuda_project_man.tree_on_unfold',  
+            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',  
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
@@ -492,23 +493,6 @@ class Command:
 
         return full_path
 
-    def on_panel(self, ed_self, id_control, id_event):
-        if not self.tree or id_control != self.tree:
-            return
-
-        if id_event == "on_sel":
-            self.generate_context_menu()
-            info = self.get_info(self.selected)
-            path = self.get_location_by_index(self.selected)
-            if info.image == NODE_DIR:
-                if self.options.get("lazy", False):
-                    self.action_refresh(self.selected, path.iterdir())
-                    tree_proc(self.tree, TREE_ITEM_UNFOLD, self.selected)
-        elif id_event == "on_dbl_click":
-            info = self.get_info(self.selected)
-            path = self.get_location_by_index(self.selected)
-            if info.image == NODE_FILE:
-                file_open(str(path))
 
     def save_options(self):
         with self.options_filename.open(mode="w", encoding='utf8') as fout:
@@ -699,5 +683,21 @@ class Command:
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
         print('on_unfold todo')
         
+        #info = self.get_info(self.selected)
+        #path = self.get_location_by_index(self.selected)
+        #if info.image == NODE_DIR:
+        #    if self.options.get("lazy", False):
+        #        self.action_refresh(self.selected, path.iterdir())
+        #        tree_proc(self.tree, TREE_ITEM_UNFOLD, self.selected)
+        #
+        
     def tree_on_menu(self, id_dlg, id_ctl, data='', info=''):
+        self.generate_context_menu()
         menu_proc(self.h_menu, MENU_SHOW, command='')
+
+    def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
+        info = self.get_info(self.selected)
+        path = self.get_location_by_index(self.selected)
+        if info.image == NODE_FILE:
+            file_open(str(path))
+                
