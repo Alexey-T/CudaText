@@ -542,6 +542,7 @@ begin
   begin
     Ctl:= proc_globdata.TTreeView.Create(AForm);
     DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
+    TTreeView(Ctl).Images:= TImageList.Create(AForm);
     TTreeView(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
     TTreeView(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
     TTreeView(Ctl).OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
