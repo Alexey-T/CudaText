@@ -21,7 +21,7 @@ uses
   Gauges,
   proc_customdialog_dummy,
   proc_miscutils,
-  proc_globdata,
+  proc_scrollbars,
   PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string;
@@ -540,7 +540,7 @@ begin
 
   if (S='treeview') then
   begin
-    Ctl:= proc_globdata.TTreeView.Create(AForm);
+    Ctl:= TTreeViewMy.Create(AForm);
     DoApplyThemeToTreeview(Ctl as TTreeView, false{not themed});
     TTreeView(Ctl).Images:= TImageList.Create(AForm);
     TTreeView(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
@@ -552,7 +552,7 @@ begin
 
   if (S='listbox_ex') then
   begin
-    Ctl:= TATListbox.Create(AForm);
+    Ctl:= TATListboxMy.Create(AForm);
     (Ctl as TATListbox).CanGetFocus:= true;
     (Ctl as TATListbox).OnChangedSel:= @AForm.DoOnChange;
     exit;
