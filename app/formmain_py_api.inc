@@ -3438,18 +3438,32 @@ begin
 
         TREE_ITEM_UNFOLD:
           begin
+            if Tree.Owner is TFormDummy then
+              (Tree.Owner as TFormDummy).BlockedOnUnfold:= true;
+
             if Assigned(TreeNode) then
               TreeNode.Expand(false);
+
+            if Tree.Owner is TFormDummy then
+              (Tree.Owner as TFormDummy).BlockedOnUnfold:= false;
+
             Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_UNFOLD_DEEP:
           begin
+            if Tree.Owner is TFormDummy then
+              (Tree.Owner as TFormDummy).BlockedOnUnfold:= true;
+
             if Assigned(TreeNode) then
               TreeNode.Expand(true)
             else
               Tree.FullExpand;
+
+            if Tree.Owner is TFormDummy then
+              (Tree.Owner as TFormDummy).BlockedOnUnfold:= false;
+
             Tree.Invalidate;
             Result:= ReturnNone;
           end;

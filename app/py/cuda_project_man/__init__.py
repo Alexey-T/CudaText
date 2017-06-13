@@ -687,7 +687,8 @@ class Command:
 
 
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
-        print('on_unfold todo')
+        prop = tree_proc(id_dlg, TREE_ITEM_GET_PROP, id_item=data)
+        print('on_unfold,', 'item "%s"'%prop[0])
         
         #info = self.get_info(self.selected)
         #path = self.get_location_by_index(self.selected)

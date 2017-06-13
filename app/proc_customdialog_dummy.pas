@@ -73,6 +73,8 @@ type
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
     BlockedOnChange: boolean;
+    BlockedOnFold: boolean;
+    BlockedOnUnfold: boolean;
     function IdFocused: integer;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -485,6 +487,7 @@ var
   Props: TAppControlProps;
   IdControl: integer;
 begin
+  if BlockedOnUnfold then exit;
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnUnfold, IntToStr(PtrInt(Node)));
@@ -496,6 +499,7 @@ var
   Props: TAppControlProps;
   IdControl: integer;
 begin
+  if BlockedOnFold then exit;
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnFold, IntToStr(PtrInt(Node)));
