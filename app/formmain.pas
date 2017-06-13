@@ -1028,7 +1028,6 @@ var
   i: integer;
 begin
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
-  CustomDialog_Listbox_OnDrawItem:= @DoSidebar_ListboxDrawItem;
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);

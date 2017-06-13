@@ -50,8 +50,8 @@ procedure DoForm_ScaleAuto(F: TForm);
 procedure DoForm_CloseDockedForms(F: TForm);
 
 
-var
-  CustomDialog_Listbox_OnDrawItem: TATListboxDrawItemEvent = nil;
+//var
+//  CustomDialog_Listbox_OnDrawItem: TATListboxDrawItemEvent = nil;
 
 implementation
 
@@ -544,21 +544,20 @@ begin
   begin
     Ctl:= TTreeViewMy.Create(AForm);
     DoApplyThemeToTreeview(TTreeViewMy(Ctl), false{not themed});
-    TTreeView(Ctl).Images:= TImageList.Create(AForm);
-    TTreeView(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
-    TTreeView(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
-    TTreeView(Ctl).OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
-    TTreeView(Ctl).OnExpanding:= @AForm.DoOnTreeviewExpanding;
+    TTreeViewMy(Ctl).Images:= TImageList.Create(AForm);
+    TTreeViewMy(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
+    TTreeViewMy(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
+    TTreeViewMy(Ctl).OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
+    TTreeViewMy(Ctl).OnExpanding:= @AForm.DoOnTreeviewExpanding;
     exit
   end;
 
   if (S='listbox_ex') then
   begin
     Ctl:= TATListboxMy.Create(AForm);
-    TATListbox(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
-    TATListbox(Ctl).CanGetFocus:= true;
-    TATListbox(Ctl).OnDrawItem:= CustomDialog_Listbox_OnDrawItem;
-    TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
+    TATListboxMy(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
+    TATListboxMy(Ctl).CanGetFocus:= true;
+    TATListboxMy(Ctl).OnChangedSel:= @AForm.DoOnChange;
     exit;
   end;
 

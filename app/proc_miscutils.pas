@@ -41,7 +41,7 @@ procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 
 procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed: boolean=true);
-procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
+procedure DoApplyThemeToListbox(C: TATListbox);
 
 procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
 
@@ -384,12 +384,14 @@ begin
 end;
 
 
-procedure DoApplyThemeToListbox(C: proc_globdata.TATListbox);
+procedure DoApplyThemeToListbox(C: TATListbox);
 begin
   C.Font.Name:= UiOps.VarFontName;
   C.Font.Size:= UiOps.VarFontSize;
   C.Font.Color:= GetAppColor('ListFont');
   C.Color:= GetAppColor('ListBg');
+  C.ColorSelFont:= GetAppColor('ListSelFont');
+  C.ColorSelBack:= GetAppColor('ListSelBg');
   C.Invalidate;
 end;
 
