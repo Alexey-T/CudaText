@@ -93,7 +93,10 @@ class Command:
         "on_start": False,
         "lazy": False,
     }
+
     tree = None
+    h_dlg = None
+    h_menu = None
 
     def __init__(self):
         settings_dir = Path(app_path(APP_DIR_SETTINGS))
@@ -172,7 +175,9 @@ class Command:
         else:
             node_type = None
 
-        self.h_menu = menu_proc(0, MENU_CREATE)
+        if not self.h_menu:
+            self.h_menu = menu_proc(0, MENU_CREATE)
+            
         menu_all = self.h_menu
         menu_proc(menu_all, MENU_CLEAR)
         menu_proj = self.add_context_menu_node(menu_all, "0", "Project file")
@@ -199,6 +204,7 @@ class Command:
                 menu_use = menu_dir
             else:
                 menu_use = menu_all
+
             if item_caption in ["-", "Recent projects"]:
                 action_name = ""
                 action = ""
