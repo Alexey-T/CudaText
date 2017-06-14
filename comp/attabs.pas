@@ -556,7 +556,7 @@ begin
   FTabShowMenu:= true;
   FTabShowBorderActiveLow:= false;
   FTabShowEntireColor:= false;
-  FTabMiddleClickClose:= false;
+  FTabMiddleClickClose:= true;
   FTabDoubleClickClose:= true;
   FTabDoubleClickPlus:= false;
   FTabDragEnabled:= true;
@@ -1191,7 +1191,7 @@ end;
 procedure TATTabs.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
-  FMouseDown:= Button=mbLeft;
+  FMouseDown:= Button in [mbLeft, mbMiddle]; //but not mbRight
   FMouseDownPnt:= Point(X, Y);
   FMouseDownButton:= Button;
   FMouseDownShift:= Shift;

@@ -100,6 +100,7 @@ type
     tabOptionShowNums,
     tabOptionShowEntireColor,
     tabOptionDoubleClickClose,
+    tabOptionMiddleClickClose,
     tabOptionDragDrop,
     tabOptionHeight,
     tabOptionHeightInner,
@@ -1482,6 +1483,7 @@ begin
         tabOptionShowNums:         TabNumPrefix:= IfThen(Boolean(N), '%d. ', '');
         tabOptionShowEntireColor:  TabShowEntireColor:= Boolean(N);
         tabOptionDoubleClickClose: TabDoubleClickClose:= Boolean(N);
+        tabOptionMiddleClickClose: TabMiddleClickClose:= Boolean(N);
         tabOptionDragDrop:         TabDragEnabled:= Boolean(N);
         tabOptionAngle:            TabAngle:= DoScale(N);
         tabOptionHeight:           Height:= DoScale(N);
