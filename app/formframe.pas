@@ -1142,7 +1142,6 @@ end;
 
 procedure TEditorFrame.DoFileReload;
 var
-  PrevLineTop,
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   PrevLexer: string;
@@ -1153,10 +1152,13 @@ begin
   PrevLexer:= LexerName;
   PrevCaretX:= 0;
   PrevCaretY:= 0;
-  PrevLineTop:= Editor.LineTop;
+
   if Editor.Carets.Count>0 then
     with Editor.Carets[0] do
-      begin PrevCaretX:= PosX; PrevCaretY:= PosY; end;
+      begin
+        PrevCaretX:= PosX;
+        PrevCaretY:= PosY;
+      end;
 
   PrevTail:= UiOps.ReloadFollowTail and
     (Editor.Strings.Count>0) and
@@ -1173,14 +1175,17 @@ begin
   begin
     PrevCaretX:= 0;
     PrevCaretY:= Editor.Strings.Count-1;
-    PrevLineTop:= PrevCaretY-Abs(UiOps.FindIndentVert);
   end;
-  Editor.LineTop:= PrevLineTop;
-  FTopLineTodo:= PrevLineTop;
-  Editor.Update;
 
-  Editor.DoCaretSingle(PrevCaretX, PrevCaretY);
-  Editor.Update;
+  Editor.DoGotoPos(
+    Point(PrevCaretX, PrevCaretY),
+    Point(-1, -1),
+    1,
+    1, //indentVert must be >0
+    true,
+    false
+    );
+
   OnUpdateStatus(Self);
 end;
 
