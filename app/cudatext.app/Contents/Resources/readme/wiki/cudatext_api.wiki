@@ -730,12 +730,33 @@ Described in dlg_custom, see [[#Types]].
 * "tag": str: Any string, set by plugin. 
 * "resize": bool: Allows form to resize.
 * "topmost": bool: Makes form stay on top of other forms in CudaText.
-* "callback": str: Default callback for controls on form (used if controls don't have own callbacks).
 * "vis": bool: Visible state.
 * "color": int: Background color.
-* "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
-* "events": list of str: List of sub-event names, which go to callback. E.g. ['on_resize', 'on_close']. If it's "*" or ["*"] then all events go to callback.
 * "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
+* "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
+
+====Form events====
+
+These are also properties of forms.
+
+* "on_resize": Called after form is resized.
+* "on_close": Called after form is closed.
+* "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
+* "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
+** param "id_ctl": int key code.
+** param "data": key-state string: few chars, "c" for Ctrl, "a" for Alt, "s" for Shift, "m" for Meta.
+* "on_key_up": Called when key is depressed (after on_key_down). If plugin returns False, depressing of key is blocked.
+
+How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
+
+<syntaxhighlight lang="python">
+    str_key =\
+      ('Meta+' if 'm' in data else '')+\
+      ('Ctrl+' if 'c' in data else '')+\
+      ('Alt+' if 'a' in data else '')+\
+      ('Shift+' if 's' in data else '')+\
+      app_proc(PROC_HOTKEY_INT_TO_STR, id_ctl)
+</syntaxhighlight>
 
 ====Control properties====
 
@@ -750,13 +771,10 @@ Described in dlg_custom, see [[#Types]].
 * "font_size": int: Font size.
 * "font_color": int: Font color.
 * "hint": str: Hint (tooltip) for mouse-over. Newlines must be "\r".
-* "act": bool: Active state. For active control, change of its value runs the callback. Buttons are active by default.
 * "props": str: Advanced control-specific props. Described in dlg_custom.
 * "items": str: Usually tab-separated items. Described in dlg_custom.
 * "val": str: Value of control. Described in dlg_custom.
 * "tag": str: Any string, set by plugin.
-
-* "callback": str: Callback specific to this control, called instead of default form callback. Control must be active, ie has "act":True; buttons don't need "act", they are active by default. Callbacks are described below.
 
 * "tab_stop": bool: Allows tab-key to jump to this control.
 * "tab_order": int: Tab-key jumps to controls using tab_orders. First activated is control with tab_order=0, next with =1, etc. If tab_orders not set, controls activated by creation order.
@@ -769,46 +787,39 @@ Described in dlg_custom, see [[#Types]].
 
 * "p": str: Name of control's parent, or empty to use the form. Coordinates x/y of control are relative to the current parent. If parent's position changes, control's position don't change. To place control on PageControl's page with index N, specify such parent name: pages_name+"."+str(N).
 
+====Control events====
+
+These are also properties of controls.
+
+* "on_change": Called after "value" of control is changed.
+* "on_click": Called after click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
+* "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
+* "on_menu": Called before showing context menu after right click.
+* "on_select": Called after selection in control is changed. For these controls: "treeview", "listview".
+* "on_fold", "on_unfold": Called for type "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+
 ====Callbacks====
 
-Callback param must be in one of these forms: [[#Callback_param]].
+Values of events are callbacks, must be in one of these forms: [[#Callback_param]].
 
 Callbacks for dlg_proc must be declared as:
 
 <syntaxhighlight lang="python">
 #function
-def my(id_dlg, id_ctl, id_event, info=""):
+def my(id_dlg, id_ctl, data='', info=''):
   pass
 #method
 class Command:
-  def my(self, id_dlg, id_ctl, id_event, info=""):
+  def my(self, id_dlg, id_ctl, data='', info=''):
     pass
 </syntaxhighlight>
 
-====Callback params====
+Parameters:
 
 * id_dlg: Int handle of form.
-* id_ctl: Index of control in form.
-* id_event: Name of sub-event. Can be:
-** "on_change": Called after change of "active" control state, including button click.
-** "on_click": Called after click on "non-active" control. Currently only for control types: "paintbox". For this event, info is tuple (x, y) with control-coordinates of click.
-** "on_resize": Called after form is resized.
-** "on_close": Called after form is closed.
-** "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
-** "on_key_down": Called when key is pressed in form (form should have "keypreview":True). For this event, id_ctl contains int key code, and info contains key-state string (few chars, "c" for Ctrl, "a" for Alt, "s" for Shift, "m" for Meta). If plugin returns False, key is blocked.
-** "on_key_up": Called when key is released (after on_key_down). If plugin returns False, key is blocked.
-* info: Additional info for events.
-
-How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=27 and info="ca":
-
-<syntaxhighlight lang="python">
-    str_key =\
-      ('Meta+' if 'm' in info else '')+\
-      ('Ctrl+' if 'c' in info else '')+\
-      ('Alt+' if 'a' in info else '')+\
-      ('Shift+' if 's' in info else '')+\
-      app_proc(PROC_HOTKEY_INT_TO_STR, str(id_ctl))
-</syntaxhighlight>
+* id_ctl: Int index of control. Used only for control events.
+* data: Value, specific to event.
+* info: Value from extended form of callback string.
 
 ====Actions====
 
@@ -1842,6 +1853,15 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.183
+* big changes in dlg_proc: 
+** deleted: parameter 'id_event'
+** deleted: props 'callback', 'events'
+** form events is not called for controls (forms have own events, controls have own events)
+** add: events for forms: 'on_resize', 'on_close', 'on_close_query', 'on_key_down', 'on_key_up'
+** add: events for controls: 'on_change', 'on_click', 'on_click_dbl', 'on_select', 'on_menu'
+** add: events for 'treeview' control: 'on_fold', 'on_unfold'
 
 1.0.182
 * add: dlg_proc: type "toolbar"

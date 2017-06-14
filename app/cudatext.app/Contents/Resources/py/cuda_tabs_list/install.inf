@@ -7,7 +7,7 @@ homepage=https://github.com/CudaText-addons/cuda_tabs_list
 
 [item1]
 section=events
-events=on_focus,on_open,on_tab_move,on_panel,on_state,on_start
+events=on_focus,on_open,on_tab_move,on_state,on_start
 
 [item2]
 section=commands
