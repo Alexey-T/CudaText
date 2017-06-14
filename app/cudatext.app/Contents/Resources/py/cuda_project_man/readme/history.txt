@@ -1,6 +1,13 @@
 
+2017.05.14
++ show X icon for file/dir deleted from disk
++ now not all sub-dirs are read from disk, but only dirs of top level; next subdirs are read on unfolding them; much faster for dirs with huge count of dirs/files, e.g. "/usr" [patch by pohmelie]
+
+2017.05.13
++ don't use deprecated APIs, port to new API: menu_proc(), app_proc(proc_sidepanel_add_dialog)
+
 2017.05.31
-+ method open_dir to integrate with Cudatext
++ method open_dir to integrate with CudaText
 
 2016.11.02
 + cmd "sync to curr file"

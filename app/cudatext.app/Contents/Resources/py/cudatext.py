@@ -192,6 +192,7 @@ PROC_SIDEPANEL_ACTIVATE    = 25
 PROC_SIDEPANEL_ENUM        = 26
 PROC_SIDEPANEL_GET_CONTROL = 27
 PROC_SIDEPANEL_REMOVE      = 29
+PROC_SIDEPANEL_ADD_DIALOG  = 30
 #
 PROC_SPLITTER_GET      = 38
 PROC_SPLITTER_SET      = 39
@@ -217,6 +218,7 @@ PROC_BOTTOMPANEL_ACTIVATE    = 81
 PROC_BOTTOMPANEL_ENUM        = 82
 PROC_BOTTOMPANEL_GET_CONTROL = 83
 PROC_BOTTOMPANEL_REMOVE      = 84
+PROC_BOTTOMPANEL_ADD_DIALOG  = 85
 #
 PROC_SHOW_STATUSBAR_GET   = 100
 PROC_SHOW_STATUSBAR_SET   = 101
@@ -256,11 +258,13 @@ TREE_ITEM_GET_SELECTED     = 11
 TREE_ITEM_GET_PROP         = 12
 TREE_ITEM_GET_PARENT       = 13
 TREE_ITEM_GET_SYNTAX_RANGE = 14
+TREE_ITEM_FOLD_LEVEL       = 15
 TREE_ICON_ADD              = 20
 TREE_ICON_DELETE           = 21
 TREE_PROP_SHOW_ROOT        = 30
 TREE_LOCK                  = 31
 TREE_UNLOCK                = 32
+TREE_THEME                 = 33
 
 LISTBOX_GET_COUNT    = 0
 LISTBOX_ADD          = 1
@@ -272,6 +276,7 @@ LISTBOX_GET_SEL      = 10
 LISTBOX_SET_SEL      = 11
 LISTBOX_GET_TOP      = 14
 LISTBOX_SET_TOP      = 15
+LISTBOX_THEME        = 20
 
 LEXER_GET_LIST            = 0
 LEXER_GET_ENABLED         = 1
@@ -471,7 +476,8 @@ DLG_CTL_HANDLE     = 32
 DLG_COORD_LOCAL_TO_SCREEN = 40
 DLG_COORD_SCREEN_TO_LOCAL = 41
 
-_live = {}    # text:callable   ##kv 18may17
+#storage of live callbacks
+_live = {}
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -588,12 +594,12 @@ def lexer_proc(id, value):
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
 
-def _menu_proc_callback_proxy(info=''):##kv 18may17
+def _menu_proc_callback_proxy(info=''):
     if info in _live:
         _live[info]()
 
 def menu_proc(id_menu, id_action, command="", caption="", index=-1):
-    if callable(command):##kv 18may17
+    if callable(command):
         sid_callback = str(command)
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
@@ -608,12 +614,12 @@ def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)
 
-def _timer_proc_callback_proxy(tag='', info=''):##kv 18may17
+def _timer_proc_callback_proxy(tag='', info=''):
     if info in _live:
         _live[info](tag)
 
 def timer_proc(id, callback, interval, tag=''):
-    if callable(callback):##kv 18may17
+    if callable(callback):
         sid_callback = str(callback)
         _live[sid_callback] = callback
         callback = 'module={};func=_timer_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
@@ -661,20 +667,30 @@ def _dlg_proc_wait(id_dialog):
             return
 
 
-def _dlg_proc_callback_proxy(id_dlg, id_ctl, id_event='', info=''):##kv 18may17
+def _dlg_proc_callback_proxy(id_dlg, id_ctl, data='', info=''):
     if info in _live:
-        _live[info](id_dlg, id_ctl, id_event)
+        _live[info](id_dlg, id_ctl, data=data)
+
+def _alter_live(id_dialog, prop, callback_name):
+    callback_param = prop[callback_name]
+    if callable(callback_param):
+        sid_callback = '{}:{}'.format(id_dialog, callback_param)
+        _live[sid_callback] = callback_param
+        prop[callback_name] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
 
 def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
     #print('#dlg_proc id_action='+str(id_action)+' prop='+repr(prop))
-    if id_action == DLG_FREE:##kv 18may17
+
+    #cleanup storage of live callbacks
+    if id_action == DLG_FREE:
         for k in [k for k in _live.keys() if k.startswith(str(id_dialog)+':')]:
             _live.pop(k)
 
-    if isinstance(prop, dict) and 'callback' in prop and callable(prop['callback']):##kv 18may17
-        sid_callback = '{}:{}'.format(id_dialog, prop['callback'])
-        _live[sid_callback] = prop['callback']
-        prop['callback'] = 'module={};func=_dlg_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
+    #support live callbacks by replacing them to str
+    if isinstance(prop, dict):
+        for k in prop:
+            if k.startswith('on_'):
+                _alter_live(id_dialog, prop, k)
 
     res = ct.dlg_proc(id_dialog, id_action, to_str(prop), index, index2, name)
     if id_action == DLG_SHOW_MODAL:

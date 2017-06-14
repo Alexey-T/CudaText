@@ -1,13 +1,13 @@
 [info]
 title=Project Manager
-desc=Allows to manage "projects" (groups of files/dirs), shows Project-panel in the side-panel
+desc=Allows to manage "projects" (groups of files/dirs), shows Project panel in the side-panel
 type=cudatext-plugin
 subdir=cuda_project_man
 homepage=https://github.com/pohmelie/cuda_project_man
 
 [item1]
 section=events
-events=on_panel,on_open_pre,on_start
+events=on_open_pre,on_start
 
 [item2]
 section=commands
