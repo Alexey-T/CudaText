@@ -1152,6 +1152,21 @@ begin
        (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick) then
     begin
       FMouseDown:= false;
+
+      //double click?
+      if FMouseDownDbl then
+      begin
+        FMouseDownDbl:= false;
+
+        if FTabDoubleClickClose and (FTabIndexOver>=0) then
+          DeleteTab(FTabIndexOver, true, true)
+        else
+        if FTabDoubleClickPlus and (FTabIndexOver=-1) then
+          if Assigned(FOnTabPlusClick) then
+            FOnTabPlusClick(Self);
+        Exit
+      end;
+
       DoHandleClick;
       Exit
     end;
@@ -1170,20 +1185,6 @@ begin
       Invalidate;
       Exit
     end;
-  end;
-
-  //dbl click?
-  if FMouseDownDbl then
-  begin
-    FMouseDownDbl:= false;
-
-    if FTabDoubleClickClose and (FTabIndexOver>=0) then
-      DeleteTab(FTabIndexOver, true, true)
-    else
-    if FTabDoubleClickPlus and (FTabIndexOver=-1) then
-      if Assigned(FOnTabPlusClick) then
-        FOnTabPlusClick(Self);
-    Exit
   end;
 end;
 
