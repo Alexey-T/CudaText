@@ -101,6 +101,7 @@ type
     FCheckFilenameOpened: TStrFunction;
     FSaveDialog: TSaveDialog;
 
+    procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
@@ -993,6 +994,40 @@ begin
   Adapter.Lexer:= an;
 end;
 
+procedure TEditorFrame.DoFileOpen_AsPicture(const fn: string);
+begin
+  TabCaption:= ExtractFileName(fn);
+  FFileName:= '?';
+
+  Ed1.Hide;
+  Ed2.Hide;
+  Splitter.Hide;
+  ReadOnly:= true;
+
+  FImage:= TImage.Create(Self);
+  FImage.Parent:= Self;
+  FImage.Align:= alClient;
+  try
+    FImage.Picture.LoadFromFile(fn);
+    FImage.Transparent:= true;
+    FImageFilename:= fn;
+  except
+    FImageFilename:= '';
+  end;
+
+  FImagePanel:= TATPanelSimple.Create(Self);
+  FImagePanel.OnPaint:= @DoImagePanelPaint;
+  FImagePanel.Parent:= Self;
+  FImagePanel.SetBounds(0, 0, 400, 400);
+  FImagePanel.BorderStyle:= bsNone;
+  FImagePanel.Color:= clSkyBlue;
+  FImage.Parent:= FImagePanel;
+
+  FrameResize(Self);
+  DoOnChangeCaption;
+end;
+
+
 procedure TEditorFrame.DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);
 begin
   if not FileExistsUTF8(fn) then Exit;
@@ -1000,37 +1035,8 @@ begin
 
   if IsFilenameListedInExtensionList(fn, UiOps.PictureTypes) then
   begin
-    TabCaption:= ExtractFileName(fn);
-    FFileName:= '?';
-
-    Ed1.Hide;
-    Ed2.Hide;
-    Splitter.Hide;
-    ReadOnly:= true;
-
-    FImage:= TImage.Create(Self);
-    FImage.Parent:= Self;
-    FImage.Align:= alClient;
-    try
-      FImage.Picture.LoadFromFile(fn);
-      FImage.Transparent:= true;
-      FImageFilename:= fn;
-    except
-      FImageFilename:= '';
-    end;
-
-    FImagePanel:= TATPanelSimple.Create(Self);
-    FImagePanel.OnPaint:=@DoImagePanelPaint;
-    FImagePanel.Parent:= Self;
-    FImagePanel.SetBounds(0, 0, 400, 400);
-    FImagePanel.BorderStyle:= bsNone;
-    FImagePanel.Color:= clSkyBlue;
-    FImage.Parent:= FImagePanel;
-
-    FrameResize(Self);
-    DoOnChangeCaption;
-
-    exit
+    DoFileOpen_AsPicture(fn);
+    exit;
   end;
 
   try
