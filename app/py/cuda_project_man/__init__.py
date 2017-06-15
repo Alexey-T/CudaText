@@ -123,7 +123,7 @@ class Command:
         icon_open = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-open.png'))
         
         toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, index2=icon_open, command='cuda_project_man,action_open_project' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, index2=icon_open, command='cuda_project_man.action_open_project' ) 
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={

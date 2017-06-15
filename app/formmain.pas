@@ -3537,22 +3537,17 @@ end;
 
 procedure TfmMain.DoToolbarClick(Sender: TObject);
 var
-  SData, SModule, SMethod, SParam: string;
+  SData: string;
   NCmd: integer;
 begin
-  //'module,method,param' or 'NN'
+  //str(int_command) or callback string
   SData:= (Sender as TATButton).DataString;
   NCmd:= StrToIntDef(SData, 0);
 
   if NCmd>0 then
     CurrentEditor.DoCommand(NCmd)
   else
-  begin
-    SModule:= SGetItem(SData);
-    SMethod:= SGetItem(SData);
-    SParam:= SData; //not SGetItem, allows to use ","
-    DoPyCommand(SModule, SMethod, SParam);
-  end;
+    DoPyCallbackFromAPI(SData, []);
 
   UpdateFrame;
   UpdateStatus;
