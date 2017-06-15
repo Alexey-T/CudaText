@@ -1,7 +1,6 @@
 import os
 import collections
 import json
-import stat
 from fnmatch import fnmatch
 from .pathlib import Path, PurePosixPath
 from .dlg import *
