@@ -8,7 +8,8 @@ def dialog_config(op):
     id_ignore = 1
     id_recents = 3
     id_on_start = 4
-    id_ok = 5
+    id_toolbar = 5
+    id_ok = 6
 
     c1 = chr(1)
     text = '\n'.join([]
@@ -18,31 +19,31 @@ def dialog_config(op):
         +[c1.join(['type=label', 'pos=6,54,500,0', 'cap=&Recent projects:'])]
         +[c1.join(['type=memo', 'pos=6,74,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
-        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on app start',
+        +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on program start',
             'val='+('1' if op.get('on_start', False) else '0') ])]
-        +[c1.join(['type=button', 'pos=300,230,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,230,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar (needs restart)',
+            'val='+('1' if op.get('toolbar', True) else '0') ])]
+        +[c1.join(['type=button', 'pos=300,260,400,0', 'cap=&OK', 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,260,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 260, text)
+    res = dlg_custom('Project Manager options', 508, 290, text, get_dict=True)
     if res is None:
         return
 
-    res, text = res
-    text = text.splitlines()
-
-    if res != id_ok:
+    if res['clicked'] != id_ok:
         return
 
-    s = text[id_ignore].strip()
+    s = res[id_ignore].strip()
     while '  ' in s:
         s = s.replace('  ', ' ')
     op['masks_ignore'] = s
 
-    s = text[id_recents].split('\t')
+    s = res[id_recents].split('\t')
     op['recent_projects'] = s
 
-    op['on_start'] = text[id_on_start]=='1'
+    op['on_start'] = res[id_on_start]=='1'
+    op['toolbar'] = res[id_toolbar]=='1'
 
     return True
 
