@@ -346,7 +346,7 @@ end;
 
 procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed, AChangeShowRoot: boolean);
 var
-  PrevShowRoot: boolean;
+  Op: TTreeViewOptions;
 begin
   if AThemed then
   begin
@@ -362,25 +362,30 @@ begin
     C.ExpandSignColor:= GetAppColor('TreeSign');
   end;
 
-  PrevShowRoot:= C.ShowRoot;
   C.BorderStyle:= bsNone;
   C.ExpandSignType:= tvestArrowFill;
-  C.HideSelection:= false;
-  C.Options:= [
+
+  Op:= [
     tvoAutoItemHeight,
     tvoKeepCollapsedNodes,
     tvoShowButtons,
-    tvoToolTips
+    tvoToolTips,
+    tvoRowSelect,
+    tvoRightClickSelect,
+    tvoReadOnly
     ];
 
-  if AChangeShowRoot then
-    C.ShowRoot:= true
+  if AChangeShowRoot or C.ShowRoot then
+    Include(Op, tvoShowRoot)
   else
-    C.ShowRoot:= PrevShowRoot;
-  C.ShowLines:= UiOps.TreeShowLines;
-  C.RowSelect:= true;
-  C.RightClickSelect:= true;
-  C.ReadOnly:= true;
+    Exclude(Op, tvoShowRoot);
+
+  if UiOps.TreeShowLines then
+    Include(Op, tvoShowLines)
+  else
+    Exclude(Op, tvoShowLines);
+
+  C.Options:= Op;
 
   if AThemed then
     C.ScrollBars:= ssNone
