@@ -91,6 +91,7 @@ class Command:
         "recent_projects": [],
         "masks_ignore": DEFAULT_MASKS_IGNORE,
         "on_start": False,
+        "toolbar": True,
     }
 
     tree = None
@@ -109,12 +110,15 @@ class Command:
 
     def init_form_main(self):
 
+        show_toolbar = self.options.get("toolbar", True)
+
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
             'name':'bar',
             'a_r':('',']'), #anchor to top: l,r,t
+            'vis': show_toolbar,
             } )
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
