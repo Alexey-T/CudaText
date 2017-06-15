@@ -21,7 +21,7 @@ def dialog_config(op):
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
         +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on program start',
             'val='+('1' if op.get('on_start', False) else '0') ])]
-        +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar (needs restart)',
+        +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar',
             'val='+('1' if op.get('toolbar', True) else '0') ])]
         +[c1.join(['type=button', 'pos=300,260,400,0', 'cap=&OK', 'props=1'])]
         +[c1.join(['type=button', 'pos=406,260,502,0', 'cap=Cancel'])]
