@@ -345,6 +345,8 @@ end;
 
 
 procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed, AChangeShowRoot: boolean);
+var
+  PrevShowRoot: boolean;
 begin
   if AThemed then
   begin
@@ -360,6 +362,7 @@ begin
     C.ExpandSignColor:= GetAppColor('TreeSign');
   end;
 
+  PrevShowRoot:= C.ShowRoot;
   C.BorderStyle:= bsNone;
   C.ExpandSignType:= tvestArrowFill;
   C.HideSelection:= false;
@@ -371,7 +374,9 @@ begin
     ];
 
   if AChangeShowRoot then
-    C.ShowRoot:= true;
+    C.ShowRoot:= true
+  else
+    C.ShowRoot:= PrevShowRoot;
   C.ShowLines:= UiOps.TreeShowLines;
   C.RowSelect:= true;
   C.RightClickSelect:= true;
