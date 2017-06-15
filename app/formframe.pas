@@ -1177,6 +1177,8 @@ begin
     PrevCaretY:= Editor.Strings.Count-1;
   end;
 
+  Application.ProcessMessages; //for DoGotoPos
+
   Editor.DoGotoPos(
     Point(PrevCaretX, PrevCaretY),
     Point(-1, -1),
