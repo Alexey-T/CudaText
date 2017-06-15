@@ -1,7 +1,6 @@
 import os
 import collections
 import json
-import stat
 from fnmatch import fnmatch
 from .pathlib import Path, PurePosixPath
 from .dlg import *
@@ -61,19 +60,19 @@ class Command:
 
     title = "Project"
     menuitems = (
-        ("New project"          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Open project..."      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Recent projects"      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Save project as..."   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("-"                    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Go to file..."        , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Project properties...", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Config..."            , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
+        ("New project"          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Open project..."      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Recent projects"      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Save project as..."   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("-"                    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Go to file..."        , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Project properties...", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Config..."            , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
 
-        ("Add directory..."     , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Clear project"        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Remove node"          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
+        ("Add folder..."        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Clear project"        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Remove node"          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
 
         ("New file..."          , "dir", [NODE_DIR]),
         ("Rename..."            , "dir", [NODE_DIR]),
@@ -85,8 +84,8 @@ class Command:
         ("Delete file"          , "file", [NODE_FILE]),
         ("Set as main file"     , "file", [NODE_FILE]),
 
-        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
+        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
     )
     options = {
         "recent_projects": [],
@@ -107,6 +106,52 @@ class Command:
 
         self.new_project()
 
+
+    def init_form_main(self):
+
+        self.h_dlg = dlg_proc(0, DLG_CREATE)
+
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name':'bar',
+            'a_r':('',']'), #anchor to top: l,r,t
+            } )
+
+        self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+
+        dirname = os.path.join(os.path.dirname(__file__), 'icons')
+        icon_open = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-open.png'))
+        icon_save = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-save.png'))
+        icon_add_file = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-add-file.png'))
+        icon_add_dir = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-add-dir.png'))
+        icon_del = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-del.png'))
+        
+        toolbar_proc(self.h_bar, TOOLBAR_THEME)
+        toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Open project', index2=icon_open, command='cuda_project_man.action_open_project' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Save project as', index2=icon_save, command='cuda_project_man.action_save_project_as' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add folder', index2=icon_add_dir, command='cuda_project_man.action_add_directory' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add file', index2=icon_add_file, command='cuda_project_man.action_add_file' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Remove node', index2=icon_del, command='cuda_project_man.action_remove_node' ) 
+
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name':'tree',
+            'a_t':('bar', ']'),
+            'a_r':('',']'), #anchor to entire form
+            'a_b':('',']'),
+            'on_menu': 'cuda_project_man.tree_on_menu',
+            'on_unfold': 'cuda_project_man.tree_on_unfold',
+            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
+            } )
+            
+        self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        tree_proc(self.tree, TREE_THEME)
+        tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
+        tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+
+
     def init_panel(self, and_activate=True):
         # already inited?
         if self.tree:
@@ -116,23 +161,7 @@ class Command:
             msg_box('Project Manager needs newer app version', MB_OK + MB_ICONERROR)
             return
 
-        self.h_dlg = dlg_proc(0, DLG_CREATE)
-
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name':'tree',
-            'a_r':('',']'), #anchor to entire form: l,r,t,b
-            'a_b':('',']'),
-            'on_menu': 'cuda_project_man.tree_on_menu',
-            'on_unfold': 'cuda_project_man.tree_on_unfold',
-            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
-            } )
-
-        self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        tree_proc(self.tree, TREE_THEME)
-        tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
-        tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-
+        self.init_form_main()
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
 
         base = Path(__file__).parent
