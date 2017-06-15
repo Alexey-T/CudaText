@@ -37,7 +37,7 @@ var
 procedure DoInitTheme(var D: TAppTheme);
 procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
-function GetAppColor(const name: string): TColor;
+function GetAppColor(const AName: string): TColor;
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
 
 
@@ -366,14 +366,15 @@ begin
   end;
 end;
 
-function GetAppColor(const name: string): TColor;
+function GetAppColor(const AName: string): TColor;
 var
   i: integer;
 begin
+  Result:= clRed;
   for i:= Low(AppTheme.Colors) to High(AppTheme.Colors) do
-    if AppTheme.Colors[i].name=name then
-      begin Result:= AppTheme.Colors[i].color; exit end;
-  raise Exception.Create('Incorrect color id: '+name);
+    if AppTheme.Colors[i].name=AName then
+      exit(AppTheme.Colors[i].color);
+  //raise Exception.Create('Incorrect color id: '+name);
 end;
 
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
