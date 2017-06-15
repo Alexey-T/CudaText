@@ -554,7 +554,6 @@ type
     FOption_WindowPos: string;
     FOption_Encoding: string;
 
-    procedure DoApplyThemeToToolbar(C: TATButtonsToolbar);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;

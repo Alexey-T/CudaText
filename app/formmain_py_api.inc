@@ -4117,7 +4117,7 @@ begin
 
         TOOLBAR_THEME:
           begin
-            fmMain.DoApplyThemeToToolbar(FToolbar);
+            DoApplyThemeToToolbar(FToolbar);
             Result:= ReturnNone;
           end;
 

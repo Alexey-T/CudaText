@@ -18,9 +18,10 @@ uses
   ATSynEdit,
   ATSynEdit_Export_HTML,
   ATStringProc,
-  ATButtons,
   ATListbox,
   ATPanelSimple,
+  ATButtons,
+  ATButtonsToolbar,
   ecSyntAnal,
   proc_globdata,
   proc_py_const,
@@ -43,6 +44,7 @@ procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 
 procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed, AChangeShowRoot: boolean);
 procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
+procedure DoApplyThemeToToolbar(C: TATButtonsToolbar);
 
 procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
 
@@ -404,6 +406,12 @@ begin
   C.Color:= GetAppColor('ListBg');
   C.ColorSelFont:= GetAppColor('ListSelFont');
   C.ColorSelBack:= GetAppColor('ListSelBg');
+  C.Invalidate;
+end;
+
+procedure DoApplyThemeToToolbar(C: TATButtonsToolbar);
+begin
+  C.Color:= GetAppColor('TabBg');
   C.Invalidate;
 end;
 
