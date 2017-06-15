@@ -67,7 +67,7 @@ class Command:
         ("-"                    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Go to file..."        , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Project properties...", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
-        ("Config..."            , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Options dialog..."    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
 
         ("Add folder..."        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
@@ -129,6 +129,7 @@ class Command:
         icon_add_file = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-add-file.png'))
         icon_add_dir = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-add-dir.png'))
         icon_del = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-del.png'))
+        icon_cfg = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-cfg.png'))
         
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
         toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16) 
@@ -138,6 +139,8 @@ class Command:
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add folder', index2=icon_add_dir, command='cuda_project_man.action_add_directory' ) 
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add file', index2=icon_add_file, command='cuda_project_man.action_add_file' ) 
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Remove node', index2=icon_del, command='cuda_project_man.action_remove_node' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Options dialog', index2=icon_cfg, command='cuda_project_man.action_config' ) 
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
