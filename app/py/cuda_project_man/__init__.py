@@ -60,19 +60,19 @@ class Command:
 
     title = "Project"
     menuitems = (
-        ("New project"          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Open project..."      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Recent projects"      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Save project as..."   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("-"                    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Go to file..."        , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Project properties...", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Config..."            , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
+        ("New project"          , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Open project..."      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Recent projects"      , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Save project as..."   , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("-"                    , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Go to file..."        , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Project properties...", "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Config..."            , "proj", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
 
-        ("Add directory..."     , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Clear project"        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Remove node"          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
+        ("Add directory..."     , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Add file..."          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Clear project"        , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Remove node"          , "nodes", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
 
         ("New file..."          , "dir", [NODE_DIR]),
         ("Rename..."            , "dir", [NODE_DIR]),
@@ -84,8 +84,8 @@ class Command:
         ("Delete file"          , "file", [NODE_FILE]),
         ("Set as main file"     , "file", [NODE_FILE]),
 
-        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
-        ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE]),
+        ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
+        ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
     )
     options = {
         "recent_projects": [],
