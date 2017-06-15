@@ -122,6 +122,7 @@ class Command:
         dirname = os.path.join(os.path.dirname(__file__), 'icons')
         icon_open = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-open.png'))
         
+        toolbar_proc(self.h_bar, TOOLBAR_THEME)
         toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16) 
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, index2=icon_open, command='cuda_project_man.action_open_project' ) 
 
@@ -131,7 +132,6 @@ class Command:
             'a_t':('bar', ']'),
             'a_r':('',']'), #anchor to entire form
             'a_b':('',']'),
-            'sp_t': 2,
             'on_menu': 'cuda_project_man.tree_on_menu',
             'on_unfold': 'cuda_project_man.tree_on_unfold',
             'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',

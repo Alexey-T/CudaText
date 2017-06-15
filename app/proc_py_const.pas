@@ -369,6 +369,7 @@ const
   TOOLBAR_DELETE_BUTTON  = 7;
   TOOLBAR_GET_CHECKED    = 10;
   TOOLBAR_SET_CHECKED    = 11;
+  TOOLBAR_THEME          = 20;
 
   DLG_CREATE         = 0;
   DLG_FREE           = 1;

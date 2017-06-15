@@ -19,6 +19,12 @@ begin
   end;
 end;
 
+procedure TfmMain.DoApplyThemeToToolbar(C: TATButtonsToolbar);
+begin
+  C.Color:= GetAppColor('TabBg');
+  C.Invalidate;
+end;
+
 procedure TfmMain.DoApplyTheme;
 var
   F: TEditorFrame;
