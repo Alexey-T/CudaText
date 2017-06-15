@@ -106,6 +106,43 @@ class Command:
 
         self.new_project()
 
+
+    def init_form_main(self):
+
+        self.h_dlg = dlg_proc(0, DLG_CREATE)
+
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name':'bar',
+            'a_r':('',']'), #anchor to top: l,r,t
+            } )
+
+        self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+
+        dirname = os.path.join(os.path.dirname(__file__), 'icons')
+        icon_open = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-open.png'))
+        
+        toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16) 
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, index2=icon_open, command='cuda_project_man,action_open_project' ) 
+
+        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
+        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
+            'name':'tree',
+            'a_t':('bar', ']'),
+            'a_r':('',']'), #anchor to entire form
+            'a_b':('',']'),
+            'sp_t': 2,
+            'on_menu': 'cuda_project_man.tree_on_menu',
+            'on_unfold': 'cuda_project_man.tree_on_unfold',
+            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
+            } )
+            
+        self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        tree_proc(self.tree, TREE_THEME)
+        tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
+        tree_proc(self.tree, TREE_ITEM_DELETE, 0)
+
+
     def init_panel(self, and_activate=True):
         # already inited?
         if self.tree:
@@ -115,23 +152,7 @@ class Command:
             msg_box('Project Manager needs newer app version', MB_OK + MB_ICONERROR)
             return
 
-        self.h_dlg = dlg_proc(0, DLG_CREATE)
-
-        n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
-        dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name':'tree',
-            'a_r':('',']'), #anchor to entire form: l,r,t,b
-            'a_b':('',']'),
-            'on_menu': 'cuda_project_man.tree_on_menu',
-            'on_unfold': 'cuda_project_man.tree_on_unfold',
-            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
-            } )
-
-        self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        tree_proc(self.tree, TREE_THEME)
-        tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
-        tree_proc(self.tree, TREE_ITEM_DELETE, 0)
-
+        self.init_form_main()
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
 
         base = Path(__file__).parent
