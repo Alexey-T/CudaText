@@ -211,7 +211,7 @@ type
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
-    procedure DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);
+    procedure DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean);
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
@@ -1028,7 +1028,7 @@ begin
 end;
 
 
-procedure TEditorFrame.DoFileOpen(const fn: string; AAllowErrorMsgBox: boolean);
+procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean);
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
@@ -1056,7 +1056,8 @@ begin
   end;
 
   SetLexer(DoLexerFindByFilename(fn));
-  DoLoadHistory;
+  if AAllowLoadHistory then
+    DoLoadHistory;
   UpdateReadOnlyFromFile;
 
   NotifEnabled:= UiOps.NotifEnabled;
@@ -1171,7 +1172,7 @@ begin
     (PrevCaretY=Editor.Strings.Count-1);
 
   //reopen
-  DoFileOpen(FileName, false{disable err msgbox});
+  DoFileOpen(FileName, false, false);
   if Editor.Strings.Count=0 then exit;
 
   //restore props
