@@ -16,6 +16,10 @@ begin
     if C is TTreeViewMy then
       if (C as TTreeViewMy).Themed then
         DoApplyThemeToTreeview(C as ComCtrls.TTreeview, true, false);
+
+    if C is TATButtonsToolbar then
+      if (C as TATButtonsToolbar).Themed then
+        DoApplyThemeToToolbar(C as TATButtonsToolbar);
   end;
 end;
 

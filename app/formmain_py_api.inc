@@ -4118,6 +4118,7 @@ begin
         TOOLBAR_THEME:
           begin
             DoApplyThemeToToolbar(FToolbar);
+            FToolbar.Themed:= true;
             Result:= ReturnNone;
           end;
 
