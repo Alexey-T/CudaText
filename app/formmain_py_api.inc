@@ -1707,12 +1707,6 @@ begin
             end;
           end;
 
-        LOG_CONSOLE_GET: //deprecated
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_log(LOG_CONSOLE_GET)']));
-            Result:= StringsToPyList(fmConsole.ed.Items);
-          end;
-
         else
           Result:= ReturnNone;
       end;
