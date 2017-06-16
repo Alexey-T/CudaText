@@ -1637,17 +1637,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        LOG_GET_LINES: //deprecated
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_log(LOG_GET_LINES)']));
-
-            Str:= '';
-            for i:= 0 to Prop^.Listbox.Items.Count-1 do
-              Str:= Str + Prop^.Listbox.Items[i] + #13 + IntToStr(PtrInt(Prop^.Listbox.Items.Objects[i]))
-                    + IfThen(i<Prop^.Listbox.Items.Count-1, #10);
-            Result:= PyString_FromString(PChar(Str));
-          end;
-
         LOG_GET_LINES_LIST:
           begin
             NLen:= Prop^.Listbox.Items.Count;
@@ -1722,12 +1711,6 @@ begin
           begin
             fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_log(LOG_CONSOLE_GET)']));
             Result:= StringsToPyList(fmConsole.ed.Items);
-          end;
-
-        LOG_CONSOLE_GET_LOG: //deprecated
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_log(LOG_CONSOLE_GET_LOG)']));
-            Result:= PyUnicode_FromWideString(fmConsole.memo.Text);
           end;
 
         else
