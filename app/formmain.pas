@@ -411,8 +411,6 @@ type
     procedure ListboxOutKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure MenuThemesSyntaxClick(Sender: TObject);
-    procedure mnuFileOpenDirClick(Sender: TObject);
-    procedure mnuHelpCheckUpdClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
     procedure mnuTabsize2Click(Sender: TObject);
@@ -2857,7 +2855,7 @@ var
   F: TEditorFrame;
   EdFocus: boolean;
   Cmd: integer;
-  SHint, SModule, SMethod, SParam: string;
+  SHint: string;
 begin
   Cmd:= (Sender as TComponent).Tag;
   SHint:= (Sender as TMenuItem).Hint;
@@ -3763,17 +3761,6 @@ end;
 function TfmMain.IsLexerMatches(const ANameList: string): boolean;
 begin
   Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
-end;
-
-
-procedure TfmMain.mnuFileOpenDirClick(Sender: TObject);
-begin
-  DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
-end;
-
-procedure TfmMain.mnuHelpCheckUpdClick(Sender: TObject);
-begin
-  DoPyCommand('cuda_addonman', 'check_cudatext_updates', []);
 end;
 
 

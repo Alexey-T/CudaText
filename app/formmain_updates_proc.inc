@@ -460,6 +460,7 @@ begin
   UpdateMenuItemHotkey(mnuFileNew, cmd_FileNew);
   UpdateMenuItemHotkey(mnuFileNewMenu, cmd_FileNewMenu);
   UpdateMenuItemHotkey(mnuFileOpen, cmd_FileOpen);
+  UpdateMenuItemHotkey(mnuFileOpenDir, -1); //callback in hint: cuda_project_man.new_project_open_dir
   UpdateMenuItemHotkey(mnuFileReopen, cmd_FileReopen);
   UpdateMenuItemHotkey(mnuFileSave, cmd_FileSave);
   UpdateMenuItemHotkey(mnuFileSaveAs, cmd_FileSaveAs);
@@ -595,6 +596,7 @@ begin
   UpdateMenuItemHotkey(mnuHelpLexers, cmd_HelpLexers);
   UpdateMenuItemHotkey(mnuHelpIssues, cmd_HelpIssues);
   UpdateMenuItemHotkey(mnuHelpChangelog, cmd_HelpChangelog);
+  UpdateMenuItemHotkey(mnuHelpCheckUpd, -1); //callback in hint: cuda_addonman.check_cudatext_updates
   UpdateMenuItemHotkey(mnuHelpAbout, cmd_HelpAbout);
 
 end;

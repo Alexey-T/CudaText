@@ -224,7 +224,7 @@ object fmMain: TfmMain
       end
       object mnuFileOpenDir: TMenuItem
         Caption = 'Open &folder...'
-        OnClick = mnuFileOpenDirClick
+        Hint = 'cuda_project_man.new_project_open_dir'
       end
       object mnuFileOpenSub: TMenuItem
         Caption = 'Open recen&t'
@@ -772,7 +772,7 @@ object fmMain: TfmMain
       end
       object mnuHelpCheckUpd: TMenuItem
         Caption = 'Check for &updates'
-        OnClick = mnuHelpCheckUpdClick
+        Hint = 'cuda_addonman.check_cudatext_updates'
       end
       object SepHelp2: TMenuItem
         Caption = '-'
