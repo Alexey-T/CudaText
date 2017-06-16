@@ -264,7 +264,7 @@ class Command:
         n1 = toolbar_proc(tb_id, TOOLBAR_ADD_ICON, text=icon1)
         n2 = toolbar_proc(tb_id, TOOLBAR_ADD_ICON, text=icon2)
         print('icon indexes:', n1, n2)
-        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='About app', command=2700, index2=n1)
+        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Callback', command=self.show_about, index2=n1)
         toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Hotkeys help', command=2707, index2=n2)
 
         dlg_proc(id, DLG_SHOW_MODAL)
@@ -314,3 +314,7 @@ class Command:
         
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (title, id_dlg, icon_name) )
         app_proc(PROC_SIDEPANEL_ACTIVATE, title)
+
+    def show_about(self):
+        ed.cmd(2700)
+        
