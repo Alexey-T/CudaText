@@ -2689,35 +2689,6 @@ begin
         APP_PROC_ENUM_FONTS:
           Result:= StringsToPyList(Screen.Fonts);
 
-        APP_PROC_GET_SPLIT: //deprecated
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_GET_SPLIT)']));
-            fmMain.DoSplitter_GetInfo(
-              fmMain.DoSplitter_StringToId(Str),
-              SplitVert,
-              SplitVisible,
-              SplitPos,
-              SplitTotal);
-            Result:= Py_BuildValue('(iiii)',
-              Ord(SplitVert),
-              Ord(SplitVisible),
-              SplitPos,
-              SplitTotal
-              );
-          end;
-
-        APP_PROC_SET_SPLIT: //deprecated
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_SET_SPLIT)']));
-            Str1:= SGetItem(Str, ';');
-            Str2:= SGetItem(Str, ';');
-            fmMain.DoSplitter_SetInfo(
-              fmMain.DoSplitter_StringToId(Str1),
-              StrToIntDef(Str2, -1)
-              );
-            Result:= ReturnNone;
-          end;
-
         APP_PROC_SPLITTER_GET:
           begin
             fmMain.DoSplitter_GetInfo(
