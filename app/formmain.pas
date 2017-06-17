@@ -575,7 +575,7 @@ type
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_FromString(AStr: string): string;
-    function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption: string;
+    function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey: string;
       AIndex: integer): string;
     procedure DoMenuClear(const AMenuId: string);
     function DoMenuEnum_Deprecated(const AMenuId: string): string;
@@ -3594,7 +3594,7 @@ begin
       raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
       PyList_SetItem(Result, i,
-        Py_BuildValue('{sLsssLss}',
+        Py_BuildValue('{sLsssLssss}',
           'id',
           Int64(PtrInt(mi.Items[i])),
           'cap',
@@ -3602,7 +3602,9 @@ begin
           'cmd',
           Int64(mi.Items[i].Tag),
           'hint',
-          PChar(mi.Items[i].Hint)
+          PChar(mi.Items[i].Hint),
+          'hotkey',
+          PChar(ShortCutToText(mi.Items[i].ShortCut))
           ));
   end;
 end;
@@ -3667,10 +3669,11 @@ begin
   StrCaption:= SGetItem(AStr, ';');
   StrIndex:= SGetItem(AStr, ';');
   NIndex:= StrToIntDef(StrIndex, -1);
-  Result:= DoMenuAdd_Params(StrId, StrCmd, StrCaption, NIndex);
+  Result:= DoMenuAdd_Params(StrId, StrCmd, StrCaption, '', NIndex);
 end;
 
-function TfmMain.DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption: string; AIndex: integer): string;
+function TfmMain.DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption,
+  AMenuHotkey: string; AIndex: integer): string;
 var
   mi, miMain: TMenuItem;
   Num: integer;
@@ -3738,6 +3741,9 @@ begin
       if AMenuCmd<>'0' then
         mi.OnClick:= @MenuMainClick;
     end;
+
+    if AMenuHotkey<>'' then
+      mi.ShortCut:= TextToShortCut(AMenuHotkey);
 
     if AIndex>=0 then
       miMain.Insert(AIndex, mi)
