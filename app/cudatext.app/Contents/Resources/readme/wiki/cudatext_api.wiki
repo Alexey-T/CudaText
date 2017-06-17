@@ -229,20 +229,33 @@ PROC_MENU_ APIs are deprecated. The meaning of parameters: menu_id, menu_cmd, me
 
 ====Side panel====
 
-* PROC_SIDEPANEL_ADD: Adds tab+control to sidebar. Gets bool: params ok, tab was added. Text is ","-separated values: "tab_caption,tab_index,control_type,icon_filename":
+* deprecated: PROC_SIDEPANEL_ADD: Adds tab, with embedded UI control, to sidebar. Gets bool: params ok, tab was added. Text is ","-separated values: "tab_caption,tab_index,control_type,icon_filename":
 ** Caption of tab
-** Index of tab, 0-based, -1 to add to end of list
-** Type of GUI control. Types allowed: "tree" to use tree_proc() API, "listbox" to use listbox_proc() API.
-** Name of png file for icon for sidebar. Currently must be 20x20. If filename w/o path, then CudaText subdir "data/sideicons" is used.
+** Ignored
+** Type of UI control. Types allowed: "tree" to use tree_proc() API, "listbox" to use listbox_proc() API.
+** Name of icon file
+
+* PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog, to sidebar. Gets bool: params ok, tab was added. Text is 3-tuple (tab_caption, id_dlg, icon_filename):
+** Caption of tab (must not contain ",")
+** Handle of dialog, from dlg_proc()
+** Name of icon file (must not contain ",")
 
 * PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, so control/menu for this tab is still in memory). Gets bool: tab was found/removed.
 * PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Gets str, "\n"-separated captions of tabs.
-* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control, inserted into tab. Pass this handle to tree_proc() or listbox_proc() API. Text is caption of tab. Gets None if cannot find tab.
+* PROC_SIDEPANEL_GET_CONTROL: Gets int handle of control/dialog, inserted into tab. Text is caption of tab. Gets None if cannot find tab.
+** If tab created with "treeview" control, pass this handle to tree_proc().
+** If tab created with "listbox" control, pass this handle to listbox_proc().
+** If tab created with dialog, pass this handle to dlg_proc().
+
+Notes:
+
+* Name of icon file: name of .png or .bmp file. Icon size should be equal to size of current sidebar theme, it's default is 20x20. If filename is without path, CudaText sub-dir "data/sideicons" is used.
 
 ==== Bottom panel====
 
-* PROC_BOTTOMPANEL_ADD: Adds tab. Same as for PROC_SIDEPANEL_ADD.
+* deprecated: PROC_BOTTOMPANEL_ADD: Adds tab. Same as for PROC_SIDEPANEL_ADD.
+* PROC_BOTTOMPANEL_ADD_DIALOG: Adds tab. Same as for PROC_SIDEPANEL_ADD_DIALOG.
 * PROC_BOTTOMPANEL_REMOVE: Removes tab. Same as for PROC_SIDEPANEL_REMOVE.
 * PROC_BOTTOMPANEL_ACTIVATE: Activates tab. Same as for PROC_SIDEPANEL_ACTIVATE.
 * PROC_BOTTOMPANEL_ENUM: Enumerates tabs. Same as for PROC_SIDEPANEL_ENUM.
@@ -256,19 +269,10 @@ Splitter id:
 * SPLITTER_BOTTOM: splitter above bottom panel.
 * SPLITTER_G1, SPLITTER_G2, SPLITTER_G3: splitters between groups.
 
-Deprecated string splitter id:
-
-* "L": splitter near side panel.
-* "B": splitter above bottom panel.
-* "G1", "G2", "G3": splitters between groups. 
-
 Actions:
 
 * PROC_SPLITTER_GET: Gets info about splitter, as 4-tuple: (bool_vertical, bool_visible, int_pos, int_parent_panel_size). Param "text" is int splitter id.
 * PROC_SPLITTER_SET: Sets splitter pos. Param "text" is 2-tuple (int_splitter_id, int_splitter_pos).
-
-* deprecated: PROC_GET_SPLIT: Gets info about splitter, 4-tuple: (int_vertical_0_1, int_visible_0_1, splitter_pos, parent_panel_size). Param "text" is string splitter id.
-* deprecated: PROC_SET_SPLIT: Sets splitter pos. Param "text" is "string_splitter_id;int_splitter_pos".
 
 Positions of group splitters (G1, G2, G3) are determined by grouping view, in one view splitter may be horizontal with one parent panel, in other view - vertical with another parent panel. Detailed:
 
@@ -357,7 +361,6 @@ Possible values of id:
 * LOG_SET_FILENAME: Sets default file name, which will be used when regex cannot find file name in a string. Param "text". 
 * LOG_SET_ZEROBASE: Sets flag: line and column numbers are 0-based, not 1-based. Param "text" is one-char string "0" or "1".
 * LOG_GET_LINES_LIST: Gets items in panel's listbox, as list of 2-tuples (line, tag).
-* deprecated: LOG_GET_LINES: Gets items in panel's listbox, as "\n"-separated lines, each line is text+"\r"+str(tag).
 * LOG_GET_LINEINDEX: Gets index of selected line in panel's listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in panel's listbox.
 
@@ -370,8 +373,6 @@ For "Python Console" panel:
 * LOG_CONSOLE_ADD: Adds line to console (its combobox and memo).
 * LOG_CONSOLE_GET_COMBO_LINES: Gets list of lines in combobox-control.
 * LOG_CONSOLE_GET_MEMO_LINES: Gets list of lines in memo-control.
-* deprecated: LOG_CONSOLE_GET: Gets "\n"-separated lines of combobox-control.
-* deprecated: LOG_CONSOLE_GET_LOG: Gets "\n"-separated lines of memo-control.
 
 ====Example====
 
@@ -1043,6 +1044,7 @@ Possible values of id_action:
 
 * TREE_ITEM_FOLD: Folds item w/o subitems.
 * TREE_ITEM_FOLD_DEEP: Folds item with subitems. Root-item allowed too.
+* TREE_ITEM_FOLD_LEVEL: Folds all items (id_item ignored) from level with specified index, 1 or bigger. (This is what CudaText commands "fold level N" do for code-tree). 
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
 
@@ -1052,9 +1054,9 @@ Possible values of id_action:
 * TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
 
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
-
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
+* TREE_THEME: Applies current color theme to control.
 
 ===listbox_proc===
 
@@ -1077,6 +1079,7 @@ Possible values of id_action:
 * LISTBOX_SET_SEL: Sets selected index. -1 for none.
 * LISTBOX_GET_TOP: Gets index of top visible item.
 * LISTBOX_SET_TOP: Sets index of top visible item.
+* LISTBOX_THEME: Applies current color theme to control.
 
 ===canvas_proc===
 
@@ -1159,7 +1162,7 @@ class Command:
 
 ===menu_proc===
 
- menu_proc(id_menu, id_action, command="", caption="", index=-1)
+ menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="")
 
 Perform action on menu items.
 
@@ -1169,7 +1172,7 @@ Value of "id_menu" param can be:
 
 * int_value or str(int_value) - to specify menu item by unique int value
 * "top" - to specify top menu
-* "top-file"/"top-edit"/"top-sel"/"top-sr"/"top-view"/"top-op"/"top-help" - to specify submenus of the main menu: File/Edit/Selection/Search/View/Options/Help
+* "top-file", "top-edit", "top-sel", "top-sr", "top-view", "top-op", "top-help" - to specify submenus of the main menu: File, Edit, Selection, Search, View, Options, Help
 * "text" - to specify editor context menu
 * "side:"+tab_caption - to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
 * "btm:"+tab_caption - to specify context menu of bottom panel
@@ -1200,20 +1203,21 @@ Possible values of id_action:
 
 * MENU_CLEAR: Removes all sub-items from menu item. Params used: id_menu.
 
-* MENU_ENUM: Enumerates sub-items in menu item. Params used: id_menu. If id_menu valid, gets list of dict, else gets None. Dict items are: {"id": int_id_menu; "cap": str_caption; "cmd": int_command; "hint": str_command}.
+* MENU_ENUM: Enumerates sub-items in menu item. Params used: id_menu. If id_menu valid, gets list of dict, else gets None. Dict items are: {"id": int_id_menu; "cap": str_caption; "cmd": int_command; "hint": str_command; "hotkey": str_hotkey}.
+** for separator items: "cap" is "-"
 ** for usual command items: "cmd" value is >0
-** for plugin command items: "cmd" value is <=0; "hint" value is "plugin_module,plugin_method" 
-** for separator items: "cap" value is "-"
-** for sub-menu items: "cmd" value is <=0; "hint" value is some simple string
+** for plugin command items: "cmd" value is <=0; "hint" is callback string
+** for sub-menu items: "cmd" value is <=0; "hint" value is some string
 
 * MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params used:
 ** id_menu - item in which you add sub-item. 
 ** caption - caption of menu item, or "-" for menu separator.
 ** index - 0-based index at which to insert sub-item. Default: append item to the end.
 ** command - possible values are described above.
+** hotkey - string of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos not allowed. Overrides hotkey, which is auto assigned from command code.
 
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
-* MENU_SHOW: Shows given popup-menu (note: only popup-menu id can be used here, not id of top menus). Param command must be "x,y" where x/y are show coordinates.
+* MENU_SHOW: Shows given popup-menu (note: only popup-menu id can be used here, not id of top menus). Param "command" must be "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
 ====Example==== 
 
@@ -1262,15 +1266,16 @@ Param id_action possible values:
 ** text2 - button hint (tooltip)
 ** index - button index, >=0 to insert or -1 to append
 ** index2 - icon index, or -1 for none
-** command - description of command: 
+** command - one of:
 *** int_command or str(int_command)
-*** "py_module,method" or "py_module,method,param"
+*** callback in one of these forms: [[#Callback_param]]
 *** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
 
 * TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": str}. Here "kind" is one of strings: "text", "icon", "text_icon", "text_arrow", "arrow", "sep".
 
 * TOOLBAR_GET_CHECKED: Gets checked-state of button. Params: index - button index.
 * TOOLBAR_SET_CHECKED: Sets checked-state of button. Params: index - button index, index2 - bool value.
+* TOOLBAR_THEME: Applies current UI theme to toolbar.
 
 ====Example====
 
@@ -1853,6 +1858,22 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.184
+* deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
+* deprecated: on_panel event
+* add: app_proc: PROC_SIDEPANEL_ADD_DIALOG, PROC_BOTTOMPANEL_ADD_DIALOG
+* add: tree_proc: TREE_ITEM_FOLD_LEVEL
+* add: tree_proc: TREE_THEME
+* add: listbox_proc: LISTBOX_THEME
+* add: toolbar_proc: TOOLBAR_THEME
+* add: toolbar_proc: used new callback form
+* add: menu_proc: MENU_SHOW with command="" to show at cursor
+* add: menu_proc: added param "hotkey" for MENU_ADD, "hotkey" returned from MENU_ENUM
+* deleted deprecated: PROC_GET_SPLIT, PROC_SET_SPLIT
+* deleted deprecated: LOG_GET_LINES
+* deleted deprecated: LOG_CONSOLE_GET, LOG_CONSOLE_GET_LOG
+
 
 1.0.183
 * big changes in dlg_proc: 

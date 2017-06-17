@@ -92,14 +92,11 @@ LOG_SET_COL_ID      = 5
 LOG_SET_NAME_ID     = 6
 LOG_SET_FILENAME    = 7
 LOG_SET_ZEROBASE    = 8
-LOG_GET_LINES       = 9 #deprecated
 LOG_GET_LINEINDEX   = 10
 LOG_SET_LINEINDEX   = 11
 LOG_GET_LINES_LIST  = 12
 LOG_CONSOLE_CLEAR   = 20
 LOG_CONSOLE_ADD     = 21
-LOG_CONSOLE_GET     = 22 #deprecated
-LOG_CONSOLE_GET_LOG = 23 #deprecated
 LOG_CONSOLE_GET_COMBO_LINES = 24
 LOG_CONSOLE_GET_MEMO_LINES  = 25
 
@@ -182,8 +179,6 @@ PROC_SET_SUBCOMMANDS     = 16
 PROC_GET_ESCAPE          = 17
 PROC_SET_ESCAPE          = 18
 PROC_GET_COMMAND_PLUGIN  = 19
-PROC_GET_SPLIT           = 20 #deprecated
-PROC_SET_SPLIT           = 21 #deprecated
 PROC_GET_FIND_OPTIONS    = 22
 PROC_SET_FIND_OPTIONS    = 23
 #
@@ -599,17 +594,21 @@ def _menu_proc_callback_proxy(info=''):
     if info in _live:
         _live[info]()
 
-def menu_proc(id_menu, id_action, command="", caption="", index=-1):
+def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey=""):
     if callable(command):
         sid_callback = str(command)
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.menu_proc(str(id_menu), id_action, str(command), caption, index)
+    return ct.menu_proc(str(id_menu), id_action, str(command), caption, index, hotkey)
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
 
 def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, index2=-1):
+    if callable(command):
+        sid_callback = str(command)
+        _live[sid_callback] = command
+        command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
     return ct.toolbar_proc(str(id_toolbar), id_action, text, text2, str(command), index, index2)
 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
