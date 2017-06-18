@@ -1898,7 +1898,10 @@ begin
   if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
   begin
     with FPluginsCmd[NCmd-cmdFirstPluginCommand] do
-      Result:= 'p:'+ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam)
+      if ItemProcParam<>'' then
+        Result:= Format('p:module=%s;cmd=%s;info=%s;', [ItemModule, ItemProc, ItemProcParam])
+      else
+        Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
   end
   else
   if (NCmd>=cmdFirstLexerCommand) and (NCmd<cmdFirstLexerCommand+AppManager.AnalyzerCount) then
