@@ -12,10 +12,10 @@ procedure TfmMain.DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
 const
   cDx=4; cDy=1;
 var
-  Listbox: TATListboxMy;
+  Listbox: ATListbox.TATListbox;
 begin
   if AIndex<0 then exit;
-  Listbox:= Sender as TATListboxMy;
+  Listbox:= Sender as ATListbox.TATListbox;
 
   C.Font.Color:= GetAppColor('ListFont');
   C.Brush.Color:= GetAppColor('ListBg');
