@@ -220,7 +220,7 @@ begin
     Ed.EndUpdate;
 
     if Assigned(fmFind) and fmFind.Visible then
-      fmFind.edFind.SetFocus
+      fmFind.UpdateFocus
     else
       EditorFocus(Ed);
   end;

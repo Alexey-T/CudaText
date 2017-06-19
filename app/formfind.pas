@@ -112,6 +112,7 @@ type
     procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;
+    procedure UpdateFocus;
     property OnResult: TStrEvent read FOnResult write FOnResult;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
@@ -293,14 +294,40 @@ begin
   //bCancel.Font.Assign(LabelFind.Font);
 end;
 
+procedure TfmFind.UpdateFocus;
+begin
+  if edRep.Focused then exit;
+  edFind.SetFocus;
+  {//try next?
+  if bRep.Focused or bRepAll.Focused then
+  begin
+    if edRep.Visible and edRep.Enabled then
+      edRep.SetFocus;
+  end
+  else
+  begin
+    if edFind.Enabled then
+      edFind.SetFocus;
+  end;
+  }
+end;
+
 procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if key=VK_RETURN then
   begin
-    //Enter: find next
-    if Shift=[] then DoResult(cOpFindNext);
+    //Enter: find next/ replace next (depends on focus)
+    if Shift=[] then
+    begin
+      if IsReplace and edRep.Focused then
+        DoResult(cOpFindRep)
+      else
+        DoResult(cOpFindNext);
+    end;
+
     //Shift+Enter: find prev
     if Shift=[ssShift] then DoResult(cOpFindPrev);
+
     //Ctrl+Enter: dont catch here, combobox must handle it as new-line
     if Shift=[ssCtrl] then exit;
 

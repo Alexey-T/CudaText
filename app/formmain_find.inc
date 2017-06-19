@@ -283,7 +283,7 @@ begin
 
     UpdateState;
     Show;
-    edFind.SetFocus;
+    UpdateFocus;
   end;
 end;
 
