@@ -47,6 +47,7 @@ begin
     cmd_FileNew:             DoFileOpen('');
     cmd_FileNewMenu:         DoFileNewMenu(nil);
     cmd_FileOpen:            DoFileOpenDialog;
+    cmd_FileOpenFolder:      DoPyCommand('cuda_project_man', 'new_project_open_dir', []);
     cmd_FileOpen_NoPlugins:  DoFileOpenDialog_NoPlugins;
     cmd_FileReopen:          DoFileReopen;
     cmd_FileSave:            DoFileSave;
@@ -350,7 +351,7 @@ begin
     cmd_HelpLexers: DoHelpLexers;
     cmd_HelpIssues: DoHelpIssues;
     cmd_HelpHotkeys: DoHelpHotkeys;
-
+    cmd_HelpCheckUpdates: DoPyCommand('cuda_addonman', 'check_cudatext_updates', []);
 
     cmdFirstLexerCommand..
     cmdLastLexerCommand:

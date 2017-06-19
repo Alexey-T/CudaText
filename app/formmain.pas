@@ -1029,15 +1029,20 @@ end;
 
 
 procedure TfmMain.InitAppleMenu;
+var
+  cAppleString: string;
 begin
-  {$ifndef darwin} exit; {$endif}
+  {$ifndef darwin}
+  exit;
+  {$endif}
+  cAppleString:= UTF8Encode(WideChar($F8FF));
 
   mnuApple:= TMenuItem.Create(Self);
-  mnuApple.Caption:= string(UTF8Encode(WideChar($F8FF)));
+  mnuApple.Caption:= cAppleString;
   Menu.Items.Insert(0, mnuApple);
 
   mnuApple_About:= TMenuItem.Create(Self);
-  mnuApple_About.Caption:= 'About...';
+  mnuApple_About.Caption:= 'About CudaText';
   mnuApple.Add(mnuApple_About);
   mnuHelpAbout.Visible:= false;
 
@@ -1046,9 +1051,7 @@ begin
   mnuApple.Add(mnuApple_CheckUpd);
   mnuHelpCheckUpd.Visible:= false;
 
-  //mnuApple_Quit:= TMenuItem.Create(Self);
-  //mnuApple_Quit.Caption:= 'Quit';
-  //mnuApple.Add(mnuApple_Quit);
+  //macOS adds Quit item in apple menu
   mnuFileExit.Visible:= false;
 end;
 

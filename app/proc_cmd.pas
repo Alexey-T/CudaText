@@ -44,6 +44,7 @@ const
   cmd_FileExit           = 2506;
   cmd_FileOpen_NoPlugins = 2507;
   cmd_FileNewMenu        = 2508;
+  cmd_FileOpenFolder     = 2509;
   cmd_FileClose          = 2510;
   cmd_FileCloseOtherThis = 2511;
   cmd_FileCloseOtherAll  = 2512;
@@ -182,6 +183,7 @@ const
   cmd_HelpLexers    = 2705;
   cmd_HelpIssues    = 2706;
   cmd_HelpHotkeys   = 2707;
+  cmd_HelpCheckUpdates = 2708;
 
   cmd_Encoding_ansi_NoReload      = 2710;
   cmd_Encoding_utf8bom_NoReload   = 2711;
@@ -631,6 +633,7 @@ begin
     cmd_FileNewMenu,
     cmd_FileOpen,
     cmd_FileOpen_NoPlugins,
+    cmd_FileOpenFolder,
     cmd_FileSaveAs,
     cmd_FileExit,
     cmd_FileClose,
@@ -663,6 +666,7 @@ begin
     cmd_MenuEnds,
     cmd_MenuLexers,
     cmd_HelpAbout,
+    cmd_HelpCheckUpdates,
     cmd_HelpForum,
     cmd_HelpWiki,
     cmd_HelpMouse,
