@@ -122,10 +122,22 @@ begin
   ed.Parent:= Self;
   ed.Align:= alBottom;
 
+  ed.OnCommand:= @ComboCommand;
+
+  ed.WantTabs:= false;
+  ed.TabStop:= true;
+  ed.OptTabSize:= 4;
+  ed.OptBorderWidth:= 1;
+  ed.OptBorderWidthFocused:= 1;
+  ed.OptBorderFocusedActive:= true;
+
   memo:= TATSynEdit.Create(Self);
   memo.Parent:= Self;
   memo.Align:= alClient;
   memo.BorderStyle:= bsNone;
+
+  memo.WantTabs:= false;
+  memo.TabStop:= true;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 
@@ -134,6 +146,10 @@ begin
   memo.OptAllowScrollbarHorz:= false;
   memo.OptScrollbarsNew:= true;
 
+  memo.OptTabSize:= 4;
+  memo.OptBorderWidth:= 0;
+  memo.OptBorderWidthFocused:= 1;
+  memo.OptBorderFocusedActive:= true;
   memo.OptShowURLs:= false;
   memo.OptCaretManyAllowed:= false;
   memo.OptGutterVisible:= false;
@@ -145,23 +161,8 @@ begin
   memo.OptMouseRightClickMovesCaret:= true;
   memo.OptMouseWheelZooms:= false;
 
-  ed.OnCommand:= @ComboCommand;
   memo.OnClickDouble:= @MemoClickDbl;
   memo.OnCommand:= @MemoCommand;
-
-  ed.WantTabs:= false;
-  ed.TabStop:= true;
-  ed.OptTabSize:= 4;
-  ed.OptBorderWidth:= 1;
-  ed.OptBorderWidthFocused:= 1;
-  ed.OptBorderFocusedActive:= true;
-
-  memo.WantTabs:= false;
-  memo.TabStop:= true;
-  memo.OptTabSize:= 4;
-  memo.OptBorderWidth:= 0;
-  memo.OptBorderWidthFocused:= 1;
-  memo.OptBorderFocusedActive:= true;
 
   //menu items
   mnuTextClear:= TMenuItem.Create(Self);
