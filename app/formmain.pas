@@ -494,7 +494,7 @@ type
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
     mnuApple_CheckUpd: TMenuItem;
-    mnuApple_Quit: TMenuItem;
+    //mnuApple_Quit: TMenuItem;
 
     mnuViewWrap_Alt,
     mnuViewNums_Alt,
@@ -1046,9 +1046,9 @@ begin
   mnuApple.Add(mnuApple_CheckUpd);
   mnuHelpCheckUpd.Visible:= false;
 
-  mnuApple_Quit:= TMenuItem.Create(Self);
-  mnuApple_Quit.Caption:= 'Quit';
-  mnuApple.Add(mnuApple_Quit);
+  //mnuApple_Quit:= TMenuItem.Create(Self);
+  //mnuApple_Quit.Caption:= 'Quit';
+  //mnuApple.Add(mnuApple_Quit);
   mnuFileExit.Visible:= false;
 end;
 

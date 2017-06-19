@@ -449,7 +449,7 @@ end;
 
 procedure TfmMain.UpdateMenuHotkeys;
 begin
-  UpdateMenuItemHotkey(mnuApple_Quit, cmd_FileExit);
+  //UpdateMenuItemHotkey(mnuApple_Quit, cmd_FileExit);
   UpdateMenuItemHotkey(mnuApple_About, cmd_HelpAbout);
   if Assigned(mnuApple_CheckUpd) then
   begin
