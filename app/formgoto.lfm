@@ -115,7 +115,6 @@ object fmGoto: TfmGoto
     OptCaretManyAllowed = False
     OptCaretVirtual = False
     OptGutterVisible = False
-    OptBorderVisible = True
     OptRulerVisible = False
     OptWrapMode = cWrapOff
     OptMarginRight = 1000

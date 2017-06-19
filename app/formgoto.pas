@@ -107,7 +107,6 @@ end;
 procedure TfmGoto.FormCreate(Sender: TObject);
 begin
   edInput.BorderStyle:= bsNone;
-  edInput.OptBorderVisible:= true;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 

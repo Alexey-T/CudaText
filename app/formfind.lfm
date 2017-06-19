@@ -199,7 +199,6 @@ object fmFind: TfmFind
       OptCaretManyAllowed = False
       OptCaretVirtual = False
       OptGutterVisible = False
-      OptBorderVisible = True
       OptRulerVisible = False
       OptMicromapVisible = True
       OptMicromapWidth = 22
@@ -291,8 +290,6 @@ object fmFind: TfmFind
       OptCaretManyAllowed = False
       OptCaretVirtual = False
       OptGutterVisible = False
-      OptBorderVisible = True
-      OptRulerVisible = False
       OptMicromapVisible = True
       OptMicromapWidth = 22
       OptWrapMode = cWrapOff
