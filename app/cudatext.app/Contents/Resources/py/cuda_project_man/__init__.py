@@ -55,6 +55,8 @@ def is_filename_mask_listed(name, mask_list):
             return True
     return False
 
+def is_dir_ok(s):
+    return os.path.isdir(s) and os.access(s, os.R_OK)
 
 class Command:
 
@@ -130,17 +132,17 @@ class Command:
         icon_add_dir = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-add-dir.png'))
         icon_del = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-del.png'))
         icon_cfg = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-cfg.png'))
-        
+
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
-        toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Open project', index2=icon_open, command='cuda_project_man.action_open_project' ) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Save project as', index2=icon_save, command='cuda_project_man.action_save_project_as' ) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' ) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add folder', index2=icon_add_dir, command='cuda_project_man.action_add_directory' ) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add file', index2=icon_add_file, command='cuda_project_man.action_add_file' ) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Remove node', index2=icon_del, command='cuda_project_man.action_remove_node' ) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' ) 
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Config', index2=icon_cfg, command='cuda_project_man.action_config' ) 
+        toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16)
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Open project', index2=icon_open, command='cuda_project_man.action_open_project' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Save project as', index2=icon_save, command='cuda_project_man.action_save_project_as' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add folder', index2=icon_add_dir, command='cuda_project_man.action_add_directory' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add file', index2=icon_add_file, command='cuda_project_man.action_add_file' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Remove node', index2=icon_del, command='cuda_project_man.action_remove_node' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Config', index2=icon_cfg, command='cuda_project_man.action_config' )
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
@@ -152,7 +154,7 @@ class Command:
             'on_unfold': 'cuda_project_man.tree_on_unfold',
             'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
             } )
-            
+
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         tree_proc(self.tree, TREE_THEME)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
@@ -409,12 +411,12 @@ class Command:
                 parent,
                 -1,
                 path.name,
-                NODE_DIR if path.is_dir() else NODE_FILE if path.is_file() else NODE_BAD,
+                NODE_DIR if is_dir_ok(str(path)) else NODE_FILE if path.is_file() else NODE_BAD,
             )
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
 
-            if path.is_dir() and depth > 1:
+            if is_dir_ok(str(path)) and depth > 1:
                 sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
                 self.action_refresh(index, sub_nodes, depth - 1)
 
@@ -583,7 +585,7 @@ class Command:
     def config(self):
         if dialog_config(self.options):
             self.save_options()
-            
+
             dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='bar', prop={
                 'vis': self.options.get('toolbar', True)
                 })

@@ -1,6 +1,5 @@
-#prefix cCommand: std commands of editor control
+#prefix cCommand: commands of editor core ATSynEdit
 #prefix cmd: high-level commands of CudaText
-#don't use flags cCmdNNN
 
 _CmdFlag_SelKeep    = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
 _CmdFlag_SelReset   = 0x20000 #before command, reset selection
@@ -181,6 +180,7 @@ cmd_FileReopen         = 2505
 cmd_FileExit           = 2506
 cmd_FileOpen_NoPlugins = 2507
 cmd_FileNewMenu        = 2508
+cmd_FileOpenFolder     = 2509
 cmd_FileClose          = 2510
 cmd_FileCloseOtherThis = 2511
 cmd_FileCloseOtherAll  = 2512
@@ -323,6 +323,7 @@ cmd_HelpChangelog = 2704
 cmd_HelpLexers    = 2705
 cmd_HelpIssues    = 2706
 cmd_HelpHotkeys   = 2707
+cmd_HelpCheckUpdates = 2708
 
 cmd_Encoding_ansi_NoReload      = 2710
 cmd_Encoding_utf8bom_NoReload   = 2711

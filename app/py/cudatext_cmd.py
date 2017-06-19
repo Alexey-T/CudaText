@@ -1,6 +1,5 @@
-#prefix cCommand: std commands of editor control
+#prefix cCommand: commands of editor core ATSynEdit
 #prefix cmd: high-level commands of CudaText
-#don't use flags cCmdNNN
 
 _CmdFlag_SelKeep    = 0x10000 #cmd continues selection (new caret pos makes bigger selection)
 _CmdFlag_SelReset   = 0x20000 #before command, reset selection
