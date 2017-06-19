@@ -449,6 +449,15 @@ end;
 
 procedure TfmMain.UpdateMenuHotkeys;
 begin
+  UpdateMenuItemHotkey(mnuApple_Quit, cmd_FileExit);
+  UpdateMenuItemHotkey(mnuApple_About, cmd_HelpAbout);
+  if Assigned(mnuApple_CheckUpd) then
+  begin
+    mnuApple_CheckUpd.Tag:= -1;
+    mnuApple_CheckUpd.Hint:= mnuHelpCheckUpd.Hint;
+    mnuApple_CheckUpd.OnClick:= @MenuMainClick;
+  end;
+
   UpdateMenuItemHotkey(mnuFileEndWin, cmd_LineEndWin);
   UpdateMenuItemHotkey(mnuFileEndUn, cmd_LineEndUnix);
   UpdateMenuItemHotkey(mnuFileEndMac, cmd_LineEndMac);

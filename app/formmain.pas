@@ -491,6 +491,11 @@ type
     StatusAlt: TATStatus;
     Groups: TATGroups;
 
+    mnuApple: TMenuItem;
+    mnuApple_About: TMenuItem;
+    mnuApple_CheckUpd: TMenuItem;
+    mnuApple_Quit: TMenuItem;
+
     mnuViewWrap_Alt,
     mnuViewNums_Alt,
     mnuViewFold_Alt,
@@ -655,6 +660,7 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    procedure InitAppleMenu;
     procedure InitSidebar;
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
@@ -1022,6 +1028,30 @@ begin
 end;
 
 
+procedure TfmMain.InitAppleMenu;
+begin
+  {$ifndef darwin} exit; {$endif}
+
+  mnuApple:= TMenuItem.Create(Self);
+  mnuApple.Caption:= string(UTF8Encode(WideChar($F8FF)));
+  Menu.Items.Insert(0, mnuApple);
+
+  mnuApple_About:= TMenuItem.Create(Self);
+  mnuApple_About.Caption:= 'About...';
+  mnuApple.Add(mnuApple_About);
+  mnuHelpAbout.Visible:= false;
+
+  mnuApple_CheckUpd:= TMenuItem.Create(Self);
+  mnuApple_CheckUpd.Caption:= 'Check for updates';
+  mnuApple.Add(mnuApple_CheckUpd);
+  mnuHelpCheckUpd.Visible:= false;
+
+  mnuApple_Quit:= TMenuItem.Create(Self);
+  mnuApple_Quit.Caption:= 'Quit';
+  mnuApple.Add(mnuApple_Quit);
+  mnuFileExit.Visible:= false;
+end;
+
 procedure TfmMain.FormCreate(Sender: TObject);
 var
   i: integer;
@@ -1039,6 +1069,7 @@ begin
   ToolbarSideLow.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideMid.ScalePercents:= UiOps.ScreenScale;
 
+  InitAppleMenu;
   InitToolbar;
   InitSidebar;
 
