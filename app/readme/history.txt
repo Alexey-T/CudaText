@@ -4,6 +4,9 @@
   * changed
 
 
+1.10.1
++ find/replace/goto dialogs: focused input has its border highlighted
+
 1.10.0
 + preinstalled plugin Tabs List
 + Project Manager: read only toplevel dirs from disk, and read other dirs only on unfolding them in treeview (patch by @pohmelie)

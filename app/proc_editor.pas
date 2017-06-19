@@ -471,6 +471,7 @@ begin
 
   Ed.Colors.MarkedLinesBG:= GetAppColor('EdMarkedRangeBg');
   Ed.Colors.BorderLine:= GetAppColor('EdBorder');
+  Ed.Colors.BorderLineFocused:= GetAppColor('EdBorderFocused');
 
   Ed.Update;
 end;

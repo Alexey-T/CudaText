@@ -179,6 +179,7 @@ begin
   Add(nColorArrow, 'EdComboArrow', 'editor, combobox arrow-down');
   Add(nColorBack, 'EdComboArrowBg', 'editor, combobox arrow-down BG');
   Add(nColorBorder, 'EdBorder', 'editor, combobox border');
+  Add(clNavy, 'EdBorderFocused', 'editor, combobox border, focused');
   Add(clMedGray, 'EdBlockSepLine', 'editor, separator line');
   Add($a06060, 'EdFoldMarkLine', 'editor, folded line');
   Add($e08080, 'EdFoldMarkFont', 'editor, folded block mark, font');

@@ -275,6 +275,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
+    OptBorderFocusedActive:= true;
     EditorApplyTheme(edFind);
     Update;
   end;
@@ -284,6 +285,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
+    OptBorderFocusedActive:= true;
     EditorApplyTheme(edRep);
     Update;
   end;

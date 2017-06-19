@@ -18,6 +18,7 @@ uses
   ATButtons,
   proc_globdata,
   proc_colors,
+  proc_editor,
   proc_miscutils;
 
 const
@@ -118,18 +119,13 @@ begin
   edInput.Font.Name:= EditorOps.OpFontName;
   edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
+  edInput.OptBorderFocusedActive:= true;
 
-  edInput.Colors.TextFont:= GetAppColor('EdTextFont');
-  edInput.Colors.TextBG:= GetAppColor('EdTextBg');
-  edInput.Colors.TextSelFont:= GetAppColor('EdSelFont');
-  edInput.Colors.TextSelBG:= GetAppColor('EdSelBg');
-  edInput.Colors.BorderLine:= GetAppColor('EdBorder');
+  EditorApplyTheme(edInput);
 
   LabelGoto.Font.Name:= UiOps.VarFontName;
   LabelGoto.Font.Size:= UiOps.VarFontSize;
   LabelGoto.Font.Color:= GetAppColor('TabFont');
-
-  //bClose.Font.Assign(LabelGoto.Font);
 end;
 
 procedure TfmGoto.bGotoClick(Sender: TObject);
