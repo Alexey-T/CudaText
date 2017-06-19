@@ -152,9 +152,14 @@ begin
   ed.WantTabs:= false;
   ed.TabStop:= true;
   ed.OptTabSize:= 4;
+  ed.OptBorderFocusedActive:= true;
+
   memo.WantTabs:= false;
   memo.TabStop:= true;
   memo.OptTabSize:= 4;
+  memo.OptBorderWidth:= 1;
+  memo.OptBorderWidthFocused:= 1;
+  memo.OptBorderFocusedActive:= true;
 
   //menu items
   mnuTextClear:= TMenuItem.Create(Self);

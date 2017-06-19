@@ -858,7 +858,6 @@ begin
   ed.OptUnprintedVisible:= EditorOps.OpUnprintedShow;
   ed.OptRulerVisible:= EditorOps.OpRulerShow;
   ed.OptScrollbarsNew:= true;
-  ed.OptBorderWidth:= 0; //hide border
 
   ed.OnClick:= @EditorOnClick;
   ed.OnClickDouble:= @EditorOnClickDouble;
