@@ -152,12 +152,14 @@ begin
   ed.WantTabs:= false;
   ed.TabStop:= true;
   ed.OptTabSize:= 4;
+  ed.OptBorderWidth:= 1;
+  ed.OptBorderWidthFocused:= 1;
   ed.OptBorderFocusedActive:= true;
 
   memo.WantTabs:= false;
   memo.TabStop:= true;
   memo.OptTabSize:= 4;
-  memo.OptBorderWidth:= 1;
+  memo.OptBorderWidth:= 0;
   memo.OptBorderWidthFocused:= 1;
   memo.OptBorderFocusedActive:= true;
 
