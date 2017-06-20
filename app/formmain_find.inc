@@ -285,7 +285,7 @@ begin
 
     UpdateState;
     Show;
-    UpdateFocus(not AReplaceMode);
+    UpdateFocus(true);
   end;
 end;
 

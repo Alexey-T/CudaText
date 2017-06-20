@@ -4,8 +4,9 @@
   * changed
 
 
-1.10.1
-+ find/replace/goto dialogs: focused input has its border highlighted
+1.10.2
++ find/replace/goto/console: focused input has its border highlighted (new color in UI theme)
++ find/replace: Enter press on focused replace-field: makes "Replace next" and keeps focus
 
 1.10.0
 + preinstalled plugin Tabs List
