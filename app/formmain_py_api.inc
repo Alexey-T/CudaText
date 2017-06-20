@@ -3429,7 +3429,7 @@ begin
             if ok then
               Result:= PyInt_FromLong(Tree.Images.Count-1)
             else
-              Result:= PyInt_FromLong(-1);
+              Result:= PyLong_FromLongLong(-1);
           end;
 
         TREE_ICON_DELETE:
