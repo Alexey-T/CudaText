@@ -3,6 +3,8 @@
     "_dir": "default_folder.png",
     "_proj": "file_type_zip.png",
     "_zip": "file_type_zip2.png",
+    "_img": "file_type_image.png",
+    "_bin": "file_type_binary.png",
     "_bad": "icon-bad.png",
     "Apache config": "file_type_apache.png",
     "Assembly": "file_type_assembly.png",

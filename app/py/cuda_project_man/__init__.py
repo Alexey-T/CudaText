@@ -13,6 +13,9 @@ PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
 NEED_API = '1.0.184'
 
+MASKS_ZIP = '*.zip *.7z *.tar *.gz *.rar *.xz'
+MASKS_IMAGES = '*.png *.jpg *.jpeg *.gif *.bmp *.ico'
+
 global_project_info = {}
 
 icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
@@ -165,6 +168,8 @@ class Command:
         self.ICON_PROJ = self.icon_get('_proj')
         self.ICON_BAD = self.icon_get('_bad')
         self.ICON_ZIP = self.icon_get('_zip')
+        self.ICON_BIN = self.icon_get('_bin')
+        self.ICON_IMG = self.icon_get('_img')
 
 
     def init_panel(self, and_activate=True):
@@ -413,6 +418,10 @@ class Command:
                 imageindex = self.ICON_BAD
             elif path.is_dir():
                 imageindex = self.ICON_DIR
+            elif is_filename_mask_listed(path.name, MASKS_IMAGES):
+                imageindex = self.ICON_IMG
+            elif is_filename_mask_listed(path.name, MASKS_ZIP):
+                imageindex = self.ICON_ZIP
             else:
                 lexname = lexer_proc(LEXER_DETECT, path.name)
                 if lexname:
