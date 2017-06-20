@@ -843,7 +843,7 @@ type
     procedure InitFrameEvents(F: TEditorFrame);
     procedure UpdateInputForm(Form: TForm);
     procedure UpdateFrame(AUpdatedText: boolean= false);
-    procedure UpdateAppForSearch(AStart: boolean; AEdLock: boolean);
+    procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
     procedure UpdateStatus;
     procedure InitStatusButton;
   public

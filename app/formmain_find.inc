@@ -67,11 +67,13 @@ end;
 
 procedure TfmMain.FindDialogDone(Sender: TObject; const Res: string);
 var
-  ok, bChanged, bDoLock: boolean;
+  ok, bChanged, bDoLock, bFindMode: boolean;
   cnt, NTop, NLeft,
   NCaretX, NCaretY: integer;
   NTick, NTime: QWord;
 begin
+  bFindMode:= (Res<>cOpFindRep) and (Res<>cOpFindRepAll) and (Res<>cOpFindRepAndStop);
+
   if Res=cOpFindClose then
   begin
     //handy to reset in-sel, on closing dialog
@@ -80,7 +82,7 @@ begin
     if IsFocusedFind then
       EditorFocus(CurrentEditor);
     fmFind.Hide;
-    UpdateAppForSearch(false, false);
+    UpdateAppForSearch(false, false, bFindMode);
     Exit;
   end;
 
@@ -115,7 +117,7 @@ begin
     (Res=cOpFindRep) or
     (Res=cOpFindRepAndStop) or
     (Res=cOpFindRepAll);
-  UpdateAppForSearch(true, bDoLock);
+  UpdateAppForSearch(true, bDoLock, bFindMode);
 
   if (Res=cOpFindFirst) or (Res=cOpFindNext) or (Res=cOpFindPrev) then
   begin
@@ -197,7 +199,7 @@ begin
       ' ('+SFindOptionsToTextHint+')');
   end;
 
-  UpdateAppForSearch(false, false);
+  UpdateAppForSearch(false, false, bFindMode);
 end;
 
 procedure TfmMain.InitFormFind;
@@ -283,7 +285,7 @@ begin
 
     UpdateState;
     Show;
-    UpdateFocus;
+    UpdateFocus(not AReplaceMode);
   end;
 end;
 
@@ -296,7 +298,7 @@ begin
 
     EditorFocus(CurrentEditor);
     fmFind.Hide;
-    UpdateAppForSearch(false, false);
+    UpdateAppForSearch(false, false, true);
   end;
 end;
 

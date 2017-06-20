@@ -191,7 +191,7 @@ begin
     fmFind.Enabled:= b;
 end;
 
-procedure TfmMain.UpdateAppForSearch(AStart: boolean; AEdLock: boolean);
+procedure TfmMain.UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
 var
   Ed: TATSynEdit;
 begin
@@ -219,8 +219,8 @@ begin
     Ed.Enabled:= true;
     Ed.EndUpdate;
 
-    if Assigned(fmFind) and fmFind.Visible then
-      fmFind.UpdateFocus
+    if Assigned(fmFind) and fmFind.Visible and fmFind.Enabled then
+      fmFind.UpdateFocus(AFindMode)
     else
       EditorFocus(Ed);
   end;

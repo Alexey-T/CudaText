@@ -112,7 +112,7 @@ type
     procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;
-    procedure UpdateFocus;
+    procedure UpdateFocus(AFindMode: boolean);
     property OnResult: TStrEvent read FOnResult write FOnResult;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
@@ -294,22 +294,13 @@ begin
   //bCancel.Font.Assign(LabelFind.Font);
 end;
 
-procedure TfmFind.UpdateFocus;
+procedure TfmFind.UpdateFocus(AFindMode: boolean);
 begin
-  if edRep.Focused then exit;
-  edFind.SetFocus;
-  {//try next?
-  if bRep.Focused or bRepAll.Focused then
-  begin
-    if edRep.Visible and edRep.Enabled then
-      edRep.SetFocus;
-  end
+  if AFindMode then
+    edFind.SetFocus
   else
-  begin
-    if edFind.Enabled then
-      edFind.SetFocus;
-  end;
-  }
+  if edRep.Visible and edRep.Enabled and edRep.CanFocus then
+    edRep.SetFocus;
 end;
 
 procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
