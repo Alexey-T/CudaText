@@ -776,13 +776,14 @@ class Command:
 
         fn = icon_json_dict.get(key, None)
         if fn is None:
-            n = icon_indexes.get('_', -1)
+            n = self.ICON_ALL
             icon_indexes[key] = n
             return n
 
         fn = os.path.join(icon_dir, fn)
         n = tree_proc(self.tree, TREE_ICON_ADD, text=fn)
         if n == -1:
-            print('Incorrect icon file:', fn)
+            print('Incorrect filetype icon:', fn)
+            n = self.ICON_ALL
         icon_indexes[key] = n
         return n
