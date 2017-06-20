@@ -1,7 +1,7 @@
 import os
 import collections
 import json
-from fnmatch import fnmatch
+#from fnmatch import fnmatch
 from .pathlib import Path, PurePosixPath
 from .projman_dlg import *
 
@@ -45,9 +45,11 @@ NodeInfo = collections.namedtuple("NodeInfo", "caption index image level")
 
 
 def is_filename_mask_listed(name, mask_list):
-    s = os.path.basename(name)
+    #s = os.path.basename(name)
+    s = name #enough for s.endswith
     for item in mask_list.split(' '):
-        if fnmatch(s, item):
+        #if fnmatch(s, item): #slow, lets do it faster
+        if s.endswith(item):
             return True
     return False
 
