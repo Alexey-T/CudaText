@@ -13,10 +13,17 @@ PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
 NEED_API = '1.0.184'
 
-NODES = NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
-
 global_project_info = {}
 
+icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
+icon_json = os.path.join(icon_dir, 'icons.json')
+icon_json_dict = json.loads(open(icon_json).read())
+icon_indexes = {}
+
+NODE_PROJECT = 0
+NODE_DIR = 1
+NODE_FILE = 2
+NODE_BAD = 3
 
 def project_variables():
     """
@@ -37,14 +44,6 @@ def project_variables():
         res[s1] = s2
     return res
 
-
-icon_names = {
-    NODE_PROJECT: "icon-project.png",
-    NODE_DIR: "icon-dir.png",
-    NODE_FILE: "icon-file.png",
-    NODE_BAD: "icon-bad.png",
-}
-
 NodeInfo = collections.namedtuple("NodeInfo", "caption index image level")
 
 
@@ -55,8 +54,9 @@ def is_filename_mask_listed(name, mask_list):
             return True
     return False
 
-def is_dir_ok(s):
-    return os.path.isdir(s) and os.access(s, os.R_OK)
+def is_locked(s):
+    return not os.access(s, os.R_OK)
+
 
 class Command:
 
@@ -160,6 +160,12 @@ class Command:
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
 
+        self.ICON_ALL = self.icon_get('_')
+        self.ICON_DIR = self.icon_get('_dir')
+        self.ICON_PROJ = self.icon_get('_proj')
+        self.ICON_BAD = self.icon_get('_bad')
+        self.ICON_ZIP = self.icon_get('_zip')
+
 
     def init_panel(self, and_activate=True):
         # already inited?
@@ -172,11 +178,6 @@ class Command:
 
         self.init_form_main()
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
-
-        base = Path(__file__).parent
-        for n in NODES:
-            path = base / 'icons' / icon_names[n]
-            tree_proc(self.tree, TREE_ICON_ADD, 0, 0, str(path))
 
         if and_activate:
             self.do_show(True)
@@ -207,10 +208,13 @@ class Command:
 
 
     def generate_context_menu(self):
+        node_type = None
         if self.selected is not None:
-            node_type = self.get_info(self.selected).image
-        else:
-            node_type = None
+            n = self.get_info(self.selected).image
+            if n == self.ICON_PROJ: node_type = NODE_PROJECT
+            elif n == self.ICON_DIR: node_type = NODE_DIR
+            elif n == self.ICON_BAD: node_type = NODE_BAD
+            else: node_type = NODE_FILE
 
         if not self.h_menu:
             self.h_menu = menu_proc(0, MENU_CREATE)
@@ -396,7 +400,7 @@ class Command:
                 0,
                 -1,
                 project_name,
-                NODE_PROJECT,
+                self.ICON_PROJ,
             )
             nodes = self.project["nodes"]
             self.top_nodes = {}
@@ -405,18 +409,29 @@ class Command:
             if self.is_filename_ignored(path.name):
                 continue
 
+            if path.is_dir() and is_locked(str(path)):
+                imageindex = self.ICON_BAD
+            elif path.is_dir():
+                imageindex = self.ICON_DIR
+            else:
+                lexname = lexer_proc(LEXER_DETECT, path.name)
+                if lexname:
+                    imageindex = self.icon_get(lexname)
+                else:
+                    imageindex = self.ICON_ALL
+
             index = tree_proc(
                 self.tree,
                 TREE_ITEM_ADD,
                 parent,
                 -1,
                 path.name,
-                NODE_DIR if is_dir_ok(str(path)) else NODE_FILE if path.is_file() else NODE_BAD,
+                imageindex
             )
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
 
-            if is_dir_ok(str(path)) and depth > 1:
+            if (imageindex == self.ICON_DIR) and (depth > 1):
                 sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
                 self.action_refresh(index, sub_nodes, depth - 1)
 
@@ -725,7 +740,7 @@ class Command:
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
         info = self.get_info(data)
         path = self.get_location_by_index(data)
-        if info.image != NODE_DIR:
+        if info.image != self.ICON_DIR:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM, data)
         if items:
@@ -741,6 +756,28 @@ class Command:
     def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
         info = self.get_info(self.selected)
         path = self.get_location_by_index(self.selected)
-        if info.image == NODE_FILE:
+        if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
             file_open(str(path))
 
+
+    def icon_get(self, key):
+        global icon_indexes
+        global icon_dir
+        global icon_json_dict
+
+        s = icon_indexes.get(key, None)
+        if s:
+            return s
+
+        fn = icon_json_dict.get(key, None)
+        if fn is None:
+            n = icon_indexes.get('_', -1)
+            icon_indexes[key] = n
+            return n
+
+        fn = os.path.join(icon_dir, fn)
+        n = tree_proc(self.tree, TREE_ICON_ADD, text=fn)
+        if n == -1:
+            print('Incorrect icon file:', fn)
+        icon_indexes[key] = n
+        return n

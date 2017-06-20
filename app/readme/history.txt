@@ -5,6 +5,7 @@
 
 
 1.10.2
++ Project Manager: file type icons
 + find/replace/goto/console: focused input has its border highlighted (new color in UI theme)
 + find/replace: Enter press on focused replace-field: makes "Replace next" and keeps focus
 
