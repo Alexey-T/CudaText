@@ -15,6 +15,7 @@ NEED_API = '1.0.184'
 
 MASKS_ZIP = '*.zip *.7z *.tar *.gz *.rar *.xz'
 MASKS_IMAGES = '*.png *.jpg *.jpeg *.gif *.bmp *.ico'
+MASKS_BINARY = '*.exe *.dll *.dat *.o'
 
 global_project_info = {}
 
@@ -422,6 +423,8 @@ class Command:
                 imageindex = self.ICON_IMG
             elif is_filename_mask_listed(path.name, MASKS_ZIP):
                 imageindex = self.ICON_ZIP
+            elif is_filename_mask_listed(path.name, MASKS_BINARY):
+                imageindex = self.ICON_BIN
             else:
                 lexname = lexer_proc(LEXER_DETECT, path.name)
                 if lexname:
