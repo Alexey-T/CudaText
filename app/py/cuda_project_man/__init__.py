@@ -3,7 +3,7 @@ import collections
 import json
 from fnmatch import fnmatch
 from .pathlib import Path, PurePosixPath
-from .dlg import *
+from .projman_dlg import *
 
 from cudatext import *
 import cudatext_cmd
@@ -13,10 +13,6 @@ PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
 NEED_API = '1.0.184'
 
-MASKS_ZIP = '*.zip *.7z *.tar *.gz *.rar *.xz'
-MASKS_IMAGES = '*.png *.jpg *.jpeg *.gif *.bmp *.ico'
-MASKS_BINARY = '*.exe *.dll *.dat *.o'
-
 global_project_info = {}
 
 icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
@@ -24,10 +20,7 @@ icon_json = os.path.join(icon_dir, 'icons.json')
 icon_json_dict = json.loads(open(icon_json).read())
 icon_indexes = {}
 
-NODE_PROJECT = 0
-NODE_DIR = 1
-NODE_FILE = 2
-NODE_BAD = 3
+NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 
 def project_variables():
     """
@@ -95,7 +88,7 @@ class Command:
     )
     options = {
         "recent_projects": [],
-        "masks_ignore": DEFAULT_MASKS_IGNORE,
+        "masks_ignore": MASKS_IGNORE,
         "on_start": False,
         "toolbar": True,
     }
@@ -628,7 +621,7 @@ class Command:
                 self.action_save_project_as(self.project_file_path)
 
     def is_filename_ignored(self, fn):
-        mask_list = self.options.get("masks_ignore", DEFAULT_MASKS_IGNORE)
+        mask_list = self.options.get("masks_ignore", MASKS_IGNORE)
         return is_filename_mask_listed(fn, mask_list)
 
     def on_start(self, ed_self):

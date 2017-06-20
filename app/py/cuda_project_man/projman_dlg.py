@@ -1,7 +1,11 @@
 import os
 from cudatext import *
 
-DEFAULT_MASKS_IGNORE = '*.zip *.7z *.tar *.gz *.rar *.exe *.dll .git .svn'
+MASKS_IGNORE = '*.rar *.exe *.dll .git .svn'
+MASKS_ZIP = '*.zip *.7z *.tar *.gz *.rar *.xz'
+MASKS_IMAGES = '*.png *.jpg *.jpeg *.gif *.bmp *.ico'
+MASKS_BINARY = '*.exe *.dll *.o'
+
 
 def dialog_config(op):
 
@@ -15,7 +19,7 @@ def dialog_config(op):
     text = '\n'.join([]
         +[c1.join(['type=label', 'pos=6,6,500,0', 'cap=&File/folder masks to ignore (space-separated):'])]
         +[c1.join(['type=edit', 'pos=6,24,500,0',
-            'val='+op.get('masks_ignore', DEFAULT_MASKS_IGNORE)])]
+            'val='+op.get('masks_ignore', MASKS_IGNORE)])]
         +[c1.join(['type=label', 'pos=6,54,500,0', 'cap=&Recent projects:'])]
         +[c1.join(['type=memo', 'pos=6,74,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
