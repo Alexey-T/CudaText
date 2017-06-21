@@ -1704,6 +1704,8 @@ begin
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
 
   fmConsole.memo.OptCaretShapeRO:= TATSynCaretShape(EditorOps.OpCaretShapeRO);
+  fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
+  fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do

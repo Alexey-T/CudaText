@@ -129,7 +129,7 @@ begin
   ed.OptTabSize:= 4;
   ed.OptBorderWidth:= 1;
   ed.OptBorderWidthFocused:= 1;
-  ed.OptBorderFocusedActive:= true;
+  ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
 
   memo:= TATSynEdit.Create(Self);
   memo.Parent:= Self;
@@ -149,7 +149,7 @@ begin
   memo.OptTabSize:= 4;
   memo.OptBorderWidth:= 0;
   memo.OptBorderWidthFocused:= 1;
-  memo.OptBorderFocusedActive:= true;
+  memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   memo.OptShowURLs:= false;
   memo.OptCaretManyAllowed:= false;
   memo.OptGutterVisible:= false;

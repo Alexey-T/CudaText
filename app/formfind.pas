@@ -276,7 +276,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
-    OptBorderFocusedActive:= true;
+    OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     EditorApplyTheme(edFind);
     Update;
   end;
@@ -286,7 +286,7 @@ begin
     Font.Name:= EditorOps.OpFontName;
     Font.Size:= EditorOps.OpFontSize;
     Font.Quality:= EditorOps.OpFontQuality;
-    OptBorderFocusedActive:= true;
+    OptBorderFocusedActive:= UiOps.ShowActiveBorder;
     EditorApplyTheme(edRep);
     Update;
   end;

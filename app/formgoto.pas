@@ -119,7 +119,7 @@ begin
   edInput.Font.Name:= EditorOps.OpFontName;
   edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
-  edInput.OptBorderFocusedActive:= true;
+  edInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
 
   EditorApplyTheme(edInput);
 
