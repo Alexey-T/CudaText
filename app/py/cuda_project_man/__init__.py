@@ -46,7 +46,7 @@ NodeInfo = collections.namedtuple("NodeInfo", "caption index image level")
 
 def is_filename_mask_listed(name, mask_list):
     #s = os.path.basename(name)
-    s = name #enough for s.endswith
+    s = name.lower() #enough for s.endswith
     for item in mask_list.split(' '):
         #if fnmatch(s, item): #slow, lets do it faster
         if s.endswith(item):
