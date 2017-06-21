@@ -3052,7 +3052,7 @@ var
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'sississ:menu_proc',
-       @PtrMenu, @NAction, @PtrCmd, @PtrCaption, @NIndex, @PtrHotkey)) then
+       @PtrMenu, @NAction, @PtrCmd, @PtrCaption, @NIndex, @PtrHotkey, @PtrTag)) then
     begin
       StrMenu:= string(PtrMenu);
       StrCaption:= string(PtrCaption);
