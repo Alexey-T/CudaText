@@ -3040,24 +3040,25 @@ begin
 end;
 
 
-//menu_proc(id_menu, id_action, command, caption, index, hotkey)
+//menu_proc(id_menu, id_action, command, caption, index, hotkey, tag)
 function Py_menu_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  PtrMenu, PtrCaption, PtrCmd, PtrHotkey: PChar;
-  StrMenu, StrCaption, StrCmd, StrHotkey, StrResult: string;
+  PtrMenu, PtrCaption, PtrCmd, PtrHotkey, PtrTag: PChar;
+  StrMenu, StrCaption, StrCmd, StrHotkey, StrTag, StrResult: string;
   NAction, NIndex: integer;
   Popup: TPopupMenu;
   PopupItem: TMenuItem;
   NX, NY: integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'sissis:menu_proc',
+    if Bool(PyArg_ParseTuple(Args, 'sississ:menu_proc',
        @PtrMenu, @NAction, @PtrCmd, @PtrCaption, @NIndex, @PtrHotkey)) then
     begin
       StrMenu:= string(PtrMenu);
       StrCaption:= string(PtrCaption);
       StrCmd:= string(PtrCmd);
       StrHotkey:= string(PtrHotkey);
+      StrTag:= string(PtrTag);
 
       case NAction of
         MENU_CLEAR:
@@ -3073,7 +3074,7 @@ begin
 
         MENU_ADD:
           begin
-            StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, StrHotkey, NIndex);
+            StrResult:= fmMain.DoMenuAdd_Params(StrMenu, StrCmd, StrCaption, StrHotkey, StrTag, NIndex);
             Result:= PyString_FromString(PChar(StrResult));
           end;
 

@@ -580,7 +580,8 @@ type
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_FromString(AStr: string): string;
-    function DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey: string;
+    function DoMenuAdd_Params(
+      const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string;
       AIndex: integer): string;
     procedure DoMenuClear(const AMenuId: string);
     function DoMenuEnum_Deprecated(const AMenuId: string): string;
@@ -3653,7 +3654,7 @@ var
   NLen, i: integer;
   NTag: PtrInt;
   NCommand: integer;
-  SCommand: string;
+  SCommand, STagString: string;
 begin
   //this updates PopupText items tags
   PopupText.OnPopup(nil);
@@ -3676,25 +3677,29 @@ begin
       begin
         NCommand:= TAppMenuProps(NTag).CommandCode;
         SCommand:= TAppMenuProps(NTag).CommandString;
+        STagString:= TAppMenuProps(NTag).TagString;
       end
       else
       begin
         NCommand:= 0;
         SCommand:= '';
+        STagString:= '';
       end;
 
       PyList_SetItem(Result, i,
-        Py_BuildValue('{sLsssLssss}',
+        Py_BuildValue('{sLsssissssss}',
           'id',
           Int64(PtrInt(mi.Items[i])),
           'cap',
           PChar(mi.Items[i].Caption),
           'cmd',
-          Int64(NCommand),
+          NCommand,
           'hint',
           PChar(SCommand),
           'hotkey',
-          PChar(ShortCutToText(mi.Items[i].ShortCut))
+          PChar(ShortCutToText(mi.Items[i].ShortCut)),
+          'tag',
+          PChar(STagString)
           ));
     end;
   end;
@@ -3760,11 +3765,11 @@ begin
   StrCaption:= SGetItem(AStr, ';');
   StrIndex:= SGetItem(AStr, ';');
   NIndex:= StrToIntDef(StrIndex, -1);
-  Result:= DoMenuAdd_Params(StrId, StrCmd, StrCaption, '', NIndex);
+  Result:= DoMenuAdd_Params(StrId, StrCmd, StrCaption, '', '', NIndex);
 end;
 
 function TfmMain.DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption,
-  AMenuHotkey: string; AIndex: integer): string;
+  AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
 var
   mi, miMain: TMenuItem;
   Num: integer;
@@ -3776,6 +3781,7 @@ begin
     mi:= TMenuItem.Create(Self);
     mi.Caption:= AMenuCaption;
     mi.Tag:= PtrInt(TAppMenuProps.Create);
+    TAppMenuProps(mi.Tag).TagString:= AMenuTagString;
 
     Num:= StrToIntDef(AMenuCmd, 0); //command code
     if Num>0 then
