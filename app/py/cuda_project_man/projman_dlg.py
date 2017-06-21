@@ -2,9 +2,9 @@ import os
 from cudatext import *
 
 MASKS_IGNORE = '.rar .exe .dll .git .svn'
-MASKS_ZIP = '.zip .7z .tar .gz .rar .xz'
+MASKS_ZIP = '.zip .7z .tar .gz .rar .xz .cab'
 MASKS_IMAGES = '.png .jpg .jpeg .gif .bmp .ico'
-MASKS_BINARY = '.exe .dll .o'
+MASKS_BINARY = '.exe .dll .o .msi .lib'
 
 
 def dialog_config(op):
