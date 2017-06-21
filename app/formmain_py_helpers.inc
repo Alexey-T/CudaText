@@ -135,6 +135,9 @@ var
 begin
   Result:= '';
 
+  //avoid log error on standard ids
+  if SBeginsWith(ACallback, 'top-') then exit;
+
   //ParamList: same as AParams, with additional item 'info=...'
   SetLength(ParamList, Length(AParams));
   for i:= 0 to Length(AParams)-1 do
