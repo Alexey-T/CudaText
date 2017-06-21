@@ -582,6 +582,14 @@ type
     Encoding: string;
   end;
 
+type
+  TAppMenuProps = class
+  public
+    CommandCode: integer;
+    CommandString: string;
+    TagString: string;
+  end;
+
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
 function AppEncodingListAsString: string;

@@ -2891,11 +2891,15 @@ procedure TfmMain.MenuMainClick(Sender: TObject);
 var
   F: TEditorFrame;
   EdFocus: boolean;
-  Cmd: integer;
-  SHint: string;
+  NTag: PtrInt;
+  NCommand: integer;
+  SCallback: string;
 begin
-  Cmd:= (Sender as TComponent).Tag;
-  SHint:= (Sender as TMenuItem).Hint;
+  NTag:= (Sender as TComponent).Tag;
+  if NTag=0 then exit;
+
+  NCommand:= TAppMenuProps(NTag).CommandCode;
+  SCallback:= TAppMenuProps(NTag).CommandString;
 
   //dont do editor commands here if ed not focused
   F:= CurrentFrame;
@@ -2905,16 +2909,16 @@ begin
     fmConsole.ed.Focused or
     fmConsole.memo.Focused;
   if not EdFocus then
-    if (Cmd>0) and (Cmd<cmdFirstAppCommand) then exit;
+    if (NCommand>0) and (NCommand<cmdFirstAppCommand) then exit;
 
-  //-1 means run plugin: Hint contains callback
-  if (Cmd=-1) then
+  //-1 means run callback
+  if NCommand=-1 then
   begin
-    if SHint<>'' then
-      DoPyCallbackFromAPI(SHint, []);
+    if SCallback<>'' then
+      DoPyCallbackFromAPI(SCallback, []);
   end
   else
-    CurrentEditor.DoCommand(Cmd);
+    CurrentEditor.DoCommand(NCommand);
 
   UpdateFrame;
   UpdateStatus;
@@ -3592,6 +3596,9 @@ end;
 function TfmMain.DoMenuEnum_Deprecated(const AMenuId: string): string;
 var
   mi: TMenuItem;
+  NTag: PtrInt;
+  NCommand: integer;
+  SCommand: string;
   i: integer;
 begin
   Result:= '';
@@ -3602,19 +3609,34 @@ begin
   mi:= Py_MenuItemFromId(AMenuId);
   if Assigned(mi) then
     for i:= 0 to mi.Count-1 do
+    begin
+      NTag:= mi.Items[i].Tag;
+      if NTag<>0 then
+      begin
+        NCommand:= TAppMenuProps(NTag).CommandCode;
+        SCommand:= TAppMenuProps(NTag).CommandString;
+      end
+      else
+      begin
+        NCommand:= 0;
+        SCommand:= '';
+      end;
+
       Result:= Result+
         mi.Items[i].Caption +'|'+
-        IfThen(mi.Items[i].Tag>0,
-               IntToStr(mi.Items[i].Tag),
-               mi.Items[i].Hint) +'|'+
+        IfThen(NCommand>0, IntToStr(NCommand), SCommand) +'|'+
         IntToStr(PtrInt(mi.Items[i]))
         +#10;
+    end;
 end;
 
 function TfmMain.DoMenuEnum_New(const AMenuId: string): PPyObject;
 var
   mi: TMenuItem;
   NLen, i: integer;
+  NTag: PtrInt;
+  NCommand: integer;
+  SCommand: string;
 begin
   //this updates PopupText items tags
   PopupText.OnPopup(nil);
@@ -3629,7 +3651,21 @@ begin
     Result:= PyList_New(NLen);
     if not Assigned(Result) then
       raise EPythonError.Create(msgPythonListError);
+
     for i:= 0 to NLen-1 do
+    begin
+      NTag:= mi.Items[i].Tag;
+      if NTag<>0 then
+      begin
+        NCommand:= TAppMenuProps(NTag).CommandCode;
+        SCommand:= TAppMenuProps(NTag).CommandString;
+      end
+      else
+      begin
+        NCommand:= 0;
+        SCommand:= '';
+      end;
+
       PyList_SetItem(Result, i,
         Py_BuildValue('{sLsssLssss}',
           'id',
@@ -3637,12 +3673,13 @@ begin
           'cap',
           PChar(mi.Items[i].Caption),
           'cmd',
-          Int64(mi.Items[i].Tag),
+          Int64(NCommand),
           'hint',
-          PChar(mi.Items[i].Hint),
+          PChar(SCommand),
           'hotkey',
           PChar(ShortCutToText(mi.Items[i].ShortCut))
           ));
+    end;
   end;
 end;
 
@@ -3721,6 +3758,7 @@ begin
   begin
     mi:= TMenuItem.Create(Self);
     mi.Caption:= AMenuCaption;
+    mi.Tag:= PtrInt(TAppMenuProps.Create);
 
     Num:= StrToIntDef(AMenuCmd, 0); //command code
     if Num>0 then
@@ -3756,7 +3794,7 @@ begin
     if (AMenuCmd=PyMenuCmd_Plugins) or (AMenuCmd='_'+PyMenuCmd_Plugins) then
     begin
       mnuPlug:= mi;
-      mnuPlug.Hint:= 'plugins';
+      TAppMenuProps(mi.Tag).CommandString:= 'plugins';
       UpdateMenuPlugins;
     end
     else
@@ -3773,9 +3811,9 @@ begin
     end
     else
     begin
-      mi.Tag:= -1;
-      mi.Hint:= AMenuCmd;
-      if AMenuCmd<>'0' then
+      TAppMenuProps(mi.Tag).CommandCode:= -1;
+      TAppMenuProps(mi.Tag).CommandString:= AMenuCmd;
+      if (AMenuCmd<>'0') and (AMenuCmd<>'') then
         mi.OnClick:= @MenuMainClick;
     end;
 
