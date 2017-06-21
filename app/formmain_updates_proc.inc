@@ -390,6 +390,16 @@ begin
   UpdateStatus;
 end;
 
+procedure TfmMain.UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
+begin
+  if not Assigned(mi) then exit;
+
+  if mi.Tag=0 then
+    mi.Tag:= PtrInt(TAppMenuProps.Create);
+
+  TAppMenuProps(mi.Tag).CommandString:= AHint;
+end;
+
 procedure TfmMain.UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
 begin
   if not Assigned(mi) then exit;

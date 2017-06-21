@@ -800,6 +800,7 @@ type
     procedure UpdateEditorTabsize(N: integer);
     procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
+    procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuLangs(sub: TMenuItem);
     procedure UpdateMenuThemes(AThemeUI: boolean);
@@ -1206,6 +1207,22 @@ begin
   FLastLexerForPluginsMenu:= '-';
   FLastSidebarPanel:= '';
   FLastBottomPanel:= '';
+
+  UpdateMenuItemHint(mnuFile, 'top-file');
+  UpdateMenuItemHint(mnuEdit, 'top-edit');
+  UpdateMenuItemHint(mnuSel, 'top-sel');
+  UpdateMenuItemHint(mnuSr, 'top-sr');
+  UpdateMenuItemHint(mnuView, 'top-view');
+  UpdateMenuItemHint(mnuOp, 'top-op');
+  UpdateMenuItemHint(mnuHelp, 'top-help');
+  UpdateMenuItemHint(mnuPlug, 'plugins');
+  UpdateMenuItemHint(mnuFileOpenSub, '_recents');
+  UpdateMenuItemHint(mnuFileEnc, '_enc');
+  UpdateMenuItemHint(mnuFileEnds, '_ends');
+  UpdateMenuItemHint(mnuLexers, '_lexers');
+  UpdateMenuItemHint(mnuThemesUI, '_themes-ui');
+  UpdateMenuItemHint(mnuThemesSyntax, '_themes-syntax');
+  UpdateMenuItemHint(mnuLang, '_langs');
 end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
