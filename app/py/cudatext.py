@@ -599,7 +599,7 @@ def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey=""):
         sid_callback = str(command)
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
-    return ct.menu_proc(str(id_menu), id_action, str(command), caption, index, hotkey)
+    return ct.menu_proc(str(id_menu), id_action, to_str(command), caption, index, hotkey)
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)
