@@ -689,6 +689,9 @@
   //  if "u" in value: tabs
   //  if "g" in value: gutter (all columns: numbers, bookmarks...)
   "ui_fullscreen": "tp",
+  
+  //Highlight border of focused input box (find/ replace/ goto/ console input)
+  "ui_active_border": true,
 
   //[UiSidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)

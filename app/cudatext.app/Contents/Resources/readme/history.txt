@@ -4,6 +4,13 @@
   * changed
 
 
+1.10.3
++ Project Manager: file type icons
++ Project Manager: expand short "." to full name
++ find/replace/goto/console: focused input has its border highlighted (new color in UI theme)
++ find/replace: Enter press on focused replace-field: makes "Replace next" and keeps focus
++ option ui_active_border
+
 1.10.0
 + preinstalled plugin Tabs List
 + Project Manager: read only toplevel dirs from disk, and read other dirs only on unfolding them in treeview (patch by @pohmelie)

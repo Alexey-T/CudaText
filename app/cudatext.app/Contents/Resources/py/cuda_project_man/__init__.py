@@ -1,9 +1,9 @@
 import os
 import collections
 import json
-from fnmatch import fnmatch
+#from fnmatch import fnmatch
 from .pathlib import Path, PurePosixPath
-from .dlg import *
+from .projman_dlg import *
 
 from cudatext import *
 import cudatext_cmd
@@ -13,10 +13,14 @@ PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
 NEED_API = '1.0.184'
 
-NODES = NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
-
 global_project_info = {}
 
+icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
+icon_json = os.path.join(icon_dir, 'icons.json')
+icon_json_dict = json.loads(open(icon_json).read())
+icon_indexes = {}
+
+NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 
 def project_variables():
     """
@@ -37,26 +41,21 @@ def project_variables():
         res[s1] = s2
     return res
 
-
-icon_names = {
-    NODE_PROJECT: "icon-project.png",
-    NODE_DIR: "icon-dir.png",
-    NODE_FILE: "icon-file.png",
-    NODE_BAD: "icon-bad.png",
-}
-
 NodeInfo = collections.namedtuple("NodeInfo", "caption index image level")
 
 
 def is_filename_mask_listed(name, mask_list):
-    s = os.path.basename(name)
+    #s = os.path.basename(name)
+    s = name.lower() #enough for s.endswith
     for item in mask_list.split(' '):
-        if fnmatch(s, item):
+        #if fnmatch(s, item): #slow, lets do it faster
+        if s.endswith(item):
             return True
     return False
 
-def is_dir_ok(s):
-    return os.path.isdir(s) and os.access(s, os.R_OK)
+def is_locked(s):
+    return not os.access(s, os.R_OK)
+
 
 class Command:
 
@@ -91,7 +90,7 @@ class Command:
     )
     options = {
         "recent_projects": [],
-        "masks_ignore": DEFAULT_MASKS_IGNORE,
+        "masks_ignore": MASKS_IGNORE,
         "on_start": False,
         "toolbar": True,
     }
@@ -138,7 +137,7 @@ class Command:
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Open project', index2=icon_open, command='cuda_project_man.action_open_project' )
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Save project as', index2=icon_save, command='cuda_project_man.action_save_project_as' )
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' )
-        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add folder', index2=icon_add_dir, command='cuda_project_man.action_add_directory' )
+        toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add folder', index2=icon_add_dir, command='cuda_project_man.action_add_folder' )
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Add file', index2=icon_add_file, command='cuda_project_man.action_add_file' )
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Remove node', index2=icon_del, command='cuda_project_man.action_remove_node' )
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' )
@@ -160,6 +159,14 @@ class Command:
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
 
+        self.ICON_ALL = self.icon_get('_')
+        self.ICON_DIR = self.icon_get('_dir')
+        self.ICON_PROJ = self.icon_get('_proj')
+        self.ICON_BAD = self.icon_get('_bad')
+        self.ICON_ZIP = self.icon_get('_zip')
+        self.ICON_BIN = self.icon_get('_bin')
+        self.ICON_IMG = self.icon_get('_img')
+
 
     def init_panel(self, and_activate=True):
         # already inited?
@@ -172,11 +179,6 @@ class Command:
 
         self.init_form_main()
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
-
-        base = Path(__file__).parent
-        for n in NODES:
-            path = base / 'icons' / icon_names[n]
-            tree_proc(self.tree, TREE_ICON_ADD, 0, 0, str(path))
 
         if and_activate:
             self.do_show(True)
@@ -207,10 +209,13 @@ class Command:
 
 
     def generate_context_menu(self):
+        node_type = None
         if self.selected is not None:
-            node_type = self.get_info(self.selected).image
-        else:
-            node_type = None
+            n = self.get_info(self.selected).image
+            if n == self.ICON_PROJ: node_type = NODE_PROJECT
+            elif n == self.ICON_DIR: node_type = NODE_DIR
+            elif n == self.ICON_BAD: node_type = NODE_BAD
+            else: node_type = NODE_FILE
 
         if not self.h_menu:
             self.h_menu = menu_proc(0, MENU_CREATE)
@@ -396,7 +401,7 @@ class Command:
                 0,
                 -1,
                 project_name,
-                NODE_PROJECT,
+                self.ICON_PROJ,
             )
             nodes = self.project["nodes"]
             self.top_nodes = {}
@@ -405,18 +410,35 @@ class Command:
             if self.is_filename_ignored(path.name):
                 continue
 
+            if path.is_dir() and is_locked(str(path)):
+                imageindex = self.ICON_BAD
+            elif path.is_dir():
+                imageindex = self.ICON_DIR
+            elif is_filename_mask_listed(path.name, MASKS_IMAGES):
+                imageindex = self.ICON_IMG
+            elif is_filename_mask_listed(path.name, MASKS_ZIP):
+                imageindex = self.ICON_ZIP
+            elif is_filename_mask_listed(path.name, MASKS_BINARY):
+                imageindex = self.ICON_BIN
+            else:
+                lexname = lexer_proc(LEXER_DETECT, path.name)
+                if lexname:
+                    imageindex = self.icon_get(lexname)
+                else:
+                    imageindex = self.ICON_ALL
+
             index = tree_proc(
                 self.tree,
                 TREE_ITEM_ADD,
                 parent,
                 -1,
                 path.name,
-                NODE_DIR if is_dir_ok(str(path)) else NODE_FILE if path.is_file() else NODE_BAD,
+                imageindex
             )
             if nodes is self.project["nodes"]:
                 self.top_nodes[index] = path
 
-            if is_dir_ok(str(path)) and depth > 1:
+            if (imageindex == self.ICON_DIR) and (depth > 1):
                 sub_nodes = sorted(path.iterdir(), key=Command.node_ordering)
                 self.action_refresh(index, sub_nodes, depth - 1)
 
@@ -445,7 +467,7 @@ class Command:
             else:
                 msg_status("Recent item not found")
 
-    def action_add_directory(self):
+    def action_add_folder(self):
         self.add_node(lambda: dlg_dir(""))
 
     def action_add_file(self):
@@ -565,11 +587,16 @@ class Command:
     def new_project_open_dir(self):
         self.init_panel()
         self.action_new_project()
-        self.action_add_directory()
+        self.action_add_folder()
         self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def open_dir(self, dirname):
+        if not os.path.isdir(dirname):
+            return
+        #expand "." to fully qualified name
+        dirname = os.path.abspath(dirname)
+
         self.init_panel()
         self.action_new_project()
         self.add_node(lambda: dirname)
@@ -601,7 +628,7 @@ class Command:
                 self.action_save_project_as(self.project_file_path)
 
     def is_filename_ignored(self, fn):
-        mask_list = self.options.get("masks_ignore", DEFAULT_MASKS_IGNORE)
+        mask_list = self.options.get("masks_ignore", MASKS_IGNORE)
         return is_filename_mask_listed(fn, mask_list)
 
     def on_start(self, ed_self):
@@ -617,7 +644,7 @@ class Command:
 
     def contextmenu_add_dir(self):
         self.init_panel()
-        self.action_add_directory()
+        self.action_add_folder()
 
     def contextmenu_add_file(self):
         self.init_panel()
@@ -725,7 +752,7 @@ class Command:
     def tree_on_unfold(self, id_dlg, id_ctl, data='', info=''):
         info = self.get_info(data)
         path = self.get_location_by_index(data)
-        if info.image != NODE_DIR:
+        if info.image != self.ICON_DIR:
             return
         items = tree_proc(self.tree, TREE_ITEM_ENUM, data)
         if items:
@@ -741,6 +768,29 @@ class Command:
     def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
         info = self.get_info(self.selected)
         path = self.get_location_by_index(self.selected)
-        if info.image == NODE_FILE:
+        if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
             file_open(str(path))
 
+
+    def icon_get(self, key):
+        global icon_indexes
+        global icon_dir
+        global icon_json_dict
+
+        s = icon_indexes.get(key, None)
+        if s:
+            return s
+
+        fn = icon_json_dict.get(key, None)
+        if fn is None:
+            n = self.ICON_ALL
+            icon_indexes[key] = n
+            return n
+
+        fn = os.path.join(icon_dir, fn)
+        n = tree_proc(self.tree, TREE_ICON_ADD, text=fn)
+        if n == -1:
+            print('Incorrect filetype icon:', fn)
+            n = self.ICON_ALL
+        icon_indexes[key] = n
+        return n

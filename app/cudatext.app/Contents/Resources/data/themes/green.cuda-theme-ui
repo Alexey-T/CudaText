@@ -27,6 +27,7 @@
   "EdComboArrow" : "#80A0A0",
   "EdComboArrowBg" : "#AAC8C8",
   "EdBorder" : "#80A0A0",
+  "EdBorderFocused" : "#000080",
   "EdBlockSepLine" : "#A0A0A4",
   "EdFoldMarkLine" : "#008080",
   "EdFoldMarkFont" : "#008080",
