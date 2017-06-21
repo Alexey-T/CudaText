@@ -3655,6 +3655,7 @@ var
   NTag: PtrInt;
   NCommand: integer;
   SCommand, STagString: string;
+  CmdObject: PPyObject;
 begin
   //this updates PopupText items tags
   PopupText.OnPopup(nil);
@@ -3686,8 +3687,13 @@ begin
         STagString:= '';
       end;
 
+      if NCommand>0 then
+        CmdObject:= PyInt_FromLong(NCommand)
+      else
+        CmdObject:= PyString_FromString(PChar(SCommand));
+
       PyList_SetItem(Result, i,
-        Py_BuildValue('{sLsssissssss}',
+        Py_BuildValue('{sLsssisssssssO}',
           'id',
           Int64(PtrInt(mi.Items[i])),
           'cap',
@@ -3699,7 +3705,9 @@ begin
           'hotkey',
           PChar(ShortCutToText(mi.Items[i].ShortCut)),
           'tag',
-          PChar(STagString)
+          PChar(STagString),
+          'command',
+          CmdObject
           ));
     end;
   end;
