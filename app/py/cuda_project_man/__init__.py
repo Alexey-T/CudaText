@@ -592,6 +592,11 @@ class Command:
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def open_dir(self, dirname):
+        if not os.path.isdir(dirname):
+            return
+        #expand "." to fully qualified name
+        dirname = os.path.abspath(dirname)
+
         self.init_panel()
         self.action_new_project()
         self.add_node(lambda: dirname)
