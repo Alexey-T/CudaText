@@ -125,7 +125,6 @@ object fmFind: TfmFind
   object PanelAll: TATPanelSimple
     Left = 200
     Height = 118
-    Hint = 'Alt+Enter'
     Top = 30
     Width = 2248
     Align = alLeft
@@ -323,6 +322,7 @@ object fmFind: TfmFind
       object bFindFirst: TATButton
         Left = 0
         Height = 25
+        Hint = 'Alt+Enter'
         Top = 0
         Width = 90
         Align = alLeft
