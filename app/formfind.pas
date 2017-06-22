@@ -373,11 +373,11 @@ begin
 
   if (key=VK_A) and (Shift=[ssAlt]) then
     begin bRepAllClick(Self);                       UpdateState; key:= 0; exit end;
-  if (key=VK_5) and (Shift=[ssAlt]) then
+  if (key=VK_O) and (Shift=[ssAlt]) then
     begin bCountClick(Self);                        UpdateState; key:= 0; exit end;
-  if (key=VK_6) and (Shift=[ssAlt]) then
+  if (key=VK_E) and (Shift=[ssAlt]) then
     begin bSelectAllClick(Self);                    UpdateState; key:= 0; exit end;
-  if (key=VK_7) and (Shift=[ssAlt]) then
+  if (key=VK_K) and (Shift=[ssAlt]) then
     begin bMarkAllClick(Self);                      UpdateState; key:= 0; exit end;
 end;
 

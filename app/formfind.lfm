@@ -346,7 +346,7 @@ object fmFind: TfmFind
       object bCount: TATButton
         Left = 270
         Height = 25
-        Hint = 'Alt+5'
+        Hint = 'Alt+O'
         Top = 0
         Width = 90
         Align = alLeft
@@ -358,7 +358,7 @@ object fmFind: TfmFind
       object bMarkAll: TATButton
         Left = 450
         Height = 25
-        Hint = 'Alt+7'
+        Hint = 'Alt+K'
         Top = 0
         Width = 90
         Align = alLeft
@@ -382,7 +382,7 @@ object fmFind: TfmFind
       object bSelectAll: TATButton
         Left = 360
         Height = 25
-        Hint = 'Alt+6'
+        Hint = 'Alt+E'
         Top = 0
         Width = 90
         Align = alLeft
