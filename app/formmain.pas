@@ -1013,8 +1013,13 @@ begin
     Application.ProcessMessages;
   end;
 
+  {$ifdef windows}
+  // Those two calls below conflicts with Windows SwitchToThisWindow API call
+  // so they are left for other platforms
+  {$else}
   Application.BringToFront;
   DoFocusWindow(Handle);
+  {$ifend}
 end;
 
 function TfmMain.GetSessionFilename: string;
@@ -1065,6 +1070,17 @@ begin
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
+  
+  //create SimpleIPC server to listen and send window handle
+  //so it will switch to this instance
+  if IsSetToOneInstance then
+  begin
+    OneWinInstanceRunning := TUniqueWinInstance.Create(Self);
+    OneWinInstanceRunning.Id:='cudatext.2';
+    OneWinInstanceRunning.TargetId:='cudatext.1';
+    OneWinInstanceRunning.WindowHandle:=Self.Handle;
+    OneWinInstanceRunning.StartListening;
+  end;
   {$endif}
   //UiOps.ScreenScale:= 200; ////test
   UiOps_ScreenScale:= UiOps.ScreenScale;
@@ -1266,6 +1282,9 @@ procedure TfmMain.FormDestroy(Sender: TObject);
 var
   i: integer;
 begin
+  {$ifdef windows}
+  FreeAndNil(OneWinInstanceRunning);
+  {$ifend}
   for i:= 0 to FListTimers.Count-1 do
     TTimer(FListTimers.Objects[i]).Enabled:= false;
   FreeAndNil(FListTimers);

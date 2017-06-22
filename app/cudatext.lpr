@@ -15,11 +15,17 @@ uses
   formabout, formkeys, formlexerstylesload, formcharmaps, proc_keysdialog,
   proc_customdialog, proc_miscutils, ATLinkLabel, formlexerstyle,
   formlexerstylemap, formkeyinput, proc_scrollbars, proc_keymap_undolist,
-  proc_customdialog_dummy, form_addon_report;
+  proc_customdialog_dummy, form_addon_report
+  {$IFDEF WINDOWS}
+  , fix_focus_window
+  {$IFEND};
 
 {$R *.res}
 
 begin
+  {$IFDEF WINDOWS}
+  if IsAnotherInstanceRunning then Exit;
+  {$IFEND}
   Application.Title:='CudaText';
   RequireDerivedFormResource := True;
   Application.Initialize;
