@@ -307,6 +307,10 @@ procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 begin
   if key=VK_RETURN then
   begin
+    //Alt+Enter: find first
+    if Shift=[ssAlt] then
+      DoResult(cOpFindFirst);
+
     //Enter: find next/ replace next (depends on focus)
     if Shift=[] then
     begin
@@ -322,14 +326,19 @@ begin
     //Ctrl+Enter: dont catch here, combobox must handle it as new-line
     if Shift=[ssCtrl] then exit;
 
+    key:= 0;
+    exit
+  end;
+
+  if (key=Ord('R')) and (Shift*[ssAlt, ssCtrl]<>[]) then
+  begin
     if IsReplace then
     begin
-      //Alt+Enter: IsReplace
-      if Shift=[ssAlt] then DoResult(cOpFindRep);
-      //Ctrl+Alt+Enter: IsReplace and dont find next
-      if Shift=[ssAlt, ssCtrl] then DoResult(cOpFindRepAndStop);
+      //Ctrl+R: replace
+      if Shift=[ssCtrl] then DoResult(cOpFindRep);
+      //Ctrl+Alt+R: replace and dont find next
+      if Shift=[ssCtrl, ssAlt] then DoResult(cOpFindRepAndStop);
     end;
-
     key:= 0;
     exit
   end;

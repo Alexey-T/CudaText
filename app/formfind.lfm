@@ -125,6 +125,7 @@ object fmFind: TfmFind
   object PanelAll: TATPanelSimple
     Left = 200
     Height = 118
+    Hint = 'Alt+Enter'
     Top = 30
     Width = 2248
     Align = alLeft
@@ -189,6 +190,7 @@ object fmFind: TfmFind
       Colors.TextHintFont = clGray
       Colors.MarkedLinesBG = 15786160
       Colors.BorderLine = clMedGray
+      Colors.BorderLineFocused = clNavy
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
@@ -199,6 +201,8 @@ object fmFind: TfmFind
       OptCaretManyAllowed = False
       OptCaretVirtual = False
       OptGutterVisible = False
+      OptBorderWidth = 1
+      OptBorderWidthFocused = 1
       OptRulerVisible = False
       OptMicromapVisible = True
       OptMicromapWidth = 22
@@ -280,6 +284,7 @@ object fmFind: TfmFind
       Colors.TextHintFont = clGray
       Colors.MarkedLinesBG = 15786160
       Colors.BorderLine = clMedGray
+      Colors.BorderLineFocused = clNavy
       Colors.ComboboxArrow = clGray
       Colors.ComboboxArrowBG = 15790320
       WantTabs = False
@@ -290,6 +295,9 @@ object fmFind: TfmFind
       OptCaretManyAllowed = False
       OptCaretVirtual = False
       OptGutterVisible = False
+      OptBorderWidth = 1
+      OptBorderWidthFocused = 1
+      OptRulerVisible = False
       OptMicromapVisible = True
       OptMicromapWidth = 22
       OptWrapMode = cWrapOff
@@ -394,7 +402,7 @@ object fmFind: TfmFind
       object bRep: TATButton
         Left = 0
         Height = 25
-        Hint = 'Alt+Enter'
+        Hint = 'Ctrl+R'
         Top = 0
         Width = 90
         Align = alLeft
