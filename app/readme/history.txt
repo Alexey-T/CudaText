@@ -17,6 +17,7 @@
 * find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
 * changed icons of toolbar
 * removed option "log_dialogs"
+- one more fix to show 2nd program instance on Windows (by @vhanla)
 
 1.10.0
 + preinstalled plugin Tabs List
