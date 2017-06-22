@@ -13,7 +13,7 @@
 * find/replace: changed hotkey for "Replace next" to Ctrl+R (Replace without find next: Ctrl+Alt+R)
 * find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
 + option "ui_active_border"
-+ options "findkey_*" for hotkeys in find/replace dialog
++ options "find_hotkey_*" for hotkeys in find/replace dialog
 
 1.10.0
 + preinstalled plugin Tabs List

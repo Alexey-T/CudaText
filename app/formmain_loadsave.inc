@@ -527,24 +527,24 @@ begin
 
     UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
 
-    UiOps.HotkeyFindDialog:= c.GetValue('findkey_find_dlg', UiOps.HotkeyFindDialog);
-    UiOps.HotkeyReplaceDialog:= c.GetValue('findkey_replace_dlg', UiOps.HotkeyReplaceDialog);
-    UiOps.HotkeyFindFirst:= c.GetValue('findkey_find_first', UiOps.HotkeyFindFirst);
-    UiOps.HotkeyFindNext:= c.GetValue('findkey_find_next', UiOps.HotkeyFindNext);
-    UiOps.HotkeyFindPrev:= c.GetValue('findkey_find_prev', UiOps.HotkeyFindPrev);
-    UiOps.HotkeyReplaceAndFindNext:= c.GetValue('findkey_replace', UiOps.HotkeyReplaceAndFindNext);
-    UiOps.HotkeyReplaceNoFindNext:= c.GetValue('findkey_replace_no_next', UiOps.HotkeyReplaceNoFindNext);
-    UiOps.HotkeyReplaceAll:= c.GetValue('findkey_replace_all', UiOps.HotkeyReplaceAll);
-    UiOps.HotkeyCountAll:= c.GetValue('findkey_count_all', UiOps.HotkeyCountAll);
-    UiOps.HotkeySelectAll:= c.GetValue('findkey_select_all', UiOps.HotkeySelectAll);
-    UiOps.HotkeyMarkAll:= c.GetValue('findkey_mark_all', UiOps.HotkeyMarkAll);
-    UiOps.HotkeyToggleRegex:= c.GetValue('findkey_op_regex', UiOps.HotkeyToggleRegex);
-    UiOps.HotkeyToggleCaseSens:= c.GetValue('findkey_op_case', UiOps.HotkeyToggleCaseSens);
-    UiOps.HotkeyToggleWords:= c.GetValue('findkey_op_words', UiOps.HotkeyToggleWords);
-    UiOps.HotkeyToggleWrapped:= c.GetValue('findkey_op_wrapped', UiOps.HotkeyToggleWrapped);
-    UiOps.HotkeyToggleInSelect:= c.GetValue('findkey_op_in_sel', UiOps.HotkeyToggleInSelect);
-    UiOps.HotkeyToggleMultiline:= c.GetValue('findkey_op_multiline', UiOps.HotkeyToggleMultiline);
-    UiOps.HotkeyToggleConfirmRep:= c.GetValue('findkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
+    UiOps.HotkeyFindDialog:= c.GetValue('find_hotkey_find_dlg', UiOps.HotkeyFindDialog);
+    UiOps.HotkeyReplaceDialog:= c.GetValue('find_hotkey_replace_dlg', UiOps.HotkeyReplaceDialog);
+    UiOps.HotkeyFindFirst:= c.GetValue('find_hotkey_find_first', UiOps.HotkeyFindFirst);
+    UiOps.HotkeyFindNext:= c.GetValue('find_hotkey_find_next', UiOps.HotkeyFindNext);
+    UiOps.HotkeyFindPrev:= c.GetValue('find_hotkey_find_prev', UiOps.HotkeyFindPrev);
+    UiOps.HotkeyReplaceAndFindNext:= c.GetValue('find_hotkey_replace', UiOps.HotkeyReplaceAndFindNext);
+    UiOps.HotkeyReplaceNoFindNext:= c.GetValue('find_hotkey_replace_no_next', UiOps.HotkeyReplaceNoFindNext);
+    UiOps.HotkeyReplaceAll:= c.GetValue('find_hotkey_replace_all', UiOps.HotkeyReplaceAll);
+    UiOps.HotkeyCountAll:= c.GetValue('find_hotkey_count_all', UiOps.HotkeyCountAll);
+    UiOps.HotkeySelectAll:= c.GetValue('find_hotkey_select_all', UiOps.HotkeySelectAll);
+    UiOps.HotkeyMarkAll:= c.GetValue('find_hotkey_mark_all', UiOps.HotkeyMarkAll);
+    UiOps.HotkeyToggleRegex:= c.GetValue('find_hotkey_op_regex', UiOps.HotkeyToggleRegex);
+    UiOps.HotkeyToggleCaseSens:= c.GetValue('find_hotkey_op_case', UiOps.HotkeyToggleCaseSens);
+    UiOps.HotkeyToggleWords:= c.GetValue('find_hotkey_op_words', UiOps.HotkeyToggleWords);
+    UiOps.HotkeyToggleWrapped:= c.GetValue('find_hotkey_op_wrapped', UiOps.HotkeyToggleWrapped);
+    UiOps.HotkeyToggleInSelect:= c.GetValue('find_hotkey_op_in_sel', UiOps.HotkeyToggleInSelect);
+    UiOps.HotkeyToggleMultiline:= c.GetValue('find_hotkey_op_multiline', UiOps.HotkeyToggleMultiline);
+    UiOps.HotkeyToggleConfirmRep:= c.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
 
     Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);
     Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);
