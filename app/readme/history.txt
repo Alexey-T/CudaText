@@ -9,8 +9,9 @@
 + Project Manager: expand short "." to full name
 + find/replace/goto/console: focused input has its border highlighted
 + find/replace: Enter press on focused replace-field: makes "Replace next" and keeps focus
-* find/replace: changed hotkey for "Replace next" to Ctrl+R (Replace without find next: Ctrl+Alt+R)
 + find/replace: set hotkey for "Find first" to Alt+Enter
+* find/replace: changed hotkey for "Replace next" to Ctrl+R (Replace without find next: Ctrl+Alt+R)
+* find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
 + option ui_active_border
 
 1.10.0
