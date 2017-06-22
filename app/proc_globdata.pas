@@ -77,12 +77,9 @@ type
 
     VarFontName: string;
     VarFontSize: integer;
-
     OutputFontName: string;
     OutputFontSize: integer;
-
     DoubleBuffered: boolean;
-    LogCustomDialogs: boolean;
 
     PyLibrary: string;
     PyChangeSlow: integer;
@@ -987,7 +984,6 @@ begin
     OutputFontSize:= VarFontSize;
 
     DoubleBuffered:= IsDoubleBufferedNeeded;
-    LogCustomDialogs:= false;
 
     LexerThemes:= true;
     SidebarShow:= true;

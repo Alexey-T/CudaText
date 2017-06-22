@@ -1776,6 +1776,7 @@ begin
 end;
 
 
+(*
 procedure DoLogDialog(ASizeX, ASizeY: integer; const AText: string);
 var
   STime, SLog: string;
@@ -1793,6 +1794,7 @@ begin
     Free;
   end;
 end;
+*)
 
 
 function Py_dlg_custom(Self, Args : PPyObject): PPyObject; cdecl;
@@ -1806,8 +1808,8 @@ begin
     begin
       StrTitle:= string(PtrTitle);
       StrText:= string(PtrText);
-      if UiOps.LogCustomDialogs then
-        DoLogDialog(NSizeX, NSizeY, StrText);
+      //if UiOps.LogCustomDialogs then
+      //  DoLogDialog(NSizeX, NSizeY, StrText);
 
       DoDialogCustom(StrTitle, NSizeX, NSizeY, StrText, NFocused, NButton, StrResult);
       if NButton<0 then

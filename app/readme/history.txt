@@ -15,6 +15,7 @@
 + find/replace: set hotkey for "Find first" to Alt+Enter
 * find/replace: changed hotkey for "Replace next" to Alt+Z, "Replace without find next" to Ctrl+Alt+Z
 * find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
+* removed option "log_dialogs"
 
 1.10.0
 + preinstalled plugin Tabs List
