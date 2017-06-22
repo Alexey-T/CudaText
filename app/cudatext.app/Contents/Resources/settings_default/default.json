@@ -704,5 +704,26 @@
   //Enable to save log files, for plugin dialogs
   //Files are %temp%\dlg_nnnnnnnnnnnnn.txt
   "log_dialogs": false,
+
+  //[FindHotkeys]
+  //Hotkeys in Find/Replace dialog
+  "find_hotkey_find_dlg": "Ctrl+F", 
+  "find_hotkey_replace_dlg": "Ctrl+R", 
+  "find_hotkey_find_first": "Alt+Enter", 
+  "find_hotkey_find_next": "Enter", 
+  "find_hotkey_find_prev": "Shift+Enter", 
+  "find_hotkey_replace": "Alt+Z", 
+  "find_hotkey_replace_no_next": "Ctrl+Alt+Z", 
+  "find_hotkey_replace_all": "Alt+A", 
+  "find_hotkey_count_all": "Alt+O", 
+  "find_hotkey_select_all": "Alt+E", 
+  "find_hotkey_mark_all": "Alt+K", 
+  "find_hotkey_op_regex": "Alt+R", 
+  "find_hotkey_op_case": "Alt+C", 
+  "find_hotkey_op_words": "Alt+W", 
+  "find_hotkey_op_wrapped": "Alt+N", 
+  "find_hotkey_op_in_sel": "Alt+X", 
+  "find_hotkey_op_multiline": "Alt+M", 
+  "find_hotkey_op_confirm_rep": "Alt+Y", 
   
 }
