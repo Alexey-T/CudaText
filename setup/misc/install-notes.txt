@@ -1,2 +1,0 @@
-If after updating of app via installer, you see strange plugins errors,
-you need to delete folder ~/.cudatext (it has old Python files, old default config, old readmes).
