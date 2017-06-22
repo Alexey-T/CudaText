@@ -518,13 +518,6 @@ end;
 procedure TfmMain.DoLocalize_FormFind;
 const
   section = 'd_f';
-  hotkey_re = ' - Alt+R';
-  hotkey_case = ' - Alt+C';
-  hotkey_words = ' - Alt+W';
-  hotkey_wrap = ' - Alt+N';
-  hotkey_cfm = ' - Alt+Y';
-  hotkey_mul = ' - Alt+M';
-  hotkey_sel = ' - Alt+X';
 const
   init_HintRegex = 'Regular expressions';
   init_HintCase = 'Case sensitive';
@@ -532,20 +525,20 @@ const
   init_HintWrapped = 'Wrapped search';
   init_HintConfRep = 'Confirm on replace';
   init_HintMulLine = 'Multi-line inputs (Ctrl+Enter for new-line)';
-  init_HintInSel = 'Search in selection';
+  init_HintInSelect = 'Search in selection';
 var
   fn: string;
   ini: TIniFile;
 begin
   if not Assigned(fmFind) then exit;
 
-  with fmFind.chkRegex do Hint:= init_HintRegex+hotkey_re;
-  with fmFind.chkCase do Hint:= init_HintCase+hotkey_case;
-  with fmFind.chkWords do Hint:= init_HintWords+hotkey_words;
-  with fmFind.chkWrap do Hint:= init_HintWrapped+hotkey_wrap;
-  with fmFind.chkConfirm do Hint:= init_HintConfRep+hotkey_cfm;
-  with fmFind.chkInSel do Hint:= init_HintInSel+hotkey_sel;
-  with fmFind.chkMulLine do Hint:= init_HintMulLine+hotkey_mul;
+  with fmFind.chkRegex do Hint:= init_HintRegex     +' - '+UiOps.HotkeyToggleRegex;
+  with fmFind.chkCase do Hint:= init_HintCase       +' - '+UiOps.HotkeyToggleCaseSens;
+  with fmFind.chkWords do Hint:= init_HintWords     +' - '+UiOps.HotkeyToggleWords;
+  with fmFind.chkWrap do Hint:= init_HintWrapped    +' - '+UiOps.HotkeyToggleWrapped;
+  with fmFind.chkConfirm do Hint:= init_HintConfRep +' - '+UiOps.HotkeyToggleConfirmRep;
+  with fmFind.chkInSel do Hint:= init_HintInSelect  +' - '+UiOps.HotkeyToggleInSelect;
+  with fmFind.chkMulLine do Hint:= init_HintMulLine +' - '+UiOps.HotkeyToggleMultiline;
 
   fn:= GetAppLangFilename;
   if not FileExists(fn) then exit;
@@ -565,13 +558,13 @@ begin
     with fmFind.LabelFind do Caption:= ini.ReadString(section, 'f_tx', Caption);
     with fmFind.LabelRep do Caption:= ini.ReadString(section, 'r_tx', Caption);
 
-    with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', init_HintRegex)+hotkey_re;
-    with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', init_HintCase)+hotkey_case;
-    with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', init_HintWords)+hotkey_words;
-    with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', init_HintWrapped)+hotkey_wrap;
-    with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)+hotkey_cfm;
-    with fmFind.chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSel)+hotkey_sel;
-    with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine)+hotkey_mul;
+    with fmFind.chkRegex do Hint:= ini.ReadString(section, 'h_re', init_HintRegex)      +' - '+UiOps.HotkeyToggleRegex;
+    with fmFind.chkCase do Hint:= ini.ReadString(section, 'h_ca', init_HintCase)        +' - '+UiOps.HotkeyToggleCaseSens;
+    with fmFind.chkWords do Hint:= ini.ReadString(section, 'h_wo', init_HintWords)      +' - '+UiOps.HotkeyToggleWords;
+    with fmFind.chkWrap do Hint:= ini.ReadString(section, 'h_wr', init_HintWrapped)     +' - '+UiOps.HotkeyToggleWrapped;
+    with fmFind.chkConfirm do Hint:= ini.ReadString(section, 'h_cf', init_HintConfRep)  +' - '+UiOps.HotkeyToggleConfirmRep;
+    with fmFind.chkInSel do Hint:= ini.ReadString(section, 'h_sel', init_HintInSelect)  +' - '+UiOps.HotkeyToggleInSelect;
+    with fmFind.chkMulLine do Hint:= ini.ReadString(section, 'h_mul', init_HintMulLine) +' - '+UiOps.HotkeyToggleMultiline;
 
     with fmFind.edFind do
     begin

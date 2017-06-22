@@ -210,9 +210,10 @@ begin
   begin
     fmFind:= TfmFind.Create(Self);
     fmFind.OnResult:= @FindDialogDone;
-    fmFind.FHotkeyFind:= AppKeymap.GetShortcutFromCommand(cmd_DialogFind);
-    fmFind.FHotkeyRep:= AppKeymap.GetShortcutFromCommand(cmd_DialogReplace);
     fmFind.Color:= GetAppColor('TabBg');
+
+    UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymap.GetShortcutFromCommand(cmd_DialogFind));
+    UiOps.HotkeyReplaceDialog:= ShortcutToText(AppKeymap.GetShortcutFromCommand(cmd_DialogReplace));
 
     if not UiOps.FindSeparateForm then
     begin

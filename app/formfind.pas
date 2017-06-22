@@ -107,8 +107,6 @@ type
     { public declarations }
     FCaptionFind,
     FCaptionReplace: string;
-    FHotkeyFind,
-    FHotkeyRep: TShortCut;
     procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;
@@ -122,6 +120,7 @@ type
 
 var
   fmFind: TfmFind;
+
 
 implementation
 
@@ -217,7 +216,7 @@ end;
 procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  //Ctrl+Down: copy Find to IsReplace
+  //Ctrl+Down: copy find_edit to replace_edit
   if (Key=VK_DOWN) and (Shift=[ssCtrl]) then
   begin
     edRep.Text:= edFind.Text;
@@ -258,6 +257,15 @@ begin
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
   DoScalePanelControls(Self);
+
+  bFindFirst.Hint:= UiOps.HotkeyFindFirst;
+  bFindNext.Hint:= UiOps.HotkeyFindNext;
+  bFindPrev.Hint:= UiOps.HotkeyFindPrev;
+  bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
+  bRepAll.Hint:= UiOps.HotkeyReplaceAll;
+  bCount.Hint:= UiOps.HotkeyCountAll;
+  bSelectAll.Hint:= UiOps.HotkeySelectAll;
+  bMarkAll.Hint:= UiOps.HotkeyMarkAll;
 end;
 
 
@@ -304,82 +312,164 @@ begin
 end;
 
 procedure TfmFind.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Str: string;
 begin
-  if key=VK_RETURN then
-  begin
-    //Alt+Enter: find first
-    if Shift=[ssAlt] then
-      DoResult(cOpFindFirst);
+  Str:= ShortcutToText(KeyToShortCut(Key, Shift));
 
-    //Enter: find next/ replace next (depends on focus)
-    if Shift=[] then
-    begin
-      if IsReplace and edRep.Focused then
-        DoResult(cOpFindRep)
-      else
-        DoResult(cOpFindNext);
-    end;
-
-    //Shift+Enter: find prev
-    if Shift=[ssShift] then DoResult(cOpFindPrev);
-
-    //Ctrl+Enter: dont catch here, combobox must handle it as new-line
-    if Shift=[ssCtrl] then exit;
-
-    key:= 0;
-    exit
-  end;
-
-  if (key=Ord('R')) and (Shift*[ssAlt, ssCtrl]<>[]) then
-  begin
-    if IsReplace then
-    begin
-      //Ctrl+R: replace
-      if Shift=[ssCtrl] then DoResult(cOpFindRep);
-      //Ctrl+Alt+R: replace and dont find next
-      if Shift=[ssCtrl, ssAlt] then DoResult(cOpFindRepAndStop);
-    end;
-    key:= 0;
-    exit
-  end;
-
-  if key=VK_ESCAPE then
+  if Key=VK_ESCAPE then
   begin
     DoResult(cOpFindClose);
     key:= 0;
     exit;
   end;
 
-  if (FHotkeyFind<>0) and (FHotkeyFind=KeyToShortCut(Key, Shift)) then
-    begin FReplace:= false; UpdateState; key:= 0; exit; end;
+  if Str=UiOps.HotkeyFindFirst then
+  begin
+    DoResult(cOpFindFirst);
+    key:= 0;
+    exit
+  end;
 
-  if (FHotkeyRep<>0) and (FHotkeyRep=KeyToShortCut(Key, Shift)) then
-    begin FReplace:= true; UpdateState; key:= 0; exit; end;
+  if Str=UiOps.HotkeyFindNext then
+  begin
+    //Enter: action depends on focus
+    if IsReplace and edRep.Focused then
+      DoResult(cOpFindRep)
+    else
+      DoResult(cOpFindNext);
+    key:= 0;
+    exit
+  end;
 
-  if (key=VK_R) and (Shift=[ssAlt]) then
-    begin with chkRegex do checked:= not checked;   UpdateState; key:= 0; exit end;
-  if (key=VK_C) and (Shift=[ssAlt]) then
-    begin with chkCase do checked:= not checked;    UpdateState; key:= 0; exit end;
-  if (key=VK_W) and (Shift=[ssAlt]) then
-    begin with chkWords do checked:= not checked;   UpdateState; key:= 0; exit end;
-  if (key=VK_Y) and (Shift=[ssAlt]) then
-    begin with chkConfirm do checked:= not checked; UpdateState; key:= 0; exit end;
-  if (key=VK_N) and (Shift=[ssAlt]) then
-    begin with chkWrap do checked:= not checked;    UpdateState; key:= 0; exit end;
-  if (key=VK_X) and (Shift=[ssAlt]) then
-    begin with chkInSel do checked:= not checked;   UpdateState; key:= 0; exit end;
-  if (key=VK_M) and (Shift=[ssAlt]) then
-    begin chkMulLineClick(Self);                    UpdateState; key:= 0; exit end;
+  if Str=UiOps.HotkeyFindPrev then
+  begin
+    DoResult(cOpFindPrev);
+    key:= 0;
+    exit
+  end;
 
-  if (key=VK_A) and (Shift=[ssAlt]) then
-    begin bRepAllClick(Self);                       UpdateState; key:= 0; exit end;
-  if (key=VK_O) and (Shift=[ssAlt]) then
-    begin bCountClick(Self);                        UpdateState; key:= 0; exit end;
-  if (key=VK_E) and (Shift=[ssAlt]) then
-    begin bSelectAllClick(Self);                    UpdateState; key:= 0; exit end;
-  if (key=VK_K) and (Shift=[ssAlt]) then
-    begin bMarkAllClick(Self);                      UpdateState; key:= 0; exit end;
+  if Str=UiOps.HotkeyReplaceAndFindNext then
+  begin
+    if IsReplace then
+      DoResult(cOpFindRep);
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyReplaceNoFindNext then
+  begin
+    if IsReplace then
+      DoResult(cOpFindRepAndStop);
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyFindDialog then
+  begin
+    FReplace:= false;
+    UpdateState;
+    key:= 0;
+    exit;
+  end;
+
+  if Str=UiOps.HotkeyReplaceDialog then
+  begin
+    FReplace:= true;
+    UpdateState;
+    key:= 0;
+    exit;
+  end;
+
+  if Str=UiOps.HotkeyToggleRegex then
+  begin
+    with chkRegex do checked:= not checked;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyToggleCaseSens then
+  begin
+    with chkCase do checked:= not checked;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyToggleWords then
+  begin
+    with chkWords do checked:= not checked;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyToggleConfirmRep then
+  begin
+    with chkConfirm do checked:= not checked;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyToggleWrapped then
+  begin
+    with chkWrap do checked:= not checked;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyToggleInSelect then
+  begin
+    with chkInSel do checked:= not checked;
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyToggleMultiline then
+  begin
+    chkMulLineClick(Self);
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyReplaceAll then
+  begin
+    bRepAllClick(Self);
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyCountAll then
+  begin
+    bCountClick(Self);
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeySelectAll then
+  begin
+    bSelectAllClick(Self);
+    UpdateState;
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyMarkAll then
+  begin
+    bMarkAllClick(Self);
+    UpdateState;
+    key:= 0;
+    exit
+  end;
 end;
+
 
 procedure TfmFind.FormShow(Sender: TObject);
 const

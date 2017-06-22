@@ -177,6 +177,26 @@ type
     ReloadFollowTail: boolean;
     FullScreen: string;
     MouseGotoDefinition: string;
+
+    HotkeyFindDialog,
+    HotkeyReplaceDialog,
+    HotkeyFindFirst,
+    HotkeyFindNext,
+    HotkeyFindPrev,
+    HotkeyReplaceAndFindNext,
+    HotkeyReplaceNoFindNext,
+    HotkeyReplaceAll,
+    HotkeyCountAll,
+    HotkeySelectAll,
+    HotkeyMarkAll,
+    HotkeyToggleRegex,
+    HotkeyToggleCaseSens,
+    HotkeyToggleWords,
+    HotkeyToggleWrapped,
+    HotkeyToggleInSelect,
+    HotkeyToggleMultiline,
+    HotkeyToggleConfirmRep
+      : string;
   end;
 var
   UiOps: TUiOps;
@@ -1063,6 +1083,25 @@ begin
     ReloadFollowTail:= true;
     FullScreen:= 'tp';
     MouseGotoDefinition:= 'a';
+
+    HotkeyFindDialog:= 'Ctrl+F';
+    HotkeyReplaceDialog:= 'Ctrl+R';
+    HotkeyFindFirst:= 'Alt+Enter';
+    HotkeyFindNext:= 'Enter';
+    HotkeyFindPrev:= 'Shift+Enter';
+    HotkeyReplaceAndFindNext:= 'Alt+Z';
+    HotkeyReplaceNoFindNext:= 'Ctrl+Alt+Z';
+    HotkeyReplaceAll:= 'Alt+A';
+    HotKeyCountAll:= 'Alt+O';
+    HotKeySelectAll:= 'Alt+E';
+    HotKeyMarkAll:= 'Alt+K';
+    HotkeyToggleRegex:= 'Alt+R';
+    HotkeyToggleCaseSens:= 'Alt+C';
+    HotkeyToggleWords:= 'Alt+W';
+    HotkeyToggleWrapped:= 'Alt+N';
+    HotkeyToggleInSelect:= 'Alt+X';
+    HotkeyToggleMultiline:= 'Alt+M';
+    HotkeyToggleConfirmRep:= 'Alt+Y';
   end;
 end;
 

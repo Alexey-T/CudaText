@@ -1,7 +1,7 @@
 object fmFind: TfmFind
-  Left = 68
+  Left = 408
   Height = 148
-  Top = 539
+  Top = 394
   Width = 1189
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -322,7 +322,6 @@ object fmFind: TfmFind
       object bFindFirst: TATButton
         Left = 0
         Height = 25
-        Hint = 'Alt+Enter'
         Top = 0
         Width = 90
         Align = alLeft
@@ -334,7 +333,6 @@ object fmFind: TfmFind
       object bFindNext: TATButton
         Left = 90
         Height = 25
-        Hint = 'Enter'
         Top = 0
         Width = 90
         Align = alLeft
@@ -346,7 +344,6 @@ object fmFind: TfmFind
       object bCount: TATButton
         Left = 270
         Height = 25
-        Hint = 'Alt+O'
         Top = 0
         Width = 90
         Align = alLeft
@@ -358,7 +355,6 @@ object fmFind: TfmFind
       object bMarkAll: TATButton
         Left = 450
         Height = 25
-        Hint = 'Alt+K'
         Top = 0
         Width = 90
         Align = alLeft
@@ -370,7 +366,6 @@ object fmFind: TfmFind
       object bFindPrev: TATButton
         Left = 180
         Height = 25
-        Hint = 'Shift+Enter'
         Top = 0
         Width = 90
         Align = alLeft
@@ -382,7 +377,6 @@ object fmFind: TfmFind
       object bSelectAll: TATButton
         Left = 360
         Height = 25
-        Hint = 'Alt+E'
         Top = 0
         Width = 90
         Align = alLeft
@@ -402,7 +396,6 @@ object fmFind: TfmFind
       object bRep: TATButton
         Left = 0
         Height = 25
-        Hint = 'Ctrl+R'
         Top = 0
         Width = 90
         Align = alLeft
@@ -414,7 +407,6 @@ object fmFind: TfmFind
       object bRepAll: TATButton
         Left = 90
         Height = 25
-        Hint = 'Alt+A'
         Top = 0
         Width = 90
         Align = alLeft
