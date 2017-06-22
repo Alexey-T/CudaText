@@ -4,7 +4,7 @@
   * changed
 
 
-1.10.3
+1.11.0
 + Project Manager: file type icons
 + Project Manager: expand short "." to full name
 + find/replace/goto/console: focused input has its border highlighted (new color in UI theme)
