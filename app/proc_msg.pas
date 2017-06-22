@@ -174,9 +174,7 @@ const
       'Helper Python code: Andrey Kvichanskiy'+sLineBreak+
       '    https://github.com/kvichans/'+sLineBreak+
       'Main icon'+sLineBreak+
-      '    Snipicons'+sLineBreak+
-      '      http://www.snipicons.com/'+sLineBreak+
-      '      License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
+      '    FTurtle'+sLineBreak+
       'Icon sets'+sLineBreak+
       '    Silk icons'+sLineBreak+
       '      http://www.famfamfam.com'+sLineBreak+
