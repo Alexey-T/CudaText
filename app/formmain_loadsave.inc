@@ -527,6 +527,25 @@ begin
 
     UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
 
+    UiOps.HotkeyFindDialog:= c.GetValue('findkey_find_dlg', UiOps.HotkeyFindDialog);
+    UiOps.HotkeyReplaceDialog:= c.GetValue('findkey_replace_dlg', UiOps.HotkeyReplaceDialog);
+    UiOps.HotkeyFindFirst:= c.GetValue('findkey_find_first', UiOps.HotkeyFindFirst);
+    UiOps.HotkeyFindNext:= c.GetValue('findkey_find_next', UiOps.HotkeyFindNext);
+    UiOps.HotkeyFindPrev:= c.GetValue('findkey_find_prev', UiOps.HotkeyFindPrev);
+    UiOps.HotkeyReplaceAndFindNext:= c.GetValue('findkey_replace', UiOps.HotkeyReplaceAndFindNext);
+    UiOps.HotkeyReplaceNoFindNext:= c.GetValue('findkey_replace_no_next', UiOps.HotkeyReplaceNoFindNext);
+    UiOps.HotkeyReplaceAll:= c.GetValue('findkey_replace_all', UiOps.HotkeyReplaceAll);
+    UiOps.HotkeyCountAll:= c.GetValue('findkey_count_all', UiOps.HotkeyCountAll);
+    UiOps.HotkeySelectAll:= c.GetValue('findkey_select_all', UiOps.HotkeySelectAll);
+    UiOps.HotkeyMarkAll:= c.GetValue('findkey_mark_all', UiOps.HotkeyMarkAll);
+    UiOps.HotkeyToggleRegex:= c.GetValue('findkey_op_regex', UiOps.HotkeyToggleRegex);
+    UiOps.HotkeyToggleCaseSens:= c.GetValue('findkey_op_case', UiOps.HotkeyToggleCaseSens);
+    UiOps.HotkeyToggleWords:= c.GetValue('findkey_op_words', UiOps.HotkeyToggleWords);
+    UiOps.HotkeyToggleWrapped:= c.GetValue('findkey_op_wrapped', UiOps.HotkeyToggleWrapped);
+    UiOps.HotkeyToggleInSelect:= c.GetValue('findkey_op_in_sel', UiOps.HotkeyToggleInSelect);
+    UiOps.HotkeyToggleMultiline:= c.GetValue('findkey_op_multiline', UiOps.HotkeyToggleMultiline);
+    UiOps.HotkeyToggleConfirmRep:= c.GetValue('findkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
+
     Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);
     Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);
 
