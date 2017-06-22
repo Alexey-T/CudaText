@@ -5,6 +5,7 @@
 
 
 1.11.0
+
 + new main icon (by FTurtle)
 + Project Manager: file type icons (from VSCode program)
 + Project Manager: expand "." to full dir name
@@ -17,9 +18,10 @@
 * find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
 * changed icons of toolbar
 * removed option "log_dialogs"
-- one more fix to show 2nd program instance on Windows (by @vhanla)
+- Windows: one more fix to show prev instance with ui_one_instance (by @vhanla)
 
 1.10.0
+
 + preinstalled plugin Tabs List
 + Project Manager: read only toplevel dirs from disk, and read other dirs only on unfolding them in treeview (patch by @pohmelie)
 + Project Manager: added toolbar
@@ -29,6 +31,7 @@
 - fix: loosing editor focus on Linux
 
 1.9.3
+
 + preinstalled Project Manager plugin
 + can open folder names from command line, e.g. "cudatext ." like Atom/Sublime can do
 + menuitem "File - Open folder", it calls Project Manager
@@ -36,11 +39,13 @@
 + api
 
 1.9.1
+
 + finder: replace-all made much faster (note: when confirmation is on, you will see unchanged text, it will replace later)
 - finder: count-all must find w/o overlaps (non-regex mode)
 + api
 
 1.9.0
+
 + distraction-free mode, see http://wiki.freepascal.org/CudaText#Full-screen
 + added option "ui_fullscreen" with new values
 * removed option "ui_fullscreen_hide"
