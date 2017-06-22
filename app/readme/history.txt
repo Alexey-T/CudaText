@@ -5,16 +5,16 @@
 
 
 1.11.0
-+ new main icon, by FTurtle
-+ Project Manager: file type icons
-+ Project Manager: expand short "." to full name
-+ find/replace/goto/console: focused input has its border highlighted
-+ find/replace: Enter press on focused replace-field: makes "Replace next" and keeps focus
-+ find/replace: set hotkey for "Find first" to Alt+Enter
-* find/replace: changed hotkey for "Replace next" to Ctrl+R (Replace without find next: Ctrl+Alt+R)
-* find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
++ new main icon (by FTurtle)
++ Project Manager: file type icons (from VSCode program)
++ Project Manager: expand "." to full dir name
++ focused input (in find/replace/goto/console) has its border highlighted
 + option "ui_active_border"
 + options "find_hotkey_*" for hotkeys in find/replace dialog
++ find/replace: hotkey Enter on focused replace-box: runs "Replace next" and keeps focus
++ find/replace: set hotkey for "Find first" to Alt+Enter
+* find/replace: changed hotkey for "Replace next" to Alt+Z, "Replace without find next" to Ctrl+Alt+Z
+* find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
 
 1.10.0
 + preinstalled plugin Tabs List
