@@ -177,12 +177,15 @@ const
       '    Snipicons'+sLineBreak+
       '      http://www.snipicons.com/'+sLineBreak+
       '      License: CC BY-NC 3.0, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
-      'Toolbar icons'+sLineBreak+
+      'Icon sets'+sLineBreak+
       '    Silk icons'+sLineBreak+
       '      http://www.famfamfam.com'+sLineBreak+
       '      License: CC BY 2.5, http://creativecommons.org/licenses/by/2.5/'+sLineBreak+
       '    Octicons'+sLineBreak+
       '      https://octicons.github.com/'+sLineBreak+
+      '      License: MIT License'+sLineBreak+
+      '    Visual Studio Code icons'+sLineBreak+
+      '      https://github.com/vscode-icons/vscode-icons'+sLineBreak+
       '      License: MIT License'+sLineBreak+
       '';
 
