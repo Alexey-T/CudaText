@@ -957,17 +957,17 @@ begin
   ToolbarMain.AddDropdown(PopupRecents);
   ToolbarMain.AddButton(2, @DoToolbarClick, '', 'Save file', IntToStr(cmd_FileSave), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(7, @DoToolbarClick, '', 'Cut', IntToStr(cCommand_ClipboardCut), false);
-  ToolbarMain.AddButton(6, @DoToolbarClick, '', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
-  ToolbarMain.AddButton(8, @DoToolbarClick, '', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
-  ToolbarMain.AddButton(11, @DoToolbarClick, '', 'Undo', IntToStr(cCommand_Undo), false);
-  ToolbarMain.AddButton(12, @DoToolbarClick, '', 'Redo', IntToStr(cCommand_Redo), false);
+  ToolbarMain.AddButton(3, @DoToolbarClick, '', 'Cut', IntToStr(cCommand_ClipboardCut), false);
+  ToolbarMain.AddButton(4, @DoToolbarClick, '', 'Copy', IntToStr(cCommand_ClipboardCopy), false);
+  ToolbarMain.AddButton(5, @DoToolbarClick, '', 'Paste', IntToStr(cCommand_ClipboardPaste), false);
+  ToolbarMain.AddButton(6, @DoToolbarClick, '', 'Undo', IntToStr(cCommand_Undo), false);
+  ToolbarMain.AddButton(7, @DoToolbarClick, '', 'Redo', IntToStr(cCommand_Redo), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(14, @DoToolbarClick, '', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
-  ToolbarMain.AddButton(15, @DoToolbarClick, '', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
+  ToolbarMain.AddButton(8, @DoToolbarClick, '', 'Toggle unprinted chars', IntToStr(cCommand_ToggleUnprinted), false);
+  ToolbarMain.AddButton(9, @DoToolbarClick, '', 'Toggle minimap', IntToStr(cCommand_ToggleMinimap), false);
   ToolbarMain.AddSep;
-  ToolbarMain.AddButton(3, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
-  ToolbarMain.AddButton(4, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
+  ToolbarMain.AddButton(10, @DoToolbarClick, '', 'Indent block', IntToStr(cCommand_TextIndent), false);
+  ToolbarMain.AddButton(11, @DoToolbarClick, '', 'Unindent block', IntToStr(cCommand_TextUnIndent), false);
 
   ToolbarMain.UpdateControls;
 end;

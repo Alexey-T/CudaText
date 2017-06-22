@@ -107,6 +107,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    ImageListToolbar: TImageList;
     mnuHelpCheckUpd: TMenuItem;
     StatusProgress: TGauge;
     LabelSideTitle: TLabel;
@@ -119,7 +120,6 @@ type
     ImageListSide: TImageList;
     FontDlg: TFontDialog;
     ImageListBm: TImageList;
-    ImageListBar: TImageList;
     ImageListTree: TImageList;
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
