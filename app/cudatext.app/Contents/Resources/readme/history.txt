@@ -5,18 +5,23 @@
 
 
 1.11.0
-+ new main icon, by FTurtle
-+ Project Manager: file type icons
-+ Project Manager: expand short "." to full name
-+ find/replace/goto/console: focused input has its border highlighted
-+ find/replace: Enter press on focused replace-field: makes "Replace next" and keeps focus
-+ find/replace: set hotkey for "Find first" to Alt+Enter
-* find/replace: changed hotkey for "Replace next" to Ctrl+R (Replace without find next: Ctrl+Alt+R)
-* find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
+
++ new main icon (by FTurtle)
++ Project Manager: file type icons (from VSCode program)
++ Project Manager: expand "." to full dir name
++ focused input (in find/replace/goto/console) has its border highlighted
 + option "ui_active_border"
 + options "find_hotkey_*" for hotkeys in find/replace dialog
++ find/replace: hotkey Enter on focused replace-box: runs "Replace next" and keeps focus
++ find/replace: set hotkey for "Find first" to Alt+Enter
+* find/replace: changed hotkey for "Replace next" to Alt+Z, "Replace without find next" to Ctrl+Alt+Z
+* find/replace: changed hotkeys Alt+5/Alt+6/Alt+7 to Alt+O/Alt+E/Alt+K
+* changed icons of toolbar
+* removed option "log_dialogs"
+- Windows: one more fix to show prev instance with ui_one_instance (by @vhanla)
 
 1.10.0
+
 + preinstalled plugin Tabs List
 + Project Manager: read only toplevel dirs from disk, and read other dirs only on unfolding them in treeview (patch by @pohmelie)
 + Project Manager: added toolbar
@@ -26,6 +31,7 @@
 - fix: loosing editor focus on Linux
 
 1.9.3
+
 + preinstalled Project Manager plugin
 + can open folder names from command line, e.g. "cudatext ." like Atom/Sublime can do
 + menuitem "File - Open folder", it calls Project Manager
@@ -33,11 +39,13 @@
 + api
 
 1.9.1
+
 + finder: replace-all made much faster (note: when confirmation is on, you will see unchanged text, it will replace later)
 - finder: count-all must find w/o overlaps (non-regex mode)
 + api
 
 1.9.0
+
 + distraction-free mode, see http://wiki.freepascal.org/CudaText#Full-screen
 + added option "ui_fullscreen" with new values
 * removed option "ui_fullscreen_hide"
