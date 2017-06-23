@@ -8,6 +8,8 @@ object fmSaveTabs: TfmSaveTabs
   Caption = 'Save tabs?'
   ClientHeight = 350
   ClientWidth = 671
+  KeyPreview = True
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
@@ -35,7 +37,7 @@ object fmSaveTabs: TfmSaveTabs
     object btnSave: TButton
       AnchorSideTop.Control = btnDontSave
       AnchorSideRight.Control = btnDontSaveKeep
-      Left = 176
+      Left = 181
       Height = 29
       Top = 6
       Width = 90
@@ -83,10 +85,10 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSaveKeep: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnDontSave
-      Left = 272
+      Left = 277
       Height = 29
       Top = 6
-      Width = 201
+      Width = 196
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Right = 6

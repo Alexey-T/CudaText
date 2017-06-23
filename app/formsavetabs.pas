@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   IniFiles, CheckLst, ExtCtrls, StdCtrls, StrUtils,
-  LazUTF8, LazFileUtils,
+  LazUTF8, LazFileUtils, LCLType,
   ATPanelSimple,
   proc_globdata,
   proc_msg;
@@ -29,6 +29,7 @@ type
     btnSave: TButton;
     List: TCheckListBox;
     Panel1: TATPanelSimple;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
@@ -78,6 +79,22 @@ begin
 
   //btnDontSave.Visible:= not UiOps.ShowLastFiles;
   btnDontSaveKeep.Visible:= UiOps.ShowLastFiles;
+end;
+
+procedure TfmSaveTabs.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  C: TWinControl;
+begin
+  //workaround for LCL bug: Enter press on focused buttons [Dont save], [Cancel] dont work
+  if (Key=VK_RETURN) and (Shift=[]) then
+  begin
+    C:= ActiveControl;
+    if C is TButton then
+      (C as TButton).Click;
+    key:= 0;
+    exit
+  end;
 end;
 
 end.
