@@ -459,18 +459,25 @@ These panels have hotkeys:
 
 Dialog has hotkeys:
 
-* Enter: find next
-* Shift+Enter: find previous
-* Alt+Enter: replace next, and find next
-* Ctrl+Alt+Enter: replace next, but don't find next
+* Alt+Enter: Find first
+* Enter: Find next/ Replace next (depends of focused input)
+* Shift+Enter: Find previous
+* Alt+Z: Replace, and find next
+* Ctrl+Alt+Z: Replace, and don't find next
+* Alt+A: Replace all
+* Ctrl+Enter: Add newline in multi-line input
+* Alt+O: Count all
+* Alt+E: Select all
+* Alt+K: Mark all
 
-Option-buttons have hotkeys too: hover mouse over them to see hints:
+Option-buttons have hotkeys too, hover mouse over them to see hints:
 
 * ".*" - Regular expressions - Alt+R
-* "aA" - Case sensitive - Alt+C
+* "aA" - Case sensitive search - Alt+C
 * "w" - Search for whole words only - Alt+W
 * "O" - Wrap search, ie search from beginning after reaching the end, and vice versa - Alt+N
 * "[..]" - Search in selection only - Alt+X
+* "+" - Toggle multi-line mode: input boxes have double height and show several lines - Alt+M
 * "?!" - Show confirmation on each replace - Alt+Y
 
 ==Comments==
@@ -666,7 +673,7 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 
 ==How to use on Windows XP==
 
-Q: I have Windows XP, what version of CudaText and Python should I have to have plugins working?
+Q: I have Windows XP, what version of CudaText (SynWrite) and Python should I have to have plugins working?
 
 A: You need any version of CudaText (after 1.7), but older Python 3.4 DLLs. You must replace these Python files:
 
@@ -674,7 +681,11 @@ A: You need any version of CudaText (after 1.7), but older Python 3.4 DLLs. You 
 * *.zip
 * folder DLLs
 
-with Python files from this WinXP build: https://sourceforge.net/projects/cudatextbuildlinuxi386/files/release/
+With Python files from this WinXP build: https://sourceforge.net/projects/cudatextbuildlinuxi386/files/release/
+
+Then open config "user.json" and write option:
+
+  "pylib": "python34.dll",
 
 ==How to copy to clipboard word under caret==
 

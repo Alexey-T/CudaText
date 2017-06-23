@@ -926,7 +926,7 @@ Show commands dialog, which is like customizable version of F1 dialog in CudaTex
 Param options is sum of int flags:
 
 * COMMANDS_USUAL - Show usual commands, which have int codes. Function gets "c:"+str(int_command) for them.
-* COMMANDS_PLUGINS - Show plugins commands. Function gets "p:module,method" or "p:module,method,param" for them.
+* COMMANDS_PLUGINS - Show plugins commands. Function gets "p:"+callback_string for them.
 * COMMANDS_LEXERS - Show lexers pseudo-commands. Function gets "l:"+lexer_name for them.
 * COMMANDS_CONFIG - Allow to call Configure Hotkeys dialog by F9 key.
 
@@ -936,15 +936,18 @@ Gets string if command selected, or None if cancelled.
 
  file_open(filename, group=-1, args="")
 
-Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab.
+Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab. Gets bool: filename is empty or file successfully opened.
 
-Param group is index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
-
-Param args is optional string. If it has "/silent" then zipped add-on will install w/o prompt and report.
-
-Gets bool: filename is empty or successfully opened.
+* Param "group: index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
+* Param "args": optional string. If it has "/silent" then zipped add-on will install w/o prompt and report.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
+
+Example opens untitled tab, and writes multi-line text to it:
+<syntaxhighlight lang="python">
+  file_open('')
+  ed.set_text_all(text)
+</syntaxhighlight>
 
 ===file_save===
 
@@ -953,7 +956,7 @@ Note: "ed" is always the current editor, after file_open() current editor change
 Saves current tab to disk. 
 
 Shows save-as dialog for untitled tab. 
-If param filename not empty, uses it (untitled tab becomes titled).
+If param "filename" not empty, it overrides current file name, and untitled tab becomes titled.
 Gets bool: file was saved.
 
 ===ed_handles===
@@ -962,10 +965,13 @@ Gets bool: file was saved.
 
 Gets range object: it contains int handles of all editor tabs. Pass each handle to Editor() to make editor object from handle.
 
-Example command in console, prints filenames of all tabs:
+Example code, which shows filenames of all tabs:
 
-<syntaxhighlight>
-for h in ed_handles(): print(Editor(h).get_filename())
+<syntaxhighlight lang="python">
+    #show all file names in console
+    for h in ed_handles():
+        e = Editor(h)
+        print(e.get_filename())
 </syntaxhighlight>
 
 ===ed_group===
@@ -1162,7 +1168,7 @@ class Command:
 
 ===menu_proc===
 
- menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="")
+ menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", tag="")
 
 Perform action on menu items.
 
@@ -1186,16 +1192,16 @@ Value of "command" parameter for MENU_ADD can be:
 * callback in one of these forms: [[#Callback_param]].
 * (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
 
-* to create usual sub-menus, special values: 
-** "recents", "_recents" - recent-files submenu
-** "enc", "_enc" - encodings submenu (has subitems "reload as", "convert to")
-** "langs", "_langs" - translations submenu
-** "lexers", "_lexers" - lexers submenu
-** "plugins", "_plugins" - plugins submenu
-** "themes-ui", "_themes-ui" - ui-themes submenu 
-** "themes-syntax", "_themes-syntax" - syntax-themes submenu 
+* to create standatd special sub-menus, special values: 
+** "recents", "_recents": Recent-files submenu
+** "enc", "_enc": Encodings submenu (has subitems "reload as", "convert to")
+** "langs", "_langs": Translations submenu
+** "lexers", "_lexers": Lexers submenu
+** "plugins", "_plugins": Plugins submenu
+** "themes-ui", "_themes-ui": UI-themes submenu 
+** "themes-syntax", "_themes-syntax": Syntax-themes submenu 
 
-* any string (e.g. empty), if item will be used as sub-menu (item is a sub-menu, if any sub-items are added to it)
+* empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
 ====Actions====
 
@@ -1203,37 +1209,42 @@ Possible values of id_action:
 
 * MENU_CLEAR: Removes all sub-items from menu item. Params used: id_menu.
 
-* MENU_ENUM: Enumerates sub-items in menu item. Params used: id_menu. If id_menu valid, gets list of dict, else gets None. Dict items are: {"id": int_id_menu; "cap": str_caption; "cmd": int_command; "hint": str_command; "hotkey": str_hotkey}.
+* MENU_ENUM: Enumerates sub-items in menu item. Params used: id_menu. If id_menu valid, gets list of dict, else gets None. Dict items are: {"id": int_id_menu; "cap": str_caption; "cmd": int_command; "hint": str_command; "hotkey": str_hotkey; "command": int_or_str}.
 ** for separator items: "cap" is "-"
 ** for usual command items: "cmd" value is >0
 ** for plugin command items: "cmd" value is <=0; "hint" is callback string
 ** for sub-menu items: "cmd" value is <=0; "hint" value is some string
+** "command": has int value of "cmd" (if >0), or str value of "hint" (otherwise)
 
 * MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params used:
-** id_menu - item in which you add sub-item. 
-** caption - caption of menu item, or "-" for menu separator.
-** index - 0-based index at which to insert sub-item. Default: append item to the end.
-** command - possible values are described above.
-** hotkey - string of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos not allowed. Overrides hotkey, which is auto assigned from command code.
+** id_menu: Item in which you add sub-item. 
+** caption: Caption of item, or "-" for menu separator.
+** index: Index (0-based) at which to insert sub-item. Default: append item to end.
+** command: Values are described above.
+** hotkey: String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
+** tag: Any string stored in menu item.
 
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
-* MENU_SHOW: Shows given popup-menu (note: only popup-menu id can be used here, not id of top menus). Param "command" must be "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
+* MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
 ====Example==== 
 
-Example adds item "Misc" to the main menu, and sub-items: "About-1", "About-2", separator, "Rename file" (from CudaExt plugin):
+Example adds item "Misc" to the main menu, and sub-items: "About", separator, "Rename file" (from CudaExt plugin):
 
+<syntaxhighlight lang="python">
   menuid = menu_proc('top', MENU_ADD, caption='Misc')
-  n = menu_proc(menuid, MENU_ADD, command=2700, caption='About-1')
-  n = menu_proc(menuid, MENU_ADD, command=2700, caption='About-2')
+  n = menu_proc(menuid, MENU_ADD, command=2700, caption='About')
   n = menu_proc(menuid, MENU_ADD, caption='-')
-  n = menu_proc(menuid, MENU_ADD, command='cuda_ext,rename_file', caption='Rename file')
+  n = menu_proc(menuid, MENU_ADD, command='cuda_ext.rename_file', caption='Rename file')
+</syntaxhighlight>
 
 Example creates popup-menu with one item and shows it at (x=100, y=100):
 
+<syntaxhighlight lang="python">
   h = menu_proc(0, MENU_CREATE)
   menu_proc(h, MENU_ADD, command=2700, caption='About...')
-  menu_proc(h, MENU_SHOW, command='100,100')
+  menu_proc(h, MENU_SHOW, command=(100,100) )
+</syntaxhighlight>
 
 ===toolbar_proc===
 
@@ -1858,6 +1869,12 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.185
+* add: menu_proc: for MENU_ADD added param "tag"
+* add: menu_proc: MENU_SHOW can use 2-tuple (x,y)
+* add: menu_proc: MENU_ENUM gives additional dict key "command"
+* deprecated: menu_proc command values: recents, enc, langs, lexers, plugins, themes-ui, themes-syntax
 
 1.0.184
 * deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
