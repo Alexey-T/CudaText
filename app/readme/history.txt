@@ -4,6 +4,9 @@
   * changed
 
 
+1.11.1
++ find/replace: auto turn on multi-line, on Ctrl+Enter press
+
 1.11.0
 
 + new main icon (by FTurtle)

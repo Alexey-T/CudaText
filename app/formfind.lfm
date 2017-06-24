@@ -1,5 +1,5 @@
 object fmFind: TfmFind
-  Left = 408
+  Left = 91
   Height = 148
   Top = 394
   Width = 1189
@@ -145,6 +145,7 @@ object fmFind: TfmFind
       OnEnter = edFindEnter
       OnKeyDown = edFindKeyDown
       OnChange = edFindChange
+      OnCommand = edFindCommand
       Colors.TextFont = clBlack
       Colors.TextBG = clWhite
       Colors.TextDisabledFont = clMedGray
@@ -239,6 +240,7 @@ object fmFind: TfmFind
       TabStop = True
       OnEnter = edRepEnter
       OnKeyDown = edFindKeyDown
+      OnCommand = edFindCommand
       Colors.TextFont = clBlack
       Colors.TextBG = clWhite
       Colors.TextDisabledFont = clMedGray
@@ -421,10 +423,10 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edFind
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = edFind
-      Left = 42
+      Left = 43
       Height = 17
       Top = 8
-      Width = 34
+      Width = 33
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 4
       Caption = 'Find:'

@@ -85,6 +85,8 @@ type
     procedure chkRepClick(Sender: TObject);
     procedure chkWrapClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
+    procedure edFindCommand(Sender: TObject; ACommand: integer;
+      const AText: string; var AHandled: boolean);
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edRepEnter(Sender: TObject);
@@ -206,6 +208,17 @@ end;
 procedure TfmFind.edFindChange(Sender: TObject);
 begin
   UpdateState;
+end;
+
+procedure TfmFind.edFindCommand(Sender: TObject; ACommand: integer;
+  const AText: string; var AHandled: boolean);
+begin
+  //auto turn on multi-line
+  if ACommand=cCommand_KeyEnter then
+  begin
+    IsMultiLine:= true;
+    exit
+  end;
 end;
 
 procedure TfmFind.edFindEnter(Sender: TObject);
