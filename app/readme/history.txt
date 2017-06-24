@@ -6,6 +6,7 @@
 
 1.11.1
 + find/replace: auto turn on multi-line, on Ctrl+Enter press
++ Addon Manager: function of "Install from Github" plugin moved here
 
 1.11.0
 
