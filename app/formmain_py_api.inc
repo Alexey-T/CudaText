@@ -2375,24 +2375,6 @@ begin
           end;
 
         //-------------------
-        APP_PROC_SIDEPANEL_ADD:
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_SIDEPANEL_ADD)']));
-
-            StrCaption:= SGetItem(Str); //caption
-            StrIndex:= SGetItem(Str); //tab index
-            StrId:= SGetItem(Str); //type of control
-            StrFilename:= SGetItem(Str); //icon filename
-
-            ok:= fmMain.DoSidebar_AddTab(
-              StrCaption,
-              StrId,
-              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              0);
-
-            Result:= PyBool_FromLong(Ord(ok));
-          end;
-
         APP_PROC_SIDEPANEL_ADD_DIALOG:
           begin
             StrCaption:= SGetItem(Str); //caption
@@ -2447,24 +2429,6 @@ begin
               Result:= PyLong_FromLongLong(Num64)
             else
               Result:= ReturnNone;
-          end;
-
-        APP_PROC_BOTTOMPANEL_ADD:
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_BOTTOMPANEL_ADD)']));
-
-            StrCaption:= SGetItem(Str); //caption
-            StrIndex:= SGetItem(Str); //tab index
-            StrId:= SGetItem(Str); //type of control
-            StrFilename:= SGetItem(Str); //icon filename
-
-            ok:= fmMain.DoBottom_AddTab(
-              StrCaption,
-              StrId,
-              fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
-              0);
-
-            Result:= PyBool_FromLong(Ord(ok));
           end;
 
         APP_PROC_BOTTOMPANEL_ADD_DIALOG:
