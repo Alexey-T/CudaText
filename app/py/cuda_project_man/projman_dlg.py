@@ -24,9 +24,10 @@ def dialog_config(op):
 
     themes = get_themes_list()
     try:
-        theme_index = themes.index(op.get('icon_theme', 'vscode_16x16'))
+        s = op.get('icon_theme', 'vscode_16x16')
+        theme_index = themes.index(s)
     except:
-        theme_index = 0
+        theme_index = -1
 
     c1 = chr(1)
     text = '\n'.join([]
@@ -40,8 +41,8 @@ def dialog_config(op):
             'val='+('1' if op.get('on_start', False) else '0') ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar',
             'val='+('1' if op.get('toolbar', True) else '0') ])]
-        +[c1.join(['type=label', 'pos=6,240,150,0', 'cap=Icon theme:'])]    
-        +[c1.join(['type=combo_ro', 'pos=150,235,350,0', 
+        +[c1.join(['type=label', 'pos=6,240,130,0', 'cap=Icons theme:'])]    
+        +[c1.join(['type=combo_ro', 'pos=130,235,350,0', 
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]    
