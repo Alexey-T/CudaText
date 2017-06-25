@@ -7,6 +7,12 @@ MASKS_IMAGES = '.png .jpg .jpeg .gif .bmp .ico'
 MASKS_BINARY = '.exe .dll .o .msi .lib .obj .pdf'
 
 
+def get_themes_list():
+
+    dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons')
+    return os.listdir(dir)
+
+
 def dialog_config(op):
 
     id_ignore = 1

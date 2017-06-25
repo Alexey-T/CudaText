@@ -1,7 +1,7 @@
 import os
+import re
 import collections
 import json
-#from fnmatch import fnmatch
 from .pathlib import Path, PurePosixPath
 from .projman_dlg import *
 
@@ -14,11 +14,6 @@ PROJECT_UNSAVED_NAME = "(Unsaved project)"
 NEED_API = '1.0.184'
 
 global_project_info = {}
-
-icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
-icon_json = os.path.join(icon_dir, 'icons.json')
-icon_json_dict = json.loads(open(icon_json).read())
-icon_indexes = {}
 
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
 
@@ -88,6 +83,7 @@ class Command:
         ("-"                    , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
         ("Refresh"              , "", [None, NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD]),
     )
+
     options = {
         "recent_projects": [],
         "masks_ignore": MASKS_IGNORE,
@@ -159,6 +155,7 @@ class Command:
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
 
+        self.icon_init()
         self.ICON_ALL = self.icon_get('_')
         self.ICON_DIR = self.icon_get('_dir')
         self.ICON_PROJ = self.icon_get('_proj')
@@ -772,25 +769,35 @@ class Command:
             file_open(str(path))
 
 
-    def icon_get(self, key):
-        global icon_indexes
-        global icon_dir
-        global icon_json_dict
+    def icon_init(self):
 
-        s = icon_indexes.get(key, None)
+        self.icon_theme = self.options.get('icon_theme', 'vscode_16x16')
+
+        nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
+        #tree_proc(self.tree, TREE_ICON_ADD)
+
+        self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
+        self.icon_json = os.path.join(self.icon_dir, 'icons.json')
+        self.icon_json_dict = json.loads(open(self.icon_json).read())
+        self.icon_indexes = {}
+
+
+    def icon_get(self, key):
+
+        s = self.icon_indexes.get(key, None)
         if s:
             return s
 
-        fn = icon_json_dict.get(key, None)
+        fn = self.icon_json_dict.get(key, None)
         if fn is None:
             n = self.ICON_ALL
-            icon_indexes[key] = n
+            self.icon_indexes[key] = n
             return n
 
-        fn = os.path.join(icon_dir, fn)
+        fn = os.path.join(self.icon_dir, fn)
         n = tree_proc(self.tree, TREE_ICON_ADD, text=fn)
         if n == -1:
             print('Incorrect filetype icon:', fn)
             n = self.ICON_ALL
-        icon_indexes[key] = n
+        self.icon_indexes[key] = n
         return n
