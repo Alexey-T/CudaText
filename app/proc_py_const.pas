@@ -226,6 +226,8 @@ const
   TREE_ITEM_FOLD_LEVEL       = 15;
   TREE_ICON_ADD              = 20;
   TREE_ICON_DELETE           = 21;
+  TREE_ICON_GET_SIZES        = 22;
+  TREE_ICON_SET_SIZES        = 23;
   TREE_PROP_SHOW_ROOT        = 30;
   TREE_LOCK                  = 31;
   TREE_UNLOCK                = 32;

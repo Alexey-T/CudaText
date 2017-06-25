@@ -773,8 +773,11 @@ class Command:
 
         self.icon_theme = self.options.get('icon_theme', 'vscode_16x16')
 
-        nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
-        #tree_proc(self.tree, TREE_ICON_ADD)
+        try:
+            nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
+            tree_proc(self.tree, TREE_ICON_SET_SIZES, index=nsize, image_index=nsize)
+        except:
+            print('Incorrect theme name, must be nnnnnn_NNxNN:', self.icon_theme)
 
         self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')

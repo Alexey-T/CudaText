@@ -3446,6 +3446,20 @@ begin
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
+        TREE_ICON_GET_SIZES:
+          begin
+            Result:= Py_BuildValue('(ii)',
+              Tree.Images.Width,
+              Tree.Images.Height);
+          end;
+
+        TREE_ICON_SET_SIZES:
+          begin
+            Tree.Images.Width:= NIndex;
+            Tree.Images.Height:= NImageIndex;
+            Result:= ReturnNone;
+          end;
+
         TREE_LOCK:
           begin
             Tree.Items.BeginUpdate;
