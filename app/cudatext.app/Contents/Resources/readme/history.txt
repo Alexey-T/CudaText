@@ -4,6 +4,12 @@
   * changed
 
 
+1.11.2
++ addons "filetypeicons nnnn" for Project Manager are supported, e.g. "VSCode Material 24x24"
++ Project Manager: option "Icons theme"
++ Addon Manager: function of "Install from Github" plugin moved here
++ find/replace: auto turn on multi-line, on Ctrl+Enter press
+
 1.11.0
 
 + new main icon (by FTurtle)

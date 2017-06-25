@@ -7,13 +7,27 @@ MASKS_IMAGES = '.png .jpg .jpeg .gif .bmp .ico'
 MASKS_BINARY = '.exe .dll .o .msi .lib .obj .pdf'
 
 
+def get_themes_list():
+
+    dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons')
+    return sorted(os.listdir(dir))
+
+
 def dialog_config(op):
 
-    id_ignore = 1
-    id_recents = 3
-    id_on_start = 4
-    id_toolbar = 5
-    id_ok = 6
+    RES_IGNORE = 1
+    RES_RECENTS = 3
+    RES_ON_START = 4
+    RES_TOOLBAR = 5
+    RES_ICONS = 7
+    RES_OK = 8
+
+    themes = get_themes_list()
+    try:
+        s = op.get('icon_theme', 'vscode_16x16')
+        theme_index = themes.index(s)
+    except:
+        theme_index = -1
 
     c1 = chr(1)
     text = '\n'.join([]
@@ -27,27 +41,36 @@ def dialog_config(op):
             'val='+('1' if op.get('on_start', False) else '0') ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar',
             'val='+('1' if op.get('toolbar', True) else '0') ])]
-        +[c1.join(['type=button', 'pos=300,260,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,260,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=label', 'pos=6,240,130,0', 'cap=Icons theme:'])]    
+        +[c1.join(['type=combo_ro', 'pos=130,235,350,0', 
+            'items='+'\t'.join(themes),
+            'val='+str(theme_index)
+            ])]    
+        +[c1.join(['type=button', 'pos=300,290,400,0', 'cap=&OK', 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,290,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 290, text, get_dict=True)
+    res = dlg_custom('Project Manager options', 508, 320, text, get_dict=True)
     if res is None:
         return
 
-    if res['clicked'] != id_ok:
+    if res['clicked'] != RES_OK:
         return
 
-    s = res[id_ignore].strip()
+    s = res[RES_IGNORE].strip()
     while '  ' in s:
         s = s.replace('  ', ' ')
     op['masks_ignore'] = s
 
-    s = res[id_recents].split('\t')
+    s = res[RES_RECENTS].split('\t')
     op['recent_projects'] = s
 
-    op['on_start'] = res[id_on_start]=='1'
-    op['toolbar'] = res[id_toolbar]=='1'
+    op['on_start'] = res[RES_ON_START]=='1'
+    op['toolbar'] = res[RES_TOOLBAR]=='1'
+    
+    index = int(res[RES_ICONS])
+    if index>=0:
+        op['icon_theme'] = themes[index] 
 
     return True
 
@@ -57,8 +80,8 @@ def dialog_proj_prop(prop):
     list_vars = prop.get('vars', '')
     main_file = prop.get('mainfile', '')
 
-    id_vars = 1
-    id_ok = 4
+    RES_VARS = 1
+    RES_OK = 4
 
     c1 = chr(1)
     text = '\n'.join([]
@@ -70,17 +93,14 @@ def dialog_proj_prop(prop):
         +[c1.join(['type=button', 'pos=406,300,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project properties', 508, 330, text)
+    res = dlg_custom('Project properties', 508, 330, text, get_dict=True)
     if res is None:
         return
 
-    res, text = res
-    text = text.splitlines()
-
-    if res != id_ok:
+    if res['clicked'] != RES_OK:
         return
 
-    s = text[id_vars].split('\t')
+    s = res[RES_VARS].split('\t')
     s = [item.strip() for item in s if '=' in item]
     prop['vars'] = s
 

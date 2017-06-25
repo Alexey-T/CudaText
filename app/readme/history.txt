@@ -5,7 +5,7 @@
 
 
 1.11.2
-+ addons "filetypeicons nnnn" supported now, e.g. "VSCode Material 24x24"
++ addons "filetypeicons nnnn" for Project Manager are supported, e.g. "VSCode Material 24x24"
 + Project Manager: option "Icons theme"
 + Addon Manager: function of "Install from Github" plugin moved here
 + find/replace: auto turn on multi-line, on Ctrl+Enter press

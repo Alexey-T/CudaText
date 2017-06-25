@@ -9,6 +9,7 @@ from urllib.parse import unquote
 from .work_local import *
 from .work_remote import *
 from .work_dlg_config import *
+from .work_github import *
 from .work_cudatext_updates import check_cudatext
 from . import opt
 
@@ -351,3 +352,7 @@ class Command:
     def check_cudatext_updates(self):
 
         check_cudatext()
+
+    def install_from_github(self):
+
+        do_install_from_github()
