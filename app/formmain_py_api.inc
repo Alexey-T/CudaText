@@ -2253,42 +2253,18 @@ begin
             ParamBool:= fmMain.DoOps_SaveSession(Str);
             Result:= PyBool_FromLong(Ord(ParamBool));
           end;
+
         APP_PROC_LOAD_SESSION:
           begin
             ParamBool:= fmMain.DoOps_LoadSession(Str);
             Result:= PyBool_FromLong(Ord(ParamBool));
           end;
+
         APP_PROC_SET_SESSION:
           begin
             fmMain.FSessionName:= Str;
             fmMain.UpdateCaption;
             Result:= ReturnNone;
-          end;
-
-        APP_PROC_MENU_ENUM:
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_MENU_ENUM)']));
-            Str:= fmMain.DoMenuEnum_Deprecated(Str);
-            if Str<>'' then
-              Result:= PyString_FromString(PChar(Str))
-            else
-              Result:= ReturnNone;
-          end;
-
-        APP_PROC_MENU_CLEAR:
-          begin
-            fmMain.DoMenuClear(Str);
-            Result:= ReturnNone;
-          end;
-
-        APP_PROC_MENU_ADD:
-          begin
-            fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, ['app_proc(PROC_MENU_ADD)']));
-            Str:= fmMain.DoMenuAdd_FromString(Str);
-            if Str<>'' then
-              Result:= PyString_FromString(PChar(Str))
-            else
-              Result:= ReturnNone;
           end;
 
         APP_PROC_SET_EVENTS:

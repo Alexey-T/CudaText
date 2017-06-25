@@ -579,12 +579,10 @@ type
     procedure DoLocalize_FormGoto;
     function DoCheckFilenameOpened(const AName: string): boolean;
     procedure DoInvalidateEditors;
-    function DoMenuAdd_FromString(AStr: string): string;
     function DoMenuAdd_Params(
       const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string;
       AIndex: integer): string;
     procedure DoMenuClear(const AMenuId: string);
-    function DoMenuEnum_Deprecated(const AMenuId: string): string;
     function DoMenuEnum_New(const AMenuId: string): PPyObject;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoPanel_TreeviewOnDblClick(Sender: TObject);
@@ -3632,43 +3630,6 @@ begin
 end;
 
 
-function TfmMain.DoMenuEnum_Deprecated(const AMenuId: string): string;
-var
-  mi: TMenuItem;
-  NTag: PtrInt;
-  NCommand: integer;
-  SCommand: string;
-  i: integer;
-begin
-  Result:= '';
-
-  //this updates PopupText items tags
-  PopupText.OnPopup(nil);
-
-  mi:= Py_MenuItemFromId(AMenuId);
-  if Assigned(mi) then
-    for i:= 0 to mi.Count-1 do
-    begin
-      NTag:= mi.Items[i].Tag;
-      if NTag<>0 then
-      begin
-        NCommand:= TAppMenuProps(NTag).CommandCode;
-        SCommand:= TAppMenuProps(NTag).CommandString;
-      end
-      else
-      begin
-        NCommand:= 0;
-        SCommand:= '';
-      end;
-
-      Result:= Result+
-        mi.Items[i].Caption +'|'+
-        IfThen(NCommand>0, IntToStr(NCommand), SCommand) +'|'+
-        IntToStr(PtrInt(mi.Items[i]))
-        +#10;
-    end;
-end;
-
 function TfmMain.DoMenuEnum_New(const AMenuId: string): PPyObject;
 var
   mi: TMenuItem;
@@ -3784,18 +3745,6 @@ begin
   end;
 end;
 
-function TfmMain.DoMenuAdd_FromString(AStr: string): string;
-var
-  StrId, StrCmd, StrCaption, StrIndex: string;
-  NIndex: integer;
-begin
-  StrId:= SGetItem(AStr, ';');
-  StrCmd:= SGetItem(AStr, ';');
-  StrCaption:= SGetItem(AStr, ';');
-  StrIndex:= SGetItem(AStr, ';');
-  NIndex:= StrToIntDef(StrIndex, -1);
-  Result:= DoMenuAdd_Params(StrId, StrCmd, StrCaption, '', '', NIndex);
-end;
 
 function TfmMain.DoMenuAdd_Params(const AMenuId, AMenuCmd, AMenuCaption,
   AMenuHotkey, AMenuTagString: string; AIndex: integer): string;
