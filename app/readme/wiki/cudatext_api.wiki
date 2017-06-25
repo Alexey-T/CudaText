@@ -214,19 +214,6 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 * PROC_LOAD_SESSION: Loads session from file with given name (closes all tabs first). Gets bool: tabs closed w/o pressing Cancel, session was loaded.
 * PROC_SET_SESSION: Tells to app filename of session. Session with this filename will be saved on exit, loaded on start, shown in app title in {} brackets. Don't set here empty string. Default filename is "history session.json" without path. Missing path means that folder "settings" will be used.
 
-====Menus====
-
-PROC_MENU_ APIs are deprecated. The meaning of parameters: menu_id, menu_cmd, menu_caption, menu_index: is described in the topic about menu_proc().
-
-* PROC_MENU_CLEAR: Removes all sub-items from menu item. Param text must be menu_id.
-* PROC_MENU_ENUM: Enumerates sub-items in menu item. Param text must be menu_id. Gets str: "\n"-separated strings for sub-items. These strings are:
-** for usual command items: "caption|int_command|menu_id"
-** for plugin command items: "caption|plugin_module,plugin_method|menu_id"
-** for separator items: "-||menu_id"
-** for submenu items: 2nd part (between "|" chars) is not a command code, such items are "caption||menu_id" or "caption|string_hint|menu_id"
-
-* PROC_MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Param text must be "menu_id;menu_cmd;menu_caption;menu_index".
-
 ====Side panel====
 
 * deprecated: PROC_SIDEPANEL_ADD: Adds tab, with embedded UI control, to sidebar. Gets bool: params ok, tab was added. Text is ","-separated values: "tab_caption,tab_index,control_type,icon_filename":
@@ -1059,6 +1046,9 @@ Possible values of id_action:
 * TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
 * TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
 
+* TREE_ICON_GET_SIZES: Gets sizes of icons, as 2-tuple.
+* TREE_ICON_SET_SIZES: Sets sizes of icons. Param "index" is icon width, "image_index" is icon height.
+
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
@@ -1869,6 +1859,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.186
+* add: tree_proc: TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
+* deleted deprecated: app_proc: PROC_MENU_* actions
 
 1.0.185
 * add: menu_proc: for MENU_ADD added param "tag"
