@@ -90,6 +90,7 @@ type
     procedure edFindEnter(Sender: TObject);
     procedure edFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edRepEnter(Sender: TObject);
+    procedure edRepExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -242,6 +243,12 @@ end;
 procedure TfmFind.edRepEnter(Sender: TObject);
 begin
   edRep.DoCommand(cCommand_SelectAll);
+  bFindNext.ShowHint:= false; //hide hint "Enter" when replace-box focused
+end;
+
+procedure TfmFind.edRepExit(Sender: TObject);
+begin
+  bFindNext.ShowHint:= true;
 end;
 
 procedure TfmFind.FormClose(Sender: TObject; var CloseAction: TCloseAction);
