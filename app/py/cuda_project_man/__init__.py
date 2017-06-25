@@ -780,6 +780,9 @@ class Command:
             print('Incorrect theme name, must be nnnnnn_NNxNN:', self.icon_theme)
 
         self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
+        if not os.path.isdir(self.icon_dir):
+            self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
+        
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')
         self.icon_json_dict = json.loads(open(self.icon_json).read())
         self.icon_indexes = {}
