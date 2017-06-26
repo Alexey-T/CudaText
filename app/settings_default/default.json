@@ -584,7 +584,7 @@
   //Show full file path in window title
   "ui_title_path": false,
   
-  //[File]
+  //[Ui/History]
   //Restore session (all named+unnamed tabs) at start
   "ui_reopen_session": true,
 
