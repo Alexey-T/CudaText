@@ -141,7 +141,7 @@
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
 
-  //[FileSave]
+  //[File/Save]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
   //On saving file: force end-of-line chars at file end (if not entered)
@@ -376,7 +376,7 @@
   "find_indent_vert": -5,
   "find_indent_horz": 10,
 
-  //[UiTabs]
+  //[Ui/Tabs]
   //UI tabs: Width
   "ui_tab_size_x": 170,
   //UI tabs: Height
@@ -402,7 +402,7 @@
   //UI tabs: Show numbers on tabs
   "ui_tab_numbers": false,
 
-  //[UiListbox]
+  //[Ui/Listbox]
   //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,
   //Listboxes: Commands/API listbox height
@@ -431,7 +431,7 @@
   //Initial folder of Open/Save-as dialogs, for untitled tabs
   "ui_initial_dir": "",
 
-  //[UiTree]
+  //[Ui/Tree]
   //Tree: Focus another tree-node, after caret position changes
   "ui_tree_auto_sync": true,
   //Tree: Time (msec) after which tree filled
@@ -545,7 +545,7 @@
   //... and keep previous selection
   "key_left_right_swap_sel_and_select": false,
 
-  //[UiStatusbar]
+  //[Ui/Statusbar]
   //States: no-selection, small-selection (1 line), stream-selection (>1 lines),
   //  column-selection, mul-carets.
   //Macros:
@@ -599,7 +599,7 @@
   //Width of line, pixels
   "underline_color_size": 3,
 
-  //[FileExport]
+  //[File/Export]
   //Options for "File--Export to HTML"
   "export_html_numbers": false,
   "export_html_font_name": "Courier New",
@@ -693,14 +693,14 @@
   //Highlight border of focused input box (find/ replace/ goto/ console input)
   "ui_active_border": true,
 
-  //[UiSidebar]
+  //[Ui/Sidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)
   "ui_sidebar_show": true,
   //Sidebar icons theme
   //Folders from: sideicons
   "ui_sidebar_theme": "octicons_20x20",
   
-  //[FindHotkeys]
+  //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
   "find_hotkey_find_dlg": "Ctrl+F", 
   "find_hotkey_replace_dlg": "Ctrl+R", 
