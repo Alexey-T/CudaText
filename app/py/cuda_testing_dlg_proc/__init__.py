@@ -5,7 +5,12 @@ from random import randint
 
 def callback_main_close(id_dlg, id_ctl, data='', info=''):
     print('callback_main_close')
+    
     dlg_proc(id_dlg, DLG_HIDE)
+
+    #hide tab added to sidebar    
+    app_proc(PROC_SIDEPANEL_REMOVE, 'Side dialog')
+    app_proc(PROC_SIDEPANEL_ACTIVATE, 'Tree')
 
 def callback_main_menu(id_dlg, id_ctl, data='', info=''):
     print('callback_main_menu')
