@@ -3,6 +3,7 @@ object fmKeys: TfmKeys
   Height = 197
   Top = 440
   Width = 371
+  ActiveControl = bAdd1
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Hotkey'
@@ -13,7 +14,7 @@ object fmKeys: TfmKeys
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   object panelBtn: TButtonPanel
     Left = 6
     Height = 29
@@ -150,7 +151,7 @@ object fmKeys: TfmKeys
       Left = 9
       Height = 24
       Top = 132
-      Width = 138
+      Width = 140
       Anchors = [akLeft, akBottom]
       Caption = 'For current lexer'
       TabOrder = 4

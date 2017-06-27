@@ -196,6 +196,12 @@ begin
 
   bAdd1.Enabled:= KeyArrayLength(Keys1)<cMaxKeyCombo;
   bAdd2.Enabled:= KeyArrayLength(Keys2)<cMaxKeyCombo;
+
+  if bAdd1.Enabled then
+    ActiveControl:= bAdd1
+  else
+  if bClear1.Enabled then
+    ActiveControl:= bClear1;
 end;
 
 end.
