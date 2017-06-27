@@ -2,6 +2,7 @@ import os
 import shutil
 from cudatext import *
 from datetime import datetime
+from time import strftime, gmtime
 
 INI = 'cuda_insert_time.ini'
 
@@ -10,8 +11,7 @@ ini0 = os.path.join(os.path.dirname(__file__), INI)
 if not os.path.isfile(ini) and os.path.isfile(ini0):
     shutil.copyfile(ini0, ini)
 
-ITEM_PREFIX = 'Insert: '
-ITEM_CONFIG = 'Edit config'
+ITEM_CONFIG = '(Edit config)'
 
 
 def get_format_lines():
@@ -20,12 +20,17 @@ def get_format_lines():
     res = [s for s in res if s and not s.startswith('#')]
     return res
 
+def do_format(s):
+    if s=='rfc':    
+        return strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+    t = datetime.now()
+    return t.strftime(s)
+    
 
 class Command:
     def dialog(self):
         lines = get_format_lines()
-        t = datetime.now()
-        lines = [ITEM_PREFIX + t.strftime(s) for s in lines] + [ITEM_CONFIG]
+        lines = [do_format(s) for s in lines] + [ITEM_CONFIG]
 
         res = dlg_menu(MENU_LIST, '\n'.join(lines))
         if res is None: return
@@ -36,5 +41,6 @@ class Command:
             return
 
         caret = ed.get_carets()[0]
-        ed.insert(caret[0], caret[1], s)
+        x, y = ed.insert(caret[0], caret[1], s)
+        ed.set_caret(x, y)
         msg_status('Date/time inserted')
