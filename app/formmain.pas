@@ -552,6 +552,7 @@ type
     FLastLexerForPluginsMenu: string;
     FLastSidebarPanel: string;
     FLastBottomPanel: string;
+    FLastSelectedCommand: integer;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -717,7 +718,8 @@ type
     procedure DoCopyFilenameName;
     procedure DoCopyLine;
     procedure DoDialogCommands;
-    function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): integer;
+    function DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers,
+      AAllowConfig: boolean; AFocusedCommand: integer): integer;
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
     procedure DoDialogGoto;
     procedure DoDialogGoto_Hide;
@@ -1949,9 +1951,10 @@ var
   NCmd: integer;
 begin
   MsgStatus(msgStatusHelpOnShowCommands);
-  NCmd:= DoDialogCommands_Custom(true, true, true, true);
+  NCmd:= DoDialogCommands_Custom(true, true, true, true, FLastSelectedCommand);
   if NCmd>0 then
   begin
+    FLastSelectedCommand:= NCmd;
     CurrentEditor.DoCommand(NCmd);
     UpdateFrame;
   end;
@@ -1963,7 +1966,7 @@ var
   NCmd: integer;
 begin
   Result:= '';
-  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig);
+  NCmd:= DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig, 0);
   if NCmd<=0 then exit;
 
   if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
@@ -1984,7 +1987,9 @@ begin
 end;
 
 
-function TfmMain.DoDialogCommands_Custom(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): integer;
+function TfmMain.DoDialogCommands_Custom(
+  AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean;
+  AFocusedCommand: integer): integer;
 var
   bKeysChanged: boolean;
 begin
@@ -1996,6 +2001,7 @@ begin
     fmCommands.OptShowPlugins:= AShowPlugins;
     fmCommands.OptShowLexers:= AShowLexers;
     fmCommands.OptAllowConfig:= AAllowConfig;
+    fmCommands.OptFocusedCommand:= AFocusedCommand;
     fmCommands.OnMsg:= @DoCommandsMsgStatus;
     fmCommands.CurrentLexerName:= CurrentFrame.LexerName;
     fmCommands.Keymap:= CurrentEditor.Keymap;

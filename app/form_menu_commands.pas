@@ -66,6 +66,7 @@ type
     OptShowPlugins: boolean;
     OptShowLexers: boolean;
     OptAllowConfig: boolean;
+    OptFocusedCommand: integer;
     property OnMsg: TStrEvent read FOnMsg write FOnMsg;
   end;
 
@@ -79,12 +80,23 @@ implementation
 { TfmCommands }
 
 procedure TfmCommands.FormShow(Sender: TObject);
+var
+  i: integer;
 begin
   //fit in scrn
   Left:= Max(0, Left);
   Left:= Min(Left, Screen.DesktopWidth-Width);
 
   DoFilter;
+
+  if OptFocusedCommand>0 then
+    for i:= 0 to keymapList.Count-1 do
+      if TATKeymapItem(keymapList.Items[i]).Command = OptFocusedCommand then
+      begin
+        list.ItemIndex:= i;
+        list.ItemTop:= Max(0, i-2);
+        list.Invalidate;
+      end;
 end;
 
 procedure TfmCommands.listClick(Sender: TObject);
@@ -101,6 +113,7 @@ begin
   OptShowPlugins:= true;
   OptShowLexers:= true;
   OptAllowConfig:= true;
+  OptFocusedCommand:= 0;
 
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
