@@ -10,6 +10,9 @@ ini0 = os.path.join(os.path.dirname(__file__), INI)
 if not os.path.isfile(ini) and os.path.isfile(ini0):
     shutil.copyfile(ini0, ini)
 
+ITEM_PREFIX = 'Insert: '
+ITEM_CONFIG = 'Edit config'
+
 
 def get_format_lines():
     with open(ini, 'r') as f:
@@ -22,11 +25,15 @@ class Command:
     def dialog(self):
         lines = get_format_lines()
         t = datetime.now()
-        lines = ['Insert: '+t.strftime(s) for s in lines]
+        lines = [ITEM_PREFIX + t.strftime(s) for s in lines] + [ITEM_CONFIG]
 
         res = dlg_menu(MENU_LIST, '\n'.join(lines))
         if res is None: return
         s = lines[res]
+        
+        if s==ITEM_CONFIG:
+            file_open(ini)
+            return
 
         caret = ed.get_carets()[0]
         ed.insert(caret[0], caret[1], s)

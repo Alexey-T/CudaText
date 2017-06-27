@@ -4,10 +4,11 @@
   * changed
 
 
-1.11.2
+1.12.0
 + addons "filetypeicons nnnn" for Project Manager are supported, e.g. "VSCode Material 24x24"
 + Project Manager: option "Icons theme"
 + Addon Manager: function of "Install from Github" plugin moved here
++ plugin Insert Time reworked, it has several date-formats and config file
 + find/replace: auto turn on multi-line, on Ctrl+Enter press
 
 1.11.0
