@@ -69,7 +69,7 @@
   //File-change notification: watch timer interval, seconds
   "ui_notif_time": 2,
   
-  //[NonText]
+  //[File/NonText]
   //Non-text files: allow to open
   //  0: prompt
   //  1: open
@@ -82,7 +82,7 @@
   //Command "Reload": if caret on last line, after reload put caret to new last line
   "ui_reload_tail": true,
   
-  //[Lexer]
+  //[Lexers]
   //Group lexers menu by 1st char of name  
   "ui_lexers_grouped": true,
 
@@ -105,7 +105,7 @@
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
 
-  //[Lexer]
+  //[Lexers]
   //Enable caret-depending highlighting
   //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
   //  HTML/XML hilites opening/closing tags when caret is inside tag
@@ -128,7 +128,7 @@
   //  4: horiz colored line below line text
   "fold_style": 1,  
 
-  //[Commands]
+  //[Text/Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret
   "copy_line_if_no_sel": true,
   //If no selection, "Cut to clipboard" will take entire line with caret
@@ -141,7 +141,7 @@
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
 
-  //[FileSave]
+  //[File/Save]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
   //On saving file: force end-of-line chars at file end (if not entered)
@@ -172,7 +172,7 @@
   //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)   
   "tab_max_pos_expanded": 500,
     
-  //[Gutter]
+  //[View/Gutter]
   //Gutter: Enable gutter (all columns at the left side)
   "gutter_show": true,
   //Gutter: Show gutter's folding column
@@ -186,10 +186,10 @@
   //Gutter: Show gutter's bookmarks column
   "gutter_bookmarks": true,
 
-  //[LineNumbers]
-  //Line numbers: Show gutter's numbers column
+  //[View/LineNumbers]
+  //Show gutter's numbers column
   "numbers_show": true,
-  //Line numbers: If not 0, special font size used for numbers
+  //If not 0, special font size used for numbers
   "numbers_font_size": 0,
   //Line numbers: Numbers style
   //  0: all lines
@@ -197,9 +197,9 @@
   //  2: each 10th line
   //  3: each 5th line
   "numbers_style": 0,
-  //Line numbers: Show numbers for lines with carets
+  //Show numbers for lines with carets
   "numbers_for_carets": false,
-  //Line numbers: Center numbers on column
+  //Center numbers on column
   "numbers_center": true,
     
   //[Text]
@@ -211,7 +211,7 @@
   //  4: dotted lines
   "staples_style": 1,
 
-  //[Ruler]
+  //[View/Ruler]
   //Ruler: show ruler (horizontal, on the top)
   "ruler_show": false,
   //Ruler: if not 0, special font size used for ruler
@@ -221,7 +221,7 @@
   //Ruler: numbers indent from top, pixels
   "ruler_text_indent": 0,
 
-  //[Minimap]
+  //[View/Minimap]
   //Minimap: Show
   "minimap_show": false,
   //Minimap: Show selection area always. If false: show only on mouse-over.
@@ -235,7 +235,7 @@
   //Minimap: Place minimap to the left side
   "minimap_at_left": false,
 
-  //[Micromap]
+  //[View/Micromap]
   //Micromap: show (small vertical bar at the right edge)
   "micromap_show": false,
   //Micromap: width, pixels
@@ -249,7 +249,7 @@
   //List of columns like "10 20 25" space-separated.
   "margin_string": "",
 
-  //[Unprinted]
+  //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
   "unprinted_show": false,
   //Unprinted: Show unprinted spaces/tabs
@@ -278,7 +278,7 @@
   //Unprinted: Scale of tab-arrow pointer (15..50)
   "unprinted_tab_ptr_scale": 22,
 
-  //[Wrap]
+  //[Text/Wrap]
   //Wrap mode:
   //  0: off (faster)
   //  1: wrap at editor edge (changed on window resize)
@@ -288,7 +288,7 @@
   //(if line begins with spaces/tabs)
   "wrap_indented": true,
 
-  //[Undo]
+  //[Text/Undo]
   //Undo: Max count of commands which can be undone
   "undo_limit": 5000,
   //Undo: Undo commands by groups (groups are separated eg by mouse clicks)
@@ -296,7 +296,7 @@
   //Undo: Enabled even after file saving
   "undo_after_save": true,
 
-  //[Caret]
+  //[Text/Caret]
   //Caret: Allow to place caret after end-of-line (virtual caret pos)
   "caret_after_end": false,
   //Caret: Caret blink time (msec)
@@ -376,7 +376,7 @@
   "find_indent_vert": -5,
   "find_indent_horz": 10,
 
-  //[UiTabs]
+  //[Ui/Tabs]
   //UI tabs: Width
   "ui_tab_size_x": 170,
   //UI tabs: Height
@@ -402,7 +402,7 @@
   //UI tabs: Show numbers on tabs
   "ui_tab_numbers": false,
 
-  //[UiListbox]
+  //[Ui/Listbox]
   //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,
   //Listboxes: Commands/API listbox height
@@ -414,7 +414,7 @@
   //Listboxes: Enable fuzzy search in menu dialogs (see Wiki)
   "ui_listbox_fuzzy": true,
 
-  //[History]
+  //[Ui/History]
   //History: Max items in comboboxes history (0..200)
   "ui_max_history_edits": 20,
   //History: Max items in "recent files" menu (0..50)
@@ -431,7 +431,7 @@
   //Initial folder of Open/Save-as dialogs, for untitled tabs
   "ui_initial_dir": "",
 
-  //[UiTree]
+  //[Ui/Tree]
   //Tree: Focus another tree-node, after caret position changes
   "ui_tree_auto_sync": true,
   //Tree: Time (msec) after which tree filled
@@ -446,7 +446,7 @@
   //Folders from: codetreeicons
   "ui_tree_theme": "default_16x16",  
 
-  //[NewDoc]
+  //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",
   //New tabs: Encoding name
@@ -467,7 +467,7 @@
   "def_encoding_utf8__linux": true,
   "def_encoding_utf8__mac": true,
 
-  //[Indent]
+  //[Text/Indent]
   //Auto-indent by Enter (makes new line indented)
   "indent_auto": true,
   //Auto-indent kind
@@ -545,7 +545,7 @@
   //... and keep previous selection
   "key_left_right_swap_sel_and_select": false,
 
-  //[UiStatusbar]
+  //[Ui/Statusbar]
   //States: no-selection, small-selection (1 line), stream-selection (>1 lines),
   //  column-selection, mul-carets.
   //Macros:
@@ -584,22 +584,22 @@
   //Show full file path in window title
   "ui_title_path": false,
   
-  //[File]
+  //[Ui/History]
   //Restore session (all named+unnamed tabs) at start
   "ui_reopen_session": true,
 
-  //[Lexer]
+  //[Lexers]
   //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
   "ui_lexer_themes": true,
 
-  //[Web]
+  //[View/Web]
   //Underline HTML color codes (like #008080, #0a0) in these file extensions, 
   //comma-separated, w/o dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
   //Width of line, pixels
   "underline_color_size": 3,
 
-  //[FileExport]
+  //[File/Export]
   //Options for "File--Export to HTML"
   "export_html_numbers": false,
   "export_html_font_name": "Courier New",
@@ -629,7 +629,7 @@
   //API: delay for event on_change_slow in msec (used in CudaLint)
   "py_change_slow": 2000,
 
-  //[Commands]
+  //[Text/Commands]
   //Commenting: If no selection then comment full line
   "comment_full_line_if_no_sel": true,
   //Commenting: If no selection then move caret to next line
@@ -644,7 +644,7 @@
   //Duplicating line: If no selection then move caret to next line
   "duplicate_move_down": true,
 
-  //[Completion]
+  //[Text/Completion]
   //Enable special auto-completion for HTML lexer (see wiki)
   "autocomplete_html": true,
   //Enable special auto-completion for CSS lexer (see wiki)
@@ -666,7 +666,7 @@
   //Extensions of picture files (they show as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
 
-  //[Web]
+  //[View/Web]
   //Highlight URLs (font color+ underline)
   "links_hilite": true,
   //Reg-ex which finds URLs
@@ -693,14 +693,14 @@
   //Highlight border of focused input box (find/ replace/ goto/ console input)
   "ui_active_border": true,
 
-  //[UiSidebar]
+  //[Ui/Sidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)
   "ui_sidebar_show": true,
   //Sidebar icons theme
   //Folders from: sideicons
   "ui_sidebar_theme": "octicons_20x20",
   
-  //[FindHotkeys]
+  //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
   "find_hotkey_find_dlg": "Ctrl+F", 
   "find_hotkey_replace_dlg": "Ctrl+R", 
