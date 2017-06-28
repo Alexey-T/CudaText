@@ -72,6 +72,9 @@ cCommand_GotoTextEnd_Sel = _base_GotoTextEnd | _CmdFlag_SelKeep
 cCommand_GotoWordNext_Sel = _base_GotoWordNext | _CmdFlag_SelKeep
 cCommand_GotoWordPrev_Sel = _base_GotoWordPrev | _CmdFlag_SelKeep
 
+cCommand_GotoScreenTop = 205
+cCommand_GotoScreenBottom = 206
+
 cCommand_Undo = 235 | _CmdFlag_SelReset
 cCommand_Redo = 236 | _CmdFlag_SelReset
 

@@ -9,9 +9,10 @@
 + Project Manager: option "Icons theme"
 + Addon Manager: integrated function of "Install from Github" plugin
 + Insert Time plugin rewritten, it has several date formats and config file
-+ find/replace: auto turn on multi-line, on Ctrl+Enter press
 + commands dialog: focus last chosen item
 + commands "scroll line up/down" keep caret on screen after scroll
++ commands "go to screen top/bottom"
++ find/replace: auto turn on multi-line, on Ctrl+Enter press
 
 1.11.0
 
