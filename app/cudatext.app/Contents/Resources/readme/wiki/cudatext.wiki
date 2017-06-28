@@ -462,15 +462,15 @@ Dialog has hotkeys:
 * Alt+Enter: Find first
 * Enter: Find next/ Replace next (depends of focused input)
 * Shift+Enter: Find previous
+* Ctrl+Enter: Add new line in multi-line input
 * Alt+Z: Replace, and find next
 * Ctrl+Alt+Z: Replace, and don't find next
 * Alt+A: Replace all
-* Ctrl+Enter: Add newline in multi-line input
 * Alt+O: Count all
 * Alt+E: Select all
 * Alt+K: Mark all
 
-Option-buttons have hotkeys too, hover mouse over them to see hints:
+Option buttons have hotkeys too, hover mouse over them to see hints:
 
 * ".*" - Regular expressions - Alt+R
 * "aA" - Case sensitive search - Alt+C
@@ -711,6 +711,16 @@ To see what is your active IM, open Terminal and enter:
 
 Known IMs with problems: scim, xim.
 To fix: change IM from e.g."XIM" to "none" in the Language Support settings, then chars should not duplicate.
+
+==What SynWrite features not implemented==
+
+* Sync-Editing, ie auto editing of name (identifier) in all places of selected block (sync range), w/o clicking each place of name
+* Tooltips (hints) with pictures preview in HTML
+* Tooltips with HTML color preview
+* Drag-drop of panels from sidebar and bottom bar
+* Panel "Clips" from right side (CudaText has snippets w/o panel)
+* Panel "Clipboard" from right side
+* Quick-search input box on toolbar
 
 ==More==
 
