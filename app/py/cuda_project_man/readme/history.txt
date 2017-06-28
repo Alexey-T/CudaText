@@ -1,4 +1,8 @@
 
+2017.06.28
++ added option "Icons theme" in dialog
++ used file-type-icons from CudaText
+
 2017.06.15
 + added toolbar with 6 buttons
 + options dialog: opt "Show toolbar"
