@@ -890,8 +890,13 @@ begin
   if C is TCheckGroup then (C as TCheckGroup).Items.Clear;
   if C is TRadioGroup then (C as TRadioGroup).Items.Clear;
   if C is TCheckListBox then (C as TCheckListBox).Items.Clear;
-  if C is TListView then (C as TListView).Items.Clear;
   if C is TTabControl then (C as TTabControl).Tabs.Clear;
+
+  if C is TListView then
+  begin
+    (C as TListView).Columns.Clear;
+    (C as TListView).Items.Clear;
+  end;
 
   if C is TPageControl then
   begin
