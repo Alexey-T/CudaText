@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.12.1
+1.12.2
 
 + option "ui_console_wrap"
 + console context menu item "toggle word wrap"
+- fixed old bug of incorrect selection rendering
 
 1.12.0
 
