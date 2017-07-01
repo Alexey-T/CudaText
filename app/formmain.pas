@@ -1725,12 +1725,7 @@ begin
   fmConsole.memo.OptCaretShapeRO:= TATSynCaretShape(EditorOps.OpCaretShapeRO);
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
-
-  if UiOps.ConsoleWordWrap then
-    fmConsole.memo.OptWrapMode:= cWrapOn
-  else
-    fmConsole.memo.OptWrapMode:= cWrapOff;
-  fmConsole.memo.OptAllowScrollbarHorz:= not UiOps.ConsoleWordWrap;
+  fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do

@@ -38,21 +38,26 @@ type
     FOnConsole: TAppConsoleEvent;
     FOnNavigate: TAppConsoleEvent;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
+    function GetWrap: boolean;
     procedure MemoCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     procedure DoClearMemo(Sender: TObject);
     procedure DoNavigate(Sender: TObject);
+    procedure DoToggleWrap(Sender: TObject);
     procedure SetIsDoubleBuffered(AValue: boolean);
+    procedure SetWrap(AValue: boolean);
   public
     { public declarations }
     ed: TATComboEdit;
     memo: TATSynEdit;
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
+    mnuTextWrap: TMenuItem;
     property OnConsole: TAppConsoleEvent read FOnConsole write FOnConsole;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
+    property Wordwrap: boolean read GetWrap write SetWrap;
   end;
 
 var
@@ -169,6 +174,11 @@ begin
   mnuTextClear.OnClick:= @DoClearMemo;
   memo.PopupTextDefault.Items.Add(mnuTextClear);
 
+  mnuTextWrap:= TMenuItem.Create(Self);
+  mnuTextWrap.Caption:= 'Toggle word wrap';
+  mnuTextWrap.OnClick:= @DoToggleWrap;
+  memo.PopupTextDefault.Items.Add(mnuTextWrap);
+
   mnuTextNav:= TMenuItem.Create(Self);
   mnuTextNav.Caption:= 'Navigate';
   mnuTextNav.OnClick:= @DoNavigate;
@@ -196,6 +206,11 @@ begin
   //  FOnEditCommand(ACmd, AText, AHandled);
 end;
 
+function TfmConsole.GetWrap: boolean;
+begin
+  Result:= memo.OptWrapMode=cWrapOn;
+end;
+
 procedure TfmConsole.DoClearMemo(Sender: TObject);
 begin
   memo.ModeReadOnly:= false;
@@ -218,10 +233,27 @@ begin
   end;
 end;
 
+procedure TfmConsole.DoToggleWrap(Sender: TObject);
+begin
+  WordWrap:= not WordWrap;
+end;
+
 procedure TfmConsole.SetIsDoubleBuffered(AValue: boolean);
 begin
   ed.DoubleBuffered:= AValue;
   memo.DoubleBuffered:= AValue;
+end;
+
+procedure TfmConsole.SetWrap(AValue: boolean);
+begin
+  if AValue then
+    fmConsole.memo.OptWrapMode:= cWrapOn
+  else
+    fmConsole.memo.OptWrapMode:= cWrapOff;
+  fmConsole.memo.OptAllowScrollbarHorz:= AValue;
+  fmConsole.memo.Update;
+
+  mnuTextWrap.Checked:= AValue;
 end;
 
 procedure TfmConsole.MemoCommand(Sender: TObject; ACmd: integer;
