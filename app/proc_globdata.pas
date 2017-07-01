@@ -131,6 +131,7 @@ type
 
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
+    ConsoleWordWrap: boolean;
     InitialDir: string;
 
     ExportHtmlNumbers: boolean;
@@ -1036,6 +1037,7 @@ begin
 
     EscapeClose:= false;
     EscapeCloseConsole:= true;
+    ConsoleWordWrap:= true;
     InitialDir:= '';
 
     ExportHtmlNumbers:= false;

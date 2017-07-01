@@ -689,6 +689,7 @@ begin
 
     UiOps.EscapeClose:= c.GetValue('ui_esc_close', UiOps.EscapeClose);
     UiOps.EscapeCloseConsole:= c.GetValue('ui_esc_close_console', UiOps.EscapeCloseConsole);
+    UiOps.ConsoleWordWrap:= c.GetValue('ui_console_wrap', UiOps.ConsoleWordWrap);
     UiOps.InitialDir:= c.GetValue('ui_initial_dir', UiOps.InitialDir);
 
     UiOps.ExportHtmlNumbers:= c.GetValue('export_html_numbers', UiOps.ExportHtmlNumbers);

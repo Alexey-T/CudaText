@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.12.1
+
++ option "ui_console_wrap"
+
 1.12.0
 
 + supported addons "filetypeicons" for Project Manager, e.g. "VSCode Material 24x24"

@@ -143,7 +143,6 @@ begin
 
   //Linux h-scroll paints bad (some gtk2 bug) so i disabled it
   memo.OptWrapMode:= cWrapOn;
-  memo.OptAllowScrollbarHorz:= false;
   memo.OptScrollbarsNew:= true;
 
   memo.OptTabSize:= 4;

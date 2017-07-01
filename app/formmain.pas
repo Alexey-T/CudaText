@@ -1726,6 +1726,12 @@ begin
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
 
+  if UiOps.ConsoleWordWrap then
+    fmConsole.memo.OptWrapMode:= cWrapOn
+  else
+    fmConsole.memo.OptWrapMode:= cWrapOff;
+  fmConsole.memo.OptAllowScrollbarHorz:= not UiOps.ConsoleWordWrap;
+
   for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
     with FAppSidePanels[i] do
     begin

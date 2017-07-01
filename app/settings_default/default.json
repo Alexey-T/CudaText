@@ -693,6 +693,9 @@
   //Highlight border of focused input box (find/ replace/ goto/ console input)
   "ui_active_border": true,
 
+  //Console panel (Ctrl+`): word wrap mode
+  "ui_console_wrap": true,
+
   //[Ui/Sidebar]
   //Show sidebar (vertical panel with buttons, but not side panels like Tree)
   "ui_sidebar_show": true,
