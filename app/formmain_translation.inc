@@ -362,6 +362,7 @@ begin
 
     DoLocMenuitem(ini, fmConsole.mnuTextClear, 'ct', 'clr');
     DoLocMenuitem(ini, fmConsole.mnuTextNav, 'ct', 'nav');
+    DoLocMenuitem(ini, fmConsole.mnuTextWrap, 'ct', 'wr');
 
     with fmConsole.ed do
     begin

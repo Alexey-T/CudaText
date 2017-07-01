@@ -6,6 +6,7 @@
 1.12.1
 
 + option "ui_console_wrap"
++ console context menu item "toggle word wrap"
 
 1.12.0
 
