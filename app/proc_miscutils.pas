@@ -35,7 +35,8 @@ procedure DoScalePanelControls(APanel: TWinControl);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
-procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer; const Links: string);
+procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager;
+  An: TecSyntAnalyzer; const Links: string; Sep: char);
 
 type
   TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
@@ -83,7 +84,8 @@ begin
     List.Add(An.Formats[i].DisplayName);
 end;
 
-procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager; An: TecSyntAnalyzer; const Links: string);
+procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager;
+  An: TecSyntAnalyzer; const Links: string; Sep: char);
 var
   S, SItem: string;
   Cnt: Integer;
@@ -91,7 +93,7 @@ begin
   S:= Links;
   Cnt:= 0;
   repeat
-    SItem:= SGetItem(S, '|');
+    SItem:= SGetItem(S, Sep);
     if Cnt>=An.SubAnalyzers.Count then Break;
     An.SubAnalyzers[Cnt].SyntAnalyzer:= SyntaxManager.FindAnalyzer(SItem);
     Inc(Cnt);

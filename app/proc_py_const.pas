@@ -248,15 +248,9 @@ const
   LEXER_GET_COMMENT         = 6;
   LEXER_GET_COMMENT_STREAM  = 7;
   LEXER_GET_COMMENT_LINED   = 8;
-  LEXER_SET_NAME            = 10;
-  LEXER_SET_ENABLED         = 11;
-  LEXER_SET_EXT             = 12;
-  LEXER_SET_LINKS           = 13;
   LEXER_GET_PROP            = 14;
   LEXER_SET_PROP            = 15;
   LEXER_DETECT              = 20;
-  LEXER_DELETE              = 21;
-  LEXER_IMPORT              = 22;
   LEXER_GET_STYLES_COMMENTS = 30;
   LEXER_GET_STYLES_STRINGS  = 31;
 

@@ -2645,24 +2645,24 @@ end;
 function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
-  PtrLexer, PtrValue, PtrValue2: PChar;
-  StrLexer, StrValue, StrValue2, Str0, Str1, Str2: string;
+  PtrValue: PChar;
+  StrValue, Str0, Str1, Str2: string;
   An: TecSyntAnalyzer;
-  List: TStringlist;
+  List: TStringList;
   ObjTypes,
   ObjSublex,
-  ObjCommentStr, ObjCommentLined,
-  ObjStyles, ObjStylesCmt, ObjStylesStr: PPyObject;
+  ObjCommentStr,
+  ObjCommentLined,
+  ObjStyles,
+  ObjStylesCmt,
+  ObjStylesStr: PPyObject;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'isss:lexer_proc',
-            @Id, @PtrLexer, @PtrValue, @PtrValue2)) then
+    if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @PtrValue)) then
     begin
-      StrLexer:= string(PtrLexer);
       StrValue:= string(PtrValue);
-      StrValue2:= string(PtrValue2);
 
-      Str0:= StrLexer;
+      Str0:= StrValue;
       Str1:= SGetItem(Str0, ';');
       Str2:= SGetItem(Str0, ';');
 
@@ -2757,41 +2757,9 @@ begin
               Result:= ReturnNone;
           end;
 
-        LEXER_SET_ENABLED:
-          begin
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              An.Internal:= not AppStrToBool(Str2);
-            Result:= ReturnNone;
-
-            AppManager.Modified:= true;
-            fmMain.UpdateMenuLexers;
-          end;
-
-        LEXER_SET_NAME:
-          begin
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              An.LexerName:= Str2;
-            Result:= ReturnNone;
-
-            AppManager.Modified:= true;
-            fmMain.UpdateMenuLexers;
-          end;
-
-        LEXER_SET_EXT:
-          begin
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              An.Extentions:= Str2;
-            Result:= ReturnNone;
-
-            AppManager.Modified:= true;
-          end;
-
         LEXER_GET_PROP:
           begin
-            An:= AppManager.FindAnalyzer(StrLexer);
+            An:= AppManager.FindAnalyzer(StrValue);
             if not Assigned(An) then exit(ReturnNone);
 
             Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
@@ -2853,37 +2821,47 @@ begin
               );
           end;
 
+        (*
+        //not needed yet
+        LEXER_SET_PROP:
+          begin
+            An:= AppManager.FindAnalyzer(StrValue);
+            if not Assigned(An) then exit(ReturnNone);
+
+            case StrValue of
+              'en':
+                begin
+                  An.Internal:= not AppStrToBool(StrValue2);
+                  AppManager.Modified:= true;
+                  fmMain.UpdateMenuLexers;
+                end;
+              'name':
+                begin
+                  An.LexerName:= StrValue2;
+                  AppManager.Modified:= true;
+                  fmMain.UpdateMenuLexers;
+                end;
+              'typ':
+                begin
+                  //needed space-separated str
+                  An.Extentions:= StringReplace(StrValue2, ',', ' ', [rfReplaceAll]);
+                  AppManager.Modified:= true;
+                end;
+              'sub':
+                begin
+                  LexerSetSublexers(AppManager, An, StrValue2, ',');
+                  AppManager.Modified:= true;
+                end;
+            end;
+            Result:= ReturnNone;
+          end;
+        *)
+
         LEXER_DETECT:
           begin
             An:= DoLexerFindByFilename(Str1);
             if Assigned(An) then
               Result:= PyString_FromString(PChar(string(An.LexerName)))
-            else
-              Result:= ReturnNone;
-          end;
-
-        LEXER_DELETE:
-          begin
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              An.Free;
-            Result:= ReturnNone;
-
-            AppManager.Modified:= true;
-            fmMain.UpdateMenuLexers;
-          end;
-
-        LEXER_IMPORT:
-          begin
-            if FileExists(Str1) then
-            begin
-              An:= AppManager.AddAnalyzer;
-              An.LoadFromFile(Str1);
-              Result:= PyString_FromString(PChar(string(An.LexerName)));
-
-              AppManager.Modified:= true;
-              fmMain.UpdateMenuLexers;
-            end
             else
               Result:= ReturnNone;
           end;
@@ -2934,15 +2912,6 @@ begin
             end
             else
               Result:= ReturnNone;
-          end;
-
-        LEXER_SET_LINKS:
-          begin
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              LexerSetSublexers(AppManager, An, Str2);
-            Result:= ReturnNone;
-            AppManager.Modified:= true;
           end;
 
         else
