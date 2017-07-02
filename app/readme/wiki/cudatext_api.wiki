@@ -975,24 +975,28 @@ On read: gets string value. On write: gets None.
 
 ===lexer_proc===
 
- lexer_proc(id, value)
+ lexer_proc(id, id_lexer, value="", value2="")
 
-Do some lexer-related action, get/set property. 
+Perform some lexer-related action. 
 
-Parameter value gives ";"-separated substrings. Lexer name, if it's needed, is 1st substring. If lexer name needed and incorrect name passed, function gets None.
+Parameter "id_lexer" is lexer name, case-sensitive.
+If incorrect lexer name passed, function gets None.
+For deprecated actions, "id_lexer" must be ";"-separated substrings: lexer name is 1st substring. 
 
 Possible values of id:
 
-* LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
-* LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
-* LEXER_GET_COMMENT: Gets string "comment until end of line" for given lexer.
-* LEXER_GET_COMMENT_STREAM: Gets "comment for range" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
-* LEXER_GET_COMMENT_LINED: Gets "comment for range of full lines" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
-* LEXER_GET_LIST: Gets string: "\n"-separated list of lexer names in library.   
-* LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
-* LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
-* LEXER_GET_STYLES_COMMENTS: Gets string: ","-separated list of styles of "syntax comments", for given lexer.
-* LEXER_GET_STYLES_STRINGS: Gets string: ","-separated list of styles of "syntax strings", for given lexer.
+* LEXER_GET_LIST: Gets "\n"-separated list of lexer names in the lexer library (id_lexer ignored).   
+* LEXER_GET_PROP: For given lexer name, gets its properties as dict. Keys of dict:
+** "en": bool: lexer is visible in the lexers menu.
+** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
+** "st": list of str: list of all styles.
+** "st_c": list of str: list of styles of syntax comments (e.g. used by Spell Checker).
+** "st_s": list of str: list of styles of syntax strings (e.g. used by Spell Checker).
+** "sub": list of str: list of sub-lexers (some items can be empty if lexer setup broken).
+** "c_line": str or None: line comment (until end-of-line).
+** "c_str": 2-tuple or None: stream comment (for any range).
+** "c_lined": 2-tuple or None: comment for full lines.
+
 * LEXER_SET_NAME: Sets for lexer with given name (substring 1) new name (substring 2).
 * LEXER_SET_ENABLED: Sets for lexer with given name enabled-flag (substring 2: "0" or "1").
 * LEXER_SET_EXT: Sets for lexer with given name file-extensions field (substring 2).
@@ -1000,6 +1004,16 @@ Possible values of id:
 * LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/dd/makefile.gcc" gives "Makefile").
 * LEXER_DELETE: Deletes given lexer from library.
 * LEXER_IMPORT: Imports lexer into library, from given filename (substring 1). Gets name of this lexer, or None if import failed.
+
+* deprecated: LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
+* deprecated: LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
+* deprecated: LEXER_GET_COMMENT: Gets string "comment until end of line" for given lexer.
+* deprecated: LEXER_GET_COMMENT_STREAM: Gets "comment for range" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
+* deprecated: LEXER_GET_COMMENT_LINED: Gets "comment for range of full lines" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
+* deprecated: LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
+* deprecated: LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
+* deprecated: LEXER_GET_STYLES_COMMENTS: Gets string: ","-separated list of styles of "syntax comments", for given lexer.
+* deprecated: LEXER_GET_STYLES_STRINGS: Gets string: ","-separated list of styles of "syntax strings", for given lexer.
 
 ===tree_proc===
 
@@ -1860,6 +1874,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.187
+* add: lexer_proc: LEXER_GET_PROP
+* deprecated: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
 
 1.0.186
 * add: tree_proc: TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
