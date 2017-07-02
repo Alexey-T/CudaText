@@ -47,11 +47,11 @@ cp -r ../app/py/cuda_comments/*.py $dd/usr/share/cudatext/py/cuda_comments
 cp -r ../app/py/cuda_comments/*.inf $dd/usr/share/cudatext/py/cuda_comments
 cp -r ../app/py/cuda_make_plugin/*.py $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_make_plugin/*.inf $dd/usr/share/cudatext/py/cuda_make_plugin
-cp -r ../app/py/cuda_insert_time/*.py $dd/usr/share/cudatext/py/cuda_insert_time
-cp -r ../app/py/cuda_insert_time/*.inf $dd/usr/share/cudatext/py/cuda_insert_time
 cp -r ../app/py/cuda_new_file/*.py $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_new_file/*.inf $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_palette/* $dd/usr/share/cudatext/py/cuda_palette
+rm -rf ../app/py/cuda_insert_time/__pycache__
+cp -r ../app/py/cuda_insert_time $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_project_man/__pycache__
 cp -r ../app/py/cuda_project_man $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_tabs_list/__pycache__
