@@ -2650,8 +2650,9 @@ var
   An: TecSyntAnalyzer;
   List: TStringlist;
   ObjTypes,
+  ObjSublex,
   ObjCommentStr, ObjCommentLined,
-  ObjStylesCmt, ObjStylesStr: PPyObject;
+  ObjStyles, ObjStylesCmt, ObjStylesStr: PPyObject;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'isss:lexer_proc',
@@ -2812,22 +2813,25 @@ begin
               List.LineBreak:= ' ';
               List.Text:= An.Extentions;
               ObjTypes:= StringsToPyList(List);
-            finally
-              FreeAndNil(List);
-            end;
 
-            List:= TStringList.Create;
-            try
               List.LineBreak:= ',';
               List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_cmt');
               ObjStylesCmt:= StringsToPyList(List);
+
               List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_str');
               ObjStylesStr:= StringsToPyList(List);
+
+              List.LineBreak:= #10;
+              LexerEnumSublexers(An, List);
+              ObjSublex:= StringsToPyList(List);
+
+              LexerEnumStyles(An, List);
+              ObjStyles:= StringsToPyList(List);
             finally
               FreeAndNil(List);
             end;
 
-            Result:= Py_BuildValue('{sOsOsssOsOsOsO}',
+            Result:= Py_BuildValue('{sOsOsssOsOsOsOsO}',
               'typ',
               ObjTypes,
               'en',
@@ -2838,10 +2842,14 @@ begin
               ObjCommentStr,
               'c_lined',
               ObjCommentLined,
+              'st',
+              ObjStyles,
               'st_c',
               ObjStylesCmt,
               'st_s',
-              ObjStylesStr
+              ObjStylesStr,
+              'sub',
+              ObjSublex
               );
           end;
 
@@ -2892,6 +2900,7 @@ begin
             end;
           end;
 
+        //deprecated
         LEXER_GET_LINKS:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2909,6 +2918,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //deprecated
         LEXER_GET_STYLES:
           begin
             An:= AppManager.FindAnalyzer(Str1);
