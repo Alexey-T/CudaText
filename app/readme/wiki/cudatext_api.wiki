@@ -1605,7 +1605,14 @@ Performs action on folding ranges. Values of id:
 ** folded: bool: range is currently folded.
 * FOLDING_FOLD: Folds range with given index (index in list from FOLDING_GET_LIST).
 * FOLDING_UNFOLD: Unfolds range with given index.
-* FOLDING_ADD: Adds folding range. Params needed: item_x, item_y, item_y2. Params optional: item_staple, item_hint (hint shows when range is folded). Meaning is like in FOLDING_GET_LIST. If index is 0..last, then range inserts at this index, else appends.
+* FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change.
+** item_x: x-offset of range start.
+** item_y: line of range start.
+** item_y2: line of range end.
+** (optional) item_staple: range has block staple.
+** (optional) item_hint: hint string which shows when range is folded.
+** index: if it's valid range index (0-based), range inserts at this index, else range appends.
+
 * FOLDING_DELETE: Deletes folding range with given index.
 * FOLDING_DELETE_ALL: Deletes all folding ranges.
 * FOLDING_FIND: Gets index of range, which starts at line index =item_y, or None.
