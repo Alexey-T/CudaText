@@ -252,6 +252,8 @@ const
   LEXER_SET_ENABLED         = 11;
   LEXER_SET_EXT             = 12;
   LEXER_SET_LINKS           = 13;
+  LEXER_GET_PROP            = 14;
+  LEXER_SET_PROP            = 15;
   LEXER_DETECT              = 20;
   LEXER_DELETE              = 21;
   LEXER_IMPORT              = 22;

@@ -282,6 +282,8 @@ LEXER_SET_NAME            = 10
 LEXER_SET_ENABLED         = 11
 LEXER_SET_EXT             = 12
 LEXER_SET_LINKS           = 13
+LEXER_GET_PROP            = 14
+LEXER_SET_PROP            = 15
 LEXER_DETECT              = 20
 LEXER_DELETE              = 21
 LEXER_IMPORT              = 22
@@ -578,11 +580,12 @@ def ed_group(n):
 
 def ini_read(filename, section, key, value):
     return ct.ini_read(filename, section, key, value)
+
 def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
 
-def lexer_proc(id, value):
-    return ct.lexer_proc(id, value)
+def lexer_proc(id, id_lexer='', value='', value2=''):
+    return ct.lexer_proc(id, id_lexer, value, to_str(value2))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)

@@ -2645,19 +2645,28 @@ end;
 function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
-  Ptr: PChar;
-  Str, Str1, Str2: string;
+  PtrLexer, PtrValue, PtrValue2: PChar;
+  StrLexer, StrValue, StrValue2, Str0, Str1, Str2: string;
   An: TecSyntAnalyzer;
   List: TStringlist;
+  ObjTypes,
+  ObjCommentStr, ObjCommentLined,
+  ObjStylesCmt, ObjStylesStr: PPyObject;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @Ptr)) then
+    if Bool(PyArg_ParseTuple(Args, 'isss:lexer_proc',
+            @Id, @PtrLexer, @PtrValue, @PtrValue2)) then
     begin
-      Str:= string(Ptr);
-      Str1:= SGetItem(Str, ';');
-      Str2:= SGetItem(Str, ';');
+      StrLexer:= string(PtrLexer);
+      StrValue:= string(PtrValue);
+      StrValue2:= string(PtrValue2);
+
+      Str0:= StrLexer;
+      Str1:= SGetItem(Str0, ';');
+      Str2:= SGetItem(Str0, ';');
 
       case Id of
+        //deprecated
         LEXER_GET_ENABLED:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2667,6 +2676,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //deprecated
         LEXER_GET_EXT:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2676,6 +2686,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //deprecated
         LEXER_GET_COMMENT:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2685,6 +2696,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //deprecated
         LEXER_GET_COMMENT_STREAM:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2701,6 +2713,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //deprecated
         LEXER_GET_COMMENT_LINED:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2717,6 +2730,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //deprecated
         LEXER_GET_STYLES_COMMENTS:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2729,6 +2743,7 @@ begin
               Result:= ReturnNone;
           end;
 
+        //deprecated
         LEXER_GET_STYLES_STRINGS:
           begin
             An:= AppManager.FindAnalyzer(Str1);
@@ -2771,6 +2786,63 @@ begin
             Result:= ReturnNone;
 
             AppManager.Modified:= true;
+          end;
+
+        LEXER_GET_PROP:
+          begin
+            An:= AppManager.FindAnalyzer(StrLexer);
+            if not Assigned(An) then exit(ReturnNone);
+
+            Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
+            Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'str2');
+            if (Str1<>'') and (Str2<>'') then
+              ObjCommentStr:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
+            else
+              ObjCommentStr:= ReturnNone;
+
+            Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'full1');
+            Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'full2');
+            if (Str1<>'') and (Str2<>'') then
+              ObjCommentLined:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
+            else
+              ObjCommentLined:= ReturnNone;
+
+            List:= TStringList.Create;
+            try
+              List.LineBreak:= ' ';
+              List.Text:= An.Extentions;
+              ObjTypes:= StringsToPyList(List);
+            finally
+              FreeAndNil(List);
+            end;
+
+            List:= TStringList.Create;
+            try
+              List.LineBreak:= ',';
+              List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_cmt');
+              ObjStylesCmt:= StringsToPyList(List);
+              List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_str');
+              ObjStylesStr:= StringsToPyList(List);
+            finally
+              FreeAndNil(List);
+            end;
+
+            Result:= Py_BuildValue('{sOsOsssOsOsOsO}',
+              'typ',
+              ObjTypes,
+              'en',
+              PyBool_FromLong(Ord(not An.Internal)),
+              'c_line',
+              PChar(string(An.LineComment)),
+              'c_str',
+              ObjCommentStr,
+              'c_lined',
+              ObjCommentLined,
+              'st_c',
+              ObjStylesCmt,
+              'st_s',
+              ObjStylesStr
+              );
           end;
 
         LEXER_DETECT:
