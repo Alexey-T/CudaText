@@ -851,7 +851,7 @@ type
     procedure InitStatusButton;
   public
     { public declarations }
-    Tree: TTreeView;
+    Tree: TTreeViewMy;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
     function FrameCount: integer;
@@ -1095,7 +1095,7 @@ begin
   InitToolbar;
   InitSidebar;
 
-  Tree:= TTreeView.Create(Self);
+  Tree:= TTreeViewMy.Create(Self);
   Tree.Parent:= PanelLeft;
   Tree.Align:= alClient;
   Tree.Images:= ImageListTree;

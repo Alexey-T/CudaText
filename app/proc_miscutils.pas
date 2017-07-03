@@ -43,7 +43,7 @@ type
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 
-procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed, AChangeShowRoot: boolean);
+procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
 procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
 procedure DoApplyThemeToToolbar(C: TATButtonsToolbar);
 
@@ -348,7 +348,7 @@ begin
 end;
 
 
-procedure DoApplyThemeToTreeview(C: ComCtrls.TTreeview; AThemed, AChangeShowRoot: boolean);
+procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
 var
   Op: TTreeViewOptions;
 begin

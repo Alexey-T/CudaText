@@ -15,7 +15,7 @@ begin
 
     if C is TTreeViewMy then
       if (C as TTreeViewMy).Themed then
-        DoApplyThemeToTreeview(C as ComCtrls.TTreeview, true, false);
+        DoApplyThemeToTreeview(C as TTreeview, true, false);
 
     if C is TATButtonsToolbar then
       if (C as TATButtonsToolbar).Themed then

@@ -3232,7 +3232,7 @@ var
   Pnt1, Pnt2: TPoint;
   PtrText: PChar;
   StrText: string;
-  Tree: TTreeView;
+  Tree: TTreeViewMy;
   TreeNode, Node1: TTreeNode;
   ItemList: TList;
   ok: boolean;
@@ -3242,7 +3242,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
     begin
       StrText:= string(PtrText);
-      Tree:= TTreeView(PtrInt(IdTree));
+      Tree:= TTreeViewMy(PtrInt(IdTree));
       TreeNode:= TTreeNode(PtrInt(IdItem));
 
       case IdAction of

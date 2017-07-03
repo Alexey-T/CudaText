@@ -571,13 +571,10 @@ var
   FPluginsEvents: TAppPluginEventArray;
 
 type
-  TTreeView = type TTreeViewMy;
-
-type
   TAppSidePanel = record
     ItemCaption: string;
     ItemControl: TCustomControl;
-    ItemTreeview: TTreeView;
+    ItemTreeview: TTreeViewMy;
     ItemListbox: TATListbox;
     ItemImagelist: TImageList;
     ItemMenu: TPopupMenu;
