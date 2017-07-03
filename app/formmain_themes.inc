@@ -32,13 +32,24 @@ begin
   UpdateMenuThemes(true);
   UpdateMenuThemes(false);
 
-  ATScrollbarTheme.ColorBG:= GetAppColor('ScrollBack');
-  ATScrollbarTheme.ColorThumbBorder:= GetAppColor('ScrollRect');
-  ATScrollbarTheme.ColorThumbFill:= GetAppColor('ScrollFill');
-  ATScrollbarTheme.ColorArrowBorder:= ATScrollbarTheme.ColorBG;
-  ATScrollbarTheme.ColorArrowFill:= ATScrollbarTheme.ColorBG;
-  ATScrollbarTheme.ColorArrowSign:= GetAppColor('ScrollArrow');
-  ATScrollbarTheme.ColorScrolled:= GetAppColor('ScrollScrolled');
+  with ATSynEdit_ScrollBar.ATScrollbarTheme do
+  begin
+    ColorBG:= GetAppColor('ScrollBack');
+    ColorThumbBorder:= GetAppColor('ScrollRect');
+    ColorThumbFill:= GetAppColor('ScrollFill');
+    ColorArrowBorder:= ATScrollbarTheme.ColorBG;
+    ColorArrowFill:= ATScrollbarTheme.ColorBG;
+    ColorArrowSign:= GetAppColor('ScrollArrow');
+    ColorScrolled:= GetAppColor('ScrollScrolled');
+  end;
+
+  Assert(
+    SizeOf(ATSynEdit_Scrollbar.ATScrollbarTheme) =
+    SizeOf(ATScrollbar.ATScrollbarTheme), 'Not equal ATScrollbarTheme vars in 2 units');
+  Move(
+    ATSynEdit_Scrollbar.ATScrollbarTheme,
+    ATScrollbar.ATScrollbarTheme,
+    SizeOf(ATScrollbar.ATScrollbarTheme));
 
   ListboxOut.Color:= GetAppColor('ListBg');
   ListboxOut.Invalidate;

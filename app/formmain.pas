@@ -28,6 +28,7 @@ uses
   ATButtons,
   ATButtonsToolbar,
   ATListbox,
+  ATScrollbar,
   ATPanelSimple,
   ATSynEdit,
   ATSynEdit_ScrollBar,
