@@ -408,8 +408,17 @@ end;
 
 procedure TFormDummy.DoOnListviewSelect(Sender: TObject; Item: TListItem;
   Selected: Boolean);
+const
+  cBool: array[boolean] of string = ('False', 'True');
+var
+  Props: TAppControlProps;
+  IdControl: integer;
 begin
-  DoOnTreeviewSelect(Sender);
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnSelect,
+    Format('(%d, %s)', [Item.Index, cBool[Selected] ])
+    );
 end;
 
 

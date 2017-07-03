@@ -773,7 +773,7 @@ These are also properties of controls.
 * "on_click": Called after click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
 * "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_menu": Called before showing context menu after right click.
-* "on_select": Called after selection in control is changed. For these controls: "treeview", "listview".
+* "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
 * "on_fold", "on_unfold": Called for type "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
 
 ====Callbacks====
@@ -1869,6 +1869,7 @@ Text is chr(1) separated items:
 * add: lexer_proc: LEXER_GET_PROP
 * deprecated: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
 * deleted: lexer_proc: actions didnt work, lexer files were not saved: LEXER_SET_*, LEXER_DELETE, LEXER_IMPORT
+* add: dlg_proc: control "listview" on_select gets "data" param with 2-tuple
 
 1.0.186
 * add: tree_proc: TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
