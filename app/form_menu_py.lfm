@@ -111,7 +111,6 @@ object fmMenuApi: TfmMenuApi
     DoubleBuffered = True
     ItemHeight = 28
     ParentColor = False
-    ShowScrollbar = False
     OnClick = listClick
     OnDrawItem = listDrawItem
   end

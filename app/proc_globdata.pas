@@ -572,7 +572,6 @@ var
 
 type
   TTreeView = type TTreeViewMy;
-  TATListbox = type TATListboxMy;
 
 type
   TAppSidePanel = record

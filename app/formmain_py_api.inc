@@ -3212,7 +3212,8 @@ begin
 
         LISTBOX_THEME:
           begin
-            Listbox.Themed:= true;
+            Listbox.ThemedScrollbar:= true;
+            Listbox.ThemedColors:= true;
             DoApplyThemeToListbox(Listbox);
             Result:= ReturnNone;
           end

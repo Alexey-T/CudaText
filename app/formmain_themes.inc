@@ -9,8 +9,8 @@ begin
   begin
     C:= F.Controls[i];
 
-    if C is TATListboxMy then
-      if (C as TATListboxMy).Themed then
+    if C is TATListbox then
+      if (C as TATListbox).ThemedColors then
         DoApplyThemeToListbox(C as ATListbox.TATListbox);
 
     if C is TTreeViewMy then

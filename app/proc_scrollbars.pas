@@ -31,25 +31,6 @@ type
     property Themed: boolean read FThemed write FThemed;
   end;
 
-type
-  { TATListboxMy }
-
-  TATListboxMy = class(TATListbox)
-  private
-    FScroll: TATScroll;
-    FThemed: boolean;
-    procedure ScrollChange(Sender: TObject);
-    procedure UpdScroll;
-  protected
-    procedure Resize; override;
-    procedure ChangedSelection; override;
-    procedure Scrolled; override;
-  public
-    constructor Create(AOwner: TComponent); override;
-    function ClientWidth: integer;
-    property Themed: boolean read FThemed write FThemed;
-  end;
-
 const
   UiOps_ScrollbarWidth: integer = 14;
   UiOps_ScrollbarBorderSize: integer = 0;
@@ -57,62 +38,6 @@ const
 
 
 implementation
-
-{ TATListboxMy }
-
-procedure TATListboxMy.ScrollChange(Sender: TObject);
-begin
-  ItemTop:= FScroll.Position;
-end;
-
-procedure TATListboxMy.UpdScroll;
-begin
-  if not Assigned(FScroll) then exit;
-  FScroll.Min:= 0;
-  FScroll.Max:= ItemCount;
-  FScroll.PageSize:= VisibleItems;
-  FScroll.Position:= ItemTop;
-end;
-
-procedure TATListboxMy.ChangedSelection;
-begin
-  inherited;
-  UpdScroll;
-end;
-
-procedure TATListboxMy.Scrolled;
-begin
-  inherited;
-  UpdScroll;
-end;
-
-procedure TATListboxMy.Resize;
-begin
-  inherited;
-  UpdScroll;
-end;
-
-constructor TATListboxMy.Create(AOwner: TComponent);
-begin
-  inherited;
-  ShowScrollbar:= false;
-
-  FScroll:= TATScroll.Create(Self);
-  FScroll.Parent:= Self;
-  FScroll.Kind:= sbVertical;
-  FScroll.Align:= alRight;
-  FScroll.Width:= UiOps_ScrollbarWidth;
-  FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
-  FScroll.AutoAdjustLayout(lapDefault, 100, UiOps_ScreenScale, 1, 1);
-  FScroll.OnChange:= @ScrollChange;
-
-  UpdScroll;
-end;
-
-function TATListboxMy.ClientWidth: integer;
-begin
-  Result:= inherited ClientWidth - FScroll.Width;
-end;
 
 { TTreeViewMy }
 

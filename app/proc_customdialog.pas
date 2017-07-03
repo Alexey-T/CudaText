@@ -554,10 +554,10 @@ begin
 
   if (S='listbox_ex') then
   begin
-    Ctl:= TATListboxMy.Create(AForm);
-    TATListboxMy(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
-    TATListboxMy(Ctl).CanGetFocus:= true;
-    TATListboxMy(Ctl).OnChangedSel:= @AForm.DoOnChange;
+    Ctl:= TATListbox.Create(AForm);
+    TATListbox(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
+    TATListbox(Ctl).CanGetFocus:= true;
+    TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
     exit;
   end;
 

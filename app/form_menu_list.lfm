@@ -27,7 +27,6 @@ object fmGotoList: TfmGotoList
     DoubleBuffered = True
     ItemHeight = 28
     ParentColor = False
-    ShowScrollbar = False
     OnClick = ListClick
     OnDrawItem = ListDrawItem
   end
