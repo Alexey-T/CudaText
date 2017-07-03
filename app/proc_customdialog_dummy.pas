@@ -73,6 +73,8 @@ type
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
     BlockedOnChange: boolean;
+    BlockedOnSelect_Listview: boolean;
+    BlockedOnSelect_Treeview: boolean;
     BlockedOnFold: boolean;
     BlockedOnUnfold: boolean;
     function IdFocused: integer;
@@ -179,7 +181,6 @@ begin
   IsFormShownAlready:= false;
   IdClicked:= -1;
   TagString:= '';
-  BlockedOnChange:= false;
 
   OnShow:= @DoOnShow;
   OnClose:= @DoOnClose;
@@ -419,11 +420,17 @@ var
   Props: TAppControlProps;
   IdControl: integer;
 begin
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnSelect,
-    Format('(%d, %s)', [Item.Index, cBool[Selected] ])
-    );
+  if BlockedOnSelect_Listview then exit;
+  BlockedOnSelect_Listview:= true;
+  try
+    Props:= TAppControlProps((Sender as TControl).Tag);
+    IdControl:= FindControlIndexByOurObject(Sender);
+    DoEvent(IdControl, Props.FEventOnSelect,
+      Format('(%d, %s)', [Item.Index, cBool[Selected] ])
+      );
+  finally
+    BlockedOnSelect_Listview:= false;
+  end;
 end;
 
 
@@ -524,9 +531,15 @@ var
   Props: TAppControlProps;
   IdControl: integer;
 begin
-  Props:= TAppControlProps((Sender as TControl).Tag);
-  IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnSelect, '');
+  if BlockedOnSelect_Treeview then exit;
+  BlockedOnSelect_Treeview:= true;
+  try
+    Props:= TAppControlProps((Sender as TControl).Tag);
+    IdControl:= FindControlIndexByOurObject(Sender);
+    DoEvent(IdControl, Props.FEventOnSelect, '');
+  finally
+    BlockedOnSelect_Treeview:= false;
+  end;
 end;
 
 

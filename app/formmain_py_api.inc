@@ -4204,10 +4204,14 @@ begin
             if Assigned(Ctl) then
             begin
               Form.BlockedOnChange:= true;
+              Form.BlockedOnSelect_Listview:= true;
+              Form.BlockedOnSelect_Treeview:= true;
               try
                 DoControl_SetPropsFromStringDict(Ctl, StrProp);
               finally
                 Form.BlockedOnChange:= false;
+                Form.BlockedOnSelect_Listview:= false;
+                Form.BlockedOnSelect_Treeview:= false;
               end;
             end;
             Result:= ReturnNone;
