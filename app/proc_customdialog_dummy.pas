@@ -392,7 +392,12 @@ begin
     exit;
   end;
 
-  DoEvent(IdClicked, Props.FEventOnChange, '');
+  BlockedOnChange:= true;
+  try
+    DoEvent(IdClicked, Props.FEventOnChange, '');
+  finally
+    BlockedOnChange:= false;
+  end;
 end;
 
 procedure TFormDummy.DoOnListboxSelect(Sender: TObject; User: boolean);
