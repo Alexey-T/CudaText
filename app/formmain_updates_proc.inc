@@ -861,21 +861,24 @@ begin
 
     NIndex:= Status.PanelCount;
     SItem:= SGetItem(SPanel);
-    if SItem='caret' then cStatusCaret:= NIndex else
-     if SItem='enc' then cStatusEnc:= NIndex else
-      if SItem='ends' then cStatusEnds:= NIndex else
-       if SItem='lexer' then cStatusLexer:= NIndex else
-        if SItem='tabsize' then cStatusTabsize:= NIndex else
-         if SItem='ins' then cStatusInsOvr:= NIndex else
-          if SItem='msg' then cStatusMsg:= NIndex else
-           if SItem='selmode' then cStatusSelMode:= NIndex else
-            Continue;
+    case SItem of
+      'caret':   cStatusCaret:= NIndex;
+      'enc':     cStatusEnc:= NIndex;
+      'ends':    cStatusEnds:= NIndex;
+      'lexer':   cStatusLexer:= NIndex;
+      'tabsize': cStatusTabsize:= NIndex;
+      'ins':     cStatusInsOvr:= NIndex;
+      'msg':     cStatusMsg:= NIndex;
+      'selmode': cStatusSelMode:= NIndex;
+      else Continue;
+    end;
 
     SItem:= SGetItem(SPanel);
-    if SItem='C' then Al:= saMiddle else
-     if SItem='L' then Al:= saLeft else
-      if SItem='R' then Al:= saRight else
-       Al:= saMiddle;
+    case SItem of
+      'L': Al:= saLeft;
+      'R': Al:= saRight
+       else Al:= saMiddle;
+    end;
 
     SItem:= SGetItem(SPanel);
     NSize:= Max(16, StrToIntDef(SItem, 200));
