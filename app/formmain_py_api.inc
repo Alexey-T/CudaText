@@ -3497,6 +3497,11 @@ begin
             Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
           end;
 
+        TREE_IMAGELIST_GET:
+          begin
+            Result:= PyLong_FromLongLong(Int64(PtrInt(Tree.Images)));
+          end;
+
         TREE_ICON_ADD:
           begin
             ok:= UpdateImagelistWithIconFromFile(Tree.Images, StrText);
@@ -4151,6 +4156,11 @@ begin
           begin
             DoToolbar_SetChecked(FToolbar, NIndex1, Bool(NIndex2));
             Result:= ReturnNone;
+          end;
+
+        TOOLBAR_GET_IMAGELIST:
+          begin
+            Result:= PyLong_FromLongLong(Int64(PtrInt(FToolbar.Images)));
           end;
 
         TOOLBAR_THEME:

@@ -223,6 +223,7 @@ const
   TREE_ICON_DELETE           = 21;
   TREE_ICON_GET_SIZES        = 22;
   TREE_ICON_SET_SIZES        = 23;
+  TREE_IMAGELIST_GET         = 25;
   TREE_PROP_SHOW_ROOT        = 30;
   TREE_LOCK                  = 31;
   TREE_UNLOCK                = 32;
@@ -356,6 +357,7 @@ const
   TOOLBAR_DELETE_BUTTON  = 7;
   TOOLBAR_GET_CHECKED    = 10;
   TOOLBAR_SET_CHECKED    = 11;
+  TOOLBAR_GET_IMAGELIST  = 12;
   TOOLBAR_THEME          = 20;
 
   DLG_CREATE         = 0;
