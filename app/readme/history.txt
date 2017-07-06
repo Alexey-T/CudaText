@@ -3,11 +3,12 @@
   - fixed
   * changed
 
-1.12.2
+1.13.0
 
+- reworked part of syntax hilite calculating code, and fixed old 2 bugs of incorrect multi-selection rendering
++ added commands "column select without key modifier: on/ off"; when mode turned on, mouse drag makes column (vertical) selection
++ console: context menu item "toggle word wrap"
 + option "ui_console_wrap"
-+ console context menu item "toggle word wrap"
-- fixed old bug of incorrect selection rendering
 
 1.12.0
 
