@@ -1285,6 +1285,27 @@ Example adds button with dropdown submenu, which has 2 items:
  menu_proc('toolmenu:drop', MENU_ADD, caption='About...', command=2700)
  menu_proc('toolmenu:drop', MENU_ADD, caption='Edit plugin...', command="cuda_addonman,do_edit")
 
+===imagelist_proc===
+
+ imagelist_proc(id_list, id_action, value='')
+
+Perform action on image-list object.
+
+Param "id_list" is int handle of image-list. It is required for all actions, except IMAGELIST_CREATE, where it should be 0.
+
+Possible values of id_action:
+
+* IMAGELIST_CREATE: Creates new image-list object with default icon size 16x16. Gets int handle of this image-list. Param "value" must be int handle of owner form of object. 
+** If it is form handle from dlg_proc, object will be deleted after deletion of this form. 
+** If it is 0, main application form is used as owner, and object will be persistent.
+
+* IMAGELIST_COUNT: Gets int number of icons in image-list.
+* IMAGELIST_GET_SIZE: Gets current icon size as 2-tuple (width, height).
+* IMAGELIST_SET_SIZE: Sets new icon size, and clears image-list. Param "value" must be 2-tuple of int (width, height). Gets new icon size (corrected by minimal value) as 2-tuple.
+* IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Gets int icon index, or None if cannot load.
+* IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
+* IMAGELIST_DELETE_ALL: Deletes all icons.
+
 ===more===
 
 =Editor class=
@@ -1864,6 +1885,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.188
+* add: imagelist_proc.
 
 1.0.187
 * add: lexer_proc: LEXER_GET_PROP
