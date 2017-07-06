@@ -1037,12 +1037,13 @@ Possible values of id_action:
 
 * TREE_ITEM_GET_SYNTAX_RANGE: Gets position of range, associated with given tree-node, as 4-tuple (start_x, start_y, end_x, end_y). Can be called only for tree-nodes of Syntax Tree panel.
 
-* TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
-* TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
+* deprecated: TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
+* deprecated: TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
 
-* TREE_ICON_GET_SIZES: Gets sizes of icons, as 2-tuple.
-* TREE_ICON_SET_SIZES: Sets sizes of icons. Param "index" is icon width, "image_index" is icon height.
+* deprecated: TREE_ICON_GET_SIZES: Gets sizes of icons, as 2-tuple.
+* deprecated: TREE_ICON_SET_SIZES: Sets sizes of icons. Param "index" is icon width, "image_index" is icon height.
 
+* TREE_IMAGELIST_GET: Gets int handle of image-list object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
@@ -1240,10 +1241,12 @@ Param id_toolbar: currently can be "top" for main toolbar. Function gets None, i
 
 Param id_action possible values:
 
-* TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
-* TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: 
+* TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
+* deprecated: TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
+* deprecated: TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: 
 ** index - icon width
 ** index2 - icon height
+* deprecated: TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
 
 * TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
 ** index - index of button
@@ -1251,7 +1254,6 @@ Param id_action possible values:
 ** text - new button caption, or empty str to not change
 ** text2 - new button hint, or empty str to not change
 
-* TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
 
 * TOOLBAR_DELETE_ALL: Delete all buttons.
 * TOOLBAR_DELETE_BUTTON: Delete one button. Params: index - button index.
@@ -1887,7 +1889,11 @@ Text is chr(1) separated items:
 =History=
 
 1.0.188
-* add: imagelist_proc.
+* add: imagelist_proc()
+* add: tree_proc: TREE_IMAGELIST_GET
+* add: toolbar_proc: TOOLBAR_GET_IMAGELIST
+* deprecated: tree_proc: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
+* deprecated: toolbar_proc: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
 
 1.0.187
 * add: lexer_proc: LEXER_GET_PROP
