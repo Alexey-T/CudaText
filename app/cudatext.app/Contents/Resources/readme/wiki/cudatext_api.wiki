@@ -773,7 +773,7 @@ These are also properties of controls.
 * "on_click": Called after click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
 * "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_menu": Called before showing context menu after right click.
-* "on_select": Called after selection in control is changed. For these controls: "treeview", "listview".
+* "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
 * "on_fold", "on_unfold": Called for type "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
 
 ====Callbacks====
@@ -977,29 +977,33 @@ On read: gets string value. On write: gets None.
 
  lexer_proc(id, value)
 
-Do some lexer-related action, get/set property. 
-
-Parameter value gives ";"-separated substrings. Lexer name, if it's needed, is 1st substring. If lexer name needed and incorrect name passed, function gets None.
+Perform some lexer-related action. 
 
 Possible values of id:
 
-* LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
-* LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
-* LEXER_GET_COMMENT: Gets string "comment until end of line" for given lexer.
-* LEXER_GET_COMMENT_STREAM: Gets "comment for range" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
-* LEXER_GET_COMMENT_LINED: Gets "comment for range of full lines" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
-* LEXER_GET_LIST: Gets string: "\n"-separated list of lexer names in library.   
-* LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
-* LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
-* LEXER_GET_STYLES_COMMENTS: Gets string: ","-separated list of styles of "syntax comments", for given lexer.
-* LEXER_GET_STYLES_STRINGS: Gets string: ","-separated list of styles of "syntax strings", for given lexer.
-* LEXER_SET_NAME: Sets for lexer with given name (substring 1) new name (substring 2).
-* LEXER_SET_ENABLED: Sets for lexer with given name enabled-flag (substring 2: "0" or "1").
-* LEXER_SET_EXT: Sets for lexer with given name file-extensions field (substring 2).
-* LEXER_SET_LINKS: Sets for given lexer - names of its sublexers. Substring 2 must be "|"-separated list of lexer names (any number allowed, only actual number will be used).
-* LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/dd/makefile.gcc" gives "Makefile").
-* LEXER_DELETE: Deletes given lexer from library.
-* LEXER_IMPORT: Imports lexer into library, from given filename (substring 1). Gets name of this lexer, or None if import failed.
+* LEXER_GET_LIST: Gets "\n"-separated list of lexer names.   
+* LEXER_GET_PROP: For given lexer name, gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
+** "en": bool: lexer is visible in the lexers menu.
+** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
+** "st": list of str: list of all styles.
+** "st_c": list of str: list of styles of syntax comments (e.g. used by Spell Checker).
+** "st_s": list of str: list of styles of syntax strings (e.g. used by Spell Checker).
+** "sub": list of str: list of sub-lexers (some items can be empty if lexer setup broken).
+** "c_line": str or None: line comment (until end-of-line).
+** "c_str": 2-tuple or None: stream comment (for any range).
+** "c_lined": 2-tuple or None: comment for full lines.
+
+* LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
+
+* deprecated: LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
+* deprecated: LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
+* deprecated: LEXER_GET_COMMENT: Gets string "comment until end of line" for given lexer.
+* deprecated: LEXER_GET_COMMENT_STREAM: Gets "comment for range" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
+* deprecated: LEXER_GET_COMMENT_LINED: Gets "comment for range of full lines" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
+* deprecated: LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
+* deprecated: LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
+* deprecated: LEXER_GET_STYLES_COMMENTS: Gets string: ","-separated list of styles of "syntax comments", for given lexer.
+* deprecated: LEXER_GET_STYLES_STRINGS: Gets string: ","-separated list of styles of "syntax strings", for given lexer.
 
 ===tree_proc===
 
@@ -1605,7 +1609,14 @@ Performs action on folding ranges. Values of id:
 ** folded: bool: range is currently folded.
 * FOLDING_FOLD: Folds range with given index (index in list from FOLDING_GET_LIST).
 * FOLDING_UNFOLD: Unfolds range with given index.
-* FOLDING_ADD: Adds folding range. Params needed: item_x, item_y, item_y2. Params optional: item_staple, item_hint (hint shows when range is folded). Meaning is like in FOLDING_GET_LIST. If index is 0..last, then range inserts at this index, else appends.
+* FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change.
+** item_x: x-offset of range start.
+** item_y: line of range start.
+** item_y2: line of range end.
+** (optional) item_staple: range has block staple.
+** (optional) item_hint: hint string which shows when range is folded.
+** index: if it's valid range index (0-based), range inserts at this index, else range appends.
+
 * FOLDING_DELETE: Deletes folding range with given index.
 * FOLDING_DELETE_ALL: Deletes all folding ranges.
 * FOLDING_FIND: Gets index of range, which starts at line index =item_y, or None.
@@ -1853,6 +1864,12 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.187
+* add: lexer_proc: LEXER_GET_PROP
+* deprecated: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
+* deleted: lexer_proc: actions didnt work, lexer files were not saved: LEXER_SET_*, LEXER_DELETE, LEXER_IMPORT
+* add: dlg_proc: control "listview" on_select gets "data" param with 2-tuple
 
 1.0.186
 * add: tree_proc: TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES

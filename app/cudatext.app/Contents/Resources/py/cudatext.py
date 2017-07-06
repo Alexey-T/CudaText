@@ -271,22 +271,17 @@ LISTBOX_SET_TOP      = 15
 LISTBOX_THEME        = 20
 
 LEXER_GET_LIST            = 0
-LEXER_GET_ENABLED         = 1
-LEXER_GET_EXT             = 2
-LEXER_GET_LINKS           = 4
-LEXER_GET_STYLES          = 5
-LEXER_GET_COMMENT         = 6
-LEXER_GET_COMMENT_STREAM  = 7
-LEXER_GET_COMMENT_LINED   = 8
-LEXER_SET_NAME            = 10
-LEXER_SET_ENABLED         = 11
-LEXER_SET_EXT             = 12
-LEXER_SET_LINKS           = 13
+LEXER_GET_ENABLED         = 1 #deprecated
+LEXER_GET_EXT             = 2 #deprecated
+LEXER_GET_LINKS           = 4 #deprecated
+LEXER_GET_STYLES          = 5 #deprecated
+LEXER_GET_COMMENT         = 6 #deprecated
+LEXER_GET_COMMENT_STREAM  = 7 #deprecated
+LEXER_GET_COMMENT_LINED   = 8 #deprecated
+LEXER_GET_PROP            = 14
 LEXER_DETECT              = 20
-LEXER_DELETE              = 21
-LEXER_IMPORT              = 22
-LEXER_GET_STYLES_COMMENTS = 30
-LEXER_GET_STYLES_STRINGS  = 31
+LEXER_GET_STYLES_COMMENTS = 30 #deprecated
+LEXER_GET_STYLES_STRINGS  = 31 #deprecated
 
 GROUPS_ONE     = 1
 GROUPS_2VERT   = 2
@@ -578,6 +573,7 @@ def ed_group(n):
 
 def ini_read(filename, section, key, value):
     return ct.ini_read(filename, section, key, value)
+
 def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
 
