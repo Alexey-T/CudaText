@@ -891,6 +891,7 @@ var
   cStatusLexer: integer = 3;
   cStatusTabsize: integer = 4;
   cStatusInsOvr: integer = -1;
+  cStatusSelMode: integer = -1;
   cStatusMsg: integer = 5;
 
 { TfmMain }
@@ -925,6 +926,15 @@ begin
   if AIndex=cStatusTabsize then
   begin
     PopupTabSize.Popup;
+  end
+  else
+  if AIndex=cStatusSelMode then
+  begin
+    with CurrentEditor do
+    begin
+      OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
+      UpdateStatus;
+    end;
   end;
 end;
 

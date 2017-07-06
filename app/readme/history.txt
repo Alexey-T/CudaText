@@ -5,8 +5,9 @@
 
 1.13.0
 
-- reworked part of syntax hilite calculating code, and fixed old 2 bugs of incorrect multi-selection rendering
+- reworked part of syntax hilite code, and fixed old 2 bugs of incorrect selection(s) rendering
 + added commands "column select without key modifier: on/ off"; when mode turned on, mouse drag makes column (vertical) selection
++ added statusbar field, for above mode (shows "-" for normal mode, "||" for column mode)
 + console: context menu item "toggle word wrap"
 + option "ui_console_wrap"
 

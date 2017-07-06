@@ -124,6 +124,9 @@ begin
   //------
   S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
   Status[cStatusInsOvr]:= S;
+
+  //------
+  Status[cStatusSelMode]:= IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-');
 end;
 
 procedure TfmMain.InitStatusButton;
@@ -865,7 +868,8 @@ begin
         if SItem='tabsize' then cStatusTabsize:= NIndex else
          if SItem='ins' then cStatusInsOvr:= NIndex else
           if SItem='msg' then cStatusMsg:= NIndex else
-           Continue;
+           if SItem='selmode' then cStatusSelMode:= NIndex else
+            Continue;
 
     SItem:= SGetItem(SPanel);
     if SItem='C' then Al:= saMiddle else
@@ -874,7 +878,7 @@ begin
        Al:= saMiddle;
 
     SItem:= SGetItem(SPanel);
-    NSize:= Max(20, StrToIntDef(SItem, 200));
+    NSize:= Max(16, StrToIntDef(SItem, 200));
 
     Status.AddPanel(NSize, Al, '');
   until false;
