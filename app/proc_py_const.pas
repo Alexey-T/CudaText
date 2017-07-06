@@ -387,6 +387,14 @@ const
   SPLITTER_G2      = 6;
   SPLITTER_G3      = 7;
 
+  IMAGELIST_CREATE     = 0;
+  IMAGELIST_COUNT      = 1;
+  IMAGELIST_GET_SIZE   = 2;
+  IMAGELIST_SET_SIZE   = 3;
+  IMAGELIST_ADD        = 5;
+  IMAGELIST_DELETE     = 6;
+  IMAGELIST_DELETE_ALL = 7;
+
 
 implementation
 

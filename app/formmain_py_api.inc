@@ -3225,6 +3225,63 @@ begin
 end;
 
 
+function Py_imagelist_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdList, Num64: Int64;
+  IdAction: integer;
+  PtrValue: PChar;
+  StrValue: string;
+  Obj: TComponent;
+  List: TImageList;
+  Str1, Str2: string;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lis:imagelist_proc', @IdList, @IdAction, @PtrValue)) then
+    begin
+      StrValue:= string(PtrValue);
+
+      if IdAction=IMAGELIST_CREATE then
+      begin
+        Num64:= StrToInt64Def(StrValue, 0);
+        if Num64=0 then
+          Obj:= fmMain
+        else
+          Obj:= TComponent(PtrInt(Num64));
+        List:= TImageList.Create(Obj);
+        exit(PyLong_FromLongLong(Int64(PtrInt(List))));
+      end;
+
+      //other actions require id_list param
+      List:= TImageList(PtrInt(IdList));
+      if List=nil then exit(ReturnNone);
+
+      case IdAction of
+        IMAGELIST_COUNT:
+          begin
+            Result:= PyInt_FromLong(List.Count);
+          end;
+
+        IMAGELIST_GET_SIZE:
+          begin
+            Result:= Py_BuildValue('(ii)', List.Width, List.Height);
+          end;
+
+        IMAGELIST_SET_SIZE:
+          begin
+            Str1:= SGetItem(StrValue);
+            Str2:= SGetItem(StrValue);
+            List.Width:= Max(4, StrToIntDef(Str1, 0));
+            List.Height:= Max(4, StrToIntDef(Str2, 0));
+            Result:= Py_BuildValue('(ii)', List.Width, List.Height);
+          end
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
@@ -4399,6 +4456,7 @@ begin
     AddMethod('canvas_proc', @Py_canvas_proc, '');
     AddMethod('timer_proc', @Py_timer_proc, '');
     AddMethod('dlg_proc', @Py_dlg_proc, '');
+    AddMethod('imagelist_proc', @Py_imagelist_proc, '');
   end;
 end;
 
