@@ -3273,7 +3273,29 @@ begin
             List.Width:= Max(4, StrToIntDef(Str1, 0));
             List.Height:= Max(4, StrToIntDef(Str2, 0));
             Result:= Py_BuildValue('(ii)', List.Width, List.Height);
-          end
+          end;
+
+        IMAGELIST_DELETE:
+          begin
+            Num64:= StrToIntDef(StrValue, -1);
+            if (Num64>=0) and (Num64<List.Count) then
+              List.Delete(Num64);
+            Result:= ReturnNone;
+          end;
+
+        IMAGELIST_DELETE_ALL:
+          begin
+            List.Clear;
+            Result:= ReturnNone;
+          end;
+
+        IMAGELIST_ADD:
+          begin
+            if UpdateImagelistWithIconFromFile(List, StrValue) then
+              Result:= PyInt_FromLong(List.Count-1)
+            else
+              Result:= ReturnNone;
+          end;
 
         else
           Result:= ReturnNone;
