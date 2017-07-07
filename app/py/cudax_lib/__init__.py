@@ -366,9 +366,8 @@ def get_groups_count():
     return dct.get(gr_mode, 1)
 
 def get_enabled_lexers():
-    all_lxrs  = app.lexer_proc(app.LEXER_GET_LIST, '').splitlines()
-    enb_lxrs  = [lxr for lxr in all_lxrs if app.lexer_proc(app.LEXER_GET_ENABLED, lxr)]
-    return enb_lxrs
+    return app.lexer_proc(app.LEXER_GET_LEXERS, False)
+
 def choose_avail_lexer(lxr_names):
     """ Choose from lxr_names first enabled lexer """
     all_lxrs  = get_enabled_lexers()
