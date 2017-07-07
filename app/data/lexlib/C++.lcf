@@ -203,8 +203,8 @@ object SyntAnal7: TLibSyntAnalyzer
     item
       DisplayName = 'GenericParam'
       StyleName = 'Generic param'
-      TokenType = 2
-      Expression = '<\w*>'
+      TokenType = 11
+      Expression = '<[\w\x20]*?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -465,7 +465,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 4
+          TokenTypes = 70
         end
         item
           TagList.Strings = (
@@ -474,7 +474,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 62
+          TokenTypes = 574
         end
         item
           TagList.Strings = (
@@ -518,7 +518,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 4
+          TokenTypes = 70
         end
         item
           TagList.Strings = (
@@ -527,7 +527,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 62
+          TokenTypes = 574
         end
         item
           TagList.Strings = (
@@ -564,7 +564,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 4
+          TokenTypes = 70
         end
         item
           TagList.Strings = (
@@ -573,7 +573,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 62
+          TokenTypes = 574
         end
         item
           TagList.Strings = (
@@ -638,37 +638,21 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'struct'
       ConditionList = <
         item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 256
-        end
-        item
-          CondType = tcSkip
-          TokenTypes = 62
-        end
-        item
           TagList.Strings = (
             '{')
           TokenTypes = 256
         end
         item
           CondType = tcSkip
-          TokenTypes = 4
+          TokenTypes = 2052
         end
         item
           TagList.Strings = (
             'struct')
           TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            'typedef')
-          TokenTypes = 4
         end>
-      NameFmt = '%e0'
+      NameFmt = '%sz0'
+      RefToCondEnd = True
       HighlightPos = cpAny
       NoEndRule = True
       TreeItemImage = 4
@@ -676,6 +660,7 @@ object SyntAnal7: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Block comment'
+      Enabled = False
       BlockName = 'Block comment'
       NotParent = True
       AlwaysEnabled = True
@@ -691,6 +676,7 @@ object SyntAnal7: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Block comment end'
+      Enabled = False
       BlockName = 'Block comment'
       StrictParent = True
       AlwaysEnabled = True
@@ -763,7 +749,13 @@ object SyntAnal7: TLibSyntAnalyzer
     '{'
     #9'void* FieldValue;'
     #9'int flags;'
-    '} Struct1;')
+    '} Struct1;'
+    ''
+    'template <name T>'
+    'struct somedata<IReader>{'
+    '  IReader* val;'
+    '  int val2;'
+    '};')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -775,7 +767,8 @@ object SyntAnal7: TLibSyntAnalyzer
     'Id keyword'
     'Symbol {}'
     'Symbol ::'
-    'Symbol ()')
+    'Symbol ()'
+    'Generic param')
   Extentions = 'c cpp cxx h hpp hxx inl cc'
   LexerName = 'C++'
   Notes.Strings = (
