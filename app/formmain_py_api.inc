@@ -19,6 +19,12 @@ var
   PyEscapeFlag: boolean = false;
   PyEditorMaybeDeleted: boolean = false;
 
+procedure MsgOldApi(const s: string);
+begin
+  fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, [s]));
+end;
+
+
 //func at begin
 function PyEditor(Handle: Int64): TATSynEdit;
 var
@@ -2670,6 +2676,7 @@ begin
         //deprecated
         LEXER_GET_ENABLED:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_ENABLED)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               Result:= PyBool_FromLong(Ord(not An.Internal))
@@ -2680,6 +2687,7 @@ begin
         //deprecated
         LEXER_GET_EXT:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_EXT)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               Result:= PyString_FromString(PChar(string(An.Extentions)))
@@ -2690,6 +2698,7 @@ begin
         //deprecated
         LEXER_GET_COMMENT:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_COMMENT)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
               Result:= PyString_FromString(PChar(string(An.LineComment)))
@@ -2700,6 +2709,7 @@ begin
         //deprecated
         LEXER_GET_COMMENT_STREAM:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_COMMENT_STREAM)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
@@ -2717,6 +2727,7 @@ begin
         //deprecated
         LEXER_GET_COMMENT_LINED:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_COMMENT_LINED)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
@@ -2734,6 +2745,7 @@ begin
         //deprecated
         LEXER_GET_STYLES_COMMENTS:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_STYLES_COMMENTS)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
@@ -2747,6 +2759,7 @@ begin
         //deprecated
         LEXER_GET_STYLES_STRINGS:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_STYLES_STRINGS)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
@@ -2881,6 +2894,7 @@ begin
         //deprecated
         LEXER_GET_LINKS:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_LINKS)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
@@ -2899,6 +2913,7 @@ begin
         //deprecated
         LEXER_GET_STYLES:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_STYLES)');
             An:= AppManager.FindAnalyzer(Str1);
             if Assigned(An) then
             begin
@@ -3504,6 +3519,7 @@ begin
 
         TREE_ICON_ADD:
           begin
+            MsgOldApi('tree_proc(TREE_ICON_ADD)');
             ok:= UpdateImagelistWithIconFromFile(Tree.Images, StrText);
             if ok then
               Result:= PyInt_FromLong(Tree.Images.Count-1)
@@ -3513,6 +3529,7 @@ begin
 
         TREE_ICON_DELETE:
           begin
+            MsgOldApi('tree_proc(TREE_ICON_DELETE)');
             ok:= Assigned(Tree.Images) and (NImageIndex>=0) and (NImageIndex<Tree.Images.Count);
             if ok then
             begin
@@ -3524,6 +3541,7 @@ begin
 
         TREE_ICON_GET_SIZES:
           begin
+            MsgOldApi('tree_proc(TREE_ICON_GET_SIZES)');
             Result:= Py_BuildValue('(ii)',
               Tree.Images.Width,
               Tree.Images.Height);
@@ -3531,6 +3549,7 @@ begin
 
         TREE_ICON_SET_SIZES:
           begin
+            MsgOldApi('tree_proc(TREE_ICON_SET_SIZES)');
             Tree.Images.Width:= NIndex;
             Tree.Images.Height:= NImageIndex;
             Result:= ReturnNone;
@@ -4102,11 +4121,13 @@ begin
 
         TOOLBAR_GET_ICON_SIZES:
           begin
+            MsgOldApi('toolbar_proc(TOOLBAR_GET_ICON_SIZES)');
             Result:= DoToolbar_GetImageSizes(FToolbar);
           end;
 
         TOOLBAR_SET_ICON_SIZES:
           begin
+            MsgOldApi('toolbar_proc(TOOLBAR_SET_ICON_SIZES)');
             if (NIndex1>=8) and
                (NIndex2>=8) and
                (NIndex1<=128) and
@@ -4126,6 +4147,7 @@ begin
 
         TOOLBAR_ADD_ICON:
           begin
+            MsgOldApi('toolbar_proc(TOOLBAR_ADD_ICON)');
             Result:= DoToolbar_AddImage(FToolbar, StrText);
           end;
 
