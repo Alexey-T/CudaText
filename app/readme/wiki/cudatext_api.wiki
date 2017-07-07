@@ -981,7 +981,8 @@ Perform some lexer-related action.
 
 Possible values of id:
 
-* LEXER_GET_LIST: Gets "\n"-separated list of lexer names.   
+* deprecated: LEXER_GET_LIST: Gets str: "\n"-separated list of lexers.
+* LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (unchecked in the Lexer Library dialog).  
 * LEXER_GET_PROP: For given lexer name, gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
 ** "en": bool: lexer is visible in the lexers menu.
 ** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
@@ -1889,8 +1890,10 @@ Text is chr(1) separated items:
 * add: imagelist_proc()
 * add: tree_proc: TREE_IMAGELIST_GET
 * add: toolbar_proc: TOOLBAR_GET_IMAGELIST
+* add: lexer_proc: LEXER_GET_LEXERS
 * deprecated: tree_proc: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
 * deprecated: toolbar_proc: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
+* deprecated: lexer_proc: LEXER_GET_LIST
 
 1.0.187
 * add: lexer_proc: LEXER_GET_PROP
