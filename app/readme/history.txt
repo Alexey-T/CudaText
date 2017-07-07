@@ -10,6 +10,7 @@
 + added statusbar field, for above mode (shows "-" for normal mode, "||" for column mode)
 + console: context menu item "toggle word wrap"
 + option "ui_console_wrap"
+- fixes in C++ lexer
 
 1.12.0
 
