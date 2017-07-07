@@ -180,7 +180,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Preprocessor'
       StyleName = 'Preprocessor'
       TokenType = 6
-      Expression = '\#\s*\w+'
+      Expression = '\#[\x20\x09]*\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -682,7 +682,7 @@ object SyntAnal7: TLibSyntAnalyzer
   SampleText.Strings = (
     '/* Test */'
     '#define max(a, b) ((a > b) ? a : b)'
-    '#asm(" pop ax ");'
+    '#  asm(" pop ax ");'
     'strcpy(b, "text\"text");'
     'double F = 1e2 + 0.12e+2 + 0xAF;'
     'name = name<CName>'
