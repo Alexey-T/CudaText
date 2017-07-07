@@ -274,91 +274,98 @@ object SyntAnal7: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'keywords'
+      DisplayName = 'id keywords'
       StyleName = 'Id keyword'
       BlockType = btTagDetect
       ConditionList = <
         item
           TagList.Strings = (
-            'align'
-            'alignas'
-            'alignof'
-            'asm'
-            'auto'
-            'bool'
+            '_Pragma'
+            'and'
+            'and_eq'
+            'bitand'
+            'bitor'
             'break'
             'case'
             'catch'
-            'cdecl'
-            'char'
             'class'
-            'const'
-            'const_cast'
-            'constexpr'
+            'compl'
             'continue'
             'default'
             'delete'
             'do'
-            'double'
-            'dynamic_cast'
             'else'
             'enum'
+            'for'
+            'goto'
+            'if'
+            'new'
+            'noexcept'
+            'not'
+            'not_eq'
+            'operator'
+            'or'
+            'or_eq'
+            'return'
+            'struct'
+            'switch'
+            'throw'
+            'try'
+            'union'
+            'while'
+            'xor'
+            'xor_eq')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'id keywords2'
+      StyleName = 'Id special'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '__declspec'
+            '__restrict'
+            '__restrict__'
+            'alignas'
+            'alignof'
+            'const'
+            'const_cast'
+            'constexpr'
+            'decltype'
+            'dynamic_cast'
             'explicit'
             'export'
             'extern'
-            'false'
-            'final'
-            'float'
-            'for'
             'friend'
-            'goto'
-            'if'
             'inline'
-            'int'
-            'long'
             'mutable'
             'namespace'
-            'new'
-            'noexcept'
-            'operator'
-            'override'
-            'pascal'
+            'nullptr'
             'private'
-            'property'
             'protected'
             'public'
             'register'
             'reinterpret_cast'
-            'return'
-            'short'
-            'signed'
-            'size_t'
+            'restrict'
             'sizeof'
             'static'
             'static_assert'
             'static_cast'
-            'struct'
-            'switch'
-            'this'
+            'template'
             'thread_local'
-            'throw'
-            'true'
-            'try'
             'typedef'
             'typeid'
             'typename'
-            'union'
-            'unsigned'
             'using'
-            'uuid'
             'virtual'
-            'void'
-            'volatile'
-            'wchar_t'
-            'while')
+            'volatile')
           TokenTypes = 4
         end>
-      HighlightPos = cpBound
+      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -368,6 +375,11 @@ object SyntAnal7: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
+            '__asm__'
+            '_Bool'
+            '_Complex'
+            '_Imaginary'
+            'asm'
             'auto'
             'bool'
             'char'
@@ -378,11 +390,11 @@ object SyntAnal7: TLibSyntAnalyzer
             'float'
             'int'
             'long'
-            'nullptr'
+            'NULL'
+            'nullptr_t'
             'short'
             'signed'
             'string'
-            'template'
             'true'
             'uint16_t'
             'uint32_t'
@@ -390,56 +402,6 @@ object SyntAnal7: TLibSyntAnalyzer
             'vector'
             'void'
             'wchar_t')
-          TokenTypes = 4
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'id special'
-      StyleName = 'Id special'
-      BlockType = btTagDetect
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '__asm'
-            '__automated'
-            '__cdecl'
-            '__classid'
-            '__closure'
-            '__declspec'
-            '__dispid'
-            '__except'
-            '__export'
-            '__fastcall'
-            '__FILE__'
-            '__finally'
-            '__func__'
-            '__FUNCTION__'
-            '__import'
-            '__inline'
-            '__int64'
-            '__LINE__'
-            '__msfastcall'
-            '__msreturn'
-            '__pascal'
-            '__property'
-            '__published'
-            '__stdcall'
-            '__try'
-            '__uuidof'
-            '_asm'
-            '_cdecl'
-            '_export'
-            '_fastcall'
-            '_import'
-            '_pascal'
-            '_stdcall'
-            'dllimport'
-            'false'
-            'NULL'
-            'nullptr'
-            'true')
           TokenTypes = 4
         end>
       HighlightPos = cpAny
@@ -787,7 +749,7 @@ object SyntAnal7: TLibSyntAnalyzer
     'Generic param'
     'Symbol ->'
     'Symbol ;')
-  Extentions = 'c cpp cxx h hpp hxx inl cc'
+  Extentions = 'cpp cxx h hh hpp hxx inl cc cp c++ h++ inl ipp'
   LexerName = 'C++'
   Notes.Strings = (
     'Reworked C++ lexer by Alexey (SynWrite)'
