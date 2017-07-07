@@ -2339,33 +2339,3 @@ Text is chr(1) separated items:
 * add: app_proc PROC_GET_LAST_PLUGIN
 * add: app_proc PROC_GET_GROUPING, PROC_SET_GROUPING
 * add: app_proc PROC_EXEC_PYTHON
-
-1.0.110
-
-* add: on_console_nav
-
-1.0.109
-
-* add: on_start
-* add: app_proc PROC_SET_EVENTS
-
-1.0.108
-
-* add: Editor.convert()
-* add: Editor.set_prop()
-* add: app_proc: PROC_MENU_CLEAR, PROC_MENU_ADD
-* add: get_prop/set_prop: PROP_UNPRINTED*.
-* add: Editor.get_ranges()
-
-1.0.107
-
-* add: event plugins
-* add: lexer_proc()
-* change: set_caret()
-* del: add_caret()
-
-1.0.106
-
-* add: dlg_file: can take filename "!"
-* add: app_path: APP_FILE_SESSION
-* add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION
