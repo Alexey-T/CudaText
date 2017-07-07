@@ -119,17 +119,17 @@ class Command:
             } )
 
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        self.toolbar_imglist = toolbar_proc(self.h_bar, TOOLBAR_GET_IMAGELIST)
 
         dirname = os.path.join(os.path.dirname(__file__), 'icons')
-        icon_open = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-open.png'))
-        icon_save = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-save.png'))
-        icon_add_file = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-add-file.png'))
-        icon_add_dir = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-add-dir.png'))
-        icon_del = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-del.png'))
-        icon_cfg = toolbar_proc(self.h_bar, TOOLBAR_ADD_ICON, text = os.path.join(dirname, 'tb-cfg.png'))
+        icon_open = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-open.png'))
+        icon_save = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-save.png'))
+        icon_add_file = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-add-file.png'))
+        icon_add_dir = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-add-dir.png'))
+        icon_del = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-del.png'))
+        icon_cfg = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-cfg.png'))
 
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
-        toolbar_proc(self.h_bar, TOOLBAR_SET_ICON_SIZES, index=16, index2=16)
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Open project', index2=icon_open, command='cuda_project_man.action_open_project' )
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text2='Save project as', index2=icon_save, command='cuda_project_man.action_save_project_as' )
         toolbar_proc(self.h_bar, TOOLBAR_ADD_BUTTON, text='-' )
@@ -151,6 +151,7 @@ class Command:
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
+        self.tree_imglist = tree_proc(self.tree, TREE_IMAGELIST_GET)
         tree_proc(self.tree, TREE_THEME)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
@@ -775,7 +776,7 @@ class Command:
 
         try:
             nsize = int(re.match('^\w+x(\d+)$', self.icon_theme).group(1))
-            tree_proc(self.tree, TREE_ICON_SET_SIZES, index=nsize, image_index=nsize)
+            imagelist_proc(self.tree_imglist, IMAGELIST_SET_SIZE, (nsize, nsize))
         except:
             print('Incorrect theme name, must be nnnnnn_NNxNN:', self.icon_theme)
 
@@ -801,8 +802,8 @@ class Command:
             return n
 
         fn = os.path.join(self.icon_dir, fn)
-        n = tree_proc(self.tree, TREE_ICON_ADD, text=fn)
-        if n == -1:
+        n = imagelist_proc(self.tree_imglist, IMAGELIST_ADD, value=fn)
+        if n is None:
             print('Incorrect filetype icon:', fn)
             n = self.ICON_ALL
         self.icon_indexes[key] = n
