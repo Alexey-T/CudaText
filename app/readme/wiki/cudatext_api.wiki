@@ -1243,9 +1243,7 @@ Param id_action possible values:
 
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
 * deprecated: TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
-* deprecated: TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: 
-** index - icon width
-** index2 - icon height
+* deprecated: TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: index - icon width, index2 - icon height.
 * deprecated: TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
 
 * TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
@@ -1253,7 +1251,6 @@ Param id_action possible values:
 ** index2 - new icon index, or -1 for none
 ** text - new button caption, or empty str to not change
 ** text2 - new button hint, or empty str to not change
-
 
 * TOOLBAR_DELETE_ALL: Delete all buttons.
 * TOOLBAR_DELETE_BUTTON: Delete one button. Params: index - button index.
@@ -1289,7 +1286,7 @@ Example adds button with dropdown submenu, which has 2 items:
 
 ===imagelist_proc===
 
- imagelist_proc(id_list, id_action, value='')
+ imagelist_proc(id_list, id_action, value="")
 
 Perform action on image-list object.
 
