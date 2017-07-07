@@ -209,6 +209,22 @@ object SyntAnal7: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol ;'
+      StyleName = 'Symbol'
+      TokenType = 13
+      Expression = ';'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol ->'
+      StyleName = 'Symbol'
+      TokenType = 12
+      Expression = '\->'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol { }'
       StyleName = 'Symbol'
       TokenType = 8
@@ -220,7 +236,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Symbol ::'
       StyleName = 'Symbol'
       TokenType = 9
-      Expression = ':: | \->'
+      Expression = '::'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -236,7 +252,7 @@ object SyntAnal7: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\[\],;]'
+      Expression = '[\[\],]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -768,11 +784,20 @@ object SyntAnal7: TLibSyntAnalyzer
     'Symbol {}'
     'Symbol ::'
     'Symbol ()'
-    'Generic param')
+    'Generic param'
+    'Symbol ->'
+    'Symbol ;')
   Extentions = 'c cpp cxx h hpp hxx inl cc'
   LexerName = 'C++'
   Notes.Strings = (
-    'Reworked C++ lexer by Alexey (SynWrite)')
+    'Reworked C++ lexer by Alexey (SynWrite)'
+    'Notes:'
+    
+      '- rules "block comments" disabled, they missed up func rules a l' +
+      'ittle'
+    '- many token types "symbol ..." is for rules: so rules can skip'
+    '  most symbols but not all (; -> {} etc)'
+    '   ')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
