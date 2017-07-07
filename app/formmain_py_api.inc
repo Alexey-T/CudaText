@@ -2881,11 +2881,24 @@ begin
 
         LEXER_GET_LIST:
           begin
+            MsgOldApi('lexer_proc(LEXER_GET_LIST)');
             List:= TStringList.Create;
             List.Sorted:= true;
             try
               DoLexerEnum(List, true);
               Result:= PyString_FromString(PChar(List.Text));
+            finally
+              FreeAndNil(List);
+            end;
+          end;
+
+        LEXER_GET_LEXERS:
+          begin
+            List:= TStringList.Create;
+            List.Sorted:= true;
+            try
+              DoLexerEnum(List, AppStrToBool(StrValue));
+              Result:= StringsToPyList(List);
             finally
               FreeAndNil(List);
             end;

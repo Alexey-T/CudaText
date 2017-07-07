@@ -279,6 +279,7 @@ LEXER_GET_STYLES          = 5 #deprecated
 LEXER_GET_COMMENT         = 6 #deprecated
 LEXER_GET_COMMENT_STREAM  = 7 #deprecated
 LEXER_GET_COMMENT_LINED   = 8 #deprecated
+LEXER_GET_LEXERS          = 9
 LEXER_GET_PROP            = 14
 LEXER_DETECT              = 20
 LEXER_GET_STYLES_COMMENTS = 30 #deprecated
@@ -591,7 +592,7 @@ def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
 
 def lexer_proc(id, value):
-    return ct.lexer_proc(id, value)
+    return ct.lexer_proc(id, to_str(value))
 
 def imagelist_proc(id_list, id_action, value=''):
     return ct.imagelist_proc(id_list, id_action, to_str(value))

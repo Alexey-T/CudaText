@@ -249,6 +249,7 @@ const
   LEXER_GET_COMMENT         = 6; //deprecated
   LEXER_GET_COMMENT_STREAM  = 7; //deprecated
   LEXER_GET_COMMENT_LINED   = 8; //deprecated
+  LEXER_GET_LEXERS          = 9;
   LEXER_GET_PROP            = 14;
   LEXER_DETECT              = 20;
   LEXER_GET_STYLES_COMMENTS = 30; //deprecated
