@@ -3525,7 +3525,7 @@ begin
             Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
           end;
 
-        TREE_IMAGELIST_GET:
+        TREE_GET_IMAGELIST:
           begin
             Result:= PyLong_FromLongLong(Int64(PtrInt(Tree.Images)));
           end;

@@ -151,7 +151,7 @@ class Command:
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
-        self.tree_imglist = tree_proc(self.tree, TREE_IMAGELIST_GET)
+        self.tree_imglist = tree_proc(self.tree, TREE_GET_IMAGELIST)
         tree_proc(self.tree, TREE_THEME)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
