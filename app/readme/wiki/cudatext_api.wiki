@@ -1044,7 +1044,7 @@ Possible values of id_action:
 * deprecated: TREE_ICON_GET_SIZES: Gets sizes of icons, as 2-tuple.
 * deprecated: TREE_ICON_SET_SIZES: Sets sizes of icons. Param "index" is icon width, "image_index" is icon height.
 
-* TREE_IMAGELIST_GET: Gets int handle of image-list object.
+* TREE_GET_IMAGELIST: Gets int handle of image-list object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
@@ -1888,7 +1888,7 @@ Text is chr(1) separated items:
 
 1.0.188
 * add: imagelist_proc()
-* add: tree_proc: TREE_IMAGELIST_GET
+* add: tree_proc: TREE_GET_IMAGELIST
 * add: toolbar_proc: TOOLBAR_GET_IMAGELIST
 * add: lexer_proc: LEXER_GET_LEXERS
 * deprecated: tree_proc: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
