@@ -654,13 +654,14 @@ begin
   bRep.Enabled:= IsReplace;
   bRepAll.Enabled:= IsReplace;
 
+  UpdateButtonFrames;
   UpdateSize;
 end;
 
 procedure TfmFind.UpdateButtonFrames;
 begin
-  bFindNext.ThickFrame:= not edRep.Focused;
-  bRep.ThickFrame:= edRep.Focused;
+  bFindNext.BoldBorder:= not edRep.Focused;
+  bRep.BoldBorder:= edRep.Focused;
 end;
 
 end.
