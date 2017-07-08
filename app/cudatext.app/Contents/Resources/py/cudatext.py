@@ -253,6 +253,7 @@ TREE_ICON_ADD              = 20
 TREE_ICON_DELETE           = 21
 TREE_ICON_GET_SIZES        = 22
 TREE_ICON_SET_SIZES        = 23
+TREE_GET_IMAGELIST         = 25
 TREE_PROP_SHOW_ROOT        = 30
 TREE_LOCK                  = 31
 TREE_UNLOCK                = 32
@@ -278,6 +279,7 @@ LEXER_GET_STYLES          = 5 #deprecated
 LEXER_GET_COMMENT         = 6 #deprecated
 LEXER_GET_COMMENT_STREAM  = 7 #deprecated
 LEXER_GET_COMMENT_LINED   = 8 #deprecated
+LEXER_GET_LEXERS          = 9
 LEXER_GET_PROP            = 14
 LEXER_DETECT              = 20
 LEXER_GET_STYLES_COMMENTS = 30 #deprecated
@@ -439,6 +441,7 @@ TOOLBAR_DELETE_ALL     = 6
 TOOLBAR_DELETE_BUTTON  = 7
 TOOLBAR_GET_CHECKED    = 10
 TOOLBAR_SET_CHECKED    = 11
+TOOLBAR_GET_IMAGELIST  = 12
 TOOLBAR_THEME          = 20
 
 DLG_CREATE         = 0
@@ -466,6 +469,15 @@ DLG_COORD_SCREEN_TO_LOCAL = 41
 
 #storage of live callbacks
 _live = {}
+
+IMAGELIST_CREATE     = 0
+IMAGELIST_COUNT      = 1
+IMAGELIST_GET_SIZE   = 2
+IMAGELIST_SET_SIZE   = 3
+IMAGELIST_ADD        = 5
+IMAGELIST_DELETE     = 6
+IMAGELIST_DELETE_ALL = 7
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -522,6 +534,7 @@ def dlg_dir(init_dir):
 
 def dlg_hotkey(title=''):
     return ct.dlg_hotkey(title)
+
 def dlg_hotkeys(command, lexer=''):
     return ct.dlg_hotkeys(command, lexer)
 
@@ -566,6 +579,7 @@ def file_save(filename=''):
 def ed_handles():
     r0, r1 = ct.ed_handles()
     return range(r0, r1+1)
+
 def ed_group(n):
     h = ct.ed_group(n)
     if h:
@@ -578,7 +592,10 @@ def ini_write(filename, section, key, value):
     return ct.ini_write(filename, section, key, value)
 
 def lexer_proc(id, value):
-    return ct.lexer_proc(id, value)
+    return ct.lexer_proc(id, to_str(value))
+
+def imagelist_proc(id_list, id_action, value=''):
+    return ct.imagelist_proc(id_list, id_action, to_str(value))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)

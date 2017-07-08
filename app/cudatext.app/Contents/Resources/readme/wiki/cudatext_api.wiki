@@ -981,7 +981,8 @@ Perform some lexer-related action.
 
 Possible values of id:
 
-* LEXER_GET_LIST: Gets "\n"-separated list of lexer names.   
+* deprecated: LEXER_GET_LIST: Gets str: "\n"-separated list of lexers.
+* LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (unchecked in the Lexer Library dialog).  
 * LEXER_GET_PROP: For given lexer name, gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
 ** "en": bool: lexer is visible in the lexers menu.
 ** "typ": list of str: list of file-types (they detect lexer when file loads; "ext" is simple extension, "ext1.ext2" is double extension, "/fullname" is name w/o path).
@@ -1037,12 +1038,13 @@ Possible values of id_action:
 
 * TREE_ITEM_GET_SYNTAX_RANGE: Gets position of range, associated with given tree-node, as 4-tuple (start_x, start_y, end_x, end_y). Can be called only for tree-nodes of Syntax Tree panel.
 
-* TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
-* TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
+* deprecated: TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
+* deprecated: TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
 
-* TREE_ICON_GET_SIZES: Gets sizes of icons, as 2-tuple.
-* TREE_ICON_SET_SIZES: Sets sizes of icons. Param "index" is icon width, "image_index" is icon height.
+* deprecated: TREE_ICON_GET_SIZES: Gets sizes of icons, as 2-tuple.
+* deprecated: TREE_ICON_SET_SIZES: Sets sizes of icons. Param "index" is icon width, "image_index" is icon height.
 
+* TREE_GET_IMAGELIST: Gets int handle of image-list object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
@@ -1240,18 +1242,16 @@ Param id_toolbar: currently can be "top" for main toolbar. Function gets None, i
 
 Param id_action possible values:
 
-* TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
-* TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: 
-** index - icon width
-** index2 - icon height
+* TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
+* deprecated: TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
+* deprecated: TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: index - icon width, index2 - icon height.
+* deprecated: TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
 
 * TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
 ** index - index of button
 ** index2 - new icon index, or -1 for none
 ** text - new button caption, or empty str to not change
 ** text2 - new button hint, or empty str to not change
-
-* TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
 
 * TOOLBAR_DELETE_ALL: Delete all buttons.
 * TOOLBAR_DELETE_BUTTON: Delete one button. Params: index - button index.
@@ -1284,6 +1284,27 @@ Example adds button with dropdown submenu, which has 2 items:
  menu_proc('toolmenu:drop', MENU_CLEAR)
  menu_proc('toolmenu:drop', MENU_ADD, caption='About...', command=2700)
  menu_proc('toolmenu:drop', MENU_ADD, caption='Edit plugin...', command="cuda_addonman,do_edit")
+
+===imagelist_proc===
+
+ imagelist_proc(id_list, id_action, value="")
+
+Perform action on image-list object.
+
+Param "id_list" is int handle of image-list. It is required for all actions, except IMAGELIST_CREATE, where it should be 0.
+
+Possible values of id_action:
+
+* IMAGELIST_CREATE: Creates new image-list object with default icon size 16x16. Gets int handle of this image-list. Param "value" must be int handle of owner form of object. 
+** If it is form handle from dlg_proc, object will be deleted after deletion of this form. 
+** If it is 0, main application form is used as owner, and object will be persistent.
+
+* IMAGELIST_COUNT: Gets int number of icons in image-list.
+* IMAGELIST_GET_SIZE: Gets current icon size as 2-tuple (width, height).
+* IMAGELIST_SET_SIZE: Sets new icon size, and clears image-list. Param "value" must be 2-tuple of int (width, height). Gets new icon size (corrected by minimal value) as 2-tuple.
+* IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Gets int icon index, or None if cannot load.
+* IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
+* IMAGELIST_DELETE_ALL: Deletes all icons.
 
 ===more===
 
@@ -1865,6 +1886,15 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.188
+* add: imagelist_proc()
+* add: tree_proc: TREE_GET_IMAGELIST
+* add: toolbar_proc: TOOLBAR_GET_IMAGELIST
+* add: lexer_proc: LEXER_GET_LEXERS
+* deprecated: tree_proc: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
+* deprecated: toolbar_proc: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
+* deprecated: lexer_proc: LEXER_GET_LIST
+
 1.0.187
 * add: lexer_proc: LEXER_GET_PROP
 * deprecated: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
@@ -2309,33 +2339,3 @@ Text is chr(1) separated items:
 * add: app_proc PROC_GET_LAST_PLUGIN
 * add: app_proc PROC_GET_GROUPING, PROC_SET_GROUPING
 * add: app_proc PROC_EXEC_PYTHON
-
-1.0.110
-
-* add: on_console_nav
-
-1.0.109
-
-* add: on_start
-* add: app_proc PROC_SET_EVENTS
-
-1.0.108
-
-* add: Editor.convert()
-* add: Editor.set_prop()
-* add: app_proc: PROC_MENU_CLEAR, PROC_MENU_ADD
-* add: get_prop/set_prop: PROP_UNPRINTED*.
-* add: Editor.get_ranges()
-
-1.0.107
-
-* add: event plugins
-* add: lexer_proc()
-* change: set_caret()
-* del: add_caret()
-
-1.0.106
-
-* add: dlg_file: can take filename "!"
-* add: app_path: APP_FILE_SESSION
-* add: app_proc: PROC_SAVE_SESSION, PROC_LOAD_SESSION, PROC_SET_SESSION
