@@ -106,7 +106,7 @@ type
     procedure SetMultiLine(Value: boolean);
     procedure SetNarrow(AValue: boolean);
     procedure SetReplace(AValue: boolean);
-    procedure UpdateButtonFrames;
+    procedure UpdateButtonBold;
   public
     { public declarations }
     FCaptionFind,
@@ -226,7 +226,7 @@ end;
 procedure TfmFind.edFindEnter(Sender: TObject);
 begin
   edFind.DoCommand(cCommand_SelectAll);
-  UpdateButtonFrames;
+  UpdateButtonBold;
 end;
 
 procedure TfmFind.edFindKeyDown(Sender: TObject; var Key: Word;
@@ -246,13 +246,13 @@ procedure TfmFind.edRepEnter(Sender: TObject);
 begin
   edRep.DoCommand(cCommand_SelectAll);
   bFindNext.ShowHint:= false; //hide hint "Enter" when replace-box focused
-  UpdateButtonFrames;
+  UpdateButtonBold;
 end;
 
 procedure TfmFind.edRepExit(Sender: TObject);
 begin
   bFindNext.ShowHint:= true;
-  UpdateButtonFrames;
+  UpdateButtonBold;
 end;
 
 procedure TfmFind.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -654,14 +654,14 @@ begin
   bRep.Enabled:= IsReplace;
   bRepAll.Enabled:= IsReplace;
 
-  UpdateButtonFrames;
+  UpdateButtonBold;
   UpdateSize;
 end;
 
-procedure TfmFind.UpdateButtonFrames;
+procedure TfmFind.UpdateButtonBold;
 begin
-  bFindNext.BoldBorder:= not edRep.Focused;
-  bRep.BoldBorder:= edRep.Focused;
+  bFindNext.BoldFont:= not edRep.Focused;
+  bRep.BoldFont:= edRep.Focused;
 end;
 
 end.
