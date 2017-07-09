@@ -32,16 +32,11 @@ type
     _ServerId: String;
     _UniqueInstanceId: String;
     procedure ReceivedMessage(Sender: TObject);
-  protected
-    procedure SetServerId(Id: String);
-    procedure SetTargetId(Id: String);
-    procedure SetWndHandle(Wnd: HWND);
-    procedure SetUniqueInstanceId(Id: String);
   public
-    property WindowHandle: HWND write SetWndHandle;
-    property TargetId: String write SetTargetId;
-    property Id: String write SetServerId;
-    property UniqueInstanceId: String write SetUniqueInstanceId;
+    property WindowHandle: HWND write _WindowHandle;
+    property TargetId: String write _TalkWith;
+    property Id: String write _ServerId;
+    property UniqueInstanceId: String write _UniqueInstanceId;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function IsAnotherInstance: boolean;
@@ -71,7 +66,6 @@ type
 
 var
   SwitchFunc: TSwitchFunc = nil;
-  hLib: HInst;
   OneWinInstance: TUniqueWinInstance;
 
 function IsSetToOneInstance: boolean;
@@ -128,39 +122,18 @@ begin
       Client.Active := True;
       Client.SendStringMessage(ParamCount, GetFormattedParams);
     end;
-    hLib:= LoadLibrary('user32.dll');
-    try
-      Pointer(SwitchFunc):= GetProcAddress(hLib, 'SwitchToThisWindow');
-    finally
-      FreeLibrary(hLib);
-    end;
+
     Sleep(10);
     if Assigned(SwitchFunc) then
     begin
+      {$ifdef CPU64}
+       SwitchFunc(StrToQWord(CudaWnd), True);
+      {$else}
        SwitchFunc(StrToInt(CudaWnd), True);
+      {$ifend}
     end;
     Client.Free;
   end;
-end;
-
-procedure TUniqueWinInstance.SetServerId(Id: String);
-begin
-  _ServerId:=Id;
-end;
-
-procedure TUniqueWinInstance.SetTargetId(Id: String);
-begin
-  _TalkWith:=Id;
-end;
-
-procedure TUniqueWinInstance.SetWndHandle(Wnd: HWND);
-begin
-  _WindowHandle:=Wnd;
-end;
-
-procedure TUniqueWinInstance.SetUniqueInstanceId(Id: String);
-begin
-  _UniqueInstanceId:=Id;
 end;
 
 constructor TUniqueWinInstance.Create(AOwner: TComponent);
@@ -226,15 +199,26 @@ begin
   begin
 
     OneWinInstance := TUniqueWinInstance.Create(nil);
-    OneWinInstance.SetServerId('cudatext.1');
-    OneWinInstance.SetUniqueInstanceId(GetServerId('cudatext.0'));
-    OneWinInstance.SetTargetId('cudatext.2');
+    OneWinInstance.Id := 'cudatext.1';
+    OneWinInstance.UniqueInstanceId := GetServerId('cudatext.0');
+    OneWinInstance.TargetId := 'cudatext.2';
     Result := OneWinInstance.IsAnotherInstance;
 
     OneWinInstance.Free;
   end;
 
 end;
+
+var
+  hLib: HINST;
+
+initialization
+  hLib := LoadLibrary('user32.dll');
+  Pointer(SwitchFunc) := GetProcAddress(hLib, 'SwitchToThisWindow');
+
+finalization
+  if hLib <> 0 then
+     FreeLibrary(hLib);
 
 {$else}
 procedure DoFocusWindow(h: THandle);
