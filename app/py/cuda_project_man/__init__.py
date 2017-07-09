@@ -11,7 +11,7 @@ import cudatext_cmd
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
-NEED_API = '1.0.184'
+NEED_API = '1.0.189'
 
 global_project_info = {}
 
@@ -730,6 +730,9 @@ class Command:
         def callback_find(fn, item):
             if fn==filename_to_find:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
+                tree_proc(self.tree, TREE_ITEM_SHOW, item)
+                app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+                dlg_proc(self.h_dlg, DLG_FOCUS)
                 return False
             return True
 
