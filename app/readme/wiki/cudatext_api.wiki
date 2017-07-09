@@ -1026,6 +1026,7 @@ Possible values of id_action:
 * TREE_ITEM_SET_ICON: Sets item's icon. Params: id_item, image_index.
 
 * TREE_ITEM_SELECT: Selects item.
+* TREE_ITEM_SHOW: Makes item visible, ie scrolls control to this item.
 * TREE_ITEM_GET_SELECTED: Gets int handle of selected item (id_item ignored). Gets None if none selected.
 * TREE_ITEM_GET_PROP: Gets props of item, 4-tuple: (str_caption, int_index, int_image_index, int_level). Gets None for root-item.
 * TREE_ITEM_GET_PARENT: Gets int handle of parent-item for item. 0 means no parent.
@@ -1036,7 +1037,7 @@ Possible values of id_action:
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
 
-* TREE_ITEM_GET_SYNTAX_RANGE: Gets position of range, associated with given tree-node, as 4-tuple (start_x, start_y, end_x, end_y). Can be called only for tree-nodes of Syntax Tree panel.
+* TREE_ITEM_GET_SYNTAX_RANGE: Only for Code Tree panel's treeview. Gets range, associated with tree-item, as 4-tuple (start_x, start_y, end_x, end_y). 
 
 * deprecated: TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
 * deprecated: TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
@@ -1885,6 +1886,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.189
+* add: tree_proc: TREE_ITEM_SHOW
 
 1.0.188
 * add: imagelist_proc()
