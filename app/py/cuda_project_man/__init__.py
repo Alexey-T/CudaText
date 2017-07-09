@@ -705,6 +705,10 @@ class Command:
         if not self.tree:
             msg_status('Project not opened')
             return
+            
+        #workaround: unfold all tree, coz tree loading is lazy
+        #todo: dont unfold all, but allow enum_all() to work
+        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
 
         files = []
         def callback_collect(fn, item):
