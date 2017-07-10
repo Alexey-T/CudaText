@@ -1,7 +1,8 @@
 
 2017.07.10
++ added option "Open file after 'Go to file' command"
 + added reaction to Enter in treeview
-- fixed "Go to file" command: a) it focuses found tree item, b) now it unfolds entire tree, needed because tree loading is lazy
+- fixed "Go to file" command: a) show found tree item, b) it unfolds entire tree, workaround, needed because tree loading is lazy
 
 2017.06.28
 + added option "Icons theme" in dialog
