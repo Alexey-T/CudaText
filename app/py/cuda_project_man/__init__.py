@@ -110,6 +110,11 @@ class Command:
         show_toolbar = self.options.get("toolbar", True)
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
+        
+        dlg_proc(self.h_dlg, DLG_PROP_SET, {
+            'keypreview': True,
+            'on_key_down': self.form_key_down,
+            } )
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
@@ -735,8 +740,8 @@ class Command:
             if fn==filename_to_find:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
                 tree_proc(self.tree, TREE_ITEM_SHOW, item)
-                app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
-                dlg_proc(self.h_dlg, DLG_FOCUS)
+                self.focus_panel()
+                #dlg_proc(self.h_dlg, DLG_FOCUS)
                 return False
             return True
 
@@ -815,3 +820,10 @@ class Command:
             n = self.ICON_ALL
         self.icon_indexes[key] = n
         return n
+
+    def form_key_down(self, id_dlg, id_ctl, data):
+        
+        if id_ctl==13: #Enter
+            self.tree_on_click_dbl(id_dlg, id_ctl)
+            return False #block key
+            

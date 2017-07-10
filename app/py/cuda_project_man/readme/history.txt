@@ -1,4 +1,8 @@
 
+2017.07.10
++ added reaction to Enter in treeview
+- fixed "Go to file" command: a) it focuses found tree item, b) now it unfolds entire tree, needed because tree loading is lazy
+
 2017.06.28
 + added option "Icons theme" in dialog
 + used file-type-icons from CudaText
