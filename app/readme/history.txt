@@ -3,7 +3,7 @@
   - fixed
   * changed
 
-1.13.0
+1.13.1
 
 - reworked part of syntax hilite code, and fixed old 2 bugs of incorrect selection(s) rendering
 + added commands "column select without key modifier: on/off"; when mode turned on: a) mouse drag makes column selection, b) Shift+arrows make column selection
@@ -11,6 +11,7 @@
 + console: context menu item "toggle word wrap"
 + option "ui_console_wrap"
 + improved C++ lexer (fixed detect funcs for tree, updated keywords)
++ Project Manager: reaction to Enter key; option 'Open file after Go To File command'
 
 1.12.0
 
