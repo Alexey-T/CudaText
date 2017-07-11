@@ -37,7 +37,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x;..\..\synedit\atsynedit;..\..\econtrol\ec"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -208,31 +208,34 @@
         </UserOverrides>
       </environment>
     </RunParams>
-    <RequiredPackages Count="8">
+    <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="atgauge_package"/>
+        <PackageName Value="atsynedit_ex_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="python4lazarus_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="atgauge_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="atbuttons_package"/>
+        <PackageName Value="LazControls"/>
       </Item4>
       <Item5>
-        <PackageName Value="econtrol_package"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item5>
       <Item6>
-        <PackageName Value="atsynedit_package"/>
+        <PackageName Value="atbuttons_package"/>
       </Item6>
       <Item7>
-        <PackageName Value="python4lazarus_pkg"/>
+        <PackageName Value="econtrol_package"/>
       </Item7>
       <Item8>
-        <PackageName Value="LCL"/>
+        <PackageName Value="atsynedit_package"/>
       </Item8>
+      <Item9>
+        <PackageName Value="LCL"/>
+      </Item9>
     </RequiredPackages>
     <Units Count="53">
       <Unit0>
