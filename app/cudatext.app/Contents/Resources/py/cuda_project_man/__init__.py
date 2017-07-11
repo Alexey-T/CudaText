@@ -11,7 +11,7 @@ import cudatext_cmd
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
-NEED_API = '1.0.184'
+NEED_API = '1.0.189'
 
 global_project_info = {}
 
@@ -110,6 +110,11 @@ class Command:
         show_toolbar = self.options.get("toolbar", True)
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
+
+        dlg_proc(self.h_dlg, DLG_PROP_SET, {
+            'keypreview': True,
+            'on_key_down': self.form_key_down,
+            } )
 
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='toolbar')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
@@ -706,6 +711,10 @@ class Command:
             msg_status('Project not opened')
             return
 
+        #workaround: unfold all tree, coz tree loading is lazy
+        #todo: dont unfold all, but allow enum_all() to work
+        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
+
         files = []
         def callback_collect(fn, item):
             if os.path.isfile(fn):
@@ -730,6 +739,15 @@ class Command:
         def callback_find(fn, item):
             if fn==filename_to_find:
                 tree_proc(self.tree, TREE_ITEM_SELECT, item)
+                tree_proc(self.tree, TREE_ITEM_SHOW, item)
+
+                #this focusing dont help, seems CudaText steals focus later
+                self.focus_panel()
+                #dlg_proc(self.h_dlg, DLG_FOCUS)
+
+                if self.options.get('goto_open', False):
+                    file_open(fn)
+
                 return False
             return True
 
@@ -783,7 +801,7 @@ class Command:
         self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', self.icon_theme)
         if not os.path.isdir(self.icon_dir):
             self.icon_dir = os.path.join(app_path(APP_DIR_DATA), 'filetypeicons', 'vscode_16x16')
-        
+
         self.icon_json = os.path.join(self.icon_dir, 'icons.json')
         self.icon_json_dict = json.loads(open(self.icon_json).read())
         self.icon_indexes = {}
@@ -808,3 +826,9 @@ class Command:
             n = self.ICON_ALL
         self.icon_indexes[key] = n
         return n
+
+    def form_key_down(self, id_dlg, id_ctl, data):
+
+        if id_ctl==13: #Enter
+            self.tree_on_click_dbl(id_dlg, id_ctl)
+            return False #block key

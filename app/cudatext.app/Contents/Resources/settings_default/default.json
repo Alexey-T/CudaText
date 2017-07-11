@@ -566,10 +566,17 @@
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
 
   //Statusbar panels (can skip items, can reorder items)
-  //  Panels: caret, enc, ends, lexer, tabsize, msg, ins (hidden by default)
-  //  Align: C (center), L (left), R (right)
-  //  Panel "msg" is autosized
-  "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|msg,L,",
+  //Panels: 
+  //    caret (Caret(s) info)
+  //    enc (Encoding name)
+  //    ends (Line ends kind)
+  //    lexer (Lexer name)
+  //    tabsize (Tab-char size)
+  //    ins (Insert/Overwrite mode, hidden by default)
+  //    selmode (Shows "-" for normal selection mode, "| |" for column selection mode)
+  //    msg (Message from CudaText or API, panel is auto-sized)
+  //Align: C (center), L (left), R (right)
+  "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,",
   //Statusbar height   
   "ui_statusbar_height": 24,
   //Statusbar popup message: time in seconds

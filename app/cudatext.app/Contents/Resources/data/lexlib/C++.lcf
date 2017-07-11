@@ -356,6 +356,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'static_assert'
             'static_cast'
             'template'
+            'this'
             'thread_local'
             'typedef'
             'typeid'
@@ -387,6 +388,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'char32_t'
             'double'
             'false'
+            'FALSE'
             'float'
             'int'
             'long'
@@ -396,6 +398,7 @@ object SyntAnal7: TLibSyntAnalyzer
             'signed'
             'string'
             'true'
+            'TRUE'
             'uint16_t'
             'uint32_t'
             'unsigned'
@@ -417,7 +420,7 @@ object SyntAnal7: TLibSyntAnalyzer
         end
         item
           CondType = tcSkip
-          TokenTypes = 62
+          TokenTypes = 2110
         end
         item
           TagList.Strings = (
@@ -425,7 +428,7 @@ object SyntAnal7: TLibSyntAnalyzer
           TokenTypes = 4
         end>
       BlockEnd = '}'
-      NameFmt = 'class %s-1'
+      NameFmt = 'class %s-1~[{]1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
@@ -566,18 +569,20 @@ object SyntAnal7: TLibSyntAnalyzer
           TokenTypes = 4
         end
         item
-          CondType = tcSkip
-          TokenTypes = 10
-        end
-        item
-          TokenTypes = 4
+          TagList.Strings = (
+            ';'
+            ':'
+            '}')
+          CondType = tcNotEqual
+          TokenTypes = 8456
         end>
+      BlockOffset = -1
       BlockEnd = '}'
-      NameFmt = '%sz-1'
+      NameFmt = '%s-1~[{]1'
       RefToCondEnd = True
       HighlightPos = cpBound
       CancelNextRules = True
-      CollapseFmt = '%sz-1...'
+      CollapseFmt = '%s-1~[{]1 ...'
       TreeItemImage = 5
       IgnoreAsParent = False
     end
