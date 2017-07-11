@@ -210,13 +210,13 @@
     </RunParams>
     <RequiredPackages Count="8">
       <Item1>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="atgauge_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="LazControls"/>
       </Item2>
       <Item3>
-        <PackageName Value="gauge_pkg"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item3>
       <Item4>
         <PackageName Value="atbuttons_package"/>

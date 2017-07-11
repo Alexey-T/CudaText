@@ -22,7 +22,7 @@ uses
   ATLinkLabel,
   ATStringProc,
   ATPanelColor,
-  Gauges,
+  ATGauge,
   proc_customdialog_dummy,
   proc_miscutils,
   proc_globdata,
