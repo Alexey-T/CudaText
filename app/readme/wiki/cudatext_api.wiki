@@ -1887,10 +1887,10 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.189
+1.0.189 (app 1.13.1)
 * add: tree_proc: TREE_ITEM_SHOW
 
-1.0.188
+1.0.188 (app 1.13.0)
 * add: imagelist_proc()
 * add: tree_proc: TREE_GET_IMAGELIST
 * add: toolbar_proc: TOOLBAR_GET_IMAGELIST
@@ -1899,18 +1899,18 @@ Text is chr(1) separated items:
 * deprecated: toolbar_proc: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
 * deprecated: lexer_proc: LEXER_GET_LIST
 
-1.0.187
+1.0.187 (app 1.12.2)
 * add: lexer_proc: LEXER_GET_PROP
 * deprecated: lexer_proc: LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS
 * deleted: lexer_proc: actions didnt work, lexer files were not saved: LEXER_SET_*, LEXER_DELETE, LEXER_IMPORT
 * add: dlg_proc: control "listview" on_select gets "data" param with 2-tuple
 
-1.0.186
+1.0.186 (app 1.12.0)
 * add: tree_proc: TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
 * deleted deprecated: app_proc: PROC_MENU_* actions
 * deleted deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
 
-1.0.185
+1.0.185 (app 1.11.0)
 * add: menu_proc: for MENU_ADD added param "tag"
 * add: menu_proc: MENU_SHOW can use 2-tuple (x,y)
 * add: menu_proc: MENU_ENUM gives additional dict key "command"
