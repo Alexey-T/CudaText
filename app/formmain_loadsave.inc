@@ -713,6 +713,7 @@ begin
     Op.OpIndentAutoKind:= c.GetValue('indent_kind', Op.OpIndentAutoKind);
     Op.OpIndentSize:= c.GetValue('indent_size', Op.OpIndentSize);
     Op.OpUnIndentKeepsAlign:= c.GetValue('unindent_keeps_align', Op.OpUnIndentKeepsAlign);
+    Op.OpIndentMakesWholeLineSel:= c.GetValue('indent_makes_whole_line_sel', Op.OpIndentMakesWholeLineSel);
 
     Op.OpMouse2ClickDragSelectsWords:= c.GetValue('mouse_2click_drag_select_words', Op.OpMouse2ClickDragSelectsWords);
     Op.OpMouseDragDrop:= c.GetValue('mouse_drag_drop', Op.OpMouseDragDrop);

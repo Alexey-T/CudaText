@@ -327,6 +327,7 @@ type
     OpIndentAutoKind: integer;
     OpIndentSize: integer;
     OpUnIndentKeepsAlign: boolean;
+    OpIndentMakesWholeLineSel: boolean;
 
     //mouse
     OpMouse2ClickDragSelectsWords: boolean;
@@ -925,6 +926,7 @@ begin
     OpIndentAutoKind:= Ord(cIndentAsIs);
     OpIndentSize:= 2;
     OpUnIndentKeepsAlign:= true;
+    OpIndentMakesWholeLineSel:= false;
 
     OpMouse2ClickDragSelectsWords:= true;
     OpMouseDragDrop:= true;

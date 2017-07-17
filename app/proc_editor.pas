@@ -293,6 +293,7 @@ begin
     Ed.OptAutoIndentKind:= TATAutoIndentKind(Op.OpIndentAutoKind);
   Ed.OptIndentSize:= Op.OpIndentSize;
   Ed.OptIndentKeepsAlign:= Op.OpUnIndentKeepsAlign;
+  Ed.OptIndentMakesWholeLinesSelection:= Op.OpIndentMakesWholeLineSel;
 
   Ed.OptMouse2ClickDragSelectsWords:= Op.OpMouse2ClickDragSelectsWords;
   Ed.OptMouseDragDrop:= Op.OpMouseDragDrop;

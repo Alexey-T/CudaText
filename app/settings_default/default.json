@@ -482,6 +482,9 @@
   //Unindent command (Shift+Tab): if several lines (in block) have different indent,
   //stop unindent if one line already at left edge (other lines wont be moved)
   "unindent_keeps_align": true,
+  //When indenting several lines, stretch selection after, to entire affected lines.
+  //Otherwise, selection will be like before, shifted.
+  "indent_makes_whole_line_sel": false,
 
   //[Mouse]
   //Drag-drop of text blocks
