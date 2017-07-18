@@ -136,7 +136,7 @@ begin
   SetLength(result, 0);
 
   SText:= UnicodeLowerCase(SText);
-  SFind:= UnicodeLowercase(SFind);
+  SFind:= UnicodeLowerCase(SFind);
 
   N:= 0;
   for i:= 1 to Length(SFind) do
@@ -193,9 +193,8 @@ function STextListsAllWords(SText, SWords: string): boolean;
 var
   SItem: string;
 begin
-  //such UnicodeLowerCase works with rus chars
-  SText:= Trim(UTF8Encode(UnicodeLowerCase(UTF8Decode(SText))));
-  SWords:= Trim(UTF8Encode(UnicodeLowerCase(UTF8Decode(SWords))));
+  SText:= Trim(AnsiLowerCase(SText));
+  SWords:= Trim(AnsiLowerCase(SWords));
 
   if SText='' then exit(false);
   if SWords='' then exit(false);
