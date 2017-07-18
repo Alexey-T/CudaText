@@ -190,18 +190,21 @@ end;
 
 function SFindWordsInString(SText, SFind: string): boolean;
 var
-  S, SItem: string;
+  SItem: string;
 begin
-  if Trim(SText)='' then exit(false);
-  S:= Trim(SFind);
-  if S='' then exit(false);
+  //such UnicodeLowerCase works with rus chars
+  SText:= Trim(UTF8Encode(UnicodeLowerCase(UTF8Decode(SText))));
+  SFind:= Trim(UTF8Encode(UnicodeLowerCase(UTF8Decode(SFind))));
+
+  if SText='' then exit(false);
+  if SFind='' then exit(false);
 
   repeat
-    SItem:= Trim(SGetItem(S, ' '));
-    S:= Trim(S);
+    SItem:= Trim(SGetItem(SFind, ' '));
+    SFind:= Trim(SFind);
 
     if SItem='' then exit(true);
-    if Pos(Lowercase(SItem), Lowercase(SText))=0 then exit(false);
+    if Pos(SItem, SText)=0 then exit(false);
   until false;
 end;
 

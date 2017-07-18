@@ -309,17 +309,16 @@ end;
 
 function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
 var
-  StrFind: atString;
-  StrText: string;
+  StrFind, StrText: string;
   Ar: TATIntArray;
 begin
   StrText:= listItems[AOrigIndex];
-  StrFind:= Utf8Encode(Trim(edit.Text));
-  if StrFind='' then begin result:= true; exit end;
+  StrFind:= Trim(UTF8Encode(edit.Text));
+  if StrFind='' then exit(true);
 
   if UiOps.ListboxFuzzySearch then
   begin
-    Ar:= SFindFuzzyPositions(StrText, StrFind);
+    Ar:= SFindFuzzyPositions(UTF8Decode(StrText), UTF8Decode(StrFind));
     Result:= Length(Ar)>0;
   end
   else
