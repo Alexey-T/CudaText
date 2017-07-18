@@ -376,8 +376,7 @@ end;
 
 function TfmCommands.IsFiltered(Item: TATKeymapItem): boolean;
 var
-  Str: atString;
-  Ar: TATIntArray;
+  StrFind: string;
 begin
   Result:= false;
 
@@ -398,28 +397,23 @@ begin
   end;
 
   //filter by input field
-  Str:= Trim(edit.Text);
-  if Str='' then exit(true);
+  StrFind:= Trim(UTF8Encode(edit.Text));
+  if StrFind='' then exit(true);
 
   //first @ char means search in hotkey
-  if Str[1]='@' then
+  if StrFind[1]='@' then
   begin
-    Delete(Str, 1, 1);
+    Delete(StrFind, 1, 1);
     Result:=
-      (Pos(LowerCase(Str), LowerCase(KeyArrayToString(Item.Keys1)))>0) or
-      (Pos(LowerCase(Str), LowerCase(KeyArrayToString(Item.Keys2)))>0);
+      (Pos(LowerCase(StrFind), LowerCase(KeyArrayToString(Item.Keys1)))>0) or
+      (Pos(LowerCase(StrFind), LowerCase(KeyArrayToString(Item.Keys2)))>0);
   end
   else
   //normal search in name
   if UiOps.ListboxFuzzySearch then
-  begin
-    Ar:= SFindFuzzyPositions(Item.Name, Str);
-    Result:= Length(Ar)>0;
-  end
+    Result:= STextListsFuzzyInput(Item.Name, StrFind)
   else
-  begin
-    Result:= SFindWordsInString(Item.Name, Str);
-  end;
+    Result:= STextListsAllWords(Item.Name, StrFind);
 end;
 
 procedure TfmCommands.DoMsgStatus(const S: string);

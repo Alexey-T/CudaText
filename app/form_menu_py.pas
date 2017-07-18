@@ -309,22 +309,16 @@ end;
 
 function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
 var
-  StrFind, StrText: string;
-  Ar: TATIntArray;
+  SFind, SText: string;
 begin
-  StrText:= listItems[AOrigIndex];
-  StrFind:= Trim(UTF8Encode(edit.Text));
-  if StrFind='' then exit(true);
+  SText:= listItems[AOrigIndex];
+  SFind:= Trim(UTF8Encode(edit.Text));
+  if SFind='' then exit(true);
 
   if UiOps.ListboxFuzzySearch then
-  begin
-    Ar:= SFindFuzzyPositions(UTF8Decode(StrText), UTF8Decode(StrFind));
-    Result:= Length(Ar)>0;
-  end
+    Result:= STextListsFuzzyInput(SText, SFind)
   else
-  begin
-    Result:= SFindWordsInString(StrText, StrFind);
-  end;
+    Result:= STextListsAllWords(SText, SFind);
 end;
 
 procedure TfmMenuApi.SetMultiline(AValue: boolean);

@@ -27,7 +27,8 @@ type
   end;
 
 function SFindFuzzyPositions(SText, SFind: UnicodeString): TATIntArray;
-function SFindWordsInString(SText, SFind: string): boolean;
+function STextListsAllWords(SText, SWords: string): boolean;
+function STextListsFuzzyInput(const SText, SFind: string): boolean;
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 function SRegexMatchesString(const AStr, AStrRegex: string; ACaseSensitive: boolean): boolean;
 
@@ -188,20 +189,20 @@ begin
   end;
 end;
 
-function SFindWordsInString(SText, SFind: string): boolean;
+function STextListsAllWords(SText, SWords: string): boolean;
 var
   SItem: string;
 begin
   //such UnicodeLowerCase works with rus chars
   SText:= Trim(UTF8Encode(UnicodeLowerCase(UTF8Decode(SText))));
-  SFind:= Trim(UTF8Encode(UnicodeLowerCase(UTF8Decode(SFind))));
+  SWords:= Trim(UTF8Encode(UnicodeLowerCase(UTF8Decode(SWords))));
 
   if SText='' then exit(false);
-  if SFind='' then exit(false);
+  if SWords='' then exit(false);
 
   repeat
-    SItem:= Trim(SGetItem(SFind, ' '));
-    SFind:= Trim(SFind);
+    SItem:= Trim(SGetItem(SWords, ' '));
+    SWords:= Trim(SWords);
 
     if SItem='' then exit(true);
     if Pos(SItem, SText)=0 then exit(false);
@@ -243,6 +244,16 @@ begin
   Result:= Pos(','+Ext+',', ','+AExtList+',' )>0;
 end;
 
+function STextListsFuzzyInput(const SText, SFind: string): boolean;
+var
+  Ar: TATIntArray;
+begin
+  Ar:= SFindFuzzyPositions(
+    UTF8Decode(SText),
+    UTF8Decode(SFind)
+    );
+  Result:= Length(Ar)>0;
+end;
 
 function SRegexReplaceSubstring(const AStr, AStrFind, AStrReplace: string; AUseSubstitute: boolean): string;
 var
