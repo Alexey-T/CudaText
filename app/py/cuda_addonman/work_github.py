@@ -1,9 +1,14 @@
 import os
 import tempfile
+from datetime import datetime
 from cudatext import *
 import cudatext_cmd
 from .work_remote import get_url
 
+
+def get_datetime_short():
+    t = datetime.now()
+    return t.strftime('%Y.%m.%d')
 
 def dialog_github_install(list_hist):
     c1 = chr(1)
@@ -44,6 +49,12 @@ def do_install_from_github():
         return
 
     file_open(fn)
+
+    dir = app_path(APP_DIR_INSTALLED_ADDON)
+    if dir:
+        fn = os.path.join(dir, 'v.inf')
+        with open(fn, 'w') as f:
+            f.write('github '+ get_datetime_short())
 
     #move new url to 1st item
     if url in list_hist:
