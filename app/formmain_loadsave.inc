@@ -618,6 +618,7 @@ begin
     Op.OpCaretVirtual:= c.GetValue('caret_after_end', Op.OpCaretVirtual);
     Op.OpCaretMulti:= c.GetValue('caret_multi', Op.OpCaretMulti);
     Op.OpCaretAfterPasteColumn:= c.GetValue('caret_after_paste_column', Op.OpCaretAfterPasteColumn);
+    Op.OpCaretsAddedToColumnSel:= c.GetValue('carets_with_column_sel', Op.OpCaretsAddedToColumnSel);
 
     Op.OpShowCurLine:= c.GetValue('show_cur_line', Op.OpShowCurLine);
     Op.OpShowCurLineMinimal:= c.GetValue('show_cur_line_minimal', Op.OpShowCurLineMinimal);

@@ -305,6 +305,8 @@
   "caret_blink_en": true,
   //Caret: Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
+  //Caret: Multi-carets are added when creating column (vertical) selection
+  "carets_with_column_sel": true,
 
   //Possible caret shapes:
   //  0: Full block

@@ -270,6 +270,7 @@ begin
 
   Ed.OptCaretVirtual:= Op.OpCaretVirtual;
   Ed.OptCaretManyAllowed:= Op.OpCaretMulti;
+  Ed.OptCaretsAddedToColumnSelection:= Op.OpCaretsAddedToColumnSel;
 
   Ed.OptShowCurLine:= Op.OpShowCurLine;
   Ed.OptShowCurLineMinimal:= Op.OpShowCurLineMinimal;

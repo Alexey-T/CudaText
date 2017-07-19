@@ -300,6 +300,7 @@ type
     OpCaretVirtual: boolean;
     OpCaretMulti: boolean;
     OpCaretAfterPasteColumn: integer;
+    OpCaretsAddedToColumnSel: boolean;
 
     //general
     OpShowCurLine: boolean;
@@ -901,6 +902,7 @@ begin
     OpCaretVirtual:= false;
     OpCaretMulti:= true;
     OpCaretAfterPasteColumn:= Ord(cPasteCaretColumnRight);
+    OpCaretsAddedToColumnSel:= true;
 
     OpShowCurLine:= false;
     OpShowCurLineMinimal:= true;
