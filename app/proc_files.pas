@@ -24,7 +24,7 @@ procedure FCopyDir(const d1, d2: string);
 function IsFileContentText(const fn: string; BufSizeKb: DWORD; DetectOEM: Boolean; out IsOEM: Boolean): Boolean;
 function IsFileReadonly(const fn: string): boolean;
 
-procedure FFileAttrPrepare(const fn: string; var attr: Longint);
+procedure FFileAttrPrepare(const fn: string; out attr: Longint);
 procedure FFileAttrRestore(const fn: string; attr: Longint);
 
 implementation
@@ -159,7 +159,7 @@ end;
 
 
 {$ifdef windows}
-procedure FFileAttrPrepare(const fn: string; var attr: Longint);
+procedure FFileAttrPrepare(const fn: string; out attr: Longint);
 const
   spec = faReadOnly or faSysFile or faHidden;
 var
@@ -174,7 +174,7 @@ begin
   FileSetAttrUTF8(fn, temp_attr and not spec);
 end;
 {$else}
-procedure FFileAttrPrepare(const fn: string; var attr: Longint);
+procedure FFileAttrPrepare(const fn: string; out attr: Longint);
 begin
   attr:= 0;
 end;

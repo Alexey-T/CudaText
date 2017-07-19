@@ -1114,19 +1114,22 @@ begin
       FOnAddRecent(Self);
   end;
 
-  try
-    PrevEnabled:= NotifEnabled;
-    NotifEnabled:= false;
+  PrevEnabled:= NotifEnabled;
+  NotifEnabled:= false;
 
+  while true do
+  try
     FFileAttrPrepare(FFileName, attr);
     Editor.SaveToFile(FFileName);
     FFileAttrRestore(FFileName, attr);
-
-    NotifEnabled:= PrevEnabled;
+    Break;
   except
-    MsgBox(msgCannotSaveFile+#13+FFileName, MB_OK or MB_ICONERROR);
-    Exit(false);
+    if MsgBox(msgCannotSaveFile+#10+FFileName,
+      MB_RETRYCANCEL or MB_ICONERROR) = IDCANCEL then
+      Exit(false);
   end;
+
+  NotifEnabled:= PrevEnabled;
 
   Editor.OnChange(Editor); //modified
   if not TabCaptionFromApi then
