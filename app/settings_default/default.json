@@ -297,16 +297,18 @@
   "undo_after_save": true,
 
   //[Text/Caret]
-  //Caret: Allow to place caret after end-of-line (virtual caret pos)
+  //Allow to place caret after end-of-line (virtual caret pos)
   "caret_after_end": false,
-  //Caret: Caret blink time (msec)
+  //Caret blink time (msec)
   "caret_blink_time": 600,
-  //Caret: Caret blink enabled
+  //Caret blinking enabled
   "caret_blink_en": true,
-  //Caret: Enable multi-carets, see "Help--Mouse usage"
+  //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
-  //Caret: Multi-carets are added when creating column (vertical) selection
-  "carets_with_column_sel": true,
+
+  //Multi-carets are added when creating column (vertical) selection
+  //option not ready
+  //"carets_with_column_sel": true,
 
   //Possible caret shapes:
   //  0: Full block
