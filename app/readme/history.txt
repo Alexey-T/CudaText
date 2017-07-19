@@ -8,6 +8,7 @@
 
 + option "indent_makes_whole_line_sel"
 + Addon Manager: "Install from Github" saves version like "github 2016.10.20"
+- fixed case-insensitive search in menu dialogs for non-En chars
 
 1.13.1
 
