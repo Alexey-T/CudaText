@@ -289,6 +289,9 @@ end;
 procedure TfmMain.MenuThemeDefaultUiClick(Sender: TObject);
 begin
   ThemeUi:= '';
+
+  if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
+    ThemeSyntax:= '';
 end;
 
 procedure TfmMain.MenuThemeDefaultSyntaxClick(Sender: TObject);
