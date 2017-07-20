@@ -1493,7 +1493,9 @@ begin
     if AddonType=cAddonTypePlugin then
     begin
       DoOps_LoadPlugins;
+      DoOps_LoadKeymap;
       UpdateMenuPlugins;
+      UpdateMenuPlugins_Shortcuts(true);
     end;
 
     if not ASilent then

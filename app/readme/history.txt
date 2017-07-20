@@ -4,12 +4,13 @@
   * changed
 
 
-1.13.2
+1.13.4
 
 + option "indent_makes_whole_line_sel"
 + Addon Manager: "Install from Github" saves version like "github 2016.10.20"
 + saving file error shows Retry/Cancel message (was OK only)
 - fixed case-insensitive search in menu dialogs for non-En chars
+- fixed non-working plugin hotkeys after any plugin installing
 
 1.13.1
 
