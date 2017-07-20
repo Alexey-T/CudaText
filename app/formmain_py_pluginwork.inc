@@ -204,22 +204,20 @@ begin
 end;
 
 procedure TfmMain.UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean = false);
-var
-  CurKeymap: TATKeymap;
   //
-  procedure UpdMenu(miMenu: TMenuItem);
+  procedure UpdMenu(AMenu: TMenuItem; AKeymap: TATKeymap);
   var
     miSub: TMenuItem;
     i: integer;
   begin
-    for i:= 0 to miMenu.Count-1 do
+    for i:= 0 to AMenu.Count-1 do
     begin
-      miSub:= miMenu.Items[i];
+      miSub:= AMenu.Items[i];
       if miSub.Count>0 then
-        UpdMenu(miSub)
+        UpdMenu(miSub, AKeymap)
       else
         if miSub.Tag>0 then
-          miSub.ShortCut:= CurKeymap.GetShortcutFromCommand(cmdFirstPluginCommand+miSub.Tag);
+          miSub.ShortCut:= AKeymap.GetShortcutFromCommand(cmdFirstPluginCommand+miSub.Tag);
     end;
   end;
   //
@@ -235,13 +233,9 @@ begin
     FLastLexerForPluginsMenu:= NewLexer;
   end;
 
-  //ShowMessage('upd pl hotkeys');
   Ed:= CurrentEditor;
   if Assigned(Ed) then
-  begin
-    CurKeymap:= Ed.Keymap;
-    UpdMenu(mnuPlug);
-  end;
+    UpdMenu(mnuPlug, Ed.Keymap);
 end;
 
 
