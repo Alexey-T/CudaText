@@ -23,7 +23,7 @@ uses
 type
   TAppPyCommonCallback = function(
     const ACallback: string;
-    const AParams: array of string): string of object;
+    const AParams: array of string): string;
 
 var
   CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;

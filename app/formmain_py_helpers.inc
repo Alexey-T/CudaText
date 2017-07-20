@@ -120,7 +120,7 @@ begin
 end;
 
 
-function TfmMain.DoPyCallbackFromAPI(const ACallback: string;
+function DoPyCallbackFromAPI(const ACallback: string;
   const AParams: array of string): string;
 const
   cRegex_DotCommand = '([a-z_]\w*)\.([a-z_]\w*)$';

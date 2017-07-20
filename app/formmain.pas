@@ -873,7 +873,7 @@ type
     property SidebarPanel: string read FLastSidebarPanel write SetSidebarPanel;
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoPyCommand(const AModule, AMethod: string; const AParams: array of string);
-    function DoPyCallbackFromAPI(const ACallback: string; const AParams: array of string): string;
+    //function DoPyCallbackFromAPI(const ACallback: string; const AParams: array of string): string;
   end;
 
 var
@@ -1072,6 +1072,7 @@ begin
   //macOS adds Quit item in apple menu
   mnuFileExit.Visible:= false;
 end;
+
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
