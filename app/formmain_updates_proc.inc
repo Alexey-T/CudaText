@@ -73,6 +73,7 @@ begin
   ToolbarSideMid.Buttons[1].Checked:= Assigned(fmGoto) and fmGoto.Visible;
 
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible);
+  UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible);
 
   if not F.IsText then
@@ -436,6 +437,7 @@ begin
     cCommand_ToggleFolding : DoSave(mi, mnuViewFold_Alt);
     cCommand_ToggleRuler : DoSave(mi, mnuViewRuler_Alt);
     cCommand_ToggleMinimap : DoSave(mi, mnuViewMinimap_Alt);
+    cCommand_ToggleMicromap : DoSave(mi, mnuViewMicromap_Alt);
     cmd_SplitTabToggle : DoSave(mi, mnuViewSplitDo_Alt);
     cmd_SplitTabHorzVert : DoSave(mi, mnuViewSplitHorz_Alt);
     cCommand_ToggleUnprinted : DoSave(mi, mnuViewUnpriShow_Alt);
@@ -698,6 +700,7 @@ begin
   UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, Ed.Gutter.Items[Ed.GutterBandFold].Visible);
   UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, Ed.OptRulerVisible);
   UpdateMenuItemChecked(mnuViewMinimap, mnuViewMinimap_Alt, Ed.OptMinimapVisible);
+  UpdateMenuItemChecked(nil, mnuViewMicromap_Alt, Ed.OptMicromapVisible);
 
   UpdateMenuItemChecked(mnuViewSplitDo, mnuViewSplitDo_Alt, F.Splitted);
   UpdateMenuItemChecked(mnuViewSplitHorz, mnuViewSplitHorz_Alt, F.SplitHorz);
