@@ -697,10 +697,10 @@
   //Value is string of few chars
   //  if "t" in value: toolbar
   //  if "i" in value: statusbar
-  //  if "a" in value: sidebar
-  //  if "p" in value: side panels (eg Tree)
-  //  if "b" in value: bottom panels (eg Console)
-  //  if "u" in value: tabs
+  //  if "a" in value: sidebar (on the left edge)
+  //  if "p" in value: side panels (near sidebar, e.g. Code Tree, Projects)
+  //  if "b" in value: bottom panels (e.g. Console)
+  //  if "u" in value: file tabs
   //  if "g" in value: gutter (all columns: numbers, bookmarks...)
   "ui_fullscreen": "tp",
   
