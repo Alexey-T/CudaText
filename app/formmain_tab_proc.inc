@@ -77,7 +77,8 @@ begin
     EditorFocus(F.Editor);
   end;
 
-  //load lexer keymap override
+  //load lexer-specific config+keymap
+  DoOps_LoadOptionsLexerSpecific(F);
   DoOps_LoadKeymap;
 
   UpdateStatus;
