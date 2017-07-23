@@ -93,7 +93,7 @@ type
 
     AutocompleteCss: boolean;
     AutocompleteHtml: boolean;
-    AutocompleteAutoshowChars: integer;
+    AutocompleteAutoshowCharCount: integer;
     AutocompleteTriggerChars: string;
     AutoCloseBrackets: string;
 
@@ -1012,7 +1012,7 @@ begin
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
-    AutocompleteAutoshowChars:= 0;
+    AutocompleteAutoshowCharCount:= 0;
     AutocompleteTriggerChars:= '';
     AutoCloseBrackets:= '([{';
 

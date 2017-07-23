@@ -768,11 +768,11 @@ begin
     end;
 
     //autoshow for others, when typed N chars
-    if (UiOps.AutocompleteAutoshowChars>0) {and
+    if (UiOps.AutocompleteAutoshowCharCount>0) {and
        (UiOps.AutocompleteAutoshowLexers<>'')} then
     begin
       Inc(FTextCharsTyped);
-      if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
+      if FTextCharsTyped=UiOps.AutocompleteAutoshowCharCount then
         //if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
         begin
           FTextCharsTyped:= 0;
