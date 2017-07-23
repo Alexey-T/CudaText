@@ -723,17 +723,29 @@ var
   Caret: TATCaretItem;
   Str: atString;
   SLexerName: string;
+  bWordChar: boolean;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
 
-  //autoshow autocomplete
+  //autoshow autocompletion
   if (ACommand=cCommand_TextInsert) and
-     (Length(AText)=1) and
-     IsCharWord(AText[1], '') then
+    (Length(AText)=1) then
   begin
+    //autoshow by trigger chars
+    if (UiOps.AutocompleteTriggerChars<>'') and
+      (Pos(AText, UiOps.AutocompleteTriggerChars)>0) then
+    begin
+      Ed.DoCommand(cmd_AutoComplete);
+      exit;
+    end;
+
+    //other conditions need word-char
+    bWordChar:= IsCharWord(AText[1], '');
+    if not bWordChar then exit;
+
     SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
     if SLexerName='' then SLexerName:= '-';
 

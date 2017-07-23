@@ -6,6 +6,7 @@
 
 1.13.4
 
++ option "autocomplete_trigger_chars" (like in ST3)
 + option "indent_makes_whole_line_sel"
 + option "ui_statusbar_panels" has item for wrap-mode panel (default is hidden)
 + option "ui_statusbar_wrap"
