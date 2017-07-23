@@ -886,17 +886,6 @@ implementation
 
 {$R *.lfm}
 
-var
-  cStatusCaret: integer = 0;
-  cStatusEnc: integer = 1;
-  cStatusEnds: integer = 2;
-  cStatusLexer: integer = 3;
-  cStatusTabsize: integer = 4;
-  cStatusInsOvr: integer = -1;
-  cStatusSelMode: integer = -1;
-  cStatusWrap: integer = -1;
-  cStatusMsg: integer = 5;
-
 { TfmMain }
 
 {$I formmain_py_toolbars.inc}
@@ -909,29 +898,29 @@ procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 begin
   if not CurrentFrame.IsText then exit;
 
-  if AIndex=cStatusEnc then
+  if AIndex=StatusbarIndex_Enc then
   begin
     if not CurrentFrame.ReadOnly then
       PopupEnc.PopUp;
   end
   else
-  if AIndex=cStatusEnds then
+  if AIndex=StatusbarIndex_LineEnds then
   begin
     if not CurrentFrame.ReadOnly then
       PopupEnds.PopUp;
   end
   else
-  if AIndex=cStatusLexer then
+  if AIndex=StatusbarIndex_Lexer then
   begin
     PopupLex.PopUp;
   end
   else
-  if AIndex=cStatusTabsize then
+  if AIndex=StatusbarIndex_TabSize then
   begin
     PopupTabSize.Popup;
   end
   else
-  if AIndex=cStatusSelMode then
+  if AIndex=StatusbarIndex_SelMode then
   begin
     with CurrentEditor do
     begin
@@ -940,7 +929,7 @@ begin
     end;
   end
   else
-  if AIndex=cStatusWrap then
+  if AIndex=StatusbarIndex_WrapMode then
   begin
     //loop: no wrap - wrap at window - wrap at margin
     with CurrentEditor do
@@ -2493,7 +2482,7 @@ begin
       S:= msgStatusMacroRec+' '+S;
   end;
 
-  Status[cStatusMsg]:= S;
+  Status[StatusbarIndex_Msg]:= S;
 
   if S='' then exit;
   TimerStatus.Enabled:= false;

@@ -79,12 +79,12 @@ begin
   if not F.IsText then
   begin
     Size:= F.PictureSizes;
-    Status[cStatusCaret]:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
-    Status[cStatusEnc]:= '';
-    Status[cStatusEnds]:= '';
-    Status[cStatusLexer]:= '';
-    Status[cStatusTabsize]:= '';
-    Status[cStatusInsOvr]:= '';
+    Status[StatusbarIndex_Caret]:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
+    Status[StatusbarIndex_Enc]:= '';
+    Status[StatusbarIndex_LineEnds]:= '';
+    Status[StatusbarIndex_Lexer]:= '';
+    Status[StatusbarIndex_TabSize]:= '';
+    Status[StatusbarIndex_InsOvr]:= '';
     exit;
   end;
 
@@ -96,11 +96,11 @@ begin
     selCarets:  fmt:= UiOps.StatusCarets;
     else        fmt:= UiOps.StatusNoSel;
   end;
-  Status[cStatusCaret]:= EditorFormatStatus(Ed, fmt);
+  Status[StatusbarIndex_Caret]:= EditorFormatStatus(Ed, fmt);
 
   //------
   S:= F.EncodingName;
-  Status[cStatusEnc]:= S;
+  Status[StatusbarIndex_Enc]:= S;
 
   //------
   case F.LineEnds of
@@ -109,7 +109,7 @@ begin
     cEndMac: S:= msgEndMac;
     else S:= '?';
   end;
-  Status[cStatusEnds]:= S;
+  Status[StatusbarIndex_LineEnds]:= S;
 
   //------
   an:= F.Lexer;
@@ -117,18 +117,18 @@ begin
     S:= msgNoLexer
   else
     S:= an.LexerName;
-  Status[cStatusLexer]:= S;
+  Status[StatusbarIndex_Lexer]:= S;
 
   //------
-  Status[cStatusTabsize]:= EditorFormatTabsize(Ed, UiOps.StatusTabsize);
+  Status[StatusbarIndex_TabSize]:= EditorFormatTabsize(Ed, UiOps.StatusTabsize);
 
   //------
   S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
-  Status[cStatusInsOvr]:= S;
+  Status[StatusbarIndex_InsOvr]:= S;
 
   //------
-  Status[cStatusSelMode]:= IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-');
-  Status[cStatusWrap]:= UiOps.StatusWrap[Ord(Ed.OptWrapMode)];
+  Status[StatusbarIndex_SelMode]:= IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-');
+  Status[StatusbarIndex_WrapMode]:= UiOps.StatusWrap[Ord(Ed.OptWrapMode)];
 end;
 
 procedure TfmMain.InitStatusButton;
@@ -852,13 +852,13 @@ var
   Al: TATStatusAlign;
 begin
   Status.DeletePanels;
-  cStatusCaret:= -1;
-  cStatusEnc:= -1;
-  cStatusEnds:= -1;
-  cStatusLexer:= -1;
-  cStatusTabsize:= -1;
-  cStatusInsOvr:= -1;
-  cStatusMsg:= -1;
+  StatusbarIndex_Caret:= -1;
+  StatusbarIndex_Enc:= -1;
+  StatusbarIndex_LineEnds:= -1;
+  StatusbarIndex_Lexer:= -1;
+  StatusbarIndex_TabSize:= -1;
+  StatusbarIndex_InsOvr:= -1;
+  StatusbarIndex_Msg:= -1;
 
   repeat
     SPanel:= SGetItem(AStr, '|');
@@ -867,15 +867,15 @@ begin
     NIndex:= Status.PanelCount;
     SItem:= SGetItem(SPanel);
     case SItem of
-      'caret':   cStatusCaret:= NIndex;
-      'enc':     cStatusEnc:= NIndex;
-      'ends':    cStatusEnds:= NIndex;
-      'lexer':   cStatusLexer:= NIndex;
-      'tabsize': cStatusTabsize:= NIndex;
-      'ins':     cStatusInsOvr:= NIndex;
-      'msg':     cStatusMsg:= NIndex;
-      'selmode': cStatusSelMode:= NIndex;
-      'wrap':    cStatusWrap:= NIndex;
+      'caret':   StatusbarIndex_Caret:= NIndex;
+      'enc':     StatusbarIndex_Enc:= NIndex;
+      'ends':    StatusbarIndex_LineEnds:= NIndex;
+      'lexer':   StatusbarIndex_Lexer:= NIndex;
+      'tabsize': StatusbarIndex_TabSize:= NIndex;
+      'ins':     StatusbarIndex_InsOvr:= NIndex;
+      'msg':     StatusbarIndex_Msg:= NIndex;
+      'selmode': StatusbarIndex_SelMode:= NIndex;
+      'wrap':    StatusbarIndex_WrapMode:= NIndex;
       else Continue;
     end;
 
@@ -919,7 +919,7 @@ end;
 
 procedure TfmMain.UpdateStatusbarPanelAutosize;
 begin
-  Status.DoPanelAutosize(cStatusMsg);
+  Status.DoPanelAutosize(StatusbarIndex_Msg);
 end;
 
 procedure TfmMain.StatusResize(Sender: TObject);

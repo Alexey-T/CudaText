@@ -612,6 +612,18 @@ function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
 function AppEncodingListAsString: string;
 
+var
+  //values calculated from option ui_statusbar_panels
+  StatusbarIndex_Caret: integer = 0;
+  StatusbarIndex_Enc: integer = 1;
+  StatusbarIndex_LineEnds: integer = 2;
+  StatusbarIndex_Lexer: integer = 3;
+  StatusbarIndex_TabSize: integer = 4;
+  StatusbarIndex_InsOvr: integer = -1;
+  StatusbarIndex_SelMode: integer = -1;
+  StatusbarIndex_WrapMode: integer = -1;
+  StatusbarIndex_Msg: integer = 5;
+
 
 implementation
 
