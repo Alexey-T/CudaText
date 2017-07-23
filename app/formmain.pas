@@ -894,6 +894,7 @@ var
   cStatusTabsize: integer = 4;
   cStatusInsOvr: integer = -1;
   cStatusSelMode: integer = -1;
+  cStatusWrap: integer = -1;
   cStatusMsg: integer = 5;
 
 { TfmMain }
@@ -935,6 +936,19 @@ begin
     with CurrentEditor do
     begin
       OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
+      UpdateStatus;
+    end;
+  end
+  else
+  if AIndex=cStatusWrap then
+  begin
+    //loop: no wrap - wrap at window - wrap at margin
+    with CurrentEditor do
+    begin
+      if OptWrapMode=High(OptWrapMode) then
+        OptWrapMode:= Low(OptWrapMode)
+      else
+        OptWrapMode:= Succ(OptWrapMode);
       UpdateStatus;
     end;
   end;

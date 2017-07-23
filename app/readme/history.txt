@@ -7,7 +7,9 @@
 1.13.4
 
 + option "indent_makes_whole_line_sel"
-+ command "toggle word wrap mode (off/ screen/ margin)"
++ option "ui_statusbar_panels" has item for wrap-mode panel (default is hidden)
++ option "ui_statusbar_wrap"
++ command "toggle word wrap mode (off/window/margin)"
 + menu item "View - Toggle micromap"
 + Addon Manager: "Install from Github" saves version like "github 2016.10.20"
 + saving file error shows Retry/Cancel message (was OK only)

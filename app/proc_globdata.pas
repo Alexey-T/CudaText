@@ -161,6 +161,7 @@ type
     StatusTime: integer;
     StatusAltTime: integer;
     StatusTabsize: string;
+    StatusWrap: array[0..2] of string;
 
     ShowActiveBorder: boolean;
     ShowSidebarCaptions: boolean;
@@ -1067,6 +1068,9 @@ begin
     StatusTime:= 5;
     StatusAltTime:= 7;
     StatusTabsize:= 'Tab size {tab}{_}';
+    StatusWrap[0]:= 'no-wrap';
+    StatusWrap[1]:= 'wrap';
+    StatusWrap[2]:= 'wrap-m';
 
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;

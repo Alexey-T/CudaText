@@ -468,6 +468,7 @@ end;
 procedure TfmMain.DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
 var
   c: TJsonConfig;
+  S: string;
 begin
   c:= TJsonConfig.Create(nil);
   try
@@ -501,6 +502,11 @@ begin
     UiOps.StatusHeight:= c.GetValue('ui_statusbar_height', UiOps.StatusHeight);
     UiOps.StatusTime:= Max(1, Min(60, c.GetValue('ui_statusbar_time', UiOps.StatusTime)));
     UiOps.StatusTabsize:= c.GetValue('ui_statusbar_tabsize', UiOps.StatusTabsize);
+
+    S:= c.GetValue('ui_statusbar_wrap', UiOps.StatusWrap[0]+','+UiOps.StatusWrap[1]+','+UiOps.StatusWrap[2]);
+    UiOps.StatusWrap[0]:= SGetItem(S);
+    UiOps.StatusWrap[1]:= SGetItem(S);
+    UiOps.StatusWrap[2]:= SGetItem(S);
 
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);

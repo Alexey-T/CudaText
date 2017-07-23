@@ -128,6 +128,7 @@ begin
 
   //------
   Status[cStatusSelMode]:= IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-');
+  Status[cStatusWrap]:= UiOps.StatusWrap[Ord(Ed.OptWrapMode)];
 end;
 
 procedure TfmMain.InitStatusButton;
@@ -874,6 +875,7 @@ begin
       'ins':     cStatusInsOvr:= NIndex;
       'msg':     cStatusMsg:= NIndex;
       'selmode': cStatusSelMode:= NIndex;
+      'wrap':    cStatusWrap:= NIndex;
       else Continue;
     end;
 
