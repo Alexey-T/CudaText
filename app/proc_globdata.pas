@@ -1134,6 +1134,9 @@ end;
 
 function GetAppLexerSpecificConfig(AName: string): string;
 begin
+  //support none-lexer here
+  if AName='' then
+    AName:= '-';
   SReplaceSpecialFilenameChars(AName);
   Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer '+AName+'.json';
 end;

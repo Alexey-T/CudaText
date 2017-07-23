@@ -703,7 +703,7 @@ type
     procedure DoOps_LoadOptionsAndApplyAll;
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
     procedure DoOps_OpenFile_FileTypes;
-    procedure DoOps_OpenFile_LexerOvr;
+    procedure DoOps_OpenFile_LexerSpecific;
     procedure DoOps_LoadPlugins;
     procedure DoOps_DialogFont(var OpName: string; var OpSize: integer;
       const AConfigStrName, AConfigStrSize: string);
@@ -2932,16 +2932,11 @@ begin
   DoFileOpen(fn);
 end;
 
-procedure TfmMain.DoOps_OpenFile_LexerOvr;
+procedure TfmMain.DoOps_OpenFile_LexerSpecific;
 var
   fn: string;
-  an: TecSyntAnalyzer;
 begin
-  an:= CurrentFrame.Lexer;
-  if an=nil then exit;
-  if an.LexerName='' then exit;
-
-  fn:= GetAppLexerSpecificConfig(an.LexerName);
+  fn:= GetAppLexerSpecificConfig(CurrentFrame.LexerName);
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
