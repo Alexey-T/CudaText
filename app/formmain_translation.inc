@@ -232,6 +232,7 @@ begin
     DoLocMenuitem(ini, mnuViewFold, 'm_v', 't_fo');
     DoLocMenuitem(ini, mnuViewRuler, 'm_v', 't_ru');
     DoLocMenuitem(ini, mnuViewMinimap, 'm_v', 't_mi');
+    DoLocMenuitem(ini, mnuViewMicromap, 'm_v', 't_mo');
 
     DoLocMenuitem(ini, mnuViewUnpri, 'm_v', 'u_');
     DoLocMenuitem(ini, mnuViewUnpriShow, 'm_v', 'u_sh');

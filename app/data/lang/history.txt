@@ -2,6 +2,9 @@ see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2017.07.23
++ [m_v] t_mo
+
 2017.07.01
 + [ct] wr
 
