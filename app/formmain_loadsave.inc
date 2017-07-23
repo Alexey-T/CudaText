@@ -660,7 +660,7 @@ begin
     UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
     UiOps.AutocompleteAutoshowChars:= c.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowChars);
     UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
-    UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', UiOps.AutocompleteTriggerChars);
+    UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', '');
     UiOps.AutoCloseBrackets:= c.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
 
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
@@ -753,6 +753,14 @@ begin
   end;
 end;
 
+procedure TfmMain.DoOps_ResetOptionsWhichAreLexerSpecific;
+begin
+  //some options are for lexer-specific configs.
+  //they must reset on any lexer change.
+  //otherwise, option in NN lexer will be active in MM lexer (after tab with NN focuses).
+  UiOps.AutocompleteAutoshowChars:= 0;
+  UiOps.AutocompleteTriggerChars:= '';
+end;
 
 procedure TfmMain.DoOps_LoadOptionsOverride(F: TEditorFrame);
 var
@@ -760,6 +768,8 @@ var
   fn: string;
   Ops: TEditorOps;
 begin
+  DoOps_ResetOptionsWhichAreLexerSpecific;
+
   if F=nil then exit;
   an:= F.Lexer;
   if an=nil then exit;

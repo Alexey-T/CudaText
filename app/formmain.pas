@@ -565,6 +565,7 @@ type
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
+    procedure DoOps_ResetOptionsWhichAreLexerSpecific;
     procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
