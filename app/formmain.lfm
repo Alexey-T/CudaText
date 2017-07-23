@@ -1,7 +1,7 @@
 object fmMain: TfmMain
   Left = 339
   Height = 504
-  Top = 360
+  Top = 236
   Width = 872
   AllowDropFiles = True
   Caption = 'CudaText'
@@ -580,6 +580,9 @@ object fmMain: TfmMain
       end
       object mnuViewMinimap: TMenuItem
         Caption = 'Toggle &minimap'
+      end
+      object mnuViewMicromap: TMenuItem
+        Caption = 'Toggle micr&omap'
       end
       object mnuViewUnpri: TMenuItem
         Caption = 'Toggle &unprinted chars'

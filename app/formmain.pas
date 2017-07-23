@@ -109,6 +109,7 @@ type
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
     ImageListToolbar: TImageList;
+    mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
     StatusProgress: TGauge;
     LabelSideTitle: TLabel;

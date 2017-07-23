@@ -582,6 +582,7 @@ begin
   UpdateMenuItemHotkey(mnuViewFold, cCommand_ToggleFolding);
   UpdateMenuItemHotkey(mnuViewRuler, cCommand_ToggleRuler);
   UpdateMenuItemHotkey(mnuViewMinimap, cCommand_ToggleMinimap);
+  UpdateMenuItemHotkey(mnuViewMicromap, cCommand_ToggleMicromap);
 
   UpdateMenuItemHotkey(mnuViewUnpriShow, cCommand_ToggleUnprinted);
   UpdateMenuItemHotkey(mnuViewUnpriSpaces, cCommand_ToggleUnprintedSpaces);
@@ -700,7 +701,7 @@ begin
   UpdateMenuItemChecked(mnuViewFold, mnuViewFold_Alt, Ed.Gutter.Items[Ed.GutterBandFold].Visible);
   UpdateMenuItemChecked(mnuViewRuler, mnuViewRuler_Alt, Ed.OptRulerVisible);
   UpdateMenuItemChecked(mnuViewMinimap, mnuViewMinimap_Alt, Ed.OptMinimapVisible);
-  UpdateMenuItemChecked(nil, mnuViewMicromap_Alt, Ed.OptMicromapVisible);
+  UpdateMenuItemChecked(mnuViewMicromap, mnuViewMicromap_Alt, Ed.OptMicromapVisible);
 
   UpdateMenuItemChecked(mnuViewSplitDo, mnuViewSplitDo_Alt, F.Splitted);
   UpdateMenuItemChecked(mnuViewSplitHorz, mnuViewSplitHorz_Alt, F.SplitHorz);
