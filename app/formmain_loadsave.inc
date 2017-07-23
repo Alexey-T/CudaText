@@ -764,18 +764,21 @@ end;
 
 procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
 var
-  an: TecSyntAnalyzer;
-  fn: string;
+  SLexer, fn: string;
+  An: TecSyntAnalyzer;
   Ops: TEditorOps;
 begin
+  if F=nil then exit;
   DoOps_ResetLexerSpecificOptions;
 
-  if F=nil then exit;
-  an:= F.Lexer;
-  if an=nil then exit;
-  if an.LexerName='' then exit;
+  An:= F.Lexer;
+  if Assigned(An) and (An.LexerName<>'') then
+    SLexer:= An.LexerName
+  else
+    //config 'lexer -.json' for none-lexer
+    SLexer:= '-';
 
-  fn:= GetAppLexerSpecificConfig(an.LexerName);
+  fn:= GetAppLexerSpecificConfig(SLexer);
   if FileExistsUTF8(fn) then
   begin
     Ops:= EditorOps;
