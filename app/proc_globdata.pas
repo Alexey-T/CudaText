@@ -367,7 +367,7 @@ function GetAppLangFilename: string;
 
 function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
-function GetAppLexerOverrideFilename(AName: string): string;
+function GetAppLexerSpecificConfig(AName: string): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
 
 //function GetActiveControl(Form: TWinControl): TWinControl;
@@ -1132,7 +1132,7 @@ begin
   S:= StringReplace(S, '>', '_', [rfReplaceAll]);
 end;
 
-function GetAppLexerOverrideFilename(AName: string): string;
+function GetAppLexerSpecificConfig(AName: string): string;
 begin
   SReplaceSpecialFilenameChars(AName);
   Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer '+AName+'.json';

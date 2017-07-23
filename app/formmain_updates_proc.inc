@@ -254,7 +254,7 @@ begin
     F.Editor2.Font.Size:= EditorOps.OpFontSize;
     F.Editor.Font.Quality:= EditorOps.OpFontQuality;
     F.Editor2.Font.Quality:= EditorOps.OpFontQuality;
-    DoOps_LoadOptionsOverride(F);
+    DoOps_LoadOptionsLexerSpecific(F);
   end;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
@@ -372,7 +372,7 @@ begin
   begin
     F:= Frames[i];
     DoApplyFrameOps(F, EditorOps, false);
-    DoOps_LoadOptionsOverride(F);
+    DoOps_LoadOptionsLexerSpecific(F);
   end;
 
   UpdateStatus;

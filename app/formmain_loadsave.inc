@@ -753,7 +753,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_ResetOptionsWhichAreLexerSpecific;
+procedure TfmMain.DoOps_ResetLexerSpecificOptions;
 begin
   //some options are for lexer-specific configs.
   //they must reset on any lexer change.
@@ -762,20 +762,20 @@ begin
   UiOps.AutocompleteTriggerChars:= '';
 end;
 
-procedure TfmMain.DoOps_LoadOptionsOverride(F: TEditorFrame);
+procedure TfmMain.DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
 var
   an: TecSyntAnalyzer;
   fn: string;
   Ops: TEditorOps;
 begin
-  DoOps_ResetOptionsWhichAreLexerSpecific;
+  DoOps_ResetLexerSpecificOptions;
 
   if F=nil then exit;
   an:= F.Lexer;
   if an=nil then exit;
   if an.LexerName='' then exit;
 
-  fn:= GetAppLexerOverrideFilename(an.LexerName);
+  fn:= GetAppLexerSpecificConfig(an.LexerName);
   if FileExistsUTF8(fn) then
   begin
     Ops:= EditorOps;

@@ -565,7 +565,6 @@ type
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
-    procedure DoOps_ResetOptionsWhichAreLexerSpecific;
     procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
@@ -688,6 +687,7 @@ type
     procedure StatusResize(Sender: TObject);
     procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
     procedure DoOps_ShowEventPlugins;
+    procedure DoOps_ResetLexerSpecificOptions;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoOps_LoadSidebarIcons;
     procedure DoOps_LoadTreeIcons;
@@ -701,7 +701,7 @@ type
     function DoOps_SaveSession(fn_session: string): boolean;
     function DoOps_LoadSession(fn_session: string): boolean;
     procedure DoOps_LoadOptionsAndApplyAll;
-    procedure DoOps_LoadOptionsOverride(F: TEditorFrame);
+    procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
     procedure DoOps_OpenFile_FileTypes;
     procedure DoOps_OpenFile_LexerOvr;
     procedure DoOps_LoadPlugins;
@@ -2941,7 +2941,7 @@ begin
   if an=nil then exit;
   if an.LexerName='' then exit;
 
-  fn:= GetAppLexerOverrideFilename(an.LexerName);
+  fn:= GetAppLexerSpecificConfig(an.LexerName);
   if not FileExistsUTF8(fn) then
   begin
     FCreateFile(fn, true);
@@ -3630,7 +3630,7 @@ end;
 
 procedure TfmMain.FrameLexerChange(Sender: TObject);
 begin
-  DoOps_LoadOptionsOverride((Sender as TComponent).Owner as TEditorFrame); //options override
+  DoOps_LoadOptionsLexerSpecific((Sender as TComponent).Owner as TEditorFrame); //options override
   DoPyEvent(CurrentEditor, cEventOnLexer, []);
   DoOps_LoadKeymap; //keymap override
 
