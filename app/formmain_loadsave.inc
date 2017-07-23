@@ -659,7 +659,7 @@ begin
     UiOps.AutocompleteHtml:= c.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
     UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
     UiOps.AutocompleteAutoshowChars:= c.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowChars);
-    UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
+    //UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
     UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', '');
     UiOps.AutoCloseBrackets:= c.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
 

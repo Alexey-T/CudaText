@@ -670,16 +670,11 @@
   "autocomplete_css": true,
 
   //Auto-show auto-completion after typing N word-chars (0: disabled)
+  //Option is for lexer-specific configs, not for user.json config.
   "autocomplete_autoshow_chars": 0,
 
-  //Addition to prev option: for which lexers (comma-separated, empty: disabled)
-  //  Don't add here lexers HTML/CSS, they have own auto-show
-  //  (which is intelligent, only at needed HTML/CSS place).
-  //  Use "-" for none-lexer.
-  "autocomplete_autoshow_lexers": "",
-
   //Chars, which trigger autocompletion show.
-  //Option is made for lexer-specific configs, not for user.json config.
+  //Option is for lexer-specific configs, not for user.json config.
   //  E.g. if option is "@!" in config "lexer Nnn.json", then @ and ! 
   //  chars trigger autocompletion, in Nnn lexer.
   "autocomplete_trigger_chars": "", 

@@ -768,12 +768,12 @@ begin
     end;
 
     //autoshow for others, when typed N chars
-    if (UiOps.AutocompleteAutoshowChars>0) and
-       (UiOps.AutocompleteAutoshowLexers<>'') then
+    if (UiOps.AutocompleteAutoshowChars>0) {and
+       (UiOps.AutocompleteAutoshowLexers<>'')} then
     begin
       Inc(FTextCharsTyped);
       if FTextCharsTyped=UiOps.AutocompleteAutoshowChars then
-        if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
+        //if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
         begin
           FTextCharsTyped:= 0;
           Ed.DoCommand(cmd_AutoComplete);

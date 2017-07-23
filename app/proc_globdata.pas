@@ -94,7 +94,6 @@ type
     AutocompleteCss: boolean;
     AutocompleteHtml: boolean;
     AutocompleteAutoshowChars: integer;
-    AutocompleteAutoshowLexers: string;
     AutocompleteTriggerChars: string;
     AutoCloseBrackets: string;
 
@@ -1014,7 +1013,6 @@ begin
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
     AutocompleteAutoshowChars:= 0;
-    AutocompleteAutoshowLexers:= '';
     AutocompleteTriggerChars:= '';
     AutoCloseBrackets:= '([{';
 
