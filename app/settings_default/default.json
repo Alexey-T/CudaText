@@ -585,9 +585,11 @@
   //    msg (Message from CudaText or API, panel is auto-sized)
   //Align: C (center), L (left), R (right)
   "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,",
+
   //Statusbar height   
   "ui_statusbar_height": 24,
-  //Statusbar popup message: time in seconds
+
+  //Statusbar message (in the last panel): show time in seconds
   "ui_statusbar_time": 5,
 
   //Statusbar: tabsize-panel text. Macros here:
@@ -595,7 +597,8 @@
   //  {_}: char "_" if spaces used
   "ui_statusbar_tabsize": "Tab size {tab}{_}",
   
-  //Statusbar: wrap-panel values. 3 strings ","-separated.
+  //Statusbar: wrap-panel values.
+  //3 strings ","-separated: for wrap off, for wrap at window edge, for wrap at margin
   "ui_statusbar_wrap": "no-wrap,wrap,wrap-m",
 
   //[Ui]
@@ -614,6 +617,7 @@
   //Underline HTML color codes (like #008080, #0a0) in these file extensions, 
   //comma-separated, w/o dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
+
   //Width of line, pixels
   "underline_color_size": 3,
 
