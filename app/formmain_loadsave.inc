@@ -396,14 +396,13 @@ begin
   F:= CurrentFrame;
   if Assigned(F) then
   begin
-    //dont load lexer override if tab changed, and same lexer active
+    //dont load lexer-specific cfg if tab changed, and same lexer active
     if FKeymapActiveLexerName=F.LexerName then exit;
     FKeymapActiveLexerName:= F.LexerName;
 
-    if FKeymapActiveLexerName<>'' then
-      DoOps_LoadKeymapFrom(
-        GetAppKeymapOverrideFilename(FKeymapActiveLexerName),
-        FKeymapUndoList);
+    DoOps_LoadKeymapFrom(
+      GetAppKeymap_LexerSpecificConfig(FKeymapActiveLexerName),
+      FKeymapUndoList);
   end;
 end;
 

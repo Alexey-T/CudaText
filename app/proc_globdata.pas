@@ -375,7 +375,7 @@ function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
-function GetAppKeymapOverrideFilename(AName: string): string;
+function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
 function SetAppKeymapHotkey(AParams: string): boolean;
 procedure AppKeymapCheckDuplicateForCommand(ACommand: integer; const ALexerName: string);
@@ -1139,8 +1139,11 @@ begin
   Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer '+AName+'.json';
 end;
 
-function GetAppKeymapOverrideFilename(AName: string): string;
+function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 begin
+  //support none-lexer
+  if AName='' then
+    AName:= '-';
   SReplaceSpecialFilenameChars(AName);
   Result:= GetAppPath(cDirSettings)+DirectorySeparator+'keys lexer '+AName+'.json';
 end;
@@ -1213,7 +1216,7 @@ begin
     c.Formatted:= true;
 
     if ALexerName<>'' then
-      c.Filename:= GetAppKeymapOverrideFilename(ALexerName)
+      c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
     else
       c.Filename:= GetAppPath(cFileOptionsKeymap);
 
@@ -1256,7 +1259,7 @@ begin
     c.Formatted:= true;
 
     if ALexerName<>'' then
-      c.Filename:= GetAppKeymapOverrideFilename(ALexerName)
+      c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
     else
       c.Filename:= GetAppPath(cFileOptionsKeymap);
 
