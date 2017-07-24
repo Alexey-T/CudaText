@@ -306,3 +306,4 @@ begin
   DoPyEvent(CurrentEditor, cEventOnTabMove, []);
 end;
 
+

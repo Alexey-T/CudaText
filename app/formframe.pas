@@ -67,6 +67,7 @@ type
     Ed1, Ed2: TATSynEdit;
     FTabCaption: string;
     FTabCaptionFromApi: boolean;
+    FTabImageIndex: integer;
     FTabId: integer;
     FFileName: string;
     FModified: boolean;
@@ -101,6 +102,7 @@ type
     FCheckFilenameOpened: TStrFunction;
     FSaveDialog: TSaveDialog;
 
+    function DoEventOnTabIcon: integer;
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
@@ -149,6 +151,7 @@ type
     procedure SetNotifTime(AValue: integer);
     procedure SetReadOnly(AValue: boolean);
     procedure SetTabColor(AColor: TColor);
+    procedure SetTabImageIndex(AValue: integer);
     procedure SetUnprintedEnds(AValue: boolean);
     procedure SetUnprintedEndsDetails(AValue: boolean);
     procedure SetUnprintedShow(AValue: boolean);
@@ -175,6 +178,7 @@ type
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property FileName: string read FFileName write SetFileName;
     property TabCaption: string read FTabCaption write SetTabCaption;
+    property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
     property Modified: boolean read FModified;
@@ -902,6 +906,7 @@ begin
   FTabColor:= clNone;
   Inc(FLastTabId);
   FTabId:= FLastTabId;
+  FTabImageIndex:= -1;
   FNotInRecents:= false;
 
   InitEditor(Ed1);
@@ -1055,6 +1060,7 @@ begin
     Editor.LoadFromFile(fn);
     FFileName:= fn;
     TabCaption:= ExtractFileName(FFileName);
+    TabImageIndex:= DoEventOnTabIcon;
   except
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#13+fn, MB_OK or MB_ICONERROR);
@@ -1714,6 +1720,24 @@ begin
   Pages.Invalidate;
 end;
 
+procedure TEditorFrame.SetTabImageIndex(AValue: integer);
+var
+  NPages, NTab: integer;
+  Pages: TATPages;
+  D: TATTabData;
+begin
+  FTabImageIndex:= AValue;
+
+  Groups.PagesAndTabIndexOfControl(Self, NPages, NTab);
+  Pages:= Groups.Pages[NPages];
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    D.TabImageIndex:= AValue;
+    Pages.Tabs.Invalidate;
+  end;
+end;
+
 procedure TEditorFrame.NotifChanged(Sender: TObject);
 begin
   if not Modified then
@@ -1744,6 +1768,14 @@ begin
     Result:= Point(FImage.Picture.Width, FImage.Picture.Height)
   else
     Result:= Point(0, 0);
+end;
+
+function TEditorFrame.DoEventOnTabIcon: integer;
+var
+  Str: string;
+begin
+  Str:= DoPyEvent(Editor, cEventOnTabIcon, []);
+  Result:= StrToIntDef(Str, -1);
 end;
 
 end.
