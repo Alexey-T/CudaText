@@ -4,7 +4,7 @@
   * changed
 
 
-1.13.4
+1.14.0
 
 + lexer-specific config for none-lexer allowed: "lexer -.json"
 + option "autocomplete_trigger_chars" (like in ST3)
