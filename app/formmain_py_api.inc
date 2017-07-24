@@ -2383,6 +2383,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_GET_TAB_IMAGELIST:
+          begin
+            Result:= PyLong_FromLongLong(Int64(PtrInt(fmMain.ImageListTabs)));
+          end;
+
         //-------------------
         APP_PROC_SIDEPANEL_ADD_DIALOG:
           begin

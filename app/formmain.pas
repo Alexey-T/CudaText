@@ -108,6 +108,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;

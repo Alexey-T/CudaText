@@ -2297,4 +2297,9 @@ object fmMain: TfmMain
       FF00FFFFFF00FFFFFF00FFFFFF00
     }
   end
+  object ImageListTabs: TImageList
+    AllocBy = 20
+    left = 736
+    top = 216
+  end
 end
