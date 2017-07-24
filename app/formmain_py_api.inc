@@ -1943,6 +1943,8 @@ begin
         PROP_UNPRINTED_END_DETAILS:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEndsDetails));
 
+        PROP_TAB_ICON:
+          Result:= PyLong_FromLongLong(F.TabImageIndex);
         PROP_TAB_COLLECT_MARKERS:
           Result:= PyBool_FromLong(Ord(F.TabKeyCollectMarkers));
 
@@ -2102,6 +2104,9 @@ begin
           Ed.OptUnprintedEnds:= ValueBool;
         PROP_UNPRINTED_END_DETAILS:
           Ed.OptUnprintedEndsDetails:= ValueBool;
+
+        PROP_TAB_ICON:
+          F.TabImageIndex:= ValueInt;
 
         PROP_TAB_COLLECT_MARKERS:
           F.TabKeyCollectMarkers:= ValueBool;
