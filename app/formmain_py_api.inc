@@ -2287,7 +2287,10 @@ begin
           begin
             CommandPlugins_UpdateSubcommands(Str);
             fmMain.UpdateKeymapDynamicItems;
+
+            fmMain.FKeymapLastLexer:= '??'; //this allows to load lexer-specific keymap
             fmMain.DoOps_LoadKeymap;
+
             Result:= ReturnNone;
           end;
 
