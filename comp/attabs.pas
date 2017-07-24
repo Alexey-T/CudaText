@@ -50,6 +50,7 @@ type
     TabColor: TColor;
     TabModified: boolean;
     TabRect: TRect;
+    TabImageIndex: integer;
   end;
 
 type
@@ -160,6 +161,7 @@ type
     FTabList: TList;
     FTabMenu: TatPopupMenu;
 
+    FImages: TImageList;
     FBitmap: TBitmap;
     FOnTabClick: TNotifyEvent;
     FOnTabPlusClick: TNotifyEvent;
@@ -177,7 +179,8 @@ type
     procedure DoPaintBgTo(C: TCanvas; const ARect: TRect);
     procedure DoPaintTabTo(C: TCanvas; ARect: TRect; const ACaption: atString;
       ATabBg, ATabBorder, ATabBorderLow, ATabHilite, ATabCloseBg,
-  ATabCloseBorder, ATabCloseXMark: TColor; ACloseBtn, AModified: boolean);
+  ATabCloseBorder, ATabCloseXMark: TColor; ACloseBtn, AModified: boolean;
+  AImageIndex: integer);
     procedure DoPaintArrowTo(C: TCanvas; ATyp: TATTriType; ARect: TRect;
       AColorArr, AColorBg: TColor);
     procedure DoPaintXTo(C: TCanvas; const R: TRect; ATabBg, ATabCloseBg,
@@ -237,6 +240,7 @@ type
     procedure DragOver(Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean); override;
   published
     property DoubleBuffered;
+    property Images: TImageList read FImages write FImages;
     //colors
     property ColorBg: TColor read FColorBg write FColorBg;
     property ColorDrop: TColor read FColorDrop write FColorDrop;
@@ -622,7 +626,8 @@ end;
 procedure TATTabs.DoPaintTabTo(
   C: TCanvas; ARect: TRect; const ACaption: atString;
   ATabBg, ATabBorder, ATabBorderLow, ATabHilite, ATabCloseBg, ATabCloseBorder, ATabCloseXMark: TColor;
-  ACloseBtn, AModified: boolean);
+  ACloseBtn, AModified: boolean;
+  AImageIndex: integer);
 var
   PL1, PL2, PR1, PR2: TPoint;
   RectText: TRect;
@@ -652,6 +657,17 @@ begin
   NIndentR:= NIndentL+IfThen(ACloseBtn, FTabIndentXRight);
   C.FillRect(RectText);
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
+
+  //imagelist
+  if Assigned(FImages) then
+    if (AImageIndex>=0) and (AImageIndex<FImages.Count) then
+    begin
+      FImages.Draw(C,
+        RectText.Left-2,
+        (RectText.Top + RectText.Bottom - FImages.Height) div 2,
+        AImageIndex);
+      Inc(RectText.Left, FImages.Width);
+    end;
 
   //left triangle
   PL1:= Point(ARect.Left+FTabAngle*AInvert, ARect.Top);
@@ -928,6 +944,7 @@ var
   AColorXBg, AColorXBorder, AColorXMark: TColor;
   ARect, ARectDown: TRect;
   AType: TATTabElemType;
+  Data: TATTabData;
 begin
   AType:= aeBackground;
   ARect:= ClientRect;
@@ -982,7 +999,8 @@ begin
         AColorXBorder,
         AColorXMark,
         false,
-        false
+        false,
+        -1 //no icon
         );
       DoPaintAfter(AType, -1, C, ARect);
     end;    
@@ -1000,18 +1018,19 @@ begin
         AType:= aeTabPassive;
       if IsPaintNeeded(AType, i, C, ARect) then
       begin
+        Data:= TATTabData(FTabList[i]);
         DoPaintTabTo(C, ARect,
-          Format(FTabNumPrefix, [i+1]) +
-            TATTabData(FTabList[i]).TabCaption,
+          Format(FTabNumPrefix, [i+1]) + Data.TabCaption,
           IfThen((i=FTabIndexOver) and not FMouseDrag, FColorTabOver, FColorTabPassive),
           FColorBorderPassive,
           FColorBorderActive,
-          TATTabData(FTabList[i]).TabColor,
+          Data.TabColor,
           AColorXBg,
           AColorXBorder,
           AColorXMark,
           IsShowX(i),
-          TATTabData(FTabList[i]).TabModified
+          Data.TabModified,
+          Data.TabImageIndex
           );
         DoPaintAfter(AType, i, C, ARect);
       end;
@@ -1025,18 +1044,19 @@ begin
     GetTabCloseColor(i, ARect, AColorXBg, AColorXBorder, AColorXMark);
     if IsPaintNeeded(aeTabActive, i, C, ARect) then
     begin
+      Data:= TATTabData(FTabList[i]);
       DoPaintTabTo(C, ARect,
-        Format(FTabNumPrefix, [i+1]) +
-          TATTabData(FTabList[i]).TabCaption,
+        Format(FTabNumPrefix, [i+1]) + Data.TabCaption,
         FColorTabActive,
         FColorBorderActive,
         IfThen(FTabShowBorderActiveLow, FColorBorderActive, clNone),
-        TATTabData(FTabList[i]).TabColor,
+        Data.TabColor,
         AColorXBg,
         AColorXBorder,
         AColorXMark,
         IsShowX(i),
-        TATTabData(FTabList[i]).TabModified
+        Data.TabModified,
+        Data.TabImageIndex
         );
       DoPaintAfter(aeTabActive, i, C, ARect);
     end;  
@@ -1301,6 +1321,7 @@ begin
   Data.TabObject:= AObject;
   Data.TabModified:= AModified;
   Data.TabColor:= AColor;
+  Data.TabImageIndex:= -1;
 
   if IsIndexOk(AIndex) then
     FTabList.Insert(AIndex, Data)

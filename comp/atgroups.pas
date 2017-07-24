@@ -166,6 +166,8 @@ type
     FPopupPages: TATPages;
     FPopupTabIndex: Integer;
     function DoScale(N: integer): integer;
+    function GetImages: TImageList;
+    procedure SetImages(AValue: TImageList);
     procedure TabFocus(Sender: TObject);
     procedure TabEmpty(Sender: TObject);
     procedure TabPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -197,6 +199,7 @@ type
     PagesCurrent: TATPages;
     Pages: array[TATGroupsNums] of TATPages;
     //
+    property Images: TImageList read GetImages write SetImages;
     property Panel1: TPanel read FPanel1;
     property Splitter1: TMySplitter read FSplit1;
     property Splitter2: TMySplitter read FSplit2;
@@ -1713,6 +1716,19 @@ begin
     Result:= N
   else
     Result:= MulDiv(N, ScalePercents, 100);
+end;
+
+function TATGroups.GetImages: TImageList;
+begin
+  Result:= Pages1.Tabs.Images;
+end;
+
+procedure TATGroups.SetImages(AValue: TImageList);
+var
+  i: integer;
+begin
+  for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    Pages[i].Tabs.Images:= AValue;
 end;
 
 end.
