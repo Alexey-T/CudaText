@@ -27,11 +27,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
 * on_state(self, ed_self, state): Called after some app-state is changed. Param state is one of EDSTATE_nnnn numbers.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt call.
-
-==UI==
-
 * on_tab_move(self, ed_self): Called after closing tab (another tab already activated), or moving tab (by drag-n-drop, or UI command).
-* on_tab_icon(self, ed_self): Called to get icon for file tab, icon will be shown on tab header. Method must return int icon index, or None. Icon index is inside imagelist, which handle you can get via PROC_GET_TAB_IMAGELIST.
 
 ==Clicks==
 
@@ -1893,7 +1889,6 @@ Text is chr(1) separated items:
 =History=
 
 1.0.190 (app 1.14.0)
-* add: event on_tab_icon
 * add: app_proc: PROC_GET_TAB_IMAGELIST
 
 1.0.189 (app 1.13.1)
