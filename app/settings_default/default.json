@@ -243,10 +243,11 @@
 
   //[Text]
   //Fixed margin (vertical line) column.
-  //It's always shown, to hide: set to big value, eg 2000.
+  //Line is always shown, to hide: set to big value, e.g. 2000.
   "margin": 2000,
-  //Additional margins.
-  //List of columns like "10 20 25" space-separated.
+
+  //Additional vertical lines.
+  //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
 
   //[View/Unprinted]
