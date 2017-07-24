@@ -43,6 +43,9 @@ type
   TatMenuItem = {$ifdef TNT} TTntMenuItem {$else} TMenuItem {$endif};
 
 type
+
+  { TATTabData }
+
   TATTabData = class
   public
     TabCaption: atString;
@@ -51,6 +54,7 @@ type
     TabModified: boolean;
     TabRect: TRect;
     TabImageIndex: integer;
+    constructor Create; virtual;
   end;
 
 type
@@ -220,7 +224,8 @@ type
       const ACaption: atString;
       AObject: TObject = nil;
       AModified: boolean = false;
-      AColor: TColor = clNone);
+      AColor: TColor = clNone;
+      AImageIndex: integer = -1);
     function DeleteTab(AIndex: Integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
     procedure ShowTabMenu;
     procedure SwitchTab(ANext: boolean);
@@ -486,6 +491,15 @@ begin
   end;
 
   DrawTriangleRaw(C, P1, P2, P3, Color);
+end;
+
+{ TATTabData }
+
+constructor TATTabData.Create;
+begin
+  inherited;
+  TabColor:= clNone;
+  TabImageIndex:= -1;
 end;
 
 { TATTabs }
@@ -1312,7 +1326,8 @@ procedure TATTabs.AddTab(
   const ACaption: atString;
   AObject: TObject = nil;
   AModified: boolean = false;
-  AColor: TColor = clNone);
+  AColor: TColor = clNone;
+  AImageIndex: integer = -1);
 var
   Data: TATTabData;
 begin
@@ -1321,7 +1336,7 @@ begin
   Data.TabObject:= AObject;
   Data.TabModified:= AModified;
   Data.TabColor:= AColor;
-  Data.TabImageIndex:= -1;
+  Data.TabImageIndex:= AImageIndex;
 
   if IsIndexOk(AIndex) then
     FTabList.Insert(AIndex, Data)
@@ -1596,7 +1611,8 @@ begin
   Data:= GetTabData(NTab);
   if Data=nil then Exit;
 
-  ATabs.AddTab(NTabTo, Data.TabCaption, Data.TabObject, Data.TabModified, Data.TabColor);
+  ATabs.AddTab(NTabTo, Data.TabCaption, Data.TabObject,
+    Data.TabModified, Data.TabColor, Data.TabImageIndex);
 
   //correct TabObject parent
   if Data.TabObject is TWinControl then
