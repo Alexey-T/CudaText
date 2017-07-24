@@ -382,7 +382,7 @@ procedure AppKeymapCheckDuplicateForCommand(ACommand: integer; const ALexerName:
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
 procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
 
-procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
+procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
@@ -1204,7 +1204,8 @@ begin
 end;
 
 
-procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string);
+procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string;
+  ALexerSpecific: boolean);
 var
   c: TJSONConfig;
   sl: TStringList;
@@ -1215,7 +1216,7 @@ begin
   try
     c.Formatted:= true;
 
-    if ALexerName<>'' then
+    if ALexerSpecific then
       c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
     else
       c.Filename:= GetAppPath(cFileOptionsKeymap);
@@ -1524,8 +1525,8 @@ begin
     KeyArraySetFromString(Keys2, SKey2);
 
     //save to keys.json
-    DoOps_SaveKeyItem(AppKeymap[NIndex], SCmd,
-      ''); //Py API: no need lexer override
+    //Py API: no need lexer-specific
+    DoOps_SaveKeyItem(AppKeymap[NIndex], SCmd, '', false);
   end;
   Result:= true;
 end;
@@ -1558,10 +1559,10 @@ begin
       KeyArrayClear(itemKeyPtr^);
 
       //save to: user.json
-      DoOps_SaveKeyItem(item, IntToStr(item.Command), '');
+      DoOps_SaveKeyItem(item, IntToStr(item.Command), '', false);
       //save to: lexer*.json
       if ALexerName<>'' then
-        DoOps_SaveKeyItem(item, IntToStr(item.Command), ALexerName);
+        DoOps_SaveKeyItem(item, IntToStr(item.Command), ALexerName, true);
     end;
   end;
 end;

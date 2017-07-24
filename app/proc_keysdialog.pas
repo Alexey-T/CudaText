@@ -51,7 +51,7 @@ begin
   try
     DoLocalize_FormKeys(Form);
     Caption:= Caption+' - '+AppKeymap[n].Name;
-    chkForLexer.Enabled:= ALexerName<>'';
+    //chkForLexer.Enabled:= ALexerName<>'';
     Keys1:= AppKeymap[n].Keys1;
     Keys2:= AppKeymap[n].Keys2;
 
@@ -61,7 +61,7 @@ begin
       AppKeymap[n].Keys1:= Keys1;
       AppKeymap[n].Keys2:= Keys2;
       DoOps_SaveKeyItem(AppKeymap[n], StrId,
-        IfThen(Form.chkForLexer.Checked, ALexerName));
+        ALexerName, Form.chkForLexer.Checked);
     end;
   finally
     Free
