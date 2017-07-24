@@ -144,7 +144,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 * PROC_PROGRESSBAR: Change state of the progress-bar, which is located on the status-bar (hidden by default). If passed int value<0, progressbar hides, else it shows with the given value 0..100.
-* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Event on_tab_icon works with it.
+* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON editor property to get/set icons of file tabs.
 
 ====System====
 
@@ -1550,6 +1550,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
+* PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 
@@ -1890,6 +1891,7 @@ Text is chr(1) separated items:
 
 1.0.190 (app 1.14.0)
 * add: app_proc: PROC_GET_TAB_IMAGELIST
+* add: ed.get_prop/ ed.set_prop: PROP_TAB_ICON
 
 1.0.189 (app 1.13.1)
 * add: tree_proc: TREE_ITEM_SHOW
