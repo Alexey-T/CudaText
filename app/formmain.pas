@@ -483,7 +483,7 @@ type
     FListLangs: TStringList;
     FListTimers: TStringList;
     FKeymapUndoList: TATKeymapUndoList;
-    FKeymapActiveLexerName: string;
+    FKeymapLastLexer: string;
     FConsoleMustShow: boolean;
     FThemeUi: string;
     FThemeSyntax: string;
@@ -543,6 +543,7 @@ type
     FOrigShowSideBar: boolean;
     FOrigShowTabs: boolean;
     FAllowEventOnOpenBefore: boolean;
+    FAllowLoadKeymap: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
     FTreeClick: boolean;
@@ -1154,6 +1155,8 @@ begin
   FListLangs:= TStringList.Create;
   FListTimers:= TStringList.Create;
   FKeymapUndoList:= TATKeymapUndoList.Create;
+  FKeymapLastLexer:= '??'; //not ''
+  FAllowLoadKeymap:= false;
   FAllowEventOnOpenBefore:= true;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
@@ -1400,6 +1403,7 @@ begin
 
   DoOps_LoadPlugins;
   DoOps_LoadHistory;
+  FAllowLoadKeymap:= true;
   DoOps_LoadKeymap;
 
   DoPyEvent(CurrentEditor, cEventOnFocus, []);

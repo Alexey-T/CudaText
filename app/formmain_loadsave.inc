@@ -389,6 +389,9 @@ procedure TfmMain.DoOps_LoadKeymap;
 var
   F: TEditorFrame;
 begin
+  //func called few times before OnShow because of OnTabFocus, disable these
+  if not FAllowLoadKeymap then exit;
+
   AppKeymap_ApplyUndoList(FKeymapUndoList);
   DoOps_LoadKeymapFrom(GetAppPath(cFileOptionsKeymap), nil);
   FKeymapUndoList.Clear;
@@ -397,11 +400,11 @@ begin
   if Assigned(F) then
   begin
     //dont load lexer-specific cfg if tab changed, and same lexer active
-    if FKeymapActiveLexerName=F.LexerName then exit;
-    FKeymapActiveLexerName:= F.LexerName;
+    if FKeymapLastLexer=F.LexerName then exit;
+    FKeymapLastLexer:= F.LexerName;
 
     DoOps_LoadKeymapFrom(
-      GetAppKeymap_LexerSpecificConfig(FKeymapActiveLexerName),
+      GetAppKeymap_LexerSpecificConfig(FKeymapLastLexer),
       FKeymapUndoList);
   end;
 end;
