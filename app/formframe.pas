@@ -102,7 +102,6 @@ type
     FCheckFilenameOpened: TStrFunction;
     FSaveDialog: TSaveDialog;
 
-    function DoEventOnTabIcon: integer;
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
@@ -1060,7 +1059,6 @@ begin
     Editor.LoadFromFile(fn);
     FFileName:= fn;
     TabCaption:= ExtractFileName(FFileName);
-    TabImageIndex:= DoEventOnTabIcon;
   except
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#13+fn, MB_OK or MB_ICONERROR);
@@ -1711,13 +1709,16 @@ var
   Pages: TATPages;
   D: TATTabData;
 begin
+  FTabColor:= AColor;
+
   Groups.PagesAndTabIndexOfControl(Self, NPages, NTab);
   Pages:= Groups.Pages[NPages];
   D:= Pages.Tabs.GetTabData(NTab);
-  if D=nil then Exit;
-  D.TabColor:= AColor;
-  FTabColor:= AColor;
-  Pages.Invalidate;
+  if Assigned(D) then
+  begin
+    D.TabColor:= AColor;
+    Pages.Tabs.Invalidate;
+  end;
 end;
 
 procedure TEditorFrame.SetTabImageIndex(AValue: integer);
@@ -1726,6 +1727,7 @@ var
   Pages: TATPages;
   D: TATTabData;
 begin
+  if FTabImageIndex=AValue then exit;
   FTabImageIndex:= AValue;
 
   Groups.PagesAndTabIndexOfControl(Self, NPages, NTab);
@@ -1770,13 +1772,6 @@ begin
     Result:= Point(0, 0);
 end;
 
-function TEditorFrame.DoEventOnTabIcon: integer;
-var
-  Str: string;
-begin
-  Str:= DoPyEvent(Editor, cEventOnTabIcon, []);
-  Result:= StrToIntDef(Str, -1);
-end;
 
 end.
 
