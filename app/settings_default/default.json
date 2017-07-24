@@ -696,12 +696,14 @@
   //[View/Web]
   //Highlight URLs (font color+ underline)
   "links_hilite": true,
+
   //Reg-ex which finds URLs
   "links_regex": "\\b(https?://|ftp://|magnet:\\?|www\\.)\\w[^<>''\"\\s]+",
 
   //[File]
   //Maximal file size, to open, in Mb
   "ui_max_size_open": 30,
+
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 4,
 
@@ -724,8 +726,9 @@
   "ui_console_wrap": true,
 
   //[Ui/Sidebar]
-  //Show sidebar (vertical panel with buttons, but not side panels like Tree)
+  //Show sidebar (vertical toolbar at the left edge)
   "ui_sidebar_show": true,
+
   //Sidebar icons theme
   //Folders from: sideicons
   "ui_sidebar_theme": "octicons_20x20",
