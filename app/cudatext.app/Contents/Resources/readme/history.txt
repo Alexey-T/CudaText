@@ -3,6 +3,22 @@
   - fixed
   * changed
 
+
+1.14.0
+
++ lexer-specific config for none-lexer allowed: "lexer -.json"
++ option "autocomplete_trigger_chars" (like in ST3)
++ option "indent_makes_whole_line_sel"
++ option "ui_statusbar_panels" has item for wrap-mode panel (default is hidden)
++ option "ui_statusbar_wrap"
++ command "toggle word wrap mode (off/window/margin)"
++ menu item "View - Toggle micromap"
++ Addon Manager: "Install from Github" saves version like "github 2016.10.20"
++ saving file error shows Retry/Cancel message (was OK only)
+* removed option "autocomplete_autoshow_lexers" (use lexer-specific configs instead)
+- fixed case-insensitive search in menu dialogs for non-En chars
+- fixed non-working plugin hotkeys after any plugin installing
+
 1.13.1
 
 - reworked part of syntax hilite code, and fixed old 2 bugs of incorrect selection(s) rendering

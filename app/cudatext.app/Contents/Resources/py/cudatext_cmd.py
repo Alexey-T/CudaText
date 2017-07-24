@@ -117,6 +117,7 @@ cCommand_ToggleFolding = 308
 cCommand_ToggleRuler = 309
 cCommand_ToggleMinimap = 310
 cCommand_ToggleMicromap = 311
+cCommand_ToggleWordWrapAlt = 312
 
 cCommand_ClipboardPaste = 1000
 cCommand_ClipboardPaste_Select = 1001

@@ -243,10 +243,11 @@
 
   //[Text]
   //Fixed margin (vertical line) column.
-  //It's always shown, to hide: set to big value, eg 2000.
+  //Line is always shown, to hide: set to big value, e.g. 2000.
   "margin": 2000,
-  //Additional margins.
-  //List of columns like "10 20 25" space-separated.
+
+  //Additional vertical lines.
+  //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
 
   //[View/Unprinted]
@@ -297,14 +298,18 @@
   "undo_after_save": true,
 
   //[Text/Caret]
-  //Caret: Allow to place caret after end-of-line (virtual caret pos)
+  //Allow to place caret after end-of-line (virtual caret pos)
   "caret_after_end": false,
-  //Caret: Caret blink time (msec)
+  //Caret blink time (msec)
   "caret_blink_time": 600,
-  //Caret: Caret blink enabled
+  //Caret blinking enabled
   "caret_blink_en": true,
-  //Caret: Enable multi-carets, see "Help--Mouse usage"
+  //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
+
+  //Multi-carets are added when creating column (vertical) selection
+  //option not ready
+  //"carets_with_column_sel": true,
 
   //Possible caret shapes:
   //  0: Full block
@@ -482,6 +487,9 @@
   //Unindent command (Shift+Tab): if several lines (in block) have different indent,
   //stop unindent if one line already at left edge (other lines wont be moved)
   "unindent_keeps_align": true,
+  //When indenting several lines, stretch selection after, to entire affected lines.
+  //Otherwise, selection will be like before, shifted.
+  "indent_makes_whole_line_sel": false,
 
   //[Mouse]
   //Drag-drop of text blocks
@@ -574,18 +582,25 @@
   //    tabsize (Tab-char size)
   //    ins (Insert/Overwrite mode, hidden by default)
   //    selmode (Shows "-" for normal selection mode, "| |" for column selection mode)
+  //    wrap (Shows state of wrap-mode: no wrap, wrap at window, wrap at margin)
   //    msg (Message from CudaText or API, panel is auto-sized)
   //Align: C (center), L (left), R (right)
   "ui_statusbar_panels": "caret,C,170|enc,C,105|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,",
+
   //Statusbar height   
   "ui_statusbar_height": 24,
-  //Statusbar popup message: time in seconds
+
+  //Statusbar message (in the last panel): show time in seconds
   "ui_statusbar_time": 5,
 
-  //Statusbar: tabsize-panel. Macros here:
+  //Statusbar: tabsize-panel text. Macros here:
   //  {tab}: tab size
   //  {_}: char "_" if spaces used
   "ui_statusbar_tabsize": "Tab size {tab}{_}",
+  
+  //Statusbar: wrap-panel values.
+  //3 strings ","-separated: for wrap off, for wrap at window edge, for wrap at margin
+  "ui_statusbar_wrap": "no-wrap,wrap,wrap-m",
 
   //[Ui]
   //Show full file path in window title
@@ -603,6 +618,7 @@
   //Underline HTML color codes (like #008080, #0a0) in these file extensions, 
   //comma-separated, w/o dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
+
   //Width of line, pixels
   "underline_color_size": 3,
 
@@ -654,15 +670,19 @@
   //[Text/Completion]
   //Enable special auto-completion for HTML lexer (see wiki)
   "autocomplete_html": true,
+
   //Enable special auto-completion for CSS lexer (see wiki)
   "autocomplete_css": true,
+
   //Auto-show auto-completion after typing N word-chars (0: disabled)
+  //Option is for lexer-specific configs, not for user.json config.
   "autocomplete_autoshow_chars": 0,
-  //Addition to prev option: for which lexers (comma-separated, empty: disabled)
-  //  Don't add here lexers HTML/CSS, they have own auto-show
-  //  (which is intelligent, only at needed HTML/CSS place).
-  //  Use "-" for none-lexer.
-  "autocomplete_autoshow_lexers": "",
+
+  //Chars, which trigger autocompletion show.
+  //Option is for lexer-specific configs, not for user.json config.
+  //  E.g. if option is "@!" in config "lexer Nnn.json", then @ and ! 
+  //  chars trigger autocompletion, in Nnn lexer.
+  "autocomplete_trigger_chars": "", 
 
   //Auto-close brackets/quotes. Skips escaped chars, eg \(. 
   //  Value can have only chars: ( [ { ' " `
@@ -676,12 +696,14 @@
   //[View/Web]
   //Highlight URLs (font color+ underline)
   "links_hilite": true,
+
   //Reg-ex which finds URLs
   "links_regex": "\\b(https?://|ftp://|magnet:\\?|www\\.)\\w[^<>''\"\\s]+",
 
   //[File]
   //Maximal file size, to open, in Mb
   "ui_max_size_open": 30,
+
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 4,
 
@@ -690,10 +712,10 @@
   //Value is string of few chars
   //  if "t" in value: toolbar
   //  if "i" in value: statusbar
-  //  if "a" in value: sidebar
-  //  if "p" in value: side panels (eg Tree)
-  //  if "b" in value: bottom panels (eg Console)
-  //  if "u" in value: tabs
+  //  if "a" in value: sidebar (on the left edge)
+  //  if "p" in value: side panels (near sidebar, e.g. Code Tree, Projects)
+  //  if "b" in value: bottom panels (e.g. Console)
+  //  if "u" in value: file tabs
   //  if "g" in value: gutter (all columns: numbers, bookmarks...)
   "ui_fullscreen": "tp",
   
@@ -704,8 +726,9 @@
   "ui_console_wrap": true,
 
   //[Ui/Sidebar]
-  //Show sidebar (vertical panel with buttons, but not side panels like Tree)
+  //Show sidebar (vertical toolbar at the left edge)
   "ui_sidebar_show": true,
+
   //Sidebar icons theme
   //Folders from: sideicons
   "ui_sidebar_theme": "octicons_20x20",
