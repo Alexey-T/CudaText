@@ -53,6 +53,9 @@ begin
   NTab:= Pages.Tabs.TabCount-1;
   Result:= Pages.Tabs.GetTabData(NTab);
   Pages.Tabs.TabIndex:= NTab;
+
+  ////test icons
+  //Result.TabImageIndex:= Random(3)-1; //with random -1
 end;
 
 procedure TfmMain.DoOnTabAdd(Sender: TObject);

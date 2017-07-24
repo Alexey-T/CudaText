@@ -1204,6 +1204,7 @@ begin
   Groups.Parent:= PanelMain;
   Groups.Align:= alClient;
   Groups.Mode:= gmOne;
+  Groups.Images:= ImageListTabs;
   Groups.OnTabFocus:= @DoOnTabFocus;
   Groups.OnTabAdd:= @DoOnTabAdd;
   Groups.OnTabClose:= @DoOnTabClose;
