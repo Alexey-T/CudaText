@@ -851,10 +851,10 @@ object SyntAnal14: TLibSyntAnalyzer
     'Include Tag')
   Extentions = 
     'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
-    'x jsp hhc dtd php php2 php3 php4 php5'
+    'x jsp hhc dtd php php3 php4 php5 php7 phps phpt'
   LexerName = 'HTML'
   Notes.Strings = (
-    'Created by 480499497 from forum.wincmd.ru'
-    'Hardly changed by Alexey (Synwrite)')
+    'Created by 480499497 from forum.wincmd.ru (named HTML_dev)'
+    'Heavily changed by Alexey (SynWrite)')
   Charset = DEFAULT_CHARSET
 end
