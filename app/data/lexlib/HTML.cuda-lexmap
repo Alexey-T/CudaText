@@ -28,3 +28,4 @@ Sublexer BG=IncludeBG1
 Color=Color
 Text escaped=Symbol
 Include tag=TagInclude
+Comment doc=CommentDoc

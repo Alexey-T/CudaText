@@ -137,6 +137,14 @@ object SyntAnal14: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Comment doc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 12615808
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
     end>
   TokenRules = <
     item
@@ -156,8 +164,8 @@ object SyntAnal14: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment 2'
-      StyleName = 'Comment'
+      DisplayName = 'Comment doc'
+      StyleName = 'Comment doc'
       TokenType = 1
       Expression = '(?s)<! .*? >'
       ColumnFrom = 0
@@ -813,6 +821,7 @@ object SyntAnal14: TLibSyntAnalyzer
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
+    '<!-- comment -->'
     '<meta1/>'
     '<meta2>text</meta3>'
     '<?php echo '#39'test'#39', 20 ?> <% asp text %>'
