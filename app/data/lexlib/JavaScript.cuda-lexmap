@@ -1,3 +1,9 @@
+[comments]
+str1=/*
+str2=*/
+styles_cmt=Comment,Comment doc
+styles_str=String
+
 [map]
 Symbol=Symbol
 Number=Number
@@ -10,9 +16,4 @@ Id jquery=Id2
 Comment=Comment
 Comment doc=CommentDoc
 Current block=BracketBG
-
-[comments]
-str1=/*
-str2=*/
-styles_cmt=Comment,Comment doc
-styles_str=String
+PHP tag=TagId

@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -97,6 +97,14 @@ object SyntAnal16: TLibSyntAnalyzer
       BorderColorRight = clGray
       BorderTypeBottom = blSolid
       BorderColorBottom = clGray
+    end
+    item
+      DisplayName = 'PHP tag'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end>
   TokenRules = <
     item
@@ -192,6 +200,14 @@ object SyntAnal16: TLibSyntAnalyzer
       StyleName = 'Number'
       TokenType = 5
       Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'PHP tag'
+      StyleName = 'PHP tag'
+      TokenType = 6
+      Expression = '<\?php | <\? | \?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -822,7 +838,10 @@ object SyntAnal16: TLibSyntAnalyzer
     '/** DocBlock '
     '*/'
     '/* Comment */'
-    '  #! Shebang'
+    
+      '  #! Shebang                                                    ' +
+      '         '
+    '<?php included ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
     '    s_not_regex = 1 / 2 + (0xFF+10) / 3;'
@@ -866,7 +885,8 @@ object SyntAnal16: TLibSyntAnalyzer
     'Id'
     'Symbol'
     'String'
-    'Number')
+    'Number'
+    'PHP tag')
   Extentions = 'js'
   LexerName = 'JavaScript'
   Notes.Strings = (
