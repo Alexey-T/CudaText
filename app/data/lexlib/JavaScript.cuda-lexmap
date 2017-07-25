@@ -16,4 +16,4 @@ Id jquery=Id2
 Comment=Comment
 Comment doc=CommentDoc
 Current block=BracketBG
-PHP tag=TagId
+PHP tag=TagInclude
