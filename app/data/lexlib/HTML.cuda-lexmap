@@ -1,9 +1,10 @@
 [ref]
-0=CSS
-1=VBScript
-2=JavaScript
+0=PHP
+1=CSS
+2=VBScript
 3=JavaScript
-4=VBScript
+4=JavaScript
+5=VBScript
 
 [comments]
 str1=<!--

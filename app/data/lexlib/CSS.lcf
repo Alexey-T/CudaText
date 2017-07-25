@@ -1191,9 +1191,16 @@ object SyntAnal8: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <>
+  SubAnalyzers = <
+    item
+      DisplayName = 'PHP'
+      StartExpression = '<\?(php)?'
+      EndExpression = '\?>'
+      SyntAnalyzer = SyntAnal29
+    end>
   SampleText.Strings = (
     '/* Comment */'
+    '<?php echo '#39'test'#39' ?>'
     '.name, .name2 { '
     '  font-size: 18pt;'
     '  --my-var: 10.2e+2; /* custom prop; float */'

@@ -106,61 +106,16 @@ object SyntAnal29: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'PHP_start'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      BgColor = 15528434
-      BorderColorLeft = clLime
-      BorderColorTop = clLime
-    end
-    item
-      DisplayName = 'PHP_end'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      BgColor = 15528434
-      BorderColorRight = clLime
-      BorderColorBottom = clLime
-    end
-    item
-      DisplayName = 'PHP_bg'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = 15528434
-      FormatType = ftBackGround
-    end
-    item
-      DisplayName = 'Bracket'
+      DisplayName = 'Bracket BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 41984
+      BgColor = 4390722
+      FormatType = ftBackGround
     end>
   TokenRules = <
-    item
-      DisplayName = 'php start'
-      StyleName = 'PHP_start'
-      Expression = '<\?(php)?'#13#10
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'php end'
-      StyleName = 'PHP_end'
-      Expression = '\?>'#13#10
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
     item
       DisplayName = 'Comment block empty'
       StyleName = 'Comment'
@@ -261,7 +216,7 @@ object SyntAnal29: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String Exec'
+      DisplayName = 'String exec'
       StyleName = 'String exec'
       TokenType = 3
       Expression = '`.+?`'
@@ -519,7 +474,6 @@ object SyntAnal29: TLibSyntAnalyzer
     end
     item
       DisplayName = 'php start'
-      StyleName = 'PHP_bg'
       ConditionList = <
         item
           TagList.Strings = (
@@ -549,7 +503,7 @@ object SyntAnal29: TLibSyntAnalyzer
     end
     item
       DisplayName = '{'
-      StyleName = 'Bracket'
+      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -635,7 +589,7 @@ object SyntAnal29: TLibSyntAnalyzer
     end
     item
       DisplayName = '('
-      StyleName = 'Bracket'
+      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -665,7 +619,7 @@ object SyntAnal29: TLibSyntAnalyzer
     end
     item
       DisplayName = '['
-      StyleName = 'Bracket'
+      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -802,16 +756,9 @@ object SyntAnal29: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <
-    item
-      DisplayName = 'PHP_dev_HTML'
-      StartExpression = '\?>'
-      EndExpression = '<\?'
-      SyntAnalyzer = SyntAnal14
-      FromTextBegin = True
-    end>
+  SubAnalyzers = <>
   SampleText.Strings = (
-    '<?php //Example'
+    '//Example'
     '/** Doc comment'
     '*/,  /* Comment */'
     '__CLASS__, __LINE__, ArrayObject, Directory'
@@ -870,11 +817,13 @@ object SyntAnal29: TLibSyntAnalyzer
     'Symbol op '
     'Symbol single'
     'Var')
-  Extentions = 'php php2 php3 php4 php5'
   LexerName = 'PHP'
   Notes.Strings = (
-    'Created by 480499497 from http://forum.wincmd.ru'
-    'Big rework by Alexey (SynWrite)')
+    'Created by 480499497 (named PHP_dev) from http://forum.wincmd.ru'
+    'Big rework by Alexey (SynWrite)'
+    
+      'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
+      'link to it')
   RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET

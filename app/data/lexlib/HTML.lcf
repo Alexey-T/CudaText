@@ -765,6 +765,14 @@ object SyntAnal14: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <
     item
+      DisplayName = 'PHP'
+      StyleName = 'Sublexer BG'
+      AlwaysEnabled = True
+      StartExpression = '<\?(php)?'
+      EndExpression = '?>'
+      SyntAnalyzer = SyntAnal29
+    end
+    item
       DisplayName = 'CSS'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
@@ -807,7 +815,8 @@ object SyntAnal14: TLibSyntAnalyzer
     '<!doctype test="123">'
     '<meta1/>'
     '<meta2>text</meta3>'
-    '<?php some text ?> <% asp text %>'
+    '<?php echo '#39'test'#39', 20 ?> <% asp text %>'
+    ''
     '<html> '
     '  <head>'
     '    <title test="15" #$@ >Text</title>'
@@ -842,7 +851,7 @@ object SyntAnal14: TLibSyntAnalyzer
     'Include Tag')
   Extentions = 
     'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
-    'x jsp hhc dtd'
+    'x jsp hhc dtd php php2 php3 php4 php5'
   LexerName = 'HTML'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru'

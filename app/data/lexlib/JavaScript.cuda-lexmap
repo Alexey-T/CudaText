@@ -4,6 +4,9 @@ str2=*/
 styles_cmt=Comment,Comment doc
 styles_str=String
 
+[ref]
+0=PHP
+
 [map]
 Symbol=Symbol
 Number=Number

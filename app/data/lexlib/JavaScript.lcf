@@ -1,4 +1,4 @@
-object SyntAnal19: TLibSyntAnalyzer
+object SyntAnal18: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -832,7 +832,13 @@ object SyntAnal19: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <>
+  SubAnalyzers = <
+    item
+      DisplayName = 'PHP'
+      StartExpression = '<\?(php)?'
+      EndExpression = '\?>'
+      SyntAnalyzer = SyntAnal29
+    end>
   SampleText.Strings = (
     '//Comment'
     '/** DocBlock '
@@ -841,7 +847,7 @@ object SyntAnal19: TLibSyntAnalyzer
     
       '  #! Shebang                                                    ' +
       '         '
-    '<?php included ?>'
+    '<?php echo '#39'test'#39' ?>'
     'var test = NaN + Object + $ + offset;'
     'var s_regex = /^<\/?\w.*?>/gi;'
     '    s_not_regex = 1 / 2 + (0xFF+10) / 3;'
