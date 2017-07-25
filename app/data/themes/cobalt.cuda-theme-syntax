@@ -287,6 +287,14 @@
     "CBorder" : "#FF772D",
     "Border" : "0,0,0,8"
   },
+  "Lex_TagInclude" : {
+    "Type" : 1,
+    "Styles" : "b",
+    "CFont" : "#808080",
+    "CBack" : "",
+    "CBorder" : "",
+    "Border" : "0,0,0,0"
+  },
   "Lex_LightBG1" : {
     "Type" : 3,
     "Styles" : "",
