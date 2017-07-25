@@ -1305,9 +1305,17 @@ procedure TfmMain.FormDestroy(Sender: TObject);
 var
   i: integer;
 begin
+  //seems gtk2 leaks memory for imagelists, tryin to fix it
+  ImageListBm.Clear;
+  ImageListSide.Clear;
+  ImageListTabs.Clear;
+  ImageListTree.Clear;
+  ImageListToolbar.Clear;
+
   {$ifdef windows}
   FreeAndNil(OneWinInstanceRunning);
   {$ifend}
+
   for i:= 0 to FListTimers.Count-1 do
     TTimer(FListTimers.Objects[i]).Enabled:= false;
   FreeAndNil(FListTimers);
