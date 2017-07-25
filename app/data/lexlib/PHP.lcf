@@ -473,35 +473,6 @@ object SyntAnal29: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'php start'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '<?'
-            '<?php')
-        end>
-      BlockEnd = 'php end'
-      DisplayInTree = False
-      NameFmt = '<%s-1>'
-      DynHighlight = dhRangeNoBound
-      HighlightPos = cpAny
-      DynSelectMin = True
-      CollapseFmt = 'PHP.....'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'php end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '?>')
-        end>
-      BlockEnd = 'php start'
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = '{'
       StyleName = 'Bracket BG'
       ConditionList = <
