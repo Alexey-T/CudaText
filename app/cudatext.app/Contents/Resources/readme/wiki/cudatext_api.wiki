@@ -14,20 +14,22 @@ To make plugin react to events, add method to class Command (like methods of com
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
-* on_close(self, ed_self): Called just before closing tab (closing editor still active).
-* on_tab_move(self, ed_self): Called after closing tab (another tab already activated), or moving tab (by drag-n-drop, or UI command).
+* on_close(self, ed_self): Called just before closing tab (closing editor is still active).
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
-* on_change(self, ed_self): Called after text is changed.
-* on_change_slow(self, ed_self): Called after text is changed, after few seconds. This is for Lint plugins, they need to react to change after a delay.
-* on_caret(self, ed_self): Called after caret position/selection changed.
-* on_key(self, ed_self, key, state): Called when user presses a key. key is int key code. state is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
-* on_key_up(self, ed_self, key, state): Called when user unpresses a key. Only for Ctrl/Shift/Alt (to not slow down).
-* on_focus(self, ed_self): Called after editor is focused.
-* on_lexer(self, ed_self): Called after lexer is changed.
+* on_change(self, ed_self): Called after editor text is changed.
+* on_change_slow(self, ed_self): Called after editor text is changed, and few seconds (option) passed. Used in CudaLint plugin, it needs to react to change after a delay.
+* on_caret(self, ed_self): Called after editor caret position and/or selection is changed.
+* on_key(self, ed_self, key, state): Called when user presses a key in editor. 
+** Param "key" is int key code (see module cudatext_keys). 
+** Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
+* on_key_up(self, ed_self, key, state): Called when user unpresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
+* on_focus(self, ed_self): Called after any editor gets focus.
+* on_lexer(self, ed_self): Called after any editor's lexer is changed.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
-* on_state(self, ed_self, state): Called after some app-state is changed. Param state is one of EDSTATE_nnnn numbers.
-* on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt call.
+* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
+* on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
+* on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
 
 ==Clicks==
 
@@ -144,6 +146,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 * PROC_PROGRESSBAR: Change state of the progress-bar, which is located on the status-bar (hidden by default). If passed int value<0, progressbar hides, else it shows with the given value 0..100.
+* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON editor property to get/set icons of file tabs.
 
 ====System====
 
@@ -1549,6 +1552,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers (if markers placed).
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs, for tabs with picture files.
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
+* PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 
@@ -1595,6 +1599,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_TAB_COLLECT_MARKERS: bool: tab-key collects (jumps to and deletes) markers.
 * PROP_TAB_COLOR: int: color of tab containing editor; set COLOR_NONE to reset.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
+* PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 
 ===bookmark===
 
@@ -1886,6 +1891,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.190 (app 1.14.0)
+* add: app_proc: PROC_GET_TAB_IMAGELIST
+* add: ed.get_prop/ ed.set_prop: PROP_TAB_ICON
 
 1.0.189 (app 1.13.1)
 * add: tree_proc: TREE_ITEM_SHOW
