@@ -51,7 +51,7 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'String heredoc'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
+      Font.Color = 4210816
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -59,16 +59,15 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'String exec'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 16766421
     end
     item
       DisplayName = 'Var'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 41984
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -84,15 +83,23 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Id keyword'
       Font.Charset = ANSI_CHARSET
-      Font.Color = 16744448
+      Font.Color = 12615680
       Font.Height = -13
       Font.Name = 'Arial Rounded MT Bold'
       Font.Style = [fsBold]
     end
     item
+      DisplayName = 'Id standard types'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
       DisplayName = 'Id standard const'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlue
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Arial'
       Font.Style = []
@@ -100,7 +107,7 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Id standard class'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -234,7 +241,6 @@ object SyntAnal29: TLibSyntAnalyzer
             '__halt_compiler'
             'abstract'
             'and'
-            'array'
             'as'
             'break'
             'callable'
@@ -285,41 +291,47 @@ object SyntAnal29: TLibSyntAnalyzer
             'public'
             'require'
             'require_once'
+            'resource'
             'return'
             'static'
             'switch'
             'throw'
             'trait'
             'try'
-            'unset'
             'use'
             'var'
             'while'
-            'xor')
+            'xor'
+            'yield')
           TokenTypes = 2
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'keywords php7'
-      StyleName = 'Id keyword'
+      DisplayName = 'std types'
+      StyleName = 'Id standard types'
       BlockType = btTagDetect
       ConditionList = <
         item
           TagList.Strings = (
+            'array'
+            'binary'
             'bool'
+            'boolean'
+            'double'
             'false'
             'float'
             'int'
+            'integer'
             'mixed'
             'null'
             'numeric'
             'object'
-            'resource'
+            'real'
             'string'
             'true'
-            'yield')
+            'unset')
           TokenTypes = 2
         end>
       HighlightPos = cpAny
@@ -730,9 +742,12 @@ object SyntAnal29: TLibSyntAnalyzer
   SubAnalyzers = <>
   SampleText.Strings = (
     '//Example'
-    '/** Doc comment'
-    '*/,  /* Comment */'
-    '__CLASS__, __LINE__, ArrayObject, Directory'
+    '/** Doc comment */,  /* Comment */'
+    '__CLASS__, __LINE__, ArrayObject, Directory,'
+    '`string`, '
+    '<<<ID'
+    'heredoc'
+    'ID;'
     ''
     'include "os.php";'
     'include_once $path."/os2.php";'
