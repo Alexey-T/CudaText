@@ -1,4 +1,4 @@
-object SyntAnal25: TLibSyntAnalyzer
+object SyntAnal29: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -108,7 +108,7 @@ object SyntAnal25: TLibSyntAnalyzer
     item
       DisplayName = 'PHP_start'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -119,7 +119,7 @@ object SyntAnal25: TLibSyntAnalyzer
     item
       DisplayName = 'PHP_end'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -221,18 +221,18 @@ object SyntAnal25: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol single'
-      StyleName = 'Symbol single'
-      TokenType = 5
-      Expression = '[\{\}\(\)\[\],;\.\\]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol op'
       StyleName = 'Symbol operator'
       TokenType = 4
       Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol single'
+      StyleName = 'Symbol single'
+      TokenType = 5
+      Expression = '[\{\}\(\)\[\],;\.\\]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -807,7 +807,7 @@ object SyntAnal25: TLibSyntAnalyzer
       DisplayName = 'PHP_dev_HTML'
       StartExpression = '\?>'
       EndExpression = '<\?'
-      SyntAnalyzer = SyntAnal13
+      SyntAnalyzer = SyntAnal14
       FromTextBegin = True
     end>
   SampleText.Strings = (

@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -129,6 +129,14 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Include tag'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end>
   TokenRules = <
     item
@@ -156,10 +164,18 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Include tag'
+      StyleName = 'Include tag'
+      TokenType = 12
+      Expression = '<\?php | <\? | \?> | <% | %>'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = '<'
       StyleName = 'Tag bound'
       TokenType = 10
-      Expression = '<[/!\-%\?]*'
+      Expression = '<[/!\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -167,7 +183,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = '>'
       StyleName = 'Tag bound'
       TokenType = 11
-      Expression = '[%\?/]?>'
+      Expression = '[/]?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -754,7 +770,7 @@ object SyntAnal15: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'VBScript'
@@ -791,6 +807,7 @@ object SyntAnal15: TLibSyntAnalyzer
     '<!doctype test="123">'
     '<meta1/>'
     '<meta2>text</meta3>'
+    '<?php some text ?> <% asp text %>'
     '<html> '
     '  <head>'
     '    <title test="15" #$@ >Text</title>'
@@ -821,7 +838,8 @@ object SyntAnal15: TLibSyntAnalyzer
     'String2'
     'Text'
     'Open Tag'
-    'Close Tag')
+    'Close Tag'
+    'Include Tag')
   Extentions = 
     'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
     'x jsp hhc dtd'

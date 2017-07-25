@@ -1,4 +1,4 @@
-object SyntAnal10: TLibSyntAnalyzer
+object SyntAnal8: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Style'
@@ -100,6 +100,14 @@ object SyntAnal10: TLibSyntAnalyzer
       Font.Name = 'Courier New'
       Font.Style = []
       BorderTypeBottom = blDot
+    end
+    item
+      DisplayName = 'Include tag'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
     end>
   TokenRules = <
     item
@@ -208,6 +216,14 @@ object SyntAnal10: TLibSyntAnalyzer
       StyleName = 'Style'
       TokenType = 2
       Expression = '[\w\#\.\-\+]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Include tag'
+      StyleName = 'Include tag'
+      TokenType = 8
+      Expression = '<\?php | <\? | \?>'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -1222,11 +1238,12 @@ object SyntAnal10: TLibSyntAnalyzer
     'String'
     'Delimiter'
     'Color'
-    'Number')
+    'Number'
+    'Include tag')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
-    'Author: Alex (Synwrite)'
+    'Author: Alexey (SynWrite)'
     'Added misspelled properties underlining'
     'Added @media handling'
     ''

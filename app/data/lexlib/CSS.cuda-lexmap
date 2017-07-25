@@ -17,3 +17,4 @@ String=String
 Number=Number
 StyleSuffix=Id3
 ParamCustom=Id4
+Include tag=TagInclude
