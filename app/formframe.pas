@@ -1651,7 +1651,9 @@ begin
   begin
     //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
-    FTopLineTodo:= c.GetValue(path+cHistory_Top, 0); //must use, not Ed.LineTop
+    //linetop
+    FTopLineTodo:= c.GetValue(path+cHistory_Top, 0); //save for future restore
+    Editor.LineTop:= FTopLineTodo; //scroll immediately too
   end
   else
   begin
