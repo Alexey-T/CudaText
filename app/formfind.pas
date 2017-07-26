@@ -391,7 +391,7 @@ begin
 
   if Str=UiOps.HotkeyFindDialog then
   begin
-    FReplace:= false;
+    IsReplace:= false;
     UpdateState;
     key:= 0;
     exit;
@@ -399,7 +399,7 @@ begin
 
   if Str=UiOps.HotkeyReplaceDialog then
   begin
-    FReplace:= true;
+    IsReplace:= true;
     UpdateState;
     key:= 0;
     exit;
@@ -605,6 +605,12 @@ procedure TfmFind.SetReplace(AValue: boolean);
 begin
   if FReplace=AValue then Exit;
   FReplace:= AValue;
+
+  //in find mode: focus input, because old focused control maybe hidden now
+  if not FReplace then
+    if edFind.CanFocus then
+      edFind.SetFocus;
+
   UpdateState;
 end;
 
