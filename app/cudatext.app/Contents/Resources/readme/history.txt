@@ -13,10 +13,17 @@
 + option "ui_statusbar_wrap"
 + command "toggle word wrap mode (off/window/margin)"
 + added menu item "View - Toggle micromap"
-+ added syntax-theme color for php tag (<?php ?>)
++ added syntax-theme color for php-tag (<?php ?>)
 + Addon Manager: "Install from Github" saves version like "github 2016.10.20"
 + saving file error shows Retry/Cancel message (was OK only)
 * removed option "autocomplete_autoshow_lexers" (use lexer-specific configs instead)
+
+lexers:
++ added hilite of php-tag to lexers: HTML, CSS, JS
++ added hilite of standard color names in CSS
+* changed link chain of lexers. Was before: PHP includes HTML, HTML includes CSS/JS, CSS/JS includes nothing. Now: HTML includes PHP/CSS/JS, CSS/JS includes PHP, PHP includes nothing. File type *.php is now handled by HTML lexer. 
+
+fixes:
 - fixed case-insensitive search in menu dialogs for non-En chars
 - fixed non-working plugin hotkeys after any plugin installing
 

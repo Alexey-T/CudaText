@@ -1,4 +1,4 @@
-object SyntAnal25: TLibSyntAnalyzer
+object SyntAnal29: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -51,7 +51,7 @@ object SyntAnal25: TLibSyntAnalyzer
     item
       DisplayName = 'String heredoc'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
+      Font.Color = 4210816
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -59,16 +59,15 @@ object SyntAnal25: TLibSyntAnalyzer
     item
       DisplayName = 'String exec'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 16766421
     end
     item
       DisplayName = 'Var'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 41984
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -84,21 +83,13 @@ object SyntAnal25: TLibSyntAnalyzer
     item
       DisplayName = 'Id keyword'
       Font.Charset = ANSI_CHARSET
-      Font.Color = 16744448
+      Font.Color = 12615680
       Font.Height = -13
       Font.Name = 'Arial Rounded MT Bold'
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Id standard const'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Arial'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Id standard class'
+      DisplayName = 'Id standard types'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
@@ -106,61 +97,32 @@ object SyntAnal25: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'PHP_start'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
+      DisplayName = 'Id standard const'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clOlive
       Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      BgColor = 15528434
-      BorderColorLeft = clLime
-      BorderColorTop = clLime
+      Font.Name = 'Arial'
+      Font.Style = []
     end
     item
-      DisplayName = 'PHP_end'
+      DisplayName = 'Id standard class'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      BgColor = 15528434
-      BorderColorRight = clLime
-      BorderColorBottom = clLime
-    end
-    item
-      DisplayName = 'PHP_bg'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 15528434
-      FormatType = ftBackGround
     end
     item
-      DisplayName = 'Bracket'
+      DisplayName = 'Bracket BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = 41984
+      BgColor = 4390722
+      FormatType = ftBackGround
     end>
   TokenRules = <
-    item
-      DisplayName = 'php start'
-      StyleName = 'PHP_start'
-      Expression = '<\?(php)?'#13#10
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'php end'
-      StyleName = 'PHP_end'
-      Expression = '\?>'#13#10
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
     item
       DisplayName = 'Comment block empty'
       StyleName = 'Comment'
@@ -221,18 +183,18 @@ object SyntAnal25: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Symbol single'
-      StyleName = 'Symbol single'
-      TokenType = 5
-      Expression = '[\{\}\(\)\[\],;\.\\]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol op'
       StyleName = 'Symbol operator'
       TokenType = 4
       Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol single'
+      StyleName = 'Symbol single'
+      TokenType = 5
+      Expression = '[\{\}\(\)\[\],;\.\\]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -261,7 +223,7 @@ object SyntAnal25: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String Exec'
+      DisplayName = 'String exec'
       StyleName = 'String exec'
       TokenType = 3
       Expression = '`.+?`'
@@ -279,7 +241,6 @@ object SyntAnal25: TLibSyntAnalyzer
             '__halt_compiler'
             'abstract'
             'and'
-            'array'
             'as'
             'break'
             'callable'
@@ -330,41 +291,47 @@ object SyntAnal25: TLibSyntAnalyzer
             'public'
             'require'
             'require_once'
+            'resource'
             'return'
             'static'
             'switch'
             'throw'
             'trait'
             'try'
-            'unset'
             'use'
             'var'
             'while'
-            'xor')
+            'xor'
+            'yield')
           TokenTypes = 2
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'keywords php7'
-      StyleName = 'Id keyword'
+      DisplayName = 'std types'
+      StyleName = 'Id standard types'
       BlockType = btTagDetect
       ConditionList = <
         item
           TagList.Strings = (
+            'array'
+            'binary'
             'bool'
+            'boolean'
+            'double'
             'false'
             'float'
             'int'
+            'integer'
             'mixed'
             'null'
             'numeric'
             'object'
-            'resource'
+            'real'
             'string'
             'true'
-            'yield')
+            'unset')
           TokenTypes = 2
         end>
       HighlightPos = cpAny
@@ -518,38 +485,8 @@ object SyntAnal25: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'php start'
-      StyleName = 'PHP_bg'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '<?'
-            '<?php')
-        end>
-      BlockEnd = 'php end'
-      DisplayInTree = False
-      NameFmt = '<%s-1>'
-      DynHighlight = dhRangeNoBound
-      HighlightPos = cpAny
-      DynSelectMin = True
-      CollapseFmt = 'PHP.....'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'php end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '?>')
-        end>
-      BlockEnd = 'php start'
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = '{'
-      StyleName = 'Bracket'
+      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -635,7 +572,7 @@ object SyntAnal25: TLibSyntAnalyzer
     end
     item
       DisplayName = '('
-      StyleName = 'Bracket'
+      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -665,7 +602,7 @@ object SyntAnal25: TLibSyntAnalyzer
     end
     item
       DisplayName = '['
-      StyleName = 'Bracket'
+      StyleName = 'Bracket BG'
       ConditionList = <
         item
           TagList.Strings = (
@@ -802,19 +739,15 @@ object SyntAnal25: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <
-    item
-      DisplayName = 'PHP_dev_HTML'
-      StartExpression = '\?>'
-      EndExpression = '<\?'
-      SyntAnalyzer = SyntAnal13
-      FromTextBegin = True
-    end>
+  SubAnalyzers = <>
   SampleText.Strings = (
-    '<?php //Example'
-    '/** Doc comment'
-    '*/,  /* Comment */'
-    '__CLASS__, __LINE__, ArrayObject, Directory'
+    '//Example'
+    '/** Doc comment */,  /* Comment */'
+    '__CLASS__, __LINE__, ArrayObject, Directory,'
+    '`string`, '
+    '<<<ID'
+    'heredoc'
+    'ID;'
     ''
     'include "os.php";'
     'include_once $path."/os2.php";'
@@ -870,11 +803,13 @@ object SyntAnal25: TLibSyntAnalyzer
     'Symbol op '
     'Symbol single'
     'Var')
-  Extentions = 'php php2 php3 php4 php5'
   LexerName = 'PHP'
   Notes.Strings = (
-    'Created by 480499497 from http://forum.wincmd.ru'
-    'Big rework by Alexey (SynWrite)')
+    'Created by 480499497 (named PHP_dev) from http://forum.wincmd.ru'
+    'Big rework by Alexey (SynWrite)'
+    
+      'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
+      'link to it')
   RestartFromLineStart = True
   LineComment = '//'
   Charset = DEFAULT_CHARSET

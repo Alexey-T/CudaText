@@ -1,4 +1,4 @@
-object SyntAnal15: TLibSyntAnalyzer
+object SyntAnal14: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -129,6 +129,22 @@ object SyntAnal15: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Include tag'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Comment doc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 12615808
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
     end>
   TokenRules = <
     item
@@ -148,10 +164,18 @@ object SyntAnal15: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Comment 2'
-      StyleName = 'Comment'
+      DisplayName = 'Comment doc'
+      StyleName = 'Comment doc'
       TokenType = 1
       Expression = '(?s)<! .*? >'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Include tag'
+      StyleName = 'Include tag'
+      TokenType = 12
+      Expression = '<\?php | <\? | \?> | <% | %>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -159,7 +183,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = '<'
       StyleName = 'Tag bound'
       TokenType = 10
-      Expression = '<[/!\-%\?]*'
+      Expression = '<[/!\-]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -167,7 +191,7 @@ object SyntAnal15: TLibSyntAnalyzer
       DisplayName = '>'
       StyleName = 'Tag bound'
       TokenType = 11
-      Expression = '[%\?/]?>'
+      Expression = '[/]?>'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -749,12 +773,20 @@ object SyntAnal15: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <
     item
+      DisplayName = 'PHP'
+      StyleName = 'Sublexer BG'
+      AlwaysEnabled = True
+      StartExpression = '<\?(php)?'
+      EndExpression = '?>'
+      SyntAnalyzer = SyntAnal29
+    end
+    item
       DisplayName = 'CSS'
       StyleName = 'Sublexer BG'
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'VBScript'
@@ -789,8 +821,11 @@ object SyntAnal15: TLibSyntAnalyzer
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
+    '<!-- comment -->'
     '<meta1/>'
     '<meta2>text</meta3>'
+    '<?php echo '#39'test'#39', 20 ?> <% asp text %>'
+    ''
     '<html> '
     '  <head>'
     '    <title test="15" #$@ >Text</title>'
@@ -821,13 +856,14 @@ object SyntAnal15: TLibSyntAnalyzer
     'String2'
     'Text'
     'Open Tag'
-    'Close Tag')
+    'Close Tag'
+    'Include Tag')
   Extentions = 
     'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
-    'x jsp hhc dtd'
+    'x jsp hhc dtd php php3 php4 php5 php7 phps phpt'
   LexerName = 'HTML'
   Notes.Strings = (
-    'Created by 480499497 from forum.wincmd.ru'
-    'Hardly changed by Alexey (Synwrite)')
+    'Created by 480499497 from forum.wincmd.ru (named HTML_dev)'
+    'Heavily changed by Alexey (SynWrite)')
   Charset = DEFAULT_CHARSET
 end

@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '0.8.4 2017-06-05'
+    '0.8.5 2017-07-25'
 ToDo: (see end of file)
 '''
 
@@ -22,13 +22,13 @@ class Command:
     def __init__(self):
         self.pair4lex = {}
         #def __init__
-    
+
     def dlg_config(self):
         save_bd_col = apx.get_opt('comment_save_column'         , False)
         at_min_bd   = apx.get_opt('comment_equal_column'        , False)
         bUseFLn     = apx.get_opt('comment_full_line_if_no_sel' , True)
         bSkip       = apx.get_opt('comment_move_down'           , True)
-        
+
         save_s      = _('(Line commands) Try to keep text position after (un)commenting')
         save_h      = _('Try to replace only blank(s) to keep text positions:'
                         '\rUncommented lines:'
@@ -38,7 +38,7 @@ class Command:
                         '\r#···foo1'
                         '\r···#foo2'
                         )
-        vert_s      = _('(Line "at non-space") If selected few lines, insert comment at maximal common indent')         
+        vert_s      = _('(Line "at non-space") If selected few lines, insert comment at maximal common indent')
         vert_h      = _('Use max same column to comment:'
                         '\rUncommented lines:'
                         '\r··foo1'
@@ -48,14 +48,14 @@ class Command:
                         '\r·#foo1'
                         '\r·#··foo2'
                         '\r·#····foo3'
-                        )         
-        full_s      = _('(Stream) Comment full line if no selection')                            
-        down_s      = _('(All) Move caret to next line')                                         
+                        )
+        full_s      = _('(Stream) Comment full line if no selection')
+        down_s      = _('(All) Move caret to next line')
         aid,vals,chds   = dlg_wrapper(_('Config commenting commands'), 610, 135,     #NOTE: dlg-cmnt
-             [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) # 
-             ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) # 
-             ,dict(cid='full',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=full_s             ) # 
-             ,dict(cid='down',tp='ch'   ,t=5+75 ,l=5    ,w=600      ,cap=down_s             ) # 
+             [dict(cid='save',tp='ch'   ,t=5    ,l=5    ,w=600      ,cap=save_s ,hint=save_h) #
+             ,dict(cid='vert',tp='ch'   ,t=5+25 ,l=5    ,w=600      ,cap=vert_s ,hint=vert_h) #
+             ,dict(cid='full',tp='ch'   ,t=5+50 ,l=5    ,w=600      ,cap=full_s             ) #
+             ,dict(cid='down',tp='ch'   ,t=5+75 ,l=5    ,w=600      ,cap=down_s             ) #
              ,dict(cid='!'   ,tp='bt'   ,t=105  ,l=610-165-5,w=80   ,cap=_('OK'),props='1'                                                          ) #     default
              ,dict(cid='-'   ,tp='bt'   ,t=105  ,l=610 -80-5,w=80   ,cap=_('Cancel')                                                                )
              ], dict(save=save_bd_col
@@ -69,7 +69,7 @@ class Command:
         if vals['full'] != bUseFLn:     apx.set_opt('comment_full_line_if_no_sel',vals['full'])
         if vals['down'] != bSkip:       apx.set_opt('comment_move_down'         , vals['down'])
        #def dlg_config
-    
+
     def cmt_toggle_line_1st(self):
         return self._cmt_toggle_line('bgn', '1st')
     def cmt_add_line_1st(self):
@@ -85,13 +85,14 @@ class Command:
             Params
                 cmt_act     'del'   uncomment all lines
                             'add'   comment all lines
-                            'bgn'   (un)comment all as toggled first line 
+                            'bgn'   (un)comment all as toggled first line
                 cmt_type    '1st'   at begin of line
                             'bod'   at first not blank
         '''
 #       if not apx._check_API('1.0.108'):    return
         lex         = ed_.get_prop(app.PROP_LEXER_CARET)
-        cmt_sgn     = app.lexer_proc(app.LEXER_GET_COMMENT, lex)
+        prop        = app.lexer_proc(app.LEXER_GET_PROP, lex)
+        cmt_sgn     = prop['c_line'] if prop else None
         pass;                  #LOG and log('cmt_type, lex, cmt_sgn={}', (cmt_type, lex, cmt_sgn))
         if not cmt_sgn:
             return app.msg_status(f(_('No line comment for lexer "{}"'), lex))
@@ -307,20 +308,21 @@ class Command:
         '''
         if lex not in self.pair4lex:
             only_ln = False
-            pair1 = app.lexer_proc(app.LEXER_GET_COMMENT_STREAM, lex)
-            pair2 = app.lexer_proc(app.LEXER_GET_COMMENT_LINED, lex)
-            if pair1 is not None: 
+            prop = app.lexer_proc(app.LEXER_GET_PROP, lex)
+            pair1 = prop['c_str'] if prop else None
+            pair2 = prop['c_lined'] if prop else None
+            if pair1 is not None:
                 pair = pair1
-            elif pair2 is not None: 
+            elif pair2 is not None:
                 pair = pair2
                 only_ln = True
-            else: 
+            else:
                 pair = ('', '')
             self.pair4lex[lex] = (pair, only_ln)
         return self.pair4lex[lex]
        #def _get_cmt_pair
 
-    
+
 '''
 ToDo
 [ ][kv-kv][13sep16] Start
