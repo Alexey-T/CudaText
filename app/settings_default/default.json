@@ -701,11 +701,11 @@
   "links_regex": "\\b(https?://|ftp://|magnet:\\?|www\\.)\\w[^<>''\"\\s]+",
 
   //[File]
-  //Maximal file size, to open, in Mb
+  //Maximal file size, allowed to open, in Mb
   "ui_max_size_open": 30,
 
   //Maximal file size, for which allowed to use lexers, in Mb
-  "ui_max_size_lexer": 4,
+  "ui_max_size_lexer": 3,
 
   //[Ui]
   //On calling Full-Screen, hide these UI elements

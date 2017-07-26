@@ -1008,7 +1008,7 @@ begin
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
 
     MaxFileSizeToOpen:= 30;
-    MaxFileSizeForLexer:= 4;
+    MaxFileSizeForLexer:= 3;
 
     AutocompleteCss:= true;
     AutocompleteHtml:= true;
