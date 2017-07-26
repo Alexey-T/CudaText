@@ -1616,6 +1616,8 @@ begin
   //lexer
   if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
   str:= c.GetValue(path+cSavLexer, str0);
+  if str='PHP' then
+    str:= 'HTML'; //Cud 1.14: HTML lexer handles php files
   if (str<>'') and (str<>str0) then
     Lexer:= AppManager.FindAnalyzer(str);
 
