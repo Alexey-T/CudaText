@@ -250,24 +250,24 @@ implementation
 {$R *.lfm}
 
 const
-  cSavLexer       = '/lexer';
-  cSavEnc         = '/enc';
-  cSavTop         = '/top';
-  cSavWrap        = '/wrap_mode';
-  cSavRO          = '/ro';
-  cSavRuler       = '/ruler';
-  cSavMinimap     = '/minimap';
-  cSavTabSize     = '/tab_size';
-  cSavTabSpace    = '/tab_spaces';
-  cSavNums        = '/nums';
-  cSavUnpri       = '/unprinted_show';
-  cSavUnpriSp     = '/unprinted_spaces';
-  cSavUnpriEnd    = '/unprinted_ends';
-  cSavUnpriEndDet = '/unprinted_end_details';
-  cSavCaret       = '/caret';
-  cSavColor       = '/color';
-  cSavBookmark    = '/bm';
-  cSavFold        = '/folded';
+  cHistory_Lexer       = '/lexer';
+  cHistory_Enc         = '/enc';
+  cHistory_Top         = '/top';
+  cHistory_Wrap        = '/wrap_mode';
+  cHistory_RO          = '/ro';
+  cHistory_Ruler       = '/ruler';
+  cHistory_Minimap     = '/minimap';
+  cHistory_TabSize     = '/tab_size';
+  cHistory_TabSpace    = '/tab_spaces';
+  cHistory_Nums        = '/nums';
+  cHistory_Unpri       = '/unprinted_show';
+  cHistory_UnpriSp     = '/unprinted_spaces';
+  cHistory_UnpriEnd    = '/unprinted_ends';
+  cHistory_UnpriEndDet = '/unprinted_end_details';
+  cHistory_Caret       = '/caret';
+  cHistory_Color       = '/color';
+  cHistory_Bookmark    = '/bm';
+  cHistory_Fold        = '/folded';
 
 var
   FLastTabId: integer = 0;
@@ -1535,34 +1535,34 @@ begin
   else
     lexname:= Lexer.LexerName;
 
-  c.SetValue(path+cSavLexer, lexname);
-  c.SetValue(path+cSavEnc, EncodingName);
-  c.SetValue(path+cSavTop, Editor.LineTop);
-  c.SetValue(path+cSavWrap, Ord(Editor.OptWrapMode));
-  c.SetValue(path+cSavRO, ReadOnly);
-  c.SetValue(path+cSavRuler, Editor.OptRulerVisible);
-  c.SetValue(path+cSavMinimap, Editor.OptMinimapVisible);
-  c.SetValue(path+cSavTabSize, Editor.OptTabSize);
-  c.SetValue(path+cSavTabSpace, Editor.OptTabSpaces);
-  c.SetValue(path+cSavUnpri, Editor.OptUnprintedVisible);
-  c.SetValue(path+cSavUnpriSp, Editor.OptUnprintedSpaces);
-  c.SetValue(path+cSavUnpriEnd, Editor.OptUnprintedEnds);
-  c.SetValue(path+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
-  c.SetValue(path+cSavNums, Editor.Gutter[Editor.GutterBandNum].Visible);
-  c.SetValue(path+cSavFold, EditorGetFoldString(Editor));
+  c.SetValue(path+cHistory_Lexer, lexname);
+  c.SetValue(path+cHistory_Enc, EncodingName);
+  c.SetValue(path+cHistory_Top, Editor.LineTop);
+  c.SetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode));
+  c.SetValue(path+cHistory_RO, ReadOnly);
+  c.SetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
+  c.SetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
+  c.SetValue(path+cHistory_TabSize, Editor.OptTabSize);
+  c.SetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
+  c.SetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
+  c.SetValue(path+cHistory_UnpriSp, Editor.OptUnprintedSpaces);
+  c.SetValue(path+cHistory_UnpriEnd, Editor.OptUnprintedEnds);
+  c.SetValue(path+cHistory_UnpriEndDet, Editor.OptUnprintedEndsDetails);
+  c.SetValue(path+cHistory_Nums, Editor.Gutter[Editor.GutterBandNum].Visible);
+  c.SetValue(path+cHistory_Fold, EditorGetFoldString(Editor));
 
   if TabColor=clNone then
-    c.SetValue(path+cSavColor, '')
+    c.SetValue(path+cHistory_Color, '')
   else
-    c.SetValue(path+cSavColor, ColorToString(TabColor));
+    c.SetValue(path+cHistory_Color, ColorToString(TabColor));
 
   if Editor.Carets.Count>0 then
   begin
     caret:= Editor.Carets[0];
-    c.SetValue(path+cSavCaret+'/x', caret.PosX);
-    c.SetValue(path+cSavCaret+'/y', caret.PosY);
-    c.SetValue(path+cSavCaret+'/x2', caret.EndX);
-    c.SetValue(path+cSavCaret+'/y2', caret.EndY);
+    c.SetValue(path+cHistory_Caret+'/x', caret.PosX);
+    c.SetValue(path+cHistory_Caret+'/y', caret.PosY);
+    c.SetValue(path+cHistory_Caret+'/x2', caret.EndX);
+    c.SetValue(path+cHistory_Caret+'/y2', caret.EndY);
   end;
 
   items:= TStringList.Create;
@@ -1573,7 +1573,7 @@ begin
       if (N>0) and EditorBookmarkIsStandard(N) then
         items.Add(IntToStr(i));
     end;
-    c.SetValue(path+cSavBookmark, items);
+    c.SetValue(path+cHistory_Bookmark, items);
   finally
     FreeAndNil(items);
   end;
@@ -1611,11 +1611,11 @@ var
   items: TStringlist;
 begin
   //file not listed?
-  if c.GetValue(path+cSavTop, -1)<0 then exit;
+  if c.GetValue(path+cHistory_Top, -1)<0 then exit;
 
   //lexer
   if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
-  str:= c.GetValue(path+cSavLexer, str0);
+  str:= c.GetValue(path+cHistory_Lexer, str0);
   if str='PHP' then
     str:= 'HTML'; //Cud 1.14: HTML lexer handles php files
   if (str<>'') and (str<>str0) then
@@ -1623,7 +1623,7 @@ begin
 
   //enc
   str0:= EncodingName;
-  str:= c.GetValue(path+cSavEnc, str0);
+  str:= c.GetValue(path+cHistory_Enc, str0);
   if str<>str0 then
   begin
     EncodingName:= str;
@@ -1634,24 +1634,24 @@ begin
         Editor.LoadFromFile(FileName);
   end;
 
-  TabColor:= StringToColorDef(c.GetValue(path+cSavColor, ''), clNone);
+  TabColor:= StringToColorDef(c.GetValue(path+cHistory_Color, ''), clNone);
 
-  ReadOnly:= c.GetValue(path+cSavRO, ReadOnly);
-  Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cSavWrap, Ord(Editor.OptWrapMode)));
-  Editor.OptRulerVisible:= c.GetValue(path+cSavRuler, Editor.OptRulerVisible);
-  Editor.OptMinimapVisible:= c.GetValue(path+cSavMinimap, Editor.OptMinimapVisible);
-  Editor.OptTabSize:= c.GetValue(path+cSavTabSize, Editor.OptTabSize);
-  Editor.OptTabSpaces:= c.GetValue(path+cSavTabSpace, Editor.OptTabSpaces);
-  Editor.OptUnprintedVisible:= c.GetValue(path+cSavUnpri, Editor.OptUnprintedVisible);
-  Editor.OptUnprintedSpaces:= c.GetValue(path+cSavUnpriSp, Editor.OptUnprintedSpaces);
-  Editor.OptUnprintedEnds:= c.GetValue(path+cSavUnpriEnd, Editor.OptUnprintedEnds);
-  Editor.OptUnprintedEndsDetails:= c.GetValue(path+cSavUnpriEndDet, Editor.OptUnprintedEndsDetails);
+  ReadOnly:= c.GetValue(path+cHistory_RO, ReadOnly);
+  Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode)));
+  Editor.OptRulerVisible:= c.GetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
+  Editor.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
+  Editor.OptTabSize:= c.GetValue(path+cHistory_TabSize, Editor.OptTabSize);
+  Editor.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
+  Editor.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
+  Editor.OptUnprintedSpaces:= c.GetValue(path+cHistory_UnpriSp, Editor.OptUnprintedSpaces);
+  Editor.OptUnprintedEnds:= c.GetValue(path+cHistory_UnpriEnd, Editor.OptUnprintedEnds);
+  Editor.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_UnpriEndDet, Editor.OptUnprintedEndsDetails);
 
   if Assigned(Lexer) then
   begin
     //this seems ok: works even for open-file via cmdline
-    FFoldTodo:= c.GetValue(path+cSavFold, '');
-    FTopLineTodo:= c.GetValue(path+cSavTop, 0); //must use, not Ed.LineTop
+    FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
+    FTopLineTodo:= c.GetValue(path+cHistory_Top, 0); //must use, not Ed.LineTop
   end
   else
   begin
@@ -1659,20 +1659,20 @@ begin
     //for open via cmdline: not ok (maybe need to do it after form shown? how?)
     Editor.Update(true);
     Application.ProcessMessages;
-    Editor.LineTop:= c.GetValue(path+cSavTop, 0);
+    Editor.LineTop:= c.GetValue(path+cHistory_Top, 0);
   end;
 
   with Editor.Gutter[Editor.GutterBandNum] do
-    Visible:= c.GetValue(path+cSavNums, Visible);
+    Visible:= c.GetValue(path+cHistory_Nums, Visible);
 
   //caret
   if Editor.Carets.Count>0 then
   begin
     caret:= Editor.Carets[0];
-    caret.PosX:= c.GetValue(path+cSavCaret+'/x', 0);
-    caret.PosY:= c.GetValue(path+cSavCaret+'/y', 0);
-    caret.EndX:= c.GetValue(path+cSavCaret+'/x2', -1);
-    caret.EndY:= c.GetValue(path+cSavCaret+'/y2', -1);
+    caret.PosX:= c.GetValue(path+cHistory_Caret+'/x', 0);
+    caret.PosY:= c.GetValue(path+cHistory_Caret+'/y', 0);
+    caret.EndX:= c.GetValue(path+cHistory_Caret+'/x2', -1);
+    caret.EndY:= c.GetValue(path+cHistory_Caret+'/y2', -1);
     Editor.UpdateIncorrectCaretPositions;
     Editor.DoEventCarets;
   end;
@@ -1680,7 +1680,7 @@ begin
   //bookmarks
   items:= TStringlist.create;
   try
-    c.GetValue(path+cSavBookmark, items, '');
+    c.GetValue(path+cHistory_Bookmark, items, '');
     for i:= 0 to items.Count-1 do
     begin
       nTop:= StrToIntDef(items[i], -1);
