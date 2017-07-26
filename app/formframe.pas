@@ -257,6 +257,7 @@ const
   cHistory_RO          = '/ro';
   cHistory_Ruler       = '/ruler';
   cHistory_Minimap     = '/minimap';
+  cHistory_Micromap    = '/micromap';
   cHistory_TabSize     = '/tab_size';
   cHistory_TabSpace    = '/tab_spaces';
   cHistory_Nums        = '/nums';
@@ -1542,6 +1543,7 @@ begin
   c.SetValue(path+cHistory_RO, ReadOnly);
   c.SetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
   c.SetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
+  c.SetValue(path+cHistory_Micromap, Editor.OptMicromapVisible);
   c.SetValue(path+cHistory_TabSize, Editor.OptTabSize);
   c.SetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
   c.SetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
@@ -1640,6 +1642,7 @@ begin
   Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode)));
   Editor.OptRulerVisible:= c.GetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
   Editor.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
+  Editor.OptMicromapVisible:= c.GetValue(path+cHistory_Micromap, Editor.OptMicromapVisible);
   Editor.OptTabSize:= c.GetValue(path+cHistory_TabSize, Editor.OptTabSize);
   Editor.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
   Editor.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
