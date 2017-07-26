@@ -261,12 +261,12 @@ const
   cHistory_TabSize     = '/tab_size';
   cHistory_TabSpace    = '/tab_spaces';
   cHistory_Nums        = '/nums';
-  cHistory_Unpri       = '/unprinted_show';
-  cHistory_UnpriSp     = '/unprinted_spaces';
-  cHistory_UnpriEnd    = '/unprinted_ends';
-  cHistory_UnpriEndDet = '/unprinted_end_details';
+  cHistory_Unpri        = '/unprinted_show';
+  cHistory_Unpri_Spaces = '/unprinted_spaces';
+  cHistory_Unpri_Ends   = '/unprinted_ends';
+  cHistory_Unpri_Detail = '/unprinted_end_details';
   cHistory_Caret       = '/caret';
-  cHistory_Color       = '/color';
+  cHistory_TabColor    = '/color';
   cHistory_Bookmark    = '/bm';
   cHistory_Fold        = '/folded';
 
@@ -1547,16 +1547,16 @@ begin
   c.SetValue(path+cHistory_TabSize, Editor.OptTabSize);
   c.SetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
   c.SetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
-  c.SetValue(path+cHistory_UnpriSp, Editor.OptUnprintedSpaces);
-  c.SetValue(path+cHistory_UnpriEnd, Editor.OptUnprintedEnds);
-  c.SetValue(path+cHistory_UnpriEndDet, Editor.OptUnprintedEndsDetails);
+  c.SetValue(path+cHistory_Unpri_Spaces, Editor.OptUnprintedSpaces);
+  c.SetValue(path+cHistory_Unpri_Ends, Editor.OptUnprintedEnds);
+  c.SetValue(path+cHistory_Unpri_Detail, Editor.OptUnprintedEndsDetails);
   c.SetValue(path+cHistory_Nums, Editor.Gutter[Editor.GutterBandNum].Visible);
   c.SetValue(path+cHistory_Fold, EditorGetFoldString(Editor));
 
   if TabColor=clNone then
-    c.SetValue(path+cHistory_Color, '')
+    c.SetValue(path+cHistory_TabColor, '')
   else
-    c.SetValue(path+cHistory_Color, ColorToString(TabColor));
+    c.SetValue(path+cHistory_TabColor, ColorToString(TabColor));
 
   if Editor.Carets.Count>0 then
   begin
@@ -1636,7 +1636,7 @@ begin
         Editor.LoadFromFile(FileName);
   end;
 
-  TabColor:= StringToColorDef(c.GetValue(path+cHistory_Color, ''), clNone);
+  TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
   ReadOnly:= c.GetValue(path+cHistory_RO, ReadOnly);
   Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode)));
@@ -1646,9 +1646,9 @@ begin
   Editor.OptTabSize:= c.GetValue(path+cHistory_TabSize, Editor.OptTabSize);
   Editor.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
   Editor.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
-  Editor.OptUnprintedSpaces:= c.GetValue(path+cHistory_UnpriSp, Editor.OptUnprintedSpaces);
-  Editor.OptUnprintedEnds:= c.GetValue(path+cHistory_UnpriEnd, Editor.OptUnprintedEnds);
-  Editor.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_UnpriEndDet, Editor.OptUnprintedEndsDetails);
+  Editor.OptUnprintedSpaces:= c.GetValue(path+cHistory_Unpri_Spaces, Editor.OptUnprintedSpaces);
+  Editor.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Editor.OptUnprintedEnds);
+  Editor.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Editor.OptUnprintedEndsDetails);
 
   if Assigned(Lexer) then
   begin
