@@ -3341,7 +3341,7 @@ begin
 
         IMAGELIST_PAINT:
           begin
-            Canvas:= TCanvas(PtrInt(Int64(StrToInt64Def(SGetItem(StrValue), 0))));
+            Canvas:= TCanvas(PtrInt(StrToInt64Def(SGetItem(StrValue), 0)));
             NX:= StrToIntDef(SGetItem(StrValue), 0);
             NY:= StrToIntDef(SGetItem(StrValue), 0);
             NIndex:= StrToIntDef(SGetItem(StrValue), 0);
