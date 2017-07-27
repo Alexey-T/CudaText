@@ -3274,9 +3274,8 @@ var
   StrValue: string;
   Obj: TComponent;
   List: TImageList;
-  Str1, Str2: string;
-  Canvas: TCanvas;
   NX, NY, NIndex: integer;
+  Canvas: TCanvas;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:imagelist_proc', @IdList, @IdAction, @PtrValue)) then
@@ -3311,18 +3310,18 @@ begin
 
         IMAGELIST_SET_SIZE:
           begin
-            Str1:= SGetItem(StrValue);
-            Str2:= SGetItem(StrValue);
-            List.Width:= Max(4, StrToIntDef(Str1, 0));
-            List.Height:= Max(4, StrToIntDef(Str2, 0));
+            NX:= StrToIntDef(SGetItem(StrValue), 0);
+            NY:= StrToIntDef(SGetItem(StrValue), 0);
+            List.Width:= Min(500, Max(4, NX));
+            List.Height:= Min(500, Max(4, NY));
             Result:= Py_BuildValue('(ii)', List.Width, List.Height);
           end;
 
         IMAGELIST_DELETE:
           begin
-            Num64:= StrToIntDef(StrValue, -1);
-            if (Num64>=0) and (Num64<List.Count) then
-              List.Delete(Num64);
+            NIndex:= StrToIntDef(StrValue, -1);
+            if (NIndex>=0) and (NIndex<List.Count) then
+              List.Delete(NIndex);
             Result:= ReturnNone;
           end;
 
@@ -3346,7 +3345,8 @@ begin
             NX:= StrToIntDef(SGetItem(StrValue), 0);
             NY:= StrToIntDef(SGetItem(StrValue), 0);
             NIndex:= StrToIntDef(SGetItem(StrValue), 0);
-            List.Draw(Canvas, NX, NY, NIndex);
+            if (NIndex>=0) and (NIndex<List.Count) then
+              List.Draw(Canvas, NX, NY, NIndex);
             Result:= ReturnNone;
           end;
 
