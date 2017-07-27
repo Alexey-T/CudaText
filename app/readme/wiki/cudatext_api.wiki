@@ -1309,6 +1309,7 @@ Possible values of id_action:
 * IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Gets int icon index, or None if cannot load.
 * IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
 * IMAGELIST_DELETE_ALL: Deletes all icons.
+* IMAGELIST_PAINT: Paints single icon on some canvas. Param "value" must be tuple (canvas_id, coord_x, coord_y, int_icon_index).
 
 ===more===
 
@@ -1894,7 +1895,8 @@ Text is chr(1) separated items:
 
 1.0.190 (app 1.14.0)
 * add: app_proc: PROC_GET_TAB_IMAGELIST
-* add: ed.get_prop/ ed.set_prop: PROP_TAB_ICON
+* add: ed.get_prop/ed.set_prop: PROP_TAB_ICON
+* add: imagelist_proc: IMAGELIST_PAINT
 
 1.0.189 (app 1.13.1)
 * add: tree_proc: TREE_ITEM_SHOW
