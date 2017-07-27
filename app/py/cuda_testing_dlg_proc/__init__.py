@@ -5,10 +5,10 @@ from random import randint
 
 def callback_main_close(id_dlg, id_ctl, data='', info=''):
     print('callback_main_close')
-    
+
     dlg_proc(id_dlg, DLG_HIDE)
 
-    #hide tab added to sidebar    
+    #hide tab added to sidebar
     app_proc(PROC_SIDEPANEL_REMOVE, 'Side dialog')
     app_proc(PROC_SIDEPANEL_ACTIVATE, 'Tree')
 
@@ -76,6 +76,8 @@ class Command:
 
     def do_paint_mark(self, id_dlg, id_ctl):
         print('do_paint_mark')
+
+        #paint circle of randon color
         n = randint(0, 0xfffff)
         canvas_id = dlg_proc(id_dlg, DLG_CTL_HANDLE, name='paint')
         canvas_proc(canvas_id, CANVAS_SET_PEN, color=0xA0)
@@ -84,6 +86,10 @@ class Command:
         canvas_proc(canvas_id, CANVAS_SET_BRUSH, color=n+0xA0A0)
         canvas_proc(canvas_id, CANVAS_ELLIPSE, x=0, y=0, x2=50, y2=50)
 
+        #paint 2 first icons of standard file-tabs imagelist
+        il = app_proc(PROC_GET_TAB_IMAGELIST, '')
+        imagelist_proc(il, IMAGELIST_PAINT, (canvas_id, 0, 0, 0))
+        imagelist_proc(il, IMAGELIST_PAINT, (canvas_id, 16, 16, 1))
 
     def callback_maindlg_paint_click(self, id_dlg, id_ctl, data='', info=''):
         self.do_paint_mark(id_dlg, id_ctl)
@@ -286,7 +292,7 @@ class Command:
             'on_fold': self.callback_treeview_on_fold,
             'on_unfold': self.callback_treeview_on_unfold,
             })
-            
+
         self.h_tree = dlg_proc(id, DLG_CTL_HANDLE, index=n)
         tree_proc(self.h_tree, TREE_THEME)
 
@@ -316,10 +322,9 @@ class Command:
         title = 'Side dialog'
         id_dlg = self.init_maindlg()
         icon_name = 'project.png'
-        
+
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (title, id_dlg, icon_name) )
         app_proc(PROC_SIDEPANEL_ACTIVATE, title)
 
     def show_about(self):
         ed.cmd(2700)
-        
