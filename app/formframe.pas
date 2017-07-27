@@ -1655,8 +1655,9 @@ begin
     //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
     //linetop
-    FTopLineTodo:= c.GetValue(path+cHistory_Top, 0); //save for future restore
-    Editor.LineTop:= FTopLineTodo; //scroll immediately too
+    nTop:= c.GetValue(path+cHistory_Top, 0);
+    ////FTopLineTodo:= nTop; //restore LineTop after analize done
+    Editor.LineTop:= nTop; //scroll immediately
   end
   else
   begin
