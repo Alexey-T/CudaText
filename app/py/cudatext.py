@@ -480,6 +480,7 @@ IMAGELIST_SET_SIZE   = 3
 IMAGELIST_ADD        = 5
 IMAGELIST_DELETE     = 6
 IMAGELIST_DELETE_ALL = 7
+IMAGELIST_PAINT      = 10
 
 
 def app_exe_version():

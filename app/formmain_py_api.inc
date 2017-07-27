@@ -3275,6 +3275,8 @@ var
   Obj: TComponent;
   List: TImageList;
   Str1, Str2: string;
+  Canvas: TCanvas;
+  NX, NY, NIndex: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:imagelist_proc', @IdList, @IdAction, @PtrValue)) then
@@ -3336,6 +3338,16 @@ begin
               Result:= PyInt_FromLong(List.Count-1)
             else
               Result:= ReturnNone;
+          end;
+
+        IMAGELIST_PAINT:
+          begin
+            Canvas:= TCanvas(PtrInt(Int64(StrToInt64Def(SGetItem(StrValue), 0))));
+            NX:= StrToIntDef(SGetItem(StrValue), 0);
+            NY:= StrToIntDef(SGetItem(StrValue), 0);
+            NIndex:= StrToIntDef(SGetItem(StrValue), 0);
+            List.Draw(Canvas, NX, NY, NIndex);
+            Result:= ReturnNone;
           end;
 
         else
