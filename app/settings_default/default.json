@@ -555,10 +555,11 @@
   "indent_auto": true,
 
   //Auto-indent kind
-  //  0: indent like in previous line
+  //  0: indent (spaces and/or tabs) like in previous line
   //  1: by spaces
   //  2: by tabs+spaces
   //  3: by tabs only
+  //  4: by spaces up to "(" last non-closed bracket in previous line
   "indent_kind": 0,
 
   //Indent size for Indent/Unindent commands:

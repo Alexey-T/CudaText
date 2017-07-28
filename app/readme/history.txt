@@ -8,6 +8,7 @@
 
 + lexer-specific config + lexer-specific hotkeys config are supported for none-lexer ("lexer -.json", "keys lexer -.json")
 + option "ui_tab_new_near_current"
++ option "indent_kind" has value "by spaces up to opening bracket" (like in ST3)
 + option "autocomplete_trigger_chars" (like in ST3)
 + option "indent_makes_whole_line_sel"
 + option "ui_statusbar_panels" has item for wrap-mode panel (default is hidden)
