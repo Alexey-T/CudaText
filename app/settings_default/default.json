@@ -406,6 +406,8 @@
   "ui_tab_2click_closes": false,
   //UI tabs: Show numbers on tabs
   "ui_tab_numbers": false,
+  //UI tabs: Open new tab near the currently active tab
+  "ui_tab_new_near_current": false,
 
   //[Ui/Listbox]
   //Listboxes: Commands/API listbox width

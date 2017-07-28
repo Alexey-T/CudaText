@@ -115,6 +115,7 @@ type
     TabShowPlus: boolean;
     TabDblClickClose: boolean;
     TabNumbers: boolean;
+    TabNewNearCurrent: boolean;
 
     MaxHistoryEdits: integer;
     MaxHistoryMenu: integer;
@@ -1034,6 +1035,7 @@ begin
     TabShowPlus:= true;
     TabDblClickClose:= false;
     TabNumbers:= false;
+    TabNewNearCurrent:= false;
 
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;

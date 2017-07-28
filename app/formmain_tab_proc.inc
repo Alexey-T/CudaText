@@ -37,10 +37,10 @@ begin
   F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
 end;
 
-function TfmMain.DoTabAdd(Pages: TATPages; const ACaption: string): TATTabData;
+function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string): TATTabData;
 var
   F: TEditorFrame;
-  NTab: integer;
+  NTabEnd, NTabNear: integer;
 begin
   F:= TEditorFrame.Create(Self);
   F.Name:= '';
@@ -49,13 +49,16 @@ begin
 
   InitFrameEvents(F);
 
-  Pages.AddTab(F, F.TabCaption, false);
-  NTab:= Pages.Tabs.TabCount-1;
-  Result:= Pages.Tabs.GetTabData(NTab);
-  Pages.Tabs.TabIndex:= NTab;
+  NTabNear:= APages.Tabs.TabIndex+1;
+  APages.AddTab(F, F.TabCaption, false);
+  NTabEnd:= APages.Tabs.TabCount-1;
 
-  ////test icons
-  //Result.TabImageIndex:= Random(3)-1; //with random -1
+  if UiOps.TabNewNearCurrent and (NTabEnd<>NTabNear) then
+    APages.Tabs.MoveTab(NTabEnd, NTabNear, true)
+  else
+    APages.Tabs.TabIndex:= NTabEnd;
+
+  Result:= APages.Tabs.GetTabData(APages.Tabs.TabIndex);
 end;
 
 procedure TfmMain.DoOnTabAdd(Sender: TObject);

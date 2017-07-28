@@ -823,7 +823,7 @@ type
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
-    function DoTabAdd(Pages: TATPages; const ACaption: string): TATTabData;
+    function DoTabAdd(APages: TATPages; const ACaption: string): TATTabData;
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
