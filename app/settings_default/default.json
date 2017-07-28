@@ -66,6 +66,7 @@
   //[File]
   //File-change notification: enabled
   "ui_notif": true,
+
   //File-change notification: watch timer interval, seconds
   "ui_notif_time": 2,
   
@@ -75,6 +76,7 @@
   //  1: open
   //  2: don't open
   "ui_non_text": 0,
+
   //Non-text files: detection buffer size, Kb
   "ui_non_text_buffer": 64,
 
@@ -89,19 +91,25 @@
   //[Text]
   //Highlight background of lines with carets
   "show_cur_line": false,
+
   //Highlight background of lines with carets: only minimal part of line, if line wrapped
   "show_cur_line_minimal": true,
+
   //Highlight background of lines with carets: only for focused editor
   "show_cur_line_only_focused": false,
+
   //Show additional vertical-lines at caret position(s)
   "show_cur_column": false,
   
   //Allow last line to scroll to the top of window
   "show_last_line_on_top": true,
+
   //Hilite selected block BG till right edge of window
   "show_full_sel_bg": false,
+
   //Hilite syntax-defined blocks BG till right edge if window
   "show_full_syntax_bg": true,
+
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
 
@@ -131,12 +139,14 @@
   //[Text/Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret
   "copy_line_if_no_sel": true,
+
   //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
 
   //[Text]
   //If text typed, delete selection first
   "ovr_sel": true,
+
   //If text pasted from clipboard, and "overwrite" mode on (Ins key),
   //then pasted text overwrites editor text
   "ovr_on_paste": false,
@@ -144,6 +154,7 @@
   //[File/Save]
   //On saving file: delete spaces at lines ends
   "saving_trim_spaces": false,
+
   //On saving file: force end-of-line chars at file end (if not entered)
   "saving_force_final_eol": false,
 
@@ -161,44 +172,55 @@
 
   //Additional pixels per each line (vertically)
   "spacing_y": 1,
+
   //Additional pixels per each char (horizontally)
   //Works only on Windows yet
   "spacing_x": 0,
 
   //Tab-char width
   "tab_size": 8,
+
   //Tab-key enters spaces, instead of tab-char
   "tab_spaces": false,
+
   //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)   
   "tab_max_pos_expanded": 500,
     
   //[View/Gutter]
   //Gutter: Enable gutter (all columns at the left side)
   "gutter_show": true,
+
   //Gutter: Show gutter's folding column
   "gutter_fold": true,
+
   //Gutter: If false, folding lines auto-hide on mouse-leave
   "gutter_fold_always": true,
+
   //Gutter: Style of folding icons
   //  0: plus/minus
   //  1: triangles
   "gutter_fold_icons": 0,
+
   //Gutter: Show gutter's bookmarks column
   "gutter_bookmarks": true,
 
   //[View/LineNumbers]
   //Show gutter's numbers column
   "numbers_show": true,
+
   //If not 0, special font size used for numbers
   "numbers_font_size": 0,
+
   //Line numbers: Numbers style
   //  0: all lines
   //  1: none
   //  2: each 10th line
   //  3: each 5th line
   "numbers_style": 0,
+
   //Show numbers for lines with carets
   "numbers_for_carets": false,
+
   //Center numbers on column
   "numbers_center": true,
     
@@ -214,30 +236,38 @@
   //[View/Ruler]
   //Ruler: show ruler (horizontal, on the top)
   "ruler_show": false,
+
   //Ruler: if not 0, special font size used for ruler
   "ruler_font_size": 8,
+
   //Ruler: ruler height, pixels
   "ruler_size": 20,
+
   //Ruler: numbers indent from top, pixels
   "ruler_text_indent": 0,
 
   //[View/Minimap]
   //Minimap: Show
   "minimap_show": false,
+
   //Minimap: Show selection area always. If false: show only on mouse-over.
   "minimap_sel_always": false,
+
   //Minimap: Show 1-pixel border around selection area
   "minimap_sel_border": false,
+
   //Minimap: Width
   //  value=0: autosize
   //  value>0: fixed width in chars
   "minimap_char_width": 0,
+
   //Minimap: Place minimap to the left side
   "minimap_at_left": false,
 
   //[View/Micromap]
   //Micromap: show (small vertical bar at the right edge)
   "micromap_show": false,
+
   //Micromap: width, pixels
   "micromap_width": 12,
 
@@ -253,29 +283,38 @@
   //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
   "unprinted_show": false,
+
   //Unprinted: Show unprinted spaces/tabs
   "unprinted_spaces": true,
+
   //Unprinted: Show unprinted end-of-line marks
   "unprinted_ends": true,
+
   //Unprinted: Paint at line-end strings like "un", "win", "mac"
   "unprinted_end_details": false,
 
   //Unprinted: Show control ASCII chars (codes 0..31) as replacement-char
   //(else show them as "xNN" hex codes)
   "unprinted_replace_spec": false,
+
   //Unprinted: Replacement-char hex code for control ASCII chars
   "unprinted_replace_to_code": "A4",
 
   //Unprinted: Paint arrow-down at end-of-line, instead of dot
   "unprinted_end_arrow": true,
+
   //Unprinted: Length of arrow for tab-char (1 is minimal, 0 means full size)
   "unprinted_tab_len": 1,
+
   //Unprinted: Scale (% of char height) of space dot
   "unprinted_space_dot_scale": 15,
+
   //Unprinted: Scale of end-of-line dot (if dot shown, not arrow)
   "unprinted_end_dot_scale": 30,
+
   //Unprinted: Scale of end-of-line text: "un", "win", "mac"
   "unprinted_end_font_scale": 80,
+
   //Unprinted: Scale of tab-arrow pointer (15..50)
   "unprinted_tab_ptr_scale": 22,
 
@@ -285,6 +324,7 @@
   //  1: wrap at editor edge (changed on window resize)
   //  2: wrap at "fixed margin"
   "wrap_mode": 0,
+
   //Show wrapped parts of long line indented, like line itself
   //(if line begins with spaces/tabs)
   "wrap_indented": true,
@@ -292,23 +332,28 @@
   //[Text/Undo]
   //Undo: Max count of commands which can be undone
   "undo_limit": 5000,
+
   //Undo: Undo commands by groups (groups are separated eg by mouse clicks)
   "undo_grouped": true,
+
   //Undo: Enabled even after file saving
   "undo_after_save": true,
 
   //[Text/Caret]
   //Allow to place caret after end-of-line (virtual caret pos)
   "caret_after_end": false,
+
   //Caret blink time (msec)
   "caret_blink_time": 600,
+
   //Caret blinking enabled
   "caret_blink_en": true,
+
   //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
 
   //Multi-carets are added when creating column (vertical) selection
-  //option not ready
+  //note: option not ready!
   //"carets_with_column_sel": true,
 
   //Possible caret shapes:
@@ -342,8 +387,10 @@
   //
   //Caret: shape for normal state
   "caret_shape": 1,
+
   //Caret: shape for overwrite state (Ins key: insert/overwrite)
   "caret_shape_ovr": 0,
+
   //Caret: shape for read-only mode
   "caret_shape_ro": 13,
 
@@ -359,17 +406,22 @@
   //[Find]
   //Find dialog: show window, not docked to app bottom (applied after restart)
   "find_separate_form": false,
+
   //Find dialog: suggest selection (of 1st caret)
   "find_suggest_sel": false,
+
   //Find dialog: suggest word (at 1st caret)
   "find_suggest_cur_word": true,
+
   //Find current selection next/prev: case-sensitive state
   //  0: case-sens off 
   //  1: case-sens on
   //  2: use option from Find dialog
   "find_sel_case": 2,
+
   //Find dialog: show "find first" button
   "find_show_findfirst": true,
+
   //Find dialog: multi-line mode: how height of inputs is increased
   "find_multiline_scale": 2.5,  
 
@@ -384,54 +436,71 @@
   //[Ui/Tabs]
   //UI tabs: Width
   "ui_tab_size_x": 170,
+
   //UI tabs: Height
   "ui_tab_size_y": 25,
+
   //UI tabs: Indent of text on tabs
   "ui_tab_indent_x": 5,
+
   //UI tabs: Angle of tab edge, it's set in pixel shift, 0..10
   "ui_tab_angle": 3,
+
   //UI tabs: Show tabs on bottom
   "ui_tab_bottom": false,
+
   //UI tabs: Show "x" buttons on tabs
   //  0: dont show
   //  1: for all tabs
   //  2: for active tab
   //  3: for mouse-over tab
   "ui_tab_show_x": 1,
+
   //UI tabs: Show "+" pseudo-tab
   "ui_tab_show_plus": true,
+
   //UI tabs: Command "Set tab color" paints entire tab
   "ui_tab_fullcolor": false,
+
   //UI tabs: Double-click closes tab
   "ui_tab_2click_closes": false,
+
   //UI tabs: Show numbers on tabs
   "ui_tab_numbers": false,
+
   //UI tabs: Open new tab near the currently active tab
   "ui_tab_new_near_current": false,
 
   //[Ui/Listbox]
   //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,
+
   //Listboxes: Commands/API listbox height
   "ui_listbox_size_y": 300,
+
   //Listboxes: Auto-completion listbox width
   "ui_listbox_complete_size_x": 550,
+
   //Listboxes: Auto-completion listbox height
   "ui_listbox_complete_size_y": 200,
+
   //Listboxes: Enable fuzzy search in menu dialogs (see Wiki)
   "ui_listbox_fuzzy": true,
 
   //[Ui/History]
   //History: Max items in comboboxes history (0..200)
   "ui_max_history_edits": 20,
+
   //History: Max items in "recent files" menu (0..50)
   "ui_max_history_menu": 10,
+
   //History: Max items in "settings/history files.json" (0..400)
   "ui_max_history_files": 25,
 
   //[Ui]
   //Close program by Esc key
   "ui_esc_close": false,
+
   //Close Console by Esc key
   "ui_esc_close_console": true,
   
@@ -441,14 +510,19 @@
   //[Ui/Tree]
   //Tree: Focus another tree-node, after caret position changes
   "ui_tree_auto_sync": true,
+
   //Tree: Time (msec) after which tree filled
   "ui_tree_time_fill": 2000,
+
   //Tree: Time (msec) after which tree-node for caret focuses
   "ui_tree_time_focus": 300,
+
   //Tree: Show vertical/horiz lines in tree 
   "ui_tree_show_lines": true,
+
   //Tree: Show icons in tree (for lexers which assign icons, e.g. C#)
   "ui_tree_icons": true,
+
   //Tree: Icons theme
   //Folders from: codetreeicons
   "ui_tree_theme": "default_16x16",  
@@ -456,9 +530,11 @@
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",
+
   //New tabs: Encoding name
   //  See names list in Wiki. Examples: utf8, utf8_bom, utf16le, ansi, cp1250 etc  
   "newdoc_encoding": "utf8",
+
   //New tabs: End-of-lines chars
   //  1: Win
   //  2: Unix
@@ -477,18 +553,22 @@
   //[Text/Indent]
   //Auto-indent by Enter (makes new line indented)
   "indent_auto": true,
+
   //Auto-indent kind
   //  0: indent like in previous line
   //  1: by spaces
   //  2: by tabs+spaces
   //  3: by tabs only
   "indent_kind": 0,
+
   //Indent size for Indent/Unindent commands:
   //in chars (value>0) or in tabs (value<0)
   "indent_size": 2,
+
   //Unindent command (Shift+Tab): if several lines (in block) have different indent,
   //stop unindent if one line already at left edge (other lines wont be moved)
   "unindent_keeps_align": true,
+
   //When indenting several lines, stretch selection after, to entire affected lines.
   //Otherwise, selection will be like before, shifted.
   "indent_makes_whole_line_sel": false,
@@ -496,24 +576,34 @@
   //[Mouse]
   //Drag-drop of text blocks
   "mouse_drag_drop": true,
+
   //After drag-drop of text block to another group, focus target editor
   "mouse_drag_drop_focus_target": true,
+
   //Right-click moves caret, before menu
   "mouse_rt_click_moves_caret": false,
+
   //Dbl-click and immediately drag makes selection by words
   "mouse_2click_drag_select_words": true,
+
   //Middle-click shows circle, then mouse-move near circle does auto-scrolling
   "mouse_mid_click_scroll": true,
+
   //Middle-click does paste from clipboard (usual in Linux apps)
   "mouse_mid_click_paste": false,
+
   //Enable selection of vertical blocks (Alt+drag)
   "mouse_column_selection": true,
+
   //Select entire line if clicked line number
   "mouse_gutter_click_sel": true,
+
   //Allow to zoom text using Ctrl+wheel
   "mouse_wheel_zoom": false,
+
   //Mouse wheel scrolling speed, vertical (in lines)
   "mouse_wheel_speed_vert": 3,
+
   //Mouse wheel scrolling speed, horizontal (in chars)
   "mouse_wheel_speed_horz": 10,
   
@@ -528,30 +618,40 @@
   //[Keys]
   //Key BkSp: do unindent too (if caret inside indented area)
   "key_bksp_unindent": true,
+
   //Key Tab: do block-indent too (if selection)
   "key_tab_indents_sel": true,
+
   //Key Home: first jump to nonspace, next to line start
   "key_home_to_nonspace": true,
+
   //Key End: first jump to ending nonspace, next to line end
   "key_end_to_nonspace": true,
+
   //Keys Home/End: when moving on long wrapped lines, treat wrapped parts like
   //separate lines and first jump to wrapped parts edge, next to line edge
   "key_home_end_nav_wrapped": true,
+
   //Keys PageUp/PageDown: keep relative offset from top of editor
   "key_page_keeps_rel_pos": true,
+
   //Keys PageUp/PageDown page size
   //  0: full height
   //  1: full height minus 1
   //  2: half height
   "key_page_size": 1,
+
   //Keys Up/Down: try to keep caret column
   //(if moving from long line, to short line, to long line again)
   "key_up_down_keeps_column": true,
+
   //Keys Up/Down: when moving on long wrapped lines, treat wrapped parts
   //like separate lines and try to jump to position above/below previous
   "key_up_down_nav_wrapped": true,
+
   //Keys Left/Right: if selection exists, try to jump to opposite selection edge
   "key_left_right_swap_sel": true,
+
   //... and keep previous selection
   "key_left_right_swap_sel_and_select": false,
 
@@ -625,9 +725,13 @@
   "underline_color_size": 3,
 
   //[File/Export]
-  //Options for "File--Export to HTML"
+  //Export to HTML: show line numbers in output
   "export_html_numbers": false,
+  
+  //Export to HTML: font name in output
   "export_html_font_name": "Courier New",
+  
+  //Export to HTML: font size in output
   "export_html_font_size": 12,
 
   //[Python]
@@ -657,15 +761,19 @@
   //[Text/Commands]
   //Commenting: If no selection then comment full line
   "comment_full_line_if_no_sel": true,
+
   //Commenting: If no selection then move caret to next line
   "comment_move_down": true,
+
   //Commenting: Try to save chars positions in line after commenting/uncommenting
   "comment_save_column": false,
+
   //Commenting: If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,
   
   //Duplicating line: If no selection then duplicate full line
   "duplicate_full_line_if_no_sel": true,
+
   //Duplicating line: If no selection then move caret to next line
   "duplicate_move_down": true,
 
