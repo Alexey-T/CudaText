@@ -127,6 +127,13 @@
   //  e.g. Pascal lexer: green lines above procedure/function
   "lexer_line_separators": false,
 
+  //If text size is bigger than this option, lexer analysis becomes delayed,
+  //ie only after last text change + pause (during this pause you'll see non-colored text)
+  "lexer_delayed_parsing_size": 10000,
+  
+  //Delayed lexer analysis: pause in msec
+  "lexer_delayed_parsing_pause": 500,
+
   //[Text]
   //Style of folding
   //  0: if fold-hint empty: [...] from fold-pos, else hint

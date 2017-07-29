@@ -520,7 +520,6 @@ begin
 
     UiOps.NonTextFiles:= c.GetValue('ui_non_text', UiOps.NonTextFiles);
     UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
-    UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
     UiOps.FullScreen:= c.GetValue('ui_fullscreen', UiOps.FullScreen);
 
@@ -640,6 +639,7 @@ begin
     Op.OpSavingTrimSpaces:= c.GetValue('saving_trim_spaces', Op.OpSavingTrimSpaces);
     Op.OpSavingForceFinalEol:= c.GetValue('saving_force_final_eol', Op.OpSavingForceFinalEol);
     Op.OpShowHintOnVertScroll:= c.GetValue('show_hint_on_vert_scroll', Op.OpShowHintOnVertScroll);
+
     Op.OpLexerDynamicHiliteEnabled:= c.GetValue('lexer_dynamic_hilite', Op.OpLexerDynamicHiliteEnabled);
     Op.OpLexerDynamicHiliteMaxLines:= c.GetValue('lexer_dynamic_hilite_max_lines', Op.OpLexerDynamicHiliteMaxLines);
     Op.OpLexerLineSeparators:= c.GetValue('lexer_line_separators', Op.OpLexerLineSeparators);
@@ -649,6 +649,10 @@ begin
     Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
 
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
+    UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
+    UiOps.LexerDelayedParsingPause:= c.GetValue('lexer_delayed_parsing_pause', UiOps.LexerDelayedParsingPause);
+    UiOps.LexerDelayedParsingSize:= c.GetValue('lexer_delayed_parsing_size', UiOps.LexerDelayedParsingSize);
+
     UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
     UiOps.SidebarTheme:= c.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
     UiOps.TreeTheme:= c.GetValue('ui_tree_theme', UiOps.TreeTheme);

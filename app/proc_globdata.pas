@@ -86,6 +86,8 @@ type
 
     LexerThemes: boolean;
     LexerMenuGrouped: boolean;
+    LexerDelayedParsingPause: integer;
+    LexerDelayedParsingSize: integer;
 
     SidebarShow: boolean;
     SidebarTheme: string;
@@ -1003,6 +1005,8 @@ begin
 
     LexerThemes:= true;
     LexerMenuGrouped:= true;
+    LexerDelayedParsingPause:= 500;
+    LexerDelayedParsingSize:= 10*1000;
 
     SidebarShow:= true;
     SidebarTheme:= 'octicons_20x20';
