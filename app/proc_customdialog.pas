@@ -1542,7 +1542,14 @@ begin
   if AName='autosize' then
     F.AutoSize:= AppStrToBool(AValue)
   else
-  ;
+  if AName='border' then
+  begin
+    if AppStrToBool(AValue) then
+      F.BorderStyle:= bsSizeable
+    else
+      F.BorderStyle:= bsNone;
+  end
+  else;
 end;
 
 

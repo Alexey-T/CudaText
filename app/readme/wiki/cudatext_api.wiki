@@ -714,6 +714,7 @@ Described in dlg_custom, see [[#Types]].
 * "vis": bool: Visible state.
 * "color": int: Background color.
 * "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
+* "border": bool: Enables OS-themed form border (set to false, to make form border-less).
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
 
 ====Form events====
@@ -1892,6 +1893,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.191 (app 1.14.2)
+* add: dlg_proc: form property "border"
 
 1.0.190 (app 1.14.0)
 * add: app_proc: PROC_GET_TAB_IMAGELIST
