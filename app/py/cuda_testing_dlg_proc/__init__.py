@@ -156,7 +156,7 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_caption', 'cap':'upd caption', 'x':10, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
-        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_border', 'cap':'upd border', 'x':10, 'y':90, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')

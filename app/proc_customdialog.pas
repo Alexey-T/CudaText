@@ -18,11 +18,13 @@ uses
   ListViewFilterEdit,
   LclProc, LclType,
   ATListbox,
+  ATButtons,
   ATButtonsToolbar,
   ATLinkLabel,
   ATStringProc,
   ATPanelColor,
   ATGauge,
+  proc_str,
   proc_customdialog_dummy,
   proc_miscutils,
   proc_globdata,
@@ -468,6 +470,13 @@ begin
     exit;
   end;
 
+  if S='button_ex' then
+  begin
+    Ctl:= TATButton.Create(AForm);
+    (Ctl as TATButton).OnClick:= @AForm.DoOnChange;
+    exit;
+  end;
+
   if S='checkbutton' then
   begin
     Ctl:= TToggleBox.Create(AForm);
@@ -657,7 +666,7 @@ begin
    if Assigned(Ctl) then
    begin
      Props:= TAppControlProps.Create(S);
-     if S='button' then
+     if SBeginsWith(S, 'button') then
        Props.FActive:= true;
      Ctl.Tag:= PtrInt(Props);
 
