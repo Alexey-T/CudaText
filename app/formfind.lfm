@@ -1,7 +1,7 @@
 object fmFind: TfmFind
   Left = 91
   Height = 148
-  Top = 394
+  Top = 388
   Width = 1189
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -39,9 +39,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Caption = '?!'
         TabStop = True
         TabOrder = 0
-        Caption = '?!'
         OnClick = chkConfirmClick
       end
     end
@@ -56,9 +56,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Caption = '.*'
         TabStop = True
         TabOrder = 0
-        Caption = '.*'
         OnClick = chkRegexClick
       end
       object chkCase: TATButton
@@ -67,9 +67,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Caption = 'aA'
         TabStop = True
         TabOrder = 1
-        Caption = 'aA'
         OnClick = chkCaseClick
       end
       object chkWords: TATButton
@@ -78,9 +78,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Caption = '“w”'
         TabStop = True
         TabOrder = 2
-        Caption = '“w”'
         OnClick = chkWordsClick
       end
       object chkWrap: TATButton
@@ -89,9 +89,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Caption = 'O'
         TabStop = True
         TabOrder = 3
-        Caption = 'O'
         OnClick = chkWrapClick
       end
       object chkMulLine: TATButton
@@ -100,9 +100,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Caption = '+'
         TabStop = True
         TabOrder = 5
-        Caption = '+'
         OnClick = chkMulLineClick
       end
       object chkInSel: TATButton
@@ -111,9 +111,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 32
         Align = alLeft
+        Caption = '[..]'
         TabStop = True
         TabOrder = 4
-        Caption = '[..]'
         OnClick = chkInSelClick
       end
     end
@@ -208,7 +208,6 @@ object fmFind: TfmFind
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseNiceScroll = False
-      OptMouseColumnSelectionWithoutKey = False
       OptAllowScrollbarVert = False
       OptAllowScrollbarHorz = False
       OptAllowZooming = False
@@ -305,7 +304,6 @@ object fmFind: TfmFind
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseNiceScroll = False
-      OptMouseColumnSelectionWithoutKey = False
       OptAllowScrollbarVert = False
       OptAllowScrollbarHorz = False
       OptAllowZooming = False
@@ -326,9 +324,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Find first'
         TabStop = True
         TabOrder = 0
-        Caption = 'Find first'
         OnClick = bFindFirstClick
       end
       object bFindNext: TATButton
@@ -337,9 +335,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Find next'
         TabStop = True
         TabOrder = 1
-        Caption = 'Find next'
         OnClick = bFindNextClick
       end
       object bCount: TATButton
@@ -348,9 +346,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Count all'
         TabStop = True
         TabOrder = 3
-        Caption = 'Count all'
         OnClick = bCountClick
       end
       object bMarkAll: TATButton
@@ -359,9 +357,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Mark all'
         TabStop = True
         TabOrder = 5
-        Caption = 'Mark all'
         OnClick = bMarkAllClick
       end
       object bFindPrev: TATButton
@@ -370,9 +368,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Find prev'
         TabStop = True
         TabOrder = 2
-        Caption = 'Find prev'
         OnClick = bFindPrevClick
       end
       object bSelectAll: TATButton
@@ -381,9 +379,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Select all'
         TabStop = True
         TabOrder = 4
-        Caption = 'Select all'
         OnClick = bSelectAllClick
       end
     end
@@ -400,9 +398,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Replace cur'
         TabStop = True
         TabOrder = 0
-        Caption = 'Replace cur'
         OnClick = bRepClick
       end
       object bRepAll: TATButton
@@ -411,9 +409,9 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
+        Caption = 'Replace all'
         TabStop = True
         TabOrder = 1
-        Caption = 'Replace all'
         OnClick = bRepAllClick
       end
     end
