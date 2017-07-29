@@ -521,8 +521,8 @@ Possible types of controls:
 * "radio": radio-button, only one of radio-buttons can be checked
 * "edit": single-line input
 * "edit_pwd": single-line input for password, text is masked
-* "combo": combobox, editable, value is text
-* "combo_ro": combobox, read-only, value is index
+* "combo": combobox, editable + drop-down, value is text
+* "combo_ro": combobox, drop-down only, value is index of drop-down
 * "listbox": list of items with one item selected
 * "listbox_ex": like listbox, but application-themed, and works via listbox_proc()
 * "checkbutton": looks like button, but don't close dialog, checked/unchecked
