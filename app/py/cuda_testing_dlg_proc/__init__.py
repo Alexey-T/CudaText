@@ -50,7 +50,7 @@ class Command:
 
         n_chk = dlg_proc(h, DLG_CTL_FIND, prop='chk1')
         n_edit = dlg_proc(h, DLG_CTL_FIND, prop='edit1')
-        n_btn1 = dlg_proc(h, DLG_CTL_FIND, prop='btn1')
+        n_btn_cap = dlg_proc(h, DLG_CTL_FIND, prop='btn_caption')
         n_btn_dlg = dlg_proc(h, DLG_CTL_FIND, prop='btn_dlg')
         n_btn_paint = dlg_proc(h, DLG_CTL_FIND, prop='btn_paint')
         n_color = dlg_proc(h, DLG_CTL_FIND, prop='color')
@@ -60,7 +60,7 @@ class Command:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_color)
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'vis': not d['vis']} )
 
-        if id_ctl==n_btn1:
+        if id_ctl==n_btn_cap:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_edit)
             dlg_proc(h, DLG_PROP_SET, prop={'cap': 'entered: '+d['val'] } )
 
@@ -147,10 +147,10 @@ class Command:
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit1', 'val':'edit1', 'x':10, 'y':30, 'w':200} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn1', 'cap':'Btn&1: caption', 'x':10, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_caption', 'cap':'upd caption', 'x':10, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn2', 'cap':'Btn&2: move', 'x':120, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move', 'cap':'move button', 'x':120, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'color', 'cap': ' ', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0) } )
