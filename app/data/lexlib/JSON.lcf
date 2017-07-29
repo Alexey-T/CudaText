@@ -1,4 +1,4 @@
-object SyntAnal17: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -130,15 +130,13 @@ object SyntAnal17: TLibSyntAnalyzer
             '{')
           TokenTypes = 8
         end>
-      BlockOffset = 2
       BlockEnd = '}'
       EndOfTextClose = True
       NameFmt = '%s2'
       RefToCondEnd = True
       HighlightPos = cpAny
-      CancelNextRules = True
       DrawStaple = True
-      CollapseFmt = '%s2'
+      CollapseFmt = '{ ... }'
       IgnoreAsParent = False
     end
     item
@@ -152,7 +150,6 @@ object SyntAnal17: TLibSyntAnalyzer
         end>
       BlockEnd = '{'
       HighlightPos = cpAny
-      CancelNextRules = True
       IgnoreAsParent = False
     end
     item
