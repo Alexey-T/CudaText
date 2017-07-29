@@ -1006,7 +1006,7 @@ begin
     LexerThemes:= true;
     LexerMenuGrouped:= true;
     LexerDelayedParsingPause:= 500;
-    LexerDelayedParsingSize:= 10*1000;
+    LexerDelayedParsingSize:= 100*1000;
 
     SidebarShow:= true;
     SidebarTheme:= 'octicons_20x20';
