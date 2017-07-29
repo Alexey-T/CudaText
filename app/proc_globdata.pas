@@ -85,6 +85,8 @@ type
     PyChangeSlow: integer;
 
     LexerThemes: boolean;
+    LexerMenuGrouped: boolean;
+
     SidebarShow: boolean;
     SidebarTheme: string;
     PictureTypes: string;
@@ -173,7 +175,6 @@ type
     NotifTimeSec: integer;
     NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
     NonTextFilesBufferKb: integer;
-    LexerMenuGrouped: boolean;
     ReloadFollowTail: boolean;
     FullScreen: string;
     MouseGotoDefinition: string;
@@ -939,7 +940,7 @@ begin
     OpFoldStyle:= 1;
 
     OpIndentAuto:= true;
-    OpIndentAutoKind:= Ord(cIndentAsIs);
+    OpIndentAutoKind:= Ord(cIndentAsPrevLine);
     OpIndentSize:= 2;
     OpUnIndentKeepsAlign:= true;
     OpIndentMakesWholeLineSel:= false;
@@ -1001,6 +1002,8 @@ begin
     DoubleBuffered:= IsDoubleBufferedNeeded;
 
     LexerThemes:= true;
+    LexerMenuGrouped:= true;
+
     SidebarShow:= true;
     SidebarTheme:= 'octicons_20x20';
     TreeTheme:= 'default_16x16';
@@ -1095,7 +1098,6 @@ begin
     NotifTimeSec:= 2;
     NonTextFiles:= 0;
     NonTextFilesBufferKb:= 64;
-    LexerMenuGrouped:= true;
     ReloadFollowTail:= true;
     FullScreen:= 'tp';
     MouseGotoDefinition:= 'a';
