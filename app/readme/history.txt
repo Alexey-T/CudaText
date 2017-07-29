@@ -4,13 +4,17 @@
   * changed
 
 
-1.14.1
+1.14.2
 
 + lexer-specific config + lexer-specific hotkeys config are supported for none-lexer ("lexer -.json", "keys lexer -.json")
++ lexer analysis for big files (by option) is delayed now. Syntax analysis starts only after user ends typing text, and pause passed. Much faster with big files.
+
++ option "lexer_delayed_parsing_size"
++ option "lexer_delayed_parsing_pause"
 + option "ui_tab_new_near_current"
 + option "indent_kind" has value "by spaces up to opening bracket" (like in ST3)
-+ option "autocomplete_trigger_chars" (like in ST3)
 + option "indent_makes_whole_line_sel"
++ option "autocomplete_trigger_chars" (like in ST3)
 + option "ui_statusbar_panels" has item for wrap-mode panel (default is hidden)
 + option "ui_statusbar_wrap"
 + command "toggle word wrap mode (off/window/margin)"
@@ -28,6 +32,7 @@ lexers:
 fixes:
 - fixed case-insensitive search in menu dialogs for non-En chars
 - fixed non-working plugin hotkeys after any plugin installing
+- fixed parasite scrolling if file was closed not on top
 
 1.13.1
 
