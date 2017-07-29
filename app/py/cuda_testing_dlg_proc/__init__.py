@@ -29,6 +29,8 @@ def callback_main_menu(id_dlg, id_ctl, data='', info=''):
 
 
 class Command:
+    border = True
+
     def run_modal(self):
         print('run_modal begin')
         h = self.init_maindlg()
@@ -48,17 +50,22 @@ class Command:
         print('callback_maindlg(info=%s)' % repr(info))
         h = id_dlg
 
-        n_chk = dlg_proc(h, DLG_CTL_FIND, prop='chk1')
+        n_chk_panel = dlg_proc(h, DLG_CTL_FIND, prop='chk_panel')
         n_edit = dlg_proc(h, DLG_CTL_FIND, prop='edit1')
         n_btn_cap = dlg_proc(h, DLG_CTL_FIND, prop='btn_caption')
         n_btn_dlg = dlg_proc(h, DLG_CTL_FIND, prop='btn_dlg')
         n_btn_paint = dlg_proc(h, DLG_CTL_FIND, prop='btn_paint')
+        n_btn_border = dlg_proc(h, DLG_CTL_FIND, prop='btn_border')
         n_color = dlg_proc(h, DLG_CTL_FIND, prop='color')
         n_chk_dock = dlg_proc(h, DLG_CTL_FIND, prop='chk_dock')
 
-        if id_ctl==n_chk:
+        if id_ctl==n_chk_panel:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_color)
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'vis': not d['vis']} )
+
+        if id_ctl==n_btn_border:
+            self.border = not self.border
+            dlg_proc(h, DLG_PROP_SET, prop={'border': self.border } )
 
         if id_ctl==n_btn_cap:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_edit)
@@ -135,19 +142,22 @@ class Command:
 
     def init_maindlg(self):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 100, 'topmost':True })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 300, 'topmost':True })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': '', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap':'show panel', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_panel', 'cap':'show panel', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg' })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit1', 'val':'edit1', 'x':10, 'y':30, 'w':200} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_caption', 'cap':'upd caption', 'x':10, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_border', 'cap':'upd border', 'x':10, 'y':90, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move', 'cap':'move button', 'x':120, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
