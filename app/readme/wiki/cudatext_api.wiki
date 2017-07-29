@@ -514,8 +514,9 @@ Shows dialog with controls of many types.
 
 Possible types of controls:
 
-* "button"
-* "label": simple text
+* "button": simple button
+* "button_ex": button, but application-themed
+* "label": simple read-only text
 * "check": checkbox, checked/unchecked/grayed
 * "radio": radio-button, only one of radio-buttons can be checked
 * "edit": single-line input
@@ -523,7 +524,7 @@ Possible types of controls:
 * "combo": combobox, editable, value is text
 * "combo_ro": combobox, read-only, value is index
 * "listbox": list of items with one item selected
-* "listbox_ex": like listbox, but works via listbox_proc()
+* "listbox_ex": like listbox, but application-themed, and works via listbox_proc()
 * "checkbutton": looks like button, but don't close dialog, checked/unchecked
 * "memo": multi-line input
 * "checkgroup": group of check-boxes
@@ -1896,6 +1897,7 @@ Text is chr(1) separated items:
 
 1.0.191 (app 1.14.2)
 * add: dlg_proc: form property "border"
+* add: dlg_proc: control type "button_ex"
 
 1.0.190 (app 1.14.0)
 * add: app_proc: PROC_GET_TAB_IMAGELIST
