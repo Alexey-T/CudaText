@@ -42,7 +42,7 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 0
         Caption = '?!'
-        Checkable = True
+        OnClick = chkConfirmClick
       end
     end
     object PanelOps1: TATPanelSimple
@@ -59,8 +59,7 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 0
         Caption = '.*'
-        Checkable = True
-        OnClick = chkRegexChange
+        OnClick = chkRegexClick
       end
       object chkCase: TATButton
         Left = 32
@@ -71,7 +70,7 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 1
         Caption = 'aA'
-        Checkable = True
+        OnClick = chkCaseClick
       end
       object chkWords: TATButton
         Left = 64
@@ -82,7 +81,7 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 2
         Caption = '“w”'
-        Checkable = True
+        OnClick = chkWordsClick
       end
       object chkWrap: TATButton
         Left = 96
@@ -93,7 +92,6 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 3
         Caption = 'O'
-        Checkable = True
         OnClick = chkWrapClick
       end
       object chkMulLine: TATButton
@@ -105,7 +103,6 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 5
         Caption = '+'
-        Checkable = True
         OnClick = chkMulLineClick
       end
       object chkInSel: TATButton
@@ -117,7 +114,6 @@ object fmFind: TfmFind
         TabStop = True
         TabOrder = 4
         Caption = '[..]'
-        Checkable = True
         OnClick = chkInSelClick
       end
     end
@@ -212,6 +208,7 @@ object fmFind: TfmFind
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseNiceScroll = False
+      OptMouseColumnSelectionWithoutKey = False
       OptAllowScrollbarVert = False
       OptAllowScrollbarHorz = False
       OptAllowZooming = False
@@ -308,6 +305,7 @@ object fmFind: TfmFind
       OptUnprintedVisible = False
       OptMouseDragDrop = False
       OptMouseNiceScroll = False
+      OptMouseColumnSelectionWithoutKey = False
       OptAllowScrollbarVert = False
       OptAllowScrollbarHorz = False
       OptAllowZooming = False

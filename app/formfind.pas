@@ -77,12 +77,15 @@ type
     procedure bCountClick(Sender: TObject);
     procedure bCancelClick(Sender: TObject);
     procedure bSelectAllClick(Sender: TObject);
+    procedure chkCaseClick(Sender: TObject);
+    procedure chkConfirmClick(Sender: TObject);
     procedure chkInSelClick(Sender: TObject);
     procedure chkMulLineClick(Sender: TObject);
-    procedure chkRegexChange(Sender: TObject);
+    procedure chkRegexClick(Sender: TObject);
     procedure chkRepChange(Sender: TObject);
     procedure bFindFirstClick(Sender: TObject);
     procedure chkRepClick(Sender: TObject);
+    procedure chkWordsClick(Sender: TObject);
     procedure chkWrapClick(Sender: TObject);
     procedure edFindChange(Sender: TObject);
     procedure edFindCommand(Sender: TObject; ACommand: integer;
@@ -103,7 +106,7 @@ type
     FNarrow: boolean;
     procedure DoResult(const Str: string);
     procedure SetIsDoubleBuffered(AValue: boolean);
-    procedure SetMultiLine(Value: boolean);
+    procedure SetMultiLine(AValue: boolean);
     procedure SetNarrow(AValue: boolean);
     procedure SetReplace(AValue: boolean);
     procedure UpdateButtonBold;
@@ -132,8 +135,10 @@ implementation
 
 { TfmFind }
 
-procedure TfmFind.chkRegexChange(Sender: TObject);
+procedure TfmFind.chkRegexClick(Sender: TObject);
 begin
+  with chkRegex do
+    Checked:= not Checked;
   UpdateState;
 end;
 
@@ -177,8 +182,24 @@ begin
   DoResult(cOpFindSelectAll);
 end;
 
+procedure TfmFind.chkCaseClick(Sender: TObject);
+begin
+  with chkCase do
+    Checked:= not Checked;
+  UpdateState;
+end;
+
+procedure TfmFind.chkConfirmClick(Sender: TObject);
+begin
+  with chkConfirm do
+    Checked:= not Checked;
+  UpdateState;
+end;
+
 procedure TfmFind.chkInSelClick(Sender: TObject);
 begin
+  with chkInSel do
+    Checked:= not Checked;
   UpdateState;
 end;
 
@@ -202,8 +223,17 @@ begin
   UpdateState;
 end;
 
+procedure TfmFind.chkWordsClick(Sender: TObject);
+begin
+  with chkWords do
+    Checked:= not Checked;
+  UpdateState;
+end;
+
 procedure TfmFind.chkWrapClick(Sender: TObject);
 begin
+  with chkWrap do
+    Checked:= not Checked;
   UpdateState;
 end;
 
@@ -407,7 +437,7 @@ begin
 
   if Str=UiOps.HotkeyToggleRegex then
   begin
-    with chkRegex do checked:= not checked;
+    chkRegexClick(Self);
     UpdateState;
     key:= 0;
     exit
@@ -415,7 +445,7 @@ begin
 
   if Str=UiOps.HotkeyToggleCaseSens then
   begin
-    with chkCase do checked:= not checked;
+    chkCaseClick(Self);
     UpdateState;
     key:= 0;
     exit
@@ -423,7 +453,7 @@ begin
 
   if Str=UiOps.HotkeyToggleWords then
   begin
-    with chkWords do checked:= not checked;
+    chkWordsClick(Self);
     UpdateState;
     key:= 0;
     exit
@@ -431,7 +461,7 @@ begin
 
   if Str=UiOps.HotkeyToggleConfirmRep then
   begin
-    with chkConfirm do checked:= not checked;
+    chkConfirmClick(Self);
     UpdateState;
     key:= 0;
     exit
@@ -439,7 +469,7 @@ begin
 
   if Str=UiOps.HotkeyToggleWrapped then
   begin
-    with chkWrap do checked:= not checked;
+    chkWrapClick(Self);
     UpdateState;
     key:= 0;
     exit
@@ -447,7 +477,7 @@ begin
 
   if Str=UiOps.HotkeyToggleInSelect then
   begin
-    with chkInSel do checked:= not checked;
+    chkInSelClick(Self);
     UpdateState;
     key:= 0;
     exit
@@ -555,11 +585,12 @@ begin
   }
 end;
 
-procedure TfmFind.SetMultiLine(Value: boolean);
+procedure TfmFind.SetMultiLine(AValue: boolean);
 var
   NSizeY: integer;
 begin
-  FMultiLine:= Value;
+  FMultiLine:= AValue;
+  chkMulLine.Checked:= AValue;
 
   edFind.ModeOneLine:= not FMultiLine;
   edRep.ModeOneLine:= not FMultiLine;
@@ -642,7 +673,6 @@ begin
 
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
-  chkMulLine.Checked:= IsMultiLine;
   chkWords.Enabled:= not chkRegex.Checked;
   chkConfirm.Visible:= IsReplace or IsNarrow;
   edRep.Visible:= IsReplace;
