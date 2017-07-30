@@ -46,6 +46,28 @@ class Command:
     def run_dlgcustom(self):
         dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
 
+    def callback_buttondlg(self, id_dlg, id_ctl, data='', info=''):
+        h = id_dlg
+        n_btn_border = dlg_proc(h, DLG_CTL_FIND, prop='btn_border')
+        n_btn_icon = dlg_proc(h, DLG_CTL_FIND, prop='btn_icon')
+
+        if id_ctl==n_btn_border:
+            self.border = not self.border
+            dlg_proc(h, DLG_PROP_SET, prop={'border': self.border } )
+
+        if id_ctl==n_btn_icon:
+            #toggle button's checked
+            id_btn = dlg_proc(h, DLG_CTL_HANDLE, name='btn_icon')
+            b = button_proc(id_btn, BTN_GET_CHECKED)
+            button_proc(id_btn, BTN_SET_CHECKED, not b)
+
+            #set imagelist+icon for button
+            id_imglist = app_proc(PROC_GET_TAB_IMAGELIST, '')
+            button_proc(id_btn, BTN_SET_KIND, BTNKIND_TEXT_ICON_VERT)
+            button_proc(id_btn, BTN_SET_IMAGELIST, id_imglist)
+            button_proc(id_btn, BTN_SET_IMAGEINDEX, int(b))
+
+
     def callback_maindlg(self, id_dlg, id_ctl, data='', info=''):
         print('callback_maindlg(info=%s)' % repr(info))
         h = id_dlg
@@ -55,28 +77,12 @@ class Command:
         n_btn_cap = dlg_proc(h, DLG_CTL_FIND, prop='btn_caption')
         n_btn_dlg = dlg_proc(h, DLG_CTL_FIND, prop='btn_dlg')
         n_btn_paint = dlg_proc(h, DLG_CTL_FIND, prop='btn_paint')
-        n_btn_border = dlg_proc(h, DLG_CTL_FIND, prop='btn_border')
         n_color = dlg_proc(h, DLG_CTL_FIND, prop='color')
         n_chk_dock = dlg_proc(h, DLG_CTL_FIND, prop='chk_dock')
 
         if id_ctl==n_chk_panel:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_color)
             dlg_proc(h, DLG_CTL_PROP_SET, index=n_color, prop={'vis': not d['vis']} )
-
-        if id_ctl==n_btn_border:
-            self.border = not self.border
-            dlg_proc(h, DLG_PROP_SET, prop={'border': self.border } )
-
-            #toggle button's checked
-            id_btn = dlg_proc(h, DLG_CTL_HANDLE, name='btn_border')
-            b = button_proc(id_btn, BTN_GET_CHECKED)
-            button_proc(id_btn, BTN_SET_CHECKED, not b)
-
-            #set imagelist+icon for button
-            id_imglist = app_proc(PROC_GET_TAB_IMAGELIST, '')
-            button_proc(id_btn, BTN_SET_KIND, BTNKIND_TEXT_ICON_HORZ)
-            button_proc(id_btn, BTN_SET_IMAGELIST, id_imglist)
-            button_proc(id_btn, BTN_SET_IMAGEINDEX, int(b))
 
         if id_ctl==n_btn_cap:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_edit)
@@ -151,6 +157,18 @@ class Command:
             print('  tempdlg end')
 
 
+    def init_buttondlg(self):
+        h=dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'button test', 'w':400, 'h':300, 'w_min': 200, 'h_min': 250 })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_border', 'cap':'toggle border', 'x':10, 'y':20, 'w':120, 'on_change': 'cuda_testing_dlg_proc.callback_buttondlg'} )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_icon', 'cap':'test of icon', 'x':10, 'y':50, 'w':120, 'h':50, 'on_change': 'cuda_testing_dlg_proc.callback_buttondlg'} )
+
+        return h
+
     def init_maindlg(self):
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 300, 'topmost':True })
@@ -166,9 +184,6 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_caption', 'cap':'upd caption', 'x':10, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
-
-        n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_border', 'cap':'upd border', 'x':10, 'y':90, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move', 'cap':'move button', 'x':120, 'y':60, 'w':100, 'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
@@ -349,3 +364,8 @@ class Command:
 
     def show_about(self):
         ed.cmd(2700)
+
+    def test_btn(self):
+        h = self.init_buttondlg()
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
