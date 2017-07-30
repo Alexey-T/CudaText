@@ -1331,6 +1331,8 @@ Possible values of id_action:
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
 * BTN_GET_KIND: Gets kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
+* BTN_GET_BOLD: Gets bold-style of button, bool.
+* BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
 
 Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
 

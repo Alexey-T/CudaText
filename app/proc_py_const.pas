@@ -410,6 +410,8 @@ const
   BTN_SET_IMAGEINDEX = 5;
   BTN_GET_KIND       = 6;
   BTN_SET_KIND       = 7;
+  BTN_GET_BOLD       = 8;
+  BTN_SET_BOLD       = 9;
 
 
 implementation

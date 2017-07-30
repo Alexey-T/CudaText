@@ -3325,6 +3325,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_BOLD:
+          begin
+            Result:= PyBool_FromLong(Ord(Btn.BoldFont));
+          end;
+
+        BTN_SET_BOLD:
+          begin
+            Btn.BoldFont:= AppStrToBool(StrValue);
+            Result:= ReturnNone;
+          end
+
         else
           Result:= ReturnNone;
       end;
