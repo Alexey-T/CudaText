@@ -1313,6 +1313,25 @@ Possible values of id_action:
 * IMAGELIST_DELETE_ALL: Deletes all icons.
 * IMAGELIST_PAINT: Paints single icon on some canvas. Param "value" must be tuple (canvas_id, coord_x, coord_y, int_icon_index).
 
+===button_proc===
+
+ button_proc(id_button, id_action, value="")
+
+Perform action on extended button (control type "button_ex").
+
+Param "id_button" is int handle of button.
+
+Possible values of id_action:
+
+* BTN_GET_CHECKED: Gets checked state, bool.    
+* BTN_SET_CHECKED: Sets checked state. Param "value" must be bool.    
+* BTN_GET_IMAGELIST: Gets handle of imagelist, attached to button.   
+* BTN_SET_IMAGELIST: Sets handle of imagelist. Param "value" must be int imagelist handle.
+* BTN_GET_IMAGEINDEX: Gets icon index (in attached imagelist). 
+* BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 to hide icon. You must also set kind of button, which supports icons.
+* BTN_GET_KIND: Gets kind of button. Int value, one of BTNKIND_nnn constants.
+* BTN_SET_KIND: Sets kind of button.
+
 ===more===
 
 =Editor class=
@@ -1898,6 +1917,7 @@ Text is chr(1) separated items:
 1.0.191 (app 1.14.2)
 * add: dlg_proc: form property "border"
 * add: dlg_proc: control type "button_ex"
+* add: button_proc() to work with "button_ex"
 
 1.0.190 (app 1.14.0)
 * add: app_proc: PROC_GET_TAB_IMAGELIST
