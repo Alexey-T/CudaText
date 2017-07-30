@@ -3281,36 +3281,47 @@ begin
       Btn:= TATButton(PtrInt(IdBtn));
 
       case IdAction of
-        BUTTON_GET_CHECKED:
+        BTN_GET_CHECKED:
           begin
             Result:= PyBool_FromLong(Ord(Btn.Checked));
           end;
 
-        BUTTON_SET_CHECKED:
+        BTN_SET_CHECKED:
           begin
             Btn.Checked:= AppStrToBool(StrValue);
             Result:= ReturnNone;
           end;
 
-        BUTTON_GET_IMAGELIST:
+        BTN_GET_IMAGELIST:
           begin
             Result:= PyLong_FromLongLong(PtrInt(Btn.Images));
           end;
 
-        BUTTON_SET_IMAGELIST:
+        BTN_SET_IMAGELIST:
           begin
             Btn.Images:= TImageList(PtrInt(StrToInt64Def(StrValue, 0)));
             Result:= ReturnNone;
           end;
 
-        BUTTON_GET_IMAGEINDEX:
+        BTN_GET_IMAGEINDEX:
           begin
             Result:= PyLong_FromLongLong(Btn.ImageIndex);
           end;
 
-        BUTTON_SET_IMAGEINDEX:
+        BTN_SET_IMAGEINDEX:
           begin
             Btn.ImageIndex:= StrToIntDef(StrValue, -1);
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_KIND:
+          begin
+            Result:= PyInt_FromLong(Ord(Btn.Kind));
+          end;
+
+        BTN_SET_KIND:
+          begin
+            Btn.Kind:= TATButtonKind(StrToIntDef(StrValue, 0));
             Result:= ReturnNone;
           end;
 

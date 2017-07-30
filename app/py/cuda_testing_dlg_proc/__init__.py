@@ -68,9 +68,15 @@ class Command:
             dlg_proc(h, DLG_PROP_SET, prop={'border': self.border } )
 
             #toggle button's checked
-            h_btn = dlg_proc(h, DLG_CTL_HANDLE, name='btn_border')
-            b = button_proc(h_btn, BUTTON_GET_CHECKED)
-            button_proc(h_btn, BUTTON_SET_CHECKED, not b)
+            id_btn = dlg_proc(h, DLG_CTL_HANDLE, name='btn_border')
+            b = button_proc(id_btn, BTN_GET_CHECKED)
+            button_proc(id_btn, BTN_SET_CHECKED, not b)
+
+            #set imagelist+icon for button
+            id_imglist = app_proc(PROC_GET_TAB_IMAGELIST, '')
+            button_proc(id_btn, BTN_SET_KIND, BTNKIND_TEXT_ICON_HORZ)
+            button_proc(id_btn, BTN_SET_IMAGELIST, id_imglist)
+            button_proc(id_btn, BTN_SET_IMAGEINDEX, int(b))
 
         if id_ctl==n_btn_cap:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_edit)
