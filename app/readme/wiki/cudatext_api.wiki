@@ -1328,9 +1328,11 @@ Possible values of id_action:
 * BTN_GET_IMAGELIST: Gets handle of imagelist, attached to button.   
 * BTN_SET_IMAGELIST: Sets handle of imagelist. Param "value" must be int imagelist handle.
 * BTN_GET_IMAGEINDEX: Gets icon index (in attached imagelist). 
-* BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 to hide icon. You must also set kind of button, which supports icons.
+* BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
 * BTN_GET_KIND: Gets kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
+
+Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
 
 ===more===
 
