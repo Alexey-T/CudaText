@@ -482,6 +482,15 @@ IMAGELIST_DELETE     = 6
 IMAGELIST_DELETE_ALL = 7
 IMAGELIST_PAINT      = 10
 
+BUTTON_GET_CHECKED    = 0
+BUTTON_SET_CHECKED    = 1
+BUTTON_GET_IMAGELIST  = 2
+BUTTON_SET_IMAGELIST  = 3
+BUTTON_GET_IMAGEINDEX = 4
+BUTTON_SET_IMAGEINDEX = 5
+BUTTON_GET_STYLE      = 6
+BUTTON_SET_STYLE      = 7
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -600,6 +609,9 @@ def lexer_proc(id, value):
 
 def imagelist_proc(id_list, id_action, value=''):
     return ct.imagelist_proc(id_list, id_action, to_str(value))
+
+def button_proc(id_button, id_action, value=''):
+    return ct.button_proc(id_button, id_action, to_str(value))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)

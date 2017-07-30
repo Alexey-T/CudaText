@@ -3266,6 +3266,61 @@ begin
 end;
 
 
+function Py_button_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdBtn: Int64;
+  IdAction: integer;
+  PtrValue: PChar;
+  StrValue: string;
+  Btn: TATButton;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lis:button_proc', @IdBtn, @IdAction, @PtrValue)) then
+    begin
+      StrValue:= string(PtrValue);
+      Btn:= TATButton(PtrInt(IdBtn));
+
+      case IdAction of
+        BUTTON_GET_CHECKED:
+          begin
+            Result:= PyBool_FromLong(Ord(Btn.Checked));
+          end;
+
+        BUTTON_SET_CHECKED:
+          begin
+            Btn.Checked:= AppStrToBool(StrValue);
+            Result:= ReturnNone;
+          end;
+
+        BUTTON_GET_IMAGELIST:
+          begin
+            Result:= PyLong_FromLongLong(PtrInt(Btn.Images));
+          end;
+
+        BUTTON_SET_IMAGELIST:
+          begin
+            Btn.Images:= TImageList(PtrInt(StrToInt64Def(StrValue, 0)));
+            Result:= ReturnNone;
+          end;
+
+        BUTTON_GET_IMAGEINDEX:
+          begin
+            Result:= PyLong_FromLongLong(Btn.ImageIndex);
+          end;
+
+        BUTTON_SET_IMAGEINDEX:
+          begin
+            Btn.ImageIndex:= StrToIntDef(StrValue, -1);
+            Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 function Py_imagelist_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdList, Num64: Int64;
@@ -4555,6 +4610,7 @@ begin
     AddMethod('timer_proc', @Py_timer_proc, '');
     AddMethod('dlg_proc', @Py_dlg_proc, '');
     AddMethod('imagelist_proc', @Py_imagelist_proc, '');
+    AddMethod('button_proc', @Py_button_proc, '');
   end;
 end;
 

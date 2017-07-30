@@ -67,6 +67,11 @@ class Command:
             self.border = not self.border
             dlg_proc(h, DLG_PROP_SET, prop={'border': self.border } )
 
+            #toggle button's checked
+            h_btn = dlg_proc(h, DLG_CTL_HANDLE, name='btn_border')
+            b = button_proc(h_btn, BUTTON_GET_CHECKED)
+            button_proc(h_btn, BUTTON_SET_CHECKED, not b)
+
         if id_ctl==n_btn_cap:
             d = dlg_proc(h, DLG_CTL_PROP_GET, index=n_edit)
             dlg_proc(h, DLG_PROP_SET, prop={'cap': 'entered: '+d['val'] } )
