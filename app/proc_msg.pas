@@ -173,9 +173,9 @@ const
       '    Lazarus port: https://github.com/Alexey-T/'+sLineBreak+
       'Helper Python code: Andrey Kvichanskiy'+sLineBreak+
       '    https://github.com/kvichans/'+sLineBreak+
-      'Main icon'+sLineBreak+
-      '    FTurtle'+sLineBreak+
-      'Icon sets'+sLineBreak+
+      'Icons'+sLineBreak+
+      '    Main icon'+sLineBreak+
+      '      FTurtle'+sLineBreak+
       '    Theme for LibreOffice'+sLineBreak+
       '      https://github.com/libodesign/icons'+sLineBreak+
       '      License: Creative Commons BY-SA 3.0, http://creativecommons.org/licenses/by-sa/3.0/'+sLineBreak+
@@ -185,6 +185,9 @@ const
       '    Visual Studio Code icons'+sLineBreak+
       '      https://github.com/vscode-icons/vscode-icons'+sLineBreak+
       '      License: MIT License'+sLineBreak+
+      '    Hourglass icon'+sLineBreak+
+      '      https://www.iconfinder.com/snipicons'+sLineBreak+
+      '      License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
       '';
 
   msgCommandLineHelp =
