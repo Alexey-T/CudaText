@@ -1078,6 +1078,17 @@ begin
   UpdateReadOnlyFromFile;
 
   NotifEnabled:= UiOps.NotifEnabled;
+
+  //disable stuff for huge files
+  if Editor.Strings.Count>EditorOps.OpWrapEnabledMaxLines then
+  begin
+    Editor.OptWrapMode:= cWrapOff;
+    Editor2.OptWrapMode:= cWrapOff;
+    Editor.OptMicromapVisible:= false;
+    Editor2.OptMicromapVisible:= false;
+    Editor.OptMinimapVisible:= false;
+    Editor2.OptMinimapVisible:= false;
+  end;
 end;
 
 procedure TEditorFrame.UpdateReadOnlyFromFile;
