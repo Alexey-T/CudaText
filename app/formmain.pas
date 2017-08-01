@@ -1828,8 +1828,10 @@ function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  i: integer;
   isOem, bSilent: boolean;
+  tick: QWord;
+  msg: string;
+  i: integer;
 begin
   Result:= nil;
   AppFolderOfLastInstalledAddon:= '';
@@ -1911,10 +1913,17 @@ begin
     if Assigned(F) then
     if F.IsEmpty then
     begin
+      tick:= GetTickCount64;
       F.DoFileOpen(AFilename, true, true);
       Result:= F;
+      tick:= (GetTickCount64-tick) div 1000;
+
       UpdateStatus;
-      MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
+      msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
+      if tick>2 then
+        msg:= msg+' ('+IntToStr(tick)+'s)';
+      MsgStatus(msg);
+
       DoPyEvent(F.Editor, cEventOnOpen, []);
       Exit
     end;
@@ -1922,11 +1931,18 @@ begin
 
   D:= DoTabAdd(APages, ExtractFileName(AFilename));
   F:= D.TabObject as TEditorFrame;
+
+  tick:= GetTickCount64;
   F.DoFileOpen(AFilename, true, true);
   Result:= F;
+  tick:= (GetTickCount64-tick) div 1000;
 
   UpdateStatus;
-  MsgStatus(msgStatusOpened+' '+ExtractFileName(AFilename));
+  msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
+  if tick>2 then
+    msg:= msg+' ('+IntToStr(tick)+'s)';
+  MsgStatus(msg);
+
   DoPyEvent(F.Editor, cEventOnOpen, []);
   EditorFocus(Result.Editor);
 end;
