@@ -1157,7 +1157,12 @@ begin
   while true do
   try
     FFileAttrPrepare(FFileName, attr);
-    Editor.SaveToFile(FFileName);
+    Editor.BeginUpdate;
+    try
+      Editor.SaveToFile(FFileName);
+    finally
+      Editor.EndUpdate;
+    end;
     FFileAttrRestore(FFileName, attr);
     Break;
   except
