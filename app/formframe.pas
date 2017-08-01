@@ -70,6 +70,7 @@ type
     FTabImageIndex: integer;
     FTabId: integer;
     FFileName: string;
+    FFileWasBig: boolean;
     FModified: boolean;
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
@@ -145,6 +146,7 @@ type
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetEncodingName(const Str: string);
     procedure SetFileName(const AValue: string);
+    procedure SetFileWasBig(AValue: boolean);
     procedure SetLocked(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetNotifTime(AValue: integer);
@@ -176,6 +178,7 @@ type
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property FileName: string read FFileName write SetFileName;
+    property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property TabCaption: string read FTabCaption write SetTabCaption;
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
@@ -528,6 +531,20 @@ begin
 
   //update Notif obj
   NotifEnabled:= NotifEnabled;
+end;
+
+procedure TEditorFrame.SetFileWasBig(AValue: boolean);
+begin
+  FFileWasBig:= AValue;
+  if AValue then
+  begin
+    Editor.OptWrapMode:= cWrapOff;
+    Editor2.OptWrapMode:= cWrapOff;
+    Editor.OptMicromapVisible:= false;
+    Editor2.OptMicromapVisible:= false;
+    Editor.OptMinimapVisible:= false;
+    Editor2.OptMinimapVisible:= false;
+  end;
 end;
 
 procedure TEditorFrame.SetLocked(AValue: boolean);
@@ -1072,23 +1089,15 @@ begin
     exit
   end;
 
+  //turn off opts for huge files
+  FileWasBig:= Editor.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
+
   SetLexer(DoLexerFindByFilename(fn));
   if AAllowLoadHistory then
     DoLoadHistory;
   UpdateReadOnlyFromFile;
 
   NotifEnabled:= UiOps.NotifEnabled;
-
-  //disable stuff for huge files
-  if Editor.Strings.Count>EditorOps.OpWrapEnabledMaxLines then
-  begin
-    Editor.OptWrapMode:= cWrapOff;
-    Editor2.OptWrapMode:= cWrapOff;
-    Editor.OptMicromapVisible:= false;
-    Editor2.OptMicromapVisible:= false;
-    Editor.OptMinimapVisible:= false;
-    Editor2.OptMinimapVisible:= false;
-  end;
 end;
 
 procedure TEditorFrame.UpdateReadOnlyFromFile;
@@ -1650,10 +1659,13 @@ begin
   TabColor:= StringToColorDef(c.GetValue(path+cHistory_TabColor, ''), clNone);
 
   ReadOnly:= c.GetValue(path+cHistory_RO, ReadOnly);
-  Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode)));
+  if not FileWasBig then
+  begin
+    Editor.OptWrapMode:= TATSynWrapMode(c.GetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode)));
+    Editor.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
+    Editor.OptMicromapVisible:= c.GetValue(path+cHistory_Micromap, Editor.OptMicromapVisible);
+  end;
   Editor.OptRulerVisible:= c.GetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
-  Editor.OptMinimapVisible:= c.GetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
-  Editor.OptMicromapVisible:= c.GetValue(path+cHistory_Micromap, Editor.OptMicromapVisible);
   Editor.OptTabSize:= c.GetValue(path+cHistory_TabSize, Editor.OptTabSize);
   Editor.OptTabSpaces:= c.GetValue(path+cHistory_TabSpace, Editor.OptTabSpaces);
   Editor.OptUnprintedVisible:= c.GetValue(path+cHistory_Unpri, Editor.OptUnprintedVisible);
