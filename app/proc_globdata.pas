@@ -290,6 +290,7 @@ type
     //wrap
     OpWrapMode: integer;
     OpWrapIndented: boolean;
+    OpWrapEnabledMaxLines: integer;
 
     //undo
     OpUndoLimit: integer;
@@ -906,6 +907,7 @@ begin
 
     OpWrapMode:= 0;
     OpWrapIndented:= true;
+    OpWrapEnabledMaxLines:= 60*1000;
 
     OpUndoLimit:= 5000;
     OpUndoGrouped:= true;

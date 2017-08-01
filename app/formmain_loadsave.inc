@@ -612,6 +612,7 @@ begin
 
     Op.OpWrapMode:= c.GetValue('wrap_mode', Op.OpWrapMode);
     Op.OpWrapIndented:= c.GetValue('wrap_indented', Op.OpWrapIndented);
+    Op.OpWrapEnabledMaxLines:= c.GetValue('wrap_enabled_max_lines', Op.OpWrapEnabledMaxLines);
 
     Op.OpUndoLimit:= c.GetValue('undo_limit', Op.OpUndoLimit);
     Op.OpUndoGrouped:= c.GetValue('undo_grouped', Op.OpUndoGrouped);

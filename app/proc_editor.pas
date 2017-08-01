@@ -250,6 +250,7 @@ begin
       Ed.OptWrapMode:= TATSynWrapMode(Op.OpWrapMode);
   end;
   Ed.OptWrapIndented:= Op.OpWrapIndented;
+  Ed.OptWrapEnabledForMaxLines:= Op.OpWrapEnabledMaxLines;
 
   Ed.OptUndoLimit:= Op.OpUndoLimit;
   Ed.OptUndoGrouped:= Op.OpUndoGrouped;

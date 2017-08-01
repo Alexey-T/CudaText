@@ -12,6 +12,7 @@
 
 + option "lexer_delayed_parsing_size"
 + option "lexer_delayed_parsing_pause"
++ option "wrap_enabled_max_lines"
 + option "ui_tab_new_near_current"
 + option "indent_kind" has value "by spaces up to opening bracket" (like in ST3)
 + option "indent_makes_whole_line_sel"

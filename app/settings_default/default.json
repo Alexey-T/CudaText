@@ -336,6 +336,10 @@
   //(if line begins with spaces/tabs)
   "wrap_indented": true,
 
+  //Enable word-wrap (by window edge, by margin) only if lines count < option
+  //Reason for option: disabled word-wrap (together with none-lexer) makes loading of huge files faster 1.5 times
+  "wrap_enabled_max_lines": 60000,
+  
   //[Text/Undo]
   //Undo: Max count of commands which can be undone
   "undo_limit": 5000,
