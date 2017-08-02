@@ -13,7 +13,7 @@
 + option "lexer_delayed_parsing_size"
 + option "lexer_delayed_parsing_pause"
 + option "ui_tab_new_near_current"
-+ option "unprinted_spaces_tail_only"
++ option "unprinted_spaces_trailing"
 + option "indent_kind" has value "by spaces up to opening bracket" (like in ST3)
 + option "indent_makes_whole_line_sel"
 + option "autocomplete_trigger_chars" (like in ST3)
@@ -21,6 +21,7 @@
 + option "ui_statusbar_wrap"
 + option "wrap_enabled_max_lines", ie disabled word-wrap for huge files (>60K lines) to speedup
 + menu item "View - Toggle micromap"
++ menu item "View - Toggle unprinted chars - Spaces/tabs trailing only"
 + command "toggle word wrap mode (off/window/margin)"
 + Addon Manager: "Install from Github" saves version like "github 2016.10.20"
 + saving file error shows Retry/Cancel message (was OK only)
