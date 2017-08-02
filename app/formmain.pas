@@ -110,6 +110,7 @@ type
     ButtonCancel: TATButton;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
+    mnuViewUnpriSpacesTail: TMenuItem;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
     StatusProgress: TGauge;
@@ -509,6 +510,7 @@ type
     mnuViewSplitHorz_Alt,
     mnuViewUnpriShow_Alt,
     mnuViewUnpriSpaces_Alt,
+    mnuViewUnpriSpacesTail_Alt,
     mnuViewUnpriEnds_Alt,
     mnuViewUnpriEndsDet_Alt,
     mnuViewToolbar_Alt,

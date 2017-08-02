@@ -443,6 +443,7 @@ begin
     cmd_SplitTabHorzVert : DoSave(mi, mnuViewSplitHorz_Alt);
     cCommand_ToggleUnprinted : DoSave(mi, mnuViewUnpriShow_Alt);
     cCommand_ToggleUnprintedSpaces : DoSave(mi, mnuViewUnpriSpaces_Alt);
+    cCommand_ToggleUnprintedSpacesTailOnly : DoSave(mi, mnuViewUnpriSpacesTail_Alt);
     cCommand_ToggleUnprintedEnds : DoSave(mi, mnuViewUnpriEnds_Alt);
     cCommand_ToggleUnprintedEndDetails : DoSave(mi, mnuViewUnpriEndsDet_Alt);
 
@@ -587,6 +588,7 @@ begin
 
   UpdateMenuItemHotkey(mnuViewUnpriShow, cCommand_ToggleUnprinted);
   UpdateMenuItemHotkey(mnuViewUnpriSpaces, cCommand_ToggleUnprintedSpaces);
+  UpdateMenuItemHotkey(mnuViewUnpriSpacesTail, cCommand_ToggleUnprintedSpacesTailOnly);
   UpdateMenuItemHotkey(mnuViewUnpriEnds, cCommand_ToggleUnprintedEnds);
   UpdateMenuItemHotkey(mnuViewUnpriEndsDet, cCommand_ToggleUnprintedEndDetails);
 
@@ -709,6 +711,7 @@ begin
 
   UpdateMenuItemChecked(mnuViewUnpriShow, mnuViewUnpriShow_Alt, Ed.OptUnprintedVisible);
   UpdateMenuItemChecked(mnuViewUnpriSpaces, mnuViewUnpriSpaces_Alt, Ed.OptUnprintedSpaces);
+  UpdateMenuItemChecked(mnuViewUnpriSpacesTail, mnuViewUnpriSpacesTail_Alt, Ed.OptUnprintedSpacesTailOnly);
   UpdateMenuItemChecked(mnuViewUnpriEnds, mnuViewUnpriEnds_Alt, Ed.OptUnprintedEnds);
   UpdateMenuItemChecked(mnuViewUnpriEndsDet, mnuViewUnpriEndsDet_Alt, Ed.OptUnprintedEndsDetails);
 

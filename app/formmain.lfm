@@ -130,9 +130,9 @@ object fmMain: TfmMain
         Height = 25
         Top = 20
         Width = 100
+        Caption = 'Cancel'
         TabStop = True
         TabOrder = 1
-        Caption = 'Cancel'
         OnClick = ButtonCancelClick
       end
       object PanelLeft: TATPanelSimple
@@ -594,6 +594,9 @@ object fmMain: TfmMain
         end
         object mnuViewUnpriSpaces: TMenuItem
           Caption = 'Show spaces/&tabs'
+        end
+        object mnuViewUnpriSpacesTail: TMenuItem
+          Caption = 'Show spaces/tabs trailing &only'
         end
         object mnuViewUnpriEnds: TMenuItem
           Caption = 'Show &ends'
