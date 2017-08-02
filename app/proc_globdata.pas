@@ -1086,7 +1086,7 @@ begin
     StatusStreamSel:= 'Ln {y}, Col {xx}, {sel} lines sel';
     StatusColSel:= '{sel}x{cols} column';
     StatusCarets:= '{carets} carets, {sel} lines sel';
-    StatusPanels:= 'caret,C,170|enc,C,115|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,4000';
+    StatusPanels:= 'caret,C,170|enc,C,125|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,4000';
     StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
