@@ -231,7 +231,7 @@ begin
   begin
     Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
     Ed.OptUnprintedSpaces:= Op.OpUnprintedSpaces;
-    Ed.OptUnprintedSpacesTailOnly:= Op.OpUnprintedSpacesTailOnly;
+    Ed.OptUnprintedSpacesTailOnly:= Op.OpUnprintedSpacesTrailing;
     Ed.OptUnprintedEnds:= Op.OpUnprintedEnds;
     Ed.OptUnprintedEndsDetails:= Op.OpUnprintedEndDetails;
   end;

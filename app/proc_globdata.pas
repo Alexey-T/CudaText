@@ -275,7 +275,7 @@ type
     //unprinted
     OpUnprintedShow: boolean;
     OpUnprintedSpaces: boolean;
-    OpUnprintedSpacesTailOnly: boolean;
+    OpUnprintedSpacesTrailing: boolean;
     OpUnprintedEnds: boolean;
     OpUnprintedEndDetails: boolean;
     OpUnprintedReplaceSpec: boolean;
@@ -894,7 +894,7 @@ begin
 
     OpUnprintedShow:= false;
     OpUnprintedSpaces:= true;
-    OpUnprintedSpacesTailOnly:= false;
+    OpUnprintedSpacesTrailing:= false;
     OpUnprintedEnds:= true;
     OpUnprintedEndDetails:= false;
     OpUnprintedReplaceSpec:= false;
