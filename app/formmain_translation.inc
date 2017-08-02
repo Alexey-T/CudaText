@@ -237,6 +237,7 @@ begin
     DoLocMenuitem(ini, mnuViewUnpri, 'm_v', 'u_');
     DoLocMenuitem(ini, mnuViewUnpriShow, 'm_v', 'u_sh');
     DoLocMenuitem(ini, mnuViewUnpriSpaces, 'm_v', 'u_sp');
+    DoLocMenuitem(ini, mnuViewUnpriSpacesTail, 'm_v', 'u_spt');
     DoLocMenuitem(ini, mnuViewUnpriEnds, 'm_v', 'u_e');
     DoLocMenuitem(ini, mnuViewUnpriEndsDet, 'm_v', 'u_ed');
 
