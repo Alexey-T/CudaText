@@ -294,6 +294,9 @@
   //Unprinted: Show unprinted spaces/tabs
   "unprinted_spaces": true,
 
+  //Unprinted: Show spaces/tabs only at the end of lines
+  "unprinted_spaces_tail_only": false,
+
   //Unprinted: Show unprinted end-of-line marks
   "unprinted_ends": true,
 

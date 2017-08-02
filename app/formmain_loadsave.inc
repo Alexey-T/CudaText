@@ -598,6 +598,7 @@ begin
 
     Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);
     Op.OpUnprintedSpaces:= c.GetValue('unprinted_spaces', Op.OpUnprintedSpaces);
+    Op.OpUnprintedSpacesTailOnly:= c.GetValue('unprinted_spaces_tail_only', Op.OpUnprintedSpacesTailOnly);
     Op.OpUnprintedEnds:= c.GetValue('unprinted_ends', Op.OpUnprintedEnds);
     Op.OpUnprintedEndDetails:= c.GetValue('unprinted_end_details', Op.OpUnprintedEndDetails);
     Op.OpUnprintedReplaceSpec:= c.GetValue('unprinted_replace_spec', Op.OpUnprintedReplaceSpec);
