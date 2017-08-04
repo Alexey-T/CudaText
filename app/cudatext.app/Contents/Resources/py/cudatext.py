@@ -480,6 +480,27 @@ IMAGELIST_SET_SIZE   = 3
 IMAGELIST_ADD        = 5
 IMAGELIST_DELETE     = 6
 IMAGELIST_DELETE_ALL = 7
+IMAGELIST_PAINT      = 10
+
+BTN_GET_CHECKED    = 0
+BTN_SET_CHECKED    = 1
+BTN_GET_IMAGELIST  = 2
+BTN_SET_IMAGELIST  = 3
+BTN_GET_IMAGEINDEX = 4
+BTN_SET_IMAGEINDEX = 5
+BTN_GET_KIND       = 6
+BTN_SET_KIND       = 7
+BTN_GET_BOLD       = 8
+BTN_SET_BOLD       = 9
+
+BTNKIND_TEXT_ONLY      = 0
+BTNKIND_ICON_ONLY      = 1
+BTNKIND_TEXT_ICON_HORZ = 2
+BTNKIND_TEXT_ICON_VERT = 3
+BTNKIND_TEXT_ARROW     = 4
+BTNKIND_ARROW_ONLY     = 5
+BTNKIND_SEP_HORZ       = 6
+BTNKIND_SEP_VERT       = 7
 
 
 def app_exe_version():
@@ -599,6 +620,9 @@ def lexer_proc(id, value):
 
 def imagelist_proc(id_list, id_action, value=''):
     return ct.imagelist_proc(id_list, id_action, to_str(value))
+
+def button_proc(id_button, id_action, value=''):
+    return ct.button_proc(id_button, id_action, to_str(value))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)

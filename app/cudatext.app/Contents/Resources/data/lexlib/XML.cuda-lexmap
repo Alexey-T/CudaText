@@ -1,3 +1,9 @@
+[comments]
+str1=<!--
+str2=-->
+styles_cmt=Comment
+styles_str=Tag val
+
 [map]
 Comment=Comment
 Tag bound=TagBound
@@ -14,9 +20,4 @@ DTD bound=Symbol
 Tree item (attribute)=-
 Tree item (tag)=-
 Spec char=Id4
-
-[comments]
-str1=<!--
-str2=-->
-styles_cmt=Comment
-styles_str=Tag val
+Comment doc=CommentDoc

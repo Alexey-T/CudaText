@@ -1,73 +1,88 @@
-object SyntAnal22: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal44: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
       DisplayName = 'Tag bound'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Tag id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = 16744576
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Tag param'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Tag val'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'CDATA bound'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = clSilver
-    end  
+    end
     item
       DisplayName = 'CDATA text'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BorderColorLeft = clGray
       BorderColorTop = clGray
       BorderColorRight = clGray
       BorderColorBottom = clGray
       MultiLineBorder = True
-    end  
+    end
     item
       DisplayName = 'Error content'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Current tag'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       BgColor = 14540253
       FormatType = ftBackGround
-    end  
+    end
     item
       DisplayName = 'Current tag id'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNone
       Font.Height = -13
       Font.Name = 'Courier New'
@@ -81,57 +96,65 @@ object SyntAnal22: TLibSyntAnalyzer
       BorderColorRight = clGray
       BorderTypeBottom = blSolid
       BorderColorBottom = clGray
-    end  
+    end
     item
       DisplayName = 'DTD element type'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'DTD bound'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -19
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Tree item (attribute)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
+      Font.Style = []
       FormatType = ftColor
-    end  
+    end
     item
       DisplayName = 'Tree item (tag)'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Spec char'
-      Font.Color = clBlue
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
-    end>
-  TokenRules = <  
+      Font.Style = []
+    end
     item
-      DisplayName = 'XML header'
-      StyleName = 'Comment'
+      DisplayName = 'Comment doc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 12615808
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Comment doc'
+      StyleName = 'Comment doc'
       TokenType = 12
       Expression = '(?s)<\?.*?(\?>|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
-    item
-      DisplayName = 'Comment ?xml'
-      StyleName = 'Comment'
-      TokenType = 1
-      Expression = '<\?xml\s.*?\?>'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
@@ -139,7 +162,7 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '(?s)<!--.*?(-->|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'CDATA start'
       StyleName = 'CDATA bound'
@@ -147,24 +170,24 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '<!\[CDATA\['
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = 'CDATA Text'
+      DisplayName = 'CDATA text'
       StyleName = 'CDATA text'
       BlockName = 'CDATA begin'
       Expression = '(?s)[^\]]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'CDATA end'
-      StyleName = 'Tag bound'
+      StyleName = 'CDATA bound'
       BlockName = 'CDATA begin'
       TokenType = 14
       Expression = '\]\]>'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = '<'
       StyleName = 'Tag bound'
@@ -172,7 +195,7 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '<[/!\-\:\?]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = '>'
       StyleName = 'Tag bound'
@@ -180,7 +203,7 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '[/\?]?>'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'DTD Element type'
       StyleName = 'DTD element type'
@@ -189,7 +212,7 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '(?s)\((\(.*?\)|.)*?\)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'DTD bounds: [ ] '
       StyleName = 'DTD bound'
@@ -197,16 +220,16 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '[\[\]]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = 'Tag param'
+      DisplayName = 'String'
       StyleName = 'Tag val'
       BlockName = 'Tag begin'
       TokenType = 4
-      Expression = '(?s) ("|'').*?(\1|$)'
+      Expression = '(?s) ("|'#39').*?(\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = '='
       StyleName = 'Tag bound'
@@ -214,16 +237,16 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '='
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Tag ident'
       StyleName = 'Tag param'
       BlockName = 'Tag begin'
       TokenType = 2
-      Expression = '[^>=\?/\s\[\]]+'
+      Expression = '[^>=\?\s/\[\]]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Error content'
       StyleName = 'Error content'
@@ -231,15 +254,14 @@ object SyntAnal22: TLibSyntAnalyzer
       Expression = '[^>\s]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = '&char'
+      DisplayName = 'Html entity'
       StyleName = 'Spec char'
-      TokenType = 4
       Expression = '&\w+;'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Text'
       StyleName = 'CDATA text'
@@ -250,11 +272,11 @@ object SyntAnal22: TLibSyntAnalyzer
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Tag begin'
       StyleName = 'Current tag'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 512
         end>
@@ -264,32 +286,30 @@ object SyntAnal22: TLibSyntAnalyzer
       DynHighlight = dhRangeNoBound
       HighlightPos = cpRange
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 1024
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'DTD element start'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'DOCTYPE'
-          )
+            'DOCTYPE')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
-            '<!'
-          )
+            '<!')
           TokenTypes = 512
         end>
       BlockOffset = 1
@@ -298,32 +318,30 @@ object SyntAnal22: TLibSyntAnalyzer
       HighlightPos = cpBound
       CollapseFmt = '< %s0 %s-1 >'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'DTD element end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 1024
         end>
       HighlightPos = cpBound
       CancelNextRules = True
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'DOCTYPE begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            'DOCTYPE'
-          )
+            'DOCTYPE')
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
-            '<!'
-          )
+            '<!')
           TokenTypes = 512
         end>
       BlockOffset = 1
@@ -332,46 +350,44 @@ object SyntAnal22: TLibSyntAnalyzer
       HighlightPos = cpBound
       CollapseFmt = 'Document structure'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'DOCTYPE end'
       BlockName = 'DOCTYPE begin'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '>'
-          )
+            '>')
           TokenTypes = 1024
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag keys'
       StyleName = 'Tag id'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 4
-        end      
+        end
         item
           TokenTypes = 512
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag block begin'
       StyleName = 'Current tag id'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 4
-        end      
+        end
         item
           TagList.Strings = (
-            '<'
-          )
+            '<')
           TokenTypes = 512
         end>
       BlockEnd = 'Tag block end'
@@ -383,42 +399,40 @@ object SyntAnal22: TLibSyntAnalyzer
       IgnoreAsParent = False
       AutoCloseMode = acmCloseOpened
       AutoCloseText = '</%s0>'
-    end  
+    end
     item
       DisplayName = 'Tag block end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 4
           IgnoreCase = True
-        end      
+        end
         item
           TagList.Strings = (
-            '</'
-          )
+            '</')
           TokenTypes = 512
         end>
       SameIdent = True
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'End of simple tag'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '/>'
-          )
+            '/>')
           TokenTypes = 1024
         end>
       BlockEnd = 'Tag block begin'
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Comment begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2
         end>
@@ -426,31 +440,31 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Comment end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'CDATA end'
       BlockName = 'CDATA begin'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 16384
         end>
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'CDATA begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 2048
         end>
@@ -459,18 +473,18 @@ object SyntAnal22: TLibSyntAnalyzer
       HighlightPos = cpBound
       CollapseFmt = 'CDATA'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Tag attribute'
       StyleName = 'Tag val'
       BlockName = 'Tag begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TokenTypes = 16
-        end      
+        end
         item
           TokenTypes = 8
-        end      
+        end
         item
           TokenTypes = 4
         end>
@@ -484,7 +498,8 @@ object SyntAnal22: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '<?xml version="1.0" encoding="ISO-8859-1" ?>'
+    '<?xml version="1.0" encoding="utf8" ?>'
+    '<!-- comment -->'
     ''
     '<!DOCTYPE web-app ['
     '  <!ELEMENT web-app (icon?, display-name?, ejb-local-ref*)>'
@@ -493,7 +508,7 @@ object SyntAnal22: TLibSyntAnalyzer
     ']>'
     ''
     '<![CDATA['
-    '  Included text '
+    'Included text '
     ']]>'
     'Text &spec; text'
     ''
@@ -501,10 +516,8 @@ object SyntAnal22: TLibSyntAnalyzer
     '    <display-name abc="123" def="true"></display-name>'
     '    <description></description>'
     '    <filter-mapping>'
-    '        <filter-name></filter-name>'
     '    </filter-mapping>'
-    '</web-app>'
-  )
+    '</web-app>')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
@@ -518,13 +531,18 @@ object SyntAnal22: TLibSyntAnalyzer
     'Tag Open'
     'Tag Close'
     'CDATA'
-    'XML header'
+    'Comment doc'
     'Attrib. value'
-    'CDATA end'
-  )
-  Extentions = 'xml xsl xslt mmpa mmpr sti bdsproj xsd rss wml svg xul xsd axl rdf xaml vcproj dproj plist storyboard msc csproj manifest lpi lpk sublime-snippet tmLanguage jsproj appxmanifest'
+    'CDATA end')
+  Extentions = 
+    'xml xsl xslt mmpa mmpr sti bdsproj xsd rss wml svg xul xsd axl r' +
+    'df xaml vcproj dproj plist storyboard msc csproj manifest lpi lp' +
+    'k sublime-snippet tmLanguage jsproj appxmanifest'
   LexerName = 'XML'
+  Notes.Strings = (
+    'Based on original XML lexer from EControl'
+    'Changed by Alexey (CudaText)')
   Charset = DEFAULT_CHARSET
-  left = 140
-  top = 160
+  Left = 140
+  Top = 160
 end
