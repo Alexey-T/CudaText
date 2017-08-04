@@ -4,6 +4,12 @@
   * changed
 
 
+1.14.5
+
++ option "ruler_from_1"
+- fixed: "go to screen top" must keep caret's column
+
+
 1.14.4 (2017/08)
 
 + lexer-specific config + lexer-specific hotkeys config are supported for none-lexer ("lexer -.json", "keys lexer -.json")

@@ -244,6 +244,9 @@
   //Ruler: show ruler (horizontal, on the top)
   "ruler_show": false,
 
+  //Ruler: start numeration from 1 (otherwise from 0)
+  "ruler_from_1": false,
+
   //Ruler: if not 0, special font size used for ruler
   "ruler_font_size": 8,
 

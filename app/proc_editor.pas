@@ -208,6 +208,7 @@ begin
     Ed.OptNumbersAlignment:= taRightJustify;
 
   Ed.OptRulerVisible:= Op.OpRulerShow;
+  Ed.OptRulerStartFrom1:= Op.OpRulerFrom1;
   Ed.OptRulerFontSize:= Op.OpRulerFontSize;
   Ed.OptRulerSize:= Op.OpRulerSize;
   Ed.OptRulerTextIndent:= Op.OpRulerTextIndent;

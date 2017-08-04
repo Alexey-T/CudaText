@@ -579,6 +579,7 @@ begin
     Op.OpNumbersCenter:= c.GetValue('numbers_center', Op.OpNumbersCenter);
 
     Op.OpRulerShow:= c.GetValue('ruler_show', Op.OpRulerShow);
+    Op.OpRulerFrom1:= c.GetValue('ruler_from_1', Op.OpRulerFrom1);
     Op.OpRulerFontSize:= c.GetValue('ruler_font_size', Op.OpRulerFontSize);
     Op.OpRulerSize:= c.GetValue('ruler_size', Op.OpRulerSize);
     Op.OpRulerTextIndent:= c.GetValue('ruler_text_indent', Op.OpRulerTextIndent);
