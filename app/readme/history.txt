@@ -45,7 +45,7 @@ fixes:
 - fixed parasite scrolling if file was closed not on top
 - fixes in JSON, Pascal lexers
 
-1.13.1
+1.13.1 (2017/07)
 
 - reworked part of syntax hilite code, and fixed old 2 bugs of incorrect selection(s) rendering
 + added commands "column select without key modifier: on/off"; when mode turned on: a) mouse drag makes column selection, b) Shift+arrows make column selection
@@ -55,7 +55,7 @@ fixes:
 + improved C++ lexer (fixed detect funcs for tree, updated keywords)
 + Project Manager: reaction to Enter key; option 'Open file after Go To File command'
 
-1.12.0
+1.12.0 (2017/06)
 
 + supported addons "filetypeicons" for Project Manager, e.g. "VSCode Material 24x24"
 + Project Manager: option "Icons theme"
