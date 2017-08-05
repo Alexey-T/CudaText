@@ -2795,7 +2795,10 @@ begin
 end;
 
 procedure TfmMain.SetFullScreen_Ex(AValue: boolean; AHideAll: boolean);
+var
+  Ed: TATSynEdit;
 begin
+  Ed:= CurrentEditor;
   if AValue then
   begin
     FOrigShowToolbar:= ShowToolbar;
@@ -2804,6 +2807,13 @@ begin
     FOrigShowSidePanel:= ShowSidePanel;
     FOrigShowSideBar:= ShowSideBar;
     FOrigShowTabs:= ShowTabsMain;
+
+    if AHideAll then
+    begin
+      Ed.OptMinimapVisible:= false;
+      Ed.OptMicromapVisible:= false;
+      Ed.Update;
+    end;
 
     if AHideAll or (Pos('t', UiOps.FullScreen)>0) then ShowToolbar:= false;
     if AHideAll or (Pos('b', UiOps.FullScreen)>0) then ShowBottom:= false;
@@ -2821,6 +2831,8 @@ begin
     ShowSidePanel:= FOrigShowSidePanel;
     ShowSideBar:= FOrigShowSideBar;
     ShowTabsMain:= FOrigShowTabs;
+    Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
+    Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
 
