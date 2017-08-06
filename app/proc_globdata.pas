@@ -1021,7 +1021,7 @@ begin
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
 
-    MaxFileSizeToOpen:= 30;
+    MaxFileSizeToOpen:= 1000;
     MaxFileSizeForLexer:= 3;
 
     AutocompleteCss:= true;

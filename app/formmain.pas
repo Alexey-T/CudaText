@@ -1889,7 +1889,11 @@ begin
   //too big size?
   if FileSize(AFileName) div (1024*1024) >= UiOps.MaxFileSizeToOpen then
   begin
-    MsgBox(msgCannotOpenTooBig+#13+AFileName, MB_OK or MB_ICONWARNING);
+    MsgBox(
+      msgCannotOpenTooBig+#10+
+      AFileName+#10+
+      '(option "ui_max_size_open")',
+      MB_OK or MB_ICONWARNING);
     exit
   end;
 
