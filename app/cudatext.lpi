@@ -151,49 +151,7 @@
           </Other>
         </CompilerOptions>
       </Item4>
-      <Item5 Name="macos x32 carbon">
-        <MacroValues Count="1">
-          <Macro2 Name="LCLWidgetType" Value="carbon"/>
-        </MacroValues>
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="cudatext"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x"/>
-            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <IncludeAssertionCode Value="True"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <Checks>
-              <RangeChecks Value="True"/>
-            </Checks>
-            <TargetCPU Value="i386"/>
-            <TargetOS Value="darwin"/>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <UseExternalDbgSyms Value="True"/>
-            </Debugging>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-dcomplete_at_scroll"/>
-          </Other>
-        </CompilerOptions>
-      </Item5>
-      <Item6 Name="linux arm">
+      <Item5 Name="linux arm">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -231,8 +189,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item6>
-      <Item7 Name="windows x64">
+      </Item5>
+      <Item6 Name="windows x64">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -270,8 +228,8 @@
             <CustomOptions Value="-dcomplete_at_scroll"/>
           </Other>
         </CompilerOptions>
-      </Item7>
-      <Item8 Name="windows x32">
+      </Item6>
+      <Item7 Name="windows x32">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -294,6 +252,48 @@
             </Checks>
             <TargetCPU Value="i386"/>
             <TargetOS Value="win32"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item7>
+      <Item8 Name="macos x32 carbon">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="carbon"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="i386"/>
+            <TargetOS Value="darwin"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
