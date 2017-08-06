@@ -26,9 +26,9 @@
       <MinorVersionNr Value="9"/>
       <StringTable CompanyName="UVviewsoft" FileDescription="Advanced text editor" InternalName="CudaText" LegalCopyright="(c) 2015 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
-    <BuildModes Count="5">
-      <Item1 Name="x32 def" Default="True"/>
-      <Item2 Name="x64 def">
+    <BuildModes Count="7">
+      <Item1 Name="x32 default" Default="True"/>
+      <Item2 Name="x64 default">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -151,7 +151,7 @@
           </Other>
         </CompilerOptions>
       </Item4>
-      <Item5 Name="arm">
+      <Item5 Name="arm linux">
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -173,6 +173,7 @@
               <RangeChecks Value="True"/>
             </Checks>
             <TargetCPU Value="arm"/>
+            <TargetOS Value="linux"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -189,6 +190,84 @@
           </Other>
         </CompilerOptions>
       </Item5>
+      <Item6 Name="x64 windows">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item6>
+      <Item7 Name="x32 windows">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="cudatext"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\comp;..\comp\Fpjson_from_fpc3x"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="i386"/>
+            <TargetOS Value="win32"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dcomplete_at_scroll"/>
+          </Other>
+        </CompilerOptions>
+      </Item7>
       <SharedMatrixOptions Count="2">
         <Item1 ID="768150883430" Modes="x64 Qt" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="x32 Cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
