@@ -185,7 +185,7 @@ const
       '    Visual Studio Code icons'+sLineBreak+
       '      https://github.com/vscode-icons/vscode-icons'+sLineBreak+
       '      License: MIT License'+sLineBreak+
-      '    Hourglass icon'+sLineBreak+
+      '    Hourglass/floppy icons'+sLineBreak+
       '      https://www.iconfinder.com/snipicons'+sLineBreak+
       '      License: Creative Commons BY-NC 3.0 Unported, http://creativecommons.org/licenses/by-nc/3.0/'+sLineBreak+
       '';
