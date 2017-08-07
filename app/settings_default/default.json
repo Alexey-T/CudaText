@@ -117,6 +117,9 @@
   //so N columns will look like "centered" on screen
   "centering_width": 0,
   
+  //Same as "centering_width", but it's applied only in Distraction-Free mode
+  "centering_for_distraction_free": 100,
+  
   //[Lexers]
   //Enable caret-depending highlighting
   //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,

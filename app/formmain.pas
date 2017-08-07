@@ -2816,6 +2816,7 @@ begin
     begin
       Ed.OptMinimapVisible:= false;
       Ed.OptMicromapVisible:= false;
+      Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringForDistractionFree;
       Ed.Update;
     end;
 
@@ -2837,6 +2838,7 @@ begin
     ShowTabsMain:= FOrigShowTabs;
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
+    Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringWidth;
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
 

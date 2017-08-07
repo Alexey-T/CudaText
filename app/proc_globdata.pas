@@ -324,6 +324,7 @@ type
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
     OpCenteringWidth: integer;
+    OpCenteringForDistractionFree: integer;
     OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
@@ -941,6 +942,7 @@ begin
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;
     OpCenteringWidth:= 0;
+    OpCenteringForDistractionFree:= 100;
     OpLexerDynamicHiliteEnabled:= true;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
