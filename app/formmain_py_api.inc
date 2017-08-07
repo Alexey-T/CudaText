@@ -2402,7 +2402,6 @@ begin
 
             ok:= fmMain.DoSidebar_AddTab(
               StrCaption,
-              PyPanelControl_Form,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0)
               );
@@ -2458,7 +2457,6 @@ begin
 
             ok:= fmMain.DoBottom_AddTab(
               StrCaption,
-              PyPanelControl_Form,
               fmMain.DoSidebar_FilenameToImageIndex(StrCaption, StrFilename),
               StrToInt64Def(StrIndex, 0)
               );

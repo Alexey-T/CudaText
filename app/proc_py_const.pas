@@ -337,10 +337,6 @@ const
   PyMenuCmd_Lexers = 'lexers';
   PyMenuCmd_Enc = 'enc';
 
-  PyPanelControl_Form = 'dlg';
-  PyPanelControl_Tree = 'tree';
-  PyPanelControl_Listbox = 'listbox';
-
   TIMER_START     = 0;
   TIMER_START_ONE = 1;
   TIMER_STOP      = 2;

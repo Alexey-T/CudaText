@@ -138,66 +138,6 @@ begin
       Exit(i);
 end;
 
-procedure TfmMain.DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
-  const ACaption: string; AParent: TWinControl);
-begin
-  with AItem do
-  begin
-    ItemCaption:= ACaption;
-    ItemMenu:= TPopupMenu.Create(Self);
-    ItemImagelist:= TImageList.Create(Self);
-    ItemTreeview:= TTreeViewMy.Create(Self);
-    ItemControl:= ItemTreeview;
-
-    ItemTreeview.Hide;
-    ItemTreeview.Parent:= AParent;
-    ItemTreeview.Font:= Tree.Font;
-    ItemTreeview.Align:= alClient;
-    ItemTreeview.Images:= ItemImagelist;
-    ItemTreeview.PopupMenu:= ItemMenu;
-    ItemTreeview.OnClick:= @DoPanel_OnClick;
-    ItemTreeview.OnDblClick:= @DoPanel_OnDblClick;
-    ItemTreeview.OnSelectionChanged:= @DoPanel_OnSelChanged;
-    ItemTreeview.OnContextPopup:=@DoPanel_OnContextPopup;
-    ItemTreeview.OnKeyDown:= @DoPanel_TreeviewOnKeyDown;
-
-    DoApplyThemeToTreeview(ItemTreeview, true, true);
-    //just to see it ok
-    ItemTreeview.Items.Add(nil, 'panel '+ACaption);
-  end;
-end;
-
-
-procedure TfmMain.DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
-  const ACaption: string; AParent: TWinControl);
-begin
-  with AItem do
-  begin
-    ItemCaption:= ACaption;
-    ItemMenu:= TPopupMenu.Create(Self);
-    ItemImagelist:= nil;
-    ItemTreeview:= nil;
-    ItemListbox:= TATListbox.Create(Self);
-    ItemControl:= ItemListbox;
-
-    ItemListbox.Hide;
-    ItemListbox.Parent:= AParent;
-    ItemListbox.Align:= alClient;
-    ItemListbox.PopupMenu:= ItemMenu;
-
-    ItemListbox.OnDrawItem:= @DoSidebar_ListboxDrawItem;
-    ItemListbox.ItemHeight:= ListboxOut.ItemHeight;
-    ItemListbox.CanGetFocus:= true;
-
-    ItemListbox.OnClick:= @DoPanel_OnClick;
-    ItemListbox.OnDblClick:= @DoPanel_OnDblClick;
-    ItemListbox.OnChangedSel:= @DoPanel_OnSelChanged;
-    ItemListbox.OnContextPopup:=@DoPanel_OnContextPopup;
-
-    DoApplyThemeToListbox(ItemListbox);
-  end;
-end;
-
 
 procedure TfmMain.DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
   const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
@@ -232,8 +172,8 @@ begin
 end;
 
 
-function TfmMain.DoSidebar_AddTab(const ACaption, AControlType: string;
-  AImageIndex: integer; AHandle: PtrInt): boolean;
+function TfmMain.DoSidebar_AddTab(const ACaption: string; AImageIndex: integer;
+  AHandle: PtrInt): boolean;
 var
   Num: integer;
 begin
@@ -243,16 +183,7 @@ begin
   while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(FAppSidePanels) then exit(false);
 
-  if AControlType=PyPanelControl_Form then
-    DoSidebar_InitPanelForm(FAppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft)
-  else
-  if AControlType=PyPanelControl_Tree then
-    DoSidebar_InitPanelTreeview(FAppSidePanels[Num], ACaption, PanelLeft)
-  else
-  if AControlType=PyPanelControl_Listbox then
-    DoSidebar_InitPanelListbox(FAppSidePanels[Num], ACaption, PanelLeft)
-  else
-    exit(false);
+  DoSidebar_InitPanelForm(FAppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft);
 
   ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   ToolbarSideTop.UpdateControls;

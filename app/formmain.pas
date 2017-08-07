@@ -573,8 +573,6 @@ type
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
       const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
-    procedure DoSidebar_InitPanelListbox(var AItem: TAppSidePanel;
-      const ACaption: string; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
       AIndex: integer; const ARect: TRect);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
@@ -596,16 +594,9 @@ type
     procedure DoPanel_TreeviewOnDblClick(Sender: TObject);
     procedure DoPanel_TreeviewOnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoPanel_TreeviewOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoPanel_OnClick(Sender: TObject);
-    procedure DoPanel_OnDblClick(Sender: TObject);
-    procedure DoPanel_Event(AControl: TObject; const AEvent: string);
-    procedure DoPanel_OnContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure DoPanel_OnSelChanged(Sender: TObject);
     procedure DoSidebar_OnTabClick(Sender: TObject);
-    procedure DoSidebar_InitPanelTreeview(var AItem: TAppSidePanel;
-      const ACaption: string; AParent: TWinControl);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
-    function DoSidebar_AddTab(const ACaption, AControlType: string;
+    function DoSidebar_AddTab(const ACaption: string;
       AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
@@ -616,7 +607,7 @@ type
     procedure DoBottom_FindClick(Sender: TObject);
     procedure DoBottom_GotoClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
-    function DoBottom_AddTab(const ACaption, AControlType: string;
+    function DoBottom_AddTab(const ACaption: string;
       AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
     function DoBottom_ActivateTab(const ACaption: string): boolean;

@@ -173,8 +173,8 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_AddTab(const ACaption, AControlType: string;
-  AImageIndex: integer; AHandle: PtrInt): boolean;
+function TfmMain.DoBottom_AddTab(const ACaption: string; AImageIndex: integer;
+  AHandle: PtrInt): boolean;
 var
   Num: integer;
 begin
@@ -184,16 +184,7 @@ begin
   while FAppBottomPanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(FAppBottomPanels) then exit(false);
 
-  if AControlType=PyPanelControl_Form then
-    DoSidebar_InitPanelForm(FAppBottomPanels[Num], ACaption, TCustomForm(AHandle), PanelBottom)
-  else
-  if AControlType=PyPanelControl_Tree then
-    DoSidebar_InitPanelTreeview(FAppBottomPanels[Num], ACaption, PanelBottom)
-  else
-  if AControlType=PyPanelControl_Listbox then
-    DoSidebar_InitPanelListbox(FAppBottomPanels[Num], ACaption, PanelBottom)
-  else
-    exit(false);
+  DoSidebar_InitPanelForm(FAppBottomPanels[Num], ACaption, TCustomForm(AHandle), PanelBottom);
 
   ToolbarSideLow.AddButton(AImageIndex, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   ToolbarSideLow.UpdateControls;
