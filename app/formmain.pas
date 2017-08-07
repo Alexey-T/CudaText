@@ -3591,7 +3591,7 @@ procedure TfmMain.DoDialogCharMap;
 begin
   if fmCharmaps=nil then
   begin
-    fmCharmaps:= TfmCharmaps.Create(nil);
+    fmCharmaps:= TfmCharmaps.Create(Self);
     fmCharmaps.OnInsert:= @CharmapOnInsert;
     DoLocalize_FormCharmap(fmCharmaps);
   end;
