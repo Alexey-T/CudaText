@@ -49,11 +49,6 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
-* on_panel(self, ed_self, id_control, id_event): Called when event in side panel occured. Id_control is int handle of control in panel. Id_event is one of:
-** "on_click"
-** "on_dbl_click"
-** "on_sel"
-** "on_menu"
 
 ==Macros==
 
@@ -1187,13 +1182,13 @@ Value of "command" parameter for MENU_ADD can be:
 * (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
 
 * to create standatd special sub-menus, special values: 
-** "recents", "_recents": Recent-files submenu
-** "enc", "_enc": Encodings submenu (has subitems "reload as", "convert to")
-** "langs", "_langs": Translations submenu
-** "lexers", "_lexers": Lexers submenu
-** "plugins", "_plugins": Plugins submenu
-** "themes-ui", "_themes-ui": UI-themes submenu 
-** "themes-syntax", "_themes-syntax": Syntax-themes submenu 
+** "_recents": Recent-files submenu
+** "_enc": Encodings submenu (has subitems "reload as", "convert to")
+** "_langs": Translations submenu
+** "_lexers": Lexers submenu
+** "_plugins": Plugins submenu
+** "_themes-ui": UI-themes submenu 
+** "_themes-syntax": Syntax-themes submenu 
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
@@ -1922,6 +1917,8 @@ Text is chr(1) separated items:
 
 1.0.192 (app 1.14.6)
 * add: event on_paste
+* deleted deprecated: event on_panel
+* deleted deprecated: menu_proc spec strings: recents, enc, langs, lexers, plugins, themes-ui, themes-syntax
 
 1.0.191 (app 1.14.2)
 * add: dlg_proc: form property "border"
