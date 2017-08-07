@@ -4,6 +4,13 @@
   * changed
 
 
+1.14.6
+
++ option "centering_width"
++ command "go to screen center"
++ command "force final end-of-line"
+- fixed option indent_makes_whole_line_sel
+
 1.14.5 (2017/08)
 
 + lexer-specific config + lexer-specific hotkeys config are supported for none-lexer ("lexer -.json", "keys lexer -.json")

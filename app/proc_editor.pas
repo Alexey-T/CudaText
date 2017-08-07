@@ -287,6 +287,7 @@ begin
   Ed.OptSavingTrimSpaces:= Op.OpSavingTrimSpaces;
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
+  Ed.OptTextCenteringCharWidth:= Op.OpCenteringWidth;
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);

@@ -323,6 +323,7 @@ type
     OpSavingTrimSpaces: boolean;
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
+    OpCenteringWidth: integer;
     OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
@@ -939,6 +940,7 @@ begin
     OpSavingTrimSpaces:= false;
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;
+    OpCenteringWidth:= 0;
     OpLexerDynamicHiliteEnabled:= true;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
