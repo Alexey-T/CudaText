@@ -20,6 +20,7 @@ EVENTS = [
     'on_open_pre',
     'on_output_nav',
     'on_panel',
+    'on_paste',
     'on_save',
     'on_save_pre',
     'on_snippet',
@@ -40,6 +41,7 @@ EVENTS_ADD_PARAMS = {
   'on_macro': 'text',
   'on_open_pre': 'filename',
   'on_panel': 'id_control, id_event',
+  'on_paste': 'keep_caret, select_then',
   'on_snippet': 'snippet_id, snippet_text',
   'on_state': 'state',
   }

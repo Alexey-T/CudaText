@@ -129,6 +129,8 @@ type
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; out AColor: TColor);
     procedure EditorOnChangeCaretPos(Sender: TObject);
     procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret,
+      ASelectThen: boolean);
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
     function GetEncodingName: string;
@@ -351,11 +353,28 @@ begin
   //res=False: block key
   if DoPyEvent(Sender as TATSynEdit,
     cEventOnKey,
-    [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']) = cPyFalse then
+    [
+      IntToStr(Key),
+      '"'+ConvertShiftStateToString(Shift)+'"'
+    ]) = cPyFalse then
     begin
       Key:= 0;
       Exit
     end;
+end;
+
+procedure TEditorFrame.EditorOnPaste(Sender: TObject; var AHandled: boolean;
+  AKeepCaret, ASelectThen: boolean);
+const
+  cBool: array[boolean] of string = (cPyFalse, cPyTrue);
+begin
+  if DoPyEvent(Sender as TATSynEdit,
+    cEventOnPaste,
+    [
+      cBool[AKeepCaret],
+      cBool[ASelectThen]
+    ]) = cPyFalse then
+    AHandled:= true;
 end;
 
 procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word;
@@ -370,7 +389,10 @@ begin
     VK_RSHIFT:
       DoPyEvent(Sender as TATSynEdit,
         cEventOnKeyUp,
-        [IntToStr(Key), '"'+ConvertShiftStateToString(Shift)+'"']);
+        [
+          IntToStr(Key),
+          '"'+ConvertShiftStateToString(Shift)+'"'
+        ]);
   end;
 end;
 
@@ -911,6 +933,7 @@ begin
   ed.OnKeyDown:= @EditorOnKeyDown;
   ed.OnKeyUp:= @EditorOnKeyUp;
   ed.OnDrawMicromap:= @EditorDrawMicromap;
+  ed.OnPaste:=@EditorOnPaste;
 end;
 
 constructor TEditorFrame.Create(TheOwner: TComponent);
