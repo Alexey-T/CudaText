@@ -26,6 +26,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_key_up(self, ed_self, key, state): Called when user unpresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
 * on_focus(self, ed_self): Called after any editor gets focus.
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
+* on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
@@ -1918,6 +1919,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.192 (app 1.14.6)
+* add: event on_paste
 
 1.0.191 (app 1.14.2)
 * add: dlg_proc: form property "border"
