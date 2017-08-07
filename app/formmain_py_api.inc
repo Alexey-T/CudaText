@@ -4366,7 +4366,7 @@ begin
       case NAction of
         DLG_CREATE:
           begin
-            Form:= TFormDummy.Create(nil);
+            Form:= TFormDummy.Create(fmMain);
             Result:= PyLong_FromLongLong(PtrInt(Form));
           end;
 
