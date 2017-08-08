@@ -113,5 +113,6 @@ object fmCommands: TfmCommands
     ParentColor = False
     OnClick = listClick
     OnDrawItem = listDrawItem
+    OwnerDrawn = True
   end
 end

@@ -113,5 +113,6 @@ object fmMenuApi: TfmMenuApi
     ParentColor = False
     OnClick = listClick
     OnDrawItem = listDrawItem
+    OwnerDrawn = True
   end
 end

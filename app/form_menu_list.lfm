@@ -29,5 +29,6 @@ object fmGotoList: TfmGotoList
     ParentColor = False
     OnClick = ListClick
     OnDrawItem = ListDrawItem
+    OwnerDrawn = True
   end
 end
