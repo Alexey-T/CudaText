@@ -112,7 +112,7 @@ class Command:
 
         if index==index_sel:
             canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xF0F000, style=BRUSH_SOLID)
-            canvas_proc(id_canvas, CANVAS_SET_PEN, color=0x00C0F0, size=2, style=PEN_STYLE_SOLID)
+            canvas_proc(id_canvas, CANVAS_SET_PEN, color=0x00F0F0, size=1, style=PEN_STYLE_SOLID)
             canvas_proc(id_canvas, CANVAS_RECT, x=rect[0], y=rect[1], x2=rect[2], y2=rect[3])
         else:
             canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0x6060D0, style=BRUSH_SOLID)
@@ -120,7 +120,8 @@ class Command:
 
         canvas_proc(id_canvas, CANVAS_TEXT,
             text='item index %d'%index,
-            x=rect[0]+6, y=rect[1]+2 )
+            x=rect[0]+6 + index*4,
+            y=rect[1]+2 )
 
 
     def do_paint_mark(self, id_dlg, id_ctl):
