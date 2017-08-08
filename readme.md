@@ -4,6 +4,6 @@ CudaText editor
 * http://wiki.freepascal.org/CudaText
 
 Lazarus 1.9 trunk, fpc 3.0.0
-(fpc 3.0.2, win32, has problem with SimpleIPC)
+(fpc 3.0.2/win32 has problem with SimpleIPC, and "single instance" option)
 
 See wiki topic "How to compile"
