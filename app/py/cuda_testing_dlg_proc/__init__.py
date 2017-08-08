@@ -104,7 +104,23 @@ class Command:
 
     def callback_listbox_drawitem(self, id_dlg, id_ctl, data='', info=''):
 
-        print('listbox on_draw_item, data:', data)
+        #print('listbox on_draw_item, data:', data)
+        id_canvas = data['canvas']
+        index = data['index']
+        rect = data['rect']
+        index_sel = listbox_proc(self.id_listbox, LISTBOX_GET_SEL)
+
+        if index==index_sel:
+            canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xF0F000, style=BRUSH_SOLID)
+            canvas_proc(id_canvas, CANVAS_SET_PEN, color=0x00C0F0, size=2, style=PEN_STYLE_SOLID)
+            canvas_proc(id_canvas, CANVAS_RECT, x=rect[0], y=rect[1], x2=rect[2], y2=rect[3])
+        else:
+            canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0x6060D0, style=BRUSH_SOLID)
+            canvas_proc(id_canvas, CANVAS_RECT_FILL, x=rect[0], y=rect[1], x2=rect[2], y2=rect[3])
+
+        canvas_proc(id_canvas, CANVAS_TEXT,
+            text='item index %d'%index,
+            x=rect[0]+6, y=rect[1]+2 )
 
 
     def do_paint_mark(self, id_dlg, id_ctl):
@@ -324,6 +340,8 @@ class Command:
             })
 
         h_list = dlg_proc(h, DLG_CTL_HANDLE, index=n)
+        self.id_listbox = h_list
+
         for i in range(40):
             listbox_proc(h_list, LISTBOX_ADD, index=-1, text='item-%d'%i)
         listbox_proc(h_list, LISTBOX_SET_SEL, index=2)
