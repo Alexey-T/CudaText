@@ -1936,7 +1936,7 @@ Text is chr(1) separated items:
 * add: listbox_proc: LISTBOX_GET_DRAWN, LISTBOX_SET_DRAWN
 * add: event on_paste
 * deleted deprecated: event on_panel
-* deleted deprecated: menu_proc spec strings: recents, enc, langs, lexers, plugins, themes-ui, themes-syntax
+* deleted deprecated: menu_proc spec strings: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
 
 1.0.191 (app 1.14.2)
 * add: dlg_proc: form property "border"
@@ -1975,7 +1975,7 @@ Text is chr(1) separated items:
 * add: menu_proc: for MENU_ADD added param "tag"
 * add: menu_proc: MENU_SHOW can use 2-tuple (x,y)
 * add: menu_proc: MENU_ENUM gives additional dict key "command"
-* deprecated: menu_proc command values: recents, enc, langs, lexers, plugins, themes-ui, themes-syntax
+* deprecated: menu_proc command values: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
 
 1.0.184
 * deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD
