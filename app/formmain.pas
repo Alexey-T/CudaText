@@ -1120,6 +1120,7 @@ begin
   ListboxOut.Parent:= PanelBottom;
   ListboxOut.Align:= alClient;
   ListboxOut.CanGetFocus:= true;
+  ListboxOut.OwnerDrawn:= true;
   ListboxOut.OnDblClick:= @ListboxOutClick;
   ListboxOut.OnDrawItem:= @ListboxOutDrawItem;
   ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
@@ -1128,6 +1129,7 @@ begin
   ListboxVal.Parent:= PanelBottom;
   ListboxVal.Align:= alClient;
   ListboxVal.CanGetFocus:= true;
+  ListboxVal.OwnerDrawn:= true;
   ListboxVal.OnDblClick:= @ListboxOutClick;
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;

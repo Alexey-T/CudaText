@@ -45,6 +45,7 @@ type
     FEventOnSelect: string;
     FEventOnFold: string;
     FEventOnUnfold: string;
+    FEventOnListboxDrawItem: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -85,6 +86,7 @@ type
     procedure DoOnDblClick(Sender: TObject);
     procedure DoOnChange(Sender: TObject);
     procedure DoOnListboxSelect(Sender: TObject; User: boolean);
+    procedure DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
@@ -404,6 +406,25 @@ end;
 procedure TFormDummy.DoOnListboxSelect(Sender: TObject; User: boolean);
 begin
   DoOnChange(Sender);
+end;
+
+procedure TFormDummy.DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas;
+  AIndex: integer; const ARect: TRect);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnListboxDrawItem,
+    Format('{ "canvas": %d, "index": %d, "rect": (%d,%d,%d,%d) }', [
+      PtrInt(ACanvas),
+      AIndex,
+      ARect.Left,
+      ARect.Top,
+      ARect.Right,
+      ARect.Bottom
+    ]));
 end;
 
 procedure TFormDummy.DoOnListviewChange(Sender: TObject; Item: TListItem;

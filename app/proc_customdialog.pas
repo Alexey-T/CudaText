@@ -567,6 +567,7 @@ begin
     TATListbox(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;
+    TATListbox(Ctl).OnDrawItem:= @AForm.DoOnListboxDrawItem;
     exit;
   end;
 
@@ -1205,6 +1206,12 @@ begin
   if AName='on_click_dbl' then
   begin
     TAppControlProps(C.Tag).FEventOnClickDbl:= AValue;
+    exit;
+  end;
+
+  if AName='on_draw_item' then
+  begin
+    TAppControlProps(C.Tag).FEventOnListboxDrawItem:= AValue;
     exit;
   end;
 
