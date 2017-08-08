@@ -195,6 +195,14 @@ class Command:
           'color':0xa0e080
           } )
 
+        n=dlg_proc(h, DLG_CTL_ADD, 'panel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_LL', 'cap':'LL',
+          'x':150, 'y':100, 'w':60, 'h':60,
+          'p': 'panel_L',
+          'a_l':None, 'a_t':('','-'), 'a_r':('',']'),
+          'color':0x8080b0
+          } )
+
         n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'sp_L', 'x':210, 'y':0,
           'align':ALIGN_LEFT,
