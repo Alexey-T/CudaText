@@ -545,6 +545,7 @@ Possible types of controls:
 * "tabs": TabControl: set of tabs, w/o pages attached to them
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
 * "toolbar": ToolBar: panel which holds buttons with icons
+* "splitter": divider bar, which can be moved by mouse, it resizes control with "align" set, with the same "align" which splitter has.
 
 Notes:
 
@@ -662,6 +663,9 @@ Props:
 ** int_color_border
 * bevel:
 ** int_shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
+* splitter:
+** bool_beveled
+** bool_instant_repaint
 
 ====Result====
 
@@ -764,6 +768,8 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "a_l", "a_r", "a_t", "a_b": 2-tuple (str_control_name, str_side): Anchors of control. See [[#Anchors]]. Value is 2-tuple, or None to disable anchor. 
 ** Item-0: name of target control, or empty str to use control's parent (it is form by default).
 ** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
+
+* "align": one of ALIGN_nnn constants: Alignment of control. If not ALIGN_NONE, then control is glued to one of the sides of its parent (ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM), or to the entire parent area (ALIGN_CLIENT).
 
 * "p": str: Name of control's parent, or empty to use the form. Coordinates x/y of control are relative to the current parent. If parent's position changes, control's position don't change. To place control on PageControl's page with index N, specify such parent name: pages_name+"."+str(N).
 
@@ -1915,7 +1921,9 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.192 (app 1.14.6)
+1.0.192 (app 1.15.0)
+* add: dlg_proc: control type "splitter"
+* add: dlg_proc: control prop "align"
 * add: event on_paste
 * deleted deprecated: event on_panel
 * deleted deprecated: menu_proc spec strings: recents, enc, langs, lexers, plugins, themes-ui, themes-syntax
