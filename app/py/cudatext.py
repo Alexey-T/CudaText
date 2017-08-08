@@ -502,6 +502,13 @@ BTNKIND_ARROW_ONLY     = 5
 BTNKIND_SEP_HORZ       = 6
 BTNKIND_SEP_VERT       = 7
 
+ALIGN_NONE    = 0
+ALIGN_TOP     = 1
+ALIGN_BOTTOM  = 2
+ALIGN_LEFT    = 3
+ALIGN_RIGHT   = 4
+ALIGN_CLIENT  = 5
+
 
 def app_exe_version():
     return ct.app_exe_version()

@@ -621,6 +621,15 @@ begin
     exit;
   end;
 
+  if S='splitter' then
+  begin
+    Ctl:= TSplitter.Create(AForm);
+    (Ctl as TSplitter).ResizeStyle:= rsPattern;
+    (Ctl as TSplitter).Beveled:= true;
+    (Ctl as TSplitter).OnMoved:= @AForm.DoOnChange;
+    exit;
+  end;
+
   if S='progressbar' then
   begin
     Ctl:= TProgressBar.Create(AForm);
@@ -743,6 +752,8 @@ end;
 
 
 procedure DoControl_SetPropsFromString_Adv(C: TControl; S: string);
+const
+  cResizeStyle: array[boolean] of TResizeStyle = (rsPattern, rsUpdate);
 begin
   if C is TButton then
   begin
@@ -872,6 +883,13 @@ begin
     (C as TGauge).BackColor:= StrToIntDef(SGetItem(S), clWhite);
     (C as TGauge).ForeColor:= StrToIntDef(SGetItem(S), clNavy);
     (C as TGauge).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
+    exit;
+  end;
+
+  if (C is TSplitter) then
+  begin
+    (C as TSplitter).Beveled:= AppStrToBool(SGetItem(S));
+    (C as TSplitter).ResizeStyle:= cResizeStyle[AppStrToBool(SGetItem(S))];
     exit;
   end;
 
@@ -1222,6 +1240,12 @@ begin
   begin
     if C is TWinControl then
       (C as TWinControl).TabOrder:= StrToIntDef(AValue, -1);
+    exit;
+  end;
+
+  if AName='align' then
+  begin
+    C.Align:= TAlign(StrToIntDef(AValue, 0));
     exit;
   end;
 
