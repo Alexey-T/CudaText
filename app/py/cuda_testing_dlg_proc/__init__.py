@@ -317,6 +317,7 @@ class Command:
         listbox_proc(h_list, LISTBOX_ADD, index=-1, text='listitem-b')
         listbox_proc(h_list, LISTBOX_ADD, index=-1, text='listitem-c')
         listbox_proc(h_list, LISTBOX_SET_SEL, index=2)
+        listbox_proc(h_list, LISTBOX_SET_ITEM_H, index=28)
 
         return h
 

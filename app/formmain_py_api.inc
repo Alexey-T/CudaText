@@ -3249,6 +3249,18 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_ITEM_H:
+          begin
+            Result:= PyInt_FromLong(Listbox.ItemHeight);
+          end;
+
+        LISTBOX_SET_ITEM_H:
+          begin
+            Listbox.ItemHeight:= NIndex;
+            Listbox.Invalidate;
+            Result:= ReturnNone;
+          end;
+
         LISTBOX_THEME:
           begin
             Listbox.ThemedScrollbar:= true;
