@@ -3269,6 +3269,7 @@ begin
         LISTBOX_SET_DRAWN:
           begin
             Listbox.OwnerDrawn:= (NIndex=1);
+            Listbox.Invalidate;
             Result:= ReturnNone;
           end;
 
