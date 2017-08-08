@@ -68,6 +68,9 @@ class Command:
             button_proc(id_btn, BTN_SET_IMAGELIST, id_imglist)
             button_proc(id_btn, BTN_SET_IMAGEINDEX, int(b))
 
+    def callback_splitter_left(self, id_dlg, id_ctl, data='', info=''):
+        h = id_dlg
+        print('callback_splitter_left')
 
     def callback_maindlg(self, id_dlg, id_ctl, data='', info=''):
         print('callback_maindlg(info=%s)' % repr(info))
@@ -167,6 +170,50 @@ class Command:
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_icon', 'cap':'test of icon', 'x':10, 'y':50, 'w':120, 'h':50, 'on_change': 'cuda_testing_dlg_proc.callback_buttondlg'} )
+
+        return h
+
+    def init_splitterdlg(self):
+        h=dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'splitter test', 'w':650, 'h':400, 'resize':True })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'panel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_L', 'cap':'panel_L', 'x':0, 'y':0, 'w':200,
+          'align':ALIGN_LEFT,
+          'color':0x60c060,
+           } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'panel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_R', 'cap':'panel_R', 'x':400, 'y':0, 'w':200,
+          'align':ALIGN_RIGHT,
+          'color':0xd08060
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'panel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_B', 'cap':'panel_B', 'x':0, 'y':0, 'h':100,
+          'align':ALIGN_BOTTOM,
+          'color':0xa0e080
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'sp_L', 'x':210, 'y':0,
+          'align':ALIGN_LEFT,
+          'props':(True,True),
+          'act':True,
+          'on_change': self.callback_splitter_left,
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'sp_R', 'x':220, 'y':0,
+          'align':ALIGN_RIGHT,
+          'props':(True,True),
+          } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'sp_B', 'x':0, 'y':0,
+          'align':ALIGN_BOTTOM,
+          'props':(True,True),
+          } )
 
         return h
 
@@ -370,3 +417,9 @@ class Command:
         h = self.init_buttondlg()
         dlg_proc(h, DLG_SHOW_MODAL)
         dlg_proc(h, DLG_FREE)
+
+    def test_splitter(self):
+        h = self.init_splitterdlg()
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
+

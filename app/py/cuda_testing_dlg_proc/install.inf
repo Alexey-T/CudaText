@@ -44,6 +44,11 @@ section=commands
 caption=Test dlg_proc\test type=button_ex
 method=test_btn
 
+[item31]
+section=commands
+caption=Test dlg_proc\test type=splitter
+method=test_splitter
+
 [item50]
 section=commands
 caption=Test dlg_proc\test side-panel
