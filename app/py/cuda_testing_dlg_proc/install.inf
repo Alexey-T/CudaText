@@ -49,6 +49,11 @@ section=commands
 caption=Test dlg_proc\test type=splitter
 method=test_splitter
 
+[item32]
+section=commands
+caption=Test dlg_proc\test type=listbox_ex
+method=test_listbox
+
 [item50]
 section=commands
 caption=Test dlg_proc\test side-panel
