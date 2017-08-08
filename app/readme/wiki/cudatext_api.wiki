@@ -784,7 +784,8 @@ These are also properties of controls.
 * "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_menu": Called before showing context menu after right click.
 * "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
-* "on_fold", "on_unfold": Called for type "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+* "on_fold", "on_unfold": Called for control "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+* "on_draw_item": Called for control "listbox_ex", if it is owner-drawn. Param "data" is dict: { "canvas": int_canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }. 
 
 ====Callbacks====
 
@@ -1930,6 +1931,7 @@ Text is chr(1) separated items:
 1.0.192 (app 1.15.0)
 * add: dlg_proc: control type "splitter"
 * add: dlg_proc: control prop "align"
+* add: dlg_proc: control "listbox_ex" has event "on_draw_item"
 * add: listbox_proc: LISTBOX_GET_ITEM_H, LISTBOX_SET_ITEM_H
 * add: listbox_proc: LISTBOX_GET_DRAWN, LISTBOX_SET_DRAWN
 * add: event on_paste
