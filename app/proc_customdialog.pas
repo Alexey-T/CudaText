@@ -624,8 +624,9 @@ begin
   if S='splitter' then
   begin
     Ctl:= TSplitter.Create(AForm);
-    (Ctl as TSplitter).ResizeStyle:= rsPattern;
     (Ctl as TSplitter).Beveled:= true;
+    (Ctl as TSplitter).ResizeStyle:= rsPattern;
+    (Ctl as TSplitter).AutoSnap:= false;
     (Ctl as TSplitter).OnMoved:= @AForm.DoOnChange;
     exit;
   end;
@@ -890,6 +891,8 @@ begin
   begin
     (C as TSplitter).Beveled:= AppStrToBool(SGetItem(S));
     (C as TSplitter).ResizeStyle:= cResizeStyle[AppStrToBool(SGetItem(S))];
+    (C as TSplitter).AutoSnap:= AppStrToBool(SGetItem(S));
+    (C as TSplitter).MinSize:= StrToIntDef(SGetItem(S), (C as TSplitter).MinSize);
     exit;
   end;
 

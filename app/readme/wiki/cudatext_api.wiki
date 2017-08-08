@@ -666,6 +666,8 @@ Props:
 * splitter:
 ** bool_beveled
 ** bool_instant_repaint
+** bool_auto_snap_to_edge
+** int_min_size
 
 ====Result====
 
