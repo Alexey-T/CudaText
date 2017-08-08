@@ -3261,6 +3261,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        LISTBOX_GET_DRAWN:
+          begin
+            Result:= PyBool_FromLong(Ord(Listbox.OwnerDrawn));
+          end;
+
+        LISTBOX_SET_DRAWN:
+          begin
+            Listbox.OwnerDrawn:= (NIndex=1);
+            Result:= ReturnNone;
+          end;
+
         LISTBOX_THEME:
           begin
             Listbox.ThemedScrollbar:= true;

@@ -1084,6 +1084,8 @@ Possible values of id_action:
 * LISTBOX_SET_SEL: Sets selected index. -1 for none.
 * LISTBOX_GET_TOP: Gets index of top visible item.
 * LISTBOX_SET_TOP: Sets index of top visible item.
+* LISTBOX_GET_DRAWN: Gets bool: listbox is owner-drawn, ie it don't paint itself, but plugin must paint it via event on_draw_item.
+* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param index should be 0 or 1 (off/on).
 * LISTBOX_THEME: Applies current color theme to control.
 
 ===canvas_proc===
@@ -1929,6 +1931,7 @@ Text is chr(1) separated items:
 * add: dlg_proc: control type "splitter"
 * add: dlg_proc: control prop "align"
 * add: listbox_proc: LISTBOX_GET_ITEM_H, LISTBOX_SET_ITEM_H
+* add: listbox_proc: LISTBOX_GET_DRAWN, LISTBOX_SET_DRAWN
 * add: event on_paste
 * deleted deprecated: event on_panel
 * deleted deprecated: menu_proc spec strings: recents, enc, langs, lexers, plugins, themes-ui, themes-syntax

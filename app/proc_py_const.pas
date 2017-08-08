@@ -244,6 +244,8 @@ const
   LISTBOX_SET_TOP      = 15;
   LISTBOX_GET_ITEM_H   = 16;
   LISTBOX_SET_ITEM_H   = 17;
+  LISTBOX_GET_DRAWN    = 18;
+  LISTBOX_SET_DRAWN    = 19;
   LISTBOX_THEME        = 20;
 
   LEXER_GET_LIST            = 0;
