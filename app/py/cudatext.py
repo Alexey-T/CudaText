@@ -690,12 +690,19 @@ def to_str(v, escape=False):
         return ','.join(map(to_str, v))
 
     if isinstance(v, dict):
-        #put '*min*', '*max*' to begin
-        #put 'val' to end
+        #props must go first: *min* *max* p
+        #props must go last: val
+        def _order(k):
+            if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
+                return 0
+            if k in ('val'):
+                return 2
+            return 1
+
         res = chr(1).join(
-            [_pair(k, vv) for k,vv in v.items() if     ('min' in k or 'max' in k)] +
-            [_pair(k, vv) for k,vv in v.items() if not ('min' in k or 'max' in k) and k!='val'] +
-            [_pair(k, vv) for k,vv in v.items() if k=='val']
+            [_pair(k, vv) for k,vv in v.items() if _order(k)==0 ] +
+            [_pair(k, vv) for k,vv in v.items() if _order(k)==1 ] +
+            [_pair(k, vv) for k,vv in v.items() if _order(k)==2 ]
             )
         return '{'+res+'}'
 
