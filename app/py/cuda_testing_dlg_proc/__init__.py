@@ -124,6 +124,15 @@ class Command:
             y=rect[1]+2 )
 
 
+    def callback_listbox_check(self, id_dlg, id_ctl, data='', info=''):
+
+        print('listbox option click')
+        prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='chk1')
+        chk = prop['val'] == '1'
+
+        listbox_proc(self.id_listbox, LISTBOX_SET_DRAWN, index=(1 if chk else 0))
+
+
     def do_paint_mark(self, id_dlg, id_ctl):
         print('do_paint_mark')
 
@@ -337,7 +346,7 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'listbox_ex')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'list1',
             'x':10, 'y':10, 'w':400, 'h': 200,
-            'on_draw_item': 'cuda_testing_dlg_proc.callback_listbox_drawitem',
+            'on_draw_item': self.callback_listbox_drawitem,
             })
 
         h_list = dlg_proc(h, DLG_CTL_HANDLE, index=n)
@@ -348,6 +357,14 @@ class Command:
         listbox_proc(h_list, LISTBOX_SET_SEL, index=2)
         listbox_proc(h_list, LISTBOX_SET_ITEM_H, index=28)
         listbox_proc(h_list, LISTBOX_SET_DRAWN, index=1)
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'check')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap': 'Owner-drawn listbox',
+            'x':10, 'y':220, 'w':400,
+            'val': True,
+            'act': True,
+            'on_change': self.callback_listbox_check,
+            })
 
         return h
 
