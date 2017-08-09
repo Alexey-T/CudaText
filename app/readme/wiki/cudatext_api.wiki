@@ -1123,8 +1123,6 @@ Possible values of id_action:
 * CANVAS_TEXT: Paints text at given coords. Uses font and brush. Params: text, x, y.
 * CANVAS_LINE: Paints line at given coords. Uses pen. Params: x, y, x2, y2.
 * CANVAS_PIXEL: Paints one pixel at given coords. Params: x, y, color.
-* CANVAS_IMAGE: Paints picture from file [png, gif, jpeg, bmp] at given coords. Params: text - file name, x, y. Gets bool: file correct.
-* CANVAS_IMAGE_SIZED: Paints picture from file, sized for given rectangle. Params: text - file name, x, y, x2, y2. Gets bool: file correct.
 * CANVAS_RECT: Paints rectangle. Uses pen and brush. Params: x, y, x2, y2.
 * CANVAS_RECT_FRAME: Paints rectangle. Uses only pen. Params: x, y, x2, y2.
 * CANVAS_RECT_FILL: Paints rectangle. Uses only brush. Params: x, y, x2, y2.
@@ -1339,7 +1337,8 @@ Possible values of id_action:
 
 * IMAGE_GET_SIZE: Gets current image size as 2-tuple (width, height).
 * IMAGE_LOAD: Reads picture file into image object. Param "value" must be full file path (png, jpg, bmp, gif, ico).
-* IMAGE_PAINT: Paints image object on given canvas at given coords. Param "value" must be tuple (int_canvas_id, coord_x, coord_y).
+* IMAGE_PAINT: Paints image object on given canvas, at given coords. Param "value" must be tuple (int_canvas_id, x, y).
+* IMAGE_PAINT_SIZED: Paints image object on given canvas, resized to given rectangle. Param "value" must be tuple (int_canvas_id, x1, y1, x2, y2).
 
 ===button_proc===
 
