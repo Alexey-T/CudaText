@@ -251,8 +251,11 @@
   //Ruler: show ruler (horizontal, on the top)
   "ruler_show": false,
 
-  //Ruler: start numeration from 1 (otherwise from 0)
-  "ruler_from_1": false,
+  //Ruler: numeration style
+  //  0: numbers 0 - 10 - 20 - 30...
+  //  1: numbers 1 - 11 - 21 - 31...
+  //  2: numbers 1 - 10 - 20 - 30...
+  "ruler_numeration": 0,
 
   //Ruler: if not 0, special font size used for ruler
   "ruler_font_size": 8,

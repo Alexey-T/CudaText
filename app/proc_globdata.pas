@@ -256,7 +256,7 @@ type
     OpNumbersCenter: boolean;
 
     OpRulerShow: boolean;
-    OpRulerFrom1: boolean;
+    OpRulerNumeration: integer;
     OpRulerFontSize: integer;
     OpRulerSize: integer;
     OpRulerTextIndent: integer;
@@ -877,7 +877,7 @@ begin
     OpNumbersCenter:= true;
 
     OpRulerShow:= false;
-    OpRulerFrom1:= false;
+    OpRulerNumeration:= 0;
     OpRulerFontSize:= 8;
     OpRulerSize:= 20;
     OpRulerTextIndent:= 0;

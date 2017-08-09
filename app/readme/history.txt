@@ -4,12 +4,14 @@
   * changed
 
 
-1.14.6
+1.14.8
 
 + option "centering_width"
 + option "centering_for_distraction_free"
 + command "go to screen center"
 + command "force final end-of-line"
++ option "ruler_numeration"
+* removed option "ruler_from_1"
 - fixed option indent_makes_whole_line_sel
 
 1.14.5 (2017/08)
