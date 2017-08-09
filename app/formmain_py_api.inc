@@ -3365,6 +3365,19 @@ begin
 end;
 
 
+function Py_CanvasId_to_CanvasObject(const IdCanvas: Int64): TCanvas;
+begin
+  if IdCanvas=0 then //support debug
+  begin
+    fmMain.PaintTest.Show;
+    Application.ProcessMessages;
+    Result:= fmMain.PaintTest.Canvas;
+  end
+  else
+    Result:= TCanvas(PtrInt(IdCanvas));
+end;
+
+
 function Py_imagelist_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdList, Num64: Int64;
@@ -3440,7 +3453,8 @@ begin
 
         IMAGELIST_PAINT:
           begin
-            Canvas:= TCanvas(PtrInt(StrToInt64Def(SGetItem(StrValue), 0)));
+            Num64:= StrToInt64Def(SGetItem(StrValue), 0);
+            Canvas:= Py_CanvasId_to_CanvasObject(Num64);
             NX:= StrToIntDef(SGetItem(StrValue), 0);
             NY:= StrToIntDef(SGetItem(StrValue), 0);
             NIndex:= StrToIntDef(SGetItem(StrValue), 0);
@@ -3771,19 +3785,6 @@ begin
           Result:= ReturnNone;
       end;
     end;
-end;
-
-
-function Py_CanvasId_to_CanvasObject(const IdCanvas: Int64): TCanvas;
-begin
-  if IdCanvas=0 then //support debug
-  begin
-    fmMain.PaintTest.Show;
-    Application.ProcessMessages;
-    Result:= fmMain.PaintTest.Canvas;
-  end
-  else
-    Result:= TCanvas(PtrInt(IdCanvas));
 end;
 
 
