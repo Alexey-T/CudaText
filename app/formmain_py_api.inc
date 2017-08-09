@@ -3924,7 +3924,7 @@ var
   Obj: TComponent;
   Image: TImage;
   Gr: TGraphic;
-  NX, NY: integer;
+  NX, NY, NX2, NY2: integer;
   Canvas: TCanvas;
 begin
   with GetPythonEngine do
@@ -3969,6 +3969,20 @@ begin
             NX:= StrToIntDef(SGetItem(StrValue), 0);
             NY:= StrToIntDef(SGetItem(StrValue), 0);
             Canvas.Draw(NX, NY, Image.Picture.Graphic);
+            Result:= ReturnNone;
+          end;
+
+        APP_IMAGE_PAINT_SIZED:
+          begin
+            Num64:= StrToInt64Def(SGetItem(StrValue), 0);
+            Canvas:= Py_CanvasId_to_CanvasObject(Num64);
+            NX:= StrToIntDef(SGetItem(StrValue), 0);
+            NY:= StrToIntDef(SGetItem(StrValue), 0);
+            NX2:= StrToIntDef(SGetItem(StrValue), 0);
+            NY2:= StrToIntDef(SGetItem(StrValue), 0);
+            Canvas_PaintImageInRect(Canvas,
+              Image.Picture.Graphic,
+              Rect(NX, NY, NX2, NY2));
             Result:= ReturnNone;
           end;
 

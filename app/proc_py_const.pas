@@ -411,10 +411,11 @@ const
   BTN_GET_BOLD       = 8;
   BTN_SET_BOLD       = 9;
 
-  APP_IMAGE_CREATE     = 0;
-  APP_IMAGE_GET_SIZE   = 1;
-  APP_IMAGE_LOAD       = 2;
-  APP_IMAGE_PAINT      = 5;
+  APP_IMAGE_CREATE      = 0;
+  APP_IMAGE_GET_SIZE    = 1;
+  APP_IMAGE_LOAD        = 2;
+  APP_IMAGE_PAINT       = 5;
+  APP_IMAGE_PAINT_SIZED = 6;
 
 implementation
 

@@ -475,10 +475,11 @@ DLG_COORD_SCREEN_TO_LOCAL = 41
 #storage of live callbacks
 _live = {}
 
-IMAGE_CREATE     = 0
-IMAGE_GET_SIZE   = 1
-IMAGE_LOAD       = 2
-IMAGE_PAINT      = 5
+IMAGE_CREATE      = 0
+IMAGE_GET_SIZE    = 1
+IMAGE_LOAD        = 2
+IMAGE_PAINT       = 5
+IMAGE_PAINT_SIZED = 6
 
 IMAGELIST_CREATE     = 0
 IMAGELIST_COUNT      = 1
