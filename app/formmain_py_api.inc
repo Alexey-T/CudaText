@@ -3856,13 +3856,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        CANVAS_IMAGE,
-        CANVAS_IMAGE_SIZED:
-          begin
-            Ok:= Canvas_PaintImage(C, StrText, Rect(NX, NY, NX2, NY2), IdAction=CANVAS_IMAGE_SIZED);
-            Result:= PyBool_FromLong(Ord(Ok));
-          end;
-
         CANVAS_PIXEL:
           begin
             C.Pixels[NX, NY]:= NColor;

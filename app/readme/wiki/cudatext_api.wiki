@@ -1946,13 +1946,16 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.192 (app 1.15.0)
+1.0.193 (app 1.15.0)
+* add: image_proc()
+* deleted: canvas_proc actions: CANVAS_IMAGE, CANVAS_IMAGE_SIZED (use image_proc instead)
+
+1.0.192 (app 1.14.8)
 * add: dlg_proc: control type "splitter"
 * add: dlg_proc: control prop "align"
 * add: dlg_proc: control "listbox_ex" has event "on_draw_item"
 * add: listbox_proc: actions LISTBOX_GET_ITEM_H, LISTBOX_SET_ITEM_H
 * add: listbox_proc: actions LISTBOX_GET_DRAWN, LISTBOX_SET_DRAWN
-* add: image_proc()
 * add: event on_paste
 * deleted deprecated: event on_panel
 * deleted deprecated: menu_proc spec strings: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"

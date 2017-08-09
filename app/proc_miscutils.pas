@@ -29,7 +29,7 @@ uses
 
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
 procedure Canvas_PaintPolygonFromSting(C: TCanvas; Str: string);
-function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
+procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 function DoPictureLoadFromFile(const AFilename: string): TGraphic;
 procedure DoScalePanelControls(APanel: TWinControl);
 
@@ -289,39 +289,22 @@ begin
   end;
 end;
 
-function Canvas_PaintImage(C: TCanvas; const AFilename: string; ARect: TRect; AResize: boolean): boolean;
+
+procedure Canvas_PaintImageInRect(C: TCanvas; APic: TGraphic; const ARect: TRect);
 var
-  Pic: TGraphic;
   Bitmap: TBitmap;
 begin
-  Result:= false;
-  Pic:= DoPictureLoadFromFile(AFilename);
-  if Pic=nil then exit;
-
+  Bitmap:= TBitmap.Create;
   try
-    try
-      if AResize then
-      begin
-        Bitmap:= TBitmap.Create;
-        try
-          Bitmap.PixelFormat:= pf24bit;
-          Bitmap.SetSize(Pic.Width, Pic.Height);
-          Bitmap.Canvas.Brush.Color:= clWhite;
-          Bitmap.Canvas.FillRect(0, 0, Bitmap.Width, Bitmap.Height);
-          Bitmap.Canvas.Draw(0, 0, Pic);
-          C.AntialiasingMode:= amOn;
-          C.StretchDraw(ARect, Bitmap);
-        finally
-          FreeAndNil(Bitmap);
-        end;
-      end
-      else
-        C.Draw(ARect.Left, ARect.Top, Pic);
-      Result:= true;
-    finally
-      FreeAndNil(Pic);
-    end;
-  except
+    Bitmap.PixelFormat:= pf24bit;
+    Bitmap.SetSize(APic.Width, APic.Height);
+    Bitmap.Canvas.Brush.Color:= clWhite;
+    Bitmap.Canvas.FillRect(0, 0, Bitmap.Width, Bitmap.Height);
+    Bitmap.Canvas.Draw(0, 0, APic);
+    C.AntialiasingMode:= amOn;
+    C.StretchDraw(ARect, Bitmap);
+  finally
+    FreeAndNil(Bitmap);
   end;
 end;
 
