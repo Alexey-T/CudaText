@@ -785,7 +785,7 @@ These are also properties of controls.
 * "on_menu": Called before showing context menu after right click.
 * "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
 * "on_fold", "on_unfold": Called for control "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
-* "on_draw_item": Called for control "listbox_ex", if it is owner-drawn. Param "data" is dict: { "canvas": int_canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }. 
+* "on_draw_item": Called for control "listbox_ex", if it is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }. 
 
 ====Callbacks====
 
@@ -1319,7 +1319,7 @@ Possible values of id_action:
 * IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Gets int icon index, or None if cannot load.
 * IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
 * IMAGELIST_DELETE_ALL: Deletes all icons.
-* IMAGELIST_PAINT: Paints single icon on some canvas. Param "value" must be tuple (canvas_id, coord_x, coord_y, int_icon_index).
+* IMAGELIST_PAINT: Paints single icon on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y, icon_index). Value canvas_id can be 0 for testing paintbox in CudaText.
 
 ===image_proc===
 
@@ -1337,8 +1337,8 @@ Possible values of id_action:
 
 * IMAGE_GET_SIZE: Gets current image size as 2-tuple (width, height).
 * IMAGE_LOAD: Reads picture file into image object. Param "value" must be full file path (png, jpg, bmp, gif, ico).
-* IMAGE_PAINT: Paints image object on given canvas, at given coords. Param "value" must be tuple (int_canvas_id, x, y).
-* IMAGE_PAINT_SIZED: Paints image object on given canvas, resized to given rectangle. Param "value" must be tuple (int_canvas_id, x1, y1, x2, y2).
+* IMAGE_PAINT: Paints image object on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y). Value canvas_id can be 0, for testing paintbox in CudaText. 
+* IMAGE_PAINT_SIZED: Paints image object on given canvas, resized to given rectangle. Param "value" must be tuple (canvas_id, x1, y1, x2, y2).
 
 ===button_proc===
 
