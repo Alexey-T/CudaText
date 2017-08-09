@@ -3774,6 +3774,19 @@ begin
 end;
 
 
+function Py_CanvasId_to_CanvasObject(const IdCanvas: Int64): TCanvas;
+begin
+  if IdCanvas=0 then //support debug
+  begin
+    fmMain.PaintTest.Show;
+    Application.ProcessMessages;
+    Result:= fmMain.PaintTest.Canvas;
+  end
+  else
+    Result:= TCanvas(PtrInt(IdCanvas));
+end;
+
+
 function Py_canvas_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   C: TCanvas;
@@ -3788,15 +3801,7 @@ begin
               @IdCanvas, @IdAction, @PtrText, @NColor, @NSize,
               @NX, @NY, @NX2, @NY2, @NStyle, @NP1, @NP2)) then
     begin
-      if IdCanvas=0 then //support debug
-      begin
-        fmMain.PaintTest.Show;
-        Application.ProcessMessages;
-        C:= fmMain.PaintTest.Canvas;
-      end
-      else
-        C:= TCanvas(PtrInt(IdCanvas));
-
+      C:= Py_CanvasId_to_CanvasObject(IdCanvas);
       StrText:= string(PtrText);
 
       case IdAction of
@@ -3908,6 +3913,70 @@ begin
             with fmMain.PaintTest do
               Result:= Py_BuildValue('(ii)', Width, Height);
           end
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
+function Py_image_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  IdImage, Num64: Int64;
+  IdAction: integer;
+  PtrValue: PChar;
+  StrValue: string;
+  Obj: TComponent;
+  Image: TImage;
+  Gr: TGraphic;
+  NX, NY: integer;
+  Canvas: TCanvas;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lis:image_proc', @IdImage, @IdAction, @PtrValue)) then
+    begin
+      StrValue:= string(PtrValue);
+
+      if IdAction=APP_IMAGE_CREATE then
+      begin
+        Num64:= StrToInt64Def(StrValue, 0);
+        if Num64=0 then
+          Obj:= fmMain
+        else
+          Obj:= TComponent(PtrInt(Num64));
+        Image:= TImage.Create(Obj);
+        exit(PyLong_FromLongLong(Int64(PtrInt(Image))));
+      end;
+
+      //other actions require id_image param
+      Image:= TImage(PtrInt(IdImage));
+      if Image=nil then exit(ReturnNone);
+
+      case IdAction of
+        APP_IMAGE_GET_SIZE:
+          begin
+            Result:= Py_BuildValue('(ii)',
+              Image.Picture.Width,
+              Image.Picture.Height);
+          end;
+
+        APP_IMAGE_LOAD:
+          begin
+            Gr:= DoPictureLoadFromFile(StrValue);
+            Image.Picture.Assign(Gr);
+            Result:= PyBool_FromLong(Ord(Assigned(Gr)));
+          end;
+
+        APP_IMAGE_PAINT:
+          begin
+            Num64:= StrToInt64Def(SGetItem(StrValue), 0);
+            Canvas:= Py_CanvasId_to_CanvasObject(Num64);
+            NX:= StrToIntDef(SGetItem(StrValue), 0);
+            NY:= StrToIntDef(SGetItem(StrValue), 0);
+            Canvas.Draw(NX, NY, Image.Picture.Graphic);
+            Result:= ReturnNone;
+          end;
 
         else
           Result:= ReturnNone;
@@ -4654,6 +4723,7 @@ begin
     AddMethod('timer_proc', @Py_timer_proc, '');
     AddMethod('dlg_proc', @Py_dlg_proc, '');
     AddMethod('imagelist_proc', @Py_imagelist_proc, '');
+    AddMethod('image_proc', @Py_image_proc, '');
     AddMethod('button_proc', @Py_button_proc, '');
   end;
 end;

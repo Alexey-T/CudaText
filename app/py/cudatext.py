@@ -477,6 +477,11 @@ DLG_COORD_SCREEN_TO_LOCAL = 41
 #storage of live callbacks
 _live = {}
 
+IMAGE_CREATE     = 0
+IMAGE_GET_SIZE   = 1
+IMAGE_LOAD       = 2
+IMAGE_PAINT      = 5
+
 IMAGELIST_CREATE     = 0
 IMAGELIST_COUNT      = 1
 IMAGELIST_GET_SIZE   = 2
@@ -631,6 +636,9 @@ def lexer_proc(id, value):
 
 def imagelist_proc(id_list, id_action, value=''):
     return ct.imagelist_proc(id_list, id_action, to_str(value))
+
+def image_proc(id_image, id_action, value=''):
+    return ct.image_proc(id_image, id_action, to_str(value))
 
 def button_proc(id_button, id_action, value=''):
     return ct.button_proc(id_button, id_action, to_str(value))
