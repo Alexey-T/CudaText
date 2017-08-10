@@ -112,13 +112,29 @@ class Command:
             msg_status('Cannot download list')
             return
         names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
-        res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
-        if res is None: return
 
-        url = items[res]['url']
-        version = items[res]['v']
-        kind = items[res]['kind']
+        results = []
+        while True:
+            res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
+            if res is None: break
 
+            name = items[res]['name']
+            url = items[res]['url']
+            version = items[res]['v']
+            kind = items[res]['kind']
+            results += [(name, url, version, kind)]
+
+            if msg_box('Selected addons:\n\n'+
+                        '\n'.join([item[0] for item in results])+
+                        '\n\nOK: Install selected'+
+                        '\nCancel: Select another addon',
+                        MB_OKCANCEL or MB_ICONQUESTION) == ID_OK: break
+
+        for res in results:
+            self.do_install_single(*res)
+
+
+    def do_install_single(self, name, url, version, kind):
         #check for CudaLint
         if 'linter.' in url:
             if not "cuda_lint" in get_installed_list():
