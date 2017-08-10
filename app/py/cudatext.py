@@ -562,7 +562,13 @@ def dlg_input_ex(number, caption,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
 
-def dlg_menu(id, text, focused=0):
+def dlg_menu(id, items, focused=0):
+    if isinstance(items, str):
+        text = items
+    elif isinstance(items, (tuple, list)):
+        text = '\n'.join(items)
+    else:
+        return
     return ct.dlg_menu(id, text, focused)
 
 def dlg_file(is_open, init_filename, init_dir, filters):

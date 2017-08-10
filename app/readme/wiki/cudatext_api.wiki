@@ -457,19 +457,19 @@ Shows dialog to select folder. Gets folder path, or None if cancelled.
 
 ===dlg_menu===
 
- dlg_menu(id, text, focused=0)
+ dlg_menu(id, items, focused=0)
 
-Shows menu-like dialog.
-
-Gets index of selected item (0-based), or None if cancelled. 
+Shows menu-like dialog. Gets index of selected item (0-based), or None if cancelled. 
 
 Possible values of id:
 
 * MENU_LIST: Dialog with listbox and filter field.
 * MENU_LIST_ALT: Like MENU_LIST, but each item has double height, and instead of right-aligning, part of an item shows below.
 
-Param "text" is string items, separated by "\n" char. Each item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
-Param "focused" is index of initially selected item.
+Parameters:
+
+* Param "items": list of str, tuple of str, or (deprecated form) str in the form "\n".join(str_items). Each str item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
+* Param "focused": index of initially selected item.
 
 ===dlg_color===
 
@@ -1948,6 +1948,7 @@ Text is chr(1) separated items:
 1.0.193 (app 1.15.0)
 * add: image_proc()
 * deleted: canvas_proc actions: CANVAS_IMAGE, CANVAS_IMAGE_SIZED (use image_proc instead)
+* add: dlg_menu can have argument of type list/tuple
 
 1.0.192 (app 1.14.8)
 * add: dlg_proc: control type "splitter"
