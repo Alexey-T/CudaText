@@ -112,13 +112,29 @@ class Command:
             msg_status('Cannot download list')
             return
         names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
-        res = dlg_menu(MENU_LIST_ALT, '\n'.join(names))
-        if res is None: return
 
-        url = items[res]['url']
-        version = items[res]['v']
-        kind = items[res]['kind']
+        results = []
+        while True:
+            res = dlg_menu(MENU_LIST_ALT, names)
+            if res is None: break
 
+            name = items[res]['name']
+            url = items[res]['url']
+            version = items[res]['v']
+            kind = items[res]['kind']
+            results += [(name, url, version, kind)]
+
+            if msg_box('Selected addons:\n\n'+
+                        '\n'.join([item[0] for item in results])+
+                        '\n\nOK: Install selected'+
+                        '\nCancel: Select another addon',
+                        MB_OKCANCEL or MB_ICONQUESTION) == ID_OK: break
+
+        for res in results:
+            self.do_install_single(*res)
+
+
+    def do_install_single(self, name, url, version, kind):
         #check for CudaLint
         if 'linter.' in url:
             if not "cuda_lint" in get_installed_list():
@@ -155,24 +171,24 @@ class Command:
                     names.append((get_name_of_module(m)+': view history', fn))
 
                 if names:
-                    res = dlg_menu(MENU_LIST, '\n'.join([s[0] for s in names]))
+                    res = dlg_menu(MENU_LIST, [s[0] for s in names])
                     if res is None: return
                     file_open(names[res][1])
 
 
     def do_install_lexer(self):
-        #get only lexer items
+        """Not used. For future? Suggest only lexers to install"""
+
         items = get_avail_list()
         items = [l for l in items if l[0].startswith('Lexer:')]
 
-        text = '\n'.join(l[0] for l in items)
-        res = dlg_menu(MENU_LIST, text)
+        res = dlg_menu(MENU_LIST, [l[0] for l in items])
         if res is None: return
         res = items[res]
         url = get_item_url(res[2])
         fn = get_plugin_zip(url)
-        if not os.path.isfile(fn): return
-        file_open(fn)
+        if os.path.isfile(fn):
+            file_open(fn)
 
     def do_remove(self):
         m = get_installed_choice()

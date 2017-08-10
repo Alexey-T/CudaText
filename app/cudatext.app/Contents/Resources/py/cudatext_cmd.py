@@ -52,6 +52,8 @@ cCommand_KeyDelete = 153
 cCommand_KeyEnter = 154
 cCommand_KeyTab = 155
 
+cCommand_ForceFinalEndOfLine = 160
+
 cCommand_TextDeleteSelection = 170
 cCommand_TextDeleteLine = 171
 cCommand_TextDuplicateLine = 172
@@ -76,8 +78,9 @@ cCommand_GotoTextEnd_Sel = _base_GotoTextEnd | _CmdFlag_SelKeep
 cCommand_GotoWordNext_Sel = _base_GotoWordNext | _CmdFlag_SelKeep
 cCommand_GotoWordPrev_Sel = _base_GotoWordPrev | _CmdFlag_SelKeep
 
-cCommand_GotoScreenTop = 205
-cCommand_GotoScreenBottom = 206
+cCommand_GotoScreenTop = 205 | _CmdFlag_MovesCaret
+cCommand_GotoScreenBottom = 206 | _CmdFlag_MovesCaret
+cCommand_GotoScreenCenter = 207 | _CmdFlag_MovesCaret
 
 cCommand_Undo = 235 | _CmdFlag_SelReset
 cCommand_Redo = 236 | _CmdFlag_SelReset

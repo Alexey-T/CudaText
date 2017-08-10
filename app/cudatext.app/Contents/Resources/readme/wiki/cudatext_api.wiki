@@ -26,6 +26,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_key_up(self, ed_self, key, state): Called when user unpresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
 * on_focus(self, ed_self): Called after any editor gets focus.
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
+* on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
@@ -33,9 +34,9 @@ To make plugin react to events, add method to class Command (like methods of com
 
 ==Clicks==
 
-* on_click(self, ed_self, state): Called after mouse click. state has the same meaning as in on_key.
-* on_click_dbl(self, ed_self, state): Called after mouse double-click. state has the same meaning as in on_key. Method can return False to disable default processing.
-* on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap().
+* on_click(self, ed_self, state): Called after mouse click. Param "state: same meaning as in on_key.
+* on_click_dbl(self, ed_self, state): Called after mouse double-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
 
 ==Code parsing==
 
@@ -48,11 +49,6 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
 * on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
 * on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
-* on_panel(self, ed_self, id_control, id_event): Called when event in side panel occured. Id_control is int handle of control in panel. Id_event is one of:
-** "on_click"
-** "on_dbl_click"
-** "on_sel"
-** "on_menu"
 
 ==Macros==
 
@@ -461,19 +457,20 @@ Shows dialog to select folder. Gets folder path, or None if cancelled.
 
 ===dlg_menu===
 
- dlg_menu(id, text, focused=0)
+ dlg_menu(id, items, focused=0, caption="")
 
-Shows menu-like dialog.
-
-Gets index of selected item (0-based), or None if cancelled. 
+Shows menu-like dialog. Gets index of selected item (0-based), or None if cancelled. 
 
 Possible values of id:
 
 * MENU_LIST: Dialog with listbox and filter field.
 * MENU_LIST_ALT: Like MENU_LIST, but each item has double height, and instead of right-aligning, part of an item shows below.
 
-Param "text" is string items, separated by "\n" char. Each item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
-Param "focused" is index of initially selected item.
+Parameters:
+
+* Param "items": list of str, tuple of str, or (deprecated form) str in the form "\n".join(str_items). Each str item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
+* Param "focused": index of initially selected item.
+* Param "caption": if not empty str, caption will be shown above input box.
 
 ===dlg_color===
 
@@ -549,6 +546,7 @@ Possible types of controls:
 * "tabs": TabControl: set of tabs, w/o pages attached to them
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
 * "toolbar": ToolBar: panel which holds buttons with icons
+* "splitter": divider bar, which can be moved by mouse, it resizes control with "align" set, with the same "align" which splitter has.
 
 Notes:
 
@@ -666,6 +664,11 @@ Props:
 ** int_color_border
 * bevel:
 ** int_shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
+* splitter:
+** bool_beveled
+** bool_instant_repaint
+** bool_auto_snap_to_edge
+** int_min_size
 
 ====Result====
 
@@ -769,6 +772,8 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 ** Item-0: name of target control, or empty str to use control's parent (it is form by default).
 ** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
 
+* "align": one of ALIGN_nnn constants: Alignment of control. If not ALIGN_NONE, then control is glued to one of the sides of its parent (ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM), or to the entire parent area (ALIGN_CLIENT).
+
 * "p": str: Name of control's parent, or empty to use the form. Coordinates x/y of control are relative to the current parent. If parent's position changes, control's position don't change. To place control on PageControl's page with index N, specify such parent name: pages_name+"."+str(N).
 
 ====Control events====
@@ -780,7 +785,8 @@ These are also properties of controls.
 * "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_menu": Called before showing context menu after right click.
 * "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
-* "on_fold", "on_unfold": Called for type "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+* "on_fold", "on_unfold": Called for control "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+* "on_draw_item": Called for control "listbox_ex", if it is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }. 
 
 ====Callbacks====
 
@@ -1074,10 +1080,14 @@ Possible values of id_action:
 * LISTBOX_DELETE_ALL: Deletes all items.
 * LISTBOX_GET_ITEM: Gets item with given index as 2-tuple (text, tag). Gets None if index incorrect.
 * LISTBOX_SET_ITEM: Sets item with given index, to given text and tag.
+* LISTBOX_GET_ITEM_H: Gets height of items (pixels).
+* LISTBOX_SET_ITEM_H: Sets height of items. Param index: size in pixels.
 * LISTBOX_GET_SEL: Gets selected index. -1 for none.
 * LISTBOX_SET_SEL: Sets selected index. -1 for none.
 * LISTBOX_GET_TOP: Gets index of top visible item.
 * LISTBOX_SET_TOP: Sets index of top visible item.
+* LISTBOX_GET_DRAWN: Gets bool: listbox is owner-drawn, ie it don't paint itself, but plugin must paint it via event on_draw_item.
+* LISTBOX_SET_DRAWN: Sets owner-drawn state. Param index should be 0 or 1 (off/on).
 * LISTBOX_THEME: Applies current color theme to control.
 
 ===canvas_proc===
@@ -1114,8 +1124,6 @@ Possible values of id_action:
 * CANVAS_TEXT: Paints text at given coords. Uses font and brush. Params: text, x, y.
 * CANVAS_LINE: Paints line at given coords. Uses pen. Params: x, y, x2, y2.
 * CANVAS_PIXEL: Paints one pixel at given coords. Params: x, y, color.
-* CANVAS_IMAGE: Paints picture from file [png, gif, jpeg, bmp] at given coords. Params: text - file name, x, y. Gets bool: file correct.
-* CANVAS_IMAGE_SIZED: Paints picture from file, sized for given rectangle. Params: text - file name, x, y, x2, y2. Gets bool: file correct.
 * CANVAS_RECT: Paints rectangle. Uses pen and brush. Params: x, y, x2, y2.
 * CANVAS_RECT_FRAME: Paints rectangle. Uses only pen. Params: x, y, x2, y2.
 * CANVAS_RECT_FILL: Paints rectangle. Uses only brush. Params: x, y, x2, y2.
@@ -1186,13 +1194,13 @@ Value of "command" parameter for MENU_ADD can be:
 * (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
 
 * to create standatd special sub-menus, special values: 
-** "recents", "_recents": Recent-files submenu
-** "enc", "_enc": Encodings submenu (has subitems "reload as", "convert to")
-** "langs", "_langs": Translations submenu
-** "lexers", "_lexers": Lexers submenu
-** "plugins", "_plugins": Plugins submenu
-** "themes-ui", "_themes-ui": UI-themes submenu 
-** "themes-syntax", "_themes-syntax": Syntax-themes submenu 
+** "_recents": Recent-files submenu
+** "_enc": Encodings submenu (has subitems "reload as", "convert to")
+** "_langs": Translations submenu
+** "_lexers": Lexers submenu
+** "_plugins": Plugins submenu
+** "_themes-ui": UI-themes submenu 
+** "_themes-syntax": Syntax-themes submenu 
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
@@ -1312,7 +1320,26 @@ Possible values of id_action:
 * IMAGELIST_ADD: Loads image into image-list. Param "value" must be full path to png/bmp image file. Image size should be the same as size in image-list (but not required). Gets int icon index, or None if cannot load.
 * IMAGELIST_DELETE: Deletes one icon. Param "value" is int icon index (0-based).
 * IMAGELIST_DELETE_ALL: Deletes all icons.
-* IMAGELIST_PAINT: Paints single icon on some canvas. Param "value" must be tuple (canvas_id, coord_x, coord_y, int_icon_index).
+* IMAGELIST_PAINT: Paints single icon on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y, icon_index). Value canvas_id can be 0 for testing paintbox in CudaText.
+
+===image_proc===
+
+ image_proc(id_image, id_action, value="")
+
+Perform action on image object.
+
+Param "id_image" is int handle of image. It is required for all actions, except IMAGE_CREATE, where it should be 0.
+
+Possible values of id_action:
+
+* IMAGE_CREATE: Creates new image object. Gets int handle of this image. Param "value" must be int handle of owner form of object. 
+** If it is form handle from dlg_proc, object will be deleted after deletion of this form. 
+** If it is 0, main application form is used as owner, and object will be persistent.
+
+* IMAGE_GET_SIZE: Gets current image size as 2-tuple (width, height).
+* IMAGE_LOAD: Reads picture file into image object. Param "value" must be full file path (png, jpg, bmp, gif, ico).
+* IMAGE_PAINT: Paints image object on given canvas, at given coords. Param "value" must be tuple (canvas_id, x, y). Value canvas_id can be 0, for testing paintbox in CudaText. 
+* IMAGE_PAINT_SIZED: Paints image object on given canvas, resized to given rectangle. Param "value" must be tuple (canvas_id, x1, y1, x2, y2).
 
 ===button_proc===
 
@@ -1919,6 +1946,22 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.193 (app 1.15.0)
+* add: image_proc()
+* deleted: canvas_proc actions: CANVAS_IMAGE, CANVAS_IMAGE_SIZED (use image_proc instead)
+* add: dlg_menu can have argument of type list/tuple
+* add: dlg_menu can have argument "caption"
+
+1.0.192 (app 1.14.8)
+* add: dlg_proc: control type "splitter"
+* add: dlg_proc: control prop "align"
+* add: dlg_proc: control "listbox_ex" has event "on_draw_item"
+* add: listbox_proc: actions LISTBOX_GET_ITEM_H, LISTBOX_SET_ITEM_H
+* add: listbox_proc: actions LISTBOX_GET_DRAWN, LISTBOX_SET_DRAWN
+* add: event on_paste
+* deleted deprecated: event on_panel
+* deleted deprecated: menu_proc spec strings: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
+
 1.0.191 (app 1.14.2)
 * add: dlg_proc: form property "border"
 * add: dlg_proc: control type "button_ex"
@@ -1956,7 +1999,7 @@ Text is chr(1) separated items:
 * add: menu_proc: for MENU_ADD added param "tag"
 * add: menu_proc: MENU_SHOW can use 2-tuple (x,y)
 * add: menu_proc: MENU_ENUM gives additional dict key "command"
-* deprecated: menu_proc command values: recents, enc, langs, lexers, plugins, themes-ui, themes-syntax
+* deprecated: menu_proc command values: "recents", "enc", "langs", "lexers", "plugins", "themes-ui", "themes-syntax"
 
 1.0.184
 * deprecated: app_proc: PROC_SIDEPANEL_ADD, PROC_BOTTOMPANEL_ADD

@@ -51,9 +51,11 @@ LINESTATE_SAVED   = 3
 
 COLOR_NONE = 0x1FFFFFFF
 
+#dlg_menu
 MENU_LIST     = 0
 MENU_LIST_ALT = 1
 
+#menu_proc
 MENU_CLEAR  = 0
 MENU_ENUM   = 1
 MENU_ADD    = 2
@@ -272,6 +274,10 @@ LISTBOX_GET_SEL      = 10
 LISTBOX_SET_SEL      = 11
 LISTBOX_GET_TOP      = 14
 LISTBOX_SET_TOP      = 15
+LISTBOX_GET_ITEM_H   = 16
+LISTBOX_SET_ITEM_H   = 17
+LISTBOX_GET_DRAWN    = 18
+LISTBOX_SET_DRAWN    = 19
 LISTBOX_THEME        = 20
 
 LEXER_GET_LIST            = 0
@@ -361,8 +367,6 @@ CANVAS_SET_TESTPANEL = 9
 CANVAS_GET_TEXT_SIZE = 15
 CANVAS_TEXT          = 20
 CANVAS_LINE          = 21
-CANVAS_IMAGE         = 22
-CANVAS_IMAGE_SIZED   = 23
 CANVAS_PIXEL         = 24
 CANVAS_RECT          = 30
 CANVAS_RECT_FRAME    = 31
@@ -473,6 +477,12 @@ DLG_COORD_SCREEN_TO_LOCAL = 41
 #storage of live callbacks
 _live = {}
 
+IMAGE_CREATE      = 0
+IMAGE_GET_SIZE    = 1
+IMAGE_LOAD        = 2
+IMAGE_PAINT       = 5
+IMAGE_PAINT_SIZED = 6
+
 IMAGELIST_CREATE     = 0
 IMAGELIST_COUNT      = 1
 IMAGELIST_GET_SIZE   = 2
@@ -501,6 +511,13 @@ BTNKIND_TEXT_ARROW     = 4
 BTNKIND_ARROW_ONLY     = 5
 BTNKIND_SEP_HORZ       = 6
 BTNKIND_SEP_VERT       = 7
+
+ALIGN_NONE    = 0
+ALIGN_TOP     = 1
+ALIGN_BOTTOM  = 2
+ALIGN_LEFT    = 3
+ALIGN_RIGHT   = 4
+ALIGN_CLIENT  = 5
 
 
 def app_exe_version():
@@ -547,8 +564,14 @@ def dlg_input_ex(number, caption,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
 
-def dlg_menu(id, text, focused=0):
-    return ct.dlg_menu(id, text, focused)
+def dlg_menu(id, items, focused=0, caption=''):
+    if isinstance(items, str):
+        text = items
+    elif isinstance(items, (tuple, list)):
+        text = '\n'.join(items)
+    else:
+        return
+    return ct.dlg_menu(id, text, focused, caption)
 
 def dlg_file(is_open, init_filename, init_dir, filters):
     return ct.dlg_file(is_open, init_filename, init_dir, filters)
@@ -621,6 +644,9 @@ def lexer_proc(id, value):
 def imagelist_proc(id_list, id_action, value=''):
     return ct.imagelist_proc(id_list, id_action, to_str(value))
 
+def image_proc(id_image, id_action, value=''):
+    return ct.image_proc(id_image, id_action, to_str(value))
+
 def button_proc(id_button, id_action, value=''):
     return ct.button_proc(id_button, id_action, to_str(value))
 
@@ -683,12 +709,19 @@ def to_str(v, escape=False):
         return ','.join(map(to_str, v))
 
     if isinstance(v, dict):
-        #put '*min*', '*max*' to begin
-        #put 'val' to end
+        #props must go first: *min* *max* p
+        #props must go last: val
+        def _order(k):
+            if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
+                return 0
+            if k in ('val'):
+                return 2
+            return 1
+
         res = chr(1).join(
-            [_pair(k, vv) for k,vv in v.items() if     ('min' in k or 'max' in k)] +
-            [_pair(k, vv) for k,vv in v.items() if not ('min' in k or 'max' in k) and k!='val'] +
-            [_pair(k, vv) for k,vv in v.items() if k=='val']
+            [_pair(k, vv) for k,vv in v.items() if _order(k)==0 ] +
+            [_pair(k, vv) for k,vv in v.items() if _order(k)==1 ] +
+            [_pair(k, vv) for k,vv in v.items() if _order(k)==2 ]
             )
         return '{'+res+'}'
 

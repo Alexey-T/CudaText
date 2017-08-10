@@ -6,11 +6,11 @@ import tempfile
 from cudatext import *
 
 README_NAMES = (
-    'readme.txt', 
-    'readme.html', 
-    'readme.htm', 
-    'readme.md', 
-    'README.md', 
+    'readme.txt',
+    'readme.html',
+    'readme.htm',
+    'readme.md',
+    'README.md',
     'readme.rst',
     'README.rst',
     )
@@ -22,7 +22,7 @@ HISTORY_NAMES = (
     'history.md',
     'history.rst',
     'history',
-)    
+)
 
 DATA_DIRS = (
     ('autocomplete', '.acp'),
@@ -86,7 +86,7 @@ def do_remove_module(mod):
     dir_dest = os.path.join(dir_trash, mod)
     while os.path.isdir(dir_dest):
         dir_dest += '_'
-        
+
     if not os.path.isdir(dir_mod):
         msg_box('Cannot find dir: '+dir_mod, MB_OK)
         return
@@ -110,10 +110,10 @@ def do_remove_data(fn):
     fn_to = os.path.join(dir_trash, os.path.basename(fn))
     while os.path.exists(fn_to):
         fn_to += '_'
-    
+
     if not os.path.isdir(dir_trash):
         os.mkdir(dir_trash)
-    
+
     try:
         os.rename(fn, fn_to)
         print('Moved "%s" to "%s"' % (fn, fn_to))
@@ -121,7 +121,7 @@ def do_remove_data(fn):
         msg_box('Cannot move file/dir:\n%s\nto:\n%s' % (fn, fn_to), MB_OK)
         return
     return True
-    
+
 
 def get_installed_list():
     """
@@ -132,18 +132,18 @@ def get_installed_list():
     l = [s for s in l if not s.startswith('__')]
     l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
     return sorted(l)
-    
+
 def get_installed_choice():
     """
     gets choice for get_installed_list()
     """
     lmod = get_installed_list()
     ldesc = [get_name_of_module(l) for l in lmod]
-    res = dlg_menu(MENU_LIST, '\n'.join(ldesc))
+    res = dlg_menu(MENU_LIST, ldesc)
     if res is None:
         return None
     return lmod[res]
-    
+
 def get_installed_data_list():
     """
     gets list of filenames+dirnames inside "data", only 1 level deep
@@ -169,7 +169,7 @@ def get_installed_data_choice():
     dir_data = os.path.join(app_path(APP_DIR_DATA))
     skip_len = len(dir_data)+1
     desc = [item[skip_len:] for item in names]
-    res = dlg_menu(MENU_LIST, '\n'.join(desc))
+    res = dlg_menu(MENU_LIST, desc)
     if res is None:
         return None
     return names[res]
