@@ -633,7 +633,8 @@ type
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
-    function DoDialogMenuApi(const AText: string; AMultiline: boolean; AInitIndex: integer): integer;
+    function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
+      AInitIndex: integer): integer;
     procedure DoFileExportHtml;
     procedure DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean);
     procedure DoFileCloseAndDelete;
@@ -3179,7 +3180,8 @@ begin
 end;
 
 
-function TfmMain.DoDialogMenuApi(const AText: string; AMultiline: boolean;
+function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
+  AMultiline: boolean;
   AInitIndex: integer): integer;
 var
   Form: TfmMenuApi;
@@ -3195,6 +3197,7 @@ begin
     until false;
 
     UpdateInputForm(Form);
+    Form.ListCaption:= ACaption;
     Form.Multiline:= AMultiline;
     Form.InitItemIndex:= AInitIndex;
     Form.ShowModal;

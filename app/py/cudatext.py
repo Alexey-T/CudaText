@@ -51,9 +51,11 @@ LINESTATE_SAVED   = 3
 
 COLOR_NONE = 0x1FFFFFFF
 
+#dlg_menu
 MENU_LIST     = 0
 MENU_LIST_ALT = 1
 
+#menu_proc
 MENU_CLEAR  = 0
 MENU_ENUM   = 1
 MENU_ADD    = 2
@@ -562,14 +564,14 @@ def dlg_input_ex(number, caption,
                  label7, text7, label8, text8, label9, text9,
                  label10, text10)
 
-def dlg_menu(id, items, focused=0):
+def dlg_menu(id, items, focused=0, caption=''):
     if isinstance(items, str):
         text = items
     elif isinstance(items, (tuple, list)):
         text = '\n'.join(items)
     else:
         return
-    return ct.dlg_menu(id, text, focused)
+    return ct.dlg_menu(id, text, focused, caption)
 
 def dlg_file(is_open, init_filename, init_dir, filters):
     return ct.dlg_file(is_open, init_filename, init_dir, filters)
