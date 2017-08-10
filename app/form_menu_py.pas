@@ -24,7 +24,6 @@ uses
   proc_globdata,
   proc_colors,
   proc_str,
-  proc_scrollbars,
   math;
 
 type
@@ -33,6 +32,7 @@ type
   TfmMenuApi = class(TForm)
     edit: TATEdit;
     list: TATListbox;
+    PanelCaption: TPanel;
     procedure editChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -49,12 +49,14 @@ type
     function GetResultCmd: integer;
     function IsFiltered(AOrigIndex: integer): boolean;
     procedure SetMultiline(AValue: boolean);
+    procedure SetListCaption(const AValue: string);
   public
     { public declarations }
     listItems: TStringList;
     ResultCode: integer;
     InitItemIndex: integer;
     property Multiline: boolean read FMultiline write SetMultiline;
+    property ListCaption: string write SetListCaption;
   end;
 
 implementation
@@ -96,6 +98,8 @@ begin
   edit.Font.Name:= EditorOps.OpFontName;
   edit.Font.Size:= EditorOps.OpFontSize;
   edit.Font.Quality:= EditorOps.OpFontQuality;
+  panelCaption.Font.Name:= UiOps.VarFontName;
+  panelCaption.Font.Size:= UiOps.VarFontSize;
 
   self.Color:= GetAppColor('ListBg');
   edit.Colors.TextFont:= GetAppColor('EdTextFont');
@@ -104,6 +108,7 @@ begin
   edit.Colors.TextSelBG:= GetAppColor('EdSelBg');
   edit.Colors.BorderLine:= GetAppColor('EdBorder');
   list.Color:= GetAppColor('ListBg');
+  panelCaption.Font.Color:= GetAppColor('ListFont');
 
   ResultCode:= -1;
   list.ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
@@ -329,6 +334,12 @@ begin
     GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize) *
     IfThen(FMultiline, 1.85, 1));
   list.Invalidate;
+end;
+
+procedure TfmMenuApi.SetListCaption(const AValue: string);
+begin
+  PanelCaption.Caption:= AValue;
+  PanelCaption.Visible:= AValue<>'';
 end;
 
 end.
