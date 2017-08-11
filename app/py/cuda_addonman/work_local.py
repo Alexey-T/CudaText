@@ -133,13 +133,13 @@ def get_installed_list():
     l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
     return sorted(l)
 
-def get_installed_choice():
+def get_installed_choice(caption):
     """
-    gets choice for get_installed_list()
+    gets module of addon, from menu of installed addons
     """
     lmod = get_installed_list()
     ldesc = [get_name_of_module(l) for l in lmod]
-    res = dlg_menu(MENU_LIST, ldesc)
+    res = dlg_menu(MENU_LIST, ldesc, caption=caption)
     if res is None:
         return None
     return lmod[res]
@@ -169,7 +169,7 @@ def get_installed_data_choice():
     dir_data = os.path.join(app_path(APP_DIR_DATA))
     skip_len = len(dir_data)+1
     desc = [item[skip_len:] for item in names]
-    res = dlg_menu(MENU_LIST, desc)
+    res = dlg_menu(MENU_LIST, desc, caption='Remove data file')
     if res is None:
         return None
     return names[res]

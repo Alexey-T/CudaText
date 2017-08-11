@@ -125,7 +125,8 @@ class Command:
 
         results = []
         while True:
-            res = dlg_menu(MENU_LIST_ALT, names)
+            res = dlg_menu(MENU_LIST_ALT, names,
+                caption=('Re-install' if reinstall else 'Install') )
             if res is None: break
 
             name = items[res]['name']
@@ -201,7 +202,7 @@ class Command:
             file_open(fn)
 
     def do_remove(self):
-        m = get_installed_choice()
+        m = get_installed_choice('Remove')
         if m is None:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
@@ -226,14 +227,14 @@ class Command:
 
 
     def do_edit(self):
-        m = get_installed_choice()
+        m = get_installed_choice('Edit')
         if m is None: return
         fn = get_initpy_of_module(m)
         file_open(fn)
         msg_status('Opened: '+fn)
 
     def do_homepage(self):
-        m = get_installed_choice()
+        m = get_installed_choice('Visit homepage')
         if m is None: return
         s = get_homepage_of_module(m)
         if s:
@@ -244,7 +245,7 @@ class Command:
               get_name_of_module(m), MB_OK+MB_ICONWARNING)
 
     def do_readme(self):
-        m = get_installed_choice()
+        m = get_installed_choice('Open readme')
         if m is None: return
         s = get_readme_of_module(m)
         if s:
@@ -253,7 +254,7 @@ class Command:
             msg_status('Plugin "%s" doesn\'t have readme' % get_name_of_module(m))
 
     def do_history(self):
-        m = get_installed_choice()
+        m = get_installed_choice('Open history')
         if m is None: return
         s = get_history_of_module(m)
         if s:
