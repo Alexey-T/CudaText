@@ -12,6 +12,7 @@
 + command "go to screen center"
 + command "force final end-of-line"
 + Addon Manager: suggests to install several addons, one after another
++ Addon Manager: install-command splitted to: a) Install - items w/o installed ones, b) Re-install - already installed items
 * removed option "ruler_from_1"
 - fixed option "indent_makes_whole_line_sel"
 
