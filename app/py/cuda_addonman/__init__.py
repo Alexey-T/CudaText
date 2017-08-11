@@ -104,13 +104,23 @@ class Command:
         msg_box(text, MB_OK+MB_ICONINFO)
 
 
-    def do_install_addon(self):
+    def do_reinstall_addon(self):
+        self.do_install_addon(True)
+
+    def do_install_addon(self, reinstall=False):
         msg_status('Downloading list...')
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         msg_status('')
         if not items:
             msg_status('Cannot download list')
             return
+
+        installed_list = get_installed_list()
+        if reinstall:
+            items = [i for i in items if i.get('module', '') in installed_list]
+        else:
+            items = [i for i in items if i.get('module', '') not in installed_list]
+
         names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 
         results = []

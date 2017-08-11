@@ -10,27 +10,31 @@ caption=Addons Manager\Install...
 method=do_install_addon
 [item2]
 section=commands
+caption=Addons Manager\Re-install...
+method=do_reinstall_addon
+[item5]
+section=commands
 caption=Addons Manager\Update...
 method=do_update
-[item5]
+[item10]
 section=commands
 caption=Addons Manager\Edit plugin...
 method=do_edit
-[item6]
+[item14]
 section=commands
 caption=Addons Manager\Remove plugin...
 method=do_remove
-[item8]
+[item15]
 section=commands
 caption=Addons Manager\Remove data files...
 method=do_remove_data
 menu=0
 
-[item9]
+[item17]
 section=commands
 caption=Addons Manager\-
 method=_
-[item10]
+[item18]
 section=commands
 caption=Addons Manager\Download all...
 method=do_download_all
