@@ -100,10 +100,12 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
-    FOnResult: TStrEvent;
     FReplace: boolean;
     FMultiLine: boolean;
     FNarrow: boolean;
+    FOnResult: TStrEvent;
+    FOnChangeOptions: TNotifyEvent;
+    procedure DoOnChange;
     procedure DoResult(const Str: string);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -119,6 +121,7 @@ type
     procedure UpdateFonts;
     procedure UpdateFocus(AFindMode: boolean);
     property OnResult: TStrEvent read FOnResult write FOnResult;
+    property OnChangeOptions: TNotifyEvent read FOnChangeOptions write FOnChangeOptions;
     property IsReplace: boolean read FReplace write SetReplace;
     property IsMultiLine: boolean read FMultiLine write SetMultiLine;
     property IsNarrow: boolean read FNarrow write SetNarrow;
@@ -140,6 +143,7 @@ begin
   with chkRegex do
     Checked:= not Checked;
   UpdateState;
+  DoOnChange;
 end;
 
 procedure TfmFind.bRepClick(Sender: TObject);
@@ -187,6 +191,7 @@ begin
   with chkCase do
     Checked:= not Checked;
   UpdateState;
+  DoOnChange;
 end;
 
 procedure TfmFind.chkConfirmClick(Sender: TObject);
@@ -194,6 +199,7 @@ begin
   with chkConfirm do
     Checked:= not Checked;
   UpdateState;
+  DoOnChange;
 end;
 
 procedure TfmFind.chkInSelClick(Sender: TObject);
@@ -201,11 +207,13 @@ begin
   with chkInSel do
     Checked:= not Checked;
   UpdateState;
+  DoOnChange;
 end;
 
 procedure TfmFind.chkMulLineClick(Sender: TObject);
 begin
   IsMultiLine:= not IsMultiLine;
+  DoOnChange;
 end;
 
 procedure TfmFind.chkRepChange(Sender: TObject);
@@ -228,6 +236,7 @@ begin
   with chkWords do
     Checked:= not Checked;
   UpdateState;
+  DoOnChange;
 end;
 
 procedure TfmFind.chkWrapClick(Sender: TObject);
@@ -235,6 +244,7 @@ begin
   with chkWrap do
     Checked:= not Checked;
   UpdateState;
+  DoOnChange;
 end;
 
 procedure TfmFind.edFindChange(Sender: TObject);
@@ -698,6 +708,12 @@ procedure TfmFind.UpdateButtonBold;
 begin
   bFindNext.BoldFont:= not edRep.Focused;
   bRep.BoldFont:= edRep.Focused;
+end;
+
+procedure TfmFind.DoOnChange;
+begin
+  if Assigned(FOnChangeOptions) then
+    FOnChangeOptions(nil);
 end;
 
 end.
