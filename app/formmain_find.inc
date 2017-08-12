@@ -210,6 +210,7 @@ begin
   begin
     fmFind:= TfmFind.Create(Self);
     fmFind.OnResult:= @FindDialogDone;
+    fmFind.OnChangeOptions:= @DoFindOptions_OnChange;
     fmFind.Color:= GetAppColor('TabBg');
 
     UiOps.HotkeyFindDialog:= ShortcutToText(AppKeymap.GetShortcutFromCommand(cmd_DialogFind));
@@ -626,4 +627,20 @@ begin
   DoFindOptionsFromString(SOpt);
   FindDialogDone(nil{skip dialog}, SAction);
 end;
+
+procedure TfmMain.DoFindOptions_OnChange(Sender: TObject);
+begin
+  //options are used for some commands
+  //apply options immediately, so user dont need to do a search to apply them
+  with fmFind do
+  begin
+    FFinder.OptCase:= chkCase.Checked;
+    FFinder.OptWords:= chkWords.Checked;
+    FFinder.OptRegex:= chkRegex.Checked;
+    FFinder.OptWrapped:= chkWrap.Checked;
+    FFinder.OptInSelection:= chkInSel.Checked;
+    FFinder.OptConfirmReplace:= chkConfirm.Checked;
+  end;
+end;
+
 
