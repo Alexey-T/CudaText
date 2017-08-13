@@ -177,6 +177,7 @@ begin
 
   panelPress.Align:= alClient;
   panelInput.Hide;
+  panelBtn.Hide;
   panelPress.Show;
 
   FKeyPressed:= 0;
@@ -186,6 +187,7 @@ begin
   Result:= FKeyPressed;
 
   panelPress.Hide;
+  panelBtn.Show;
   panelInput.Show;
 end;
 
