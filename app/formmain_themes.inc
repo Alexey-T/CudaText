@@ -328,7 +328,7 @@ begin
   ThemeUi:= ExtractFileNameOnly(fn);
 
   //find syntax-theme with the same name
-  if IsThemeNameExist(ThemeUi, true) then
+  if IsThemeNameExist(ThemeUi, false) then
     if MsgBox(msgConfirmSyntaxThemeSameName, MB_OKCANCEL+MB_ICONQUESTION)=ID_OK then
       ThemeSyntax:= ThemeUi;
 end;
