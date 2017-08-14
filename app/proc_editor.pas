@@ -952,6 +952,12 @@ begin
 end;
 
 
+function Editor_NextCharAllowed_AutoCloseBracket(ch: char): boolean;
+begin
+  Result:= Pos(ch, ' ])}'#9)>0;
+end;
+
+
 function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 var
   Caret: TATCaretItem;
@@ -972,7 +978,8 @@ begin
     //don't do, if before caret is \
     if (NPos>=1) and (NPos<=Length(SEnd)) and (SEnd[NPos]='\') then exit;
     //don't do, if caret before text
-    if (NPos<Length(SEnd)) and not IsCharSpace(SEnd[NPos+1]) then exit;
+    if (NPos<Length(SEnd)) and
+      not Editor_NextCharAllowed_AutoCloseBracket(SEnd[NPos+1]) then exit;
   end;
 
   if SBegin='(' then SEnd:= ')' else
