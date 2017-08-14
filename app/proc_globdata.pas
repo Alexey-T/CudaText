@@ -664,17 +664,11 @@ begin
   {$endif}
 
   {$ifdef darwin}
-  Result:= ExtractFileDir(ExtractFileDir(ParamStr(0)))+
-           //'/Resources'+
-           '/pylib/libpython3.6.dylib';
-  {
-  //Get system Python path
   for N:= 4 to 9 do
   begin
     Result:= GetMacPath(N);
     if FileExists(Result) then exit;
   end;
-  }
   {$endif}
 end;
 
