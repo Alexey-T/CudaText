@@ -47,26 +47,24 @@ begin
       StrId:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
 
   Form:= TfmKeys.Create(nil);
-  with Form do
   try
     DoLocalize_FormKeys(Form);
-    Caption:= Caption+' - '+AppKeymap[n].Name;
-    //chkForLexer.Enabled:= ALexerName<>'';
-    LexerName:= ALexerName;
-    CommandCode:= ACmd;
-    Keys1:= AppKeymap[n].Keys1;
-    Keys2:= AppKeymap[n].Keys2;
+    Form.Caption:= Form.Caption+' - '+AppKeymap[n].Name;
+    Form.LexerName:= ALexerName;
+    Form.CommandCode:= ACmd;
+    Form.Keys1:= AppKeymap[n].Keys1;
+    Form.Keys2:= AppKeymap[n].Keys2;
 
-    Result:= ShowModal=mrOk;
+    Result:= Form.ShowModal=mrOk;
     if Result then
     begin
-      AppKeymap[n].Keys1:= Keys1;
-      AppKeymap[n].Keys2:= Keys2;
+      AppKeymap[n].Keys1:= Form.Keys1;
+      AppKeymap[n].Keys2:= Form.Keys2;
       DoOps_SaveKeyItem(AppKeymap[n], StrId,
         ALexerName, Form.chkForLexer.Checked);
     end;
   finally
-    Free
+    Form.Free
   end;
 end;
 
