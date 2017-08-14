@@ -1,13 +1,13 @@
 object fmKeys: TfmKeys
   Left = 603
-  Height = 197
+  Height = 227
   Top = 440
   Width = 371
   ActiveControl = bAdd1
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Hotkey'
-  ClientHeight = 197
+  ClientHeight = 227
   ClientWidth = 371
   KeyPreview = True
   OnKeyDown = FormKeyDown
@@ -18,7 +18,7 @@ object fmKeys: TfmKeys
   object panelBtn: TButtonPanel
     Left = 6
     Height = 29
-    Top = 162
+    Top = 192
     Width = 359
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -37,7 +37,7 @@ object fmKeys: TfmKeys
   end
   object panelPress: TPanel
     Left = 272
-    Height = 156
+    Height = 186
     Top = 0
     Width = 99
     Align = alRight
@@ -49,14 +49,14 @@ object fmKeys: TfmKeys
   end
   object panelInput: TPanel
     Left = 0
-    Height = 156
+    Height = 186
     Top = 0
     Width = 272
     Align = alClient
     AutoSize = True
     BorderSpacing.Bottom = 3
     BevelOuter = bvNone
-    ClientHeight = 156
+    ClientHeight = 186
     ClientWidth = 272
     TabOrder = 2
     object labelKey1: TLabel
@@ -151,11 +151,20 @@ object fmKeys: TfmKeys
       AnchorSideBottom.Side = asrBottom
       Left = 9
       Height = 24
-      Top = 132
+      Top = 162
       Width = 140
       Anchors = [akLeft, akBottom]
       Caption = 'For current lexer'
       TabOrder = 4
+    end
+    object LabelDupInfo: TLabel
+      Left = 9
+      Height = 17
+      Top = 128
+      Width = 99
+      Caption = 'duplicated key'
+      ParentColor = False
+      Visible = False
     end
   end
 end

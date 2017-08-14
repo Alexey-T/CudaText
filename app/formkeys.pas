@@ -28,6 +28,7 @@ type
     bClear1: TButton;
     bClear2: TButton;
     chkForLexer: TCheckBox;
+    LabelDupInfo: TLabel;
     labelKey1: TLabel;
     labelKey2: TLabel;
     panelInput: TPanel;
@@ -235,6 +236,10 @@ begin
 end;
 
 procedure TfmKeys.DoUpdate;
+var
+  Item: TATKeymapItem;
+  SDesc: string;
+  N: integer;
 begin
   labelKey1.caption:= '1) '+ KeyArrayToString(Keys1);
   labelKey2.caption:= '2) '+ KeyArrayToString(Keys2);
@@ -247,6 +252,31 @@ begin
   else
   if bClear1.Enabled then
     ActiveControl:= bClear1;
+
+  //check dups
+  Item:= TATKeymapItem.Create;
+  try
+    Item.Command:= CommandCode;
+    Item.Keys1:= Keys1;
+    Item.Keys2:= Keys2;
+
+    N:= AppKeymapCheckDuplicateForCommand(Item, LexerName, false);
+    if N>0 then
+    begin
+      N:= AppKeymap.IndexOf(N);
+      if N>=0 then
+        SDesc:= AppKeymap.Items[N].Name
+      else
+        SDesc:= '??';
+
+      LabelDupInfo.Show;
+      LabelDupInfo.Caption:= Format(msgStatusHotkeyBusy, [SDesc]);
+    end
+    else
+      LabelDupInfo.Hide;
+  finally
+    Item.Free;
+  end;
 end;
 
 end.
