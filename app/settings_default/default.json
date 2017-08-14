@@ -822,9 +822,11 @@
   //  chars trigger autocompletion, in Nnn lexer.
   "autocomplete_trigger_chars": "", 
 
-  //Auto-close brackets/quotes. Skips escaped chars, eg \(. 
+  //Auto-close brackets/quotes. 
   //  Value can have only chars: ( [ { ' " `
-  //  (don't forget that json needs escaped double-quote) 
+  //  (don't forget that json needs escaped double-quote)
+  //  Function don't work on escaped chars, after backslash.
+  //  Function don't work if after caret is non-space. 
   "auto_close_brackets": "([{",
   
   //[File]
