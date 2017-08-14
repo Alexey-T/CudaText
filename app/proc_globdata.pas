@@ -387,7 +387,11 @@ procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
 function SetAppKeymapHotkey(AParams: string): boolean;
-procedure AppKeymapCheckDuplicateForCommand(ACommand: integer; const ALexerName: string);
+
+function AppKeymapCheckDuplicateForCommand(
+  AKeymapItem: TATKeymapItem;
+  const ALexerName: string;
+  AOverwriteAndSave: boolean): integer;
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
 procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
 
@@ -1550,28 +1554,29 @@ begin
 end;
 
 
-procedure AppKeymapCheckDuplicateForCommand(ACommand: integer; const ALexerName: string);
+function AppKeymapCheckDuplicateForCommand(
+  AKeymapItem: TATKeymapItem;
+  const ALexerName: string;
+  AOverwriteAndSave: boolean): integer;
 var
-  itemSrc, item: TATKeymapItem;
+  item: TATKeymapItem;
   itemKeyPtr: ^TATKeyArray;
   i: integer;
 begin
-  i:= AppKeymap.IndexOf(ACommand);
-  if i<0 then exit;
-  itemSrc:= AppKeymap[i];
+  Result:= 0;
 
   for i:= 0 to AppKeymap.Count-1 do
   begin
     item:= AppKeymap.Items[i];
-    if item.Command=ACommand then Continue;
+    if item.Command=AKeymapItem.Command then Continue;
 
-    if KeyArraysEqualNotEmpty(itemSrc.Keys1, item.Keys1) or
-       KeyArraysEqualNotEmpty(itemSrc.Keys2, item.Keys1) then itemKeyPtr:= @item.Keys1 else
-    if KeyArraysEqualNotEmpty(itemSrc.Keys1, item.Keys2) or
-       KeyArraysEqualNotEmpty(itemSrc.Keys2, item.Keys2) then itemKeyPtr:= @item.Keys2 else
+    if KeyArraysEqualNotEmpty(AKeymapItem.Keys1, item.Keys1) or
+       KeyArraysEqualNotEmpty(AKeymapItem.Keys2, item.Keys1) then itemKeyPtr:= @item.Keys1 else
+    if KeyArraysEqualNotEmpty(AKeymapItem.Keys1, item.Keys2) or
+       KeyArraysEqualNotEmpty(AKeymapItem.Keys2, item.Keys2) then itemKeyPtr:= @item.Keys2 else
     Continue;
 
-    if MsgBox(Format(msgConfirmHotkeyBusy, [item.Name]), MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
+    if AOverwriteAndSave then
     begin
       //clear in memory
       KeyArrayClear(itemKeyPtr^);
@@ -1581,7 +1586,9 @@ begin
       //save to: lexer*.json
       if ALexerName<>'' then
         DoOps_SaveKeyItem(item, IntToStr(item.Command), ALexerName, true);
-    end;
+    end
+    else
+      exit(item.Command);
   end;
 end;
 

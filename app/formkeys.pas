@@ -40,6 +40,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
+    procedure OKButtonClick(Sender: TObject);
   private
     { private declarations }
     FKeyPressed: integer;
@@ -49,6 +50,8 @@ type
     function GetHotkey: integer;
   public
     { public declarations }
+    LexerName: string;
+    CommandCode: integer;
     Keys1, Keys2: TATKeyArray;
   end;
 
@@ -93,12 +96,52 @@ end;
 
 procedure TfmKeys.FormShow(Sender: TObject);
 begin
+  //OK btn needs confirmtion
+  panelBtn.OKButton.ModalResult:= mrNone;
+
   DoUpdate;
 end;
 
 procedure TfmKeys.HelpButtonClick(Sender: TObject);
 begin
-  Modalresult:= mrNo;
+  ModalResult:= mrNo;
+end;
+
+procedure TfmKeys.OKButtonClick(Sender: TObject);
+var
+  Item: TATKeymapItem;
+  SDesc: string;
+  N: integer;
+begin
+  Item:= TATKeymapItem.Create;
+  try
+    Item.Command:= CommandCode;
+    Item.Keys1:= Keys1;
+    Item.Keys2:= Keys2;
+
+    N:= AppKeymapCheckDuplicateForCommand(Item, LexerName, false);
+    if N=0 then
+    begin
+      ModalResult:= mrOk;
+      exit;
+    end;
+
+    N:= AppKeymap.IndexOf(N);
+    if N>=0 then
+      SDesc:= AppKeymap.Items[N].Name
+    else
+      SDesc:= '??';
+
+    if MsgBox(
+         Format(msgConfirmHotkeyBusy, [SDesc]),
+         MB_OKCANCEL or MB_ICONWARNING) = ID_OK then
+    begin
+      AppKeymapCheckDuplicateForCommand(Item, LexerName, true);
+      ModalResult:= mrOk;
+    end;
+  finally
+    Item.Free;
+  end;
 end;
 
 procedure TfmKeys.bClear1Click(Sender: TObject);

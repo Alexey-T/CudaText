@@ -22,6 +22,7 @@ object fmKeys: TfmKeys
     Width = 359
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
     HelpButton.Name = 'HelpButton'
     HelpButton.Caption = 'Reset'
     HelpButton.DefaultCaption = False
