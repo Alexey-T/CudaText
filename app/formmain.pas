@@ -2292,8 +2292,9 @@ begin
   {$ifdef darwin}
   //on macOS use Python 3.6 embedded into app-bundle
   PathAppend:= false; //del predefined macOS paths
-  SetLength(Str, 1);
-  Str[0]:= UiOps.PyLibrary+'/python36.zip';
+  SetLength(Str, 2);
+  Str[0]:= ExtractFileDir(UiOps.PyLibrary)+'/python36.zip';
+  Str[1]:= ExtractFileDir(UiOps.PyLibrary)+'/lib-dynload';
   {$endif}
 
   //always add path to "py" subdir

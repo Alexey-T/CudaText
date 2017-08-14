@@ -664,7 +664,9 @@ begin
   {$endif}
 
   {$ifdef darwin}
-  Result:= ExtractFileDir(ParamStr(0))+'/../Resources/PyLib/libpython3.6.dylib';
+  Result:= ExtractFileDir(ExtractFileDir(ParamStr(0)))+
+           //'/Resources'+
+           '/pylib/libpython3.6.dylib';
   {
   //Get system Python path
   for N:= 4 to 9 do
