@@ -263,8 +263,6 @@ end;
 
 
 procedure TfmMain.DoApplyFont_Ui;
-var
-  NScaledSize: integer;
 begin
   Self.Font.Name:= UiOps.VarFontName;
   Self.Font.Size:= UiOps.VarFontSize;
@@ -276,12 +274,12 @@ begin
   StatusProgress.Font:= Self.Font;
 
   //dont set font for PanelLeft/PanelBottom, side effects
-  //(Treeviews scale once, ATListboxes scale 2times, LCL bug?)
-  NScaledSize:= MulDiv(UiOps.VarFontSize, UiOps.ScreenScale, 100);
   Tree.Font.Name:= UiOps.VarFontName;
-  Tree.Font.Size:= NScaledSize;
+  Tree.Font.Size:= UiOps.VarFontSize;
+  Tree.Font.PixelsPerInch:= Screen.PixelsPerInch;
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
-  PanelLeftTitle.Font.Size:= NScaledSize;
+  PanelLeftTitle.Font.Size:= UiOps.VarFontSize;
+  PanelLeftTitle.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   ATButtonTheme.FontName:= UiOps.VarFontName;
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
