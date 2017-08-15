@@ -174,8 +174,21 @@ begin
     F.Editor2.Update;
   end;
 
+  SplitterVert.Color:= GetAppColor('SplitMain');
+  SplitterHorz.Color:= SplitterVert.Color;
   SplitterHorz.Invalidate;
   SplitterVert.Invalidate;
+
+  Groups.Splitter1.Color:= GetAppColor('SplitGroups');
+  Groups.Splitter2.Color:= Groups.Splitter1.Color;
+  Groups.Splitter3.Color:= Groups.Splitter1.Color;
+  Groups.Splitter4.Color:= Groups.Splitter1.Color;
+  Groups.Splitter5.Color:= Groups.Splitter1.Color;
+  Groups.Splitter1.Invalidate;
+  Groups.Splitter2.Invalidate;
+  Groups.Splitter3.Invalidate;
+  Groups.Splitter4.Invalidate;
+  Groups.Splitter5.Invalidate;
 
   CompletionOps.ColorBg:= GetAppColor('ListBg');
   CompletionOps.ColorSelBg:= GetAppColor('ListSelBg');

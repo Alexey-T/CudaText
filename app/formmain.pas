@@ -3209,21 +3209,13 @@ begin
 end;
 
 procedure TfmMain.SplitterOnPaint_Gr(Sender: TObject);
-var
-  Sp: TSplitter;
 begin
-  Sp:= Sender as TSplitter;
-  Sp.Canvas.Brush.Color:= GetAppColor('SplitGroups');
-  Sp.Canvas.FillRect(Sp.ClientRect);
+  //empty, to disable themed paint
 end;
 
 procedure TfmMain.SplitterOnPaint_Main(Sender: TObject);
-var
-  Sp: TSplitter;
 begin
-  Sp:= Sender as TSplitter;
-  Sp.Canvas.Brush.Color:= GetAppColor('SplitMain');
-  Sp.Canvas.FillRect(Sp.ClientRect);
+  //empty, to disable themed paint
 end;
 
 
