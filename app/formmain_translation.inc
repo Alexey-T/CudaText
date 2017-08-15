@@ -482,6 +482,7 @@ begin
     DoLocString(msgStatusNoGotoDefinitionPlugins , ini, 'si', 'NoGotoDefinitionPlugins');
     DoLocString(msgStatusFilenameAlreadyOpened   , ini, 'si', 'FilenameAlreadyOpened');
     DoLocString(msgStatusNeedToCloseTabSavedOrDup, ini, 'si', 'NeedToCloseTabSavedOrDup');
+    DoLocString(msgStatusHotkeyBusy              , ini, 'si', 'HotkeyBusy');
 
     DoLocString(msgConfirmSyntaxThemeSameName    , ini, 'sc', 'ThemeSyntaxSame');
     DoLocString(msgConfirmInstallIt              , ini, 'sc', 'InstallIt');
