@@ -111,7 +111,10 @@ class Command:
         index_sel = listbox_proc(self.id_listbox, LISTBOX_GET_SEL)
 
         if index==index_sel:
-            canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xF0F000, style=BRUSH_SOLID)
+            back_color = 0x806000+(0xF<<index)
+            if back_color>0xFFFF00:
+                back_color = 0xFFFF00
+            canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=back_color, style=BRUSH_SOLID)
             canvas_proc(id_canvas, CANVAS_SET_PEN, color=0x00F0F0, size=1, style=PEN_STYLE_SOLID)
             canvas_proc(id_canvas, CANVAS_RECT, x=rect[0], y=rect[1], x2=rect[2], y2=rect[3])
         else:
@@ -120,8 +123,12 @@ class Command:
 
         canvas_proc(id_canvas, CANVAS_TEXT,
             text='item index %d'%index,
-            x=rect[0]+6 + index*4,
-            y=rect[1]+2 )
+            x=rect[0] + 20 + index*4,
+            y=rect[1] + 2 )
+
+        #this imagelist has 2 test icons: 0, 1
+        img_list = app_proc(PROC_GET_TAB_IMAGELIST, '')
+        imagelist_proc(img_list, IMAGELIST_PAINT, (id_canvas, rect[0], rect[1], index%2))
 
 
     def callback_listbox_check(self, id_dlg, id_ctl, data='', info=''):
