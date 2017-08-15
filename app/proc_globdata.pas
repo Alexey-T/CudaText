@@ -590,10 +590,6 @@ type
   TAppSidePanel = record
     ItemCaption: string;
     ItemControl: TCustomControl;
-    ItemTreeview: TTreeViewMy;
-    ItemListbox: TATListbox;
-    ItemImagelist: TImageList;
-    ItemMenu: TPopupMenu;
   end;
 
 var

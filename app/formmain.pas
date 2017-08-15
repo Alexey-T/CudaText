@@ -1213,9 +1213,6 @@ begin
   begin
     ItemCaption:= 'Tree';
     ItemControl:= Tree;
-    ItemTreeview:= Tree;
-    ItemImagelist:= ImageListTree;
-    ItemMenu:= PopupTree;
   end;
 
   FFinder:= TATEditorFinder.Create;
@@ -1760,14 +1757,6 @@ begin
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
-
-  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
-    with FAppSidePanels[i] do
-    begin
-      if ItemCaption='' then break;
-      if Assigned(ItemTreeview) then
-        ItemTreeview.ShowLines:= UiOps.TreeShowLines;
-    end;
 
   Groups.ScalePercents:= UiOps.ScreenScale;
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));

@@ -145,10 +145,6 @@ begin
   with AItem do
   begin
     ItemCaption:= ACaption;
-    ItemMenu:= nil;
-    ItemImagelist:= nil;
-    ItemTreeview:= nil;
-    ItemListbox:= nil;
     ItemControl:= AForm;
 
     AForm.BorderStyle:= bsNone;

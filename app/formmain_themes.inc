@@ -137,28 +137,6 @@ begin
 
   DoApplyThemeToTreeview(Tree, true, true);
 
-  //side: proc_sidepanel_add
-  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
-    with FAppSidePanels[i] do
-    begin
-      if ItemCaption='' then break;
-      if Assigned(ItemTreeview) then
-        DoApplyThemeToTreeview(ItemTreeview, true, false);
-      if Assigned(ItemListbox) then
-        DoApplyThemeToListbox(ItemListbox);
-    end;
-
-  //bottom: proc_bottompanel_add
-  for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
-    with FAppBottomPanels[i] do
-    begin
-      if ItemCaption='' then break;
-      if Assigned(ItemTreeview) then
-        DoApplyThemeToTreeview(ItemTreeview, true, false);
-      if Assigned(ItemListbox) then
-        DoApplyThemeToListbox(ItemListbox);
-    end;
-
   //proc_sidepanel_add_dialog
   for i:= 0 to CustomDialogs.Count-1 do
     DoApplyThemeToCustomDialog(TFormDummy(CustomDialogs[i]));

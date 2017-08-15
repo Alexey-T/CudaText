@@ -62,8 +62,6 @@ end;
 
 function Py_MenuItemFromId(Str: string): TMenuItem;
 const
-  cPrefixSidebar = 'side:';
-  cPrefixBottom = 'btm:';
   cPrefixToolmenu = 'toolmenu:';
 var
   N: PtrInt;
@@ -83,22 +81,6 @@ begin
   if Str=PyMenuId_TopHelp then exit(fmMain.mnuHelp);
 
   if Str=PyMenuId_Text then exit(fmMain.PopupText.Items);
-
-  if SBeginsWith(Str, cPrefixSidebar) then
-  begin
-    Delete(Str, 1, Length(cPrefixSidebar));
-    N:= fmMain.DoSidebar_CaptionToPanelsIndex(Str);
-    if N>=0 then
-      exit(FAppSidePanels[N].ItemMenu.Items);
-  end;
-
-  if SBeginsWith(Str, cPrefixBottom) then
-  begin
-    Delete(Str, 1, Length(cPrefixBottom));
-    N:= fmMain.DoBottom_CaptionToPanelsIndex(Str);
-    if N>=0 then
-      exit(FAppBottomPanels[N].ItemMenu.Items);
-  end;
 
   if SBeginsWith(Str, cPrefixToolmenu) then
   begin
