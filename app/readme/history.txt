@@ -4,6 +4,9 @@
   * changed
 
 
+1.15.1
++ reworked detect/confirm for duplicated hotkeys in Hotkey dialog (ask to overwrite inside this dialog)
+
 1.15.0 (2017/08)
 
 + option "centering_width"

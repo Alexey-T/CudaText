@@ -468,7 +468,7 @@ Possible values of id:
 
 Parameters:
 
-* Param "items": list of str, tuple of str, or (deprecated form) str in the form "\n".join(str_items). Each str item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
+* Param "items": list of str, tuple of str, or string from joined items "\n".join(str_items). Each str item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
 * Param "focused": index of initially selected item.
 * Param "caption": if not empty str, caption will be shown above input box.
 
