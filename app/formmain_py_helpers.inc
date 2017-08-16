@@ -75,7 +75,7 @@ begin
   //get max prior for AEvent
   MaxPrior:= 0;
   for i_plugin in TAppPluginEventArray do
-    with FPluginsEvents[i_plugin] do
+    with AppPluginsEvent[i_plugin] do
     begin
       if (ItemModule='') then Break;
       if (AEvent in ItemEvents) then
@@ -85,7 +85,7 @@ begin
   //see all items for prior=MaxPrior..0
   for i_prior:= MaxPrior downto 0 do
     for i_plugin in TAppPluginEventArray do
-      with FPluginsEvents[i_plugin] do
+      with AppPluginsEvent[i_plugin] do
       begin
         if (ItemModule='') then Break;
         if not (AEvent in ItemEvents) then Continue;
@@ -203,14 +203,14 @@ var
 begin
   //find index of plugin (get first empty index if not listed)
   N:= -1;
-  for i:= Low(FPluginsEvents) to High(FPluginsEvents) do
-    with FPluginsEvents[i] do
+  for i:= Low(AppPluginsEvent) to High(AppPluginsEvent) do
+    with AppPluginsEvent[i] do
       if (ItemModule=AModuleName) or (ItemModule='') then
         begin N:= i; Break end;
   if N<0 then Exit;
 
   //update record
-  with FPluginsEvents[N] do
+  with AppPluginsEvent[N] do
   begin
     if ItemModule='' then
       ItemModule:= AModuleName;

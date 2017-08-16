@@ -582,10 +582,6 @@ type
   end;
   TAppPluginEventArray = array[0..100] of TAppPluginEvent;
 
-var
-  AppPluginsCommand: TAppPluginCmdArray;
-  FPluginsEvents: TAppPluginEventArray;
-
 type
   TAppSidePanel = record
     ItemCaption: string;
@@ -593,6 +589,8 @@ type
   end;
 
 var
+  AppPluginsCommand: TAppPluginCmdArray;
+  AppPluginsEvent: TAppPluginEventArray;
   AppSidePanels: array[0..20] of TAppSidePanel;
   AppBottomPanels: array[0..50] of TAppSidePanel;
 

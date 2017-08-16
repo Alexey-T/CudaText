@@ -43,7 +43,7 @@ begin
     if (AppPluginsCommand[i].ItemModule<>'') and (not AppPluginsCommand[i].ItemFromApi) then
       CommandPlugins_DeleteItem(i);
   //events: clear all
-  FillChar(FPluginsEvents, SizeOf(FPluginsEvents), 0);
+  FillChar(AppPluginsEvent, SizeOf(AppPluginsEvent), 0);
 
   list:= TStringlist.Create;
   try
@@ -112,15 +112,15 @@ begin
         if s_events='' then Continue;
 
         cnt:= 0;
-        while FPluginsEvents[cnt].ItemModule<>'' do Inc(cnt);
-        if cnt>=High(FPluginsEvents) then Break;
+        while AppPluginsEvent[cnt].ItemModule<>'' do Inc(cnt);
+        if cnt>=High(AppPluginsEvent) then Break;
 
-        FPluginsEvents[cnt].ItemModule:= s_module;
+        AppPluginsEvent[cnt].ItemModule:= s_module;
         DoPyStringToEvents(s_events,
-          FPluginsEvents[cnt].ItemEvents,
-          FPluginsEvents[cnt].ItemEventsPrior);
-        FPluginsEvents[cnt].ItemLexers:= s_lexers;
-        FPluginsEvents[cnt].ItemKeys:= s_keys;
+          AppPluginsEvent[cnt].ItemEvents,
+          AppPluginsEvent[cnt].ItemEventsPrior);
+        AppPluginsEvent[cnt].ItemLexers:= s_lexers;
+        AppPluginsEvent[cnt].ItemKeys:= s_keys;
       end;
     end;
   finally
@@ -139,7 +139,7 @@ begin
 
   s:= '';
   for i:= 0 to 100 do
-    with FPluginsEvents[i] do
+    with AppPluginsEvent[i] do
     begin
       if ItemModule='' then Break;
       s2:= '';
