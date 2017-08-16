@@ -86,8 +86,8 @@ begin
   ShowSidePanel:= true;
   LabelSideTitle.Caption:= DoSidebar_TranslatedCaption(ACaption);
 
-  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
-    with FAppSidePanels[i] do
+  for i:= Low(AppSidePanels) to High(AppSidePanels) do
+    with AppSidePanels[i] do
     begin
       if ItemCaption='' then Break;
       if Assigned(ItemControl) then
@@ -107,8 +107,8 @@ var
   i: integer;
 begin
   Result:= -1;
-  for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
-    with FAppSidePanels[i] do
+  for i:= Low(AppSidePanels) to High(AppSidePanels) do
+    with AppSidePanels[i] do
     begin
       if ItemCaption='' then break;
       if ItemCaption=Str then exit(i);
@@ -123,7 +123,7 @@ begin
   Num:= DoSidebar_CaptionToPanelsIndex(ACaption);
   if Num<0 then exit;
 
-  with FAppSidePanels[Num] do
+  with AppSidePanels[Num] do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;
@@ -176,10 +176,10 @@ begin
   if DoSidebar_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
 
   Num:= 0;
-  while FAppSidePanels[Num].ItemCaption<>'' do Inc(Num);
-  if Num>High(FAppSidePanels) then exit(false);
+  while AppSidePanels[Num].ItemCaption<>'' do Inc(Num);
+  if Num>High(AppSidePanels) then exit(false);
 
-  DoSidebar_InitPanelForm(FAppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft);
+  DoSidebar_InitPanelForm(AppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft);
 
   ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   ToolbarSideTop.UpdateControls;
@@ -198,10 +198,10 @@ begin
     ToolbarSideTop.UpdateControls;
 
     //hard to remov array item, so hide it by "?"
-    for i:= Low(FAppSidePanels) to High(FAppSidePanels) do
-      if FAppSidePanels[i].ItemCaption=ACaption then
+    for i:= Low(AppSidePanels) to High(AppSidePanels) do
+      if AppSidePanels[i].ItemCaption=ACaption then
       begin
-        FAppSidePanels[i].ItemCaption:= '?';
+        AppSidePanels[i].ItemCaption:= '?';
         Break;
       end;
   end;

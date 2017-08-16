@@ -593,8 +593,8 @@ type
   end;
 
 var
-  FAppSidePanels: array[0..20] of TAppSidePanel;
-  FAppBottomPanels: array[0..50] of TAppSidePanel;
+  AppSidePanels: array[0..20] of TAppSidePanel;
+  AppBottomPanels: array[0..50] of TAppSidePanel;
 
 type
   PAppPanelProps = ^TAppPanelProps;
@@ -1697,8 +1697,8 @@ initialization
   FillChar(AppBookmarkSetup, SizeOf(AppBookmarkSetup), 0);
   AppBookmarkImagelist:= TImageList.Create(nil);
 
-  FillChar(FAppSidePanels, SizeOf(FAppSidePanels), 0);
-  FillChar(FAppBottomPanels, SizeOf(FAppBottomPanels), 0);
+  FillChar(AppSidePanels, SizeOf(AppSidePanels), 0);
+  FillChar(AppBottomPanels, SizeOf(AppBottomPanels), 0);
 
   AppShortcutEscape:= ShortCut(vk_escape, []);
   Mouse.DragImmediate:= false;

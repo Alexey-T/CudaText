@@ -91,9 +91,9 @@ begin
   ListboxVal.Hide;
 
   //hide panels from proc_bottompanel_add
-  for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
+  for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
   begin
-    Ctl:= FAppBottomPanels[i].ItemControl;
+    Ctl:= AppBottomPanels[i].ItemControl;
     if Assigned(Ctl) then
       Ctl.Hide;
   end;
@@ -118,8 +118,8 @@ begin
   else
   begin
     //tabs for api proc_bottompanel
-    for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
-      with FAppBottomPanels[i] do
+    for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
+      with AppBottomPanels[i] do
       begin
         if ItemCaption='' then break;
         if Assigned(ItemControl) then
@@ -139,8 +139,8 @@ var
   i: integer;
 begin
   Result:= -1;
-  for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
-    with FAppBottomPanels[i] do
+  for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
+    with AppBottomPanels[i] do
     begin
       if ItemCaption='' then break;
       if ItemCaption=Str then exit(i);
@@ -155,7 +155,7 @@ begin
   Num:= DoBottom_CaptionToPanelsIndex(ACaption);
   if Num<0 then exit;
 
-  with FAppBottomPanels[Num] do
+  with AppBottomPanels[Num] do
     if Assigned(ItemControl) then
       Result:= PtrInt(ItemControl);
 end;
@@ -181,10 +181,10 @@ begin
   if DoBottom_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
 
   Num:= 0;
-  while FAppBottomPanels[Num].ItemCaption<>'' do Inc(Num);
-  if Num>High(FAppBottomPanels) then exit(false);
+  while AppBottomPanels[Num].ItemCaption<>'' do Inc(Num);
+  if Num>High(AppBottomPanels) then exit(false);
 
-  DoSidebar_InitPanelForm(FAppBottomPanels[Num], ACaption, TCustomForm(AHandle), PanelBottom);
+  DoSidebar_InitPanelForm(AppBottomPanels[Num], ACaption, TCustomForm(AHandle), PanelBottom);
 
   ToolbarSideLow.AddButton(AImageIndex, @DoBottom_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
   ToolbarSideLow.UpdateControls;
@@ -203,10 +203,10 @@ begin
     ToolbarSideLow.UpdateControls;
 
     //hard to remov array item, so hide it by "?"
-    for i:= Low(FAppBottomPanels) to High(FAppBottomPanels) do
-      if FAppBottomPanels[i].ItemCaption=ACaption then
+    for i:= Low(AppBottomPanels) to High(AppBottomPanels) do
+      if AppBottomPanels[i].ItemCaption=ACaption then
       begin
-        FAppBottomPanels[i].ItemCaption:= '?';
+        AppBottomPanels[i].ItemCaption:= '?';
         Break;
       end;
   end;

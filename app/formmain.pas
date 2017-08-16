@@ -1209,7 +1209,7 @@ begin
   Groups.OnTabPopup:= @DoOnTabPopup;
   Groups.OnTabOver:= @DoOnTabOver;
 
-  with FAppSidePanels[0] do
+  with AppSidePanels[0] do
   begin
     ItemCaption:= 'Tree';
     ItemControl:= Tree;
