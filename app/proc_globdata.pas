@@ -583,7 +583,7 @@ type
   TAppPluginEventArray = array[0..100] of TAppPluginEvent;
 
 var
-  FPluginsCmd: TAppPluginCmdArray;
+  AppPluginsCommand: TAppPluginCmdArray;
   FPluginsEvents: TAppPluginEventArray;
 
 type
@@ -1368,20 +1368,20 @@ procedure CommandPlugins_DeleteItem(AIndex: integer);
 var
   i: integer;
 begin
-  if (AIndex>=Low(FPluginsCmd)) and (AIndex<=High(FPluginsCmd)) then
+  if (AIndex>=Low(AppPluginsCommand)) and (AIndex<=High(AppPluginsCommand)) then
   begin
-    for i:= AIndex to High(FPluginsCmd)-1 do
+    for i:= AIndex to High(AppPluginsCommand)-1 do
     begin
-      FPluginsCmd[i].ItemModule:= FPluginsCmd[i+1].ItemModule;
-      FPluginsCmd[i].ItemProc:= FPluginsCmd[i+1].ItemProc;
-      FPluginsCmd[i].ItemProcParam:= FPluginsCmd[i+1].ItemProcParam;
-      FPluginsCmd[i].ItemCaption:= FPluginsCmd[i+1].ItemCaption;
-      FPluginsCmd[i].ItemLexers:= FPluginsCmd[i+1].ItemLexers;
-      FPluginsCmd[i].ItemInMenu:= FPluginsCmd[i+1].ItemInMenu;
-      FPluginsCmd[i].ItemFromApi:= FPluginsCmd[i+1].ItemFromApi;
+      AppPluginsCommand[i].ItemModule:= AppPluginsCommand[i+1].ItemModule;
+      AppPluginsCommand[i].ItemProc:= AppPluginsCommand[i+1].ItemProc;
+      AppPluginsCommand[i].ItemProcParam:= AppPluginsCommand[i+1].ItemProcParam;
+      AppPluginsCommand[i].ItemCaption:= AppPluginsCommand[i+1].ItemCaption;
+      AppPluginsCommand[i].ItemLexers:= AppPluginsCommand[i+1].ItemLexers;
+      AppPluginsCommand[i].ItemInMenu:= AppPluginsCommand[i+1].ItemInMenu;
+      AppPluginsCommand[i].ItemFromApi:= AppPluginsCommand[i+1].ItemFromApi;
     end;
   end;
-  with FPluginsCmd[High(FPluginsCmd)] do
+  with AppPluginsCommand[High(AppPluginsCommand)] do
   begin
     ItemModule:= '';
     ItemProc:= '';
@@ -1404,8 +1404,8 @@ begin
   if SModule='' then exit;
   if SProc='' then exit;
 
-  for i:= Low(FPluginsCmd) to High(FPluginsCmd) do
-    with FPluginsCmd[i] do
+  for i:= Low(AppPluginsCommand) to High(AppPluginsCommand) do
+    with AppPluginsCommand[i] do
     begin
       if ItemModule='' then Break;
       if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam=SProcParam) then exit(i);
@@ -1427,17 +1427,17 @@ begin
   SParams:= AStr;
 
   //del items for module/method
-  for N:= High(FPluginsCmd) downto Low(FPluginsCmd) do
-    with FPluginsCmd[N] do
+  for N:= High(AppPluginsCommand) downto Low(AppPluginsCommand) do
+    with AppPluginsCommand[N] do
       if (ItemModule=SModule) and (ItemProc=SProc) and (ItemProcParam<>'') then
         CommandPlugins_DeleteItem(N);
 
   //find index of first free item
-  N:= Low(FPluginsCmd);
+  N:= Low(AppPluginsCommand);
   repeat
-    if FPluginsCmd[N].ItemModule='' then break;
+    if AppPluginsCommand[N].ItemModule='' then break;
     Inc(N);
-    if N>High(FPluginsCmd) then exit;
+    if N>High(AppPluginsCommand) then exit;
   until false;
 
   //add items for SParams
@@ -1448,7 +1448,7 @@ begin
     SItemCaption:= SGetItem(SItem, cSepNameParam);
     SItemParam:= SItem;
 
-    with FPluginsCmd[N] do
+    with AppPluginsCommand[N] do
     begin
       ItemModule:= SModule;
       ItemProc:= SProc;
@@ -1457,7 +1457,7 @@ begin
       ItemFromApi:= true;
     end;
     Inc(N);
-    if N>High(FPluginsCmd) then exit;
+    if N>High(AppPluginsCommand) then exit;
   until false;
 end;
 

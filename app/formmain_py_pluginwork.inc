@@ -39,8 +39,8 @@ var
   i: integer;
 begin
   //commands: don't clear all, leave items from Api
-  for i:= High(FPluginsCmd) downto Low(FPluginsCmd) do
-    if (FPluginsCmd[i].ItemModule<>'') and (not FPluginsCmd[i].ItemFromApi) then
+  for i:= High(AppPluginsCommand) downto Low(AppPluginsCommand) do
+    if (AppPluginsCommand[i].ItemModule<>'') and (not AppPluginsCommand[i].ItemFromApi) then
       CommandPlugins_DeleteItem(i);
   //events: clear all
   FillChar(FPluginsEvents, SizeOf(FPluginsEvents), 0);
@@ -96,15 +96,15 @@ begin
         if s_method='' then Continue;
 
         cnt:= 0;
-        while FPluginsCmd[cnt].ItemModule<>'' do Inc(cnt);
-        if cnt>=High(FPluginsCmd) then Break;
+        while AppPluginsCommand[cnt].ItemModule<>'' do Inc(cnt);
+        if cnt>=High(AppPluginsCommand) then Break;
 
-        FPluginsCmd[cnt].ItemModule:= s_module;
-        FPluginsCmd[cnt].ItemProc:= s_method;
-        FPluginsCmd[cnt].ItemProcParam:= '';
-        FPluginsCmd[cnt].ItemCaption:= s_caption;
-        FPluginsCmd[cnt].ItemLexers:= s_lexers;
-        FPluginsCmd[cnt].ItemInMenu:= s_inmenu;
+        AppPluginsCommand[cnt].ItemModule:= s_module;
+        AppPluginsCommand[cnt].ItemProc:= s_method;
+        AppPluginsCommand[cnt].ItemProcParam:= '';
+        AppPluginsCommand[cnt].ItemCaption:= s_caption;
+        AppPluginsCommand[cnt].ItemLexers:= s_lexers;
+        AppPluginsCommand[cnt].ItemInMenu:= s_inmenu;
       end;
 
       if s_section='events' then
@@ -167,14 +167,14 @@ begin
   mnuPlug.Clear;
 
   //create menu items for Command plugins
-  for i:= 0 to High(FPluginsCmd) do
+  for i:= 0 to High(AppPluginsCommand) do
   begin
-    if FPluginsCmd[i].ItemModule='' then Break;
-    if not FPluginsCmd[i].ItemInMenu then Continue;
+    if AppPluginsCommand[i].ItemModule='' then Break;
+    if not AppPluginsCommand[i].ItemInMenu then Continue;
 
     mi:= nil;
     miSub:= mnuPlug;
-    str:= FPluginsCmd[i].ItemCaption;
+    str:= AppPluginsCommand[i].ItemCaption;
 
     //need parse caption and create subitems, separated with '\'
     repeat

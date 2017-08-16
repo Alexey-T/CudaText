@@ -663,12 +663,12 @@ begin
   end;
 
   //dynamic plugin items
-  for i:= 0 to High(FPluginsCmd) do
+  for i:= 0 to High(AppPluginsCommand) do
   begin
-    if FPluginsCmd[i].ItemModule='' then Break;
-    if SEndsWith(FPluginsCmd[i].ItemCaption, '-') then Continue;
+    if AppPluginsCommand[i].ItemModule='' then Break;
+    if SEndsWith(AppPluginsCommand[i].ItemCaption, '-') then Continue;
 
-    Str:= FPluginsCmd[i].ItemCaption;
+    Str:= AppPluginsCommand[i].ItemCaption;
     Str:= StringReplace(Str, '\', ': ', [rfReplaceAll]);
     Str:= StringReplace(Str, '&', '', [rfReplaceAll]);
 

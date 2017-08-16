@@ -43,7 +43,7 @@ begin
 
   if (ACmd>=cmdFirstPluginCommand) and
      (ACmd<=cmdLastPluginCommand) then
-    with FPluginsCmd[ACmd-cmdFirstPluginCommand] do
+    with AppPluginsCommand[ACmd-cmdFirstPluginCommand] do
       StrId:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
 
   Form:= TfmKeys.Create(nil);

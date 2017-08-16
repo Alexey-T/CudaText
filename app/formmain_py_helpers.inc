@@ -37,18 +37,18 @@ end;
 
 procedure TfmMain.DoPyCommand_ByPluginIndex(AIndex: integer);
 begin
-  if not ((AIndex>=Low(FPluginsCmd)) and (AIndex<=High(FPluginsCmd))) then exit;
+  if not ((AIndex>=Low(AppPluginsCommand)) and (AIndex<=High(AppPluginsCommand))) then exit;
 
-  if not IsLexerMatches(FPluginsCmd[AIndex].ItemLexers) then
+  if not IsLexerMatches(AppPluginsCommand[AIndex].ItemLexers) then
   begin
-    MsgStatus(msgStatusCommandOnlyForLexers+' '+FPluginsCmd[AIndex].ItemLexers);
+    MsgStatus(msgStatusCommandOnlyForLexers+' '+AppPluginsCommand[AIndex].ItemLexers);
     Exit
   end;
 
   DoPyCommand(
-    FPluginsCmd[AIndex].ItemModule,
-    FPluginsCmd[AIndex].ItemProc,
-    FPluginsCmd[AIndex].ItemProcParam
+    AppPluginsCommand[AIndex].ItemModule,
+    AppPluginsCommand[AIndex].ItemProc,
+    AppPluginsCommand[AIndex].ItemProcParam
     );
 end;
 

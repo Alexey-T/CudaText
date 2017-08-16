@@ -2015,7 +2015,7 @@ begin
 
   if (NCmd>=cmdFirstPluginCommand) and (NCmd<=cmdLastPluginCommand) then
   begin
-    with FPluginsCmd[NCmd-cmdFirstPluginCommand] do
+    with AppPluginsCommand[NCmd-cmdFirstPluginCommand] do
       if ItemProcParam<>'' then
         Result:= Format('p:module=%s;cmd=%s;info=%s;', [ItemModule, ItemProc, ItemProcParam])
       else

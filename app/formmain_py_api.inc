@@ -2233,15 +2233,15 @@ begin
 
         APP_PROC_GET_COMMAND_PLUGIN:
           begin
-            if (ParamInt>=Low(FPluginsCmd)) and
-               (ParamInt<=High(FPluginsCmd)) and
-               (FPluginsCmd[ParamInt].ItemModule<>'') then
+            if (ParamInt>=Low(AppPluginsCommand)) and
+               (ParamInt<=High(AppPluginsCommand)) and
+               (AppPluginsCommand[ParamInt].ItemModule<>'') then
               Result:= Py_BuildValue('(sssss)',
-                PChar(FPluginsCmd[ParamInt].ItemCaption),
-                PChar(FPluginsCmd[ParamInt].ItemModule),
-                PChar(FPluginsCmd[ParamInt].ItemProc),
-                PChar(FPluginsCmd[ParamInt].ItemProcParam),
-                PChar(FPluginsCmd[ParamInt].ItemLexers)
+                PChar(AppPluginsCommand[ParamInt].ItemCaption),
+                PChar(AppPluginsCommand[ParamInt].ItemModule),
+                PChar(AppPluginsCommand[ParamInt].ItemProc),
+                PChar(AppPluginsCommand[ParamInt].ItemProcParam),
+                PChar(AppPluginsCommand[ParamInt].ItemLexers)
                 )
             else
                Result:= ReturnNone;
