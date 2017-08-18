@@ -9,6 +9,7 @@
 + reworked confirmation for duplicate hotkeys in Hotkey dialog (ask to overwrite inside this dialog)
 - fixed: checkmarks in View/Groups menu
 - fixed: column selection by mouse: "caret_after_end":false must not break column
+- fixed: problem with ":line" in commandline and single instance
 
 1.15.0 (2017/08)
 

@@ -221,7 +221,6 @@ type
     //file
     procedure DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean);
     function DoFileSave(ASaveAs: boolean): boolean;
-    procedure DoGotoEditorPos(APosX, APosY: integer);
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoSaveHistory;
@@ -230,6 +229,7 @@ type
     procedure DoLoadHistoryEx(c: TJsonConfig; const path: string);
     //misc
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
+    procedure DoGotoPos(APosX, APosY: integer);
     procedure DoRestoreFolding;
     //macro
     procedure DoMacroStart;
@@ -1833,22 +1833,22 @@ begin
 end;
 
 
-procedure TEditorFrame.DoGotoEditorPos(APosX, APosY: integer);
+procedure TEditorFrame.DoGotoPos(APosX, APosY: integer);
 begin
-  if APosY>=0 then
-  begin
-    Editor.LineTop:= APosY;
-    TopLineTodo:= APosY;
-    Editor.DoGotoPos(
-      Point(IfThen(APosX>=0, APosX, 0), APosY),
-      Point(-1, -1),
-      UiOps.FindIndentHorz,
-      UiOps.FindIndentVert,
-      true,
-      true
-      );
-    Editor.Update;
-  end;
+  if APosY<0 then exit;
+  if APosX<0 then APosX:= 0; //allow x<0
+
+  Editor.LineTop:= APosY;
+  TopLineTodo:= APosY; //check is it still needed
+  Editor.DoGotoPos(
+    Point(APosX, APosY),
+    Point(-1, -1),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert,
+    true,
+    true
+    );
+  Editor.Update;
 end;
 
 end.

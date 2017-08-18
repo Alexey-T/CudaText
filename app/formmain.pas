@@ -1027,7 +1027,7 @@ begin
     begin
       Frame:= DoFileOpen(SFilename);
       if Assigned(Frame) and (NLine>0) then
-        Frame.DoGotoEditorPos(NColumn-1, NLine-1);
+        Frame.DoGotoPos(NColumn-1, NLine-1);
     end;
   end;
 
