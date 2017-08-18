@@ -127,19 +127,7 @@ begin
     if Assigned(Frame) then
     begin
       if NumLine>0 then
-      begin
-        Frame.Editor.LineTop:= NumLine-1;
-        Frame.TopLineTodo:= NumLine-1;
-        Frame.Editor.DoGotoPos(
-          Point(IfThen(NumColumn>0, NumColumn-1, 0), NumLine-1),
-          Point(-1, -1),
-          UiOps.FindIndentHorz,
-          UiOps.FindIndentVert,
-          true,
-          true
-          );
-        Frame.Editor.Update;
-      end;
+        Frame.DoGotoEditorPos(NumColumn-1, NumLine-1);
 
       if FOption_OpenReadOnly then
       begin

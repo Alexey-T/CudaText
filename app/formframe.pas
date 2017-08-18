@@ -221,6 +221,7 @@ type
     //file
     procedure DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean);
     function DoFileSave(ASaveAs: boolean): boolean;
+    procedure DoGotoEditorPos(APosX, APosY: integer);
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
     procedure DoSaveHistory;
@@ -1831,6 +1832,24 @@ begin
     Result:= Point(0, 0);
 end;
 
+
+procedure TEditorFrame.DoGotoEditorPos(APosX, APosY: integer);
+begin
+  if APosY>=0 then
+  begin
+    Editor.LineTop:= APosY;
+    TopLineTodo:= APosY;
+    Editor.DoGotoPos(
+      Point(IfThen(APosX>=0, APosX, 0), APosY),
+      Point(-1, -1),
+      UiOps.FindIndentHorz,
+      UiOps.FindIndentVert,
+      true,
+      true
+      );
+    Editor.Update;
+  end;
+end;
 
 end.
 

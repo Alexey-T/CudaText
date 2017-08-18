@@ -1013,13 +1013,23 @@ end;
 procedure TfmMain.UniqInstanceOtherInstance(Sender: TObject;
   ParamCount: Integer; Parameters: array of String);
 var
-  i: integer;
+  SFilename: string;
+  Frame: TEditorFrame;
+  NLine, NColumn, i: integer;
 begin
   if not IsAllowedToOpenFileNow then exit;
 
   for i:= 0 to ParamCount-1 do
-    if FileExistsUTF8(Parameters[i]) then
-      DoFileOpen(Parameters[i]);
+  begin
+    SFilename:= Parameters[i];
+    SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
+    if FileExistsUTF8(SFilename) then
+    begin
+      Frame:= DoFileOpen(SFilename);
+      if Assigned(Frame) and (NLine>0) then
+        Frame.DoGotoEditorPos(NColumn-1, NLine-1);
+    end;
+  end;
 
   if WindowState=wsMinimized then
   begin
