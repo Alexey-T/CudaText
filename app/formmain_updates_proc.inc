@@ -66,6 +66,8 @@ var
 begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
+  if F=nil then exit;
+  if Ed=nil then exit;
 
   UpdateMenuChecks;
 
