@@ -90,6 +90,7 @@ type
     FActiveAlt: boolean;
     FLocked: boolean;
     FTabColor: TColor;
+    FTabSizeChanged: boolean;
     FFoldTodo: string;
     FTopLineTodo: integer;
     FTabKeyCollectMarkers: boolean;
@@ -196,6 +197,7 @@ type
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
+    property TabSizeChanged: boolean read FTabSizeChanged write FTabSizeChanged;
     property TabKeyCollectMarkers: boolean read GetTabKeyCollectMarkers write FTabKeyCollectMarkers;
     property TagString: string read FTagString write FTagString;
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
@@ -976,8 +978,8 @@ begin
   Adapter.AddEditor(Ed2);
 
   //load options
-  EditorApplyOps(Ed1, EditorOps, true);
-  EditorApplyOps(Ed2, EditorOps, true);
+  EditorApplyOps(Ed1, EditorOps, true, true);
+  EditorApplyOps(Ed2, EditorOps, true, true);
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
 

@@ -51,7 +51,7 @@ procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
 
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
-procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; ForceApply: boolean);
+procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; AForceApply, AApplyTabSize: boolean);
 
 type
   TEditorFoldOp = (cEditorFold, cEditorUnfold, cEditorFoldUnfold);
@@ -171,7 +171,7 @@ begin
 end;
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  ForceApply: boolean);
+  AForceApply, AApplyTabSize: boolean);
 begin
   Ed.Font.Name:= Op.OpFontName;
   Ed.Font.Size:= Op.OpFontSize;
@@ -184,8 +184,11 @@ begin
   {$endif}
   Ed.OptCharSpacingY:= Op.OpSpacingY;
 
-  Ed.OptTabSize:= Op.OpTabSize;
-  Ed.OptTabSpaces:= Op.OpTabSpaces;
+  if AApplyTabSize then
+  begin
+    Ed.OptTabSize:= Op.OpTabSize;
+    Ed.OptTabSpaces:= Op.OpTabSpaces;
+  end;
 
   Ed.OptOverwriteSel:= Op.OpOvrSel;
   Ed.OptOverwriteAllowedOnPaste:= Op.OpOvrOnPaste;
@@ -228,7 +231,7 @@ begin
   Ed.OptShowURLsRegex:= Op.OpLinksRegex;
   cMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
 
-  if ForceApply then
+  if AForceApply then
   begin
     Ed.OptUnprintedVisible:= Op.OpUnprintedShow;
     Ed.OptUnprintedSpaces:= Op.OpUnprintedSpaces;
@@ -246,7 +249,7 @@ begin
   OptUnprintedReplaceSpec:= Op.OpUnprintedReplaceSpec;
   OptUnprintedReplaceSpecToCode:= StrToInt('$'+Op.OpUnprintedReplaceToCode);
 
-  if ForceApply then
+  if AForceApply then
   begin
     if Op.OpWrapMode<=Ord(High(TATSynWrapMode)) then
       Ed.OptWrapMode:= TATSynWrapMode(Op.OpWrapMode);

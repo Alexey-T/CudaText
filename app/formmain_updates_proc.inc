@@ -381,8 +381,8 @@ end;
 procedure TfmMain.DoApplyFrameOps(F: TEditorFrame;
   const Op: TEditorOps; AForceApply: boolean);
 begin
-  EditorApplyOps(F.Editor, Op, AForceApply);
-  EditorApplyOps(F.Editor2, Op, AForceApply);
+  EditorApplyOps(F.Editor, Op, AForceApply, not F.TabSizeChanged);
+  EditorApplyOps(F.Editor2, Op, AForceApply, not F.TabSizeChanged);
 
   F.Adapter.DynamicHiliteEnabled:= Op.OpLexerDynamicHiliteEnabled;
   F.Adapter.DynamicHiliteMaxLines:= Op.OpLexerDynamicHiliteMaxLines;
@@ -633,6 +633,8 @@ begin
     -2: CurrentEditor.OptTabSpaces:= false;
     1..20: CurrentEditor.OptTabSize:= N;
   end;
+
+  CurrentFrame.TabSizeChanged:= true;
 
   UpdateFrame;
   UpdateStatus;
