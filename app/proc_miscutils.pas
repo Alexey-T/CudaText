@@ -55,7 +55,9 @@ function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function AppStrToBool(const S: string): boolean; inline;
+
 function ExtractFileName_Fixed(const FileName: string): string;
+function ExtractFileDir_Fixed(const FileName: string): string;
 
 
 implementation
@@ -454,11 +456,27 @@ var
   I: integer;
 begin
   I := Length(FileName);
-  EndSep:= ['/', '\']; //dont include ":", needed for NTFS stream
+  EndSep:= AllowDirectorySeparators; //dont include ":", needed for NTFS streams
   while (I > 0) and not CharInSet(FileName[I],EndSep) do
     Dec(I);
   Result := Copy(FileName, I + 1, MaxInt);
 end;
+
+function ExtractFileDir_Fixed(const FileName: string): string;
+var
+  EndSep: Set of Char;
+  I: integer;
+begin
+  I := Length(FileName);
+  EndSep:= AllowDirectorySeparators; //dont include ":", for ntfs streams
+  while (I > 0) and not CharInSet(FileName[I],EndSep) do
+    Dec(I);
+  if (I > 1) and CharInSet(FileName[I],AllowDirectorySeparators) and
+     not CharInSet(FileName[I - 1],EndSep) then
+    Dec(I);
+  Result := Copy(FileName, 1, I);
+end;
+
 
 end.
 

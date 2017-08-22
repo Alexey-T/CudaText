@@ -128,7 +128,10 @@ var
 begin
   F:= Sender as TEditorFrame;
   fn:= F.Filename;
-  MsgStatus(msgStatusSavedFile+' '+ExtractFileName(fn)+' ('+ExtractFileDir(fn)+')');
+  MsgStatus(
+    msgStatusSavedFile+' '+
+    ExtractFileName_Fixed(fn)+
+    ' ('+ExtractFileDir_Fixed(fn)+')');
 
   if fn=GetAppPath(cFileOptionsUser) then
     //must use timer
