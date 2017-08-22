@@ -1102,7 +1102,8 @@ begin
   try
     Editor.LoadFromFile(fn);
     FFileName:= fn;
-    TabCaption:= ExtractFileName(FFileName);
+    TabCaption:= ExtractFileName_Fixed(FFileName);
+      //_fixed to show ":streamname" at end
   except
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#13+fn, MB_OK or MB_ICONERROR);
