@@ -133,11 +133,13 @@ def get_installed_list():
     l = [s for s in l if os.path.isfile(os.path.join(d, s, 'install.inf'))]
     return sorted(l)
 
-def get_installed_choice(caption):
+def get_installed_choice(caption, exclude_list=None):
     """
     gets module of addon, from menu of installed addons
     """
     lmod = get_installed_list()
+    if exclude_list:
+        lmod = [i for i in lmod if not i in exclude_list]
     ldesc = [get_name_of_module(l) for l in lmod]
     res = dlg_menu(MENU_LIST, ldesc, caption=caption)
     if res is None:
