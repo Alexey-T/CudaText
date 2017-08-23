@@ -3105,7 +3105,23 @@ begin
             Result:= PyString_FromString(PChar(StrResult));
           end;
 
-        MENU_SET_CHECK:
+        MENU_SET_VISIBLE:
+          begin
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.Visible:= AppStrToBool(StrCmd);
+            Result:= ReturnNone;
+          end;
+
+        MENU_SET_ENABLED:
+          begin
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.Enabled:= AppStrToBool(StrCmd);
+            Result:= ReturnNone;
+          end;
+
+        MENU_SET_CHECKED:
           begin
             PopupItem:= Py_MenuItemFromId(StrMenu);
             if Assigned(PopupItem) then
