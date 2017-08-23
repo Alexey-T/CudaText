@@ -3137,6 +3137,14 @@ begin
             Result:= ReturnNone;
           end;
 
+        MENU_SET_HOTKEY:
+          begin
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.ShortCut:= TextToShortCut(StrCmd);
+            Result:= ReturnNone;
+          end;
+
         MENU_SHOW:
           begin
             PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));

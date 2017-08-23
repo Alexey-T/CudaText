@@ -1242,6 +1242,7 @@ Possible values of id_action:
 
 * MENU_SET_VISIBLE: Changes visible state of menu item. Param "command" must be bool.
 * MENU_SET_ENABLED: Changes enabled state of menu item. Param "command" must be bool.
+* MENU_SET_HOTKEY: Changes hotkey of menu item. Param "command" must be str hotkey, e.g. "Ctrl+Alt+F1".
 * MENU_SET_CHECKED: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool.
 * MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool.
 
@@ -1968,6 +1969,7 @@ Text is chr(1) separated items:
 * add: menu_proc: MENU_SET_ENABLED
 * add: menu_proc: MENU_SET_CHECKED
 * add: menu_proc: MENU_SET_RADIOITEM
+* add: menu_proc: MENU_SET_HOTKEY
 * add: tree_proc: TREE_ITEM_GET_PROPS
 * deprecated: tree_proc: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
 
