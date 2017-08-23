@@ -227,12 +227,11 @@ Example of file:
 }
 </syntaxhighlight>
 
-This allows to open files with extension "mht" with custom lexer, and file with name "myconfig.conf" with another custom lexer.
-Value "-" means "don't activate lexer".
+This allows to open file mask (name of JSON key) with custom lexer (value of JSON key). File mask can have symbols "*", "?". Value "-" means "don't activate lexer".
 
 Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
 
-* It saves option to the lexer file (.lcf), so setting will be reset on reinstalling lexer.
+* It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
 * It can specify file extension, or name+extension, but cannot set complex file mask with "*".
 
 ==Encodings==
@@ -436,7 +435,7 @@ Snippets have markers in them. Markers placed in editor (small red/blue triangle
 
 ===Snippets for HTML tags===
 
-By default CudaText includes 120+ snippets for HTML tags. They work in lexers HTML, HTML_ (alternate html lexer in Addon Manager). Just type tag name w/o bracket, press Tab, and snippet inserted. E.g. "a"[Tab] will give:
+CudaText has preinstalled 120+ snippets for HTML tags. (You also need to install Snippets plugin.) They work in lexers HTML, HTML_ (alternate HTML lexer in Addon Manager). Just type tag name without a bracket, press Tab, and snippet is inserted. E.g. "a"[Tab] will give:
 
   <a href="http" title="Title" target="_blank"></a>
 
@@ -551,29 +550,41 @@ Notes:
 
 * On macOS full-screen modes hide top menu. To show it w/o returning back, just move the mouse cursor to the top of the screen and hold a little.
 
-==more==
+==Python integration==
+===Python on Windows===
+For Windows, you need to download x32 or x64 (same bitness as CudaText) pack from https://sourceforge.net/projects/cudatext/files/release/Windows/Python_engine/ , and unpack it to CudaText folder (.dll files must be near .exe file).
+
+This was info for Windows 7 or newer. For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from SynWrite.SF.net, from archived versions of SynWrite. Then write option in user.json:
+
+ "pylib": "python33.dll",
+
+===Python on Linux===
+Linux version uses Python library from OS. Install Python 3.x into OS (usually already installed). Then read info about option "pylib" inside "default.json" config file. It tells how to find file "libpython3*.so" and specify it in the option "pylib".
+
+===Python on macOS===
+On macOS you must install Python 3.x into OS, from official python.org. Versions 3.6, 3.7 are ok. CudaText will find Python then.
 
 = Tech topics=
 ==How to compile program==
 
-* install FPC (FreePascal) 3.x (will be used by Lazarus)
+* install FreePascal 3.0.0 (FPC 3.0.2/win32 has problem with SimpleIPC, and option "single instance")
 * install SVN (program "svn" needed to install Lazarus trunk and/or FPC)
 * install Lazarus IDE release, then install Lazarus "trunk" (1.6.4 is not Ok, you need at last 1.7). See this info: [[Getting_Lazarus]].
-* download ATnnnnnn packages, EControl package, from https://github.com/Alexey-T/
-* download CudaText source too
+* download repos:
+** https://github.com/Alexey-T/Python-for-Lazarus (install first)
+** https://github.com/Alexey-T/ATButtons (install next)
+** https://github.com/Alexey-T/ATGauge (install next)
+** https://github.com/Alexey-T/ATSynEdit (install next)
+** https://github.com/Alexey-T/EControl (install after ATSynEdit)
+** https://github.com/Alexey-T/ATSynEdit_Ex (install after EControl, ATButtons)
+** https://github.com/Alexey-T/UniqueInstance (install next)
+** https://github.com/Alexey-T/CudaText (no package here, only project)
+
 * install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
 * in IDE, in component palette, you must see: 
 ** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TLinkLabel, TGauge
 ** in System tab: TUniqueInstance
-* in IDE, open "cudatext.lpi" like usual Lazarus project, compile it
-
-Install order
-
-* first install package ATSynEdit
-* next install package EControl
-* package ATSynEdit has one file, which depends on EControl. It is atsynedit_adapter_econtrol.pas. It is here to not make new package for 1 file. When you compile CudaText, FPC shows error about this file, you need to add dir "atsynedit" to project's search dirs.
-* package ATSynEdit has files, which depend on ATListbox package. atsynedit_form_*.pas. They are here to not make new package. You added dir to "atsynedit" to project's dirs, so files will be found.
-* then install other packages
+* in IDE, open "cudatext.lpi" Lazarus project, compile it
 
 == Python API ==
 
