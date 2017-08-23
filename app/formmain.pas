@@ -3738,7 +3738,7 @@ begin
         CmdObject:= PyString_FromString(PChar(SCommand));
 
       PyList_SetItem(Result, i,
-        Py_BuildValue('{sLsssisssssssOsOsO}',
+        Py_BuildValue('{sLsssisssssssOsOsOsOsO}',
           'id',
           Int64(PtrInt(mi.Items[i])),
           'cap',
@@ -3755,8 +3755,12 @@ begin
           CmdObject,
           'checked',
           PyBool_FromLong(Ord(mi.Items[i].Checked)),
-          'radioitem',
-          PyBool_FromLong(Ord(mi.Items[i].RadioItem))
+          'radio',
+          PyBool_FromLong(Ord(mi.Items[i].RadioItem)),
+          'en',
+          PyBool_FromLong(Ord(mi.Items[i].Enabled)),
+          'vis',
+          PyBool_FromLong(Ord(mi.Items[i].Visible))
           ));
     end;
   end;
