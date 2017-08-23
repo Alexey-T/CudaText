@@ -55,6 +55,8 @@ const
   MENU_CLEAR  = 0;
   MENU_ENUM   = 1;
   MENU_ADD    = 2;
+  MENU_SET_CHECK     = 4;
+  MENU_SET_RADIOITEM = 5;
   MENU_CREATE = 10;
   MENU_SHOW   = 12;
 

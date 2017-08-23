@@ -3105,6 +3105,22 @@ begin
             Result:= PyString_FromString(PChar(StrResult));
           end;
 
+        MENU_SET_CHECK:
+          begin
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.Checked:= AppStrToBool(StrCmd);
+            Result:= ReturnNone;
+          end;
+
+        MENU_SET_RADIOITEM:
+          begin
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.RadioItem:= AppStrToBool(StrCmd);
+            Result:= ReturnNone;
+          end;
+
         MENU_SHOW:
           begin
             PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));

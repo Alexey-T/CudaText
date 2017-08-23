@@ -56,11 +56,13 @@ MENU_LIST     = 0
 MENU_LIST_ALT = 1
 
 #menu_proc
-MENU_CLEAR  = 0
-MENU_ENUM   = 1
-MENU_ADD    = 2
-MENU_CREATE = 10
-MENU_SHOW   = 12
+MENU_CLEAR         = 0
+MENU_ENUM          = 1
+MENU_ADD           = 2
+MENU_SET_CHECK     = 4
+MENU_SET_RADIOITEM = 5
+MENU_CREATE        = 10
+MENU_SHOW          = 12
 
 BOOKMARK_GET         = 0
 BOOKMARK_SET         = 1
