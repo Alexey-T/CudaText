@@ -18,6 +18,7 @@ type
     FScroll: TATScroll;
     FThemed: boolean;
     procedure ScrollChange(Sender: TObject);
+    procedure SetThemed(AValue: boolean);
     procedure UpdScroll;
   protected
     procedure DoSelectionChanged; override;
@@ -28,7 +29,7 @@ type
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
   public
     constructor Create(AOwner: TComponent); override;
-    property Themed: boolean read FThemed write FThemed;
+    property Themed: boolean read FThemed write SetThemed;
   end;
 
 const
@@ -44,7 +45,6 @@ implementation
 constructor TTreeViewMy.Create(AOwner: TComponent);
 begin
   inherited;
-  ScrollBars:= ssNone;
 
   FScroll:= TATScroll.Create(Self);
   FScroll.Parent:= Self;
@@ -55,12 +55,23 @@ begin
   FScroll.AutoAdjustLayout(lapDefault, 100, UiOps_ScreenScale, 1, 1);
   FScroll.OnChange:= @ScrollChange;
 
+  SetThemed(false);
   UpdScroll;
 end;
 
 procedure TTreeViewMy.ScrollChange(Sender: TObject);
 begin
   ScrolledTop:= FScroll.Position;
+end;
+
+procedure TTreeViewMy.SetThemed(AValue: boolean);
+begin
+  FThemed:= AValue;
+  FScroll.Visible:= FThemed;
+  if FThemed then
+    ScrollBars:= ssNone
+  else
+    ScrollBars:= ssAutoBoth;
 end;
 
 procedure TTreeViewMy.UpdScroll;
