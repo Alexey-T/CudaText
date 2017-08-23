@@ -564,6 +564,12 @@ Linux version uses Python library from OS. Install Python 3.x into OS (usually a
 ===Python on macOS===
 On macOS you must install Python 3.x into OS, from official python.org. Versions 3.6, 3.7 are ok. CudaText will find Python then.
 
+==Line states==
+
+In the gutter bar, you can see colored thin bars next to line numbers: green, yellow. It is line states. They show state of lines: usual line (not changed), changed, added, changed+saved. Line states help to see which lines were edited in the current session. And also CudaExt plugin gives few commands to jump over lines with some line states (go to next/previous, for changed, for added, for changed+added).
+
+==more==
+
 = Tech topics=
 ==How to compile program==
 
