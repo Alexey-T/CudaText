@@ -222,6 +222,7 @@ const
   TREE_ITEM_GET_SYNTAX_RANGE = 14;
   TREE_ITEM_FOLD_LEVEL       = 15;
   TREE_ITEM_SHOW             = 16;
+  TREE_ITEM_GET_PROPS        = 17;
   TREE_ICON_ADD              = 20;
   TREE_ICON_DELETE           = 21;
   TREE_ICON_GET_SIZES        = 22;

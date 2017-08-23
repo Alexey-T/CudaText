@@ -481,12 +481,12 @@ class Command:
 
 
     def callback_treeview_on_fold(self, id_dlg, id_ctl, data='', info=''):
-        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=data)
-        print('callback_treeview_on_fold,', 'item "%s"'%prop[0])
+        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROPS, id_item=data)
+        print('callback_treeview_on_unfold,', 'item:', prop)
 
     def callback_treeview_on_unfold(self, id_dlg, id_ctl, data='', info=''):
-        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, id_item=data)
-        print('callback_treeview_on_unfold,', 'item "%s"'%prop[0])
+        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROPS, id_item=data)
+        print('callback_treeview_on_unfold,', 'item:', prop)
 
 
     def test_sidepanel(self):

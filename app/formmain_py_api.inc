@@ -3581,6 +3581,31 @@ begin
               Result:= ReturnNone;
           end;
 
+        TREE_ITEM_GET_PROPS:
+          begin
+            if Assigned(TreeNode) then
+              Result:= Py_BuildValue('{sssisisisisLsOsO}',
+                       'text',
+                       PChar(TreeNode.Text),
+                       'index',
+                       TreeNode.Index,
+                       'index_abs',
+                       TreeNode.AbsoluteIndex,
+                       'icon',
+                       TreeNode.ImageIndex,
+                       'level',
+                       TreeNode.Level,
+                       'parent',
+                       Int64(PtrInt(TreeNode.Parent)),
+                       'folded',
+                       PyBool_FromLong(Ord(not TreeNode.Expanded)),
+                       'selected',
+                       PyBool_FromLong(Ord(TreeNode.Selected))
+                       )
+            else
+              Result:= ReturnNone;
+          end;
+
         TREE_ITEM_GET_PARENT:
           begin
             if Assigned(TreeNode) then

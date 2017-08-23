@@ -8,6 +8,7 @@
 
 + reworked confirmation for duplicate hotkeys in Hotkey dialog (ask to overwrite inside this dialog)
 + in single line inputs, make right edge of text near the edge of control (like Windows)
++ mouse column selection: use "cross" cursor (like TextMate)
 * Addon Manager: disabled to remove standard plugins
 - fixed: checkmarks in View/Groups menu
 - fixed: column selection by mouse: "caret_after_end":false must not break column
