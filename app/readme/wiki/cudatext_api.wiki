@@ -1240,6 +1240,9 @@ Possible values of id_action:
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
+* MENU_SET_CHECK: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool.
+* MENU_SET_RADIOITEM: Changes radio-button kind of menu item. When item has radio-button kind, its checkmark is circle (in checked state). Param "command" must be bool.
+
 ====Example==== 
 
 Example adds item "Misc" to the main menu, and sub-items: "About", separator, "Rename file" (from CudaExt plugin):
@@ -1958,7 +1961,9 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.194 (app 1.15.3)
+1.0.194 (app 1.15.4)
+* add: menu_proc: MENU_SET_CHECK
+* add: menu_proc: MENU_SET_RADIOITEM
 * add: tree_proc: TREE_ITEM_GET_PROPS
 * deprecated: tree_proc: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
 
