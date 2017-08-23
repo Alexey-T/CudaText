@@ -405,6 +405,8 @@ end;
 
 procedure TFormDummy.DoOnListboxSelect(Sender: TObject; User: boolean);
 begin
+  //here called on_change, not on_select
+  //reason: for Listbox/CheckListbox, value is selected index, so sel change - on_change
   DoOnChange(Sender);
 end;
 
