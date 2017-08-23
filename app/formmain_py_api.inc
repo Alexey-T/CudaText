@@ -3584,7 +3584,7 @@ begin
         TREE_ITEM_GET_PROPS:
           begin
             if Assigned(TreeNode) then
-              Result:= Py_BuildValue('{sssisisisisLsOsO}',
+              Result:= Py_BuildValue('{sssisisisisLsOsOsO}',
                        'text',
                        PChar(TreeNode.Text),
                        'index',
@@ -3600,7 +3600,9 @@ begin
                        'folded',
                        PyBool_FromLong(Ord(not TreeNode.Expanded)),
                        'selected',
-                       PyBool_FromLong(Ord(TreeNode.Selected))
+                       PyBool_FromLong(Ord(TreeNode.Selected)),
+                       'sub_items',
+                       PyBool_FromLong(Ord(TreeNode.HasChildren))
                        )
             else
               Result:= ReturnNone;
