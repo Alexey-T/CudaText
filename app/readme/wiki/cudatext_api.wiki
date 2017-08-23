@@ -574,7 +574,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "font_size": font size
 * "font_color": font color
 * "name": optional name of control; it may be not unique for all controls 
-* "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
+* "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "props": advanced control-specific properties. Described below.
 * "val": value of control. Described below.
 * "items": list of items. Described below.
