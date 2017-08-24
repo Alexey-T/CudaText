@@ -643,6 +643,7 @@ type
     procedure DoFileNewFrom(const fn: string);
     procedure DoFileSave;
     procedure DoFileSaveAs;
+    procedure DoFocusEditor;
     procedure DoSwitchActiveTab(ANext: boolean);
     procedure DoPyTimerTick(Sender: TObject);
     procedure DoPyRunLastPlugin;
@@ -2922,6 +2923,16 @@ var
 begin
   F:= CurrentFrame;
   F.DoFileSave(true);
+end;
+
+procedure TfmMain.DoFocusEditor;
+var
+  Ed: TATSynEdit;
+begin
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+  if Ed.Visible and Ed.Enabled then
+    Ed.SetFocus;
 end;
 
 procedure TfmMain.DoSwitchActiveTab(ANext: boolean);

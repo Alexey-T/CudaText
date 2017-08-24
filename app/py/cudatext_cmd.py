@@ -235,6 +235,7 @@ cmd_RescanPythonPluginsInfFiles = 2551
 cmd_DialogThemeUi       = 2552
 cmd_DialogThemeSyntax   = 2553
 
+cmd_FocusEditor = 2577
 cmd_SwitchActiveTabToNext = 2578
 cmd_SwitchActiveTabToPrev = 2579
 

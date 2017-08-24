@@ -57,6 +57,7 @@ begin
     cmd_FileExit:            Close;
     cmd_FileExportHtml:      DoFileExportHtml;
 
+    cmd_FocusEditor:           DoFocusEditor;
     cmd_SwitchActiveTabToNext: DoSwitchActiveTab(true);
     cmd_SwitchActiveTabToPrev: DoSwitchActiveTab(false);
 

@@ -87,6 +87,7 @@ const
   cmd_DialogThemeUi       = 2552;
   cmd_DialogThemeSyntax   = 2553;
 
+  cmd_FocusEditor = 2577;
   cmd_SwitchActiveTabToNext = 2578;
   cmd_SwitchActiveTabToPrev = 2579;
 
@@ -317,6 +318,7 @@ begin
   M.Add(cmd_ShowPanelValidate, 'ui: show bottom panel, validate', [], []);
   M.Add(cmd_ShowPanelSearchRes, 'ui: show bottom panel, search results', [], []);
 
+  M.Add(cmd_FocusEditor, 'ui: focus editor', [], []);
   M.Add(cmd_SwitchActiveTabToNext, 'ui: switch active tab, to next', ['Ctrl+Tab'], []);
   M.Add(cmd_SwitchActiveTabToPrev, 'ui: switch active tab, to previous', ['Ctrl+Shift+Tab'], []);
 
@@ -523,6 +525,7 @@ begin
     cmd_FileCloseAll,
     cmd_FileCloseAndDelete,
     cmd_FileExportHtml,
+    cmd_FocusEditor,
 
     cmd_OpsClearRecent,
     cmd_OpsOpenDefault,
@@ -642,6 +645,7 @@ begin
     cmd_FileCloseAll,
     cmd_FileCloseAndDelete,
     cmd_FileExportHtml,
+    cmd_FocusEditor,
     cmd_ToggleBottomPanel,
     cmd_ToggleSidePanel,
     cmd_ToggleFindDialog,
