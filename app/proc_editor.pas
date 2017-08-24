@@ -283,8 +283,8 @@ begin
   Ed.OptShowCurLineOnlyFocused:= Op.OpShowCurLineOnlyFocused;
   Ed.OptShowCurColumn:= Op.OpShowCurCol;
   Ed.OptLastLineOnTop:= Op.OpShowLastLineOnTop;
-  Ed.OptShowFullWidthForSelection:= Op.OpShowSelectBgFull;
-  Ed.OptShowFullWidthForSyntaxHilite:= Op.OpShowSyntaxBgFull;
+  Ed.OptShowFullWidthForSelection:= Op.OpShowFullBackgroundSel;
+  Ed.OptShowFullWidthForSyntaxHilite:= Op.OpShowFullBackgroundSyntax;
   Ed.OptCopyLinesIfNoSel:= Op.OpCopyLineIfNoSel;
   Ed.OptCutLinesIfNoSel:= Op.OpCutLineIfNoSel;
   Ed.OptCopyColumnBlockAlignedBySpaces:= Op.OpCopyColumnAlignedBySpaces;

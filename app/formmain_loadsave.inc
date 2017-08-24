@@ -635,8 +635,8 @@ begin
     Op.OpShowCurLineOnlyFocused:= c.GetValue('show_cur_line_only_focused', Op.OpShowCurLineOnlyFocused);
     Op.OpShowCurCol:= c.GetValue('show_cur_column', Op.OpShowCurCol);
     Op.OpShowLastLineOnTop:= c.GetValue('show_last_line_on_top', Op.OpShowLastLineOnTop);
-    Op.OpShowSelectBgFull:= c.GetValue('show_full_sel_bg', Op.OpShowSelectBgFull);
-    Op.OpShowSyntaxBgFull:= c.GetValue('show_full_syntax_bg', Op.OpShowSyntaxBgFull);
+    Op.OpShowFullBackgroundSel:= c.GetValue('show_full_sel_bg', Op.OpShowFullBackgroundSel);
+    Op.OpShowFullBackgroundSyntax:= c.GetValue('show_full_syntax_bg', Op.OpShowFullBackgroundSyntax);
     Op.OpCopyLineIfNoSel:= c.GetValue('copy_line_if_no_sel', Op.OpCopyLineIfNoSel);
     Op.OpCutLineIfNoSel:= c.GetValue('cut_line_if_no_sel', Op.OpCutLineIfNoSel);
     Op.OpCopyColumnAlignedBySpaces:= c.GetValue('copy_column_aligned_by_spaces', Op.OpCopyColumnAlignedBySpaces);

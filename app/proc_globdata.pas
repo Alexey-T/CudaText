@@ -316,8 +316,8 @@ type
     OpShowCurLineOnlyFocused: boolean;
     OpShowCurCol: boolean;
     OpShowLastLineOnTop: boolean;
-    OpShowSelectBgFull: boolean;
-    OpShowSyntaxBgFull: boolean;
+    OpShowFullBackgroundSel: boolean;
+    OpShowFullBackgroundSyntax: boolean;
     OpCopyLineIfNoSel: boolean;
     OpCutLineIfNoSel: boolean;
     OpCopyColumnAlignedBySpaces: boolean;
@@ -933,8 +933,8 @@ begin
     OpShowCurLineOnlyFocused:= false;
     OpShowCurCol:= false;
     OpShowLastLineOnTop:= true;
-    OpShowSelectBgFull:= false;
-    OpShowSyntaxBgFull:= true;
+    OpShowFullBackgroundSel:= false;
+    OpShowFullBackgroundSyntax:= true;
     OpCopyLineIfNoSel:= true;
     OpCutLineIfNoSel:= false;
     OpCopyColumnAlignedBySpaces:= true;
