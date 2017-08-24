@@ -2406,7 +2406,11 @@ begin
 
         APP_PROC_SIDEPANEL_ACTIVATE:
           begin
-            ok:= fmMain.DoSidebar_ActivateTab(Str, true);
+            Str1:= SGetItem(Str); //tab title
+            Str2:= SGetItem(Str); //and_focus
+            if Str2='' then Str2:= '1';
+
+            ok:= fmMain.DoSidebar_ActivateTab(Str1, AppStrToBool(Str2));
             Result:= PyBool_FromLong(Ord(ok));
           end;
 
