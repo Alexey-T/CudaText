@@ -310,7 +310,7 @@ begin
   Ed.OptMouseRightClickMovesCaret:= Op.OpMouseRightClickMovesCaret;
   Ed.OptMouseEnableColumnSelection:= Op.OpMouseEnableColumnSelection;
   Ed.OptMouseHideCursorOnType:= Op.OpMouseHideCursorOnType;
-  Ed.OptMouseGutterClickSelectsLine:= Op.OpMouseGutterClickSelectedLine;
+  Ed.OptMouseClickNumberSelectsLine:= Op.OpMouseGutterClickSelectedLine;
   Ed.OptMouseWheelZooms:= Op.OpMouseWheelZoom;
   Ed.OptMouseWheelScrollVertSpeed:= Op.OpMouseWheelSpeedVert;
   Ed.OptMouseWheelScrollHorzSpeed:= Op.OpMouseWheelSpeedHorz;
