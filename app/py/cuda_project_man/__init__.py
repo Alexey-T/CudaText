@@ -200,8 +200,7 @@ class Command:
             self.init_panel(True)
         else:
             ed.cmd(cudatext_cmd.cmd_ShowSidePanelAsIs)
-            if and_focus:
-                app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
+            app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     @property
     def selected(self):
