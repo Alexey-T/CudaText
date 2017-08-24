@@ -895,20 +895,18 @@ var
   H: Int64;
   Y1, Y2: Integer;
   Ed: TATSynEdit;
-  PtrText: PChar;
   Lines: TStringList;
+  ListPy: PPyObject;
   Res: boolean;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liis:replace_lines', @H, @Y1, @Y2, @PtrText)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiiO:replace_lines', @H, @Y1, @Y2, @ListPy)) then
     begin
       Ed:= PyEditor(H);
 
       Lines:= TStringList.Create;
       try
-        Lines.LineBreak:= #10;
-        Lines.Text:= string(PtrText);
-
+        PyListToStrings(ListPy, Lines);
         Res:= Ed.Strings.TextReplaceLines_UTF8(Y1, Y2, Lines);
         Ed.DoEventChange;
       finally

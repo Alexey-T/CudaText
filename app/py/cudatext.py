@@ -825,8 +825,7 @@ class Editor:
         return ct.ed_replace(self.h, x1, y1, x2, y2, text)
 
     def replace_lines(self, y1, y2, lines):
-        text = '\n'.join(lines)
-        return ct.ed_replace_lines(self.h, y1, y2, text)
+        return ct.ed_replace_lines(self.h, y1, y2, lines)
 
     def get_filename(self):
         return ct.ed_get_filename(self.h)
