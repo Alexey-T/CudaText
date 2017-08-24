@@ -3092,7 +3092,7 @@ begin
 
         MENU_ENUM:
           begin
-            Result:= fmMain.DoMenuEnum_New(StrMenu);
+            Result:= fmMain.DoMenu_PyEnum(StrMenu);
           end;
 
         MENU_ADD:
@@ -3106,6 +3106,14 @@ begin
             Popup:= TPopupMenu.Create(fmMain);
             StrResult:= IntToStr(PtrInt(Popup.Items));
             Result:= PyString_FromString(PChar(StrResult));
+          end;
+
+        MENU_SET_CAPTION:
+          begin
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              PopupItem.Caption:= StrCmd;
+            Result:= ReturnNone;
           end;
 
         MENU_SET_VISIBLE:
@@ -3161,6 +3169,15 @@ begin
               Popup.PopUp(NX, NY);
             end;
             Result:= ReturnNone;
+          end;
+
+        MENU_GET_PROP:
+          begin
+            PopupItem:= Py_MenuItemFromId(StrMenu);
+            if Assigned(PopupItem) then
+              Result:= fmMain.DoMenu_GetPyProps(PopupItem)
+            else
+              Result:= ReturnNone;
           end;
 
         else

@@ -590,7 +590,8 @@ type
       const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string;
       AIndex: integer): string;
     procedure DoMenuClear(const AMenuId: string);
-    function DoMenuEnum_New(const AMenuId: string): PPyObject;
+    function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
+    function DoMenu_PyEnum(const AMenuId: string): PPyObject;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoPanel_TreeviewOnDblClick(Sender: TObject);
     procedure DoPanel_TreeviewOnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -3704,14 +3705,66 @@ begin
 end;
 
 
-function TfmMain.DoMenuEnum_New(const AMenuId: string): PPyObject;
+function TfmMain.DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
 var
-  mi: TMenuItem;
-  NLen, i: integer;
   NTag: PtrInt;
   NCommand: integer;
   SCommand, STagString: string;
   CmdObject: PPyObject;
+begin
+  NTag:= mi.Tag;
+  if NTag<>0 then
+  begin
+    NCommand:= TAppMenuProps(NTag).CommandCode;
+    SCommand:= TAppMenuProps(NTag).CommandString;
+    STagString:= TAppMenuProps(NTag).TagString;
+  end
+  else
+  begin
+    NCommand:= 0;
+    SCommand:= '';
+    STagString:= '';
+  end;
+
+  with GetPythonEngine do
+  begin
+    if NCommand>0 then
+      CmdObject:= PyInt_FromLong(NCommand)
+    else
+      CmdObject:= PyString_FromString(PChar(SCommand));
+
+    Result:= Py_BuildValue('{sLsssisssssssOsOsOsOsO}',
+      'id',
+      Int64(PtrInt(mi)),
+      'cap',
+      PChar(mi.Caption),
+      'cmd',
+      NCommand,
+      'hint',
+      PChar(SCommand),
+      'hotkey',
+      PChar(ShortCutToText(mi.ShortCut)),
+      'tag',
+      PChar(STagString),
+      'command',
+      CmdObject,
+      'checked',
+      PyBool_FromLong(Ord(mi.Checked)),
+      'radio',
+      PyBool_FromLong(Ord(mi.RadioItem)),
+      'en',
+      PyBool_FromLong(Ord(mi.Enabled)),
+      'vis',
+      PyBool_FromLong(Ord(mi.Visible))
+      );
+  end;
+end;
+
+
+function TfmMain.DoMenu_PyEnum(const AMenuId: string): PPyObject;
+var
+  mi: TMenuItem;
+  NLen, i: integer;
 begin
   //this updates PopupText items tags
   PopupText.OnPopup(nil);
@@ -3728,52 +3781,9 @@ begin
       raise EPythonError.Create(msgPythonListError);
 
     for i:= 0 to NLen-1 do
-    begin
-      NTag:= mi.Items[i].Tag;
-      if NTag<>0 then
-      begin
-        NCommand:= TAppMenuProps(NTag).CommandCode;
-        SCommand:= TAppMenuProps(NTag).CommandString;
-        STagString:= TAppMenuProps(NTag).TagString;
-      end
-      else
-      begin
-        NCommand:= 0;
-        SCommand:= '';
-        STagString:= '';
-      end;
-
-      if NCommand>0 then
-        CmdObject:= PyInt_FromLong(NCommand)
-      else
-        CmdObject:= PyString_FromString(PChar(SCommand));
-
       PyList_SetItem(Result, i,
-        Py_BuildValue('{sLsssisssssssOsOsOsOsO}',
-          'id',
-          Int64(PtrInt(mi.Items[i])),
-          'cap',
-          PChar(mi.Items[i].Caption),
-          'cmd',
-          NCommand,
-          'hint',
-          PChar(SCommand),
-          'hotkey',
-          PChar(ShortCutToText(mi.Items[i].ShortCut)),
-          'tag',
-          PChar(STagString),
-          'command',
-          CmdObject,
-          'checked',
-          PyBool_FromLong(Ord(mi.Items[i].Checked)),
-          'radio',
-          PyBool_FromLong(Ord(mi.Items[i].RadioItem)),
-          'en',
-          PyBool_FromLong(Ord(mi.Items[i].Enabled)),
-          'vis',
-          PyBool_FromLong(Ord(mi.Items[i].Visible))
-          ));
-    end;
+        DoMenu_GetPyProps(mi.Items[i])
+        );
   end;
 end;
 
