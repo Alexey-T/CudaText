@@ -320,6 +320,7 @@ type
     OpShowSyntaxBgFull: boolean;
     OpCopyLineIfNoSel: boolean;
     OpCutLineIfNoSel: boolean;
+    OpCopyColumnAlignedBySpaces: boolean;
     OpSavingTrimSpaces: boolean;
     OpSavingForceFinalEol: boolean;
     OpShowHintOnVertScroll: boolean;
@@ -936,6 +937,7 @@ begin
     OpShowSyntaxBgFull:= true;
     OpCopyLineIfNoSel:= true;
     OpCutLineIfNoSel:= false;
+    OpCopyColumnAlignedBySpaces:= true;
     OpSavingTrimSpaces:= false;
     OpSavingForceFinalEol:= false;
     OpShowHintOnVertScroll:= false;

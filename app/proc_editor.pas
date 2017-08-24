@@ -287,6 +287,7 @@ begin
   Ed.OptShowFullWidthForSyntaxHilite:= Op.OpShowSyntaxBgFull;
   Ed.OptCopyLinesIfNoSel:= Op.OpCopyLineIfNoSel;
   Ed.OptCutLinesIfNoSel:= Op.OpCutLineIfNoSel;
+  Ed.OptCopyColumnBlockAlignedBySpaces:= Op.OpCopyColumnAlignedBySpaces;
   Ed.OptSavingTrimSpaces:= Op.OpSavingTrimSpaces;
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;

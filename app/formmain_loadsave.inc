@@ -639,6 +639,7 @@ begin
     Op.OpShowSyntaxBgFull:= c.GetValue('show_full_syntax_bg', Op.OpShowSyntaxBgFull);
     Op.OpCopyLineIfNoSel:= c.GetValue('copy_line_if_no_sel', Op.OpCopyLineIfNoSel);
     Op.OpCutLineIfNoSel:= c.GetValue('cut_line_if_no_sel', Op.OpCutLineIfNoSel);
+    Op.OpCopyColumnAlignedBySpaces:= c.GetValue('copy_column_aligned_by_spaces', Op.OpCopyColumnAlignedBySpaces);
     Op.OpSavingTrimSpaces:= c.GetValue('saving_trim_spaces', Op.OpSavingTrimSpaces);
     Op.OpSavingForceFinalEol:= c.GetValue('saving_force_final_eol', Op.OpSavingForceFinalEol);
     Op.OpShowHintOnVertScroll:= c.GetValue('show_hint_on_vert_scroll', Op.OpShowHintOnVertScroll);
