@@ -4,16 +4,16 @@
   * changed
 
 
-1.15.2
+1.15.4
 
 + reworked confirmation for duplicate hotkeys in Hotkey dialog (ask to overwrite inside this dialog)
 + in single line inputs, make right edge of text near the edge of control (like Windows)
 + mouse column selection: use "cross" cursor (like TextMate)
-* Addon Manager: disabled to remove standard plugins
++ Addon Manager: don't allow to remove standard plugins
+- fixed: Project Manager "Show panel" command
 - fixed: checkmarks in View/Groups menu
 - fixed: column selection by mouse: "caret_after_end":false must not break column
-- fixed: problem with ":line" in commandline and single instance
-
+- fixed: problem with ":line" in command line and single instance
 
 1.15.0 (2017/08)
 
