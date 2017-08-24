@@ -1229,6 +1229,8 @@ Possible values of id_action:
 ** for sub-menu items: "cmd" value is <=0; "hint" value is some string
 ** "command": has int value of "cmd" (if >0), or str value of "hint" (otherwise)
 
+* MENU_GET_PROP: Gets properties of menu item, as dict, in the same format as MENU_ENUM.
+
 * MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params used:
 ** id_menu: Item in which you add sub-item. 
 ** caption: Caption of item, or "-" for menu separator.
@@ -1240,11 +1242,12 @@ Possible values of id_action:
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
-* MENU_SET_VISIBLE: Changes visible state of menu item. Param "command" must be bool.
-* MENU_SET_ENABLED: Changes enabled state of menu item. Param "command" must be bool.
-* MENU_SET_HOTKEY: Changes hotkey of menu item. Param "command" must be str hotkey, e.g. "Ctrl+Alt+F1".
-* MENU_SET_CHECKED: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool.
-* MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool.
+* MENU_SET_CAPTION: Changes caption of menu item. Param "command" must be str value.
+* MENU_SET_VISIBLE: Changes visible state of menu item. Param "command" must be bool value.
+* MENU_SET_ENABLED: Changes enabled state of menu item. Param "command" must be bool value.
+* MENU_SET_HOTKEY: Changes hotkey of menu item. Param "command" must be str value, e.g. "Ctrl+Alt+F1".
+* MENU_SET_CHECKED: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool value.
+* MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool value.
 
 ====Example==== 
 
@@ -1964,8 +1967,10 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.194 (app 1.15.4)
+1.0.194 (app 1.15.5)
 * add: app_proc: PROC_SIDEPANEL_ACTIVATE has 2nd param
+* add: menu_proc: MENU_GET_PROP
+* add: menu_proc: MENU_SET_CAPTION
 * add: menu_proc: MENU_SET_VISIBLE
 * add: menu_proc: MENU_SET_ENABLED
 * add: menu_proc: MENU_SET_CHECKED
