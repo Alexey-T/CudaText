@@ -754,6 +754,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "en": bool: Enabled state.
 * "vis": bool: Visible state.
 * "color": int: Color.
+* "border": bool: Control has border.
 * "font_name": str: Font name.
 * "font_size": int: Font size.
 * "font_color": int: Font color.
@@ -1967,7 +1968,10 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.194 (app 1.15.5)
+1.0.195 (app 1.15.5)
+* add: dlg_proc: control prop "border"
+
+1.0.194 (app 1.15.4)
 * add: app_proc: PROC_SIDEPANEL_ACTIVATE has 2nd param
 * add: menu_proc: MENU_GET_PROP
 * add: menu_proc: MENU_SET_CAPTION

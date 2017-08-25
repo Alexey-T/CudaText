@@ -63,6 +63,11 @@ var
 type
   TControlHack = class(TControl);
   TCustomEditHack = class(TCustomEdit);
+  TWinControlHack = class(TWinControl);
+
+const
+  cControlBorderStyles: array[boolean] of TBorderStyle = (bsNone, bsSingle);
+
 
 function DoControl_IsAutoHeight(C: TControl): boolean;
 begin
@@ -553,6 +558,7 @@ begin
   begin
     Ctl:= TTreeViewMy.Create(AForm);
     DoApplyThemeToTreeview(TTreeViewMy(Ctl), false, true);
+    TTreeViewMy(Ctl).BorderStyle:= bsSingle;
     TTreeViewMy(Ctl).Images:= TImageList.Create(AForm);
     TTreeViewMy(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
     TTreeViewMy(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
@@ -804,10 +810,7 @@ begin
       {$endif}
     end;
     //Border
-    if AppStrToBool(SGetItem(S)) then
-      (C as TCustomEdit).BorderStyle:= bsSingle
-    else
-      (C as TCustomEdit).BorderStyle:= bsNone;
+    (C as TCustomEdit).BorderStyle:= cControlBorderStyles[AppStrToBool(SGetItem(S))];
 
     exit;
   end;
@@ -1164,6 +1167,13 @@ begin
   if AName='tag' then
   begin
     TAppControlProps(C.Tag).FTagString:= AValue;
+    exit;
+  end;
+
+  if AName='border' then
+  begin
+    if C is TWinControl then
+      TWinControlHack(C).BorderStyle:= cControlBorderStyles[AppStrToBool(AValue)];
     exit;
   end;
 
