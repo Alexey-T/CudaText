@@ -10,3 +10,4 @@ ch_def = [
   ]
 readme = True
 proxy = ''
+cache_minutes = 5

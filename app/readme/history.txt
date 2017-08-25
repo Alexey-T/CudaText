@@ -4,13 +4,14 @@
   * changed
 
 
-1.15.4
+1.15.5
 
 + option "copy_column_aligned_by_spaces"
 + reworked confirmation for duplicate hotkeys in Hotkey dialog (ask to overwrite inside this dialog)
 + in single line inputs, make right edge of text near the edge of control (like Windows)
 + mouse column selection: use "cross" cursor (like TextMate)
 + Addon Manager: don't allow to remove standard plugins
++ Addon Manager: cache addon filelists for 5 minutes
 - fixed: Project Manager "Show panel" command
 - fixed: checkmarks in View/Groups menu
 - fixed: column selection by mouse: "caret_after_end":false must not break column
