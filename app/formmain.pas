@@ -736,7 +736,6 @@ type
     procedure DoShowConsole(AFocusEdit: boolean);
     procedure DoShowOutput;
     procedure DoShowValidate;
-    procedure DoShowSearchResults;
     procedure DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
@@ -2727,11 +2726,6 @@ end;
 procedure TfmMain.DoShowValidate;
 begin
   DoShowBottomPanel('Validate');
-end;
-
-procedure TfmMain.DoShowSearchResults;
-begin
-  //no need yet
 end;
 
 procedure TfmMain.DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);

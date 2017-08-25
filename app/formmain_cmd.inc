@@ -89,7 +89,6 @@ begin
     cmd_ShowPanelConsole:  DoShowConsole(true);
     cmd_ShowPanelOutput:   DoShowOutput;
     cmd_ShowPanelValidate: DoShowValidate;
-    cmd_ShowPanelSearchRes: DoShowSearchResults;
 
     cmd_ShowSidePanelAsIs: DoShowSidePanel('', false);
     cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel('Tree', false);
