@@ -1970,6 +1970,7 @@ Text is chr(1) separated items:
 
 1.0.195 (app 1.15.5)
 * add: dlg_proc: control prop "border"
+* add: dlg_proc: control "linklabel" uses "on_click" (after opening URL if it's valid)
 
 1.0.194 (app 1.15.4)
 * add: app_proc: PROC_SIDEPANEL_ACTIVATE has 2nd param
