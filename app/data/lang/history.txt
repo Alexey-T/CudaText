@@ -1,6 +1,9 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2017.08.26
++ [d_lex_lib] hid, hidmk
+
 2017.08.15
 + [si] HotkeyBusy
 

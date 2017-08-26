@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
-  StdCtrls, ComCtrls, CheckLst, IniFiles,
+  StdCtrls, ComCtrls, IniFiles,
   LCLIntf, LCLType, LCLProc, ExtCtrls,
   LazUTF8, LazFileUtils,
   ecSyntAnal,
@@ -61,6 +61,9 @@ implementation
 
 {$R *.lfm}
 
+const
+  cHiddenSuffix: string = '(hidden)';
+
 procedure DoLocalize_FormLexerLib(F: TfmLexerLib);
 const
   section = 'd_lex_lib';
@@ -76,6 +79,8 @@ begin
     with F.PanelBtn.CloseButton do Caption:= msgButtonClose;
     with F.btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
     with F.btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
+    with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
+    cHiddenSuffix:= ini.ReadString(section, 'hidmk', cHiddenSuffix);
   finally
     FreeAndNil(ini);
   end;
@@ -230,7 +235,7 @@ begin
 
       suffix:= '';
       if an.Internal then
-        suffix:= '    (hidden)';
+        suffix:= '    '+cHiddenSuffix;
 
       List.Items.AddObject(sl[i] + links + suffix, an);
     end;
