@@ -129,6 +129,8 @@ var
   an: TecSyntAnalyzer;
   n: integer;
 begin
+  List.SetFocus;
+
   n:= List.ItemIndex;
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
@@ -146,6 +148,8 @@ var
   an: TecSyntAnalyzer;
   n: integer;
 begin
+  List.SetFocus;
+
   n:= List.ItemIndex;
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
@@ -167,6 +171,8 @@ var
   an: TecSyntAnalyzer;
   n: integer;
 begin
+  List.SetFocus;
+
   n:= List.ItemIndex;
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
@@ -188,8 +194,9 @@ var
   an: TecSyntAnalyzer;
   an_sub: TecSubAnalyzerRule;
   links, suffix: string;
-  i, j: integer;
+  PrevIndex, i, j: integer;
 begin
+  PrevIndex:= List.ItemIndex;
   List.Items.BeginUpdate;
   List.Items.Clear;
 
@@ -230,7 +237,10 @@ begin
   finally
     sl.free;
   end;
+
   List.Items.EndUpdate;
+  if (PrevIndex>=0) and (PrevIndex<List.Count) then
+    List.ItemIndex:= PrevIndex;
 end;
 
 end.
