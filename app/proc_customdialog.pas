@@ -580,6 +580,7 @@ begin
   if S='linklabel' then
   begin
     Ctl:= TLinkLabel.Create(AForm);
+    Ctl.OnClick:= @AForm.DoOnClick;
     exit;
   end;
 

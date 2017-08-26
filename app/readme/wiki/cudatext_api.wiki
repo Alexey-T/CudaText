@@ -621,7 +621,7 @@ Props:
 ** int_max_value
 ** int_increment
 * label: bool_right_aligned
-* linklabel: URL ("http:" or "mailto:", other kinds possible too, but may not run)
+* linklabel: URL (clicking on "http:" or "mailto:" should work, result of clicking on other kinds depends on OS)
 * listview: bool_show_grid
 * tabs: bool_tabs_at_bottom
 * colorpanel:

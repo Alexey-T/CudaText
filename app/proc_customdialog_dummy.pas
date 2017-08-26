@@ -93,6 +93,7 @@ type
     procedure DoOnTreeviewSelect(Sender: TObject);
     procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
     procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
+    procedure DoOnControlSelect(Sender: TObject);
     procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
@@ -563,6 +564,16 @@ begin
   finally
     BlockedOnSelect_Treeview:= false;
   end;
+end;
+
+procedure TFormDummy.DoOnControlSelect(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnSelect, '');
 end;
 
 

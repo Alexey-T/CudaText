@@ -46,6 +46,9 @@ class Command:
     def run_dlgcustom(self):
         dlg_custom('TestDlg', 200, 100, 'type=label\1pos=6,6,200,0\1cap=Test')
 
+    def callback_linklabel_click(self, id_dlg, id_ctl, data='', info=''):
+        msg_box('Linklabel clicked', MB_OK)
+
     def callback_buttondlg(self, id_dlg, id_ctl, data='', info=''):
         h = id_dlg
         n_btn_border = dlg_proc(h, DLG_CTL_FIND, prop='btn_border')
@@ -321,6 +324,10 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120,
             'on_change': callback_main_close } )
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'linklabel')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'link1', 'cap':'linklabel', 'x':10, 'y':150, 'w':120,
+          'on_click': self.callback_linklabel_click } )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120 } )
