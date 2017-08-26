@@ -11,7 +11,7 @@
 + in single line inputs, make right edge of text near the edge of control (like Windows)
 + mouse column selection: use "cross" cursor (like TextMate)
 + Addon Manager: don't allow to remove standard plugins
-+ Addon Manager: cache addon filelists for 5 minutes
++ Addon Manager: cache addon filelists for 10 minutes
 - fixed: Project Manager "Show panel" command
 - fixed: checkmarks in View/Groups menu
 - fixed: column selection by mouse: "caret_after_end":false must not break column
