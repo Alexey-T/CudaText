@@ -1,8 +1,9 @@
 object fmLexerLib: TfmLexerLib
   Left = 434
   Height = 468
-  Top = 338
+  Top = 272
   Width = 459
+  ActiveControl = List
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Lexer library'
@@ -12,8 +13,8 @@ object fmLexerLib: TfmLexerLib
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
-  object ButtonPanel1: TButtonPanel
+  LCLVersion = '1.9.0.0'
+  object PanelBtn: TButtonPanel
     Left = 6
     Height = 29
     Top = 433
@@ -26,45 +27,74 @@ object fmLexerLib: TfmLexerLib
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 2
+    TabOrder = 1
     ShowButtons = [pbClose]
     ShowBevel = False
   end
-  object ToolBar1: TToolBar
+  object PanelTop: TPanel
     Left = 0
-    Height = 28
+    Height = 35
     Top = 0
     Width = 459
+    Align = alTop
     AutoSize = True
-    ButtonHeight = 28
-    Caption = 'ToolBar1'
-    EdgeInner = esNone
-    EdgeOuter = esNone
-    ShowCaptions = True
+    BevelOuter = bvNone
+    ClientHeight = 35
+    ClientWidth = 459
     TabOrder = 0
-    object bProp: TToolButton
-      Left = 1
-      Top = 0
-      Caption = 'Config'
-      OnClick = bPropClick
+    object btnConfig: TButton
+      AnchorSideLeft.Control = PanelTop
+      AnchorSideTop.Control = PanelTop
+      Left = 6
+      Height = 29
+      Top = 6
+      Width = 81
+      AutoSize = True
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      Caption = 'Configure'
+      OnClick = btnConfigClick
+      TabOrder = 0
     end
-    object bDel: TToolButton
-      Left = 52
-      Top = 0
+    object btnDelete: TButton
+      AnchorSideLeft.Control = btnConfig
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = btnConfig
+      Left = 93
+      Height = 29
+      Top = 6
+      Width = 57
+      AutoSize = True
+      BorderSpacing.Left = 6
       Caption = 'Delete'
-      OnClick = bDelClick
+      OnClick = btnDeleteClick
+      TabOrder = 1
+    end
+    object btnShowHide: TButton
+      AnchorSideLeft.Control = btnDelete
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = btnConfig
+      Left = 156
+      Height = 29
+      Top = 6
+      Width = 88
+      AutoSize = True
+      BorderSpacing.Left = 6
+      Caption = 'Hide/Show'
+      OnClick = btnShowHideClick
+      TabOrder = 2
     end
   end
-  object List: TCheckListBox
+  object List: TListBox
     Left = 6
-    Height = 393
-    Top = 34
+    Height = 386
+    Top = 41
     Width = 447
     Align = alClient
     BorderSpacing.Around = 6
     ItemHeight = 0
-    OnClickCheck = ListClickCheck
-    TabOrder = 1
+    ScrollWidth = 445
+    TabOrder = 2
     TopIndex = -1
   end
 end

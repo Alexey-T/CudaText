@@ -12,6 +12,7 @@
 + mouse column selection: use "cross" cursor (like TextMate)
 + Addon Manager: don't allow to remove standard plugins
 + Addon Manager: cache addon filelists for 10 minutes
+* dialog "Lexer library" reworked, used normal buttons on top, added button Hide instead of checkmarks
 - fixed: Project Manager "Show panel" command
 - fixed: checkmarks in View/Groups menu
 - fixed: column selection by mouse: "caret_after_end":false must not break column

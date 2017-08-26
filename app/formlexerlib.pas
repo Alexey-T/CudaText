@@ -14,7 +14,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel,
   StdCtrls, ComCtrls, CheckLst, IniFiles,
-  LCLIntf, LCLType, LCLProc,
+  LCLIntf, LCLType, LCLProc, ExtCtrls,
   LazUTF8, LazFileUtils,
   ecSyntAnal,
   formlexerprop,
@@ -26,16 +26,17 @@ type
   { TfmLexerLib }
 
   TfmLexerLib = class(TForm)
-    ButtonPanel1: TButtonPanel;
-    List: TCheckListBox;
-    ToolBar1: TToolBar;
-    bProp: TToolButton;
-    bDel: TToolButton;
-    procedure bDelClick(Sender: TObject);
-    procedure bPropClick(Sender: TObject);
+    btnConfig: TButton;
+    btnDelete: TButton;
+    btnShowHide: TButton;
+    List: TListBox;
+    PanelBtn: TButtonPanel;
+    PanelTop: TPanel;
+    procedure btnDeleteClick(Sender: TObject);
+    procedure btnConfigClick(Sender: TObject);
+    procedure btnShowHideClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure ListClickCheck(Sender: TObject);
   private
     { private declarations }
     procedure UpdateList;
@@ -72,9 +73,9 @@ begin
   ini:= TIniFile.Create(fn);
   try
     with F do Caption:= ini.ReadString(section, '_', Caption);
-    with F.ButtonPanel1.CloseButton do Caption:= msgButtonClose;
-    with F.bProp do Caption:= ini.ReadString(section, 'cfg', Caption);
-    with F.bDel do Caption:= ini.ReadString(section, 'del', Caption);
+    with F.PanelBtn.CloseButton do Caption:= msgButtonClose;
+    with F.btnConfig do Caption:= ini.ReadString(section, 'cfg', Caption);
+    with F.btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
   finally
     FreeAndNil(ini);
   end;
@@ -122,22 +123,8 @@ begin
     List.ItemIndex:= 0;
 end;
 
-procedure TfmLexerLib.ListClickCheck(Sender: TObject);
-var
-  an: TecSyntAnalyzer;
-  n: integer;
-begin
-  n:= List.ItemIndex;
-  if n<0 then exit;
-  an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  an.Internal:= not List.Checked[n];
-  AppManager.Modified:= true;
-
-  DoLexerExportFromLibToFile(an);
-end;
-
-procedure TfmLexerLib.bPropClick(Sender: TObject);
+procedure TfmLexerLib.btnConfigClick(Sender: TObject);
 var
   an: TecSyntAnalyzer;
   n: integer;
@@ -154,11 +141,28 @@ begin
   end;
 end;
 
+procedure TfmLexerLib.btnShowHideClick(Sender: TObject);
+var
+  an: TecSyntAnalyzer;
+  n: integer;
+begin
+  n:= List.ItemIndex;
+  if n<0 then exit;
+  an:= List.Items.Objects[n] as TecSyntAnalyzer;
+
+  an.Internal:= not an.Internal;
+  AppManager.Modified:= true;
+  UpdateList;
+
+  DoLexerExportFromLibToFile(an);
+end;
+
+
 procedure TfmLexerLib.FormCreate(Sender: TObject);
 begin
 end;
 
-procedure TfmLexerLib.bDelClick(Sender: TObject);
+procedure TfmLexerLib.btnDeleteClick(Sender: TObject);
 var
   an: TecSyntAnalyzer;
   n: integer;
@@ -183,7 +187,7 @@ var
   sl: tstringlist;
   an: TecSyntAnalyzer;
   an_sub: TecSubAnalyzerRule;
-  links: string;
+  links, suffix: string;
   i, j: integer;
 begin
   List.Items.BeginUpdate;
@@ -217,8 +221,11 @@ begin
         end;
       if links<>'' then links:= '  ('+links+')';
 
-      List.Items.AddObject(sl[i]+links, an);
-      List.Checked[List.Count-1]:= not an.Internal;
+      suffix:= '';
+      if an.Internal then
+        suffix:= '    (hidden)';
+
+      List.Items.AddObject(sl[i] + links + suffix, an);
     end;
   finally
     sl.free;
