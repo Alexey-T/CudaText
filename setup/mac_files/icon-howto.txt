@@ -1,0 +1,7 @@
+Where to put icon:
+ 
+1- Edit cudatext.app/Contents/Info.plist:
+ <key>CFBundleIconFile</key>
+  <string>cudatext</string>
+
+2- To cudatext.app/Contents/Resourses - copy cudatext.icns file
