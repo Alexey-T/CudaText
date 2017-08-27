@@ -56,11 +56,18 @@ MENU_LIST     = 0
 MENU_LIST_ALT = 1
 
 #menu_proc
-MENU_CLEAR  = 0
-MENU_ENUM   = 1
-MENU_ADD    = 2
-MENU_CREATE = 10
-MENU_SHOW   = 12
+MENU_CLEAR         = 0
+MENU_ENUM          = 1
+MENU_ADD           = 2
+MENU_SET_CAPTION   = 4
+MENU_SET_VISIBLE   = 5
+MENU_SET_ENABLED   = 6
+MENU_SET_CHECKED   = 7
+MENU_SET_RADIOITEM = 8
+MENU_SET_HOTKEY    = 9
+MENU_CREATE        = 10
+MENU_SHOW          = 12
+MENU_GET_PROP      = 14
 
 BOOKMARK_GET         = 0
 BOOKMARK_SET         = 1
@@ -254,6 +261,7 @@ TREE_ITEM_GET_PARENT       = 13
 TREE_ITEM_GET_SYNTAX_RANGE = 14
 TREE_ITEM_FOLD_LEVEL       = 15
 TREE_ITEM_SHOW             = 16
+TREE_ITEM_GET_PROPS        = 17
 TREE_ICON_ADD              = 20
 TREE_ICON_DELETE           = 21
 TREE_ICON_GET_SIZES        = 22
@@ -817,8 +825,7 @@ class Editor:
         return ct.ed_replace(self.h, x1, y1, x2, y2, text)
 
     def replace_lines(self, y1, y2, lines):
-        text = '\n'.join(lines)
-        return ct.ed_replace_lines(self.h, y1, y2, text)
+        return ct.ed_replace_lines(self.h, y1, y2, lines)
 
     def get_filename(self):
         return ct.ed_get_filename(self.h)

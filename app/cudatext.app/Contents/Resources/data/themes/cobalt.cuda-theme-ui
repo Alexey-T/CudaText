@@ -43,7 +43,7 @@
   "EdFoldBg" : "#002240",
   "EdFoldPlusLine" : "#3C5A74",
   "EdFoldPlusBg" : "#002240",
-  "EdMarginFixed" : "#A0A0A0",
+  "EdMarginFixed" : "#000080",
   "EdMarginCaret" : "#A0C0A0",
   "EdMarginUser" : "#A0C0A0",
   "EdBookmarkBg" : "#404040",

@@ -202,7 +202,7 @@ class Command:
             file_open(fn)
 
     def do_remove(self):
-        m = get_installed_choice('Remove')
+        m = get_installed_choice('Remove', STD_MODULES)
         if m is None:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:

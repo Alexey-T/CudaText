@@ -221,7 +221,7 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 ** Name of icon file (must not contain ",")
 
 * PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Gets bool: tab was found/removed.
-* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text is caption of tab. Gets bool: tab was found/activated.
+* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text must be a) tab caption or b) tuple (tab_caption, bool_set_focus). Default for bool_set_focus is False. Gets bool: tab was found/activated.
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Gets str, "\n"-separated captions of tabs.
 * PROC_SIDEPANEL_GET_CONTROL: Gets int handle of dialog, inserted into tab. Text is caption of tab. Gets None if cannot find tab.
 
@@ -468,7 +468,7 @@ Possible values of id:
 
 Parameters:
 
-* Param "items": list of str, tuple of str, or (deprecated form) str in the form "\n".join(str_items). Each str item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
+* Param "items": list of str, tuple of str, or string from joined items "\n".join(str_items). Each str item can be simple str or str1+"\t"+str2 (str2 shows right-aligned or below).
 * Param "focused": index of initially selected item.
 * Param "caption": if not empty str, caption will be shown above input box.
 
@@ -574,7 +574,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "font_size": font size
 * "font_color": font color
 * "name": optional name of control; it may be not unique for all controls 
-* "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change closes dialog
+* "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "props": advanced control-specific properties. Described below.
 * "val": value of control. Described below.
 * "items": list of items. Described below.
@@ -621,7 +621,7 @@ Props:
 ** int_max_value
 ** int_increment
 * label: bool_right_aligned
-* linklabel: URL ("http:" or "mailto:", other kinds possible too, but may not run)
+* linklabel: URL (clicking on "http:" or "mailto:" should work, result of clicking on other kinds depends on OS)
 * listview: bool_show_grid
 * tabs: bool_tabs_at_bottom
 * colorpanel:
@@ -754,6 +754,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "en": bool: Enabled state.
 * "vis": bool: Visible state.
 * "color": int: Color.
+* "border": bool: Control has border.
 * "font_name": str: Font name.
 * "font_size": int: Font size.
 * "font_color": int: Font color.
@@ -1040,8 +1041,20 @@ Possible values of id_action:
 * TREE_ITEM_SELECT: Selects item.
 * TREE_ITEM_SHOW: Makes item visible, ie scrolls control to this item.
 * TREE_ITEM_GET_SELECTED: Gets int handle of selected item (id_item ignored). Gets None if none selected.
-* TREE_ITEM_GET_PROP: Gets props of item, 4-tuple: (str_caption, int_index, int_image_index, int_level). Gets None for root-item.
-* TREE_ITEM_GET_PARENT: Gets int handle of parent-item for item. 0 means no parent.
+
+* TREE_ITEM_GET_PROPS: Gets props of item, as dict. Dict keys are:
+** "text": str: caption of item
+** "icon": int: index of icon in tree's imagelist object, or -1 for none
+** "level": int: how deep this item is nested (how many parents this item has)
+** "parent": int: id of parent item, or 0 if no parent
+** "folded": bool: is this item folded (item itself, not parents)
+** "selected": bool: is this item selected
+** "sub_items": bool: item has sub-items
+** "index": int: index of item, relative to its branch
+** "index_abs": int: absolute index of item, relative to root
+
+* deprecated: TREE_ITEM_GET_PROP: Gets props of item, 4-tuple: (str_caption, int_index, int_image_index, int_level). Gets None for root-item.
+* deprecated: TREE_ITEM_GET_PARENT: Gets int handle of parent-item for item. 0 means no parent.
 
 * TREE_ITEM_FOLD: Folds item w/o subitems.
 * TREE_ITEM_FOLD_DEEP: Folds item with subitems. Root-item allowed too.
@@ -1217,6 +1230,8 @@ Possible values of id_action:
 ** for sub-menu items: "cmd" value is <=0; "hint" value is some string
 ** "command": has int value of "cmd" (if >0), or str value of "hint" (otherwise)
 
+* MENU_GET_PROP: Gets properties of menu item, as dict, in the same format as MENU_ENUM.
+
 * MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params used:
 ** id_menu: Item in which you add sub-item. 
 ** caption: Caption of item, or "-" for menu separator.
@@ -1227,6 +1242,13 @@ Possible values of id_action:
 
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
+
+* MENU_SET_CAPTION: Changes caption of menu item. Param "command" must be str value.
+* MENU_SET_VISIBLE: Changes visible state of menu item. Param "command" must be bool value.
+* MENU_SET_ENABLED: Changes enabled state of menu item. Param "command" must be bool value.
+* MENU_SET_HOTKEY: Changes hotkey of menu item. Param "command" must be str value, e.g. "Ctrl+Alt+F1".
+* MENU_SET_CHECKED: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool value.
+* MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool value.
 
 ====Example==== 
 
@@ -1945,6 +1967,22 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.195 (app 1.15.5)
+* add: dlg_proc: control prop "border"
+* add: dlg_proc: control "linklabel" uses "on_click" (after opening URL if it's valid)
+
+1.0.194 (app 1.15.4)
+* add: app_proc: PROC_SIDEPANEL_ACTIVATE has 2nd param
+* add: menu_proc: MENU_GET_PROP
+* add: menu_proc: MENU_SET_CAPTION
+* add: menu_proc: MENU_SET_VISIBLE
+* add: menu_proc: MENU_SET_ENABLED
+* add: menu_proc: MENU_SET_CHECKED
+* add: menu_proc: MENU_SET_RADIOITEM
+* add: menu_proc: MENU_SET_HOTKEY
+* add: tree_proc: TREE_ITEM_GET_PROPS
+* deprecated: tree_proc: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
 
 1.0.193 (app 1.15.0)
 * add: image_proc()

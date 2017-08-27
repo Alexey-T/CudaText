@@ -219,7 +219,6 @@ cmd_ShowPanelConsole   = 2535
 cmd_ShowPanelOutput    = 2536
 cmd_ShowPanelValidate  = 2537
 cmd_ToggleFindDialog   = 2538
-cmd_ShowPanelSearchRes = 2539
 cmd_DialogLoadLexerStyles = 2540
 cmd_ToggleToolbar      = 2541
 cmd_ToggleStatusbar    = 2542
@@ -235,6 +234,7 @@ cmd_RescanPythonPluginsInfFiles = 2551
 cmd_DialogThemeUi       = 2552
 cmd_DialogThemeSyntax   = 2553
 
+cmd_FocusEditor = 2577
 cmd_SwitchActiveTabToNext = 2578
 cmd_SwitchActiveTabToPrev = 2579
 
