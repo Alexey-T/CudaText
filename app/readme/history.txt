@@ -4,8 +4,9 @@
   * changed
 
 
-1.15.5
+1.16.0
 
++ save-as: suggest first free filename: new.txt, new1.txt, new2.txt etc.
 + option "copy_column_aligned_by_spaces"
 + reworked confirmation for duplicate hotkeys in Hotkey dialog (ask to overwrite inside this dialog)
 + in single line inputs, make right edge of text near the edge of control (like Windows)

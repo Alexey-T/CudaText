@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
-  ExtCtrls, Menus, StdCtrls,
+  ExtCtrls, Menus, StdCtrls, StrUtils,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
   ATTabs,
   ATGroups,
@@ -1138,6 +1138,8 @@ var
   an: TecSyntAnalyzer;
   attr: integer;
   PrevEnabled: boolean;
+  NameCounter: integer;
+  NameTemp: string;
 begin
   Result:= false;
   if not IsText then exit(true); //disable saving, but close
@@ -1145,8 +1147,8 @@ begin
 
   if ASaveAs or (FFileName='') then
   begin
-    SaveDialog.FileName:= ExtractFileName(Self.FileName);
     SaveDialog.InitialDir:= ExtractFileDir(Self.FileName);
+    SaveDialog.FileName:= ExtractFileName(Self.FileName);
 
     an:= Lexer;
     if an<>nil then
@@ -1158,6 +1160,23 @@ begin
     begin
       SaveDialog.DefaultExt:= 'txt';
       SaveDialog.Filter:= '';
+    end;
+
+    //get first free filename: new.txt, new1.txt, new2.txt, ...
+    if Self.FileName='' then
+    begin
+      NameCounter:= 0;
+      repeat
+        NameTemp:= GetCurrentDirUTF8+DirectorySeparator+
+                   'new'+IfThen(NameCounter>0, IntToStr(NameCounter))+
+                   SaveDialog.DefaultExt;
+        if not FileExistsUTF8(NameTemp) then
+        begin
+          SaveDialog.FileName:= ExtractFileName(NameTemp);
+          Break
+        end;
+        Inc(NameCounter);
+      until false;
     end;
 
     if not SaveDialog.Execute then exit(false);
