@@ -1158,7 +1158,7 @@ begin
     end
     else
     begin
-      SaveDialog.DefaultExt:= 'txt';
+      SaveDialog.DefaultExt:= '.txt';
       SaveDialog.Filter:= '';
     end;
 
@@ -1169,7 +1169,7 @@ begin
       repeat
         NameTemp:= GetCurrentDirUTF8+DirectorySeparator+
                    'new'+IfThen(NameCounter>0, IntToStr(NameCounter))+
-                   SaveDialog.DefaultExt;
+                   SaveDialog.DefaultExt; //DefaultExt with dot
         if not FileExistsUTF8(NameTemp) then
         begin
           SaveDialog.FileName:= ExtractFileName(NameTemp);
