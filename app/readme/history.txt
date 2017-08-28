@@ -4,6 +4,10 @@
   * changed
 
 
+1.16.0.1
+
+- fixed: wrong saved keys.json if "overwrite duplicate hotkey" was used with plugins
+
 1.16.0 (2017/08)
 
 + save-as untitled tab: suggest first free filename: new.txt, new1.txt, new2.txt... (like SynWrite)
