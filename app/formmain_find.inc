@@ -72,7 +72,14 @@ var
   NCaretX, NCaretY: integer;
   NTick, NTime: QWord;
 begin
-  bFindMode:= (Res<>cOpFindRep) and (Res<>cOpFindRepAll) and (Res<>cOpFindRepAndStop);
+  //keep focus in Find field, else focus find or rep field
+  if fmFind.edFind.Focused then
+    bFindMode:= true
+  else
+    bFindMode:=
+      (Res<>cOpFindRep) and
+      (Res<>cOpFindRepAll) and
+      (Res<>cOpFindRepAndStop);
 
   if Res=cOpFindClose then
   begin
