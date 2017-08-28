@@ -4,9 +4,10 @@
   * changed
 
 
-1.16.0.1
+1.16.0.2
 
 - fixed: wrong saved keys.json if "overwrite duplicate hotkey" was used with plugins
+- fixed: code-tree lost vert scrollbar
 
 1.16.0 (2017/08)
 
