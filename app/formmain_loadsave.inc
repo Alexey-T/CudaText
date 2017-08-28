@@ -429,6 +429,7 @@ var
   //
 var
   UndoItem: TATKeymapUndoItem;
+  StrId: string;
   ncmd, nitem, i: integer;
 begin
   c:= TJSONConfig.Create(nil);
@@ -441,7 +442,8 @@ begin
     c.EnumSubKeys('/', slist);
     for i:= 0 to slist.count-1 do
     begin
-      ncmd:= DoOps_HotkeyStringId_To_CommandCode(slist[i]);
+      StrId:= slist[i];
+      ncmd:= DoOps_HotkeyStringId_To_CommandCode(StrId);
       if ncmd<0 then Continue;
 
       nitem:= AppKeymap.IndexOf(ncmd);
@@ -450,14 +452,14 @@ begin
       if Assigned(AUndoList) then
       begin
         UndoItem:= TATKeymapUndoItem.Create;
-        UndoItem.StrId:= slist[i];
+        UndoItem.StrId:= StrId;
         UndoItem.KeyArray1:= AppKeymap[nitem].Keys1;
         UndoItem.KeyArray2:= AppKeymap[nitem].Keys2;
         AUndoList.Add(UndoItem);
       end;
 
-      DoReadConfigToKeys(slist[i]+'/s1', AppKeymap[nitem].Keys1);
-      DoReadConfigToKeys(slist[i]+'/s2', AppKeymap[nitem].Keys2);
+      DoReadConfigToKeys(StrId+'/s1', AppKeymap[nitem].Keys1);
+      DoReadConfigToKeys(StrId+'/s2', AppKeymap[nitem].Keys2);
     end;
   finally
     skeys.Free;
