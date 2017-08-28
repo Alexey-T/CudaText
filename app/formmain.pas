@@ -1124,6 +1124,7 @@ begin
   Tree.Parent:= PanelLeft;
   Tree.Align:= alClient;
   Tree.Images:= ImageListTree;
+  Tree.Themed:= true;
   Tree.OnDblClick:= @DoPanel_TreeviewOnDblClick;
   Tree.OnMouseMove:= @DoPanel_TreeviewOnMouseMove;
   Tree.OnKeyDown:= @DoPanel_TreeviewOnKeyDown;
