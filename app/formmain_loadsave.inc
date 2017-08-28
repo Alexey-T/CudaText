@@ -441,7 +441,7 @@ begin
     c.EnumSubKeys('/', slist);
     for i:= 0 to slist.count-1 do
     begin
-      ncmd:= GetAppCommandCodeFromCommandStringId(slist[i]);
+      ncmd:= DoOps_HotkeyStringId_To_CommandCode(slist[i]);
       if ncmd<0 then Continue;
 
       nitem:= AppKeymap.IndexOf(ncmd);

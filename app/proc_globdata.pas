@@ -381,7 +381,6 @@ function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): strin
 
 //function GetActiveControl(Form: TWinControl): TWinControl;
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
-function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
@@ -396,7 +395,8 @@ function AppKeymapCheckDuplicateForCommand(
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
 procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
 
-function DoOps_CommandCodeToKeyConfigStringId(ACmd: integer): string;
+function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
+function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
@@ -1168,7 +1168,7 @@ begin
 end;
 
 
-function GetAppCommandCodeFromCommandStringId(const AId: string): integer;
+function DoOps_HotkeyStringId_To_CommandCode(const AId: string): integer;
 begin
   //plugin item 'module,method'
   if Pos(',', AId)>0 then
@@ -1222,7 +1222,7 @@ begin
   Result:= DoFindLexerForFilename(AppManager, fn);
 end;
 
-function DoOps_CommandCodeToKeyConfigStringId(ACmd: integer): string;
+function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
 begin
   Result:= IntToStr(ACmd);
 
@@ -1588,7 +1588,7 @@ begin
       //clear in memory
       KeyArrayClear(itemKeyPtr^);
 
-      StrId:= DoOps_CommandCodeToKeyConfigStringId(item.Command);
+      StrId:= DoOps_CommandCode_To_HotkeyStringId(item.Command);
 
       //save to: user.json
       DoOps_SaveKeyItem(item, StrId, '', false);
@@ -1630,7 +1630,7 @@ begin
   begin
     UndoItem:= AUndoList[i];
 
-    ncmd:= GetAppCommandCodeFromCommandStringId(UndoItem.StrId);
+    ncmd:= DoOps_HotkeyStringId_To_CommandCode(UndoItem.StrId);
     if ncmd<0 then Continue;
 
     nitem:= AppKeymap.IndexOf(ncmd);

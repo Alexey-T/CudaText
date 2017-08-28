@@ -37,7 +37,7 @@ begin
   n:= AppKeymap.IndexOf(ACmd);
   if n<0 then exit;
 
-  StrId:= DoOps_CommandCodeToKeyConfigStringId(ACmd);
+  StrId:= DoOps_CommandCode_To_HotkeyStringId(ACmd);
 
   Form:= TfmKeys.Create(nil);
   try
