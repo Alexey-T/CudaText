@@ -26,9 +26,9 @@ implementation
 
 function DoDialogHotkeys(ACmd: integer; const ALexerName: string): boolean;
 var
-  n: integer;
   Form: TfmKeys;
   StrId: string;
+  n: integer;
 begin
   Result:= false;
   if (ACmd>=cmdFirstLexerCommand) and
@@ -37,14 +37,7 @@ begin
   n:= AppKeymap.IndexOf(ACmd);
   if n<0 then exit;
 
-  //number (usual ACmd) or
-  //'module,proc' (plugin)
-  StrId:= IntToStr(AppKeymap[n].Command);
-
-  if (ACmd>=cmdFirstPluginCommand) and
-     (ACmd<=cmdLastPluginCommand) then
-    with AppPluginsCommand[ACmd-cmdFirstPluginCommand] do
-      StrId:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
+  StrId:= DoOps_CommandCodeToKeyConfigStringId(ACmd);
 
   Form:= TfmKeys.Create(nil);
   try

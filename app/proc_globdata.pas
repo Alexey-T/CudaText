@@ -16,7 +16,7 @@ uses
   Dialogs, Graphics, ExtCtrls, ComCtrls,
   InterfaceBase,
   LclProc, LclType, LazFileUtils, LazUTF8,
-  IniFiles, jsonConf,
+  IniFiles, jsonConf, StrUtils,
   Process,
   ATSynEdit,
   ATSynEdit_Keymap,
@@ -396,6 +396,7 @@ function AppKeymapCheckDuplicateForCommand(
 function AppKeymapHasDuplicateForKey(AHotkey, AKeyComboSeparator: string): boolean;
 procedure AppKeymap_ApplyUndoList(AUndoList: TATKeymapUndoList);
 
+function DoOps_CommandCodeToKeyConfigStringId(ACmd: integer): string;
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; ALexerSpecific: boolean);
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
@@ -1221,6 +1222,15 @@ begin
   Result:= DoFindLexerForFilename(AppManager, fn);
 end;
 
+function DoOps_CommandCodeToKeyConfigStringId(ACmd: integer): string;
+begin
+  Result:= IntToStr(ACmd);
+
+  if (ACmd>=cmdFirstPluginCommand) and
+     (ACmd<=cmdLastPluginCommand) then
+    with AppPluginsCommand[ACmd-cmdFirstPluginCommand] do
+      Result:= ItemModule+','+ItemProc+IfThen(ItemProcParam<>'', ','+ItemProcParam);
+end;
 
 procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string;
   ALexerSpecific: boolean);
@@ -1557,6 +1567,7 @@ function AppKeymapCheckDuplicateForCommand(
 var
   item: TATKeymapItem;
   itemKeyPtr: ^TATKeyArray;
+  StrId: string;
   i: integer;
 begin
   Result:= 0;
@@ -1577,11 +1588,13 @@ begin
       //clear in memory
       KeyArrayClear(itemKeyPtr^);
 
+      StrId:= DoOps_CommandCodeToKeyConfigStringId(item.Command);
+
       //save to: user.json
-      DoOps_SaveKeyItem(item, IntToStr(item.Command), '', false);
+      DoOps_SaveKeyItem(item, StrId, '', false);
       //save to: lexer*.json
       if ALexerName<>'' then
-        DoOps_SaveKeyItem(item, IntToStr(item.Command), ALexerName, true);
+        DoOps_SaveKeyItem(item, StrId, ALexerName, true);
     end
     else
       exit(item.Command);
