@@ -55,6 +55,21 @@ section=commands
 caption=&Project Manager\&Config...
 method=config
 
+[item60]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item61]
+section=commands
+caption=&Project Manager\Add to project: current file
+method=add_current_file
+
+[item62]
+section=commands
+caption=&Project Manager\Add to project: all opened files
+method=add_opened_files
+
 
 [item100]
 section=commands

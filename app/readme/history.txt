@@ -4,8 +4,9 @@
   * changed
 
 
-1.16.0.5
+1.16.1
 
++ Project Manager: added commands "Add current file", "Add all opened files"
 - fixed: initial dir of save-dialogs for untitled tabs
 - fixed: wrong saved keys.json if "overwrite duplicate hotkey" was used with plugins
 - fixed: code-tree lost vert scrollbar
