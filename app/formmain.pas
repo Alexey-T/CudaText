@@ -565,6 +565,8 @@ type
     FOption_WindowPos: string;
     FOption_Encoding: string;
 
+    procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
+    procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_OnChange(Sender: TObject);
@@ -1960,6 +1962,25 @@ begin
   end;
 end;
 
+procedure TfmMain.DoFileDialog_PrepareDir(Dlg: TFileDialog);
+begin
+  if CurrentFrame.FileName<>'' then
+    Dlg.InitialDir:= ExtractFileDir(CurrentFrame.FileName)
+  else
+  begin
+    if UiOps.InitialDir<>'' then
+      Dlg.InitialDir:= UiOps.InitialDir
+    else
+      Dlg.InitialDir:= FLastDirOfOpenDlg;
+  end;
+end;
+
+procedure TfmMain.DoFileDialog_SaveDir(Dlg: TFileDialog);
+begin
+  FLastDirOfOpenDlg:= ExtractFileDir(Dlg.FileName);
+end;
+
+
 procedure TfmMain.DoFileOpenDialog;
 var
   i: integer;
@@ -1967,19 +1988,9 @@ begin
   with OpenDlg do
   begin
     FileName:= '';
-
-    if CurrentFrame.FileName<>'' then
-      InitialDir:= ExtractFileDir(CurrentFrame.FileName)
-    else
-    begin
-      if UiOps.InitialDir<>'' then
-        InitialDir:= UiOps.InitialDir
-      else
-        InitialDir:= FLastDirOfOpenDlg;
-    end;
-
+    DoFileDialog_PrepareDir(OpenDlg);
     if not Execute then exit;
-    FLastDirOfOpenDlg:= ExtractFileDir(FileName);
+    DoFileDialog_SaveDir(OpenDlg);
 
     if Files.Count>1 then
     begin
@@ -2909,8 +2920,10 @@ var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
+  DoFileDialog_PrepareDir(SaveDlg);
   if F.Modified or (F.FileName='') then
-    F.DoFileSave(false);
+    if F.DoFileSave(false) then
+      DoFileDialog_SaveDir(SaveDlg);
 end;
 
 procedure TfmMain.DoFileSaveAs;
@@ -2918,7 +2931,9 @@ var
   F: TEditorFrame;
 begin
   F:= CurrentFrame;
-  F.DoFileSave(true);
+  DoFileDialog_PrepareDir(SaveDlg);
+  if F.DoFileSave(true) then
+    DoFileDialog_SaveDir(SaveDlg);
 end;
 
 procedure TfmMain.DoFocusEditor;

@@ -1147,11 +1147,8 @@ begin
 
   if ASaveAs or (FFileName='') then
   begin
-    SaveDialog.InitialDir:= ExtractFileDir(Self.FileName);
-    SaveDialog.FileName:= ExtractFileName(Self.FileName);
-
     an:= Lexer;
-    if an<>nil then
+    if Assigned(an) then
     begin
       SaveDialog.DefaultExt:= DoGetLexerDefaultExt(an);
       SaveDialog.Filter:= DoGetLexerFileFilter(an, msgAllFiles);
@@ -1162,12 +1159,12 @@ begin
       SaveDialog.Filter:= '';
     end;
 
-    //get first free filename: new.txt, new1.txt, new2.txt, ...
-    if Self.FileName='' then
+    if FFileName='' then
     begin
+      //get first free filename: new.txt, new1.txt, new2.txt, ...
       NameCounter:= 0;
       repeat
-        NameTemp:= GetCurrentDirUTF8+DirectorySeparator+
+        NameTemp:= SaveDialog.InitialDir+DirectorySeparator+
                    'new'+IfThen(NameCounter>0, IntToStr(NameCounter))+
                    SaveDialog.DefaultExt; //DefaultExt with dot
         if not FileExistsUTF8(NameTemp) then
@@ -1177,9 +1174,16 @@ begin
         end;
         Inc(NameCounter);
       until false;
+    end
+    else
+    begin
+      SaveDialog.FileName:= ExtractFileName(FFileName);
+      SaveDialog.InitialDir:= ExtractFileDir(FFileName);
     end;
 
-    if not SaveDialog.Execute then exit(false);
+    if not SaveDialog.Execute then
+      exit(false);
+
     if OnCheckFilenameOpened(SaveDialog.FileName) then
     begin
       MsgBox(
