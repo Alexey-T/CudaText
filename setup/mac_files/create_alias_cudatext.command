@@ -1,2 +1,2 @@
 #!/bin/bash
-alias cudatext=open\ /Applications/CudaText.app\ --args
+sudo alias cudatext=open\ /Applications/CudaText.app\ --args
