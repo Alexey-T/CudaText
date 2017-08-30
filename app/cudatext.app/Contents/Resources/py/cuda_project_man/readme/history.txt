@@ -1,4 +1,9 @@
 
+2017.08.29
++ added cmd "Add to project: current file"
++ added cmd "Add to project: all opened files"
+* deleted cmd "Focus proj panel" ("Show" focuses it)
+
 2017.07.10
 + added option "Open file after 'Go to file' command"
 + added reaction to Enter in treeview

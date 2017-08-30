@@ -831,3 +831,23 @@ class Command:
         if id_ctl==13: #Enter
             self.tree_on_click_dbl(id_dlg, id_ctl)
             return False #block key
+
+    def add_current_file(self):
+
+        if not self.tree:
+            self.init_panel(False)
+
+        fn = ed.get_filename()
+        if fn:
+            self.add_node(lambda: fn)
+
+    def add_opened_files(self):
+
+        if not self.tree:
+            self.init_panel(False)
+
+        for h in ed_handles():
+            e = Editor(h)
+            fn = e.get_filename()
+            if fn:
+                self.add_node(lambda: fn)

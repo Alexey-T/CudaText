@@ -34,11 +34,6 @@ section=commands
 caption=&Project Manager\&Go to file...
 method=menu_goto
 
-[item16]
-section=commands
-caption=&Project Manager\&Sync to editor file
-method=sync_to_ed
-
 
 [item50]
 section=commands
@@ -54,6 +49,26 @@ method=config_proj
 section=commands
 caption=&Project Manager\&Config...
 method=config
+
+[item60]
+section=commands
+caption=&Project Manager\-
+method=_
+
+[item61]
+section=commands
+caption=&Project Manager\&Sync to editor file
+method=sync_to_ed
+
+[item65]
+section=commands
+caption=&Project Manager\Add to project: current file
+method=add_current_file
+
+[item66]
+section=commands
+caption=&Project Manager\Add to project: all opened files
+method=add_opened_files
 
 
 [item100]

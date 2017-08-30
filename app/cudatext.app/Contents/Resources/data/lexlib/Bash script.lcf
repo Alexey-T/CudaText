@@ -11,10 +11,10 @@ object SyntAnal3: TLibSyntAnalyzer
     item
       DisplayName = 'Key words'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
     end
     item
       DisplayName = 'Params'
@@ -105,6 +105,13 @@ object SyntAnal3: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Variable3'
+      StyleName = 'Variable'
+      Expression = '^\w+ (?=\=)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'IP-Address'
       StyleName = 'QuotMarks'
       Expression = '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
@@ -145,10 +152,18 @@ object SyntAnal3: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Symbol single'
+      StyleName = 'Symbol'
+      TokenType = 6
+      Expression = '[=,;]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 6
-      Expression = '[\+\*\(\)\[\]\{\}\<>\.,~!&\|;:=%\^\#\$\?\\]+'
+      Expression = '[\+\*\(\)\[\]\{\}\<>\.~!&\|:%\^\#\$\?\\]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -170,7 +185,7 @@ object SyntAnal3: TLibSyntAnalyzer
       DisplayName = 'Command'
       StyleName = 'Params'
       TokenType = 2
-      Expression = '\w[\w\-]+'
+      Expression = '\w[\w\-\.]+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -651,7 +666,10 @@ object SyntAnal3: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    'while read line  # For as many lines as the input file has...'
+    'var=value'
+    '/ddd/ddd.command'
+    ''
+    'while read line  # comment'
     'do'
     '  test $(test "$line"); '
     '  test "test\"test" '
