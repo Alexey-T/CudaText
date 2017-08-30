@@ -4,7 +4,7 @@
   * changed
 
 
-1.16.1
+1.16.1 (2017/08)
 
 + Project Manager: added commands "Add current file", "Add all opened files"
 + lexer Bash: hilite varname before "=", don't hilite keyword after "."
