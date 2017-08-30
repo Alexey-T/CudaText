@@ -4,7 +4,7 @@ strip $app/cudatext
 
 . $app/../setup/cuda_ver.sh
 
-makelink=$app/../setup/mac_files/create_symlink_cudatext.command
+makelink=$app/../setup/mac_files/create_alias_cudatext.command
 
 #copy bundle to folder
 mkdir $app/cudatext-mac
