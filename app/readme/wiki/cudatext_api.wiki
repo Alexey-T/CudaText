@@ -1924,6 +1924,22 @@ class Command:
         ed.gap(GAP_ADD, num, id_bitmap)
 </syntaxhighlight>
 
+===dim===
+
+ dim(id, index=0, index2=0, value=100)
+
+Controls dim (shade, fade) ranges, which blend text font color with background color. Dim value is 0..255, 0 means "no effect", 255 means "text is transparent".
+
+Possible values if id:
+
+* DIM_ADD: Adds new range.
+** Param "index": index of first range line (0-base).
+** Param "index2": index if last range line (value bigger than line count is allowed).
+** Param "value": dim value.
+* DIM_DELETE: Deletes one range. Param "index" is index of range (0-base).
+* DIM_DELETE_ALL: Deletes all ranges.
+* DIM_ENUM: Enumerates ranges. Gives list of 3-tuples (line_from, line_to, dim_value) or None.
+
 ===lexer_scan===
 
  lexer_scan(nline)
@@ -1967,6 +1983,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.196 (app 1.16.2)
+* add: ed.dim()
 
 1.0.195 (app 1.15.5)
 * add: dlg_proc: control prop "border"
