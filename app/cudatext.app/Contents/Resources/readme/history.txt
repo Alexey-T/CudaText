@@ -4,10 +4,11 @@
   * changed
 
 
-1.16.1 (2017/08)
+1.16.2 (2017/08)
 
 + Project Manager: added commands "Add current file", "Add all opened files"
 + lexer Bash: hilite varname before "=", don't hilite keyword after "."
++ API to dim/shade text
 - fixed: initial dir of save-dialogs for untitled tabs
 - fixed: wrong saved keys.json if "overwrite duplicate hotkey" was used with plugins
 - fixed: code-tree lost vert scrollbar
