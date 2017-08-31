@@ -3816,6 +3816,73 @@ begin
     end;
 end;
 
+function Py_ed_dim(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  Id, NIndex1, NIndex2, NValue, NLen, i: integer;
+  Range: TATDimRange;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Liiii:dim', @H, @Id, @NIndex1, @NIndex2, @NValue)) then
+    begin
+      Ed:= PyEditor(H);
+
+      case Id of
+        DIMRANGE_ADD:
+          begin
+            Ed.DimRanges.Add(NIndex1, NIndex2, NValue);
+            Ed.Update;
+            Result:= ReturnNone;
+          end;
+
+        DIMRANGE_DELETE:
+          begin
+            if Ed.DimRanges.IsIndexValid(NIndex1) then
+            begin
+              Ed.DimRanges.Delete(NIndex1);
+              Ed.Update;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        DIMRANGE_DELETE_ALL:
+          begin
+            if Ed.DimRanges.Count>0 then
+            begin
+              Ed.DimRanges.Clear;
+              Ed.Update;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        DIMRANGE_ENUM:
+          begin
+            NLen:= Ed.DimRanges.Count;
+            if NLen>0 then
+            begin
+              Result:= PyList_New(NLen);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
+              for i:= 0 to NLen-1 do
+              begin
+                Range:= Ed.DimRanges[i];
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('(iii)',
+                    Range.LineFrom, Range.LineTo, Range.DimValue));
+              end;
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 function Py_ed_get_token_result(const PntFrom, PntTo: TPoint; const StrToken, StrStyle: string): PPyObject;
 begin
   with GetPythonEngine do
@@ -4786,6 +4853,7 @@ begin
     AddMethod('ed_markers', @Py_ed_markers, '');
     AddMethod('ed_attr', @Py_ed_attr, '');
     AddMethod('ed_gap', @Py_ed_gap, '');
+    AddMethod('ed_dim', @Py_ed_dim, '');
     AddMethod('ed_lexer_scan', @Py_ed_lexer_scan, '');
 
     AddMethod('file_open', @Py_file_open, '');

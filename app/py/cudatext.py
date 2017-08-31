@@ -527,6 +527,11 @@ ALIGN_LEFT    = 3
 ALIGN_RIGHT   = 4
 ALIGN_CLIENT  = 5
 
+DIMRANGE_ENUM       = 0
+DIMRANGE_ADD        = 1
+DIMRANGE_DELETE     = 3
+DIMRANGE_DELETE_ALL = 4
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -910,6 +915,9 @@ class Editor:
                           font_bold, font_italic, font_strikeout,
                           border_left, border_right, border_down, border_up
                           )
+
+    def dim(self, id, index=0, index2=0, value=100):
+        return ct.ed_dim(self.h, id, index, index2, value)
 
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)

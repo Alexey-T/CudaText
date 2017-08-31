@@ -40,6 +40,7 @@ uses
   ATSynEdit_Markers,
   ATSynEdit_Export_HTML,
   ATSynEdit_Ranges,
+  ATSynEdit_DimRanges,
   ATSynEdit_Gaps,
   ATSynEdit_CanvasProc,
   ATSynEdit_Adapter_EControl,
