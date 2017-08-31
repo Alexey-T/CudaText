@@ -425,10 +425,10 @@ const
   APP_IMAGE_PAINT       = 5;
   APP_IMAGE_PAINT_SIZED = 6;
 
-  DIMRANGE_ENUM       = 0;
-  DIMRANGE_ADD        = 1;
-  DIMRANGE_DELETE     = 3;
-  DIMRANGE_DELETE_ALL = 4;
+  DIM_ENUM       = 0;
+  DIM_ADD        = 1;
+  DIM_DELETE     = 3;
+  DIM_DELETE_ALL = 4;
 
 
 implementation

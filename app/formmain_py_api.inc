@@ -3829,14 +3829,14 @@ begin
       Ed:= PyEditor(H);
 
       case Id of
-        DIMRANGE_ADD:
+        DIM_ADD:
           begin
             Ed.DimRanges.Add(NIndex1, NIndex2, NValue);
             Ed.Update;
             Result:= ReturnNone;
           end;
 
-        DIMRANGE_DELETE:
+        DIM_DELETE:
           begin
             if Ed.DimRanges.IsIndexValid(NIndex1) then
             begin
@@ -3846,7 +3846,7 @@ begin
             Result:= ReturnNone;
           end;
 
-        DIMRANGE_DELETE_ALL:
+        DIM_DELETE_ALL:
           begin
             if Ed.DimRanges.Count>0 then
             begin
@@ -3856,7 +3856,7 @@ begin
             Result:= ReturnNone;
           end;
 
-        DIMRANGE_ENUM:
+        DIM_ENUM:
           begin
             NLen:= Ed.DimRanges.Count;
             if NLen>0 then
