@@ -1930,7 +1930,7 @@ class Command:
 
 Controls dim (shade, fade) ranges, which blend text font color with background color. Dim value is 0..255, 0 means "no effect", 255 means "text is transparent".
 
-Possible values if id:
+Possible values of id:
 
 * DIM_ADD: Adds new range.
 ** Param "index": index of first range line (0-base).
