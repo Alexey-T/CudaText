@@ -1,13 +1,13 @@
 object fmSaveTabs: TfmSaveTabs
-  Left = 505
+  Left = 437
   Height = 350
   Top = 232
-  Width = 567
+  Width = 635
   ActiveControl = btnSave
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Save tabs?'
   ClientHeight = 350
-  ClientWidth = 567
+  ClientWidth = 635
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = FormShow
@@ -18,7 +18,7 @@ object fmSaveTabs: TfmSaveTabs
     Left = 6
     Height = 303
     Top = 6
-    Width = 555
+    Width = 623
     Align = alClient
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -31,13 +31,13 @@ object fmSaveTabs: TfmSaveTabs
     Left = 0
     Height = 41
     Top = 309
-    Width = 567
+    Width = 635
     Align = alBottom
     AutoSize = True
     object btnSave: TButton
       AnchorSideTop.Control = btnDontSave
       AnchorSideRight.Control = btnDontSaveKeep
-      Left = 72
+      Left = 145
       Height = 29
       Top = 6
       Width = 90
@@ -53,7 +53,7 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSave: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnCancel
-      Left = 375
+      Left = 443
       Height = 29
       Top = 6
       Width = 90
@@ -69,7 +69,7 @@ object fmSaveTabs: TfmSaveTabs
       AnchorSideTop.Control = Panel1
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 471
+      Left = 539
       Height = 29
       Top = 6
       Width = 90
@@ -85,10 +85,10 @@ object fmSaveTabs: TfmSaveTabs
     object btnDontSaveKeep: TButton
       AnchorSideTop.Control = btnCancel
       AnchorSideRight.Control = btnDontSave
-      Left = 168
+      Left = 241
       Height = 29
       Top = 6
-      Width = 201
+      Width = 196
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Right = 6
