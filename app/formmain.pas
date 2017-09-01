@@ -1112,7 +1112,7 @@ begin
   end;
   {$endif}
   //UiOps.ScreenScale:= 200; ////test
-  UiOps_ScreenScale:= UiOps.ScreenScale;
+  //UiOps_ScreenScale:= UiOps.ScreenScale;
 
   ToolbarMain.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
@@ -1150,6 +1150,10 @@ begin
   ListboxVal.OnDblClick:= @ListboxOutClick;
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
+
+  Tree.DoScaleScrollbar;
+  ListboxOut.DoScaleScrollbar;
+  ListboxVal.DoScaleScrollbar;
 
   AppBookmarkImagelist.AddImages(ImageListBm);
   for i:= 0 to 9 do

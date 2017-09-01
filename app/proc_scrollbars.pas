@@ -36,7 +36,6 @@ type
 const
   UiOps_ScrollbarWidth: integer = 14;
   UiOps_ScrollbarBorderSize: integer = 0;
-  UiOps_ScreenScale: integer = 100;
 
 
 implementation
@@ -61,7 +60,7 @@ end;
 
 procedure TTreeViewMy.DoScaleScrollbar;
 begin
-  FScroll.AutoAdjustLayout(lapDefault, 100, UiOps_ScreenScale, 1, 1);
+  FScroll.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
 end;
 
 procedure TTreeViewMy.ScrollChange(Sender: TObject);
