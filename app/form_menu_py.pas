@@ -90,6 +90,8 @@ end;
 
 procedure TfmMenuApi.FormCreate(Sender: TObject);
 begin
+  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
+
   edit.DoubleBuffered:= UiOps.DoubleBuffered;
   list.DoubleBuffered:= UiOps.DoubleBuffered;
 

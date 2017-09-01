@@ -88,6 +88,8 @@ end;
 
 procedure TfmGotoList.FormCreate(Sender: TObject);
 begin
+  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
+
   List.DoubleBuffered:= UiOps.DoubleBuffered;
 
   List.Font.Name:= UiOps.VarFontName;

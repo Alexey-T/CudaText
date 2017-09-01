@@ -109,6 +109,8 @@ end;
 
 procedure TfmCommands.FormCreate(Sender: TObject);
 begin
+  AutoAdjustLayout(lapAutoAdjustForDPI, 96, Screen.PixelsPerInch, Width, Width);
+
   OptShowUsual:= true;
   OptShowPlugins:= true;
   OptShowLexers:= true;
