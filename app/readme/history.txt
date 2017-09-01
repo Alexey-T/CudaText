@@ -8,7 +8,8 @@
 
 + Project Manager: added commands "Add current file", "Add all opened files"
 + lexer Bash: hilite varname before "=", don't hilite keyword after "."
-+ API to dim/shade text
++ API to shade text
+- fixed: high-dpi in ProjManager and bottom panels
 - fixed: initial dir of save-dialogs for untitled tabs
 - fixed: wrong saved keys.json if "overwrite duplicate hotkey" was used with plugins
 - fixed: code-tree lost vert scrollbar
