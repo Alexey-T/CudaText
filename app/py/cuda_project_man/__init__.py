@@ -181,6 +181,7 @@ class Command:
             return
 
         self.init_form_main()
+        dlg_proc(self.h_dlg, DLG_SCALE)
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
 
         if and_activate:
