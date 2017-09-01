@@ -30,6 +30,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     property Themed: boolean read FThemed write SetThemed;
+    procedure DoScaleScrollbar;
   end;
 
 const
@@ -52,11 +53,15 @@ begin
   FScroll.Align:= alRight;
   FScroll.Width:= UiOps_ScrollbarWidth;
   FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
-  FScroll.AutoAdjustLayout(lapDefault, 100, UiOps_ScreenScale, 1, 1);
   FScroll.OnChange:= @ScrollChange;
 
   SetThemed(false);
   UpdScroll;
+end;
+
+procedure TTreeViewMy.DoScaleScrollbar;
+begin
+  FScroll.AutoAdjustLayout(lapDefault, 100, UiOps_ScreenScale, 1, 1);
 end;
 
 procedure TTreeViewMy.ScrollChange(Sender: TObject);
