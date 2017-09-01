@@ -157,7 +157,6 @@ class Command:
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         self.tree_imglist = tree_proc(self.tree, TREE_GET_IMAGELIST)
-        tree_proc(self.tree, TREE_THEME)
         tree_proc(self.tree, TREE_PROP_SHOW_ROOT, text='0')
         tree_proc(self.tree, TREE_ITEM_DELETE, 0)
 
@@ -181,7 +180,10 @@ class Command:
             return
 
         self.init_form_main()
+
         dlg_proc(self.h_dlg, DLG_SCALE)
+        tree_proc(self.tree, TREE_THEME) #TREE_THEME only after DLG_SCALE
+
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, 'project.png'))
 
         if and_activate:
