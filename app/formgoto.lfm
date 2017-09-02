@@ -17,14 +17,14 @@ object fmGoto: TfmGoto
   object bGoto: TATButton
     AnchorSideLeft.Control = edInput
     AnchorSideLeft.Side = asrBottom
-    Left = 149
+    Left = 270
     Height = 25
     Top = 4
     Width = 72
     BorderSpacing.Left = 6
+    Caption = 'Go'
     TabStop = True
     TabOrder = 1
-    Caption = 'Go'
     OnClick = bGotoClick
   end
   object LabelGoto: TLabel
@@ -49,7 +49,7 @@ object fmGoto: TfmGoto
     Left = 53
     Height = 25
     Top = 4
-    Width = 90
+    Width = 211
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     BorderStyle = bsSingle
@@ -104,19 +104,22 @@ object fmGoto: TfmGoto
     Colors.TextHintFont = clGray
     Colors.MarkedLinesBG = 15786160
     Colors.BorderLine = clMedGray
+    Colors.BorderLineFocused = clNavy
     Colors.ComboboxArrow = clGray
     Colors.ComboboxArrowBG = 15790320
     WantTabs = False
     WantReturns = False
     OptTextOffsetLeft = 2
-    OptTextOffsetTop = 2
+    OptTextOffsetTop = 4
+    OptScrollIndentCaretHorz = 0
     OptShowURLs = False
     OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
     OptCaretManyAllowed = False
     OptCaretVirtual = False
     OptGutterVisible = False
+    OptBorderWidth = 1
+    OptBorderWidthFocused = 1
     OptRulerVisible = False
-    OptWrapMode = cWrapOff
     OptMarginRight = 1000
     OptNumbersSkippedChar = '.'
     OptUnprintedVisible = False
