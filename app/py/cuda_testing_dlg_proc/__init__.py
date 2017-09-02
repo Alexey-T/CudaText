@@ -113,6 +113,15 @@ class Command:
         rect = data['rect']
         index_sel = listbox_proc(self.id_listbox, LISTBOX_GET_SEL)
 
+        #set bold for each 5th
+        if index%5==0:
+            style = FONT_B + FONT_I
+            color = 0xB00000
+        else:
+            style = 0
+            color = 0
+        canvas_proc(id_canvas, CANVAS_SET_FONT, text='default', color=color, style=style)
+
         if index==index_sel:
             back_color = 0x806000+(0xF<<index)
             if back_color>0xFFFF00:
