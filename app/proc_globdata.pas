@@ -522,6 +522,7 @@ type
     cEventOnConsoleNav,
     cEventOnOutputNav,
     cEventOnSnippet,
+    cEventOnGoto,
     cEventOnMacro
     );
   TAppPyEvents = set of TAppPyEvent;
@@ -556,6 +557,7 @@ const
     'on_console_nav',
     'on_output_nav',
     'on_snippet',
+    'on_goto',
     'on_macro'
     );
 
