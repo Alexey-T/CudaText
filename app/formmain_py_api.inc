@@ -3935,7 +3935,6 @@ var
   IdAction, NColor, NSize, NStyle, NX, NY, NX2, NY2, NP1, NP2: integer;
   PtrText: PChar;
   StrText: string;
-  Ok: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lisiiiiiiiii:canvas_proc',

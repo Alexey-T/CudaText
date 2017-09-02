@@ -514,6 +514,7 @@ type
     cEventOnStart,
     cEventOnLexer,
     cEventOnComplete,
+    cEventOnGoto,
     cEventOnGotoDef,
     cEventOnFuncHint,
     cEventOnTabMove,
@@ -522,7 +523,6 @@ type
     cEventOnConsoleNav,
     cEventOnOutputNav,
     cEventOnSnippet,
-    cEventOnGoto,
     cEventOnMacro
     );
   TAppPyEvents = set of TAppPyEvent;
@@ -549,6 +549,7 @@ const
     'on_start',
     'on_lexer',
     'on_complete',
+    'on_goto',
     'on_goto_def',
     'on_func_hint',
     'on_tab_move',
@@ -557,7 +558,6 @@ const
     'on_console_nav',
     'on_output_nav',
     'on_snippet',
-    'on_goto',
     'on_macro'
     );
 
