@@ -98,7 +98,7 @@ object fmMain: TfmMain
     end
     object PaintTest: TPaintBox
       Left = 0
-      Height = 134
+      Height = 40
       Top = 24
       Width = 872
       Align = alTop
@@ -106,13 +106,13 @@ object fmMain: TfmMain
     end
     object PanelMain: TATPanelSimple
       Left = 0
-      Height = 82
-      Top = 158
+      Height = 176
+      Top = 64
       Width = 872
       Align = alClient
       object SplitterVert: TSplitter
         Left = 202
-        Height = 82
+        Height = 176
         Top = 0
         Width = 4
       end
@@ -137,7 +137,7 @@ object fmMain: TfmMain
       end
       object PanelLeft: TATPanelSimple
         Left = 0
-        Height = 82
+        Height = 176
         Top = 0
         Width = 202
         Align = alLeft

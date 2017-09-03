@@ -1163,6 +1163,7 @@ begin
   end;
 
   PanelAll.Align:= alClient;
+  PaintTest.Height:= 150;
   AppManager:= TecSyntaxManager.Create(Self);
   FSessionName:= 'history session.json';
 
@@ -2136,7 +2137,7 @@ begin
 
   if Res=cOpGotoLine then
   begin
-    SInput:= fmGoto.edInput.Text;
+    SInput:= UTF8Encode(fmGoto.edInput.Text);
 
     if DoPyEvent(Ed, cEventOnGoto,
       [SStringToPythonString(SInput)] ) <> cPyFalse then
