@@ -26,7 +26,7 @@ cp $from/py/*.py $app/Contents/Resources/py
 cp $from/py/cuda_addonman/*.inf $app/Contents/Resources/py/cuda_addonman
 cp $from/py/cuda_addonman/*.py $app/Contents/Resources/py/cuda_addonman
 cp $from/py/cuda_insert_time/*.py $app/Contents/Resources/py/cuda_insert_time
-cp $from/py/cuda_insert_time/*.inf $app/Contents/Resources/py/cuda_insert_time
+cp $from/py/cuda_insert_time/*.in* $app/Contents/Resources/py/cuda_insert_time
 cp $from/py/cuda_make_plugin/*.py $app/Contents/Resources/py/cuda_make_plugin
 cp $from/py/cuda_make_plugin/*.inf $app/Contents/Resources/py/cuda_make_plugin
 cp $from/py/cuda_comments/*.py $app/Contents/Resources/py/cuda_comments

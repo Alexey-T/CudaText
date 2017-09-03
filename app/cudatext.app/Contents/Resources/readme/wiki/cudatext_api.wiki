@@ -22,7 +22,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_caret(self, ed_self): Called after editor caret position and/or selection is changed.
 * on_key(self, ed_self, key, state): Called when user presses a key in editor. 
 ** Param "key" is int key code (see module cudatext_keys). 
-** Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False do disable key processing, other return value is ignored.
+** Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
 * on_key_up(self, ed_self, key, state): Called when user unpresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
 * on_focus(self, ed_self): Called after any editor gets focus.
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
@@ -31,6 +31,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
+* on_goto(self, ed_self, text): Called when user enters string in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
 
 ==Clicks==
 
@@ -1983,6 +1984,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.197 (app 1.17.1)
+* add: event on_goto
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()
