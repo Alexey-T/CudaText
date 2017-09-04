@@ -34,7 +34,6 @@ type
     LabelGoto: TLabel;
     procedure bCloseClick(Sender: TObject);
     procedure bGotoClick(Sender: TObject);
-    procedure edInputChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -130,12 +129,7 @@ end;
 
 procedure TfmGoto.bGotoClick(Sender: TObject);
 begin
-  DoDOne(cOpGotoLine);
-end;
-
-procedure TfmGoto.edInputChange(Sender: TObject);
-begin
-  UpdateState;
+  DoDone(cOpGotoLine);
 end;
 
 procedure TfmGoto.bCloseClick(Sender: TObject);

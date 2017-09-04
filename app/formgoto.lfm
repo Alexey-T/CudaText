@@ -59,7 +59,6 @@ object fmGoto: TfmGoto
     ParentFont = False
     TabOrder = 0
     TabStop = True
-    OnChange = edInputChange
     Colors.TextFont = clBlack
     Colors.TextBG = clWhite
     Colors.TextDisabledFont = clMedGray

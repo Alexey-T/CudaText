@@ -665,6 +665,10 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    procedure GotoInputOnChange(Sender: TObject);
+    procedure GotoInputOnChangeCaretPos(Sender: TObject);
+    procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure InitAppleMenu;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -1218,6 +1222,9 @@ begin
   fmGoto.Parent:= PanelMain;
   fmGoto.Align:= alBottom;
   fmGoto.OnDone:= @GotoDialogDone;
+  fmGoto.edInput.OnChange:= @GotoInputOnChange;
+  fmGoto.edInput.OnChangeCaretPos:= @GotoInputOnChangeCaretPos;
+  fmGoto.edInput.OnKeyDown:=@GotoInputOnKeyDown;
 
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
@@ -3956,6 +3963,33 @@ end;
 function TfmMain.IsLexerMatches(const ANameList: string): boolean;
 begin
   Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
+end;
+
+procedure TfmMain.GotoInputOnChange(Sender: TObject);
+begin
+  fmGoto.UpdateState;
+  DoPyEvent(fmGoto.edInput, cEventOnGotoChange, []);
+end;
+
+procedure TfmMain.GotoInputOnChangeCaretPos(Sender: TObject);
+begin
+  DoPyEvent(fmGoto.edInput, cEventOnGotoCaret, []);
+end;
+
+procedure TfmMain.GotoInputOnKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  //res=False: block key
+  if DoPyEvent(fmGoto.edInput,
+    cEventOnGotoKey,
+    [
+      IntToStr(Key),
+      '"'+ConvertShiftStateToString(Shift)+'"'
+    ]) = cPyFalse then
+    begin
+      Key:= 0;
+      Exit
+    end;
 end;
 
 
