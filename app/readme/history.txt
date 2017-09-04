@@ -4,6 +4,10 @@
   * changed
 
 
+1.17.1 (2017/09)
+
++ API for dialog "Go to"
+
 1.17.0 (2017/09)
 
 + API to shade text (used in plugin Focus Mode)

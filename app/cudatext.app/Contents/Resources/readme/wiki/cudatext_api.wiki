@@ -8,42 +8,42 @@ This is API for [[CudaText]] in Python.
 
 =Event plugins=
 
-To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event on_save. Event methods have additional parameter ed_self: Editor object in which event occured (this object is the same as "ed" in 99% cases, but in rare cases event occurs in non-focused editor).
+To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event "on_save". Event methods have param "ed_self": Editor object in which event occured (this object is the same as "ed" in 99% cases, but in some cases event occurs in inactive editor, e.g. "Save all tabs" calls "on_save" for inactive tabs).
 
-==Common==
+==General==
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
 * on_close(self, ed_self): Called just before closing tab (closing editor is still active).
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
+* on_start(self, ed_self): Called once on program start (ignore ed_self).
+* on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
+
+==Editor==
+
 * on_change(self, ed_self): Called after editor text is changed.
 * on_change_slow(self, ed_self): Called after editor text is changed, and few seconds (option) passed. Used in CudaLint plugin, it needs to react to change after a delay.
 * on_caret(self, ed_self): Called after editor caret position and/or selection is changed.
-* on_key(self, ed_self, key, state): Called when user presses a key in editor. 
-** Param "key" is int key code (see module cudatext_keys). 
-** Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
-* on_key_up(self, ed_self, key, state): Called when user unpresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
+* on_key(self, ed_self, key, state): Called when user presses a key in editor. Param "key" is int key code; values are listed in the module cudatext_keys. Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
+* on_key_up(self, ed_self, key, state): Called when user depresses a key in editor. Params meaning is the same as in "on_key". Currently called only for Ctrl/Shift/Alt keys (to not slow down).
 * on_focus(self, ed_self): Called after any editor gets focus.
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
-* on_start(self, ed_self): Called once on program start (ignore ed_self).
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
-* on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
-* on_goto(self, ed_self, text): Called when user enters string in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
 
-==Clicks==
+==Editor clicks==
 
 * on_click(self, ed_self, state): Called after mouse click. Param "state: same meaning as in on_key.
 * on_click_dbl(self, ed_self, state): Called after mouse double-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
 * on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
 
-==Code parsing==
+==Smart commands==
 
 * on_complete(self, ed_self): Called by auto-completion command (default hotkey: Ctrl+Space). Method should call Editor.complete API. Method must return True if it handled command, otherwise None.  
-* on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
 * on_func_hint(self, ed_self): Called by function-hint command (default hotkey: Ctrl+Shift+Space). Method must return function-hint string (comma-separated parameters, brackets are optional). Empty str or None means no hint found.
+* on_goto_def(self, ed_self): Called by go-to-definition command (in editor context menu). Method must return True if it handled command, otherwise None.
 
 ==Panels==
 
@@ -58,9 +58,15 @@ To make plugin react to events, add method to class Command (like methods of com
 ** if item is "number,string" then it's command with str parameter (usually it's command cCommand_TextInsert).
 ** if item is "py:string_module,string_method,string_param" then it's call of Python plugin (usually string_param is empty).
 
-Notes:
+Note: To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
 
-* To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
+==Dialog "Go to"==
+
+* on_goto_enter(self, ed_self, text): Called when user entered (via button or Enter key) text in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
+* on_goto_change(self, ed_self): Called when text is changed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
+* on_goto_caret(self, ed_self): Called when caret/selection is moved in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
+* on_goto_key(self, ed_self, key, state): Called when a key is pressed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object. Params "key", "state" have the same meaning as in the "on_key" event. Method can return False to disable default key processing.
+* on_goto_key_up(self, ed_self, key, state): Called when a key is depressed in the "Go to" dialog input. Params: the same as in the "on_goto_key".
 
 ==Events priority==
 
@@ -1393,8 +1399,9 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 
 Editor class has methods to work with editor. Global objects of Editor exist:
 
-* ed: refers to currently focused editor (for any tab)
+* ed: refers to currently focused editor (in any tab).
 * ed_bro: refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
+* ed_goto: refers to input field in the "Go to" dialog.
 
 ==Carets==
 ===get_carets===
@@ -1986,7 +1993,8 @@ Text is chr(1) separated items:
 =History=
 
 1.0.197 (app 1.17.1)
-* add: event on_goto
+* add: object ed_goto
+* add: events: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()

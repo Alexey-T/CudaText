@@ -935,3 +935,4 @@ class Editor:
 #objects
 ed = Editor(0)
 ed_bro = Editor(1)
+ed_goto = Editor(9)
