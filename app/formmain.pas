@@ -3264,7 +3264,8 @@ procedure TfmMain.GetEditorIndexes(Ed: TATSynEdit;
   out AGroupIndex, ATabIndex: Integer);
 begin
   Groups.PagesAndTabIndexOfControl(GetEditorFrame(Ed), AGroupIndex, ATabIndex);
-  Dec(AGroupIndex); //was 1-based
+  if AGroupIndex>0 then
+    Dec(AGroupIndex); //was 1-based
 end;
 
 procedure TfmMain.DoHelpWiki;

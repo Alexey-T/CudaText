@@ -1965,12 +1965,12 @@ begin
         PROP_INDEX_GROUP:
           begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);
-            Result:= PyInt_FromLong(Num1);
+            Result:= PyLong_FromLongLong(Num1);
           end;
         PROP_INDEX_TAB:
           begin
             fmMain.GetEditorIndexes(Ed, Num1, Num2);
-            Result:= PyInt_FromLong(Num2);
+            Result:= PyLong_FromLongLong(Num2);
           end;
 
         PROP_TAG:
