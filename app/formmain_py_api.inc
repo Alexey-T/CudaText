@@ -827,6 +827,8 @@ begin
     begin
       Ed:= PyEditor(H);
       Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
+
+      Ed.Update(true);
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
@@ -858,6 +860,8 @@ begin
         Ed.Strings.TextAppend(Str, Shift, PosAfter)
       else
         Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
+
+      Ed.Update(true);
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
@@ -884,6 +888,8 @@ begin
 
       Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2,
         UTF8Decode(StrText), Shift, PosAfter);
+
+      Ed.Update(true);
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
@@ -911,6 +917,8 @@ begin
       try
         PyListToStrings(ListPy, Lines);
         Res:= Ed.Strings.TextReplaceLines_UTF8(Y1, Y2, Lines);
+
+        Ed.Update(true);
         Ed.DoEventChange;
       finally
         FreeAndNil(Lines);
