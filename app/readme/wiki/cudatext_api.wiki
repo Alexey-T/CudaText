@@ -1992,9 +1992,9 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.197 (app 1.17.2)
-* add: Editor object ed_goto
-* add: events for "Go to" dialog: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
+1.0.197 (app 1.17.1)
+* add: object ed_goto
+* add: events: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()
