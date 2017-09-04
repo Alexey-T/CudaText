@@ -20,10 +20,8 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_change(self, ed_self): Called after editor text is changed.
 * on_change_slow(self, ed_self): Called after editor text is changed, and few seconds (option) passed. Used in CudaLint plugin, it needs to react to change after a delay.
 * on_caret(self, ed_self): Called after editor caret position and/or selection is changed.
-* on_key(self, ed_self, key, state): Called when user presses a key in editor. 
-** Param "key" is int key code (see module cudatext_keys). 
-** Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
-* on_key_up(self, ed_self, key, state): Called when user depresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
+* on_key(self, ed_self, key, state): Called when user presses a key in editor. Param "key" is int key code; values are listed in the module cudatext_keys. Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
+* on_key_up(self, ed_self, key, state): Called when user depresses a key in editor. Params meaning is the same as in "on_key". Currently called only for Ctrl/Shift/Alt keys (to not slow down).
 * on_focus(self, ed_self): Called after any editor gets focus.
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
