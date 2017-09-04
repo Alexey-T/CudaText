@@ -805,6 +805,7 @@ begin
           Ed.Strings.LinesEnds[N]:= Ed.Strings.Endings;
       end;
 
+      Ed.Update(true);
       Ed.DoEventChange;
 
       fmMain.UpdateFrame(true);
