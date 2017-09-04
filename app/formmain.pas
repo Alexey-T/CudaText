@@ -552,6 +552,7 @@ type
     FFileNamesDroppedInitially: array of string;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
+    FPyComplete_Editor: TATSynEdit;
     FPyComplete_Text: string;
     FPyComplete_CharsLeft: integer;
     FPyComplete_CharsRight: integer;

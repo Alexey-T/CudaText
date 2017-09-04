@@ -1295,6 +1295,7 @@ end;
 procedure TfmMain.PyCompletionOnGetProp(Sender: TObject; out AText: string; out
   ACharsLeft, ACharsRight: integer);
 var
+  Ed: TATSynEdit;
   Caret: TATCaretItem;
   PrevCharsLeft: integer;
 begin
@@ -1302,14 +1303,15 @@ begin
   ACharsLeft:= 0;
   ACharsRight:= 0;
 
-  Caret:= CurrentEditor.Carets[0];
+  Ed:= FPyComplete_Editor; //can be not CurrentEditor
+  Caret:= Ed.Carets[0];
 
   //if caret moved by 1 char: repeat auto-complete
   if (Abs(Caret.PosX-FPyComplete_CaretPos.X)=1) and
      (Caret.PosY=FPyComplete_CaretPos.Y) then
   begin
     PrevCharsLeft:= FPyComplete_CharsLeft;
-    DoPyEvent(CurrentEditor, cEventOnComplete, []);
+    DoPyEvent(Ed, cEventOnComplete, []);
 
     //this check- to close listbox when no more matches after typing too much
     //MsgStatus(Format('prev %d now %d', [PrevCharsLeft, FPyComplete_CharsLeft]));
@@ -1348,7 +1350,7 @@ begin
   StrSnippet:= Str0;
 
   //ShowMessage('id: '+ASnippetId+#10+'text:'#10+StrSnippet);
-  DoPyEvent(CurrentEditor, cEventOnSnippet, [
+  DoPyEvent(FPyComplete_Editor, cEventOnSnippet, [
     SStringToPythonString(ASnippetId),
     SStringToPythonString(StrSnippet)
     ]);
@@ -1388,6 +1390,7 @@ begin
       Ed:= PyEditor(H);
       Str:= string(Ptr);
 
+      fmMain.FPyComplete_Editor:= Ed;
       fmMain.FPyComplete_Text:= Str;
       fmMain.FPyComplete_CharsLeft:= NChars1;
       fmMain.FPyComplete_CharsRight:= NChars2;
@@ -1416,6 +1419,7 @@ begin
       StrText:= string(PtrText);
       StrId:= string(PtrId);
 
+      fmMain.FPyComplete_Editor:= Ed;
       fmMain.FPyComplete_Text:= StrText;
       fmMain.FPyComplete_CharsLeft:= NChars;
       fmMain.FPyComplete_CharsRight:= 0;
