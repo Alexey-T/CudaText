@@ -10,6 +10,7 @@ Copyright (c) Alexey Torgashin
 const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
+  cPyEditorHandleGoto = 9;
 
 var
   PyLastCommandModule: string = '';
@@ -38,12 +39,12 @@ begin
         Result:= fmMain.CurrentEditor;
       1:
         Result:= fmMain.GetEditorBrother(fmMain.CurrentEditor);
-      {
-      2:
-        Result:= fmMain.OppositeFrame.EditorMaster;
-      3:
-        Result:= fmMain.OppositeFrame.EditorSlave;
-        }
+
+      cPyEditorHandleGoto:
+        begin
+          Result:= fmGoto.edInput;
+        end;
+
       cPyEditorHandleMin..
       cPyEditorHandleMax:
         begin
@@ -764,6 +765,7 @@ begin
         for i:= Ed.Strings.Count-1 downto 0 do
           Ed.Strings.TextDeleteLine(0, i, Shift, PosAfter);
         Ed.Strings.TextInsert(0, 0, StrW, false, Shift, PosAfter);
+        Ed.Update(true);
       finally
         Ed.Strings.EndUndoGroup;
         Ed.DoEventChange;

@@ -1214,6 +1214,11 @@ begin
   fmConsole.OnConsole:= @DoOnConsole;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
+  fmGoto:= TfmGoto.Create(Self);
+  fmGoto.Parent:= PanelMain;
+  fmGoto.Align:= alBottom;
+  fmGoto.OnDone:= @GotoDialogDone;
+
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
 
@@ -2101,14 +2106,7 @@ end;
 
 procedure TfmMain.DoDialogGoto;
 begin
-  if not Assigned(fmGoto) then
-  begin
-    fmGoto:= TfmGoto.Create(Self);
-    fmGoto.OnDone:= @GotoDialogDone;
-    fmGoto.Parent:= PanelMain;
-    fmGoto.Align:= alBottom;
-    fmGoto.Color:= GetAppColor('TabBg');
-  end;
+  fmGoto.Color:= GetAppColor('TabBg');
   DoLocalize_FormGoto;
 
   with fmGoto do
