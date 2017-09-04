@@ -3996,17 +3996,12 @@ end;
 procedure TfmMain.GotoInputOnKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  //res=False: block key
-  if DoPyEvent(fmGoto.edInput,
+  DoPyEvent(fmGoto.edInput,
     cEventOnGotoKeyUp,
     [
       IntToStr(Key),
       '"'+ConvertShiftStateToString(Shift)+'"'
-    ]) = cPyFalse then
-    begin
-      Key:= 0;
-      Exit
-    end;
+    ]);
 end;
 
 
