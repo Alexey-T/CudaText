@@ -63,7 +63,10 @@ Notes:
 
 ==Dialog "Go to"==
 
-* on_goto_enter(self, ed_self, text): Called when user enters string in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
+* on_goto_enter(self, ed_self, text): Called when user entered (via button or Enter key) text in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
+* on_goto_change(self, ed_self): Called when text is changed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
+* on_goto_caret(self, ed_self): Called when caret/selection is moved in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
+* on_goto_key(self, ed_self, key, state): Called when a key is pressed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object. Params "key", "state" have the same meaning as in the "on_key" event. Method can return False to disable default key processing.
 
 ==Events priority==
 
@@ -1989,8 +1992,9 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.197 (app 1.17.1)
-* add: event on_goto
+1.0.197 (app 1.17.2)
+* add: Editor object ed_goto
+* add: events for "Go to" dialog: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()
