@@ -349,6 +349,7 @@ begin
     begin
       Ed:= PyEditor(H);
       Frame:= fmMain.GetEditorFrame(Ed);
+      if Frame=nil then exit(ReturnNone);
       StrName:= string(PtrName);
 
       if StrName<>'' then
@@ -954,6 +955,7 @@ begin
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
+      if F=nil then exit(ReturnNone);
       Result:= PyUnicode_FromWideString(Utf8Decode(F.FileName));
     end;
 end;
@@ -1030,7 +1032,8 @@ begin
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
-      fmMain.SetFrame(F);
+      if Assigned(F) then
+        fmMain.SetFrame(F);
       EditorFocus(Ed);
 
       fmMain.UpdateFrame();
@@ -1147,6 +1150,7 @@ begin
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
+      if F=nil then exit(ReturnNone);
 
       NValue:= F.SplitPos;
       if not F.Splitted then NState:= TAB_SPLIT_NO else
@@ -1171,6 +1175,8 @@ begin
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
+      if F=nil then exit(ReturnNone);
+
       case NState of
         TAB_SPLIT_NO: begin F.Splitted:= false; end;
         TAB_SPLIT_HORZ: begin F.Splitted:= true; F.SplitHorz:= true; end;
@@ -1894,31 +1900,66 @@ begin
           Result:= PyInt_FromLong(Ed.LineTop);
 
         PROP_LEXER_FILE:
-          Result:= PyString_FromString(PChar(F.LexerName));
+          begin
+            if Assigned(F) then
+              Result:= PyString_FromString(PChar(F.LexerName))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_LEXER_POS:
           begin
             Pnt.X:= StrToIntDef(SGetItem(Str, ','), 0);
             Pnt.Y:= StrToIntDef(SGetItem(Str, ','), 0);
-            Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
+            if Assigned(F) then
+              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)))
+            else
+              Result:= ReturnNone;
           end;
+
         PROP_LEXER_CARET:
           begin
             Pnt.X:= Ed.Carets[0].PosX;
             Pnt.Y:= Ed.Carets[0].PosY;
-            Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)));
+            if Assigned(F) then
+              Result:= PyString_FromString(PChar(F.LexerNameAtPos(Pnt)))
+            else
+              Result:= ReturnNone;
           end;
 
         PROP_TAB_COLOR:
-          Result:= PyInt_FromLong(F.TabColor);
+          begin
+            if Assigned(F) then
+              Result:= PyInt_FromLong(F.TabColor)
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_TAB_TITLE:
-          Result:= PyUnicode_FromWideString(Utf8Decode(F.TabCaption));
+          begin
+            if Assigned(F) then
+              Result:= PyUnicode_FromWideString(Utf8Decode(F.TabCaption))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_TAB_ID:
-          Result:= PyLong_FromLong(F.TabId);
+          begin
+            if Assigned(F) then
+              Result:= PyLong_FromLong(F.TabId)
+            else
+              Result:= ReturnNone;
+          end;
 
         PROP_ENC:
           begin
-            Str:= AppEncodingFullnameToShortname(F.EncodingName);
-            Result:= PyUnicode_FromWideString(Utf8Decode(Str));
+            if Assigned(F) then
+            begin
+              Str:= AppEncodingFullnameToShortname(F.EncodingName);
+              Result:= PyUnicode_FromWideString(Utf8Decode(Str));
+            end
+            else
+              Result:= ReturnNone;
           end;
 
         PROP_INDEX_GROUP:
@@ -1933,7 +1974,12 @@ begin
           end;
 
         PROP_TAG:
-          Result:= PyString_FromString(PChar(F.TagString));
+          begin
+            if Assigned(F) then
+              Result:= PyString_FromString(PChar(F.TagString))
+            else
+              Result:= ReturnNone;
+          end;
 
         PROP_UNPRINTED_SHOW:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedVisible));
@@ -1945,12 +1991,28 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEndsDetails));
 
         PROP_TAB_ICON:
-          Result:= PyLong_FromLongLong(F.TabImageIndex);
+          begin
+            if Assigned(F) then
+              Result:= PyLong_FromLongLong(F.TabImageIndex)
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_TAB_COLLECT_MARKERS:
-          Result:= PyBool_FromLong(Ord(F.TabKeyCollectMarkers));
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.TabKeyCollectMarkers))
+            else
+              Result:= ReturnNone;
+          end;
 
         PROP_MACRO_REC:
-          Result:= PyBool_FromLong(Ord(F.MacroRecord));
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.MacroRecord))
+            else
+              Result:= ReturnNone;
+          end;
 
         PROP_MARKED_RANGE:
           begin
@@ -1992,7 +2054,7 @@ begin
 
         PROP_PICTURE:
           begin
-            if F.IsText then
+            if (F=nil) or (F.IsText) then
               Result:= ReturnNone
             else
             begin
@@ -2057,12 +2119,16 @@ begin
         PROP_MODIFIED:
           begin
             Ed.Modified:= ValueBool;
-            F.UpdateModifiedState;
+            if Assigned(F) then
+              F.UpdateModifiedState;
           end;
         PROP_RULER:
           Ed.OptRulerVisible:= ValueBool;
         PROP_LEXER_FILE:
-          F.Lexer:= AppManager.FindAnalyzer(Str);
+          begin
+            if Assigned(F) then
+              F.Lexer:= AppManager.FindAnalyzer(Str);
+          end;
 
         PROP_COLOR:
           begin
@@ -2075,7 +2141,8 @@ begin
 
         PROP_LINE_TOP:
           begin
-            F.TopLineTodo:= ValueInt;
+            if Assigned(F) then
+              F.TopLineTodo:= ValueInt;
             Ed.LineTop:= ValueInt;
           end;
         PROP_COLUMN_LEFT:
@@ -2084,18 +2151,30 @@ begin
           end;
 
         PROP_TAB_COLOR:
-          F.TabColor:= ValueInt;
+          begin
+            if Assigned(F) then
+              F.TabColor:= ValueInt;
+          end;
         PROP_TAB_TITLE:
           begin
-            F.TabCaption:= Str;
-            F.TabCaptionFromApi:= true;
+            if Assigned(F) then
+            begin
+              F.TabCaption:= Str;
+              F.TabCaptionFromApi:= true;
+            end;
           end;
 
         PROP_ENC:
-          F.EncodingName:= AppEncodingShortnameToFullname(Str);
+          begin
+            if Assigned(F) then
+              F.EncodingName:= AppEncodingShortnameToFullname(Str);
+          end;
 
         PROP_TAG:
-          F.TagString:= Str;
+          begin
+            if Assigned(F) then
+              F.TagString:= Str;
+          end;
 
         PROP_UNPRINTED_SHOW:
           Ed.OptUnprintedVisible:= ValueBool;
@@ -2107,10 +2186,16 @@ begin
           Ed.OptUnprintedEndsDetails:= ValueBool;
 
         PROP_TAB_ICON:
-          F.TabImageIndex:= ValueInt;
+          begin
+            if Assigned(F) then
+              F.TabImageIndex:= ValueInt;
+          end;
 
         PROP_TAB_COLLECT_MARKERS:
-          F.TabKeyCollectMarkers:= ValueBool;
+          begin
+            if Assigned(F) then
+              F.TabKeyCollectMarkers:= ValueBool;
+          end;
 
         PROP_INDEX_GROUP:
           begin
@@ -3057,6 +3142,7 @@ begin
     begin
       Ed:= PyEditor(H);
       Frame:= fmMain.GetEditorFrame(Ed);
+      if Frame=nil then exit(ReturnNone);
 
       NLen:= Frame.Adapter.SublexerRangeCount;
       if NLen>0 then
@@ -3924,6 +4010,7 @@ begin
     begin
       Ed:= PyEditor(H);
       F:= fmMain.GetEditorFrame(Ed);
+      if F=nil then exit(ReturnNone);
 
       case Id of
         TOKEN_AT_POS:

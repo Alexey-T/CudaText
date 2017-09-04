@@ -97,7 +97,10 @@ end;
 
 function TfmMain.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
 begin
-  Result:= Ed.Parent as TEditorFrame;
+  if Ed.Parent is TEditorFrame then
+    Result:= Ed.Parent as TEditorFrame
+  else
+    Result:= nil;
 end;
 
 function TfmMain.GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
@@ -105,6 +108,7 @@ var
   F: TEditorFrame;
 begin
   F:= GetEditorFrame(Ed);
+  if F=nil then exit(nil);
   if Ed=F.Editor then
     Result:= F.Editor2
   else
