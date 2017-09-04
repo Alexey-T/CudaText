@@ -667,8 +667,8 @@ type
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure GotoInputOnChange(Sender: TObject);
     procedure GotoInputOnChangeCaretPos(Sender: TObject);
-    procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -1225,6 +1225,7 @@ begin
   fmGoto.edInput.OnChange:= @GotoInputOnChange;
   fmGoto.edInput.OnChangeCaretPos:= @GotoInputOnChangeCaretPos;
   fmGoto.edInput.OnKeyDown:=@GotoInputOnKeyDown;
+  fmGoto.edInput.OnKeyUp:=@GotoInputOnKeyUp;
 
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
@@ -3982,6 +3983,22 @@ begin
   //res=False: block key
   if DoPyEvent(fmGoto.edInput,
     cEventOnGotoKey,
+    [
+      IntToStr(Key),
+      '"'+ConvertShiftStateToString(Shift)+'"'
+    ]) = cPyFalse then
+    begin
+      Key:= 0;
+      Exit
+    end;
+end;
+
+procedure TfmMain.GotoInputOnKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  //res=False: block key
+  if DoPyEvent(fmGoto.edInput,
+    cEventOnGotoKeyUp,
     [
       IntToStr(Key),
       '"'+ConvertShiftStateToString(Shift)+'"'
