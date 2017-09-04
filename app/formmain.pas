@@ -2137,7 +2137,7 @@ begin
   begin
     SInput:= UTF8Encode(fmGoto.edInput.Text);
 
-    if DoPyEvent(Ed, cEventOnGoto,
+    if DoPyEvent(Ed, cEventOnGotoEnter,
       [SStringToPythonString(SInput)] ) <> cPyFalse then
     begin
       Num:= StrToIntDef(SInput, 0)-1;
