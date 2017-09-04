@@ -23,7 +23,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_key(self, ed_self, key, state): Called when user presses a key in editor. 
 ** Param "key" is int key code (see module cudatext_keys). 
 ** Param "state" is string of chars: "a" if Alt pressed, "c" if Ctrl pressed, "s" if Shift pressed, "m" if Meta (Windows-key) pressed. Method can return False to disable key processing, other return value is ignored.
-* on_key_up(self, ed_self, key, state): Called when user unpresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
+* on_key_up(self, ed_self, key, state): Called when user depresses a key in editor. Currently only for Ctrl/Shift/Alt keys (to not slow down).
 * on_focus(self, ed_self): Called after any editor gets focus.
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
@@ -67,6 +67,7 @@ Notes:
 * on_goto_change(self, ed_self): Called when text is changed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
 * on_goto_caret(self, ed_self): Called when caret/selection is moved in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
 * on_goto_key(self, ed_self, key, state): Called when a key is pressed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object. Params "key", "state" have the same meaning as in the "on_key" event. Method can return False to disable default key processing.
+* on_goto_key_up(self, ed_self, key, state): Called when a key is depressed in the "Go to" dialog input. Params: the same as in the "on_goto_key".
 
 ==Events priority==
 
@@ -1994,7 +1995,7 @@ Text is chr(1) separated items:
 
 1.0.197 (app 1.17.2)
 * add: Editor object ed_goto
-* add: events for "Go to" dialog: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key
+* add: events for "Go to" dialog: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()
