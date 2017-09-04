@@ -31,7 +31,6 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
-* on_goto(self, ed_self, text): Called when user enters string in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
 
 ==Clicks==
 
@@ -61,6 +60,10 @@ To make plugin react to events, add method to class Command (like methods of com
 Notes:
 
 * To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
+
+==Dialog "Go to"==
+
+* on_goto_enter(self, ed_self, text): Called when user enters string in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
 
 ==Events priority==
 
@@ -1393,8 +1396,9 @@ Note: Toolbars contain several "button_ex" objects, which are anchored one to an
 
 Editor class has methods to work with editor. Global objects of Editor exist:
 
-* ed: refers to currently focused editor (for any tab)
+* ed: refers to currently focused editor (in any tab).
 * ed_bro: refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
+* ed_goto: refers to input field in the "Go to" dialog.
 
 ==Carets==
 ===get_carets===
