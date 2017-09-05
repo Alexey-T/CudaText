@@ -161,6 +161,7 @@ PROP_MODIFIED_VERSION      = 47
 PROP_TAB_ID                = 48
 PROP_COLUMN_LEFT           = 49
 PROP_COORDS                = 50
+PROP_ONE_LINE              = 51
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1

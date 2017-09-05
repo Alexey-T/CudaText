@@ -2105,6 +2105,11 @@ begin
         PROP_COORDS:
           begin
             Result:= Py_rect_control(Ed);
+          end;
+
+        PROP_ONE_LINE:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
           end
 
         else
@@ -2270,6 +2275,9 @@ begin
           Ed.OptMinimapVisible:= ValueBool;
         PROP_MICROMAP:
           Ed.OptMicromapVisible:= ValueBool;
+
+        PROP_ONE_LINE:
+          Ed.ModeOneLine:= ValueBool;
 
         PROP_EXPORT_HTML:
           begin
