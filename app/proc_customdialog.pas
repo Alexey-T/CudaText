@@ -24,6 +24,7 @@ uses
   ATStringProc,
   ATPanelColor,
   ATGauge,
+  ATSynEdit,
   proc_customdialog_dummy,
   proc_miscutils,
   proc_globdata,
@@ -420,6 +421,12 @@ begin
   if S='edit' then
   begin
     Ctl:= TEdit.Create(AForm);
+    exit;
+  end;
+
+  if S='editor' then
+  begin
+    Ctl:= TATSynEdit.Create(AForm);
     exit;
   end;
 
