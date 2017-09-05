@@ -1641,6 +1641,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
+* PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
 
 ===set_prop===
 
@@ -1686,6 +1687,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_TAB_COLOR: int: color of tab containing editor; set COLOR_NONE to reset.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
+* PROP_ONE_LINE: bool: editor has single-line mode.
 
 ===bookmark===
 
@@ -1998,6 +2000,7 @@ Text is chr(1) separated items:
 * add: object ed_goto
 * add: objects ed_con_log, ed_con_in
 * add: events: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
+* add: ed.get_prop/set_prop: PROP_ONE_LINE
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()
