@@ -766,14 +766,19 @@ begin
         for i:= Ed.Strings.Count-1 downto 0 do
           Ed.Strings.TextDeleteLine(0, i, Shift, PosAfter);
         Ed.Strings.TextInsert(0, 0, StrW, false, Shift, PosAfter);
-        Ed.Update(true);
       finally
         Ed.Strings.EndUndoGroup;
         Ed.DoEventChange;
       end;
 
-      fmMain.UpdateFrame(true);
-      fmMain.UpdateStatus;
+      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      begin
+        fmMain.UpdateFrame(true);
+        fmMain.UpdateStatus;
+      end
+      else
+        Ed.Update(true);
+
       Result:= ReturnNone;
     end;
 end;
@@ -806,11 +811,16 @@ begin
           Ed.Strings.LinesEnds[N]:= Ed.Strings.Endings;
       end;
 
-      Ed.Update(true);
       Ed.DoEventChange;
 
-      fmMain.UpdateFrame(true);
-      fmMain.UpdateStatus;
+      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      begin
+        fmMain.UpdateFrame(true);
+        fmMain.UpdateStatus;
+      end
+      else
+        Ed.Update(true);
+
       Result:= ReturnNone;
     end;
 end;
@@ -829,11 +839,16 @@ begin
       Ed:= PyEditor(H);
       Ed.Strings.TextDeleteRange(X1, Y1, X2, Y2, Shift, PosAfter);
 
-      Ed.Update(true);
       Ed.DoEventChange;
 
-      fmMain.UpdateFrame(true);
-      fmMain.UpdateStatus;
+      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      begin
+        fmMain.UpdateFrame(true);
+        fmMain.UpdateStatus;
+      end
+      else
+        Ed.Update(true);
+
       Result:= ReturnNone;
     end;
 end;
@@ -862,11 +877,16 @@ begin
       else
         Ed.Strings.TextInsert(X1, Y1, Str, false, Shift, PosAfter);
 
-      Ed.Update(true);
       Ed.DoEventChange;
 
-      fmMain.UpdateFrame(true);
-      fmMain.UpdateStatus;
+      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      begin
+        fmMain.UpdateFrame(true);
+        fmMain.UpdateStatus;
+      end
+      else
+        Ed.Update(true);
+
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
     end;
 end;
@@ -890,11 +910,16 @@ begin
       Ed.Strings.TextReplaceRange(X1, Y1, X2, Y2,
         UTF8Decode(StrText), Shift, PosAfter);
 
-      Ed.Update(true);
       Ed.DoEventChange;
 
-      fmMain.UpdateFrame(true);
-      fmMain.UpdateStatus;
+      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      begin
+        fmMain.UpdateFrame(true);
+        fmMain.UpdateStatus;
+      end
+      else
+        Ed.Update(true);
+
       Result:= Py_BuildValue('(ii)', PosAfter.X, PosAfter.Y);
     end;
 end;
@@ -919,14 +944,19 @@ begin
         PyListToStrings(ListPy, Lines);
         Res:= Ed.Strings.TextReplaceLines_UTF8(Y1, Y2, Lines);
 
-        Ed.Update(true);
         Ed.DoEventChange;
       finally
         FreeAndNil(Lines);
       end;
 
-      fmMain.UpdateFrame(true);
-      fmMain.UpdateStatus;
+      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      begin
+        fmMain.UpdateFrame(true);
+        fmMain.UpdateStatus;
+      end
+      else
+        Ed.Update(true);
+
       Result:= PyBool_FromLong(Ord(Res));
     end;
 end;
@@ -1131,8 +1161,13 @@ begin
           Result:= ReturnNone;
       end;
 
-      fmMain.UpdateFrame(true);
-      fmMain.UpdateStatus;
+      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      begin
+        fmMain.UpdateFrame;
+        fmMain.UpdateStatus;
+      end
+      else
+        Ed.Update;
     end;
 end;
 
