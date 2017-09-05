@@ -430,13 +430,14 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
-    EditorApplyTheme(Ctl as TATSynEdit);
+    EditorApplyTheme(TATSynEdit(Ctl));
+    EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true);
 
     Adapter:= TATAdapterEControl.Create(AForm);
     Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
     Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
     Adapter.EnabledLineSeparators:= EditorOps.OpLexerLineSeparators;
-    Adapter.AddEditor(Ctl as TATSynEdit);
+    Adapter.AddEditor(TATSynEdit(Ctl));
 
     exit;
   end;

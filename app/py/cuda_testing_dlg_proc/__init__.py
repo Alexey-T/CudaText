@@ -427,7 +427,6 @@ class Command:
             'align': ALIGN_TOP,
             'sp_a': 6,
             'h': 350,
-            'font_size': 11,
             })
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, index=n)
@@ -441,8 +440,7 @@ begin
 end;
 """)
         ed0.set_caret(0, 3, 0, 2)
-        ed0.set_prop(PROP_CARET_SHAPE, 3)
-        ed0.set_prop(PROP_UNPRINTED_SHOW, False)
+        ed0.set_prop(PROP_CARET_SHAPE, 2)
         ed0.set_prop(PROP_MINIMAP, True)
         ed0.set_prop(PROP_LEXER_FILE, 'Pascal')
 
