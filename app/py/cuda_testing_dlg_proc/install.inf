@@ -54,6 +54,11 @@ section=commands
 caption=Test dlg_proc\test type=listbox_ex
 method=test_listbox
 
+[item33]
+section=commands
+caption=Test dlg_proc\test type=editor
+method=test_editor
+
 [item50]
 section=commands
 caption=Test dlg_proc\test side-panel

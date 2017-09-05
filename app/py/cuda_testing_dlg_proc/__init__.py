@@ -417,6 +417,29 @@ class Command:
         return h
 
 
+    def init_editor_dlg(self):
+
+        h=dlg_proc(0, DLG_CREATE)
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'editor test', 'w':500, 'h':400 })
+
+        n=dlg_proc(h, DLG_CTL_ADD, 'editor')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'ed',
+            'align': ALIGN_TOP,
+            'sp_a': 6,
+            'h': 350,
+            'font_size': 12,
+            })
+
+        self.h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
+        ed0 = Editor(self.h_ed)
+        ed0.set_text_all('Initial\nmulti-line\ntext here.\nend\n')
+        ed0.set_caret(0, 3, 0, 2)
+        ed0.set_prop(PROP_CARET_SHAPE, 3)
+        ed0.set_prop(PROP_UNPRINTED_SHOW, False)
+
+        return h
+
+
     def callback_main_movebtn(self, id_dlg, id_ctl):
         print('callback_main_movebtn')
         d = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=id_ctl)
@@ -529,6 +552,11 @@ class Command:
 
     def test_listbox(self):
         h = self.init_listdlg()
+        dlg_proc(h, DLG_SHOW_MODAL)
+        dlg_proc(h, DLG_FREE)
+
+    def test_editor(self):
+        h = self.init_editor_dlg()
         dlg_proc(h, DLG_SHOW_MODAL)
         dlg_proc(h, DLG_FREE)
 
