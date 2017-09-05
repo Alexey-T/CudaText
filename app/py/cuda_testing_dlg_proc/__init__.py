@@ -432,11 +432,19 @@ class Command:
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         ed0 = Editor(h_editor)
-        ed0.set_text_all('Initial\nmulti-line\ntext here,\nend.\n')
+        ed0.set_text_all(
+"""unit Test;
+//comment
+procedure Test(var Num: string);
+begin
+  Writeln(Num, 'Test str');
+end;
+""")
         ed0.set_caret(0, 3, 0, 2)
         ed0.set_prop(PROP_CARET_SHAPE, 3)
         ed0.set_prop(PROP_UNPRINTED_SHOW, False)
         ed0.set_prop(PROP_MINIMAP, True)
+        ed0.set_prop(PROP_LEXER_FILE, 'Pascal')
 
         dlg_proc(h, DLG_CTL_FOCUS, index=n)
 
