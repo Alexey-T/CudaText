@@ -2126,6 +2126,7 @@ var
   Str, Str1, Str2: string;
   Ed: TATSynEdit;
   F: TEditorFrame;
+  An, AnOut: TecSyntAnalyzer;
   ValueBool: boolean;
   ValueInt, NGroup, NTab, NIndexNew, N1, N2: integer;
 begin
@@ -2178,7 +2179,13 @@ begin
             else
             //for other editors
             if Assigned(Ed.AdapterForHilite) then
-              (Ed.AdapterForHilite as TATAdapterEControl).Lexer:= AppManager.FindAnalyzer(Str);
+            begin
+              An:= AppManager.FindAnalyzer(Str);
+              //apply syntax theme
+              if Assigned(An) then
+                DoApplyLexerStylesMap(An, AnOut);
+              (Ed.AdapterForHilite as TATAdapterEControl).Lexer:= An;
+            end;
           end;
 
         PROP_COLOR:

@@ -29,6 +29,7 @@ uses
   proc_customdialog_dummy,
   proc_miscutils,
   proc_globdata,
+  proc_editor,
   proc_scrollbars,
   PythonEngine;
 
@@ -429,6 +430,7 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
+    EditorApplyTheme(Ctl as TATSynEdit);
 
     Adapter:= TATAdapterEControl.Create(AForm);
     Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
