@@ -291,7 +291,7 @@ procedure DoControl_SetState_Combobox(C: TCombobox; const SValue: string);
 var
   N: integer;
 begin
-  if C.ReadOnly then
+  if C.Style in [csDropDownList, csOwnerDrawFixed, csOwnerDrawVariable] then
   begin
     N:= StrToIntDef(SValue, -1);
     if (N>=0) and (N<C.Items.Count) then
