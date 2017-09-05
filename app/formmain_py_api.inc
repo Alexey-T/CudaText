@@ -1938,6 +1938,9 @@ begin
         PROP_LINE_TOP:
           Result:= PyInt_FromLong(Ed.LineTop);
 
+        PROP_LINE_NUMBERS:
+          Result:= PyInt_FromLong(Ord(Ed.OptNumbersStyle));
+
         PROP_LEXER_FILE:
           begin
             if Assigned(F) then
@@ -2203,9 +2206,15 @@ begin
               F.TopLineTodo:= ValueInt;
             Ed.LineTop:= ValueInt;
           end;
+
         PROP_COLUMN_LEFT:
           begin
             Ed.ColumnLeft:= ValueInt;
+          end;
+
+        PROP_LINE_NUMBERS:
+          begin
+            Ed.OptNumbersStyle:= TATSynNumbersStyle(ValueInt);
           end;
 
         PROP_TAB_COLOR:
