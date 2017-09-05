@@ -524,6 +524,7 @@ Possible types of controls:
 * "check": checkbox, checked/unchecked/grayed
 * "radio": radio-button, only one of radio-buttons can be checked
 * "edit": single-line input
+* "editor": full featured editor (multi-line by default)
 * "edit_pwd": single-line input for password, text is masked
 * "combo": combobox, editable + drop-down, value is text
 * "combo_ro": combobox, drop-down only, value is index of drop-down
@@ -562,6 +563,7 @@ Notes:
 * Control "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
 * Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
 * Control "toolbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to toolbar_proc().
+* Control "editor" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to Editor() to make editor object.
 * Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
 
 ==== Properties ====
@@ -1996,7 +1998,8 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.197 (app 1.17.1)
+1.0.197 (app 1.17.2)
+* add: dlg_proc: type "editor"
 * add: object ed_goto
 * add: objects ed_con_log, ed_con_in
 * add: events: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
