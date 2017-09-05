@@ -2150,7 +2150,7 @@ procedure TfmMain.GotoDialogDone(Sender: TObject; const Res: string);
 var
   Ed: TATSynEdit;
   SInput: string;
-  Num: integer;
+  NumLine, NumCol: integer;
 begin
   Ed:= CurrentEditor;
 
@@ -2168,19 +2168,22 @@ begin
     if DoPyEvent(Ed, cEventOnGotoEnter,
       [SStringToPythonString(SInput)] ) <> cPyFalse then
     begin
-      Num:= StrToIntDef(SInput, 0)-1;
-      if Num<0 then
+      NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0)-1;
+      NumCol:= StrToIntDef(SInput, 0)-1;
+
+      if NumLine<0 then
       begin
         MsgStatus(msgStatusBadLineNum);
         Exit
       end;
-      Num:= Min(Num, Ed.Strings.Count-1);
 
-      fmGoto.Hide;
-      MsgStatus(Format(msgStatusGotoLine, [Num+1]));
+      NumLine:= Min(NumLine, Ed.Strings.Count-1);
+      NumCol:= Max(0, NumCol);
+
+      MsgStatus(Format(msgStatusGotoLine, [NumLine+1]));
 
       Ed.DoGotoPos(
-        Point(0, Num),
+        Point(NumCol, NumLine),
         Point(-1, -1),
         UiOps.FindIndentHorz,
         UiOps.FindIndentVert,
@@ -2188,6 +2191,7 @@ begin
         true
         );
       Ed.Update;
+      fmGoto.Hide;
     end;
 
     EditorFocus(Ed);

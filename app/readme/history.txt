@@ -6,6 +6,7 @@
 
 1.17.1 (2017/09)
 
++ dialog "Go to": can enter line:column
 + API for dialog "Go to"
 
 1.17.0 (2017/09)
