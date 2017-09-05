@@ -1603,15 +1603,12 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: horz ruler is shown.
-* PROP_LINE_STATE: int: state of the line with given index. One of values: 
-** LINESTATE_NORMAL
-** LINESTATE_CHANGED
-** LINESTATE_ADDED
-** LINESTATE_SAVED
-* PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
+* PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values. 
+* PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
+* PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: value must be str(column)+","+str(line), column/line 0-based.
@@ -1665,6 +1662,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
 * PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
+* PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
@@ -2004,6 +2002,7 @@ Text is chr(1) separated items:
 * add: objects ed_con_log, ed_con_in
 * add: events: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
 * add: ed.get_prop/set_prop: PROP_ONE_LINE
+* add: ed.get_prop/set_prop: PROP_LINE_NUMBERS
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()
