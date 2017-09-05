@@ -420,22 +420,25 @@ class Command:
     def init_editor_dlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'editor test', 'w':500, 'h':400 })
+        dlg_proc(h, DLG_PROP_SET, prop={'cap':'editor test', 'w':750, 'h':400 })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'editor')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'ed',
             'align': ALIGN_TOP,
             'sp_a': 6,
             'h': 350,
-            'font_size': 12,
+            'font_size': 11,
             })
 
-        self.h_ed = dlg_proc(h, DLG_CTL_HANDLE, index=n)
-        ed0 = Editor(self.h_ed)
-        ed0.set_text_all('Initial\nmulti-line\ntext here.\nend\n')
+        h_editor = dlg_proc(h, DLG_CTL_HANDLE, index=n)
+        ed0 = Editor(h_editor)
+        ed0.set_text_all('Initial\nmulti-line\ntext here,\nend.\n')
         ed0.set_caret(0, 3, 0, 2)
         ed0.set_prop(PROP_CARET_SHAPE, 3)
         ed0.set_prop(PROP_UNPRINTED_SHOW, False)
+        ed0.set_prop(PROP_MINIMAP, True)
+
+        dlg_proc(h, DLG_CTL_FOCUS, index=n)
 
         return h
 
