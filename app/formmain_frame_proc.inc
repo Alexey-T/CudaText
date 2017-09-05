@@ -95,26 +95,6 @@ begin
     Result:= F.Editor;
 end;
 
-function TfmMain.GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
-begin
-  if Ed.Parent is TEditorFrame then
-    Result:= Ed.Parent as TEditorFrame
-  else
-    Result:= nil;
-end;
-
-function TfmMain.GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
-var
-  F: TEditorFrame;
-begin
-  F:= GetEditorFrame(Ed);
-  if F=nil then exit(nil);
-  if Ed=F.Editor then
-    Result:= F.Editor2
-  else
-    Result:= F.Editor;
-end;
-
 procedure TfmMain.SetFrame(Frame: TEditorFrame);
 var
   NPages, NTab: integer;

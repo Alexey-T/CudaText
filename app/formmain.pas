@@ -867,8 +867,6 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
-    function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
-    function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
@@ -892,6 +890,27 @@ var
 implementation
 
 {$R *.lfm}
+
+function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
+begin
+  if Ed.Parent is TEditorFrame then
+    Result:= Ed.Parent as TEditorFrame
+  else
+    Result:= nil;
+end;
+
+function GetEditorBrother(Ed: TATSynEdit): TATSynEdit;
+var
+  F: TEditorFrame;
+begin
+  F:= GetEditorFrame(Ed);
+  if F=nil then exit(nil);
+  if Ed=F.Editor then
+    Result:= F.Editor2
+  else
+    Result:= F.Editor;
+end;
+
 
 { TfmMain }
 

@@ -38,7 +38,7 @@ begin
       0:
         Result:= fmMain.CurrentEditor;
       1:
-        Result:= fmMain.GetEditorBrother(fmMain.CurrentEditor);
+        Result:= GetEditorBrother(fmMain.CurrentEditor);
 
       cPyEditorHandleGoto:
         begin
@@ -348,7 +348,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Ls:save', @H, @PtrName)) then
     begin
       Ed:= PyEditor(H);
-      Frame:= fmMain.GetEditorFrame(Ed);
+      Frame:= GetEditorFrame(Ed);
       if Frame=nil then exit(ReturnNone);
       StrName:= string(PtrName);
 
@@ -771,7 +771,7 @@ begin
         Ed.DoEventChange;
       end;
 
-      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      if Assigned(GetEditorFrame(Ed)) then
       begin
         fmMain.UpdateFrame(true);
         fmMain.UpdateStatus;
@@ -813,7 +813,7 @@ begin
 
       Ed.DoEventChange;
 
-      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      if Assigned(GetEditorFrame(Ed)) then
       begin
         fmMain.UpdateFrame(true);
         fmMain.UpdateStatus;
@@ -841,7 +841,7 @@ begin
 
       Ed.DoEventChange;
 
-      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      if Assigned(GetEditorFrame(Ed)) then
       begin
         fmMain.UpdateFrame(true);
         fmMain.UpdateStatus;
@@ -879,7 +879,7 @@ begin
 
       Ed.DoEventChange;
 
-      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      if Assigned(GetEditorFrame(Ed)) then
       begin
         fmMain.UpdateFrame(true);
         fmMain.UpdateStatus;
@@ -912,7 +912,7 @@ begin
 
       Ed.DoEventChange;
 
-      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      if Assigned(GetEditorFrame(Ed)) then
       begin
         fmMain.UpdateFrame(true);
         fmMain.UpdateStatus;
@@ -949,7 +949,7 @@ begin
         FreeAndNil(Lines);
       end;
 
-      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      if Assigned(GetEditorFrame(Ed)) then
       begin
         fmMain.UpdateFrame(true);
         fmMain.UpdateStatus;
@@ -984,7 +984,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_filename', @H)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
       if F=nil then exit(ReturnNone);
       Result:= PyUnicode_FromWideString(Utf8Decode(F.FileName));
     end;
@@ -1061,7 +1061,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:focus', @H)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
       if Assigned(F) then
         fmMain.SetFrame(F);
       EditorFocus(Ed);
@@ -1161,7 +1161,7 @@ begin
           Result:= ReturnNone;
       end;
 
-      if Assigned(fmMain.GetEditorFrame(Ed)) then
+      if Assigned(GetEditorFrame(Ed)) then
       begin
         fmMain.UpdateFrame;
         fmMain.UpdateStatus;
@@ -1184,7 +1184,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_split', @H)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
       if F=nil then exit(ReturnNone);
 
       NValue:= F.SplitPos;
@@ -1209,7 +1209,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lid:set_split', @H, @NState, @NValue)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
       if F=nil then exit(ReturnNone);
 
       case NState of
@@ -1882,7 +1882,7 @@ begin
     begin
       Ed:= PyEditor(H);
       Str:= string(Ptr);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
 
       case Id of
         PROP_GUTTER_NUM:
@@ -2124,7 +2124,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
       Str:= string(Ptr);
 
       ValueBool:= AppStrToBool(Str);
@@ -3176,7 +3176,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'L:get_sublexer_ranges', @H)) then
     begin
       Ed:= PyEditor(H);
-      Frame:= fmMain.GetEditorFrame(Ed);
+      Frame:= GetEditorFrame(Ed);
       if Frame=nil then exit(ReturnNone);
 
       NLen:= Frame.Adapter.SublexerRangeCount;
@@ -4044,7 +4044,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @PosX, @PosY)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
       if F=nil then exit(ReturnNone);
 
       case Id of
@@ -4280,7 +4280,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Li:lexer_scan', @H, @Num)) then
     begin
       Ed:= PyEditor(H);
-      F:= fmMain.GetEditorFrame(Ed);
+      F:= GetEditorFrame(Ed);
       if Assigned(F) and Assigned(F.Lexer) then
         if Ed.Strings.IsIndexValid(Num) then
            F.Adapter.DoAnalyzeFromLine(Num, true);
