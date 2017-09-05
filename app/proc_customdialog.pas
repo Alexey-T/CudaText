@@ -25,6 +25,7 @@ uses
   ATPanelColor,
   ATGauge,
   ATSynEdit,
+  ATSynEdit_Adapter_EControl,
   proc_customdialog_dummy,
   proc_miscutils,
   proc_globdata,
@@ -407,6 +408,7 @@ procedure DoControl_CreateNew(
   out Ctl: TControl);
 var
   Props: TAppControlProps;
+  Adapter: TATAdapterEControl;
 begin
   Ctl:= nil;
 
@@ -427,6 +429,13 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
+
+    Adapter:= TATAdapterEControl.Create(AForm);
+    Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;
+    Adapter.DynamicHiliteMaxLines:= EditorOps.OpLexerDynamicHiliteMaxLines;
+    Adapter.EnabledLineSeparators:= EditorOps.OpLexerLineSeparators;
+    Adapter.AddEditor(Ctl as TATSynEdit);
+
     exit;
   end;
 

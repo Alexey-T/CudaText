@@ -2166,12 +2166,19 @@ begin
             if Assigned(F) then
               F.UpdateModifiedState;
           end;
+
         PROP_RULER:
           Ed.OptRulerVisible:= ValueBool;
+
         PROP_LEXER_FILE:
           begin
+            //for editors inside TEditorFrame
             if Assigned(F) then
-              F.Lexer:= AppManager.FindAnalyzer(Str);
+              F.Lexer:= AppManager.FindAnalyzer(Str)
+            else
+            //for other editors
+            if Assigned(Ed.AdapterForHilite) then
+              (Ed.AdapterForHilite as TATAdapterEControl).Lexer:= AppManager.FindAnalyzer(Str);
           end;
 
         PROP_COLOR:
