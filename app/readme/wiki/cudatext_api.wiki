@@ -1402,6 +1402,8 @@ Editor class has methods to work with editor. Global objects of Editor exist:
 * ed: refers to currently focused editor (in any tab).
 * ed_bro: refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
 * ed_goto: refers to input field in the "Go to" dialog.
+* ed_con_log: refers to log field (multi-line) in the "Console" panel.
+* ed_con_in: refers to input field (single line) in the "Console" panel.
 
 ==Carets==
 ===get_carets===
@@ -1994,6 +1996,7 @@ Text is chr(1) separated items:
 
 1.0.197 (app 1.17.1)
 * add: object ed_goto
+* add: objects ed_con_log, ed_con_in
 * add: events: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
 
 1.0.196 (app 1.16.2)
