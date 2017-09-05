@@ -70,6 +70,14 @@ Notes:
 * Projects (.cuda-proj files) can be loaded, if Project Manager plugin installed.
 * Sessions (.cuda-session files) can be loaded, if Session Manager installed.
 
+===macOS===
+
+On macOS you cannot run "cudatext", but you can open Terminal and create the alias for "cudatext":
+
+ alias cudatext=open\ /Applications/CudaText.app\ --args
+
+This allows to open in Terminal commands like "cudatext ~/filename.html".
+
 == Mouse shortcuts ==
 
 Multi-carets:
@@ -454,7 +462,7 @@ These panels have hotkeys:
 * Ctrl+D: copy to clipboard selected line
 * Esc: focus editor
 
-==Find/Replace dialog==
+==Dialogs Find/Replace==
 
 Dialog has hotkeys:
 
@@ -478,6 +486,15 @@ Option buttons have hotkeys too, hover mouse over them to see hints:
 * "[..]" - Search in selection only - Alt+X
 * "+" - Toggle multi-line mode: input boxes have double height and show several lines - Alt+M
 * "?!" - Show confirmation on each replace - Alt+Y
+
+==Dialog "Go to"==
+
+Dialog allows to enter text in formats:
+
+* '''Line''': jump to given line number (to line start)
+* '''Line:Col''': jump to given line and column numbers
+
+More formats can be added by plugins (they can handle appropriate event).
 
 ==Comments==
 
@@ -562,7 +579,9 @@ This was info for Windows 7 or newer. For old Windows XP, Python 3.4 or 3.3 must
 Linux version uses Python library from OS. Install Python 3.x into OS (usually already installed). Then read info about option "pylib" inside "default.json" config file. It tells how to find file "libpython3*.so" and specify it in the option "pylib".
 
 ===Python on macOS===
-On macOS you must install Python 3.x into OS, from official python.org. Versions 3.6, 3.7 are ok. CudaText will find Python then.
+On macOS you must install Python 3.x, from official site python.org. Versions 3.6...3.9 are ok. CudaText will find Python then.
+
+Python installed from Homebrew cannot be used by CudaText: it misses 32-bit .dylib file.
 
 ==Line states==
 
