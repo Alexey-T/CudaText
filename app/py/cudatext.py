@@ -935,4 +935,6 @@ class Editor:
 #objects
 ed = Editor(0)
 ed_bro = Editor(1)
+ed_con_memo = Editor(7)
+ed_con_in = Editor(8)
 ed_goto = Editor(9)

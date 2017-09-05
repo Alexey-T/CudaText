@@ -10,6 +10,9 @@ Copyright (c) Alexey Torgashin
 const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
+
+  cPyEditorHandleConsoleMemo = 7;
+  cPyEditorHandleConsoleEdit = 8;
   cPyEditorHandleGoto = 9;
 
 var
@@ -40,10 +43,14 @@ begin
       1:
         Result:= GetEditorBrother(fmMain.CurrentEditor);
 
+      cPyEditorHandleConsoleMemo:
+        Result:= fmConsole.memo;
+
+      cPyEditorHandleConsoleEdit:
+        Result:= fmConsole.ed;
+
       cPyEditorHandleGoto:
-        begin
-          Result:= fmGoto.edInput;
-        end;
+        Result:= fmGoto.edInput;
 
       cPyEditorHandleMin..
       cPyEditorHandleMax:
