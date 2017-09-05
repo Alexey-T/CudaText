@@ -24,7 +24,6 @@ uses
   ATStringProc,
   ATPanelColor,
   ATGauge,
-  proc_str,
   proc_customdialog_dummy,
   proc_miscutils,
   proc_globdata,
