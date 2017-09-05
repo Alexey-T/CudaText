@@ -11,10 +11,6 @@ const
   cPyEditorHandleMin = 10;
   cPyEditorHandleMax = 10000;
 
-  cPyEditorHandleConsoleMemo = 7;
-  cPyEditorHandleConsoleEdit = 8;
-  cPyEditorHandleGoto = 9;
-
 var
   PyLastCommandModule: string = '';
   PyLastCommandMethod: string = '';
@@ -43,13 +39,13 @@ begin
       1:
         Result:= GetEditorBrother(fmMain.CurrentEditor);
 
-      cPyEditorHandleConsoleMemo:
+      7:
         Result:= fmConsole.memo;
 
-      cPyEditorHandleConsoleEdit:
+      8:
         Result:= fmConsole.ed;
 
-      cPyEditorHandleGoto:
+      9:
         Result:= fmGoto.edInput;
 
       cPyEditorHandleMin..
@@ -61,6 +57,7 @@ begin
           else
             Result:= nil;
         end;
+
       else
         Result:= TATSynEdit(PtrInt(Handle));
     end;
