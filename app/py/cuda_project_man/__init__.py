@@ -596,20 +596,19 @@ class Command:
         self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
-    def open_dir(self, dirname):
+    def open_dir(self, dirname, new_proj=False):
         if not os.path.isdir(dirname):
             return
         #expand "." to fully qualified name
         dirname = os.path.abspath(dirname)
 
-        #Ctrl pressed: add to proj, else make new proj
-        ctrl_pressed = 'c' in app_proc(PROC_GET_KEYSTATE, '')
-
         self.init_panel()
-        if not ctrl_pressed:
+        if new_proj:
             self.action_new_project()
         self.add_node(lambda: dirname)
-        self.do_unfold_first()
+        if new_proj:
+            self.do_unfold_first()
+
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
     def on_open_pre(self, ed_self, filename):

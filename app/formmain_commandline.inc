@@ -100,7 +100,7 @@ begin
     if DirectoryExistsUTF8(fn) then
     begin
       MsgStdout('CudaText: opening dir: '+fn);
-      DoFolderOpen(fn);
+      DoFolderOpen(fn, True);
       Continue;
     end;
 

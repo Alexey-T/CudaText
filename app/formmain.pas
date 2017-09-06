@@ -574,7 +574,7 @@ type
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
-    procedure DoFolderOpen(const ADirName: string);
+    procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
@@ -1408,7 +1408,7 @@ begin
   begin
     SName:= FileNames[i];
     if DirectoryExistsUTF8(SName) then
-      DoFolderOpen(SName)
+      DoFolderOpen(SName, False)
     else
     if FileExistsUTF8(SName) then
       DoFileOpen(SName, Pages);
@@ -1869,9 +1869,14 @@ begin
 end;
 
 
-procedure TfmMain.DoFolderOpen(const ADirName: string);
+procedure TfmMain.DoFolderOpen(const ADirName: string; ANewProject: boolean);
+const
+  cBool: array[boolean] of string = (cPyFalse, cPyTrue);
 begin
-  DoPyCommand('cuda_project_man', 'open_dir', ['"'+ADirName+'"']);
+  DoPyCommand('cuda_project_man', 'open_dir', [
+    '"'+ADirName+'"',
+    cBool[ANewProject]
+    ]);
 end;
 
 function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
