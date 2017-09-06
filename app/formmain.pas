@@ -1378,6 +1378,7 @@ end;
 procedure TfmMain.FormDropFiles(Sender: TObject;
   const FileNames: array of String);
 var
+  SName: string;
   Pages: TATPages;
   i: integer;
 begin
@@ -1404,9 +1405,14 @@ begin
       end;
 
   for i:= 0 to Length(Filenames)-1 do
-    if FileExistsUTF8(FileNames[i]) and
-      not DirectoryExistsUTF8(FileNames[i]) then
-        DoFileOpen(FileNames[i], Pages);
+  begin
+    SName:= FileNames[i];
+    if DirectoryExistsUTF8(SName) then
+      DoFolderOpen(SName)
+    else
+    if FileExistsUTF8(SName) then
+      DoFileOpen(SName, Pages);
+  end;
 end;
 
 procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
