@@ -25,6 +25,7 @@ STD_MODULES = (
   'cuda_new_file',
   'cuda_palette',
   'cuda_project_man',
+  'cuda_show_unsaved',
   'cuda_tabs_list',
   'cudax_lib',
   )

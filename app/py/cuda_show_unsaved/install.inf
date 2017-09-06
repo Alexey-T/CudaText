@@ -1,0 +1,12 @@
+[info]
+title=Show Unsaved Changes
+desc=Shows dialog with "unsaved changes" like in ST3: diff between disk file and current editor text
+type=cudatext-plugin
+subdir=cuda_show_unsaved
+homepage=
+
+[item2]
+section=commands
+caption=Show Unsaved Changes
+method=show_unsaved
+
