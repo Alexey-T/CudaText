@@ -574,6 +574,7 @@ type
     procedure DoFindOptions_OnChange(Sender: TObject);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
+    procedure DoFolderOpen(const ADirName: string);
     procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
@@ -1861,6 +1862,11 @@ begin
   DoApplyTheme;
 end;
 
+
+procedure TfmMain.DoFolderOpen(const ADirName: string);
+begin
+  DoPyCommand('cuda_project_man', 'open_dir', ['"'+ADirName+'"']);
+end;
 
 function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
   const AArgs: string): TEditorFrame;

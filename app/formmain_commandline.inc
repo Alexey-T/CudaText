@@ -100,7 +100,7 @@ begin
     if DirectoryExistsUTF8(fn) then
     begin
       MsgStdout('CudaText: opening dir: '+fn);
-      DoPyCommand('cuda_project_man', 'open_dir', ['"'+fn+'"']);
+      DoFolderOpen(fn);
       Continue;
     end;
 
