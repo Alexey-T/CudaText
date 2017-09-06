@@ -602,8 +602,12 @@ class Command:
         #expand "." to fully qualified name
         dirname = os.path.abspath(dirname)
 
+        #Ctrl pressed: add to proj, else make new proj
+        ctrl_pressed = 'c' in app_proc(PROC_GET_KEYSTATE, '')
+
         self.init_panel()
-        self.action_new_project()
+        if not ctrl_pressed:
+            self.action_new_project()
         self.add_node(lambda: dirname)
         self.do_unfold_first()
         app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)

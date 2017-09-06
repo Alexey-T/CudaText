@@ -7,7 +7,7 @@
 1.17.2 (2017/09)
 
 + preinstalled plugin "Show Unsaved Changes" (like in ST3)
-+ allow drag-drop folder on CudaText (creates new project from folder)
++ Project Manager: allow drag-drop folder on CudaText - creates new project or (with Ctrl pressed) adds folder to project
 + dialog "Go to": can enter line:column
 + API for dialog "Go to"
 + API to embed editor-control to dialogs
