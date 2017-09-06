@@ -11,15 +11,15 @@ class Command:
         lines_cur = ed.get_text_all().splitlines()
         lines_orig = open(fn, 'r').read().splitlines()
         diff = list(difflib.unified_diff(lines_orig, lines_cur,
-            fn_base+':disk',
-            fn_base+':editor',
+            fn+' (disk)',
+            fn+' (editor)',
             lineterm=''))
 
         if diff==[]:
             msg_box('File is not changed', MB_OK+MB_ICONINFO)
             return
 
-        text = '\n'.join(diff)
+        text = '\n'.join(diff)+'\n'
         h = self.init_editor_dlg(fn_base, text)
         dlg_proc(h, DLG_SHOW_MODAL)
         dlg_proc(h, DLG_FREE)
@@ -33,6 +33,7 @@ class Command:
             'w': 900,
             'h': 500,
             'resize': True,
+            'keypreview': True,
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'editor')
