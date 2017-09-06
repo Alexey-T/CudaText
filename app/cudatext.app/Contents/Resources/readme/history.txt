@@ -4,10 +4,11 @@
   * changed
 
 
-1.17.1 (2017/09)
+1.17.2 (2017/09)
 
 + dialog "Go to": can enter line:column
 + API for dialog "Go to"
++ API to embed editor-control to dialogs
 
 1.17.0 (2017/09)
 

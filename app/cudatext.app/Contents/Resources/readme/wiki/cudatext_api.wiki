@@ -524,6 +524,7 @@ Possible types of controls:
 * "check": checkbox, checked/unchecked/grayed
 * "radio": radio-button, only one of radio-buttons can be checked
 * "edit": single-line input
+* "editor": full featured editor (multi-line by default)
 * "edit_pwd": single-line input for password, text is masked
 * "combo": combobox, editable + drop-down, value is text
 * "combo_ro": combobox, drop-down only, value is index of drop-down
@@ -562,6 +563,7 @@ Notes:
 * Control "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
 * Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
 * Control "toolbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to toolbar_proc().
+* Control "editor" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to Editor() to make editor object.
 * Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
 
 ==== Properties ====
@@ -1601,15 +1603,12 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_MODIFIED: bool: editor is modified.
 * PROP_MODIFIED_VERSION: int: counter which is incremented on each text change.
 * PROP_RULER: bool: horz ruler is shown.
-* PROP_LINE_STATE: int: state of the line with given index. One of values: 
-** LINESTATE_NORMAL
-** LINESTATE_CHANGED
-** LINESTATE_ADDED
-** LINESTATE_SAVED
-* PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
+* PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values. 
+* PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
+* PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: value must be str(column)+","+str(line), column/line 0-based.
@@ -1641,6 +1640,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
+* PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
 
 ===set_prop===
 
@@ -1662,6 +1662,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_RULER: bool: show ruler.
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
 * PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
+* PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
@@ -1686,6 +1687,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_TAB_COLOR: int: color of tab containing editor; set COLOR_NONE to reset.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
+* PROP_ONE_LINE: bool: editor has single-line mode.
 
 ===bookmark===
 
@@ -1994,10 +1996,13 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.197 (app 1.17.1)
+1.0.197 (app 1.17.2)
+* add: dlg_proc: type "editor"
 * add: object ed_goto
 * add: objects ed_con_log, ed_con_in
 * add: events: on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
+* add: ed.get_prop/set_prop: PROP_ONE_LINE
+* add: ed.get_prop/set_prop: PROP_LINE_NUMBERS
 
 1.0.196 (app 1.16.2)
 * add: ed.dim()
