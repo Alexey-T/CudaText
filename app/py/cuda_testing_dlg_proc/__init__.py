@@ -439,8 +439,8 @@ begin
   Writeln(Num, 'Test str');
 end;
 """)
-        ed0.set_caret(0, 3, 0, 2)
-        ed0.set_prop(PROP_CARET_SHAPE, 2)
+        #ed0.set_caret(0, 3, 0, 2)
+        #ed0.set_prop(PROP_CARET_SHAPE, 2)
         ed0.set_prop(PROP_MINIMAP, True)
         ed0.set_prop(PROP_LEXER_FILE, 'Pascal')
 
