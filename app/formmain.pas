@@ -111,6 +111,8 @@ type
     ButtonCancel: TATButton;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
+    mnuTreeSep1: TMenuItem;
+    mnuTreeSorted: TMenuItem;
     mnuViewUnpriSpacesTail: TMenuItem;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
@@ -463,6 +465,7 @@ type
     procedure mnuTreeFold8Click(Sender: TObject);
     procedure mnuTreeFold9Click(Sender: TObject);
     procedure mnuTreeFoldAllClick(Sender: TObject);
+    procedure mnuTreeSortedClick(Sender: TObject);
     procedure mnuTreeUnfoldAllClick(Sender: TObject);
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
@@ -3213,6 +3216,16 @@ end;
 procedure TfmMain.mnuTreeFoldAllClick(Sender: TObject);
 begin
   Tree.FullCollapse;
+end;
+
+procedure TfmMain.mnuTreeSortedClick(Sender: TObject);
+begin
+  if Tree.SortType=stNone then
+    Tree.SortType:= stText
+  else
+    Tree.SortType:= stNone;
+
+  mnuTreeSorted.Checked:= Tree.SortType<>stNone;
 end;
 
 procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);

@@ -1025,6 +1025,13 @@ object fmMain: TfmMain
         OnClick = mnuTreeFold9Click
       end
     end
+    object mnuTreeSep1: TMenuItem
+      Caption = '-'
+    end
+    object mnuTreeSorted: TMenuItem
+      Caption = 'Sorted'
+      OnClick = mnuTreeSortedClick
+    end
   end
   object TimerTreeFill: TTimer
     Enabled = False
