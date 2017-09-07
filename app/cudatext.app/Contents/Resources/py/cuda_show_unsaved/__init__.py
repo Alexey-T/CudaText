@@ -7,24 +7,13 @@ INI = 'cuda_show_unsaved.ini'
 
 class Command:
 
-    def show_unsaved(self):
-        fn = ed.get_filename()
-        fn_base = os.path.basename(fn)
-        if not fn: return
+    def show_dialog(self, caption, text, filename, lexer):
 
-        lines_cur = ed.get_text_all().splitlines()
-        lines_orig = open(fn, 'r').read().splitlines()
-        diff = list(difflib.unified_diff(lines_orig, lines_cur,
-            fn+' (disk)',
-            fn+' (editor)',
-            lineterm=''))
+        self.caption = caption
+        self.text = text
+        self.filename = filename
+        self.lexer = lexer
 
-        if diff==[]:
-            msg_box('File is not changed', MB_OK+MB_ICONINFO)
-            return
-
-        self.text = '\n'.join(diff)+'\n'
-        self.filename = fn_base
         self.h_dlg = self.init_editor_dlg()
 
         self.pos_load()
@@ -34,11 +23,41 @@ class Command:
         dlg_proc(self.h_dlg, DLG_FREE)
 
 
+    def show_unsaved(self):
+
+        fn = ed.get_filename()
+        fn_base = os.path.basename(fn)
+        if not fn: return
+
+        enc = ed.get_prop(PROP_ENC, '')
+        #convert value to python
+        if enc=='ansi':
+            enc = 'cp1252' #western ansi, dont know how to convert to current ansi
+
+        lines_cur = ed.get_text_all().splitlines()
+        lines_orig = open(fn, 'r', encoding=enc).read().splitlines()
+        diff = list(difflib.unified_diff(lines_orig, lines_cur,
+            fn+' (disk)',
+            fn+' (editor)',
+            lineterm=''))
+
+        if diff==[]:
+            msg_box('File is not changed', MB_OK+MB_ICONINFO)
+            return
+
+        self.show_dialog(
+            'Unsaved changes: '+fn_base,
+            '\n'.join(diff)+'\n',
+            fn_base,
+            'Diff'
+            )
+
+
     def init_editor_dlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={
-            'cap': 'Unsaved changes: '+self.filename,
+            'cap': self.caption,
             'w': 900,
             'h': 500,
             'resize': True,
@@ -67,7 +86,19 @@ class Command:
         ed0.set_prop(PROP_GUTTER_NUM, False)
         ed0.set_prop(PROP_GUTTER_BM, False)
         ed0.set_prop(PROP_RO, True)
-        ed0.set_prop(PROP_LEXER_FILE, 'Diff')
+        ed0.set_prop(PROP_LEXER_FILE, self.lexer)
+
+        #set line states
+        is_diff = self.lexer=='Diff'
+        for i in range(ed0.get_line_count()):
+            state = LINESTATE_NORMAL
+            if is_diff:
+                s = ed0.get_text_line(i)
+                if s.startswith('+') and not s.startswith('+++'):
+                    state = LINESTATE_ADDED
+                elif s.startswith('-') and not s.startswith('---'):
+                    state = LINESTATE_CHANGED
+            ed0.set_prop(PROP_LINE_STATE, (i, state))
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
@@ -106,7 +137,8 @@ class Command:
 
     def callback_btn_save(self, id_dlg, id_ctl, data='', info=''):
 
-        res = dlg_file(False, self.filename+'.diff', '', '')
+        #dont use '.diff', it is for any files
+        res = dlg_file(False, '', '', '')
         if not res: return
 
         with open(res, 'w') as f:

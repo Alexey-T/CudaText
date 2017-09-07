@@ -9,6 +9,7 @@
 + preinstalled plugin "Show Unsaved Changes" (command like in ST3)
 + Project Manager: allow drag-drop folder on CudaText - add folder to project
 + dialog "Go to": can enter line:column
++ code tree: context menu item "Sorted"
 + API for dialog "Go to"
 + API to embed editor-control to dialogs
 

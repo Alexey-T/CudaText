@@ -6,17 +6,17 @@
 {
   //[Font]
   //Text font name [has suffix]
-  "font_name": "Courier New",
+  "font_name": "Consolas",
   "font_name__linux": "Courier New",
-  "font_name__mac": "Courier New",
+  "font_name__mac": "Monaco",
   
   //Text font size [has suffix]
-  "font_size": 9,
-  "font_size__linux": 9,
-  "font_size__mac": 9,
+  "font_size": 10,
+  "font_size__linux": 10,
+  "font_size__mac": 10,
   
   //Enable to render font ligatures (e.g. font Fira Code)
-  //Option works only on Windows yet
+  //Option works only on Windows yet. On Linux: always on.
   "font_ligatures": false,
   
   //Text font rendering quality [has suffix]
