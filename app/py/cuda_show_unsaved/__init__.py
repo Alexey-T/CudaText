@@ -7,7 +7,24 @@ INI = 'cuda_show_unsaved.ini'
 
 class Command:
 
+    def show_dialog(self, caption, text, filename, lexer):
+
+        self.caption = caption
+        self.text = text
+        self.filename = filename
+        self.lexer = lexer
+
+        self.h_dlg = self.init_editor_dlg()
+
+        self.pos_load()
+        dlg_proc(self.h_dlg, DLG_SHOW_MODAL)
+        self.pos_save()
+
+        dlg_proc(self.h_dlg, DLG_FREE)
+
+
     def show_unsaved(self):
+
         fn = ed.get_filename()
         fn_base = os.path.basename(fn)
         if not fn: return
@@ -23,22 +40,19 @@ class Command:
             msg_box('File is not changed', MB_OK+MB_ICONINFO)
             return
 
-        self.text = '\n'.join(diff)+'\n'
-        self.filename = fn_base
-        self.h_dlg = self.init_editor_dlg()
-
-        self.pos_load()
-        dlg_proc(self.h_dlg, DLG_SHOW_MODAL)
-        self.pos_save()
-
-        dlg_proc(self.h_dlg, DLG_FREE)
+        self.show_dialog(
+            'Unsaved changes: '+fn_base,
+            '\n'.join(diff)+'\n',
+            fn_base,
+            'Diff'
+            )
 
 
     def init_editor_dlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={
-            'cap': 'Unsaved changes: '+self.filename,
+            'cap': self.caption,
             'w': 900,
             'h': 500,
             'resize': True,
@@ -67,7 +81,7 @@ class Command:
         ed0.set_prop(PROP_GUTTER_NUM, False)
         ed0.set_prop(PROP_GUTTER_BM, False)
         ed0.set_prop(PROP_RO, True)
-        ed0.set_prop(PROP_LEXER_FILE, 'Diff')
+        ed0.set_prop(PROP_LEXER_FILE, self.lexer)
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
