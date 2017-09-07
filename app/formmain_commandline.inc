@@ -118,8 +118,10 @@ begin
       Format(msgConfirmCreateNewFile, [fn]),
       MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
     begin
-      MsgStdout('CudaText: created file: '+fn);
-      FCreateFile(fn);
+      if FCreateFile(fn) then
+        MsgStdout('CudaText: created file: '+fn)
+      else
+        MsgStdout('CudaText: cannot create file: '+fn);
       if FileExistsUTF8(fn) then
         Frame:= DoFileOpen(fn);
     end;

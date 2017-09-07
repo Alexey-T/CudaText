@@ -17,7 +17,7 @@ uses
   LazUTF8Classes,
   CopyDir;
 
-procedure FCreateFile(const fn: string; AsJson: boolean = false);
+function FCreateFile(const fn: string; AsJson: boolean = false): boolean;
 procedure FFindFilesInDir(const dir, mask: string; L: TStrings);
 procedure FCopyDir(const d1, d2: string);
 
@@ -29,8 +29,9 @@ procedure FFileAttrRestore(const fn: string; attr: Longint);
 
 implementation
 
-procedure FCreateFile(const fn: string; AsJson: boolean);
+function FCreateFile(const fn: string; AsJson: boolean): boolean;
 begin
+  Result:= true;
   with TStringListUTF8.Create do
   try
     if AsJson then
@@ -39,7 +40,12 @@ begin
       Add('');
       Add('}');
     end;
-    SaveToFile(fn);
+
+    try
+      SaveToFile(fn);
+    except
+      Result:= false;
+    end;
   finally
     Free;
   end;
