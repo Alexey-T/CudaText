@@ -83,6 +83,18 @@ class Command:
         ed0.set_prop(PROP_RO, True)
         ed0.set_prop(PROP_LEXER_FILE, self.lexer)
 
+        #set line states
+        is_diff = self.lexer=='Diff'
+        for i in range(ed0.get_line_count()):
+            state = LINESTATE_NORMAL
+            if is_diff:
+                s = ed0.get_text_line(i)
+                if s.startswith('+') and not s.startswith('+++'):
+                    state = LINESTATE_ADDED
+                elif s.startswith('-') and not s.startswith('---'):
+                    state = LINESTATE_CHANGED
+            ed0.set_prop(PROP_LINE_STATE, (i, state))
+
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'btn_close',
