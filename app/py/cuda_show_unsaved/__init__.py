@@ -2,7 +2,11 @@ import os
 import difflib
 from cudatext import *
 
+INI = 'cuda_show_unsaved.ini'
+
+
 class Command:
+
     def show_unsaved(self):
         fn = ed.get_filename()
         fn_base = os.path.basename(fn)
@@ -23,7 +27,10 @@ class Command:
         self.filename = fn_base
         self.h_dlg = self.init_editor_dlg()
 
+        self.pos_load()
         dlg_proc(self.h_dlg, DLG_SHOW_MODAL)
+        self.pos_save()
+
         dlg_proc(self.h_dlg, DLG_FREE)
 
 
@@ -105,3 +112,29 @@ class Command:
         with open(res, 'w') as f:
             f.write(self.text)
         msg_status('Saved: '+res)
+
+
+    def pos_load(self):
+
+        x = int(ini_read(INI, 'pos', 'x', '-1'))
+        y = int(ini_read(INI, 'pos', 'y', '-1'))
+        w = int(ini_read(INI, 'pos', 'w', '-1'))
+        h = int(ini_read(INI, 'pos', 'h', '-1'))
+        if x<0: return
+
+        dlg_proc(self.h_dlg, DLG_PROP_SET, prop={'x':x, 'y':y, 'w':w, 'h':h, })
+
+
+    def pos_save(self):
+
+        prop = dlg_proc(self.h_dlg, DLG_PROP_GET)
+        if not prop: return
+        x = prop['x']
+        y = prop['y']
+        w = prop['w']
+        h = prop['h']
+
+        ini_write(INI, 'pos', 'x', str(x))
+        ini_write(INI, 'pos', 'y', str(y))
+        ini_write(INI, 'pos', 'w', str(w))
+        ini_write(INI, 'pos', 'h', str(h))
