@@ -2217,6 +2217,16 @@ begin
             Ed.OptNumbersStyle:= TATSynNumbersStyle(ValueInt);
           end;
 
+        PROP_LINE_STATE:
+          begin
+            Str1:= SGetItem(Str);
+            Str2:= SGetItem(Str);
+            N1:= StrToIntDef(Str1, -1);
+            N2:= StrToIntDef(Str2, -1);
+            if Ed.Strings.IsIndexValid(N1) and (N2>=0) then
+              Ed.Strings.LinesState[N1]:= TATLineState(N2);
+          end;
+
         PROP_TAB_COLOR:
           begin
             if Assigned(F) then
