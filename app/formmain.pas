@@ -2600,8 +2600,6 @@ begin
 end;
 
 procedure TfmMain.MsgStatusAlt(const AText: string; ASeconds: integer);
-var
-  Ed: TATSynEdit;
 const
   cMax=30;
 begin
@@ -2615,8 +2613,7 @@ begin
   if ASeconds>cMax then
     ASeconds:= cMax;
 
-  Ed:= CurrentEditor;
-  StatusAlt.Parent:= Ed;
+  StatusAlt.Parent:= Self; //place hint on form
   StatusAlt.Align:= alBottom;
 
   StatusAlt[0]:= AText;
