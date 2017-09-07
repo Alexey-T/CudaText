@@ -2,7 +2,11 @@ import os
 import difflib
 from cudatext import *
 
+INI = 'cuda_show_unsaved.ini'
+
+
 class Command:
+
     def show_unsaved(self):
         fn = ed.get_filename()
         fn_base = os.path.basename(fn)
@@ -19,17 +23,22 @@ class Command:
             msg_box('File is not changed', MB_OK+MB_ICONINFO)
             return
 
-        text = '\n'.join(diff)+'\n'
-        h = self.init_editor_dlg(fn_base, text)
-        dlg_proc(h, DLG_SHOW_MODAL)
-        dlg_proc(h, DLG_FREE)
+        self.text = '\n'.join(diff)+'\n'
+        self.filename = fn_base
+        self.h_dlg = self.init_editor_dlg()
+
+        self.pos_load()
+        dlg_proc(self.h_dlg, DLG_SHOW_MODAL)
+        self.pos_save()
+
+        dlg_proc(self.h_dlg, DLG_FREE)
 
 
-    def init_editor_dlg(self, filename, text):
+    def init_editor_dlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
         dlg_proc(h, DLG_PROP_SET, prop={
-            'cap': 'Unsaved changes: '+filename,
+            'cap': 'Unsaved changes: '+self.filename,
             'w': 900,
             'h': 500,
             'resize': True,
@@ -39,14 +48,19 @@ class Command:
         n=dlg_proc(h, DLG_CTL_ADD, 'editor')
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'ed',
-            'align': ALIGN_CLIENT,
-            'sp_a': 6,
-            #'h': 450,
+            'x': 6,
+            'y': 6,
+            'a_r': ('', ']'),
+            'a_b': ('', ']'),
+            'sp_l': 6,
+            'sp_t': 6,
+            'sp_r': 6,
+            'sp_b': 38,
             })
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, index=n)
         ed0 = Editor(h_editor)
-        ed0.set_text_all(text)
+        ed0.set_text_all(self.text)
         ed0.set_prop(PROP_MICROMAP, False)
         ed0.set_prop(PROP_MINIMAP, False)
         ed0.set_prop(PROP_RULER, False)
@@ -55,6 +69,72 @@ class Command:
         ed0.set_prop(PROP_RO, True)
         ed0.set_prop(PROP_LEXER_FILE, 'Diff')
 
-        dlg_proc(h, DLG_CTL_FOCUS, index=n)
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_close',
+            'cap': 'Close',
+            'w': 110,
+            'a_l': None,
+            'a_t': None,
+            'a_b': ('', ']'),
+            'a_r': ('', ']'),
+            'sp_a': 6,
+            'on_change': self.callback_btn_close,
+            })
 
+        n=dlg_proc(h, DLG_CTL_ADD, 'button')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_save',
+            'cap': 'Save as...',
+            'w': 110,
+            'a_l': None,
+            'a_t': None,
+            'a_b': ('', ']'),
+            'a_r': ('btn_close', '['),
+            'sp_a': 6,
+            'on_change': self.callback_btn_save,
+            })
+
+        dlg_proc(h, DLG_CTL_FOCUS, name='ed')
         return h
+
+
+    def callback_btn_close(self, id_dlg, id_ctl, data='', info=''):
+
+        dlg_proc(self.h_dlg, DLG_HIDE)
+
+
+    def callback_btn_save(self, id_dlg, id_ctl, data='', info=''):
+
+        res = dlg_file(False, self.filename+'.diff', '', '')
+        if not res: return
+
+        with open(res, 'w') as f:
+            f.write(self.text)
+        msg_status('Saved: '+res)
+
+
+    def pos_load(self):
+
+        x = int(ini_read(INI, 'pos', 'x', '-1'))
+        y = int(ini_read(INI, 'pos', 'y', '-1'))
+        w = int(ini_read(INI, 'pos', 'w', '-1'))
+        h = int(ini_read(INI, 'pos', 'h', '-1'))
+        if x<0: return
+
+        dlg_proc(self.h_dlg, DLG_PROP_SET, prop={'x':x, 'y':y, 'w':w, 'h':h, })
+
+
+    def pos_save(self):
+
+        prop = dlg_proc(self.h_dlg, DLG_PROP_GET)
+        if not prop: return
+        x = prop['x']
+        y = prop['y']
+        w = prop['w']
+        h = prop['h']
+
+        ini_write(INI, 'pos', 'x', str(x))
+        ini_write(INI, 'pos', 'y', str(y))
+        ini_write(INI, 'pos', 'w', str(w))
+        ini_write(INI, 'pos', 'h', str(h))
