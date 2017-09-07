@@ -120,7 +120,8 @@ class Command:
 
     def callback_btn_save(self, id_dlg, id_ctl, data='', info=''):
 
-        res = dlg_file(False, self.filename+'.diff', '', '')
+        #dont use '.diff', it is for any files
+        res = dlg_file(False, '', '', '')
         if not res: return
 
         with open(res, 'w') as f:
