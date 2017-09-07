@@ -29,8 +29,11 @@ class Command:
         fn_base = os.path.basename(fn)
         if not fn: return
 
+        enc_ed = ed.get_prop(PROP_ENC, '')
+        #convert value to python??? for most encodings no need
+
         lines_cur = ed.get_text_all().splitlines()
-        lines_orig = open(fn, 'r').read().splitlines()
+        lines_orig = open(fn, 'r', encoding=enc_ed).read().splitlines()
         diff = list(difflib.unified_diff(lines_orig, lines_cur,
             fn+' (disk)',
             fn+' (editor)',
