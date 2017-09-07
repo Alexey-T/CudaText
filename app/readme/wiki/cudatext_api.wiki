@@ -1595,7 +1595,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_GUTTER_FOLD: bool: is gutter column for folding shown.
 * PROP_GUTTER_BM: bool: is gutter column for bookmarks shown.
 * PROP_EOL: str: end-of-line chars. Currently always gets "\n" since it's ignored in "insert" method.
-* PROP_WRAP: int: word-wrap mode. 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin.
+* PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: user-defined margins positions, e.g. "20 25".
@@ -1606,7 +1606,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_LINE_STATE: int: state of the line with given index. One of LINESTATE_nnn values. 
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
-* PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word-wrap).
+* PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
@@ -1626,7 +1626,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
 * PROP_MACRO_REC: bool: currently macro is recording.
 * PROP_MARKED_RANGE: 2-tuple with line indexes of "marked range"; (-1, -1) if range not set.
-* PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word-wrap).
+* PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word wrap).
 * PROP_VISIBLE_COLUMNS: int: max count of columns that fit to window.
 * PROP_PICTURE: properties of picture file as 3-tuple: (picture_filename, size_x, size_y), or None if not picture loaded in tab. For picture ed.get_filename() gets "?".
 * PROP_MINIMAP: bool: minimap is visible.
@@ -1653,7 +1653,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding". This don't enable/disable folding conmands, only showing of area.
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
-* PROP_WRAP: int: word-wrap mode. 0: no wrap; 1: wrap at window edge; 2: wrap at fixed margin. 
+* PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
 * PROP_MARGIN: int: position of fixed margin.
 * PROP_MARGIN_STRING: str: space-separated user-margins columns.
@@ -1663,6 +1663,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_COLOR: color property, value must be 2-tuple (COLOR_ID_nnnn, int_color_value).
 * PROP_LINE_TOP: int: index of line visible at the top of editor (allows to scroll editor).
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
+* PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn). 
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
@@ -1995,6 +1996,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.198 (app 1.18.0)
+* add: constants WRAP_nnn
+* add: ed.set_prop works for PROP_LINE_STATE
 
 1.0.197 (app 1.17.2)
 * add: dlg_proc: type "editor"
