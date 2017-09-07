@@ -407,6 +407,7 @@ begin
     DoLocMenuitem(ini, mnuTreeFoldAll, 'ct', 'fld_a');
     DoLocMenuitem(ini, mnuTreeUnfoldAll, 'ct', 'fld_un');
     DoLocMenuitem(ini, mnuTreeFoldLevel, 'ct', 'fld_lv');
+    DoLocMenuitem(ini, mnuTreeSorted, 'ct', 'tr_sr');
 
     cStrMenuitemFoldAll:= mnuTreeFoldAll.Caption;
     cStrMenuitemUnfoldAll:= mnuTreeUnfoldAll.Caption;
