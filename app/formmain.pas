@@ -2613,8 +2613,8 @@ begin
   if ASeconds>cMax then
     ASeconds:= cMax;
 
-  StatusAlt.Parent:= Self; //place hint on form
-  StatusAlt.Align:= alBottom;
+  StatusAlt.Parent:= Status; //place hint on statusbar
+  StatusAlt.Align:= alClient;
 
   StatusAlt[0]:= AText;
   StatusAlt.Show;
