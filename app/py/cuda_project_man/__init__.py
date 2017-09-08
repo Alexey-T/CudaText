@@ -273,6 +273,8 @@ class Command:
     def add_node(self, dialog):
         path = dialog()
         if path is not None:
+            if path in self.project["nodes"]:
+                return
             msg_status("Adding to project: " + path, True)
             self.project["nodes"].append(path)
             self.project["nodes"].sort(key=Command.node_ordering)
