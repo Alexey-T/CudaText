@@ -4,6 +4,14 @@ from cudatext import *
 
 INI = 'cuda_show_unsaved.ini'
 
+REPLACE_ENC = {
+    'ansi': 'cp1252', #cannot detect local region ANSI
+    'utf8_bom': 'utf-8-sig',
+    'utf16le': 'utf-16-le',
+    'utf16le_bom': 'utf-16-le',
+    'utf16be': 'utf-16-be',
+    'utf16be_bom': 'utf-16-be',
+    }
 
 class Command:
 
@@ -31,8 +39,8 @@ class Command:
 
         enc = ed.get_prop(PROP_ENC, '')
         #convert value to python
-        if enc=='ansi':
-            enc = 'cp1252' #western ansi, dont know how to convert to current ansi
+        enc2 = REPLACE_ENC.get(enc, None)
+        if enc2: enc = enc2
 
         lines_cur = ed.get_text_all().splitlines()
         lines_orig = open(fn, 'r', encoding=enc).read().splitlines()
