@@ -774,6 +774,9 @@ begin
       Tree.BeginUpdate;
       try
         Adapter.TreeFill(Tree);
+        //Lazarus forgets sorted state
+        if Tree.SortType<>stNone then
+          Tree.AlphaSort;
       finally
         Tree.EndUpdate;
       end;
