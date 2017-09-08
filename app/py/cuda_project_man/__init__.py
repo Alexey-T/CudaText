@@ -857,3 +857,20 @@ class Command:
             fn = e.get_filename()
             if fn:
                 self.add_node(lambda: fn)
+
+
+    def goto_main(self):
+        if not self.tree:
+            msg_status('Project not opened')
+            return
+
+        #workaround: unfold all tree, coz tree loading is lazy
+        #todo: dont unfold all, but allow enum_all() to work
+        tree_proc(self.tree, TREE_ITEM_UNFOLD_DEEP, 0)
+
+        fn = self.project.get('mainfile', '')
+        if not fn:
+            msg_status('Project main file is not set')
+            return
+        self.jump_to_filename(fn)
+

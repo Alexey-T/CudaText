@@ -34,6 +34,11 @@ section=commands
 caption=&Project Manager\&Go to file...
 method=menu_goto
 
+[item16]
+section=commands
+caption=&Project Manager\&Go to main file
+method=goto_main
+
 
 [item50]
 section=commands
