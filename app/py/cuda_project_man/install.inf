@@ -36,8 +36,13 @@ method=menu_goto
 
 [item16]
 section=commands
-caption=&Project Manager\&Go to main file
+caption=&Project Manager\Go to &main file
 method=goto_main
+
+[item19]
+section=commands
+caption=&Project Manager\Open main &file
+method=open_main
 
 
 [item50]

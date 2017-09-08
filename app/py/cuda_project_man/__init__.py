@@ -874,3 +874,9 @@ class Command:
             return
         self.jump_to_filename(fn)
 
+    def open_main(self):
+        fn = self.project.get('mainfile', '')
+        if fn:
+            file_open(fn)
+        else:
+            msg_status('Project main file is not set')
