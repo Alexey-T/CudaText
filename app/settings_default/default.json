@@ -646,6 +646,10 @@
   //  "sca": by Shift+Ctrl+Alt+click
   "mouse_goto_definition": "a",
 
+  //Mouse click on line number: select line with end-of-line
+  //(so caret placed on the next line)
+  "mouse_click_number_selects_eol": true,
+
   //[Keys]
   //Key BkSp: do unindent too (if caret inside indented area)
   "key_bksp_unindent": true,

@@ -315,6 +315,7 @@ begin
   Ed.OptMouseWheelZooms:= Op.OpMouseWheelZoom;
   Ed.OptMouseWheelScrollVertSpeed:= Op.OpMouseWheelSpeedVert;
   Ed.OptMouseWheelScrollHorzSpeed:= Op.OpMouseWheelSpeedHorz;
+  Ed.OptMouseClickNumberSelectsLineWithEOL:= Op.OpMouseClickNumberSelectsEol;
 
   Ed.OptKeyBackspaceUnindent:= Op.OpKeyBackspaceUnindent;
   Ed.OptKeyTabIndents:= Op.OpKeyTabIndents;

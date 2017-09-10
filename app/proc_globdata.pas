@@ -354,6 +354,7 @@ type
     OpMouseWheelZoom: boolean;
     OpMouseWheelSpeedVert: integer;
     OpMouseWheelSpeedHorz: integer;
+    OpMouseClickNumberSelectsEol: boolean;
 
     //keys
     OpKeyBackspaceUnindent: boolean;
@@ -980,6 +981,7 @@ begin
     OpMouseWheelZoom:= false;
     OpMouseWheelSpeedVert:= 3;
     OpMouseWheelSpeedHorz:= 10;
+    OpMouseClickNumberSelectsEol:= true;
 
     OpKeyBackspaceUnindent:= true;
     OpKeyTabIndents:= true;
