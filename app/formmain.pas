@@ -2423,6 +2423,7 @@ begin
     Frame.Editor.Modified:= true;
   end;
 
+  Frame.Editor.DoEventChange; //reanalyze all file
   UpdateFrame;
   UpdateStatus;
   MsgStatus(msgStatusEncChanged);
