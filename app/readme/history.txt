@@ -6,8 +6,8 @@
 
 1.18.1 (2017/09)
 
-+ ProjectMan: commands "Go to main file", "Open main file"
-- fix: ProjectMan: don't allow duplicate files/dirs in root
++ ProjectManager: commands "Go to main file", "Open main file"
++ ProjectManager: don't allow duplicate items
 - fix: correctly handle file creation error for command line
 
 1.18.0 (2017/09)
