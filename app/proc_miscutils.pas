@@ -359,7 +359,6 @@ begin
     tvoAutoItemHeight,
     tvoKeepCollapsedNodes,
     tvoShowButtons,
-    tvoToolTips,
     tvoRowSelect,
     tvoRightClickSelect,
     tvoReadOnly
@@ -374,6 +373,11 @@ begin
     Include(Op, tvoShowLines)
   else
     Exclude(Op, tvoShowLines);
+
+  if UiOps.TreeShowTooltips then
+    Include(Op, tvoToolTips)
+  else
+    Exclude(Op, tvoToolTips);
 
   C.Options:= Op;
 

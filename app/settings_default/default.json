@@ -557,6 +557,9 @@
   //Folders from: codetreeicons
   "ui_tree_theme": "default_16x16",  
 
+  //Tree: show tooltips for items, which don't fit by width
+  "ui_tree_show_tooltips": true,
+  
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",

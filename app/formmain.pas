@@ -1815,6 +1815,7 @@ begin
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
+  Tree.ToolTips:= UiOps.TreeShowTooltips;
 
   fmConsole.memo.OptCaretShapeRO:= TATSynCaretShape(EditorOps.OpCaretShapeRO);
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;

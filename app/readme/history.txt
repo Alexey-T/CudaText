@@ -6,6 +6,7 @@
 
 1.18.2 (2017/09)
 
++ option "ui_tree_show_tooltips" (turn off, if tooltips are irritating)
 + option "mouse_click_number_selects_eol"
 + ProjectManager: commands "Go to main file", "Open main file"
 + ProjectManager: don't allow duplicate items

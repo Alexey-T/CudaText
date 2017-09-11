@@ -724,6 +724,8 @@ begin
     UiOps.TreeTimeFocus:= c.GetValue('ui_tree_time_focus', UiOps.TreeTimeFocus);
     UiOps.TreeShowLines:= c.GetValue('ui_tree_show_lines', UiOps.TreeShowLines);
     UiOps.TreeShowIcons:= c.GetValue('ui_tree_icons', UiOps.TreeShowIcons);
+    UiOps.TreeShowTooltips:= c.GetValue('ui_tree_show_tooltips', UiOps.TreeShowTooltips);
+
     UiOps.PyChangeSlow:= c.GetValue('py_change_slow', UiOps.PyChangeSlow);
 
     UiOps.NewdocLexer:= c.GetValue('newdoc_lexer', UiOps.NewdocLexer);
