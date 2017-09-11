@@ -103,7 +103,6 @@ type
     FMouseDownDbl: boolean;
     FMouseDownButton: TMouseButton;
     FMouseDownShift: TShiftState;
-    FMouseDrag: boolean;
 
     //colors
     FColorBg: TColor; //color of background (visible at top and between tabs)
@@ -529,7 +528,6 @@ begin
   FMouseDown:= false;
   FMouseDownPnt:= Point(0, 0);
   FMouseDownDbl:= false;
-  FMouseDrag:= false;
 
   FColorBg:= clBlack;
   FColorDrop:= $6060E0;
@@ -913,7 +911,7 @@ begin
   AColorXBorder:= FColorCloseBg;
   AColorXMark:= FColorCloseX;
 
-  if FMouseDrag then Exit;
+  if DragManager.IsDragging then Exit;
 
   if IsShowX(AIndex) then
     if AIndex=FTabIndexOver then
@@ -1005,7 +1003,7 @@ begin
     begin
       DoPaintTabTo(C, ARect,
         FTabShowPlusText,
-        IfThen((FTabIndexOver=cAtTabPlus) and not FMouseDrag, FColorTabOver, FColorTabPassive),
+        IfThen((FTabIndexOver=cAtTabPlus) and not DragManager.IsDragging, FColorTabOver, FColorTabPassive),
         FColorBorderPassive,
         FColorBorderActive,
         clNone,
@@ -1035,7 +1033,7 @@ begin
         Data:= TATTabData(FTabList[i]);
         DoPaintTabTo(C, ARect,
           Format(FTabNumPrefix, [i+1]) + Data.TabCaption,
-          IfThen((i=FTabIndexOver) and not FMouseDrag, FColorTabOver, FColorTabPassive),
+          IfThen((i=FTabIndexOver) and not DragManager.IsDragging, FColorTabOver, FColorTabPassive),
           FColorBorderPassive,
           FColorBorderActive,
           Data.TabColor,
@@ -1082,11 +1080,11 @@ begin
   if FTabShowMenu then
   begin
     DoPaintArrowTo(C, triDown, ARectDown,
-      IfThen((FTabIndexOver=cAtArrowDown) and not FMouseDrag, FColorArrowOver, FColorArrow), FColorBg);
+      IfThen((FTabIndexOver=cAtArrowDown) and not DragManager.IsDragging, FColorArrowOver, FColorArrow), FColorBg);
   end;
 
   //paint drop mark
-  if FMouseDrag then
+  if DragManager.IsDragging then
   begin
     if PtInControl(Self, Mouse.CursorPos) then
       DoPaintDropMark(C);
@@ -1180,45 +1178,34 @@ begin
 end;
 
 procedure TATTabs.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  IsClick, IsDblClick: boolean;
 begin
-  if FMouseDown and not FMouseDrag then
-    if (Abs(X-FMouseDownPnt.X) < cTabsMouseMaxDistanceToClick) and
-       (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick) then
-    begin
-      FMouseDown:= false;
-
-      //double click?
-      if FMouseDownDbl then
-      begin
-        FMouseDownDbl:= false;
-
-        if FTabDoubleClickClose and (FTabIndexOver>=0) then
-          DeleteTab(FTabIndexOver, true, true)
-        else
-        if FTabDoubleClickPlus and (FTabIndexOver=-1) then
-          if Assigned(FOnTabPlusClick) then
-            FOnTabPlusClick(Self);
-        Exit
-      end;
-
-      DoHandleClick;
-      Exit
-    end;
-
+  IsClick:= FMouseDown and
+    (Abs(X-FMouseDownPnt.X) < cTabsMouseMaxDistanceToClick) and
+    (Abs(Y-FMouseDownPnt.Y) < cTabsMouseMaxDistanceToClick);
+  IsDblClick:= IsClick and FMouseDownDbl;
+       
   FMouseDown:= false;
+  FMouseDownDbl:= false;
   Cursor:= crDefault;
   Screen.Cursor:= crDefault;
-
-  //do drop?
-  if FMouseDrag then
+  
+  if IsDblClick then
   begin
-    FMouseDrag:= false;
-    if (FTabIndexDrop>=0) then
-    begin
-      DoTabDrop;
-      Invalidate;
-      Exit
-    end;
+    if FTabDoubleClickClose and (FTabIndexOver>=0) then
+      DeleteTab(FTabIndexOver, true, true)
+    else
+    if FTabDoubleClickPlus and (FTabIndexOver=-1) then
+      if Assigned(FOnTabPlusClick) then
+        FOnTabPlusClick(Self);
+    Exit
+  end;
+
+  if IsClick then     
+  begin
+    DoHandleClick;
+    Exit
   end;
 end;
 
@@ -1296,16 +1283,6 @@ begin
 
   if Assigned(FOnTabOver) then
     FOnTabOver(Self, FTabIndexOver);
-
-  if FMouseDown and FTabDragEnabled and (TabCount>0) then
-  begin
-    if (Abs(X-FMouseDownPnt.X)>cTabsMouseMinDistanceToDrag) or
-       (Abs(Y-FMouseDownPnt.Y)>cTabsMouseMinDistanceToDrag) then
-    begin
-      FMouseDrag:= true;
-      Screen.Cursor:= crDrag;
-    end;
-  end;
 
   Invalidate;
 end;
@@ -1672,9 +1649,23 @@ end;
 procedure TATTabs.DragDrop(Source: TObject; X, Y: Integer);
 begin
   if not (Source is TATTabs) then exit;
-  if (Source=Self) then exit; //internal DnD not allowed here
-  (Source as TATTabs).DoTabDropToOtherControl(Self, Point(X, Y));
+
+  if (Source=Self) then
+  begin
+    //drop to itself
+    if (FTabIndexDrop>=0) then
+    begin
+      DoTabDrop;
+      Invalidate;
+    end;
+  end
+  else
+  begin
+    //drop to anoter control
+    (Source as TATTabs).DoTabDropToOtherControl(Self, Point(X, Y));
+  end;
 end;
+
 
 end.
 
