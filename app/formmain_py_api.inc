@@ -773,6 +773,7 @@ begin
       finally
         Ed.Strings.EndUndoGroup;
         Ed.DoEventChange;
+        Ed.Strings.DoSaveLastEditPos(0, 0);
       end;
 
       if Assigned(GetEditorFrame(Ed)) then
@@ -816,6 +817,7 @@ begin
       end;
 
       Ed.DoEventChange;
+      Ed.Strings.DoSaveLastEditPos(0, N);
 
       if Assigned(GetEditorFrame(Ed)) then
       begin
