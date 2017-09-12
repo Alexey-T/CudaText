@@ -222,6 +222,24 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 * In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
 * Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
 
+==Add-on types==
+
+* "plugins". These are addons with Python code. They add python events and/or python commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
+
+* "lexers". These are syntax hiliting support. For ex, Arduino lexer adds menuitem "Arduino" to the lexer menu. Some addons can add 2 lexers (or more), for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks hiliting).
+
+* "linters". These are Python modules for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
+
+* "snippets". These are collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the topic about Snippets.
+
+* "translations". These are CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Plugins are usually not affected (depends on plugin author).
+
+* "themes". These are UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax hilited files.
+
+* "sidebar themes": These are icon sets for the sidebar (vertical bar on the left side).
+
+* "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
+
 == File-types config ==
 
 Menu item "Settings - file-types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
