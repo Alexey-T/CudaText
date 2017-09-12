@@ -66,9 +66,10 @@ Supported keys:
 Notes:
 
 * Filenames can be with ":line" or ":line:column" suffix to place caret.
-* Folders cannot be loaded yet.
-* Projects (.cuda-proj files) can be loaded, if Project Manager plugin installed.
-* Sessions (.cuda-session files) can be loaded, if Session Manager installed.
+* Folders can be specified too. They will be opened as a "project" in the Project Manager.
+* Project files (.cuda-proj) can be loaded.
+* Session files (.cuda-session) can be loaded, if Session Manager installed.
+* Non-existing file name can be specified, program will ask to create it.
 
 ===macOS===
 
