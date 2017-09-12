@@ -230,9 +230,9 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 
 * "linters". These are Python modules for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
 
-* "snippets". These are collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the topic about Snippets.
+* "snippets". These are collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
 
-* "translations". These are CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Plugins are usually not affected (depends on plugin author).
+* "translations". These are CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
 
 * "themes". These are UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax hilited files.
 
