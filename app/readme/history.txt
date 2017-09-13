@@ -13,8 +13,9 @@
 + ProjectManager: don't allow duplicate items
 - fix: lexer JS (reg-ex hiliting)
 - fix: lexer LESS (numbers hiliting)
-- fix: command "go to last editing pos"
 - fix: correctly handle file creation error for command line
+- fix: command "go to last editing pos"
+- fix: fold-marks didn't render on folded lines
 
 1.18.0 (2017/09)
 
