@@ -6,7 +6,8 @@
 
 1.19.0 (2017/09)
 
-+ colored underline for HTML's rgb(), for ex rgba(200, 200, 0, .4)
++ colored underlines for HTML's rgb(), for ex rgba(200, 200, 0, .4)
++ support no-break-space U+00A0: in show unprinted, in go-to-next-word
 + replace with reg.ex.: support change case (modifiers \U \L) for Unicode
 + option "ui_tree_show_tooltips" (turn off, if tooltips are irritating)
 + option "mouse_click_number_selects_eol"
