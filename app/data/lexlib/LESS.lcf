@@ -1,71 +1,94 @@
-object SyntAnal7: TLibSyntAnalyzer
-  Formats = <  
+object SyntAnal20: TLibSyntAnalyzer
+  Formats = <
     item
       DisplayName = 'Param'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
-    end  
+      Font.Style = []
+    end
     item
       DisplayName = 'Symbol'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
-    end  
+    end
     item
       DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clGray
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsItalic]
-    end  
+    end
     item
-      DisplayName = 'Const'
-      Font.Color = 206
-      Font.Height = -13
-      Font.Name = 'Courier New'
-    end  
-    item
-      DisplayName = 'String'
-      Font.Color = clTeal
-      Font.Height = -13
-      Font.Name = 'Courier New'
-    end  
-    item
-      DisplayName = 'String Eval'
-      Font.Color = clPurple
-      Font.Height = -13
-      Font.Name = 'Courier New'
-    end  
-    item
-      DisplayName = 'Var'
-      Font.Color = clGreen
-      Font.Height = -13
-      Font.Name = 'Courier New'
-    end  
-    item
-      DisplayName = 'Id'
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-    end  
-    item
-      DisplayName = 'Id Function'
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
-      BorderTypeBottom = blDot
-      BorderColorBottom = clTeal
-    end  
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String Eval'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Var'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id Function'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
     item
       DisplayName = 'Color'
+      Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Number suffix'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
-  TokenRules = <  
+  TokenRules = <
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
@@ -73,7 +96,7 @@ object SyntAnal7: TLibSyntAnalyzer
       Expression = '//.*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Comment 2'
       StyleName = 'Comment'
@@ -81,7 +104,7 @@ object SyntAnal7: TLibSyntAnalyzer
       Expression = '(?s)/\* .*? (\*/|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Param'
       StyleName = 'Param'
@@ -90,7 +113,7 @@ object SyntAnal7: TLibSyntAnalyzer
       Expression = '[\w\.-]+ (?=\s*\:)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Color'
       StyleName = 'Color'
@@ -98,31 +121,38 @@ object SyntAnal7: TLibSyntAnalyzer
       Expression = '\#[\da-f]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[;:,%\(\)\{\}\[\]\-\+\*~]'
+      Expression = '[;:,\(\)\{\}\[\]\-\+\*~]'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = 'Const'
-      StyleName = 'Const'
+      DisplayName = 'Number'
+      StyleName = 'Number'
       TokenType = 5
-      Expression = '\#[\da-f]+\b | \b \d+(\.\d+)? (%|\w+)?'
+      Expression = '(\.\d+) | \d+(\.\d+)?'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
+    item
+      DisplayName = 'Number suffix'
+      StyleName = 'Number suffix'
+      Expression = '% | (?<=\d)\w+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
     item
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '("|'') .*? (\1|$)'
+      Expression = '("|'#39') .*? (\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Var'
       StyleName = 'Var'
@@ -130,7 +160,7 @@ object SyntAnal7: TLibSyntAnalyzer
       Expression = '@\w[\w-]*'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
       DisplayName = 'Id'
       StyleName = 'Id'
@@ -138,21 +168,21 @@ object SyntAnal7: TLibSyntAnalyzer
       Expression = '[\w\.\-\#]+'
       ColumnFrom = 0
       ColumnTo = 0
-    end  
+    end
     item
-      DisplayName = 'Eval'
+      DisplayName = 'String Eval'
       StyleName = 'String Eval'
       TokenType = 4
       Expression = '` .*? (`|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end>
-  BlockRules = <  
+  BlockRules = <
     item
       DisplayName = 'Keyw'
       StyleName = 'Id Function'
       BlockType = btTagDetect
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             'alpha'
@@ -185,20 +215,18 @@ object SyntAnal7: TLibSyntAnalyzer
             'saturation'
             'spin'
             'true'
-            'when'
-          )
+            'when')
           TokenTypes = 64
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '{'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '{'
-          )
+            '{')
           TokenTypes = 8
         end>
       BlockEnd = '}'
@@ -209,31 +237,30 @@ object SyntAnal7: TLibSyntAnalyzer
       DynHighlight = dhRange
       HighlightPos = cpRange
       DynSelectMin = True
+      CollapseFmt = '{ ... }'
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = '}'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            '}'
-          )
+            '}')
           TokenTypes = 8
         end>
       BlockEnd = '{'
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Param begin'
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
-            ':'
-          )
+            ':')
           TokenTypes = 520
-        end      
+        end
         item
           TokenTypes = 128
         end>
@@ -242,16 +269,15 @@ object SyntAnal7: TLibSyntAnalyzer
       BlockEnd = 'Param end'
       HighlightPos = cpBound
       IgnoreAsParent = False
-    end  
+    end
     item
       DisplayName = 'Param end'
       BlockType = btRangeEnd
-      ConditionList = <      
+      ConditionList = <
         item
           TagList.Strings = (
             ';'
-            '}'
-          )
+            '}')
           TokenTypes = 8
         end>
       BlockOffset = 1
@@ -278,24 +304,21 @@ object SyntAnal7: TLibSyntAnalyzer
     '  color: saturate(@base, 5%);'
     '  border-color: lighten(@base, 30%);'
     '  div { .box-shadow(0 0 5px, 30%) }'
-    '}'
-  )
+    '}')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
     'Var'
     'Symbol'
     'String'
-    'Const'
+    'Number'
     'Id'
-    'Param'
-  )
+    'Param')
   Extentions = 'less'
   LexerName = 'LESS'
   Notes.Strings = (
     'Alex (Synwrite)'
-    'Test: http://lesscss.org/'
-  )
+    'Test: http://lesscss.org/')
   LineComment = '//'
   Charset = DEFAULT_CHARSET
 end
