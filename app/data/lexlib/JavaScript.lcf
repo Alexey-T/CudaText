@@ -159,7 +159,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'String Regex'
       StyleName = 'String regex'
       TokenType = 4
-      Expression = '(?<=[=\(&!]\s*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
+      Expression = '(?<=[=\(\[&!:]\x20*) / (\\/|\\\\|\[.+?\]|.)*? /[gimy]*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -837,7 +837,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal29
+      SyntAnalyzer = SyntAnal28
     end>
   SampleText.Strings = (
     '//Comment'
