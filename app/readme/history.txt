@@ -6,6 +6,7 @@
 
 1.19.0 (2017/09)
 
++ colored underline for HTML's rgb(), for ex rgba(200, 200, 0, .4)
 + replace with reg.ex.: support change case (modifiers \U \L) for Unicode
 + option "ui_tree_show_tooltips" (turn off, if tooltips are irritating)
 + option "mouse_click_number_selects_eol"
