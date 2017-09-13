@@ -36,7 +36,11 @@ function IsLexerListed(const ALexer, ANameList: string): boolean;
 function IsFilenameListedInExtensionList(const AFilename, AExtList: string): boolean;
 
 type
-  TRegexParts = array[1..8] of string;
+  TRegexParts = array[0..8] of
+    record
+      Pos, Len: integer;
+      Str: string;
+    end;
 function SRegexFindParts(const ARegex, AStr: string; out AParts: TRegexParts): boolean;
 
 function SEscapeForPython(const Str: string): string;
@@ -160,7 +164,11 @@ var
 begin
   Result:= false;
   for i:= Low(AParts) to High(AParts) do
-    AParts[i]:= '';
+  begin
+    AParts[i].Pos:= -1;
+    AParts[i].Len:= 0;
+    AParts[i].Str:= '';
+  end;
 
   if ARegex='' then exit;
   if AStr='' then exit;
@@ -182,7 +190,11 @@ begin
     if Result then
     begin
       for i:= Low(AParts) to High(AParts) do
-        AParts[i]:= Obj.Match[i];
+      begin
+        AParts[i].Pos:= Obj.MatchPos[i];
+        AParts[i].Len:= Obj.MatchLen[i];
+        AParts[i].Str:= Obj.Match[i];
+      end;
     end;
   finally
     FreeAndNil(Obj);

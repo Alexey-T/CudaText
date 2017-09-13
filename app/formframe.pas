@@ -425,9 +425,12 @@ end;
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
   AY: integer; const AStr: atString; ACharSize: TPoint;
   const AExtent: TATIntArray);
+const
+  cRegexRGB = '\brgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*[\.\d]+\s*)?\)';
 var
   X1, X2, Y, NLen: integer;
   NColor: TColor;
+  RegexParts: TRegexParts;
   i: integer;
 begin
   if AStr='' then Exit;

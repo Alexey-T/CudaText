@@ -1009,8 +1009,8 @@ var
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.SidebarTheme, Parts);
 
-  ImageListSide.Width:= StrToIntDef(Parts[1], ImageListSide.Width);
-  ImageListSide.Height:= StrToIntDef(Parts[2], ImageListSide.Height);
+  ImageListSide.Width:= StrToIntDef(Parts[1].Str, ImageListSide.Width);
+  ImageListSide.Height:= StrToIntDef(Parts[2].Str, ImageListSide.Height);
   ImageListSide.Clear;
 
   //set ButtonWidth for vertical bars
@@ -1039,8 +1039,8 @@ var
 begin
   SRegexFindParts('.+_(\d+)x(\d+)', UiOps.TreeTheme, Parts);
 
-  ImageListTree.Width:= StrToIntDef(Parts[1], ImageListTree.Width);
-  ImageListTree.Height:= StrToIntDef(Parts[2], ImageListTree.Height);
+  ImageListTree.Width:= StrToIntDef(Parts[1].Str, ImageListTree.Width);
+  ImageListTree.Height:= StrToIntDef(Parts[2].Str, ImageListTree.Height);
   ImageListTree.Clear;
 
   Str:= GetAppPath(cDirDataTreeIcons)+DirectorySeparator;

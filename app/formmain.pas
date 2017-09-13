@@ -3492,11 +3492,11 @@ begin
 
   if not SRegexFindParts(AProp.RegexStr, AStr, Parts) then exit;
   if AProp.RegexIdName>0 then
-    AFilename:= Parts[AProp.RegexIdName];
+    AFilename:= Parts[AProp.RegexIdName].Str;
   if AProp.RegexIdLine>0 then
-    ALine:= StrToIntDef(Parts[AProp.RegexIdLine], -1);
+    ALine:= StrToIntDef(Parts[AProp.RegexIdLine].Str, -1);
   if AProp.RegexIdCol>0 then
-    ACol:= StrToIntDef(Parts[AProp.RegexIdCol], 0);
+    ACol:= StrToIntDef(Parts[AProp.RegexIdCol].Str, 0);
 
   if not AProp.ZeroBase then
   begin

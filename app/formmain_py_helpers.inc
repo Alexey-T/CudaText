@@ -145,17 +145,17 @@ begin
 
   if SRegexFindParts(cRegex_DotCommand, ACallback, Parts) then
   begin
-    SModule:= Parts[1];
-    SFunc:= Parts[2];
+    SModule:= Parts[1].Str;
+    SFunc:= Parts[2].Str;
     Result:= Py_RunPlugin_Command(SModule, SFunc, AParams);
     exit;
   end;
 
   if SRegexFindParts(cRegex_SignCommand, ACallback, Parts) then
   begin
-    SModule:= Parts[1];
-    SFunc:= Parts[2];
-    SInfo:= Parts[4];
+    SModule:= Parts[1].Str;
+    SFunc:= Parts[2].Str;
+    SInfo:= Parts[4].Str;
 
     if SInfo<>'' then
     begin
@@ -169,9 +169,9 @@ begin
 
   if SRegexFindParts(cRegex_SignFunc, ACallback, Parts) then
   begin
-    SModule:= Parts[1];
-    SFunc:= Parts[2];
-    SInfo:= Parts[4];
+    SModule:= Parts[1].Str;
+    SFunc:= Parts[2].Str;
+    SInfo:= Parts[4].Str;
 
     if SInfo<>'' then
     begin
@@ -185,9 +185,9 @@ begin
 
   if SRegexFindParts(cRegex_CommaCommand, ACallback, Parts) then
   begin
-    SModule:= Parts[1];
-    SFunc:= Parts[2];
-    SParam:= Parts[4];
+    SModule:= Parts[1].Str;
+    SFunc:= Parts[2].Str;
+    SParam:= Parts[4].Str;
     Result:= Py_RunPlugin_Command(SModule, SFunc, [SParam]);
     fmConsole.DoLogConsoleLine(Format(msgCallbackDeprecated, [ACallback]));
     exit;
