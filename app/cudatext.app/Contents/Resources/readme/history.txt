@@ -4,11 +4,20 @@
   * changed
 
 
-1.18.1 (2017/09)
+1.19.0 (2017/09)
 
-+ ProjectMan: commands "Go to main file", "Open main file"
-- fix: ProjectMan: don't allow duplicate files/dirs in root
-- fix: correctly handle file creation error for command line
++ colored underlines for HTML's rgb(), for ex rgba(200, 200, 0, .4)
++ support no-break-space U+00A0: in show unprinted, in go-to-next-word
++ replace with reg.ex.: support change case (modifiers \U \L) for Unicode
++ option "ui_tree_show_tooltips" (turn off, if tooltips are irritating)
++ option "mouse_click_number_selects_eol"
++ improved lexer JS (reg-ex hiliting)
++ improved lexer LESS (numbers hiliting)
++ ProjectManager: commands "Go to main file", "Open main file"
++ ProjectManager: don't allow duplicate items
+- fix: fold-marks didn't render on folded lines
+- fix: must handle file creation error for command line
+- fix: command "go to last editing pos"
 
 1.18.0 (2017/09)
 

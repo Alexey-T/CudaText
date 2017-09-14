@@ -557,6 +557,9 @@
   //Folders from: codetreeicons
   "ui_tree_theme": "default_16x16",  
 
+  //Tree: show tooltips for items, which don't fit by width
+  "ui_tree_show_tooltips": true,
+  
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",
@@ -645,6 +648,10 @@
   //  "ca": by Ctrl+Alt+click
   //  "sca": by Shift+Ctrl+Alt+click
   "mouse_goto_definition": "a",
+
+  //Mouse click on line number: select line with end-of-line
+  //(so caret placed on the next line)
+  "mouse_click_number_selects_eol": true,
 
   //[Keys]
   //Key BkSp: do unindent too (if caret inside indented area)

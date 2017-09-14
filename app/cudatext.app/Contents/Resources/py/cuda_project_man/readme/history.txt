@@ -1,4 +1,9 @@
 
+2017.09.08
++ added commands "Go to main file", "Open main file"
+- fix: dont allow duplicate nodes on adding nodes
+- fix: Windows high-dpi
+
 2017.08.29
 + added cmd "Add to project: current file"
 + added cmd "Add to project: all opened files"

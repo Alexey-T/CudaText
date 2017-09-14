@@ -66,9 +66,10 @@ Supported keys:
 Notes:
 
 * Filenames can be with ":line" or ":line:column" suffix to place caret.
-* Folders cannot be loaded yet.
-* Projects (.cuda-proj files) can be loaded, if Project Manager plugin installed.
-* Sessions (.cuda-session files) can be loaded, if Session Manager installed.
+* Folders can be specified too. They will be opened as a "project" in the Project Manager.
+* Project files (.cuda-proj) can be loaded.
+* Session files (.cuda-session) can be loaded, if Session Manager installed.
+* Non-existing file name can be specified, program will ask to create it.
 
 ===macOS===
 
@@ -221,6 +222,24 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 * In CudaText, test this "lexer style map" in action: open file with your lexer active, and activate "default" UI theme, then activate "sub" UI theme. Main themes must show nice colors in your syntax file. Call dialog "Options - Lexers - Lexer style mapping" to fix colors.
 * In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
 * Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
+
+==Add-on types==
+
+* "plugins". These are addons with Python code. They add python events and/or python commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
+
+* "lexers". These are syntax hiliting support. For ex, Arduino lexer adds menuitem "Arduino" to the lexer menu. Some addons can add 2 lexers (or more), for ex "HTML nnnnnn" addons often add 2 lexers: one is visible in the lexer menu, another one is hidden (it supports embedded blocks hiliting).
+
+* "linters". These are Python modules for CudaLint plugin. Each supports some lexer (or several similar lexers). To use them, install CudaLint plugin, open your work file, and call CudaLint commands: it calls appropriate linter and shows colored bookmarks on error/warning lines.
+
+* "snippets". These are collections of text fragments, for Snippets plugin. Install Snippets plugin first. Each addon supports some lexer(s). See details in the [[#Snippets]] topic.
+
+* "translations". These are CudaText UI translations. For ex, JP translation changes all menuitems + dialogs to JP language. Dialogs of plugins are not affected (but authors can support translation in their plugins).
+
+* "themes". These are UI/syntax themes for the "Options - Color themes" menu. UI themes change colors of CudaText interface. Syntax themes change colors of words in syntax hilited files.
+
+* "sidebar themes": These are icon sets for the sidebar (vertical bar on the left side).
+
+* "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
 
 == File-types config ==
 
