@@ -4,10 +4,11 @@
   * changed
 
 
-1.19.1
+1.19.2
 
++ UI tabs: added scroll arrows (left side) for lot of tabs
 + UI tabs: don't paint angled tabs (slow) if tab count>10
-+ theme "sub", side panel made dark
+* change theme "sub": side panel made dark
 
 1.19.0 (2017/09)
 
