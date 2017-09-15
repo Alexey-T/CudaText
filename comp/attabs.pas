@@ -90,6 +90,8 @@ const
   cAtTabNone = -1; //none tab
   cAtTabPlus = -2;
   cAtArrowDown = -3;
+  cAtArrowScrollLeft = -4;
+  cAtArrowScrollRight = -5;
 
 type
   { TATTabs }
@@ -165,6 +167,7 @@ type
     FTabList: TList;
     FTabMenu: TatPopupMenu;
 
+    FScrollPos: integer;
     FImages: TImageList;
     FBitmap: TBitmap;
     FOnTabClick: TNotifyEvent;
@@ -599,6 +602,7 @@ begin
   FTabIndexOver:= -1;
   FTabList:= TList.Create;
   FTabMenu:= nil;
+  FScrollPos:= 0;
 
   FOnTabClick:= nil;
   FOnTabPlusClick:= nil;
@@ -855,6 +859,8 @@ begin
     Result:= Data.TabRect
   else
     Result:= Rect(0, 0, 200, 50); //dummy
+
+  Dec(Result.Left, FScrollPos);
 end;
 
 procedure TATTabs.DoUpdateTabRects;
@@ -963,7 +969,7 @@ var
   i: Integer;
   RBottom: TRect;
   AColorXBg, AColorXBorder, AColorXMark: TColor;
-  ARect, ARectArrowDown, FRectArrowLeft, FRectArrowRight: TRect;
+  ARect, FRectArrowDown, FRectArrowLeft, FRectArrowRight: TRect;
   AType: TATTabElemType;
   Data: TATTabData;
 begin
@@ -1084,19 +1090,31 @@ begin
   end;
 
   //paint arrows
-  GetRectArrowDown(ARectArrowDown);
+  GetRectArrowDown(FRectArrowDown);
   GetRectArrowLeftRight(FRectArrowLeft, FRectArrowRight);
 
   if FTabShowMenu then
   begin
-    DoPaintArrowTo(C, tabTriDown, ARectArrowDown,
-      IfThen((FTabIndexOver=cAtArrowDown) and not DragManager.IsDragging, FColorArrowOver, FColorArrow), FColorBg);
+    DoPaintArrowTo(C,
+      tabTriDown,
+      FRectArrowDown,
+      IfThen((FTabIndexOver=cAtArrowDown) and not DragManager.IsDragging, FColorArrowOver, FColorArrow),
+      FColorBg);
   end;
 
   if FTabShowScrollArrows then
   begin
-    DoPaintArrowTo(C, tabTriLeft, FRectArrowLeft, FColorArrow, FColorBg);
-    DoPaintArrowTo(C, tabTriRight, FRectArrowRight, FColorArrow, FColorBg);
+    DoPaintArrowTo(C,
+      tabTriLeft,
+      FRectArrowLeft,
+      IfThen(FTabIndexOver=cAtArrowScrollLeft, FColorArrowOver, FColorArrow),
+      FColorBg);
+
+    DoPaintArrowTo(C,
+      tabTriRight,
+      FRectArrowRight,
+      IfThen(FTabIndexOver=cAtArrowScrollRight, FColorArrowOver, FColorArrow),
+      FColorBg);
   end;
 
   //paint drop mark
@@ -1155,29 +1173,29 @@ function TATTabs.GetTabAt(X, Y: Integer): Integer;
 var
   i: Integer;
   Pnt: TPoint;
-  R1, RDown: TRect;
+  R1, RDown, RScrollL, RScrollR: TRect;
 begin
   Result:= -1;
   Pnt:= Point(X, Y);
 
   //arrows?
   GetRectArrowDown(RDown);
+  GetRectArrowLeftRight(RScrollL, RScrollR);
 
-  {
-  if FTabShowScroll then
-    if PtInRect(RLeft, Pnt) then
+  if FTabShowScrollArrows then
+  begin
+    if PtInRect(RScrollL, Pnt) then
     begin
-      Result:= cAtArrowLeft;
+      Result:= cAtArrowScrollLeft;
       Exit
     end;
 
-  if FTabShowScroll then
-    if PtInRect(RRight, Pnt) then
+    if PtInRect(RScrollR, Pnt) then
     begin
-      Result:= cAtArrowRight;
+      Result:= cAtArrowScrollRight;
       Exit
     end;
-  }  
+  end;
 
   if FTabShowMenu then
     if PtInRect(RDown, Pnt) then
