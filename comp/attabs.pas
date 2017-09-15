@@ -551,7 +551,7 @@ begin
 
   FTabBottom:= false;
   FTabAngle:= {$ifdef darwin} 0 {$else} 5 {$endif};
-  FTabAngleMaxTabs:= 15;
+  FTabAngleMaxTabs:= 10;
   FTabHeight:= 24;
   FTabWidthMin:= 20;
   FTabWidthMax:= 130;
