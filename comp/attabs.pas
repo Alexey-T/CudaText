@@ -396,6 +396,9 @@ var
   x: integer;
 
 begin
+  if AX1<0 then exit;
+  if AX2<0 then exit;
+
   //speed up drawing (AT)
   if (AX1 = AX2) or (AY1 = AY2) then
   begin
@@ -663,6 +666,8 @@ var
 begin
   //optimize for 200 tabs
   if ARect.Left>=ClientWidth then exit;
+  //skip tabs scrolled lefter
+  if ARect.Right<=0 then exit;
 
   if FTabShowEntireColor and (ATabHilite<>clNone) then
     ATabBg:= ATabHilite;
@@ -861,6 +866,7 @@ begin
     Result:= Rect(0, 0, 200, 50); //dummy
 
   Dec(Result.Left, FScrollPos);
+  Dec(Result.Right, FScrollPos);
 end;
 
 procedure TATTabs.DoUpdateTabRects;
@@ -1095,6 +1101,10 @@ begin
 
   if FTabShowMenu then
   begin
+    //paint blank
+    C.Brush.Color:= FColorBg;
+    C.FillRect(FRectArrowDown);
+
     DoPaintArrowTo(C,
       tabTriDown,
       FRectArrowDown,
@@ -1104,6 +1114,14 @@ begin
 
   if FTabShowScrollArrows then
   begin
+    //paint blank over scrolled tabs
+    C.Brush.Color:= FColorBg;
+    C.FillRect(Rect(
+      FRectArrowLeft.Left,
+      FRectArrowLeft.Top,
+      FRectArrowRight.Right,
+      FRectArrowRight.Bottom));
+
     DoPaintArrowTo(C,
       tabTriLeft,
       FRectArrowLeft,
@@ -1293,6 +1311,20 @@ begin
           FTabIndexOver:= -1;
           Invalidate;
           ShowTabMenu;
+        end;
+
+      cAtArrowScrollLeft:
+        begin
+          Dec(FScrollPos, FTabWidth);
+          if FScrollPos<0 then
+            FScrollPos:= 0;
+          Invalidate;
+        end;
+
+      cAtArrowScrollRight:
+        begin
+          Inc(FScrollPos, FTabWidth);
+          Invalidate;
         end;
 
       cAtTabPlus:
