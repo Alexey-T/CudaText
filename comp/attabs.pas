@@ -82,16 +82,26 @@ type
     var ACanChange: boolean) of object;
 
 type
-  TATTabTriangle = (tabTriDown, tabTriLeft, tabTriRight);
-  TATTabShowClose = (tbShowNone, tbShowAll, tbShowActive, tbShowMouseOver);
+  TATTabTriangle = (
+    tabTriDown,
+    tabTriLeft,
+    tabTriRight
+    );
+
+  TATTabShowClose = (
+    tbShowNone,
+    tbShowAll,
+    tbShowActive,
+    tbShowMouseOver
+    );
 
 //int constants for GetTabAt
 const
-  cAtTabNone = -1; //none tab
-  cAtTabPlus = -2;
-  cAtArrowDown = -3;
-  cAtArrowScrollLeft = -4;
-  cAtArrowScrollRight = -5;
+  TabIndexNone = -1; //none tab
+  TabIndexPlus = -2;
+  TabIndexArrowMenu = -3;
+  TabIndexArrowScrollLeft = -4;
+  TabIndexArrowScrollRight = -5;
 
 type
   { TATTabs }
@@ -1020,7 +1030,7 @@ begin
     AColorXBg:= clNone;
     AColorXBorder:= clNone;
     AColorXMark:= clWhite;
-    if FTabIndexOver=cAtTabPlus then
+    if FTabIndexOver=TabIndexPlus then
       AType:= aeTabPlusOver
     else
       AType:= aeTabPlus;
@@ -1028,7 +1038,7 @@ begin
     begin
       DoPaintTabTo(C, ARect,
         FTabShowPlusText,
-        IfThen((FTabIndexOver=cAtTabPlus) and not DragManager.IsDragging, FColorTabOver, FColorTabPassive),
+        IfThen((FTabIndexOver=TabIndexPlus) and not DragManager.IsDragging, FColorTabOver, FColorTabPassive),
         FColorBorderPassive,
         FColorBorderActive,
         clNone,
@@ -1112,7 +1122,7 @@ begin
     DoPaintArrowTo(C,
       tabTriDown,
       FRectArrowDown,
-      IfThen((FTabIndexOver=cAtArrowDown) and not DragManager.IsDragging, FColorArrowOver, FColorArrow),
+      IfThen((FTabIndexOver=TabIndexArrowMenu) and not DragManager.IsDragging, FColorArrowOver, FColorArrow),
       FColorBg);
   end;
 
@@ -1129,13 +1139,13 @@ begin
     DoPaintArrowTo(C,
       tabTriLeft,
       FRectArrowLeft,
-      IfThen(FTabIndexOver=cAtArrowScrollLeft, FColorArrowOver, FColorArrow),
+      IfThen(FTabIndexOver=TabIndexArrowScrollLeft, FColorArrowOver, FColorArrow),
       FColorBg);
 
     DoPaintArrowTo(C,
       tabTriRight,
       FRectArrowRight,
-      IfThen(FTabIndexOver=cAtArrowScrollRight, FColorArrowOver, FColorArrow),
+      IfThen(FTabIndexOver=TabIndexArrowScrollRight, FColorArrowOver, FColorArrow),
       FColorBg);
   end;
 
@@ -1208,13 +1218,13 @@ begin
   begin
     if PtInRect(RScrollL, Pnt) then
     begin
-      Result:= cAtArrowScrollLeft;
+      Result:= TabIndexArrowScrollLeft;
       Exit
     end;
 
     if PtInRect(RScrollR, Pnt) then
     begin
-      Result:= cAtArrowScrollRight;
+      Result:= TabIndexArrowScrollRight;
       Exit
     end;
   end;
@@ -1222,7 +1232,7 @@ begin
   if FTabShowMenu then
     if PtInRect(RDown, Pnt) then
     begin
-      Result:= cAtArrowDown;
+      Result:= TabIndexArrowMenu;
       Exit
     end;
 
@@ -1242,7 +1252,7 @@ begin
   if FTabShowPlus then
     if PtInRect(GetTabRect_Plus, Pnt) then
     begin
-      Result:= cAtTabPlus;
+      Result:= TabIndexPlus;
       Exit
     end;
 end;
@@ -1309,7 +1319,7 @@ begin
   if FMouseDownButton=mbLeft then
   begin
     case FTabIndexOver of
-      cAtArrowDown:
+      TabIndexArrowMenu:
         begin
           EndDrag(false);
           FTabIndexOver:= -1;
@@ -1317,17 +1327,17 @@ begin
           ShowTabMenu;
         end;
 
-      cAtArrowScrollLeft:
+      TabIndexArrowScrollLeft:
         begin
           DoScrollLeft;
         end;
 
-      cAtArrowScrollRight:
+      TabIndexArrowScrollRight:
         begin
           DoScrollRight;
         end;
 
-      cAtTabPlus:
+      TabIndexPlus:
         begin
           EndDrag(false);
           FTabIndexOver:= -1;
