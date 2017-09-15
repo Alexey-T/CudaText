@@ -125,6 +125,7 @@ type
     FTabNumPrefix: atString;
     FTabBottom: boolean; 
     FTabAngle: Integer; //angle of tab border: from 0 (vertcal border) to any size
+    FTabAngleMaxTabs: Integer; //maximal tab count, for which TabAngle is used (else used 0)
     FTabHeight: Integer;
     FTabWidthMin: Integer; //tab minimal width (used when lot of tabs)
     FTabWidthMax: Integer; //tab maximal width (used when only few tabs)
@@ -189,7 +190,9 @@ type
     procedure DoPaintXTo(C: TCanvas; const R: TRect; ATabBg, ATabCloseBg,
       ATabCloseBorder, ATabCloseXMark: TColor);
     procedure DoPaintDropMark(C: TCanvas);
+    function RealTabAngle: Integer;
     procedure SetTabAngle(AValue: Integer);
+    procedure SetTabAngleMaxTabs(AValue: Integer);
     procedure SetTabIndex(AIndex: Integer);
     procedure GetTabCloseColor(AIndex: Integer; const ARect: TRect; var AColorXBg,
       AColorXBorder, AColorXMark: TColor);
@@ -264,6 +267,7 @@ type
     //spaces
     property TabBottom: boolean read FTabBottom write FTabBottom;
     property TabAngle: Integer read FTabAngle write SetTabAngle;
+    property TabAngleMaxTabs: Integer read FTabAngleMaxTabs write SetTabAngleMaxTabs;
     property TabHeight: Integer read FTabHeight write FTabHeight;
     property TabWidthMin: Integer read FTabWidthMin write FTabWidthMin;
     property TabWidthMax: Integer read FTabWidthMax write FTabWidthMax;
@@ -547,6 +551,7 @@ begin
 
   FTabBottom:= false;
   FTabAngle:= {$ifdef darwin} 0 {$else} 5 {$endif};
+  FTabAngleMaxTabs:= 15;
   FTabHeight:= 24;
   FTabWidthMin:= 20;
   FTabWidthMax:= 130;
@@ -645,7 +650,7 @@ var
   RectText: TRect;
   NIndentL, NIndentR, NIndentTop: Integer;
   AType: TATTabElemType;
-  AInvert: Integer;
+  AInvert, NAngle: Integer;
   TempCaption: atString;
   bNeedMoreSpace: boolean;
 begin
@@ -663,9 +668,10 @@ begin
   else
     AInvert:= 1;
 
-  RectText:= Rect(ARect.Left+FTabAngle, ARect.Top, ARect.Right-FTabAngle, ARect.Bottom);
+  NAngle:= RealTabAngle;
+  RectText:= Rect(ARect.Left+NAngle, ARect.Top, ARect.Right-NAngle, ARect.Bottom);
   bNeedMoreSpace:= (RectText.Right-RectText.Left<=30) and (ACaption<>TabShowPlusText);
-  NIndentL:= IfThen(not bNeedMoreSpace, FTabAngle+FTabIndentLeft, 2);
+  NIndentL:= IfThen(not bNeedMoreSpace, NAngle+FTabIndentLeft, 2);
   NIndentR:= NIndentL+IfThen(ACloseBtn, FTabIndentXRight);
   C.FillRect(RectText);
   RectText:= Rect(ARect.Left+NIndentL, ARect.Top, ARect.Right-NIndentR, ARect.Bottom);
@@ -682,9 +688,9 @@ begin
     end;
 
   //left triangle
-  PL1:= Point(ARect.Left+FTabAngle*AInvert, ARect.Top);
-  PL2:= Point(ARect.Left-FTabAngle*AInvert, ARect.Bottom-1);
-  if FTabAngle>0 then
+  PL1:= Point(ARect.Left+NAngle*AInvert, ARect.Top);
+  PL2:= Point(ARect.Left-NAngle*AInvert, ARect.Bottom-1);
+  if NAngle>0 then
   begin
     //DrawTriangleRaw(C, PL1, PL2, Point(PL1.X, PL2.Y), ATabBg);
     //draw little shifted line- bottom-left point x+=1
@@ -695,9 +701,9 @@ begin
   end;
 
   //right triangle
-  PR1:= Point(ARect.Right-FTabAngle*AInvert-1, ARect.Top);
-  PR2:= Point(ARect.Right+FTabAngle*AInvert-1, ARect.Bottom-1);
-  if FTabAngle>0 then
+  PR1:= Point(ARect.Right-NAngle*AInvert-1, ARect.Top);
+  PR2:= Point(ARect.Right+NAngle*AInvert-1, ARect.Bottom-1);
+  if NAngle>0 then
   begin
     //DrawTriangleRaw(C, PR1, PR2, Point(PR1.X, PR2.Y), ATabBg);
     //draw little shifted line- bottom-right point x-=1
@@ -833,7 +839,7 @@ begin
   else
     Result:= FTabWidthMax;
 
-  Inc(Result, 2*(FTabAngle + FTabIndentLeft));
+  Inc(Result, 2*(RealTabAngle + FTabIndentLeft));
 end;
 
 
@@ -854,7 +860,7 @@ var
   Data: TATTabData;
   R: TRect;
 begin
-  R.Left:= FTabIndentInit+FTabAngle;
+  R.Left:= FTabIndentInit+RealTabAngle;
   R.Right:= R.Left;
   R.Top:= FTabIndentTop;
   R.Bottom:= R.Top+FTabHeight;
@@ -881,7 +887,7 @@ begin
   begin
     Result.Top:= FTabIndentTop;
     Result.Bottom:= Result.Top + FTabHeight;
-    Result.Left:= FTabIndentInit + FTabAngle;
+    Result.Left:= FTabIndentInit + RealTabAngle;
     Result.Right:= Result.Left + GetTabRectWidth(true);
   end;
 end;
@@ -891,7 +897,7 @@ var
   P: TPoint;
 begin
   P:= Point(
-    ARect.Right-FTabAngle-FTabIndentXRight,
+    ARect.Right-RealTabAngle-FTabIndentXRight,
     (ARect.Top+ARect.Bottom) div 2 + 1);
   Dec(P.X, FTabIndentXSize div 2);
   Dec(P.Y, FTabIndentXSize div 2);
@@ -1109,6 +1115,14 @@ begin
   end;
 end;
 
+function TATTabs.RealTabAngle: Integer;
+begin
+  if FTabList.Count>FTabAngleMaxTabs then
+    Result:= 0
+  else
+    Result:= FTabAngle;
+end;
+
 procedure TATTabs.SetTabAngle(AValue: Integer);
 begin
   {$ifdef darwin}
@@ -1118,6 +1132,14 @@ begin
 
   if FTabAngle=AValue then Exit;
   FTabAngle:= AValue;
+  Invalidate;
+end;
+
+procedure TATTabs.SetTabAngleMaxTabs(AValue: Integer);
+begin
+  if FTabAngleMaxTabs=AValue then Exit;
+  FTabAngleMaxTabs:= AValue;
+  Invalidate;
 end;
 
 
@@ -1494,15 +1516,16 @@ end;
 
 procedure TATTabs.DoUpdateTabWidths;
 var
-  Value, Count: Integer;
+  Value, Count, NAngle: Integer;
 begin
   Count:= TabCount;
   if Count=0 then Exit;
 
   //tricky formula: calculate auto-width
+  NAngle:= RealTabAngle;
   Value:= (ClientWidth
-    - IfThen(FTabShowPlus, GetTabWidth_Plus_Raw + 2*FTabIndentLeft + 1*FTabAngle)
-    - FTabAngle*2
+    - IfThen(FTabShowPlus, GetTabWidth_Plus_Raw + 2*FTabIndentLeft + 1*NAngle)
+    - NAngle*2
     - FTabIndentInter
     - FTabIndentInit
     - IfThen(FTabShowMenu, FTabIndentArrowRight)) div Count
