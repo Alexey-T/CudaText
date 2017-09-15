@@ -4,6 +4,11 @@
   * changed
 
 
+1.19.1
+
++ UI tabs: don't paint angled tabs (slow) if tab count>10
++ theme "sub", side panel made dark
+
 1.19.0 (2017/09)
 
 + colored underlines for HTML's rgb(), for ex rgba(200, 200, 0, .4)
