@@ -111,7 +111,7 @@ type
     TabHeight: integer;
     TabHeightInner: integer;
     TabIndentTop: integer;
-    TabIndentInit: integer;
+    //TabIndentInit: integer;
     TabAngle: integer;
     TabBottom: boolean;
     TabColorFull: boolean;
@@ -1058,7 +1058,7 @@ begin
     TabHeight:= 25;
     TabHeightInner:= TabHeight-1;
     TabIndentTop:= 0;
-    TabIndentInit:= 5;
+    //TabIndentInit:= 5;
     TabAngle:= 3;
     TabBottom:= false;
     TabColorFull:= false;

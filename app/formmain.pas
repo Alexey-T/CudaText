@@ -1833,7 +1833,7 @@ begin
   Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight);
   Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
   Groups.SetTabOption(tabOptionIndentTop, IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop));
-  Groups.SetTabOption(tabOptionIndentInit, UiOps.TabIndentInit);
+  //Groups.SetTabOption(tabOptionIndentInit, UiOps.TabIndentInit);
   Groups.SetTabOption(tabOptionIndentColor, 4);
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
