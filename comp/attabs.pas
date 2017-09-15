@@ -552,7 +552,7 @@ begin
   FColorArrowOver:= $E0E0E0;
 
   FTabBottom:= false;
-  FTabAngle:= {$ifdef darwin} 0 {$else} 5 {$endif};
+  FTabAngle:= 4;
   FTabAngleMaxTabs:= 10;
   FTabHeight:= 24;
   FTabWidthMin:= 20;
@@ -560,7 +560,7 @@ begin
   FTabWidthHideX:= 55;
   FTabNumPrefix:= '';
   FTabIndentLeft:= 6;
-  FTabIndentDropI:= 4;
+  FTabIndentDropI:= 6;
   FTabIndentInter:= 0;
   FTabIndentInit:= 28; //big to contain scroll arrows
   FTabIndentTop:= 5;
@@ -1119,7 +1119,7 @@ begin
     R:= GetTabRect(i);
     R.Left:= IfThen(i<=FTabIndex, R.Left, R.Right);
     R.Left:= R.Left - FTabIndentDropI div 2;
-    R.Right:= R.Left + FTabIndentDropI - FTabIndentDropI div 2 + 1;
+    R.Right:= R.Left + FTabIndentDropI;
     C.Brush.Color:= FColorDrop;
     C.FillRect(R);
   end;
@@ -1127,6 +1127,11 @@ end;
 
 function TATTabs.RealTabAngle: Integer;
 begin
+  {$ifdef darwin}
+  //macOS paints angled tab bad
+  exit(0);
+  {$endif}
+
   if FTabList.Count>FTabAngleMaxTabs then
     Result:= 0
   else
@@ -1135,11 +1140,6 @@ end;
 
 procedure TATTabs.SetTabAngle(AValue: Integer);
 begin
-  {$ifdef darwin}
-  //macOS paints angled tabs badly
-  exit;
-  {$endif}
-
   if FTabAngle=AValue then Exit;
   FTabAngle:= AValue;
 end;
