@@ -117,7 +117,7 @@ type
 
     //colors
     FColorBg: TColor; //color of background (visible at top and between tabs)
-    FColorDrop: TColor;
+    FColorDropMark: TColor;
     FColorBorderActive: TColor; //color of 1px border of active tab
     FColorBorderPassive: TColor; //color of 1px border of inactive tabs
     FColorTabActive: TColor; //color of active tab
@@ -131,6 +131,7 @@ type
     FColorCloseXOver: TColor; //"color of "x" mark, mouseover
     FColorArrow: TColor; //color of "down" arrow (tab menu), inactive
     FColorArrowOver: TColor; //color of "down" arrow, mouse-over
+    FColorScrollMark: TColor;
 
     //spaces
     FTabNumPrefix: atString;
@@ -153,9 +154,12 @@ type
     FTabIndentArrowSize: Integer; //half-size of "arrow" mark
     FTabIndentArrowLeft: Integer; //space from scroll-arrows to left control edge
     FTabIndentArrowRight: Integer; //width of down-arrow area at right
+    FTabScrollMarkX: Integer;
+    FTabScrollMarkY: Integer;
 
     //show
     FTabShowScrollArrows: boolean;
+    FTabShowScrollMark: boolean;
     FTabShowClose: TATTabShowClose; //show mode for "x" buttons
     FTabShowPlus: boolean; //show "plus" tab
     FTabShowPlusText: atString; //text of "plus" tab
@@ -203,7 +207,9 @@ type
     procedure DoPaintXTo(C: TCanvas; const R: TRect; ATabBg, ATabCloseBg,
       ATabCloseBorder, ATabCloseXMark: TColor);
     procedure DoPaintDropMark(C: TCanvas);
+    procedure DoPaintScrollMark(C: TCanvas);
     procedure DoScrollAnimation(APosTo: integer);
+    function GetMaxScrollPos: integer;
     procedure GetRectArrowDown(out R: TRect);
     procedure GetRectArrowLeftRight(out RL, RR: TRect);
     function GetScrollPageSize: integer;
@@ -268,7 +274,7 @@ type
     property Images: TImageList read FImages write FImages;
     //colors
     property ColorBg: TColor read FColorBg write FColorBg;
-    property ColorDrop: TColor read FColorDrop write FColorDrop;
+    property ColorDropMark: TColor read FColorDropMark write FColorDropMark;
     property ColorBorderActive: TColor read FColorBorderActive write FColorBorderActive;
     property ColorBorderPassive: TColor read FColorBorderPassive write FColorBorderPassive;
     property ColorTabActive: TColor read FColorTabActive write FColorTabActive;
@@ -282,6 +288,7 @@ type
     property ColorCloseXOver: TColor read FColorCloseXOver write FColorCloseXOver;
     property ColorArrow: TColor read FColorArrow write FColorArrow;
     property ColorArrowOver: TColor read FColorArrowOver write FColorArrowOver;
+    property ColorScrollMark: TColor read FColorScrollMark write FColorScrollMark;
     //spaces
     property TabBottom: boolean read FTabBottom write FTabBottom;
     property TabAngle: Integer read FTabAngle write SetTabAngle;
@@ -302,8 +309,11 @@ type
     property TabIndentArrowSize: Integer read FTabIndentArrowSize write FTabIndentArrowSize;
     property TabIndentArrowLeft: Integer read FTabIndentArrowLeft write FTabIndentArrowLeft;
     property TabIndentArrowRight: Integer read FTabIndentArrowRight write FTabIndentArrowRight;
+    property TabScrollMarkX: Integer read FTabScrollMarkX write FTabScrollMarkX;
+    property TabScrollMarkY: Integer read FTabScrollMarkY write FTabScrollMarkY;
 
     property TabShowScrollArrows: boolean read FTabShowScrollArrows write FTabShowScrollArrows;
+    property TabShowScrollMark: boolean read FTabShowScrollMark write FTabShowScrollMark;
     property TabShowClose: TATTabShowClose read FTabShowClose write FTabShowClose;
     property TabShowPlus: boolean read FTabShowPlus write FTabShowPlus;
     property TabShowPlusText: atString read FTabShowPlusText write FTabShowPlusText;
@@ -556,7 +566,7 @@ begin
   FMouseDownDbl:= false;
 
   FColorBg:= clBlack;
-  FColorDrop:= $6060E0;
+  FColorDropMark:= $6060E0;
   FColorTabActive:= $808080;
   FColorTabPassive:= $786868;
   FColorTabOver:= $A08080;
@@ -570,6 +580,7 @@ begin
   FColorCloseXOver:= clWhite;
   FColorArrow:= $999999;
   FColorArrowOver:= $E0E0E0;
+  FColorScrollMark:= FColorDropMark;
 
   FTabBottom:= false;
   FTabAngle:= 4;
@@ -582,7 +593,7 @@ begin
   FTabIndentLeft:= 6;
   FTabIndentDropI:= 6;
   FTabIndentInter:= 0;
-  FTabIndentInit:= 30; //big to contain scroll arrows
+  FTabIndentInit:= 30; //big for scroll arrows
   FTabIndentTop:= 5;
   FTabIndentXRight:= 10;
   FTabIndentXInner:= 3;
@@ -591,8 +602,11 @@ begin
   FTabIndentArrowLeft:= 4;
   FTabIndentArrowRight:= 20;
   FTabIndentColor:= 3;
+  FTabScrollMarkX:= 20;
+  FTabScrollMarkY:= 4;
 
   FTabShowScrollArrows:= true;
+  FTabShowScrollMark:= true;
   FTabShowClose:= tbShowAll;
   FTabShowPlus:= true;
   FTabShowPlusText:= ' + ';
@@ -986,12 +1000,12 @@ end;
 
 procedure TATTabs.DoPaintTo(C: TCanvas);
 var
-  i: Integer;
   RBottom: TRect;
   AColorXBg, AColorXBorder, AColorXMark: TColor;
   ARect, FRectArrowDown, FRectArrowLeft, FRectArrowRight: TRect;
   AType: TATTabElemType;
   Data: TATTabData;
+  i: Integer;
 begin
   AType:= aeBackground;
   ARect:= ClientRect;
@@ -1155,6 +1169,10 @@ begin
     if PtInControl(Self, Mouse.CursorPos) then
       DoPaintDropMark(C);
   end;
+
+  //paint scroll mark
+  if FTabShowScrollMark then
+    DoPaintScrollMark(C);
 end;
 
 procedure TATTabs.DoPaintDropMark(C: TCanvas);
@@ -1170,8 +1188,29 @@ begin
     R.Left:= IfThen(i<=FTabIndex, R.Left, R.Right);
     R.Left:= R.Left - FTabIndentDropI div 2;
     R.Right:= R.Left + FTabIndentDropI;
-    C.Brush.Color:= FColorDrop;
+    C.Brush.Color:= FColorDropMark;
     C.FillRect(R);
+  end;
+end;
+
+procedure TATTabs.DoPaintScrollMark(C: TCanvas);
+var
+  NPos, NSize: integer;
+  R: TRect;
+begin
+  if (FTabWidth<=FTabWidthMin) or (FScrollPos>0) then
+  begin
+    NPos:= GetMaxScrollPos;
+    NSize:= ClientWidth;
+    if NPos>0 then
+    begin
+      R.Top:= 0;
+      R.Bottom:= FTabScrollMarkY;
+      R.Left:= Int64(FScrollPos) * (NSize-FTabScrollMarkX) div NPos;
+      R.Right:= R.Left + FTabScrollMarkX;
+      C.Brush.Color:= FColorScrollMark;
+      C.FillRect(R);
+    end;
   end;
 end;
 
@@ -1537,6 +1576,8 @@ begin
   R.Top:= FTabIndentTop;
   R.Bottom:= R.Top+FTabHeight;
 
+  if FTabBottom then Inc(R.Top);
+
   R.Right:= ClientWidth;
   R.Left:= R.Right-FTabIndentArrowRight;
 end;
@@ -1545,6 +1586,8 @@ procedure TATTabs.GetRectArrowLeftRight(out RL, RR: TRect);
 begin
   RL.Top:= FTabIndentTop;
   RL.Bottom:= RL.Top+FTabHeight;
+
+  if FTabBottom then Inc(RL.Top);
 
   RR.Top:= RL.Top;
   RR.Bottom:= RL.Bottom;
@@ -1779,6 +1822,20 @@ begin
   Result:= ClientWidth * 2 div 3;
 end;
 
+function TATTabs.GetMaxScrollPos: integer;
+var
+  RDown: TRect;
+  D: TATTabData;
+begin
+  Result:= 0;
+  GetRectArrowDown(RDown);
+  if TabCount>0 then
+  begin
+    D:= GetTabData(TabCount-1);
+    Result:= Max(0, D.TabRect.Right - RDown.Left + FTabIndentInit + 2);
+  end;
+end;
+
 procedure TATTabs.DoScrollAnimation(APosTo: integer);
 const
   cStep = 70; //pixels
@@ -1816,20 +1873,9 @@ end;
 
 procedure TATTabs.DoScrollRight;
 var
-  RDown: TRect;
-  NPos, NMaxScroll: integer;
-  D: TATTabData;
+  NPos: integer;
 begin
-  NMaxScroll:= 0;
-
-  GetRectArrowDown(RDown);
-  if TabCount>0 then
-  begin
-    D:= GetTabData(TabCount-1);
-    NMaxScroll:= Max(0, D.TabRect.Right - RDown.Left + FTabIndentInit + 2);
-  end;
-
-  NPos:= Min(NMaxScroll, FScrollPos+GetScrollPageSize);
+  NPos:= Min(GetMaxScrollPos, FScrollPos+GetScrollPageSize);
   if NPos<>FScrollPos then
     DoScrollAnimation(NPos);
 end;
