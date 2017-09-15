@@ -190,6 +190,8 @@ type
     procedure DoPaintXTo(C: TCanvas; const R: TRect; ATabBg, ATabCloseBg,
       ATabCloseBorder, ATabCloseXMark: TColor);
     procedure DoPaintDropMark(C: TCanvas);
+    procedure GetRectArrowDown(out R: TRect);
+    procedure GetRectArrowLeftRight(out RL, RR: TRect);
     function RealTabAngle: Integer;
     procedure SetTabAngle(AValue: Integer);
     procedure SetTabAngleMaxTabs(AValue: Integer);
@@ -216,7 +218,6 @@ type
     function GetTabRect(AIndex: Integer): TRect;
     function GetTabRect_Plus: TRect;
     function GetTabRect_X(const ARect: TRect): TRect;
-    procedure GetArrowRect(var RDown: TRect);
     function GetTabAt(X, Y: Integer): Integer;
     function GetTabData(AIndex: Integer): TATTabData;
     function TabCount: Integer;
@@ -561,7 +562,7 @@ begin
   FTabIndentLeft:= 6;
   FTabIndentDropI:= 4;
   FTabIndentInter:= 0;
-  FTabIndentInit:= 4;
+  FTabIndentInit:= 28; //big to contain scroll arrows
   FTabIndentTop:= 5;
   FTabIndentXRight:= 10;
   FTabIndentXInner:= 3;
@@ -570,7 +571,8 @@ begin
   FTabIndentArrowLeft:= 4;
   FTabIndentArrowRight:= 20;
   FTabIndentColor:= 3;
-  
+
+  FTabShowScrollArrows:= true;
   FTabShowClose:= tbShowAll;
   FTabShowPlus:= true;
   FTabShowPlusText:= ' + ';
@@ -961,7 +963,7 @@ var
   i: Integer;
   RBottom: TRect;
   AColorXBg, AColorXBorder, AColorXMark: TColor;
-  ARect, ARectDown: TRect;
+  ARect, ARectArrowDown, FRectArrowLeft, FRectArrowRight: TRect;
   AType: TATTabElemType;
   Data: TATTabData;
 begin
@@ -1082,12 +1084,19 @@ begin
   end;
 
   //paint arrows
-  GetArrowRect(ARectDown);
+  GetRectArrowDown(ARectArrowDown);
+  GetRectArrowLeftRight(FRectArrowLeft, FRectArrowRight);
 
   if FTabShowMenu then
   begin
-    DoPaintArrowTo(C, tabTriDown, ARectDown,
+    DoPaintArrowTo(C, tabTriDown, ARectArrowDown,
       IfThen((FTabIndexOver=cAtArrowDown) and not DragManager.IsDragging, FColorArrowOver, FColorArrow), FColorBg);
+  end;
+
+  if FTabShowScrollArrows then
+  begin
+    DoPaintArrowTo(C, tabTriLeft, FRectArrowLeft, FColorArrow, FColorBg);
+    DoPaintArrowTo(C, tabTriRight, FRectArrowRight, FColorArrow, FColorBg);
   end;
 
   //paint drop mark
@@ -1152,7 +1161,7 @@ begin
   Pnt:= Point(X, Y);
 
   //arrows?
-  GetArrowRect(RDown);
+  GetRectArrowDown(RDown);
 
   {
   if FTabShowScroll then
@@ -1463,13 +1472,29 @@ begin
 end;
 
 
-procedure TATTabs.GetArrowRect(var RDown: TRect);
+procedure TATTabs.GetRectArrowDown(out R: TRect);
 begin
-  RDown.Top:= FTabIndentTop;
-  RDown.Bottom:= RDown.Top+FTabHeight;
+  R.Top:= FTabIndentTop;
+  R.Bottom:= R.Top+FTabHeight;
 
-  RDown.Right:= ClientWidth;
-  RDown.Left:= RDown.Right-FTabIndentArrowRight;
+  R.Right:= ClientWidth;
+  R.Left:= R.Right-FTabIndentArrowRight;
+end;
+
+procedure TATTabs.GetRectArrowLeftRight(out RL, RR: TRect);
+begin
+  RL.Top:= FTabIndentTop;
+  RL.Bottom:= RL.Top+FTabHeight;
+
+  RR.Top:= RL.Top;
+  RR.Bottom:= RL.Bottom;
+
+  //place arrows inside TabIndentInit
+  RL.Left:= 0;
+  RL.Right:= RL.Left + FTabIndentInit div 2;
+
+  RR.Left:= RL.Right;
+  RR.Right:= RR.Left + FTabIndentInit div 2;
 end;
 
 procedure TATTabs.ShowTabMenu;
@@ -1502,7 +1527,7 @@ begin
     FTabMenu.Items.Add(mi);
   end;
 
-  GetArrowRect(RDown);
+  GetRectArrowDown(RDown);
   P:= Point(RDown.Left, RDown.Bottom);
   P:= ClientToScreen(P);
   FTabMenu.Popup(P.X, P.Y);
