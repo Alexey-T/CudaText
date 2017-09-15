@@ -572,7 +572,7 @@ begin
   FTabIndentLeft:= 6;
   FTabIndentDropI:= 6;
   FTabIndentInter:= 0;
-  FTabIndentInit:= 28; //big to contain scroll arrows
+  FTabIndentInit:= 30; //big to contain scroll arrows
   FTabIndentTop:= 5;
   FTabIndentXRight:= 10;
   FTabIndentXInner:= 3;
@@ -1797,20 +1797,31 @@ end;
 
 procedure TATTabs.DoScrollLeft;
 var
-  NewPos: integer;
+  NPos: integer;
 begin
-  NewPos:= Max(0, FScrollPos-GetScrollPageSize);
-  if NewPos<>FScrollPos then
-    DoScrollAnimation(NewPos);
+  NPos:= Max(0, FScrollPos-GetScrollPageSize);
+  if NPos<>FScrollPos then
+    DoScrollAnimation(NPos);
 end;
 
 procedure TATTabs.DoScrollRight;
 var
-  NewPos: integer;
+  RDown: TRect;
+  NPos, NMaxScroll: integer;
+  D: TATTabData;
 begin
-  NewPos:= FScrollPos+GetScrollPageSize;
-  if NewPos<>FScrollPos then
-    DoScrollAnimation(NewPos);
+  NMaxScroll:= 0;
+
+  GetRectArrowDown(RDown);
+  if TabCount>0 then
+  begin
+    D:= GetTabData(TabCount-1);
+    NMaxScroll:= Max(0, D.TabRect.Right - RDown.Left + FTabIndentInit + 2);
+  end;
+
+  NPos:= Min(NMaxScroll, FScrollPos+GetScrollPageSize);
+  if NPos<>FScrollPos then
+    DoScrollAnimation(NPos);
 end;
 
 
