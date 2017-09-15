@@ -143,6 +143,7 @@ type
     FTabIndentArrowRight: Integer; //width of down-arrow area at right
 
     //show
+    FTabShowScrollArrows: boolean;
     FTabShowClose: TATTabShowClose; //show mode for "x" buttons
     FTabShowPlus: boolean; //show "plus" tab
     FTabShowPlusText: atString; //text of "plus" tab
@@ -284,6 +285,7 @@ type
     property TabIndentArrowLeft: Integer read FTabIndentArrowLeft write FTabIndentArrowLeft;
     property TabIndentArrowRight: Integer read FTabIndentArrowRight write FTabIndentArrowRight;
 
+    property TabShowScrollArrows: boolean read FTabShowScrollArrows write FTabShowScrollArrows;
     property TabShowClose: TATTabShowClose read FTabShowClose write FTabShowClose;
     property TabShowPlus: boolean read FTabShowPlus write FTabShowPlus;
     property TabShowPlusText: atString read FTabShowPlusText write FTabShowPlusText;
@@ -1125,20 +1127,18 @@ end;
 procedure TATTabs.SetTabAngle(AValue: Integer);
 begin
   {$ifdef darwin}
-  //osx paints angle badly
+  //macOS paints angled tabs badly
   exit;
   {$endif}
 
   if FTabAngle=AValue then Exit;
   FTabAngle:= AValue;
-  Invalidate;
 end;
 
 procedure TATTabs.SetTabAngleMaxTabs(AValue: Integer);
 begin
   if FTabAngleMaxTabs=AValue then Exit;
   FTabAngleMaxTabs:= AValue;
-  Invalidate;
 end;
 
 
