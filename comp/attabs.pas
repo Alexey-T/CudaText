@@ -193,8 +193,10 @@ type
     procedure DoPaintXTo(C: TCanvas; const R: TRect; ATabBg, ATabCloseBg,
       ATabCloseBorder, ATabCloseXMark: TColor);
     procedure DoPaintDropMark(C: TCanvas);
+    procedure DoScrollAnimation(APosTo: integer);
     procedure GetRectArrowDown(out R: TRect);
     procedure GetRectArrowLeftRight(out RL, RR: TRect);
+    function GetScrollPageSize: integer;
     function RealTabAngle: Integer;
     procedure SetTabAngle(AValue: Integer);
     procedure SetTabAngleMaxTabs(AValue: Integer);
@@ -237,6 +239,8 @@ type
     procedure SwitchTab(ANext: boolean);
     procedure MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
     procedure DragDrop(Source: TObject; X, Y: Integer); override;
+    procedure DoScrollLeft;
+    procedure DoScrollRight;
   protected
     procedure Paint; override;
     procedure Resize; override;
@@ -561,7 +565,7 @@ begin
   FTabAngle:= 4;
   FTabAngleMaxTabs:= 10;
   FTabHeight:= 24;
-  FTabWidthMin:= 20;
+  FTabWidthMin:= 40;
   FTabWidthMax:= 130;
   FTabWidthHideX:= 55;
   FTabNumPrefix:= '';
@@ -1315,16 +1319,12 @@ begin
 
       cAtArrowScrollLeft:
         begin
-          Dec(FScrollPos, FTabWidth);
-          if FScrollPos<0 then
-            FScrollPos:= 0;
-          Invalidate;
+          DoScrollLeft;
         end;
 
       cAtArrowScrollRight:
         begin
-          Inc(FScrollPos, FTabWidth);
-          Invalidate;
+          DoScrollRight;
         end;
 
       cAtTabPlus:
@@ -1761,6 +1761,56 @@ begin
     //drop to anoter control
     (Source as TATTabs).DoTabDropToOtherControl(Self, Point(X, Y));
   end;
+end;
+
+
+function TATTabs.GetScrollPageSize: integer;
+begin
+  Result:= ClientWidth * 2 div 3;
+end;
+
+procedure TATTabs.DoScrollAnimation(APosTo: integer);
+const
+  cStep = 70; //pixels
+  cSleepTime = 20; //msec
+begin
+  Enabled:= false;
+  try
+    if APosTo>FScrollPos then
+      repeat
+        FScrollPos:= Min(APosTo, FScrollPos+cStep);
+        Paint;
+        Sleep(cSleepTime);
+        Application.ProcessMessages;
+      until FScrollPos=APosTo
+    else
+      repeat
+        FScrollPos:= Max(APosTo, FScrollPos-cStep);
+        Paint;
+        Sleep(cSleepTime);
+        Application.ProcessMessages;
+      until FScrollPos=APosTo;
+  finally
+    Enabled:= true;
+  end;
+end;
+
+procedure TATTabs.DoScrollLeft;
+var
+  NewPos: integer;
+begin
+  NewPos:= Max(0, FScrollPos-GetScrollPageSize);
+  if NewPos<>FScrollPos then
+    DoScrollAnimation(NewPos);
+end;
+
+procedure TATTabs.DoScrollRight;
+var
+  NewPos: integer;
+begin
+  NewPos:= FScrollPos+GetScrollPageSize;
+  if NewPos<>FScrollPos then
+    DoScrollAnimation(NewPos);
 end;
 
 
