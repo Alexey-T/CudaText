@@ -82,7 +82,7 @@ type
     var ACanChange: boolean) of object;
 
 type
-  TATTriType = (triDown, triLeft, triRight);
+  TATTabTriangle = (tabTriDown, tabTriLeft, tabTriRight);
   TATTabShowClose = (tbShowNone, tbShowAll, tbShowActive, tbShowMouseOver);
 
 //int constants for GetTabAt
@@ -92,7 +92,6 @@ const
   cAtArrowDown = -3;
 
 type
-
   { TATTabs }
 
   TATTabs = class(TPanel)
@@ -185,7 +184,7 @@ type
       ATabBg, ATabBorder, ATabBorderLow, ATabHilite, ATabCloseBg,
   ATabCloseBorder, ATabCloseXMark: TColor; ACloseBtn, AModified: boolean;
   AImageIndex: integer);
-    procedure DoPaintArrowTo(C: TCanvas; ATyp: TATTriType; ARect: TRect;
+    procedure DoPaintArrowTo(C: TCanvas; ATyp: TATTabTriangle; ARect: TRect;
       AColorArr, AColorBg: TColor);
     procedure DoPaintXTo(C: TCanvas; const R: TRect; ATabBg, ATabCloseBg,
       ATabCloseBorder, ATabCloseXMark: TColor);
@@ -466,26 +465,26 @@ begin
   C.Polygon([P1, P2, P3]);
 end;
 
-procedure DrawTriangleType(C: TCanvas; Typ: TATTriType; const R: TRect; Color: TColor);
+procedure DrawTriangleType(C: TCanvas; Typ: TATTabTriangle; const R: TRect; Color: TColor);
 var
   P1, P2, P3: TPoint;
 begin
   //P1/P2: points of vert/horz line
   //P3: end point at arrow direction
   case Typ of
-    triDown:
+    tabTriDown:
     begin
       P1:= Point(R.Left, R.Top);
       P2:= Point(R.Right, R.Top);
       P3:= Point((R.Left+R.Right) div 2, R.Bottom);
     end;
-    triRight:
+    tabTriRight:
     begin
       P1:= Point(R.Left, R.Top);
       P2:= Point(R.Left, R.Bottom);
       P3:= Point(R.Right, (R.Top+R.Bottom) div 2);
     end;
-    triLeft:
+    tabTriLeft:
     begin
       P1:= Point(R.Right, R.Top);
       P2:= Point(R.Right, R.Bottom);
@@ -1085,7 +1084,7 @@ begin
 
   if FTabShowMenu then
   begin
-    DoPaintArrowTo(C, triDown, ARectDown,
+    DoPaintArrowTo(C, tabTriDown, ARectDown,
       IfThen((FTabIndexOver=cAtArrowDown) and not DragManager.IsDragging, FColorArrowOver, FColorArrow), FColorBg);
   end;
 
@@ -1436,7 +1435,7 @@ begin
 end;
 {$endif}
 
-procedure TATTabs.DoPaintArrowTo(C: TCanvas; ATyp: TATTriType; ARect: TRect;
+procedure TATTabs.DoPaintArrowTo(C: TCanvas; ATyp: TATTabTriangle; ARect: TRect;
   AColorArr, AColorBg: TColor);
 var
   P: TPoint;
@@ -1445,8 +1444,8 @@ var
 begin
   N:= FTabIndentArrowSize;
   case ATyp of
-    triLeft,
-    triRight:
+    tabTriLeft,
+    tabTriRight:
       begin
         SizeY:= N;
         SizeX:= N div 2;
