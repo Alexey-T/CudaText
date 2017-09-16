@@ -1726,9 +1726,10 @@ var
   NFrom, NTo: Integer;
 begin
   NFrom:= FTabIndex;
-  if NFrom<0 then Exit;
+  if not IsIndexOk(NFrom) then Exit;
   NTo:= FTabIndexDrop;
-  if NTo<0 then NTo:= TabCount-1;
+  if not IsIndexOk(NTo) then
+    NTo:= TabCount-1;
   if NFrom=NTo then Exit;  
 
   FTabList.Move(NFrom, NTo);
