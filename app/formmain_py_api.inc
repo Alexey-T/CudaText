@@ -3810,18 +3810,6 @@ begin
               Result:= ReturnNone;
           end;
 
-        TREE_ITEM_GET_PROP:
-          begin
-            if Assigned(TreeNode) then
-              Result:= Py_BuildValue('(siii)',
-                       PChar(TreeNode.Text),
-                       TreeNode.Index,
-                       TreeNode.ImageIndex,
-                       TreeNode.Level)
-            else
-              Result:= ReturnNone;
-          end;
-
         TREE_ITEM_GET_PROPS:
           begin
             if Assigned(TreeNode) then
@@ -3845,14 +3833,6 @@ begin
                        'sub_items',
                        PyBool_FromLong(Ord(TreeNode.HasChildren))
                        )
-            else
-              Result:= ReturnNone;
-          end;
-
-        TREE_ITEM_GET_PARENT:
-          begin
-            if Assigned(TreeNode) then
-              Result:= PyLong_FromLongLong(PtrInt(TreeNode.Parent))
             else
               Result:= ReturnNone;
           end;

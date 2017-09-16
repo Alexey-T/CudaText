@@ -2003,7 +2003,8 @@ Text is chr(1) separated items:
 1.0.199 (app 1.19.2)
 * add: toolbar_proc: TOOLBAR_GET_VERTICAL, TOOLBAR_SET_VERTICAL
 * add: toolbar_proc: TOOLBAR_GET_WRAP, TOOLBAR_SET_WRAP
-* add: deleted deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
+* deleted deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
+* deleted deprecated: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
 
 1.0.198 (app 1.18.0)
 * add: constants WRAP_nnn
