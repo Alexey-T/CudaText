@@ -1316,6 +1316,12 @@ Param id_action possible values:
 
 * TOOLBAR_GET_CHECKED: Gets checked-state of button. Params: index - button index.
 * TOOLBAR_SET_CHECKED: Sets checked-state of button. Params: index - button index, index2 - bool value.
+
+* TOOLBAR_GET_VERTICAL: Gets vertical state of toolbar.
+* TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Params: index - bool value.
+* TOOLBAR_GET_WRAP: Gets wrappable state of toolbar.
+* TOOLBAR_SET_WRAP: Sets wrappable state of toolbar (implemented for horizontal toolbar only). Params: index - bool value.
+
 * TOOLBAR_THEME: Applies current UI theme to toolbar.
 
 ====Example====
@@ -1996,6 +2002,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.199 (app 1.19.2)
+* add: toolbar_proc: TOOLBAR_GET_VERTICAL, TOOLBAR_SET_VERTICAL
+* add: toolbar_proc: TOOLBAR_GET_WRAP, TOOLBAR_SET_WRAP
 
 1.0.198 (app 1.18.0)
 * add: constants WRAP_nnn
