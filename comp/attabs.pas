@@ -620,7 +620,6 @@ begin
   FColorArrowOver:= $E0E0E0;
   FColorScrollMark:= FColorDropMark;
 
-  FOptShowAtBottom:= false;
   FOptTabAngle:= 4;
   FOptUseAngleForMaxTabs:= 10;
   FOptTabHeight:= 24;
@@ -643,6 +642,7 @@ begin
   FOptScrollMarkSizeX:= 20;
   FOptScrollMarkSizeY:= 4;
 
+  FOptShowAtBottom:= false;
   FOptShowScrollArrows:= true;
   FOptShowScrollMark:= true;
   FOptShowDropMark:= true;
@@ -1360,6 +1360,7 @@ begin
   if IsClick then     
   begin
     DoHandleClick;
+    Invalidate;
     Exit
   end;
 end;
@@ -1879,7 +1880,10 @@ begin
   if TabCount>0 then
   begin
     D:= GetTabData(TabCount-1);
-    Result:= Max(0, D.TabRect.Right - RDown.Left + FOptSpaceInitial + 2);
+    Result:= Max(0,
+      D.TabRect.Right - RDown.Left +
+      IfThen(FOptShowPlusTab, GetTabRectWidth(true))
+      );
   end;
 end;
 
