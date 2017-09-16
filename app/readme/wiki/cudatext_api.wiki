@@ -2005,6 +2005,7 @@ Text is chr(1) separated items:
 * add: toolbar_proc: TOOLBAR_GET_WRAP, TOOLBAR_SET_WRAP
 * deleted deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
 * deleted deprecated: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
+* deleted deprecated: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
 
 1.0.198 (app 1.18.0)
 * add: constants WRAP_nnn

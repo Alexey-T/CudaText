@@ -3910,49 +3910,12 @@ begin
             Result:= PyLong_FromLongLong(Int64(PtrInt(Tree.Images)));
           end;
 
-        TREE_ICON_ADD:
-          begin
-            MsgOldApi('tree_proc(TREE_ICON_ADD)');
-            ok:= UpdateImagelistWithIconFromFile(Tree.Images, StrText);
-            if ok then
-              Result:= PyInt_FromLong(Tree.Images.Count-1)
-            else
-              Result:= PyLong_FromLongLong(-1);
-          end;
-
-        TREE_ICON_DELETE:
-          begin
-            MsgOldApi('tree_proc(TREE_ICON_DELETE)');
-            ok:= Assigned(Tree.Images) and (NImageIndex>=0) and (NImageIndex<Tree.Images.Count);
-            if ok then
-            begin
-              Tree.Images.Delete(NImageIndex);
-              Tree.Invalidate;
-            end;
-            Result:= PyBool_FromLong(Ord(ok));
-          end;
-
-        TREE_ICON_GET_SIZES:
-          begin
-            MsgOldApi('tree_proc(TREE_ICON_GET_SIZES)');
-            Result:= Py_BuildValue('(ii)',
-              Tree.Images.Width,
-              Tree.Images.Height);
-          end;
-
-        TREE_ICON_SET_SIZES:
-          begin
-            MsgOldApi('tree_proc(TREE_ICON_SET_SIZES)');
-            Tree.Images.Width:= NIndex;
-            Tree.Images.Height:= NImageIndex;
-            Result:= ReturnNone;
-          end;
-
         TREE_LOCK:
           begin
             Tree.Items.BeginUpdate;
             Result:= ReturnNone;
           end;
+
         TREE_UNLOCK:
           begin
             Tree.Items.EndUpdate;
