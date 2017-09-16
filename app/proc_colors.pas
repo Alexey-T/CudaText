@@ -218,7 +218,7 @@ begin
   Add(nColorArrow, 'TabCloseX', 'tabs, close x mark');
   Add(nColorBack, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
   Add(nColorArrow, 'TabArrow', 'tabs, tab-list arrow-down');
-  Add(nColorArrow, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
+  Add($404040, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
 
   Add(nColorText, 'TreeFont', 'treeview, font');
   Add(nColorBack, 'TreeBg', 'treeview, BG');
