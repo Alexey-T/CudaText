@@ -211,7 +211,7 @@ type
     procedure DoScrollAnimation(APosTo: integer);
     function GetMaxScrollPos: integer;
     procedure GetRectArrowDown(out R: TRect);
-    procedure GetRectArrowLeftRight(out RL, RR: TRect);
+    procedure GetRectArrowLeftRight(out R1, R2: TRect);
     function GetScrollPageSize: integer;
     function RealTabAngle: integer;
     procedure SetTabAngle(AValue: integer);
@@ -1626,25 +1626,34 @@ begin
   if FTabBottom then Inc(R.Top);
 
   R.Right:= ClientWidth;
-  R.Left:= R.Right-FTabIndentArrowRight;
+  if FTabShowMenu then
+    R.Left:= R.Right-FTabIndentArrowRight
+  else
+    R.Left:= R.Right;
 end;
 
-procedure TATTabs.GetRectArrowLeftRight(out RL, RR: TRect);
+procedure TATTabs.GetRectArrowLeftRight(out R1, R2: TRect);
 begin
-  RL.Top:= FTabIndentTop;
-  RL.Bottom:= RL.Top+FTabHeight;
+  R1.Top:= FTabIndentTop;
+  R1.Bottom:= R1.Top+FTabHeight;
 
-  if FTabBottom then Inc(RL.Top);
+  if FTabBottom then Inc(R1.Top);
 
-  RR.Top:= RL.Top;
-  RR.Bottom:= RL.Bottom;
+  R2.Top:= R1.Top;
+  R2.Bottom:= R1.Bottom;
 
   //place arrows inside TabIndentInit
-  RL.Left:= 0;
-  RL.Right:= RL.Left + FTabIndentInit div 2;
+  R1.Left:= 0;
+  if FTabShowScrollArrows then
+    R1.Right:= R1.Left + FTabIndentInit div 2
+  else
+    R1.Right:= R1.Left;
 
-  RR.Left:= RL.Right;
-  RR.Right:= RR.Left + FTabIndentInit div 2;
+  R2.Left:= R1.Right;
+  if FTabShowScrollArrows then
+    R2.Right:= R2.Left + FTabIndentInit div 2
+  else
+    R2.Right:= R2.Left;
 end;
 
 procedure TATTabs.ShowTabMenu;
@@ -1896,19 +1905,20 @@ begin
     if APosTo>FScrollPos then
       repeat
         FScrollPos:= Min(APosTo, FScrollPos+cStep);
-        Paint;
+        Invalidate;
         Application.ProcessMessages;
         Sleep(cSleepTime);
       until FScrollPos=APosTo
     else
       repeat
         FScrollPos:= Max(APosTo, FScrollPos-cStep);
-        Paint;
+        Invalidate;
         Application.ProcessMessages;
         Sleep(cSleepTime);
       until FScrollPos=APosTo;
   finally
     Enabled:= true;
+    Invalidate;
   end;
 end;
 
