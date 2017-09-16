@@ -357,18 +357,18 @@ begin
     //it breaks all on Delphi7
   {$endif}
 
-  FTabs.TabAngle:= 0;
-  FTabs.TabHeight:= 24;
-  FTabs.TabIndentTop:= 1;
-  FTabs.TabIndentInter:= 0;
-  FTabs.TabIndentXSize:= 14;
-  FTabs.TabIndentColor:= 5;
-  FTabs.TabWidthMin:= 40;
-  FTabs.Height:= FTabs.TabHeight+FTabs.TabIndentTop+1;
+  FTabs.OptTabAngle:= 0;
+  FTabs.OptTabHeight:= 24;
+  FTabs.OptSpaceOnTop:= 2;
+  FTabs.OptSpaceBetweenTabs:= 0;
+  FTabs.OptSpaceXSize:= 14;
+  FTabs.OptColoredBandSize:= 5;
+  FTabs.OptTabWidthMinimal:= 40;
+  FTabs.Height:= FTabs.OptTabHeight+FTabs.OptSpaceOnTop+1;
 
-  FTabs.TabShowModifiedText:= #$95;
-  FTabs.TabMiddleClickClose:= true;
-  FTabs.TabDoubleClickPlus:= true;
+  FTabs.OptShowModifiedText:= #$95;
+  FTabs.OptMouseMiddleClickClose:= true;
+  FTabs.OptMouseDoubleClickPlus:= true;
 
   FTabs.ColorBg:= clWindow;
   FTabs.ColorCloseX:= clDkGray;
@@ -1471,35 +1471,35 @@ begin
         tabOptionFontSize:
           begin
             Font.Size:= N;
-            TabHeight:= Trunc(N * 1.8) + 8; //tested for sizes 8..38
-            Height:= DoScale(TabHeight+TabIndentTop+1);
+            OptTabHeight:= Trunc(N * 1.8) + 8; //tested for sizes 8..38
+            Height:= DoScale(OptTabHeight+OptSpaceOnTop+1);
           end;
         //
         tabOptionBottomTabs:
           begin
-            TabBottom:= Boolean(N);
-            if TabBottom then Align:= alBottom else Align:= alTop;
+            OptShowAtBottom:= Boolean(N);
+            if OptShowAtBottom then Align:= alBottom else Align:= alTop;
           end;
         tabOptionShowTabs:         Visible:= Boolean(N);
-        tabOptionShowXButtons:     TabShowClose:= TATTabShowClose(N);
-        tabOptionShowPlus:         TabShowPlus:= Boolean(N);
-        tabOptionShowNums:         TabNumPrefix:= IfThen(Boolean(N), '%d. ', '');
-        tabOptionShowEntireColor:  TabShowEntireColor:= Boolean(N);
-        tabOptionDoubleClickClose: TabDoubleClickClose:= Boolean(N);
-        tabOptionMiddleClickClose: TabMiddleClickClose:= Boolean(N);
-        tabOptionDragDrop:         TabDragEnabled:= Boolean(N);
-        tabOptionAngle:            TabAngle:= DoScale(N);
+        tabOptionShowXButtons:     OptShowXButtons:= TATTabShowClose(N);
+        tabOptionShowPlus:         OptShowPlusTab:= Boolean(N);
+        tabOptionShowNums:         OptShowNumberPrefix:= IfThen(Boolean(N), '%d. ', '');
+        tabOptionShowEntireColor:  OptShowEntireColor:= Boolean(N);
+        tabOptionDoubleClickClose: OptMouseDoubleClickClose:= Boolean(N);
+        tabOptionMiddleClickClose: OptMouseMiddleClickClose:= Boolean(N);
+        tabOptionDragDrop:         OptMouseDragEnabled:= Boolean(N);
+        tabOptionAngle:            OptTabAngle:= DoScale(N);
         tabOptionHeight:           Height:= DoScale(N);
-        tabOptionHeightInner:      TabHeight:= DoScale(N);
-        tabOptionWidthMin:         TabWidthMin:= DoScale(N);
-        tabOptionWidthMax:         TabWidthMax:= DoScale(N);
-        tabOptionIndentTop:        TabIndentTop:= DoScale(N);
-        tabOptionIndentInit:       TabIndentInit:= DoScale(N);
-        tabOptionIndentInter:      TabIndentInter:= DoScale(N);
-        tabOptionIndentColor:      TabIndentColor:= DoScale(N);
-        tabOptionIndentXRight:     TabIndentXRight:= DoScale(N);
-        tabOptionIndentXSize:      TabIndentXSize:= DoScale(N);
-        tabOptionWidecharModified: TabShowModifiedText:= WideChar(N);
+        tabOptionHeightInner:      OptTabHeight:= DoScale(N);
+        tabOptionWidthMin:         OptTabWidthMinimal:= DoScale(N);
+        tabOptionWidthMax:         OptTabWidthNormal:= DoScale(N);
+        tabOptionIndentTop:        OptSpaceOnTop:= DoScale(N);
+        tabOptionIndentInit:       OptSpaceInitial:= DoScale(N);
+        tabOptionIndentInter:      OptSpaceBetweenTabs:= DoScale(N);
+        tabOptionIndentColor:      OptColoredBandSize:= DoScale(N);
+        tabOptionIndentXRight:     OptSpaceXRight:= DoScale(N);
+        tabOptionIndentXSize:      OptSpaceXSize:= DoScale(N);
+        tabOptionWidecharModified: OptShowModifiedText:= chr(N);
       end;
 end;
 
