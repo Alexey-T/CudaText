@@ -1186,15 +1186,23 @@ begin
       FRectArrowRight.Right,
       FRectArrowRight.Bottom));
 
+    //shift < righter
+    ARect:= FRectArrowLeft;
+    ARect.Left:= (ARect.Left+ARect.Right) div 2;
+
     DoPaintArrowTo(C,
       tabTriLeft,
-      FRectArrowLeft,
+      ARect,
       IfThen(FTabIndexOver=TabIndexArrowScrollLeft, FColorArrowOver, FColorArrow),
       FColorBg);
 
+    //shift > lefter
+    ARect:= FRectArrowRight;
+    ARect.Right:= (ARect.Left+ARect.Right) div 2;
+
     DoPaintArrowTo(C,
       tabTriRight,
-      FRectArrowRight,
+      ARect,
       IfThen(FTabIndexOver=TabIndexArrowScrollRight, FColorArrowOver, FColorArrow),
       FColorBg);
   end;
