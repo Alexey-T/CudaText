@@ -4662,36 +4662,9 @@ begin
             Result:= DoToolbar_Enum(FToolbar);
           end;
 
-        TOOLBAR_GET_ICON_SIZES:
-          begin
-            MsgOldApi('toolbar_proc(TOOLBAR_GET_ICON_SIZES)');
-            Result:= DoToolbar_GetImageSizes(FToolbar);
-          end;
-
-        TOOLBAR_SET_ICON_SIZES:
-          begin
-            MsgOldApi('toolbar_proc(TOOLBAR_SET_ICON_SIZES)');
-            if (NIndex1>=8) and
-               (NIndex2>=8) and
-               (NIndex1<=128) and
-               (NIndex2<=128) then
-            begin
-              DoToolbar_SetImageSizes(FToolbar, NIndex1, NIndex2);
-              Result:= PyBool_FromLong(1);
-            end
-            else
-              Result:= PyBool_FromLong(0);
-          end;
-
         TOOLBAR_SET_BUTTON:
           begin
             Result:= DoToolbar_SetButtonProps(FToolbar, NIndex1, NIndex2, StrText, StrText2);
-          end;
-
-        TOOLBAR_ADD_ICON:
-          begin
-            MsgOldApi('toolbar_proc(TOOLBAR_ADD_ICON)');
-            Result:= DoToolbar_AddImage(FToolbar, StrText);
           end;
 
         TOOLBAR_DELETE_ALL:

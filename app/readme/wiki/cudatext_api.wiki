@@ -1289,9 +1289,6 @@ Param id_toolbar: currently can be "top" for main toolbar. Function gets None, i
 Param id_action possible values:
 
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
-* deprecated: TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
-* deprecated: TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: index - icon width, index2 - icon height.
-* deprecated: TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
 
 * TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
 ** index - index of button
@@ -2006,6 +2003,7 @@ Text is chr(1) separated items:
 1.0.199 (app 1.19.2)
 * add: toolbar_proc: TOOLBAR_GET_VERTICAL, TOOLBAR_SET_VERTICAL
 * add: toolbar_proc: TOOLBAR_GET_WRAP, TOOLBAR_SET_WRAP
+* add: deleted deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
 
 1.0.198 (app 1.18.0)
 * add: constants WRAP_nnn
