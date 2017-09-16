@@ -1206,7 +1206,10 @@ begin
     begin
       R.Top:= 0;
       R.Bottom:= FTabScrollMarkY;
-      R.Left:= Int64(FScrollPos) * (NSize-FTabScrollMarkX) div NPos;
+      R.Left:= Max(0, Min(
+        NSize-FTabScrollMarkX,
+        Int64(FScrollPos) * (NSize-FTabScrollMarkX) div NPos
+        ));
       R.Right:= R.Left + FTabScrollMarkX;
       C.Brush.Color:= FColorScrollMark;
       C.FillRect(R);
