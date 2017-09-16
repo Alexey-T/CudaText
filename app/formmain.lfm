@@ -37,7 +37,7 @@ object fmMain: TfmMain
       Color = clOlive
       ParentColor = False
       Images = ImageListSide
-      KindVertical = True
+      Vertical = True
     end
     object ToolbarSideTop: TATButtonsToolbar
       Left = 0
@@ -51,7 +51,7 @@ object fmMain: TfmMain
       ParentColor = False
       ParentShowHint = False
       Images = ImageListSide
-      KindVertical = True
+      Vertical = True
     end
     object ToolbarSideMid: TATButtonsToolbar
       Left = 0
@@ -63,7 +63,7 @@ object fmMain: TfmMain
       Color = clMoneyGreen
       ParentColor = False
       Images = ImageListSide
-      KindVertical = True
+      Vertical = True
     end
   end
   object PanelAll: TATPanelSimple
@@ -95,6 +95,7 @@ object fmMain: TfmMain
       Color = clSilver
       ParentColor = False
       Images = ImageListToolbar
+      Wrapable = True
     end
     object PaintTest: TPaintBox
       Left = 0
