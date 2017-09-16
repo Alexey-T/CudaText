@@ -160,6 +160,7 @@ type
     //show
     FOptShowScrollArrows: boolean;
     FOptShowScrollMark: boolean;
+    FOptShowDropMark: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
     FOptShowPlusTab: boolean; //show "plus" tab
     FOptShowPlusText: atString; //text of "plus" tab
@@ -184,6 +185,8 @@ type
     FScrollPos: integer;
     FImages: TImageList;
     FBitmap: TBitmap;
+
+    //events    
     FOnTabClick: TNotifyEvent;
     FOnTabPlusClick: TNotifyEvent;
     FOnTabClose: TATTabCloseEvent;
@@ -348,6 +351,7 @@ type
     property OptShowAtBottom: boolean read FOptShowAtBottom write FOptShowAtBottom;
     property OptShowScrollArrows: boolean read FOptShowScrollArrows write FOptShowScrollArrows;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark;
+    property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark;
     property OptShowXButtons: TATTabShowClose read FOptShowXButtons write FOptShowXButtons;
     property OptShowPlusTab: boolean read FOptShowPlusTab write FOptShowPlusTab;
     property OptShowPlusText: atString read FOptShowPlusText write FOptShowPlusText;
@@ -642,6 +646,7 @@ begin
 
   FOptShowScrollArrows:= true;
   FOptShowScrollMark:= true;
+  FOptShowDropMark:= true;
   FOptShowXButtons:= tbShowAll;
   FOptShowPlusTab:= true;
   FOptShowPlusText:= ' + ';
@@ -649,6 +654,7 @@ begin
   FOptShowArrowMenu:= true;
   FOptShowBorderActiveLow:= false;
   FOptShowEntireColor:= false;
+
   FOptMouseMiddleClickClose:= true;
   FOptMouseDoubleClickClose:= true;
   FOptMouseDoubleClickPlus:= false;
@@ -1206,14 +1212,11 @@ begin
       FColorBg);
   end;
 
-  //paint drop mark
-  if DragManager.IsDragging then
-  begin
-    if PtInControl(Self, Mouse.CursorPos) then
-      DoPaintDropMark(C);
-  end;
+  if FOptShowDropMark then
+    if DragManager.IsDragging then
+      if PtInControl(Self, Mouse.CursorPos) then
+        DoPaintDropMark(C);
 
-  //paint scroll mark
   if FOptShowScrollMark then
     DoPaintScrollMark(C);
 end;
