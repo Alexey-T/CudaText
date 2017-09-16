@@ -137,12 +137,12 @@ type
     FOptShowNumberPrefix: atString;
     FOptShowAtBottom: boolean;
     FOptTabAngle: integer; //angle of tab border: from 0 (vertcal border) to any size
-    FOptAllowAngleForMaxTabs: integer; //maximal tab count, for which TabAngle is used (else used 0)
+    FOptUseAngleForMaxTabs: integer; //maximal tab count, for which TabAngle is used (else used 0)
     FOptTabHeight: integer;
     FOptTabWidthMinimal: integer; //tab minimal width (used when lot of tabs)
     FOptTabWidthNormal: integer; //tab maximal width (used when only few tabs)
     FOptTabWidthMinimalHidesX: integer; //tab minimal width, after which "x" mark hides for inactive tabs
-    FOptDropMarkWidth: integer;
+    FOptDropMarkSize: integer;
     FOptSpaceBetweenTabs: integer; //space between nearest tabs (no need for angled tabs)
     FOptSpaceInitial: integer; //space between first tab and left control edge
     FOptSpaceBeforeText: integer; //space between text and tab left edge
@@ -324,13 +324,13 @@ type
     property ColorArrowOver: TColor read FColorArrowOver write FColorArrowOver;
     property ColorScrollMark: TColor read FColorScrollMark write FColorScrollMark;
     //spaces
-    property OptTabAngle: integer read FOptTabAngle write FOptTabAngle;
-    property OptAllowAngleForMaxTabs: integer read FOptAllowAngleForMaxTabs write FOptAllowAngleForMaxTabs;
     property OptTabHeight: integer read FOptTabHeight write FOptTabHeight;
-    property OptTabWidthMinimal: integer read FOptTabWidthMinimal write FOptTabWidthMinimal;
     property OptTabWidthNormal: integer read FOptTabWidthNormal write FOptTabWidthNormal;
-    property OptShowNumberPrefix: atString read FOptShowNumberPrefix write FOptShowNumberPrefix;
-    property OptDropMarkWidth: integer read FOptDropMarkWidth write FOptDropMarkWidth;
+    property OptTabWidthMinimal: integer read FOptTabWidthMinimal write FOptTabWidthMinimal;
+    property OptTabWidthMinimalHidesX: integer read FOptTabWidthMinimalHidesX write FOptTabWidthMinimalHidesX;
+    property OptTabAngle: integer read FOptTabAngle write FOptTabAngle;
+    property OptUseAngleForMaxTabs: integer read FOptUseAngleForMaxTabs write FOptUseAngleForMaxTabs;
+    property OptDropMarkSize: integer read FOptDropMarkSize write FOptDropMarkSize;
     property OptSpaceBetweenTabs: integer read FOptSpaceBetweenTabs write FOptSpaceBetweenTabs;
     property OptSpaceInitial: integer read FOptSpaceInitial write FOptSpaceInitial;
     property OptSpaceBeforeText: integer read FOptSpaceBeforeText write FOptSpaceBeforeText;
@@ -355,6 +355,7 @@ type
     property OptShowArrowMenu: boolean read FOptShowArrowMenu write FOptShowArrowMenu;
     property OptShowBorderActiveLow: boolean read FOptShowBorderActiveLow write FOptShowBorderActiveLow;
     property OptShowEntireColor: boolean read FOptShowEntireColor write FOptShowEntireColor;
+    property OptShowNumberPrefix: atString read FOptShowNumberPrefix write FOptShowNumberPrefix;
     property OptMouseMiddleClickClose: boolean read FOptMouseMiddleClickClose write FOptMouseMiddleClickClose;
     property OptMouseDoubleClickClose: boolean read FOptMouseDoubleClickClose write FOptMouseDoubleClickClose;
     property OptMouseDoubleClickPlus: boolean read FOptMouseDoubleClickPlus write FOptMouseDoubleClickPlus;
@@ -618,14 +619,14 @@ begin
 
   FOptShowAtBottom:= false;
   FOptTabAngle:= 4;
-  FOptAllowAngleForMaxTabs:= 10;
+  FOptUseAngleForMaxTabs:= 10;
   FOptTabHeight:= 24;
   FOptTabWidthMinimal:= 40;
   FOptTabWidthNormal:= 130;
   FOptTabWidthMinimalHidesX:= 55;
   FOptShowNumberPrefix:= '';
   FOptSpaceBeforeText:= 6;
-  FOptDropMarkWidth:= 6;
+  FOptDropMarkSize:= 6;
   FOptSpaceBetweenTabs:= 0;
   FOptSpaceInitial:= 30; //big for scroll arrows
   FOptSpaceOnTop:= 5;
@@ -1228,8 +1229,8 @@ begin
   begin
     R:= GetTabRect(i);
     R.Left:= IfThen(i<=FTabIndex, R.Left, R.Right);
-    R.Left:= R.Left - FOptDropMarkWidth div 2;
-    R.Right:= R.Left + FOptDropMarkWidth;
+    R.Left:= R.Left - FOptDropMarkSize div 2;
+    R.Right:= R.Left + FOptDropMarkSize;
     C.Brush.Color:= FColorDropMark;
     C.FillRect(R);
   end;
@@ -1266,7 +1267,7 @@ begin
   exit(0);
   {$endif}
 
-  if FTabList.Count>FOptAllowAngleForMaxTabs then
+  if FTabList.Count>FOptUseAngleForMaxTabs then
     Result:= 0
   else
     Result:= FOptTabAngle;
@@ -1719,9 +1720,8 @@ begin
     else Result:= false;
   end;
 
-  //if (AIndex<>FTabIndex) then //let's hide x for all tabs
-    if (FTabWidth<FOptTabWidthMinimalHidesX) then
-      Result:= false;
+  if FTabWidth<FOptTabWidthMinimalHidesX then
+    Result:= false;
 end;
 
 procedure TATTabs.DoTabDrop;
