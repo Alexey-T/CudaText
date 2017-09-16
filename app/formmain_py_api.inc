@@ -4723,6 +4723,28 @@ begin
             Result:= ReturnNone;
           end;
 
+        TOOLBAR_GET_VERTICAL:
+          begin
+            Result:= PyBool_FromLong(Ord(FToolbar.Vertical));
+          end;
+
+        TOOLBAR_SET_VERTICAL:
+          begin
+            FToolbar.Vertical:= Bool(NIndex1);
+            Result:= ReturnNone;
+          end;
+
+        TOOLBAR_GET_WRAP:
+          begin
+            Result:= PyBool_FromLong(Ord(FToolbar.Wrapable));
+          end;
+
+        TOOLBAR_SET_WRAP:
+          begin
+            FToolbar.Wrapable:= Bool(NIndex1);
+            Result:= ReturnNone;
+          end;
+
         TOOLBAR_GET_IMAGELIST:
           begin
             Result:= PyLong_FromLongLong(Int64(PtrInt(FToolbar.Images)));
