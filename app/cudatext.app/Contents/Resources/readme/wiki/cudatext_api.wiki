@@ -1062,23 +1062,12 @@ Possible values of id_action:
 ** "index": int: index of item, relative to its branch
 ** "index_abs": int: absolute index of item, relative to root
 
-* deprecated: TREE_ITEM_GET_PROP: Gets props of item, 4-tuple: (str_caption, int_index, int_image_index, int_level). Gets None for root-item.
-* deprecated: TREE_ITEM_GET_PARENT: Gets int handle of parent-item for item. 0 means no parent.
-
 * TREE_ITEM_FOLD: Folds item w/o subitems.
 * TREE_ITEM_FOLD_DEEP: Folds item with subitems. Root-item allowed too.
 * TREE_ITEM_FOLD_LEVEL: Folds all items (id_item ignored) from level with specified index, 1 or bigger. (This is what CudaText commands "fold level N" do for code-tree). 
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
-
 * TREE_ITEM_GET_SYNTAX_RANGE: Only for Code Tree panel's treeview. Gets range, associated with tree-item, as 4-tuple (start_x, start_y, end_x, end_y). 
-
-* deprecated: TREE_ICON_ADD: Adds icon to icon list. Param text: filename of icon, 16x16 bmp or png file. Gets icon index or -1 if cannot add.
-* deprecated: TREE_ICON_DELETE: Deletes icon from icon list (note: icons after this index will shift, will have less index). Param image_index. Gets bool: index existed before.
-
-* deprecated: TREE_ICON_GET_SIZES: Gets sizes of icons, as 2-tuple.
-* deprecated: TREE_ICON_SET_SIZES: Sets sizes of icons. Param "index" is icon width, "image_index" is icon height.
-
 * TREE_GET_IMAGELIST: Gets int handle of image-list object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
@@ -1289,9 +1278,6 @@ Param id_toolbar: currently can be "top" for main toolbar. Function gets None, i
 Param id_action possible values:
 
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
-* deprecated: TOOLBAR_GET_ICON_SIZES: Get sizes of icons, as 2-tuple (width, height).
-* deprecated: TOOLBAR_SET_ICON_SIZES: Set sizes of icons. Gets bool: sizes correct (8..128) and changed. Params: index - icon width, index2 - icon height.
-* deprecated: TOOLBAR_ADD_ICON: Add an icon (to toolbar's image list) from picture file (png). Params: text - picture filename. Picture sizes must not be equal to toolbar icon sizes. Gets icon index for new icon, or None if cannot add.
 
 * TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
 ** index - index of button
@@ -1316,6 +1302,12 @@ Param id_action possible values:
 
 * TOOLBAR_GET_CHECKED: Gets checked-state of button. Params: index - button index.
 * TOOLBAR_SET_CHECKED: Sets checked-state of button. Params: index - button index, index2 - bool value.
+
+* TOOLBAR_GET_VERTICAL: Gets vertical state of toolbar.
+* TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Params: index - bool value.
+* TOOLBAR_GET_WRAP: Gets wrappable state of toolbar.
+* TOOLBAR_SET_WRAP: Sets wrappable state of toolbar (implemented for horizontal toolbar only). Params: index - bool value.
+
 * TOOLBAR_THEME: Applies current UI theme to toolbar.
 
 ====Example====
@@ -1996,6 +1988,13 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.199 (app 1.19.2)
+* add: toolbar_proc: TOOLBAR_GET_VERTICAL, TOOLBAR_SET_VERTICAL
+* add: toolbar_proc: TOOLBAR_GET_WRAP, TOOLBAR_SET_WRAP
+* deleted deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
+* deleted deprecated: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
+* deleted deprecated: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
 
 1.0.198 (app 1.18.0)
 * add: constants WRAP_nnn

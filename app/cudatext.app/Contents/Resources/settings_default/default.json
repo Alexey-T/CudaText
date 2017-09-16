@@ -470,9 +470,6 @@
   //UI tabs: Height
   "ui_tab_size_y": 25,
 
-  //UI tabs: Indent of text on tabs
-  "ui_tab_indent_x": 5,
-
   //UI tabs: Angle of tab edge, it's set in pixel shift, 0..10
   "ui_tab_angle": 3,
 
