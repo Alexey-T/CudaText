@@ -52,7 +52,7 @@ type
     procedure TabMove(Sender: TObject; NFrom, NTo: Integer);
   public
     constructor Create(AOwner: TComponent); override;
-    procedure AddTab(AControl: TControl; const ACaption: atString;
+    procedure AddTab(AControl: TControl; const ACaption: TATTabString;
       AModified: boolean; AColor: TColor = clNone);
     property Tabs: TATTabs read FTabs;
     property EnabledEmpty: boolean read FEnabledEmpty write FEnabledEmpty;
@@ -375,7 +375,7 @@ begin
 end;
 
 procedure TATPages.AddTab(AControl: TControl;
-  const ACaption: atString; AModified: boolean; AColor: TColor);
+  const ACaption: TATTabString; AModified: boolean; AColor: TColor);
 begin
   FTabs.AddTab(-1, ACaption, AControl, AModified, AColor);
   AControl.Parent:= Self;
