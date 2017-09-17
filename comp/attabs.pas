@@ -626,11 +626,9 @@ begin
   FOptTabWidthMinimal:= 40;
   FOptTabWidthNormal:= 130;
   FOptTabWidthMinimalHidesX:= 55;
-  FOptShowNumberPrefix:= '';
-  FOptSpaceBeforeText:= 6;
-  FOptDropMarkSize:= 6;
-  FOptSpaceBetweenTabs:= 0;
   FOptSpaceInitial:= 30; //big for scroll arrows
+  FOptSpaceBeforeText:= 6;
+  FOptSpaceBetweenTabs:= 0;
   FOptSpaceOnTop:= 5;
   FOptSpaceXRight:= 10;
   FOptSpaceXInner:= 3;
@@ -640,9 +638,11 @@ begin
   FOptArrowSpaceRight:= 20;
   FOptColoredBandSize:= 3;
   FOptScrollMarkSizeX:= 20;
-  FOptScrollMarkSizeY:= 4;
+  FOptScrollMarkSizeY:= 3;
+  FOptDropMarkSize:= 6;
 
   FOptShowAtBottom:= false;
+  FOptShowNumberPrefix:= '';
   FOptShowScrollArrows:= true;
   FOptShowScrollMark:= true;
   FOptShowDropMark:= true;
