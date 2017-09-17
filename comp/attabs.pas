@@ -1251,14 +1251,16 @@ begin
 
     if NPos>0 then
     begin
-      R.Top:= 0;
-      R.Bottom:= FOptScrollMarkSizeY;
+      R.Top:= IfThen(FOptShowAtBottom, FOptTabHeight, 0);
+      R.Bottom:= R.Top + FOptScrollMarkSizeY;
+
       R.Left:= FOptSpaceInitial +
         Max(0, Min(
           NSize-FOptScrollMarkSizeX,
           Int64(FScrollPos) * (NSize-FOptScrollMarkSizeX) div NPos
         ));
       R.Right:= R.Left + FOptScrollMarkSizeX;
+
       C.Brush.Color:= FColorScrollMark;
       C.FillRect(R);
     end;
