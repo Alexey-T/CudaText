@@ -1241,19 +1241,22 @@ end;
 procedure TATTabs.DoPaintScrollMark(C: TCanvas);
 var
   NPos, NSize: integer;
-  R: TRect;
+  R, RDown: TRect;
 begin
   if (FTabWidth<=FOptTabWidthMinimal) or (FScrollPos>0) then
   begin
+    GetRectArrowDown(RDown);
     NPos:= GetMaxScrollPos;
-    NSize:= ClientWidth;
+    NSize:= ClientWidth - FOptSpaceInitial - (RDown.Right-RDown.Left);
+
     if NPos>0 then
     begin
       R.Top:= 0;
       R.Bottom:= FOptScrollMarkSizeY;
-      R.Left:= Max(0, Min(
-        NSize-FOptScrollMarkSizeX,
-        Int64(FScrollPos) * (NSize-FOptScrollMarkSizeX) div NPos
+      R.Left:= FOptSpaceInitial +
+        Max(0, Min(
+          NSize-FOptScrollMarkSizeX,
+          Int64(FScrollPos) * (NSize-FOptScrollMarkSizeX) div NPos
         ));
       R.Right:= R.Left + FOptScrollMarkSizeX;
       C.Brush.Color:= FColorScrollMark;
