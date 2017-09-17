@@ -114,6 +114,7 @@ begin
   Groups.SetTabOption(tabColorCloseBorderOver, GetAppColor('TabCloseBorderOver'));
   Groups.SetTabOption(tabColorCloseX, GetAppColor('TabCloseX'));
   Groups.SetTabOption(tabColorCloseXOver, GetAppColor('TabCloseXOver'));
+  Groups.SetTabOption(tabColorMarks, GetAppColor('TabMarks'));
   Groups.Invalidate;
 
   PanelLeftTitle.Font.Color:= GetAppColor('TabFont');
