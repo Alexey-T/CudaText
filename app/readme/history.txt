@@ -4,6 +4,10 @@
   * changed
 
 
+1.19.4
+
++ option "ui_reload_unsaved_confirm"
+
 1.19.2 (2017/09)
 
 + main toolbar is now wrappable

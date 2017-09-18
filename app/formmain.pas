@@ -2668,10 +2668,12 @@ var
 begin
   F:= CurrentFrame;
   if F.FileName='' then exit;
-  if F.Modified then
+
+  if F.Modified and UiOps.ReloadUnsavedConfirm then
     if MsgBox(
       Format(msgConfirmReopenModifiedTab, [F.FileName]),
-      MB_OKCANCEL or MB_ICONQUESTION)<>id_ok then exit;
+      MB_OKCANCEL or MB_ICONQUESTION
+      ) <> ID_OK then exit;
 
   PrevRO:= F.ReadOnly;
   PrevLexer:= F.LexerName;

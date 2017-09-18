@@ -177,6 +177,7 @@ type
     NotifTimeSec: integer;
     NonTextFiles: integer; //0: prompt, 1: open, 2: don't open
     NonTextFilesBufferKb: integer;
+    ReloadUnsavedConfirm: boolean;
     ReloadFollowTail: boolean;
     FullScreen: string;
     MouseGotoDefinition: string;
@@ -1127,6 +1128,7 @@ begin
     NonTextFiles:= 0;
     NonTextFilesBufferKb:= 64;
     ReloadFollowTail:= true;
+    ReloadUnsavedConfirm:= true;
     FullScreen:= 'tp';
     MouseGotoDefinition:= 'a';
 

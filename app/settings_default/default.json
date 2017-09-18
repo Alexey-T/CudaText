@@ -81,8 +81,11 @@
   "ui_non_text_buffer": 64,
 
   //[File]
-  //Command "Reload": if caret on last line, after reload put caret to new last line
+  //Reloading of file: if caret was on the last line, after reload put caret on new last line
   "ui_reload_tail": true,
+  
+  //Manual reopening/reloading of file: confirm to reload, if tab has unsaved changes
+  "ui_reload_unsaved_confirm": true,
   
   //[Lexers]
   //Group lexers menu by 1st char of name  

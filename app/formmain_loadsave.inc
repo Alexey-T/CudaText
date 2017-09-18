@@ -523,6 +523,7 @@ begin
     UiOps.NonTextFiles:= c.GetValue('ui_non_text', UiOps.NonTextFiles);
     UiOps.NonTextFilesBufferKb:= Max(1, Min(1024, c.GetValue('ui_non_text_buffer', UiOps.NonTextFilesBufferKb)));
     UiOps.ReloadFollowTail:= c.GetValue('ui_reload_tail', UiOps.ReloadFollowTail);
+    UiOps.ReloadUnsavedConfirm:= c.GetValue('ui_reload_unsaved_confirm', UiOps.ReloadUnsavedConfirm);
     UiOps.FullScreen:= c.GetValue('ui_fullscreen', UiOps.FullScreen);
 
     //option deleted
