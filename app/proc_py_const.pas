@@ -252,19 +252,9 @@ const
   LISTBOX_SET_DRAWN    = 19;
   LISTBOX_THEME        = 20;
 
-  LEXER_GET_LIST            = 0;
-  LEXER_GET_ENABLED         = 1; //deprecated
-  LEXER_GET_EXT             = 2; //deprecated
-  LEXER_GET_LINKS           = 4; //deprecated
-  LEXER_GET_STYLES          = 5; //deprecated
-  LEXER_GET_COMMENT         = 6; //deprecated
-  LEXER_GET_COMMENT_STREAM  = 7; //deprecated
-  LEXER_GET_COMMENT_LINED   = 8; //deprecated
-  LEXER_GET_LEXERS          = 9;
-  LEXER_GET_PROP            = 14;
-  LEXER_DETECT              = 20;
-  LEXER_GET_STYLES_COMMENTS = 30; //deprecated
-  LEXER_GET_STYLES_STRINGS  = 31; //deprecated
+  LEXER_GET_LEXERS     = 0;
+  LEXER_GET_PROP       = 1;
+  LEXER_DETECT         = 2;
 
   GROUPS_ONE    = 1;
   GROUPS_2VERT  = 2;

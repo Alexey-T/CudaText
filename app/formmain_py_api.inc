@@ -2834,7 +2834,7 @@ function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
   PtrValue: PChar;
-  StrValue, Str0, Str1, Str2: string;
+  StrValue, Str1, Str2: string;
   An: TecSyntAnalyzer;
   List: TStringList;
   ObjTypes,
@@ -2850,108 +2850,7 @@ begin
     begin
       StrValue:= string(PtrValue);
 
-      Str0:= StrValue;
-      Str1:= SGetItem(Str0, ';');
-      Str2:= SGetItem(Str0, ';');
-
       case Id of
-        //deprecated
-        LEXER_GET_ENABLED:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_ENABLED)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              Result:= PyBool_FromLong(Ord(not An.Internal))
-            else
-              Result:= ReturnNone;
-          end;
-
-        //deprecated
-        LEXER_GET_EXT:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_EXT)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              Result:= PyString_FromString(PChar(string(An.Extentions)))
-            else
-              Result:= ReturnNone;
-          end;
-
-        //deprecated
-        LEXER_GET_COMMENT:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_COMMENT)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-              Result:= PyString_FromString(PChar(string(An.LineComment)))
-            else
-              Result:= ReturnNone;
-          end;
-
-        //deprecated
-        LEXER_GET_COMMENT_STREAM:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_COMMENT_STREAM)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-            begin
-              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
-              Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'str2');
-              if (Str1<>'') and (Str2<>'') then
-                Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
-              else
-                Result:= ReturnNone;
-            end
-            else
-              Result:= ReturnNone;
-          end;
-
-        //deprecated
-        LEXER_GET_COMMENT_LINED:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_COMMENT_LINED)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-            begin
-              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'full1');
-              Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'full2');
-              if (Str1<>'') and (Str2<>'') then
-                Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
-              else
-                Result:= ReturnNone;
-            end
-            else
-              Result:= ReturnNone;
-          end;
-
-        //deprecated
-        LEXER_GET_STYLES_COMMENTS:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_STYLES_COMMENTS)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-            begin
-              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_cmt');
-              Result:= PyString_FromString(PChar(Str1));
-            end
-            else
-              Result:= ReturnNone;
-          end;
-
-        //deprecated
-        LEXER_GET_STYLES_STRINGS:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_STYLES_STRINGS)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-            begin
-              Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_str');
-              Result:= PyString_FromString(PChar(Str1));
-            end
-            else
-              Result:= ReturnNone;
-          end;
-
         LEXER_GET_PROP:
           begin
             An:= AppManager.FindAnalyzer(StrValue);
@@ -3054,24 +2953,11 @@ begin
 
         LEXER_DETECT:
           begin
-            An:= DoLexerFindByFilename(Str1);
+            An:= DoLexerFindByFilename(StrValue);
             if Assigned(An) then
               Result:= PyString_FromString(PChar(string(An.LexerName)))
             else
               Result:= ReturnNone;
-          end;
-
-        LEXER_GET_LIST:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_LIST)');
-            List:= TStringList.Create;
-            List.Sorted:= true;
-            try
-              DoLexerEnum(List, true);
-              Result:= PyString_FromString(PChar(List.Text));
-            finally
-              FreeAndNil(List);
-            end;
           end;
 
         LEXER_GET_LEXERS:
@@ -3084,44 +2970,6 @@ begin
             finally
               FreeAndNil(List);
             end;
-          end;
-
-        //deprecated
-        LEXER_GET_LINKS:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_LINKS)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-            begin
-              List:= TStringList.Create;
-              try
-                LexerEnumSublexers(An, List);
-                Result:= PyString_FromString(PChar(List.Text));
-              finally
-                FreeAndNil(List);
-              end;
-            end
-            else
-              Result:= ReturnNone;
-          end;
-
-        //deprecated
-        LEXER_GET_STYLES:
-          begin
-            MsgOldApi('lexer_proc(LEXER_GET_STYLES)');
-            An:= AppManager.FindAnalyzer(Str1);
-            if Assigned(An) then
-            begin
-              List:= TStringList.Create;
-              try
-                LexerEnumStyles(An, List);
-                Result:= PyString_FromString(PChar(List.Text));
-              finally
-                FreeAndNil(List);
-              end;
-            end
-            else
-              Result:= ReturnNone;
           end;
 
         else
