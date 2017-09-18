@@ -9,6 +9,7 @@
 + main toolbar is now wrappable
 + UI tabs: added scroll arrows (left side) for lot of tabs
 + UI tabs: don't paint angled tabs (slow) if tab count>10
++ added theme color "tabs, special marks"
 * change theme "sub": side panel made dark
 
 1.19.0 (2017/09)
