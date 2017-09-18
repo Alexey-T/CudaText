@@ -1003,7 +1003,6 @@ Perform some lexer-related action.
 
 Possible values of id:
 
-* deprecated: LEXER_GET_LIST: Gets str: "\n"-separated list of lexers.
 * LEXER_GET_LEXERS: Gets list of lexers. Param "value" must be bool: allow to include also hidden lexers (unchecked in the Lexer Library dialog).  
 * LEXER_GET_PROP: For given lexer name, gets its properties as dict. For incorrect lexer name, gets None. Keys of dict:
 ** "en": bool: lexer is visible in the lexers menu.
@@ -1017,16 +1016,6 @@ Possible values of id:
 ** "c_lined": 2-tuple or None: comment for full lines.
 
 * LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
-
-* deprecated: LEXER_GET_EXT: Gets file-extensions field for given lexer, space-separated.
-* deprecated: LEXER_GET_ENABLED: Gets enabled-flag for given lexer. True means checkmark in lexer-library dialog (so lexer is visible in menu).
-* deprecated: LEXER_GET_COMMENT: Gets string "comment until end of line" for given lexer.
-* deprecated: LEXER_GET_COMMENT_STREAM: Gets "comment for range" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
-* deprecated: LEXER_GET_COMMENT_LINED: Gets "comment for range of full lines" for given lexer. If such comments are specified in "Lexer Properties" dialog, gets tuple (comment_start, comment_end), else gets None.
-* deprecated: LEXER_GET_LINKS: Gets string: "\n"-separated list of sublexers names in the given lexer. 
-* deprecated: LEXER_GET_STYLES: Gets string: "\n"-separated list of styles names in the given lexer.
-* deprecated: LEXER_GET_STYLES_COMMENTS: Gets string: ","-separated list of styles of "syntax comments", for given lexer.
-* deprecated: LEXER_GET_STYLES_STRINGS: Gets string: ","-separated list of styles of "syntax strings", for given lexer.
 
 ===tree_proc===
 
@@ -1995,6 +1984,7 @@ Text is chr(1) separated items:
 * deleted deprecated: TOOLBAR_GET_ICON_SIZES, TOOLBAR_SET_ICON_SIZES, TOOLBAR_ADD_ICON
 * deleted deprecated: TREE_ITEM_GET_PROP, TREE_ITEM_GET_PARENT
 * deleted deprecated: TREE_ICON_ADD, TREE_ICON_DELETE, TREE_ICON_GET_SIZES, TREE_ICON_SET_SIZES
+* deleted deprecated: LEXER_GET_LIST, LEXER_GET_EXT, LEXER_GET_ENABLED, LEXER_GET_COMMENT, LEXER_GET_COMMENT_STREAM, LEXER_GET_COMMENT_LINED, LEXER_GET_LINKS, LEXER_GET_STYLES, LEXER_GET_STYLES_COMMENTS, LEXER_GET_STYLES_STRINGS 
 
 1.0.198 (app 1.18.0)
 * add: constants WRAP_nnn
