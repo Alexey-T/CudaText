@@ -113,6 +113,7 @@ type
     tabOptionIndentColor,
     tabOptionIndentXRight,
     tabOptionIndentXSize,
+    tabOptionArrowSize,
     tabOptionWidecharModified
     );
 
@@ -1501,6 +1502,7 @@ begin
         tabOptionIndentColor:      OptColoredBandSize:= DoScale(N);
         tabOptionIndentXRight:     OptSpaceXRight:= DoScale(N);
         tabOptionIndentXSize:      OptSpaceXSize:= DoScale(N);
+        tabOptionArrowSize:        OptArrowSize:= DoScale(N);
         tabOptionWidecharModified: OptShowModifiedText:= chr(N);
       end;
 end;
