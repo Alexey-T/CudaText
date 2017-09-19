@@ -426,12 +426,13 @@ procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
   AY: integer; const AStr: atString; ACharSize: TPoint;
   const AExtent: TATIntArray);
 const
-  cRegexRGB = 'rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*[\.\d]+\s*)?\)';
+  cRegexRGB = 'rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(,\s*[\.\d]+\s*)?\)';
 var
   X1, X2, Y, NLen: integer;
   NColor: TColor;
   Parts: TRegexParts;
   Ch: atChar;
+  ValueR, ValueG, ValueB: byte;
   i: integer;
 begin
   if AStr='' then Exit;
@@ -468,11 +469,11 @@ begin
       if SRegexFindParts(cRegexRGB, Copy(AStr, i, MaxInt), Parts) then
         if Parts[0].Pos=1 then //need at i-th char
         begin
-          NColor:= RGB(
-            StrToIntDef(Parts[1].Str, 0),
-            StrToIntDef(Parts[2].Str, 0),
-            StrToIntDef(Parts[3].Str, 0)
-            );
+          ValueR:= Max(0, Min(255, StrToIntDef(Parts[1].Str, 0)));
+          ValueG:= Max(0, Min(255, StrToIntDef(Parts[2].Str, 0)));
+          ValueB:= Max(0, Min(255, StrToIntDef(Parts[3].Str, 0)));
+
+          NColor:= RGB(ValueR, ValueG, ValueB);
           NLen:= Parts[0].Len;
 
           if i-2>=0 then
