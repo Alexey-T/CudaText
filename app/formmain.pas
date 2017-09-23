@@ -1832,7 +1832,6 @@ begin
   Groups.SetTabOption(tabOptionWidthMax, UiOps.TabWidth);
   Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabIndentTop);
   Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
-  Groups.SetTabOption(tabOptionIndentInit, 30);
   Groups.SetTabOption(tabOptionIndentTop, IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop));
   Groups.SetTabOption(tabOptionIndentColor, 4);
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
