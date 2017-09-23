@@ -114,6 +114,7 @@ type
     tabOptionIndentXRight,
     tabOptionIndentXSize,
     tabOptionArrowSize,
+    tabOptionShowArrowsNear,
     tabOptionWidecharModified
     );
 
@@ -1512,6 +1513,7 @@ begin
         tabOptionIndentXRight:     OptSpaceXRight:= DoScale(N);
         tabOptionIndentXSize:      OptSpaceXSize:= DoScale(N);
         tabOptionArrowSize:        OptArrowSize:= DoScale(N);
+        tabOptionShowArrowsNear:   OptShowArrowsNear:= Boolean(N);
         tabOptionWidecharModified: OptShowModifiedText:= chr(N);
       end;
 end;
