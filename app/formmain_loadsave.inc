@@ -700,6 +700,7 @@ begin
     UiOps.TabDblClickClose:= c.GetValue('ui_tab_2click_closes', UiOps.TabDblClickClose);
     UiOps.TabNumbers:= c.GetValue('ui_tab_numbers', UiOps.TabNumbers);
     UiOps.TabNewNearCurrent:= c.GetValue('ui_tab_new_near_current', UiOps.TabNewNearCurrent);
+    UiOps.TabButtonLayout:= c.GetValue('ui_tab_button_layout', UiOps.TabButtonLayout);
 
     UiOps.ListboxSizeX:= c.GetValue('ui_listbox_size_x', UiOps.ListboxSizeX);
     UiOps.ListboxSizeY:= c.GetValue('ui_listbox_size_y', UiOps.ListboxSizeY);

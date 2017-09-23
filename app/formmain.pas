@@ -1839,6 +1839,7 @@ begin
   Groups.SetTabOption(tabOptionIndentXRight, 10);
   Groups.SetTabOption(tabOptionIndentXSize, 12);
   Groups.SetTabOption(tabOptionArrowSize, 4);
+  Groups.SetTabButtonLayout(UiOps.TabButtonLayout);
 
   PanelSide.Visible:= UiOps.SidebarShow;
   PanelLeftTitle.Height:= Groups.Pages1.Tabs.Height;

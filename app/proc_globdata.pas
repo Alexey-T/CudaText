@@ -119,6 +119,7 @@ type
     TabDblClickClose: boolean;
     TabNumbers: boolean;
     TabNewNearCurrent: boolean;
+    TabButtonLayout: string;
 
     MaxHistoryEdits: integer;
     MaxHistoryMenu: integer;
@@ -1066,6 +1067,7 @@ begin
     TabDblClickClose:= false;
     TabNumbers:= false;
     TabNewNearCurrent:= false;
+    TabButtonLayout:= '<>,v';
 
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;

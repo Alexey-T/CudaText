@@ -229,6 +229,7 @@ type
     function SetPagesAndTabIndex(APageIndex, ATabIndex: Integer): boolean;
     procedure SetTabOption(Id: TATTabsOptionId; N: Integer);
     procedure SetTabFont(AFont: TFont);
+    procedure SetTabButtonLayout(const AStr: string);
     //
     function CloseTabsOther(APages: TATPages; ATabIndex: Integer;
       ADoRighter, ADoLefter: boolean): boolean;
@@ -1435,6 +1436,14 @@ var
 begin
   for i:= Low(Pages) to High(Pages) do
     Pages[i].Tabs.Font.Assign(AFont);
+end;
+
+procedure TATGroups.SetTabButtonLayout(const AStr: string);
+var
+  i: Integer;
+begin
+  for i:= Low(Pages) to High(Pages) do
+    Pages[i].Tabs.OptButtonLayout:= AStr;
 end;
 
 procedure TATGroups.SetTabOption(Id: TATTabsOptionId; N: Integer);

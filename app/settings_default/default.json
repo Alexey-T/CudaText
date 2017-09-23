@@ -467,6 +467,14 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: layout of buttons at left/right sides
+  //String of few chars, each char is button. Separator for sides is comma.
+  //Allowed chars (buttons):
+  //  "<", ">" - scroll arrows
+  //  "v" - arrow of dropdown menu
+  //  "+" - plus button, the same as plus pseudo-tab, but don't hide if lot of tabs
+  "ui_tab_button_layout": "<>,v",
+  
   //UI tabs: Width
   "ui_tab_size_x": 170,
 

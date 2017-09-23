@@ -6,6 +6,7 @@
 
 1.19.4
 
++ reworked UI tabs, added option "ui_tab_button_layout", painted "+" via lines
 + option "ui_reload_unsaved_confirm"
 
 1.19.2 (2017/09)
