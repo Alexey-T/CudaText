@@ -23,8 +23,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="9"/>
-      <StringTable CompanyName="UVviewsoft" FileDescription="Advanced text editor" InternalName="CudaText" LegalCopyright="(c) 2015 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
+      <MinorVersionNr Value="19"/>
+      <StringTable CompanyName="UVviewsoft" FileDescription="CudaText" InternalName="CudaText" LegalCopyright="(c) 2015 Alexey Torgashin" OriginalFilename="cudatext.exe" ProductName="CudaText"/>
     </VersionInfo>
     <BuildModes Count="8">
       <Item1 Name="default" Default="True"/>
