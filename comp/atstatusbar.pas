@@ -342,6 +342,7 @@ begin
     FBitmap.Width:= Max(FBitmap.Width, Width);
     FBitmap.Height:= Max(FBitmap.Height, Height);
   end;
+  Invalidate;
 end;
 
 
