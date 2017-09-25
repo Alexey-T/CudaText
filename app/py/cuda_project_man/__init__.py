@@ -36,7 +36,7 @@ def project_variables():
         res[s1] = s2
     return res
 
-NodeInfo = collections.namedtuple("NodeInfo", "caption index image level")
+NodeInfo = collections.namedtuple("NodeInfo", "caption image")
 
 
 def is_filename_mask_listed(name, mask_list):
@@ -549,13 +549,8 @@ class Command:
 
     def get_info(self, index):
         info = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
-        if not info:
-            return
-        caption = info['text']
-        index = info['index']
-        image = info['icon']
-        level = info['level']
-        return NodeInfo(caption, index, image, level)
+        if info:
+            return NodeInfo(info['text'], info['icon'])
 
     def get_location_by_index(self, index):
         path = []
