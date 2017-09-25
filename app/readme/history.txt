@@ -8,6 +8,8 @@
 
 + reworked UI tabs: added option "ui_tab_button_layout"
 + option "ui_reload_unsaved_confirm"
+- fix: painting on resize
+- fix: ProjectManager using of old api
 
 1.19.2 (2017/09)
 
