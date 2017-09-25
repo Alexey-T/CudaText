@@ -483,7 +483,7 @@ class Command:
     def action_remove_node(self):
         index = self.selected
         while index and index not in self.top_nodes:
-            index = tree_proc(self.tree, TREE_ITEM_GET_PARENT, index)
+            index = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)["parent"]
 
         if index in self.top_nodes:
             tree_proc(self.tree, TREE_ITEM_DELETE, index)
@@ -548,13 +548,20 @@ class Command:
         global_project_info['mainfile'] = self.project.get('mainfile', '')
 
     def get_info(self, index):
-        return NodeInfo(*tree_proc(self.tree, TREE_ITEM_GET_PROP, index))
+        info = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
+        if not info:
+            return
+        caption = info['text']
+        index = info['index']
+        image = info['icon']
+        level = info['level']
+        return NodeInfo(caption, index, image, level)
 
     def get_location_by_index(self, index):
         path = []
         while index and index not in self.top_nodes:
             path.append(self.get_info(index).caption)
-            index = tree_proc(self.tree, TREE_ITEM_GET_PARENT, index)
+            index = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)['parent']
 
         path.reverse()
         node = self.top_nodes.get(index, None)
