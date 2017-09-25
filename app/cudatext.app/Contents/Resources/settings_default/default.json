@@ -81,8 +81,11 @@
   "ui_non_text_buffer": 64,
 
   //[File]
-  //Command "Reload": if caret on last line, after reload put caret to new last line
+  //Reloading of file: if caret was on the last line, after reload put caret on new last line
   "ui_reload_tail": true,
+  
+  //Manual reopening/reloading of file: confirm to reload, if tab has unsaved changes
+  "ui_reload_unsaved_confirm": true,
   
   //[Lexers]
   //Group lexers menu by 1st char of name  
@@ -464,6 +467,15 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: layout of buttons at left/right sides
+  //String of few chars, each char is button. Separator for sides is comma.
+  //Allowed chars (buttons):
+  //  "<", ">" - scroll arrows
+  //  "v" - arrow of dropdown menu
+  //  "+" - plus button, the same as plus pseudo-tab, but don't hide if lot of tabs
+  //  "x" - close button, the same as x icon on active tab
+  "ui_tab_button_layout": "<>,v",
+  
   //UI tabs: Width
   "ui_tab_size_x": 170,
 

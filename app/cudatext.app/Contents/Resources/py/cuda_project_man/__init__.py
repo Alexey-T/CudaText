@@ -36,7 +36,7 @@ def project_variables():
         res[s1] = s2
     return res
 
-NodeInfo = collections.namedtuple("NodeInfo", "caption index image level")
+NodeInfo = collections.namedtuple("NodeInfo", "caption image")
 
 
 def is_filename_mask_listed(name, mask_list):
@@ -483,7 +483,7 @@ class Command:
     def action_remove_node(self):
         index = self.selected
         while index and index not in self.top_nodes:
-            index = tree_proc(self.tree, TREE_ITEM_GET_PARENT, index)
+            index = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)["parent"]
 
         if index in self.top_nodes:
             tree_proc(self.tree, TREE_ITEM_DELETE, index)
@@ -548,13 +548,15 @@ class Command:
         global_project_info['mainfile'] = self.project.get('mainfile', '')
 
     def get_info(self, index):
-        return NodeInfo(*tree_proc(self.tree, TREE_ITEM_GET_PROP, index))
+        info = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
+        if info:
+            return NodeInfo(info['text'], info['icon'])
 
     def get_location_by_index(self, index):
         path = []
         while index and index not in self.top_nodes:
             path.append(self.get_info(index).caption)
-            index = tree_proc(self.tree, TREE_ITEM_GET_PARENT, index)
+            index = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)['parent']
 
         path.reverse()
         node = self.top_nodes.get(index, None)

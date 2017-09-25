@@ -1,4 +1,8 @@
 
+2017.09.25
++ refact
+- fix: avoid deleted APIs
+
 2017.09.08
 + added commands "Go to main file", "Open main file"
 - fix: dont allow duplicate nodes on adding nodes
