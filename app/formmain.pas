@@ -1551,7 +1551,7 @@ var
   IsOk: boolean;
   AddonType: TAppAddonType;
 begin
-  DoInstallAddonFromZip(fn, AppManager, GetAppPath(cDirDataAutocomplete), msg, msg2,
+  DoInstallAddonFromZip(fn, GetAppPath(cDirDataAutocomplete), msg, msg2,
     IsOk, AddonType, DirTarget, ASilent);
 
   if IsOk then

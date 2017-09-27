@@ -25,7 +25,6 @@ type
 
 procedure DoInstallAddonFromZip(
   const fn_zip: string;
-  Manager: TecSyntaxManager;
   const dir_acp: string;
   out StrReport, StrMessage: string;
   out IsInstalled: boolean;
@@ -284,7 +283,6 @@ end;
 
 procedure DoInstallAddonFromZip(
   const fn_zip: string;
-  Manager: TecSyntaxManager;
   const dir_acp: string;
   out StrReport, StrMessage: string;
   out IsInstalled: boolean;
@@ -393,7 +391,7 @@ begin
   if s_type=cTypeLexer then
   begin
     NAddonType:= cAddonTypeLexer;
-    DoInstallLexer(fn_inf, dir_acp, Manager, StrReport, DirTarget)
+    DoInstallLexer(fn_inf, dir_acp, AppManager, StrReport, DirTarget)
   end
   else
   if s_type=cTypePlugin then
