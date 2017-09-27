@@ -24,13 +24,13 @@ type
     );
 
 procedure DoInstallAddonFromZip(
-  const fn_zip: string;
-  const dir_acp: string;
-  out StrReport, StrMessage: string;
-  out IsInstalled: boolean;
-  out NAddonType: TAppAddonType;
-  out DirTarget: string;
-  Silent: boolean);
+  const AFilenameZip: string;
+  const ADirAcp: string;
+  out AStrReport, AStrMessage: string;
+  out AIsInstalled: boolean;
+  out AAddonType: TAppAddonType;
+  out ADirTarget: string;
+  ASilent: boolean);
 
 var
   cInstallLexerZipTitle: string = 'Install addon';
@@ -54,17 +54,17 @@ const
   cTypeData = 'cudatext-data';
 
 procedure DoInstallData(
-  const fn_inf: string;
-  out s_report: string;
-  out dir_target: string);
+  const AFilenameInf: string;
+  out AReport: string;
+  out ADirTarget: string);
 var
   ini: TIniFile;
   s_subdir, dir_from: string;
 begin
-  s_report:= '';
-  dir_target:= '';
+  AReport:= '';
+  ADirTarget:= '';
 
-  ini:= TIniFile.Create(fn_inf);
+  ini:= TIniFile.Create(AFilenameInf);
   try
     s_subdir:= ini.ReadString('info', 'subdir', '');
     if s_subdir='' then exit;
@@ -72,34 +72,34 @@ begin
     FreeAndNil(ini);
   end;
 
-  DeleteFile(fn_inf);
-  dir_from:= ExtractFileDir(fn_inf);
-  dir_target:= GetAppPath(cDirData)+DirectorySeparator+s_subdir;
-  FCopyDir(dir_from, dir_target);
+  DeleteFile(AFilenameInf);
+  dir_from:= ExtractFileDir(AFilenameInf);
+  ADirTarget:= GetAppPath(cDirData)+DirectorySeparator+s_subdir;
+  FCopyDir(dir_from, ADirTarget);
 
-  s_report:= 'data files: '+dir_target;
+  AReport:= 'data files: '+ADirTarget;
 end;
 
 procedure DoInstallPlugin(
-  const fn_inf: string;
-  out s_report: string;
-  out dir_target: string);
+  const AFilenameInf: string;
+  out AReport: string;
+  out ADirTarget: string);
 var
   ini: TIniFile;
   s_section, s_caption, s_module, s_method, s_events,
   s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
   i: integer;
 begin
-  s_report:= '';
-  dir_target:= '';
+  AReport:= '';
+  ADirTarget:= '';
 
-  ini:= TIniFile.Create(fn_inf);
+  ini:= TIniFile.Create(AFilenameInf);
   try
     s_module:= ini.ReadString('info', 'subdir', '');
     if s_module='' then exit;
 
-    dir_target:= GetAppPath(cDirPy)+DirectorySeparator+s_module;
-    FCopyDir(ExtractFileDir(fn_inf), dir_target);
+    ADirTarget:= GetAppPath(cDirPy)+DirectorySeparator+s_module;
+    FCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
 
     for i:= 1 to cMaxItemsInInstallInf do
     begin
@@ -120,7 +120,7 @@ begin
         s_caption_nice:= StringReplace(s_caption_nice, '\', ': ', [rfReplaceAll]);
 
         if not SEndsWith(s_caption, '\-') then
-          s_report:= s_report+msgStatusPackageCommand+' '+s_caption_nice+
+          AReport:= AReport+msgStatusPackageCommand+' '+s_caption_nice+
             IfThen(s_hotkey<>'', '  ['+s_hotkey+']')+#10;
 
         //handle "hotkey"
@@ -144,7 +144,7 @@ begin
       if s_section='events' then
       begin
         if s_events='' then Continue;
-        s_report:= s_report+msgStatusPackageEvents+' '+s_events+#10;
+        AReport:= AReport+msgStatusPackageEvents+' '+s_events+#10;
       end;
     end;
   finally
@@ -153,20 +153,19 @@ begin
 end;
 
 procedure DoInstallLexer(
-  const fn_inf, dir_acp: string;
-  Manager: TecSyntaxManager;
-  out s_report: string;
-  out dir_lexlib: string);
+  const AFilenameInf, ADirAcp: string;
+  out AReport: string;
+  out ADirLexlib: string);
 var
   i_lexer, i_sub: integer;
   s_lexer, fn_lexer, fn_acp, fn_lexmap: string;
   an, an_sub: TecSyntAnalyzer;
   ini_lexmap: TIniFile;
 begin
-  s_report:= '';
-  dir_lexlib:= GetAppPath(cDirDataLexerlib);
+  AReport:= '';
+  ADirLexlib:= GetAppPath(cDirDataLexerlib);
 
-  with TIniFile.Create(fn_inf) do
+  with TIniFile.Create(AFilenameInf) do
   try
     for i_lexer:= 1 to 20 do
     begin
@@ -174,9 +173,9 @@ begin
       if s_lexer='' then Break;
 
       //copy lexer file
-      fn_lexer:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.lcf';
-      fn_lexmap:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.cuda-lexmap';
-      fn_acp:= ExtractFileDir(fn_inf)+DirectorySeparator+s_lexer+'.acp';
+      fn_lexer:= ExtractFileDir(AFilenameInf)+DirectorySeparator+s_lexer+'.lcf';
+      fn_lexmap:= ExtractFileDir(AFilenameInf)+DirectorySeparator+s_lexer+'.cuda-lexmap';
+      fn_acp:= ExtractFileDir(AFilenameInf)+DirectorySeparator+s_lexer+'.acp';
 
       if not FileExists(fn_lexer) then
       begin
@@ -186,26 +185,26 @@ begin
 
       if FileExists(fn_lexer) then
       begin
-        CopyFile(fn_lexer, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexer));
-        s_report:= s_report+msgStatusPackageLexer+' '+s_lexer+#10;
+        CopyFile(fn_lexer, ADirLexlib+DirectorySeparator+ExtractFileName(fn_lexer));
+        AReport:= AReport+msgStatusPackageLexer+' '+s_lexer+#10;
       end;
 
       if FileExists(fn_lexmap) then
-        CopyFile(fn_lexmap, dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexmap))
+        CopyFile(fn_lexmap, ADirLexlib+DirectorySeparator+ExtractFileName(fn_lexmap))
       else
-        s_report:= s_report+msgStatusPackageMissedLexerMap+#10;
+        AReport:= AReport+msgStatusPackageMissedLexerMap+#10;
 
       if FileExists(fn_acp) then
       begin
-        if dir_acp<>'' then
-          CopyFile(fn_acp, dir_acp+DirectorySeparator+ExtractFileName(fn_acp));
-        s_report:= s_report+msgStatusPackageAutoCompletion+' '+s_lexer+#10;
+        if ADirAcp<>'' then
+          CopyFile(fn_acp, ADirAcp+DirectorySeparator+ExtractFileName(fn_acp));
+        AReport:= AReport+msgStatusPackageAutoCompletion+' '+s_lexer+#10;
       end;
 
       //install from file
-      an:= Manager.FindAnalyzer(s_lexer);
+      an:= AppManager.FindAnalyzer(s_lexer);
       if an=nil then
-        an:= Manager.AddAnalyzer;
+        an:= AppManager.AddAnalyzer;
       an.LoadFromFile(fn_lexer);
 
       //also "restore lexer styles"
@@ -224,14 +223,14 @@ begin
         if s_lexer='Assembler' then s_lexer:= 'Assembly';
 
         //write [ref] section in cuda-lexmap
-        ini_lexmap:= TIniFile.Create(dir_lexlib+DirectorySeparator+ExtractFileName(fn_lexmap));
+        ini_lexmap:= TIniFile.Create(ADirLexlib+DirectorySeparator+ExtractFileName(fn_lexmap));
         try
           ini_lexmap.WriteString('ref', IntToStr(i_sub), s_lexer);
         finally
           FreeAndNil(ini_lexmap);
         end;
 
-        an_sub:= Manager.FindAnalyzer(s_lexer);
+        an_sub:= AppManager.FindAnalyzer(s_lexer);
         if an_sub<>nil then
         begin
           an.SubAnalyzers.Items[i_sub].SyntAnalyzer:= an_sub;
@@ -239,7 +238,7 @@ begin
         end
         else
         begin
-          s_report:= s_report+(msgCannotFindSublexerInLibrary+' '+s_lexer)+#10;
+          AReport:= AReport+(msgCannotFindSublexerInLibrary+' '+s_lexer)+#10;
           Continue;
         end;
       end;
@@ -282,24 +281,24 @@ begin
 end;
 
 procedure DoInstallAddonFromZip(
-  const fn_zip: string;
-  const dir_acp: string;
-  out StrReport, StrMessage: string;
-  out IsInstalled: boolean;
-  out NAddonType: TAppAddonType;
-  out DirTarget: string;
-  Silent: boolean);
+  const AFilenameZip: string;
+  const ADirAcp: string;
+  out AStrReport, AStrMessage: string;
+  out AIsInstalled: boolean;
+  out AAddonType: TAppAddonType;
+  out ADirTarget: string;
+  ASilent: boolean);
 var
   unzip: TUnZipper;
   list: TStringlist;
   dir, dir_zipped, fn_inf: string;
   s_title, s_type, s_desc, s_api: string;
 begin
-  StrReport:= '';
-  StrMessage:= '';
-  IsInstalled:= false;
-  NAddonType:= cAddonTypeUnknown;
-  DirTarget:= '';
+  AStrReport:= '';
+  AStrMessage:= '';
+  AIsInstalled:= false;
+  AAddonType:= cAddonTypeUnknown;
+  ADirTarget:= '';
   dir:= GetTempDirCounted;
 
   if not DirectoryExists(dir) then
@@ -312,14 +311,14 @@ begin
 
   unzip:= TUnZipper.Create;
   try
-    unzip.FileName:= fn_zip;
+    unzip.FileName:= AFilenameZip;
     unzip.OutputPath:= dir;
     try
       unzip.Examine;
       if unzip.Entries.Count=0 then
         raise Exception.Create('Zip is empty');
     except
-      MsgBox(msgCannotHandleZip+#10+fn_zip, MB_OK+MB_ICONERROR);
+      MsgBox(msgCannotHandleZip+#10+AFilenameZip, MB_OK+MB_ICONERROR);
       exit;
     end;
 
@@ -378,7 +377,7 @@ begin
     exit
   end;
 
-  if not Silent then
+  if not ASilent then
   if MsgBox(msgStatusPackageContains+#10#10+
     msgStatusPackageName+' '+s_title+#10+
     IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
@@ -387,27 +386,27 @@ begin
     msgConfirmInstallIt,
     MB_OKCANCEL or MB_ICONQUESTION)<>ID_OK then exit;
 
-  StrReport:= '';
+  AStrReport:= '';
   if s_type=cTypeLexer then
   begin
-    NAddonType:= cAddonTypeLexer;
-    DoInstallLexer(fn_inf, dir_acp, AppManager, StrReport, DirTarget)
+    AAddonType:= cAddonTypeLexer;
+    DoInstallLexer(fn_inf, ADirAcp, AStrReport, ADirTarget)
   end
   else
   if s_type=cTypePlugin then
   begin
-    NAddonType:= cAddonTypePlugin;
-    StrMessage:= msgStatusInstalledNeedRestart;
-    DoInstallPlugin(fn_inf, StrReport, DirTarget)
+    AAddonType:= cAddonTypePlugin;
+    AStrMessage:= msgStatusInstalledNeedRestart;
+    DoInstallPlugin(fn_inf, AStrReport, ADirTarget)
   end
   else
   if s_type=cTypeData then
   begin
-    NAddonType:= cAddonTypeData;
-    DoInstallData(fn_inf, StrReport, DirTarget)
+    AAddonType:= cAddonTypeData;
+    DoInstallData(fn_inf, AStrReport, ADirTarget)
   end;
 
-  IsInstalled:= true;
+  AIsInstalled:= true;
 end;
 
 
