@@ -32,9 +32,6 @@ procedure DoInstallAddonFromZip(
   out ADirTarget: string;
   ASilent: boolean);
 
-var
-  cInstallLexerZipTitle: string = 'Install addon';
-
 implementation
 
 uses
