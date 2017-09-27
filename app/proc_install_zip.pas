@@ -56,23 +56,23 @@ procedure DoInstallData(
   out ADirTarget: string);
 var
   ini: TIniFile;
-  s_subdir, dir_from: string;
+  SSubDir, SDirFrom: string;
 begin
   AReport:= '';
   ADirTarget:= '';
 
   ini:= TIniFile.Create(AFilenameInf);
   try
-    s_subdir:= ini.ReadString('info', 'subdir', '');
-    if s_subdir='' then exit;
+    SSubDir:= ini.ReadString('info', 'subdir', '');
+    if SSubDir='' then exit;
   finally
     FreeAndNil(ini);
   end;
 
   DeleteFile(AFilenameInf);
-  dir_from:= ExtractFileDir(AFilenameInf);
-  ADirTarget:= GetAppPath(cDirData)+DirectorySeparator+s_subdir;
-  FCopyDir(dir_from, ADirTarget);
+  SDirFrom:= ExtractFileDir(AFilenameInf);
+  ADirTarget:= GetAppPath(cDirData)+DirectorySeparator+SSubDir;
+  FCopyDir(SDirFrom, ADirTarget);
 
   AReport:= 'data files: '+ADirTarget;
 end;
