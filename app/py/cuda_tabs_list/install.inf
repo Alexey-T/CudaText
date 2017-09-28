@@ -11,10 +11,11 @@ events=on_focus,on_open,on_tab_move,on_state,on_start
 
 [item2]
 section=commands
-caption=Tabs List\Show panel
+caption=Tabs List
 method=open
 
 [item3]
 section=commands
 caption=Tabs List\Config...
 method=config
+config=o

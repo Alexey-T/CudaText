@@ -175,8 +175,12 @@ begin
     if not AppPluginsCommand[i].ItemInMenu then Continue;
 
     mi:= nil;
-    miSub:= mnuPlug;
     str:= AppPluginsCommand[i].ItemCaption;
+
+    //target submenu
+    miSub:= mnuPlug; //Plugins
+    if AppPluginsCommand[i].ItemConfigOption='o' then
+      miSub:= mnuOpPlugins; //Options/ Settings-plugins
 
     //need parse caption and create subitems, separated with '\'
     repeat
