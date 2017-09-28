@@ -4,6 +4,10 @@
   * changed
 
 
+1.20.2
+
++ added submenu "Options / Settings-plugins", so plugins can put they config commands here, instead of "Plugins". Two standard plugins: Tabs List, Comments - use this new menu.
+
 1.20.0 (2017/09)
 
 + reworked UI tabs: added option "ui_tab_button_layout"
