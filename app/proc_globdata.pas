@@ -408,10 +408,6 @@ function DoLexerFindByFilename(const fn: string): TecSyntAnalyzer;
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
-function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
-procedure CommandPlugins_UpdateSubcommands(AStr: string);
-procedure CommandPlugins_DeleteItem(AIndex: integer);
-
 var
   AppManager: TecSyntaxManager = nil;
   AppKeymap: TATKeymap = nil;
@@ -584,6 +580,7 @@ type
     ItemLexers: string;
     ItemInMenu: boolean;
     ItemFromApi: boolean;
+    ItemConfigOption: string;
   end;
   TAppPluginCmdArray = array[0..400] of TAppPluginCmd;
 
@@ -629,6 +626,11 @@ type
     CommandString: string;
     TagString: string;
   end;
+
+function CommandPlugins_GetIndexFromModuleAndMethod(AStr: string): integer;
+procedure CommandPlugins_UpdateSubcommands(AStr: string);
+procedure CommandPlugins_DeleteItem(AIndex: integer);
+procedure CommandPlugins_AssignItem(var Dst, Src: TAppPluginCmd);
 
 function AppEncodingShortnameToFullname(const S: string): string;
 function AppEncodingFullnameToShortname(const S: string): string;
@@ -1390,6 +1392,17 @@ begin
     an.SaveToFile(GetAppLexerFilename(an.LexerName));
 end;
 
+procedure CommandPlugins_AssignItem(var Dst, Src: TAppPluginCmd);
+begin
+  Dst.ItemModule:= Src.ItemModule;
+  Dst.ItemProc:= Src.ItemProc;
+  Dst.ItemProcParam:= Src.ItemProcParam;
+  Dst.ItemCaption:= Src.ItemCaption;
+  Dst.ItemLexers:= Src.ItemLexers;
+  Dst.ItemInMenu:= Src.ItemInMenu;
+  Dst.ItemFromApi:= Src.ItemFromApi;
+  Dst.ItemConfigOption:= Src.ItemConfigOption;
+end;
 
 procedure CommandPlugins_DeleteItem(AIndex: integer);
 var
@@ -1398,15 +1411,7 @@ begin
   if (AIndex>=Low(AppPluginsCommand)) and (AIndex<=High(AppPluginsCommand)) then
   begin
     for i:= AIndex to High(AppPluginsCommand)-1 do
-    begin
-      AppPluginsCommand[i].ItemModule:= AppPluginsCommand[i+1].ItemModule;
-      AppPluginsCommand[i].ItemProc:= AppPluginsCommand[i+1].ItemProc;
-      AppPluginsCommand[i].ItemProcParam:= AppPluginsCommand[i+1].ItemProcParam;
-      AppPluginsCommand[i].ItemCaption:= AppPluginsCommand[i+1].ItemCaption;
-      AppPluginsCommand[i].ItemLexers:= AppPluginsCommand[i+1].ItemLexers;
-      AppPluginsCommand[i].ItemInMenu:= AppPluginsCommand[i+1].ItemInMenu;
-      AppPluginsCommand[i].ItemFromApi:= AppPluginsCommand[i+1].ItemFromApi;
-    end;
+      CommandPlugins_AssignItem(AppPluginsCommand[i], AppPluginsCommand[i+1])
   end;
   with AppPluginsCommand[High(AppPluginsCommand)] do
   begin
@@ -1414,6 +1419,7 @@ begin
     ItemProc:= '';
     ItemProcParam:= '';
     ItemFromApi:= false;
+    ItemConfigOption:= '';
   end;
 end;
 
@@ -1713,7 +1719,6 @@ begin
       if ShortName<>'' then
         Result:= Result + LowerCase(ShortName) + #10;
 end;
-
 
 initialization
   InitDirs;
