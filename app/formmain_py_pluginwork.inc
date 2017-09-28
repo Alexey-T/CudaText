@@ -158,55 +158,72 @@ begin
   Showmessage(s);
 end;
 
-procedure TfmMain.UpdateMenuPlugins;
+
+procedure TfmMain.DoOps_AddPluginMenuItem(
+  const ACaption: string;
+  ASubMenu: TMenuItem;
+  ATag: integer);
 var
   mi, miSub: TMenuItem;
   str, strItem: string;
-  i, idx: integer;
+  idx: integer;
+begin
+  mi:= nil;
+  miSub:= ASubMenu;
+  str:= ACaption;
+
+  //need to parse caption and create subitems, separated with '\'
+  repeat
+    strItem:= SGetItem(str, '\');
+    if strItem='' then Break;
+    if strItem='-' then
+      idx:= -1
+    else
+      idx:= miSub.IndexOfCaption(strItem);
+    if idx<0 then
+    begin
+      mi:= TMenuItem.Create(Self);
+      mi.Caption:= strItem;
+      miSub.Add(mi);
+      miSub:= mi;
+    end
+    else
+      miSub:= miSub.Items[idx];
+  until false;
+
+  if Assigned(mi) then
+  begin
+    mi.OnClick:= @MenuPluginClick;
+    mi.Tag:= ATag;
+  end;
+end;
+
+procedure TfmMain.UpdateMenuPlugins;
+var
+  SCaption, SConfig: string;
+  i: integer;
 begin
   if not PythonOK then exit;
   if mnuPlugins=nil then exit;
+
   mnuPlugins.Clear;
   mnuOpPlugins.Clear;
 
-  //create menu items for plugins
   for i:= 0 to High(AppPluginsCommand) do
   begin
     if AppPluginsCommand[i].ItemModule='' then Break;
     if not AppPluginsCommand[i].ItemInMenu then Continue;
 
-    mi:= nil;
-    str:= AppPluginsCommand[i].ItemCaption;
+    SCaption:= AppPluginsCommand[i].ItemCaption;
+    SConfig:= AppPluginsCommand[i].ItemConfigOption;
 
-    //target submenu
-    miSub:= mnuPlugins; //Plugins
-    if AppPluginsCommand[i].ItemConfigOption='o' then
-      miSub:= mnuOpPlugins; //Options/ Settings-plugins
+    //Plugins
+    if (SConfig='') or (Pos('p', SConfig)>0) then
+      DoOps_AddPluginMenuItem(SCaption, mnuPlugins, i);
 
-    //need to parse caption and create subitems, separated with '\'
-    repeat
-      strItem:= SGetItem(str, '\');
-      if strItem='' then Break;
-      if strItem='-' then
-        idx:= -1
-      else
-        idx:= miSub.IndexOfCaption(strItem);
-      if idx<0 then
-      begin
-        mi:= TMenuItem.Create(Self);
-        mi.Caption:= strItem;
-        miSub.Add(mi);
-        miSub:= mi;
-      end
-      else
-        miSub:= miSub.Items[idx];
-    until false;
-
-    if Assigned(mi) then
-    begin
-      mi.OnClick:= @MenuPluginClick;
-      mi.Tag:= i;
-    end;
+    //Options/ Settings-plugins
+    if Pos('o', SConfig)>0 then
+      DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
   end;
 end;
 

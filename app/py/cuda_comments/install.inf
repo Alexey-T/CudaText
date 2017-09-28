@@ -55,6 +55,6 @@ method=_
 section=commands
 caption=Comments\Config...
 method=dlg_config
-config=o
+config=op
 
 
