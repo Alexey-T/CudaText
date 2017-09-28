@@ -270,6 +270,7 @@ begin
     DoLocMenuitem(ini, mnuOpLexProp, 'm_o', 'l_pr');
     DoLocMenuitem(ini, mnuOpLexLib, 'm_o', 'l_li');
     DoLocMenuitem(ini, mnuOpLexMap, 'm_o', 'l_map');
+    DoLocMenuitem(ini, mnuOpPlugins, 'm_o', 'pl');
 
     DoLocMenuitem(ini, mnuThemes, 'm_o', 'co_');
     DoLocMenuitem(ini, mnuThemesUI, 'm_o', 'cou_');

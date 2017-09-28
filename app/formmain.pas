@@ -111,6 +111,7 @@ type
     ButtonCancel: TATButton;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
+    mnuOpPlugins: TMenuItem;
     mnuTreeSep1: TMenuItem;
     mnuTreeSorted: TMenuItem;
     mnuViewUnpriSpacesTail: TMenuItem;

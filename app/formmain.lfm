@@ -673,6 +673,9 @@ object fmMain: TfmMain
           Caption = 'Settings - theme - &syntax'
         end
       end
+      object mnuOpPlugins: TMenuItem
+        Caption = 'Settings - &plugins'
+      end
       object SepOp1: TMenuItem
         Caption = '-'
       end
