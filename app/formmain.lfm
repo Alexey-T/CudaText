@@ -637,9 +637,9 @@ object fmMain: TfmMain
         Caption = 'Le&xers'
       end
     end
-    object mnuPlug: TMenuItem
+    object mnuPlugins: TMenuItem
       Caption = '&Plugins'
-      object mnuPlugEmpty: TMenuItem
+      object mnuPluginsEmpty: TMenuItem
         Caption = '(cannot load Python engine)'
         Enabled = False
       end

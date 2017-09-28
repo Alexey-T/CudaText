@@ -248,7 +248,7 @@ begin
     DoLocMenuitem(ini, mnuViewFullscr, 'm_v', 't_fs');
     DoLocMenuitem(ini, mnuViewDistFree, 'm_v', 't_dis');
 
-    DoLocMenuitem(ini, mnuPlug, 'm_o', 'pl_');
+    DoLocMenuitem(ini, mnuPlugins, 'm_o', 'pl_');
     DoLocMenuitem(ini, mnuOp, 'm_o', '_');
 
     DoLocMenuitem(ini, mnuOpDefault, 'm_o', 'df');

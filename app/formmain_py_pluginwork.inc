@@ -165,8 +165,8 @@ var
   i, idx: integer;
 begin
   if not PythonOK then exit;
-  if mnuPlug=nil then exit;
-  mnuPlug.Clear;
+  if mnuPlugins=nil then exit;
+  mnuPlugins.Clear;
 
   //create menu items for Command plugins
   for i:= 0 to High(AppPluginsCommand) do
@@ -178,7 +178,7 @@ begin
     str:= AppPluginsCommand[i].ItemCaption;
 
     //target submenu
-    miSub:= mnuPlug; //Plugins
+    miSub:= mnuPlugins; //Plugins
     if AppPluginsCommand[i].ItemConfigOption='o' then
       miSub:= mnuOpPlugins; //Options/ Settings-plugins
 
@@ -241,7 +241,7 @@ begin
 
   Ed:= CurrentEditor;
   if Assigned(Ed) then
-    UpdMenu(mnuPlug, Ed.Keymap);
+    UpdMenu(mnuPlugins, Ed.Keymap);
 end;
 
 

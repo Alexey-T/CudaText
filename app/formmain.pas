@@ -124,7 +124,7 @@ type
     SepV4: TMenuItem;
     mnuBmPlaceOnCarets: TMenuItem;
     mnuFileNewMenu: TMenuItem;
-    mnuPlugEmpty: TMenuItem;
+    mnuPluginsEmpty: TMenuItem;
     ImageListSide: TImageList;
     FontDlg: TFontDialog;
     ImageListBm: TImageList;
@@ -186,7 +186,7 @@ type
     MenuItem37: TMenuItem;
     mnuTextSel: TMenuItem;
     mnuTextGotoDef: TMenuItem;
-    mnuPlug: TMenuItem;
+    mnuPlugins: TMenuItem;
     mnuFileHtml: TMenuItem;
     mnuTreeFold9: TMenuItem;
     mnuTreeFold7: TMenuItem;
@@ -1307,7 +1307,7 @@ begin
   UpdateMenuItemHint(mnuView, 'top-view');
   UpdateMenuItemHint(mnuOp, 'top-op');
   UpdateMenuItemHint(mnuHelp, 'top-help');
-  UpdateMenuItemHint(mnuPlug, 'plugins');
+  UpdateMenuItemHint(mnuPlugins, 'plugins');
   UpdateMenuItemHint(mnuFileOpenSub, '_recents');
   UpdateMenuItemHint(mnuFileEnc, '_enc');
   UpdateMenuItemHint(mnuFileEnds, '_ends');
@@ -2394,7 +2394,7 @@ begin
     fmConsole.DoLogConsoleLine(msgCannotInitPython1);
     fmConsole.DoLogConsoleLine(msgCannotInitPython2);
     //disable Plugins menu
-    mnuPlug.Enabled:= false;
+    mnuPlugins.Enabled:= false;
   end;
 end;
 
@@ -3892,7 +3892,7 @@ begin
       mnuThemesUI:= nil;
       mnuThemesSyntax:= nil;
       mnuLang:= nil;
-      mnuPlug:= nil;
+      mnuPlugins:= nil;
       mnuLexers:= nil;
     end;
     if AMenuId=PyMenuId_TopOptions then
@@ -3974,7 +3974,7 @@ begin
     else
     if (AMenuCmd=PyMenuCmd_Plugins) or (AMenuCmd='_'+PyMenuCmd_Plugins) then
     begin
-      mnuPlug:= mi;
+      mnuPlugins:= mi;
       TAppMenuProps(mi.Tag).CommandString:= 'plugins';
       UpdateMenuPlugins;
     end
