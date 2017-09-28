@@ -167,8 +167,9 @@ begin
   if not PythonOK then exit;
   if mnuPlugins=nil then exit;
   mnuPlugins.Clear;
+  mnuOpPlugins.Clear;
 
-  //create menu items for Command plugins
+  //create menu items for plugins
   for i:= 0 to High(AppPluginsCommand) do
   begin
     if AppPluginsCommand[i].ItemModule='' then Break;
@@ -182,7 +183,7 @@ begin
     if AppPluginsCommand[i].ItemConfigOption='o' then
       miSub:= mnuOpPlugins; //Options/ Settings-plugins
 
-    //need parse caption and create subitems, separated with '\'
+    //need to parse caption and create subitems, separated with '\'
     repeat
       strItem:= SGetItem(str, '\');
       if strItem='' then Break;
