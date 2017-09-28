@@ -159,36 +159,31 @@ begin
 end;
 
 
-procedure TfmMain.DoOps_AddPluginMenuItem(
-  const ACaption: string;
-  ASubMenu: TMenuItem;
-  ATag: integer);
+procedure TfmMain.DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
 var
-  mi, miSub: TMenuItem;
-  str, strItem: string;
+  mi: TMenuItem;
+  strItem: string;
   idx: integer;
 begin
   mi:= nil;
-  miSub:= ASubMenu;
-  str:= ACaption;
 
   //need to parse caption and create subitems, separated with '\'
   repeat
-    strItem:= SGetItem(str, '\');
+    strItem:= SGetItem(ACaption, '\');
     if strItem='' then Break;
     if strItem='-' then
       idx:= -1
     else
-      idx:= miSub.IndexOfCaption(strItem);
+      idx:= ASubMenu.IndexOfCaption(strItem);
     if idx<0 then
     begin
       mi:= TMenuItem.Create(Self);
       mi.Caption:= strItem;
-      miSub.Add(mi);
-      miSub:= mi;
+      ASubMenu.Add(mi);
+      ASubMenu:= mi;
     end
     else
-      miSub:= miSub.Items[idx];
+      ASubMenu:= ASubMenu.Items[idx];
   until false;
 
   if Assigned(mi) then

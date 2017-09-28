@@ -579,7 +579,7 @@ type
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
-    procedure DoOps_AddPluginMenuItem(const ACaption: string; ASubMenu: TMenuItem;
+    procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem;
       ATag: integer);
     procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
