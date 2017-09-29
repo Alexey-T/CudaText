@@ -11,6 +11,8 @@ b) supported keys in Vim command mode:
   e - go to end of word
   a - enter Insertion mode after moving caret right
   i - enter Insertion mode at current pos
+  x - delete char right (like Delete key)
+  X - delete char left (like Backspace key)
 
 
 author: Alexey (CudaText)
