@@ -7,10 +7,9 @@ homepage=
 
 [item1]
 section=events
-events=on_key,on_key_up
+events=on_key
 
 [item2]
 section=commands
 caption=Vim Mode
-method=toggle_mode
-
+method=toggle_active

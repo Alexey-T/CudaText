@@ -10,7 +10,7 @@ class Command:
     active = False
     ins = False
 
-    def toggle_mode(self):
+    def toggle_active(self):
         self.ins = False
         self.active = not self.active
         if self.active:
@@ -22,11 +22,14 @@ class Command:
     def on_key(self, ed_self, key, state):
         if not self.active: return
 
-        if key==27: #Esc
+        #Esc
+        if key==27:
             if self.ins:
                 self.ins = False
                 msg('command mode')
-            return False
+                return False
+            else:
+                return
 
         if self.ins:
             msg('insertion mode')
