@@ -6,7 +6,7 @@
 
 1.20.2
 
-+ added submenu "Options / Settings-plugins", so plugins can put they config commands here, instead of "Plugins". Two standard plugins: Tabs List, Comments - use this new menu.
++ added submenu "Options / Settings-plugins", so plugins can put config commands here, instead of "Plugins". Two standard plugins (Tabs List, Comments) use this menu. http://wiki.freepascal.org/CudaText#Plugins
 
 1.20.0 (2017/09)
 
