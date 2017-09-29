@@ -1,0 +1,16 @@
+[info]
+title=Vim Mode
+desc=Allows to use Vim key bindings
+type=cudatext-plugin
+subdir=cuda_vim_mode
+homepage=
+
+[item1]
+section=events
+events=on_key,on_key_up
+
+[item2]
+section=commands
+caption=Vim Mode
+method=toggle_mode
+
