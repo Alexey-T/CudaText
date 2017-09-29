@@ -1,10 +1,10 @@
 from cudatext import *
 import cudatext_cmd as cc
+from .word_proc import *
 
 def msg(s, is_ins=False):
     prefix = '[Vim command mode]' if not is_ins else '[Vim insertion mode]'
     msg_status(prefix+' '+s)
-
 
 class Command:
     active = False
@@ -39,6 +39,20 @@ class Command:
             msg('right')
             return False
 
+        if key==ord('B'):
+            ed.cmd(cc.cCommand_GotoWordPrev)
+            msg('go to prev word')
+            return False
+
+        if key==ord('W'):
+            ed.cmd(cc.cCommand_GotoWordNext)
+            msg('go to next word')
+            return False
+
+        if key==ord('E'):
+            goto_word_end()
+            msg('go to word end')
+            return False
 
 
     def on_key_up(self, ed_self, key, state):
