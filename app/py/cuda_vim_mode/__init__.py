@@ -2,22 +2,35 @@ from cudatext import *
 import cudatext_cmd as cc
 from .word_proc import *
 
-def msg(s, is_ins=False):
-    prefix = '[Vim command mode]' if not is_ins else '[Vim insertion mode]'
-    msg_status(prefix+' '+s)
+def msg(s):
+    msg_status('[Vim] '+s)
+
 
 class Command:
     active = False
+    ins = False
 
     def toggle_mode(self):
+        self.ins = False
         self.active = not self.active
         if self.active:
-            msg('turned on')
+            msg('plugin activated')
         else:
-            msg('turned off')
+            msg('plugin deactivated')
+
 
     def on_key(self, ed_self, key, state):
         if not self.active: return
+
+        if key==27: #Esc
+            if self.ins:
+                self.ins = False
+                msg('command mode')
+            return False
+
+        if self.ins:
+            msg('insertion mode')
+            return
 
         if key==ord('H'):
             ed.cmd(cc.cCommand_KeyLeft)
@@ -53,6 +66,24 @@ class Command:
             goto_word_end()
             msg('go to word end')
             return False
+
+        if key==ord('A'):
+            ed.cmd(cc.cCommand_KeyRight)
+            self.ins = True
+            msg('insertion mode, after current char')
+            return False
+
+        if key==ord('I'):
+            self.ins = True
+            msg('insertion mode, at current char')
+            return False
+
+
+        #block letters
+        if state=='':
+            if ord('A')<=key<=ord('Z'):
+                msg('key not handled: '+chr(key))
+                return False
 
 
     def on_key_up(self, ed_self, key, state):
