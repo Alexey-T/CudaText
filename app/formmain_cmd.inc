@@ -394,6 +394,13 @@ begin
         Frame.MacroString:= Frame.MacroString+(Str+#10);
       end;
 
+  if (ACommand=cCommand_TextInsert) and
+    (AText<>'') then
+  begin
+    if DoPyEvent(Ed, cEventOnInsert,
+      [SStringToPythonString(AText)]) = cPyFalse then
+      begin AHandled:= true; exit end;
+  end;
 
   //auto-close brackets
   if (ACommand=cCommand_TextInsert) and
