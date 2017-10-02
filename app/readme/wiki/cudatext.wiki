@@ -456,7 +456,7 @@ Only those snippets are inserted and shown in dialog, which are for current lexe
 
 Menu of Snippets plugin:
 
-[[File:cudatext_snippets_menu.png‎]]
+[[File:cudatext_snippets_menu.png]]
 
 Snippets have markers in them. Markers placed in editor (small red/blue triangles), and caret jumps to 1st marker, then you type text at this marker and press Tab key - caret jumps to next marker. Markers may give multi-carets too (if same text is needed at several places of snippet). While markers are shown, Tab key works special (jumps to next marker). After you collect all markers by Tab, Tab key will work as usual.
 
@@ -817,7 +817,7 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 
 === Plugins ===
 
-Example of inf for plugin (plugin adds 2 menu items with menu separator between):
+Example of install.inf for plugin (plugin adds 2 menu items with menu separator between):
 
   [info]
   title=MyName
@@ -847,11 +847,17 @@ Example of inf for plugin (plugin adds 2 menu items with menu separator between)
 
 Section names: from "item1" to "item400", any numbers can be skipped.
 
-* Line "menu=0" means that item is not visible in Plugins menu.
-* Line "lexers=" means that command can be run only when such lexer(s) active.
-* Line "hotkey=" allowed. Value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G"). 
+* Line "homepage=": optional, it allows to go to homepage via Addon Manager command "Visit plugin's homepage".
+* Line "api=": optional, it allows to disable installing of addon on older CudaText versions.
+* Line "lexers=": comma-separated lexer names, means that command can be run only when such lexer(s) active.
+* Line "hotkey=": value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G"). 
 ** If "lexers=" param missed, then hotkey saves to file "keys.json" for all lexers. 
 ** If "lexers=" param present, then hotkey saves to "keys lexer NNNN.json" for each mentioned lexer.
+* Line "menu=": optional. Possible values:
+** "" (empty, default): menu item will be put to "Plugins".
+** "0": hide menu item.
+** "o": menu item will be put to "Options / Settings-plugins".
+** "op": menu item will be put both to "Plugins" and "Options / Settings-plugins".
 
 ==== Lexer lists ====
 
