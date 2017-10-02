@@ -4,10 +4,11 @@
   * changed
 
 
-1.20.2
+1.20.3 (2017/10)
 
 + added submenu "Options / Settings-plugins", so plugins can put config commands here, instead of "Plugins". Two standard plugins (Tabs List, Comments) use this menu. http://wiki.freepascal.org/CudaText#Plugins
 + API for "Vim Mode" plugin
++ added 4 commands: "go to line absolute begin/end (+select)" (keys home/end consider spaces)
 
 1.20.0 (2017/09)
 

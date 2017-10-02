@@ -82,6 +82,14 @@ cCommand_GotoScreenTop = 205 | _CmdFlag_MovesCaret
 cCommand_GotoScreenBottom = 206 | _CmdFlag_MovesCaret
 cCommand_GotoScreenCenter = 207 | _CmdFlag_MovesCaret
 
+_base_GotoLineAbsBegin = 210 | _CmdFlag_MovesCaret
+_base_GotoLineAbsEnd   = 211 | _CmdFlag_MovesCaret
+
+cCommand_GotoLineAbsBegin     = _base_GotoLineAbsBegin | _CmdFlag_SelReset
+cCommand_GotoLineAbsBegin_Sel = _base_GotoLineAbsBegin | _CmdFlag_SelKeep
+cCommand_GotoLineAbsEnd       = _base_GotoLineAbsEnd | _CmdFlag_SelReset
+cCommand_GotoLineAbsEnd_Sel   = _base_GotoLineAbsEnd | _CmdFlag_SelKeep
+
 cCommand_Undo = 235 | _CmdFlag_SelReset
 cCommand_Redo = 236 | _CmdFlag_SelReset
 
