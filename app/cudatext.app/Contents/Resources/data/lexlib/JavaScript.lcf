@@ -714,6 +714,9 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'function'
       ConditionList = <
         item
+          TokenTypes = 4
+        end
+        item
           TagList.Strings = (
             'function')
           TokenTypes = 4

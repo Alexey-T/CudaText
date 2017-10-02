@@ -17,6 +17,7 @@ EVENTS = [
     'on_goto_key',
     'on_goto_key_up',
     'on_goto_def',
+    'on_insert',
     'on_key',
     'on_key_up',
     'on_lexer',
@@ -36,6 +37,7 @@ EVENTS = [
 EVENTS_ADD_PARAMS = {
   'on_key': 'key, state',
   'on_key_up': 'key, state',
+  'on_insert': 'text',
   'on_click': 'state',
   'on_click_dbl': 'state',
   'on_click_gap': 'state, nline, ntag, size_x, size_y, pos_x, pos_y',
