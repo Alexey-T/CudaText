@@ -4,7 +4,7 @@
   * changed
 
 
-1.20.3 (2017/10)
+1.20.4 (2017/10)
 
 + added submenu "Options / Settings-plugins", so plugins can put config commands here, instead of "Plugins". Two standard plugins (Tabs List, Comments) use this menu. http://wiki.freepascal.org/CudaText#Plugins
 + API for "Vim Mode" plugin
