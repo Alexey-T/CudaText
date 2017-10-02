@@ -67,16 +67,19 @@ _base_GotoTextBegin = 200 | _CmdFlag_MovesCaret
 _base_GotoTextEnd   = 201 | _CmdFlag_MovesCaret
 _base_GotoWordNext  = 202 | _CmdFlag_MovesCaret
 _base_GotoWordPrev  = 203 | _CmdFlag_MovesCaret
+_base_GotoWordEnd   = 204 | _CmdFlag_MovesCaret
 
 cCommand_GotoTextBegin = _base_GotoTextBegin | _CmdFlag_SelReset
 cCommand_GotoTextEnd = _base_GotoTextEnd | _CmdFlag_SelReset
 cCommand_GotoWordNext = _base_GotoWordNext | _CmdFlag_SelReset
 cCommand_GotoWordPrev = _base_GotoWordPrev | _CmdFlag_SelReset
+cCommand_GotoWordEnd = _base_GotoWordEnd | _CmdFlag_SelReset
 
 cCommand_GotoTextBegin_Sel = _base_GotoTextBegin | _CmdFlag_SelKeep
 cCommand_GotoTextEnd_Sel = _base_GotoTextEnd | _CmdFlag_SelKeep
 cCommand_GotoWordNext_Sel = _base_GotoWordNext | _CmdFlag_SelKeep
 cCommand_GotoWordPrev_Sel = _base_GotoWordPrev | _CmdFlag_SelKeep
+cCommand_GotoWordEnd_Sel = _base_GotoWordEnd | _CmdFlag_SelKeep
 
 cCommand_GotoScreenTop = 205 | _CmdFlag_MovesCaret
 cCommand_GotoScreenBottom = 206 | _CmdFlag_MovesCaret
