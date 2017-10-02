@@ -580,9 +580,8 @@ type
     ItemProcParam: string;
     ItemCaption: string;
     ItemLexers: string;
-    ItemInMenu: boolean;
+    ItemInMenu: string;
     ItemFromApi: boolean;
-    ItemConfigOption: string;
   end;
   TAppPluginCmdArray = array[0..400] of TAppPluginCmd;
 
@@ -1403,7 +1402,6 @@ begin
   Dst.ItemLexers:= Src.ItemLexers;
   Dst.ItemInMenu:= Src.ItemInMenu;
   Dst.ItemFromApi:= Src.ItemFromApi;
-  Dst.ItemConfigOption:= Src.ItemConfigOption;
 end;
 
 procedure CommandPlugins_DeleteItem(AIndex: integer);
@@ -1421,7 +1419,7 @@ begin
     ItemProc:= '';
     ItemProcParam:= '';
     ItemFromApi:= false;
-    ItemConfigOption:= '';
+    ItemInMenu:= '';
   end;
 end;
 

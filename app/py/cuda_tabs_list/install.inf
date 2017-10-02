@@ -18,4 +18,4 @@ method=open
 section=commands
 caption=Tabs List\Config...
 method=config
-config=o
+menu=o

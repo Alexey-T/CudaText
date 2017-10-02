@@ -66,9 +66,8 @@ end;
 procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
 var
   ini: TIniFile;
-  s_section, s_caption, s_module, s_method, s_lexers, s_config,
-  s_events, s_keys: string;
-  s_inmenu: boolean;
+  s_section, s_caption, s_module, s_method, s_lexers,
+  s_events, s_keys, s_inmenu: string;
   i, cnt: integer;
 begin
   ini:= TIniFile.Create(fn_inf);
@@ -88,8 +87,7 @@ begin
 
       s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
       s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');
-      s_inmenu:= ini.ReadBool('item'+Inttostr(i), 'menu', true);
-      s_config:= ini.ReadString('item'+Inttostr(i), 'config', '');
+      s_inmenu:= ini.ReadString('item'+Inttostr(i), 'menu', '');
 
       if s_section='commands' then
       begin
@@ -106,7 +104,6 @@ begin
         AppPluginsCommand[cnt].ItemCaption:= s_caption;
         AppPluginsCommand[cnt].ItemLexers:= s_lexers;
         AppPluginsCommand[cnt].ItemInMenu:= s_inmenu;
-        AppPluginsCommand[cnt].ItemConfigOption:= s_config;
       end;
 
       if s_section='events' then
@@ -195,7 +192,7 @@ end;
 
 procedure TfmMain.UpdateMenuPlugins;
 var
-  SCaption, SConfig: string;
+  SCaption, SInMenu: string;
   i: integer;
 begin
   if not PythonOK then exit;
@@ -207,17 +204,17 @@ begin
   for i:= 0 to High(AppPluginsCommand) do
   begin
     if AppPluginsCommand[i].ItemModule='' then Break;
-    if not AppPluginsCommand[i].ItemInMenu then Continue;
 
     SCaption:= AppPluginsCommand[i].ItemCaption;
-    SConfig:= AppPluginsCommand[i].ItemConfigOption;
+    SInMenu:= AppPluginsCommand[i].ItemInMenu;
+    if SInMenu='0' then Continue;
 
     //Plugins
-    if (SConfig='') or (Pos('p', SConfig)>0) then
+    if (SInMenu='') or (Pos('p', SInMenu)>0) then
       DoOps_AddPluginMenuItem(SCaption, mnuPlugins, i);
 
     //Options/ Settings-plugins
-    if Pos('o', SConfig)>0 then
+    if Pos('o', SInMenu)>0 then
       DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
   end;
 end;
