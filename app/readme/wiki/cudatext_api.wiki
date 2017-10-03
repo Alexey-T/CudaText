@@ -1979,8 +1979,8 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.201 (app 1.20.4)
-* add: several word-jump commands in cudatext_cmd.py
+1.0.201 (app 1.21.0)
+* add: several commands in cudatext_cmd.py: simple word jump, goto abs line begin/end
 
 1.0.200 (app 1.20.2)
 * add: event on_insert
