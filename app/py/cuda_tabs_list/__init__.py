@@ -17,24 +17,25 @@ class Command:
         self.open_on_start = ini_read(fn_config, 'op', 'on_start', '0')=='1'
 
     def open(self, activate_tab=True):
-    
-        ed.cmd(cudatext_cmd.cmd_ShowSidePanelAsIs)
-        
+
+        ##shows side panel, bad if it's needed hidden
+        #ed.cmd(cudatext_cmd.cmd_ShowSidePanelAsIs)
+
         self.h_dlg = dlg_proc(0, DLG_CREATE)
-        
+
         n = dlg_proc(self.h_dlg, DLG_CTL_ADD, prop='treeview')
         dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, index=n, prop={
-            'name':'tree', 
+            'name':'tree',
             'a_r':('',']'), #anchor to entire form: l,r,t,b
             'a_b':('',']'),
             'on_select': 'cuda_tabs_list.tree_on_sel',
-            'on_menu': 'cuda_tabs_list.tree_on_menu',  
+            'on_menu': 'cuda_tabs_list.tree_on_menu',
             } )
 
         self.h_tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         tree_proc(self.h_tree, TREE_THEME)
         tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
-        
+
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, fn_icon))
         if activate_tab:
             app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
