@@ -54,11 +54,13 @@ method=_
 section=commands
 caption=&Project Manager\&Project properties...
 method=config_proj
+menu=op
 
 [item52]
 section=commands
 caption=&Project Manager\&Config...
 method=config
+menu=op
 
 [item60]
 section=commands
