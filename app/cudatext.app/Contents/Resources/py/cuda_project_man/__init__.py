@@ -625,9 +625,10 @@ class Command:
         if dialog_config(self.options):
             self.save_options()
 
-            dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='bar', prop={
-                'vis': self.options.get('toolbar', True)
-                })
+            if self.h_dlg:
+                dlg_proc(self.h_dlg, DLG_CTL_PROP_SET, name='bar', prop={
+                    'vis': self.options.get('toolbar', True)
+                    })
 
     def config_proj(self):
         if not self.tree:
