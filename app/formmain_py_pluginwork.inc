@@ -204,16 +204,17 @@ begin
   for i:= 0 to High(AppPluginsCommand) do
   begin
     if AppPluginsCommand[i].ItemModule='' then Break;
+    if AppPluginsCommand[i].ItemFromApi then Continue;
 
     SCaption:= AppPluginsCommand[i].ItemCaption;
     SInMenu:= AppPluginsCommand[i].ItemInMenu;
     if SInMenu='0' then Continue;
 
-    //Plugins
+    //add to Plugins
     if (SInMenu='') or (Pos('p', SInMenu)>0) then
       DoOps_AddPluginMenuItem(SCaption, mnuPlugins, i);
 
-    //Options/ Settings-plugins
+    //add to Settings-plugins
     if Pos('o', SInMenu)>0 then
       DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
   end;
