@@ -1066,7 +1066,7 @@ begin
   ToolbarSideLow.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
   ToolbarSideLow.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
   //
-  ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search/Replace', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search', '', UiOps.ShowSidebarCaptions);
   ToolbarSideMid.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
   ToolbarSideMid.AddSep;
 end;
