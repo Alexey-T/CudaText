@@ -219,7 +219,7 @@ begin
   Add(nColorBack, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
   Add(nColorArrow, 'TabArrow', 'tabs, tab-list arrow-down');
   Add($404040, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
-  Add(clMedGray, 'TabFocusMark', 'tabs, flat, focus mark');
+  Add(clMedGray, 'TabActiveMark', 'tabs, flat, active tab mark');
   Add($6060E0, 'TabMarks', 'tabs, special marks');
 
   Add(nColorText, 'TreeFont', 'treeview, font');

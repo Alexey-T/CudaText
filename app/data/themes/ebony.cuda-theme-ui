@@ -66,7 +66,7 @@
   "TabCloseXOver" : "#D0D0D0",
   "TabArrow" : "#808080",
   "TabArrowOver" : "#D0D0D0",
-  "TabFocusMark" : "#505050",
+  "TabActiveMark" : "#505050",
   "TabMarks" : "#E06060",
   "TreeFont" : "#858585",
   "TreeBg" : "#202020",

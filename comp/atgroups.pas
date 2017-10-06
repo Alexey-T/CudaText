@@ -91,8 +91,8 @@ type
     tabColorCloseXOver,
     tabColorArrow,
     tabColorArrowOver,
-    tabColorMarks,
-    tabColorFocusBand,
+    tabColorSpecMarks,
+    tabColorActiveMark,
     tabOptionFontSize,
     tabOptionAngle,
     tabOptionBottomTabs,
@@ -1481,8 +1481,8 @@ begin
         tabColorCloseXOver: ColorCloseXOver:= N;
         tabColorArrow: ColorArrow:= N;
         tabColorArrowOver: ColorArrowOver:= N;
-        tabColorMarks: begin ColorDropMark:= N; ColorScrollMark:= N; end;
-        tabColorFocusBand: ColorFocusBand:= N;
+        tabColorSpecMarks: begin ColorDropMark:= N; ColorScrollMark:= N; end;
+        tabColorActiveMark: ColorActiveMark:= N;
         //
         tabOptionFontSize:
           begin
