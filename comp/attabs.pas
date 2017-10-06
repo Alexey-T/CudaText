@@ -176,7 +176,7 @@ const
   _InitOptArrowSize = 4;
   _InitOptArrowSpaceLeft = 4;
   _InitOptColoredBandSize = 4;
-  _InitOptFocusBandSize = 5;
+  _InitOptActiveMarkSize = 4;
   _InitOptScrollMarkSizeX = 20;
   _InitOptScrollMarkSizeY = 3;
   _InitOptDropMarkSize = 6;
@@ -250,7 +250,7 @@ type
     FOptSpaceXInner: integer; //space from "x" square edge to "x" mark
     FOptSpaceXSize: integer; //size of "x" mark
     FOptColoredBandSize: integer; //height of "misc color" line
-    FOptFocusBandSize: integer;
+    FOptActiveMarkSize: integer;
     FOptArrowSize: integer; //half-size of "arrow" mark
     FOptDropMarkSize: integer;
     FOptScrollMarkSizeX: integer;
@@ -482,7 +482,7 @@ type
     property OptSpaceXInner: integer read FOptSpaceXInner write FOptSpaceXInner default _InitOptSpaceXInner;
     property OptSpaceXSize: integer read FOptSpaceXSize write FOptSpaceXSize default _InitOptSpaceXSize;
     property OptColoredBandSize: integer read FOptColoredBandSize write FOptColoredBandSize default _InitOptColoredBandSize;
-    property OptFocusBandSize: integer read FOptFocusBandSize write FOptFocusBandSize default _InitOptFocusBandSize;
+    property OptActiveMarkSize: integer read FOptActiveMarkSize write FOptActiveMarkSize default _InitOptActiveMarkSize;
     property OptArrowSize: integer read FOptArrowSize write FOptArrowSize default _InitOptArrowSize;
     property OptScrollMarkSizeX: integer read FOptScrollMarkSizeX write FOptScrollMarkSizeX default _InitOptScrollMarkSizeX;
     property OptScrollMarkSizeY: integer read FOptScrollMarkSizeY write FOptScrollMarkSizeY default _InitOptScrollMarkSizeY;
@@ -821,7 +821,7 @@ begin
   FOptSpaceXSize:= _InitOptSpaceXSize;
   FOptArrowSize:= _InitOptArrowSize;
   FOptColoredBandSize:= _InitOptColoredBandSize;
-  FOptFocusBandSize:= _InitOptFocusBandSize;
+  FOptActiveMarkSize:= _InitOptActiveMarkSize;
   FOptScrollMarkSizeX:= _InitOptScrollMarkSizeX;
   FOptScrollMarkSizeY:= _InitOptScrollMarkSizeY;
   FOptDropMarkSize:= _InitOptDropMarkSize;
@@ -1022,9 +1022,9 @@ begin
     C.Brush.Color:= ColorFocusBand;
     if bActive then
       if FOptShowAtBottom then
-        C.FillRect(PL1.X, 0, PR1.X, FOptFocusBandSize)
+        C.FillRect(PL1.X, 0, PR1.X, FOptActiveMarkSize)
       else
-        C.FillRect(PL2.X, ClientHeight-FOptFocusBandSize, PR2.X, ClientHeight);
+        C.FillRect(PL2.X, ClientHeight-FOptActiveMarkSize, PR2.X, ClientHeight);
   end
   else
   if FOptShowAtBottom then
