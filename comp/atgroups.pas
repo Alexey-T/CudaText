@@ -92,9 +92,11 @@ type
     tabColorArrow,
     tabColorArrowOver,
     tabColorMarks,
+    tabColorFocusBand,
     tabOptionFontSize,
     tabOptionAngle,
     tabOptionBottomTabs,
+    tabOptionShowFlat,
     tabOptionShowTabs,
     tabOptionShowXButtons,
     tabOptionShowPlus,
@@ -1480,6 +1482,7 @@ begin
         tabColorArrow: ColorArrow:= N;
         tabColorArrowOver: ColorArrowOver:= N;
         tabColorMarks: begin ColorDropMark:= N; ColorScrollMark:= N; end;
+        tabColorFocusBand: ColorFocusBand:= N;
         //
         tabOptionFontSize:
           begin
@@ -1493,6 +1496,7 @@ begin
             OptShowAtBottom:= Boolean(N);
             if OptShowAtBottom then Align:= alBottom else Align:= alTop;
           end;
+        tabOptionShowFlat:         OptShowFlat:= Boolean(N);
         tabOptionShowTabs:         Visible:= Boolean(N);
         tabOptionShowXButtons:     OptShowXButtons:= TATTabShowClose(N);
         tabOptionShowPlus:         OptShowPlusTab:= Boolean(N);

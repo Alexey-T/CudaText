@@ -143,7 +143,7 @@ const
   _InitTabColorTabActive = $808080;
   _InitTabColorTabPassive = $786868;
   _InitTabColorTabOver = $A08080;
-  _InitTabColorFocusBand = clNavy;
+  _InitTabColorFocusBand = $C04040;
   _InitTabColorFontModified = $A00000;
   _InitTabColorBorderActive = $A0A0A0;
   _InitTabColorBorderPassive = $A07070;
@@ -175,13 +175,13 @@ const
   _InitOptSpaceXSize = 12;
   _InitOptArrowSize = 4;
   _InitOptArrowSpaceLeft = 4;
-  _InitOptColoredBandSize = 3;
-  _InitOptFocusBandSize = 4;
+  _InitOptColoredBandSize = 4;
+  _InitOptFocusBandSize = 5;
   _InitOptScrollMarkSizeX = 20;
   _InitOptScrollMarkSizeY = 3;
   _InitOptDropMarkSize = 6;
 
-  _InitOptShowAltTheme = false;
+  _InitOptShowFlat = false;
   _InitOptShowAtBottom = false;
   _InitOptShowNumberPrefix = '';
   _InitOptShowScrollMark = true;
@@ -256,7 +256,7 @@ type
     FOptScrollMarkSizeX: integer;
     FOptScrollMarkSizeY: integer;
 
-    FOptShowAltTheme: boolean;
+    FOptShowFlat: boolean;
     FOptShowAtBottom: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
     FOptShowArrowsNear: boolean;
@@ -488,7 +488,7 @@ type
     property OptScrollMarkSizeY: integer read FOptScrollMarkSizeY write FOptScrollMarkSizeY default _InitOptScrollMarkSizeY;
     property OptDropMarkSize: integer read FOptDropMarkSize write FOptDropMarkSize default _InitOptDropMarkSize;
 
-    property OptShowAltTheme: boolean read FOptShowAltTheme write FOptShowAltTheme default _InitOptShowAltTheme;
+    property OptShowFlat: boolean read FOptShowFlat write FOptShowFlat default _InitOptShowFlat;
     property OptShowAtBottom: boolean read FOptShowAtBottom write FOptShowAtBottom default _InitOptShowAtBottom;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark default _InitOptShowScrollMark;
     property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark default _InitOptShowDropMark;
@@ -826,7 +826,7 @@ begin
   FOptScrollMarkSizeY:= _InitOptScrollMarkSizeY;
   FOptDropMarkSize:= _InitOptDropMarkSize;
 
-  FOptShowAltTheme:= _InitOptShowAltTheme;
+  FOptShowFlat:= _InitOptShowFlat;
   FOptShowAtBottom:= _InitOptShowAtBottom;
   FOptShowNumberPrefix:= _InitOptShowNumberPrefix;
   FOptShowScrollMark:= _InitOptShowScrollMark;
@@ -925,20 +925,8 @@ begin
   if ARect.Right<=0 then exit;
 
   bActive:= ATabBg=ColorTabActive;
-  if FOptShowAltTheme then
-  begin
+  if FOptShowFlat then
     ATabBg:= ColorBg;
-    if FOptShowAtBottom then
-    begin
-      Inc(ARect.Top, FOptFocusBandSize);
-      Inc(ARect.Bottom, FOptFocusBandSize);
-    end
-    else
-    begin
-      Dec(ARect.Top, FOptFocusBandSize);
-      Dec(ARect.Bottom, FOptFocusBandSize);
-    end;
-  end;
 
   if FOptShowEntireColor and (ATabHilite<>clNone) then
     ATabBg:= ATabHilite;
@@ -1029,14 +1017,14 @@ begin
   end;
 
   //borders
-  if FOptShowAltTheme then
+  if FOptShowFlat then
   begin
     C.Brush.Color:= ColorFocusBand;
     if bActive then
       if FOptShowAtBottom then
-        C.FillRect(PL1.X, PL1.Y-FOptFocusBandSize, PR1.X, PR1.Y+1)
+        C.FillRect(PL1.X, 0, PR1.X, FOptFocusBandSize)
       else
-        C.FillRect(PL2.X, PL2.Y+1, PR2.X, PR2.Y+FOptFocusBandSize+1);
+        C.FillRect(PL2.X, ClientHeight-FOptFocusBandSize, PR2.X, ClientHeight);
   end
   else
   if FOptShowAtBottom then
@@ -1292,6 +1280,7 @@ begin
   DoUpdateTabWidths;
   DoUpdateTabRects;
 
+  if not FOptShowFlat then
   //paint bottom rect
   if not FOptShowAtBottom then
   begin
