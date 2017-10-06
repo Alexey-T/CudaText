@@ -4,6 +4,10 @@
   * changed
 
 
+1.21.1 (2017/10)
+
+- fixed: commands "go to screen top/bottom/center" must work ok on long wrapped lines
+
 1.21.0 (2017/10)
 
 + added submenu "Options / Settings-plugins", so plugins can put config commands here, instead of "Plugins". Two standard plugins (Tabs List, Comments) use this menu. http://wiki.freepascal.org/CudaText#Plugins
