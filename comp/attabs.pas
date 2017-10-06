@@ -22,19 +22,17 @@ uses
   {$ifdef windows}
   Windows,
   {$endif}
+  Classes, Types, Graphics,
+  Controls, Messages,
   {$ifdef FPC}
   InterfaceBase,
   LCLIntf,
-  LclType,
-  LclProc,
+  LCLType,
+  LCLProc,
   {$endif}
-  Messages,
-  Classes, Types, Graphics,
-  Controls,
   {$ifdef TNT}
   TntMenus,
   {$endif}
-  ExtCtrls,
   Menus;
 
 type
@@ -145,6 +143,7 @@ const
   _InitTabColorTabActive = $808080;
   _InitTabColorTabPassive = $786868;
   _InitTabColorTabOver = $A08080;
+  _InitTabColorFocusBand = clNavy;
   _InitTabColorFontModified = $A00000;
   _InitTabColorBorderActive = $A0A0A0;
   _InitTabColorBorderPassive = $A07070;
@@ -177,10 +176,12 @@ const
   _InitOptArrowSize = 4;
   _InitOptArrowSpaceLeft = 4;
   _InitOptColoredBandSize = 3;
+  _InitOptFocusBandSize = 4;
   _InitOptScrollMarkSizeX = 20;
   _InitOptScrollMarkSizeY = 3;
   _InitOptDropMarkSize = 6;
 
+  _InitOptShowAltTheme = false;
   _InitOptShowAtBottom = false;
   _InitOptShowNumberPrefix = '';
   _InitOptShowScrollMark = true;
@@ -217,6 +218,7 @@ type
     FColorTabActive: TColor; //color of active tab
     FColorTabPassive: TColor; //color of inactive tabs
     FColorTabOver: TColor; //color of inactive tabs, mouse-over
+    FColorFocusBand: TColor;
     FColorFontModified: TColor;
     FColorCloseBg: TColor; //color of small square with "x" mark, inactive
     FColorCloseBgOver: TColor; //color of small square with "x" mark, mouse-over
@@ -248,11 +250,13 @@ type
     FOptSpaceXInner: integer; //space from "x" square edge to "x" mark
     FOptSpaceXSize: integer; //size of "x" mark
     FOptColoredBandSize: integer; //height of "misc color" line
+    FOptFocusBandSize: integer;
     FOptArrowSize: integer; //half-size of "arrow" mark
     FOptDropMarkSize: integer;
     FOptScrollMarkSizeX: integer;
     FOptScrollMarkSizeY: integer;
 
+    FOptShowAltTheme: boolean;
     FOptShowAtBottom: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
     FOptShowArrowsNear: boolean;
@@ -273,9 +277,11 @@ type
     //others
     FTabWidth: integer;
     FTabIndex: integer;
+    FTabIndexLoaded: integer;
     FTabIndexOver: integer;
     FTabIndexDrop: integer;
     FTabList: TList;
+    FTabCaptions: TStrings;
     FTabMenu: TATTabPopupMenu;
 
     FRealIndentLeft: integer;
@@ -333,11 +339,14 @@ type
     procedure DoPaintScrollMark(C: TCanvas);
     procedure DoScrollAnimation(APosTo: integer);
     function GetIndexOfButton(AData: TATTabButtons; ABtn: TATTabButton): integer;
+    function GetTabs: TStrings;
+    procedure UpdateTabCaptions;
     function GetMaxScrollPos: integer;
     function GetRectOfButton(AButton: TATTabButton): TRect;
     function GetRectOfButtonIndex(AIndex: integer; AtLeft: boolean): TRect;
     function GetScrollPageSize: integer;
     function RealTabAngle: integer;
+    procedure SetTabs(AValue: TStrings);
     procedure SetOptButtonLayout(const AValue: string);
     procedure SetTabIndex(AIndex: integer);
     procedure GetTabCloseColor(AIndex: integer; const ARect: TRect; var AColorXBg,
@@ -368,7 +377,6 @@ type
     function GetTabAt(X, Y: integer): integer;
     function GetTabData(AIndex: integer): TATTabData;
     function TabCount: integer;
-    property TabIndex: integer read FTabIndex write SetTabIndex;
     procedure AddTab(
       AIndex: integer;
       const ACaption: TATTabString;
@@ -377,6 +385,7 @@ type
       AColor: TColor = clNone;
       AImageIndex: integer = -1;
       APopupMenu: TPopupMenu = nil);
+    procedure Clear;
     function DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
     procedure ShowTabMenu;
     procedure SwitchTab(ANext: boolean);
@@ -396,6 +405,7 @@ type
     procedure WMEraseBkgnd(var Message: TMessage); message WM_ERASEBKGND;
     {$endif}
     procedure DragOver(Source: TObject; X, Y: integer; State: TDragState; var Accept: Boolean); override;
+    procedure Loaded; override;
 
   published
     //inherited
@@ -433,6 +443,8 @@ type
     //new
     property DoubleBuffered;
     property Images: TImageList read FImages write FImages;
+    property Tabs: TStrings read GetTabs write SetTabs;
+    property TabIndex: integer read FTabIndex write SetTabIndex default 0;
 
     //colors
     property ColorBg: TColor read FColorBg write FColorBg default _InitTabColorBg;
@@ -441,6 +453,7 @@ type
     property ColorTabActive: TColor read FColorTabActive write FColorTabActive default _InitTabColorTabActive;
     property ColorTabPassive: TColor read FColorTabPassive write FColorTabPassive default _InitTabColorTabPassive;
     property ColorTabOver: TColor read FColorTabOver write FColorTabOver default _InitTabColorTabOver;
+    property ColorFocusBand: TColor read FColorFocusBand write FColorFocusBand default _InitTabColorFocusBand;
     property ColorFontModified: TColor read FColorFontModified write FColorFontModified default _InitTabColorFontModified;
     property ColorCloseBg: TColor read FColorCloseBg write FColorCloseBg default _InitTabColorCloseBg;
     property ColorCloseBgOver: TColor read FColorCloseBgOver write FColorCloseBgOver default _InitTabColorCloseBgOver;
@@ -469,11 +482,13 @@ type
     property OptSpaceXInner: integer read FOptSpaceXInner write FOptSpaceXInner default _InitOptSpaceXInner;
     property OptSpaceXSize: integer read FOptSpaceXSize write FOptSpaceXSize default _InitOptSpaceXSize;
     property OptColoredBandSize: integer read FOptColoredBandSize write FOptColoredBandSize default _InitOptColoredBandSize;
+    property OptFocusBandSize: integer read FOptFocusBandSize write FOptFocusBandSize default _InitOptFocusBandSize;
     property OptArrowSize: integer read FOptArrowSize write FOptArrowSize default _InitOptArrowSize;
     property OptScrollMarkSizeX: integer read FOptScrollMarkSizeX write FOptScrollMarkSizeX default _InitOptScrollMarkSizeX;
     property OptScrollMarkSizeY: integer read FOptScrollMarkSizeY write FOptScrollMarkSizeY default _InitOptScrollMarkSizeY;
     property OptDropMarkSize: integer read FOptDropMarkSize write FOptDropMarkSize default _InitOptDropMarkSize;
 
+    property OptShowAltTheme: boolean read FOptShowAltTheme write FOptShowAltTheme default _InitOptShowAltTheme;
     property OptShowAtBottom: boolean read FOptShowAtBottom write FOptShowAtBottom default _InitOptShowAtBottom;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark default _InitOptShowScrollMark;
     property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark default _InitOptShowDropMark;
@@ -774,6 +789,7 @@ begin
   FColorTabActive:= _InitTabColorTabActive;
   FColorTabPassive:= _InitTabColorTabPassive;
   FColorTabOver:= _InitTabColorTabOver;
+  FColorFocusBand:= _InitTabColorFocusBand;
   FColorFontModified:= _InitTabColorFontModified;
   FColorBorderActive:= _InitTabColorBorderActive;
   FColorBorderPassive:= _InitTabColorBorderPassive;
@@ -805,10 +821,12 @@ begin
   FOptSpaceXSize:= _InitOptSpaceXSize;
   FOptArrowSize:= _InitOptArrowSize;
   FOptColoredBandSize:= _InitOptColoredBandSize;
+  FOptFocusBandSize:= _InitOptFocusBandSize;
   FOptScrollMarkSizeX:= _InitOptScrollMarkSizeX;
   FOptScrollMarkSizeY:= _InitOptScrollMarkSizeY;
   FOptDropMarkSize:= _InitOptDropMarkSize;
 
+  FOptShowAltTheme:= _InitOptShowAltTheme;
   FOptShowAtBottom:= _InitOptShowAtBottom;
   FOptShowNumberPrefix:= _InitOptShowNumberPrefix;
   FOptShowScrollMark:= _InitOptShowScrollMark;
@@ -833,6 +851,7 @@ begin
   FTabIndex:= 0;
   FTabIndexOver:= -1;
   FTabList:= TList.Create;
+  FTabCaptions:= TStringList.Create;
   FTabMenu:= nil;
   FScrollPos:= 0;
 
@@ -850,7 +869,7 @@ begin
   Result:= false;
 end;
 
-destructor TATTabs.Destroy;
+procedure TATTabs.Clear;
 var
   i: integer;
 begin
@@ -859,8 +878,15 @@ begin
     TObject(FTabList[i]).Free;
     FTabList[i]:= nil;
   end;
-  FreeAndNil(FTabList);
+  FTabList.Clear;
+  FTabIndex:= 0;
+end;
 
+destructor TATTabs.Destroy;
+begin
+  Clear;
+  FreeAndNil(FTabCaptions);
+  FreeAndNil(FTabList);
   FreeAndNil(FBitmap);
   inherited;
 end;
@@ -891,12 +917,28 @@ var
   ElemType: TATTabElemType;
   AInvert, NAngle: integer;
   TempCaption: TATTabString;
-  bNeedMoreSpace: boolean;
+  bActive, bNeedMoreSpace: boolean;
 begin
   //optimize for 200 tabs
   if ARect.Left>=ClientWidth then exit;
   //skip tabs scrolled lefter
   if ARect.Right<=0 then exit;
+
+  bActive:= ATabBg=ColorTabActive;
+  if FOptShowAltTheme then
+  begin
+    ATabBg:= ColorBg;
+    if FOptShowAtBottom then
+    begin
+      Inc(ARect.Top, FOptFocusBandSize);
+      Inc(ARect.Bottom, FOptFocusBandSize);
+    end
+    else
+    begin
+      Dec(ARect.Top, FOptFocusBandSize);
+      Dec(ARect.Bottom, FOptFocusBandSize);
+    end;
+  end;
 
   if FOptShowEntireColor and (ATabHilite<>clNone) then
     ATabBg:= ATabHilite;
@@ -987,6 +1029,16 @@ begin
   end;
 
   //borders
+  if FOptShowAltTheme then
+  begin
+    C.Brush.Color:= ColorFocusBand;
+    if bActive then
+      if FOptShowAtBottom then
+        C.FillRect(PL1.X, PL1.Y-FOptFocusBandSize, PR1.X, PR1.Y+1)
+      else
+        C.FillRect(PL2.X, PL2.Y+1, PR2.X, PR2.Y+FOptFocusBandSize+1);
+  end
+  else
   if FOptShowAtBottom then
   begin
     DrawAntialisedLine(C, PL1.X, PL1.Y, PL2.X, PL2.Y+1, ATabBorder);
@@ -1418,6 +1470,16 @@ begin
     Result:= FOptTabAngle;
 end;
 
+procedure TATTabs.SetTabs(AValue: TStrings);
+var
+  i: integer;
+begin
+  Clear;
+  for i:= 0 to AValue.Count-1 do
+    AddTab(-1, AValue[i]);
+  Invalidate;
+end;
+
 procedure TATTabs.SetOptButtonLayout(const AValue: string);
 begin
   if FOptButtonLayout=AValue then Exit;
@@ -1434,7 +1496,6 @@ var
 begin
   Result:= -1;
   Pnt:= Point(X, Y);
-
 
   if PtInRect(FRectArrowLeft, Pnt) then
   begin
@@ -1775,6 +1836,9 @@ procedure TATTabs.SetTabIndex(AIndex: integer);
 var
   CanChange: boolean;
 begin
+  if csLoading in ComponentState then
+    FTabIndexLoaded:= AIndex;
+
   if IsIndexOk(AIndex) then
   begin
     CanChange:= true;
@@ -1843,6 +1907,30 @@ begin
   Result:= -1;
   for i:= 0 to High(AData) do
     if AData[i]=ABtn then exit(i);
+end;
+
+function TATTabs.GetTabs: TStrings;
+begin
+  Result:= FTabCaptions;
+  UpdateTabCaptions;
+end;
+
+procedure TATTabs.UpdateTabCaptions;
+var
+  D: TATTabData;
+  S: string;
+  i: integer;
+begin
+  FTabCaptions.Clear;
+  for i:= 0 to TabCount-1 do
+  begin
+    D:= GetTabData(i);
+    if Assigned(D) then
+      S:= D.TabCaption
+    else
+      S:= '?';
+    FTabCaptions.Add(S);
+  end;
 end;
 
 function TATTabs.GetRectOfButtonIndex(AIndex: integer; AtLeft: boolean): TRect;
@@ -2386,6 +2474,20 @@ begin
     DoPaintAfter(ElemType, i, C, R);
   end;
 end;
+
+procedure TATTabs.Loaded;
+var
+  i: integer;
+begin
+  inherited;
+
+  Clear;
+  for i:= 0 to FTabCaptions.Count-1 do
+    AddTab(-1, FTabCaptions[i]);
+
+  TabIndex:= FTabIndexLoaded;
+end;
+
 
 end.
 
