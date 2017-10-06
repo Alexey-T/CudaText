@@ -487,13 +487,18 @@ procedure DoTreeviewCopy(Src, Dst: TTreeView);
 var
   i: integer;
 begin
-  Dst.Items.Assign(Src.Items);
+  Dst.BeginUpdate;
+  try
+    Dst.Items.Assign(Src.Items);
 
-  if Assigned(Src.Selected) then
-    Dst.Selected:= Dst.Items[Src.Selected.AbsoluteIndex];
+    if Assigned(Src.Selected) then
+      Dst.Selected:= Dst.Items[Src.Selected.AbsoluteIndex];
 
-  for i:= 0 to Src.Items.Count-1 do
-    Dst.Items[i].Expanded:= Src.Items[i].Expanded;
+    for i:= 0 to Src.Items.Count-1 do
+      Dst.Items[i].Expanded:= Src.Items[i].Expanded;
+  finally
+    Dst.EndUpdate;
+  end;
 end;
 
 
