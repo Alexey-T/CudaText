@@ -42,6 +42,7 @@ type
   TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
+procedure DoTreeviewCopy(Src, Dst: TTreeView);
 
 procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
 procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
@@ -479,6 +480,20 @@ begin
      not CharInSet(FileName[I - 1],EndSep) then
     Dec(I);
   Result := Copy(FileName, 1, I);
+end;
+
+
+procedure DoTreeviewCopy(Src, Dst: TTreeView);
+var
+  i: integer;
+begin
+  Dst.Items.Assign(Src.Items);
+
+  if Assigned(Src.Selected) then
+    Dst.Selected:= Dst.Items[Src.Selected.AbsoluteIndex];
+
+  for i:= 0 to Src.Items.Count-1 do
+    Dst.Items[i].Expanded:= Src.Items[i].Expanded;
 end;
 
 
