@@ -39,7 +39,14 @@ procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager;
   An: TecSyntAnalyzer; const Links: string; Sep: char);
 
 type
-  TAppTreeGoto = (treeGoNext, treeGoPrev, treeGoParent, treeGoNextBro, treeGoPrevBro);
+  TAppTreeGoto = (
+    treeGoNext,
+    treeGoPrev,
+    treeGoParent,
+    treeGoNextBro,
+    treeGoPrevBro
+    );
+
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);
 procedure DoTreeviewFoldLevel(ATree: TTreeView; ALevel: integer);
 procedure DoTreeviewCopy(Src, Dst: TTreeView);
