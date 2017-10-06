@@ -211,7 +211,9 @@ const
   cOptionSystemSuffix =
     {$ifdef windows} '' {$endif}
     {$ifdef linux} '__linux' {$endif}
-    {$ifdef darwin} '__mac' {$endif} ;
+    {$ifdef darwin} '__mac' {$endif}
+    {$ifdef freebsd} '__freebsd' {$endif}
+    ;
 
 const
   str_FontName = 'font_name'+cOptionSystemSuffix;
@@ -699,6 +701,7 @@ begin
   Result:=
   {$ifdef windows} '' {$endif}
   {$ifdef linux} '/usr/share/cudatext' {$endif}
+  {$ifdef freebsd} '' {$endif}
   {$ifdef darwin} ExtractFileDir(OpDirExe)+'/Resources' {$endif}
 end;
 
@@ -861,6 +864,7 @@ begin
     OpFontName:=
       {$ifdef windows} 'Consolas' {$endif}
       {$ifdef linux} 'Courier New' {$endif}
+      {$ifdef freebsd} 'Courier New' {$endif}
       {$ifdef darwin} 'Monaco' {$endif} ;
     OpFontSize:= 10; //for all OS
     OpFontQuality:= fqDefault;
@@ -1025,6 +1029,7 @@ begin
     VarFontSize:=
       {$ifdef windows} 9 {$endif}
       {$ifdef linux} 10 {$endif}
+      {$ifdef freebsd} 10 {$endif}
       {$ifdef darwin} 10 {$endif} ;
 
     OutputFontName:= VarFontName;
