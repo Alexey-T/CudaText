@@ -770,6 +770,9 @@ begin
     end;
 
     if AFill then
+    if Frame.CachedTreeview.Items.Count>0 then
+      DoTreeviewCopy(Frame.CachedTreeview, Tree)
+    else
     begin
       Tree.BeginUpdate;
       try
@@ -783,6 +786,8 @@ begin
 
       //force update scrollbar
       Tree.Perform(CM_CHANGED, 0, 0);
+
+      DoTreeviewCopy(Tree, Frame.CachedTreeview);
     end;
 
     if UiOps.TreeAutoSync then

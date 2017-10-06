@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Forms, Controls, Dialogs,
-  ExtCtrls, Menus, StdCtrls, StrUtils,
+  ExtCtrls, Menus, StdCtrls, StrUtils, ComCtrls,
   LCLIntf, LCLProc, LCLType, LazUTF8, LazFileUtils, FileUtil,
   ATTabs,
   ATGroups,
@@ -174,6 +174,8 @@ type
     { public declarations }
     Adapter: TATAdapterEControl;
     Groups: TATGroups;
+    CachedTreeview: TTreeView;
+
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     function Editor: TATSynEdit;
@@ -989,6 +991,7 @@ begin
   FTabId:= FLastTabId;
   FTabImageIndex:= -1;
   FNotInRecents:= false;
+  CachedTreeview:= TTreeView.Create(Self);
 
   InitEditor(Ed1);
   InitEditor(Ed2);
