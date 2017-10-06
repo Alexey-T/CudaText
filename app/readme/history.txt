@@ -7,7 +7,8 @@
 1.22.0 (2017/10)
 
 + added: option "ui_tab_flat" (tabs look like in new Sublime)
-+ added: caching of Code Tree content in all tabs, to fast switch betweeen tabs
++ added: caching of Code Tree content, so much faster switch betweeen tabs
++ added: UI theme color "tabs, flat, focus mark"
 - fixed: commands "go to screen top/bottom/center" must work ok on long wrapped lines
 
 1.21.0 (2017/10)
