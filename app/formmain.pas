@@ -1826,6 +1826,7 @@ begin
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 
   Groups.ScalePercents:= UiOps.ScreenScale;
+  Groups.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
   Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
   Groups.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));

@@ -467,6 +467,9 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: flat look
+  "ui_tab_flat": false,
+  
   //UI tabs: layout of buttons at left/right sides
   //String of few chars, each char is button. Separator for sides is comma.
   //Allowed chars (buttons):

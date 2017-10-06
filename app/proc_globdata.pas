@@ -107,6 +107,7 @@ type
     ListboxCompleteSizeY: integer;
     ListboxFuzzySearch: boolean;
 
+    TabFlat: boolean;
     TabWidth: integer;
     TabHeight: integer;
     TabHeightInner: integer;
@@ -1058,6 +1059,7 @@ begin
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;
 
+    TabFlat:= false;
     TabWidth:= 170;
     TabHeight:= 25;
     TabHeightInner:= TabHeight-1;

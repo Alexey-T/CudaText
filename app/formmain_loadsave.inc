@@ -687,6 +687,7 @@ begin
     UiOps.FindMultiLineScale:= c.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);
     UiOps.FindSeparateForm:= c.GetValue('find_separate_form', UiOps.FindSeparateForm);
 
+    UiOps.TabFlat:= c.GetValue('ui_tab_flat', UiOps.TabFlat);
     UiOps.TabWidth:= c.GetValue('ui_tab_size_x', UiOps.TabWidth);
     UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);
     UiOps.TabHeightInner:= UiOps.TabHeight-1;

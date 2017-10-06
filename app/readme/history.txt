@@ -4,8 +4,9 @@
   * changed
 
 
-1.21.1 (2017/10)
+1.22.0 (2017/10)
 
++ added: option "ui_tab_flat" (tabs look like in new Sublime)
 + added: caching of Code Tree content in all tabs, to fast switch betweeen tabs
 - fixed: commands "go to screen top/bottom/center" must work ok on long wrapped lines
 
