@@ -208,14 +208,6 @@ var
   UiOps: TUiOps;
 
 const
-  cOptionSystemSuffix =
-    {$ifdef windows} '' {$endif}
-    {$ifdef linux} '__linux' {$endif}
-    {$ifdef darwin} '__mac' {$endif}
-    {$ifdef freebsd} '__freebsd' {$endif}
-    ;
-
-const
   str_FontName = 'font_name'+cOptionSystemSuffix;
   str_FontSize = 'font_size'+cOptionSystemSuffix;
   str_FontQuality = 'font_quality'+cOptionSystemSuffix;
@@ -682,6 +674,10 @@ begin
   exit('libpython3.5m.so.1.0');
   {$endif}
 
+  {$ifdef freebsd}
+  exit('libpython3.6m.so');
+  {$endif}
+
   {$ifdef darwin}
   for N:= 4 to 9 do
   begin
@@ -1026,11 +1022,7 @@ begin
     ScreenScale:= 100;
 
     VarFontName:= 'default';
-    VarFontSize:=
-      {$ifdef windows} 9 {$endif}
-      {$ifdef linux} 10 {$endif}
-      {$ifdef freebsd} 10 {$endif}
-      {$ifdef darwin} 10 {$endif} ;
+    VarFontSize:= {$ifdef windows} 9 {$else} 10 {$endif};
 
     OutputFontName:= VarFontName;
     OutputFontSize:= VarFontSize;

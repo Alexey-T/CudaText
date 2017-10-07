@@ -19,6 +19,14 @@ const
   cAppApiVersion = '1.0.201';
 
 const
+  cOptionSystemSuffix =
+    {$ifdef windows} '' {$endif}
+    {$ifdef linux} '__linux' {$endif}
+    {$ifdef darwin} '__mac' {$endif}
+    {$ifdef freebsd} '__freebsd' {$endif}
+    ;
+
+const
   msgTitle = 'CudaText'; //no need i18n
   msgPythonListError = 'Cannot create new list object'; //no need i18n
   msgCallbackBad = 'Bad API callback, report to plugin author: %s';
@@ -78,7 +86,9 @@ const
   {$ifdef darwin}
   msgCannotInitPython2: string = 'install Python 3.x from www.python.org, it should be found by CudaText then.';
   {$else}
-  msgCannotInitPython2: string = 'write option "pylib'+ {$ifdef linux}'__linux'+{$endif} '" to user.json. See info in default config: Options / Settings-default.';
+  msgCannotInitPython2: string = 'write option "pylib'+
+                                 {$ifdef unix}cOptionSystemSuffix+{$endif}
+                                 '" to user.json. See info in default config: Options / Settings-default.';
   {$endif}
 
   msgCannotOpenFile: string = 'Cannot open file:';
