@@ -1,8 +1,8 @@
 //default.json config is for copying parts to user.json config,
 //it's not read as actual config. User config is read.
 //
-//Some options have suffix in key name, for OSes:
-//Windows: none, Linux: "__linux", macOS: "__mac"
+//Some options have suffix, for OSes:
+//Windows: none, Linux: "__linux", macOS: "__mac", FreeBSD: "__freebsd"
 {
   //[Font]
   //Text font name [has suffix]
