@@ -12,9 +12,10 @@ X64 = platform.architecture()[0]=='64bit'
 ##X64 = False
 
 DOWNLOAD_PAGE = \
-    'https://sourceforge.net/projects/cudatext/files/release/Linux/' if p=='linux'\
-    else 'https://sourceforge.net/projects/cudatext/files/release/Windows/' if p=='win32'\
+    'https://sourceforge.net/projects/cudatext/files/release/Linux/' if p.startswith('linux')\
+    else 'https://sourceforge.net/projects/cudatext/files/release/Windows/' if p.startswith('win')\
     else 'https://sourceforge.net/projects/cudatext/files/release/macOS/' if p=='darwin'\
+    else 'https://sourceforge.net/projects/cudatext/files/release/FreeBSD/' if p.startswith('freebsd')\
     else '?'
 
 if p=='darwin':
