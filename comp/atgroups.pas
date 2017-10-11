@@ -95,7 +95,7 @@ type
     tabColorActiveMark,
     tabOptionFontSize,
     tabOptionAngle,
-    tabOptionBottomTabs,
+    tabOptionPosition,
     tabOptionShowFlat,
     tabOptionShowTabs,
     tabOptionShowXButtons,
@@ -365,12 +365,13 @@ begin
 
   FTabs.OptTabAngle:= 0;
   FTabs.OptTabHeight:= 24;
-  FTabs.OptSpaceOnTop:= 2;
+  FTabs.OptSpacer:= 2;
+  FTabs.OptSpacer2:= 4;
   FTabs.OptSpaceBetweenTabs:= 0;
   FTabs.OptSpaceXSize:= 14;
   FTabs.OptColoredBandSize:= 5;
   FTabs.OptTabWidthMinimal:= 40;
-  FTabs.Height:= FTabs.OptTabHeight+FTabs.OptSpaceOnTop+1;
+  FTabs.Height:= FTabs.OptTabHeight+FTabs.OptSpacer+1;
 
   FTabs.OptShowModifiedText:= #$95;
   FTabs.OptMouseMiddleClickClose:= true;
@@ -1488,13 +1489,34 @@ begin
           begin
             Font.Size:= N;
             OptTabHeight:= Trunc(N * 1.8) + 8; //tested for sizes 8..38
-            Height:= DoScale(OptTabHeight+OptSpaceOnTop+1);
+            Height:= DoScale(OptTabHeight+OptSpacer+1);
           end;
         //
-        tabOptionBottomTabs:
+        tabOptionPosition:
           begin
-            OptShowAtBottom:= Boolean(N);
-            if OptShowAtBottom then Align:= alBottom else Align:= alTop;
+            OptPosition:= TATTabPosition(N);
+            case OptPosition of
+              tabPositionTop:
+                begin
+                  Align:= alTop;
+                  Height:= DoScale(OptTabHeight+OptSpacer+1);
+                end;
+              tabPositionBottom:
+                begin
+                  Align:= alBottom;
+                  Height:= DoScale(OptTabHeight+OptSpacer+1);
+                end;
+              tabPositionLeft:
+                begin
+                  Align:= alLeft;
+                  Width:= DoScale(OptTabWidthNormal);
+                end;
+              tabPositionRight:
+                begin
+                  Align:= alRight;
+                  Width:= DoScale(OptTabWidthNormal);
+                end;
+            end;
           end;
         tabOptionShowFlat:         OptShowFlat:= Boolean(N);
         tabOptionShowTabs:         Visible:= Boolean(N);
@@ -1510,7 +1532,7 @@ begin
         tabOptionHeightInner:      OptTabHeight:= DoScale(N);
         tabOptionWidthMin:         OptTabWidthMinimal:= DoScale(N);
         tabOptionWidthMax:         OptTabWidthNormal:= DoScale(N);
-        tabOptionIndentTop:        OptSpaceOnTop:= DoScale(N);
+        tabOptionIndentTop:        OptSpacer:= DoScale(N);
         tabOptionIndentInit:       OptSpaceInitial:= DoScale(N);
         tabOptionIndentInter:      OptSpaceBetweenTabs:= DoScale(N);
         tabOptionIndentColor:      OptColoredBandSize:= DoScale(N);
