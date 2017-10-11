@@ -109,10 +109,10 @@ type
     tabOptionHeightInner,
     tabOptionWidthMin,
     tabOptionWidthMax,
-    tabOptionIndentTop,
+    tabOptionSpacer,
     tabOptionIndentInit,
     tabOptionIndentInter,
-    tabOptionIndentColor,
+    tabOptionColorBandSize,
     tabOptionIndentXRight,
     tabOptionIndentXSize,
     tabOptionArrowSize,
@@ -1532,10 +1532,10 @@ begin
         tabOptionHeightInner:      OptTabHeight:= DoScale(N);
         tabOptionWidthMin:         OptTabWidthMinimal:= DoScale(N);
         tabOptionWidthMax:         OptTabWidthNormal:= DoScale(N);
-        tabOptionIndentTop:        OptSpacer:= DoScale(N);
+        tabOptionSpacer:           OptSpacer:= DoScale(N);
         tabOptionIndentInit:       OptSpaceInitial:= DoScale(N);
         tabOptionIndentInter:      OptSpaceBetweenTabs:= DoScale(N);
-        tabOptionIndentColor:      OptColoredBandSize:= DoScale(N);
+        tabOptionColorBandSize:    OptColoredBandSize:= DoScale(N);
         tabOptionIndentXRight:     OptSpaceXRight:= DoScale(N);
         tabOptionIndentXSize:      OptSpaceXSize:= DoScale(N);
         tabOptionArrowSize:        OptArrowSize:= DoScale(N);
