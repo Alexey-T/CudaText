@@ -488,8 +488,12 @@
   //UI tabs: Angle of tab edge, it's set in pixel shift, 0..10
   "ui_tab_angle": 3,
 
-  //UI tabs: Show tabs on bottom
-  "ui_tab_bottom": false,
+  //UI tabs: Position (side) of tabs
+  //  0: top
+  //  1: bottom
+  //  2: left
+  //  3: right  
+  "ui_tab_position": 0,
 
   //UI tabs: Show "x" buttons on tabs
   //  0: dont show

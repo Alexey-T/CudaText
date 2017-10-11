@@ -1827,17 +1827,17 @@ begin
 
   Groups.ScalePercents:= UiOps.ScreenScale;
   Groups.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
-  Groups.SetTabOption(tabOptionBottomTabs, Ord(UiOps.TabBottom));
+  Groups.SetTabOption(tabOptionPosition, UiOps.TabPosition);
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
   Groups.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
   Groups.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
   Groups.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
   Groups.SetTabOption(tabOptionAngle, UiOps.TabAngle);
   Groups.SetTabOption(tabOptionWidthMax, UiOps.TabWidth);
-  Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabIndentTop);
+  Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
   Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
-  Groups.SetTabOption(tabOptionIndentTop, IfThen(UiOps.TabBottom, 0, UiOps.TabIndentTop));
-  Groups.SetTabOption(tabOptionIndentColor, 4);
+  Groups.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
+  Groups.SetTabOption(tabOptionColorBandSize, 4);
   Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
   Groups.SetTabOption(tabOptionIndentXRight, 10);
@@ -1849,7 +1849,7 @@ begin
   PanelSide.Visible:= UiOps.SidebarShow;
   PanelLeftTitle.Height:= Groups.Pages1.Tabs.Height;
 
-  if UiOps.TabBottom then
+  if UiOps.TabPosition=1 then
     PanelLeftTitle.Align:= alBottom
   else
     PanelLeftTitle.Align:= alTop;

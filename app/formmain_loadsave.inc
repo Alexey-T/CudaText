@@ -694,7 +694,7 @@ begin
     //UiOps.TabIndentInit:= c.GetValue('ui_tab_indent_x', UiOps.TabIndentInit);
     UiOps.TabAngle:= Max(0, Min(10, c.GetValue('ui_tab_angle', UiOps.TabAngle)));
     {$ifdef darwin} UiOps.TabAngle:= 0; {$endif} //value>0: problem with Retina
-    UiOps.TabBottom:= c.GetValue('ui_tab_bottom', UiOps.TabBottom);
+    UiOps.TabPosition:= c.GetValue('ui_tab_position', UiOps.TabPosition);
     UiOps.TabColorFull:= c.GetValue('ui_tab_fullcolor', UiOps.TabColorFull);
     UiOps.TabShowX:= c.GetValue('ui_tab_show_x', UiOps.TabShowX);
     UiOps.TabShowPlus:= c.GetValue('ui_tab_show_plus', UiOps.TabShowPlus);

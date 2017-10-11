@@ -4,6 +4,10 @@
   * changed
 
 
+1.22.2 (2017/10)
+
+* deleted option "ui_tab_bottom", added "ui_tab_position" instead: can use values top/bottom/left/right
+
 1.22.0 (2017/10)
 
 + added: option "ui_tab_flat" (tabs look like in new Sublime)
