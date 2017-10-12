@@ -1496,22 +1496,22 @@ begin
           begin
             OptPosition:= TATTabPosition(N);
             case OptPosition of
-              tabPositionTop:
+              atpTop:
                 begin
                   Align:= alTop;
                   Height:= DoScale(OptTabHeight+OptSpacer+1);
                 end;
-              tabPositionBottom:
+              atpBottom:
                 begin
                   Align:= alBottom;
                   Height:= DoScale(OptTabHeight+OptSpacer+1);
                 end;
-              tabPositionLeft:
+              atpLeft:
                 begin
                   Align:= alLeft;
                   Width:= DoScale(OptTabWidthNormal);
                 end;
-              tabPositionRight:
+              atpRight:
                 begin
                   Align:= alRight;
                   Width:= DoScale(OptTabWidthNormal);
