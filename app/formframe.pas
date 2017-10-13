@@ -1870,7 +1870,7 @@ end;
 procedure TEditorFrame.NotifChanged(Sender: TObject);
 begin
   //silent reload if: not modified, and undo empty
-  if (not Modified) and (Ed1.UndoCount=0) then
+  if (not Modified) and (Ed1.UndoCount<=1) then
   begin
     DoFileReload;
     exit
