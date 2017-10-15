@@ -20,6 +20,7 @@ begin
   F.OnAddRecent:= @FrameAddRecent;
   F.OnPyEvent:= @DoPyEvent;
   F.OnCheckFilenameOpened:= @DoCheckFilenameOpened;
+  F.OnMsgStatus:= @FrameOnMsgStatus;
 
   F.Groups:= Groups;
   F.SaveDialog:= SaveDlg;

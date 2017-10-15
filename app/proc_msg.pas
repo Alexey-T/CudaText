@@ -154,6 +154,7 @@ const
   msgStatusFilenameAlreadyOpened: string = 'File name is already opened in another tab:';
   msgStatusNeedToCloseTabSavedOrDup: string = 'You need to close tab: saved-as or duplicate.';
   msgStatusHotkeyBusy: string = 'Hotkey is busy: %s';
+  msgStatusChangedLinesCount: string = 'Changed %d lines';
 
   msgConfirmHotkeyBusy: string = 'Hotkey is already occupied by command:'#13'%s'#13#13'Overwrite it?';
   msgConfirmSyntaxThemeSameName: string = 'Syntax theme exists, with the same name as UI theme. Do you want to apply it too?';

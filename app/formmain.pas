@@ -410,6 +410,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure FrameAddRecent(Sender: TObject);
+    procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
     procedure FrameParseBegin(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
@@ -1512,6 +1513,11 @@ begin
   if FTreeClick then exit;
   TimerTreeFocus.Enabled:= false;
   TimerTreeFocus.Enabled:= true;
+end;
+
+procedure TfmMain.FrameOnMsgStatus(Sender: TObject; const AStr: string);
+begin
+  MsgStatus(AStr);
 end;
 
 procedure TfmMain.MenuRecentsClear(Sender: TObject);

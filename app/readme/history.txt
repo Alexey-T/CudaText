@@ -9,6 +9,7 @@
 + added: option "ui_tab_position": can place tabs on top/bottom/left/right
 * deleted option "ui_tab_bottom"
 + ask "file changed outside. reload?" also if file undo history is not empty
++ show "changed N lines" status after few commands (e.g. trim spaces)
 
 1.22.0 (2017/10)
 

@@ -102,6 +102,7 @@ type
     FImagePanel: TATPanelSimple;
     FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
+    FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
 
     procedure DoFileOpen_AsPicture(const fn: string);
@@ -243,6 +244,7 @@ type
 
     //events
     property OnCheckFilenameOpened: TStrFunction read FCheckFilenameOpened write FCheckFilenameOpened;
+    property OnMsgStatus: TStrEvent read FOnMsgStatus write FOnMsgStatus;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
     property OnChangeCaption: TNotifyEvent read FOnChangeCaption write FOnChangeCaption;
     property OnUpdateStatus: TNotifyEvent read FOnUpdateStatus write FOnUpdateStatus;
@@ -869,6 +871,10 @@ begin
     else
       FTextCharsTyped:= 0;
   end;
+
+  if Ed.LastCommandChangedLines>0 then
+    if Assigned(FOnMsgStatus) then
+      FOnMsgStatus(Self, Format(msgStatusChangedLinesCount, [Ed.LastCommandChangedLines]));
 end;
 
 procedure TEditorFrame.EditorOnClickDouble(Sender: TObject; var AHandled: boolean);
