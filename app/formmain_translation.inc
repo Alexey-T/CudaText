@@ -441,6 +441,7 @@ begin
     DoLocString(msgCannotHandleZip               , ini, 'se', 'HandleZip');
     DoLocString(msgCannotInstallAddonApi         , ini, 'se', 'AddonApi');
 
+    DoLocString(msgStatusChangedLinesCount       , ini, 'si', 'ChangedLineCount');
     DoLocString(msgStatusIncorrectFilename       , ini, 'si', 'IncorrectFilename');
     DoLocString(msgStatusIncorrectInstallInfInZip, ini, 'si', 'IncorrectInstallInfInZip');
     DoLocString(msgStatusUnsupportedAddonType    , ini, 'si', 'UnsupportedAddonType');
