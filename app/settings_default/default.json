@@ -799,6 +799,9 @@
   //  3) if not found, install Python 3, goto 2)
   //  4) use one of found filenames; if don't work, use filename with path
   //
+  //  Terminal command does this:
+  //  $ find /usr -name 'libpython3.*so*' 2>/dev/null
+  //
   //  Info for macOS:
   //  Homebrew installs Python which don't have 32-bit *.dylib (on 64-bit OS)
   //  So you must install Python from Python.org, and it must be 32-bit (any 3.x is ok)
