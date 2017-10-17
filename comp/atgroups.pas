@@ -1509,12 +1509,12 @@ begin
               atpLeft:
                 begin
                   Align:= alLeft;
-                  Width:= DoScale(OptTabWidthNormal);
+                  Width:= OptTabWidthNormal;
                 end;
               atpRight:
                 begin
                   Align:= alRight;
-                  Width:= DoScale(OptTabWidthNormal);
+                  Width:= OptTabWidthNormal;
                 end;
             end;
           end;
@@ -1531,7 +1531,12 @@ begin
         tabOptionHeight:           Height:= DoScale(N);
         tabOptionHeightInner:      OptTabHeight:= DoScale(N);
         tabOptionWidthMin:         OptTabWidthMinimal:= DoScale(N);
-        tabOptionWidthMax:         OptTabWidthNormal:= DoScale(N);
+        tabOptionWidthMax:
+          begin
+            OptTabWidthNormal:= DoScale(N);
+            if OptPosition in [atpLeft, atpRight] then
+              Width:= OptTabWidthNormal;
+          end;
         tabOptionSpacer:           OptSpacer:= DoScale(N);
         tabOptionIndentInit:       OptSpaceInitial:= DoScale(N);
         tabOptionIndentInter:      OptSpaceBetweenTabs:= DoScale(N);
