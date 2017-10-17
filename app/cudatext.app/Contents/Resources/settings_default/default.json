@@ -488,8 +488,12 @@
   //UI tabs: Angle of tab edge, it's set in pixel shift, 0..10
   "ui_tab_angle": 3,
 
-  //UI tabs: Show tabs on bottom
-  "ui_tab_bottom": false,
+  //UI tabs: Position (side) of tabs
+  //  0: top
+  //  1: bottom
+  //  2: left
+  //  3: right  
+  "ui_tab_position": 0,
 
   //UI tabs: Show "x" buttons on tabs
   //  0: dont show
@@ -790,16 +794,17 @@
   //  and command "=sys.path" must work in console.
   //
   //  Instruction for Linux, if Py engine not found:
-  //  1) open file manager, goto PC root,
-  //  2) search for "libpython3",
+  //  1) open file manager, go to /usr
+  //  2) search for "libpython3.*so*",
+  //     Terminal command:
+  //     $ find /usr -name 'libpython3.*so*' 2>/dev/null
   //  3) if not found, install Python 3, goto 2)
-  //  4) use one of found filenames; if don't work, use filename with path
+  //  4) set "pylib__linux" to one of the found filenames
   //
   //  Info for macOS:
-  //  Homebrew installs Python which don't have 32-bit *.dylib (on 64-bit OS)
-  //  So you must install Python from Python.org, and it must be 32-bit (any 3.x is ok)
-  //
-  //  Default for macOS: easy to find file, tried 3.4 to 3.9, used first found.
+  //  Homebrew is not OK, it don't install 32-bit .dylib file.
+  //  So you must install Python from www.python.org (any 3.x is ok).
+  //  CudaText will find Python then (any version until 3.9).
   //
   "pylib": "python35.dll",
   "pylib__linux": "libpython3.5m.so.1.0",
