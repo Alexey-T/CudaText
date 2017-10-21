@@ -1071,7 +1071,7 @@ begin
     TabNumbers:= false;
     TabNewNearCurrent:= false;
     TabButtonLayout:= '<>,v';
-    TabPreviewFontStyle:= 'bi';
+    TabPreviewFontStyle:= 'iu';
 
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;

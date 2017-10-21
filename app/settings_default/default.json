@@ -522,7 +522,7 @@
   //  If "i" in value: italic
   //  If "u" in value: underline
   //  If "s" in value: strikeout
-  "ui_tab_preview_font_style": "bi",
+  "ui_tab_preview_font_style": "iu",
 
   //[Ui/Listbox]
   //Listboxes: Commands/API listbox width
