@@ -941,6 +941,7 @@ Opens editor tab with given filename. If filename already opened, activates its 
 * Param "group: index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
+** If it has "/nohistory", file's history (caret, scroll pos, etc) won't be used.
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
@@ -1982,7 +1983,8 @@ Text is chr(1) separated items:
 =History=
 
 1.0.202 (app 1.22.6)
-* add: file_open can open preview-tab (with options='/preview')
+* add: file_open can open preview-tab
+* add: file_open can open file w/o using history
 * change: renamed file_open param "args" to "options"
 
 1.0.201 (app 1.21.0)
