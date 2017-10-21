@@ -220,7 +220,7 @@ type
     procedure PagesSetNext(ANext: boolean);
     function PagesIndexOf(APages: TATPages): Integer;
     function PagesNextIndex(AIndex: Integer; ANext: boolean; AEnableEmpty: boolean): Integer;
-    procedure PagesAndTabIndexOfControl(AObject: TObject; var NPages, NTab: Integer);
+    procedure PagesAndTabIndexOfControl(AObject: TObject; out NPages, NTab: Integer);
     //
     property PopupPages: TATPages read FPopupPages write FPopupPages;
     property PopupTabIndex: Integer read FPopupTabIndex write FPopupTabIndex;
@@ -1732,7 +1732,7 @@ end;
 
 
 procedure TATGroups.PagesAndTabIndexOfControl(AObject: TObject;
-  var NPages, NTab: Integer);
+  out NPages, NTab: Integer);
 var
   i, j: Integer;
   D: TATTabData;

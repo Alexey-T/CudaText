@@ -236,6 +236,7 @@ type
     function DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string;
     procedure DoGotoPos(APosX, APosY: integer);
     procedure DoRestoreFolding;
+    procedure DoClearPreviewTabState;
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
@@ -777,6 +778,8 @@ begin
   if FModified<>Editor.Modified then
   begin
     FModified:= Editor.Modified;
+    if Editor.Modified then
+      DoClearPreviewTabState;
     DoOnChangeCaption;
     DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_MODIFIED)]);
   end;
@@ -1850,6 +1853,23 @@ begin
   if Assigned(D) then
   begin
     D.TabColor:= AColor;
+    Pages.Tabs.Invalidate;
+  end;
+end;
+
+procedure TEditorFrame.DoClearPreviewTabState;
+var
+  NPages, NTab: integer;
+  Pages: TATPages;
+  D: TATTabData;
+begin
+  Groups.PagesAndTabIndexOfControl(Self, NPages, NTab);
+  Pages:= Groups.Pages[NPages];
+  D:= Pages.Tabs.GetTabData(NTab);
+  if Assigned(D) then
+  begin
+    D.TabSpecial:= false;
+    D.TabFontStyle:= [];
     Pages.Tabs.Invalidate;
   end;
 end;
