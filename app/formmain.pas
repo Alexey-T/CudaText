@@ -2005,6 +2005,7 @@ begin
       Result:= D.TabObject as TEditorFrame;
     end;
 
+    Result.Adapter.Stop;
     Result.DoFileOpen(AFilename, false, true);
     msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
     MsgStatus(msg);
