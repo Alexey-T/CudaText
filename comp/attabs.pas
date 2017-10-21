@@ -49,9 +49,11 @@ type
     TabObject: TObject;
     TabColor: TColor;
     TabModified: boolean;
+    TabSpecial: boolean;
     TabRect: TRect;
     TabImageIndex: integer;
     TabPopupMenu: TPopupMenu;
+    TabFontStyle: TFontStyles;
     constructor Create; virtual;
   end;
 
@@ -102,6 +104,15 @@ type
     atpBottom,
     atpLeft,
     atpRight
+    );
+
+type
+  TATTabIconPosition = (
+    aipIconLefterThanText,
+    aipIconRighterThanText,
+    aipIconCentered,
+    aipIconAboveTextCentered,
+    aipIconBelowTextCentered
     );
 
 type
@@ -177,6 +188,7 @@ const
   _InitOptSpaceInitial = 5;
   _InitOptSpaceBeforeText = 6;
   _InitOptSpaceBetweenTabs = 0;
+  _InitOptSpaceBetweenIconCaption = 0;
   _InitOptSpacer = 4;
   _InitOptSpacer2 = 15;
   _InitOptSpaceXRight = 10;
@@ -252,6 +264,7 @@ type
     FOptTabWidthNormal: integer; //tab maximal width (used when only few tabs)
     FOptTabWidthMinimalHidesX: integer; //tab minimal width, after which "x" mark hides for inactive tabs
     FOptSpaceBetweenTabs: integer; //space between nearest tabs (no need for angled tabs)
+    FOptSpaceBetweenIconCaption: integer;
     FOptSpaceInitial: integer; //space between first tab and left control edge
     FOptSpaceBeforeText: integer; //space between text and tab left edge
     FOptSpacer: integer; //height of top empty space (colored with bg)
@@ -270,8 +283,10 @@ type
     FOptScrollMarkSizeX: integer;
     FOptScrollMarkSizeY: integer;
 
-    FOptShowFlat: boolean;
     FOptPosition: TATTabPosition;
+    FOptIconPosition: TATTabIconPosition;
+    FOptCaptionAlignment: TAlignment;
+    FOptShowFlat: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
     FOptShowArrowsNear: boolean;
     FOptShowPlusTab: boolean; //show "plus" tab
@@ -338,14 +353,14 @@ type
     procedure DoPaintArrowRight(C: TCanvas);
     procedure DoPaintButtonClose(C: TCanvas);
     procedure DoPaintButtonPlus(C: TCanvas);
-    procedure DoPaintColoredBand(C: TCanvas; PL1, PL2, PR1, PR2: TPoint;
-      AColor: TColor);
+    procedure DoPaintButtonsBG(C: TCanvas);
+    procedure DoPaintColoredBand(C: TCanvas; PL1, PL2, PR1, PR2: TPoint; AColor: TColor);
     procedure DoPaintTo(C: TCanvas);
     procedure DoPaintBgTo(C: TCanvas; const ARect: TRect);
     procedure DoPaintTabTo(C: TCanvas; ARect: TRect; const ACaption: TATTabString;
       ATabBg, ATabBorder, ATabBorderLow, ATabHilite, ATabCloseBg,
       ATabCloseBorder, ATabCloseXMark: TColor; ACloseBtn, AModified: boolean;
-      AImageIndex: integer);
+      AImageIndex: integer; AFontStyle: TFontStyles);
     procedure DoPaintArrowTo(C: TCanvas; ATyp: TATTabTriangle; ARect: TRect;
       AColorArr, AColorBg: TColor);
     procedure DoPaintUserButtons(C: TCanvas);
@@ -402,7 +417,8 @@ type
       AModified: boolean = false;
       AColor: TColor = clNone;
       AImageIndex: integer = -1;
-      APopupMenu: TPopupMenu = nil);
+      APopupMenu: TPopupMenu = nil;
+      AFontStyle: TFontStyles = []);
     procedure Clear;
     function DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
     procedure ShowTabMenu;
@@ -497,6 +513,7 @@ type
     property OptTabAngle: integer read FOptTabAngle write FOptTabAngle default _InitOptTabAngle;
     property OptUseAngleForMaxTabs: integer read FOptUseAngleForMaxTabs write FOptUseAngleForMaxTabs default _InitOptUseAngleForMaxTabs;
     property OptSpaceBetweenTabs: integer read FOptSpaceBetweenTabs write FOptSpaceBetweenTabs default _InitOptSpaceBetweenTabs;
+    property OptSpaceBetweenIconCaption: integer read FOptSpaceBetweenIconCaption write FOptSpaceBetweenIconCaption default _InitOptSpaceBetweenIconCaption;
     property OptSpaceInitial: integer read FOptSpaceInitial write FOptSpaceInitial default _InitOptSpaceInitial;
     property OptSpaceBeforeText: integer read FOptSpaceBeforeText write FOptSpaceBeforeText default _InitOptSpaceBeforeText;
     property OptSpacer: integer read FOptSpacer write FOptSpacer default _InitOptSpacer;
@@ -515,8 +532,10 @@ type
     property OptScrollMarkSizeY: integer read FOptScrollMarkSizeY write FOptScrollMarkSizeY default _InitOptScrollMarkSizeY;
     property OptDropMarkSize: integer read FOptDropMarkSize write FOptDropMarkSize default _InitOptDropMarkSize;
 
-    property OptShowFlat: boolean read FOptShowFlat write FOptShowFlat default _InitOptShowFlat;
     property OptPosition: TATTabPosition read FOptPosition write FOptPosition default _InitOptPosition;
+    property OptIconPosition: TATTabIconPosition read FOptIconPosition write FOptIconPosition default aipIconLefterThanText;
+    property OptCaptionAlignment: TAlignment read FOptCaptionAlignment write FOptCaptionAlignment default taLeftJustify;
+    property OptShowFlat: boolean read FOptShowFlat write FOptShowFlat default _InitOptShowFlat;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark default _InitOptShowScrollMark;
     property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark default _InitOptShowDropMark;
     property OptShowXButtons: TATTabShowClose read FOptShowXButtons write FOptShowXButtons default _InitOptShowXButtons;
@@ -775,6 +794,7 @@ begin
   TabColor:= clNone;
   TabImageIndex:= -1;
   TabPopupMenu:= nil;
+  TabFontStyle:= [];
 end;
 
 { TATTabs }
@@ -826,6 +846,8 @@ begin
   FOptButtonLayout:= _InitOptButtonLayout;
   ApplyButtonLayout;
   FOptButtonSize:= _InitOptButtonSize;
+  FOptCaptionAlignment:= taLeftJustify;
+  FOptIconPosition:= aipIconLefterThanText;
   FOptTabAngle:= _InitOptTabAngle;
   FOptUseAngleForMaxTabs:= _InitOptUseAngleForMaxTabs;
   FOptTabHeight:= _InitOptTabHeight;
@@ -835,6 +857,7 @@ begin
   FOptSpaceInitial:= _InitOptSpaceInitial;
   FOptSpaceBeforeText:= _InitOptSpaceBeforeText;
   FOptSpaceBetweenTabs:= _InitOptSpaceBetweenTabs;
+  FOptSpaceBetweenIconCaption:= _InitOptSpaceBetweenIconCaption;
   FOptSpacer:= _InitOptSpacer;
   FOptSpacer2:= _InitOptSpacer2;
   FOptSpaceXRight:= _InitOptSpaceXRight;
@@ -934,7 +957,8 @@ procedure TATTabs.DoPaintTabTo(
   C: TCanvas; ARect: TRect; const ACaption: TATTabString;
   ATabBg, ATabBorder, ATabBorderLow, ATabHilite, ATabCloseBg, ATabCloseBorder, ATabCloseXMark: TColor;
   ACloseBtn, AModified: boolean;
-  AImageIndex: integer);
+  AImageIndex: integer;
+  AFontStyle: TFontStyles);
 var
   PL1, PL2, PR1, PR2: TPoint;
   RectText: TRect;
@@ -942,6 +966,7 @@ var
   ElemType: TATTabElemType;
   AInvert, NAngle: integer;
   TempCaption: TATTabString;
+  Extent: TSize;
   bActive, bNeedMoreSpace: boolean;
 begin
   //optimize for 200 tabs
@@ -975,13 +1000,47 @@ begin
   //imagelist
   if Assigned(FImages) then
     if (AImageIndex>=0) and (AImageIndex<FImages.Count) then
-    begin
-      FImages.Draw(C,
-        RectText.Left-2,
-        (RectText.Top + RectText.Bottom - FImages.Height) div 2,
-        AImageIndex);
-      Inc(RectText.Left, FImages.Width);
-    end;
+      case FOptIconPosition of
+        aipIconLefterThanText:
+          begin
+            FImages.Draw(C,
+              RectText.Left - 2,
+              (RectText.Top + RectText.Bottom - FImages.Height) div 2,
+              AImageIndex);
+            Inc(RectText.Left, FImages.Width+FOptSpaceBetweenIconCaption);
+          end;
+        aipIconRighterThanText:
+          begin
+            FImages.Draw(C,
+              RectText.Right - FImages.Width + 2,
+              (RectText.Top + RectText.Bottom - FImages.Height) div 2,
+              AImageIndex);
+            Dec(RectText.Right, FImages.Width+FOptSpaceBetweenIconCaption);
+          end;
+        aipIconCentered:
+          begin
+            FImages.Draw(C,
+              (RectText.Left + RectText.Right - FImages.Width) div 2,
+              (RectText.Top + RectText.Bottom - FImages.Height) div 2,
+              AImageIndex);
+          end;
+        aipIconAboveTextCentered:
+          begin
+            FImages.Draw(C,
+              (RectText.Left + RectText.Right - FImages.Width) div 2,
+              RectText.Top + FOptColoredBandSize,
+              AImageIndex);
+            Inc(RectText.Top, FImages.Height+FOptSpaceBetweenIconCaption);
+          end;
+        aipIconBelowTextCentered:
+          begin
+            FImages.Draw(C,
+              (RectText.Left + RectText.Right - FImages.Width) div 2,
+              RectText.Bottom - FImages.Height,
+              AImageIndex);
+            Dec(RectText.Bottom, FImages.Height+FOptSpaceBetweenIconCaption);
+          end;
+      end;
 
   //left triangle
   PL1:= Point(ARect.Left+NAngle*AInvert, ARect.Top);
@@ -1015,10 +1074,25 @@ begin
     C.Font.Assign(Self.Font);
     if AModified then
       C.Font.Color:= FColorFontModified;
+    C.Font.Style:= AFontStyle;
 
     TempCaption:= IfThen(AModified, FOptShowModifiedText) + ACaption;
+    Extent:= C.TextExtent(TempCaption);
 
-    NIndentTop:= (FOptTabHeight - C.TextHeight('Wj')) div 2 + 1;
+    NIndentTop:= (RectText.Bottom-RectText.Top-Extent.cy) div 2 + 1;
+
+    case FOptCaptionAlignment of
+      taCenter:
+        RectText.Left:= Max(
+          RectText.Left,
+          (RectText.Left+RectText.Right-Extent.cx) div 2
+          );
+      taRightJustify:
+        RectText.Left:= Max(
+          RectText.Left,
+          RectText.Right-Extent.cx
+          );
+    end;
 
     {$ifdef WIDE}
     ExtTextOutW(C.Handle,
@@ -1446,7 +1520,8 @@ begin
         NColorXMark,
         false,
         false,
-        -1 //no icon
+        -1, //no icon
+        []
         );
       DrawPlusSign(C, RRect, FOptArrowSize, Font.Color);
       DoPaintAfter(ElemType, -1, C, RRect);
@@ -1477,7 +1552,8 @@ begin
           NColorXMark,
           IsShowX(i),
           Data.TabModified,
-          Data.TabImageIndex
+          Data.TabImageIndex,
+          Data.TabFontStyle
           );
         DoPaintAfter(ElemType, i, C, RRect);
       end;
@@ -1503,12 +1579,16 @@ begin
         NColorXMark,
         IsShowX(i),
         Data.TabModified,
-        Data.TabImageIndex
+        Data.TabImageIndex,
+        Data.TabFontStyle
         );
       DoPaintAfter(aeTabActive, i, C, RRect);
     end;  
   end;
 
+  //button back
+  DoPaintButtonsBG(C);
+  //buttons
   DoPaintArrowLeft(C);
   DoPaintArrowRight(C);
   DoPaintArrowDown(C);
@@ -1951,7 +2031,8 @@ procedure TATTabs.AddTab(
   AModified: boolean = false;
   AColor: TColor = clNone;
   AImageIndex: integer = -1;
-  APopupMenu: TPopupMenu = nil);
+  APopupMenu: TPopupMenu = nil;
+  AFontStyle: TFontStyles = []);
 var
   Data: TATTabData;
 begin
@@ -1962,6 +2043,7 @@ begin
   Data.TabColor:= AColor;
   Data.TabImageIndex:= AImageIndex;
   Data.TabPopupMenu:= APopupMenu;
+  Data.TabFontStyle:= AFontStyle;
 
   if IsIndexOk(AIndex) then
     FTabList.Insert(AIndex, Data)
@@ -2316,8 +2398,15 @@ begin
   Data:= GetTabData(NTab);
   if Data=nil then Exit;
 
-  ATabs.AddTab(NTabTo, Data.TabCaption, Data.TabObject,
-    Data.TabModified, Data.TabColor, Data.TabImageIndex);
+  ATabs.AddTab(NTabTo,
+    Data.TabCaption,
+    Data.TabObject,
+    Data.TabModified,
+    Data.TabColor,
+    Data.TabImageIndex,
+    Data.TabPopupMenu,
+    Data.TabFontStyle
+    );
 
   //correct TabObject parent
   if Data.TabObject is TWinControl then
@@ -2758,6 +2847,20 @@ begin
   C.Brush.Color:= NColor;
 end;
 
+procedure TATTabs.DoPaintButtonsBG(C: TCanvas);
+var
+  RL, RR: TRect;
+begin
+  if FOptPosition in [atpLeft, atpRight] then
+    if FOptButtonLayout<>'' then
+    begin
+      RL:= GetRectOfButtonIndex(0, true);
+      RR:= GetRectOfButtonIndex(0, false);
+      DoPaintBgTo(C, Rect(
+        RL.Left, 0,
+        RR.Right, FOptTabHeight));
+    end;
+end;
 
 end.
 
