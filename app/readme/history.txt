@@ -6,7 +6,7 @@
 
 1.23.0 (2017/10)
 
-+ ProjectManager: single click opens file in the preview tab (bold+italic caption), like Sublime does
++ ProjectManager: single click opens file in the preview tab (italic caption), like in Sublime
 + added: option "ui_tab_preview_font_style"
 + API for preview tab
 
