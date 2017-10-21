@@ -626,8 +626,8 @@ def dlg_custom(title, size_x, size_y, text, focused=-1, get_dict=False):
     else:
         return _dlg_custom_dict(res, count=len(text.splitlines()) )
 
-def file_open(filename, group=-1, args=''):
-    return ct.file_open(filename, group, args)
+def file_open(filename, group=-1, options=''):
+    return ct.file_open(filename, group, options)
 
 def file_save(filename=''):
     return ct.file_save(filename)

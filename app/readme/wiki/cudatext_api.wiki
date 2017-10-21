@@ -1983,6 +1983,7 @@ Text is chr(1) separated items:
 
 1.0.202 (app 1.22.6)
 * add: file_open can open preview-tab (with options='/preview')
+* change: renamed file_open param "args" to "options"
 
 1.0.201 (app 1.21.0)
 * add: several commands in cudatext_cmd.py: simple word jump, goto abs line begin/end
