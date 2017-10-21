@@ -121,6 +121,7 @@ type
     TabNumbers: boolean;
     TabNewNearCurrent: boolean;
     TabButtonLayout: string;
+    TabPreviewFontStyle: string;
 
     MaxHistoryEdits: integer;
     MaxHistoryMenu: integer;
@@ -1070,6 +1071,7 @@ begin
     TabNumbers:= false;
     TabNewNearCurrent:= false;
     TabButtonLayout:= '<>,v';
+    TabPreviewFontStyle:= 'bi';
 
     MaxHistoryEdits:= 20;
     MaxHistoryMenu:= 10;

@@ -517,6 +517,13 @@
   //UI tabs: Open new tab near the currently active tab
   "ui_tab_new_near_current": false,
 
+  //UI tabs: Font styles of preview-tab (opened by single click on Project Manager file item)
+  //  If "b" in value: bold
+  //  If "i" in value: italic
+  //  If "u" in value: underline
+  //  If "s" in value: strikeout
+  "ui_tab_preview_font_style": "bi",
+
   //[Ui/Listbox]
   //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,

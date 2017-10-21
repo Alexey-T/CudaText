@@ -2005,7 +2005,7 @@ begin
     begin
       D:= DoTabAdd(APages, 'pre');
       D.TabSpecial:= true;
-      D.TabFontStyle:= [fsBold, fsItalic];
+      D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
       Result:= D.TabObject as TEditorFrame;
     end;
 

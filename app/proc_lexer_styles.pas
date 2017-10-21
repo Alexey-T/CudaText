@@ -24,6 +24,9 @@ procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: 
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const fn: string);
 
+function FontStylesToString(const f: TFontStyles): string;
+function StringToFontStyles(const s: string): TFontStyles;
+
 
 implementation
 
