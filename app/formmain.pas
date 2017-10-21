@@ -1909,32 +1909,6 @@ begin
   AppFolderOfLastInstalledAddon:= '';
   if Application.Terminated then exit;
 
-  //preview-tab
-  if Pos('/preview', AOptions)>0 then
-  begin
-    APages:= Groups.Pages1; //open preview tab in 1st group
-    for i:= 0 to APages.Tabs.TabCount-1 do
-    begin
-      D:= APages.Tabs.GetTabData(i);
-      if D.TabSpecial then
-      begin
-        Result:= D.TabObject as TEditorFrame;
-        Break
-      end;
-    end;
-    if Result=nil then
-    begin
-      D:= DoTabAdd(APages, 'pre');
-      D.TabSpecial:= true;
-      D.TabFontStyle:= [fsBold, fsItalic];
-      Result:= D.TabObject as TEditorFrame;
-    end;
-    Result.DoFileOpen(AFilename, false, true);
-    SetFrame(Result);
-    EditorFocus(Result.Editor);
-    exit;
-  end;
-
   if APages=nil then
     APages:= Groups.PagesCurrent;
 
@@ -2006,6 +1980,38 @@ begin
       UpdateTree(true);
       Exit
     end;
+  end;
+
+  //preview-tab
+  if Pos('/preview', AOptions)>0 then
+  begin
+    APages:= Groups.Pages1; //open preview tab in 1st group
+    for i:= 0 to APages.Tabs.TabCount-1 do
+    begin
+      D:= APages.Tabs.GetTabData(i);
+      if D.TabSpecial then
+      begin
+        Result:= D.TabObject as TEditorFrame;
+        SetFrame(Result);
+        Break
+      end;
+    end;
+
+    if Result=nil then
+    begin
+      D:= DoTabAdd(APages, 'pre');
+      D.TabSpecial:= true;
+      D.TabFontStyle:= [fsBold, fsItalic];
+      Result:= D.TabObject as TEditorFrame;
+    end;
+
+    Result.DoFileOpen(AFilename, false, true);
+    msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
+    MsgStatus(msg);
+
+    DoPyEvent(Result.Editor, cEventOnOpen, []);
+    EditorFocus(Result.Editor);
+    exit;
   end;
 
   //is current frame empty? use it
