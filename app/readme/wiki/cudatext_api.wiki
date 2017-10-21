@@ -1982,9 +1982,9 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.202 (app 1.22.6)
-* add: file_open can open preview-tab
-* add: file_open can open file w/o using history
+1.0.202 (app 1.23.0)
+* add: file_open: can open preview-tab
+* add: file_open: can open file ignoring history
 * change: renamed file_open param "args" to "options"
 
 1.0.201 (app 1.21.0)
