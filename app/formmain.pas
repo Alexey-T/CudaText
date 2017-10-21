@@ -1900,7 +1900,8 @@ function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  isOem, bSilent: boolean;
+  isOem, bSilent,
+  bPreviewTab, bEnableHistory: boolean;
   tick: QWord;
   msg: string;
   i: integer;
@@ -1908,6 +1909,9 @@ begin
   Result:= nil;
   AppFolderOfLastInstalledAddon:= '';
   if Application.Terminated then exit;
+
+  bPreviewTab:= Pos('/preview', AOptions)>0;
+  bEnableHistory:= Pos('/nohistory', AOptions)=0;
 
   if APages=nil then
     APages:= Groups.PagesCurrent;
@@ -1983,7 +1987,7 @@ begin
   end;
 
   //preview-tab
-  if Pos('/preview', AOptions)>0 then
+  if bPreviewTab then
   begin
     APages:= Groups.Pages1; //open preview tab in 1st group
     for i:= 0 to APages.Tabs.TabCount-1 do
@@ -2006,7 +2010,7 @@ begin
     end;
 
     Result.Adapter.Stop;
-    Result.DoFileOpen(AFilename, false, true);
+    Result.DoFileOpen(AFilename, bEnableHistory, true);
     msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
     MsgStatus(msg);
 
@@ -2023,7 +2027,7 @@ begin
     if F.IsEmpty then
     begin
       tick:= GetTickCount64;
-      F.DoFileOpen(AFilename, true, true);
+      F.DoFileOpen(AFilename, bEnableHistory, true);
       Result:= F;
       tick:= (GetTickCount64-tick) div 1000;
 
@@ -2042,7 +2046,7 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;
-  F.DoFileOpen(AFilename, true, true);
+  F.DoFileOpen(AFilename, bEnableHistory, true);
   Result:= F;
   tick:= (GetTickCount64-tick) div 1000;
 
