@@ -152,7 +152,8 @@ class Command:
             'a_b':('',']'),
             'on_menu': 'cuda_project_man.tree_on_menu',
             'on_unfold': 'cuda_project_man.tree_on_unfold',
-            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
+            'on_click': 'cuda_project_man.tree_on_click',
+            #'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
             } )
 
         self.tree = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
@@ -791,11 +792,18 @@ class Command:
         self.generate_context_menu()
         menu_proc(self.h_menu, MENU_SHOW, command='')
 
-    def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
+
+    def do_open_current_file(self, options):
         info = self.get_info(self.selected)
         path = self.get_location_by_index(self.selected)
         if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
-            file_open(str(path))
+            file_open(str(path), options=options)
+
+    def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
+        self.do_open_current_file('/preview')
+
+    #def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
+    #    self.do_open_current_file('')
 
 
     def icon_init(self):
