@@ -549,6 +549,8 @@ class Command:
         global_project_info['mainfile'] = self.project.get('mainfile', '')
 
     def get_info(self, index):
+        if index is None:
+            return
         info = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
         if info:
             return NodeInfo(info['text'], info['icon'])
@@ -795,7 +797,11 @@ class Command:
 
     def do_open_current_file(self, options):
         info = self.get_info(self.selected)
+        if not info:
+            return
         path = self.get_location_by_index(self.selected)
+        if not path:
+            return
         if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
             file_open(str(path), options=options)
 

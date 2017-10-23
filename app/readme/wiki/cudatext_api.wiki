@@ -938,7 +938,7 @@ Gets string if command selected, or None if cancelled.
 
 Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab. Gets bool: filename is empty or file successfully opened.
 
-* Param "group: index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
+* Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
 ** If it has "/nohistory", file's history (caret, scroll pos, etc) won't be used.
