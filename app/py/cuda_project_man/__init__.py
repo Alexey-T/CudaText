@@ -186,6 +186,7 @@ class Command:
         self.action_refresh()
         self.generate_context_menu()
 
+
     def show_panel(self):
         self.do_show(False)
 
@@ -404,6 +405,11 @@ class Command:
                 project_name,
                 self.ICON_PROJ,
             )
+
+            #select 1st node
+            items_root = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+            tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
+
             nodes = self.project["nodes"]
             self.top_nodes = {}
 
