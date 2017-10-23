@@ -11,11 +11,8 @@ import cudatext_cmd
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
-NEED_API = '1.0.189'
-
-global_project_info = {}
-
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
+global_project_info = {}
 
 def project_variables():
     """
@@ -174,10 +171,6 @@ class Command:
     def init_panel(self, and_activate=True):
         # already inited?
         if self.tree:
-            return
-
-        if app_api_version() < NEED_API:
-            msg_box('Project Manager needs newer app version', MB_OK + MB_ICONERROR)
             return
 
         self.init_form_main()
