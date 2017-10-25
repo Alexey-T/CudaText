@@ -1925,7 +1925,8 @@ begin
   end;
 
   //expand "./name"
-  AFilename:= ExpandFileNameUTF8(AFilename);
+  //note: ExpandFileNameUTF8 has bug in Laz 1.9-
+  AFilename:= ExpandFileName(AFilename);
 
   if not FileExistsUTF8(AFilename) then
   begin
