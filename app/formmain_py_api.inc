@@ -3557,7 +3557,6 @@ var
   Tree: TTreeViewMy;
   TreeNode, Node1: TTreeNode;
   ItemList: TList;
-  ok: boolean;
   i: integer;
 begin
   with GetPythonEngine do

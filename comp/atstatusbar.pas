@@ -72,6 +72,7 @@ type
   public
     constructor Create(AOnwer: TComponent); override;
     destructor Destroy; override;
+    function CanFocus: boolean; override;
     function GetPanelRect(AIndex: Integer): TRect;
     function GetPanelAt(X, Y: Integer): Integer;
     function GetPanelData(AIndex: Integer): TATStatusData;
@@ -83,7 +84,6 @@ type
     procedure DoPanelAutosize(AIndex: integer);
     property ScalePercents: integer read FScalePercents write FScalePercents default 100;
   protected
-    function CanFocus: boolean; override;
     procedure Paint; override;
     procedure Resize; override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
