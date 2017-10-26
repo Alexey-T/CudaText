@@ -94,7 +94,6 @@ type
     tabColorSpecMarks,
     tabColorActiveMark,
     tabOptionFontSize,
-    tabOptionAngle,
     tabOptionPosition,
     tabOptionShowFlat,
     tabOptionShowTabs,
@@ -364,7 +363,6 @@ begin
     //it breaks all on Delphi7
   {$endif}
 
-  FTabs.OptTabAngle:= 0;
   FTabs.OptTabHeight:= 24;
   FTabs.OptSpacer:= 2;
   FTabs.OptSpacer2:= 4;
@@ -1528,7 +1526,6 @@ begin
         tabOptionDoubleClickClose: OptMouseDoubleClickClose:= Boolean(N);
         tabOptionMiddleClickClose: OptMouseMiddleClickClose:= Boolean(N);
         tabOptionDragDrop:         OptMouseDragEnabled:= Boolean(N);
-        tabOptionAngle:            OptTabAngle:= DoScale(N);
         tabOptionHeight:           Height:= DoScale(N);
         tabOptionHeightInner:      OptTabHeight:= DoScale(N);
         tabOptionWidthMin:         OptTabWidthMinimal:= DoScale(N);
