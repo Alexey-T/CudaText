@@ -112,7 +112,6 @@ type
     TabHeight: integer;
     TabHeightInner: integer;
     TabSpacer: integer;
-    TabAngle: integer;
     TabPosition: integer;
     TabColorFull: boolean;
     TabShowX: integer;
@@ -1062,7 +1061,6 @@ begin
     TabHeight:= 25;
     TabHeightInner:= TabHeight-1;
     TabSpacer:= 2;
-    TabAngle:= 3;
     TabPosition:= 0;
     TabColorFull:= false;
     TabShowX:= 1; //show all

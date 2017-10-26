@@ -4,6 +4,10 @@
   * changed
 
 
+1.23.2 (2017/10)
+
+* removed option "ui_tab_angle" and angled UI tabs (issues with paint speed)
+
 1.23.0 (2017/10)
 
 + ProjectManager: single click opens file in the preview tab (italic caption), like in Sublime
