@@ -74,6 +74,13 @@ type
     tabCloseAllThisPage,
     tabCloseAll
     );
+
+type
+  TATTabsStringOptionId = (
+    tabOptionModifiedText,
+    tabOptionButtonLayout
+    );
+
 type
   TATTabsOptionId = (
     tabColorText,
@@ -116,8 +123,7 @@ type
     tabOptionIndentXSize,
     tabOptionArrowSize,
     tabOptionButtonSize,
-    tabOptionShowArrowsNear,
-    tabOptionWidecharModified
+    tabOptionShowArrowsNear
     );
 
 type
@@ -231,8 +237,8 @@ type
     function GetTabDataOfTotalIndex(N: Integer): TATTabData;
     function SetPagesAndTabIndex(APageIndex, ATabIndex: Integer): boolean;
     procedure SetTabOption(Id: TATTabsOptionId; N: Integer);
+    procedure SetTabOptionString(Id: TATTabsStringOptionId; const Value: string);
     procedure SetTabFont(AFont: TFont);
-    procedure SetTabButtonLayout(const AStr: string);
     //
     function CloseTabsOther(APages: TATPages; ATabIndex: Integer;
       ADoRighter, ADoLefter: boolean): boolean;
@@ -1441,13 +1447,20 @@ begin
     Pages[i].Tabs.Font.Assign(AFont);
 end;
 
-procedure TATGroups.SetTabButtonLayout(const AStr: string);
+procedure TATGroups.SetTabOptionString(Id: TATTabsStringOptionId; const Value: string);
 var
   i: Integer;
 begin
   for i:= Low(Pages) to High(Pages) do
-    Pages[i].Tabs.OptButtonLayout:= AStr;
+    with Pages[i].Tabs do
+      case Id of
+        tabOptionModifiedText:
+          OptShowModifiedText:= Value;
+        tabOptionButtonLayout:
+          OptButtonLayout:= Value;
+      end;
 end;
+
 
 procedure TATGroups.SetTabOption(Id: TATTabsOptionId; N: Integer);
 var
@@ -1544,7 +1557,6 @@ begin
         tabOptionArrowSize:        OptArrowSize:= DoScale(N);
         tabOptionButtonSize:       OptButtonSize:= DoScale(N);
         tabOptionShowArrowsNear:   OptShowArrowsNear:= Boolean(N);
-        tabOptionWidecharModified: OptShowModifiedText:= chr(N);
       end;
 end;
 

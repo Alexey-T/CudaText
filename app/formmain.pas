@@ -1843,14 +1843,14 @@ begin
   Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
   Groups.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
   Groups.SetTabOption(tabOptionColorBandSize, 4);
-  Groups.SetTabOption(tabOptionWidecharModified, Ord('*'));
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
   Groups.SetTabOption(tabOptionIndentXRight, 10);
   Groups.SetTabOption(tabOptionIndentXSize, 12);
   Groups.SetTabOption(tabOptionArrowSize, 4);
   Groups.SetTabOption(tabOptionButtonSize, 16);
   Groups.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
-  Groups.SetTabButtonLayout(UiOps.TabButtonLayout);
+  Groups.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
+  Groups.SetTabOptionString(tabOptionModifiedText, '*');
 
   PanelSide.Visible:= UiOps.SidebarShow;
   PanelLeftTitle.Height:= Groups.Pages1.Tabs.Height;
