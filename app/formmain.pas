@@ -1849,6 +1849,7 @@ begin
   Groups.SetTabOption(tabOptionIndentXRight, 10);
   Groups.SetTabOption(tabOptionIndentXSize, 12);
   Groups.SetTabOption(tabOptionArrowSize, 4);
+  Groups.SetTabOption(tabOptionButtonSize, 16);
   Groups.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
   Groups.SetTabButtonLayout(UiOps.TabButtonLayout);
 
