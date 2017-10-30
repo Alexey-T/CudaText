@@ -1057,7 +1057,7 @@ begin
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;
 
-    TabAngled:= true;
+    TabAngled:= {$ifdef darwin} false {$else} true {$endif};
     TabFlat:= false;
     TabWidth:= 170;
     TabHeight:= 25;
