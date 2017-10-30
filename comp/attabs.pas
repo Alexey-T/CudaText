@@ -211,6 +211,9 @@ const
   _InitOptShowModifiedText = '*';
   _InitOptShowBorderActiveLow = false;
   _InitOptShowEntireColor = false;
+  _InitOptShowAngled = false;
+  _InitOptShowAngleTangent = 2.6;
+
   _InitOptMouseMiddleClickClose = true;
   _InitOptMouseDoubleClickClose = true;
   _InitOptMouseDoubleClickPlus = false;
@@ -292,6 +295,7 @@ type
     FOptShowNumberPrefix: TATTabString;
     FOptShowScrollMark: boolean;
     FOptShowDropMark: boolean;
+    FOptShowAngled: boolean;
 
     FOptMouseMiddleClickClose: boolean; //enable close tab by middle-click
     FOptMouseDoubleClickClose: boolean;
@@ -311,6 +315,8 @@ type
 
     FRealIndentLeft: integer;
     FRealIndentRight: integer;
+    FAngleTangent: single;
+    FAngleSide: integer;
 
     FScrollPos: integer;
     FImages: TImageList;
@@ -391,6 +397,7 @@ type
     procedure DoTabDrop;
     procedure DoTabDropToOtherControl(ATarget: TControl; const APnt: TPoint);
     procedure DoUpdateTabRects;
+    procedure UpdateCanvasAntialiasMode(C: TCanvas);
 
   public
     constructor Create(AOnwer: TComponent); override;
@@ -528,6 +535,8 @@ type
     property OptPosition: TATTabPosition read FOptPosition write FOptPosition default _InitOptPosition;
     property OptIconPosition: TATTabIconPosition read FOptIconPosition write FOptIconPosition default aipIconLefterThanText;
     property OptCaptionAlignment: TAlignment read FOptCaptionAlignment write FOptCaptionAlignment default taLeftJustify;
+    property OptShowAngled: boolean read FOptShowAngled write FOptShowAngled default _InitOptShowAngled;
+    property OptShowAngleTangent: single read FAngleTangent write FAngleTangent {$ifdef fpc} default _InitOptShowAngleTangent {$endif};
     property OptShowFlat: boolean read FOptShowFlat write FOptShowFlat default _InitOptShowFlat;
     property OptShowScrollMark: boolean read FOptShowScrollMark write FOptShowScrollMark default _InitOptShowScrollMark;
     property OptShowDropMark: boolean read FOptShowDropMark write FOptShowDropMark default _InitOptShowDropMark;
@@ -538,6 +547,7 @@ type
     property OptShowBorderActiveLow: boolean read FOptShowBorderActiveLow write FOptShowBorderActiveLow default _InitOptShowBorderActiveLow;
     property OptShowEntireColor: boolean read FOptShowEntireColor write FOptShowEntireColor default _InitOptShowEntireColor;
     property OptShowNumberPrefix: TATTabString read FOptShowNumberPrefix write FOptShowNumberPrefix;
+
     property OptMouseMiddleClickClose: boolean read FOptMouseMiddleClickClose write FOptMouseMiddleClickClose default _InitOptMouseMiddleClickClose;
     property OptMouseDoubleClickClose: boolean read FOptMouseDoubleClickClose write FOptMouseDoubleClickClose default _InitOptMouseDoubleClickClose;
     property OptMouseDoubleClickPlus: boolean read FOptMouseDoubleClickPlus write FOptMouseDoubleClickPlus default _InitOptMouseDoubleClickPlus;
@@ -571,6 +581,9 @@ uses
   Dialogs,
   Forms,
   Math;
+
+const
+  cSmoothScale = 5;
 
 function IsDoubleBufferedNeeded: boolean;
 begin
@@ -672,6 +685,79 @@ begin
 end;
 
 
+type
+  TATMissedPoint = (
+    ampnTopLeft,
+    ampnTopRight,
+    ampnBottomLeft,
+    ampnBottomRight
+    );
+
+procedure DrawTriangleRectFramed(C: TCanvas;
+  AX, AY, ASizeX, ASizeY, AScale: integer;
+  ATriKind: TATMissedPoint;
+  AColorFill, AColorLine: TColor);
+var
+  b: TBitmap;
+  p0, p1, p2, p3: TPoint;
+  line1, line2: TPoint;
+  ar: array[0..2] of TPoint;
+begin
+  b:= TBitmap.Create;
+  try
+    {$ifdef fpc}
+    b.SetSize(ASizeX*AScale, ASizeY*AScale);
+    {$else}
+    b.Width:= ASizeX*AScale;
+    b.Height:= ASizeY*AScale;
+    {$endif}
+
+    p0:= Point(0, 0);
+    p1:= Point(b.Width, 0);
+    p2:= Point(0, b.Height);
+    p3:= Point(b.Width, b.Height);
+
+    case ATriKind of
+      ampnTopLeft: begin ar[0]:= p1; ar[1]:= p2; ar[2]:= p3; line1:= p1; line2:= p2; end;
+      ampnTopRight: begin ar[0]:= p0; ar[1]:= p2; ar[2]:= p3; line1:= p0; line2:= p3; end;
+      ampnBottomLeft: begin ar[0]:= p0; ar[1]:= p1; ar[2]:= p3; line1:= p0; line2:= p3; end;
+      ampnBottomRight: begin ar[0]:= p0; ar[1]:= p1; ar[2]:= p2; line1:= p1; line2:= p2; end;
+    end;
+
+    //b.Canvas.Brush.Color:= AColorBG;
+    //b.Canvas.FillRect(0, 0, b.Width, b.Height);
+    b.Canvas.CopyRect(
+      Rect(0, 0, b.Width, b.Height),
+      C,
+      Rect(AX, AY, AX+ASizeX, AY+ASizeY)
+      );
+
+    b.Canvas.Pen.Style:= psClear;
+    b.Canvas.Brush.Color:= AColorFill;
+    b.Canvas.Polygon(ar);
+    b.Canvas.Pen.Style:= psSolid;
+
+    b.Canvas.Pen.Color:= AColorLine;
+    b.Canvas.Pen.Width:= AScale;
+    b.Canvas.MoveTo(line1.X, line1.Y);
+    b.Canvas.LineTo(line2.X, line2.Y);
+    b.Canvas.Pen.Width:= 1;
+
+    {$ifdef fpc}
+    C.StretchDraw(Rect(AX, AY, AX+ASizeX, AY+ASizeY), b);
+    {$else}
+    //Delphi: StretchDraw cannot draw smooth
+    StretchBlt(
+      C.Handle, AX, AY, ASizeX, ASizeY,
+      b.Canvas.Handle, 0, 0, b.Width, b.Height,
+      C.CopyMode);
+    {$endif}
+  finally
+    b.Free;
+  end;
+end;
+
+
 { TATTabData }
 
 constructor TATTabData.Create;
@@ -757,6 +843,7 @@ begin
   FOptScrollMarkSizeX:= _InitOptScrollMarkSizeX;
   FOptScrollMarkSizeY:= _InitOptScrollMarkSizeY;
   FOptDropMarkSize:= _InitOptDropMarkSize;
+  FAngleTangent:= _InitOptShowAngleTangent;
 
   FOptShowFlat:= _InitOptShowFlat;
   FOptPosition:= _InitOptPosition;
@@ -769,6 +856,8 @@ begin
   FOptShowModifiedText:= _InitOptShowModifiedText;
   FOptShowBorderActiveLow:= _InitOptShowBorderActiveLow;
   FOptShowEntireColor:= _InitOptShowEntireColor;
+  FOptShowAngled:= _InitOptShowAngled;
+
   FOptMouseMiddleClickClose:= _InitOptMouseMiddleClickClose;
   FOptMouseDoubleClickClose:= _InitOptMouseDoubleClickClose;
   FOptMouseDoubleClickPlus:= _InitOptMouseDoubleClickPlus;
@@ -786,14 +875,6 @@ begin
   FTabCaptions:= TStringList.Create;
   FTabMenu:= nil;
   FScrollPos:= 0;
-
-  FOnTabClick:= nil;
-  FOnTabPlusClick:= nil;
-  FOnTabClose:= nil;
-  FOnTabMenu:= nil;
-  FOnTabDrawBefore:= nil;
-  FOnTabDrawAfter:= nil;
-  FOnTabChangeQuery:= nil;
 end;
 
 function TATTabs.CanFocus: boolean;
@@ -992,8 +1073,10 @@ begin
   case FOptPosition of
     atpTop:
       begin
-        DrawLine(C, PL1.X, PL1.Y, PL2.X, PL2.Y+1, ATabBorder);
-        DrawLine(C, PR1.X, PR1.Y, PR2.X, PR2.Y+1, ATabBorder);
+        if not FOptShowAngled then
+          DrawLine(C, PL1.X, PL1.Y, PL2.X, PL2.Y+1, ATabBorder);
+        if not FOptShowAngled then
+          DrawLine(C, PR1.X, PR1.Y, PR2.X, PR2.Y+1, ATabBorder);
         DrawLine(C, PL1.X, PL1.Y, PR1.X, PL1.Y, ATabBorder);
         if ATabBorderLow<>clNone then
           DrawLine(C, PL2.X, ARect.Bottom, PR2.X, ARect.Bottom, ATabBorderLow)
@@ -1023,6 +1106,55 @@ begin
         DrawLine(C, PR1.X, PR1.Y, PR2.X, PR2.Y, ATabBorder);
       end;
   end;
+
+  UpdateCanvasAntialiasMode(C);
+  
+  //angled tabs
+  if FOptShowAngled and not FOptShowFlat then
+    case FOptPosition of
+      atpTop:
+        begin
+          DrawTriangleRectFramed(C,
+            ARect.Left-FAngleSide+1,
+            ARect.Top,
+            FAngleSide,
+            FOptTabHeight+IfThen(ATabActive, 1),
+            cSmoothScale,
+            ampnTopLeft,
+            ATabBg,
+            ATabBorder);
+          DrawTriangleRectFramed(C,
+            ARect.Right-1,
+            ARect.Top,
+            FAngleSide,
+            FOptTabHeight+IfThen(ATabActive, 1),
+            cSmoothScale,
+            ampnTopRight,
+            ATabBg,
+            ATabBorder);
+        end;
+      atpBottom:
+        begin
+          DrawTriangleRectFramed(C,
+            ARect.Left-FAngleSide+1,
+            ARect.Top+IfThen(not ATabActive, 1),
+            FAngleSide,
+            FOptTabHeight,
+            cSmoothScale,
+            ampnBottomLeft,
+            ATabBg,
+            ATabBorder);
+          DrawTriangleRectFramed(C,
+            ARect.Right-1,
+            ARect.Top+IfThen(not ATabActive, 1),
+            FAngleSide,
+            FOptTabHeight,
+            cSmoothScale,
+            ampnBottomRight,
+            ATabBg,
+            ATabBorder);
+        end;
+    end;
 
   //colored band
   if not FOptShowEntireColor then
@@ -1144,7 +1276,9 @@ begin
 
     for i:= 0 to TabCount-1 do
     begin
-      R.Top:= R.Bottom + FOptSpaceBetweenTabs;
+      R.Top:= R.Bottom;
+      if i>0 then
+        Inc(R.Top, FOptSpaceBetweenTabs);
       R.Bottom:= R.Top + FOptTabHeight;
       Data:= GetTabData(i);
       if Assigned(Data) then
@@ -1161,7 +1295,9 @@ begin
 
   for i:= 0 to TabCount-1 do
   begin
-    R.Left:= R.Right + FOptSpaceBetweenTabs;
+    R.Left:= R.Right;
+    if i>0 then
+      Inc(R.Left, FOptSpaceBetweenTabs);
     R.Right:= R.Left + FTabWidth;
     Data:= GetTabData(i);
     if Assigned(Data) then
@@ -1287,8 +1423,10 @@ begin
   ElemType:= aeBackground;
   RRect:= ClientRect;
 
+  FAngleSide:= Trunc(FOptTabHeight/FAngleTangent);
+
   FRealIndentLeft:= FOptSpaceInitial;
-  FRealIndentRight:= 0;
+  FRealIndentRight:= FOptSpaceInitial;
   for i:= 0 to High(TATTabButtons) do
     if FButtonsLeft[i]<>atbNone then
       Inc(FRealIndentLeft, FOptButtonSize);
@@ -2152,7 +2290,6 @@ begin
   //tricky formula: calculate auto-width
   Value:= (ClientWidth
     - IfThen(FOptShowPlusTab, GetTabWidth_Plus_Raw + 2*FOptSpaceBeforeText)
-    - FOptSpaceBetweenTabs
     - FRealIndentLeft
     - FRealIndentRight) div Count
       - FOptSpaceBetweenTabs;
@@ -2677,7 +2814,7 @@ begin
     atpTop:
       C.FillRect(Rect(PL1.X+1, PL1.Y+1, PR1.X, PR1.Y+1+FOptColoredBandSize));
     atpBottom:
-      C.FillRect(Rect(PL2.X+1, PL2.Y-2, PR2.X, PR2.Y-2+FOptColoredBandSize));
+      C.FillRect(Rect(PL2.X+1, PL2.Y-3, PR2.X, PR2.Y-3+FOptColoredBandSize));
     atpLeft:
       C.FillRect(Rect(PL1.X+1, PL1.Y+1, PL1.X+1+FOptColoredBandSize, PL2.Y));
     atpRight:
@@ -2700,6 +2837,19 @@ begin
         RL.Left, 0,
         RR.Right, FOptTabHeight));
     end;
+end;
+
+procedure TATTabs.UpdateCanvasAntialiasMode(C: TCanvas);
+var
+  p: TPoint;
+begin
+  {$ifdef fpc}
+  C.AntialiasingMode:= amOn;
+  {$else}
+  GetBrushOrgEx(C.Handle, p);
+  SetStretchBltMode(C.Handle, HALFTONE);
+  SetBrushOrgEx(C.Handle, p.x, p.y, @p);
+  {$endif}
 end;
 
 end.

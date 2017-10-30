@@ -100,6 +100,7 @@ type
     tabColorArrowOver,
     tabColorSpecMarks,
     tabColorActiveMark,
+    tabOptionAngled,
     tabOptionFontSize,
     tabOptionPosition,
     tabOptionShowFlat,
@@ -116,11 +117,11 @@ type
     tabOptionWidthMin,
     tabOptionWidthMax,
     tabOptionSpacer,
-    tabOptionIndentInit,
-    tabOptionIndentInter,
-    tabOptionColorBandSize,
-    tabOptionIndentXRight,
-    tabOptionIndentXSize,
+    tabOptionSpaceInitial,
+    tabOptionSpaceBetweenTabs,
+    tabOptionColoredBandSize,
+    tabOptionSpaceXRight,
+    tabOptionSpaceXSize,
     tabOptionArrowSize,
     tabOptionButtonSize,
     tabOptionShowArrowsNear
@@ -1530,12 +1531,14 @@ begin
                 end;
             end;
           end;
+        tabOptionAngled:           OptShowAngled:= Boolean(N);
         tabOptionShowFlat:         OptShowFlat:= Boolean(N);
         tabOptionShowTabs:         Visible:= Boolean(N);
         tabOptionShowXButtons:     OptShowXButtons:= TATTabShowClose(N);
         tabOptionShowPlus:         OptShowPlusTab:= Boolean(N);
         tabOptionShowNums:         OptShowNumberPrefix:= IfThen(Boolean(N), '%d. ', '');
         tabOptionShowEntireColor:  OptShowEntireColor:= Boolean(N);
+        tabOptionShowArrowsNear:   OptShowArrowsNear:= Boolean(N);
         tabOptionDoubleClickClose: OptMouseDoubleClickClose:= Boolean(N);
         tabOptionMiddleClickClose: OptMouseMiddleClickClose:= Boolean(N);
         tabOptionDragDrop:         OptMouseDragEnabled:= Boolean(N);
@@ -1549,14 +1552,13 @@ begin
               Width:= OptTabWidthNormal;
           end;
         tabOptionSpacer:           OptSpacer:= DoScale(N);
-        tabOptionIndentInit:       OptSpaceInitial:= DoScale(N);
-        tabOptionIndentInter:      OptSpaceBetweenTabs:= DoScale(N);
-        tabOptionColorBandSize:    OptColoredBandSize:= DoScale(N);
-        tabOptionIndentXRight:     OptSpaceXRight:= DoScale(N);
-        tabOptionIndentXSize:      OptSpaceXSize:= DoScale(N);
+        tabOptionSpaceInitial:     OptSpaceInitial:= DoScale(N);
+        tabOptionSpaceBetweenTabs: OptSpaceBetweenTabs:= DoScale(N);
+        tabOptionColoredBandSize:  OptColoredBandSize:= DoScale(N);
+        tabOptionSpaceXRight:      OptSpaceXRight:= DoScale(N);
+        tabOptionSpaceXSize:       OptSpaceXSize:= DoScale(N);
         tabOptionArrowSize:        OptArrowSize:= DoScale(N);
         tabOptionButtonSize:       OptButtonSize:= DoScale(N);
-        tabOptionShowArrowsNear:   OptShowArrowsNear:= Boolean(N);
       end;
 end;
 
