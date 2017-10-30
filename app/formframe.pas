@@ -133,6 +133,7 @@ type
     procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret,
       ASelectThen: boolean);
+    procedure EditorOnScroll(Sender: TObject);
     function GetCommentString: string;
     function GetEnabledFolding: boolean;
     function GetEncodingName: string;
@@ -383,6 +384,11 @@ begin
       cBool[ASelectThen]
     ]) = cPyFalse then
     AHandled:= true;
+end;
+
+procedure TEditorFrame.EditorOnScroll(Sender: TObject);
+begin
+  DoPyEvent(Sender as TATSynEdit, cEventOnScroll, []);
 end;
 
 procedure TEditorFrame.EditorOnKeyUp(Sender: TObject; var Key: Word;
@@ -986,6 +992,7 @@ begin
   ed.OnKeyUp:= @EditorOnKeyUp;
   ed.OnDrawMicromap:= @EditorDrawMicromap;
   ed.OnPaste:=@EditorOnPaste;
+  ed.OnScroll:=@EditorOnScroll;
 end;
 
 constructor TEditorFrame.Create(TheOwner: TComponent);
