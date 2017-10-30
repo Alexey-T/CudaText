@@ -6,7 +6,8 @@
 
 1.23.2 (2017/10)
 
-* removed option "ui_tab_angle" and angled UI tabs (issues with paint speed)
++ added: option "ui_tab_angled" (bool value)
+* removed option "ui_tab_angle" (int value)
 
 1.23.0 (2017/10)
 
