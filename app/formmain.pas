@@ -1832,6 +1832,9 @@ begin
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 
   Groups.ScalePercents:= UiOps.ScreenScale;
+  Groups.SetTabOption(tabOptionAngled, Ord(UiOps.TabAngled));
+  Groups.SetTabOption(tabOptionSpaceInitial, IfThen(UiOps.TabAngled, 10, 4));
+  Groups.SetTabOption(tabOptionSpaceBetweenTabs, IfThen(UiOps.TabAngled, 4, 0));
   Groups.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
   Groups.SetTabOption(tabOptionPosition, UiOps.TabPosition);
   Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
@@ -1842,10 +1845,10 @@ begin
   Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
   Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
   Groups.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
-  Groups.SetTabOption(tabOptionColorBandSize, 4);
+  Groups.SetTabOption(tabOptionColoredBandSize, 4);
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
-  Groups.SetTabOption(tabOptionIndentXRight, 10);
-  Groups.SetTabOption(tabOptionIndentXSize, 12);
+  Groups.SetTabOption(tabOptionSpaceXRight, 10);
+  Groups.SetTabOption(tabOptionSpaceXSize, 12);
   Groups.SetTabOption(tabOptionArrowSize, 4);
   Groups.SetTabOption(tabOptionButtonSize, 16);
   Groups.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));

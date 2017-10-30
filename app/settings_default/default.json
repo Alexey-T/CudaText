@@ -467,6 +467,9 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: show angled left/right sides (note: they paint much slower)
+  "ui_tab_angled": true,  
+  
   //UI tabs: flat look
   "ui_tab_flat": false,
   
