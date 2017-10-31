@@ -2694,12 +2694,12 @@ end;
 
 procedure TfmMain.SetShowOnTop(AValue: boolean);
 begin
-  if FShowOnTop=AValue then Exit;
   FShowOnTop:= AValue;
   if FShowOnTop then
-    FormStyle:= fsStayOnTop
+    FormStyle:= fsSystemStayOnTop
   else
     FormStyle:= fsNormal;
+
   UpdateStatus;
 end;
 
