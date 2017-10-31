@@ -554,7 +554,6 @@ type
     FOrigShowSidePanel: boolean;
     FOrigShowSideBar: boolean;
     FOrigShowTabs: boolean;
-    FAllowEventOnOpenBefore: boolean;
     FAllowLoadKeymap: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
@@ -771,7 +770,7 @@ type
     procedure DoMoveTabTo(Num: Integer);
     procedure DoOnTabPopup(Sender: TObject);
     function DoFileOpen(AFilename: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
-    procedure DoFileOpenDialog;
+    procedure DoFileOpenDialog(const AOptions: string='');
     procedure DoFileOpenDialog_NoPlugins;
     procedure DoFileSaveAll;
     procedure DoFileReopen;
@@ -1214,7 +1213,6 @@ begin
   FKeymapUndoList:= TATKeymapUndoList.Create;
   FKeymapLastLexer:= '??'; //not ''
   FAllowLoadKeymap:= false;
-  FAllowEventOnOpenBefore:= true;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
@@ -1917,7 +1915,7 @@ var
   D: TATTabData;
   F: TEditorFrame;
   isOem, bSilent,
-  bPreviewTab, bEnableHistory: boolean;
+  bPreviewTab, bEnableHistory, bNoEvent: boolean;
   tick: QWord;
   msg: string;
   i: integer;
@@ -1928,6 +1926,7 @@ begin
 
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
+  bNoEvent:= Pos('/noevent', AOptions)>0;
 
   if APages=nil then
     APages:= Groups.PagesCurrent;
@@ -1959,7 +1958,7 @@ begin
   end;
 
   //py event
-  if FAllowEventOnOpenBefore then
+  if not bNoEvent then
     if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
       [SStringToPythonString(AFilename)]) = cPyFalse then exit;
 
@@ -2080,12 +2079,7 @@ end;
 
 procedure TfmMain.DoFileOpenDialog_NoPlugins;
 begin
-  FAllowEventOnOpenBefore:= false;
-  try
-    DoFileOpenDialog;
-  finally
-    FAllowEventOnOpenBefore:= true;
-  end;
+  DoFileOpenDialog('/noevent');
 end;
 
 procedure TfmMain.DoFileDialog_PrepareDir(Dlg: TFileDialog);
@@ -2107,7 +2101,7 @@ begin
 end;
 
 
-procedure TfmMain.DoFileOpenDialog;
+procedure TfmMain.DoFileOpenDialog(const AOptions: string='');
 var
   i: integer;
 begin
@@ -2121,19 +2115,19 @@ begin
     if Files.Count>1 then
     begin
       for i:= 0 to Files.Count-1 do
-        DoFileOpen(Files[i]);
+        DoFileOpen(Files[i], nil, AOptions);
     end
     else
     begin
       if FileExistsUTF8(FileName) then
-        DoFileOpen(FileName)
+        DoFileOpen(FileName, nil, AOptions)
       else
       if MsgBox(
         Format(msgConfirmCreateNewFile, [FileName]),
         MB_OKCANCEL or MB_ICONQUESTION)=ID_OK then
       begin
         FCreateFile(FileName);
-        DoFileOpen(FileName);
+        DoFileOpen(FileName, nil, AOptions);
       end;
     end;
   end;
