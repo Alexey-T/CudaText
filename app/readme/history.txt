@@ -238,7 +238,7 @@ fixes:
 * Addon Manager: used new channels url
 + Windows: support font ligatures (font Fira Code, only if caret not on line)
 + option font_ligatures
-+ dlg Find: must show on top of CudaText dialogs
++ dialog Find: must show on top of CudaText dialogs
 + toolbar: add buttons Indent, Unindent
 
 1.8.1
@@ -250,7 +250,7 @@ fixes:
 * changed suffix for macOS config keys from "__osx" to "__mac"
 * changed: option "def_encoding_utf8" has OS suffix
 + API
-- fix: Tab-key didnt jump in Find dlg
+- fix: Tab-key didnt jump in Find dialog
 
 1.7.9
 + autocomplete listbox: chars .,;=<> should input to editor and close listbox
@@ -327,7 +327,7 @@ fixes:
 + AddonManager: use temp-file on downloading (safer)
 + AddonManager: message retry/ignore/abort on download err
 + addons install.inf has field for API ver
-- dont suggest multi-line sel to Find dlg
+- dont suggest multi-line sel to Find dialog
 
 1.6.7
 + API for timer
@@ -377,26 +377,26 @@ fixes:
 + add option "lexer_dynamic_hilite_max_lines"
 + add option "lexer_line_separators"
 + add option "staples_style"
-* del option "staples_show"
-+ improve lex HTML: hilite entities &nnnn;, hilite incorrect tag props, hilite colors #nnn
+* deleted option "staples_show"
++ improve lexer HTML: hilite entities &nnnn;, hilite incorrect tag props, hilite colors #nnn
 + command "duplicate line" allows selection (fwd+back)
-- fix lex Markdown
+- fix lexer Markdown
 
 1.5.4
 + tab context menu "Set tab color" dialog redone by kvichans (in Python), dialog has N palettes (option)
-+ export to html: optimized file
-* lex Pascal: drop hilites of "types", "implementation backgnd"
++ export to HTML: optimized file
+* lexer Pascal: drop hilites of "types", "implementation backgnd"
 
 1.5.3
 + option tab_max_pos_expanded
-+ lex Pascal: hilite "exit/result"
++ lexer Pascal: hilite "exit/result"
 - fix: dialogs for high-DPI (windows)
 - fix: folded-blocks were empty bars on Python
 
 1.5.2
 + API: added, optimised in 5 funcs
-+ lex Pascal: hilites for "types", "msgs"
-- fix: lex Python
++ lexer Pascal: hilites for "types", "msgs"
+- fix: lexer Python
 
 1.5.1
 + AddonMan: suggests readme+history
@@ -405,7 +405,7 @@ fixes:
 
 1.5.0
 + added plugin: New File; used for dropdown arrow near "New file" tool button; not shown in Plugins
-- fix: "restore lexer styles" must save lex file
+- fix: "restore lexer styles" must save lexer file
 - fix: gtk2: "copy to clipbd"
 - fix: windows: menus on high DPI
 
@@ -427,11 +427,11 @@ fixes:
 
 1.4.8
 + improved lexers: CSS, JS, PHP, Batch, Ruby, C, C++, C#, Tcl, SQL, YAML, VB, Markdown, Haskell, Makefile (using Sublime syntax tests)
-* del lexers to addons: AutoIt, AutoHotkey
+* deleted lexers to addons: AutoIt, AutoHotkey
 
 1.4.7
 + Windows: Python 3.5
-* del built-in commands to comment/uncomment; now plugin Comments (by kvichans) preinstalled for this, with more options and config dlg
+* deleted built-in commands to comment/uncomment; now plugin Comments (by kvichans) preinstalled for this, with more options and config dialog
 + save/restore last tab in side-panel
 + lexers JS, Python: keywords async/await
 
@@ -441,11 +441,11 @@ fixes:
 + key Enter in left panels: same as dbl-click
 + lexer JS: upd keywords, hilite `backtick-strings`
 + command "open file, ignore plugins" (to open project-files as raw text)
-* del sorting built-in commands (plugin Sort exists)
+* deleted sorting built-in commands (plugin Sort exists)
 
 1.4.5
 * reworked themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. any UI theme can be used with any Syntax theme. More flexible system. Less work on Syntax themes.
-+ dlg Save Tabs: button to dont keep in session
++ dialog Save Tabs: button to dont keep in session
 + AddonManager: menu item "Remove data files"
 
 1.4.4
@@ -456,7 +456,7 @@ fixes:
 - fix: C# lexer string-rule
 
 1.4.3
-+ mouse-wheel should work in Commands dlg
++ mouse-wheel should work in Commands dialog
 + command "go to last editing pos"
 - fix: undo for BackSp 
 
@@ -466,11 +466,11 @@ fixes:
 + python lib "requests" preinstalled
 + command "toggle tab-key uses spaces"
 - fix: replace-all must show "wait..."
-- fix: force Find dlg to desktop on show
+- fix: force Find dialog to desktop on show
 
 1.4.1
 - encoding: files were opened in "UTF8 no bom" by default. Now it is option "def_encoding_utf8": open as ANSI (default for Windows) or UTF8 no bom.
-+ improve floating Find dlg
++ improve floating Find dialog
 + improve paint of tabs, if lot of em (30-40+)
 
 1.4.0
@@ -494,7 +494,7 @@ fixes:
 - macOS: don't assign F11/F12 by default
 + option ui_fullscreen_hide
 - fix: focus after opening session
-- fix: hotkeys-dlg on mac
+- fix: hotkeys-dialog on mac
 
 1.3.24
 + AddonManager: menuitem "Open plugin readme"
@@ -503,7 +503,7 @@ fixes:
 + theme: Amy
 + theme: Cobalt
 + add lexer YAML from addons
-* del lexer "Resource script" to addons
+* deleted lexer "Resource script" to addons
 
 1.3.23
 + lexer-overrides for hotkeys: option "For current lexer" in hotkey dialog (saved in "keys lexer NNN.json")
@@ -525,7 +525,7 @@ fixes:
 + command "toggle micro-map"
 
 1.3.20
-+ dlg Find: buttons Select-all, Mark-all (place selections or markers, can clear markers by command "markers: remove all")
++ dialog Find: buttons Select-all, Mark-all (place selections or markers, can clear markers by command "markers: remove all")
 + commands "Find all, and select / place markers / place bookmarks"
 + option show_cur_line_only_focused
 + option ui_max_history_menu: max_value=50
@@ -535,7 +535,7 @@ fixes:
 + option unprinted_replace_to_code
 * command "Delete line" deletes sel lines
 + max items in install.inf =400
-- fix: dlg "Save tabs?" saving
+- fix: dialog "Save tabs?" saving
 - fix: "change endings" for "none ending" line
 
 1.3.18
@@ -550,7 +550,7 @@ fixes:
 + hotkey Ctrl+Tab changeable
 + command "find, first"
 + command "find, mark all"
-* del lexer TextFiles
+* deleted lexer TextFiles
 
 1.3.15
 + info http://wiki.freepascal.org/CudaText#Change_case_on_replaces
@@ -693,7 +693,7 @@ fixes:
 
 1.2.25
 + used FPC 3.0
-+ hilite URLs: opts links_hilite, links_regex
++ hilite URLs: options links_hilite, links_regex
 + hilite URLs: commands to open/copy URL at pos of right-click
 
 1.2.24
@@ -721,7 +721,7 @@ fixes:
 + option autocomplete_autoshow_lexers
 - autocomplete now ignores case
 + improve picture mode
-+ changed "Save tabs" dlg buttons (same look Win/Linux)
++ changed "Save tabs" dialog buttons (same look Win/Linux)
 
 1.2.20
 + can open pictures: bmp/png/jpg/ico
@@ -730,7 +730,7 @@ fixes:
 
 1.2.19
 + better support for CudaLint (new plugin)
-* statusbar: opts ui_stat_ renamed, some deleted (size_x, center)
+* statusbar: options ui_stat_ renamed, some deleted (size_x, center)
 + statusbar: option "ui_statusbar_panels", all status panels now customizable
 + statusbar: add macros {caret_line_top} {caret_line_btm}
 + option "font_quality" (can disable Cleartype)
@@ -756,7 +756,7 @@ fixes:
 + plugin autocomplete: reshow list if 1 char typed
 + improved "Make Plugin", can hide items in Plugins
 + with col-block of zero width, can use Del/BkSp too
-+ replace dlg key Ctrl+Alt+Enter: replace and don't find next
++ replace dialog key Ctrl+Alt+Enter: replace and don't find next
 * changed hotkeys in Replace
 * output panel uses dbl-click
 - fixes
@@ -767,19 +767,20 @@ fixes:
 * lexers HTML/HTML_/PHP/PHP_: rename, old pair removed to Addon Manager
 + option autocomplete_html
 + option autocomplete_css
-* opts deleted: under_color, under_color_size
-+ opts added: underline_color_files, underline_color_size 
+* options deleted: under_color, under_color_size
++ options added: underline_color_files, underline_color_size 
 - fix: caret at bad coord
 - fix: must unfold found text
 - fix: sort must set "modified"
-- fix: Html autocomplete in Html part of Php
+- fix: HTML autocomplete in HTML part of Php
 
 1.2.12
-+ API (log panels API, splitters API)
++ log panels API
++ splitters API
 * removed lexers NSIS, Inno: to Addon Manager
 
 1.2.11
-+ addon-manager: config dlg (restart to see item); common install dlg; no more using of Synwrite wiki
++ addon-manager: config dialog (restart to see item); common install dialog; no more using of Synwrite wiki
 + "undo" undoes also "*" mark
 + API (better support for ExtTools)
 
@@ -801,7 +802,7 @@ fixes:
 
 1.2.8
 + custom-dialog API
-+ dlg "Goto tab" shows paths
++ dialog "Goto tab" shows paths
 + output panel has hotkeys (wiki help topic)
 + console: char ";" at end of command: don't log
 - fix on pasting n lines at line-end
@@ -826,7 +827,7 @@ fixes:
 
 1.1.0
 * changed format of keys.json (old fields read but not saved)
-+ plugins have hotkeys like all commands: Commands dlg allows to change plugin keys. Saved in keys.json.
++ plugins have hotkeys like all commands: Commands dialog allows to change plugin keys. Saved in keys.json.
 + history saves folded-state
 + command "fold range at current line"
 + command "unfold range at current line"
