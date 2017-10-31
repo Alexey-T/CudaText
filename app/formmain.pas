@@ -111,6 +111,7 @@ type
     ButtonCancel: TATButton;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
+    mnuViewOnTop: TMenuItem;
     mnuOpPlugins: TMenuItem;
     mnuTreeSep1: TMenuItem;
     mnuTreeSorted: TMenuItem;
@@ -525,6 +526,7 @@ type
     mnuViewDistFree_Alt,
     mnuViewSide_Alt,
     mnuViewBottom_Alt,
+    mnuViewOnTop_Alt,
     mnuGr1_Alt,
     mnuGr2H_Alt,
     mnuGr2V_Alt,
@@ -543,6 +545,7 @@ type
     FFindMarkingMode: TATFindMarkingMode;
     FFindMarkingCaret1st: boolean;
     FShowFullScreen: boolean;
+    FShowOnTop: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
     FOrigShowToolbar: boolean;
@@ -691,6 +694,7 @@ type
     procedure MenuThemeDefaultSyntaxClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure SetShowOnTop(AValue: boolean);
     procedure SetSidebarPanel(const ACaption: string);
     procedure SetShowDistractionFree(AValue: boolean);
     procedure SetShowFullScreen(AValue: boolean);
@@ -772,6 +776,7 @@ type
     procedure DoFileSaveAll;
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
+    procedure DoToggleOnTop;
     procedure DoToggleFullScreen;
     procedure DoToggleDistractionFree;
     procedure DoToggleSidePanel;
@@ -876,6 +881,7 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
+    property ShowOnTop: boolean read FShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
@@ -2686,6 +2692,17 @@ begin
   TimerStatusAlt.Enabled:= true;
 end;
 
+procedure TfmMain.SetShowOnTop(AValue: boolean);
+begin
+  if FShowOnTop=AValue then Exit;
+  FShowOnTop:= AValue;
+  if FShowOnTop then
+    FormStyle:= fsStayOnTop
+  else
+    FormStyle:= fsNormal;
+  UpdateStatus;
+end;
+
 procedure TfmMain.SetSidebarPanel(const ACaption: string);
 begin
   if (ACaption<>'-') and (ACaption<>'') then
@@ -2787,6 +2804,11 @@ begin
     FListRecents.Delete(n);
     UpdateMenuRecent(nil);
   end;
+end;
+
+procedure TfmMain.DoToggleOnTop;
+begin
+  ShowOnTop:= not ShowOnTop;
 end;
 
 procedure TfmMain.DoToggleFullScreen;

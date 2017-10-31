@@ -84,6 +84,7 @@ begin
     cmd_ToggleFindDialog:  DoToggleFindDialog;
     cmd_ToggleToolbar:     DoToggleToolbar;
     cmd_ToggleStatusbar:   DoToggleStatusbar;
+    cmd_ToggleOnTop:       DoToggleOnTop;
 
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
     cmd_ShowPanelConsole:  DoShowConsole(true);

@@ -453,6 +453,7 @@ begin
     cmd_ToggleDistractionFree : DoSave(mi, mnuViewDistFree_Alt);
     cmd_ToggleSidePanel : DoSave(mi, mnuViewSide_Alt);
     cmd_ToggleBottomPanel : DoSave(mi, mnuViewBottom_Alt);
+    cmd_ToggleOnTop: DoSave(mi, mnuViewOnTop_Alt);
 
     cmd_Groups1 : DoSave(mi, mnuGr1_Alt);
     cmd_Groups2horz : DoSave(mi, mnuGr2H_Alt);
@@ -598,6 +599,7 @@ begin
   UpdateMenuItemHotkey(mnuViewBottom, cmd_ToggleBottomPanel);
   UpdateMenuItemHotkey(mnuViewToolbar, cmd_ToggleToolbar);
   UpdateMenuItemHotkey(mnuViewStatus, cmd_ToggleStatusbar);
+  UpdateMenuItemHotkey(mnuViewOnTop, cmd_ToggleOnTop);
 
   UpdateMenuItemHotkey(mnuOpDefault, cmd_OpsOpenDefault);
   UpdateMenuItemHotkey(mnuOpUser, cmd_OpsOpenUser);
@@ -723,6 +725,7 @@ begin
   UpdateMenuItemChecked(mnuViewDistFree, mnuViewDistFree_Alt, ShowDistractionFree);
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, ShowSidePanel);
   UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, ShowBottom);
+  UpdateMenuItemChecked(mnuViewOnTop, mnuViewOnTop_Alt, ShowOnTop);
 
   UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, Groups.Mode= gmOne);
   UpdateMenuItemChecked(mnuGr2V, mnuGr2V_Alt, Groups.Mode= gm2Horz);
