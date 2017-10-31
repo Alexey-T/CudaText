@@ -580,6 +580,7 @@ type
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
+    procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem;
       ATag: integer);
     procedure DoShowBottomPanel(const ATabCaption: string);
@@ -1263,6 +1264,7 @@ begin
   Groups.Align:= alClient;
   Groups.Mode:= gmOne;
   Groups.Images:= ImageListTabs;
+  Groups.OnChangeMode:=@DoGroupsChangeMode;
   Groups.OnTabFocus:= @DoOnTabFocus;
   Groups.OnTabAdd:= @DoOnTabAdd;
   Groups.OnTabClose:= @DoOnTabClose;
@@ -1896,6 +1898,11 @@ begin
     '"'+ADirName+'"',
     cBool[ANewProject]
     ]);
+end;
+
+procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
+begin
+  DoPyEvent(CurrentEditor, cEventOnGroup, []);
 end;
 
 function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;

@@ -34,6 +34,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_scroll(self, ed_self): Called on scrolling in editor.
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
+* on_group(self, ed_self): Called after tab-grouping mode is changed.
 
 ==Editor clicks==
 
@@ -1985,6 +1986,7 @@ Text is chr(1) separated items:
 
 1.0.203 (app 1.23.2)
 * add: event on_scroll
+* add: event on_group
 
 1.0.202 (app 1.23.0)
 * add: file_open: can open preview-tab

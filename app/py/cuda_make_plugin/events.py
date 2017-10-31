@@ -17,6 +17,7 @@ EVENTS = [
     'on_goto_enter',
     'on_goto_key',
     'on_goto_key_up',
+    'on_group',
     'on_insert',
     'on_key',
     'on_key_up',
