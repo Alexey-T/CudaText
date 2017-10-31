@@ -144,10 +144,9 @@ type
     );
 
 type
-  TATGroupsNums = 1..6;
+  TATGroupsNums = 0..5;
 
 type
-
   { TATGroups }
 
   TATGroups = class(TPanel)
@@ -484,12 +483,12 @@ begin
 
   Pages1.EnabledEmpty:= false;
   PagesCurrent:= Pages1;
-  Pages[1]:= Pages1;
-  Pages[2]:= Pages2;
-  Pages[3]:= Pages3;
-  Pages[4]:= Pages4;
-  Pages[5]:= Pages5;
-  Pages[6]:= Pages6;
+  Pages[0]:= Pages1;
+  Pages[1]:= Pages2;
+  Pages[2]:= Pages3;
+  Pages[3]:= Pages4;
+  Pages[4]:= Pages5;
+  Pages[5]:= Pages6;
 
   for i:= Low(Pages) to High(Pages) do
     with Pages[i] do
@@ -659,7 +658,7 @@ begin
     end;
 
     for i:= Low(Pages) to High(Pages) do
-      Pages[i].Visible:= i<=cGroupsCount[FMode];
+      Pages[i].Visible:= i<cGroupsCount[FMode];
 
     case FMode of
       gm1plus2Vert:
