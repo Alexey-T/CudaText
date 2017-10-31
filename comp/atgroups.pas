@@ -169,6 +169,7 @@ type
     FScalePercents: integer;
     FSplitPopup: TMyPopupMenu;
     FMode: TATGroupsMode;
+    FOnChangeMode: TNotifyEvent;
     FOnTabPopup: TNotifyEvent;
     FOnTabFocus: TNotifyEvent;
     FOnTabClose: TATTabCloseEvent;
@@ -258,6 +259,7 @@ type
     procedure SaveSplitPos;
     procedure RestoreSplitPos;
     //
+    property OnChangeMode: TNotifyEvent read FOnChangeMode write FOnChangeMode;
     property OnTabPopup: TNotifyEvent read FOnTabPopup write FOnTabPopup;
     property OnTabFocus: TNotifyEvent read FOnTabFocus write FOnTabFocus;
     property OnTabClose: TATTabCloseEvent read FOnTabClose write FOnTabClose;
@@ -1011,6 +1013,9 @@ begin
   finally
     DoControlUnlock(Self);
   end;
+
+  if Assigned(FOnChangeMode) then
+    FOnChangeMode(Self);
 end;
 
 procedure TATGroups.Split1Moved(Sender: TObject);
