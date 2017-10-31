@@ -1915,7 +1915,7 @@ var
   D: TATTabData;
   F: TEditorFrame;
   isOem, bSilent,
-  bPreviewTab, bEnableHistory, bNoEvent: boolean;
+  bPreviewTab, bEnableHistory, bEnableEvent: boolean;
   tick: QWord;
   msg: string;
   i: integer;
@@ -1926,7 +1926,7 @@ begin
 
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
-  bNoEvent:= Pos('/noevent', AOptions)>0;
+  bEnableEvent:= Pos('/noevent', AOptions)=0;
 
   if APages=nil then
     APages:= Groups.PagesCurrent;
@@ -1958,7 +1958,7 @@ begin
   end;
 
   //py event
-  if not bNoEvent then
+  if bEnableEvent then
     if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
       [SStringToPythonString(AFilename)]) = cPyFalse then exit;
 
