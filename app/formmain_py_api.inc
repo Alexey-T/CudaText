@@ -3913,6 +3913,35 @@ begin
 end;
 
 
+function Py_ed_export_html(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  SFileName, STitle, SFontName: PChar;
+  NFontSize, NWithNums: integer;
+  NColorBg, NColorNums: TColor;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'Lsssiiii:export_html',
+      @H, @SFileName, @STitle, @SFontName,
+      @NFontSize, @NWithNums, @NColorBg, @NColorNums
+      )) then
+    begin
+      Ed:= PyEditor(H);
+      DoEditorExportToHTML(Ed,
+        string(SFileName),
+        string(STitle),
+        string(SFontName),
+        NFontSize,
+        Bool(NWithNums),
+        NColorBg,
+        NColorNums
+        );
+      Result:= PyBool_FromLong(Ord(FileExistsUTF8(string(SFileName))));
+    end;
+end;
+
+
 function Py_ed_get_token_result(const PntFrom, PntTo: TPoint; const StrToken, StrStyle: string): PPyObject;
 begin
   with GetPythonEngine do
@@ -4881,6 +4910,7 @@ begin
     AddMethod('ed_gap', @Py_ed_gap, '');
     AddMethod('ed_dim', @Py_ed_dim, '');
     AddMethod('ed_lexer_scan', @Py_ed_lexer_scan, '');
+    AddMethod('ed_export_html', @Py_ed_export_html, '');
 
     AddMethod('file_open', @Py_file_open, '');
     AddMethod('file_save', @Py_file_save, '');

@@ -931,6 +931,9 @@ class Editor:
 
     def get_wrapinfo(self):
         return ct.ed_get_wrapinfo(self.h)
+        
+    def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
+        return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
     #end
 
 #objects

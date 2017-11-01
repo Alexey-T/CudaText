@@ -1967,6 +1967,12 @@ Runs lexer analysis (if lexer active) from given line index. Waits until analysi
 
 Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, else folding won't appear for these lines.
 
+===export_html===
+
+ export_html(file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
+
+Makes HTML file from source text with syntax highlighting. Gets bool: file is created.
+
 ===more===
 
 =Tech info=
@@ -2006,6 +2012,8 @@ Text is chr(1) separated items:
 1.0.204 (app 1.23.5)
 * add: ed.get_wrapinfo()
 * add: ed.get_prop/ed.set_prop: PROP_SCROLL_VERT, PROP_SCROLL_HORZ
+* add: ed.export_html()
+* deleted: ed.set_prop: PROP_EXPORT_HTML
 
 1.0.203 (app 1.23.4)
 * add: event on_scroll
