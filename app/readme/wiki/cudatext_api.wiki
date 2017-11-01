@@ -1761,7 +1761,7 @@ Possible values of id:
 
  get_wrapinfo()
 
-Gets info about wrapped lines. It is needed to calculate, at which positions long lines are wrapped (when wrap mode is on).
+Gets info about wrapped lines. It allows to calculate, at which positions long lines are wrapped (when wrap mode is on). It allows to see, which text parts are folded.
 
 Gets list of dict, or None. Dict items has keys:
 
