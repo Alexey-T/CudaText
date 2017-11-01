@@ -44,6 +44,7 @@ uses
   ATSynEdit_Gaps,
   ATSynEdit_CanvasProc,
   ATSynEdit_Adapter_EControl,
+  ATSynEdit_WrapInfo,
   ATTabs,
   ATGroups,
   ATStatusBar,

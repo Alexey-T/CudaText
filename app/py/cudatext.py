@@ -926,6 +926,9 @@ class Editor:
 
     def lexer_scan(self, num):
         return ct.ed_lexer_scan(self.h, num)
+
+    def get_wrapinfo(self):
+        return ct.ed_get_wrapinfo(self.h)
     #end
 
 #objects
