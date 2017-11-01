@@ -172,6 +172,8 @@ PROP_TAB_ID                = 48
 PROP_COLUMN_LEFT           = 49
 PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
+PROP_SCROLL_VERT           = 52
+PROP_SCROLL_HORZ           = 53
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1

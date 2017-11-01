@@ -2125,6 +2125,11 @@ begin
         PROP_COLUMN_LEFT:
           Result:= PyInt_FromLong(Ed.ColumnLeft);
 
+        PROP_SCROLL_VERT:
+          Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
+        PROP_SCROLL_HORZ:
+          Result:= PyInt_FromLong(Ed.ScrollHorz.NPos);
+
         PROP_LINK_AT_POS:
           begin
             Pnt.X:= StrToIntDef(SGetItem(Str), -1);
@@ -2152,7 +2157,7 @@ begin
         PROP_ONE_LINE:
           begin
             Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
-          end
+          end;
 
         else
           Result:= ReturnNone;
@@ -2170,6 +2175,7 @@ var
   F: TEditorFrame;
   An, AnOut: TecSyntAnalyzer;
   ValueBool: boolean;
+  ScrollInfo: TATSynScrollInfo;
   ValueInt, NGroup, NTab, NIndexNew, N1, N2: integer;
 begin
   with GetPythonEngine do
@@ -2347,6 +2353,20 @@ begin
           Ed.OptMinimapVisible:= ValueBool;
         PROP_MICROMAP:
           Ed.OptMicromapVisible:= ValueBool;
+
+        PROP_SCROLL_VERT:
+          begin
+            ScrollInfo:= Ed.ScrollVert;
+            ScrollInfo.NPos:= ValueInt;
+            Ed.ScrollVert:= ScrollInfo;
+          end;
+
+        PROP_SCROLL_HORZ:
+          begin
+            ScrollInfo:= Ed.ScrollHorz;
+            ScrollInfo.NPos:= ValueInt;
+            Ed.ScrollHorz:= ScrollInfo;
+          end;
 
         PROP_ONE_LINE:
           Ed.ModeOneLine:= ValueBool;
