@@ -1596,8 +1596,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
+* PROP_SCROLL_VERT: int: precise vert scroll position. It is index in WrapInfo list, which you can read via get_wrapinfo().
+* PROP_SCROLL_HORZ: int: precise horz scroll position. Same as PROP_COLUMN_LEFT.
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
-* PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
+* PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: value must be str(column)+","+str(line), column/line 0-based.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
@@ -1653,6 +1655,8 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn). 
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
+* PROP_SCROLL_VERT: int: precise vert scroll position. It is index in WrapInfo list, which you can read via get_wrapinfo().
+* PROP_SCROLL_HORZ: int: precise horz scroll position. Same as PROP_COLUMN_LEFT.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
@@ -2004,6 +2008,7 @@ Text is chr(1) separated items:
 * add: event on_group
 * add: file_open: options can have "/noevent"
 * add: ed.get_wrapinfo()
+* add: ed.get_prop/ed.set_prop: PROP_SCROLL_VERT, PROP_SCROLL_HORZ
 
 1.0.202 (app 1.23.0)
 * add: file_open: can open preview-tab
