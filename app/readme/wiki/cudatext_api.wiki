@@ -1757,6 +1757,20 @@ Possible values of id:
 * TOKEN_AT_POS: Token at position (x=index1, y=index2).
 * TOKEN_INDEX: Token with index=index1 (in tokens collection), 0-based.
 
+===get_wrapinfo===
+
+ get_wrapinfo()
+
+Gets info about wrapped lines. It is needed to calculate, at which positions long lines are wrapped (when wrap mode is on).
+
+Gets list of dict, or None. Dict items has keys:
+
+* "line": Original line index, for this part.
+* "char": Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
+* "len": Length of this part. It equals to entire line length, if line is not wrapped.
+* "indent": Screen indent in spaces, for this part, it's used in rendering when option "Show wrapped parts indented" is on.
+* "final": Enum, state of this part. 0: final part of entire line; 1: folded (hidden) part; 2: first or middle part of entire line.
+
 ===markers===
 
  markers(id, x=0, y=0, tag=0, len_x=0, len_y=0)
@@ -1989,6 +2003,7 @@ Text is chr(1) separated items:
 * add: event on_scroll
 * add: event on_group
 * add: file_open: options can have "/noevent"
+* add: ed.get_wrapinfo()
 
 1.0.202 (app 1.23.0)
 * add: file_open: can open preview-tab
