@@ -1670,7 +1670,6 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
-* PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
@@ -1971,7 +1970,15 @@ Use case: plugin appends n lines to text (line by line), then lexer needs to res
 
  export_html(file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
 
-Makes HTML file from source text with syntax highlighting. Gets bool: file is created.
+Makes HTML file from source text with syntax highlighting. Gets bool: file is created. Params:
+
+* file_name: str: Path of file.
+* title: str: HTML page title.
+* font_name: str: Font name.
+* int: Font size, in HTML points.
+* with_nums: bool: Make column with line numbers.
+* color_bg: int: RGB color of page background.
+* color_nums: int: RGB color of line numbers. 
 
 ===more===
 
