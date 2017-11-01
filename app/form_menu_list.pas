@@ -53,6 +53,7 @@ implementation
 
 procedure TfmGotoList.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
   List.ItemCount:= Items.Count;
 end;
 

@@ -18,6 +18,7 @@ type
     ButtonPanel1: TButtonPanel;
     PanelPress: TPanel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
   private
     { private declarations }
   public
@@ -101,6 +102,11 @@ begin
   FHotkey:= ShortCutToText(ShortCut(Key, Shift));
   ModalResult:= mrOk;
   Key:= 0;
+end;
+
+procedure TfmKeyInput.FormShow(Sender: TObject);
+begin
+  UpdateFormOnTop(Self);
 end;
 
 end.

@@ -97,6 +97,8 @@ end;
 
 procedure TfmKeys.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
+
   //OK btn needs confirmtion
   panelBtn.OKButton.ModalResult:= mrNone;
 

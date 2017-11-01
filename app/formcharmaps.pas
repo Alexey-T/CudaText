@@ -149,6 +149,8 @@ var
   {$endif}
   i, j: integer;
 begin
+  UpdateFormOnTop(Self);
+
   {$ifdef windows}
   //select comboAnsi item for system codepage
   cp:= Windows.GetACP;

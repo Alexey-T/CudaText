@@ -123,6 +123,7 @@ end;
 
 procedure TfmLexerLib.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
   UpdateList;
   if List.Items.Count>0 then
     List.ItemIndex:= 0;

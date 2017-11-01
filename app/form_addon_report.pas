@@ -61,6 +61,7 @@ end;
 
 procedure TfmAddonReport.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
   DoLocalize_FormAddonReport(Self);
   ButtonPanel1.OKButton.SetFocus;
 end;

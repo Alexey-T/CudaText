@@ -29,6 +29,7 @@ type
     procedure btnSetNoneClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { private declarations }
     LexerName: string;
@@ -235,6 +236,11 @@ begin
   FreeAndNil(ItemsLex);
   FreeAndNil(ItemsTh);
   FreeAndNil(ItemsVal);
+end;
+
+procedure TfmLexerStyleMap.FormShow(Sender: TObject);
+begin
+  UpdateFormOnTop(Self);
 end;
 
 procedure TfmLexerStyleMap.DoSave;

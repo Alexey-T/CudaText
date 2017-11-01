@@ -145,6 +145,7 @@ end;
 
 procedure TfmLexerStyle.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
   FormCreate(nil);
   UpdateStyleEn;
 end;

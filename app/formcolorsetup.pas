@@ -175,6 +175,8 @@ end;
 
 procedure TfmColorSetup.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
+
   PanelUi.Align:= alClient;
   PanelSyntax.Align:= alClient;
 

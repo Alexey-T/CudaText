@@ -124,6 +124,8 @@ end;
 
 procedure TfmAbout.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
+
   memo.Hide;
   memo.Align:= alClient;
   memo.Strings.Clear;

@@ -101,6 +101,8 @@ end;
 
 procedure TfmConfirmReplace.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
+
   LabelInfo.Caption:= Format(MsgReplaceMatch, [MsgLineNumber]);
 
   Self.ClientWidth:= bNoAll.Left+bNoAll.Width+8;

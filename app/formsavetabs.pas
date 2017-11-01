@@ -73,6 +73,8 @@ end;
 
 procedure TfmSaveTabs.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
+
   with List do
     if Items.Count>0 then
       ItemIndex:= 0;

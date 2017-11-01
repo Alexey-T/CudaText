@@ -232,6 +232,7 @@ begin
     else
     begin
       fmFind.IsNarrow:= true;
+      UpdateFormOnTop(fmFind);
     end;
 
     cfg:= TJSONConfig.Create(nil);

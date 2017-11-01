@@ -1,7 +1,7 @@
 object fmColorSetup: TfmColorSetup
   Left = 450
   Height = 529
-  Top = 339
+  Top = 186
   Width = 558
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -11,11 +11,11 @@ object fmColorSetup: TfmColorSetup
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 494
+    Height = 38
+    Top = 485
     Width = 546
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -61,7 +61,7 @@ object fmColorSetup: TfmColorSetup
       AnchorSideRight.Control = PanelUi
       AnchorSideRight.Side = asrBottom
       Left = 374
-      Height = 29
+      Height = 30
       Top = 120
       Width = 140
       Anchors = [akTop, akLeft, akRight]
@@ -78,8 +78,8 @@ object fmColorSetup: TfmColorSetup
       AnchorSideRight.Control = bChange
       AnchorSideRight.Side = asrBottom
       Left = 374
-      Height = 29
-      Top = 155
+      Height = 30
+      Top = 156
       Width = 140
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
@@ -115,7 +115,7 @@ object fmColorSetup: TfmColorSetup
       AnchorSideRight.Control = PanelSyntax
       AnchorSideRight.Side = asrBottom
       Left = 372
-      Height = 29
+      Height = 30
       Top = 136
       Width = 160
       Anchors = [akTop, akLeft, akRight]

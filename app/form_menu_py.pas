@@ -67,6 +67,8 @@ implementation
 
 procedure TfmMenuApi.FormShow(Sender: TObject);
 begin
+  UpdateFormOnTop(Self);
+
   //fit in scrn
   Left:= Max(0, Left);
   Left:= Min(Left, Screen.DesktopWidth-Width);

@@ -1,7 +1,7 @@
 object fmLexerStyleMap: TfmLexerStyleMap
   Left = 338
   Height = 448
-  Top = 362
+  Top = 267
   Width = 627
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -10,13 +10,14 @@ object fmLexerStyleMap: TfmLexerStyleMap
   ClientWidth = 627
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.9.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 413
+    Height = 38
+    Top = 404
     Width = 615
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -32,9 +33,9 @@ object fmLexerStyleMap: TfmLexerStyleMap
   end
   object LabelLex: TLabel
     Left = 7
-    Height = 17
+    Height = 14
     Top = 4
-    Width = 92
+    Width = 84
     Caption = 'Styles in lexer'
     FocusControl = ListLex
     ParentColor = False
@@ -44,9 +45,9 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = LabelLex
     Left = 310
-    Height = 17
+    Height = 14
     Top = 4
-    Width = 101
+    Width = 94
     BorderSpacing.Left = 6
     Caption = 'Styles in theme'
     FocusControl = ListTh
@@ -58,15 +59,14 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = ButtonPanel1
     Left = 6
-    Height = 383
-    Top = 24
+    Height = 377
+    Top = 21
     Width = 298
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 3
     BorderSpacing.Bottom = 3
     ItemHeight = 0
-    Options = [lboDrawFocusRect]
     ScrollWidth = 296
     TabOrder = 0
     TopIndex = -1
@@ -79,14 +79,13 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideBottom.Control = ListLex
     AnchorSideBottom.Side = asrBottom
     Left = 310
-    Height = 383
-    Top = 24
+    Height = 377
+    Top = 21
     Width = 155
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     ItemHeight = 0
-    Options = [lboDrawFocusRect]
     ScrollWidth = 153
     TabOrder = 1
     TopIndex = -1
@@ -95,8 +94,8 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 471
-    Height = 29
-    Top = 28
+    Height = 30
+    Top = 27
     Width = 150
     Anchors = [akRight]
     AutoSize = True
@@ -113,7 +112,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
     Left = 471
-    Height = 29
+    Height = 30
     Top = 63
     Width = 150
     Anchors = [akTop, akLeft, akRight]
@@ -130,8 +129,8 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
     Left = 471
-    Height = 29
-    Top = 98
+    Height = 30
+    Top = 99
     Width = 150
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True

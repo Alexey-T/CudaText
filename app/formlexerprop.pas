@@ -331,6 +331,8 @@ procedure TfmLexerProp.FormShow(Sender: TObject);
 var
   i: integer;
 begin
+  UpdateFormOnTop(Self);
+
   Pages.PageIndex:= 0;
 
   InitBorder(cbBorderL);

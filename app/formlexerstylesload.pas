@@ -76,6 +76,8 @@ var
   L: TStringList;
   Ini: TIniFile;
 begin
+  UpdateFormOnTop(Self);
+
   if StylesFilename='' then Exit;
   List.Items.Clear;
 
