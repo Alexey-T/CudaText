@@ -2003,12 +2003,14 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.203 (app 1.23.2)
+1.0.204 (app 1.23.5)
+* add: ed.get_wrapinfo()
+* add: ed.get_prop/ed.set_prop: PROP_SCROLL_VERT, PROP_SCROLL_HORZ
+
+1.0.203 (app 1.23.4)
 * add: event on_scroll
 * add: event on_group
 * add: file_open: options can have "/noevent"
-* add: ed.get_wrapinfo()
-* add: ed.get_prop/ed.set_prop: PROP_SCROLL_VERT, PROP_SCROLL_HORZ
 
 1.0.202 (app 1.23.0)
 * add: file_open: can open preview-tab
