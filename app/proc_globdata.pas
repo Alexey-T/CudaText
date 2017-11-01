@@ -24,11 +24,9 @@ uses
   ATStringProc,
   ATButtons,
   ATListbox,
-  ATPanelSimple,
   proc_cmd,
   proc_lexer,
   proc_msg,
-  proc_scrollbars,
   proc_keymap_undolist,
   ecSyntAnal;
 
@@ -650,6 +648,8 @@ var
   StatusbarIndex_SelMode: integer = -1;
   StatusbarIndex_WrapMode: integer = -1;
   StatusbarIndex_Msg: integer = 5;
+
+procedure UpdateFormOnTop(F: TForm);
 
 
 implementation
@@ -1727,6 +1727,15 @@ begin
       if ShortName<>'' then
         Result:= Result + LowerCase(ShortName) + #10;
 end;
+
+procedure UpdateFormOnTop(F: TForm);
+begin
+  if UiOps.ShowFormsOnTop then
+    F.FormStyle:= fsSystemStayOnTop
+  else
+    F.FormStyle:= fsNormal;
+end;
+
 
 initialization
   InitDirs;
