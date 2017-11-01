@@ -55,8 +55,6 @@ procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean
 procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
 procedure DoApplyThemeToToolbar(C: TATButtonsToolbar);
 
-procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
-
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
@@ -167,26 +165,6 @@ begin
     Result.X:= ANewPnt.X;
   end;
 end;
-
-procedure DoEditorExportToHTML_WithParams(Ed: TATSynEdit; AParams: string);
-var
-  SFileName, STitle, SFontName: string;
-  NFontSize: integer;
-  bWithNums: boolean;
-  NColorBg, NColorNums: TColor;
-begin
-  SFileName:= SGetItem(AParams, ';');
-  STitle:= SGetItem(AParams, ';');
-  SFontName:= SGetItem(AParams, ';');
-  NFontSize:= StrToIntDef(SGetItem(AParams, ';'), 10);
-  bWithNums:= StrToBoolDef(SGetItem(AParams, ';'), false);
-  NColorBg:= StrToIntDef(SGetItem(AParams, ';'), clWhite);
-  NColorNums:= StrToIntDef(SGetItem(AParams, ';'), clGray);
-
-  DoEditorExportToHTML(Ed, SFileName, STitle, SFontName, NFontSize, bWithNums,
-    NColorBg, NColorNums);
-end;
-
 
 function KeyboardStateToShiftState: TShiftState;
 begin

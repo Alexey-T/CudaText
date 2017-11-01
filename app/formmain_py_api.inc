@@ -2371,11 +2371,6 @@ begin
         PROP_ONE_LINE:
           Ed.ModeOneLine:= ValueBool;
 
-        PROP_EXPORT_HTML:
-          begin
-            DoEditorExportToHTML_WithParams(Ed, Str);
-          end;
-
         PROP_MARKED_RANGE:
           begin
             N1:= StrToIntDef(SGetItem(Str), -1);
