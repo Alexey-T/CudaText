@@ -546,7 +546,6 @@ type
     FFindMarkingMode: TATFindMarkingMode;
     FFindMarkingCaret1st: boolean;
     FShowFullScreen: boolean;
-    FShowOnTop: boolean;
     FOrigBounds: TRect;
     FOrigWndState: TWindowState;
     FOrigShowToolbar: boolean;
@@ -678,6 +677,7 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    function GetShowOnTop: boolean;
     procedure GotoInputOnChange(Sender: TObject);
     procedure GotoInputOnChangeCaretPos(Sender: TObject);
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -881,7 +881,7 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
-    property ShowOnTop: boolean read FShowOnTop write SetShowOnTop;
+    property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
@@ -2687,14 +2687,15 @@ begin
   TimerStatusAlt.Enabled:= true;
 end;
 
+function TfmMain.GetShowOnTop: boolean;
+begin
+  Result:= UiOps.ShowFormsOnTop;
+end;
+
 procedure TfmMain.SetShowOnTop(AValue: boolean);
 begin
-  FShowOnTop:= AValue;
-  if FShowOnTop then
-    FormStyle:= fsSystemStayOnTop
-  else
-    FormStyle:= fsNormal;
-
+  UiOps.ShowFormsOnTop:= AValue;
+  UpdateFormOnTop(Self);
   UpdateStatus;
 end;
 

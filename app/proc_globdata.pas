@@ -175,6 +175,8 @@ type
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
     ShowLastFiles: boolean;
+    ShowFormsOnTop: boolean;
+
     OneInstance: boolean;
     NotifEnabled: boolean;
     NotifTimeSec: integer;
@@ -1132,6 +1134,7 @@ begin
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
     ShowLastFiles:= true;
+    ShowFormsOnTop:= false;
     OneInstance:= false;
     NotifEnabled:= true;
     NotifTimeSec:= 2;

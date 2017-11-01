@@ -59,6 +59,7 @@ function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
+procedure UpdateFormOnTop(F: TForm);
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function AppStrToBool(const S: string): boolean; inline;
 
@@ -309,6 +310,14 @@ begin
   NSec:= NSec div 2 * 2;
   DTime:= EncodeTime(NHour, NMinute, NSec, NMilSec);
   Result:= FormatDateTime('yyyy-mm-dd_hh-nn-ss', ComposeDateTime(ADate, DTime));
+end;
+
+procedure UpdateFormOnTop(F: TForm);
+begin
+  if UiOps.ShowFormsOnTop then
+    F.FormStyle:= fsSystemStayOnTop
+  else
+    F.FormStyle:= fsNormal;
 end;
 
 function FormatFileDateAsNiceString(const AFilename: string): string;
