@@ -1873,6 +1873,43 @@ begin
     end;
 end;
 
+
+function Py_ed_get_wrapinfo(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  Data: TATSynWrapItemData;
+  NLen, i: Integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:get_wrapinfo', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      NLen:= Ed.WrapInfo.Count;
+      if NLen>0 then
+      begin
+        Result:= PyList_New(NLen);
+        if not Assigned(Result) then
+          raise EPythonError.Create(msgPythonListError);
+        for i:= 0 to NLen-1 do
+        begin
+          Data:= Ed.WrapInfo[i];
+          PyList_SetItem(Result, i,
+            Py_BuildValue('{sisisisisi}',
+              'line', Data.NLineIndex,
+              'char', Data.NCharIndex,
+              'len', Data.NLength,
+              'indent', Data.NIndent,
+              'final', Ord(Data.NFinal)
+              ));
+        end;
+      end
+      else
+        Result:= ReturnNone;
+    end;
+end;
+
+
 function Py_ed_get_prop(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -2088,6 +2125,11 @@ begin
         PROP_COLUMN_LEFT:
           Result:= PyInt_FromLong(Ed.ColumnLeft);
 
+        PROP_SCROLL_VERT:
+          Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
+        PROP_SCROLL_HORZ:
+          Result:= PyInt_FromLong(Ed.ScrollHorz.NPos);
+
         PROP_LINK_AT_POS:
           begin
             Pnt.X:= StrToIntDef(SGetItem(Str), -1);
@@ -2115,7 +2157,7 @@ begin
         PROP_ONE_LINE:
           begin
             Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
-          end
+          end;
 
         else
           Result:= ReturnNone;
@@ -2133,6 +2175,7 @@ var
   F: TEditorFrame;
   An, AnOut: TecSyntAnalyzer;
   ValueBool: boolean;
+  ScrollInfo: TATSynScrollInfo;
   ValueInt, NGroup, NTab, NIndexNew, N1, N2: integer;
 begin
   with GetPythonEngine do
@@ -2310,6 +2353,20 @@ begin
           Ed.OptMinimapVisible:= ValueBool;
         PROP_MICROMAP:
           Ed.OptMicromapVisible:= ValueBool;
+
+        PROP_SCROLL_VERT:
+          begin
+            ScrollInfo:= Ed.ScrollVert;
+            ScrollInfo.NPos:= ValueInt;
+            Ed.ScrollVert:= ScrollInfo;
+          end;
+
+        PROP_SCROLL_HORZ:
+          begin
+            ScrollInfo:= Ed.ScrollHorz;
+            ScrollInfo.NPos:= ValueInt;
+            Ed.ScrollHorz:= ScrollInfo;
+          end;
 
         PROP_ONE_LINE:
           Ed.ModeOneLine:= ValueBool;
@@ -4808,6 +4865,7 @@ begin
     AddMethod('ed_folding', @Py_ed_folding, '');
     AddMethod('ed_get_sublexer_ranges', @Py_ed_get_sublexer_ranges, '');
     AddMethod('ed_get_token', @Py_ed_get_token, '');
+    AddMethod('ed_get_wrapinfo', @Py_ed_get_wrapinfo, '');
 
     AddMethod('ed_save', @Py_ed_save, '');
     AddMethod('ed_cmd', @Py_ed_cmd, '');
