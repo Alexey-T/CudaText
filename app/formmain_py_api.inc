@@ -3915,6 +3915,7 @@ var
   SFileName, STitle, SFontName: PChar;
   NFontSize, NWithNums: integer;
   NColorBg, NColorNums: TColor;
+  ok: boolean;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lsssiiii:export_html',
@@ -3932,7 +3933,9 @@ begin
         NColorBg,
         NColorNums
         );
-      Result:= PyBool_FromLong(Ord(FileExistsUTF8(string(SFileName))));
+
+      ok:= FileExistsUTF8(string(SFileName));
+      Result:= PyBool_FromLong(Ord(ok));
     end;
 end;
 
