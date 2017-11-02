@@ -4,12 +4,13 @@
   * changed
 
 
-1.23.4 (2017/11)
+1.23.5 (2017/11)
 
 + added: option "ui_tab_angled" (bool value), improved painting of angled tabs
 * removed: option "ui_tab_angle" (int value)
 + added: menu item "View - Toggle always on top"
 + API
+* lexer SQL: removed code tree support
 
 1.23.0 (2017/10)
 

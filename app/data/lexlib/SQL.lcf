@@ -1,4 +1,4 @@
-object SyntAnal34: TLibSyntAnalyzer
+object SyntAnal36: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Identifier'
@@ -44,7 +44,7 @@ object SyntAnal34: TLibSyntAnalyzer
     item
       DisplayName = 'Symbol Ext'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clRed
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -63,7 +63,7 @@ object SyntAnal34: TLibSyntAnalyzer
     item
       DisplayName = 'Keyword'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -72,19 +72,19 @@ object SyntAnal34: TLibSyntAnalyzer
     item
       DisplayName = 'Function'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
     end
     item
       DisplayName = 'Function Ext'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 13266272
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
       BorderTypeBottom = blWavyLine
       BorderColorBottom = clSilver
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
@@ -104,7 +104,7 @@ object SyntAnal34: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      BgColor = clLime
+      BgColor = clMoneyGreen
       BorderTypeLeft = blSolid
       BorderTypeTop = blSolid
       BorderTypeRight = blSolid
@@ -129,81 +129,9 @@ object SyntAnal34: TLibSyntAnalyzer
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
     end
     item
-      DisplayName = 'Marked Block - Range'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNone
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = 15925237
-      FormatType = ftColor
-    end
-    item
-      DisplayName = 'Tree (Main, Color)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 14844018
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end
-    item
-      DisplayName = 'Tree (Main, Black)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end
-    item
-      DisplayName = 'Tree (Main, Alias)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 1482313
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-      FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
-    end
-    item
-      DisplayName = 'Tree (Regular, Color)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 14844018
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Tree (Regular, Black)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Tree (Regular, Alias)'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 1550414
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Current Line'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clNone
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      FormatType = ftBackGround
-      BorderTypeLeft = blSolid2
-      BorderColorLeft = 4364526
-    end
-    item
       DisplayName = 'Alias'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = 2086500
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -212,10 +140,10 @@ object SyntAnal34: TLibSyntAnalyzer
     item
       DisplayName = 'Table'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = []
       FormatFlags = [ffBold, ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden]
     end>
   TokenRules = <
@@ -727,14 +655,13 @@ object SyntAnal34: TLibSyntAnalyzer
           IgnoreCase = True
         end>
       EndOfTextClose = True
+      DisplayInTree = False
       HighlightPos = cpAny
       DynSelectMin = True
-      TreeItemStyle = 'Tree (Regular, Color)'
       IgnoreAsParent = False
     end
     item
       DisplayName = 'STATEMENT'
-      StyleName = 'Marked Block - Range'
       ConditionList = <
         item
           TagList.Strings = (
@@ -745,11 +672,11 @@ object SyntAnal34: TLibSyntAnalyzer
         end>
       BlockEnd = 'STATEMENT END'
       EndOfTextClose = True
+      DisplayInTree = False
       NameFmt = '%s0'
       DynHighlight = dhRange
       HighlightPos = cpRange
       DynSelectMin = True
-      TreeItemStyle = 'Tree (Main, Black)'
       IgnoreAsParent = False
     end
     item
@@ -865,10 +792,14 @@ object SyntAnal34: TLibSyntAnalyzer
     'Table'
     'Field')
   Gramma.Gramma = 'Skip = <Comment>;'#13#10
-  CurrentLineStyle = 'Current Line'
   Extentions = 'sql'
   LexerName = 'SQL'
   SkipSpaces = False
+  Notes.Strings = (
+    'Original lexer: from EControl'
+    
+      'Changed by Alexey: don'#39't show tree items (no need for SQL), dele' +
+      'ted styles for tree')
   RestartFromLineStart = True
   LineComment = '--'
   AlwaysSyncBlockAnal = True
