@@ -24,7 +24,6 @@ curl -L https://github.com/Alexey-T/ATButtons/archive/master.zip >ATButtons.zip
 curl -L https://github.com/Alexey-T/ATFileNotif-Lazarus/archive/master.zip >ATFileNotif.zip
 curl -L https://github.com/Alexey-T/ATGauge/archive/master.zip >ATGauge.zip
 curl -L https://github.com/Alexey-T/ATGroups/archive/master.zip >ATGroups.zip
-curl -L https://github.com/Alexey-T/ATScrollBar/archive/master.zip >ATScrollBar.zip
 curl -L https://github.com/Alexey-T/ATStatus/archive/master.zip >ATStatus.zip
 curl -L https://github.com/Alexey-T/ATSynEdit/archive/master.zip >ATSynEdit.zip
 curl -L https://github.com/Alexey-T/ATSynEdit_Ex/archive/master.zip >ATSynEdit_Ex.zip
