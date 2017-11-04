@@ -4,6 +4,10 @@
   * changed
 
 
+1.23.6 (2017/11)
+
++ ProjectManager: show x icon for already deleted files
+
 1.23.5 (2017/11)
 
 + added: option "ui_tab_angled" (bool value), improved painting of angled tabs

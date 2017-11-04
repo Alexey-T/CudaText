@@ -417,7 +417,12 @@ class Command:
             if self.is_filename_ignored(path.name):
                 continue
 
-            if path.is_dir() and is_locked(str(path)):
+            if path.is_dir():
+                isbad = is_locked(str(path))
+            else:
+                isbad = not path.is_file()
+
+            if isbad:
                 imageindex = self.ICON_BAD
             elif path.is_dir():
                 imageindex = self.ICON_DIR
