@@ -1743,10 +1743,15 @@ function AppEncodingOem: string;
 begin
   {$ifdef windows}
   case Windows.GetOEMCP of
+    437: Result:= 'CP437';
     850: Result:= 'CP850';
     852: Result:= 'CP852';
     866: Result:= 'CP866';
     874: Result:= 'CP874';
+    932: Result:= 'CP932';
+    936: Result:= 'CP936';
+    949: Result:= 'CP949';
+    950: Result:= 'CP950';
     else Result:= 'CP437';
   end;
   {$else}
