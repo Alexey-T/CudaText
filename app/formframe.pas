@@ -592,6 +592,7 @@ begin
       if SameText(Str, cEncNameUtf16BE_WithBom) then begin Editor.Strings.Encoding:= cEncWideBE; Editor.Strings.SaveSignWide:= true; end else
        if SameText(Str, cEncNameUtf16BE_NoBom) then begin Editor.Strings.Encoding:= cEncWideBE; Editor.Strings.SaveSignWide:= false; end else
         if SameText(Str, cEncNameAnsi) then begin Editor.Strings.Encoding:= cEncAnsi; Editor.Strings.EncodingCodepage:= ''; end else
+         if SameText(Str, cEncNameOem) then begin Editor.Strings.Encoding:= cEncAnsi; Editor.Strings.EncodingCodepage:= AppEncodingOem; end else
          begin
            Editor.Strings.Encoding:= cEncAnsi;
            Editor.Strings.EncodingCodepage:= Str;
