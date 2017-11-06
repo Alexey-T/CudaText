@@ -7,8 +7,9 @@
 1.24.0 (2017/11)
 
 + rewritten search engine for non-RegEx mode. Not it's 10 times faster on big (50Mb+) files. RegEx search is still slow (it builds string buffer from enture file).
-+ ProjectManager: show x icon for already deleted files
 + added: encoding "OEM", it maps to one of locale dependent OEM encodings (cp437, cp850, cp852, cp866 etc)
++ ProjectManager: show x icon for already deleted files
+- fix: prev version shows "Cannot focus invisible window" on reopening session
 
 1.23.5 (2017/11)
 
