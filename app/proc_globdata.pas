@@ -12,6 +12,9 @@ unit proc_globdata;
 interface
 
 uses
+  {$ifdef windows}
+  Windows,
+  {$endif}
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics, ExtCtrls, ComCtrls,
   InterfaceBase,
