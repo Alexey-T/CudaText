@@ -157,7 +157,6 @@ PROP_UNPRINTED_END_DETAILS = 33
 PROP_TAB_ICON              = 34
 PROP_TAB_COLLECT_MARKERS   = 35
 PROP_MACRO_REC             = 36
-PROP_EXPORT_HTML           = 37
 PROP_MARKED_RANGE          = 38
 PROP_LINE_NUMBERS          = 39
 PROP_VISIBLE_LINES         = 40
@@ -172,6 +171,8 @@ PROP_TAB_ID                = 48
 PROP_COLUMN_LEFT           = 49
 PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
+PROP_SCROLL_VERT           = 52
+PROP_SCROLL_HORZ           = 53
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1
@@ -926,6 +927,12 @@ class Editor:
 
     def lexer_scan(self, num):
         return ct.ed_lexer_scan(self.h, num)
+
+    def get_wrapinfo(self):
+        return ct.ed_get_wrapinfo(self.h)
+        
+    def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
+        return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
     #end
 
 #objects

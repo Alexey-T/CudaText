@@ -11,11 +11,8 @@ import cudatext_cmd
 PROJECT_EXTENSION = ".cuda-proj"
 PROJECT_DIALOG_FILTER = "CudaText projects|*"+PROJECT_EXTENSION
 PROJECT_UNSAVED_NAME = "(Unsaved project)"
-NEED_API = '1.0.189'
-
-global_project_info = {}
-
 NODE_PROJECT, NODE_DIR, NODE_FILE, NODE_BAD = range(4)
+global_project_info = {}
 
 def project_variables():
     """
@@ -176,10 +173,6 @@ class Command:
         if self.tree:
             return
 
-        if app_api_version() < NEED_API:
-            msg_box('Project Manager needs newer app version', MB_OK + MB_ICONERROR)
-            return
-
         self.init_form_main()
 
         dlg_proc(self.h_dlg, DLG_SCALE)
@@ -192,6 +185,7 @@ class Command:
 
         self.action_refresh()
         self.generate_context_menu()
+
 
     def show_panel(self):
         self.do_show(False)
@@ -411,6 +405,11 @@ class Command:
                 project_name,
                 self.ICON_PROJ,
             )
+
+            #select 1st node
+            items_root = tree_proc(self.tree, TREE_ITEM_ENUM, 0)
+            tree_proc(self.tree, TREE_ITEM_SELECT, items_root[0][0])
+
             nodes = self.project["nodes"]
             self.top_nodes = {}
 
@@ -418,7 +417,12 @@ class Command:
             if self.is_filename_ignored(path.name):
                 continue
 
-            if path.is_dir() and is_locked(str(path)):
+            if path.is_dir():
+                isbad = is_locked(str(path))
+            else:
+                isbad = not path.is_file()
+
+            if isbad:
                 imageindex = self.ICON_BAD
             elif path.is_dir():
                 imageindex = self.ICON_DIR
@@ -549,6 +553,8 @@ class Command:
         global_project_info['mainfile'] = self.project.get('mainfile', '')
 
     def get_info(self, index):
+        if index is None:
+            return
         info = tree_proc(self.tree, TREE_ITEM_GET_PROPS, index)
         if info:
             return NodeInfo(info['text'], info['icon'])
@@ -795,7 +801,11 @@ class Command:
 
     def do_open_current_file(self, options):
         info = self.get_info(self.selected)
+        if not info:
+            return
         path = self.get_location_by_index(self.selected)
+        if not path:
+            return
         if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
             file_open(str(path), options=options)
 

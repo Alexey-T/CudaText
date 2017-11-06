@@ -4,6 +4,20 @@
   * changed
 
 
+1.23.6 (2017/11)
+
++ added: encoding "OEM", it maps to one of locale dependent OEM encodings (cp437, cp850, cp852, cp866 etc)
++ ProjectManager: show x icon for already deleted files
+- fix: prev version shows "Cannot focus invisible window" on reopening session
+
+1.23.5 (2017/11)
+
++ added: option "ui_tab_angled" (bool value), improved painting of angled tabs
+* removed: option "ui_tab_angle" (int value)
++ added: menu item "View - Toggle always on top"
++ API
+* lexer SQL: removed code tree support
+
 1.23.0 (2017/10)
 
 + ProjectManager: single click opens file in the preview tab (italic caption), like in Sublime
@@ -37,7 +51,7 @@
 + reworked UI tabs: added option "ui_tab_button_layout"
 + option "ui_reload_unsaved_confirm"
 - fix: painting on resize
-- fix: ProjectManager using of old api
+- fix: ProjectManager using of old API
 
 1.19.2 (2017/09)
 
@@ -186,7 +200,7 @@ fixes:
 + preinstalled plugin Tabs List
 + Project Manager: read only toplevel dirs from disk, and read other dirs only on unfolding them in treeview (patch by @pohmelie)
 + Project Manager: added toolbar
-+ api
++ API
 * finder: don't put backward selection on find-backward
 * lexer help file converted from CHM format to ODT
 - fix: loosing editor focus on Linux
@@ -197,13 +211,13 @@ fixes:
 + can open folder names from command line, e.g. "cudatext ." like Atom/Sublime can do
 + menuitem "File - Open folder", it calls Project Manager
 + menuitem "Help - Check for updates", it calls Addon Manager
-+ api
++ API
 
 1.9.1
 
 + finder: replace-all made much faster (note: when confirmation is on, you will see unchanged text, it will replace later)
 - finder: count-all must find w/o overlaps (non-regex mode)
-+ api
++ API
 
 1.9.0
 
@@ -212,11 +226,11 @@ fixes:
 * removed option "ui_fullscreen_hide"
 * option "margin" changed default to 2000 (ie, hide)
 - fixed: Win10 old issue when 2nd app instance cannot popup to front
-+ api
++ API
 
 1.8.6
 - fixes for Windows high-dpi (dialogs, toolbar btns, folding icons)
-+ api
++ API
 
 1.8.5
 - fixed for Windows high-dpi (scale more UI items)
@@ -226,29 +240,29 @@ fixes:
 + replace-all: show elapsed time in sec.
 
 1.8.3
-+ api (reworked dlg_proc)
++ API (reworked dlg_proc)
 + Addon Manager: plugin Updater (like SynWrite)
 * Addon Manager: used new channels url
 + Windows: support font ligatures (font Fira Code, only if caret not on line)
 + option font_ligatures
-+ dlg Find: must show on top of CudaText dialogs
++ dialog Find: must show on top of CudaText dialogs
 + toolbar: add buttons Indent, Unindent
 
 1.8.1
-+ api (dlg_proc) for powerful dialogs
++ API (dlg_proc) for powerful dialogs
 + Linux: better support for font ligatures (std lexers changed a little)
 
 1.8.0
 * changed values for "newdoc_encoding" to short (like in API)
 * changed suffix for macOS config keys from "__osx" to "__mac"
-* changed: opt "def_encoding_utf8" has OS suffix
-+ api
-- fix: Tab-key didnt jump in Find dlg
+* changed: option "def_encoding_utf8" has OS suffix
++ API
+- fix: Tab-key didnt jump in Find dialog
 
 1.7.9
 + autocomplete listbox: chars .,;=<> should input to editor and close listbox
 + command line: added key --enclist
-+ api
++ API
 - fix: wrong minimap view color
 - fix: minimap click scrolled editor to right 
 
@@ -275,8 +289,8 @@ fixes:
 * sidebar buttons for "Search", "Go to"; deleted toolbar icons for the same
 * toolbar hidden by default
 * you should delete old files data/sideicons/*.png, now folder here
-+ cmd "hide dialog: find"
-+ cmd "hide dialog: go to"
++ command "hide dialog: find"
++ command "hide dialog: go to"
 
 1.7.5
 - fix: moving window to 2nd monitor (Win10)
@@ -298,45 +312,45 @@ fixes:
 - fix: any click should show caret
 
 1.7.1
-+ Linux gtk2: middle-click-paste uses "primary selection" (alternate gtk clipboard), cmd Copy copies to primary selection too
++ Linux gtk2: middle-click-paste uses "primary selection" (alternate gtk clipboard), command Copy copies to primary selection too
 
 1.7.0
 + option "mouse_mid_click_paste"
 + option "log_dialogs"
 + checkmarks visible for ConfigMenu's menu too
 * default for "ui_statusbar..." changes {x} to {xx}
-* renamed opt "mouse_browser_scroll" to "mouse_mid_click_scroll"
-* deleted opt "backup" (warning shows if opt set), use plugin Backup File instead
+* renamed option "mouse_browser_scroll" to "mouse_mid_click_scroll"
+* deleted option "backup" (warning shows if option set), use plugin Backup File instead
 - Linux gtk2: keep clipboard text on exit
-- fixes in api
+- fixes in API
 
 1.6.9
-- fixes, adds in api
+- fixes, adds in API
 
 1.6.8
 + Alt+click now does goto-definition
-+ opt "mouse_goto_definition"
-+ opt "autocomplete_autoshow_lexers" can have none-lexer as "-"
++ option "mouse_goto_definition"
++ option "autocomplete_autoshow_lexers" can have none-lexer as "-"
 + AddonManager: use temp-file on downloading (safer)
 + AddonManager: message retry/ignore/abort on download err
 + addons install.inf has field for API ver
-- dont suggest multi-line sel to Find dlg
+- dont suggest multi-line sel to Find dialog
 
 1.6.7
-+ api for timer
++ API for timer
 * change default for undo_after_save
 
 1.6.6
-+ find/replace: opt "in selection"
-+ cmd "goto last editing pos" uses find_indent_vert/horz
++ find/replace: option "in selection"
++ command "goto last editing pos" uses find_indent_vert/horz
 + handled click on micromap
-+ api additions
++ API additions
 
 1.6.5
 + windows version-info, for antivir
 + improve report, after installing lexer
-+ cmd "Fold level 1" (was only 2..9)
-+ cmd "Fold all" folds with nested ranges
++ command "Fold level 1" (was only 2..9)
++ command "Fold all" folds with nested ranges
 - fix lexer-parser, bug when Python part inside Latex file
 
 1.6.4
@@ -357,48 +371,48 @@ fixes:
 
 1.6.0
 + big internal changes in core, to support inter-line gaps (it is like "phantoms" in Sublime)
-+ opt "gutter_fold_icons"
++ option "gutter_fold_icons"
 + paint unprinted arrow-left at end-of-file
-+ cmd "Copy bookmarked lines"
-+ cmd "Delete bookmarked lines"
++ command "Copy bookmarked lines"
++ command "Delete bookmarked lines"
 - fix: Linux: hotkeys broken, if Ru layout active at start (bug in Lazarus)
-- fix: issues with caret/scroll, after fold/unfold cmds
+- fix: issues with caret/scroll, after fold/unfold commands
 
 1.5.6
 + syntax hiliting uses cache: scrolling up/down must be faster, for 3K+ lines
-* rename opt "dyn_hilite" to "lexer_dynamic_hilite"
-+ add opt "lexer_dynamic_hilite_max_lines"
-+ add opt "lexer_line_separators"
-+ add opt "staples_style"
-* del opt "staples_show"
-+ improve lex HTML: hilite entities &nnnn;, hilite incorrect tag props, hilite colors #nnn
-+ cmd "duplicate line" allows selection (fwd+back)
-- fix lex Markdown
+* rename option "dyn_hilite" to "lexer_dynamic_hilite"
++ add option "lexer_dynamic_hilite_max_lines"
++ add option "lexer_line_separators"
++ add option "staples_style"
+* deleted option "staples_show"
++ improve lexer HTML: hilite entities &nnnn;, hilite incorrect tag props, hilite colors #nnn
++ command "duplicate line" allows selection (fwd+back)
+- fix lexer Markdown
 
 1.5.4
 + tab context menu "Set tab color" dialog redone by kvichans (in Python), dialog has N palettes (option)
-+ export to html: optimized file
-* lex Pascal: drop hilites of "types", "implementation backgnd"
++ export to HTML: optimized file
+* lexer Pascal: drop hilites of "types", "implementation backgnd"
 
 1.5.3
-+ opt tab_max_pos_expanded
-+ lex Pascal: hilite "exit/result"
++ option tab_max_pos_expanded
++ lexer Pascal: hilite "exit/result"
 - fix: dialogs for high-DPI (windows)
 - fix: folded-blocks were empty bars on Python
 
 1.5.2
-+ api: added, optimised in 5 funcs
-+ lex Pascal: hilites for "types", "msgs"
-- fix: lex Python
++ API: added, optimised in 5 funcs
++ lexer Pascal: hilites for "types", "msgs"
+- fix: lexer Python
 
 1.5.1
 + AddonMan: suggests readme+history
-+ api: events priority
-+ api: for bottom-panel
++ API: events priority
++ API: for bottom-panel
 
 1.5.0
 + added plugin: New File; used for dropdown arrow near "New file" tool button; not shown in Plugins
-- fix: "restore lexer styles" must save lex file
+- fix: "restore lexer styles" must save lexer file
 - fix: gtk2: "copy to clipbd"
 - fix: windows: menus on high DPI
 
@@ -414,17 +428,17 @@ fixes:
 1.4.9
 * now special comments (for range, for full lines), styles-of-comments, styles-of-strings: must be specified in Lexer Props dialog. They save now to .cuda-lexmap files. So can publish these with lexer zip files. You can delete: settings_default/default_lexers.json, user_lexers.json.
 + improved lexers: C#, Bash, reST, Haskell, Yaml, Search results
-+ opt ui_buffered (if UI looks ok, don't touch)
-+ opt ui_tree_icons
-+ api
++ option ui_buffered (if UI looks ok, don't touch)
++ option ui_tree_icons
++ API
 
 1.4.8
 + improved lexers: CSS, JS, PHP, Batch, Ruby, C, C++, C#, Tcl, SQL, YAML, VB, Markdown, Haskell, Makefile (using Sublime syntax tests)
-* del lexers to addons: AutoIt, AutoHotkey
+* deleted lexers to addons: AutoIt, AutoHotkey
 
 1.4.7
 + Windows: Python 3.5
-* del built-in commands to comment/uncomment; now plugin Comments (by kvichans) preinstalled for this, with more options and config dlg
+* deleted built-in commands to comment/uncomment; now plugin Comments (by kvichans) preinstalled for this, with more options and config dialog
 + save/restore last tab in side-panel
 + lexers JS, Python: keywords async/await
 
@@ -433,41 +447,41 @@ fixes:
 + key Esc in left panels: focus editor
 + key Enter in left panels: same as dbl-click
 + lexer JS: upd keywords, hilite `backtick-strings`
-+ cmd "open file, ignore plugins" (to open project-files as raw text)
-* del sorting built-in cmds (plugin Sort exists)
++ command "open file, ignore plugins" (to open project-files as raw text)
+* deleted sorting built-in commands (plugin Sort exists)
 
 1.4.5
 * reworked themes. Instead of name.json file now 2 files: name.cuda-theme-ui, name.cuda-theme-syntax. any UI theme can be used with any Syntax theme. More flexible system. Less work on Syntax themes.
-+ dlg Save Tabs: button to dont keep in session
++ dialog Save Tabs: button to dont keep in session
 + AddonManager: menu item "Remove data files"
 
 1.4.4
 * breaking change (as file history saves encoding by name): renamed encodings "utf-8", "utf-8 no bom", "utf-16 le", "utf-16 be" to Sublime names "utf-8 with bom", "utf-8", "utf-16 le with bom", "utf-16 be with bom"
 + added enc: utf-16 le/be (without bom)
-+ opt ui_tab_show_x: now number 0..3, can show "x" for mouse-over tab only
++ option ui_tab_show_x: now number 0..3, can show "x" for mouse-over tab only
 - fix: no-carets after undo column-block
 - fix: C# lexer string-rule
 
 1.4.3
-+ mouse-wheel should work in Commands dlg
-+ cmd "go to last editing pos"
++ mouse-wheel should work in Commands dialog
++ command "go to last editing pos"
 - fix: undo for BackSp 
 
 1.4.2
 + command-line options: http://wiki.freepascal.org/CudaText#Command_line_parameters
 + Addon Manager can use proxy
 + python lib "requests" preinstalled
-+ cmd "toggle tab-key uses spaces"
++ command "toggle tab-key uses spaces"
 - fix: replace-all must show "wait..."
-- fix: force Find dlg to desktop on show
+- fix: force Find dialog to desktop on show
 
 1.4.1
-- encoding: files were opened in "UTF8 no bom" by default. Now it is opt "def_encoding_utf8": open as ANSI (default for Windows) or UTF8 no bom.
-+ improve floating Find dlg
+- encoding: files were opened in "UTF8 no bom" by default. Now it is option "def_encoding_utf8": open as ANSI (default for Windows) or UTF8 no bom.
++ improve floating Find dialog
 + improve paint of tabs, if lot of em (30-40+)
 
 1.4.0
-+ find-dialog can be separate (opt find_separate_form)
++ find-dialog can be separate (option find_separate_form)
 + toolbar full themed now
 * option "pylib" has suffix now (for universal config): see default.json
 - fix: restoring scroll pos on opening files
@@ -485,9 +499,9 @@ fixes:
 1.3.25
 + macOS, Linux: correct full-screen
 - macOS: don't assign F11/F12 by default
-+ opt ui_fullscreen_hide
++ option ui_fullscreen_hide
 - fix: focus after opening session
-- fix: hotkeys-dlg on mac
+- fix: hotkeys-dialog on mac
 
 1.3.24
 + AddonManager: menuitem "Open plugin readme"
@@ -496,7 +510,7 @@ fixes:
 + theme: Amy
 + theme: Cobalt
 + add lexer YAML from addons
-* del lexer "Resource script" to addons
+* deleted lexer "Resource script" to addons
 
 1.3.23
 + lexer-overrides for hotkeys: option "For current lexer" in hotkey dialog (saved in "keys lexer NNN.json")
@@ -507,43 +521,43 @@ fixes:
 + Find dialog: multi-line by "+" btn
 + on closing with "ui_reopen_session":true, modified+untitled tabs content saves to session
 + AddonManager warns on adding linter w/o CudaLint
-+ opt find_multiline_scale
-+ api
++ option find_multiline_scale
++ API
 
 1.3.21
 + AddonManager shows linters too
 + AddonManager has new channel for Kvichans' addons (about 10-15)
-+ api (for "Favorites")
++ API (for "Favorites")
 + show msg in console, if Python can't init
-+ cmd "toggle micro-map"
++ command "toggle micro-map"
 
 1.3.20
-+ dlg Find: buttons Select-all, Mark-all (place selections or markers, can clear markers by cmd "markers: remove all")
-+ cmds "Find all, and select / place markers / place bookmarks"
-+ opt show_cur_line_only_focused
-+ opt ui_max_history_menu: max_value=50
++ dialog Find: buttons Select-all, Mark-all (place selections or markers, can clear markers by command "markers: remove all")
++ commands "Find all, and select / place markers / place bookmarks"
++ option show_cur_line_only_focused
++ option ui_max_history_menu: max_value=50
 - fix: must copy to clipbd using active line-end
 
 1.3.19
-+ opt unprinted_replace_to_code
-* cmd "Delete line" deletes sel lines
++ option unprinted_replace_to_code
+* command "Delete line" deletes sel lines
 + max items in install.inf =400
-- fix: dlg "Save tabs?" saving
+- fix: dialog "Save tabs?" saving
 - fix: "change endings" for "none ending" line
 
 1.3.18
-+ api (for plugin "Sort")
++ API (for plugin "Sort")
 + open-dialog remembers last dir (for untitled tabs, if ui_initial_dir empty)
 - fix lexer Markdown
 - fix lexer reST
-- fix cmd "Update tree"
+- fix command "Update tree"
 
 1.3.16
-+ opt staples_show
++ option staples_show
 + hotkey Ctrl+Tab changeable
-+ cmd "find, first"
-+ cmd "find, mark all"
-* del lexer TextFiles
++ command "find, first"
++ command "find, mark all"
+* deleted lexer TextFiles
 
 1.3.15
 + info http://wiki.freepascal.org/CudaText#Change_case_on_replaces
@@ -555,8 +569,8 @@ fixes:
 
 1.3.14
 + op fold_style
-+ api
-- fix: dont open folder via cmd-line
++ API
+- fix: dont open folder via command-line
 
 1.3.12
 + rework indent of col-block: like Synwrite
@@ -567,15 +581,15 @@ fixes:
 
 1.3.11
 + indent/unindent col-blocks too
-+ opt mouse_wheel_zoom
-+ cmd "enable/disable folding functionality"
++ option mouse_wheel_zoom
++ command "enable/disable folding functionality"
 - fix: lexer Python (folding, update speed)
-+ api
++ API
 
 1.3.10
 + shift+mwheel does horiz scroll
 + checkmarks in top menu (not Linux gtk2)
-+ cmd "folding: fold/unfold at cur line"
++ command "folding: fold/unfold at cur line"
 + update: JS completions
 - fix: mwheel in one-line edits
 - fix: lexer PHP word-lists
@@ -588,19 +602,19 @@ fixes:
 + command "Place carets on bookmarks"
 + theme "darkwolf" preinstalled
 + upd lexer "acp files"
-+ api
++ API
 
 1.3.8
 + memory optimizing (for 20M+ files w/o lexer)
 * autoclose bracket: don't do if inside text
-* opt unprinted_replace_spec defaults to "false"
+* option unprinted_replace_spec defaults to "false"
 + spec-chars 0..31 shown shorter: xNN
 + theme color "statusbar alt, font"
-+ api
++ API
 
 1.3.7
-+ opt ui_max_size_open
-+ opt ui_max_size_lexer
++ option ui_max_size_open
++ option ui_max_size_lexer
 + small memory optimizing
 
 1.3.6
@@ -615,10 +629,10 @@ fixes:
 + autocomplete for HTML: auto show when typed "<"+wordchar
 + autocomplete for HTML: better for a/img/link
 + autocomplete for CSS: auto show when wordchar typed on attribute pos
-+ opt auto_close_brackets
++ option auto_close_brackets
 
 1.3.4
-+ drag-drop text to other group: opt mouse_drag_drop_focus_target
++ drag-drop text to other group: option mouse_drag_drop_focus_target
 + drag-drop text to other group: Ctrl pressed means "copy"
 + drag-drop file from explorer: use group under cursor
 + lexer Python: keywords def/class/global/lambda have other style (like ST3)
@@ -628,7 +642,7 @@ fixes:
 1.3.3
 + drag-drop of tabs to other groups (all OSes)
 + drag-drop of select-text to other groups
-+ cmd "rescan python plugins inf-files"
++ command "rescan python plugins inf-files"
 - fix: Ansi encoding was broken (since using FPC 3)
 
 1.3.2
@@ -636,7 +650,7 @@ fixes:
 * delete option "lexlib" (used only to convert lexer-lib to .lcf)
 
 1.3.1
-+ opt ui_lexer_themes
++ option ui_lexer_themes
 + color "editor, gutter font, lines with carets"
 + color "listbox, sel line font"
 + colors "statusbar, font/bg/border"
@@ -660,83 +674,83 @@ fixes:
 1.2.29
 + lexer CSS handles @media{...}
 + char-map uses multi-carets on insert
-+ more toolbar api
++ more toolbar API
 
 1.2.28
 + translation possible: see menu item Options/Translations, see folder "data/lang"
 + translation Russian, in AddonManager
-+ font opt named with suffix on Linux/OSX: font_name__linux, font_size__linux...
-+ AddonManager has cmd "Visit plugin homepage"; plugins need field "homepage=" in install.inf
++ font option named with suffix on Linux/OSX: font_name__linux, font_size__linux...
++ AddonManager has command "Visit plugin homepage"; plugins need field "homepage=" in install.inf
 - fix to handle line length 10k
 - fix to support SpellChecker/Linux 
 
 1.2.26
-+ opt minimap_at_left
-+ opt caret_after_paste_column
-+ opt ui_statusbar_tabsize
-+ opt ui_max_history_edits
-* opt spacing_y: default=1
-+ cmds "open url at caret", "copy url at caret"
-+ api
++ option minimap_at_left
++ option caret_after_paste_column
++ option ui_statusbar_tabsize
++ option ui_max_history_edits
+* option spacing_y: default=1
++ commands "open url at caret", "copy url at caret"
++ API
 
 1.2.25.2
 - fix major issue: lexerlib breaks on installing addon (reason: FPC 3)
-- fix cmds for line-comment
+- fix commands for line-comment
 + allow trailing comma in user.json
 
 1.2.25
 + used FPC 3.0
-+ hilite URLs: opts links_hilite, links_regex
++ hilite URLs: options links_hilite, links_regex
 + hilite URLs: commands to open/copy URL at pos of right-click
 
 1.2.24
-+ opt font of bottom-panel listboxes
-+ api (plugin Tabs List, bookmark hints in CudaLint)
++ option font of bottom-panel listboxes
++ API (plugin Tabs List, bookmark hints in CudaLint)
 
 1.2.23
 - fix Addon Manager "Install" (SF.net blocked http)
-* change in api. Must update plugs: NumberedBookmarks, PythonIntel, CudaExt, Snippets
+* change in API. Must update plugs: NumberedBookmarks, PythonIntel, CudaExt, Snippets
 + added 120+ snippets for HTML. These mimic hehaviour of Synwrite's feature "SmartTagTabbing". You need plugin Snippets.
 + autodelete markers in deleted selection
 + statusbar panel "msg" now autosized (can put "msg" to left)
 
 1.2.22
-+ toolbar api
++ toolbar API
 + add ui_statusbar_panels panel "ins" (hidden by default)
 + add bottom pane "Search Res", for future
 - fix Qt build: Esc key in find/goto
 - fix: must set modified on conv-encoding
 
 1.2.21
-+ opt micromap_show
-+ opt micromap_width
-+ opt autocomplete_autoshow_chars
-+ opt autocomplete_autoshow_lexers
++ option micromap_show
++ option micromap_width
++ option autocomplete_autoshow_chars
++ option autocomplete_autoshow_lexers
 - autocomplete now ignores case
 + improve picture mode
-+ changed "Save tabs" dlg buttons (same look Win/Linux)
++ changed "Save tabs" dialog buttons (same look Win/Linux)
 
 1.2.20
 + can open pictures: bmp/png/jpg/ico
 * statusbar: remove macros {caret_line_nnn}, add {y2}
-* remove opt ui_tab_indent_y (center text)
+* remove option ui_tab_indent_y (center text)
 
 1.2.19
 + better support for CudaLint (new plugin)
-* statusbar: opts ui_stat_ renamed, some deleted (size_x, center)
-+ statusbar: opt "ui_statusbar_panels", all status panels now customizable
+* statusbar: options ui_stat_ renamed, some deleted (size_x, center)
++ statusbar: option "ui_statusbar_panels", all status panels now customizable
 + statusbar: add macros {caret_line_top} {caret_line_btm}
-+ opt "font_quality" (can disable Cleartype)
++ option "font_quality" (can disable Cleartype)
 - fix OSX rendering
 
 1.2.18
-+ api: sidebar panels
++ API: sidebar panels
 + grouping "1+2 horz" (some session files now not correct)
 + new lexer Makefile (for GNU makefile)
-+ opt "ui_tree_show_lines"
-+ cmd "ui: show side panel"
-+ cmd "ui: show side panel, and syntax tree"
-+ cmd "ui: hide side panel"
++ option "ui_tree_show_lines"
++ command "ui: show side panel"
++ command "ui: show side panel, and syntax tree"
++ command "ui: hide side panel"
 
 1.2.16
 + add commands: column select to line begin/ line end/ page up/ page down
@@ -745,11 +759,11 @@ fixes:
 - fix: btn "cancel search" didnt work 
 
 1.2.15
-+ opt "backup"
++ option "backup"
 + plugin autocomplete: reshow list if 1 char typed
 + improved "Make Plugin", can hide items in Plugins
 + with col-block of zero width, can use Del/BkSp too
-+ replace dlg key Ctrl+Alt+Enter: replace and don't find next
++ replace dialog key Ctrl+Alt+Enter: replace and don't find next
 * changed hotkeys in Replace
 * output panel uses dbl-click
 - fixes
@@ -758,70 +772,71 @@ fixes:
 + selection keeps bold/italic of selected words
 + redone plugin "Make Plugin"
 * lexers HTML/HTML_/PHP/PHP_: rename, old pair removed to Addon Manager
-+ opt autocomplete_html
-+ opt autocomplete_css
-* opts deleted: under_color, under_color_size
-+ opts added: underline_color_files, underline_color_size 
++ option autocomplete_html
++ option autocomplete_css
+* options deleted: under_color, under_color_size
++ options added: underline_color_files, underline_color_size 
 - fix: caret at bad coord
 - fix: must unfold found text
 - fix: sort must set "modified"
-- fix: Html autocomplete in Html part of Php
+- fix: HTML autocomplete in HTML part of Php
 
 1.2.12
-+ api (log panels api, splitters api)
++ log panels API
++ splitters API
 * removed lexers NSIS, Inno: to Addon Manager
 
 1.2.11
-+ addon-manager: config dlg (restart to see item); common install dlg; no more using of Synwrite wiki
++ addon-manager: config dialog (restart to see item); common install dialog; no more using of Synwrite wiki
 + "undo" undoes also "*" mark
-+ api (better support for ExtTools)
++ API (better support for ExtTools)
 
 1.2.10
 + addon-manager: items "Install plugin","Download all" (restart app 1-2 times to see menuitems)
-+ opt ui_lexers_grouped
-+ opt ui_reload_tail
-+ add cmds "tree: select next/prev/parent/etc node"
-+ add cmd "tree: update tree" (need if sidebar hidden)
-+ use grouped-undo for mul-carets cmds
++ option ui_lexers_grouped
++ option ui_reload_tail
++ add commands "tree: select next/prev/parent/etc node"
++ add command "tree: update tree" (need if sidebar hidden)
++ use grouped-undo for mul-carets commands
 
 1.2.9
-* removed cmd "search - go to tab" (better doable in plugin)
-* change: color-attrib api (pls update plugins BracketsHilite, HiliteOccurrences)
+* removed command "search - go to tab" (better doable in plugin)
+* change: color-attrib API (pls update plugins BracketsHilite, HiliteOccurrences)
 * change: limit key-combo len to 3
-+ improve dialog api
-+ improve cmd "reset Python plugins"
++ improve dialog API
++ improve command "reset Python plugins"
 - small fixes
 
 1.2.8
-+ custom-dialog api
-+ dlg "Goto tab" shows paths
++ custom-dialog API
++ dialog "Goto tab" shows paths
 + output panel has hotkeys (wiki help topic)
-+ console: char ";" at end of cmd: don't log
++ console: char ";" at end of command: don't log
 - fix on pasting n lines at line-end
 - fix replace regex "$"
 
 1.2.5
 + support for Macros plugin
 + theme "green"
-+ cmd "convert tabs to spaces"
-+ cmd "convert spaces (leading) to tabs"
++ command "convert tabs to spaces"
++ command "convert spaces (leading) to tabs"
 + files in session must not update recents
 - fix: json tree (e.g. file menu.json)
 - fix: grouped undo
 
-1.2.0:
+1.2.0
 + commands for markers like Synwrite
 + support for Snippets plugin
-+ opt ui_non_text (prompt/ open/ don't open)
-+ opt ui_non_text_buffer
-+ cmd "run last command plugin"
++ option ui_non_text (prompt/ open/ don't open)
++ option ui_non_text_buffer
++ command "run last command plugin"
 - fix: ui_one_instance and non-text prompt
 
 1.1.0
 * changed format of keys.json (old fields read but not saved)
-+ plugins have hotkeys like all cmds: Commands dlg allows to change plugin keys. Saved in keys.json.
++ plugins have hotkeys like all commands: Commands dialog allows to change plugin keys. Saved in keys.json.
 + history saves folded-state
-+ cmd "fold range at current line"
-+ cmd "unfold range at current line"
-+ cmd "goto next bookmark": from last goto first
++ command "fold range at current line"
++ command "unfold range at current line"
++ command "goto next bookmark": from last goto first
 + color for "fold mark border"

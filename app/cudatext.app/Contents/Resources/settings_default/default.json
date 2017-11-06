@@ -467,6 +467,9 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: show angled left/right sides (note: they paint much slower)
+  "ui_tab_angled": true,  
+  
   //UI tabs: flat look
   "ui_tab_flat": false,
   
@@ -484,9 +487,6 @@
 
   //UI tabs: Height
   "ui_tab_size_y": 25,
-
-  //UI tabs: Angle of tab edge, it's set in pixel shift, 0..10
-  "ui_tab_angle": 3,
 
   //UI tabs: Position (side) of tabs
   //  0: top

@@ -31,8 +31,10 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_focus(self, ed_self): Called after any editor gets focus.
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
+* on_scroll(self, ed_self): Called on scrolling in editor.
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
+* on_group(self, ed_self): Called after tab-grouping mode is changed.
 
 ==Editor clicks==
 
@@ -938,10 +940,11 @@ Gets string if command selected, or None if cancelled.
 
 Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab. Gets bool: filename is empty or file successfully opened.
 
-* Param "group: index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
+* Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
 ** If it has "/nohistory", file's history (caret, scroll pos, etc) won't be used.
+** If it has "/noevent", then on_open_pre event won't fire. 
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
@@ -1593,8 +1596,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_LINE_TOP: int: index of line visible at the top of editor.
 * PROP_LINE_BOTTOM: int: index of line visible at the bottom of editor (considers word wrap).
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
+* PROP_SCROLL_VERT: int: precise vert scroll position. It is index in WrapInfo list, which you can read via get_wrapinfo().
+* PROP_SCROLL_HORZ: int: precise horz scroll position. Same as PROP_COLUMN_LEFT.
 * PROP_COLOR: int: color property. Value must be one of COLOR_ID_nnn values. Gets None for incorrect id.
-* PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
+* PROP_ENC: str: encoding name. Names are listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer for entire file (empty str if none is active).
 * PROP_LEXER_POS: str: name of lexer at specified position: value must be str(column)+","+str(line), column/line 0-based.
 * PROP_LEXER_CARET: str: name of lexer at the position of 1st caret.
@@ -1650,6 +1655,8 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_LINE_NUMBERS: int: style of line numbers. One of LINENUM_nnn values.
 * PROP_LINE_STATE: 2-tuple: state of the line with given index. 2-tuple (line_index, LINESTATE_nnn). 
 * PROP_COLUMN_LEFT: int: index of left visible column (horiz scroll pos).
+* PROP_SCROLL_VERT: int: precise vert scroll position. It is index in WrapInfo list, which you can read via get_wrapinfo().
+* PROP_SCROLL_HORZ: int: precise horz scroll position. Same as PROP_COLUMN_LEFT.
 * PROP_ENC: str: encoding name. Names listed at [[CudaText#Encodings]].
 * PROP_LEXER_FILE: str: name of lexer.
 * PROP_INDEX_GROUP: int: index of group with editor's tab, 0-based.
@@ -1663,7 +1670,6 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
-* PROP_EXPORT_HTML: this is not property, this is action to export text with hiliting to HTML. Value is ";"-separated parameters: "file_path;page_title;font_name;font_size;bool_show_numbers;int_color_background;int_color_numbers".
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
@@ -1753,6 +1759,20 @@ Possible values of id:
 
 * TOKEN_AT_POS: Token at position (x=index1, y=index2).
 * TOKEN_INDEX: Token with index=index1 (in tokens collection), 0-based.
+
+===get_wrapinfo===
+
+ get_wrapinfo()
+
+Gets info about wrapped lines. It allows to calculate, at which positions long lines are wrapped (when wrap mode is on). It allows to see, which text parts are folded.
+
+Gets list of dict, or None. Dict items has keys:
+
+* "line": Original line index, for this part.
+* "char": Char index (1-based, for UTF-16 stream of chars), at which this part starts. It is >1, for next parts of long wrapped line.
+* "len": Length of this part. It equals to entire line length, if line is not wrapped.
+* "indent": Screen indent in spaces, for this part, it's used in rendering when option "Show wrapped parts indented" is on.
+* "final": Enum, state of this part. 0: final part of entire line; 1: folded (hidden) part; 2: first or middle part of entire line.
 
 ===markers===
 
@@ -1946,6 +1966,20 @@ Runs lexer analysis (if lexer active) from given line index. Waits until analysi
 
 Use case: plugin appends n lines to text (line by line), then lexer needs to rescan text from 1st added line, else folding won't appear for these lines.
 
+===export_html===
+
+ export_html(file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
+
+Makes HTML file from source text with syntax highlighting. Gets bool: file is created. Params:
+
+* file_name: str: Path of file.
+* title: str: HTML page title.
+* font_name: str: Font name.
+* int: Font size, in HTML points.
+* with_nums: bool: Make column with line numbers.
+* color_bg: int: RGB color of page background.
+* color_nums: int: RGB color of line numbers. 
+
 ===more===
 
 =Tech info=
@@ -1981,6 +2015,17 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.204 (app 1.23.5)
+* add: ed.get_wrapinfo()
+* add: ed.get_prop/ed.set_prop: PROP_SCROLL_VERT, PROP_SCROLL_HORZ
+* add: ed.export_html()
+* deleted: ed.set_prop: PROP_EXPORT_HTML
+
+1.0.203 (app 1.23.4)
+* add: event on_scroll
+* add: event on_group
+* add: file_open: options can have "/noevent"
 
 1.0.202 (app 1.23.0)
 * add: file_open: can open preview-tab
