@@ -121,7 +121,7 @@ begin
       c.SetValue(path+'/modified', bModified);
       c.SetValue(path+'/file', F.Filename);
       c.SetValue(path+'/tab_title', F.TabCaption);
-      c.SetValue(path+'/group', nGroup);
+      c.SetValue(path+'/group', nGroup+1); //support old sessions with 1-based index
 
       if bModified then
       begin
@@ -178,10 +178,8 @@ begin
       sText:= c.GetValue(item_path+'text', '');
       bModified:= c.GetValue(item_path+'modified', false);
 
-      nGroup:= c.GetValue(item_path+'group', Low(TATGroupsNums));
-      //workaround for old history with index base-1:
-      if (nGroup>0) and (Groups.Mode=gmOne) then
-        nGroup:= 0;
+      //support old sessions with 1-based group index
+      nGroup:= c.GetValue(item_path+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
       if bModified and (sFilename<>'') and FileExistsUTF8(sFileName) then
@@ -197,9 +195,9 @@ begin
            bModified:= false;
       end;
 
-      Pages:= nil;
-      if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
-        Pages:= Groups.Pages[nGroup];
+      if not (nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)]) then
+        nGroup:= Low(TATGroupsNums);
+      Pages:= Groups.Pages[nGroup];
 
       F:= nil;
       //modified tabs must restore text, and set filename (if not empty)
