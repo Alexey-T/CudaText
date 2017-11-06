@@ -176,8 +176,12 @@ begin
       sFilename:= c.GetValue(item_path+'file', '');
       sTabTitle:= c.GetValue(item_path+'tab_title', '');
       sText:= c.GetValue(item_path+'text', '');
-      nGroup:= c.GetValue(item_path+'group', Low(TATGroupsNums));
       bModified:= c.GetValue(item_path+'modified', false);
+
+      nGroup:= c.GetValue(item_path+'group', Low(TATGroupsNums));
+      //workaround for old history with index base-1:
+      if (nGroup>0) and (Groups.Mode=gmOne) then
+        nGroup:= 0;
 
       //check, if text saved in session, but file was changed outside
       if bModified and (sFilename<>'') and FileExistsUTF8(sFileName) then
