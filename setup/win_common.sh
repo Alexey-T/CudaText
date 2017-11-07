@@ -20,11 +20,9 @@ zip $outdir/$zipname cudatext.exe
 # Take sources
 cd $outdir/src
 curl -L https://github.com/Alexey-T/CudaText/archive/master.zip >CudaText.zip
-curl -L https://github.com/Alexey-T/ATButtons/archive/master.zip >ATButtons.zip
+curl -L https://github.com/Alexey-T/ATFlatControls/archive/master.zip >ATFlatControls.zip
 curl -L https://github.com/Alexey-T/ATFileNotif-Lazarus/archive/master.zip >ATFileNotif.zip
-curl -L https://github.com/Alexey-T/ATGauge/archive/master.zip >ATGauge.zip
 curl -L https://github.com/Alexey-T/ATGroups/archive/master.zip >ATGroups.zip
-curl -L https://github.com/Alexey-T/ATStatus/archive/master.zip >ATStatus.zip
 curl -L https://github.com/Alexey-T/ATSynEdit/archive/master.zip >ATSynEdit.zip
 curl -L https://github.com/Alexey-T/ATSynEdit_Ex/archive/master.zip >ATSynEdit_Ex.zip
 curl -L https://github.com/Alexey-T/ATTabs/archive/master.zip >ATTabs.zip
