@@ -597,7 +597,7 @@ begin
 
   if S='linklabel' then
   begin
-    Ctl:= TLinkLabel.Create(AForm);
+    Ctl:= TATLabelLink.Create(AForm);
     exit;
   end;
 
@@ -795,9 +795,9 @@ begin
     exit
   end;
 
-  if C is TLinkLabel then
+  if C is TATLabelLink then
   begin
-    (C as TLinkLabel).Link:= S;
+    (C as TATLabelLink).Link:= S;
     exit
   end;
 

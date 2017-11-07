@@ -47,7 +47,7 @@ type
     { private declarations }
   public
     { public declarations }
-    FLabelLink: TLinkLabel;
+    FLabelLink: TATLabelLink;
     FCredits: string;
   end;
 
@@ -98,7 +98,7 @@ begin
   memo.Font.Name:= EditorOps.OpFontName;
   memo.Font.Size:= EditorOps.OpFontSize;
 
-  FLabelLink:= TLinkLabel.Create(Self);
+  FLabelLink:= TATLabelLink.Create(Self);
   FLabelLink.Parent:= Self;
   FLabelLink.Caption:= 'UVviewsoft.com';
   FLabelLink.Link:= 'http://uvviewsoft.com';

@@ -412,22 +412,22 @@
     </RunParams>
     <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="atsynedit_ex_package"/>
+        <PackageName Value="atflatcontrols_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="python4lazarus_package"/>
+        <PackageName Value="atsynedit_ex_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="atgauge_package"/>
+        <PackageName Value="python4lazarus_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="atgauge_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="LazControls"/>
       </Item5>
       <Item6>
-        <PackageName Value="atbuttons_package"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item6>
       <Item7>
         <PackageName Value="econtrol_package"/>
