@@ -410,7 +410,7 @@
         </UserOverrides>
       </environment>
     </RunParams>
-    <RequiredPackages Count="9">
+    <RequiredPackages Count="8">
       <Item1>
         <PackageName Value="atflatcontrols_package"/>
       </Item1>
@@ -421,23 +421,20 @@
         <PackageName Value="python4lazarus_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="atgauge_package"/>
+        <PackageName Value="LazControls"/>
       </Item4>
       <Item5>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item5>
       <Item6>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="econtrol_package"/>
       </Item6>
       <Item7>
-        <PackageName Value="econtrol_package"/>
+        <PackageName Value="atsynedit_package"/>
       </Item7>
       <Item8>
-        <PackageName Value="atsynedit_package"/>
-      </Item8>
-      <Item9>
         <PackageName Value="LCL"/>
-      </Item9>
+      </Item8>
     </RequiredPackages>
     <Units Count="53">
       <Unit0>
