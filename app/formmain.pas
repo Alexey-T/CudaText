@@ -1226,7 +1226,7 @@ begin
   Status.Align:= alBottom;
   Status.Top:= Height;
   Status.Height:= 23;
-  Status.IndentLeft:= 2;
+  Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
   Status.OnResize:= @StatusResize;
 
@@ -1242,7 +1242,7 @@ begin
   StatusAlt.ScalePercents:= UiOps.ScreenScale;
   StatusAlt.Align:= alNone;
   StatusAlt.Height:= Status.Height;
-  StatusAlt.IndentLeft:= 0;
+  StatusAlt.Padding:= 0;
   StatusAlt.AddPanel(5000, taLeftJustify, '?');
   StatusAlt.Hide;
 
@@ -2655,7 +2655,7 @@ begin
       S:= msgStatusMacroRec+' '+S;
   end;
 
-  Status[StatusbarIndex_Msg]:= S;
+  Status.Captions[StatusbarIndex_Msg]:= S;
 
   if S='' then exit;
   TimerStatus.Enabled:= false;
@@ -2679,7 +2679,7 @@ begin
   StatusAlt.Parent:= Status; //place hint on statusbar
   StatusAlt.Align:= alClient;
 
-  StatusAlt[0]:= AText;
+  StatusAlt.Captions[0]:= AText;
   StatusAlt.Show;
 
   TimerStatusAlt.Interval:= ASeconds*1000;

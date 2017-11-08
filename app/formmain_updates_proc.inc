@@ -81,12 +81,12 @@ begin
   if not F.IsText then
   begin
     Size:= F.PictureSizes;
-    Status[StatusbarIndex_Caret]:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
-    Status[StatusbarIndex_Enc]:= '';
-    Status[StatusbarIndex_LineEnds]:= '';
-    Status[StatusbarIndex_Lexer]:= '';
-    Status[StatusbarIndex_TabSize]:= '';
-    Status[StatusbarIndex_InsOvr]:= '';
+    Status.Captions[StatusbarIndex_Caret]:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
+    Status.Captions[StatusbarIndex_Enc]:= '';
+    Status.Captions[StatusbarIndex_LineEnds]:= '';
+    Status.Captions[StatusbarIndex_Lexer]:= '';
+    Status.Captions[StatusbarIndex_TabSize]:= '';
+    Status.Captions[StatusbarIndex_InsOvr]:= '';
     exit;
   end;
 
@@ -98,11 +98,11 @@ begin
     selCarets:  fmt:= UiOps.StatusCarets;
     else        fmt:= UiOps.StatusNoSel;
   end;
-  Status[StatusbarIndex_Caret]:= EditorFormatStatus(Ed, fmt);
+  Status.Captions[StatusbarIndex_Caret]:= EditorFormatStatus(Ed, fmt);
 
   //------
   S:= F.EncodingName;
-  Status[StatusbarIndex_Enc]:= S;
+  Status.Captions[StatusbarIndex_Enc]:= S;
 
   //------
   case F.LineEnds of
@@ -111,7 +111,7 @@ begin
     cEndMac: S:= msgEndMac;
     else S:= '?';
   end;
-  Status[StatusbarIndex_LineEnds]:= S;
+  Status.Captions[StatusbarIndex_LineEnds]:= S;
 
   //------
   an:= F.Lexer;
@@ -119,18 +119,18 @@ begin
     S:= msgNoLexer
   else
     S:= an.LexerName;
-  Status[StatusbarIndex_Lexer]:= S;
+  Status.Captions[StatusbarIndex_Lexer]:= S;
 
   //------
-  Status[StatusbarIndex_TabSize]:= EditorFormatTabsize(Ed, UiOps.StatusTabsize);
+  Status.Captions[StatusbarIndex_TabSize]:= EditorFormatTabsize(Ed, UiOps.StatusTabsize);
 
   //------
   S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
-  Status[StatusbarIndex_InsOvr]:= S;
+  Status.Captions[StatusbarIndex_InsOvr]:= S;
 
   //------
-  Status[StatusbarIndex_SelMode]:= IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-');
-  Status[StatusbarIndex_WrapMode]:= UiOps.StatusWrap[Ord(Ed.OptWrapMode)];
+  Status.Captions[StatusbarIndex_SelMode]:= IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-');
+  Status.Captions[StatusbarIndex_WrapMode]:= UiOps.StatusWrap[Ord(Ed.OptWrapMode)];
 end;
 
 procedure TfmMain.InitStatusButton;
