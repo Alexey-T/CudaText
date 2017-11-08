@@ -1230,12 +1230,12 @@ begin
   Status.OnPanelClick:= @StatusPanelClick;
   Status.OnResize:= @StatusResize;
 
-  Status.AddPanel(170, saMiddle, '?');
-  Status.AddPanel(105, saMiddle, '?');
-  Status.AddPanel(50, saMiddle, '?');
-  Status.AddPanel(140, saMiddle, '?');
-  Status.AddPanel(80, saMiddle, '?');
-  Status.AddPanel(4000, saLeft, '');
+  Status.AddPanel(170, taCenter, '?');
+  Status.AddPanel(105, taCenter, '?');
+  Status.AddPanel(50, taCenter, '?');
+  Status.AddPanel(140, taCenter, '?');
+  Status.AddPanel(80, taCenter, '?');
+  Status.AddPanel(4000, taLeftJustify, '');
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
@@ -1243,7 +1243,7 @@ begin
   StatusAlt.Align:= alNone;
   StatusAlt.Height:= Status.Height;
   StatusAlt.IndentLeft:= 0;
-  StatusAlt.AddPanel(5000, saLeft, '?');
+  StatusAlt.AddPanel(5000, taLeftJustify, '?');
   StatusAlt.Hide;
 
   fmConsole:= TfmConsole.Create(Self);

@@ -865,7 +865,7 @@ procedure TfmMain.UpdateStatusbarPanelsFromString(AStr: string);
 var
   SPanel, SItem: string;
   NIndex, NSize: integer;
-  Al: TATStatusAlign;
+  Al: TAlignment;
 begin
   Status.DeletePanels;
   StatusbarIndex_Caret:= -1;
@@ -897,9 +897,9 @@ begin
 
     SItem:= SGetItem(SPanel);
     case SItem of
-      'L': Al:= saLeft;
-      'R': Al:= saRight
-       else Al:= saMiddle;
+      'L': Al:= taLeftJustify;
+      'R': Al:= taRightJustify
+       else Al:= taCenter;
     end;
 
     SItem:= SGetItem(SPanel);
