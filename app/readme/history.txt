@@ -4,6 +4,10 @@
   * changed
 
 
+1.24.0
+
++ added: lexer Pascal: support keyword "operator", hilite and show in code-tree
+
 1.23.6 (2017/11)
 
 + added: encoding "OEM", it maps to one of locale dependent OEM encodings (cp437, cp850, cp852, cp866 etc)

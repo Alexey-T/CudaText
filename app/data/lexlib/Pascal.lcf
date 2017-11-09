@@ -383,6 +383,7 @@ object SyntAnal27: TLibSyntAnalyzer
             'not'
             'object'
             'of'
+            'operator'
             'or'
             'out'
             'overload'
@@ -878,6 +879,7 @@ object SyntAnal27: TLibSyntAnalyzer
             'constructor'
             'destructor'
             'function'
+            'operator'
             'procedure')
           TokenTypes = 4
           IgnoreCase = True
@@ -1136,7 +1138,11 @@ object SyntAnal27: TLibSyntAnalyzer
           TokenTypes = 8
         end
         item
+          TagList.Strings = (
+            'operator')
+          CondType = tcNotEqual
           TokenTypes = 4
+          IgnoreCase = True
         end
         item
           TagList.Strings = (
@@ -1400,6 +1406,29 @@ object SyntAnal27: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'operator definition'
+      BlockName = 'Implementation section'
+      ConditionList = <
+        item
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            'operator')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      NameFmt = 'operator %sz-1'
+      GroupFmt = 'Operators'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CollapseFmt = 'operator %s-1'
+      NoEndRule = True
+      TreeItemImage = 7
+      TreeGroupImage = 0
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <
@@ -1480,7 +1509,7 @@ object SyntAnal27: TLibSyntAnalyzer
   Extentions = 'pas inc dpr lpr p pp'
   LexerName = 'Pascal'
   Notes.Strings = (
-    'Changed by Alexey')
+    'Changed by Alexey (SynWrite)')
   LineComment = '//'
   AlwaysSyncBlockAnal = True
   Charset = DEFAULT_CHARSET
