@@ -785,7 +785,13 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 ** Item-0: name of target control, or empty str to use control's parent (it is form by default).
 ** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
 
-* "align": one of ALIGN_nnn constants: Alignment of control. If not ALIGN_NONE, then control is glued to one of the sides of its parent (ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM), or to the entire parent area (ALIGN_CLIENT).
+* "align": alignment of control:
+** ALIGN_NONE: no alignment
+** ALIGN_CLIENT: stretched to entire parent area
+** ALIGN_LEFT: glued to the left side of parent
+** ALIGN_RIGHT: glued to the right side of parent
+** ALIGN_TOP: glued to the top of parent
+** ALIGN_BOTTOM: glued to the bottom of parent
 
 * "p": str: Name of control's parent, or empty to use the form. Coordinates x/y of control are relative to the current parent. If parent's position changes, control's position don't change. To place control on PageControl's page with index N, specify such parent name: pages_name+"."+str(N).
 
