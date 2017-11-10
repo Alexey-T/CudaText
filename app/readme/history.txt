@@ -4,9 +4,10 @@
   * changed
 
 
-1.24.0
+1.24.0 (2017/11)
 
-+ added: lexer Pascal: support keyword "operator", hilite and show in code-tree
++ added: lexer Bash: reworked to hilite ${complex vars} and `complex backtick commands`, don't hilite echo command 
++ added: lexer Pascal: support keyword "operator" (hilite, show in code tree)
 
 1.23.6 (2017/11)
 
