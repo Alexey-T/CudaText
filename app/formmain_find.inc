@@ -34,7 +34,7 @@ begin
           Ed.Carets.Clear;
         end;
         Ed.Carets.Add(APos2.X, APos2.Y, APos1.X, APos1.Y);
-        Ed.Carets.Sort;
+        //Ed.Carets.Sort; //better comment, to not merge many selections, on "Select all"
       end;
 
     markingMarkers:
