@@ -10,6 +10,7 @@
 + added: lexer Bash: reworked to hilite ${complex vars} and `complex backtick commands`, now don't hilite "echo" command 
 + added: lexer Pascal: support keyword "operator" (hilite, show in code tree)
 * change: Find dialog: Select-all don't join adjacent selections to bigger selection
+* change: Find dialog: disable option "words" for multi-line input
 
 1.23.6 (2017/11)
 

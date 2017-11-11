@@ -683,7 +683,7 @@ begin
 
   PanelTop.Visible:= IsNarrow;
   PanelOps.Visible:= not IsNarrow;
-  chkWords.Enabled:= not chkRegex.Checked;
+  chkWords.Enabled:= not chkRegex.Checked and (edFind.Strings.Count<2); //disable "w" for multi-line input
   chkConfirm.Visible:= IsReplace or IsNarrow;
   edRep.Visible:= IsReplace;
   LabelRep.Visible:= IsReplace;
