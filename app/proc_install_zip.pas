@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, FileUtil,
-  ecSyntAnal;
+  ec_SyntAnal;
 
 type
   TAppAddonType = (

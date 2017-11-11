@@ -31,9 +31,7 @@ uses
   ATFileNotif,
   ATButtons,
   ATPanelSimple,
-  ecSyntAnal,
   proc_globdata,
-  proc_lexer,
   proc_editor,
   proc_cmd,
   proc_colors,
@@ -43,6 +41,8 @@ uses
   proc_py,
   proc_py_const,
   proc_miscutils,
+  ec_SyntAnal,
+  ec_proc_lexer,
   formlexerstylemap,
   jsonConf,
   math;

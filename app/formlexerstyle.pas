@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   ColorBox, StdCtrls, ButtonPanel, IniFiles,
-  ecSyntAnal,
+  ec_SyntAnal,
   proc_colors,
   proc_globdata,
   proc_msg;

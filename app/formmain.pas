@@ -24,7 +24,7 @@ uses
   jsonConf,
   PythonEngine,
   UniqueInstance,
-  ecSyntAnal,
+  ec_SyntAnal,
   ATButtons,
   ATButtonsToolbar,
   ATListbox,

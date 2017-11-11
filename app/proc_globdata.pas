@@ -28,10 +28,10 @@ uses
   ATButtons,
   ATListbox,
   proc_cmd,
-  proc_lexer,
   proc_msg,
   proc_keymap_undolist,
-  ecSyntAnal;
+  ec_proc_lexer,
+  ec_SyntAnal;
 
 var
   AppBookmarkSetup: array[1..255] of

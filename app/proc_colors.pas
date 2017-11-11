@@ -16,7 +16,7 @@ uses
   LclProc, LclType,
   ATStringProc,
   ATStringProc_HtmlColor,
-  ecSyntAnal,
+  ec_SyntAnal,
   proc_msg,
   proc_globdata,
   proc_lexer_styles;

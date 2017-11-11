@@ -22,7 +22,7 @@ uses
   ATPanelSimple,
   ATButtons,
   ATButtonsToolbar,
-  ecSyntAnal,
+  ec_SyntAnal,
   proc_globdata,
   proc_py_const,
   proc_colors;

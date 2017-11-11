@@ -16,7 +16,7 @@ uses
   StdCtrls, ComCtrls, IniFiles,
   LCLIntf, LCLType, LCLProc, ExtCtrls,
   LazUTF8, LazFileUtils,
-  ecSyntAnal,
+  ec_SyntAnal,
   formlexerprop,
   proc_globdata,
   proc_msg,

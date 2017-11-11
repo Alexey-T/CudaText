@@ -12,7 +12,7 @@ interface
 uses
   SysUtils, Classes, Graphics, IniFiles,
   jsonConf,
-  ecSyntAnal,
+  ec_SyntAnal,
   ATStringProc,
   ATStringProc_HtmlColor;
 

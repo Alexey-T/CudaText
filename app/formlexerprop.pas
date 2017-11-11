@@ -15,7 +15,7 @@ uses
   Classes, SysUtils, Graphics, Forms, Controls, StdCtrls,
   Dialogs, ButtonPanel, ComCtrls, ExtCtrls, ColorBox, IniFiles,
   LazUTF8, LazFileUtils,
-  ecSyntAnal,
+  ec_SyntAnal,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
   proc_msg,
