@@ -786,12 +786,12 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 ** Item-1: side of target control, one of 3 values: "[" (left/top), "-" (center), "]" (right/bottom).
 
 * "align": alignment of control:
-** ALIGN_NONE: no alignment
-** ALIGN_CLIENT: stretched to entire parent area
-** ALIGN_LEFT: glued to the left side of parent
-** ALIGN_RIGHT: glued to the right side of parent
-** ALIGN_TOP: glued to the top of parent
-** ALIGN_BOTTOM: glued to the bottom of parent
+** ALIGN_NONE: no alignment (props "x", "y", "w", "h" have meaning)
+** ALIGN_CLIENT: stretched to entire parent area (props "x", "y", "w", "h" are ignored)
+** ALIGN_LEFT: glued to the left side of parent (only prop "w" has meaning)
+** ALIGN_RIGHT: glued to the right side of parent (only prop "w" has meaning)
+** ALIGN_TOP: glued to the top of parent (only prop "h" has meaning)
+** ALIGN_BOTTOM: glued to the bottom of parent (only prop "h" has meaning)
 
 * "p": str: Name of control's parent, or empty to use the form. Coordinates x/y of control are relative to the current parent. If parent's position changes, control's position don't change. To place control on PageControl's page with index N, specify such parent name: pages_name+"."+str(N).
 
