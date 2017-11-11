@@ -779,7 +779,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "tab_stop": bool: Allows tab-key to jump to this control.
 * "tab_order": int: Tab-key jumps to controls using tab_orders. First activated is control with tab_order=0, next with =1, etc. If tab_orders not set, controls activated by creation order.
 
-* "sp_l", "sp_r", "sp_t", "sp_b", "sp_a": int: Border space of control, ie padding from anchored controls (or parent form). 5 values: left, right, top, bottom, around (around value is added to all 4 sides).
+* "sp_l", "sp_r", "sp_t", "sp_b", "sp_a": int: Border spacing, ie padding of control's edge from anchored controls (or parent form). 5 props here: left, right, top, bottom, around. "Around" padding is added to padding of all 4 sides.
 
 * "a_l", "a_r", "a_t", "a_b": 2-tuple (str_control_name, str_side): Anchors of control. See [[#Anchors]]. Value is 2-tuple, or None to disable anchor. 
 ** Item-0: name of target control, or empty str to use control's parent (it is form by default).
