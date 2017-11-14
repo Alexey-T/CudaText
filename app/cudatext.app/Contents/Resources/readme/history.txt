@@ -4,6 +4,14 @@
   * changed
 
 
+1.24.0 (2017/11)
+
++ added: non-RegEx search engine is rewritten. It now finds text in big (10Mb+) files 10-15 times faster. RegEx search is still slow, it builds string buffer from entire file.
++ added: lexer Bash: reworked to hilite ${complex vars} and `complex backtick commands`, now don't hilite "echo" command 
++ added: lexer Pascal: support keyword "operator" (hilite, show in code tree)
+* change: Find dialog: Select-all don't join adjacent selections to bigger selection
+* change: Find dialog: disable option "words" for multi-line input
+
 1.23.6 (2017/11)
 
 + added: encoding "OEM", it maps to one of locale dependent OEM encodings (cp437, cp850, cp852, cp866 etc)

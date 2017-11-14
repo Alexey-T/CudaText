@@ -1,4 +1,4 @@
-object SyntAnal3: TLibSyntAnalyzer
+object SyntAnal4: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -9,7 +9,7 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Key words'
+      DisplayName = 'Keywords'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
@@ -25,23 +25,15 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Echo'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clTeal
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = [fsBold]
-    end
-    item
-      DisplayName = 'Shebang'
+      DisplayName = 'Comment shebang'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsBold]
+      Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'QuotMarks'
+      DisplayName = 'String'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
       Font.Height = -13
@@ -57,7 +49,7 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Variable'
+      DisplayName = 'Var'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -13
@@ -65,7 +57,7 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Int'
+      DisplayName = 'Number'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -13
@@ -73,7 +65,7 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = '$(...)'
+      DisplayName = 'Var block BG'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -81,39 +73,44 @@ object SyntAnal3: TLibSyntAnalyzer
       Font.Style = []
       BgColor = clMoneyGreen
       FormatType = ftBackGround
+    end
+    item
+      DisplayName = 'Ticks block BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 16767669
+      FormatType = ftBackGround
     end>
   TokenRules = <
     item
       DisplayName = 'Shebang'
-      StyleName = 'Shebang'
+      StyleName = 'Comment shebang'
+      TokenType = 1
       Expression = '\#!.*'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Variable'
-      StyleName = 'Variable'
-      Expression = '(("|'#39'|'#180'|`)\s*)?(%?\$\w+)\1|%?\$\w+'
+      DisplayName = 'Var'
+      StyleName = 'Var'
+      Expression = '\$\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Variable2'
-      StyleName = 'Variable'
-      Expression = '%?\$(\{|\(|\[)\S+(\}|\)|\])'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Variable3'
-      StyleName = 'Variable'
+      DisplayName = 'Var='
+      StyleName = 'Var'
       Expression = '^\w+ (?=\=)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'IP-Address'
-      StyleName = 'QuotMarks'
+      StyleName = 'String'
+      TokenType = 5
       Expression = '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -127,56 +124,32 @@ object SyntAnal3: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'echostd'
-      StyleName = 'Echo'
-      Expression = '(?<=@?echo)\s+".*?"'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Echo cmd'
-      StyleName = 'Key words'
-      TokenType = 5
-      Expression = '@?echo'#13#10
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Echo text'
-      StyleName = 'Echo'
-      BlockName = 'echo start'
-      StrictParent = True
-      TokenType = 4
-      Expression = '[^\#<>\|\n]*[\n]*'#13#10
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
-      TokenType = 6
-      Expression = '[=,;]'
+      TokenType = 4
+      Expression = '[=,;`\(\)\[\]@] | \$\( | \$\{'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Symbol'
       StyleName = 'Symbol'
-      TokenType = 6
-      Expression = '[\+\*\(\)\[\]\{\}\<>\.~!&\|:%\^\#\$\?\\]+'
+      TokenType = 4
+      Expression = '[\+\*\{\}<>~!&\|:%\^\#\?\\]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'String'
-      StyleName = 'QuotMarks'
-      Expression = '("|'#39'|'#180'|`) (\\\1|.)*? \1'
+      StyleName = 'String'
+      TokenType = 5
+      Expression = '("|'#39') (\\\1|.)*? \1'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Int'
-      StyleName = 'Int'
+      StyleName = 'Number'
       Expression = '\b\d+\b'
       ColumnFrom = 0
       ColumnTo = 0
@@ -191,8 +164,8 @@ object SyntAnal3: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'Keywords'
-      StyleName = 'Key words'
+      DisplayName = 'keywords'
+      StyleName = 'Keywords'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -469,36 +442,6 @@ object SyntAnal3: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'echo start'
-      StyleName = 'Echo'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'echo')
-          TokenTypes = 32
-          IgnoreCase = True
-        end>
-      BlockEnd = 'echo end'
-      NotCollapsed = True
-      Highlight = True
-      DisplayInTree = False
-      DynHighlight = dhRange
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'echo end'
-      BlockName = 'echo start'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TokenTypes = 16
-        end>
-      RefToCondEnd = True
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
       DisplayName = 'func begin'
       ConditionList = <
         item
@@ -617,20 +560,16 @@ object SyntAnal3: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = '$('
-      StyleName = '$(...)'
+      DisplayName = 'var begin'
+      StyleName = 'Var block BG'
       ConditionList = <
         item
           TagList.Strings = (
-            '(')
-          TokenTypes = 64
-        end
-        item
-          TagList.Strings = (
-            '$')
-          TokenTypes = 64
+            '$('
+            '${')
+          TokenTypes = 16
         end>
-      BlockEnd = ')'
+      BlockEnd = 'var end'
       DisplayInTree = False
       RefToCondEnd = True
       DynHighlight = dhRange
@@ -639,60 +578,83 @@ object SyntAnal3: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = ')'
+      DisplayName = 'var end'
       BlockType = btRangeEnd
       ConditionList = <
         item
           TagList.Strings = (
-            ')')
-          TokenTypes = 64
+            ')'
+            '}')
+          TokenTypes = 16
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
-      DisplayName = '('
+      DisplayName = 'tick begin'
+      StyleName = 'Ticks block BG'
+      StatesAdd = 2
+      StatesAbsent = 2
       ConditionList = <
         item
           TagList.Strings = (
-            '(')
-          TokenTypes = 64
+            '`')
+          TokenTypes = 16
         end>
-      BlockEnd = ')'
+      BlockEnd = 'tick end'
+      NotCollapsed = True
       DisplayInTree = False
+      DynHighlight = dhRange
+      HighlightPos = cpAny
+      CancelNextRules = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'tick end'
+      StatesRemove = 2
+      StatesPresent = 2
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '`')
+          TokenTypes = 16
+        end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
+    '#!/bin/bash'
     'var=value'
     '/ddd/ddd.command'
+    ''
+    'test `dirname $var 20+30`'
+    'echo `more $var(20)`'
     ''
     'while read line  # comment'
     'do'
     '  test $(test "$line"); '
     '  test "test\"test" '
-    '  echo "test"'
     '  len=${#line} $(text here)'
     '  if [[ "$len" -lt "$MINLEN" && "$line" =~ \[*\.\] ]]'
-    '    then echo    #  Add a blank line immediately'
-    '  fi             #+ after short line terminated by a period.'
+    '    then echo  #cmt'
+    '  fi'
     'done')
   TokenTypeNames.Strings = (
     'Unknown'
     'Comment'
-    'Identifier'
+    'Id'
     'Label'
-    'echo text'
-    'echo cmd'
-    'Symbol')
+    'Symbol'
+    'String')
   Extentions = 'sh csh bash command /.bashrc /.zshrc'
   LexerName = 'Bash script'
   SkipSpaces = False
   Notes.Strings = (
-    'Author: Matthias Eberhardt (SynWrite admin)'
-    'Improvements: Alexey (SynWrite)')
+    'Initial by: Matthias Eberhardt (SynWrite admin)'
+    'Reworked by: Alexey (SynWrite)')
   RestartFromLineStart = True
   LineComment = '#'
   Charset = DEFAULT_CHARSET
