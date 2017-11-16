@@ -40,6 +40,7 @@ begin
   F:= (Sender as TWinControl).Parent as TEditorFrame;
   Groups.PagesCurrent:= F.Parent as TATPages;
 
+  EControlTreeUpdateMustStop:= true;
   UpdateCaption;
   UpdateTabsActiveColor(F);
   UpdateMenuPlugins_Shortcuts;
