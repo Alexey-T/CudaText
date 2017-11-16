@@ -741,9 +741,14 @@ These are also properties of forms.
 * "on_resize": Called after form is resized.
 * "on_close": Called after form is closed.
 * "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
+
+* "on_act": Called when form is activated.
+* "on_deact": Called when form is deactivated.
+
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
 ** param "data": key-state string: few chars, "c" for Ctrl, "a" for Alt, "s" for Shift, "m" for Meta.
+
 * "on_key_up": Called when key is depressed (after on_key_down). If plugin returns False, depressing of key is blocked.
 
 How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
@@ -2024,7 +2029,8 @@ Text is chr(1) separated items:
 =History=
 
 1.0.206 (app 1.24.2)
-* add: dlg_proc: ctl has property "focused"
+* add: dlg_proc: added ctl property "focused"
+* add: dlg_proc: added form events "on_act", "on_deact"
 
 1.0.205 (app 1.24.1)
 * add: dlg_proc: ctl "edit" supports "on_change" (if "act":True)
