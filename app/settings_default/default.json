@@ -583,6 +583,9 @@
   //Tree: show tooltips for items, which don't fit by width
   "ui_tree_show_tooltips": true,
   
+  //Tree: buffer/cache contents of code-tree, use this cache when changing tabs
+  "ui_tree_cache": true,
+  
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",

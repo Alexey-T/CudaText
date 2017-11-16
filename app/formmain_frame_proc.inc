@@ -48,7 +48,7 @@ begin
   begin
     FNewClickedEditor:= CurrentEditor;
 
-    if F.CachedTreeview.Items.Count>0 then
+    if UiOps.TreeCache and (F.CachedTreeview.Items.Count>0) then
     begin
       DoTreeviewCopy(F.CachedTreeview, Tree);
       UpdateTreeSelection;

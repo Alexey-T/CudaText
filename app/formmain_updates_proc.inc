@@ -787,7 +787,8 @@ begin
       //force update scrollbar
       Tree.Perform(CM_CHANGED, 0, 0);
 
-      DoTreeviewCopy(Tree, Frame.CachedTreeview);
+      if UiOps.TreeCache then
+        DoTreeviewCopy(Tree, Frame.CachedTreeview);
     end;
 
     UpdateTreeSelection;

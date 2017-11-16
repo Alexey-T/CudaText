@@ -729,6 +729,7 @@ begin
     UiOps.TreeShowLines:= c.GetValue('ui_tree_show_lines', UiOps.TreeShowLines);
     UiOps.TreeShowIcons:= c.GetValue('ui_tree_icons', UiOps.TreeShowIcons);
     UiOps.TreeShowTooltips:= c.GetValue('ui_tree_show_tooltips', UiOps.TreeShowTooltips);
+    UiOps.TreeCache:= c.GetValue('ui_tree_cache', UiOps.TreeCache);
 
     UiOps.PyChangeSlow:= c.GetValue('py_change_slow', UiOps.PyChangeSlow);
 

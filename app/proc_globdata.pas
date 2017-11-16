@@ -153,6 +153,7 @@ type
     TreeShowLines: boolean;
     TreeShowIcons: boolean;
     TreeShowTooltips: boolean;
+    TreeCache: boolean;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -1113,6 +1114,7 @@ begin
     TreeShowLines:= true;
     TreeShowIcons:= true;
     TreeShowTooltips:= true;
+    TreeCache:= true;
 
     PyChangeSlow:= 2000;
 

@@ -4,9 +4,10 @@
   * changed
 
 
-1.24.0.2 (2017/11)
+1.24.1 (2017/11)
 
 - fix: major bug, code-tree didn't update on editing file
++ added: option "ui_tree_cache"
 
 1.24.0 (2017/11)
 
