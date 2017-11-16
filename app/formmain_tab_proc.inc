@@ -147,13 +147,6 @@ begin
   if ACanClose then
   begin
     UpdateMenuRecent(Frame);
-
-    if Frame.Adapter.TreeBusy then
-    begin
-      EControlTreeUpdateMustStop:= true;
-      Application.ProcessMessages;
-    end;
-
     Frame.Adapter.Stop;
     Frame.Free;
   end;

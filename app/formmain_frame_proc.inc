@@ -37,11 +37,9 @@ procedure TfmMain.FrameStopTreeUpdate;
 var
   F: TEditorFrame;
 begin
-  EControlTreeUpdateMustStop:= true;
   F:= CurrentFrame;
   if Assigned(F) then
-    while F.Adapter.TreeBusy do
-      Application.ProcessMessages;
+    F.Adapter.Stop;
 end;
 
 procedure TfmMain.FrameOnFocus(Sender: TObject);
