@@ -424,6 +424,7 @@ begin
   if S='edit' then
   begin
     Ctl:= TEdit.Create(AForm);
+    (Ctl as TEdit).OnChange:= @AForm.DoOnChange;
     exit;
   end;
 
