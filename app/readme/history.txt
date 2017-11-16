@@ -4,6 +4,10 @@
   * changed
 
 
+1.24.0.2 (2017/11)
+
+- fix: major bug, code-tree didn't update on editing file
+
 1.24.0 (2017/11)
 
 + added: non-RegEx search engine is rewritten. It now finds text in big (10Mb+) files 10-15 times faster. RegEx search is still slow, it builds string buffer from entire file.
