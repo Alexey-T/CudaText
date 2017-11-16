@@ -145,6 +145,7 @@ begin
   if ACanClose then
   begin
     UpdateMenuRecent(Frame);
+    Frame.Adapter.StopTreeUpdate;
     Frame.Adapter.Stop;
     Frame.Free;
   end;
