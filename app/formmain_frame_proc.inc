@@ -47,7 +47,11 @@ begin
   if FNewClickedEditor<>CurrentEditor then
   begin
     FNewClickedEditor:= CurrentEditor;
-    UpdateTree(true);
+
+    if F.CachedTreeview.Items.Count>0 then
+      DoTreeviewCopy(F.CachedTreeview, Tree)
+    else
+      UpdateTree(true);
   end;
 end;
 

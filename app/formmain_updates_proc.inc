@@ -773,9 +773,6 @@ begin
     end;
 
     if AFill then
-    if Frame.CachedTreeview.Items.Count>0 then
-      DoTreeviewCopy(Frame.CachedTreeview, Tree)
-    else
     begin
       Tree.BeginUpdate;
       try
