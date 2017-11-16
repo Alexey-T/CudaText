@@ -2022,6 +2022,9 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.205 (app 1.24.1)
+* add: dlg_proc: ctl "edit" supports "on_change" (if "act":True)
+
 1.0.204 (app 1.23.5)
 * add: ed.get_wrapinfo()
 * add: ed.get_prop/ed.set_prop: PROP_SCROLL_VERT, PROP_SCROLL_HORZ
