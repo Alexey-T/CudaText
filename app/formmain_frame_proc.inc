@@ -39,7 +39,7 @@ var
 begin
   F:= CurrentFrame;
   if Assigned(F) then
-    F.Adapter.Stop;
+    F.Adapter.StopTreeUpdate;
 end;
 
 procedure TfmMain.FrameOnFocus(Sender: TObject);

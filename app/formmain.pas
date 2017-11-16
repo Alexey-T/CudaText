@@ -411,6 +411,7 @@ type
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
+    procedure FrameStopTreeUpdate;
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
@@ -592,9 +593,6 @@ type
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
       AIndex: integer; const ARect: TRect);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
-    procedure FrameStopTreeUpdate;
-    //procedure FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
-    //  MaxWidth, MaxHeight: TConstraintSize);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;

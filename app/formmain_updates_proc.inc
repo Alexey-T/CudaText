@@ -746,7 +746,6 @@ procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
-  Caret: TATCaretItem;
 begin
   if UiOps.TreeShowIcons then
     Tree.Images:= ImageListTree
@@ -760,7 +759,6 @@ begin
   Frame:= GetEditorFrame(Ed);
   if Ed.Strings.Count=0 then exit;
 
-  Caret:= Ed.Carets[0];
   with Frame do
   begin
     while Adapter.TreeBusy do
