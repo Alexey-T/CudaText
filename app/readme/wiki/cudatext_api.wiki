@@ -776,6 +776,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "val": str: Value of control. Described in dlg_custom.
 * "tag": str: Any string, set by plugin.
 
+* "focused": bool: Shows if control has focus.
 * "tab_stop": bool: Allows tab-key to jump to this control.
 * "tab_order": int: Tab-key jumps to controls using tab_orders. First activated is control with tab_order=0, next with =1, etc. If tab_orders not set, controls activated by creation order.
 
@@ -2021,6 +2022,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.206 (app 1.24.2)
+* add: dlg_proc: ctl has property "focused"
 
 1.0.205 (app 1.24.1)
 * add: dlg_proc: ctl "edit" supports "on_change" (if "act":True)

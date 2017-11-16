@@ -15,8 +15,8 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.24.1.0';
-  cAppApiVersion = '1.0.205';
+  cAppExeVersion = '1.24.2.0';
+  cAppApiVersion = '1.0.206';
 
 const
   cOptionSystemSuffix =

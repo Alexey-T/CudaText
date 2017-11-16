@@ -1667,13 +1667,15 @@ end;
 
 function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 var
-  bTabStop: boolean;
+  bTabStop, bFocused: boolean;
   nTabOrder: integer;
 begin
+  bFocused:= false;
   bTabStop:= false;
   nTabOrder:= -1;
   if C is TWinControl then
   begin
+    bFocused:= (C as TWinControl).Focused;
     bTabStop:= (C as TWinControl).TabStop;
     nTabOrder:= (C as TWinControl).TabOrder;
   end;
@@ -1684,7 +1686,7 @@ begin
     if C.Tag=0 then
       exit(ReturnNone);
 
-    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsisisisisisi}',
+    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsOsisisisisisi}',
       'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
@@ -1698,6 +1700,7 @@ begin
       'act', PyBool_FromLong(Ord(TAppControlProps(C.Tag).FActive)),
       'en', PyBool_FromLong(Ord(C.Enabled)),
       'vis', PyBool_FromLong(Ord(C.Visible)),
+      'focused', PyBool_FromLong(Ord(bFocused)),
       'tab_stop', PyBool_FromLong(Ord(bTabStop)),
       'tab_order', nTabOrder,
       'sp_l', C.BorderSpacing.Left,
