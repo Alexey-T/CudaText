@@ -56,6 +56,8 @@ type
   TFormDummy = class(TForm)
   private
     IsFormShownAlready: boolean;
+    procedure DoOnActivate(Sender: TObject);
+    procedure DoOnDeactivate(Sender: TObject);
     procedure DoOnShow(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -70,6 +72,8 @@ type
     FEventOnKeyDown: string;
     FEventOnKeyUp: string;
     FEventOnResize: string;
+    FEventOnActivate: string;
+    FEventOnDeactivate: string;
     TagString: string;
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
@@ -190,6 +194,8 @@ begin
   OnCloseQuery:= @DoOnCloseQuery;
   OnKeyDown:= @DoOnKeyDown;
   OnKeyUp:= @DoOnKeyUp;
+  OnActivate:=@DoOnActivate;
+  OnDeactivate:=@DoOnDeactivate;
 
   PrevBorderStyle:= BorderStyle;
   PrevForms:= TList.Create;
@@ -225,6 +231,16 @@ begin
         if ItemFocused<>nil then
           ItemFocused.MakeVisible(false);
   end;
+end;
+
+procedure TFormDummy.DoOnActivate(Sender: TObject);
+begin
+  DoEvent(0, FEventOnActivate, '');
+end;
+
+procedure TFormDummy.DoOnDeactivate(Sender: TObject);
+begin
+  DoEvent(0, FEventOnDeactivate, '');
 end;
 
 procedure TFormDummy._HandleClickEvent(Sender: TObject; ADblClick: boolean);

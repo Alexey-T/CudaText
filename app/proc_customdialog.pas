@@ -1602,6 +1602,12 @@ begin
   if AName= 'on_key_up' then
     F.FEventOnKeyUp:= AValue
   else
+  if AName= 'on_act' then
+    F.FEventOnActivate:= AValue
+  else
+  if AName= 'on_deact' then
+    F.FEventOnDeactivate:= AValue
+  else
   if AName='vis' then
     F.Visible:= AppStrToBool(AValue)
   else
