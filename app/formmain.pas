@@ -864,6 +864,7 @@ type
       AChecked: boolean);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
+    procedure UpdateTreeSelection;
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);

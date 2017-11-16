@@ -790,11 +790,24 @@ begin
       DoTreeviewCopy(Tree, Frame.CachedTreeview);
     end;
 
-    if UiOps.TreeAutoSync then
-      Adapter.TreeShowItemForCaret(Tree, Point(Caret.PosX, Caret.PosY));
+    UpdateTreeSelection;
   end;
 end;
 
+procedure TfmMain.UpdateTreeSelection;
+var
+  Ed: TATSynEdit;
+  Frame: TEditorFrame;
+  Caret: TATCaretItem;
+begin
+  Ed:= CurrentEditor;
+  Frame:= GetEditorFrame(Ed);
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
+
+  if UiOps.TreeAutoSync then
+    Frame.Adapter.TreeShowItemForCaret(Tree, Point(Caret.PosX, Caret.PosY));
+end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
   //
