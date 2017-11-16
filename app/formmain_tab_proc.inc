@@ -80,6 +80,8 @@ begin
   D:= Tabs.GetTabData(Tabs.TabIndex);
   if D=nil then exit;
 
+  FrameStopTreeUpdate;
+
   F:= D.TabObject as TEditorFrame;
   EditorFocus(F.Editor);
 
