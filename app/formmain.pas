@@ -592,6 +592,7 @@ type
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
       AIndex: integer; const ARect: TRect);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
+    procedure FrameStopTreeUpdate;
     //procedure FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
     //  MaxWidth, MaxHeight: TConstraintSize);
     function GetSessionFilename: string;

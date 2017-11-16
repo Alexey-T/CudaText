@@ -33,6 +33,17 @@ begin
   UpdateStatus;
 end;
 
+procedure TfmMain.FrameStopTreeUpdate;
+var
+  F: TEditorFrame;
+begin
+  EControlTreeUpdateMustStop:= true;
+  F:= CurrentFrame;
+  if Assigned(F) then
+    while F.Adapter.TreeBusy do
+      Application.ProcessMessages;
+end;
+
 procedure TfmMain.FrameOnFocus(Sender: TObject);
 var
   F: TEditorFrame;
@@ -40,7 +51,6 @@ begin
   F:= (Sender as TWinControl).Parent as TEditorFrame;
   Groups.PagesCurrent:= F.Parent as TATPages;
 
-  EControlTreeUpdateMustStop:= true;
   UpdateCaption;
   UpdateTabsActiveColor(F);
   UpdateMenuPlugins_Shortcuts;

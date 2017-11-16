@@ -78,11 +78,10 @@ var
 begin
   Tabs:= Sender as TATTabs;
   D:= Tabs.GetTabData(Tabs.TabIndex);
-  if D<>nil then
-  begin
-    F:= D.TabObject as TEditorFrame;
-    EditorFocus(F.Editor);
-  end;
+  if D=nil then exit;
+
+  F:= D.TabObject as TEditorFrame;
+  EditorFocus(F.Editor);
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F);
