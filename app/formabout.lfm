@@ -13,7 +13,7 @@ object fmAbout: TfmAbout
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   object LabelName: TLabel
     Left = 104
     Height = 29
@@ -125,12 +125,12 @@ object fmAbout: TfmAbout
     Colors.TextHintFont = clGray
     Colors.MarkedLinesBG = 15786160
     Colors.BorderLine = clMedGray
+    Colors.BorderLineFocused = clNavy
     Colors.ComboboxArrow = clGray
     Colors.ComboboxArrowBG = 15790320
     OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s\(\)]+'
     OptGutterVisible = False
     OptRulerVisible = False
-    OptWrapMode = cWrapOff
     OptNumbersSkippedChar = '.'
     OptUnprintedVisible = False
   end

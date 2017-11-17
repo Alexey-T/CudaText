@@ -115,10 +115,6 @@ begin
     SWidget,
     {$I %FPCVersion%}
     ]);
-
-  AutoAdjustLayout(lapAutoAdjustForDPI,
-    96, Screen.PixelsPerInch,
-    Width, Scale96ToForm(Width));
 end;
 
 
