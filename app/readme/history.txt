@@ -6,6 +6,7 @@
 
 1.24.3 (2017/11)
 
+- fix: wrong scaling of few dialogs on Win10 high-dpi
 - fix: if same file opened again, its tab wasn't activated
 - fix: bug in 1.24.1, session's first loaded tab not parsed
 - fix: major bug, code-tree didn't update on editing file
