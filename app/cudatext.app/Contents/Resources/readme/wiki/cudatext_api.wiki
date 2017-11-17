@@ -580,13 +580,13 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "pos": position, str in the form "left,top,right,bottom". Some one-line controls ignore bottom and do auto size. If specified "x/y/w/h" together with "pos", then last mentioned prop has effect.
 * "en": enabled state, bool
 * "vis": visible state, bool
-* "hint": hint string for mouse-over; can be multiline, "\r"-separated
+* "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
 * "color": background color
 * "font_name": font name
 * "font_size": font size
 * "font_color": font color
-* "name": optional name of control; it may be not unique for all controls 
-* "act": active state, bool; for many controls (check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), means that control's change fires events (for dlg_proc) or closes form (for dlg_custom).
+* "name": optional name of control. It may be not unique for all controls. 
+* "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "props": advanced control-specific properties. Described below.
 * "val": value of control. Described below.
 * "items": list of items. Described below.
@@ -741,9 +741,14 @@ These are also properties of forms.
 * "on_resize": Called after form is resized.
 * "on_close": Called after form is closed.
 * "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
+
+* "on_act": Called when form is activated.
+* "on_deact": Called when form is deactivated.
+
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
 ** param "data": key-state string: few chars, "c" for Ctrl, "a" for Alt, "s" for Shift, "m" for Meta.
+
 * "on_key_up": Called when key is depressed (after on_key_down). If plugin returns False, depressing of key is blocked.
 
 How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=27 and data="ca":
@@ -776,6 +781,7 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "val": str: Value of control. Described in dlg_custom.
 * "tag": str: Any string, set by plugin.
 
+* "focused": bool: Shows if control has focus.
 * "tab_stop": bool: Allows tab-key to jump to this control.
 * "tab_order": int: Tab-key jumps to controls using tab_orders. First activated is control with tab_order=0, next with =1, etc. If tab_orders not set, controls activated by creation order.
 
@@ -2021,6 +2027,13 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.206 (app 1.24.2)
+* add: dlg_proc: added ctl property "focused"
+* add: dlg_proc: added form events "on_act", "on_deact"
+
+1.0.205 (app 1.24.1)
+* add: dlg_proc: ctl "edit" supports "on_change" (if "act":True)
 
 1.0.204 (app 1.23.5)
 * add: ed.get_wrapinfo()
