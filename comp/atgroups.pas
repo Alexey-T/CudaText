@@ -1727,8 +1727,8 @@ end;
 function TATGroups.SetPagesAndTabIndex(APageIndex, ATabIndex: Integer): boolean;
 begin
   Result:=
-    (APageIndex>=1) and
-    (APageIndex<=PagesVisibleCount) and
+    (APageIndex>=0) and
+    (APageIndex<PagesVisibleCount) and
     (ATabIndex>=0) and
     (ATabIndex<Pages[APageIndex].Tabs.TabCount);
   if Result then
