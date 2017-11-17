@@ -4,8 +4,9 @@
   * changed
 
 
-1.24.2 (2017/11)
+1.24.3 (2017/11)
 
+- fix: if same file opened again, its tab wasn't activated
 - fix: bug in 1.24.1, session's first loaded tab not parsed
 - fix: major bug, code-tree didn't update on editing file
 + added: option "ui_tree_cache"
