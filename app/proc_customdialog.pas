@@ -1440,9 +1440,10 @@ begin
   //macOS: gives bad result, tool big labels
   {$endif}
 
-  F.AutoAdjustLayout(lapAutoAdjustForDPI,
-    96, Screen.PixelsPerInch,
-    F.Width, F.Scale96ToForm(F.Width));
+  ////gave reduntant scaling on Win10 scale 150%
+  //F.AutoAdjustLayout(lapAutoAdjustForDPI,
+  //  96, Screen.PixelsPerInch,
+  //  F.Width, F.Scale96ToForm(F.Width));
 end;
 
 
