@@ -183,6 +183,7 @@ begin
   Position:= poScreenCenter;
   ShowHint:= true;
   Scaled:= false;
+  ShowInTaskBar:= stNever;
 
   IsDlgCustom:= false;
   IsFormShownAlready:= false;
