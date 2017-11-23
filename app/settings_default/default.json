@@ -884,7 +884,7 @@
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 3,
   
-  //Maximal count of lines in text, for which code-tree will be shown
+  //Maximal count of lines in text, when code-tree is enabled (0: always disabled)
   "ui_max_lines_codetree": 8000,
 
   //[Ui]

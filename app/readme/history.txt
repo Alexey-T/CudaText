@@ -7,12 +7,9 @@
 1.24.6 (2017/11)
 
 + add: option "ui_max_lines_codetree" - prevent show code-tree for too big files
-* change: lexer JSON simplified (faster on big files)
-
-1.24.5 (2017/11)
-
+* change: lexer JSON: code-tree simplified (faster on big files)
 - fix: option "autocomplete_autoshow_chars" must ignore numbers
-- fix: some groups-related commands used wrong group index
+- fix: some groups-related commands
 
 1.24.3 (2017/11)
 
