@@ -4,6 +4,10 @@
   * changed
 
 
+1.24.6 (2017/11)
+
+* change: lexer JSON simplified (faster on big files)
+
 1.24.5 (2017/11)
 
 - fix: option "autocomplete_autoshow_chars" must ignore numbers
