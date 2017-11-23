@@ -153,7 +153,8 @@ begin
   if bNeedTreeUpd then
   begin
     Tree.Items.Clear;
-    FrameParseBegin(nil);
+    if not ACanClose then
+      FrameParseBegin(nil);
   end;
 end;
 
