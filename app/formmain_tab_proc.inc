@@ -25,7 +25,7 @@ begin
   F.Groups:= Groups;
   F.SaveDialog:= SaveDlg;
 
-  F.Adapter.OnParseBegin:= @FrameParseBegin;
+  //F.Adapter.OnParseBegin:= @FrameParseBegin;
   F.Adapter.OnParseDone:= @FrameParseDone;
   F.Adapter.OnLexerChange:= @FrameLexerChange;
 
@@ -151,11 +151,7 @@ begin
   end;
 
   if bNeedTreeUpd then
-  begin
     Tree.Items.Clear;
-    if not ACanClose then
-      FrameParseBegin(nil);
-  end;
 end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject);

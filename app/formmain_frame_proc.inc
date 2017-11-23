@@ -138,12 +138,6 @@ begin
     CurrentEditor.DoCommand(cmd_OpsReloadAndApply);
 end;
 
-procedure TfmMain.FrameParseBegin(Sender: TObject);
-begin
-  //dont clear tree, it's irritating
-  //Tree.Items.Clear;
-end;
-
 procedure TfmMain.FrameParseDone(Sender: TObject);
 var
   Frame: TEditorFrame;

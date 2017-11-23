@@ -415,7 +415,6 @@ type
     procedure FrameAddRecent(Sender: TObject);
     procedure FrameOnMsgStatus(Sender: TObject; const AStr: string);
     procedure FrameOnChangeCaretPos(Sender: TObject);
-    procedure FrameParseBegin(Sender: TObject);
     procedure FrameParseDone(Sender: TObject);
     procedure ListboxOutClick(Sender: TObject);
     procedure ListboxOutDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
