@@ -617,9 +617,9 @@ begin
   NCountBefore:= cGroupsCount[FMode];
   NCountAfter:= cGroupsCount[Value];
 
-  for i:= NCountAfter+1 to NCountBefore do
+  for i:= NCountAfter to NCountBefore-1 do
     for j:= 0 to Pages[i].Tabs.TabCount-1 do
-      MoveTab(Pages[i], 0{first tab}, Pages[NCountAfter], -1, false);
+      MoveTab(Pages[i], 0{first tab}, Pages[NCountAfter-1], -1, false);
 end;
 
 procedure TATGroups.SetMode(Value: TATGroupsMode);
