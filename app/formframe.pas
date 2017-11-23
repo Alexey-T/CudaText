@@ -821,7 +821,7 @@ var
   Caret: TATCaretItem;
   Str: atString;
   SLexerName: string;
-  bWordChar: boolean;
+  bWordChar, bIdentChar: boolean;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Carets.Count<>1 then exit;
@@ -842,6 +842,7 @@ begin
 
     //other conditions need word-char
     bWordChar:= IsCharWord(AText[1], '');
+    bIdentChar:= bWordChar and (Pos(AText[1], '0123456789')=0);
     if not bWordChar then exit;
 
     SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
@@ -869,6 +870,9 @@ begin
     if (UiOps.AutocompleteAutoshowCharCount>0) {and
        (UiOps.AutocompleteAutoshowLexers<>'')} then
     begin
+      //ignore if number typed
+      if (FTextCharsTyped=0) and (not bIdentChar) then exit;
+
       Inc(FTextCharsTyped);
       if FTextCharsTyped=UiOps.AutocompleteAutoshowCharCount then
         //if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
