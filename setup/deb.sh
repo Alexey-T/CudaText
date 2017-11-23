@@ -3,7 +3,7 @@
 . ./cuda_ver.sh
 suffix=gtk2_amd64
 
-outdir=~/Public
+outdir=~/cudatext_build
 mkdir -p $outdir
 debname=cudatext_$cuda_ver-1_$suffix
 
