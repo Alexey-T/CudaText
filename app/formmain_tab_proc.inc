@@ -199,7 +199,7 @@ begin
   Groups.PopupPages.Tabs.DeleteTab(Groups.PopupTabIndex, true, true);
 end;
 
-procedure TfmMain.DoMoveTabTo(Num: Integer);
+procedure TfmMain.DoMoveTabTo(AIndex: Integer);
 var
   Pages: TATPages;
   NIndex: integer;
@@ -208,44 +208,44 @@ begin
   NIndex:= Groups.PopupTabIndex;
 
   //force 2 groups if only one
-  if (Num=2) and (Groups.Mode=gmOne) then
+  if (AIndex=1) and (Groups.Mode=gmOne) then
   begin
     Groups.Mode:= gm2Horz;
     Groups.Update; //maybe no need
     Pages:= Groups.Pages1; //maybe no need
   end;
 
-  Groups.MoveTab(Pages, NIndex, Groups.Pages[Num], -1, false);
+  Groups.MoveTab(Pages, NIndex, Groups.Pages[AIndex], -1, false);
 end;
 
 procedure TfmMain.mnuTabMove1Click(Sender: TObject);
 begin
-  DoMoveTabTo(1);
+  DoMoveTabTo(0);
 end;
 
 procedure TfmMain.mnuTabMove2Click(Sender: TObject);
 begin
-  DoMoveTabTo(2);
+  DoMoveTabTo(1);
 end;
 
 procedure TfmMain.mnuTabMove3Click(Sender: TObject);
 begin
-  DoMoveTabTo(3);
+  DoMoveTabTo(2);
 end;
 
 procedure TfmMain.mnuTabMove4Click(Sender: TObject);
 begin
-  DoMoveTabTo(4);
+  DoMoveTabTo(3);
 end;
 
 procedure TfmMain.mnuTabMove5Click(Sender: TObject);
 begin
-  DoMoveTabTo(5);
+  DoMoveTabTo(4);
 end;
 
 procedure TfmMain.mnuTabMove6Click(Sender: TObject);
 begin
-  DoMoveTabTo(6);
+  DoMoveTabTo(5);
 end;
 
 procedure TfmMain.mnuTabMoveNextClick(Sender: TObject);
