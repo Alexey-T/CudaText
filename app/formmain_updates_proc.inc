@@ -757,7 +757,13 @@ begin
 
   Ed:= CurrentEditor;
   Frame:= GetEditorFrame(Ed);
-  if Ed.Strings.Count=0 then exit;
+
+  if (Ed.Strings.Count=0) or
+    (Ed.Strings.Count>UiOps.MaxLinesForTree) then
+  begin
+    Tree.Items.Clear;
+    exit;
+  end;
 
   with Frame do
   begin

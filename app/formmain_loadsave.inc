@@ -672,6 +672,7 @@ begin
     UiOps.PictureTypes:= c.GetValue('picture_types', UiOps.PictureTypes);
     UiOps.MaxFileSizeToOpen:= c.GetValue('ui_max_size_open', UiOps.MaxFileSizeToOpen);
     UiOps.MaxFileSizeForLexer:= c.GetValue('ui_max_size_lexer', UiOps.MaxFileSizeForLexer);
+    UiOps.MaxLinesForTree:= c.GetValue('ui_max_lines_codetree', UiOps.MaxLinesForTree);
 
     UiOps.AutocompleteHtml:= c.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
     UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
