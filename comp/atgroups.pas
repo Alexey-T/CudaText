@@ -1577,12 +1577,12 @@ var
 begin
   NFrom:= PagesIndexOf(PagesCurrent);
   if NFrom<0 then Exit;
-  if NFrom=1 then NTo:= 2 else NTo:= 1;
+  if NFrom=0 then NTo:= 1 else NTo:= 0;
 
   NTabIndex:= Pages[NFrom].Tabs.TabIndex;
   if NTabIndex<0 then Exit;
 
-  if (NTo>1) and (FMode<=gmOne) then
+  if (NTo>0) and (FMode<=gmOne) then
     SetMode(gm2Horz);
 
   MoveTab(Pages[NFrom], NTabIndex, Pages[NTo], -1, true);
