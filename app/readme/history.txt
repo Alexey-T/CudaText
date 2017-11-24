@@ -6,9 +6,10 @@
 
 1.25.0 (2017/11)
 
-+ add: option "ui_tab_multiline" - enables multi-line tabs
-+ add: option "ui_max_lines_codetree" (default 8K lines) - disabled code-tree for too big files
++ add: option "ui_tab_multiline" - enable multi-line tabs
++ add: option "ui_max_lines_codetree" (default 8K lines) - disable code-tree for too big files
 * change: lexer JSON: code-tree simplified (was slow on big files)
+- fix: Linux copy-to-clipboard could append zero char
 - fix: option "autocomplete_autoshow_chars" must ignore numbers
 - fix: some groups-related commands
 
