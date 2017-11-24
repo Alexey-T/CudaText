@@ -467,6 +467,9 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: multi-line mode, ie wrappable to several lines if lot of tabs
+  "ui_tab_multiline": false,  
+  
   //UI tabs: show angled left/right sides (note: they paint much slower)
   "ui_tab_angled": true,  
   

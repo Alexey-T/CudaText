@@ -1838,6 +1838,7 @@ begin
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 
   Groups.ScalePercents:= UiOps.ScreenScale;
+  Groups.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));
   Groups.SetTabOption(tabOptionAngled, Ord(UiOps.TabAngled));
   Groups.SetTabOption(tabOptionSpaceInitial, IfThen(UiOps.TabAngled, 10, 4));
   Groups.SetTabOption(tabOptionSpaceBetweenTabs, IfThen(UiOps.TabAngled, 4, 0));

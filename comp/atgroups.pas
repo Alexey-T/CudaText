@@ -100,6 +100,7 @@ type
     tabColorArrowOver,
     tabColorSpecMarks,
     tabColorActiveMark,
+    tabOptionMultiline,
     tabOptionAngled,
     tabOptionFontSize,
     tabOptionPosition,
@@ -1535,6 +1536,8 @@ begin
                 end;
             end;
           end;
+
+        tabOptionMultiline:        OptMultiline:= Boolean(N);
         tabOptionAngled:           OptShowAngled:= Boolean(N);
         tabOptionShowFlat:         OptShowFlat:= Boolean(N);
         tabOptionShowTabs:         Visible:= Boolean(N);

@@ -109,6 +109,7 @@ type
     ListboxCompleteSizeY: integer;
     ListboxFuzzySearch: boolean;
 
+    TabMultiline: boolean;
     TabAngled: boolean;
     TabFlat: boolean;
     TabWidth: integer;
@@ -1072,6 +1073,7 @@ begin
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;
 
+    TabMultiline:= false;
     TabAngled:= {$ifdef darwin} false {$else} true {$endif};
     TabFlat:= false;
     TabWidth:= 170;
