@@ -91,6 +91,7 @@ begin
   Result:= false;
   if fn_session='' then exit;
   DeleteFile(fn_session);
+  fmConsole.DoLogConsoleLine('Saving session: '+ExtractFileName(fn_session));
 
   c:= TJSONConfig.Create(nil);
   try
@@ -164,6 +165,7 @@ begin
   list:= TStringList.Create;
   try
     c.Filename:= fn_session;
+    fmConsole.DoLogConsoleLine('Loading session: '+ExtractFileName(fn_session));
 
     DoOps_LoadHistory_GroupView(c);
 
