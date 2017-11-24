@@ -8,7 +8,9 @@
 
 + add: option "ui_tab_multiline" - enable multi-line tabs
 + add: option "ui_max_lines_codetree" (default 8K lines) - disable code-tree for too big files
++ add: show console log, when session or project loads/saves
 * change: lexer JSON: code-tree simplified (was slow on big files)
+- fix: issue with last session, if "ui_reopen_session":false
 - fix: Linux copy-to-clipboard could append zero char
 - fix: option "autocomplete_autoshow_chars" must ignore numbers
 - fix: some groups-related commands
