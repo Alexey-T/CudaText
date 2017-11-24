@@ -68,7 +68,7 @@ begin
     c.SetValue('theme_ui', FThemeUi);
     c.SetValue('theme_syntax', FThemeSyntax);
     c.SetValue('lang', AppLangName);
-    c.SetValue('session', FSessionName);
+    c.SetValue('session', IfThen(UiOps.ShowLastFiles, FSessionName, ''));
 
     DoOps_SaveHistory_GroupView(c);
   finally

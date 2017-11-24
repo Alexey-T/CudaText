@@ -1090,14 +1090,11 @@ end;
 
 function TfmMain.GetSessionFilename: string;
 begin
-  if FSessionName<>'' then
-  begin
-    Result:= FSessionName;
-    if ExtractFileDir(Result)='' then
-      Result:= GetAppPath(cDirSettings)+DirectorySeparator+Result;
-  end
-  else
-    Result:= '';
+  Result:= FSessionName;
+  if Result='' then
+    Result:= 'history session.json';
+  if ExtractFileDir(Result)='' then
+    Result:= GetAppPath(cDirSettings)+DirectorySeparator+Result;
 end;
 
 
@@ -1203,7 +1200,7 @@ begin
   PanelAll.Align:= alClient;
   PaintTest.Height:= 150;
   AppManager:= TecSyntaxManager.Create(Self);
-  FSessionName:= 'history session.json';
+  FSessionName:= '';
 
   FListRecents:= TStringList.Create;
   FListThemesUI:= TStringList.Create;
