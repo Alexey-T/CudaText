@@ -1056,7 +1056,7 @@ begin
     for i:= 0 to Ed.Strings.Count-1 do
       if Ed.Strings.LinesBm[i]>0 then
         List.Add(UTF8Encode(Ed.Strings.Lines[i]));
-    Clipboard.AsText:= List.Text;
+    SClipboardCopy(List.Text);
   finally
     FreeAndNil(List);
   end;

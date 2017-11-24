@@ -1722,17 +1722,17 @@ end;
 
 procedure TfmMain.DoCopyFilenameFull;
 begin
-  Clipboard.AsText:= CurrentFrame.FileName;
+  SClipboardCopy(CurrentFrame.FileName);
 end;
 
 procedure TfmMain.DoCopyFilenameDir;
 begin
-  Clipboard.AsText:= ExtractFileDir(CurrentFrame.FileName);
+  SClipboardCopy(ExtractFileDir(CurrentFrame.FileName));
 end;
 
 procedure TfmMain.DoCopyFilenameName;
 begin
-  Clipboard.AsText:= ExtractFileName(CurrentFrame.FileName);
+  SClipboardCopy(ExtractFileName(CurrentFrame.FileName));
 end;
 
 
@@ -1746,7 +1746,7 @@ begin
   N:= Ed.Carets[0].PosY;
   if not Ed.Strings.IsIndexValid(N) then exit;
   Str:= Ed.Strings.Lines[N];
-  Clipboard.AsText:= Str;
+  SClipboardCopy(UTF8Encode(Str));
 end;
 
 procedure TfmMain.DoHelpAbout;
@@ -3449,7 +3449,7 @@ begin
   //Ctrl+C
   if (Key=Ord('C')) and (Shift=[ssCtrl]) then
   begin
-    Clipboard.AsText:= Prop^.Listbox.Items.Text;
+    SClipboardCopy(Prop^.Listbox.Items.Text);
     Key:= 0;
     exit
   end;
@@ -3457,7 +3457,7 @@ begin
   //Ctrl+D
   if (Key=Ord('D')) and (Shift=[ssCtrl]) then
   begin
-    Clipboard.AsText:= Prop^.Listbox.Items[List.ItemIndex];
+    SClipboardCopy(Prop^.Listbox.Items[List.ItemIndex]);
     Key:= 0;
     exit
   end;

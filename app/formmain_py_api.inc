@@ -2413,12 +2413,12 @@ begin
           end;
         APP_PROC_SET_CLIP:
           begin
-            Clipboard.AsText:= Str;
+            SClipboardCopy(Str);
             Result:= ReturnNone;
           end;
         APP_PROC_SET_CLIP_ALT:
           begin
-            PrimarySelection.AsText:= Str; //for gtk2
+            SClipboardCopy(Str, PrimarySelection); //for gtk2
             Result:= ReturnNone;
           end;
 

@@ -312,7 +312,7 @@ begin
         Str:= EditorGetLinkAtCaret(CurrentEditor);
         if Str<>'' then
         begin
-          Clipboard.AsText:= Utf8Encode(Str);
+          SClipboardCopy(UTF8Encode(Str));
           MsgStatus(msgStatusCopiedLink);
         end;
       end;
@@ -332,7 +332,7 @@ begin
         Str:= EditorGetLinkAtScreenCoord(CurrentEditor, PopupText.PopupPoint);
         if Str<>'' then
         begin
-          Clipboard.AsText:= Utf8Encode(Str);
+          SClipboardCopy(UTF8Encode(Str));
           MsgStatus(msgStatusCopiedLink);
         end;
       end;
