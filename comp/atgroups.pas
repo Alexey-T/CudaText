@@ -118,6 +118,7 @@ type
     tabOptionWidthMin,
     tabOptionWidthMax,
     tabOptionSpacer,
+    tabOptionSpacer2,
     tabOptionSpaceInitial,
     tabOptionSpaceBetweenTabs,
     tabOptionColoredBandSize,
@@ -1559,6 +1560,7 @@ begin
               Width:= OptTabWidthNormal;
           end;
         tabOptionSpacer:           OptSpacer:= DoScale(N);
+        tabOptionSpacer2:          OptSpacer2:= DoScale(N);
         tabOptionSpaceInitial:     OptSpaceInitial:= DoScale(N);
         tabOptionSpaceBetweenTabs: OptSpaceBetweenTabs:= DoScale(N);
         tabOptionColoredBandSize:  OptColoredBandSize:= DoScale(N);

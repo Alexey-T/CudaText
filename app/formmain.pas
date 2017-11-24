@@ -1852,6 +1852,7 @@ begin
   Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
   Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
   Groups.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
+  Groups.SetTabOption(tabOptionSpacer2, 1); //for multiline mode
   Groups.SetTabOption(tabOptionColoredBandSize, 4);
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
   Groups.SetTabOption(tabOptionSpaceXRight, 10);
