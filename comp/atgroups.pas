@@ -50,6 +50,8 @@ type
     procedure TabEmpty(Sender: TObject);
     procedure TabOver(Sender: TObject; ATabIndex: Integer);
     procedure TabMove(Sender: TObject; NFrom, NTo: Integer);
+  protected
+    procedure Resize; override;
   public
     constructor Create(AOwner: TComponent); override;
     procedure AddTab(AControl: TControl; const ACaption: TATTabString;
@@ -458,6 +460,13 @@ procedure TATPages.TabMove(Sender: TObject; NFrom, NTo: Integer);
 begin
   if Assigned(FOnTabMove) then
     FOnTabMove(Sender, NFrom, NTo);
+end;
+
+procedure TATPages.Resize;
+begin
+  inherited;
+  if Assigned(FTabs) then
+    FTabs.Constraints.MaxHeight:= Height div 4 * 3;
 end;
 
 { TATGroups }
