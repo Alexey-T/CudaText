@@ -2388,10 +2388,20 @@ end;
 
 function Py_CommandList: PPyObject; cdecl;
 var
-  Item: TATKeymapItem;
+  Item, ItemInitial: TATKeymapItem;
   ItemPlugin: TAppPluginCmd;
   NLen, i: Integer;
+  SKeyInit1, SKeyInit2: string;
 begin
+  //AppKeymapInitial must be inited with _same_ code
+  //as AppKeymap in proc_global
+  if not Assigned(AppKeymapInitial) then
+  begin
+    AppKeymapInitial:= TATKeymap.Create;
+    InitKeymapFull(AppKeymapInitial);
+    InitKeymapForApplication(AppKeymapInitial);
+  end;
+
   with GetPythonEngine do
   begin
     NLen:= AppKeymap.Count;
@@ -2458,8 +2468,17 @@ begin
 
           else
             begin
+              SKeyInit1:= '';
+              SKeyInit2:= '';
+              if AppKeymapInitial.IsIndexValid(i) then
+              begin
+                ItemInitial:= AppKeymapInitial[i];
+                SKeyInit1:= KeyArrayToString(ItemInitial.Keys1);
+                SKeyInit2:= KeyArrayToString(ItemInitial.Keys2);
+              end;
+
               PyList_SetItem(Result, i,
-                Py_BuildValue('{sssissssss}',
+                Py_BuildValue('{sssissssssssss}',
                   'type',
                   'cmd',
                   'cmd',
@@ -2469,7 +2488,11 @@ begin
                   'key1',
                   PChar(KeyArrayToString(Item.Keys1)),
                   'key2',
-                  PChar(KeyArrayToString(Item.Keys2))
+                  PChar(KeyArrayToString(Item.Keys2)),
+                  'key1_init',
+                  PChar(SKeyInit1),
+                  'key2_init',
+                  PChar(SKeyInit2)
                   ));
             end;
       end;
