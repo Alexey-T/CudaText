@@ -177,9 +177,24 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
+
 * PROC_GET_COMMAND: Gets info about item from application commands-list, with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enumerate all commands: call it from index "0", until you get None result.
 * PROC_GET_COMMAND_INITIAL: Same as PROC_GET_COMMAND, but gets info only about "initial state", which was before reading hotkey configs (main config and lexer-specific configs). 
 * PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items which were set in PROC_SET_SUBCOMMANDS). Call it with str(N), from N=0, until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
+
+* PROC_GET_COMMANDS: Gets list of all commands, as list of dict. Dict keys are:
+** "type": str: Possible values: "cmd" (usual command), "lexer" (dynamically added command to activate lexer), "plugin" (dynamically added plugin command).
+** "cmd": int: Command code, to use in ed.cmd() call.
+** "name": str: Pretty name, which is visible in the Commands dialog.
+** "key1": str: Hotkey-1.
+** "key2": str: Hotkey-2.
+** (for plugins) "p_caption": str: Caption of command, which was stored in install.inf.
+** (for plugins) "p_module": str: Python module name.
+** (for plugins) "p_method": str: Python method name in Command class.
+** (for plugins) "p_method_params": str: Optional params for Python method.
+** (for plugins) "p_lexers": str: Comma-separated lexers list.
+** (for plugins) "p_from_api": bool: This command was generated from API by some plugin.
+** (for plugins) "p_in_menu": str: Value of parameter "menu" from install.inf.  
 
 ====Hotkeys====
 
@@ -2027,6 +2042,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.207 (app 1.25.1)
+* add: app_proc: PROC_GET_COMMANDS
 
 1.0.206 (app 1.24.2)
 * add: dlg_proc: added ctl property "focused"
