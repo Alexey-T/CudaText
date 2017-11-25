@@ -2385,6 +2385,102 @@ begin
     end;
 end;
 
+
+function Py_CommandList: PPyObject; cdecl;
+var
+  Item: TATKeymapItem;
+  ItemPlugin: TAppPluginCmd;
+  NLen, i: Integer;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= AppKeymap.Count;
+    if NLen>0 then
+    begin
+      Result:= PyList_New(NLen);
+      if not Assigned(Result) then
+        raise EPythonError.Create(msgPythonListError);
+
+      for i:= 0 to NLen-1 do
+      begin
+        Item:= AppKeymap[i];
+        case Item.Command of
+          cmdFirstLexerCommand..
+          cmdLastLexerCommand:
+            begin
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sssissssss}',
+                  'type',
+                  'lexer',
+                  'cmd',
+                  Item.Command,
+                  'name',
+                  PChar(Item.Name),
+                  'key1',
+                  PChar(KeyArrayToString(Item.Keys1)),
+                  'key2',
+                  PChar(KeyArrayToString(Item.Keys2))
+                  ));
+            end;
+
+          cmdFirstPluginCommand..
+          cmdLastPluginCommand:
+            begin
+              ItemPlugin:= AppPluginsCommand[Item.Command-cmdFirstPluginCommand];
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sssisssssssssssssssOssss}',
+                  'type',
+                  'plugin',
+                  'cmd',
+                  Item.Command,
+                  'name',
+                  PChar(Item.Name),
+                  'key1',
+                  PChar(KeyArrayToString(Item.Keys1)),
+                  'key2',
+                  PChar(KeyArrayToString(Item.Keys2)),
+                  'p_module',
+                  PChar(ItemPlugin.ItemModule),
+                  'p_method',
+                  PChar(ItemPlugin.ItemProc),
+                  'p_method_params',
+                  PChar(ItemPlugin.ItemProcParam),
+                  'p_lexers',
+                  PChar(ItemPlugin.ItemLexers),
+                  'p_from_api',
+                  PyBool_FromLong(Ord(ItemPlugin.ItemFromApi)),
+                  'p_caption',
+                  PChar(ItemPlugin.ItemCaption),
+                  'p_in_menu',
+                  PChar(ItemPlugin.ItemInMenu)
+                  ));
+            end;
+
+          else
+            begin
+              PyList_SetItem(Result, i,
+                Py_BuildValue('{sssissssss}',
+                  'type',
+                  'cmd',
+                  'cmd',
+                  Item.Command,
+                  'name',
+                  PChar(Item.Name),
+                  'key1',
+                  PChar(KeyArrayToString(Item.Keys1)),
+                  'key2',
+                  PChar(KeyArrayToString(Item.Keys2))
+                  ));
+            end;
+      end;
+    end
+    end
+    else
+      Result:= ReturnNone;
+  end;
+end;
+
+
 function Py_app_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Id, i: integer;
@@ -2420,6 +2516,11 @@ begin
           begin
             SClipboardCopy(Str, PrimarySelection); //for gtk2
             Result:= ReturnNone;
+          end;
+
+        APP_PROC_GET_COMMANDS:
+          begin
+            Result:= Py_CommandList;
           end;
 
         APP_PROC_GET_COMMAND:
