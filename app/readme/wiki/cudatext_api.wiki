@@ -188,6 +188,8 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ** "name": str: Pretty name, which is visible in the Commands dialog.
 ** "key1": str: Hotkey-1.
 ** "key2": str: Hotkey-2.
+** "key1_init": str: Hotkey-1 from build-in config.
+** "key2_init": str: Hotkey-2 from build-in config.
 ** (for plugins) "p_caption": str: Caption of command, which was stored in install.inf.
 ** (for plugins) "p_module": str: Python module name.
 ** (for plugins) "p_method": str: Python method name in Command class.
