@@ -188,14 +188,14 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ** "name": str: Pretty name, which is visible in the Commands dialog.
 ** "key1": str: Hotkey-1.
 ** "key2": str: Hotkey-2.
-** "key1_init": str: Hotkey-1 from build-in config.
-** "key2_init": str: Hotkey-2 from build-in config.
-** (for plugins) "p_caption": str: Caption of command, which was stored in install.inf.
-** (for plugins) "p_module": str: Python module name.
-** (for plugins) "p_method": str: Python method name in Command class.
+** "key1_init": str: Hotkey-1 from built-in config.
+** "key2_init": str: Hotkey-2 from built-in config.
+** (for plugins) "p_caption": str: Menu-item caption from install.inf.
+** (for plugins) "p_module": str: Python module.
+** (for plugins) "p_method": str: Python method in Command class.
 ** (for plugins) "p_method_params": str: Optional params for Python method.
 ** (for plugins) "p_lexers": str: Comma-separated lexers list.
-** (for plugins) "p_from_api": bool: This command was generated from API by some plugin.
+** (for plugins) "p_from_api": bool: Shows that command was generated from API by some plugin.
 ** (for plugins) "p_in_menu": str: Value of parameter "menu" from install.inf.  
 
 ====Hotkeys====
