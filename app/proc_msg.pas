@@ -178,7 +178,7 @@ const
   msgAboutCredits =
       'Lazarus IDE'+sLineBreak+
       '    http://www.lazarus-ide.org'+sLineBreak+
-      'ATSynEdit, ATTabs, ATGroups, ATListbox, ATButton, Python wrapper'+sLineBreak+
+      'ATSynEdit, ATTabs, ATFlatControls, Python wrapper'+sLineBreak+
       '    https://github.com/Alexey-T/'+sLineBreak+
       'EControl syntax parser'+sLineBreak+
       '    Delphi version: http://www.econtrol.ru'+sLineBreak+
