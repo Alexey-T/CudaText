@@ -73,18 +73,19 @@ class Command:
 
         err = 0
         stopped = False
-        app_proc(PROC_SET_ESCAPE, '0')
+        app_proc(PROC_SET_ESCAPE, False)
 
         for (i, item) in enumerate(items):
             url = item['url']
+
             if app_proc(PROC_GET_ESCAPE, '')==True:
-                app_proc(PROC_SET_ESCAPE, '0')
+                app_proc(PROC_SET_ESCAPE, False)
                 if msg_box('Stop downloading?', MB_OKCANCEL+MB_ICONQUESTION)==ID_OK:
                     stopped = True
                     break
 
-            #must use msg_status(.., True)
-            msg_status('Downloading: %d/%d'%(i+1, len(items)), True)
+            app_proc(PROC_PROGRESSBAR, (i+1)*100//len(items))
+            msg_status('Downloading: %d/%d'%(i+1, len(items)), True) #must be with True
 
             name = unquote(url.split('/')[-1])
             dir = os.path.join(dir_for_all, name.split('.')[0])
@@ -93,11 +94,14 @@ class Command:
             fn = os.path.join(dir, name)
             res = get_url(url, fn)
             if res == False: #abort button
-                return
+                break
             if not os.path.isfile(fn):
                 err += 1
                 print('Cannot download file: '+url)
                 continue
+
+        app_proc(PROC_PROGRESSBAR, 0)
+        app_proc(PROC_PROGRESSBAR, -1)
 
         text = 'Download done' if not stopped else 'Download stopped'
         if err>0:

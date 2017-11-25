@@ -467,6 +467,9 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: multi-line mode, ie wrappable to several lines if lot of tabs
+  "ui_tab_multiline": false,  
+  
   //UI tabs: show angled left/right sides (note: they paint much slower)
   "ui_tab_angled": true,  
   
@@ -883,6 +886,9 @@
 
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 3,
+  
+  //Maximal count of lines in text, when code-tree is enabled (0: always disabled)
+  "ui_max_lines_codetree": 8000,
 
   //[Ui]
   //On calling Full-Screen, hide these UI elements

@@ -1,4 +1,4 @@
-object SyntAnal19: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -123,7 +123,33 @@ object SyntAnal19: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = '{'
+      DisplayName = '{ with key'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            ':')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 48
+        end>
+      BlockEnd = '}'
+      EndOfTextClose = True
+      NameFmt = '%s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%s0: { ... }'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{ no key'
       ConditionList = <
         item
           TagList.Strings = (
@@ -131,9 +157,7 @@ object SyntAnal19: TLibSyntAnalyzer
           TokenTypes = 8
         end>
       BlockEnd = '}'
-      EndOfTextClose = True
-      NameFmt = '%s2'
-      RefToCondEnd = True
+      DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
       CollapseFmt = '{ ... }'
@@ -148,28 +172,8 @@ object SyntAnal19: TLibSyntAnalyzer
             '}')
           TokenTypes = 8
         end>
-      BlockEnd = '{'
+      BlockEnd = '{ with key'
       HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'param'
-      ConditionList = <
-        item
-          CondType = tcNotEqual
-          TokenTypes = 8
-        end
-        item
-          TagList.Strings = (
-            ':')
-          TokenTypes = 8
-        end
-        item
-          TokenTypes = 16
-        end>
-      NameFmt = '%s0'
-      HighlightPos = cpAny
-      NoEndRule = True
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
@@ -210,8 +214,8 @@ object SyntAnal19: TLibSyntAnalyzer
   Extentions = 'json'
   LexerName = 'JSON'
   Notes.Strings = (
-    'Author: Alex, uvviewsoft.com'
-    'Test'
+    'Alexey (CudaText)'
+    'Tests'
     'http://json.org/example.html'
     'http://www.jquery4u.com/json/10-example-json-files/')
   LineComment = '//'
