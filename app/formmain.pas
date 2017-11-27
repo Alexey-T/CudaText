@@ -1238,13 +1238,6 @@ begin
   Status.OnPanelClick:= @StatusPanelClick;
   Status.OnResize:= @StatusResize;
 
-  Status.AddPanel(170, taCenter, '?');
-  Status.AddPanel(105, taCenter, '?');
-  Status.AddPanel(50, taCenter, '?');
-  Status.AddPanel(140, taCenter, '?');
-  Status.AddPanel(80, taCenter, '?');
-  Status.AddPanel(4000, taLeftJustify, '');
-
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
   StatusAlt.ScalePercents:= UiOps.ScreenScale;

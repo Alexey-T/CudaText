@@ -882,7 +882,13 @@ var
   NIndex, NSize, NTag: integer;
   Al: TAlignment;
 begin
-  Status.DeletePanels;
+  //weird deletion of statusbar panels - touch only CudaText std panels
+  //code depends on values of _Tags (10..20)
+  for NTag:= StatusbarTag_Caret to StatusbarTag_Msg do
+  begin
+    NIndex:= Status.FindPanel(PtrInt(NTag));
+    Status.DeletePanel(NIndex);
+  end;
 
   repeat
     SPanel:= SGetItem(AStr, '|');
