@@ -27,6 +27,7 @@ uses
   ATStringProc,
   ATButtons,
   ATListbox,
+  ATStatusBar,
   proc_cmd,
   proc_msg,
   proc_keymap_undolist,
@@ -646,19 +647,8 @@ function AppEncodingFullnameToShortname(const S: string): string;
 function AppEncodingListAsString: string;
 function AppEncodingOem: string;
 
-var
-  //values calculated from option ui_statusbar_panels
-  StatusbarIndex_Caret: integer = 0;
-  StatusbarIndex_Enc: integer = 1;
-  StatusbarIndex_LineEnds: integer = 2;
-  StatusbarIndex_Lexer: integer = 3;
-  StatusbarIndex_TabSize: integer = 4;
-  StatusbarIndex_InsOvr: integer = -1;
-  StatusbarIndex_SelMode: integer = -1;
-  StatusbarIndex_WrapMode: integer = -1;
-  StatusbarIndex_Msg: integer = 5;
-
 procedure UpdateFormOnTop(F: TForm);
+procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 
 
 implementation
@@ -1766,6 +1756,16 @@ begin
   {$else}
   Result:= 'CP437';
   {$endif}
+end;
+
+
+procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
+var
+  NIndex: integer;
+begin
+  NIndex:= AStatus.FindPanel(ATag);
+  if NIndex>=0 then
+    AStatus.Captions[NIndex]:= AText;
 end;
 
 

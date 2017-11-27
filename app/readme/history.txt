@@ -4,6 +4,10 @@
   * changed
 
 
+1.25.2 (2017/11)
+
+- fix: wrong column selection, if tab-chars at line start
+
 1.25.0 (2017/11)
 
 + add: option "ui_tab_multiline" - enable multi-line tabs

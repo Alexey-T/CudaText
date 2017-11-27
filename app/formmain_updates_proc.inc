@@ -81,12 +81,12 @@ begin
   if not F.IsText then
   begin
     Size:= F.PictureSizes;
-    Status.Captions[StatusbarIndex_Caret]:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
-    Status.Captions[StatusbarIndex_Enc]:= '';
-    Status.Captions[StatusbarIndex_LineEnds]:= '';
-    Status.Captions[StatusbarIndex_Lexer]:= '';
-    Status.Captions[StatusbarIndex_TabSize]:= '';
-    Status.Captions[StatusbarIndex_InsOvr]:= '';
+    DoStatusbarTextByTag(Status, StatusbarTag_Caret, Format(msgStatusPictureNxN, [Size.X, Size.Y]));
+    DoStatusbarTextByTag(Status, StatusbarTag_Enc, '');
+    DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, '');
+    DoStatusbarTextByTag(Status, StatusbarTag_Lexer, '');
+    DoStatusbarTextByTag(Status, StatusbarTag_TabSize, '');
+    DoStatusbarTextByTag(Status, StatusbarTag_InsOvr, '');
     exit;
   end;
 
@@ -98,11 +98,11 @@ begin
     selCarets:  fmt:= UiOps.StatusCarets;
     else        fmt:= UiOps.StatusNoSel;
   end;
-  Status.Captions[StatusbarIndex_Caret]:= EditorFormatStatus(Ed, fmt);
+  DoStatusbarTextByTag(Status, StatusbarTag_Caret, EditorFormatStatus(Ed, fmt));
 
   //------
   S:= F.EncodingName;
-  Status.Captions[StatusbarIndex_Enc]:= S;
+  DoStatusbarTextByTag(Status, StatusbarTag_Enc, S);
 
   //------
   case F.LineEnds of
@@ -111,7 +111,7 @@ begin
     cEndMac: S:= msgEndMac;
     else S:= '?';
   end;
-  Status.Captions[StatusbarIndex_LineEnds]:= S;
+  DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, S);
 
   //------
   an:= F.Lexer;
@@ -119,18 +119,18 @@ begin
     S:= msgNoLexer
   else
     S:= an.LexerName;
-  Status.Captions[StatusbarIndex_Lexer]:= S;
+  DoStatusbarTextByTag(Status, StatusbarTag_Lexer, S);
 
   //------
-  Status.Captions[StatusbarIndex_TabSize]:= EditorFormatTabsize(Ed, UiOps.StatusTabsize);
+  DoStatusbarTextByTag(Status, StatusbarTag_TabSize, EditorFormatTabsize(Ed, UiOps.StatusTabsize));
 
   //------
   S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
-  Status.Captions[StatusbarIndex_InsOvr]:= S;
+  DoStatusbarTextByTag(Status, StatusbarTag_InsOvr, S);
 
   //------
-  Status.Captions[StatusbarIndex_SelMode]:= IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-');
-  Status.Captions[StatusbarIndex_WrapMode]:= UiOps.StatusWrap[Ord(Ed.OptWrapMode)];
+  DoStatusbarTextByTag(Status, StatusbarTag_SelMode, IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-'));
+  DoStatusbarTextByTag(Status, StatusbarTag_WrapMode, UiOps.StatusWrap[Ord(Ed.OptWrapMode)]);
 end;
 
 procedure TfmMain.InitStatusButton;
@@ -879,34 +879,28 @@ end;
 procedure TfmMain.UpdateStatusbarPanelsFromString(AStr: string);
 var
   SPanel, SItem: string;
-  NIndex, NSize: integer;
+  NIndex, NSize, NTag: integer;
   Al: TAlignment;
 begin
   Status.DeletePanels;
-  StatusbarIndex_Caret:= -1;
-  StatusbarIndex_Enc:= -1;
-  StatusbarIndex_LineEnds:= -1;
-  StatusbarIndex_Lexer:= -1;
-  StatusbarIndex_TabSize:= -1;
-  StatusbarIndex_InsOvr:= -1;
-  StatusbarIndex_Msg:= -1;
 
   repeat
     SPanel:= SGetItem(AStr, '|');
     if SPanel='' then Break;
 
+    NTag:= 0;
     NIndex:= Status.PanelCount;
     SItem:= SGetItem(SPanel);
     case SItem of
-      'caret':   StatusbarIndex_Caret:= NIndex;
-      'enc':     StatusbarIndex_Enc:= NIndex;
-      'ends':    StatusbarIndex_LineEnds:= NIndex;
-      'lexer':   StatusbarIndex_Lexer:= NIndex;
-      'tabsize': StatusbarIndex_TabSize:= NIndex;
-      'ins':     StatusbarIndex_InsOvr:= NIndex;
-      'msg':     StatusbarIndex_Msg:= NIndex;
-      'selmode': StatusbarIndex_SelMode:= NIndex;
-      'wrap':    StatusbarIndex_WrapMode:= NIndex;
+      'caret':   begin NTag:= StatusbarTag_Caret; end;
+      'enc':     begin NTag:= StatusbarTag_Enc; end;
+      'ends':    begin NTag:= StatusbarTag_LineEnds; end;
+      'lexer':   begin NTag:= StatusbarTag_Lexer; end;
+      'tabsize': begin NTag:= StatusbarTag_TabSize; end;
+      'ins':     begin NTag:= StatusbarTag_InsOvr; end;
+      'msg':     begin NTag:= StatusbarTag_Msg; end;
+      'selmode': begin NTag:= StatusbarTag_SelMode; end;
+      'wrap':    begin NTag:= StatusbarTag_WrapMode; end;
       else Continue;
     end;
 
@@ -920,7 +914,7 @@ begin
     SItem:= SGetItem(SPanel);
     NSize:= Max(16, StrToIntDef(SItem, 200));
 
-    Status.AddPanel(NSize, Al, '');
+    Status.AddPanel(NSize, Al, '', -1, NTag);
   until false;
 
   UpdateStatusbarPanelAutosize;
@@ -949,8 +943,12 @@ begin
 end;
 
 procedure TfmMain.UpdateStatusbarPanelAutosize;
+var
+  NIndex: integer;
 begin
-  Status.DoPanelAutosize(StatusbarIndex_Msg);
+  NIndex:= Status.FindPanel(StatusbarTag_Msg);
+  if NIndex>=0 then
+    Status.DoPanelAutosize(NIndex);
 end;
 
 procedure TfmMain.StatusResize(Sender: TObject);

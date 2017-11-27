@@ -903,6 +903,17 @@ var
 
 implementation
 
+const
+  StatusbarTag_Caret = 10;
+  StatusbarTag_Enc = 11;
+  StatusbarTag_LineEnds = 12;
+  StatusbarTag_Lexer = 13;
+  StatusbarTag_TabSize = 14;
+  StatusbarTag_InsOvr = 15;
+  StatusbarTag_SelMode = 16;
+  StatusbarTag_WrapMode = 17;
+  StatusbarTag_Msg = 20;
+
 {$R *.lfm}
 
 function GetEditorFrame(Ed: TATSynEdit): TEditorFrame;
@@ -935,51 +946,52 @@ end;
 
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
+var
+  Data: TATStatusData;
 begin
   if not CurrentFrame.IsText then exit;
+  Data:= Status.GetPanelData(AIndex);
+  if Data=nil then exit;
 
-  if AIndex=StatusbarIndex_Enc then
-  begin
-    if not CurrentFrame.ReadOnly then
-      PopupEnc.PopUp;
-  end
-  else
-  if AIndex=StatusbarIndex_LineEnds then
-  begin
-    if not CurrentFrame.ReadOnly then
-      PopupEnds.PopUp;
-  end
-  else
-  if AIndex=StatusbarIndex_Lexer then
-  begin
-    PopupLex.PopUp;
-  end
-  else
-  if AIndex=StatusbarIndex_TabSize then
-  begin
-    PopupTabSize.Popup;
-  end
-  else
-  if AIndex=StatusbarIndex_SelMode then
-  begin
-    with CurrentEditor do
-    begin
-      OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
-      UpdateStatus;
-    end;
-  end
-  else
-  if AIndex=StatusbarIndex_WrapMode then
-  begin
-    //loop: no wrap - wrap at window - wrap at margin
-    with CurrentEditor do
-    begin
-      if OptWrapMode=High(OptWrapMode) then
-        OptWrapMode:= Low(OptWrapMode)
-      else
-        OptWrapMode:= Succ(OptWrapMode);
-      UpdateStatus;
-    end;
+  case Data.Tag of
+    StatusbarTag_Enc:
+      begin
+        if not CurrentFrame.ReadOnly then
+          PopupEnc.PopUp;
+      end;
+    StatusbarTag_LineEnds:
+      begin
+        if not CurrentFrame.ReadOnly then
+          PopupEnds.PopUp;
+      end;
+    StatusbarTag_Lexer:
+      begin
+        PopupLex.PopUp;
+      end;
+    StatusbarTag_TabSize:
+      begin
+        PopupTabSize.Popup;
+      end;
+    StatusbarTag_SelMode:
+      begin
+        with CurrentEditor do
+        begin
+          OptMouseColumnSelectionWithoutKey:= not OptMouseColumnSelectionWithoutKey;
+          UpdateStatus;
+        end;
+      end;
+    StatusbarTag_WrapMode:
+      begin
+        //loop: no wrap - wrap at window - wrap at margin
+        with CurrentEditor do
+        begin
+          if OptWrapMode=High(OptWrapMode) then
+            OptWrapMode:= Low(OptWrapMode)
+          else
+            OptWrapMode:= Succ(OptWrapMode);
+          UpdateStatus;
+        end;
+      end;
   end;
 end;
 
@@ -2653,7 +2665,7 @@ begin
       S:= msgStatusMacroRec+' '+S;
   end;
 
-  Status.Captions[StatusbarIndex_Msg]:= S;
+  DoStatusbarTextByTag(Status, StatusbarTag_Msg, S);
 
   if S='' then exit;
   TimerStatus.Enabled:= false;
