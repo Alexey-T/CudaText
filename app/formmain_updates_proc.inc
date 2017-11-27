@@ -882,11 +882,10 @@ var
   NIndex, NSize, NTag: integer;
   Al: TAlignment;
 begin
-  //weird deletion of statusbar panels - touch only CudaText std panels
-  //code depends on values of _Tags (10..20)
-  for NTag:= StatusbarTag_Caret to StatusbarTag_Msg do
+  //complex deletion of panels, touch only CudaText std panels
+  for NTag:= StatusbarTag_Caret{minimal tag} to StatusbarTag_Msg{maximal tag} do
   begin
-    NIndex:= Status.FindPanel(PtrInt(NTag));
+    NIndex:= Status.FindPanel(NTag);
     Status.DeletePanel(NIndex);
   end;
 
