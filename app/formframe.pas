@@ -44,7 +44,7 @@ uses
   ec_SyntAnal,
   ec_proc_lexer,
   formlexerstylemap,
-  jsonConf,
+  at__jsonconf,
   math;
 
 type

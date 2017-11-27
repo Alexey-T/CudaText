@@ -11,7 +11,7 @@ interface
 
 uses
   SysUtils, Classes, Graphics, IniFiles,
-  jsonConf,
+  at__jsonconf,
   ec_SyntAnal,
   ATStringProc,
   ATStringProc_HtmlColor;

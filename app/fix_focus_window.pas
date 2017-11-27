@@ -14,7 +14,7 @@ interface
 uses
   {$ifdef windows}
   Windows,
-  SimpleIPC, JsonConf, UniqueInstanceBase, Classes, proc_globdata, proc_msg,
+  SimpleIPC, at__jsonconf, UniqueInstanceBase, Classes, proc_globdata, proc_msg,
   {$endif}
   SysUtils,
   LCLIntf;

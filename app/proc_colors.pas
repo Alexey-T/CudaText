@@ -45,7 +45,7 @@ implementation
 
 uses
   ATButtons,
-  jsonConf;
+  at__jsonconf;
 
 procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
 var

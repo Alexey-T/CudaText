@@ -29,7 +29,7 @@ uses
   proc_str,
   proc_keysdialog,
   proc_scrollbars,
-  jsonConf,
+  at__jsonconf,
   math;
 
 type

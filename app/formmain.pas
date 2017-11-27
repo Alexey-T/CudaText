@@ -21,7 +21,7 @@ uses
   fix_gtk_clipboard,
   {$endif}
   fix_focus_window,
-  jsonConf,
+  at__jsonconf,
   PythonEngine,
   UniqueInstance,
   ec_SyntAnal,

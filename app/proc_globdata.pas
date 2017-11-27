@@ -19,7 +19,7 @@ uses
   Dialogs, Graphics, ExtCtrls, ComCtrls,
   InterfaceBase,
   LclProc, LclType, LazFileUtils, LazUTF8,
-  IniFiles, jsonConf, StrUtils,
+  IniFiles, at__jsonconf, StrUtils,
   Process,
   ATSynEdit,
   ATSynEdit_Keymap,

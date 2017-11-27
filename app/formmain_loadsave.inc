@@ -13,7 +13,7 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.Formatted:= true; //needs last jsonConf.pp
+    c.Formatted:= true; //needs last at__jsonconf.pp
     c.Filename:= GetAppPath(cFileOptionsHistory);
 
     ////form
