@@ -2503,10 +2503,15 @@ end;
 
 procedure TfmMain.MenuLexerClick(Sender: TObject);
 var
-  an: TecSyntAnalyzer;
+  obj: TObject;
 begin
-  an:= TecSyntAnalyzer((Sender as TComponent).Tag);
-  CurrentFrame.Lexer:= an;
+  obj:= TObject((Sender as TComponent).Tag);
+  if obj is TecSyntAnalyzer then
+    CurrentFrame.Lexer:= obj as TecSyntAnalyzer
+  else
+  if obj is TATLiteLexer then
+    CurrentFrame.LexerLite:= obj as TATLiteLexer;
+
   UpdateFrame;
   UpdateStatus;
 end;
@@ -2586,6 +2591,7 @@ procedure TfmMain.UpdateMenuLexersTo(AMenu: TMenuItem);
 var
   sl: TStringList;
   an: TecSyntAnalyzer;
+  an_lite: TATLiteLexer;
   mi, mi0: TMenuItem;
   ch, ch0: char;
   i: integer;
@@ -2609,6 +2615,12 @@ begin
       an:= AppManager.Analyzers[i];
       if not an.Internal then
         sl.AddObject(an.LexerName, an);
+    end;
+
+    for i:= 0 to AppManagerLite.Count-1 do
+    begin
+      an_lite:= AppManagerLite.GetLexer(i);
+      sl.AddObject(an_lite.LexerName+' ^', an_lite);
     end;
     sl.Sort;
 

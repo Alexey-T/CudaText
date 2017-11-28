@@ -114,11 +114,9 @@ begin
   DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, S);
 
   //------
-  an:= F.Lexer;
-  if an=nil then
-    S:= msgNoLexer
-  else
-    S:= an.LexerName;
+  S:= F.LexerName;
+  if S='' then
+    S:= msgNoLexer;
   DoStatusbarTextByTag(Status, StatusbarTag_Lexer, S);
 
   //------

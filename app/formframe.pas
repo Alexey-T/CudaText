@@ -19,7 +19,9 @@ uses
   ATGroups,
   ATSynEdit,
   ATSynEdit_Keymap_Init,
+  ATSynEdit_Adapters,
   ATSynEdit_Adapter_EControl,
+  ATSynEdit_Adapter_litelexer,
   ATSynEdit_Carets,
   ATSynEdit_Gaps,
   ATSynEdit_Markers,
@@ -169,7 +171,9 @@ type
     procedure SetUnprintedSpaces(AValue: boolean);
     procedure UpdateEds(AUpdateWrapInfo: boolean=false);
     function GetLexer: TecSyntAnalyzer;
+    function GetLexerLite: TATLiteLexer;
     procedure SetLexer(an: TecSyntAnalyzer);
+    procedure SetLexerLite(an: TATLiteLexer);
   protected
     procedure DoOnResize; override;
   public
@@ -196,6 +200,7 @@ type
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
+    property LexerLite: TATLiteLexer read GetLexerLite write SetLexerLite;
     function LexerName: string;
     function LexerNameAtPos(Pnt: TPoint): string;
     property Locked: boolean read FLocked write SetLocked;
@@ -675,19 +680,41 @@ end;
 
 function TEditorFrame.GetLexer: TecSyntAnalyzer;
 begin
-  Result:= Adapter.Lexer;
+  if Ed1.AdapterForHilite is TATAdapterEControl then
+    Result:= Adapter.Lexer
+  else
+    Result:= nil;
+end;
+
+function TEditorFrame.GetLexerLite: TATLiteLexer;
+begin
+  if Ed1.AdapterForHilite is TATLiteLexer then
+    Result:= Ed1.AdapterForHilite as TATLiteLexer
+  else
+    Result:= nil;
 end;
 
 function TEditorFrame.LexerName: string;
 var
+  CurAdapter: TATAdapterHilite;
   an: TecSyntAnalyzer;
 begin
-  if Adapter=nil then exit('');
-  an:= Adapter.Lexer;
-  if an=nil then
-    Result:= ''
+  Result:= '';
+  CurAdapter:= Ed1.AdapterForHilite;
+  if CurAdapter=nil then exit;
+
+  if CurAdapter is TATAdapterEControl then
+  begin
+    if Adapter=nil then exit;
+    an:= Adapter.Lexer;
+    if Assigned(an) then
+      Result:= an.LexerName;
+  end
   else
-    Result:= an.LexerName;
+  if CurAdapter is TATLiteLexer then
+  begin
+    Result:= (CurAdapter as TATLiteLexer).LexerName+' ^';
+  end;
 end;
 
 function TEditorFrame.LexerNameAtPos(Pnt: TPoint): string;
@@ -1062,6 +1089,9 @@ end;
 
 destructor TEditorFrame.Destroy;
 begin
+  Ed1.AdapterForHilite:= nil;
+  Ed2.AdapterForHilite:= nil;
+
   if not Application.Terminated then //prevent crash on exit
     DoPyEvent(Editor, cEventOnClose, []);
 
@@ -1111,9 +1141,24 @@ begin
     exit
   end;
 
-  if not DoApplyLexerStylesMap(an, anNotCorrect) then
-    DoDialogLexerStylesMap(anNotCorrect);
+  if Assigned(an) then
+  begin
+    Ed1.AdapterForHilite:= Adapter;
+    Ed2.AdapterForHilite:= Adapter;
+    if not DoApplyLexerStylesMap(an, anNotCorrect) then
+      DoDialogLexerStylesMap(anNotCorrect);
+  end;
+
   Adapter.Lexer:= an;
+end;
+
+procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
+begin
+  SetLexer(nil);
+  Ed1.AdapterForHilite:= an;
+  Ed2.AdapterForHilite:= an;
+  Ed1.Update;
+  Ed2.Update;
 end;
 
 procedure TEditorFrame.DoFileOpen_AsPicture(const fn: string);
