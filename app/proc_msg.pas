@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.25.1.0';
+  cAppExeVersion = '1.25.3.0';
   cAppApiVersion = '1.0.207';
 
 const
@@ -32,6 +32,7 @@ const
   msgCallbackBad = 'Bad API callback, report to plugin author: %s';
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s';
   msgApiDeprecated = 'Deprecated API usage: %s';
+  msgLiteLexerSuffix = ' ^';
 
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';

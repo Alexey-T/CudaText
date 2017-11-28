@@ -2620,7 +2620,7 @@ begin
     for i:= 0 to AppManagerLite.Count-1 do
     begin
       an_lite:= AppManagerLite.GetLexer(i);
-      sl.AddObject(an_lite.LexerName+' ^', an_lite);
+      sl.AddObject(an_lite.LexerName+msgLiteLexerSuffix, an_lite);
     end;
     sl.Sort;
 

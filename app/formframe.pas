@@ -713,7 +713,7 @@ begin
   else
   if CurAdapter is TATLiteLexer then
   begin
-    Result:= (CurAdapter as TATLiteLexer).LexerName+' ^';
+    Result:= (CurAdapter as TATLiteLexer).LexerName+msgLiteLexerSuffix;
   end;
 end;
 
@@ -1163,7 +1163,7 @@ end;
 
 procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
 begin
-  SetLexer(nil);
+  Adapter.Lexer:= nil;
   Ed1.AdapterForHilite:= an;
   Ed2.AdapterForHilite:= an;
   Ed1.Update;
