@@ -44,6 +44,7 @@ uses
   ATSynEdit_Gaps,
   ATSynEdit_CanvasProc,
   ATSynEdit_Adapter_EControl,
+  ATSynEdit_Adapter_litelexer,
   ATSynEdit_WrapInfo,
   ATTabs,
   ATGroups,
@@ -685,6 +686,8 @@ type
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
     function IsThemeNameExist(const AName: string; AThemeUI: boolean): boolean;
+    procedure LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer; var APart: TATLinePart);
+    function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
@@ -1212,8 +1215,11 @@ begin
   PanelAll.Align:= alClient;
   PaintTest.Height:= 150;
   AppManager:= TecSyntaxManager.Create(Self);
-  FSessionName:= '';
+  AppManagerLite:= TATLiteLexers.Create;
+  AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
+  AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
 
+  FSessionName:= '';
   FListRecents:= TStringList.Create;
   FListThemesUI:= TStringList.Create;
   FListThemesSyntax:= TStringList.Create;
@@ -1388,6 +1394,7 @@ begin
   FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
   FreeAndNil(FKeymapUndoList);
+  FreeAndNil(AppManagerLite);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
@@ -2513,9 +2520,12 @@ var
   i, j: integer;
 begin
   AppManager.Clear;
-
-  //load .lcf files to lib
   dir:= GetAppPath(cDirDataLexerlib);
+
+  //load *.cuda-litelexer
+  AppManagerLite.LoadFromDir(dir);
+
+  //load *.lcf
   L:= TStringlist.Create;
   try
     FindAllFiles(L, dir, '*.lcf', false);
@@ -4139,6 +4149,30 @@ begin
       IntToStr(Key),
       '"'+ConvertShiftStateToString(Shift)+'"'
     ]);
+end;
+
+function TfmMain.LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
+var
+  st: TecSyntaxFormat;
+  i: integer;
+begin
+  Result:= -1;
+  for i:= 0 to AppTheme.Styles.Count-1 do
+  begin
+    st:= TecSyntaxFormat(AppTheme.Styles[i]);
+    if AStyleName=st.DisplayName then
+      exit(i);
+  end;
+end;
+
+procedure TfmMain.LiteLexer_ApplyStyle(Sender: TObject; AStyleHash: integer;
+  var APart: TATLinePart);
+var
+  st: TecSyntaxFormat;
+begin
+  if AStyleHash<0 then exit;
+  st:= TecSyntaxFormat(AppTheme.Styles[AStyleHash]);
+  ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 
 

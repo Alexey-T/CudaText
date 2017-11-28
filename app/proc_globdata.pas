@@ -24,6 +24,7 @@ uses
   ATSynEdit,
   ATSynEdit_Keymap,
   ATSynEdit_Keymap_Init,
+  ATSynEdit_Adapter_litelexer,
   ATStringProc,
   ATButtons,
   ATListbox,
@@ -413,6 +414,7 @@ procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
 var
   AppManager: TecSyntaxManager = nil;
+  AppManagerLite: TATLiteLexers = nil;
   AppKeymap: TATKeymap = nil;
   AppKeymapInitial: TATKeymap = nil;
   AppShortcutEscape: TShortcut = 0;
