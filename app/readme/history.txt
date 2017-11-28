@@ -4,8 +4,9 @@
   * changed
 
 
-1.25.2 (2017/11)
+1.26.0 (2017/11)
 
++ add: Lite-lexers added - these are lexers for huge files, e.g. 800Mb XML files. Currently added 2 lite lexers with suffix ^: "XML ^", "JSON ^". Lite lexers don't support code-tree, folding, complex hiliting; but they work very fast.
 - fix: wrong column selection, if tab-chars at line start
 
 1.25.0 (2017/11)
