@@ -2223,7 +2223,15 @@ begin
           begin
             //for editors inside TEditorFrame
             if Assigned(F) then
-              F.Lexer:= AppManager.FindAnalyzer(Str)
+            begin
+              if SEndsWith(Str, msgLiteLexerSuffix) then
+              begin
+                SetLength(Str, Length(Str)-Length(msgLiteLexerSuffix));
+                F.LexerLite:= AppManagerLite.FindLexerByName(Str);
+              end
+              else
+                F.Lexer:= AppManager.FindAnalyzer(Str);
+            end
             else
             //for other editors
             if Assigned(Ed.AdapterForHilite) then
