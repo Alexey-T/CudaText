@@ -2510,7 +2510,12 @@ begin
     CurrentFrame.Lexer:= obj as TecSyntAnalyzer
   else
   if obj is TATLiteLexer then
-    CurrentFrame.LexerLite:= obj as TATLiteLexer;
+    CurrentFrame.LexerLite:= obj as TATLiteLexer
+  else
+  begin
+    CurrentFrame.LexerLite:= nil;
+    CurrentFrame.Lexer:= nil;
+  end;
 
   UpdateFrame;
   UpdateStatus;
@@ -2646,7 +2651,7 @@ begin
       if ch<>ch0 then
       begin
         ch0:= ch;
-        mi0:= TMenuItem.create(self);
+        mi0:= TMenuItem.Create(self);
         mi0.Caption:= ch;
         AMenu.Add(mi0);
       end;
