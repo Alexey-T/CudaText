@@ -1336,12 +1336,20 @@ end;
 
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
+  F: TEditorFrame;
   i: integer;
 begin
-  for i:= 0 to FrameCount-1 do
-    UpdateMenuRecent(Frames[i]);
-
   DoOps_SaveHistory;
+
+  for i:= 0 to FrameCount-1 do
+  begin
+    F:= Frames[i];
+    //update recents menu
+    UpdateMenuRecent(F);
+    //make sure adapters don't block closing
+    F.Editor.AdapterForHilite:= nil;
+    F.Editor2.AdapterForHilite:= nil;
+  end;
 end;
 
 procedure TfmMain.ButtonCancelClick(Sender: TObject);
