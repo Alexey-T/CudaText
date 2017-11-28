@@ -1,0 +1,30 @@
+{
+  "files": "*.json",
+  "case_sens": true,
+  "rules": {
+    "cmt": {
+      "regex": "//.*",
+      "style": "Comment"
+    },
+    "keyw": {
+      "regex": "\\b(true|false|null)\\b",
+      "style": "IdKeyword"
+    },
+    "id": {
+      "regex": "[a-zA-Z_]\\w*",
+      "style": "Id"
+    },
+    "num": {
+      "regex": "\\d+(\\.\\d+)?([eE][-\\+]?\\d+)?",
+      "style": "Number"
+    },
+    "str": {
+      "regex": "\"(\\\\\\\\|\\\\\"|.)*?\"",
+      "style": "String"
+    },
+    "sym": {
+      "regex": "[\\{\\}\\[\\]:,]",
+      "style": "Symbol"
+    }
+  }
+}
