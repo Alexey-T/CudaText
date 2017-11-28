@@ -2519,13 +2519,16 @@ var
   ini: TIniFile;
   i, j: integer;
 begin
-  AppManager.Clear;
-  dir:= GetAppPath(cDirDataLexerlib);
-
   //load *.cuda-litelexer
+  dir:= GetAppPath(cDirDataLexersLite);
   AppManagerLite.LoadFromDir(dir);
+  ////debug
+  //for i:= 0 to AppManagerLite.Count-1 do
+  //  ShowMessage(AppManagerLite.GetLexer(i).LexerName);
 
   //load *.lcf
+  dir:= GetAppPath(cDirDataLexers);
+  AppManager.Clear;
   L:= TStringlist.Create;
   try
     FindAllFiles(L, dir, '*.lcf', false);

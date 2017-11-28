@@ -52,7 +52,8 @@ type
     cDirSettingsDefault,
     cDirPy,
     cDirData,
-    cDirDataLexerlib,
+    cDirDataLexers,
+    cDirDataLexersLite,
     cDirDataNewdoc,
     cDirDataThemes,
     cDirDataAutocomplete,
@@ -730,9 +731,13 @@ begin
       begin
         Result:= OpDirLocal+DirectorySeparator+'data';
       end;
-    cDirDataLexerlib:
+    cDirDataLexers:
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lexlib';
+      end;
+    cDirDataLexersLite:
+      begin
+        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'lexliblite';
       end;
     cDirDataNewdoc:
       begin
@@ -1523,7 +1528,7 @@ begin
     ALexName:= StringReplace(ALexName, '/', '_', [rfReplaceAll]);
     ALexName:= StringReplace(ALexName, '\', '_', [rfReplaceAll]);
     ALexName:= StringReplace(ALexName, '*', '_', [rfReplaceAll]);
-    Result:= GetAppPath(cDirDataLexerlib)+DirectorySeparator+ALexName+AExt;
+    Result:= GetAppPath(cDirDataLexers)+DirectorySeparator+ALexName+AExt;
   end
   else
     Result:= '';

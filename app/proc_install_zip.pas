@@ -160,7 +160,7 @@ var
   ini_lexmap: TIniFile;
 begin
   AReport:= '';
-  ADirLexlib:= GetAppPath(cDirDataLexerlib);
+  ADirLexlib:= GetAppPath(cDirDataLexers);
 
   with TIniFile.Create(AFilenameInf) do
   try
