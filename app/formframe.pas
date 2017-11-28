@@ -202,7 +202,7 @@ type
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     property LexerLite: TATLiteLexer read GetLexerLite write SetLexerLite;
     function LexerName: string;
-    function LexerNameAtPos(Pnt: TPoint): string;
+    function LexerNameAtPos(APos: TPoint): string;
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
     property TabColor: TColor read FTabColor write SetTabColor;
@@ -717,15 +717,24 @@ begin
   end;
 end;
 
-function TEditorFrame.LexerNameAtPos(Pnt: TPoint): string;
+function TEditorFrame.LexerNameAtPos(APos: TPoint): string;
 var
+  CurAdapter: TATAdapterHilite;
   an: TecSyntAnalyzer;
 begin
-  an:= Adapter.LexerAtPos(Pnt);
-  if an=nil then
-    Result:= ''
+  Result:= '';
+  CurAdapter:= Ed1.AdapterForHilite;
+  if CurAdapter=nil then exit;
+
+  if CurAdapter is TATAdapterEControl then
+  begin
+    an:= Adapter.LexerAtPos(APos);
+    if Assigned(an) then
+      Result:= an.LexerName;
+  end
   else
-    Result:= an.LexerName;
+  if CurAdapter is TATLiteLexer then
+    Result:= LexerName;
 end;
 
 procedure TEditorFrame.SetSplitHorz(AValue: boolean);
