@@ -850,7 +850,7 @@ type
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(N: integer): TEditorFrame;
     procedure MenuEncNoReloadClick(Sender: TObject);
-    procedure MenuLexClick(Sender: TObject);
+    procedure MenuLexerClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
     procedure MenuRecentsClick(Sender: TObject);
     procedure SetFrame(Frame: TEditorFrame);
@@ -2501,7 +2501,7 @@ begin
   MsgStatus(msgStatusEncChanged);
 end;
 
-procedure TfmMain.MenuLexClick(Sender: TObject);
+procedure TfmMain.MenuLexerClick(Sender: TObject);
 var
   an: TecSyntAnalyzer;
 begin
@@ -2596,12 +2596,12 @@ begin
   ch0:= '?';
   mi0:= nil;
 
-  mi:= TMenuItem.create(self);
-  mi.caption:= msgNoLexer;
-  mi.OnClick:= @MenuLexClick;
+  mi:= TMenuItem.Create(self);
+  mi.Caption:= msgNoLexer;
+  mi.OnClick:= @MenuLexerClick;
   AMenu.Add(mi);
 
-  sl:= tstringlist.create;
+  sl:= TStringList.Create;
   try
     //make stringlist of all lexers
     for i:= 0 to AppManager.AnalyzerCount-1 do
@@ -2610,24 +2610,24 @@ begin
       if not an.Internal then
         sl.AddObject(an.LexerName, an);
     end;
-    sl.sort;
+    sl.Sort;
 
     //put stringlist to menu
     if not UiOps.LexerMenuGrouped then
     begin
-      for i:= 0 to sl.count-1 do
+      for i:= 0 to sl.Count-1 do
       begin
         if sl[i]='' then Continue;
-        mi:= TMenuItem.create(self);
-        mi.caption:= sl[i];
-        mi.tag:= ptrint(sl.Objects[i]);
-        mi.OnClick:= @MenuLexClick;
+        mi:= TMenuItem.Create(self);
+        mi.Caption:= sl[i];
+        mi.Tag:= PtrInt(sl.Objects[i]);
+        mi.OnClick:= @MenuLexerClick;
         AMenu.Add(mi);
       end;
     end
     else
     //grouped view
-    for i:= 0 to sl.count-1 do
+    for i:= 0 to sl.Count-1 do
     begin
       if sl[i]='' then Continue;
       ch:= UpCase(sl[i][1]);
@@ -2639,17 +2639,17 @@ begin
         AMenu.Add(mi0);
       end;
 
-      mi:= TMenuItem.create(self);
-      mi.caption:= sl[i];
-      mi.tag:= ptrint(sl.Objects[i]);
-      mi.OnClick:= @MenuLexClick;
-      if assigned(mi0) then
-        mi0.add(mi)
+      mi:= TMenuItem.Create(self);
+      mi.Caption:= sl[i];
+      mi.Tag:= PtrInt(sl.Objects[i]);
+      mi.OnClick:= @MenuLexerClick;
+      if Assigned(mi0) then
+        mi0.Add(mi)
       else
         AMenu.Add(mi);
     end;
   finally
-    sl.free;
+    sl.Free;
   end;
 end;
 
