@@ -1,4 +1,8 @@
 
+2017.11.24
++ added console messages on opening/saving project
++ show x icon for files deleted on disk
+
 2017.09.25
 + refact
 - fix: avoid deleted APIs
