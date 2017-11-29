@@ -22,6 +22,10 @@
       "regex": "\\w[\\w\\-:]*(?==)",
       "style": "TagProp"
     },
+    "email": {
+      "regex": "(mailto:)?\\w[\\w\\-\\.]*@[\\w\\-\\.]+",
+      "style": "String2"
+    },
     "id": {
       "regex": "[a-zA-Z_]\\w*",
       "style": "Id"
