@@ -1588,7 +1588,7 @@ begin
 
   if IsOk then
   begin
-    if AddonType=cAddonTypeLexer then
+    if AddonType in [cAddonTypeLexer, cAddonTypeLexerLite] then
     begin
       UpdateMenuLexers;
     end;
@@ -2537,16 +2537,15 @@ var
   ini: TIniFile;
   i, j: integer;
 begin
-  //load *.cuda-litelexer
+  AppManager.Clear;
+  AppManagerLite.Clear;
+
+  //lite lexers
   dir:= GetAppPath(cDirDataLexersLite);
   AppManagerLite.LoadFromDir(dir);
-  ////debug
-  //for i:= 0 to AppManagerLite.Count-1 do
-  //  ShowMessage(AppManagerLite.GetLexer(i).LexerName);
 
-  //load *.lcf
+  //econtrol lexers
   dir:= GetAppPath(cDirDataLexers);
-  AppManager.Clear;
   L:= TStringlist.Create;
   try
     FindAllFiles(L, dir, '*.lcf', false);

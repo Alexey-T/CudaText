@@ -20,6 +20,7 @@ type
     cAddonTypeUnknown,
     cAddonTypePlugin,
     cAddonTypeLexer,
+    cAddonTypeLexerLite,
     cAddonTypeData
     );
 
@@ -47,6 +48,7 @@ uses
 
 const
   cTypeLexer = 'lexer';
+  cTypeLexerLite = 'lexer-lite';
   cTypePlugin = 'cudatext-plugin';
   cTypeData = 'cudatext-data';
 
@@ -76,6 +78,32 @@ begin
 
   AReport:= 'data files: '+ADirTarget;
 end;
+
+procedure DoInstallLexerLite(
+  const AFilenameInf: string;
+  out AReport: string);
+var
+  ini: TIniFile;
+  SName, SDirFrom, SDirTo: string;
+begin
+  AReport:= '';
+
+  ini:= TIniFile.Create(AFilenameInf);
+  try
+    SName:= ini.ReadString('info', 'title', '');
+    if SName='' then exit;
+  finally
+    FreeAndNil(ini);
+  end;
+
+  DeleteFile(AFilenameInf);
+  SDirFrom:= ExtractFileDir(AFilenameInf);
+  SDirTo:= GetAppPath(cDirDataLexersLite);
+  FCopyDir(SDirFrom, SDirTo);
+
+  AReport:= 'lite lexer: '+SName;
+end;
+
 
 procedure DoInstallPlugin(
   const AFilenameInf: string;
@@ -367,6 +395,7 @@ begin
   end;
 
   if (s_type<>cTypeLexer) and
+    (s_type<>cTypeLexerLite) and
     (s_type<>cTypePlugin) and
     (s_type<>cTypeData) then
   begin
@@ -388,6 +417,12 @@ begin
   begin
     AAddonType:= cAddonTypeLexer;
     DoInstallLexer(fn_inf, ADirAcp, AStrReport, ADirTarget)
+  end
+  else
+  if s_type=cTypeLexerLite then
+  begin
+    AAddonType:= cAddonTypeLexerLite;
+    DoInstallLexerLite(fn_inf, AStrReport);
   end
   else
   if s_type=cTypePlugin then
