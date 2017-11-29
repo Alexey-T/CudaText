@@ -2014,7 +2014,11 @@ end;
 
 procedure TEditorFrame.DoLexerFromFilename(const AFilename: string);
 begin
-  Lexer:= DoLexerFindByFilename(AFilename);
+  //for big files use lite lexers
+  if IsFileTooBigForLexer(AFilename) then
+    LexerLite:= AppManagerLite.FindLexerByFilename(AFilename)
+  else
+    Lexer:= DoLexerFindByFilename(AFilename);
 end;
 
 end.
