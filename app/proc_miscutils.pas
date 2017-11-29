@@ -36,8 +36,6 @@ procedure DoScalePanelControls(APanel: TWinControl);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
-procedure LexerSetSublexers(SyntaxManager: TecLexerList;
-  An: TecSyntAnalyzer; const Links: string; Sep: char);
 
 type
   TAppTreeGoto = (
@@ -92,22 +90,6 @@ begin
   List.Clear;
   for i:= 0 to An.Formats.Count-1 do
     List.Add(An.Formats[i].DisplayName);
-end;
-
-procedure LexerSetSublexers(SyntaxManager: TecLexerList;
-  An: TecSyntAnalyzer; const Links: string; Sep: char);
-var
-  S, SItem: string;
-  Cnt: Integer;
-begin
-  S:= Links;
-  Cnt:= 0;
-  repeat
-    SItem:= SGetItem(S, Sep);
-    if Cnt>=An.SubAnalyzers.Count then Break;
-    An.SubAnalyzers[Cnt].SyntAnalyzer:= SyntaxManager.FindLexerByName(SItem);
-    Inc(Cnt);
-  until false;
 end;
 
 procedure DoTreeviewJump(ATree: TTreeView; AMode: TAppTreeGoto);

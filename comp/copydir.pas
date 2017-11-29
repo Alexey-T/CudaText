@@ -104,7 +104,7 @@ type
     function _SourceToTarget(aTarget: String): String;
   public
     constructor Create(aSourceDir, aTargetDir: String);
-    destructor Destroy;
+    destructor Destroy; override;
 
     property PreserverFileDates: Boolean
       read _preserveFileDates
@@ -343,6 +343,7 @@ destructor TCopyDir.Destroy;
 begin
   self._fs.Free;
   self._log.Free;
+  inherited;
 end;
 
 procedure TCopyDir.Start;
