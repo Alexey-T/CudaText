@@ -1590,6 +1590,7 @@ begin
   begin
     if AddonType in [cAddonTypeLexer, cAddonTypeLexerLite] then
     begin
+      DoOps_LoadLexerLib;
       UpdateMenuLexers;
     end;
 
