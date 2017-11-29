@@ -19,7 +19,7 @@ uses
   Dialogs, Graphics, ExtCtrls, ComCtrls,
   InterfaceBase,
   LclProc, LclType, LazFileUtils, LazUTF8,
-  IniFiles, at__jsonconf, StrUtils,
+  FileUtil, IniFiles, StrUtils,
   Process,
   ATSynEdit,
   ATSynEdit_Keymap,
@@ -29,6 +29,7 @@ uses
   ATButtons,
   ATListbox,
   ATStatusBar,
+  at__jsonconf,
   proc_cmd,
   proc_msg,
   proc_keymap_undolist,
@@ -652,6 +653,7 @@ function AppEncodingOem: string;
 
 procedure UpdateFormOnTop(F: TForm);
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
+function IsFileTooBigForLexer(const AFilename: string): boolean;
 
 
 implementation
@@ -1773,6 +1775,11 @@ begin
   NIndex:= AStatus.FindPanel(ATag);
   if NIndex>=0 then
     AStatus.Captions[NIndex]:= AText;
+end;
+
+function IsFileTooBigForLexer(const AFilename: string): boolean;
+begin
+  Result:= (AFilename<>'') and (FileSize(AFilename) div (1024*1024) >= UiOps.MaxFileSizeForLexer);
 end;
 
 
