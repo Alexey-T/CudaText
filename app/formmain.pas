@@ -3093,7 +3093,7 @@ begin
   F:= DoFileOpen('');
   if F=nil then exit;
   F.Editor.Strings.LoadFromFile(fn);
-  F.Lexer:= DoLexerFindByFilename(fn);
+  F.DoLexerFromFilename(fn);
   UpdateFrame(true);
   UpdateStatus;
 end;

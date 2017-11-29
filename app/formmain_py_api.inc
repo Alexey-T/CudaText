@@ -359,7 +359,7 @@ begin
       if StrName<>'' then
       begin
         Frame.FileName:= StrName;
-        Frame.Lexer:= DoLexerFindByFilename(Frame.FileName);
+        Frame.DoLexerFromFilename(Frame.FileName);
       end;
 
       Ok:= false;

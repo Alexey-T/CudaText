@@ -21,7 +21,7 @@ uses
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapters,
   ATSynEdit_Adapter_EControl,
-  ATSynEdit_Adapter_litelexer,
+  ATSynEdit_Adapter_LiteLexer,
   ATSynEdit_Carets,
   ATSynEdit_Gaps,
   ATSynEdit_Markers,
@@ -234,6 +234,7 @@ type
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
+    procedure DoLexerFromFilename(const AFilename: string);
     procedure DoSaveHistory;
     procedure DoSaveHistoryEx(c: TJsonConfig; const path: string);
     procedure DoLoadHistory;
@@ -1235,7 +1236,7 @@ begin
   //turn off opts for huge files
   FileWasBig:= Editor.Strings.Count>EditorOps.OpWrapEnabledMaxLines;
 
-  SetLexer(DoLexerFindByFilename(fn));
+  DoLexerFromFilename(fn);
   if AAllowLoadHistory then
     DoLoadHistory;
   UpdateReadOnlyFromFile;
@@ -1310,7 +1311,7 @@ begin
     end;
 
     FFileName:= SaveDialog.FileName;
-    Lexer:= DoLexerFindByFilename(FFileName);
+    DoLexerFromFilename(FFileName);
 
     //add to recents saved-as file:
     if Assigned(FOnAddRecent) then
@@ -2009,6 +2010,11 @@ begin
     true
     );
   Editor.Update;
+end;
+
+procedure TEditorFrame.DoLexerFromFilename(const AFilename: string);
+begin
+  Lexer:= DoLexerFindByFilename(AFilename);
 end;
 
 end.
