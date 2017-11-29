@@ -36,7 +36,7 @@ Versions for Windows, macOS, Linux, Linux-ARM (for Raspberry Pi 3).
 
 = Configs =
 
-Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config'''. Copy any lines to config called by "Settings-user" and edit lines in this '''user config'''. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show options to user.
+Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config''' - it's only example. Copy any lines to config called by "Settings-user" and edit lines in this '''user config''' - it's actial config file. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show possible options.
 
 '''Lexer-specific config''': settings which are read when some lexer activates. E.g., if you open Pascal file, config for Pascal is read after user config. You should not write "ui_" options to lexer-override config (it will give some weird effects on changing lexers), and few others, like option "lexlib" (it is read only once).
 
@@ -222,6 +222,10 @@ Now you need to create .zip installation of lexer, for both editors: SynWrite, C
 * In CudaText, test this "lexer style map" in action: open file with your lexer active, and activate "default" UI theme, then activate "sub" UI theme. Main themes must show nice colors in your syntax file. Call dialog "Options - Lexers - Lexer style mapping" to fix colors.
 * In prev step, you configured .cuda-lexmap file, in folder CudaText/data/lexlib. Copy this file to zip installation of your lexer.
 * Zip must contain: install.inf, .lcf file(s), .cuda-lexmap file per each lexer.
+
+===Lite lexers===
+
+Lite lexers are lexers is special format (internally it's JSON file), with very limited features. They don't support code-tree, folding, don't have rich highlighting (e.g. background hilite of string `12+$var` with additional hilite for 12 and $var inside). But they work very fast for any file size (with average line length). Lite lexers are used for big files - see the option "ui_max_size_lexer". Lite lexers have "^" suffix in name - default lite lexers are "JSON ^" and "XML ^". You can also choose them, from the usual lexers menu (they are visible by suffix).
 
 ==Add-on types==
 
@@ -456,7 +460,7 @@ Only those snippets are inserted and shown in dialog, which are for current lexe
 
 Menu of Snippets plugin:
 
-[[File:cudatext_snippets_menu.png]]
+[[File:cudatext_snippets_menu.png‎]]
 
 Snippets have markers in them. Markers placed in editor (small red/blue triangles), and caret jumps to 1st marker, then you type text at this marker and press Tab key - caret jumps to next marker. Markers may give multi-carets too (if same text is needed at several places of snippet). While markers are shown, Tab key works special (jumps to next marker). After you collect all markers by Tab, Tab key will work as usual.
 
@@ -611,28 +615,28 @@ In the gutter bar, you can see colored thin bars next to line numbers: green, ye
 = Tech topics=
 ==How to compile program==
 
-* install FreePascal 3.0.0 (FPC 3.0.2/win32 has problem with SimpleIPC, and option "single instance")
-* install SVN (program "svn" needed to install Lazarus trunk and/or FPC)
-* install Lazarus IDE release, then install Lazarus "trunk" (1.6.4 is not Ok, you need at last 1.7). See this info: [[Getting_Lazarus]].
+* install FPC and Lazarus:
+** download FpcUpDeluxe. Must unlock exe-file on Windows then. https://github.com/newpascal/fpcupdeluxe/releases
+** in FpcUpDeluxe, choose FPC 3.0.0 and Lazarus "trunk", install them both.
+** avoid FPC 3.0.2/3.0.4 on Windows, it has problem with "single instance" editor option.
 * download repos:
 ** https://github.com/Alexey-T/Python-for-Lazarus (install first)
-** https://github.com/Alexey-T/ATButtons (install next)
-** https://github.com/Alexey-T/ATGauge (install next)
+** https://github.com/Alexey-T/ATFlatControls (install next)
 ** https://github.com/Alexey-T/ATSynEdit (install next)
 ** https://github.com/Alexey-T/EControl (install after ATSynEdit)
-** https://github.com/Alexey-T/ATSynEdit_Ex (install after EControl, ATButtons)
+** https://github.com/Alexey-T/ATSynEdit_Ex (install after EControl)
 ** https://github.com/Alexey-T/UniqueInstance (install next)
 ** https://github.com/Alexey-T/CudaText (no package here, only project)
 
 * install .lpk packages into Lazarus IDE (find all .lpk files, open them in IDE, install from Packages dialog)
 * in IDE, in component palette, you must see: 
-** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TLinkLabel, TGauge
+** in Misc tab: TATButton, TATButtonsToolbar, TATListbox, TATFileNotif, TATScroll, TATSynEdit, TATLabelLink, TGauge
 ** in System tab: TUniqueInstance
 * in IDE, open "cudatext.lpi" Lazarus project, compile it
 
 == Python API ==
 
-See [[CudaText API]].
+Separate big page about Python API is [[CudaText API]].
 
 == Linux installation ==
 On Linux you can install program, not using installers, in such way:
