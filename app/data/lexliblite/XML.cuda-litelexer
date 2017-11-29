@@ -11,8 +11,16 @@
       "style": "CommentDoc"
     },
     "tag_bound": {
-      "regex": "<[/!\\-]*[\\w\\-:]*|/?>",
+      "regex": "<[/!\\-]*|/?>",
       "style": "TagBound"
+    },
+    "tag_id": {
+      "regex": "(?<=</?)\\w[\\w\\-:]*",
+      "style": "TagId"
+    },
+    "tag_prop": {
+      "regex": "\\w[\\w\\-:]*(?==)",
+      "style": "TagProp"
     },
     "id": {
       "regex": "[a-zA-Z_]\\w*",
