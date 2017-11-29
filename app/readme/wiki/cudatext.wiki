@@ -813,41 +813,44 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 ** cudatext-plugin: to install plugin to subdir of "py" dir
 ** cudatext-data: to copy any files into subdir of "data" dir
 ** lexer: to install lexers (zip must be made by SynWrite's ExLexer addon)
+** lexer-lite: to install lite lexer
 
-* "subdir" field (required), for plugins it should begin with prefix "cuda_"
-* "homepage" field, URL on Github
-* "api" field, specify if plugin cannot work on old API versions
+* "subdir" field (required)
+** for plugins it should begin with prefix "cuda_"
+** for lexers it should be "-"
+* "homepage" field, repo URL on GitHub or another site
+* "api" field, optional string of required API version, specify if plugin cannot work on older API
 
 
 === Plugins ===
 
 Example of install.inf for plugin (plugin adds 2 menu items with menu separator between):
 
-  [info]
-  title=MyName
-  desc=Plugin allows smth
-  type=cudatext-plugin
-  subdir=cuda_test
-  homepage=http://github.com/some/name/
-  api=1.0.160
-  
-  [item1]
-  section=commands
-  caption=MyPlugin\Cmd one
-  method=run
-  lexers=CSS,HTML
-  hotkey=Alt+F
-  
-  [item2]
-  section=commands
-  caption=MyPlugin\-
-  method=nnnn
-  
-  [item3]
-  section=commands
-  caption=MyPlugin\Cmd other
-  method=run_more
-  menu=0
+ [info]
+ title=MyName
+ desc=Plugin allows smth
+ type=cudatext-plugin
+ subdir=cuda_test
+ homepage=http://github.com/some/name/
+ api=1.0.200
+ 
+ [item1]
+ section=commands
+ caption=MyPlugin\Cmd one
+ method=run
+ lexers=CSS,HTML
+ hotkey=Alt+F
+ 
+ [item2]
+ section=commands
+ caption=MyPlugin\-
+ method=nnnn
+ 
+ [item3]
+ section=commands
+ caption=MyPlugin\Cmd other
+ method=run_more
+ menu=0
 
 Section names: from "item1" to "item400", any numbers can be skipped.
 
@@ -882,35 +885,44 @@ You can set lexers by reg-ex, e.g. reg-ex ".*SQL.*" means all names with substri
 
 ===Data-files===
 
-Example of inf for data-files, to be copied into subdir of "data" dir (name of subdir can be any, for example "themes"):
+Example of install.inf for data files, to be copied into subdir of "data" dir. Name of subdir can be any, for example "themes".
 
-  [info]
-  title=Name
-  desc=My files
-  type=cudatext-data
-  subdir=mydir
+ [info]
+ title=NiceDarkTheme
+ desc=Nice Dark theme (by AuthorName)
+ type=cudatext-data
+ subdir=themes
 
 ===Lexers===
 
 To see example of install.inf for lexers, download any lexer. To see complex example, download lexer zip for "HTML Smarty" which has 2 lexers inside, one lexer is linked to another.
 
-  [info]
-  title=HTML Smarty
-  type=lexer
-  subdir=-
-  
-  [lexer1]
-  file=HTML Smarty internal
-  [lexer2]
-  file=HTML Smarty
-  link1=CSS
-  link2=VBScript
-  link3=JavaScript
-  link4=JavaScript
-  link5=VBScript
-  link6=PHP
-  link7=PHP
-  link8=HTML Smarty internal
+ [info]
+ title=HTML Smarty
+ type=lexer
+ subdir=-
+ 
+ [lexer1]
+ file=HTML Smarty internal
+ [lexer2]
+ file=HTML Smarty
+ link1=CSS
+ link2=VBScript
+ link3=JavaScript
+ link4=JavaScript
+ link5=VBScript
+ link6=PHP
+ link7=PHP
+ link8=HTML Smarty internal
+
+===Lite lexers===
+
+Example of install.inf for lite lexer. Note that "^" suffix not needed here.
+
+ [info]
+ title=MyLexer
+ type=lexer-lite
+ subdir=-
 
 ==Format of snippet files==
 
