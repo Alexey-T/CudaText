@@ -22,6 +22,7 @@ uses
   ATPanelSimple,
   ATButtons,
   ATButtonsToolbar,
+  ec_LexerList,
   ec_SyntAnal,
   proc_globdata,
   proc_py_const,
@@ -35,7 +36,7 @@ procedure DoScalePanelControls(APanel: TWinControl);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
-procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager;
+procedure LexerSetSublexers(SyntaxManager: TecLexerList;
   An: TecSyntAnalyzer; const Links: string; Sep: char);
 
 type
@@ -93,7 +94,7 @@ begin
     List.Add(An.Formats[i].DisplayName);
 end;
 
-procedure LexerSetSublexers(SyntaxManager: TecSyntaxManager;
+procedure LexerSetSublexers(SyntaxManager: TecLexerList;
   An: TecSyntAnalyzer; const Links: string; Sep: char);
 var
   S, SItem: string;
@@ -104,7 +105,7 @@ begin
   repeat
     SItem:= SGetItem(S, Sep);
     if Cnt>=An.SubAnalyzers.Count then Break;
-    An.SubAnalyzers[Cnt].SyntAnalyzer:= SyntaxManager.FindAnalyzer(SItem);
+    An.SubAnalyzers[Cnt].SyntAnalyzer:= SyntaxManager.FindLexerByName(SItem);
     Inc(Cnt);
   until false;
 end;

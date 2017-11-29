@@ -2230,13 +2230,13 @@ begin
                 F.LexerLite:= AppManagerLite.FindLexerByName(Str);
               end
               else
-                F.Lexer:= AppManager.FindAnalyzer(Str);
+                F.Lexer:= AppManager.FindLexerByName(Str);
             end
             else
             //for other editors
             if Assigned(Ed.AdapterForHilite) then
             begin
-              An:= AppManager.FindAnalyzer(Str);
+              An:= AppManager.FindLexerByName(Str);
               //apply syntax theme
               if Assigned(An) then
                 DoApplyLexerStylesMap(An, AnOut);
@@ -3037,7 +3037,7 @@ begin
       case Id of
         LEXER_GET_PROP:
           begin
-            An:= AppManager.FindAnalyzer(StrValue);
+            An:= AppManager.FindLexerByName(StrValue);
             if not Assigned(An) then exit(ReturnNone);
 
             Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
@@ -3103,7 +3103,7 @@ begin
         //not needed yet
         LEXER_SET_PROP:
           begin
-            An:= AppManager.FindAnalyzer(StrValue);
+            An:= AppManager.FindLexerByName(StrValue);
             if not Assigned(An) then exit(ReturnNone);
 
             case StrValue of

@@ -61,7 +61,6 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
   S, fmt: string;
-  an: TecSyntAnalyzer;
   Size: TPoint;
 begin
   F:= CurrentFrame;
@@ -653,8 +652,8 @@ begin
   //dynamic lexer items
   sl:= TStringList.Create;
   try
-    for i:= 0 to AppManager.AnalyzerCount-1 do
-      sl.AddObject('lexer: '+AppManager.Analyzers[i].LexerName, TObject(cmdFirstLexerCommand+i));
+    for i:= 0 to AppManager.LexerCount-1 do
+      sl.AddObject('lexer: '+AppManager.Lexers[i].LexerName, TObject(cmdFirstLexerCommand+i));
     sl.Sort;
 
     //insert "none" at list begin

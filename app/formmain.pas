@@ -24,6 +24,7 @@ uses
   at__jsonconf,
   PythonEngine,
   UniqueInstance,
+  ec_LexerList,
   ec_SyntAnal,
   ATButtons,
   ATButtonsToolbar,
@@ -1214,7 +1215,7 @@ begin
 
   PanelAll.Align:= alClient;
   PaintTest.Height:= 150;
-  AppManager:= TecSyntaxManager.Create(Self);
+  AppManager:= TecLexerList.Create(Self);
   AppManagerLite:= TATLiteLexers.Create;
   AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
@@ -2185,9 +2186,9 @@ begin
         Result:= Format('p:%s.%s', [ItemModule, ItemProc]);
   end
   else
-  if (NCmd>=cmdFirstLexerCommand) and (NCmd<cmdFirstLexerCommand+AppManager.AnalyzerCount) then
+  if (NCmd>=cmdFirstLexerCommand) and (NCmd<cmdFirstLexerCommand+AppManager.LexerCount) then
   begin
-    Result:= 'l:'+AppManager.Analyzers[NCmd-cmdFirstLexerCommand].LexerName
+    Result:= 'l:'+AppManager.Lexers[NCmd-cmdFirstLexerCommand].LexerName
   end
   else
     Result:= 'c:'+IntToStr(NCmd);
@@ -2560,7 +2561,7 @@ begin
 
     for i:= 0 to L.Count-1 do
     begin
-      an:= AppManager.AddAnalyzer;
+      an:= AppManager.AddLexer;
       an.LoadFromFile(L[i]);
     end;
   finally
@@ -2568,9 +2569,9 @@ begin
   end;
 
   //correct sublexer links
-  for i:= 0 to AppManager.AnalyzerCount-1 do
+  for i:= 0 to AppManager.LexerCount-1 do
   begin
-    an:= AppManager.Analyzers[i];
+    an:= AppManager.Lexers[i];
     fn:= GetAppLexerMapFilename(an.LexerName);
     if FileExists(fn) then
     begin
@@ -2580,7 +2581,7 @@ begin
         begin
           lexname:= ini.ReadString('ref', IntToStr(j), '');
           if lexname<>'' then
-            an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindAnalyzer(lexname);
+            an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindLexerByName(lexname);
         end;
       finally
         FreeAndNil(ini);
@@ -2623,9 +2624,9 @@ begin
   sl:= TStringList.Create;
   try
     //make stringlist of all lexers
-    for i:= 0 to AppManager.AnalyzerCount-1 do
+    for i:= 0 to AppManager.LexerCount-1 do
     begin
-      an:= AppManager.Analyzers[i];
+      an:= AppManager.Lexers[i];
       if not an.Internal then
         sl.AddObject(an.LexerName, an);
     end;
@@ -2794,7 +2795,7 @@ begin
   PrevLexer:= F.LexerName;
   F.ReadOnly:= false;
   F.DoFileReload;
-  F.Lexer:= AppManager.FindAnalyzer(PrevLexer);
+  F.Lexer:= AppManager.FindLexerByName(PrevLexer);
   F.ReadOnly:= PrevRO;
 
   UpdateStatus;
@@ -3237,8 +3238,8 @@ end;
 
 procedure TfmMain.SetLexerIndex(N: integer);
 begin
-  if (N>=0) and (N<AppManager.AnalyzerCount) then
-    CurrentFrame.Lexer:= AppManager.Analyzers[N]
+  if (N>=0) and (N<AppManager.LexerCount) then
+    CurrentFrame.Lexer:= AppManager.Lexers[N]
   else
     CurrentFrame.Lexer:= nil;
 
@@ -3760,7 +3761,7 @@ begin
       for i:= 0 to Form.List.Count-1 do
         if Form.List.Checked[i] then
         begin
-          An:= AppManager.FindAnalyzer(Form.List.Items[i]);
+          An:= AppManager.FindLexerByName(Form.List.Items[i]);
           if Assigned(An) then
           begin
             DoLoadLexerStylesFromFile(An, Form.StylesFilename);

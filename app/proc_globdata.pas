@@ -33,6 +33,7 @@ uses
   proc_cmd,
   proc_msg,
   proc_keymap_undolist,
+  ec_LexerList,
   ec_proc_lexer,
   ec_SyntAnal;
 
@@ -415,7 +416,7 @@ procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
 var
-  AppManager: TecSyntaxManager = nil;
+  AppManager: TecLexerList = nil;
   AppManagerLite: TATLiteLexers = nil;
   AppKeymap: TATKeymap = nil;
   AppKeymapInitial: TATKeymap = nil;
@@ -1238,7 +1239,7 @@ begin
       s:= c.GetValue(ExtractFileName(fn), '');
       if s<>'' then
       begin
-        Result:= AppManager.FindAnalyzer(s);
+        Result:= AppManager.FindLexerByName(s);
         Exit
       end;
 
@@ -1249,7 +1250,7 @@ begin
         s:= c.GetValue('*'+ext, '');
         if s<>'' then
         begin
-          Result:= AppManager.FindAnalyzer(s);
+          Result:= AppManager.FindLexerByName(s);
           Exit
         end;
       end;
@@ -1258,7 +1259,7 @@ begin
     end;
   end;
 
-  Result:= DoFindLexerForFilename(AppManager, fn);
+  Result:= AppManager.FindLexerByFilename(fn);
 end;
 
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
@@ -1401,9 +1402,9 @@ var
   i: Integer;
 begin
   with AppManager do
-    for i:= 0 to AnalyzerCount-1 do
-      if AlsoDisabled or not Analyzers[i].Internal then
-        L.Add(Analyzers[i].LexerName);
+    for i:= 0 to LexerCount-1 do
+      if AlsoDisabled or not Lexers[i].Internal then
+        L.Add(Lexers[i].LexerName);
 end;
 
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);

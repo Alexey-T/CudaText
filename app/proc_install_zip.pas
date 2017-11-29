@@ -227,9 +227,9 @@ begin
       end;
 
       //install from file
-      an:= AppManager.FindAnalyzer(s_lexer);
+      an:= AppManager.FindLexerByName(s_lexer);
       if an=nil then
-        an:= AppManager.AddAnalyzer;
+        an:= AppManager.AddLexer;
       an.LoadFromFile(fn_lexer);
 
       //also "restore lexer styles"
@@ -255,7 +255,7 @@ begin
           FreeAndNil(ini_lexmap);
         end;
 
-        an_sub:= AppManager.FindAnalyzer(s_lexer);
+        an_sub:= AppManager.FindLexerByName(s_lexer);
         if an_sub<>nil then
         begin
           an.SubAnalyzers.Items[i_sub].SyntAnalyzer:= an_sub;

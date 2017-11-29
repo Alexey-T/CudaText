@@ -1089,7 +1089,7 @@ begin
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
   EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
-  Lexer:= AppManager.FindAnalyzer(UiOps.NewdocLexer);
+  Lexer:= AppManager.FindLexerByName(UiOps.NewdocLexer);
 
   FNotif:= TATFileNotif.Create(Self);
   FNotif.Timer.Interval:= 1000;
@@ -1388,7 +1388,7 @@ begin
   if Editor.Strings.Count=0 then exit;
 
   //restore props
-  Lexer:= AppManager.FindAnalyzer(PrevLexer);
+  Lexer:= AppManager.FindLexerByName(PrevLexer);
   PrevCaretY:= Min(PrevCaretY, Editor.Strings.Count-1);
   if PrevTail then
   begin
@@ -1813,7 +1813,7 @@ begin
   if str='PHP' then
     str:= 'HTML'; //Cud 1.14: HTML lexer handles php files
   if (str<>'') and (str<>str0) then
-    Lexer:= AppManager.FindAnalyzer(str);
+    Lexer:= AppManager.FindLexerByName(str);
 
   //enc
   str0:= EncodingName;

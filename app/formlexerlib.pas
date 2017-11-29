@@ -208,9 +208,9 @@ begin
 
   sl:= tstringlist.create;
   try
-    for i:= 0 to AppManager.AnalyzerCount-1 do
+    for i:= 0 to AppManager.LexerCount-1 do
     begin
-      an:= AppManager.Analyzers[i];
+      an:= AppManager.Lexers[i];
       sl.AddObject(an.LexerName, an);
     end;
     sl.sort;
