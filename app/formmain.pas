@@ -2630,9 +2630,9 @@ begin
         sl.AddObject(an.LexerName, an);
     end;
 
-    for i:= 0 to AppManagerLite.Count-1 do
+    for i:= 0 to AppManagerLite.LexerCount-1 do
     begin
-      an_lite:= AppManagerLite.GetLexer(i);
+      an_lite:= AppManagerLite.Lexers[i];
       sl.AddObject(an_lite.LexerName+msgLiteLexerSuffix, an_lite);
     end;
     sl.Sort;
