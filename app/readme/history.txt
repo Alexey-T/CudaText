@@ -4,6 +4,11 @@
   * changed
 
 
+1.26.1 (2017/12)
+
++ add: AddonManager: added option "Install: show confirmation and report"
+* change: AddonManager: removed confirmation "Do you want to instal selected addon?"
+
 1.26.0 (2017/11)
 
 + add: Lite lexers - for huge files, e.g. 800Mb XML file. Currently added 2 lite lexers with suffix ^: "XML ^", "JSON ^". Lite lexers don't support code-tree, folding, rich hiliting; but they work very fast on any file size (with average line length).

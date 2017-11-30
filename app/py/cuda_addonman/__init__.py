@@ -36,7 +36,8 @@ class Command:
         if os.path.isfile(fn_config):
             data = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
             opt.ch_user = data.get('channels_user', opt.ch_user)
-            opt.readme = data.get('suggest_readme', True)
+            opt.suggest_readme = data.get('suggest_readme', True)
+            opt.install_confirm = data.get('install_confirm', True)
             opt.proxy = data.get('proxy', '')
 
 
@@ -46,7 +47,8 @@ class Command:
 
         data = {}
         data['channels_user'] = opt.ch_user
-        data['suggest_readme'] = opt.readme
+        data['suggest_readme'] = opt.suggest_readme
+        data['install_confirm'] = opt.install_confirm
         data['proxy'] = opt.proxy
 
         with open(fn_config, 'w') as f:
@@ -153,7 +155,9 @@ class Command:
             msg_status('Cannot download file')
             return
         msg_status('Opened downloaded file')
-        file_open(fn)
+        s_options = '' if opt.install_confirm else '/silent'
+        file_open(fn, options=s_options)
+        msg_status('Addon installed')
 
         #save version
         if kind in ['plugin', 'linter']:
@@ -164,7 +168,7 @@ class Command:
                     f.write(version)
 
         #suggest readme
-        if opt.readme:
+        if opt.suggest_readme:
             m = get_module_name_from_zip_filename(fn)
             if m:
                 names = []
