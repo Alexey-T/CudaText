@@ -1,0 +1,31 @@
+{
+  "comment": "Converted from Matthias030's lexer 'Log files' by Alexey T.",
+  "files": "*.log",
+  "case_sens": false,
+  "rules": {
+    "success": {
+      "regex": "^.*((?<!no )success|(?<!nicht )erfolgreich|(no|without( any)?) error|fehlerfrei|(ohne |kein(e)? )fehler|(?<!not )succeed|mit erfolg).*$",
+      "style": "LightBG3"
+    },
+    "error": {
+      "regex": "^.*(error|exception|fail|fatal|crash|(?<!be)fehl(geschlagen)?(er)?|(ohne|kein|nicht) erfolg|violat).*$",
+      "style": "LightBG1"
+    },
+    "warning": {
+      "regex": "^.*(warn|critical|kritisch|conflict|konflikt|ung(ü|ue)ltig|invalid|(nicht |un)zul(ä|ae)ssig|not ready|nicht bereit|not found|nicht gefunden|no success|not succeed|veraltet|out of date).*$",
+      "style": "LightBG2"
+    },
+    "type": {
+      "regex": "\\(.*?\\)|\\[.*?\\]|\\{.*?\\}",
+      "style": "Id2"
+    },
+    "id": {
+      "regex": "[a-z_]\\w*",
+      "style": "Id"
+    },
+    "number": {
+      "regex": "\\b((\\d+[-/\\.\\:\\\\])+\\d+)\\b",
+      "style": "Id1"
+    }
+  }
+}

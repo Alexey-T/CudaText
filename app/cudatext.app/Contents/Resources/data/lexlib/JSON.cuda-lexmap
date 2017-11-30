@@ -1,13 +1,13 @@
-[map]
-Symbol=Symbol
-Number=Number
-String=String
-Id=Id
-Id keyword=Id1
-Comment=Comment
-
 [comments]
 str1=/*
 str2=*/
 styles_cmt=Comment
 styles_str=String
+
+[map]
+Symbol=Symbol
+Number=Number
+String=String
+Id=Id
+Id keyword=IdKeyword
+Comment=Comment

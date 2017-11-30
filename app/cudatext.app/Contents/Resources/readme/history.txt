@@ -4,6 +4,12 @@
   * changed
 
 
+1.26.0 (2017/11)
+
++ add: Lite lexers - for huge files, e.g. 800Mb XML file. Currently added 2 lite lexers with suffix ^: "XML ^", "JSON ^". Lite lexers don't support code-tree, folding, rich hiliting; but they work very fast on any file size (with average line length).
++ add: for too big files (option exists already) now lite lexers are detected
+- fix: wrong column selection, if tab-chars at line start
+
 1.25.0 (2017/11)
 
 + add: option "ui_tab_multiline" - enable multi-line tabs
