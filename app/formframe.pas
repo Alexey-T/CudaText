@@ -2018,7 +2018,13 @@ begin
   if IsFileTooBigForLexer(AFilename) then
     LexerLite:= AppManagerLite.FindLexerByFilename(AFilename)
   else
+  begin
+    //try normal lexer
     Lexer:= DoLexerFindByFilename(AFilename);
+    //try lite lexer
+    if Lexer=nil then
+      LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+  end;
 end;
 
 end.
