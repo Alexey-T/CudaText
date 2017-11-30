@@ -128,26 +128,15 @@ class Command:
 
         names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 
-        results = []
-        while True:
-            res = dlg_menu(MENU_LIST_ALT, names,
-                caption=('Re-install' if reinstall else 'Install') )
-            if res is None: break
+        res = dlg_menu(MENU_LIST_ALT, names,
+            caption=('Re-install' if reinstall else 'Install') )
+        if res is None: return
 
-            name = items[res]['name']
-            url = items[res]['url']
-            version = items[res]['v']
-            kind = items[res]['kind']
-            results += [(name, url, version, kind)]
-
-            if msg_box('Selected addons:\n\n'+
-                        '\n'.join([item[0] for item in results])+
-                        '\n\nOK: Install selected'+
-                        '\nCancel: Select another addon',
-                        MB_OKCANCEL or MB_ICONQUESTION) == ID_OK: break
-
-        for res in results:
-            self.do_install_single(*res)
+        name = items[res]['name']
+        url = items[res]['url']
+        version = items[res]['v']
+        kind = items[res]['kind']
+        self.do_install_single(name, url, version, kind)
 
 
     def do_install_single(self, name, url, version, kind):
