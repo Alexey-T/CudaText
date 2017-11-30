@@ -188,7 +188,7 @@ begin
     MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
   begin
     DeleteFile(GetAppLexerFilename(an.LexerName));
-    an.Free;
+    AppManager.DeleteLexer(an);
     UpdateList;
     List.ItemIndex:= Min(n, List.Count-1);
   end;
