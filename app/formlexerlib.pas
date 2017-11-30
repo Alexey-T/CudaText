@@ -35,7 +35,7 @@ type
     procedure btnDeleteClick(Sender: TObject);
     procedure btnConfigClick(Sender: TObject);
     procedure btnShowHideClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
@@ -167,10 +167,17 @@ begin
   DoLexerExportFromLibToFile(an);
 end;
 
-
-procedure TfmLexerLib.FormCreate(Sender: TObject);
+procedure TfmLexerLib.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
+  if (Key=VK_DELETE) and (Shift=[]) then
+  begin
+    btnDelete.Click;
+    Key:= 0;
+    exit
+  end;
 end;
+
 
 procedure TfmLexerLib.btnDeleteClick(Sender: TObject);
 var

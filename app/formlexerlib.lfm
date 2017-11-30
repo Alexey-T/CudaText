@@ -9,7 +9,8 @@ object fmLexerLib: TfmLexerLib
   Caption = 'Lexer library'
   ClientHeight = 468
   ClientWidth = 459
-  OnCreate = FormCreate
+  KeyPreview = True
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
@@ -48,7 +49,7 @@ object fmLexerLib: TfmLexerLib
       Left = 6
       Height = 29
       Top = 6
-      Width = 81
+      Width = 77
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
@@ -60,10 +61,10 @@ object fmLexerLib: TfmLexerLib
       AnchorSideLeft.Control = btnConfig
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnConfig
-      Left = 93
+      Left = 89
       Height = 29
       Top = 6
-      Width = 57
+      Width = 56
       AutoSize = True
       BorderSpacing.Left = 6
       Caption = 'Delete'
@@ -74,10 +75,10 @@ object fmLexerLib: TfmLexerLib
       AnchorSideLeft.Control = btnDelete
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnConfig
-      Left = 156
+      Left = 151
       Height = 29
       Top = 6
-      Width = 88
+      Width = 85
       AutoSize = True
       BorderSpacing.Left = 6
       Caption = 'Hide/Show'
