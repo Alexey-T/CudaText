@@ -1216,7 +1216,7 @@ begin
   PanelAll.Align:= alClient;
   PaintTest.Height:= 150;
   AppManager:= TecLexerList.Create(Self);
-  AppManagerLite:= TATLiteLexers.Create;
+  AppManagerLite:= TATLiteLexers.Create(Self);
   AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
   AppManagerLite.OnApplyStyle:= @LiteLexer_ApplyStyle;
 
@@ -1403,7 +1403,6 @@ begin
   FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
   FreeAndNil(FKeymapUndoList);
-  FreeAndNil(AppManagerLite);
 end;
 
 procedure TfmMain.FormDropFiles(Sender: TObject;
