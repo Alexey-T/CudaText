@@ -1,4 +1,5 @@
 {
+  "comment": "Converted from Matthias030's lexer 'Log files' by Alexey T.",
   "files": "*.log",
   "case_sens": false,
   "rules": {
@@ -19,12 +20,12 @@
       "style": "Id2"
     },
     "id": {
-      "regex": "[a-zA-Z_]\\w*",
+      "regex": "[a-z_]\\w*",
       "style": "Id"
     },
     "number": {
-      "regex": "\\b((\\d+[-\\/\\.\\:\\\\])+\\d+)\\b",
-      "style": "Number"
+      "regex": "\\b((\\d+[-/\\.\\:\\\\])+\\d+)\\b",
+      "style": "Id1"
     }
   }
 }

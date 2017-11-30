@@ -1,4 +1,5 @@
 {
+  "comment": "JSON lexer by Alexey T.",
   "files": "*.json",
   "case_sens": true,
   "rules": {

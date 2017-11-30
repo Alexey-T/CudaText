@@ -1,4 +1,5 @@
 {
+  "comment": "XML lexer by Alexey T.",
   "files": "*.xml;*.xsl",
   "case_sens": true,
   "rules": {
