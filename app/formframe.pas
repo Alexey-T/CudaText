@@ -1165,10 +1165,13 @@ end;
 procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
 begin
   Adapter.Lexer:= nil;
-  Ed1.AdapterForHilite:= an;
-  Ed2.AdapterForHilite:= an;
-  Ed1.Update;
-  Ed2.Update;
+  if Assigned(an) then
+  begin
+    Ed1.AdapterForHilite:= an;
+    Ed2.AdapterForHilite:= an;
+    Ed1.Update;
+    Ed2.Update;
+  end;
 end;
 
 procedure TEditorFrame.DoFileOpen_AsPicture(const fn: string);
