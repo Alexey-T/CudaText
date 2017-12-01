@@ -1,6 +1,6 @@
 {
   "comment": "SQL lexer by Alexey T.",
-  "files": "*.sql",
+  "files": "*.sql;*.ddl;*.dml",
   "case_sens": false,
   "rules": {
     "cmt": {
@@ -12,16 +12,16 @@
       "style": "Comment"
     },
     "keyword": {
-      "regex": "\\b(all|and|any|as|between|by|concat|distinct|exists|from|full|grant|group|having|in|index|inner|is|join|left|like|max|min|not|null|on|option|or|order|outer|select|some|table|union|view|where)\\b",
+      "regex": "\\b(aggregate|all|alter|and|any|as|asc|begin|between|by|cascade|case|check|class|column|comment|commit|constraint|conversion|create|cross|database|default|delete|desc|distinct|domain|drop|else|end|exists|foreign|from|full|function|grant|group|having|ignore|in|index|inner|insert|into|is|join|key|language|left|like|limit|natural|not|null|on|operator|option|or|order|outer|primary|procedure|references|revoke|right|rollback|rule|schema|select|sequence|set|some|start|straight_join|table|tablespace|then|top|transaction|trigger|type|union|unique|update|user|values|view|when|where|with|work)\\b",
       "style": "IdKeyword"
     },
-    "keyword2": {
-      "regex": "\\b(case|else|end|then|when)\\b",
-      "style": "Label"
+    "id_storage": {
+      "regex": "\\b(bigint|bigserial|bit|boolean|box|bytea|char|character|cidr|circle|date|datetime|decimal|double|float|inet|int|integer|interval|line|lseg|macaddr|money|ntext|number|numeric|nvarchar|oid|path|point|polygon|precision|real|serial|smallint|sysdate|sysname|text|timestamp|tinyint|var|varbinary|varchar|varying)\\b",
+      "style": "Id2"
     },
     "id_func": {
-      "regex": "\\b(avg|bitand|count|date_format|decode|substr|timediff|userenv|bitand|decode|userenv)\\b",
-      "style": "Id2"
+      "regex": "\\b(avg|bitand|concatenate|convert|count|date_format|decode|lower|max|min|substr|substring|sum|timediff|translate|trim|upper|userenv)\\b",
+      "style": "Id3"
     },
     "id_alias": {
       "regex": "[a-z_]\\w*(?=\\.)",
@@ -48,7 +48,7 @@
       "style": "Symbol"
     },
     "symbol": {
-      "regex": "[/,\\.;:\\(\\)=<>\\+\\-\\*]",
+      "regex": "[/,\\.;:\\(\\)=<>\\+\\-\\*\\|]",
       "style": "Symbol"
     }
   }
