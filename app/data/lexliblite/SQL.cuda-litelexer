@@ -23,6 +23,10 @@
       "regex": "\\b(avg|bitand|count|date_format|decode|substr|timediff|userenv|bitand|decode|userenv)\\b",
       "style": "Id2"
     },
+    "id_alias": {
+      "regex": "[a-z_]\\w*(?=\\.)",
+      "style": "IdVar"
+    },
     "id": {
       "regex": "[a-z_]\\w*",
       "style": "Id"
