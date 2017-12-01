@@ -1,0 +1,51 @@
+{
+  "comment": "SQL lexer by Alexey T.",
+  "files": "*.sql",
+  "case_sens": false,
+  "rules": {
+    "cmt": {
+      "regex": "--.*",
+      "style": "Comment"
+    },
+    "cmt2": {
+      "regex": "/\\*.*?\\*/",
+      "style": "Comment"
+    },
+    "keyword": {
+      "regex": "\\b(all|and|any|as|between|by|concat|distinct|exists|from|full|grant|group|having|in|index|inner|is|join|left|like|max|min|not|null|on|option|or|order|outer|select|some|table|union|view|where)\\b",
+      "style": "IdKeyword"
+    },
+    "keyword2": {
+      "regex": "\\b(case|else|end|then|when)\\b",
+      "style": "Label"
+    },
+    "id_func": {
+      "regex": "\\b(avg|bitand|count|date_format|decode|substr|timediff|userenv|bitand|decode|userenv)\\b",
+      "style": "Id2"
+    },
+    "id": {
+      "regex": "[a-z_]\\w*",
+      "style": "Id"
+    },
+    "id_brackets": {
+      "regex": "\\[[\\w ]*?\\]",
+      "style": "Id1"
+    },
+    "num": {
+      "regex": "\\d+(\\.\\d+)?([eE][-\\+]?\\d+)?",
+      "style": "Number"
+    },
+    "str": {
+      "regex": "(['`\\\"]).*?\\1",
+      "style": "String"
+    },
+    "symbol_long": {
+      "regex": "!=|<>|\\^=|<=|>=|\\(\\+\\)|\\(\\-\\)",
+      "style": "Symbol"
+    },
+    "symbol": {
+      "regex": "[/,\\.;:\\(\\)=<>\\+\\-\\*]",
+      "style": "Symbol"
+    }
+  }
+}
