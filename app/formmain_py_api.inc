@@ -1577,6 +1577,7 @@ begin
                     StrCaption,
                     NId=MENU_LIST_ALT,
                     NIndex);
+            Application.ProcessMessages; //force hide dialog
             if NIndex>=0 then
               Result:= PyInt_FromLong(NIndex)
             else
