@@ -6,6 +6,8 @@
 
 1.26.1 (2017/12)
 
++ add: lite lexer SQL^
+* deleted: usual lexer SQL
 + add: AddonManager: added option "Install: show confirmation and report"
 * change: AddonManager: removed confirmation "Install selected addon?"
 
