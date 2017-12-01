@@ -142,6 +142,7 @@ class Command:
         url = items[res]['url']
         version = items[res]['v']
         kind = items[res]['kind']
+
         self.do_install_single(name, url, version, kind)
 
 

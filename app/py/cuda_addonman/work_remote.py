@@ -47,7 +47,7 @@ def get_url(url, fn, del_first=False):
 def get_plugin_zip(url):
     if not url: return
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
-    get_url(url, fn)
+    get_url(url, fn, True)
     return fn
 
 
