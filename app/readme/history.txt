@@ -4,7 +4,7 @@
   * changed
 
 
-1.26.1 (2017/12)
+1.26.2 (2017/12)
 
 + add: lite lexer SQL^
 * deleted: usual lexer SQL
