@@ -2,6 +2,7 @@
   "about": "Converted from Matthias030's lexer 'Log files' by Alexey T.",
   "files": "*.log",
   "case_sens": false,
+  "consider_spaces": true,
   "rules": {
     "success": {
       "regex": "^.*((?<!no )success|(?<!nicht )erfolgreich|(no|without( any)?) error|fehlerfrei|(ohne |kein(e)? )fehler|(?<!not )succeed|mit erfolg).*$",
