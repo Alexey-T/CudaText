@@ -1058,7 +1058,7 @@ begin
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
 
     MaxFileSizeToOpen:= 1000;
-    MaxFileSizeForLexer:= 3;
+    MaxFileSizeForLexer:= 2;
     MaxLinesForTree:= 8000;
 
     AutocompleteCss:= true;
