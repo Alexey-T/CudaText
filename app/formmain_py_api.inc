@@ -3101,42 +3101,6 @@ begin
               );
           end;
 
-        (*
-        //not needed yet
-        LEXER_SET_PROP:
-          begin
-            An:= AppManager.FindLexerByName(StrValue);
-            if not Assigned(An) then exit(ReturnNone);
-
-            case StrValue of
-              'en':
-                begin
-                  An.Internal:= not AppStrToBool(StrValue2);
-                  AppManager.Modified:= true;
-                  fmMain.UpdateMenuLexers;
-                end;
-              'name':
-                begin
-                  An.LexerName:= StrValue2;
-                  AppManager.Modified:= true;
-                  fmMain.UpdateMenuLexers;
-                end;
-              'typ':
-                begin
-                  //needed space-separated str
-                  An.Extentions:= StringReplace(StrValue2, ',', ' ', [rfReplaceAll]);
-                  AppManager.Modified:= true;
-                end;
-              'sub':
-                begin
-                  LexerSetSublexers(AppManager, An, StrValue2, ',');
-                  AppManager.Modified:= true;
-                end;
-            end;
-            Result:= ReturnNone;
-          end;
-        *)
-
         LEXER_DETECT:
           begin
             DoLexerDetect(StrValue, An, LexerLite, Str1);
