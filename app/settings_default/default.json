@@ -564,16 +564,16 @@
   "ui_initial_dir": "",
 
   //[Ui/Tree]
-  //Tree: Focus another tree-node, after caret position changes
+  //Tree: After caret pos changed, select code-tree node for new caret pos
   "ui_tree_auto_sync": true,
 
-  //Tree: Time (msec) after which tree filled
-  "ui_tree_time_fill": 2000,
-
-  //Tree: Time (msec) after which tree-node for caret focuses
+  //Tree: Delay (in msec) after which code-tree selected node changes
   "ui_tree_time_focus": 300,
 
-  //Tree: Show vertical/horiz lines in tree 
+  //Tree: Delay (in msec) after text change, after which code-tree is filled
+  "ui_tree_time_fill": 2000,
+
+  //Tree: Show nice vertical/horizontal lines in tree 
   "ui_tree_show_lines": true,
 
   //Tree: Show icons in tree (for lexers which assign icons, e.g. C#)
@@ -589,12 +589,15 @@
   //Tree: buffer/cache contents of code-tree, use this cache when changing tabs
   "ui_tree_cache": true,
   
+  //Maximal count of lines in text, for which code-tree is enabled (0: always disabled)
+  "ui_max_lines_codetree": 8000,
+  
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",
 
   //New tabs: Encoding name
-  //  See names list in Wiki. Examples: utf8, utf8_bom, utf16le, ansi, cp1250 etc  
+  //  Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc  
   "newdoc_encoding": "utf8",
 
   //New tabs: End-of-lines chars
@@ -890,9 +893,6 @@
   //Maximal file size, for which allowed to use lexers, in Mb
   "ui_max_size_lexer": 2,
   
-  //Maximal count of lines in text, when code-tree is enabled (0: always disabled)
-  "ui_max_lines_codetree": 8000,
-
   //[Ui]
   //On calling Full-Screen, hide these UI elements
   //Value is string of few chars
