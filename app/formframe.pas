@@ -1171,6 +1171,8 @@ begin
     Ed2.AdapterForHilite:= an;
     Ed1.Update;
     Ed2.Update;
+    //py event on_lexer
+    Adapter.OnLexerChange(Adapter);
   end;
 end;
 
