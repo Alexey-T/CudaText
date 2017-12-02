@@ -3021,6 +3021,7 @@ var
   PtrValue: PChar;
   StrValue, Str1, Str2: string;
   An: TecSyntAnalyzer;
+  LexerLite: TATLiteLexer;
   List: TStringList;
   ObjTypes,
   ObjSublex,
@@ -3138,9 +3139,9 @@ begin
 
         LEXER_DETECT:
           begin
-            An:= DoLexerFindByFilename(StrValue);
-            if Assigned(An) then
-              Result:= PyString_FromString(PChar(string(An.LexerName)))
+            DoLexerDetect(StrValue, An, LexerLite, Str1);
+            if Str1<>'' then
+              Result:= PyString_FromString(PChar(Str1))
             else
               Result:= ReturnNone;
           end;

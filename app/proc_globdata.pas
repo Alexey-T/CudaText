@@ -655,6 +655,10 @@ function AppEncodingOem: string;
 procedure UpdateFormOnTop(F: TForm);
 procedure DoStatusbarTextByTag(AStatus: TATStatus; ATag: PtrInt; const AText: string);
 function IsFileTooBigForLexer(const AFilename: string): boolean;
+procedure DoLexerDetect(const AFilename: string;
+  out Lexer: TecSyntAnalyzer;
+  out LexerLite: TATLiteLexer;
+  out LexerName: string);
 
 
 implementation
@@ -1785,6 +1789,34 @@ end;
 function IsFileTooBigForLexer(const AFilename: string): boolean;
 begin
   Result:= (AFilename<>'') and (FileSize(AFilename) div (1024*1024) >= UiOps.MaxFileSizeForLexer);
+end;
+
+
+procedure DoLexerDetect(const AFilename: string;
+  out Lexer: TecSyntAnalyzer;
+  out LexerLite: TATLiteLexer;
+  out LexerName: string);
+begin
+  LexerName:= '';
+  Lexer:= nil;
+  LexerLite:= nil;
+
+  if IsFileTooBigForLexer(AFilename) then
+  begin
+    LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+  end
+  else
+  begin
+    Lexer:= DoLexerFindByFilename(AFilename);
+    if Lexer=nil then
+      LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
+  end;
+
+  if Assigned(Lexer) then
+    LexerName:= Lexer.LexerName
+  else
+  if Assigned(LexerLite) then
+    LexerName:= LexerLite.LexerName+msgLiteLexerSuffix;
 end;
 
 

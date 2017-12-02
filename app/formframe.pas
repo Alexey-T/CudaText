@@ -2016,18 +2016,17 @@ begin
 end;
 
 procedure TEditorFrame.DoLexerFromFilename(const AFilename: string);
+var
+  TempLexer: TecSyntAnalyzer;
+  TempLexerLite: TATLiteLexer;
+  SName: string;
 begin
-  //for big files use lite lexers
-  if IsFileTooBigForLexer(AFilename) then
-    LexerLite:= AppManagerLite.FindLexerByFilename(AFilename)
+  DoLexerDetect(AFilename, TempLexer, TempLexerLite, SName);
+  if Assigned(TempLexer) then
+    Lexer:= TempLexer
   else
-  begin
-    //try normal lexer
-    Lexer:= DoLexerFindByFilename(AFilename);
-    //try lite lexer
-    if Lexer=nil then
-      LexerLite:= AppManagerLite.FindLexerByFilename(AFilename);
-  end;
+  if Assigned(TempLexerLite) then
+    LexerLite:= TempLexerLite;
 end;
 
 end.
