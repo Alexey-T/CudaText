@@ -145,6 +145,8 @@ begin
   if ACanClose then
   begin
     UpdateMenuRecent(Frame);
+    Frame.Editor.AdapterForHilite:= nil;
+    Frame.Editor2.AdapterForHilite:= nil;
     Frame.Adapter.StopTreeUpdate;
     Frame.Adapter.Stop;
     Frame.Free;
