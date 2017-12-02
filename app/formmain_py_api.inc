@@ -3015,13 +3015,9 @@ begin
 end;
 
 
-function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
+function Py_GetLexerProps(An: TecSyntAnalyzer): PPyObject;
 var
-  Id: integer;
-  PtrValue: PChar;
-  StrValue, Str1, Str2: string;
-  An: TecSyntAnalyzer;
-  LexerLite: TATLiteLexer;
+  Str1, Str2: string;
   List: TStringList;
   ObjTypes,
   ObjSublex,
@@ -3032,6 +3028,77 @@ var
   ObjStylesStr: PPyObject;
 begin
   with GetPythonEngine do
+  begin
+    Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
+    Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'str2');
+    if (Str1<>'') and (Str2<>'') then
+      ObjCommentStr:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
+    else
+      ObjCommentStr:= ReturnNone;
+
+    Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'full1');
+    Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'full2');
+    if (Str1<>'') and (Str2<>'') then
+      ObjCommentLined:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
+    else
+      ObjCommentLined:= ReturnNone;
+
+    List:= TStringList.Create;
+    try
+      List.LineBreak:= ' ';
+      List.Text:= An.Extentions;
+      ObjTypes:= StringsToPyList(List);
+
+      List.LineBreak:= ',';
+      List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_cmt');
+      ObjStylesCmt:= StringsToPyList(List);
+
+      List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_str');
+      ObjStylesStr:= StringsToPyList(List);
+
+      List.LineBreak:= #10;
+      LexerEnumSublexers(An, List);
+      ObjSublex:= StringsToPyList(List);
+
+      LexerEnumStyles(An, List);
+      ObjStyles:= StringsToPyList(List);
+    finally
+      FreeAndNil(List);
+    end;
+
+    Result:= Py_BuildValue('{sOsOsssOsOsOsOsO}',
+      'typ',
+      ObjTypes,
+      'en',
+      PyBool_FromLong(Ord(not An.Internal)),
+      'c_line',
+      PChar(string(An.LineComment)),
+      'c_str',
+      ObjCommentStr,
+      'c_lined',
+      ObjCommentLined,
+      'st',
+      ObjStyles,
+      'st_c',
+      ObjStylesCmt,
+      'st_s',
+      ObjStylesStr,
+      'sub',
+      ObjSublex
+      );
+  end;
+end;
+
+function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
+var
+  Id: integer;
+  PtrValue: PChar;
+  StrValue, SName: string;
+  List: TStringList;
+  Lexer: TecSyntAnalyzer;
+  LexerLite: TATLiteLexer;
+begin
+  with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @PtrValue)) then
     begin
       StrValue:= string(PtrValue);
@@ -3039,73 +3106,20 @@ begin
       case Id of
         LEXER_GET_PROP:
           begin
-            An:= AppManager.FindLexerByName(StrValue);
-            if not Assigned(An) then exit(ReturnNone);
-
-            Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'str1');
-            Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'str2');
-            if (Str1<>'') and (Str2<>'') then
-              ObjCommentStr:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
-            else
-              ObjCommentStr:= ReturnNone;
-
-            Str1:= GetAppLexerPropInCommentsSection(An.LexerName, 'full1');
-            Str2:= GetAppLexerPropInCommentsSection(An.LexerName, 'full2');
-            if (Str1<>'') and (Str2<>'') then
-              ObjCommentLined:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
-            else
-              ObjCommentLined:= ReturnNone;
-
-            List:= TStringList.Create;
-            try
-              List.LineBreak:= ' ';
-              List.Text:= An.Extentions;
-              ObjTypes:= StringsToPyList(List);
-
-              List.LineBreak:= ',';
-              List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_cmt');
-              ObjStylesCmt:= StringsToPyList(List);
-
-              List.Text:= GetAppLexerPropInCommentsSection(An.LexerName, 'styles_str');
-              ObjStylesStr:= StringsToPyList(List);
-
-              List.LineBreak:= #10;
-              LexerEnumSublexers(An, List);
-              ObjSublex:= StringsToPyList(List);
-
-              LexerEnumStyles(An, List);
-              ObjStyles:= StringsToPyList(List);
-            finally
-              FreeAndNil(List);
-            end;
-
-            Result:= Py_BuildValue('{sOsOsssOsOsOsOsO}',
-              'typ',
-              ObjTypes,
-              'en',
-              PyBool_FromLong(Ord(not An.Internal)),
-              'c_line',
-              PChar(string(An.LineComment)),
-              'c_str',
-              ObjCommentStr,
-              'c_lined',
-              ObjCommentLined,
-              'st',
-              ObjStyles,
-              'st_c',
-              ObjStylesCmt,
-              'st_s',
-              ObjStylesStr,
-              'sub',
-              ObjSublex
-              );
+            Lexer:= AppManager.FindLexerByName(StrValue);
+            if Assigned(Lexer) then
+              exit(Py_GetLexerProps(Lexer));
+            //LexerLite:= AppManagerLite.FindLexerByName(StrValue);
+            //if Assigned(LexerLite) then
+            //  exit(Py_GetLiteLexerProps(LexerLite));
+            Result:= ReturnNone;
           end;
 
         LEXER_DETECT:
           begin
-            DoLexerDetect(StrValue, An, LexerLite, Str1);
-            if Str1<>'' then
-              Result:= PyString_FromString(PChar(Str1))
+            DoLexerDetect(StrValue, Lexer, LexerLite, SName);
+            if SName<>'' then
+              Result:= PyString_FromString(PChar(SName))
             else
               Result:= ReturnNone;
           end;
