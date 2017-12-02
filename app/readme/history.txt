@@ -4,10 +4,11 @@
   * changed
 
 
-1.26.4 (2017/12)
+1.27.0 (2017/12)
 
-+ add: lexer API supports lite lexers
 + add: lite lexer SQL^
++ add: lexer API supports lite lexers
++ add: console lines "Init: cuda_nnnn" on loading plugins; option "py_init_log"
 * change: usual lexer SQL removed to add-ons
 + add: AddonManager: added option "Install: show confirmation and report"
 * change: AddonManager: removed confirmation "Install selected addon?"
