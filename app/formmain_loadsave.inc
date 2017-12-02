@@ -736,6 +736,7 @@ begin
     UiOps.TreeCache:= c.GetValue('ui_tree_cache', UiOps.TreeCache);
 
     UiOps.PyChangeSlow:= c.GetValue('py_change_slow', UiOps.PyChangeSlow);
+    UiOps.PyInitLog:= c.GetValue('py_init_log', UiOps.PyInitLog);
 
     UiOps.NewdocLexer:= c.GetValue('newdoc_lexer', UiOps.NewdocLexer);
     UiOps.NewdocEnc:= c.GetValue('newdoc_encoding', UiOps.NewdocEnc);

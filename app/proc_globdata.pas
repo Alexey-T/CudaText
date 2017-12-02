@@ -89,6 +89,7 @@ type
 
     PyLibrary: string;
     PyChangeSlow: integer;
+    PyInitLog: boolean;
 
     LexerThemes: boolean;
     LexerMenuGrouped: boolean;
@@ -1125,6 +1126,7 @@ begin
     TreeCache:= true;
 
     PyChangeSlow:= 2000;
+    PyInitLog:= true;
 
     NewdocLexer:= '';
     NewdocEnc:= 'utf8';
@@ -1151,6 +1153,7 @@ begin
     ShowTitlePath:= false;
     ShowLastFiles:= true;
     ShowFormsOnTop:= false;
+
     OneInstance:= false;
     NotifEnabled:= true;
     NotifTimeSec:= 2;

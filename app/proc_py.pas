@@ -15,11 +15,12 @@ uses
   SysUtils, Classes, Variants, Controls,
   Forms,
   ATSynEdit,
-  PythonEngine;
+  PythonEngine,
+  proc_globdata;
 
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
-function Py_RunPlugin_Event(const SModule, SCmd: string;
+function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): string;
 
@@ -72,10 +73,15 @@ var
   SCmd1, SCmd2: string;
 begin
   SObj:= '_cudacmd_' + AModule;
+
   SCmd1:=
     Format('import %s               ', [AModule]) + SLineBreak +
     Format('if "%s" not in locals():', [SObj]) + SLineBreak +
-    Format('    %s = %s.Command()   ', [SObj, AModule]);
+    Format('    %s = %s.Command()   ', [SObj, AModule]) + SLineBreak;
+  if UiOps.PyInitLog then
+    SCmd1:= SCmd1+
+    Format('    print("Init: %s")',    [AModule]);
+
   SCmd2:=
     Format('%s.%s(%s)', [SObj, AMethod, Py_ArgListToString(AParams)]);
 
@@ -94,7 +100,7 @@ end;
 //var
 //  _EventBusy: boolean = false;
 
-function Py_RunPlugin_Event(const SModule, SCmd: string;
+function Py_RunPlugin_Event(const AModule, ACmd: string;
   AEd: TATSynEdit; const AParams: array of string): string;
 var
   SObj: string;
@@ -112,13 +118,18 @@ begin
   for i:= 0 to Length(AParams)-1 do
     SParams:= SParams + ', ' + AParams[i];
 
-  SObj:= '_cudacmd_' + SModule;
+  SObj:= '_cudacmd_' + AModule;
+
   SCmd1:= 'import cudatext' + SLineBreak +
-    Format('import %s               ', [SModule]) + SLineBreak +
+    Format('import %s',                [AModule]) + SLineBreak +
     Format('if "%s" not in locals():', [SObj]) + SLineBreak +
-    Format('    %s = %s.%s()        ', [SObj, SModule, 'Command']);
+    Format('    %s = %s.%s()',         [SObj, AModule, 'Command']) + SLineBreak;
+  if UiOps.PyInitLog then
+    SCmd1:= SCmd1+
+    Format('    print("Init: %s")',    [AModule]);
+
   SCmd2:=
-    Format('%s.%s(%s)', [SObj, SCmd, SParams]);
+    Format('%s.%s(%s)', [SObj, ACmd, SParams]);
 
   try
     try
