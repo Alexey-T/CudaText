@@ -1399,12 +1399,16 @@ end;
 
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 var
-  i: Integer;
+  i: integer;
 begin
   with AppManager do
     for i:= 0 to LexerCount-1 do
       if AlsoDisabled or not Lexers[i].Internal then
         L.Add(Lexers[i].LexerName);
+
+  with AppManagerLite do
+    for i:= 0 to LexerCount-1 do
+      L.Add(Lexers[i].LexerName+msgLiteLexerSuffix);
 end;
 
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
