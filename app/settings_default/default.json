@@ -576,7 +576,7 @@
   //Tree: Show nice vertical/horizontal lines in tree 
   "ui_tree_show_lines": true,
 
-  //Tree: Show icons in tree (for lexers which assign icons, e.g. C#)
+  //Tree: Show icons in code-tree, for lexers which assign icons (e.g. C#)
   "ui_tree_icons": true,
 
   //Tree: Icons theme
