@@ -2045,6 +2045,9 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.208 (app 1.26.2)
+* add: lexer_proc supports lite lexers too (their names have " ^" suffix)
+
 1.0.207 (app 1.25.1)
 * add: app_proc: PROC_GET_COMMANDS
 
