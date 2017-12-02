@@ -26,6 +26,10 @@
       "regex": "\\b(avg|bitand|concatenate|convert|count|date_format|decode|lower|max|min|substr|substring|sum|timediff|translate|trim|upper|userenv)\\b",
       "style": "Id3"
     },
+    "id_func2": {
+      "regex": "\\b(current_(date|time(stamp)?|user)|(session|system)_user)\\b",
+      "style": "Id3"
+    },
     "id_alias": {
       "regex": "[a-z_]\\w*(?=\\.)",
       "style": "IdVar"
