@@ -1,6 +1,9 @@
 {
-  "comment": "SQL lexer by Alexey T.",
+  "about": "SQL lexer by Alexey T.",
   "files": "*.sql;*.ddl;*.dml",
+  "cmt_line": "--",
+  "cmt_block_1": "/*",
+  "cmt_block_2": "*/",
   "case_sens": false,
   "rules": {
     "cmt": {
