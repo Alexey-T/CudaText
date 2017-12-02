@@ -3089,6 +3089,67 @@ begin
   end;
 end;
 
+function Py_GetLiteLexerProps(An: TATLiteLexer): PPyObject;
+var
+  Str1, Str2: string;
+  List: TStringList;
+  ObjTypes,
+  ObjSublex,
+  ObjCommentStr,
+  ObjCommentLined,
+  ObjStyles,
+  ObjStylesCmt,
+  ObjStylesStr: PPyObject;
+begin
+  with GetPythonEngine do
+  begin
+    Str1:= An.CommentBlockBegin;
+    Str2:= An.CommentBlockEnd;
+    if (Str1<>'') and (Str2<>'') then
+      ObjCommentStr:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2))
+    else
+      ObjCommentStr:= ReturnNone;
+
+    ObjCommentLined:= ReturnNone;
+
+    List:= TStringList.Create;
+    try
+      List.LineBreak:= ';';
+      List.Text:= An.FileTypes;
+      ObjTypes:= StringsToPyList(List);
+
+      ObjStylesCmt:= ReturnNone;
+      ObjStylesStr:= ReturnNone;
+      ObjSublex:= ReturnNone;
+      ObjStyles:= ReturnNone;
+    finally
+      FreeAndNil(List);
+    end;
+
+    Result:= Py_BuildValue('{sOsOsssOsOsOsOsO}',
+      'typ',
+      ObjTypes,
+      'en',
+      PyBool_FromLong(1),
+      'c_line',
+      PChar(An.CommentLine),
+      'c_str',
+      ObjCommentStr,
+      'c_lined',
+      ObjCommentLined,
+      'st',
+      ObjStyles,
+      'st_c',
+      ObjStylesCmt,
+      'st_s',
+      ObjStylesStr,
+      'sub',
+      ObjSublex
+      );
+  end;
+end;
+
+
 function Py_lexer_proc(Self, Args : PPyObject): PPyObject; cdecl;
 var
   Id: integer;
@@ -3106,13 +3167,23 @@ begin
       case Id of
         LEXER_GET_PROP:
           begin
-            Lexer:= AppManager.FindLexerByName(StrValue);
-            if Assigned(Lexer) then
-              exit(Py_GetLexerProps(Lexer));
-            //LexerLite:= AppManagerLite.FindLexerByName(StrValue);
-            //if Assigned(LexerLite) then
-            //  exit(Py_GetLiteLexerProps(LexerLite));
-            Result:= ReturnNone;
+            if SEndsWith(StrValue, msgLiteLexerSuffix) then
+            begin
+              SetLength(StrValue, Length(StrValue)-Length(msgLiteLexerSuffix));
+              LexerLite:= AppManagerLite.FindLexerByName(StrValue);
+              if Assigned(LexerLite) then
+                Result:= Py_GetLiteLexerProps(LexerLite)
+              else
+                Result:= ReturnNone;
+            end
+            else
+            begin
+              Lexer:= AppManager.FindLexerByName(StrValue);
+              if Assigned(Lexer) then
+                Result:= Py_GetLexerProps(Lexer)
+              else
+                Result:= ReturnNone;
+            end;
           end;
 
         LEXER_DETECT:
