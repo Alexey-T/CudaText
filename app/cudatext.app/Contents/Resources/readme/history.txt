@@ -4,10 +4,22 @@
   * changed
 
 
+1.27.0 (2017/12)
+
++ add: lite lexer SQL^
++ add: lexer API supports lite lexers
++ add: console lines "Init: cuda_nnnn" on loading plugins; option "py_init_log"
+* change: usual lexer SQL removed to add-ons
++ add: AddonManager: added option "Install: show confirmation and report"
+* change: AddonManager: removed confirmation "Install selected addon?"
+
 1.26.0 (2017/11)
 
-+ add: Lite lexers - for huge files, e.g. 800Mb XML file. Currently added 2 lite lexers with suffix ^: "XML ^", "JSON ^". Lite lexers don't support code-tree, folding, rich hiliting; but they work very fast on any file size (with average line length).
++ add: Lite lexers - for huge files, e.g. 800Mb XML file. Lite lexers don't support code-tree, folding, rich hiliting; but they work very fast on any file size (with average line length).
 + add: for too big files (option exists already) now lite lexers are detected
++ add: lite lexer XML^
++ add: lite lexer JSON^
++ add: lite lexer Log files^
 - fix: wrong column selection, if tab-chars at line start
 
 1.25.0 (2017/11)

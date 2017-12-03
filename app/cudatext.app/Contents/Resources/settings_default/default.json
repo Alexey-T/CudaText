@@ -564,19 +564,19 @@
   "ui_initial_dir": "",
 
   //[Ui/Tree]
-  //Tree: Focus another tree-node, after caret position changes
+  //Tree: After caret pos changed, select code-tree node for new caret pos
   "ui_tree_auto_sync": true,
 
-  //Tree: Time (msec) after which tree filled
-  "ui_tree_time_fill": 2000,
-
-  //Tree: Time (msec) after which tree-node for caret focuses
+  //Tree: Delay (in msec) after which code-tree selected node changes
   "ui_tree_time_focus": 300,
 
-  //Tree: Show vertical/horiz lines in tree 
+  //Tree: Delay (in msec) after text change, after which code-tree is filled
+  "ui_tree_time_fill": 2000,
+
+  //Tree: Show nice vertical/horizontal lines in tree 
   "ui_tree_show_lines": true,
 
-  //Tree: Show icons in tree (for lexers which assign icons, e.g. C#)
+  //Tree: Show icons in code-tree, for lexers which assign icons (e.g. C#)
   "ui_tree_icons": true,
 
   //Tree: Icons theme
@@ -589,12 +589,15 @@
   //Tree: buffer/cache contents of code-tree, use this cache when changing tabs
   "ui_tree_cache": true,
   
+  //Maximal count of lines in text, for which code-tree is enabled (0: always disabled)
+  "ui_max_lines_codetree": 8000,
+  
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",
 
   //New tabs: Encoding name
-  //  See names list in Wiki. Examples: utf8, utf8_bom, utf16le, ansi, cp1250 etc  
+  //  Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc  
   "newdoc_encoding": "utf8",
 
   //New tabs: End-of-lines chars
@@ -825,6 +828,9 @@
 
   //API: delay for event on_change_slow in msec (used in CudaLint)
   "py_change_slow": 2000,
+  
+  //Show console lines "Init: cuda_nnnn" on plugins initialization
+  "py_init_log": true,
 
   //[Text/Commands]
   //Commenting: If no selection then comment full line
@@ -885,11 +891,8 @@
   "ui_max_size_open": 1000,
 
   //Maximal file size, for which allowed to use lexers, in Mb
-  "ui_max_size_lexer": 3,
+  "ui_max_size_lexer": 2,
   
-  //Maximal count of lines in text, when code-tree is enabled (0: always disabled)
-  "ui_max_lines_codetree": 8000,
-
   //[Ui]
   //On calling Full-Screen, hide these UI elements
   //Value is string of few chars

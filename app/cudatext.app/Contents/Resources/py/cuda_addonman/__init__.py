@@ -32,11 +32,16 @@ STD_MODULES = (
 
 
 class Command:
+    tick = 0
+    tick_inc = +1
+    tick_msg = ''
+
     def __init__(self):
         if os.path.isfile(fn_config):
             data = json.loads(open(fn_config).read(), object_pairs_hook=collections.OrderedDict)
             opt.ch_user = data.get('channels_user', opt.ch_user)
-            opt.readme = data.get('suggest_readme', True)
+            opt.suggest_readme = data.get('suggest_readme', True)
+            opt.install_confirm = data.get('install_confirm', True)
             opt.proxy = data.get('proxy', '')
 
 
@@ -46,7 +51,8 @@ class Command:
 
         data = {}
         data['channels_user'] = opt.ch_user
-        data['suggest_readme'] = opt.readme
+        data['suggest_readme'] = opt.suggest_readme
+        data['install_confirm'] = opt.install_confirm
         data['proxy'] = opt.proxy
 
         with open(fn_config, 'w') as f:
@@ -128,26 +134,16 @@ class Command:
 
         names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 
-        results = []
-        while True:
-            res = dlg_menu(MENU_LIST_ALT, names,
-                caption=('Re-install' if reinstall else 'Install') )
-            if res is None: break
+        res = dlg_menu(MENU_LIST_ALT, names,
+            caption=('Re-install' if reinstall else 'Install') )
+        if res is None: return
 
-            name = items[res]['name']
-            url = items[res]['url']
-            version = items[res]['v']
-            kind = items[res]['kind']
-            results += [(name, url, version, kind)]
+        name = items[res]['name']
+        url = items[res]['url']
+        version = items[res]['v']
+        kind = items[res]['kind']
 
-            if msg_box('Selected addons:\n\n'+
-                        '\n'.join([item[0] for item in results])+
-                        '\n\nOK: Install selected'+
-                        '\nCancel: Select another addon',
-                        MB_OKCANCEL or MB_ICONQUESTION) == ID_OK: break
-
-        for res in results:
-            self.do_install_single(*res)
+        self.do_install_single(name, url, version, kind)
 
 
     def do_install_single(self, name, url, version, kind):
@@ -158,13 +154,21 @@ class Command:
                 return
 
         #download
-        msg_status('Downloading file...')
+        self.tick_msg = 'Downloading file'
+        timer_proc(TIMER_START, self.timer_tick, 500)
+
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
+            timer_proc(TIMER_STOP, self.timer_tick, 0)
             msg_status('Cannot download file')
             return
-        msg_status('Opened downloaded file')
-        file_open(fn)
+
+        self.tick_msg = 'Opening downloaded zip'
+        s_options = '' if opt.install_confirm else '/silent'
+        file_open(fn, options=s_options)
+
+        timer_proc(TIMER_STOP, self.timer_tick, 0)
+        msg_status('Addon installed')
 
         #save version
         if kind in ['plugin', 'linter']:
@@ -175,7 +179,7 @@ class Command:
                     f.write(version)
 
         #suggest readme
-        if opt.readme:
+        if opt.suggest_readme:
             m = get_module_name_from_zip_filename(fn)
             if m:
                 names = []
@@ -388,3 +392,13 @@ class Command:
     def install_from_github(self):
 
         do_install_from_github()
+
+    def timer_tick(self, tag='', info=''):
+
+        SIZE = 20
+        self.tick += self.tick_inc
+        if (self.tick<=0) or (self.tick>=SIZE):
+            self.tick_inc = -self.tick_inc
+
+        text = '['+'_'*self.tick+'*'+'_'*(SIZE-self.tick)+'] '+self.tick_msg
+        msg_status(text, True)
