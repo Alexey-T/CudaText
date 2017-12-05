@@ -1165,15 +1165,14 @@ end;
 procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
 begin
   Adapter.Lexer:= nil;
-  if Assigned(an) then
-  begin
-    Ed1.AdapterForHilite:= an;
-    Ed2.AdapterForHilite:= an;
-    Ed1.Update;
-    Ed2.Update;
-    //py event on_lexer
-    Adapter.OnLexerChange(Adapter);
-  end;
+
+  Ed1.AdapterForHilite:= an;
+  Ed2.AdapterForHilite:= an;
+  Ed1.Update;
+  Ed2.Update;
+
+  //py event on_lexer
+  Adapter.OnLexerChange(Adapter);
 end;
 
 procedure TEditorFrame.DoFileOpen_AsPicture(const fn: string);
