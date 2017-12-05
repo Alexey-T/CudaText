@@ -165,10 +165,10 @@ class Command:
 
         self.tick_msg = 'Opening downloaded zip'
         s_options = '' if opt.install_confirm else '/silent'
-        file_open(fn, options=s_options)
+        ok = file_open(fn, options=s_options)
 
         timer_proc(TIMER_STOP, self.timer_tick, 0)
-        msg_status('Addon installed')
+        msg_status('Addon installed' if ok else 'Installation cancelled')
 
         #save version
         if kind in ['plugin', 'linter']:

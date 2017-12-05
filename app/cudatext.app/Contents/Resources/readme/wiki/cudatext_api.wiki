@@ -967,7 +967,7 @@ Gets string if command selected, or None if cancelled.
 
  file_open(filename, group=-1, options="")
 
-Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab. Gets bool: filename is empty or file successfully opened.
+Opens editor tab with given filename. If filename already opened, activates its tab. Pass empty str to open untitled tab. Gets bool: filename is empty or file successfully opened. For zip files, gets True only if add-on (in zip file) was installed.
 
 * Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
@@ -1272,6 +1272,8 @@ Possible values of id_action:
 * MENU_SET_HOTKEY: Changes hotkey of menu item. Param "command" must be str value, e.g. "Ctrl+Alt+F1".
 * MENU_SET_CHECKED: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool value.
 * MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool value.
+* MENU_SET_IMAGELIST: Changes image-list object of menu, which contains menu item. Param "command" must be image-list handle.
+* MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in image-list). Param "index" must be icon index.
 
 ====Example==== 
 
@@ -2044,6 +2046,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.208 (app 1.27.2)
+* add: menu_proc: added MENU_SET_IMAGELIST, MENU_SET_IMAGEINDEX
+* add: file_open: for zip files, gets True if zip installation completed
 
 1.0.208 (app 1.26.2)
 * add: lexer_proc supports lite lexers too (their names have " ^" suffix)

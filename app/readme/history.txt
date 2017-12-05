@@ -8,7 +8,7 @@
 
 + improved memory usage on big files. E.g. Windows x32 version with 100M log: mem usage was 900M, now 720M.
 * change: lexer "SynWrite acp files" removed to add-ons
-* change: lexer "SynWrite snippets" renamed to "CudaText snippets"
+* change: lexer "SynWrite snippets" removed to add-ons
 
 1.27.0 (2017/12)
 
