@@ -1272,6 +1272,8 @@ Possible values of id_action:
 * MENU_SET_HOTKEY: Changes hotkey of menu item. Param "command" must be str value, e.g. "Ctrl+Alt+F1".
 * MENU_SET_CHECKED: Changes checked state of menu item. When item is checked, it shows a checkmark. Param "command" must be bool value.
 * MENU_SET_RADIOITEM: Changes radio kind of menu item. When item has radio kind, its checkmark is round (in checked state). Param "command" must be bool value.
+* MENU_SET_IMAGELIST: Changes image-list object of menu, which contains menu item. Param "command" must be image-list handle.
+* MENU_SET_IMAGEINDEX: Changes icon index of menu item (index in image-list). Param "index" must be icon index.
 
 ====Example==== 
 
@@ -2044,6 +2046,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.208 (app 1.27.2)
+* add: menu_proc: added MENU_SET_IMAGELIST, MENU_SET_IMAGEINDEX
 
 1.0.208 (app 1.26.2)
 * add: lexer_proc supports lite lexers too (their names have " ^" suffix)

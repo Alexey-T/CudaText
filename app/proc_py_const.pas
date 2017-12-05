@@ -64,6 +64,8 @@ const
   MENU_CREATE        = 10;
   MENU_SHOW          = 12;
   MENU_GET_PROP      = 14;
+  MENU_SET_IMAGELIST = 20;
+  MENU_SET_IMAGEINDEX = 21;
 
   LOG_CLEAR         = 0;
   LOG_ADD           = 1;

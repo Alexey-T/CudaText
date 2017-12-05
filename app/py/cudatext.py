@@ -77,6 +77,8 @@ MENU_SET_HOTKEY    = 9
 MENU_CREATE        = 10
 MENU_SHOW          = 12
 MENU_GET_PROP      = 14
+MENU_SET_IMAGELIST = 20
+MENU_SET_IMAGEINDEX = 21
 
 BOOKMARK_GET         = 0
 BOOKMARK_SET         = 1
@@ -931,7 +933,7 @@ class Editor:
 
     def get_wrapinfo(self):
         return ct.ed_get_wrapinfo(self.h)
-        
+
     def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
         return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
     #end

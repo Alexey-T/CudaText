@@ -3423,7 +3423,7 @@ begin
         MENU_SHOW:
           begin
             PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
-            Popup:= TPopupMenu(PopupItem.Owner);
+            Popup:= PopupItem.Owner as TPopupMenu;
             if StrCmd='' then
               Popup.PopUp //at cursor position
             else
@@ -3442,6 +3442,21 @@ begin
               Result:= fmMain.DoMenu_GetPyProps(PopupItem)
             else
               Result:= ReturnNone;
+          end;
+
+        MENU_SET_IMAGELIST:
+          begin
+            PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
+            Popup:= PopupItem.Owner as TPopupMenu;
+            Popup.Images:= TImageList(PtrInt(StrToInt64Def(StrCmd, 0)));
+            Result:= ReturnNone;
+          end;
+
+        MENU_SET_IMAGEINDEX:
+          begin
+            PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
+            PopupItem.ImageIndex:= NIndex;
+            Result:= ReturnNone;
           end;
 
         else
