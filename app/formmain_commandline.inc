@@ -85,6 +85,9 @@ begin
   for i:= 0 to Length(FFileNamesDroppedInitially)-1 do
   begin
     fn:= FFileNamesDroppedInitially[i];
+    if DirectoryExistsUTF8(fn) then
+      DoFolderOpen(fn, False)
+    else
     if FileExistsUTF8(fn) then
       DoFileOpen(fn);
   end;
