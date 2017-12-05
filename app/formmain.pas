@@ -653,7 +653,7 @@ type
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
       AInitIndex: integer): integer;
     procedure DoFileExportHtml;
-    procedure DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean);
+    function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;
     procedure DoFileNewMenu(Sender: TObject);
     procedure DoFileNewFrom(const fn: string);
@@ -1579,17 +1579,16 @@ begin
   DeleteFileUTF8(GetAppPath(cFileOptionsHistoryFiles));
 end;
 
-procedure TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
-  ASilent: boolean);
+function TfmMain.DoFileInstallZip(const fn: string; out DirTarget: string;
+  ASilent: boolean): boolean;
 var
   msg, msg2: string;
-  IsOk: boolean;
   AddonType: TAppAddonType;
 begin
   DoInstallAddonFromZip(fn, GetAppPath(cDirDataAutocomplete), msg, msg2,
-    IsOk, AddonType, DirTarget, ASilent);
+    Result, AddonType, DirTarget, ASilent);
 
-  if IsOk then
+  if Result then
   begin
     if AddonType in [cAddonTypeLexer, cAddonTypeLexerLite] then
     begin
@@ -1976,7 +1975,8 @@ begin
   if ExtractFileExt(AFilename)='.zip' then
   begin
     bSilent:= Pos('/silent', AOptions)>0;
-    DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent);
+    if DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent) then
+      Result:= CurrentFrame;
     exit
   end;
 
