@@ -73,8 +73,8 @@ object SyntAnal30: TLibSyntAnalyzer
     'Value'
     'Text'
   )
-  Extentions = 'synw-snippet'
-  LexerName = 'SynWrite snippets'
+  Extentions = 'synw-snippet cuda-snippet'
+  LexerName = 'CudaText snippets'
   SkipSpaces = False
   Charset = DEFAULT_CHARSET
 end
