@@ -106,7 +106,7 @@ begin
     mi.Caption:= '('+ACommand+')';
     mnu:= TPopupMenu.Create(fmMain);
     mnu.Items.Add(mi);
-    AToolbar.AddDropdown(mnu, nil, ACaption, AHint, ACommand);
+    AToolbar.AddDropdown(AImageIndex, mnu, nil, ACaption, AHint, ACommand);
   end
   else
   begin
@@ -135,8 +135,6 @@ const
     'icon',
     'text_icon',
     'text_icon',
-    'text_arrow',
-    'arrow',
     'sep',
     'sep'
     );

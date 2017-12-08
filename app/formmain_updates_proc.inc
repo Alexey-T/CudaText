@@ -996,9 +996,9 @@ end;
 procedure TfmMain.InitToolbar;
 begin
   ToolbarMain.AddButton(0, @DoToolbarClick, '', 'Create new tab', IntToStr(cmd_FileNew), false);
-  ToolbarMain.AddDropdown(nil, @DoFileNewMenu);
+  ToolbarMain.AddDropdown(-1, nil, @DoFileNewMenu);
   ToolbarMain.AddButton(1, @DoToolbarClick, '', 'Open file', IntToStr(cmd_FileOpen), false);
-  ToolbarMain.AddDropdown(PopupRecents);
+  ToolbarMain.AddDropdown(-1, PopupRecents);
   ToolbarMain.AddButton(2, @DoToolbarClick, '', 'Save file', IntToStr(cmd_FileSave), false);
   ToolbarMain.AddSep;
   ToolbarMain.AddButton(3, @DoToolbarClick, '', 'Cut', IntToStr(cCommand_ClipboardCut), false);
