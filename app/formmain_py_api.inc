@@ -1095,8 +1095,12 @@ begin
     begin
       Ed:= PyEditor(H);
       StrText:= string(PtrText);
-      //limit NKind
-      NKind:= Max(Low(AppBookmarkSetup), Min(High(AppBookmarkSetup), NKind));
+
+      //check range of NKind
+      if NKind<Low(AppBookmarkSetup) then
+        NKind:= Low(AppBookmarkSetup);
+      if NKind>High(AppBookmarkSetup) then
+        NKind:= High(AppBookmarkSetup);
 
       case NId of
         BOOKMARK_GET:
