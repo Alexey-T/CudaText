@@ -59,8 +59,8 @@ begin
   ListboxVal.Color:= ListboxOut.Color;
   ListboxVal.Invalidate;
 
-  for i:= 0 to 9 do
-    AppBookmarkSetup[240+i].Color:= GetAppColor('EdBookmarkBg');
+  for i:= Low(AppBookmarkSetup) to High(AppBookmarkSetup) do
+    AppBookmarkSetup[i].Color:= GetAppColor('EdBookmarkBg');
 
   EditorApplyTheme(fmConsole.ed);
   EditorApplyTheme(fmConsole.memo);

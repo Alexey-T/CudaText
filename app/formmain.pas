@@ -1207,10 +1207,10 @@ begin
   ListboxVal.DoScaleScrollbar;
 
   AppBookmarkImagelist.AddImages(ImageListBm);
-  for i:= 0 to 9 do
+  for i:= 2 to 9 do
   begin
-    AppBookmarkSetup[240+i].Color:= clMoneyGreen;
-    AppBookmarkSetup[240+i].ImageIndex:= i;
+    AppBookmarkSetup[i].Color:= clMoneyGreen;
+    AppBookmarkSetup[i].ImageIndex:= i-1;
   end;
 
   PanelAll.Align:= alClient;
