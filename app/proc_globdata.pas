@@ -38,8 +38,8 @@ uses
   ec_SyntAnal;
 
 var
-  //ATSynEdit has range for bookmarks: 0..15, 0=none
-  AppBookmarkSetup: array[1..15] of
+  //ATSynEdit has range for bookmarks 0..63, 0=none
+  AppBookmarkSetup: array[1..63] of
     record ImageIndex: integer; Color: TColor; end;
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
