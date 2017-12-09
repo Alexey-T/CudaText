@@ -4,6 +4,11 @@
   * changed
 
 
+1.28.1 (2017/12)
+
+- major bugfix for paste command (bug in 1.28.0)
++ add: if deleting too big block (bigger than option "undo_limit"), do it fast w/o undo
+
 1.28.0 (2017/12)
 
 + optimized memory usage on big files. E.g. Windows x32 version with 100M log: mem usage was 900M, now 720M.
