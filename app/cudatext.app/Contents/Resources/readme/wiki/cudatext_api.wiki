@@ -1726,12 +1726,12 @@ Controls bookmarks. Possible values of id:
 ** ncolor: Color of bookmarked line. Can be COLOR_NONE to not show bg-color.
 ** text: Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
 * BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks (nline, nkind ignored).
-* BOOKMARK_CLEAR_HINTS: Clears all bookmark hints. Maximum about 250 separate lines can have hints, later hints will not show, so you need to clear hints before adding bunch of bookmarks to editor.
+* BOOKMARK_CLEAR_HINTS: Clears all bookmark hints. Maximum 63 separate hints are allowed, so you should to clear hints before adding bunch of bookmarks to editor.
 
 Notes:
 
-* nkind must be 1..255.
-* nkind values 240..249 have setup by default: they have blue icons "0" to "9".
+* nkind must be in the range 1..63.
+* nkind values 2..9 have setup by default: they have blue icons "1" to "8".
 
 ===folding===
 

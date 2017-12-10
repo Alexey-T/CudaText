@@ -363,6 +363,7 @@ class Command:
         modules = [m for (i, m) in enumerate(modules) if text[i]=='1']
         if not modules: return
         print('Updating addons:')
+        fail_count = 0
 
         for remote in remotes:
             m = remote.get('module', '')
@@ -375,14 +376,19 @@ class Command:
 
             fn = get_plugin_zip(url)
             if not fn: continue
-            file_open(fn, options='/silent')
+            if os.path.isfile(fn) and file_open(fn, options='/silent'):
+                fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
+                with open(fn_ver, 'w') as f:
+                    f.write(remote['v'])
+            else:
+                fail_count += 1
+                print('  '+remote['name']+' - Update failed')
 
-            fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
-            with open(fn_ver, 'w') as f:
-                f.write(remote['v'])
-
-        print('Updated')
-        msg_status('Updated')
+        s = 'Done'
+        if fail_count>0:
+            s += ', with %d fails'%fail_count
+        print(s)
+        msg_status(s)
 
 
     def check_cudatext_updates(self):
