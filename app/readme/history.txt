@@ -4,9 +4,10 @@
   * changed
 
 
-1.28.1 (2017/12)
+1.28.2 (2017/12)
 
-- major bugfix for paste command (bug in 1.28.0)
+- fix: major bugfix, crash on paste command (in 1.28.0)
+- fix: files weren't added to recents on app closing
 + add: if deleting too big block (bigger than option "undo_limit"), do it fast w/o undo
 
 1.28.0 (2017/12)

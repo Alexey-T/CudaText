@@ -1340,15 +1340,18 @@ var
   F: TEditorFrame;
   i: integer;
 begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    F:= Frames[i];
+    UpdateMenuRecent(F);
+  end;
+
+  //after UpdateMenuRecent
   DoOps_SaveHistory;
 
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
-
-    //update recents menu
-    UpdateMenuRecent(F);
-
     //make sure adapters don't block closing
     F.Editor.AdapterForHilite:= nil;
     F.Editor2.AdapterForHilite:= nil;
