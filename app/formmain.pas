@@ -1036,7 +1036,7 @@ begin
     true,
     true
     );
-  EditorFocus(CurrentEditor);
+  CurrentFrame.SetFocus;
   FTreeClick:= false;
 end;
 
@@ -1467,7 +1467,7 @@ begin
       if UiOps.EscapeCloseConsole then
         ShowBottom:= false
       else
-        EditorFocus(CurrentEditor);
+        CurrentFrame.SetFocus;
       Key:= 0;
       exit
     end;
@@ -1962,7 +1962,7 @@ begin
   begin
     D:= DoTabAdd(APages, GetUntitledCaption);
     Result:= D.TabObject as TEditorFrame;
-    EditorFocus(Result.Editor);
+    Result.SetFocus;
     Exit
   end;
 
@@ -2025,7 +2025,7 @@ begin
     begin
       SetFrame(F);
       Result:= F;
-      EditorFocus(Result.Editor);
+      Result.SetFocus;
       UpdateStatus;
       UpdateTree(true);
       Exit
@@ -2061,7 +2061,7 @@ begin
     MsgStatus(msg);
 
     DoPyEvent(Result.Editor, cEventOnOpen, []);
-    EditorFocus(Result.Editor);
+    Result.SetFocus;
     exit;
   end;
 
@@ -2103,7 +2103,7 @@ begin
   MsgStatus(msg);
 
   DoPyEvent(F.Editor, cEventOnOpen, []);
-  EditorFocus(Result.Editor);
+  Result.SetFocus;
 end;
 
 
@@ -2238,7 +2238,7 @@ procedure TfmMain.DoDialogGoto_Hide;
 begin
   if Assigned(fmGoto) and fmGoto.Visible then
   begin
-    EditorFocus(CurrentEditor);
+    CurrentFrame.SetFocus;
     fmGoto.Hide;
   end;
 end;
@@ -2305,7 +2305,7 @@ begin
       fmGoto.Hide;
     end;
 
-    EditorFocus(Ed);
+    CurrentFrame.SetFocus;
   end;
 end;
 
@@ -2394,7 +2394,7 @@ begin
 
     if not AValue then
       if bBottom then
-        EditorFocus(CurrentEditor);
+        CurrentFrame.SetFocus;
   end;
 
   UpdateBottomButtons;
@@ -2889,7 +2889,7 @@ begin
 
   if not fmFind.Visible then
     if bBottom then
-      EditorFocus(CurrentEditor);
+      CurrentFrame.SetFocus;
 end;
 
 procedure TfmMain.DoToggleToolbar;
@@ -3461,7 +3461,7 @@ procedure TfmMain.DoPanel_TreeviewOnKeyDown(Sender: TObject; var Key: Word;
 begin
   if (Key=VK_ESCAPE) then
   begin
-    EditorFocus(CurrentEditor);
+    CurrentFrame.SetFocus;
     Key:= 0;
     exit
   end;
@@ -3483,7 +3483,7 @@ begin
   //Esc
   if (Key=VK_ESCAPE) then
   begin
-    EditorFocus(CurrentEditor);
+    CurrentFrame.SetFocus;
     Key:= 0;
     exit
   end;

@@ -111,6 +111,7 @@ type
     FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
 
+    procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoFileOpen_AsBinary(const fn: string);
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
@@ -219,6 +220,7 @@ type
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     function IsEmpty: boolean;
     procedure ApplyTheme;
+    procedure SetFocus;
     //picture support
     function IsText: boolean;
     function IsBinary: boolean;
@@ -1251,6 +1253,7 @@ begin
   if not Assigned(FBin) then
   begin
     FBin:= TATBinHex.Create(Self);
+    FBin.OnKeyDown:= @BinaryOnKeyDown;
     FBin.Parent:= Self;
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
@@ -2124,6 +2127,39 @@ begin
   else
   if Assigned(TempLexerLite) then
     LexerLite:= TempLexerLite;
+end;
+
+procedure TEditorframe.SetFocus;
+begin
+  if IsText then
+  begin
+    EditorFocus(Editor);
+    exit;
+  end;
+
+  if Assigned(FBin) then
+  begin
+    FBin.SetFocus;
+    exit;
+  end;
+end;
+
+type
+  TATSynEdit_Hack = class(TATSynEdit);
+
+procedure TEditorFrame.BinaryOnKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Shift=[]) then
+    if (Key=VK_UP) or
+       (Key=VK_DOWN) or
+       (Key=VK_LEFT) or
+       (Key=VK_RIGHT) or
+       (Key=VK_HOME) or
+       (Key=VK_END) then
+    exit;
+
+  TATSynEdit_Hack(Editor).KeyDown(Key, Shift);
 end;
 
 end.
