@@ -439,7 +439,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="53">
+    <Units Count="54">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -717,6 +717,12 @@
         <Filename Value="formmain_py_pluginwork.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit52>
+      <Unit53>
+        <Filename Value="formconfirmbinary.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fmConfirmBinary"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit53>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

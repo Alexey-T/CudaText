@@ -1,0 +1,71 @@
+object fmConfirmBinary: TfmConfirmBinary
+  Left = 409
+  Height = 177
+  Top = 258
+  Width = 383
+  BorderStyle = bsDialog
+  Caption = 'Non-text file'
+  ClientHeight = 177
+  ClientWidth = 383
+  Position = poScreenCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '1.9.0.0'
+  object Label1: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 46
+    Top = 6
+    Width = 371
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Around = 6
+    Caption = 'File is not text'
+    ParentColor = False
+  end
+  object btnEdit: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrBottom
+    Left = 71
+    Height = 25
+    Top = 58
+    Width = 240
+    Caption = 'Edit anyway'
+    Constraints.MinWidth = 240
+    TabOrder = 0
+  end
+  object btnHex: TButton
+    AnchorSideLeft.Control = btnEdit
+    AnchorSideTop.Control = btnEdit
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 71
+    Height = 25
+    Top = 89
+    Width = 240
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Caption = 'View as hex'
+    TabOrder = 1
+  end
+  object btnCancel: TButton
+    AnchorSideLeft.Control = btnEdit
+    AnchorSideTop.Control = btnHex
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 71
+    Height = 25
+    Top = 120
+    Width = 240
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Caption = 'Cancel'
+    TabOrder = 2
+  end
+end
