@@ -20,13 +20,13 @@ begin
     cmd_FileClose:
       begin
         Groups.CloseTabs(tabCloseCurrent, false);
-        EditorFocus(CurrentEditor);
+        CurrentFrame.SetFocus;
       end;
 
     cmd_FileCloseAll:
       begin
         Groups.CloseTabs(tabCloseAll, false);
-        EditorFocus(CurrentEditor);
+        CurrentFrame.SetFocus;
       end;
 
     cmd_FileCloseOtherThis:

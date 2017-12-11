@@ -81,7 +81,7 @@ begin
   if D=nil then exit;
 
   F:= D.TabObject as TEditorFrame;
-  EditorFocus(F.Editor);
+  F.SetFocus;
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F);

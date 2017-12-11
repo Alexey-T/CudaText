@@ -238,7 +238,7 @@ begin
     if Assigned(fmFind) and fmFind.Visible and fmFind.Enabled then
       fmFind.UpdateFocus(AFindMode)
     else
-      EditorFocus(Ed);
+      CurrentFrame.SetFocus;
   end;
 
   Ed.DoEventCarets;

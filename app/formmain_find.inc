@@ -87,7 +87,7 @@ begin
     FFinder.OptInSelection:= false;
 
     if IsFocusedFind then
-      EditorFocus(CurrentEditor);
+      CurrentFrame.SetFocus;
     fmFind.Hide;
     UpdateAppForSearch(false, false, bFindMode);
     Exit;
@@ -306,7 +306,7 @@ begin
     //handy to reset in-sel, on closing dialog
     FFinder.OptInSelection:= false;
 
-    EditorFocus(CurrentEditor);
+    CurrentFrame.SetFocus;
     fmFind.Hide;
     UpdateAppForSearch(false, false, true);
   end;

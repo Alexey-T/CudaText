@@ -1069,8 +1069,10 @@ begin
       Ed:= PyEditor(H);
       F:= GetEditorFrame(Ed);
       if Assigned(F) then
+      begin
         fmMain.SetFrame(F);
-      EditorFocus(Ed);
+        F.SetFocus;
+      end;
 
       fmMain.UpdateFrame();
       fmMain.UpdateStatus;
