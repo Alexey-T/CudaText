@@ -2009,7 +2009,7 @@ begin
         end;
 
     //too big size?
-    if FileSize(AFileName) div (1024*1024) >= UiOps.MaxFileSizeToOpen then
+    if not bBinaryMode and IsFileTooBigForOpening(AFilename) then
     begin
       MsgBox(
         msgCannotOpenTooBig+#10+
