@@ -1883,7 +1883,7 @@ function Py_ed_get_wrapinfo(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  Data: TATSynWrapItemData;
+  Data: TATSynWrapItem;
   NLen, i: Integer;
 begin
   with GetPythonEngine do
