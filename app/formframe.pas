@@ -2137,15 +2137,18 @@ end;
 
 procedure TEditorFrame.SetFocus;
 begin
+  DoOnChangeCaption;
+
   if Assigned(FBin) then
   begin
     FBin.SetFocus;
-    DoOnChangeCaption;
     exit;
   end;
 
   if Assigned(FImage) then
+  begin
     exit;
+  end;
 
   EditorFocus(Editor);
 end;
