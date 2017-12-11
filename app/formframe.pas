@@ -1242,13 +1242,19 @@ begin
   Splitter.Hide;
   ReadOnly:= true;
 
+  if Assigned(FBinStream) then
+    FreeAndNil(FBinStream);
   FBinStream:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyWrite);
-  FBin:= TATBinHex.Create(Self);
-  FBin.Parent:= Self;
-  FBin.Align:= alClient;
-  FBin.BorderStyle:= bsNone;
-  ApplyThemeToHex(FBin);
 
+  if not Assigned(FBin) then
+  begin
+    FBin:= TATBinHex.Create(Self);
+    FBin.Parent:= Self;
+    FBin.Align:= alClient;
+    FBin.BorderStyle:= bsNone;
+  end;
+
+  ApplyThemeToHex(FBin);
   FBin.Mode:= vbmodeHex;
   FBin.OpenStream(FBinStream);
 
