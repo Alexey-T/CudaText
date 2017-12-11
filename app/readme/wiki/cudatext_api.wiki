@@ -975,6 +975,7 @@ Opens editor tab with given filename. If filename already opened, activates its 
 ** If it has "/nohistory", file's history (caret, scroll pos, etc) won't be used.
 ** If it has "/noevent", then on_open_pre event won't fire. 
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
+** If it has "/hexview', then file will open in internal hex viewer (for files of any size).
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -2046,6 +2047,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.210 (app 1.29.0)
+* add: file_open: to open file in hex viewer, pass options='/hexview'
 
 1.0.208 (app 1.27.2)
 * add: menu_proc: added MENU_SET_IMAGELIST, MENU_SET_IMAGEINDEX

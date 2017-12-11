@@ -16,7 +16,7 @@ uses
 
 const
   cAppExeVersion = '1.28.6.0';
-  cAppApiVersion = '1.0.209';
+  cAppApiVersion = '1.0.210';
 
 const
   cOptionSystemSuffix =

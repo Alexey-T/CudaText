@@ -4,6 +4,10 @@
   * changed
 
 
+1.29.0 (2017/12)
+
++ add: internal hex viewer. To call it via API, call file_open(fn, options='/hexview')
+
 1.28.2 (2017/12)
 
 - fix: major bugfix, crash on paste command (in 1.28.0)
