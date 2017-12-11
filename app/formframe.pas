@@ -1202,7 +1202,7 @@ var
   St: TecSyntaxFormat;
 begin
   TabCaption:= ExtractFileName(fn);
-  FFileName:= '??';
+  FFileName:= fn;
 
   Ed1.Hide;
   Ed2.Hide;

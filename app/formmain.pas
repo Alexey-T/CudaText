@@ -1939,8 +1939,8 @@ function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  isOem, bSilent,
-  bPreviewTab, bEnableHistory, bEnableEvent, bBinaryMode: boolean;
+  isOem: boolean;
+  bSilent, bPreviewTab, bEnableHistory, bEnableEvent, bBinaryMode: boolean;
   tick: QWord;
   msg: string;
   i: integer;
@@ -1949,6 +1949,7 @@ begin
   AppFolderOfLastInstalledAddon:= '';
   if Application.Terminated then exit;
 
+  bSilent:= Pos('/silent', AOptions)>0;
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEvent:= Pos('/noevent', AOptions)=0;
@@ -1975,44 +1976,46 @@ begin
     Exit
   end;
 
-  //zip files
-  if ExtractFileExt(AFilename)='.zip' then
+  if not bBinaryMode then
   begin
-    bSilent:= Pos('/silent', AOptions)>0;
-    if DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent) then
-      Result:= CurrentFrame;
-    exit
-  end;
+    //zip files
+    if ExtractFileExt(AFilename)='.zip' then
+    begin
+      if DoFileInstallZip(AFilename, AppFolderOfLastInstalledAddon, bSilent) then
+        Result:= CurrentFrame;
+      exit
+    end;
 
-  //py event
-  if bEnableEvent then
-    if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
-      [SStringToPythonString(AFilename)]) = cPyFalse then exit;
+    //py event
+    if bEnableEvent then
+      if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
+        [SStringToPythonString(AFilename)]) = cPyFalse then exit;
 
-  //NonTextFiles: 0: prompt, 1: open, 2: don't open
-  if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
-  if UiOps.NonTextFiles<>1 then
-    if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
-      case UiOps.NonTextFiles of
-        0:
-          begin
-            if MsgBox(Format(msgConfirmOpenNotText, [AFilename]),
-              MB_OKCANCEL or MB_ICONWARNING)<>id_ok then Exit;
-          end;
-        2:
-          Exit;
-      end;
+    //NonTextFiles: 0: prompt, 1: open, 2: don't open
+    if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
+    if UiOps.NonTextFiles<>1 then
+      if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
+        case UiOps.NonTextFiles of
+          0:
+            begin
+              if MsgBox(Format(msgConfirmOpenNotText, [AFilename]),
+                MB_OKCANCEL or MB_ICONWARNING)<>id_ok then Exit;
+            end;
+          2:
+            Exit;
+        end;
 
-  //too big size?
-  if FileSize(AFileName) div (1024*1024) >= UiOps.MaxFileSizeToOpen then
-  begin
-    MsgBox(
-      msgCannotOpenTooBig+#10+
-      AFileName+#10+
-      '(option "ui_max_size_open")',
-      MB_OK or MB_ICONWARNING);
-    exit
-  end;
+    //too big size?
+    if FileSize(AFileName) div (1024*1024) >= UiOps.MaxFileSizeToOpen then
+    begin
+      MsgBox(
+        msgCannotOpenTooBig+#10+
+        AFileName+#10+
+        '(option "ui_max_size_open")',
+        MB_OK or MB_ICONWARNING);
+      exit
+    end;
+  end; //not binary
 
   //is file already opened? activate frame
   for i:= 0 to FrameCount-1 do
