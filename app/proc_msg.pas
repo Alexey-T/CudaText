@@ -143,6 +143,7 @@ const
   msgStatusReadonly: string = '[Read Only]';
   msgStatusMacroRec: string = '[Macro Rec]';
   msgStatusPictureNxN: string = 'Image %dx%d';
+  msgStatusHexViewer: string = 'Hex';
   msgStatusCancelled: string = 'Cancelled';
   msgStatusBadLineNum: string = 'Incorrect number entered';
   msgStatusEndsChanged: string = 'Line ends changed';

@@ -83,11 +83,19 @@ begin
 
   if not F.IsText then
   begin
-    Size:= F.PictureSizes;
-    DoStatusbarTextByTag(Status, StatusbarTag_Caret, Format(msgStatusPictureNxN, [Size.X, Size.Y]));
+    DoStatusbarTextByTag(Status, StatusbarTag_Caret, '');
     DoStatusbarTextByTag(Status, StatusbarTag_Enc, '');
     DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, '');
-    DoStatusbarTextByTag(Status, StatusbarTag_Lexer, '');
+
+    if F.IsBinary then
+      S:= msgStatusHexViewer
+    else
+    begin
+      Size:= F.PictureSizes;
+      S:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
+    end;
+    DoStatusbarTextByTag(Status, StatusbarTag_Lexer, S);
+
     DoStatusbarTextByTag(Status, StatusbarTag_TabSize, '');
     DoStatusbarTextByTag(Status, StatusbarTag_InsOvr, '');
     exit;
