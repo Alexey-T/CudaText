@@ -1263,6 +1263,10 @@ begin
     FBin.Parent:= Self;
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
+    FBin.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
+    FBin.TextPopupCaption[vpCmdCopy]:= msgEditCopy;
+    FBin.TextPopupCaption[vpCmdCopyHex]:= msgEditCopy+' (hex)';
+    FBin.TextPopupCaption[vpCmdSelectAll]:= msgEditSelectAll;
   end;
 
   ApplyThemeToHex(FBin);
