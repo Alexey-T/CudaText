@@ -90,7 +90,9 @@ uses
   formcolorsetup,
   formabout,
   formcharmaps,
-  formkeyinput, form_addon_report,
+  formkeyinput,
+  form_addon_report,
+  formconfirmbinary,
   math;
 
 type
@@ -1997,9 +1999,10 @@ begin
       if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
         case UiOps.NonTextFiles of
           0:
-            begin
-              if MsgBox(Format(msgConfirmOpenNotText, [AFilename]),
-                MB_OKCANCEL or MB_ICONWARNING)<>id_ok then Exit;
+            case DoDialogConfirmBinaryFile(AFileName) of
+              binConfirmCancel: Exit;
+              binConfirmEdit: begin end;
+              binConfirmViewHex: bBinaryMode:= true;
             end;
           2:
             Exit;

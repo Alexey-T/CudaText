@@ -15,12 +15,13 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 6
+    Left = 16
     Height = 46
     Top = 6
-    Width = 371
+    Width = 361
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
+    BorderSpacing.Left = 10
     BorderSpacing.Around = 6
     Caption = 'File is not text'
     ParentColor = False
@@ -36,6 +37,7 @@ object fmConfirmBinary: TfmConfirmBinary
     Width = 240
     Caption = 'Edit anyway'
     Constraints.MinWidth = 240
+    OnClick = btnEditClick
     TabOrder = 0
   end
   object btnHex: TButton
@@ -51,6 +53,7 @@ object fmConfirmBinary: TfmConfirmBinary
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'View as hex'
+    OnClick = btnHexClick
     TabOrder = 1
   end
   object btnCancel: TButton
@@ -66,6 +69,7 @@ object fmConfirmBinary: TfmConfirmBinary
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'Cancel'
+    OnClick = btnCancelClick
     TabOrder = 2
   end
 end
