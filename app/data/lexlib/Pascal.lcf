@@ -343,6 +343,7 @@ object SyntAnal27: TLibSyntAnalyzer
             'as'
             'asm'
             'begin'
+            'bitpacked'
             'case'
             'cdecl'
             'class'
