@@ -10,7 +10,7 @@ Copyright (c) Alexey Torgashin
 procedure TfmMain.UpdateCaption;
 var
   F: TEditorFrame;
-  SName, SMark, SSession: string;
+  SName, SMark, SSession, SCurMode: string;
 begin
   F:= CurrentFrame;
   if UiOps.ShowTitlePath then
@@ -33,7 +33,11 @@ begin
   else
     SSession:= '';
 
-  Caption:= SMark + SName + SSession + ' - ' + msgTitle;
+  SCurMode:= '';
+  if F.IsBinary then
+    SCurMode:= ' [Hex viewer]';
+
+  Caption:= SMark + SName + SSession + SCurMode + ' - ' + msgTitle;
   Application.Title:= SMark + F.TabCaption + ' - ' + msgTitle;
 end;
 

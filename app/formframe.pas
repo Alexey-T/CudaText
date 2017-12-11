@@ -33,6 +33,7 @@ uses
   ATFileNotif,
   ATButtons,
   ATPanelSimple,
+  ATBinHex,
   proc_globdata,
   proc_editor,
   proc_cmd,
@@ -47,7 +48,8 @@ uses
   ec_proc_lexer,
   formlexerstylemap,
   at__jsonconf,
-  math;
+  math,
+  LazUTF8Classes;
 
 type
   TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string of object;
@@ -101,12 +103,15 @@ type
     FMacroRecord: boolean;
     FMacroString: string;
     FImage: TImage;
+    FBin: TATBinHex;
+    FBinStream: TFileStreamUTF8;
     FImagePanel: TATPanelSimple;
     FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
     FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
 
+    procedure DoFileOpen_AsBinary(const fn: string);
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
@@ -215,6 +220,7 @@ type
     function IsEmpty: boolean;
     //picture support
     function IsText: boolean;
+    function IsBinary: boolean;
     property PictureFileName: string read FImageFilename;
     function PictureSizes: TPoint;
     //
@@ -230,7 +236,8 @@ type
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
-    procedure DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean);
+    procedure DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox,
+      ABinaryMode: boolean);
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
@@ -1099,6 +1106,13 @@ end;
 
 destructor TEditorFrame.Destroy;
 begin
+  if Assigned(FBin) then
+  begin
+    FBin.OpenStream(nil);
+    FreeAndNil(FBinStream);
+    FreeAndNil(FBin);
+  end;
+
   Ed1.AdapterForHilite:= nil;
   Ed2.AdapterForHilite:= nil;
 
@@ -1137,7 +1151,14 @@ end;
 
 function TEditorFrame.IsText: boolean;
 begin
-  Result:= not Assigned(FImage);
+  Result:=
+    not Assigned(FImage) and
+    not Assigned(FBin);
+end;
+
+function TEditorFrame.IsBinary: boolean;
+begin
+  Result:= Assigned(FBin);
 end;
 
 
@@ -1175,6 +1196,47 @@ begin
   Adapter.OnLexerChange(Adapter);
 end;
 
+
+procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string);
+var
+  St: TecSyntaxFormat;
+begin
+  TabCaption:= ExtractFileName(fn);
+  FFileName:= '??';
+
+  Ed1.Hide;
+  Ed2.Hide;
+  Splitter.Hide;
+  ReadOnly:= true;
+
+  FBinStream:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyWrite);
+  FBin:= TATBinHex.Create(Self);
+  FBin.Parent:= Self;
+  FBin.Align:= alClient;
+  FBin.BorderStyle:= bsNone;
+
+  FBin.Font.Name:= EditorOps.OpFontName;
+  FBin.Font.Size:= EditorOps.OpFontSize;
+  FBin.Font.Color:= GetAppColor('EdTextFont');
+  FBin.Color:= GetAppColor('EdTextBg');
+  FBin.TextColorURL:= GetAppColor('EdLinks');
+  St:= GetAppStyleFromName('SectionBG1');
+  FBin.TextColorHexBack:= St.BgColor;
+  St:= GetAppStyleFromName('Id');
+  FBin.TextColorHex:= St.Font.Color;
+  St:= GetAppStyleFromName('Id1');
+  FBin.TextColorHex2:= St.Font.Color;
+  St:= GetAppStyleFromName('Pale1');
+  FBin.TextColorLines:= St.Font.Color;
+
+  FBin.Mode:= vbmodeHex;
+  FBin.OpenStream(FBinStream);
+
+  FrameResize(Self);
+  DoOnChangeCaption;
+end;
+
+
 procedure TEditorFrame.DoFileOpen_AsPicture(const fn: string);
 begin
   TabCaption:= ExtractFileName(fn);
@@ -1209,10 +1271,16 @@ begin
 end;
 
 
-procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean);
+procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox, ABinaryMode: boolean);
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
+
+  if ABinaryMode then
+  begin
+    DoFileOpen_AsBinary(fn);
+    exit;
+  end;
 
   if IsFilenameListedInExtensionList(fn, UiOps.PictureTypes) then
   begin
@@ -1388,7 +1456,7 @@ begin
     (PrevCaretY=Editor.Strings.Count-1);
 
   //reopen
-  DoFileOpen(FileName, false, false);
+  DoFileOpen(FileName, false, false, IsBinary);
   if Editor.Strings.Count=0 then exit;
 
   //restore props

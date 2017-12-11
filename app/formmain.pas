@@ -1940,7 +1940,7 @@ var
   D: TATTabData;
   F: TEditorFrame;
   isOem, bSilent,
-  bPreviewTab, bEnableHistory, bEnableEvent: boolean;
+  bPreviewTab, bEnableHistory, bEnableEvent, bBinaryMode: boolean;
   tick: QWord;
   msg: string;
   i: integer;
@@ -1952,6 +1952,7 @@ begin
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEvent:= Pos('/noevent', AOptions)=0;
+  bBinaryMode:= Pos('/hexview', AOptions)>0;
 
   if APages=nil then
     APages:= Groups.PagesCurrent;
@@ -2052,7 +2053,7 @@ begin
     end;
 
     Result.Adapter.Stop;
-    Result.DoFileOpen(AFilename, bEnableHistory, true);
+    Result.DoFileOpen(AFilename, bEnableHistory, true, bBinaryMode);
     msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
     MsgStatus(msg);
 
@@ -2069,7 +2070,7 @@ begin
     if F.IsEmpty then
     begin
       tick:= GetTickCount64;
-      F.DoFileOpen(AFilename, bEnableHistory, true);
+      F.DoFileOpen(AFilename, bEnableHistory, true, bBinaryMode);
       Result:= F;
       tick:= (GetTickCount64-tick) div 1000;
 
@@ -2088,7 +2089,7 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;
-  F.DoFileOpen(AFilename, bEnableHistory, true);
+  F.DoFileOpen(AFilename, bEnableHistory, true, bBinaryMode);
   Result:= F;
   tick:= (GetTickCount64-tick) div 1000;
 
