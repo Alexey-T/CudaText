@@ -223,6 +223,7 @@ type
     procedure SetFocus;
     //picture support
     function IsText: boolean;
+    function IsPicture: boolean;
     function IsBinary: boolean;
     property PictureFileName: string read FImageFilename;
     function PictureSizes: TPoint;
@@ -1189,8 +1190,13 @@ end;
 function TEditorFrame.IsText: boolean;
 begin
   Result:=
-    not Assigned(FImage) and
-    not Assigned(FBin);
+    not IsPicture and
+    not IsBinary;
+end;
+
+function TEditorFrame.IsPicture: boolean;
+begin
+  Result:= Assigned(FImage);
 end;
 
 function TEditorFrame.IsBinary: boolean;
@@ -2129,7 +2135,7 @@ begin
     LexerLite:= TempLexerLite;
 end;
 
-procedure TEditorframe.SetFocus;
+procedure TEditorFrame.SetFocus;
 begin
   if Assigned(FBin) then
   begin
