@@ -953,21 +953,35 @@ end;
 
 procedure TfmMain.StatusPanelClick(Sender: TObject; AIndex: Integer);
 var
+  Frame: TEditorFrame;
   Data: TATStatusData;
 begin
-  if not CurrentFrame.IsText then exit;
+  Frame:= CurrentFrame;
   Data:= Status.GetPanelData(AIndex);
   if Data=nil then exit;
+
+  if Frame.IsPicture then
+    exit;
+
+  if Frame.IsBinary then
+  begin
+    case Data.Tag of
+      StatusbarTag_Enc:
+        with Mouse.CursorPos do
+          Frame.HexViewer.TextEncodingsMenu(X, Y);
+    end;
+    exit;
+  end;
 
   case Data.Tag of
     StatusbarTag_Enc:
       begin
-        if not CurrentFrame.ReadOnly then
+        if not Frame.ReadOnly then
           PopupEnc.PopUp;
       end;
     StatusbarTag_LineEnds:
       begin
-        if not CurrentFrame.ReadOnly then
+        if not Frame.ReadOnly then
           PopupEnds.PopUp;
       end;
     StatusbarTag_Lexer:

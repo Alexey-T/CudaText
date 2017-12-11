@@ -112,6 +112,7 @@ type
     FSaveDialog: TSaveDialog;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BinaryOnScroll(Sender: TObject);
     procedure DoFileOpen_AsBinary(const fn: string);
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
@@ -1260,6 +1261,8 @@ begin
   begin
     FBin:= TATBinHex.Create(Self);
     FBin.OnKeyDown:= @BinaryOnKeyDown;
+    FBin.OnScroll:= @BinaryOnScroll;
+    FBin.OnOptionsChange:= @BinaryOnScroll;
     FBin.Parent:= Self;
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
@@ -2173,6 +2176,11 @@ begin
     exit;
 
   TATSynEdit_Hack(Editor).KeyDown(Key, Shift);
+end;
+
+procedure TEditorFrame.BinaryOnScroll(Sender: TObject);
+begin
+  DoOnUpdateStatus;
 end;
 
 end.

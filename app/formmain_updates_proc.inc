@@ -86,8 +86,21 @@ begin
 
   if not F.IsText then
   begin
-    DoStatusbarTextByTag(Status, StatusbarTag_Caret, '');
-    DoStatusbarTextByTag(Status, StatusbarTag_Enc, '');
+    if F.IsBinary then
+      S:= IntToStr(F.HexViewer.PosPercent)+'%'
+    else
+      S:= '';
+    DoStatusbarTextByTag(Status, StatusbarTag_Caret, S);
+
+    if F.IsBinary then
+    begin
+      S:= F.HexViewer.TextEncoding;
+      if S='' then S:= 'ANSI';
+    end
+    else
+      S:= '';
+    DoStatusbarTextByTag(Status, StatusbarTag_Enc, S);
+
     DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, '');
 
     if F.IsBinary then
