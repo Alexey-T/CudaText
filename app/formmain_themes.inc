@@ -148,10 +148,7 @@ begin
   begin
     F:= Frames[i];
     F.Lexer:= F.Lexer; //apply lexer style map
-    EditorApplyTheme(F.Editor);
-    EditorApplyTheme(F.Editor2);
-    F.Editor.Update;
-    F.Editor2.Update;
+    F.ApplyTheme;
   end;
 
   SplitterVert.Color:= GetAppColor('SplitMain');

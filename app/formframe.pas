@@ -218,6 +218,7 @@ type
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     function IsEmpty: boolean;
+    procedure ApplyTheme;
     //picture support
     function IsText: boolean;
     function IsBinary: boolean;
@@ -299,6 +300,25 @@ const
 
 var
   FLastTabId: integer = 0;
+
+procedure ApplyThemeToHex(V: TATBinHex);
+var
+  St: TecSyntaxFormat;
+begin
+  V.Font.Name:= EditorOps.OpFontName;
+  V.Font.Size:= EditorOps.OpFontSize;
+  V.Font.Color:= GetAppColor('EdTextFont');
+  V.Color:= GetAppColor('EdTextBg');
+  V.TextColorURL:= GetAppColor('EdLinks');
+  St:= GetAppStyleFromName('SectionBG1');
+  V.TextColorHexBack:= St.BgColor;
+  St:= GetAppStyleFromName('Id');
+  V.TextColorHex:= St.Font.Color;
+  St:= GetAppStyleFromName('Id1');
+  V.TextColorHex2:= St.Font.Color;
+  St:= GetAppStyleFromName('Pale1');
+  V.TextColorLines:= St.Font.Color;
+end;
 
 { TEditorFrame }
 
@@ -1149,6 +1169,20 @@ begin
     ((Str.Count=0) or ((Str.Count=1) and (Str.Lines[0]='')));
 end;
 
+procedure TEditorFrame.ApplyTheme;
+begin
+  EditorApplyTheme(Editor);
+  EditorApplyTheme(Editor2);
+  Editor.Update;
+  Editor2.Update;
+
+  if Assigned(FBin) then
+  begin
+    ApplyThemeToHex(FBin);
+    FBin.Redraw();
+  end;
+end;
+
 function TEditorFrame.IsText: boolean;
 begin
   Result:=
@@ -1198,8 +1232,6 @@ end;
 
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string);
-var
-  St: TecSyntaxFormat;
 begin
   TabCaption:= ExtractFileName(fn);
   FFileName:= fn;
@@ -1214,20 +1246,7 @@ begin
   FBin.Parent:= Self;
   FBin.Align:= alClient;
   FBin.BorderStyle:= bsNone;
-
-  FBin.Font.Name:= EditorOps.OpFontName;
-  FBin.Font.Size:= EditorOps.OpFontSize;
-  FBin.Font.Color:= GetAppColor('EdTextFont');
-  FBin.Color:= GetAppColor('EdTextBg');
-  FBin.TextColorURL:= GetAppColor('EdLinks');
-  St:= GetAppStyleFromName('SectionBG1');
-  FBin.TextColorHexBack:= St.BgColor;
-  St:= GetAppStyleFromName('Id');
-  FBin.TextColorHex:= St.Font.Color;
-  St:= GetAppStyleFromName('Id1');
-  FBin.TextColorHex2:= St.Font.Color;
-  St:= GetAppStyleFromName('Pale1');
-  FBin.TextColorLines:= St.Font.Color;
+  ApplyThemeToHex(FBin);
 
   FBin.Mode:= vbmodeHex;
   FBin.OpenStream(FBinStream);
