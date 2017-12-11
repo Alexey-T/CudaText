@@ -1242,6 +1242,8 @@ begin
   Splitter.Hide;
   ReadOnly:= true;
 
+  if Assigned(FBin) then
+    FBin.OpenStream(nil);
   if Assigned(FBinStream) then
     FreeAndNil(FBinStream);
   FBinStream:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyWrite);
