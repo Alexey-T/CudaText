@@ -1663,6 +1663,13 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
+* PROP_KIND: str: kind of UI control in the tab.
+** "text": normal editor
+** "hex": hex viewer
+** "pic": picture
+* PROP_HEX_POS: int: only for hex viewer, scroll position.
+* PROP_HEX_SEL_START: int: only for hex viewer, selection start offset.
+* PROP_HEX_SEL_LEN: int: only for hex viewer, selection length.
 
 ===set_prop===
 
@@ -1712,6 +1719,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_ONE_LINE: bool: editor has single-line mode.
+* PROP_HEX_POS: int: only for hex viewer, scroll position.
+* PROP_HEX_SEL_START: int: only for hex viewer, selection start offset.
+* PROP_HEX_SEL_LEN: int: only for hex viewer, selection length.
 
 ===bookmark===
 
@@ -2049,7 +2059,8 @@ Text is chr(1) separated items:
 =History=
 
 1.0.210 (app 1.29.0)
-* add: file_open: to open file in hex viewer, pass options='/hexview'
+* add: file_open: for hex viewer, pass options='/hexview'
+* add: ed.get_prop/set_prop: PROP_KIND, PROP_HEX_POS, PROP_HEX_SEL_START, PROP_HEX_SEL_LEN
 
 1.0.208 (app 1.27.2)
 * add: menu_proc: added MENU_SET_IMAGELIST, MENU_SET_IMAGEINDEX
