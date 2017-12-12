@@ -27,9 +27,9 @@ type
 
 type
   TAppConfirmBinary = (
-    binConfirmCancel,
-    binConfirmEdit,
-    binConfirmViewHex
+    ConfirmBinaryCancel,
+    ConfirmBinaryEdit,
+    ConfirmBinaryViewHex
     );
 
 function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
@@ -53,9 +53,9 @@ begin
     F.btnEdit.Enabled:= not ATooBig;
 
     case F.ShowModal of
-      mrYes: Result:= binConfirmEdit;
-      mrNo: Result:= binConfirmViewHex;
-      else Result:= binConfirmCancel;
+      mrYes: Result:= ConfirmBinaryEdit;
+      mrNo: Result:= ConfirmBinaryViewHex;
+      else Result:= ConfirmBinaryCancel;
     end;
   finally
     F.Free;

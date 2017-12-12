@@ -2014,8 +2014,8 @@ begin
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, false) of
-              binConfirmCancel: Exit;
-              binConfirmViewHex: bBinaryMode:= true;
+              ConfirmBinaryCancel: Exit;
+              ConfirmBinaryViewHex: bBinaryMode:= true;
             end;
           2:
             Exit;
@@ -2025,8 +2025,8 @@ begin
     if not bBinaryMode and IsFileTooBigForOpening(AFilename) then
     begin
       case DoDialogConfirmBinaryFile(AFileName, true) of
-        binConfirmCancel: Exit;
-        binConfirmViewHex: bBinaryMode:= true;
+        ConfirmBinaryCancel: Exit;
+        ConfirmBinaryViewHex: bBinaryMode:= true;
       end;
     end;
   end; //not binary
