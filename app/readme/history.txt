@@ -9,6 +9,7 @@
 + add: hex viewer. It is called when non-text file is opened, with additional prompt. File size for hex viewer can be any.
 + add: dialog "Go to" works with hex viewer: can enter percents with "%" char, or hex offset
 + add: dialog "Go to" for editor: can enter percents with "%" char
++ add: prompts "file is not text", "file is too big" changed to one dialog (to allow hex view)
 
 1.28.2 (2017/12)
 
