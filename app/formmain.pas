@@ -2299,57 +2299,16 @@ begin
     if DoPyEvent(Ed, cEventOnGotoEnter,
       [SStringToPythonString(SInput)] ) <> cPyFalse then
     begin
-      //hex viewer
       if Frame.IsBinary then
       begin
-        if SEndsWith(SInput, '%') then
-        begin
-          NumOffset:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), 0);
-          NumOffset:= Frame.HexViewer.FileSize * NumOffset div 100;
-          Frame.HexViewer.PosAt(NumOffset);
-        end
-        else
-        begin
-          NumOffset:= StrToInt64Def('$'+SInput, 0);
-          Frame.HexViewer.PosAt(NumOffset);
-        end;
+        if not ViewerGotoFromString(Frame.HexViewer, SInput) then
+          MsgStatus(msgStatusBadLineNum);
       end
       else
-      //text editor
       if Frame.IsText then
       begin
-        if SEndsWith(SInput, '%') then
-        begin
-          NumLine:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), 0);
-          NumLine:= Ed.Strings.Count * NumLine div 100 - 1;
-          NumCol:= 0;
-        end
-        else
-        begin
-          NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0)-1;
-          NumCol:= StrToIntDef(SInput, 0)-1;
-        end;
-
-        if NumLine<0 then
-        begin
+        if not EditorGotoFromString(Ed, SInput) then
           MsgStatus(msgStatusBadLineNum);
-          Exit
-        end;
-
-        NumLine:= Min(NumLine, Ed.Strings.Count-1);
-        NumCol:= Max(0, NumCol);
-
-        MsgStatus(Format(msgStatusGotoLine, [NumLine+1]));
-
-        Ed.DoGotoPos(
-          Point(NumCol, NumLine),
-          Point(-1, -1),
-          UiOps.FindIndentHorz,
-          UiOps.FindIndentVert,
-          true,
-          true
-          );
-        Ed.Update;
       end;
 
       fmGoto.Hide;

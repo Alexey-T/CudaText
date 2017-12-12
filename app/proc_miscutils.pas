@@ -22,6 +22,7 @@ uses
   ATPanelSimple,
   ATButtons,
   ATButtonsToolbar,
+  ATBinHex,
   ec_LexerList,
   ec_SyntAnal,
   proc_globdata,
@@ -60,6 +61,7 @@ function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function AppStrToBool(const S: string): boolean; inline;
+function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
 
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
@@ -467,6 +469,26 @@ begin
   finally
     Dst.EndUpdate;
   end;
+end;
+
+
+function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
+var
+  Num: Int64;
+begin
+  if SEndsWith(SInput, '%') then
+  begin
+    Num:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), -1);
+    Num:= V.FileSize * Num div 100;
+  end
+  else
+  begin
+    Num:= StrToInt64Def('$'+SInput, -1);
+  end;
+
+  Result:= Num>=0;
+  if Result then
+    V.PosAt(Num);
 end;
 
 

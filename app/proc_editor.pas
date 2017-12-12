@@ -71,6 +71,7 @@ function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
 function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
 procedure EditorGotoLastEditingPos(Ed: TATSynEdit; AIndentHorz, AIndentVert: integer);
+function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
 
 procedure EditorApplyTheme(Ed: TATSynedit);
 procedure EditorSetColorById(Ed: TATSynEdit; const Id: string; AColor: TColor);
@@ -1120,6 +1121,41 @@ begin
       );
   end;
 end;
+
+
+function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
+var
+  NumLine, NumCol: integer;
+begin
+  if SEndsWith(SInput, '%') then
+  begin
+    NumLine:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), -1);
+    NumLine:= Ed.Strings.Count * NumLine div 100 - 1;
+    NumCol:= 0;
+  end
+  else
+  begin
+    NumLine:= StrToIntDef(SGetItem(SInput, ':'), -1) - 1;
+    NumCol:= StrToIntDef(SInput, 0) - 1;
+  end;
+
+  Result:= NumLine>=0;
+  if not Result then exit;
+
+  NumLine:= Min(NumLine, Ed.Strings.Count-1);
+  NumCol:= Max(0, NumCol);
+
+  Ed.DoGotoPos(
+    Point(NumCol, NumLine),
+    Point(-1, -1),
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert,
+    true,
+    true
+    );
+  Ed.Update;
+end;
+
 
 end.
 
