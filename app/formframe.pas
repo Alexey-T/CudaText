@@ -228,7 +228,7 @@ type
     function IsBinary: boolean;
     property PictureFileName: string read FImageFilename;
     function PictureSizes: TPoint;
-    property HexViewer: TATBinHex read FBin;
+    property Binary: TATBinHex read FBin;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
     property EncodingName: string read GetEncodingName write SetEncodingName;

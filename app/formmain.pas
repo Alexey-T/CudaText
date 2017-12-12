@@ -969,7 +969,7 @@ begin
     case Data.Tag of
       StatusbarTag_Enc:
         with Mouse.CursorPos do
-          Frame.HexViewer.TextEncodingsMenu(X, Y);
+          Frame.Binary.TextEncodingsMenu(X, Y);
     end;
     exit;
   end;
@@ -2299,7 +2299,7 @@ begin
     begin
       if Frame.IsBinary then
       begin
-        if not ViewerGotoFromString(Frame.HexViewer, SInput) then
+        if not ViewerGotoFromString(Frame.Binary, SInput) then
           MsgStatus(msgStatusBadLineNum);
       end
       else

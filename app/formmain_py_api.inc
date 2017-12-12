@@ -2181,7 +2181,7 @@ begin
         PROP_V_MODE:
           begin
             if F.IsBinary then
-              Result:= PyInt_FromLong(Ord(F.HexViewer.Mode))
+              Result:= PyInt_FromLong(Ord(F.Binary.Mode))
             else
               Result:= ReturnNone;
           end;
@@ -2189,7 +2189,7 @@ begin
         PROP_V_POS:
           begin
             if F.IsBinary then
-              Result:= PyLong_FromLongLong(F.HexViewer.PosOffset)
+              Result:= PyLong_FromLongLong(F.Binary.PosOffset)
             else
               Result:= ReturnNone;
           end;
@@ -2197,7 +2197,7 @@ begin
         PROP_V_SEL_START:
           begin
             if F.IsBinary then
-              Result:= PyLong_FromLongLong(F.HexViewer.SelStart)
+              Result:= PyLong_FromLongLong(F.Binary.SelStart)
             else
               Result:= ReturnNone;
           end;
@@ -2205,7 +2205,7 @@ begin
         PROP_V_SEL_LEN:
           begin
             if F.IsBinary then
-              Result:= PyLong_FromLongLong(F.HexViewer.SelLength)
+              Result:= PyLong_FromLongLong(F.Binary.SelLength)
             else
               Result:= ReturnNone;
           end;
@@ -2442,29 +2442,29 @@ begin
           begin
             if F.IsBinary then
               if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
-                F.HexViewer.Mode:= TATBinHexMode(ValueInt);
+                F.Binary.Mode:= TATBinHexMode(ValueInt);
           end;
 
         PROP_V_POS:
           begin
             if F.IsBinary then
-              F.HexViewer.PosOffset:= ValueInt;
+              F.Binary.PosOffset:= ValueInt;
           end;
 
         PROP_V_SEL_START:
           begin
             if F.IsBinary then
-              F.HexViewer.SetSelection(
+              F.Binary.SetSelection(
                 ValueInt,
-                F.HexViewer.SelLength,
+                F.Binary.SelLength,
                 false);
           end;
 
         PROP_V_SEL_LEN:
           begin
             if F.IsBinary then
-              F.HexViewer.SetSelection(
-                F.HexViewer.SelStart,
+              F.Binary.SetSelection(
+                F.Binary.SelStart,
                 ValueInt,
                 false);
           end;
