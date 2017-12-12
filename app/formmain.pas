@@ -2007,7 +2007,7 @@ begin
       if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
         [SStringToPythonString(AFilename)]) = cPyFalse then exit;
 
-    //NonTextFiles: 0: prompt, 1: open, 2: don't open
+    //non-text option: 0: prompt, 1: open, 2: don't open
     if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
     if UiOps.NonTextFiles<>1 then
       if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
@@ -2015,7 +2015,6 @@ begin
           0:
             case DoDialogConfirmBinaryFile(AFileName, false) of
               binConfirmCancel: Exit;
-              binConfirmEdit: begin end;
               binConfirmViewHex: bBinaryMode:= true;
             end;
           2:
