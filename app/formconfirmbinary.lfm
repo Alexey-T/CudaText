@@ -10,18 +10,15 @@ object fmConfirmBinary: TfmConfirmBinary
   Position = poScreenCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.9.0.0'
-  object Label1: TLabel
+  object LabelText: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 16
-    Height = 46
+    Left = 6
+    Height = 14
     Top = 6
-    Width = 361
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = False
-    BorderSpacing.Left = 10
+    Width = 84
     BorderSpacing.Around = 6
     Caption = 'File is not text'
     ParentColor = False
@@ -29,12 +26,13 @@ object fmConfirmBinary: TfmConfirmBinary
   object btnEdit: TButton
     AnchorSideLeft.Control = Owner
     AnchorSideLeft.Side = asrCenter
-    AnchorSideTop.Control = Label1
+    AnchorSideTop.Control = LabelFN
     AnchorSideTop.Side = asrBottom
     Left = 71
     Height = 25
-    Top = 58
+    Top = 50
     Width = 240
+    BorderSpacing.Top = 10
     Caption = 'Edit anyway'
     Constraints.MinWidth = 240
     OnClick = btnEditClick
@@ -48,7 +46,7 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 71
     Height = 25
-    Top = 89
+    Top = 81
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
@@ -64,12 +62,24 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 71
     Height = 25
-    Top = 120
+    Top = 112
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'Cancel'
     OnClick = btnCancelClick
     TabOrder = 2
+  end
+  object LabelFN: TLabel
+    AnchorSideLeft.Control = LabelText
+    AnchorSideTop.Control = LabelText
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 14
+    Top = 26
+    Width = 48
+    BorderSpacing.Top = 4
+    Caption = 'LabelFN'
+    ParentColor = False
   end
 end

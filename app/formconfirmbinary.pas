@@ -14,7 +14,8 @@ type
     btnEdit: TButton;
     btnHex: TButton;
     btnCancel: TButton;
-    Label1: TLabel;
+    LabelText: TLabel;
+    LabelFN: TLabel;
     procedure btnCancelClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHexClick(Sender: TObject);
@@ -46,7 +47,9 @@ begin
       S:= 'File is too big to edit:'
     else
       S:= 'File is not text:';
-    F.Label1.Caption:= S+#10+ExtractFileName(AFilename);
+
+    F.LabelText.Caption:= S;
+    F.LabelFN.Caption:= ExtractFileName(AFilename);
     F.btnEdit.Enabled:= not ATooBig;
 
     case F.ShowModal of
