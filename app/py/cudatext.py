@@ -175,6 +175,10 @@ PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
 PROP_SCROLL_VERT           = 52
 PROP_SCROLL_HORZ           = 53
+PROP_KIND                  = 60
+PROP_HEX_POS               = 61
+PROP_HEX_SEL_START         = 62
+PROP_HEX_SEL_LEN           = 63
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1

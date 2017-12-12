@@ -2061,6 +2061,18 @@ begin
             Result:= PyLong_FromLongLong(Num2);
           end;
 
+        PROP_KIND:
+          begin
+            if F.IsBinary then
+              Str:= 'hex'
+            else
+            if F.IsPicture then
+              Str:= 'pic'
+            else
+              Str:= 'text';
+            Result:= PyString_FromString(PChar(Str));
+          end;
+
         PROP_TAG:
           begin
             if Assigned(F) then
@@ -2164,6 +2176,30 @@ begin
         PROP_ONE_LINE:
           begin
             Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
+          end;
+
+        PROP_HEX_POS:
+          begin
+            if F.IsBinary then
+              Result:= PyLong_FromLongLong(F.HexViewer.PosOffset)
+            else
+              Result:= ReturnNone;
+          end;
+
+        PROP_HEX_SEL_START:
+          begin
+            if F.IsBinary then
+              Result:= PyLong_FromLongLong(F.HexViewer.SelStart)
+            else
+              Result:= ReturnNone;
+          end;
+
+        PROP_HEX_SEL_LEN:
+          begin
+            if F.IsBinary then
+              Result:= PyLong_FromLongLong(F.HexViewer.SelLength)
+            else
+              Result:= ReturnNone;
           end;
 
         else
@@ -2391,6 +2427,30 @@ begin
             N1:= StrToIntDef(SGetItem(Str), -1);
             N2:= StrToIntDef(SGetItem(Str), -1);
             Ed.DoSetMarkedLines(N1, N2);
+          end;
+
+        PROP_HEX_POS:
+          begin
+            if F.IsBinary then
+              F.HexViewer.PosOffset:= StrToInt64Def(Str, 0);
+          end;
+
+        PROP_HEX_SEL_START:
+          begin
+            if F.IsBinary then
+              F.HexViewer.SetSelection(
+                StrToInt64Def(Str, 0),
+                F.HexViewer.SelLength,
+                false);
+          end;
+
+        PROP_HEX_SEL_LEN:
+          begin
+            if F.IsBinary then
+              F.HexViewer.SetSelection(
+                F.HexViewer.SelStart,
+                StrToInt64Def(Str, 0),
+                false);
           end;
       end;
 
