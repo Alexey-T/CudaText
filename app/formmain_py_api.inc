@@ -2178,7 +2178,7 @@ begin
             Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
           end;
 
-        PROP_HEX_MODE:
+        PROP_V_MODE:
           begin
             if F.IsBinary then
               Result:= PyInt_FromLong(Ord(F.HexViewer.Mode))
@@ -2186,7 +2186,7 @@ begin
               Result:= ReturnNone;
           end;
 
-        PROP_HEX_POS:
+        PROP_V_POS:
           begin
             if F.IsBinary then
               Result:= PyLong_FromLongLong(F.HexViewer.PosOffset)
@@ -2194,7 +2194,7 @@ begin
               Result:= ReturnNone;
           end;
 
-        PROP_HEX_SEL_START:
+        PROP_V_SEL_START:
           begin
             if F.IsBinary then
               Result:= PyLong_FromLongLong(F.HexViewer.SelStart)
@@ -2202,7 +2202,7 @@ begin
               Result:= ReturnNone;
           end;
 
-        PROP_HEX_SEL_LEN:
+        PROP_V_SEL_LEN:
           begin
             if F.IsBinary then
               Result:= PyLong_FromLongLong(F.HexViewer.SelLength)
@@ -2438,20 +2438,20 @@ begin
             Ed.DoSetMarkedLines(N1, N2);
           end;
 
-        PROP_HEX_MODE:
+        PROP_V_MODE:
           begin
             if F.IsBinary then
               if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
                 F.HexViewer.Mode:= TATBinHexMode(ValueInt);
           end;
 
-        PROP_HEX_POS:
+        PROP_V_POS:
           begin
             if F.IsBinary then
               F.HexViewer.PosOffset:= ValueInt;
           end;
 
-        PROP_HEX_SEL_START:
+        PROP_V_SEL_START:
           begin
             if F.IsBinary then
               F.HexViewer.SetSelection(
@@ -2460,7 +2460,7 @@ begin
                 false);
           end;
 
-        PROP_HEX_SEL_LEN:
+        PROP_V_SEL_LEN:
           begin
             if F.IsBinary then
               F.HexViewer.SetSelection(

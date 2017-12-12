@@ -176,10 +176,10 @@ PROP_ONE_LINE              = 51
 PROP_SCROLL_VERT           = 52
 PROP_SCROLL_HORZ           = 53
 PROP_KIND                  = 59
-PROP_HEX_MODE              = 60
-PROP_HEX_POS               = 61
-PROP_HEX_SEL_START         = 62
-PROP_HEX_SEL_LEN           = 63
+PROP_V_MODE                = 60
+PROP_V_POS                 = 61
+PROP_V_SEL_START           = 62
+PROP_V_SEL_LEN             = 63
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1
