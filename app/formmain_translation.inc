@@ -495,7 +495,6 @@ begin
     DoLocString(msgConfirmReloadItHotkeysSess    , ini, 'sc', 'ReloadItHotkeysSess');
     DoLocString(msgConfirmOpenCreatedDoc         , ini, 'sc', 'OpenCreatedDoc');
     DoLocString(msgConfirmSaveColorsToFile       , ini, 'sc', 'SaveColorsToFile');
-    DoLocString(msgConfirmOpenNotText            , ini, 'sc', 'OpenNotText');
     DoLocString(msgConfirmSaveModifiedTab        , ini, 'sc', 'SaveModifiedTab');
     DoLocString(msgConfirmReopenModifiedTab      , ini, 'sc', 'ReopenModifiedTab');
     DoLocString(msgConfirmReloadFileWithEnc      , ini, 'sc', 'ReloadFileWithEnc');

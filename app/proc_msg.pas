@@ -166,7 +166,6 @@ const
   msgConfirmReloadItHotkeysSess: string = '(Yes: reload. No: load text from previous session.)';
   msgConfirmOpenCreatedDoc: string = 'Open created document?';
   msgConfirmSaveColorsToFile: string = 'Save theme to file?';
-  msgConfirmOpenNotText: string = 'File is maybe not text:'#13'%s'#13#13'Do you want to open it?';
   msgConfirmSaveModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Save it first?';
   msgConfirmReopenModifiedTab: string = 'Tab is modified:'#13'%s'#13#13'Reload it?';
   msgConfirmReloadFileWithEnc: string = 'Encoding is changed in memory.'#13'Do you also want to reload file?';
