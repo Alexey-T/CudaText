@@ -46,7 +46,7 @@ procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
 procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
 procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
-procedure EditorFocus(Ed: TATSynEdit);
+procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
 
@@ -1085,16 +1085,16 @@ begin
 end;
 
 
-procedure EditorFocus(Ed: TATSynEdit);
+procedure EditorFocus(C: TWinControl);
 begin
-  if Ed.CanSetFocus then
+  if C.CanSetFocus then
   begin
-    Ed.SetFocus;
+    C.SetFocus;
 
     //this fixes Linux gtk2 issue, if added to handling of cmd_FileClose,
     //(focus goes to console, after closing tab),
     //so added here too
-    Application.MainForm.ActiveControl:= Ed;
+    Application.MainForm.ActiveControl:= C;
 
     //if needed, try this, almost same as ActiveControl:=
     //Application.MainForm.FocusControl(Editor);

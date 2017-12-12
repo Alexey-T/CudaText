@@ -1276,6 +1276,9 @@ begin
   FBin.Mode:= vbmodeHex;
   FBin.OpenStream(FBinStream);
 
+  if Visible and FBin.Visible then
+    FBin.SetFocus;
+
   FrameResize(Self);
   DoOnChangeCaption;
 end;
@@ -2148,7 +2151,7 @@ begin
 
   if Assigned(FBin) then
   begin
-    FBin.SetFocus;
+    EditorFocus(FBin);
     exit;
   end;
 
