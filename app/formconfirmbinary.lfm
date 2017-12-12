@@ -4,7 +4,7 @@ object fmConfirmBinary: TfmConfirmBinary
   Top = 258
   Width = 383
   BorderStyle = bsDialog
-  Caption = 'Non-text file'
+  Caption = 'CudaText'
   ClientHeight = 177
   ClientWidth = 383
   Position = poScreenCenter

@@ -2013,7 +2013,7 @@ begin
       if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
         case UiOps.NonTextFiles of
           0:
-            case DoDialogConfirmBinaryFile(AFileName) of
+            case DoDialogConfirmBinaryFile(AFileName, false) of
               binConfirmCancel: Exit;
               binConfirmEdit: begin end;
               binConfirmViewHex: bBinaryMode:= true;
@@ -2025,12 +2025,10 @@ begin
     //too big size?
     if not bBinaryMode and IsFileTooBigForOpening(AFilename) then
     begin
-      MsgBox(
-        msgCannotOpenTooBig+#10+
-        AFileName+#10+
-        '(option "ui_max_size_open")',
-        MB_OK or MB_ICONWARNING);
-      exit
+      case DoDialogConfirmBinaryFile(AFileName, true) of
+        binConfirmCancel: Exit;
+        binConfirmViewHex: bBinaryMode:= true;
+      end;
     end;
   end; //not binary
 

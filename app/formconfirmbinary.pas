@@ -31,17 +31,24 @@ type
     binConfirmViewHex
     );
 
-function DoDialogConfirmBinaryFile(const fn: string): TAppConfirmBinary;
+function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
 
 implementation
 
-function DoDialogConfirmBinaryFile(const fn: string): TAppConfirmBinary;
+function DoDialogConfirmBinaryFile(const AFilename: string; ATooBig: boolean): TAppConfirmBinary;
 var
   F: TfmConfirmBinary;
+  S: string;
 begin
   F:= TfmConfirmBinary.Create(nil);
   try
-    F.Label1.Caption:= 'File is maybe not text:'#10+ExtractFileName(fn);
+    if ATooBig then
+      S:= 'File is too big to edit:'
+    else
+      S:= 'File is not text:';
+    F.Label1.Caption:= S+#10+ExtractFileName(AFilename);
+    F.btnEdit.Enabled:= not ATooBig;
+
     case F.ShowModal of
       mrYes: Result:= binConfirmEdit;
       mrNo: Result:= binConfirmViewHex;
