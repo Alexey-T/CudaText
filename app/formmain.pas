@@ -2276,11 +2276,14 @@ end;
 
 procedure TfmMain.GotoDialogDone(Sender: TObject; const Res: string);
 var
+  Frame: TEditorFrame;
   Ed: TATSynEdit;
   SInput: string;
   NumLine, NumCol: integer;
+  NumOffset: Int64;
 begin
-  Ed:= CurrentEditor;
+  Frame:= CurrentFrame;
+  Ed:= Frame.Editor;
 
   if Res=cOpGotoClose then
   begin
@@ -2296,33 +2299,54 @@ begin
     if DoPyEvent(Ed, cEventOnGotoEnter,
       [SStringToPythonString(SInput)] ) <> cPyFalse then
     begin
-      NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0)-1;
-      NumCol:= StrToIntDef(SInput, 0)-1;
-
-      if NumLine<0 then
+      //hex viewer
+      if Frame.IsBinary then
       begin
-        MsgStatus(msgStatusBadLineNum);
-        Exit
+        if SEndsWith(SInput, '%') then
+        begin
+          NumOffset:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), 0);
+          NumOffset:= Frame.HexViewer.FileSize * NumOffset div 100;
+          Frame.HexViewer.PosAt(NumOffset);
+        end
+        else
+        begin
+          NumOffset:= StrToInt64Def('$'+SInput, 0);
+          Frame.HexViewer.PosAt(NumOffset);
+        end;
+      end
+      else
+      //text editor
+      if Frame.IsText then
+      begin
+        NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0)-1;
+        NumCol:= StrToIntDef(SInput, 0)-1;
+
+        if NumLine<0 then
+        begin
+          MsgStatus(msgStatusBadLineNum);
+          Exit
+        end;
+
+        NumLine:= Min(NumLine, Ed.Strings.Count-1);
+        NumCol:= Max(0, NumCol);
+
+        MsgStatus(Format(msgStatusGotoLine, [NumLine+1]));
+
+        Ed.DoGotoPos(
+          Point(NumCol, NumLine),
+          Point(-1, -1),
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert,
+          true,
+          true
+          );
+        Ed.Update;
       end;
 
-      NumLine:= Min(NumLine, Ed.Strings.Count-1);
-      NumCol:= Max(0, NumCol);
-
-      MsgStatus(Format(msgStatusGotoLine, [NumLine+1]));
-
-      Ed.DoGotoPos(
-        Point(NumCol, NumLine),
-        Point(-1, -1),
-        UiOps.FindIndentHorz,
-        UiOps.FindIndentVert,
-        true,
-        true
-        );
-      Ed.Update;
       fmGoto.Hide;
     end;
 
-    CurrentFrame.SetFocus;
+    Frame.SetFocus;
   end;
 end;
 

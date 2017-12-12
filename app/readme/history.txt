@@ -7,7 +7,7 @@
 1.29.0 (2017/12)
 
 + add: hex viewer. It is called when non-text file is opened, with additional prompt. File size for binary files can be any.
-+ add: API for hex viewer
++ add: dialog "Go to" works with hex viewer: can enter percents with "%" char, or hex offset
 
 1.28.2 (2017/12)
 
