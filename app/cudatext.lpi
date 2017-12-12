@@ -721,6 +721,7 @@
         <Filename Value="formconfirmbinary.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fmConfirmBinary"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit53>
     </Units>
