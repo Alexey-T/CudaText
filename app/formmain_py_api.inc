@@ -2178,6 +2178,14 @@ begin
             Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
           end;
 
+        PROP_HEX_MODE:
+          begin
+            if F.IsBinary then
+              Result:= PyInt_FromLong(Ord(F.HexViewer.Mode))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_HEX_POS:
           begin
             if F.IsBinary then
@@ -2218,8 +2226,9 @@ var
   F: TEditorFrame;
   An, AnOut: TecSyntAnalyzer;
   ValueBool: boolean;
+  ValueInt: Int64;
   ScrollInfo: TATSynScrollInfo;
-  ValueInt, NGroup, NTab, NIndexNew, N1, N2: integer;
+  NGroup, NTab, NIndexNew, N1, N2: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -2229,7 +2238,7 @@ begin
       Str:= string(Ptr);
 
       ValueBool:= AppStrToBool(Str);
-      ValueInt:= StrToIntDef(Str, 0);
+      ValueInt:= StrToInt64Def(Str, 0);
 
       case Id of
         PROP_GUTTER_NUM:
@@ -2429,17 +2438,24 @@ begin
             Ed.DoSetMarkedLines(N1, N2);
           end;
 
+        PROP_HEX_MODE:
+          begin
+            if F.IsBinary then
+              if (ValueInt>=0) and (ValueInt<=Ord(High(TATBinHexMode))) then
+                F.HexViewer.Mode:= TATBinHexMode(ValueInt);
+          end;
+
         PROP_HEX_POS:
           begin
             if F.IsBinary then
-              F.HexViewer.PosOffset:= StrToInt64Def(Str, 0);
+              F.HexViewer.PosOffset:= ValueInt;
           end;
 
         PROP_HEX_SEL_START:
           begin
             if F.IsBinary then
               F.HexViewer.SetSelection(
-                StrToInt64Def(Str, 0),
+                ValueInt,
                 F.HexViewer.SelLength,
                 false);
           end;
@@ -2449,7 +2465,7 @@ begin
             if F.IsBinary then
               F.HexViewer.SetSelection(
                 F.HexViewer.SelStart,
-                StrToInt64Def(Str, 0),
+                ValueInt,
                 false);
           end;
       end;

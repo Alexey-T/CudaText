@@ -53,6 +53,7 @@ uses
   ATStrings,
   ATStringProc,
   ATGauge,
+  ATBinHex,
   atsynedit_form_complete,
   atsynedit_form_complete_synwrite,
   atsynedit_form_complete_css,
