@@ -1667,9 +1667,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 ** "text": normal editor
 ** "hex": hex viewer
 ** "pic": picture
-* PROP_HEX_POS: int: only for hex viewer, scroll position.
-* PROP_HEX_SEL_START: int: only for hex viewer, selection start offset.
-* PROP_HEX_SEL_LEN: int: only for hex viewer, selection length.
+* PROP_V_MODE: int: for hex viewer, viewer current mode, one of VMODE_nnn constants.
+* PROP_V_POS: int: for hex viewer, scroll position.
+* PROP_V_SEL_START: int: for hex viewer, selection start offset.
+* PROP_V_SEL_LEN: int: for hex viewer, selection length.
 
 ===set_prop===
 
@@ -1719,9 +1720,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_ONE_LINE: bool: editor has single-line mode.
-* PROP_HEX_POS: int: only for hex viewer, scroll position.
-* PROP_HEX_SEL_START: int: only for hex viewer, selection start offset.
-* PROP_HEX_SEL_LEN: int: only for hex viewer, selection length.
+* PROP_V_MODE: int: for hex viewer, viewer current mode, one of VMODE_nnn constants.
+* PROP_V_POS: int: for hex viewer, scroll position.
+* PROP_V_SEL_START: int: for hex viewer, selection start offset.
+* PROP_V_SEL_LEN: int: for hex viewer, selection length.
 
 ===bookmark===
 
@@ -2060,7 +2062,7 @@ Text is chr(1) separated items:
 
 1.0.210 (app 1.29.0)
 * add: file_open: for hex viewer, pass options='/hexview'
-* add: ed.get_prop/set_prop: PROP_KIND, PROP_HEX_POS, PROP_HEX_SEL_START, PROP_HEX_SEL_LEN
+* add: ed.get_prop/set_prop: PROP_KIND, PROP_V_MODE, PROP_V_POS, PROP_V_SEL_START, PROP_V_SEL_LEN
 
 1.0.208 (app 1.27.2)
 * add: menu_proc: added MENU_SET_IMAGELIST, MENU_SET_IMAGEINDEX
