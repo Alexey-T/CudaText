@@ -8,6 +8,7 @@
 
 + add: hex viewer. It is called when non-text file is opened, with additional prompt. File size for binary files can be any.
 + add: dialog "Go to" works with hex viewer: can enter percents with "%" char, or hex offset
++ add: dialog "Go to" for editor: can enter percents with "%" char
 
 1.28.2 (2017/12)
 

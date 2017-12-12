@@ -2318,8 +2318,17 @@ begin
       //text editor
       if Frame.IsText then
       begin
-        NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0)-1;
-        NumCol:= StrToIntDef(SInput, 0)-1;
+        if SEndsWith(SInput, '%') then
+        begin
+          NumLine:= StrToIntDef(Copy(SInput, 1, Length(SInput)-1), 0);
+          NumLine:= Ed.Strings.Count * NumLine div 100 - 1;
+          NumCol:= 0;
+        end
+        else
+        begin
+          NumLine:= StrToIntDef(SGetItem(SInput, ':'), 0)-1;
+          NumCol:= StrToIntDef(SInput, 0)-1;
+        end;
 
         if NumLine<0 then
         begin
