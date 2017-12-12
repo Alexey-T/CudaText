@@ -66,6 +66,7 @@ object fmConfirmBinary: TfmConfirmBinary
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
+    Cancel = True
     Caption = 'Cancel'
     OnClick = btnCancelClick
     TabOrder = 2
