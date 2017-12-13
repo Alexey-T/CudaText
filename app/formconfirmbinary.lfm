@@ -1,11 +1,11 @@
 object fmConfirmBinary: TfmConfirmBinary
   Left = 409
-  Height = 208
+  Height = 230
   Top = 258
   Width = 383
   BorderStyle = bsDialog
   Caption = 'CudaText'
-  ClientHeight = 208
+  ClientHeight = 230
   ClientWidth = 383
   Position = poScreenCenter
   ShowInTaskBar = stNever
@@ -31,9 +31,10 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Control = LabelFN
     AnchorSideTop.Side = asrBottom
     Left = 71
-    Height = 25
+    Height = 30
     Top = 50
     Width = 240
+    AutoSize = True
     BorderSpacing.Top = 10
     Caption = 'Edit anyway'
     Constraints.MinWidth = 240
@@ -47,10 +48,11 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 71
-    Height = 25
-    Top = 81
+    Height = 30
+    Top = 86
     Width = 240
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'View as binary'
     OnClick = btnBinaryClick
@@ -63,10 +65,11 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 71
-    Height = 25
-    Top = 143
+    Height = 30
+    Top = 158
     Width = 240
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Top = 6
     Cancel = True
     Caption = 'Cancel'
@@ -92,10 +95,11 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 71
-    Height = 25
-    Top = 112
+    Height = 30
+    Top = 122
     Width = 240
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'View as hex'
     OnClick = btnHexClick
