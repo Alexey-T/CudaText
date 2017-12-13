@@ -2064,7 +2064,7 @@ begin
         PROP_KIND:
           begin
             if F.IsBinary then
-              Str:= 'hex'
+              Str:= 'bin'
             else
             if F.IsPicture then
               Str:= 'pic'

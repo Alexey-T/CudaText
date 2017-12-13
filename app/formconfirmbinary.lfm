@@ -50,7 +50,7 @@ object fmConfirmBinary: TfmConfirmBinary
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    Caption = 'View as hex'
+    Caption = 'View as binary'
     OnClick = btnHexClick
     TabOrder = 1
   end

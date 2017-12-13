@@ -1970,7 +1970,7 @@ begin
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEvent:= Pos('/noevent', AOptions)=0;
-  bBinaryMode:= Pos('/hexview', AOptions)>0;
+  bBinaryMode:= Pos('/binary', AOptions)>0;
 
   if APages=nil then
     APages:= Groups.PagesCurrent;
