@@ -116,6 +116,7 @@ type
     { public declarations }
     FCaptionFind,
     FCaptionReplace: string;
+    FBinaryMode: boolean;
     procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;
@@ -699,6 +700,13 @@ begin
   edRep.Enabled:= IsReplace;
   bRep.Enabled:= IsReplace;
   bRepAll.Enabled:= IsReplace;
+
+  if FBinaryMode then
+  begin
+    chkRegex.Enabled:= false;
+    chkWrap.Enabled:= false;
+    chkInSel.Enabled:= false;
+  end;
 
   UpdateButtonBold;
   UpdateSize;
