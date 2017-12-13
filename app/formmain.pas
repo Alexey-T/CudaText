@@ -17,7 +17,6 @@ uses
   Clipbrd, StrUtils, Variants, IniFiles,
   LclType, LclProc, LclIntf,
   LazFileUtils, LazUTF8, FileUtil,
-  LazUTF8Classes,
   {$ifdef LCLGTK2}
   fix_gtk_clipboard,
   {$endif}
@@ -55,7 +54,6 @@ uses
   ATStringProc,
   ATGauge,
   ATBinHex,
-  ATStreamSearch,
   atsynedit_form_complete,
   atsynedit_form_complete_synwrite,
   atsynedit_form_complete_css,
@@ -548,8 +546,6 @@ type
     mnuGr6_Alt: TATMenuItemsAlt;
 
     FFinder: TATEditorFinder;
-    FFinderBinary: TATStreamSearch;
-    FFinderBinaryStream: TFileStreamUTF8;
     FFindStop: boolean;
     FFindConfirmAll: TModalResult;
     FFindMarkingMode: TATFindMarkingMode;

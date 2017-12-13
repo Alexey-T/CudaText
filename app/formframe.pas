@@ -18,6 +18,7 @@ uses
   ATTabs,
   ATGroups,
   ATSynEdit,
+  ATSynEdit_Finder,
   ATSynEdit_Keymap_Init,
   ATSynEdit_Adapters,
   ATSynEdit_Adapter_EControl,
@@ -34,6 +35,7 @@ uses
   ATButtons,
   ATPanelSimple,
   ATBinHex,
+  ATStreamSearch,
   proc_globdata,
   proc_editor,
   proc_cmd,
@@ -111,6 +113,7 @@ type
     FImage: TImage;
     FBin: TATBinHex;
     FBinStream: TFileStreamUTF8;
+    FBinSearch: TATStreamSearch;
     FImagePanel: TATPanelSimple;
     FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
@@ -235,6 +238,8 @@ type
     property PictureFileName: string read FImageFilename;
     function PictureSizes: TPoint;
     property Binary: TATBinHex read FBin;
+    function BinaryFindFirst(AFinder: TATEditorFinder): boolean;
+    function BinaryFindNext(ABack: boolean): boolean;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
     property EncodingName: string read GetEncodingName write SetEncodingName;
@@ -1261,6 +1266,9 @@ begin
     FBin.TextPopupCaption[vpCmdSelectAll]:= msgEditSelectAll;
   end;
 
+  if not Assigned(FBinSearch) then
+    FBinSearch:= TATStreamSearch.Create(Self);
+
   ViewerApplyTheme(FBin);
   FBin.Mode:= AMode;
   FBin.OpenStream(FBinStream);
@@ -2191,6 +2199,40 @@ procedure TEditorFrame.BinaryOnScroll(Sender: TObject);
 begin
   DoOnUpdateStatus;
 end;
+
+function TEditorFrame.BinaryFindFirst(AFinder: TATEditorFinder): boolean;
+var
+  Ops: TATStreamSearchOptions;
+  CharSize: integer;
+begin
+  FBinSearch.Stream:= FBinStream;
+
+  Ops:= [];
+  if AFinder.OptCase then
+    Include(Ops, asoCaseSens);
+  if AFinder.OptWords then
+    Include(Ops, asoWholeWords);
+
+  if FBin.Mode in [vbmodeUnicode, vbmodeUHex] then
+    CharSize:= 2
+  else
+    CharSize:= 1;
+
+  Result:= FBinSearch.FindFirst(
+    UTF8Encode(AFinder.StrFind), 0, FBin.TextEncoding, CharSize, Ops);
+
+  if Result then
+    FBin.SetSelection(FBinSearch.FoundStart, FBinSearch.FoundLength, true);
+end;
+
+function TEditorFrame.BinaryFindNext(ABack: boolean): boolean;
+begin
+  if FBinStream=nil then exit;
+  Result:= FBinSearch.FindNext(ABack);
+  if Result then
+    FBin.SetSelection(FBinSearch.FoundStart, FBinSearch.FoundLength, true);
+end;
+
 
 end.
 

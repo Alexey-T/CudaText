@@ -72,7 +72,6 @@ var
   NCaretX, NCaretY: integer;
   NTick, NTime: QWord;
   Frame: TEditorFrame;
-  BinaryOptions: TATStreamSearchOptions;
 begin
   Frame:= CurrentFrame;
 
@@ -116,45 +115,21 @@ begin
 
   if Frame.IsBinary then
   begin
-    BinaryOptions:= [];
-    if FFinder.OptCase then
-      Include(BinaryOptions, asoCaseSens);
-    if FFinder.OptWords then
-      Include(BinaryOptions, asoWholeWords);
-
     case Res of
       cOpFindFirst:
         begin
-          if not Assigned(FFinderBinary) then
-            FFinderBinary:= TATStreamSearch.Create(Self);
-          FFinderBinary.Stream:= nil;
-          if Assigned(FFinderBinaryStream) then
-            FreeAndNil(FFinderBinaryStream);
-          FFinderBinaryStream:= TFileStreamUTF8.Create(Frame.FileName, fmOpenRead or fmShareDenyNone);
-          FFinderBinary.Stream:= FFinderBinaryStream;
-
-          if FFinderBinary.FindFirst(
-            UTF8Decode(FFinder.StrFind), 0, '',
-            IfThen(Frame.Binary.Mode in [vbmodeUnicode, vbmodeUHex], 2, 1),
-            BinaryOptions) then
-          begin
-            Frame.Binary.SetSelection(FFinderBinary.FoundStart, FFinderBinary.FoundLength, true);
-            MsgStatus('Found first');
-          end
+          if Frame.BinaryFindFirst(FFinder) then
+            MsgStatus(msgStatusFoundNextMatch)
           else
-            MsgStatus('Cannot find first');
+            MsgStatus(msgCannotFindMatch);
         end;
 
       cOpFindNext:
         begin
-          if FFinderBinaryStream=nil then exit;
-          if FFinderBinary.FindNext(FFinder.OptBack) then
-          begin
-            Frame.Binary.SetSelection(FFinderBinary.FoundStart, FFinderBinary.FoundLength, true);
-            MsgStatus('Found first');
-          end
+          if Frame.BinaryFindNext(FFinder.OptBack) then
+            MsgStatus(msgStatusFoundNextMatch)
           else
-            MsgStatus('Cannot find first');
+            MsgStatus(msgCannotFindMatch);
         end;
     end;
     exit;
