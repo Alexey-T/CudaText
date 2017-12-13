@@ -2210,6 +2210,14 @@ begin
               Result:= ReturnNone;
           end;
 
+        PROP_V_WIDTH:
+          begin
+            if F.IsBinary then
+              Result:= PyLong_FromLong(F.Binary.TextWidth)
+            else
+              Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
@@ -2467,6 +2475,15 @@ begin
                 F.Binary.SelStart,
                 ValueInt,
                 false);
+          end;
+
+        PROP_V_WIDTH:
+          begin
+            if F.IsBinary then
+            begin
+              F.Binary.TextWidth:= ValueInt;
+              F.Binary.Redraw();
+            end;
           end;
       end;
 

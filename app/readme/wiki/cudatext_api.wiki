@@ -1671,6 +1671,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
 * PROP_V_SEL_LEN: int: for binary viewer, selection length.
+* PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 
 ===set_prop===
 
@@ -1724,6 +1725,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
 * PROP_V_SEL_LEN: int: for binary viewer, selection length.
+* PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 
 ===bookmark===
 

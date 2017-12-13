@@ -145,6 +145,7 @@ const
   PROP_V_POS       = 61;
   PROP_V_SEL_START = 62;
   PROP_V_SEL_LEN   = 63;
+  PROP_V_WIDTH     = 64;
 
   APP_PROC_SET_CLIP_ALT = -1;
   APP_PROC_GET_CLIP = 0;
