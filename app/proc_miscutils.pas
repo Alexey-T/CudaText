@@ -64,6 +64,7 @@ function AppStrToBool(const S: string): boolean; inline;
 
 function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
 procedure ViewerApplyTheme(V: TATBinHex);
+function ViewerModeString(V: TATBinHex): string;
 
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
@@ -520,6 +521,19 @@ begin
   V.TextColorLines:= St.Font.Color;
 end;
 
+
+function ViewerModeString(V: TATBinHex): string;
+const
+  cModes: array[TATBinHexMode] of string = (
+    'text',
+    'binary',
+    'hex',
+    'unicode',
+    'unicode/hex'
+    );
+begin
+  Result:= cModes[V.Mode];
+end;
 
 end.
 

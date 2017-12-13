@@ -104,7 +104,7 @@ begin
     DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, '');
 
     if F.IsBinary then
-      S:= msgStatusHexViewer
+      S:= ViewerModeString(F.Binary)
     else
     begin
       Size:= F.PictureSizes;
