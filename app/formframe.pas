@@ -306,25 +306,6 @@ const
 var
   FLastTabId: integer = 0;
 
-procedure ApplyThemeToHex(V: TATBinHex);
-var
-  St: TecSyntaxFormat;
-begin
-  V.Font.Name:= EditorOps.OpFontName;
-  V.Font.Size:= EditorOps.OpFontSize;
-  V.Font.Color:= GetAppColor('EdTextFont');
-  V.Color:= GetAppColor('EdTextBg');
-  V.TextColorURL:= GetAppColor('EdLinks');
-  St:= GetAppStyleFromName('SectionBG1');
-  V.TextColorHexBack:= St.BgColor;
-  St:= GetAppStyleFromName('Id');
-  V.TextColorHex:= St.Font.Color;
-  St:= GetAppStyleFromName('Id1');
-  V.TextColorHex2:= St.Font.Color;
-  St:= GetAppStyleFromName('Pale1');
-  V.TextColorLines:= St.Font.Color;
-end;
-
 { TEditorFrame }
 
 procedure TEditorFrame.SetTabCaption(const AValue: string);
@@ -1183,7 +1164,7 @@ begin
 
   if Assigned(FBin) then
   begin
-    ApplyThemeToHex(FBin);
+    ViewerApplyTheme(FBin);
     FBin.Redraw();
   end;
 end;
@@ -1266,13 +1247,14 @@ begin
     FBin.Parent:= Self;
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
+    FBin.TextGutter:= true;
     FBin.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
     FBin.TextPopupCaption[vpCmdCopy]:= msgEditCopy;
     FBin.TextPopupCaption[vpCmdCopyHex]:= msgEditCopy+' (hex)';
     FBin.TextPopupCaption[vpCmdSelectAll]:= msgEditSelectAll;
   end;
 
-  ApplyThemeToHex(FBin);
+  ViewerApplyTheme(FBin);
   FBin.Mode:= vbmodeHex;
   FBin.OpenStream(FBinStream);
 

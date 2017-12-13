@@ -61,7 +61,9 @@ function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 function AppStrToBool(const S: string): boolean; inline;
+
 function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
+procedure ViewerApplyTheme(V: TATBinHex);
 
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
@@ -489,6 +491,33 @@ begin
   Result:= Num>=0;
   if Result then
     V.PosAt(Num);
+end;
+
+procedure ViewerApplyTheme(V: TATBinHex);
+var
+  St: TecSyntaxFormat;
+begin
+  V.Font.Name:= EditorOps.OpFontName;
+  V.Font.Size:= EditorOps.OpFontSize;
+  V.Font.Color:= GetAppColor('EdTextFont');
+  V.FontGutter.Name:= EditorOps.OpFontName;
+  V.FontGutter.Size:= EditorOps.OpFontSize;
+  V.FontGutter.Color:= GetAppColor('EdGutterFont');
+  V.Color:= GetAppColor('EdTextBg');
+  V.TextColorGutter:= GetAppColor('EdGutterBg');
+  V.TextColorURL:= GetAppColor('EdLinks');
+
+  St:= GetAppStyleFromName('SectionBG1');
+  V.TextColorHexBack:= St.BgColor;
+
+  St:= GetAppStyleFromName('Id');
+  V.TextColorHex:= St.Font.Color;
+
+  St:= GetAppStyleFromName('Id1');
+  V.TextColorHex2:= St.Font.Color;
+
+  St:= GetAppStyleFromName('Pale1');
+  V.TextColorLines:= St.Font.Color;
 end;
 
 
