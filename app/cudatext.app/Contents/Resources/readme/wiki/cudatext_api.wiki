@@ -975,6 +975,7 @@ Opens editor tab with given filename. If filename already opened, activates its 
 ** If it has "/nohistory", file's history (caret, scroll pos, etc) won't be used.
 ** If it has "/noevent", then on_open_pre event won't fire. 
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
+** If it has "/binary', then file will open in internal binary viewer (for files of any size).
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -1662,6 +1663,15 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
+* PROP_KIND: str: kind of UI control in the tab.
+** "text": normal editor
+** "bin": binary viewer
+** "pic": picture
+* PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
+* PROP_V_POS: int: for binary viewer, scroll position.
+* PROP_V_SEL_START: int: for binary viewer, selection start offset.
+* PROP_V_SEL_LEN: int: for binary viewer, selection length.
+* PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 
 ===set_prop===
 
@@ -1711,6 +1721,11 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_ONE_LINE: bool: editor has single-line mode.
+* PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
+* PROP_V_POS: int: for binary viewer, scroll position.
+* PROP_V_SEL_START: int: for binary viewer, selection start offset.
+* PROP_V_SEL_LEN: int: for binary viewer, selection length.
+* PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 
 ===bookmark===
 
@@ -2046,6 +2061,10 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.210 (app 1.29.0)
+* add: file_open: for binary viewer, pass options='/binary'
+* add: ed.get_prop/set_prop: PROP_KIND, PROP_V_MODE, PROP_V_POS, PROP_V_SEL_START, PROP_V_SEL_LEN
 
 1.0.208 (app 1.27.2)
 * add: menu_proc: added MENU_SET_IMAGELIST, MENU_SET_IMAGEINDEX

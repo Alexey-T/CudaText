@@ -175,6 +175,12 @@ PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
 PROP_SCROLL_VERT           = 52
 PROP_SCROLL_HORZ           = 53
+PROP_KIND                  = 59
+PROP_V_MODE                = 60
+PROP_V_POS                 = 61
+PROP_V_SEL_START           = 62
+PROP_V_SEL_LEN             = 63
+PROP_V_WIDTH               = 64
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1
@@ -532,6 +538,11 @@ DIM_ADD        = 1
 DIM_DELETE     = 3
 DIM_DELETE_ALL = 4
 
+VMODE_TEXT        = 0
+VMODE_BINARY      = 1
+VMODE_HEX         = 2
+VMODE_UNICODE     = 3
+VMODE_UNICODE_HEX = 4
 
 def app_exe_version():
     return ct.app_exe_version()

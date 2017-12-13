@@ -4,6 +4,13 @@
   * changed
 
 
+1.30.0 (2017/12)
+
++ add: binary viewer. It is called when non-text file is opened, with additional prompt. File size for binary viewer can be any.
++ add: dialog "Go to" works with binary viewer: can enter percents with "%" char, or hex offset
++ add: dialog "Go to" for editor: can enter percents with "%" char
++ add: prompts "file is not text", "file is too big" changed to one dialog (to allow binary view)
+
 1.28.2 (2017/12)
 
 - fix: major bugfix, crash on paste command (in 1.28.0)
