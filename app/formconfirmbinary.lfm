@@ -17,9 +17,11 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 14
-    Top = 6
+    Top = 10
     Width = 84
-    BorderSpacing.Around = 6
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
     Caption = 'File is not text'
     ParentColor = False
   end
@@ -79,7 +81,7 @@ object fmConfirmBinary: TfmConfirmBinary
     Height = 14
     Top = 26
     Width = 48
-    BorderSpacing.Top = 4
+    BorderSpacing.Top = 2
     Caption = 'LabelFN'
     ParentColor = False
   end

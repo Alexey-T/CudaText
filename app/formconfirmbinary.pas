@@ -59,6 +59,7 @@ begin
   try
     //with F do Caption:= ini.ReadString(section, '_', Caption);
     with F.btnEdit do Caption:= ini.ReadString(section, 'edit', Caption);
+    with F.btnBinary do Caption:= ini.ReadString(section, 'bin', Caption);
     with F.btnHex do Caption:= ini.ReadString(section, 'hex', Caption);
     with F.btnCancel do Caption:= msgButtonCancel;
     with F do MsgFileNotText:= ini.ReadString(section, 'ntxt', MsgFileNotText);
