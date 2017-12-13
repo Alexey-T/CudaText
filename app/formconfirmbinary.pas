@@ -24,6 +24,7 @@ type
     procedure btnEditClick(Sender: TObject);
     procedure btnBinaryClick(Sender: TObject);
     procedure btnHexClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
   public
   end;
@@ -117,6 +118,11 @@ end;
 procedure TfmConfirmBinary.btnHexClick(Sender: TObject);
 begin
   ModalResult:= mrNo;
+end;
+
+procedure TfmConfirmBinary.FormShow(Sender: TObject);
+begin
+  ClientHeight:= btnCancel.Top+btnCancel.Height+10;
 end;
 
 end.
