@@ -2284,8 +2284,6 @@ var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
   SInput: string;
-  NumLine, NumCol: integer;
-  NumOffset: Int64;
 begin
   Frame:= CurrentFrame;
   Ed:= Frame.Editor;
