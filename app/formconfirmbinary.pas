@@ -15,12 +15,14 @@ type
 
   TfmConfirmBinary = class(TForm)
     btnEdit: TButton;
-    btnHex: TButton;
+    btnBinary: TButton;
     btnCancel: TButton;
+    btnHex: TButton;
     LabelText: TLabel;
     LabelFN: TLabel;
     procedure btnCancelClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure btnBinaryClick(Sender: TObject);
     procedure btnHexClick(Sender: TObject);
   private
   public
@@ -29,7 +31,8 @@ type
 type
   TAppConfirmBinary = (
     ConfirmBinaryCancel,
-    ConfirmBinaryEdit,
+    ConfirmBinaryEditor,
+    ConfirmBinaryViewBinary,
     ConfirmBinaryViewHex
     );
 
@@ -83,7 +86,8 @@ begin
     F.btnEdit.Enabled:= not ATooBig;
 
     case F.ShowModal of
-      mrYes: Result:= ConfirmBinaryEdit;
+      mrOk: Result:= ConfirmBinaryEditor;
+      mrYes: Result:= ConfirmBinaryViewBinary;
       mrNo: Result:= ConfirmBinaryViewHex;
       else Result:= ConfirmBinaryCancel;
     end;
@@ -100,6 +104,11 @@ begin
 end;
 
 procedure TfmConfirmBinary.btnEditClick(Sender: TObject);
+begin
+  ModalResult:= mrOk;
+end;
+
+procedure TfmConfirmBinary.btnBinaryClick(Sender: TObject);
 begin
   ModalResult:= mrYes;
 end;

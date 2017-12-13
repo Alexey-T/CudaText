@@ -1957,7 +1957,8 @@ var
   D: TATTabData;
   F: TEditorFrame;
   isOem: boolean;
-  bSilent, bPreviewTab, bEnableHistory, bEnableEvent, bBinaryMode: boolean;
+  bSilent, bPreviewTab, bEnableHistory, bEnableEvent: boolean;
+  OpenMode: TAppOpenMode;
   tick: QWord;
   msg: string;
   i: integer;
@@ -1970,7 +1971,11 @@ begin
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEvent:= Pos('/noevent', AOptions)=0;
-  bBinaryMode:= Pos('/binary', AOptions)>0;
+
+  if Pos('/binary', AOptions)>0 then
+    OpenMode:= cOpenModeVBinary
+  else
+    OpenMode:= cOpenModeEditor;
 
   if APages=nil then
     APages:= Groups.PagesCurrent;
@@ -1993,7 +1998,7 @@ begin
     Exit
   end;
 
-  if not bBinaryMode then
+  if OpenMode=cOpenModeEditor then
   begin
     //zip files
     if ExtractFileExt(AFilename)='.zip' then
@@ -2015,19 +2020,21 @@ begin
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, false) of
+              ConfirmBinaryViewBinary: OpenMode:= cOpenModeVBinary;
+              ConfirmBinaryViewHex: OpenMode:= cOpenModeVHex;
               ConfirmBinaryCancel: Exit;
-              ConfirmBinaryViewHex: bBinaryMode:= true;
             end;
           2:
             Exit;
         end;
 
     //too big size?
-    if not bBinaryMode and IsFileTooBigForOpening(AFilename) then
+    if (OpenMode=cOpenModeEditor) and IsFileTooBigForOpening(AFilename) then
     begin
       case DoDialogConfirmBinaryFile(AFileName, true) of
+        ConfirmBinaryViewBinary: OpenMode:= cOpenModeVBinary;
+        ConfirmBinaryViewHex: OpenMode:= cOpenModeVHex;
         ConfirmBinaryCancel: Exit;
-        ConfirmBinaryViewHex: bBinaryMode:= true;
       end;
     end;
   end; //not binary
@@ -2071,7 +2078,7 @@ begin
     end;
 
     Result.Adapter.Stop;
-    Result.DoFileOpen(AFilename, bEnableHistory, true, bBinaryMode);
+    Result.DoFileOpen(AFilename, bEnableHistory, true, OpenMode);
     msg:= msgStatusOpened+' '+ExtractFileName(AFilename);
     MsgStatus(msg);
 
@@ -2088,7 +2095,7 @@ begin
     if F.IsEmpty then
     begin
       tick:= GetTickCount64;
-      F.DoFileOpen(AFilename, bEnableHistory, true, bBinaryMode);
+      F.DoFileOpen(AFilename, bEnableHistory, true, OpenMode);
       Result:= F;
       tick:= (GetTickCount64-tick) div 1000;
 
@@ -2107,7 +2114,7 @@ begin
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;
-  F.DoFileOpen(AFilename, bEnableHistory, true, bBinaryMode);
+  F.DoFileOpen(AFilename, bEnableHistory, true, OpenMode);
   Result:= F;
   tick:= (GetTickCount64-tick) div 1000;
 

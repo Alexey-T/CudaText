@@ -54,6 +54,12 @@ uses
 type
   TEditorFramePyEvent = function(AEd: TATSynEdit; AEvent: TAppPyEvent; const AParams: array of string): string of object;
 
+type
+  TAppOpenMode = (
+    cOpenModeEditor,
+    cOpenModeVBinary,
+    cOpenModeVHex
+    );
 
 type
   { TEditorFrame }
@@ -113,7 +119,7 @@ type
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
-    procedure DoFileOpen_AsBinary(const fn: string);
+    procedure DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
     procedure DoOnChangeCaption;
@@ -242,8 +248,8 @@ type
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
-    procedure DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox,
-      ABinaryMode: boolean);
+    procedure DoFileOpen(const fn: string; AAllowLoadHistory,
+      AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs: boolean): boolean;
     procedure DoFileReload_DisableDetectEncoding;
     procedure DoFileReload;
@@ -1222,7 +1228,7 @@ begin
 end;
 
 
-procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string);
+procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
 begin
   TabCaption:= ExtractFileName(fn);
   FFileName:= fn;
@@ -1255,7 +1261,7 @@ begin
   end;
 
   ViewerApplyTheme(FBin);
-  FBin.Mode:= vbmodeHex;
+  FBin.Mode:= AMode;
   FBin.OpenStream(FBinStream);
 
   if Visible and FBin.Visible then
@@ -1300,14 +1306,21 @@ begin
 end;
 
 
-procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox, ABinaryMode: boolean);
+procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
+  AOpenMode: TAppOpenMode);
+var
+  BinMode: TATBinHexMode;
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
 
-  if ABinaryMode then
+  if AOpenMode<>cOpenModeEditor then
   begin
-    DoFileOpen_AsBinary(fn);
+    if AOpenMode=cOpenModeVBinary then
+      BinMode:= vbmodeBinary
+    else
+      BinMode:= vbmodeHex;
+    DoFileOpen_AsBinary(fn, BinMode);
     exit;
   end;
 
@@ -1465,6 +1478,7 @@ var
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
   PrevLexer: string;
+  Mode: TAppOpenMode;
 begin
   if FileName='' then exit;
 
@@ -1484,8 +1498,17 @@ begin
     (Editor.Strings.Count>0) and
     (PrevCaretY=Editor.Strings.Count-1);
 
+  Mode:= cOpenModeEditor;
+  if IsBinary then
+    case FBin.Mode of
+      vbmodeBinary:
+        Mode:= cOpenModeVBinary
+      else
+        Mode:= cOpenModeVHex;
+    end;
+
   //reopen
-  DoFileOpen(FileName, false, false, IsBinary);
+  DoFileOpen(FileName, false, false, Mode);
   if Editor.Strings.Count=0 then exit;
 
   //restore props

@@ -1,11 +1,11 @@
 object fmConfirmBinary: TfmConfirmBinary
   Left = 409
-  Height = 177
+  Height = 208
   Top = 258
   Width = 383
   BorderStyle = bsDialog
   Caption = 'CudaText'
-  ClientHeight = 177
+  ClientHeight = 208
   ClientWidth = 383
   Position = poScreenCenter
   ShowInTaskBar = stNever
@@ -38,7 +38,7 @@ object fmConfirmBinary: TfmConfirmBinary
     OnClick = btnEditClick
     TabOrder = 0
   end
-  object btnHex: TButton
+  object btnBinary: TButton
     AnchorSideLeft.Control = btnEdit
     AnchorSideTop.Control = btnEdit
     AnchorSideTop.Side = asrBottom
@@ -51,7 +51,7 @@ object fmConfirmBinary: TfmConfirmBinary
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'View as binary'
-    OnClick = btnHexClick
+    OnClick = btnBinaryClick
     TabOrder = 1
   end
   object btnCancel: TButton
@@ -62,14 +62,14 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Side = asrBottom
     Left = 71
     Height = 25
-    Top = 112
+    Top = 143
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Cancel = True
     Caption = 'Cancel'
     OnClick = btnCancelClick
-    TabOrder = 2
+    TabOrder = 3
   end
   object LabelFN: TLabel
     AnchorSideLeft.Control = LabelText
@@ -82,5 +82,21 @@ object fmConfirmBinary: TfmConfirmBinary
     BorderSpacing.Top = 4
     Caption = 'LabelFN'
     ParentColor = False
+  end
+  object btnHex: TButton
+    AnchorSideLeft.Control = btnEdit
+    AnchorSideTop.Control = btnBinary
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 71
+    Height = 25
+    Top = 112
+    Width = 240
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Caption = 'View as hex'
+    OnClick = btnHexClick
+    TabOrder = 2
   end
 end
