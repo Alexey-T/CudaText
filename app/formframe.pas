@@ -227,7 +227,7 @@ type
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     function IsEmpty: boolean;
     procedure ApplyTheme;
-    procedure SetFocus;
+    procedure SetFocus; reintroduce;
     //picture support
     function IsText: boolean;
     function IsPicture: boolean;

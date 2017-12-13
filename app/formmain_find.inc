@@ -71,7 +71,10 @@ var
   cnt, NTop, NLeft,
   NCaretX, NCaretY: integer;
   NTick, NTime: QWord;
+  Frame: TEditorFrame;
 begin
+  Frame:= CurrentFrame;
+
   //keep focus in Find field, else focus find or rep field
   if fmFind.edFind.Focused then
     bFindMode:= true
@@ -87,7 +90,7 @@ begin
     FFinder.OptInSelection:= false;
 
     if IsFocusedFind then
-      CurrentFrame.SetFocus;
+      Frame.SetFocus;
     fmFind.Hide;
     UpdateAppForSearch(false, false, bFindMode);
     Exit;
@@ -114,11 +117,9 @@ begin
   //  if CurrentEditor.Carets.Count>1 then
   //    MsgBox(msgCannotFindInMultiSel, MB_OK+MB_ICONWARNING);
 
-  with CurrentFrame do
-    if MacroRecord then
-      MacroString:= MacroString+(Format('%d,%s'#1'%s'#1'%s'#1'%s',
-        [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, DoFindOptionsToString])+#10);
-
+  if Frame.MacroRecord then
+    Frame.MacroString:= Frame.MacroString+(Format('%d,%s'#1'%s'#1'%s'#1'%s',
+      [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, DoFindOptionsToString])+#10);
 
   bDoLock:=
     (Res=cOpFindRep) or
