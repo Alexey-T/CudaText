@@ -72,6 +72,7 @@ var
   NCaretX, NCaretY: integer;
   NTick, NTime: QWord;
   Frame: TEditorFrame;
+  BinaryOptions: TATStreamSearchOptions;
 begin
   Frame:= CurrentFrame;
 
@@ -113,10 +114,55 @@ begin
     FFinder.OptConfirmReplace:= chkConfirm.Checked;
   end;
 
+  if Frame.IsBinary then
+  begin
+    BinaryOptions:= [];
+    if FFinder.OptCase then
+      Include(BinaryOptions, asoCaseSens);
+    if FFinder.OptWords then
+      Include(BinaryOptions, asoWholeWords);
+
+    case Res of
+      cOpFindFirst:
+        begin
+          if not Assigned(FFinderBinary) then
+            FFinderBinary:= TATStreamSearch.Create(Self);
+          FFinderBinary.Stream:= nil;
+          if Assigned(FFinderBinaryStream) then
+            FreeAndNil(FFinderBinaryStream);
+          FFinderBinaryStream:= TFileStreamUTF8.Create(Frame.FileName, fmOpenRead or fmShareDenyNone);
+          FFinderBinary.Stream:= FFinderBinaryStream;
+
+          if FFinderBinary.FindFirst(
+            UTF8Decode(FFinder.StrFind), 0, '',
+            IfThen(Frame.Binary.Mode in [vbmodeUnicode, vbmodeUHex], 2, 1),
+            BinaryOptions) then
+          begin
+            Frame.Binary.SetSelection(FFinderBinary.FoundStart, FFinderBinary.FoundLength, true);
+            MsgStatus('Found first');
+          end
+          else
+            MsgStatus('Cannot find first');
+        end;
+
+      cOpFindNext:
+        begin
+          if FFinderBinaryStream=nil then exit;
+          if FFinderBinary.FindNext(FFinder.OptBack) then
+          begin
+            Frame.Binary.SetSelection(FFinderBinary.FoundStart, FFinderBinary.FoundLength, true);
+            MsgStatus('Found first');
+          end
+          else
+            MsgStatus('Cannot find first');
+        end;
+    end;
+    exit;
+  end;
+
   //if FFinder.OptInSelection then
   //  if CurrentEditor.Carets.Count>1 then
   //    MsgBox(msgCannotFindInMultiSel, MB_OK+MB_ICONWARNING);
-
   if Frame.MacroRecord then
     Frame.MacroString:= Frame.MacroString+(Format('%d,%s'#1'%s'#1'%s'#1'%s',
       [cmd_FinderAction, Res, FFinder.StrFind, FFinder.StrReplace, DoFindOptionsToString])+#10);
