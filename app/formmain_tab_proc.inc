@@ -21,6 +21,7 @@ begin
   F.OnPyEvent:= @DoPyEvent;
   F.OnCheckFilenameOpened:= @DoCheckFilenameOpened;
   F.OnMsgStatus:= @FrameOnMsgStatus;
+  F.OnProgress:= @FinderOnProgress;
 
   F.Groups:= Groups;
   F.SaveDialog:= SaveDlg;
