@@ -794,7 +794,7 @@ type
     procedure FinderOnBadRegex(Sender: TObject);
     procedure FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
       AForMany: boolean; var AConfirm, AContinue: boolean);
-    procedure FinderOnProgress(Sender: TObject; ACurPos, AMaxPos: integer; var AContinue: boolean);
+    procedure FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64; var AContinue: boolean);
     procedure FinderUpdateEditor(AUpdateText: boolean);
     procedure FrameOnSaveFile(Sender: TObject);
     procedure GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);

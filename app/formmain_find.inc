@@ -118,15 +118,16 @@ begin
     case Res of
       cOpFindFirst:
         begin
-          if Frame.BinaryFindFirst(FFinder) then
+          if Frame.BinaryFindFirst(FFinder, false) then
             MsgStatus(msgStatusFoundNextMatch)
           else
             MsgStatus(msgCannotFindMatch);
         end;
 
-      cOpFindNext:
+      cOpFindNext,
+      cOpFindPrev:
         begin
-          if Frame.BinaryFindNext(FFinder.OptBack) then
+          if Frame.BinaryFindNext(Res=cOpFindPrev) then
             MsgStatus(msgStatusFoundNextMatch)
           else
             MsgStatus(msgCannotFindMatch);
@@ -433,7 +434,7 @@ begin
 end;
 
 
-procedure TfmMain.FinderOnProgress(Sender: TObject; ACurPos, AMaxPos: integer;
+procedure TfmMain.FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64;
   var AContinue: boolean);
 begin
   if AMaxPos<=0 then exit;

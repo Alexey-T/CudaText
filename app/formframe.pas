@@ -87,6 +87,7 @@ type
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
     FOnChangeCaption: TNotifyEvent;
+    FOnProgress: TATFinderProgress;
     FOnUpdateStatus: TNotifyEvent;
     FOnEditorClickMoveCaret: TATSynEditClickMoveCaretEvent;
     FOnEditorClickEndSelect: TATSynEditClickMoveCaretEvent;
@@ -113,7 +114,6 @@ type
     FImage: TImage;
     FBin: TATBinHex;
     FBinStream: TFileStreamUTF8;
-    FBinSearch: TATStreamSearch;
     FImagePanel: TATPanelSimple;
     FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
@@ -122,6 +122,8 @@ type
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
+    procedure BinaryOnProgress(const ACurrentPos, AMaximalPos: Int64;
+      var AContinueSearching: Boolean);
     procedure DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImagePanelPaint(Sender: TObject);
@@ -238,7 +240,7 @@ type
     property PictureFileName: string read FImageFilename;
     function PictureSizes: TPoint;
     property Binary: TATBinHex read FBin;
-    function BinaryFindFirst(AFinder: TATEditorFinder): boolean;
+    function BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
     function BinaryFindNext(ABack: boolean): boolean;
     //
     property LineEnds: TATLineEnds read GetLineEnds write SetLineEnds;
@@ -275,6 +277,7 @@ type
     property MacroString: string read FMacroString write FMacroString;
 
     //events
+    property OnProgress: TATFinderProgress read FOnProgress write FOnProgress;
     property OnCheckFilenameOpened: TStrFunction read FCheckFilenameOpened write FCheckFilenameOpened;
     property OnMsgStatus: TStrEvent read FOnMsgStatus write FOnMsgStatus;
     property OnFocusEditor: TNotifyEvent read FOnFocusEditor write FOnFocusEditor;
@@ -1255,6 +1258,7 @@ begin
     FBin.OnKeyDown:= @BinaryOnKeyDown;
     FBin.OnScroll:= @BinaryOnScroll;
     FBin.OnOptionsChange:= @BinaryOnScroll;
+    FBin.OnSearchProgress:= @BinaryOnProgress;
     FBin.Parent:= Self;
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
@@ -1265,9 +1269,6 @@ begin
     FBin.TextPopupCaption[vpCmdCopyHex]:= msgEditCopy+' (hex)';
     FBin.TextPopupCaption[vpCmdSelectAll]:= msgEditSelectAll;
   end;
-
-  if not Assigned(FBinSearch) then
-    FBinSearch:= TATStreamSearch.Create(Self);
 
   ViewerApplyTheme(FBin);
   FBin.Mode:= AMode;
@@ -2200,37 +2201,30 @@ begin
   DoOnUpdateStatus;
 end;
 
-function TEditorFrame.BinaryFindFirst(AFinder: TATEditorFinder): boolean;
+procedure TEditorFrame.BinaryOnProgress(const ACurrentPos,
+  AMaximalPos: Int64; var AContinueSearching: Boolean);
+begin
+  if Assigned(FOnProgress) then
+    FOnProgress(nil, ACurrentPos, AMaximalPos, AContinueSearching);
+end;
+
+function TEditorFrame.BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
 var
   Ops: TATStreamSearchOptions;
-  CharSize: integer;
 begin
-  FBinSearch.Stream:= FBinStream;
-
   Ops:= [];
-  if AFinder.OptCase then
-    Include(Ops, asoCaseSens);
-  if AFinder.OptWords then
-    Include(Ops, asoWholeWords);
+  if AFinder.OptCase then Include(Ops, asoCaseSens);
+  if AFinder.OptWords then Include(Ops, asoWholeWords);
+  if AShowAll then Include(Ops, asoShowAll);
 
-  if FBin.Mode in [vbmodeUnicode, vbmodeUHex] then
-    CharSize:= 2
-  else
-    CharSize:= 1;
-
-  Result:= FBinSearch.FindFirst(
-    UTF8Encode(AFinder.StrFind), 0, FBin.TextEncoding, CharSize, Ops);
-
-  if Result then
-    FBin.SetSelection(FBinSearch.FoundStart, FBinSearch.FoundLength, true);
+  Result:= FBin.FindFirst(
+    UTF8Encode(AFinder.StrFind), Ops, 0);
 end;
 
 function TEditorFrame.BinaryFindNext(ABack: boolean): boolean;
 begin
   if FBinStream=nil then exit;
-  Result:= FBinSearch.FindNext(ABack);
-  if Result then
-    FBin.SetSelection(FBinSearch.FoundStart, FBinSearch.FoundLength, true);
+  Result:= FBin.FindNext(ABack);
 end;
 
 
