@@ -4,6 +4,9 @@
   * changed
 
 
+1.30.1 (2017/12)
+- fix: lexer Perl reworked (hilite multiline comments, fix funcs in codetree)
+
 1.30.0 (2017/12)
 
 + add: binary viewer. It is called when non-text file is opened, with additional prompt. File size for binary viewer can be any.

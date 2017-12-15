@@ -3435,6 +3435,7 @@ var
   Popup: TPopupMenu;
   PopupItem: TMenuItem;
   NX, NY: integer;
+  ImgList: TImageList;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'sississ:menu_proc',
@@ -3545,9 +3546,15 @@ begin
 
         MENU_SET_IMAGELIST:
           begin
+            ImgList:= TImageList(PtrInt(StrToInt64Def(StrCmd, 0)));
             PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
-            Popup:= PopupItem.Owner as TPopupMenu;
-            Popup.Images:= TImageList(PtrInt(StrToInt64Def(StrCmd, 0)));
+
+            if PopupItem.Owner is TPopupMenu then
+              (PopupItem.Owner as TPopupMenu).Images:= ImgList
+            else
+            if PopupItem.Owner is TMainMenu then
+              (PopupItem.Owner as TMainMenu).Images:= ImgList;
+
             Result:= ReturnNone;
           end;
 
