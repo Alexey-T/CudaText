@@ -1,18 +1,18 @@
-[map]
-Default=-
-Symbol=Symbol
-Number=Number
-String=String
-Identifier=Id
-Comment=Comment
-Reserved word=IdKeyword
-Marked block=-
-Variable=IdVar
-Something=String3
-String regex=String2
-
 [comments]
 full1==pod
 full2==cut
 styles_cmt=Comment
 styles_str=String
+
+[map]
+Default=-
+Id=Id
+Symbol=Symbol
+Number=Number
+String=String
+Comment=Comment
+Keyword=IdKeyword
+Variable=IdVar
+String 2=String2
+String regex=String3
+Comment doc=CommentDoc
