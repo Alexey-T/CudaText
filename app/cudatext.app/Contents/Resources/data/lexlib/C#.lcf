@@ -1,4 +1,4 @@
-object SyntAnal6: TLibSyntAnalyzer
+object SyntAnal7: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -889,6 +889,15 @@ object SyntAnal6: TLibSyntAnalyzer
     'from nn select dd; //Linq'
     'enum Days {P1, P2, P3};'
     ' '
+    'private static List<T1, T2> PreFormatNames('
+    '  int new_acct_key, '
+    '  string new_acct_name, '
+    '  List<string> _trivialWordList, '
+    '  List<string> _ignoredWordList, '
+    '  bool IsFilterTrivialWord_On)'
+    '{'
+    '}'
+    ''
     'public class Stack: IEdit, IEdit2'
     '{'
     '  public delegate int[] DelDemo();'
@@ -931,11 +940,13 @@ object SyntAnal6: TLibSyntAnalyzer
     'Preprocessor'
     'Region name')
   Gramma.Gramma = 
-    'Complex_name =  <Identifier> | Complex_name "." <Identifier>;'#13#10'f' +
-    'ield = ('#39'private'#39' | '#39'public'#39' | '#39'static'#39') Complex_name <Identifie' +
-    'r> ('#39'='#39' | '#39','#39' | '#39';'#39');'#13#10#13#10'Params = <Identifier> | Params <Identif' +
-    'ier> | Params ('#39','#39' | '#39'.'#39' | '#39';'#39' | '#39':'#39' | '#39'['#39' | '#39']'#39');'#13#10'func = <Iden' +
-    'tifier> ('#39'['#39' '#39']'#39')? Complex_name '#39'('#39' Params? '#39')'#39' '#39'{'#39';'#13#10
+    'Generic_name = <Identifier> | <Identifier> '#39'<'#39' <Identifier> ('#39','#39 +
+    ' <Identifier>)* '#39'>'#39';'#13#10'Complex_name =  <Identifier> | Complex_nam' +
+    'e "." <Identifier>;'#13#10'field = ('#39'private'#39' | '#39'public'#39' | '#39'static'#39') C' +
+    'omplex_name <Identifier> ('#39'='#39' | '#39','#39' | '#39';'#39');'#13#10#13#10'Params = Generic_' +
+    'name | Params Generic_name | Params ('#39','#39' | '#39'.'#39' | '#39';'#39' | '#39':'#39' | '#39'['#39 +
+    ' | '#39']'#39');'#13#10'func = Generic_name ('#39'['#39' '#39']'#39')? Complex_name '#39'('#39' Params' +
+    '? '#39')'#39' '#39'{'#39';'#13#10
   Extentions = 'cs csx'
   LexerName = 'C#'
   Notes.Strings = (
