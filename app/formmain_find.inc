@@ -115,23 +115,29 @@ begin
 
   if Frame.IsBinary then
   begin
+    UpdateAppForSearch(true, false, true);
+    Application.ProcessMessages;
+
     case Res of
       cOpFindFirst:
         begin
-          if Frame.BinaryFindFirst(FFinder) then
+          if Frame.BinaryFindFirst(FFinder, false) then
             MsgStatus(msgStatusFoundNextMatch)
           else
             MsgStatus(msgCannotFindMatch);
         end;
 
-      cOpFindNext:
+      cOpFindNext,
+      cOpFindPrev:
         begin
-          if Frame.BinaryFindNext(FFinder.OptBack) then
+          if Frame.BinaryFindNext(Res=cOpFindPrev) then
             MsgStatus(msgStatusFoundNextMatch)
           else
             MsgStatus(msgCannotFindMatch);
         end;
     end;
+
+    UpdateAppForSearch(false, false, true);
     exit;
   end;
 
@@ -433,11 +439,14 @@ begin
 end;
 
 
-procedure TfmMain.FinderOnProgress(Sender: TObject; ACurPos, AMaxPos: integer;
+procedure TfmMain.FinderOnProgress(Sender: TObject; const ACurPos, AMaxPos: Int64;
   var AContinue: boolean);
+var
+  NValue: Int64;
 begin
   if AMaxPos<=0 then exit;
-  StatusProgress.Progress:= ACurPos * 100 div AMaxPos;
+  NValue:= ACurPos * 100 div AMaxPos;
+  StatusProgress.Progress:= NValue;
   Application.ProcessMessages;
   if FFindStop then AContinue:= false;
 end;
