@@ -1263,7 +1263,7 @@ begin
     FBin.Align:= alClient;
     FBin.BorderStyle:= bsNone;
     FBin.TextGutter:= true;
-    FBin.TextWidth:= 100;
+    FBin.TextWidth:= UiOps.ViewerBinaryWidth;
     FBin.TextPopupCommands:= [vpCmdCopy, vpCmdCopyHex, vpCmdSelectAll];
     FBin.TextPopupCaption[vpCmdCopy]:= msgEditCopy;
     FBin.TextPopupCaption[vpCmdCopyHex]:= msgEditCopy+' (hex)';

@@ -743,6 +743,7 @@ begin
     UiOps.NewdocEnds:= c.GetValue('newdoc_eol', UiOps.NewdocEnds);
 
     UiOps.DefaultEncUtf8:= c.GetValue(str_DefEncodingIsUtf8, UiOps.DefaultEncUtf8);
+    UiOps.ViewerBinaryWidth:= c.GetValue('viewer_binary_width', UiOps.ViewerBinaryWidth);
 
     Op.OpIndentAuto:= c.GetValue('indent_auto', Op.OpIndentAuto);
     Op.OpIndentAutoKind:= c.GetValue('indent_kind', Op.OpIndentAutoKind);

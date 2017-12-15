@@ -939,5 +939,9 @@
   "find_hotkey_op_in_sel": "Alt+X", 
   "find_hotkey_op_multiline": "Alt+M", 
   "find_hotkey_op_confirm_rep": "Alt+Y", 
+
+  //[Viewer]
+  //Viewer text width in binary mode
+  "viewer_binary_width": 100,
   
 }

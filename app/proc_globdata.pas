@@ -169,6 +169,7 @@ type
     NewdocEnds: integer;
 
     DefaultEncUtf8: boolean;
+    ViewerBinaryWidth: integer;
 
     StatusNoSel: string;
     StatusSmallSel: string;
@@ -1135,6 +1136,7 @@ begin
     NewdocEnds:= {$ifdef windows} Ord(cEndWin) {$else} Ord(cEndUnix) {$endif};
 
     DefaultEncUtf8:= {$ifdef windows} false {$else} true {$endif};
+    ViewerBinaryWidth:= 100;
 
     StatusNoSel:= 'Ln {y}, Col {xx}';
     StatusSmallSel:= 'Ln {y}, Col {xx}, sel';

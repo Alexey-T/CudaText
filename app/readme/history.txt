@@ -10,6 +10,7 @@
 + add: dialog "Go to" works with binary viewer: can enter percents with "%" char, or hex offset
 + add: dialog "Go to" for editor: can enter percents with "%" char
 + add: prompts "file is not text", "file is too big" changed to one dialog (to allow binary view)
++ add: option "viewer_binary_width"
 - fix: lexer C# code-tree for generic func
 
 1.28.2 (2017/12)
