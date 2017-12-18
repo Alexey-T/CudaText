@@ -119,6 +119,7 @@ type
     FCheckFilenameOpened: TStrFunction;
     FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
+    FReadOnlyFromFile: boolean;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -206,6 +207,7 @@ type
     function Editor2: TATSynEdit;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
+    property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
     property FileName: string read FFileName write SetFileName;
     property FileWasBig: boolean read FFileWasBig write SetFileWasBig;
     property TabCaption: string read FTabCaption write SetTabCaption;
@@ -1371,7 +1373,10 @@ end;
 procedure TEditorFrame.UpdateReadOnlyFromFile;
 begin
   if IsFileReadonly(FileName) then
+  begin
     ReadOnly:= true;
+    ReadOnlyFromFile:= true;
+  end;
 end;
 
 function TEditorFrame.DoFileSave(ASaveAs: boolean): boolean;
@@ -1866,7 +1871,8 @@ begin
   c.SetValue(path+cHistory_Enc, EncodingName);
   c.SetValue(path+cHistory_Top, Editor.LineTop);
   c.SetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode));
-  c.SetValue(path+cHistory_RO, ReadOnly);
+  if not ReadOnlyFromFile then
+    c.SetValue(path+cHistory_RO, ReadOnly);
   c.SetValue(path+cHistory_Ruler, Editor.OptRulerVisible);
   c.SetValue(path+cHistory_Minimap, Editor.OptMinimapVisible);
   c.SetValue(path+cHistory_Micromap, Editor.OptMicromapVisible);
