@@ -1534,7 +1534,8 @@ begin
   UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
 
-  ActiveControl:= CurrentEditor;
+  CurrentFrame.SetFocus;
+
   UpdateSidebarButtons;
   UpdateBottomButtons;
   UpdateStatus;

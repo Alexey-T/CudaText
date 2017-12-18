@@ -85,7 +85,7 @@ var
   c: TJSONConfig;
   F: TEditorFrame;
   nGroup, nTab, i: integer;
-  path: string;
+  path, value: string;
   bModified: boolean;
 begin
   Result:= false;
@@ -112,8 +112,6 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      if not F.IsText then Continue;
-
       path:= '/'+Format('%3.3d', [i]);
 
       Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
@@ -123,6 +121,13 @@ begin
       c.SetValue(path+'/file', F.Filename);
       c.SetValue(path+'/tab_title', F.TabCaption);
       c.SetValue(path+'/group', nGroup+1); //support old sessions with 1-based index
+
+      if F.IsText then value:= ''
+      else
+      if F.IsBinary then value:= 'bin,'+IntToStr(Ord(F.Binary.Mode))
+      else
+      if F.IsPicture then value:= 'pic';
+      c.SetValue(path+'/kind', value);
 
       if bModified then
       begin
@@ -149,7 +154,7 @@ var
   c: TJSONConfig;
   F: TEditorFrame;
   list: TStringlist;
-  sFilename, sTabTitle, item_path: string;
+  sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
   nGroup, i: integer;
   Pages: TATPages;
   bModified: boolean;
@@ -178,6 +183,7 @@ begin
       sFilename:= c.GetValue(item_path+'file', '');
       sTabTitle:= c.GetValue(item_path+'tab_title', '');
       sText:= c.GetValue(item_path+'text', '');
+      sKind:= c.GetValue(item_path+'kind', '');
       bModified:= c.GetValue(item_path+'modified', false);
 
       //support old sessions with 1-based group index
@@ -201,6 +207,11 @@ begin
         nGroup:= Low(TATGroupsNums);
       Pages:= Groups.Pages[nGroup];
 
+      if SBeginsWith(sKind, 'bin') then
+        sOpenOptions:= '/binary'
+      else
+        sOpenOptions:= '';
+
       F:= nil;
       //modified tabs must restore text, and set filename (if not empty)
       if bModified then
@@ -223,7 +234,7 @@ begin
       else
       //unmodified+named tabs must load file again
       if FileExistsUTF8(sFilename) then
-        F:= DoFileOpen(sFilename, Pages);
+        F:= DoFileOpen(sFilename, Pages, sOpenOptions);
 
       //load other props (caret/encoding/etc)
       if Assigned(F) then
