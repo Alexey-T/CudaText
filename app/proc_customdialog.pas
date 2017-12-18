@@ -89,15 +89,19 @@ end;
 procedure DoControl_FixButtonHeight(C: TControl); inline;
 begin
   {$ifdef windows}
-  C.Height:= 23; //smaller
+  C.Height:= 23;
   {$endif}
 
   {$ifdef linux}
   C.Height:= 25;
   {$endif}
 
-  {$ifdef darwin}
-  C.Height:= 21; //smaller
+  {$ifdef LCLCarbon}
+  C.Height:= 21;
+  {$endif}
+
+  {$ifdef LCLCocoa}
+  C.Height:= 32;
   {$endif}
 end;
 
