@@ -3549,11 +3549,17 @@ begin
             ImgList:= TImageList(PtrInt(StrToInt64Def(StrCmd, 0)));
             PopupItem:= TMenuItem(PtrInt(StrToInt64Def(StrMenu, 0)));
 
-            if PopupItem.Owner is TPopupMenu then
-              (PopupItem.Owner as TPopupMenu).Images:= ImgList
+            //TPopupMenu - then menuitem.owner is set to popupmenu by Cud,
+            //TMainMenu - then menuitem.owner is fmMain
+            if PopupItem.Owner is TMenu then
+            begin
+              (PopupItem.Owner as TMenu).Images:= ImgList;
+            end
             else
-            if PopupItem.Owner is TMainMenu then
-              (PopupItem.Owner as TMainMenu).Images:= ImgList;
+            if PopupItem.Owner is TForm then
+            begin
+              (PopupItem.Owner as TForm).Menu.Images:= ImgList;
+            end;
 
             Result:= ReturnNone;
           end;
