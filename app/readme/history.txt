@@ -10,6 +10,7 @@
 + add: binary viewer uses "middle dot" unicode char
 + add: binary files save to sessions
 + add: lexer Perl reworked (hilite multiline comments, fix funcs in code-tree)
+- fix: lexer C# (tree for funcs)
 - fix: if disk file is read-only, then normal, app must not reopen it r/o
 
 1.30.0 (2017/12)
