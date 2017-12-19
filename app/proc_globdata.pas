@@ -886,7 +886,8 @@ begin
       {$ifdef linux} 'Courier New' {$endif}
       {$ifdef freebsd} 'Courier New' {$endif}
       {$ifdef darwin} 'Monaco' {$endif} ;
-    OpFontSize:= 10; //for all OS
+
+    OpFontSize:= {$ifdef LCLCocoa}13{$else}10{$endif};
     OpFontQuality:= fqDefault;
     OpFontLigatures:= false;
 
@@ -1046,7 +1047,7 @@ begin
     ScreenScale:= 100;
 
     VarFontName:= 'default';
-    VarFontSize:= {$ifdef windows} 9 {$else} 10 {$endif};
+    VarFontSize:= {$ifdef LCLCocoa}13{$else}9{$endif};
 
     OutputFontName:= VarFontName;
     OutputFontSize:= VarFontSize;
