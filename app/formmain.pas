@@ -2014,7 +2014,7 @@ begin
       if DoPyEvent(CurrentEditor, cEventOnOpenBefore,
         [SStringToPythonString(AFilename)]) = cPyFalse then exit;
 
-    //non-text option: 0: prompt, 1: open, 2: don't open
+    //non-text option
     if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
     if UiOps.NonTextFiles<>1 then
       if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
@@ -2026,6 +2026,12 @@ begin
               ConfirmBinaryCancel: Exit;
             end;
           2:
+            Exit;
+          3:
+            OpenMode:= cOpenModeVBinary;
+          4:
+            OpenMode:= cOpenModeVHex;
+          else
             Exit;
         end;
 

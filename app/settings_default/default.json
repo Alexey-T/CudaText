@@ -72,9 +72,11 @@
   
   //[File/NonText]
   //Non-text files: allow to open
-  //  0: prompt
-  //  1: open
+  //  0: show question message
+  //  1: open in editor
   //  2: don't open
+  //  3: open in viewer, binary mode
+  //  4: open in viewer, hex mode
   "ui_non_text": 0,
 
   //Non-text files: detection buffer size, Kb

@@ -4,8 +4,9 @@
   * changed
 
 
-1.30.3 (2017/12)
+1.31.0 (2017/12)
 
++ add: option "ui_non_text" has additional values, to auto open binary files in binary/hex modes
 + add: binary viewer uses "middle dot" unicode char
 + add: binary files save to sessions
 + add: lexer Perl reworked (hilite multiline comments, fix funcs in code-tree)
