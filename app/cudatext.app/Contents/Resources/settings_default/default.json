@@ -72,9 +72,11 @@
   
   //[File/NonText]
   //Non-text files: allow to open
-  //  0: prompt
-  //  1: open
+  //  0: show question message
+  //  1: open in editor
   //  2: don't open
+  //  3: open in viewer, binary mode
+  //  4: open in viewer, hex mode
   "ui_non_text": 0,
 
   //Non-text files: detection buffer size, Kb
@@ -891,6 +893,8 @@
   "ui_max_size_open": 1000,
 
   //Maximal file size, for which allowed to use lexers, in Mb
+  //  It's important for JSON, XML: if file is bigger, than lite lexer (JSON ^, XML ^)
+  //  will be used instead of normal lexer.
   "ui_max_size_lexer": 2,
   
   //[Ui]

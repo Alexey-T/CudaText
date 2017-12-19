@@ -1,13 +1,12 @@
-object SyntAnal24: TLibSyntAnalyzer
+object SyntAnal28: TLibSyntAnalyzer
   Formats = <
     item
-      DisplayName = 'Default'
+      DisplayName = 'Id'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
-      FormatType = ftCustomFont
     end
     item
       DisplayName = 'Symbol'
@@ -28,15 +27,7 @@ object SyntAnal24: TLibSyntAnalyzer
     item
       DisplayName = 'String'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Identifier'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clTeal
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -50,7 +41,7 @@ object SyntAnal24: TLibSyntAnalyzer
       Font.Style = [fsItalic]
     end
     item
-      DisplayName = 'Reserved word'
+      DisplayName = 'Keyword'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
@@ -58,35 +49,33 @@ object SyntAnal24: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Marked block'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clHighlightText
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Style = []
-      BgColor = clHighlight
-      FormatType = ftColor
-    end
-    item
       DisplayName = 'Variable'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clGreen
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
     end
     item
-      DisplayName = 'Something'
+      DisplayName = 'String 2'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsUnderline]
+      Font.Style = []
     end
     item
       DisplayName = 'String regex'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clTeal
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Comment doc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 7768644
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -101,9 +90,17 @@ object SyntAnal24: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Comment multiline'
+      StyleName = 'Comment doc'
+      TokenType = 1
+      Expression = '(?s)^=(begin|pod)\b.+?^=(end|cut)\b[^\n]*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Variable'
       StyleName = 'Variable'
-      TokenType = 8
+      TokenType = 2
       Expression = '\$\w+::\w+ |'#13#10'[\$\#%@]+\w+'#13#10
       ColumnFrom = 0
       ColumnTo = 0
@@ -126,7 +123,7 @@ object SyntAnal24: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id'
-      StyleName = 'Identifier'
+      StyleName = 'Id'
       TokenType = 2
       Expression = '[a-z_]\w*'
       ColumnFrom = 0
@@ -142,7 +139,7 @@ object SyntAnal24: TLibSyntAnalyzer
     end
     item
       DisplayName = 'String 2'
-      StyleName = 'Something'
+      StyleName = 'String 2'
       TokenType = 9
       Expression = #39'.*?('#39'|$)'#13#10
       ColumnFrom = 0
@@ -182,8 +179,8 @@ object SyntAnal24: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'Key words'
-      StyleName = 'Reserved word'
+      DisplayName = 'Keywords'
+      StyleName = 'Keyword'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -446,14 +443,6 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'Sub'
       ConditionList = <
         item
-          TagList.Strings = (
-            '{')
-          TokenTypes = 8
-        end
-        item
-          CondType = tcSkip
-        end
-        item
           TokenTypes = 4
         end
         item
@@ -461,11 +450,33 @@ object SyntAnal24: TLibSyntAnalyzer
             'sub')
           TokenTypes = 1028
         end>
-      BlockEnd = '}'
       NameFmt = 'sub %s-1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CollapseFmt = 'sub %s-1'
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Sub unnamed'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'sub')
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            '=')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end>
+      NameFmt = 'sub %s0'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      NoEndRule = True
       IgnoreAsParent = False
     end
     item
@@ -503,12 +514,24 @@ object SyntAnal24: TLibSyntAnalyzer
     'use sigtrap;'
     'do '#39'envars.pl'#39';'
     ''
+    '=begin name'
+    'dd'
+    '=end name'
+    ''
     '$re = m/text/i; #Usual regex'
     '$sLine =~ s/x/y/; #Subst regex'
     '$sLine =~ s/x\/y/y\*z/g; #Subst too'
     ''
-    '$MyVar or $MyLib::MyVar '
+    '20+20.30'
+    '$MyVar or $MyLib::MyVar'
     'or @MyArray or $#MyArray or %MyHash'
+    ''
+    'sub outer {'
+    '   my $inner = sub {'
+    '      $foo;'
+    '   };'
+    '   $inner->();'
+    '}'
     ''
     'sub MyOpen(*$) {  # debug'
     '  my ($sKey);'
@@ -536,12 +559,12 @@ object SyntAnal24: TLibSyntAnalyzer
     'Float const'
     'Hex const'
     'Char const'
-    'String 2')
-  MarkedBlockStyle = 'Marked block'
+    'String 2'
+    'Comment shebang')
   Extentions = 'pl pm cgi pod plx'
   LexerName = 'Perl'
   Notes.Strings = (
-    'Fixes by Alex, uvviewsoft.com')
+    'Fixes by Alexey (CudaText)')
   LineComment = '#'
   Charset = DEFAULT_CHARSET
 end

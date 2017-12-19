@@ -4,6 +4,14 @@
   * changed
 
 
+1.31.0 (2017/12)
+
++ add: option "ui_non_text" has additional values, to auto open binary files in binary/hex modes
++ add: binary viewer uses "middle dot" unicode char
++ add: binary files save to sessions
++ add: lexer Perl reworked (hilite multiline comments, fix funcs in code-tree)
+- fix: if disk file is read-only, then normal, app must not reopen it r/o
+
 1.30.0 (2017/12)
 
 + add: binary viewer. It is called when non-text file is opened, with additional prompt. File size for binary viewer can be any.
