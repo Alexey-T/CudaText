@@ -966,9 +966,25 @@ object fmMain: TfmMain
       Caption = 'Tab size: 2'
       OnClick = mnuTabsize2Click
     end
+    object mnuTabsize3: TMenuItem
+      Caption = 'Tab size: 3'
+      OnClick = mnuTabsize3Click
+    end
     object mnuTabsize4: TMenuItem
       Caption = 'Tab size: 4'
       OnClick = mnuTabsize4Click
+    end
+    object mnuTabsize5: TMenuItem
+      Caption = 'Tab size: 5'
+      OnClick = mnuTabsize5Click
+    end
+    object mnuTabsize6: TMenuItem
+      Caption = 'Tab size: 6'
+      OnClick = mnuTabsize6Click
+    end
+    object mnuTabsize7: TMenuItem
+      Caption = 'Tab size: 7'
+      OnClick = mnuTabsize7Click
     end
     object mnuTabsize8: TMenuItem
       Caption = 'Tab size: 8'

@@ -117,6 +117,10 @@ type
     ButtonCancel: TATButton;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
+    mnuTabsize3: TMenuItem;
+    mnuTabsize7: TMenuItem;
+    mnuTabsize6: TMenuItem;
+    mnuTabsize5: TMenuItem;
     mnuViewOnTop: TMenuItem;
     mnuOpPlugins: TMenuItem;
     mnuTreeSep1: TMenuItem;
@@ -430,7 +434,11 @@ type
     procedure mnuTabColorClick(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
     procedure mnuTabsize2Click(Sender: TObject);
+    procedure mnuTabsize3Click(Sender: TObject);
     procedure mnuTabsize4Click(Sender: TObject);
+    procedure mnuTabsize5Click(Sender: TObject);
+    procedure mnuTabsize6Click(Sender: TObject);
+    procedure mnuTabsize7Click(Sender: TObject);
     procedure mnuTabsize8Click(Sender: TObject);
     procedure MenuRecentsClear(Sender: TObject);
     procedure mnuFind2NextClick(Sender: TObject);
@@ -3616,9 +3624,29 @@ begin
   UpdateEditorTabsize(2);
 end;
 
+procedure TfmMain.mnuTabsize3Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(3);
+end;
+
 procedure TfmMain.mnuTabsize4Click(Sender: TObject);
 begin
   UpdateEditorTabsize(4);
+end;
+
+procedure TfmMain.mnuTabsize5Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(5);
+end;
+
+procedure TfmMain.mnuTabsize6Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(6);
+end;
+
+procedure TfmMain.mnuTabsize7Click(Sender: TObject);
+begin
+  UpdateEditorTabsize(7);
 end;
 
 procedure TfmMain.mnuTabsize8Click(Sender: TObject);

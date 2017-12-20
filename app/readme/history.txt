@@ -4,6 +4,10 @@
   * changed
 
 
+1.31.2 (2017/12)
+
++ add: statusbar menu for tab-size, added sizes 3, 5, 6, 7
+
 1.31.0 (2017/12)
 
 + add: option "ui_non_text" has additional values, to auto open binary files in binary/hex modes
