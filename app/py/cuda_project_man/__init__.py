@@ -26,7 +26,12 @@ def project_variables():
     res = collections.OrderedDict()
     data = global_project_info
     res['ProjDir'] = os.path.dirname(data.get('filename', ''))
-    res['ProjMainFile'] = data.get('mainfile', '')
+
+    fn = data.get('mainfile', '')
+    res['ProjMainFile'] = fn
+    res['ProjMainFileNameOnly'] = os.path.basename(fn)
+    res['ProjMainFileNameNoExt'] = '.'.join(os.path.basename(fn).split('.')[0:-1])
+
     data = global_project_info.get('vars', [])
     for item in data:
         s1, s2 = item.split('=', maxsplit=1)
