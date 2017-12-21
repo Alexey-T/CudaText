@@ -610,7 +610,14 @@ Python installed from Homebrew cannot be used by CudaText: it misses 32-bit .dyl
 
 ==Line states==
 
-In the gutter bar, you can see colored thin bars next to line numbers: green, yellow. It is line states. They show state of lines: usual line (not changed), changed, added, changed+saved. Line states help to see which lines were edited in the current session. And also CudaExt plugin gives few commands to jump over lines with some line states (go to next/previous, for changed, for added, for changed+added).
+In the gutter bar, you can see colored thin bars next to line numbers: green, yellow. It is line states. They show state of lines:
+
+* usual line (not changed)
+* changed
+* added
+* changed+saved
+
+Line states help to see which lines were edited in the current session. Also CudaExt plugin gives few commands to jump over lines with some line states (go to next/previous, for changed, for added, for changed+added).
 
 ==Project Manager==
 
