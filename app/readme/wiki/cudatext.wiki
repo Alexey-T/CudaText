@@ -594,14 +594,14 @@ Notes:
 
 ==Python integration==
 ===Python on Windows===
-For Windows, you need to download x32 or x64 (same bitness as CudaText) pack from https://sourceforge.net/projects/cudatext/files/release/Windows/Python_engine/ , and unpack it to CudaText folder (.dll files must be near .exe file).
+For Windows builds, Python engine is preinstalled. 
 
-This was info for Windows 7 or newer. For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from SynWrite.SF.net, from archived versions of SynWrite. Then write option in user.json:
+For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from SynWrite.SF.net, from archived versions of SynWrite. Before copying these files, first delete current Python files (*.dll, python*.zip, folder DLLs). And write option "pylib" in the user.json:
 
  "pylib": "python33.dll",
 
 ===Python on Linux===
-Linux version uses Python library from OS. Install Python 3.x into OS (usually already installed). Then read info about option "pylib" inside "default.json" config file. It tells how to find file "libpython3*.so" and specify it in the option "pylib".
+Linux version uses Python library from OS. Install Python 3.x into OS (usually already installed). Then read info about option "pylib" in the "default.json" config. It tells how to find file "libpython3*.so" and specify it in the option "pylib". Write option to the "user.json" or course.
 
 ===Python on macOS===
 On macOS you must install Python 3.x, from official site python.org. Versions 3.6...3.9 are ok. CudaText will find Python then.
