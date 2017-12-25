@@ -1439,15 +1439,20 @@ end;
 
 procedure DoForm_ScaleAuto(F: TForm);
 begin
+  if Screen.PixelsPerInch=96 then exit;
+
   {$ifdef darwin}
   exit;
-  //macOS: gives bad result, tool big labels
+  //macOS: gives bad result, toolbar big labels
   {$endif}
 
-  ////gave reduntant scaling on Win10 scale 150%
-  //F.AutoAdjustLayout(lapAutoAdjustForDPI,
-  //  96, Screen.PixelsPerInch,
-  //  F.Width, F.Scale96ToForm(F.Width));
+  ////F.AutoAdjustLayout gives reduntant scaling on Win10, fonts too big
+  ////fix it by F.ScaleFontsPPI
+  F.ScaleFontsPPI(96/Screen.PixelsPerInch);
+  F.AutoAdjustLayout(
+    lapAutoAdjustForDPI ,
+    96, Screen.PixelsPerInch,
+    F.Width, F.Scale96ToForm(F.Width));
 end;
 
 

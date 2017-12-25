@@ -4,10 +4,11 @@
   * changed
 
 
-1.31.2 (2017/12)
+1.31.3 (2017/12)
 
 + add: statusbar menu for tab-size, added sizes 3, 5, 6, 7
 + add: Project Manager variables for ext-tools {ProjMainFileNameOnly}, {ProjMainFileNameNoExt}
+- fix: high-DPI wrong scaling of plugin dlgs
 
 1.31.0 (2017/12)
 
