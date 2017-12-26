@@ -18,6 +18,7 @@ uses
   proc_msg,
   proc_globdata,
   proc_editor,
+  proc_customdialog,
   ATLinkLabel,
   ATSynEdit,
   ATSynEdit_Commands;
@@ -120,6 +121,7 @@ end;
 
 procedure TfmAbout.FormShow(Sender: TObject);
 begin
+  DoForm_ScaleAuto(Self);
   UpdateFormOnTop(Self);
 
   memo.Hide;
