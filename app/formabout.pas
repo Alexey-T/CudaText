@@ -40,6 +40,7 @@ type
     procedure bCreditsClick(Sender: TObject);
     procedure bOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure mnuTextCopyClick(Sender: TObject);
     procedure mnuTextOpenUrlClick(Sender: TObject);
@@ -116,6 +117,12 @@ begin
     SWidget,
     {$I %FPCVersion%}
     ]);
+end;
+
+procedure TfmAbout.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key=VK_ESCAPE then Close;
 end;
 
 

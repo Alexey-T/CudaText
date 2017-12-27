@@ -1,7 +1,7 @@
 object fmAbout: TfmAbout
   Left = 483
   Height = 270
-  Top = 497
+  Top = 445
   Width = 465
   ActiveControl = ButtonPanel1
   BorderIcons = [biSystemMenu]
@@ -9,7 +9,9 @@ object fmAbout: TfmAbout
   Caption = 'About'
   ClientHeight = 270
   ClientWidth = 465
+  KeyPreview = True
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poMainFormCenter
   ShowInTaskBar = stNever
@@ -17,7 +19,7 @@ object fmAbout: TfmAbout
   Scaled = False
   object LabelName: TLabel
     Left = 152
-    Height = 29
+    Height = 28
     Top = 64
     Width = 123
     Caption = 'CudaText'
@@ -32,9 +34,9 @@ object fmAbout: TfmAbout
     AnchorSideTop.Control = LabelName
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 17
-    Top = 105
-    Width = 51
+    Height = 14
+    Top = 104
+    Width = 43
     BorderSpacing.Top = 12
     Caption = 'Version'
     ParentColor = False
@@ -44,17 +46,17 @@ object fmAbout: TfmAbout
     AnchorSideTop.Control = labelVer
     AnchorSideTop.Side = asrBottom
     Left = 152
-    Height = 17
-    Top = 125
-    Width = 51
+    Height = 14
+    Top = 121
+    Width = 44
     BorderSpacing.Top = 3
     Caption = 'labelInf'
     ParentColor = False
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 235
+    Height = 30
+    Top = 234
     Width = 453
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
