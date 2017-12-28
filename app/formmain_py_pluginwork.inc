@@ -199,7 +199,8 @@ begin
   if mnuPlugins=nil then exit;
 
   mnuPlugins.Clear;
-  mnuOpPlugins.Clear;
+  if Assigned(mnuOpPlugins) then
+    mnuOpPlugins.Clear;
 
   for i:= 0 to High(AppPluginsCommand) do
   begin
@@ -215,6 +216,7 @@ begin
       DoOps_AddPluginMenuItem(SCaption, mnuPlugins, i);
 
     //add to Settings-plugins
+    if Assigned(mnuOpPlugins) then
     if Pos('o', SInMenu)>0 then
       DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
   end;

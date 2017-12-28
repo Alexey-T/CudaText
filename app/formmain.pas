@@ -4064,6 +4064,7 @@ begin
       mnuThemesSyntax:= nil;
       mnuLang:= nil;
       mnuPlugins:= nil;
+      mnuOpPlugins:= nil;
       mnuLexers:= nil;
     end;
     if AMenuId=PyMenuId_TopOptions then
