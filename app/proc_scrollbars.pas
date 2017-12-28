@@ -122,12 +122,12 @@ begin
   if not Assigned(FScrollHorz) then exit;
 
   FScrollVert.Min:= 0;
-  FScrollVert.PageSize:= ClientHeight;
+  FScrollVert.PageSize:= Tree.Height;
   FScrollVert.Max:= Tree.GetMaxScrollTop+FScrollVert.PageSize;
   FScrollVert.Position:= Tree.ScrolledTop;
 
   FScrollHorz.Min:= 0;
-  FScrollHorz.PageSize:= ClientWidth;
+  FScrollHorz.PageSize:= Tree.Width;
   FScrollHorz.Max:= Tree.GetMaxScrollLeft+FScrollHorz.PageSize;
   FScrollHorz.Position:= Tree.ScrolledLeft;
   FScrollHorz.IndentCorner:= FScrollHorz.Height;
