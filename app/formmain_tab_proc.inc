@@ -154,7 +154,7 @@ begin
   end;
 
   if bNeedTreeUpd then
-    Tree.Items.Clear;
+    CodeTree.Tree.Items.Clear;
 end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject);

@@ -13,9 +13,9 @@ begin
       if (C as TATListbox).ThemedColors then
         DoApplyThemeToListbox(C as ATListbox.TATListbox);
 
-    if C is TTreeViewMy then
-      if (C as TTreeViewMy).Themed then
-        DoApplyThemeToTreeview(C as TTreeview, true, false);
+    if C is TAppTreeContainer then
+      if (C as TAppTreeContainer).Themed then
+        DoApplyThemeToTreeview((C as TAppTreeContainer).Tree, true, false);
 
     if C is TATButtonsToolbar then
       if (C as TATButtonsToolbar).Themed then
@@ -137,7 +137,7 @@ begin
     fmFind.Invalidate;
   end;
 
-  DoApplyThemeToTreeview(Tree, true, true);
+  DoApplyThemeToTreeview(CodeTree.Tree, true, true);
 
   //proc_sidepanel_add_dialog
   for i:= 0 to CustomDialogs.Count-1 do

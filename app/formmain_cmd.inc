@@ -337,11 +337,11 @@ begin
         end;
       end;
 
-    cmd_TreeGotoNext: DoTreeviewJump(Tree, treeGoNext);
-    cmd_TreeGotoPrev: DoTreeviewJump(Tree, treeGoPrev);
-    cmd_TreeGotoParent: DoTreeviewJump(Tree, treeGoParent);
-    cmd_TreeGotoNextBrother: DoTreeviewJump(Tree, treeGoNextBro);
-    cmd_TreeGotoPrevBrother: DoTreeviewJump(Tree, treeGoPrevBro);
+    cmd_TreeGotoNext: DoTreeviewJump(CodeTree.Tree, treeGoNext);
+    cmd_TreeGotoPrev: DoTreeviewJump(CodeTree.Tree, treeGoPrev);
+    cmd_TreeGotoParent: DoTreeviewJump(CodeTree.Tree, treeGoParent);
+    cmd_TreeGotoNextBrother: DoTreeviewJump(CodeTree.Tree, treeGoNextBro);
+    cmd_TreeGotoPrevBrother: DoTreeviewJump(CodeTree.Tree, treeGoPrevBro);
     cmd_TreeUpdate: UpdateTree(true, false{ignore visible}, true{ForceUpdateAll});
 
     cmd_HelpAbout: DoHelpAbout;

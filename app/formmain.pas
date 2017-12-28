@@ -888,7 +888,7 @@ type
     procedure InitStatusButton;
   public
     { public declarations }
-    Tree: TTreeViewMy;
+    CodeTree: TAppTreeContainer;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
     function FrameCount: integer;
@@ -1047,9 +1047,9 @@ var
   R: TecTextRange;
   P: TPoint;
 begin
-  if Tree.Selected=nil then exit;
-  if Tree.Selected.Data=nil then exit;
-  R:= TecTextRange(Tree.Selected.Data);
+  if CodeTree.Tree.Selected=nil then exit;
+  if CodeTree.Tree.Selected.Data=nil then exit;
+  R:= TecTextRange(CodeTree.Tree.Selected.Data);
   P:= CurrentFrame.Adapter.TreeGetPositionOfRange(R);
 
   FTreeClick:= true;
@@ -1199,15 +1199,15 @@ begin
   InitToolbar;
   InitSidebar;
 
-  Tree:= TTreeViewMy.Create(Self);
-  Tree.Parent:= PanelLeft;
-  Tree.Align:= alClient;
-  Tree.Images:= ImageListTree;
-  Tree.Themed:= true;
-  Tree.OnDblClick:= @DoPanel_TreeviewOnDblClick;
-  Tree.OnMouseMove:= @DoPanel_TreeviewOnMouseMove;
-  Tree.OnKeyDown:= @DoPanel_TreeviewOnKeyDown;
-  Tree.PopupMenu:= PopupTree;
+  CodeTree:= TAppTreeContainer.Create(Self);
+  CodeTree.Parent:= PanelLeft;
+  CodeTree.Align:= alClient;
+  CodeTree.Tree.Images:= ImageListTree;
+  CodeTree.Themed:= true;
+  CodeTree.Tree.OnDblClick:= @DoPanel_TreeviewOnDblClick;
+  CodeTree.Tree.OnMouseMove:= @DoPanel_TreeviewOnMouseMove;
+  CodeTree.Tree.OnKeyDown:= @DoPanel_TreeviewOnKeyDown;
+  CodeTree.Tree.PopupMenu:= PopupTree;
 
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.Parent:= PanelBottom;
@@ -1227,7 +1227,7 @@ begin
   ListboxVal.OnDrawItem:= @ListboxOutDrawItem;
   ListboxVal.OnKeyDown:= @ListboxOutKeyDown;
 
-  Tree.DoScaleScrollbar;
+  CodeTree.DoScaleScrollbar;
   ListboxOut.DoScaleScrollbar;
   ListboxVal.DoScaleScrollbar;
 
@@ -1313,7 +1313,7 @@ begin
   with AppSidePanels[0] do
   begin
     ItemCaption:= 'Tree';
-    ItemControl:= Tree;
+    ItemControl:= CodeTree;
   end;
 
   FFinder:= TATEditorFinder.Create;
@@ -1879,7 +1879,7 @@ begin
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
   TimerTreeFocus.Interval:= UiOps.TreeTimeFocus;
-  Tree.ToolTips:= UiOps.TreeShowTooltips;
+  CodeTree.Tree.ToolTips:= UiOps.TreeShowTooltips;
 
   fmConsole.memo.OptCaretShapeRO:= TATSynCaretShape(EditorOps.OpCaretShapeRO);
   fmConsole.memo.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
@@ -3332,62 +3332,62 @@ end;
 
 procedure TfmMain.mnuTreeFold2Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 2);
+  DoTreeviewFoldLevel(CodeTree.Tree, 2);
 end;
 
 procedure TfmMain.mnuTreeFold3Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 3);
+  DoTreeviewFoldLevel(CodeTree.Tree, 3);
 end;
 
 procedure TfmMain.mnuTreeFold4Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 4);
+  DoTreeviewFoldLevel(CodeTree.Tree, 4);
 end;
 
 procedure TfmMain.mnuTreeFold5Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 5);
+  DoTreeviewFoldLevel(CodeTree.Tree, 5);
 end;
 
 procedure TfmMain.mnuTreeFold6Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 6);
+  DoTreeviewFoldLevel(CodeTree.Tree, 6);
 end;
 
 procedure TfmMain.mnuTreeFold7Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 7);
+  DoTreeviewFoldLevel(CodeTree.Tree, 7);
 end;
 
 procedure TfmMain.mnuTreeFold8Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 8);
+  DoTreeviewFoldLevel(CodeTree.Tree, 8);
 end;
 
 procedure TfmMain.mnuTreeFold9Click(Sender: TObject);
 begin
-  DoTreeviewFoldLevel(Tree, 9);
+  DoTreeviewFoldLevel(CodeTree.Tree, 9);
 end;
 
 procedure TfmMain.mnuTreeFoldAllClick(Sender: TObject);
 begin
-  Tree.FullCollapse;
+  CodeTree.Tree.FullCollapse;
 end;
 
 procedure TfmMain.mnuTreeSortedClick(Sender: TObject);
 begin
-  if Tree.SortType=stNone then
-    Tree.SortType:= stText
+  if CodeTree.Tree.SortType=stNone then
+    CodeTree.Tree.SortType:= stText
   else
-    Tree.SortType:= stNone;
+    CodeTree.Tree.SortType:= stNone;
 
-  mnuTreeSorted.Checked:= Tree.SortType<>stNone;
+  mnuTreeSorted.Checked:= CodeTree.Tree.SortType<>stNone;
 end;
 
 procedure TfmMain.mnuTreeUnfoldAllClick(Sender: TObject);
 begin
-  Tree.FullExpand;
+  CodeTree.Tree.FullExpand;
 end;
 
 

@@ -3916,7 +3916,7 @@ var
   Pnt1, Pnt2: TPoint;
   PtrText: PChar;
   StrText: string;
-  Tree: TTreeViewMy;
+  TreeCont: TAppTreeContainer;
   TreeNode, Node1: TTreeNode;
   ItemList: TList;
   i: integer;
@@ -3925,7 +3925,7 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'LiLisi:tree_proc', @IdTree, @IdAction, @IdItem, @NIndex, @PtrText, @NImageIndex)) then
     begin
       StrText:= string(PtrText);
-      Tree:= TTreeViewMy(PtrInt(IdTree));
+      TreeCont:= TAppTreeContainer(PtrInt(IdTree));
       TreeNode:= TTreeNode(PtrInt(IdItem));
 
       case IdAction of
@@ -3934,7 +3934,7 @@ begin
             if Assigned(TreeNode) then
               Node1:= TreeNode.GetFirstChild
             else
-              Node1:= Tree.Items.GetFirstNode;
+              Node1:= TreeCont.Tree.Items.GetFirstNode;
             if Node1=nil then exit(ReturnNone);
 
             ItemList:= TList.Create;
@@ -3959,14 +3959,14 @@ begin
 
         TREE_ITEM_ADD:
           begin
-            Node1:= Tree.Items.AddChild(TreeNode, StrText);
+            Node1:= TreeCont.Tree.Items.AddChild(TreeNode, StrText);
             Node1.Text:= StrText;
             Node1.ImageIndex:= NImageIndex;
             Node1.SelectedIndex:= NImageIndex;
             if NIndex>=0 then
               Node1.Index:= NIndex;
 
-            Tree.Invalidate;
+            TreeCont.Tree.Invalidate;
             Result:= PyLong_FromLongLong(PtrInt(Node1));
           end;
 
@@ -3975,9 +3975,9 @@ begin
             if Assigned(TreeNode) then
               TreeNode.Free
             else
-              Tree.Items.Clear;
+              TreeCont.Tree.Items.Clear;
 
-            Tree.Invalidate;
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -3985,7 +3985,7 @@ begin
           begin
             if Assigned(TreeNode) then
               TreeNode.Text:= StrText;
-            Tree.Invalidate;
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -3996,7 +3996,7 @@ begin
               TreeNode.ImageIndex:= NImageIndex;
               TreeNode.SelectedIndex:= NImageIndex;
             end;
-            Tree.Invalidate;
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -4006,15 +4006,15 @@ begin
             begin
               TreeNode.Selected:= true;
               TreeNode.MakeVisible;
-              Tree.Invalidate;
+              TreeCont.Tree.Invalidate;
             end;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_GET_SELECTED:
           begin
-            if Assigned(Tree.Selected) then
-              Result:= PyLong_FromLongLong(PtrInt(Tree.Selected))
+            if Assigned(TreeCont.Tree.Selected) then
+              Result:= PyLong_FromLongLong(PtrInt(TreeCont.Tree.Selected))
             else
               Result:= ReturnNone;
           end;
@@ -4050,7 +4050,7 @@ begin
           begin
             if Assigned(TreeNode) then
               TreeNode.Collapse(false);
-            Tree.Invalidate;
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -4059,46 +4059,46 @@ begin
             if Assigned(TreeNode) then
               TreeNode.Collapse(true)
             else
-              Tree.FullCollapse;
-            Tree.Invalidate;
+              TreeCont.Tree.FullCollapse;
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_FOLD_LEVEL:
           begin
-            DoTreeviewFoldLevel(Tree, NIndex);
+            DoTreeviewFoldLevel(TreeCont.Tree, NIndex);
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_UNFOLD:
           begin
-            //if Tree.Owner is TFormDummy then
-            //  (Tree.Owner as TFormDummy).BlockedOnUnfold:= true;
+            //if TreeCont.Owner is TFormDummy then
+            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= true;
 
             if Assigned(TreeNode) then
               TreeNode.Expand(false);
 
-            //if Tree.Owner is TFormDummy then
-            //  (Tree.Owner as TFormDummy).BlockedOnUnfold:= false;
+            //if TreeCont.Owner is TFormDummy then
+            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= false;
 
-            Tree.Invalidate;
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_ITEM_UNFOLD_DEEP:
           begin
-            //if Tree.Owner is TFormDummy then
-            //  (Tree.Owner as TFormDummy).BlockedOnUnfold:= true;
+            //if TreeCont.Owner is TFormDummy then
+            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= true;
 
             if Assigned(TreeNode) then
               TreeNode.Expand(true)
             else
-              Tree.FullExpand;
+              TreeCont.Tree.FullExpand;
 
-            //if Tree.Owner is TFormDummy then
-            //  (Tree.Owner as TFormDummy).BlockedOnUnfold:= false;
+            //if TreeCont.Owner is TFormDummy then
+            //  (TreeCont.Owner as TFormDummy).BlockedOnUnfold:= false;
 
-            Tree.Invalidate;
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
@@ -4116,32 +4116,32 @@ begin
 
         TREE_GET_IMAGELIST:
           begin
-            Result:= PyLong_FromLongLong(Int64(PtrInt(Tree.Images)));
+            Result:= PyLong_FromLongLong(Int64(PtrInt(TreeCont.Tree.Images)));
           end;
 
         TREE_LOCK:
           begin
-            Tree.Items.BeginUpdate;
+            TreeCont.Tree.Items.BeginUpdate;
             Result:= ReturnNone;
           end;
 
         TREE_UNLOCK:
           begin
-            Tree.Items.EndUpdate;
+            TreeCont.Tree.Items.EndUpdate;
             Result:= ReturnNone;
           end;
 
         TREE_PROP_SHOW_ROOT:
           begin
-            Tree.ShowRoot:= AppStrToBool(StrText);
-            Tree.Invalidate;
+            TreeCont.Tree.ShowRoot:= AppStrToBool(StrText);
+            TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
           end;
 
         TREE_THEME:
           begin
-            Tree.Themed:= true;
-            DoApplyThemeToTreeview(Tree, true, false);
+            TreeCont.Themed:= true;
+            DoApplyThemeToTreeview(TreeCont.Tree, true, false);
             Result:= ReturnNone;
           end;
 

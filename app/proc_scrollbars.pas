@@ -11,15 +11,9 @@ uses
   ATListbox;
 
 type
-  { TTreeViewMy }
+  { TAppTreeView }
 
-  TTreeViewMy = class(TTreeView)
-  private
-    FScroll: TATScroll;
-    FThemed: boolean;
-    procedure ScrollChange(Sender: TObject);
-    procedure SetThemed(AValue: boolean);
-    procedure UpdScroll;
+  TAppTreeView = class(TTreeView)
   protected
     procedure DoSelectionChanged; override;
     procedure Resize; override;
@@ -28,7 +22,23 @@ type
     procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
   public
+  end;
+
+type
+
+  { TAppTreeContainer }
+
+  TAppTreeContainer = class(TCustomControl)
+  private
+    FScrollVert: TATScroll;
+    FThemed: boolean;
+    procedure ScrollVertChange(Sender: TObject);
+    procedure SetThemed(AValue: boolean);
+    procedure UpdateScrolls;
+  public
+    Tree: TAppTreeView;
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     property Themed: boolean read FThemed write SetThemed;
     procedure DoScaleScrollbar;
   end;
@@ -40,88 +50,98 @@ const
 
 implementation
 
-{ TTreeViewMy }
-
-constructor TTreeViewMy.Create(AOwner: TComponent);
+constructor TAppTreeContainer.Create(AOwner: TComponent);
 begin
   inherited;
 
-  FScroll:= TATScroll.Create(Self);
-  FScroll.Parent:= Self;
-  FScroll.Kind:= sbVertical;
-  FScroll.Align:= alRight;
-  FScroll.Width:= UiOps_ScrollbarWidth;
-  FScroll.IndentBorder:= UiOps_ScrollbarBorderSize;
-  FScroll.OnChange:= @ScrollChange;
+  Tree:= TAppTreeView.Create(Self);
+  Tree.Parent:= Self;
+  Tree.Align:= alClient;
+
+  FScrollVert:= TATScroll.Create(Self);
+  FScrollVert.Parent:= Self;
+  FScrollVert.Kind:= sbVertical;
+  FScrollVert.Align:= alRight;
+  FScrollVert.Width:= UiOps_ScrollbarWidth;
+  FScrollVert.IndentBorder:= UiOps_ScrollbarBorderSize;
+  FScrollVert.OnChange:= @ScrollVertChange;
 
   SetThemed(false);
-  UpdScroll;
+  UpdateScrolls;
 end;
 
-procedure TTreeViewMy.DoScaleScrollbar;
+destructor TAppTreeContainer.Destroy;
 begin
-  FScroll.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
+  FreeAndNil(Tree);
+  FreeAndNil(FScrollVert);
+  inherited;
 end;
 
-procedure TTreeViewMy.ScrollChange(Sender: TObject);
+procedure TAppTreeContainer.DoScaleScrollbar;
 begin
-  ScrolledTop:= FScroll.Position;
+  FScrollVert.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
 end;
 
-procedure TTreeViewMy.SetThemed(AValue: boolean);
+procedure TAppTreeContainer.ScrollVertChange(Sender: TObject);
+begin
+  Tree.ScrolledTop:= FScrollVert.Position;
+end;
+
+procedure TAppTreeContainer.SetThemed(AValue: boolean);
 begin
   FThemed:= AValue;
-  FScroll.Visible:= FThemed;
+  FScrollVert.Visible:= FThemed;
   if FThemed then
-    ScrollBars:= ssNone
+    Tree.ScrollBars:= ssNone
   else
-    ScrollBars:= ssAutoBoth;
+    Tree.ScrollBars:= ssAutoBoth;
 end;
 
-procedure TTreeViewMy.UpdScroll;
+procedure TAppTreeContainer.UpdateScrolls;
 begin
-  if not Assigned(FScroll) then exit;
-  FScroll.Min:= 0;
-  FScroll.PageSize:= ClientHeight;
-  FScroll.Max:= GetMaxScrollTop+FScroll.PageSize;
-  FScroll.Position:= ScrolledTop;
+  if not Assigned(Tree) then exit;
+  if not Assigned(FScrollVert) then exit;
+  FScrollVert.Min:= 0;
+  FScrollVert.PageSize:= ClientHeight;
+  FScrollVert.Max:= Tree.GetMaxScrollTop+FScrollVert.PageSize;
+  FScrollVert.Position:= Tree.ScrolledTop;
 end;
 
-procedure TTreeViewMy.DoSelectionChanged;
-begin
-  inherited;
-  UpdScroll;
-end;
-
-procedure TTreeViewMy.Resize;
+procedure TAppTreeView.DoSelectionChanged;
 begin
   inherited;
-  UpdScroll;
+  (Owner as TAppTreeContainer).UpdateScrolls;
 end;
 
-procedure TTreeViewMy.CMChanged(var Message: TLMessage);
+procedure TAppTreeView.Resize;
 begin
   inherited;
-  UpdScroll;
+  (Owner as TAppTreeContainer).UpdateScrolls;
 end;
 
-function TTreeViewMy.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
+procedure TAppTreeView.CMChanged(var Message: TLMessage);
+begin
+  inherited;
+  (Owner as TAppTreeContainer).UpdateScrolls;
+end;
+
+function TAppTreeView.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint): Boolean;
 begin
   Result:= inherited;
-  UpdScroll;
+  (Owner as TAppTreeContainer).UpdateScrolls;
 end;
 
-procedure TTreeViewMy.Collapse(Node: TTreeNode);
+procedure TAppTreeView.Collapse(Node: TTreeNode);
 begin
-  inherited Collapse(Node);
-  UpdScroll;
+  inherited;
+  (Owner as TAppTreeContainer).UpdateScrolls;
 end;
 
-procedure TTreeViewMy.Expand(Node: TTreeNode);
+procedure TAppTreeView.Expand(Node: TTreeNode);
 begin
-  inherited Expand(Node);
-  UpdScroll;
+  inherited;
+  (Owner as TAppTreeContainer).UpdateScrolls;
 end;
 
 

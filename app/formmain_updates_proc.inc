@@ -301,9 +301,9 @@ begin
   StatusProgress.Font:= Self.Font;
 
   //dont set font for PanelLeft/PanelBottom, side effects
-  Tree.Font.Name:= UiOps.VarFontName;
-  Tree.Font.Size:= UiOps.VarFontSize;
-  Tree.Font.PixelsPerInch:= Screen.PixelsPerInch;
+  CodeTree.Tree.Font.Name:= UiOps.VarFontName;
+  CodeTree.Tree.Font.Size:= UiOps.VarFontSize;
+  CodeTree.Tree.Font.PixelsPerInch:= Screen.PixelsPerInch;
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
   PanelLeftTitle.Font.Size:= UiOps.VarFontSize;
   PanelLeftTitle.Font.PixelsPerInch:= Screen.PixelsPerInch;
@@ -773,9 +773,9 @@ var
   Ed: TATSynEdit;
 begin
   if UiOps.TreeShowIcons then
-    Tree.Images:= ImageListTree
+    CodeTree.Tree.Images:= ImageListTree
   else
-    Tree.Images:= nil;
+    CodeTree.Tree.Images:= nil;
 
   if AConsiderTreeVisible then
     if not ShowSidePanel then exit;
@@ -786,7 +786,7 @@ begin
   if (Ed.Strings.Count=0) or
     (Ed.Strings.Count>UiOps.MaxLinesForTree) then
   begin
-    Tree.Items.Clear;
+    CodeTree.Tree.Items.Clear;
     exit;
   end;
 
@@ -803,21 +803,21 @@ begin
 
     if AFill then
     begin
-      Tree.BeginUpdate;
+      CodeTree.Tree.BeginUpdate;
       try
-        Adapter.TreeFill(Tree);
+        Adapter.TreeFill(CodeTree.Tree);
         //Lazarus dont sort new items
-        if Tree.SortType<>stNone then
-          Tree.AlphaSort;
+        if CodeTree.Tree.SortType<>stNone then
+          CodeTree.Tree.AlphaSort;
       finally
-        Tree.EndUpdate;
+        CodeTree.Tree.EndUpdate;
       end;
 
       //force update scrollbar
-      Tree.Perform(CM_CHANGED, 0, 0);
+      CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
 
       if UiOps.TreeCache then
-        DoTreeviewCopy(Tree, Frame.CachedTreeview);
+        DoTreeviewCopy(CodeTree.Tree, Frame.CachedTreeview);
     end;
 
     UpdateTreeSelection;
@@ -836,7 +836,7 @@ begin
   Caret:= Ed.Carets[0];
 
   if UiOps.TreeAutoSync then
-    Frame.Adapter.TreeShowItemForCaret(Tree, Point(Caret.PosX, Caret.PosY));
+    Frame.Adapter.TreeShowItemForCaret(CodeTree.Tree, Point(Caret.PosX, Caret.PosY));
 end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
@@ -1104,7 +1104,7 @@ begin
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar1.png');
   UpdateImagelistWithIconFromFile(ImageListTree, Str+'ar2.png');
 
-  Tree.Invalidate;
+  CodeTree.Tree.Invalidate;
 end;
 
 

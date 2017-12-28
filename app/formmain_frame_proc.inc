@@ -59,7 +59,7 @@ begin
 
     if UiOps.TreeCache and (F.CachedTreeview.Items.Count>0) then
     begin
-      DoTreeviewCopy(F.CachedTreeview, Tree);
+      DoTreeviewCopy(F.CachedTreeview, CodeTree.Tree);
       UpdateTreeSelection;
     end
     else

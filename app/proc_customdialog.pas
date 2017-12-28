@@ -579,14 +579,14 @@ begin
 
   if (S='treeview') then
   begin
-    Ctl:= TTreeViewMy.Create(AForm);
-    DoApplyThemeToTreeview(TTreeViewMy(Ctl), false, true);
-    TTreeViewMy(Ctl).BorderStyle:= bsSingle;
-    TTreeViewMy(Ctl).Images:= TImageList.Create(AForm);
-    TTreeViewMy(Ctl).OnChange:= @AForm.DoOnTreeviewChange;
-    TTreeViewMy(Ctl).OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
-    TTreeViewMy(Ctl).OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
-    TTreeViewMy(Ctl).OnExpanding:= @AForm.DoOnTreeviewExpanding;
+    Ctl:= TAppTreeContainer.Create(AForm);
+    DoApplyThemeToTreeview((Ctl as TAppTreeContainer).Tree, false, true);
+    (Ctl as TAppTreeContainer).Tree.BorderStyle:= bsSingle;
+    (Ctl as TAppTreeContainer).Tree.Images:= TImageList.Create(AForm);
+    (Ctl as TAppTreeContainer).Tree.OnChange:= @AForm.DoOnTreeviewChange;
+    (Ctl as TAppTreeContainer).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
+    (Ctl as TAppTreeContainer).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
+    (Ctl as TAppTreeContainer).Tree.OnExpanding:= @AForm.DoOnTreeviewExpanding;
     exit
   end;
 
@@ -709,6 +709,9 @@ begin
      if SBeginsWith(S, 'button') then
        Props.FActive:= true;
      Ctl.Tag:= PtrInt(Props);
+
+     if Ctl is TAppTreeContainer then
+       (Ctl as TAppTreeContainer).Tree.Tag:= Ctl.Tag;
 
      if not Assigned(Ctl.OnClick) then
        Ctl.OnClick:= @AForm.DoOnClick;
