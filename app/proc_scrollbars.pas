@@ -31,7 +31,9 @@ type
   TAppTreeContainer = class(TCustomControl)
   private
     FScrollVert: TATScroll;
+    FScrollHorz: TATScroll;
     FThemed: boolean;
+    procedure ScrollHorzChange(Sender: TObject);
     procedure ScrollVertChange(Sender: TObject);
     procedure SetThemed(AValue: boolean);
     procedure UpdateScrolls;
@@ -66,6 +68,14 @@ begin
   FScrollVert.IndentBorder:= UiOps_ScrollbarBorderSize;
   FScrollVert.OnChange:= @ScrollVertChange;
 
+  FScrollHorz:= TATScroll.Create(Self);
+  FScrollHorz.Parent:= Self;
+  FScrollHorz.Kind:= sbHorizontal;
+  FScrollHorz.Align:= alBottom;
+  FScrollHorz.Height:= UiOps_ScrollbarWidth;
+  FScrollHorz.IndentBorder:= UiOps_ScrollbarBorderSize;
+  FScrollHorz.OnChange:= @ScrollHorzChange;
+
   SetThemed(false);
   UpdateScrolls;
 end;
@@ -74,12 +84,14 @@ destructor TAppTreeContainer.Destroy;
 begin
   FreeAndNil(Tree);
   FreeAndNil(FScrollVert);
+  FreeAndNil(FScrollHorz);
   inherited;
 end;
 
 procedure TAppTreeContainer.DoScaleScrollbar;
 begin
   FScrollVert.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
+  FScrollHorz.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
 end;
 
 procedure TAppTreeContainer.ScrollVertChange(Sender: TObject);
@@ -87,10 +99,16 @@ begin
   Tree.ScrolledTop:= FScrollVert.Position;
 end;
 
+procedure TAppTreeContainer.ScrollHorzChange(Sender: TObject);
+begin
+  Tree.ScrolledLeft:= FScrollHorz.Position;
+end;
+
 procedure TAppTreeContainer.SetThemed(AValue: boolean);
 begin
   FThemed:= AValue;
   FScrollVert.Visible:= FThemed;
+  FScrollHorz.Visible:= FThemed;
   if FThemed then
     Tree.ScrollBars:= ssNone
   else
@@ -101,10 +119,18 @@ procedure TAppTreeContainer.UpdateScrolls;
 begin
   if not Assigned(Tree) then exit;
   if not Assigned(FScrollVert) then exit;
+  if not Assigned(FScrollHorz) then exit;
+
   FScrollVert.Min:= 0;
   FScrollVert.PageSize:= ClientHeight;
   FScrollVert.Max:= Tree.GetMaxScrollTop+FScrollVert.PageSize;
   FScrollVert.Position:= Tree.ScrolledTop;
+
+  FScrollHorz.Min:= 0;
+  FScrollHorz.PageSize:= ClientWidth;
+  FScrollHorz.Max:= Tree.GetMaxScrollLeft+FScrollHorz.PageSize;
+  FScrollHorz.Position:= Tree.ScrolledLeft;
+  FScrollHorz.IndentCorner:= FScrollHorz.Height;
 end;
 
 procedure TAppTreeView.DoSelectionChanged;
