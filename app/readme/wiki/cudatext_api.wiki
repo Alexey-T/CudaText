@@ -1327,6 +1327,7 @@ Param id_action possible values:
 *** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
 
 * TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": str}. Here "kind" is one of strings: "text", "icon", "text_icon", "text_arrow", "arrow", "sep".
+* TOOLBAR_UPDATE: Updates toolbar buttons positions and sizes (for current size of image-list).
 
 * TOOLBAR_GET_CHECKED: Gets checked-state of button. Params: index - button index.
 * TOOLBAR_SET_CHECKED: Sets checked-state of button. Params: index - button index, index2 - bool value.
@@ -2061,6 +2062,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.211 (app 1.31.4)
+* add: toolbar_proc: TOOLBAR_UPDATE
 
 1.0.210 (app 1.29.0)
 * add: file_open: for binary viewer, pass options='/binary'

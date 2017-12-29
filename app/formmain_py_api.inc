@@ -4846,6 +4846,12 @@ begin
             Result:= DoToolbar_Enum(FToolbar);
           end;
 
+        TOOLBAR_UPDATE:
+          begin
+            FToolbar.UpdateControls;
+            Result:= ReturnNone;
+          end;
+
         TOOLBAR_SET_BUTTON:
           begin
             Result:= DoToolbar_SetButtonProps(FToolbar, NIndex1, NIndex2, StrText, StrText2);
