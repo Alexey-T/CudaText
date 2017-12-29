@@ -74,6 +74,7 @@ begin
   FScrollHorz.Align:= alBottom;
   FScrollHorz.Height:= UiOps_ScrollbarWidth;
   FScrollHorz.IndentBorder:= UiOps_ScrollbarBorderSize;
+  FScrollHorz.IndentCorner:= UiOps_ScrollbarWidth;
   FScrollHorz.OnChange:= @ScrollHorzChange;
 
   SetThemed(false);
@@ -130,7 +131,6 @@ begin
   FScrollHorz.PageSize:= Tree.Width;
   FScrollHorz.Max:= Tree.GetMaxScrollLeft+FScrollHorz.PageSize;
   FScrollHorz.Position:= Tree.ScrolledLeft;
-  FScrollHorz.IndentCorner:= FScrollHorz.Height;
 end;
 
 procedure TAppTreeView.DoSelectionChanged;
