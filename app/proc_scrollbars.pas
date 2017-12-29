@@ -8,7 +8,8 @@ uses
   Classes, SysUtils, Controls, Graphics, StdCtrls, ComCtrls, Forms,
   LMessages, LCLType,
   ATSynEdit_ScrollBar,
-  ATListbox;
+  ATListbox,
+  math;
 
 type
   { TAppTreeView }
@@ -128,9 +129,9 @@ begin
   FScrollVert.Position:= Tree.ScrolledTop;
 
   FScrollHorz.Min:= 0;
-  FScrollHorz.PageSize:= Tree.Width;
-  FScrollHorz.Max:= Tree.GetMaxScrollLeft+FScrollHorz.PageSize;
-  FScrollHorz.Position:= Tree.ScrolledLeft;
+  FScrollHorz.PageSize:= Max(1, Tree.ClientWidth);
+  FScrollHorz.Max:= Max(1, Tree.GetMaxScrollLeft+FScrollHorz.PageSize);
+  FScrollHorz.Position:= Max(0, Tree.ScrolledLeft);
 end;
 
 procedure TAppTreeView.DoSelectionChanged;
