@@ -484,10 +484,14 @@ end;
 
         id = dlg_proc(0, DLG_CREATE)
 
-        dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=toolbar', 'resize':True})
+        dlg_proc(id, DLG_PROP_SET, {'w':500, 'h':300, 'cap':'Test type=toolbar/statusbar', 'resize':True})
 
+        #------------
         n = dlg_proc(id, DLG_CTL_ADD, 'toolbar')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'tb', 'x':0, 'y':0, 'w':20, 'h':40, 'a_r': ('', ']'), 'color': 0x80B080 })
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'tb', 'x':0, 'y':0, 'w':20, 'h':40,
+            'align': ALIGN_TOP,
+            'color': 0x80B080,
+            })
 
         tb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
 
@@ -499,6 +503,36 @@ end;
         toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Callback', command=self.show_about, index2=n1)
         toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Hotkeys help', command=2707, index2=n2)
 
+        #----------
+        n = dlg_proc(id, DLG_CTL_ADD, 'statusbar')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'sb', 'x':0, 'y':0, 'w':20, 'h':28,
+            'align': ALIGN_BOTTOM,
+            'color': 0x40A0A0 })
+
+        sb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
+        statusbar_proc(sb_id, STATUSBAR_SET_IMAGELIST, value=imglist_id)
+        statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=11)
+        statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=22)
+        statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=33)
+
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=11, value=150)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=11, value=0xff00)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_FONT, tag=11, value=0xff)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=11, value='cell-a')
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=11, value=0)
+
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=22, value=50)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=22, value=0xffff)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_FONT, tag=22, value=0xff00)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=22, value='cell-b')
+
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=33, value=150)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=33, value='cell-c')
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=33, value=1)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_ALIGN, tag=33, value='R')
+
+
+        #----------
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
 

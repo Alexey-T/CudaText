@@ -31,7 +31,7 @@ method=test_pages
 
 [item23]
 section=commands
-caption=Test dlg_proc\test type=toolbar
+caption=Test dlg_proc\test type=toolbar/statusbar
 method=test_toolbar
 
 [item25]
