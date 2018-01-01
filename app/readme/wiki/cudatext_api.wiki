@@ -2112,10 +2112,8 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.212 (app 1.32.0)
+1.0.211 (app 1.32.0)
 * add: statusbar_proc()
-
-1.0.211 (app 1.31.4)
 * add: toolbar_proc: TOOLBAR_UPDATE
 
 1.0.210 (app 1.29.0)
