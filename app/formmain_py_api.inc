@@ -4937,6 +4937,7 @@ var
   NAction: integer;
   NIndex: integer;
   NTag: Int64;
+  ImgList: TImageList;
 begin
   with GetPythonEngine do
   begin
@@ -4982,6 +4983,59 @@ begin
               Result:= PyInt_FromLong(FBar.PanelCount-1)
             else
               Result:= PyInt_FromLong(NIndex);
+          end;
+
+        STATUSBAR_SET_IMAGELIST:
+          begin
+            ImgList:= TImageList(PtrInt(StrToInt64Def(StrValue, 0)));
+            FBar.Images:= ImgList;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_IMAGELIST:
+          begin
+            ImgList:= FBar.Images;
+            Result:= PyLong_FromLongLong(Int64(PtrInt(ImgList)));
+          end;
+
+        STATUSBAR_SET_COLOR_BACK:
+          begin
+            FBar.Color:= StrToIntDef(StrValue, clWhite);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_FONT:
+          begin
+            FBar.Font.Color:= StrToIntDef(StrValue, clBlack);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_BORDER:
+          begin
+            FBar.ColorBorderTop:= StrToIntDef(StrValue, clBlack);
+            FBar.ColorBorderD:= FBar.ColorBorderTop;
+            FBar.ColorBorderU:= FBar.ColorBorderTop;
+            FBar.ColorBorderL:= FBar.ColorBorderTop;
+            FBar.ColorBorderR:= FBar.ColorBorderTop;
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_COLOR_BACK:
+          begin
+            Result:= PyInt_FromLong(FBar.Color);
+          end;
+
+        STATUSBAR_GET_COLOR_FONT:
+          begin
+            Result:= PyInt_FromLong(FBar.Font.Color);
+          end;
+
+        STATUSBAR_GET_COLOR_BORDER:
+          begin
+            Result:= PyInt_FromLong(FBar.ColorBorderU);
           end;
 
         else
