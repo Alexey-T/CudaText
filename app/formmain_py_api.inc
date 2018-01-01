@@ -4931,9 +4931,9 @@ end;
 //statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value="")
 function Py_statusbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  PtrStatusbar, PtrValue: PChar;
-  StrStatusbar, StrValue: string;
-  FStatusbar: TATStatus;
+  PtrBar, PtrValue: PChar;
+  StrBar, StrValue: string;
+  FBar: TATStatus;
   NAction: integer;
   NIndex: integer;
   NTag: Int64;
@@ -4941,24 +4941,37 @@ begin
   with GetPythonEngine do
   begin
     if Bool(PyArg_ParseTuple(Args, 'siiLs:statusbar_proc',
-      @PtrStatusbar, @NAction, @NIndex, @NTag, @PtrValue)) then
+      @PtrBar, @NAction, @NIndex, @NTag, @PtrValue)) then
     begin
-      StrStatusbar:= string(PtrStatusbar);
+      StrBar:= string(PtrBar);
       StrValue:= string(PtrValue);
 
-      FStatusbar:= DoStatusbar_GetStatusbarFromId(StrStatusbar);
-      if FStatusbar=nil then
+      FBar:= DoStatusbar_GetStatusbarFromId(StrBar);
+      if FBar=nil then
         exit(ReturnNone);
 
-      {
+      if NTag<>0 then
+        NIndex:= FBar.FindPanel(NTag);
+
       case NAction of
-        TOOLBAR_ENUM:
+        STATUSBAR_GET_COUNT:
+          Result:= PyInt_FromLong(FBar.PanelCount);
+
+        STATUSBAR_DELETE_ALL:
           begin
-            Result:= DoToolbar_Enum(FToolbar);
+            FBar.DeletePanels;
+            Result:= ReturnNone;
           end;
+
+        STATUSBAR_DELETE_CELL:
+          begin
+            FBar.DeletePanel(NIndex);
+            Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
       end;
-      }
-      Result:= PyInt_FromLong(FStatusbar.PanelCount);
     end;
   end;
 end;
