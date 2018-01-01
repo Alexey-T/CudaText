@@ -1352,6 +1352,55 @@ Example adds button with dropdown submenu, which has 2 items:
  menu_proc('toolmenu:drop', MENU_ADD, caption='About...', command=2700)
  menu_proc('toolmenu:drop', MENU_ADD, caption='Edit plugin...', command="cuda_addonman,do_edit")
 
+===statusbar_proc===
+
+ statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value="")
+
+Perform action on statusbar UI control.
+
+* Param "id_statusbar": handle of control. Can be "main" for main program statusbar.
+* Param "index": index of cell (0-based), if action needs it.
+* Param "tag": int tag of cell. Tag value, if not 0, overrides "index" param. It's needed to address a cell without knowing its index, only by tag. CudaText addresses standard cells by tag in the range 1..20.
+
+Param "id_action" can be:
+
+* STATUSBAR_GET_COUNT: Gets int number of cells.
+* STATUSBAR_DELETE_ALL: Deletes all cells.
+* STATUSBAR_DELETE_CELL: Deletes one cell (by "index" or "tag").
+
+* STATUSBAR_ADD_CELL: Adds one cell. Param "index": -1: cell will be appended; >=0: cell will be inserted at given index. Param "tag" has special meaning: it is tag value of a new cell. Gets index of new cell, or None if cannot add (e.g. "tag" is busy).
+
+* STATUSBAR_GET_IMAGELIST: Gets handle of image-list object, attached to statusbar, or 0 for none.
+* STATUSBAR_SET_IMAGELIST: Sets handle if image-list object. Param "value": handle.
+
+* STATUSBAR_GET_COLOR_BACK: Gets color of statusbar background.
+* STATUSBAR_GET_COLOR_FONT: Gets color of statusbar font.
+* STATUSBAR_GET_COLOR_BORDER: Gets color of statusbar borders.
+
+* STATUSBAR_SET_COLOR_BACK: Sets color of statusbar background. Param "value": int color.
+* STATUSBAR_SET_COLOR_FONT: Sets color of statusbar font. Param "value": int color.
+* STATUSBAR_SET_COLOR_BORDER: Sets color of statusbar borders. Param "value": int color.
+
+* STATUSBAR_GET_CELL_SIZE: Gets width of cell.
+* STATUSBAR_GET_CELL_ALIGN: Gets alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
+* STATUSBAR_GET_CELL_TEXT: Gets text of cell.
+* STATUSBAR_GET_CELL_IMAGEINDEX: Gets icon index (inside image-list) of cell, -1 for none.
+* STATUSBAR_GET_CELL_COLOR_FONT: Gets font color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_COLOR_BACK: Gets background color of cell, COLOR_NONE if not set.
+* STATUSBAR_GET_CELL_TAG: Gets int tag of cell.
+
+* STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
+* STATUSBAR_SET_CELL_ALIGN: Sets alignment of cell. Param "value": str constant: "L", "C", "R".
+* STATUSBAR_SET_CELL_TEXT: Sets text of cell. Param "value": str.
+* STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside image-list) of cell, -1 for none. Param "value": int.
+* STATUSBAR_SET_CELL_COLOR_FONT: Sets font color of cell. Param "value": int color or COLOR_NONE.
+* STATUSBAR_SET_CELL_COLOR_BACK: Sets background color of cell. Param "value": int color or COLOR_NONE.
+* STATUSBAR_SET_CELL_TAG: Sets tag of cell. Param "value": int.
+
+Notes:
+
+* If cell text not empty, alignment applies only for text, icon is on the left. If text empty, alignment applies for icon.
+
 ===imagelist_proc===
 
  imagelist_proc(id_list, id_action, value="")
@@ -2062,6 +2111,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.212 (app 1.32.0)
+* add: statusbar_proc()
 
 1.0.211 (app 1.31.4)
 * add: toolbar_proc: TOOLBAR_UPDATE
