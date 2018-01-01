@@ -4986,6 +4986,16 @@ begin
               Result:= PyInt_FromLong(NIndex);
           end;
 
+        STATUSBAR_FIND_CELL:
+          begin
+            NTag:= StrToIntDef(StrValue, -1);
+            NIndex:= FBar.FindPanel(NTag);
+            if NIndex>=0 then
+              Result:= PyInt_FromLong(NIndex)
+            else
+              Result:= ReturnNone;
+          end;
+
         STATUSBAR_SET_IMAGELIST:
           begin
             ImgList:= TImageList(PtrInt(StrToInt64Def(StrValue, 0)));
