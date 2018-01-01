@@ -935,11 +935,7 @@ begin
     end;
 
     SItem:= SGetItem(SPanel);
-    case SItem of
-      'L': Al:= taLeftJustify;
-      'R': Al:= taRightJustify
-       else Al:= taCenter;
-    end;
+    Al:= AppStringToAlignment(SItem);
 
     SItem:= SGetItem(SPanel);
     NSize:= Max(16, StrToIntDef(SItem, 200));

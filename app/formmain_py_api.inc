@@ -4938,6 +4938,7 @@ var
   NIndex: integer;
   NTag: Int64;
   ImgList: TImageList;
+  Data: TATStatusData;
 begin
   with GetPythonEngine do
   begin
@@ -5036,6 +5037,39 @@ begin
         STATUSBAR_GET_COLOR_BORDER:
           begin
             Result:= PyInt_FromLong(FBar.ColorBorderU);
+          end;
+
+        STATUSBAR_SET_CELL_SIZE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.Width:= StrToIntDef(StrValue, 100);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_CELL_ALIGN:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.Align:= AppStringToAlignment(StrValue);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_CELL_IMAGEINDEX:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.ImageIndex:= StrToIntDef(StrValue, -1);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
           end;
 
         else

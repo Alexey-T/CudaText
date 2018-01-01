@@ -60,7 +60,10 @@ function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
 function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
 function FormatFileDateAsNiceString(const AFilename: string): string;
+
 function AppStrToBool(const S: string): boolean; inline;
+function AppStringToAlignment(const S: string): TAlignment;
+function AppAlignmentToString(const V: TAlignment): string;
 
 function ViewerGotoFromString(V: TATBinHex; SInput: string): boolean;
 procedure ViewerApplyTheme(V: TATBinHex);
@@ -534,6 +537,25 @@ const
 begin
   Result:= cModes[V.Mode];
 end;
+
+function AppStringToAlignment(const S: string): TAlignment;
+begin
+  case S of
+    'L': Result:= taLeftJustify;
+    'R': Result:= taRightJustify
+     else Result:= taCenter;
+  end;
+end;
+
+function AppAlignmentToString(const V: TAlignment): string;
+begin
+  case V of
+    taLeftJustify: Result:= 'L';
+    taRightJustify: Result:= 'R';
+    else Result:= 'C';
+  end;
+end;
+
 
 end.
 
