@@ -483,7 +483,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="54">
+    <Units Count="55">
       <Unit0>
         <Filename Value="cudatext.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -768,6 +768,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit53>
+      <Unit54>
+        <Filename Value="formmain_py_statusbars.inc"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Unit1"/>
+      </Unit54>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

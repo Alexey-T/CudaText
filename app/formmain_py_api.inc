@@ -4928,6 +4928,42 @@ begin
 end;
 
 
+//statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value="")
+function Py_statusbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  PtrStatusbar, PtrValue: PChar;
+  StrStatusbar, StrValue: string;
+  FStatusbar: TATStatus;
+  NAction: integer;
+  NIndex: integer;
+  NTag: Int64;
+begin
+  with GetPythonEngine do
+  begin
+    if Bool(PyArg_ParseTuple(Args, 'siiLs:statusbar_proc',
+      @PtrStatusbar, @NAction, @NIndex, @NTag, @PtrValue)) then
+    begin
+      StrStatusbar:= string(PtrStatusbar);
+      StrValue:= string(PtrValue);
+
+      FStatusbar:= DoStatusbar_GetStatusbarFromId(StrStatusbar);
+      if FStatusbar=nil then
+        exit(ReturnNone);
+
+      {
+      case NAction of
+        TOOLBAR_ENUM:
+          begin
+            Result:= DoToolbar_Enum(FToolbar);
+          end;
+      end;
+      }
+      Result:= PyInt_FromLong(FStatusbar.PanelCount);
+    end;
+  end;
+end;
+
+
 //dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name='')
 function Py_dlg_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -5237,6 +5273,7 @@ begin
     AddMethod('tree_proc', @Py_tree_proc, '');
     AddMethod('menu_proc', @Py_menu_proc, '');
     AddMethod('toolbar_proc', @Py_toolbar_proc, '');
+    AddMethod('statusbar_proc', @Py_statusbar_proc, '');
     AddMethod('listbox_proc', @Py_listbox_proc, '');
     AddMethod('canvas_proc', @Py_canvas_proc, '');
     AddMethod('timer_proc', @Py_timer_proc, '');
