@@ -491,9 +491,10 @@ end;
 
         tb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
 
-        toolbar_proc(tb_id, TOOLBAR_SET_ICON_SIZES, index=24, index2=24)
-        n1 = toolbar_proc(tb_id, TOOLBAR_ADD_ICON, text=icon1)
-        n2 = toolbar_proc(tb_id, TOOLBAR_ADD_ICON, text=icon2)
+        imglist_id = toolbar_proc(tb_id, TOOLBAR_GET_IMAGELIST)
+        imagelist_proc(imglist_id, IMAGELIST_SET_SIZE, value=(24,24))
+        n1 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=icon1)
+        n2 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=icon2)
         print('icon indexes:', n1, n2)
         toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Callback', command=self.show_about, index2=n1)
         toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Hotkeys help', command=2707, index2=n2)
