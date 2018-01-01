@@ -507,10 +507,12 @@ end;
         n = dlg_proc(id, DLG_CTL_ADD, 'statusbar')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'sb', 'x':0, 'y':0, 'w':20, 'h':28,
             'align': ALIGN_BOTTOM,
-            'color': 0x40A0A0 })
+            'color': 0x40A0A0,
+            })
 
         sb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
         statusbar_proc(sb_id, STATUSBAR_SET_IMAGELIST, value=imglist_id)
+        statusbar_proc(sb_id, STATUSBAR_SET_COLOR_BORDER, value=0xff0000)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=11)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=22)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=33)
