@@ -452,6 +452,7 @@ COMMANDS_LEXERS  = 4
 COMMANDS_CONFIG  = 8
 
 TOOLBAR_ENUM           = 0
+TOOLBAR_UPDATE         = 1
 TOOLBAR_SET_BUTTON     = 4
 TOOLBAR_ADD_BUTTON     = 5
 TOOLBAR_DELETE_ALL     = 6
@@ -543,6 +544,35 @@ VMODE_BINARY      = 1
 VMODE_HEX         = 2
 VMODE_UNICODE     = 3
 VMODE_UNICODE_HEX = 4
+
+STATUSBAR_GET_COUNT           = 0
+STATUSBAR_DELETE_ALL          = 1
+STATUSBAR_DELETE_CELL         = 2
+STATUSBAR_ADD_CELL            = 3
+STATUSBAR_FIND_CELL           = 4
+STATUSBAR_SET_IMAGELIST       = 5
+STATUSBAR_GET_IMAGELIST       = 6
+STATUSBAR_AUTOSIZE_CELL       = 9
+STATUSBAR_SET_COLOR_BACK      = 10
+STATUSBAR_SET_COLOR_FONT      = 11
+STATUSBAR_SET_COLOR_BORDER    = 12
+STATUSBAR_GET_COLOR_BACK      = 15
+STATUSBAR_GET_COLOR_FONT      = 16
+STATUSBAR_GET_COLOR_BORDER    = 17
+STATUSBAR_SET_CELL_SIZE       = 20
+STATUSBAR_SET_CELL_ALIGN      = 21
+STATUSBAR_SET_CELL_TEXT       = 22
+STATUSBAR_SET_CELL_IMAGEINDEX = 23
+STATUSBAR_SET_CELL_COLOR_FONT = 24
+STATUSBAR_SET_CELL_COLOR_BACK = 25
+STATUSBAR_SET_CELL_TAG        = 26
+STATUSBAR_GET_CELL_SIZE       = 30
+STATUSBAR_GET_CELL_ALIGN      = 31
+STATUSBAR_GET_CELL_TEXT       = 32
+STATUSBAR_GET_CELL_IMAGEINDEX = 33
+STATUSBAR_GET_CELL_COLOR_FONT = 34
+STATUSBAR_GET_CELL_COLOR_BACK = 35
+STATUSBAR_GET_CELL_TAG        = 36
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -697,6 +727,9 @@ def toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, 
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
     return ct.toolbar_proc(str(id_toolbar), id_action, text, text2, str(command), index, index2)
+
+def statusbar_proc(id_statusbar, id_action, index=-1, tag=0, value=""):
+    return ct.statusbar_proc(str(id_statusbar), id_action, index, tag, to_str(value))
 
 def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2=-1, y2=-1, style=-1, p1=-1, p2=-1):
     return ct.canvas_proc(id_canvas, id_action, text, color, size, x, y, x2, y2, style, p1, p2)

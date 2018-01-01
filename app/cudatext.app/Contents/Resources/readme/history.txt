@@ -4,10 +4,15 @@
   * changed
 
 
-1.31.2 (2017/12)
+1.32.0 (2018/01)
 
-+ add: statusbar menu for tab-size, added sizes 3, 5, 6, 7
-+ add: Project Manager variables for ext-tools {ProjMainFileNameOnly}, {ProjMainFileNameNoExt}
++ add: deleting of huge block (w/o undo) is instant now (before it was n seconds)
++ add: code-tree has horiz scrollbar
++ add: statusbar menu for tab-size: added sizes 3, 5, 6, 7
++ add: Project Manager variables for ExtTools plugin: {ProjMainFileNameOnly}, {ProjMainFileNameNoExt}
++ add: API for statusbar
+- fix: Windows high-DPI wrong scaling of plugin dlgs
+- fixes
 
 1.31.0 (2017/12)
 
