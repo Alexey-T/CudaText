@@ -5061,12 +5061,45 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_TEXT:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.Caption:= StrValue;
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
         STATUSBAR_SET_CELL_IMAGEINDEX:
           begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
             begin
               Data.ImageIndex:= StrToIntDef(StrValue, -1);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_CELL_COLOR_BACK:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.ColorBack:= StrToIntDef(StrValue, clWhite);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_CELL_COLOR_FONT:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.ColorFont:= StrToIntDef(StrValue, clBlack);
               FBar.Invalidate;
             end;
             Result:= ReturnNone;
