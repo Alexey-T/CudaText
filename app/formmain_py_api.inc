@@ -5105,6 +5105,80 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_TAG:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.Tag:= StrToInt64Def(StrValue, 0);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_SIZE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyInt_FromLong(Data.Width)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_ALIGN:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyString_FromString(PChar(AppAlignmentToString(Data.Align)))
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_TEXT:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyString_FromString(PChar(Data.Caption))
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_IMAGEINDEX:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyInt_FromLong(Data.ImageIndex)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_COLOR_BACK:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyInt_FromLong(Data.ColorBack)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_COLOR_FONT:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyInt_FromLong(Data.ColorFont)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_TAG:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyLong_FromLongLong(Data.Tag)
+            else
+              Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
