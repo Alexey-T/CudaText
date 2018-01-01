@@ -771,7 +771,6 @@
       <Unit54>
         <Filename Value="formmain_py_statusbars.inc"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Unit1"/>
       </Unit54>
     </Units>
   </ProjectOptions>

@@ -944,7 +944,7 @@ begin
     SItem:= SGetItem(SPanel);
     NSize:= Max(16, StrToIntDef(SItem, 200));
 
-    Status.AddPanel(NSize, Al, '', -1, NTag);
+    Status.AddPanel(-1, NSize, Al, '', -1, NTag);
   until false;
 
   UpdateStatusbarPanelAutosize;

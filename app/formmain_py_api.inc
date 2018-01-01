@@ -4950,8 +4950,9 @@ begin
       if FBar=nil then
         exit(ReturnNone);
 
-      if NTag<>0 then
-        NIndex:= FBar.FindPanel(NTag);
+      if NAction<>STATUSBAR_ADD_CELL then
+        if NTag<>0 then
+          NIndex:= FBar.FindPanel(NTag);
 
       case NAction of
         STATUSBAR_GET_COUNT:
@@ -4967,6 +4968,20 @@ begin
           begin
             FBar.DeletePanel(NIndex);
             Result:= ReturnNone;
+          end;
+
+        STATUSBAR_ADD_CELL:
+          begin
+            //check that tag is not busy
+            if NTag<>0 then
+              if FBar.FindPanel(NTag)>=0 then
+                exit(ReturnNone);
+
+            FBar.AddPanel(NIndex, 100, taLeftJustify, '', -1, NTag);
+            if NIndex<0 then
+              Result:= PyInt_FromLong(FBar.PanelCount-1)
+            else
+              Result:= PyInt_FromLong(NIndex);
           end;
 
         else

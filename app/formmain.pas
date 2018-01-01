@@ -1277,7 +1277,7 @@ begin
   StatusAlt.Align:= alNone;
   StatusAlt.Height:= Status.Height;
   StatusAlt.Padding:= 0;
-  StatusAlt.AddPanel(5000, taLeftJustify, '?');
+  StatusAlt.AddPanel(-1, 5000, taLeftJustify, '?');
   StatusAlt.Hide;
 
   fmConsole:= TfmConsole.Create(Self);
