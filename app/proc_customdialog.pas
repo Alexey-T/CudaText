@@ -24,6 +24,7 @@ uses
   ATStringProc,
   ATPanelColor,
   ATGauge,
+  ATStatusBar,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
   proc_customdialog_dummy,
@@ -687,6 +688,12 @@ begin
   begin
     Ctl:= TATButtonsToolbar.Create(AForm);
     TATButtonsToolbar(Ctl).Images:= TImageList.Create(AForm);
+    exit;
+  end;
+
+  if S='statusbar' then
+  begin
+    Ctl:= TATStatus.Create(AForm);
     exit;
   end;
 
