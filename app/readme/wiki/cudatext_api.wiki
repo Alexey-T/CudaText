@@ -178,9 +178,9 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_LAST_PLUGIN: Gets info about last plugin which run from program. It is str "module_name,method_name", values are empty if no plugins run yet.
 * PROC_SET_SUBCOMMANDS: Adds command items for plugin (for fixed module/method). Param text must be ";"-separated: "module_name;method_name;param_list". Param_list is "\n"-separated items. Each item is s_caption+"\t"+s_param_value. s_caption is caption for Commands dialog item, s_param_value is parameter for Python method (it can be any primitive type: 20, None, False, 'Test here', or expression).
 
-* PROC_GET_COMMAND: Gets info about item from application commands-list, with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enumerate all commands: call it from index "0", until you get None result.
-* PROC_GET_COMMAND_INITIAL: Same as PROC_GET_COMMAND, but gets info only about "initial state", which was before reading hotkey configs (main config and lexer-specific configs). 
-* PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items which were set in PROC_SET_SUBCOMMANDS). Call it with str(N), from N=0, until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
+* deprecated: PROC_GET_COMMAND: Gets info about item from application commands-list, with index int(text), 0-based. Gets tuple: (command_int_code, command_name, hotkey_str_1, hotkey_str_2), or None if index not correct. To enumerate all commands: call it from index "0", until you get None result.
+* deprecated: PROC_GET_COMMAND_INITIAL: Same as PROC_GET_COMMAND, but gets info only about "initial state", which was before reading hotkey configs (main config and lexer-specific configs). 
+* deprecated: PROC_GET_COMMAND_PLUGIN: Allows to enumerate all command plugins (and items which were set in PROC_SET_SUBCOMMANDS). Call it with str(N), from N=0, until you get None. Gets 5-tuple about N-th item (caption, module, method, param, lexers).
 
 * PROC_GET_COMMANDS: Gets list of all commands, as list of dict. Dict keys are:
 ** "type": str: Possible values: "cmd" (usual command), "lexer" (dynamically added command to activate lexer), "plugin" (dynamically added plugin command).
@@ -2115,6 +2115,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.212 (app 1.32.1)
+* deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - use PROC_GET_COMMANDS instead
 
 1.0.211 (app 1.32.0)
 * add: statusbar_proc()

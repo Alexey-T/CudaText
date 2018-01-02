@@ -2656,6 +2656,7 @@ begin
 
         APP_PROC_GET_COMMAND:
           begin
+            MsgOldApi('app_proc(PROC_GET_COMMAND)');
             if (AppKeymap.IsIndexValid(ParamInt)) and
               not ((AppKeymap[ParamInt].Command>=cmdFirstPluginCommand) and
                    (AppKeymap[ParamInt].Command<cmdLastPluginCommand)) and
@@ -2674,6 +2675,8 @@ begin
 
         APP_PROC_GET_COMMAND_INITIAL:
           begin
+            MsgOldApi('app_proc(PROC_GET_COMMAND_INITIAL)');
+
             //AppKeymapInitial must be inited with _same_ code
             //as AppKeymap in proc_global
             if not Assigned(AppKeymapInitial) then
@@ -2697,6 +2700,8 @@ begin
 
         APP_PROC_GET_COMMAND_PLUGIN:
           begin
+            MsgOldApi('app_proc(PROC_GET_COMMAND_PLUGIN)');
+
             if (ParamInt>=Low(AppPluginsCommand)) and
                (ParamInt<=High(AppPluginsCommand)) and
                (AppPluginsCommand[ParamInt].ItemModule<>'') then
