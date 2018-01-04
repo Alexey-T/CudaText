@@ -355,6 +355,7 @@ const
 
   TOOLBAR_ENUM           = 0;
   TOOLBAR_UPDATE         = 1;
+  TOOLBAR_GET_BUTTON_HANDLE = 2;
   TOOLBAR_SET_BUTTON     = 4;
   TOOLBAR_ADD_BUTTON     = 5;
   TOOLBAR_DELETE_ALL     = 6;

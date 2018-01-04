@@ -4857,6 +4857,14 @@ begin
             Result:= ReturnNone;
           end;
 
+        TOOLBAR_GET_BUTTON_HANDLE:
+          begin
+            if FToolbar.IsIndexOk(NIndex1) then
+              Result:= PyLong_FromLongLong(Int64(PtrInt(FToolbar.Buttons[NIndex1])))
+            else
+              Result:= ReturnNone;
+          end;
+
         TOOLBAR_SET_BUTTON:
           begin
             Result:= DoToolbar_SetButtonProps(FToolbar, NIndex1, NIndex2, StrText, StrText2);

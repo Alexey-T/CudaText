@@ -1308,6 +1308,7 @@ Param id_toolbar: currently can be "top" for main toolbar. Function gets None, i
 Param id_action possible values:
 
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
+* TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button with given index, or None if index not correct. Params: index.
 
 * TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
 ** index - index of button
@@ -2118,6 +2119,7 @@ Text is chr(1) separated items:
 
 1.0.212 (app 1.32.1)
 * deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - use PROC_GET_COMMANDS instead
+* add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLE
 
 1.0.211 (app 1.32.0)
 * add: statusbar_proc()
