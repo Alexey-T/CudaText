@@ -91,16 +91,6 @@ begin
 end;
 
 
-const
-  cATButtonKinds: array[TATButtonKind] of string = (
-    'text',
-    'icon',
-    'text_icon',
-    'text_icon',
-    'sep',
-    'sep'
-    );
-
 function DoToolbar_Enum(AToolbar: TATButtonsToolbar): PPyObject;
 var
   NLen: integer;
@@ -117,7 +107,7 @@ begin
     begin
       Btn:= AToolbar.Buttons[i];
       PyList_SetItem(Result, i,
-        Py_BuildValue('{sssssssiss}',
+        Py_BuildValue('{sssssssisi}',
           'cap',
           PChar(Btn.Caption),
           'hint',
@@ -127,7 +117,7 @@ begin
           'icon',
           Btn.ImageIndex,
           'kind',
-          PChar(cATButtonKinds[Btn.Kind])
+          Ord(Btn.Kind)
           ));
     end;
   end;
