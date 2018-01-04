@@ -417,6 +417,10 @@ const
   BTN_SET_KIND       = 7;
   BTN_GET_BOLD       = 8;
   BTN_SET_BOLD       = 9;
+  BTN_GET_ENABLED    = 10;
+  BTN_SET_ENABLED    = 11;
+  BTN_GET_VISIBLE    = 12;
+  BTN_SET_VISIBLE    = 13;
 
   APP_IMAGE_CREATE      = 0;
   APP_IMAGE_GET_SIZE    = 1;

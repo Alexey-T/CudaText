@@ -3800,7 +3800,29 @@ begin
           begin
             Btn.BoldFont:= AppStrToBool(StrValue);
             Result:= ReturnNone;
-          end
+          end;
+
+        BTN_GET_ENABLED:
+          begin
+            Result:= PyBool_FromLong(Ord(Btn.Enabled));
+          end;
+
+        BTN_SET_ENABLED:
+          begin
+            Btn.Enabled:= AppStrToBool(StrValue);
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_VISIBLE:
+          begin
+            Result:= PyBool_FromLong(Ord(Btn.Visible));
+          end;
+
+        BTN_SET_VISIBLE:
+          begin
+            Btn.Visible:= AppStrToBool(StrValue);
+            Result:= ReturnNone;
+          end;
 
         else
           Result:= ReturnNone;
