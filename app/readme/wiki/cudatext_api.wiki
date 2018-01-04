@@ -1301,44 +1301,44 @@ Example creates popup-menu with one item and shows it at (x=100, y=100):
 
  toolbar_proc(id_toolbar, id_action, text="", text2="", command=0, index=-1, index2=-1)
 
-Perform action on some toolbar. 
+Perform action on toolbar UI control. 
 
-Param id_toolbar: currently can be "top" for main toolbar. Function gets None, if id_toolbar not correct.
+Param "id_toolbar": int handle of toolbar. Can be "top" for main app toolbar. Function gets None, if id_toolbar not correct.
 
-Param id_action possible values:
+Param "id_action" possible values:
 
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
-* TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button with given index, or None if index not correct. Params: index.
+* TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
 
-* TOOLBAR_SET_BUTTON: Change properties of one button. Gets bool: params ok and changed. Params:
-** index - index of button
-** index2 - new icon index, or -1 for none
-** text - new button caption, or empty str to not change
-** text2 - new button hint, or empty str to not change
+* TOOLBAR_SET_BUTTON: Changes properties of button. Gets bool: params ok and changed.
+** Param "index": index of button
+** Param "index2": new icon index, or -1 for none
+** Param "text": new button caption, or empty str to not change
+** Param "text2": new button hint, or empty str to not change
 
-* TOOLBAR_DELETE_ALL: Delete all buttons.
-* TOOLBAR_DELETE_BUTTON: Delete one button. Params: index - button index.
+* TOOLBAR_DELETE_ALL: Deletes all buttons.
+* TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
 
-* TOOLBAR_ADD_BUTTON: Add one button. Params:
-** text - button caption, use "-" for separator
-** text2 - button hint (tooltip)
-** index - button index, >=0 to insert or -1 to append
-** index2 - icon index, or -1 for none
-** command - one of:
+* TOOLBAR_ADD_BUTTON: Adds one button.
+** Param "text": button caption, use "-" for separator
+** Param "text2": button hint (tooltip)
+** Param "index": button index, >=0 to insert at given index, or -1 to append
+** Param "index2": icon index, or -1 for none
+** Param "command": one of:
 *** int_command or str(int_command)
 *** callback in one of these forms: [[#Callback_param]]
 *** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
 
 * TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": str}. Here "kind" is one of strings: "text", "icon", "text_icon", "text_arrow", "arrow", "sep".
-* TOOLBAR_UPDATE: Updates toolbar buttons positions and sizes (for current size of image-list).
+* TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
 
-* TOOLBAR_GET_CHECKED: Gets checked-state of button. Params: index - button index.
-* TOOLBAR_SET_CHECKED: Sets checked-state of button. Params: index - button index, index2 - bool value.
+* deprecated: TOOLBAR_GET_CHECKED: Gets checked-state of button. Param "index": button index.
+* deprecated: TOOLBAR_SET_CHECKED: Sets checked-state of button. Param "index": button index, param "index2": bool value.
 
 * TOOLBAR_GET_VERTICAL: Gets vertical state of toolbar.
-* TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Params: index - bool value.
+* TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Param "index": bool value.
 * TOOLBAR_GET_WRAP: Gets wrappable state of toolbar.
-* TOOLBAR_SET_WRAP: Sets wrappable state of toolbar (implemented for horizontal toolbar only). Params: index - bool value.
+* TOOLBAR_SET_WRAP: Sets wrappable state of toolbar (implemented for horizontal toolbar only). Param "index": bool value.
 
 * TOOLBAR_THEME: Applies current UI theme to toolbar.
 
@@ -2130,9 +2130,10 @@ Text is chr(1) separated items:
 =History=
 
 1.0.212 (app 1.32.1)
-* deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - use PROC_GET_COMMANDS instead
 * add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLE
 * add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT, BTN_GET_ENABLED, BTN_SET_ENABLED, BTN_GET_VISIBLE, BTN_SET_VISIBLE, BTN_GET_HINT, BTN_SET_HINT, BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
+* deprecated: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
+* deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - now use PROC_GET_COMMANDS instead
 
 1.0.211 (app 1.32.0)
 * add: statusbar_proc()
