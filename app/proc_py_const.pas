@@ -421,6 +421,12 @@ const
   BTN_SET_ENABLED    = 11;
   BTN_GET_VISIBLE    = 12;
   BTN_SET_VISIBLE    = 13;
+  BTN_GET_HINT       = 14;
+  BTN_SET_HINT       = 15;
+  BTN_GET_DATA1      = 20;
+  BTN_SET_DATA1      = 21;
+  BTN_GET_DATA2      = 22;
+  BTN_SET_DATA2      = 23;
 
   APP_IMAGE_CREATE      = 0;
   APP_IMAGE_GET_SIZE    = 1;

@@ -3824,6 +3824,39 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_HINT:
+          begin
+            Result:= PyString_FromString(PChar(Btn.Hint));
+          end;
+
+        BTN_SET_HINT:
+          begin
+            Btn.Hint:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_DATA1:
+          begin
+            Result:= PyString_FromString(PChar(Btn.DataString));
+          end;
+
+        BTN_SET_DATA1:
+          begin
+            Btn.DataString:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_DATA2:
+          begin
+            Result:= PyString_FromString(PChar(Btn.DataString2));
+          end;
+
+        BTN_SET_DATA2:
+          begin
+            Btn.DataString2:= StrValue;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

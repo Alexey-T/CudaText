@@ -1471,6 +1471,12 @@ Possible values of id_action:
 * BTN_SET_ENABLED: Sets enabled state. Param "value" must be bool.
 * BTN_GET_VISIBLE: Gets visible state, bool.
 * BTN_SET_VISIBLE: Sets visible state. Param "value" must be bool.
+* BTN_GET_HINT: Gets hint (tooltip) string.
+* BTN_SET_HINT: Sets hint.
+* BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button (str(int_command) or callback).
+* BTN_SET_DATA1: Sets data1 string.
+* BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app. 
+* BTN_SET_DATA2: Sets data2 string.
 
 Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
 
