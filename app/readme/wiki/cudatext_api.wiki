@@ -1307,6 +1307,7 @@ Param "id_toolbar": int handle of toolbar. Can be "top" for main app toolbar. Fu
 
 Param "id_action" possible values:
 
+* TOOLBAR_GET_COUNT: Gets number of buttons in toolbar.
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
 * TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
 
@@ -2130,7 +2131,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.212 (app 1.32.1)
-* add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLE
+* add: toolbar_proc: TOOLBAR_GET_COUNT, TOOLBAR_GET_BUTTON_HANDLE 
 * add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT, BTN_GET_ENABLED, BTN_SET_ENABLED, BTN_GET_VISIBLE, BTN_SET_VISIBLE, BTN_GET_HINT, BTN_SET_HINT, BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
 * change: toolbar_proc: TOOLBAR_ENUM gets int value of "kind", before it was str
 * deprecated: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()

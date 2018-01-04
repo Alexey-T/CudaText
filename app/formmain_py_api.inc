@@ -4931,6 +4931,11 @@ begin
               Result:= ReturnNone;
           end;
 
+        TOOLBAR_GET_COUNT:
+          begin
+            Result:= PyInt_FromLong(FToolbar.ButtonCount);
+          end;
+
         TOOLBAR_SET_BUTTON:
           begin
             Result:= DoToolbar_SetButtonProps(FToolbar, NIndex1, NIndex2, StrText, StrText2);
