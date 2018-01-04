@@ -3824,6 +3824,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_TEXT:
+          begin
+            Result:= PyString_FromString(PChar(Btn.Caption));
+          end;
+
+        BTN_SET_TEXT:
+          begin
+            Btn.Caption:= StrValue;
+            Result:= ReturnNone;
+          end;
+
         BTN_GET_HINT:
           begin
             Result:= PyString_FromString(PChar(Btn.Hint));

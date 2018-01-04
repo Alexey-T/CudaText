@@ -423,6 +423,8 @@ const
   BTN_SET_VISIBLE    = 13;
   BTN_GET_HINT       = 14;
   BTN_SET_HINT       = 15;
+  BTN_GET_TEXT       = 16;
+  BTN_SET_TEXT       = 17;
   BTN_GET_DATA1      = 20;
   BTN_SET_DATA1      = 21;
   BTN_GET_DATA2      = 22;

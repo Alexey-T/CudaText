@@ -1457,23 +1457,25 @@ Param "id_button" is int handle of button.
 
 Possible values of id_action:
 
+* BTN_GET_TEXT: Gets caption string.
+* BTN_SET_TEXT: Sets caption string.
+* BTN_GET_HINT: Gets hint (tooltip) string.
+* BTN_SET_HINT: Sets hint string.
+* BTN_GET_ENABLED: Gets enabled state, bool.
+* BTN_SET_ENABLED: Sets enabled state. Param "value" must be bool.
+* BTN_GET_VISIBLE: Gets visible state, bool.
+* BTN_SET_VISIBLE: Sets visible state. Param "value" must be bool.
 * BTN_GET_CHECKED: Gets checked state, bool.    
 * BTN_SET_CHECKED: Sets checked state. Param "value" must be bool.    
-* BTN_GET_IMAGELIST: Gets handle of imagelist, attached to button.   
-* BTN_SET_IMAGELIST: Sets handle of imagelist. Param "value" must be int imagelist handle.
-* BTN_GET_IMAGEINDEX: Gets icon index (in attached imagelist). 
+* BTN_GET_IMAGELIST: Gets handle of image-list for button.   
+* BTN_SET_IMAGELIST: Sets handle of image-list. Param "value" must be int handle.
+* BTN_GET_IMAGEINDEX: Gets icon index (in attached image-list). 
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
 * BTN_GET_KIND: Gets kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
 * BTN_GET_BOLD: Gets bold-style of button, bool.
 * BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
-* BTN_GET_ENABLED: Gets enabled state, bool.
-* BTN_SET_ENABLED: Sets enabled state. Param "value" must be bool.
-* BTN_GET_VISIBLE: Gets visible state, bool.
-* BTN_SET_VISIBLE: Sets visible state. Param "value" must be bool.
-* BTN_GET_HINT: Gets hint (tooltip) string.
-* BTN_SET_HINT: Sets hint.
-* BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button (str(int_command) or callback).
+* BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button: str(int_command) or callback.
 * BTN_SET_DATA1: Sets data1 string.
 * BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app. 
 * BTN_SET_DATA2: Sets data2 string.
@@ -2130,7 +2132,7 @@ Text is chr(1) separated items:
 1.0.212 (app 1.32.1)
 * deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - use PROC_GET_COMMANDS instead
 * add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLE
-* add: button_proc: BTN_GET_ENABLED, BTN_SET_ENABLED, BTN_GET_VISIBLE, BTN_SET_VISIBLE, BTN_GET_HINT, BTN_SET_HINT, BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
+* add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT, BTN_GET_ENABLED, BTN_SET_ENABLED, BTN_GET_VISIBLE, BTN_SET_VISIBLE, BTN_GET_HINT, BTN_SET_HINT, BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
 
 1.0.211 (app 1.32.0)
 * add: statusbar_proc()
