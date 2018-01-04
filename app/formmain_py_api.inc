@@ -4956,11 +4956,13 @@ begin
 
         TOOLBAR_GET_CHECKED:
           begin
+            MsgOldApi('TOOLBAR_GET_CHECKED');
             Result:= PyBool_FromLong(Ord(DoToolbar_GetChecked(FToolbar, NIndex1)));
           end;
 
         TOOLBAR_SET_CHECKED:
           begin
+            MsgOldApi('TOOLBAR_SET_CHECKED');
             DoToolbar_SetChecked(FToolbar, NIndex1, Bool(NIndex2));
             Result:= ReturnNone;
           end;
