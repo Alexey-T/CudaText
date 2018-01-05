@@ -434,6 +434,10 @@ const
   BTN_SET_DATA2      = 23;
   BTN_GET_ARROW      = 30;
   BTN_SET_ARROW      = 31;
+  BTN_GET_FOCUSABLE  = 32;
+  BTN_SET_FOCUSABLE  = 33;
+  BTN_GET_FLAT       = 34;
+  BTN_SET_FLAT       = 35;
 
   APP_IMAGE_CREATE      = 0;
   APP_IMAGE_GET_SIZE    = 1;

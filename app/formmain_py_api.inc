@@ -3890,6 +3890,28 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_FOCUSABLE:
+          begin
+            Result:= PyBool_FromLong(Ord(Btn.Focusable));
+          end;
+
+        BTN_SET_FOCUSABLE:
+          begin
+            Btn.Focusable:= AppStrToBool(StrValue);
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_FLAT:
+          begin
+            Result:= PyBool_FromLong(Ord(Btn.Flat));
+          end;
+
+        BTN_SET_FLAT:
+          begin
+            Btn.Flat:= AppStrToBool(StrValue);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

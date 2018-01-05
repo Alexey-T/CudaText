@@ -1480,6 +1480,10 @@ Possible values of id_action:
 * BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
 * BTN_GET_ARROW: Gets dropdown arrow visible flag, bool.
 * BTN_SET_ARROW: Sets dropdown arrow visible flag. Param "value" must be bool.
+* BTN_GET_FOCUSABLE: Gets focusable state, bool.
+* BTN_SET_FOCUSABLE: Sets focusable state. Param "value" must be bool.
+* BTN_GET_FLAT: Gets flat state, bool.
+* BTN_SET_FLAT: Sets flat state. Param "value" must be bool.
 * BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button: str(int_command) or callback.
 * BTN_SET_DATA1: Sets data1 string.
 * BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app. 
@@ -2137,6 +2141,8 @@ Text is chr(1) separated items:
 1.0.213 (app 1.32.3)
 * add: button_proc: BTN_GET_MENU, BTN_SET_MENU
 * add: button_proc: BTN_GET_ARROW, BTN_SET_ARROW
+* add: button_proc: BTN_GET_FOCUSABLE, BTN_SET_FOCUSABLE
+* add: button_proc: BTN_GET_FLAT, BTN_SET_FLAT
 * deprecated: toolbar_proc: TOOLBAR_ENUM
 
 1.0.212 (app 1.32.2)
