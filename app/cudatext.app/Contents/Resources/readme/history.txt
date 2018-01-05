@@ -4,6 +4,11 @@
   * changed
 
 
+1.32.2 (2018/01)
+
+- minor fixes
++ add: API
+
 1.32.0 (2018/01)
 
 + add: deleting of huge block (w/o undo) is instant now (before it was n seconds)
