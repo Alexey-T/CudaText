@@ -3846,6 +3846,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_MENU:
+          begin
+            Result:= PyLong_FromLongLong(Int64(PtrInt(Btn.PopupMenu.Items)));
+          end;
+
+        BTN_SET_MENU:
+          begin
+            Btn.PopupMenu:= TMenu(PtrInt(StrToInt64Def(StrValue, 0))).Owner as TPopupMenu;
+            Result:= ReturnNone;
+          end;
+
         BTN_GET_DATA1:
           begin
             Result:= PyString_FromString(PChar(Btn.DataString));

@@ -1472,6 +1472,8 @@ Possible values of id_action:
 * BTN_SET_IMAGELIST: Sets handle of image-list. Param "value" must be int handle.
 * BTN_GET_IMAGEINDEX: Gets icon index (in attached image-list). 
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
+* BTN_GET_MENU: Gets int handle of submenu. It can be passed to menu_proc(h, MENU_SHOW).
+* BTN_SET_MENU: Sets int handle of submenu. It can be handle created by menu_proc(0, MENU_CREATE).
 * BTN_GET_KIND: Gets kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
 * BTN_GET_BOLD: Gets bold-style of button, bool.
@@ -2130,7 +2132,10 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.212 (app 1.32.1)
+1.0.213 (app 1.32.3)
+* add: button_proc: BTN_GET_MENU, BTN_SET_MENU
+
+1.0.212 (app 1.32.2)
 * add: toolbar_proc: TOOLBAR_GET_COUNT, TOOLBAR_GET_BUTTON_HANDLE 
 * add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT, BTN_GET_ENABLED, BTN_SET_ENABLED, BTN_GET_VISIBLE, BTN_SET_VISIBLE, BTN_GET_HINT, BTN_SET_HINT, BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
 * change: toolbar_proc: TOOLBAR_ENUM gets int value of "kind", before it was str
