@@ -1232,7 +1232,7 @@ Value of "command" parameter for MENU_ADD can be:
 * callback in one of these forms: [[#Callback_param]].
 * (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
 
-* to create standatd special sub-menus, special values: 
+* to create standard special sub-menus, special values: 
 ** "_recents": Recent-files submenu
 ** "_enc": Encodings submenu (has subitems "reload as", "convert to")
 ** "_langs": Translations submenu
