@@ -1458,7 +1458,8 @@ begin
 
   ////F.AutoAdjustLayout gives reduntant scaling on Win10, fonts too big
   ////fix it by F.ScaleFontsPPI
-  F.ScaleFontsPPI(96/Screen.PixelsPerInch);
+  //F.ScaleFontsPPI(96/Screen.PixelsPerInch);
+
   F.AutoAdjustLayout(
     lapAutoAdjustForDPI ,
     96, Screen.PixelsPerInch,
