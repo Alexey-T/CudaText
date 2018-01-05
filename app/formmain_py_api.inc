@@ -3879,6 +3879,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_ARROW:
+          begin
+            Result:= PyBool_FromLong(Ord(Btn.Arrow));
+          end;
+
+        BTN_SET_ARROW:
+          begin
+            Btn.Arrow:= AppStrToBool(StrValue);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

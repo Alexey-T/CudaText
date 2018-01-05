@@ -1478,6 +1478,8 @@ Possible values of id_action:
 * BTN_SET_KIND: Sets kind of button.
 * BTN_GET_BOLD: Gets bold-style of button, bool.
 * BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
+* BTN_GET_ARROW: Gets dropdown arrow visible flag, bool.
+* BTN_SET_ARROW: Sets dropdown arrow visible flag. Param "value" must be bool.
 * BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button: str(int_command) or callback.
 * BTN_SET_DATA1: Sets data1 string.
 * BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app. 
@@ -2134,10 +2136,16 @@ Text is chr(1) separated items:
 
 1.0.213 (app 1.32.3)
 * add: button_proc: BTN_GET_MENU, BTN_SET_MENU
+* add: button_proc: BTN_GET_ARROW, BTN_SET_ARROW
 
 1.0.212 (app 1.32.2)
-* add: toolbar_proc: TOOLBAR_GET_COUNT, TOOLBAR_GET_BUTTON_HANDLE 
-* add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT, BTN_GET_ENABLED, BTN_SET_ENABLED, BTN_GET_VISIBLE, BTN_SET_VISIBLE, BTN_GET_HINT, BTN_SET_HINT, BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
+* add: toolbar_proc: TOOLBAR_GET_COUNT
+* add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLE 
+* add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT
+* add: button_proc: BTN_GET_ENABLED, BTN_SET_ENABLED
+* add: button_proc: BTN_GET_VISIBLE, BTN_SET_VISIBLE
+* add: button_proc: BTN_GET_HINT, BTN_SET_HINT
+* add: button_proc: BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
 * change: toolbar_proc: TOOLBAR_ENUM gets int value of "kind", before it was str
 * deprecated: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
 * deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - now use PROC_GET_COMMANDS instead

@@ -432,6 +432,8 @@ const
   BTN_SET_DATA1      = 21;
   BTN_GET_DATA2      = 22;
   BTN_SET_DATA2      = 23;
+  BTN_GET_ARROW      = 30;
+  BTN_SET_ARROW      = 31;
 
   APP_IMAGE_CREATE      = 0;
   APP_IMAGE_GET_SIZE    = 1;
