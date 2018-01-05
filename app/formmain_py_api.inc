@@ -4936,6 +4936,7 @@ begin
       case NAction of
         TOOLBAR_ENUM:
           begin
+            MsgOldApi('TOOLBAR_ENUM');
             Result:= DoToolbar_Enum(FToolbar);
           end;
 

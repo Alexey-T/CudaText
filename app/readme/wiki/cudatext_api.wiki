@@ -1330,9 +1330,9 @@ Param "id_action" possible values:
 *** callback in one of these forms: [[#Callback_param]]
 *** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
 
-* TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": int}. Here "kind" is BTNKIND_nnn constants.
 * TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
 
+* deprecated: TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": int}. Here "kind" is BTNKIND_nnn constants.
 * deprecated: TOOLBAR_GET_CHECKED: Gets checked-state of button. Param "index": button index.
 * deprecated: TOOLBAR_SET_CHECKED: Sets checked-state of button. Param "index": button index, param "index2": bool value.
 
@@ -2137,6 +2137,7 @@ Text is chr(1) separated items:
 1.0.213 (app 1.32.3)
 * add: button_proc: BTN_GET_MENU, BTN_SET_MENU
 * add: button_proc: BTN_GET_ARROW, BTN_SET_ARROW
+* deprecated: toolbar_proc: TOOLBAR_ENUM
 
 1.0.212 (app 1.32.2)
 * add: toolbar_proc: TOOLBAR_GET_COUNT
