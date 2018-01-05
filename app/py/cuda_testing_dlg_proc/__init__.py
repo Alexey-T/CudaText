@@ -548,6 +548,7 @@ end;
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'my', 'x':10, 'y':10, 'w':380, 'h':280,
             'on_fold': self.callback_treeview_on_fold,
             'on_unfold': self.callback_treeview_on_unfold,
+            'on_click_dbl': self.callback_treeview_on_click_dbl,
             })
 
         self.h_tree = dlg_proc(id, DLG_CTL_HANDLE, index=n)
@@ -573,6 +574,8 @@ end;
         prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROPS, id_item=data)
         print('callback_treeview_on_unfold,', 'item:', prop)
 
+    def callback_treeview_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
+        print('callback_treeview_on_click_dbl')
 
     def test_sidepanel(self):
         print('test_sidepanel')

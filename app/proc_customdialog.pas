@@ -717,8 +717,14 @@ begin
        Props.FActive:= true;
      Ctl.Tag:= PtrInt(Props);
 
+     //treeview is a special case, because it's inside TAppTreeContainer
      if Ctl is TAppTreeContainer then
-       (Ctl as TAppTreeContainer).Tree.Tag:= Ctl.Tag;
+     begin
+       TAppTreeContainer(Ctl).Tree.Tag:= Ctl.Tag;
+       TAppTreeContainer(Ctl).Tree.OnClick:= @AForm.DoOnClick;
+       TAppTreeContainer(Ctl).Tree.OnDblClick:= @AForm.DoOnDblClick;
+       TAppTreeContainer(Ctl).Tree.OnContextPopup:= @AForm.DoOnControlMenu;
+     end;
 
      if not Assigned(Ctl.OnClick) then
        Ctl.OnClick:= @AForm.DoOnClick;
