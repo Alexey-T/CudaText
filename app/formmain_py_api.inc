@@ -5001,7 +5001,20 @@ begin
 
         TOOLBAR_ADD_BUTTON:
           begin
+            MsgOldApi('TOOLBAR_ADD_BUTTON');
             DoToolbar_AddButton(FToolbar, StrText, StrCmd, StrText2, NIndex1, NIndex2);
+            Result:= ReturnNone;
+          end;
+
+        TOOLBAR_ADD_ITEM:
+          begin
+            DoToolbar_AddButton(FToolbar, '', '', '', NIndex1, -1);
+            Result:= ReturnNone;
+          end;
+
+        TOOLBAR_ADD_MENU:
+          begin
+            DoToolbar_AddMenu(FToolbar, '', '', '', NIndex1, -1);
             Result:= ReturnNone;
           end;
 

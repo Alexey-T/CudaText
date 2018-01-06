@@ -46,7 +46,7 @@ begin
 end;
 
 
-procedure DoToolbar_AddButton(
+procedure DoToolbar_AddMenu(
   AToolbar: TATButtonsToolbar;
   const ACaption: string;
   const ACommand: string;
@@ -57,6 +57,22 @@ var
   mi: TMenuItem;
   mnu: TPopupMenu;
 begin
+  mi:= TMenuItem.Create(fmMain);
+  mi.Caption:= '('+ACommand+')';
+  mnu:= TPopupMenu.Create(fmMain);
+  mnu.Items.Add(mi);
+  AToolbar.AddDropdown(AImageIndex, mnu, nil, ACaption, AHint, ACommand);
+end;
+
+
+procedure DoToolbar_AddButton(
+  AToolbar: TATButtonsToolbar;
+  const ACaption: string;
+  const ACommand: string;
+  const AHint: string;
+  AButtonIndex: integer;
+  AImageIndex: integer);
+begin
   if ACaption='-' then
   begin
     AToolbar.AddSep;
@@ -64,11 +80,7 @@ begin
   else
   if SBeginsWith(ACommand, 'toolmenu:') then
   begin
-    mi:= TMenuItem.Create(fmMain);
-    mi.Caption:= '('+ACommand+')';
-    mnu:= TPopupMenu.Create(fmMain);
-    mnu.Items.Add(mi);
-    AToolbar.AddDropdown(AImageIndex, mnu, nil, ACaption, AHint, ACommand);
+    DoToolbar_AddMenu(AToolbar, ACaption, ACommand, AHint, AButtonIndex, AImageIndex);
   end
   else
   begin
