@@ -2147,9 +2147,9 @@ Text is chr(1) separated items:
 * add: button_proc: BTN_GET_FOCUSABLE, BTN_SET_FOCUSABLE
 * add: button_proc: BTN_GET_FLAT, BTN_SET_FLAT
 * add: toolbar_proc: TOOLBAR_ADD_ITEM, TOOLBAR_ADD_MENU
-* deprecated: toolbar_proc: TOOLBAR_ADD_BUTTON
-* deprecated: toolbar_proc: TOOLBAR_SET_BUTTON
-* deprecated: toolbar_proc: TOOLBAR_ENUM
+* deprecated: toolbar_proc: TOOLBAR_ADD_BUTTON - now use TOOLBAR_ADD_ITEM/TOOLBAR_ADD_MENU + button_proc()
+* deprecated: toolbar_proc: TOOLBAR_SET_BUTTON - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
+* deprecated: toolbar_proc: TOOLBAR_ENUM - now use TOOLBAR_GET_COUNT + TOOLBAR_GET_BUTTON_HANDLE + button_proc()
 
 1.0.212 (app 1.32.2)
 * add: toolbar_proc: TOOLBAR_GET_COUNT
