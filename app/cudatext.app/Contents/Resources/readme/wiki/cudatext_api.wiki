@@ -1232,7 +1232,7 @@ Value of "command" parameter for MENU_ADD can be:
 * callback in one of these forms: [[#Callback_param]].
 * (deprecated callback form) callback in the form "module,method" or "module,method,param" (param can be of any primitive type).
 
-* to create standatd special sub-menus, special values: 
+* to create standard special sub-menus, special values: 
 ** "_recents": Recent-files submenu
 ** "_enc": Encodings submenu (has subitems "reload as", "convert to")
 ** "_langs": Translations submenu
@@ -1311,7 +1311,7 @@ Param "id_action" possible values:
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
 * TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
 
-* TOOLBAR_SET_BUTTON: Changes properties of button. Gets bool: params ok and changed.
+* deprecated: TOOLBAR_SET_BUTTON: Changes properties of button. Gets bool: params ok and changed.
 ** Param "index": index of button
 ** Param "index2": new icon index, or -1 for none
 ** Param "text": new button caption, or empty str to not change
@@ -1320,7 +1320,10 @@ Param "id_action" possible values:
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
 
-* TOOLBAR_ADD_BUTTON: Adds one button.
+* TOOLBAR_ADD_ITEM: Adds one button, usual. Param "index": button index at which to insert, -1 to append. You need to get handle of this button, and customize button via button_proc().
+* TOOLBAR_ADD_MENU: Adds one button, with submenu. Param "index": button index at which to insert, -1 to append.
+
+* deprecated: TOOLBAR_ADD_BUTTON: Adds one button.
 ** Param "text": button caption, use "-" for separator
 ** Param "text2": button hint (tooltip)
 ** Param "index": button index, >=0 to insert at given index, or -1 to append
@@ -1330,9 +1333,9 @@ Param "id_action" possible values:
 *** callback in one of these forms: [[#Callback_param]]
 *** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
 
-* TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": int}. Here "kind" is BTNKIND_nnn constants.
 * TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
 
+* deprecated: TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": int}. Here "kind" is BTNKIND_nnn constants.
 * deprecated: TOOLBAR_GET_CHECKED: Gets checked-state of button. Param "index": button index.
 * deprecated: TOOLBAR_SET_CHECKED: Sets checked-state of button. Param "index": button index, param "index2": bool value.
 
@@ -1472,10 +1475,18 @@ Possible values of id_action:
 * BTN_SET_IMAGELIST: Sets handle of image-list. Param "value" must be int handle.
 * BTN_GET_IMAGEINDEX: Gets icon index (in attached image-list). 
 * BTN_SET_IMAGEINDEX: Sets icon index. Param "value" must be int index (0-based), or -1 for none. To show icon, you must also set appropriate kind of button.
+* BTN_GET_MENU: Gets int handle of submenu. It can be passed to menu_proc(h, MENU_SHOW).
+* BTN_SET_MENU: Sets int handle of submenu. It can be handle created by menu_proc(0, MENU_CREATE).
 * BTN_GET_KIND: Gets kind of button. Int value, one of BTNKIND_nnn constants.
 * BTN_SET_KIND: Sets kind of button.
 * BTN_GET_BOLD: Gets bold-style of button, bool.
 * BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
+* BTN_GET_ARROW: Gets dropdown arrow visible flag, bool.
+* BTN_SET_ARROW: Sets dropdown arrow visible flag. Param "value" must be bool.
+* BTN_GET_FOCUSABLE: Gets focusable state, bool.
+* BTN_SET_FOCUSABLE: Sets focusable state. Param "value" must be bool.
+* BTN_GET_FLAT: Gets flat state, bool.
+* BTN_SET_FLAT: Sets flat state. Param "value" must be bool.
 * BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button: str(int_command) or callback.
 * BTN_SET_DATA1: Sets data1 string.
 * BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app. 
@@ -2130,9 +2141,24 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.212 (app 1.32.1)
-* add: toolbar_proc: TOOLBAR_GET_COUNT, TOOLBAR_GET_BUTTON_HANDLE 
-* add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT, BTN_GET_ENABLED, BTN_SET_ENABLED, BTN_GET_VISIBLE, BTN_SET_VISIBLE, BTN_GET_HINT, BTN_SET_HINT, BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
+1.0.213 (app 1.32.3)
+* add: button_proc: BTN_GET_MENU, BTN_SET_MENU
+* add: button_proc: BTN_GET_ARROW, BTN_SET_ARROW
+* add: button_proc: BTN_GET_FOCUSABLE, BTN_SET_FOCUSABLE
+* add: button_proc: BTN_GET_FLAT, BTN_SET_FLAT
+* add: toolbar_proc: TOOLBAR_ADD_ITEM, TOOLBAR_ADD_MENU
+* deprecated: toolbar_proc: TOOLBAR_ADD_BUTTON - now use TOOLBAR_ADD_ITEM/TOOLBAR_ADD_MENU + button_proc()
+* deprecated: toolbar_proc: TOOLBAR_SET_BUTTON - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
+* deprecated: toolbar_proc: TOOLBAR_ENUM - now use TOOLBAR_GET_COUNT + TOOLBAR_GET_BUTTON_HANDLE + button_proc()
+
+1.0.212 (app 1.32.2)
+* add: toolbar_proc: TOOLBAR_GET_COUNT
+* add: toolbar_proc: TOOLBAR_GET_BUTTON_HANDLE 
+* add: button_proc: BTN_GET_TEXT, BTN_SET_TEXT
+* add: button_proc: BTN_GET_ENABLED, BTN_SET_ENABLED
+* add: button_proc: BTN_GET_VISIBLE, BTN_SET_VISIBLE
+* add: button_proc: BTN_GET_HINT, BTN_SET_HINT
+* add: button_proc: BTN_GET_DATA1, BTN_SET_DATA1, BTN_GET_DATA2, BTN_SET_DATA2
 * change: toolbar_proc: TOOLBAR_ENUM gets int value of "kind", before it was str
 * deprecated: TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED - now use TOOLBAR_GET_BUTTON_HANDLE + button_proc()
 * deprecated: PROC_GET_COMMAND, PROC_GET_COMMAND_INITIAL, PROC_GET_COMMAND_PLUGIN - now use PROC_GET_COMMANDS instead
