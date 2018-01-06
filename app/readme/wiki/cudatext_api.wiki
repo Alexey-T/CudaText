@@ -1311,7 +1311,7 @@ Param "id_action" possible values:
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
 * TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
 
-* TOOLBAR_SET_BUTTON: Changes properties of button. Gets bool: params ok and changed.
+* deprecated: TOOLBAR_SET_BUTTON: Changes properties of button. Gets bool: params ok and changed.
 ** Param "index": index of button
 ** Param "index2": new icon index, or -1 for none
 ** Param "text": new button caption, or empty str to not change
@@ -2143,6 +2143,7 @@ Text is chr(1) separated items:
 * add: button_proc: BTN_GET_ARROW, BTN_SET_ARROW
 * add: button_proc: BTN_GET_FOCUSABLE, BTN_SET_FOCUSABLE
 * add: button_proc: BTN_GET_FLAT, BTN_SET_FLAT
+* deprecated: toolbar_proc: TOOLBAR_SET_BUTTON
 * deprecated: toolbar_proc: TOOLBAR_ENUM
 
 1.0.212 (app 1.32.2)

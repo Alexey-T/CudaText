@@ -4983,6 +4983,7 @@ begin
 
         TOOLBAR_SET_BUTTON:
           begin
+            MsgOldApi('TOOLBAR_SET_BUTTON');
             Result:= DoToolbar_SetButtonProps(FToolbar, NIndex1, NIndex2, StrText, StrText2);
           end;
 
