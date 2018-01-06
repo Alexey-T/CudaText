@@ -724,12 +724,14 @@ begin
        TAppTreeContainer(Ctl).Tree.OnClick:= @AForm.DoOnClick;
        TAppTreeContainer(Ctl).Tree.OnDblClick:= @AForm.DoOnDblClick;
        TAppTreeContainer(Ctl).Tree.OnContextPopup:= @AForm.DoOnControlMenu;
+     end
+     else
+     begin
+       if not Assigned(Ctl.OnClick) then
+         Ctl.OnClick:= @AForm.DoOnClick;
+       TControlHack(Ctl).OnDblClick:= @AForm.DoOnDblClick;
+       TControlHack(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
      end;
-
-     if not Assigned(Ctl.OnClick) then
-       Ctl.OnClick:= @AForm.DoOnClick;
-     TControlHack(Ctl).OnDblClick:= @AForm.DoOnDblClick;
-     TControlHack(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
    end;
  end;
 end;
