@@ -723,9 +723,6 @@ def imagelist_proc(id_list, id_action, value=''):
 def image_proc(id_image, id_action, value=''):
     return ct.image_proc(id_image, id_action, to_str(value))
 
-def button_proc(id_button, id_action, value=''):
-    return ct.button_proc(id_button, id_action, to_str(value))
-
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
     return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
 
@@ -739,6 +736,13 @@ def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", t
         _live[sid_callback] = command
         command = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
     return ct.menu_proc(str(id_menu), id_action, to_str(command), caption, index, hotkey, tag)
+
+def button_proc(id_button, id_action, value=''):
+    if callable(value):
+        sid_callback = str(value)
+        _live[sid_callback] = value
+        value = 'module={};func=_menu_proc_callback_proxy;info="{}";'.format(__name__, sid_callback)
+    return ct.button_proc(id_button, id_action, to_str(value))
 
 def listbox_proc(id_listbox, id_action, index=0, text="", tag=0):
     return ct.listbox_proc(id_listbox, id_action, index, text, tag)

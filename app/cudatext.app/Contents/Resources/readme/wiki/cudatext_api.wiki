@@ -80,7 +80,7 @@ To change prior for your plugin event, write in install.inf event like this: "on
 
 =Callback param=
 
-Callback parameter is supported in several API functions: dlg_proc, timer_proc, menu_proc (maybe more later).
+Callback parameter is supported in several API functions: dlg_proc, timer_proc, menu_proc, button_proc (maybe more later).
 
 Parameter can be in these forms:
 
@@ -1459,7 +1459,7 @@ Perform action on extended button (control type "button_ex").
 
 Param "id_button" is int handle of button.
 
-Possible values of id_action:
+Possible values of "id_action":
 
 * BTN_GET_TEXT: Gets caption string.
 * BTN_SET_TEXT: Sets caption string.
@@ -1488,7 +1488,7 @@ Possible values of id_action:
 * BTN_GET_FLAT: Gets flat state, bool.
 * BTN_SET_FLAT: Sets flat state. Param "value" must be bool.
 * BTN_GET_DATA1: Gets data1 string. Data1 is used for toolbar buttons, contains command of button: str(int_command) or callback.
-* BTN_SET_DATA1: Sets data1 string.
+* BTN_SET_DATA1: Sets data1. Param "value" must be callback: [[#Callback_param]].
 * BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app. 
 * BTN_SET_DATA2: Sets data2 string.
 
@@ -2140,6 +2140,9 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.214 (app 1.32.4)
+* add: button_proc supports callable param "value"
 
 1.0.213 (app 1.32.3)
 * add: button_proc: BTN_GET_MENU, BTN_SET_MENU
