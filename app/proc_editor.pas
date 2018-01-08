@@ -230,7 +230,6 @@ begin
 
   Ed.OptShowURLs:= Op.OpLinks;
   Ed.OptShowURLsRegex:= Op.OpLinksRegex;
-  cMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
 
   if AApplyUnprintedAndWrap then
   begin
@@ -240,6 +239,10 @@ begin
     Ed.OptUnprintedEnds:= Op.OpUnprintedEnds;
     Ed.OptUnprintedEndsDetails:= Op.OpUnprintedEndDetails;
   end;
+
+  //global options
+  cMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
+  OptAllowSpecialWidthChars:= Op.OpAllowFullWidthChars;
 
   OptUnprintedEndArrowOrDot:= Op.OpUnprintedEndArrow;
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
