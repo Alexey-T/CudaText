@@ -241,7 +241,7 @@ begin
   end;
 
   //global options
-  cMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
+  OptMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
   OptAllowSpecialWidthChars:= Op.OpAllowFullWidthChars;
 
   OptUnprintedEndArrowOrDot:= Op.OpUnprintedEndArrow;
