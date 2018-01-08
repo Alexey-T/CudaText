@@ -928,10 +928,7 @@
   "find_hotkey_find_dlg": "Ctrl+F", 
   "find_hotkey_replace_dlg": "Ctrl+R", 
   "find_hotkey_find_first": "Alt+Enter", 
-  "find_hotkey_find_next": "Enter",
-    //depends on focus: if focused input Find or Replace
-  "find_hotkey_find_next_anyfocus": "",
-    //doesn't depend on focus
+  "find_hotkey_find_next": "",
   "find_hotkey_find_prev": "Shift+Enter", 
   "find_hotkey_replace": "Alt+Z", 
   "find_hotkey_replace_no_next": "Ctrl+Alt+Z", 

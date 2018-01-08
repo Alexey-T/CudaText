@@ -203,7 +203,6 @@ type
     HotkeyReplaceDialog,
     HotkeyFindFirst,
     HotkeyFindNext,
-    HotkeyFindNext_AnyFocus,
     HotkeyFindPrev,
     HotkeyReplaceAndFindNext,
     HotkeyReplaceNoFindNext,
@@ -1173,8 +1172,7 @@ begin
     HotkeyFindDialog:= 'Ctrl+F';
     HotkeyReplaceDialog:= 'Ctrl+R';
     HotkeyFindFirst:= 'Alt+Enter';
-    HotkeyFindNext:= 'Enter';
-    HotkeyFindNext_AnyFocus:= '';
+    HotkeyFindNext:= '';
     HotkeyFindPrev:= 'Shift+Enter';
     HotkeyReplaceAndFindNext:= 'Alt+Z';
     HotkeyReplaceNoFindNext:= 'Ctrl+Alt+Z';

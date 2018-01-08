@@ -325,9 +325,6 @@ begin
 
   bFindFirst.Hint:= UiOps.HotkeyFindFirst;
   bFindNext.Hint:= UiOps.HotkeyFindNext;
-  if UiOps.HotkeyFindNext_AnyFocus<>'' then
-    bFindNext.Hint:= bFindNext.Hint+#10+UiOps.HotkeyFindNext_AnyFocus;
-
   bFindPrev.Hint:= UiOps.HotkeyFindPrev;
   bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
   bRepAll.Hint:= UiOps.HotkeyReplaceAll;
@@ -399,14 +396,14 @@ begin
     exit
   end;
 
-  if Str=UiOps.HotkeyFindNext_AnyFocus then
+  if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
   begin
     DoResult(cOpFindNext);
     key:= 0;
     exit
   end;
 
-  if Str=UiOps.HotkeyFindNext then
+  if Str='Enter' then
   begin
     //Enter: action depends on focus
     if IsReplace and edRep.Focused then
