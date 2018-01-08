@@ -247,8 +247,8 @@ type
     OpTabSpaces: boolean;
     OpTabMaxPosExpanded: integer;
 
-    OpOvrSel: boolean;
-    OpOvrOnPaste: boolean;
+    OpOverwriteSel: boolean;
+    OpOverwriteOnPaste: boolean;
     OpUnderlineColorFiles: string;
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
@@ -898,8 +898,8 @@ begin
     OpTabSpaces:= false;
     OpTabMaxPosExpanded:= 500;
 
-    OpOvrSel:= true;
-    OpOvrOnPaste:= false;
+    OpOverwriteSel:= true;
+    OpOverwriteOnPaste:= false;
 
     OpUnderlineColorFiles:= '*';
     OpUnderlineColorSize:= 3;

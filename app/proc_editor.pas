@@ -191,8 +191,8 @@ begin
     Ed.OptTabSpaces:= Op.OpTabSpaces;
   end;
 
-  Ed.OptOverwriteSel:= Op.OpOvrSel;
-  Ed.OptOverwriteAllowedOnPaste:= Op.OpOvrOnPaste;
+  Ed.OptOverwriteSel:= Op.OpOverwriteSel;
+  Ed.OptOverwriteAllowedOnPaste:= Op.OpOverwriteOnPaste;
 
   Ed.OptGutterVisible:= Op.OpGutterShow;
   Ed.OptGutterShowFoldAlways:= Op.OpGutterFoldAlways;
