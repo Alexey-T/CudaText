@@ -325,6 +325,9 @@ begin
 
   bFindFirst.Hint:= UiOps.HotkeyFindFirst;
   bFindNext.Hint:= UiOps.HotkeyFindNext;
+  if UiOps.HotkeyFindNext_AnyFocus<>'' then
+    bFindNext.Hint:= bFindNext.Hint+#10+UiOps.HotkeyFindNext_AnyFocus;
+
   bFindPrev.Hint:= UiOps.HotkeyFindPrev;
   bRep.Hint:= UiOps.HotkeyReplaceAndFindNext;
   bRepAll.Hint:= UiOps.HotkeyReplaceAll;
@@ -392,6 +395,13 @@ begin
   if Str=UiOps.HotkeyFindFirst then
   begin
     DoResult(cOpFindFirst);
+    key:= 0;
+    exit
+  end;
+
+  if Str=UiOps.HotkeyFindNext_AnyFocus then
+  begin
+    DoResult(cOpFindNext);
     key:= 0;
     exit
   end;

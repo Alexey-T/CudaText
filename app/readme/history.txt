@@ -4,6 +4,10 @@
   * changed
 
 
+1.32.5 (2018/01)
+
++ add: option "find_hotkey_find_next_anyfocus"
+
 1.32.2 (2018/01)
 
 - minor fixes
