@@ -253,6 +253,7 @@ type
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
     OpLinksRegex: string;
+    OpAllowFullWidthChars: boolean;
 
     //view
     OpGutterShow: boolean;
@@ -905,6 +906,7 @@ begin
     OpUnderlineColorSize:= 3;
     OpLinks:= true;
     OpLinksRegex:= ATSynEdit.cUrlRegexInitial;
+    OpAllowFullWidthChars:= true;
 
     OpGutterShow:= true;
     OpGutterFold:= true;
