@@ -299,7 +299,7 @@ begin
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
-  OptHexCharsUser:= Op.OpHexChars;
+  OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then
