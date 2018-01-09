@@ -3340,14 +3340,14 @@ begin
       case Id of
         CONVERT_CHAR_TO_COL:
           begin
-            Str:= Ed.Strings.Lines[Y];
+            Str:= Ed.Strings.LineSub(Y, 1, X);
             X:= SCharPosToColumnPos(Str, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
         CONVERT_COL_TO_CHAR:
           begin
-            Str:= Ed.Strings.Lines[Y];
+            Str:= Ed.Strings.LineSub(Y, 1, X);
             X:= SColumnPosToCharPos(Str, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
