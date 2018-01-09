@@ -3322,14 +3322,15 @@ var
   H: Int64;
   Ed: TATSynEdit;
   Id, X, Y: integer;
-  Ptr: PChar;
-  Str: atString;
+  PtrValue: PChar;
+  StrValue: string;
+  StrTemp: UnicodeString;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @Ptr)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @PtrValue)) then
     begin
       Ed:= PyEditor(H);
-      Str:= string(Ptr);
+      StrValue:= string(PtrValue);
 
       if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
       begin
@@ -3340,22 +3341,22 @@ begin
       case Id of
         CONVERT_CHAR_TO_COL:
           begin
-            Str:= Ed.Strings.LineSub(Y, 1, X);
-            X:= SCharPosToColumnPos(Str, X, Ed.OptTabSize);
+            StrTemp:= Ed.Strings.LineSub(Y, 1, X);
+            X:= SCharPosToColumnPos(StrTemp, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
         CONVERT_COL_TO_CHAR:
           begin
-            Str:= Ed.Strings.LineSub(Y, 1, X);
-            X:= SColumnPosToCharPos(Str, X, Ed.OptTabSize);
+            StrTemp:= Ed.Strings.LineSub(Y, 1, X);
+            X:= SColumnPosToCharPos(StrTemp, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
         CONVERT_LINE_TABS_TO_SPACES:
           begin
-            Str:= STabsToSpaces(Str, Ed.OptTabSize);
-            Result:= PyUnicode_FromWideString(Str);
+            StrTemp:= STabsToSpaces(UTF8Decode(StrValue), Ed.OptTabSize);
+            Result:= PyUnicode_FromWideString(StrTemp);
           end;
 
         else
