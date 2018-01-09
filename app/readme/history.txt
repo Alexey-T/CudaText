@@ -7,7 +7,7 @@
 1.32.5 (2018/01)
 
 * change: option "find_hotkey_find_next" is now hotkey independant from focused input; its value "Enter" is ignored, other value works. "Enter" is now hardcoded hotkey.
-+ add: option "allow_fullwidth_chars"
++ add: option "allow_wide_chars"
 
 1.32.2 (2018/01)
 

@@ -583,7 +583,7 @@ begin
 
     Op.OpLinks:= c.GetValue('links_hilite', Op.OpLinks);
     Op.OpLinksRegex:= c.GetValue('links_regex', Op.OpLinksRegex);
-    Op.OpAllowFullWidthChars:= c.GetValue('allow_fullwidth_chars', Op.OpAllowFullWidthChars);
+    Op.OpAllowWideChars:= c.GetValue('allow_wide_chars', Op.OpAllowWideChars);
 
     Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
     Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);

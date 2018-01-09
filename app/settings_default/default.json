@@ -308,9 +308,9 @@
   //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
   
-  //Allow Unicode chars (many ranges) to have ~170% width, ie allow full-width chars
-  //It's dangerous for CJK texts, CJK chars will be rendered too narrow
-  "allow_fullwidth_chars": true,
+  //Allow Unicode chars (many ranges) to have ~170% width, ie allow full-width chars.
+  //Don't disable it if you use CJK texts, CJK chars will be rendered too narrow.
+  "allow_wide_chars": true,
 
   //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
