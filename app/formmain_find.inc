@@ -574,14 +574,21 @@ var
   bSavedWords, bSavedRegex, bSavedCase: boolean;
 begin
   Ed:= CurrentEditor;
+  if Ed.Carets.Count>1 then exit;
 
   if AWordOrSel then
-    Str:= Ed.TextCurrentWord
+  begin
+    Str:= Ed.TextCurrentWord;
+    Ed.DoCommand(cCommand_SelectWords);
+  end
   else
   begin
     Str:= Ed.TextSelected;
     if Str='' then
+    begin
       Str:= Ed.TextCurrentWord;
+      Ed.DoCommand(cCommand_SelectWords);
+    end;
   end;
   if Str='' then exit;
 
