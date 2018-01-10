@@ -176,6 +176,27 @@ begin
     Key:= 0;
     exit
   end;
+
+  if (Key=VK_RETURN) and (Shift=[]) then
+  begin
+    btnConfig.Click;
+    Key:= 0;
+    exit
+  end;
+
+  if (Key=VK_SPACE) and (Shift=[]) then
+  begin
+    btnShowHide.Click;
+    Key:= 0;
+    exit
+  end;
+
+  if (Key=VK_ESCAPE) and (Shift=[]) then
+  begin
+    Close;
+    Key:= 0;
+    exit
+  end;
 end;
 
 
