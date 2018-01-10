@@ -596,15 +596,16 @@ end;
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 var
   Caret: TATCaretItem;
-  str: atString;
+  Str: atString;
 begin
   Result:= #0;
   if Ed.Carets.Count<>1 then exit;
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
-  str:= Ed.Strings.Lines[Caret.PosY];
-  if (Caret.PosX<0) or (Caret.PosX>=Length(str)) then exit;
-  Result:= str[Caret.PosX+1];
+  if (Caret.PosX<0) then exit;
+  Str:= Ed.Strings.LineSub(Caret.PosY, Caret.PosX+1, 1);
+  if Str<>'' then
+    Result:= Str[1];
 end;
 
 
