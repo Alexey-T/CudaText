@@ -14,8 +14,8 @@ object fmColorSetup: TfmColorSetup
   LCLVersion = '1.9.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 38
-    Top = 485
+    Height = 29
+    Top = 494
     Width = 546
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -61,13 +61,13 @@ object fmColorSetup: TfmColorSetup
       AnchorSideRight.Control = PanelUi
       AnchorSideRight.Side = asrBottom
       Left = 374
-      Height = 30
+      Height = 29
       Top = 120
       Width = 140
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Around = 6
-      Caption = 'Change color...'
+      Caption = '&Change color...'
       OnClick = bChangeClick
       TabOrder = 1
     end
@@ -78,12 +78,12 @@ object fmColorSetup: TfmColorSetup
       AnchorSideRight.Control = bChange
       AnchorSideRight.Side = asrBottom
       Left = 374
-      Height = 30
-      Top = 156
+      Height = 29
+      Top = 155
       Width = 140
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
-      Caption = 'Set "none color"'
+      Caption = 'Set "&none color"'
       OnClick = bNoneClick
       TabOrder = 2
     end
@@ -115,13 +115,13 @@ object fmColorSetup: TfmColorSetup
       AnchorSideRight.Control = PanelSyntax
       AnchorSideRight.Side = asrBottom
       Left = 372
-      Height = 30
+      Height = 29
       Top = 136
       Width = 160
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Around = 6
-      Caption = 'Config style...'
+      Caption = '&Config style...'
       OnClick = bStyleClick
       TabOrder = 1
     end
