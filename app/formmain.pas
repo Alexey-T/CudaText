@@ -2469,6 +2469,8 @@ var
   Str: array of string;
   dir: string;
   PathAppend: boolean;
+  InitList: TStringList;
+  InitPy: string;
 begin
   if not PythonOK then exit;
 
@@ -2488,10 +2490,18 @@ begin
 
   Py_SetSysPath(Str, PathAppend);
 
+  InitPy:= GetAppPath(cDirPy)+DirectorySeparator+'cudatext_init.py';
+  if not FileExists(InitPy) then exit;
+
+  InitList:= TStringList.Create;
   try
-    GetPythonEngine.ExecString('_v=sys.version_info; print("Python %d.%d.%d" % (_v[0], _v[1], _v[2]) )');
-    GetPythonEngine.ExecString('from cudatext import *');
-  except
+    InitList.LoadFromFile(InitPy);
+    try
+      GetPythonEngine.ExecStrings(InitList);
+    except
+    end;
+  finally
+    FreeAndNil(InitList);
   end;
 end;
 
