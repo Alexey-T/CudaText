@@ -53,7 +53,7 @@ object fmLexerLib: TfmLexerLib
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
-      Caption = 'Configure'
+      Caption = 'Con&figure'
       OnClick = btnConfigClick
       TabOrder = 0
     end
@@ -67,7 +67,7 @@ object fmLexerLib: TfmLexerLib
       Width = 56
       AutoSize = True
       BorderSpacing.Left = 6
-      Caption = 'Delete'
+      Caption = '&Delete'
       OnClick = btnDeleteClick
       TabOrder = 1
     end
@@ -81,7 +81,7 @@ object fmLexerLib: TfmLexerLib
       Width = 85
       AutoSize = True
       BorderSpacing.Left = 6
-      Caption = 'Hide/Show'
+      Caption = '&Hide/Show'
       OnClick = btnShowHideClick
       TabOrder = 2
     end
