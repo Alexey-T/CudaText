@@ -286,13 +286,11 @@ end;
 procedure TfmFind.edRepEnter(Sender: TObject);
 begin
   edRep.DoCommand(cCommand_SelectAll);
-  bFindNext.ShowHint:= false; //hide hint "Enter" when replace-box focused
   UpdateButtonBold;
 end;
 
 procedure TfmFind.edRepExit(Sender: TObject);
 begin
-  bFindNext.ShowHint:= true;
   UpdateButtonBold;
 end;
 
