@@ -124,6 +124,9 @@ type
     tabOptionSpaceInitial,
     tabOptionSpaceBetweenTabs,
     tabOptionColoredBandSize,
+    tabOptionActiveMarkSize,
+    tabOptionScrollMarkSizeX,
+    tabOptionScrollMarkSizeY,
     tabOptionSpaceXRight,
     tabOptionSpaceXSize,
     tabOptionArrowSize,
@@ -1573,6 +1576,9 @@ begin
         tabOptionSpaceInitial:     OptSpaceInitial:= DoScale(N);
         tabOptionSpaceBetweenTabs: OptSpaceBetweenTabs:= DoScale(N);
         tabOptionColoredBandSize:  OptColoredBandSize:= DoScale(N);
+        tabOptionActiveMarkSize:   OptActiveMarkSize:= DoScale(N);
+        tabOptionScrollMarkSizeX:  OptScrollMarkSizeX:= DoScale(N);
+        tabOptionScrollMarkSizeY:  OptScrollMarkSizeY:= DoScale(N);
         tabOptionSpaceXRight:      OptSpaceXRight:= DoScale(N);
         tabOptionSpaceXSize:       OptSpaceXSize:= DoScale(N);
         tabOptionArrowSize:        OptArrowSize:= DoScale(N);
