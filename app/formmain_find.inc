@@ -79,6 +79,9 @@ begin
   if fmFind.edFind.Focused then
     bFindMode:= true
   else
+  if fmFind.edRep.Focused then
+    bFindMode:= false
+  else
     bFindMode:=
       (Res<>cOpFindRep) and
       (Res<>cOpFindRepAll) and
