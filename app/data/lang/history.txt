@@ -1,6 +1,9 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2018.01.12
+[m_se] ex_wo
+
 2017.12.10
 + [d_cfm_op]
 * delete [se] OpenTooBig
