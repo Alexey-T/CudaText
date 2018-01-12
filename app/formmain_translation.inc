@@ -170,6 +170,7 @@ begin
     DoLocMenuitem(mnuSelAll, msgEditSelectAll);
     DoLocMenuitem(ini, mnuSelSplit, 'm_se', 'sp');
     DoLocMenuitem(ini, mnuSelExtLine, 'm_se', 'ex');
+    DoLocMenuitem(ini, mnuSelExtWord, 'm_se', 'ex_wo');
     DoLocMenuitem(ini, mnuSelInvert, 'm_se', 'in');
 
     DoLocMenuitem(ini, mnuCaretsCancel, 'm_se', 'can');

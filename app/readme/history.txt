@@ -4,10 +4,11 @@
   * changed
 
 
-1.33.0 (2018/01)
+1.34.0 (2018/01)
 
 + add: many optimizations in core for scrolling speed on huge lines (4M chars)
 + add: Ctrl+(double click) now selects additional word
++ add: command "Selection - Expand selection to word" (like in many editors)
 + add: option "allow_wide_chars"
 + add: commands "find current word/sel next/prev": they select current word before search
 * change: option "find_hotkey_find_next" is now hotkey, which is independant from focused input; its value "Enter" is ignored, other value works. "Enter" is now hardcoded hotkey.

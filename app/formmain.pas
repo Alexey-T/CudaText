@@ -117,6 +117,8 @@ type
     ButtonCancel: TATButton;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
+    MenuItem5: TMenuItem;
+    mnuSelExtWord: TMenuItem;
     mnuTabsize3: TMenuItem;
     mnuTabsize7: TMenuItem;
     mnuTabsize6: TMenuItem;

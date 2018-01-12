@@ -105,7 +105,7 @@ begin
     cmd_FindCurWordPrev: DoFindCurrentWordOrSel(false, true);
     cmd_FindCurSelNext:  DoFindCurrentWordOrSel(true, false);
     cmd_FindCurSelPrev:  DoFindCurrentWordOrSel(false, false);
-    cmd_ExpandSelToWord: DoFind_ExpandSelectionToWord;
+    cmd_SelectExpandToWord: DoFind_ExpandSelectionToWord;
 
     cmd_OpsClearRecent:     DoClearRecentFileHistory;
     cmd_OpsOpenDefault:     DoOps_OpenFile_Default;

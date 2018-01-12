@@ -525,6 +525,7 @@ begin
   UpdateMenuItemHotkey(mnuSelAll, cCommand_SelectAll);
   UpdateMenuItemHotkey(mnuSelSplit, cCommand_SelectSplitToLines);
   UpdateMenuItemHotkey(mnuSelExtLine, cCommand_SelectExtendByLine);
+  UpdateMenuItemHotkey(mnuSelExtWord, cmd_SelectExpandToWord);
   UpdateMenuItemHotkey(mnuSelInvert, cCommand_SelectInverted);
 
   UpdateMenuItemHotkey(mnuCaretsCancel, cCommand_Cancel);

@@ -409,11 +409,17 @@ object fmMain: TfmMain
       object mnuSelAll: TMenuItem
         Caption = '&Select all'
       end
+      object mnuSelExtLine: TMenuItem
+        Caption = '&Expand selection to line'
+      end
+      object mnuSelExtWord: TMenuItem
+        Caption = 'Expand selection to &word'
+      end
+      object MenuItem5: TMenuItem
+        Caption = '-'
+      end
       object mnuSelSplit: TMenuItem
         Caption = 'S&plit selection into lines'
-      end
-      object mnuSelExtLine: TMenuItem
-        Caption = '&Extend selection by line'
       end
       object mnuSelInvert: TMenuItem
         Caption = '&Invert selection'
