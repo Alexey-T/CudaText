@@ -110,6 +110,8 @@ const
   cmd_FindAllAndMarkers = 2597;
   cmd_FindAllAndBookmarks = 2598;
 
+  cmd_ExpandSelToWord = 2600; //like Ctrl+D in Sublime
+
   cmd_SplitTabToggle   = 2620;
   cmd_SplitTabHorzVert = 2621;
   cmd_SplitTab3070     = 2622;
@@ -349,6 +351,7 @@ begin
   M.Add(cmd_FindCurSelNext, 'find current selection, next', [], []);
   M.Add(cmd_FindCurSelPrev, 'find current selection, previous', [], []);
   M.Add(cmd_GotoLastEditingPos, 'go to last editing pos', [], []);
+  M.Add(cmd_ExpandSelToWord, 'expand selection to word', [cXControl+'+Shift+D'], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);

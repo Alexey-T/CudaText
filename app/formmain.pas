@@ -750,6 +750,7 @@ type
     procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
     procedure DoEditorsLock(ALock: boolean);
     procedure DoFindCurrentWordOrSel(ANext: boolean; AWordOrSel: boolean);
+    procedure DoFind_ExpandSelectionToWord;
     procedure DoCopyFilenameDir;
     procedure DoCopyFilenameFull;
     procedure DoCopyFilenameName;

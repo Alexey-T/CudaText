@@ -630,6 +630,73 @@ begin
   FFinder.OptCase:= bSavedCase;
 end;
 
+procedure TfmMain.DoFind_ExpandSelectionToWord;
+var
+  Ed: TATSynEdit;
+  Caret: TATCaretItem;
+  X1, Y1, X2, Y2: integer;
+  bSel, bFound: boolean;
+  SavedFind: UnicodeString;
+  bSavedWords,
+  bSavedRegex,
+  bSavedCase,
+  bSavedFromCaret: boolean;
+  ResBegin, ResEnd: TPoint;
+begin
+  Ed:= CurrentEditor;
+  Caret:= Ed.Carets[Ed.Carets.Count-1];
+
+  Caret.GetRange(X1, Y1, X2, Y2, bSel);
+  //pos are sorted: (X1,Y1) <= (X2,Y2)
+
+  if not bSel then
+  begin
+    Ed.DoSelect_Word(Point(X1, Y1), false);
+  end
+  else
+  begin
+    SavedFind:= FFinder.StrFind;
+    bSavedWords:= FFinder.OptWords;
+    bSavedRegex:= FFinder.OptRegex;
+    bSavedCase:= FFinder.OptCase;
+    bSavedFromCaret:= FFinder.OptFromCaret;
+
+    FFinder.StrFind:= Ed.Strings.TextSubstring(X1, Y1, X2, Y2);
+    FFinder.StrReplace:= '';
+    FFinder.Editor:= Ed;
+
+    FFinder.OptWords:= true;
+    FFinder.OptRegex:= false;
+    FFinder.OptCase:= true;
+    FFinder.OptBack:= false;
+    FFinder.OptFromCaret:= false;
+    FFinder.OptInSelection:= false;
+
+    bFound:= FFinder.DoAction_FindSimple(
+      Point(X2, Y2),
+      Point(Ed.Strings.LinesLen[Ed.Strings.Count-1], Ed.Strings.Count-1),
+      ResBegin,
+      ResEnd
+      );
+    DoFindResult(bFound);
+
+    if bFound then
+    begin
+      Ed.Carets.Add(
+        ResEnd.X, ResEnd.Y,
+        ResBegin.X, ResBegin.Y
+        );
+      Ed.DoCommand(cCommand_ScrollToCaretBottom);
+    end;
+
+    FFinder.StrFind:= SavedFind;
+    FFinder.OptWords:= bSavedWords;
+    FFinder.OptRegex:= bSavedRegex;
+    FFinder.OptCase:= bSavedCase;
+    FFinder.OptFromCaret:= bSavedFromCaret;
+  end;
+end;
+
 
 function TfmMain.DoFindOptionsToString: string;
 begin
