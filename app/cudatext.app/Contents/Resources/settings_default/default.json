@@ -18,7 +18,7 @@
   //Enable to render font ligatures (e.g. font Fira Code)
   //Option works only on Windows yet. On Linux: always on.
   "font_ligatures": false,
-  
+
   //Text font rendering quality [has suffix]
   //  0: Default 
   //  1: Draft 
@@ -50,6 +50,10 @@
   "ui_font_output_size" : 9,
   "ui_font_output_size__linux" : 9,
   "ui_font_output_size__mac" : 9,
+  
+  //Allow Unicode chars (many ranges) to have ~170% width, ie allow full-width chars.
+  //Don't disable it if you use CJK texts, CJK chars will be rendered too narrow.
+  "allow_wide_chars": true,
 
   //[Ui]
   //Double-buffering of UI controls [has suffix]
@@ -307,7 +311,7 @@
   //Additional vertical lines.
   //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
-
+  
   //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
   "unprinted_show": false,
@@ -928,7 +932,7 @@
   "find_hotkey_find_dlg": "Ctrl+F", 
   "find_hotkey_replace_dlg": "Ctrl+R", 
   "find_hotkey_find_first": "Alt+Enter", 
-  "find_hotkey_find_next": "Enter", 
+  "find_hotkey_find_next": "",
   "find_hotkey_find_prev": "Shift+Enter", 
   "find_hotkey_replace": "Alt+Z", 
   "find_hotkey_replace_no_next": "Ctrl+Alt+Z", 

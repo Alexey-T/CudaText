@@ -4,6 +4,14 @@
   * changed
 
 
+1.33.0 (2018/01)
+
++ add: many optimizations in core for scrolling speed on huge lines (4M chars)
++ add: option "allow_wide_chars"
++ add: commands "find current word/sel next/prev": they select current word before search
+* change: option "find_hotkey_find_next" is now hotkey, which is independant from focused input; its value "Enter" is ignored, other value works. "Enter" is now hardcoded hotkey.
+- fix: cannot find string with trailing EOL (multi-line input)
+
 1.32.2 (2018/01)
 
 - minor fixes

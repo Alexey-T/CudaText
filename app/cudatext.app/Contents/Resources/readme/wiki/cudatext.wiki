@@ -161,6 +161,13 @@ Lexers (syntax highlighters) from SynWrite editor are used. Used EControl.ru syn
 
 [[File:cudatext-lexer-library.png]]
 
+Dialog "Lexer library" has hotkeys:
+
+* Enter: same as "Configure" button 
+* Delete: same as "Delete" button 
+* Space: same as "Hide/Show" button 
+* Esc: close dialog
+
 === Lexers at sf.net ===
 
 Lexer library file has only subset of lexers.
@@ -612,12 +619,12 @@ Python installed from Homebrew cannot be used by CudaText: it misses 32-bit .dyl
 
 In the gutter bar, you can see colored thin bars next to line numbers: green, yellow. It is line states. They show state of lines:
 
-* usual line (not changed)
-* changed
-* added
-* changed+saved
+* usual lines (not changed)
+* changed lines
+* newly added lines
+* changed or added, and file was saved after it
 
-Line states help to see which lines were edited in the current session. Also CudaExt plugin gives few commands to jump over lines with some line states (go to next/previous, for changed, for added, for changed+added).
+Line states help to see which lines were edited in the last time. Also CudaExt plugin gives few commands to jump over lines with some line states (go to next/previous for several states: for changed, for added, for changed+added).
 
 ==Project Manager==
 
