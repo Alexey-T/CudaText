@@ -1905,6 +1905,7 @@ begin
   Groups.SetTabOption(tabOptionSpacer2, 1); //for multiline mode
   Groups.SetTabOption(tabOptionColoredBandSize, _InitOptColoredBandSize);
   Groups.SetTabOption(tabOptionActiveMarkSize, _InitOptActiveMarkSize);
+  Groups.SetTabOption(tabOptionScrollMarkSizeX, _InitOptScrollMarkSizeX);
   Groups.SetTabOption(tabOptionScrollMarkSizeY, _InitOptScrollMarkSizeY);
   Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
   Groups.SetTabOption(tabOptionSpaceXRight, 10);
