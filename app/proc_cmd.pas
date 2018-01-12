@@ -351,7 +351,7 @@ begin
   M.Add(cmd_FindCurSelNext, 'find current selection, next', [], []);
   M.Add(cmd_FindCurSelPrev, 'find current selection, previous', [], []);
   M.Add(cmd_GotoLastEditingPos, 'go to last editing pos', [], []);
-  M.Add(cmd_SelectExpandToWord, 'expand selection to word', [cXControl+'+Shift+D'], []);
+  M.Add(cmd_SelectExpandToWord, 'selection: expand selection to word', [cXControl+'+Shift+D'], []);
 
   M.Add(cmd_CopyLine, 'clipboard: copy current line', [], []);
   M.Add(cmd_CopyFilenameFull, 'clipboard: copy full filepath', [], []);
