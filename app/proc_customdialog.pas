@@ -294,7 +294,7 @@ begin
 end;
 
 
-function DoControl_GetItems_Listbox(C: TListbox): string;
+function DoControl_GetItems_Listbox(C: TCustomListbox): string;
 var
   L: TStringList;
 begin
@@ -339,8 +339,8 @@ end;
 function DoControl_GetItems(C: TControl): string;
 begin
   Result:= '';
-  if C is TListbox then
-    exit(DoControl_GetItems_Listbox(C as TListbox));
+  if C is TCustomListbox then
+    exit(DoControl_GetItems_Listbox(C as TCustomListbox));
   if C is TListView then
     exit(DoControl_GetItems_ListView(C as TListView));
 end;
