@@ -294,6 +294,58 @@ begin
 end;
 
 
+function DoControl_GetItems_Listbox(C: TListbox): string;
+var
+  L: TStringList;
+begin
+  L:= TStringList.Create;
+  try
+    L.Assign(C.Items);
+    L.LineBreak:= #9;
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
+
+function DoControl_GetItems_ListView(C: TListView): string;
+var
+  L: TStringList;
+  SItem: string;
+  i, j: integer;
+begin
+  Result:= '';
+  if C.Items.Count=0 then exit;
+
+  L:= TStringList.Create;
+  try
+    for i:= 0 to C.Items.Count-1 do
+    begin
+      SItem:= C.Items[i].Caption;
+      for j:= 0 to C.Items[i].SubItems.Count-1 do
+        SItem:= SItem+#13+C.Items[i].SubItems[j];
+      L.Add(SItem);
+    end;
+
+    L.LineBreak:= #9;
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
+
+function DoControl_GetItems(C: TControl): string;
+begin
+  Result:= '';
+  if C is TListbox then
+    exit(DoControl_GetItems_Listbox(C as TListbox));
+  if C is TListView then
+    exit(DoControl_GetItems_ListView(C as TListView));
+end;
+
+
 procedure DoControl_SetState_Combobox(C: TCombobox; const SValue: string);
 var
   N: integer;
@@ -1704,10 +1756,12 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 var
   bTabStop, bFocused: boolean;
   nTabOrder: integer;
+  SItems: string;
 begin
   bFocused:= false;
   bTabStop:= false;
   nTabOrder:= -1;
+  SItems:= DoControl_GetItems(C);
   if C is TWinControl then
   begin
     bFocused:= (C as TWinControl).Focused;
@@ -1721,7 +1775,7 @@ begin
     if C.Tag=0 then
       exit(ReturnNone);
 
-    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsOsisisisisisi}',
+    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsOsisisisisisiss}',
       'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
@@ -1742,7 +1796,8 @@ begin
       'sp_r', C.BorderSpacing.Right,
       'sp_t', C.BorderSpacing.Top,
       'sp_b', C.BorderSpacing.Bottom,
-      'sp_a', C.BorderSpacing.Around
+      'sp_a', C.BorderSpacing.Around,
+      'items', PChar(SItems)
       );
   end;
 end;
