@@ -5155,13 +5155,6 @@ begin
             Result:= PyLong_FromLongLong(Int64(PtrInt(ImgList)));
           end;
 
-        STATUSBAR_AUTOSIZE_CELL:
-          begin
-            FBar.DoPanelStretch(NIndex);
-            FBar.Invalidate;
-            Result:= ReturnNone;
-          end;
-
         STATUSBAR_SET_COLOR_BACK:
           begin
             FBar.Color:= StrToIntDef(StrValue, clWhite);

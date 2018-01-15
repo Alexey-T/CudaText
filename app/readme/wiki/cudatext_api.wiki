@@ -2147,6 +2147,7 @@ Text is chr(1) separated items:
 
 1.0.215 (app 1.34.1)
 * add: dlg_proc: DLG_CTL_PROP_GET gets key "items" for controls "listview", "checklistview", "listbox", "checklistbox"
+* deleted: statusbar_proc: STATUSBAR_AUTOSIZE_CELL
 
 1.0.214 (app 1.32.4)
 * add: button_proc supports callable param "value"
