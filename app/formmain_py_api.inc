@@ -5272,6 +5272,29 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_AUTOSIZE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.AutoSize:= AppStrToBool(StrValue);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_CELL_AUTOSTRETCH:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.AutoStretch:= AppStrToBool(StrValue);
+              FBar.Invalidate;
+            end;
+            Result:= ReturnNone;
+          end;
+
+
         STATUSBAR_GET_CELL_SIZE:
           begin
             Data:= FBar.GetPanelData(NIndex);
@@ -5331,6 +5354,24 @@ begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
               Result:= PyLong_FromLongLong(Data.Tag)
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_AUTOSIZE:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyBool_FromLong(Ord(Data.AutoSize))
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_AUTOSTRETCH:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyBool_FromLong(Ord(Data.AutoStretch))
             else
               Result:= ReturnNone;
           end;
