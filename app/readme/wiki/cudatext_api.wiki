@@ -1978,6 +1978,8 @@ Activates editor's tab and focuses editor itself. It's needed when you want to a
 
 Functions lock, then unlock editor. "Locked" editor is not painted and shows only hourglass (or another) icon.
 
+Call "lock" increases counter, "unlock" decreases this counter (it's safe to call "unlock" more times, counter will be 0). When counter is >0, editor is locked.
+
 ===convert===
 
  convert(id, x, y, text="")
