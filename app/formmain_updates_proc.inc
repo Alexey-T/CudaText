@@ -975,7 +975,7 @@ var
 begin
   NIndex:= Status.FindPanel(StatusbarTag_Msg);
   if NIndex>=0 then
-    Status.DoPanelAutoFill(NIndex);
+    Status.DoPanelStretch(NIndex);
 end;
 
 procedure TfmMain.StatusResize(Sender: TObject);
