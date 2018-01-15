@@ -907,6 +907,7 @@ var
   SPanel, SItem: string;
   NIndex, NSize, NTag: integer;
   Al: TAlignment;
+  bStretch: boolean;
 begin
   //complex deletion of panels, touch only CudaText std panels
   for NTag:= StatusbarTag_Caret{minimal tag} to StatusbarTag_Msg{maximal tag} do
@@ -921,6 +922,8 @@ begin
 
     NTag:= 0;
     NIndex:= Status.PanelCount;
+    bStretch:= false;
+
     SItem:= SGetItem(SPanel);
     case SItem of
       'caret':   begin NTag:= StatusbarTag_Caret; end;
@@ -929,7 +932,7 @@ begin
       'lexer':   begin NTag:= StatusbarTag_Lexer; end;
       'tabsize': begin NTag:= StatusbarTag_TabSize; end;
       'ins':     begin NTag:= StatusbarTag_InsOvr; end;
-      'msg':     begin NTag:= StatusbarTag_Msg; end;
+      'msg':     begin NTag:= StatusbarTag_Msg; bStretch:= true; end;
       'selmode': begin NTag:= StatusbarTag_SelMode; end;
       'wrap':    begin NTag:= StatusbarTag_WrapMode; end;
       else Continue;
@@ -941,10 +944,8 @@ begin
     SItem:= SGetItem(SPanel);
     NSize:= Max(16, StrToIntDef(SItem, 200));
 
-    Status.AddPanel(-1, NSize, Al, '', -1, NTag);
+    Status.AddPanel(-1, NSize, Al, '', -1, NTag, false, bStretch);
   until false;
-
-  UpdateStatusbarPanelAutoFill;
 end;
 
 
@@ -967,20 +968,6 @@ begin
   Groups.Splitter3.Invalidate;
   Groups.Splitter4.Invalidate;
   Groups.Splitter5.Invalidate;
-end;
-
-procedure TfmMain.UpdateStatusbarPanelAutoFill;
-var
-  NIndex: integer;
-begin
-  NIndex:= Status.FindPanel(StatusbarTag_Msg);
-  if NIndex>=0 then
-    Status.DoPanelStretch(NIndex);
-end;
-
-procedure TfmMain.StatusResize(Sender: TObject);
-begin
-  UpdateStatusbarPanelAutoFill;
 end;
 
 

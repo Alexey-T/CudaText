@@ -719,7 +719,6 @@ type
     procedure SetThemeSyntax(const AValue: string);
     procedure SetThemeUi(const AValue: string);
     function SFindOptionsToTextHint: string;
-    procedure StatusResize(Sender: TObject);
     procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_ResetLexerSpecificOptions;
@@ -873,7 +872,6 @@ type
     procedure MsgStatus(const AText: string);
     procedure UpdateSidebarButtons;
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
-    procedure UpdateStatusbarPanelAutoFill;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ToolButton(AToolbar: TATButtonsToolbar; ACmd: integer;
@@ -1272,7 +1270,6 @@ begin
   Status.Height:= 23;
   Status.Padding:= 2;
   Status.OnPanelClick:= @StatusPanelClick;
-  Status.OnResize:= @StatusResize;
 
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
