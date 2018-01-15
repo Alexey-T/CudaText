@@ -1393,6 +1393,8 @@ Param "id_action" can be:
 * STATUSBAR_SET_COLOR_BORDER: Sets color of statusbar borders. Param "value": int color.
 
 * STATUSBAR_GET_CELL_SIZE: Gets width of cell.
+* STATUSBAR_GET_CELL_AUTOSIZE: Gets auto-size of cell, bool. Auto-size: adjust width of cell to its icon+text.
+* STATUSBAR_GET_CELL_AUTOSTRETCH: Gets auto-stretch of cell, bool. Auto-stretch: stretch cell to fill entire statusbar width.
 * STATUSBAR_GET_CELL_ALIGN: Gets alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
 * STATUSBAR_GET_CELL_TEXT: Gets text of cell.
 * STATUSBAR_GET_CELL_IMAGEINDEX: Gets icon index (inside image-list) of cell, -1 for none.
@@ -1401,6 +1403,8 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_TAG: Gets int tag of cell.
 
 * STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
+* STATUSBAR_SET_CELL_AUTOSIZE: Sets auto-size of cell. Param "value": bool.
+* STATUSBAR_SET_CELL_AUTOSTRETCH: Sets auto-stretch of cell. Param "value": bool.
 * STATUSBAR_SET_CELL_ALIGN: Sets alignment of cell. Param "value": str constant: "L", "C", "R".
 * STATUSBAR_SET_CELL_TEXT: Sets text of cell. Param "value": str.
 * STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside image-list) of cell, -1 for none. Param "value": int.
@@ -2145,9 +2149,13 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.216 (app 1.34.2)
+* add: statusbar_proc: STATUSBAR_GET_AUTOSIZE, STATUSBAR_SET_AUTOSIZE
+* add: statusbar_proc: STATUSBAR_GET_AUTOSTRETCH, STATUSBAR_SET_AUTOSTRETCH
+* deleted: STATUSBAR_AUTOSIZE_CELL - now use STATUSBAR_SET_AUTOSTRETCH
+
 1.0.215 (app 1.34.1)
 * add: dlg_proc: DLG_CTL_PROP_GET gets key "items" for controls "listview", "checklistview", "listbox", "checklistbox"
-* deleted: statusbar_proc: STATUSBAR_AUTOSIZE_CELL
 
 1.0.214 (app 1.32.4)
 * add: button_proc supports callable param "value"
