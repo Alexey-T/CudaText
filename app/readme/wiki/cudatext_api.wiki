@@ -1976,7 +1976,7 @@ Activates editor's tab and focuses editor itself. It's needed when you want to a
  lock()
  unlock()
 
-These lock, then unlock editor. Locked editor is not painted and shows text label "Wait...".
+Functions lock, then unlock editor. "Locked" editor is not painted and shows only hourglass (or another) icon.
 
 ===convert===
 
