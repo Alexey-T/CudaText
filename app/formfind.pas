@@ -394,7 +394,7 @@ begin
     exit
   end;
 
-  if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') then
+  if (Str=UiOps.HotkeyFindNext) and (Str<>'Enter') and (Str<>'') then
   begin
     DoResult(cOpFindNext);
     key:= 0;
