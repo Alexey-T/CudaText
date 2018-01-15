@@ -590,7 +590,7 @@ Notes:
 
 ==== Properties ====
 
-Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props in the form "key=value". Possible props:
+Parameter "text" is "\n"-separated items, one item per control. Each item is chr(1)-separated props in the form "key=value". Possible props:
 
 * "type": type of control; must be specified first
 * "cap": caption
@@ -610,7 +610,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
-====Items====
+====Prop "items"====
 
 Possible values of "items":
 
@@ -621,7 +621,9 @@ Possible values of "items":
 ** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
 * image: full path of picture file (png/gif/jpg/bmp)
 
-====Control values====
+Action DLG_CTL_PROP_GET also gets key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview". 
+
+====Prop "val"====
 
 * check: "0", "1" or "?" (grayed state)
 * radio, checkbutton: "0", "1"
@@ -633,14 +635,14 @@ Possible values of "items":
 * tabs: index of active tab
 * trackbar, progressbar: int position
 
-====Advanced properties====
+====Prop "props"====
 
 Advanced control-specific properties, set by "props".
 
 * For dlg_custom, must be str with items ","-separated, "0"/"1" for bool. 
 * For dlg_proc, can also use simple types bool/int/str or tuple of simple types, e.g. (True,False) instead of "1,0".
 
-Props:
+Value of "props" is control-specific:
 
 * button: bool_default_for_enter
 * edit, memo: 
@@ -2142,7 +2144,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.215 (app 1.34.1)
-* add: dlg_proc: DLG_CTL_PROP_GET gets key "items" for controls "listview", "listbox"
+* add: dlg_proc: DLG_CTL_PROP_GET gets key "items" for controls "listview", "checklistview", "listbox", "checklistbox"
 
 1.0.214 (app 1.32.4)
 * add: button_proc supports callable param "value"
