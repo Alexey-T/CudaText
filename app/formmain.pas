@@ -873,7 +873,7 @@ type
     procedure MsgStatus(const AText: string);
     procedure UpdateSidebarButtons;
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
-    procedure UpdateStatusbarPanelAutosize;
+    procedure UpdateStatusbarPanelAutoFill;
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ToolButton(AToolbar: TATButtonsToolbar; ACmd: integer;

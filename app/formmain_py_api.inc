@@ -5157,7 +5157,7 @@ begin
 
         STATUSBAR_AUTOSIZE_CELL:
           begin
-            FBar.DoPanelAutosize(NIndex);
+            FBar.DoPanelAutoFill(NIndex);
             FBar.Invalidate;
             Result:= ReturnNone;
           end;

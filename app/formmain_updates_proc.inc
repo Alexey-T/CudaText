@@ -944,7 +944,7 @@ begin
     Status.AddPanel(-1, NSize, Al, '', -1, NTag);
   until false;
 
-  UpdateStatusbarPanelAutosize;
+  UpdateStatusbarPanelAutoFill;
 end;
 
 
@@ -969,18 +969,18 @@ begin
   Groups.Splitter5.Invalidate;
 end;
 
-procedure TfmMain.UpdateStatusbarPanelAutosize;
+procedure TfmMain.UpdateStatusbarPanelAutoFill;
 var
   NIndex: integer;
 begin
   NIndex:= Status.FindPanel(StatusbarTag_Msg);
   if NIndex>=0 then
-    Status.DoPanelAutosize(NIndex);
+    Status.DoPanelAutoFill(NIndex);
 end;
 
 procedure TfmMain.StatusResize(Sender: TObject);
 begin
-  UpdateStatusbarPanelAutosize;
+  UpdateStatusbarPanelAutoFill;
 end;
 
 
