@@ -3112,6 +3112,11 @@ begin
             Result:= ReturnNone;
           end;
 
+        APP_PROC_DUMP_CACHE:
+          begin
+            Result:= PyString_FromString(PChar(fmMain.CurrentEditor.GetCacheDump));
+          end;
+
         else
           Result:= ReturnNone;
       end;

@@ -147,6 +147,7 @@ const
   PROP_V_SEL_LEN   = 63;
   PROP_V_WIDTH     = 64;
 
+  APP_PROC_DUMP_CACHE = -2; //for debugging
   APP_PROC_SET_CLIP_ALT = -1;
   APP_PROC_GET_CLIP = 0;
   APP_PROC_SET_CLIP = 1;
