@@ -3753,6 +3753,12 @@ begin
       Btn:= TATButton(PtrInt(IdBtn));
 
       case IdAction of
+        BTN_UPDATE:
+          begin
+            Btn.Invalidate;
+            Result:= ReturnNone;
+          end;
+
         BTN_GET_CHECKED:
           begin
             Result:= PyBool_FromLong(Ord(Btn.Checked));

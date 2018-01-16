@@ -1475,6 +1475,7 @@ Param "id_button" is int handle of button.
 
 Possible values of "id_action":
 
+* BTN_UPDATE: Repaints button.
 * BTN_GET_TEXT: Gets caption string.
 * BTN_SET_TEXT: Sets caption string.
 * BTN_GET_HINT: Gets hint (tooltip) string.
@@ -2168,6 +2169,7 @@ Text is chr(1) separated items:
 * add: button_proc: BTN_GET_WIDTH, BTN_SET_WIDTH
 * add: button_proc: BTN_GET_ITEMS, BTN_SET_ITEMS
 * add: button_proc: BTN_GET_ITEMINDEX, BTN_SET_ITEMINDEX
+* add: button_proc: BTN_UPDATE
 
 1.0.216 (app 1.34.2)
 * add: statusbar_proc: STATUSBAR_GET_AUTOSIZE, STATUSBAR_SET_AUTOSIZE

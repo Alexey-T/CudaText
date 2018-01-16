@@ -411,6 +411,7 @@ const
   IMAGELIST_DELETE_ALL = 7;
   IMAGELIST_PAINT      = 10;
 
+  BTN_UPDATE         = -1;
   BTN_GET_CHECKED    = 0;
   BTN_SET_CHECKED    = 1;
   BTN_GET_IMAGELIST  = 2;
