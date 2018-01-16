@@ -117,7 +117,7 @@ object SyntAnal19: TLibSyntAnalyzer
       DisplayName = 'Str'
       StyleName = 'String'
       TokenType = 4
-      Expression = '("|'#39')(\\"|\\'#39'|.)*?(\1|$)'
+      Expression = '("|'#39')(\\\\|\\"|\\'#39'|.)*?(\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
