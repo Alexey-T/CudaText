@@ -1384,13 +1384,21 @@ Param "id_action" can be:
 * STATUSBAR_GET_IMAGELIST: Gets handle of image-list object, attached to statusbar, or 0 for none.
 * STATUSBAR_SET_IMAGELIST: Sets handle if image-list object. Param "value": handle.
 
-* STATUSBAR_GET_COLOR_BACK: Gets color of statusbar background.
-* STATUSBAR_GET_COLOR_FONT: Gets color of statusbar font.
-* STATUSBAR_GET_COLOR_BORDER: Gets color of statusbar borders.
+* STATUSBAR_GET_COLOR_BACK: Gets color of background.
+* STATUSBAR_GET_COLOR_FONT: Gets color of font.
+* STATUSBAR_GET_COLOR_BORDER_TOP: Gets color of border-top.
+* STATUSBAR_GET_COLOR_BORDER_L: Gets color of border-left.
+* STATUSBAR_GET_COLOR_BORDER_R: Gets color of border-right.
+* STATUSBAR_GET_COLOR_BORDER_U: Gets color of border-up.
+* STATUSBAR_GET_COLOR_BORDER_D: Gets color of border-down.
 
-* STATUSBAR_SET_COLOR_BACK: Sets color of statusbar background. Param "value": int color.
-* STATUSBAR_SET_COLOR_FONT: Sets color of statusbar font. Param "value": int color.
-* STATUSBAR_SET_COLOR_BORDER: Sets color of statusbar borders. Param "value": int color.
+* STATUSBAR_SET_COLOR_BACK: Sets color of background. Param "value": int color.
+* STATUSBAR_SET_COLOR_FONT: Sets color of font.
+* STATUSBAR_SET_COLOR_BORDER_TOP: Sets color of border-top.
+* STATUSBAR_SET_COLOR_BORDER_L: Sets color of border-left.
+* STATUSBAR_SET_COLOR_BORDER_R: Sets color of border-right.
+* STATUSBAR_SET_COLOR_BORDER_U: Sets color of border-up.
+* STATUSBAR_SET_COLOR_BORDER_D: Sets color of border-down.
 
 * STATUSBAR_GET_CELL_SIZE: Gets width of cell.
 * STATUSBAR_GET_CELL_AUTOSIZE: Gets auto-size of cell, bool. Auto-size: adjust width of cell to its icon+text.
@@ -2152,6 +2160,8 @@ Text is chr(1) separated items:
 1.0.216 (app 1.34.2)
 * add: statusbar_proc: STATUSBAR_GET_AUTOSIZE, STATUSBAR_SET_AUTOSIZE
 * add: statusbar_proc: STATUSBAR_GET_AUTOSTRETCH, STATUSBAR_SET_AUTOSTRETCH
+* add: statusbar_proc: 10 actions to get/set colors, STATUSBAR_GET/SET_COLOR_*
+* deleted: STATUSBAR_GET_COLOR_BORDER, STATUSBAR_SET_COLOR_BORDER
 * deleted: STATUSBAR_AUTOSIZE_CELL - now use STATUSBAR_SET_AUTOSTRETCH
 
 1.0.215 (app 1.34.1)
