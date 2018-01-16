@@ -5155,46 +5155,6 @@ begin
             Result:= PyLong_FromLongLong(Int64(PtrInt(ImgList)));
           end;
 
-        STATUSBAR_SET_COLOR_BACK:
-          begin
-            FBar.Color:= StrToIntDef(StrValue, clWhite);
-            FBar.Invalidate;
-            Result:= ReturnNone;
-          end;
-
-        STATUSBAR_SET_COLOR_FONT:
-          begin
-            FBar.Font.Color:= StrToIntDef(StrValue, clBlack);
-            FBar.Invalidate;
-            Result:= ReturnNone;
-          end;
-
-        STATUSBAR_SET_COLOR_BORDER:
-          begin
-            FBar.ColorBorderTop:= StrToIntDef(StrValue, clBlack);
-            FBar.ColorBorderD:= FBar.ColorBorderTop;
-            FBar.ColorBorderU:= FBar.ColorBorderTop;
-            FBar.ColorBorderL:= FBar.ColorBorderTop;
-            FBar.ColorBorderR:= FBar.ColorBorderTop;
-            FBar.Invalidate;
-            Result:= ReturnNone;
-          end;
-
-        STATUSBAR_GET_COLOR_BACK:
-          begin
-            Result:= PyInt_FromLong(FBar.Color);
-          end;
-
-        STATUSBAR_GET_COLOR_FONT:
-          begin
-            Result:= PyInt_FromLong(FBar.Font.Color);
-          end;
-
-        STATUSBAR_GET_COLOR_BORDER:
-          begin
-            Result:= PyInt_FromLong(FBar.ColorBorderU);
-          end;
-
         STATUSBAR_SET_CELL_SIZE:
           begin
             Data:= FBar.GetPanelData(NIndex);
@@ -5374,6 +5334,92 @@ begin
               Result:= PyBool_FromLong(Ord(Data.AutoStretch))
             else
               Result:= ReturnNone;
+          end;
+
+        //get color
+        STATUSBAR_GET_COLOR_BACK:
+          begin
+            Result:= PyInt_FromLong(FBar.Color);
+          end;
+
+        STATUSBAR_GET_COLOR_FONT:
+          begin
+            Result:= PyInt_FromLong(FBar.Font.Color);
+          end;
+
+        STATUSBAR_GET_COLOR_BORDER_TOP:
+          begin
+            Result:= PyInt_FromLong(FBar.ColorBorderTop);
+          end;
+
+        STATUSBAR_GET_COLOR_BORDER_L:
+          begin
+            Result:= PyInt_FromLong(FBar.ColorBorderL);
+          end;
+
+        STATUSBAR_GET_COLOR_BORDER_R:
+          begin
+            Result:= PyInt_FromLong(FBar.ColorBorderR);
+          end;
+
+        STATUSBAR_GET_COLOR_BORDER_U:
+          begin
+            Result:= PyInt_FromLong(FBar.ColorBorderU);
+          end;
+
+        STATUSBAR_GET_COLOR_BORDER_D:
+          begin
+            Result:= PyInt_FromLong(FBar.ColorBorderD);
+          end;
+
+        //set color
+        STATUSBAR_SET_COLOR_BACK:
+          begin
+            FBar.Color:= StrToIntDef(StrValue, FBar.Color);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_FONT:
+          begin
+            FBar.Font.Color:= StrToIntDef(StrValue, FBar.Font.Color);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_BORDER_TOP:
+          begin
+            FBar.ColorBorderTop:= StrToIntDef(StrValue, FBar.ColorBorderTop);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_BORDER_L:
+          begin
+            FBar.ColorBorderL:= StrToIntDef(StrValue, FBar.ColorBorderL);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_BORDER_R:
+          begin
+            FBar.ColorBorderR:= StrToIntDef(StrValue, FBar.ColorBorderR);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_BORDER_U:
+          begin
+            FBar.ColorBorderU:= StrToIntDef(StrValue, FBar.ColorBorderU);
+            FBar.Invalidate;
+            Result:= ReturnNone;
+          end;
+
+        STATUSBAR_SET_COLOR_BORDER_D:
+          begin
+            FBar.ColorBorderD:= StrToIntDef(StrValue, FBar.ColorBorderD);
+            FBar.Invalidate;
+            Result:= ReturnNone;
           end;
 
         else
