@@ -1,6 +1,6 @@
 {$ifdef nnnn}begin end;{$endif}
 
-function DoToolbar_GetToolbarFromId(const Str: string): TATButtonsToolbar;
+function DoToolbar_GetToolbarFromId(const Str: string): TATFlatToolbar;
 var
   N: PtrInt;
 begin
@@ -11,11 +11,11 @@ begin
 
   N:= StrToInt64Def(Str, 0);
   if N<>0 then
-    exit(TATButtonsToolbar(N));
+    exit(TATFlatToolbar(N));
 end;
 
 
-procedure DoToolbar_Clear(AToolbar: TATButtonsToolbar);
+procedure DoToolbar_Clear(AToolbar: TATFlatToolbar);
 var
   i: integer;
 begin
@@ -24,14 +24,14 @@ begin
   AToolbar.UpdateControls;
 end;
 
-procedure DoToolbar_DeleteButton(AToolbar: TATButtonsToolbar; AButtonIndex: integer);
+procedure DoToolbar_DeleteButton(AToolbar: TATFlatToolbar; AButtonIndex: integer);
 begin
   if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
     AToolbar.Buttons[AButtonIndex].Free;
   AToolbar.UpdateControls;
 end;
 
-function DoToolbar_GetChecked(AToolbar: TATButtonsToolbar; AButtonIndex: integer): boolean;
+function DoToolbar_GetChecked(AToolbar: TATFlatToolbar; AButtonIndex: integer): boolean;
 begin
   if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
     Result:= AToolbar.Buttons[AButtonIndex].Checked
@@ -39,7 +39,7 @@ begin
     Result:= false;
 end;
 
-procedure DoToolbar_SetChecked(AToolbar: TATButtonsToolbar; AButtonIndex: integer; AValue: boolean);
+procedure DoToolbar_SetChecked(AToolbar: TATFlatToolbar; AButtonIndex: integer; AValue: boolean);
 begin
   if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
     AToolbar.Buttons[AButtonIndex].Checked:= AValue;
@@ -47,7 +47,7 @@ end;
 
 
 procedure DoToolbar_AddMenu(
-  AToolbar: TATButtonsToolbar;
+  AToolbar: TATFlatToolbar;
   const ACaption: string;
   const ACommand: string;
   const AHint: string;
@@ -66,7 +66,7 @@ end;
 
 
 procedure DoToolbar_AddButton(
-  AToolbar: TATButtonsToolbar;
+  AToolbar: TATFlatToolbar;
   const ACaption: string;
   const ACommand: string;
   const AHint: string;
@@ -103,7 +103,7 @@ begin
 end;
 
 
-function DoToolbar_Enum(AToolbar: TATButtonsToolbar): PPyObject;
+function DoToolbar_Enum(AToolbar: TATFlatToolbar): PPyObject;
 var
   NLen: integer;
   Btn: TATButton;
@@ -137,7 +137,7 @@ end;
 
 
 function DoToolbar_SetButtonProps(
-  AToolbar: TATButtonsToolbar;
+  AToolbar: TATFlatToolbar;
   AButtonIndex, AImageIndex: integer;
   const ACaption, AHint: string
   ): PPyObject;

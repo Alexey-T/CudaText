@@ -17,9 +17,9 @@ begin
       if (C as TAppTreeContainer).Themed then
         DoApplyThemeToTreeview((C as TAppTreeContainer).Tree, true, false);
 
-    if C is TATButtonsToolbar then
-      if (C as TATButtonsToolbar).Themed then
-        DoApplyThemeToToolbar(C as TATButtonsToolbar);
+    if C is TATFlatToolbar then
+      if (C as TATFlatToolbar).Themed then
+        DoApplyThemeToToolbar(C as TATFlatToolbar);
   end;
 end;
 

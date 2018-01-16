@@ -27,7 +27,7 @@ object fmMain: TfmMain
     Width = 75
     Align = alLeft
     AutoSize = True
-    object ToolbarSideLow: TATButtonsToolbar
+    object ToolbarSideLow: TATFlatToolbar
       Left = 0
       Height = 30
       Top = 117
@@ -39,7 +39,7 @@ object fmMain: TfmMain
       Images = ImageListSide
       Vertical = True
     end
-    object ToolbarSideTop: TATButtonsToolbar
+    object ToolbarSideTop: TATFlatToolbar
       Left = 0
       Height = 87
       Top = 0
@@ -53,7 +53,7 @@ object fmMain: TfmMain
       Images = ImageListSide
       Vertical = True
     end
-    object ToolbarSideMid: TATButtonsToolbar
+    object ToolbarSideMid: TATFlatToolbar
       Left = 0
       Height = 30
       Top = 87
@@ -85,7 +85,7 @@ object fmMain: TfmMain
       ResizeAnchor = akBottom
       ResizeStyle = rsPattern
     end
-    object ToolbarMain: TATButtonsToolbar
+    object ToolbarMain: TATFlatToolbar
       Left = 0
       Height = 24
       Top = 0

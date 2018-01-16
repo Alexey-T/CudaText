@@ -4943,7 +4943,7 @@ function Py_toolbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrToolbar, PtrText, PtrText2, PtrCmd: PChar;
   StrToolbar, StrText, StrText2, StrCmd: string;
-  FToolbar: TATButtonsToolbar;
+  FToolbar: TATFlatToolbar;
   NAction: integer;
   NIndex1, NIndex2: integer;
 begin

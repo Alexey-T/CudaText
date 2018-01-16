@@ -1,6 +1,6 @@
 {$ifdef nn}begin end;{$endif}
 
-procedure DoTranslateToolbarButtonHint(AToolbar: TATButtonsToolbar; AIndex: integer; const AText: string);
+procedure DoTranslateToolbarButtonHint(AToolbar: TATFlatToolbar; AIndex: integer; const AText: string);
 var
   Btn: TATButton;
 begin
@@ -46,7 +46,7 @@ begin
   SReplaceAll(AStr, '\n', #10);
 end;
 
-procedure DoLocToolbarButtonHint(AToolbar: TATButtonsToolbar; const ABtnCaption, ABtnNewHint: string);
+procedure DoLocToolbarButtonHint(AToolbar: TATFlatToolbar; const ABtnCaption, ABtnNewHint: string);
 var
   Btn: TATButton;
   i: integer;

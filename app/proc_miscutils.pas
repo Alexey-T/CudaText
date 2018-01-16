@@ -21,7 +21,7 @@ uses
   ATListbox,
   ATPanelSimple,
   ATButtons,
-  ATButtonsToolbar,
+  ATFlatToolbar,
   ATBinHex,
   ec_LexerList,
   ec_SyntAnal,
@@ -53,7 +53,7 @@ procedure DoTreeviewCopy(Src, Dst: TTreeView);
 
 procedure DoApplyThemeToTreeview(C: TTreeview; AThemed, AChangeShowRoot: boolean);
 procedure DoApplyThemeToListbox(C: ATListbox.TATListbox);
-procedure DoApplyThemeToToolbar(C: TATButtonsToolbar);
+procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
@@ -378,7 +378,7 @@ begin
   C.Invalidate;
 end;
 
-procedure DoApplyThemeToToolbar(C: TATButtonsToolbar);
+procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 begin
   C.Color:= GetAppColor('TabBg');
   C.Invalidate;

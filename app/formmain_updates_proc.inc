@@ -45,7 +45,7 @@ begin
 end;
 
 
-procedure TfmMain.UpdateStatus_ToolButton(AToolbar: TATButtonsToolbar;
+procedure TfmMain.UpdateStatus_ToolButton(AToolbar: TATFlatToolbar;
   ACmd: integer; AChecked: boolean);
 var
   Btn: TATButton;

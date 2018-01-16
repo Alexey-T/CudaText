@@ -27,7 +27,7 @@ uses
   ec_LexerList,
   ec_SyntAnal,
   ATButtons,
-  ATButtonsToolbar,
+  ATFlatToolbar,
   ATListbox,
   ATScrollbar,
   ATPanelSimple,
@@ -406,10 +406,10 @@ type
     TimerCmd: TTimer;
     TimerStatus: TTimer;
     TimerTreeFocus: TTimer;
-    ToolbarMain: TATButtonsToolbar;
-    ToolbarSideMid: TATButtonsToolbar;
-    ToolbarSideLow: TATButtonsToolbar;
-    ToolbarSideTop: TATButtonsToolbar;
+    ToolbarMain: TATFlatToolbar;
+    ToolbarSideMid: TATFlatToolbar;
+    ToolbarSideLow: TATFlatToolbar;
+    ToolbarSideTop: TATFlatToolbar;
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
@@ -874,7 +874,7 @@ type
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
-    procedure UpdateStatus_ToolButton(AToolbar: TATButtonsToolbar; ACmd: integer;
+    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer;
       AChecked: boolean);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);

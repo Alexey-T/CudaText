@@ -19,7 +19,7 @@ uses
   LclProc, LclType,
   ATListbox,
   ATButtons,
-  ATButtonsToolbar,
+  ATFlatToolbar,
   ATLinkLabel,
   ATStringProc,
   ATPanelColor,
@@ -738,8 +738,8 @@ begin
 
   if S='toolbar' then
   begin
-    Ctl:= TATButtonsToolbar.Create(AForm);
-    TATButtonsToolbar(Ctl).Images:= TImageList.Create(AForm);
+    Ctl:= TATFlatToolbar.Create(AForm);
+    TATFlatToolbar(Ctl).Images:= TImageList.Create(AForm);
     exit;
   end;
 
