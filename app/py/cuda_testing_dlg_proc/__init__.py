@@ -512,7 +512,6 @@ end;
 
         sb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
         statusbar_proc(sb_id, STATUSBAR_SET_IMAGELIST, value=imglist_id)
-        statusbar_proc(sb_id, STATUSBAR_SET_COLOR_BORDER, value=0xff0000)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=11)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=22)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=33)
