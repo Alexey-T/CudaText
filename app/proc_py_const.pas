@@ -441,6 +441,12 @@ const
   BTN_SET_FOCUSABLE  = 33;
   BTN_GET_FLAT       = 34;
   BTN_SET_FLAT       = 35;
+  BTN_GET_WIDTH      = 38;
+  BTN_SET_WIDTH      = 39;
+  BTN_GET_ITEMS      = 40;
+  BTN_SET_ITEMS      = 41;
+  BTN_GET_ITEMINDEX  = 42;
+  BTN_SET_ITEMINDEX  = 43;
 
   APP_IMAGE_CREATE      = 0;
   APP_IMAGE_GET_SIZE    = 1;

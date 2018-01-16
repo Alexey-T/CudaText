@@ -3918,6 +3918,39 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_WIDTH:
+          begin
+            Result:= PyInt_FromLong(Btn.Width);
+          end;
+
+        BTN_SET_WIDTH:
+          begin
+            Btn.Width:= StrToIntDef(StrValue, Btn.Width);
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_ITEMS:
+          begin
+            Result:= PyString_FromString(PChar(Btn.Items.Text));
+          end;
+
+        BTN_SET_ITEMS:
+          begin
+            Btn.Items.Text:= StrValue;
+            Result:= ReturnNone;
+          end;
+
+        BTN_GET_ITEMINDEX:
+          begin
+            Result:= PyInt_FromLong(Btn.ItemIndex);
+          end;
+
+        BTN_SET_ITEMINDEX:
+          begin
+            Btn.ItemIndex:= StrToIntDef(StrValue, -1);
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;
