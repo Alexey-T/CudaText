@@ -590,7 +590,7 @@ Notes:
 
 ==== Properties ====
 
-Parameter text is "\n"-separated items, one item per control. Each item is chr(1)-separated props in the form "key=value". Possible props:
+Parameter "text" is "\n"-separated items, one item per control. Each item is chr(1)-separated props in the form "key=value". Possible props:
 
 * "type": type of control; must be specified first
 * "cap": caption
@@ -610,7 +610,7 @@ Parameter text is "\n"-separated items, one item per control. Each item is chr(1
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
-====Items====
+====Prop "items"====
 
 Possible values of "items":
 
@@ -621,7 +621,9 @@ Possible values of "items":
 ** other items are data: cell1+"\r"+cell2+"\r"+... (count of cells may be less than count of columns)
 * image: full path of picture file (png/gif/jpg/bmp)
 
-====Control values====
+Action DLG_CTL_PROP_GET also gets key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview". 
+
+====Prop "val"====
 
 * check: "0", "1" or "?" (grayed state)
 * radio, checkbutton: "0", "1"
@@ -633,14 +635,14 @@ Possible values of "items":
 * tabs: index of active tab
 * trackbar, progressbar: int position
 
-====Advanced properties====
+====Prop "props"====
 
 Advanced control-specific properties, set by "props".
 
 * For dlg_custom, must be str with items ","-separated, "0"/"1" for bool. 
 * For dlg_proc, can also use simple types bool/int/str or tuple of simple types, e.g. (True,False) instead of "1,0".
 
-Props:
+Value of "props" is control-specific:
 
 * button: bool_default_for_enter
 * edit, memo: 
@@ -1382,15 +1384,25 @@ Param "id_action" can be:
 * STATUSBAR_GET_IMAGELIST: Gets handle of image-list object, attached to statusbar, or 0 for none.
 * STATUSBAR_SET_IMAGELIST: Sets handle if image-list object. Param "value": handle.
 
-* STATUSBAR_GET_COLOR_BACK: Gets color of statusbar background.
-* STATUSBAR_GET_COLOR_FONT: Gets color of statusbar font.
-* STATUSBAR_GET_COLOR_BORDER: Gets color of statusbar borders.
+* STATUSBAR_GET_COLOR_BACK: Gets color of background.
+* STATUSBAR_GET_COLOR_FONT: Gets color of font.
+* STATUSBAR_GET_COLOR_BORDER_TOP: Gets color of border-top.
+* STATUSBAR_GET_COLOR_BORDER_L: Gets color of border-left.
+* STATUSBAR_GET_COLOR_BORDER_R: Gets color of border-right.
+* STATUSBAR_GET_COLOR_BORDER_U: Gets color of border-up.
+* STATUSBAR_GET_COLOR_BORDER_D: Gets color of border-down.
 
-* STATUSBAR_SET_COLOR_BACK: Sets color of statusbar background. Param "value": int color.
-* STATUSBAR_SET_COLOR_FONT: Sets color of statusbar font. Param "value": int color.
-* STATUSBAR_SET_COLOR_BORDER: Sets color of statusbar borders. Param "value": int color.
+* STATUSBAR_SET_COLOR_BACK: Sets color of background. Param "value": int color.
+* STATUSBAR_SET_COLOR_FONT: Sets color of font.
+* STATUSBAR_SET_COLOR_BORDER_TOP: Sets color of border-top.
+* STATUSBAR_SET_COLOR_BORDER_L: Sets color of border-left.
+* STATUSBAR_SET_COLOR_BORDER_R: Sets color of border-right.
+* STATUSBAR_SET_COLOR_BORDER_U: Sets color of border-up.
+* STATUSBAR_SET_COLOR_BORDER_D: Sets color of border-down.
 
 * STATUSBAR_GET_CELL_SIZE: Gets width of cell.
+* STATUSBAR_GET_CELL_AUTOSIZE: Gets auto-size of cell, bool. Auto-size: adjust width of cell to its icon+text.
+* STATUSBAR_GET_CELL_AUTOSTRETCH: Gets auto-stretch of cell, bool. Auto-stretch: stretch cell to fill entire statusbar width.
 * STATUSBAR_GET_CELL_ALIGN: Gets alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
 * STATUSBAR_GET_CELL_TEXT: Gets text of cell.
 * STATUSBAR_GET_CELL_IMAGEINDEX: Gets icon index (inside image-list) of cell, -1 for none.
@@ -1399,6 +1411,8 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_TAG: Gets int tag of cell.
 
 * STATUSBAR_SET_CELL_SIZE: Sets width of cell. Param "value": int.
+* STATUSBAR_SET_CELL_AUTOSIZE: Sets auto-size of cell. Param "value": bool.
+* STATUSBAR_SET_CELL_AUTOSTRETCH: Sets auto-stretch of cell. Param "value": bool.
 * STATUSBAR_SET_CELL_ALIGN: Sets alignment of cell. Param "value": str constant: "L", "C", "R".
 * STATUSBAR_SET_CELL_TEXT: Sets text of cell. Param "value": str.
 * STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside image-list) of cell, -1 for none. Param "value": int.
@@ -1974,7 +1988,9 @@ Activates editor's tab and focuses editor itself. It's needed when you want to a
  lock()
  unlock()
 
-These lock, then unlock editor. Locked editor is not painted and shows text label "Wait...".
+Functions lock, then unlock editor. "Locked" editor is not painted and shows only hourglass (or another) icon.
+
+Call "lock" increases counter, "unlock" decreases this counter (it's safe to call "unlock" more times, counter will be 0). When counter is >0, editor is locked.
 
 ===convert===
 
@@ -2140,6 +2156,16 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.216 (app 1.34.2)
+* add: statusbar_proc: STATUSBAR_GET_AUTOSIZE, STATUSBAR_SET_AUTOSIZE
+* add: statusbar_proc: STATUSBAR_GET_AUTOSTRETCH, STATUSBAR_SET_AUTOSTRETCH
+* add: statusbar_proc: 10 actions to get/set colors, STATUSBAR_GET/SET_COLOR_*
+* deleted: STATUSBAR_GET_COLOR_BORDER, STATUSBAR_SET_COLOR_BORDER
+* deleted: STATUSBAR_AUTOSIZE_CELL - now use STATUSBAR_SET_AUTOSTRETCH
+
+1.0.215 (app 1.34.1)
+* add: dlg_proc: DLG_CTL_PROP_GET gets key "items" for controls "listview", "checklistview", "listbox", "checklistbox"
 
 1.0.214 (app 1.32.4)
 * add: button_proc supports callable param "value"
