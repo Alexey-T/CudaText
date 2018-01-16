@@ -988,7 +988,7 @@ begin
     OpShowHintOnVertScroll:= false;
     OpCenteringWidth:= 0;
     OpCenteringForDistractionFree:= 100;
-    OpLexerDynamicHiliteEnabled:= true;
+    OpLexerDynamicHiliteEnabled:= false;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
 
