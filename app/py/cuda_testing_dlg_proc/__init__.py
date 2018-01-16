@@ -477,10 +477,10 @@ end;
 
     def test_toolbar(self):
         dir_icons = os.path.join(app_path(APP_DIR_DATA), 'sideicons', 'octicons_24x24')
-        icon1 = os.path.join(dir_icons, 'console.png')
-        icon2 = os.path.join(dir_icons, 'find.png')
-        print('icon1:', icon1)
-        print('icon2:', icon2)
+        fn_icon1 = os.path.join(dir_icons, 'console.png')
+        fn_icon2 = os.path.join(dir_icons, 'find.png')
+        print('icon1:', fn_icon1)
+        print('icon2:', fn_icon2)
 
         id = dlg_proc(0, DLG_CREATE)
 
@@ -497,8 +497,8 @@ end;
 
         imglist_id = toolbar_proc(tb_id, TOOLBAR_GET_IMAGELIST)
         imagelist_proc(imglist_id, IMAGELIST_SET_SIZE, value=(24,24))
-        icon1 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=icon1)
-        icon2 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=icon2)
+        icon1 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=fn_icon1)
+        icon2 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=fn_icon2)
         #print('icon indexes:', icon1, icon2)
 
         toolbar_proc(tb_id, TOOLBAR_ADD_ITEM)
