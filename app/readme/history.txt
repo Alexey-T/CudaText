@@ -4,11 +4,12 @@
   * changed
 
 
-1.34.4 (2018/01)
+1.35.0 (2018/01)
 
-* change: option "lexer_dynamic_hilite" turned off by default (problems with option on macOS; slows down)
++ add: auto-completion listbox in HTML allows multi-carets (like Sublime does)
 + add: on macOS, some features use Command-key instead of Ctrl-key: Ctrl+click; Ctrl+(double click); Ctrl with drag-drop of text
 + add: API
+* change: option "lexer_dynamic_hilite" turned off by default (problems with option on macOS; slows down)
 - fix: Find dialog: Shift key runs search
 
 1.34.0 (2018/01)
