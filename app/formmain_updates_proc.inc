@@ -1109,19 +1109,25 @@ begin
 end;
 
 
-(*
-procedure TfmMain.FormConstrainedResize(Sender: TObject; var MinWidth, MinHeight,
-  MaxWidth, MaxHeight: TConstraintSize);
+procedure TfmMain.UpdateMenuTabsize;
 const
-  cMinHeight = 200;
+  cMinSize = 1;
+  cMaxSize = 10;
 var
-  RWork: TRect;
+  SPrefix: string;
+  mi: TMenuItem;
+  i: integer;
 begin
-  //event needed only on Mac, to disable resize below Dock
-  {$ifndef darwin} exit; {$endif}
+  with TIniFile.Create(GetAppLangFilename) do
+    SPrefix:= ReadString('ct', 'tsz', 'Tab size:');
 
-  RWork:= Screen.PrimaryMonitor.WorkareaRect;
-  MaxHeight:= Max(cMinHeight, RWork.Bottom - RWork.Top - Top);
+  for i:= cMaxSize downto cMinSize do
+  begin
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= SPrefix+' '+IntToStr(i);
+    mi.Tag:= i;
+    mi.OnClick:= @MenuTabsizeClick;
+    PopupTabSize.Items.Insert(0, mi);
+  end;
 end;
-*)
 

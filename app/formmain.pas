@@ -119,10 +119,6 @@ type
     ImageListToolbar: TImageList;
     MenuItem5: TMenuItem;
     mnuSelExtWord: TMenuItem;
-    mnuTabsize3: TMenuItem;
-    mnuTabsize7: TMenuItem;
-    mnuTabsize6: TMenuItem;
-    mnuTabsize5: TMenuItem;
     mnuViewOnTop: TMenuItem;
     mnuOpPlugins: TMenuItem;
     mnuTreeSep1: TMenuItem;
@@ -222,10 +218,6 @@ type
     mnuHelpLexers: TMenuItem;
     mnuTabColor: TMenuItem;
     mnuThemes: TMenuItem;
-    mnuTabsize1: TMenuItem;
-    mnuTabsize2: TMenuItem;
-    mnuTabsize4: TMenuItem;
-    mnuTabsize8: TMenuItem;
     MenuItem29: TMenuItem;
     mnuTabsizeSpace: TMenuItem;
     mnuFind2Prev: TMenuItem;
@@ -705,6 +697,7 @@ type
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
+    procedure MenuTabsizeClick(Sender: TObject);
     procedure MenuThemeDefaultUiClick(Sender: TObject);
     procedure MenuThemeDefaultSyntaxClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);
@@ -843,6 +836,7 @@ type
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuLangs(sub: TMenuItem);
+    procedure UpdateMenuTabsize;
     procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
     procedure UpdateMenuRecent(F: TEditorFrame);
@@ -1542,6 +1536,7 @@ begin
   UpdateMenuThemes(false);
   UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
+  UpdateMenuTabsize;
 
   CurrentFrame.SetFocus;
 
@@ -4273,6 +4268,10 @@ begin
   ApplyPartStyleFromEcontrolStyle(APart, st);
 end;
 
+procedure TfmMain.MenuTabsizeClick(Sender: TObject);
+begin
+  UpdateEditorTabsize((Sender as TComponent).Tag);
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}

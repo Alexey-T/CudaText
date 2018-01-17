@@ -416,15 +416,6 @@ begin
     cStrMenuitemUnfoldAll:= mnuTreeUnfoldAll.Caption;
     cStrMenuitemFoldLevel:= mnuTreeFoldLevel.Caption;
 
-    s:= ini.ReadString('ct', 'tsz', 'Tab size:');
-    DoLocMenuitem(mnuTabsize1, s+' 1');
-    DoLocMenuitem(mnuTabsize2, s+' 2');
-    DoLocMenuitem(mnuTabsize3, s+' 3');
-    DoLocMenuitem(mnuTabsize4, s+' 4');
-    DoLocMenuitem(mnuTabsize5, s+' 5');
-    DoLocMenuitem(mnuTabsize6, s+' 6');
-    DoLocMenuitem(mnuTabsize7, s+' 7');
-    DoLocMenuitem(mnuTabsize8, s+' 8');
     DoLocMenuitem(ini, mnuTabsizeSpace, 'ct', 'tsz_sp');
 
     ButtonCancel.Caption:= msgButtonCancel;
