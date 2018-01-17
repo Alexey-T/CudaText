@@ -477,10 +477,10 @@ end;
 
     def test_toolbar(self):
         dir_icons = os.path.join(app_path(APP_DIR_DATA), 'sideicons', 'octicons_24x24')
-        icon1 = os.path.join(dir_icons, 'console.png')
-        icon2 = os.path.join(dir_icons, 'find.png')
-        print('icon1:', icon1)
-        print('icon2:', icon2)
+        fn_icon1 = os.path.join(dir_icons, 'console.png')
+        fn_icon2 = os.path.join(dir_icons, 'find.png')
+        print('icon1:', fn_icon1)
+        print('icon2:', fn_icon2)
 
         id = dlg_proc(0, DLG_CREATE)
 
@@ -497,11 +497,40 @@ end;
 
         imglist_id = toolbar_proc(tb_id, TOOLBAR_GET_IMAGELIST)
         imagelist_proc(imglist_id, IMAGELIST_SET_SIZE, value=(24,24))
-        n1 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=icon1)
-        n2 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=icon2)
-        print('icon indexes:', n1, n2)
-        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Callback', command=self.show_about, index2=n1)
-        toolbar_proc(tb_id, TOOLBAR_ADD_BUTTON, text='Hotkeys help', command=2707, index2=n2)
+        icon1 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=fn_icon1)
+        icon2 = imagelist_proc(imglist_id, IMAGELIST_ADD, value=fn_icon2)
+        #print('icon indexes:', icon1, icon2)
+
+        toolbar_proc(tb_id, TOOLBAR_ADD_ITEM)
+        count = toolbar_proc(tb_id, TOOLBAR_GET_COUNT)
+        btn_id = toolbar_proc(tb_id, TOOLBAR_GET_BUTTON_HANDLE, index=count-1)
+        button_proc(btn_id, BTN_SET_KIND, BTNKIND_TEXT_ICON_HORZ)
+        button_proc(btn_id, BTN_SET_TEXT, 'About')
+        button_proc(btn_id, BTN_SET_IMAGELIST, imglist_id)
+        button_proc(btn_id, BTN_SET_IMAGEINDEX, icon1)
+        button_proc(btn_id, BTN_SET_DATA1, self.show_about)
+
+        toolbar_proc(tb_id, TOOLBAR_ADD_ITEM)
+        count = toolbar_proc(tb_id, TOOLBAR_GET_COUNT)
+        btn_id = toolbar_proc(tb_id, TOOLBAR_GET_BUTTON_HANDLE, index=count-1)
+        button_proc(btn_id, BTN_SET_KIND, BTNKIND_TEXT_ICON_HORZ)
+        button_proc(btn_id, BTN_SET_TEXT, 'Hotkey help')
+        button_proc(btn_id, BTN_SET_IMAGELIST, imglist_id)
+        button_proc(btn_id, BTN_SET_IMAGEINDEX, icon2)
+        button_proc(btn_id, BTN_SET_DATA1, 2707)
+
+        toolbar_proc(tb_id, TOOLBAR_ADD_ITEM)
+        count = toolbar_proc(tb_id, TOOLBAR_GET_COUNT)
+        btn_id = toolbar_proc(tb_id, TOOLBAR_GET_BUTTON_HANDLE, index=count-1)
+        button_proc(btn_id, BTN_SET_KIND, BTNKIND_TEXT_CHOICE)
+        button_proc(btn_id, BTN_SET_TEXT, '?')
+        button_proc(btn_id, BTN_SET_ARROW, True)
+        button_proc(btn_id, BTN_SET_ITEMS, '\n'.join(['choice-aa', 'choice-bbbb', 'choice-cccc', 'choice-ddd']))
+        button_proc(btn_id, BTN_SET_ITEMINDEX, 3)
+        button_proc(btn_id, BTN_SET_WIDTH, 150)
+        button_proc(btn_id, BTN_SET_DATA1, lambda: print('choice in menu'))
+
+        toolbar_proc(tb_id, TOOLBAR_UPDATE)
 
         #----------
         n = dlg_proc(id, DLG_CTL_ADD, 'statusbar')
@@ -512,7 +541,6 @@ end;
 
         sb_id = dlg_proc(id, DLG_CTL_HANDLE, index=n)
         statusbar_proc(sb_id, STATUSBAR_SET_IMAGELIST, value=imglist_id)
-        statusbar_proc(sb_id, STATUSBAR_SET_COLOR_BORDER, value=0xff0000)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=11)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=22)
         statusbar_proc(sb_id, STATUSBAR_ADD_CELL, tag=33)
@@ -521,7 +549,7 @@ end;
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=11, value=0xff00)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_FONT, tag=11, value=0xff)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=11, value='cell-a')
-        statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=11, value=0)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=11, value=icon1)
 
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=22, value=50)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=22, value=0xffff)
@@ -530,7 +558,7 @@ end;
 
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=33, value=150)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=33, value='cell-c')
-        statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=33, value=1)
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=33, value=icon2)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_ALIGN, tag=33, value='R')
 
 
