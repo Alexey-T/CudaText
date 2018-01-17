@@ -386,10 +386,6 @@ begin
   Ed:= Sender as TATSynEdit;
   Frame:= GetEditorFrame(Ed);
 
-  //fix non-blinking caret
-  if not Ed.OptCaretBlinkEnabled then
-    Ed.DoCaretForceShow;
-
   if Frame.MacroRecord then
     if not PyCommandRunning then
       if IsCommandForMacros(ACommand) then
