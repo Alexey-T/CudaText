@@ -3300,6 +3300,7 @@ var
   LexName: string;
   IsPascal, IsCss, IsHtml, IsCaseSens: boolean;
   FileHtml, FileCss, FileAcp: string;
+  Caret: TATCaretItem;
 begin
   F:= CurrentFrame;
   Ed:= CurrentEditor;
@@ -3307,10 +3308,9 @@ begin
   if DoPyEvent(Ed, cEventOnComplete, [])=cPyTrue then exit;
 
   if F.Lexer=nil then exit;
-  if Ed.Carets.Count<>1 then exit;
 
-  LexName:= F.LexerNameAtPos(Point(Ed.Carets[0].PosX, Ed.Carets[0].PosY));
-  MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
+  Caret:= Ed.Carets[0];
+  LexName:= F.LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
   if LexName='' then exit;
 
   //'php_'->'php'
@@ -3324,6 +3324,11 @@ begin
   FileCss:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'css_list.ini';
   FileHtml:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'html_list.ini';
   FileAcp:= GetAppPath(cDirDataAutocomplete)+DirectorySeparator+LexName+'.acp';
+
+  //allow autocompletion with carets, only in HTML
+  if Ed.Carets.Count>1 then
+    if not IsHtml then exit;
+  MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
 
   if IsHtml then
   begin
