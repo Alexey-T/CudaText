@@ -133,7 +133,7 @@
   //Enable caret-depending highlighting
   //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
   //  HTML/XML hilites opening/closing tags when caret is inside tag
-  "lexer_dynamic_hilite": true,
+  "lexer_dynamic_hilite": false,
   
   //Max number of lines in editor, for which dynamic-hiliting works
   //  Reason for option: dynamic-hiliting disables hiliting cache, so slows down scrolling

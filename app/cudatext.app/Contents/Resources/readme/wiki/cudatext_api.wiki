@@ -1475,6 +1475,7 @@ Param "id_button" is int handle of button.
 
 Possible values of "id_action":
 
+* BTN_UPDATE: Repaints button.
 * BTN_GET_TEXT: Gets caption string.
 * BTN_SET_TEXT: Sets caption string.
 * BTN_GET_HINT: Gets hint (tooltip) string.
@@ -1497,6 +1498,8 @@ Possible values of "id_action":
 * BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
 * BTN_GET_ARROW: Gets dropdown arrow visible flag, bool.
 * BTN_SET_ARROW: Sets dropdown arrow visible flag. Param "value" must be bool.
+* BTN_GET_ARROW_ALIGN: Gets alignment of dropdown arrow, as str: "L", "R", "C".
+* BTN_SET_ARROW_ALIGN: Sets alignment of dropdown arrow. Param "value" must be str: "L", "R", "C". 
 * BTN_GET_FOCUSABLE: Gets focusable state, bool.
 * BTN_SET_FOCUSABLE: Sets focusable state. Param "value" must be bool.
 * BTN_GET_FLAT: Gets flat state, bool.
@@ -1505,6 +1508,12 @@ Possible values of "id_action":
 * BTN_SET_DATA1: Sets data1. Param "value" must be callback: [[#Callback_param]].
 * BTN_GET_DATA2: Gets data2 string. Data2 is currently not used by app. 
 * BTN_SET_DATA2: Sets data2 string.
+* BTN_GET_WIDTH: Gets width (in pixels).
+* BTN_SET_WIDTH: Sets width.
+* BTN_GET_ITEMS: Gets choice items, used for kind=BTNKIND_TEXT_CHOICE, as "\n"-separated strings.
+* BTN_SET_ITEMS: Sets choice items. Param "value" must be str, "\n"-separated strings.
+* BTN_GET_ITEMINDEX: Gets choice index, used for kind=BTNKIND_TEXT_CHOICE.
+* BTN_SET_ITEMINDEX: Sets choice index. Param "value" must be int >=0, or -1 for none.
 
 Note: Toolbars contain several "button_ex" objects, which are anchored one to another (horizontally or vertically). You can also construct such toolbar by hands. API toolbar_proc() don't allow to specify kind of buttons, it sets kind from button properties.
 
@@ -2156,6 +2165,14 @@ Text is chr(1) separated items:
 ** 's' for search in selection
 
 =History=
+
+1.0.217 (app 1.34.4)
+* add: button_proc: const BTNKIND_TEXT_CHOICE
+* add: button_proc: BTN_GET_WIDTH, BTN_SET_WIDTH
+* add: button_proc: BTN_GET_ITEMS, BTN_SET_ITEMS
+* add: button_proc: BTN_GET_ITEMINDEX, BTN_SET_ITEMINDEX
+* add: button_proc: BTN_GET_ARROW_ALIGN, BTN_SET_ARROW_ALIGN
+* add: button_proc: BTN_UPDATE
 
 1.0.216 (app 1.34.2)
 * add: statusbar_proc: STATUSBAR_GET_AUTOSIZE, STATUSBAR_SET_AUTOSIZE
