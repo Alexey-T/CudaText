@@ -5,7 +5,7 @@ object fmMain: TfmMain
   Width = 872
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 481
+  ClientHeight = 482
   ClientWidth = 872
   Constraints.MinHeight = 100
   Constraints.MinWidth = 100
@@ -22,7 +22,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 146
+    Height = 147
     Top = 0
     Width = 75
     Align = alLeft
@@ -30,7 +30,7 @@ object fmMain: TfmMain
     object ToolbarSideLow: TATFlatToolbar
       Left = 0
       Height = 30
-      Top = 116
+      Top = 117
       Width = 75
       Align = alBottom
       AutoSize = True
@@ -41,7 +41,7 @@ object fmMain: TfmMain
     end
     object ToolbarSideTop: TATFlatToolbar
       Left = 0
-      Height = 86
+      Height = 87
       Top = 0
       Width = 75
       Align = alClient
@@ -56,7 +56,7 @@ object fmMain: TfmMain
     object ToolbarSideMid: TATFlatToolbar
       Left = 0
       Height = 30
-      Top = 86
+      Top = 87
       Width = 75
       Align = alBottom
       AutoSize = True
@@ -69,7 +69,7 @@ object fmMain: TfmMain
   object PanelAll: TATPanelSimple
     Left = 0
     Height = 335
-    Top = 146
+    Top = 147
     Width = 872
     Align = alBottom
     object SplitterHorz: TSplitter
@@ -158,8 +158,8 @@ object fmMain: TfmMain
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
             Left = 0
-            Height = 17
-            Top = 4
+            Height = 14
+            Top = 5
             Width = 202
             Alignment = taCenter
             Anchors = [akTop, akLeft, akRight]
@@ -530,36 +530,47 @@ object fmMain: TfmMain
         Caption = '&Groups'
         object mnuGr1: TMenuItem
           Caption = 'O&ne group'
+          RadioItem = True
         end
         object mnuGr2V: TMenuItem
           Caption = '&2 vert'
+          RadioItem = True
         end
         object mnuGr2H: TMenuItem
           Caption = '2 &horz'
+          RadioItem = True
         end
         object mnuGr3V: TMenuItem
           Caption = '&3 vert'
+          RadioItem = True
         end
         object mnuGr3H: TMenuItem
           Caption = '3 h&orz'
+          RadioItem = True
         end
         object mnuGr1p2V: TMenuItem
           Caption = '&1+2 vert'
+          RadioItem = True
         end
         object mnuGr1p2H: TMenuItem
           Caption = '1+2 ho&rz'
+          RadioItem = True
         end
         object mnuGr4V: TMenuItem
           Caption = '&4 vert'
+          RadioItem = True
         end
         object mnuGr4H: TMenuItem
           Caption = '4 hor&z'
+          RadioItem = True
         end
         object mnuGr4G: TMenuItem
           Caption = '4 &grid'
+          RadioItem = True
         end
         object mnuGr6: TMenuItem
           Caption = '&6 grid'
+          RadioItem = True
         end
       end
       object mnuViewSplitSub: TMenuItem
