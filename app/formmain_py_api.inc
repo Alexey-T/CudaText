@@ -3902,6 +3902,17 @@ begin
             Result:= ReturnNone;
           end;
 
+        BTN_GET_ARROW_ALIGN:
+          begin
+            Result:= PyString_FromString(PChar(AppAlignmentToString(Btn.ArrowAlign)));
+          end;
+
+        BTN_SET_ARROW_ALIGN:
+          begin
+            Btn.ArrowAlign:= AppStringToAlignment(StrValue);
+            Result:= ReturnNone;
+          end;
+
         BTN_GET_FOCUSABLE:
           begin
             Result:= PyBool_FromLong(Ord(Btn.Focusable));

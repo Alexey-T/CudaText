@@ -1498,6 +1498,8 @@ Possible values of "id_action":
 * BTN_SET_BOLD: Sets bold-style. Param "value" must be bool.
 * BTN_GET_ARROW: Gets dropdown arrow visible flag, bool.
 * BTN_SET_ARROW: Sets dropdown arrow visible flag. Param "value" must be bool.
+* BTN_GET_ARROW_ALIGN: Gets alignment of dropdown arrow, as str: "L", "R", "C".
+* BTN_SET_ARROW_ALIGN: Sets alignment of dropdown arrow. Param "value" must be str: "L", "R", "C". 
 * BTN_GET_FOCUSABLE: Gets focusable state, bool.
 * BTN_SET_FOCUSABLE: Sets focusable state. Param "value" must be bool.
 * BTN_GET_FLAT: Gets flat state, bool.
@@ -2169,6 +2171,7 @@ Text is chr(1) separated items:
 * add: button_proc: BTN_GET_WIDTH, BTN_SET_WIDTH
 * add: button_proc: BTN_GET_ITEMS, BTN_SET_ITEMS
 * add: button_proc: BTN_GET_ITEMINDEX, BTN_SET_ITEMINDEX
+* add: button_proc: BTN_GET_ARROW_ALIGN, BTN_SET_ARROW_ALIGN
 * add: button_proc: BTN_UPDATE
 
 1.0.216 (app 1.34.2)
