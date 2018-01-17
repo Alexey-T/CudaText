@@ -193,6 +193,8 @@ begin
 
   mi:= TMenuItem.Create(Self);
   mi.Caption:= msgThemeDefault;
+  mi.RadioItem:= true;
+
   if AThemeUI then
   begin
     mi.OnClick:= @MenuThemeDefaultUiClick;
@@ -217,7 +219,9 @@ begin
   begin
     cap:= LowerCase(ExtractFileNameOnly(ListThemes[i]));
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
+
     mi:= TMenuItem.Create(Self);
+    mi.RadioItem:= true;
     mi.Caption:= cap;
     mi.Tag:= i;
 

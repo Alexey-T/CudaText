@@ -982,6 +982,7 @@ begin
 
   mi:= tmenuitem.create(Self);
   mi.Caption:= 'English (built-in)';
+  mi.RadioItem:= true;
   mi.Tag:= -1;
   mi.OnClick:= @MenuLangClick;
   mi.Checked:= AppLangName='';
@@ -996,6 +997,7 @@ begin
     cap:= ExtractFileNameOnly(FListLangs[i]);
     if sub.IndexOfCaption(cap)>=0 then Continue; //for Qt
     mi:= TMenuItem.Create(Self);
+    mi.RadioItem:= true;
     mi.Caption:= cap;
     mi.Tag:= i;
     mi.OnClick:= @MenuLangClick;
