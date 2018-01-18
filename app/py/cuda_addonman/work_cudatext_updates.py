@@ -64,9 +64,6 @@ def check_cudatext():
     ver_inet = items[0][1]
     ver_local = app.app_exe_version()
 
-    #ver_inet = '1.10.0.2' #test
-    #ver_local = '0' #test
-
     if versions_ordered(ver_inet, ver_local):
         app.msg_box('Latest CudaText is already here.\nHere: %s\nInternet: %s'
                    %(ver_local, ver_inet), app.MB_OK+app.MB_ICONINFO)
