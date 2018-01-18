@@ -1245,28 +1245,37 @@ Value of "command" parameter for MENU_ADD can be:
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
+====Item props as dict====
+
+Some actions get dict for menu items. Dict keys:
+
+* "id": menu_id, int
+* "cap": caption, str (for separator items it is "-")
+* "cmd": command code (e.g. from module cudatext_cmd), int
+* "hint": callback (used if "cmd" value <=0), str
+* "hotkey": hotkey, str
+* "command": combined command description: int value of "cmd" (if code>0), or str value of "hint" (otherwise)
+* "tag": plugin-defined tag, str
+* "en": enabled state, bool
+* "vis": visible state, bool
+* "checked": checked state, bool
+* "radio": radio-item state, bool (it means round checkmark in checked state)
+
 ====Actions====
 
-Possible values of id_action:
+Possible values of "id_action":
 
-* MENU_CLEAR: Removes all sub-items from menu item. Params used: id_menu.
+* MENU_CLEAR: Removes all sub-items from menu item.
+* MENU_ENUM: Enumerates sub-items of the menu item. Gets list of dict, or None (for incorrect menu_id).
+* MENU_GET_PROP: Gets props of menu item, as dict.
 
-* MENU_ENUM: Enumerates sub-items in menu item. Params used: id_menu. If id_menu valid, gets list of dict, else gets None. Dict items are: {"id": int_id_menu; "cap": str_caption; "cmd": int_command; "hint": str_command; "hotkey": str_hotkey; "command": int_or_str}.
-** for separator items: "cap" is "-"
-** for usual command items: "cmd" value is >0
-** for plugin command items: "cmd" value is <=0; "hint" is callback string
-** for sub-menu items: "cmd" value is <=0; "hint" value is some string
-** "command": has int value of "cmd" (if >0), or str value of "hint" (otherwise)
-
-* MENU_GET_PROP: Gets properties of menu item, as dict, in the same format as MENU_ENUM.
-
-* MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params used:
-** id_menu: Item in which you add sub-item. 
-** caption: Caption of item, or "-" for menu separator.
-** index: Index (0-based) at which to insert sub-item. Default: append item to end.
-** command: Values are described above.
-** hotkey: String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
-** tag: Any string stored in menu item.
+* MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params:
+** "id_menu": Item in which you add sub-item. 
+** "caption": Caption of item, or "-" for menu separator.
+** "index": Index (0-based) at which to insert sub-item. Default: append item to end.
+** "command": Values are described above.
+** "hotkey": String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
+** "tag": Any string stored in menu item.
 
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
