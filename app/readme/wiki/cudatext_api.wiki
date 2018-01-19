@@ -755,6 +755,7 @@ Described in dlg_custom, see [[#Types]].
 * "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
 * "border": bool: Enables OS-themed form border (set to false, to make form border-less).
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
+* "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
 
 ====Form events====
 
@@ -2177,6 +2178,7 @@ Text is chr(1) separated items:
 
 1.0.218 (app 1.35.1)
 * add: app_proc: PROC_GET_MOUSE_POS
+* add: dlg_proc: DLG_PROP_SET supports prop "p" (parent of form)
 
 1.0.217 (app 1.34.4)
 * add: button_proc: const BTNKIND_TEXT_CHOICE

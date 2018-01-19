@@ -1615,6 +1615,8 @@ end;
 
 
 procedure DoForm_SetPropFromPair(F: TFormDummy; const AName, AValue: string);
+var
+  Num64: Int64;
 begin
   if AName='cap' then
     F.Caption:= AValue
@@ -1707,6 +1709,13 @@ begin
       F.BorderStyle:= bsSizeable
     else
       F.BorderStyle:= bsNone;
+  end
+  else
+  if AName='p' then
+  begin
+    Num64:= StrToInt64Def(AValue, 0);
+    if Num64<>0 then
+      F.Parent:= TWinControl(PtrInt(Num64));
   end
   else;
 end;
