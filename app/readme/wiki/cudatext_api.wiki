@@ -2015,15 +2015,17 @@ Call "lock" increases counter, "unlock" decreases this counter (it's safe to cal
 
  convert(id, x, y, text="")
 
-Converts coordinates in editor. Possible values of id:
+Converts coordinates in editor. Possible values of "id":
 
 * CONVERT_CHAR_TO_COL: Convert char-coordinates (x,y) to column-coordinates 2-tuple (column,y).
 * CONVERT_COL_TO_CHAR: Convert column-coordinates (x,y) to char-coordinates 2-tuple (chars,y).
 * CONVERT_LINE_TABS_TO_SPACES: Convert line (parameter text) from tab-chars to spaces (line not changed if no tab-chars in it), gets str.
 * CONVERT_SCREEN_TO_LOCAL: Convert pixel coordinates (x,y), from screen-related to control-related.
 * CONVERT_LOCAL_TO_SCREEN: Convert pixel coordinates (x,y), from control-related to screen-related.
+* CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to caret position (column,line).
+* CONVERT_CARET_TO_PIXELS: Convert caret position (column,line) to pixel control-related coords (x,y).
 
-Gets None if coordinates incorrect (e.g. x<0).
+Gets None if coordinates incorrect.
 
 ===complete===
 
@@ -2182,6 +2184,7 @@ Text is chr(1) separated items:
 * add: app_proc: PROC_GET_MOUSE_POS
 * add: dlg_proc: DLG_PROP_SET supports prop "p" (parent of form)
 * add: Editor.convert: CONVERT_SCREEN_TO_LOCAL, CONVERT_LOCAL_TO_SCREEN
+* add: Editor.convert: CONVERT_PIXELS_TO_CARET, CONVERT_CARET_TO_PIXELS
 
 1.0.217 (app 1.34.4)
 * add: button_proc: const BTNKIND_TEXT_CHOICE
