@@ -3338,6 +3338,7 @@ var
   StrValue: string;
   StrTemp: UnicodeString;
   Pnt: TPoint;
+  Details: TATPosDetails;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @PtrValue)) then
@@ -3381,6 +3382,18 @@ begin
         CONVERT_LOCAL_TO_SCREEN:
           begin
             Pnt:= Ed.ClientToScreen(Point(X, Y));
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        CONVERT_PIXELS_TO_CARET:
+          begin
+            Pnt:= Ed.ClientPosToCaretPos(Point(X, Y), Details);
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        CONVERT_CARET_TO_PIXELS:
+          begin
+            Pnt:= Ed.CaretPosToClientPos(Point(X, Y));
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
