@@ -3337,6 +3337,7 @@ var
   PtrValue: PChar;
   StrValue: string;
   StrTemp: UnicodeString;
+  Pnt: TPoint;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liiis:convert', @H, @Id, @X, @Y, @PtrValue)) then
@@ -3344,15 +3345,12 @@ begin
       Ed:= PyEditor(H);
       StrValue:= string(PtrValue);
 
-      if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
-      begin
-        Result:= ReturnNone;
-        exit
-      end;
-
       case Id of
         CONVERT_CHAR_TO_COL:
           begin
+            if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
+              exit(ReturnNone);
+
             StrTemp:= Ed.Strings.LineSub(Y, 1, X);
             X:= SCharPosToColumnPos(StrTemp, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
@@ -3360,6 +3358,9 @@ begin
 
         CONVERT_COL_TO_CHAR:
           begin
+            if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
+              exit(ReturnNone);
+
             StrTemp:= Ed.Strings.LineSub(Y, 1, X);
             X:= SColumnPosToCharPos(StrTemp, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
@@ -3369,6 +3370,18 @@ begin
           begin
             StrTemp:= STabsToSpaces(UTF8Decode(StrValue), Ed.OptTabSize);
             Result:= PyUnicode_FromWideString(StrTemp);
+          end;
+
+        CONVERT_SCREEN_TO_LOCAL:
+          begin
+            Pnt:= Ed.ScreenToClient(Point(X, Y));
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
+          end;
+
+        CONVERT_LOCAL_TO_SCREEN:
+          begin
+            Pnt:= Ed.ClientToScreen(Point(X, Y));
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
         else
