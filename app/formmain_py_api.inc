@@ -2624,6 +2624,7 @@ var
   ParamBool: boolean;
   ParamRect: TRect;
   Num64: Int64;
+  Pnt: TPoint;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
@@ -2994,6 +2995,12 @@ begin
           begin
             Str:= IntToStr(TextToShortCut(Str));
             Result:= PyString_FromString(PChar(Str));
+          end;
+
+        APP_PROC_GET_MOUSE_POS:
+          begin
+            Pnt:= Mouse.CursorPos;
+            Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
         APP_PROC_SHOW_STATUSBAR_SET:
