@@ -2025,7 +2025,7 @@ Converts coordinates in editor. Possible values of "id":
 * CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to caret position (column,line).
 * CONVERT_CARET_TO_PIXELS: Convert caret position (column,line) to pixel control-related coords (x,y).
 
-Gets None if coordinates incorrect.
+Gets None if params incorrect, or cannot calc result.
 
 ===complete===
 
