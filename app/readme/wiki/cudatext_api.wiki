@@ -2015,11 +2015,11 @@ Call "lock" increases counter, "unlock" decreases this counter (it's safe to cal
 
  convert(id, x, y, text="")
 
-Converts coordinates in editor. Possible values of "id":
+Converts something in editor. Possible values of "id":
 
-* CONVERT_CHAR_TO_COL: Convert char-coordinates (x,y) to column-coordinates 2-tuple (column,y).
-* CONVERT_COL_TO_CHAR: Convert column-coordinates (x,y) to char-coordinates 2-tuple (chars,y).
-* CONVERT_LINE_TABS_TO_SPACES: Convert line (parameter text) from tab-chars to spaces (line not changed if no tab-chars in it), gets str.
+* CONVERT_CHAR_TO_COL: Convert char coordinates (x,y) to column coordinates (column,y), using current tab size.
+* CONVERT_COL_TO_CHAR: Convert column coordinates (x,y) to char coordinates (chars,y).
+* CONVERT_LINE_TABS_TO_SPACES: Convert line (param "text") from tab-chars to spaces, using current tab size. Gets str. Gets original line, if no tab-chars in it.
 * CONVERT_SCREEN_TO_LOCAL: Convert pixel coordinates (x,y), from screen-related to control-related.
 * CONVERT_LOCAL_TO_SCREEN: Convert pixel coordinates (x,y), from control-related to screen-related.
 * CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to caret position (column,line).
