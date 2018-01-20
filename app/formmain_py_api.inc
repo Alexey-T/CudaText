@@ -3388,12 +3388,21 @@ begin
         CONVERT_PIXELS_TO_CARET:
           begin
             Pnt:= Ed.ClientPosToCaretPos(Point(X, Y), Details);
+            if Pnt.Y<0 then
+              exit(ReturnNone);
+
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
         CONVERT_CARET_TO_PIXELS:
           begin
+            if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
+              exit(ReturnNone);
+
             Pnt:= Ed.CaretPosToClientPos(Point(X, Y));
+            if Pnt.Y<0 then
+              exit(ReturnNone);
+
             Result:= Py_BuildValue('(ii)', Pnt.X, Pnt.Y);
           end;
 
