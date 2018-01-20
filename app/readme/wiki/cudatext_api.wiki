@@ -2157,26 +2157,26 @@ If Y not 0, Y is addition to caret's y, and X is absolute caret's x.
 
 Text is chr(1) separated items:
 
-* item 0: find-action, one of: 
-** 'findfirst'- find first
-** 'findnext'- find next
-** 'findprev'- find prev
-** 'rep'- replace next, find
-** 'repstop'- replace next, don't find
-** 'repall'- replace all
-** 'findcnt'- count all
-** 'findsel' - find all, make selections
-** 'findmark'- find all, place markers
+* item 0: finder action, one of: 
+** 'findfirst': find first
+** 'findnext': find next
+** 'findprev': find previous
+** 'rep': replace next, and find next
+** 'repstop': replace next, and don't find
+** 'repall': replace all
+** 'findcnt': count all
+** 'findsel': find all, make selections
+** 'findmark': find all, place markers
 * item 1: text to find
 * item 2: text to replace with
-* item 3: several chars, each char is find-option: 
-** 'c' for case-sens
-** 'r' for regex
-** 'w' for whole-words
-** 'f' for from-caret
-** 'o' for confirm-replaces
-** 'a' for wrapped-search
-** 's' for search in selection
+* item 3: several chars, each char is finder option: 
+** 'c': case sensitive
+** 'r': regular expression
+** 'w': whole words
+** 'f': from caret
+** 'o': confirm replaces
+** 'a': wrapped search
+** 's': search in selection
 
 =History=
 
