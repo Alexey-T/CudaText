@@ -509,11 +509,6 @@ const
 
 type
   TAppPyEvent = (
-    cEventOnOpen,
-    cEventOnOpenBefore,
-    cEventOnClose,
-    cEventOnSaveAfter,
-    cEventOnSaveBefore,
     cEventOnKey,
     cEventOnKeyUp,
     cEventOnInsert,
@@ -527,6 +522,11 @@ type
     cEventOnState,
     cEventOnFocus,
     cEventOnStart,
+    cEventOnOpen,
+    cEventOnOpenBefore,
+    cEventOnClose,
+    cEventOnSaveAfter,
+    cEventOnSaveBefore,
     cEventOnLexer,
     cEventOnComplete,
     cEventOnGotoEnter,
@@ -551,11 +551,6 @@ type
 
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
-    'on_open',
-    'on_open_pre',
-    'on_close',
-    'on_save',
-    'on_save_pre',
     'on_key',
     'on_key_up',
     'on_insert',
@@ -569,6 +564,11 @@ const
     'on_state',
     'on_focus',
     'on_start',
+    'on_open',
+    'on_open_pre',
+    'on_close',
+    'on_save',
+    'on_save_pre',
     'on_lexer',
     'on_complete',
     'on_goto_enter',
