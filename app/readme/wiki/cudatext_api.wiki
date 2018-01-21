@@ -1978,6 +1978,28 @@ Note:
 * "color_bg" value can be COLOR_NONE: it uses usual back-color.
 * "color_font", "color_border" value can be COLOR_NONE: it uses usual text-color.
 
+===hotspots===
+
+ hotspots(id, tag=0, tag_str="", pos="")
+
+Controls hotspot ranges. When mouse cursor moves in/out of hotspot, events on_hotspot_enter/on_hotspot_exit are called.
+
+Possible values if "id":
+
+* HOTSPOT_ADD: Adds hotspot. Gets bool: params correct, hotspot added. Params:
+** "pos": 4-tuple of int, text coords: (x_start, y_start, x_end, y_end)
+** "tag": optional int value
+** "tag_str": optional str value
+
+* HOTSPOT_GET_LIST: Gets list of hotspots, or None. Each item is dict with keys:
+** "pos": 4-tuple of int
+** "tag": int
+** "tag_str": str
+
+* HOTSPOT_DELETE_ALL: Deletes all hotspots.
+* HOTSPOT_DELETE_LAST: Deletes last hotspot. 
+* HOTSPOT_DELETE_BY_TAG: Deletes all hotspots with specified "tag".
+
 ==Misc==
 
 ===save===
@@ -2182,7 +2204,8 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.218 (app 1.35.2)
+1.0.218 (app 1.36.0)
+* add: Editor.hotspots()
 * add: app_proc: PROC_GET_MOUSE_POS
 * add: dlg_proc: DLG_PROP_SET supports prop "p" (parent of form)
 * add: Editor.convert: CONVERT_SCREEN_TO_LOCAL, CONVERT_LOCAL_TO_SCREEN
