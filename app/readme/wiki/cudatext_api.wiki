@@ -32,6 +32,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
 * on_scroll(self, ed_self): Called on scrolling in editor.
+* on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 * on_group(self, ed_self): Called after tab-grouping mode is changed.
@@ -1982,7 +1983,7 @@ Note:
 
  hotspots(id, tag=0, tag_str="", pos="")
 
-Controls hotspot ranges. When mouse cursor moves in/out of hotspot, events on_hotspot_enter/on_hotspot_exit are called.
+Controls hotspot ranges. When mouse cursor moves in/out of hotspot, event on_hotspot is called.
 
 Possible values if "id":
 
@@ -2206,6 +2207,7 @@ Text is chr(1) separated items:
 
 1.0.218 (app 1.36.0)
 * add: Editor.hotspots()
+* add: event on_hotspot
 * add: app_proc: PROC_GET_MOUSE_POS
 * add: dlg_proc: DLG_PROP_SET supports prop "p" (parent of form)
 * add: Editor.convert: CONVERT_SCREEN_TO_LOCAL, CONVERT_LOCAL_TO_SCREEN
