@@ -1936,14 +1936,14 @@ Gets list of dict, or None. Dict items has keys:
 
  markers(id, x=0, y=0, tag=0, len_x=0, len_y=0)
 
-Controls markers (used e.g. in Snippets plugin). Possible values of id:
+Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
 * MARKERS_GET: Gets list of markers. Each list item is [x, y, len_x, len_y, tag]. Gets None if no markers.
 
-* MARKERS_ADD: Adds marker. Also gets number of markers. Params are used here:
-** x, y: Start of marker (like caret pos).
-** Param tag>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted). 
-** Params len_x, len_y are needed if you want to place selection at marker, when "goto last marker" command goes to this marker.
+* MARKERS_ADD: Adds marker. Also gets number of markers. Params:
+** "x", "y": Start of marker (like caret pos).
+** "tag">0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted). 
+** "len_x", "len_y" are needed if you want to place selection at marker, when "goto last marker" command goes to this marker.
 *** if len_y==0: len_x is length of selection (single line),
 *** if len_y>0: len_y is y-delta of selection-end, and len_x is absolute x-pos of selection-end.
 
@@ -1957,24 +1957,25 @@ Controls markers (used e.g. in Snippets plugin). Possible values of id:
       font_bold=0, font_italic=0, font_strikeout=0,
       border_left=0, border_right=0, border_down=0, border_up=0 )
 
-Controls additional color attributes. Possible values of id:
+Controls additional color attributes. Possible values of "id":
 
 * MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Props:
-** tag: any int value attached to fragment (several plugins must add fragments with different tags, to be able to remove only fragments for them)
-** x, y: position of fragment start (like caret).
-** len: length of fragment.
-** color_nnnn: RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
-** font_nnnn: font attributes: 0 - off, 1 - on.
-** border_nnnn: border types for edges, values from 0: none, solid, dash, solid 2pixel, dotted, rounded, wave.
-* MARKERS_GET: Gets list of fragments, each item is list, int fields, same as function params.
+** "tag": any int value attached to fragment (several plugins must add fragments with different tags, to be able to remove only fragments for them)
+** "x", "y": position of fragment start (like caret).
+** "len": length of fragment.
+** "color_nnnn": RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
+** "font_nnnn": font attributes: 0 - off, 1 - on.
+** "border_nnnn": border types for edges, values from 0: none, solid, dash, solid 2pixel, dotted, rounded, wave.
+
+* MARKERS_GET: Gets list of fragments, or None. Each item is list with int fields, in the same order as function params.
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
-* MARKERS_DELETE_BY_TAG: Deletes all fragments for specified tag value.
+* MARKERS_DELETE_BY_TAG: Deletes all fragments for specified "tag".
 
 Note:
 
-* color_bg value can be COLOR_NONE: it uses usual back-color.
-* color_font, color_border value can be COLOR_NONE: it uses usual text-color.
+* "color_bg" value can be COLOR_NONE: it uses usual back-color.
+* "color_font", "color_border" value can be COLOR_NONE: it uses usual text-color.
 
 ==Misc==
 
