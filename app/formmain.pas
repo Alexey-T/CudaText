@@ -47,6 +47,7 @@ uses
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Adapter_litelexer,
   ATSynEdit_WrapInfo,
+  ATSynEdit_Hotspots,
   ATTabs,
   ATGroups,
   ATStatusBar,

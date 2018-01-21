@@ -690,6 +690,96 @@ begin
 end;
 
 
+function Py_ed_hotspots(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+  Id: integer;
+  NTag: Int64;
+  PtrTag, PtrPos: PChar;
+  StrTag, StrPos: string;
+  NLen, i: integer;
+  FItem: TATHotspotItem;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'LiLss:hotspots', @H, @Id, @NTag, @PtrTag, @PtrPos)) then
+    begin
+      Ed:= PyEditor(H);
+      StrTag:= string(PtrTag);
+      StrPos:= string(PtrPos);
+
+      case Id of
+        HOTSPOT_DELETE_ALL:
+          begin
+            Ed.Hotspots.Clear;
+            Result:= ReturnNone;
+          end;
+
+        HOTSPOT_DELETE_LAST:
+          begin
+            if Ed.Hotspots.Count>0 then
+              Ed.Hotspots.Delete(Ed.Hotspots.Count-1);
+            Result:= ReturnNone;
+          end;
+
+        HOTSPOT_DELETE_BY_TAG:
+          begin
+            Ed.Hotspots.DeleteByTag(NTag);
+            Result:= ReturnNone;
+          end;
+
+        HOTSPOT_ADD:
+          begin
+            FItem.PosX:= StrToIntDef(SGetItem(StrPos), -1);
+            FItem.PosY:= StrToIntDef(SGetItem(StrPos), -1);
+            FItem.EndX:= StrToIntDef(SGetItem(StrPos), -1);
+            FItem.EndY:= StrToIntDef(SGetItem(StrPos), -1);
+            if (FItem.PosX<0) or
+               (FItem.PosY<0) or
+               (FItem.EndX<0) or
+               (FItem.EndY<0) then exit(PyBool_FromLong(0));
+            FItem.Tag:= NTag;
+            FItem.TagString:= StrTag;
+            Ed.Hotspots.Add(FItem);
+            Result:= PyBool_FromLong(1);
+          end;
+
+        HOTSPOT_GET_LIST:
+          begin
+            NLen:= Ed.Hotspots.Count;
+            if NLen>0 then
+            begin
+              Result:= PyList_New(NLen);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
+              for i:= 0 to NLen-1 do
+              begin
+                FItem:= Ed.Hotspots[i];
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('{s(iiii)sLss}',
+                    'pos',
+                    FItem.PosX,
+                    FItem.PosY,
+                    FItem.EndX,
+                    FItem.EndY,
+                    'tag',
+                    FItem.Tag,
+                    'tag_str',
+                    PChar(FItem.TagString)
+                    ));
+              end;
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        else
+          Result:= ReturnNone;
+      end;
+    end;
+end;
+
+
 function Py_ed_get_sel_mode(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -5830,6 +5920,7 @@ begin
     AddMethod('ed_attr', @Py_ed_attr, '');
     AddMethod('ed_gap', @Py_ed_gap, '');
     AddMethod('ed_dim', @Py_ed_dim, '');
+    AddMethod('ed_hotspots', @Py_ed_hotspots, '');
     AddMethod('ed_lexer_scan', @Py_ed_lexer_scan, '');
     AddMethod('ed_export_html', @Py_ed_export_html, '');
 
