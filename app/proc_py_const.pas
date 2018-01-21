@@ -509,6 +509,12 @@ const
   STATUSBAR_GET_COLOR_BORDER_U   = 65;
   STATUSBAR_GET_COLOR_BORDER_D   = 66;
 
+  HOTSPOT_GET_LIST      = 0;
+  HOTSPOT_ADD           = 1;
+  HOTSPOT_DELETE_ALL    = 2;
+  HOTSPOT_DELETE_LAST   = 3;
+  HOTSPOT_DELETE_BY_TAG = 4;
+
 implementation
 
 end.
