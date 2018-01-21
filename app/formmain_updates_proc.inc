@@ -804,14 +804,14 @@ begin
 
     if AFill then
     begin
-      CodeTree.Tree.BeginUpdate;
+      //CodeTree.Tree.BeginUpdate; //causes hang of CodeTree? disabled lock.
       try
         Adapter.TreeFill(CodeTree.Tree);
         //Lazarus dont sort new items
         if CodeTree.Tree.SortType<>stNone then
           CodeTree.Tree.AlphaSort;
       finally
-        CodeTree.Tree.EndUpdate;
+        //CodeTree.Tree.EndUpdate;
       end;
 
       //force update scrollbar
