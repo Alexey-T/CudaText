@@ -151,6 +151,8 @@ type
       const AStr: atString; ACharSize: TPoint; const AExtent: TATIntArray);
     procedure EditorOnCalcBookmarkColor(Sender: TObject; ABookmarkKind: integer; out AColor: TColor);
     procedure EditorOnChangeCaretPos(Sender: TObject);
+    procedure EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
+    procedure EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
     procedure EditorOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorOnPaste(Sender: TObject; var AHandled: boolean; AKeepCaret,
       ASelectThen: boolean);
@@ -466,6 +468,22 @@ begin
   DoOnChangeCaretPos;
   DoOnUpdateStatus;
   DoPyEvent(Sender as TATSynEdit, cEventOnCaret, []);
+end;
+
+procedure TEditorFrame.EditorOnHotspotEnter(Sender: TObject; AHotspotIndex: integer);
+begin
+  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot, [
+    cPyTrue, //hotspot enter
+    IntToStr(AHotspotIndex)
+    ]);
+end;
+
+procedure TEditorFrame.EditorOnHotspotExit(Sender: TObject; AHotspotIndex: integer);
+begin
+  DoPyEvent(Sender as TATSynEdit, cEventOnHotspot, [
+    cPyFalse, //hotspot exit
+    IntToStr(AHotspotIndex)
+    ]);
 end;
 
 procedure TEditorFrame.EditorOnDrawLine(Sender: TObject; C: TCanvas; AX,
@@ -1064,6 +1082,8 @@ begin
   ed.OnDrawMicromap:= @EditorDrawMicromap;
   ed.OnPaste:=@EditorOnPaste;
   ed.OnScroll:=@EditorOnScroll;
+  ed.OnHotspotEnter:=@EditorOnHotspotEnter;
+  ed.OnHotspotExit:=@EditorOnHotspotExit;
 end;
 
 constructor TEditorFrame.Create(TheOwner: TComponent);

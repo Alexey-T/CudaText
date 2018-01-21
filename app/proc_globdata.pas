@@ -511,6 +511,7 @@ type
   TAppPyEvent = (
     cEventOnKey,
     cEventOnKeyUp,
+    cEventOnHotspot,
     cEventOnInsert,
     cEventOnChange,
     cEventOnChangeSlow,
@@ -553,6 +554,7 @@ const
   cAppPyEvent: array[TAppPyEvent] of string = (
     'on_key',
     'on_key_up',
+    'on_hotspot',
     'on_insert',
     'on_change',
     'on_change_slow',
