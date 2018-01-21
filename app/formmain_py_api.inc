@@ -569,6 +569,14 @@ begin
             Result:= ReturnNone;
           end;
 
+        MARKERS_DELETE_BY_TAG:
+          begin
+            Ed.Markers.DeleteWithTag(NTag);
+            Ed.Update;
+            fmMain.UpdateStatus;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

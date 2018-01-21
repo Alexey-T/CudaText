@@ -1949,6 +1949,7 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
 * MARKERS_DELETE_ALL: Deletes all markers.
 * MARKERS_DELETE_LAST: Deletes last added marker.
+* MARKERS_DELETE_BY_TAG: Deletes all markers for specified "tag".
 
 ===attr===
 
@@ -2186,6 +2187,7 @@ Text is chr(1) separated items:
 * add: dlg_proc: DLG_PROP_SET supports prop "p" (parent of form)
 * add: Editor.convert: CONVERT_SCREEN_TO_LOCAL, CONVERT_LOCAL_TO_SCREEN
 * add: Editor.convert: CONVERT_PIXELS_TO_CARET, CONVERT_CARET_TO_PIXELS
+* add: Editor.markers: MARKERS_DELETE_BY_TAG
 
 1.0.217 (app 1.34.4)
 * add: button_proc: const BTNKIND_TEXT_CHOICE
