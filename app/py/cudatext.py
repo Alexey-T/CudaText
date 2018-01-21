@@ -1024,6 +1024,9 @@ class Editor:
     def dim(self, id, index=0, index2=0, value=100):
         return ct.ed_dim(self.h, id, index, index2, value)
 
+    def hotspots(id, tag=0, tag_str="", pos=""):
+        return ct.ed_hotspots(id, tag, tag_str, to_str(pos))
+
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)
 
