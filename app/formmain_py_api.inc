@@ -2276,6 +2276,11 @@ begin
             Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
           end;
 
+        PROP_CELL_SIZE:
+          begin
+            Result:= Py_BuildValue('(ii)', Ed.TextCharSize.X, Ed.TextCharSize.Y);
+          end;
+
         PROP_V_MODE:
           begin
             if F.IsBinary then
