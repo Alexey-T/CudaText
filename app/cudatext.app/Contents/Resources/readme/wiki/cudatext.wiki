@@ -608,7 +608,17 @@ For old Windows XP, Python 3.4 or 3.3 must be used, you can get its files from S
  "pylib": "python33.dll",
 
 ===Python on Linux===
-Linux version uses Python library from OS. Install Python 3.x into OS (usually already installed). Then read info about option "pylib" in the "default.json" config. It tells how to find file "libpython3*.so" and specify it in the option "pylib". Write option to the "user.json" or course.
+Linux version uses Python library from OS. Install Python 3.x into OS (usually already installed). Instruction for Linux, if Python engine not found:
+
+* Open file manager, go to /usr
+* Search for "libpython3.*so*",
+
+Terminal command:
+
+ $ find /usr -name 'libpython3.*so*' 2>/dev/null
+
+* If not found, install Python 3.x, go to search-step
+* Set "pylib__linux" in the "user.json" config, to one of the found filenames. Write option to the "user.json" or course - it is called by menu item "Options / Settings-user".
 
 ===Python on macOS===
 On macOS you must install Python 3.x, from official site python.org. Versions 3.6...3.9 are ok. CudaText will find Python then.

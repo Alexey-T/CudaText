@@ -40,6 +40,10 @@ APP_FILE_RECENTS        = 6
 CONVERT_CHAR_TO_COL         = 0
 CONVERT_COL_TO_CHAR         = 1
 CONVERT_LINE_TABS_TO_SPACES = 2
+CONVERT_SCREEN_TO_LOCAL     = 5
+CONVERT_LOCAL_TO_SCREEN     = 6
+CONVERT_PIXELS_TO_CARET     = 7
+CONVERT_CARET_TO_PIXELS     = 8
 
 TOKEN_AT_POS = 0
 TOKEN_INDEX  = 1
@@ -181,6 +185,7 @@ PROP_V_POS                 = 61
 PROP_V_SEL_START           = 62
 PROP_V_SEL_LEN             = 63
 PROP_V_WIDTH               = 64
+PROP_CELL_SIZE             = 70
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1
@@ -233,6 +238,7 @@ PROC_THEME_SYNTAX_SET  = 49
 PROC_GET_SYSTEM_PPI    = 50
 PROC_PROGRESSBAR       = 51
 PROC_GET_TAB_IMAGELIST = 52
+PROC_GET_MOUSE_POS     = 53
 #
 PROC_HOTKEY_INT_TO_STR = 60
 PROC_HOTKEY_STR_TO_INT = 61
@@ -619,6 +625,12 @@ STATUSBAR_GET_COLOR_BORDER_L   = 63
 STATUSBAR_GET_COLOR_BORDER_R   = 64
 STATUSBAR_GET_COLOR_BORDER_U   = 65
 STATUSBAR_GET_COLOR_BORDER_D   = 66
+
+HOTSPOT_GET_LIST      = 0
+HOTSPOT_ADD           = 1
+HOTSPOT_DELETE_ALL    = 2
+HOTSPOT_DELETE_LAST   = 3
+HOTSPOT_DELETE_BY_TAG = 4
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -1012,6 +1024,9 @@ class Editor:
 
     def dim(self, id, index=0, index2=0, value=100):
         return ct.ed_dim(self.h, id, index, index2, value)
+
+    def hotspots(self, id, tag=0, tag_str="", pos=""):
+        return ct.ed_hotspots(self.h, id, tag, tag_str, to_str(pos))
 
     def get_token(self, id, index1, index2):
         return ct.ed_get_token(self.h, id, index1, index2)

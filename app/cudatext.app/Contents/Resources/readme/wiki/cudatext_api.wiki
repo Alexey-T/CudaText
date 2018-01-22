@@ -32,6 +32,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_lexer(self, ed_self): Called after any editor's lexer is changed.
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
 * on_scroll(self, ed_self): Called on scrolling in editor.
+* on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 * on_group(self, ed_self): Called after tab-grouping mode is changed.
@@ -159,6 +160,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_ENUM_FONTS: Gets list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
 * PROC_GET_SYSTEM_PPI: Gets int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
 * PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Gets None for other values.
+* PROC_GET_MOUSE_POS: Gets mouse cursor position in screen-related coordinates, as (x, y) tuple.
 
 ====Clipboard====
 
@@ -754,6 +756,7 @@ Described in dlg_custom, see [[#Types]].
 * "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
 * "border": bool: Enables OS-themed form border (set to false, to make form border-less).
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
+* "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
 
 ====Form events====
 
@@ -1245,28 +1248,37 @@ Value of "command" parameter for MENU_ADD can be:
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
+====Item props as dict====
+
+Some actions get dict for menu items. Dict keys:
+
+* "id": menu_id, int
+* "cap": caption, str (for separator items it is "-")
+* "cmd": command code (e.g. from module cudatext_cmd), int
+* "hint": callback (used if "cmd" value <=0), str
+* "hotkey": hotkey, str
+* "command": combined command description: int value of "cmd" (if code>0), or str value of "hint" (otherwise)
+* "tag": plugin-defined tag, str
+* "en": enabled state, bool
+* "vis": visible state, bool
+* "checked": checked state, bool
+* "radio": radio-item state, bool (it means round checkmark in checked state)
+
 ====Actions====
 
-Possible values of id_action:
+Possible values of "id_action":
 
-* MENU_CLEAR: Removes all sub-items from menu item. Params used: id_menu.
+* MENU_CLEAR: Removes all sub-items from menu item.
+* MENU_ENUM: Enumerates sub-items of the menu item. Gets list of dict, or None (for incorrect menu_id).
+* MENU_GET_PROP: Gets props of menu item, as dict.
 
-* MENU_ENUM: Enumerates sub-items in menu item. Params used: id_menu. If id_menu valid, gets list of dict, else gets None. Dict items are: {"id": int_id_menu; "cap": str_caption; "cmd": int_command; "hint": str_command; "hotkey": str_hotkey; "command": int_or_str}.
-** for separator items: "cap" is "-"
-** for usual command items: "cmd" value is >0
-** for plugin command items: "cmd" value is <=0; "hint" is callback string
-** for sub-menu items: "cmd" value is <=0; "hint" value is some string
-** "command": has int value of "cmd" (if >0), or str value of "hint" (otherwise)
-
-* MENU_GET_PROP: Gets properties of menu item, as dict, in the same format as MENU_ENUM.
-
-* MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params used:
-** id_menu: Item in which you add sub-item. 
-** caption: Caption of item, or "-" for menu separator.
-** index: Index (0-based) at which to insert sub-item. Default: append item to end.
-** command: Values are described above.
-** hotkey: String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
-** tag: Any string stored in menu item.
+* MENU_ADD: Adds sub-item to menu item. Gets string, menu_id for newly added sub-item. Params:
+** "id_menu": Item in which you add sub-item. 
+** "caption": Caption of item, or "-" for menu separator.
+** "index": Index (0-based) at which to insert sub-item. Default: append item to end.
+** "command": Values are described above.
+** "hotkey": String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
+** "tag": Any string stored in menu item.
 
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
@@ -1379,7 +1391,6 @@ Param "id_action" can be:
 
 * STATUSBAR_ADD_CELL: Adds one cell. Param "index": -1: cell will be appended; >=0: cell will be inserted at given index. Param "tag" has special meaning: it is tag value of a new cell. Gets index of new cell, or None if cannot add (e.g. "tag" is busy).
 * STATUSBAR_FIND_CELL: Gets index if cell from tag, or None. Param "value": int tag. Params "index", "tag" ignored.
-* STATUSBAR_AUTOSIZE_CELL: Resizes cell, makes its width = total statusbar width minus other cells' widths.
 
 * STATUSBAR_GET_IMAGELIST: Gets handle of image-list object, attached to statusbar, or 0 for none.
 * STATUSBAR_SET_IMAGELIST: Sets handle if image-list object. Param "value": handle.
@@ -1764,6 +1775,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
+* PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -1926,19 +1938,20 @@ Gets list of dict, or None. Dict items has keys:
 
  markers(id, x=0, y=0, tag=0, len_x=0, len_y=0)
 
-Controls markers (used e.g. in Snippets plugin). Possible values of id:
+Controls markers (used e.g. in Snippets plugin). Possible values of "id":
 
 * MARKERS_GET: Gets list of markers. Each list item is [x, y, len_x, len_y, tag]. Gets None if no markers.
 
-* MARKERS_ADD: Adds marker. Also gets number of markers. Params are used here:
-** x, y: Start of marker (like caret pos).
-** Param tag>0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted). 
-** Params len_x, len_y are needed if you want to place selection at marker, when "goto last marker" command goes to this marker.
+* MARKERS_ADD: Adds marker. Also gets number of markers. Params:
+** "x", "y": Start of marker (like caret pos).
+** "tag">0 is needed if you want to place multi-carets when command "goto last marker (and delete)" runs. All markers with the same tag>0 will get multi-carets (after markers will be deleted). 
+** "len_x", "len_y" are needed if you want to place selection at marker, when "goto last marker" command goes to this marker.
 *** if len_y==0: len_x is length of selection (single line),
 *** if len_y>0: len_y is y-delta of selection-end, and len_x is absolute x-pos of selection-end.
 
 * MARKERS_DELETE_ALL: Deletes all markers.
 * MARKERS_DELETE_LAST: Deletes last added marker.
+* MARKERS_DELETE_BY_TAG: Deletes all markers for specified "tag".
 
 ===attr===
 
@@ -1947,24 +1960,47 @@ Controls markers (used e.g. in Snippets plugin). Possible values of id:
       font_bold=0, font_italic=0, font_strikeout=0,
       border_left=0, border_right=0, border_down=0, border_up=0 )
 
-Controls additional color attributes. Possible values of id:
+Controls additional color attributes. Possible values of "id":
 
 * MARKERS_ADD: Adds fragment with specified properties. Also gets number of fragments. Props:
-** tag: any int value attached to fragment (several plugins must add fragments with different tags, to be able to remove only fragments for them)
-** x, y: position of fragment start (like caret).
-** len: length of fragment.
-** color_nnnn: RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
-** font_nnnn: font attributes: 0 - off, 1 - on.
-** border_nnnn: border types for edges, values from 0: none, solid, dash, solid 2pixel, dotted, rounded, wave.
-* MARKERS_GET: Gets list of fragments, each item is list, int fields, same as function params.
+** "tag": any int value attached to fragment (several plugins must add fragments with different tags, to be able to remove only fragments for them)
+** "x", "y": position of fragment start (like caret).
+** "len": length of fragment.
+** "color_nnnn": RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
+** "font_nnnn": font attributes: 0 - off, 1 - on.
+** "border_nnnn": border types for edges, values from 0: none, solid, dash, solid 2pixel, dotted, rounded, wave.
+
+* MARKERS_GET: Gets list of fragments, or None. Each item is list with int fields, in the same order as function params.
 * MARKERS_DELETE_ALL: Deletes all fragments.
 * MARKERS_DELETE_LAST: Deletes last added fragment.
-* MARKERS_DELETE_BY_TAG: Deletes all fragments for specified tag value.
+* MARKERS_DELETE_BY_TAG: Deletes all fragments for specified "tag".
 
 Note:
 
-* color_bg value can be COLOR_NONE: it uses usual back-color.
-* color_font, color_border value can be COLOR_NONE: it uses usual text-color.
+* "color_bg" value can be COLOR_NONE: it uses usual back-color.
+* "color_font", "color_border" value can be COLOR_NONE: it uses usual text-color.
+
+===hotspots===
+
+ hotspots(id, tag=0, tag_str="", pos="")
+
+Controls hotspot ranges. When mouse cursor moves in/out of hotspot, event on_hotspot is called.
+
+Possible values if "id":
+
+* HOTSPOT_ADD: Adds hotspot. Gets bool: params correct, hotspot added. Params:
+** "pos": 4-tuple of int, text coords: (x_start, y_start, x_end, y_end)
+** "tag": optional int value
+** "tag_str": optional str value
+
+* HOTSPOT_GET_LIST: Gets list of hotspots, or None. Each item is dict with keys:
+** "pos": 4-tuple of int
+** "tag": int
+** "tag_str": str
+
+* HOTSPOT_DELETE_ALL: Deletes all hotspots.
+* HOTSPOT_DELETE_LAST: Deletes last hotspot. 
+* HOTSPOT_DELETE_BY_TAG: Deletes all hotspots with specified "tag".
 
 ==Misc==
 
@@ -2005,13 +2041,17 @@ Call "lock" increases counter, "unlock" decreases this counter (it's safe to cal
 
  convert(id, x, y, text="")
 
-Converts coordinates in editor. Possible values of id:
+Converts something in editor. Possible values of "id":
 
-* CONVERT_CHAR_TO_COL: Convert char-coordinates (x,y) to column-coordinates 2-tuple (column,y).
-* CONVERT_COL_TO_CHAR: Convert column-coordinates (x,y) to char-coordinates 2-tuple (chars,y).
-* CONVERT_LINE_TABS_TO_SPACES: Convert line (parameter text) from tab-chars to spaces (line not changed if no tab-chars in it), gets str.
+* CONVERT_CHAR_TO_COL: Convert char coordinates (x,y) to column coordinates (column,y), using current tab size.
+* CONVERT_COL_TO_CHAR: Convert column coordinates (x,y) to char coordinates (chars,y).
+* CONVERT_LINE_TABS_TO_SPACES: Convert line (param "text") from tab-chars to spaces, using current tab size. Gets str. Gets original line, if no tab-chars in it.
+* CONVERT_SCREEN_TO_LOCAL: Convert pixel coordinates (x,y), from screen-related to control-related.
+* CONVERT_LOCAL_TO_SCREEN: Convert pixel coordinates (x,y), from control-related to screen-related.
+* CONVERT_PIXELS_TO_CARET: Convert pixel control-related coords (x,y) to caret position (column,line).
+* CONVERT_CARET_TO_PIXELS: Convert caret position (column,line) to pixel control-related coords (x,y).
 
-Gets None if coordinates incorrect (e.g. x<0).
+Gets None if params incorrect, or cannot calc result.
 
 ===complete===
 
@@ -2143,28 +2183,38 @@ If Y not 0, Y is addition to caret's y, and X is absolute caret's x.
 
 Text is chr(1) separated items:
 
-* item 0: find-action, one of: 
-** 'findfirst'- find first
-** 'findnext'- find next
-** 'findprev'- find prev
-** 'rep'- replace next, find
-** 'repstop'- replace next, don't find
-** 'repall'- replace all
-** 'findcnt'- count all
-** 'findsel' - find all, make selections
-** 'findmark'- find all, place markers
+* item 0: finder action, one of: 
+** 'findfirst': find first
+** 'findnext': find next
+** 'findprev': find previous
+** 'rep': replace next, and find next
+** 'repstop': replace next, and don't find
+** 'repall': replace all
+** 'findcnt': count all
+** 'findsel': find all, make selections
+** 'findmark': find all, place markers
 * item 1: text to find
 * item 2: text to replace with
-* item 3: several chars, each char is find-option: 
-** 'c' for case-sens
-** 'r' for regex
-** 'w' for whole-words
-** 'f' for from-caret
-** 'o' for confirm-replaces
-** 'a' for wrapped-search
-** 's' for search in selection
+* item 3: several chars, each char is finder option: 
+** 'c': case sensitive
+** 'r': regular expression
+** 'w': whole words
+** 'f': from caret
+** 'o': confirm replaces
+** 'a': wrapped search
+** 's': search in selection
 
 =History=
+
+1.0.218 (app 1.36.0)
+* add: Editor.hotspots()
+* add: event on_hotspot
+* add: app_proc: PROC_GET_MOUSE_POS
+* add: dlg_proc: DLG_PROP_SET supports prop "p" (parent of form)
+* add: Editor.convert: CONVERT_SCREEN_TO_LOCAL, CONVERT_LOCAL_TO_SCREEN
+* add: Editor.convert: CONVERT_PIXELS_TO_CARET, CONVERT_CARET_TO_PIXELS
+* add: Editor.markers: MARKERS_DELETE_BY_TAG
+* add: Editor.get_prop: PROP_CELL_SIZE
 
 1.0.217 (app 1.34.4)
 * add: button_proc: const BTNKIND_TEXT_CHOICE

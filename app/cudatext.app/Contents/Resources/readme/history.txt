@@ -4,6 +4,11 @@
   * changed
 
 
+1.38.0 (2018/01)
+
++ add: API to show floating tooltips (new plugin "HTML Tooltips")
++ add: show "zero-width space" as other unprinted chars
+
 1.35.0 (2018/01)
 
 + add: auto-completion listbox in HTML allows multi-carets (like Sublime does)
