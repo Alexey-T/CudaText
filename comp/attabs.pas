@@ -4,7 +4,7 @@ Copyright (c) Alexey Torgashin (UVviewsoft.com)
 License: MPL 2.0 or LGPL
 }
 
-unit ATTabs;
+unit attabs;
 
 {$ifdef FPC}
   {$mode delphi}
@@ -433,7 +433,7 @@ type
     procedure DoUpdateTabRects(C: TCanvas);
     procedure DoUpdateTabRectsToFillLine(AIndexFrom, AIndexTo: integer; ALastLine: boolean);
     procedure DoUpdateCanvasAntialiasMode(C: TCanvas);
-    procedure DoUpdateCaptionProps(C: TCanvas; const ACaption: string;
+    procedure DoUpdateCaptionProps(C: TCanvas; const ACaption: TATTabString;
       out ALineHeight: integer; out ATextSize: TSize);
     procedure DoTabDrop;
     procedure DoTabDropToOtherControl(ATarget: TControl; const APnt: TPoint);
@@ -935,7 +935,9 @@ begin
   FTabMenu:= nil;
   FScrollPos:= 0;
   FCaptionList:= TStringList.Create;
+  {$ifdef FPC}
   FCaptionList.TextLineBreakStyle:= tlbsLF;
+  {$endif}
 end;
 
 function TATTabs.CanFocus: boolean;
@@ -1066,7 +1068,9 @@ begin
     C.Font.Style:= AFontStyle;
     C.Font.Color:= AColorFont;
 
-    TempCaption:= IfThen(ATabModified, FOptShowModifiedText) + ACaption;
+    TempCaption:= ACaption;
+    if ATabModified then
+      TempCaption:= FOptShowModifiedText+TempCaption;
     DoUpdateCaptionProps(C, TempCaption, NLineHeight, Extent);
 
     NIndentTop:= (RectText.Bottom-RectText.Top-Extent.cy) div 2 + 1;
@@ -1323,7 +1327,7 @@ end;
 
 procedure TATTabs.DoUpdateTabRects(C: TCanvas);
 var
-  TempCaption: string;
+  TempCaption: TATTabString;
   Data: TATTabData;
   R: TRect;
   Extent: TSize;
@@ -1380,8 +1384,8 @@ begin
       C.Font.Style:= Data.TabFontStyle;
       TempCaption:=
         Format(FOptShowNumberPrefix, [i+1]) +
-        Data.TabCaption +
-        FOptShowModifiedText;
+        FOptShowModifiedText +
+        Data.TabCaption;
 
       DoUpdateCaptionProps(C, TempCaption, NLineHeight, Extent);
       FTabWidth:= Extent.CX + 2*FOptSpaceBeforeText;
@@ -1787,7 +1791,7 @@ var
 begin
   {$ifdef WIDE}
   Str:= UTF8Decode(AText);
-  ExtTextOut(C.Handle, AX, AY, ETO_CLIPPED, @AClipRect,
+  ExtTextOutW(C.Handle, AX, AY, ETO_CLIPPED, @AClipRect,
     PWideChar(Str), Length(Str), nil);
   {$else}
   ExtTextOut(C.Handle, AX, AY, ETO_CLIPPED, @AClipRect,
@@ -3043,18 +3047,29 @@ begin
   end;
 end;
 
-procedure TATTabs.DoUpdateCaptionProps(C: TCanvas; const ACaption: string;
+procedure TATTabs.DoUpdateCaptionProps(C: TCanvas; const ACaption: TATTabString;
   out ALineHeight: integer; out ATextSize: TSize);
 var
   Ex: TSize;
+  StrW: WideString;
   i: integer;
 begin
   ALineHeight:= 0;
-  ATextSize:= Size(0, 0);
-  FCaptionList.Text:= ACaption;
+  ATextSize.cx:= 0;
+  ATextSize.cy:= 0;
+  FCaptionList.Text:=
+    {$ifdef WIDE}UTF8Encode{$endif}
+    (ACaption);
+
   for i:= 0 to FCaptionList.Count-1 do
   begin
+    {$ifdef WIDE}
+    StrW:= UTF8Decode(FCaptionList[i]);
+    Windows.GetTextExtentPoint32W(C.Handle, PWideChar(StrW), Length(StrW), Ex);
+    {$else}
     Ex:= C.TextExtent(FCaptionList[i]);
+    {$endif}
+
     Inc(ATextSize.CY, Ex.CY);
     ALineHeight:= Max(ALineHeight, Ex.CY);
     ATextSize.CX:= Max(ATextSize.CX, Ex.CX);
