@@ -592,6 +592,10 @@ const
 
 const
   cMaxItemsInInstallInf = 400;
+  cMaxCommandPlugins = 400;
+  cMaxEventPlugins = 100;
+  cMaxSidePanels = 40;
+  cMaxBottomPanels = 40;
 
 type
   TAppPluginCmd = record
@@ -603,7 +607,7 @@ type
     ItemInMenu: string;
     ItemFromApi: boolean;
   end;
-  TAppPluginCmdArray = array[0..400] of TAppPluginCmd;
+  TAppPluginCmdArray = array[0..cMaxCommandPlugins-1] of TAppPluginCmd;
 
 type
   TAppPluginEvent = record
@@ -613,7 +617,7 @@ type
     ItemEventsPrior: TAppPyEventsPrior;
     ItemKeys: string;
   end;
-  TAppPluginEventArray = array[0..100] of TAppPluginEvent;
+  TAppPluginEventArray = array[0..cMaxEventPlugins-1] of TAppPluginEvent;
 
 type
   TAppSidePanel = record
@@ -624,8 +628,8 @@ type
 var
   AppPluginsCommand: TAppPluginCmdArray;
   AppPluginsEvent: TAppPluginEventArray;
-  AppSidePanels: array[0..20] of TAppSidePanel;
-  AppBottomPanels: array[0..50] of TAppSidePanel;
+  AppSidePanels: array[0..cMaxSidePanels-1] of TAppSidePanel;
+  AppBottomPanels: array[0..cMaxBottomPanels-1] of TAppSidePanel;
 
 type
   PAppPanelProps = ^TAppPanelProps;
