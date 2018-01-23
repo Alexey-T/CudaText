@@ -1986,7 +1986,7 @@ Note:
 
 Controls hotspot ranges. When mouse cursor moves in/out of hotspot, event on_hotspot is called.
 
-Possible values if "id":
+Possible values of "id":
 
 * HOTSPOT_ADD: Adds hotspot. Gets bool: params correct, hotspot added. Params:
 ** "pos": 4-tuple of int, text coords: (x_start, y_start, x_end, y_end)
