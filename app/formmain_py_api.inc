@@ -68,25 +68,23 @@ end;
 function Py_GetThemeData_UI: PPyObject;
 var
   NLen, i: integer;
-  FColor: TAppColor;
 begin
   with GetPythonEngine do
   begin
-    NLen:= High(AppTheme.Colors);
+    NLen:= Length(AppTheme.Colors);
     Result:= PyList_New(NLen);
     if not Assigned(Result) then
       raise EPythonError.Create(msgPythonListError);
     for i:= 0 to NLen-1 do
     begin
-      FColor:= AppTheme.Colors[i];
       PyList_SetItem(Result, i,
         Py_BuildValue('{sssssi}',
           'name',
-          PChar(FColor.name),
+          PChar(AppTheme.Colors[i].name),
           'desc',
-          PChar(FColor.desc),
+          PChar(AppTheme.Colors[i].desc),
           'color',
-          FColor.color
+          AppTheme.Colors[i].color
           ));
     end;
   end;
