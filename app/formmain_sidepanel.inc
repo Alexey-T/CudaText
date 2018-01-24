@@ -66,7 +66,7 @@ end;
 
 function TfmMain.DoSidebar_TranslatedCaption(const ACaption: string): string;
 begin
-  if ACaption='Tree' then
+  if ACaption=msgPanelTreeInit then
     Result:= msgPanelTree
   else
   if ACaption='Project' then

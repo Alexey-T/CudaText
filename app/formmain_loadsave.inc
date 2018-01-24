@@ -320,7 +320,7 @@ begin
 
     //if plugin didnt load, caption not valid
     if DoSidebar_CaptionToTabIndex(SCaption)<0 then
-      SCaption:= 'Tree';
+      SCaption:= msgPanelTreeInit;
 
     SidebarPanel:= SCaption;
   finally

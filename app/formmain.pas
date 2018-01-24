@@ -1308,7 +1308,7 @@ begin
 
   with AppSidePanels[0] do
   begin
-    ItemCaption:= 'Tree';
+    ItemCaption:= msgPanelTreeInit;
     ItemControl:= CodeTree;
   end;
 
@@ -2438,7 +2438,7 @@ begin
     if AValue then
     begin
       if SidebarPanel='' then
-        DoShowSidePanel('Tree', false);
+        DoShowSidePanel(msgPanelTreeInit, false);
       UpdateTree(true);
     end;
   end;

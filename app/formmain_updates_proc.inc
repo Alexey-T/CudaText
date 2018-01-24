@@ -1097,7 +1097,7 @@ end;
 procedure TfmMain.InitSidebar;
 begin
   //
-  ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, 'Tree', 'Tree', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, msgPanelTreeInit, msgPanelTreeInit, '', UiOps.ShowSidebarCaptions);
   //
   ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
   ToolbarSideLow.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
