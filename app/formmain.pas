@@ -1681,27 +1681,26 @@ end;
 function TfmMain.DoDialogSaveTabs: boolean;
 var
   F: TEditorFrame;
-  res: TModalResult;
   Form: TfmSaveTabs;
-  i: integer;
   SCaption: string;
+  res: TModalResult;
+  i: integer;
 begin
   Result:= false;
   Form:= TfmSaveTabs.Create(nil);
-  with Form do
   try
     DoLocalize_FormSaveTabs(Form);
-    List.Clear;
+    Form.List.Clear;
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
       if not F.Modified then Continue;
       SCaption:= F.TabCaption+IfThen(F.Filename<>'', '  ('+ExtractFileDir(F.Filename)+')');
-      List.Items.AddObject(SCaption, F);
-      List.Checked[List.Count-1]:= true;
+      Form.List.Items.AddObject(SCaption, F);
+      Form.List.Checked[Form.List.Count-1]:= true;
     end;
 
-    res:= ShowModal;
+    res:= Form.ShowModal;
     case res of
       mrClose:
         Result:= true;
@@ -1715,16 +1714,16 @@ begin
       mrOk:
         begin
           Result:= true;
-          for i:= 0 to List.Count-1 do
-            if List.Checked[i] then
+          for i:= 0 to Form.List.Count-1 do
+            if Form.List.Checked[i] then
             begin
-              F:= List.Items.Objects[i] as TEditorFrame;
+              F:= Form.List.Items.Objects[i] as TEditorFrame;
               F.DoFileSave(false);
             end;
         end;
     end;
   finally
-    Free
+    Form.Free
   end;
 end;
 
