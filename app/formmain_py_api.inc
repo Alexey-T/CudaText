@@ -65,6 +65,76 @@ begin
 end;
 
 
+function Py_GetThemeData_UI: PPyObject;
+var
+  NLen, i: integer;
+  FColor: TAppColor;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= High(AppTheme.Colors);
+    Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+    for i:= 0 to NLen-1 do
+    begin
+      FColor:= AppTheme.Colors[i];
+      PyList_SetItem(Result, i,
+        Py_BuildValue('{sssssi}',
+          'name',
+          PChar(FColor.name),
+          'desc',
+          PChar(FColor.desc),
+          'color',
+          FColor.color
+          ));
+    end;
+  end;
+end;
+
+
+function Py_GetThemeData_Syntax: PPyObject;
+var
+  NLen, i: integer;
+  St: TecSyntaxFormat;
+begin
+  with GetPythonEngine do
+  begin
+    NLen:= AppTheme.Styles.Count;
+    Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+    for i:= 0 to NLen-1 do
+    begin
+      St:= TecSyntaxFormat(AppTheme.Styles[i]);
+      PyList_SetItem(Result, i,
+        Py_BuildValue('{sssisisisisisisisiss}',
+          'name',
+          PChar(St.DisplayName),
+          'type',
+          Ord(St.FormatType),
+          'color_font',
+          St.Font.Color,
+          'color_back',
+          St.BgColor,
+          'color_border',
+          St.BorderColorTop,
+          'border_l',
+          Ord(St.BorderTypeLeft),
+          'border_r',
+          Ord(St.BorderTypeRight),
+          'border_t',
+          Ord(St.BorderTypeTop),
+          'border_b',
+          Ord(St.BorderTypeBottom),
+          'font_styles',
+          PChar(FontStylesToString(St.Font.Style))
+          ));
+    end;
+  end;
+end;
+
+
 function Py_MenuItemFromId(Str: string): TMenuItem;
 const
   cPrefixToolmenu = 'toolmenu:';
@@ -3220,6 +3290,16 @@ begin
               StrToIntDef(Str2, -1)
               );
             Result:= ReturnNone;
+          end;
+
+        APP_PROC_THEME_UI_DATA_GET:
+          begin
+            Result:= Py_GetThemeData_UI;
+          end;
+
+        APP_PROC_THEME_SYNTAX_DATA_GET:
+          begin
+            Result:= Py_GetThemeData_Syntax;
           end;
 
         APP_PROC_DUMP_CACHE:
