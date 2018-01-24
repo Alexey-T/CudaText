@@ -3590,6 +3590,8 @@ begin
     AppLangName:= '';
     MsgBox('Built-in translation will be used after app restart', mb_ok or MB_ICONINFORMATION);
   end;
+
+  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
 end;
 
 

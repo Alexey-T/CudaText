@@ -258,6 +258,8 @@ begin
 
   DoClearLexersAskedList;
   DoApplyTheme;
+
+  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_THEME_UI)]);
 end;
 
 procedure TfmMain.SetThemeSyntax(const AValue: string);
@@ -278,6 +280,8 @@ begin
 
   DoClearLexersAskedList;
   DoApplyTheme;
+
+  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_THEME_SYNTAX)]);
 end;
 
 procedure TfmMain.MenuThemeDefaultUiClick(Sender: TObject);
