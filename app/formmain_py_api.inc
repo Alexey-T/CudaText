@@ -116,16 +116,16 @@ begin
           'color_back',
           St.BgColor,
           'color_border',
-          St.BorderColorTop,
-          'border_l',
+          St.BorderColorBottom,
+          'border_left',
           Ord(St.BorderTypeLeft),
-          'border_r',
+          'border_right',
           Ord(St.BorderTypeRight),
-          'border_t',
+          'border_top',
           Ord(St.BorderTypeTop),
-          'border_b',
+          'border_bottom',
           Ord(St.BorderTypeBottom),
-          'font_styles',
+          'styles',
           PChar(FontStylesToString(St.Font.Style))
           ));
     end;
