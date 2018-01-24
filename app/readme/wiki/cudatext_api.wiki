@@ -229,10 +229,12 @@ Notes:
 
 Actions:
 
-* PROC_THEME_UI_GET: Gets UI-theme name.
-* PROC_THEME_UI_SET: Sets UI-theme name.
-* PROC_THEME_SYNTAX_GET: Gets syntax-theme name.
-* PROC_THEME_SYNTAX_SET: Sets syntax-theme name.
+* PROC_THEME_UI_GET: Gets name of UI-theme.
+* PROC_THEME_UI_SET: Sets name of UI-theme.
+* PROC_THEME_SYNTAX_GET: Gets name of syntax-theme.
+* PROC_THEME_SYNTAX_SET: Sets name of syntax-theme.
+* PROC_THEME_UI_DATA_GET: Gets dict with info about UI-theme.
+* PROC_THEME_SYNTAX_DATA_GET: Gets dict with info about syntax-theme.
 
 ====Sessions====
 
@@ -2206,7 +2208,11 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.218 (app 1.36.0)
+1.0.219 (app 1.38.1)
+* add: app_proc: PROC_THEME_UI_DATA_GET
+* add: app_proc: PROC_THEME_SYNTAX_DATA_GET
+
+1.0.218 (app 1.38.0)
 * add: Editor.hotspots()
 * add: event on_hotspot
 * add: app_proc: PROC_GET_MOUSE_POS
