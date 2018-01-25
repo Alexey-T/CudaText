@@ -33,7 +33,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_paste(self, ed_self, keep_caret, select_then): Called before some Clipboard Paste command runs. Parameters are options of various paste commands. Method can return False to disable default operation.
 * on_scroll(self, ed_self): Called on scrolling in editor.
 * on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
-* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn constants.
+* on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn or APPSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
 * on_group(self, ed_self): Called after tab-grouping mode is changed.
 
@@ -229,10 +229,13 @@ Notes:
 
 Actions:
 
-* PROC_THEME_UI_GET: Gets UI-theme name.
-* PROC_THEME_UI_SET: Sets UI-theme name.
-* PROC_THEME_SYNTAX_GET: Gets syntax-theme name.
-* PROC_THEME_SYNTAX_SET: Sets syntax-theme name.
+* PROC_THEME_UI_GET: Gets name of UI-theme.
+* PROC_THEME_UI_SET: Sets name of UI-theme.
+* PROC_THEME_SYNTAX_GET: Gets name of syntax-theme.
+* PROC_THEME_SYNTAX_SET: Sets name of syntax-theme.
+
+* PROC_THEME_UI_DATA_GET: Gets contents of current UI-theme, as list of dict.
+* PROC_THEME_SYNTAX_DATA_GET: Gets contents of current syntax-theme, as list of dict.
 
 ====Sessions====
 
@@ -1986,7 +1989,7 @@ Note:
 
 Controls hotspot ranges. When mouse cursor moves in/out of hotspot, event on_hotspot is called.
 
-Possible values if "id":
+Possible values of "id":
 
 * HOTSPOT_ADD: Adds hotspot. Gets bool: params correct, hotspot added. Params:
 ** "pos": 4-tuple of int, text coords: (x_start, y_start, x_end, y_end)
@@ -2206,7 +2209,14 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.218 (app 1.36.0)
+1.0.220 (app 1.38.2)
+* add: on_state event aslo called with new constants APPSTATE_nnnn
+
+1.0.219 (app 1.38.1)
+* add: app_proc: PROC_THEME_UI_DATA_GET
+* add: app_proc: PROC_THEME_SYNTAX_DATA_GET
+
+1.0.218 (app 1.38.0)
 * add: Editor.hotspots()
 * add: event on_hotspot
 * add: app_proc: PROC_GET_MOUSE_POS
