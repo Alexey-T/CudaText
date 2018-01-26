@@ -634,7 +634,9 @@
   "indent_kind": 0,
 
   //Indent size for Indent/Unindent commands:
-  //in chars (value>0) or in tabs (value<0)
+  //  N>0: indent is N spaces
+  //  N<0: indent is abs(N) tabs
+  //  N=0: indent is from options "tab_size" and "tab_spaces"
   "indent_size": 2,
 
   //Unindent command (Shift+Tab): if several lines (in block) have different indent,

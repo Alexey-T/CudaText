@@ -4,6 +4,12 @@
   * changed
 
 
+1.38.3 (2018/01)
+
++ add: option "indent_size" allows value 0: use indent from options "tab_size", "tab_spaces"
++ add: API
+- minor fixes
+
 1.38.0 (2018/01)
 
 + add: API to show floating tooltips (new plugin "HTML Tooltips")
