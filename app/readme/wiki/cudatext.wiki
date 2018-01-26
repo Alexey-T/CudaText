@@ -256,7 +256,7 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 == File-types config ==
 
-Menu item "Settings - file-types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
+Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
 Example of file:
 
 <syntaxhighlight lang="javascript">
@@ -827,12 +827,10 @@ To fix: change IM from e.g."XIM" to "none" in the Language Support settings, the
 ==What SynWrite features not implemented==
 
 * Sync-Editing, ie auto editing of name (identifier) in all places of selected block (sync range), w/o clicking each place of name
-* Tooltips (hints) with pictures preview in HTML
-* Tooltips with HTML color preview
 * Drag-drop of panels from sidebar and bottom bar
 * Panel "Clips" from right side (CudaText has snippets w/o panel)
-* Panel "Clipboard" from right side
-* Quick-search input box on toolbar
+* Panel "Clipboard" from right side, which monitors copying to clipboard
+* Quick-search input box on the toolbar
 
 ==More==
 
