@@ -2344,6 +2344,16 @@ begin
             Result:= PyBool_FromLong(Ord(Ed.ModeOneLine));
           end;
 
+        PROP_INDENT_SIZE:
+          begin
+            Result:= PyInt_FromLong(Ed.OptIndentSize);
+          end;
+
+        PROP_INDENT_KEEP_ALIGN:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.OptIndentKeepsAlign));
+          end;
+
         PROP_CELL_SIZE:
           begin
             Result:= Py_BuildValue('(ii)', Ed.TextCharSize.X, Ed.TextCharSize.Y);
@@ -2609,6 +2619,12 @@ begin
 
         PROP_ONE_LINE:
           Ed.ModeOneLine:= ValueBool;
+
+        PROP_INDENT_SIZE:
+          Ed.OptIndentSize:= ValueInt;
+
+        PROP_INDENT_KEEP_ALIGN:
+          Ed.OptIndentKeepsAlign:= ValueBool;
 
         PROP_MARKED_RANGE:
           begin

@@ -151,6 +151,8 @@ const
   PROP_V_SEL_LEN   = 63;
   PROP_V_WIDTH     = 64;
   PROP_CELL_SIZE = 70;
+  PROP_INDENT_SIZE = 71;
+  PROP_INDENT_KEEP_ALIGN = 72;
 
   APP_PROC_DUMP_CACHE = -2; //for debugging
   APP_PROC_SET_CLIP_ALT = -1;

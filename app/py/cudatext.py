@@ -186,6 +186,8 @@ PROP_V_SEL_START           = 62
 PROP_V_SEL_LEN             = 63
 PROP_V_WIDTH               = 64
 PROP_CELL_SIZE             = 70
+PROP_INDENT_SIZE           = 71
+PROP_INDENT_KEEP_ALIGN     = 72
 
 SPLITTER_SIDE    = 0
 SPLITTER_BOTTOM  = 1
