@@ -1777,6 +1777,8 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_TAB_COLOR: int: color of tab containing editor; COLOR_NONE if not set.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
 * PROP_TAB_ID: int: unique tab's identifier (one number for main/secondary editors in tab), it is not changed when tab is moved.
+* PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
+* PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0. 
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
@@ -1837,6 +1839,8 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_TAB_COLOR: int: color of tab containing editor; set COLOR_NONE to reset.
 * PROP_TAB_TITLE: str: title of tab, useful for untitled tabs.
 * PROP_TAB_ICON: int: index of tab icon, ie index in imagelist, which handle you can get via app_proc(PROC_GET_TAB_IMAGELIST).
+* PROP_INDENT_SIZE: int: size of indent for Indent/Unindent commands. N>0: indent in spaces, N<0: indent in tabs, N=0: indent from PROP_TAB_SIZE/PROP_TAB_SPACES.
+* PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0. 
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -2208,6 +2212,9 @@ Text is chr(1) separated items:
 ** 's': search in selection
 
 =History=
+
+1.0.221 (app 1.38.3)
+* add: Editor.get_prop/set_prop: PROP_INDENT_SIZE, PROP_INDENT_KEEP_ALIGN
 
 1.0.220 (app 1.38.2)
 * add: on_state event aslo called with new constants APPSTATE_nnnn
