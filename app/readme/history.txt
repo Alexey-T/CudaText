@@ -4,6 +4,10 @@
   * changed
 
 
+1.38.4 (2018/01)
+
+- fix: "Check for updates" in x32 version
+
 1.38.3 (2018/01)
 
 + add: option "indent_size" allows value 0: use indent from options "tab_size", "tab_spaces"
