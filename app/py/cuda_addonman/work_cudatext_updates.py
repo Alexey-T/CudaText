@@ -26,7 +26,7 @@ else:
 
 DOWNLOAD_REGEX = \
     ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
-
+REGEX_GROUP_VER = 2
 
 
 def versions_ordered(s1, s2):
@@ -55,13 +55,13 @@ def check_cudatext():
         app.msg_status('Cannot find download links')
         return
 
-    items = sorted(items, key=lambda i:i[2], reverse=True)
+    items = sorted(items, key=lambda i:i[REGEX_GROUP_VER], reverse=True)
     print('Found links:')
     for i in items:
         print('  '+i[0])
 
     url = items[0][0]
-    ver_inet = items[0][2]
+    ver_inet = items[0][REGEX_GROUP_VER]
     ver_local = app.app_exe_version()
 
     if versions_ordered(ver_inet, ver_local):
