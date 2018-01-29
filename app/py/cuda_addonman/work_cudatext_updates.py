@@ -22,7 +22,7 @@ DOWNLOAD_PAGE = \
 if p=='darwin':
     TEXT_CPU = ''
 else:
-    TEXT_CPU = '64' if X64 else '(386|32)'
+    TEXT_CPU = '(amd64|x64)' if X64 else '(i386|x32)'
 
 DOWNLOAD_REGEX = \
     ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
@@ -55,13 +55,13 @@ def check_cudatext():
         app.msg_status('Cannot find download links')
         return
 
-    items = sorted(items, key=lambda i:i[1], reverse=True)
+    items = sorted(items, key=lambda i:i[2], reverse=True)
     print('Found links:')
     for i in items:
         print('  '+i[0])
 
     url = items[0][0]
-    ver_inet = items[0][1]
+    ver_inet = items[0][2]
     ver_local = app.app_exe_version()
 
     if versions_ordered(ver_inet, ver_local):
