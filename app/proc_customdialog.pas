@@ -1312,6 +1312,30 @@ begin
     exit;
   end;
 
+  if AName='on_mouse_enter' then
+  begin
+    TAppControlProps(C.Tag).FEventOnMouseEnter:= AValue;
+    exit;
+  end;
+
+  if AName='on_mouse_exit' then
+  begin
+    TAppControlProps(C.Tag).FEventOnMouseExit:= AValue;
+    exit;
+  end;
+
+  if AName='on_mouse_down' then
+  begin
+    TAppControlProps(C.Tag).FEventOnMouseDown:= AValue;
+    exit;
+  end;
+
+  if AName='on_mouse_up' then
+  begin
+    TAppControlProps(C.Tag).FEventOnMouseUp:= AValue;
+    exit;
+  end;
+
   if AName='on_draw_item' then
   begin
     TAppControlProps(C.Tag).FEventOnListboxDrawItem:= AValue;

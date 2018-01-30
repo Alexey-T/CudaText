@@ -25,6 +25,14 @@ type
     const ACallback: string;
     const AParams: array of string): string;
 
+type
+  TAppCtlMouseEvent = (
+    cControlEventMouseEnter,
+    cControlEventMouseExit,
+    cControlEventMouseDown,
+    cControlEventMouseUp
+    );
+
 var
   CustomDialog_DoPyCallback: TAppPyCommonCallback = nil;
   CustomDialogs: TList;
@@ -46,6 +54,10 @@ type
     FEventOnFold: string;
     FEventOnUnfold: string;
     FEventOnListboxDrawItem: string;
+    FEventOnMouseEnter: string;
+    FEventOnMouseExit: string;
+    FEventOnMouseDown: string;
+    FEventOnMouseUp: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -67,6 +79,8 @@ type
     procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
+    procedure _HandleMouseEvent(Sender: TObject;
+      const AEventKind: TAppCtlMouseEvent; const AData: string);
   public
     IsDlgCustom: boolean;
     IdClicked: integer;
@@ -106,6 +120,8 @@ type
     procedure DoOnTreeviewCollapsing(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
     procedure DoOnControlSelect(Sender: TObject);
     procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure DoOnControlMouseEnter(Sender: TObject);
+    procedure DoOnControlMouseExit(Sender: TObject);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -289,6 +305,16 @@ begin
     DoEvent(IdControl, Props.FEventOnClick, SInfo);
 end;
 
+procedure TFormDummy.DoOnControlMouseEnter(Sender: TObject);
+begin
+  _HandleMouseEvent(Sender, cControlEventMouseEnter, '');
+end;
+
+procedure TFormDummy.DoOnControlMouseExit(Sender: TObject);
+begin
+  _HandleMouseEvent(Sender, cControlEventMouseExit, '');
+end;
+
 procedure TFormDummy.DoOnClick(Sender: TObject);
 begin
   _HandleClickEvent(Sender, false);
@@ -453,6 +479,31 @@ begin
   //here called on_change, not on_select
   //reason: for Listbox/CheckListbox, value is selected index, so sel change - on_change
   DoOnChange(Sender);
+end;
+
+procedure TFormDummy._HandleMouseEvent(Sender: TObject;
+  const AEventKind: TAppCtlMouseEvent;
+  const AData: string);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+  SCallback: string;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+
+  case AEventKind of
+    cControlEventMouseEnter:
+      SCallback:= Props.FEventOnMouseEnter;
+    cControlEventMouseExit:
+      SCallback:= Props.FEventOnMouseExit;
+    cControlEventMouseDown:
+      SCallback:= Props.FEventOnMouseDown;
+    cControlEventMouseUp:
+      SCallback:= Props.FEventOnMouseUp;
+  end;
+
+  DoEvent(IdControl, SCallback, AData);
 end;
 
 procedure TFormDummy.DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas;
