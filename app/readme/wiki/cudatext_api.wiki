@@ -769,6 +769,8 @@ These are also properties of forms.
 * "on_close": Called after form is closed.
 * "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
 
+* "on_show": Called after form shows.
+* "on_hide": Called after form hides.
 * "on_act": Called when form is activated.
 * "on_deact": Called when form is deactivated.
 * "on_mouse_enter": Called when mouse cursor enters form area.
@@ -2221,6 +2223,7 @@ Text is chr(1) separated items:
 
 1.0.222 (app 1.38.5)
 * add: dlg_proc: form events "on_mouse_enter", "on_mouse_exit"
+* add: dlg_proc: form events "on_show", "on_hide"
 
 1.0.221 (app 1.38.3)
 * add: Editor.get_prop/set_prop: PROP_INDENT_SIZE, PROP_INDENT_KEEP_ALIGN, PROP_INDENT_AUTO, PROP_INDENT_KIND
