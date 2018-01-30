@@ -304,7 +304,12 @@ class Command:
             'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
 
         n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'color', 'cap': ' ', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0) } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'color', 'cap': ' ', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0),
+            'on_mouse_enter': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_enter'),
+            'on_mouse_exit': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_exit'),
+            'on_mouse_down': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_down', data),
+            'on_mouse_up': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_up', data),
+            } )
         #anchors of colorpanel
         dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={ 'a_l': None, 'a_r': ('', ']'), 'a_b': ('', ']'), 'sp_a': 6  } )
 
