@@ -213,71 +213,122 @@ class Command:
 
     def init_buttondlg(self):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'button test', 'w':400, 'h':300, 'w_min': 200, 'h_min': 250 })
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'button test',
+            'w': 400,
+            'h': 300,
+            'w_min': 200,
+            'h_min': 250
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_border', 'cap':'toggle border',
-            'x':10, 'y':20, 'w':120,
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_border',
+            'cap':'toggle border',
+            'x': 10,
+            'y': 20,
+            'w': 120,
             'on_change': 'cuda_testing_dlg_proc.callback_buttondlg'
-            } )
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button_ex')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_icon', 'cap':'test of icon',
-            'x':10, 'y':50, 'w':120, 'h':50,
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_icon',
+            'cap':'test of icon',
+            'x': 10,
+            'y': 50,
+            'w': 120,
+            'h': 50,
             'on_change': 'cuda_testing_dlg_proc.callback_buttondlg'
-            } )
+            })
 
         return h
 
     def init_splitterdlg(self):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'splitter test', 'w':650, 'h':400, 'resize':True })
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'splitter test',
+            'w': 650,
+            'h': 400,
+            'resize': True
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_L', 'cap':'panel_L', 'x':0, 'y':0, 'w':200,
-          'align':ALIGN_LEFT,
-          'color':0x60c060,
-           } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'panel_L',
+            'cap': 'panel_L',
+            'x': 0,
+            'y': 0,
+            'w': 200,
+            'align': ALIGN_LEFT,
+            'color': 0x60c060,
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_R', 'cap':'panel_R', 'x':400, 'y':0, 'w':200,
-          'align':ALIGN_RIGHT,
-          'color':0xd08060
-          } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'panel_R',
+            'cap': 'panel_R',
+            'x': 400,
+            'y': 0,
+            'w': 200,
+            'align': ALIGN_RIGHT,
+            'color': 0xd08060
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_B', 'cap':'panel_B', 'x':0, 'y':0, 'h':100,
-          'align':ALIGN_BOTTOM,
-          'color':0xa0e080
-          } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'panel_B',
+            'cap': 'panel_B',
+            'x': 0,
+            'y': 0,
+            'h': 100,
+            'align': ALIGN_BOTTOM,
+            'color': 0xa0e080
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'panel_LL', 'cap':'LL',
-          'x':150, 'y':100, 'w':60, 'h':60,
-          'p': 'panel_L',
-          'a_l':None, 'a_t':('','-'), 'a_r':('',']'),
-          'color':0x8080b0
-          } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'panel_LL',
+            'cap': 'LL',
+            'x': 150,
+            'y': 100,
+            'w': 60,
+            'h': 60,
+            'p': 'panel_L',
+            'a_l': None,
+            'a_t': ('','-'),
+            'a_r': ('',']'),
+            'color': 0x8080b0
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'sp_L', 'x':210, 'y':0,
-          'align':ALIGN_LEFT,
-          'props':(True,True),
-          'act':True,
-          'on_change': self.callback_splitter_left,
-          } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'sp_L',
+            'x': 210,
+            'y': 0,
+            'align': ALIGN_LEFT,
+            'props': (True,True),
+            'act': True,
+            'on_change': self.callback_splitter_left,
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'sp_R', 'x':220, 'y':0,
-          'align':ALIGN_RIGHT,
-          'props':(True,True),
-          } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'sp_R',
+            'x': 220,
+            'y': 0,
+            'align': ALIGN_RIGHT,
+            'props': (True,True),
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'splitter')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'sp_B', 'x':0, 'y':0,
-          'align':ALIGN_BOTTOM,
-          'props':(True,True),
-          } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'sp_B',
+            'x': 0,
+            'y': 0,
+            'align': ALIGN_BOTTOM,
+            'props': (True,True),
+            })
 
         return h
 
@@ -479,11 +530,19 @@ class Command:
     def init_listdlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'listbox test', 'w':420, 'h':300 })
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'listbox test',
+            'w': 420,
+            'h': 300
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'listbox_ex')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'list1',
-            'x':10, 'y':10, 'w':400, 'h': 200,
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'list1',
+            'x': 10,
+            'y': 10,
+            'w': 400,
+            'h': 200,
             'on_draw_item': self.callback_listbox_drawitem,
             })
 
@@ -497,8 +556,12 @@ class Command:
         listbox_proc(h_list, LISTBOX_SET_DRAWN, index=1)
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk1', 'cap': 'Owner-drawn listbox',
-            'x':10, 'y':220, 'w':400,
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'chk1',
+            'cap': 'Owner-drawn listbox',
+            'x': 10,
+            'y': 220,
+            'w': 400,
             'val': True,
             'act': True,
             'on_change': self.callback_listbox_check,
@@ -509,25 +572,55 @@ class Command:
 
     def init_tempdlg(self, x=150, y=150):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'temp dlg', 'x':x, 'y':y, 'w':300, 'h':200,
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'temp dlg',
+            'x': x,
+            'y': y,
+            'w': 300,
+            'h': 200,
             'color': 0xc0c0c0,
             'on_key_down': 'cuda_testing_dlg_proc.callback_tempdlg_on_key_down',
             'on_close_query': 'cuda_testing_dlg_proc.callback_tempdlg_on_close_query',
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_close', 'cap':'close', 'x':20, 'y':20, 'w':100,
-            'on_change': 'cuda_testing_dlg_proc.callback_tempdlg' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_close',
+            'cap': 'close',
+            'x': 20,
+            'y': 20,
+            'w': 100,
+            'on_change': 'cuda_testing_dlg_proc.callback_tempdlg'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_clonedlg', 'cap':'clone dlg', 'x':20, 'y':50, 'w':100,
-            'on_change': 'cuda_testing_dlg_proc.callback_tempdlg' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_clonedlg',
+            'cap': 'clone dlg',
+            'x': 20,
+            'y': 50,
+            'w': 100,
+            'on_change': 'cuda_testing_dlg_proc.callback_tempdlg'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_canclose', 'cap':'can close form', 'x':20, 'y':80, 'w':100, 'val':True })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'chk_canclose',
+            'cap': 'can close form',
+            'x': 20,
+            'y': 80,
+            'w': 100,
+            'val': True
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'label_info', 'cap':'(shows key press)', 'x':20, 'y':160, 'w':100 })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'label_info',
+            'cap': '(shows key press)',
+            'x': 20,
+            'y': 160,
+            'w': 100
+            })
 
         return h
 
@@ -535,10 +628,15 @@ class Command:
     def init_editor_dlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'editor test', 'w':750, 'h':400 })
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'editor test',
+            'w': 750,
+            'h': 400
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'editor')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'ed',
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'ed',
             'align': ALIGN_TOP,
             'sp_a': 6,
             'h': 350,
@@ -573,19 +671,51 @@ end;
     def test_pages(self):
         id = dlg_proc(0, DLG_CREATE)
 
-        dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=pages'})
+        dlg_proc(id, DLG_PROP_SET, {
+            'w': 400,
+            'h': 300,
+            'cap': 'Test type=pages'
+            })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'pages')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'my', 'x':10, 'y':10, 'w':380, 'h':280, 'items': 'page-A\tpage-B' })
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'my',
+            'x': 10,
+            'y': 10,
+            'w': 380,
+            'h': 280,
+            'items': 'page-A\tpage-B'
+            })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'check')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'check0', 'x':10, 'y':10, 'w':300, 'cap':'check-A', 'p':'my.0' })
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'check0',
+            'x': 10,
+            'y': 10,
+            'w': 300,
+            'cap': 'check-A',
+            'p':'my.0'
+            })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'check')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'check1', 'x':20, 'y':20, 'w':300, 'cap':'check-B', 'p':'my.1' })
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'check1',
+            'x': 20,
+            'y': 20,
+            'w': 300,
+            'cap': 'check-B',
+            'p': 'my.1'
+            })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'label')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'lab1', 'x':20, 'y':50, 'w':300, 'cap':'label-B', 'p':'my.1' })
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'lab1',
+            'x': 20,
+            'y': 50,
+            'w': 300,
+            'cap': 'label-B',
+            'p': 'my.1'
+            })
 
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
@@ -599,11 +729,21 @@ end;
 
         id = dlg_proc(0, DLG_CREATE)
 
-        dlg_proc(id, DLG_PROP_SET, {'w':500, 'h':300, 'cap':'Test type=toolbar/statusbar', 'resize':True})
+        dlg_proc(id, DLG_PROP_SET, {
+            'w': 500,
+            'h': 300,
+            'cap': 'Test type=toolbar/statusbar',
+            'resize': True
+            })
 
         #------------
         n = dlg_proc(id, DLG_CTL_ADD, 'toolbar')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'tb', 'x':0, 'y':0, 'w':20, 'h':40,
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'tb',
+            'x': 0,
+            'y': 0,
+            'w': 20,
+            'h': 40,
             'align': ALIGN_TOP,
             'color': 0x80B080,
             })
@@ -649,7 +789,12 @@ end;
 
         #----------
         n = dlg_proc(id, DLG_CTL_ADD, 'statusbar')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'sb', 'x':0, 'y':0, 'w':20, 'h':28,
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'sb',
+            'x': 0,
+            'y': 0,
+            'w': 20,
+            'h': 28,
             'align': ALIGN_BOTTOM,
             'color': 0x40A0A0,
             })
@@ -685,10 +830,19 @@ end;
     def test_treeview(self):
         id = dlg_proc(0, DLG_CREATE)
 
-        dlg_proc(id, DLG_PROP_SET, {'w':400, 'h':300, 'cap':'Test type=treeview'})
+        dlg_proc(id, DLG_PROP_SET, {
+            'w': 400,
+            'h': 300,
+            'cap': 'Test type=treeview'
+            })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'treeview')
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={'name': 'my', 'x':10, 'y':10, 'w':380, 'h':280,
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'my',
+            'x': 10,
+            'y': 10,
+            'w': 380,
+            'h': 280,
             'on_fold': self.callback_treeview_on_fold,
             'on_unfold': self.callback_treeview_on_unfold,
             'on_click_dbl': self.callback_treeview_on_click_dbl,
