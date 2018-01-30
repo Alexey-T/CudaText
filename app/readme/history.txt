@@ -4,8 +4,10 @@
   * changed
 
 
-1.38.4 (2018/01)
+1.38.5 (2018/01)
 
++ add: API
+- fix: "More carets" commands didn't consider tab-chars
 - fix: "Check for updates" in x32 version
 
 1.38.3 (2018/01)
