@@ -779,10 +779,15 @@ begin
      end
      else
      begin
+       //for some controls, OnClick already set to another handler
        if not Assigned(Ctl.OnClick) then
          Ctl.OnClick:= @AForm.DoOnClick;
        TControlHack(Ctl).OnDblClick:= @AForm.DoOnDblClick;
        TControlHack(Ctl).OnContextPopup:= @AForm.DoOnControlMenu;
+       TControlHack(Ctl).OnMouseEnter:= @AForm.DoOnControlMouseEnter;
+       TControlHack(Ctl).OnMouseLeave:= @AForm.DoOnControlMouseLeave;
+       TControlHack(Ctl).OnMouseDown:= @AForm.DoOnControlMouseDown;
+       TControlHack(Ctl).OnMouseUp:= @AForm.DoOnControlMouseUp;
      end;
    end;
  end;

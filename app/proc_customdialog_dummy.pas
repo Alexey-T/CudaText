@@ -18,6 +18,7 @@ uses
   ListFilterEdit,
   ListViewFilterEdit,
   proc_globdata,
+  proc_miscutils,
   ATSynEdit;
 
 type
@@ -78,6 +79,8 @@ type
     procedure DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
+    function _MouseEventString(AButton: TMouseButton; AShift: TShiftState;
+      AX, AY: Integer): string;
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
     procedure _HandleMouseEvent(Sender: TObject;
       const AEventKind: TAppCtlMouseEvent; const AData: string);
@@ -121,7 +124,9 @@ type
     procedure DoOnControlSelect(Sender: TObject);
     procedure DoOnControlMenu(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure DoOnControlMouseEnter(Sender: TObject);
-    procedure DoOnControlMouseExit(Sender: TObject);
+    procedure DoOnControlMouseLeave(Sender: TObject);
+    procedure DoOnControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure DoOnControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -310,9 +315,36 @@ begin
   _HandleMouseEvent(Sender, cControlEventMouseEnter, '');
 end;
 
-procedure TFormDummy.DoOnControlMouseExit(Sender: TObject);
+procedure TFormDummy.DoOnControlMouseLeave(Sender: TObject);
 begin
   _HandleMouseEvent(Sender, cControlEventMouseExit, '');
+end;
+
+function TFormDummy._MouseEventString(
+  AButton: TMouseButton; AShift: TShiftState; AX, AY: Integer): string;
+begin
+  Result:= Format('{"btn": %d, "state": "%s", "x": %d, "y": %d}', [
+    Ord(AButton),
+    ConvertShiftStateToString(AShift),
+    AX,
+    AY
+    ]);
+end;
+
+procedure TFormDummy.DoOnControlMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  _HandleMouseEvent(Sender, cControlEventMouseDown,
+    _MouseEventString(Button, Shift, X, Y)
+    );
+end;
+
+procedure TFormDummy.DoOnControlMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  _HandleMouseEvent(Sender, cControlEventMouseUp,
+    _MouseEventString(Button, Shift, X, Y)
+    );
 end;
 
 procedure TFormDummy.DoOnClick(Sender: TObject);
