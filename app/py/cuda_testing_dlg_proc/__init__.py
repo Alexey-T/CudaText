@@ -283,73 +283,183 @@ class Command:
 
     def init_maindlg(self):
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={'cap':'main dlg', 'x':100, 'y':50, 'w':400, 'h':300, 'resize':True, 'w_min': 200, 'h_min': 300, 'topmost':True })
+        dlg_proc(h, DLG_PROP_SET, prop={
+            'cap': 'main dlg',
+            'x': 100,
+            'y': 50,
+            'w': 400,
+            'h': 300,
+            'w_min': 200,
+            'h_min': 300,
+            'resize': True,
+            'topmost': True,
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'label')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': '', 'cap':'label', 'x':10, 'y':10, 'w':50, 'tag': 'some_tag' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'label0',
+            'cap': 'label',
+            'x': 10,
+            'y': 10,
+            'w': 50,
+            'tag': 'some_tag',
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_panel', 'cap':'show panel', 'val':True, 'x':60, 'y':8, 'w':200, 'act':True,
-            'on_change': 'cuda_testing_dlg_proc.callback_maindlg' })
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'chk_panel',
+            'cap': 'show panel',
+            'val': True,
+            'x': 60,
+            'y': 8,
+            'w': 200,
+            'act': True,
+            'on_change': 'cuda_testing_dlg_proc.callback_maindlg'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'edit')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'edit1', 'val':'edit1', 'x':10, 'y':30, 'w':200} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'edit1',
+            'val':'edit1',
+            'x': 10,
+            'y': 30,
+            'w': 200,
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_caption', 'cap':'upd caption', 'x':10, 'y':60, 'w':100,
-            'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_caption',
+            'cap': 'upd caption',
+            'x': 10,
+            'y': 60,
+            'w': 100,
+            'on_change': 'cuda_testing_dlg_proc.callback_maindlg'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_move', 'cap':'move button', 'x':120, 'y':60, 'w':100,
-            'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_move',
+            'cap': 'move button',
+            'x': 120,
+            'y': 60,
+            'w': 100,
+            'on_change': 'cuda_testing_dlg_proc.callback_main_movebtn'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'colorpanel')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'color', 'cap': ' ', 'x':380, 'y':5, 'w':15, 'h':290, 'props':(1, 0xc0f0f0),
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'color',
+            'cap': ' ',
+            'x': 380,
+            'y': 5,
+            'w': 15,
+            'h': 290,
+            'props': (1, 0xc0f0f0),
             'on_mouse_enter': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_enter'),
             'on_mouse_exit': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_exit'),
             'on_mouse_down': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_down', data),
             'on_mouse_up': lambda id_dlg, id_ctl, data='', info='': print('panel on_mouse_up', data),
-            } )
+            })
         #anchors of colorpanel
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={ 'a_l': None, 'a_r': ('', ']'), 'a_b': ('', ']'), 'sp_a': 6  } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'a_l': None,
+            'a_r': ('', ']'),
+            'a_b': ('', ']'),
+            'sp_a': 6,
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_x_panel', 'cap':'x', 'x':0, 'y':0, 'w':15, 'h':15,
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_x_panel',
+            'cap': '?',
+            'x': 0,
+            'y': 0,
+            'w': 15,
+            'h': 15,
             'p': 'color',
             'a_t': ('color', '-'),
-            'on_change': 'cuda_testing_dlg_proc.callback_maindlg' } )
+            'on_change': 'cuda_testing_dlg_proc.callback_maindlg'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_dlg', 'cap':'temp dlg', 'x':10, 'y':200, 'w':100,
-            'on_change': 'cuda_testing_dlg_proc.callback_maindlg'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_dlg',
+            'cap': 'temp dlg',
+            'x': 10,
+            'y': 200,
+            'w': 100,
+            'on_change': 'cuda_testing_dlg_proc.callback_maindlg'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_menu', 'cap':'menu here', 'x':10, 'y':230, 'w':100,
-            'on_change': callback_main_menu } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_menu',
+            'cap': 'menu here',
+            'x': 10,
+            'y': 230,
+            'w': 100,
+            'on_change': callback_main_menu
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_paint', 'cap':'paint here', 'x':10, 'y':260, 'w':100,
-            'on_change': self.callback_maindlg_paint_click } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_paint',
+            'cap': 'paint here',
+            'x': 10,
+            'y': 260,
+            'w': 100,
+            'on_change': self.callback_maindlg_paint_click
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_callbk', 'cap':'complex callback', 'x':120, 'y':200, 'w':120,
-            'on_change': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;info=1234;'} )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_callbk',
+            'cap': 'complex callback',
+            'x': 120,
+            'y': 200,
+            'w': 120,
+            'on_change': 'module=cuda_testing_dlg_proc.testcall;func=callback_main_complex;info=1234;'
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'button')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'btn_ok', 'cap':'close', 'x':120, 'y':230, 'w':120,
-            'on_change': callback_main_close } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_ok',
+            'cap': 'close',
+            'x': 120,
+            'y': 230,
+            'w': 120,
+            'on_change': callback_main_close
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'linklabel')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'link1', 'cap':'linklabel', 'x':10, 'y':150, 'w':120,
-          'on_click': self.callback_linklabel_click } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'link1',
+            'cap': 'linklabel',
+            'x': 10,
+            'y': 150,
+            'w': 120,
+            'on_click': self.callback_linklabel_click
+            })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'check')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'chk_dock', 'cap':'temp dlg: docked', 'x':10, 'y':170, 'w':120 } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'chk_dock',
+            'cap': 'temp dlg: docked',
+            'x': 10,
+            'y': 170,
+            'w': 120
+            })
 
         #test for live callback
         n=dlg_proc(h, DLG_CTL_ADD, 'paintbox')
-        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={'name': 'paint', 'x':250, 'y':200, 'w':60, 'h':60,
-            'on_click': self.callback_maindlg_paint_click } )
+        dlg_proc(h, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'paint',
+            'x': 250,
+            'y': 200,
+            'w': 60,
+            'h': 60,
+            'on_click': self.callback_maindlg_paint_click
+            })
 
         nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
         dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)
