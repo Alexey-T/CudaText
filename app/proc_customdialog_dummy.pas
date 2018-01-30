@@ -59,6 +59,8 @@ type
     procedure DoOnActivate(Sender: TObject);
     procedure DoOnDeactivate(Sender: TObject);
     procedure DoOnShow(Sender: TObject);
+    procedure DoOnMouseEnter(Sender: TObject);
+    procedure DoOnMouseLeave(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -74,6 +76,8 @@ type
     FEventOnResize: string;
     FEventOnActivate: string;
     FEventOnDeactivate: string;
+    FEventOnMouseEnter: string;
+    FEventOnMouseExit: string;
     TagString: string;
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
@@ -197,6 +201,8 @@ begin
   OnKeyUp:= @DoOnKeyUp;
   OnActivate:=@DoOnActivate;
   OnDeactivate:=@DoOnDeactivate;
+  OnMouseEnter:= @DoOnMouseEnter;
+  OnMouseLeave:= @DoOnMouseLeave;
 
   PrevBorderStyle:= BorderStyle;
   PrevForms:= TList.Create;
@@ -234,14 +240,24 @@ begin
   end;
 end;
 
+procedure TFormDummy.DoOnMouseEnter(Sender: TObject);
+begin
+  DoEvent(-1, FEventOnMouseEnter, '');
+end;
+
+procedure TFormDummy.DoOnMouseLeave(Sender: TObject);
+begin
+  DoEvent(-1, FEventOnMouseExit, '');
+end;
+
 procedure TFormDummy.DoOnActivate(Sender: TObject);
 begin
-  DoEvent(0, FEventOnActivate, '');
+  DoEvent(-1, FEventOnActivate, '');
 end;
 
 procedure TFormDummy.DoOnDeactivate(Sender: TObject);
 begin
-  DoEvent(0, FEventOnDeactivate, '');
+  DoEvent(-1, FEventOnDeactivate, '');
 end;
 
 procedure TFormDummy._HandleClickEvent(Sender: TObject; ADblClick: boolean);

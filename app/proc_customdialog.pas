@@ -1691,6 +1691,12 @@ begin
   if AName= 'on_deact' then
     F.FEventOnDeactivate:= AValue
   else
+  if AName='on_mouse_enter' then
+    F.FEventOnMouseEnter:= AValue
+  else
+  if AName='on_mouse_exit' then
+    F.FEventOnMouseExit:= AValue
+  else
   if AName='vis' then
     F.Visible:= AppStrToBool(AValue)
   else
