@@ -771,6 +771,8 @@ These are also properties of forms.
 
 * "on_act": Called when form is activated.
 * "on_deact": Called when form is deactivated.
+* "on_mouse_enter": Called when mouse cursor enters form area.
+* "on_mouse_exit": Called when mouse cursor leaves form area.
 
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
@@ -2216,6 +2218,9 @@ Text is chr(1) separated items:
 ** 's': search in selection
 
 =History=
+
+1.0.222 (app 1.38.5)
+* add: dlg_proc: form events "on_mouse_enter", "on_mouse_exit"
 
 1.0.221 (app 1.38.3)
 * add: Editor.get_prop/set_prop: PROP_INDENT_SIZE, PROP_INDENT_KEEP_ALIGN, PROP_INDENT_AUTO, PROP_INDENT_KIND
