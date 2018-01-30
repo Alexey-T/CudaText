@@ -1697,6 +1697,12 @@ begin
   if AName='on_mouse_exit' then
     F.FEventOnMouseExit:= AValue
   else
+  if AName='on_show' then
+    F.FEventOnShow:= AValue
+  else
+  if AName='on_hide' then
+    F.FEventOnHide:= AValue
+  else
   if AName='vis' then
     F.Visible:= AppStrToBool(AValue)
   else

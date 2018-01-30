@@ -59,6 +59,7 @@ type
     procedure DoOnActivate(Sender: TObject);
     procedure DoOnDeactivate(Sender: TObject);
     procedure DoOnShow(Sender: TObject);
+    procedure DoOnHide(Sender: TObject);
     procedure DoOnMouseEnter(Sender: TObject);
     procedure DoOnMouseLeave(Sender: TObject);
     procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -78,6 +79,8 @@ type
     FEventOnDeactivate: string;
     FEventOnMouseEnter: string;
     FEventOnMouseExit: string;
+    FEventOnShow: string;
+    FEventOnHide: string;
     TagString: string;
     PrevForms: TList;
     PrevBorderStyle: TFormBorderStyle;
@@ -195,6 +198,7 @@ begin
   TagString:= '';
 
   OnShow:= @DoOnShow;
+  OnHide:= @DoOnHide;
   OnClose:= @DoOnClose;
   OnCloseQuery:= @DoOnCloseQuery;
   OnKeyDown:= @DoOnKeyDown;
@@ -238,6 +242,13 @@ begin
         if ItemFocused<>nil then
           ItemFocused.MakeVisible(false);
   end;
+
+  DoEvent(-1, FEventOnShow, '');
+end;
+
+procedure TFormDummy.DoOnHide(Sender: TObject);
+begin
+  DoEvent(-1, FEventOnHide, '');
 end;
 
 procedure TFormDummy.DoOnMouseEnter(Sender: TObject);
