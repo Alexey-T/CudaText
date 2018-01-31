@@ -769,8 +769,12 @@ These are also properties of forms.
 * "on_close": Called after form is closed.
 * "on_close_query": Called to ask plugin, it is allowed to close form (in any way: x-icon, Alt+F4, Esc etc). If plugin returns False: not allowed, other value: allowed.
 
+* "on_show": Called after form shows.
+* "on_hide": Called after form hides.
 * "on_act": Called when form is activated.
 * "on_deact": Called when form is deactivated.
+* "on_mouse_enter": Called when mouse cursor enters form area.
+* "on_mouse_exit": Called when mouse cursor leaves form area.
 
 * "on_key_down": Called when key is pressed in form (form should have "keypreview":True). If plugin returns False, key is blocked.
 ** param "id_ctl": int key code.
@@ -839,6 +843,10 @@ These are also properties of controls.
 * "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
 * "on_fold", "on_unfold": Called for control "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
 * "on_draw_item": Called for control "listbox_ex", if it is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }. 
+* "on_mouse_down": Called when mouse button pressed. Param "data" is dict: { "btn": int_button_code, "state": str_keyboard_state, "x": int, "y": int }. Button code: 0: left; 1: right; 2: middle. Keyboard state: value like in global event "on_key".
+* "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
+* "on_mouse_enter": Called when mouse cursor enters control area.
+* "on_mouse_exit": Called when mouse cursor leaves control area.
 
 ====Callbacks====
 
@@ -2216,6 +2224,11 @@ Text is chr(1) separated items:
 ** 's': search in selection
 
 =History=
+
+1.0.222 (app 1.38.5)
+* add: dlg_proc: form events "on_mouse_enter", "on_mouse_exit"
+* add: dlg_proc: form events "on_show", "on_hide"
+* add: dlg_proc: control events "on_mouse_enter", "on_mouse_exit", "on_mouse_down", "on_mouse_up"
 
 1.0.221 (app 1.38.3)
 * add: Editor.get_prop/set_prop: PROP_INDENT_SIZE, PROP_INDENT_KEEP_ALIGN, PROP_INDENT_AUTO, PROP_INDENT_KIND

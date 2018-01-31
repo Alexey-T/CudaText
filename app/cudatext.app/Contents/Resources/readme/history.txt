@@ -4,6 +4,13 @@
   * changed
 
 
+1.39.0 (2018/01)
+
++ add: API
+- fix: horz scrollbar incorrect on long lines (>window size)
+- fix: "More carets" commands didn't consider tab-chars
+- fix: "Check for updates" in x32 version
+
 1.38.3 (2018/01)
 
 + add: option "indent_size" allows value 0: use indent from options "tab_size", "tab_spaces"
