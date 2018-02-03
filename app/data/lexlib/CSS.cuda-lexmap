@@ -8,7 +8,7 @@ styles_str=String
 0=PHP
 
 [map]
-Style=Id
+Style=TagId
 Param correct=TagProp
 Param incorrect=TagPropBad
 Value=Id2
