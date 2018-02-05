@@ -582,7 +582,7 @@ type
     FOption_WindowPos: string;
     FOption_Encoding: string;
 
-    procedure DoCloseAllTabs(AAllowEvent, AWithCancelBtn: boolean);
+    procedure DoCloseAllTabs;
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
@@ -1357,7 +1357,7 @@ begin
   UpdateMenuItemHint(mnuLang, '_langs');
 end;
 
-procedure TfmMain.DoCloseAllTabs(AAllowEvent, AWithCancelBtn: boolean);
+procedure TfmMain.DoCloseAllTabs;
 var
   Tabs: TATTabs;
   nGroup, nTab: integer;
@@ -1366,7 +1366,7 @@ begin
   begin
     Tabs:= Groups.Pages[nGroup].Tabs;
     for nTab:= Tabs.TabCount-1 downto 0 do
-      Tabs.DeleteTab(nTab, AAllowEvent, AWithCancelBtn);
+      Tabs.DeleteTab(nTab, true{AllowEvent}, false{AWithCancelBtn});
   end;
 end;
 
@@ -1375,6 +1375,7 @@ var
   F: TEditorFrame;
   i: integer;
 begin
+  //maybe no need too? done in DoCloseAllTabs
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
@@ -1384,6 +1385,8 @@ begin
   //after UpdateMenuRecent
   DoOps_SaveHistory;
 
+  (*
+  //no need, done via DoCloseAllTabs
   for i:= FrameCount-1 downto 0 do
   begin
     F:= Frames[i];
@@ -1392,8 +1395,9 @@ begin
     F.Editor2.AdapterForHilite:= nil;
     F.Adapter.Stop;
   end;
+  *)
 
-  DoCloseAllTabs(false, false);
+  DoCloseAllTabs;
 end;
 
 procedure TfmMain.ButtonCancelClick(Sender: TObject);

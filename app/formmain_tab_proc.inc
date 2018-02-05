@@ -129,6 +129,9 @@ begin
       Exit
     end;
 
+  if Application.Terminated then
+    Res:= ID_OK
+  else
   if not D.TabModified then
     Res:= ID_OK
   else
@@ -153,8 +156,9 @@ begin
     Frame.Free;
   end;
 
-  if bNeedTreeUpd then
-    CodeTree.Tree.Items.Clear;
+  if not Application.Terminated then
+    if bNeedTreeUpd then
+      CodeTree.Tree.Items.Clear;
 end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject);
