@@ -1065,15 +1065,45 @@ end;
 
 procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
 var
-  R: TecTextRange;
+  DataObj: TObject;
+  Rng: TecTextRange;
 begin
   P1:= Point(-1, -1);
   P2:= Point(-1, -1);
   if ANode=nil then exit;
   if ANode.Data=nil then exit;
-  R:= TecTextRange(ANode.Data);
-  CurrentFrame.Adapter.TreeGetPositionOfRange(R, P1, P2);
+  DataObj:= TObject(ANode.Data);
+  if DataObj is TecTextRange then
+  begin
+    Rng:= TecTextRange(DataObj);
+    CurrentFrame.Adapter.TreeGetPositionOfRange(Rng, P1, P2);
+  end;
 end;
+
+(*
+//not done, need another object in ANode.Data..
+procedure TfmMain.DoTreeSetSyntaxRange(ANode: TTreeNode; const P1, P2: TPoint);
+var
+  DataObj: TObject;
+  Rng: TecTextRange;
+begin
+  if ANode=nil then exit;
+  if ANode.Data=nil then
+  begin
+    DataObj:= TecTextRange.Create(0, 0);
+    ANode.Data:= Pointer(DataObj);
+  end
+  else
+    DataObj:= TObject(ANode.Data);
+
+  if DataObj is TecTextRange then
+  begin
+    Rng:= TecTextRange(DataObj);
+    Rng.ddd
+  end;
+end;
+*)
+
 
 procedure TfmMain.DoPanel_TreeviewOnMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
