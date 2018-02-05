@@ -1354,6 +1354,7 @@ begin
   UpdateMenuItemHint(mnuLexers, '_lexers');
   UpdateMenuItemHint(mnuThemesUI, '_themes-ui');
   UpdateMenuItemHint(mnuThemesSyntax, '_themes-syntax');
+  UpdateMenuItemHint(mnuOpPlugins, '_oplugins');
   UpdateMenuItemHint(mnuLang, '_langs');
 end;
 
@@ -4191,6 +4192,12 @@ begin
     begin
       mnuLexers:= mi;
       UpdateMenuLexers;
+    end
+    else
+    if (AMenuCmd='_'+PyMenuCmd_OptionsPlugins) then
+    begin
+      mnuOpPlugins:= mi;
+      UpdateMenuPlugins;
     end
     else
     if (AMenuCmd=PyMenuCmd_Enc) or (AMenuCmd='_'+PyMenuCmd_Enc) then

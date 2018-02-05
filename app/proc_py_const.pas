@@ -359,6 +359,7 @@ const
   PyMenuCmd_Plugins = 'plugins';
   PyMenuCmd_Lexers = 'lexers';
   PyMenuCmd_Enc = 'enc';
+  PyMenuCmd_OptionsPlugins = 'oplugins';
 
   TIMER_START     = 0;
   TIMER_START_ONE = 1;
