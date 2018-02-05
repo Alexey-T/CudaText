@@ -4,6 +4,12 @@
   * changed
 
 
+1.39.1 (2018/02)
+
+- fix: experimental fix for rare bug: app cannot close
+- fix: Tabs List plugin didn't work
++ add: sidebar theme "octicons light 20x20"
+
 1.39.0 (2018/01)
 
 + add: API
