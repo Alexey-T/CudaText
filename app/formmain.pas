@@ -582,6 +582,7 @@ type
     FOption_WindowPos: string;
     FOption_Encoding: string;
 
+    procedure DoCloseAllTabs(AAllowEvent, AWithCancelBtn: boolean);
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
@@ -1356,6 +1357,19 @@ begin
   UpdateMenuItemHint(mnuLang, '_langs');
 end;
 
+procedure TfmMain.DoCloseAllTabs(AAllowEvent, AWithCancelBtn: boolean);
+var
+  Tabs: TATTabs;
+  nGroup, nTab: integer;
+begin
+  for nGroup:= High(TATGroupsNums) to Low(TATGroupsNums) do
+  begin
+    Tabs:= Groups.Pages[nGroup].Tabs;
+    for nTab:= Tabs.TabCount-1 downto 0 do
+      Tabs.DeleteTab(nTab, AAllowEvent, AWithCancelBtn);
+  end;
+end;
+
 procedure TfmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   F: TEditorFrame;
@@ -1370,7 +1384,7 @@ begin
   //after UpdateMenuRecent
   DoOps_SaveHistory;
 
-  for i:= 0 to FrameCount-1 do
+  for i:= FrameCount-1 downto 0 do
   begin
     F:= Frames[i];
     //make sure adapters don't block closing
@@ -1378,6 +1392,8 @@ begin
     F.Editor2.AdapterForHilite:= nil;
     F.Adapter.Stop;
   end;
+
+  DoCloseAllTabs(false, false);
 end;
 
 procedure TfmMain.ButtonCancelClick(Sender: TObject);
