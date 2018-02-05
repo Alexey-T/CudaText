@@ -4157,50 +4157,50 @@ begin
       UpdateMenuItemAltObject(mi, Num);
     end
     else
-    if (AMenuCmd=PyMenuCmd_Recents) or (AMenuCmd='_'+PyMenuCmd_Recents) then
+    if AMenuCmd='_recents' then
     begin
       mnuFileOpenSub:= mi;
       UpdateMenuRecent(nil);
     end
     else
-    if (AMenuCmd=PyMenuCmd_ThemesUI) or (AMenuCmd='_'+PyMenuCmd_ThemesUI) then
+    if AMenuCmd='_themes-ui' then
     begin
       mnuThemesUI:= mi;
       UpdateMenuThemes(true);
     end
     else
-    if (AMenuCmd=PyMenuCmd_ThemesSyntax) or (AMenuCmd='_'+PyMenuCmd_ThemesSyntax) then
+    if AMenuCmd='_themes-syntax' then
     begin
       mnuThemesSyntax:= mi;
       UpdateMenuThemes(false);
     end
     else
-    if (AMenuCmd=PyMenuCmd_Langs) or (AMenuCmd='_'+PyMenuCmd_Langs) then
+    if AMenuCmd='_langs' then
     begin
       mnuLang:= mi;
       UpdateMenuLangs(mi);
     end
     else
-    if (AMenuCmd=PyMenuCmd_Plugins) or (AMenuCmd='_'+PyMenuCmd_Plugins) then
+    if AMenuCmd='_plugins' then
     begin
       mnuPlugins:= mi;
       TAppMenuProps(mi.Tag).CommandString:= 'plugins';
       UpdateMenuPlugins;
     end
     else
-    if (AMenuCmd=PyMenuCmd_Lexers) or (AMenuCmd='_'+PyMenuCmd_Lexers) then
+    if AMenuCmd='_lexers' then
     begin
       mnuLexers:= mi;
       UpdateMenuLexers;
     end
     else
-    if (AMenuCmd='_'+PyMenuCmd_OptionsPlugins) then
+    if AMenuCmd='_oplugins' then
     begin
       mnuOpPlugins:= mi;
       UpdateMenuPlugins;
     end
     else
-    if (AMenuCmd=PyMenuCmd_Enc) or (AMenuCmd='_'+PyMenuCmd_Enc) then
+    if AMenuCmd='_enc' then
     begin
       mnuFileEnc:= mi;
       UpdateMenuEnc(mi);

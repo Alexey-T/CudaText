@@ -352,15 +352,6 @@ const
   PyMenuId_TopHelp = 'top-help';
   PyMenuId_Text = 'text';
 
-  PyMenuCmd_Recents = 'recents';
-  PyMenuCmd_ThemesUI = 'themes-ui';
-  PyMenuCmd_ThemesSyntax = 'themes-syntax';
-  PyMenuCmd_Langs = 'langs';
-  PyMenuCmd_Plugins = 'plugins';
-  PyMenuCmd_Lexers = 'lexers';
-  PyMenuCmd_Enc = 'enc';
-  PyMenuCmd_OptionsPlugins = 'oplugins';
-
   TIMER_START     = 0;
   TIMER_START_ONE = 1;
   TIMER_STOP      = 2;
