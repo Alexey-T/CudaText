@@ -1255,7 +1255,8 @@ Value of "command" parameter for MENU_ADD can be:
 ** "_lexers": Lexers submenu
 ** "_plugins": Plugins submenu
 ** "_themes-ui": UI-themes submenu 
-** "_themes-syntax": Syntax-themes submenu 
+** "_themes-syntax": Syntax-themes submenu
+** "_oplugins": Settings-plugins submenu 
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
@@ -2224,6 +2225,9 @@ Text is chr(1) separated items:
 ** 's': search in selection
 
 =History=
+
+1.0.223 (app 1.39.1)
+* add: menu_proc: support for spec menu id "_oplugins"
 
 1.0.222 (app 1.38.5)
 * add: dlg_proc: form events "on_mouse_enter", "on_mouse_exit"
