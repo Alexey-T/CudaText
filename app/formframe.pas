@@ -1615,13 +1615,19 @@ end;
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
   const ARect: TRect);
 var
+  Ed: TATSynEdit;
   r: TRect;
   dx: integer;
-  kind: integer;
+  index, kind: integer;
 begin
-  r:= arect;
+  r:= ARect;
   if r.Left>=r.Right then exit;
-  kind:= (Sender as TATSynEdit).Strings.LinesBm[ALineNum];
+
+  Ed:= Sender as TATSynEdit;
+  index:= Ed.Strings.Bookmarks.Find(ALineNum);
+  if index<0 then exit;
+
+  kind:= Ed.Strings.Bookmarks[index].Kind;
   if kind<=1 then
   begin
     c.brush.color:= GetAppColor('EdBookmarkIcon');
