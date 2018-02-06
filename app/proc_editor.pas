@@ -1003,8 +1003,8 @@ end;
 
 procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
 var
-  i: integer;
   X1, Y1, X2, Y2: integer;
+  NLine, i: integer;
 begin
   if ed.Carets.Count=0 then exit;
   with ed.Carets[0] do
@@ -1016,9 +1016,11 @@ begin
   end;
 
   ed.Carets.Clear;
-  for i:= 0 to ed.Strings.Count-1 do
-    if ed.Strings.LinesBm[i]>0 then
-      ed.Carets.Add(0, i);
+  for i:= 0 to ed.Strings.Bookmarks.Count-1 do
+  begin
+    NLine:= ed.Strings.Bookmarks[i].LineNum;
+    ed.Carets.Add(0, NLine);
+  end;
 
   if ed.Carets.Count=0 then
     ed.DoCaretSingle(X1, Y1, X2, Y2);
@@ -1034,7 +1036,7 @@ begin
   begin
     Caret:= ed.Carets[i];
     if ed.Strings.IsIndexValid(Caret.PosY) then
-      ed.Strings.LinesBm[Caret.PosY]:= 1;
+      ed.Strings.Bookmarks.Add(Caret.PosY, 1, '');
   end;
 end;
 
@@ -1042,13 +1044,16 @@ end;
 procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
 var
   List: TStringList;
-  i: integer;
+  NLine, i: integer;
 begin
   List:= TStringList.Create;
   try
-    for i:= 0 to Ed.Strings.Count-1 do
-      if Ed.Strings.LinesBm[i]>0 then
-        List.Add(UTF8Encode(Ed.Strings.Lines[i]));
+    for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
+    begin
+      NLine:= Ed.Strings.Bookmarks[i].LineNum;
+      if Ed.Strings.IsIndexValid(NLine) then
+        List.Add(Ed.Strings.LinesUTF8[NLine]);
+    end;
     SClipboardCopy(List.Text);
   finally
     FreeAndNil(List);
