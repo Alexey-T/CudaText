@@ -85,35 +85,28 @@ implementation
 procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
   AOp: TAppBookmarkOp; const AHint: string);
 var
-  N: integer;
+  NIndex: integer;
 begin
-  N:= ALine;
-  if N<0 then N:= ed.Carets[0].PosY;
-  if not ed.Strings.IsIndexValid(N) then exit;
+  if ALine<0 then
+    ALine:= ed.Carets[0].PosY;
+  if not ed.Strings.IsIndexValid(ALine) then exit;
 
   case AOp of
     bmOpSet:
       begin
-        ed.Strings.LinesBm[N]:= ABmKind;
-        ed.Strings.LinesHint[N]:= AHint;
+        ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint);
       end;
     bmOpClear:
       begin
-        ed.Strings.LinesBm[N]:= 0;
-        ed.Strings.LinesHint[N]:= '';
+        ed.Strings.Bookmarks.DeleteForLine(ALine);
       end;
     bmOpToggle:
       begin
-        if ed.Strings.LinesBm[N]=0 then
-        begin
-          ed.Strings.LinesBm[N]:= ABmKind;
-          ed.Strings.LinesHint[N]:= AHint;
-        end
+        NIndex:= ed.Strings.Bookmarks.Find(ALine);
+        if NIndex>=0 then
+          ed.Strings.Bookmarks.Delete(NIndex)
         else
-        begin
-          ed.Strings.LinesBm[N]:= 0;
-          ed.Strings.LinesHint[N]:= '';
-        end;
+          ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint);
       end;
   end;
 
@@ -135,11 +128,8 @@ begin
 end;
 
 procedure EditorBookmarkClearAll(ed: TATSynEdit);
-var
-  i: integer;
 begin
-  for i:= 0 to ed.Strings.Count-1 do
-    ed.Strings.LinesBm[i]:= 0;
+  ed.Strings.Bookmarks.Clear;
   ed.Update;
 end;
 
