@@ -110,6 +110,7 @@ const
   msgCannotHandleZip: string = 'Cannot handle zip file:';
   msgCannotSetHotkey: string = 'Cannot set hotkey for this item';
   msgCannotInstallAddonApi: string = 'Cannot install add-on "%s", it needs newer application version (API %s)';
+  msgCannotInstallOnOS: string = 'Cannot install add-on "%s", it requires another OS (%s)';
 
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';

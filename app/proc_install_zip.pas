@@ -52,6 +52,26 @@ const
   cTypePlugin = 'cudatext-plugin';
   cTypeData = 'cudatext-data';
 
+function IsOSValueOk(S: string): boolean;
+begin
+  Result:= false;
+  if S='' then exit(true);
+  S:= LowerCase(S);
+
+  {$ifdef windows}
+  if Pos('win', S)>0 then exit(true);
+  {$endif}
+
+  {$ifdef linux}
+  if Pos('linux', S)>0 then exit(true);
+  {$endif}
+
+  {$ifdef darwin}
+  if Pos('macos', S)>0 then exit(true);
+  {$endif}
+end;
+
+
 procedure DoInstallData(
   const AFilenameInf: string;
   out AReport: string;
@@ -317,7 +337,7 @@ var
   unzip: TUnZipper;
   list: TStringlist;
   dir, dir_zipped, fn_inf: string;
-  s_title, s_type, s_desc, s_api: string;
+  s_title, s_type, s_desc, s_api, s_os: string;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -378,8 +398,15 @@ begin
     s_desc:= ReadString('info', 'desc', '');
     s_type:= ReadString('info', 'type', '');
     s_api:= ReadString('info', 'api', '');
+    s_os:= ReadString('info', 'os', '');
   finally
     Free
+  end;
+
+  if not IsOSValueOk(s_os) then
+  begin
+    MsgBox(Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
+    exit
   end;
 
   if (s_api<>'') and (s_api>cAppApiVersion) then
