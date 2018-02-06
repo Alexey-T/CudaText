@@ -145,7 +145,7 @@
 
   //If text size is bigger than this option, lexer analysis becomes delayed,
   //ie only after last text change + pause (during this pause you'll see non-colored text)
-  "lexer_delayed_parsing_size": 0, //100000,
+  "lexer_delayed_parsing_size": 0,
   
   //Delayed lexer analysis: pause in msec
   "lexer_delayed_parsing_pause": 250,
