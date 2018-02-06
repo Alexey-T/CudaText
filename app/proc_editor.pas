@@ -115,14 +115,15 @@ end;
 
 procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 var
-  i: integer;
+  NIndex, i: integer;
 begin
   for i:= 0 to ed.Strings.Count-1 do
   begin
-    if ed.Strings.LinesBm[i]=0 then
-      ed.Strings.LinesBm[i]:= 1
+    NIndex:= ed.Strings.Bookmarks.Find(i);
+    if NIndex>=0 then
+      ed.Strings.Bookmarks.Delete(NIndex)
     else
-      ed.Strings.LinesBm[i]:= 0;
+      ed.Strings.Bookmarks.Add(i, 1, '');
   end;
   ed.Update;
 end;
