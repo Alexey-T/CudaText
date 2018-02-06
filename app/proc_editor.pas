@@ -1057,23 +1057,20 @@ end;
 
 procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
 var
-  bMod: boolean;
-  i: integer;
+  NCount, NLine, i: integer;
 begin
-  bMod:= false;
-  for i:= Ed.Strings.Count-1 downto 0 do
-    if Ed.Strings.LinesBm[i]>0 then
-    begin
-      Ed.Strings.LineDelete(i);
-      bMod:= true;
-    end;
+  NCount:= Ed.Strings.Bookmarks.Count;
+  if NCount=0 then exit;
 
-  if bMod then
+  for i:= NCount-1 downto 0 do
   begin
-    Ed.UpdateIncorrectCaretPositions;
-    Ed.Update(true);
-    Ed.DoEventChange;
+    NLine:= Ed.Strings.Bookmarks[i].LineNum;
+    Ed.Strings.LineDelete(NLine);
   end;
+
+  Ed.UpdateIncorrectCaretPositions;
+  Ed.Update(true);
+  Ed.DoEventChange;
 end;
 
 
