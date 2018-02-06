@@ -37,7 +37,6 @@ procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBo
 procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 procedure EditorBookmarkClearAll(ed: TATSynEdit);
 procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
-function EditorBookmarkIsStandard(NKind: integer): boolean;
 procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
 procedure EditorBookmarkPlaceBookmarksOnCarets(ed: TATSynEdit);
 procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
@@ -908,11 +907,6 @@ begin
   Result:= '';
   if Ed.Carets.Count=0 then exit;
   Result:= Ed.DoGetLinkAtPos(Ed.Carets[0].PosX, Ed.Carets[0].PosY);
-end;
-
-function EditorBookmarkIsStandard(NKind: integer): boolean;
-begin
-  Result:= (NKind<=1) or (NKind>=240);
 end;
 
 function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boolean;
