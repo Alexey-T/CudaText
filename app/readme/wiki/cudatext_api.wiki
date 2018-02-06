@@ -2227,6 +2227,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.223 (app 1.39.1)
+* add: install.inf supports param [info] os=, value is comma separated strings: win, linux, macos
 * add: menu_proc: support for spec menu id "_oplugins"
 
 1.0.222 (app 1.38.5)
