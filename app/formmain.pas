@@ -2393,19 +2393,19 @@ var
   Num, NumMax: integer;
   items: TStringlist;
   str: atString;
-  i: integer;
+  NLine, i: integer;
 begin
   Ed:= CurrentEditor;
   NumMax:= Ed.Strings.Count-1;
   items:= TStringlist.Create;
 
   try
-    for i:= 0 to ed.Strings.Count-1 do
-      if ed.Strings.LinesBm[i]>0 then
-      begin
-        str:= cHintScrollPrefix + Inttostr(i+1) + ': ' + ed.Strings.Lines[i];
-        items.AddObject(Utf8Encode(str), TObject(ptrint(i)));
-      end;
+    for i:= 0 to ed.Strings.Bookmarks.Count-1 do
+    begin
+      NLine:= ed.Strings.Bookmarks[i].LineNum;
+      str:= cHintScrollPrefix + IntToStr(NLine+1) + ': ' + ed.Strings.LineSub(NLine, 1, 150);
+      items.AddObject(Utf8Encode(str), TObject(PtrInt(NLine)));
+    end;
 
     if items.Count=0 then
     begin
