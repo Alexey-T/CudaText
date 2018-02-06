@@ -2238,6 +2238,7 @@ Text is chr(1) separated items:
 1.0.224 (app 1.39.1)
 * add: dlg_proc: control prop "ex"
 * deprecated: dlg_proc/dlg_custom prop "props" - now use "ex0"..."ex9"
+* deprecated: BOOKMARK_CLEAR_HINTS
 
 1.0.223 (app 1.39.0.5)
 * add: install.inf supports param [info] os=, value is comma separated strings: win, linux, macos
