@@ -32,6 +32,7 @@ uses
   proc_globdata,
   proc_editor,
   proc_scrollbars,
+  formconsole,
   PythonEngine;
 
 procedure DoDialogCustom(const ATitle: string;
@@ -1305,6 +1306,10 @@ begin
 
   if AName='props' then
   begin
+    //
+    ////uncomment later:
+    //fmConsole.DoLogConsoleLine('Deprecated API: dlg_proc "props" for "'+TAppControlProps(C.Tag).FTypeString+'"');
+    //
     DoControl_SetPropsFromString_Adv(C, AValue);
     exit;
   end;
