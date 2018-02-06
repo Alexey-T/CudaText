@@ -1331,7 +1331,7 @@ begin
 
         BOOKMARK_CLEAR_HINTS:
           begin
-            Ed.Strings.ClearHints;
+            //Ed.Strings.ClearHints;
             Result:= ReturnNone;
           end;
 
