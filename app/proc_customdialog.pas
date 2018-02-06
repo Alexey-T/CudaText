@@ -1231,6 +1231,8 @@ end;
 
 
 procedure DoControl_SetPropFromPair(C: TControl; AName, AValue: string);
+var
+  Num: integer;
 begin
   if AName='name' then
   begin
@@ -1316,6 +1318,14 @@ begin
   if AName='val' then
   begin
     DoControl_SetStateFromString(C, AValue);
+    exit;
+  end;
+
+  if SBeginsWith(AName, 'ex') then
+  begin
+    Num:= StrToIntDef(Copy(AName, 3, MaxInt), -1);
+    if Num>=0 then
+      DoControl_SetEx(C, AValue, Num);
     exit;
   end;
 
