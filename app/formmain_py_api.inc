@@ -1253,9 +1253,8 @@ var
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
-  NId, NLine, NKind, NColor: integer;
+  NId, NLine, NKind, NColor, NCount: integer;
   ComArray: Variant;
-  List: TList;
   i: Integer;
 begin
   with GetPythonEngine do
@@ -1306,28 +1305,17 @@ begin
 
         BOOKMARK_GET_LIST:
           begin
-            List:= TList.Create;
-            try
-              for i:= 0 to Ed.Strings.Count-1 do
-              begin
-                if Ed.Strings.LinesBm[i]>0 then
-                  List.Add(Pointer(PtrInt(i)));
-              end;
-
-              if List.Count>0 then
-              begin
-                ComArray:= VarArrayCreate([0, List.Count-1], varInteger);
-                for i:= 0 to List.Count-1 do
-                  ComArray[i]:= PtrInt(List[i]);
-                Result:= VariantAsPyObject(ComArray);
-              end
-              else
-                Result:= ReturnNone;
-            finally
-              FreeAndNil(List);
-            end;
+            NCount:= Ed.Strings.Bookmarks.Count;
+            if NCount>0 then
+            begin
+              ComArray:= VarArrayCreate([0, NCount-1], varInteger);
+              for i:= 0 to NCount-1 do
+                ComArray[i]:= Ed.Strings.Bookmarks[i].LineNum;
+              Result:= VariantAsPyObject(ComArray);
+            end
+            else
+              Result:= ReturnNone;
           end;
-
 
         BOOKMARK_CLEAR_HINTS:
           begin
