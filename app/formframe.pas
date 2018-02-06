@@ -2052,7 +2052,7 @@ begin
     begin
       nTop:= StrToIntDef(items[i], -1);
       if Editor.Strings.IsIndexValid(nTop) then
-        Editor.Strings.LinesBm[nTop]:= 1;
+        Editor.Strings.Bookmarks.Add(nTop, 1, '');
     end;
   finally
     FreeAndNil(items);

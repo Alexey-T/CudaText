@@ -1272,7 +1272,12 @@ begin
       case NId of
         BOOKMARK_GET:
           begin
-            Result:= PyInt_FromLong(Ed.Strings.LinesBm[NLine]);
+            i:= Ed.Strings.Bookmarks.Find(NLine);
+            if i>=0 then
+              NKind:= Ed.Strings.Bookmarks[i].Kind
+            else
+              NKind:= 0;
+            Result:= PyInt_FromLong(NKind);
           end;
 
         BOOKMARK_SET:
