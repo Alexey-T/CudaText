@@ -857,152 +857,209 @@ begin
 end;
 
 
-procedure DoControl_SetPropsFromString_Adv(C: TControl; S: string);
+procedure DoControl_SetEx(C: TControl; const S: string; AIndex: integer);
 const
   cResizeStyle: array[boolean] of TResizeStyle = (rsPattern, rsUpdate);
 begin
   if C is TButton then
   begin
-    (C as TButton).Default:= AppStrToBool(SGetItem(S));
+    case AIndex of
+      0: (C as TButton).Default:= AppStrToBool(S);
+    end;
     exit
   end;
 
   if C is TSpinEdit then
   begin
-    (C as TSpinEdit).MinValue:= StrToIntDef(SGetItem(S), 0);
-    (C as TSpinEdit).MaxValue:= StrToIntDef(SGetItem(S), 100);
-    (C as TSpinEdit).Increment:= StrToIntDef(SGetItem(S), 1);
+    case AIndex of
+      0: (C as TSpinEdit).MinValue:= StrToIntDef(S, 0);
+      1: (C as TSpinEdit).MaxValue:= StrToIntDef(S, 100);
+      2: (C as TSpinEdit).Increment:= StrToIntDef(S, 1);
+    end;
     exit
   end;
 
   if C is TATLabelLink then
   begin
-    (C as TATLabelLink).Link:= S;
+    case AIndex of
+      0: (C as TATLabelLink).Link:= S;
+    end;
     exit
   end;
 
   if C is TLabel then
   begin
-    if AppStrToBool(SGetItem(S)) then
-    begin
-      (C as TLabel).AutoSize:= false;
-      (C as TLabel).Alignment:= taRightJustify;
+    case AIndex of
+      0:
+        begin
+          if AppStrToBool(S) then
+          begin
+            (C as TLabel).AutoSize:= false;
+            (C as TLabel).Alignment:= taRightJustify;
+          end;
+        end;
     end;
     exit
   end;
 
   if (C is TEdit) or (C is TMemo) then
   begin
-    //RO
-    if AppStrToBool(SGetItem(S)) then
-    begin
-      (C as TCustomEdit).ReadOnly:= true;
-      TCustomEditHack(C).ParentColor:= true;
+    case AIndex of
+      0: //RO
+        begin
+          if AppStrToBool(S) then
+          begin
+            (C as TCustomEdit).ReadOnly:= true;
+            TCustomEditHack(C).ParentColor:= true;
+          end;
+        end;
+      1: //Monospaced
+        begin
+          if AppStrToBool(S) then
+          begin
+            C.Font.Name:= 'Courier New';
+            {$ifdef windows}
+            C.Font.Size:= 9;
+            {$endif}
+          end;
+        end;
+      2: //Border
+        begin
+          (C as TCustomEdit).BorderStyle:= cControlBorderStyles[AppStrToBool(S)];
+        end;
     end;
-    //Monospaced
-    if AppStrToBool(SGetItem(S)) then
-    begin
-      C.Font.Name:= 'Courier New';
-      {$ifdef windows}
-      C.Font.Size:= 9;
-      {$endif}
-    end;
-    //Border
-    (C as TCustomEdit).BorderStyle:= cControlBorderStyles[AppStrToBool(SGetItem(S))];
-
     exit;
   end;
 
   if (C is TListView) then
   begin
-    (C as TListView).GridLines:= AppStrToBool(SGetItem(S));
+    case AIndex of
+      0: (C as TListView).GridLines:= AppStrToBool(S);
+    end;
     exit
   end;
 
   if (C is TTabControl) then
   begin
-    if AppStrToBool(S) then
-      (C as TTabControl).TabPosition:= tpBottom;
+    case AIndex of
+      0:
+        begin
+          if AppStrToBool(S) then
+            (C as TTabControl).TabPosition:= tpBottom;
+        end;
+    end;
     exit
   end;
 
   if (C is TATPanelColor) then
   begin
-    (C as TATPanelColor).BorderWidth:= StrToIntDef(SGetItem(S), 0);
-    (C as TATPanelColor).Color:= StrToIntDef(SGetItem(S), clDefault);
-    (C as TATPanelColor).Font.Color:= StrToIntDef(SGetItem(S), clDefault);
-    (C as TATPanelColor).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
+    case AIndex of
+      0: (C as TATPanelColor).BorderWidth:= StrToIntDef(S, 0);
+      1: (C as TATPanelColor).Color:= StrToIntDef(S, clDefault);
+      2: (C as TATPanelColor).Font.Color:= StrToIntDef(S, clDefault);
+      3: (C as TATPanelColor).BorderColor:= StrToIntDef(S, clBlack);
+    end;
     exit
   end;
 
   if (C is TBevel) then
   begin
-    (C as TBevel).Shape:= TBevelShape(StrToIntDef(SGetItem(S), 1{bsFrame}));
+    case AIndex of
+      0: (C as TBevel).Shape:= TBevelShape(StrToIntDef(S, 1{bsFrame}));
+    end;
     exit;
   end;
 
   if (C is TImage) then
   begin
-    (C as TImage).Center:= AppStrToBool(SGetItem(S));
-    (C as TImage).Stretch:= AppStrToBool(SGetItem(S));
-    (C as TImage).StretchInEnabled:= AppStrToBool(SGetItem(S));
-    (C as TImage).StretchOutEnabled:= AppStrToBool(SGetItem(S));
-    (C as TImage).KeepOriginXWhenClipped:= AppStrToBool(SGetItem(S));
-    (C as TImage).KeepOriginYWhenClipped:= AppStrToBool(SGetItem(S));
+    case AIndex of
+      0: (C as TImage).Center:= AppStrToBool(S);
+      1: (C as TImage).Stretch:= AppStrToBool(S);
+      2: (C as TImage).StretchInEnabled:= AppStrToBool(S);
+      3: (C as TImage).StretchOutEnabled:= AppStrToBool(S);
+      4: (C as TImage).KeepOriginXWhenClipped:= AppStrToBool(S);
+      5: (C as TImage).KeepOriginYWhenClipped:= AppStrToBool(S);
+    end;
     exit
   end;
 
   if (C is TTrackBar) then
   begin
-    (C as TTrackBar).Orientation:= TTrackBarOrientation(StrToIntDef(SGetItem(S), 0));
-    (C as TTrackBar).Min:= StrToIntDef(SGetItem(S), 0);
-    (C as TTrackBar).Max:= StrToIntDef(SGetItem(S), 100);
-    (C as TTrackBar).LineSize:= StrToIntDef(SGetItem(S), 1);
-    (C as TTrackBar).PageSize:= StrToIntDef(SGetItem(S), 10);
-    (C as TTrackBar).Reversed:= AppStrToBool(SGetItem(S));
-    (C as TTrackBar).TickMarks:= TTickMark(StrToIntDef(SGetItem(S), 0));
-    (C as TTrackBar).TickStyle:= TTickStyle(StrToIntDef(SGetItem(S), 0));
+    case AIndex of
+      0: (C as TTrackBar).Orientation:= TTrackBarOrientation(StrToIntDef(S, 0));
+      1: (C as TTrackBar).Min:= StrToIntDef(S, 0);
+      2: (C as TTrackBar).Max:= StrToIntDef(S, 100);
+      3: (C as TTrackBar).LineSize:= StrToIntDef(S, 1);
+      4: (C as TTrackBar).PageSize:= StrToIntDef(S, 10);
+      5: (C as TTrackBar).Reversed:= AppStrToBool(S);
+      6: (C as TTrackBar).TickMarks:= TTickMark(StrToIntDef(S, 0));
+      7: (C as TTrackBar).TickStyle:= TTickStyle(StrToIntDef(S, 0));
+    end;
     exit;
   end;
 
   if (C is TProgressBar) then
   begin
-    (C as TProgressBar).Orientation:= TProgressBarOrientation(StrToIntDef(SGetItem(S), 0));
-    (C as TProgressBar).Min:= StrToIntDef(SGetItem(S), 0);
-    (C as TProgressBar).Max:= StrToIntDef(SGetItem(S), 100);
-    (C as TProgressBar).Smooth:= AppStrToBool(SGetItem(S));
-    (C as TProgressBar).Step:= StrToIntDef(SGetItem(S), 1);
-    (C as TProgressBar).Style:= TProgressBarStyle(StrToIntDef(SGetItem(S), 0));
-    (C as TProgressBar).BarShowText:= AppStrToBool(SGetItem(S));
+    case AIndex of
+      0: (C as TProgressBar).Orientation:= TProgressBarOrientation(StrToIntDef(S, 0));
+      1: (C as TProgressBar).Min:= StrToIntDef(S, 0);
+      2: (C as TProgressBar).Max:= StrToIntDef(S, 100);
+      3: (C as TProgressBar).Smooth:= AppStrToBool(S);
+      4: (C as TProgressBar).Step:= StrToIntDef(S, 1);
+      5: (C as TProgressBar).Style:= TProgressBarStyle(StrToIntDef(S, 0));
+      6: (C as TProgressBar).BarShowText:= AppStrToBool(S);
+    end;
     exit;
   end;
 
   if (C is TGauge) then
   begin
-    (C as TGauge).Kind:= TGaugeKind(StrToIntDef(SGetItem(S), 0));
-    (C as TGauge).MinValue:= StrToIntDef(SGetItem(S), 0);
-    (C as TGauge).MaxValue:= StrToIntDef(SGetItem(S), 100);
-    (C as TGauge).ShowText:= AppStrToBool(SGetItem(S));
-    (C as TGauge).BackColor:= StrToIntDef(SGetItem(S), clWhite);
-    (C as TGauge).ForeColor:= StrToIntDef(SGetItem(S), clNavy);
-    (C as TGauge).BorderColor:= StrToIntDef(SGetItem(S), clBlack);
+    case AIndex of
+      0: (C as TGauge).Kind:= TGaugeKind(StrToIntDef(S, 0));
+      1: (C as TGauge).MinValue:= StrToIntDef(S, 0);
+      2: (C as TGauge).MaxValue:= StrToIntDef(S, 100);
+      3: (C as TGauge).ShowText:= AppStrToBool(S);
+      4: (C as TGauge).BackColor:= StrToIntDef(S, clWhite);
+      5: (C as TGauge).ForeColor:= StrToIntDef(S, clNavy);
+      6: (C as TGauge).BorderColor:= StrToIntDef(S, clBlack);
+    end;
     exit;
   end;
 
   if (C is TSplitter) then
   begin
-    (C as TSplitter).Beveled:= AppStrToBool(SGetItem(S));
-    (C as TSplitter).ResizeStyle:= cResizeStyle[AppStrToBool(SGetItem(S))];
-    (C as TSplitter).AutoSnap:= AppStrToBool(SGetItem(S));
-    (C as TSplitter).MinSize:= StrToIntDef(SGetItem(S), (C as TSplitter).MinSize);
+    case AIndex of
+      0: (C as TSplitter).Beveled:= AppStrToBool(S);
+      1: (C as TSplitter).ResizeStyle:= cResizeStyle[AppStrToBool(S)];
+      2: (C as TSplitter).AutoSnap:= AppStrToBool(S);
+      3: (C as TSplitter).MinSize:= StrToIntDef(S, (C as TSplitter).MinSize);
+    end;
     exit;
   end;
 
   if (C is TListViewFilterEdit) then
   begin
-    (C as TListViewFilterEdit).ByAllFields:= AppStrToBool(SGetItem(S));
+    case AIndex of
+      0: (C as TListViewFilterEdit).ByAllFields:= AppStrToBool(S);
+    end;
     exit
   end;
+end;
+
+
+procedure DoControl_SetPropsFromString_Adv(C: TControl; S: string);
+var
+  SItem: string;
+  NIndex: integer;
+begin
+  NIndex:= 0;
+  repeat
+    SItem:= SGetItem(S);
+    if SItem<>'' then
+      DoControl_SetEx(C, SItem, NIndex);
+    Inc(NIndex);
+    if S='' then Break;
+  until false;
 end;
 
 
