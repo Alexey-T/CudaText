@@ -147,7 +147,7 @@ begin
     if n>=ed.Strings.Count then n:= 0;
     if n<0 then n:= ed.Strings.Count-1;
 
-    if ed.Strings.LinesBm[n]>0 then
+    if ed.Strings.Bookmarks.Find(n)>=0 then
     begin
       ed.DoGotoPos(
         Point(0, n),
