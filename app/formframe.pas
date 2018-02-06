@@ -1921,11 +1921,11 @@ begin
 
   items:= TStringList.Create;
   try
-    for i:= 0 to Editor.Strings.Count-1 do
+    for i:= 0 to Editor.Strings.Bookmarks.Count-1 do
     begin
-      N:= Editor.Strings.LinesBm[i];
-      if (N>0) and EditorBookmarkIsStandard(N) then
-        items.Add(IntToStr(i));
+      //save only std bookmarks, most of plugins with own bookmarks (kind>1) don't need it
+      if Editor.Strings.Bookmarks[i].Kind=1 then
+        items.Add(IntToStr(Editor.Strings.Bookmarks[i].LineNum));
     end;
     c.SetValue(path+cHistory_Bookmark, items);
   finally
