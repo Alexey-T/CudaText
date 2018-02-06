@@ -7,8 +7,9 @@
 1.39.1 (2018/02)
 
 * change: to fix rarely visible bug with syntax hilite, changed default of option "lexer_delayed_parsing_size" to 0, ie delayed-parsing is always enabled
++ add: support several more HTML5 tags
 + add: sidebar theme "octicons light 20x20"
-- fix: Tabs List plugin didn't work
+- fix: Tabs List plugin (used deleted API)
 
 1.39.0 (2018/01)
 
