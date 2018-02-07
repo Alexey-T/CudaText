@@ -1617,9 +1617,9 @@ begin
 
   NTickShowEnd:= GetTickCount64;
   fmConsole.DoLogConsoleLine(Format(
-    'Startup: total: %dms, including show: %dms, including plugins: %dms', [
+    'Startup: total: %dms, including plugins: %dms', [
     NTickShowEnd-NTickInitial,
-    NTickShowEnd-NTickShowBegin,
+    //NTickShowEnd-NTickShowBegin,
     NTickPluginEnd-NTickPluginBegin
     ]));
 end;
