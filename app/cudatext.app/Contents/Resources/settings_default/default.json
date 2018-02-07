@@ -148,7 +148,7 @@
   "lexer_delayed_parsing_size": 100000,
   
   //Delayed lexer analysis: pause in msec
-  "lexer_delayed_parsing_pause": 500,
+  "lexer_delayed_parsing_pause": 400,
 
   //[Text]
   //Style of folding

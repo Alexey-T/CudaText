@@ -869,9 +869,9 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 * "subdir" field (required)
 ** for plugins it should begin with prefix "cuda_"
 ** for lexers it should be "-"
-* "homepage" field, repo URL on GitHub or another site
-* "api" field, optional string of required API version, specify if plugin cannot work on older API
-
+* "homepage" field, source code repository URL (usually on GitHub)
+* "api" field, optional, minimal required API version (3 numbers dot-separated)
+* "os" field, optional, comma-separated list of supported OS names: win, linux, macos
 
 === Plugins ===
 

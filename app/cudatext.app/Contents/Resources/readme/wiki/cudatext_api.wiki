@@ -612,6 +612,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "name": optional name of control. It may be not unique for all controls. 
 * "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "props": advanced control-specific properties. Described below.
+* "ex0", "ex1" etc: advanced control-specific properties. Described below.
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
@@ -642,71 +643,79 @@ Action DLG_CTL_PROP_GET also gets key "items" (in the same format) for these con
 
 ====Prop "props"====
 
-Advanced control-specific properties, set by "props".
+Deprecated. Tuple of advanced control-specific properties. See description of prop "ex". If some control supports 4 props, "ex0" to "ex3", then "props" must be 4-tuple for it. If some control supports only "ex0", then "props" must be one value, same as "ex0".  
 
-* For dlg_custom, must be str with items ","-separated, "0"/"1" for bool. 
-* For dlg_proc, can also use simple types bool/int/str or tuple of simple types, e.g. (True,False) instead of "1,0".
+* For dlg_custom, "props" must be str with ","-separated items, and "0"/"1" for bool items. 
+* For dlg_proc, "props" must be simple type or tuple of simple types, e.g. (True, False, 2).
 
-Value of "props" is control-specific:
+====Prop "ex"====
 
-* button: bool_default_for_enter
+Props "ex0", "ex1"... are control-specific. They have different type (str, bool, int...).
+
+* button:
+** "ex0": bool_default_for_enter
 * edit, memo: 
-** bool_read_only
-** bool_font_monospaced
-** bool_show_border
+** "ex0": bool_read_only
+** "ex1": bool_font_monospaced
+** "ex2": bool_show_border
 * spinedit: 
-** int_min_value
-** int_max_value
-** int_increment
-* label: bool_right_aligned
-* linklabel: URL (clicking on "http:" or "mailto:" should work, result of clicking on other kinds depends on OS)
-* listview: bool_show_grid
-* tabs: bool_tabs_at_bottom
+** "ex0": int_min_value
+** "ex1": int_max_value
+** "ex2": int_increment
+* label: 
+** "ex0": bool_right_aligned
+* linklabel: 
+** "ex0": URL. Clicking on "http:" or "mailto:" should work, result of clicking on other kinds depends on OS.
+* listview: 
+** "ex0": bool_show_grid
+* tabs: 
+** "ex0": bool_tabs_at_bottom
 * colorpanel:
-** int_border_width_from_0
-** int_color_fill
-** int_color_font
-** int_color_border
-* filter_listview: bool_filter_by_all_columns
+** "ex0": int_border_width_from_0
+** "ex1": int_color_fill
+** "ex2": int_color_font
+** "ex3": int_color_border
+* filter_listview: 
+** "ex0": bool_filter_by_all_columns
 * image: 
-** bool_center
-** bool_stretch
-** bool_stretch_in_enabled
-** bool_stretch_out_enabled
-** bool_keep_origin_x_when_clipped
-** bool_keep_origin_y_when_clipped
+** "ex0": bool_center
+** "ex1": bool_stretch
+** "ex2": bool_stretch_in_enabled
+** "ex3": bool_stretch_out_enabled
+** "ex4": bool_keep_origin_x_when_clipped
+** "ex5": bool_keep_origin_y_when_clipped
 * trackbar:
-** int_orientation (0: horz, 1: vert)
-** int_min
-** int_max
-** int_line_size
-** int_page_size
-** bool_reversed
-** int_tick_marks (0: bottom-right, 1: top-left, 2: both)
-** int_tick_style (0: none, 1: auto, 2: manual)
+** "ex0": int_orientation (0: horz, 1: vert)
+** "ex1": int_min
+** "ex2": int_max
+** "ex3": int_line_size
+** "ex4": int_page_size
+** "ex5": bool_reversed
+** "ex6": int_tick_marks (0: bottom-right, 1: top-left, 2: both)
+** "ex7": int_tick_style (0: none, 1: auto, 2: manual)
 * progressbar:
-** int_orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down)
-** int_min
-** int_max
-** bool_smooth
-** int_step
-** int_style (0: normal, 1: marquee)
-** bool_show_text (only some OSes)
+** "ex0": int_orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down)
+** "ex1": int_min
+** "ex2": int_max
+** "ex3": bool_smooth
+** "ex4": int_step
+** "ex5": int_style (0: normal, 1: marquee)
+** "ex6": bool_show_text (only some OSes)
 * progressbar_ex:
-** int_style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie)
-** int_min
-** int_max
-** bool_show_text
-** int_color_back
-** int_color_fore
-** int_color_border
+** "ex0": int_style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie)
+** "ex1": int_min
+** "ex2": int_max
+** "ex3": bool_show_text
+** "ex4": int_color_back
+** "ex5": int_color_fore
+** "ex6": int_color_border
 * bevel:
-** int_shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
+** "ex0": int_shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
 * splitter:
-** bool_beveled
-** bool_instant_repaint
-** bool_auto_snap_to_edge
-** int_min_size
+** "ex0": bool_beveled
+** "ex1": bool_instant_repaint
+** "ex2": bool_auto_snap_to_edge
+** "ex3": int_min_size
 
 ====Result====
 
@@ -1255,7 +1264,8 @@ Value of "command" parameter for MENU_ADD can be:
 ** "_lexers": Lexers submenu
 ** "_plugins": Plugins submenu
 ** "_themes-ui": UI-themes submenu 
-** "_themes-syntax": Syntax-themes submenu 
+** "_themes-syntax": Syntax-themes submenu
+** "_oplugins": Settings-plugins submenu 
 
 * empty string, if item will be used as submenu (item is a submenu, if any subitems are added to it)
 
@@ -2224,6 +2234,15 @@ Text is chr(1) separated items:
 ** 's': search in selection
 
 =History=
+
+1.0.224 (app 1.39.1)
+* add: dlg_proc: control prop "ex"
+* deprecated: dlg_proc/dlg_custom prop "props" - now use "ex0"..."ex9"
+* deprecated: BOOKMARK_CLEAR_HINTS
+
+1.0.223 (app 1.39.0.5)
+* add: install.inf supports param [info] os=, value is comma separated strings: win, linux, macos
+* add: menu_proc: support for spec menu id "_oplugins"
 
 1.0.222 (app 1.38.5)
 * add: dlg_proc: form events "on_mouse_enter", "on_mouse_exit"

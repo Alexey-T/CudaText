@@ -1,4 +1,8 @@
 
+2018.01
++ support project variables {ProjMainFileNameOnly}, {ProjMainFileNameNoExt}
+- fix: avoid deprecated toolbar API 
+
 2017.11.24
 + added console messages on opening/saving project
 + show x icon for files deleted on disk

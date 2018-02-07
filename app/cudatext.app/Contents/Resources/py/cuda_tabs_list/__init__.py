@@ -92,9 +92,9 @@ class Command:
 
     def ed_of_sel(self):
         h_item = tree_proc(self.h_tree, TREE_ITEM_GET_SELECTED)
-        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROP, h_item)
+        prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROPS, h_item)
         if prop is None: return
-        index = prop[2] #image_index
+        index = prop['icon'] #image_index
         h = ed_handles()[index]
         e = Editor(h)
         return e
