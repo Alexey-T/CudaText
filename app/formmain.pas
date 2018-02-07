@@ -1560,11 +1560,10 @@ end;
 
 procedure TfmMain.FormShow(Sender: TObject);
 var
-  NTickShowBegin, NTickShowEnd,
+  NTickShowEnd,
   NTickPluginBegin, NTickPluginEnd: QWord;
 begin
   if FHandledOnShow then exit;
-  NTickShowBegin:= GetTickCount64;
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
@@ -1619,7 +1618,6 @@ begin
   fmConsole.DoLogConsoleLine(Format(
     'Startup: total: %dms, including plugins: %dms', [
     NTickShowEnd-NTickInitial,
-    //NTickShowEnd-NTickShowBegin,
     NTickPluginEnd-NTickPluginBegin
     ]));
 end;
