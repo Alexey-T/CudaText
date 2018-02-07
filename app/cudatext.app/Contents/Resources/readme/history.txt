@@ -4,9 +4,9 @@
   * changed
 
 
-1.39.5 (2018/02)
+1.40.0 (2018/02)
 
-+ add: bookmarks support is rewritten. Now a bookmark is not deleted when its line is deleted. And smaller memory usage of text storage.
++ add: bookmarks support is rewritten. Now a bookmark is not deleted when its line is deleted. And memory usage of text storage is smaller now.
 + add: show "startup time" in console panel
 + add: support some more HTML5 tags
 + add: sidebar theme "octicons light 20x20"
