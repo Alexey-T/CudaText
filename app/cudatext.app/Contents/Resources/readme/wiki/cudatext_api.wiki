@@ -611,8 +611,8 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "font_color": font color
 * "name": optional name of control. It may be not unique for all controls. 
 * "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
+* "ex0"..."ex9": advanced control-specific properties. Described below.
 * "props": advanced control-specific properties. Described below.
-* "ex0", "ex1" etc: advanced control-specific properties. Described below.
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
@@ -650,72 +650,72 @@ Deprecated. Tuple of advanced control-specific properties. See description of pr
 
 ====Prop "ex"====
 
-Props "ex0", "ex1"... are control-specific. They have different type (str, bool, int...).
+Props "ex0"..."ex9" are control-specific. They have different simple type (str, bool, int...).
 
 * button:
-** "ex0": bool_default_for_enter
+** "ex0": bool: default for Enter key
 * edit, memo: 
-** "ex0": bool_read_only
-** "ex1": bool_font_monospaced
-** "ex2": bool_show_border
+** "ex0": bool: read-only
+** "ex1": bool: font is monospaced
+** "ex2": bool: show border
 * spinedit: 
-** "ex0": int_min_value
-** "ex1": int_max_value
-** "ex2": int_increment
+** "ex0": int: min value
+** "ex1": int: max value
+** "ex2": int: increment
 * label: 
-** "ex0": bool_right_aligned
+** "ex0": bool: right aligned
 * linklabel: 
-** "ex0": URL. Clicking on "http:" or "mailto:" should work, result of clicking on other kinds depends on OS.
+** "ex0": str: URL. Should not have ",". Clicking on http:/mailto: URLs should work, result of clicking on other kinds depends on OS.
 * listview: 
-** "ex0": bool_show_grid
+** "ex0": bool: show grid lines
 * tabs: 
-** "ex0": bool_tabs_at_bottom
+** "ex0": bool: show tabs at bottom
 * colorpanel:
-** "ex0": int_border_width_from_0
-** "ex1": int_color_fill
-** "ex2": int_color_font
-** "ex3": int_color_border
+** "ex0": int: border width (from 0)
+** "ex1": int: color of fill
+** "ex2": int: color of font
+** "ex3": int: color of border
 * filter_listview: 
-** "ex0": bool_filter_by_all_columns
+** "ex0": bool: filter works for all columns
 * image: 
-** "ex0": bool_center
-** "ex1": bool_stretch
-** "ex2": bool_stretch_in_enabled
-** "ex3": bool_stretch_out_enabled
-** "ex4": bool_keep_origin_x_when_clipped
-** "ex5": bool_keep_origin_y_when_clipped
+** "ex0": bool: center picture
+** "ex1": bool: stretch picture
+** "ex2": bool: allow stretch in
+** "ex3": bool: allow stretch out
+** "ex4": bool: keep origin x, when big picture clipped
+** "ex5": bool: keep origin y, when big picture clipped
 * trackbar:
-** "ex0": int_orientation (0: horz, 1: vert)
-** "ex1": int_min
-** "ex2": int_max
-** "ex3": int_line_size
-** "ex4": int_page_size
-** "ex5": bool_reversed
-** "ex6": int_tick_marks (0: bottom-right, 1: top-left, 2: both)
-** "ex7": int_tick_style (0: none, 1: auto, 2: manual)
+** "ex0": int: orientation (0: horz, 1: vert)
+** "ex1": int: min value
+** "ex2": int: max value
+** "ex3": int: line size
+** "ex4": int: page size
+** "ex5": bool: reversed
+** "ex6": int: tick marks position (0: bottom-right, 1: top-left, 2: both)
+** "ex7": int: tick style (0: none, 1: auto, 2: manual)
 * progressbar:
-** "ex0": int_orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down)
-** "ex1": int_min
-** "ex2": int_max
-** "ex3": bool_smooth
-** "ex4": int_step
-** "ex5": int_style (0: normal, 1: marquee)
-** "ex6": bool_show_text (only some OSes)
+** "ex0": int: orientation (0: horz, 1: vert, 2: right-to-left, 3: top-down)
+** "ex1": int: min value
+** "ex2": int: max value
+** "ex3": bool: smooth bar
+** "ex4": int: step
+** "ex5": int: style (0: normal, 1: marquee)
+** "ex6": bool: show text (only for some OSes)
 * progressbar_ex:
-** "ex0": int_style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie)
-** "ex1": int_min
-** "ex2": int_max
-** "ex3": bool_show_text
-** "ex4": int_color_back
-** "ex5": int_color_fore
-** "ex6": int_color_border
+** "ex0": int: style (0: text only, 1: horz bar, 2: vert bar, 3: pie, 4: needle, 5: half-pie)
+** "ex1": int: min value
+** "ex2": int: max value
+** "ex3": bool: show text
+** "ex4": int: color of background
+** "ex5": int: color of foreground
+** "ex6": int: color of border
 * bevel:
-** "ex0": int_shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
+** "ex0": int: shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
 * splitter:
-** "ex0": bool_beveled
-** "ex1": bool_instant_repaint
-** "ex2": bool_auto_snap_to_edge
-** "ex3": int_min_size
+** "ex0": bool: beveled style
+** "ex1": bool: instant repainting
+** "ex2": bool: auto snap to edge
+** "ex3": int: min size
 
 ====Result====
 
