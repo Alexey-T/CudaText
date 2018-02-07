@@ -1556,8 +1556,11 @@ begin
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
+var
+  NTickBegin, NTickPluginBegin, NTickPluginEnd, NTickEnd: QWord;
 begin
   if FHandledOnShow then exit;
+  NTickBegin:= GetTickCount64;
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
@@ -1578,8 +1581,11 @@ begin
   FAllowLoadKeymap:= true;
   DoOps_LoadKeymap;
 
+  NTickPluginBegin:= GetTickCount64;
   DoPyEvent(CurrentEditor, cEventOnFocus, []);
   DoPyEvent(CurrentEditor, cEventOnStart, []);
+  NTickPluginEnd:= GetTickCount64;
+
   DoOps_LoadHistory_AfterOnStart;
 
   UpdateMenuPlugins;
@@ -1604,6 +1610,12 @@ begin
     Width:= StrToIntDef(SGetItem(FOption_WindowPos), Width);
     Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
   end;
+
+  NTickEnd:= GetTickCount64;
+  fmConsole.DoLogConsoleLine(Format('Startup: %dms, including plugins startup: %dms', [
+    NTickEnd-NTickBegin,
+    NTickPluginEnd-NTickPluginBegin
+    ]));
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject);
