@@ -2235,12 +2235,12 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.224 (app 1.39.1)
+1.0.224 (app 1.39.5)
 * add: dlg_proc: control prop "ex"
 * deprecated: dlg_proc/dlg_custom prop "props" - now use "ex0"..."ex9"
 * deprecated: BOOKMARK_CLEAR_HINTS
 
-1.0.223 (app 1.39.0.5)
+1.0.223 (app 1.39.1)
 * add: install.inf supports param [info] os=, value is comma separated strings: win, linux, macos
 * add: menu_proc: support for spec menu id "_oplugins"
 
