@@ -8,6 +8,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
+  SysUtils,
   Forms, lazcontrols, uniqueinstance_package, FormMain, FormConsole, proc_str,
   proc_py, proc_py_const, proc_globdata, FormFrame, form_menu_commands,
   formgoto, proc_cmd, form_menu_list, formsavetabs, formconfirmrep,
@@ -21,6 +22,7 @@ uses
 {$R *.res}
 
 begin
+  NTickInitial:= GetTickCount64;
   {$IFDEF WINDOWS}
   if IsAnotherInstanceRunning then Exit;
   {$IFEND}

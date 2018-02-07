@@ -912,6 +912,9 @@ type
 var
   fmMain: TfmMain;
 
+var
+  NTickInitial: QWord = 0;
+
 
 implementation
 
@@ -1557,10 +1560,11 @@ end;
 
 procedure TfmMain.FormShow(Sender: TObject);
 var
-  NTickBegin, NTickPluginBegin, NTickPluginEnd, NTickEnd: QWord;
+  NTickShowBegin, NTickShowEnd,
+  NTickPluginBegin, NTickPluginEnd: QWord;
 begin
   if FHandledOnShow then exit;
-  NTickBegin:= GetTickCount64;
+  NTickShowBegin:= GetTickCount64;
 
   DoOps_LoadCommandLineOptions;
   DoOps_LoadOptions(GetAppPath(cFileOptionsUser), EditorOps);
@@ -1611,9 +1615,11 @@ begin
     Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
   end;
 
-  NTickEnd:= GetTickCount64;
-  fmConsole.DoLogConsoleLine(Format('Startup: %dms, including plugins startup: %dms', [
-    NTickEnd-NTickBegin,
+  NTickShowEnd:= GetTickCount64;
+  fmConsole.DoLogConsoleLine(Format(
+    'Startup: total: %dms, including show: %dms, including plugins: %dms', [
+    NTickShowEnd-NTickInitial,
+    NTickShowEnd-NTickShowBegin,
     NTickPluginEnd-NTickPluginBegin
     ]));
 end;
