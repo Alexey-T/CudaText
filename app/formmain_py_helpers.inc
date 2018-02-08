@@ -69,6 +69,9 @@ begin
   if not PythonOK then exit;
   Frame:= CurrentFrame;
   if Frame=nil then exit;
+
+  if (AEvent=cEventOnFocus) and not FAllowOnFocus then exit;
+
   SCurLexer:= Frame.LexerName;
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
 

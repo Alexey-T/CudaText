@@ -563,6 +563,7 @@ type
     FOrigShowSideBar: boolean;
     FOrigShowTabs: boolean;
     FAllowLoadKeymap: boolean;
+    FAllowOnFocus: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
     FTreeClick: boolean;
@@ -1285,6 +1286,7 @@ begin
   FKeymapUndoList:= TATKeymapUndoList.Create;
   FKeymapLastLexer:= '??'; //not ''
   FAllowLoadKeymap:= false;
+  FAllowOnFocus:= false;
 
   FillChar(AppPanelProp_Out, SizeOf(AppPanelProp_Out), 0);
   FillChar(AppPanelProp_Val, SizeOf(AppPanelProp_Val), 0);
@@ -1585,7 +1587,6 @@ begin
   DoOps_LoadKeymap;
 
   NTickPluginBegin:= GetTickCount64;
-  DoPyEvent(CurrentEditor, cEventOnFocus, []);
   DoPyEvent(CurrentEditor, cEventOnStart, []);
   NTickPluginEnd:= GetTickCount64;
 
@@ -1599,8 +1600,6 @@ begin
   UpdateMenuHotkeys;
   UpdateMenuTabsize;
 
-  CurrentFrame.SetFocus;
-
   UpdateSidebarButtons;
   UpdateBottomButtons;
   UpdateStatus;
@@ -1613,6 +1612,10 @@ begin
     Width:= StrToIntDef(SGetItem(FOption_WindowPos), Width);
     Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
   end;
+
+  FAllowOnFocus:= true;
+  CurrentFrame.SetFocus;
+  //DoPyEvent(CurrentEditor, cEventOnFocus, []);
 
   NTickShowEnd:= GetTickCount64;
   fmConsole.DoLogConsoleLine(Format(
