@@ -161,6 +161,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_SYSTEM_PPI: Gets int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
 * PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Gets None for other values.
 * PROC_GET_MOUSE_POS: Gets mouse cursor position in screen-related coordinates, as (x, y) tuple.
+* PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 
 ====Clipboard====
 
@@ -611,8 +612,8 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "font_color": font color
 * "name": optional name of control. It may be not unique for all controls. 
 * "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
-* "ex0"..."ex9": advanced control-specific properties. Described below.
-* "props": advanced control-specific properties. Described below.
+* "ex0"..."ex9": advanced control-specific props. Described below.
+* "props": deprecated; advanced control-specific props. Described below.
 * "val": value of control. Described below.
 * "items": list of items. Described below.
 
@@ -816,7 +817,8 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 * "font_size": int: Font size.
 * "font_color": int: Font color.
 * "hint": str: Hint (tooltip) for mouse-over. Newlines must be "\r".
-* "props": str: Advanced control-specific props. Described in dlg_custom.
+* "ex0"..."ex9": Advanced control-specific props. Described in dlg_custom.
+* "props": Deprecated. Advanced control-specific props. Described in dlg_custom.
 * "items": str: Usually tab-separated items. Described in dlg_custom.
 * "val": str: Value of control. Described in dlg_custom.
 * "tag": str: Any string, set by plugin.
@@ -2234,6 +2236,9 @@ Text is chr(1) separated items:
 ** 's': search in selection
 
 =History=
+
+1.0.225 (app 1.40.0)
+* add: app_proc: PROC_SEND_MESSAGE
 
 1.0.224 (app 1.39.5)
 * add: dlg_proc: control prop "ex"

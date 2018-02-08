@@ -493,6 +493,9 @@
   
   //UI tabs: Width
   "ui_tab_size_x": 170,
+  
+  //UI tabs: Minimal width, used when lot of tabs appear
+  "ui_tab_size_x_min": 40,
 
   //UI tabs: Height
   "ui_tab_size_y": 25,
