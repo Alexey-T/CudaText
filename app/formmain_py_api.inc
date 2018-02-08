@@ -25,6 +25,20 @@ begin
 end;
 
 
+function AppSendMessageFromString(Str: string): integer;
+var
+  H: HWND;
+  Msg: Cardinal;
+  Param1, Param2: Longint;
+begin
+  H:= StrToInt64Def(SGetItem(Str), 0);
+  if H=0 then exit(0);
+  Msg:= StrToIntDef(SGetItem(Str), 0);
+  Param1:= StrToIntDef(SGetItem(Str), 0);
+  Param2:= StrToIntDef(SGetItem(Str), 0);
+  Result:= SendMessage(H, Msg, Param1, Param2);
+end;
+
 //func at begin
 function PyEditor(Handle: Int64): TATSynEdit;
 var
@@ -3287,6 +3301,9 @@ begin
 
         APP_PROC_ENUM_FONTS:
           Result:= StringsToPyList(Screen.Fonts);
+
+        APP_PROC_SEND_MESSAGE:
+          Result:= PyInt_FromLong(AppSendMessageFromString(Str));
 
         APP_PROC_SPLITTER_GET:
           begin

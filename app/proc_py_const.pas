@@ -237,6 +237,7 @@ const
   APP_PROC_COORD_MONITOR3 = 147;
 
   APP_PROC_ENUM_FONTS     = 160;
+  APP_PROC_SEND_MESSAGE   = 161;
 
   TREE_ITEM_ENUM             = 1;
   TREE_ITEM_ADD              = 2;
