@@ -905,6 +905,9 @@ Example of install.inf for plugin (plugin adds 2 menu items with menu separator 
 
 Section names: from "item1" to "item400", any numbers can be skipped. Fields in "item" sections:
 
+* "section": possible values are "commands", "events".
+* "caption": caption of menu item in Plugins menu. "\" separates menu levels. "&" makes accelerator hotkey. "-" as final level name, makes separator menu item.
+* "method": Python method name in Command class.
 * "lexers": comma-separated lexer names, means that command can be run only when such lexer(s) active.
 * "hotkey": value must be simple hotkey string (e.g. "Alt+F", "Ctrl+Shift+F1") or key combo separated by "|" (e.g. "Alt+F|F|G"). 
 ** If "lexers=" param missed, then hotkey saves to file "keys.json" for all lexers. 
