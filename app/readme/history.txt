@@ -7,10 +7,10 @@
 1.40.0 (2018/02)
 
 + add: bookmarks support is rewritten. Now a bookmark is not deleted when its line is deleted. And memory usage of text storage is smaller now.
++ add: option "ui_tab_size_x_min", so can set tabs always wide
 + add: show "startup time" in console panel
 + add: support some more HTML5 tags
 + add: sidebar theme "octicons light 20x20"
-+ add: plugins' install.inf file supports field "os"
 - fix: Tabs List plugin (used deleted API)
 
 1.39.0 (2018/01)

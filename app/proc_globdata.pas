@@ -120,6 +120,7 @@ type
     TabAngled: boolean;
     TabFlat: boolean;
     TabWidth: integer;
+    TabWidthMin: integer;
     TabHeight: integer;
     TabHeightInner: integer;
     TabSpacer: integer;
@@ -1094,6 +1095,7 @@ begin
     TabAngled:= {$ifdef darwin} false {$else} true {$endif};
     TabFlat:= false;
     TabWidth:= 170;
+    TabWidthMin:= 40;
     TabHeight:= 25;
     TabHeightInner:= TabHeight-1;
     TabSpacer:= 2;

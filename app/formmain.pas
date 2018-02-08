@@ -1963,6 +1963,7 @@ begin
   Groups.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
   Groups.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
   Groups.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
+  Groups.SetTabOption(tabOptionWidthMin, UiOps.TabWidthMin);
   Groups.SetTabOption(tabOptionWidthMax, UiOps.TabWidth);
   Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
   Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);

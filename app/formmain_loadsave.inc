@@ -708,6 +708,7 @@ begin
     UiOps.TabAngled:= c.GetValue('ui_tab_angled', UiOps.TabAngled);
     UiOps.TabFlat:= c.GetValue('ui_tab_flat', UiOps.TabFlat);
     UiOps.TabWidth:= c.GetValue('ui_tab_size_x', UiOps.TabWidth);
+    UiOps.TabWidthMin:= c.GetValue('ui_tab_size_x_min', UiOps.TabWidthMin);
     UiOps.TabHeight:= c.GetValue('ui_tab_size_y', UiOps.TabHeight);
     UiOps.TabHeightInner:= UiOps.TabHeight-1;
     UiOps.TabPosition:= c.GetValue('ui_tab_position', UiOps.TabPosition);
