@@ -715,7 +715,7 @@ type
     procedure SetThemeSyntax(const AValue: string);
     procedure SetThemeUi(const AValue: string);
     function SFindOptionsToTextHint: string;
-    procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
+    procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_ResetLexerSpecificOptions;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
@@ -1063,21 +1063,20 @@ begin
   FTreeClick:= false;
 end;
 
-procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
+procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
 var
   DataObj: TObject;
-  Rng: TATRangeInCodeTree;
 begin
-  P1:= Point(-1, -1);
-  P2:= Point(-1, -1);
+  APosBegin:= Point(-1, -1);
+  APosEnd:= Point(-1, -1);
   if ANode=nil then exit;
   if ANode.Data=nil then exit;
+
   DataObj:= TObject(ANode.Data);
   if DataObj is TATRangeInCodeTree then
-  begin
-    Rng:= TATRangeInCodeTree(DataObj);
-    CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(Rng, P1, P2);
-  end;
+    CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(
+      DataObj as TATRangeInCodeTree,
+      APosBegin, APosEnd);
 end;
 
 (*
