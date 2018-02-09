@@ -245,6 +245,9 @@ begin
   finally
     FreeAndNil(L)
   end;
+
+  //https://github.com/Alexey-T/CudaText/issues/1253
+  DoPyEvent(CurrentEditor, cEventOnStart, []);
 end;
 
 procedure TfmMain.DoPyRescanPlugins;
