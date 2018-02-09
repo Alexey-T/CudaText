@@ -791,41 +791,32 @@ begin
     exit;
   end;
 
-  with Frame do
+  while Frame.Adapter.TreeBusy do
   begin
-    while Adapter.TreeBusy do
-    begin
-      Application.ProcessMessages;
-      if Application.Terminated then exit;
-    end;
-
-    if AForceUpdateAll then
-    begin
-      Adapter.DoAnalize(Ed, true);
-      Ed.DoEventChange;
-    end;
-
-    if AFill then
-    begin
-      //CodeTree.Tree.BeginUpdate; //causes hang of CodeTree? disabled lock.
-      try
-        Adapter.TreeFill(CodeTree.Tree);
-        //Lazarus dont sort new items
-        if CodeTree.Tree.SortType<>stNone then
-          CodeTree.Tree.AlphaSort;
-      finally
-        //CodeTree.Tree.EndUpdate;
-      end;
-
-      //force update scrollbar
-      CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
-
-      if UiOps.TreeCache then
-        DoTreeviewCopy(CodeTree.Tree, Frame.CachedTreeview);
-    end;
-
-    UpdateTreeSelection;
+    Application.ProcessMessages;
+    if Application.Terminated then exit;
   end;
+
+  if AForceUpdateAll then
+  begin
+    Frame.Adapter.DoAnalize(Ed, true);
+    Ed.DoEventChange;
+  end;
+
+  if AFill then
+  begin
+    Frame.Adapter.TreeFill(Frame.CachedTreeview);
+
+    //Lazarus dont sort new items
+    if CodeTree.Tree.SortType<>stNone then
+      Frame.CachedTreeview.AlphaSort;
+
+    DoTreeviewCopy(Frame.CachedTreeview, CodeTree.Tree);
+    //force update scrollbar
+    CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
+  end;
+
+  UpdateTreeSelection;
 end;
 
 procedure TfmMain.UpdateTreeSelection;
