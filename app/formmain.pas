@@ -1046,17 +1046,21 @@ end;
 
 procedure TfmMain.DoPanel_TreeviewOnDblClick(Sender: TObject);
 var
-  R: TecTextRange;
-  P: TPoint;
+  Obj: TObject;
+  Rng: TecTextRange;
+  Pnt: TPoint;
 begin
   if CodeTree.Tree.Selected=nil then exit;
   if CodeTree.Tree.Selected.Data=nil then exit;
-  R:= TecTextRange(CodeTree.Tree.Selected.Data);
-  P:= CurrentFrame.Adapter.TreeGetPositionOfRange(R);
+  Obj:= TObject(CodeTree.Tree.Selected.Data);
+  if not (Obj is TecTextRange) then exit;
+
+  Rng:= Obj as TecTextRange;
+  Pnt:= CurrentFrame.Adapter.TreeGetPositionOfRange(Rng);
 
   FTreeClick:= true;
   CurrentEditor.DoGotoPos(
-    P,
+    Pnt,
     Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
