@@ -831,7 +831,10 @@ begin
   Caret:= Ed.Carets[0];
 
   if UiOps.TreeAutoSync then
-    Frame.Adapter.TreeShowItemForCaret(CodeTree.Tree, Point(Caret.PosX, Caret.PosY));
+    Frame.Adapter.TreeShowItemForCaret(
+      CodeTree.Tree,
+      Point(Caret.PosX, Caret.PosY)
+      );
 end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);
