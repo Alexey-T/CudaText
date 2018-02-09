@@ -403,7 +403,7 @@ type
   ATabModified, ATabActive: boolean; AImageIndex: integer;
   AFontStyle: TFontStyles);
     procedure DoPaintArrowTo(C: TCanvas; ATyp: TATTabTriangle; ARect: TRect;
-      AColorArr, AColorBg: TColor);
+      AColorArr: TColor);
     procedure DoPaintUserButtons(C: TCanvas);
     procedure DoPaintXTo(C: TCanvas; const R: TRect; ATabBg, ATabCloseBg,
       ATabCloseBorder, ATabCloseXMark: TColor);
@@ -671,6 +671,40 @@ begin
   C.LineTo(X2, Y2);
 end;
 
+procedure CanvasPaintTriangleDown(C: TCanvas; AColor: TColor; ACoord: TPoint; ASize: integer);
+begin
+  C.Brush.Color:= AColor;
+  C.Pen.Color:= AColor;
+  C.Polygon([
+    Point(ACoord.X - ASize*2, ACoord.Y - ASize),
+    Point(ACoord.X + ASize*2, ACoord.Y - ASize),
+    Point(ACoord.X, ACoord.Y + ASize)
+    ]);
+end;
+
+procedure CanvasPaintTriangleRight(C: TCanvas; AColor: TColor; ACoord: TPoint; ASize: integer);
+begin
+  C.Brush.Color:= AColor;
+  C.Pen.Color:= AColor;
+  C.Polygon([
+    Point(ACoord.X - ASize, ACoord.Y - ASize*2),
+    Point(ACoord.X + ASize, ACoord.Y),
+    Point(ACoord.X - ASize, ACoord.Y + ASize*2)
+    ]);
+end;
+
+procedure CanvasPaintTriangleLeft(C: TCanvas; AColor: TColor; ACoord: TPoint; ASize: integer);
+begin
+  C.Brush.Color:= AColor;
+  C.Pen.Color:= AColor;
+  C.Polygon([
+    Point(ACoord.X + ASize, ACoord.Y - ASize*2),
+    Point(ACoord.X - ASize, ACoord.Y),
+    Point(ACoord.X + ASize, ACoord.Y + ASize*2)
+    ]);
+end;
+
+
 procedure DrawTriangleRaw(C: TCanvas; const P1, P2, P3: TPoint; Color: TColor);
 begin
   C.Brush.Color:= Color;
@@ -678,34 +712,19 @@ begin
   C.Polygon([P1, P2, P3]);
 end;
 
-procedure DrawTriangleType(C: TCanvas; Typ: TATTabTriangle; const R: TRect; Color: TColor);
+procedure DrawTriangleType(C: TCanvas; AType: TATTabTriangle; const ARect: TRect; AColor: TColor; ASize: integer);
 var
-  P1, P2, P3: TPoint;
+  PCenter: TPoint;
 begin
-  //P1/P2: points of vert/horz line
-  //P3: end point at arrow direction
-  case Typ of
+  PCenter:= CenterPoint(ARect);
+  case AType of
     atriDown:
-    begin
-      P1:= Point(R.Left, R.Top);
-      P2:= Point(R.Right, R.Top);
-      P3:= Point((R.Left+R.Right) div 2, R.Bottom);
-    end;
+      CanvasPaintTriangleDown(C, AColor, PCenter, ASize);
     atriRight:
-    begin
-      P1:= Point(R.Left, R.Top);
-      P2:= Point(R.Left, R.Bottom);
-      P3:= Point(R.Right, (R.Top+R.Bottom) div 2);
-    end;
+      CanvasPaintTriangleRight(C, AColor, PCenter, ASize);
     atriLeft:
-    begin
-      P1:= Point(R.Right, R.Top);
-      P2:= Point(R.Right, R.Bottom);
-      P3:= Point(R.Left, (R.Top+R.Bottom) div 2);
-    end;
+      CanvasPaintTriangleLeft(C, AColor, PCenter, ASize);
   end;
-
-  DrawTriangleRaw(C, P1, P2, P3, Color);
 end;
 
 
@@ -2317,30 +2336,9 @@ end;
 {$endif}
 
 procedure TATTabs.DoPaintArrowTo(C: TCanvas; ATyp: TATTabTriangle; ARect: TRect;
-  AColorArr, AColorBg: TColor);
-var
-  P: TPoint;
-  R: TRect;
-  N, SizeX, SizeY: integer;
+  AColorArr: TColor);
 begin
-  N:= FOptArrowSize;
-  case ATyp of
-    atriLeft,
-    atriRight:
-      begin
-        SizeY:= N;
-        SizeX:= N div 2;
-      end;
-    else
-      begin
-        SizeX:= N;
-        SizeY:= N div 2;
-      end;
-  end;
-
-  P:= CenterPoint(ARect);
-  R:= Rect(P.X-SizeX, P.Y-SizeY, P.X+SizeX, P.Y+SizeY);
-  DrawTriangleType(C, ATyp, R, AColorArr);
+  DrawTriangleType(C, ATyp, ARect, AColorArr, FOptArrowSize div 2);
 end;
 
 
@@ -2792,8 +2790,8 @@ begin
         FRectArrowDown,
         IfThen(bOver and not _IsDrag,
           FColorArrowOver,
-          FColorArrow),
-        FColorBg);
+          FColorArrow)
+        );
       DoPaintAfter(ElemType, -1, C, FRectArrowDown);
     end;
 end;
@@ -2821,8 +2819,8 @@ begin
       DoPaintArrowTo(C,
         atriLeft,
         R,
-        IfThen(bOver, FColorArrowOver, FColorArrow),
-        FColorBg);
+        IfThen(bOver, FColorArrowOver, FColorArrow)
+        );
       DoPaintAfter(ElemType, -1, C, FRectArrowLeft);
     end;
 end;
@@ -2850,8 +2848,8 @@ begin
       DoPaintArrowTo(C,
         atriRight,
         R,
-        IfThen(bOver, FColorArrowOver, FColorArrow),
-        FColorBg);
+        IfThen(bOver, FColorArrowOver, FColorArrow)
+        );
       DoPaintAfter(ElemType, -1, C, FRectArrowRight);
     end;
 end;
