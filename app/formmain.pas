@@ -1047,20 +1047,21 @@ end;
 procedure TfmMain.DoPanel_TreeviewOnDblClick(Sender: TObject);
 var
   Obj: TObject;
-  Rng: TecTextRange;
-  Pnt: TPoint;
+  Rng: TATRangeInCodeTree;
+  PntBegin, PntEnd: TPoint;
 begin
   if CodeTree.Tree.Selected=nil then exit;
   if CodeTree.Tree.Selected.Data=nil then exit;
-  Obj:= TObject(CodeTree.Tree.Selected.Data);
-  if not (Obj is TecTextRange) then exit;
 
-  Rng:= Obj as TecTextRange;
-  Pnt:= CurrentFrame.Adapter.TreeGetPositionOfRange(Rng);
+  Obj:= TObject(CodeTree.Tree.Selected.Data);
+  if not (Obj is TATRangeInCodeTree) then exit;
+
+  Rng:= Obj as TATRangeInCodeTree;
+  CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(Rng, PntBegin, PntEnd);
 
   FTreeClick:= true;
   CurrentEditor.DoGotoPos(
-    Pnt,
+    PntBegin,
     Point(-1, -1),
     UiOps.FindIndentHorz,
     UiOps.FindIndentVert,
@@ -1074,17 +1075,17 @@ end;
 procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out P1, P2: TPoint);
 var
   DataObj: TObject;
-  Rng: TecTextRange;
+  Rng: TATRangeInCodeTree;
 begin
   P1:= Point(-1, -1);
   P2:= Point(-1, -1);
   if ANode=nil then exit;
   if ANode.Data=nil then exit;
   DataObj:= TObject(ANode.Data);
-  if DataObj is TecTextRange then
+  if DataObj is TATRangeInCodeTree then
   begin
-    Rng:= TecTextRange(DataObj);
-    CurrentFrame.Adapter.TreeGetPositionOfRange(Rng, P1, P2);
+    Rng:= TATRangeInCodeTree(DataObj);
+    CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(Rng, P1, P2);
   end;
 end;
 
