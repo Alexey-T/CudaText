@@ -787,7 +787,7 @@ begin
   if (Ed.Strings.Count=0) or
     (Ed.Strings.Count>UiOps.MaxLinesForTree) then
   begin
-    CodeTree.Tree.Items.Clear;
+    ClearTreeviewWithData(CodeTree.Tree);
     exit;
   end;
 

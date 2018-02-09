@@ -158,7 +158,7 @@ begin
 
   if not Application.Terminated then
     if bNeedTreeUpd then
-      CodeTree.Tree.Items.Clear;
+      ClearTreeviewWithData(CodeTree.Tree);
 end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject);

@@ -4411,7 +4411,7 @@ begin
             if Assigned(TreeNode) then
               TreeNode.Free
             else
-              TreeCont.Tree.Items.Clear;
+              ClearTreeviewWithData(TreeCont.Tree);
 
             TreeCont.Tree.Invalidate;
             Result:= ReturnNone;
