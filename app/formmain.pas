@@ -1046,18 +1046,14 @@ end;
 
 procedure TfmMain.DoPanel_TreeviewOnDblClick(Sender: TObject);
 var
+  Node: TTreeNode;
   Obj: TObject;
   Rng: TATRangeInCodeTree;
   PntBegin, PntEnd: TPoint;
 begin
-  if CodeTree.Tree.Selected=nil then exit;
-  if CodeTree.Tree.Selected.Data=nil then exit;
-
-  Obj:= TObject(CodeTree.Tree.Selected.Data);
-  if not (Obj is TATRangeInCodeTree) then exit;
-
-  Rng:= Obj as TATRangeInCodeTree;
-  CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(Rng, PntBegin, PntEnd);
+  Node:= CodeTree.Tree.Selected;
+  if Node=nil then exit;
+  DoTreeGetSyntaxRange(Node, PntBegin, PntEnd);
 
   FTreeClick:= true;
   CurrentEditor.DoGotoPos(
@@ -1068,7 +1064,7 @@ begin
     true,
     true
     );
-  CurrentFrame.SetFocus;
+  DoFocusEditor;
   FTreeClick:= false;
 end;
 
