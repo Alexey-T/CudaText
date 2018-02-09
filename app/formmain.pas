@@ -616,9 +616,9 @@ type
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
     function DoMenu_PyEnum(const AMenuId: string): PPyObject;
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
-    procedure DoPanel_TreeviewOnDblClick(Sender: TObject);
-    procedure DoPanel_TreeviewOnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure DoPanel_TreeviewOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoCodetree_OnDblClick(Sender: TObject);
+    procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -1044,7 +1044,7 @@ begin
   UpdateTree(false);
 end;
 
-procedure TfmMain.DoPanel_TreeviewOnDblClick(Sender: TObject);
+procedure TfmMain.DoCodetree_OnDblClick(Sender: TObject);
 var
   PntBegin, PntEnd: TPoint;
 begin
@@ -1105,7 +1105,7 @@ end;
 *)
 
 
-procedure TfmMain.DoPanel_TreeviewOnMouseMove(Sender: TObject; Shift: TShiftState; X,
+procedure TfmMain.DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   //fix to hide parts on Tree's hints on editor canvas (Win32, moving mouse from
@@ -1232,9 +1232,9 @@ begin
   CodeTree.Align:= alClient;
   CodeTree.Tree.Images:= ImageListTree;
   CodeTree.Themed:= true;
-  CodeTree.Tree.OnDblClick:= @DoPanel_TreeviewOnDblClick;
-  CodeTree.Tree.OnMouseMove:= @DoPanel_TreeviewOnMouseMove;
-  CodeTree.Tree.OnKeyDown:= @DoPanel_TreeviewOnKeyDown;
+  CodeTree.Tree.OnDblClick:= @DoCodetree_OnDblClick;
+  CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
+  CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
   CodeTree.Tree.PopupMenu:= PopupTree;
 
   ListboxOut:= TATListbox.Create(Self);
@@ -3562,7 +3562,7 @@ begin
   OpenURL('http://wiki.freepascal.org/CudaText');
 end;
 
-procedure TfmMain.DoPanel_TreeviewOnKeyDown(Sender: TObject; var Key: Word;
+procedure TfmMain.DoCodetree_OnKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key=VK_ESCAPE) then

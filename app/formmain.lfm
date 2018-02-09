@@ -5,7 +5,7 @@ object fmMain: TfmMain
   Width = 872
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 482
+  ClientHeight = 484
   ClientWidth = 872
   Constraints.MinHeight = 100
   Constraints.MinWidth = 100
@@ -22,7 +22,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 147
+    Height = 149
     Top = 0
     Width = 75
     Align = alLeft
@@ -30,7 +30,7 @@ object fmMain: TfmMain
     object ToolbarSideLow: TATFlatToolbar
       Left = 0
       Height = 30
-      Top = 117
+      Top = 119
       Width = 75
       Align = alBottom
       AutoSize = True
@@ -41,7 +41,7 @@ object fmMain: TfmMain
     end
     object ToolbarSideTop: TATFlatToolbar
       Left = 0
-      Height = 87
+      Height = 89
       Top = 0
       Width = 75
       Align = alClient
@@ -56,7 +56,7 @@ object fmMain: TfmMain
     object ToolbarSideMid: TATFlatToolbar
       Left = 0
       Height = 30
-      Top = 87
+      Top = 89
       Width = 75
       Align = alBottom
       AutoSize = True
@@ -69,7 +69,7 @@ object fmMain: TfmMain
   object PanelAll: TATPanelSimple
     Left = 0
     Height = 335
-    Top = 147
+    Top = 149
     Width = 872
     Align = alBottom
     object SplitterHorz: TSplitter
