@@ -229,6 +229,7 @@ begin
   FKeyPressed:= 0;
   repeat
     Application.ProcessMessages;
+    if Application.Terminated then exit;
   until FKeyPressed<>0;
   Result:= FKeyPressed;
 

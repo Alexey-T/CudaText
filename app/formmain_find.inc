@@ -451,7 +451,8 @@ begin
   NValue:= ACurPos * 100 div AMaxPos;
   StatusProgress.Progress:= NValue;
   Application.ProcessMessages;
-  if FFindStop then AContinue:= false;
+  if FFindStop or Application.Terminated then
+    AContinue:= false;
 end;
 
 function TfmMain.SFindOptionsToTextHint: string;
