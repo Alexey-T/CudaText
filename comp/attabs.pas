@@ -704,26 +704,15 @@ begin
     ]);
 end;
 
-
-procedure DrawTriangleRaw(C: TCanvas; const P1, P2, P3: TPoint; Color: TColor);
-begin
-  C.Brush.Color:= Color;
-  C.Pen.Color:= Color;
-  C.Polygon([P1, P2, P3]);
-end;
-
 procedure DrawTriangleType(C: TCanvas; AType: TATTabTriangle; const ARect: TRect; AColor: TColor; ASize: integer);
-var
-  PCenter: TPoint;
 begin
-  PCenter:= CenterPoint(ARect);
   case AType of
     atriDown:
-      CanvasPaintTriangleDown(C, AColor, PCenter, ASize);
+      CanvasPaintTriangleDown(C, AColor, CenterPoint(ARect), ASize);
     atriRight:
-      CanvasPaintTriangleRight(C, AColor, PCenter, ASize);
+      CanvasPaintTriangleRight(C, AColor, CenterPoint(ARect), ASize);
     atriLeft:
-      CanvasPaintTriangleLeft(C, AColor, PCenter, ASize);
+      CanvasPaintTriangleLeft(C, AColor, CenterPoint(ARect), ASize);
   end;
 end;
 
