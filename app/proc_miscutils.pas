@@ -16,6 +16,7 @@ uses
   ImgList, Dialogs, Forms,
   LclIntf, LclType, LazFileUtils, StrUtils,
   ATSynEdit,
+  ATSynEdit_Adapter_EControl,
   ATSynEdit_Export_HTML,
   ATStringProc,
   ATListbox,
@@ -461,6 +462,8 @@ end;
 
 procedure DoTreeviewCopy(Src, Dst: TTreeView);
 var
+  SrcItem, DstItem: TTreeNode;
+  R, R2: TATRangeInCodeTree;
   i: integer;
 begin
   Dst.BeginUpdate;
@@ -471,7 +474,22 @@ begin
       Dst.Selected:= Dst.Items[Src.Selected.AbsoluteIndex];
 
     for i:= 0 to Src.Items.Count-1 do
-      Dst.Items[i].Expanded:= Src.Items[i].Expanded;
+    begin
+      SrcItem:= Src.Items[i];
+      DstItem:= Dst.Items[i];
+
+      DstItem.Expanded:= SrcItem.Expanded;
+
+      //copying of Item.Data, must create new range
+      if SrcItem.Data<>nil then
+        if TObject(SrcItem.Data) is TATRangeInCodeTree then
+        begin
+          R:= TATRangeInCodeTree(SrcItem.Data);
+          R2:= TATRangeInCodeTree.Create;
+          R2.Assign(R);
+          DstItem.Data:= R2;
+        end;
+    end;
   finally
     Dst.EndUpdate;
   end;
