@@ -794,7 +794,10 @@ begin
   with Frame do
   begin
     while Adapter.TreeBusy do
+    begin
       Application.ProcessMessages;
+      if Application.Terminated then exit;
+    end;
 
     if AForceUpdateAll then
     begin
