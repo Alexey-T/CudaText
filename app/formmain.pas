@@ -1046,14 +1046,9 @@ end;
 
 procedure TfmMain.DoPanel_TreeviewOnDblClick(Sender: TObject);
 var
-  Node: TTreeNode;
-  Obj: TObject;
-  Rng: TATRangeInCodeTree;
   PntBegin, PntEnd: TPoint;
 begin
-  Node:= CodeTree.Tree.Selected;
-  if Node=nil then exit;
-  DoTreeGetSyntaxRange(Node, PntBegin, PntEnd);
+  DoTreeGetSyntaxRange(CodeTree.Tree.Selected, PntBegin, PntEnd);
 
   FTreeClick:= true;
   CurrentEditor.DoGotoPos(
