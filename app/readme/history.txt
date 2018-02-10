@@ -4,6 +4,11 @@
   * changed
 
 
+1.40.1 (2018/02)
+
++ add: reworked Code-Tree handling, fixed some crashes
++ add: mouse cursors (for mouse auto scroll) updated for high-DPI (by FTurtle)
+
 1.40.0 (2018/02)
 
 + add: bookmarks support is rewritten. Now a bookmark is not deleted when its line is deleted. And memory usage of text storage is smaller now.
