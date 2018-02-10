@@ -7,6 +7,7 @@
 1.40.1 (2018/02)
 
 + add: reworked Code-Tree handling, fixed some crashes
++ add: mouse cursors for auto-scroll feature support high-DPI (thanks, FTurtle)
 
 1.40.0 (2018/02)
 
