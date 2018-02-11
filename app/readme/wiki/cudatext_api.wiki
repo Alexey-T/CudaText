@@ -2266,6 +2266,12 @@ Text is chr(1) separated items:
 ** Show dialog via dlg_proc(..., DLG_SHOW_NONMODAL)
 * On exiting hotspot, hide dialog
 
+=How to make formatter plugin?=
+
+* Fork plugin CSS Format (or JS Format). It has most of code done. It has 3 commands done: Format, Config global, Config local.
+* Change its CSS modules to custom modules
+* Change method do_format() to custom formatting method.
+
 =History=
 
 1.0.226 (app 1.40.1)
