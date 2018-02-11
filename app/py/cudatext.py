@@ -179,6 +179,7 @@ PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
 PROP_SCROLL_VERT           = 52
 PROP_SCROLL_HORZ           = 53
+PROP_CODETREE              = 54
 PROP_KIND                  = 59
 PROP_V_MODE                = 60
 PROP_V_POS                 = 61

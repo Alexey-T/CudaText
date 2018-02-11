@@ -86,6 +86,7 @@ type
     FModified: boolean;
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
+    FEnabledCodeTree: boolean;
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
     FOnUpdateStatus: TNotifyEvent;
@@ -171,6 +172,7 @@ type
     function GetUnprintedSpaces: boolean;
     procedure InitEditor(var ed: TATSynEdit);
     procedure NotifChanged(Sender: TObject);
+    procedure SetEnabledCodeTree(AValue: boolean);
     procedure SetEnabledFolding(AValue: boolean);
     procedure SetEncodingName(const Str: string);
     procedure SetFileName(const AValue: string);
@@ -234,10 +236,10 @@ type
     property NotInRecents: boolean read FNotInRecents write FNotInRecents;
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
+    property EnabledCodeTree: boolean read FEnabledCodeTree write SetEnabledCodeTree;
     function IsEmpty: boolean;
     procedure ApplyTheme;
     procedure SetFocus; reintroduce;
-    //picture support
     function IsText: boolean;
     function IsPicture: boolean;
     function IsBinary: boolean;
@@ -1098,6 +1100,7 @@ begin
   FTabId:= FLastTabId;
   FTabImageIndex:= -1;
   FNotInRecents:= false;
+  FEnabledCodeTree:= true;
   CachedTreeview:= TTreeView.Create(Self);
 
   InitEditor(Ed1);
@@ -2143,6 +2146,14 @@ begin
     ID_CANCEL:
       NotifEnabled:= false;
   end;
+end;
+
+procedure TEditorFrame.SetEnabledCodeTree(AValue: boolean);
+begin
+  if FEnabledCodeTree=AValue then Exit;
+  FEnabledCodeTree:= AValue;
+  if not AValue then
+    ClearTreeviewWithData(CachedTreeview);
 end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);

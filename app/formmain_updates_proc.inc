@@ -791,6 +791,12 @@ begin
     exit;
   end;
 
+  if not Frame.EnabledCodeTree then
+  begin
+    ClearTreeviewWithData(CodeTree.Tree);
+    exit;
+  end;
+
   while Frame.Adapter.TreeBusy do
   begin
     Application.ProcessMessages;

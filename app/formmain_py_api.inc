@@ -2322,6 +2322,9 @@ begin
         PROP_SCROLL_HORZ:
           Result:= PyInt_FromLong(Ed.ScrollHorz.NPos);
 
+        PROP_CODETREE:
+          Result:= PyBool_FromLong(Ord(F.EnabledCodeTree));
+
         PROP_LINK_AT_POS:
           begin
             Pnt.X:= StrToIntDef(SGetItem(Str), -1);
@@ -2633,6 +2636,11 @@ begin
             ScrollInfo.NPos:= ValueInt;
             Ed.ScrollHorz:= ScrollInfo;
           end;
+
+        PROP_CODETREE:
+        begin
+          F.EnabledCodeTree:= ValueBool;
+        end;
 
         PROP_ONE_LINE:
           Ed.ModeOneLine:= ValueBool;
