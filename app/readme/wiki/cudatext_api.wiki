@@ -154,6 +154,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 * PROC_PROGRESSBAR: Change state of the progress-bar, which is located on the status-bar (hidden by default). If passed int value<0, progressbar hides, else it shows with the given value 0..100.
 * PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON editor property to get/set icons of file tabs.
+* PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
 
 ====System====
 
@@ -2241,6 +2242,7 @@ Text is chr(1) separated items:
 
 1.0.226 (app 1.40.1)
 * add: tree_proc: TREE_ITEM_SET_SYNTAX_RANGE
+* add: app_proc: PROC_GET_CODETREE
 
 1.0.225 (app 1.40.0)
 * add: app_proc: PROC_SEND_MESSAGE
