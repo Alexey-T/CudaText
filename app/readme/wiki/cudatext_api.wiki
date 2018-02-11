@@ -2269,8 +2269,9 @@ Text is chr(1) separated items:
 =How to make formatter plugin?=
 
 * Fork plugin CSS Format (or JS Format). It has most of code done. It has 3 commands done: Format, Config global, Config local.
-* Change its CSS modules to custom modules
-* Change method do_format() to custom formatting method.
+* Change its CSS (JS) modules
+* Change loading/saving of options
+* Change contents of func do_format()
 
 =History=
 
