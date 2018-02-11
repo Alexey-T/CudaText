@@ -2245,7 +2245,7 @@ Text is chr(1) separated items:
 ==How plugin can fill Code Tree?==
 
 * Handle events on_open, on_focus, on_change (if it's fast) / on_change_slow (if it's slow, recommended)
-* Get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, '')
+* Get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, "")
 * Disable standard Code Tree filling, for handled files: ed_self.set_prop(PROP_CODETREE, False)
 * Fill Code Tree via tree_proc(h_tree, ...)
 
@@ -2261,8 +2261,10 @@ Text is chr(1) separated items:
 * Handle event on_hotspot
 ** Find which text region is under cursor
 ** Fill dialog via dlg_proc()
-** Set dialog property "p" to the handle of editor, ed_self.h. Note: don't use ed.h, because it is virtual handle 0.
+** Set dialog prop "p" to the handle of editor, ed_self.h. Don't use ed.h, because it is virtual handle 0.
+** Set dialog pos (props "x", "y") to editor-related pixel coords. It is complex. See example: plugin HTML Tooltips.
 ** Show dialog via dlg_proc(..., DLG_SHOW_NONMODAL)
+* On exiting hotspot, hide dialog
 
 =History=
 
