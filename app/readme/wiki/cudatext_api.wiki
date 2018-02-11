@@ -1804,6 +1804,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
@@ -1868,6 +1869,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0. 
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -2243,6 +2245,7 @@ Text is chr(1) separated items:
 1.0.226 (app 1.40.1)
 * add: tree_proc: TREE_ITEM_SET_SYNTAX_RANGE
 * add: app_proc: PROC_GET_CODETREE
+* add: Editor.get_prop/set_prop: PROP_CODETREE
 
 1.0.225 (app 1.40.0)
 * add: app_proc: PROC_SEND_MESSAGE
