@@ -716,6 +716,7 @@ type
     procedure SetThemeUi(const AValue: string);
     function SFindOptionsToTextHint: string;
     procedure DoTreeGetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
+    procedure DoTreeSetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
     procedure DoOps_ShowEventPlugins;
     procedure DoOps_ResetLexerSpecificOptions;
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
@@ -1066,6 +1067,7 @@ end;
 procedure TfmMain.DoTreeGetSyntaxRange(ANode: TTreeNode; out APosBegin, APosEnd: TPoint);
 var
   DataObj: TObject;
+  Range: TATRangeInCodeTree;
 begin
   APosBegin:= Point(-1, -1);
   APosEnd:= Point(-1, -1);
@@ -1073,35 +1075,43 @@ begin
   if ANode.Data=nil then exit;
 
   DataObj:= TObject(ANode.Data);
-  if DataObj is TATRangeInCodeTree then
+  if not (DataObj is TATRangeInCodeTree) then exit;
+  Range:= DataObj as TATRangeInCodeTree;
+
+  if Range.TextPosBegin.Y>=0 then
+  begin
+    APosBegin:= Range.TextPosBegin;
+    APosEnd:= Range.TextPosEnd;
+  end
+  else
+  begin
     CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(
-      DataObj as TATRangeInCodeTree,
-      APosBegin, APosEnd);
+      Range, APosBegin, APosEnd);
+  end;
 end;
 
-(*
-//not done, need another object in ANode.Data..
-procedure TfmMain.DoTreeSetSyntaxRange(ANode: TTreeNode; const P1, P2: TPoint);
+procedure TfmMain.DoTreeSetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
 var
   DataObj: TObject;
-  Rng: TecTextRange;
+  Range: TATRangeInCodeTree;
+  TextPosEnd: TPoint;
 begin
   if ANode=nil then exit;
   if ANode.Data=nil then
   begin
-    DataObj:= TecTextRange.Create(0, 0);
+    DataObj:= TATRangeInCodeTree.Create;
     ANode.Data:= Pointer(DataObj);
   end
   else
     DataObj:= TObject(ANode.Data);
 
-  if DataObj is TecTextRange then
+  if DataObj is TATRangeInCodeTree then
   begin
-    Rng:= TecTextRange(DataObj);
-    Rng.ddd
+    Range:= DataObj as TATRangeInCodeTree;
+    Range.TextPosBegin:= APosBegin;
+    Range.TextPosEnd:= APosEnd;
   end;
 end;
-*)
 
 
 procedure TfmMain.DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X,

@@ -291,6 +291,7 @@ TREE_ITEM_FOLD_DEEP        = 8
 TREE_ITEM_UNFOLD           = 9
 TREE_ITEM_UNFOLD_DEEP      = 10
 TREE_ITEM_GET_SELECTED     = 11
+TREE_ITEM_SET_SYNTAX_RANGE = 13
 TREE_ITEM_GET_SYNTAX_RANGE = 14
 TREE_ITEM_FOLD_LEVEL       = 15
 TREE_ITEM_SHOW             = 16
@@ -771,7 +772,7 @@ def image_proc(id_image, id_action, value=''):
     return ct.image_proc(id_image, id_action, to_str(value))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
-    return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
+    return ct.tree_proc(id_tree, id_action, id_item, index, to_str(text), image_index)
 
 def _menu_proc_callback_proxy(info=''):
     if info in _live:

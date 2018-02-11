@@ -4544,6 +4544,16 @@ begin
             Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
           end;
 
+        TREE_ITEM_SET_SYNTAX_RANGE:
+          begin
+            Pnt1.X:= StrToIntDef(SGetItem(StrText), 0);
+            Pnt1.Y:= StrToIntDef(SGetItem(StrText), 0);
+            Pnt2.X:= StrToIntDef(SGetItem(StrText), 0);
+            Pnt2.Y:= StrToIntDef(SGetItem(StrText), 0);
+            fmMain.DoTreeSetSyntaxRange(TreeNode, Pnt1, Pnt2);
+            Result:= ReturnNone;
+          end;
+
         TREE_ITEM_SHOW:
           begin
             TreeNode.MakeVisible;

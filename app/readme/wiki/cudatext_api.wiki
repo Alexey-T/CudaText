@@ -1122,12 +1122,14 @@ Possible values of id_action:
 * TREE_ITEM_FOLD_LEVEL: Folds all items (id_item ignored) from level with specified index, 1 or bigger. (This is what CudaText commands "fold level N" do for code-tree). 
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
-* TREE_ITEM_GET_SYNTAX_RANGE: Only for Code Tree panel's treeview. Gets range, associated with tree-item, as 4-tuple (start_x, start_y, end_x, end_y). 
 * TREE_GET_IMAGELIST: Gets int handle of image-list object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
+
+* TREE_ITEM_GET_SYNTAX_RANGE: Only for Code Tree. Gets range, associated with tree-item, as 4-tuple (start_x, start_y, end_x, end_y). 
+* TREE_ITEM_SET_SYNTAX_RANGE: Only for Code Tree. Sets range for tree item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
 
 ===listbox_proc===
 
