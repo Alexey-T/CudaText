@@ -2244,10 +2244,25 @@ Text is chr(1) separated items:
 
 ==How plugin can fill Code Tree?==
 
-* It should handle events on_open, on_focus, on_change (if it's fast) / on_change_slow (if it's slow, recommended)
-* It must get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, '')
-* It must disable standard Code Tree filling, for its files: ed_self.set_prop(PROP_CODETREE, False)
-* It must fill Code Tree via tree_proc(h_tree, ...)
+* Handle events on_open, on_focus, on_change (if it's fast) / on_change_slow (if it's slow, recommended)
+* Get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, '')
+* Disable standard Code Tree filling, for handled files: ed_self.set_prop(PROP_CODETREE, False)
+* Fill Code Tree via tree_proc(h_tree, ...)
+
+==How plugin can show tooltips on mouse-over?==
+
+* Create dialog for tooltip, via dlg_proc()
+
+* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it will slow down the app)
+** Find text regions which need tooltip
+** Delete old hotspots via ed.hotspot(HOTSPOT_DELETE_BY_TAG...)
+** Add hotspots via ed.hotspots(HOTSPOT_ADD...)
+
+* Handle event on_hotspot
+** Find which text region is under cursor
+** Fill dialog via dlg_proc()
+** Set dialog property "p" to the handle of editor, ed_self.h. Note: don't use ed.h, because it is virtual handle 0.
+** Show dialog via dlg_proc(..., DLG_SHOW_NONMODAL)
 
 =History=
 
