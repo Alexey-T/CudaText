@@ -1129,8 +1129,9 @@ Possible values of id_action:
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
 
-* TREE_ITEM_GET_SYNTAX_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1). 
-* TREE_ITEM_SET_SYNTAX_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
+* TREE_ITEM_GET_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1). 
+* TREE_ITEM_SET_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
+* TREE_ITEM_GET_SYNTAX_RANGE: Deprecated, same as TREE_ITEM_GET_RANGE.
 
 ===listbox_proc===
 
@@ -2249,7 +2250,7 @@ Text is chr(1) separated items:
 * Fill tree via tree_proc(h_tree, ...)
 ** Disable standard tree filling via ed.set_prop(PROP_CODETREE, False)
 ** Clear tree via tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)
-** On adding tree items, set range for them via tree_proc(h_tree, TREE_ITEM_SET_SYNTAX_RANGE...)
+** On adding tree items, set range for them via tree_proc(h_tree, TREE_ITEM_SET_RANGE...)
 
 ==How plugin can show tooltips on mouse-over?==
 
@@ -2278,9 +2279,10 @@ Text is chr(1) separated items:
 =History=
 
 1.0.226 (app 1.40.1)
-* add: tree_proc: TREE_ITEM_SET_SYNTAX_RANGE
 * add: app_proc: PROC_GET_CODETREE
 * add: Editor.get_prop/set_prop: PROP_CODETREE
+* add: tree_proc: TREE_ITEM_GET_RANGE, TREE_ITEM_SET_RANGE
+* deprecated: tree_proc: TREE_ITEM_GET_SYNTAX_RANGE
 
 1.0.225 (app 1.40.0)
 * add: app_proc: PROC_SEND_MESSAGE

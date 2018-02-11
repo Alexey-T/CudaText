@@ -861,8 +861,8 @@ end;
 
         #test get/set range
         rng = (2,2,5,5)
-        tree_proc(self.h_tree, TREE_ITEM_SET_SYNTAX_RANGE, id_item=item1a, text=rng)
-        rng2 = tree_proc(self.h_tree, TREE_ITEM_GET_SYNTAX_RANGE, id_item=item1a)
+        tree_proc(self.h_tree, TREE_ITEM_SET_RANGE, id_item=item1a, text=rng)
+        rng2 = tree_proc(self.h_tree, TREE_ITEM_GET_RANGE, id_item=item1a)
         print('Test get/set range: '+('ok' if rng==rng2 else 'failed'))
 
         dlg_proc(id, DLG_SHOW_MODAL)

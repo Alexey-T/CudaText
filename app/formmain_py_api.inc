@@ -4551,13 +4551,13 @@ begin
             Result:= ReturnNone;
           end;
 
-        TREE_ITEM_GET_SYNTAX_RANGE:
+        TREE_ITEM_GET_RANGE:
           begin
             fmMain.DoTreeGetSyntaxRange(TreeNode, Pnt1, Pnt2);
             Result:= Py_BuildValue('(iiii)', Pnt1.X, Pnt1.Y, Pnt2.X, Pnt2.Y);
           end;
 
-        TREE_ITEM_SET_SYNTAX_RANGE:
+        TREE_ITEM_SET_RANGE:
           begin
             Pnt1.X:= StrToIntDef(SGetItem(StrText), 0);
             Pnt1.Y:= StrToIntDef(SGetItem(StrText), 0);
