@@ -1128,8 +1128,8 @@ Possible values of id_action:
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
 
-* TREE_ITEM_GET_SYNTAX_RANGE: Only for Code Tree. Gets range, associated with tree-item, as 4-tuple (start_x, start_y, end_x, end_y). 
-* TREE_ITEM_SET_SYNTAX_RANGE: Only for Code Tree. Sets range for tree item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
+* TREE_ITEM_GET_SYNTAX_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1). 
+* TREE_ITEM_SET_SYNTAX_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
 
 ===listbox_proc===
 
