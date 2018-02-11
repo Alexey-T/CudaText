@@ -2244,10 +2244,12 @@ Text is chr(1) separated items:
 
 ==How plugin can fill Code Tree?==
 
-* Handle events on_open, on_focus, on_change (if it's fast) / on_change_slow (if it's slow, recommended)
+* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app)
 * Get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, "")
-* Disable standard Code Tree filling, for handled files: ed_self.set_prop(PROP_CODETREE, False)
-* Fill Code Tree via tree_proc(h_tree, ...)
+* Fill tree via tree_proc(h_tree, ...)
+** Disable standard tree filling via ed.set_prop(PROP_CODETREE, False)
+** Clear tree via tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)
+** On adding tree items, set range for them via tree_proc(h_tree, TREE_ITEM_SET_SYNTAX_RANGE...)
 
 ==How plugin can show tooltips on mouse-over?==
 
@@ -2269,8 +2271,8 @@ Text is chr(1) separated items:
 ==How to make formatter plugin?==
 
 * Fork plugin CSS Format (or JS Format). It has most of code done. It has 3 commands done: Format, Config global, Config local.
-* Change its CSS (JS) modules
-* Change loading/saving of options
+* Replace/delete its CSS (JS) modules
+* Change options filename, change loading of options
 * Change contents of func do_format()
 
 =History=
