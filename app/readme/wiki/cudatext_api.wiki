@@ -2239,6 +2239,9 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.226 (app 1.40.1)
+* add: tree_proc: TREE_ITEM_SET_SYNTAX_RANGE
+
 1.0.225 (app 1.40.0)
 * add: app_proc: PROC_SEND_MESSAGE
 
