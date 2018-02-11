@@ -2240,6 +2240,15 @@ Text is chr(1) separated items:
 ** 'a': wrapped search
 ** 's': search in selection
 
+=FAQ=
+
+==How plugin can fill Code Tree?==
+
+* It should handle events on_open, on_focus, on_change (if it's fast) / on_change_slow (if it's slow, recommended)
+* It must get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, '')
+* It must disable standard Code Tree filling, for its files: ed_self.set_prop(PROP_CODETREE, False)
+* It must fill Code Tree via tree_proc(h_tree, ...)
+
 =History=
 
 1.0.226 (app 1.40.1)
