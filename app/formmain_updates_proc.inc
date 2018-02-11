@@ -784,14 +784,14 @@ begin
   Ed:= CurrentEditor;
   Frame:= GetEditorFrame(Ed);
 
-  if (Ed.Strings.Count=0) or
-    (Ed.Strings.Count>UiOps.MaxLinesForTree) then
+  if not Frame.EnabledCodeTree then
   begin
-    ClearTreeviewWithData(CodeTree.Tree);
+    //don't clear tree, it may be filled by plugin
     exit;
   end;
 
-  if not Frame.EnabledCodeTree then
+  if (Ed.Strings.Count=0) or
+    (Ed.Strings.Count>UiOps.MaxLinesForTree) then
   begin
     ClearTreeviewWithData(CodeTree.Tree);
     exit;
