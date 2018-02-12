@@ -54,9 +54,12 @@ type
     procedure Resize; override;
   public
     constructor Create(AOwner: TComponent); override;
-    procedure AddTab(AIndex: integer;
-      AControl: TControl; const ACaption: TATTabString;
-      AModified: boolean; AColor: TColor = clNone);
+    function AddTab(AIndex: integer;
+      AControl: TControl;
+      const ACaption: TATTabString;
+      AModified: boolean;
+      AColor: TColor=clNone;
+      AndActivate: boolean=true): integer;
     property Tabs: TATTabs read FTabs;
     property EnabledEmpty: boolean read FEnabledEmpty write FEnabledEmpty;
     property OnTabFocus: TNotifyEvent read FOnTabFocus write FOnTabFocus;
@@ -396,17 +399,21 @@ begin
   FTabs.ColorCloseX:= clDkGray;
 end;
 
-procedure TATPages.AddTab(AIndex: integer; AControl: TControl;
-  const ACaption: TATTabString; AModified: boolean; AColor: TColor);
+function TATPages.AddTab(AIndex: integer; AControl: TControl;
+  const ACaption: TATTabString; AModified: boolean; AColor: TColor;
+  AndActivate: boolean): integer;
 begin
   FTabs.AddTab(AIndex, ACaption, AControl, AModified, AColor);
   AControl.Parent:= Self;
   AControl.Align:= alClient;
 
   if AIndex<0 then
-    FTabs.TabIndex:= FTabs.TabCount-1
+    Result:= FTabs.TabCount-1
   else
-    FTabs.TabIndex:= AIndex;
+    Result:= AIndex;
+
+  if AndActivate then
+    FTabs.TabIndex:= Result;
 end;
 
 procedure TATPages.TabClick(Sender: TObject);
