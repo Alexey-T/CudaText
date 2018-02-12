@@ -63,7 +63,10 @@ begin
       UpdateTreeSelection;
     end
     else
-      UpdateTree(true);
+    begin
+      TimerTreeFill.Enabled:= false;
+      TimerTreeFill.Enabled:= true;
+    end;
   end;
 end;
 
