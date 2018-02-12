@@ -120,6 +120,12 @@ begin
   bNeedTreeUpd:= Frame.Visible;
   bSavedOk:= true;
 
+  if Frame.Editor.IsLocked then
+  begin
+    ACanClose:= false;
+    Exit
+  end;
+
   if Frame.IsEmpty then
     if FrameCount=1 then
     begin
