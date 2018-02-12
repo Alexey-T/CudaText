@@ -160,6 +160,8 @@ var
   bModified: boolean;
   sText: UnicodeString;
   sDateSaved, sDateCurrent: string;
+const
+  SOptionPassive = '/passive /nonear';
 begin
   Result:= false;
   if fn_session='' then exit;
@@ -219,7 +221,7 @@ begin
         if (FrameCount>0) and Frames[0].IsEmpty then
           F:= Frames[0]
         else
-          F:= DoFileOpen('', Pages);
+          F:= DoFileOpen('', Pages, SOptionPassive);
         if sFilename<>'' then
         begin
           F.FileName:= sFilename;
@@ -234,7 +236,7 @@ begin
       else
       //unmodified+named tabs must load file again
       if FileExistsUTF8(sFilename) then
-        F:= DoFileOpen(sFilename, Pages, sOpenOptions);
+        F:= DoFileOpen(sFilename, Pages, sOpenOptions+SOptionPassive);
 
       //load other props (caret/encoding/etc)
       if Assigned(F) then

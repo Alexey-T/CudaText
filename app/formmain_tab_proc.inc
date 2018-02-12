@@ -40,7 +40,7 @@ begin
 end;
 
 function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string;
-  AndActivate: boolean=true): TATTabData;
+  AndActivate: boolean; AAllowNearCurrent: boolean): TATTabData;
 var
   F: TEditorFrame;
   NToIndex: integer;
@@ -53,7 +53,7 @@ begin
   InitFrameEvents(F);
 
   NToIndex:= -1;
-  if UiOps.TabNewNearCurrent then
+  if AAllowNearCurrent and UiOps.TabNewNearCurrent then
     if APages.Tabs.TabIndex<APages.Tabs.TabCount-1 then
       NToIndex:= APages.Tabs.TabIndex+1;
 

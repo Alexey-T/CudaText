@@ -855,7 +855,8 @@ type
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
     function DoTabAdd(APages: TATPages; const ACaption: string;
-      AndActivate: boolean=true): TATTabData;
+      AndActivate: boolean=true;
+      AAllowNearCurrent: boolean=true): TATTabData;
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
@@ -2042,7 +2043,8 @@ var
   D: TATTabData;
   F: TEditorFrame;
   isOem: boolean;
-  bSilent, bPreviewTab, bEnableHistory, bEnableEvent, bAndActivate: boolean;
+  bSilent, bPreviewTab, bEnableHistory, bEnableEvent,
+  bAndActivate, bAllowNear: boolean;
   OpenMode: TAppOpenMode;
   tick: QWord;
   msg: string;
@@ -2057,6 +2059,7 @@ begin
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEvent:= Pos('/noevent', AOptions)=0;
   bAndActivate:= Pos('/passive', AOptions)=0;
+  bAllowNear:= Pos('/nonear', AOptions)=0;
 
   if Pos('/binary', AOptions)>0 then
     OpenMode:= cOpenModeVBinary
@@ -2068,7 +2071,7 @@ begin
 
   if AFilename='' then
   begin
-    D:= DoTabAdd(APages, GetUntitledCaption, bAndActivate);
+    D:= DoTabAdd(APages, GetUntitledCaption, bAndActivate, bAllowNear);
     Result:= D.TabObject as TEditorFrame;
     Result.SetFocus;
     Exit
@@ -2163,7 +2166,7 @@ begin
 
     if Result=nil then
     begin
-      D:= DoTabAdd(APages, 'pre');
+      D:= DoTabAdd(APages, 'pre', true, false);
       D.TabSpecial:= true;
       D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
       Result:= D.TabObject as TEditorFrame;
@@ -2202,7 +2205,7 @@ begin
     end;
   end;
 
-  D:= DoTabAdd(APages, ExtractFileName(AFilename), bAndActivate);
+  D:= DoTabAdd(APages, ExtractFileName(AFilename), bAndActivate, bAllowNear);
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;
