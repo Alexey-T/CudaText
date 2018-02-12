@@ -39,7 +39,8 @@ begin
   F.Splitter.OnPaint:= @SplitterOnPaint_Gr;
 end;
 
-function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string): TATTabData;
+function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string;
+  AndActivate: boolean=true): TATTabData;
 var
   F: TEditorFrame;
   NToIndex: integer;
@@ -56,9 +57,9 @@ begin
     if APages.Tabs.TabIndex<APages.Tabs.TabCount-1 then
       NToIndex:= APages.Tabs.TabIndex+1;
 
-  APages.AddTab(NToIndex, F, F.TabCaption, false);
+  NToIndex:= APages.AddTab(NToIndex, F, F.TabCaption, false, clNone, AndActivate);
 
-  Result:= APages.Tabs.GetTabData(APages.Tabs.TabIndex);
+  Result:= APages.Tabs.GetTabData(NToIndex);
 end;
 
 procedure TfmMain.DoOnTabAdd(Sender: TObject);

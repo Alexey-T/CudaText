@@ -854,7 +854,8 @@ type
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
-    function DoTabAdd(APages: TATPages; const ACaption: string): TATTabData;
+    function DoTabAdd(APages: TATPages; const ACaption: string;
+      AndActivate: boolean=true): TATTabData;
     procedure DoOnTabFocus(Sender: TObject);
     procedure DoOnTabAdd(Sender: TObject);
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
@@ -2041,7 +2042,7 @@ var
   D: TATTabData;
   F: TEditorFrame;
   isOem: boolean;
-  bSilent, bPreviewTab, bEnableHistory, bEnableEvent: boolean;
+  bSilent, bPreviewTab, bEnableHistory, bEnableEvent, bAndActivate: boolean;
   OpenMode: TAppOpenMode;
   tick: QWord;
   msg: string;
@@ -2055,6 +2056,7 @@ begin
   bPreviewTab:= Pos('/preview', AOptions)>0;
   bEnableHistory:= Pos('/nohistory', AOptions)=0;
   bEnableEvent:= Pos('/noevent', AOptions)=0;
+  bAndActivate:= Pos('/passive', AOptions)=0;
 
   if Pos('/binary', AOptions)>0 then
     OpenMode:= cOpenModeVBinary
@@ -2066,7 +2068,7 @@ begin
 
   if AFilename='' then
   begin
-    D:= DoTabAdd(APages, GetUntitledCaption);
+    D:= DoTabAdd(APages, GetUntitledCaption, bAndActivate);
     Result:= D.TabObject as TEditorFrame;
     Result.SetFocus;
     Exit
@@ -2200,7 +2202,7 @@ begin
     end;
   end;
 
-  D:= DoTabAdd(APages, ExtractFileName(AFilename));
+  D:= DoTabAdd(APages, ExtractFileName(AFilename), bAndActivate);
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;
