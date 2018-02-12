@@ -472,10 +472,14 @@ begin
 end;
 
 procedure TfmMain.DoFindResult(ok: boolean);
+var
+  SOptions: string;
 begin
+  SOptions:= SFindOptionsToTextHint;
+
   if ok then
   begin
-    MsgStatus(msgStatusFoundNextMatch);
+    MsgStatus(msgStatusFoundNextMatch+' ('+SOptions+')');
 
     //these 3 lines- to scroll to found pos
     //(was bad, if found pos in folded blk)
@@ -484,7 +488,7 @@ begin
     FFinder.Editor.DoGotoCaret(cEdgeTop);
   end
   else
-    MsgStatus(msgCannotFindMatch+' ('+SFindOptionsToTextHint+'): '+Utf8Encode(FFinder.StrFind));
+    MsgStatus(msgCannotFindMatch+' ('+SOptions+'): '+Utf8Encode(FFinder.StrFind));
 end;
 
 procedure TfmMain.FinderOnConfirmReplace(Sender: TObject; APos1, APos2: TPoint;
