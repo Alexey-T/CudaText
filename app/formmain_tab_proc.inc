@@ -42,7 +42,7 @@ end;
 function TfmMain.DoTabAdd(APages: TATPages; const ACaption: string): TATTabData;
 var
   F: TEditorFrame;
-  NTabEnd, NTabNear: integer;
+  NToIndex: integer;
 begin
   F:= TEditorFrame.Create(Self);
   F.Name:= '';
@@ -51,14 +51,12 @@ begin
 
   InitFrameEvents(F);
 
-  NTabNear:= APages.Tabs.TabIndex+1;
-  APages.AddTab(F, F.TabCaption, false);
-  NTabEnd:= APages.Tabs.TabCount-1;
+  NToIndex:= -1;
+  if UiOps.TabNewNearCurrent then
+    if APages.Tabs.TabIndex<APages.Tabs.TabCount-1 then
+      NToIndex:= APages.Tabs.TabIndex+1;
 
-  if UiOps.TabNewNearCurrent and (NTabEnd<>NTabNear) then
-    APages.Tabs.MoveTab(NTabEnd, NTabNear, true)
-  else
-    APages.Tabs.TabIndex:= NTabEnd;
+  APages.AddTab(NToIndex, F, F.TabCaption, false);
 
   Result:= APages.Tabs.GetTabData(APages.Tabs.TabIndex);
 end;

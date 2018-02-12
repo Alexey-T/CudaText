@@ -54,7 +54,8 @@ type
     procedure Resize; override;
   public
     constructor Create(AOwner: TComponent); override;
-    procedure AddTab(AControl: TControl; const ACaption: TATTabString;
+    procedure AddTab(AIndex: integer;
+      AControl: TControl; const ACaption: TATTabString;
       AModified: boolean; AColor: TColor = clNone);
     property Tabs: TATTabs read FTabs;
     property EnabledEmpty: boolean read FEnabledEmpty write FEnabledEmpty;
@@ -395,13 +396,17 @@ begin
   FTabs.ColorCloseX:= clDkGray;
 end;
 
-procedure TATPages.AddTab(AControl: TControl;
+procedure TATPages.AddTab(AIndex: integer; AControl: TControl;
   const ACaption: TATTabString; AModified: boolean; AColor: TColor);
 begin
-  FTabs.AddTab(-1, ACaption, AControl, AModified, AColor);
+  FTabs.AddTab(AIndex, ACaption, AControl, AModified, AColor);
   AControl.Parent:= Self;
   AControl.Align:= alClient;
-  FTabs.TabIndex:= FTabs.TabCount-1;
+
+  if AIndex<0 then
+    FTabs.TabIndex:= FTabs.TabCount-1
+  else
+    FTabs.TabIndex:= AIndex;
 end;
 
 procedure TATPages.TabClick(Sender: TObject);
@@ -1338,12 +1343,12 @@ var
 begin
   D:= AFromPages.Tabs.GetTabData(AFromIndex);
   if D=nil then Exit;
-  AToPages.AddTab(D.TabObject as TControl, D.TabCaption, D.TabModified, D.TabColor);
+  AToPages.AddTab(AToIndex, D.TabObject as TControl, D.TabCaption, D.TabModified, D.TabColor);
   AFromPages.Tabs.DeleteTab(AFromIndex, false, false);
 
   if AActivateTabAfter then
     with AToPages.Tabs do
-      TabIndex:= TabCount-1;
+      TabIndex:= IfThen(AToIndex>=0, AToIndex, TabCount-1);
 end;
 
 
