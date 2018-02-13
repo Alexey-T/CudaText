@@ -1087,6 +1087,7 @@ end;
 procedure TATGroups.TabPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 var
   Pnt, PntC: TPoint;
+  IsX: boolean;
   i: Integer;
 begin
   FPopupPages:= nil;
@@ -1102,7 +1103,7 @@ begin
   if FPopupPages=nil then Exit;
 
   PntC:= PopupPages.Tabs.ScreenToClient(Pnt);
-  FPopupTabIndex:= FPopupPages.Tabs.GetTabAt(PntC.X, PntC.Y);
+  FPopupTabIndex:= FPopupPages.Tabs.GetTabAt(PntC.X, PntC.Y, IsX);
 
   if Assigned(FOnTabPopup) then
     FOnTabPopup(Self);
