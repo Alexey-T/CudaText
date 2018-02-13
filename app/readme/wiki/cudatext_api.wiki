@@ -1002,10 +1002,12 @@ Opens editor tab with given filename. If filename already opened, activates its 
 * Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
-** If it has "/nohistory", file's history (caret, scroll pos, etc) won't be used.
-** If it has "/noevent", then on_open_pre event won't fire. 
+** If it has "/nohistory", file's saved history (caret, scroll pos, etc) won't be used.
+** If it has "/noevent", then "on_open_pre" event won't fire. 
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
 ** If it has "/binary', then file will open in internal binary viewer (for files of any size).
+** If it has "/passive", then tab will not activate, it will be passive tab.
+** If it has "/nonear", then app option "ui_tab_new_near_current" will be ignored, tab will append to end.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -2277,6 +2279,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.227 (app 1.40.2)
+* add: file_open: added options "/passive", "/nonear"
 
 1.0.226 (app 1.40.1)
 * add: app_proc: PROC_GET_CODETREE
