@@ -573,32 +573,32 @@
   "ui_initial_dir": "",
 
   //[Ui/Tree]
-  //Tree: After caret pos changed, select code-tree node for new caret pos
+  //After caret moves, select code-tree node for new caret position
   "ui_tree_auto_sync": true,
 
-  //Tree: Delay (in msec) after which code-tree selected node changes
+  //Delay (in msec) after caret movement, after which code-tree changes (syncs) selection
   "ui_tree_time_focus": 300,
 
-  //Tree: Delay (in msec) after text change, after which code-tree is filled
+  //Delay (in msec) after text change, after which code-tree contents is filled
   "ui_tree_time_fill": 2000,
 
-  //Tree: Show nice vertical/horizontal lines in tree 
+  //Show nice vertical/horizontal lines in treeview 
   "ui_tree_show_lines": true,
 
-  //Tree: Show icons in code-tree, for lexers which assign icons (e.g. C#)
+  //Show icons in code-tree, for lexers which assign icons (e.g. C#)
   "ui_tree_icons": true,
 
-  //Tree: Icons theme
+  //Code-tree icons theme
   //Folders from: codetreeicons
   "ui_tree_theme": "default_16x16",  
 
-  //Tree: show tooltips for items, which don't fit by width
+  //Show tooltips for code-tree items, which don't fit by width
   "ui_tree_show_tooltips": true,
   
-  //Tree: buffer/cache contents of code-tree, use this cache when changing tabs
+  //Buffer/cache contents of code-tree, use this cache when changing tabs
   "ui_tree_cache": true,
   
-  //Maximal count of lines in text, for which code-tree is enabled (0: always disabled)
+  //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
   "ui_max_lines_codetree": 8000,
   
   //[Text/NewDoc]
