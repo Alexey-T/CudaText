@@ -766,6 +766,11 @@ begin
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
 end;
 
+procedure TfmMain.UpdateTreeContents;
+begin
+  TimerTreeFill.Enabled:= false;
+  TimerTreeFill.Enabled:= true;
+end;
 
 procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
   AForceUpdateAll: boolean);
@@ -831,16 +836,17 @@ var
   Frame: TEditorFrame;
   Caret: TATCaretItem;
 begin
+  if not UiOps.TreeAutoSync then exit;
+
   Ed:= CurrentEditor;
   Frame:= GetEditorFrame(Ed);
   if Ed.Carets.Count=0 then exit;
   Caret:= Ed.Carets[0];
 
-  if UiOps.TreeAutoSync then
-    Frame.Adapter.TreeShowItemForCaret(
-      CodeTree.Tree,
-      Point(Caret.PosX, Caret.PosY)
-      );
+  Frame.Adapter.TreeShowItemForCaret(
+    CodeTree.Tree,
+    Point(Caret.PosX, Caret.PosY)
+    );
 end;
 
 procedure TfmMain.UpdateMenuEnc(AMenu: TMenuItem);

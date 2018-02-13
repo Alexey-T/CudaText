@@ -878,6 +878,7 @@ type
       AChecked: boolean);
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
+    procedure UpdateTreeContents;
     procedure UpdateTreeSelection;
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
@@ -2144,9 +2145,7 @@ begin
       Result:= F;
       Result.SetFocus;
       UpdateStatus;
-      //fill codetree via timer
-      TimerTreeFill.Enabled:= false;
-      TimerTreeFill.Enabled:= true;
+      UpdateTreeContents;
       Exit
     end;
   end;
@@ -2524,10 +2523,7 @@ begin
     begin
       if SidebarPanel='' then
         DoShowSidePanel(msgPanelTreeInit, false);
-
-      //fill codetree via timer
-      TimerTreeFill.Enabled:= false;
-      TimerTreeFill.Enabled:= true;
+      UpdateTreeContents;
     end;
   end;
   UpdateSidebarButtons;

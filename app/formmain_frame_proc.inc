@@ -63,10 +63,7 @@ begin
       UpdateTreeSelection;
     end
     else
-    begin
-      TimerTreeFill.Enabled:= false;
-      TimerTreeFill.Enabled:= true;
-    end;
+      UpdateTreeContents;
   end;
 end;
 
@@ -145,9 +142,7 @@ procedure TfmMain.FrameParseDone(Sender: TObject);
 var
   Frame: TEditorFrame;
 begin
-  TimerTreeFill.Enabled:= false;
-  TimerTreeFill.Enabled:= true;
-
+  UpdateTreeContents;
   Frame:= (Sender as TATAdapterEControl).Owner as TEditorFrame;
   Frame.DoRestoreFolding;
 end;
