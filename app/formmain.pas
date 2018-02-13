@@ -2144,7 +2144,9 @@ begin
       Result:= F;
       Result.SetFocus;
       UpdateStatus;
-      UpdateTree(true);
+      //fill codetree via timer
+      TimerTreeFill.Enabled:= false;
+      TimerTreeFill.Enabled:= true;
       Exit
     end;
   end;
@@ -2519,7 +2521,10 @@ begin
     begin
       if SidebarPanel='' then
         DoShowSidePanel(msgPanelTreeInit, false);
-      UpdateTree(true);
+
+      //fill codetree via timer
+      TimerTreeFill.Enabled:= false;
+      TimerTreeFill.Enabled:= true;
     end;
   end;
   UpdateSidebarButtons;
