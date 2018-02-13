@@ -566,6 +566,7 @@ type
     FAllowOnFocus: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
+    FFileNameLog: string;
     FTreeClick: boolean;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Editor: TATSynEdit;
@@ -704,6 +705,7 @@ type
     procedure MenuThemeDefaultUiClick(Sender: TObject);
     procedure MenuThemeDefaultSyntaxClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);
+    procedure MsgLog(const AText: string);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetShowOnTop(AValue: boolean);
     procedure SetSidebarPanel(const ACaption: string);
@@ -1212,6 +1214,7 @@ var
   i: integer;
 begin
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
+  FFileNameLog:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
@@ -4370,6 +4373,24 @@ procedure TfmMain.MenuTabsizeClick(Sender: TObject);
 begin
   UpdateEditorTabsize((Sender as TComponent).Tag);
 end;
+
+procedure TfmMain.MsgLog(const AText: string);
+var
+  f: TextFile;
+begin
+  if not UiOps.DebugLog then exit;
+
+  {$I-}
+  AssignFile(f, FFileNameLog);
+  if IOResult<>0 then
+    Rewrite(f)
+  else
+    Append(f);
+  Writeln(f, FormatDateTime('[MM.DD hh:nn] ', Now) + AText);
+  CloseFile(f);
+  {$I+}
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

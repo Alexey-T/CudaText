@@ -550,6 +550,7 @@ begin
              MB_OK or MB_ICONWARNING);
 
     UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
+    UiOps.DebugLog:= c.GetValue('app_log', UiOps.DebugLog);
 
     UiOps.HotkeyFindDialog:= c.GetValue('find_hotkey_find_dlg', UiOps.HotkeyFindDialog);
     UiOps.HotkeyReplaceDialog:= c.GetValue('find_hotkey_replace_dlg', UiOps.HotkeyReplaceDialog);
