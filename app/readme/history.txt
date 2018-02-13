@@ -11,6 +11,7 @@
 + add: must not activate passive+unmodified tab by clicking its X
 + add: must disable tab closing during file loading/saving
 + add: cursors for auto-scroll feature support high-DPI (thanks, FTurtle)
+* change: lexer Pascal: don't add fold-range "unit .. end."
 - fix: flicker on making tab "near current tab"
 - fix: flicker on opening many files (File/Open or session)
 
