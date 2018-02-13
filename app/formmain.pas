@@ -2251,11 +2251,11 @@ end;
 
 procedure TfmMain.DoFileOpenDialog(AOptions: string='');
 const
+  //passive option used only for many files
   SOptionPassive = '/passive /nonear';
 var
   i: integer;
 begin
-  AOptions:= AOptions+SOptionPassive;
   with OpenDlg do
   begin
     FileName:= '';
@@ -2266,7 +2266,7 @@ begin
     if Files.Count>1 then
     begin
       for i:= 0 to Files.Count-1 do
-        DoFileOpen(Files[i], nil, AOptions);
+        DoFileOpen(Files[i], nil, AOptions+SOptionPassive);
     end
     else
     begin
