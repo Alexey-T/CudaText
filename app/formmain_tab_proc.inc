@@ -141,6 +141,9 @@ begin
     Res:= ID_OK
   else
   begin
+    //need to activate tab, before msgbox
+    (Sender as TATTabs).TabIndex:= ATabIndex;
+
     if ACanContinue then Btn:= MB_YESNOCANCEL else Btn:= MB_OKCANCEL;
     Msg:= Format(msgConfirmSaveModifiedTab, [D.TabCaption]);
     Res:= MsgBox(Msg, Btn or MB_ICONQUESTION);
