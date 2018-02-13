@@ -4,13 +4,14 @@
   * changed
 
 
-1.40.2 (2018/02)
+1.40.3 (2018/02)
 
 + add: reworked Code-Tree handling, fixed some crashes
 + add: API for Code-Tree, now it's possible to make plugins which fill code-tree for some files
 + add: mouse cursors for auto-scroll feature support high-DPI (thanks, FTurtle)
 - fix: must disable tab closing during file loading/saving
 - fix: flicker on new tab "near current tab"
+- fix: flicker on opening many files via File/Open dialog
 
 1.40.0 (2018/02)
 

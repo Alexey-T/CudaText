@@ -783,7 +783,7 @@ type
     procedure DoMoveTabTo(AIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject);
     function DoFileOpen(AFilename: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
-    procedure DoFileOpenDialog(const AOptions: string='');
+    procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;
     procedure DoFileSaveAll;
     procedure DoFileReopen;
@@ -2250,10 +2250,13 @@ begin
 end;
 
 
-procedure TfmMain.DoFileOpenDialog(const AOptions: string='');
+procedure TfmMain.DoFileOpenDialog(AOptions: string='');
+const
+  SOptionPassive = '/passive /nonear';
 var
   i: integer;
 begin
+  AOptions:= AOptions+SOptionPassive;
   with OpenDlg do
   begin
     FileName:= '';
