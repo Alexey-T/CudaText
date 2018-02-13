@@ -448,7 +448,7 @@ type
     function GetTabRect(AIndex: integer): TRect;
     function GetTabRect_Plus: TRect;
     function GetTabRect_X(const ARect: TRect): TRect;
-    function GetTabAt(X, Y: integer): integer;
+    function GetTabAt(X, Y: integer; out APressedX: boolean): integer;
     function GetTabData(AIndex: integer): TATTabData;
     function TabCount: integer;
     procedure AddTab(
@@ -1940,13 +1940,14 @@ begin
 end;
 
 
-function TATTabs.GetTabAt(X, Y: integer): integer;
+function TATTabs.GetTabAt(X, Y: integer; out APressedX: boolean): integer;
 var
-  i: integer;
   Pnt: TPoint;
-  R1: TRect;
+  RectTab: TRect;
+  i: integer;
 begin
   Result:= -1;
+  APressedX:= false;
   Pnt:= Point(X, Y);
 
   if PtInRect(FRectArrowLeft, Pnt) then
@@ -2012,13 +2013,15 @@ begin
   //normal tab?
   for i:= 0 to TabCount-1 do
   begin
-    R1:= GetTabRect(i);
-    if not FOptMultiline then
-      if R1.Left>Pnt.X then exit;
+    RectTab:= GetTabRect(i);
 
-    if PtInRect(R1, Pnt) then
+    if not FOptMultiline then
+      if RectTab.Left>Pnt.X then exit;
+
+    if PtInRect(RectTab, Pnt) then
     begin
       Result:= i;
+      APressedX:= PtInRect(GetTabRect_X(RectTab), Pnt);
       Exit;
     end;
   end;
@@ -2077,6 +2080,8 @@ end;
 
 procedure TATTabs.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: integer);
+var
+  IsX: boolean;
 begin
   FMouseDown:= Button in [mbLeft, mbMiddle]; //but not mbRight
   FMouseDownRightBtn:= (Button = mbRight);
@@ -2084,8 +2089,11 @@ begin
   FMouseDownButton:= Button;
   FMouseDownShift:= Shift;
 
-  FTabIndexOver:= GetTabAt(X, Y);
-  SetTabIndex(FTabIndexOver);
+  FTabIndexOver:= GetTabAt(X, Y, IsX);
+
+  //activate tab only if not X clicked
+  if not IsX then
+    SetTabIndex(FTabIndexOver);
 
   Invalidate;
 end;
@@ -2182,9 +2190,11 @@ type
   TControl2 = class(TControl);
 
 procedure TATTabs.MouseMove(Shift: TShiftState; X, Y: integer);
+var
+  IsX: boolean;
 begin
   inherited;
-  FTabIndexOver:= GetTabAt(X, Y);
+  FTabIndexOver:= GetTabAt(X, Y, IsX);
   FTabIndexDrop:= FTabIndexOver;
 
   if Assigned(FOnTabOver) then
@@ -2508,6 +2518,7 @@ var
   NTab, NTabTo: integer;
   Data: TATTabData;
   P: TPoint;
+  IsX: boolean;
 begin
   if not (ATarget is TATTabs) then
   begin
@@ -2525,7 +2536,7 @@ begin
   if not ATabs.OptMouseDragEnabled then Exit;
 
   NTab:= FTabIndex;
-  NTabTo:= ATabs.GetTabAt(APnt.X, APnt.Y); //-1 is allowed
+  NTabTo:= ATabs.GetTabAt(APnt.X, APnt.Y, IsX); //-1 is allowed
 
   Data:= GetTabData(NTab);
   if Data=nil then Exit;
