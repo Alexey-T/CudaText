@@ -1099,7 +1099,6 @@ procedure TfmMain.DoTreeSetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEn
 var
   DataObj: TObject;
   Range: TATRangeInCodeTree;
-  TextPosEnd: TPoint;
 begin
   if ANode=nil then exit;
   if ANode.Data=nil then
