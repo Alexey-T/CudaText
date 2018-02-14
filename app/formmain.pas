@@ -1478,11 +1478,11 @@ var
   i: integer;
 begin
   //seems gtk2 leaks memory for imagelists, tryin to fix it
-  ImageListBm.Clear;
-  ImageListSide.Clear;
-  ImageListTabs.Clear;
-  ImageListTree.Clear;
-  ImageListToolbar.Clear;
+  //ImageListBm.Clear;
+  //ImageListSide.Clear;
+  //ImageListTabs.Clear;
+  //ImageListTree.Clear;
+  //ImageListToolbar.Clear;
 
   {$ifdef windows}
   FreeAndNil(OneWinInstanceRunning);
@@ -1634,6 +1634,8 @@ begin
     NTickShowEnd-NTickInitial,
     NTickPluginEnd-NTickPluginBegin
     ]));
+
+  MsgLog('start');
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject);
