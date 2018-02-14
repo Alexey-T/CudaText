@@ -367,8 +367,13 @@ end;
 
 procedure TfmFind.UpdateFocus(AFindMode: boolean);
 begin
+  if (not Visible) or (not Enabled) then exit;
+
   if AFindMode then
-    edFind.SetFocus
+  begin
+    if edFind.Visible and edFind.Enabled and edFind.CanFocus then
+      edFind.SetFocus;
+  end
   else
   if edRep.Visible and edRep.Enabled and edRep.CanFocus then
     edRep.SetFocus;
