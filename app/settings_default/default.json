@@ -583,7 +583,7 @@
   "ui_tree_time_fill": 2000,
 
   //Show nice vertical/horizontal lines in treeview 
-  "ui_tree_show_lines": true,
+  "ui_tree_show_lines": false,
 
   //Show icons in code-tree, for lexers which assign icons (e.g. C#)
   "ui_tree_icons": true,

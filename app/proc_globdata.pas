@@ -1135,7 +1135,7 @@ begin
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
     TreeTimeFocus:= 300;
-    TreeShowLines:= true;
+    TreeShowLines:= false;
     TreeShowIcons:= true;
     TreeShowTooltips:= true;
     TreeCache:= true;
