@@ -4380,12 +4380,11 @@ var
 begin
   if not UiOps.DebugLog then exit;
 
-  {$I-}
   AssignFile(f, FFileNameLog);
+  {$I-}
+  Append(f);
   if IOResult<>0 then
-    Rewrite(f)
-  else
-    Append(f);
+    Rewrite(f);
   Writeln(f, FormatDateTime('[MM.DD hh:nn] ', Now) + AText);
   CloseFile(f);
   {$I+}

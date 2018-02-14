@@ -300,7 +300,7 @@ begin
   if Pos(#13, StrSel)>0 then StrSel:= '';
   if not Ed.IsSelRectEmpty then StrSel:= '';
 
-  MsgLog('find: initing form');
+  MsgLog('find: init form');
   InitFormFind;
   with fmFind do
   begin
@@ -328,7 +328,7 @@ begin
 
     MsgLog('find: update state');
     UpdateState;
-    MsgLog('find: show form');
+    MsgLog('find: show');
     Show;
     MsgLog('find: update focus');
     UpdateFocus(true);
