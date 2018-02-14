@@ -1366,6 +1366,13 @@ begin
   end;
 
   try
+    if Assigned(FBin) then
+    begin
+      FBin.OpenStream(nil);
+      FreeAndNil(FBin);
+      Ed1.Show;
+    end;
+
     Editor.LoadFromFile(fn);
     FFileName:= fn;
     TabCaption:= ExtractFileName_Fixed(FFileName);
