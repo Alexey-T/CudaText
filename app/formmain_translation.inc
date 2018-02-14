@@ -66,7 +66,6 @@ procedure TfmMain.DoLocalize;
 var
   fn: string;
   ini: TIniFile;
-  s: string;
 begin
   fn:= GetAppLangFilename;
   if not FileExistsUTF8(fn) then exit;

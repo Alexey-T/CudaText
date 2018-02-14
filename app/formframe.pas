@@ -1889,7 +1889,7 @@ var
   lexname: string;
   caret: TATCaretItem;
   items: TStringList;
-  N, i: integer;
+  i: integer;
 begin
   if Lexer=nil then
     lexname:= ''
