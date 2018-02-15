@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Graphics,
-  StdCtrls, Forms, ComCtrls,
+  StdCtrls, Forms, ComCtrls, ExtCtrls,
   LCLType,
   ListFilterEdit,
   ListViewFilterEdit,
@@ -127,6 +127,7 @@ type
     procedure DoOnControlMouseLeave(Sender: TObject);
     procedure DoOnControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -344,6 +345,22 @@ procedure TFormDummy.DoOnControlMouseUp(Sender: TObject; Button: TMouseButton;
 begin
   _HandleMouseEvent(Sender, cControlEventMouseUp,
     _MouseEventString(Button, Shift, X, Y)
+    );
+end;
+
+procedure TFormDummy.DoOnImagePaintBackground(ASender: TObject;
+  ACanvas: TCanvas; ARect: TRect);
+var
+  Img: TImage;
+begin
+  Img:= ASender as TImage;
+  DoPaintCheckers(
+    Img.Canvas,
+    Img.Width,
+    Img.Height,
+    8,
+    clWhite,
+    clLtGray
     );
 end;
 

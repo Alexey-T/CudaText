@@ -693,6 +693,7 @@ begin
     Ctl:= TImage.Create(AForm);
     (Ctl as TImage).Proportional:= true;
     (Ctl as TImage).AntialiasingMode:= amOn;
+    (Ctl as TImage).OnPaintBackground:= @AForm.DoOnImagePaintBackground;
     exit;
   end;
 
