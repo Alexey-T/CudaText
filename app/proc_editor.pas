@@ -350,7 +350,6 @@ var
   caret: TATCaretItem;
   cols, n, x_b, y_b, x_e, y_e: integer;
   bSel: boolean;
-  StrTemp: atString;
 begin
   result:= '';
   if ed.Carets.Count=0 then exit;
@@ -385,8 +384,7 @@ begin
     if ed.Strings.IsIndexValid(caret.PosY) then
     begin
       //optimized for huge lines
-      StrTemp:= ed.Strings.LineSub(caret.PosY, 1, caret.posX);
-      n:= SCharPosToColumnPos(StrTemp, caret.PosX, ed.OptTabSize)+1;
+      n:= ed.Strings.CharPosToColumnPos(caret.PosY, caret.PosX, ed.OptTabSize)+1;
       result:= stringreplace(result, '{xx}', inttostr(n), []);
     end;
 end;

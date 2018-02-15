@@ -3588,8 +3588,7 @@ begin
             if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
               exit(ReturnNone);
 
-            StrTemp:= Ed.Strings.LineSub(Y, 1, X);
-            X:= SCharPosToColumnPos(StrTemp, X, Ed.OptTabSize);
+            X:= Ed.Strings.CharPosToColumnPos(Y, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
@@ -3598,8 +3597,7 @@ begin
             if (X<0) or (not Ed.Strings.IsIndexValid(Y)) then
               exit(ReturnNone);
 
-            StrTemp:= Ed.Strings.LineSub(Y, 1, X);
-            X:= SColumnPosToCharPos(StrTemp, X, Ed.OptTabSize);
+            X:= Ed.Strings.ColumnPosToCharPos(Y, X, Ed.OptTabSize);
             Result:= Py_BuildValue('(ii)', X, Y);
           end;
 
