@@ -1678,23 +1678,15 @@ begin
 end;
 
 procedure TEditorFrame.DoImagePanelPaint(Sender: TObject);
-const
-  cell=8;
-var
-  c: TCanvas;
-  i, j: integer;
 begin
-  c:= FImagePanel.Canvas;
-  c.Brush.Color:= clWhite;
-  c.FillRect(0, 0, FImagePanel.ClientWidth, FImagePanel.ClientHeight);
-
-  for i:= 0 to FImagePanel.ClientWidth div cell + 1 do
-    for j:= 0 to FImagePanel.ClientHeight div cell + 1 do
-      if not (odd(i) xor odd(j)) then
-      begin
-        c.Brush.Color:= clLtGray;
-        c.FillRect(i*cell, j*cell, (i+1)*cell, (j+1)*cell);
-      end;
+  DoPaintCheckers(
+    FImagePanel.Canvas,
+    FImagePanel.ClientWidth,
+    FImagePanel.ClientHeight,
+    8,
+    clWhite,
+    clLtGray
+    );
 end;
 
 procedure TEditorFrame.DoRestoreFolding;

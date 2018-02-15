@@ -73,6 +73,11 @@ function ViewerModeString(V: TATBinHex): string;
 function ExtractFileName_Fixed(const FileName: string): string;
 function ExtractFileDir_Fixed(const FileName: string): string;
 
+procedure DoPaintCheckers(C: TCanvas;
+  ASizeX, ASizeY: integer;
+  ACellSize: integer;
+  AColor1, AColor2: TColor);
+
 
 implementation
 
@@ -572,6 +577,25 @@ begin
     taRightJustify: Result:= 'R';
     else Result:= 'C';
   end;
+end;
+
+procedure DoPaintCheckers(C: TCanvas;
+  ASizeX, ASizeY: integer;
+  ACellSize: integer;
+  AColor1, AColor2: TColor);
+var
+  i, j: integer;
+begin
+  c.Brush.Color:= AColor1;
+  c.FillRect(0, 0, ASizeX, ASizeY);
+
+  for i:= 0 to ASizeX div ACellSize + 1 do
+    for j:= 0 to ASizeY div ACellSize + 1 do
+      if not (odd(i) xor odd(j)) then
+      begin
+        c.Brush.Color:= AColor2;
+        c.FillRect(i*ACellSize, j*ACellSize, (i+1)*ACellSize, (j+1)*ACellSize);
+      end;
 end;
 
 end.
