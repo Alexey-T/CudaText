@@ -930,7 +930,7 @@
 
   //Sidebar icons theme
   //Folders from: sideicons
-  "ui_sidebar_theme": "octicons_20x20",
+  "ui_sidebar_theme": "common_20x20",
   
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog

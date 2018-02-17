@@ -1070,7 +1070,7 @@ begin
     LexerDelayedParsingSize:= 100*1000;
 
     SidebarShow:= true;
-    SidebarTheme:= 'octicons_20x20';
+    SidebarTheme:= 'common_20x20';
     TreeTheme:= 'default_16x16';
 
     PyLibrary:= InitPyLibraryPath;
