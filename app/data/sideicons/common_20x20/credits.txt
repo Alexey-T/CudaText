@@ -1,0 +1,15 @@
+Credits for icons
+License is free for commercial use
+
+ftp         - By Golmin Design, https://www.iconfinder.com/golmin
+ftp log     - By Last Call Media Inc, https://www.iconfinder.com/mrcolinp
+code tree   - By Daniel Bruce, http://danielbruce.se/
+              License: http://creativecommons.org/licenses/by-sa/3.0/
+go to       - By Ionicons, http://ionicons.com/
+              License: MIT
+validate    - By Ionicons, http://ionicons.com/
+output      - By Yannick Lung, https://www.iconfinder.com/yanlu
+find        - By NoFace, https://www.iconfinder.com/JLDesigns
+console     - By Dave Gandy, http://fontawesome.io/
+tabs        - By Google, http://google.com/design/
+project     - By Github, https://octicons.github.com/
