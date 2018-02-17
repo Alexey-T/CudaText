@@ -203,7 +203,7 @@ begin
   Add($f0e0b0, 'EdMarkedRangeBg', 'editor, marked range BG');
 
   Add(nColorBack2, 'TabBg', 'main-toolbar, tabs BG');
-  Add($a0a0a0, 'SideBg', 'side-toolbar BG');
+  Add($707070, 'SideBg', 'side-toolbar BG');
   Add(nColorText, 'TabFont', 'tabs, font');
   Add($a00000, 'TabFontMod', 'tabs, font, modified tab');
   Add(nColorBack, 'TabActive', 'tabs, active tab BG');
