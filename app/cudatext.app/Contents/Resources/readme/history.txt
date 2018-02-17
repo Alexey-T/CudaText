@@ -4,6 +4,19 @@
   * changed
 
 
+1.42.0 (2018/02)
+
++ add: reworked Code-Tree handling, fixed some crashes
++ add: API for Code-Tree, now it's possible to make plugins which fill code-tree for some files
++ add: must not activate passive+unmodified tab by clicking its X
++ add: must disable tab closing during file loading/saving
++ add: cursors for auto-scroll feature support high-DPI (thanks, FTurtle)
++ add: optimizations for speed on huge lines (len 1M)
+* change: sidebar default color + icon set
+* change: lexer Pascal: don't add fold-range "unit".."end."
+- fix: flicker on making tab "near current tab"
+- fix: flicker on opening many files (File/Open or session)
+
 1.40.0 (2018/02)
 
 + add: bookmarks support is rewritten. Now a bookmark is not deleted when its line is deleted. And memory usage of text storage is smaller now.

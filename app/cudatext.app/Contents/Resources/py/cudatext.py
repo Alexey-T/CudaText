@@ -179,6 +179,7 @@ PROP_COORDS                = 50
 PROP_ONE_LINE              = 51
 PROP_SCROLL_VERT           = 52
 PROP_SCROLL_HORZ           = 53
+PROP_CODETREE              = 54
 PROP_KIND                  = 59
 PROP_V_MODE                = 60
 PROP_V_POS                 = 61
@@ -245,6 +246,7 @@ PROC_GET_TAB_IMAGELIST = 52
 PROC_GET_MOUSE_POS     = 53
 PROC_THEME_UI_DATA_GET     = 54
 PROC_THEME_SYNTAX_DATA_GET = 55
+PROC_GET_CODETREE = 56
 #
 PROC_HOTKEY_INT_TO_STR = 60
 PROC_HOTKEY_STR_TO_INT = 61
@@ -291,7 +293,9 @@ TREE_ITEM_FOLD_DEEP        = 8
 TREE_ITEM_UNFOLD           = 9
 TREE_ITEM_UNFOLD_DEEP      = 10
 TREE_ITEM_GET_SELECTED     = 11
-TREE_ITEM_GET_SYNTAX_RANGE = 14
+TREE_ITEM_SET_RANGE        = 13
+TREE_ITEM_GET_RANGE        = 14
+TREE_ITEM_GET_SYNTAX_RANGE = TREE_ITEM_GET_RANGE #deprecated
 TREE_ITEM_FOLD_LEVEL       = 15
 TREE_ITEM_SHOW             = 16
 TREE_ITEM_GET_PROPS        = 17
@@ -771,7 +775,7 @@ def image_proc(id_image, id_action, value=''):
     return ct.image_proc(id_image, id_action, to_str(value))
 
 def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
-    return ct.tree_proc(id_tree, id_action, id_item, index, text, image_index)
+    return ct.tree_proc(id_tree, id_action, id_item, index, to_str(text), image_index)
 
 def _menu_proc_callback_proxy(info=''):
     if info in _live:

@@ -663,6 +663,9 @@ Any project can have "main file", you can choose it in the context menu: "Select
 
 Project Manager shows file/folder icons, using default file-type-icons theme. You can change this theme in the plugin's Config dialog. But first, you must install additional file-type-icons theme from Addons Manager. Example of such theme: VSCode Material 24x24.
 
+==Preview tab==
+To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
+
 ==more==
 
 = Tech topics=

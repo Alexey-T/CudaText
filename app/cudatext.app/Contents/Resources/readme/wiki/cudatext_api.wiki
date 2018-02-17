@@ -154,6 +154,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 * PROC_PROGRESSBAR: Change state of the progress-bar, which is located on the status-bar (hidden by default). If passed int value<0, progressbar hides, else it shows with the given value 0..100.
 * PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON editor property to get/set icons of file tabs.
+* PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
 
 ====System====
 
@@ -1001,10 +1002,12 @@ Opens editor tab with given filename. If filename already opened, activates its 
 * Param "group": index of tab-group (0-based), default means "current group". If you pass index of currently hidden group, group won't show, you need to call editor command to show it, see [[#cmd]].
 * Param "options": string:
 ** If it has "/preview", then file opens in a "temporary preview" tab, with italic caption. Param "group" is ignored then, used 1st group.
-** If it has "/nohistory", file's history (caret, scroll pos, etc) won't be used.
-** If it has "/noevent", then on_open_pre event won't fire. 
+** If it has "/nohistory", file's saved history (caret, scroll pos, etc) won't be used.
+** If it has "/noevent", then "on_open_pre" event won't fire. 
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
 ** If it has "/binary', then file will open in internal binary viewer (for files of any size).
+** If it has "/passive", then tab will not activate, it will be passive tab.
+** If it has "/nonear", then app option "ui_tab_new_near_current" will be ignored, tab will append to end.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -1122,12 +1125,15 @@ Possible values of id_action:
 * TREE_ITEM_FOLD_LEVEL: Folds all items (id_item ignored) from level with specified index, 1 or bigger. (This is what CudaText commands "fold level N" do for code-tree). 
 * TREE_ITEM_UNFOLD: Unfolds item w/o subitems.
 * TREE_ITEM_UNFOLD_DEEP: Unfolds item with subitems. Root-item allowed too.
-* TREE_ITEM_GET_SYNTAX_RANGE: Only for Code Tree panel's treeview. Gets range, associated with tree-item, as 4-tuple (start_x, start_y, end_x, end_y). 
 * TREE_GET_IMAGELIST: Gets int handle of image-list object.
 * TREE_PROP_SHOW_ROOT: This allows to hide lines for invisible root-item. If hidden, tree (folded) looks like listbox. Param text: "0"/"1" to hide/show.
 * TREE_LOCK: Disables repainting of control.
 * TREE_UNLOCK: Enables repainting of control.
 * TREE_THEME: Applies current color theme to control.
+
+* TREE_ITEM_GET_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1). 
+* TREE_ITEM_SET_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
+* TREE_ITEM_GET_SYNTAX_RANGE: Deprecated, same as TREE_ITEM_GET_RANGE.
 
 ===listbox_proc===
 
@@ -1801,6 +1807,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
@@ -1865,6 +1872,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0. 
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
@@ -2235,7 +2243,51 @@ Text is chr(1) separated items:
 ** 'a': wrapped search
 ** 's': search in selection
 
+=FAQ=
+
+==How plugin can fill Code Tree?==
+
+* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it slows down the app)
+* Get handle of Code Tree: h_tree = app_proc(PROC_GET_CODETREE, "")
+* Fill tree via tree_proc(h_tree, ...)
+** Disable standard tree filling via ed.set_prop(PROP_CODETREE, False)
+** Clear tree via tree_proc(h_tree, TREE_ITEM_DELETE, id_item=0)
+** On adding tree items, set range for them via tree_proc(h_tree, TREE_ITEM_SET_RANGE...)
+
+==How plugin can show tooltips on mouse-over?==
+
+* Create dialog for tooltip, via dlg_proc()
+
+* Handle events on_open, on_focus, on_change_slow (better don't use on_change, it will slow down the app)
+** Find text regions which need tooltip
+** Delete old hotspots via ed.hotspot(HOTSPOT_DELETE_BY_TAG...)
+** Add hotspots via ed.hotspots(HOTSPOT_ADD...)
+
+* Handle event on_hotspot
+** Find which text region is under cursor
+** Fill dialog via dlg_proc()
+** Set dialog prop "p" to the handle of editor, ed_self.h. Don't use ed.h, because it is virtual handle 0.
+** Set dialog pos (props "x", "y") to editor-related pixel coords. It is complex. See example: plugin HTML Tooltips.
+** Show dialog via dlg_proc(..., DLG_SHOW_NONMODAL)
+* On exiting hotspot, hide dialog
+
+==How to make formatter plugin?==
+
+* Fork plugin CSS Format (or JS Format). It has most of code done. It has 3 commands done: Format, Config global, Config local.
+* Replace/delete its CSS (JS) modules
+* Change options filename, change loading of options
+* Change contents of func do_format()
+
 =History=
+
+1.0.227 (app 1.40.2)
+* add: file_open: added options "/passive", "/nonear"
+
+1.0.226 (app 1.40.1)
+* add: app_proc: PROC_GET_CODETREE
+* add: Editor.get_prop/set_prop: PROP_CODETREE
+* add: tree_proc: TREE_ITEM_GET_RANGE, TREE_ITEM_SET_RANGE
+* deprecated: tree_proc: TREE_ITEM_GET_SYNTAX_RANGE
 
 1.0.225 (app 1.40.0)
 * add: app_proc: PROC_SEND_MESSAGE

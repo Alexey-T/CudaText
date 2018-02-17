@@ -1,4 +1,4 @@
-object SyntAnal27: TLibSyntAnalyzer
+object SyntAnal29: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -640,27 +640,6 @@ object SyntAnal27: TLibSyntAnalyzer
       AutoCloseText = 'until ;'
     end
     item
-      DisplayName = 'program'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'library'
-            'program'
-            'unit')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      IdentIndex = -1
-      BlockEnd = 'Unit end'
-      EndOfTextClose = True
-      HighlightPos = cpBound
-      CollapseFmt = '%s0 %s-1'
-      TreeItemImage = 0
-      IgnoreAsParent = False
-      AutoCloseMode = acmCloseOpened
-      AutoCloseText = 'end.'
-    end
-    item
       DisplayName = 'class declaration'
       BlockName = 'class declaration'
       NotParent = True
@@ -780,7 +759,6 @@ object SyntAnal27: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Interface section'
-      BlockName = 'program'
       StrictParent = True
       StatesAdd = 1
       ConditionList = <
@@ -825,7 +803,6 @@ object SyntAnal27: TLibSyntAnalyzer
           TokenTypes = 4
           IgnoreCase = True
         end>
-      BlockEnd = 'Unit end'
       EndOfTextClose = True
       Highlight = True
       DisplayInTree = False
@@ -847,25 +824,6 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpBound
       CollapseFmt = '%s0'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'Unit end'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '.')
-          TokenTypes = 8
-        end
-        item
-          TagList.Strings = (
-            'end')
-          TokenTypes = 4
-          IgnoreCase = True
-        end>
-      BlockOffset = 2
-      HighlightPos = cpBound
       IgnoreAsParent = False
     end
     item
@@ -1353,7 +1311,6 @@ object SyntAnal27: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Function out of all'
-      BlockName = 'program'
       StrictParent = True
       ConditionList = <
         item
@@ -1437,7 +1394,7 @@ object SyntAnal27: TLibSyntAnalyzer
       DisplayName = 'asm section'
       StartExpression = 'asm\b'#13#10
       EndExpression = 'end'#13#10
-      SyntAnalyzer = SyntAnal2
+      SyntAnalyzer = SyntAnal3
     end>
   SampleText.Strings = (
     'unit Test;    '
