@@ -9,7 +9,10 @@ go to       - By Ionicons, http://ionicons.com/
               License: MIT
 output      - By Yannick Lung, https://www.iconfinder.com/yanlu
 find        - By NoFace, https://www.iconfinder.com/JLDesigns
-console     - By Dave Gandy, http://fontawesome.io/
 tabs        - By Google, http://google.com/design/
 validate    - By Google, http://google.com/design/
 project     - By Github, https://octicons.github.com/
+github      - By Github
+console     - By Dave Gandy, http://fontawesome.io/
+font        - By Dave Gandy, http://fontawesome.io/
+
