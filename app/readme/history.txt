@@ -7,11 +7,12 @@
 1.42.0 (2018/02)
 
 + add: reworked Code-Tree handling, fixed some crashes
++ add: reworked minimap, it paints faster/nicer
 + add: API for Code-Tree, now it's possible to make plugins which fill code-tree for some files
 + add: must not activate passive+unmodified tab by clicking its X
 + add: must disable tab closing during file loading/saving
 + add: cursors for auto-scroll feature support high-DPI (thanks, FTurtle)
-+ add: optimizations for speed on huge lines (len 1M)
++ add: optimizations for speed on huge lines (len 1M+)
 * change: sidebar default color + icon set
 * change: lexer Pascal: don't add fold-range "unit".."end."
 - fix: flicker on making tab "near current tab"
