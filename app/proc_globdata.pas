@@ -936,7 +936,7 @@ begin
 
     OpMinimapShow:= false;
     OpMinimapShowSelAlways:= false;
-    OpMinimapShowSelBorder:= false;
+    OpMinimapShowSelBorder:= true;
     OpMinimapCharWidth:= 0;
     OpMinimapAtLeft:= false;
 

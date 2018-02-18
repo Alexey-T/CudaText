@@ -286,7 +286,7 @@
   "minimap_sel_always": false,
 
   //Minimap: Show 1-pixel border around selection area
-  "minimap_sel_border": false,
+  "minimap_sel_border": true,
 
   //Minimap: Width
   //  value=0: autosize
