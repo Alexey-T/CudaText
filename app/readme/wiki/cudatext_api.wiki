@@ -2288,6 +2288,7 @@ Text is chr(1) separated items:
 * add: Editor.get_prop/set_prop: PROP_CODETREE
 * add: tree_proc: TREE_ITEM_GET_RANGE, TREE_ITEM_SET_RANGE
 * deprecated: tree_proc: TREE_ITEM_GET_SYNTAX_RANGE
+* change: changed Code-Tree button caption from "Tree" to "Code tree"
 
 1.0.225 (app 1.40.0)
 * add: app_proc: PROC_SEND_MESSAGE
