@@ -91,6 +91,7 @@ begin
   DoOps_LoadKeymap;
 
   UpdateStatus;
+  DoPyEvent(CurrentEditor, cEventOnTabChange, []);
 end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);

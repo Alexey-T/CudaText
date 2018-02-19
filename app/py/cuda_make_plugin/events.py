@@ -34,6 +34,7 @@ EVENTS = [
     'on_snippet',
     'on_start',
     'on_state',
+    'on_tab_change',
     'on_tab_move',
   ]
 
