@@ -18,6 +18,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
+* on_tab_change(self, ed_self): Called after active tab is changed.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
 
 ==Editor==
@@ -2279,6 +2280,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.228 (app 1.40.7)
+* add: event on_tab_change
 
 1.0.227 (app 1.40.2)
 * add: file_open: added options "/passive", "/nonear"
