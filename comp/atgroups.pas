@@ -1765,7 +1765,8 @@ begin
     (ATabIndex>=0) and
     (ATabIndex<Pages[APageIndex].Tabs.TabCount);
   if Result then
-    Pages[APageIndex].Tabs.TabIndex:= ATabIndex;
+    if Pages[APageIndex].Tabs.TabIndex<>ATabIndex then
+      Pages[APageIndex].Tabs.TabIndex:= ATabIndex;
 end;
 
 procedure TATGroups.TabOver(Sender: TObject; ATabIndex: Integer);
