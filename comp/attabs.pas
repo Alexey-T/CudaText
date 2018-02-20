@@ -2093,7 +2093,8 @@ begin
 
   //activate tab only if not X clicked
   if not IsX then
-    TabIndex:= FTabIndexOver;
+    if TabIndex<>FTabIndexOver then
+      TabIndex:= FTabIndexOver;
 
   Invalidate;
 end;
@@ -2300,8 +2301,6 @@ var
 begin
   if csLoading in ComponentState then
     FTabIndexLoaded:= AIndex;
-
-  if (AIndex=FTabIndex) and (AIndex>0) then exit;
 
   if IsIndexOk(AIndex) then
   begin
