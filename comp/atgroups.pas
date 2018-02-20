@@ -1758,15 +1758,16 @@ begin
 end;
 
 function TATGroups.SetPagesAndTabIndex(APageIndex, ATabIndex: Integer): boolean;
+var
+  Page: TATPages;
 begin
-  Result:=
-    (APageIndex>=0) and
-    (APageIndex<PagesVisibleCount) and
-    (ATabIndex>=0) and
-    (ATabIndex<Pages[APageIndex].Tabs.TabCount);
-  if Result then
-    if Pages[APageIndex].Tabs.TabIndex<>ATabIndex then
-      Pages[APageIndex].Tabs.TabIndex:= ATabIndex;
+  Result:= false;
+  if not ((APageIndex>=0) and (APageIndex<PagesVisibleCount)) then exit;
+  Page:= Pages[APageIndex];
+  if not ((ATabIndex>=0) and (ATabIndex<Page.Tabs.TabCount)) then exit;
+  Result:= true;
+  if Page.Tabs.TabIndex<>ATabIndex then
+    Page.Tabs.TabIndex:= ATabIndex;
 end;
 
 procedure TATGroups.TabOver(Sender: TObject; ATabIndex: Integer);
