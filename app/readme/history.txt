@@ -13,6 +13,7 @@
 + add: must disable tab closing during file loading/saving
 + add: optimizations for huge lines (len 1M+)
 + add: cursors for auto-scroll support high-DPI (thanks, FTurtle)
++ add: option "autocomplete_add_opening_bracket"
 * change: sidebar: changed color to darker, changed icon set to white
 * change: lexer Pascal: don't add fold-range "unit".."end."
 - fix: flickering on making tab "near current tab"
