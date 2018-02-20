@@ -1928,6 +1928,7 @@ var
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
   cAdapterIdleTextSize:= UiOps.LexerDelayedParsingSize;
+  CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
 
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons
