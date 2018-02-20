@@ -1082,17 +1082,8 @@ begin
   DataObj:= TObject(ANode.Data);
   if not (DataObj is TATRangeInCodeTree) then exit;
   Range:= DataObj as TATRangeInCodeTree;
-
-  if Range.PosBegin.Y>=0 then
-  begin
-    APosBegin:= Range.PosBegin;
-    APosEnd:= Range.PosEnd;
-  end
-  else
-  begin
-    CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(
-      Range, APosBegin, APosEnd);
-  end;
+  APosBegin:= Range.PosBegin;
+  APosEnd:= Range.PosEnd;
 end;
 
 procedure TfmMain.DoTreeSetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
