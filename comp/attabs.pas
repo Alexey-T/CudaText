@@ -2093,7 +2093,8 @@ begin
 
   //activate tab only if not X clicked
   if not IsX then
-    SetTabIndex(FTabIndexOver);
+    if FTabIndex<>FTabIndexOver then
+      SetTabIndex(FTabIndexOver);
 
   Invalidate;
 end;
