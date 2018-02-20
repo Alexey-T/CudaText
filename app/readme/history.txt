@@ -18,6 +18,7 @@
 * change: lexer Pascal: don't add fold-range "unit".."end."
 - fix: flickering on making tab "near current tab"
 - fix: flickering on opening many files (File/Open or session)
+- fix: Windows IME input
 
 1.40.0 (2018/02)
 

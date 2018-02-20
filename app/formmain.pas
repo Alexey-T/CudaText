@@ -1083,10 +1083,10 @@ begin
   if not (DataObj is TATRangeInCodeTree) then exit;
   Range:= DataObj as TATRangeInCodeTree;
 
-  if Range.TextPosBegin.Y>=0 then
+  if Range.PosBegin.Y>=0 then
   begin
-    APosBegin:= Range.TextPosBegin;
-    APosEnd:= Range.TextPosEnd;
+    APosBegin:= Range.PosBegin;
+    APosEnd:= Range.PosEnd;
   end
   else
   begin
@@ -1112,8 +1112,8 @@ begin
   if DataObj is TATRangeInCodeTree then
   begin
     Range:= DataObj as TATRangeInCodeTree;
-    Range.TextPosBegin:= APosBegin;
-    Range.TextPosEnd:= APosEnd;
+    Range.PosBegin:= APosBegin;
+    Range.PosEnd:= APosEnd;
   end;
 end;
 
