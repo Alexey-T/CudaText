@@ -2301,7 +2301,7 @@ begin
   if csLoading in ComponentState then
     FTabIndexLoaded:= AIndex;
 
-  if AIndex=FTabIndex then exit;
+  if (AIndex=FTabIndex) and (AIndex>0) then exit;
 
   if IsIndexOk(AIndex) then
   begin
