@@ -2296,6 +2296,8 @@ begin
 end;
 
 procedure TATTabs.SetTabIndex(AIndex: integer);
+//note: check "if AIndex=FTabIndex" must not be here, must be in outer funcs.
+//Sometimes SetTabIndex(TabIndex) is needed, eg in DeleteTab().
 var
   CanChange: boolean;
 begin
