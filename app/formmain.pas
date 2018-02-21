@@ -1306,7 +1306,7 @@ begin
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
   StatusAlt.ScalePercents:= UiOps.ScreenScale;
-  StatusAlt.Align:= alNone;
+  StatusAlt.Align:= alBottom;
   StatusAlt.Height:= Status.Height;
   StatusAlt.Padding:= 0;
   StatusAlt.AddPanel(-1, 5000, taLeftJustify, '?');
@@ -2844,8 +2844,9 @@ begin
   if ASeconds>cMax then
     ASeconds:= cMax;
 
-  StatusAlt.Parent:= Status; //place hint on statusbar
-  StatusAlt.Align:= alClient;
+  //StatusAlt.Parent:= Status; //place hint on statusbar
+  //StatusAlt.Align:= alClient;
+  StatusAlt.Top:= Status.Top-4;
 
   StatusAlt.Captions[0]:= AText;
   StatusAlt.Show;
