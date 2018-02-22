@@ -111,6 +111,7 @@ type
     AutocompleteHtml: boolean;
     AutocompleteAutoshowCharCount: integer;
     AutocompleteTriggerChars: string;
+    AutocompleteAddOpeningBracket: boolean;
     AutoCloseBrackets: string;
 
     ListboxSizeX: integer;
@@ -1094,6 +1095,7 @@ begin
     AutocompleteHtml:= true;
     AutocompleteAutoshowCharCount:= 0;
     AutocompleteTriggerChars:= '';
+    AutocompleteAddOpeningBracket:= true;
     AutoCloseBrackets:= '([{';
 
     ListboxSizeX:= 450;

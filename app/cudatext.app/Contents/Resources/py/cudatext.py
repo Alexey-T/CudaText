@@ -779,7 +779,7 @@ def tree_proc(id_tree, id_action, id_item=0, index=0, text='', image_index=-1):
 
 def _menu_proc_callback_proxy(info=''):
     if info in _live:
-        _live[info]()
+        return _live[info]()
 
 def menu_proc(id_menu, id_action, command="", caption="", index=-1, hotkey="", tag=""):
     if callable(command):
@@ -813,7 +813,7 @@ def canvas_proc(id_canvas, id_action, text='', color=-1, size=-1, x=-1, y=-1, x2
 
 def _timer_proc_callback_proxy(tag='', info=''):
     if info in _live:
-        _live[info](tag)
+        return _live[info](tag)
 
 def timer_proc(id, callback, interval, tag=''):
     if callable(callback):
@@ -873,7 +873,7 @@ def _dlg_proc_wait(id_dialog):
 
 def _dlg_proc_callback_proxy(id_dlg, id_ctl, data='', info=''):
     if info in _live:
-        _live[info](id_dlg, id_ctl, data=data)
+        return _live[info](id_dlg, id_ctl, data=data)
 
 def _alter_live(id_dialog, prop, callback_name):
     callback_param = prop[callback_name]

@@ -1083,17 +1083,8 @@ begin
   DataObj:= TObject(ANode.Data);
   if not (DataObj is TATRangeInCodeTree) then exit;
   Range:= DataObj as TATRangeInCodeTree;
-
-  if Range.TextPosBegin.Y>=0 then
-  begin
-    APosBegin:= Range.TextPosBegin;
-    APosEnd:= Range.TextPosEnd;
-  end
-  else
-  begin
-    CurrentFrame.Adapter.TreeGetPositionOfRange_Codetree(
-      Range, APosBegin, APosEnd);
-  end;
+  APosBegin:= Range.PosBegin;
+  APosEnd:= Range.PosEnd;
 end;
 
 procedure TfmMain.DoTreeSetSyntaxRange(ANode: TTreeNode; const APosBegin, APosEnd: TPoint);
@@ -1113,8 +1104,8 @@ begin
   if DataObj is TATRangeInCodeTree then
   begin
     Range:= DataObj as TATRangeInCodeTree;
-    Range.TextPosBegin:= APosBegin;
-    Range.TextPosEnd:= APosEnd;
+    Range.PosBegin:= APosBegin;
+    Range.PosEnd:= APosEnd;
   end;
 end;
 
@@ -1316,7 +1307,7 @@ begin
   StatusAlt:= TATStatus.Create(Self);
   StatusAlt.Parent:= Self;
   StatusAlt.ScalePercents:= UiOps.ScreenScale;
-  StatusAlt.Align:= alNone;
+  StatusAlt.Align:= alBottom;
   StatusAlt.Height:= Status.Height;
   StatusAlt.Padding:= 0;
   StatusAlt.AddPanel(-1, 5000, taLeftJustify, '?');
@@ -1932,6 +1923,7 @@ var
 begin
   cAdapterIdleInterval:= UiOps.LexerDelayedParsingPause;
   cAdapterIdleTextSize:= UiOps.LexerDelayedParsingSize;
+  CompletionOps.AppendOpeningBracket:= UiOps.AutocompleteAddOpeningBracket;
 
   //apply DoubleBuffered
   //no need for ToolbarMain and buttons
@@ -2856,8 +2848,9 @@ begin
   if ASeconds>cMax then
     ASeconds:= cMax;
 
-  StatusAlt.Parent:= Status; //place hint on statusbar
-  StatusAlt.Align:= alClient;
+  //StatusAlt.Parent:= Status; //place hint on statusbar
+  //StatusAlt.Align:= alClient;
+  StatusAlt.Top:= Status.Top-4;
 
   StatusAlt.Captions[0]:= AText;
   StatusAlt.Show;

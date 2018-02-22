@@ -2093,8 +2093,8 @@ begin
 
   //activate tab only if not X clicked
   if not IsX then
-    if FTabIndex<>FTabIndexOver then
-      SetTabIndex(FTabIndexOver);
+    if TabIndex<>FTabIndexOver then
+      TabIndex:= FTabIndexOver;
 
   Invalidate;
 end;
@@ -2296,6 +2296,8 @@ begin
 end;
 
 procedure TATTabs.SetTabIndex(AIndex: integer);
+//note: check "if AIndex=FTabIndex" must not be here, must be in outer funcs.
+//Sometimes SetTabIndex(TabIndex) is needed, eg in DeleteTab().
 var
   CanChange: boolean;
 begin
