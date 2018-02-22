@@ -927,7 +927,7 @@
   //Console panel (Ctrl+`): word wrap mode
   "ui_console_wrap": true,
 
-  //[Ui/Sidebar]
+  //[Ui/Toolbars]
   //Show sidebar (vertical toolbar at the left edge)
   "ui_sidebar_show": true,
 
@@ -935,7 +935,6 @@
   //Folders from: sideicons
   "ui_sidebar_theme": "common_20x20",
 
-  //[Ui/Toolbar]
   //Toolbar icons theme
   //Folders from: toolbaricons
   "ui_toolbar_theme": "default_24x24", 
