@@ -4,6 +4,11 @@
   * changed
 
 
+1.42.1 (2018/02)
+
++ add: option "ui_toolbar_theme", default theme added
++ add: addon type "toolbar icons", which installs icon sets for "ui_toolbar_theme"
+
 1.42.0 (2018/02)
 
 + add: reworked Code-Tree handling, fixed some crashes
