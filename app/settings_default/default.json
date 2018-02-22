@@ -879,9 +879,6 @@
   //  chars trigger autocompletion, in Nnn lexer.
   "autocomplete_trigger_chars": "",
 
-  //If chosen auto-completion item has (), then append "(" on insertion
-  "autocomplete_add_opening_bracket": true,
-
   //Auto-close brackets/quotes.
   //  Value can have only chars: ( [ { ' " `
   //  (don't forget that json needs escaped double-quote)
