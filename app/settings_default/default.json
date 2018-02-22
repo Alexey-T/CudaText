@@ -935,6 +935,11 @@
   //Folders from: sideicons
   "ui_sidebar_theme": "common_20x20",
 
+  //[Ui/Toolbar]
+  //Toolbar icons theme
+  //Folders from: toolbaricons
+  "ui_toolbar_theme": "default_24x24", 
+
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
   "find_hotkey_find_dlg": "Ctrl+F",

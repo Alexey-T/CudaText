@@ -64,6 +64,7 @@ type
     cDirDataLangs,
     cDirDataSideIcons,
     cDirDataTreeIcons,
+    cDirDataToolBarIcons,
     cDirReadme,
     cDirLastInstalledAddon,
     cFileOptionsHistory,
@@ -96,6 +97,8 @@ type
     LexerMenuGrouped: boolean;
     LexerDelayedParsingPause: integer;
     LexerDelayedParsingSize: integer;
+
+    ToolBarTheme: string;
 
     SidebarShow: boolean;
     SidebarTheme: string;
@@ -790,6 +793,10 @@ begin
       begin
         Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'codetreeicons'+DirectorySeparator+UiOps.TreeTheme;
       end;
+    cDirDataToolBarIcons:
+      begin
+        Result:= OpDirLocal+DirectorySeparator+'data'+DirectorySeparator+'toolbaricons'+DirectorySeparator+UiOps.ToolBarTheme;
+      end;
 
     cDirReadme:
       begin
@@ -1075,6 +1082,7 @@ begin
     SidebarShow:= true;
     SidebarTheme:= 'common_20x20';
     TreeTheme:= 'default_16x16';
+    ToolBarTheme:= 'default_24x24';
 
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';

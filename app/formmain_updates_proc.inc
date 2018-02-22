@@ -1102,6 +1102,37 @@ begin
   CodeTree.Tree.Invalidate;
 end;
 
+procedure TfmMain.DoOps_LoadToolBarIcons;
+var
+  Parts: TRegexParts;
+  Str: string;
+begin
+  SRegexFindParts('.+_(\d+)x(\d+)', UiOps.ToolBarTheme, Parts);
+
+  Str:= GetAppPath(cDirDataToolBarIcons)+DirectorySeparator;
+
+  if not DirectoryExists(Str) then Exit;
+
+  ImageListToolbar.Width:= StrToIntDef(Parts[1].Str, ImageListToolbar.Width);
+  ImageListToolbar.Height:= StrToIntDef(Parts[2].Str, ImageListToolbar.Height);
+  ImageListToolbar.Clear;
+
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'f_new.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'f_open.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'f_save.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_cut.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_copy.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_paste.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_undo.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'e_redo.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'unpri.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'map.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'indent.png');
+  UpdateImagelistWithIconFromFile(ImageListToolbar, Str+'unindent.png');
+
+  ToolbarMain.UpdateControls;
+end;
+
 
 procedure TfmMain.InitSidebar;
 begin

@@ -724,6 +724,7 @@ type
     procedure DoOps_LoadPluginFromInf(const fn_inf: string);
     procedure DoOps_LoadSidebarIcons;
     procedure DoOps_LoadTreeIcons;
+    procedure DoOps_LoadToolBarIcons;
     procedure DoOps_LoadCommandLineOptions;
     procedure DoOps_LoadLexerLib;
     procedure DoOps_SaveHistory;
@@ -1576,8 +1577,11 @@ begin
   DoApplyUiOps;
 
   InitPyEngine;
+
   DoOps_LoadSidebarIcons;
   DoOps_LoadTreeIcons;
+  DoOps_LoadToolBarIcons;
+
   DoOps_LoadLexerLib;
   DoFileOpen('');
   FHandledOnShow:= true;
