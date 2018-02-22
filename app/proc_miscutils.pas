@@ -59,8 +59,7 @@ procedure DoApplyThemeToToolbar(C: TATFlatToolbar);
 function ConvertTwoPointsToDiffPoint(APrevPnt, ANewPnt: TPoint): TPoint;
 function ConvertShiftStateToString(const Shift: TShiftState): string;
 function KeyboardStateToShiftState: TShiftState; //like VCL
-function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string): boolean;
-function UpdateImagelistWithIconFromFileEx(AImagelist: TCustomImagelist; const AFilename: string; const Index: integer = -1): boolean;
+function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist; const AFilename: string; const AIndex: integer = -1): boolean;
 function FormatFileDateAsNiceString(const AFilename: string): string;
 
 function AppStrToBool(const S: string): boolean; inline;
@@ -182,8 +181,8 @@ begin
     IfThen(ssMeta in Shift, 'm');
 end;
 
-function UpdateImagelistWithIconFromFileEx(AImagelist: TCustomImagelist;
-  const AFilename: string; const Index: integer = -1): boolean;
+function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
+  const AFilename: string; const AIndex: integer = -1): boolean;
 var
   bmp: TCustomBitmap;
 begin
@@ -204,9 +203,10 @@ begin
       bmp.LoadFromFile(AFilename);
       bmp.Transparent:= true;
 
-      if Index >= 0
-        then AImagelist.Replace(index, bmp, nil)
-        else AImagelist.Add(bmp, nil);
+      if Index >= 0 then
+        AImagelist.Replace(AIndex, bmp, nil)
+      else
+        AImagelist.Add(bmp, nil);
 
       Result:= true;
     finally
@@ -214,12 +214,6 @@ begin
     end;
   except
   end;
-end;
-
-function UpdateImagelistWithIconFromFile(AImagelist: TCustomImagelist;
-  const AFilename: string): boolean;
-begin
-  result := UpdateImagelistWithIconFromFileEx(AImagelist, AFilename)
 end;
 
 function Canvas_NumberToFontStyles(Num: integer): TFontStyles;
