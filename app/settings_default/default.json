@@ -935,7 +935,7 @@
   //[Ui/Toolbar]
   //Toolbar icons theme
   //Folders from: toolbaricons
-  "ui_toolbar_theme": "default_24x24",
+  "ui_toolbar_theme": "default_24x24", 
 
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
