@@ -203,7 +203,7 @@ begin
       bmp.LoadFromFile(AFilename);
       bmp.Transparent:= true;
 
-      if Index >= 0 then
+      if AIndex >= 0 then
         AImagelist.Replace(AIndex, bmp, nil)
       else
         AImagelist.Add(bmp, nil);
