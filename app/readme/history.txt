@@ -6,8 +6,8 @@
 
 1.42.1 (2018/02)
 
-+ add: option "ui_toolbar_theme", default theme added
-+ add: addon type "toolbar icons", which installs icon sets for "ui_toolbar_theme"
++ add: option "ui_toolbar_theme", with default theme
++ add: add-on type "toolbar theme", which installs icon set(s) for new option
 
 1.42.0 (2018/02)
 
