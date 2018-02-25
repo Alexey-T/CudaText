@@ -921,6 +921,12 @@ Section names: from "item1" to "item400", any numbers can be skipped. Fields in 
 ** "o": menu item will be put to "Options / Settings-plugins".
 ** "op": menu item will be put both to "Plugins" and "Options / Settings-plugins".
 
+Plugin can show sidebar button(s), w/o running plugin code. For this, add sections "sidebar1" to "sidebar3", with keys:
+
+* "hint": hint of button, must be the same as used by plugin to create button in runtime.
+* "icon": filename of PNG icon. If path missed, used file from CudaText. To use path in plugin dir, write value as "{dir}/subdir/filename.png" - with macro, with / slashes. 
+* "method": Python method name to show plugin side panel. This command must create side panel for this sidebar button.
+
 ==== Lexer lists ====
 
 If plugin has many [itemN] sections, it is possible to set list of lexers using vairable (not to write each time "lexers=name,name2,name3"). Declare list of lexers in [info] section like this, any variable name:
