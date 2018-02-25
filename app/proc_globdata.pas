@@ -601,7 +601,7 @@ const
 const
   cMaxItemsInInstallInf = 400;
   cMaxSidebarItemsInInstallInf = 3;
-  cMaxCommandPlugins = 400;
+  cMaxCommandPlugins = 800;
   cMaxEventPlugins = 100;
   cMaxSidePanels = 40;
   cMaxBottomPanels = 40;
