@@ -624,6 +624,8 @@ type
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
       AImageIndex: integer; AHandle: PtrInt): boolean;
+    function DoSidebar_AddTab_Empty(const ACaption: string;
+      AImageIndex: integer; const AModule, AMethod: string): boolean;
     function DoSidebar_RemoveTab(const ACaption: string): boolean;
     function DoSidebar_CaptionToPanelsIndex(const Str: string): integer;
     function DoSidebar_CaptionToTabIndex(const Str: string): integer;

@@ -34,7 +34,7 @@ end;
 procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
   Btn: TATButton;
-  SCaption: string;
+  SCaption, S, SModule, SMethod: string;
   i: integer;
 begin
   //toggle side panel?
@@ -54,6 +54,15 @@ begin
     if Btn.Checked then
     begin
       SCaption:= Btn.Caption;
+      //button has no form? detect by DataString.
+      if Btn.DataString<>'' then
+      begin
+        S:= Btn.DataString;
+        SModule:= SGetItem(S, '.');
+        SMethod:= S;
+        DoPyCommand(SModule, SMethod, []);
+        Exit
+      end;
     end;
   end;
 
@@ -80,6 +89,7 @@ end;
 
 procedure TfmMain.UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
 var
+  bFound: boolean;
   i: integer;
 begin
   FLastSidebarPanel:= ACaption;
@@ -90,15 +100,19 @@ begin
     with AppSidePanels[i] do
     begin
       if ItemCaption='' then Break;
+      bFound:= SameText(ItemCaption, ACaption);
       if Assigned(ItemControl) then
       begin
-        ItemControl.Visible:= SameText(ItemCaption, ACaption);
+        ItemControl.Visible:= bFound;
         if AndFocus then
           if PanelLeft.Visible then
             if ItemControl.Visible then
               if ItemControl.CanFocus then
                 ItemControl.SetFocus;
       end
+      else
+      if bFound and (ItemModule<>'') and (ItemMethod<>'') then
+        DoPyCommand(ItemModule, ItemMethod, []);
     end;
 end;
 
@@ -142,15 +156,14 @@ end;
 procedure TfmMain.DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
   const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
 begin
-  with AItem do
-  begin
-    ItemCaption:= ACaption;
-    ItemControl:= AForm;
+  AItem.ItemCaption:= ACaption;
+  AItem.ItemControl:= AForm;
+  AItem.ItemModule:= '';
+  AItem.ItemMethod:= '';
 
-    AForm.BorderStyle:= bsNone;
-    AForm.Parent:= AParent;
-    AForm.Align:= alClient;
-  end;
+  AForm.BorderStyle:= bsNone;
+  AForm.Parent:= AParent;
+  AForm.Align:= alClient;
 end;
 
 
@@ -172,19 +185,57 @@ function TfmMain.DoSidebar_AddTab(const ACaption: string; AImageIndex: integer;
   AHandle: PtrInt): boolean;
 var
   Num: integer;
+  bExist: boolean;
+begin
+  Num:= DoSidebar_CaptionToPanelsIndex(ACaption);
+  bExist:= Num>=0;
+
+  if not bExist then
+  begin
+    //find free index for new button
+    Num:= 0;
+    while AppSidePanels[Num].ItemCaption<>'' do Inc(Num);
+    if Num>High(AppSidePanels) then exit(false);
+  end;
+
+  if AHandle<>0 then
+    DoSidebar_InitPanelForm(AppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft);
+
+  if not bExist then
+  begin
+    ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
+    ToolbarSideTop.UpdateControls;
+  end;
+
+  Result:= true;
+end;
+
+function TfmMain.DoSidebar_AddTab_Empty(const ACaption: string; AImageIndex: integer;
+  const AModule, AMethod: string): boolean;
+var
+  Num: integer;
 begin
   if DoSidebar_CaptionToPanelsIndex(ACaption)>=0 then exit(false);
 
+  //find free index for button
   Num:= 0;
   while AppSidePanels[Num].ItemCaption<>'' do Inc(Num);
   if Num>High(AppSidePanels) then exit(false);
 
-  DoSidebar_InitPanelForm(AppSidePanels[Num], ACaption, TCustomForm(AHandle), PanelLeft);
+  AppSidePanels[Num].ItemCaption:= ACaption;
+  AppSidePanels[Num].ItemControl:= nil;
+  AppSidePanels[Num].ItemModule:= AModule;
+  AppSidePanels[Num].ItemMethod:= AMethod;
 
-  ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption, '', UiOps.ShowSidebarCaptions);
+  //save module/method to Btn.DataString
+  ToolbarSideTop.AddButton(AImageIndex, @DoSidebar_OnTabClick, ACaption, ACaption,
+    AModule+'.'+AMethod,
+    UiOps.ShowSidebarCaptions);
   ToolbarSideTop.UpdateControls;
+
   Result:= true;
 end;
+
 
 function TfmMain.DoSidebar_RemoveTab(const ACaption: string): boolean;
 var

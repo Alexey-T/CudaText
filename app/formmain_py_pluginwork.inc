@@ -66,13 +66,35 @@ end;
 procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
 var
   ini: TIniFile;
-  s_section, s_caption, s_module, s_method, s_lexers,
-  s_events, s_keys, s_inmenu: string;
+  dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
+  s_events, s_keys, s_inmenu, s_icon: string;
   i, cnt: integer;
 begin
   ini:= TIniFile.Create(fn_inf);
   try
-    s_module:= ExtractFileName(ExtractFileDir(fn_inf));
+    dir_inf:= ExtractFileDir(fn_inf);
+    s_module:= ExtractFileName(dir_inf);
+
+    for i:= 1 to cMaxSidebarItemsInInstallInf do
+    begin
+      s_section:= 'sidebar'+Inttostr(i);
+      s_caption:= ini.ReadString(s_section, 'hint', '');
+      if s_caption='' then Continue;
+
+      s_icon:= ini.ReadString(s_section, 'icon', '');
+      if s_icon='' then Continue;
+      s_icon:= StringReplace(s_icon, '{dir}', dir_inf, []);
+
+      s_method:= ini.ReadString(s_section, 'method', '');
+      if s_method='' then Continue;
+
+      DoSidebar_AddTab_Empty(
+        s_caption,
+        DoSidebar_FilenameToImageIndex(s_caption, s_icon),
+        s_module,
+        s_method
+        );
+    end;
 
     for i:= 1 to cMaxItemsInInstallInf do
     begin

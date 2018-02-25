@@ -600,6 +600,7 @@ const
 
 const
   cMaxItemsInInstallInf = 400;
+  cMaxSidebarItemsInInstallInf = 3;
   cMaxCommandPlugins = 400;
   cMaxEventPlugins = 100;
   cMaxSidePanels = 40;
@@ -631,6 +632,8 @@ type
   TAppSidePanel = record
     ItemCaption: string;
     ItemControl: TCustomControl;
+    ItemModule: string;
+    ItemMethod: string;
   end;
 
 var
