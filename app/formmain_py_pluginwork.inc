@@ -83,8 +83,9 @@ begin
 
       s_icon:= ini.ReadString(s_section, 'icon', '');
       if s_icon='' then Continue;
-      s_icon:= StringReplace(s_icon, '\', '/', [rfReplaceAll]);
       s_icon:= StringReplace(s_icon, '{dir}', dir_inf, []);
+      if DirectorySeparator<>'/' then
+        s_icon:= StringReplace(s_icon, '/', DirectorySeparator, [rfReplaceAll]);
 
       s_method:= ini.ReadString(s_section, 'method', '');
       if s_method='' then Continue;
