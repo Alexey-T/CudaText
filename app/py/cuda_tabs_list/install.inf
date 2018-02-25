@@ -19,3 +19,8 @@ section=commands
 caption=Tabs List\Config...
 method=config
 menu=o
+
+[sidebar1]
+hint=Tabs
+icon=tabs.png
+method=open

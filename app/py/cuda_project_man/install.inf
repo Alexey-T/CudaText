@@ -5,6 +5,11 @@ type=cudatext-plugin
 subdir=cuda_project_man
 homepage=https://github.com/pohmelie/cuda_project_man
 
+[sidebar1]
+hint=Project
+icon=project.png
+method=show_panel
+
 [item1]
 section=events
 events=on_open_pre,on_start
