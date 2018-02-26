@@ -9,28 +9,28 @@
   "font_name": "Consolas",
   "font_name__linux": "Courier New",
   "font_name__mac": "Monaco",
-  
+
   //Text font size [has suffix]
   "font_size": 10,
   "font_size__linux": 10,
   "font_size__mac": 10,
-  
+
   //Enable to render font ligatures (e.g. font Fira Code)
   //Option works only on Windows yet. On Linux: always on.
   "font_ligatures": false,
 
   //Text font rendering quality [has suffix]
-  //  0: Default 
-  //  1: Draft 
-  //  2: Proof 
-  //  3: Non Antialiased 
+  //  0: Default
+  //  1: Draft
+  //  2: Proof
+  //  3: Non Antialiased
   //  4: Antialiased
-  //  5: Cleartype 
-  //  6: Cleartype Natural 
+  //  5: Cleartype
+  //  6: Cleartype Natural
   "font_quality": 0,
   "font_quality__linux": 0,
   "font_quality__mac": 0,
-  
+
   //UI elements font name [has suffix]
   "ui_font_name": "default",
   "ui_font_name__linux": "default",
@@ -50,7 +50,7 @@
   "ui_font_output_size" : 9,
   "ui_font_output_size__linux" : 9,
   "ui_font_output_size__mac" : 9,
-  
+
   //Allow Unicode chars (many ranges) to have ~170% width, ie allow full-width chars.
   //Don't disable it if you use CJK texts, CJK chars will be rendered too narrow.
   "allow_wide_chars": true,
@@ -66,14 +66,14 @@
 
   //Allow to run only one instance of CudaText
   "ui_one_instance": false,
-  
+
   //[File]
   //File-change notification: enabled
   "ui_notif": true,
 
   //File-change notification: watch timer interval, seconds
   "ui_notif_time": 2,
-  
+
   //[File/NonText]
   //Non-text files: allow to open
   //  0: show question message
@@ -89,12 +89,12 @@
   //[File]
   //Reloading of file: if caret was on the last line, after reload put caret on new last line
   "ui_reload_tail": true,
-  
+
   //Manual reopening/reloading of file: confirm to reload, if tab has unsaved changes
   "ui_reload_unsaved_confirm": true,
-  
+
   //[Lexers]
-  //Group lexers menu by 1st char of name  
+  //Group lexers menu by 1st char of name
   "ui_lexers_grouped": true,
 
   //[Text]
@@ -109,7 +109,7 @@
 
   //Show additional vertical-lines at caret position(s)
   "show_cur_column": false,
-  
+
   //Allow last line to scroll to the top of window
   "show_last_line_on_top": true,
 
@@ -122,23 +122,23 @@
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
 
-  //If N>0, text will be painted shifted to the right, 
+  //If N>0, text will be painted shifted to the right,
   //so N columns will look like "centered" on screen
   "centering_width": 0,
-  
+
   //Same as "centering_width", but it's applied only in Distraction-Free mode
   "centering_for_distraction_free": 100,
-  
+
   //[Lexers]
   //Enable caret-depending highlighting
   //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
   //  HTML/XML hilites opening/closing tags when caret is inside tag
   "lexer_dynamic_hilite": false,
-  
+
   //Max number of lines in editor, for which dynamic-hiliting works
   //  Reason for option: dynamic-hiliting disables hiliting cache, so slows down scrolling
   "lexer_dynamic_hilite_max_lines": 2000,
-  
+
   //Enable lexers' horizontal line separators
   //  e.g. Pascal lexer: green lines above procedure/function
   "lexer_line_separators": false,
@@ -146,7 +146,7 @@
   //If text size is bigger than this option, lexer analysis becomes delayed,
   //ie only after last text change + pause (during this pause you'll see non-colored text)
   "lexer_delayed_parsing_size": 100000,
-  
+
   //Delayed lexer analysis: pause in msec
   "lexer_delayed_parsing_pause": 400,
 
@@ -157,7 +157,7 @@
   //  2: if fold-hint empty: [...] after line, else hint
   //  3: always [...] after line
   //  4: horiz colored line below line text
-  "fold_style": 1,  
+  "fold_style": 1,
 
   //[Text/Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret
@@ -165,7 +165,7 @@
 
   //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
-  
+
   //If vertical (column) selection, copy it to clipboard aligned by spaces, all lines have same length
   "copy_column_aligned_by_spaces": true,
 
@@ -209,9 +209,9 @@
   //Tab-key enters spaces, instead of tab-char
   "tab_spaces": false,
 
-  //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)   
+  //Max x-position, before which tab-chars expand to N spaces (after it to 1 space)
   "tab_max_pos_expanded": 500,
-    
+
   //[View/Gutter]
   //Gutter: Enable gutter (all columns at the left side)
   "gutter_show": true,
@@ -249,7 +249,7 @@
 
   //Center numbers on column
   "numbers_center": true,
-    
+
   //[Text]
   //Style of block staples (aka indentation guides)
   //  0: don't show
@@ -311,7 +311,7 @@
   //Additional vertical lines.
   //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
-  
+
   //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
   "unprinted_show": false,
@@ -367,7 +367,7 @@
   //Enable word-wrap (by window edge, by margin) only if lines count < option
   //Reason for option: disabled word-wrap (together with none-lexer) makes loading of huge files faster 1.5 times
   "wrap_enabled_max_lines": 60000,
-  
+
   //[Text/Undo]
   //Undo: Max count of commands which can be undone
   "undo_limit": 5000,
@@ -439,7 +439,7 @@
   //  2: right-bottom
   //  3: right-top
   //  4: carets column on left
-  //  5: carets column on right 
+  //  5: carets column on right
   "caret_after_paste_column": 5,
 
   //[Find]
@@ -453,7 +453,7 @@
   "find_suggest_cur_word": true,
 
   //Find current selection next/prev: case-sensitive state
-  //  0: case-sens off 
+  //  0: case-sens off
   //  1: case-sens on
   //  2: use option from Find dialog
   "find_sel_case": 2,
@@ -462,7 +462,7 @@
   "find_show_findfirst": true,
 
   //Find dialog: multi-line mode: how height of inputs is increased
-  "find_multiline_scale": 2.5,  
+  "find_multiline_scale": 2.5,
 
   //When doing "go to" or "find", and new position out of screen,
   //scroll by N chars from new position
@@ -474,14 +474,14 @@
 
   //[Ui/Tabs]
   //UI tabs: multi-line mode, ie wrappable to several lines if lot of tabs
-  "ui_tab_multiline": false,  
-  
+  "ui_tab_multiline": false,
+
   //UI tabs: show angled left/right sides (note: they paint much slower)
-  "ui_tab_angled": true,  
-  
+  "ui_tab_angled": true,
+
   //UI tabs: flat look
   "ui_tab_flat": false,
-  
+
   //UI tabs: layout of buttons at left/right sides
   //String of few chars, each char is button. Separator for sides is comma.
   //Allowed chars (buttons):
@@ -490,10 +490,10 @@
   //  "+" - plus button, the same as plus pseudo-tab, but don't hide if lot of tabs
   //  "x" - close button, the same as x icon on active tab
   "ui_tab_button_layout": "<>,v",
-  
+
   //UI tabs: Width
   "ui_tab_size_x": 170,
-  
+
   //UI tabs: Minimal width, used when lot of tabs appear
   "ui_tab_size_x_min": 40,
 
@@ -504,7 +504,7 @@
   //  0: top
   //  1: bottom
   //  2: left
-  //  3: right  
+  //  3: right
   "ui_tab_position": 0,
 
   //UI tabs: Show "x" buttons on tabs
@@ -568,7 +568,7 @@
 
   //Close Console by Esc key
   "ui_esc_close_console": true,
-  
+
   //Initial folder of Open/Save-as dialogs, for untitled tabs
   "ui_initial_dir": "",
 
@@ -582,7 +582,7 @@
   //Delay (in msec) after text change, after which code-tree contents is filled
   "ui_tree_time_fill": 2000,
 
-  //Show nice vertical/horizontal lines in treeview 
+  //Show nice vertical/horizontal lines in treeview
   "ui_tree_show_lines": false,
 
   //Show icons in code-tree, for lexers which assign icons (e.g. C#)
@@ -590,23 +590,23 @@
 
   //Code-tree icons theme
   //Folders from: codetreeicons
-  "ui_tree_theme": "default_16x16",  
+  "ui_tree_theme": "default_16x16",
 
   //Show tooltips for code-tree items, which don't fit by width
   "ui_tree_show_tooltips": true,
-  
+
   //Buffer/cache contents of code-tree, use this cache when changing tabs
   "ui_tree_cache": true,
-  
+
   //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
   "ui_max_lines_codetree": 8000,
-  
+
   //[Text/NewDoc]
   //New tabs: Lexer name
   "newdoc_lexer": "",
 
   //New tabs: Encoding name
-  //  Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc  
+  //  Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
   "newdoc_encoding": "utf8",
 
   //New tabs: End-of-lines chars
@@ -615,7 +615,7 @@
   //  3: MacOS 9
   //  Defaults: Windows: 1, Linux/macOS: 2
   "newdoc_eol": 1,
-  
+
   //[File]
   //When file opens, and cannot detect encoding, open it as ANSI (value=false)
   //or UTF8 (value=true) [has suffix]
@@ -683,7 +683,7 @@
 
   //Mouse wheel scrolling speed, horizontal (in chars)
   "mouse_wheel_speed_horz": 10,
-  
+
   //Call Goto-Definition command, by click with modifier key
   //  "": disabled
   //  "a": by Alt+click
@@ -757,7 +757,7 @@
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
 
   //Statusbar panels (can skip items, can reorder items)
-  //Panels: 
+  //Panels:
   //    caret (Caret(s) info)
   //    enc (Encoding name)
   //    ends (Line ends kind)
@@ -770,7 +770,7 @@
   //Align: C (center), L (left), R (right)
   "ui_statusbar_panels": "caret,C,170|enc,C,125|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,",
 
-  //Statusbar height   
+  //Statusbar height
   "ui_statusbar_height": 24,
 
   //Statusbar message (in the last panel): show time in seconds
@@ -780,7 +780,7 @@
   //  {tab}: tab size
   //  {_}: char "_" if spaces used
   "ui_statusbar_tabsize": "Tab size {tab}{_}",
-  
+
   //Statusbar: wrap-panel values.
   //3 strings ","-separated: for wrap off, for wrap at window edge, for wrap at margin
   "ui_statusbar_wrap": "no-wrap,wrap,wrap-m",
@@ -788,7 +788,7 @@
   //[Ui]
   //Show full file path in window title
   "ui_title_path": false,
-  
+
   //[Ui/History]
   //Restore session (all named+unnamed tabs) at start
   "ui_reopen_session": true,
@@ -798,7 +798,7 @@
   "ui_lexer_themes": true,
 
   //[View/Web]
-  //Underline HTML color codes (like #008080, #0a0) in these file extensions, 
+  //Underline HTML color codes (like #008080, #0a0) in these file extensions,
   //comma-separated, w/o dot. "*" for all files, empty str to disable.
   "underline_color_files": "*",
 
@@ -808,16 +808,16 @@
   //[File/Export]
   //Export to HTML: show line numbers in output
   "export_html_numbers": false,
-  
+
   //Export to HTML: font name in output
   "export_html_font_name": "Courier New",
-  
+
   //Export to HTML: font size in output
   "export_html_font_size": 12,
 
   //[Python]
   //Sets Python3 engine [has suffix]
-  //  If correct, you must see Python version in console panel (Ctrl+`) 
+  //  If correct, you must see Python version in console panel (Ctrl+`)
   //  and command "=sys.path" must work in console.
   //
   //  Instruction for Linux, if Py engine not found:
@@ -839,7 +839,7 @@
 
   //API: delay for event on_change_slow in msec (used in CudaLint)
   "py_change_slow": 2000,
-  
+
   //Show console lines "Init: cuda_nnnn" on plugins initialization
   "py_init_log": true,
 
@@ -855,7 +855,7 @@
 
   //Commenting: If selected >1 lines, insert comment at maximal common indent
   "comment_equal_column": false,
-  
+
   //Duplicating line: If no selection then duplicate full line
   "duplicate_full_line_if_no_sel": true,
 
@@ -875,20 +875,20 @@
 
   //Chars, which trigger autocompletion show.
   //Option is for lexer-specific configs, not for user.json config.
-  //  E.g. if option is "@!" in config "lexer Nnn.json", then @ and ! 
+  //  E.g. if option is "@!" in config "lexer Nnn.json", then @ and !
   //  chars trigger autocompletion, in Nnn lexer.
-  "autocomplete_trigger_chars": "", 
+  "autocomplete_trigger_chars": "",
 
-  //If chosen auto-completion item has (), then append "(" on insertion 
+  //If chosen auto-completion item has (), then append "(" on insertion
   "autocomplete_add_opening_bracket": true,
 
-  //Auto-close brackets/quotes. 
+  //Auto-close brackets/quotes.
   //  Value can have only chars: ( [ { ' " `
   //  (don't forget that json needs escaped double-quote)
   //  Function don't work on escaped chars, after backslash.
-  //  Function don't work if after caret is non-space. 
+  //  Function don't work if after caret is non-space.
   "auto_close_brackets": "([{",
-  
+
   //[File]
   //Extensions of picture files (they show as pictures)
   "picture_types": "bmp,png,jpg,jpeg,jpe,gif,ico",
@@ -908,7 +908,7 @@
   //  It's important for JSON, XML: if file is bigger, than lite lexer (JSON ^, XML ^)
   //  will be used instead of normal lexer.
   "ui_max_size_lexer": 2,
-  
+
   //[Ui]
   //On calling Full-Screen, hide these UI elements
   //Value is string of few chars
@@ -920,44 +920,48 @@
   //  if "u" in value: file tabs
   //  if "g" in value: gutter (all columns: numbers, bookmarks...)
   "ui_fullscreen": "tp",
-  
+
   //Highlight border of focused input box (find/ replace/ goto/ console input)
   "ui_active_border": true,
 
   //Console panel (Ctrl+`): word wrap mode
   "ui_console_wrap": true,
 
-  //[Ui/Sidebar]
+  //[Ui/Toolbars]
   //Show sidebar (vertical toolbar at the left edge)
   "ui_sidebar_show": true,
 
   //Sidebar icons theme
   //Folders from: sideicons
   "ui_sidebar_theme": "common_20x20",
-  
+
+  //Toolbar icons theme
+  //Folders from: toolbaricons
+  "ui_toolbar_theme": "default_24x24", 
+
   //[Find/Hotkeys]
   //Hotkeys in Find/Replace dialog
-  "find_hotkey_find_dlg": "Ctrl+F", 
-  "find_hotkey_replace_dlg": "Ctrl+R", 
-  "find_hotkey_find_first": "Alt+Enter", 
+  "find_hotkey_find_dlg": "Ctrl+F",
+  "find_hotkey_replace_dlg": "Ctrl+R",
+  "find_hotkey_find_first": "Alt+Enter",
   "find_hotkey_find_next": "",
-  "find_hotkey_find_prev": "Shift+Enter", 
-  "find_hotkey_replace": "Alt+Z", 
-  "find_hotkey_replace_no_next": "Ctrl+Alt+Z", 
-  "find_hotkey_replace_all": "Alt+A", 
-  "find_hotkey_count_all": "Alt+O", 
-  "find_hotkey_select_all": "Alt+E", 
-  "find_hotkey_mark_all": "Alt+K", 
-  "find_hotkey_op_regex": "Alt+R", 
-  "find_hotkey_op_case": "Alt+C", 
-  "find_hotkey_op_words": "Alt+W", 
-  "find_hotkey_op_wrapped": "Alt+N", 
-  "find_hotkey_op_in_sel": "Alt+X", 
-  "find_hotkey_op_multiline": "Alt+M", 
-  "find_hotkey_op_confirm_rep": "Alt+Y", 
+  "find_hotkey_find_prev": "Shift+Enter",
+  "find_hotkey_replace": "Alt+Z",
+  "find_hotkey_replace_no_next": "Ctrl+Alt+Z",
+  "find_hotkey_replace_all": "Alt+A",
+  "find_hotkey_count_all": "Alt+O",
+  "find_hotkey_select_all": "Alt+E",
+  "find_hotkey_mark_all": "Alt+K",
+  "find_hotkey_op_regex": "Alt+R",
+  "find_hotkey_op_case": "Alt+C",
+  "find_hotkey_op_words": "Alt+W",
+  "find_hotkey_op_wrapped": "Alt+N",
+  "find_hotkey_op_in_sel": "Alt+X",
+  "find_hotkey_op_multiline": "Alt+M",
+  "find_hotkey_op_confirm_rep": "Alt+Y",
 
   //[Viewer]
   //Viewer text width in binary mode
   "viewer_binary_width": 100,
-  
+
 }

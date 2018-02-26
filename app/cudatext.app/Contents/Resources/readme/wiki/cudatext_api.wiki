@@ -2281,6 +2281,9 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.229 (app 1.43.0)
+* add: plugins can force show sidebar button, even if they don't run on start. New install.inf sections [sidebar1] .. [sidebar3]. Examples: ProjectManager, TabsList.
+
 1.0.228 (app 1.40.7)
 * add: event on_tab_change
 
