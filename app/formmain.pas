@@ -2440,6 +2440,7 @@ begin
     begin
       NLine:= ed.Strings.Bookmarks[i].LineNum;
 
+      //paint prefix [N] for numbered bookmarks (kind=2..10)
       NKind:= ed.Strings.Bookmarks[i].Kind;
       if (NKind>=2) and (NKind<=10) then
         strKind:= '['+IntToStr(NKind-1)+'] '
