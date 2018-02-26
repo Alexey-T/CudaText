@@ -2428,8 +2428,8 @@ var
   Form: TfmGotoList;
   Num, NumMax: integer;
   items: TStringlist;
-  str: atString;
-  NLine, i: integer;
+  str, strKind: atString;
+  NLine, NKind, i: integer;
 begin
   Ed:= CurrentEditor;
   NumMax:= Ed.Strings.Count-1;
@@ -2439,7 +2439,14 @@ begin
     for i:= 0 to ed.Strings.Bookmarks.Count-1 do
     begin
       NLine:= ed.Strings.Bookmarks[i].LineNum;
-      str:= ed.Strings.LineSub(NLine, 1, 150);
+
+      NKind:= ed.Strings.Bookmarks[i].Kind;
+      if (NKind>=2) and (NKind<=10) then
+        strKind:= '['+IntToStr(NKind-1)+'] '
+      else
+        strKind:= '';
+
+      str:= ed.Strings.LineSub(NLine, 1, 150) + #9 + strKind + IntToStr(NLine+1);
       items.AddObject(Utf8Encode(str), TObject(PtrInt(NLine)));
     end;
 

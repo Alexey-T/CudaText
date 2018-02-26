@@ -1,7 +1,7 @@
 object fmGotoList: TfmGotoList
   Left = 266
   Height = 233
-  Top = 549
+  Top = 482
   Width = 500
   BorderStyle = bsNone
   Caption = 'Goto list'
@@ -14,7 +14,7 @@ object fmGotoList: TfmGotoList
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   object List: TATListbox
     Left = 6
     Height = 221
@@ -22,13 +22,12 @@ object fmGotoList: TfmGotoList
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
-    CanGetFocus = False
     Color = clWhite
     DoubleBuffered = True
     ItemHeight = 28
+    OwnerDrawn = True
     ParentColor = False
     OnClick = ListClick
     OnDrawItem = ListDrawItem
-    OwnerDrawn = True
   end
 end
