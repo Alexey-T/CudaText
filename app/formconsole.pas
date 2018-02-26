@@ -90,6 +90,7 @@ begin
     Application.ProcessMessages;
 
     DoCommand(cCommand_GotoTextEnd);
+    ColumnLeft:= 0;
     Update;
   end;
 end;
@@ -149,6 +150,7 @@ begin
   //Linux h-scroll paints bad (some gtk2 bug) so i disabled it
   memo.OptWrapMode:= cWrapOn;
   memo.OptScrollbarsNew:= true;
+  memo.OptUndoLimit:= 0;
 
   memo.OptTabSize:= 4;
   memo.OptBorderWidth:= 0;
