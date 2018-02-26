@@ -2013,12 +2013,13 @@ begin
   Editor.OptUnprintedEnds:= c.GetValue(path+cHistory_Unpri_Ends, Editor.OptUnprintedEnds);
   Editor.OptUnprintedEndsDetails:= c.GetValue(path+cHistory_Unpri_Detail, Editor.OptUnprintedEndsDetails);
 
+  nTop:= c.GetValue(path+cHistory_Top, 0);
+
   if Assigned(Lexer) then
   begin
     //this seems ok: works even for open-file via cmdline
     FFoldTodo:= c.GetValue(path+cHistory_Fold, '');
     //linetop
-    nTop:= c.GetValue(path+cHistory_Top, 0);
     ////FTopLineTodo:= nTop; //restore LineTop after analize done
     Editor.LineTop:= nTop; //scroll immediately
   end
@@ -2028,7 +2029,7 @@ begin
     //for open via cmdline: not ok (maybe need to do it after form shown? how?)
     Editor.Update(true);
     Application.ProcessMessages;
-    Editor.LineTop:= c.GetValue(path+cHistory_Top, 0);
+    Editor.LineTop:= nTop;
   end;
 
   with Editor.Gutter[Editor.GutterBandNum] do
