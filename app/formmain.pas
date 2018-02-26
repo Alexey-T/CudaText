@@ -2439,7 +2439,7 @@ begin
     for i:= 0 to ed.Strings.Bookmarks.Count-1 do
     begin
       NLine:= ed.Strings.Bookmarks[i].LineNum;
-      str:= cHintScrollPrefix + IntToStr(NLine+1) + ': ' + ed.Strings.LineSub(NLine, 1, 150);
+      str:= ed.Strings.LineSub(NLine, 1, 150);
       items.AddObject(Utf8Encode(str), TObject(PtrInt(NLine)));
     end;
 
@@ -2456,7 +2456,7 @@ begin
       Form.Items:= items;
       Form.ShowModal;
       if Form.ResultIndex>=0 then
-        Num:= ptrint(items.Objects[Form.ResultIndex]);
+        Num:= PtrInt(items.Objects[Form.ResultIndex]);
     finally
       FreeAndNil(Form);
     end;

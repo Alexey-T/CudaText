@@ -60,25 +60,32 @@ end;
 procedure TfmGotoList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;
   const ARect: TRect);
 var
-  cl: TColor;
+  NColorBack, NColorFont: TColor;
   pnt: TPoint;
+  s: string;
 begin
   if AIndex=List.ItemIndex then
   begin
-    c.Font.Color:= GetAppColor('ListSelFont');
-    cl:= GetAppColor('ListSelBg');
+    NColorFont:= GetAppColor('ListSelFont');
+    NColorBack:= GetAppColor('ListSelBg');
   end
   else
   begin
-    c.Font.Color:= GetAppColor('ListFont');
-    cl:= List.Color;
+    NColorFont:= GetAppColor('ListFont');
+    NColorBack:= List.Color;
   end;
-  c.Brush.Color:= cl;
-  c.Pen.Color:= cl;
+
+  c.Brush.Color:= NColorBack;
+  c.Pen.Color:= NColorBack;
+  c.Font.Color:= NColorFont;
   c.FillRect(ARect);
 
   pnt:= Point(ARect.Left+4, ARect.Top+1);
   c.TextOut(pnt.x, pnt.y, Items[AIndex]);
+
+  c.Font.Color:= GetAppColor('ListFontHotkey');
+  s:= 'Ln '+IntToStr(PtrInt(Items.Objects[AIndex])+1);
+  c.TextOut(ARect.Right-c.TextWidth(s)-4, pnt.y, s);
 end;
 
 procedure TfmGotoList.ListClick(Sender: TObject);
