@@ -285,6 +285,7 @@ begin
   Ed.OptSavingTrimSpaces:= Op.OpSavingTrimSpaces;
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
+  Ed.OptScrollbarHorizontalHidden:= Op.OpHideHorizScrollbar;
   Ed.OptTextCenteringCharWidth:= Op.OpCenteringWidth;
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);

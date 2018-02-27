@@ -345,6 +345,7 @@ type
     OpShowHintOnVertScroll: boolean;
     OpCenteringWidth: integer;
     OpCenteringForDistractionFree: integer;
+    OpHideHorizScrollbar: boolean;
     OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
@@ -1009,6 +1010,7 @@ begin
     OpShowHintOnVertScroll:= false;
     OpCenteringWidth:= 0;
     OpCenteringForDistractionFree:= 100;
+    OpHideHorizScrollbar:= false;
     OpLexerDynamicHiliteEnabled:= false;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;

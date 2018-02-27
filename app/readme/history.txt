@@ -7,6 +7,7 @@
 1.43.1 (2018/02)
 
 + add: saving to session/history numbered bookmarks (was: only usual bookmarks)
++ add: option "hide_horiz_scrollbar"
 
 1.43.0 (2018/02)
 

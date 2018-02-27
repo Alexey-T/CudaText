@@ -122,6 +122,9 @@
   //On dragging vert-scrollbar, show line-number hint at the top-right corner
   "show_hint_on_vert_scroll": false,
 
+  //Always hide horizontal scrollbar in editor
+  "hide_horiz_scrollbar": false,
+
   //If N>0, text will be painted shifted to the right,
   //so N columns will look like "centered" on screen
   "centering_width": 0,
