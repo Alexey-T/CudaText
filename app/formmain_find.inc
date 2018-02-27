@@ -73,6 +73,7 @@ var
   NTick, NTime: QWord;
   Frame: TEditorFrame;
 begin
+  InitFormFind;
   Frame:= CurrentFrame;
 
   //keep focus in Find field, else focus find or rep field
@@ -748,6 +749,7 @@ begin
   SRep:= SGetItem(AStr, #1);
   SOpt:= SGetItem(AStr, #1);
 
+  FFinder.Editor:= CurrentEditor;
   FFinder.StrFind:= UTF8Decode(SFind);
   FFinder.StrReplace:= UTF8Decode(SRep);
   DoFindOptionsFromString(SOpt);
