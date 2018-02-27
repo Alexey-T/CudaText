@@ -4,6 +4,10 @@
   * changed
 
 
+1.43.1 (2018/02)
+
++ add: saving to session/history numbered bookmarks (was: only usual bookmarks)
+
 1.43.0 (2018/02)
 
 + add: plugins can force show sidebar button, even if they don't run on start. New section in install.inf: [sidebar1] .. [sidebar3]. Used in plugins: ProjectManager, TabsList, FTP.

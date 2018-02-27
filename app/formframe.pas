@@ -28,6 +28,7 @@ uses
   ATSynEdit_Markers,
   ATSynEdit_CanvasProc,
   ATSynEdit_Commands,
+  ATSynEdit_Bookmarks,
   ATStrings,
   ATStringProc,
   ATStringProc_HtmlColor,
@@ -321,6 +322,7 @@ const
   cHistory_Caret       = '/caret';
   cHistory_TabColor    = '/color';
   cHistory_Bookmark    = '/bm';
+  cHistory_BookmarkKind = '/bm_kind';
   cHistory_Fold        = '/folded';
 
 var
@@ -1887,7 +1889,8 @@ procedure TEditorFrame.DoSaveHistoryEx(c: TJsonConfig; const path: string);
 var
   lexname: string;
   caret: TATCaretItem;
-  items: TStringList;
+  items, items2: TStringList;
+  bookmark: TATBookmarkItem;
   i: integer;
 begin
   if Lexer=nil then
@@ -1928,15 +1931,20 @@ begin
   end;
 
   items:= TStringList.Create;
+  items2:= TStringList.Create;
   try
     for i:= 0 to Editor.Strings.Bookmarks.Count-1 do
     begin
-      //save only std bookmarks, most of plugins with own bookmarks (kind>1) don't need it
-      if Editor.Strings.Bookmarks[i].Kind=1 then
-        items.Add(IntToStr(Editor.Strings.Bookmarks[i].LineNum));
+      bookmark:= Editor.Strings.Bookmarks[i];
+      //save usual bookmarks and numbered bookmarks (kind=1..10)
+      if (bookmark.Kind>10) then Continue;
+      items.Add(IntToStr(bookmark.LineNum));
+      items2.Add(IntToStr(bookmark.Kind));
     end;
     c.SetValue(path+cHistory_Bookmark, items);
+    c.SetValue(path+cHistory_BookmarkKind, items2);
   finally
+    FreeAndNil(items2);
     FreeAndNil(items);
   end;
 end;
@@ -1969,8 +1977,8 @@ procedure TEditorFrame.DoLoadHistoryEx(c: TJsonConfig; const path: string);
 var
   str, str0: string;
   Caret: TATCaretItem;
-  nTop, i: integer;
-  items: TStringlist;
+  nTop, nKind, i: integer;
+  items, items2: TStringlist;
 begin
   //file not listed?
   if c.GetValue(path+cHistory_Top, -1)<0 then exit;
@@ -2048,16 +2056,23 @@ begin
   end;
 
   //bookmarks
-  items:= TStringlist.create;
+  items:= TStringList.create;
+  items2:= TStringList.create;
   try
     c.GetValue(path+cHistory_Bookmark, items, '');
+    c.GetValue(path+cHistory_BookmarkKind, items2, '');
     for i:= 0 to items.Count-1 do
     begin
       nTop:= StrToIntDef(items[i], -1);
+      if i<items2.Count then
+        nKind:= StrToIntDef(items2[i], 1)
+      else
+        nKind:= 1;
       if Editor.Strings.IsIndexValid(nTop) then
-        Editor.Strings.Bookmarks.Add(nTop, 1, '');
+        Editor.Strings.Bookmarks.Add(nTop, nKind, '');
     end;
   finally
+    FreeAndNil(items2);
     FreeAndNil(items);
   end;
 
