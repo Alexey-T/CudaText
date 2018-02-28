@@ -378,11 +378,17 @@ var
 begin
   //if Assigned(fmFind) then
   //  FFinder.StrFind:= fmFind.edFind.Text;
+  InitFormFind;
 
   if FFinder.StrFind='' then
   begin
-    DoDialogFind(false);
-    Exit
+    if fmFind.edFind.Text<>'' then
+      FFinder.StrFind:= fmFind.edFind.Text
+    else
+    begin
+      DoDialogFind(false);
+      Exit
+    end;
   end;
 
   FFinder.Editor:= CurrentEditor;
