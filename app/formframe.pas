@@ -37,6 +37,7 @@ uses
   ATPanelSimple,
   ATBinHex,
   ATStreamSearch,
+  ATImageBox,
   proc_globdata,
   proc_editor,
   proc_cmd,
@@ -113,10 +114,9 @@ type
     FNotInRecents: boolean;
     FMacroRecord: boolean;
     FMacroString: string;
-    FImage: TImage;
+    FImageBox: TATImageBox;
     FBin: TATBinHex;
     FBinStream: TFileStreamUTF8;
-    FImagePanel: TATPanelSimple;
     FImageFilename: string;
     FCheckFilenameOpened: TStrFunction;
     FOnMsgStatus: TStrEvent;
@@ -380,21 +380,7 @@ begin
 end;
 
 procedure TEditorFrame.FrameResize(Sender: TObject);
-var
-  R: TRect;
 begin
-  if Assigned(FImage) and Assigned(FImage.Picture) then
-  begin
-    R:= Rect(0, 0, FImage.Picture.Width, FImage.Picture.Height);
-    if R.Right<ClientWidth then
-      R.Left:= (ClientWidth-R.Right) div 2;
-    if R.Bottom<ClientHeight then
-      R.Top:= (ClientHeight-R.Bottom) div 2;
-    FImagePanel.Left:= R.Left;
-    FImagePanel.Top:= R.Top;
-    FImagePanel.Width:= FImage.Picture.Width;
-    FImagePanel.Height:= FImage.Picture.Height;
-  end;
 end;
 
 procedure TEditorFrame.EditorOnKeyDown(Sender: TObject; var Key: Word;
@@ -1219,7 +1205,7 @@ end;
 
 function TEditorFrame.IsPicture: boolean;
 begin
-  Result:= Assigned(FImage);
+  Result:= Assigned(FImageBox);
 end;
 
 function TEditorFrame.IsBinary: boolean;
@@ -1319,24 +1305,16 @@ begin
   Splitter.Hide;
   ReadOnly:= true;
 
-  FImage:= TImage.Create(Self);
-  FImage.Parent:= Self;
-  FImage.Align:= alClient;
+  FImageBox:= TATImageBox.Create(Self);
+  FImageBox.OptFitToWindow:= true;
+  FImageBox.Parent:= Self;
+  FImageBox.Align:= alClient;
   try
-    FImage.Picture.LoadFromFile(fn);
-    FImage.Transparent:= true;
+    FImageBox.LoadFromFile(fn);
     FImageFilename:= fn;
   except
     FImageFilename:= '';
   end;
-
-  FImagePanel:= TATPanelSimple.Create(Self);
-  FImagePanel.Parent:= Self;
-  FImagePanel.SetBounds(0, 0, 400, 400);
-  FImagePanel.BorderStyle:= bsNone;
-  FImagePanel.Color:= clSkyBlue;
-  FImage.Parent:= FImagePanel;
-  FImage.OnPaintBackground:= @DoImagePanelBackground;
 
   FrameResize(Self);
   DoOnChangeCaption;
@@ -2180,8 +2158,8 @@ end;
 
 function TEditorFrame.PictureSizes: TPoint;
 begin
-  if Assigned(FImage) and Assigned(FImage.Picture) then
-    Result:= Point(FImage.Picture.Width, FImage.Picture.Height)
+  if Assigned(FImageBox) then
+    Result:= Point(FImageBox.ImageWidth, FImageBox.ImageHeight)
   else
     Result:= Point(0, 0);
 end;
@@ -2229,7 +2207,7 @@ begin
     exit;
   end;
 
-  if Assigned(FImage) then
+  if Assigned(FImageBox) then
   begin
     exit;
   end;
