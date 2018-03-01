@@ -54,6 +54,7 @@ type
     FImageMouseDown: Boolean;
     FKeyModifierZoom: TShiftStateEnum;
     FKeyModifierHorzScroll: TShiftStateEnum;
+    FInitScrollbarSize: integer;
 
     FOnScroll: TNotifyEvent;
     FOnScrollAlt: TATScrollAltEvent;
@@ -201,6 +202,14 @@ begin
   //Init event handlers
   OnMouseWheelUp:= @MouseWheelUp;
   OnMouseWheelDown:= @MouseWheelDown;
+
+  with TScrollBar.Create(Self) do
+  try
+    Kind:= sbVertical;
+    FInitScrollbarSize:= Width;
+  finally
+    Free
+  end;
 end;
 
 procedure TATImageBox.DoScroll;
@@ -433,11 +442,19 @@ var
   AScrollMaxX, AScrollMaxY: Integer;
   ARatio, AImageRatio,
   ACenterRatioX, ACenterRatioY: Double;
+  NScrollbarSize: integer;
 begin
   AKeepPosition:= FImageKeepPosition and (not AResetPosition);
 
-  AWidth:= Width;
-  AHeight:= Height;
+  if FImageFit then
+    NScrollbarSize:= 0
+  else
+    NScrollbarSize:= FInitScrollbarSize;
+
+  VertScrollBar.Visible:= not FImageFit;
+  HorzScrollBar.Visible:= not FImageFit;
+  AWidth:= Width-NScrollbarSize;
+  AHeight:= Height-NScrollbarSize;
 
   //Save center position, need to restore it later
   ACenterRatioX:= 0;
@@ -486,9 +503,6 @@ begin
   //Fit and recalculate ImageScale
   FImage.Left:= 0;
   FImage.Top:= 0;
-
-  AWidth:= ClientWidth;
-  AHeight:= ClientHeight;
 
   if FImageFit then
   begin
@@ -603,8 +617,10 @@ begin
   end;
 
   //adjust range
-  HorzScrollbar.Range:= ANewWidth;
-  VertScrollbar.Range:= ANewHeight;
+  if HorzScrollbar.Visible then
+    HorzScrollbar.Range:= ANewWidth;
+  if VertScrollBar.Visible then
+    VertScrollbar.Range:= ANewHeight;
 
   DoScroll;
 end;
