@@ -56,18 +56,22 @@ function IsOSValueOk(S: string): boolean;
 begin
   Result:= false;
   if S='' then exit(true);
-  S:= LowerCase(S);
+  S:= ','+LowerCase(S)+',';
 
   {$ifdef windows}
-  if Pos('win', S)>0 then exit(true);
+  if Pos(',win,', S)>0 then exit(true);
   {$endif}
 
   {$ifdef linux}
-  if Pos('linux', S)>0 then exit(true);
+  if Pos(',linux,', S)>0 then exit(true);
   {$endif}
 
   {$ifdef darwin}
-  if Pos('macos', S)>0 then exit(true);
+  if Pos(',macos,', S)>0 then exit(true);
+  {$endif}
+
+  {$ifdef freebsd}
+  if Pos(',freebsd,', S)>0 then exit(true);
   {$endif}
 end;
 
