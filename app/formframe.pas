@@ -713,7 +713,13 @@ end;
 procedure TEditorFrame.SetPictureScale(AValue: integer);
 begin
   if Assigned(FImageBox) then
-    FImageBox.ImageScale:= AValue;
+  begin
+    if AValue>0 then
+      FImageBox.ImageScale:= AValue
+    else
+    if AValue=-1 then
+      FImageBox.OptFitToWindow:= true;
+  end;
 end;
 
 procedure TEditorFrame.SetReadOnly(AValue: boolean);

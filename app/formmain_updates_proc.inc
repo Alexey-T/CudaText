@@ -1181,8 +1181,8 @@ end;
 
 procedure TfmMain.UpdateMenuPicScale;
 const
-  cSizes: array[0..7] of integer =
-    (33, 50, 100, 150, 200, 500, 1000, 1500);
+  cSizes: array[0..8] of integer =
+    (-1, 33, 50, 100, 150, 200, 500, 1000, 1500);
 var
   mi: TMenuItem;
   i: integer;
@@ -1190,7 +1190,10 @@ begin
   for i:= Low(cSizes) to High(cSizes) do
   begin
     mi:= TMenuItem.Create(Self);
-    mi.Caption:= IntToStr(cSizes[i])+'%';
+    if cSizes[i]=-1 then
+      mi.Caption:= 'default'
+    else
+      mi.Caption:= IntToStr(cSizes[i])+'%';
     mi.Tag:= cSizes[i];
     mi.OnClick:= @MenuPicScaleClick;
     PopupPicScale.Items.Add(mi);
