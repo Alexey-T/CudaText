@@ -852,6 +852,7 @@ These are also properties of controls.
 * "on_change": Called after "value" of control is changed.
 * "on_click": Called after click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
 * "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
+* "on_click_header": Called for control "listview"/"checklistview", when user clicks on column header. Param "data": int column index.
 * "on_menu": Called before showing context menu after right click.
 * "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
 * "on_fold", "on_unfold": Called for control "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
@@ -2280,6 +2281,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.230 (app 1.43.3)
+* add: dlg_proc: control "listview"/"checklistview" has event "on_click_header"
 
 1.0.229 (app 1.43.0)
 * add: plugins can force show sidebar button, even if they don't run on start. New install.inf sections [sidebar1] .. [sidebar3]. Examples: ProjectManager, TabsList.
