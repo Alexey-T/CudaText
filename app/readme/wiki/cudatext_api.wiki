@@ -2284,6 +2284,7 @@ Text is chr(1) separated items:
 
 1.0.230 (app 1.43.3)
 * add: dlg_proc: control "listview"/"checklistview" has event "on_click_header"
+* add: install.inf: allow os= values with bitness: win32, win64, linux32, linux64, freebsd32, freebsd64
 
 1.0.229 (app 1.43.0)
 * add: plugins can force show sidebar button, even if they don't run on start. New install.inf sections [sidebar1] .. [sidebar3]. Examples: ProjectManager, TabsList.
