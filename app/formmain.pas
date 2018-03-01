@@ -3705,13 +3705,11 @@ end;
 procedure TfmMain.MenuPicScaleClick(Sender: TObject);
 var
   F: TEditorFrame;
-  NValue: integer;
 begin
   F:= CurrentFrame;
   if F.IsPicture then
   begin
-    NValue:= (Sender as TComponent).Tag;
-    F.PictureScale:= NValue;
+    F.PictureScale:= (Sender as TComponent).Tag;
   end;
 end;
 
