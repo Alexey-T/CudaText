@@ -106,13 +106,20 @@ begin
     if F.IsBinary then
       S:= ViewerModeString(F.Binary)
     else
+    if F.IsPicture then
     begin
       Size:= F.PictureSizes;
       S:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
     end;
     DoStatusbarTextByTag(Status, StatusbarTag_Lexer, S);
 
-    DoStatusbarTextByTag(Status, StatusbarTag_TabSize, '');
+    if F.IsBinary then
+      S:= ''
+    else
+    if F.IsPicture then
+      S:= IntToStr(F.PictureScale)+'%';
+    DoStatusbarTextByTag(Status, StatusbarTag_TabSize, S);
+
     DoStatusbarTextByTag(Status, StatusbarTag_InsOvr, '');
     exit;
   end;

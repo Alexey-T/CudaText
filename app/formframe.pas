@@ -129,7 +129,7 @@ type
       var AContinueSearching: Boolean);
     procedure DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const fn: string);
-    procedure DoImagePanelBackground(Sender: TObject; ACanvas: TCanvas; ARect: TRect);
+    procedure DoImageboxScroll(Sender: TObject);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
@@ -165,6 +165,7 @@ type
     function GetLineEnds: TATLineEnds;
     function GetNotifEnabled: boolean;
     function GetNotifTime: integer;
+    function GetPictureScale: integer;
     function GetReadOnly: boolean;
     function GetTabKeyCollectMarkers: boolean;
     function GetUnprintedEnds: boolean;
@@ -181,6 +182,7 @@ type
     procedure SetLocked(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetNotifTime(AValue: integer);
+    procedure SetPictureScale(AValue: integer);
     procedure SetReadOnly(AValue: boolean);
     procedure SetTabColor(AColor: TColor);
     procedure SetTabImageIndex(AValue: integer);
@@ -246,6 +248,7 @@ type
     function IsBinary: boolean;
     property PictureFileName: string read FImageFilename;
     function PictureSizes: TPoint;
+    property PictureScale: integer read GetPictureScale write SetPictureScale;
     property Binary: TATBinHex read FBin;
     function BinaryFindFirst(AFinder: TATEditorFinder; AShowAll: boolean): boolean;
     function BinaryFindNext(ABack: boolean): boolean;
@@ -593,6 +596,14 @@ begin
   Result:= FNotif.Timer.Interval;
 end;
 
+function TEditorFrame.GetPictureScale: integer;
+begin
+  if Assigned(FImageBox) then
+    Result:= FImageBox.ImageScale
+  else
+    Result:= 100;
+end;
+
 function TEditorFrame.GetReadOnly: boolean;
 begin
   Result:= Ed1.ModeReadOnly;
@@ -697,6 +708,12 @@ end;
 procedure TEditorFrame.SetNotifTime(AValue: integer);
 begin
   FNotif.Timer.Interval:= AValue;
+end;
+
+procedure TEditorFrame.SetPictureScale(AValue: integer);
+begin
+  if Assigned(FImageBox) then
+    FImageBox.ImageScale:= AValue;
 end;
 
 procedure TEditorFrame.SetReadOnly(AValue: boolean);
@@ -1306,9 +1323,10 @@ begin
   ReadOnly:= true;
 
   FImageBox:= TATImageBox.Create(Self);
-  FImageBox.OptFitToWindow:= true;
   FImageBox.Parent:= Self;
   FImageBox.Align:= alClient;
+  FImageBox.OptFitToWindow:= true;
+  FImageBox.OnScroll:= @DoImageboxScroll;
   try
     FImageBox.LoadFromFile(fn);
     FImageFilename:= fn;
@@ -1318,6 +1336,11 @@ begin
 
   FrameResize(Self);
   DoOnChangeCaption;
+end;
+
+procedure TEditorFrame.DoImageboxScroll(Sender: TObject);
+begin
+  DoOnUpdateStatus;
 end;
 
 
@@ -1655,19 +1678,6 @@ procedure TEditorFrame.DoOnChangeCaption;
 begin
   if Assigned(FOnChangeCaption) then
     FOnChangeCaption(Self);
-end;
-
-procedure TEditorFrame.DoImagePanelBackground(Sender: TObject;
-  ACanvas: TCanvas; ARect: TRect);
-begin
-  DoPaintCheckers(
-    ACanvas,
-    ARect.Right-ARect.Left,
-    ARect.Bottom-ARect.Top,
-    8,
-    clWhite,
-    clLtGray
-    );
 end;
 
 procedure TEditorFrame.DoRestoreFolding;
