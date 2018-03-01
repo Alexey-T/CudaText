@@ -129,7 +129,7 @@ type
       var AContinueSearching: Boolean);
     procedure DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const fn: string);
-    procedure DoImagePanelPaint(Sender: TObject);
+    procedure DoImagePanelBackground(Sender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure DoOnChangeCaption;
     procedure DoOnChangeCaretPos;
     procedure DoOnUpdateStatus;
@@ -1331,12 +1331,12 @@ begin
   end;
 
   FImagePanel:= TATPanelSimple.Create(Self);
-  FImagePanel.OnPaint:= @DoImagePanelPaint;
   FImagePanel.Parent:= Self;
   FImagePanel.SetBounds(0, 0, 400, 400);
   FImagePanel.BorderStyle:= bsNone;
   FImagePanel.Color:= clSkyBlue;
   FImage.Parent:= FImagePanel;
+  FImage.OnPaintBackground:= @DoImagePanelBackground;
 
   FrameResize(Self);
   DoOnChangeCaption;
@@ -1679,12 +1679,13 @@ begin
     FOnChangeCaption(Self);
 end;
 
-procedure TEditorFrame.DoImagePanelPaint(Sender: TObject);
+procedure TEditorFrame.DoImagePanelBackground(Sender: TObject;
+  ACanvas: TCanvas; ARect: TRect);
 begin
   DoPaintCheckers(
-    FImagePanel.Canvas,
-    FImagePanel.ClientWidth,
-    FImagePanel.ClientHeight,
+    ACanvas,
+    ARect.Right-ARect.Left,
+    ARect.Bottom-ARect.Top,
     8,
     clWhite,
     clLtGray

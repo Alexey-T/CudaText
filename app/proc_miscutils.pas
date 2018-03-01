@@ -594,7 +594,7 @@ begin
 
   for i:= 0 to ASizeX div ACellSize + 1 do
     for j:= 0 to ASizeY div ACellSize + 1 do
-      if not (odd(i) xor odd(j)) then
+      if odd(i) xor odd(j) then
       begin
         c.Brush.Color:= AColor2;
         c.FillRect(i*ACellSize, j*ACellSize, (i+1)*ACellSize, (j+1)*ACellSize);
