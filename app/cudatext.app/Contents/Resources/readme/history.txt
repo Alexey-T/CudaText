@@ -4,6 +4,13 @@
   * changed
 
 
+1.44.0 (2018/02)
+
++ add: pictures: allow dragging, zooming by Ctrl+ mouse wheel (Command+ on macOS)
++ add: pictures: show zooming % in statusbar
++ add: save to session/history also numbered bookmarks (was: only usual bookmarks)
++ add: option "hide_horiz_scrollbar"
+
 1.43.0 (2018/02)
 
 + add: plugins can force show sidebar button, even if they don't run on start. New section in install.inf: [sidebar1] .. [sidebar3]. Used in plugins: ProjectManager, TabsList, FTP.

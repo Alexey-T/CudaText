@@ -203,7 +203,7 @@ object SyntAnal24: TLibSyntAnalyzer
       DisplayName = 'HTML Code'
       StyleName = 'HTML Code'
       TokenType = 9
-      Expression = '\&[^;]+\; |'#13#10'</?\w+>'
+      Expression = '\&\#?\w+;|</?\w+>'
       ColumnFrom = 0
       ColumnTo = 0
     end
