@@ -4,8 +4,10 @@
   * changed
 
 
-1.43.1 (2018/02)
+1.44.0 (2018/02)
 
++ add: pictures: allow dragging, zooming by Ctrl+ mouse wheel (Command+ on macOS)
++ add: pictures: show zooming % in statusbar
 + add: save to session/history also numbered bookmarks (was: only usual bookmarks)
 + add: option "hide_horiz_scrollbar"
 
