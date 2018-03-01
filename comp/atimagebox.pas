@@ -160,47 +160,47 @@ begin
   inherited Create(AOwner);
 
   //Init inherited properties
-  AutoScroll := False;
-  DoubleBuffered := True; //To remove flicker when new image is loaded
-  HorzScrollBar.Tracking := True;
-  VertScrollBar.Tracking := True;
+  AutoScroll:= False;
+  DoubleBuffered:= True; //To remove flicker when new image is loaded
+  HorzScrollBar.Tracking:= True;
+  VertScrollBar.Tracking:= True;
 
   //Init fields
   FFocusable:= True;
-  FImageFit := False;
-  FImageFitOnlyBig := True;
-  FImageFitWidth := False;
-  FImageFitHeight := False;
-  FImageCenter := True;
-  FImageWidth := 0;
-  FImageHeight := 0;
-  FImageScale := 100;
-  FImageKeepPosition := True;
-  FImageDrag := True;
-  FImageDragCursor := crSizeAll;
-  FImageScaleCursor := crSizeNS;
-  FImageDragging := False;
-  FImageDraggingPoint := Point(0, 0);
-  FImageMouseDown := False;
+  FImageFit:= False;
+  FImageFitOnlyBig:= True;
+  FImageFitWidth:= False;
+  FImageFitHeight:= False;
+  FImageCenter:= True;
+  FImageWidth:= 0;
+  FImageHeight:= 0;
+  FImageScale:= 100;
+  FImageKeepPosition:= True;
+  FImageDrag:= True;
+  FImageDragCursor:= crSizeAll;
+  FImageScaleCursor:= crSizeNS;
+  FImageDragging:= False;
+  FImageDraggingPoint:= Point(0, 0);
+  FImageMouseDown:= False;
 
   FKeyModifierZoom:= ssModifier;
   FKeyModifierHorzScroll:= ssShift;
 
-  FImage := TImage.Create(Self);
+  FImage:= TImage.Create(Self);
   with FImage do
   begin
-    Parent := Self;
-    Align := alNone;
-    AutoSize := False;
-    OnMouseDown := @ImageMouseDown;
-    OnMouseUp := @ImageMouseUp;
-    OnMouseMove := @ImageMouseMove;
-    OnPaintBackground := @ImagePanelPaint;
+    Parent:= Self;
+    Align:= alNone;
+    AutoSize:= False;
+    OnMouseDown:= @ImageMouseDown;
+    OnMouseUp:= @ImageMouseUp;
+    OnMouseMove:= @ImageMouseMove;
+    OnPaintBackground:= @ImagePanelPaint;
   end;
 
   //Init event handlers
-  OnMouseWheelUp := @MouseWheelUp;
-  OnMouseWheelDown := @MouseWheelDown;
+  OnMouseWheelUp:= @MouseWheelUp;
+  OnMouseWheelDown:= @MouseWheelDown;
 end;
 
 procedure TATImageBox.DoScroll;
@@ -233,26 +233,26 @@ begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position := Position - cImageLineSize;
+      Position:= Position - cImageLineSize;
     DoScroll;
   end
   else
   if (Shift = [FKeyModifierHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position := Position - cImageLineSize;
+      Position:= Position - cImageLineSize;
     DoScroll;
   end
   else
   if (Shift = [FKeyModifierZoom]) or FImageMouseDown then
   begin
     IncreaseImageScale(True);
-    FImageDragging := False;
+    FImageDragging:= False;
     if FImageMouseDown then
-      Screen.Cursor := FImageScaleCursor;
+      Screen.Cursor:= FImageScaleCursor;
   end;
 
-  Handled := True;
+  Handled:= True;
 end;
 
 procedure TATImageBox.MouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -261,38 +261,38 @@ begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position := Position + cImageLineSize;
+      Position:= Position + cImageLineSize;
     DoScroll;
   end
   else
   if (Shift = [FKeyModifierHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position := Position + cImageLineSize;
+      Position:= Position + cImageLineSize;
     DoScroll;
   end
   else
   if (Shift = [FKeyModifierZoom]) or FImageMouseDown then
   begin
     IncreaseImageScale(False);
-    FImageDragging := False;
+    FImageDragging:= False;
     if FImageMouseDown then
-      Screen.Cursor := FImageScaleCursor;
+      Screen.Cursor:= FImageScaleCursor;
   end;
 
-  Handled := True;
+  Handled:= True;
 end;
 
 procedure TATImageBox.WMGetDlgCode(var Message: TLMessage);
 begin
-  Message.Result := DLGC_WANTARROWS;
+  Message.Result:= DLGC_WANTARROWS;
 end;
 
 procedure TATImageBox.KeyDown(var Key: Word; Shift: TShiftState);
 
   function PageSize(AClientSize: Integer): Integer;
   begin
-    Result := Max(AClientSize - cImageGapSize, AClientSize div 3 * 2);
+    Result:= Max(AClientSize - cImageGapSize, AClientSize div 3 * 2);
   end;
 
 begin
@@ -302,23 +302,23 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position := Position - cImageLineSize;
+          Position:= Position - cImageLineSize;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end
       else
       if Shift = [ssCtrl] then
       begin
         with HorzScrollBar do
-          Position := 0;
+          Position:= 0;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end
       else
       if Shift = [ssAlt] then
       begin
         DoScrollAlt(False);
-        Key := 0;
+        Key:= 0;
       end;
     end;
 
@@ -327,23 +327,23 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position := Position + cImageLineSize;
+          Position:= Position + cImageLineSize;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end
       else
       if Shift = [ssCtrl] then
       begin
         with HorzScrollBar do
-          Position := Range;
+          Position:= Range;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end
       else
       if Shift = [ssAlt] then
       begin
         DoScrollAlt(True);
-        Key := 0;
+        Key:= 0;
       end;
     end;
 
@@ -351,18 +351,18 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position := Position - PageSize(ClientWidth);
+          Position:= Position - PageSize(ClientWidth);
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end;
 
     VK_END:
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position := Position + PageSize(ClientWidth);
+          Position:= Position + PageSize(ClientWidth);
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end;
 
     VK_UP:
@@ -370,17 +370,17 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position := Position - cImageLineSize;
+          Position:= Position - cImageLineSize;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end
       else
       if Shift = [ssCtrl] then
       begin
         with VertScrollBar do
-          Position := 0;
+          Position:= 0;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end;
     end;
 
@@ -389,17 +389,17 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position := Position + cImageLineSize;
+          Position:= Position + cImageLineSize;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end
       else
       if Shift = [ssCtrl] then
       begin
         with VertScrollBar do
-          Position := Range;
+          Position:= Range;
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end;
     end;
 
@@ -407,18 +407,18 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position := Position - PageSize(ClientHeight);
+          Position:= Position - PageSize(ClientHeight);
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end;
 
     VK_NEXT:
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position := Position + PageSize(ClientHeight);
+          Position:= Position + PageSize(ClientHeight);
         DoScroll;
-        Key := 0;
+        Key:= 0;
       end;
   end;
 end;
@@ -434,61 +434,61 @@ var
   ARatio, AImageRatio,
   ACenterRatioX, ACenterRatioY: Double;
 begin
-  AKeepPosition := FImageKeepPosition and (not AResetPosition);
+  AKeepPosition:= FImageKeepPosition and (not AResetPosition);
 
-  AWidth := Width;
-  AHeight := Height;
+  AWidth:= Width;
+  AHeight:= Height;
 
   //Save center position, need to restore it later
-  ACenterRatioX := 0;
-  ACenterRatioY := 0;
+  ACenterRatioX:= 0;
+  ACenterRatioY:= 0;
 
   if FImage.Width > 0 then
   begin
     if FImage.Left >= 0 then
-      ACenterRatioX := (AWidth div 2 - FImage.Left) / FImage.Width
+      ACenterRatioX:= (AWidth div 2 - FImage.Left) / FImage.Width
     else
-      ACenterRatioX := (AWidth div 2 + HorzScrollBar.Position) / FImage.Width;
+      ACenterRatioX:= (AWidth div 2 + HorzScrollBar.Position) / FImage.Width;
   end;
 
   if FImage.Height > 0 then
   begin
     if FImage.Top >= 0 then
-      ACenterRatioY := (AHeight div 2 - FImage.Top) / FImage.Height
+      ACenterRatioY:= (AHeight div 2 - FImage.Top) / FImage.Height
     else
-      ACenterRatioY := (AHeight div 2 + VertScrollBar.Position) / FImage.Height;
+      ACenterRatioY:= (AHeight div 2 + VertScrollBar.Position) / FImage.Height;
   end;
 
   //Set controls params
   if not AKeepPosition then
   begin
-    HorzScrollBar.Position := 0;
-    VertScrollBar.Position := 0;
+    HorzScrollBar.Position:= 0;
+    VertScrollBar.Position:= 0;
   end;
 
-  AutoScroll := not FImageFit;
+  AutoScroll:= not FImageFit;
 
-  FImage.AutoSize := (not FImageFit) and (FImageScale = 100);
-  FImage.Stretch := not FImage.AutoSize;
+  FImage.AutoSize:= (not FImageFit) and (FImageScale = 100);
+  FImage.Stretch:= not FImage.AutoSize;
 
   {
   //Note: commented, because we convert icon to bitmap in UpdateInfo.
   //Work around VCL draw bug for icons:
   if FImageIsIcon then
     begin
-    FImage.AutoSize := False;
-    FImage.Stretch := True;
-    FImage.Width := FImageWidth;
-    FImage.Height := FImageHeight;
+    FImage.AutoSize:= False;
+    FImage.Stretch:= True;
+    FImage.Width:= FImageWidth;
+    FImage.Height:= FImageHeight;
     end;
     }
 
   //Fit and recalculate ImageScale
-  FImage.Left := 0;
-  FImage.Top := 0;
+  FImage.Left:= 0;
+  FImage.Top:= 0;
 
-  AWidth := ClientWidth;
-  AHeight := ClientHeight;
+  AWidth:= ClientWidth;
+  AHeight:= ClientHeight;
 
   if FImageFit then
   begin
@@ -498,37 +498,37 @@ begin
     if (FImage.Width = AWidth) and
       (FImage.Height = AHeight) then
     begin
-      ANewWidth := FImage.Width;
-      ANewHeight := FImage.Height;
+      ANewWidth:= FImage.Width;
+      ANewHeight:= FImage.Height;
     end
     else
     }
     //Need to scale
     begin
-      ANewWidth := FImageWidth;
-      ANewHeight := FImageHeight;
+      ANewWidth:= FImageWidth;
+      ANewHeight:= FImageHeight;
 
       if FImageFitOnlyBig and
         (FImageWidth <= AWidth) and (FImageHeight <= AHeight) then
       begin
-        FImageScale := 100;
+        FImageScale:= 100;
       end
       else
       begin
         if (AWidth > 0) and (AHeight > 0) and
           (FImageWidth > 0) and (FImageHeight > 0) then
         begin
-          ARatio := AWidth / AHeight;
-          AImageRatio := FImageWidth / FImageHeight;
+          ARatio:= AWidth / AHeight;
+          AImageRatio:= FImageWidth / FImageHeight;
           if ((ARatio >= AImageRatio) and (not FImageFitWidth)) or FImageFitHeight then
           begin
             //fit height
             if FImageFitOnlyBig and (AHeight >= FImageHeight) then begin end
             else
             begin
-              ANewHeight := AHeight;
-              ANewWidth := Trunc(ANewHeight * AImageRatio);
-              FImageScale := AHeight * 100 div FImageHeight;
+              ANewHeight:= AHeight;
+              ANewWidth:= Trunc(ANewHeight * AImageRatio);
+              FImageScale:= AHeight * 100 div FImageHeight;
             end;
           end
           else
@@ -537,9 +537,9 @@ begin
             if FImageFitOnlyBig and (AWidth >= FImageWidth) then begin end
             else
             begin
-              ANewWidth := AWidth;
-              ANewHeight := Trunc(ANewWidth / AImageRatio);
-              FImageScale := AWidth * 100 div FImageWidth;
+              ANewWidth:= AWidth;
+              ANewHeight:= Trunc(ANewWidth / AImageRatio);
+              FImageScale:= AWidth * 100 div FImageWidth;
             end;
           end;
         end;
@@ -548,20 +548,20 @@ begin
   end //if FImageFit
   else
   begin
-    ANewWidth := Round(FImageWidth * FImageScale / 100);
-    ANewHeight := Round(FImageHeight * FImageScale / 100);
+    ANewWidth:= Round(FImageWidth * FImageScale / 100);
+    ANewHeight:= Round(FImageHeight * FImageScale / 100);
   end;
 
   //Update image position
-  ANewLeft := 0;
-  ANewTop := 0;
+  ANewLeft:= 0;
+  ANewTop:= 0;
 
   if FImageCenter then
   begin
     if AWidth > ANewWidth then
-      ANewLeft := (AWidth - ANewWidth) div 2;
+      ANewLeft:= (AWidth - ANewWidth) div 2;
     if AHeight > ANewHeight then
-      ANewTop := (AHeight - ANewHeight) div 2;
+      ANewTop:= (AHeight - ANewHeight) div 2;
   end;
 
   if (FOldLeft<>ANewLeft - HorzScrollBar.Position) or
@@ -585,26 +585,26 @@ begin
   begin
     if ANewLeft = 0 then
     begin
-      AScrollMaxX := Max(ANewWidth - AWidth, 0);
-      HorzScrollBar.Position :=
+      AScrollMaxX:= Max(ANewWidth - AWidth, 0);
+      HorzScrollBar.Position:=
         Min(AScrollMaxX, Trunc(ACenterRatioX * ANewWidth) - AWidth div 2);
     end
     else
-      HorzScrollBar.Position := 0;
+      HorzScrollBar.Position:= 0;
 
     if ANewTop = 0 then
     begin
-      AScrollMaxY := Max(ANewHeight - AHeight, 0);
-      VertScrollBar.Position :=
+      AScrollMaxY:= Max(ANewHeight - AHeight, 0);
+      VertScrollBar.Position:=
         Min(AScrollMaxY, Trunc(ACenterRatioY * ANewHeight) - AHeight div 2);
     end
     else
-      VertScrollBar.Position := 0;
+      VertScrollBar.Position:= 0;
   end;
 
   //adjust range
-  HorzScrollbar.Range := ANewWidth;
-  VertScrollbar.Range := ANewHeight;
+  HorzScrollbar.Range:= ANewWidth;
+  VertScrollbar.Range:= ANewHeight;
 
   DoScroll;
 end;
@@ -613,9 +613,9 @@ procedure TATImageBox.SetImageFit(AValue: Boolean);
 begin
   if AValue <> FImageFit then
   begin
-    FImageFit := AValue;
+    FImageFit:= AValue;
     if not FImageFit then
-      FImageScale := 100;
+      FImageScale:= 100;
     UpdateImagePosition(True);
   end;
 end;
@@ -624,7 +624,7 @@ procedure TATImageBox.SetImageFitOnlyBig(AValue: Boolean);
 begin
   if AValue <> FImageFitOnlyBig then
   begin
-    FImageFitOnlyBig := AValue;
+    FImageFitOnlyBig:= AValue;
     UpdateImagePosition(True);
   end;
 end;
@@ -633,23 +633,23 @@ procedure TATImageBox.SetImageCenter(AValue: Boolean);
 begin
   if AValue <> FImageCenter then
   begin
-    FImageCenter := AValue;
+    FImageCenter:= AValue;
     UpdateImagePosition(True);
   end;
 end;
 
 procedure TATImageBox.UpdateInfo;
 begin
-  FImageWidth := 0;
-  FImageHeight := 0;
-  FImageScale := 100;
+  FImageWidth:= 0;
+  FImageHeight:= 0;
+  FImageScale:= 100;
 
-  FImage.Visible := true;
+  FImage.Visible:= true;
 
   if Assigned(FImage.Picture) and Assigned(FImage.Picture.Graphic) then
   begin
-    FImageWidth := FImage.Picture.Width;
-    FImageHeight := FImage.Picture.Height;
+    FImageWidth:= FImage.Picture.Width;
+    FImageHeight:= FImage.Picture.Height;
 
     UpdateImagePosition(True);
   end;
@@ -661,22 +661,21 @@ begin
   if Assigned(FImage) and
     ((FOldSelfW <> Self.Width) or (FOldSelfH <> Self.Height)) then
   begin
-    FOldSelfW := Self.Width;
-    FOldSelfH := Self.Height;
+    FOldSelfW:= Self.Width;
+    FOldSelfH:= Self.Height;
     UpdateImagePosition;
   end;
 end;
 
 procedure TATImageBox.SetImageScale(AValue: Integer);
 begin
-  Assert(
-    (AValue >= 0) and (AValue < MaxShort),
-    'Invalid scale value');
-
+  if (AValue<=0) or (AValue>2000) then exit;
   if FImageScale <> AValue then
   begin
-    FImageScale := AValue;
-    FImageFit := False;
+    FImageScale:= AValue;
+    FImageFit:= False;
+    HorzScrollBar.Position:= 0;
+    VertScrollBar.Position:= 0;
     UpdateImagePosition;
     DoOptionsChange;
   end;
@@ -697,12 +696,12 @@ begin
 
   if (Button = mbLeft) then
   begin
-    FImageMouseDown := True;
+    FImageMouseDown:= True;
     if FImageDrag then
     begin
-      FImageDragging := True;
-      FImageDraggingPoint := Point(X, Y);
-      Screen.Cursor := FImageDragCursor;
+      FImageDragging:= True;
+      FImageDraggingPoint:= Point(X, Y);
+      Screen.Cursor:= FImageDragCursor;
     end;
   end;
 end;
@@ -711,9 +710,9 @@ procedure TATImageBox.ImageMouseUp(Sender: TObject; Button: TMouseButton; Shift:
 begin
   if (Button = mbLeft) then
   begin
-    FImageMouseDown := False;
-    FImageDragging := False;
-    Screen.Cursor := crDefault;
+    FImageMouseDown:= False;
+    FImageDragging:= False;
+    Screen.Cursor:= crDefault;
   end;
 end;
 
@@ -721,8 +720,8 @@ procedure TATImageBox.ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: 
 begin
   if FImageDrag and FImageDragging then
   begin
-    HorzScrollBar.Position := HorzScrollBar.Position + (FImageDraggingPoint.X - X);
-    VertScrollBar.Position := VertScrollBar.Position + (FImageDraggingPoint.Y - Y);
+    HorzScrollBar.Position:= HorzScrollBar.Position + (FImageDraggingPoint.X - X);
+    VertScrollBar.Position:= VertScrollBar.Position + (FImageDraggingPoint.Y - Y);
     DoScroll;
   end;
 end;
@@ -733,19 +732,19 @@ var
 begin
   if AIncrement then
   begin
-    for i := Low(cViewerImageScales) to High(cViewerImageScales) do
+    for i:= Low(cViewerImageScales) to High(cViewerImageScales) do
       if cViewerImageScales[i] > ImageScale then
       begin
-        ImageScale := cViewerImageScales[i];
+        ImageScale:= cViewerImageScales[i];
         Break
       end;
   end
   else
   begin
-    for i := High(cViewerImageScales) downto Low(cViewerImageScales) do
+    for i:= High(cViewerImageScales) downto Low(cViewerImageScales) do
       if cViewerImageScales[i] < ImageScale then
       begin
-        ImageScale := cViewerImageScales[i];
+        ImageScale:= cViewerImageScales[i];
         Break
       end;
   end;
@@ -762,9 +761,9 @@ procedure TATImageBox.SetImageFitWidth(AValue: Boolean);
 begin
   if AValue <> FImageFitWidth then
   begin
-    FImageFitWidth := AValue;
+    FImageFitWidth:= AValue;
     if AValue then
-      FImageFitHeight := False;
+      FImageFitHeight:= False;
     UpdateImagePosition(True);
   end;
 end;
@@ -773,16 +772,16 @@ procedure TATImageBox.SetImageFitHeight(AValue: Boolean);
 begin
   if AValue <> FImageFitHeight then
   begin
-    FImageFitHeight := AValue;
+    FImageFitHeight:= AValue;
     if AValue then
-      FImageFitWidth := False;
+      FImageFitWidth:= False;
     UpdateImagePosition(True);
   end;
 end;
 
 procedure TATImageBox.Unload;
 begin
-  FImage.Picture := nil;
+  FImage.Picture:= nil;
   UpdateInfo;
 end;
 
@@ -790,7 +789,7 @@ procedure TATImageBox.LoadBitmap(ABitmap: TBitmap; ATransp: Boolean);
 begin
   Unload;
   FImage.Picture.Assign(ABitmap);
-  FImage.Transparent := ATransp;
+  FImage.Transparent:= ATransp;
   UpdateInfo;
 end;
 
@@ -810,7 +809,7 @@ end;
 
 function TATImageBox.CurrentPicture: TPicture;
 begin
-  Result := FImage.Picture;
+  Result:= FImage.Picture;
 end;
 
 procedure TATImageBox.ImagePanelPaint(ASender: TObject; ACanvas: TCanvas; ARect: TRect);

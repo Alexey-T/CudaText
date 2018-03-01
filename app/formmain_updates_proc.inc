@@ -1181,7 +1181,8 @@ end;
 
 procedure TfmMain.UpdateMenuPicScale;
 const
-  cSizes: array[1..2] of integer = (50,60);
+  cSizes: array[0..7] of integer =
+    (33, 50, 100, 150, 200, 500, 1000, 1500);
 var
   mi: TMenuItem;
   i: integer;
