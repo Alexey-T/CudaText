@@ -1521,4 +1521,8 @@ object fmMain: TfmMain
       0000000000000000000000000000
     }
   end
+  object PopupPicScale: TPopupMenu
+    left = 813
+    top = 88
+  end
 end

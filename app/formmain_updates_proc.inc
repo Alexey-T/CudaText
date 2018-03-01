@@ -1178,3 +1178,21 @@ begin
   end;
 end;
 
+
+procedure TfmMain.UpdateMenuPicScale;
+const
+  cSizes: array[1..2] of integer = (50,60);
+var
+  mi: TMenuItem;
+  i: integer;
+begin
+  for i:= Low(cSizes) to High(cSizes) do
+  begin
+    mi:= TMenuItem.Create(Self);
+    mi.Caption:= IntToStr(cSizes[i])+'%';
+    mi.Tag:= cSizes[i];
+    mi.OnClick:= @MenuPicScaleClick;
+    PopupPicScale.Items.Add(mi);
+  end;
+end;
+

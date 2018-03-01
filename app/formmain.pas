@@ -127,6 +127,7 @@ type
     mnuViewUnpriSpacesTail: TMenuItem;
     mnuViewMicromap: TMenuItem;
     mnuHelpCheckUpd: TMenuItem;
+    PopupPicScale: TPopupMenu;
     StatusProgress: TGauge;
     LabelSideTitle: TLabel;
     MenuItem4: TMenuItem;
@@ -702,6 +703,7 @@ type
     function LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
     procedure MenuEncWithReloadClick(Sender: TObject);
     procedure MenuLangClick(Sender: TObject);
+    procedure MenuPicScaleClick(Sender: TObject);
     procedure MenuPluginClick(Sender: TObject);
     procedure MenuTabsizeClick(Sender: TObject);
     procedure MenuThemeDefaultUiClick(Sender: TObject);
@@ -845,6 +847,7 @@ type
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuLangs(sub: TMenuItem);
+    procedure UpdateMenuPicScale;
     procedure UpdateMenuTabsize;
     procedure UpdateMenuThemes(AThemeUI: boolean);
     procedure UpdateMenuLexersTo(AMenu: TMenuItem);
@@ -981,7 +984,15 @@ begin
   if Data=nil then exit;
 
   if Frame.IsPicture then
+  begin
+    case Data.Tag of
+      StatusbarTag_TabSize:
+        begin
+          PopupPicScale.Popup;
+        end;
+    end;
     exit;
+  end;
 
   if Frame.IsBinary then
   begin
@@ -1606,6 +1617,7 @@ begin
   UpdateMenuLangs(mnuLang);
   UpdateMenuHotkeys;
   UpdateMenuTabsize;
+  UpdateMenuPicScale;
 
   UpdateSidebarButtons;
   UpdateBottomButtons;
@@ -3688,6 +3700,15 @@ begin
   end;
 
   DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_LANG)]);
+end;
+
+procedure TfmMain.MenuPicScaleClick(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= CurrentFrame;
+  if F.IsPicture then
+    F.PictureScale:= (Sender as TComponent).Tag;
 end;
 
 
