@@ -53,6 +53,8 @@ const
   cTypeData = 'cudatext-data';
 
 function IsOSValueOk(S: string): boolean;
+const
+  bits = {$ifdef cpu64} '64' {$else} '32' {$endif};
 begin
   Result:= false;
   if S='' then exit(true);
@@ -60,10 +62,12 @@ begin
 
   {$ifdef windows}
   if Pos(',win,', S)>0 then exit(true);
+  if Pos(',win'+bits+',', S)>0 then exit(true);
   {$endif}
 
   {$ifdef linux}
   if Pos(',linux,', S)>0 then exit(true);
+  if Pos(',linux'+bits+',', S)>0 then exit(true);
   {$endif}
 
   {$ifdef darwin}
@@ -72,6 +76,7 @@ begin
 
   {$ifdef freebsd}
   if Pos(',freebsd,', S)>0 then exit(true);
+  if Pos(',freebsd'+bits+',', S)>0 then exit(true);
   {$endif}
 end;
 
