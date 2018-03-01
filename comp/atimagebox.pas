@@ -435,16 +435,14 @@ end;
 
 procedure TATImageBox.UpdateImagePosition(AResetPosition: Boolean = False);
 var
-  AKeepPosition: Boolean;
-  AWidth, AHeight,
-  ANewWidth, ANewHeight,
-  ANewLeft, ANewTop,
-  AScrollMaxX, AScrollMaxY: Integer;
-  ARatio, AImageRatio,
-  ACenterRatioX, ACenterRatioY: Double;
+  bKeepPosition: Boolean;
+  CliWidth, CliHeight,
+  NewWidth, NewHeight, NewLeft, NewTop,
+  ScrollMaxX, ScrollMaxY: Integer;
+  NRatio, NImageRatio, CenterRatioX, CenterRatioY: Double;
   NScrollbarSize: integer;
 begin
-  AKeepPosition:= FImageKeepPosition and (not AResetPosition);
+  bKeepPosition:= FImageKeepPosition and not AResetPosition;
 
   if FImageFit then
     NScrollbarSize:= 0
@@ -453,31 +451,31 @@ begin
 
   VertScrollBar.Visible:= not FImageFit;
   HorzScrollBar.Visible:= not FImageFit;
-  AWidth:= Width-NScrollbarSize;
-  AHeight:= Height-NScrollbarSize;
+  CliWidth:= Width-NScrollbarSize;
+  CliHeight:= Height-NScrollbarSize;
 
   //Save center position, need to restore it later
-  ACenterRatioX:= 0;
-  ACenterRatioY:= 0;
+  CenterRatioX:= 0;
+  CenterRatioY:= 0;
 
   if FImage.Width > 0 then
   begin
     if FImage.Left >= 0 then
-      ACenterRatioX:= (AWidth div 2 - FImage.Left) / FImage.Width
+      CenterRatioX:= (CliWidth div 2 - FImage.Left) / FImage.Width
     else
-      ACenterRatioX:= (AWidth div 2 + HorzScrollBar.Position) / FImage.Width;
+      CenterRatioX:= (CliWidth div 2 + HorzScrollBar.Position) / FImage.Width;
   end;
 
   if FImage.Height > 0 then
   begin
     if FImage.Top >= 0 then
-      ACenterRatioY:= (AHeight div 2 - FImage.Top) / FImage.Height
+      CenterRatioY:= (CliHeight div 2 - FImage.Top) / FImage.Height
     else
-      ACenterRatioY:= (AHeight div 2 + VertScrollBar.Position) / FImage.Height;
+      CenterRatioY:= (CliHeight div 2 + VertScrollBar.Position) / FImage.Height;
   end;
 
   //Set controls params
-  if not AKeepPosition then
+  if not bKeepPosition then
   begin
     HorzScrollBar.Position:= 0;
     VertScrollBar.Position:= 0;
@@ -509,51 +507,51 @@ begin
     {
     //Note: code commented in as it causes wrong scaling sometimes.
     //If image is already fit, don't scale it:
-    if (FImage.Width = AWidth) and
-      (FImage.Height = AHeight) then
+    if (FImage.Width = CliWidth) and
+      (FImage.Height = CliHeight) then
     begin
-      ANewWidth:= FImage.Width;
-      ANewHeight:= FImage.Height;
+      NewWidth:= FImage.Width;
+      NewHeight:= FImage.Height;
     end
     else
     }
     //Need to scale
     begin
-      ANewWidth:= FImageWidth;
-      ANewHeight:= FImageHeight;
+      NewWidth:= FImageWidth;
+      NewHeight:= FImageHeight;
 
       if FImageFitOnlyBig and
-        (FImageWidth <= AWidth) and (FImageHeight <= AHeight) then
+        (FImageWidth <= CliWidth) and (FImageHeight <= CliHeight) then
       begin
         FImageScale:= 100;
       end
       else
       begin
-        if (AWidth > 0) and (AHeight > 0) and
+        if (CliWidth > 0) and (CliHeight > 0) and
           (FImageWidth > 0) and (FImageHeight > 0) then
         begin
-          ARatio:= AWidth / AHeight;
-          AImageRatio:= FImageWidth / FImageHeight;
-          if ((ARatio >= AImageRatio) and (not FImageFitWidth)) or FImageFitHeight then
+          NRatio:= CliWidth / CliHeight;
+          NImageRatio:= FImageWidth / FImageHeight;
+          if ((NRatio >= NImageRatio) and (not FImageFitWidth)) or FImageFitHeight then
           begin
             //fit height
-            if FImageFitOnlyBig and (AHeight >= FImageHeight) then begin end
+            if FImageFitOnlyBig and (CliHeight >= FImageHeight) then begin end
             else
             begin
-              ANewHeight:= AHeight;
-              ANewWidth:= Trunc(ANewHeight * AImageRatio);
-              FImageScale:= AHeight * 100 div FImageHeight;
+              NewHeight:= CliHeight;
+              NewWidth:= Trunc(NewHeight * NImageRatio);
+              FImageScale:= CliHeight * 100 div FImageHeight;
             end;
           end
           else
           begin
             //fit width
-            if FImageFitOnlyBig and (AWidth >= FImageWidth) then begin end
+            if FImageFitOnlyBig and (CliWidth >= FImageWidth) then begin end
             else
             begin
-              ANewWidth:= AWidth;
-              ANewHeight:= Trunc(ANewWidth / AImageRatio);
-              FImageScale:= AWidth * 100 div FImageWidth;
+              NewWidth:= CliWidth;
+              NewHeight:= Trunc(NewWidth / NImageRatio);
+              FImageScale:= CliWidth * 100 div FImageWidth;
             end;
           end;
         end;
@@ -562,31 +560,31 @@ begin
   end //if FImageFit
   else
   begin
-    ANewWidth:= Round(FImageWidth * FImageScale / 100);
-    ANewHeight:= Round(FImageHeight * FImageScale / 100);
+    NewWidth:= Round(FImageWidth * FImageScale / 100);
+    NewHeight:= Round(FImageHeight * FImageScale / 100);
   end;
 
   //Update image position
-  ANewLeft:= 0;
-  ANewTop:= 0;
+  NewLeft:= 0;
+  NewTop:= 0;
 
   if FImageCenter then
   begin
-    if AWidth > ANewWidth then
-      ANewLeft:= (AWidth - ANewWidth) div 2;
-    if AHeight > ANewHeight then
-      ANewTop:= (AHeight - ANewHeight) div 2;
+    if CliWidth > NewWidth then
+      NewLeft:= (CliWidth - NewWidth) div 2;
+    if CliHeight > NewHeight then
+      NewTop:= (CliHeight - NewHeight) div 2;
   end;
 
-  if (FOldLeft<>ANewLeft - HorzScrollBar.Position) or
-    (FOldTop<>ANewTop - VertScrollBar.Position) or
-    (FOldWidth<>ANewWidth) or
-    (FOldHeight<>ANewHeight) then
+  if (FOldLeft<>NewLeft - HorzScrollBar.Position) or
+    (FOldTop<>NewTop - VertScrollBar.Position) or
+    (FOldWidth<>NewWidth) or
+    (FOldHeight<>NewHeight) then
   begin
-    FOldLeft:= ANewLeft - HorzScrollBar.Position;
-    FOldTop:= ANewTop - VertScrollBar.Position;
-    FOldWidth:= ANewWidth;
-    FOldHeight:= ANewHeight;
+    FOldLeft:= NewLeft - HorzScrollBar.Position;
+    FOldTop:= NewTop - VertScrollBar.Position;
+    FOldWidth:= NewWidth;
+    FOldHeight:= NewHeight;
     FImage.SetBounds(
       FOldLeft,
       FOldTop,
@@ -595,22 +593,22 @@ begin
   end;
 
   //Restore saved center position
-  if AKeepPosition then
+  if bKeepPosition then
   begin
-    if ANewLeft = 0 then
+    if NewLeft = 0 then
     begin
-      AScrollMaxX:= Max(ANewWidth - AWidth, 0);
+      ScrollMaxX:= Max(NewWidth - CliWidth, 0);
       HorzScrollBar.Position:=
-        Min(AScrollMaxX, Trunc(ACenterRatioX * ANewWidth) - AWidth div 2);
+        Min(ScrollMaxX, Trunc(CenterRatioX * NewWidth) - CliWidth div 2);
     end
     else
       HorzScrollBar.Position:= 0;
 
-    if ANewTop = 0 then
+    if NewTop = 0 then
     begin
-      AScrollMaxY:= Max(ANewHeight - AHeight, 0);
+      ScrollMaxY:= Max(NewHeight - CliHeight, 0);
       VertScrollBar.Position:=
-        Min(AScrollMaxY, Trunc(ACenterRatioY * ANewHeight) - AHeight div 2);
+        Min(ScrollMaxY, Trunc(CenterRatioY * NewHeight) - CliHeight div 2);
     end
     else
       VertScrollBar.Position:= 0;
@@ -618,9 +616,9 @@ begin
 
   //adjust range
   if HorzScrollbar.Visible then
-    HorzScrollbar.Range:= ANewWidth;
+    HorzScrollbar.Range:= NewWidth;
   if VertScrollBar.Visible then
-    VertScrollbar.Range:= ANewHeight;
+    VertScrollbar.Range:= NewHeight;
 
   DoScroll;
 end;
