@@ -621,7 +621,7 @@ begin
   begin
     Ctl:= TListView.Create(AForm);
     TListView(Ctl).ReadOnly:= true;
-    TListView(Ctl).ColumnClick:= false;
+    TListView(Ctl).ColumnClick:= true;
     TListView(Ctl).ViewStyle:= vsReport;
     TListView(Ctl).RowSelect:= true;
     TListView(Ctl).HideSelection:= false;
