@@ -628,6 +628,7 @@ begin
     TListView(Ctl).Checkboxes:= (S='checklistview');
     TListView(Ctl).OnChange:= @AForm.DoOnListviewChange;
     TListView(Ctl).OnSelectItem:= @AForm.DoOnListviewSelect;
+    TListView(Ctl).OnColumnClick:= @AForm.DoOnListviewColumnClick;
     exit;
   end;
 
@@ -1387,6 +1388,12 @@ begin
   if AName='on_click_dbl' then
   begin
     TAppControlProps(C.Tag).FEventOnClickDbl:= AValue;
+    exit;
+  end;
+
+  if AName='on_click_header' then
+  begin
+    TAppControlProps(C.Tag).FEventOnClickHeader:= AValue;
     exit;
   end;
 

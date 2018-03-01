@@ -50,6 +50,7 @@ type
     FEventOnChange: string;
     FEventOnClick: string;
     FEventOnClickDbl: string;
+    FEventOnClickHeader: string;
     FEventOnMenu: string;
     FEventOnSelect: string;
     FEventOnFold: string;
@@ -117,6 +118,7 @@ type
     procedure DoOnListboxDrawItem(Sender: TObject; ACanvas: TCanvas; AIndex: integer; const ARect: TRect);
     procedure DoOnListviewChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure DoOnListviewSelect(Sender: TObject; Item: TListItem; Selected: Boolean);
+    procedure DoOnListviewColumnClick(Sender: TObject; Column: TListColumn);
     procedure DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
     procedure DoOnTreeviewSelect(Sender: TObject);
     procedure DoOnTreeviewExpanding(Sender: TObject; Node: TTreeNode; var AllowExpansion: Boolean);
@@ -599,6 +601,17 @@ begin
   finally
     BlockedOnSelect_Listview:= false;
   end;
+end;
+
+procedure TFormDummy.DoOnListviewColumnClick(Sender: TObject;
+  Column: TListColumn);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnClickHeader, IntToStr(Column.Index));
 end;
 
 
