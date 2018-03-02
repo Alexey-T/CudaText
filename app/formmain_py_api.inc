@@ -2873,68 +2873,6 @@ begin
             Result:= Py_CommandList;
           end;
 
-        APP_PROC_GET_COMMAND:
-          begin
-            MsgOldApi('app_proc(PROC_GET_COMMAND)');
-            if (AppKeymap.IsIndexValid(ParamInt)) and
-              not ((AppKeymap[ParamInt].Command>=cmdFirstPluginCommand) and
-                   (AppKeymap[ParamInt].Command<cmdLastPluginCommand)) and
-              not ((AppKeymap[ParamInt].Command>=cmdFirstLexerCommand) and
-                   (AppKeymap[ParamInt].Command<cmdLastLexerCommand)) then
-              with AppKeymap[ParamInt] do
-                Result:= Py_BuildValue('(isss)',
-                  Command,
-                  PChar(Name),
-                  PChar(KeyArrayToString(Keys1)),
-                  PChar(KeyArrayToString(Keys2))
-                  )
-            else
-              Result:= ReturnNone;
-          end;
-
-        APP_PROC_GET_COMMAND_INITIAL:
-          begin
-            MsgOldApi('app_proc(PROC_GET_COMMAND_INITIAL)');
-
-            //AppKeymapInitial must be inited with _same_ code
-            //as AppKeymap in proc_global
-            if not Assigned(AppKeymapInitial) then
-            begin
-              AppKeymapInitial:= TATKeymap.Create;
-              InitKeymapFull(AppKeymapInitial);
-              InitKeymapForApplication(AppKeymapInitial);
-            end;
-
-            if AppKeymapInitial.IsIndexValid(ParamInt) then
-              with AppKeymapInitial[ParamInt] do
-                Result:= Py_BuildValue('(isss)',
-                  Command,
-                  PChar(Name),
-                  PChar(KeyArrayToString(Keys1)),
-                  PChar(KeyArrayToString(Keys2))
-                  )
-            else
-              Result:= ReturnNone;
-          end;
-
-        APP_PROC_GET_COMMAND_PLUGIN:
-          begin
-            MsgOldApi('app_proc(PROC_GET_COMMAND_PLUGIN)');
-
-            if (ParamInt>=Low(AppPluginsCommand)) and
-               (ParamInt<=High(AppPluginsCommand)) and
-               (AppPluginsCommand[ParamInt].ItemModule<>'') then
-              Result:= Py_BuildValue('(sssss)',
-                PChar(AppPluginsCommand[ParamInt].ItemCaption),
-                PChar(AppPluginsCommand[ParamInt].ItemModule),
-                PChar(AppPluginsCommand[ParamInt].ItemProc),
-                PChar(AppPluginsCommand[ParamInt].ItemProcParam),
-                PChar(AppPluginsCommand[ParamInt].ItemLexers)
-                )
-            else
-               Result:= ReturnNone;
-          end;
-
         APP_PROC_SAVE_SESSION:
           begin
             ParamBool:= fmMain.DoOps_SaveSession(Str);
