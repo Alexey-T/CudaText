@@ -252,6 +252,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "sidebar themes": These are icon sets for the sidebar (vertical bar on the left side).
 
+* "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
+
 * "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
 
 == File-types config ==
@@ -874,7 +876,7 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 ** for lexers it should be "-"
 * "homepage" field, source code repository URL (usually on GitHub)
 * "api" field, optional, minimal required API version (3 numbers dot-separated)
-* "os" field, optional, comma-separated list of supported OS names: win, linux, macos
+* "os" field, optional, comma-separated list of supported OS: win, win32, win64, linux, linux32, linux64, macos, freebsd, freebsd32, freebsd64
 
 === Plugins ===
 
