@@ -499,9 +499,6 @@ begin
     }
 
   //Fit and recalculate ImageScale
-  FImage.Left:= 0;
-  FImage.Top:= 0;
-
   if FImageFit then
   begin
     {
