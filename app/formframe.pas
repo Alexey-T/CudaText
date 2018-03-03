@@ -599,7 +599,7 @@ end;
 function TEditorFrame.GetPictureScale: integer;
 begin
   if Assigned(FImageBox) then
-    Result:= FImageBox.ImageScale
+    Result:= FImageBox.ImageZoom
   else
     Result:= 100;
 end;
@@ -715,7 +715,7 @@ begin
   if Assigned(FImageBox) then
   begin
     if AValue>0 then
-      FImageBox.ImageScale:= AValue
+      FImageBox.ImageZoom:= AValue
     else
     if AValue=-1 then
       FImageBox.OptFitToWindow:= true;
