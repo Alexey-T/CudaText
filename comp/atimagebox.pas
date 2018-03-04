@@ -25,12 +25,7 @@ const
     125, 150, 175, 200, 250, 300, 350, 400, 450, 500,
     600, 700, 800, 1000, 1200, 1400, 1600);
 
-
 type
-  TATScrollAltEvent = procedure(Sender: TObject; Inc: boolean) of object;
-
-type
-
   { TATImageBox }
 
   TATImageBox = class(TScrollBox)
@@ -60,9 +55,10 @@ type
     FCheckersSize: integer;
     FCheckersColor1: TColor;
     FCheckersColor2: TColor;
+    FScrollSmallStep: integer;
+    FScrollGapSize: integer;
 
     FOnScroll: TNotifyEvent;
-    FOnScrollAlt: TATScrollAltEvent;
     FOnOptionsChange: TNotifyEvent;
 
     FOldLeft: integer;
@@ -73,10 +69,10 @@ type
     FOldSelfH: integer;
 
     procedure DoScroll;
-    procedure DoScrollAlt(AInc: boolean);
     procedure DoOptionsChange;
     function GetImageHeight: integer;
     function GetImageWidth: integer;
+    function GetPageSize(AClientSize: integer): integer;
     procedure MouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: boolean);
     procedure MouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -141,18 +137,15 @@ type
     property OptChechersSize: integer read FCheckersSize write SetCheckersSize default 8;
     property OptCheckersColor1: TColor read FCheckersColor1 write SetCheckersColor1 default clWhite;
     property OptCheckersColor2: TColor read FCheckersColor2 write SetCheckersColor2 default clLtGray;
+    property OptScrollSmallStep: integer read FScrollSmallStep write FScrollSmallStep default 50;
+    property OptScrollBigStepDecrement: integer read FScrollGapSize write FScrollGapSize default 20;
 
     property OnScroll: TNotifyEvent read FOnScroll write FOnScroll;
-    property OnScrollAlt: TATScrollAltEvent read FOnScrollAlt write FOnScrollAlt;
     property OnOptionsChange: TNotifyEvent read FOnOptionsChange write FOnOptionsChange;
   end;
 
 
 implementation
-
-const
-  cImageLineSize = 50; //Line size: pixels to scroll by arrows and mouse sheel
-  cImageGapSize = 20; //Gap size: PgUp/PgDn/Home/End scroll by control size minus gap size
 
 procedure DoPaintCheckers(C: TCanvas;
   ASizeX, ASizeY: integer;
@@ -210,6 +203,8 @@ begin
   FCheckersSize:= 8;
   FCheckersColor1:= clWhite;
   FCheckersColor2:= clLtGray;
+  FScrollSmallStep:= 50;
+  FScrollGapSize:= 20;
 
   FImage:= TImage.Create(Self);
   with FImage do
@@ -255,12 +250,6 @@ begin
     FOnScroll(Self);
 end;
 
-procedure TATImageBox.DoScrollAlt(AInc: boolean);
-begin
-  if Assigned(FOnScrollAlt) then
-    FOnScrollAlt(Self, AInc);
-end;
-
 procedure TATImageBox.WMHScroll(var Message: TLMHScroll);
 begin
   inherited;
@@ -279,14 +268,14 @@ begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position:= Position - cImageLineSize;
+      Position:= Position - FScrollSmallStep;
     DoScroll;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position:= Position - cImageLineSize;
+      Position:= Position - FScrollSmallStep;
     DoScroll;
   end
   else
@@ -307,14 +296,14 @@ begin
   if (Shift = []) then
   begin
     with VertScrollBar do
-      Position:= Position + cImageLineSize;
+      Position:= Position + FScrollSmallStep;
     DoScroll;
   end
   else
   if (Shift = [FModifierMouseHorzScroll]) then
   begin
     with HorzScrollBar do
-      Position:= Position + cImageLineSize;
+      Position:= Position + FScrollSmallStep;
     DoScroll;
   end
   else
@@ -355,13 +344,12 @@ begin
   Message.Result:= DLGC_WANTARROWS;
 end;
 
+function TATImageBox.GetPageSize(AClientSize: integer): integer;
+begin
+  Result:= Max(AClientSize - FScrollGapSize, AClientSize div 3 * 2);
+end;
+
 procedure TATImageBox.KeyDown(var Key: Word; Shift: TShiftState);
-
-  function PageSize(AClientSize: integer): integer;
-  begin
-    Result:= Max(AClientSize - cImageGapSize, AClientSize div 3 * 2);
-  end;
-
 begin
   case Key of
     VK_LEFT:
@@ -369,7 +357,7 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position - cImageLineSize;
+          Position:= Position - FScrollSmallStep;
         DoScroll;
         Key:= 0;
       end
@@ -380,12 +368,6 @@ begin
           Position:= 0;
         DoScroll;
         Key:= 0;
-      end
-      else
-      if Shift = [ssAlt] then
-      begin
-        DoScrollAlt(False);
-        Key:= 0;
       end;
     end;
 
@@ -394,7 +376,7 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position + cImageLineSize;
+          Position:= Position + FScrollSmallStep;
         DoScroll;
         Key:= 0;
       end
@@ -405,12 +387,6 @@ begin
           Position:= Range;
         DoScroll;
         Key:= 0;
-      end
-      else
-      if Shift = [ssAlt] then
-      begin
-        DoScrollAlt(True);
-        Key:= 0;
       end;
     end;
 
@@ -418,7 +394,7 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position - PageSize(ClientWidth);
+          Position:= Position - GetPageSize(ClientWidth);
         DoScroll;
         Key:= 0;
       end;
@@ -427,7 +403,7 @@ begin
       if Shift = [] then
       begin
         with HorzScrollBar do
-          Position:= Position + PageSize(ClientWidth);
+          Position:= Position + GetPageSize(ClientWidth);
         DoScroll;
         Key:= 0;
       end;
@@ -437,7 +413,7 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position - cImageLineSize;
+          Position:= Position - FScrollSmallStep;
         DoScroll;
         Key:= 0;
       end
@@ -456,7 +432,7 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position + cImageLineSize;
+          Position:= Position + FScrollSmallStep;
         DoScroll;
         Key:= 0;
       end
@@ -474,7 +450,7 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position - PageSize(ClientHeight);
+          Position:= Position - GetPageSize(ClientHeight);
         DoScroll;
         Key:= 0;
       end;
@@ -483,7 +459,7 @@ begin
       if Shift = [] then
       begin
         with VertScrollBar do
-          Position:= Position + PageSize(ClientHeight);
+          Position:= Position + GetPageSize(ClientHeight);
         DoScroll;
         Key:= 0;
       end;
