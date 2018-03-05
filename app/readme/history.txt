@@ -4,7 +4,12 @@
   * changed
 
 
-1.44.0 (2018/02)
+1.44.1 (2018/03)
+
++ add: avoid flicker of folded blocks (unfold-fold) when editing Markdown/Python/etc files
++ add: lexer PowerShell: small fixes
+
+1.44.0 (2018/03)
 
 + add: pictures: allow dragging, zooming by Ctrl+ mouse wheel (Command+ on macOS)
 + add: pictures: show zoom % in statusbar
