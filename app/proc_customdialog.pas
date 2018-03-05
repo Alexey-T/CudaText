@@ -427,6 +427,8 @@ begin
   begin
     C.ItemFocused:= C.Items[N];
     C.Selected:= C.ItemFocused;
+    if Assigned(C.ItemFocused) then
+      C.ItemFocused.MakeVisible(false);
   end;
 
   //check0,check1,..
