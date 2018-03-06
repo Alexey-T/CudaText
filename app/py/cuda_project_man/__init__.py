@@ -123,6 +123,7 @@ class Command:
     def init_form_main(self):
 
         show_toolbar = self.options.get("toolbar", True)
+        toolbar_theme = self.options.get("toolbar_theme", "default_16x16")
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
@@ -141,13 +142,13 @@ class Command:
         self.h_bar = dlg_proc(self.h_dlg, DLG_CTL_HANDLE, index=n)
         self.toolbar_imglist = toolbar_proc(self.h_bar, TOOLBAR_GET_IMAGELIST)
 
-        dirname = os.path.join(os.path.dirname(__file__), 'icons')
-        icon_open = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-open.png'))
-        icon_save = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-save.png'))
-        icon_add_file = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-add-file.png'))
-        icon_add_dir = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-add-dir.png'))
-        icon_del = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-del.png'))
-        icon_cfg = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'tb-cfg.png'))
+        dirname = os.path.join(app_path(APP_DIR_DATA), 'projtoolbaricons', toolbar_theme)
+        icon_open = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'open.png'))
+        icon_save = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'save.png'))
+        icon_add_file = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'add-file.png'))
+        icon_add_dir = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'add-dir.png'))
+        icon_del = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'del.png'))
+        icon_cfg = imagelist_proc(self.toolbar_imglist, IMAGELIST_ADD, value = os.path.join(dirname, 'cfg.png'))
 
         toolbar_proc(self.h_bar, TOOLBAR_THEME)
         _toolbar_add_btn(self.h_bar, hint='Open project', icon=icon_open, command='cuda_project_man.action_open_project' )
