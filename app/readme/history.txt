@@ -10,6 +10,7 @@
 + add: ProjectManager: option "Toolbar icons"; option uses icons in folder data/projtoolbaricons
 + add: sidebar button "hamburger", which shows copy of main menu as popup
 + add: command "show main menu as popup"
++ add: command "toggle main menu", menu showing is saved to history
 + add: lexer PowerShell: small fixes
 * change: TabsList: removed Config dialog
 
