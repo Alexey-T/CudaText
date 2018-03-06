@@ -1054,6 +1054,7 @@ const
   cSidebarIconValidate = 3;
   cSidebarIconFind     = 4;
   cSidebarIconGoto     = 5;
+  cSidebarIconMenu     = 6;
 
 procedure TfmMain.DoOps_LoadSidebarIcons;
 var
@@ -1145,6 +1146,7 @@ end;
 procedure TfmMain.InitSidebar;
 begin
   //
+  ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, 'Menu', 'Menu', '', UiOps.ShowSidebarCaptions);
   ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, msgPanelTreeInit, msgPanelTreeInit, '', UiOps.ShowSidebarCaptions);
   //
   ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);

@@ -603,6 +603,7 @@ type
       const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
     procedure DoSidebar_ListboxDrawItem(Sender: TObject; C: TCanvas;
       AIndex: integer; const ARect: TRect);
+    procedure DoSidebar_MainMenuClick(Sender: TObject);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);

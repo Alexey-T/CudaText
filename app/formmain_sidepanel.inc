@@ -30,6 +30,21 @@ begin
   C.TextOut(ARect.Left+cDx, ARect.Top+cDy, Listbox.Items[AIndex]);
 end;
 
+procedure TfmMain.DoSidebar_MainMenuClick(Sender: TObject);
+var
+  FMenu: TPopupMenu;
+  Pnt: TPoint;
+begin
+  FMenu:= TPopupMenu.Create(Self);
+  try
+    Menu_Copy(MainMenu, FMenu);
+    Pnt:= ClientToScreen(Point(0, 0));
+    FMenu.Popup(Pnt.X, Pnt.Y);
+  finally
+    FMenu.Free;
+  end;
+end;
+
 
 procedure TfmMain.DoSidebar_OnTabClick(Sender: TObject);
 var
