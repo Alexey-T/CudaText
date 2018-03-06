@@ -1146,7 +1146,7 @@ end;
 procedure TfmMain.InitSidebar;
 begin
   //
-  ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, 'Menu', 'Menu', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, msgPanelMainmenu, msgPanelMainmenu, '', UiOps.ShowSidebarCaptions);
   ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, msgPanelTreeInit, msgPanelTreeInit, '', UiOps.ShowSidebarCaptions);
   //
   ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);

@@ -40,6 +40,7 @@ const
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
 
+  msgPanelMainmenu = 'Menu';
   msgPanelTreeInit = 'Code tree';
   msgPanelTree: string = 'Code tree';
   msgPanelProject: string = 'Project';
