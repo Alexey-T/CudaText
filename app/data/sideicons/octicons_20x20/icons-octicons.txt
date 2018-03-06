@@ -1,2 +1,4 @@
 Octicons by Github
 https://octicons.github.com/
+
+output icon - By Kirill Kazachek https://www.iconfinder.com/kirill.kazachek
