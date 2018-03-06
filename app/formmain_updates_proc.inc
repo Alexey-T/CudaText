@@ -1078,6 +1078,7 @@ begin
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');
+  UpdateImagelistWithIconFromFile(ImageListSide, Str+'menu.png');
 
   ToolbarSideTop.UpdateControls;
   ToolbarSideLow.UpdateControls;

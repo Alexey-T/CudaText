@@ -13,7 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, StdCtrls, ComCtrls, Graphics,
-  ImgList, Dialogs, Forms,
+  ImgList, Dialogs, Forms, Menus,
   LclIntf, LclType, LazFileUtils, StrUtils,
   ATSynEdit,
   ATSynEdit_Adapter_EControl,
@@ -77,6 +77,8 @@ procedure DoPaintCheckers(C: TCanvas;
   ASizeX, ASizeY: integer;
   ACellSize: integer;
   AColor1, AColor2: TColor);
+
+procedure Menu_Copy(ASrc, ADest: TMenu);
 
 
 implementation
@@ -599,6 +601,50 @@ begin
         c.Brush.Color:= AColor2;
         c.FillRect(i*ACellSize, j*ACellSize, (i+1)*ACellSize, (j+1)*ACellSize);
       end;
+end;
+
+procedure MenuItem_Copy(ASrc, ADest: TMenuItem);
+var
+  mi: TMenuItem;
+  i: integer;
+begin
+  ADest.Clear;
+  ADest.Action:= ASrc.Action;
+  ADest.AutoCheck:= ASrc.AutoCheck;
+  ADest.Caption:= ASrc.Caption;
+  ADest.Checked:= ASrc.Checked;
+  ADest.Default:= ASrc.Default;
+  ADest.Enabled:= ASrc.Enabled;
+  ADest.Bitmap:= ASrc.Bitmap;
+  ADest.GroupIndex:= ASrc.GroupIndex;
+  ADest.GlyphShowMode:= ASrc.GlyphShowMode;
+  ADest.HelpContext:= ASrc.HelpContext;
+  ADest.Hint:= ASrc.Hint;
+  ADest.ImageIndex:= ASrc.ImageIndex;
+  ADest.RadioItem:= ASrc.RadioItem;
+  ADest.RightJustify:= ASrc.RightJustify;
+  ADest.ShortCut:= ASrc.ShortCut;
+  ADest.ShortCutKey2:= ASrc.ShortCutKey2;
+  ADest.ShowAlwaysCheckable:= ASrc.ShowAlwaysCheckable;
+  ADest.SubMenuImages:= ASrc.SubMenuImages;
+  ADest.SubMenuImagesWidth:= ASrc.SubMenuImagesWidth;
+  ADest.Visible:= ASrc.Visible;
+  ADest.OnClick:= ASrc.OnClick;
+  ADest.OnDrawItem:= ASrc.OnDrawItem;
+  ADest.OnMeasureItem:= ASrc.OnMeasureItem;
+  ADest.Tag:= ASrc.Tag;
+
+  for i:= 0 to ASrc.Count-1 do
+  begin
+    mi:= TMenuItem.Create(ASrc.Owner);
+    MenuItem_Copy(ASrc.Items[i], mi);
+    ADest.Add(mi);
+  end;
+end;
+
+procedure Menu_Copy(ASrc, ADest: TMenu);
+begin
+  MenuItem_Copy(ASrc.Items, ADest.Items);
 end;
 
 end.
