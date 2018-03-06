@@ -32,6 +32,8 @@ begin
       c.SetValue('show_status', ShowStatus);
       c.SetValue('show_sidepanel', ShowSidePanel);
       c.SetValue('show_bottom', ShowBottom);
+      c.SetValue('show_menu', ShowMenu);
+
       c.SetValue('size_side', PanelLeft.Width);
       c.SetValue('size_bottom', PanelBottom.Height);
       c.SetValue('tab_left', SidebarPanel);
@@ -377,6 +379,7 @@ begin
     ShowStatus:= c.GetValue('show_status', true);
     ShowSidePanel:= c.GetValue('show_sidepanel', true);
     ShowBottom:= c.GetValue('show_bottom', false);
+    ShowMenu:= c.GetValue('show_menu', true);
     PanelLeft.Width:= c.GetValue('size_side', 200);
     PanelBottom.Height:= c.GetValue('size_bottom', 200);
 
