@@ -1314,10 +1314,8 @@ begin
 
         BOOKMARK_SETUP:
           begin
-            if (StrText<>'') and UpdateImagelistWithIconFromFile(AppBookmarkImagelist, StrText) then
-              AppBookmarkSetup[NKind].ImageIndex:= AppBookmarkImagelist.Count-1
-            else
-              AppBookmarkSetup[NKind].ImageIndex:= -1;
+            AppBookmarkSetup[NKind].ImageIndex:=
+              UpdateImagelistWithIconFromFile(AppBookmarkImagelist, StrText);
             AppBookmarkSetup[NKind].Color:= NColor;
             Result:= ReturnNone;
           end;
@@ -4269,8 +4267,9 @@ begin
 
         IMAGELIST_ADD:
           begin
-            if UpdateImagelistWithIconFromFile(List, StrValue) then
-              Result:= PyInt_FromLong(List.Count-1)
+            NX:= UpdateImagelistWithIconFromFile(List, StrValue);
+            if NX>=0 then
+              Result:= PyInt_FromLong(NX)
             else
               Result:= ReturnNone;
           end;

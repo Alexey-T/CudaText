@@ -189,10 +189,7 @@ begin
   if ExtractFileDir(AFilename)='' then
     AFilename:= GetAppPath(cDirDataSideIcons)+DirectorySeparator+AFilename;
 
-  if UpdateImagelistWithIconFromFile(ImageListSide, AFilename) then
-    Result:= fmMain.ImageListSide.Count-1
-  else
-    Result:= -1;
+  Result:= UpdateImagelistWithIconFromFile(ImageListSide, AFilename);
 end;
 
 
