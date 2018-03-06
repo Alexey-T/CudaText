@@ -1,4 +1,8 @@
 
+2018.03.06
++ option in Config dialog "Toolbar icons"
+* moved toolbar icons to CudaText's data/projtoolbaricons/default_16x16
+
 2018.01
 + support project variables {ProjMainFileNameOnly}, {ProjMainFileNameNoExt}
 - fix: avoid deprecated toolbar API 
