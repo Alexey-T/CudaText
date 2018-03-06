@@ -76,6 +76,7 @@ begin
     cmd_DialogThemeUi:     DoDialogTheme(true);
     cmd_DialogThemeSyntax: DoDialogTheme(false);
     cmd_DialogCharMap:     DoDialogCharMap;
+    cmd_ShowMainMenuAsPopup: DoSidebar_MainMenuClick(nil);
 
     cmd_ToggleFullScreen:  DoToggleFullScreen;
     cmd_ToggleDistractionFree: DoToggleDistractionFree;

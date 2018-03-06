@@ -86,6 +86,7 @@ const
   cmd_RescanPythonPluginsInfFiles = 2551;
   cmd_DialogThemeUi       = 2552;
   cmd_DialogThemeSyntax   = 2553;
+  cmd_ShowMainMenuAsPopup = 2554;
 
   cmd_FocusEditor = 2577;
   cmd_SwitchActiveTabToNext = 2578;
@@ -323,6 +324,7 @@ begin
   M.Add(cmd_SwitchActiveTabToNext, 'ui: switch active tab, to next', ['Ctrl+Tab'], []);
   M.Add(cmd_SwitchActiveTabToPrev, 'ui: switch active tab, to previous', ['Ctrl+Shift+Tab'], []);
 
+  M.Add(cmd_ShowMainMenuAsPopup, 'ui: show main menu as popup', [], []);
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
   M.Add(cmd_DialogCommands, 'dialog: command list', ['F1'], []);
   M.Add(cmd_DialogGoto, 'dialog: go to line', [cXControl+'+G'], []);
