@@ -7,18 +7,12 @@ homepage=https://github.com/CudaText-addons/cuda_tabs_list
 
 [item1]
 section=events
-events=on_focus,on_open,on_tab_move,on_state,on_start
+events=on_focus,on_open,on_tab_move,on_state
 
 [item2]
 section=commands
 caption=Tabs List
 method=open
-
-[item3]
-section=commands
-caption=Tabs List\Config...
-method=config
-menu=o
 
 [sidebar1]
 hint=Tabs

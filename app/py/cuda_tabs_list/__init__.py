@@ -2,7 +2,6 @@ import os
 from cudatext import *
 import cudatext_cmd
 
-fn_config = 'cuda_tabs_list.ini'
 fn_icon = 'tabs.png'
 
 class Command:
@@ -11,10 +10,9 @@ class Command:
     h_tree = None
     h_menu = None
     busy_update = False
-    open_on_start = False
 
     def __init__(self):
-        self.open_on_start = ini_read(fn_config, 'op', 'on_start', '0')=='1'
+        pass
 
     def open(self, activate_tab=True):
 
@@ -86,10 +84,6 @@ class Command:
         if state in [EDSTATE_TAB_TITLE, EDSTATE_MODIFIED]:
             self.update()
 
-    def on_start(self, ed_self):
-        if self.open_on_start:
-            self.open(False)
-
     def ed_of_sel(self):
         h_item = tree_proc(self.h_tree, TREE_ITEM_GET_SELECTED)
         prop = tree_proc(self.h_tree, TREE_ITEM_GET_PROPS, h_item)
@@ -115,20 +109,6 @@ class Command:
         e = self.ed_of_sel()
         e.cmd(cudatext_cmd.cmd_CopyFilenameName)
 
-
-    def config(self):
-        text = '\n'.join([
-            'type=check\1pos=6,6,500,0\1cap=Show Tabs panel on application start\1val='+('1' if self.open_on_start else '0'),
-            'type=button\1pos=324,70,404,0\1cap=OK\1props=1',
-            'type=button\1pos=410,70,490,0\1cap=Cancel',
-            ])
-
-        res = dlg_custom('Tabs List options', 500, 100, text, get_dict=True)
-        if res is None: return
-        if res['clicked'] != 1: return
-
-        self.open_on_start = res[0]=='1'
-        ini_write(fn_config, 'op', 'on_start', '1' if self.open_on_start else '0')
 
     def tree_on_sel(self, id_dlg, id_ctl, data='', info=''):
         if self.h_tree is None: return
