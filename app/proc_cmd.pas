@@ -87,6 +87,7 @@ const
   cmd_DialogThemeUi       = 2552;
   cmd_DialogThemeSyntax   = 2553;
   cmd_ShowMainMenuAsPopup = 2554;
+  cmd_ToggleMenu = 2555;
 
   cmd_FocusEditor = 2577;
   cmd_SwitchActiveTabToNext = 2578;
@@ -311,6 +312,7 @@ begin
   M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);
   M.Add(cmd_ToggleStatusbar, 'ui: toggle statusbar', [], []);
+  M.Add(cmd_ToggleMenu, 'ui: toggle main menu', [], []);
 
   M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
   M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, syntax tree', [], []);

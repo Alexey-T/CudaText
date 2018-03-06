@@ -690,6 +690,7 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     procedure GotoInputOnChange(Sender: TObject);
     procedure GotoInputOnChangeCaretPos(Sender: TObject);
@@ -712,6 +713,7 @@ type
     procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgLog(const AText: string);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
     procedure SetSidebarPanel(const ACaption: string);
     procedure SetShowDistractionFree(AValue: boolean);
@@ -796,6 +798,7 @@ type
     procedure DoFileSaveAll;
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
+    procedure DoToggleMenu;
     procedure DoToggleOnTop;
     procedure DoToggleFullScreen;
     procedure DoToggleDistractionFree;
@@ -906,6 +909,7 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
+    property ShowMenu: boolean read GetShowMenu write SetShowMenu;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
@@ -2883,9 +2887,22 @@ begin
   TimerStatusAlt.Enabled:= true;
 end;
 
+procedure TfmMain.SetShowMenu(AValue: boolean);
+begin
+  if AValue then
+    Menu:= MainMenu
+  else
+    Menu:= nil;
+end;
+
 function TfmMain.GetShowOnTop: boolean;
 begin
   Result:= UiOps.ShowFormsOnTop;
+end;
+
+function TfmMain.GetShowMenu: boolean;
+begin
+  Result:= Menu<>nil;
 end;
 
 procedure TfmMain.SetShowOnTop(AValue: boolean);
@@ -2996,6 +3013,11 @@ begin
     FListRecents.Delete(n);
     UpdateMenuRecent(nil);
   end;
+end;
+
+procedure TfmMain.DoToggleMenu;
+begin
+  ShowMenu:= not ShowMenu;
 end;
 
 procedure TfmMain.DoToggleOnTop;
