@@ -416,11 +416,14 @@ type
     function GetIndexOfButton(AData: TATTabButtons; ABtn: TATTabButton): integer;
     function GetInitialVerticalIndent: integer;
     function IsScrollMarkNeeded: boolean;
+    function GetMaxEdgePos: integer;
     function GetMaxScrollPos: integer;
     function GetRectOfButton(AButton: TATTabButton): TRect;
     function GetRectOfButtonIndex(AIndex: integer; AtLeft: boolean): TRect;
     function GetScrollPageSize: integer;
+    function IsTabVisible(AIndex: integer): boolean;
     procedure SetOptButtonLayout(const AValue: string);
+    procedure SetOptVarWidth(AValue: boolean);
     procedure SetTabIndex(AIndex: integer);
     procedure GetTabCloseColor(AIndex: integer; const ARect: TRect; var AColorXBg,
       AColorXBorder, AColorXMark: TColor);
@@ -448,8 +451,8 @@ type
     procedure DragDrop(Source: TObject; X, Y: integer); override;
 
     function GetTabRectWidth(APlusBtn: boolean): integer;
-    function GetTabRect(AIndex: integer): TRect;
-    function GetTabRect_Plus: TRect;
+    function GetTabRect(AIndex: integer; AWithScroll: boolean= true): TRect;
+    function GetTabRect_Plus(AWithScroll: boolean= true): TRect;
     function GetTabRect_X(const ARect: TRect): TRect;
     function GetTabAt(X, Y: integer; out APressedX: boolean): integer;
     function GetTabData(AIndex: integer): TATTabData;
@@ -554,7 +557,7 @@ type
     //options
     property OptButtonLayout: string read FOptButtonLayout write SetOptButtonLayout;
     property OptButtonSize: integer read FOptButtonSize write FOptButtonSize default _InitOptButtonSize;
-    property OptVarWidth: boolean read FOptVarWidth write FOptVarWidth default false;
+    property OptVarWidth: boolean read FOptVarWidth write SetOptVarWidth default false;
     property OptMultiline: boolean read FOptMultiline write FOptMultiline default false;
     property OptFillWidth: boolean read FOptFillWidth write FOptFillWidth default _InitOptFillWidth;
     property OptFillWidthLastToo: boolean read FOptFillWidthLastToo write FOptFillWidthLastToo default _InitOptFillWidthLastToo;
@@ -1314,7 +1317,7 @@ begin
 end;
 
 
-function TATTabs.GetTabRect(AIndex: integer): TRect;
+function TATTabs.GetTabRect(AIndex: integer; AWithScroll: boolean=true): TRect;
 var
   Data: TATTabData;
 begin
@@ -1324,6 +1327,7 @@ begin
   else
     Result:= Rect(0, 0, 10, 10);
 
+  if AWithScroll then
   case FOptPosition of
     atpTop,
     atpBottom:
@@ -1443,7 +1447,7 @@ begin
     Height:= R.Bottom+FOptSpacer2;
 end;
 
-function TATTabs.GetTabRect_Plus: TRect;
+function TATTabs.GetTabRect_Plus(AWithScroll: boolean=true): TRect;
 begin
   case FOptPosition of
     atpTop,
@@ -1451,7 +1455,7 @@ begin
       begin
         if TabCount>0 then
         begin
-          Result:= GetTabRect(TabCount-1);
+          Result:= GetTabRect(TabCount-1, AWithScroll);
           Result.Left:= Result.Right + FOptSpaceBetweenTabs;
           Result.Right:= Result.Left + GetTabRectWidth(true);
         end
@@ -1467,7 +1471,7 @@ begin
       begin
         if TabCount>0 then
         begin
-          Result:= GetTabRect(TabCount-1);
+          Result:= GetTabRect(TabCount-1, AWithScroll);
           Result.Top:= Result.Bottom + FOptSpaceBetweenTabs;
           Result.Bottom:= Result.Top + FOptTabHeight;
         end
@@ -1847,8 +1851,6 @@ end;
 
 
 function TATTabs.IsScrollMarkNeeded: boolean;
-var
-  R: TRect;
 begin
   if FOptMultiline then
     Result:= false
@@ -1863,14 +1865,14 @@ begin
     atpTop,
     atpBottom:
       begin
-        Result:= FTabWidth<=FOptTabWidthMinimal;
+        if not FOptVarWidth then
+          Result:= FTabWidth<=FOptTabWidthMinimal
+        else
+          Result:= GetMaxScrollPos>0;
       end;
     else
       begin
-        R:= GetTabRect(TabCount-1);
-        if FOptShowPlusTab then
-          Inc(R.Bottom, FOptTabHeight);
-        Result:= R.Bottom>=ClientHeight;
+        Result:= GetMaxScrollPos>0;
       end;
   end;
 end;
@@ -1943,6 +1945,14 @@ begin
   if FOptButtonLayout=AValue then Exit;
   FOptButtonLayout:= AValue;
   ApplyButtonLayout;
+end;
+
+procedure TATTabs.SetOptVarWidth(AValue: boolean);
+begin
+  if FOptVarWidth=AValue then Exit;
+  FOptVarWidth:= AValue;
+  if not AValue then
+    FScrollPos:= 0;
 end;
 
 
@@ -2673,30 +2683,40 @@ begin
   end;
 end;
 
-function TATTabs.GetMaxScrollPos: integer;
+function TATTabs.GetMaxEdgePos: integer;
 var
-  D: TATTabData;
+  R: TRect;
 begin
   Result:= 0;
   if TabCount=0 then exit;
-  D:= GetTabData(TabCount-1);
+
+  if FOptShowPlusTab then
+    R:= GetTabRect_Plus(false)
+  else
+    R:= GetTabRect(TabCount-1, false);
 
   case FOptPosition of
     atpTop,
     atpBottom:
-      begin
-        Result:= Max(0,
-          D.TabRect.Right - ClientWidth + FRealIndentRight +
-          IfThen(FOptShowPlusTab, GetTabRectWidth(true))
-          );
-      end;
+      Result:= R.Right;
     else
-      begin
-        Result:= Max(0,
-          D.TabRect.Bottom - ClientHeight +
-          IfThen(FOptShowPlusTab, FOptTabHeight)
-          );
-      end;
+      Result:= R.Bottom;
+  end;
+end;
+
+function TATTabs.GetMaxScrollPos: integer;
+var
+  NPos: integer;
+begin
+  Result:= GetMaxEdgePos;
+  if Result=0 then exit;
+
+  case FOptPosition of
+    atpTop,
+    atpBottom:
+      Result:= Max(0, Result - ClientWidth + FRealIndentRight);
+    else
+      Result:= Max(0, Result - ClientHeight);
   end;
 end;
 
@@ -3107,16 +3127,41 @@ begin
   end;
 end;
 
+function TATTabs.IsTabVisible(AIndex: integer): boolean;
+var
+  D: TATTabData;
+  R: TRect;
+begin
+  if not IsScrollMarkNeeded then exit(true);
+
+  D:= GetTabData(AIndex);
+  if D=nil then exit(false);
+  R:= D.TabRect;
+
+  case FOptPosition of
+    atpTop,
+    atpBottom:
+      Result:=
+        (R.Left-FScrollPos >= FRealIndentLeft) and
+        (R.Right-FScrollPos < ClientWidth-FRealIndentRight);
+    else
+      Result:=
+        (R.Top-FScrollPos >= FRealIndentLeft) and
+        (R.Bottom-FScrollPos < ClientHeight-FRealIndentRight);
+  end;
+end;
+
 procedure TATTabs.MakeVisible(AIndex: integer);
 var
   D: TATTabData;
   R: TRect;
-  NMaxPos: integer;
 begin
-  if not IsScrollMarkNeeded then exit;
-
   //sometimes new tab has not updated Data.TabRect
   DoUpdateTabRects(FBitmap.Canvas);
+
+  if not IsScrollMarkNeeded then exit;
+
+  if IsTabVisible(AIndex) then exit;
 
   D:= GetTabData(AIndex);
   if D=nil then exit;
@@ -3126,23 +3171,13 @@ begin
     atpTop,
     atpBottom:
       begin
-        //already visible?
-        if (R.Left-FScrollPos >= FRealIndentLeft) and
-          (R.Right-FScrollPos < ClientWidth-FRealIndentRight) then exit;
-
-        NMaxPos:= GetMaxScrollPos;
-        FScrollPos:= Min(NMaxPos, Max(0,
+        FScrollPos:= Min(GetMaxScrollPos, Max(0,
           R.Left - ClientWidth div 2
           ));
       end
     else
       begin
-        //already visible?
-        if (R.Top-FScrollPos >= FRealIndentLeft) and
-          (R.Bottom-FScrollPos < ClientHeight-FRealIndentRight) then exit;
-
-        NMaxPos:= GetMaxScrollPos;
-        FScrollPos:= Min(NMaxPos, Max(0,
+        FScrollPos:= Min(GetMaxScrollPos, Max(0,
           R.Top - ClientHeight div 2
           ));
       end;
