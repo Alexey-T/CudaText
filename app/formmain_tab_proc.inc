@@ -58,6 +58,7 @@ begin
       NToIndex:= APages.Tabs.TabIndex+1;
 
   NToIndex:= APages.AddTab(NToIndex, F, F.TabCaption, false, clNone, AndActivate);
+  APages.Tabs.MakeVisible(NToIndex);
 
   Result:= APages.Tabs.GetTabData(NToIndex);
 end;

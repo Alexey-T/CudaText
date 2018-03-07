@@ -46,6 +46,7 @@ type
   TATTabData = class(TCollectionItem)
   private
     FTabCaption: TATTabString;
+    FTabHint: TATTabString;
     FTabObject: TObject;
     FTabColor: TColor;
     FTabModified: boolean;
@@ -63,6 +64,7 @@ type
     property TabStartsNewLine: boolean read FTabStartsNewLine write FTabStartsNewLine;
   published
     property TabCaption: TATTabString read FTabCaption write FTabCaption;
+    property TabHint: TATTabString read FTabHint write FTabHint;
     property TabColor: TColor read FTabColor write FTabColor default clNone;
     property TabModified: boolean read FTabModified write FTabModified default false;
     property TabImageIndex: integer read FTabImageIndex write FTabImageIndex default -1;
@@ -345,6 +347,7 @@ type
     FTabIndexLoaded: integer;
     FTabIndexOver: integer;
     FTabIndexDrop: integer;
+    FTabIndexHinted: integer;
     FTabList: TCollection;
     FTabMenu: TATTabPopupMenu;
     FCaptionList: TStringList;
@@ -459,9 +462,11 @@ type
       AColor: TColor = clNone;
       AImageIndex: integer = -1;
       APopupMenu: TPopupMenu = nil;
-      AFontStyle: TFontStyles = []);
+      AFontStyle: TFontStyles = [];
+      const AHint: TATTabString = '');
     procedure Clear;
     function DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
+    procedure MakeVisible(AIndex: integer);
     procedure ShowTabMenu;
     procedure SwitchTab(ANext: boolean);
     procedure MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
@@ -939,6 +944,7 @@ begin
 
   FTabIndex:= 0;
   FTabIndexOver:= -1;
+  FTabIndexHinted:= -1;
   FTabList:= TCollection.Create(TATTabData);
   FTabMenu:= nil;
   FScrollPos:= 0;
@@ -2193,10 +2199,28 @@ type
 procedure TATTabs.MouseMove(Shift: TShiftState; X, Y: integer);
 var
   IsX: boolean;
+  Data: TATTabData;
 begin
   inherited;
   FTabIndexOver:= GetTabAt(X, Y, IsX);
   FTabIndexDrop:= FTabIndexOver;
+
+  Data:= GetTabData(FTabIndexOver);
+  if Assigned(Data) and (Data.TabHint<>'') and ShowHint then
+  begin
+    Hint:= Data.TabHint;
+    if FTabIndexOver<>FTabIndexHinted then
+    begin
+      FTabIndexHinted:= FTabIndexOver;
+      Application.ActivateHint(Mouse.CursorPos);
+    end;
+  end
+  else
+  begin
+    FTabIndexHinted:= -1;
+    Hint:= '';
+    Application.HideHint;
+  end;
 
   if Assigned(FOnTabOver) then
     FOnTabOver(Self, FTabIndexOver);
@@ -2224,7 +2248,8 @@ procedure TATTabs.AddTab(
   AColor: TColor = clNone;
   AImageIndex: integer = -1;
   APopupMenu: TPopupMenu = nil;
-  AFontStyle: TFontStyles = []);
+  AFontStyle: TFontStyles = [];
+  const AHint: TATTabString = '');
 var
   Data: TATTabData;
 begin
@@ -2235,6 +2260,7 @@ begin
     AIndex:= TabCount-1;
 
   Data.TabCaption:= ACaption;
+  Data.TabHint:= AHint;
   Data.TabObject:= AObject;
   Data.TabModified:= AModified;
   Data.TabColor:= AColor;
@@ -2314,6 +2340,8 @@ begin
     end;
 
     FTabIndex:= AIndex;
+
+    MakeVisible(AIndex);
     Invalidate;
     if Assigned(FOnTabClick) then
       FOnTabClick(Self);
@@ -2551,7 +2579,8 @@ begin
     Data.TabColor,
     Data.TabImageIndex,
     Data.TabPopupMenu,
-    Data.TabFontStyle
+    Data.TabFontStyle,
+    Data.TabHint
     );
 
   //correct TabObject parent
@@ -2573,6 +2602,7 @@ procedure TATTabs.CMMouseLeave(var Msg: TMessage);
 begin
   inherited;
   FTabIndexOver:= -1;
+  FTabIndexHinted:= -1;
   Invalidate;
 end;
 
@@ -3076,6 +3106,51 @@ begin
     ATextSize.CX:= Max(ATextSize.CX, Ex.CX);
   end;
 end;
+
+procedure TATTabs.MakeVisible(AIndex: integer);
+var
+  D: TATTabData;
+  R: TRect;
+  NMaxPos: integer;
+begin
+  if not IsScrollMarkNeeded then exit;
+
+  //sometimes new tab has not updated Data.TabRect
+  DoUpdateTabRects(FBitmap.Canvas);
+
+  D:= GetTabData(AIndex);
+  if D=nil then exit;
+  R:= D.TabRect;
+
+  case FOptPosition of
+    atpTop,
+    atpBottom:
+      begin
+        //already visible?
+        if (R.Left-FScrollPos >= FRealIndentLeft) and
+          (R.Right-FScrollPos < ClientWidth-FRealIndentRight) then exit;
+
+        NMaxPos:= GetMaxScrollPos;
+        FScrollPos:= Min(NMaxPos, Max(0,
+          R.Left - ClientWidth div 2
+          ));
+      end
+    else
+      begin
+        //already visible?
+        if (R.Top-FScrollPos >= FRealIndentLeft) and
+          (R.Bottom-FScrollPos < ClientHeight-FRealIndentRight) then exit;
+
+        NMaxPos:= GetMaxScrollPos;
+        FScrollPos:= Min(NMaxPos, Max(0,
+          R.Top - ClientHeight div 2
+          ));
+      end;
+  end;
+
+  Invalidate;
+end;
+
 
 end.
 
