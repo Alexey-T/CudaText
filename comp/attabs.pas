@@ -421,7 +421,6 @@ type
     function GetRectOfButton(AButton: TATTabButton): TRect;
     function GetRectOfButtonIndex(AIndex: integer; AtLeft: boolean): TRect;
     function GetScrollPageSize: integer;
-    function IsTabVisible(AIndex: integer): boolean;
     procedure SetOptButtonLayout(const AValue: string);
     procedure SetOptVarWidth(AValue: boolean);
     procedure SetTabIndex(AIndex: integer);
@@ -470,8 +469,9 @@ type
     procedure Clear;
     function DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
     procedure MakeVisible(AIndex: integer);
+    function IsTabVisible(AIndex: integer): boolean;
     procedure ShowTabMenu;
-    procedure SwitchTab(ANext: boolean);
+    procedure SwitchTab(ANext: boolean; ALoopAtEdge: boolean= true);
     procedure MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
     procedure DoScrollLeft;
     procedure DoScrollRight;
@@ -2616,20 +2616,26 @@ begin
   Invalidate;
 end;
 
-procedure TATTabs.SwitchTab(ANext: boolean);
+procedure TATTabs.SwitchTab(ANext: boolean; ALoopAtEdge: boolean=true);
 begin
   if TabCount>1 then
     if ANext then
     begin
       if TabIndex=TabCount-1 then
-        TabIndex:= 0
+      begin
+        if ALoopAtEdge then
+          TabIndex:= 0;
+      end
       else
         TabIndex:= TabIndex+1;
     end
     else
     begin
       if TabIndex=0 then
-        TabIndex:= TabCount-1
+      begin
+        if ALoopAtEdge then
+          TabIndex:= TabCount-1;
+      end
       else
         TabIndex:= TabIndex-1;
     end;
