@@ -4,7 +4,7 @@
   * changed
 
 
-1.44.2 (2018/03)
+1.45.0 (2018/03)
 
 + add: avoid flicker of folded blocks (unfold-fold) when editing Markdown/Python/etc files
 + add: ProjectManager: option "Toolbar icons"; option uses icons in folder data/projtoolbaricons
