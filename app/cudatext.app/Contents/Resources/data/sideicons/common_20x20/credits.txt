@@ -12,3 +12,4 @@ console     - By Dave Gandy, http://fontawesome.io/
 font        - By Dave Gandy, http://fontawesome.io/
 ftp         - By Golmin Design, https://www.iconfinder.com/golmin
 ftp log     - By Last Call Media Inc, https://www.iconfinder.com/mrcolinp
+output      - By Kirill Kazachek https://www.iconfinder.com/kirill.kazachek
