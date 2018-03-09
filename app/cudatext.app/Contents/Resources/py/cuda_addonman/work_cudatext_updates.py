@@ -21,12 +21,13 @@ DOWNLOAD_PAGE = \
 
 if p=='darwin':
     TEXT_CPU = ''
+    REGEX_GROUP_VER = 1
 else:
     TEXT_CPU = '(amd64|x64)' if X64 else '(i386|x32)'
+    REGEX_GROUP_VER = 2
 
 DOWNLOAD_REGEX = \
     ' href="(\w+://[\w\.]+/projects/cudatext/files/release/\w+/cudatext-[\w\-]+?'+TEXT_CPU+'[\w\-]*?-([\d\.]+?)\.(zip|dmg|tar\.xz)/download)"'
-REGEX_GROUP_VER = 2
 
 
 def versions_ordered(s1, s2):
