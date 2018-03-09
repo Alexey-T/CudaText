@@ -569,6 +569,7 @@ type
     FFileNamesDroppedInitially: array of string;
     FFileNameLog: string;
     FTreeClick: boolean;
+    FMenuCopy: TPopupMenu;
     FNewClickedEditor: TATSynEdit;
     FPyComplete_Editor: TATSynEdit;
     FPyComplete_Text: string;
