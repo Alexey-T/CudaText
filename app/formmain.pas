@@ -1629,6 +1629,7 @@ procedure TfmMain.FormShow(Sender: TObject);
 var
   NTickShowEnd,
   NTickPluginBegin, NTickPluginEnd: QWord;
+  Frame: TEditorFrame;
 begin
   if FHandledOnShow then exit;
 
@@ -1683,8 +1684,8 @@ begin
   end;
 
   FAllowOnFocus:= true;
-  CurrentFrame.SetFocus;
-  //DoPyEvent(CurrentEditor, cEventOnFocus, []);
+  Frame:= CurrentFrame;
+  if Assigned(Frame) then Frame.SetFocus;
 
   NTickShowEnd:= GetTickCount64;
   fmConsole.DoLogConsoleLine(Format(
