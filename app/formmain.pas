@@ -494,6 +494,9 @@ type
     procedure TimerTreeFocusTimer(Sender: TObject);
     procedure UniqInstanceOtherInstance(Sender: TObject; ParamCount: Integer;
       Parameters: array of String);
+    {$ifdef windows}
+    procedure SecondInstance(const Msg: TBytes);
+    {$endif}
   private
     { private declarations }
     FListRecents: TStringList;
@@ -1181,6 +1184,44 @@ begin
   {$ifend}
 end;
 
+{$ifdef windows}
+procedure TfmMain.SecondInstance(const Msg: TBytes);
+var
+  SFilename: String;
+  params: TStringList;
+  Frame: TEditorFrame;
+  NLine, NColumn, i: integer;
+begin
+  if not IsAllowedToOpenFileNow then Exit;
+
+  params := TStringList.Create;
+  try
+    params.StrictDelimiter := True;
+    params.Delimiter := '|';
+    params.DelimitedText := UTF8Encode(StringOf(Msg));
+    for i := 0 to params.Count - 1 do
+    begin
+      SFilename := params[i];
+      SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
+      if FileExistsUTF8(SFilename) then
+      begin
+        Frame:= DoFileOpen(SFilename);
+        if Assigned(Frame) and (NLine>0) then
+          Frame.DoGotoPos(NColumn-1, NLine-1);
+      end;
+    end;
+  finally
+    params.Free;
+  end;
+
+  if WindowState = wsMinimized then
+  begin
+    WindowState := wsNormal;
+    Application.ProcessMessages;
+  end;
+end;
+{$endif}
+
 function TfmMain.GetSessionFilename: string;
 begin
   Result:= FSessionName;
@@ -1229,15 +1270,17 @@ begin
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
   
-  //create SimpleIPC server to listen and send window handle
-  //so it will switch to this instance
   if IsSetToOneInstance then
   begin
-    OneWinInstanceRunning := TUniqueWinInstance.Create(Self);
-    OneWinInstanceRunning.Id:='cudatext.2';
-    OneWinInstanceRunning.TargetId:='cudatext.1';
-    OneWinInstanceRunning.WindowHandle:=Self.Handle;
-    OneWinInstanceRunning.StartListening;
+    FInstanceManage := TInstanceManage.Create(AppUniqueUID);
+    FInstanceManage.Check;
+    case FInstanceManage.Status of
+      isFirst:
+        begin
+          FInstanceManage.SetFormHandleForActivate(Self.Handle);
+          FInstanceManage.OnSecondInstanceStarted := @SecondInstance;
+        end;
+    end;
   end;
   {$endif}
   //UiOps.ScreenScale:= 200; ////test
@@ -1495,7 +1538,8 @@ begin
   //ImageListToolbar.Clear;
 
   {$ifdef windows}
-  FreeAndNil(OneWinInstanceRunning);
+  if Assigned(FInstanceManage) then
+    FInstanceManage.Free;
   {$ifend}
 
   for i:= 0 to FListTimers.Count-1 do

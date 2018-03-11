@@ -15,43 +15,70 @@ uses
   {$ifdef windows}
   Windows,
   SimpleIPC, at__jsonconf, UniqueInstanceBase, Classes, proc_globdata, proc_msg,
+  InterfaceBase, LCLType, LazUTF8,
   {$endif}
   SysUtils,
   LCLIntf;
 
 // Create Component using SimpleIPC Server&Client to detect running instances
 {$ifdef windows}
+const
+  AppUniqueUID = '{950ccfac-9878-4e1a-b50e-0dd66b92679c}';
 type
-
-  { TUniqueWinInstance }
-  TUniqueWinInstance = class(TComponent)
-  private
-    _WindowHandle: HWND;
-    _Server: TSimpleIPCServer;
-    _TalkWith: String;
-    _ServerId: String;
-    _UniqueInstanceId: String;
-    procedure ReceivedMessage(Sender: TObject);
+  { TPageFileStream }
+  TPageFileStreamStates = set of (pfsValid, pfsOpenExisting);
+  TPageFileStream = class(TCustomMemoryStream)
+  strict private
+    FMapHandle: THandle;
+    FStates: TPageFileStreamStates;
+    procedure DoMap(DesiredAccess: DWORD);
   public
-    property WindowHandle: HWND write _WindowHandle;
-    property TargetId: String write _TalkWith;
-    property Id: String write _ServerId;
-    property UniqueInstanceId: String write _UniqueInstanceId;
-    constructor Create(AOwner: TComponent); override;
+    constructor Create(MapSize: SizeUInt; const MapName: UnicodeString = '');
+    constructor CreateForRead(const MapName: UnicodeString);
     destructor Destroy; override;
-    function IsAnotherInstance: boolean;
-    procedure StartListening;
+    function Write(const Buffer; Count: LongInt): LongInt; override;
+    property States: TPageFileStreamStates read FStates;
   end;
 
+  { TInstanceManager }
+  TInstanceStatus = (isNotChecked, isFirst, isSecond);
+  TSecondInstanceStartedEvent = procedure(const SentFromSecondInstance: TBytes) of object;
+  TInstanceManage = class(TObject)
+  strict private
+    FDataPFS: TPageFileStream;
+    FDataPFSName: UnicodeString;
+    FEventHandler: PEventHandler;
+    FOnSecondInstanceStarted: TSecondInstanceStartedEvent;
+    FStatus: TInstanceStatus;
+    FUniqueAppId: String;
+    FWakeupEvent: THandle;
+    FWakeupEventName: UnicodeString;
+    FWndHandlePFS: TPageFileStream;
+    FWndHandlePFSName: UnicodeString;
+    procedure ClearEventHandler;
+    procedure OtherInstanceStarted(Unused1: PtrInt; Unused2: DWORD);
+    procedure SetOnSecondInstanceStarted(const AValue: TSecondInstanceStartedEvent);
+  public
+    constructor Create(const UniqueAppId: String);
+    destructor Destroy; override;
+    procedure Check;
+    function ActivateFirstInstance(const DataForFirstInstance: TBytes = nil): Boolean;
+    function SetFormHandleForActivate(Handle: HWND): Boolean;
+    property OnSecondInstanceStarted: TSecondInstanceStartedEvent read
+        FOnSecondInstanceStarted write SetOnSecondInstanceStarted;
+    property Status: TInstanceStatus read FStatus;
+    property UniqueAppId: string read FUniqueAppId;
+  end;
 
 var
   // For handling response from our existing window on FormMain
-  OneWinInstanceRunning: TUniqueWinInstance;
+  FInstanceManage: TInstanceManage;
 
 //Read ui_one_instance option from user config file and get result
 function IsSetToOneInstance: boolean;
 //Block another window instance if Single Instance is True
 function IsAnotherInstanceRunning:boolean;
+procedure debug(const text: String);
 {$ifend}
 
 {$ifndef windows}
@@ -66,7 +93,6 @@ type
 
 var
   SwitchFunc: TSwitchFunc = nil;
-  OneWinInstance: TUniqueWinInstance;
 
 function IsSetToOneInstance: boolean;
 var
@@ -92,121 +118,249 @@ begin
   end;
 end;
 
-{ TUniqueWinInstance }
+{ TInstanceManage }
 
-procedure TUniqueWinInstance.ReceivedMessage(Sender: TObject);
-var
-  CudaWnd: String;
-  Client: TSimpleIPCClient;
+procedure TInstanceManage.ClearEventHandler;
 begin
-  CudaWnd := _Server.StringMessage;
-
-  if CudaWnd = 'GETCUDAWND' then
+  if Assigned(FEventHandler) then
   begin
-    Client := TSimpleIPCClient.Create(Self);
-    Client.ServerId := _TalkWith;
-    if Client.ServerRunning then
-    begin
-      Client.Active := True;
-      Client.SendStringMessage(IntToStr(_WindowHandle));
-    end;
+    WidgetSet.RemoveEventHandler(FEventHandler);
+    FEventHandler := nil;
+  end;
+end;
 
-    Client.Free;
-  end
-  else // it will receive existing window handle to switch to
+{$PUSH}
+{$WARN 5024 OFF : Parameter "$1" not used}
+procedure TInstanceManage.OtherInstanceStarted(Unused1: PtrInt; Unused2: DWORD);
+var
+  Bytes: TBytes;
+begin
+  if (FStatus = isFirst) and Assigned(FOnSecondInstanceStarted) then
   begin
-    Client := TSimpleIPCClient.Create(Self);
-    Client.ServerId := _UniqueInstanceId;
-    if Client.ServerRunning then
-    begin
-      Client.Active := True;
-      Client.SendStringMessage(ParamCount, GetFormattedParams);
-    end;
+    with TPageFileStream.CreateForRead(FDataPFSName) do
+      try
+        if pfsValid in States then
+        begin
+          SetLength(Bytes, ReadDWord);
+          ReadBuffer(Bytes[0], Length(Bytes));
+        end;
+      finally
+        Free;
+      end;
+    FOnSecondInstanceStarted(Bytes);
+  end;
+end;
+{$POP}
 
-    Sleep(10);
+procedure TInstanceManage.SetOnSecondInstanceStarted(
+  const AValue: TSecondInstanceStartedEvent);
+begin
+  if FStatus <> isNotChecked then
+  begin
+    FOnSecondInstanceStarted := AValue;
+    ClearEventHandler;
+    if Assigned(FOnSecondInstanceStarted) then
+      FEventHandler := WidgetSet.AddEventHandler(FWakeupEvent, 0,
+        @OtherInstanceStarted, 0);
+  end;
+end;
+
+constructor TInstanceManage.Create(const UniqueAppId: String);
+begin
+  inherited Create;
+  FUniqueAppId := UniqueAppId;
+  FDataPFSName := UTF8Decode(FUniqueAppId + '_MapData');
+  FWakeupEventName := UTF8Decode(FUniqueAppId + '_Event');
+  FWndHandlePFSName := UTF8Decode(FUniqueAppId + '_MapWnd');
+end;
+
+destructor TInstanceManage.Destroy;
+begin
+  ClearEventHandler;
+  if FWakeupEvent <> 0 then
+  begin
+    CloseHandle(FWakeupEvent);
+    FWakeupEvent := 0;
+  end;
+  FreeAndNil(FWndHandlePFS);
+  FreeAndNil(FDataPFS);
+  inherited;
+end;
+
+procedure TInstanceManage.Check;
+begin
+  if FStatus = isNotChecked then
+  begin
+    FWakeupEvent := CreateEventW(nil, False, False, PWideChar(FWakeupEventName));
+    if FWakeupEvent = 0 then
+        RaiseLastOSError();
+    case GetLastError of
+        ERROR_SUCCESS:
+          FStatus := isFirst;
+        ERROR_ALREADY_EXISTS:
+          FStatus := isSecond;
+    else
+      RaiseLastOSError();
+    end;
+  end;
+end;
+
+function TInstanceManage.ActivateFirstInstance(
+  const DataForFirstInstance: TBytes): Boolean;
+
+  procedure PrepareData(const ShareName: UnicodeString;
+    var PFS: TPageFileStream; const Data; DataSize: DWORD);
+  begin
+    FreeAndNil(PFS);
+    PFS := TPageFileStream.Create(DataSize + SizeOf(DWORD), ShareName);
+    if pfsValid in PFS.States then
+    begin
+      PFS.WriteDWord(DataSize);
+      PFS.WriteBuffer(Data, DataSize);
+    end;
+  end;
+var
+  WndToActivate: HWND;
+begin
+  if Status = isNotChecked then
+    Exit(False);
+  WndToActivate := 0;
+  with TPageFileStream.CreateForRead(FWndHandlePFSName) do
+    try
+      if pfsValid in States then
+        ReadBuffer(WndToActivate, SizeOf(WndToActivate));
+    finally
+      Free;
+    end;
+  if Assigned(DataForFirstInstance) then
+    PrepareData(FDataPFSName, FDataPFS, DataForFirstInstance[0],
+        Length(DataForFirstInstance));
+  if WndToActivate <> 0 then
+  begin
     if Assigned(SwitchFunc) then
-    begin
-      {$ifdef CPU64}
-       SwitchFunc(StrToQWord(CudaWnd), True);
-      {$else}
-       SwitchFunc(StrToInt(CudaWnd), True);
-      {$ifend}
-    end;
-    Client.Free;
+        SwitchFunc(WndToActivate, True);
   end;
+  SetEvent(FWakeupEvent);
 end;
 
-constructor TUniqueWinInstance.Create(AOwner: TComponent);
+function TInstanceManage.SetFormHandleForActivate(Handle: HWND): Boolean;
 begin
-  inherited Create(AOwner);
-  _Server := TSimpleIPCServer.Create(Self);
+  if FStatus = isNotChecked then
+    Exit(False);
+  FreeAndNil(FWndHandlePFS);
+  FWndHandlePFS := TPageFileStream.Create(SizeOf(Handle), FWndHandlePFSName);
+  Result := pfsValid in FWndHandlePFS.States;
+  if Result then
+    FWndHandlePFS.WriteBuffer(Handle, SizeOf(Handle));
 end;
 
-destructor TUniqueWinInstance.Destroy;
-begin
-  _Server.Free;
-  inherited Destroy;
-end;
+{ TPageFileStream }
 
-function TUniqueWinInstance.IsAnotherInstance: boolean;
+procedure TPageFileStream.DoMap(DesiredAccess: DWORD);
 var
-  client: TSimpleIPCClient;
+  P: Pointer;
+  Info: TMemoryBasicInformation;
 begin
-  Result := False;
-
-  // start our server to listen commands from existing cudatext's window handle
-  _Server.ServerID:=_ServerId;
-  _Server.Global:=True;
-  _Server.OnMessage:=@ReceivedMessage;
-  _Server.StartServer;
-
-  // find out if already running another cudatext's instance
-  client := TSimpleIPCClient.Create(Self);
-  client.ServerID:=_UniqueInstanceId;
-  if client.ServerRunning then
+  P := MapViewOfFile(FMapHandle, DesiredAccess, 0, 0, 0);
+  if Assigned(P) then
   begin
-    Result := True; // Another instances is running
-    client.Free;
-
-    // send pseudo command to ask for running cudatext's window instance handle
-    client := TSimpleIPCClient.Create(Self);
-    client.ServerID:=_TalkWith;
-    if client.ServerRunning then
+    if VirtualQuery(P, @Info, SizeOf(Info)) <> 0 then
     begin
-      client.Active:=True;
-      client.SendStringMessage('GETCUDAWND');
+      SetPointer(P, Info.RegionSize);
+      Include(FStates, pfsValid);
     end;
   end;
-
-  client.Free;
-
 end;
 
-procedure TUniqueWinInstance.StartListening;
+constructor TPageFileStream.Create(MapSize: SizeUInt;
+  const MapName: UnicodeString);
 begin
-  _Server.ServerID:=_ServerId;
-  _Server.Global:=True;
-  _Server.OnMessage:=@ReceivedMessage;
-  _Server.StartServer;
+  inherited Create;
+  FMapHandle := CreateFileMappingW(INVALID_HANDLE_VALUE, nil, PAGE_READWRITE,
+    Hi(MapSize), Lo(MapSize), Pointer(MapName));
+  if FMapHandle <> 0 then
+  begin
+    if GetLastError = ERROR_ALREADY_EXISTS then
+        Include(FStates, pfsOpenExisting);
+    DoMap(FILE_MAP_WRITE);
+  end;
+end;
+
+constructor TPageFileStream.CreateForRead(const MapName: UnicodeString);
+begin
+  inherited Create;
+  FMapHandle := OpenFileMappingW(FILE_MAP_READ, False, Pointer(MapName));
+  if FMapHandle <> 0 then
+  begin
+    Include(FStates, pfsOpenExisting);
+    DoMap(FILE_MAP_READ);
+  end;
+end;
+
+destructor TPageFileStream.Destroy;
+begin
+  if Memory <> nil then
+  begin
+    UnmapViewOfFile(Memory);
+    SetPointer(nil, 0);
+  end;
+  if FMapHandle <> 0 then
+  begin
+    CloseHandle(FMapHandle);
+    FMapHandle := 0;
+  end;
+  inherited;
+end;
+
+function TPageFileStream.Write(const Buffer; Count: LongInt): LongInt;
+var
+  OldPos, NewPos: Int64;
+begin
+  Result := 0;
+  OldPos := Position;
+  if (OldPos >= 0) and (Count >= 0) then
+  begin
+    NewPos := OldPos + Count;
+    if (NewPos > 0) and (NewPos < Size) then
+    begin
+      system.Move(Buffer, PByte(Memory)[OldPos], Count);
+      Position := NewPos;
+      Result := Count;
+    end;
+  end;
 end;
 
 function IsAnotherInstanceRunning:boolean;
+var
+  i: Integer;
+  cli: String;
 begin
 
   Result := False;
 
   if IsSetToOneInstance then
   begin
-
-    OneWinInstance := TUniqueWinInstance.Create(nil);
-    OneWinInstance.Id := 'cudatext.1';
-    OneWinInstance.UniqueInstanceId := GetServerId('cudatext.0');
-    OneWinInstance.TargetId := 'cudatext.2';
-    Result := OneWinInstance.IsAnotherInstance;
-
-    OneWinInstance.Free;
+    FInstanceManage := TInstanceManage.Create(AppUniqueUID);
+    FInstanceManage.Check;
+    case FInstanceManage.Status of
+      isSecond:
+        begin
+          cli := '';
+          for i := 1 to ParamCount do
+            cli := cli + ParamStrUTF8(i) + ParamsSeparator;
+          FInstanceManage.ActivateFirstInstance(BytesOf(cli));
+          Sleep(100);
+          Result := True;
+        end;
+    end;
+    FInstanceManage.Free;
   end;
 
+end;
+
+procedure debug(const text: String);
+begin
+  OutputDebugString(PChar('CudaText: ' + text));
 end;
 
 var
