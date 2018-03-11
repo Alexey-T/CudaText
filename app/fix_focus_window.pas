@@ -14,16 +14,23 @@ interface
 uses
   {$ifdef windows}
   Windows,
-  SimpleIPC, at__jsonconf, UniqueInstanceBase, Classes, proc_globdata, proc_msg,
-  InterfaceBase, LCLType, LazUTF8,
+  Classes,
+  InterfaceBase,
+  LCLType,
+  LazUTF8,
+  proc_globdata,
+  proc_msg,
+  at__jsonconf,
   {$endif}
   SysUtils,
   LCLIntf;
 
-// Create Component using SimpleIPC Server&Client to detect running instances
 {$ifdef windows}
 const
   AppUniqueUID = '{950ccfac-9878-4e1a-b50e-0dd66b92679c}';
+const
+  ParamsSeparator = '|';
+
 type
   { TPageFileStream }
   TPageFileStreamStates = set of (pfsValid, pfsOpenExisting);
