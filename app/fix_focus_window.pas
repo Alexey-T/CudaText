@@ -28,8 +28,6 @@ uses
 {$ifdef windows}
 const
   AppUniqueUID = '{950ccfac-9878-4e1a-b50e-0dd66b92679c}';
-const
-  ParamsSeparator = '|';
 
 type
   { TPageFileStream }
@@ -95,6 +93,9 @@ procedure DoFocusWindow(h: THandle);
 implementation
 
 {$ifdef windows}
+const
+  ParamsSeparator = '|';
+
 type
   TSwitchFunc = procedure(h: HWND; fAltTab: BOOL); stdcall;
 
