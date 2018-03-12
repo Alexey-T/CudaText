@@ -285,6 +285,8 @@ type
     OpMinimapShowSelBorder: boolean;
     OpMinimapCharWidth: integer;
     OpMinimapAtLeft: boolean;
+    OpMinimapTooltipShow: boolean;
+    OpMinimapTooltipLineCount: integer;
     OpMicromapShow: boolean;
     OpMicromapWidth: integer;
     OpMicromapWidthSmall: integer;
@@ -953,6 +955,8 @@ begin
     OpMinimapShowSelBorder:= true;
     OpMinimapCharWidth:= 0;
     OpMinimapAtLeft:= false;
+    OpMinimapTooltipShow:= true;
+    OpMinimapTooltipLineCount:= 6;
 
     OpMicromapShow:= false;
     OpMicromapWidth:= 12;

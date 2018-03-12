@@ -212,6 +212,9 @@ begin
   Ed.OptMinimapShowSelBorder:= Op.OpMinimapShowSelBorder;
   Ed.OptMinimapCharWidth:= Op.OpMinimapCharWidth;
   Ed.OptMinimapAtLeft:= Op.OpMinimapAtLeft;
+  Ed.OptMinimapTooltipVisible:= Op.OpMinimapTooltipShow;
+  Ed.OptMinimapTooltipLinesCount:= Op.OpMinimapTooltipLineCount;
+
   Ed.OptMicromapVisible:= Op.OpMicromapShow;
   Ed.OptMicromapWidth:= Op.OpMicromapWidth;
 

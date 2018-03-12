@@ -614,6 +614,8 @@ begin
     Op.OpMinimapShowSelBorder:= c.GetValue('minimap_sel_border', Op.OpMinimapShowSelBorder);
     Op.OpMinimapCharWidth:= c.GetValue('minimap_char_width', Op.OpMinimapCharWidth);
     Op.OpMinimapAtLeft:= c.GetValue('minimap_at_left', Op.OpMinimapAtLeft);
+    Op.OpMinimapTooltipShow:= c.GetValue('minimap_tooltip_show', Op.OpMinimapTooltipShow);
+    Op.OpMinimapTooltipLineCount:= c.GetValue('minimap_tooltip_line_count', Op.OpMinimapTooltipLineCount);
 
     Op.OpMicromapShow:= c.GetValue('micromap_show', Op.OpMicromapShow);
     Op.OpMicromapWidth:= c.GetValue('micromap_width', Op.OpMicromapWidth);
