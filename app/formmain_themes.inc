@@ -120,13 +120,6 @@ begin
 
   PanelLeftTitle.Font.Color:= GetAppColor('TabFont');
 
-  if assigned(fmGoto) then
-  begin
-    fmGoto.Color:= GetAppColor('TabBg');
-    EditorApplyTheme(fmGoto.edInput);
-    fmGoto.Invalidate;
-  end;
-
   if assigned(fmFind) then
   begin
     fmFind.Color:= GetAppColor('TabBg');

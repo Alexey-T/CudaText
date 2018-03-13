@@ -78,7 +78,6 @@ begin
   UpdateMenuChecks;
 
   ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;
-  ToolbarSideMid.Buttons[1].Checked:= Assigned(fmGoto) and fmGoto.Visible;
 
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMinimap, Ed.OptMinimapVisible);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible);
@@ -293,7 +292,6 @@ begin
   end;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
-  if Assigned(fmGoto) then fmGoto.UpdateFonts;
 end;
 
 
@@ -320,7 +318,6 @@ begin
   ATButtonTheme.FontSize:= UiOps.VarFontSize;
 
   if Assigned(fmFind) then fmFind.UpdateFonts;
-  if Assigned(fmGoto) then fmGoto.UpdateFonts;
 
   CompletionOps.FontName:= UiOps.VarFontName;
   CompletionOps.FontSize:= UiOps.VarFontSize;
