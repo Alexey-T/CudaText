@@ -1054,8 +1054,7 @@ const
   cSidebarIconOutput   = 2;
   cSidebarIconValidate = 3;
   cSidebarIconFind     = 4;
-  cSidebarIconGoto     = 5;
-  cSidebarIconMenu     = 6;
+  cSidebarIconMenu     = 5;
 
 procedure TfmMain.DoOps_LoadSidebarIcons;
 var
@@ -1079,7 +1078,6 @@ begin
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'output.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'validate.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'find.png');
-  UpdateImagelistWithIconFromFile(ImageListSide, Str+'goto.png');
   UpdateImagelistWithIconFromFile(ImageListSide, Str+'menu.png');
 
   ToolbarSideTop.UpdateControls;
