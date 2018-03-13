@@ -122,6 +122,7 @@ var
   bNeedTreeUpd, bSavedOk: boolean;
 begin
   D:= (Sender as TATTabs).GetTabData(ATabIndex);
+  if D=nil then exit;
   Frame:= (D.TabObject as TEditorFrame);
   bNeedTreeUpd:= Frame.Visible;
   bSavedOk:= true;
