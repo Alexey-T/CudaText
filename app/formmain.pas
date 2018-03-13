@@ -639,7 +639,6 @@ type
     procedure DoBottom_OnTabClick(Sender: TObject);
     procedure DoBottom_AddonsClick(Sender: TObject);
     procedure DoBottom_FindClick(Sender: TObject);
-    procedure DoBottom_GotoClick(Sender: TObject);
     function DoBottom_CaptionToControlHandle(const ACaption: string): PtrInt;
     function DoBottom_AddTab(const ACaption: string;
       AImageIndex: integer; AHandle: PtrInt): boolean;
@@ -772,7 +771,6 @@ type
       AAllowConfig: boolean; AFocusedCommand: integer): integer;
     function DoDialogCommands_Py(AShowUsual, AShowPlugins, AShowLexers, AAllowConfig: boolean): string;
     procedure DoDialogGoto;
-    procedure DoDialogGoto_Hide;
     procedure DoDialogGotoBookmark;
     function DoDialogSaveTabs: boolean;
     procedure DoDialogLexerProp(an: TecSyntAnalyzer);
@@ -827,7 +825,7 @@ type
     function GetShowToolbar: boolean;
     function GetShowBottom: boolean;
     function GetShowTabsMain: boolean;
-    procedure GotoDialogDone(Sender: TObject; const Res: string);
+    procedure DoGotoFromDialogInput(Sender: TObject);
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
     function IsFocusedFind: boolean;
@@ -899,7 +897,7 @@ type
     procedure UpdateCaption;
     procedure UpdateEnabledAll(b: boolean);
     procedure InitFrameEvents(F: TEditorFrame);
-    procedure UpdateInputForm(Form: TForm);
+    procedure UpdateInputForm(Form: TForm; AndHeight: boolean= true);
     procedure UpdateFrame(AUpdatedText: boolean= false);
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
     procedure UpdateStatus;
@@ -1382,9 +1380,6 @@ begin
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   fmGoto:= TfmGoto.Create(Self);
-  fmGoto.Parent:= PanelMain;
-  fmGoto.Align:= alBottom;
-  fmGoto.OnDone:= @GotoDialogDone;
   fmGoto.edInput.OnChange:= @GotoInputOnChange;
   fmGoto.edInput.OnChangeCaretPos:= @GotoInputOnChangeCaretPos;
   fmGoto.edInput.OnKeyDown:=@GotoInputOnKeyDown;
@@ -2420,30 +2415,17 @@ begin
 end;
 
 
-procedure TfmMain.DoDialogGoto_Hide;
-begin
-  if Assigned(fmGoto) and fmGoto.Visible then
-  begin
-    CurrentFrame.SetFocus;
-    fmGoto.Hide;
-  end;
-end;
-
 procedure TfmMain.DoDialogGoto;
 begin
-  fmGoto.Color:= GetAppColor('TabBg');
   DoLocalize_FormGoto;
+  fmGoto.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
+  UpdateInputForm(fmGoto);
 
-  with fmGoto do
-  begin
-    Show;
-    edInput.Text:= '';
-    edInput.SetFocus;
-    UpdateState;
-  end;
+  if fmGoto.ShowModal=mrOk then
+    DoGotoFromDialogInput(nil);
 end;
 
-procedure TfmMain.GotoDialogDone(Sender: TObject; const Res: string);
+procedure TfmMain.DoGotoFromDialogInput(Sender: TObject);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
@@ -2452,37 +2434,27 @@ begin
   Frame:= CurrentFrame;
   Ed:= Frame.Editor;
 
-  if Res=cOpGotoClose then
-  begin
-    DoDialogGoto_Hide;
-    UpdateStatus;
-    Exit;
-  end;
+  SInput:= UTF8Encode(fmGoto.edInput.Text);
 
-  if Res=cOpGotoLine then
+  if DoPyEvent(Ed, cEventOnGotoEnter,
+    [SStringToPythonString(SInput)] ) <> cPyFalse then
   begin
-    SInput:= UTF8Encode(fmGoto.edInput.Text);
-
-    if DoPyEvent(Ed, cEventOnGotoEnter,
-      [SStringToPythonString(SInput)] ) <> cPyFalse then
+    if Frame.IsBinary then
     begin
-      if Frame.IsBinary then
-      begin
-        if not ViewerGotoFromString(Frame.Binary, SInput) then
-          MsgStatus(msgStatusBadLineNum);
-      end
-      else
-      if Frame.IsText then
-      begin
-        if not EditorGotoFromString(Ed, SInput) then
-          MsgStatus(msgStatusBadLineNum);
-      end;
-
-      fmGoto.Hide;
+      if not ViewerGotoFromString(Frame.Binary, SInput) then
+        MsgStatus(msgStatusBadLineNum);
+    end
+    else
+    if Frame.IsText then
+    begin
+      if not EditorGotoFromString(Ed, SInput) then
+        MsgStatus(msgStatusBadLineNum);
     end;
 
-    Frame.SetFocus;
+    fmGoto.Hide;
   end;
+
+  Frame.SetFocus;
 end;
 
 procedure TfmMain.DoDialogGotoBookmark;
@@ -4409,7 +4381,6 @@ end;
 
 procedure TfmMain.GotoInputOnChange(Sender: TObject);
 begin
-  fmGoto.UpdateState;
   DoPyEvent(fmGoto.edInput, cEventOnGotoChange, []);
 end;
 

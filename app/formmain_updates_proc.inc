@@ -210,7 +210,7 @@ begin
   end;
 end;
 
-procedure TfmMain.UpdateInputForm(Form: TForm);
+procedure TfmMain.UpdateInputForm(Form: TForm; AndHeight: boolean=true);
 var
   Ed: TATSynEdit;
   P: TPoint;
@@ -219,7 +219,8 @@ begin
   P:= Ed.ClientToScreen(Point(0, 0));
   Form.Left:= Max(0, P.X+(Ed.Width-Form.Width) div 2);
   Form.Top:= Max(0, P.Y);
-  Form.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
+  if AndHeight then
+    Form.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
 end;
 
 
@@ -1154,7 +1155,6 @@ begin
   ToolbarSideLow.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
   //
   ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search', '', UiOps.ShowSidebarCaptions);
-  ToolbarSideMid.AddButton(cSidebarIconGoto, @DoBottom_GotoClick, 'Goto', 'Go to', '', UiOps.ShowSidebarCaptions);
   ToolbarSideMid.AddSep;
 end;
 

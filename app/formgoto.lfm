@@ -1,12 +1,12 @@
 object fmGoto: TfmGoto
-  Left = 466
-  Height = 35
-  Top = 652
-  Width = 472
+  Left = 419
+  Height = 84
+  Top = 489
+  Width = 453
   BorderStyle = bsNone
   Caption = 'Goto'
-  ClientHeight = 35
-  ClientWidth = 472
+  ClientHeight = 84
+  ClientWidth = 453
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
@@ -14,44 +14,15 @@ object fmGoto: TfmGoto
   ShowInTaskBar = stNever
   LCLVersion = '1.9.0.0'
   Scaled = False
-  object bGoto: TATButton
-    AnchorSideLeft.Control = edInput
-    AnchorSideLeft.Side = asrBottom
-    Left = 342
-    Height = 25
-    Top = 4
-    Width = 72
-    BorderSpacing.Left = 6
-    Caption = 'Go'
-    TabStop = True
-    TabOrder = 1
-    OnClick = bGotoClick
-  end
-  object LabelGoto: TLabel
-    AnchorSideTop.Control = edInput
-    AnchorSideTop.Side = asrCenter
-    AnchorSideRight.Control = edInput
-    Left = 8
-    Height = 17
-    Top = 8
-    Width = 41
-    BorderSpacing.Right = 2
-    Caption = 'Go to:'
-    ParentColor = False
-  end
   object edInput: TATEdit
-    AnchorSideLeft.Control = LabelGoto
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = bGoto
-    AnchorSideRight.Control = bGoto
-    AnchorSideBottom.Control = bGoto
     AnchorSideBottom.Side = asrBottom
-    Left = 53
-    Height = 25
-    Top = 4
-    Width = 283
-    Anchors = [akTop, akLeft, akBottom]
-    BorderSpacing.Left = 4
+    Left = 10
+    Height = 28
+    Top = 10
+    Width = 433
+    Align = alTop
+    Anchors = []
+    BorderSpacing.Around = 10
     BorderStyle = bsSingle
     DoubleBuffered = True
     Font.Height = -12
@@ -109,7 +80,7 @@ object fmGoto: TfmGoto
     WantTabs = False
     WantReturns = False
     OptTextOffsetLeft = 2
-    OptTextOffsetTop = 4
+    OptTextOffsetTop = 5
     OptScrollIndentCaretHorz = 0
     OptShowURLs = False
     OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
@@ -117,7 +88,6 @@ object fmGoto: TfmGoto
     OptCaretVirtual = False
     OptGutterVisible = False
     OptBorderWidth = 1
-    OptBorderWidthFocused = 1
     OptRulerVisible = False
     OptMarginRight = 1000
     OptNumbersSkippedChar = '.'

@@ -607,9 +607,6 @@ begin
 
   ini:= TIniFile.Create(fn);
   try
-    with fmGoto.LabelGoto do Caption:= ini.ReadString(section, 'go_tx', Caption);
-    with fmGoto.bGoto do Caption:= ini.ReadString(section, 'go_b', Caption);
-
     with fmGoto.edInput do
     begin
       MenuitemTextCut.Caption:= msgEditCut;
@@ -620,7 +617,6 @@ begin
       MenuitemTextUndo.Caption:= msgEditUndo;
       MenuitemTextRedo.Caption:= msgEditRedo;
     end;
-
   finally
     FreeAndNil(ini);
   end;

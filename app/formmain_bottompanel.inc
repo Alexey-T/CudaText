@@ -65,18 +65,6 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.DoBottom_GotoClick(Sender: TObject);
-var
-  bShown: boolean;
-begin
-  bShown:= Assigned(fmGoto) and fmGoto.Visible;
-  if bShown then
-    DoDialogGoto_Hide
-  else
-    DoDialogGoto;
-  UpdateStatus;
-end;
-
 procedure TfmMain.UpdateBottomPanels(const ACaption: string);
 var
   Ctl: TWinControl;

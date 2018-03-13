@@ -123,7 +123,6 @@ begin
   if assigned(fmGoto) then
   begin
     fmGoto.Color:= GetAppColor('TabBg');
-    fmGoto.LabelGoto.Font.Color:= GetAppColor('TabFont');
     EditorApplyTheme(fmGoto.edInput);
     fmGoto.Invalidate;
   end;

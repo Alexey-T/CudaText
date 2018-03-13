@@ -13,40 +13,29 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
-  StdCtrls, ExtCtrls, Dialogs,
+  StdCtrls, Dialogs,
+  LclProc, LclType,
   ATSynEdit_Edits,
-  ATButtons,
   proc_globdata,
   proc_colors,
   proc_editor,
-  proc_miscutils;
-
-const
-  cOpGotoLine='gotoline';
-  cOpGotoClose='x';
+  proc_miscutils,
+  math;
 
 type
   { TfmGoto }
 
   TfmGoto = class(TForm)
     edInput: TATEdit;
-    bGoto: TATButton;
-    LabelGoto: TLabel;
-    procedure bCloseClick(Sender: TObject);
-    procedure bGotoClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
-    FOnDone: TStrEvent;
-    procedure DoDone(const S: string);
     procedure SetIsDoubleBuffered(AValue: boolean);
   public
     { public declarations }
-    procedure UpdateState;
     procedure UpdateFonts;
-    property OnDone: TStrEvent read FOnDone write FOnDone;
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
   end;
 
@@ -54,8 +43,6 @@ var
   fmGoto: TfmGoto;
 
 implementation
-
-uses LclProc, LclType;
 
 {$R *.lfm}
 
@@ -65,13 +52,13 @@ procedure TfmGoto.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 begin
   if key=VK_ESCAPE then
   begin
-    DoDone(cOpGotoClose);
+    ModalResult:= mrCancel;
     key:= 0;
     exit
   end;
   if key=VK_RETURN then
   begin
-    DoDone(cOpGotoLine);
+    ModalResult:= mrOk;
     key:= 0;
     exit;
   end;
@@ -80,28 +67,15 @@ end;
 procedure TfmGoto.FormShow(Sender: TObject);
 begin
   UpdateFonts;
-  ClientHeight:= bGoto.Height+8;
-end;
+  UpdateFormOnTop(Self);
 
-procedure TfmGoto.DoDone(const S: string);
-begin
-  if Assigned(FOnDone) then
-    FOnDone(Self, S);
+  Height:= edInput.Top*2 + edInput.Height;
+  edInput.Text:= '';
 end;
 
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
 begin
   edInput.DoubleBuffered:= AValue;
-  {
-  //no need
-  bGoto.DoubleBuffered:= AValue;
-  bClose.DoubleBuffered:= AValue;
-  }
-end;
-
-procedure TfmGoto.UpdateState;
-begin
-  bGoto.Enabled:= edInput.Text<>'';
 end;
 
 procedure TfmGoto.FormCreate(Sender: TObject);
@@ -118,23 +92,9 @@ begin
   edInput.Font.Name:= EditorOps.OpFontName;
   edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
-  edInput.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
 
+  Color:= GetAppColor('ListBg');
   EditorApplyTheme(edInput);
-
-  LabelGoto.Font.Name:= UiOps.VarFontName;
-  LabelGoto.Font.Size:= UiOps.VarFontSize;
-  LabelGoto.Font.Color:= GetAppColor('TabFont');
-end;
-
-procedure TfmGoto.bGotoClick(Sender: TObject);
-begin
-  DoDone(cOpGotoLine);
-end;
-
-procedure TfmGoto.bCloseClick(Sender: TObject);
-begin
-  DoDone(cOpGotoClose);
 end;
 
 end.
