@@ -299,6 +299,15 @@
   //Minimap: Place minimap to the left side
   "minimap_at_left": false,
 
+  //Minimap: show tooltip, when mouse cursor moves over minimap
+  "minimap_tooltip_show": true,
+  
+  //Minimap: number of lines in "tooltip"
+  "minimap_tooltip_line_count": 6,
+
+  //Minimap: width of tooltip in percents of editor width
+  "minimap_tooltip_width": 60,
+
   //[View/Micromap]
   //Micromap: show (small vertical bar at the right edge)
   "micromap_show": false,

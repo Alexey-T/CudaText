@@ -4,6 +4,13 @@
   * changed
 
 
+1.45.2 (2018/03)
+
++ add: minimap can show nice tooltip, when mouse cursor moves over minimap area (like KWrite)
++ add: option "minimap_tooltip_show"
++ add: option "minimap_tooltip_line_count"
++ add: option "minimap_tooltip_width"
+
 1.45.0 (2018/03)
 
 + add: avoid flicker of folded blocks (unfold-fold) when editing Markdown/Python/etc files
