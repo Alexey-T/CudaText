@@ -652,6 +652,7 @@ type
     procedure DoFindActionFromString(AStr: string);
     procedure DoFindOptionsFromString(const S: string);
     function DoFindOptionsToString: string;
+    procedure DoGotoFromInput(const AInput: string);
     procedure DoGotoDefinition;
     procedure DoShowFuncHint;
     procedure DoApplyGutterVisible(AValue: boolean);
@@ -825,7 +826,6 @@ type
     function GetShowToolbar: boolean;
     function GetShowBottom: boolean;
     function GetShowTabsMain: boolean;
-    procedure DoGotoFromDialogInput(Sender: TObject);
     procedure InitFormFind;
     function IsFocusedBottom: boolean;
     function IsFocusedFind: boolean;
@@ -2419,39 +2419,34 @@ procedure TfmMain.DoDialogGoto;
 begin
   DoLocalize_FormGoto;
   fmGoto.Width:= MulDiv(UiOps.ListboxSizeX, UiOps.ScreenScale, 100);
-  UpdateInputForm(fmGoto);
+  UpdateInputForm(fmGoto, false);
 
   if fmGoto.ShowModal=mrOk then
-    DoGotoFromDialogInput(nil);
+    DoGotoFromInput(UTF8Encode(fmGoto.edInput.Text));
 end;
 
-procedure TfmMain.DoGotoFromDialogInput(Sender: TObject);
+procedure TfmMain.DoGotoFromInput(const AInput: string);
 var
   Frame: TEditorFrame;
   Ed: TATSynEdit;
-  SInput: string;
 begin
   Frame:= CurrentFrame;
   Ed:= Frame.Editor;
 
-  SInput:= UTF8Encode(fmGoto.edInput.Text);
-
   if DoPyEvent(Ed, cEventOnGotoEnter,
-    [SStringToPythonString(SInput)] ) <> cPyFalse then
+    [SStringToPythonString(AInput)] ) <> cPyFalse then
   begin
     if Frame.IsBinary then
     begin
-      if not ViewerGotoFromString(Frame.Binary, SInput) then
+      if not ViewerGotoFromString(Frame.Binary, AInput) then
         MsgStatus(msgStatusBadLineNum);
     end
     else
     if Frame.IsText then
     begin
-      if not EditorGotoFromString(Ed, SInput) then
+      if not EditorGotoFromString(Ed, AInput) then
         MsgStatus(msgStatusBadLineNum);
     end;
-
-    fmGoto.Hide;
   end;
 
   Frame.SetFocus;
