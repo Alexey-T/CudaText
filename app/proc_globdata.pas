@@ -287,6 +287,7 @@ type
     OpMinimapAtLeft: boolean;
     OpMinimapTooltipShow: boolean;
     OpMinimapTooltipLineCount: integer;
+    OpMinimapTooltipWidth: integer;
     OpMicromapShow: boolean;
     OpMicromapWidth: integer;
     OpMicromapWidthSmall: integer;
@@ -957,6 +958,7 @@ begin
     OpMinimapAtLeft:= false;
     OpMinimapTooltipShow:= true;
     OpMinimapTooltipLineCount:= 6;
+    OpMinimapTooltipWidth:= 60;
 
     OpMicromapShow:= false;
     OpMicromapWidth:= 12;
