@@ -837,6 +837,12 @@ To fix: change IM from e.g."XIM" to "none" in the Language Support settings, the
 * Panel "Clipboard" from right side, which monitors copying to clipboard
 * Quick-search input box on the toolbar
 
+==App cannot run on FreeBSD==
+
+If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
+
+  $ sudo ln -s /usr/local/lib/libiconv.so.2 /usr/local/lib/libiconv.so.3 
+
 ==More==
 
 =Formats of files=
