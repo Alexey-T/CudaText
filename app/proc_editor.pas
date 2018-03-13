@@ -448,6 +448,8 @@ begin
   Ed.Colors.UnprintedHexFont:= GetAppColor('EdUnprintHexFont');
   Ed.Colors.MinimapBorder:= GetAppColor('EdMinimapBorder');
   Ed.Colors.MinimapSelBG:= GetAppColor('EdMinimapSelBg');
+  Ed.Colors.MinimapTooltipBG:= GetAppColor('EdMinimapTooltipBg');
+  Ed.Colors.MinimapTooltipBorder:= GetAppColor('EdMinimapTooltipBorder');
   Ed.Colors.StateChanged:= GetAppColor('EdStateChanged');
   Ed.Colors.StateAdded:= GetAppColor('EdStateAdded');
   Ed.Colors.StateSaved:= GetAppColor('EdStateSaved');
@@ -505,6 +507,8 @@ begin
   if Id='EdUnprintHexFont' then Ed.Colors.UnprintedHexFont:= AColor else
   if Id='EdMinimapBorder' then Ed.Colors.MinimapBorder:= AColor else
   if Id='EdMinimapSelBg' then Ed.Colors.MinimapSelBG:= AColor else
+  if Id='EdMinimapTooltipBg' then Ed.Colors.MinimapTooltipBG:= AColor else
+  if Id='EdMinimapTooltipBorder' then Ed.Colors.MinimapTooltipBorder:= AColor else
   if Id='EdStateChanged' then Ed.Colors.StateChanged:= AColor else
   if Id='EdStateAdded' then Ed.Colors.StateAdded:= AColor else
   if Id='EdStateSaved' then Ed.Colors.StateSaved:= AColor else

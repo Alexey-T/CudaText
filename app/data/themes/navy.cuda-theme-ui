@@ -16,6 +16,8 @@
   "EdUnprintHexFont" : "#A0A0A4",
   "EdMinimapBorder" : "#C0C0C0",
   "EdMinimapSelBg" : "#B0B0F0",
+  "EdMinimapTooltipBg" : "#A6CAF0",
+  "EdMinimapTooltipBorder" : "#7373AD",
   "EdMicromapBg" : "#E0E0E0",
   "EdMicromapViewBg" : "#C0C0C0",
   "EdMicromapOccur" : "#5050C0",

@@ -168,6 +168,8 @@ begin
   Add(clMedGray, 'EdUnprintHexFont', 'editor, special hex codes, font');
   Add(clLtGray, 'EdMinimapBorder', 'editor, minimap, border');
   Add($eeeeee, 'EdMinimapSelBg', 'editor, minimap, view BG');
+  Add(clMoneyGreen, 'EdMinimapTooltipBg', 'editor, minimap, tooltip BG');
+  Add(clMedGray, 'EdMinimapTooltipBorder', 'editor, minimap, tooltip border');
   Add($e0e0e0, 'EdMicromapBg', 'editor, micromap, BG');
   Add($c0c0c0, 'EdMicromapViewBg', 'editor, micromap, current view area');
   Add($c05050, 'EdMicromapOccur', 'editor, micromap, word occurrences');
