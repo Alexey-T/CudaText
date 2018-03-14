@@ -111,7 +111,7 @@ procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const secti
 begin
   with st do
   begin
-    ini.WriteString(section, skey+'_Name', '"'+DisplayName+'"');
+    ini.WriteString(section, skey+'_Name', DisplayName);
     //ini.WriteString(section, skey+'_FontName', Font.Name);
     //ini.WriteInteger(section, skey+'_FontSize', Font.Size);
     ini.WriteString(section, skey+'_FontColor', ColorToString(Font.Color));
@@ -184,7 +184,7 @@ end;
 
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 begin
-  st.DisplayName:= ini.ReadString(section, skey+'_Name', '');
+  st.DisplayName:= AnsiDequotedStr(ini.ReadString(section, skey+'_Name', ''), '"');
   //st.Font.Name:= ini.ReadString(section, skey+'_FontName', '');
   //st.Font.Size:= ini.ReadInteger(section, skey+'_FontSize', 10);
   st.Font.Color:= StringToColor(ini.ReadString(section, skey+'_FontColor', ''));
