@@ -77,10 +77,11 @@ end;
 
 procedure TfmMain.DoLoadCommandLine;
 const
-  SOptionPassive = '/passive /nonear';
+  cOptionPassive = '/passive /nonear';
+  cOptionActive = '/nonear';
 var
   Frame: TEditorFrame;
-  fn: string;
+  fn, SOption: string;
   NumLine, NumColumn: integer;
   i: integer;
 begin
@@ -91,8 +92,14 @@ begin
       DoFolderOpen(fn, False)
     else
     if FileExistsUTF8(fn) then
-      DoFileOpen(fn, nil, SOptionPassive);
+      DoFileOpen(fn, nil, cOptionPassive);
   end;
+
+  //if passed single file, must activate it, else not
+  if ParamCount<2 then
+    SOption:= cOptionActive
+  else
+    SOption:= cOptionPassive;
 
   for i:= 1 to ParamCount do
   begin
@@ -116,7 +123,7 @@ begin
     if FileExistsUTF8(fn) then
     begin
       MsgStdout('CudaText: opened file: '+fn);
-      Frame:= DoFileOpen(fn, nil, SOptionPassive);
+      Frame:= DoFileOpen(fn, nil, SOption);
     end
     else
     if MsgBox(
@@ -128,7 +135,7 @@ begin
       else
         MsgStdout('CudaText: cannot create file: '+fn);
       if FileExistsUTF8(fn) then
-        Frame:= DoFileOpen(fn, nil, SOptionPassive);
+        Frame:= DoFileOpen(fn, nil, SOption);
     end;
 
     if Assigned(Frame) then
