@@ -109,28 +109,25 @@ end;
 
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 begin
-  with st do
-  begin
-    ini.WriteString(section, skey+'_Name', DisplayName);
-    //ini.WriteString(section, skey+'_FontName', Font.Name);
-    //ini.WriteInteger(section, skey+'_FontSize', Font.Size);
-    ini.WriteString(section, skey+'_FontColor', ColorToString(Font.Color));
-    ini.WriteString(section, skey+'_FontStyles', FontStylesToString(Font.Style));
-    ini.WriteString(section, skey+'_BgColor', ColorToString(BgColor));
+  ini.WriteString(section, skey+'_Name', st.DisplayName);
+  //ini.WriteString(section, skey+'_FontName', st.Font.Name);
+  //ini.WriteInteger(section, skey+'_FontSize', st.Font.Size);
+  ini.WriteString(section, skey+'_FontColor', ColorToString(st.Font.Color));
+  ini.WriteString(section, skey+'_FontStyles', FontStylesToString(st.Font.Style));
+  ini.WriteString(section, skey+'_BgColor', ColorToString(st.BgColor));
 
-    ini.WriteString(section, skey+'_BorderColorBottom', ColorToString(BorderColorBottom));
-    ini.WriteString(section, skey+'_BorderColorLeft', ColorToString(BorderColorLeft));
-    ini.WriteString(section, skey+'_BorderColorRight', ColorToString(BorderColorRight));
-    ini.WriteString(section, skey+'_BorderColorTop', ColorToString(BorderColorTop));
+  ini.WriteString(section, skey+'_BorderColorBottom', ColorToString(st.BorderColorBottom));
+  ini.WriteString(section, skey+'_BorderColorLeft', ColorToString(st.BorderColorLeft));
+  ini.WriteString(section, skey+'_BorderColorRight', ColorToString(st.BorderColorRight));
+  ini.WriteString(section, skey+'_BorderColorTop', ColorToString(st.BorderColorTop));
 
-    ini.WriteInteger(section, skey+'_BorderTypeBottom', Integer(BorderTypeBottom));
-    ini.WriteInteger(section, skey+'_BorderTypeLeft', Integer(BorderTypeLeft));
-    ini.WriteInteger(section, skey+'_BorderTypeRight', Integer(BorderTypeRight));
-    ini.WriteInteger(section, skey+'_BorderTypeTop', Integer(BorderTypeTop));
+  ini.WriteInteger(section, skey+'_BorderTypeBottom', Integer(st.BorderTypeBottom));
+  ini.WriteInteger(section, skey+'_BorderTypeLeft', Integer(st.BorderTypeLeft));
+  ini.WriteInteger(section, skey+'_BorderTypeRight', Integer(st.BorderTypeRight));
+  ini.WriteInteger(section, skey+'_BorderTypeTop', Integer(st.BorderTypeTop));
 
-    //ini.WriteString(section, skey+'_FormatFlags', FormatFlagsToStr(FormatFlags));
-    ini.WriteInteger(section, skey+'_FormatType', Integer(FormatType));
-  end;
+  //ini.WriteString(section, skey+'_FormatFlags', FormatFlagsToStr(st.FormatFlags));
+  ini.WriteInteger(section, skey+'_FormatType', Integer(st.FormatType));
 end;
 
 procedure DoSaveLexerStylesToFile(an: TecSyntAnalyzer; const fn: string);
