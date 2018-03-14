@@ -7,6 +7,7 @@
 1.45.4 (2018/03)
 
 * change: dialog "Go to" simplified, now it's simple modal form, like Commands dialog
+- fix: if session saved, and single file opened from shell (e.g. Explorer), it wasn't activated
 
 1.45.2 (2018/03)
 
