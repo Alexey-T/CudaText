@@ -642,6 +642,8 @@ For "listview", "checklistview": "\t"-separated items, each item is "\r"-separat
 
 Action DLG_CTL_PROP_GET also gets key "columns" in the same format.
 
+Action DLG_CTL_PROP_SET allows both "items" (it sets columns) and "columns", and "columns" is applied last.
+
 ====Prop "val"====
 
 * check: "0", "1" or "?" (grayed state)
