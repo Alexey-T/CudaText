@@ -91,6 +91,7 @@ const
   APPSTATE_LANG         = 20;
   APPSTATE_THEME_UI     = 21;
   APPSTATE_THEME_SYNTAX = 22;
+  APPSTATE_GROUPS       = 23;
 
   PROP_GUTTER_NUM     = 1;
   PROP_GUTTER_FOLD    = 2;

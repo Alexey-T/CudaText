@@ -2095,7 +2095,7 @@ end;
 
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
 begin
-  DoPyEvent(CurrentEditor, cEventOnGroup, []);
+  DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_GROUPS)]);
 end;
 
 function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
