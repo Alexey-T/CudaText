@@ -932,7 +932,15 @@ end;
             'val': 1,
             })
 
-        print(dlg_proc(id, DLG_CTL_PROP_GET, index=n)['columns'].replace('\r', ';'))
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'columns': '\t'.join([
+                '\r'.join(['aaa', '200', '180', '210', 'C']),
+                '\r'.join(['bbb', '100', '', '', 'R']),
+                '\r'.join(['ccc', '100', '', '', 'R']),
+                ])
+            })
+
+        #print(dlg_proc(id, DLG_CTL_PROP_GET, index=n)['columns'].replace('\r', ';'))
 
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)

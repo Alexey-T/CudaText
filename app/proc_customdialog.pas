@@ -366,6 +366,41 @@ begin
   end;
 end;
 
+procedure DoControl_SetColumns_ListView(C: TListView; AValue: string);
+var
+  Column: TListColumn;
+  SCol, SItem: string;
+  i: integer;
+begin
+  C.Columns.Clear;
+  repeat
+    SCol:= SGetItem(AValue, #9);
+    if SCol='' then Break;
+    Column:= C.Columns.Add;
+
+    Column.Caption:= SGetItem(SCol, #13);
+    Column.Width:= StrToIntDef(SGetItem(SCol, #13), 100);
+    Column.MinWidth:= StrToIntDef(SGetItem(SCol, #13), 0);
+    Column.MaxWidth:= StrToIntDef(SGetItem(SCol, #13), 0);
+
+    SItem:= SGetItem(SCol, #13);
+    if SItem<>'' then
+      case SItem of
+        'L': Column.Alignment:= taLeftJustify;
+        'R': Column.Alignment:= taRightJustify;
+        'C': Column.Alignment:= taCenter;
+      end;
+
+    SItem:= SGetItem(SCol, #13);
+    if SItem<>'' then
+      Column.AutoSize:= AppStrToBool(SItem);
+
+    SItem:= SGetItem(SCol, #13);
+    if SItem<>'' then
+      Column.Visible:= AppStrToBool(SItem);
+  until false;
+end;
+
 
 function DoControl_GetItems(C: TControl): string;
 begin
@@ -1106,6 +1141,15 @@ begin
 end;
 
 
+procedure DoControl_SetColumnsFromString(C: TControl; S: string);
+begin
+  if C is TListView then
+  begin
+    DoControl_SetColumns_ListView(C as TListView, S);
+    exit
+  end;
+end;
+
 procedure DoControl_SetItemsFromString(C: TControl; S: string);
 var
   SItem: string;
@@ -1359,6 +1403,12 @@ begin
   if AName='items' then
   begin
     DoControl_SetItemsFromString(C, AValue);
+    exit;
+  end;
+
+  if AName='columns' then
+  begin
+    DoControl_SetColumnsFromString(C, AValue);
     exit;
   end;
 
