@@ -914,6 +914,20 @@ end;
 
 
     def test_listview(self):
+        self.click_num   = 0
+        self.click_col   = -1
+
+        def when_click_header(id_dlg, id_ctl, data):
+            self.click_num = 1 if self.click_col != data else (self.click_num+1)%3
+            self.click_col = data
+            cols_s = dlg_proc(id_dlg, DLG_CTL_PROP_GET, index=id_ctl)['columns']
+            cols_i = [c.split('\r') for c in cols_s.split('\t')]
+            cols_i[self.click_col][0] = cols_i[self.click_col][0].strip('+-')
+            cols_i[self.click_col][0] += '++' if self.click_num==1 else '--' if self.click_num==2 else ''
+            dlg_proc(id_dlg, DLG_CTL_PROP_SET, index=id_ctl, prop={
+                'columns': '\t'.join(['\r'.join(c) for c in cols_i])
+                })
+
         id = dlg_proc(0, DLG_CREATE)
 
         dlg_proc(id, DLG_PROP_SET, {
@@ -928,44 +942,15 @@ end;
             'name': 'my',
             'align': ALIGN_CLIENT,
             'sp_a': 10,
-            'items': '1\r2\r3\r4\r5\tcell0\rcell01\rcell02\tcell10\rcell11\rcell12\tcell20\rcell21\rcell22',
+            'items': '1\r2\r3\r4\r5\tcell00\rcell01\rcell02\tcell10\rcell11\rcell12\tcell20\rcell21\rcell22',
             'val': 1,
             'columns': '\t'.join([
                 '\r'.join(['aaa', '200', '180', '210', 'C']),
                 '\r'.join(['bbb', '100', '', '', 'R']),
                 '\r'.join(['ccc', '100', '', '', 'R']),
                 ]),
-            'on_click_header': self.callback_listview_click_header,
+            'on_click_header': when_click_header
             })
 
-        #print(dlg_proc(id, DLG_CTL_PROP_GET, index=n)['columns'].replace('\r', ';'))
-
-        self._sort = {}
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
-
-
-    def callback_listview_click_header(self, id_dlg, id_ctl, data='', info=''):
-
-        for index in range(10):
-            if index!=data:
-                self._sort[index]=0
-
-        if self._sort.get(data, 0)==1:
-            self._sort[data] = -1
-        else:
-            self._sort[data] = 1
-
-        def _suffix(n):
-            if self._sort[n]==1: return ' (+)'
-            if self._sort[n]==-1: return ' (-)'
-            return ''
-
-        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='my', prop={
-            'columns': '\t'.join([
-                '\r'.join(['aaa'+_suffix(0), '200', '180', '210', 'C']),
-                '\r'.join(['bbb'+_suffix(1), '100', '', '', 'R']),
-                '\r'.join(['ccc'+_suffix(2), '100', '', '', 'R']),
-                ]),
-            })
-
