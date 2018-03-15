@@ -628,6 +628,20 @@ Possible values of "items":
 
 Action DLG_CTL_PROP_GET also gets key "items" (in the same format) for these controls: "listbox", "checklistbox", "listview", "checklistview". 
 
+====Prop "columns"====
+
+For "listview", "checklistview": "\t"-separated items, each item is "\r"-separated props of a column:
+
+* caption (must be without "\t", "\r", "\n")
+* width, as str
+* (optional) minimal width, as str (0 means "not used")
+* (optional) maximal width, as str (0 means "not used")
+* (optional) alignment - one of "L", "R", "C"
+* (optional) autosize - "0", "1"
+* (optional) visible - "0", "1"
+
+Action DLG_CTL_PROP_GET also gets key "columns" in the same format.
+
 ====Prop "val"====
 
 * check: "0", "1" or "?" (grayed state)
@@ -2277,6 +2291,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.231 (app 1.45.5)
+* add: dlg_proc: control "listview" has prop "columns"
 
 1.0.230 (app 1.44.0)
 * add: dlg_proc: control "listview"/"checklistview" has event "on_click_header"
