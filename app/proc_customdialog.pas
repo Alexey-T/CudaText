@@ -337,6 +337,36 @@ begin
 end;
 
 
+function DoControl_GetColumns_ListView(C: TListView): string;
+const
+  cAlign: array[TAlignment] of string = ('L', 'R', 'C');
+  cBool: array[boolean] of string = ('0', '1');
+var
+  L: TStringList;
+  SItem: string;
+  i: integer;
+begin
+  Result:= '';
+  L:= TStringList.Create;
+  try
+    for i:= 0 to C.ColumnCount-1 do
+      L.Add(
+        C.Column[i].Caption + #13 +
+        IntToStr(C.Column[i].Width) + #13 +
+        IntToStr(C.Column[i].MinWidth) + #13 +
+        IntToStr(C.Column[i].MaxWidth) + #13 +
+        cAlign[C.Column[i].Alignment] + #13 +
+        cBool[C.Column[i].AutoSize] + #13 +
+        cBool[C.Column[i].Visible] + #13
+        );
+    L.LineBreak:= #9;
+    Result:= L.Text;
+  finally
+    FreeAndNil(L);
+  end;
+end;
+
+
 function DoControl_GetItems(C: TControl): string;
 begin
   Result:= '';
@@ -344,6 +374,14 @@ begin
     exit(DoControl_GetItems_Listbox(C as TCustomListbox));
   if C is TListView then
     exit(DoControl_GetItems_ListView(C as TListView));
+end;
+
+
+function DoControl_GetColumns(C: TControl): string;
+begin
+  Result:= '';
+  if C is TListView then
+    exit(DoControl_GetColumns_ListView(C as TListView));
 end;
 
 
@@ -1888,12 +1926,14 @@ function DoControl_GetPropsAsStringDict(C: TControl): PPyObject;
 var
   bTabStop, bFocused: boolean;
   nTabOrder: integer;
-  SItems: string;
+  SItems, SColumns: string;
 begin
   bFocused:= false;
   bTabStop:= false;
   nTabOrder:= -1;
   SItems:= DoControl_GetItems(C);
+  SColumns:= DoControl_GetColumns(C);
+
   if C is TWinControl then
   begin
     bFocused:= (C as TWinControl).Focused;
@@ -1907,7 +1947,7 @@ begin
     if C.Tag=0 then
       exit(ReturnNone);
 
-    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsOsisisisisisiss}',
+    Result:= Py_BuildValue('{sssssssssssisisisisssOsOsOsOsOsisisisisisissss}',
       'name', PChar(TAppControlProps(C.Tag).FName),
       'cap', PChar(C.Caption),
       'hint', PChar(C.Hint),
@@ -1929,7 +1969,8 @@ begin
       'sp_t', C.BorderSpacing.Top,
       'sp_b', C.BorderSpacing.Bottom,
       'sp_a', C.BorderSpacing.Around,
-      'items', PChar(SItems)
+      'items', PChar(SItems),
+      'columns', PChar(SColumns)
       );
   end;
 end;

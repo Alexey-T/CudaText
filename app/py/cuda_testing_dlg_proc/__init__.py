@@ -932,6 +932,8 @@ end;
             'val': 1,
             })
 
+        print(dlg_proc(id, DLG_CTL_PROP_GET, index=n)['columns'].replace('\r', ';'))
+
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
 
