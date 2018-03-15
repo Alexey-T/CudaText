@@ -928,11 +928,8 @@ end;
             'name': 'my',
             'align': ALIGN_CLIENT,
             'sp_a': 10,
-            'items': 'Col1=200\rCol2=R100\rCol3=R100\tcell00\rcell01\rcell02\tcell10\rcell11\rcell12\tcell20\rcell21\rcell22',
+            'items': '1\r2\r3\r4\r5\tcell0\rcell01\rcell02\tcell10\rcell11\rcell12\tcell20\rcell21\rcell22',
             'val': 1,
-            })
-
-        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
             'columns': '\t'.join([
                 '\r'.join(['aaa', '200', '180', '210', 'C']),
                 '\r'.join(['bbb', '100', '', '', 'R']),

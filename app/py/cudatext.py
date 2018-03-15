@@ -845,7 +845,7 @@ def to_str(v, escape=False):
         def _order(k):
             if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
                 return 0
-            if k in ('val'):
+            if k in ('val', 'columns'):
                 return 2
             return 1
 
