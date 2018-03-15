@@ -634,8 +634,8 @@ For "listview", "checklistview": "\t"-separated items, each item is "\r"-separat
 
 * caption (must be without "\t", "\r", "\n")
 * width, as str
-* (optional) minimal width, as str (0 means "not used")
-* (optional) maximal width, as str (0 means "not used")
+* (optional) minimal width, as str. 0 means "not used". Not supported on Windows.
+* (optional) maximal width, as str. 0 means "not used". Not supported on Windows.
 * (optional) alignment - one of "L", "R", "C"
 * (optional) autosize - "0", "1"
 * (optional) visible - "0", "1"
