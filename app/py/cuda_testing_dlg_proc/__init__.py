@@ -912,3 +912,26 @@ end;
         dlg_proc(h, DLG_SHOW_MODAL)
         dlg_proc(h, DLG_FREE)
 
+
+    def test_listview(self):
+        id = dlg_proc(0, DLG_CREATE)
+
+        dlg_proc(id, DLG_PROP_SET, {
+            'w': 500,
+            'h': 400,
+            'cap': 'Test type=listview',
+            'resize': True,
+            })
+
+        n = dlg_proc(id, DLG_CTL_ADD, 'listview')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'my',
+            'align': ALIGN_CLIENT,
+            'sp_a': 10,
+            'items': 'Col1=200\rCol2=R100\rCol3=R100\tcell00\rcell01\rcell02\tcell10\rcell11\rcell12\tcell20\rcell21\rcell22',
+            'val': 1,
+            })
+
+        dlg_proc(id, DLG_SHOW_MODAL)
+        dlg_proc(id, DLG_FREE)
+
