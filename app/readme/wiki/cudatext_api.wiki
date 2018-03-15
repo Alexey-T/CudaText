@@ -36,7 +36,6 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_hotspot(self, ed_self, entered, hotspot_index): Called when mouse cursor moves in/out of hotspot. See ed.hotspots() API.
 * on_state(self, ed_self, state): Called after some app state is changed. Param "state" is one of EDSTATE_nnnn or APPSTATE_nnnn constants.
 * on_snippet(self, ed_self, snippet_id, snippet_text): Called when user chooses snippet to insert, in ed.complete_alt() call.
-* on_group(self, ed_self): Called after tab-grouping mode is changed.
 
 ==Editor clicks==
 
@@ -2296,6 +2295,7 @@ Text is chr(1) separated items:
 
 1.0.231 (app 1.45.5)
 * add: dlg_proc: control "listview" has prop "columns"
+* removed: on_group; on_state(..., APPSTATE_GROUPS) called instead
 
 1.0.230 (app 1.44.0)
 * add: dlg_proc: control "listview"/"checklistview" has event "on_click_header"
