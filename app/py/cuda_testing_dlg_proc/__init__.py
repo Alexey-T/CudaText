@@ -934,11 +934,38 @@ end;
                 '\r'.join(['aaa', '200', '180', '210', 'C']),
                 '\r'.join(['bbb', '100', '', '', 'R']),
                 '\r'.join(['ccc', '100', '', '', 'R']),
-                ])
+                ]),
+            'on_click_header': self.callback_listview_click_header,
             })
 
         #print(dlg_proc(id, DLG_CTL_PROP_GET, index=n)['columns'].replace('\r', ';'))
 
+        self._sort = {}
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)
+
+
+    def callback_listview_click_header(self, id_dlg, id_ctl, data='', info=''):
+
+        for index in range(10):
+            if index!=data:
+                self._sort[index]=0
+
+        if self._sort.get(data, 0)==1:
+            self._sort[data] = -1
+        else:
+            self._sort[data] = 1
+
+        def _suffix(n):
+            if self._sort[n]==1: return ' (+)'
+            if self._sort[n]==-1: return ' (-)'
+            return ''
+
+        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='my', prop={
+            'columns': '\t'.join([
+                '\r'.join(['aaa'+_suffix(0), '200', '180', '210', 'C']),
+                '\r'.join(['bbb'+_suffix(1), '100', '', '', 'R']),
+                '\r'.join(['ccc'+_suffix(2), '100', '', '', 'R']),
+                ]),
+            })
 
