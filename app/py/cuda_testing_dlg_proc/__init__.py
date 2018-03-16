@@ -952,5 +952,8 @@ end;
             'on_click_header': when_click_header
             })
 
+        #s = dlg_proc(id, DLG_CTL_PROP_GET, index=n)['columns']
+        #print(repr(s))
+
         dlg_proc(id, DLG_SHOW_MODAL)
         dlg_proc(id, DLG_FREE)

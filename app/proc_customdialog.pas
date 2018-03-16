@@ -343,12 +343,13 @@ const
   cBool: array[boolean] of string = ('0', '1');
 var
   L: TStringList;
-  SItem: string;
   i: integer;
 begin
   Result:= '';
   L:= TStringList.Create;
   try
+    L.LineBreak:= #9;
+    L.SkipLastLineBreak:= true;
     for i:= 0 to C.ColumnCount-1 do
       L.Add(
         C.Column[i].Caption + #13 +
@@ -357,9 +358,8 @@ begin
         IntToStr(C.Column[i].MaxWidth) + #13 +
         cAlign[C.Column[i].Alignment] + #13 +
         cBool[C.Column[i].AutoSize] + #13 +
-        cBool[C.Column[i].Visible] + #13
+        cBool[C.Column[i].Visible]
         );
-    L.LineBreak:= #9;
     Result:= L.Text;
   finally
     FreeAndNil(L);
