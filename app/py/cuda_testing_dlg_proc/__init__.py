@@ -942,7 +942,7 @@ end;
             'name': 'my',
             'align': ALIGN_CLIENT,
             'sp_a': 10,
-            'items': '1\r2\r3\r4\r5\tcell00\rcell01\rcell02\tcell10\rcell11\rcell12\tcell20\rcell21\rcell22',
+            'items': '1\r2\r3\tcell00\rcell01\rcell02\tcell10\rcell11\rcell12\tcell20\rcell21\rcell22',
             'val': 1,
             'columns': '\t'.join([
                 '\r'.join(['aaa', '200', '180', '210', 'C']),

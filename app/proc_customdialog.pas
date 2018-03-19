@@ -366,17 +366,29 @@ begin
   end;
 end;
 
+function SGetCharCount(const S: string; ch: char): integer;
+var
+  i: integer;
+begin
+  Result:= 0;
+  for i:= 1 to Length(S) do
+    if S[i]=ch then Inc(Result);
+end;
+
 procedure DoControl_SetColumns_ListView(C: TListView; AValue: string);
 var
   Column: TListColumn;
   SCol, SItem: string;
-  i: integer;
+  NCount, i: integer;
 begin
-  C.Columns.Clear;
-  repeat
+  NCount:= SGetCharCount(AValue, #9)+1;
+  for i:= 0 to NCount-1 do
+  begin
     SCol:= SGetItem(AValue, #9);
-    if SCol='' then Break;
-    Column:= C.Columns.Add;
+    if i<C.Columns.Count then
+      Column:= C.Columns[i]
+    else
+      Column:= C.Columns.Add;
 
     Column.Caption:= SGetItem(SCol, #13);
     Column.Width:= StrToIntDef(SGetItem(SCol, #13), 100);
@@ -398,7 +410,7 @@ begin
     SItem:= SGetItem(SCol, #13);
     if SItem<>'' then
       Column.Visible:= AppStrToBool(SItem);
-  until false;
+  end;
 end;
 
 
