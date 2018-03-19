@@ -342,6 +342,7 @@ EDSTATE_MODIFIED  = 3
 APPSTATE_LANG         = 20
 APPSTATE_THEME_UI     = 21
 APPSTATE_THEME_SYNTAX = 22
+APPSTATE_GROUPS       = 23
 
 COLOR_ID_TextFont = 'EdTextFont'
 COLOR_ID_TextBg = 'EdTextBg'
@@ -845,7 +846,7 @@ def to_str(v, escape=False):
         def _order(k):
             if k in ('p', 'w_min', 'w_max', 'h_min', 'h_max'):
                 return 0
-            if k in ('val'):
+            if k in ('val', 'columns'):
                 return 2
             return 1
 

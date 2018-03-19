@@ -266,7 +266,6 @@ cmd_DialogCommands   = 2582
 cmd_DialogFind       = 2584
 cmd_DialogReplace    = 2585
 cmd_DialogFind_Hide  = 2586
-cmd_DialogGoto_Hide  = 2587
 
 cmd_FindFirst        = 2589
 cmd_FindNext         = 2590
