@@ -4,7 +4,7 @@
   * changed
 
 
-1.45.5 (2018/03)
+1.46.0 (2018/03)
 
 * change: dialog "Go to" simplified, now it's simple modal form, like Commands dialog
 - fix: with session reopened, if single file opened from shell, it wasn't activated
