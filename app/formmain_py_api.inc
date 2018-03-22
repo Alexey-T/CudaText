@@ -2106,6 +2106,10 @@ begin
       F:= GetEditorFrame(Ed);
 
       case Id of
+        PROP_GUTTER_ALL:
+          Result:= PyBool_FromLong(Ord(Ed.OptGutterVisible));
+        PROP_GUTTER_STATES:
+          Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandState].Visible));
         PROP_GUTTER_NUM:
           Result:= PyBool_FromLong(Ord(Ed.Gutter[Ed.GutterBandNum].Visible));
         PROP_GUTTER_FOLD:
@@ -2448,6 +2452,10 @@ begin
       ValueInt:= StrToInt64Def(Str, 0);
 
       case Id of
+        PROP_GUTTER_ALL:
+          Ed.OptGutterVisible:= ValueBool;
+        PROP_GUTTER_STATES:
+          Ed.Gutter[Ed.GutterBandState].Visible:= ValueBool;
         PROP_GUTTER_NUM:
           Ed.Gutter[Ed.GutterBandNum].Visible:= ValueBool;
         PROP_GUTTER_FOLD:
