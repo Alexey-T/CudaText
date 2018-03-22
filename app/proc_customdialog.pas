@@ -1421,10 +1421,7 @@ begin
 
   if AName='props' then
   begin
-    //
-    ////uncomment later:
-    //fmConsole.DoLogConsoleLine('Deprecated API: dlg_proc "props" for "'+TAppControlProps(C.Tag).FTypeString+'"');
-    //
+    fmConsole.DoLogConsoleLine('Deprecated API: dlg_proc "props" for "'+TAppControlProps(C.Tag).FTypeString+'"');
     DoControl_SetPropsFromString_Adv(C, AValue);
     exit;
   end;
