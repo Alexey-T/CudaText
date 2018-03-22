@@ -1521,6 +1521,12 @@ end;
 procedure TEditorFrame.DoFileReload_DisableDetectEncoding;
 begin
   if FileName='' then exit;
+  if Modified then
+    if MsgBox(
+      Format(msgConfirmReopenModifiedTab, [ExtractFileName(FileName)]),
+      MB_OKCANCEL or MB_ICONWARNING
+      ) <> ID_OK then exit;
+
   Editor.Strings.EncodingDetect:= false;
   Editor.Strings.LoadFromFile(FileName);
   Editor.Strings.EncodingDetect:= true;
