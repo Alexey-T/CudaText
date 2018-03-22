@@ -427,8 +427,12 @@ end;
 function DoControl_GetColumns(C: TControl): string;
 begin
   Result:= '';
+
   if C is TListView then
     exit(DoControl_GetColumns_ListView(C as TListView));
+
+  if C is TRadioGroup then
+    exit(IntToStr((C as TRadioGroup).Columns));
 end;
 
 
@@ -1158,6 +1162,12 @@ begin
   if C is TListView then
   begin
     DoControl_SetColumns_ListView(C as TListView, S);
+    exit
+  end;
+
+  if C is TRadioGroup then
+  begin
+    (C as TRadioGroup).Columns:= StrToIntDef(S, 1);
     exit
   end;
 end;
