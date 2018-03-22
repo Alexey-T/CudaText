@@ -1209,7 +1209,8 @@ begin
       TPageControl(C).Pages[i].Free;
   end;
 
-  repeat
+  while S<>'' do
+  begin
     SItem:= SGetItem(S, #9);
     if C is TListbox then (C as TListbox).Items.Add(SItem);
     if C is TComboBox then (C as TComboBox).Items.Add(SItem);
@@ -1219,8 +1220,7 @@ begin
     if C is TListView then DoControl_SetState_ListviewItem(C as TListView, SItem);
     if C is TTabControl then (C as TTabControl).Tabs.Add(SItem);
     if C is TPageControl then (C as TPageControl).AddTabSheet.Caption:= SItem;
-    if S='' then Break;
-  until false;
+  end;
 end;
 
 
