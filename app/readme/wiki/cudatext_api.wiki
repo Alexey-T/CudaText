@@ -1769,6 +1769,8 @@ Gets editor's property.
 
 Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible values of id: 
 
+* PROP_GUTTER_ALL: bool: is gutter (all columns) shown.
+* PROP_GUTTER_STATES: bool: is gutter column for line states shown.
 * PROP_GUTTER_NUM: bool: is gutter column for line numbers shown.
 * PROP_GUTTER_FOLD: bool: is gutter column for folding shown.
 * PROP_GUTTER_BM: bool: is gutter column for bookmarks shown.
@@ -1845,6 +1847,8 @@ Sets editor's property.
 
 Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of simple type. Possible values of id:
 
+* PROP_GUTTER_ALL: bool: is gutter (all columns) shown.
+* PROP_GUTTER_STATES: bool: is gutter column for line states shown.
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding". This don't enable/disable folding conmands, only showing of area.
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
@@ -2299,6 +2303,7 @@ Text is chr(1) separated items:
 1.0.232 (app 1.46.1)
 * add: dlg_proc: control "radiogroup" has prop "columns"
 * add: dlg_proc: control "radiogroup" has prop "ex0"
+* add: ed.get_prop/set_prop: PROP_GUTTER_ALL, PROP_GUTTER_STATES
 
 1.0.231 (app 1.45.5)
 * add: dlg_proc: control "listview" has prop "columns"
