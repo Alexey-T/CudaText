@@ -784,8 +784,6 @@ object fmMain: TfmMain
     end
   end
   object OpenDlg: TOpenDialog
-    Width = 994
-    Height = 718
     Title = 'Open file'
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofEnableSizing]
     left = 344
