@@ -1531,13 +1531,12 @@ procedure TEditorFrame.DoFileReload;
 var
   PrevCaretX, PrevCaretY: integer;
   PrevTail: boolean;
-  PrevLexer: string;
   Mode: TAppOpenMode;
 begin
   if FileName='' then exit;
 
   //remember props
-  PrevLexer:= LexerName;
+  //PrevLexer:= LexerName;
   PrevCaretX:= 0;
   PrevCaretY:= 0;
 
@@ -1562,11 +1561,12 @@ begin
     end;
 
   //reopen
-  DoFileOpen(FileName, false, false, Mode);
+  DoSaveHistory;
+  DoFileOpen(FileName, true{AllowLoadHistory}, false, Mode);
   if Editor.Strings.Count=0 then exit;
 
   //restore props
-  Lexer:= AppManager.FindLexerByName(PrevLexer);
+  //Lexer:= AppManager.FindLexerByName(PrevLexer);
   PrevCaretY:= Min(PrevCaretY, Editor.Strings.Count-1);
   if PrevTail then
   begin

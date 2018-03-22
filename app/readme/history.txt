@@ -4,6 +4,12 @@
   * changed
 
 
+1.46.2 (2018/03)
+
++ add: API
+- fix: "lexer dynamic hiliting" was broken after editing
+- fix: File/Reopen looses bookmarks
+
 1.46.0 (2018/03)
 
 * change: dialog "Go to" simplified, now it's simple modal form, like Commands dialog
