@@ -683,6 +683,8 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 ** "ex0": str: URL. Should not have ",". Clicking on http:/mailto: URLs should work, result of clicking on other kinds depends on OS.
 * listview: 
 ** "ex0": bool: show grid lines
+* radiogroup:
+** "ex0": int: 0: arrange items horizontally then vertically (default); 1: opposite
 * tabs: 
 ** "ex0": bool: show tabs at bottom
 * colorpanel:
@@ -2296,6 +2298,7 @@ Text is chr(1) separated items:
 
 1.0.232 (app 1.46.1)
 * add: dlg_proc: control "radiogroup" has prop "columns"
+* add: dlg_proc: control "radiogroup" has prop "ex0"
 
 1.0.231 (app 1.45.5)
 * add: dlg_proc: control "listview" has prop "columns"

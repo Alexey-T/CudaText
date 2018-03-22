@@ -1138,6 +1138,13 @@ begin
     end;
     exit
   end;
+
+  if (C is TRadioGroup) then
+  begin
+    case AIndex of
+      0: (C as TRadioGroup).ColumnLayout:= TColumnLayout(StrToIntDef(S, 0));
+    end;
+  end;
 end;
 
 
