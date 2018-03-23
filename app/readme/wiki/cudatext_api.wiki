@@ -1622,7 +1622,9 @@ Controls carets. Possible values of id:
 
 Gets/sets entire text in the editor (str).
 
-Note: get_text_all is simple wrapper around get_text_line/get_line_count, it uses "\n" as line sep.
+Notes:
+* get_text_all is simple wrapper around get_text_line/get_line_count, it uses "\n" as line sep.
+* set_text_all cannot work with read-only editor (see set_prop() and PROP_RO).
 
 ===get_text_line/set_text_line===
 
