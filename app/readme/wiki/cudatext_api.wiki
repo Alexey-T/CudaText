@@ -2306,11 +2306,13 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.232 (app 1.46.1)
+1.0.233 (app 1.46.3)
+* add: dlg_menu: option MENU_NO_FUZZY
+
+1.0.232 (app 1.46.2)
 * add: dlg_proc: control "radiogroup" has prop "columns"
 * add: dlg_proc: control "radiogroup" has prop "ex0"
-* add: dlg_menu: option MENU_NO_FUZZY
-* add: ed.get_prop/set_prop: PROP_GUTTER_ALL, PROP_GUTTER_STATES
+* add: Editor.get_prop/set_prop: PROP_GUTTER_ALL, PROP_GUTTER_STATES
 
 1.0.231 (app 1.45.5)
 * add: dlg_proc: control "listview" has prop "columns"
