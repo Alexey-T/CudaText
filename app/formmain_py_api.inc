@@ -1745,7 +1745,7 @@ begin
       StrItems:= string(PtrItems);
       StrCaption:= string(PtrCaption);
 
-      case NId of
+      case (NId and 3) of
         MENU_LIST,
         MENU_LIST_ALT:
           begin
@@ -1753,7 +1753,9 @@ begin
                     StrItems,
                     StrCaption,
                     NId=MENU_LIST_ALT,
-                    NIndex);
+                    NIndex,
+                    (NId and MENU_NO_FUZZY)<>0
+                    );
             Application.ProcessMessages; //force hide dialog
             if NIndex>=0 then
               Result:= PyInt_FromLong(NIndex)

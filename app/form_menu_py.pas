@@ -55,6 +55,7 @@ type
     listItems: TStringList;
     ResultCode: integer;
     InitItemIndex: integer;
+    DisableFuzzy: boolean;
     property Multiline: boolean read FMultiline write SetMultiline;
     property ListCaption: string write SetListCaption;
   end;
@@ -324,7 +325,7 @@ begin
   SFind:= Trim(UTF8Encode(edit.Text));
   if SFind='' then exit(true);
 
-  if UiOps.ListboxFuzzySearch then
+  if UiOps.ListboxFuzzySearch and not DisableFuzzy then
     Result:= STextListsFuzzyInput(SText, SFind)
   else
     Result:= STextListsAllWords(SText, SFind);

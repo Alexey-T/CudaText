@@ -67,6 +67,7 @@ WRAP_ON_MARGIN = 2
 #dlg_menu
 MENU_LIST     = 0
 MENU_LIST_ALT = 1
+MENU_NO_FUZZY = 16
 
 #menu_proc
 MENU_CLEAR         = 0
