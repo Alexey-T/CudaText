@@ -42,6 +42,7 @@ const
 
   msgPanelMainmenu = 'Menu';
   msgPanelTreeInit = 'Code tree';
+  msgPanelMenu: string = 'Menu';
   msgPanelTree: string = 'Code tree';
   msgPanelProject: string = 'Project';
   msgPanelTabs: string = 'Tabs list';

@@ -1,6 +1,9 @@
 see
 http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2018.03.23
++ [ui] t_menu
+
 2018.01.12
 [m_se] ex_wo
 
