@@ -250,7 +250,7 @@ begin
 
   c.Font.Color:= GetAppColor('ListFontHilite');
 
-  if UiOps.ListboxFuzzySearch then
+  if UiOps.ListboxFuzzySearch and not DisableFuzzy then
   begin
     ar:= SFindFuzzyPositions(strname, strfind);
     for i:= Low(ar) to High(ar) do

@@ -1745,16 +1745,16 @@ begin
       StrItems:= string(PtrItems);
       StrCaption:= string(PtrCaption);
 
-      case (NId and 3) of
+      case (NId and 1) of
         MENU_LIST,
         MENU_LIST_ALT:
           begin
             NIndex:= fmMain.DoDialogMenuApi(
                     StrItems,
                     StrCaption,
-                    NId=MENU_LIST_ALT,
+                    (NId and 1)=MENU_LIST_ALT,
                     NIndex,
-                    (NId and MENU_NO_FUZZY)<>0
+                    (NId and MENU_NO_FUZZY)=MENU_NO_FUZZY
                     );
             Application.ProcessMessages; //force hide dialog
             if NIndex>=0 then
