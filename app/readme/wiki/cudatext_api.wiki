@@ -491,10 +491,12 @@ Shows dialog to select folder. Gets folder path, or None if cancelled.
 
 Shows menu-like dialog. Gets index of selected item (0-based), or None if cancelled. 
 
-Possible values of id:
+Possible values of "id":
 
-* MENU_LIST: Dialog with listbox and filter field.
-* MENU_LIST_ALT: Like MENU_LIST, but each item has double height, and instead of right-aligning, part of an item shows below.
+* MENU_LIST: Dialog with listbox and filter.
+* MENU_LIST_ALT: Dialog with listbox and filter, but each item has double height, and instead of right-aligning, 2nd part of an item shows below.
+
+Also you can add to "id" value MENU_NO_FUZZY, to disable fuzzy search in the filter field.
 
 Parameters:
 
@@ -2307,6 +2309,7 @@ Text is chr(1) separated items:
 1.0.232 (app 1.46.1)
 * add: dlg_proc: control "radiogroup" has prop "columns"
 * add: dlg_proc: control "radiogroup" has prop "ex0"
+* add: dlg_menu: option MENU_NO_FUZZY
 * add: ed.get_prop/set_prop: PROP_GUTTER_ALL, PROP_GUTTER_STATES
 
 1.0.231 (app 1.45.5)
