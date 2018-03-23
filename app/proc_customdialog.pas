@@ -622,6 +622,7 @@ begin
   if S='combo' then
   begin
     Ctl:= TComboBox.Create(AForm);
+    (Ctl as TComboBox).OnChange:= @AForm.DoOnChange;
     (Ctl as TComboBox).DropDownCount:= 20;
     exit;
   end;
