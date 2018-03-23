@@ -121,6 +121,9 @@ class Command:
     def do_install_addon(self, reinstall=False):
         msg_status('Downloading list...')
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
+        items = sorted(items,
+            key=lambda item: (item['kind'], item['name'])
+            )
         msg_status('')
         if not items:
             msg_status('Cannot download list')

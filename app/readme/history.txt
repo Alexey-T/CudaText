@@ -7,8 +7,9 @@
 1.46.3 (2018/03)
 
 + add: API
-* change: in menu-dialogs, filter only by 1st part of items, ignoring 2nd part (2nd part painted righter/below)
-* change: disabled fuzzy search in AddonManager/Install list
++ add: AddonManager/Install shows sorted list (by caregory+name)
+* change: AddonManager/Install: disabled fuzzy search 
+* change: in plugins' menu dialogs, filter only by 1st part of items (2nd part is painted righter/below)
 - fix: "lexer dynamic hiliting" was broken after text editing
 - fix: command File/Reopen must keep bookmarks
 
