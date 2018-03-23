@@ -3,6 +3,7 @@ http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2018.03.23
 + [ui] t_menu
+* delete [ui] t_goto
 
 2018.01.12
 [m_se] ex_wo

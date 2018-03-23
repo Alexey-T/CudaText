@@ -302,7 +302,6 @@ begin
     DoTranslateToolbarButtonHint(ToolbarSideLow, 2, ini.ReadString('ui', 't_val', 'Validate'));
     //
     DoTranslateToolbarButtonHint(ToolbarSideMid, 0, ini.ReadString('ui', 't_find', 'Search'));
-    DoTranslateToolbarButtonHint(ToolbarSideMid, 1, ini.ReadString('ui', 't_goto', 'Go to'));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);
