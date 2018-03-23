@@ -243,7 +243,7 @@ const
   _InitOptMouseMiddleClickClose = true;
   _InitOptMouseDoubleClickClose = true;
   _InitOptMouseDoubleClickPlus = false;
-  _InitOptMouseDragEnabled = true;
+  _InitOptMouseDragEnabled = {$ifdef fpc} true {$else} false {$endif};
   _InitOptMouseDragOutEnabled = true;
 
 type
@@ -422,6 +422,7 @@ type
     function GetRectOfButtonIndex(AIndex: integer; AtLeft: boolean): TRect;
     function GetScrollPageSize: integer;
     procedure SetOptButtonLayout(const AValue: string);
+    procedure SetOptMouseDragEnabled(AValue: boolean);
     procedure SetOptVarWidth(AValue: boolean);
     procedure SetTabIndex(AIndex: integer);
     procedure GetTabCloseColor(AIndex: integer; const ARect: TRect; var AColorXBg,
@@ -610,7 +611,7 @@ type
     property OptMouseMiddleClickClose: boolean read FOptMouseMiddleClickClose write FOptMouseMiddleClickClose default _InitOptMouseMiddleClickClose;
     property OptMouseDoubleClickClose: boolean read FOptMouseDoubleClickClose write FOptMouseDoubleClickClose default _InitOptMouseDoubleClickClose;
     property OptMouseDoubleClickPlus: boolean read FOptMouseDoubleClickPlus write FOptMouseDoubleClickPlus default _InitOptMouseDoubleClickPlus;
-    property OptMouseDragEnabled: boolean read FOptMouseDragEnabled write FOptMouseDragEnabled default _InitOptMouseDragEnabled;
+    property OptMouseDragEnabled: boolean read FOptMouseDragEnabled write SetOptMouseDragEnabled default _InitOptMouseDragEnabled;
     property OptMouseDragOutEnabled: boolean read FOptMouseDragOutEnabled write FOptMouseDragOutEnabled default _InitOptMouseDragOutEnabled;
 
     //events
@@ -1947,6 +1948,18 @@ begin
   ApplyButtonLayout;
 end;
 
+procedure TATTabs.SetOptMouseDragEnabled(AValue: boolean);
+begin
+  if FOptMouseDragEnabled=AValue then Exit;
+
+  {$ifdef FPC}
+  FOptMouseDragEnabled:= AValue;
+  {$else}
+  ShowMessage('Dragging of tabs is not yet implemented under Delphi, sorry');
+  FOptMouseDragEnabled:= false;
+  {$endif}
+end;
+
 procedure TATTabs.SetOptVarWidth(AValue: boolean);
 begin
   if FOptVarWidth=AValue then Exit;
@@ -3138,10 +3151,12 @@ var
   D: TATTabData;
   R: TRect;
 begin
-  if not IsScrollMarkNeeded then exit(true);
+  if not IsScrollMarkNeeded then
+    begin Result:= true; exit end;
 
   D:= GetTabData(AIndex);
-  if D=nil then exit(false);
+  if D=nil then
+    begin Result:= false; exit end;
   R:= D.TabRect;
 
   case FOptPosition of
