@@ -321,7 +321,10 @@ function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
 var
   SFind, SText: string;
 begin
+  //use only part of items before tab-char
   SText:= listItems[AOrigIndex];
+  SText:= SGetItem(SText, #9);
+
   SFind:= Trim(UTF8Encode(edit.Text));
   if SFind='' then exit(true);
 
