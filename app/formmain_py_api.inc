@@ -942,8 +942,14 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'Ls:set_text_all', @H, @Ptr)) then
     begin
       Ed:= PyEditor(H);
+      if Ed.ModeReadOnly then
+        exit(ReturnNone);
 
       StrW:= UTF8Decode(string(Ptr));
+
+      ////not used, because Undo is lost:
+      //Ed.Strings.LoadFromString(StrW);
+
       Ed.Strings.BeginUndoGroup;
       try
         Ed.DoCaretSingle(0, 0);
