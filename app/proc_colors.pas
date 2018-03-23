@@ -236,7 +236,7 @@ begin
   Add(nColorText, 'ListFont', 'listbox, font');
   Add(nColorText, 'ListSelFont', 'listbox, selected line font');
   Add($c05050, 'ListFontHotkey', 'listbox, font, hotkey');
-  Add($c05050, 'ListFontHilite', 'listbox, font, search chars');
+  Add($e00000, 'ListFontHilite', 'listbox, font, search chars');
 
   Add($c05050, 'ListCompletePrefix', 'listbox, font, auto-complete prefix');
   Add(clGray, 'ListCompleteParams', 'listbox, font, auto-complete params');
