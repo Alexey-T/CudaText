@@ -412,9 +412,9 @@ type
       ATabCloseBorder, ATabCloseXMark: TColor);
     procedure DoPaintDropMark(C: TCanvas);
     procedure DoPaintScrollMark(C: TCanvas);
-    procedure DoScrollAnimation(APosTo: integer);
     function GetIndexOfButton(AData: TATTabButtons; ABtn: TATTabButton): integer;
     function GetInitialVerticalIndent: integer;
+    function GetButtonsEmpty: boolean;
     function IsScrollMarkNeeded: boolean;
     function GetMaxEdgePos: integer;
     function GetMaxScrollPos: integer;
@@ -476,6 +476,7 @@ type
     procedure MoveTab(AFrom, ATo: integer; AActivateThen: boolean);
     procedure DoScrollLeft;
     procedure DoScrollRight;
+    procedure DoScrollAnimation(APosTo: integer);
 
   protected
     procedure Paint; override;
@@ -3014,9 +3015,16 @@ begin
   TabIndex:= FTabIndexLoaded;
 end;
 
+function TATTabs.GetButtonsEmpty: boolean;
+begin
+  Result:=
+    (FButtonsLeft[0]=atbNone) and
+    (FButtonsRight[0]=atbNone);
+end;
+
 function TATTabs.GetInitialVerticalIndent: integer;
 begin
-  if FOptButtonLayout='' then
+  if GetButtonsEmpty then
     Result:= FOptSpaceInitial
   else
     Result:= FOptTabHeight;
@@ -3060,7 +3068,7 @@ var
   RL, RR: TRect;
 begin
   if FOptPosition in [atpLeft, atpRight] then
-    if FOptButtonLayout<>'' then
+    if not GetButtonsEmpty then
     begin
       RL:= GetRectOfButtonIndex(0, true);
       RR:= GetRectOfButtonIndex(0, false);
