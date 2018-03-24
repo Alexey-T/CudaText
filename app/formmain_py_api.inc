@@ -1760,7 +1760,8 @@ begin
                     StrCaption,
                     (NId and 1)=MENU_LIST_ALT,
                     NIndex,
-                    (NId and MENU_NO_FUZZY)=MENU_NO_FUZZY
+                    (NId and MENU_NO_FUZZY)<>0,
+                    (NId and MENU_NO_FULLFILTER)<>0
                     );
             Application.ProcessMessages; //force hide dialog
             if NIndex>=0 then

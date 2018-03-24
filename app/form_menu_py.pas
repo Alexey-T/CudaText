@@ -56,6 +56,7 @@ type
     ResultCode: integer;
     InitItemIndex: integer;
     DisableFuzzy: boolean;
+    DisableFullFilter: boolean;
     property Multiline: boolean read FMultiline write SetMultiline;
     property ListCaption: string write SetListCaption;
   end;
@@ -321,9 +322,9 @@ function TfmMenuApi.IsFiltered(AOrigIndex: integer): boolean;
 var
   SFind, SText: string;
 begin
-  //use only part of items before tab-char
   SText:= listItems[AOrigIndex];
-  SText:= SGetItem(SText, #9);
+  if DisableFullFilter then
+    SText:= SGetItem(SText, #9);
 
   SFind:= Trim(UTF8Encode(edit.Text));
   if SFind='' then exit(true);

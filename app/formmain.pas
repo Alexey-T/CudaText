@@ -668,7 +668,7 @@ type
     function DoOnMacro(const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
     function DoDialogMenuApi(const AText, ACaption: string; AMultiline: boolean;
-      AInitIndex: integer; ANoFuzzy: boolean): integer;
+      AInitIndex: integer; ANoFuzzy: boolean; ANoFullFilter: boolean): integer;
     procedure DoFileExportHtml;
     function DoFileInstallZip(const fn: string; out DirTarget: string; ASilent: boolean): boolean;
     procedure DoFileCloseAndDelete;
@@ -3593,7 +3593,8 @@ end;
 function TfmMain.DoDialogMenuApi(const AText, ACaption: string;
   AMultiline: boolean;
   AInitIndex: integer;
-  ANoFuzzy: boolean): integer;
+  ANoFuzzy: boolean;
+  ANoFullFilter: boolean): integer;
 var
   Form: TfmMenuApi;
   S, SItem: string;
@@ -3612,6 +3613,8 @@ begin
     Form.Multiline:= AMultiline;
     Form.InitItemIndex:= AInitIndex;
     Form.DisableFuzzy:= ANoFuzzy;
+    Form.DisableFullFilter:= ANoFullFilter;
+
     Form.ShowModal;
     Result:= Form.ResultCode;
   finally
