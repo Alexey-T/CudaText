@@ -4,7 +4,7 @@
   * changed
 
 
-1.46.3 (2018/03)
+1.47.0 (2018/03)
 
 + add: API
 + add: AddonManager/Install shows sorted list (by caregory+name)
