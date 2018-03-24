@@ -496,7 +496,10 @@ Possible values of "id":
 * MENU_LIST: Dialog with listbox and filter.
 * MENU_LIST_ALT: Dialog with listbox and filter, but each item has double height, and instead of right-aligning, 2nd part of an item shows below.
 
-Also you can add to "id" value MENU_NO_FUZZY, to disable fuzzy search in the filter field.
+You can add to "id" values:
+
+* MENU_NO_FUZZY: disable fuzzy search in the filter field.
+* MENU_NO_FULLFILTER: disable filtering by 2nd part of items (part after "\t"), filter only by 1st part.
 
 Parameters:
 
@@ -2308,8 +2311,9 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.233 (app 1.46.3)
+1.0.233 (app 1.47.0)
 * add: dlg_menu: option MENU_NO_FUZZY
+* add: dlg_menu: option MENU_NO_FULLFILTER
 
 1.0.232 (app 1.46.2)
 * add: dlg_proc: control "radiogroup" has prop "columns"

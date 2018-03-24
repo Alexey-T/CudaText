@@ -138,7 +138,7 @@ class Command:
         names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 
         res = dlg_menu(
-            MENU_LIST_ALT+MENU_NO_FUZZY,
+            MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
             names,
             caption=('Re-install' if reinstall else 'Install') )
         if res is None: return
