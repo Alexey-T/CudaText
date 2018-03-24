@@ -119,6 +119,8 @@ class Command:
         self.do_install_addon(True)
 
     def do_install_addon(self, reinstall=False):
+
+        caption = 'Re-install' if reinstall else 'Install'
         msg_status('Downloading list...')
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
         items = sorted(items,
@@ -142,14 +144,15 @@ class Command:
         res = dlg_menu(
             MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
             names,
-            caption=('Re-install' if reinstall else 'Install') )
+            caption=caption
+            )
         if res is None: return
 
         if res==0:
             res = dlg_menu(
                 MENU_LIST,
                 kinds,
-                caption='Install / Category'
+                caption='Category'
                 )
             if res is None: return
 
@@ -160,7 +163,7 @@ class Command:
             res = dlg_menu(
                 MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
                 names,
-                caption=('Re-install' if reinstall else 'Install')+' / Category "'+need_kind+'"'
+                caption=caption+' / Category "'+need_kind+'"'
                 )
             if res is None: return
 
