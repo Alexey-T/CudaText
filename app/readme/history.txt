@@ -8,7 +8,7 @@
 
 + AddonManager/Install:
   + full list is sorted by caregory+name
-  + allows to choose kind of addons, first item <Choose kind>
+  + allows to choose kind of addons, first item <Category>
   * disabled fuzzy search 
   * filter only by addon name (not by description)
   

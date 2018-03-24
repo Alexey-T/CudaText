@@ -137,7 +137,7 @@ class Command:
         else:
             items = [i for i in items if i.get('module', '') not in installed_list]
 
-        names = ['<Choose kind>'] + [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
+        names = ['<Category>'] + [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 
         res = dlg_menu(
             MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
@@ -149,7 +149,7 @@ class Command:
             res = dlg_menu(
                 MENU_LIST,
                 kinds,
-                caption='Choose add-ons kind'
+                caption='Install / Category'
                 )
             if res is None: return
 
@@ -160,7 +160,7 @@ class Command:
             res = dlg_menu(
                 MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
                 names,
-                caption=('Re-install' if reinstall else 'Install')+' ('+need_kind+')'
+                caption=('Re-install' if reinstall else 'Install')+' / Category "'+need_kind+'"'
                 )
             if res is None: return
 
