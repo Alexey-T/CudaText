@@ -4,6 +4,18 @@
   * changed
 
 
+1.47.0 (2018/03)
+
++ AddonManager/Install:
+  + full list is sorted by caregory+name
+  + allows to choose kind of addons, first item <Category>
+  * disabled fuzzy search 
+  * filter only by addon name (not by description)
+  
++ add: API
+- fix: "lexer dynamic hiliting" was broken after text editing
+- fix: command File/Reopen must keep bookmarks
+
 1.46.0 (2018/03)
 
 * change: dialog "Go to" simplified, now it's simple modal form, like Commands dialog

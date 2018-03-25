@@ -491,10 +491,15 @@ Shows dialog to select folder. Gets folder path, or None if cancelled.
 
 Shows menu-like dialog. Gets index of selected item (0-based), or None if cancelled. 
 
-Possible values of id:
+Possible values of "id":
 
-* MENU_LIST: Dialog with listbox and filter field.
-* MENU_LIST_ALT: Like MENU_LIST, but each item has double height, and instead of right-aligning, part of an item shows below.
+* MENU_LIST: Dialog with listbox and filter.
+* MENU_LIST_ALT: Dialog with listbox and filter, but each item has double height, and instead of right-aligning, 2nd part of an item shows below.
+
+You can add to "id" values:
+
+* MENU_NO_FUZZY: disable fuzzy search in the filter field.
+* MENU_NO_FULLFILTER: disable filtering by 2nd part of items (part after "\t"), filter only by 1st part.
 
 Parameters:
 
@@ -930,9 +935,13 @@ Possible values of id_action:
 * DLG_CTL_DELETE_ALL: Deletes all controls.
 * DLG_CTL_FIND: Gets index of control by name, or -1 if cannot find. Param "prop" is name.
 * DLG_CTL_HANDLE: Gets int handle of control.  Control must be specified by name or index. This handle is currently useful for types: 
-** type "treeview": pass handle to tree_proc()
+** type "button_ex": pass handle to button_proc()
+** type "editor": pass handle to Editor() constructor
 ** type "listbox_ex": pass handle to listbox_proc()
 ** type "paintbox": pass handle to canvas_proc()
+** type "statusbar": pass handle to statusbar_proc()
+** type "treeview": pass handle to tree_proc()
+** type "toolbar": pass handle to toolbar_proc()
 
 * DLG_COORD_LOCAL_TO_SCREEN: Converts x/y coordinates from form-related, to screen-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
 * DLG_COORD_SCREEN_TO_LOCAL: Converts x/y coordinates from screen-related, to form-related. Param "index" is x, "index2" is y. Gets tuple (x,y).
@@ -1616,7 +1625,9 @@ Controls carets. Possible values of id:
 
 Gets/sets entire text in the editor (str).
 
-Note: get_text_all is simple wrapper around get_text_line/get_line_count, it uses "\n" as line sep.
+Notes:
+* get_text_all is simple wrapper around get_text_line/get_line_count, it uses "\n" as line sep.
+* set_text_all cannot work with read-only editor (see set_prop() and PROP_RO).
 
 ===get_text_line/set_text_line===
 
@@ -1769,6 +1780,8 @@ Gets editor's property.
 
 Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible values of id: 
 
+* PROP_GUTTER_ALL: bool: is gutter (all columns) shown.
+* PROP_GUTTER_STATES: bool: is gutter column for line states shown.
 * PROP_GUTTER_NUM: bool: is gutter column for line numbers shown.
 * PROP_GUTTER_FOLD: bool: is gutter column for folding shown.
 * PROP_GUTTER_BM: bool: is gutter column for bookmarks shown.
@@ -1845,6 +1858,8 @@ Sets editor's property.
 
 Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of simple type. Possible values of id:
 
+* PROP_GUTTER_ALL: bool: is gutter (all columns) shown.
+* PROP_GUTTER_STATES: bool: is gutter column for line states shown.
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding". This don't enable/disable folding conmands, only showing of area.
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
@@ -2296,9 +2311,14 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.232 (app 1.46.1)
+1.0.233 (app 1.47.0)
+* add: dlg_menu: option MENU_NO_FUZZY
+* add: dlg_menu: option MENU_NO_FULLFILTER
+
+1.0.232 (app 1.46.2)
 * add: dlg_proc: control "radiogroup" has prop "columns"
 * add: dlg_proc: control "radiogroup" has prop "ex0"
+* add: Editor.get_prop/set_prop: PROP_GUTTER_ALL, PROP_GUTTER_STATES
 
 1.0.231 (app 1.45.5)
 * add: dlg_proc: control "listview" has prop "columns"

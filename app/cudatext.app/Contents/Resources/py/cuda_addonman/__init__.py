@@ -119,12 +119,19 @@ class Command:
         self.do_install_addon(True)
 
     def do_install_addon(self, reinstall=False):
+
+        caption = 'Re-install' if reinstall else 'Install'
         msg_status('Downloading list...')
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
+        items = sorted(items,
+            key=lambda item: (item['kind'], item['name'])
+            )
         msg_status('')
         if not items:
             msg_status('Cannot download list')
             return
+
+        kinds = sorted(list(set([i['kind'] for i in items])))
 
         installed_list = get_installed_list()
         if reinstall:
@@ -132,16 +139,45 @@ class Command:
         else:
             items = [i for i in items if i.get('module', '') not in installed_list]
 
-        names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
+        names = ['<Category>'] + [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
 
-        res = dlg_menu(MENU_LIST_ALT, names,
-            caption=('Re-install' if reinstall else 'Install') )
+        res = dlg_menu(
+            MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
+            names,
+            caption=caption
+            )
         if res is None: return
 
-        name = items[res]['name']
-        url = items[res]['url']
-        version = items[res]['v']
-        kind = items[res]['kind']
+        if res==0:
+            res = dlg_menu(
+                MENU_LIST,
+                kinds,
+                caption='Category'
+                )
+            if res is None: return
+
+            need_kind = kinds[res]
+            items = [ i for i in items if i['kind']==need_kind ]
+            names = [ i['kind']+': '+i['name']+'\t'+i['desc'] for i in items ]
+
+            res = dlg_menu(
+                MENU_LIST_ALT+MENU_NO_FUZZY+MENU_NO_FULLFILTER,
+                names,
+                caption=caption+' / Category "'+need_kind+'"'
+                )
+            if res is None: return
+
+            name = items[res]['name']
+            url = items[res]['url']
+            version = items[res]['v']
+            kind = items[res]['kind']
+
+        else:
+            res -= 1
+            name = items[res]['name']
+            url = items[res]['url']
+            version = items[res]['v']
+            kind = items[res]['kind']
 
         self.do_install_single(name, url, version, kind)
 
