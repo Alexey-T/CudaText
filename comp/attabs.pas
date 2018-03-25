@@ -51,6 +51,8 @@ type
     FTabColor: TColor;
     FTabModified: boolean;
     FTabSpecial: boolean;
+    FTabSpecialWidth: integer;
+    FTabSpecialHeight: integer;
     FTabRect: TRect;
     FTabImageIndex: integer;
     FTabPopupMenu: TPopupMenu;
@@ -70,6 +72,8 @@ type
     property TabImageIndex: integer read FTabImageIndex write FTabImageIndex default -1;
     property TabFontStyle: TFontStyles read FTabFontStyle write FTabFontStyle default [];
     property TabPopupMenu: TPopupMenu read FTabPopupMenu write FTabPopupMenu;
+    property TabSpecialWidth: integer read FTabSpecialWidth write FTabSpecialWidth default 0;
+    property TabSpecialHeight: integer read FTabSpecialHeight write FTabSpecialHeight default 0;
   end;
 
 type
@@ -417,13 +421,13 @@ type
     function GetButtonsEmpty: boolean;
     function IsScrollMarkNeeded: boolean;
     function GetMaxEdgePos: integer;
-    function GetMaxScrollPos: integer;
     function GetRectOfButton(AButton: TATTabButton): TRect;
     function GetRectOfButtonIndex(AIndex: integer; AtLeft: boolean): TRect;
     function GetScrollPageSize: integer;
     procedure SetOptButtonLayout(const AValue: string);
     procedure SetOptMouseDragEnabled(AValue: boolean);
     procedure SetOptVarWidth(AValue: boolean);
+    procedure SetScrollPos(AValue: integer);
     procedure SetTabIndex(AIndex: integer);
     procedure GetTabCloseColor(AIndex: integer; const ARect: TRect; var AColorXBg,
       AColorXBorder, AColorXMark: TColor);
@@ -477,6 +481,8 @@ type
     procedure DoScrollLeft;
     procedure DoScrollRight;
     procedure DoScrollAnimation(APosTo: integer);
+    function GetMaxScrollPos: integer;
+    property ScrollPos: integer read FScrollPos write SetScrollPos;
 
   protected
     procedure Paint; override;
@@ -1351,7 +1357,8 @@ var
   Data: TATTabData;
   R: TRect;
   Extent: TSize;
-  NWidthPlus, NIndexLineStart, NLineHeight, i: integer;
+  NWidthPlus, NIndexLineStart, NLineHeight, NWidthSaved: integer;
+  i, j: integer;
 begin
   //left/right tabs
   if FOptPosition in [atpLeft, atpRight] then
@@ -1363,13 +1370,31 @@ begin
 
     for i:= 0 to TabCount-1 do
     begin
+      Data:= GetTabData(i);
+      if not Assigned(Data) then Continue;
+
       R.Top:= R.Bottom;
       if i>0 then
         Inc(R.Top, FOptSpaceBetweenTabs);
-      R.Bottom:= R.Top + FOptTabHeight;
-      Data:= GetTabData(i);
-      if Assigned(Data) then
-        Data.TabRect:= R;
+
+      if Data.TabSpecialHeight>0 then
+        NLineHeight:= Data.TabSpecialHeight
+      else
+      if FOptVarWidth then
+      begin
+        FCaptionList.Text:=
+          {$ifdef WIDE}UTF8Encode{$endif}
+          (Data.TabCaption);
+
+        NLineHeight:= FOptSpaceBeforeText*2;
+        for j:= 0 to FCaptionList.Count-1 do
+          Inc(NLineHeight, C.TextHeight(FCaptionList[j]));
+      end
+      else
+        NLineHeight:= FOptTabHeight;
+
+      R.Bottom:= R.Top + NLineHeight;
+      Data.TabRect:= R;
     end;
 
     exit;
@@ -1382,6 +1407,7 @@ begin
     NWidthPlus:= GetTabRectWidth(true);
   if FOptMultiline then
     FTabWidth:= FOptTabWidthNormal;
+  NWidthSaved:= FTabWidth;
 
   R.Left:= FRealIndentLeft;
   R.Right:= R.Left;
@@ -1399,6 +1425,9 @@ begin
     if i>0 then
       Inc(R.Left, FOptSpaceBetweenTabs);
 
+    if Data.TabSpecialWidth>0 then
+      FTabWidth:= Data.TabSpecialWidth
+    else
     if FOptVarWidth then
     begin
       C.Font.Style:= Data.TabFontStyle;
@@ -1447,6 +1476,10 @@ begin
 
   if FOptMultiline then
     Height:= R.Bottom+FOptSpacer2;
+
+  //restore FTabWidth for other methods
+  if not FOptVarWidth then
+    FTabWidth:= NWidthSaved;
 end;
 
 function TATTabs.GetTabRect_Plus(AWithScroll: boolean=true): TRect;
@@ -2771,6 +2804,8 @@ procedure TATTabs.DoScrollLeft;
 var
   NPos: integer;
 begin
+  if FOptMultiline then exit;
+
   NPos:= Max(0, FScrollPos-GetScrollPageSize);
   if NPos<>FScrollPos then
     DoScrollAnimation(NPos);
@@ -2780,6 +2815,8 @@ procedure TATTabs.DoScrollRight;
 var
   NPos: integer;
 begin
+  if FOptMultiline then exit;
+
   NPos:= GetMaxScrollPos;
   NPos:= Min(NPos, FScrollPos+GetScrollPageSize);
   if NPos<>FScrollPos then
@@ -3215,6 +3252,13 @@ begin
   Invalidate;
 end;
 
+procedure TATTabs.SetScrollPos(AValue: integer);
+begin
+  AValue:= Max(0, Min(GetMaxScrollPos, AValue));
+  if FScrollPos=AValue then exit;
+  FScrollPos:= AValue;
+  Invalidate;
+end;
 
 end.
 
