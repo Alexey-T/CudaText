@@ -1,11 +1,19 @@
 {$ifdef nn}begin end;{$endif}
 
-procedure DoTranslateToolbarButtonHint(AToolbar: TATFlatToolbar; AIndex: integer; const AText: string);
+procedure DoTranslateToolbarButtonHint(AToolbar: TATFlatToolbar; const ACaption, AHintText: string);
 var
   Btn: TATButton;
+  i: integer;
 begin
-  Btn:= AToolbar.Buttons[AIndex];
-  Btn.Hint:= AText;
+  for i:= 0 to AToolbar.ButtonCount-1 do
+  begin
+    Btn:= AToolbar.Buttons[i];
+    if Btn.Caption=ACaption then
+    begin
+      Btn.Hint:= AHintText;
+      exit
+    end;
+  end;
 end;
 
 procedure DoLocMenuitem(ini: TIniFile; c: TMenuItem; const ASection, AKey: string);
@@ -289,19 +297,21 @@ begin
     DoLocMenuitem(ini, mnuHelpAbout, 'm_h', 'ab');
     DoLocMenuitem(ini, mnuHelpCheckUpd, 'm_h', 'chk');
 
-    msgPanelMenu:= ini.ReadString('ui', 't_menu', msgPanelMenu);
-    msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree);
-    msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject);
-    msgPanelTabs:= ini.ReadString('ui', 't_tabs', msgPanelTabs);
+    msgPanelMenu:= ini.ReadString('ui', 't_menu', msgPanelMenu_Init);
+    msgPanelTree:= ini.ReadString('ui', 't_tre', msgPanelTree_Init);
+    msgPanelProject:= ini.ReadString('ui', 't_proj', msgPanelProject_Init);
+    msgPanelTabs:= ini.ReadString('ui', 't_tabs', msgPanelTabs_Init);
     //
-    DoTranslateToolbarButtonHint(ToolbarSideTop, 0, msgPanelMenu);
-    DoTranslateToolbarButtonHint(ToolbarSideTop, 1, msgPanelTree);
+    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelMenu_Init, msgPanelMenu);
+    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelTree_Init, msgPanelTree);
+    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelProject_Init, msgPanelProject);
+    DoTranslateToolbarButtonHint(ToolbarSideTop, msgPanelTabs_Init, msgPanelTabs);
     //
-    DoTranslateToolbarButtonHint(ToolbarSideLow, 0, ini.ReadString('ui', 't_con', 'Console'));
-    DoTranslateToolbarButtonHint(ToolbarSideLow, 1, ini.ReadString('ui', 't_out', 'Output'));
-    DoTranslateToolbarButtonHint(ToolbarSideLow, 2, ini.ReadString('ui', 't_val', 'Validate'));
+    DoTranslateToolbarButtonHint(ToolbarSideLow, msgPanelConsole_Init, ini.ReadString('ui', 't_con', msgPanelConsole_Init));
+    DoTranslateToolbarButtonHint(ToolbarSideLow, msgPanelOutput_Init, ini.ReadString('ui', 't_out', msgPanelOutput_Init));
+    DoTranslateToolbarButtonHint(ToolbarSideLow, msgPanelValidate_Init, ini.ReadString('ui', 't_val', msgPanelValidate_Init));
     //
-    DoTranslateToolbarButtonHint(ToolbarSideMid, 0, ini.ReadString('ui', 't_find', 'Search'));
+    DoTranslateToolbarButtonHint(ToolbarSideMid, msgPanelSearch_Init, ini.ReadString('ui', 't_find', msgPanelSearch_Init));
 
     msgUntitledTab:= ini.ReadString('ui', 'unt', msgUntitledTab);
     msgAllFiles:= ini.ReadString('ui', 'allf', msgAllFiles);

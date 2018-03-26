@@ -1142,14 +1142,14 @@ end;
 procedure TfmMain.InitSidebar;
 begin
   //
-  ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, msgPanelMainmenu, msgPanelMainmenu, '', UiOps.ShowSidebarCaptions);
-  ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, msgPanelTreeInit, msgPanelTreeInit, '', UiOps.ShowSidebarCaptions);
+  ToolbarSideTop.AddButton(cSidebarIconMenu, @DoSidebar_MainMenuClick, msgPanelMenu_Init, msgPanelMenu_Init, '', UiOps.ShowSidebarCaptions);
+  ToolbarSideTop.AddButton(cSidebarIconTree, @DoSidebar_OnTabClick, msgPanelTree_Init, msgPanelTree_Init, '', UiOps.ShowSidebarCaptions);
   //
-  ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, 'Console', 'Console', '', UiOps.ShowSidebarCaptions);
-  ToolbarSideLow.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, 'Output', 'Output', '', UiOps.ShowSidebarCaptions);
-  ToolbarSideLow.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, 'Validate', 'Validate', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideLow.AddButton(cSidebarIconConsole, @DoBottom_OnTabClick, msgPanelConsole_Init, msgPanelConsole_Init, '', UiOps.ShowSidebarCaptions);
+  ToolbarSideLow.AddButton(cSidebarIconOutput, @DoBottom_OnTabClick, msgPanelOutput_Init, msgPanelOutput_Init, '', UiOps.ShowSidebarCaptions);
+  ToolbarSideLow.AddButton(cSidebarIconValidate, @DoBottom_OnTabClick, msgPanelValidate_Init, msgPanelValidate_Init, '', UiOps.ShowSidebarCaptions);
   //
-  ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, 'Find', 'Search', '', UiOps.ShowSidebarCaptions);
+  ToolbarSideMid.AddButton(cSidebarIconFind, @DoBottom_FindClick, msgPanelSearch_Init, msgPanelSearch_Init, '', UiOps.ShowSidebarCaptions);
   ToolbarSideMid.AddSep;
 end;
 

@@ -89,16 +89,16 @@ end;
 
 function TfmMain.DoSidebar_TranslatedCaption(const ACaption: string): string;
 begin
-  if ACaption=msgPanelTreeInit then
-    Result:= msgPanelTree
-  else
-  if ACaption='Project' then
-    Result:= msgPanelProject
-  else
-  if ACaption='Tabs' then
-    Result:= msgPanelTabs
-  else
-    Result:= ACaption;
+  case ACaption of
+    msgPanelTree_Init:
+      Result:= msgPanelTree;
+    msgPanelProject_Init:
+      Result:= msgPanelProject;
+    msgPanelTabs_Init:
+      Result:= msgPanelTabs;
+    else
+      Result:= ACaption;
+  end;
 end;
 
 procedure TfmMain.UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);

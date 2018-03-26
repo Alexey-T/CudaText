@@ -86,19 +86,19 @@ begin
       Ctl.Hide;
   end;
 
-  if SameText(ACaption, 'console') then
+  if SameText(ACaption, msgPanelConsole_Init) then
   begin
     fmConsole.Show;
     fmConsole.Ed.SetFocus;
   end
   else
-  if SameText(ACaption, 'output') then
+  if SameText(ACaption, msgPanelOutput_Init) then
   begin
     ListboxOut.Show;
     ListboxOut.SetFocus;
   end
   else
-  if SameText(ACaption, 'validate') then
+  if SameText(ACaption, msgPanelValidate_Init) then
   begin
     ListboxVal.Show;
     ListboxVal.SetFocus;

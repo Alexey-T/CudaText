@@ -40,12 +40,19 @@ const
   msgThemeDefault: string = '(default)';
   msgThemeName: string = 'Theme name:';
 
-  msgPanelMainmenu = 'Menu';
-  msgPanelTreeInit = 'Code tree';
-  msgPanelMenu: string = 'Menu';
-  msgPanelTree: string = 'Code tree';
-  msgPanelProject: string = 'Project';
-  msgPanelTabs: string = 'Tabs list';
+  msgPanelMenu_Init = 'Menu';
+  msgPanelTree_Init = 'Code tree';
+  msgPanelProject_Init = 'Project';
+  msgPanelTabs_Init = 'Tabs';
+  msgPanelConsole_Init = 'Console';
+  msgPanelOutput_Init = 'Output';
+  msgPanelValidate_Init = 'Validate';
+  msgPanelSearch_Init = 'Search';
+
+  msgPanelMenu: string = msgPanelMenu_Init;
+  msgPanelTree: string = msgPanelTree_Init;
+  msgPanelProject: string = msgPanelProject_Init;
+  msgPanelTabs: string = msgPanelTabs_Init;
 
   msgFinderHintRegex: string = 'regex';
   msgFinderHintCase: string = 'case';
