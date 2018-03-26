@@ -1828,6 +1828,12 @@ begin
   if Id='check' then C:= TCheckbox.Create(nil) else
   if Id='radio' then C:= TRadioButton.Create(nil) else
   if Id='checkbutton' then C:= TToggleBox.Create(nil) else
+  if Id='scrollbar' then
+  begin
+    C:= TScrollBar.Create(nil);
+    (C as TScrollBar).Kind:= sbHorizontal;
+  end
+  else
   exit;
 
   try
