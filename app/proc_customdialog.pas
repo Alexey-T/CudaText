@@ -16,7 +16,7 @@ uses
   CheckLst, Spin, ComCtrls, Dialogs,
   ListFilterEdit,
   ListViewFilterEdit,
-  LclProc, LclType,
+  LclIntf, LclProc, LclType,
   ATListbox,
   ATButtons,
   ATFlatToolbar,
@@ -1829,10 +1829,7 @@ begin
   if Id='radio' then C:= TRadioButton.Create(nil) else
   if Id='checkbutton' then C:= TToggleBox.Create(nil) else
   if Id='scrollbar' then
-  begin
-    C:= TScrollBar.Create(nil);
-    (C as TScrollBar).Kind:= sbHorizontal;
-  end
+    exit(GetSystemMetrics(SM_CXVSCROLL))
   else
   exit;
 
