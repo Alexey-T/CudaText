@@ -3098,19 +3098,19 @@ end;
 
 procedure TfmMain.DoShowConsole(AFocusEdit: boolean);
 begin
-  DoShowBottomPanel('Console');
+  DoShowBottomPanel(msgPanelConsole_Init);
   if AFocusEdit then
     fmConsole.ed.SetFocus;
 end;
 
 procedure TfmMain.DoShowOutput;
 begin
-  DoShowBottomPanel('Output');
+  DoShowBottomPanel(msgPanelOutput_Init);
 end;
 
 procedure TfmMain.DoShowValidate;
 begin
-  DoShowBottomPanel('Validate');
+  DoShowBottomPanel(msgPanelValidate_Init);
 end;
 
 procedure TfmMain.DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
