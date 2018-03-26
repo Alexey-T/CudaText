@@ -520,14 +520,16 @@ type
     property Visible;
     property Tabs: TCollection read FTabList write FTabList;
 
+    property OnClick;
+    property OnDblClick;
     property OnDragDrop;
     property OnDragOver;
     property OnEndDrag;
     property OnContextPopup;
-    {$ifdef fpc}
+    //{$ifdef fpc}
     property OnMouseEnter;
     property OnMouseLeave;
-    {$endif}
+    //{$endif}
     property OnMouseMove;
     property OnMouseUp;
     property OnMouseWheel;
@@ -1358,7 +1360,7 @@ var
   R: TRect;
   Extent: TSize;
   NWidthPlus, NIndexLineStart, NLineHeight, NWidthSaved: integer;
-  i, j: integer;
+  i: integer;
 begin
   //left/right tabs
   if FOptPosition in [atpLeft, atpRight] then
@@ -1382,13 +1384,8 @@ begin
       else
       if FOptVarWidth then
       begin
-        FCaptionList.Text:=
-          {$ifdef WIDE}UTF8Encode{$endif}
-          (Data.TabCaption);
-
-        NLineHeight:= FOptSpaceBeforeText*2;
-        for j:= 0 to FCaptionList.Count-1 do
-          Inc(NLineHeight, C.TextHeight(FCaptionList[j]));
+        DoUpdateCaptionProps(C, Data.TabCaption, NLineHeight, Extent);
+        NLineHeight:= 2*FOptSpaceBeforeText + Extent.CY;
       end
       else
         NLineHeight:= FOptTabHeight;
@@ -3254,7 +3251,8 @@ end;
 
 procedure TATTabs.SetScrollPos(AValue: integer);
 begin
-  AValue:= Max(0, Min(GetMaxScrollPos, AValue));
+  //user suggested to not limit ScrollPos
+  //AValue:= Max(0, Min(GetMaxScrollPos, AValue) );
   if FScrollPos=AValue then exit;
   FScrollPos:= AValue;
   Invalidate;
