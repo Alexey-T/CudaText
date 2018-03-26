@@ -668,6 +668,27 @@ Project Manager shows file/folder icons, using default file-type-icons theme. Yo
 ==Preview tab==
 To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
+==How to change icons==
+* Icons in the main toolbar. To change them:
+** (Optional) Install add-on(s) of kind "toolbar theme" (each add-on gives additional icon set or several sets).
+** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in [cudatext]\data\toolbaricons (Windows) or ~/.cudatext/data/toolbaricons (Unix).
+** Restart CudaText.
+
+* Icons in the sidebar (vertical band on the left). To change them:
+** (Optional) Install add-on(s) of kind "sidebar theme".
+** Change option "ui_sidebar_theme" in user.json. Option value is some subfolder in [cudatext]\data\sideicons (Windows) or ~/.cudatext/data/sideicons (Unix).
+** Restart CudaText.
+
+* Icons in the Project Manager toolbar. To change them:
+** (Optional) Install add-on(s) of kind "proj toolbar theme".
+** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
+** Restart CudaText.
+
+* Icons in the Project Manager file list, and on file tab headers. To change them:
+** (Optional) Install add-on(s) of kind "file type icons".
+** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
+** Restart CudaText.
+
 ==more==
 
 = Tech topics=
@@ -675,9 +696,8 @@ To see preview tab, call "File - Open folder" and choose a folder with text file
 
 * install FPC and Lazarus:
 ** download FpcUpDeluxe. Must unlock exe-file on Windows then. https://github.com/newpascal/fpcupdeluxe/releases
-** in FpcUpDeluxe, choose FPC 3.0.0 and Lazarus "trunk", install them both.
-** avoid FPC 3.0.2/3.0.4 on Windows, it has problem with "single instance" editor option.
-* download repos:
+** in FpcUpDeluxe, choose FPC 3.0.2 (3.0.4) and Lazarus "trunk", install them both.
+* download Github repos:
 ** https://github.com/Alexey-T/Python-for-Lazarus (install first)
 ** https://github.com/Alexey-T/ATFlatControls (install next)
 ** https://github.com/Alexey-T/ATSynEdit (install next)
@@ -1020,7 +1040,7 @@ The following macros are allowed in snippets text:
 
 '''File names'''
 
-Snippets are stored in separate files with extension ".synw-snippet". Encoding is UTF8 no BOM. They can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+Snippets are stored in separate files with extension ".cuda-snippet" (or ".synw-snippet"). Encoding is UTF8 no BOM. They can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
 
 '''File format'''
 
