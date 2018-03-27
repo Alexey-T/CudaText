@@ -323,6 +323,9 @@
   //Additional vertical lines.
   //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
+  
+  //Width of wide Unicode chars, in percents of average char
+  "unicode_full_width": 170,
 
   //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)

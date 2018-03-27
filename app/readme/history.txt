@@ -4,6 +4,10 @@
   * changed
 
 
+1.47.1
+
++ option "unicode_full_width"
+
 1.47.0 (2018/03)
 
 + AddonManager/Install:

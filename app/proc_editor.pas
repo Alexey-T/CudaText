@@ -294,7 +294,9 @@ begin
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
+
   OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
+  OptCharScaleFullwidth_Default:= Op.OpUnicodeFullWidth;
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then

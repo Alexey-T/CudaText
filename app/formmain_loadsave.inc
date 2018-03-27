@@ -624,6 +624,7 @@ begin
     Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
     Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
+    Op.OpUnicodeFullWidth:= c.GetValue('unicode_full_width', Op.OpUnicodeFullWidth);
 
     Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);
     Op.OpUnprintedSpaces:= c.GetValue('unprinted_spaces', Op.OpUnprintedSpaces);

@@ -294,6 +294,7 @@ type
     OpMarginFixed: integer;
     OpMarginString: string;
     OpStaplesStyle: integer;
+    OpUnicodeFullWidth: integer;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -965,6 +966,7 @@ begin
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
+    OpUnicodeFullWidth:= 170;
 
     OpUnprintedShow:= false;
     OpUnprintedSpaces:= true;
