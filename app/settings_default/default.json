@@ -98,6 +98,9 @@
   "ui_lexers_grouped": true,
 
   //[Text]
+  //Width of wide Unicode chars, in percents of "w" width
+  "unicode_full_width": 180,
+
   //Highlight background of lines with carets
   "show_cur_line": false,
 
@@ -324,9 +327,6 @@
   //List of column positions, space-separated, e.g. "20 40 50".
   "margin_string": "",
   
-  //Width of wide Unicode chars, in percents of average char
-  "unicode_full_width": 170,
-
   //[View/Unprinted]
   //Unprinted: Global enable-flag for unprinted_ options below (spaces, ends, details)
   "unprinted_show": false,
