@@ -296,7 +296,7 @@ begin
   Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
 
   OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
-  OptCharScaleFullwidth_Default:= Op.OpUnicodeFullWidth;
+  OptCharScaleFullWidth:= Op.OpUnicodeFullWidth;
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then

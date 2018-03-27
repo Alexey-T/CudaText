@@ -966,7 +966,7 @@ begin
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
-    OpUnicodeFullWidth:= 170;
+    OpUnicodeFullWidth:= 180;
 
     OpUnprintedShow:= false;
     OpUnprintedSpaces:= true;
