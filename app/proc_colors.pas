@@ -219,9 +219,9 @@ begin
   Add($9090c0, 'TabCloseBorderOver', 'tabs, close button border');
   Add(nColorArrow, 'TabCloseX', 'tabs, close x mark');
   Add(nColorBack, 'TabCloseXOver', 'tabs, close x mark, mouse-over');
-  Add(nColorArrow, 'TabArrow', 'tabs, tab-list arrow-down');
-  Add($404040, 'TabArrowOver', 'tabs, tab-list arrow-down, mouse-over');
-  Add(clMedGray, 'TabActiveMark', 'tabs, flat, active tab mark');
+  Add(nColorArrow, 'TabArrow', 'tabs, triangle arrows');
+  Add($404040, 'TabArrowOver', 'tabs, triangle arrows, mouse-over');
+  Add(clMedGray, 'TabActiveMark', 'tabs, flat style, active tab mark');
   Add($6060E0, 'TabMarks', 'tabs, special marks');
 
   Add(nColorText, 'TreeFont', 'treeview, font');
