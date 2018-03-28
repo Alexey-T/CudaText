@@ -236,7 +236,9 @@ begin
 
   //global options
   OptMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
-  OptAllowSpecialWidthChars:= Op.OpAllowWideChars;
+  OptAllowSpecialWidthChars:= Op.OpUnicodeWideAllowed;
+  OptCharScaleFullWidth:= Op.OpUnicodeFullWidth;
+  OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
 
   OptUnprintedEndArrowOrDot:= Op.OpUnprintedEndArrow;
   OptUnprintedTabCharLength:= Op.OpUnprintedTabArrowLen;
@@ -294,9 +296,6 @@ begin
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
-
-  OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
-  OptCharScaleFullWidth:= Op.OpUnicodeFullWidth;
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;
   if Op.OpIndentAutoKind<=Ord(High(TATAutoIndentKind)) then

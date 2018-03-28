@@ -589,7 +589,6 @@ begin
 
     Op.OpLinks:= c.GetValue('links_hilite', Op.OpLinks);
     Op.OpLinksRegex:= c.GetValue('links_regex', Op.OpLinksRegex);
-    Op.OpAllowWideChars:= c.GetValue('allow_wide_chars', Op.OpAllowWideChars);
 
     Op.OpGutterShow:= c.GetValue('gutter_show', Op.OpGutterShow);
     Op.OpGutterFold:= c.GetValue('gutter_fold', Op.OpGutterFold);
@@ -624,6 +623,8 @@ begin
     Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
     Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
+
+    Op.OpUnicodeWideAllowed:= c.GetValue('unicode_wide_allowed', Op.OpUnicodeWideAllowed);
     Op.OpUnicodeFullWidth:= c.GetValue('unicode_full_width', Op.OpUnicodeFullWidth);
 
     Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);

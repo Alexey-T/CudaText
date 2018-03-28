@@ -259,7 +259,6 @@ type
     OpUnderlineColorSize: integer;
     OpLinks: boolean;
     OpLinksRegex: string;
-    OpAllowWideChars: boolean;
 
     //view
     OpGutterShow: boolean;
@@ -294,6 +293,8 @@ type
     OpMarginFixed: integer;
     OpMarginString: string;
     OpStaplesStyle: integer;
+
+    OpUnicodeWideAllowed: boolean;
     OpUnicodeFullWidth: integer;
 
     //unprinted
@@ -930,7 +931,6 @@ begin
     OpUnderlineColorSize:= 3;
     OpLinks:= true;
     OpLinksRegex:= ATSynEdit.cUrlRegexInitial;
-    OpAllowWideChars:= true;
 
     OpGutterShow:= true;
     OpGutterFold:= true;
@@ -966,6 +966,8 @@ begin
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
+
+    OpUnicodeWideAllowed:= true;
     OpUnicodeFullWidth:= 180;
 
     OpUnprintedShow:= false;

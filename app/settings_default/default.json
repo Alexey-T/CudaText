@@ -51,9 +51,12 @@
   "ui_font_output_size__linux" : 9,
   "ui_font_output_size__mac" : 9,
 
-  //Allow Unicode chars (many ranges) to have ~170% width, ie allow full-width chars.
+  //Allow Unicode chars (many ranges) to have ~180% width, ie allow full-width chars.
   //Don't disable it if you use CJK texts, CJK chars will be rendered too narrow.
-  "allow_wide_chars": true,
+  "unicode_wide_allowed": true,
+
+  //Width of wide Unicode chars, in percents of "w" width
+  "unicode_full_width": 180,
 
   //[Ui]
   //Double-buffering of UI controls [has suffix]
@@ -98,9 +101,6 @@
   "ui_lexers_grouped": true,
 
   //[Text]
-  //Width of wide Unicode chars, in percents of "w" width
-  "unicode_full_width": 180,
-
   //Highlight background of lines with carets
   "show_cur_line": false,
 
