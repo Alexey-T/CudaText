@@ -510,6 +510,7 @@ begin
     Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
     Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
     Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
+    Op.OpFontProportional:= c.GetValue(str_FontProportional, Op.OpFontProportional);
 
     UiOps.VarFontName:= c.GetValue(str_UiFontName, UiOps.VarFontName);
     UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);

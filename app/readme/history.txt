@@ -6,6 +6,7 @@
 
 1.47.1 (2018/04)
 
++ add: option "font_proportional" - enables proportional font rendering
 + add: option "unicode_full_width"
 * change: renamed option "allow_wide_chars" to "unicode_wide_allowed"
 
