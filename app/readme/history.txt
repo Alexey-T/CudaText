@@ -4,17 +4,17 @@
   * changed
 
 
-1.47.1
+1.47.1 (2018/04)
 
 + option "unicode_full_width"
 
 1.47.0 (2018/03)
 
 + AddonManager/Install:
-  + full list is sorted by caregory+name
-  + allows to choose kind of addons, first item <Category>
-  * disabled fuzzy search 
-  * filter only by addon name (not by description)
+  + add: full list is sorted by caregory+name
+  + add: allows to choose kind of addons, first item <Category>
+  * change: disabled fuzzy search 
+  * change: filter only by addon name (not by description)
   
 + add: API
 - fix: "lexer dynamic hiliting" was broken after text editing
