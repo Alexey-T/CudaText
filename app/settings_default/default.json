@@ -19,11 +19,6 @@
   //Option works only on Windows yet. On Linux: always on.
   "font_ligatures": false,
 
-  //Enable proportional font rendering [has suffix]
-  "font_proportional": false,
-  "font_proportional__linux": false,
-  "font_proportional__mac": false,
-
   //Text font rendering quality [has suffix]
   //  0: Default
   //  1: Draft
