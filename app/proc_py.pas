@@ -21,7 +21,7 @@ uses
 procedure Py_SetSysPath(const Dirs: array of string; DoAdd: boolean);
 function Py_RunPlugin_Command(const AModule, AMethod: string; const AParams: array of string): string;
 function Py_RunPlugin_Event(const AModule, ACmd: string;
-  AEd: TATSynEdit; const AParams: array of string): string;
+  AEd: TATSynEdit; const AParams: array of string; ALazy: boolean): string;
 function Py_RunModuleFunction(const AModule, AFunc: string; AParams: array of string): string;
 
 function Py_rect(const R: TRect): PPyObject; cdecl;
@@ -101,18 +101,13 @@ end;
 //  _EventBusy: boolean = false;
 
 function Py_RunPlugin_Event(const AModule, ACmd: string;
-  AEd: TATSynEdit; const AParams: array of string): string;
+  AEd: TATSynEdit; const AParams: array of string;
+  ALazy: boolean): string;
 var
-  SObj: string;
-  SCmd1, SCmd2: string;
-  SParams: string;
+  SObj, Str1, Str2, SParams: string;
   H: PtrInt;
   i: integer;
 begin
-  ////this lock gives only bad: with it some events dont fire (while on_key? or more cases?)
-  //if _EventBusy then exit('');
-  //_EventBusy:= true;
-
   H:= PtrInt(Pointer(AEd));
   SParams:= Format('cudatext.Editor(%d)', [H]);
   for i:= 0 to Length(AParams)-1 do
@@ -120,25 +115,34 @@ begin
 
   SObj:= '_cudacmd_' + AModule;
 
-  SCmd1:= 'import cudatext' + SLineBreak +
-    Format('import %s',                [AModule]) + SLineBreak +
-    Format('if "%s" not in locals():', [SObj]) + SLineBreak +
-    Format('    %s = %s.%s()',         [SObj, AModule, 'Command']) + SLineBreak;
-  if UiOps.PyInitLog then
-    SCmd1:= SCmd1+
-    Format('    print("Init: %s")',    [AModule]);
+  if not ALazy then
+  begin
+    Str1:= 'import cudatext' + SLineBreak +
+      Format('import %s',                [AModule]) + SLineBreak +
+      Format('if "%s" not in locals():', [SObj]) + SLineBreak +
+      Format('    %s = %s.Command()',    [SObj, AModule]) + SLineBreak;
+    if UiOps.PyInitLog then
+      Str1:= Str1+
+      Format('    print("Init: %s")',    [AModule]);
+    Str2:=
+      Format('%s.%s(%s)', [SObj, ACmd, SParams]);
 
-  SCmd2:=
-    Format('%s.%s(%s)', [SObj, ACmd, SParams]);
-
-  try
     try
-      GetPythonEngine.ExecString(SCmd1);
-      Result:= Py_EvalStringAsString(SCmd2);
+      GetPythonEngine.ExecString(Str1);
+      Result:= Py_EvalStringAsString(Str2);
     except
     end;
-  finally
-    //_EventBusy:= false;
+  end
+  else
+  begin
+    Str1:= 'import cudatext' + SLineBreak +
+      Format('if "%s" in locals():', [SObj]) + SLineBreak +
+      Format('    %s.%s(%s)',        [SObj, ACmd, SParams]);
+
+    try
+      Result:= Py_EvalStringAsString(Str1);
+    except
+    end;
   end;
 end;
 

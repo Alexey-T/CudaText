@@ -106,7 +106,7 @@ begin
           AEd.Strings.BeginUndoGroup;
         PyCommandRunning:= true;
         try
-          Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams);
+          Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams, false);
         finally
           PyCommandRunning:= false;
           if bNeedGroup then
