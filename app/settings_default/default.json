@@ -976,7 +976,7 @@
   //Viewer text width in binary mode
   "viewer_binary_width": 100,
 
-  //[Ui/Log]
+  //[Log]
   //Show console lines "Init: cuda_nnnn" on plugins initialization
   "py_init_log": true,
 
