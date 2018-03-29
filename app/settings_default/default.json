@@ -55,7 +55,7 @@
   //Don't disable it if you use CJK texts, CJK chars will be rendered too narrow.
   "unicode_wide_allowed": true,
 
-  //Width of wide Unicode chars, in percents of "w" width
+  //Width of wide Unicode chars, in percents of "M" char width
   "unicode_full_width": 180,
 
   //[Ui]
