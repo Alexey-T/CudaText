@@ -2402,6 +2402,11 @@ begin
             Result:= Py_BuildValue('(ii)', Ed.TextCharSize.X, Ed.TextCharSize.Y);
           end;
 
+        PROP_MODERN_SCROLLBAR:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.OptScrollbarsNew));
+          end;
+
         PROP_V_MODE:
           begin
             if F.IsBinary then
@@ -2704,6 +2709,9 @@ begin
             N2:= StrToIntDef(SGetItem(Str), -1);
             Ed.DoSetMarkedLines(N1, N2);
           end;
+
+        PROP_MODERN_SCROLLBAR:
+          Ed.OptScrollbarsNew:= ValueBool;
 
         PROP_V_MODE:
           begin

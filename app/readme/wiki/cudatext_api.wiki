@@ -1847,6 +1847,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
+* PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
 ** "bin": binary viewer
@@ -1918,6 +1919,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_ONE_LINE: bool: editor has single-line mode.
+* PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2331,6 +2333,7 @@ Text is chr(1) separated items:
 * add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE
 * add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE_MINIMAL
 * add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE_IF_FOCUS
+* add: ed.get_prop/set_prop: PROP_MODERN_SCROLLBAR
 
 1.0.233 (app 1.47.1)
 * add: app_proc: PROC_GET_GUI_HEIGHT supports name "scrollbar"
