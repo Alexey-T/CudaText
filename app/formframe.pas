@@ -910,6 +910,9 @@ begin
     ')': Result:= '(';
     ']': Result:= '[';
     '}': Result:= '{';
+    '"': Result:= '"';
+    '''': Result:= '''';
+    '`': Result:= '`';
     else Result:= #0;
   end;
 end;
