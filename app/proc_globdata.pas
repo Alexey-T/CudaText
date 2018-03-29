@@ -559,7 +559,8 @@ type
     cEventOnConsoleNav,
     cEventOnOutputNav,
     cEventOnSnippet,
-    cEventOnMacro
+    cEventOnMacro,
+    cEventOnExit
     );
   TAppPyEvents = set of TAppPyEvent;
   TAppPyEventsPrior = array[TAppPyEvent] of byte;
@@ -602,7 +603,8 @@ const
     'on_console_nav',
     'on_output_nav',
     'on_snippet',
-    'on_macro'
+    'on_macro',
+    'on_exit'
     );
 
 const
