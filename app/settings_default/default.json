@@ -976,14 +976,14 @@
   //Viewer text width in binary mode
   "viewer_binary_width": 100,
 
-  //[Log]
+  //[Ui/Log]
   //Show console lines "Init: cuda_nnnn" on plugins initialization
   "py_init_log": true,
 
-  //Log app debug info to file settings/debug.log
-  "log_debug": false,
-  
   //Log console contents to file settings/console.log
   "log_console": false,
    
+  //Log app debug info to file settings/debug.log
+  "log_debug": false,
+  
 }
