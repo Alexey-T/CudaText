@@ -2267,6 +2267,8 @@ begin
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedVisible));
         PROP_UNPRINTED_SPACES:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedSpaces));
+        PROP_UNPRINTED_SPACES_TRAILING:
+          Result:= PyBool_FromLong(Ord(Ed.OptUnprintedSpacesTrailing));
         PROP_UNPRINTED_ENDS:
           Result:= PyBool_FromLong(Ord(Ed.OptUnprintedEnds));
         PROP_UNPRINTED_END_DETAILS:
@@ -2330,6 +2332,9 @@ begin
           Result:= PyInt_FromLong(Ed.ScrollVert.NPos);
         PROP_SCROLL_HORZ:
           Result:= PyInt_FromLong(Ed.ScrollHorz.NPos);
+
+        PROP_LAST_LINE_ON_TOP:
+          Result:= PyBool_FromLong(Ord(Ed.OptLastLineOnTop));
 
         PROP_CODETREE:
           Result:= PyBool_FromLong(Ord(F.EnabledCodeTree));
@@ -2584,6 +2589,8 @@ begin
           Ed.OptUnprintedVisible:= ValueBool;
         PROP_UNPRINTED_SPACES:
           Ed.OptUnprintedSpaces:= ValueBool;
+        PROP_UNPRINTED_SPACES_TRAILING:
+          Ed.OptUnprintedSpacesTrailing:= ValueBool;
         PROP_UNPRINTED_ENDS:
           Ed.OptUnprintedEnds:= ValueBool;
         PROP_UNPRINTED_END_DETAILS:
@@ -2649,6 +2656,9 @@ begin
             ScrollInfo.NPos:= ValueInt;
             Ed.ScrollHorz:= ScrollInfo;
           end;
+
+        PROP_LAST_LINE_ON_TOP:
+          Ed.OptLastLineOnTop:= ValueBool;
 
         PROP_CODETREE:
         begin

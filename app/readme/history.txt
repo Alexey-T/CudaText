@@ -6,7 +6,7 @@
 
 1.47.2 (2018/04)
 
-+ add: improved auto-closing bracket: now when you type ")" after "(", closing bracket not duplicated
++ add: improved auto-closing bracket: now when you type ")" after "(", closing bracket not duplicated (like PyCharm)
 + add: option "unicode_full_width"
 + add: options "console_log", "debug_log"
 * change: renamed option "allow_wide_chars" to "unicode_wide_allowed"
