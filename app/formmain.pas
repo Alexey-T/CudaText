@@ -1498,6 +1498,7 @@ begin
   *)
 
   DoCloseAllTabs;
+  DoPyEvent(CurrentEditor, cEventOnExit, []);
 end;
 
 procedure TfmMain.ButtonCancelClick(Sender: TObject);

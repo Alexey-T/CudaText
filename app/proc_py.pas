@@ -135,12 +135,15 @@ begin
   end
   else
   begin
-    Str1:= 'import cudatext' + SLineBreak +
+    Str1:=
+      'import cudatext' + SLineBreak +
+      '_ = None' + SLineBreak +
       Format('if "%s" in locals():', [SObj]) + SLineBreak +
-      Format('    %s.%s(%s)',        [SObj, ACmd, SParams]);
+      Format('    _ = %s.%s(%s)',    [SObj, ACmd, SParams]);
 
     try
-      Result:= Py_EvalStringAsString(Str1);
+      GetPythonEngine.ExecString(Str1);
+      Result:= Py_EvalStringAsString('_');
     except
     end;
   end;

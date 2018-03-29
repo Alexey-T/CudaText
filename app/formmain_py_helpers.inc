@@ -60,7 +60,7 @@ const
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
 var
   SCurLexer: string;
-  bNeedGroup: boolean;
+  bNeedGroup, bLazy: boolean;
   Frame: TEditorFrame;
   MaxPrior, i_plugin, i_prior: integer;
 begin
@@ -74,6 +74,7 @@ begin
 
   SCurLexer:= Frame.LexerName;
   bNeedGroup:= AEvent in cTheseEventsNeedGroupingUndo;
+  bLazy:= AEvent=cEventOnExit;
 
   //get max prior for AEvent
   MaxPrior:= 0;
@@ -106,7 +107,7 @@ begin
           AEd.Strings.BeginUndoGroup;
         PyCommandRunning:= true;
         try
-          Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams, false);
+          Result:= Py_RunPlugin_Event(ItemModule, cAppPyEvent[AEvent], AEd, AParams, bLazy);
         finally
           PyCommandRunning:= false;
           if bNeedGroup then
