@@ -2336,6 +2336,15 @@ begin
         PROP_LAST_LINE_ON_TOP:
           Result:= PyBool_FromLong(Ord(Ed.OptLastLineOnTop));
 
+        PROP_HILITE_CUR_COL:
+          Result:= PyBool_FromLong(Ord(Ed.OptShowCurColumn));
+        PROP_HILITE_CUR_LINE:
+          Result:= PyBool_FromLong(Ord(Ed.OptShowCurLine));
+        PROP_HILITE_CUR_LINE_MINIMAL:
+          Result:= PyBool_FromLong(Ord(Ed.OptShowCurLineMinimal));
+        PROP_HILITE_CUR_LINE_IF_FOCUS:
+          Result:= PyBool_FromLong(Ord(Ed.OptShowCurLineOnlyFocused));
+
         PROP_CODETREE:
           Result:= PyBool_FromLong(Ord(F.EnabledCodeTree));
 
@@ -2659,6 +2668,15 @@ begin
 
         PROP_LAST_LINE_ON_TOP:
           Ed.OptLastLineOnTop:= ValueBool;
+
+        PROP_HILITE_CUR_COL:
+          Ed.OptShowCurColumn:= ValueBool;
+        PROP_HILITE_CUR_LINE:
+          Ed.OptShowCurLine:= ValueBool;
+        PROP_HILITE_CUR_LINE_MINIMAL:
+          Ed.OptShowCurLineMinimal:= ValueBool;
+        PROP_HILITE_CUR_LINE_IF_FOCUS:
+          Ed.OptShowCurLineOnlyFocused:= ValueBool;
 
         PROP_CODETREE:
         begin

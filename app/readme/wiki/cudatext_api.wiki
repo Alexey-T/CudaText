@@ -1839,6 +1839,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
+* PROP_HILITE_CUR_COL: bool: highlight current column.
+* PROP_HILITE_CUR_LINE: bool: highlight current line.
+* PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
+* PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
@@ -1908,6 +1912,10 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
+* PROP_HILITE_CUR_COL: bool: highlight current column.
+* PROP_HILITE_CUR_LINE: bool: highlight current line.
+* PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
+* PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
@@ -2319,6 +2327,10 @@ Text is chr(1) separated items:
 1.0.234 (app 1.47.2)
 * add: ed.get_prop/set_prop: PROP_UNPRINTED_SPACES_TRAILING
 * add: ed.get_prop/set_prop: PROP_LAST_LINE_ON_TOP
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_COL
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE_MINIMAL
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE_IF_FOCUS
 
 1.0.233 (app 1.47.1)
 * add: app_proc: PROC_GET_GUI_HEIGHT supports name "scrollbar"
