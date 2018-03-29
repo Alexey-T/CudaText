@@ -301,7 +301,7 @@ begin
   if Pos(#13, StrSel)>0 then StrSel:= '';
   if not Ed.IsSelRectEmpty then StrSel:= '';
 
-  MsgLog('find dlg: init');
+  MsgLogDebug('find dlg: init');
   InitFormFind;
   with fmFind do
   begin
@@ -315,7 +315,7 @@ begin
     if UiOps.FindSuggestWord and (StrWord<>'') then
       edFind.Text:= StrWord;
 
-    MsgLog('find dlg: select all in input');
+    MsgLogDebug('find dlg: select all in input');
     edFind.DoCommand(cCommand_SelectAll);
     edRep.DoCommand(cCommand_SelectAll);
 
@@ -327,11 +327,11 @@ begin
     chkInSel.Checked:= FFinder.OptInSelection;
     IsReplace:= AReplaceMode;
 
-    MsgLog('find dlg: update state');
+    MsgLogDebug('find dlg: update state');
     UpdateState;
-    MsgLog('find dlg: show');
+    MsgLogDebug('find dlg: show');
     Show;
-    MsgLog('find dlg: focus');
+    MsgLogDebug('find dlg: focus');
     UpdateFocus(true);
   end;
 end;

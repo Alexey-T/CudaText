@@ -192,11 +192,11 @@ begin
     SFunc:= Parts[2].Str;
     SParam:= Parts[4].Str;
     Result:= Py_RunPlugin_Command(SModule, SFunc, [SParam]);
-    fmConsole.DoLogConsoleLine(Format(msgCallbackDeprecated, [ACallback]));
+    fmMain.MsgLogConsole(Format(msgCallbackDeprecated, [ACallback]));
     exit;
   end;
 
-  fmConsole.DoLogConsoleLine(Format(msgCallbackBad, [ACallback]));
+  fmMain.MsgLogConsole(Format(msgCallbackBad, [ACallback]));
 end;
 
 

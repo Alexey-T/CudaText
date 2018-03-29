@@ -460,7 +460,7 @@ procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
   end;
   //
 begin
-  //fmConsole.DoLogConsoleLine('cmd'+inttostr(cmd));
+  //MsgLogConsole('cmd'+inttostr(cmd));
   if cmd>0 then
   case cmd of
     cCommand_ToggleWordWrap : DoSave(mi, mnuViewWrap_Alt);

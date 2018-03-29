@@ -203,7 +203,8 @@ type
     ReloadFollowTail: boolean;
     FullScreen: string;
     MouseGotoDefinition: string;
-    DebugLog: boolean;
+    LogDebug: boolean;
+    LogConsole: boolean;
 
     HotkeyFindDialog,
     HotkeyReplaceDialog,
@@ -1207,7 +1208,8 @@ begin
     ReloadUnsavedConfirm:= true;
     FullScreen:= 'tp';
     MouseGotoDefinition:= 'a';
-    DebugLog:= false;
+    LogDebug:= false;
+    LogConsole:= false;
 
     HotkeyFindDialog:= 'Ctrl+F';
     HotkeyReplaceDialog:= 'Ctrl+R';

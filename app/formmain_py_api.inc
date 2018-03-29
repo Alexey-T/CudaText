@@ -21,7 +21,7 @@ var
 
 procedure MsgOldApi(const s: string);
 begin
-  fmConsole.DoLogConsoleLine(Format(msgApiDeprecated, [s]));
+  fmMain.MsgLogConsole(Format(msgApiDeprecated, [s]));
 end;
 
 
@@ -179,15 +179,13 @@ end;
 
 procedure TfmMain.PythonIOSendData(Sender: TObject; const Data: AnsiString);
 begin
-  if Assigned(fmConsole) then
-    fmConsole.DoLogConsoleLine(Data);
+  MsgLogConsole(Data);
 end;
 
 procedure TfmMain.PythonIOSendUniData(Sender: TObject;
   const Data: UnicodeString);
 begin
-  if Assigned(fmConsole) then
-    fmConsole.DoLogConsoleLine(Utf8Encode(Data));
+  MsgLogConsole(UTF8Encode(Data));
 end;
 
 
@@ -1924,7 +1922,7 @@ begin
         LOG_CONSOLE_ADD:
           with fmMain do
           begin
-            fmConsole.DoLogConsoleLine(cPyConsolePrompt+Str);
+            MsgLogConsole(cPyConsolePrompt+Str);
             fmConsole.ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
             fmConsole.ed.Text:= '';
             fmConsole.ed.Update(true);
@@ -2026,7 +2024,7 @@ begin
   STime:= FormatDateTime('yyyy-mm-dd_hh-mm-ss', Now);
   SLog:= Format(GetTempDir+'dlg_'+STime+'_%dx%d.txt', [ASizeX, ASizeY]);
 
-  fmConsole.DoLogConsoleLine('Dialog logged: '+SLog);
+  MsgLogConsole('Dialog logged: '+SLog);
 
   with TFileStream.Create(SLog, fmCreate) do
   try

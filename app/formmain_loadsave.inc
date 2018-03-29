@@ -93,7 +93,7 @@ begin
   Result:= false;
   if fn_session='' then exit;
   DeleteFile(fn_session);
-  fmConsole.DoLogConsoleLine('Saving session: '+ExtractFileName(fn_session));
+  MsgLogConsole('Saving session: '+ExtractFileName(fn_session));
 
   c:= TJSONConfig.Create(nil);
   try
@@ -174,7 +174,7 @@ begin
   list:= TStringList.Create;
   try
     c.Filename:= fn_session;
-    fmConsole.DoLogConsoleLine('Loading session: '+ExtractFileName(fn_session));
+    MsgLogConsole('Loading session: '+ExtractFileName(fn_session));
 
     DoOps_LoadHistory_GroupView(c);
 
@@ -554,7 +554,8 @@ begin
              MB_OK or MB_ICONWARNING);
 
     UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
-    UiOps.DebugLog:= c.GetValue('app_log', UiOps.DebugLog);
+    UiOps.LogDebug:= c.GetValue('log_debug', UiOps.LogDebug);
+    UiOps.LogConsole:= c.GetValue('log_console', UiOps.LogConsole);
 
     UiOps.HotkeyFindDialog:= c.GetValue('find_hotkey_find_dlg', UiOps.HotkeyFindDialog);
     UiOps.HotkeyReplaceDialog:= c.GetValue('find_hotkey_replace_dlg', UiOps.HotkeyReplaceDialog);

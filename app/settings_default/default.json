@@ -855,9 +855,6 @@
   //API: delay for event on_change_slow in msec (used in CudaLint)
   "py_change_slow": 2000,
 
-  //Show console lines "Init: cuda_nnnn" on plugins initialization
-  "py_init_log": true,
-
   //[Text/Commands]
   //Commenting: If no selection then comment full line
   "comment_full_line_if_no_sel": true,
@@ -979,4 +976,14 @@
   //Viewer text width in binary mode
   "viewer_binary_width": 100,
 
+  //[Log]
+  //Show console lines "Init: cuda_nnnn" on plugins initialization
+  "py_init_log": true,
+
+  //Log app debug info to file settings/debug.log
+  "log_debug": false,
+  
+  //Log console contents to file settings/console.log
+  "log_console": false,
+   
 }

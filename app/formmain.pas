@@ -570,7 +570,8 @@ type
     FAllowOnFocus: boolean;
     FHandledOnShow: boolean;
     FFileNamesDroppedInitially: array of string;
-    FFileNameLog: string;
+    FFileNameLogDebug: string;
+    FFileNameLogConsole: string;
     FTreeClick: boolean;
     FMenuCopy: TPopupMenu;
     FNewClickedEditor: TATSynEdit;
@@ -715,7 +716,10 @@ type
     procedure MenuThemeDefaultUiClick(Sender: TObject);
     procedure MenuThemeDefaultSyntaxClick(Sender: TObject);
     procedure MenuThemesUiClick(Sender: TObject);
-    procedure MsgLog(const AText: string);
+    procedure MsgLogConsole(const AText: string);
+    procedure MsgLogDebug(const AText: string);
+    procedure MsgLogToFilename(const AText, AFilename: string;
+      AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
@@ -1263,7 +1267,8 @@ var
   i: integer;
 begin
   CustomDialog_DoPyCallback:= @DoPyCallbackFromAPI;
-  FFileNameLog:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
+  FFileNameLogDebug:= GetAppPath(cDirSettings)+DirectorySeparator+'app.log';
+  FFileNameLogConsole:= GetAppPath(cDirSettings)+DirectorySeparator+'console.log';
 
   {$ifdef windows}
   UiOps.ScreenScale:= MulDiv(100, Screen.PixelsPerInch, 96);
@@ -1683,13 +1688,13 @@ begin
   if Assigned(Frame) then Frame.SetFocus;
 
   NTickShowEnd:= GetTickCount64;
-  fmConsole.DoLogConsoleLine(Format(
+  MsgLogConsole(Format(
     'Startup: total: %dms, including plugins: %dms', [
     NTickShowEnd-NTickInitial,
     NTickPluginEnd-NTickPluginBegin
     ]));
 
-  MsgLog('start');
+  MsgLogDebug('start');
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject);
@@ -2639,8 +2644,8 @@ begin
   else
   begin
     FConsoleMustShow:= true;
-    fmConsole.DoLogConsoleLine(msgCannotInitPython1);
-    fmConsole.DoLogConsoleLine(msgCannotInitPython2);
+    MsgLogConsole(msgCannotInitPython1);
+    MsgLogConsole(msgCannotInitPython2);
     //disable Plugins menu
     mnuPlugins.Enabled:= false;
   end;
@@ -4445,18 +4450,35 @@ begin
   UpdateEditorTabsize((Sender as TComponent).Tag);
 end;
 
-procedure TfmMain.MsgLog(const AText: string);
+procedure TfmMain.MsgLogDebug(const AText: string);
+begin
+  if UiOps.LogDebug then
+    MsgLogToFilename(AText, FFileNameLogDebug, true);
+end;
+
+procedure TfmMain.MsgLogConsole(const AText: string);
+begin
+  if UiOps.LogConsole then
+    MsgLogToFilename(AText, FFileNameLogConsole, false);
+  if Assigned(fmConsole) then
+    fmConsole.DoLogConsoleLine(AText);
+end;
+
+
+procedure TfmMain.MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
 var
   f: TextFile;
+  S: string;
 begin
-  if not UiOps.DebugLog then exit;
-
-  AssignFile(f, FFileNameLog);
+  AssignFile(f, AFileName);
   {$I-}
   Append(f);
   if IOResult<>0 then
     Rewrite(f);
-  Writeln(f, FormatDateTime('[MM.DD hh:nn] ', Now) + AText);
+  S:= AText;
+  if AWithTime then
+    S:= FormatDateTime('[MM.DD hh:nn] ', Now) + S;
+  Writeln(f, S);
   CloseFile(f);
   {$I+}
 end;
