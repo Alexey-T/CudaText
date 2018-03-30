@@ -6,6 +6,7 @@
 
 1.47.5 (2018/03)
 
++ add: API, support for plugin Terminal
 + add: improved auto-closing bracket: now when you type ")" after "(", closing bracket not duplicated (like PyCharm)
 + add: options "log_console", "log_debug"
 + add: option "unicode_full_width"
