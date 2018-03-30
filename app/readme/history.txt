@@ -4,7 +4,7 @@
   * changed
 
 
-1.47.5 (2018/04)
+1.47.5 (2018/03)
 
 + add: improved auto-closing bracket: now when you type ")" after "(", closing bracket not duplicated (like PyCharm)
 + add: options "log_console", "log_debug"
