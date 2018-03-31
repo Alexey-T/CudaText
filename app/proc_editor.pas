@@ -22,6 +22,7 @@ uses
   ATSynEdit_Markers,
   ATSynEdit_Ranges,
   ATSynEdit_Commands,
+  ATSynEdit_CharSizer,
   ATStringProc,
   proc_globdata,
   proc_colors,
