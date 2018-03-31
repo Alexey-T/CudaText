@@ -291,9 +291,10 @@ begin
   AddStyle('Symbol2', $0000C0, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('SymbolBad', clMaroon, clNone, clRed, [], blNone, blNone, blNone, blSolid, ftFontAttr);
 
-  AddStyle('Comment', clGray, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('Comment2', $00C080, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
-  AddStyle('CommentDoc', $A0B090, clNone, clNone, [fsItalic], blNone, blNone, blNone, blNone, ftFontAttr);
+  //don't use Italic for comments, coz comments often have Unicode
+  AddStyle('Comment', clGray, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('Comment2', $00C080, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
+  AddStyle('CommentDoc', $A0B090, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
 
   AddStyle('Number', clNavy, clNone, clNone, [fsBold], blNone, blNone, blNone, blNone, ftFontAttr);
   AddStyle('Label', $607EB6, clNone, clNone, [], blNone, blNone, blNone, blNone, ftFontAttr);
