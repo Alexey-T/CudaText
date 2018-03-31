@@ -55,8 +55,6 @@
   //  0: width is fixed, depends on char code only (fast, safe)
   //  1: for codes 0..127 width is fixed, for others - proportional to font
   "font_width": 0,
-  "font_width__linux": 0,
-  "font_width__mac": 0,
 
   //Allow Unicode chars (many ranges) to have ~180% width, ie allow full-width chars.
   //Don't disable it if you use CJK texts, CJK chars will be rendered too narrow.
