@@ -25,18 +25,20 @@ def get_module_dir():
 
 def dlg_make_plugin():
     '''
-    (s_caption, s_module, cmd_list, event_list)
+    Gets tuple:
+    (s_caption, s_module, cmd_list, event_list, with_config)
     cmd_list[i] is 3-tuple: (caption, method, no_menu)
     '''
-    dlg_w = 406
-    dlg_h = 460
+    dlg_w = 456
+    dlg_h = 490
     btn_w = 80
 
     id_name = 1
     id_module = 3
     id_items = 5
-    id_events = 7
-    id_ok = 8
+    id_config = 6
+    id_events = 8
+    id_ok = 9
     c1 = chr(1)
 
     s_caption = 'MySample'
@@ -48,12 +50,13 @@ def dlg_make_plugin():
         res = dlg_custom('Make Plugin', dlg_w, dlg_h, '\n'.join([]
           + [c1.join(['type=label', 'cap=Plugin &name', 'pos=6,6,400,0'])]
           + [c1.join(['type=edit', 'val='+s_caption, 'pos=6,24,400,46'])]
-          + [c1.join(['type=label', 'cap=&Module name after "cuda_"', 'pos=6,54,400,0'])]
+          + [c1.join(['type=label', 'cap=&Module name after "cuda_"', 'pos=6,54,450,0'])]
           + [c1.join(['type=edit', 'val='+s_module, 'pos=6,72,400,46'])]
-          + [c1.join(['type=label', 'cap=&Items "Caption>method" ("-" at end: hide item in Plugins)', 'pos=6,102,400,0'])]
-          + [c1.join(['type=memo', 'val='+s_plugin_items, 'pos=6,120,400,240'])]
-          + [c1.join(['type=label', 'cap=&Events to handle', 'pos=6,246,400,0'])]
-          + [c1.join(['type=checklistbox', 'items='+'\t'.join(EVENTS), 'val='+s_events_checks, 'pos=6,264,400,420'])]
+          + [c1.join(['type=label', 'cap=&Items "Caption>method" ("-" at end: hide item in Plugins)', 'pos=6,102,450,0'])]
+          + [c1.join(['type=memo', 'val='+s_plugin_items, 'pos=6,120,450,240'])]
+          + [c1.join(['type=check', 'cap=&Config item in "Options/ Settings-plugins"', 'pos=6,246,450,0'])]
+          + [c1.join(['type=label', 'cap=&Events to handle', 'pos=6,276,400,0'])]
+          + [c1.join(['type=checklistbox', 'items='+'\t'.join(EVENTS), 'val='+s_events_checks, 'pos=6,294,450,450'])]
           + [c1.join(['type=button', 'cap=&OK', 'props=1', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w*2-12, dlg_h-30, dlg_w-btn_w-12, 0)])]
           + [c1.join(['type=button', 'cap=Cancel', 'pos=%d,%d,%d,%d'%(dlg_w-btn_w-6, dlg_h-30, dlg_w-6, 0)])]
           ) )
@@ -66,6 +69,7 @@ def dlg_make_plugin():
         s_module = text[id_module]
         s_plugin_items = text[id_items]
         s_events_checks = text[id_events]
+        with_config = text[id_config]=='1'
 
         items = text[id_items].split('\t')
         cmd_list = [s.split('>') for s in items if s]
@@ -108,4 +112,4 @@ def dlg_make_plugin():
             if nomenu:
                 i[1] = i[1][:-1]
 
-        return (s_caption, 'cuda_'+s_module, cmd_list, event_list)
+        return (s_caption, 'cuda_'+s_module, cmd_list, event_list, with_config)
