@@ -7,6 +7,7 @@
 1.48.0 (2018/04)
 
 + add: option "font_width", it gives new method to detect width of Unicode characters
++ add: improved Make Plugin plugin, it has code to read/write sample options
 
 1.47.5 (2018/03)
 
