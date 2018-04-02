@@ -921,7 +921,7 @@ begin
     OpFontSize:= {$ifdef LCLCocoa}13{$else}10{$endif};
     OpFontQuality:= fqDefault;
     OpFontLigatures:= false;
-    OpFontWidth:= 0;
+    OpFontWidth:= 1;
 
     OpSpacingX:= 0;
     OpSpacingY:= 1;
