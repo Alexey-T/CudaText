@@ -218,7 +218,7 @@ begin
   begin
     if ItemModule='' then
       ItemModule:= AModuleName;
-    DoPyStringToEvents(AEventStr, ItemEvents, ItemEventsPrior);
+    DoPyStringToEvents(AEventStr, ItemEvents, ItemEventsPrior, ItemEventsLazy);
     ItemLexers:= ALexerStr;
     ItemKeys:= AKeyStr;
   end;

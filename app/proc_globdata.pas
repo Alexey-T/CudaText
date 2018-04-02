@@ -565,6 +565,7 @@ type
   TAppPyEvents = set of TAppPyEvent;
   TAppPyEventsPrior = array[TAppPyEvent] of byte;
     //0: default, 1,2...: higher priority
+  TAppPyEventsLazy = array[TAppPyEvent] of boolean;
 
 const
   cAppPyEvent: array[TAppPyEvent] of string = (
@@ -633,6 +634,7 @@ type
     ItemLexers: string;
     ItemEvents: TAppPyEvents;
     ItemEventsPrior: TAppPyEventsPrior;
+    ItemEventsLazy: TAppPyEventsLazy;
     ItemKeys: string;
   end;
   TAppPluginEventArray = array[0..cMaxEventPlugins-1] of TAppPluginEvent;

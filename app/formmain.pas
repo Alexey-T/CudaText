@@ -685,7 +685,8 @@ type
     procedure DoPyRescanPlugins;
     procedure DoPyStringToEvents(const AEventStr: string;
       out AEvents: TAppPyEvents;
-      out AEventsPrior: TAppPyEventsPrior);
+      out AEventsPrior: TAppPyEventsPrior;
+      out AEventsLazy: TAppPyEventsLazy);
     procedure DoPyUpdateEvents(const AModuleName, AEventStr, ALexerStr, AKeyStr: string);
     function DoSplitter_StringToId(const AStr: string): integer;
     procedure DoSplitter_GetInfo(const Id: integer;

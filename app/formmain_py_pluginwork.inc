@@ -2,14 +2,17 @@
 
 procedure TfmMain.DoPyStringToEvents(const AEventStr: string;
   out AEvents: TAppPyEvents;
-  out AEventsPrior: TAppPyEventsPrior);
+  out AEventsPrior: TAppPyEventsPrior;
+  out AEventsLazy: TAppPyEventsLazy);
 var
   str, strItem: string;
   event: TAppPyEvent;
   nPrior: byte;
+  bLazy: boolean;
 begin
   AEvents:= [];
   FillChar(AEventsPrior, SizeOf(AEventsPrior), 0);
+  FillChar(AEventsLazy, SizeOf(AEventsLazy), 0);
   str:= AEventStr;
   repeat
     strItem:= SGetItem(str);
@@ -19,7 +22,14 @@ begin
     while SEndsWith(strItem, '+') do
     begin
       Inc(nPrior);
-      Delete(strItem, Length(strItem), 1);
+      SetLength(strItem, Length(strItem)-1);
+    end;
+
+    bLazy:= false;
+    if SEndsWith(strItem, '~') then
+    begin
+      bLazy:= true;
+      SetLength(strItem, Length(strItem)-1);
     end;
 
     for event in TAppPyEvent do
@@ -27,6 +37,8 @@ begin
       begin
         Include(AEvents, event);
         AEventsPrior[event]:= nPrior;
+        AEventsLazy[event]:= bLazy;
+        Break
       end;
   until false;
 end;
@@ -141,7 +153,9 @@ begin
         AppPluginsEvent[cnt].ItemModule:= s_module;
         DoPyStringToEvents(s_events,
           AppPluginsEvent[cnt].ItemEvents,
-          AppPluginsEvent[cnt].ItemEventsPrior);
+          AppPluginsEvent[cnt].ItemEventsPrior,
+          AppPluginsEvent[cnt].ItemEventsLazy
+          );
         AppPluginsEvent[cnt].ItemLexers:= s_lexers;
         AppPluginsEvent[cnt].ItemKeys:= s_keys;
       end;
