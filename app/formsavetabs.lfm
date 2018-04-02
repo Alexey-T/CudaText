@@ -8,6 +8,8 @@ object fmSaveTabs: TfmSaveTabs
   Caption = 'Save tabs?'
   ClientHeight = 350
   ClientWidth = 635
+  Constraints.MinHeight = 150
+  Constraints.MinWidth = 300
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = FormShow
