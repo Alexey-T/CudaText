@@ -669,6 +669,11 @@ Project Manager shows file/folder icons, using default file-type-icons theme. Yo
 To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
 ==How to change icons==
+
+Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
+
+[[File:cudatext_all_icons.png]]
+
 * Icons in the main toolbar. To change them:
 ** (Optional) Install add-on(s) of kind "toolbar theme" (each add-on gives additional icon set or several sets).
 ** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in [cudatext]\data\toolbaricons (Windows) or ~/.cudatext/data/toolbaricons (Unix).
