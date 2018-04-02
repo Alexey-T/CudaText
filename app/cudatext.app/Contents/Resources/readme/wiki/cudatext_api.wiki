@@ -20,6 +20,7 @@ To make plugin react to events, add method to class Command (like methods of com
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
 * on_tab_change(self, ed_self): Called after active tab is changed.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
+* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins.
 
 ==Editor==
 
@@ -160,7 +161,7 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 * PROC_ENUM_FONTS: Gets list of font names, currently installed in OS. Note: only some names are common in all OSes (like Arial, Courier, Courier New, Terminal, maybe more).
 * PROC_GET_SYSTEM_PPI: Gets int value of screen pixels-per-inch. Usual value is 96. When OS UI is scaled, it's bigger, e.g. for scale 150% it is round(96*1.5).
-* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Gets None for other values.
+* PROC_GET_GUI_HEIGHT: Gets height (pixels) of GUI element for dlg_custom(). Possible values of text: 'button', 'label', 'linklabel', 'combo', 'combo_ro', 'edit', 'spinedit', 'check', 'radio', 'checkbutton', 'filter_listbox', 'filter_listview'. Special value 'scrollbar' gets size of OS scrollbar. Gets None for other values.
 * PROC_GET_MOUSE_POS: Gets mouse cursor position in screen-related coordinates, as (x, y) tuple.
 * PROC_SEND_MESSAGE: For Windows. Sends message to a window by its handle. Param "text" must be 4-tuple of int (window_handle, msg_code, param1, param2).
 
@@ -544,20 +545,17 @@ Shows dialog with controls of many types.
 
 ====Types====
 
-Possible types of controls:
+Types of UI controls:
 
 * "button": simple button
-* "button_ex": button, but application-themed
 * "label": simple read-only text
 * "check": checkbox, checked/unchecked/grayed
 * "radio": radio-button, only one of radio-buttons can be checked
 * "edit": single-line input
-* "editor": full featured editor (multi-line by default)
 * "edit_pwd": single-line input for password, text is masked
 * "combo": combobox, editable + drop-down, value is text
 * "combo_ro": combobox, drop-down only, value is index of drop-down
 * "listbox": list of items with one item selected
-* "listbox_ex": like listbox, but application-themed, and works via listbox_proc()
 * "checkbutton": looks like button, but don't close dialog, checked/unchecked
 * "memo": multi-line input
 * "checkgroup": group of check-boxes
@@ -565,7 +563,6 @@ Possible types of controls:
 * "checklistbox": listbox with checkboxes
 * "spinedit": input for numbers, has min-value, max-value, increment
 * "listview": list with columns, with column headers, value is index
-* "treeview": tree structure with nodes and nested nodes, works via tree_proc()
 * "checklistview": listview with checkboxes, value is check-flags
 * "linklabel": label which activates URL on click
 * "panel": rectangle with centered caption only (client area is entire rect)
@@ -578,11 +575,8 @@ Possible types of controls:
 * "filter_listbox": input, which filters content of another "listbox" control
 * "filter_listview": input, which filter content of another "listview" control
 * "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
-* "paintbox": control which must be painted by plugin via canvas_proc()
 * "tabs": TabControl: set of tabs, w/o pages attached to them
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
-* "toolbar": ToolBar: panel which holds buttons with icons
-* "statusbar": StatusBar: panel with one horizontal row of cells
 * "splitter": divider bar, which can be moved by mouse, it resizes control with "align" set, with the same "align" which splitter has.
 
 Notes:
@@ -773,7 +767,15 @@ If an action needs control, you can use 2 ways:
 
 ====Types====
 
-Described in dlg_custom, see [[#Types]].
+Possible types of UI controls are described in dlg_custom, see [[#Types]]. Additional types only for dlg_proc:
+
+* "button_ex": button, application-themed, works via button_proc()
+* "editor": full featured editor, works via Editor class
+* "listbox_ex": listbox, application-themed, works via listbox_proc()
+* "paintbox": control which must be painted by plugin via canvas_proc()
+* "statusbar": statusbar: panel with one horizontal row of cells, works via statusbar_proc()
+* "toolbar": toolbar: panel which holds buttons with icons, works via toolbar_proc()
+* "treeview": tree structure with nodes and nested nodes, works via tree_proc()
 
 ====Form properties====
 
@@ -1810,6 +1812,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 * PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
+* PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor's tab. Value must be "key:defvalue" or simply "defvalue". Saved value for "key" is returned, or "defvalue" returned if value for key was not set. Empty key means key "_".
@@ -1836,10 +1839,16 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
+* PROP_HILITE_CUR_COL: bool: highlight current column.
+* PROP_HILITE_CUR_LINE: bool: highlight current line.
+* PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
+* PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
+* PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
 ** "bin": binary viewer
@@ -1883,6 +1892,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_INDEX_TAB: int: index of editor's tab in group, 0-based.
 * PROP_UNPRINTED_SHOW: bool: unprinted chars: global enable-flag.
 * PROP_UNPRINTED_SPACES: bool: unprinted chars: show spaces/tabs.
+* PROP_UNPRINTED_SPACES_TRAILING: bool: unprinted chars: show spaces/tabs only at end of lines.
 * PROP_UNPRINTED_ENDS: bool: unprinted chars: show line ends.
 * PROP_UNPRINTED_END_DETAILS: bool: unprinted chars: show line end details.
 * PROP_TAG: str: some string attached to editor's tab. Param text must be pair "key:value" or simply "value", this sets value for specified key (internally it is dictionary). Empty key means key "_".
@@ -1903,8 +1913,14 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0. 
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
+* PROP_HILITE_CUR_COL: bool: highlight current column.
+* PROP_HILITE_CUR_LINE: bool: highlight current line.
+* PROP_HILITE_CUR_LINE_MINIMAL: bool: highlight current line, only minimal part of line.
+* PROP_HILITE_CUR_LINE_IF_FOCUS: bool: highlight current line, only when editor focused.
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_ONE_LINE: bool: editor has single-line mode.
+* PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -2311,6 +2327,19 @@ Text is chr(1) separated items:
 
 =History=
 
+1.0.234 (app 1.47.5)
+* add: event on_exit
+* add: ed.get_prop/set_prop: PROP_UNPRINTED_SPACES_TRAILING
+* add: ed.get_prop/set_prop: PROP_LAST_LINE_ON_TOP
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_COL
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE_MINIMAL
+* add: ed.get_prop/set_prop: PROP_HILITE_CUR_LINE_IF_FOCUS
+* add: ed.get_prop/set_prop: PROP_MODERN_SCROLLBAR
+
+1.0.233 (app 1.47.1)
+* add: app_proc: PROC_GET_GUI_HEIGHT supports name "scrollbar"
+
 1.0.233 (app 1.47.0)
 * add: dlg_menu: option MENU_NO_FUZZY
 * add: dlg_menu: option MENU_NO_FULLFILTER
@@ -2694,129 +2723,3 @@ Text is chr(1) separated items:
 
 1.0.167
 * add: timer_proc.
-
-1.0.166
-* chg: dlg_custom: "image" uses "items=" now
-
-1.0.165
-* add: find/replace in selection, flag in cmd_FinderAction
-* add: msg_status_alt: allowed seconds<=0
-* add: dlg_custom: type "edit_pwd" (password input)
-* add: dlg_custom: type "image"
-
-1.0.164
-* change: ed.gap: tag is 64-bit signed (was 32-bit)
-
-1.0.163
-* change: app_proc toolbar api: _add allows to set caption; _enum gets also captions
-
-1.0.162
-* add: ed.gap (Gaps api)
-* add: ed.folding (Folding api)
-* add: ed.lexer_scan
-* add: canvas_proc
-* add: on_click_gap
-* delete: ed.get_ranges (use ed.folding)
-
-1.0.161
-* add: dlg_custom: colorpanel has new "props" value, color_border
-
-1.0.160
-* add: can add to side/bottom panel UI-control "listbox"
-* add: listbox_proc func
-* add: menu api prefix "btm:"
-
-1.0.159
-* add: app_proc: PROC_GET_GUI_HEIGHT
-
-1.0.158 
-* add: events priority (e.g. "on_key++")
-* add: app_proc: PROC_BOTTOMPANEL_ADD, PROC_BOTTOMPANEL_REMOVE, PROC_BOTTOMPANEL_ACTIVATE, PROC_BOTTOMPANEL_ENUM
-
-1.0.157
-* add: lexer_proc: LEXER_DETECT
-
-1.0.156
-* add: ed.complete: added param alt_order
-* add: app_proc: PROC_HOTKEY_INT_TO_STR, PROC_HOTKEY_STR_TO_INT
-* add: dlg_custom: "type=colorpanel"
-* add: dlg_custom: result has additional line "focused=N"
-* add: file_open can install addons, where files are not in root, but in subdir
-* add: install.inf: can write lexers list in [info] $var=Name1,Name2,Name3 ; use it like "lexers=$var"
-* add: install.inf: can write lexers list with regex, e.g. [info] $var=regex:.*SQL.*
-
-1.0.155
-* add: lexer_proc:
-** LEXER_GET_COMMENT_STREAM
-** LEXER_GET_COMMENT_LINED
-** LEXER_GET_STYLES_COMMENTS
-** LEXER_GET_STYLES_STRINGS
-* add: app_proc: 
-** PROC_GET_COMMAND_INITIAL
-** PROC_SHOW_STATUSBAR_GET, PROC_SHOW_STATUSBAR_SET
-** PROC_SHOW_TOOLBAR_GET, PROC_SHOW_TOOLBAR_SET
-** PROC_SHOW_SIDEPANEL_GET, PROC_SHOW_SIDEPANEL_SET
-** PROC_SHOW_BOTTOMPANEL_GET, PROC_SHOW_BOTTOMPANEL_SET
-** PROC_SHOW_TABS_GET, PROC_SHOW_TABS_SET
-** PROC_COORD_WINDOW_GET, PROC_COORD_WINDOW_SET
-** PROC_COORD_DESKTOP
-** PROC_COORD_MONITOR* 
-* add: app_path: APP_FILE_RECENTS
-* delete: lexer_proc: LEXER_GET_MODIFIED
-
-1.0.154
-* add: app_proc: PROC_THEME_UI_*, PROC_THEME_SYNTAX_*
-* add: ed.get_prop/set_prop: PROP_CARET_VIRTUAL
-
-1.0.153
-* add: app_path: APP_DIR_INSTALLED_ADDON
-
-1.0.152
-* add: ed.get_prop/set_prop: PROP_COLUMN_LEFT
-
-1.0.151
-* add: on_state called with EDSTATE_MODIFIED (when ed modifies)
-
-1.0.150
-* add: ed.markers(MARKERS_ADD, ...) has param len_y
-* change: ed.markers(MARKERS_GET, ...) gets items with value len_y
-
-1.0.149
-* add: on_open_pre
-
-1.0.148
-* add: app_proc: PROC_SIDEPANEL_REMOVE
-* add: dlg_hotkeys: added param "lexer"
-
-1.0.147
-* add: ed.get_sublexer_ranges()
-
-1.0.146
-* add: dlg_custom: "type=tabs"
-
-1.0.145
-* add: dlg_custom: "check" has 3rd value "?"
-
-1.0.144
-* add: ed.complete, ed.complete_alt: added param "selected"
-* add: app_proc: PROC_GET_FIND_STRINGS
-
-1.0.143
-* add: ed.convert: CONVERT_LINE_TABS_TO_SPACES
-* add: app_proc: PROC_GET_KEYSTATE
-* chg: app_proc(PROC_GET_COMMAND..) dont give plugin/lexer items
-
-1.0.142
-* add: on_key_up
-
-1.0.141
-* add: dlg_hotkey: title
-
-1.0.140
-
-* add: ed.get_prop: PROP_TAB_ID
-* add: ed.get_prop/set_prop: PROP_TAG extended, it has values for keys
-* add: dlg_custom: prop "act=1"
-* add: app_idle()
-* add: tree_proc: TREE_ITEM_GET_SYNTAX_RANGE
-

@@ -3,7 +3,8 @@ from cudatext import *
 from .dlg import *
 from .events import *
 
-fn_sample = os.path.join(os.path.dirname(__file__), 'sample.py')
+fn_sample_begin = os.path.join(os.path.dirname(__file__), 'sample_begin.py')
+fn_sample_body = os.path.join(os.path.dirname(__file__), 'sample_body.py')
 dir_py = app_path(APP_DIR_PY)
 
 
@@ -11,7 +12,7 @@ class Command:
     def run(self):
         res = dlg_make_plugin()
         if res is None: return
-        (s_caption, s_module, cmd_list, event_list) = res
+        (s_caption, s_module, cmd_list, event_list, with_config) = res
 
         if len(cmd_list)>1:
             prefix = s_caption+'\\'
@@ -34,14 +35,15 @@ class Command:
         # create __init__.py
         fn_py = os.path.join(dir_plugin, '__init__.py')
         with open(fn_py, 'w') as f:
-            f.write('from cudatext import *\n\n')
-            f.write('class Command:\n')
+            text = open(fn_sample_begin).read()
+            text = text.format(module=s_module)
+            f.write(text)
 
             #commands
             for (i, item) in enumerate(cmd_list):
                 f.write('    def %s(self):\n'%(item[1]))
                 if i==0:
-                    f.write(open(fn_sample).read())
+                    f.write(open(fn_sample_body).read())
                 else:
                     f.write('        pass\n')
 
@@ -82,6 +84,13 @@ class Command:
                         f.write('menu=0\n')
                     f.write('\n')
 
+            if with_config:
+                f.write('[item100]\n')
+                f.write('section=commands\n')
+                f.write('caption='+s_caption+'\\Config\n')
+                f.write('method=config\n')
+                f.write('menu=o\n')
+                f.write('\n')
 
         #------------
         # done

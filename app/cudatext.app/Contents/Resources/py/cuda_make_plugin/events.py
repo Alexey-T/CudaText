@@ -9,6 +9,7 @@ EVENTS = [
     'on_complete',
     'on_console',
     'on_console_nav',
+    'on_exit',
     'on_focus',
     'on_func_hint',
     'on_goto_caret',
