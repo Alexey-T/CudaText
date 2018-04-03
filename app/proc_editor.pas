@@ -237,7 +237,7 @@ begin
 
   //global options
   OptMaxTabPositionToExpand:= Op.OpTabMaxPosExpanded;
-  OptCharSizeMode:= TATCharSizerMode(Op.OpFontWidth);
+  OptCharSizeProportional:= Op.OpFontWidth>0;
   OptCharSizeWideAllowed:= Op.OpUnicodeWideAllowed;
   OptCharScaleFullWidth:= Op.OpUnicodeFullWidth;
   OptHexChars:= OptHexCharsDefault + Op.OpHexChars;
