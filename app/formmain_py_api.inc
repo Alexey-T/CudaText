@@ -179,13 +179,14 @@ end;
 
 procedure TfmMain.PythonIOSendData(Sender: TObject; const Data: AnsiString);
 begin
-  MsgLogConsole(Data);
+  FListConsole.Add(Data);
 end;
 
-procedure TfmMain.PythonIOSendUniData(Sender: TObject;
-  const Data: UnicodeString);
+procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
 begin
-  MsgLogConsole(UTF8Encode(Data));
+  FListConsole.Add(
+    UTF8Encode(Data)
+    );
 end;
 
 

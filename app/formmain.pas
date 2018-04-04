@@ -116,6 +116,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
     MenuItem5: TMenuItem;
@@ -487,6 +488,7 @@ type
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModInitialization(Sender: TObject);
     procedure StatusPanelClick(Sender: TObject; AIndex: Integer);
+    procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
     procedure TimerStatusAltTimer(Sender: TObject);
     procedure TimerStatusTimer(Sender: TObject);
@@ -504,6 +506,7 @@ type
     FListThemesSyntax: TStringList;
     FListLangs: TStringList;
     FListTimers: TStringList;
+    FListConsole: TStringList;
     FKeymapUndoList: TATKeymapUndoList;
     FKeymapLastLexer: string;
     FConsoleMustShow: boolean;
@@ -1059,6 +1062,18 @@ begin
   end;
 end;
 
+procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
+var
+  S: string;
+begin
+  while FListConsole.Count>0 do
+  begin
+    S:= FListConsole[0];
+    FListConsole.Delete(0);
+    MsgLogConsole(S);
+  end;
+end;
+
 procedure TfmMain.TimerStatusTimer(Sender: TObject);
 begin
   MsgStatus('');
@@ -1352,6 +1367,8 @@ begin
   FListThemesSyntax:= TStringList.Create;
   FListLangs:= TStringList.Create;
   FListTimers:= TStringList.Create;
+  FListConsole:= TStringList.Create;
+
   FKeymapUndoList:= TATKeymapUndoList.Create;
   FKeymapLastLexer:= '??'; //not ''
   FAllowLoadKeymap:= false;
@@ -1553,6 +1570,7 @@ begin
   FreeAndNil(FListThemesUI);
   FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
+  FreeAndNil(FListConsole);
   FreeAndNil(FKeymapUndoList);
 end;
 
