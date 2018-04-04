@@ -440,6 +440,7 @@ var
   AppKeymap: TATKeymap = nil;
   AppKeymapInitial: TATKeymap = nil;
   AppShortcutEscape: TShortcut = 0;
+  AppShortcutShiftTab: TShortcut = 0;
   AppLangName: string = '';
 
 type
@@ -1894,7 +1895,8 @@ initialization
   FillChar(AppSidePanels, SizeOf(AppSidePanels), 0);
   FillChar(AppBottomPanels, SizeOf(AppBottomPanels), 0);
 
-  AppShortcutEscape:= ShortCut(vk_escape, []);
+  AppShortcutEscape:= ShortCut(VK_ESCAPE, []);
+  AppShortcutShiftTab:= ShortCut(VK_TAB, [ssShift]);
   Mouse.DragImmediate:= false;
 
 finalization

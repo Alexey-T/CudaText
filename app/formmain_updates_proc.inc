@@ -449,6 +449,9 @@ begin
   //don't set Esc here: for OSX/ Qt, else Esc blocked in Find/ Goto/ closing app
   if mi.Shortcut=AppShortcutEscape then
     mi.ShortCut:= 0;
+  //don't allow Shift+Tab in menu: it blocks tabbing in Find/Replace
+  if mi.Shortcut=AppShortcutShiftTab then
+    mi.ShortCut:= 0;
 end;
 
 procedure TfmMain.UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
