@@ -177,11 +177,6 @@ begin
   end;
 end;
 
-procedure TfmMain.PythonIOSendData(Sender: TObject; const Data: AnsiString);
-begin
-  FListConsole.Add(Data);
-end;
-
 procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
 begin
   FListConsole.Add(

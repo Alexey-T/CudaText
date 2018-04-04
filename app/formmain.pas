@@ -484,7 +484,6 @@ type
     procedure PopupTabPopup(Sender: TObject);
     procedure PopupTextPopup(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
-    procedure PythonIOSendData(Sender: TObject; const Data: AnsiString);
     procedure PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
     procedure PythonModInitialization(Sender: TObject);
     procedure StatusPanelClick(Sender: TObject; AIndex: Integer);
