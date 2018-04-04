@@ -53,8 +53,9 @@ To make plugin react to events, add method to class Command (like methods of com
 ==Panels==
 
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
-* on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
-* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
+* on_console_print(self, ed_self, text): Called on adding line to Python Console memo. Also called on "print" commands. Method can return False to disable standard output to the Console panel. Ignore ed_self.
+* on_console_nav(self, ed_self, text): Called on double-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Param "text" is line with caret.
+* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Ignore ed_self. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set.
 
 ==Macros==
 
@@ -2336,6 +2337,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.235 (app 1.48.1)
+* add: event on_console_print
 * add: support for "lazy events"
 
 1.0.234 (app 1.47.5)
