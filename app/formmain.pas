@@ -664,7 +664,8 @@ type
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
     procedure DoClearRecentFileHistory;
-    function DoOnConsole(const Str: string): boolean;
+    function DoOnConsoleInput(const Str: string): boolean;
+    function DoOnConsolePrint(const Str: string): boolean;
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
@@ -1382,7 +1383,7 @@ begin
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
-  fmConsole.OnConsole:= @DoOnConsole;
+  fmConsole.OnConsole:= @DoOnConsoleInput;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   fmGoto:= TfmGoto.Create(Self);
@@ -4042,9 +4043,15 @@ begin
   fmCharmaps.Show;
 end;
 
-function TfmMain.DoOnConsole(const Str: string): boolean;
+function TfmMain.DoOnConsoleInput(const Str: string): boolean;
 begin
   Result:= DoPyEvent(CurrentEditor, cEventOnConsole,
+    [SStringToPythonString(Str)]) <> cPyFalse;
+end;
+
+function TfmMain.DoOnConsolePrint(const Str: string): boolean;
+begin
+  Result:= DoPyEvent(CurrentEditor, cEventOnConsolePrint,
     [SStringToPythonString(Str)]) <> cPyFalse;
 end;
 
@@ -4462,8 +4469,10 @@ procedure TfmMain.MsgLogConsole(const AText: string);
 begin
   if UiOps.LogConsole then
     MsgLogToFilename(AText, FFileNameLogConsole, false);
-  if Assigned(fmConsole) then
-    fmConsole.DoLogConsoleLine(AText);
+
+  if DoOnConsolePrint(AText) then
+    if Assigned(fmConsole) then
+      fmConsole.DoLogConsoleLine(AText);
 end;
 
 
