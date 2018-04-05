@@ -3542,6 +3542,12 @@ begin
             end;
           end;
 
+        LEXER_REREAD_LIB:
+          begin
+            fmMain.DoOps_LoadLexerLib;
+            Result:= ReturnNone;
+          end;
+
         else
           Result:= ReturnNone;
       end;

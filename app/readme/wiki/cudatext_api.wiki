@@ -1121,6 +1121,7 @@ Possible values of id:
 ** "c_lined": 2-tuple or None: comment for full lines.
 
 * LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
+* LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu.
 
 ===tree_proc===
 
