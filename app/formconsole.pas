@@ -35,7 +35,7 @@ type
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
   private
     { private declarations }
-    FOnConsole: TAppConsoleEvent;
+    FOnConsoleInput: TAppConsoleEvent;
     FOnNavigate: TAppConsoleEvent;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     function GetWrap: boolean;
@@ -52,7 +52,7 @@ type
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
-    property OnConsole: TAppConsoleEvent read FOnConsole write FOnConsole;
+    property OnConsoleInput: TAppConsoleEvent read FOnConsoleInput write FOnConsoleInput;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
@@ -67,7 +67,6 @@ const
   cPyConsoleMaxLines = 1000;
   cPyConsoleMaxComboItems: integer = 20;
   cPyConsolePrompt = '>>> ';
-  cPyCharNoLog = ';';
   cPyCharPrint = '=';
 
 implementation
@@ -99,7 +98,7 @@ procedure TfmConsole.DoExecuteConsoleLine(Str: string);
 var
   bNoLog: boolean;
 begin
-  bNoLog:= SEndsWith(Str, cPyCharNoLog);
+  bNoLog:= SEndsWith(Str, ';');
   if bNoLog then
     Delete(Str, Length(Str), 1);
 
@@ -109,8 +108,8 @@ begin
     ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
   end;
 
-  if Assigned(FOnConsole) then
-    if not FOnConsole(Str) then exit;
+  if Assigned(FOnConsoleInput) then
+    if not FOnConsoleInput(Str) then exit;
 
   if SBeginsWith(Str, cPyCharPrint) then
     Str:= 'print('+Copy(Str, 2, MaxInt) + ')';

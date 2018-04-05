@@ -1400,7 +1400,7 @@ begin
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
-  fmConsole.OnConsole:= @DoOnConsoleInput;
+  fmConsole.OnConsoleInput:= @DoOnConsoleInput;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   fmGoto:= TfmGoto.Create(Self);
