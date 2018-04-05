@@ -196,7 +196,7 @@ object fmMain: TfmMain
     MaxLineLength = 2000
     OnSendUniData = PythonIOSendUniData
     UnicodeIO = True
-    RawOutput = True
+    RawOutput = False
     left = 400
     top = 8
   end
