@@ -1121,7 +1121,7 @@ Possible values of id:
 ** "c_lined": 2-tuple or None: comment for full lines.
 
 * LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
-* LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu.
+* LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Plugin should close all file tabs (with lexer) first, to avoid app crash (file tab uses lexer object, which is freed). 
 
 ===tree_proc===
 
