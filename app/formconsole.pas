@@ -23,6 +23,7 @@ uses
   proc_colors;
 
 type
+  TAppStrEvent = procedure(const Str: string) of object;
   TAppConsoleEvent = function(const Str: string): boolean of object;
   TAppConsoleCommandEvent = procedure(ACommand: integer; const AText: string; var AHandled: boolean) of object;
 
@@ -36,6 +37,7 @@ type
   private
     { private declarations }
     FOnConsoleInput: TAppConsoleEvent;
+    FOnConsolePrint: TAppStrEvent;
     FOnNavigate: TAppConsoleEvent;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     function GetWrap: boolean;
@@ -53,6 +55,7 @@ type
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
     property OnConsoleInput: TAppConsoleEvent read FOnConsoleInput write FOnConsoleInput;
+    property OnConsolePrint: TAppStrEvent read FOnConsolePrint write FOnConsolePrint;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoLogConsoleLine(const Str: string);
     procedure DoExecuteConsoleLine(Str: string);
@@ -102,7 +105,9 @@ begin
   if bNoLog then
     Delete(Str, Length(Str), 1);
 
-  DoLogConsoleLine(cPyConsolePrompt+Str); //log always?
+  if Assigned(FOnConsolePrint) then
+    FOnConsolePrint(cPyConsolePrompt+Str);
+
   if not bNoLog then
   begin
     ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);

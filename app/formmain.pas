@@ -1401,6 +1401,7 @@ begin
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
   fmConsole.OnConsoleInput:= @DoOnConsoleInput;
+  fmConsole.OnConsolePrint:= @MsgLogConsole;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   fmGoto:= TfmGoto.Create(Self);
