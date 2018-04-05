@@ -668,6 +668,7 @@ type
     procedure DoClearRecentFileHistory;
     function DoOnConsoleInput(const Str: string): boolean;
     function DoOnConsolePrint(const Str: string): boolean;
+    function DoOnConsoleClear: boolean;
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
@@ -4069,6 +4070,12 @@ function TfmMain.DoOnConsolePrint(const Str: string): boolean;
 begin
   Result:= DoPyEvent(CurrentEditor, cEventOnConsolePrint,
     [SStringToPythonString(Str)]) <> cPyFalse;
+end;
+
+function TfmMain.DoOnConsoleClear: boolean;
+begin
+  Result:= DoPyEvent(CurrentEditor, cEventOnConsolePrint,
+    ['None']) <> cPyFalse;
 end;
 
 function TfmMain.DoOnConsoleNav(const Str: string): boolean;
