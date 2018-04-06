@@ -1210,7 +1210,7 @@ begin
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
   EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
-  Lexer:= AppManager.FindLexerByName(UiOps.NewdocLexer);
+  LexerName:= UiOps.NewdocLexer;
 
   FNotif:= TATFileNotif.Create(Self);
   FNotif.Timer.Interval:= 1000;
@@ -1629,7 +1629,7 @@ begin
   if Editor.Strings.Count=0 then exit;
 
   //restore props
-  //Lexer:= AppManager.FindLexerByName(PrevLexer);
+  //LexerName:= PrevLexer;
   PrevCaretY:= Min(PrevCaretY, Editor.Strings.Count-1);
   if PrevTail then
   begin
@@ -1945,18 +1945,12 @@ end;
 
 procedure TEditorFrame.DoSaveHistoryEx(c: TJsonConfig; const path: string);
 var
-  lexname: string;
   caret: TATCaretItem;
   items, items2: TStringList;
   bookmark: TATBookmarkItem;
   i: integer;
 begin
-  if Lexer=nil then
-    lexname:= ''
-  else
-    lexname:= Lexer.LexerName;
-
-  c.SetValue(path+cHistory_Lexer, lexname);
+  c.SetValue(path+cHistory_Lexer, LexerName);
   c.SetValue(path+cHistory_Enc, EncodingName);
   c.SetValue(path+cHistory_Top, Editor.LineTop);
   c.SetValue(path+cHistory_Wrap, Ord(Editor.OptWrapMode));
@@ -2045,9 +2039,9 @@ begin
   if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
   str:= c.GetValue(path+cHistory_Lexer, str0);
   if str='PHP' then
-    str:= 'HTML'; //Cud 1.14: HTML lexer handles php files
+    str:= 'HTML'; //HTML lexer handles php files
   if (str<>'') and (str<>str0) then
-    Lexer:= AppManager.FindLexerByName(str);
+    LexerName:= str;
 
   //enc
   str0:= EncodingName;
