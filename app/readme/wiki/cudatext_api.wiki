@@ -1121,7 +1121,7 @@ Possible values of id:
 ** "c_lined": 2-tuple or None: comment for full lines.
 
 * LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
-* LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Plugin should close all file tabs (with lexer) first, to avoid app crash (file tab uses lexer object, which is freed). 
+* LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.  
 
 ===tree_proc===
 
@@ -2338,8 +2338,9 @@ Text is chr(1) separated items:
 =History=
 
 1.0.235 (app 1.48.1)
-* add: event on_console_print
 * add: support for "lazy events"
+* add: event on_console_print
+* add: lexer_proc: LEXER_REREAD_LIB
 
 1.0.234 (app 1.47.5)
 * add: event on_exit

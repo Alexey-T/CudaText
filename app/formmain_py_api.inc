@@ -3497,6 +3497,8 @@ var
   List: TStringList;
   Lexer: TecSyntAnalyzer;
   LexerLite: TATLiteLexer;
+  Frame: TEditorFrame;
+  i: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'is:lexer_proc', @Id, @PtrValue)) then
@@ -3548,7 +3550,31 @@ begin
 
         LEXER_REREAD_LIB:
           begin
-            fmMain.DoOps_LoadLexerLib;
+            //save lexer names to list, disable all lexers, reload lib, restore lexers
+            List:= TStringList.Create;
+            try
+              for i:= 0 to fmMain.FrameCount-1 do
+              begin
+                Frame:= fmMain.Frames[i];
+                List.Add(Frame.LexerName);
+                Frame.Lexer:= nil;
+                Frame.LexerLite:= nil;
+              end;
+
+              fmMain.DoOps_LoadLexerLib;
+
+              for i:= 0 to fmMain.FrameCount-1 do
+              begin
+                Frame:= fmMain.Frames[i];
+                if SEndsWith(List[i], msgLiteLexerSuffix) then
+                  Frame.LexerLite:= AppManagerLite.FindLexerByName(
+                    Copy(List[i], 1, Length(List[i])-Length(msgLiteLexerSuffix)))
+                else
+                  Frame.Lexer:= AppManager.FindLexerByName(List[i]);
+              end;
+            finally
+              FreeAndNil(List);
+            end;
             Result:= ReturnNone;
           end;
 
