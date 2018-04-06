@@ -3558,7 +3558,6 @@ begin
                 Frame:= fmMain.Frames[i];
                 List.Add(Frame.LexerName);
                 Frame.Lexer:= nil;
-                Frame.LexerLite:= nil;
               end;
 
               fmMain.DoOps_LoadLexerLib;
@@ -3566,11 +3565,7 @@ begin
               for i:= 0 to fmMain.FrameCount-1 do
               begin
                 Frame:= fmMain.Frames[i];
-                if SEndsWith(List[i], msgLiteLexerSuffix) then
-                  Frame.LexerLite:= AppManagerLite.FindLexerByName(
-                    Copy(List[i], 1, Length(List[i])-Length(msgLiteLexerSuffix)))
-                else
-                  Frame.Lexer:= AppManager.FindLexerByName(List[i]);
+                Frame.LexerName:= List[i];
               end;
             finally
               FreeAndNil(List);

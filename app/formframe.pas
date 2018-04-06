@@ -200,6 +200,8 @@ type
     function GetLexerLite: TATLiteLexer;
     procedure SetLexer(an: TecSyntAnalyzer);
     procedure SetLexerLite(an: TATLiteLexer);
+    function GetLexerName: string;
+    procedure SetLexerName(const AValue: string);
   protected
     procedure DoOnResize; override;
   public
@@ -228,7 +230,7 @@ type
     property NotifTime: integer read GetNotifTime write SetNotifTime;
     property Lexer: TecSyntAnalyzer read GetLexer write SetLexer;
     property LexerLite: TATLiteLexer read GetLexerLite write SetLexerLite;
-    function LexerName: string;
+    property LexerName: string read GetLexerName write SetLexerName;
     function LexerNameAtPos(APos: TPoint): string;
     property Locked: boolean read FLocked write SetLocked;
     property CommentString: string read GetCommentString;
@@ -755,7 +757,7 @@ begin
     Result:= nil;
 end;
 
-function TEditorFrame.LexerName: string;
+function TEditorFrame.GetLexerName: string;
 var
   CurAdapter: TATAdapterHilite;
   an: TecSyntAnalyzer;
@@ -777,6 +779,20 @@ begin
     Result:= (CurAdapter as TATLiteLexer).LexerName+msgLiteLexerSuffix;
   end;
 end;
+
+procedure TEditorFrame.SetLexerName(const AValue: string);
+begin
+  if SEndsWith(AValue, msgLiteLexerSuffix) then
+  begin
+    LexerLite:= AppManagerLite.FindLexerByName(
+      Copy(AValue, 1, Length(AValue)-Length(msgLiteLexerSuffix)))
+  end
+  else
+  begin
+    Lexer:= AppManager.FindLexerByName(AValue);
+  end;
+end;
+
 
 function TEditorFrame.LexerNameAtPos(APos: TPoint): string;
 var
@@ -1312,7 +1328,6 @@ begin
   //py event on_lexer
   Adapter.OnLexerChange(Adapter);
 end;
-
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
 begin
