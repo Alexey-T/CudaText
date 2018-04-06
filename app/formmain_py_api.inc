@@ -2517,13 +2517,7 @@ begin
             //for editors inside TEditorFrame
             if Assigned(F) then
             begin
-              if SEndsWith(Str, msgLiteLexerSuffix) then
-              begin
-                SetLength(Str, Length(Str)-Length(msgLiteLexerSuffix));
-                F.LexerLite:= AppManagerLite.FindLexerByName(Str);
-              end
-              else
-                F.Lexer:= AppManager.FindLexerByName(Str);
+              F.LexerName:= Str;
             end
             else
             //for other editors
