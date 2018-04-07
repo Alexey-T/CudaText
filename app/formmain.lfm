@@ -80,7 +80,7 @@ object fmMain: TfmMain
       Width = 872
       Align = alBottom
       AutoSnap = False
-      MinSize = 60
+      MinSize = 25
       ParentColor = False
       ResizeAnchor = akBottom
       ResizeStyle = rsPattern
