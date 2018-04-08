@@ -586,7 +586,7 @@ Types of UI controls:
 * "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
 * "tabs": TabControl: set of tabs, w/o pages attached to them
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
-* "splitter": divider bar, which can be moved by mouse, it resizes control with "align" set, with the same "align" which splitter has.
+* "splitter": divider bar, which can be moved by mouse. It finds "linked control", ie control with the same "parent" and "align", nearest to splitter. On mouse drag, splitter resizes this linked control. Recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once.
 
 Notes:
 
