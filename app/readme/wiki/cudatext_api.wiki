@@ -607,6 +607,8 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "cap": caption
 * "x", "y": position, left/top
 * "w", "h": size, width/height
+* "w_min", "w_max": Constraints for width, min/max value.
+* "h_min", "h_max": Constraints for height, min/max value.
 * "pos": position, str in the form "left,top,right,bottom". Some one-line controls ignore bottom and do auto size. If specified "x/y/w/h" together with "pos", then last mentioned prop has effect.
 * "en": enabled state, bool
 * "vis": visible state, bool
@@ -2337,7 +2339,10 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.235 (app 1.48.1)
+1.0.236 (app 1.48.3)
+* add: dlg_proc: controls have props "w_min/w_max/h_min/h_max", like forms
+
+1.0.235 (app 1.48.2)
 * add: support for "lazy events"
 * add: event on_console_print
 * add: lexer_proc: LEXER_REREAD_LIB
