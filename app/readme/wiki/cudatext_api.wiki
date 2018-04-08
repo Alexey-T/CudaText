@@ -737,10 +737,10 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 * bevel:
 ** "ex0": int: shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
 * splitter:
-** "ex0": bool: beveled style
-** "ex1": bool: instant repainting
-** "ex2": bool: auto snap to edge
-** "ex3": int: min size
+** "ex0": bool: paint border
+** "ex1": bool: on mouse drag, use instant repainting (else splitter paints after mouse released)
+** "ex2": bool: auto jump to edge, when size of linked control becomes < min size
+** "ex3": int: mininal size of linked control (controlled by splitter)
 
 ====Result====
 
