@@ -260,6 +260,7 @@ class Command:
             'x': 0,
             'y': 0,
             'w': 200,
+            'w_min': 150,
             'align': ALIGN_LEFT,
             'color': 0x60c060,
             })

@@ -1420,6 +1420,27 @@ begin
     exit;
   end;
 
+  if AName='w_min' then
+  begin
+    C.Constraints.MinWidth:= StrToIntDef(AValue, 0);
+    exit;
+  end;
+  if AName='w_max' then
+  begin
+    C.Constraints.MaxWidth:= StrToIntDef(AValue, 4000);
+    exit;
+  end;
+  if AName='h_min' then
+  begin
+    C.Constraints.MinHeight:= StrToIntDef(AValue, 0);
+    exit;
+  end;
+  if AName='h_max' then
+  begin
+    C.Constraints.MaxHeight:= StrToIntDef(AValue, 4000);
+    exit;
+  end;
+
   if AName='props' then
   begin
     ////MsgLogConsole('Deprecated API: dlg_proc "props" for "'+TAppControlProps(C.Tag).FTypeString+'"');
