@@ -116,6 +116,7 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuOpDefaultUser: TMenuItem;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;

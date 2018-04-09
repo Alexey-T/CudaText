@@ -5,7 +5,7 @@ object fmMain: TfmMain
   Width = 872
   AllowDropFiles = True
   Caption = 'CudaText'
-  ClientHeight = 484
+  ClientHeight = 481
   ClientWidth = 872
   Constraints.MinHeight = 100
   Constraints.MinWidth = 100
@@ -22,7 +22,7 @@ object fmMain: TfmMain
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
-    Height = 149
+    Height = 146
     Top = 0
     Width = 75
     Align = alLeft
@@ -30,7 +30,7 @@ object fmMain: TfmMain
     object ToolbarSideLow: TATFlatToolbar
       Left = 0
       Height = 30
-      Top = 119
+      Top = 116
       Width = 75
       Align = alBottom
       AutoSize = True
@@ -41,7 +41,7 @@ object fmMain: TfmMain
     end
     object ToolbarSideTop: TATFlatToolbar
       Left = 0
-      Height = 89
+      Height = 86
       Top = 0
       Width = 75
       Align = alClient
@@ -56,7 +56,7 @@ object fmMain: TfmMain
     object ToolbarSideMid: TATFlatToolbar
       Left = 0
       Height = 30
-      Top = 89
+      Top = 86
       Width = 75
       Align = alBottom
       AutoSize = True
@@ -69,7 +69,7 @@ object fmMain: TfmMain
   object PanelAll: TATPanelSimple
     Left = 0
     Height = 335
-    Top = 149
+    Top = 146
     Width = 872
     Align = alBottom
     object SplitterHorz: TSplitter
@@ -158,8 +158,8 @@ object fmMain: TfmMain
             AnchorSideTop.Side = asrCenter
             AnchorSideRight.Side = asrBottom
             Left = 0
-            Height = 14
-            Top = 5
+            Height = 17
+            Top = 4
             Width = 202
             Alignment = taCenter
             Anchors = [akTop, akLeft, akRight]
@@ -666,11 +666,14 @@ object fmMain: TfmMain
     end
     object mnuOp: TMenuItem
       Caption = '&Options'
+      object mnuOpUser: TMenuItem
+        Caption = 'Settings - &user'
+      end
       object mnuOpDefault: TMenuItem
         Caption = 'Settings - &default'
       end
-      object mnuOpUser: TMenuItem
-        Caption = 'Settings - &user'
+      object mnuOpDefaultUser: TMenuItem
+        Caption = 'Settings - default/user'
       end
       object mnuOpMore: TMenuItem
         Caption = 'Settings - &more'
