@@ -8,6 +8,7 @@
 
 + add: detection of letter chars improved, now should work for all international alphabets
 + add: API
++ add: config "default.json" opens as read-only
 * change: changed console output: now output is buffered, and result is flushed to UI control when app is idle
 * deleted option "font_width"
 * deleted option "unicode_wide_allowed"

@@ -3368,9 +3368,12 @@ end;
 procedure TfmMain.DoOps_OpenFile_Default;
 var
   fn: string;
+  F: TEditorFrame;
 begin
   fn:= GetAppPath(cFileOptionsDefault);
-  DoFileOpen(fn);
+  F:= DoFileOpen(fn);
+  if Assigned(F) then
+    F.ReadOnly:= true;
 end;
 
 procedure TfmMain.DoOps_OpenFile_User;
