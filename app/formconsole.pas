@@ -19,8 +19,7 @@ uses
   ATSynEdit_Edits,
   ATSynEdit_Commands,
   ATStringProc,
-  proc_globdata,
-  proc_colors;
+  proc_globdata;
 
 type
   TAppStrEvent = procedure(const Str: string) of object;
@@ -54,6 +53,7 @@ type
     mnuTextClear: TMenuItem;
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
+    ShowError: boolean;
     property OnConsoleInput: TAppConsoleEvent read FOnConsoleInput write FOnConsoleInput;
     property OnConsolePrint: TAppStrEvent read FOnConsolePrint write FOnConsolePrint;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
