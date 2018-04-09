@@ -51,7 +51,6 @@ function DoForm_GetPropsAsStringDict(F: TFormDummy): PPyObject;
 procedure DoForm_SetPropsFromStringDict(F: TFormDummy; AText: string);
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
 procedure DoForm_FocusControl(F: TForm; C: TControl);
-procedure DoForm_FocusControl(F: TForm; AIndex: integer);
 procedure DoForm_ScaleAuto(F: TForm);
 procedure DoForm_CloseDockedForms(F: TForm);
 
@@ -1752,19 +1751,6 @@ begin
       F.ActiveControl:= C as TWinControl;
 end;
 
-procedure DoForm_FocusControl(F: TForm; AIndex: integer);
-var
-  C: TComponent;
-begin
-  if (AIndex>=0) and (AIndex<F.ComponentCount) then
-  begin
-    C:= F.Components[AIndex];
-    if C is TControl then
-      DoForm_FocusControl(F, C as TControl);
-  end;
-end;
-
-
 procedure DoForm_ScaleAuto(F: TForm);
 begin
   if Screen.PixelsPerInch=96 then exit;
@@ -1813,6 +1799,7 @@ procedure DoDialogCustom(const ATitle: string;
   out AResultText: string);
 var
   F: TFormDummy;
+  C: TControl;
 begin
   AResultIndex:= -1;
   AResultText:= '';
@@ -1826,7 +1813,10 @@ begin
     F.Scaled:= true; //safe for dlg_custom
 
     DoForm_FillContent(F, AText);
-    DoForm_FocusControl(F, AFocusedIndex);
+
+    C:= F.FindControlByIndex(AFocusedIndex);
+    if Assigned(C) then
+      DoForm_FocusControl(F, C);
     DoForm_ScaleAuto(F);
 
     FDialogShown:= true;
