@@ -510,7 +510,6 @@ begin
     Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
     Op.OpFontQuality:= TFontQuality(c.GetValue(str_FontQuality, Ord(Op.OpFontQuality)));
     Op.OpFontLigatures:= c.GetValue(str_FontLigatures, Op.OpFontLigatures);
-    Op.OpFontWidth:= c.GetValue(str_FontWidth, Op.OpFontWidth);
 
     UiOps.VarFontName:= c.GetValue(str_UiFontName, UiOps.VarFontName);
     UiOps.VarFontSize:= c.GetValue(str_UiFontSize, UiOps.VarFontSize);
@@ -625,9 +624,6 @@ begin
     Op.OpMarginFixed:= c.GetValue('margin', Op.OpMarginFixed);
     Op.OpMarginString:= c.GetValue('margin_string', Op.OpMarginString);
     Op.OpStaplesStyle:= c.GetValue('staples_style', Op.OpStaplesStyle);
-
-    Op.OpUnicodeWideAllowed:= c.GetValue('unicode_wide_allowed', Op.OpUnicodeWideAllowed);
-    Op.OpUnicodeFullWidth:= c.GetValue('unicode_full_width', Op.OpUnicodeFullWidth);
 
     Op.OpUnprintedShow:= c.GetValue('unprinted_show', Op.OpUnprintedShow);
     Op.OpUnprintedSpaces:= c.GetValue('unprinted_spaces', Op.OpUnprintedSpaces);

@@ -4,11 +4,14 @@
   * changed
 
 
-1.48.2 (2018/04)
+1.49.0 (2018/04)
 
 + add: detection of letter chars improved, now should work for all international alphabets
-* change: changed console output: now output is buffered, and result is flushed to UI control when app is idle
 + add: API
+* change: changed console output: now output is buffered, and result is flushed to UI control when app is idle
+* deleted option "font_width"
+* deleted option "unicode_wide_allowed"
+* deleted option "unicode_full_width"
 
 1.48.0 (2018/04)
 

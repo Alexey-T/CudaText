@@ -234,7 +234,6 @@ const
   str_FontSize = 'font_size'+cOptionSystemSuffix;
   str_FontQuality = 'font_quality'+cOptionSystemSuffix;
   str_FontLigatures = 'font_ligatures'; //+cOptionSystemSuffix;
-  str_FontWidth = 'font_width'; //+cOptionSystemSuffix;
   str_UiFontName = 'ui_font_name'+cOptionSystemSuffix;
   str_UiFontSize = 'ui_font_size'+cOptionSystemSuffix;
   str_UiFontOutputName = 'ui_font_output_name'+cOptionSystemSuffix;
@@ -248,7 +247,6 @@ type
     OpFontSize: integer;
     OpFontQuality: TFontQuality;
     OpFontLigatures: boolean;
-    OpFontWidth: integer;
 
     OpSpacingX: integer;
     OpSpacingY: integer;
@@ -296,9 +294,6 @@ type
     OpMarginFixed: integer;
     OpMarginString: string;
     OpStaplesStyle: integer;
-
-    OpUnicodeWideAllowed: boolean;
-    OpUnicodeFullWidth: integer;
 
     //unprinted
     OpUnprintedShow: boolean;
@@ -926,7 +921,6 @@ begin
     OpFontSize:= {$ifdef LCLCocoa}13{$else}10{$endif};
     OpFontQuality:= fqDefault;
     OpFontLigatures:= false;
-    OpFontWidth:= 1;
 
     OpSpacingX:= 0;
     OpSpacingY:= 1;
@@ -977,9 +971,6 @@ begin
     OpMarginFixed:= 2000; //hide margin
     OpMarginString:= '';
     OpStaplesStyle:= 1; //Ord(cLineStyleSolid)
-
-    OpUnicodeWideAllowed:= true;
-    OpUnicodeFullWidth:= 180;
 
     OpUnprintedShow:= false;
     OpUnprintedSpaces:= true;
