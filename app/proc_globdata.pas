@@ -1416,33 +1416,6 @@ begin
 end;
 
 
-(*
-function GetActiveControl(Form: TWinControl): TWinControl;
-var
-  Ctl: TControl;
-  i: integer;
-begin
-  Result:= nil;
-  for i:= 0 to Form.ControlCount-1 do
-  begin
-    Ctl:= Form.Controls[i];
-    if (Ctl is TWinControl) then
-      if (Ctl as TWinControl).Focused then
-        exit(Ctl as TWinControl);
-    if Ctl is TPanel then
-    begin
-      Result:= GetActiveControl(Ctl as TPanel);
-      if Assigned(Result) then exit;
-    end;
-    if Ctl is TATPanelSimple then
-    begin
-      Result:= GetActiveControl(Ctl as TATPanelSimple);
-      if Assigned(Result) then exit;
-    end;
-  end;
-end;
-*)
-
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 var
   bmp: TBitmap;

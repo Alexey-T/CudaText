@@ -1669,7 +1669,8 @@ function DoForm_GetResult(AForm: TForm): string;
 var
   List: TStringList;
   NActive, i: integer;
-  C: TControl;
+  C: TComponent;
+  Str: string;
 begin
   Result:= '';
 
@@ -1678,11 +1679,15 @@ begin
     List.TextLineBreakStyle:= tlbsLF;
 
     NActive:= -1;
-    for i:= 0 to AForm.ControlCount-1 do
+    for i:= 0 to AForm.ComponentCount-1 do
     begin
-      C:= AForm.Controls[i];
+      C:= AForm.Components[i];
       if C=AForm.ActiveControl then NActive:= i;
-      List.Add(DoControl_GetState(C));
+      if C is TControl then
+        Str:= DoControl_GetState(C as TControl)
+      else
+        Str:= '';
+      List.Add(Str);
     end;
 
     //append NActive
@@ -1697,12 +1702,12 @@ end;
 
 procedure DoForm_AdjustLabelForNewControl(F: TForm; Ctl: TControl);
 var
-  CtlPrev: TControl;
+  CtlPrev: TComponent;
 begin
   if Ctl is TWinControl then
-    if F.ControlCount>=2 then
+    if F.ComponentCount>=2 then
     begin
-      CtlPrev:= F.Controls[F.ControlCount-2];
+      CtlPrev:= F.Components[F.ComponentCount-2];
       if CtlPrev is TLabel then
         (CtlPrev as TLabel).FocusControl:= Ctl as TWinControl;
     end;
@@ -1748,9 +1753,15 @@ begin
 end;
 
 procedure DoForm_FocusControl(F: TForm; AIndex: integer);
+var
+  C: TComponent;
 begin
-  if (AIndex>=0) and (AIndex<F.ControlCount) then
-    DoForm_FocusControl(F, F.Controls[AIndex]);
+  if (AIndex>=0) and (AIndex<F.ComponentCount) then
+  begin
+    C:= F.Components[AIndex];
+    if C is TControl then
+      DoForm_FocusControl(F, C as TControl);
+  end;
 end;
 
 
@@ -2097,15 +2108,15 @@ end;
 
 procedure DoForm_CloseDockedForms(F: TForm);
 var
-  C: TControl;
+  C: TComponent;
   i: integer;
 begin
-  for i:= F.ControlCount-1 downto 0 do
+  for i:= F.ComponentCount-1 downto 0 do
   begin
-    C:= F.Controls[i];
+    C:= F.Components[i];
     if C is TForm then
     begin
-      showmessage(C.Caption); //dont run, so code not needed
+      //ShowMessage(C.Caption); //dont run, so code not needed
       (C as TForm).Parent:= nil;
       (C as TForm).Close;
     end;

@@ -133,6 +133,7 @@ type
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
+    function FindControlByIndex(AIndex: integer): TControl;
     function FindControlByOurName(const AName: string): TControl;
     function FindControlIndexByOurObject(Sender: TObject): integer;
     function FindControlIndexByOurName(const AName: string): integer;
@@ -149,14 +150,17 @@ const
   cPrefix = 'f_';
 var
   SName: string;
-  C, C2: TControl;
+  C: TComponent;
+  C2: TControl;
   CFilterListbox: TListFilterEdit;
   CFilterListview: TListViewFilterEdit;
   i: integer;
 begin
-  for i:= 0 to F.ControlCount-1 do
+  for i:= 0 to F.ComponentCount-1 do
   begin
-    C:= F.Controls[i];
+    C:= F.Components[i];
+    if not (C is TControl) then Continue;
+    if C.Tag=0 then Continue;
     SName:= TAppControlProps(C.Tag).FName;
 
     if C is TListFilterEdit then
@@ -252,15 +256,15 @@ end;
 
 procedure TFormDummy.DoOnShow(Sender: TObject);
 var
-  C: TControl;
+  C: TComponent;
   i: integer;
 begin
   IsFormShownAlready:= true;
   DoForm_SetupFilters(Self);
 
-  for i:= 0 to ControlCount-1 do
+  for i:= 0 to ComponentCount-1 do
   begin
-    C:= Controls[i];
+    C:= Components[i];
     if C is TListview then
       with (C as TListview) do
         if ItemFocused<>nil then
@@ -457,39 +461,55 @@ begin
 end;
 
 
+function TFormDummy.FindControlByIndex(AIndex: integer): TControl;
+var
+  C: TComponent;
+begin
+  Result:= nil;
+  if (AIndex>=0) and (AIndex<ComponentCount) then
+  begin
+    C:= Components[AIndex];
+    if C is TControl then
+      Result:= C as TControl;
+  end;
+end;
+
 function TFormDummy.FindControlIndexByOurObject(Sender: TObject): integer;
 var
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to ControlCount-1 do
-    if Controls[i]=Sender then
+  for i:= 0 to ComponentCount-1 do
+    if Components[i]=Sender then
       exit(i);
 end;
 
 function TFormDummy.FindControlByOurName(const AName: string): TControl;
 var
-  C: TControl;
+  C: TComponent;
   i: integer;
 begin
   Result:= nil;
-  for i:= 0 to ControlCount-1 do
+  for i:= 0 to ComponentCount-1 do
   begin
-    C:= Controls[i];
+    C:= Components[i];
+    if C.Tag=0 then Continue;
     if SameText(TAppControlProps(C.Tag).FName, AName) then
-      exit(C);
+      if C is TControl then
+        exit(C as TControl);
   end;
 end;
 
 function TFormDummy.FindControlIndexByOurName(const AName: string): integer;
 var
-  C: TControl;
+  C: TComponent;
   i: integer;
 begin
   Result:= -1;
-  for i:= 0 to ControlCount-1 do
+  for i:= 0 to ComponentCount-1 do
   begin
-    C:= Controls[i];
+    C:= Components[i];
+    if C.Tag=0 then Continue;
     if SameText(TAppControlProps(C.Tag).FName, AName) then
       exit(i);
   end;
@@ -671,7 +691,6 @@ begin
     TForm(PrevForms[i]).Enabled:= true;
   PrevForms.Clear;
 end;
-
 
 procedure TFormDummy.DoOnTreeviewChange(Sender: TObject; Node: TTreeNode);
 var

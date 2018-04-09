@@ -5817,8 +5817,7 @@ begin
             if StrName<>'' then
               Ctl:= Form.FindControlByOurName(StrName)
             else
-            if (NIndex>=0) and (NIndex<Form.ControlCount) then
-              Ctl:= Form.Controls[NIndex];
+              Ctl:= Form.FindControlByIndex(NIndex);
           end;
       end;
 
@@ -5867,7 +5866,7 @@ begin
 
         DLG_CTL_COUNT:
           begin
-            Result:= PyInt_FromLong(Form.ControlCount);
+            Result:= PyInt_FromLong(Form.ComponentCount);
           end;
 
         DLG_CTL_ADD:
@@ -5877,7 +5876,7 @@ begin
             begin
               Ctl.Parent:= Form;
               DoForm_AdjustLabelForNewControl(Form, Ctl);
-              Result:= PyInt_FromLong(Form.ControlCount-1);
+              Result:= PyInt_FromLong(Form.ComponentCount-1);
             end
             else
               Result:= ReturnNone;
@@ -5918,8 +5917,8 @@ begin
 
         DLG_CTL_DELETE_ALL:
           begin
-            for i:= Form.ControlCount-1 downto 0 do
-              Form.Controls[i].Free;
+            for i:= Form.ComponentCount-1 downto 0 do
+              Form.Components[i].Free;
             Result:= ReturnNone;
           end;
 

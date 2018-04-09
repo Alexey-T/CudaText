@@ -2,12 +2,12 @@
 
 procedure DoApplyThemeToCustomDialog(F: TFormDummy);
 var
-  C: TControl;
+  C: TComponent;
   i: integer;
 begin
-  for i:= 0 to F.ControlCount-1 do
+  for i:= 0 to F.ComponentCount-1 do
   begin
-    C:= F.Controls[i];
+    C:= F.Components[i];
 
     if C is TATListbox then
       if (C as TATListbox).ThemedColors then

@@ -698,6 +698,17 @@ end;
             'p':'my.0'
             })
 
+        n = dlg_proc(id, DLG_CTL_ADD, 'button')
+        dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'btn_a',
+            'x': 10,
+            'y': 40,
+            'w': 150,
+            'cap': 'toggle check-A',
+            'p':'my.0',
+            'on_change': self.callback_pages_button_a,
+            })
+
         n = dlg_proc(id, DLG_CTL_ADD, 'check')
         dlg_proc(id, DLG_CTL_PROP_SET, index=n, prop={
             'name': 'check1',
@@ -880,6 +891,13 @@ end;
 
     def callback_treeview_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
         print('callback_treeview_on_click_dbl')
+
+    def callback_pages_button_a(self, id_dlg, id_ctl, data='', info=''):
+        prop = dlg_proc(id_dlg, DLG_CTL_PROP_GET, name='check0')
+        new_val = not (prop['val']=='1')
+        dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='check0', prop={
+            'val': new_val
+            })
 
     def test_sidepanel(self):
         print('test_sidepanel')
