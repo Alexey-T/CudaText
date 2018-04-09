@@ -586,7 +586,7 @@ Types of UI controls:
 * "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
 * "tabs": TabControl: set of tabs, w/o pages attached to them
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
-* "splitter": divider bar, which can be moved by mouse. It finds "linked control", ie control with the same "parent" and "align", nearest to splitter. On mouse drag, splitter resizes this linked control. Recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once.
+* "splitter": divider bar, which can be dragged by mouse. It finds "linked control", ie control with the same "parent" and "align", nearest to splitter. On mouse drag, splitter resizes this linked control. Recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once.
 
 Notes:
 
@@ -2341,6 +2341,7 @@ Text is chr(1) separated items:
 
 1.0.236 (app 1.48.3)
 * add: dlg_proc: controls have props "w_min/w_max/h_min/h_max", like forms
+* fix: bug in dlg_proc/dlg_custom: controls with changed parent become not findable by name/index (and count of controls becomes smaller)
 
 1.0.235 (app 1.48.2)
 * add: support for "lazy events"
