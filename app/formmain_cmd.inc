@@ -112,7 +112,7 @@ begin
     cmd_OpsOpenDefault:     DoOps_OpenFile_Default;
     cmd_OpsOpenUser:        DoOps_OpenFile_User;
     cmd_OpsOpenDefaultAndUser: DoOps_OpenFile_DefaultAndUser;
-    cmd_OpsOpenLexerOvr:    DoOps_OpenFile_LexerSpecific;
+    cmd_OpsOpenLexerSpecific:  DoOps_OpenFile_LexerSpecific;
     cmd_OpsOpenFileTypes:   DoOps_OpenFile_FileTypes;
 
     cmd_OpsFontText:        DoOps_DialogFont_Text;

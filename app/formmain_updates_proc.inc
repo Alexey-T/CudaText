@@ -638,7 +638,7 @@ begin
   UpdateMenuItemHotkey(mnuOpDefault, cmd_OpsOpenDefault);
   UpdateMenuItemHotkey(mnuOpUser, cmd_OpsOpenUser);
   UpdateMenuItemHotkey(mnuOpDefaultUser, cmd_OpsOpenDefaultAndUser);
-  UpdateMenuItemHotkey(mnuOpLexer, cmd_OpsOpenLexerOvr);
+  UpdateMenuItemHotkey(mnuOpLexer, cmd_OpsOpenLexerSpecific);
   UpdateMenuItemHotkey(mnuOpFileTypes, cmd_OpsOpenFileTypes);
   UpdateMenuItemHotkey(mnuOpKeys, cmd_HelpHotkeys);
 
