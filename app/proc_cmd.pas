@@ -52,6 +52,7 @@ const
   cmd_FileCloseAndDelete = 2514;
   cmd_FileExportHtml     = 2515;
 
+  cmd_OpsOpenDefaultAndUser = 2519;
   cmd_OpsClearRecent     = 2520;
   cmd_OpsOpenDefault     = 2521;
   cmd_OpsOpenUser        = 2522;
@@ -293,6 +294,7 @@ begin
   M.Add(cmd_OpsClearRecent, 'settings: clear recent files history', [], []);
   M.Add(cmd_OpsOpenDefault, 'settings: open default config', [], []);
   M.Add(cmd_OpsOpenUser, 'settings: open user config', [], []);
+  M.Add(cmd_OpsOpenDefaultAndUser, 'settings: open default/user configs', [], []);
   M.Add(cmd_OpsOpenLexerOvr, 'settings: open lexer-override config', [], []);
   M.Add(cmd_OpsOpenFileTypes, 'settings: open file-types config', [], []);
 
@@ -534,6 +536,7 @@ begin
     cmd_OpsClearRecent,
     cmd_OpsOpenDefault,
     cmd_OpsOpenUser,
+    cmd_OpsOpenDefaultAndUser,
     cmd_OpsOpenLexerOvr,
     cmd_OpsOpenFileTypes,
     cmd_OpsFontText,

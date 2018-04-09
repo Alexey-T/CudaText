@@ -111,6 +111,7 @@ begin
     cmd_OpsClearRecent:     DoClearRecentFileHistory;
     cmd_OpsOpenDefault:     DoOps_OpenFile_Default;
     cmd_OpsOpenUser:        DoOps_OpenFile_User;
+    cmd_OpsOpenDefaultAndUser: DoOps_OpenFile_DefaultAndUser;
     cmd_OpsOpenLexerOvr:    DoOps_OpenFile_LexerSpecific;
     cmd_OpsOpenFileTypes:   DoOps_OpenFile_FileTypes;
 

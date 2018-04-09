@@ -766,6 +766,7 @@ type
     procedure DoOps_DialogFont_Output;
     procedure DoOps_OpenFile_Default;
     procedure DoOps_OpenFile_User;
+    procedure DoOps_OpenFile_DefaultAndUser;
     procedure DoOps_LoadOptions(const fn: string; var Op: TEditorOps);
     procedure DoOps_LoadKeymap;
     procedure DoOps_LoadKeymapFrom(const AFilenameKeymap: string; AUndoList: TATKeymapUndoList);
@@ -3388,6 +3389,28 @@ begin
   end;
 
   DoFileOpen(fn);
+end;
+
+procedure TfmMain.DoOps_OpenFile_DefaultAndUser;
+var
+  fn: string;
+  F: TEditorFrame;
+begin
+  if Groups.Mode=gmOne then
+    Groups.Mode:= gm2Horz;
+
+  fn:= GetAppPath(cFileOptionsDefault);
+  F:= DoFileOpen(fn, Groups.Pages[0]);
+  if Assigned(F) then
+    F.ReadOnly:= true;
+
+  fn:= GetAppPath(cFileOptionsUser);
+  if not FileExistsUTF8(fn) then
+  begin
+    FCreateFile(fn, true);
+    if not FileExistsUTF8(fn) then Exit;
+  end;
+  DoFileOpen(fn, Groups.Pages[1]);
 end;
 
 procedure TfmMain.DoOps_OpenFile_FileTypes;
