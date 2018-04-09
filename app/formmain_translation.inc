@@ -262,6 +262,7 @@ begin
 
     DoLocMenuitem(ini, mnuOpDefault, 'm_o', 'df');
     DoLocMenuitem(ini, mnuOpUser, 'm_o', 'us');
+    DoLocMenuitem(ini, mnuOpDefaultUser, 'm_o', 'usd');
     DoLocMenuitem(ini, mnuOpMore, 'm_o', 'mr');
     DoLocMenuitem(ini, mnuOpLexer, 'm_o', 'lx');
     DoLocMenuitem(ini, mnuOpFileTypes, 'm_o', 'fi');
