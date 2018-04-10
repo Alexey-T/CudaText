@@ -218,7 +218,7 @@ begin
     DoLocMenuitem(ini, mnuBmDeleteLines, 'm_sr', 'b_de');
 
     DoLocMenuitem(ini, mnuView, 'm_v', '_');
-    DoLocMenuitem(ini, mnuGroups, 'm_v', 'g_');
+    //DoLocMenuitem(ini, mnuGroups, 'm_v', 'g_');
     DoLocMenuitem(ini, mnuGr1, 'm_v', 'g1');
     DoLocMenuitem(ini, mnuGr2H, 'm_v', 'g2h');
     DoLocMenuitem(ini, mnuGr2V, 'm_v', 'g2v');
