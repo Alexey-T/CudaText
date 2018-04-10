@@ -46,6 +46,26 @@ Editor has config system in [[JSON]] files: call menu item "Settings-default" an
 
 '''Keys config'''. Special dialog allows to change all hotkeys in app. You should not edit config file here. Dialog is called from "Help--Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
 
+== File-types config ==
+
+Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
+Example of file:
+
+<syntaxhighlight lang="javascript">
+{
+  "*.mht": "HTML",
+  "myconfig.conf": "Nginx",
+  ".profile": "Bash script",
+}
+</syntaxhighlight>
+
+This allows to open file mask (name of JSON key) with custom lexer (value of JSON key). File mask can have symbols "*", "?". Value "-" means "don't activate lexer".
+
+Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
+
+* It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
+* It can specify file extension, or name+extension, but cannot set complex file mask with "*".
+
 = Help topics =
 == Command line parameters ==
 
@@ -255,26 +275,6 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 * "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
 
 * "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
-
-== File-types config ==
-
-Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
-Example of file:
-
-<syntaxhighlight lang="javascript">
-{
-  "*.mht": "HTML",
-  "myconfig.conf": "Nginx",
-  ".profile": "Bash script",
-}
-</syntaxhighlight>
-
-This allows to open file mask (name of JSON key) with custom lexer (value of JSON key). File mask can have symbols "*", "?". Value "-" means "don't activate lexer".
-
-Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
-
-* It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
-* It can specify file extension, or name+extension, but cannot set complex file mask with "*".
 
 ==Encodings==
 
