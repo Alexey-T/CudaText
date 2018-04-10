@@ -694,6 +694,19 @@ Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
 ** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
 ** Restart CudaText.
 
+==File viewer==
+CudaText has internal file viewer, for files on unlimited size. Only visible portion of file is loaded into memory, so viewer is fast for all files. Viewer has several modes:
+
+* text with variable line length
+* binary: text with fixed line length (line breaks ignored)
+* hex viewer (with fixed width)
+* unicode (UTF-16) text with variable line length
+* combined unicode+hex (with fixed width)
+
+CudaText suggests to use viewer for files of too big size (bigger than option ui_max_size_open). And for files with binary contents. You cannot change viewer mode from UI, but can do it from plugin API. 
+
+Viewer has simple search support (without reg.ex.), and allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A, Ctrl+C. Viewer supports double-click to select whole word. Viewer allows to change encoding via statusbar click, but only in non-Unicode modes.
+
 ==more==
 
 = Tech topics=
