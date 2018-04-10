@@ -525,53 +525,6 @@ object fmMain: TfmMain
     end
     object mnuView: TMenuItem
       Caption = '&View'
-      object mnuGroups: TMenuItem
-        Caption = '&Groups'
-        object mnuGr1: TMenuItem
-          Caption = 'O&ne group'
-          RadioItem = True
-        end
-        object mnuGr2V: TMenuItem
-          Caption = '&2 vert'
-          RadioItem = True
-        end
-        object mnuGr2H: TMenuItem
-          Caption = '2 &horz'
-          RadioItem = True
-        end
-        object mnuGr3V: TMenuItem
-          Caption = '&3 vert'
-          RadioItem = True
-        end
-        object mnuGr3H: TMenuItem
-          Caption = '3 h&orz'
-          RadioItem = True
-        end
-        object mnuGr1p2V: TMenuItem
-          Caption = '&1+2 vert'
-          RadioItem = True
-        end
-        object mnuGr1p2H: TMenuItem
-          Caption = '1+2 ho&rz'
-          RadioItem = True
-        end
-        object mnuGr4V: TMenuItem
-          Caption = '&4 vert'
-          RadioItem = True
-        end
-        object mnuGr4H: TMenuItem
-          Caption = '4 hor&z'
-          RadioItem = True
-        end
-        object mnuGr4G: TMenuItem
-          Caption = '4 &grid'
-          RadioItem = True
-        end
-        object mnuGr6: TMenuItem
-          Caption = '&6 grid'
-          RadioItem = True
-        end
-      end
       object mnuViewSplitSub: TMenuItem
         Caption = '&Split tab'
         object mnuViewSplitDo: TMenuItem
@@ -782,6 +735,53 @@ object fmMain: TfmMain
       end
       object mnuHelpAbout: TMenuItem
         Caption = '&About...'
+      end
+    end
+    object mnuGroups: TMenuItem
+      Caption = '&='
+      object mnuGr1: TMenuItem
+        Caption = 'O&ne group'
+        RadioItem = True
+      end
+      object mnuGr2V: TMenuItem
+        Caption = '&2 vert'
+        RadioItem = True
+      end
+      object mnuGr2H: TMenuItem
+        Caption = '2 &horz'
+        RadioItem = True
+      end
+      object mnuGr3V: TMenuItem
+        Caption = '&3 vert'
+        RadioItem = True
+      end
+      object mnuGr3H: TMenuItem
+        Caption = '3 h&orz'
+        RadioItem = True
+      end
+      object mnuGr1p2V: TMenuItem
+        Caption = '&1+2 vert'
+        RadioItem = True
+      end
+      object mnuGr1p2H: TMenuItem
+        Caption = '1+2 ho&rz'
+        RadioItem = True
+      end
+      object mnuGr4V: TMenuItem
+        Caption = '&4 vert'
+        RadioItem = True
+      end
+      object mnuGr4H: TMenuItem
+        Caption = '4 hor&z'
+        RadioItem = True
+      end
+      object mnuGr4G: TMenuItem
+        Caption = '4 &grid'
+        RadioItem = True
+      end
+      object mnuGr6: TMenuItem
+        Caption = '&6 grid'
+        RadioItem = True
       end
     end
   end
