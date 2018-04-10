@@ -785,11 +785,11 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 
 * Make such file "install.inf":
 
-  [info]
-  title=MyName UI theme (by AuthorName)
-  type=cudatext-data
-  subdir=themes
-  homepage=https://github.com/nnnn/pppp
+ [info]
+ title=MyName UI theme (by AuthorName)
+ type=cudatext-data
+ subdir=themes
+ homepage=https://github.com/nnnn/pppp
 
 * Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf"
 * Test zip file: open zip file in CudaText, confirm installation
