@@ -1,7 +1,7 @@
 object fmLexerLib: TfmLexerLib
   Left = 434
   Height = 468
-  Top = 272
+  Top = 247
   Width = 459
   ActiveControl = List
   BorderIcons = [biSystemMenu]
@@ -17,8 +17,8 @@ object fmLexerLib: TfmLexerLib
   LCLVersion = '1.9.0.0'
   object PanelBtn: TButtonPanel
     Left = 6
-    Height = 29
-    Top = 433
+    Height = 28
+    Top = 434
     Width = 447
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -34,22 +34,22 @@ object fmLexerLib: TfmLexerLib
   end
   object PanelTop: TPanel
     Left = 0
-    Height = 35
+    Height = 32
     Top = 0
     Width = 459
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 35
+    ClientHeight = 32
     ClientWidth = 459
     TabOrder = 0
     object btnConfig: TButton
       AnchorSideLeft.Control = PanelTop
       AnchorSideTop.Control = PanelTop
       Left = 6
-      Height = 29
+      Height = 26
       Top = 6
-      Width = 77
+      Width = 71
       AutoSize = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
@@ -61,10 +61,10 @@ object fmLexerLib: TfmLexerLib
       AnchorSideLeft.Control = btnConfig
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnConfig
-      Left = 89
-      Height = 29
+      Left = 83
+      Height = 26
       Top = 6
-      Width = 56
+      Width = 50
       AutoSize = True
       BorderSpacing.Left = 6
       Caption = '&Delete'
@@ -75,10 +75,10 @@ object fmLexerLib: TfmLexerLib
       AnchorSideLeft.Control = btnDelete
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnConfig
-      Left = 151
-      Height = 29
+      Left = 139
+      Height = 26
       Top = 6
-      Width = 85
+      Width = 76
       AutoSize = True
       BorderSpacing.Left = 6
       Caption = '&Hide/Show'
@@ -88,8 +88,8 @@ object fmLexerLib: TfmLexerLib
   end
   object List: TListBox
     Left = 6
-    Height = 386
-    Top = 41
+    Height = 390
+    Top = 38
     Width = 447
     Align = alClient
     BorderSpacing.Around = 6

@@ -1,7 +1,8 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
-2018.04.09
+2018.04.10
 + [m_o] usd
++ [d_lex_lib] lns
 
 2018.03.23
 + [ui] t_menu

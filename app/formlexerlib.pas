@@ -63,6 +63,7 @@ implementation
 
 const
   cHiddenSuffix: string = '(hidden)';
+  cLexerLinks: string = 'links:';
 
 procedure DoLocalize_FormLexerLib(F: TfmLexerLib);
 const
@@ -81,6 +82,7 @@ begin
     with F.btnDelete do Caption:= ini.ReadString(section, 'del', Caption);
     with F.btnShowHide do Caption:= ini.ReadString(section, 'hid', Caption);
     cHiddenSuffix:= ini.ReadString(section, 'hidmk', cHiddenSuffix);
+    cLexerLinks:= ini.ReadString(section, 'lns', cLexerLinks);
   finally
     FreeAndNil(ini);
   end;
@@ -252,7 +254,7 @@ begin
         if not IsLexerLinkDup(an, j) then
         begin
           if links='' then
-            links:= 'links: '
+            links:= cLexerLinks+' '
           else
             links:= links+', ';
           an_sub:= an.SubAnalyzers[j];
