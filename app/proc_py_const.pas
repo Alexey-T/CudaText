@@ -364,6 +364,7 @@ const
   PyMenuId_TopView = 'top-view';
   PyMenuId_TopOptions = 'top-op';
   PyMenuId_TopHelp = 'top-help';
+  PyMenuId_TopGroups = 'top-groups';
   PyMenuId_Text = 'text';
 
   TIMER_START     = 0;

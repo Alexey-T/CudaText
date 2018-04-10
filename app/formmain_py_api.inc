@@ -166,6 +166,7 @@ begin
   if Str=PyMenuId_TopView then exit(fmMain.mnuView);
   if Str=PyMenuId_TopOptions then exit(fmMain.mnuOp);
   if Str=PyMenuId_TopHelp then exit(fmMain.mnuHelp);
+  if Str=PyMenuId_TopGroups then exit(fmMain.mnuGroups);
 
   if Str=PyMenuId_Text then exit(fmMain.PopupText.Items);
 

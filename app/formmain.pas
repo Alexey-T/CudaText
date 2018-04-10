@@ -1468,6 +1468,7 @@ begin
   UpdateMenuItemHint(mnuView, 'top-view');
   UpdateMenuItemHint(mnuOp, 'top-op');
   UpdateMenuItemHint(mnuHelp, 'top-help');
+  UpdateMenuItemHint(mnuGroups, 'top-groups');
   UpdateMenuItemHint(mnuPlugins, 'plugins');
   UpdateMenuItemHint(mnuFileOpenSub, '_recents');
   UpdateMenuItemHint(mnuFileEnc, '_enc');
