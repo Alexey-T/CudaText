@@ -219,6 +219,7 @@ cmd_FileCloseAll       = 2513
 cmd_FileCloseAndDelete = 2514
 cmd_FileExportHtml     = 2515
 
+cmd_OpsOpenDefaultAndUser = 2519
 cmd_OpsClearRecent     = 2520
 cmd_OpsOpenDefault     = 2521
 cmd_OpsOpenUser        = 2522

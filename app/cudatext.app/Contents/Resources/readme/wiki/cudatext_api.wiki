@@ -53,8 +53,9 @@ To make plugin react to events, add method to class Command (like methods of com
 ==Panels==
 
 * on_console(self, ed_self, text): Called on entering text command in Python Console panel. Method can return False to disable internal command processing, other value is ignored. Ignore ed_self.
-* on_console_nav(self, ed_self, text): Called on dbl-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Text is line with caret.
-* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in Output or Validate panel. Ignore ed_self. Text is clicked line, tag is int value associated with line. Event is called only if app cannot parse output line by itself using given regex (or regex isn't set at all).
+* on_console_print(self, ed_self, text): Called on adding line to Python Console memo. Also called on "print" commands. Method can return False to disable standard output to the Console panel. Ignore ed_self. Also called when app_log() clears console memo - with param text=None.
+* on_console_nav(self, ed_self, text): Called on double-clicking line, or calling context menu item "Navigate", in Python Console panel. Ignore ed_self. Param "text" is line with caret.
+* on_output_nav(self, ed_self, text, tag): Called on clicking line, or pressing Enter, in the Output or Validate panel. Ignore ed_self. Param "text" is clicked line, param "tag" is int value associated with line. Event is called only if app cannot parse output line by itself using given regex, or regex is not set.
 
 ==Macros==
 
@@ -79,6 +80,14 @@ By default all events in all plugins have prior=0. So for any event, if 2+ plugi
 
 You may want to handle some event first.
 To change prior for your plugin event, write in install.inf event like this: "on_key+", "on_key++"... with any number of "+" up to 4. Each "+" makes higher prior. So first called "on_key" with maximal number of "+", last called "on_key" w/o "+".
+
+==Lazy events==
+
+By default all event handlers, except on_exit, are not "lazy". On_exit is always "lazy" - it means that it's called only for already loaded plugins. To make other event handlers lazy, write in install.inf event name with "~":
+
+ events=on_focus~,on_open~,on_state~
+
+It's allowed to combine "+" and "~" suffixes, like on_focus~++
 
 =Callback param=
 
@@ -577,7 +586,7 @@ Types of UI controls:
 * "bevel": control which shows only border (at one side, or all 4 sides), w/o value/caption
 * "tabs": TabControl: set of tabs, w/o pages attached to them
 * "pages": PageControl: set of tabs, with pages attached to them (only one of pages is visible)
-* "splitter": divider bar, which can be moved by mouse, it resizes control with "align" set, with the same "align" which splitter has.
+* "splitter": divider bar, which can be dragged by mouse. It finds "linked control", ie control with the same "parent" and "align", nearest to splitter. On mouse drag, splitter resizes this linked control. Recommended to place another control with "align": ALIGN_CLIENT, so splitter will resize two controls at once.
 
 Notes:
 
@@ -598,6 +607,8 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "cap": caption
 * "x", "y": position, left/top
 * "w", "h": size, width/height
+* "w_min", "w_max": Constraints for width, min/max value.
+* "h_min", "h_max": Constraints for height, min/max value.
 * "pos": position, str in the form "left,top,right,bottom". Some one-line controls ignore bottom and do auto size. If specified "x/y/w/h" together with "pos", then last mentioned prop has effect.
 * "en": enabled state, bool
 * "vis": visible state, bool
@@ -728,10 +739,10 @@ Props "ex0"..."ex9" are control-specific. They have different simple type (str, 
 * bevel:
 ** "ex0": int: shape (0: sunken panel, 1: 4 separate lines - use it as border for group of controls, 2: top line, 3: bottom line, 4: left line, 5: right line, 6: no lines, empty space)
 * splitter:
-** "ex0": bool: beveled style
-** "ex1": bool: instant repainting
-** "ex2": bool: auto snap to edge
-** "ex3": int: min size
+** "ex0": bool: paint border
+** "ex1": bool: on mouse drag, use instant repainting (else splitter paints after mouse released)
+** "ex2": bool: auto jump to edge, when size of linked control becomes < min size
+** "ex3": int: mininal size of linked control (controlled by splitter)
 
 ====Result====
 
@@ -1112,6 +1123,7 @@ Possible values of id:
 ** "c_lined": 2-tuple or None: comment for full lines.
 
 * LEXER_DETECT: Detects lexer name by given file name. Gets None if cannot detect. Function sees file extension, or even filename before extension (e.g. "/path/makefile.gcc" gives "Makefile").
+* LEXER_REREAD_LIB: Re-reads lexer library from disk, updates lexer menu. Make sure that plugins' dialogs don't use editor with lexer, which may crash.  
 
 ===tree_proc===
 
@@ -2326,6 +2338,15 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.236 (app 1.48.3)
+* add: dlg_proc: controls have props "w_min/w_max/h_min/h_max", like forms
+* fix: bug in dlg_proc/dlg_custom: controls with changed parent become not findable by name/index (and count of controls becomes smaller)
+
+1.0.235 (app 1.48.2)
+* add: support for "lazy events"
+* add: event on_console_print
+* add: lexer_proc: LEXER_REREAD_LIB
 
 1.0.234 (app 1.47.5)
 * add: event on_exit

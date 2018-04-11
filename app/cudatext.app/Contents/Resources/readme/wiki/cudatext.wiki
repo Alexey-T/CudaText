@@ -46,6 +46,26 @@ Editor has config system in [[JSON]] files: call menu item "Settings-default" an
 
 '''Keys config'''. Special dialog allows to change all hotkeys in app. You should not edit config file here. Dialog is called from "Help--Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
 
+== File-types config ==
+
+Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
+Example of file:
+
+<syntaxhighlight lang="javascript">
+{
+  "*.mht": "HTML",
+  "myconfig.conf": "Nginx",
+  ".profile": "Bash script",
+}
+</syntaxhighlight>
+
+This allows to open file mask (name of JSON key) with custom lexer (value of JSON key). File mask can have symbols "*", "?". Value "-" means "don't activate lexer".
+
+Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
+
+* It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
+* It can specify file extension, or name+extension, but cannot set complex file mask with "*".
+
 = Help topics =
 == Command line parameters ==
 
@@ -255,26 +275,6 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 * "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
 
 * "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
-
-== File-types config ==
-
-Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
-Example of file:
-
-<syntaxhighlight lang="javascript">
-{
-  "*.mht": "HTML",
-  "myconfig.conf": "Nginx",
-  ".profile": "Bash script",
-}
-</syntaxhighlight>
-
-This allows to open file mask (name of JSON key) with custom lexer (value of JSON key). File mask can have symbols "*", "?". Value "-" means "don't activate lexer".
-
-Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
-
-* It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
-* It can specify file extension, or name+extension, but cannot set complex file mask with "*".
 
 ==Encodings==
 
@@ -669,6 +669,11 @@ Project Manager shows file/folder icons, using default file-type-icons theme. Yo
 To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
 ==How to change icons==
+
+Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
+
+[[File:cudatext_all_icons.png]]
+
 * Icons in the main toolbar. To change them:
 ** (Optional) Install add-on(s) of kind "toolbar theme" (each add-on gives additional icon set or several sets).
 ** Change option "ui_toolbar_theme" in user.json. Option value is some subfolder in [cudatext]\data\toolbaricons (Windows) or ~/.cudatext/data/toolbaricons (Unix).
@@ -688,6 +693,19 @@ To see preview tab, call "File - Open folder" and choose a folder with text file
 ** (Optional) Install add-on(s) of kind "file type icons".
 ** Change option in the dialog: Options/ Settings-plugins/ Project Manager/ Config.
 ** Restart CudaText.
+
+==File viewer==
+CudaText has internal file viewer, for files on unlimited size. Only visible portion of file is loaded into memory, so viewer is fast for all files. Viewer has several modes:
+
+* text with variable line length
+* binary: text with fixed line length (line breaks ignored)
+* hex viewer (with fixed width)
+* unicode (UTF-16) text with variable line length
+* combined unicode+hex (with fixed width)
+
+CudaText suggests to use viewer for files of too big size (bigger than option ui_max_size_open). And for files with binary contents. You cannot change viewer mode from UI, but can do it from plugin API. 
+
+Viewer has simple search support (without reg.ex.), and allows to use "Go to" dialog. In the "Go to" dialog, you can enter "2000" to jump to hex offset 0x2000 (in hex mode, rounded to 16 bytes). If you enter "50%", viewer will jump to the middle. Viewer supports selection of block by mouse, and hotkeys Ctrl+A, Ctrl+C. Viewer supports double-click to select whole word. Viewer allows to change encoding via statusbar click, but only in non-Unicode modes.
 
 ==more==
 
@@ -780,11 +798,11 @@ Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_le
 
 * Make such file "install.inf":
 
-  [info]
-  title=MyName UI theme (by AuthorName)
-  type=cudatext-data
-  subdir=themes
-  homepage=https://github.com/nnnn/pppp
+ [info]
+ title=MyName UI theme (by AuthorName)
+ type=cudatext-data
+ subdir=themes
+ homepage=https://github.com/nnnn/pppp
 
 * Make zip file "theme.MyName.zip" with files "MyTheme.cuda-theme-nnnnn" and "install.inf"
 * Test zip file: open zip file in CudaText, confirm installation
