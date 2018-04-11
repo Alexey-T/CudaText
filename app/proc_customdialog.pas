@@ -728,7 +728,7 @@ begin
     Ctl:= TAppTreeContainer.Create(AForm);
     DoApplyThemeToTreeview((Ctl as TAppTreeContainer).Tree, false, true);
     (Ctl as TAppTreeContainer).Tree.BorderStyle:= bsSingle;
-    (Ctl as TAppTreeContainer).Tree.Images:= TImageList.Create(AForm);
+    (Ctl as TAppTreeContainer).Tree.Images:= TImageList.Create(Ctl);
     (Ctl as TAppTreeContainer).Tree.OnChange:= @AForm.DoOnTreeviewChange;
     (Ctl as TAppTreeContainer).Tree.OnSelectionChanged:= @AForm.DoOnTreeviewSelect;
     (Ctl as TAppTreeContainer).Tree.OnCollapsing:= @AForm.DoOnTreeviewCollapsing;
@@ -833,7 +833,7 @@ begin
   if S='toolbar' then
   begin
     Ctl:= TATFlatToolbar.Create(AForm);
-    TATFlatToolbar(Ctl).Images:= TImageList.Create(AForm);
+    TATFlatToolbar(Ctl).Images:= TImageList.Create(Ctl);
     exit;
   end;
 
