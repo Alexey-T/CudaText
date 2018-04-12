@@ -86,10 +86,14 @@ end;
 
 procedure TfmMenuApi.listClick(Sender: TObject);
 var
-  key: word;
+  Pnt: TPoint;
+  NIndex: integer;
 begin
-  key:= VK_RETURN;
-  FormKeyDown(Self, key, []);
+  Pnt:= list.ScreenToClient(Mouse.CursorPos);
+  NIndex:= list.GetItemIndexAt(Pnt);
+  if NIndex<0 then exit;
+  ResultCode:= GetResultCmd;
+  Close;
 end;
 
 procedure TfmMenuApi.FormCreate(Sender: TObject);
