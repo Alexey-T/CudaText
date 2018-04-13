@@ -47,6 +47,7 @@ uses
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Adapter_LiteLexer,
   ATSynEdit_ScrollBar,
+  ATSynEdit_CharSizer,
   ATSynEdit_Export_HTML,
   ATTabs,
   ATGroups,

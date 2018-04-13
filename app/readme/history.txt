@@ -4,9 +4,13 @@
   * changed
 
 
-1.49.1 (2018/04)
+1.49.2 (2018/04)
 
-+ add: option "ui_tab_disabled", it activates SDI - Single Document Interface
++ add: restored deleted unicode options:
+       "unicode_proportional" (was "font_width", int, now boolean),
+       "unicode_wide_allowed",
+       "unicode_full_width"
++ add: option "ui_tab_disabled", to disable tabs (except first tab)
 + add: API
 
 1.49.0 (2018/04)

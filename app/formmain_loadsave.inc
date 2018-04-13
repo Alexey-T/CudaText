@@ -517,6 +517,10 @@ begin
     UiOps.OutputFontSize:= c.GetValue(str_UiFontOutputSize, UiOps.OutputFontSize);
     UiOps.DoubleBuffered:= c.GetValue(str_UiDoubleBuffered, UiOps.DoubleBuffered);
 
+    OptCharSizeProportional:= c.GetValue('unicode_proportional', OptCharSizeProportional);
+    OptCharSizeWideAllowed:= c.GetValue('unicode_wide_allowed', OptCharSizeWideAllowed);
+    OptCharScaleFullWidth:= c.GetValue('unicode_full_width', OptCharScaleFullWidth);
+
     UiOps.StatusNoSel:= c.GetValue('ui_statusbar_no_sel', UiOps.StatusNoSel);
     UiOps.StatusSmallSel:= c.GetValue('ui_statusbar_small_sel', UiOps.StatusSmallSel);
     UiOps.StatusStreamSel:= c.GetValue('ui_statusbar_str_sel', UiOps.StatusStreamSel);
