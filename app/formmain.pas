@@ -2162,6 +2162,10 @@ begin
   if AFilename='' then
   begin
     D:= DoTabAdd(APages, GetUntitledCaption, bAndActivate, bAllowNear);
+    if not Assigned(D) then
+      D:= Groups.Pages1.Tabs.GetTabData(0);
+    if not Assigned(D) then
+      raise Exception.Create('Cannot get first tab');
     Result:= D.TabObject as TEditorFrame;
     Result.SetFocus;
     Exit
@@ -2257,6 +2261,7 @@ begin
     if Result=nil then
     begin
       D:= DoTabAdd(APages, 'pre', true, false);
+      if not Assigned(D) then exit;
       D.TabSpecial:= true;
       D.TabFontStyle:= StringToFontStyles(UiOps.TabPreviewFontStyle);
       Result:= D.TabObject as TEditorFrame;
@@ -2296,6 +2301,10 @@ begin
   end;
 
   D:= DoTabAdd(APages, ExtractFileName(AFilename), bAndActivate, bAllowNear);
+  if not Assigned(D) then
+    D:= Groups.Pages1.Tabs.GetTabData(0);
+  if not Assigned(D) then
+    raise Exception.Create('Cannot get first tab');
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;

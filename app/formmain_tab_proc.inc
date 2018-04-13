@@ -45,6 +45,9 @@ var
   F: TEditorFrame;
   NToIndex: integer;
 begin
+  if (Groups.Pages1.Tabs.TabCount>0) and UiOps.TabsDisabled then
+    exit(nil);
+
   F:= TEditorFrame.Create(Self);
   F.Name:= '';
   F.Visible:= false;

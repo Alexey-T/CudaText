@@ -481,6 +481,9 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: don't create tabs (except the first tab), ie use SDI = Single Document Interface
+  "ui_tab_disabled": false,  
+  
   //UI tabs: multi-line mode, ie wrappable to several lines if lot of tabs
   "ui_tab_multiline": false,
 

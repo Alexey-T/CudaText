@@ -821,12 +821,14 @@ end;
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=11, value=0xff00)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_FONT, tag=11, value=0xff)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=11, value='cell-a')
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_HINT, tag=11, value='hint for cell-a')
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_IMAGEINDEX, tag=11, value=icon1)
 
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=22, value=50)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_BACK, tag=22, value=0xffff)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_COLOR_FONT, tag=22, value=0xff00)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=22, value='cell-b')
+        statusbar_proc(sb_id, STATUSBAR_SET_CELL_HINT, tag=22, value='hint for cell-b')
 
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_SIZE, tag=33, value=150)
         statusbar_proc(sb_id, STATUSBAR_SET_CELL_TEXT, tag=33, value='cell-c')

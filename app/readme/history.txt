@@ -4,6 +4,11 @@
   * changed
 
 
+1.49.1 (2018/04)
+
++ add: option "ui_tab_disabled", it activates SDI - Single Document Interface
++ add: API
+
 1.49.0 (2018/04)
 
 + add: detection of letter chars improved, now should work for all international alphabets

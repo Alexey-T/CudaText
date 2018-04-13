@@ -1484,6 +1484,7 @@ Param "id_action" can be:
 * STATUSBAR_GET_CELL_AUTOSTRETCH: Gets auto-stretch of cell, bool. Auto-stretch: stretch cell to fill entire statusbar width.
 * STATUSBAR_GET_CELL_ALIGN: Gets alignment of cell. One of str values: "L" (left), "C" (center), "R" (right).
 * STATUSBAR_GET_CELL_TEXT: Gets text of cell.
+* STATUSBAR_GET_CELL_HINT: Gets hint of cell.
 * STATUSBAR_GET_CELL_IMAGEINDEX: Gets icon index (inside image-list) of cell, -1 for none.
 * STATUSBAR_GET_CELL_COLOR_FONT: Gets font color of cell, COLOR_NONE if not set.
 * STATUSBAR_GET_CELL_COLOR_BACK: Gets background color of cell, COLOR_NONE if not set.
@@ -1494,6 +1495,7 @@ Param "id_action" can be:
 * STATUSBAR_SET_CELL_AUTOSTRETCH: Sets auto-stretch of cell. Param "value": bool.
 * STATUSBAR_SET_CELL_ALIGN: Sets alignment of cell. Param "value": str constant: "L", "C", "R".
 * STATUSBAR_SET_CELL_TEXT: Sets text of cell. Param "value": str.
+* STATUSBAR_SET_CELL_HINT: Sets hint of cell. Param "value": str.
 * STATUSBAR_SET_CELL_IMAGEINDEX: Sets icon index (inside image-list) of cell, -1 for none. Param "value": int.
 * STATUSBAR_SET_CELL_COLOR_FONT: Sets font color of cell. Param "value": int color or COLOR_NONE.
 * STATUSBAR_SET_CELL_COLOR_BACK: Sets background color of cell. Param "value": int color or COLOR_NONE.
@@ -2338,6 +2340,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.237 (app 1.49.1)
+* add: statusbar_proc: STATUSBAR_GET_CELL_HINT, STATUSBAR_SET_CELL_HINT
 
 1.0.236 (app 1.48.3)
 * add: dlg_proc: controls have props "w_min/w_max/h_min/h_max", like forms

@@ -5539,6 +5539,16 @@ begin
             Result:= ReturnNone;
           end;
 
+        STATUSBAR_SET_CELL_HINT:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+            begin
+              Data.Hint:= StrValue;
+            end;
+            Result:= ReturnNone;
+          end;
+
         STATUSBAR_SET_CELL_IMAGEINDEX:
           begin
             Data:= FBar.GetPanelData(NIndex);
@@ -5629,6 +5639,15 @@ begin
             Data:= FBar.GetPanelData(NIndex);
             if Assigned(Data) then
               Result:= PyString_FromString(PChar(Data.Caption))
+            else
+              Result:= ReturnNone;
+          end;
+
+        STATUSBAR_GET_CELL_HINT:
+          begin
+            Data:= FBar.GetPanelData(NIndex);
+            if Assigned(Data) then
+              Result:= PyString_FromString(PChar(Data.Hint))
             else
               Result:= ReturnNone;
           end;
