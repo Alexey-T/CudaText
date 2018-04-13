@@ -11,7 +11,7 @@
        "unicode_wide_allowed",
        "unicode_full_width"
 + add: option "ui_tab_disabled", to disable tabs (except first tab)
-+ add: API
++ add: lexer Python: support for continuation char inside strings
 
 1.49.0 (2018/04)
 
