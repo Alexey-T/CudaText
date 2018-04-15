@@ -1448,10 +1448,7 @@ begin
     if AAllowErrorMsgBox then
       MsgBox(msgCannotOpenFile+#13+fn, MB_OK or MB_ICONERROR);
 
-    Editor.Strings.Clear;
-    Editor.Strings.LineAdd('');
-    Editor.DoCaretSingle(0, 0);
-    Editor.Update(true);
+    EditorClear(Editor);
     TabCaption:= GetUntitledCaption;
     exit
   end;
@@ -2351,11 +2348,7 @@ begin
     Ed1.Show;
   end;
 
-  Editor.Strings.Clear;
-  Editor.Strings.LineAdd('');
-  Editor.DoCaretSingle(0, 0);
-  Editor.Update(true);
-  Editor.Modified:= false;
+  EditorClear(Editor);
   UpdateModifiedState;
 end;
 

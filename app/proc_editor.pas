@@ -50,6 +50,7 @@ procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
 
+procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; AApplyUnprintedAndWrap, AApplyTabSize: boolean);
 
@@ -589,6 +590,14 @@ begin
   if Id='EdMarkedRangeBg' then exit(Ed.Colors.MarkedLinesBG);
 end;
 
+procedure EditorClear(Ed: TATSynEdit);
+begin
+  Ed.Strings.Clear;
+  Ed.Strings.LineAdd('');
+  Ed.DoCaretSingle(0, 0);
+  Ed.Update(true);
+  Ed.Modified:= false;
+end;
 
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
 var
