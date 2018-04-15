@@ -594,6 +594,7 @@ type
     FOption_WindowPos: string;
     FOption_Encoding: string;
 
+    procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
     procedure DoFileDialog_SaveDir(Dlg: TFileDialog);
@@ -2164,9 +2165,10 @@ begin
   begin
     D:= DoTabAdd(APages, GetUntitledCaption, bAndActivate, bAllowNear);
     if not Assigned(D) then
+    begin
       D:= Groups.Pages1.Tabs.GetTabData(0);
-    if not Assigned(D) then
-      raise Exception.Create('Cannot get first tab');
+      DoClearSingleFirstTab;
+    end;
     Result:= D.TabObject as TEditorFrame;
     Result.SetFocus;
     Exit
@@ -2303,9 +2305,10 @@ begin
 
   D:= DoTabAdd(APages, ExtractFileName(AFilename), bAndActivate, bAllowNear);
   if not Assigned(D) then
+  begin
     D:= Groups.Pages1.Tabs.GetTabData(0);
-  if not Assigned(D) then
-    raise Exception.Create('Cannot get first tab');
+    DoClearSingleFirstTab;
+  end;
   F:= D.TabObject as TEditorFrame;
 
   tick:= GetTickCount64;

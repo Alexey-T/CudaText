@@ -115,6 +115,28 @@ begin
     end;
 end;
 
+procedure TfmMain.DoClearSingleFirstTab;
+var
+  D: TATTabData;
+  Frame: TEditorFrame;
+  Msg: string;
+begin
+  D:= Groups.Pages1.Tabs.GetTabData(0);
+  if not Assigned(D) then
+    raise Exception.Create('Cannot get first tab');
+
+  Frame:= (D.TabObject as TEditorFrame);
+  if Frame.Modified then
+  begin
+    Msg:= Format(msgConfirmSaveModifiedTab, [Frame.TabCaption]);
+    if MsgBox(Msg, MB_OKCANCEL or MB_ICONQUESTION) = ID_OK then
+      Frame.DoFileSave(false);
+  end;
+
+  Frame.DoFileClose;
+end;
+
+
 procedure TfmMain.DoOnTabClose(Sender: TObject; ATabIndex: Integer;
   var ACanClose, ACanContinue: boolean);
 var

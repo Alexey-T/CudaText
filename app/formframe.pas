@@ -267,6 +267,7 @@ type
     property EnabledFolding: boolean read GetEnabledFolding write SetEnabledFolding;
     property SaveDialog: TSaveDialog read FSaveDialog write FSaveDialog;
     //file
+    procedure DoFileClose;
     procedure DoFileOpen(const fn: string; AAllowLoadHistory,
       AAllowErrorMsgBox: boolean; AOpenMode: TAppOpenMode);
     function DoFileSave(ASaveAs: boolean): boolean;
@@ -2335,6 +2336,27 @@ function TEditorFrame.BinaryFindNext(ABack: boolean): boolean;
 begin
   if FBinStream=nil then exit;
   Result:= FBin.FindNext(ABack);
+end;
+
+procedure TEditorFrame.DoFileClose;
+begin
+  SetLexer(nil);
+  FileName:= '';
+  TabCaption:= GetUntitledCaption;
+
+  if Assigned(FBin) then
+  begin
+    FBin.OpenStream(nil);
+    FreeAndNil(FBin);
+    Ed1.Show;
+  end;
+
+  Editor.Strings.Clear;
+  Editor.Strings.LineAdd('');
+  Editor.DoCaretSingle(0, 0);
+  Editor.Update(true);
+  Editor.Modified:= false;
+  UpdateModifiedState;
 end;
 
 
