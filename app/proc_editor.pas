@@ -593,7 +593,7 @@ end;
 procedure EditorClear(Ed: TATSynEdit);
 begin
   Ed.Strings.Clear;
-  Ed.Strings.LineAdd('');
+  Ed.Strings.ActionAddFakeLineIfNeeded;
   Ed.DoCaretSingle(0, 0);
   Ed.Update(true);
   Ed.Modified:= false;
