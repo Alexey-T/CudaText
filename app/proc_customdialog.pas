@@ -32,6 +32,7 @@ uses
   proc_globdata,
   proc_editor,
   proc_scrollbars,
+  proc_lexer_styles,
   formconsole,
   PythonEngine;
 
@@ -1585,6 +1586,12 @@ begin
   if AName='font_color' then
   begin
     C.Font.Color:= StrToIntDef(AValue, C.Font.Color);
+    exit;
+  end;
+
+  if AName='font_style' then
+  begin
+    C.Font.Style:= StringToFontStyles(AValue);
     exit;
   end;
 

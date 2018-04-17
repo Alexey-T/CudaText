@@ -617,6 +617,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "font_name": font name
 * "font_size": font size
 * "font_color": font color
+* "font_style": font styles. String, each char can be: "b": bold, "i": italic, "u": underline, "s": strikeout.
 * "name": optional name of control. It may be not unique for all controls. 
 * "act": active state, bool. For many controls (edit, check, radio, combo_ro, checkbutton, listbox'es, listview's, tabs), it means that control's value change fires events (for dlg_proc) or closes form (for dlg_custom).
 * "ex0"..."ex9": advanced control-specific props. Described below.
@@ -2340,6 +2341,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.238 (app 1.49.5)
+* add: dlg_proc/dlg_custom: controls have prop "font_style"
 
 1.0.237 (app 1.49.1)
 * add: statusbar_proc: STATUSBAR_GET_CELL_HINT, STATUSBAR_SET_CELL_HINT
