@@ -1717,7 +1717,7 @@ begin
   NTickShowEnd:= GetTickCount64;
   MsgLogConsole(Format(
     'Startup: total: %dms, including plugins: %dms', [
-    NTickShowEnd-NTickInitial,
+    (NTickShowEnd-NTickInitial) div 10 * 10,
     NTickPluginEnd-NTickPluginBegin
     ]));
 
