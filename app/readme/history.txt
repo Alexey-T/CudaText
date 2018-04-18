@@ -10,6 +10,7 @@
        "unicode_proportional" (was "font_width", int, now boolean),
        "unicode_wide_allowed",
        "unicode_full_width"
++ add: dialog "File is maybe not text" gives additional buttons: viewer text mode, viewer unicode mode
 + add: option "ui_tab_disabled", to disable tabs (except first tab)
 + add: lexer Python: support for continuation char inside strings
 
