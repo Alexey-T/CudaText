@@ -61,8 +61,10 @@ type
 type
   TAppOpenMode = (
     cOpenModeEditor,
-    cOpenModeVBinary,
-    cOpenModeVHex
+    cOpenModeViewText,
+    cOpenModeViewBinary,
+    cOpenModeViewHex,
+    cOpenModeViewUnicode
     );
 
 type
@@ -1410,20 +1412,31 @@ end;
 
 procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
-var
-  BinMode: TATBinHexMode;
 begin
   if not FileExistsUTF8(fn) then Exit;
   SetLexer(nil);
 
-  if AOpenMode<>cOpenModeEditor then
-  begin
-    if AOpenMode=cOpenModeVBinary then
-      BinMode:= vbmodeBinary
-    else
-      BinMode:= vbmodeHex;
-    DoFileOpen_AsBinary(fn, BinMode);
-    exit;
+  case AOpenMode of
+    cOpenModeViewText:
+      begin
+        DoFileOpen_AsBinary(fn, vbmodeText);
+        exit;
+      end;
+    cOpenModeViewBinary:
+      begin
+        DoFileOpen_AsBinary(fn, vbmodeBinary);
+        exit;
+      end;
+    cOpenModeViewHex:
+      begin
+        DoFileOpen_AsBinary(fn, vbmodeHex);
+        exit;
+      end;
+    cOpenModeViewUnicode:
+      begin
+        DoFileOpen_AsBinary(fn, vbmodeUnicode);
+        exit;
+      end;
   end;
 
   if IsFilenameListedInExtensionList(fn, UiOps.PictureTypes) then
@@ -1616,9 +1629,9 @@ begin
   if IsBinary then
     case FBin.Mode of
       vbmodeBinary:
-        Mode:= cOpenModeVBinary
+        Mode:= cOpenModeViewBinary
       else
-        Mode:= cOpenModeVHex;
+        Mode:= cOpenModeViewHex;
     end;
 
   //reopen

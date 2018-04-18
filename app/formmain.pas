@@ -2154,7 +2154,7 @@ begin
   bAllowNear:= Pos('/nonear', AOptions)=0;
 
   if Pos('/binary', AOptions)>0 then
-    OpenMode:= cOpenModeVBinary
+    OpenMode:= cOpenModeViewBinary
   else
     OpenMode:= cOpenModeEditor;
 
@@ -2206,16 +2206,18 @@ begin
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, false) of
-              ConfirmBinaryViewBinary: OpenMode:= cOpenModeVBinary;
-              ConfirmBinaryViewHex: OpenMode:= cOpenModeVHex;
+              ConfirmBinaryViewText: OpenMode:= cOpenModeViewText;
+              ConfirmBinaryViewBinary: OpenMode:= cOpenModeViewBinary;
+              ConfirmBinaryViewHex: OpenMode:= cOpenModeViewHex;
+              ConfirmBinaryViewUnicode: OpenMode:= cOpenModeViewUnicode;
               ConfirmBinaryCancel: Exit;
             end;
           2:
             Exit;
           3:
-            OpenMode:= cOpenModeVBinary;
+            OpenMode:= cOpenModeViewBinary;
           4:
-            OpenMode:= cOpenModeVHex;
+            OpenMode:= cOpenModeViewHex;
           else
             Exit;
         end;
@@ -2224,8 +2226,10 @@ begin
     if (OpenMode=cOpenModeEditor) and IsFileTooBigForOpening(AFilename) then
     begin
       case DoDialogConfirmBinaryFile(AFileName, true) of
-        ConfirmBinaryViewBinary: OpenMode:= cOpenModeVBinary;
-        ConfirmBinaryViewHex: OpenMode:= cOpenModeVHex;
+        ConfirmBinaryViewText: OpenMode:= cOpenModeViewText;
+        ConfirmBinaryViewBinary: OpenMode:= cOpenModeViewBinary;
+        ConfirmBinaryViewHex: OpenMode:= cOpenModeViewHex;
+        ConfirmBinaryViewUnicode: OpenMode:= cOpenModeViewUnicode;
         ConfirmBinaryCancel: Exit;
       end;
     end;

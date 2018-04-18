@@ -1,11 +1,11 @@
 object fmConfirmBinary: TfmConfirmBinary
   Left = 409
-  Height = 230
+  Height = 272
   Top = 258
   Width = 383
   BorderStyle = bsDialog
   Caption = 'CudaText'
-  ClientHeight = 230
+  ClientHeight = 272
   ClientWidth = 383
   OnShow = FormShow
   Position = poScreenCenter
@@ -17,9 +17,9 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 14
+    Height = 17
     Top = 10
-    Width = 84
+    Width = 95
     BorderSpacing.Left = 6
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
@@ -32,8 +32,8 @@ object fmConfirmBinary: TfmConfirmBinary
     AnchorSideTop.Control = LabelFN
     AnchorSideTop.Side = asrBottom
     Left = 71
-    Height = 30
-    Top = 50
+    Height = 29
+    Top = 56
     Width = 240
     AutoSize = True
     BorderSpacing.Top = 10
@@ -42,32 +42,32 @@ object fmConfirmBinary: TfmConfirmBinary
     OnClick = btnEditClick
     TabOrder = 0
   end
-  object btnBinary: TButton
+  object btnViewBinary: TButton
     AnchorSideLeft.Control = btnEdit
-    AnchorSideTop.Control = btnEdit
+    AnchorSideTop.Control = btnViewText
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 71
-    Height = 30
-    Top = 86
+    Height = 29
+    Top = 126
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
-    Caption = 'View as binary'
-    OnClick = btnBinaryClick
-    TabOrder = 1
+    Caption = 'Viewer - binary mode'
+    OnClick = btnViewBinaryClick
+    TabOrder = 2
   end
   object btnCancel: TButton
     AnchorSideLeft.Control = btnEdit
-    AnchorSideTop.Control = btnHex
+    AnchorSideTop.Control = btnViewUnicode
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 71
-    Height = 30
-    Top = 158
+    Height = 29
+    Top = 231
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -75,35 +75,69 @@ object fmConfirmBinary: TfmConfirmBinary
     Cancel = True
     Caption = 'Cancel'
     OnClick = btnCancelClick
-    TabOrder = 3
+    TabOrder = 5
   end
   object LabelFN: TLabel
     AnchorSideLeft.Control = LabelText
     AnchorSideTop.Control = LabelText
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 14
-    Top = 26
-    Width = 48
+    Height = 17
+    Top = 29
+    Width = 56
     BorderSpacing.Top = 2
     Caption = 'LabelFN'
     ParentColor = False
   end
-  object btnHex: TButton
+  object btnViewHex: TButton
     AnchorSideLeft.Control = btnEdit
-    AnchorSideTop.Control = btnBinary
+    AnchorSideTop.Control = btnViewBinary
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnEdit
     AnchorSideRight.Side = asrBottom
     Left = 71
-    Height = 30
-    Top = 122
+    Height = 29
+    Top = 161
     Width = 240
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
-    Caption = 'View as hex'
-    OnClick = btnHexClick
-    TabOrder = 2
+    Caption = 'Viewer - hex mode'
+    OnClick = btnViewHexClick
+    TabOrder = 3
+  end
+  object btnViewText: TButton
+    AnchorSideLeft.Control = btnEdit
+    AnchorSideTop.Control = btnEdit
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 71
+    Height = 29
+    Top = 91
+    Width = 240
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    Caption = 'Viewer - text mode'
+    OnClick = btnViewTextClick
+    TabOrder = 1
+  end
+  object btnViewUnicode: TButton
+    AnchorSideLeft.Control = btnEdit
+    AnchorSideTop.Control = btnViewHex
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 71
+    Height = 29
+    Top = 196
+    Width = 240
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    Caption = 'Viewer - unicode mode'
+    OnClick = btnViewUnicodeClick
+    TabOrder = 4
   end
 end
