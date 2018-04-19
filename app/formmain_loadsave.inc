@@ -212,7 +212,7 @@ begin
       Pages:= Groups.Pages[nGroup];
 
       if SBeginsWith(sKind, 'bin') then
-        sOpenOptions:= '/binary'
+        sOpenOptions:= '/view-binary'
       else
         sOpenOptions:= '';
 

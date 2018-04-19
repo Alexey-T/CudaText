@@ -2153,8 +2153,17 @@ begin
   bAndActivate:= Pos('/passive', AOptions)=0;
   bAllowNear:= Pos('/nonear', AOptions)=0;
 
-  if Pos('/binary', AOptions)>0 then
+  if Pos('/view-text', AOptions)>0 then
+    OpenMode:= cOpenModeViewText
+  else
+  if Pos('/view-binary', AOptions)>0 then
     OpenMode:= cOpenModeViewBinary
+  else
+  if Pos('/view-hex', AOptions)>0 then
+    OpenMode:= cOpenModeViewHex
+  else
+  if Pos('/view-unicode', AOptions)>0 then
+    OpenMode:= cOpenModeViewUnicode
   else
     OpenMode:= cOpenModeEditor;
 

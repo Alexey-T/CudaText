@@ -1044,9 +1044,12 @@ Opens editor tab with given filename. If filename already opened, activates its 
 ** If it has "/nohistory", file's saved history (caret, scroll pos, etc) won't be used.
 ** If it has "/noevent", then "on_open_pre" event won't fire. 
 ** If it has "/silent", then zipped add-on will install w/o prompt and report.
-** If it has "/binary', then file will open in internal binary viewer (for files of any size).
 ** If it has "/passive", then tab will not activate, it will be passive tab.
 ** If it has "/nonear", then app option "ui_tab_new_near_current" will be ignored, tab will append to end.
+** If it has "/view-text', then file will open in internal viewer, text (variable width) mode.
+** If it has "/view-binary', then file will open in internal viewer, binary (fixed width) mode.
+** If it has "/view-hex', then file will open in internal viewer, hex mode.
+** If it has "/view-unicode', then file will open in internal viewer, unicode (variable width) mode.
 
 Note: "ed" is always the current editor, after file_open() current editor changes, and "ed" is the new cur editor.
 
@@ -2344,6 +2347,8 @@ Text is chr(1) separated items:
 
 1.0.238 (app 1.49.5)
 * add: dlg_proc/dlg_custom: controls have prop "font_style"
+* add: file_open: options "/view-text", "/view-binary", "/view-hex", "/view-unicode"
+* change: file_open: deleted option "/binary" 
 
 1.0.237 (app 1.49.1)
 * add: statusbar_proc: STATUSBAR_GET_CELL_HINT, STATUSBAR_SET_CELL_HINT
