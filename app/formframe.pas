@@ -1628,8 +1628,14 @@ begin
   Mode:= cOpenModeEditor;
   if IsBinary then
     case FBin.Mode of
+      vbmodeText:
+        Mode:= cOpenModeViewText;
       vbmodeBinary:
-        Mode:= cOpenModeViewBinary
+        Mode:= cOpenModeViewBinary;
+      vbmodeHex:
+        Mode:= cOpenModeViewHex;
+      vbmodeUnicode:
+        Mode:= cOpenModeViewUnicode;
       else
         Mode:= cOpenModeViewHex;
     end;
