@@ -4,7 +4,7 @@
   * changed
 
 
-1.49.2 (2018/04)
+1.50.0 (2018/04)
 
 + add: restored deleted unicode options:
        "unicode_proportional" (was "font_width", int, now boolean),
