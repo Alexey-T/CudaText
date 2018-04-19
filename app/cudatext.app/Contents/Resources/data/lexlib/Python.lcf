@@ -1,4 +1,4 @@
-object SyntAnal28: TLibSyntAnalyzer
+object SyntAnal30: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -95,7 +95,7 @@ object SyntAnal28: TLibSyntAnalyzer
       DisplayName = '1st String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(?s) ^[\x20\x09]* [rbuf]? ("""|'#39#39#39') .*? (\1|\Z)'
+      Expression = '(?s) ^[\x20\x09]* [rbuf]*? ("""|'#39#39#39') .*? (\1|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -125,7 +125,7 @@ object SyntAnal28: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String2'
+      DisplayName = 'String """'
       StyleName = 'String'
       TokenType = 4
       Expression = '(?s) [rbuf]? ("""|'#39#39#39') .*? (\1|\Z)'
@@ -133,10 +133,18 @@ object SyntAnal28: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'String \ at eol'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(r|rf|rb|b|br|u|ur|f)? ("|'#39') (\\\n|\\.|.)*? \2'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '[rbuf]? ("|'#39') (\\.|.)*? (\1|$)'
+      Expression = '(r|rf|rb|b|br|u|ur|f)? ("|'#39') (\\.|.)*? (\2|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -481,11 +489,12 @@ object SyntAnal28: TLibSyntAnalyzer
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
-    '#Comment'
-    'test = u"""Doc'
-    'string""" +'
-    'r"""test'
-    '""" + 11_22_3.44_5 + 0x_FF_aa_b_0 + 0b10_1_0'
+    '#comment'
+    'test = u"""doc'
+    'string""" + r"""doc'
+    'string""" + "long \'
+    'string"; #end'
+    '11_22_3.44_5 + 0x_FF_aa_b_0 + 0b10_1_0'
     '+ 3. + .3 + 3.0'
     ''
     'import sys, sys2, sys3'

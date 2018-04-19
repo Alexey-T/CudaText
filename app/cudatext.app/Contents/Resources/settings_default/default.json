@@ -51,6 +51,15 @@
   "ui_font_output_size__linux" : 9,
   "ui_font_output_size__mac" : 9,
 
+  //Allows to use width of Unicode characters proportional to font
+  "unicode_proportional": true,
+  
+  //If "unicode_proportional":false, allows to use bigger width of full-width Unicode characters (else use 100%)
+  "unicode_wide_allowed": true,
+  
+  //If "unicode_proportional":false, sets width (in percents) of full-width characters
+  "unicode_full_width": 190,
+
   //[Ui]
   //Double-buffering of UI controls [has suffix]
   //  Use only if problems with rendering.
@@ -481,6 +490,9 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
+  //UI tabs: don't create tabs (except the first tab), ie use SDI = Single Document Interface
+  "ui_tab_disabled": false,  
+  
   //UI tabs: multi-line mode, ie wrappable to several lines if lot of tabs
   "ui_tab_multiline": false,
 
