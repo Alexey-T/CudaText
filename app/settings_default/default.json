@@ -750,10 +750,10 @@
   //like separate lines and try to jump to position above/below previous
   "key_up_down_nav_wrapped": true,
 
-  //Keys Left/Right: if selection exists, try to jump to opposite selection edge
+  //Keys Left/Right: try to jump to opposite selection edge
   "key_left_right_swap_sel": true,
 
-  //... and keep previous selection
+  //Keys Left/Right: try to jump to opposite selection edge, and keep this selection
   "key_left_right_swap_sel_and_select": false,
 
   //[Ui/Statusbar]
