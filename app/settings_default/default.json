@@ -408,10 +408,6 @@
   //Enable multi-carets, see "Help--Mouse usage"
   "caret_multi": true,
 
-  //Multi-carets are added when creating column (vertical) selection
-  //note: option not ready!
-  //"carets_with_column_sel": true,
-
   //Possible caret shapes:
   //  0: Full block
   //  1: Vert 1 pixels
@@ -444,9 +440,11 @@
   //Caret: shape for normal state
   "caret_shape": 1,
 
+  //...
   //Caret: shape for overwrite state (Ins key: insert/overwrite)
   "caret_shape_ovr": 0,
 
+  //...
   //Caret: shape for read-only mode
   "caret_shape_ro": 13,
 
@@ -482,11 +480,13 @@
   "find_multiline_scale": 2.5,
 
   //When doing "go to" or "find", and new position out of screen,
-  //scroll by N chars from new position
-  //  Vert indent: N<0: always indent from top;
-  //               N>=0: indent from top (goto up) or bottom (goto down)
-  //  Horz indent: N>=0
+  //scroll by N chars from new position. Vert indent:
+  //  N<0: always indent from top;
+  //  N>=0: indent from top (go to up) or bottom (go to down)
   "find_indent_vert": -5,
+
+  //When doing "go to" or "find", and new position out of screen,
+  //scroll by N chars from new position. Horz indent, >=0
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
