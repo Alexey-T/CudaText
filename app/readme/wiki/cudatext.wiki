@@ -1058,9 +1058,15 @@ The following macros are allowed in snippets text:
 
 '''File names'''
 
-Snippets are stored in separate files with extension ".cuda-snippet" (or ".synw-snippet"). Encoding is UTF8 no BOM. They can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+Snippets are stored in separate files with extensions:
 
-'''File format'''
+* .cuda-snippet
+* .synw-snippet (same format as .cuda-snippet)
+* .cuda-snips (compact format)
+
+Encoding is UTF8 no BOM. They can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+
+'''Format of cuda-snippet'''
 
 First lines have format "str=value" (no spaces around "="), where "str" is one of strings:
 
@@ -1072,6 +1078,18 @@ Then follows the line "text=" without value, and all next lines - are snippet te
 
 * Trailing blank lines are discarded. 
 * Use tab-chars in text indents, they are auto replaced to spaces if current editor configured so.
+
+'''Format of cuda-snips'''
+
+File contains one or several lines, one snippet per line. Format of lines:
+
+* id text
+* id /L=lexer text
+* id /N=name text
+* id /L=lexer /N=name text
+* id /L="lexer" /N="name" text
+
+Here "id" is short alias, "name" (if not set, it's the same as "id") is full name for dialog, "text" is snippet contents. Contents can have escaped special chars: "\n", "\r", "\t" (tab-char), "\\" (backslash). Lines which start from "#" or space, are ignored.
 
 ==More==
 
