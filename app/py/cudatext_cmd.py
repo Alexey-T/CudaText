@@ -113,6 +113,8 @@ cCommand_ScrollToCaretLeft = 254
 cCommand_ScrollToCaretRight = 255
 cCommand_ScrollColumnLeft = 256
 cCommand_ScrollColumnRight = 257
+cCommand_ScrollToBegin = 258
+cCommand_ScrollToEnd = 259
 
 cCommand_SelectAll = 260 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 cCommand_SelectNone = 261 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
