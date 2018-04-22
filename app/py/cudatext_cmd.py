@@ -105,6 +105,8 @@ cCommand_Redo = 236 | _CmdFlag_SelReset
 cCommand_TextIndent = 240
 cCommand_TextUnindent = 241
 
+cCommand_ScrollPageUp = 248
+cCommand_ScrollPageDown = 249
 cCommand_ScrollLineUp = 250
 cCommand_ScrollLineDown = 251
 cCommand_ScrollToCaretTop = 252
