@@ -687,8 +687,6 @@ procedure TfmFind.UpdateSize;
   end;
   //
 begin
-  if IsNarrow then
-    ClientWidth:= 680;
   ClientHeight:= IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) + 4;
 end;
 
