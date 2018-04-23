@@ -4,7 +4,7 @@
   * changed
 
 
-1.50.2 (2018/04)
+1.50.4 (2018/04)
 
 + add: file tab captions show folder specifier, if they have same file name (e.g. 2 tabs with index.js will show as "index.js - dir1", "index.js - dir2")
 + add: AddonManager: menu item "Download: show links" (to paste to download manager)
@@ -12,8 +12,10 @@
 + add: command "Scroll to end"
 + add: command "Scroll page up"
 + add: command "Scroll page down"
-+ add: Find/Replace dialog: input field is autosized to fill width
-* change: Find/Replace dialog: buttons have minimal width (for small screens)
++ add: Find/Replace dialog:
+      + input field is auto-sized
+      + separate dialog is resizable
+      * buttons have minimal width (for small screens)
 
 1.50.0 (2018/04)
 

@@ -461,11 +461,5 @@ object fmFind: TfmFind
       Top = 4
       Width = 250
     end
-    object PanelTopBtn: TATPanelSimple
-      Left = 320
-      Height = 25
-      Top = 4
-      Width = 394
-    end
   end
 end

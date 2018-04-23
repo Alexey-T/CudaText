@@ -264,6 +264,7 @@ begin
     else
     begin
       fmFind.IsNarrow:= true;
+      fmFind.BorderStyle:= bsSizeable;
       UpdateFormOnTop(fmFind);
     end;
 

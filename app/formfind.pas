@@ -67,7 +67,6 @@ type
     PanelOps1: TATPanelSimple;
     PanelOps2: TATPanelSimple;
     PanelTop: TATPanelSimple;
-    PanelTopBtn: TATPanelSimple;
     PanelTopOps: TATPanelSimple;
     procedure bFindNextClick(Sender: TObject);
     procedure bFindPrevClick(Sender: TObject);
@@ -548,7 +547,13 @@ end;
 
 procedure TfmFind.FormResize(Sender: TObject);
 begin
-  edFind.Width:= Max(60, ClientWidth - edFind.Left - (bMarkAll.Left+bMarkAll.Width) - PanelOps.Width - 12);
+  edFind.Width:= Max(60,
+    ClientWidth
+    - edFind.Left
+    - (bMarkAll.Left+bMarkAll.Width)
+    - IfThen(not IsNarrow, PanelOps.Width)
+    - 12
+    );
   edRep.Width:= edFind.Width;
 end;
 
@@ -650,14 +655,9 @@ begin
     chkMulLine.Parent:= PanelTopOps;
     chkConfirm.Parent:= PanelTopOps;
     chkConfirm.Left:= 400; //to right
-
-    bCount.Parent:= PanelTopBtn;
-    bSelectAll.Parent:= PanelTopBtn;
-    bMarkAll.Parent:= PanelTopBtn;
   end;
 
   PanelTopOps.Left:= edFind.Left;
-  PanelTopBtn.Left:= PanelBtn.Left;
 end;
 
 procedure TfmFind.SetReplace(AValue: boolean);
