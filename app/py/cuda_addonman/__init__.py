@@ -71,7 +71,7 @@ class Command:
         res = sorted([item['url'] for item in items])
         file_open('')
         ed.set_text_all('\n'.join(res)+'\n')
-    
+
 
     def do_download_all(self):
         global dir_for_all
@@ -137,13 +137,14 @@ class Command:
         caption = 'Re-install' if reinstall else 'Install'
         msg_status('Downloading list...')
         items = get_remote_addons_list(opt.ch_def+opt.ch_user)
-        items = sorted(items,
-            key=lambda item: (item['kind'], item['name'])
-            )
         msg_status('')
         if not items:
             msg_status('Cannot download list')
             return
+
+        items = sorted(items,
+            key=lambda item: (item['kind'], item['name'])
+            )
 
         kinds = sorted(list(set([i['kind'] for i in items])))
 
