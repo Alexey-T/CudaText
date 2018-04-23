@@ -354,3 +354,72 @@ begin
 end;
 
 
+function _LeveledTabCaption(const fn: string; NLevel: integer): string;
+const
+  cLine = ' • ';
+var
+  dir, dirs: string;
+  i: integer;
+begin
+  Result:= ExtractFileName(fn);
+  if NLevel>0 then
+  begin
+    dir:= ExtractFileDir(fn);
+    dirs:= ExtractFileName(dir);
+    for i:= 2 to NLevel do
+    begin
+      dir:= ExtractFileDir(dir);
+      if (dir='') or (dir='/') then Break;
+      dirs:= ExtractFileName(dir)+'/'+dirs;
+    end;
+    Result:= Result+cLine+dirs;
+  end;
+end;
+
+
+procedure TfmMain.UpdateTabCaptionsFromFolders;
+const
+  cMaxLevels = 6;
+var
+  Frame: TEditorFrame;
+  L_fn, L_cap: TStringList;
+  NLevel, i, j: integer;
+begin
+  L_fn:= TStringList.Create;
+  L_cap:= TStringList.Create;
+  try
+    for i:= 0 to FrameCount-1 do
+    begin
+      Frame:= Frames[i];
+      if Assigned(Frame) then
+        L_fn.Add(Frame.FileName);
+    end;
+
+    for i:= 0 to L_fn.Count-1 do
+      L_cap.Add(ExtractFileName(L_fn[i]));
+
+    for NLevel:= 0 to cMaxLevels do
+      for i:= 0 to L_cap.Count-2 do
+        if PtrInt(L_cap.Objects[i]) = NLevel then
+          for j:= i+1 to L_cap.Count-1 do
+            if L_cap[i]=L_cap[j] then
+            begin
+              L_cap[i]:= _LeveledTabCaption(L_fn[i], NLevel+1);
+              L_cap[j]:= _LeveledTabCaption(L_fn[j], NLevel+1);
+              L_cap.Objects[i]:= TObject(NLevel+1);
+              L_cap.Objects[j]:= TObject(NLevel+1);
+            end;
+
+    for i:= 0 to L_fn.Count-1 do
+      if L_fn[i]<>'' then
+      begin
+        Frame:= Frames[i];
+        if Assigned(Frame) then
+          Frame.TabCaption:= L_cap[i];
+      end;
+  finally
+    FreeAndNil(L_cap);
+    FreeAndNil(L_fn);
+  end;
+end;
+

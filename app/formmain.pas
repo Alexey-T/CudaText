@@ -901,8 +901,8 @@ type
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
-    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer;
-      AChecked: boolean);
+    procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked: boolean);
+    procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
     procedure UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean=true; AForceUpdateAll: boolean=false);
     procedure UpdateTreeContents;
