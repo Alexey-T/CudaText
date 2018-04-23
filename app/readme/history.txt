@@ -4,11 +4,12 @@
   * changed
 
 
-1.50.1
+1.50.2 (2018/04)
 
++ add: file tab captions have folder specifier, if several tabs have same filename (e.g. 2 tabs with index.js will show as "index.js - dir1", "index.js - dir2")
++ add: AddonManager: added menu item "Download: show links" (to paste to download manager)
 + add: commands "Scroll to begin", "Scroll to end"
 + add: commands "Scroll page up", "Scroll page down"
-+ add: AddonManager: added menu item "Download: show links" (to paste to download manager)
 
 1.50.0 (2018/04)
 
