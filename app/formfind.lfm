@@ -176,6 +176,8 @@ object fmFind: TfmFind
       Colors.UnprintedHexFont = clMedGray
       Colors.MinimapBorder = clSilver
       Colors.MinimapSelBG = 15658734
+      Colors.MinimapTooltipBG = clMoneyGreen
+      Colors.MinimapTooltipBorder = clGray
       Colors.StateChanged = 61680
       Colors.StateAdded = 2146336
       Colors.StateSaved = clMedGray
@@ -192,6 +194,7 @@ object fmFind: TfmFind
       WantTabs = False
       OptTextOffsetLeft = 2
       OptTextOffsetTop = 5
+      OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
       OptCaretManyAllowed = False
@@ -271,6 +274,8 @@ object fmFind: TfmFind
       Colors.UnprintedHexFont = clMedGray
       Colors.MinimapBorder = clSilver
       Colors.MinimapSelBG = 15658734
+      Colors.MinimapTooltipBG = clMoneyGreen
+      Colors.MinimapTooltipBorder = clGray
       Colors.StateChanged = 61680
       Colors.StateAdded = 2146336
       Colors.StateSaved = clMedGray
@@ -287,6 +292,7 @@ object fmFind: TfmFind
       WantTabs = False
       OptTextOffsetLeft = 2
       OptTextOffsetTop = 5
+      OptScrollIndentCaretHorz = 0
       OptShowURLs = False
       OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
       OptCaretManyAllowed = False
@@ -344,7 +350,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Count all'
+        Caption = 'Count'
         TabStop = True
         TabOrder = 3
         OnClick = bCountClick
@@ -418,10 +424,10 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edFind
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = edFind
-      Left = 42
+      Left = 43
       Height = 17
       Top = 8
-      Width = 34
+      Width = 33
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 4
       Caption = 'Find:'
