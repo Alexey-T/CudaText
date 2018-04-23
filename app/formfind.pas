@@ -97,6 +97,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
@@ -543,6 +544,12 @@ begin
     key:= 0;
     exit
   end;
+end;
+
+procedure TfmFind.FormResize(Sender: TObject);
+begin
+  edFind.Width:= Max(60, ClientWidth - edFind.Left - (bMarkAll.Left+bMarkAll.Width) - PanelOps.Width - 12);
+  edRep.Width:= edFind.Width;
 end;
 
 

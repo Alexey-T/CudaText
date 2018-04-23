@@ -13,6 +13,7 @@ object fmFind: TfmFind
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  OnResize = FormResize
   OnShow = FormShow
   ShowHint = True
   ShowInTaskBar = stNever
@@ -424,10 +425,10 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edFind
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = edFind
-      Left = 43
-      Height = 17
-      Top = 8
-      Width = 33
+      Left = 47
+      Height = 14
+      Top = 9
+      Width = 29
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 4
       Caption = 'Find:'
@@ -438,10 +439,10 @@ object fmFind: TfmFind
       AnchorSideTop.Control = edRep
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = edRep
-      Left = 19
-      Height = 17
-      Top = 37
-      Width = 57
+      Left = 26
+      Height = 14
+      Top = 38
+      Width = 50
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 4
       Caption = 'Replace:'
