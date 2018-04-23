@@ -13,9 +13,9 @@
 + add: command "Scroll page up"
 + add: command "Scroll page down"
 + add: Find/Replace dialog:
-      + input field is auto-sized
-      + separate dialog is resizable
-      * buttons have minimal width (for small screens)
+     + input fields are auto-sized
+     + separate dialog is resizable
+     * buttons have minimal width (for small screens)
 
 1.50.0 (2018/04)
 
