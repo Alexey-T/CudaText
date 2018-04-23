@@ -75,6 +75,7 @@ begin
   if F=nil then exit;
   if Ed=nil then exit;
 
+  UpdateTabCaptionsFromFolders; //maybe it's called to often here?
   UpdateMenuChecks;
 
   ToolbarSideMid.Buttons[0].Checked:= Assigned(fmFind) and fmFind.Visible;

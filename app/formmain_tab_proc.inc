@@ -379,45 +379,57 @@ end;
 
 procedure TfmMain.UpdateTabCaptionsFromFolders;
 const
-  cMaxLevels = 6;
+  cMaxLevels = 5;
 var
   Frame: TEditorFrame;
   L_fn, L_cap: TStringList;
+  L_found: TList;
   NLevel, i, j: integer;
 begin
   L_fn:= TStringList.Create;
   L_cap:= TStringList.Create;
+  L_found:= TList.Create;
+
   try
     for i:= 0 to FrameCount-1 do
-    begin
-      Frame:= Frames[i];
-      if Assigned(Frame) then
-        L_fn.Add(Frame.FileName);
-    end;
+      L_fn.Add(Frames[i].FileName);
 
     for i:= 0 to L_fn.Count-1 do
       L_cap.Add(ExtractFileName(L_fn[i]));
 
     for NLevel:= 0 to cMaxLevels do
+    begin
+      L_found.Clear;
+
       for i:= 0 to L_cap.Count-2 do
         if PtrInt(L_cap.Objects[i]) = NLevel then
           for j:= i+1 to L_cap.Count-1 do
             if L_cap[i]=L_cap[j] then
             begin
-              L_cap[i]:= _LeveledTabCaption(L_fn[i], NLevel+1);
-              L_cap[j]:= _LeveledTabCaption(L_fn[j], NLevel+1);
-              L_cap.Objects[i]:= TObject(NLevel+1);
-              L_cap.Objects[j]:= TObject(NLevel+1);
+              if L_found.IndexOf(Pointer(i))<0 then
+                L_found.Add(Pointer(i));
+              if L_found.IndexOf(Pointer(j))<0 then
+                L_found.Add(Pointer(j));
             end;
+
+      if L_found.Count=0 then Break;
+      for i:= 0 to L_found.Count-1 do
+      begin
+        j:= PtrInt(L_found[i]);
+        L_cap[j]:= _LeveledTabCaption(L_fn[j], NLevel+1);
+        L_cap.Objects[j]:= TObject(NLevel+1);
+      end;
+    end;
 
     for i:= 0 to L_fn.Count-1 do
       if L_fn[i]<>'' then
       begin
         Frame:= Frames[i];
-        if Assigned(Frame) then
+        if Frame.TabCaption<>L_cap[i] then
           Frame.TabCaption:= L_cap[i];
       end;
   finally
+    FreeAndNil(L_found);
     FreeAndNil(L_cap);
     FreeAndNil(L_fn);
   end;
