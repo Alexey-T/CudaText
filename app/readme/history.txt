@@ -12,7 +12,8 @@
 + add: command "Scroll to end"
 + add: command "Scroll page up"
 + add: command "Scroll page down"
-* change: Find/Replace dialog: buttons have minimal width (to fit on smaller screen)
++ add: Find/Replace dialog: input field is autosized to fill width
+* change: Find/Replace dialog: buttons have minimal width (for small screens)
 
 1.50.0 (2018/04)
 
