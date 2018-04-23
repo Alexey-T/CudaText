@@ -392,10 +392,14 @@ begin
 
   try
     for i:= 0 to FrameCount-1 do
-      L_fn.Add(Frames[i].FileName);
-
-    for i:= 0 to L_fn.Count-1 do
-      L_cap.Add(ExtractFileName(L_fn[i]));
+    begin
+      Frame:= Frames[i];
+      L_fn.Add(Frame.FileName);
+      if Frame.FileName<>'' then
+        L_cap.Add(ExtractFileName(Frame.FileName))
+      else
+        L_cap.Add(Frame.TabCaption);
+    end;
 
     for NLevel:= 0 to cMaxLevels do
     begin
