@@ -8,6 +8,7 @@
 
 + add: commands "Scroll to begin", "Scroll to end"
 + add: commands "Scroll page up", "Scroll page down"
++ add: AddonManager: added menu item "Download: show links" (to paste to download manager)
 
 1.50.0 (2018/04)
 

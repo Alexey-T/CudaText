@@ -38,6 +38,10 @@ method=_
 section=commands
 caption=Addons Manager\Download all...
 method=do_download_all
+[item19]
+section=commands
+caption=Addons Manager\Download: show links...
+method=do_show_links
 [item20]
 section=commands
 caption=Addons Manager\Config...
