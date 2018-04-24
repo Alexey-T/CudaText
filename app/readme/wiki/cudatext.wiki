@@ -1081,18 +1081,18 @@ Then follows the line "text=" without value, and all next lines - are snippet co
 
 ===Format of .cuda-snips===
 
-File contains one or several lines, one snippet per line. Format of lines:
+File contains one or several lines, one snippet per line. Empty lines, lines starting with "#" or space, are ignored. Format of lines:
 
 * id text
-* id /L=lexer text
+* /N=name text
 * id /N=name text
-* id /L=lexer /N=name text
-* id /L="lexer" /N="name" text
+* id /L=lexers text
+* id /L=lexers /N=name text
+* id /L="lexers" /N="name" text
 
-Here "id" is short alias, "name" (if not set, it's the same as "id") is full name for dialog, "text" is snippet contents. Contents can have escaped special chars: "\n", "\r", "\t" (tab-char), "\\" (backslash). Lines which start from "#" or space, are ignored.
+Here "id" is short alias for Tab-key, "name" (if not set, it's the same as "id") is full name for dialog, "lexers" is comma-separated lexer list, "text" is snippet contents. Contents can have escaped special chars: "\n", "\r", "\t" (tab-char), "\\" (backslash).
 
 ==More==
-
 
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]
