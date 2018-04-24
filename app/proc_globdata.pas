@@ -146,7 +146,9 @@ type
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
     FindSelCase: integer;
-    FindShowFindfirst: boolean;
+    FindShow_FindFirst: boolean;
+    FindShow_MarkALl: boolean;
+    FindShow_SelectAll: boolean;
     FindIndentVert: integer;
     FindIndentHorz: integer;
     FindMultiLineScale: double;
@@ -1146,7 +1148,9 @@ begin
     FindSuggestSel:= false;
     FindSuggestWord:= true;
     FindSelCase:= 2;
-    FindShowFindfirst:= true;
+    FindShow_FindFirst:= true;
+    FindShow_MarkALl:= true;
+    FindShow_SelectAll:= true;
     FindIndentVert:= -5;
     FindIndentHorz:= 10;
     FindMultiLineScale:= 2.5;

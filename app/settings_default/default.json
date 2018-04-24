@@ -476,6 +476,12 @@
   //Find dialog: show "find first" button
   "find_show_findfirst": true,
 
+  //Find dialog: show "select all" button
+  "find_show_select_all": true,
+
+  //Find dialog: show "mark all" button
+  "find_show_mark_all": true,
+
   //Find dialog: multi-line mode: how height of inputs is increased
   "find_multiline_scale": 2.5,
 

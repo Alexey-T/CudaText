@@ -715,7 +715,9 @@ begin
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
     UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
     UiOps.FindSelCase:= c.GetValue('find_sel_case', UiOps.FindSelCase);
-    UiOps.FindShowFindfirst:= c.GetValue('find_show_findfirst', UiOps.FindShowFindfirst);
+    UiOps.FindShow_FindFirst:= c.GetValue('find_show_findfirst', UiOps.FindShow_FindFirst);
+    UiOps.FindShow_MarkALl:= c.GetValue('find_show_mark_all', UiOps.FindShow_MarkALl);
+    UiOps.FindShow_SelectAll:= c.GetValue('find_show_select_all', UiOps.FindShow_SelectAll);
     UiOps.FindIndentVert:= c.GetValue('find_indent_vert', UiOps.FindIndentVert);
     UiOps.FindIndentHorz:= c.GetValue('find_indent_horz', UiOps.FindIndentHorz);
     UiOps.FindMultiLineScale:= c.GetValue('find_multiline_scale', UiOps.FindMultiLineScale);

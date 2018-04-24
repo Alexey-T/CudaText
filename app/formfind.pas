@@ -545,12 +545,25 @@ begin
   end;
 end;
 
+function BtnSize(C: TControl): integer;
+begin
+  if C.Visible then
+    Result:= C.Width
+  else
+    Result:= 0;
+end;
+
 procedure TfmFind.FormResize(Sender: TObject);
 begin
   edFind.Width:= Max(60,
     ClientWidth
     - edFind.Left
-    - (bMarkAll.Left+bMarkAll.Width)
+    - BtnSize(bFindFirst)
+    - BtnSize(bFindNext)
+    - BtnSize(bFindPrev)
+    - BtnSize(bCount)
+    - BtnSize(bSelectAll)
+    - BtnSize(bMarkAll)
     - IfThen(not IsNarrow, PanelOps.Width)
     - 12
     );

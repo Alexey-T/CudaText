@@ -309,7 +309,9 @@ begin
   InitFormFind;
   with fmFind do
   begin
-    bFindFirst.Visible:= UiOps.FindShowFindfirst;
+    bFindFirst.Visible:= UiOps.FindShow_FindFirst;
+    bSelectAll.Visible:= UiOps.FindShow_SelectAll;
+    bMarkAll.Visible:= UiOps.FindShow_MarkALl;
 
     //change Find field only if options SuggestSel/SuggestWord on,
     //else dont touch Find field

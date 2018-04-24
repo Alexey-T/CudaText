@@ -8,14 +8,16 @@
 
 + add: file tab captions show folder specifier, if they have same file name (e.g. 2 tabs with index.js will show as "index.js - dir1", "index.js - dir2")
 + add: AddonManager: menu item "Download: show links" (to paste to download manager)
-+ add: command "Scroll to begin"
-+ add: command "Scroll to end"
-+ add: command "Scroll page up"
-+ add: command "Scroll page down"
 + add: Find/Replace dialog:
      + input fields are auto-sized
      + separate dialog is resizable
      * buttons have minimal width (for small screens)
+     + option "find_show_select_all"
+     + option "find_show_mark_all"
++ add: command "Scroll to begin"
++ add: command "Scroll to end"
++ add: command "Scroll page up"
++ add: command "Scroll page down"
 
 1.50.0 (2018/04)
 
