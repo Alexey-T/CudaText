@@ -266,7 +266,7 @@ begin
       fmFind.IsNarrow:= true;
       fmFind.BorderStyle:= bsSizeable;
       fmFind.Width:= 700;
-      fmFind.Constraints.MinWidth:= 520;
+      fmFind.Constraints.MinWidth:= 460;
       UpdateFormOnTop(fmFind);
     end;
 
