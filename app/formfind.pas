@@ -686,8 +686,13 @@ procedure TfmFind.UpdateSize;
     Result:= P.Y;
   end;
   //
+var
+  N: integer;
 begin
-  ClientHeight:= IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) + 4;
+  N:= IfThen(IsReplace, MaxY(edRep), MaxY(edFind)) + 4;
+  Constraints.MinHeight:= N;
+  Constraints.MaxHeight:= N;
+  Height:= N;
 end;
 
 procedure TfmFind.UpdateState;
