@@ -51,6 +51,7 @@ begin
       begin
         c.SetValue('/find/pos_x', fmFind.Left);
         c.SetValue('/find/pos_y', fmFind.Top);
+        c.SetValue('/find/size_x', fmFind.Width);
       end;
       c.SetValue('/find/multi_line', fmFind.IsMultiLine);
     end;

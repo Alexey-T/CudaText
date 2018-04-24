@@ -279,6 +279,7 @@ begin
       begin
         fmFind.Left:= cfg.GetValue('/find/pos_x', 200);
         fmFind.Top:= cfg.GetValue('/find/pos_y', 400);
+        fmFind.Width:= cfg.GetValue('/find/size_x', fmFind.Width);
       end;
       fmFind.IsMultiLine:= cfg.GetValue('/find/multi_line', false);
     finally
