@@ -2137,7 +2137,7 @@ begin
         PROP_MARGIN:
           Result:= PyInt_FromLong(Ed.OptMarginRight);
         PROP_MARGIN_STRING:
-          Result:= PyString_FromString(PChar(Ed.OptMarginString));
+          Result:= PyString_FromString(PChar(Trim(Ed.OptMarginString)));
         PROP_INSERT:
           Result:= PyBool_FromLong(Ord(not Ed.ModeOverwrite));
         PROP_MODIFIED:
