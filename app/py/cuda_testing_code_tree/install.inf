@@ -1,0 +1,15 @@
+[info]
+title=Markdown Code Tree
+desc=Supports Code Tree for Markdown lexer
+type=cudatext-plugin
+subdir=cuda_markdown_code_tree
+homepage=
+
+[item1]
+section=events
+events=on_change_slow
+lexers=Markdown
+
+[item2]
+section=events
+events=on_open,on_tab_change
