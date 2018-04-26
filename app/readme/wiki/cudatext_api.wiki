@@ -1945,7 +1945,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_V_SEL_LEN: int: for binary viewer, selection length.
 * PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 
-===properties vs options
+===props vs options===
 
 Many get_prop/set_prop ids correspond to CudaText options. List of correspoding pairs:
 
