@@ -267,7 +267,7 @@ begin
       fmFind.BorderIcons:= [biSystemMenu];
       fmFind.BorderStyle:= bsSizeToolWin;
       fmFind.Width:= 700;
-      fmFind.Constraints.MinWidth:= 450;
+      fmFind.Constraints.MinWidth:= 410;
       UpdateFormOnTop(fmFind);
     end;
 
