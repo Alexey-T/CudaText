@@ -555,7 +555,7 @@ end;
 
 procedure TfmFind.FormResize(Sender: TObject);
 begin
-  edFind.Width:= Max(60,
+  edFind.Width:= Max(45,
     ClientWidth
     - edFind.Left
     - BtnSize(bFindFirst)

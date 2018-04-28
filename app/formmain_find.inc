@@ -264,9 +264,10 @@ begin
     else
     begin
       fmFind.IsNarrow:= true;
-      fmFind.BorderStyle:= bsSizeable;
+      fmFind.BorderIcons:= [biSystemMenu];
+      fmFind.BorderStyle:= bsSizeToolWin;
       fmFind.Width:= 700;
-      fmFind.Constraints.MinWidth:= 460;
+      fmFind.Constraints.MinWidth:= 450;
       UpdateFormOnTop(fmFind);
     end;
 
