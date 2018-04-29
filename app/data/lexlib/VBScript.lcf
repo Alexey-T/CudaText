@@ -438,7 +438,7 @@ object SyntAnal41: TLibSyntAnalyzer
       HighlightPos = cpRange
       DynSelectMin = True
       DrawStaple = True
-      CollapseFmt = '%s1 ...'
+      CollapseFmt = '%sz1'
       IgnoreAsParent = False
     end
     item
@@ -506,7 +506,7 @@ object SyntAnal41: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'OP Keywords'
+      DisplayName = 'Keywords modifiers'
       StyleName = 'Operator Keywords'
       BlockType = btTagDetect
       ConditionList = <
@@ -550,7 +550,7 @@ object SyntAnal41: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpRange
       DrawStaple = True
-      CollapseFmt = 'For...'
+      CollapseFmt = '%sz-1'
       IgnoreAsParent = False
     end
     item
@@ -588,7 +588,7 @@ object SyntAnal41: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
-      CollapseFmt = 'Do...'
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
@@ -614,7 +614,7 @@ object SyntAnal41: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
-      CollapseFmt = '...'
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
