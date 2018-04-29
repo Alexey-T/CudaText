@@ -1,4 +1,4 @@
-object SyntAnal37: TLibSyntAnalyzer
+object SyntAnal41: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -266,6 +266,7 @@ object SyntAnal37: TLibSyntAnalyzer
             'long'
             'loop'
             'lset'
+            'module'
             'new'
             'next'
             'not'
@@ -407,16 +408,24 @@ object SyntAnal37: TLibSyntAnalyzer
         end
         item
           TagList.Strings = (
+            'class'
+            'enum'
+            'get'
+            'module'
             'property'
             'select'
+            'set'
+            'try'
             'type'
+            'while'
             'with')
           TokenTypes = 4
           IgnoreCase = True
         end
         item
           TagList.Strings = (
-            'end')
+            'end'
+            'exit')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
@@ -429,7 +438,7 @@ object SyntAnal37: TLibSyntAnalyzer
       HighlightPos = cpRange
       DynSelectMin = True
       DrawStaple = True
-      CollapseFmt = '%s1 ...'
+      CollapseFmt = '%sz1'
       IgnoreAsParent = False
     end
     item
@@ -497,7 +506,7 @@ object SyntAnal37: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'OP Keywords'
+      DisplayName = 'Keywords modifiers'
       StyleName = 'Operator Keywords'
       BlockType = btTagDetect
       ConditionList = <
@@ -541,7 +550,7 @@ object SyntAnal37: TLibSyntAnalyzer
       DynHighlight = dhBound
       HighlightPos = cpRange
       DrawStaple = True
-      CollapseFmt = 'For...'
+      CollapseFmt = '%sz-1'
       IgnoreAsParent = False
     end
     item
@@ -579,7 +588,7 @@ object SyntAnal37: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
-      CollapseFmt = 'Do...'
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
@@ -605,7 +614,7 @@ object SyntAnal37: TLibSyntAnalyzer
       DisplayInTree = False
       HighlightPos = cpAny
       DrawStaple = True
-      CollapseFmt = '...'
+      CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item

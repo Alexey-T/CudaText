@@ -105,6 +105,8 @@ cCommand_Redo = 236 | _CmdFlag_SelReset
 cCommand_TextIndent = 240
 cCommand_TextUnindent = 241
 
+cCommand_ScrollPageUp = 248
+cCommand_ScrollPageDown = 249
 cCommand_ScrollLineUp = 250
 cCommand_ScrollLineDown = 251
 cCommand_ScrollToCaretTop = 252
@@ -113,6 +115,8 @@ cCommand_ScrollToCaretLeft = 254
 cCommand_ScrollToCaretRight = 255
 cCommand_ScrollColumnLeft = 256
 cCommand_ScrollColumnRight = 257
+cCommand_ScrollToBegin = 258
+cCommand_ScrollToEnd = 259
 
 cCommand_SelectAll = 260 | _CmdFlag_SelReset | _CmdFlag_MovesCaret
 cCommand_SelectNone = 261 | _CmdFlag_SelReset | _CmdFlag_MovesCaret

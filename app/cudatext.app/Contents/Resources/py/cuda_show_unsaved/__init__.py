@@ -2,7 +2,7 @@ import os
 import difflib
 from cudatext import *
 
-INI = 'cuda_show_unsaved.ini'
+fn_ini = 'plugins.ini'
 
 REPLACE_ENC = {
     'ansi': 'cp1252', #cannot detect local region ANSI
@@ -156,10 +156,10 @@ class Command:
 
     def pos_load(self):
 
-        x = int(ini_read(INI, 'pos', 'x', '-1'))
-        y = int(ini_read(INI, 'pos', 'y', '-1'))
-        w = int(ini_read(INI, 'pos', 'w', '-1'))
-        h = int(ini_read(INI, 'pos', 'h', '-1'))
+        x = int(ini_read(fn_ini, 'show_unsaved', 'x', '-1'))
+        y = int(ini_read(fn_ini, 'show_unsaved', 'y', '-1'))
+        w = int(ini_read(fn_ini, 'show_unsaved', 'w', '-1'))
+        h = int(ini_read(fn_ini, 'show_unsaved', 'h', '-1'))
         if x<0: return
 
         dlg_proc(self.h_dlg, DLG_PROP_SET, prop={'x':x, 'y':y, 'w':w, 'h':h, })
@@ -174,7 +174,7 @@ class Command:
         w = prop['w']
         h = prop['h']
 
-        ini_write(INI, 'pos', 'x', str(x))
-        ini_write(INI, 'pos', 'y', str(y))
-        ini_write(INI, 'pos', 'w', str(w))
-        ini_write(INI, 'pos', 'h', str(h))
+        ini_write(fn_ini, 'show_unsaved', 'x', str(x))
+        ini_write(fn_ini, 'show_unsaved', 'y', str(y))
+        ini_write(fn_ini, 'show_unsaved', 'w', str(w))
+        ini_write(fn_ini, 'show_unsaved', 'h', str(h))

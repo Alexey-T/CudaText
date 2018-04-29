@@ -1,9 +1,9 @@
-﻿''' Py-extensions for CudaText.
+﻿""" Py-extensions for CudaText.
 Overridden option tools:
-    get_opt(path, def_value=None, level=CONFIG_LEV_ALL, ed=ed)
-        Reads option from configs (lexer-override config, then user config).
+    get_opt(path, def_value=None, level=CONFIG_LEV_ALL, ed=ed, lexer='')
+        Reads option from configs chain default-user-lexer-file.
         Path: simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
-    set_opt(path, value, ed=ed, level=CONFIG_LEV_USER)
+    set_opt(path, value, ed=ed, level=CONFIG_LEV_USER, ed=ed, lexer='')
         Add/Update/Delete option into a config (user-config if no param level).
 Duplicate:
     duplicate
@@ -11,10 +11,10 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.1 2016-09-13'
+    '0.6.2 2018-04-26'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
-'''
+"""
 
 import  cudatext        as app
 from    cudatext    import ed
@@ -27,8 +27,31 @@ CONFIG_LEV_USER     = 'user'
 CONFIG_LEV_LEX      = 'lex'
 CONFIG_LEV_FILE     = 'file'
 CONFIG_LEV_ALL      = 'dulf'
-APP_DEFAULT_OPTS    = {}
-LAST_FILE_OPTS      = {}
+OPT2PROP            = dict(
+     tab_size              = app.PROP_TAB_SIZE
+    ,tab_spaces            = app.PROP_TAB_SPACES
+    ,unprinted_show        = app.PROP_UNPRINTED_SHOW
+    ,unprinted_spaces      = app.PROP_UNPRINTED_SPACES
+    ,unprinted_ends        = app.PROP_UNPRINTED_ENDS
+    ,unprinted_end_details = app.PROP_UNPRINTED_END_DETAILS
+    ,wrap_mode             = app.PROP_WRAP
+    ,gutter_show           = app.PROP_GUTTER_ALL
+    ,gutter_fold           = app.PROP_GUTTER_FOLD
+    ,gutter_bookmarks      = app.PROP_GUTTER_BM
+    ,margin                = app.PROP_MARGIN
+    ,margin_string         = app.PROP_MARGIN_STRING
+    ,ruler_show            = app.PROP_RULER
+    ,caret_shape           = app.PROP_CARET_SHAPE
+    ,caret_shape_ovr       = app.PROP_CARET_SHAPE_OVR
+    ,caret_shape_ro        = app.PROP_CARET_SHAPE_RO
+    ,minimap_show          = app.PROP_MINIMAP
+    ,micromap_show         = app.PROP_MICROMAP
+    ,indent_size           = app.PROP_INDENT_SIZE
+    ,unindent_keeps_align  = app.PROP_INDENT_KEEP_ALIGN
+    ,indent_auto           = app.PROP_INDENT_AUTO
+    ,indent_kind           = app.PROP_INDENT_KIND
+#   ,viewer_binary_width   = app.PROP_V_WIDTH
+    )
 
 # Localization
 CONFIG_MSG_DONT_SET_FILE= 'Cannot set editor properties'
@@ -45,6 +68,8 @@ pass;                           pfrm15=lambda d:pformat(d,width=15)
 pass;                           LOG = (-2==-2)  # Do or dont logging.
 pass;                           log_gap = ''    # use only into log()
 
+APP_DEFAULT_OPTS    = {}
+LAST_FILE_OPTS      = {}
 class Command:
     #################################################
     ## Duplicate
@@ -126,7 +151,7 @@ def _get_file_opts(opts_json, def_opts={}, **kw):
     return opts
    #def _get_file_opts
 
-def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
+def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer=''):
     ''' Overridden options tool.
         Config pairs key:val are read from
             <root>/settings_default/default.json
@@ -136,10 +161,13 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
         Params
             path        Simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
             def_value   For return if no opt for the path into all config files
-            lev         Stop finding level
+            lev         Stop level to search in chain default-user-lexer-file
                             CONFIG_LEV_ALL, CONFIG_LEV_DEF, CONFIG_LEV_USER, CONFIG_LEV_LEX, CONFIG_LEV_FILE
-            ed_cfg      Ref to editor to point a lexer
-        Return          Last found in config files default[/user[/lexer]] or def_value
+            ed_cfg      Ref to editor to point a lexer (over first caret) 
+                        Used only if lev in (CONFIG_LEV_LEX, CONFIG_LEV_FILE)
+            lexer       Explicit lexer name (lexer from ed_cfg not used).
+                        Used only if lev==CONFIG_LEV_LEX
+        Return          Last found in config chain default-user-lexer-file or def_value
     '''
     pass;                      #LOG and log('path, def_va, lev, ed_cfg={}',(path, def_value, lev, ed_cfg))
     keys            = path.split('/') if '/' in path else ()
@@ -159,7 +187,8 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
                                                                           ,_opt_for_keys(def_opts, keys, def_value))
             pass;              #LOG and log('lev=USR ans={}',(ans))
         else:
-            lex     = ed_cfg.get_prop(app.PROP_LEXER_CARET)
+            lex     = lexer                                 if lexer    else \
+                      ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg   else ''
             lex_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'lexer {}.json'.format(lex))
             lex_opts= _get_file_opts(lex_json)
             if lev==CONFIG_LEV_LEX:
@@ -171,21 +200,8 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
                                                                           ,_opt_for_keys(def_opts, keys, def_value)))
                 pass;          #LOG and log('lev=LEX ans={}',(ans))
             else: # lev in (CONFIG_LEV_ALL, CONFIG_LEV_FILE
-                if False:pass
-                elif path=='tab_size':
-                    ans = ed_cfg.get_prop(app.PROP_TAB_SIZE)
-                elif path=='tab_spaces':
-                    ans = ed_cfg.get_prop(app.PROP_TAB_SPACES)
-                elif path=='unprinted_show':
-                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_SHOW)
-                elif path=='unprinted_spaces':
-                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_SPACES)
-                elif path=='unprinted_ends':
-                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_ENDS)
-                elif path=='unprinted_end_details':
-                    ans = ed_cfg.get_prop(app.PROP_UNPRINTED_END_DETAILS)
-                elif path=='wrap_mode':
-                    ans = ed_cfg.get_prop(app.PROP_WRAP)
+                if path in OPT2PROP:
+                    ans = ed_cfg.get_prop(OPT2PROP[path])
                 else:
                     pass;      #LOG and log('def_opts(), usr_opts(), lex_opts()={}',(def_opts.get(path),usr_opts.get(path),lex_opts.get(path)))
                     ans = lex_opts.get(path
@@ -197,7 +213,7 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed):
     return ans if def_value is None else type(def_value)(ans)
    #def get_opt
 
-def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
+def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
     ''' Overridden options tool.
         Config pairs key:val are add/update/delete into
             <root>/settings/user.json
@@ -207,10 +223,20 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
             path        Simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
             value       Value for setting or deleting
                             None        Delete pair (last key in path)
-                            is not None Add or update pair value
+                            not None    Add or update pair value
             lev         Level for set opt
                             CONFIG_LEV_USER, CONFIG_LEV_LEX, CONFIG_LEV_FILE
-            ed_cfg      Ref to editor to point a lexer
+                        For CONFIG_LEV_FILE path only from
+                            tab_size
+                            tab_spaces
+                            unprinted_show
+                            unprinted_spaces
+                            unprinted_ends
+                            unprinted_end_details
+                            wrap_mode
+            ed_cfg      Ref to editor to point a lexer (over first caret)
+                        Used only if lev in (CONFIG_LEV_LEX, CONFIG_LEV_FILE)
+            lexer       Explicit lexer name (lexer from ed_cfg not used).
         Return          The value (second param) or None if fail
     '''
     if lev==CONFIG_LEV_FILE:
@@ -220,36 +246,25 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
             value       = def_opts.get(path)
         else:
             value       = str(value)
-        if False:pass
-        elif path=='tab_size':
-            ed_cfg.set_prop(app.PROP_TAB_SIZE, value)
-        elif path=='tab_spaces':
-            ed_cfg.set_prop(app.PROP_TAB_SPACES, value)
-        elif path=='unprinted_show':
-            ed_cfg.set_prop(app.PROP_UNPRINTED_SHOW, value)
-        elif path=='unprinted_spaces':
-            ed_cfg.set_prop(app.PROP_UNPRINTED_SPACES, value)
-        elif path=='unprinted_ends':
-            ed_cfg.set_prop(app.PROP_UNPRINTED_ENDS, value)
-        elif path=='unprinted_end_details':
-            ed_cfg.set_prop(app.PROP_UNPRINTED_END_DETAILS, value)
-        elif path=='wrap_mode':
-            ed_cfg.set_prop(app.PROP_WRAP, value)
+        if path in OPT2PROP:
+            ed_cfg.set_prop(OPT2PROP[path], value)
         else:
             app.msg_status(CONFIG_MSG_DONT_SET_FILE)
             return None # Fail!
         return value
 
-    if lev==CONFIG_LEV_LEX and ed_cfg is None: return None # Fail!
-    lex     = ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg is not None else ''
+    lex     = lexer                                 if lexer    else \
+              ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg   else ''
+    if not lex: return None # Fail!
     cfg_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), icase(False,''
               ,lev==CONFIG_LEV_USER                          , 'user.json'
               ,lev==CONFIG_LEV_LEX                           , 'lexer {}.json'.format(lex)
                                                              , ''))
     pass;                      #LOG and log('cfg_json={}',(cfg_json))
-    if not os.path.exists(cfg_json)  and value is     None:
-        return None #?? success or fail?
-    if not os.path.exists(cfg_json):#and value is not None
+    if not os.path.exists(cfg_json)     and value is     None:
+        return None # SUCCESS (or fail?)
+    
+    if not os.path.exists(cfg_json)     and value is not None:
         # First pair for this file
         dct     = {path:value}
         if '/' in path:
@@ -267,31 +282,36 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed):
 
     # Try to modify file
     body    = open(cfg_json, encoding='utf8').read()
-    value4js= json.dumps({'':value})[len('{"": '):-1]    # format for json
+    value4js= json.dumps({"": value})[len('{"": '):-1]      # Format value as 'after ": " string'
     if '/' in path:
-        # Complex path
+        # Fail! Complex path
         pass;                   app.msg_status(CONFIG_MSG_DONT_SET_PATH)
-        pass;                   return None # Fail!
+        return None
     else:
         # Simple key
         # Assumptions:
         #    one key:val into one row
-        re_key_val  = r'^\s*,?\s*"{}"\s*:.+'.format(re.escape(path))
-        cre         = re.compile(re_key_val, re.MULTILINE)
-        has_pair    = cre.search(body) is not None
+        sre_key_val = r'^\s*,?\s*"{}"\s*:(.+)'.format(re.escape(path))
+        cre_key_val = re.compile(sre_key_val, re.MULTILINE)  # MULTILINE for ^
+        mt_key_val  = cre_key_val.search(body)
+        has_pair    = mt_key_val is not None
         pass;                  #LOG and log('re_key_val, has_pair={}',(re_key_val,has_pair))
         if False:pass
         elif has_pair and value is None:
             # Delete!
             pass;              #LOG and log('del!',)
-            body    = cre.sub('', body)
+            body    = cre_key_val.sub('', body)     # Will empty line
         elif has_pair and value is not None:
+            # Update?
+            if mt_key_val.group(1).strip(' \t,') == value4js:
+                # Skip! Value is same
+                return value
             # Update!
-            pass;              #LOG and log('upd!',)
-            body    = cre.sub('    "{}": {},'.format(path, value4js), body)
+            new_pair= '    "{}": {},'.format(path, value4js.replace('\\', r'\\'))
+            body    = cre_key_val.sub(new_pair, body)   # NB! backslash escapes in 1st par are processed
         elif not has_pair and value is None:
-            # OK
-            pass
+            # Skip! Nothing to delete
+            return value
         elif not has_pair:
             # Add! before end
             pass;              #LOG and log('add!',)
@@ -481,6 +501,16 @@ def log(msg='', *args, **kwargs):
             cls = ''
         fun,ln  = (cls + frCaller[3]).replace('.__init__','()'), frCaller[2]
         lctn    = '{}:{} '.format(fun, ln)
+    if '###' in msg :   # Add stack info
+        st_inf  = '\n###'
+        for fr in inspect.stack()[2:]:
+            try:
+                cls = fr[0].f_locals['self'].__class__.__name__ + '.'
+            except:
+                cls = ''
+            fun,ln  = (cls + fr[3]).replace('.__init__','()'), fr[2]
+            st_inf += '    {}:{}'.format(fun, ln)
+        msg    += st_inf
 
     if args or kwargs:
         msg = msg.format(*args, **kwargs)

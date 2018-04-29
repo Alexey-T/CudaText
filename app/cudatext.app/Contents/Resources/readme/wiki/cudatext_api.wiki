@@ -1945,6 +1945,33 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_V_SEL_LEN: int: for binary viewer, selection length.
 * PROP_V_WIDTH: int: for binary viewer, width of text in mode VMODE_BINARY.
 
+===props vs options===
+
+Many get_prop/set_prop ids correspond to CudaText options. List of correspoding pairs:
+
+* PROP_CARET_SHAPE - caret_shape
+* PROP_CARET_SHAPE_OVR - caret_shape_ovr
+* PROP_CARET_SHAPE_RO - caret_shape_ro
+* PROP_GUTTER_ALL - gutter_show
+* PROP_GUTTER_BM - gutter_bookmarks
+* PROP_GUTTER_FOLD - gutter_fold
+* PROP_INDENT_AUTO - indent_auto
+* PROP_INDENT_KEEP_ALIGN - unindent_keeps_align
+* PROP_INDENT_KIND - indent_kind
+* PROP_INDENT_SIZE - indent_size
+* PROP_MARGIN - margin
+* PROP_MARGIN_STRING - margin_string
+* PROP_MICROMAP - micromap_show
+* PROP_MINIMAP - minimap_show
+* PROP_RULER - ruler_show
+* PROP_TAB_SIZE - tab_size
+* PROP_TAB_SPACES - tab_spaces
+* PROP_UNPRINTED_ENDS - unprinted_ends
+* PROP_UNPRINTED_END_DETAILS - unprinted_end_details
+* PROP_UNPRINTED_SHOW - unprinted_show
+* PROP_UNPRINTED_SPACES - unprinted_spaces
+* PROP_WRAP - wrap_mode
+
 ===bookmark===
 
  bookmark(id, nline, nkind=1, ncolor=-1, text="")

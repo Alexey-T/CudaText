@@ -92,4 +92,6 @@ def get_remote_addons_list(channels):
         items = get_channel(ch)
         if items:
             res += items
+        else:
+            return
     return res

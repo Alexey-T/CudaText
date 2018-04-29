@@ -1,6 +1,6 @@
 = About =
 
-'''CudaText''' is a cross-platform text editor, written in Lazarus.
+CudaText is a cross-platform text editor, written in Lazarus.
 
 * Syntax highlight for many languages: C, C++, Java, JavaScript, HTML, CSS, PHP, Python, Pascal, XML; more than [http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 160 lexers] exist
 * Code folding 
@@ -1033,7 +1033,7 @@ Example of install.inf for lite lexer. Note that "^" suffix not needed here.
 
 ==Format of snippet files==
 
-'''Contents'''
+===Contents===
 
 To specify markers:
 
@@ -1056,25 +1056,43 @@ The following macros are allowed in snippets text:
 * ${fname} - Replaced with current file name (w/out path and extension). 
 * ${date:nnnnnn} - Replaced with current date/time formatted by string nnnnnn. See [http://strftime.org/ Python doc].
 
-'''File names'''
+===File names===
 
-Snippets are stored in separate files with extension ".cuda-snippet" (or ".synw-snippet"). Encoding is UTF8 no BOM. They can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
+Snippets are stored in separate files with extensions:
 
-'''File format'''
+* .cuda-snippet
+* .synw-snippet (same format as .cuda-snippet)
+* .cuda-snips (compact format)
 
-First lines have format "str=value" (no spaces around "="), where "str" is one of strings:
+Encoding is UTF-8, no BOM. Files can be placed in any subdir of "data/snippets" dir, file names and dir names have no meaning, but it's good to name subdirs like AuthorName.SyntaxName, so users can easily find newly installed snippets.
 
-* name - snippet full name (any non-empty string).
-* id - snippet short alias/id for Tab-key (latin letters, digits, "_", dot), line is optional.
-* lex - lexers list, comma-separated, for which snippet is active, line is optional, empty means snippet always active.
+===Format of .cuda-snippet===
 
-Then follows the line "text=" without value, and all next lines - are snippet text. 
+First lines have format "key=value" (no spaces around "="), where "key" is one of strings:
+
+* "name": snippet full name, shown in dialog.
+* "id": snippet short alias for Tab-key (latin letters, digits, "_.$"), line is optional.
+* "lex": lexers list, comma-separated, for which snippet is active, line is optional, empty means snippet always active.
+
+Then follows the line "text=" without value, and all next lines - are snippet contents. 
 
 * Trailing blank lines are discarded. 
 * Use tab-chars in text indents, they are auto replaced to spaces if current editor configured so.
 
-==More==
+===Format of .cuda-snips===
 
+File contains one or several lines, one snippet per line. Empty lines, lines starting with "#" or space, are ignored. Format of lines:
+
+* id text
+* /N=name text
+* id /N=name text
+* id /L=lexers text
+* id /L=lexers /N=name text
+* id /L="lexers" /N="name" text
+
+Here "id" is short alias for Tab-key, "name" (if not set, it's the same as "id") is full name for dialog, "lexers" is comma-separated lexer list, "text" is snippet contents. Contents can have escaped special chars: "\n", "\r", "\t" (tab-char), "\\" (backslash).
+
+==More==
 
 [[Category: Applications written in Free Pascal]]
 [[Category: Applications created with Lazarus]]

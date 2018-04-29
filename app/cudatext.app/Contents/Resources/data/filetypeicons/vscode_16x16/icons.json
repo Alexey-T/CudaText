@@ -5,7 +5,8 @@
     "_zip": "file_type_zip2.png",
     "_img": "file_type_image.png",
     "_bin": "file_type_binary.png",
-    "_bad": "icon-bad.png",
+    "_server": "icon_server.png",
+    "_bad": "icon_bad.png",
     "ActionScript": "file_type_actionscript.png",
     "Apache config": "file_type_apache.png",
     "Apache Hive": "file_type_apache.png",
@@ -117,6 +118,7 @@
     "VBScript": "file_type_vb.png",
     "VHDL": "file_type_vhdl.png",
     "VimL": "file_type_vim.png",
+    "Vue": "file_type_vue.png",
     "XML": "file_type_xml.png",
     "XSLT": "file_type_xsl.png",
     "YAML": "file_type_yaml.png"
