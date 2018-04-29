@@ -253,9 +253,12 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
             return None # Fail!
         return value
 
-    lex     = lexer                                 if lexer    else \
-              ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg   else ''
-    if not lex: return None # Fail!
+    lex = ''
+    if lev==CONFIG_LEV_LEX:
+        lex     = lexer                                 if lexer    else \
+                  ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg   else ''
+        if not lex: return None # Fail!
+
     cfg_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), icase(False,''
               ,lev==CONFIG_LEV_USER                          , 'user.json'
               ,lev==CONFIG_LEV_LEX                           , 'lexer {}.json'.format(lex)
