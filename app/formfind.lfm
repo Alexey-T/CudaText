@@ -403,7 +403,7 @@ object fmFind: TfmFind
         Top = 0
         Width = 90
         Align = alLeft
-        Caption = 'Replace cur'
+        Caption = 'Replace'
         TabStop = True
         TabOrder = 0
         OnClick = bRepClick
