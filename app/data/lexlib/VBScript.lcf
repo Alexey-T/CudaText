@@ -1,4 +1,4 @@
-object SyntAnal37: TLibSyntAnalyzer
+object SyntAnal41: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -266,6 +266,7 @@ object SyntAnal37: TLibSyntAnalyzer
             'long'
             'loop'
             'lset'
+            'module'
             'new'
             'next'
             'not'
@@ -407,16 +408,24 @@ object SyntAnal37: TLibSyntAnalyzer
         end
         item
           TagList.Strings = (
+            'class'
+            'enum'
+            'get'
+            'module'
             'property'
             'select'
+            'set'
+            'try'
             'type'
+            'while'
             'with')
           TokenTypes = 4
           IgnoreCase = True
         end
         item
           TagList.Strings = (
-            'end')
+            'end'
+            'exit')
           CondType = tcNotEqual
           TokenTypes = 4
           IgnoreCase = True
