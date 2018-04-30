@@ -129,6 +129,8 @@ type
     procedure BinaryOnScroll(Sender: TObject);
     procedure BinaryOnProgress(const ACurrentPos, AMaximalPos: Int64;
       var AContinueSearching: Boolean);
+    procedure DoDeactivatePictureMode;
+    procedure DoDeactivateViewerMode;
     procedure DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
     procedure DoFileOpen_AsPicture(const fn: string);
     procedure DoImageboxScroll(Sender: TObject);
@@ -1410,6 +1412,27 @@ begin
 end;
 
 
+procedure TEditorFrame.DoDeactivatePictureMode;
+begin
+  if Assigned(FImageBox) then
+  begin
+    FreeAndNil(FImageBox);
+    Ed1.Show;
+    ReadOnly:= false;
+  end;
+end;
+
+procedure TEditorFrame.DoDeactivateViewerMode;
+begin
+  if Assigned(FBin) then
+  begin
+    FBin.OpenStream(nil);
+    FreeAndNil(FBin);
+    Ed1.Show;
+    ReadOnly:= false;
+  end;
+end;
+
 procedure TEditorFrame.DoFileOpen(const fn: string; AAllowLoadHistory, AAllowErrorMsgBox: boolean;
   AOpenMode: TAppOpenMode);
 begin
@@ -1445,14 +1468,10 @@ begin
     exit;
   end;
 
-  try
-    if Assigned(FBin) then
-    begin
-      FBin.OpenStream(nil);
-      FreeAndNil(FBin);
-      Ed1.Show;
-    end;
+  DoDeactivatePictureMode;
+  DoDeactivateViewerMode;
 
+  try
     Editor.LoadFromFile(fn);
     FFileName:= fn;
     TabCaption:= ExtractFileName_Fixed(FFileName);
