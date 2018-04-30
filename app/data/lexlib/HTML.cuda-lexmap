@@ -1,17 +1,14 @@
 [ref]
-0=PHP_
-1=CSS
-2=VBScript
+0=CSS
+1=VBScript
+2=JavaScript
 3=JavaScript
-4=JavaScript
-5=VBScript
-
+4=VBScript
 [comments]
 str1=<!--
 str2=-->
 styles_cmt=Comment
 styles_str=Text,Tag string
-
 [map]
 Text=Id
 Tag bound=TagBound

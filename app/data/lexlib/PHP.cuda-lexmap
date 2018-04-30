@@ -1,7 +1,27 @@
 [ref]
-0=HTML
+0=PHP_
+1=CSS
+2=JavaScript
+3=JavaScript
 [comments]
-str1=/*
-str2=*/
+str1=<!--
+str2=-->
 styles_cmt=Comment
-styles_str=String
+styles_str=Text,Tag string
+[map]
+Text=Id
+Tag bound=TagBound
+Comment=Comment
+Number=Number
+Tag string=String
+Tag prop=TagProp
+Tag unknown text=TagPropBad
+Tag id correct=TagId
+Tag id incorrect=TagIdBad
+Tag id hilite BG=BracketBG
+Tag brackets hilite BG=BracketBG
+Sublexer BG=IncludeBG1
+Color=Color
+Text escaped=Symbol
+Include tag=TagInclude
+Comment doc=CommentDoc

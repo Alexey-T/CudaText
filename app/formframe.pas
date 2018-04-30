@@ -2074,8 +2074,8 @@ begin
   //lexer
   if Lexer=nil then str0:= '' else str0:= Lexer.LexerName;
   str:= c.GetValue(path+cHistory_Lexer, str0);
-  if str='PHP' then
-    str:= 'HTML'; //HTML lexer handles php files
+  //if str='PHP' then
+  //  str:= 'HTML'; //HTML lexer handles php files
   if (str<>'') and (str<>str0) then
     LexerName:= str;
 
