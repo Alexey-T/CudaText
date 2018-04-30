@@ -665,6 +665,27 @@ Any project can have "main file", you can choose it in the context menu: "Select
 
 Project Manager shows file/folder icons, using default file-type-icons theme. You can change this theme in the plugin's Config dialog. But first, you must install additional file-type-icons theme from Addons Manager. Example of such theme: VSCode Material 24x24.
 
+==CudaLint plugin==
+CudaLint allows to check syntax of source code files. It was initially ported from SublimeLinter 2.x plugin for Sublime Text. It requires sub-plugins, "linters", for each lexer. When a linter works, it adds output lines to the "Validate" panel of CudaText, and puts yellow/red bookmarks on warning/error lines.
+
+Linters are Python modules, in the "py" folder, with names "cuda_lint_"+something. 
+
+To support more lexers, it's a good idea to port linter from SublimeLinter. To port a linter, most you need is:
+
+* Fix "imports" to use "cuda_lint" module, instead of SublimeLinter modules. cuda_lint gives almost the same classes which SublimeLinter gives. Except Node.js linter class - it's not supported yet. Usual Linter and PythonLinter classes are supported.
+* Change syntax name (for Sublime Text) to CudaText lexer name, names are often different. If no such lexer for CudaText exists yet, ask for it.
+* Remove in linter usage of Sublime Text API to read settings (often used in linters). You can add usage of settings via CudaText API ini_read, or via json module.
+* If linter was using Node.js, take some code to run Node, from cuda_lint_csslint linter.
+
+===Linters per project===
+How to configure linters per project? In your project (Project Manager plugin), right-click root node of project treeview, call menu item "Project file / Project properties...". In this dialog, in the "Variablies" field, enter variable(s) like this:
+
+ linter_css=csslint
+
+Variable prefix "linter_" required, after goes lower-case lexer name (CSS). Value of variable must be name of linter's folder (in "py" folder) without "cuda_lint_". So if linter's folder is py/cuda_lint_aaa, specify value "aaa".
+
+In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "csslint", even if another CSS linter (e.g. "csstree") is installed and found first.
+
 ==Preview tab==
 To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
