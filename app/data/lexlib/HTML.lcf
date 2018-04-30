@@ -1,4 +1,4 @@
-object SyntAnal14: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -780,7 +780,6 @@ object SyntAnal14: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<\?(php)?'
       EndExpression = '?>'
-      SyntAnalyzer = SyntAnal29
     end
     item
       DisplayName = 'CSS'
@@ -788,7 +787,7 @@ object SyntAnal14: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal8
+      SyntAnalyzer = SyntAnal10
     end
     item
       DisplayName = 'VBScript'
@@ -796,7 +795,7 @@ object SyntAnal14: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal43
+      SyntAnalyzer = SyntAnal44
     end
     item
       DisplayName = 'JavaScript'
@@ -804,14 +803,14 @@ object SyntAnal14: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal18
+      SyntAnalyzer = SyntAnal20
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal18
+      SyntAnalyzer = SyntAnal20
     end
     item
       DisplayName = 'ASP'
@@ -819,7 +818,7 @@ object SyntAnal14: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal43
+      SyntAnalyzer = SyntAnal44
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
@@ -862,7 +861,7 @@ object SyntAnal14: TLibSyntAnalyzer
     'Include Tag')
   Extentions = 
     'htm html htt hta htx htc htd shtml phtml xhtml asp aspx ascx asm' +
-    'x jsp hhc dtd php php3 php4 php5 php7 phps phpt'
+    'x jsp hhc dtd'
   LexerName = 'HTML'
   Notes.Strings = (
     'Created by 480499497 from forum.wincmd.ru (named HTML_dev)'

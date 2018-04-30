@@ -1,0 +1,819 @@
+object SyntAnal30: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Comment doc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 12615808
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Symbol operator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Symbol single'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String heredoc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 4210816
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String exec'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Var'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id keyword'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = 12615680
+      Font.Height = -13
+      Font.Name = 'Arial Rounded MT Bold'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Id standard types'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id standard const'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Id standard class'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Bracket BG'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 4390722
+      FormatType = ftBackGround
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Comment block empty'
+      StyleName = 'Comment'
+      Expression = '/\*\*/'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment doc'
+      StyleName = 'Comment doc'
+      Expression = '(?s)/\*\* .+? (\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment block'
+      StyleName = 'Comment'
+      Expression = '(?s)/\*.*?(\*/|\Z)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment line 2'
+      StyleName = 'Comment'
+      Expression = '\#.*'#13#10
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment line'
+      StyleName = 'Comment'
+      Expression = '// .* (?=\?>) | //.*$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 2
+      Expression = '\d+ \.? \d+ e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 2
+      Expression = '0x[0-9a-f]+ |'#13#10'0b[01]+ |'#13#10'\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String heredoc'
+      StyleName = 'String heredoc'
+      TokenType = 3
+      Expression = '(?s)<<<[\x20'#39']?(\w+)'#39'?\z.+?\z\1;'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol op'
+      StyleName = 'Symbol operator'
+      TokenType = 4
+      Expression = '[!/\+\-\*:=<>&/\|\^~\@\%\?]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol single'
+      StyleName = 'Symbol single'
+      TokenType = 5
+      Expression = '[\{\}\(\)\[\],;\.\\]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      TokenType = 3
+      Expression = '(?s)(["'#39'])(\\\1|\\\\|.)*?\1'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Var'
+      StyleName = 'Var'
+      TokenType = 6
+      Expression = '\$\w*'#13#10
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 1
+      Expression = '[a-z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String exec'
+      StyleName = 'String exec'
+      TokenType = 3
+      Expression = '`.+?`'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = 'keywords'
+      StyleName = 'Id keyword'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '__halt_compiler'
+            'abstract'
+            'and'
+            'as'
+            'break'
+            'callable'
+            'case'
+            'catch'
+            'class'
+            'clone'
+            'const'
+            'continue'
+            'declare'
+            'default'
+            'die'
+            'do'
+            'echo'
+            'else'
+            'elseif'
+            'empty'
+            'enddeclare'
+            'endfor'
+            'endforeach'
+            'endif'
+            'endswitch'
+            'endwhile'
+            'eval'
+            'exit'
+            'extends'
+            'final'
+            'for'
+            'foreach'
+            'function'
+            'global'
+            'goto'
+            'if'
+            'implements'
+            'include'
+            'include_once'
+            'instanceof'
+            'insteadof'
+            'interface'
+            'isset'
+            'list'
+            'namespace'
+            'new'
+            'or'
+            'print'
+            'private'
+            'protected'
+            'public'
+            'require'
+            'require_once'
+            'resource'
+            'return'
+            'static'
+            'switch'
+            'throw'
+            'trait'
+            'try'
+            'use'
+            'var'
+            'while'
+            'xor'
+            'yield')
+          TokenTypes = 2
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'std types'
+      StyleName = 'Id standard types'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'array'
+            'binary'
+            'bool'
+            'boolean'
+            'double'
+            'false'
+            'float'
+            'int'
+            'integer'
+            'mixed'
+            'null'
+            'numeric'
+            'object'
+            'real'
+            'string'
+            'true'
+            'unset')
+          TokenTypes = 2
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'std const'
+      StyleName = 'Id standard const'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '__CLASS__'
+            '__COMPILER_HALT_OFFSET__'
+            '__DIR__'
+            '__FILE__'
+            '__FUNCTION__'
+            '__LINE__'
+            '__METHOD__'
+            '__NAMESPACE__'
+            '__TRAIT__'
+            'DEFAULT_INCLUDE_PATH'
+            'E_ALL'
+            'E_COMPILE_ERROR'
+            'E_COMPILE_WARNING'
+            'E_CORE_ERROR'
+            'E_CORE_WARNING'
+            'E_DEPRECATED'
+            'E_ERROR'
+            'E_NOTICE'
+            'E_PARSE'
+            'E_STRICT'
+            'E_USER_DEPRECATED'
+            'E_USER_ERROR'
+            'E_USER_NOTICE'
+            'E_USER_WARNING'
+            'E_WARNING'
+            'FALSE'
+            'NULL'
+            'PEAR_EXTENSION_DIR'
+            'PEAR_INSTALL_DIR'
+            'PHP_BINARY'
+            'PHP_BINDIR'
+            'PHP_CONFIG_FILE_PATH'
+            'PHP_CONFIG_FILE_SCAN_DIR'
+            'PHP_DATADIR'
+            'PHP_DEBUG'
+            'PHP_EOL'
+            'PHP_EXTENSION_DIR'
+            'PHP_EXTRA_VERSION'
+            'PHP_INT_MAX'
+            'PHP_INT_MIN'
+            'PHP_INT_SIZE'
+            'PHP_LIBDIR'
+            'PHP_LOCALSTATEDIR'
+            'PHP_MAJOR_VERSION'
+            'PHP_MANDIR'
+            'PHP_MAXPATHLEN'
+            'PHP_MINOR_VERSION'
+            'PHP_OS'
+            'PHP_PREFIX'
+            'PHP_RELEASE_VERSION'
+            'PHP_SAPI'
+            'PHP_SHLIB_SUFFIX'
+            'PHP_SYSCONFDIR'
+            'PHP_VERSION'
+            'PHP_VERSION_ID'
+            'PHP_ZTS'
+            'TRUE')
+          TokenTypes = 2
+        end>
+      NotCollapsed = True
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpAny
+      TreeItemStyle = 'Id standard const'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'std classes'
+      StyleName = 'Id standard class'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '__PHP_Incomplete_Class'
+            'ArrayIterator'
+            'ArrayObject'
+            'CachingIterator'
+            'CachingRecursiveIterator'
+            'Directory'
+            'DirectoryIterator'
+            'DOMAttr'
+            'DOMCdataSection'
+            'DOMCharacterData'
+            'DOMComment'
+            'DOMConfiguration'
+            'DOMDocument'
+            'DOMDocumentFragment'
+            'DOMDocumentType'
+            'DOMDomError'
+            'DOMElement'
+            'DOMEntity'
+            'DOMEntityReference'
+            'DOMErrorHandler'
+            'DOMException'
+            'DOMImplementation'
+            'DOMImplementationList'
+            'DOMImplementationSource'
+            'DOMLocator'
+            'DOMNamedNodeMap'
+            'DOMNameList'
+            'DOMNameSpaceNode'
+            'DOMNode'
+            'DOMNodeList'
+            'DOMNotation'
+            'DOMProcessingInstruction'
+            'DOMStringExtend'
+            'DOMStringList'
+            'DOMText'
+            'DOMTypeinfo'
+            'DOMUserDataHandler'
+            'DOMXPath'
+            'Exception'
+            'FilterIterator'
+            'LimitIterator'
+            'ParentIterator'
+            'php_user_filter'
+            'RecursiveDirectoryIterator'
+            'RecursiveIteratorIterator'
+            'Reflection'
+            'ReflectionClass'
+            'ReflectionException'
+            'ReflectionExtension'
+            'ReflectionFunction'
+            'ReflectionMethod'
+            'ReflectionObject'
+            'ReflectionParameter'
+            'ReflectionProperty'
+            'SimpleXMLElement'
+            'SimpleXMLIterator'
+            'SQLiteDatabase'
+            'SQLiteException'
+            'SQLiteResult'
+            'SQLiteUnbuffered'
+            'stdClass'
+            'XSLTProcessor')
+          TokenTypes = 2
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '{'
+      StyleName = 'Bracket BG'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 32
+        end>
+      BlockEnd = '}'
+      DisplayInTree = False
+      RefToCondEnd = True
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
+      DrawStaple = True
+      CollapseFmt = '{ ... }'
+      Pen.Color = clRed
+      Pen.Style = psDot
+      IgnoreAsParent = False
+      AutoCloseMode = acmCloseNearest
+      AutoCloseText = '}'#13#10
+    end
+    item
+      DisplayName = '}'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '}')
+          TokenTypes = 32
+        end>
+      BlockEnd = '{'
+      HighlightPos = cpAny
+      GroupIndex = 1
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'var'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '=')
+          TokenTypes = 16
+        end
+        item
+          TokenTypes = 64
+        end>
+      NameFmt = '%s0'
+      GroupFmt = 'var'
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'field'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '('
+            '=')
+          TokenTypes = 80
+        end
+        item
+          TokenTypes = 2
+        end
+        item
+          TagList.Strings = (
+            '>')
+          TokenTypes = 16
+        end
+        item
+          TagList.Strings = (
+            '-')
+          TokenTypes = 16
+        end
+        item
+          TokenTypes = 66
+        end>
+      NameFmt = '%s0~s-3'
+      GroupFmt = 'var'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '('
+      StyleName = 'Bracket BG'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 32
+        end>
+      BlockEnd = ')'
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
+      DrawStaple = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ')'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 32
+        end>
+      BlockEnd = '('
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '['
+      StyleName = 'Bracket BG'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '[')
+          TokenTypes = 32
+        end>
+      BlockEnd = ']'
+      DisplayInTree = False
+      DynHighlight = dhBound
+      HighlightPos = cpRange
+      DynSelectMin = True
+      DrawStaple = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = ']'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ']')
+          TokenTypes = 32
+        end>
+      BlockEnd = '['
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'class'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'class')
+          TokenTypes = 2
+        end>
+      BlockEnd = 'class_end'
+      EndOfTextClose = True
+      NameFmt = '%s0 %s-1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      SelfClose = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'class_end'
+      BlockName = 'class'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '}')
+          TokenTypes = 32
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func'
+      BlockName = 'class'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 2
+        end>
+      BlockEnd = 'func_end'
+      EndOfTextClose = True
+      NameFmt = '%s0~[(]1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      SelfClose = True
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func_end'
+      BlockName = 'func'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '}')
+          TokenTypes = 32
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func_without_class'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 2
+        end>
+      BlockEnd = 'func_without_class_end'
+      NameFmt = '%s0~[(]1'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'func_without_class_end'
+      BlockName = 'func_without_class'
+      StrictParent = True
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '}')
+          TokenTypes = 32
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'include'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'include'
+            'include_once'
+            'require'
+            'require_once')
+          TokenTypes = 2
+        end>
+      NameFmt = '%sz0'
+      GroupFmt = '\Includes'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    '//Example'
+    '/** Doc comment */,  /* Comment */'
+    '__CLASS__, __LINE__, ArrayObject, Directory,'
+    '`string`, '
+    '<<<ID'
+    'heredoc'
+    'ID;'
+    ''
+    'include "os.php";'
+    'include_once $path."/os2.php";'
+    'include("math.php");'
+    'include_once("math2.php");'
+    ''
+    'function pp_out1(int $a){'
+    '  $a = 10 + 10.10 + 0xAF + 0b1100;'
+    '  $this->var = 100;'
+    '  $this->proc($var);'
+    '  echo [ $a, $b, $aa ]'
+    '  echo '#39'test'#39'."\\";'
+    '  if (a){'
+    '  }'
+    '  else {'
+    '  };'
+    '}'
+    ''
+    'class f {'
+    '  function a(){'
+    '    $n = 10;'
+    '    if (a) { a++; }'
+    '    i++;'
+    '  }'
+    '  function b(){'
+    '  }'
+    '}'
+    ''
+    'class ff extends f {'
+    '  function a(){'
+    '    i++;'
+    '  }'
+    ''
+    '  function b(){'
+    '    if (a>b) {'
+    '      a++;'
+    '    }'
+    '  }'
+    '}'
+    ''
+    'function pp_out2($a; $b){'
+    '  $i++;'
+    '  if ($a){'
+    '  }'
+    '}'
+    ''
+    '?>')
+  TokenTypeNames.Strings = (
+    'Comment'
+    'Id'
+    'Number'
+    'String'
+    'Symbol op '
+    'Symbol single'
+    'Var')
+  LexerName = 'PHP_'
+  Notes.Strings = (
+    
+      'Created by 480499497 from http://forum.wincmd.ru (original name:' +
+      ' PHP_dev)'
+    'Big rework by Alexey (SynWrite)'
+    
+      'Removed link to HTML, now it'#39's pure PHP lexer, HTML/CSS/JS will ' +
+      'link to it')
+  Internal = True
+  RestartFromLineStart = True
+  LineComment = '//'
+  Charset = DEFAULT_CHARSET
+end

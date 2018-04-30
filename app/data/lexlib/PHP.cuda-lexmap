@@ -1,22 +1,7 @@
+[ref]
+0=HTML
 [comments]
 str1=/*
 str2=*/
-styles_cmt=Comment,Comment doc
-styles_str=String,String heredoc
-
-[map]
-Comment=Comment
-Comment doc=CommentDoc
-Number=Number
-Symbol operator=Symbol2
-Symbol single=Symbol
-String=String
-String heredoc=String2
-String exec=String3
-Var=IdVar
-Id=Id
-Id keyword=IdKeyword
-Id standard types=Id2
-Id standard const=Id4
-Id standard class=Id1
-Bracket BG=BracketBG
+styles_cmt=Comment
+styles_str=String
