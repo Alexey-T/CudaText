@@ -1087,7 +1087,8 @@ begin
   if P<>FLastMousePosStopped then
   begin
     FLastMousePosStopped:= P;
-    if PtInControl(Ed, P) then
+    P:= Ed.ScreenToClient(P);
+    if PtInRect(Ed.ClientRect, P) then
       DoPyEvent(Ed, cEventOnMouseStop, [
         IntToStr(P.X),
         IntToStr(P.Y)
