@@ -589,6 +589,7 @@ type
     FLastSidebarPanel: string;
     FLastBottomPanel: string;
     FLastSelectedCommand: integer;
+    FLastMousePosStopped: TPoint;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -1069,12 +1070,28 @@ end;
 procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
   S: string;
+  P: TPoint;
+  Ed: TATSynEdit;
 begin
   while FListConsole.Count>0 do
   begin
     S:= FListConsole[0];
     FListConsole.Delete(0);
     MsgLogConsole(S);
+  end;
+
+  Ed:= CurrentEditor;
+  if Ed=nil then exit;
+
+  P:= Mouse.CursorPos;
+  if P<>FLastMousePosStopped then
+  begin
+    FLastMousePosStopped:= P;
+    if PtInControl(Ed, P) then
+      DoPyEvent(Ed, cEventOnMouseStop, [
+        IntToStr(P.X),
+        IntToStr(P.Y)
+        ]);
   end;
 end;
 
