@@ -589,7 +589,7 @@ type
     FLastSidebarPanel: string;
     FLastBottomPanel: string;
     FLastSelectedCommand: integer;
-    FLastMousePosStopped: TPoint;
+    FLastMousePos: TPoint;
     FOption_OpenReadOnly: boolean;
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
@@ -1084,9 +1084,10 @@ end;
 
 procedure TfmMain.TimerAppIdleTimer(Sender: TObject);
 var
-  S: string;
-  P: TPoint;
+  PntScreen, PntLocal: TPoint;
   Ed: TATSynEdit;
+  S: string;
+  i: integer;
 begin
   while FListConsole.Count>0 do
   begin
@@ -1095,19 +1096,24 @@ begin
     MsgLogConsole(S);
   end;
 
-  Ed:= CurrentEditor;
-  if Ed=nil then exit;
-
-  P:= Mouse.CursorPos;
-  if P<>FLastMousePosStopped then
+  PntScreen:= Mouse.CursorPos;
+  if PntScreen<>FLastMousePos then
   begin
-    FLastMousePosStopped:= P;
-    P:= Ed.ScreenToClient(P);
-    if PtInRect(Ed.ClientRect, P) then
-      DoPyEvent(Ed, cEventOnMouseStop, [
-        IntToStr(P.X),
-        IntToStr(P.Y)
-        ]);
+    FLastMousePos:= PntScreen;
+    for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
+    begin
+      Ed:= GetEditorActiveInGroup(i);
+      if Ed=nil then Break;
+      PntLocal:= Ed.ScreenToClient(PntScreen);
+      if PtInRect(Ed.ClientRect, PntLocal) then
+      begin
+        DoPyEvent(Ed, cEventOnMouseStop, [
+          IntToStr(PntLocal.X),
+          IntToStr(PntLocal.Y)
+          ]);
+        Break;
+      end;
+    end;
   end;
 end;
 
