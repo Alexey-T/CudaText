@@ -386,7 +386,6 @@ begin
       StrArgs:= string(PtrArgs);
 
       Pages:= nil;
-      Inc(Num, Low(TATGroupsNums)); //was 0-based, need 1-based
       if (Num>=Low(TATGroupsNums)) and (Num<=High(TATGroupsNums)) then
         Pages:= fmMain.Groups.Pages[Num];
 
@@ -1427,8 +1426,6 @@ begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'i:ed_group', @Index)) then
     begin
-      //need 1-based index
-      Inc(Index, Low(TATGroupsNums));
       if not (Index in [Low(TATGroupsNums)..High(TATGroupsNums)]) then
         exit(ReturnNone);
 
