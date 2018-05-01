@@ -1527,7 +1527,7 @@ object fmMain: TfmMain
   end
   object TimerAppIdle: TIdleTimer
     AutoEnabled = True
-    Interval = 400
+    Interval = 800
     OnTimer = TimerAppIdleTimer
     left = 441
     top = 92
