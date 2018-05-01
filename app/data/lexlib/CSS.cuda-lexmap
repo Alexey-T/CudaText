@@ -5,7 +5,7 @@ styles_cmt=Comment
 styles_str=String
 
 [ref]
-0=PHP
+0=PHP_
 
 [map]
 Style=TagId
