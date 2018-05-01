@@ -985,6 +985,21 @@ begin
     Result:= F.Editor;
 end;
 
+function GetEditorActiveInGroup(AIndex: integer): TATSynEdit;
+var
+  Pages: TATPages;
+  Data: TATTabData;
+begin
+  Result:= nil;
+  if (AIndex>=Low(TATGroupsNums)) and (AIndex<=High(TATGroupsNums)) then
+  begin
+    Pages:= fmMain.Groups.Pages[AIndex];
+    Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
+    if Assigned(Data) then
+      Result:= (Data.TabObject as TEditorFrame).Editor;
+  end;
+end;
+
 
 { TfmMain }
 

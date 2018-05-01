@@ -1419,23 +1419,16 @@ end;
 function Py_ed_group(Self, Args: PPyObject): PPyObject; cdecl;
 var
   Index: Longint;
-  Pages: TATPages;
-  Data: TATTabData;
   Ed: TATSynEdit;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'i:ed_group', @Index)) then
     begin
-      if not (Index in [Low(TATGroupsNums)..High(TATGroupsNums)]) then
-        exit(ReturnNone);
-
-      Pages:= fmMain.Groups.Pages[Index];
-      Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
-      if Data=nil then
-        exit(ReturnNone);
-
-      Ed:= (Data.TabObject as TEditorFrame).Editor;
-      Result:= PyLong_FromLongLong(PtrInt(Ed));
+      Ed:= GetEditorActiveInGroup(Index);
+      if Ed=nil then
+        Result:= ReturnNone
+      else
+        Result:= PyLong_FromLongLong(PtrInt(Ed));
     end;
 end;
 
