@@ -4,6 +4,12 @@
   * changed
 
 
+1.51.2 (2018/05)
+
++ add: added lexer PHP - to support PHP linters, and PHP file type icons. It is cloned from HTML lexer, with micro changes.
++ add: lexer VBScript: improved folding
++ API
+
 1.51.0 (2018/04)
 
 + add: lite-lexers speed increased on very long lines     
