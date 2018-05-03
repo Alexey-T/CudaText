@@ -7,6 +7,8 @@
 1.51.3 (2018/05)
 
 + add: UI-theme "white"
++ add: command "show side panel, project"
++ add: command "show side panel, tabs list"
 
 1.51.2 (2018/05)
 

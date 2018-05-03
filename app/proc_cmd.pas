@@ -89,6 +89,8 @@ const
   cmd_DialogThemeSyntax   = 2553;
   cmd_ShowMainMenuAsPopup = 2554;
   cmd_ToggleMenu = 2555;
+  cmd_ShowSidePanelAndProject = 2556;
+  cmd_ShowSidePanelAndTabsList = 2557;
 
   cmd_FocusEditor = 2577;
   cmd_SwitchActiveTabToNext = 2578;
@@ -317,6 +319,8 @@ begin
 
   M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
   M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, code tree', [], []);
+  M.Add(cmd_ShowSidePanelAndProject, 'ui: show side panel, project', [], []);
+  M.Add(cmd_ShowSidePanelAndTabsList, 'ui: show side panel, tabs list', [], []);
   M.Add(cmd_HideSidePanel, 'ui: hide side panel', [], []);
 
   M.Add(cmd_ShowPanelConsole, 'ui: show bottom panel / console', ['Ctrl+`'], []);
