@@ -93,7 +93,7 @@ begin
     cmd_ShowPanelValidate: DoShowValidate;
 
     cmd_ShowSidePanelAsIs: DoShowSidePanel('', false);
-    cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel('Tree', false);
+    cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel(msgPanelTree_Init, false);
     cmd_HideSidePanel: DoShowSidePanel('-', false);
 
     cmd_FindFirst:       DoFindFirst;

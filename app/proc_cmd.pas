@@ -316,7 +316,7 @@ begin
   M.Add(cmd_ToggleMenu, 'ui: toggle main menu', [], []);
 
   M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
-  M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, syntax tree', [], []);
+  M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, code tree', [], []);
   M.Add(cmd_HideSidePanel, 'ui: hide side panel', [], []);
 
   M.Add(cmd_ShowPanelConsole, 'ui: show bottom panel / console', ['Ctrl+`'], []);
