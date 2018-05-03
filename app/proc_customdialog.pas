@@ -1848,19 +1848,44 @@ var
   C: TControl;
 begin
   Result:= 0;
-  if Id='button' then begin C:= TButton.Create(nil); DoControl_FixButtonHeight(C); end else
-  if Id='label' then C:= TLabel.Create(nil) else
-  if Id='combo' then C:= TComboBox.Create(nil) else
-  if Id='combo_ro' then begin C:= TComboBox.Create(nil); TCombobox(C).Style:= csDropDownList; end else
-  if (Id='edit') or (Id='filter_listview') or (Id='filter_listbox') then C:= TEdit.Create(nil) else
-  if Id='spinedit' then C:= TSpinEdit.Create(nil) else
-  if Id='check' then C:= TCheckbox.Create(nil) else
-  if Id='radio' then C:= TRadioButton.Create(nil) else
-  if Id='checkbutton' then C:= TToggleBox.Create(nil) else
+  if Id='button' then
+  begin
+    C:= TButton.Create(nil);
+    DoControl_FixButtonHeight(C);
+  end
+  else
+  if Id='label' then
+    C:= TLabel.Create(nil)
+  else
+  if Id='combo' then
+    C:= TComboBox.Create(nil)
+  else
+  if Id='combo_ro' then
+  begin
+    C:= TComboBox.Create(nil);
+    TComboBox(C).Style:= csDropDownList;
+    TComboBox(C).Items.Add('DD');
+  end
+  else
+  if (Id='edit') or (Id='filter_listview') or (Id='filter_listbox') then
+    C:= TEdit.Create(nil)
+  else
+  if Id='spinedit' then
+    C:= TSpinEdit.Create(nil)
+  else
+  if Id='check' then
+    C:= TCheckbox.Create(nil)
+  else
+  if Id='radio' then
+    C:= TRadioButton.Create(nil)
+  else
+  if Id='checkbutton' then
+    C:= TToggleBox.Create(nil)
+  else
   if Id='scrollbar' then
     exit(GetSystemMetrics(SM_CXVSCROLL))
   else
-  exit;
+    exit;
 
   try
     C.Caption:= 'WpPJjy'; //for label autosize
