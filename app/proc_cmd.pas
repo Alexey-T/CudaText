@@ -495,12 +495,12 @@ begin
   M.Add(cmd_LinkAtPopup_Open, 'url: open url of right-click', [], []);
   M.Add(cmd_LinkAtPopup_Copy, 'url: copy url of right-click', [], []);
 
-  M.Add(cmd_TreeGotoNext, 'tree: select next node', [], []);
-  M.Add(cmd_TreeGotoPrev, 'tree: select previous node', [], []);
-  M.Add(cmd_TreeGotoParent, 'tree: select parent node', [], []);
-  M.Add(cmd_TreeGotoNextBrother, 'tree: select next-brother node', [], []);
-  M.Add(cmd_TreeGotoPrevBrother, 'tree: select previous-brother node', [], []);
-  M.Add(cmd_TreeUpdate, 'tree: update tree panel', [], []);
+  M.Add(cmd_TreeGotoNext, 'code tree: select next node', [], []);
+  M.Add(cmd_TreeGotoPrev, 'code tree: select previous node', [], []);
+  M.Add(cmd_TreeGotoParent, 'code tree: select parent node', [], []);
+  M.Add(cmd_TreeGotoNextBrother, 'code tree: select next brother node', [], []);
+  M.Add(cmd_TreeGotoPrevBrother, 'code tree: select previous brother node', [], []);
+  M.Add(cmd_TreeUpdate, 'code tree: update tree panel', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);
