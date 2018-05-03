@@ -4,11 +4,15 @@
   * changed
 
 
+1.51.3 (2018/05)
+
++ add: UI-theme "white"
+
 1.51.2 (2018/05)
 
-+ add: added lexer PHP - to support PHP linters, and PHP file type icons. It is cloned from HTML lexer, with micro changes.
++ add: lexer PHP changed - to support PHP linters, and PHP file type icons. It is cloned from HTML lexer, with micro changes. Old PHP lexer renamed to PHP_.
 + add: lexer VBScript: improved folding
-+ API
++ add: API
 
 1.51.0 (2018/04)
 
