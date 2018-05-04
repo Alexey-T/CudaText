@@ -687,6 +687,7 @@ begin
     Op.OpWordChars:= c.GetValue('word_chars', Op.OpWordChars);
     Op.OpHexChars:= c.GetValue('hex_chars', Op.OpHexChars);
     Op.OpFoldStyle:= c.GetValue('fold_style', Op.OpFoldStyle);
+    Op.OpFoldTooltipShow:= c.GetValue('fold_tooltip_show', Op.OpFoldTooltipShow);
 
     UiOps.LexerThemes:= c.GetValue('ui_lexer_themes', UiOps.LexerThemes);
     UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);

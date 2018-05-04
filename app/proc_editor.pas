@@ -295,6 +295,7 @@ begin
   Ed.OptTextCenteringCharWidth:= Op.OpCenteringWidth;
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
+  Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
   Ed.OptShowStapleStyle:= TATLineStyle(Op.OpStaplesStyle);
 
   Ed.OptAutoIndent:= Op.OpIndentAuto;

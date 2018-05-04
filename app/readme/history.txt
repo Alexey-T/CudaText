@@ -4,11 +4,14 @@
   * changed
 
 
-1.51.3 (2018/05)
+1.52.0 (2018/05)
 
++ add: implemented tooltips over [...] folded marks
++ add: option "fold_tooltip_show"
 + add: UI-theme "white"
 + add: command "show side panel, project"
 + add: command "show side panel, tabs list"
+- fix: command "show side panel, code tree"
 
 1.51.2 (2018/05)
 

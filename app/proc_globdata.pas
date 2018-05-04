@@ -359,6 +359,7 @@ type
     OpWordChars: UnicodeString;
     OpHexChars: UnicodeString;
     OpFoldStyle: integer;
+    OpFoldTooltipShow: boolean;
 
     //indent
     OpIndentAuto: boolean;
@@ -1033,6 +1034,7 @@ begin
     OpWordChars:= '';
     OpHexChars:= '';
     OpFoldStyle:= 1;
+    OpFoldTooltipShow:= true;
 
     OpIndentAuto:= true;
     OpIndentAutoKind:= Ord(cIndentAsPrevLine);
