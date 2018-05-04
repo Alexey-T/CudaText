@@ -1854,7 +1854,7 @@ begin
     DoControl_FixButtonHeight(C);
   end
   else
-  if Id='label' then
+  if (Id='label') or (Id='linklabel') then
     C:= TLabel.Create(nil)
   else
   if Id='combo' then
