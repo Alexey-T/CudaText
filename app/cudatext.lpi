@@ -310,7 +310,7 @@
           </Other>
         </CompilerOptions>
       </Item8>
-      <Item9 Name="macos x32 cocoa">
+      <Item9 Name="macos x64 cocoa">
         <MacroValues Count="1">
           <Macro3 Name="LCLWidgetType" Value="cocoa"/>
         </MacroValues>
@@ -334,6 +334,7 @@
             <Checks>
               <RangeChecks Value="True"/>
             </Checks>
+            <TargetCPU Value="x86_64"/>
             <TargetOS Value="darwin"/>
           </CodeGeneration>
           <Linking>
@@ -435,7 +436,7 @@
       <SharedMatrixOptions Count="3">
         <Item1 ID="768150883430" Modes="linux x64 qt" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt"/>
         <Item2 ID="728289161338" Modes="macos x32 carbon" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
-        <Item3 ID="308953563203" Modes="macos x32 cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item3 ID="308953563203" Modes="macos x64 cocoa" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
