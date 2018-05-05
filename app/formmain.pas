@@ -3048,6 +3048,12 @@ begin
   if AValue=GetShowSidebarOnRight then exit;
   PanelSide.Align:= cVal[AValue];
   PanelLeft.Align:= cVal[AValue];
+  SplitterVert.Align:= cVal[AValue];
+
+  if AValue then
+    SplitterVert.Left:= PanelSide.Width
+  else
+    SplitterVert.Left:= ClientWidth-PanelSide.Width;
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
