@@ -2,15 +2,18 @@
 full1=<#
 full2=#>
 styles_cmt=Comment
-styles_str=String,StringHere
+styles_str=String
+str1=
+str2=
 
 [map]
 Symbol=Symbol
 Number=Number
 String=String
 StringHere=String2
-Identifier=Id
-Reserved word=IdKeyword
 Comment=Comment
+Id=Id
+Id keyword=IdKeyword
+Id type=Id2
 Variable=IdVar
 Cmd=Id1

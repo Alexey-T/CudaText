@@ -1,4 +1,4 @@
-object SyntAnal33: TLibSyntAnalyzer
+object SyntAnal27: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -33,7 +33,15 @@ object SyntAnal33: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Identifier'
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Id'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
@@ -41,7 +49,7 @@ object SyntAnal33: TLibSyntAnalyzer
       Font.Style = []
     end
     item
-      DisplayName = 'Reserved word'
+      DisplayName = 'Id keyword'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -13
@@ -49,12 +57,12 @@ object SyntAnal33: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Comment'
+      DisplayName = 'Id type'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGray
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Courier New'
-      Font.Style = [fsItalic]
+      Font.Style = []
     end
     item
       DisplayName = 'Variable'
@@ -67,7 +75,7 @@ object SyntAnal33: TLibSyntAnalyzer
     item
       DisplayName = 'Cmd'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clNavy
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -106,10 +114,10 @@ object SyntAnal33: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'HereString'
+      DisplayName = 'StringHere'
       StyleName = 'StringHere'
-      TokenType = 4
-      Expression = '(?s) @"$ .+? ^"@'
+      TokenType = 6
+      Expression = '(?s) @(["'#39'])$ .+? ^\1@'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -123,7 +131,7 @@ object SyntAnal33: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Id'
-      StyleName = 'Identifier'
+      StyleName = 'Id'
       TokenType = 2
       Expression = '[a-z_][\w-]*'
       ColumnFrom = 0
@@ -132,7 +140,7 @@ object SyntAnal33: TLibSyntAnalyzer
     item
       DisplayName = 'Hex'
       StyleName = 'Number'
-      TokenType = 7
+      TokenType = 5
       Expression = '0x[\da-f]+'
       ColumnFrom = 0
       ColumnTo = 0
@@ -140,7 +148,7 @@ object SyntAnal33: TLibSyntAnalyzer
     item
       DisplayName = 'Float'
       StyleName = 'Number'
-      TokenType = 6
+      TokenType = 5
       Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'\d+\.\d+'
       ColumnFrom = 0
       ColumnTo = 0
@@ -157,7 +165,7 @@ object SyntAnal33: TLibSyntAnalyzer
       DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\]]'
+      Expression = '[\{\}\(\)\[\]\$]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -172,7 +180,7 @@ object SyntAnal33: TLibSyntAnalyzer
   BlockRules = <
     item
       DisplayName = 'Keywords'
-      StyleName = 'Reserved word'
+      StyleName = 'Id keyword'
       BlockType = btTagDetect
       ConditionList = <
         item
@@ -356,6 +364,23 @@ object SyntAnal33: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'Types'
+      StyleName = 'Id type'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'bool'
+            'float'
+            'int'
+            'string')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
       ConditionList = <
         item
@@ -414,6 +439,23 @@ object SyntAnal33: TLibSyntAnalyzer
       BlockOffset = 1
       HighlightPos = cpBound
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Func'
+      ConditionList = <
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+          IgnoreCase = True
+        end>
+      NameFmt = 'func %sz-1'
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -438,15 +480,13 @@ object SyntAnal33: TLibSyntAnalyzer
     'Identifier'
     'Symbol'
     'String'
-    'Integer const'
-    'Float const'
-    'Hex const')
+    'Number'
+    'StringHere')
   Extentions = 'ps1'
   LexerName = 'PowerShell'
   Notes.Strings = (
-    'Author: Alex, uvviewsoft.com'
-    'Test:'
-    'http://www.robvanderwoude.com/powershellexamples.php')
+    'Alexey (SynWrite)'
+    'Test: http://www.robvanderwoude.com/powershellexamples.php')
   LineComment = '# '
   Charset = DEFAULT_CHARSET
 end

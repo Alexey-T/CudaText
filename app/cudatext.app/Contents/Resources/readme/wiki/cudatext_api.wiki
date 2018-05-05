@@ -1953,13 +1953,19 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 * PROP_CARET_SHAPE - caret_shape
 * PROP_CARET_SHAPE_OVR - caret_shape_ovr
 * PROP_CARET_SHAPE_RO - caret_shape_ro
+* PROP_CARET_VIRTUAL - caret_after_end
 * PROP_GUTTER_ALL - gutter_show
 * PROP_GUTTER_BM - gutter_bookmarks
 * PROP_GUTTER_FOLD - gutter_fold
+* PROP_HILITE_CUR_COL - show_cur_column
+* PROP_HILITE_CUR_LINE - show_cur_line
+* PROP_HILITE_CUR_LINE_MINIMAL - show_cur_line_minimal
+* PROP_HILITE_CUR_LINE_IF_FOCUS - show_cur_line_only_focused
 * PROP_INDENT_AUTO - indent_auto
 * PROP_INDENT_KEEP_ALIGN - unindent_keeps_align
 * PROP_INDENT_KIND - indent_kind
 * PROP_INDENT_SIZE - indent_size
+* PROP_LAST_LINE_ON_TOP - show_last_line_on_top
 * PROP_MARGIN - margin
 * PROP_MARGIN_STRING - margin_string
 * PROP_MICROMAP - micromap_show
@@ -1971,6 +1977,7 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 * PROP_UNPRINTED_END_DETAILS - unprinted_end_details
 * PROP_UNPRINTED_SHOW - unprinted_show
 * PROP_UNPRINTED_SPACES - unprinted_spaces
+* PROP_UNPRINTED_SPACES_TRAILING - unprinted_spaces_trailing
 * PROP_WRAP - wrap_mode
 
 ===bookmark===
