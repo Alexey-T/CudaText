@@ -77,7 +77,6 @@ begin
         //MsgLogConsole(Format('sidebar click: caption "%s", py %s.%s',
         //  [SCaption, SModule, SMethod]));
         DoPyCommand(SModule, SMethod, []);
-        Exit
       end;
     end;
   end;
