@@ -695,6 +695,7 @@ begin
     UiOps.LexerDelayedParsingSize:= c.GetValue('lexer_delayed_parsing_size', UiOps.LexerDelayedParsingSize);
 
     UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
+    UiOps.SidebarOnRight:= c.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);
     UiOps.SidebarTheme:= c.GetValue('ui_sidebar_theme', UiOps.SidebarTheme);
     UiOps.TreeTheme:= c.GetValue('ui_tree_theme', UiOps.TreeTheme);
     UiOps.ToolBarTheme:= c.GetValue('ui_toolbar_theme', UiOps.ToolBarTheme);

@@ -101,6 +101,7 @@ type
     ToolBarTheme: string;
 
     SidebarShow: boolean;
+    SidebarOnRight: boolean;
     SidebarTheme: string;
     PictureTypes: string;
     MaxFileSizeToOpen: integer;
@@ -1102,6 +1103,7 @@ begin
     LexerDelayedParsingSize:= 100*1000;
 
     SidebarShow:= true;
+    SidebarOnRight:= false;
     SidebarTheme:= 'common_20x20';
     TreeTheme:= 'default_16x16';
     ToolBarTheme:= 'default_24x24';

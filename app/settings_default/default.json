@@ -956,6 +956,9 @@
   //[Ui/Toolbars]
   //Show sidebar (vertical toolbar at the left edge)
   "ui_sidebar_show": true,
+  
+  //Show sidebar on the right side
+  "ui_sidebar_on_right": false,
 
   //Sidebar icons theme
   //Folders from: sideicons

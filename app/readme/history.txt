@@ -6,8 +6,9 @@
 
 1.52.0 (2018/05)
 
-+ add: implemented tooltips over [...] folded marks
++ add: implemented editor tooltips over [...] folded marks
 + add: option "fold_tooltip_show"
++ add: option "ui_sidebar_on_right"
 + add: UI-theme "white"
 + add: command "show side panel, project"
 + add: command "show side panel, tabs list"

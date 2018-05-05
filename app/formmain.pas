@@ -706,6 +706,7 @@ type
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
+    function GetShowSidebarOnRight: boolean;
     procedure GotoInputOnChange(Sender: TObject);
     procedure GotoInputOnChangeCaretPos(Sender: TObject);
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -732,6 +733,7 @@ type
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
+    procedure SetShowSidebarOnRight(AValue: boolean);
     procedure SetSidebarPanel(const ACaption: string);
     procedure SetShowDistractionFree(AValue: boolean);
     procedure SetShowFullScreen(AValue: boolean);
@@ -930,6 +932,7 @@ type
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
     property ShowSideBar: boolean read GetShowSideBar write SetShowSideBar;
+    property ShowSideBarOnRight: boolean read GetShowSidebarOnRight write SetShowSidebarOnRight;
     property ShowSidePanel: boolean read GetShowSidePanel write SetShowSidePanel;
     property ShowToolbar: boolean read GetShowToolbar write SetShowToolbar;
     property ShowStatus: boolean read GetShowStatus write SetShowStatus;
@@ -2121,6 +2124,7 @@ begin
   Groups.SetTabOptionString(tabOptionModifiedText, '*');
 
   PanelSide.Visible:= UiOps.SidebarShow;
+  ShowSideBarOnRight:= UiOps.SidebarOnRight;
   PanelLeftTitle.Height:= Groups.Pages1.Tabs.Height;
 
   if UiOps.TabPosition=1 then
@@ -3030,6 +3034,25 @@ end;
 procedure TfmMain.SetShowSideBar(AValue: boolean);
 begin
   PanelSide.Visible:= AValue;
+end;
+
+function TfmMain.GetShowSidebarOnRight: boolean;
+begin
+  Result:= PanelSide.Align=alRight;
+end;
+
+procedure TfmMain.SetShowSidebarOnRight(AValue: boolean);
+begin
+  if AValue then
+  begin
+    PanelSide.Align:= alRight;
+    PanelLeft.Align:= alRight;
+  end
+  else
+  begin
+    PanelSide.Align:= alLeft;
+    PanelLeft.Align:= alLeft;
+  end;
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
