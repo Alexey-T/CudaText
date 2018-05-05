@@ -334,7 +334,7 @@ Mixed line-ends in one file are supported. To see ends for all lines, set to "tr
 
 ==Groups of tabs==
 
-Groups are tab sets, each tab with an editor control. By default only the first group is shown. Totally 6 groups can be shown at once, see menu "View--Groups", which allows to choose the grouping mode: 
+Groups are tab-sets, each tab with an editor control. By default only the first group is shown. Totally 6 groups can be shown at once, see menu item "=" (on top menu level), which allows to choose the grouping mode: 
 
 * one group 
 * 2 groups: vertically or horizontally 
@@ -372,9 +372,9 @@ Lexer CSS is handled specially too, its listbox has 2 modes:
 
 [[File:cudatext-css-complete.png]]
 
-== Syntax tree ==
+== Code Tree ==
 
-To show syntax tree, activate side-panel (default hotkey: F12). Many lexers support this tree: most C-based, HTML, XML, CSS, JS etc. This tree is configured inside each lexer properties (see how to edit lexers). Example of tree for Pascal:
+To show code tree, activate side-panel (default hotkey: F12). Many lexers support code tree: most C-based, HTML, XML, CSS, JS etc. Code tree is configured inside each lexer properties (see how to edit lexers). Example of tree for Pascal:
 
 [[File:atsynedit_tree.png]]
 
