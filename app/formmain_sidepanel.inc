@@ -74,6 +74,8 @@ begin
         S:= Btn.DataString;
         SModule:= SGetItem(S, '.');
         SMethod:= S;
+        //MsgLogConsole(Format('sidebar click: caption "%s", py %s.%s',
+        //  [SCaption, SModule, SMethod]));
         DoPyCommand(SModule, SMethod, []);
         Exit
       end;
@@ -81,7 +83,10 @@ begin
   end;
 
   if SCaption<>'' then
-    UpdateSidebarPanels(SCaption, true)
+  begin
+    //MsgLogConsole(Format('sidebar click: caption "%s"', [SCaption]));
+    UpdateSidebarPanels(SCaption, true);
+  end
   else
     ShowSidePanel:= false;
 end;
