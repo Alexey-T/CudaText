@@ -3042,17 +3042,12 @@ begin
 end;
 
 procedure TfmMain.SetShowSidebarOnRight(AValue: boolean);
+const
+  cVal: array[boolean] of TAlign = (alLeft, alRight);
 begin
-  if AValue then
-  begin
-    PanelSide.Align:= alRight;
-    PanelLeft.Align:= alRight;
-  end
-  else
-  begin
-    PanelSide.Align:= alLeft;
-    PanelLeft.Align:= alLeft;
-  end;
+  if AValue=GetShowSidebarOnRight then exit;
+  PanelSide.Align:= cVal[AValue];
+  PanelLeft.Align:= cVal[AValue];
 end;
 
 procedure TfmMain.SetShowStatus(AValue: boolean);
