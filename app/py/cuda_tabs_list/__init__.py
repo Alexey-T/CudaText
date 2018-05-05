@@ -14,7 +14,13 @@ class Command:
     def __init__(self):
         pass
 
-    def open(self, activate_tab=True):
+    def open(self):
+
+        if not self.h_dlg:
+            self.init_form()
+        self.update()
+
+    def init_form(self, activate_tab=True):
 
         ##shows side panel, bad if it's needed hidden
         #ed.cmd(cudatext_cmd.cmd_ShowSidePanelAsIs)
@@ -45,8 +51,6 @@ class Command:
         menu_proc(self.h_menu, MENU_ADD, caption='-', command='')
         menu_proc(self.h_menu, MENU_ADD, caption='Copy filename only', command='cuda_tabs_list.menu_copy_file_name')
         menu_proc(self.h_menu, MENU_ADD, caption='Copy full filepath', command='cuda_tabs_list.menu_copy_file_path')
-
-        self.update()
 
     def on_focus(self, ed_self):
         self.update()
