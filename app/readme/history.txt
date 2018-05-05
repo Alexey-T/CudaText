@@ -10,6 +10,7 @@
 + add: option "fold_tooltip_show"
 + add: option "ui_sidebar_on_right"
 + add: UI-theme "white"
++ add: lexer PowerShell improved
 + add: command "show side panel, project"
 + add: command "show side panel, tabs list"
 - fix: command "show side panel, code tree"
