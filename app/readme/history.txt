@@ -14,6 +14,7 @@
 + add: command "show side panel, project"
 + add: command "show side panel, tabs list"
 - fix: command "show side panel, code tree"
+- fix: TabsList plugin made "ghost panels" which overlap Code Tree
 
 1.51.2 (2018/05)
 
