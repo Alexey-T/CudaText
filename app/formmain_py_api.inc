@@ -1334,12 +1334,6 @@ begin
               Result:= ReturnNone;
           end;
 
-        BOOKMARK_CLEAR_HINTS:
-          begin
-            MsgOldApi('BOOKMARK_CLEAR_HINTS');
-            Result:= ReturnNone;
-          end;
-
         else
           Result:= ReturnNone;
       end;
