@@ -18,12 +18,10 @@ class Command:
 
         if not self.h_dlg:
             self.init_form()
+        app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
         self.update()
 
-    def init_form(self, activate_tab=True):
-
-        ##shows side panel, bad if it's needed hidden
-        #ed.cmd(cudatext_cmd.cmd_ShowSidePanelAsIs)
+    def init_form(self):
 
         self.h_dlg = dlg_proc(0, DLG_CREATE)
 
@@ -41,8 +39,6 @@ class Command:
         tree_proc(self.h_tree, TREE_PROP_SHOW_ROOT, 0, 0, '0')
 
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, (self.title, self.h_dlg, fn_icon))
-        if activate_tab:
-            app_proc(PROC_SIDEPANEL_ACTIVATE, self.title)
 
         self.h_menu = menu_proc(0, MENU_CREATE)
         menu_proc(self.h_menu, MENU_CLEAR)
