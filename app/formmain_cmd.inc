@@ -159,9 +159,21 @@ begin
     cmd_ConvertTabsToSpaces: EditorConvertTabsToSpaces(CurrentEditor);
     cmd_ConvertSpacesToTabsLeading: EditorConvertSpacesToTabsLeading(CurrentEditor);
 
-    cmd_BookmarkToggle: begin EditorBookmarkSet(CurrentEditor, -1, 1, bmOpToggle, ''); UpdateFrame; end;
-    cmd_BookmarkClearAll: begin EditorBookmarkClearAll(CurrentEditor); UpdateFrame; end;
-    cmd_BookmarkInvertAll: begin EditorBookmarkInvertAll(CurrentEditor); UpdateFrame; end;
+    cmd_BookmarkToggle:
+      begin
+        EditorBookmarkSet(CurrentEditor, -1, 1, bmOpToggle, '', false);
+        UpdateFrame;
+      end;
+    cmd_BookmarkClearAll:
+      begin
+        EditorBookmarkClearAll(CurrentEditor);
+        UpdateFrame;
+      end;
+    cmd_BookmarkInvertAll:
+      begin
+        EditorBookmarkInvertAll(CurrentEditor);
+        UpdateFrame;
+      end;
     cmd_BookmarkGotoNext: EditorBookmarkGotoNext(CurrentEditor, true);
     cmd_BookmarkGotoPrev: EditorBookmarkGotoNext(CurrentEditor, false);
     cmd_BookmarkPlaceCarets: EditorBookmarkPlaceCaretsOnBookmarks(CurrentEditor);

@@ -1296,13 +1296,13 @@ begin
 
         BOOKMARK_SET:
           begin
-            EditorBookmarkSet(Ed, NLine, NKind, bmOpSet, StrText);
+            EditorBookmarkSet(Ed, NLine, NKind, bmOpSet, StrText, NColor=1);
             Result:= ReturnNone;
           end;
 
         BOOKMARK_CLEAR:
           begin
-            EditorBookmarkSet(Ed, NLine, NKind, bmOpClear, '');
+            EditorBookmarkSet(Ed, NLine, NKind, bmOpClear, '', false);
             Result:= ReturnNone;
           end;
 

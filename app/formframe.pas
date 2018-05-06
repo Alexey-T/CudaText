@@ -1727,7 +1727,7 @@ var
 begin
   ed:= Sender as TATSynEdit;
   if ABand=ed.GutterBandBm then
-    EditorBookmarkSet(ed, ALine, 1, bmOpToggle, '');
+    EditorBookmarkSet(ed, ALine, 1, bmOpToggle, '', false);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
@@ -2155,7 +2155,7 @@ begin
       else
         nKind:= 1;
       if Editor.Strings.IsIndexValid(nTop) then
-        Editor.Strings.Bookmarks.Add(nTop, nKind, '');
+        Editor.Strings.Bookmarks.Add(nTop, nKind, '', false);
     end;
   finally
     FreeAndNil(items2);

@@ -51,7 +51,7 @@ begin
 
     markingBookmarks:
       begin
-        EditorBookmarkSet(Ed, APos1.Y, 1, bmOpSet, '');
+        EditorBookmarkSet(Ed, APos1.Y, 1, bmOpSet, '', false);
       end;
   end;
 end;

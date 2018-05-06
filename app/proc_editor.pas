@@ -34,7 +34,10 @@ procedure EditorMarkerClearAll(Ed: TATSynEdit);
 procedure EditorMarkerSwap(Ed: TATSynEdit);
 
 type TAppBookmarkOp = (bmOpClear, bmOpSet, bmOpToggle);
-procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer; AOp: TAppBookmarkOp; const AHint: string);
+procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
+  AOp: TAppBookmarkOp;
+  const AHint: string;
+  ADeleteOnDelLine: boolean);
 procedure EditorBookmarkInvertAll(ed: TATSynEdit);
 procedure EditorBookmarkClearAll(ed: TATSynEdit);
 procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
@@ -84,7 +87,7 @@ function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 implementation
 
 procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
-  AOp: TAppBookmarkOp; const AHint: string);
+  AOp: TAppBookmarkOp; const AHint: string; ADeleteOnDelLine: boolean);
 var
   NIndex: integer;
 begin
@@ -95,7 +98,7 @@ begin
   case AOp of
     bmOpSet:
       begin
-        ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint);
+        ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint, ADeleteOnDelLine);
       end;
     bmOpClear:
       begin
@@ -107,7 +110,7 @@ begin
         if NIndex>=0 then
           ed.Strings.Bookmarks.Delete(NIndex)
         else
-          ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint);
+          ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint, ADeleteOnDelLine);
       end;
   end;
 
@@ -124,7 +127,7 @@ begin
     if NIndex>=0 then
       ed.Strings.Bookmarks.Delete(NIndex)
     else
-      ed.Strings.Bookmarks.Add(i, 1, '');
+      ed.Strings.Bookmarks.Add(i, 1, '', false);
   end;
   ed.Update;
 end;
@@ -1053,7 +1056,7 @@ begin
   begin
     Caret:= ed.Carets[i];
     if ed.Strings.IsIndexValid(Caret.PosY) then
-      ed.Strings.Bookmarks.Add(Caret.PosY, 1, '');
+      ed.Strings.Bookmarks.Add(Caret.PosY, 1, '', false);
   end;
 end;
 

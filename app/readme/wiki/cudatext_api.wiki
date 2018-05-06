@@ -1987,7 +1987,10 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 Controls bookmarks. Possible values of id:
 
 * BOOKMARK_GET: Gets kind of bookmark at line=nline. 0 means no bookmark, 1 means usual bookmark.
-* BOOKMARK_SET: Sets bookmark with kind=nkind at line=nline. 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP. Param text: hint, shown when mouse is over bookmark gutter icon.
+* BOOKMARK_SET: Sets bookmark with kind=nkind at line=nline.
+** Param "nkind": 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP. 
+** Param "text": hint, shown when mouse is over bookmark gutter icon. 
+** By default, bookmark will be kept on deleting its line. To place bookmark which is deleted on deleting its line, set ncolor=1.
 * BOOKMARK_CLEAR: Removes bookmark from line=nline (nkind ignored).
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
 * BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind (nline ignored). Setup is:
@@ -2379,6 +2382,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.240 (app 1.52.1)
+* add: ed.bookmark: BOOKMARK_SET can specify "delete bookmark on deleting line"
 
 1.0.239 (app 1.51.2)
 * add: event on_mouse_stop
