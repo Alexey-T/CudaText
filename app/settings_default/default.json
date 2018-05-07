@@ -15,9 +15,9 @@
   "font_size__linux": 10,
   "font_size__mac": 10,
 
-  //Enable to render font ligatures (e.g. font Fira Code)
-  //Option works only on Windows yet. On Linux: always on.
-  "font_ligatures": false,
+  //Enable to render font ligatures (e.g. with font "Fira Code")
+  //Option has effect only on Windows. On Unix: on, or depends on OS.
+  "font_ligatures": true,
 
   //Text font rendering quality [has suffix]
   //  0: Default

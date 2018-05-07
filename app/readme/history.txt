@@ -4,6 +4,10 @@
   * changed
 
 
+1.52.1 (2018/05)
+
+* change: option "font_ligatures" changed default to true
+
 1.52.0 (2018/05)
 
 + add: implemented editor tooltips over [...] folded marks
