@@ -925,7 +925,7 @@ begin
       {$ifdef freebsd} 'Courier New' {$endif}
       {$ifdef darwin} 'Monaco' {$endif} ;
 
-    OpFontSize:= {$ifdef LCLCocoa}13{$else}10{$endif};
+    OpFontSize:= 10; //now Win, Carbon and Cocoa use the same font size
     OpFontQuality:= fqDefault;
     OpFontLigatures:= true;
 
