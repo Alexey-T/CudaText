@@ -252,7 +252,6 @@ type
     OpFontQuality: TFontQuality;
     OpFontLigatures: boolean;
 
-    OpSpacingX: integer;
     OpSpacingY: integer;
     OpTabSize: integer;
     OpTabSpaces: boolean;
@@ -929,7 +928,6 @@ begin
     OpFontQuality:= fqDefault;
     OpFontLigatures:= true;
 
-    OpSpacingX:= 0;
     OpSpacingY:= 1;
 
     OpTabSize:= 8;

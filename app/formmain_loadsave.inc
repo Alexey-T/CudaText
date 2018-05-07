@@ -580,7 +580,6 @@ begin
     UiOps.HotkeyToggleMultiline:= c.GetValue('find_hotkey_op_multiline', UiOps.HotkeyToggleMultiline);
     UiOps.HotkeyToggleConfirmRep:= c.GetValue('find_hotkey_op_confirm_rep', UiOps.HotkeyToggleConfirmRep);
 
-    Op.OpSpacingX:= c.GetValue('spacing_x', Op.OpSpacingX);
     Op.OpSpacingY:= c.GetValue('spacing_y', Op.OpSpacingY);
 
     Op.OpTabSize:= c.GetValue('tab_size', Op.OpTabSize);

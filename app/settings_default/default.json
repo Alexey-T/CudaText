@@ -207,12 +207,8 @@
   //  Note: config is read as utf8.
   "hex_chars": "",
 
-  //Additional pixels per each line (vertically)
+  //Additional pixels per each line, vertically
   "spacing_y": 1,
-
-  //Additional pixels per each char (horizontally)
-  //Works only on Windows yet
-  "spacing_x": 0,
 
   //Tab-char width
   "tab_size": 8,
