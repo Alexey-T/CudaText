@@ -237,7 +237,13 @@ var
 
 const
   str_FontName = 'font_name'+cOptionSystemSuffix;
+  str_FontName_i = 'font_name_i'+cOptionSystemSuffix;
+  str_FontName_b = 'font_name_b'+cOptionSystemSuffix;
+  str_FontName_bi = 'font_name_bi'+cOptionSystemSuffix;
   str_FontSize = 'font_size'+cOptionSystemSuffix;
+  str_FontSize_i = 'font_size_i'+cOptionSystemSuffix;
+  str_FontSize_b = 'font_size_b'+cOptionSystemSuffix;
+  str_FontSize_bi = 'font_size_bi'+cOptionSystemSuffix;
   str_FontQuality = 'font_quality'+cOptionSystemSuffix;
   str_FontLigatures = 'font_ligatures'; //+cOptionSystemSuffix;
   str_UiFontName = 'ui_font_name'+cOptionSystemSuffix;
@@ -250,7 +256,13 @@ const
 type
   TEditorOps = record
     OpFontName: string;
+    OpFontName_i: string;
+    OpFontName_b: string;
+    OpFontName_bi: string;
     OpFontSize: integer;
+    OpFontSize_i: integer;
+    OpFontSize_b: integer;
+    OpFontSize_bi: integer;
     OpFontQuality: TFontQuality;
     OpFontLigatures: boolean;
 
@@ -925,8 +937,15 @@ begin
       {$ifdef linux} 'Courier New' {$endif}
       {$ifdef freebsd} 'Courier New' {$endif}
       {$ifdef darwin} 'Monaco' {$endif} ;
+    OpFontName_i:= '';
+    OpFontName_b:= '';
+    OpFontName_bi:= '';
 
     OpFontSize:= 10; //now Win, Carbon and Cocoa use the same font size
+    OpFontSize_i:= OpFontSize;
+    OpFontSize_b:= OpFontSize;
+    OpFontSize_bi:= OpFontSize;
+
     OpFontQuality:= fqDefault;
     OpFontLigatures:= true;
 

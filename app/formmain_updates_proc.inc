@@ -283,12 +283,28 @@ begin
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
+
     F.Editor.Font.Name:= EditorOps.OpFontName;
+    F.Editor.FontItalic.Name:= EditorOps.OpFontName_i;
+    F.Editor.FontBold.Name:= EditorOps.OpFontName_b;
+    F.Editor.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
     F.Editor2.Font.Name:= EditorOps.OpFontName;
+    F.Editor2.FontItalic.Name:= EditorOps.OpFontName_i;
+    F.Editor2.FontBold.Name:= EditorOps.OpFontName_b;
+    F.Editor2.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
+
     F.Editor.Font.Size:= EditorOps.OpFontSize;
+    F.Editor.FontItalic.Size:= EditorOps.OpFontSize_i;
+    F.Editor.FontBold.Size:= EditorOps.OpFontSize_b;
+    F.Editor.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
     F.Editor2.Font.Size:= EditorOps.OpFontSize;
+    F.Editor2.FontItalic.Size:= EditorOps.OpFontSize_i;
+    F.Editor2.FontBold.Size:= EditorOps.OpFontSize_b;
+    F.Editor2.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
+
     F.Editor.Font.Quality:= EditorOps.OpFontQuality;
     F.Editor2.Font.Quality:= EditorOps.OpFontQuality;
+
     DoOps_LoadOptionsLexerSpecific(F);
   end;
 

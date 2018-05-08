@@ -170,7 +170,15 @@ procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize: boolean);
 begin
   Ed.Font.Name:= Op.OpFontName;
+  Ed.FontItalic.Name:= Op.OpFontName_i;
+  Ed.FontBold.Name:= Op.OpFontName_b;
+  Ed.FontBoldItalic.Name:= Op.OpFontName_bi;
+
   Ed.Font.Size:= Op.OpFontSize;
+  Ed.FontItalic.Size:= Op.OpFontSize_i;
+  Ed.FontBold.Size:= Op.OpFontSize_b;
+  Ed.FontBoldItalic.Size:= Op.OpFontSize_bi;
+
   Ed.Font.Quality:= Op.OpFontQuality;
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
 

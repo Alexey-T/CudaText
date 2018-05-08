@@ -10,10 +10,40 @@
   "font_name__linux": "Courier New",
   "font_name__mac": "Monaco",
 
+  //Text font name, for "italic" fragments [has suffix]
+  "font_name_i": "",
+  "font_name_i__linux": "",
+  "font_name_i__mac": "",
+
+  //Text font name, for "bold" fragments [has suffix]
+  "font_name_b": "",
+  "font_name_b__linux": "",
+  "font_name_b__mac": "",
+
+  //Text font name, for "bold+italic" fragments [has suffix]
+  "font_name_bi": "",
+  "font_name_bi__linux": "",
+  "font_name_bi__mac": "",
+
   //Text font size [has suffix]
   "font_size": 10,
   "font_size__linux": 10,
   "font_size__mac": 10,
+
+  //Text font size, for "italic" fragments [has suffix]
+  "font_size_i": 10,
+  "font_size_i__linux": 10,
+  "font_size_i__mac": 10,
+
+  //Text font size, for "bold" fragments [has suffix]
+  "font_size_b": 10,
+  "font_size_b__linux": 10,
+  "font_size_b__mac": 10,
+
+  //Text font size, for "bold+italic" fragments [has suffix]
+  "font_size_bi": 10,
+  "font_size_bi__linux": 10,
+  "font_size_bi__mac": 10,
 
   //Enable to render font ligatures (e.g. with font "Fira Code")
   //Option has effect only on Windows. On Unix: on, or depends on OS.

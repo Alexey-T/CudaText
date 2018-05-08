@@ -1127,7 +1127,15 @@ begin
   ed.AutoAdjustLayout(lapDefault, 100, UiOps.ScreenScale, 1, 1);
 
   ed.Font.Name:= EditorOps.OpFontName;
+  ed.FontItalic.Name:= EditorOps.OpFontName_i;
+  ed.FontBold.Name:= EditorOps.OpFontName_b;
+  ed.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
+
   ed.Font.Size:= EditorOps.OpFontSize;
+  ed.FontItalic.Size:= EditorOps.OpFontSize_i;
+  ed.FontBold.Size:= EditorOps.OpFontSize_b;
+  ed.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
+
   ed.Font.Quality:= EditorOps.OpFontQuality;
 
   ed.BorderStyle:= bsNone;
