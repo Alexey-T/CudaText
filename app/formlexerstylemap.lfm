@@ -1,13 +1,13 @@
 object fmLexerStyleMap: TfmLexerStyleMap
-  Left = 338
-  Height = 448
-  Top = 267
-  Width = 627
+  Left = 328
+  Height = 518
+  Top = 162
+  Width = 704
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Lexer styles mapping'
-  ClientHeight = 448
-  ClientWidth = 627
+  ClientHeight = 518
+  ClientWidth = 704
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -16,9 +16,9 @@ object fmLexerStyleMap: TfmLexerStyleMap
   LCLVersion = '1.9.0.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 38
-    Top = 404
-    Width = 615
+    Height = 28
+    Top = 484
+    Width = 692
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -59,7 +59,7 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = ButtonPanel1
     Left = 6
-    Height = 377
+    Height = 457
     Top = 21
     Width = 298
     Anchors = [akTop, akLeft, akBottom]
@@ -79,25 +79,26 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideBottom.Control = ListLex
     AnchorSideBottom.Side = asrBottom
     Left = 310
-    Height = 377
+    Height = 457
     Top = 21
-    Width = 155
+    Width = 232
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     ItemHeight = 0
-    ScrollWidth = 153
+    ScrollWidth = 230
     TabOrder = 1
     TopIndex = -1
   end
   object btnSet: TButton
+    AnchorSideTop.Control = ListTh
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 471
-    Height = 30
-    Top = 27
+    Left = 548
+    Height = 26
+    Top = 21
     Width = 150
-    Anchors = [akRight]
+    Anchors = [akTop, akRight]
     AutoSize = True
     BorderSpacing.Right = 6
     Caption = 'Assign selected'
@@ -111,9 +112,9 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
-    Left = 471
-    Height = 30
-    Top = 63
+    Left = 548
+    Height = 26
+    Top = 53
     Width = 150
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -128,9 +129,9 @@ object fmLexerStyleMap: TfmLexerStyleMap
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnSet
     AnchorSideRight.Side = asrBottom
-    Left = 471
-    Height = 30
-    Top = 99
+    Left = 548
+    Height = 26
+    Top = 85
     Width = 150
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
