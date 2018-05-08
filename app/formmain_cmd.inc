@@ -94,8 +94,6 @@ begin
 
     cmd_ShowSidePanelAsIs: DoShowSidePanel('', false);
     cmd_ShowSidePanelAndSyntaxTree: DoShowSidePanel(msgPanelTree_Init, false);
-    cmd_ShowSidePanelAndProject: DoShowSidePanel(msgPanelProject_Init, false);
-    cmd_ShowSidePanelAndTabsList: DoShowSidePanel(msgPanelTabs_Init, false);
     cmd_HideSidePanel: DoShowSidePanel('-', false);
 
     cmd_FindFirst:       DoFindFirst;

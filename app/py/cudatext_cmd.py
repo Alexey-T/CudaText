@@ -260,8 +260,6 @@ cmd_DialogThemeUi       = 2552
 cmd_DialogThemeSyntax   = 2553
 cmd_ShowMainMenuAsPopup = 2554
 cmd_ToggleMenu = 2555
-cmd_ShowSidePanelAndProject = 2556
-cmd_ShowSidePanelAndTabsList = 2557
 
 cmd_FocusEditor = 2577
 cmd_SwitchActiveTabToNext = 2578
