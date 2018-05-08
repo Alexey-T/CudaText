@@ -904,6 +904,13 @@
   //If chosen auto-completion item has (), then append "(" on insertion
   "autocomplete_add_opening_bracket": true,
 
+  //What to do when Up key is pressed with autocompletion selection on top,
+  //or Down key is pressed with selection on bottom
+  //  0: ignore pressed key
+  //  1: wrap selection to opposite edge
+  //  2: close autocompletion
+  "autocomplete_up_down_at_edge": 1,
+
   //Auto-close brackets/quotes.
   //  Value can have only chars: ( [ { ' " `
   //  (don't forget that json needs escaped double-quote)

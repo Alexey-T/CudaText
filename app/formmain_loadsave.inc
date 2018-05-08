@@ -711,6 +711,7 @@ begin
     //UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
     UiOps.AutocompleteTriggerChars:= c.GetValue('autocomplete_trigger_chars', '');
     UiOps.AutocompleteAddOpeningBracket:= c.GetValue('autocomplete_add_opening_bracket', UiOps.AutocompleteAddOpeningBracket);
+    UiOps.AutocompleteUpDownAtEdge:= c.GetValue('autocomplete_up_down_at_edge', UiOps.AutocompleteUpDownAtEdge);
     UiOps.AutoCloseBrackets:= c.GetValue('auto_close_brackets', UiOps.AutoCloseBrackets);
 
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);

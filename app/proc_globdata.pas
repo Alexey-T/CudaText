@@ -113,6 +113,7 @@ type
     AutocompleteAutoshowCharCount: integer;
     AutocompleteTriggerChars: string;
     AutocompleteAddOpeningBracket: boolean;
+    AutocompleteUpDownAtEdge: integer;
     AutoCloseBrackets: string;
 
     ListboxSizeX: integer;
@@ -1118,6 +1119,7 @@ begin
     AutocompleteAutoshowCharCount:= 0;
     AutocompleteTriggerChars:= '';
     AutocompleteAddOpeningBracket:= true;
+    AutocompleteUpDownAtEdge:= 1; //cudWrap
     AutoCloseBrackets:= '([{';
 
     ListboxSizeX:= 450;
