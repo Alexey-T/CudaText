@@ -1177,7 +1177,6 @@ Possible values of id_action:
 
 * TREE_ITEM_GET_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1). 
 * TREE_ITEM_SET_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
-* TREE_ITEM_GET_SYNTAX_RANGE: Deprecated, same as TREE_ITEM_GET_RANGE.
 
 ===listbox_proc===
 
@@ -2386,6 +2385,7 @@ Text is chr(1) separated items:
 1.0.240 (app 1.52.1)
 * add: ed.bookmark: BOOKMARK_SET can specify "delete bookmark on deleting line"
 * deleted deprecated: BOOKMARK_CLEAR_HINTS
+* deleted deprecated: TREE_ITEM_GET_SYNTAX_RANGE
 
 1.0.239 (app 1.51.2)
 * add: event on_mouse_stop
