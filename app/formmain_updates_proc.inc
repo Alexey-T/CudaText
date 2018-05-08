@@ -802,6 +802,7 @@ begin
   if not Frame.EnabledCodeTree then
   begin
     //don't clear tree, it may be filled by plugin
+    UpdateTreeSelection; //needed even for disabled CodeTree (for plugins)
     exit;
   end;
 
