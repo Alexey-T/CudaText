@@ -293,6 +293,8 @@ procedure TfmMain.DoDialogFind(AReplaceMode: boolean);
 var
   Ed: TATSynEdit;
   StrSel, StrWord: atString;
+  bMultiLineSel: boolean;
+  Caret: TATCaretItem;
 begin
   Ed:= CurrentEditor;
 
@@ -303,6 +305,13 @@ begin
   if Pos(#10, StrSel)>0 then StrSel:= '';
   if Pos(#13, StrSel)>0 then StrSel:= '';
   if not Ed.IsSelRectEmpty then StrSel:= '';
+
+  bMultiLineSel:= false;
+  if Ed.Carets.Count=1 then
+  begin
+    Caret:= Ed.Carets[0];
+    bMultiLineSel:= (Caret.EndY>=0) and (Caret.EndY<>Caret.PosY);
+  end;
 
   MsgLogDebug('find dlg: init');
   InitFormFind;
@@ -329,7 +338,12 @@ begin
     chkRegex.Checked:= FFinder.OptRegex;
     chkConfirm.Checked:= FFinder.OptConfirmReplace;
     chkWrap.Checked:= FFinder.OptWrapped;
-    chkInSel.Checked:= FFinder.OptInSelection;
+
+    if UiOps.FindSuggestInSelection and bMultiLineSel then
+      chkInSel.Checked:= true
+    else
+      chkInSel.Checked:= FFinder.OptInSelection;
+
     IsReplace:= AReplaceMode;
 
     MsgLogDebug('find dlg: update state');

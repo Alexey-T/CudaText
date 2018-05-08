@@ -147,6 +147,7 @@ type
 
     FindSuggestSel: boolean;
     FindSuggestWord: boolean;
+    FindSuggestInSelection: boolean;
     FindSelCase: integer;
     FindShow_FindFirst: boolean;
     FindShow_MarkALl: boolean;
@@ -1153,6 +1154,7 @@ begin
 
     FindSuggestSel:= false;
     FindSuggestWord:= true;
+    FindSuggestInSelection:= false;
     FindSelCase:= 2;
     FindShow_FindFirst:= true;
     FindShow_MarkALl:= true;

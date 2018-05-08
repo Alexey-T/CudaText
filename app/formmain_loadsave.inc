@@ -716,6 +716,7 @@ begin
 
     UiOps.FindSuggestSel:= c.GetValue('find_suggest_sel', UiOps.FindSuggestSel);
     UiOps.FindSuggestWord:= c.GetValue('find_suggest_cur_word', UiOps.FindSuggestWord);
+    UiOps.FindSuggestInSelection:= c.GetValue('find_suggest_in_selection', UiOps.FindSuggestInSelection);
     UiOps.FindSelCase:= c.GetValue('find_sel_case', UiOps.FindSelCase);
     UiOps.FindShow_FindFirst:= c.GetValue('find_show_findfirst', UiOps.FindShow_FindFirst);
     UiOps.FindShow_MarkALl:= c.GetValue('find_show_mark_all', UiOps.FindShow_MarkALl);

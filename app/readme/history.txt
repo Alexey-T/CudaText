@@ -7,6 +7,7 @@
 1.52.1 (2018/05)
 
 + add: option "autocomplete_up_down_at_edge"
++ add: option "find_suggest_in_selection"
 * change: option "font_ligatures" changed default to true
 * change: deleted option "spacing_x"
 
