@@ -8,9 +8,9 @@
 
 + add: option "autocomplete_up_down_at_edge"
 + add: option "find_suggest_in_selection"
-* change: option "font_ligatures" changed default to true
+* change: changed default of "font_ligatures" to true
 * change: deleted option "spacing_x"
-* change: new commands "show side panel: tabs list / project" were not needed, removed 
+* change: deleted commands "show side panel: tabs list / project" (doable via plugin actions)
 
 1.52.0 (2018/05)
 
