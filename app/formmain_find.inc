@@ -266,7 +266,9 @@ begin
       fmFind.IsNarrow:= true;
       fmFind.Width:= 700;
       fmFind.Constraints.MinWidth:= 400;
-      UpdateFormOnTop(fmFind);
+      if UiOps.ShowFormsOnTop then
+        fmFind.FormStyle:= fsSystemStayOnTop;
+      //else: it's already fsStayOnTop
     end;
 
     cfg:= TJSONConfig.Create(nil);
