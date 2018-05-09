@@ -182,10 +182,6 @@ begin
   Ed.Font.Quality:= Op.OpFontQuality;
   Ed.OptShowFontLigatures:= Op.OpFontLigatures;
 
-  {$ifdef windows}
-  //no effect on gtk2, not tested on Mac
-  Ed.OptCharSpacingX:= Op.OpSpacingX;
-  {$endif}
   Ed.OptCharSpacingY:= Op.OpSpacingY;
 
   if AApplyTabSize then
