@@ -490,28 +490,28 @@
   //Find dialog: show window, not docked to app bottom (applied after restart)
   "find_separate_form": false,
 
-  //Find dialog: suggest selection (of 1st caret)
+  //Find dialog: suggest selection (of first caret) as initial search text
   "find_suggest_sel": false,
 
-  //Find dialog: suggest word (at 1st caret)
+  //Find dialog: suggest current word (at first caret) as initial search text
   "find_suggest_cur_word": true,
   
   //Find dialog: check option "Search in selection", if editor has single caret with multi-line selection
   "find_suggest_in_selection": false,
 
-  //Find current selection next/prev: case-sensitive state
-  //  0: case-sens off
-  //  1: case-sens on
+  //Commands "Find current selection next / previous": case-sensitive state
+  //  0: case-sensitive off
+  //  1: case-sensitive on
   //  2: use option from Find dialog
   "find_sel_case": 2,
 
-  //Find dialog: show "find first" button
+  //Find dialog: show "Find" (ie, Find first) button
   "find_show_findfirst": true,
 
-  //Find dialog: show "select all" button
+  //Find dialog: show "Select all" button
   "find_show_select_all": true,
 
-  //Find dialog: show "mark all" button
+  //Find dialog: show "Mark all" button
   "find_show_mark_all": true,
 
   //Find dialog: multi-line mode: how height of inputs is increased
