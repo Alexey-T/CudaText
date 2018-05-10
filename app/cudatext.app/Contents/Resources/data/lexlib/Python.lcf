@@ -1,4 +1,4 @@
-object SyntAnal30: TLibSyntAnalyzer
+object SyntAnal34: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -184,7 +184,7 @@ object SyntAnal30: TLibSyntAnalyzer
       DisplayName = 'Float'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\b \d(_?\d)* (\.(_?\d)*)? |'#13#10'\.(_?\d)+'
+      Expression = '\b \d(_?\d)* (\.(_?\d)*)? (e[\-\+]?\d+)? |'#13#10'\.(_?\d)+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -495,7 +495,7 @@ object SyntAnal30: TLibSyntAnalyzer
     'string""" + "long \'
     'string"; #end'
     '11_22_3.44_5 + 0x_FF_aa_b_0 + 0b10_1_0'
-    '+ 3. + .3 + 3.0'
+    '+ 3. + .3 + 3.0 + 1.2e-3'
     ''
     'import sys, sys2, sys3'
     'from csv import aa, bb'

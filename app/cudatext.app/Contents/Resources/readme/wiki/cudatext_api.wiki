@@ -1177,7 +1177,6 @@ Possible values of id_action:
 
 * TREE_ITEM_GET_RANGE: Should be used only for Code Tree. Gets range, stored in tree-item, as 4-tuple (start_x, start_y, end_x, end_y). If range is not set, gets (-1,-1,-1,-1). 
 * TREE_ITEM_SET_RANGE: Should be used only for Code Tree. Sets range for tree-item. Param "text" must be 4-tuple of int (start_x, start_y, end_x, end_y).
-* TREE_ITEM_GET_SYNTAX_RANGE: Deprecated, same as TREE_ITEM_GET_RANGE.
 
 ===listbox_proc===
 
@@ -1986,20 +1985,23 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
 Controls bookmarks. Possible values of id:
 
-* BOOKMARK_GET: Gets kind of bookmark at line=nline. 0 means no bookmark, 1 means usual bookmark.
-* BOOKMARK_SET: Sets bookmark with kind=nkind at line=nline. 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP. Param text: hint, shown when mouse is over bookmark gutter icon.
+* BOOKMARK_GET: Gets kind of bookmark at given line index (param "nline"). 0 means no bookmark, 1 means usual bookmark.
+* BOOKMARK_SET: Sets bookmark.
+** Param "nline": line index of bookmark.
+** Param "nkind": kind of bookmark: 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
+** Param "text": hint, shown when mouse moves over bookmark gutter icon.
+** By default, bookmark is kept on deleting its line. To place bookmark which is deleted on deleting its line, set ncolor=1.
 * BOOKMARK_CLEAR: Removes bookmark from line=nline (nkind ignored).
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
-* BOOKMARK_SETUP: Setup custom bookmarks with kind=nkind (nline ignored). Setup is:
-** ncolor: Color of bookmarked line. Can be COLOR_NONE to not show bg-color.
-** text: Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
-* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks (nline, nkind ignored).
-* BOOKMARK_CLEAR_HINTS: Clears all bookmark hints. Maximum 63 separate hints are allowed, so you should to clear hints before adding bunch of bookmarks to editor.
+* BOOKMARK_SETUP: Setups bookmarks with given kind (param "nkind").
+** Param "ncolor": Color of bookmarked line. Can be COLOR_NONE to not use background color.
+** Param "text": Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
+* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks. Params "nline", "nkind" are ignored.
 
 Notes:
 
-* nkind must be in the range 1..63.
-* nkind values 2..9 have setup by default: they have blue icons "1" to "8".
+* Param "nkind" must be in the range 1..63.
+* Param "nkind" values 2..9 have setup by default: they have blue icons "1" to "8".
 
 ===folding===
 
@@ -2379,6 +2381,11 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.240 (app 1.52.1)
+* add: ed.bookmark: BOOKMARK_SET can specify "delete bookmark on deleting line"
+* deleted deprecated: BOOKMARK_CLEAR_HINTS
+* deleted deprecated: TREE_ITEM_GET_SYNTAX_RANGE
 
 1.0.239 (app 1.51.2)
 * add: event on_mouse_stop

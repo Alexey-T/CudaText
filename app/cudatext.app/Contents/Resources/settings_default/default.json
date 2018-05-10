@@ -10,14 +10,47 @@
   "font_name__linux": "Courier New",
   "font_name__mac": "Monaco",
 
+  //Text font name, for "italic" fragments [has suffix]
+  //Empty string is allowed
+  "font_name_i": "",
+  "font_name_i__linux": "",
+  "font_name_i__mac": "",
+
+  //Text font name, for "bold" fragments [has suffix]
+  //Empty string is allowed
+  "font_name_b": "",
+  "font_name_b__linux": "",
+  "font_name_b__mac": "",
+
+  //Text font name, for "bold+italic" fragments [has suffix]
+  //Empty string is allowed
+  "font_name_bi": "",
+  "font_name_bi__linux": "",
+  "font_name_bi__mac": "",
+
   //Text font size [has suffix]
   "font_size": 10,
   "font_size__linux": 10,
   "font_size__mac": 10,
 
-  //Enable to render font ligatures (e.g. font Fira Code)
-  //Option works only on Windows yet. On Linux: always on.
-  "font_ligatures": false,
+  //Text font size, for "italic" fragments [has suffix]
+  "font_size_i": 10,
+  "font_size_i__linux": 10,
+  "font_size_i__mac": 10,
+
+  //Text font size, for "bold" fragments [has suffix]
+  "font_size_b": 10,
+  "font_size_b__linux": 10,
+  "font_size_b__mac": 10,
+
+  //Text font size, for "bold+italic" fragments [has suffix]
+  "font_size_bi": 10,
+  "font_size_bi__linux": 10,
+  "font_size_bi__mac": 10,
+
+  //Enable to render font ligatures (e.g. with font "Fira Code")
+  //Option has effect only on Windows. On Unix: on, or depends on OS.
+  "font_ligatures": true,
 
   //Text font rendering quality [has suffix]
   //  0: Default
@@ -207,12 +240,8 @@
   //  Note: config is read as utf8.
   "hex_chars": "",
 
-  //Additional pixels per each line (vertically)
+  //Additional pixels per each line, vertically
   "spacing_y": 1,
-
-  //Additional pixels per each char (horizontally)
-  //Works only on Windows yet
-  "spacing_x": 0,
 
   //Tab-char width
   "tab_size": 8,
@@ -464,25 +493,28 @@
   //Find dialog: show window, not docked to app bottom (applied after restart)
   "find_separate_form": false,
 
-  //Find dialog: suggest selection (of 1st caret)
+  //Find dialog: suggest selection (of first caret) as initial search text
   "find_suggest_sel": false,
 
-  //Find dialog: suggest word (at 1st caret)
+  //Find dialog: suggest current word (at first caret) as initial search text
   "find_suggest_cur_word": true,
+  
+  //Find dialog: check option "Search in selection", if editor has single caret with multi-line selection
+  "find_suggest_in_selection": false,
 
-  //Find current selection next/prev: case-sensitive state
-  //  0: case-sens off
-  //  1: case-sens on
+  //Commands "Find current selection next / previous": case-sensitive state
+  //  0: case-sensitive off
+  //  1: case-sensitive on
   //  2: use option from Find dialog
   "find_sel_case": 2,
 
-  //Find dialog: show "find first" button
+  //Find dialog: show "Find" (ie, Find first) button
   "find_show_findfirst": true,
 
-  //Find dialog: show "select all" button
+  //Find dialog: show "Select all" button
   "find_show_select_all": true,
 
-  //Find dialog: show "mark all" button
+  //Find dialog: show "Mark all" button
   "find_show_mark_all": true,
 
   //Find dialog: multi-line mode: how height of inputs is increased
@@ -907,6 +939,13 @@
 
   //If chosen auto-completion item has (), then append "(" on insertion
   "autocomplete_add_opening_bracket": true,
+
+  //What to do when Up key is pressed with autocompletion selection on top,
+  //or Down key is pressed with selection on bottom
+  //  0: ignore pressed key
+  //  1: wrap selection to opposite edge
+  //  2: close autocompletion
+  "autocomplete_up_down_at_edge": 1,
 
   //Auto-close brackets/quotes.
   //  Value can have only chars: ( [ { ' " `

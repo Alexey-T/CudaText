@@ -11,7 +11,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.3 2018-04-30'
+    '0.6.4 2018-05-02'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -28,29 +28,35 @@ CONFIG_LEV_LEX      = 'lex'
 CONFIG_LEV_FILE     = 'file'
 CONFIG_LEV_ALL      = 'dulf'
 OPT2PROP            = dict(
-     tab_size              = app.PROP_TAB_SIZE
-    ,tab_spaces            = app.PROP_TAB_SPACES
-    ,unprinted_show        = app.PROP_UNPRINTED_SHOW
-    ,unprinted_spaces      = app.PROP_UNPRINTED_SPACES
-    ,unprinted_ends        = app.PROP_UNPRINTED_ENDS
-    ,unprinted_end_details = app.PROP_UNPRINTED_END_DETAILS
-    ,wrap_mode             = app.PROP_WRAP
-    ,gutter_show           = app.PROP_GUTTER_ALL
-    ,gutter_fold           = app.PROP_GUTTER_FOLD
-    ,gutter_bookmarks      = app.PROP_GUTTER_BM
-    ,margin                = app.PROP_MARGIN
-    ,margin_string         = app.PROP_MARGIN_STRING
-    ,ruler_show            = app.PROP_RULER
-    ,caret_shape           = app.PROP_CARET_SHAPE
-    ,caret_shape_ovr       = app.PROP_CARET_SHAPE_OVR
-    ,caret_shape_ro        = app.PROP_CARET_SHAPE_RO
-    ,minimap_show          = app.PROP_MINIMAP
-    ,micromap_show         = app.PROP_MICROMAP
-    ,indent_size           = app.PROP_INDENT_SIZE
-    ,unindent_keeps_align  = app.PROP_INDENT_KEEP_ALIGN
-    ,indent_auto           = app.PROP_INDENT_AUTO
-    ,indent_kind           = app.PROP_INDENT_KIND
-#   ,viewer_binary_width   = app.PROP_V_WIDTH
+     caret_shape                = app.PROP_CARET_SHAPE
+    ,caret_shape_ovr            = app.PROP_CARET_SHAPE_OVR
+    ,caret_shape_ro             = app.PROP_CARET_SHAPE_RO
+    ,caret_after_end            = app.PROP_CARET_VIRTUAL
+    ,gutter_show                = app.PROP_GUTTER_ALL
+    ,gutter_bookmarks           = app.PROP_GUTTER_BM
+    ,gutter_fold                = app.PROP_GUTTER_FOLD
+    ,show_cur_column            = app.PROP_HILITE_CUR_COL
+    ,show_cur_line              = app.PROP_HILITE_CUR_LINE
+    ,show_cur_line_minimal      = app.PROP_HILITE_CUR_LINE_MINIMAL
+    ,show_cur_line_only_focused = app.PROP_HILITE_CUR_LINE_IF_FOCUS
+    ,indent_auto                = app.PROP_INDENT_AUTO
+    ,unindent_keeps_align       = app.PROP_INDENT_KEEP_ALIGN
+    ,indent_kind                = app.PROP_INDENT_KIND
+    ,indent_size                = app.PROP_INDENT_SIZE
+    ,show_last_line_on_top      = app.PROP_LAST_LINE_ON_TOP
+    ,margin                     = app.PROP_MARGIN
+    ,margin_string              = app.PROP_MARGIN_STRING
+    ,micromap_show              = app.PROP_MICROMAP
+    ,minimap_show               = app.PROP_MINIMAP
+    ,ruler_show                 = app.PROP_RULER
+    ,tab_size                   = app.PROP_TAB_SIZE
+    ,tab_spaces                 = app.PROP_TAB_SPACES
+    ,unprinted_ends             = app.PROP_UNPRINTED_ENDS
+    ,unprinted_end_details      = app.PROP_UNPRINTED_END_DETAILS
+    ,unprinted_show             = app.PROP_UNPRINTED_SHOW
+    ,unprinted_spaces           = app.PROP_UNPRINTED_SPACES
+    ,unprinted_spaces_trailing  = app.PROP_UNPRINTED_SPACES_TRAILING
+    ,wrap_mode                  = app.PROP_WRAP
     )
 
 # Localization
@@ -258,7 +264,6 @@ def set_opt(path, value, lev=CONFIG_LEV_USER, ed_cfg=ed, lexer=''):
         lex     = lexer                                 if lexer    else \
                   ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg   else ''
         if not lex: return None # Fail!
-
     cfg_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), icase(False,''
               ,lev==CONFIG_LEV_USER                          , 'user.json'
               ,lev==CONFIG_LEV_LEX                           , 'lexer {}.json'.format(lex)
