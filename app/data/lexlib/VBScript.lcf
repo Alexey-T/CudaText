@@ -1,4 +1,4 @@
-object SyntAnal41: TLibSyntAnalyzer
+object SyntAnal31: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -124,7 +124,7 @@ object SyntAnal41: TLibSyntAnalyzer
       DisplayName = 'Id_spec_then'
       StyleName = 'Reserved word'
       TokenType = 6
-      Expression = 'then \x20* $'
+      Expression = '\b then \x20* $'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -132,7 +132,7 @@ object SyntAnal41: TLibSyntAnalyzer
       DisplayName = 'Id_spec_endif'
       StyleName = 'Reserved word'
       TokenType = 7
-      Expression = '(?<=^\x20*) end \x20+ if \b'
+      Expression = '\b end \x20+ if \b'
       ColumnFrom = 0
       ColumnTo = 0
     end
