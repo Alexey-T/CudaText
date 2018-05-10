@@ -680,6 +680,7 @@ end;
 procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
 var
   SItem: string;
+  ScrollInfo: TATSynScrollInfo;
   R: TATSynRange;
   n: integer;
 begin
@@ -697,6 +698,11 @@ begin
 
     Ed.DoRangeFold(R);
   until false;
+
+  //fix changed horz scroll, https://github.com/Alexey-T/CudaText/issues/1439
+  ScrollInfo:= Ed.ScrollHorz;
+  ScrollInfo.NPos:= 0;
+  Ed.ScrollHorz:= ScrollInfo;
 
   Ed.Update;
 end;
