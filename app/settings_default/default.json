@@ -11,16 +11,19 @@
   "font_name__mac": "Monaco",
 
   //Text font name, for "italic" fragments [has suffix]
+  //Empty str: not used
   "font_name_i": "",
   "font_name_i__linux": "",
   "font_name_i__mac": "",
 
   //Text font name, for "bold" fragments [has suffix]
+  //Empty str: not used
   "font_name_b": "",
   "font_name_b__linux": "",
   "font_name_b__mac": "",
 
   //Text font name, for "bold+italic" fragments [has suffix]
+  //Empty str: not used
   "font_name_bi": "",
   "font_name_bi__linux": "",
   "font_name_bi__mac": "",
