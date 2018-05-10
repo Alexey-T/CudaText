@@ -15,6 +15,7 @@
      + option "font_size_bi"
 + add: option "autocomplete_up_down_at_edge"
 + add: option "find_suggest_in_selection"
++ add: command "toggle window always on top"
 * change: changed default of "font_ligatures" to true
 * change: deleted option "spacing_x"
 * change: deleted commands "show side panel: tabs list / project" (doable via plugin actions)

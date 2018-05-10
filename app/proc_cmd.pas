@@ -313,6 +313,7 @@ begin
   M.Add(cmd_ToggleFindDialog, 'ui: toggle find/replace dialog', [], []);
   M.Add(cmd_ToggleToolbar, 'ui: toggle toolbar', [], []);
   M.Add(cmd_ToggleStatusbar, 'ui: toggle statusbar', [], []);
+  M.Add(cmd_ToggleOnTop, 'ui: toggle window always on top', [], []);
   M.Add(cmd_ToggleMenu, 'ui: toggle main menu', [], []);
 
   M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
