@@ -6,8 +6,8 @@
 
 1.53.1 (2018/05)
 
-+ add: it's possble to show current char in the statusbar; statusbar options support new macros: {char} {char_dec} {char_hex} {char_hex4}
-- fix: crash when AddonManager installed lexer with any lexers active in tabs
++ add: it's possble to show current char in the statusbar: statusbar options support new macros {char} {char_dec} {char_hex} {char_hex4}
+- fix: crash when AddonManager installs a lexer, with any lexers active in tabs
 - fix: crash when Lexer Library deletes a lexer active in tabs
 - fix: lexer VBScript
 
