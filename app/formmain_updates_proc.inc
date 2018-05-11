@@ -192,6 +192,19 @@ begin
   ButtonCancel.Hide;
 end;
 
+procedure TfmMain.DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
+var
+  Frame: TEditorFrame;
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if Frame.LexerName=ALexerName then
+      Frame.Lexer:= nil;
+  end;
+end;
+
 procedure TfmMain.UpdateFrame(AUpdatedText: boolean = false);
 var
   F: TEditorFrame;

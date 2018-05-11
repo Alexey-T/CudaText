@@ -920,6 +920,7 @@ type
     procedure UpdateAppForSearch(AStart, AEdLock, AFindMode: boolean);
     procedure UpdateStatus;
     procedure InitStatusButton;
+    procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
   public
     { public declarations }
     CodeTree: TAppTreeContainer;
@@ -1959,7 +1960,9 @@ begin
     GetAppPath(cDirDataAutocomplete),
     EditorOps.OpFontName,
     EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStylesBackup)) then
+    GetAppPath(cFileLexerStylesBackup),
+    @DoOnDeleteLexer
+    ) then
   begin
     UpdateMenuLexers;
     UpdateStatus;

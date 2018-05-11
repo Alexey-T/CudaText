@@ -1329,6 +1329,8 @@ begin
   begin
     Ed1.Fold.Clear;
     Ed2.Fold.Clear;
+    Ed1.Update;
+    Ed2.Update;
   end;
 
   Adapter.Lexer:= an;

@@ -39,13 +39,15 @@ type
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
+    FOnDeleteLexer: TStrEvent;
     procedure UpdateList;
   public
+    { public declarations }
     FFontName: string;
     FFontSize: integer;
     FDirAcp: string;
     FStylesFilename: string;
-    { public declarations }
+    property OnDeleteLexer: TStrEvent read FOnDeleteLexer write FOnDeleteLexer;
   end;
 
 var
@@ -55,7 +57,8 @@ function DoShowDialogLexerLib(
   const ADirAcp: string;
   const AFontName: string;
   AFontSize: integer;
-  const AStylesFilename: string): boolean;
+  const AStylesFilename: string;
+  AOnDeleteLexer: TStrEvent): boolean;
 
 implementation
 
@@ -90,13 +93,14 @@ end;
 
 
 function DoShowDialogLexerLib(const ADirAcp: string; const AFontName: string;
-  AFontSize: integer; const AStylesFilename: string): boolean;
+  AFontSize: integer; const AStylesFilename: string; AOnDeleteLexer: TStrEvent): boolean;
 var
   F: TfmLexerLib;
 begin
   F:= TfmLexerLib.Create(nil);
   try
     DoLocalize_FormLexerLib(F);
+    F.OnDeleteLexer:= AOnDeleteLexer;
     F.FFontName:= AFontName;
     F.FFontSize:= AFontSize;
     F.FDirAcp:= ADirAcp;
@@ -217,6 +221,8 @@ begin
     Format(msgConfirmDeleteLexer, [an.LexerName]),
     MB_OKCANCEL or MB_ICONWARNING)=ID_OK then
   begin
+    if Assigned(FOnDeleteLexer) then
+      FOnDeleteLexer(nil, an.LexerName);
     DeleteFile(GetAppLexerFilename(an.LexerName));
     AppManager.DeleteLexer(an);
     UpdateList;
