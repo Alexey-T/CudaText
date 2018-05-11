@@ -4675,6 +4675,20 @@ begin
 end;
 
 
+procedure TfmMain.DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
+var
+  Frame: TEditorFrame;
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if Frame.LexerName=ALexerName then
+      Frame.Lexer:= nil;
+  end;
+end;
+
+
 //----------------------------
 {$I formmain_loadsave.inc}
 {$I formmain_updates_proc.inc}
