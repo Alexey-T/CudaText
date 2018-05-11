@@ -2803,63 +2803,78 @@ end;
 
 procedure TfmMain.DoOps_LoadLexerLib;
 var
-  dir, fn, lexname: string;
-  L: TStringlist;
+  fn, DirLexers, LexName: string;
+  ListFiles, ListBackup: TStringlist;
+  Frame: TEditorFrame;
   an: TecSyntAnalyzer;
   ini: TIniFile;
   i, j: integer;
 begin
-  AppManager.Clear;
-  AppManagerLite.Clear;
-
-  //lite lexers
-  dir:= GetAppPath(cDirDataLexersLite);
-  AppManagerLite.LoadFromDir(dir);
-
-  //econtrol lexers
-  dir:= GetAppPath(cDirDataLexers);
-  L:= TStringlist.Create;
+  ListFiles:= TStringList.Create;
+  ListBackup:= TStringList.Create;
   try
-    FindAllFiles(L, dir, '*.lcf', false);
-    L.Sort;
-
-    if L.Count=0 then
+    //backup lexer names from frames, disable lexers
+    for i:= 0 to FrameCount-1 do
     begin
-      MsgStatusAlt('Cannot find lexer files: data/lexlib/*.lcf', 3);
-      exit
+      Frame:= Frames[i];
+      ListBackup.Add(Frame.LexerName);
+      Frame.Lexer:= nil;
     end;
 
-    for i:= 0 to L.Count-1 do
+    AppManager.Clear;
+    AppManagerLite.Clear;
+
+    //load lite lexers
+    DirLexers:= GetAppPath(cDirDataLexersLite);
+    AppManagerLite.LoadFromDir(DirLexers);
+
+    //load EControl lexers
+    DirLexers:= GetAppPath(cDirDataLexers);
+    FindAllFiles(ListFiles, DirLexers, '*.lcf', false);
+    ListFiles.Sort;
+
+    if ListFiles.Count=0 then
+      MsgStatusAlt(msgCannotFindLexersAll, 3);
+
+    for i:= 0 to ListFiles.Count-1 do
     begin
       an:= AppManager.AddLexer;
-      an.LoadFromFile(L[i]);
+      an.LoadFromFile(ListFiles[i]);
     end;
-  finally
-    FreeAndNil(L);
-  end;
 
-  //correct sublexer links
-  for i:= 0 to AppManager.LexerCount-1 do
-  begin
-    an:= AppManager.Lexers[i];
-    fn:= GetAppLexerMapFilename(an.LexerName);
-    if FileExists(fn) then
+    //correct sublexer links
+    for i:= 0 to AppManager.LexerCount-1 do
     begin
-      ini:= TIniFile.Create(fn);
-      try
-        for j:= 0 to an.SubAnalyzers.Count-1 do
-        begin
-          lexname:= ini.ReadString('ref', IntToStr(j), '');
-          if lexname<>'' then
-            an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindLexerByName(lexname);
+      an:= AppManager.Lexers[i];
+      fn:= GetAppLexerMapFilename(an.LexerName);
+      if FileExists(fn) then
+      begin
+        ini:= TIniFile.Create(fn);
+        try
+          for j:= 0 to an.SubAnalyzers.Count-1 do
+          begin
+            LexName:= ini.ReadString('ref', IntToStr(j), '');
+            if LexName<>'' then
+              an.SubAnalyzers[j].SyntAnalyzer:= AppManager.FindLexerByName(LexName);
+          end;
+        finally
+          FreeAndNil(ini);
         end;
-      finally
-        FreeAndNil(ini);
       end;
     end;
-  end;
 
-  UpdateMenuLexers;
+    UpdateMenuLexers;
+
+    //restore lexers to frames
+    for i:= 0 to FrameCount-1 do
+    begin
+      Frame:= Frames[i];
+      Frame.LexerName:= ListBackup[i];
+    end;
+  finally
+    FreeAndNil(ListFiles);
+    FreeAndNil(ListBackup);
+  end;
 end;
 
 

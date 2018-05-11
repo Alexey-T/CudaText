@@ -106,6 +106,7 @@ const
   msgCannotFindFile: string = 'Cannot find file:';
   msgCannotFindLexerInLibrary: string = 'Cannot find lexer in library:';
   msgCannotFindLexerFile: string = 'Cannot find lexer file:';
+  msgCannotFindLexersAll: string = 'Cannot find lexers in data/lexlib/';
   msgCannotFindSublexerInLibrary: string = 'Cannot find linked sublexer:';
   msgCannotCreateDir: string = 'Cannot create dir:';
   msgCannotSaveFile: string = 'Cannot save file:';
