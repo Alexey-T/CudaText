@@ -364,6 +364,8 @@ var
   caret: TATCaretItem;
   cols, n, x_b, y_b, x_e, y_e: integer;
   bSel: boolean;
+  char_str, temp_str: UnicodeString;
+  char_code: integer;
 begin
   result:= '';
   if ed.Carets.Count=0 then exit;
@@ -401,6 +403,40 @@ begin
       n:= ed.Strings.CharPosToColumnPos(caret.PosY, caret.PosX, ed.OptTabSize)+1;
       result:= stringreplace(result, '{xx}', inttostr(n), []);
     end;
+
+  if pos('{char', result)>0 then
+  begin
+    char_str:= '';
+    char_code:= -1;
+
+    if ed.Strings.IsIndexValid(y_b) then
+      if (x_b>=0) and (x_b<ed.Strings.LinesLen[y_b]) then
+      begin
+        char_str:= ed.Strings.LineSub(y_b, x_b+1, 1);
+        if char_str<>'' then
+          char_code:= Ord(char_str[1]);
+      end;
+
+    result:= stringreplace(result, '{char}', char_str, []);
+
+    if char_code>=0 then
+      temp_str:= IntToStr(char_code)
+    else
+      temp_str:= '';
+    result:= stringreplace(result, '{char_dec}', temp_str, []);
+
+    if char_code>=0 then
+      temp_str:= IntToHex(char_code, 2)
+    else
+      temp_str:= '';
+    result:= stringreplace(result, '{char_hex}', temp_str, []);
+
+    if char_code>=0 then
+      temp_str:= IntToHex(char_code, 4)
+    else
+      temp_str:= '';
+    result:= stringreplace(result, '{char_hex4}', temp_str, []);
+  end;
 end;
 
 function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;

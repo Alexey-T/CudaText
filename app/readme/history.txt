@@ -4,6 +4,10 @@
   * changed
 
 
+1.53.1 (2018/05)
+
++ add: statusbar strings allow new macros: {char} {char_dec} {char_hex} {char_hex4}
+
 1.53.0 (2018/05)
 
 + add: can specify different fonts for italic / bold / bold+italic font-styles:
