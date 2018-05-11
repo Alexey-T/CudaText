@@ -1324,6 +1324,11 @@ begin
     Ed2.AdapterForHilite:= Adapter;
     if not DoApplyLexerStylesMap(an, an2) then
       DoDialogLexerStylesMap(an2);
+  end
+  else
+  begin
+    Ed1.Fold.Clear;
+    Ed2.Fold.Clear;
   end;
 
   Adapter.Lexer:= an;

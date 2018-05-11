@@ -608,6 +608,8 @@ type
     procedure DoGroupsChangeMode(Sender: TObject);
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem;
       ATag: integer);
+    procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
+    procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
     procedure DoShowBottomPanel(const ATabCaption: string);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
@@ -2801,11 +2803,39 @@ begin
   UpdateStatus;
 end;
 
+
+procedure TfmMain.DoOps_LexersDisableInFrames(ListNames: TStringList);
+var
+  Frame: TEditorFrame;
+  i: integer;
+begin
+  ListNames.Clear;
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    ListNames.Add(Frame.LexerName);
+    Frame.Lexer:= nil;
+  end;
+end;
+
+procedure TfmMain.DoOps_LexersRestoreInFrames(ListNames: TStringList);
+var
+  Frame: TEditorFrame;
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if i<ListNames.Count then
+      Frame.LexerName:= ListNames[i];
+  end;
+end;
+
+
 procedure TfmMain.DoOps_LoadLexerLib;
 var
   fn, DirLexers, LexName: string;
   ListFiles, ListBackup: TStringlist;
-  Frame: TEditorFrame;
   an: TecSyntAnalyzer;
   ini: TIniFile;
   i, j: integer;
@@ -2813,13 +2843,7 @@ begin
   ListFiles:= TStringList.Create;
   ListBackup:= TStringList.Create;
   try
-    //backup lexer names from frames, disable lexers
-    for i:= 0 to FrameCount-1 do
-    begin
-      Frame:= Frames[i];
-      ListBackup.Add(Frame.LexerName);
-      Frame.Lexer:= nil;
-    end;
+    DoOps_LexersDisableInFrames(ListBackup);
 
     AppManager.Clear;
     AppManagerLite.Clear;
@@ -2865,12 +2889,7 @@ begin
 
     UpdateMenuLexers;
 
-    //restore lexers to frames
-    for i:= 0 to FrameCount-1 do
-    begin
-      Frame:= Frames[i];
-      Frame.LexerName:= ListBackup[i];
-    end;
+    DoOps_LexersRestoreInFrames(ListBackup);
   finally
     FreeAndNil(ListFiles);
     FreeAndNil(ListBackup);
