@@ -256,6 +256,21 @@ Lite lexers are lexers is special format (internally it's JSON file), with very 
 
 Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found.
 
+===Differences in lexer support in CudaText/SynWrite===
+
+* SynWrite handles \S regex (non space chars) ok, while CudaText not
+* SynWrite lexers need constructs like \x0D\x0A, or \z (EOL), while CudaText is ok with simple \n (CudaText text never has CR char)
+* For CudaText avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OSes have different system colors
+* SynWrite lexer settings are not used in CudaText: 
+** Default style
+** Selection mark style
+** Search mark style
+** Current line style
+** Collapse mark style
+** Character set
+** Multiline border
+** options in groups "Syntax tree decoration", "Pen"
+
 ==Add-on types==
 
 * "plugins". These are addons with Python code. They add python events and/or python commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
