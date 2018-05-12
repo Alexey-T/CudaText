@@ -4,7 +4,7 @@
   * changed
 
 
-1.53.2 (2018/05)
+1.53.4 (2018/05)
 
 + add: it's possble to show current char in the statusbar: statusbar options support new macros {char} {char_dec} {char_hex} {char_hex4}
 - fix: crash when AddonManager installs a lexer, with any lexers active in tabs
