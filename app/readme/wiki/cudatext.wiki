@@ -291,6 +291,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 
 * "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
 
+* "code tree icons": These are icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
+
 ==Encodings==
 
 You can change encoding of file using click on statusbar item. Menu will give list of encodings. Also menu gives 2 choices: 
