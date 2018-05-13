@@ -17,6 +17,7 @@ dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
 PREINST = 'preinstalled'
+KINDS_WITH_VERSION = ['plugin', 'linter', 'treehelper']
 STD_MODULES = (
   'cuda_addonman',
   'cuda_comments',
@@ -222,7 +223,7 @@ class Command:
         msg_status('Addon installed' if ok else 'Installation cancelled')
 
         #save version
-        if kind in ['plugin', 'linter']:
+        if kind in KINDS_WITH_VERSION:
             dir_addon = app_path(APP_DIR_INSTALLED_ADDON)
             if dir_addon:
                 filename_ver = os.path.join(dir_addon, 'v.inf')
