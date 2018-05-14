@@ -38,6 +38,7 @@ procedure DoScalePanelControls(APanel: TWinControl);
 
 procedure LexerEnumSublexers(An: TecSyntAnalyzer; List: TStringList);
 procedure LexerEnumStyles(An: TecSyntAnalyzer; List: TStringList);
+function LexerFilenameToComponentName(const fn: string): string;
 
 type
   TAppTreeGoto = (
@@ -651,6 +652,18 @@ procedure Menu_Copy(ASrc, ADest: TMenu);
 begin
   MenuItem_Copy(ASrc.Items, ADest.Items);
 end;
+
+
+function LexerFilenameToComponentName(const fn: string): string;
+var
+  i: integer;
+begin
+  Result:= ChangeFileExt(ExtractFileName(fn), '');
+  for i:= 1 to Length(Result) do
+    if Pos(Result[i], ' ~!@#$%^&*()[]-+=;:.,')>0 then
+      Result[i]:= '_';
+end;
+
 
 end.
 

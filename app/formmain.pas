@@ -2866,6 +2866,7 @@ begin
     for i:= 0 to ListFiles.Count-1 do
     begin
       an:= AppManager.AddLexer;
+      an.Name:= '_lx_'+LexerFilenameToComponentName(ListFiles[i]);
       an.LoadFromFile(ListFiles[i]);
     end;
 
