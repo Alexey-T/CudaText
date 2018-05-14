@@ -1,4 +1,4 @@
-object SyntAnal31: TLibSyntAnalyzer
+object SyntAnal23: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -503,6 +503,7 @@ object SyntAnal31: TLibSyntAnalyzer
           TokenTypes = 1024
         end>
       BlockEnd = 'Simple tag block end'
+      DisplayInTree = False
       NameFmt = '%s0'
       HighlightPos = cpBound
       DynSelectMin = True
@@ -543,6 +544,7 @@ object SyntAnal31: TLibSyntAnalyzer
           TokenTypes = 1024
         end>
       BlockEnd = 'Tag block end'
+      DisplayInTree = False
       NameFmt = '%s0~s[>]1'
       DynHighlight = dhBound
       HighlightPos = cpRange
@@ -780,7 +782,7 @@ object SyntAnal31: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal30
+      SyntAnalyzer = SyntAnal22
     end
     item
       DisplayName = 'CSS'
@@ -788,7 +790,7 @@ object SyntAnal31: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'JavaScript'
@@ -796,14 +798,14 @@ object SyntAnal31: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal20
+      SyntAnalyzer = SyntAnal15
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal20
+      SyntAnalyzer = SyntAnal15
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
