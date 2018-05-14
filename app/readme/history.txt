@@ -4,6 +4,10 @@
   * changed
 
 
+1.53.5 (2018/05)
+
+* change: lexer PHP code tree simplified (hidden nodes from PHP $vars, HTML tags)
+
 1.53.4 (2018/05)
 
 + add: it's possble to show current char in the statusbar: statusbar options support new macros {char} {char_dec} {char_hex} {char_hex4}
