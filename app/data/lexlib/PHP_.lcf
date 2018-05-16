@@ -178,7 +178,7 @@ object SyntAnal22: TLibSyntAnalyzer
       DisplayName = 'String heredoc'
       StyleName = 'String heredoc'
       TokenType = 3
-      Expression = '(?s)<<<[\x20'#39']?(\w+)'#39'?\z.+?\z\1;'
+      Expression = '(?s)<<<\x20?['#39'"]?(\w+)['#39'"]?\z.+?\z\1;'
       ColumnFrom = 0
       ColumnTo = 0
     end
