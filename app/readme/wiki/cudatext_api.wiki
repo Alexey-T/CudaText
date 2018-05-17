@@ -2357,7 +2357,7 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.240 (app 1.53.5)
+1.0.241 (app 1.53.5)
 * deleted deprecated: TOOLBAR_SET_BUTTON, TOOLBAR_ADD_BUTTON, TOOLBAR_ENUM, TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED
 
 1.0.240 (app 1.52.1)
