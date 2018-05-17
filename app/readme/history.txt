@@ -4,9 +4,13 @@
   * changed
 
 
-1.53.5 (2018/05)
+1.53.6 (2018/05)
 
-* change: lexer PHP code tree simplified (hidden nodes from PHP $vars, HTML tags)
++ announce:
+  new plugin CudaTree with sub-plugins, TreeHelpers. 
+  Most useful TreeHelpers: for Markdown, for PHP.
+* change: lexer PHP code tree simplified (hidden $vars, HTML tags, JS items)
+- fix: highlighting error in "lite lexers"
 
 1.53.4 (2018/05)
 
