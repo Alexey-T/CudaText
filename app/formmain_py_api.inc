@@ -5271,12 +5271,6 @@ begin
         exit(ReturnNone);
 
       case NAction of
-        TOOLBAR_ENUM:
-          begin
-            MsgOldApi('TOOLBAR_ENUM');
-            Result:= DoToolbar_Enum(FToolbar);
-          end;
-
         TOOLBAR_UPDATE:
           begin
             FToolbar.UpdateControls;
@@ -5296,12 +5290,6 @@ begin
             Result:= PyInt_FromLong(FToolbar.ButtonCount);
           end;
 
-        TOOLBAR_SET_BUTTON:
-          begin
-            MsgOldApi('TOOLBAR_SET_BUTTON');
-            Result:= DoToolbar_SetButtonProps(FToolbar, NIndex1, NIndex2, StrText, StrText2);
-          end;
-
         TOOLBAR_DELETE_ALL:
           begin
             DoToolbar_Clear(FToolbar);
@@ -5314,13 +5302,6 @@ begin
             Result:= ReturnNone;
           end;
 
-        TOOLBAR_ADD_BUTTON:
-          begin
-            MsgOldApi('TOOLBAR_ADD_BUTTON');
-            DoToolbar_AddButton(FToolbar, StrText, StrCmd, StrText2, NIndex1, NIndex2);
-            Result:= ReturnNone;
-          end;
-
         TOOLBAR_ADD_ITEM:
           begin
             DoToolbar_AddButton(FToolbar, '', '', '', NIndex1, -1);
@@ -5330,19 +5311,6 @@ begin
         TOOLBAR_ADD_MENU:
           begin
             DoToolbar_AddMenu(FToolbar, '', '', '', NIndex1, -1);
-            Result:= ReturnNone;
-          end;
-
-        TOOLBAR_GET_CHECKED:
-          begin
-            MsgOldApi('TOOLBAR_GET_CHECKED');
-            Result:= PyBool_FromLong(Ord(DoToolbar_GetChecked(FToolbar, NIndex1)));
-          end;
-
-        TOOLBAR_SET_CHECKED:
-          begin
-            MsgOldApi('TOOLBAR_SET_CHECKED');
-            DoToolbar_SetChecked(FToolbar, NIndex1, Bool(NIndex2));
             Result:= ReturnNone;
           end;
 

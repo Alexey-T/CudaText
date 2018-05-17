@@ -39,12 +39,6 @@ begin
     Result:= false;
 end;
 
-procedure DoToolbar_SetChecked(AToolbar: TATFlatToolbar; AButtonIndex: integer; AValue: boolean);
-begin
-  if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
-    AToolbar.Buttons[AButtonIndex].Checked:= AValue;
-end;
-
 
 procedure DoToolbar_AddMenu(
   AToolbar: TATFlatToolbar;
@@ -102,62 +96,4 @@ begin
   AToolbar.UpdateControls;
 end;
 
-
-function DoToolbar_Enum(AToolbar: TATFlatToolbar): PPyObject;
-var
-  NLen: integer;
-  Btn: TATButton;
-  i: integer;
-begin
-  with GetPythonEngine do
-  begin
-    NLen:= AToolbar.ButtonCount;
-    Result:= PyList_New(NLen);
-    if not Assigned(Result) then
-      raise EPythonError.Create(msgPythonListError);
-    for i:= 0 to NLen-1 do
-    begin
-      Btn:= AToolbar.Buttons[i];
-      PyList_SetItem(Result, i,
-        Py_BuildValue('{sssssssisi}',
-          'cap',
-          PChar(Btn.Caption),
-          'hint',
-          PChar(Btn.Hint),
-          'cmd',
-          PChar(Btn.DataString),
-          'icon',
-          Btn.ImageIndex,
-          'kind',
-          Ord(Btn.Kind)
-          ));
-    end;
-  end;
-end;
-
-
-function DoToolbar_SetButtonProps(
-  AToolbar: TATFlatToolbar;
-  AButtonIndex, AImageIndex: integer;
-  const ACaption, AHint: string
-  ): PPyObject;
-var
-  Btn: TATButton;
-begin
-  with GetPythonEngine do
-    if (AButtonIndex>=0) and (AButtonIndex<AToolbar.ButtonCount) then
-    begin
-      Btn:= AToolbar.Buttons[AButtonIndex];
-      Btn.ImageIndex:= AImageIndex;
-      if ACaption<>'' then
-        Btn.Caption:= ACaption;
-      if AHint<>'' then
-        Btn.Hint:= AHint;
-
-      Btn.Invalidate;
-      Result:= PyBool_FromLong(1);
-    end
-    else
-      Result:= PyBool_FromLong(0);
-end;
 
