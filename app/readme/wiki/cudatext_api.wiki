@@ -1396,40 +1396,15 @@ Param "id_action" possible values:
 * TOOLBAR_GET_COUNT: Gets number of buttons in toolbar.
 * TOOLBAR_GET_IMAGELIST: Gets int handle of image-list object.
 * TOOLBAR_GET_BUTTON_HANDLE: Gets int handle of button to use in button_proc(), or None if index not correct. Param "index": button index.
-
-* deprecated: TOOLBAR_SET_BUTTON: Changes properties of button. Gets bool: params ok and changed.
-** Param "index": index of button
-** Param "index2": new icon index, or -1 for none
-** Param "text": new button caption, or empty str to not change
-** Param "text2": new button hint, or empty str to not change
-
 * TOOLBAR_DELETE_ALL: Deletes all buttons.
 * TOOLBAR_DELETE_BUTTON: Deletes one button. Param "index": button index.
-
 * TOOLBAR_ADD_ITEM: Adds one button, usual. Param "index": button index at which to insert, -1 to append. You need to get handle of this button, and customize button via button_proc().
 * TOOLBAR_ADD_MENU: Adds one button, with submenu. Param "index": button index at which to insert, -1 to append.
-
-* deprecated: TOOLBAR_ADD_BUTTON: Adds one button.
-** Param "text": button caption, use "-" for separator
-** Param "text2": button hint (tooltip)
-** Param "index": button index, >=0 to insert at given index, or -1 to append
-** Param "index2": icon index, or -1 for none
-** Param "command": one of:
-*** int_command or str(int_command)
-*** callback in one of these forms: [[#Callback_param]]
-*** "toolmenu:"+str_name - to create button with dropdown menu, this menu can be handled by menu_proc() with menu_id="toolmenu:"+str_name
-
 * TOOLBAR_UPDATE: Updates buttons positions and sizes (for current size of image-list, current captions etc).
-
-* deprecated: TOOLBAR_ENUM: Enumerates buttons. Gets list of dict, each dict item is: {"cap": str; "hint": str; "cmd": str; "icon": int; "kind": int}. Here "kind" is BTNKIND_nnn constants.
-* deprecated: TOOLBAR_GET_CHECKED: Gets checked-state of button. Param "index": button index.
-* deprecated: TOOLBAR_SET_CHECKED: Sets checked-state of button. Param "index": button index, param "index2": bool value.
-
 * TOOLBAR_GET_VERTICAL: Gets vertical state of toolbar.
 * TOOLBAR_SET_VERTICAL: Sets vertical state of toolbar. Param "index": bool value.
 * TOOLBAR_GET_WRAP: Gets wrappable state of toolbar.
 * TOOLBAR_SET_WRAP: Sets wrappable state of toolbar (implemented for horizontal toolbar only). Param "index": bool value.
-
 * TOOLBAR_THEME: Applies current UI theme to toolbar.
 
 ====Example====
@@ -2381,6 +2356,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.240 (app 1.53.5)
+* deleted deprecated: TOOLBAR_SET_BUTTON, TOOLBAR_ADD_BUTTON, TOOLBAR_ENUM, TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED
 
 1.0.240 (app 1.52.1)
 * add: ed.bookmark: BOOKMARK_SET can specify "delete bookmark on deleting line"
