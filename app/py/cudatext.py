@@ -654,6 +654,14 @@ HOTSPOT_DELETE_ALL    = 2
 HOTSPOT_DELETE_LAST   = 3
 HOTSPOT_DELETE_BY_TAG = 4
 
+DLGBORDER_NONE           = 0
+DLGBORDER_SINGLE         = 1
+DLGBORDER_SIZEABLE       = 2
+DLGBORDER_DIALOG         = 3
+DLGBORDER_TOOLWINDOW     = 4
+DLGBORDER_TOOLWINDOWSIZE = 5
+
+
 def app_exe_version():
     return ct.app_exe_version()
 

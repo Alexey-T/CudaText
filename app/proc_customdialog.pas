@@ -2006,6 +2006,11 @@ begin
       F.BorderStyle:= bsNone;
   end
   else
+  if AName='border_ex' then
+  begin
+    F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)));
+  end
+  else
   if AName='p' then
   begin
     Num64:= StrToInt64Def(AValue, 0);
