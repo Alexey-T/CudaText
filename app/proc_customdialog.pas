@@ -1937,13 +1937,16 @@ begin
   if AName='tag' then
     F.TagString:= AValue
   else
-  if AName='resize' then
+  if AName='resize' then //deprecated!
   begin
     if AppStrToBool(AValue) then
       F.BorderStyle:= bsSizeable
     else
       F.BorderStyle:= bsDialog;
   end
+  else
+  if AName='border' then
+    F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)))
   else
   if AName='topmost' then
   begin
@@ -1997,19 +2000,6 @@ begin
   else
   if AName='autosize' then
     F.AutoSize:= AppStrToBool(AValue)
-  else
-  if AName='border' then
-  begin
-    if AppStrToBool(AValue) then
-      F.BorderStyle:= bsSizeable
-    else
-      F.BorderStyle:= bsNone;
-  end
-  else
-  if AName='border_ex' then
-  begin
-    F.BorderStyle:= TFormBorderStyle(StrToIntDef(AValue, Ord(bsDialog)));
-  end
   else
   if AName='p' then
   begin
