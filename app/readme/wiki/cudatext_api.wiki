@@ -803,7 +803,8 @@ Possible types of UI controls are described in dlg_custom, see [[#Types]]. Addit
 * "vis": bool: Visible state.
 * "color": int: Background color.
 * "autosize": bool: Form resizes to minimal size, which shows all visible controls. Don't use it together with "resize".
-* "border": bool: Enables OS-themed form border (set to false, to make form border-less).
+* "border": bool: Enables OS-themed form border (set to False to hide border).
+* "border_ex": int: Like "border", but allows more values, DLGBORDER_nnnn constants. Don't specify it together with "border".
 * "keypreview": bool: If on, then key press calls on_key_down before passing key to focused control. Should be True if form needs to handle on_key_down.
 * "p": int: Parent handle. Set this property to int handle of any windowed UI control or form, this control/form will be parent of form.
 
@@ -2357,7 +2358,8 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.241 (app 1.53.5)
+1.0.241 (app 1.53.6)
+* add: dlg_proc: form has prop "border_ex"
 * deleted deprecated: TOOLBAR_SET_BUTTON, TOOLBAR_ADD_BUTTON, TOOLBAR_ENUM, TOOLBAR_GET_CHECKED, TOOLBAR_SET_CHECKED
 
 1.0.240 (app 1.52.1)
