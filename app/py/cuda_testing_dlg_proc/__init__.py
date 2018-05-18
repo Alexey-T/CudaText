@@ -56,7 +56,8 @@ class Command:
 
         if id_ctl==n_btn_border:
             self.border = not self.border
-            dlg_proc(h, DLG_PROP_SET, prop={'border': self.border } )
+            val = DBORDER_DIALOG if self.border else DBORDER_NONE
+            dlg_proc(h, DLG_PROP_SET, prop={'border': val} )
 
         if id_ctl==n_btn_icon:
             #toggle button's checked
@@ -250,7 +251,7 @@ class Command:
             'cap': 'splitter test',
             'w': 650,
             'h': 400,
-            'resize': True
+            'border': DBORDER_SIZE,
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'panel')
@@ -343,7 +344,7 @@ class Command:
             'h': 300,
             'w_min': 200,
             'h_min': 300,
-            'resize': True,
+            'border': DBORDER_SIZE,
             'topmost': True,
             })
 
@@ -745,7 +746,7 @@ end;
             'w': 500,
             'h': 300,
             'cap': 'Test type=toolbar/statusbar',
-            'resize': True
+            'border': DBORDER_SIZE,
             })
 
         #------------
@@ -955,7 +956,7 @@ end;
             'w': 500,
             'h': 400,
             'cap': 'Test type=listview',
-            'resize': True,
+            'border': DBORDER_SIZE,
             })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'listview')
