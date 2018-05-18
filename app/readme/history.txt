@@ -4,13 +4,15 @@
   * changed
 
 
-1.53.6 (2018/05)
+1.54.0 (2018/05)
 
 + announce:
   new plugin CudaTree with sub-plugins, TreeHelpers. 
   Most useful TreeHelpers: for Markdown, for PHP.
++ add: API
 * change: lexer PHP code tree simplified (hidden $vars, HTML tags, JS items)
 - fix: highlighting error in "lite lexers"
+- fix: issue when pasting block w/o EOL, at empty line
 
 1.53.4 (2018/05)
 
