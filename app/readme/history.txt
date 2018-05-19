@@ -4,6 +4,10 @@
   * changed
 
 
+1.54.1 (2018/05)
+
+* change: changed default of "minimap_tooltip_show" and "fold_tooltip_show" to false
+
 1.54.0 (2018/05)
 
 + announce:

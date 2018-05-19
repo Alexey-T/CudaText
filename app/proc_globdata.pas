@@ -986,7 +986,7 @@ begin
     OpMinimapShowSelBorder:= true;
     OpMinimapCharWidth:= 0;
     OpMinimapAtLeft:= false;
-    OpMinimapTooltipShow:= true;
+    OpMinimapTooltipShow:= false;
     OpMinimapTooltipLineCount:= 6;
     OpMinimapTooltipWidth:= 60;
 
@@ -1054,7 +1054,7 @@ begin
     OpWordChars:= '';
     OpHexChars:= '';
     OpFoldStyle:= 1;
-    OpFoldTooltipShow:= true;
+    OpFoldTooltipShow:= false;
 
     OpIndentAuto:= true;
     OpIndentAutoKind:= Ord(cIndentAsPrevLine);

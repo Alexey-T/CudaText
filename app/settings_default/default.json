@@ -201,7 +201,7 @@
   "fold_style": 1,
   
   //Show tooltip when mouse hovers over [...] folded marks
-  "fold_tooltip_show": true,
+  "fold_tooltip_show": false,
 
   //[Text/Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret
@@ -338,7 +338,7 @@
   "minimap_at_left": false,
 
   //Minimap: show tooltip, when mouse cursor moves over minimap
-  "minimap_tooltip_show": true,
+  "minimap_tooltip_show": false,
   
   //Minimap: number of lines in "tooltip"
   "minimap_tooltip_line_count": 6,
