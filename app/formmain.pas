@@ -2654,8 +2654,15 @@ begin
     bBottom:= IsFocusedBottom;
 
     PanelBottom.Visible:= AValue;
-    SplitterHorz.Visible:= AValue;
-    SplitterHorz.Top:= 0;
+    if ShowFloatingBottom then
+    begin
+      FFormFloatingBottom.Visible:= AValue;
+    end
+    else
+    begin
+      SplitterHorz.Visible:= AValue;
+      SplitterHorz.Top:= PanelBottom.Top-8;
+    end;
 
     if not AValue then
       if bBottom then
@@ -2671,8 +2678,16 @@ begin
   if GetShowSidePanel<>AValue then
   begin
     PanelLeft.Visible:= AValue;
-    SplitterVert.Visible:= AValue;
-    SplitterVert.Left:= PanelLeft.Width;
+    if ShowFloatingSide then
+    begin
+      FFormFloatingSide.Visible:= AValue;
+    end
+    else
+    begin
+      SplitterVert.Visible:= AValue;
+      SplitterVert.Left:= PanelLeft.Width;
+    end;
+
     if AValue then
     begin
       if SidebarPanel='' then
@@ -4712,7 +4727,8 @@ end;
 
 function TfmMain.GetShowFloatingSide: boolean;
 begin
-  Result:= Assigned(FFormFloatingSide) and FFormFloatingSide.Visible;
+  Result:= Assigned(FFormFloatingSide) and
+    (PanelLeft.Parent=FFormFloatingSide);
 end;
 
 procedure TfmMain.SetShowFloatingSide(AValue: boolean);
@@ -4731,18 +4747,23 @@ begin
   begin
     PanelLeft.Parent:= FFormFloatingSide;
     PanelLeft.Align:= alClient;
+    PanelLeft.Show;
+    SplitterVert.Hide;
   end
   else
   begin
     PanelLeft.Align:= alLeft;
     PanelLeft.Parent:= PanelMain;
+    SplitterVert.Visible:= PanelLeft.Visible;
+    SplitterVert.Left:= PanelLeft.Width;
   end
 end;
 
 
 function TfmMain.GetShowFloatingBottom: boolean;
 begin
-  Result:= Assigned(FFormFloatingBottom) and FFormFloatingBottom.Visible;
+  Result:= Assigned(FFormFloatingBottom) and
+    (PanelBottom.Parent=FFormFloatingBottom);
 end;
 
 procedure TfmMain.SetShowFloatingBottom(AValue: boolean);
@@ -4761,11 +4782,14 @@ begin
   begin
     PanelBottom.Parent:= FFormFloatingBottom;
     PanelBottom.Align:= alClient;
+    PanelBottom.Show;
+    SplitterHorz.Hide;
   end
   else
   begin
     PanelBottom.Align:= alBottom;
     PanelBottom.Parent:= PanelAll;
+    SplitterHorz.Visible:= PanelBottom.Visible;
     SplitterHorz.Top:= PanelBottom.Top-8;
   end
 end;
