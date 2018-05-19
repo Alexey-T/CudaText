@@ -504,6 +504,8 @@ type
     { private declarations }
     FFormFloatingSide: TForm;
     FFormFloatingBottom: TForm;
+    FBoundsFloatingSide: TRect;
+    FBoundsFloatingBottom: TRect;
     FListRecents: TStringList;
     FListThemesUI: TStringList;
     FListThemesSyntax: TStringList;
@@ -4737,7 +4739,7 @@ begin
   begin
     FFormFloatingSide:= TForm.CreateNew(Self, 0);
     FFormFloatingSide.Position:= poDesigned;
-    FFormFloatingSide.SetBounds(50, 20, 300, 600);
+    FFormFloatingSide.BoundsRect:= FBoundsFloatingSide;
     FFormFloatingSide.BorderIcons:= [biSystemMenu, biMaximize];
     FFormFloatingSide.ShowInTaskBar:= stNever;
   end;
@@ -4772,7 +4774,7 @@ begin
   begin
     FFormFloatingBottom:= TForm.CreateNew(Self, 0);
     FFormFloatingBottom.Position:= poDesigned;
-    FFormFloatingBottom.SetBounds(50, 300, 900, 600);
+    FFormFloatingBottom.BoundsRect:= FBoundsFloatingBottom;
     FFormFloatingBottom.BorderIcons:= [biSystemMenu, biMaximize];
     FFormFloatingBottom.ShowInTaskBar:= stNever;
   end;
