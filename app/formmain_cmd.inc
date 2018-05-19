@@ -86,6 +86,8 @@ begin
     cmd_ToggleStatusbar:   DoToggleStatusbar;
     cmd_ToggleOnTop:       DoToggleOnTop;
     cmd_ToggleMenu:        DoToggleMenu;
+    cmd_ToggleFloatingSide: DoToggleFloatingSide;
+    cmd_ToggleFloatingBottom: DoToggleFloatingBottom;
 
     cmd_OpsReloadAndApply: DoOps_LoadOptionsAndApplyAll;
     cmd_ShowPanelConsole:  DoShowConsole(true);

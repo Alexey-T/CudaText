@@ -265,7 +265,7 @@ begin
     ShowSidePanel:= c.GetValue('/panels/side_show', ShowSidePanel);
     ShowBottom:= c.GetValue('/panels/bottom_show', ShowBottom);
     PanelLeft.Width:= c.GetValue('/panels/side_size', PanelLeft.Width);
-    PanelBottom.Height:= c.GetValue('/panels/bottom_size', PanelBottom.Height);
+    PanelBottom.Height:= Min(c.GetValue('/panels/bottom_size', PanelBottom.Height), ClientHeight div 2);
 
     Result:= true;
   finally
@@ -382,7 +382,7 @@ begin
     ShowBottom:= c.GetValue('show_bottom', false);
     ShowMenu:= c.GetValue('show_menu', true);
     PanelLeft.Width:= c.GetValue('size_side', 200);
-    PanelBottom.Height:= c.GetValue('size_bottom', 200);
+    PanelBottom.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
 
     if ShowBottom or FConsoleMustShow then
       DoShowConsole(false);

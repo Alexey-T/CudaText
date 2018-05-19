@@ -502,6 +502,8 @@ type
     {$endif}
   private
     { private declarations }
+    FFormFloatingSide: TForm;
+    FFormFloatingBottom: TForm;
     FListRecents: TStringList;
     FListThemesUI: TStringList;
     FListThemesSyntax: TStringList;
@@ -706,6 +708,8 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
+    function GetShowFloatingBottom: boolean;
+    function GetShowFloatingSide: boolean;
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
@@ -733,6 +737,8 @@ type
     procedure MsgLogToFilename(const AText, AFilename: string;
       AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
+    procedure SetShowFloatingBottom(AValue: boolean);
+    procedure SetShowFloatingSide(AValue: boolean);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
     procedure SetShowSidebarOnRight(AValue: boolean);
@@ -820,6 +826,8 @@ type
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
     procedure DoToggleMenu;
+    procedure DoToggleFloatingSide;
+    procedure DoToggleFloatingBottom;
     procedure DoToggleOnTop;
     procedure DoToggleFullScreen;
     procedure DoToggleDistractionFree;
@@ -931,6 +939,8 @@ type
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
     property ShowMenu: boolean read GetShowMenu write SetShowMenu;
+    property ShowFloatingSide: boolean read GetShowFloatingSide write SetShowFloatingSide;
+    property ShowFloatingBottom: boolean read GetShowFloatingBottom write SetShowFloatingBottom;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
@@ -3191,6 +3201,16 @@ begin
   ShowMenu:= not ShowMenu;
 end;
 
+procedure TfmMain.DoToggleFloatingSide;
+begin
+  ShowFloatingSide:= not ShowFloatingSide;
+end;
+
+procedure TfmMain.DoToggleFloatingBottom;
+begin
+  ShowFloatingBottom:= not ShowFloatingBottom;
+end;
+
 procedure TfmMain.DoToggleOnTop;
 begin
   ShowOnTop:= not ShowOnTop;
@@ -4687,6 +4707,67 @@ begin
     if Frame.LexerName=ALexerName then
       Frame.Lexer:= nil;
   end;
+end;
+
+
+function TfmMain.GetShowFloatingSide: boolean;
+begin
+  Result:= Assigned(FFormFloatingSide) and FFormFloatingSide.Visible;
+end;
+
+procedure TfmMain.SetShowFloatingSide(AValue: boolean);
+begin
+  if not Assigned(FFormFloatingSide) then
+  begin
+    FFormFloatingSide:= TForm.CreateNew(Self, 0);
+    FFormFloatingSide.Position:= poDesigned;
+    FFormFloatingSide.SetBounds(50, 20, 300, 600);
+    FFormFloatingSide.BorderIcons:= [biSystemMenu, biMaximize];
+    FFormFloatingSide.ShowInTaskBar:= stNever;
+  end;
+
+  FFormFloatingSide.Visible:= AValue;
+  if AValue then
+  begin
+    PanelLeft.Parent:= FFormFloatingSide;
+    PanelLeft.Align:= alClient;
+  end
+  else
+  begin
+    PanelLeft.Align:= alLeft;
+    PanelLeft.Parent:= PanelMain;
+  end
+end;
+
+
+function TfmMain.GetShowFloatingBottom: boolean;
+begin
+  Result:= Assigned(FFormFloatingBottom) and FFormFloatingBottom.Visible;
+end;
+
+procedure TfmMain.SetShowFloatingBottom(AValue: boolean);
+begin
+  if not Assigned(FFormFloatingBottom) then
+  begin
+    FFormFloatingBottom:= TForm.CreateNew(Self, 0);
+    FFormFloatingBottom.Position:= poDesigned;
+    FFormFloatingBottom.SetBounds(50, 300, 900, 600);
+    FFormFloatingBottom.BorderIcons:= [biSystemMenu, biMaximize];
+    FFormFloatingBottom.ShowInTaskBar:= stNever;
+  end;
+
+  FFormFloatingBottom.Visible:= AValue;
+  if AValue then
+  begin
+    PanelBottom.Parent:= FFormFloatingBottom;
+    PanelBottom.Align:= alClient;
+  end
+  else
+  begin
+    PanelBottom.Align:= alBottom;
+    PanelBottom.Parent:= PanelAll;
+    SplitterHorz.Top:= PanelBottom.Top-8;
+  end
 end;
 
 
