@@ -4,10 +4,12 @@
   * changed
 
 
-1.54.1 (2018/05)
+1.54.2 (2018/05)
 
-* change: changed default of "minimap_tooltip_show" and "fold_tooltip_show" to false
-- fix: lexers HTML, PHP fixes
+* change: changed default of options "minimap_tooltip_show" and "fold_tooltip_show" to false
+- fix: minimap rendering for PHP
+- fix: lexers HTML, PHP (rule for &#nnnn;)
+- fix: lexer Markdown (rule for header)
 
 1.54.0 (2018/05)
 
