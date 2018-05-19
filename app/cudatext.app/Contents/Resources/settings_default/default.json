@@ -210,7 +210,8 @@
   //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
 
-  //If vertical (column) selection, copy it to clipboard aligned by spaces, all lines have same length
+  //If vertical (column) selection placed, copy it to clipboard aligned by spaces, 
+  //i.e. lines are padded by spaces to have equal length
   "copy_column_aligned_by_spaces": true,
 
   //[Text]
@@ -811,6 +812,11 @@
   //  {carets}: number of carets
   //  {sel}: number of lines affected by selection(s)
   //  {cols}: number of columns in column-selection
+  //  {char}: character at first caret (empty if no char)
+  //  {char_dec}: character at first caret - decimal code (empty if no char)
+  //  {char_hex}: character at first caret - 2..4-digit hex code (empty if no char)
+  //  {char_hex4}: character at first caret - 4-digit hex code (empty if no char)
+  //
   "ui_statusbar_no_sel": "Ln {y}, Col {xx}",
   "ui_statusbar_small_sel": "Ln {y}, Col {xx}, sel",
   "ui_statusbar_str_sel": "Ln {y}, Col {xx}, {sel} lines sel",

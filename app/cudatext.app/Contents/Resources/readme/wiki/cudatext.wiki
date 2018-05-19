@@ -36,20 +36,17 @@ Versions for Windows, macOS, Linux, Linux-ARM (for Raspberry Pi 3).
 
 = Configs =
 
-Editor has config system in [[JSON]] files: call menu item "Settings-default" and you'll see '''default config''' - it's only example. Copy any lines to config called by "Settings-user" and edit lines in this '''user config''' - it's actial config file. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show possible options.
+Editor has config system in JSON files: call menu item "Settings-default" and you'll see '''default config''' (file default.json). Copy any lines to config called by "Settings-user" and edit lines in this '''user config''' (file user.json) - it's actial config file. You can copy comments near options too, they will be ignored. Default config is not read by program, it's only to show possible options.
 
-'''Lexer-specific config''': settings which are read when some lexer activates. E.g., if you open Pascal file, config for Pascal is read after user config. You should not write "ui_" options to lexer-override config (it will give some weird effects on changing lexers), and few others, like option "lexlib" (it is read only once).
+'''Lexer-specific config''': settings which are read when some lexer activates. E.g. if you open Pascal file, config for Pascal is read after user config (file "lexer Pascal.json"). You should not write "ui_" options to lexer-specific configs (it may give weird effects on changing lexer), and some other global options.
 
 '''File-types config''': specify in it mapping between file names (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it.
 
-'''Themes''': UI themes and syntax themes. They specify interface colors in app (UI themes) and colors of text/syntax elements in the editor (syntax themes). You can change preinstalled themes, and create new themes, e.g. based on preinstalled.
-
-'''Keys config'''. Special dialog allows to change all hotkeys in app. You should not edit config file here. Dialog is called from "Help--Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
+'''Hotkey config'''. Special dialog allows to change all hotkeys in the app. You should not edit config file here. Dialog is called from "Help - Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
 
 == File-types config ==
 
-Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name".
-Example of file:
+Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name". Example of file:
 
 <syntaxhighlight lang="javascript">
 {
@@ -256,6 +253,21 @@ Lite lexers are lexers is special format (internally it's JSON file), with very 
 
 Lite lexers are auto used for big files, if file size is bigger than option "ui_max_size_lexer". And for small files, if normal lexer not found.
 
+===Differences in lexer support in CudaText/SynWrite===
+
+* SynWrite handles \S regex (non space chars) ok, while CudaText not
+* SynWrite lexers need constructs like \x0D\x0A, or \z (EOL), while CudaText is ok with simple \n (CudaText text never has CR char)
+* For CudaText avoid "system colors" in lexer styles (e.g. "window background", "window text", "hint background"), because OSes have different system colors
+* SynWrite lexer settings are not used in CudaText: 
+** Default style
+** Selection mark style
+** Search mark style
+** Current line style
+** Collapse mark style
+** Character set
+** Multiline border
+** options in groups "Syntax tree decoration", "Pen"
+
 ==Add-on types==
 
 * "plugins". These are addons with Python code. They add python events and/or python commands. Commands can be called then via "Plugins" top menu, but only if plugin's install.inf file doesn't hide menuitems in "Plugins". For example, install.inf in CudaExt hides all menuitems in "Plugins". In all cases, all commands can be called via Commands (F1) dialog.
@@ -275,6 +287,8 @@ Lite lexers are auto used for big files, if file size is bigger than option "ui_
 * "toolbar themes": These are icon sets for the main toolbar (horizontal row of buttons).
 
 * "file type icons": These are icon sets for the "Project Manager" file list. Most popular lexers have icons here.
+
+* "code tree icons": These are icon sets for the Code Tree (icons are visible in the Code Tree with some lexers, e.g. C#).
 
 ==Encodings==
 

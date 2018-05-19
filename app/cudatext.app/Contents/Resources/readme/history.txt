@@ -4,6 +4,24 @@
   * changed
 
 
+1.54.0 (2018/05)
+
++ announce:
+  new plugin CudaTree with sub-plugins, TreeHelpers. 
+  Most useful TreeHelpers: for Markdown, for PHP.
++ add: API
+* change: lexer PHP code tree simplified (hidden $vars, HTML tags, JS items)
+- fix: highlighting error in "lite lexers"
+- fix: issue when pasting block w/o EOL, at empty line
+
+1.53.4 (2018/05)
+
++ add: it's possble to show current char in the statusbar: statusbar options support new macros {char} {char_dec} {char_hex} {char_hex4}
+- fix: crash when AddonManager installs a lexer, with any lexers active in tabs
+- fix: crash when Lexer Library deletes a lexer active in tabs
+- fix: issue in LaTeX lexer with "dynamic hiliting"
+- fix: lexer VBScript
+
 1.53.0 (2018/05)
 
 + add: can specify different fonts for italic / bold / bold+italic font-styles:

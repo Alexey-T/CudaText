@@ -1,4 +1,4 @@
-object SyntAnal30: TLibSyntAnalyzer
+object SyntAnal22: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -178,7 +178,7 @@ object SyntAnal30: TLibSyntAnalyzer
       DisplayName = 'String heredoc'
       StyleName = 'String heredoc'
       TokenType = 3
-      Expression = '(?s)<<<[\x20'#39']?(\w+)'#39'?\z.+?\z\1;'
+      Expression = '(?s)<<<\x20?['#39'"]?(\w+)['#39'"]?\z.+?\z\1;'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -519,115 +519,6 @@ object SyntAnal30: TLibSyntAnalyzer
       BlockEnd = '{'
       HighlightPos = cpAny
       GroupIndex = 1
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'var'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '=')
-          TokenTypes = 16
-        end
-        item
-          TokenTypes = 64
-        end>
-      NameFmt = '%s0'
-      GroupFmt = 'var'
-      HighlightPos = cpAny
-      NoEndRule = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'field'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '('
-            '=')
-          TokenTypes = 80
-        end
-        item
-          TokenTypes = 2
-        end
-        item
-          TagList.Strings = (
-            '>')
-          TokenTypes = 16
-        end
-        item
-          TagList.Strings = (
-            '-')
-          TokenTypes = 16
-        end
-        item
-          TokenTypes = 66
-        end>
-      NameFmt = '%s0~s-3'
-      GroupFmt = 'var'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      NoEndRule = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '('
-      StyleName = 'Bracket BG'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '(')
-          TokenTypes = 32
-        end>
-      BlockEnd = ')'
-      DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpRange
-      DynSelectMin = True
-      DrawStaple = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = ')'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ')')
-          TokenTypes = 32
-        end>
-      BlockEnd = '('
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '['
-      StyleName = 'Bracket BG'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '[')
-          TokenTypes = 32
-        end>
-      BlockEnd = ']'
-      DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpRange
-      DynSelectMin = True
-      DrawStaple = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = ']'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ']')
-          TokenTypes = 32
-        end>
-      BlockEnd = '['
-      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
