@@ -2362,7 +2362,8 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.243 (app 1.54.2)
+1.0.243 (app 1.55.0)
+* add: additional group index 6 for new floating group (2nd window)
 * add: app_proc: PROC_FLOAT_SIDE_GET, PROC_FLOAT_SIDE_SET
 * add: app_proc: PROC_FLOAT_BOTTOM_GET, PROC_FLOAT_BOTTOM_SET
 
