@@ -6,9 +6,13 @@
 
 1.54.2 (2018/05)
 
-+ add: side panel and bottom panel can be undocked. Use new commands:
-    - "toggle floating side panel"
-    - "toggle floating bottom panel"
++ add: side panel and bottom panel can be undocked.
+    + menu items
+      - View - Toggle floating side panel
+      - View - Toggle floating bottom panel
+    + commands
+      - "toggle floating side panel"
+      - "toggle floating bottom panel"
 * change: changed default of options "minimap_tooltip_show" and "fold_tooltip_show" to false
 - fix: minimap rendering for PHP
 - fix: lexers HTML, PHP (rule for &#nnnn;)
