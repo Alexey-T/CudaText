@@ -4747,6 +4747,7 @@ begin
     FFormFloatSide.ShowInTaskBar:= stNever;
   end;
 
+  PanelLeftTitle.Visible:= not AValue;
   FFormFloatSide.Visible:= AValue;
   FFormFloatSide.Caption:= FLastSidebarPanel;
 
