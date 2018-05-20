@@ -275,6 +275,7 @@ type
     //
     procedure MoveTab(AFromPages: TATPages; AFromIndex: Integer;
       AToPages: TATPages; AToIndex: Integer; AActivateTabAfter: boolean);
+    procedure MoveTabsFromGroupToAnother(AGroupFrom, AGroupTo: integer);
     procedure MovePopupTabToNext(ANext: boolean);
     procedure MoveCurrentTabToNext(ANext: boolean);
     procedure MoveCurrentTabToOpposite;
@@ -635,17 +636,27 @@ begin
   {$endif}
 end;
 
+procedure TATGroups.MoveTabsFromGroupToAnother(AGroupFrom, AGroupTo: integer);
+var
+  PagesFrom, PagesTo: TATPages;
+  i: integer;
+begin
+  PagesFrom:= Pages[AGroupFrom];
+  PagesTo:= Pages[AGroupTo];
+  for i:= 0 to PagesFrom.Tabs.TabCount-1 do
+    MoveTab(PagesFrom, 0{first tab}, PagesTo, -1, false);
+end;
+
 procedure TATGroups.MoveTabsOnModeChanging(Value: TATGroupsMode);
 var
-  NCountBefore, NCountAfter: Integer;
-  i, j: Integer;
+  NCountBefore, NCountAfter, i: Integer;
 begin
   NCountBefore:= cGroupsCount[FMode];
   NCountAfter:= cGroupsCount[Value];
 
+  //loop over group indexes, which will hide after mode changed
   for i:= NCountAfter to NCountBefore-1 do
-    for j:= 0 to Pages[i].Tabs.TabCount-1 do
-      MoveTab(Pages[i], 0{first tab}, Pages[NCountAfter-1], -1, false);
+    MoveTabsFromGroupToAnother(i, NCountAfter-1);
 end;
 
 procedure TATGroups.SetMode(Value: TATGroupsMode);
