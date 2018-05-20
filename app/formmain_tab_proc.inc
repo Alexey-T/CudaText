@@ -246,70 +246,65 @@ begin
   Groups.PopupPages.Tabs.DeleteTab(Groups.PopupTabIndex, true, true);
 end;
 
-procedure TfmMain.DoMoveTabTo(AIndex: Integer);
+procedure TfmMain.DoMoveTabToGroup(AGroupIndex: Integer);
 var
-  Pages: TATPages;
-  NIndex: integer;
+  Pages, PagesTo: TATPages;
+  NTabIndex: integer;
 begin
-  Pages:= Groups.PopupPages;
-  NIndex:= Groups.PopupTabIndex;
+  Pages:= GroupsCtx.PopupPages;
+  NTabIndex:= GroupsCtx.PopupTabIndex;
 
   //force 2 groups if only one
-  if (AIndex=1) and (Groups.Mode=gmOne) then
+  if (AGroupIndex=1) and (Groups.Mode=gmOne) then
   begin
     Groups.Mode:= gm2Horz;
     Groups.Update; //maybe no need
-    Pages:= Groups.Pages1; //maybe no need
   end;
 
-  Groups.MoveTab(Pages, NIndex, Groups.Pages[AIndex], -1, false);
-end;
+  if AGroupIndex<=High(TATGroupsNums) then
+    PagesTo:= Groups.Pages[AGroupIndex]
+  else
+  begin
+    FloatGroups:= true;
+    PagesTo:= GroupsFl.Pages1;
+  end;
 
-procedure TfmMain.DoMoveTabToFloat;
-var
-  Pages: TATPages;
-  NIndex: integer;
-begin
-  Pages:= Groups.PopupPages;
-  NIndex:= Groups.PopupTabIndex;
-
-  Groups.MoveTab(Pages, NIndex, GroupsFl.Pages1, -1, false);
+  GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, false);
 end;
 
 procedure TfmMain.mnuTabMove1Click(Sender: TObject);
 begin
-  DoMoveTabTo(0);
+  DoMoveTabToGroup(0);
 end;
 
 procedure TfmMain.mnuTabMove2Click(Sender: TObject);
 begin
-  DoMoveTabTo(1);
+  DoMoveTabToGroup(1);
 end;
 
 procedure TfmMain.mnuTabMove3Click(Sender: TObject);
 begin
-  DoMoveTabTo(2);
+  DoMoveTabToGroup(2);
 end;
 
 procedure TfmMain.mnuTabMove4Click(Sender: TObject);
 begin
-  DoMoveTabTo(3);
+  DoMoveTabToGroup(3);
 end;
 
 procedure TfmMain.mnuTabMove5Click(Sender: TObject);
 begin
-  DoMoveTabTo(4);
+  DoMoveTabToGroup(4);
 end;
 
 procedure TfmMain.mnuTabMove6Click(Sender: TObject);
 begin
-  DoMoveTabTo(5);
+  DoMoveTabToGroup(5);
 end;
 
 procedure TfmMain.mnuTabMoveFlClick(Sender: TObject);
 begin
-  FloatGroups:= true;
-  DoMoveTabToFloat;
+  DoMoveTabToGroup(6);
 end;
 
 procedure TfmMain.mnuTabMoveNextClick(Sender: TObject);
