@@ -529,6 +529,7 @@ type
     StatusAlt: TATStatus;
     Groups: TATGroups;
     GroupsFl: TATGroups;
+    GroupsCtx: TATGroups;
 
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
@@ -2739,19 +2740,36 @@ end;
 
 procedure TfmMain.PopupTabPopup(Sender: TObject);
 var
-  Cnt, N: Integer;
+  NVis, NCur: Integer;
 begin
-  Cnt:= Groups.PagesVisibleCount; //visible groups
-  N:= Groups.PagesIndexOf(Groups.PopupPages); //current group
+  if PtInControl(Groups, Mouse.CursorPos) then
+  begin
+    GroupsCtx:= Groups;
+    NCur:= Groups.PagesIndexOf(Groups.PopupPages);
+  end
+  else
+  if FloatGroups and PtInControl(GroupsFl, Mouse.CursorPos) then
+  begin
+    GroupsCtx:= GroupsFl;
+    NCur:= GroupsCtx.PagesIndexOf(GroupsCtx.PopupPages) + High(TATGroupsNums)+1;
+  end
+  else
+  begin
+    GroupsCtx:= nil;
+    NCur:= -1;
+  end;
 
-  mnuTabMove1.Enabled:= (Cnt>=2) and (N<>1);
-  mnuTabMove2.Enabled:= {(Cnt>=2) and} (N<>2);
-  mnuTabMove3.Enabled:= (Cnt>=3) and (N<>3);
-  mnuTabMove4.Enabled:= (Cnt>=4) and (N<>4);
-  mnuTabMove5.Enabled:= (Cnt>=5) and (N<>5);
-  mnuTabMove6.Enabled:= (Cnt>=6) and (N<>6);
-  mnuTabMoveNext.Enabled:= Cnt>=2;
-  mnuTabMovePrev.Enabled:= Cnt>=2;
+  NVis:= Groups.PagesVisibleCount; //visible groups
+
+  mnuTabMove1.Enabled:= (NVis>=2) and (NCur<>0);
+  mnuTabMove2.Enabled:= {(NVis>=2) and} (NCur<>1);
+  mnuTabMove3.Enabled:= (NVis>=3) and (NCur<>2);
+  mnuTabMove4.Enabled:= (NVis>=4) and (NCur<>3);
+  mnuTabMove5.Enabled:= (NVis>=5) and (NCur<>4);
+  mnuTabMove6.Enabled:= (NVis>=6) and (NCur<>5);
+  mnuTabMoveFl.Enabled:= (NCur<>6);
+  mnuTabMoveNext.Enabled:= (NVis>=2) and (NCur<>6);
+  mnuTabMovePrev.Enabled:= mnuTabMoveNext.Enabled;
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
