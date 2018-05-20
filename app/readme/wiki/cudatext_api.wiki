@@ -342,6 +342,8 @@ Actions can get/set state of UI elements (pass "0"/"1" or False/True):
 * PROC_SHOW_BOTTOMPANEL_SET
 * PROC_SHOW_TABS_GET
 * PROC_SHOW_TABS_SET
+* PROC_SHOW_FLOATGROUPS_GET
+* PROC_SHOW_FLOATGROUPS_SET
 
 * PROC_FLOAT_SIDE_GET
 * PROC_FLOAT_SIDE_SET
@@ -2363,7 +2365,8 @@ Text is chr(1) separated items:
 =History=
 
 1.0.243 (app 1.55.0)
-* add: additional group index 6 for new floating group (2nd window)
+* add: additional group index 6 for floating group (2nd window)
+* add: app_proc: PROC_SHOW_FLOATGROUPS_GET, PROC_SHOW_FLOATGROUPS_SET
 * add: app_proc: PROC_FLOAT_SIDE_GET, PROC_FLOAT_SIDE_SET
 * add: app_proc: PROC_FLOAT_BOTTOM_GET, PROC_FLOAT_BOTTOM_SET
 
