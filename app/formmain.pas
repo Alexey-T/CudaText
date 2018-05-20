@@ -117,6 +117,8 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuViewFloatSide: TMenuItem;
+    mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
@@ -547,6 +549,8 @@ type
     mnuViewDistFree_Alt,
     mnuViewSide_Alt,
     mnuViewBottom_Alt,
+    mnuViewFloatSide_Alt,
+    mnuViewFloatBottom_Alt,
     mnuViewOnTop_Alt,
     mnuGr1_Alt,
     mnuGr2H_Alt,

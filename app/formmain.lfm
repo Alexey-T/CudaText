@@ -591,6 +591,12 @@ object fmMain: TfmMain
       object mnuViewBottom: TMenuItem
         Caption = 'Toggle &bottom panel'
       end
+      object mnuViewFloatSide: TMenuItem
+        Caption = 'Toggle floating side panel'
+      end
+      object mnuViewFloatBottom: TMenuItem
+        Caption = 'Toggle floating bottom panel'
+      end
       object SepV4: TMenuItem
         Caption = '-'
       end

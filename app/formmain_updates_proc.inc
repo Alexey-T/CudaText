@@ -503,6 +503,8 @@ begin
     cmd_ToggleDistractionFree : DoSave(mi, mnuViewDistFree_Alt);
     cmd_ToggleSidePanel : DoSave(mi, mnuViewSide_Alt);
     cmd_ToggleBottomPanel : DoSave(mi, mnuViewBottom_Alt);
+    cmd_ToggleFloatingSide : DoSave(mi, mnuViewFloatSide_Alt);
+    cmd_ToggleFloatingBottom : DoSave(mi, mnuViewFloatBottom_Alt);
     cmd_ToggleOnTop: DoSave(mi, mnuViewOnTop_Alt);
 
     cmd_Groups1 : DoSave(mi, mnuGr1_Alt);
@@ -648,6 +650,8 @@ begin
   UpdateMenuItemHotkey(mnuViewDistFree, cmd_ToggleDistractionFree);
   UpdateMenuItemHotkey(mnuViewSide, cmd_ToggleSidePanel);
   UpdateMenuItemHotkey(mnuViewBottom, cmd_ToggleBottomPanel);
+  UpdateMenuItemHotkey(mnuViewFloatSide, cmd_ToggleFloatingSide);
+  UpdateMenuItemHotkey(mnuViewFloatBottom, cmd_ToggleFloatingBottom);
   UpdateMenuItemHotkey(mnuViewToolbar, cmd_ToggleToolbar);
   UpdateMenuItemHotkey(mnuViewStatus, cmd_ToggleStatusbar);
   UpdateMenuItemHotkey(mnuViewOnTop, cmd_ToggleOnTop);
@@ -777,6 +781,8 @@ begin
   UpdateMenuItemChecked(mnuViewDistFree, mnuViewDistFree_Alt, ShowDistractionFree);
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, ShowSidePanel);
   UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, ShowBottom);
+  UpdateMenuItemChecked(mnuViewFloatSide, mnuViewFloatSide_Alt, FloatSide);
+  UpdateMenuItemChecked(mnuViewFloatBottom, mnuViewFloatBottom_Alt, FloatBottom);
   UpdateMenuItemChecked(mnuViewOnTop, mnuViewOnTop_Alt, ShowOnTop);
 
   UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, Groups.Mode= gmOne);
