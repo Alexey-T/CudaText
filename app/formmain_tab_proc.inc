@@ -206,44 +206,42 @@ end;
 
 procedure TfmMain.DoOnTabPopup(Sender: TObject);
 begin
-  if Groups.PopupPages=nil then exit;
-  if Groups.PopupTabIndex<0 then exit;
   PopupTab.Popup;
 end;
 
 procedure TfmMain.mnuTabCloseAllAllClick(Sender: TObject);
 begin
-  Groups.CloseTabs(tabCloseAll, false);
+  GroupsCtx.CloseTabs(tabCloseAll, false);
 end;
 
 procedure TfmMain.mnuTabCloseAllSameClick(Sender: TObject);
 begin
-  Groups.CloseTabs(tabCloseAllThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseAllThisPage, true);
 end;
 
 procedure TfmMain.mnuTabCloseLeftClick(Sender: TObject);
 begin
-  Groups.CloseTabs(tabCloseLefterThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseLefterThisPage, true);
 end;
 
 procedure TfmMain.mnuTabCloseOtherAllClick(Sender: TObject);
 begin
-  Groups.CloseTabs(tabCloseOthersAllPages, true);
+  GroupsCtx.CloseTabs(tabCloseOthersAllPages, true);
 end;
 
 procedure TfmMain.mnuTabCloseOtherSameClick(Sender: TObject);
 begin
-  Groups.CloseTabs(tabCloseOthersThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseOthersThisPage, true);
 end;
 
 procedure TfmMain.mnuTabCloseRightClick(Sender: TObject);
 begin
-  Groups.CloseTabs(tabCloseRighterThisPage, true);
+  GroupsCtx.CloseTabs(tabCloseRighterThisPage, true);
 end;
 
 procedure TfmMain.mnuTabCloseThisClick(Sender: TObject);
 begin
-  Groups.PopupPages.Tabs.DeleteTab(Groups.PopupTabIndex, true, true);
+  GroupsCtx.PopupPages.Tabs.DeleteTab(GroupsCtx.PopupTabIndex, true, true);
 end;
 
 procedure TfmMain.DoMoveTabToGroup(AGroupIndex: Integer);
