@@ -502,10 +502,10 @@ type
     {$endif}
   private
     { private declarations }
-    FFormFloatingSide: TForm;
-    FFormFloatingBottom: TForm;
-    FBoundsFloatingSide: TRect;
-    FBoundsFloatingBottom: TRect;
+    FFormFloatSide: TForm;
+    FFormFloatBottom: TForm;
+    FBoundsFloatSide: TRect;
+    FBoundsFloatBottom: TRect;
     FListRecents: TStringList;
     FListThemesUI: TStringList;
     FListThemesSyntax: TStringList;
@@ -710,8 +710,8 @@ type
     procedure FrameLexerChange(Sender: TObject);
     procedure FrameOnEditorClickEndSelect(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
-    function GetShowFloatingBottom: boolean;
-    function GetShowFloatingSide: boolean;
+    function GetFloatBottom: boolean;
+    function GetFloatSide: boolean;
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
@@ -739,8 +739,8 @@ type
     procedure MsgLogToFilename(const AText, AFilename: string;
       AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
-    procedure SetShowFloatingBottom(AValue: boolean);
-    procedure SetShowFloatingSide(AValue: boolean);
+    procedure SetFloatBottom(AValue: boolean);
+    procedure SetFloatSide(AValue: boolean);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
     procedure SetShowSidebarOnRight(AValue: boolean);
@@ -940,9 +940,9 @@ type
     property Frames[N: integer]: TEditorFrame read GetFrame;
     function CurrentFrame: TEditorFrame;
     function CurrentEditor: TATSynEdit;
+    property FloatSide: boolean read GetFloatSide write SetFloatSide;
+    property FloatBottom: boolean read GetFloatBottom write SetFloatBottom;
     property ShowMenu: boolean read GetShowMenu write SetShowMenu;
-    property ShowFloatingSide: boolean read GetShowFloatingSide write SetShowFloatingSide;
-    property ShowFloatingBottom: boolean read GetShowFloatingBottom write SetShowFloatingBottom;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
     property ShowDistractionFree: boolean read FShowFullScreen write SetShowDistractionFree;
@@ -2656,9 +2656,9 @@ begin
     bBottom:= IsFocusedBottom;
 
     PanelBottom.Visible:= AValue;
-    if ShowFloatingBottom then
+    if FloatBottom then
     begin
-      FFormFloatingBottom.Visible:= AValue;
+      FFormFloatBottom.Visible:= AValue;
     end
     else
     begin
@@ -2680,9 +2680,9 @@ begin
   if GetShowSidePanel<>AValue then
   begin
     PanelLeft.Visible:= AValue;
-    if ShowFloatingSide then
+    if FloatSide then
     begin
-      FFormFloatingSide.Visible:= AValue;
+      FFormFloatSide.Visible:= AValue;
     end
     else
     begin
@@ -3220,12 +3220,12 @@ end;
 
 procedure TfmMain.DoToggleFloatingSide;
 begin
-  ShowFloatingSide:= not ShowFloatingSide;
+  FloatSide:= not FloatSide;
 end;
 
 procedure TfmMain.DoToggleFloatingBottom;
 begin
-  ShowFloatingBottom:= not ShowFloatingBottom;
+  FloatBottom:= not FloatBottom;
 end;
 
 procedure TfmMain.DoToggleOnTop;
@@ -4727,27 +4727,27 @@ begin
 end;
 
 
-function TfmMain.GetShowFloatingSide: boolean;
+function TfmMain.GetFloatSide: boolean;
 begin
-  Result:= Assigned(FFormFloatingSide) and
-    (PanelLeft.Parent=FFormFloatingSide);
+  Result:= Assigned(FFormFloatSide) and
+    (PanelLeft.Parent=FFormFloatSide);
 end;
 
-procedure TfmMain.SetShowFloatingSide(AValue: boolean);
+procedure TfmMain.SetFloatSide(AValue: boolean);
 begin
-  if not Assigned(FFormFloatingSide) then
+  if not Assigned(FFormFloatSide) then
   begin
-    FFormFloatingSide:= TForm.CreateNew(Self, 0);
-    FFormFloatingSide.Position:= poDesigned;
-    FFormFloatingSide.BoundsRect:= FBoundsFloatingSide;
-    FFormFloatingSide.BorderIcons:= [biSystemMenu, biMaximize];
-    FFormFloatingSide.ShowInTaskBar:= stNever;
+    FFormFloatSide:= TForm.CreateNew(Self, 0);
+    FFormFloatSide.Position:= poDesigned;
+    FFormFloatSide.BoundsRect:= FBoundsFloatSide;
+    FFormFloatSide.BorderIcons:= [biSystemMenu, biMaximize];
+    FFormFloatSide.ShowInTaskBar:= stNever;
   end;
 
-  FFormFloatingSide.Visible:= AValue;
+  FFormFloatSide.Visible:= AValue;
   if AValue then
   begin
-    PanelLeft.Parent:= FFormFloatingSide;
+    PanelLeft.Parent:= FFormFloatSide;
     PanelLeft.Align:= alClient;
     PanelLeft.Show;
     SplitterVert.Hide;
@@ -4762,27 +4762,27 @@ begin
 end;
 
 
-function TfmMain.GetShowFloatingBottom: boolean;
+function TfmMain.GetFloatBottom: boolean;
 begin
-  Result:= Assigned(FFormFloatingBottom) and
-    (PanelBottom.Parent=FFormFloatingBottom);
+  Result:= Assigned(FFormFloatBottom) and
+    (PanelBottom.Parent=FFormFloatBottom);
 end;
 
-procedure TfmMain.SetShowFloatingBottom(AValue: boolean);
+procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
-  if not Assigned(FFormFloatingBottom) then
+  if not Assigned(FFormFloatBottom) then
   begin
-    FFormFloatingBottom:= TForm.CreateNew(Self, 0);
-    FFormFloatingBottom.Position:= poDesigned;
-    FFormFloatingBottom.BoundsRect:= FBoundsFloatingBottom;
-    FFormFloatingBottom.BorderIcons:= [biSystemMenu, biMaximize];
-    FFormFloatingBottom.ShowInTaskBar:= stNever;
+    FFormFloatBottom:= TForm.CreateNew(Self, 0);
+    FFormFloatBottom.Position:= poDesigned;
+    FFormFloatBottom.BoundsRect:= FBoundsFloatBottom;
+    FFormFloatBottom.BorderIcons:= [biSystemMenu, biMaximize];
+    FFormFloatBottom.ShowInTaskBar:= stNever;
   end;
 
-  FFormFloatingBottom.Visible:= AValue;
+  FFormFloatBottom.Visible:= AValue;
   if AValue then
   begin
-    PanelBottom.Parent:= FFormFloatingBottom;
+    PanelBottom.Parent:= FFormFloatBottom;
     PanelBottom.Align:= alClient;
     PanelBottom.Show;
     SplitterHorz.Hide;

@@ -28,20 +28,20 @@ begin
         c.SetValue('/dialog/sizey', Height);
       end;
 
-      if ShowFloatingSide then
+      if FloatSide then
       begin
-        c.SetValue('/float_side/posx',  FFormFloatingSide.Left);
-        c.SetValue('/float_side/posy',  FFormFloatingSide.Top);
-        c.SetValue('/float_side/sizex', FFormFloatingSide.Width);
-        c.SetValue('/float_side/sizey', FFormFloatingSide.Height);
+        c.SetValue('/float_side/posx',  FFormFloatSide.Left);
+        c.SetValue('/float_side/posy',  FFormFloatSide.Top);
+        c.SetValue('/float_side/sizex', FFormFloatSide.Width);
+        c.SetValue('/float_side/sizey', FFormFloatSide.Height);
       end;
 
-      if ShowFloatingBottom then
+      if FloatBottom then
       begin
-        c.SetValue('/float_btm/posx',  FFormFloatingBottom.Left);
-        c.SetValue('/float_btm/posy',  FFormFloatingBottom.Top);
-        c.SetValue('/float_btm/sizex', FFormFloatingBottom.Width);
-        c.SetValue('/float_btm/sizey', FFormFloatingBottom.Height);
+        c.SetValue('/float_btm/posx',  FFormFloatBottom.Left);
+        c.SetValue('/float_btm/posy',  FFormFloatBottom.Top);
+        c.SetValue('/float_btm/sizex', FFormFloatBottom.Width);
+        c.SetValue('/float_btm/sizey', FFormFloatBottom.Height);
       end;
 
       c.SetValue('show_toolbar', ShowToolbar);
@@ -366,15 +366,15 @@ begin
     nSizeX:= c.GetValue('/dialog/sizex', 800);
     nSizeY:= c.GetValue('/dialog/sizey', 550);
 
-    FBoundsFloatingSide.Left:= c.GetValue('/float_side/posx', 50);
-    FBoundsFloatingSide.Top:= c.GetValue('/float_side/posy', 50);
-    FBoundsFloatingSide.Width:= c.GetValue('/float_side/sizex', 300);
-    FBoundsFloatingSide.Height:= c.GetValue('/float_side/sizey', 650);
+    FBoundsFloatSide.Left:= c.GetValue('/float_side/posx', 50);
+    FBoundsFloatSide.Top:= c.GetValue('/float_side/posy', 50);
+    FBoundsFloatSide.Width:= c.GetValue('/float_side/sizex', 300);
+    FBoundsFloatSide.Height:= c.GetValue('/float_side/sizey', 650);
 
-    FBoundsFloatingBottom.Left:= c.GetValue('/float_btm/posx', 50);
-    FBoundsFloatingBottom.Top:= c.GetValue('/float_btm/posy', 400);
-    FBoundsFloatingBottom.Width:= c.GetValue('/float_btm/sizex', 800);
-    FBoundsFloatingBottom.Height:= c.GetValue('/float_btm/sizey', 300);
+    FBoundsFloatBottom.Left:= c.GetValue('/float_btm/posx', 50);
+    FBoundsFloatBottom.Top:= c.GetValue('/float_btm/posy', 400);
+    FBoundsFloatBottom.Width:= c.GetValue('/float_btm/sizex', 800);
+    FBoundsFloatBottom.Height:= c.GetValue('/float_btm/sizey', 300);
 
     //fit form to screen
     if nPosX>Screen.DesktopWidth-cReservePixels then
