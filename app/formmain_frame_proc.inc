@@ -174,13 +174,13 @@ end;
 function TfmMain.FrameOfPopup: TEditorFrame;
 var
   Pages: TATPages;
-  TabN: integer;
+  NTab: integer;
   D: TATTabData;
 begin
   Result:= nil;
-  Pages:= Groups.PopupPages; if Pages=nil then exit;
-  TabN:= Groups.PopupTabIndex; if TabN<0 then exit;
-  D:= Pages.Tabs.GetTabData(TabN); if D=nil then exit;
+  Pages:= GroupsCtx.PopupPages; if Pages=nil then exit;
+  NTab:= GroupsCtx.PopupTabIndex; if NTab<0 then exit;
+  D:= Pages.Tabs.GetTabData(NTab); if D=nil then exit;
   Result:= D.TabObject as TEditorFrame;
 end;
 
