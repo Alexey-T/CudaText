@@ -2277,8 +2277,9 @@ begin
     Application.HideHint;
   end;
 
-  if Assigned(FOnTabOver) then
-    FOnTabOver(Self, FTabIndexOver);
+  if Assigned(Data) then
+    if Assigned(FOnTabOver) then
+      FOnTabOver(Self, FTabIndexOver);
 
   Invalidate;
 end;
