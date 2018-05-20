@@ -2174,6 +2174,8 @@ begin
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 
   DoApplyUiOpsToGroups(Groups);
+  if FloatGroups then
+    DoApplyUiOpsToGroups(GroupsFl);
 
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;

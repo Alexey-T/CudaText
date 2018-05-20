@@ -128,6 +128,8 @@ begin
   ATButtonTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
 
   DoApplyThemeToGroups(Groups);
+  if FloatGroups then
+    DoApplyThemeToGroups(GroupsFl);
 
   PanelLeftTitle.Font.Color:= GetAppColor('TabFont');
 
