@@ -4893,8 +4893,11 @@ end;
 
 procedure TfmMain.SetFloatGroups(AValue: boolean);
 begin
-  InitFloatGroups;
-  FFormFloatGroups.Visible:= AValue;
+  if GetFloatGroups<>AValue then
+  begin
+    InitFloatGroups;
+    FFormFloatGroups.Visible:= AValue;
+  end;
 end;
 
 
@@ -4919,7 +4922,7 @@ begin
     GroupsFl.Mode:= gmOne;
 
     //GroupsFl.OnTabFocus:= @DoOnTabFocus; //error
-    GroupsFl.OnTabAdd:= @DoOnTabAdd; //gives error
+    GroupsFl.OnTabAdd:= @DoOnTabAdd;
     GroupsFl.OnTabClose:= @DoOnTabClose;
     GroupsFl.OnTabMove:= @DoOnTabMove;
     GroupsFl.OnTabPopup:= @DoOnTabPopup;
@@ -4927,8 +4930,6 @@ begin
 
     DoApplyThemeToGroups(GroupsFl);
     DoApplyUiOpsToGroups(GroupsFl);
-
-    Application.ProcessMessages;
   end;
 end;
 
