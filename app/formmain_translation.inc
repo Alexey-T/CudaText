@@ -417,6 +417,7 @@ begin
     DoLocMenuitem(ini, mnuTabColor, 'ct', 'col_t');
 
     DoLocMenuitem(ini, mnuTabMoveSub, 'ct', 'mov_');
+    DoLocMenuitem(ini, mnuTabMoveFl, 'ct', 'mov_fl');
     DoLocMenuitem(ini, mnuTabMoveNext, 'ct', 'mov_n');
     DoLocMenuitem(ini, mnuTabMovePrev, 'ct', 'mov_p');
 

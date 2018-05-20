@@ -3,6 +3,7 @@ see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2018.05.20
 + [m_v] t_fl_s, t_fl_b
++ [ct] mov_fl
 
 2018.04.18
 + [d_cfm_op] text, uni
