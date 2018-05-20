@@ -84,6 +84,7 @@ begin
       Result:= D.TabObject as TEditorFrame;
   end
   else
+  if FloatGroups then
   begin
     D:= GroupsFl.GetTabDataOfTotalIndex(AIndex-NTabs);
     if D<>nil then
