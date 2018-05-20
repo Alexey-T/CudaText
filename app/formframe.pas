@@ -309,6 +309,11 @@ type
     property OnPyEvent: TEditorFramePyEvent read FOnPyEvent write FOnPyEvent;
   end;
 
+procedure GetFrameLocation(Frame: TEditorFrame;
+  out AGroups: TATGroups; out APages: TATPages;
+  out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
+
+
 implementation
 
 {$R *.lfm}
@@ -337,6 +342,21 @@ const
 
 var
   FLastTabId: integer = 0;
+
+
+procedure GetFrameLocation(Frame: TEditorFrame;
+  out AGroups: TATGroups; out APages: TATPages;
+  out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
+begin
+  APages:= Frame.Parent as TATPages;
+  AGroups:= APages.Parent as TATGroups;
+  AGroups.PagesAndTabIndexOfControl(Frame, ALocalGroupIndex, ATabIndex);
+
+  AGlobalGroupIndex:= ALocalGroupIndex;
+  if AGroups.Tag<>0 then
+    Inc(AGlobalGroupIndex, High(TATGroupsNums)+1);
+end;
+
 
 { TEditorFrame }
 
@@ -2193,14 +2213,13 @@ end;
 
 procedure TEditorFrame.SetTabColor(AColor: TColor);
 var
-  NPages, NTab: integer;
+  Gr: TATGroups;
   Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
   D: TATTabData;
 begin
   FTabColor:= AColor;
-
-  Groups.PagesAndTabIndexOfControl(Self, NPages, NTab);
-  Pages:= Groups.Pages[NPages];
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
   begin
@@ -2211,12 +2230,12 @@ end;
 
 procedure TEditorFrame.DoClearPreviewTabState;
 var
-  NPages, NTab: integer;
+  Gr: TATGroups;
   Pages: TATPages;
+  NLocalGroup, NGlobalGroup, NTab: integer;
   D: TATTabData;
 begin
-  Groups.PagesAndTabIndexOfControl(Self, NPages, NTab);
-  Pages:= Groups.Pages[NPages];
+  GetFrameLocation(Self, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
   begin
@@ -2228,15 +2247,15 @@ end;
 
 procedure TEditorFrame.SetTabImageIndex(AValue: integer);
 var
-  NPages, NTab: integer;
+  Gr: TATGroups;
   Pages: TATPages;
+  NLocalGroup, NGlobalGroup, NTab: integer;
   D: TATTabData;
 begin
   if FTabImageIndex=AValue then exit;
   FTabImageIndex:= AValue;
 
-  Groups.PagesAndTabIndexOfControl(Self, NPages, NTab);
-  Pages:= Groups.Pages[NPages];
+  GetFrameLocation(Self, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if Assigned(D) then
   begin

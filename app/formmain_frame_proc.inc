@@ -9,16 +9,14 @@ Copyright (c) Alexey Torgashin
 
 procedure TfmMain.FrameOnChangeCaption(Sender: TObject);
 var
-  NPages, NTab: integer;
+  Gr: TATGroups;
   Pages: TATPages;
   Frame: TEditorFrame;
+  NLocalGroup, NGlobalGroup, NTab: integer;
   D: TATTabData;
 begin
   Frame:= Sender as TEditorFrame;
-  NPages:= -1;
-  NTab:= -1;
-  Groups.PagesAndTabIndexOfControl(Frame, NPages, NTab);
-  Pages:= Groups.Pages[NPages];
+  GetFrameLocation(Frame, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
   D:= Pages.Tabs.GetTabData(NTab);
   if D=nil then Exit;
   D.TabCaption:= Frame.TabCaption;
@@ -136,12 +134,12 @@ end;
 
 procedure TfmMain.SetFrame(Frame: TEditorFrame);
 var
-  NPages, NTab: integer;
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroup, NGlobalGroup, NTab: integer;
 begin
-  NPages:= -1;
-  NTab:= -1;
-  Groups.PagesAndTabIndexOfControl(Frame, NPages, NTab);
-  Groups.SetPagesAndTabIndex(NPages, NTab);
+  GetFrameLocation(Frame, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+  Gr.SetPagesAndTabIndex(NLocalGroup, NTab);
 end;
 
 procedure TfmMain.FrameOnSaveFile(Sender: TObject);

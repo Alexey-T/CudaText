@@ -3889,10 +3889,21 @@ begin
 end;
 
 
-procedure TfmMain.GetEditorIndexes(Ed: TATSynEdit;
-  out AGroupIndex, ATabIndex: Integer);
+procedure TfmMain.GetEditorIndexes(Ed: TATSynEdit; out AGroupIndex, ATabIndex: Integer);
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  Frame: TEditorFrame;
+  NLocalGroup: integer;
 begin
-  Groups.PagesAndTabIndexOfControl(GetEditorFrame(Ed), AGroupIndex, ATabIndex);
+  Frame:= GetEditorFrame(Ed);
+  if Assigned(Frame) then
+    GetFrameLocation(Frame, Gr, Pages, NLocalGroup, AGroupIndex, ATabIndex)
+  else
+  begin
+    AGroupIndex:= -1;
+    ATabIndex:= -1;
+  end;
 end;
 
 procedure TfmMain.DoHelpWiki;
@@ -4879,6 +4890,7 @@ begin
     FFormFloatGroups.OnClose:= @FormFloatGroupsOnClose;
 
     GroupsFl:= TATGroups.Create(Self);
+    GroupsFl.Tag:= 1;
     GroupsFl.Parent:= FFormFloatGroups;
     GroupsFl.Align:= alClient;
     GroupsFl.Mode:= gmOne;

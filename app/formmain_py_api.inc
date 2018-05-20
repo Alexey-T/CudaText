@@ -2450,7 +2450,9 @@ var
   ValueBool: boolean;
   ValueInt: Int64;
   ScrollInfo: TATSynScrollInfo;
-  NGroup, NTab, NIndexNew, N1, N2: integer;
+  Gr: TATGroups;
+  Pages, PagesTo: TATPages;
+  NLocalGroup, NGlobalGroup, NTab, NIndexNew, N1, N2: integer;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Lis:set_prop', @H, @Id, @Ptr)) then
@@ -2603,22 +2605,33 @@ begin
 
         PROP_INDEX_GROUP:
           begin
-            NIndexNew:= ValueInt+1;
-            fmMain.Groups.PagesAndTabIndexOfControl(F, NGroup, NTab);
+            NIndexNew:= ValueInt;
+            GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
             if NTab>=0 then
-              if NGroup<>NIndexNew then
-                if (NIndexNew>=Low(TATGroupsNums)) and (NIndexNew<=High(TATGroupsNums)) then
-                  fmMain.Groups.MoveTab(
-                    fmMain.Groups.Pages[NGroup], NTab,
-                    fmMain.Groups.Pages[NIndexNew], -1, true);
+              if NGlobalGroup<>NIndexNew then
+              begin
+                if (NIndexNew>=0) and (NIndexNew<=High(TATGroupsNums)) then
+                  PagesTo:= fmMain.Groups.Pages[NIndexNew]
+                else
+                if NIndexNew>High(TATGroupsNums) then
+                begin
+                  fmMain.FloatGroups:= true;
+                  PagesTo:= fmMain.GroupsFl.Pages1;
+                end
+                else
+                  PagesTo:= nil;
+
+                if Assigned(PagesTo) then
+                  Gr.MoveTab(Pages, NTab, PagesTo, -1, true);
+              end;
           end;
 
         PROP_INDEX_TAB:
           begin
             NIndexNew:= ValueInt;
-            fmMain.Groups.PagesAndTabIndexOfControl(F, NGroup, NTab);
+            GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
             if NTab>=0 then
-              fmMain.Groups.Pages[NGroup].Tabs.MoveTab(NTab, NIndexNew, true);
+              Pages.Tabs.MoveTab(NTab, NIndexNew, true);
           end;
 
         PROP_CARET_SHAPE:

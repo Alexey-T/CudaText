@@ -116,7 +116,9 @@ function TfmMain.DoOps_SaveSession(fn_session: string): boolean;
 var
   c: TJSONConfig;
   F: TEditorFrame;
-  nGroup, nTab, i: integer;
+  Gr: TATGroups;
+  Pages: TATPages;
+  nLocalGroup, nGlobalGroup, nTab, i: integer;
   path, value: string;
   bModified: boolean;
 begin
@@ -149,13 +151,13 @@ begin
       F:= Frames[i];
       path:= '/'+Format('%3.3d', [i]);
 
-      Groups.PagesAndTabIndexOfControl(F, nGroup, nTab);
+      GetFrameLocation(F, Gr, Pages, nLocalGroup, nGlobalGroup, nTab);
       bModified:= F.Modified or ((F.FileName='') and not F.IsEmpty);
 
       c.SetValue(path+'/modified', bModified);
       c.SetValue(path+'/file', F.Filename);
       c.SetValue(path+'/tab_title', F.TabCaption);
-      c.SetValue(path+'/group', nGroup+1); //support old sessions with 1-based index
+      c.SetValue(path+'/group', nLocalGroup+1); //support old sessions with 1-based index
 
       if F.IsText then value:= ''
       else

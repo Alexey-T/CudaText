@@ -100,17 +100,20 @@ end;
 
 procedure TfmMain.UpdateTabsActiveColor(F: TEditorFrame);
 var
+  Gr: TATGroups;
+  Pages: TATPages;
   NColorAct, NColorOther: TColor;
-  NPages, NTab, i: integer;
+  NLocalGroups, NGlobalGroup, NTab, i: integer;
 begin
-  Groups.PagesAndTabIndexOfControl(F, NPages, NTab);
   NColorAct:= GetAppColor('TabActive');
   NColorOther:= GetAppColor('TabActiveOthers');
 
+  GetFrameLocation(F, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+
   for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-    with Groups.Pages[i] do
+    with Gr.Pages[i] do
     begin
-      Tabs.ColorTabActive:= IfThen(i=NPages, NColorAct, NColorOther);
+      Tabs.ColorTabActive:= IfThen(i=NLocalGroups, NColorAct, NColorOther);
       Tabs.Invalidate;
     end;
 end;
