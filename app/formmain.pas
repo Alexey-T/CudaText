@@ -4898,7 +4898,7 @@ begin
     GroupsFl.Mode:= gmOne;
 
     //GroupsFl.OnTabFocus:= @DoOnTabFocus; //error
-    //GroupsFl.OnTabAdd:= @DoOnTabAdd; //gives error
+    GroupsFl.OnTabAdd:= @DoOnTabAdd; //gives error
     GroupsFl.OnTabClose:= @DoOnTabClose;
     GroupsFl.OnTabMove:= @DoOnTabMove;
     GroupsFl.OnTabPopup:= @DoOnTabPopup;
