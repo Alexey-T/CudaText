@@ -326,9 +326,9 @@ Positions of group splitters (G1, G2, G3) are determined by grouping view, in on
           t G1 t G2 t     
 </pre>
 
-====Show/Hide UI elements====
+====Show/Hide/Undock UI elements====
 
-Actions can get/set show state of UI elements (pass "0"/"1" or False/True):
+Actions can get/set state of UI elements (pass "0"/"1" or False/True):
 
 * PROC_SHOW_STATUSBAR_GET
 * PROC_SHOW_STATUSBAR_SET
@@ -342,6 +342,11 @@ Actions can get/set show state of UI elements (pass "0"/"1" or False/True):
 * PROC_SHOW_BOTTOMPANEL_SET
 * PROC_SHOW_TABS_GET
 * PROC_SHOW_TABS_SET
+
+* PROC_FLOAT_SIDE_GET
+* PROC_FLOAT_SIDE_SET
+* PROC_FLOAT_BOTTOM_GET
+* PROC_FLOAT_BOTTOM_SET
 
 ====Screen coordinates====
 
@@ -2356,6 +2361,10 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.243 (app 1.54.2)
+* add: app_proc: PROC_FLOAT_SIDE_GET, PROC_FLOAT_SIDE_SET
+* add: app_proc: PROC_FLOAT_BOTTOM_GET, PROC_FLOAT_BOTTOM_SET
 
 1.0.242 (app 1.53.6)
 * add/change: dlg_proc: form property "border" is now enum, with DBORDER_nnn values

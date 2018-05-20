@@ -3252,6 +3252,26 @@ begin
             Result:= PyBool_FromLong(Ord(fmMain.ShowSideBar));
           end;
 
+        APP_PROC_FLOAT_SIDE_SET:
+          begin
+            fmMain.FloatSide:= ParamBool;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_FLOAT_SIDE_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.FloatSide));
+          end;
+
+        APP_PROC_FLOAT_BOTTOM_SET:
+          begin
+            fmMain.FloatBottom:= ParamBool;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_FLOAT_BOTTOM_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.FloatBottom));
+          end;
+
         APP_PROC_COORD_WINDOW_GET:
           begin
             Result:= Py_rect(Application.MainForm.BoundsRect);
