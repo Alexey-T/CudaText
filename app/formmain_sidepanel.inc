@@ -114,7 +114,7 @@ begin
   ShowSidePanel:= true;
   LabelSideTitle.Caption:= DoSidebar_TranslatedCaption(ACaption);
   if FloatSide then
-    FFormFloatSide.Caption:= LabelSideTitle.Caption;
+    FFormFloatSide.Caption:= LabelSideTitle.Caption + ' - ' + msgTitle;
 
   for i:= Low(AppSidePanels) to High(AppSidePanels) do
     with AppSidePanels[i] do

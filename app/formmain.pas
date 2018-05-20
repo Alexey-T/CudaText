@@ -4849,7 +4849,7 @@ begin
   end;
 
   FFormFloatBottom.Visible:= AValue;
-  FFormFloatBottom.Caption:= FLastBottomPanel;
+  FFormFloatBottom.Caption:= FLastBottomPanel + ' - ' + msgTitle;
 
   if AValue then
   begin
@@ -4905,7 +4905,7 @@ begin
     FFormFloatGroups.BorderIcons:= [biSystemMenu, biMaximize];
     FFormFloatGroups.ShowInTaskBar:= stNever;
     FFormFloatGroups.OnClose:= @FormFloatGroupsOnClose;
-    FFormFloatGroups.Caption:= 'CudaText';
+    FFormFloatGroups.Caption:= msgTitle;
     FFormFloatGroups.Show;
 
     GroupsFl:= TATGroups.Create(Self);

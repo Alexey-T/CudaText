@@ -73,7 +73,7 @@ begin
   FLastBottomPanel:= ACaption;
   ShowBottom:= true;
   if FloatBottom then
-    FFormFloatBottom.Caption:= ACaption;
+    FFormFloatBottom.Caption:= ACaption + ' - ' + msgTitle;
 
   //hide std panels
   fmConsole.Hide;
