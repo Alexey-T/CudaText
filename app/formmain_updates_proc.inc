@@ -738,11 +738,11 @@ begin
 end;
 
 
-procedure UpdateMenuItemChecked(mi: TMenuItem; save: TATMenuItemsAlt; Value: boolean); inline;
+procedure TfmMain.UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
 begin
-  if Assigned(mi) then mi.Checked:= Value;
-  if Assigned(save.item0) then save.item0.Checked:= Value;
-  if Assigned(save.item1) then save.item1.Checked:= Value;
+  if Assigned(mi) then mi.Checked:= AValue;
+  if Assigned(saved.item0) then saved.item0.Checked:= AValue;
+  if Assigned(saved.item1) then saved.item1.Checked:= AValue;
 end;
 
 procedure TfmMain.UpdateMenuChecks;

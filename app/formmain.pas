@@ -622,6 +622,8 @@ type
       AIndex: integer; const ARect: TRect);
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
+    procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
@@ -878,6 +880,7 @@ type
     procedure UpdateEditorTabsize(N: integer);
     procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
+    procedure UpdateMenuItemChecked(mi: TMenuItem; saved: TATMenuItemsAlt; AValue: boolean);
     procedure UpdateMenuItemHint(mi: TMenuItem; const AHint: string);
     procedure UpdateMenuItemHotkey(mi: TMenuItem; cmd: integer);
     procedure UpdateMenuLangs(sub: TMenuItem);
@@ -1881,11 +1884,6 @@ begin
       Inc(Result);
 end;
 
-function TfmMain.GetShowSidePanel: boolean;
-begin
-  Result:= PanelLeft.Visible;
-end;
-
 function TfmMain.GetShowStatus: boolean;
 begin
   Result:= Status.Visible;
@@ -1896,9 +1894,20 @@ begin
   Result:= ToolbarMain.Visible;
 end;
 
+function TfmMain.GetShowSidePanel: boolean;
+begin
+  if FloatSide then
+    Result:= FFormFloatSide.Visible
+  else
+    Result:= PanelLeft.Visible;
+end;
+
 function TfmMain.GetShowBottom: boolean;
 begin
-  Result:= PanelBottom.Visible;
+  if FloatBottom then
+    Result:= FFormFloatBottom.Visible
+  else
+    Result:= PanelBottom.Visible;
 end;
 
 function TfmMain.GetShowSideBar: boolean;
@@ -4745,6 +4754,7 @@ begin
     FFormFloatSide.BoundsRect:= FBoundsFloatSide;
     FFormFloatSide.BorderIcons:= [biSystemMenu, biMaximize];
     FFormFloatSide.ShowInTaskBar:= stNever;
+    FFormFloatSide.OnClose:= @FormFloatSideOnClose;
   end;
 
   PanelLeftTitle.Visible:= not AValue;
@@ -4783,6 +4793,7 @@ begin
     FFormFloatBottom.BoundsRect:= FBoundsFloatBottom;
     FFormFloatBottom.BorderIcons:= [biSystemMenu, biMaximize];
     FFormFloatBottom.ShowInTaskBar:= stNever;
+    FFormFloatBottom.OnClose:= @FormFloatBottomOnClose;
   end;
 
   FFormFloatBottom.Visible:= AValue;
@@ -4802,6 +4813,17 @@ begin
     SplitterHorz.Visible:= PanelBottom.Visible;
     SplitterHorz.Top:= PanelBottom.Top-8;
   end
+end;
+
+
+procedure TfmMain.FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, false);
+end;
+
+procedure TfmMain.FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, false);
 end;
 
 
