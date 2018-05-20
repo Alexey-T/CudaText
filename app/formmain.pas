@@ -4880,7 +4880,10 @@ end;
 
 procedure TfmMain.FormFloatGroupsOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  //
+  GroupsFl.MoveTabsFromGroupToAnother(
+    GroupsFl.Pages1,
+    Groups.Pages1
+    );
 end;
 
 function TfmMain.GetFloatGroups: boolean;
