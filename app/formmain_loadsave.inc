@@ -50,8 +50,10 @@ begin
       c.SetValue('show_bottom', ShowBottom);
       c.SetValue('show_menu', ShowMenu);
 
-      c.SetValue('size_side', PanelLeft.Width);
-      c.SetValue('size_bottom', PanelBottom.Height);
+      if not FloatSide then
+        c.SetValue('size_side', PanelLeft.Width);
+      if not FloatBottom then
+        c.SetValue('size_bottom', PanelBottom.Height);
       c.SetValue('tab_left', SidebarPanel);
     end;
 
@@ -124,9 +126,12 @@ begin
     c.SetValue('/tab_index/g_active', Groups.PagesIndexOf(Groups.PagesCurrent));
 
     c.SetValue('/panels/side_show', ShowSidePanel);
-    c.SetValue('/panels/side_size', PanelLeft.Width);
+    if not FloatSide then
+      c.SetValue('/panels/side_size', PanelLeft.Width);
+
     c.SetValue('/panels/bottom_show', ShowBottom);
-    c.SetValue('/panels/bottom_size', PanelBottom.Height);
+    if not FloatBottom then
+      c.SetValue('/panels/bottom_size', PanelBottom.Height);
 
     for i:= 0 to FrameCount-1 do
     begin
@@ -280,7 +285,7 @@ begin
     //restore panel sizes
     ShowSidePanel:= c.GetValue('/panels/side_show', ShowSidePanel);
     ShowBottom:= c.GetValue('/panels/bottom_show', ShowBottom);
-    PanelLeft.Width:= c.GetValue('/panels/side_size', PanelLeft.Width);
+    PanelLeft.Width:= Min(c.GetValue('/panels/side_size', PanelLeft.Width), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('/panels/bottom_size', PanelBottom.Height), ClientHeight div 2);
 
     Result:= true;
@@ -413,7 +418,8 @@ begin
     ShowSidePanel:= c.GetValue('show_sidepanel', true);
     ShowBottom:= c.GetValue('show_bottom', false);
     ShowMenu:= c.GetValue('show_menu', true);
-    PanelLeft.Width:= c.GetValue('size_side', 200);
+
+    PanelLeft.Width:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
 
     if ShowBottom or FConsoleMustShow then
