@@ -253,6 +253,8 @@ begin
     DoLocMenuitem(ini, mnuViewStatus, 'm_v', 't_sb');
     DoLocMenuitem(ini, mnuViewSide, 'm_v', 't_si');
     DoLocMenuitem(ini, mnuViewBottom, 'm_v', 't_bo');
+    DoLocMenuitem(ini, mnuViewFloatSide, 'm_v', 't_fl_s');
+    DoLocMenuitem(ini, mnuViewFloatBottom, 'm_v', 't_fl_b');
     DoLocMenuitem(ini, mnuViewFullscr, 'm_v', 't_fs');
     DoLocMenuitem(ini, mnuViewDistFree, 'm_v', 't_dis');
     DoLocMenuitem(ini, mnuViewOnTop, 'm_v', 't_ao');
