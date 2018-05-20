@@ -4909,6 +4909,7 @@ begin
     FFormFloatGroups.Show;
 
     GroupsFl:= TATGroups.Create(Self);
+    GroupsFl.Pages1.EnabledEmpty:= true;
     GroupsFl.Tag:= 1;
     GroupsFl.Parent:= FFormFloatGroups;
     GroupsFl.Align:= alClient;

@@ -2256,6 +2256,7 @@ var
   Data: TATTabData;
 begin
   inherited;
+  if TabCount=0 then exit;
   FTabIndexOver:= GetTabAt(X, Y, IsX);
   FTabIndexDrop:= FTabIndexOver;
 
