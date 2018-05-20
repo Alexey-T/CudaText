@@ -113,6 +113,8 @@ begin
   FLastSidebarPanel:= ACaption;
   ShowSidePanel:= true;
   LabelSideTitle.Caption:= DoSidebar_TranslatedCaption(ACaption);
+  if FloatSide then
+    FFormFloatSide.Caption:= LabelSideTitle.Caption;
 
   for i:= Low(AppSidePanels) to High(AppSidePanels) do
     with AppSidePanels[i] do

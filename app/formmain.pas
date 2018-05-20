@@ -4748,6 +4748,8 @@ begin
   end;
 
   FFormFloatSide.Visible:= AValue;
+  FFormFloatSide.Caption:= FLastSidebarPanel;
+
   if AValue then
   begin
     PanelLeft.Parent:= FFormFloatSide;
@@ -4783,6 +4785,8 @@ begin
   end;
 
   FFormFloatBottom.Visible:= AValue;
+  FFormFloatBottom.Caption:= FLastBottomPanel;
+
   if AValue then
   begin
     PanelBottom.Parent:= FFormFloatBottom;
