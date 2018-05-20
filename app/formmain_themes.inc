@@ -23,6 +23,29 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoApplyThemeToGroups(G: TATGroups);
+begin
+  G.SetTabOption(tabColorText, GetAppColor('TabFont'));
+  G.SetTabOption(tabColorTextModified, GetAppColor('TabFontMod'));
+  G.SetTabOption(tabColorBg, GetAppColor('TabBg'));
+  G.SetTabOption(tabColorBgActive, GetAppColor('TabActive'));
+  G.SetTabOption(tabColorBgPassive, GetAppColor('TabPassive'));
+  G.SetTabOption(tabColorBgPassiveOver, GetAppColor('TabOver'));
+  G.SetTabOption(tabColorBorderActive, GetAppColor('TabBorderActive'));
+  G.SetTabOption(tabColorBorderPassive, GetAppColor('TabBorderPassive'));
+  G.SetTabOption(tabColorArrow, GetAppColor('TabArrow'));
+  G.SetTabOption(tabColorArrowOver, GetAppColor('TabArrowOver'));
+  G.SetTabOption(tabColorCloseBg, GetAppColor('TabCloseBg'));
+  G.SetTabOption(tabColorCloseBgOver, GetAppColor('TabCloseBgOver'));
+  G.SetTabOption(tabColorCloseBorderOver, GetAppColor('TabCloseBorderOver'));
+  G.SetTabOption(tabColorCloseX, GetAppColor('TabCloseX'));
+  G.SetTabOption(tabColorCloseXOver, GetAppColor('TabCloseXOver'));
+  G.SetTabOption(tabColorActiveMark, GetAppColor('TabActiveMark'));
+  G.SetTabOption(tabColorSpecMarks, GetAppColor('TabMarks'));
+  G.Invalidate;
+end;
+
 procedure TfmMain.DoApplyTheme;
 var
   F: TEditorFrame;
@@ -104,24 +127,7 @@ begin
   ATButtonTheme.ColorBorderOver:= GetAppColor('ButtonBorderOver');
   ATButtonTheme.ColorBorderFocused:= GetAppColor('ButtonBorderFocused');
 
-  Groups.SetTabOption(tabColorText, GetAppColor('TabFont'));
-  Groups.SetTabOption(tabColorTextModified, GetAppColor('TabFontMod'));
-  Groups.SetTabOption(tabColorBg, GetAppColor('TabBg'));
-  Groups.SetTabOption(tabColorBgActive, GetAppColor('TabActive'));
-  Groups.SetTabOption(tabColorBgPassive, GetAppColor('TabPassive'));
-  Groups.SetTabOption(tabColorBgPassiveOver, GetAppColor('TabOver'));
-  Groups.SetTabOption(tabColorBorderActive, GetAppColor('TabBorderActive'));
-  Groups.SetTabOption(tabColorBorderPassive, GetAppColor('TabBorderPassive'));
-  Groups.SetTabOption(tabColorArrow, GetAppColor('TabArrow'));
-  Groups.SetTabOption(tabColorArrowOver, GetAppColor('TabArrowOver'));
-  Groups.SetTabOption(tabColorCloseBg, GetAppColor('TabCloseBg'));
-  Groups.SetTabOption(tabColorCloseBgOver, GetAppColor('TabCloseBgOver'));
-  Groups.SetTabOption(tabColorCloseBorderOver, GetAppColor('TabCloseBorderOver'));
-  Groups.SetTabOption(tabColorCloseX, GetAppColor('TabCloseX'));
-  Groups.SetTabOption(tabColorCloseXOver, GetAppColor('TabCloseXOver'));
-  Groups.SetTabOption(tabColorActiveMark, GetAppColor('TabActiveMark'));
-  Groups.SetTabOption(tabColorSpecMarks, GetAppColor('TabMarks'));
-  Groups.Invalidate;
+  DoApplyThemeToGroups(Groups);
 
   PanelLeftTitle.Font.Color:= GetAppColor('TabFont');
 

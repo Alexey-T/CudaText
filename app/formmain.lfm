@@ -914,6 +914,10 @@ object fmMain: TfmMain
         Caption = '6'
         OnClick = mnuTabMove6Click
       end
+      object mnuTabMoveFl: TMenuItem
+        Caption = 'Floating'
+        OnClick = mnuTabMoveFlClick
+      end
       object MenuItem19: TMenuItem
         Caption = '-'
       end

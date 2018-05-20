@@ -298,6 +298,7 @@ type
     mnuTabMove4: TMenuItem;
     mnuTabMove5: TMenuItem;
     mnuTabMove6: TMenuItem;
+    mnuTabMoveFl: TMenuItem;
     MenuItem19: TMenuItem;
     mnuTabMoveNext: TMenuItem;
     mnuTabMovePrev: TMenuItem;
@@ -469,6 +470,7 @@ type
     procedure mnuTabMove4Click(Sender: TObject);
     procedure mnuTabMove5Click(Sender: TObject);
     procedure mnuTabMove6Click(Sender: TObject);
+    procedure mnuTabMoveFlClick(Sender: TObject);
     procedure mnuTabMoveNextClick(Sender: TObject);
     procedure mnuTabMovePrevClick(Sender: TObject);
     procedure mnuTabSaveAsClick(Sender: TObject);
@@ -617,8 +619,7 @@ type
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     procedure DoFolderOpen(const ADirName: string; ANewProject: boolean);
     procedure DoGroupsChangeMode(Sender: TObject);
-    procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem;
-      ATag: integer);
+    procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
     procedure DoShowBottomPanel(const ATabCaption: string);
@@ -685,6 +686,7 @@ type
     procedure DoApplyFont_Output;
     procedure DoApplyAllOps;
     procedure DoApplyTheme;
+    procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoClearRecentFileHistory;
     function DoOnConsoleInput(const Str: string): boolean;
     function DoOnConsolePrint(const Str: string): boolean;
@@ -832,6 +834,7 @@ type
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabTo(AIndex: Integer);
+    procedure DoMoveTabToFloat;
     procedure DoOnTabPopup(Sender: TObject);
     function DoFileOpen(AFilename: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(AOptions: string= '');
@@ -906,6 +909,7 @@ type
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
     procedure DoApplyUiOps;
+    procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure InitPyEngine;
     procedure FrameOnChangeCaption(Sender: TObject);
     procedure FrameOnUpdateStatus(Sender: TObject);
@@ -2091,6 +2095,40 @@ end;
 type
   TUniqInstanceHack = class(TUniqueInstance);
 
+
+procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
+begin
+  G.ScalePercents:= UiOps.ScreenScale;
+  G.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));
+  G.SetTabOption(tabOptionAngled, Ord(UiOps.TabAngled));
+  G.SetTabOption(tabOptionSpaceInitial, IfThen(UiOps.TabAngled, 10, 4));
+  G.SetTabOption(tabOptionSpaceBetweenTabs, IfThen(UiOps.TabAngled, 4, 0));
+  G.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
+  G.SetTabOption(tabOptionPosition, UiOps.TabPosition);
+  G.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
+  G.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
+  G.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
+  G.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
+  G.SetTabOption(tabOptionWidthMin, UiOps.TabWidthMin);
+  G.SetTabOption(tabOptionWidthMax, UiOps.TabWidth);
+  G.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
+  G.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
+  G.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
+  G.SetTabOption(tabOptionSpacer2, 1); //for multiline mode
+  G.SetTabOption(tabOptionColoredBandSize, _InitOptColoredBandSize);
+  G.SetTabOption(tabOptionActiveMarkSize, _InitOptActiveMarkSize);
+  G.SetTabOption(tabOptionScrollMarkSizeX, _InitOptScrollMarkSizeX);
+  G.SetTabOption(tabOptionScrollMarkSizeY, _InitOptScrollMarkSizeY);
+  G.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
+  G.SetTabOption(tabOptionSpaceXRight, 10);
+  G.SetTabOption(tabOptionSpaceXSize, 12);
+  G.SetTabOption(tabOptionArrowSize, 4);
+  G.SetTabOption(tabOptionButtonSize, 16);
+  G.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
+  G.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
+  G.SetTabOptionString(tabOptionModifiedText, '*');
+end;
+
 procedure TfmMain.DoApplyUiOps;
 var
   i: integer;
@@ -2135,35 +2173,7 @@ begin
   fmConsole.ed.OptBorderFocusedActive:= UiOps.ShowActiveBorder;
   fmConsole.Wordwrap:= UiOps.ConsoleWordWrap;
 
-  Groups.ScalePercents:= UiOps.ScreenScale;
-  Groups.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));
-  Groups.SetTabOption(tabOptionAngled, Ord(UiOps.TabAngled));
-  Groups.SetTabOption(tabOptionSpaceInitial, IfThen(UiOps.TabAngled, 10, 4));
-  Groups.SetTabOption(tabOptionSpaceBetweenTabs, IfThen(UiOps.TabAngled, 4, 0));
-  Groups.SetTabOption(tabOptionShowFlat, Ord(UiOps.TabFlat));
-  Groups.SetTabOption(tabOptionPosition, UiOps.TabPosition);
-  Groups.SetTabOption(tabOptionShowXButtons, UiOps.TabShowX);
-  Groups.SetTabOption(tabOptionShowPlus, Ord(UiOps.TabShowPlus));
-  Groups.SetTabOption(tabOptionShowEntireColor, Ord(UiOps.TabColorFull));
-  Groups.SetTabOption(tabOptionDoubleClickClose, Ord(UiOps.TabDblClickClose));
-  Groups.SetTabOption(tabOptionWidthMin, UiOps.TabWidthMin);
-  Groups.SetTabOption(tabOptionWidthMax, UiOps.TabWidth);
-  Groups.SetTabOption(tabOptionHeight, UiOps.TabHeight+UiOps.TabSpacer);
-  Groups.SetTabOption(tabOptionHeightInner, UiOps.TabHeightInner);
-  Groups.SetTabOption(tabOptionSpacer, IfThen(UiOps.TabPosition=0, UiOps.TabSpacer));
-  Groups.SetTabOption(tabOptionSpacer2, 1); //for multiline mode
-  Groups.SetTabOption(tabOptionColoredBandSize, _InitOptColoredBandSize);
-  Groups.SetTabOption(tabOptionActiveMarkSize, _InitOptActiveMarkSize);
-  Groups.SetTabOption(tabOptionScrollMarkSizeX, _InitOptScrollMarkSizeX);
-  Groups.SetTabOption(tabOptionScrollMarkSizeY, _InitOptScrollMarkSizeY);
-  Groups.SetTabOption(tabOptionShowNums, Ord(UiOps.TabNumbers));
-  Groups.SetTabOption(tabOptionSpaceXRight, 10);
-  Groups.SetTabOption(tabOptionSpaceXSize, 12);
-  Groups.SetTabOption(tabOptionArrowSize, 4);
-  Groups.SetTabOption(tabOptionButtonSize, 16);
-  Groups.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
-  Groups.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
-  Groups.SetTabOptionString(tabOptionModifiedText, '*');
+  DoApplyUiOpsToGroups(Groups);
 
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
@@ -4871,6 +4881,10 @@ begin
     GroupsFl.Align:= alClient;
     GroupsFl.Mode:= gmOne;
 
+    DoApplyThemeToGroups(GroupsFl);
+    DoApplyUiOpsToGroups(GroupsFl);
+
+    FFormFloatGroups.Caption:= 'CudaText';
     FFormFloatGroups.Show;
   end;
 end;

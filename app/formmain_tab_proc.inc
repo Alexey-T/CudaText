@@ -261,6 +261,17 @@ begin
   Groups.MoveTab(Pages, NIndex, Groups.Pages[AIndex], -1, false);
 end;
 
+procedure TfmMain.DoMoveTabToFloat;
+var
+  Pages: TATPages;
+  NIndex: integer;
+begin
+  Pages:= Groups.PopupPages;
+  NIndex:= Groups.PopupTabIndex;
+
+  Groups.MoveTab(Pages, NIndex, GroupsFl.Pages1, -1, false);
+end;
+
 procedure TfmMain.mnuTabMove1Click(Sender: TObject);
 begin
   DoMoveTabTo(0);
@@ -289,6 +300,12 @@ end;
 procedure TfmMain.mnuTabMove6Click(Sender: TObject);
 begin
   DoMoveTabTo(5);
+end;
+
+procedure TfmMain.mnuTabMoveFlClick(Sender: TObject);
+begin
+  FloatGroups:= true;
+  DoMoveTabToFloat;
 end;
 
 procedure TfmMain.mnuTabMoveNextClick(Sender: TObject);
