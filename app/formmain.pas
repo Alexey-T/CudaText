@@ -1367,6 +1367,9 @@ begin
   //UiOps.ScreenScale:= 200; ////test
   //UiOps_ScreenScale:= UiOps.ScreenScale;
 
+  FBoundsFloatSide:= Rect(50, 50, 350, 700);
+  FBoundsFloatBottom:= Rect(50, 400, 850, 700);
+
   ToolbarMain.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideLow.ScalePercents:= UiOps.ScreenScale;
