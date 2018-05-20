@@ -834,8 +834,8 @@ type
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
     procedure DoToggleMenu;
-    procedure DoToggleFloatingSide;
-    procedure DoToggleFloatingBottom;
+    procedure DoToggleFloatSide;
+    procedure DoToggleFloatBottom;
     procedure DoToggleOnTop;
     procedure DoToggleFullScreen;
     procedure DoToggleDistractionFree;
@@ -3234,12 +3234,12 @@ begin
   ShowMenu:= not ShowMenu;
 end;
 
-procedure TfmMain.DoToggleFloatingSide;
+procedure TfmMain.DoToggleFloatSide;
 begin
   FloatSide:= not FloatSide;
 end;
 
-procedure TfmMain.DoToggleFloatingBottom;
+procedure TfmMain.DoToggleFloatBottom;
 begin
   FloatBottom:= not FloatBottom;
 end;

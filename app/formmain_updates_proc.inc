@@ -503,8 +503,8 @@ begin
     cmd_ToggleDistractionFree : DoSave(mi, mnuViewDistFree_Alt);
     cmd_ToggleSidePanel : DoSave(mi, mnuViewSide_Alt);
     cmd_ToggleBottomPanel : DoSave(mi, mnuViewBottom_Alt);
-    cmd_ToggleFloatingSide : DoSave(mi, mnuViewFloatSide_Alt);
-    cmd_ToggleFloatingBottom : DoSave(mi, mnuViewFloatBottom_Alt);
+    cmd_ToggleFloatSide : DoSave(mi, mnuViewFloatSide_Alt);
+    cmd_ToggleFloatBottom : DoSave(mi, mnuViewFloatBottom_Alt);
     cmd_ToggleOnTop: DoSave(mi, mnuViewOnTop_Alt);
 
     cmd_Groups1 : DoSave(mi, mnuGr1_Alt);
@@ -650,8 +650,8 @@ begin
   UpdateMenuItemHotkey(mnuViewDistFree, cmd_ToggleDistractionFree);
   UpdateMenuItemHotkey(mnuViewSide, cmd_ToggleSidePanel);
   UpdateMenuItemHotkey(mnuViewBottom, cmd_ToggleBottomPanel);
-  UpdateMenuItemHotkey(mnuViewFloatSide, cmd_ToggleFloatingSide);
-  UpdateMenuItemHotkey(mnuViewFloatBottom, cmd_ToggleFloatingBottom);
+  UpdateMenuItemHotkey(mnuViewFloatSide, cmd_ToggleFloatSide);
+  UpdateMenuItemHotkey(mnuViewFloatBottom, cmd_ToggleFloatBottom);
   UpdateMenuItemHotkey(mnuViewToolbar, cmd_ToggleToolbar);
   UpdateMenuItemHotkey(mnuViewStatus, cmd_ToggleStatusbar);
   UpdateMenuItemHotkey(mnuViewOnTop, cmd_ToggleOnTop);
