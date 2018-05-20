@@ -506,8 +506,10 @@ type
     { private declarations }
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
+    FFormFloatGroups: TForm;
     FBoundsFloatSide: TRect;
     FBoundsFloatBottom: TRect;
+    FBoundsFloatGroups: TRect;
     FListRecents: TStringList;
     FListThemesUI: TStringList;
     FListThemesSyntax: TStringList;
@@ -628,6 +630,7 @@ type
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloatGroupsOnClose(Sender: TObject; var CloseAction: TCloseAction);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
@@ -718,6 +721,7 @@ type
     procedure FrameOnEditorClickMoveCaret(Sender: TObject; APrevPnt, ANewPnt: TPoint);
     function GetFloatBottom: boolean;
     function GetFloatSide: boolean;
+    function GetFloatGroups: boolean;
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
@@ -726,6 +730,7 @@ type
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
+    procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
     function IsAllowedToOpenFileNow: boolean;
@@ -742,10 +747,10 @@ type
     procedure MenuThemesUiClick(Sender: TObject);
     procedure MsgLogConsole(const AText: string);
     procedure MsgLogDebug(const AText: string);
-    procedure MsgLogToFilename(const AText, AFilename: string;
-      AWithTime: boolean);
+    procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetFloatBottom(AValue: boolean);
+    procedure SetFloatGroups(AValue: boolean);
     procedure SetFloatSide(AValue: boolean);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
@@ -949,6 +954,7 @@ type
     function CurrentEditor: TATSynEdit;
     property FloatSide: boolean read GetFloatSide write SetFloatSide;
     property FloatBottom: boolean read GetFloatBottom write SetFloatBottom;
+    property FloatGroups: boolean read GetFloatGroups write SetFloatGroups;
     property ShowMenu: boolean read GetShowMenu write SetShowMenu;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
@@ -1374,8 +1380,9 @@ begin
   //UiOps.ScreenScale:= 200; ////test
   //UiOps_ScreenScale:= UiOps.ScreenScale;
 
-  FBoundsFloatSide:= Rect(50, 50, 350, 700);
+  FBoundsFloatSide:= Rect(600, 50, 320, 700);
   FBoundsFloatBottom:= Rect(50, 400, 850, 700);
+  FBoundsFloatGroups:= Rect(400, 100, 400, 700);
 
   ToolbarMain.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
@@ -4753,7 +4760,7 @@ procedure TfmMain.SetFloatSide(AValue: boolean);
 begin
   if not Assigned(FFormFloatSide) then
   begin
-    FFormFloatSide:= TForm.CreateNew(Self, 0);
+    FFormFloatSide:= TForm.CreateNew(Self);
     FFormFloatSide.Position:= poDesigned;
     FFormFloatSide.BoundsRect:= FBoundsFloatSide;
     FFormFloatSide.BorderIcons:= [biSystemMenu, biMaximize];
@@ -4792,7 +4799,7 @@ procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
   if not Assigned(FFormFloatBottom) then
   begin
-    FFormFloatBottom:= TForm.CreateNew(Self, 0);
+    FFormFloatBottom:= TForm.CreateNew(Self);
     FFormFloatBottom.Position:= poDesigned;
     FFormFloatBottom.BoundsRect:= FBoundsFloatBottom;
     FFormFloatBottom.BorderIcons:= [biSystemMenu, biMaximize];
@@ -4828,6 +4835,36 @@ end;
 procedure TfmMain.FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, false);
+end;
+
+procedure TfmMain.FormFloatGroupsOnClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  //
+end;
+
+function TfmMain.GetFloatGroups: boolean;
+begin
+  Result:= Assigned(FFormFloatGroups);
+end;
+
+procedure TfmMain.SetFloatGroups(AValue: boolean);
+begin
+  InitFloatGroups;
+  FFormFloatGroups.Visible:= AValue;
+end;
+
+
+procedure TfmMain.InitFloatGroups;
+begin
+  if not Assigned(FFormFloatGroups) then
+  begin
+    FFormFloatGroups:= TForm.CreateNew(Self);
+    FFormFloatGroups.Position:= poDesigned;
+    FFormFloatGroups.BoundsRect:= FBoundsFloatGroups;
+    FFormFloatGroups.BorderIcons:= [biSystemMenu, biMaximize];
+    FFormFloatGroups.ShowInTaskBar:= stNever;
+    FFormFloatGroups.OnClose:= @FormFloatGroupsOnClose;
+  end;
 end;
 
 

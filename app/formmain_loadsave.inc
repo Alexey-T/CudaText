@@ -44,6 +44,14 @@ begin
         c.SetValue('/dialog/fl_btm/sizey', FFormFloatBottom.Height);
       end;
 
+      if FloatGroups then
+      begin
+        c.SetValue('/dialog/fl_gr/posx',  FFormFloatGroups.Left);
+        c.SetValue('/dialog/fl_gr/posy',  FFormFloatGroups.Top);
+        c.SetValue('/dialog/fl_gr/sizex', FFormFloatGroups.Width);
+        c.SetValue('/dialog/fl_gr/sizey', FFormFloatGroups.Height);
+      end;
+
       c.SetValue('show_toolbar', ShowToolbar);
       c.SetValue('show_status', ShowStatus);
       c.SetValue('show_sidepanel', ShowSidePanel);
@@ -388,6 +396,14 @@ begin
       Top:=    c.GetValue('/dialog/fl_btm/posy', Top);
       Width:=  c.GetValue('/dialog/fl_btm/sizex', Width);
       Height:= c.GetValue('/dialog/fl_btm/sizey', Height);
+    end;
+
+    with FBoundsFloatGroups do
+    begin
+      Left:=   c.GetValue('/dialog/fl_gr/posx', Left);
+      Top:=    c.GetValue('/dialog/fl_gr/posy', Top);
+      Width:=  c.GetValue('/dialog/fl_gr/sizex', Width);
+      Height:= c.GetValue('/dialog/fl_gr/sizey', Height);
     end;
 
     //fit form to screen
