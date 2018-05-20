@@ -67,31 +67,53 @@ begin
   end;
 end;
 
-function TfmMain.GetFrame(N: integer): TEditorFrame;
+function TfmMain.GetFrame(AIndex: integer): TEditorFrame;
 var
   D: TATTabData;
+  NTabs: integer;
 begin
-  D:= Groups.GetTabDataOfTotalIndex(N);
-  if D=nil then
-    Result:= nil
+  Result:= nil;
+
+  //frame can be inside Groups or GroupsFl
+  NTabs:= Groups.GetTabTotalCount;
+
+  if AIndex<NTabs then
+  begin
+    D:= Groups.GetTabDataOfTotalIndex(AIndex);
+    if D<>nil then
+      Result:= D.TabObject as TEditorFrame;
+  end
   else
-    Result:= D.TabObject as TEditorFrame;
+  begin
+    D:= GroupsFl.GetTabDataOfTotalIndex(AIndex-NTabs);
+    if D<>nil then
+      Result:= D.TabObject as TEditorFrame;
+  end;
 end;
 
 function TfmMain.FrameCount: integer;
 begin
   Result:= Groups.GetTabTotalCount;
+  if FloatGroups then
+    Inc(Result, GroupsFl.GetTabTotalCount);
 end;
 
 function TfmMain.CurrentFrame: TEditorFrame;
 var
+  Gr: TATGroups;
   Pages: TATPages;
   D: TATTabData;
 begin
   Result:= nil;
-  Pages:= Groups.PagesCurrent;
+
+  Gr:= Groups;
+  if FloatGroups then
+    if FFormFloatGroups.Visible and FFormFloatGroups.Focused then
+      Gr:= GroupsFl;
+
+  Pages:= Gr.PagesCurrent;
   if Pages.Tabs.TabCount=0 then
-    Pages:= Groups.Pages1;
+    Pages:= Gr.Pages1;
   if Pages.Tabs.TabIndex<0 then
     Pages.Tabs.TabIndex:= 0;
 

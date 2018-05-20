@@ -921,7 +921,7 @@ type
     procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
       var ACanClose, ACanContinue: boolean);
     procedure FrameOnFocus(Sender: TObject);
-    function GetFrame(N: integer): TEditorFrame;
+    function GetFrame(AIndex: integer): TEditorFrame;
     procedure MenuEncNoReloadClick(Sender: TObject);
     procedure MenuLexerClick(Sender: TObject);
     procedure MenuMainClick(Sender: TObject);
