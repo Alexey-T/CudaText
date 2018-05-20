@@ -30,18 +30,18 @@ begin
 
       if FloatSide then
       begin
-        c.SetValue('/float_side/posx',  FFormFloatSide.Left);
-        c.SetValue('/float_side/posy',  FFormFloatSide.Top);
-        c.SetValue('/float_side/sizex', FFormFloatSide.Width);
-        c.SetValue('/float_side/sizey', FFormFloatSide.Height);
+        c.SetValue('/dialog/fl_side/posx',  FFormFloatSide.Left);
+        c.SetValue('/dialog/fl_side/posy',  FFormFloatSide.Top);
+        c.SetValue('/dialog/fl_side/sizex', FFormFloatSide.Width);
+        c.SetValue('/dialog/fl_side/sizey', FFormFloatSide.Height);
       end;
 
       if FloatBottom then
       begin
-        c.SetValue('/float_btm/posx',  FFormFloatBottom.Left);
-        c.SetValue('/float_btm/posy',  FFormFloatBottom.Top);
-        c.SetValue('/float_btm/sizex', FFormFloatBottom.Width);
-        c.SetValue('/float_btm/sizey', FFormFloatBottom.Height);
+        c.SetValue('/dialog/fl_btm/posx',  FFormFloatBottom.Left);
+        c.SetValue('/dialog/fl_btm/posy',  FFormFloatBottom.Top);
+        c.SetValue('/dialog/fl_btm/sizex', FFormFloatBottom.Width);
+        c.SetValue('/dialog/fl_btm/sizey', FFormFloatBottom.Height);
       end;
 
       c.SetValue('show_toolbar', ShowToolbar);
@@ -49,6 +49,9 @@ begin
       c.SetValue('show_sidepanel', ShowSidePanel);
       c.SetValue('show_bottom', ShowBottom);
       c.SetValue('show_menu', ShowMenu);
+
+      c.SetValue('float_side', FloatSide);
+      c.SetValue('float_bottom', FloatBottom);
 
       if not FloatSide then
         c.SetValue('size_side', PanelLeft.Width);
@@ -373,18 +376,18 @@ begin
 
     with FBoundsFloatSide do
     begin
-      Left:= c.GetValue('/float_side/posx', Left);
-      Top:= c.GetValue('/float_side/posy', Top);
-      Width:= c.GetValue('/float_side/sizex', Width);
-      Height:= c.GetValue('/float_side/sizey', Height);
+      Left:=   c.GetValue('/dialog/fl_side/posx', Left);
+      Top:=    c.GetValue('/dialog/fl_side/posy', Top);
+      Width:=  c.GetValue('/dialog/fl_side/sizex', Width);
+      Height:= c.GetValue('/dialog/fl_side/sizey', Height);
     end;
 
     with FBoundsFloatBottom do
     begin
-      Left:= c.GetValue('/float_btm/posx', Left);
-      Top:= c.GetValue('/float_btm/posy', Top);
-      Width:= c.GetValue('/float_btm/sizex', Width);
-      Height:= c.GetValue('/float_btm/sizey', Height);
+      Left:=   c.GetValue('/dialog/fl_btm/posx', Left);
+      Top:=    c.GetValue('/dialog/fl_btm/posy', Top);
+      Width:=  c.GetValue('/dialog/fl_btm/sizex', Width);
+      Height:= c.GetValue('/dialog/fl_btm/sizey', Height);
     end;
 
     //fit form to screen
@@ -421,6 +424,9 @@ begin
 
     PanelLeft.Width:= Min(c.GetValue('size_side', 200), ClientWidth div 2);
     PanelBottom.Height:= Min(c.GetValue('size_bottom', 200), ClientHeight div 2);
+
+    FloatSide:= c.GetValue('float_side', false);
+    FloatBottom:= c.GetValue('float_bottom', false);
 
     if ShowBottom or FConsoleMustShow then
       DoShowConsole(false);
