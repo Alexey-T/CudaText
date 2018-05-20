@@ -2760,7 +2760,7 @@ begin
 
   NVis:= Groups.PagesVisibleCount; //visible groups
 
-  mnuTabMove1.Enabled:= (NVis>=2) and (NCur<>0);
+  mnuTabMove1.Enabled:= ((NVis>=2) and (NCur<>0)) or (NCur>5);
   mnuTabMove2.Enabled:= {(NVis>=2) and} (NCur<>1);
   mnuTabMove3.Enabled:= (NVis>=3) and (NCur<>2);
   mnuTabMove4.Enabled:= (NVis>=4) and (NCur<>3);
