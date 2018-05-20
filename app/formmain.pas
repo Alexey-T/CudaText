@@ -4888,6 +4888,8 @@ begin
     FFormFloatGroups.BorderIcons:= [biSystemMenu, biMaximize];
     FFormFloatGroups.ShowInTaskBar:= stNever;
     FFormFloatGroups.OnClose:= @FormFloatGroupsOnClose;
+    FFormFloatGroups.Caption:= 'CudaText';
+    FFormFloatGroups.Show;
 
     GroupsFl:= TATGroups.Create(Self);
     GroupsFl.Tag:= 1;
@@ -4895,11 +4897,17 @@ begin
     GroupsFl.Align:= alClient;
     GroupsFl.Mode:= gmOne;
 
+    //GroupsFl.OnTabFocus:= @DoOnTabFocus; //error
+    //GroupsFl.OnTabAdd:= @DoOnTabAdd; //gives error
+    GroupsFl.OnTabClose:= @DoOnTabClose;
+    GroupsFl.OnTabMove:= @DoOnTabMove;
+    GroupsFl.OnTabPopup:= @DoOnTabPopup;
+    GroupsFl.OnTabOver:= @DoOnTabOver;
+
     DoApplyThemeToGroups(GroupsFl);
     DoApplyUiOpsToGroups(GroupsFl);
 
-    FFormFloatGroups.Caption:= 'CudaText';
-    FFormFloatGroups.Show;
+    Application.ProcessMessages;
   end;
 end;
 

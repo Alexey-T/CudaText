@@ -88,7 +88,8 @@ begin
   ClearTreeviewWithData(CodeTree.Tree);
 
   F:= D.TabObject as TEditorFrame;
-  F.SetFocus;
+  if F.CanFocus and F.CanSetFocus then
+    F.SetFocus;
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F);
