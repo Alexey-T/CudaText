@@ -526,6 +526,7 @@ type
     Status: TATStatus;
     StatusAlt: TATStatus;
     Groups: TATGroups;
+    GroupsFl: TATGroups;
 
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
@@ -4864,6 +4865,13 @@ begin
     FFormFloatGroups.BorderIcons:= [biSystemMenu, biMaximize];
     FFormFloatGroups.ShowInTaskBar:= stNever;
     FFormFloatGroups.OnClose:= @FormFloatGroupsOnClose;
+
+    GroupsFl:= TATGroups.Create(Self);
+    GroupsFl.Parent:= FFormFloatGroups;
+    GroupsFl.Align:= alClient;
+    GroupsFl.Mode:= gmOne;
+
+    FFormFloatGroups.Show;
   end;
 end;
 
