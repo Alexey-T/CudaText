@@ -736,6 +736,8 @@ type
     function GetFloatSide: boolean;
     function GetFloatGroups: boolean;
     function GetShowFloatGroup1: boolean;
+    function GetShowFloatGroup2: boolean;
+    function GetShowFloatGroup3: boolean;
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
@@ -744,7 +746,7 @@ type
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
-    procedure InitFloatGroup(var F: TForm; var G: TATGroups);
+    procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer);
     procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -767,6 +769,8 @@ type
     procedure SetFloatBottom(AValue: boolean);
     procedure SetFloatSide(AValue: boolean);
     procedure SetShowFloatGroup1(AValue: boolean);
+    procedure SetShowFloatGroup2(AValue: boolean);
+    procedure SetShowFloatGroup3(AValue: boolean);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
     procedure SetShowSidebarOnRight(AValue: boolean);
@@ -972,6 +976,8 @@ type
     property FloatBottom: boolean read GetFloatBottom write SetFloatBottom;
     property FloatGroups: boolean read GetFloatGroups;
     property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
+    property ShowFloatGroup2: boolean read GetShowFloatGroup2 write SetShowFloatGroup2;
+    property ShowFloatGroup3: boolean read GetShowFloatGroup3 write SetShowFloatGroup3;
     property ShowMenu: boolean read GetShowMenu write SetShowMenu;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
@@ -4853,6 +4859,24 @@ begin
   end;
 end;
 
+procedure TfmMain.SetShowFloatGroup2(AValue: boolean);
+begin
+  if GetShowFloatGroup2<>AValue then
+  begin
+    InitFloatGroups;
+    FFormFloatGroups2.Visible:= AValue;
+  end;
+end;
+
+procedure TfmMain.SetShowFloatGroup3(AValue: boolean);
+begin
+  if GetShowFloatGroup3<>AValue then
+  begin
+    InitFloatGroups;
+    FFormFloatGroups3.Visible:= AValue;
+  end;
+end;
+
 
 function TfmMain.GetFloatBottom: boolean;
 begin
@@ -4922,8 +4946,18 @@ begin
   Result:= Assigned(FFormFloatGroups1) and FFormFloatGroups1.Visible;
 end;
 
+function TfmMain.GetShowFloatGroup2: boolean;
+begin
+  Result:= Assigned(FFormFloatGroups2) and FFormFloatGroups2.Visible;
+end;
 
-procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups);
+function TfmMain.GetShowFloatGroup3: boolean;
+begin
+  Result:= Assigned(FFormFloatGroups3) and FFormFloatGroups3.Visible;
+end;
+
+
+procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer);
 begin
   if not Assigned(F) then
   begin
@@ -4938,7 +4972,7 @@ begin
 
     G:= TATGroups.Create(Self);
     G.Pages1.EnabledEmpty:= true;
-    G.Tag:= 1;
+    G.Tag:= ATag;
     G.Parent:= F;
     G.Align:= alClient;
     G.Mode:= gmOne;
@@ -4957,7 +4991,9 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloatGroups1, GroupsF1);
+  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1);
+  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2);
+  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3);
 end;
 
 //----------------------------

@@ -259,12 +259,24 @@ begin
     Groups.Update; //maybe no need
   end;
 
-  if AGroupIndex<=High(TATGroupsNums) then
-    PagesTo:= Groups.Pages[AGroupIndex]
-  else
-  begin
-    ShowFloatGroup1:= true;
-    PagesTo:= GroupsF1.Pages1;
+  case AGroupIndex of
+    0..High(TATGroupsNums):
+      PagesTo:= Groups.Pages[AGroupIndex];
+    6:
+      begin
+        ShowFloatGroup1:= true;
+        PagesTo:= GroupsF1.Pages1;
+      end;
+    7:
+      begin
+        ShowFloatGroup2:= true;
+        PagesTo:= GroupsF2.Pages1;
+      end;
+    8:
+      begin
+        ShowFloatGroup3:= true;
+        PagesTo:= GroupsF3.Pages1;
+      end;
   end;
 
   GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, false);

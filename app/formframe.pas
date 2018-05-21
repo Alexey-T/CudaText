@@ -354,7 +354,7 @@ begin
 
   AGlobalGroupIndex:= ALocalGroupIndex;
   if AGroups.Tag<>0 then
-    Inc(AGlobalGroupIndex, High(TATGroupsNums)+1);
+    Inc(AGlobalGroupIndex, High(TATGroupsNums) + AGroups.Tag);
 end;
 
 
