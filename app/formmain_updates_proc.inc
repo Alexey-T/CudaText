@@ -13,6 +13,8 @@ var
   SName, SMark, SSession, SFileMode: string;
 begin
   F:= CurrentFrame;
+  if F=nil then exit;
+
   if UiOps.ShowTitlePath then
   begin
     if F.IsText then
