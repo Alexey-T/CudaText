@@ -734,6 +734,7 @@ type
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
+    procedure InitFloatGroup(var AForm: TForm; var AGroups: TATGroups);
     procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -4906,38 +4907,42 @@ begin
 end;
 
 
-procedure TfmMain.InitFloatGroups;
+procedure TfmMain.InitFloatGroup(var AForm: TForm; var AGroups: TATGroups);
 begin
-  if not Assigned(FFormFloatGroups) then
+  if not Assigned(AForm) then
   begin
-    FFormFloatGroups:= TForm.CreateNew(Self);
-    FFormFloatGroups.Position:= poDesigned;
-    FFormFloatGroups.BoundsRect:= FBoundsFloatGroups;
-    FFormFloatGroups.BorderIcons:= [biSystemMenu, biMaximize];
-    FFormFloatGroups.ShowInTaskBar:= stNever;
-    FFormFloatGroups.OnClose:= @FormFloatGroupsOnClose;
-    FFormFloatGroups.Caption:= msgTitle;
-    FFormFloatGroups.Show;
+    AForm:= TForm.CreateNew(Self);
+    AForm.Position:= poDesigned;
+    AForm.BoundsRect:= FBoundsFloatGroups;
+    AForm.BorderIcons:= [biSystemMenu, biMaximize];
+    AForm.ShowInTaskBar:= stNever;
+    AForm.OnClose:= @FormFloatGroupsOnClose;
+    AForm.Caption:= msgTitle;
+    AForm.Show;
 
-    GroupsFl:= TATGroups.Create(Self);
-    GroupsFl.Pages1.EnabledEmpty:= true;
-    GroupsFl.Tag:= 1;
-    GroupsFl.Parent:= FFormFloatGroups;
-    GroupsFl.Align:= alClient;
-    GroupsFl.Mode:= gmOne;
+    AGroups:= TATGroups.Create(Self);
+    AGroups.Pages1.EnabledEmpty:= true;
+    AGroups.Tag:= 1;
+    AGroups.Parent:= AForm;
+    AGroups.Align:= alClient;
+    AGroups.Mode:= gmOne;
 
-    GroupsFl.OnTabFocus:= @DoOnTabFocus;
-    GroupsFl.OnTabAdd:= @DoOnTabAdd;
-    GroupsFl.OnTabClose:= @DoOnTabClose;
-    GroupsFl.OnTabMove:= @DoOnTabMove;
-    GroupsFl.OnTabPopup:= @DoOnTabPopup;
-    GroupsFl.OnTabOver:= @DoOnTabOver;
+    AGroups.OnTabFocus:= @DoOnTabFocus;
+    AGroups.OnTabAdd:= @DoOnTabAdd;
+    AGroups.OnTabClose:= @DoOnTabClose;
+    AGroups.OnTabMove:= @DoOnTabMove;
+    AGroups.OnTabPopup:= @DoOnTabPopup;
+    AGroups.OnTabOver:= @DoOnTabOver;
 
-    DoApplyThemeToGroups(GroupsFl);
-    DoApplyUiOpsToGroups(GroupsFl);
+    DoApplyThemeToGroups(AGroups);
+    DoApplyUiOpsToGroups(AGroups);
   end;
 end;
 
+procedure TfmMain.InitFloatGroups;
+begin
+  InitFloatGroup(FFormFloatGroups, GroupsFl);
+end;
 
 //----------------------------
 {$I formmain_loadsave.inc}
