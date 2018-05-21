@@ -117,6 +117,9 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuTabMoveF2: TMenuItem;
+    mnuTabMoveF3: TMenuItem;
+    mnuSepT2: TMenuItem;
     mnuViewFloatSide: TMenuItem;
     mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
@@ -298,8 +301,8 @@ type
     mnuTabMove4: TMenuItem;
     mnuTabMove5: TMenuItem;
     mnuTabMove6: TMenuItem;
-    mnuTabMoveFl: TMenuItem;
-    MenuItem19: TMenuItem;
+    mnuTabMoveF1: TMenuItem;
+    mnuSepT1: TMenuItem;
     mnuTabMoveNext: TMenuItem;
     mnuTabMovePrev: TMenuItem;
     mnuTabMoveSub: TMenuItem;
@@ -434,6 +437,8 @@ type
       Shift: TShiftState);
     procedure MenuThemesSyntaxClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
+    procedure mnuTabMoveF2Click(Sender: TObject);
+    procedure mnuTabMoveF3Click(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
     procedure mnuTabsize2Click(Sender: TObject);
     procedure mnuTabsize3Click(Sender: TObject);
@@ -470,7 +475,7 @@ type
     procedure mnuTabMove4Click(Sender: TObject);
     procedure mnuTabMove5Click(Sender: TObject);
     procedure mnuTabMove6Click(Sender: TObject);
-    procedure mnuTabMoveFlClick(Sender: TObject);
+    procedure mnuTabMoveF1Click(Sender: TObject);
     procedure mnuTabMoveNextClick(Sender: TObject);
     procedure mnuTabMovePrevClick(Sender: TObject);
     procedure mnuTabSaveAsClick(Sender: TObject);
@@ -2774,7 +2779,7 @@ begin
   mnuTabMove4.Enabled:= (NVis>=4) and (NCur<>3);
   mnuTabMove5.Enabled:= (NVis>=5) and (NCur<>4);
   mnuTabMove6.Enabled:= (NVis>=6) and (NCur<>5);
-  mnuTabMoveFl.Enabled:= (NCur<>6);
+  mnuTabMoveF1.Enabled:= (NCur<>6);
   mnuTabMoveNext.Enabled:= (NVis>=2) and (NCur<>6);
   mnuTabMovePrev.Enabled:= mnuTabMoveNext.Enabled;
 end;

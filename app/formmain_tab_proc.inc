@@ -300,9 +300,19 @@ begin
   DoMoveTabToGroup(5);
 end;
 
-procedure TfmMain.mnuTabMoveFlClick(Sender: TObject);
+procedure TfmMain.mnuTabMoveF1Click(Sender: TObject);
 begin
   DoMoveTabToGroup(6);
+end;
+
+procedure TfmMain.mnuTabMoveF2Click(Sender: TObject);
+begin
+  DoMoveTabToGroup(7);
+end;
+
+procedure TfmMain.mnuTabMoveF3Click(Sender: TObject);
+begin
+  DoMoveTabToGroup(8);
 end;
 
 procedure TfmMain.mnuTabMoveNextClick(Sender: TObject);
