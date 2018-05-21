@@ -1385,9 +1385,9 @@ begin
   //UiOps.ScreenScale:= 200; ////test
   //UiOps_ScreenScale:= UiOps.ScreenScale;
 
-  FBoundsFloatSide:= Rect(600, 50, 320, 700);
-  FBoundsFloatBottom:= Rect(50, 400, 850, 700);
-  FBoundsFloatGroups:= Rect(400, 100, 400, 700);
+  FBoundsFloatSide:= Rect(650, 50, 900, 700);
+  FBoundsFloatBottom:= Rect(50, 480, 900, 700);
+  FBoundsFloatGroups:= Rect(400, 100, 800, 750);
 
   ToolbarMain.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
@@ -4799,6 +4799,8 @@ end;
 
 procedure TfmMain.SetFloatSide(AValue: boolean);
 begin
+  if GetFloatSide=AValue then exit;
+
   if not Assigned(FFormFloatSide) then
   begin
     FFormFloatSide:= TForm.CreateNew(Self);
@@ -4811,7 +4813,7 @@ begin
 
   PanelLeftTitle.Visible:= not AValue;
   FFormFloatSide.Visible:= AValue;
-  FFormFloatSide.Caption:= FLastSidebarPanel;
+  FFormFloatSide.Caption:= FLastSidebarPanel + ' - ' + msgTitle;
 
   if AValue then
   begin
@@ -4838,6 +4840,8 @@ end;
 
 procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
+  if GetFloatBottom=AValue then exit;
+
   if not Assigned(FFormFloatBottom) then
   begin
     FFormFloatBottom:= TForm.CreateNew(Self);
