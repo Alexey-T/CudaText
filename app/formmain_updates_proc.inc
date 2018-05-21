@@ -320,7 +320,11 @@ begin
 
   Groups.SetTabFont(Self.Font);
   if FloatGroups then
+  begin
     GroupsF1.SetTabFont(Self.Font);
+    GroupsF2.SetTabFont(Self.Font);
+    GroupsF3.SetTabFont(Self.Font);
+  end;
 
   Status.Font:= Self.Font;
   StatusAlt.Font:= Self.Font;

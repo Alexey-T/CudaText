@@ -132,13 +132,23 @@ var
   Gr: TATGroups;
   Pages: TATPages;
   D: TATTabData;
+  CurForm: TForm;
 begin
   Result:= nil;
 
   Gr:= Groups;
-  if FloatGroups then
-    if FFormFloatGroups1.Visible and FFormFloatGroups1.Focused then
-      Gr:= GroupsF1;
+  CurForm:= Screen.ActiveForm;
+  if (CurForm<>Self) and FloatGroups then
+  begin
+    if CurForm=FFormFloatGroups1 then
+      Gr:= GroupsF1
+    else
+    if CurForm=FFormFloatGroups2 then
+      Gr:= GroupsF2
+    else
+    if CurForm=FFormFloatGroups3 then
+      Gr:= GroupsF3;
+  end;
 
   Pages:= Gr.PagesCurrent;
   if Pages.Tabs.TabCount=0 then

@@ -644,7 +644,9 @@ type
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormFloatGroupsOnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     function GetSessionFilename: string;
     procedure CharmapOnInsert(const AStr: string);
     procedure DoLocalize;
@@ -748,7 +750,8 @@ type
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
-    procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer; const ARect: TRect);
+    procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
+      const ARect: TRect; AOnClose: TCloseEvent);
     procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -2198,7 +2201,11 @@ begin
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
+  begin
     DoApplyUiOpsToGroups(GroupsF1);
+    DoApplyUiOpsToGroups(GroupsF2);
+    DoApplyUiOpsToGroups(GroupsF3);
+  end;
 
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
@@ -4949,10 +4956,26 @@ begin
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, false);
 end;
 
-procedure TfmMain.FormFloatGroupsOnClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfmMain.FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   GroupsF1.MoveTabsFromGroupToAnother(
     GroupsF1.Pages1,
+    Groups.Pages1
+    );
+end;
+
+procedure TfmMain.FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  GroupsF2.MoveTabsFromGroupToAnother(
+    GroupsF2.Pages1,
+    Groups.Pages1
+    );
+end;
+
+procedure TfmMain.FormFloatGroups3_OnClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  GroupsF3.MoveTabsFromGroupToAnother(
+    GroupsF3.Pages1,
     Groups.Pages1
     );
 end;
@@ -4978,7 +5001,7 @@ begin
 end;
 
 
-procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer; const ARect: TRect);
+procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer; const ARect: TRect; AOnClose: TCloseEvent);
 begin
   if not Assigned(F) then
   begin
@@ -4987,7 +5010,7 @@ begin
     F.BoundsRect:= ARect;
     F.BorderIcons:= [biSystemMenu, biMaximize];
     F.ShowInTaskBar:= stNever;
-    F.OnClose:= @FormFloatGroupsOnClose;
+    F.OnClose:= AOnClose;
     F.Caption:= msgTitle;
     F.Show;
 
@@ -5012,9 +5035,9 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1, FBoundsFloatGroups1);
-  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2, FBoundsFloatGroups2);
-  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3, FBoundsFloatGroups3);
+  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1, FBoundsFloatGroups1, @FormFloatGroups1_OnClose);
+  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2, FBoundsFloatGroups2, @FormFloatGroups2_OnClose);
+  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3, FBoundsFloatGroups3, @FormFloatGroups3_OnClose);
 end;
 
 //----------------------------
