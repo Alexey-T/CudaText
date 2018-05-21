@@ -1692,14 +1692,18 @@ begin
 
   if AForPopupMenu then
   begin
+    if not Assigned(PopupPages) then exit;
     APagesIndex:= PagesIndexOf(PopupPages);
     ATabIndex:= PopupTabIndex;
   end
   else
   begin
+    if not Assigned(PagesCurrent) then exit;
     APagesIndex:= PagesIndexOf(PagesCurrent);
     ATabIndex:= PagesCurrent.Tabs.TabIndex;
   end;
+
+  if (APagesIndex<0) or (APagesIndex>High(TATGroupsNums)) then exit;
 
   case Id of
     tabCloseCurrent:
