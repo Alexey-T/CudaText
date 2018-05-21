@@ -2610,16 +2610,27 @@ begin
             if NTab>=0 then
               if NGlobalGroup<>NIndexNew then
               begin
-                if (NIndexNew>=0) and (NIndexNew<=High(TATGroupsNums)) then
-                  PagesTo:= fmMain.Groups.Pages[NIndexNew]
-                else
-                if NIndexNew>High(TATGroupsNums) then
-                begin
-                  fmMain.ShowFloatGroup1:= true;
-                  PagesTo:= fmMain.GroupsF1.Pages1;
-                end
-                else
-                  PagesTo:= nil;
+                case NIndexNew of
+                  0..5:
+                    PagesTo:= fmMain.Groups.Pages[NIndexNew];
+                  6:
+                    begin
+                      fmMain.ShowFloatGroup1:= true;
+                      PagesTo:= fmMain.GroupsF1.Pages1;
+                    end;
+                  7:
+                    begin
+                      fmMain.ShowFloatGroup2:= true;
+                      PagesTo:= fmMain.GroupsF2.Pages1;
+                    end;
+                  8:
+                    begin
+                      fmMain.ShowFloatGroup3:= true;
+                      PagesTo:= fmMain.GroupsF3.Pages1;
+                    end;
+                  else
+                    PagesTo:= nil;
+                end;
 
                 if Assigned(PagesTo) then
                   Gr.MoveTab(Pages, NTab, PagesTo, -1, true);
