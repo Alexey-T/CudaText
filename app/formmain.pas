@@ -2762,23 +2762,38 @@ end;
 
 procedure TfmMain.PopupTabPopup(Sender: TObject);
 var
+  CurForm: TForm;
   NVis, NCur: Integer;
 begin
-  if PtInControl(Groups, Mouse.CursorPos) then
+  CurForm:= Screen.ActiveForm;
+  GroupsCtx:= nil;
+  NCur:= -1;
+
+  if CurForm=Self then
   begin
     GroupsCtx:= Groups;
-    NCur:= Groups.PagesIndexOf(Groups.PopupPages);
+    NCur:= GroupsCtx.PagesIndexOf(GroupsCtx.PopupPages);
   end
   else
-  if FloatGroups and PtInControl(GroupsF1, Mouse.CursorPos) then
+  if FloatGroups then
   begin
-    GroupsCtx:= GroupsF1;
-    NCur:= GroupsCtx.PagesIndexOf(GroupsCtx.PopupPages) + High(TATGroupsNums)+1;
-  end
-  else
-  begin
-    GroupsCtx:= nil;
-    NCur:= -1;
+    if CurForm=FFormFloatGroups1 then
+    begin
+      GroupsCtx:= GroupsF1;
+      NCur:= 6;
+    end
+    else
+    if CurForm=FFormFloatGroups2 then
+    begin
+      GroupsCtx:= GroupsF2;
+      NCur:= 7;
+    end
+    else
+    if CurForm=FFormFloatGroups3 then
+    begin
+      GroupsCtx:= GroupsF3;
+      NCur:= 8;
+    end;
   end;
 
   NVis:= Groups.PagesVisibleCount; //visible groups
@@ -2790,7 +2805,9 @@ begin
   mnuTabMove5.Enabled:= (NVis>=5) and (NCur<>4);
   mnuTabMove6.Enabled:= (NVis>=6) and (NCur<>5);
   mnuTabMoveF1.Enabled:= (NCur<>6);
-  mnuTabMoveNext.Enabled:= (NVis>=2) and (NCur<>6);
+  mnuTabMoveF2.Enabled:= (NCur<>7);
+  mnuTabMoveF3.Enabled:= (NCur<>8);
+  mnuTabMoveNext.Enabled:= (NVis>=2) and (NCur<6);
   mnuTabMovePrev.Enabled:= mnuTabMoveNext.Enabled;
 end;
 
