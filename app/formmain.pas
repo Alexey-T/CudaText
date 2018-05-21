@@ -4926,7 +4926,7 @@ begin
     GroupsFl.Align:= alClient;
     GroupsFl.Mode:= gmOne;
 
-    //GroupsFl.OnTabFocus:= @DoOnTabFocus; //error
+    GroupsFl.OnTabFocus:= @DoOnTabFocus;
     GroupsFl.OnTabAdd:= @DoOnTabAdd;
     GroupsFl.OnTabClose:= @DoOnTabClose;
     GroupsFl.OnTabMove:= @DoOnTabMove;
