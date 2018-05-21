@@ -46,10 +46,20 @@ begin
 
       if FloatGroups then
       begin
-        c.SetValue('/dialog/fl_gr/posx',  FFormFloatGroups1.Left);
-        c.SetValue('/dialog/fl_gr/posy',  FFormFloatGroups1.Top);
-        c.SetValue('/dialog/fl_gr/sizex', FFormFloatGroups1.Width);
-        c.SetValue('/dialog/fl_gr/sizey', FFormFloatGroups1.Height);
+        c.SetValue('/dialog/fl_g1/posx',  FFormFloatGroups1.Left);
+        c.SetValue('/dialog/fl_g1/posy',  FFormFloatGroups1.Top);
+        c.SetValue('/dialog/fl_g1/sizex', FFormFloatGroups1.Width);
+        c.SetValue('/dialog/fl_g1/sizey', FFormFloatGroups1.Height);
+
+        c.SetValue('/dialog/fl_g2/posx',  FFormFloatGroups2.Left);
+        c.SetValue('/dialog/fl_g2/posy',  FFormFloatGroups2.Top);
+        c.SetValue('/dialog/fl_g2/sizex', FFormFloatGroups2.Width);
+        c.SetValue('/dialog/fl_g2/sizey', FFormFloatGroups2.Height);
+
+        c.SetValue('/dialog/fl_g3/posx',  FFormFloatGroups3.Left);
+        c.SetValue('/dialog/fl_g3/posy',  FFormFloatGroups3.Top);
+        c.SetValue('/dialog/fl_g3/sizex', FFormFloatGroups3.Width);
+        c.SetValue('/dialog/fl_g3/sizey', FFormFloatGroups3.Height);
       end;
 
       c.SetValue('show_toolbar', ShowToolbar);
@@ -400,12 +410,28 @@ begin
       Height:= c.GetValue('/dialog/fl_btm/sizey', Height);
     end;
 
-    with FBoundsFloatGroups do
+    with FBoundsFloatGroups1 do
     begin
-      Left:=   c.GetValue('/dialog/fl_gr/posx', Left);
-      Top:=    c.GetValue('/dialog/fl_gr/posy', Top);
-      Width:=  c.GetValue('/dialog/fl_gr/sizex', Width);
-      Height:= c.GetValue('/dialog/fl_gr/sizey', Height);
+      Left:=   c.GetValue('/dialog/fl_g1/posx', Left);
+      Top:=    c.GetValue('/dialog/fl_g1/posy', Top);
+      Width:=  c.GetValue('/dialog/fl_g1/sizex', Width);
+      Height:= c.GetValue('/dialog/fl_g1/sizey', Height);
+    end;
+
+    with FBoundsFloatGroups2 do
+    begin
+      Left:=   c.GetValue('/dialog/fl_g2/posx', Left);
+      Top:=    c.GetValue('/dialog/fl_g2/posy', Top);
+      Width:=  c.GetValue('/dialog/fl_g2/sizex', Width);
+      Height:= c.GetValue('/dialog/fl_g2/sizey', Height);
+    end;
+
+    with FBoundsFloatGroups3 do
+    begin
+      Left:=   c.GetValue('/dialog/fl_g3/posx', Left);
+      Top:=    c.GetValue('/dialog/fl_g3/posy', Top);
+      Width:=  c.GetValue('/dialog/fl_g3/sizex', Width);
+      Height:= c.GetValue('/dialog/fl_g3/sizey', Height);
     end;
 
     //fit form to screen

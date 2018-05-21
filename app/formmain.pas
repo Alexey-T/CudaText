@@ -518,7 +518,9 @@ type
     FFormFloatGroups3: TForm;
     FBoundsFloatSide: TRect;
     FBoundsFloatBottom: TRect;
-    FBoundsFloatGroups: TRect;
+    FBoundsFloatGroups1: TRect;
+    FBoundsFloatGroups2: TRect;
+    FBoundsFloatGroups3: TRect;
     FListRecents: TStringList;
     FListThemesUI: TStringList;
     FListThemesSyntax: TStringList;
@@ -746,7 +748,7 @@ type
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
-    procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer);
+    procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer; const ARect: TRect);
     procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -1405,7 +1407,9 @@ begin
 
   FBoundsFloatSide:= Rect(650, 50, 900, 700);
   FBoundsFloatBottom:= Rect(50, 480, 900, 700);
-  FBoundsFloatGroups:= Rect(400, 100, 800, 750);
+  FBoundsFloatGroups1:= Rect(300, 100, 800, 700);
+  FBoundsFloatGroups2:= Rect(320, 120, 820, 720);
+  FBoundsFloatGroups3:= Rect(340, 140, 840, 740);
 
   ToolbarMain.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideTop.ScalePercents:= UiOps.ScreenScale;
@@ -4957,13 +4961,13 @@ begin
 end;
 
 
-procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer);
+procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer; const ARect: TRect);
 begin
   if not Assigned(F) then
   begin
     F:= TForm.CreateNew(Self);
     F.Position:= poDesigned;
-    F.BoundsRect:= FBoundsFloatGroups;
+    F.BoundsRect:= ARect;
     F.BorderIcons:= [biSystemMenu, biMaximize];
     F.ShowInTaskBar:= stNever;
     F.OnClose:= @FormFloatGroupsOnClose;
@@ -4991,9 +4995,9 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1);
-  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2);
-  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3);
+  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1, FBoundsFloatGroups1);
+  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2, FBoundsFloatGroups2);
+  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3, FBoundsFloatGroups3);
 end;
 
 //----------------------------
