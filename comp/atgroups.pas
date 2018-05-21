@@ -174,6 +174,9 @@ type
   TATGroupsNums = 0..5;
 
 type
+  TATGroupsPopupEvent = procedure(Sender: TObject; APages: TATPages; ATabIndex: integer) of object;
+
+type
   { TATGroups }
 
   TATGroups = class(TPanel)
@@ -196,7 +199,7 @@ type
     FSplitPopup: TMyPopupMenu;
     FMode: TATGroupsMode;
     FOnChangeMode: TNotifyEvent;
-    FOnTabPopup: TNotifyEvent;
+    FOnTabPopup: TATGroupsPopupEvent;
     FOnTabFocus: TNotifyEvent;
     FOnTabClose: TATTabCloseEvent;
     FOnTabAdd: TNotifyEvent;
@@ -287,7 +290,7 @@ type
     procedure RestoreSplitPos;
     //
     property OnChangeMode: TNotifyEvent read FOnChangeMode write FOnChangeMode;
-    property OnTabPopup: TNotifyEvent read FOnTabPopup write FOnTabPopup;
+    property OnTabPopup: TATGroupsPopupEvent read FOnTabPopup write FOnTabPopup;
     property OnTabFocus: TNotifyEvent read FOnTabFocus write FOnTabFocus;
     property OnTabClose: TATTabCloseEvent read FOnTabClose write FOnTabClose;
     property OnTabAdd: TNotifyEvent read FOnTabAdd write FOnTabAdd;
@@ -1115,7 +1118,7 @@ begin
   FPopupTabIndex:= FPopupPages.Tabs.GetTabAt(PntC.X, PntC.Y, IsX);
 
   if Assigned(FOnTabPopup) then
-    FOnTabPopup(Self);
+    FOnTabPopup(Self, FPopupPages, FPopupTabIndex);
   Handled:= true;
 end;
 
