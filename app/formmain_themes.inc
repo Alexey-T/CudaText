@@ -129,7 +129,7 @@ begin
 
   DoApplyThemeToGroups(Groups);
   if FloatGroups then
-    DoApplyThemeToGroups(GroupsFl);
+    DoApplyThemeToGroups(GroupsF1);
 
   PanelLeftTitle.Font.Color:= GetAppColor('TabFont');
 

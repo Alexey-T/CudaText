@@ -46,10 +46,10 @@ begin
 
       if FloatGroups then
       begin
-        c.SetValue('/dialog/fl_gr/posx',  FFormFloatGroups.Left);
-        c.SetValue('/dialog/fl_gr/posy',  FFormFloatGroups.Top);
-        c.SetValue('/dialog/fl_gr/sizex', FFormFloatGroups.Width);
-        c.SetValue('/dialog/fl_gr/sizey', FFormFloatGroups.Height);
+        c.SetValue('/dialog/fl_gr/posx',  FFormFloatGroups1.Left);
+        c.SetValue('/dialog/fl_gr/posy',  FFormFloatGroups1.Top);
+        c.SetValue('/dialog/fl_gr/sizex', FFormFloatGroups1.Width);
+        c.SetValue('/dialog/fl_gr/sizey', FFormFloatGroups1.Height);
       end;
 
       c.SetValue('show_toolbar', ShowToolbar);

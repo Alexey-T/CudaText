@@ -72,7 +72,7 @@ var
 begin
   Result:= nil;
 
-  //frame can be inside Groups or GroupsFl
+  //frame can be inside Groups or GroupsF1
   NTabs:= Groups.GetTabTotalCount;
 
   if AIndex<NTabs then
@@ -84,7 +84,7 @@ begin
   else
   if FloatGroups then
   begin
-    D:= GroupsFl.GetTabDataOfTotalIndex(AIndex-NTabs);
+    D:= GroupsF1.GetTabDataOfTotalIndex(AIndex-NTabs);
     if D<>nil then
       Result:= D.TabObject as TEditorFrame;
   end;
@@ -94,7 +94,7 @@ function TfmMain.FrameCount: integer;
 begin
   Result:= Groups.GetTabTotalCount;
   if FloatGroups then
-    Inc(Result, GroupsFl.GetTabTotalCount);
+    Inc(Result, GroupsF1.GetTabTotalCount);
 end;
 
 function TfmMain.CurrentFrame: TEditorFrame;
@@ -107,8 +107,8 @@ begin
 
   Gr:= Groups;
   if FloatGroups then
-    if FFormFloatGroups.Visible and FFormFloatGroups.Focused then
-      Gr:= GroupsFl;
+    if FFormFloatGroups1.Visible and FFormFloatGroups1.Focused then
+      Gr:= GroupsF1;
 
   Pages:= Gr.PagesCurrent;
   if Pages.Tabs.TabCount=0 then

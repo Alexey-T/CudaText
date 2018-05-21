@@ -508,7 +508,9 @@ type
     { private declarations }
     FFormFloatSide: TForm;
     FFormFloatBottom: TForm;
-    FFormFloatGroups: TForm;
+    FFormFloatGroups1: TForm;
+    FFormFloatGroups2: TForm;
+    FFormFloatGroups3: TForm;
     FBoundsFloatSide: TRect;
     FBoundsFloatBottom: TRect;
     FBoundsFloatGroups: TRect;
@@ -528,8 +530,10 @@ type
     Status: TATStatus;
     StatusAlt: TATStatus;
     Groups: TATGroups;
-    GroupsFl: TATGroups;
     GroupsCtx: TATGroups;
+    GroupsF1: TATGroups;
+    GroupsF2: TATGroups;
+    GroupsF3: TATGroups;
 
     mnuApple: TMenuItem;
     mnuApple_About: TMenuItem;
@@ -2179,7 +2183,7 @@ begin
 
   DoApplyUiOpsToGroups(Groups);
   if FloatGroups then
-    DoApplyUiOpsToGroups(GroupsFl);
+    DoApplyUiOpsToGroups(GroupsF1);
 
   PanelSide.Visible:= UiOps.SidebarShow;
   ShowSideBarOnRight:= UiOps.SidebarOnRight;
@@ -2751,9 +2755,9 @@ begin
     NCur:= Groups.PagesIndexOf(Groups.PopupPages);
   end
   else
-  if FloatGroups and PtInControl(GroupsFl, Mouse.CursorPos) then
+  if FloatGroups and PtInControl(GroupsF1, Mouse.CursorPos) then
   begin
-    GroupsCtx:= GroupsFl;
+    GroupsCtx:= GroupsF1;
     NCur:= GroupsCtx.PagesIndexOf(GroupsCtx.PopupPages) + High(TATGroupsNums)+1;
   end
   else
@@ -4840,7 +4844,7 @@ begin
   if GetShowFloatGroup1<>AValue then
   begin
     InitFloatGroups;
-    FFormFloatGroups.Visible:= AValue;
+    FFormFloatGroups1.Visible:= AValue;
   end;
 end;
 
@@ -4897,20 +4901,20 @@ end;
 
 procedure TfmMain.FormFloatGroupsOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  GroupsFl.MoveTabsFromGroupToAnother(
-    GroupsFl.Pages1,
+  GroupsF1.MoveTabsFromGroupToAnother(
+    GroupsF1.Pages1,
     Groups.Pages1
     );
 end;
 
 function TfmMain.GetFloatGroups: boolean;
 begin
-  Result:= Assigned(FFormFloatGroups);
+  Result:= Assigned(FFormFloatGroups1);
 end;
 
 function TfmMain.GetShowFloatGroup1: boolean;
 begin
-  Result:= Assigned(FFormFloatGroups) and FFormFloatGroups.Visible;
+  Result:= Assigned(FFormFloatGroups1) and FFormFloatGroups1.Visible;
 end;
 
 
@@ -4948,7 +4952,7 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloatGroups, GroupsFl);
+  InitFloatGroup(FFormFloatGroups1, GroupsF1);
 end;
 
 //----------------------------

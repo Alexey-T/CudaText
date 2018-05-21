@@ -2616,7 +2616,7 @@ begin
                 if NIndexNew>High(TATGroupsNums) then
                 begin
                   fmMain.ShowFloatGroup1:= true;
-                  PagesTo:= fmMain.GroupsFl.Pages1;
+                  PagesTo:= fmMain.GroupsF1.Pages1;
                 end
                 else
                   PagesTo:= nil;

@@ -264,7 +264,7 @@ begin
   else
   begin
     ShowFloatGroup1:= true;
-    PagesTo:= GroupsFl.Pages1;
+    PagesTo:= GroupsF1.Pages1;
   end;
 
   GroupsCtx.MoveTab(Pages, NTabIndex, PagesTo, -1, false);
