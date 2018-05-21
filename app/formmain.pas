@@ -739,7 +739,7 @@ type
     procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
-    procedure InitFloatGroup(var AForm: TForm; var AGroups: TATGroups);
+    procedure InitFloatGroup(var F: TForm; var G: TATGroups);
     procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -4918,35 +4918,35 @@ begin
 end;
 
 
-procedure TfmMain.InitFloatGroup(var AForm: TForm; var AGroups: TATGroups);
+procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups);
 begin
-  if not Assigned(AForm) then
+  if not Assigned(F) then
   begin
-    AForm:= TForm.CreateNew(Self);
-    AForm.Position:= poDesigned;
-    AForm.BoundsRect:= FBoundsFloatGroups;
-    AForm.BorderIcons:= [biSystemMenu, biMaximize];
-    AForm.ShowInTaskBar:= stNever;
-    AForm.OnClose:= @FormFloatGroupsOnClose;
-    AForm.Caption:= msgTitle;
-    AForm.Show;
+    F:= TForm.CreateNew(Self);
+    F.Position:= poDesigned;
+    F.BoundsRect:= FBoundsFloatGroups;
+    F.BorderIcons:= [biSystemMenu, biMaximize];
+    F.ShowInTaskBar:= stNever;
+    F.OnClose:= @FormFloatGroupsOnClose;
+    F.Caption:= msgTitle;
+    F.Show;
 
-    AGroups:= TATGroups.Create(Self);
-    AGroups.Pages1.EnabledEmpty:= true;
-    AGroups.Tag:= 1;
-    AGroups.Parent:= AForm;
-    AGroups.Align:= alClient;
-    AGroups.Mode:= gmOne;
+    G:= TATGroups.Create(Self);
+    G.Pages1.EnabledEmpty:= true;
+    G.Tag:= 1;
+    G.Parent:= F;
+    G.Align:= alClient;
+    G.Mode:= gmOne;
 
-    AGroups.OnTabFocus:= @DoOnTabFocus;
-    AGroups.OnTabAdd:= @DoOnTabAdd;
-    AGroups.OnTabClose:= @DoOnTabClose;
-    AGroups.OnTabMove:= @DoOnTabMove;
-    AGroups.OnTabPopup:= @DoOnTabPopup;
-    AGroups.OnTabOver:= @DoOnTabOver;
+    G.OnTabFocus:= @DoOnTabFocus;
+    G.OnTabAdd:= @DoOnTabAdd;
+    G.OnTabClose:= @DoOnTabClose;
+    G.OnTabMove:= @DoOnTabMove;
+    G.OnTabPopup:= @DoOnTabPopup;
+    G.OnTabOver:= @DoOnTabOver;
 
-    DoApplyThemeToGroups(AGroups);
-    DoApplyUiOpsToGroups(AGroups);
+    DoApplyThemeToGroups(G);
+    DoApplyUiOpsToGroups(G);
   end;
 end;
 
