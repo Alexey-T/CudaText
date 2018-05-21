@@ -68,25 +68,51 @@ end;
 function TfmMain.GetFrame(AIndex: integer): TEditorFrame;
 var
   D: TATTabData;
-  NTabs: integer;
+  NCount: integer;
 begin
   Result:= nil;
 
-  //frame can be inside Groups or GroupsF1
-  NTabs:= Groups.GetTabTotalCount;
-
-  if AIndex<NTabs then
+  //frame can be inside Groups, GroupsF1..GroupsF3
+  NCount:= Groups.GetTabTotalCount;
+  if AIndex<NCount then
   begin
     D:= Groups.GetTabDataOfTotalIndex(AIndex);
-    if D<>nil then
+    if Assigned(D) then
       Result:= D.TabObject as TEditorFrame;
-  end
-  else
+    exit;
+  end;
+
   if FloatGroups then
   begin
-    D:= GroupsF1.GetTabDataOfTotalIndex(AIndex-NTabs);
-    if D<>nil then
-      Result:= D.TabObject as TEditorFrame;
+    Dec(AIndex, NCount);
+    NCount:= GroupsF1.GetTabTotalCount;
+    if AIndex<NCount then
+    begin
+      D:= GroupsF1.GetTabDataOfTotalIndex(AIndex);
+      if Assigned(D) then
+        Result:= D.TabObject as TEditorFrame;
+      exit;
+    end;
+
+    Dec(AIndex, NCount);
+    NCount:= GroupsF2.GetTabTotalCount;
+    if AIndex<NCount then
+    begin
+      D:= GroupsF2.GetTabDataOfTotalIndex(AIndex);
+      if Assigned(D) then
+        Result:= D.TabObject as TEditorFrame;
+      exit;
+    end;
+
+    Dec(AIndex, NCount);
+    NCount:= GroupsF3.GetTabTotalCount;
+    if AIndex<NCount then
+    begin
+      D:= GroupsF3.GetTabDataOfTotalIndex(AIndex);
+      if Assigned(D) then
+        Result:= D.TabObject as TEditorFrame;
+      exit;
+    end;
   end;
 end;
 
@@ -94,7 +120,11 @@ function TfmMain.FrameCount: integer;
 begin
   Result:= Groups.GetTabTotalCount;
   if FloatGroups then
+  begin
     Inc(Result, GroupsF1.GetTabTotalCount);
+    Inc(Result, GroupsF2.GetTabTotalCount);
+    Inc(Result, GroupsF3.GetTabTotalCount);
+  end;
 end;
 
 function TfmMain.CurrentFrame: TEditorFrame;
