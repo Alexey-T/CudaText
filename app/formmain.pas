@@ -2098,6 +2098,7 @@ type
 
 procedure TfmMain.DoApplyUiOpsToGroups(G: TATGroups);
 begin
+  G.SetTabFont(Self.Font);
   G.ScalePercents:= UiOps.ScreenScale;
   G.SetTabOption(tabOptionMultiline, Ord(UiOps.TabMultiline));
   G.SetTabOption(tabOptionAngled, Ord(UiOps.TabAngled));
