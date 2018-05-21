@@ -319,6 +319,9 @@ begin
   Self.Font.Color:= GetAppColor('TabFont');
 
   Groups.SetTabFont(Self.Font);
+  if FloatGroups then
+    GroupsFl.SetTabFont(Self.Font);
+
   Status.Font:= Self.Font;
   StatusAlt.Font:= Self.Font;
   StatusProgress.Font:= Self.Font;

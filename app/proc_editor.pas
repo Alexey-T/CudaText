@@ -1154,10 +1154,9 @@ begin
     //this fixes Linux gtk2 issue, if added to handling of cmd_FileClose,
     //(focus goes to console, after closing tab),
     //so added here too
-    Application.MainForm.ActiveControl:= C;
-
-    //if needed, try this, almost same as ActiveControl:=
-    //Application.MainForm.FocusControl(Editor);
+    ////// NOTE:
+    ////// dont work if C in floating groups
+    //Application.MainForm.ActiveControl:= C;
   end;
 end;
 
