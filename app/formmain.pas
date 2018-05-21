@@ -726,6 +726,7 @@ type
     function GetFloatBottom: boolean;
     function GetFloatSide: boolean;
     function GetFloatGroups: boolean;
+    function GetShowFloatGroup1: boolean;
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
@@ -755,8 +756,8 @@ type
     procedure MsgLogToFilename(const AText, AFilename: string; AWithTime: boolean);
     procedure MsgStatusAlt(const AText: string; ASeconds: integer);
     procedure SetFloatBottom(AValue: boolean);
-    procedure SetFloatGroups(AValue: boolean);
     procedure SetFloatSide(AValue: boolean);
+    procedure SetShowFloatGroup1(AValue: boolean);
     procedure SetShowMenu(AValue: boolean);
     procedure SetShowOnTop(AValue: boolean);
     procedure SetShowSidebarOnRight(AValue: boolean);
@@ -960,7 +961,8 @@ type
     function CurrentEditor: TATSynEdit;
     property FloatSide: boolean read GetFloatSide write SetFloatSide;
     property FloatBottom: boolean read GetFloatBottom write SetFloatBottom;
-    property FloatGroups: boolean read GetFloatGroups write SetFloatGroups;
+    property FloatGroups: boolean read GetFloatGroups;
+    property ShowFloatGroup1: boolean read GetShowFloatGroup1 write SetShowFloatGroup1;
     property ShowMenu: boolean read GetShowMenu write SetShowMenu;
     property ShowOnTop: boolean read GetShowOnTop write SetShowOnTop;
     property ShowFullscreen: boolean read FShowFullScreen write SetShowFullScreen;
@@ -4833,6 +4835,15 @@ begin
   end
 end;
 
+procedure TfmMain.SetShowFloatGroup1(AValue: boolean);
+begin
+  if GetShowFloatGroup1<>AValue then
+  begin
+    InitFloatGroups;
+    FFormFloatGroups.Visible:= AValue;
+  end;
+end;
+
 
 function TfmMain.GetFloatBottom: boolean;
 begin
@@ -4897,13 +4908,9 @@ begin
   Result:= Assigned(FFormFloatGroups);
 end;
 
-procedure TfmMain.SetFloatGroups(AValue: boolean);
+function TfmMain.GetShowFloatGroup1: boolean;
 begin
-  if GetFloatGroups<>AValue then
-  begin
-    InitFloatGroups;
-    FFormFloatGroups.Visible:= AValue;
-  end;
+  Result:= Assigned(FFormFloatGroups) and FFormFloatGroups.Visible;
 end;
 
 

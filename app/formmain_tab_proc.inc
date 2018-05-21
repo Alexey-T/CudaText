@@ -263,7 +263,7 @@ begin
     PagesTo:= Groups.Pages[AGroupIndex]
   else
   begin
-    FloatGroups:= true;
+    ShowFloatGroup1:= true;
     PagesTo:= GroupsFl.Pages1;
   end;
 

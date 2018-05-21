@@ -2615,7 +2615,7 @@ begin
                 else
                 if NIndexNew>High(TATGroupsNums) then
                 begin
-                  fmMain.FloatGroups:= true;
+                  fmMain.ShowFloatGroup1:= true;
                   PagesTo:= fmMain.GroupsFl.Pages1;
                 end
                 else
@@ -3267,7 +3267,7 @@ begin
 
         APP_PROC_SHOW_FLOATGROUPS_SET:
           begin
-            fmMain.FloatGroups:= ParamBool;
+            fmMain.ShowFloatGroup1:= ParamBool;
             Result:= ReturnNone;
           end;
         APP_PROC_SHOW_FLOATGROUPS_GET:
