@@ -11,7 +11,7 @@ Duplicate:
 Authors:
     Andrey Kvichansky    (kvichans on github)
 Version:
-    '0.6.4 2018-05-02'
+    '0.6.5 2018-05-21'
 Wiki: github.com/kvichans/cudax_lib/wiki
 ToDo: (see end of file)
 """
@@ -24,7 +24,9 @@ import  os, json, re, sys, collections
 # Overridden option tools:
 CONFIG_LEV_DEF      = 'def'
 CONFIG_LEV_USER     = 'user'
+CONFIG_LEV_USER_ONLY= 'user-only'
 CONFIG_LEV_LEX      = 'lex'
+CONFIG_LEV_LEX_ONLY = 'lex-only'
 CONFIG_LEV_FILE     = 'file'
 CONFIG_LEV_ALL      = 'dulf'
 OPT2PROP            = dict(
@@ -168,14 +170,14 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer=''):
             path        Simple value (e.g. "tab_size") or "/"-separated path inside JSON tree
             def_value   For return if no opt for the path into all config files
             lev         Stop level to search in chain default-user-lexer-file
-                            CONFIG_LEV_ALL, CONFIG_LEV_DEF, CONFIG_LEV_USER, CONFIG_LEV_LEX, CONFIG_LEV_FILE
+                            CONFIG_LEV_ALL, CONFIG_LEV_DEF, CONFIG_LEV_USER[_ONLY], CONFIG_LEV_LEX[_ONLY], CONFIG_LEV_FILE
             ed_cfg      Ref to editor to point a lexer (over first caret) 
                         Used only if lev in (CONFIG_LEV_LEX, CONFIG_LEV_FILE)
             lexer       Explicit lexer name (lexer from ed_cfg not used).
                         Used only if lev==CONFIG_LEV_LEX
         Return          Last found in config chain default-user-lexer-file or def_value
     '''
-    pass;                      #LOG and log('path, def_va, lev, ed_cfg={}',(path, def_value, lev, ed_cfg))
+    pass;                      #LOG and log('path, def_va, lev, ed_cfg, lexer={}',(path, def_value, lev, ed_cfg, lexer))
     keys            = path.split('/') if '/' in path else ()
     ans             = def_value
 
@@ -186,9 +188,11 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer=''):
     else:
         usr_json    = os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'user.json')
         usr_opts    = _get_file_opts(usr_json)
-        if lev==CONFIG_LEV_USER:
+        if lev in (CONFIG_LEV_USER, CONFIG_LEV_USER_ONLY):
             pass;              #LOG and log('def_opts(), usr_opts()={}',(def_opts.get(path),usr_opts.get(path)))
-            ans         = usr_opts.get(path
+            ans         = usr_opts.get(path, def_value)   if not keys else _opt_for_keys(usr_opts, keys, def_value) \
+                            if lev==CONFIG_LEV_USER_ONLY else \
+                          usr_opts.get(path
                         , def_opts.get(path, def_value))  if not keys else _opt_for_keys(usr_opts, keys
                                                                           ,_opt_for_keys(def_opts, keys, def_value))
             pass;              #LOG and log('lev=USR ans={}',(ans))
@@ -197,9 +201,11 @@ def get_opt(path, def_value=None, lev=CONFIG_LEV_ALL, ed_cfg=ed, lexer=''):
                       ed_cfg.get_prop(app.PROP_LEXER_CARET) if ed_cfg   else ''
             lex_json= os.path.join(app.app_path(app.APP_DIR_SETTINGS), 'lexer {}.json'.format(lex))
             lex_opts= _get_file_opts(lex_json)
-            if lev==CONFIG_LEV_LEX:
+            if lev in (CONFIG_LEV_LEX, CONFIG_LEV_LEX_ONLY):
                 pass;          #LOG and log('def_opts(), usr_opts(), lex_opts()={}',(def_opts.get(path),usr_opts.get(path),lex_opts.get(path)))
-                ans     = lex_opts.get(path
+                ans     = lex_opts.get(path, def_value)   if not keys else _opt_for_keys(lex_opts, keys, def_value) \
+                            if lev==CONFIG_LEV_LEX_ONLY else \
+                          lex_opts.get(path
                          ,usr_opts.get(path
                          ,def_opts.get(path, def_value))) if not keys else _opt_for_keys(lex_opts, keys
                                                                           ,_opt_for_keys(usr_opts, keys
