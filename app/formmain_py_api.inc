@@ -3265,14 +3265,34 @@ begin
             Result:= PyBool_FromLong(Ord(fmMain.ShowSideBar));
           end;
 
-        APP_PROC_SHOW_FLOATGROUPS_SET:
+        APP_PROC_SHOW_FLOATGROUP1_SET:
           begin
             fmMain.ShowFloatGroup1:= ParamBool;
             Result:= ReturnNone;
           end;
-        APP_PROC_SHOW_FLOATGROUPS_GET:
+        APP_PROC_SHOW_FLOATGROUP1_GET:
           begin
-            Result:= PyBool_FromLong(Ord(fmMain.FloatGroups));
+            Result:= PyBool_FromLong(Ord(fmMain.ShowFloatGroup1));
+          end;
+
+        APP_PROC_SHOW_FLOATGROUP2_SET:
+          begin
+            fmMain.ShowFloatGroup2:= ParamBool;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_FLOATGROUP2_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowFloatGroup2));
+          end;
+
+        APP_PROC_SHOW_FLOATGROUP3_SET:
+          begin
+            fmMain.ShowFloatGroup3:= ParamBool;
+            Result:= ReturnNone;
+          end;
+        APP_PROC_SHOW_FLOATGROUP3_GET:
+          begin
+            Result:= PyBool_FromLong(Ord(fmMain.ShowFloatGroup3));
           end;
 
         APP_PROC_FLOAT_SIDE_SET:
