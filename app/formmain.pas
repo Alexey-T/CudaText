@@ -5006,13 +5006,13 @@ begin
   if not Assigned(F) then
   begin
     F:= TForm.CreateNew(Self);
+    F.Hide;
     F.Position:= poDesigned;
     F.BoundsRect:= ARect;
     F.BorderIcons:= [biSystemMenu, biMaximize];
     F.ShowInTaskBar:= stNever;
     F.OnClose:= AOnClose;
     F.Caption:= msgTitle;
-    F.Show;
 
     G:= TATGroups.Create(Self);
     G.Pages1.EnabledEmpty:= true;
