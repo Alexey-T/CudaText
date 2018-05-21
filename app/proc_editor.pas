@@ -1146,6 +1146,8 @@ end;
 
 
 procedure EditorFocus(C: TWinControl);
+var
+  CParent: TControl;
 begin
   if C.CanSetFocus then
   begin
@@ -1154,9 +1156,9 @@ begin
     //this fixes Linux gtk2 issue, if added to handling of cmd_FileClose,
     //(focus goes to console, after closing tab),
     //so added here too
-    ////// NOTE:
-    ////// dont work if C in floating groups
-    //Application.MainForm.ActiveControl:= C;
+    CParent:= C.GetTopParent;
+    if CParent is TForm then
+      (CParent as TForm).ActiveControl:= C;
   end;
 end;
 
