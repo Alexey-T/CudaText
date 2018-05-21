@@ -1041,8 +1041,9 @@ begin
 
     //focus same group, if possible
     NPagesAfter:= Min(NPagesBefore, cGroupsCount[FMode]);
-    if Assigned(FOnTabFocus) then
-      FOnTabFocus(Pages[NPagesAfter].Tabs);
+    if (NPagesAfter>=0) and (NPagesAfter<=High(TATGroupsNums)) then
+      if Assigned(FOnTabFocus) then
+        FOnTabFocus(Pages[NPagesAfter].Tabs);
   finally
     DoControlUnlock(Self);
   end;
