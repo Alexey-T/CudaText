@@ -855,7 +855,7 @@ type
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabToGroup(AGroupIndex: Integer);
-    procedure DoOnTabPopup(Sender: TObject);
+    procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoFileOpen(AFilename: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;

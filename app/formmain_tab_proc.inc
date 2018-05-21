@@ -204,9 +204,10 @@ begin
       ClearTreeviewWithData(CodeTree.Tree);
 end;
 
-procedure TfmMain.DoOnTabPopup(Sender: TObject);
+procedure TfmMain.DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
 begin
-  PopupTab.Popup;
+  if Assigned(APages) and (ATabIndex>=0) then
+    PopupTab.Popup;
 end;
 
 procedure TfmMain.mnuTabCloseAllAllClick(Sender: TObject);
