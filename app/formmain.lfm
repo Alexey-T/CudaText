@@ -710,7 +710,7 @@ object fmMain: TfmMain
     object mnuHelp: TMenuItem
       Caption = '&Help'
       object mnuHelpCmd: TMenuItem
-        Caption = '&Commands...'
+        Caption = '&Command palette...'
       end
       object SepHelp1: TMenuItem
         Caption = '-'
@@ -731,7 +731,7 @@ object fmMain: TfmMain
         Caption = 'C&hangelog'
       end
       object mnuHelpIssues: TMenuItem
-        Caption = '&Issue report'
+        Caption = '&Report an issue'
       end
       object mnuHelpCheckUpd: TMenuItem
         Caption = 'Check for &updates'

@@ -1,6 +1,9 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2018.05.22
+* change [m_h] co
+
 2018.05.20
 + [m_v] t_fl_s, t_fl_b
 + [ct] mov_f1, mov_f2, mov_f3
