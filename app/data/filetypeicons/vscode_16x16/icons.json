@@ -95,6 +95,7 @@
     "PowerShell": "file_type_powershell.png",
     "Properties": "file_type_ini.png",
     "Prolog": "file_type_prolog.png",
+    "Pug": "file_type_pug.png",
     "Puppet": "file_type_puppet.png",
     "Python": "file_type_python.png",
     "R": "file_type_r.png",
