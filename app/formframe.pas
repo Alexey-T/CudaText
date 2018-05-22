@@ -1758,11 +1758,22 @@ end;
 
 procedure TEditorFrame.EditorOnClickGutter(Sender: TObject; ABand, ALine: integer);
 var
-  ed: TATSynEdit;
+  Ed: TATSynEdit;
+  State: TShiftState;
+  StateString: string;
 begin
-  ed:= Sender as TATSynEdit;
-  if ABand=ed.GutterBandBm then
-    EditorBookmarkSet(ed, ALine, 1, bmOpToggle, '', false);
+  Ed:= Sender as TATSynEdit;
+  State:= KeyboardStateToShiftState;
+  StateString:= ConvertShiftStateToString(State);
+
+  if DoPyEvent(Ed, cEventOnClickGutter, [
+    '"'+StateString+'"',
+    IntToStr(ALine),
+    IntToStr(ABand)
+    ]) = cPyFalse then exit;
+
+  if ABand=Ed.GutterBandBm then
+    EditorBookmarkSet(Ed, ALine, 1, bmOpToggle, '', false);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;
