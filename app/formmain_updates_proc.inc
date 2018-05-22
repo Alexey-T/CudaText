@@ -67,15 +67,12 @@ end;
 
 procedure TfmMain.UpdateStatus;
 var
-  Ed: TATSynEdit;
   F: TEditorFrame;
-  S, fmt: string;
-  Size: TPoint;
+  Ed: TATSynEdit;
 begin
   F:= CurrentFrame;
-  Ed:= CurrentEditor;
   if F=nil then exit;
-  if Ed=nil then exit;
+  Ed:= F.Editor;
 
   UpdateTabCaptionsFromFolders; //maybe it's called to often here?
   UpdateMenuChecks;
@@ -86,13 +83,24 @@ begin
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleMicromap, Ed.OptMicromapVisible);
   UpdateStatus_ToolButton(ToolbarMain, cCommand_ToggleUnprinted, Ed.OptUnprintedVisible);
 
+  UpdateStatus_ForFrame(Status, F);
+end;
+
+procedure TfmMain.UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
+var
+  Ed: TATSynEdit;
+  S, fmt: string;
+  Size: TPoint;
+begin
+  Ed:= F.Editor;
+
   if not F.IsText then
   begin
     if F.IsBinary then
       S:= IntToStr(F.Binary.PosPercent)+'%'
     else
       S:= '';
-    DoStatusbarTextByTag(Status, StatusbarTag_Caret, S);
+    DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, S);
 
     if F.IsBinary then
     begin
@@ -101,9 +109,9 @@ begin
     end
     else
       S:= '';
-    DoStatusbarTextByTag(Status, StatusbarTag_Enc, S);
+    DoStatusbarTextByTag(AStatus, StatusbarTag_Enc, S);
 
-    DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, '');
+    DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, '');
 
     if F.IsBinary then
       S:= ViewerModeString(F.Binary)
@@ -113,16 +121,16 @@ begin
       Size:= F.PictureSizes;
       S:= Format(msgStatusPictureNxN, [Size.X, Size.Y]);
     end;
-    DoStatusbarTextByTag(Status, StatusbarTag_Lexer, S);
+    DoStatusbarTextByTag(AStatus, StatusbarTag_Lexer, S);
 
     if F.IsBinary then
       S:= ''
     else
     if F.IsPicture then
       S:= IntToStr(F.PictureScale)+'%';
-    DoStatusbarTextByTag(Status, StatusbarTag_TabSize, S);
+    DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, S);
 
-    DoStatusbarTextByTag(Status, StatusbarTag_InsOvr, '');
+    DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, '');
     exit;
   end;
 
@@ -134,11 +142,11 @@ begin
     selCarets:  fmt:= UiOps.StatusCarets;
     else        fmt:= UiOps.StatusNoSel;
   end;
-  DoStatusbarTextByTag(Status, StatusbarTag_Caret, EditorFormatStatus(Ed, fmt));
+  DoStatusbarTextByTag(AStatus, StatusbarTag_Caret, EditorFormatStatus(Ed, fmt));
 
   //------
   S:= F.EncodingName;
-  DoStatusbarTextByTag(Status, StatusbarTag_Enc, S);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_Enc, S);
 
   //------
   case F.LineEnds of
@@ -147,24 +155,24 @@ begin
     cEndMac: S:= msgEndMac;
     else S:= '?';
   end;
-  DoStatusbarTextByTag(Status, StatusbarTag_LineEnds, S);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_LineEnds, S);
 
   //------
   S:= F.LexerName;
   if S='' then
     S:= msgNoLexer;
-  DoStatusbarTextByTag(Status, StatusbarTag_Lexer, S);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_Lexer, S);
 
   //------
-  DoStatusbarTextByTag(Status, StatusbarTag_TabSize, EditorFormatTabsize(Ed, UiOps.StatusTabsize));
+  DoStatusbarTextByTag(AStatus, StatusbarTag_TabSize, EditorFormatTabsize(Ed, UiOps.StatusTabsize));
 
   //------
   S:= IfThen(Ed.ModeOverwrite, 'Ovr', 'Ins');
-  DoStatusbarTextByTag(Status, StatusbarTag_InsOvr, S);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_InsOvr, S);
 
   //------
-  DoStatusbarTextByTag(Status, StatusbarTag_SelMode, IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-'));
-  DoStatusbarTextByTag(Status, StatusbarTag_WrapMode, UiOps.StatusWrap[Ord(Ed.OptWrapMode)]);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-'));
+  DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, UiOps.StatusWrap[Ord(Ed.OptWrapMode)]);
 end;
 
 procedure TfmMain.InitStatusButton;

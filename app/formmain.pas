@@ -953,6 +953,7 @@ type
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
+    procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
     procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked: boolean);
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
