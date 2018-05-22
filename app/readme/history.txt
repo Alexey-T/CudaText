@@ -13,7 +13,9 @@
     + command "toggle floating bottom panel"
 + add: floating tab groups 1/2/3. Now you can put tabs to 2nd monitor. To move tab to floating groups, in tab's context menu call "Move tab to group - Floating N".
 + add: option "ui_float_groups_in_taskbar"
-      
+
++ add: command "command palette" default hotkey is famous Ctrl+Shift+P (second hotkey: F1)
+* change: renamed menu item "Help - Commands" to "Help - Command palette"
 * change: changed default of options "minimap_tooltip_show" and "fold_tooltip_show" to false
 - fix: minimap rendering for PHP
 - fix: lexers HTML, PHP (rule for &#nnnn;)

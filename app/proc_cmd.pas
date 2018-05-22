@@ -334,7 +334,7 @@ begin
 
   M.Add(cmd_ShowMainMenuAsPopup, 'ui: show main menu as popup', [], []);
   M.Add(cmd_DialogSaveTabs, 'dialog: save tabs', [], []);
-  M.Add(cmd_DialogCommands, 'dialog: command list', ['F1'], []);
+  M.Add(cmd_DialogCommands, 'dialog: command palette', [cXControl+'Shift+P'], ['F1']);
   M.Add(cmd_DialogGoto, 'dialog: go to line', [cXControl+'+G'], []);
   M.Add(cmd_DialogGotoBookmark, 'dialog: go to bookmark', [cXControl+'+B'], []);
   M.Add(cmd_DialogLexerProp, 'dialog: lexer properties', [], []);
