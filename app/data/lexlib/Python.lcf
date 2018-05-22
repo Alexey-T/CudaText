@@ -1,4 +1,4 @@
-object SyntAnal34: TLibSyntAnalyzer
+object SyntAnal26: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Number'
@@ -412,7 +412,7 @@ object SyntAnal34: TLibSyntAnalyzer
           TokenTypes = 2048
         end>
       EndOfTextClose = True
-      NameFmt = '%sz0'
+      NameFmt = '%s0 %s-1'
       RefToCondEnd = True
       HighlightPos = cpAny
       CancelNextRules = True
