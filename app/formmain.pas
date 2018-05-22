@@ -5010,9 +5010,13 @@ begin
     F.Position:= poDesigned;
     F.BoundsRect:= ARect;
     F.BorderIcons:= [biSystemMenu, biMaximize];
-    F.ShowInTaskBar:= stNever;
     F.OnClose:= AOnClose;
     F.Caption:= msgTitle;
+
+    if UiOps.FloatGroupsInTaskbar then
+      F.ShowInTaskBar:= stAlways
+    else
+      F.ShowInTaskBar:= stNever;
 
     G:= TATGroups.Create(Self);
     G.Pages1.EnabledEmpty:= true;

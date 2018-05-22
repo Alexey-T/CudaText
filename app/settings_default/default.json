@@ -997,6 +997,9 @@
 
   //Console panel (Ctrl+`): word wrap mode
   "ui_console_wrap": true,
+  
+  //Show floating (undocked) groups in taskbar too
+  "ui_float_groups_in_taskbar": false,
 
   //[Ui/Toolbars]
   //Show sidebar (vertical toolbar at the left edge)

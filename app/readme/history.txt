@@ -12,6 +12,7 @@
     + command "toggle floating side panel"
     + command "toggle floating bottom panel"
 + add: floating tab groups 1/2/3. Now you can put tabs to 2nd monitor. To move tab to floating groups, in tab's context menu call "Move tab to group - Floating N".
++ add: option "ui_float_groups_in_taskbar"
       
 * change: changed default of options "minimap_tooltip_show" and "fold_tooltip_show" to false
 - fix: minimap rendering for PHP

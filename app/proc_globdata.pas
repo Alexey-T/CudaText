@@ -200,6 +200,7 @@ type
     ShowLastFiles: boolean;
     ShowFormsOnTop: boolean;
 
+    FloatGroupsInTaskbar: boolean;
     OneInstance: boolean;
     NotifEnabled: boolean;
     NotifTimeSec: integer;
@@ -1230,6 +1231,7 @@ begin
     ShowLastFiles:= true;
     ShowFormsOnTop:= false;
 
+    FloatGroupsInTaskbar:= false;
     OneInstance:= false;
     NotifEnabled:= true;
     NotifTimeSec:= 2;
