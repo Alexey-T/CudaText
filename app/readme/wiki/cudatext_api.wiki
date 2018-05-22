@@ -41,8 +41,8 @@ To make plugin react to events, add method to class Command (like methods of com
 
 ==Editor clicks==
 
-* on_click(self, ed_self, state): Called after mouse click. Param "state": same meaning as in on_key.
-* on_click_dbl(self, ed_self, state): Called after mouse double-click. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
+* on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
 * on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
 
 ==Smart commands==
