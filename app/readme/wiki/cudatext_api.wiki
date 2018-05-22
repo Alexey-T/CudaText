@@ -43,6 +43,7 @@ To make plugin react to events, add method to class Command (like methods of com
 
 * on_click(self, ed_self, state): Called after mouse click on text area. Param "state": same meaning as in on_key.
 * on_click_dbl(self, ed_self, state): Called after mouse double-click on text area. Param "state": same meaning as in on_key. Method can return False to disable default processing.
+* on_click_gutter(self, ed_self, state, nline, nband): Called on mouse click on gutter area. Param "state": same as in on_key. Param "nline": index of editor line. Param "nband": index of gutter band. Method can return False to disable default processing.
 * on_click_gap(self, ed_self, state, nline, ntag, size_x, size_y, pos_x, pos_y): Called after mouse click on inter-line gap: see Editor.gap(). Param "state": same meaning as in on_key. Other params: properties of clicked gap.
 
 ==Smart commands==
@@ -2369,6 +2370,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.243 (app 1.55.0)
+* add: event on_click_gutter
 * add: additional group indexes 6..8 for floating groups
 * add: app_proc: PROC_SHOW_FLOATGROUP1_GET, PROC_SHOW_FLOATGROUP1_SET
 * add: app_proc: PROC_SHOW_FLOATGROUP2_GET, PROC_SHOW_FLOATGROUP2_SET
