@@ -68,14 +68,6 @@ To make plugin react to events, add method to class Command (like methods of com
 
 Note: To run each on_macro item (with number) later, call ed.cmd(): number is command code, string after comma is command text.
 
-==Dialog "Go to"==
-
-* on_goto_enter(self, ed_self, text): Called when user entered (via button or Enter key) text in the "Go to" dialog. Plugin can perform custom action for parameter "text" (e.g. if it has some prefix/suffix). Method can return False to disable default action "go to line number".
-* on_goto_change(self, ed_self): Called when text is changed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
-* on_goto_caret(self, ed_self): Called when caret/selection is moved in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object.
-* on_goto_key(self, ed_self, key, state): Called when a key is pressed in the "Go to" dialog input. Param "ed_self" is the same as ed_goto object. Params "key", "state" have the same meaning as in the "on_key" event. Method can return False to disable default key processing.
-* on_goto_key_up(self, ed_self, key, state): Called when a key is depressed in the "Go to" dialog input. Params: the same as in the "on_goto_key".
-
 ==Events priority==
 
 By default all events in all plugins have prior=0. So for any event, if 2+ plugins have this event, they're called in order on module names (e.g. cuda_aa, then cuda_dd, then cuda_mmm).
@@ -2371,6 +2363,7 @@ Text is chr(1) separated items:
 
 1.0.243 (app 1.55.0)
 * add: event on_click_gutter
+* deleted: events on_goto_enter, on_goto_change, on_goto_caret, on_goto_key, on_goto_key_up
 * add: additional group indexes 6..8 for floating groups
 * add: app_proc: PROC_SHOW_FLOATGROUP1_GET, PROC_SHOW_FLOATGROUP1_SET
 * add: app_proc: PROC_SHOW_FLOATGROUP2_GET, PROC_SHOW_FLOATGROUP2_SET
