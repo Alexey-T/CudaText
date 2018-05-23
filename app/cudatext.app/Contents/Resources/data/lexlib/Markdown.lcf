@@ -1,4 +1,4 @@
-object SyntAnal24: TLibSyntAnalyzer
+object SyntAnal19: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Heading'
@@ -171,7 +171,7 @@ object SyntAnal24: TLibSyntAnalyzer
     item
       DisplayName = 'Heading'
       StyleName = 'Heading'
-      Expression = '^\#.* |'#13#10'.*\z--[-\x09\x20\|]* |'#13#10'.*\z=+'
+      Expression = '^\#+ \x20 .+ |'#13#10'.+\z(-+|=+)$'
       ColumnFrom = 0
       ColumnTo = 0
     end

@@ -201,7 +201,7 @@
   "fold_style": 1,
   
   //Show tooltip when mouse hovers over [...] folded marks
-  "fold_tooltip_show": true,
+  "fold_tooltip_show": false,
 
   //[Text/Commands]
   //If no selection, "Copy to clipboard" will take entire line with caret
@@ -338,7 +338,7 @@
   "minimap_at_left": false,
 
   //Minimap: show tooltip, when mouse cursor moves over minimap
-  "minimap_tooltip_show": true,
+  "minimap_tooltip_show": false,
   
   //Minimap: number of lines in "tooltip"
   "minimap_tooltip_line_count": 6,
@@ -997,6 +997,9 @@
 
   //Console panel (Ctrl+`): word wrap mode
   "ui_console_wrap": true,
+  
+  //Show floating (undocked) groups in taskbar too
+  "ui_float_groups_in_taskbar": false,
 
   //[Ui/Toolbars]
   //Show sidebar (vertical toolbar at the left edge)
