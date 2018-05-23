@@ -15,7 +15,6 @@ EVENTS = [
     'on_focus',
     'on_func_hint',
     'on_goto_def',
-    'on_group',
     'on_hotspot',
     'on_insert',
     'on_key',
