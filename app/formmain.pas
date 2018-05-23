@@ -5012,7 +5012,7 @@ begin
     F.BoundsRect:= ARect;
     F.BorderIcons:= [biSystemMenu, biMaximize];
     F.OnClose:= AOnClose;
-    F.Caption:= msgTitle;
+    F.Caption:= msgTitle + Format(' [f%d]', [ATag]);
 
     if UiOps.FloatGroupsInTaskbar then
       F.ShowInTaskBar:= stAlways
