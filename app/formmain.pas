@@ -745,10 +745,6 @@ type
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
-    procedure GotoInputOnChange(Sender: TObject);
-    procedure GotoInputOnChangeCaretPos(Sender: TObject);
-    procedure GotoInputOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure GotoInputOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure InitAppleMenu;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent);
@@ -1514,10 +1510,6 @@ begin
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   fmGoto:= TfmGoto.Create(Self);
-  fmGoto.edInput.OnChange:= @GotoInputOnChange;
-  fmGoto.edInput.OnChangeCaretPos:= @GotoInputOnChangeCaretPos;
-  fmGoto.edInput.OnKeyDown:=@GotoInputOnKeyDown;
-  fmGoto.edInput.OnKeyUp:=@GotoInputOnKeyUp;
 
   ListboxOut.Align:= alClient;
   ListboxVal.Align:= alClient;
@@ -2616,9 +2608,6 @@ begin
   Frame:= CurrentFrame;
   Ed:= Frame.Editor;
 
-  if DoPyEvent(Ed, cEventOnGotoEnter,
-    [SStringToPythonString(AInput)] ) <> cPyFalse then
-  begin
     if Frame.IsBinary then
     begin
       if not ViewerGotoFromString(Frame.Binary, AInput) then
@@ -2630,7 +2619,6 @@ begin
       if not EditorGotoFromString(Ed, AInput) then
         MsgStatus(msgStatusBadLineNum);
     end;
-  end;
 
   Frame.SetFocus;
 end;
@@ -4721,43 +4709,6 @@ end;
 function TfmMain.IsLexerMatches(const ANameList: string): boolean;
 begin
   Result:= IsLexerListed(CurrentFrame.LexerName, ANameList);
-end;
-
-procedure TfmMain.GotoInputOnChange(Sender: TObject);
-begin
-  DoPyEvent(fmGoto.edInput, cEventOnGotoChange, []);
-end;
-
-procedure TfmMain.GotoInputOnChangeCaretPos(Sender: TObject);
-begin
-  DoPyEvent(fmGoto.edInput, cEventOnGotoCaret, []);
-end;
-
-procedure TfmMain.GotoInputOnKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  //res=False: block key
-  if DoPyEvent(fmGoto.edInput,
-    cEventOnGotoKey,
-    [
-      IntToStr(Key),
-      '"'+ConvertShiftStateToString(Shift)+'"'
-    ]) = cPyFalse then
-    begin
-      Key:= 0;
-      Exit
-    end;
-end;
-
-procedure TfmMain.GotoInputOnKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  DoPyEvent(fmGoto.edInput,
-    cEventOnGotoKeyUp,
-    [
-      IntToStr(Key),
-      '"'+ConvertShiftStateToString(Shift)+'"'
-    ]);
 end;
 
 function TfmMain.LiteLexer_GetStyleHash(Sender: TObject; const AStyleName: string): integer;
