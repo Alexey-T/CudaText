@@ -205,6 +205,7 @@ type
     FOnTabAdd: TNotifyEvent;
     FOnTabOver: TATTabOverEvent;
     FOnTabMove: TATTabMoveEvent;
+    FOnEmpty: TNotifyEvent;
     FPopupPages: TATPages;
     FPopupTabIndex: Integer;
     function DoScale(N: integer): integer;
@@ -296,6 +297,7 @@ type
     property OnTabAdd: TNotifyEvent read FOnTabAdd write FOnTabAdd;
     property OnTabOver: TATTabOverEvent read FOnTabOver write FOnTabOver;
     property OnTabMove: TATTabMoveEvent read FOnTabMove write FOnTabMove;
+    property OnEmpty: TNotifyEvent read FOnEmpty write FOnEmpty;
   end;
 
 function PtInControl(Control: TControl; const ScreenPnt: TPoint): boolean;
@@ -1298,6 +1300,9 @@ begin
   begin
     if Pages1.Tabs.TabCount>0 then
       Pages1.Tabs.OnTabClick(nil);
+
+    if Assigned(FOnEmpty) then
+      FOnEmpty(APages);
   end;
 end;
 

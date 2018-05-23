@@ -643,6 +643,9 @@ type
     procedure DoSidebar_MainMenuClick(Sender: TObject);
     function DoSidebar_TranslatedCaption(const ACaption: string): string;
     procedure FormFloatBottomOnClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormFloatGroups1_OnEmpty(Sender: TObject);
+    procedure FormFloatGroups2_OnEmpty(Sender: TObject);
+    procedure FormFloatGroups3_OnEmpty(Sender: TObject);
     procedure FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups1_OnClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormFloatGroups2_OnClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -747,7 +750,7 @@ type
     function GetShowSidebarOnRight: boolean;
     procedure InitAppleMenu;
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
-      const ARect: TRect; AOnClose: TCloseEvent);
+      const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
     procedure InitSidebar;
     procedure InitToolbar;
@@ -4903,6 +4906,21 @@ begin
   UpdateMenuItemChecked(mnuViewBottom, mnuViewBottom_Alt, false);
 end;
 
+procedure TfmMain.FormFloatGroups1_OnEmpty(Sender: TObject);
+begin
+  ShowFloatGroup1:= false;
+end;
+
+procedure TfmMain.FormFloatGroups2_OnEmpty(Sender: TObject);
+begin
+  ShowFloatGroup2:= false;
+end;
+
+procedure TfmMain.FormFloatGroups3_OnEmpty(Sender: TObject);
+begin
+  ShowFloatGroup3:= false;
+end;
+
 procedure TfmMain.FormFloatSideOnClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   UpdateMenuItemChecked(mnuViewSide, mnuViewSide_Alt, false);
@@ -4953,7 +4971,11 @@ begin
 end;
 
 
-procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer; const ARect: TRect; AOnClose: TCloseEvent);
+procedure TfmMain.InitFloatGroup(var F: TForm; var G: TATGroups;
+  ATag: integer;
+  const ARect: TRect;
+  AOnClose: TCloseEvent;
+  AOnGroupEmpty: TNotifyEvent);
 begin
   if not Assigned(F) then
   begin
@@ -4983,6 +5005,7 @@ begin
     G.OnTabMove:= @DoOnTabMove;
     G.OnTabPopup:= @DoOnTabPopup;
     G.OnTabOver:= @DoOnTabOver;
+    G.OnEmpty:= AOnGroupEmpty;
 
     DoApplyThemeToGroups(G);
     DoApplyUiOpsToGroups(G);
@@ -4991,9 +5014,17 @@ end;
 
 procedure TfmMain.InitFloatGroups;
 begin
-  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1, FBoundsFloatGroups1, @FormFloatGroups1_OnClose);
-  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2, FBoundsFloatGroups2, @FormFloatGroups2_OnClose);
-  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3, FBoundsFloatGroups3, @FormFloatGroups3_OnClose);
+  InitFloatGroup(FFormFloatGroups1, GroupsF1, 1, FBoundsFloatGroups1,
+    @FormFloatGroups1_OnClose,
+    @FormFloatGroups1_OnEmpty);
+
+  InitFloatGroup(FFormFloatGroups2, GroupsF2, 2, FBoundsFloatGroups2,
+    @FormFloatGroups2_OnClose,
+    @FormFloatGroups2_OnEmpty);
+
+  InitFloatGroup(FFormFloatGroups3, GroupsF3, 3, FBoundsFloatGroups3,
+    @FormFloatGroups3_OnClose,
+    @FormFloatGroups3_OnEmpty);
 end;
 
 //----------------------------
