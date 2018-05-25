@@ -731,7 +731,7 @@ begin
   {$endif}
 
   {$ifdef linux}
-  exit('libpython3.5m.so.1.0');
+  exit('libpython3.6m.so.1.0');
   {$endif}
 
   {$ifdef freebsd}
