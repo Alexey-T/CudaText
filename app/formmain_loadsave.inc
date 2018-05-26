@@ -377,70 +377,41 @@ begin
   end;
 end;
 
-procedure TfmMain.DoOps_LoadHistory;
+
+procedure DoOps_LoadFormRect(c: TJSONConfig; const path: string; var R: TRect);
 const
   cReservePixels=70;
+begin
+  R.Left:= c.GetValue(path+'/posx', R.Left);
+  R.Top:= c.GetValue(path+'/posy', R.Top);
+  R.Width:= c.GetValue(path+'/sizex', R.Width);
+  R.Height:= c.GetValue(path+'/sizey', R.Height);
+
+  //fit form to desktop
+  if R.Left>Screen.DesktopWidth-cReservePixels then
+    R.Left:= Screen.DesktopWidth-R.Width;
+  if R.Top>Screen.DesktopHeight-cReservePixels then
+    R.Top:= Screen.DesktopHeight-R.Height;
+end;
+
+
+procedure TfmMain.DoOps_LoadHistory;
 var
   c: TJSONConfig;
-  nPosX, nPosY, nSizeX, nSizeY: integer;
+  RectMain: TRect;
 begin
   c:= TJSONConfig.Create(nil);
   try
     c.Filename:= GetAppPath(cFileOptionsHistory);
 
-    ////form size
-    nPosX:= c.GetValue('/dialog/posx', 100);
-    nPosY:= c.GetValue('/dialog/posy', 100);
-    nSizeX:= c.GetValue('/dialog/sizex', 800);
-    nSizeY:= c.GetValue('/dialog/sizey', 550);
-
-    with FBoundsFloatSide do
-    begin
-      Left:=   c.GetValue('/dialog/fl_side/posx', Left);
-      Top:=    c.GetValue('/dialog/fl_side/posy', Top);
-      Width:=  c.GetValue('/dialog/fl_side/sizex', Width);
-      Height:= c.GetValue('/dialog/fl_side/sizey', Height);
-    end;
-
-    with FBoundsFloatBottom do
-    begin
-      Left:=   c.GetValue('/dialog/fl_btm/posx', Left);
-      Top:=    c.GetValue('/dialog/fl_btm/posy', Top);
-      Width:=  c.GetValue('/dialog/fl_btm/sizex', Width);
-      Height:= c.GetValue('/dialog/fl_btm/sizey', Height);
-    end;
-
-    with FBoundsFloatGroups1 do
-    begin
-      Left:=   c.GetValue('/dialog/fl_g1/posx', Left);
-      Top:=    c.GetValue('/dialog/fl_g1/posy', Top);
-      Width:=  c.GetValue('/dialog/fl_g1/sizex', Width);
-      Height:= c.GetValue('/dialog/fl_g1/sizey', Height);
-    end;
-
-    with FBoundsFloatGroups2 do
-    begin
-      Left:=   c.GetValue('/dialog/fl_g2/posx', Left);
-      Top:=    c.GetValue('/dialog/fl_g2/posy', Top);
-      Width:=  c.GetValue('/dialog/fl_g2/sizex', Width);
-      Height:= c.GetValue('/dialog/fl_g2/sizey', Height);
-    end;
-
-    with FBoundsFloatGroups3 do
-    begin
-      Left:=   c.GetValue('/dialog/fl_g3/posx', Left);
-      Top:=    c.GetValue('/dialog/fl_g3/posy', Top);
-      Width:=  c.GetValue('/dialog/fl_g3/sizex', Width);
-      Height:= c.GetValue('/dialog/fl_g3/sizey', Height);
-    end;
-
-    //fit form to screen
-    if nPosX>Screen.DesktopWidth-cReservePixels then
-      nPosX:= Screen.DesktopWidth-nSizeX;
-    if nPosY>Screen.DesktopHeight-cReservePixels then
-      nPosY:= Screen.DesktopHeight-nSizeY;
-
-    SetBounds(nPosX, nPosY, nSizeX, nSizeY);
+    RectMain:= Rect(100, 100, 900, 650);
+    DoOps_LoadFormRect(c, '/dialog', RectMain);
+    DoOps_LoadFormRect(c, '/dialog/fl_side', FBoundsFloatSide);
+    DoOps_LoadFormRect(c, '/dialog/fl_btm', FBoundsFloatBottom);
+    DoOps_LoadFormRect(c, '/dialog/fl_g1', FBoundsFloatGroups1);
+    DoOps_LoadFormRect(c, '/dialog/fl_g2', FBoundsFloatGroups2);
+    DoOps_LoadFormRect(c, '/dialog/fl_g3', FBoundsFloatGroups3);
+    BoundsRect:= RectMain;
 
     if c.GetValue('/dialog/max', false) then
       WindowState:= wsMaximized;
