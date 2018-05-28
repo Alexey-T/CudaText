@@ -26,8 +26,9 @@ begin
   {$IFDEF WINDOWS}
   if IsAnotherInstanceRunning then Exit;
   {$IFEND}
-  Application.Title:='CudaText';
-  RequireDerivedFormResource := True;
+  Application.MainFormOnTaskBar:= True;
+  Application.Title:= 'CudaText';
+  RequireDerivedFormResource:= True;
   Application.Initialize;
   Application.CreateForm(TfmMain, fmMain);
   Application.Run;
