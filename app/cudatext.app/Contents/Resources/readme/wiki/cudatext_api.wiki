@@ -1589,7 +1589,6 @@ Editor class has methods to work with editor. Global objects of Editor exist:
 
 * ed: refers to currently focused editor (in any tab).
 * ed_bro: refers to "brother" of ed. If tab is splitted, 2 editors are shown: 1st/2nd. 1st and 2nd are "brother" editors.
-* ed_goto: refers to input field in the "Go to" dialog.
 * ed_con_log: refers to log field (multi-line) in the "Console" panel.
 * ed_con_in: refers to input field (single line) in the "Console" panel.
 
@@ -1844,7 +1843,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_COORDS: 4-tuple of int: screen coordinates of editor UI control, (left, top, right, bottom).
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
-* PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line, ed_goto is single-line.)
+* PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2360,6 +2359,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.244 (app 1.55.1)
+* deleted: object ed_goto
 
 1.0.243 (app 1.55.0)
 * add: event on_click_gutter
