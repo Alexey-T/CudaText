@@ -5,7 +5,8 @@
 
 1.55.1 (2018/05)
 
-- fix: initial window position was forced to first monitor
+- fix: app window position was forced to first monitor
+- fix: app taskbar button was always on first monitor
 - fix: position of auto-complete listbox sometimes not ok
 
 1.55.0 (2018/05)
