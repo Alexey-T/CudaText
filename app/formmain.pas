@@ -1050,13 +1050,22 @@ var
   Data: TATTabData;
 begin
   Result:= nil;
-  if (AIndex>=Low(TATGroupsNums)) and (AIndex<=High(TATGroupsNums)) then
-  begin
-    Pages:= fmMain.Groups.Pages[AIndex];
-    Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
-    if Assigned(Data) then
-      Result:= (Data.TabObject as TEditorFrame).Editor;
+  case AIndex of
+    0..5:
+      Pages:= fmMain.Groups.Pages[AIndex];
+    6:
+      Pages:= fmMain.GroupsF1.Pages[0];
+    7:
+      Pages:= fmMain.GroupsF2.Pages[0];
+    8:
+      Pages:= fmMain.GroupsF3.Pages[0];
+    else
+      exit;
   end;
+
+  Data:= Pages.Tabs.GetTabData(Pages.Tabs.TabIndex);
+  if Assigned(Data) then
+    Result:= (Data.TabObject as TEditorFrame).Editor;
 end;
 
 
