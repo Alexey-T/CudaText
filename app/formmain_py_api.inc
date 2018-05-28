@@ -59,9 +59,6 @@ begin
       8:
         Result:= fmConsole.ed;
 
-      9:
-        Result:= fmGoto.edInput;
-
       cPyEditorHandleMin..
       cPyEditorHandleMax:
         begin
