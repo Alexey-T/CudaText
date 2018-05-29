@@ -5,9 +5,9 @@
 
 1.55.2 (2018/06)
 
-- fix: HTML auto-complete must work in PHP files
+- fix: HTML auto-completion must work in PHP files
 - fix: HTML and PHP snippets were not adjusted for new PHP/PHP_ lexers
-- fix: ProjectManager could not open folder under Windows
+- fix: could not open folder from command-line under Windows
 
 1.55.1 (2018/05)
 
