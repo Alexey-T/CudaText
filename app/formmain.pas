@@ -2266,7 +2266,7 @@ const
   cBool: array[boolean] of string = (cPyFalse, cPyTrue);
 begin
   DoPyCommand('cuda_project_man', 'open_dir', [
-    '"'+ADirName+'"',
+    'r"'+ADirName+'"',
     cBool[ANewProject]
     ]);
 end;
