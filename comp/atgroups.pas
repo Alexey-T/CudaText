@@ -1368,7 +1368,13 @@ var
 begin
   D:= AFromPages.Tabs.GetTabData(AFromIndex);
   if D=nil then Exit;
-  AToPages.AddTab(AToIndex, D.TabObject as TControl, D.TabCaption, D.TabModified, D.TabColor);
+
+  AToPages.AddTab(AToIndex,
+    D.TabObject as TControl,
+    D.TabCaption,
+    D.TabModified,
+    D.TabColor,
+    false);
   AFromPages.Tabs.DeleteTab(AFromIndex, false, false);
 
   if AActivateTabAfter then
