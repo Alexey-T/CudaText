@@ -1409,8 +1409,8 @@ object fmMain: TfmMain
   object UniqInstance: TUniqueInstance
     Identifier = 'cudatext.0'
     OnOtherInstance = UniqInstanceOtherInstance
-    left = 232
-    top = 16
+    left = 672
+    top = 320
   end
   object PopupText: TPopupMenu
     OnPopup = PopupTextPopup
@@ -1553,5 +1553,12 @@ object fmMain: TfmMain
     OnTimer = TimerAppIdleTimer
     left = 441
     top = 92
+  end
+  object TimerStatusBusy: TTimer
+    Enabled = False
+    Interval = 300
+    OnTimer = TimerStatusBusyTimer
+    left = 378
+    top = 234
   end
 end

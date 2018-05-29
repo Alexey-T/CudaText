@@ -66,6 +66,12 @@ end;
 
 
 procedure TfmMain.UpdateStatus;
+begin
+  TimerStatusBusy.Enabled:= false;
+  TimerStatusBusy.Enabled:= true;
+end;
+
+procedure TfmMain.UpdateStatus_RealWork;
 var
   F: TEditorFrame;
   Ed: TATSynEdit;

@@ -123,6 +123,7 @@ type
     mnuViewFloatSide: TMenuItem;
     mnuViewFloatBottom: TMenuItem;
     mnuOpDefaultUser: TMenuItem;
+    TimerStatusBusy: TTimer;
     TimerAppIdle: TIdleTimer;
     ImageListTabs: TImageList;
     ImageListToolbar: TImageList;
@@ -501,6 +502,7 @@ type
     procedure TimerAppIdleTimer(Sender: TObject);
     procedure TimerCmdTimer(Sender: TObject);
     procedure TimerStatusAltTimer(Sender: TObject);
+    procedure TimerStatusBusyTimer(Sender: TObject);
     procedure TimerStatusTimer(Sender: TObject);
     procedure TimerTreeFillTimer(Sender: TObject);
     procedure TimerTreeFocusTimer(Sender: TObject);
@@ -953,6 +955,7 @@ type
     procedure UpdateStatusbarPanelsFromString(AStr: string);
     procedure UpdateBottomButtons;
     procedure UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
+    procedure UpdateStatus_RealWork;
     procedure UpdateStatus_ToolButton(AToolbar: TATFlatToolbar; ACmd: integer; AChecked: boolean);
     procedure UpdateTabCaptionsFromFolders;
     procedure UpdateTabsActiveColor(F: TEditorFrame);
@@ -1189,6 +1192,18 @@ procedure TfmMain.TimerStatusTimer(Sender: TObject);
 begin
   MsgStatus('');
   TimerStatus.Enabled:= false;
+end;
+
+procedure TfmMain.TimerStatusAltTimer(Sender: TObject);
+begin
+  TimerStatusAlt.Enabled:= false;
+  StatusAlt.Hide;
+end;
+
+procedure TfmMain.TimerStatusBusyTimer(Sender: TObject);
+begin
+  TimerStatusBusy.Enabled:= false;
+  UpdateStatus_RealWork;
 end;
 
 procedure TfmMain.TimerTreeFillTimer(Sender: TObject);
