@@ -3,6 +3,10 @@
   - fixed
   * changed
 
+1.55.2 (2018/06)
+
+- fix: PHP snippets were not adjusted for new PHP/PHP_ lexers
+
 1.55.1 (2018/05)
 
 - fix: app window position was forced to first monitor

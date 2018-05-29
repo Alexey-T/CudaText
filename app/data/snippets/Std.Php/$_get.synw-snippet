@@ -1,5 +1,5 @@
 name=GET['...']
 id=$_
-lex=PHP,PHP_
+lex=PHP_
 text=
 $_GET['${1:variable}']

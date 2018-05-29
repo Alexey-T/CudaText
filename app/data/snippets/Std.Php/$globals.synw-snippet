@@ -1,5 +1,5 @@
 name=GLOBALS['...']
 id=globals
-lex=PHP,PHP_
+lex=PHP_
 text=
 $GLOBALS['${1:variable}'] ${2:=} ${3:something};

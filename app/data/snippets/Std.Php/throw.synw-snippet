@@ -1,6 +1,6 @@
 name=throw exception
 id=th
-lex=PHP,PHP_
+lex=PHP_
 text=
 throw new ${1}Exception("${2:Error Processing Request}", ${3:1});
 ${0}

@@ -1,5 +1,5 @@
 name=require ...
 id=req
-lex=PHP,PHP_
+lex=PHP_
 text=
 require '${1:file}';${0}
