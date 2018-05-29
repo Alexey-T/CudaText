@@ -3798,7 +3798,7 @@ begin
     Delete(LexName, Length(Lexname), 1);
 
   IsPascal:= Pos('Pascal', LexName)>0;
-  IsHtml:= UiOps.AutocompleteHtml and (Pos('HTML', LexName)>0);
+  IsHtml:= UiOps.AutocompleteHtml and ((Pos('HTML', LexName)>0) or (LexName='PHP'));
   IsCss:= UiOps.AutocompleteCss and (LexName='CSS');
   IsCaseSens:= false; //cannot detect it yet
   FileCss:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'css_list.ini';
