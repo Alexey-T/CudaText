@@ -176,7 +176,9 @@ class Command:
     def callback_tempdlg_on_key_down(self, id_dlg, id_ctl, data='', info=''):
         print('callback_tempdlg_on_key_down')
 
-        state = app_proc(PROC_GET_KEYSTATE, '')
+        state = data
+            #was needed before Cud 1.55.2:
+            #state = app_proc(PROC_GET_KEYSTATE, '')
         str_key =\
             ('Meta+' if 'm' in state else '')+\
             ('Ctrl+' if 'c' in state else '')+\

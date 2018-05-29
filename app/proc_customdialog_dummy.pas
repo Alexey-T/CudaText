@@ -384,7 +384,11 @@ procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftSt
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, FEventOnKeyDown, '');
+  Str:= DoEvent(
+    Key,
+    FEventOnKeyDown,
+    '"'+ConvertShiftStateToString(Shift)+'"'
+    );
   if Str='False' then
   begin
     Key:= 0;
@@ -410,7 +414,11 @@ procedure TFormDummy.DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftStat
 var
   Str: string;
 begin
-  Str:= DoEvent(Key, FEventOnKeyUp, '');
+  Str:= DoEvent(
+    Key,
+    FEventOnKeyUp,
+    '"'+ConvertShiftStateToString(Shift)+'"'
+    );
   if Str='False' then
   begin
     Key:= 0;
