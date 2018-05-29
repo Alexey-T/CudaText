@@ -1,6 +1,6 @@
 name=Tag header
 id=header
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <header>
 	${0}

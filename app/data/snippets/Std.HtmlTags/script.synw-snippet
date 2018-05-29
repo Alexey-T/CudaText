@@ -1,6 +1,6 @@
 name=Tag script
 id=script
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <script type="${1:text/javascript}">
 	${0}

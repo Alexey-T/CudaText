@@ -1,6 +1,6 @@
 name=Tag ol
 id=ol
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <ol>
 	${0}

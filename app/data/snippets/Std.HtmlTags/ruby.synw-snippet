@@ -1,6 +1,6 @@
 name=Tag ruby
 id=ruby
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <ruby>
 	${0}

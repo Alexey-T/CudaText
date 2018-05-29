@@ -1,5 +1,5 @@
 name=Tag sup
 id=sup
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <sup>${0}</sup>

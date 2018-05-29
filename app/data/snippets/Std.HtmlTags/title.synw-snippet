@@ -1,5 +1,5 @@
 name=Tag title
 id=title
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <title>${0}</title>

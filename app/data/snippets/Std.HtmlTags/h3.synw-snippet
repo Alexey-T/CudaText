@@ -1,5 +1,5 @@
 name=Tag h3
 id=h3
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <h3>${0}</h3>

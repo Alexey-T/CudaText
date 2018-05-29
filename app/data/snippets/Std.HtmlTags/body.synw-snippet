@@ -1,6 +1,6 @@
 name=Tag body
 id=body
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <body>
 	${0}

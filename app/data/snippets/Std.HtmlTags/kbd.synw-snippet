@@ -1,5 +1,5 @@
 name=Tag kbd
 id=kbd
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <kbd>${0}</kbd>

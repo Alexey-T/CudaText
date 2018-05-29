@@ -1,5 +1,5 @@
 name=Tag bdi
 id=bdi
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <bdi>${0}</bdi>

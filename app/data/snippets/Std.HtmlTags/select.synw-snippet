@@ -1,6 +1,6 @@
 name=Tag select
 id=select
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <select name="${1:test}">
 	${0}

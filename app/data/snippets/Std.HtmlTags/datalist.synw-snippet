@@ -1,6 +1,6 @@
 name=Tag datalist
 id=datalist
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <datalist id="${1:name}">
 	${0}

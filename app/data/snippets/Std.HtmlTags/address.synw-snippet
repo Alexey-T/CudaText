@@ -1,5 +1,5 @@
 name=Tag address
 id=address
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <address>${0}</address>

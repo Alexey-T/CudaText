@@ -1,5 +1,5 @@
 name=Tag cite
 id=cite
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <cite>${0}</cite>

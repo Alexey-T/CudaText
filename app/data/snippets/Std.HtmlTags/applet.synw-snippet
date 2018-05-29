@@ -1,6 +1,6 @@
 name=Tag applet
 id=applet
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <applet code="${1:name.class}"${2: width="${3:500}"}${4: height="${5:650}"}>${0}
 
