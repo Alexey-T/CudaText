@@ -3803,7 +3803,11 @@ begin
 
   //allow autocompletion with carets, only in HTML
   if Ed.Carets.Count>1 then
-    if not IsHtml then exit;
+    if not IsHtml then
+    begin
+      MsgStatus(msgCannotAutocompleteWithMultiCarets);
+      exit;
+    end;
   MsgStatus(msgStatusTryingAutocomplete+' '+LexName);
 
   if IsHtml then
