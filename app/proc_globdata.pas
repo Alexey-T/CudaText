@@ -110,8 +110,8 @@ type
 
     AutocompleteHtml: boolean;
     AutocompleteCss: boolean;
-    AutocompleteHtml_LexersRegex: string;
-    AutocompleteCss_LexersRegex: string;
+    AutocompleteHtml_Lexers: string;
+    AutocompleteCss_Lexers: string;
 
     AutocompleteAutoshowCharCount: integer;
     AutocompleteTriggerChars: string;
@@ -1123,8 +1123,8 @@ begin
     TreeTheme:= 'default_16x16';
     ToolBarTheme:= 'default_24x24';
 
-    AutocompleteHtml_LexersRegex:= '.*HTML.*|PHP';
-    AutocompleteCss_LexersRegex:= 'CSS';
+    AutocompleteHtml_Lexers:= '.*HTML.*|PHP';
+    AutocompleteCss_Lexers:= 'CSS';
 
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';

@@ -776,8 +776,8 @@ begin
     UiOps.AutocompleteHtml:= c.GetValue('autocomplete_html', UiOps.AutocompleteHtml);
     UiOps.AutocompleteCss:= c.GetValue('autocomplete_css', UiOps.AutocompleteCss);
 
-    UiOps.AutocompleteHtml_LexersRegex:= c.GetValue('autocomplete_html_lexers', UiOps.AutocompleteHtml_LexersRegex);
-    UiOps.AutocompleteCss_LexersRegex:= c.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_LexersRegex);
+    UiOps.AutocompleteHtml_Lexers:= c.GetValue('autocomplete_html_lexers', UiOps.AutocompleteHtml_Lexers);
+    UiOps.AutocompleteCss_Lexers:= c.GetValue('autocomplete_css_lexers', UiOps.AutocompleteCss_Lexers);
 
     UiOps.AutocompleteAutoshowCharCount:= c.GetValue('autocomplete_autoshow_chars', UiOps.AutocompleteAutoshowCharCount);
     //UiOps.AutocompleteAutoshowLexers:= c.GetValue('autocomplete_autoshow_lexers', UiOps.AutocompleteAutoshowLexers);
