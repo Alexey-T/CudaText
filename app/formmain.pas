@@ -3794,8 +3794,8 @@ begin
   if LexName='' then exit;
 
   IsPascal:= Pos('Pascal', LexName)>0;
-  IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.LexersRegexHTML, false);
-  IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.LexersRegexCSS, false);
+  IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.AutocompleteHtml_LexersRegex, false);
+  IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.AutocompleteCss_LexersRegex, false);
   IsCaseSens:= false; //cannot detect it yet
   FileCss:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'css_list.ini';
   FileHtml:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'html_list.ini';

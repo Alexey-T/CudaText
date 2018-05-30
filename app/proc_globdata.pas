@@ -98,9 +98,6 @@ type
     LexerDelayedParsingPause: integer;
     LexerDelayedParsingSize: integer;
 
-    LexersRegexHTML: string;
-    LexersRegexCSS: string;
-
     ToolBarTheme: string;
 
     SidebarShow: boolean;
@@ -111,8 +108,11 @@ type
     MaxFileSizeForLexer: integer;
     MaxLinesForTree: integer;
 
-    AutocompleteCss: boolean;
     AutocompleteHtml: boolean;
+    AutocompleteCss: boolean;
+    AutocompleteHtml_LexersRegex: string;
+    AutocompleteCss_LexersRegex: string;
+
     AutocompleteAutoshowCharCount: integer;
     AutocompleteTriggerChars: string;
     AutocompleteAddOpeningBracket: boolean;
@@ -1123,8 +1123,8 @@ begin
     TreeTheme:= 'default_16x16';
     ToolBarTheme:= 'default_24x24';
 
-    LexersRegexHTML:= '.*HTML.*|PHP';
-    LexersRegexCSS:= 'CSS';
+    AutocompleteHtml_LexersRegex:= '.*HTML.*|PHP';
+    AutocompleteCss_LexersRegex:= 'CSS';
 
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
