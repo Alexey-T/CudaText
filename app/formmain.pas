@@ -3805,7 +3805,7 @@ begin
   if Ed.Carets.Count>1 then
     if not IsHtml then
     begin
-      MsgStatus(msgCannotAutocompleteWithMultiCarets);
+      MsgStatus(msgCannotAutocompleteMultiCarets);
       exit;
     end;
   MsgStatus(msgStatusTryingAutocomplete+' '+LexName);

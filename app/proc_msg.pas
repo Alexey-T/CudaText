@@ -121,7 +121,7 @@ const
   msgCannotSetHotkey: string = 'Cannot set hotkey for this item';
   msgCannotInstallAddonApi: string = 'Cannot install add-on "%s", it needs newer application version (API %s)';
   msgCannotInstallOnOS: string = 'Cannot install add-on "%s", it requires another OS (%s)';
-  msgCannotAutocompleteWithMultiCarets: string = 'Cannot auto-complete with multi-carets';
+  msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
 
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';

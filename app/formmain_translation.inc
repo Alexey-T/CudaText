@@ -452,6 +452,7 @@ begin
     DoLocString(msgCannotFindBookmarks           , ini, 'se', 'FindBookmarks');
     DoLocString(msgCannotHandleZip               , ini, 'se', 'HandleZip');
     DoLocString(msgCannotInstallAddonApi         , ini, 'se', 'AddonApi');
+    DoLocString(msgCannotAutocompleteMultiCarets , ini, 'se', 'AutocompleteCarets');
 
     DoLocString(msgStatusChangedLinesCount       , ini, 'si', 'ChangedLineCount');
     DoLocString(msgStatusIncorrectFilename       , ini, 'si', 'IncorrectFilename');
