@@ -98,6 +98,9 @@ type
     LexerDelayedParsingPause: integer;
     LexerDelayedParsingSize: integer;
 
+    LexersRegexHTML: string;
+    LexersRegexCSS: string;
+
     ToolBarTheme: string;
 
     SidebarShow: boolean;
@@ -1119,6 +1122,9 @@ begin
     SidebarTheme:= 'common_20x20';
     TreeTheme:= 'default_16x16';
     ToolBarTheme:= 'default_24x24';
+
+    LexersRegexHTML:= '.*HTML.*|PHP';
+    LexersRegexCSS:= 'CSS';
 
     PyLibrary:= InitPyLibraryPath;
     PictureTypes:= 'bmp,png,jpg,jpeg,gif,ico';
