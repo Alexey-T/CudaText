@@ -3793,10 +3793,6 @@ begin
   LexName:= F.LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
   if LexName='' then exit;
 
-  //'php_'->'php'
-  if LexName[Length(LexName)]='_' then
-    Delete(LexName, Length(Lexname), 1);
-
   IsPascal:= Pos('Pascal', LexName)>0;
   IsHtml:= UiOps.AutocompleteHtml and SRegexMatchesString(LexName, UiOps.LexersRegexHTML, false);
   IsCss:= UiOps.AutocompleteCss and SRegexMatchesString(LexName, UiOps.LexersRegexCSS, false);
