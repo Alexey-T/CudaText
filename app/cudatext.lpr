@@ -25,8 +25,9 @@ begin
   NTickInitial:= GetTickCount64;
   {$IFDEF WINDOWS}
   if IsAnotherInstanceRunning then Exit;
+  if Screen.MonitorCount>1 then
+    Application.MainFormOnTaskBar:= True;
   {$IFEND}
-  Application.MainFormOnTaskBar:= True;
   Application.Title:= 'CudaText';
   RequireDerivedFormResource:= True;
   Application.Initialize;
