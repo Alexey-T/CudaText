@@ -918,6 +918,9 @@ def dlg_proc(id_dialog, id_action, prop='', index=-1, index2=-1, name=''):
 
     #support live callbacks by replacing them to str
     if isinstance(prop, dict):
+        if 'resize' in prop and 'border' in prop:
+            del prop['resize']
+
         for k in prop:
             if k.startswith('on_'):
                 _alter_live(id_dialog, prop, k)
