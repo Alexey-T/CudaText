@@ -1538,7 +1538,7 @@ begin
         tabColorBgActive: ColorTabActive:= N;
         tabColorBgPassive: ColorTabPassive:= N;
         tabColorBgPassiveOver: ColorTabOver:= N;
-        tabColorText: Font.Color:= N;
+        tabColorText: ColorFont:= N;
         tabColorTextModified: ColorFontModified:= N;
         tabColorBorderActive: ColorBorderActive:= N;
         tabColorBorderPassive: ColorBorderPassive:= N;

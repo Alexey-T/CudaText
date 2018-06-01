@@ -183,6 +183,7 @@ const
   _InitTabColorTabPassive = $786868;
   _InitTabColorTabOver = $A08080;
   _InitTabColorActiveMark = $C04040;
+  _InitTabColorFont = clBlack;
   _InitTabColorFontModified = $A00000;
   _InitTabColorFontActive = clNone;
   _InitTabColorFontHot = clNone;
@@ -271,6 +272,7 @@ type
     FColorTabPassive: TColor; //color of inactive tabs
     FColorTabOver: TColor; //color of inactive tabs, mouse-over
     FColorActiveMark: TColor;
+    FColorFont: TColor;
     FColorFontModified: TColor;
     FColorFontActive: TColor;
     FColorFontHot: TColor;
@@ -551,6 +553,7 @@ type
     property ColorTabPassive: TColor read FColorTabPassive write FColorTabPassive default _InitTabColorTabPassive;
     property ColorTabOver: TColor read FColorTabOver write FColorTabOver default _InitTabColorTabOver;
     property ColorActiveMark: TColor read FColorActiveMark write FColorActiveMark default _InitTabColorActiveMark;
+    property ColorFont: TColor read FColorFont write FColorFont default _InitTabColorFont;
     property ColorFontModified: TColor read FColorFontModified write FColorFontModified default _InitTabColorFontModified;
     property ColorFontActive: TColor read FColorFontActive write FColorFontActive default _InitTabColorFontActive;
     property ColorFontHot: TColor read FColorFontHot write FColorFontHot default _InitTabColorFontHot;
@@ -878,6 +881,7 @@ begin
   FColorTabPassive:= _InitTabColorTabPassive;
   FColorTabOver:= _InitTabColorTabOver;
   FColorActiveMark:= _InitTabColorActiveMark;
+  FColorFont:= _InitTabColorFont;
   FColorFontModified:= _InitTabColorFontModified;
   FColorFontActive:= _InitTabColorFontActive;
   FColorFontHot:= _InitTabColorFontHot;
@@ -1694,7 +1698,7 @@ begin
     NColorXBg:= clNone;
     NColorXBorder:= clNone;
     NColorXMark:= clWhite;
-    NColorFont:= Font.Color;
+    NColorFont:= FColorFont;
     if FTabIndexOver=cTabIndexPlus then
       ElemType:= aeTabPlusOver
     else
@@ -1717,7 +1721,7 @@ begin
         -1, //no icon
         []
         );
-      DrawPlusSign(C, RRect, FOptArrowSize, Font.Color);
+      DrawPlusSign(C, RRect, FOptArrowSize, FColorFont);
       DoPaintAfter(ElemType, -1, C, RRect);
     end;    
   end;
@@ -1749,7 +1753,7 @@ begin
         if Data.TabModified then
           NColorFont:= FColorFontModified
         else
-          NColorFont:= Font.Color;
+          NColorFont:= FColorFont;
 
         DoPaintTabTo(C, RRect,
           Format(FOptShowNumberPrefix, [i+1]) + Data.TabCaption,
@@ -1793,7 +1797,7 @@ begin
       if Data.TabModified then
         NColorFont:= FColorFontModified
       else
-        NColorFont:= Font.Color;
+        NColorFont:= FColorFont;
 
       DoPaintTabTo(C, RRect,
         Format(FOptShowNumberPrefix, [i+1]) + Data.TabCaption,
