@@ -183,7 +183,7 @@ const
   _InitTabColorTabPassive = $786868;
   _InitTabColorTabOver = $A08080;
   _InitTabColorActiveMark = $C04040;
-  _InitTabColorFont = clBlack;
+  _InitTabColorFont = $D0D0D0;
   _InitTabColorFontModified = $A00000;
   _InitTabColorFontActive = clNone;
   _InitTabColorFontHot = clNone;
