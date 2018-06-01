@@ -342,6 +342,8 @@ function IsAnotherInstanceRunning:boolean;
 var
   i: Integer;
   cli: String;
+  sourceDir: Array[0..MAX_PATH] of WideChar;
+  workDir: String;
 begin
 
   Result := False;
@@ -353,9 +355,24 @@ begin
     case FInstanceManage.Status of
       isSecond:
         begin
+          GetCurrentDirectoryW(SizeOf(sourceDir), sourceDir);
+          workDir := string(sourceDir);
+          if LowerCase(ExtractFileDir(ParamStrUTF8(0))) = LowerCase(workDir) then
+            workDir := '';
           cli := '';
           for i := 1 to ParamCount do
-            cli := cli + ParamStrUTF8(i) + ParamsSeparator;
+          begin
+            // flags (-) won't be processed since instance is already running
+            if workDir <> '' then
+            begin
+              if Pos(':', ParamStrUTF8(i)) = 2 then
+                cli := cli + ParamStrUTF8(i) + ParamsSeparator
+              else
+                cli := cli + workDir + '\' + ParamStrUTF8(i) + ParamsSeparator;
+            end
+            else
+              cli := cli + ParamStrUTF8(i) + ParamsSeparator;
+          end;
           FInstanceManage.ActivateFirstInstance(BytesOf(cli));
           Sleep(100);
           Result := True;

@@ -1353,6 +1353,12 @@ begin
     begin
       SFilename := params[i];
       SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
+      //if dir, open in ProjManager
+      if DirectoryExistsUTF8(SFilename) then
+      begin
+        DoFolderOpen(SFilename, True);
+      end
+      else
       if FileExistsUTF8(SFilename) then
       begin
         Frame:= DoFileOpen(SFilename);
