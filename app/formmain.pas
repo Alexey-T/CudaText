@@ -1356,7 +1356,7 @@ begin
       //if dir, open in ProjManager
       if DirectoryExistsUTF8(SFilename) then
       begin
-        DoFolderOpen(SFilename, True);
+        DoFolderOpen(SFilename, False);
       end
       else
       if FileExistsUTF8(SFilename) then
