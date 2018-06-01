@@ -9,7 +9,7 @@
 + add: option "autocomplete_css_lexers"
 - fix: HTML auto-completion must work in PHP files
 - fix: HTML and PHP snippets were not adjusted for new PHP/PHP_ lexers
-- fix: with ui_one_instance:true, cannot open folder from 2nd instance, on Windows (fix by @vhanla, @fwhcat)
+- fix: with "ui_one_instance":true, cannot open folder from 2nd instance (fixes by @vhanla, @fwhcat)
 
 1.55.1 (2018/05)
 
