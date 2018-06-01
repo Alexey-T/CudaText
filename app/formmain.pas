@@ -1306,6 +1306,11 @@ begin
   begin
     SFilename:= Parameters[i];
     SParseFilenameWithTwoNumbers(SFilename, NLine, NColumn);
+    if DirectoryExistsUTF8(SFilename) then
+    begin
+      DoFolderOpen(SFilename, True);
+    end
+    else
     if FileExistsUTF8(SFilename) then
     begin
       Frame:= DoFileOpen(SFilename);
