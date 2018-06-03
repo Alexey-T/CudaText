@@ -10,6 +10,7 @@
 - fix: HTML auto-completion must work in PHP files
 - fix: HTML and PHP snippets were not adjusted for new PHP/PHP_ lexers
 - fix: with "ui_one_instance":true, cannot open folder from 2nd instance (fixes by @vhanla, @fwhcat)
+- fix: after "trim spaces" actions, must fix caret pos, if after line ends
 
 1.55.1 (2018/05)
 
