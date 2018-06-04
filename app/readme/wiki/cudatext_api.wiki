@@ -2364,6 +2364,7 @@ Text is chr(1) separated items:
 
 1.0.245 (app 1.55.3)
 * add: Editor.get_prop/set_prop: PROP_CARET_STOP_UNFOCUSED
+* add: addon can require other addon(s) via install.inf: [info] req=cuda_aa,cuda_bb
 
 1.0.244 (app 1.55.1)
 * deleted: object ed_goto
