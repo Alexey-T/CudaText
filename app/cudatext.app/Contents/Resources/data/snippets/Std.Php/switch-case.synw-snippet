@@ -1,6 +1,6 @@
 name=case ...
 id=case
-lex=PHP,PHP_
+lex=PHP_
 text=
 case '${1:variable}':
 	${0:# code...}

@@ -1,6 +1,6 @@
 name=doc-block /** ... */
 id=doc
-lex=PHP,PHP_
+lex=PHP_
 text=
 /**
  * ${0}

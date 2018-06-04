@@ -1,6 +1,6 @@
 name=Tag thead
 id=thead
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <thead>
 	${0}

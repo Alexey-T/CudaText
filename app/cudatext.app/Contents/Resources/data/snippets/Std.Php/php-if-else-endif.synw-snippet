@@ -1,6 +1,6 @@
 name=<?php if (...) ... else ... endif ?>
 id=ifelse
-lex=HTML,HTML_
+lex=PHP
 text=
 <?php if (${1:condition}): ?>
 	${2}

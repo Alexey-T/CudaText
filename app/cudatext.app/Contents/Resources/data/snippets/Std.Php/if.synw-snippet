@@ -1,6 +1,6 @@
 name=if ...
 id=if
-lex=PHP,PHP_
+lex=PHP_
 text=
 if (${1:condition}) {
 	${0:# code...}

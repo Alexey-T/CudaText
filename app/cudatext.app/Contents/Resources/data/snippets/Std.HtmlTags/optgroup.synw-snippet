@@ -1,6 +1,6 @@
 name=Tag optgroup
 id=optgroup
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <optgroup label="${1:Name}">
 	${0}

@@ -1,6 +1,6 @@
 name=class ...
 id=class
-lex=PHP,PHP_
+lex=PHP_
 text=
 /**
 * ${1}

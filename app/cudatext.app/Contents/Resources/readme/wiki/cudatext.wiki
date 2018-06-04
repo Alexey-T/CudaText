@@ -902,13 +902,17 @@ To see what is your active IM, open Terminal and enter:
 Known IMs with problems: scim, xim.
 To fix: change IM from e.g."XIM" to "none" in the Language Support settings, then chars should not duplicate.
 
+==How to use middle-click paste on Linux==
+
+* Set option "mouse_mid_click_paste" to true (in user.json).
+* Consider to install plugin "Auto-Copy to Clipboard", which emulates Linux editors behaviour: copying to clipboard by simple text selection (no need to use hotkey Ctrl+C).
+** This plugin has options to copy selection to a) usual clipboard, b) GTK primary selection (CudaText GTK builds only)
+
 ==What SynWrite features not implemented==
 
 * Sync-Editing, ie auto editing of name (identifier) in all places of selected block (sync range), w/o clicking each place of name
-* Drag-drop of panels from sidebar and bottom bar
 * Panel "Clips" from right side (CudaText has snippets w/o panel)
 * Panel "Clipboard" from right side, which monitors copying to clipboard
-* Quick-search input box on the toolbar
 
 ==App cannot run on FreeBSD==
 
@@ -956,6 +960,7 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 * "homepage" field, source code repository URL (usually on GitHub)
 * "api" field, optional, minimal required API version (3 numbers dot-separated)
 * "os" field, optional, comma-separated list of supported OS: win, win32, win64, linux, linux32, linux64, macos, freebsd, freebsd32, freebsd64
+* "req" field, optional, comma-separated list of Python modules, which are required in the "py" folder, e.g. "cuda_lint,cuda_tree"
 
 === Plugins ===
 

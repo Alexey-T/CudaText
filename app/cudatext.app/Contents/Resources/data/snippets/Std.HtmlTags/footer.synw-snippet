@@ -1,6 +1,6 @@
 name=Tag footer
 id=footer
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <footer>
 	${0}

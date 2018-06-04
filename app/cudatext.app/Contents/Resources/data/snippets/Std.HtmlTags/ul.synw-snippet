@@ -1,6 +1,6 @@
 name=Tag ul
 id=ul
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <ul>
 	${0}

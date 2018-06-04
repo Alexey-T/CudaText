@@ -930,8 +930,14 @@
   //Enable special auto-completion for HTML lexer (see wiki)
   "autocomplete_html": true,
 
+  //Reg.ex. for lexer name, to activate special HTML auto-completion
+  "autocomplete_html_lexers": ".*HTML.*|PHP",
+
   //Enable special auto-completion for CSS lexer (see wiki)
   "autocomplete_css": true,
+  
+  //Reg.ex. for lexer name, to activate special CSS auto-completion
+  "autocomplete_css_lexers": "CSS",
 
   //Auto-show auto-completion after typing N word-chars (0: disabled)
   //Option is for lexer-specific configs, not for user.json config.

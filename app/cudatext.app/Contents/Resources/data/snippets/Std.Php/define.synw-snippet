@@ -1,6 +1,6 @@
 name=define(..., ...)
 id=def
-lex=PHP,PHP_
+lex=PHP_
 text=
 define('${1}', '${2}');
 ${0}

@@ -1,5 +1,5 @@
 name=$... = array (...)
 id=array
-lex=PHP,PHP_
+lex=PHP_
 text=
 $${1:arrayName} = array('${2}' => ${3});

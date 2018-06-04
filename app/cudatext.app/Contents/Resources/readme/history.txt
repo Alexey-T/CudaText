@@ -3,9 +3,19 @@
   - fixed
   * changed
 
+1.56.0 (2018/06)
+
++ add: option "autocomplete_html_lexers"
++ add: option "autocomplete_css_lexers"
++ add: add-ons can require other add-on(s) via install.inf file
+- fix: HTML auto-completion must work in PHP files
+- fix: HTML and PHP snippets were not adjusted for new PHP/PHP_ lexers
+- fix: with "ui_one_instance":true, cannot open folder from 2nd instance (fixes by @vhanla, @fwhcat)
+- fix: after "trim spaces" actions, must fix caret pos, if after line ends
+
 1.55.1 (2018/05)
 
-- fix: app window position was forced to first monitor
+- fix: initial window position was forced to first monitor
 - fix: app taskbar button was always on first monitor
 - fix: position of auto-complete listbox sometimes not ok
 

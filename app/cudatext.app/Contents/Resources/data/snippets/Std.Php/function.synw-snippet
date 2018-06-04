@@ -1,6 +1,6 @@
 name=function ...
 id=fun
-lex=PHP,PHP_
+lex=PHP_
 text=
 ${1:public }function ${2:FunctionName}($${4:value} ${5:= ''})
 {

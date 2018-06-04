@@ -1,6 +1,6 @@
 name=Tag frameset
 id=frameset
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <frameset cols="${1:vals}"${2: rows="${3:vals}"}>
 	${0}

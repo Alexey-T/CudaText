@@ -1,5 +1,5 @@
 name=Tag legend
 id=legend
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <legend>${0}</legend>

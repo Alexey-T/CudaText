@@ -1,5 +1,5 @@
 name=FILES['...']
 id=$_
-lex=PHP,PHP_
+lex=PHP_
 text=
 $_FILES['${1:variable}']

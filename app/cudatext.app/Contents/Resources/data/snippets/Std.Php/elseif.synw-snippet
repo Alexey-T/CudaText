@@ -1,6 +1,6 @@
 name=elseif ...
 id=elseif
-lex=PHP,PHP_
+lex=PHP_
 text=
 elseif (${1:condition}) {
 	${0:# code...}

@@ -1,5 +1,5 @@
 name=Tag code
 id=code
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <code>${0}</code>

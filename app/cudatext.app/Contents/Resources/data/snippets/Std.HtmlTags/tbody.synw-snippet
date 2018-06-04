@@ -1,6 +1,6 @@
 name=Tag tbody
 id=tbody
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <tbody>
 	${0}

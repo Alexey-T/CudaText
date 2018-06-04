@@ -1,6 +1,6 @@
 name=do ... while ...
 id=do
-lex=PHP,PHP_
+lex=PHP_
 text=
 do {
 	${0:# code...}

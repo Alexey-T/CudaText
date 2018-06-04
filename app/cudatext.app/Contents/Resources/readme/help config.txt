@@ -1,7 +1,0 @@
-Config
-
-    It has config system like ST3 editor: call "Settings-default" and you see default config. Copy any lines to config "Settings-user" and edit lines in user config. Config in JSON. 
-
-    Lexer-override config: settings for single lexer only. E.g., you open Pascal file, config "lexer Pascal.json" is read after "user.json" config. 
-
-    File-types config: specify in it mapping between file types (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it. 

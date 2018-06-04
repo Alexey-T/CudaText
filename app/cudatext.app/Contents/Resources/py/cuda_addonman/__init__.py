@@ -201,8 +201,14 @@ class Command:
     def do_install_single(self, name, url, version, kind):
         #check for CudaLint
         if 'linter.' in url:
-            if not "cuda_lint" in get_installed_list():
-                msg_box('This is linter, it needs CudaLint plugin installed. Install CudaLint first.', MB_OK+MB_ICONWARNING)
+            if not 'cuda_lint' in get_installed_list():
+                msg_box('This is linter, it requires CudaLint plugin installed', MB_OK+MB_ICONWARNING)
+                return
+
+        #check for CudaTree
+        if 'treehelper.' in url:
+            if not 'cuda_tree' in get_installed_list():
+                msg_box('This is TreeHelper, it requires CudaTree plugin installed', MB_OK+MB_ICONWARNING)
                 return
 
         #download

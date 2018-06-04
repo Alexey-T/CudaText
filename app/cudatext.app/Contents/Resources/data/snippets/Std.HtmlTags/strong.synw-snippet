@@ -1,5 +1,5 @@
 name=Tag strong
 id=strong
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <strong>${0}</strong>

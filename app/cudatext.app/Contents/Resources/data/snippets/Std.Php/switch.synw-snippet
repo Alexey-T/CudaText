@@ -1,6 +1,6 @@
 name=switch ...
 id=switch
-lex=PHP,PHP_
+lex=PHP_
 text=
 switch (${1:variable}) {
 	case '${2:value}':

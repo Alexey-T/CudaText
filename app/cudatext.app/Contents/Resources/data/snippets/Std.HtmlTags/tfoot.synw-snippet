@@ -1,6 +1,6 @@
 name=Tag tfoot
 id=tfoot
-lex=HTML,HTML_
+lex=HTML,HTML_,PHP
 text=
 <tfoot>
 	${0}
