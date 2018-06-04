@@ -2296,6 +2296,9 @@ begin
         PROP_CARET_VIRTUAL:
           Result:= PyBool_FromLong(Ord(Ed.OptCaretVirtual));
 
+        PROP_CARET_STOP_UNFOCUSED:
+          Result:= PyBool_FromLong(Ord(Ed.OptCaretStopUnfocused));
+
         PROP_MINIMAP:
           Result:= PyBool_FromLong(Ord(Ed.OptMinimapVisible));
         PROP_MICROMAP:
@@ -2651,6 +2654,9 @@ begin
 
         PROP_CARET_VIRTUAL:
           Ed.OptCaretVirtual:= ValueBool;
+
+        PROP_CARET_STOP_UNFOCUSED:
+          Ed.OptCaretStopUnfocused:= ValueBool;
 
         PROP_MINIMAP:
           Ed.OptMinimapVisible:= ValueBool;

@@ -1816,6 +1816,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
+* PROP_CARET_STOP_UNFOCUSED: bool: caret blinks only when editor is focused.
 * PROP_MACRO_REC: bool: currently macro is recording.
 * PROP_MARKED_RANGE: 2-tuple with line indexes of "marked range"; (-1, -1) if range not set.
 * PROP_VISIBLE_LINES: int: max count of lines that fit to window (doesn't consider word wrap).
@@ -1896,6 +1897,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_CARET_SHAPE_OVR: int: shape of caret, overwrite mode.
 * PROP_CARET_SHAPE_RO: int: shape of caret, read-only mode.
 * PROP_CARET_VIRTUAL: bool: caret position is allowed after line-ends.
+* PROP_CARET_STOP_UNFOCUSED: bool: caret blinks only when editor is focused.
 * PROP_MARKED_RANGE: line indexes of "marked range", value is 2-tuple (index1, index2) or (-1, -1) to remove this range.
 * PROP_MINIMAP: bool: minimap is visible.
 * PROP_MICROMAP: bool: micromap is visible.
@@ -2359,6 +2361,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.245 (app 1.55.3)
+* add: Editor.get_prop/set_prop: PROP_CARET_STOP_UNFOCUSED
 
 1.0.244 (app 1.55.1)
 * deleted: object ed_goto
