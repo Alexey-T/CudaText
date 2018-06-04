@@ -3,10 +3,11 @@
   - fixed
   * changed
 
-1.55.3 (2018/06)
+1.56.0 (2018/06)
 
 + add: option "autocomplete_html_lexers"
 + add: option "autocomplete_css_lexers"
++ add: add-ons can require other add-on(s) via install.inf file
 - fix: HTML auto-completion must work in PHP files
 - fix: HTML and PHP snippets were not adjusted for new PHP/PHP_ lexers
 - fix: with "ui_one_instance":true, cannot open folder from 2nd instance (fixes by @vhanla, @fwhcat)
