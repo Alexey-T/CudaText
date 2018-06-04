@@ -52,6 +52,23 @@ const
   cTypePlugin = 'cudatext-plugin';
   cTypeData = 'cudatext-data';
 
+
+function IsReqValueOk(S: string): boolean;
+var
+  SItem, DirPy: string;
+begin
+  Result:= true;
+  DirPy:= GetAppPath(cDirPy);
+
+  repeat
+    SItem:= SGetItem(S);
+    if SItem='' then Break;
+    if not DirectoryExists(DirPy+DirectorySeparator+SItem) then
+      exit(false);
+  until false;
+end;
+
+
 function IsOSValueOk(S: string): boolean;
 const
   bits = {$ifdef cpu64} '64' {$else} '32' {$endif};
@@ -346,7 +363,7 @@ var
   unzip: TUnZipper;
   list: TStringlist;
   dir, dir_zipped, fn_inf: string;
-  s_title, s_type, s_desc, s_api, s_os: string;
+  s_title, s_type, s_desc, s_api, s_os, s_req: string;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -408,6 +425,7 @@ begin
     s_type:= ReadString('info', 'type', '');
     s_api:= ReadString('info', 'api', '');
     s_os:= ReadString('info', 'os', '');
+    s_req:= ReadString('info', 'req', '');
   finally
     Free
   end;
@@ -415,6 +433,12 @@ begin
   if not IsOSValueOk(s_os) then
   begin
     MsgBox(Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
+    exit
+  end;
+
+  if not IsReqValueOk(s_req) then
+  begin
+    MsgBox(Format(msgCannotInstallWithReq, [s_title, s_req]), MB_OK or MB_ICONERROR);
     exit
   end;
 
