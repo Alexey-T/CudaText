@@ -889,14 +889,14 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 These are also properties of controls.
 
 * "on_change": Called after "value" of control is changed.
-* "on_click": Called after click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
-* "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
-* "on_menu": Called before showing context menu after right click.
-* "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
+* "on_click": Called after mouse click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
+* "on_click_dbl": Called after mouse double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_mouse_down": Called when mouse button pressed. Param "data" is dict: { "btn": int_button_code, "state": str_keyboard_state, "x": int, "y": int }. Button code: 0: left; 1: right; 2: middle. Keyboard state: value like in global event "on_key".
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
+* "on_menu": Called before showing context menu after right click.
+* "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
 
 Events for control "listview"/"checklistview":
 
