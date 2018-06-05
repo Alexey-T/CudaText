@@ -153,6 +153,15 @@ class Command:
         listbox_proc(self.id_listbox, LISTBOX_SET_DRAWN, index=(1 if chk else 0))
 
 
+    def callback_editor_on_change(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_change')
+
+    def callback_editor_on_caret(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_caret')
+
+
     def do_paint_mark(self, id_dlg, id_ctl):
         print('do_paint_mark')
 
@@ -635,7 +644,7 @@ class Command:
         dlg_proc(h, DLG_PROP_SET, prop={
             'cap': 'editor test',
             'w': 750,
-            'h': 400
+            'h': 520
             })
 
         n=dlg_proc(h, DLG_CTL_ADD, 'editor')
@@ -644,9 +653,11 @@ class Command:
             'align': ALIGN_TOP,
             'sp_a': 6,
             'h': 350,
+            'on_change': self.callback_editor_on_change,
+            'on_caret': self.callback_editor_on_caret,
             })
 
-        h_editor = dlg_proc(h, DLG_CTL_HANDLE, index=n)
+        h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')
         ed0 = Editor(h_editor)
         ed0.set_text_all(
 """unit Test;
@@ -661,7 +672,7 @@ end;
         ed0.set_prop(PROP_MINIMAP, True)
         ed0.set_prop(PROP_LEXER_FILE, 'Pascal')
 
-        dlg_proc(h, DLG_CTL_FOCUS, index=n)
+        dlg_proc(h, DLG_CTL_FOCUS, name='ed')
 
         return h
 

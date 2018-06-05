@@ -581,7 +581,7 @@ begin
   begin
     Ctl:= TATSynEdit.Create(AForm);
 
-    TATSynEdit(Ctl).OnChange:= @AForm.DoOnChange;
+    TATSynEdit(Ctl).OnChange:= @AForm.DoOnEditorChange;
     TATSynEdit(Ctl).OnChangeCaretPos:= @AForm.DoOnEditorChangeCaretPos;
 
     EditorApplyTheme(TATSynEdit(Ctl));

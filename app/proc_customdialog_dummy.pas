@@ -131,6 +131,7 @@ type
     procedure DoOnControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
+    procedure DoOnEditorChange(Sender: TObject);
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
@@ -760,6 +761,17 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnSelect, '');
+end;
+
+
+procedure TFormDummy.DoOnEditorChange(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnChange, '');
 end;
 
 procedure TFormDummy.DoOnEditorChangeCaretPos(Sender: TObject);
