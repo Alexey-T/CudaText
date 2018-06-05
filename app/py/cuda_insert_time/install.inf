@@ -6,5 +6,16 @@ subdir=cuda_insert_time
 
 [item1]
 section=commands
-caption=Insert Time
+caption=Insert Time\Choose format...
 method=dialog
+
+[item2]
+section=commands
+caption=Insert Time\Insert in default format
+method=ins_default
+
+[item10]
+section=commands
+caption=Insert Time\Config
+method=config
+menu=o
