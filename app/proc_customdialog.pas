@@ -583,6 +583,8 @@ begin
 
     TATSynEdit(Ctl).OnChange:= @AForm.DoOnEditorChange;
     TATSynEdit(Ctl).OnChangeCaretPos:= @AForm.DoOnEditorChangeCaretPos;
+    TATSynEdit(Ctl).OnKeyDown:= @AForm.DoOnEditorKeyDown;
+    TATSynEdit(Ctl).OnKeyUp:= @AForm.DoOnEditorKeyUp;
 
     EditorApplyTheme(TATSynEdit(Ctl));
     EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true);
@@ -1578,6 +1580,18 @@ begin
   if AName='on_caret' then
   begin
     TAppControlProps(C.Tag).FEventOnEditorCaret:= AValue;
+    exit;
+  end;
+
+  if AName='on_key_down' then
+  begin
+    TAppControlProps(C.Tag).FEventOnEditorKeyDown:= AValue;
+    exit;
+  end;
+
+  if AName='on_key_up' then
+  begin
+    TAppControlProps(C.Tag).FEventOnEditorKeyUp:= AValue;
     exit;
   end;
 

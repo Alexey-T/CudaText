@@ -61,6 +61,8 @@ type
     FEventOnMouseDown: string;
     FEventOnMouseUp: string;
     FEventOnEditorCaret: string;
+    FEventOnEditorKeyDown: string;
+    FEventOnEditorKeyUp: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -133,6 +135,8 @@ type
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure DoOnEditorChange(Sender: TObject);
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
+    procedure DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -782,6 +786,33 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnEditorCaret, '');
+end;
+
+
+procedure TFormDummy.DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  if DoEvent(IdControl, Props.FEventOnEditorKeyDown,
+    Format('(%d, "%s")', [Key, ConvertShiftStateToString(Shift)])
+    ) = 'False' then
+   Key:= 0;
+end;
+
+procedure TFormDummy.DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  if DoEvent(IdControl, Props.FEventOnEditorKeyUp,
+    Format('(%d, "%s")', [Key, ConvertShiftStateToString(Shift)])
+    ) = 'False' then
+   Key:= 0;
 end;
 
 

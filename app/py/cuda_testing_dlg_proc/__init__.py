@@ -161,6 +161,14 @@ class Command:
 
         print('editor on_caret')
 
+    def callback_editor_on_key_down(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_key_down', data)
+
+    def callback_editor_on_key_up(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_key_up', data)
+
 
     def do_paint_mark(self, id_dlg, id_ctl):
         print('do_paint_mark')
@@ -655,6 +663,8 @@ class Command:
             'h': 350,
             'on_change': self.callback_editor_on_change,
             'on_caret': self.callback_editor_on_caret,
+            'on_key_down': self.callback_editor_on_key_down,
+            'on_key_up': self.callback_editor_on_key_up,
             })
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')
