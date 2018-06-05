@@ -45,6 +45,14 @@ class Command:
             msg_status('Cannot find config file')
 
 
+    def do_insert(self, s):
+
+        x, y, x1, y1 = ed.get_carets()[0]
+        x, y = ed.insert(x, y, s)
+        ed.set_caret(x, y)
+        msg_status('Date/time inserted')
+
+
     def dialog(self):
 
         lines = get_format_lines()
@@ -52,12 +60,7 @@ class Command:
 
         res = dlg_menu(MENU_LIST, '\n'.join(lines))
         if res is None: return
-        s = lines[res]
-
-        caret = ed.get_carets()[0]
-        x, y = ed.insert(caret[0], caret[1], s)
-        ed.set_caret(x, y)
-        msg_status('Date/time inserted')
+        self.do_insert(lines[res])
 
 
     def ins_default(self):
@@ -68,9 +71,4 @@ class Command:
               MB_OK or MB_ICONINFO)
             return
 
-        s = do_format(fmt)
-
-        caret = ed.get_carets()[0]
-        x, y = ed.insert(caret[0], caret[1], s)
-        ed.set_caret(x, y)
-        msg_status('Date/time inserted')
+        self.do_insert(do_format(fmt))
