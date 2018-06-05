@@ -580,6 +580,10 @@ begin
   if S='editor' then
   begin
     Ctl:= TATSynEdit.Create(AForm);
+
+    TATSynEdit(Ctl).OnChange:= @AForm.DoOnChange;
+    TATSynEdit(Ctl).OnChangeCaretPos:= @AForm.DoOnEditorChangeCaretPos;
+
     EditorApplyTheme(TATSynEdit(Ctl));
     EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true);
 
@@ -1570,6 +1574,13 @@ begin
     TAppControlProps(C.Tag).FEventOnListboxDrawItem:= AValue;
     exit;
   end;
+
+  if AName='on_caret' then
+  begin
+    TAppControlProps(C.Tag).FEventOnEditorCaret:= AValue;
+    exit;
+  end;
+
 
   if AName='color' then
   begin

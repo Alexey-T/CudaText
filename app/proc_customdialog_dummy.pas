@@ -60,6 +60,7 @@ type
     FEventOnMouseExit: string;
     FEventOnMouseDown: string;
     FEventOnMouseUp: string;
+    FEventOnEditorCaret: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -130,6 +131,7 @@ type
     procedure DoOnControlMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnControlMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
+    procedure DoOnEditorChangeCaretPos(Sender: TObject);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -758,6 +760,16 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnSelect, '');
+end;
+
+procedure TFormDummy.DoOnEditorChangeCaretPos(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnEditorCaret, '');
 end;
 
 
