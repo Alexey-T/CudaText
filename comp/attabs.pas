@@ -1552,9 +1552,13 @@ procedure TATTabs.GetTabXProps(AIndex: integer; const ARect: TRect;
   out AMouseOverX: boolean;
   out ARectX: TRect);
 begin
-  AColorXBg:= FColorCloseBg;
-  AColorXBorder:= FColorCloseBg;
+  if FOptShowFlat then
+    AColorXBg:= FColorBg
+  else
+    AColorXBg:= FColorCloseBg;
+  AColorXBorder:= AColorXBg;
   AColorXMark:= FColorCloseX;
+
   AMouseOverX:= false;
   ARectX:= GetTabRect_X(ARect);
 
