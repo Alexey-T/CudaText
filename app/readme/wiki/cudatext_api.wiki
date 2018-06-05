@@ -901,6 +901,13 @@ These are also properties of controls.
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
 
+Events for control "editor":
+
+* on_change: Called after text is changed.
+* on_caret: Called after caret position and/or selection is changed.
+* on_key_down: Called when user presses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
+* on_key_up: Called when user depresses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
+
 ====Callbacks====
 
 Values of events are callbacks, must be in one of these forms: [[#Callback_param]].
@@ -2365,6 +2372,7 @@ Text is chr(1) separated items:
 
 1.0.246 (app 1.56.1)
 * add: dlg_proc: controls have prop "autosize"
+* add: dlg_proc: added special events for control "editor": on_change, on_caret, on_key_down, on_key_up
 
 1.0.245 (app 1.55.3)
 * add: Editor.get_prop/set_prop: PROP_CARET_STOP_UNFOCUSED
