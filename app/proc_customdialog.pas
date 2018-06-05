@@ -1441,6 +1441,12 @@ begin
     exit;
   end;
 
+  if AName='autosize' then
+  begin
+    C.AutoSize:= AppStrToBool(AValue);
+    exit;
+  end;
+
   if AName='props' then
   begin
     ////MsgLogConsole('Deprecated API: dlg_proc "props" for "'+TAppControlProps(C.Tag).FTypeString+'"');

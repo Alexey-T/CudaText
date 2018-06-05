@@ -619,6 +619,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "vis": visible state, bool
 * "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
 * "color": background color
+* "autosize": control is auto-sized (by width and/or height, it's control-specific)
 * "font_name": font name
 * "font_size": font size
 * "font_color": font color
@@ -2361,6 +2362,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.246 (app 1.56.1)
+* add: dlg_proc: controls have prop "autosize"
 
 1.0.245 (app 1.55.3)
 * add: Editor.get_prop/set_prop: PROP_CARET_STOP_UNFOCUSED
