@@ -3,9 +3,10 @@
   - fixed
   * changed
 
-1.56.1 (2018/06)
 
-+ add: plugin "Insert Time" improved: added command "Insert in default format", and command "Config" in "Options / Settings-plugins"
+1.56.2 (2018/06)
+
++ add: improved plugin "Insert Time": added command "Insert in default format", and command "Config" in "Options / Settings-plugins"
 + add: API
 
 1.56.0 (2018/06)
