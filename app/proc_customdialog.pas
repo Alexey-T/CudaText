@@ -587,6 +587,7 @@ begin
     TATSynEdit(Ctl).OnKeyUp:= @AForm.DoOnEditorKeyUp;
     TATSynEdit(Ctl).OnClickGutter:= @AForm.DoOnEditorClickGutter;
     TATSynEdit(Ctl).OnClickGap:= @AForm.DoOnEditorClickGap;
+    TATSynEdit(Ctl).OnScroll:= @AForm.DoOnEditorScroll;
 
     EditorApplyTheme(TATSynEdit(Ctl));
     EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true);
@@ -1582,6 +1583,12 @@ begin
   if AName='on_caret' then
   begin
     TAppControlProps(C.Tag).FEventOnEditorCaret:= AValue;
+    exit;
+  end;
+
+  if AName='on_scroll' then
+  begin
+    TAppControlProps(C.Tag).FEventOnEditorScroll:= AValue;
     exit;
   end;
 

@@ -161,6 +161,10 @@ class Command:
 
         print('editor on_caret')
 
+    def callback_editor_on_scroll(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_scroll')
+
     def callback_editor_on_click_gutter(self, id_dlg, id_ctl, data='', info=''):
 
         print('editor on_click_gutter', data)
@@ -683,6 +687,7 @@ class Command:
             'h': 350,
             'on_change': self.callback_editor_on_change,
             'on_caret': self.callback_editor_on_caret,
+            'on_scroll': self.callback_editor_on_scroll,
             'on_key_down': self.callback_editor_on_key_down,
             'on_key_up': self.callback_editor_on_key_up,
             'on_click_gutter': self.callback_editor_on_click_gutter,

@@ -62,6 +62,7 @@ type
     FEventOnMouseDown: string;
     FEventOnMouseUp: string;
     FEventOnEditorCaret: string;
+    FEventOnEditorScroll: string;
     FEventOnEditorKeyDown: string;
     FEventOnEditorKeyUp: string;
     FEventOnEditorClickGutter: string;
@@ -138,6 +139,7 @@ type
     procedure DoOnImagePaintBackground(ASender: TObject; ACanvas: TCanvas; ARect: TRect);
     procedure DoOnEditorChange(Sender: TObject);
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
+    procedure DoOnEditorScroll(Sender: TObject);
     procedure DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
@@ -855,6 +857,16 @@ begin
         APos.X,
         APos.Y
     ]));
+end;
+
+procedure TFormDummy.DoOnEditorScroll(Sender: TObject);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnEditorScroll, '');
 end;
 
 
