@@ -165,6 +165,10 @@ class Command:
 
         print('editor on_click_gutter', data)
 
+    def callback_editor_on_click_gap(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_click_gap', data)
+
     def callback_editor_on_key_down(self, id_dlg, id_ctl, data='', info=''):
 
         print('editor on_key_down', data)
@@ -650,6 +654,18 @@ class Command:
         return h
 
 
+    def do_editor_gap(self, ed, num):
+
+        id_bitmap, id_canvas = ed.gap(GAP_MAKE_BITMAP, 600, 50)
+        canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xa0ffa0)
+        canvas_proc(id_canvas, CANVAS_SET_ANTIALIAS, style=ANTIALIAS_ON)
+        canvas_proc(id_canvas, CANVAS_POLYGON, '200,0,300,30,200,49')
+        canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_CLEAR)
+        canvas_proc(id_canvas, CANVAS_TEXT, x=230, y=10, text='gap %d'%(num+1))
+        canvas_proc(id_canvas, CANVAS_SET_BRUSH, color=0xffffff, style=BRUSH_SOLID)
+        ed.gap(GAP_ADD, num, id_bitmap, tag=10)
+
+
     def init_editor_dlg(self):
 
         h=dlg_proc(0, DLG_CREATE)
@@ -670,6 +686,7 @@ class Command:
             'on_key_down': self.callback_editor_on_key_down,
             'on_key_up': self.callback_editor_on_key_up,
             'on_click_gutter': self.callback_editor_on_click_gutter,
+            'on_click_gap': self.callback_editor_on_click_gap,
             })
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')
@@ -686,6 +703,7 @@ end;
         #ed0.set_prop(PROP_CARET_SHAPE, 2)
         ed0.set_prop(PROP_MINIMAP, True)
         ed0.set_prop(PROP_LEXER_FILE, 'Pascal')
+        self.do_editor_gap(ed0, 2)
 
         dlg_proc(h, DLG_CTL_FOCUS, name='ed')
 

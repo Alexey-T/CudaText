@@ -586,6 +586,7 @@ begin
     TATSynEdit(Ctl).OnKeyDown:= @AForm.DoOnEditorKeyDown;
     TATSynEdit(Ctl).OnKeyUp:= @AForm.DoOnEditorKeyUp;
     TATSynEdit(Ctl).OnClickGutter:= @AForm.DoOnEditorClickGutter;
+    TATSynEdit(Ctl).OnClickGap:= @AForm.DoOnEditorClickGap;
 
     EditorApplyTheme(TATSynEdit(Ctl));
     EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true);
@@ -1599,6 +1600,12 @@ begin
   if AName='on_click_gutter' then
   begin
     TAppControlProps(C.Tag).FEventOnEditorClickGutter:= AValue;
+    exit;
+  end;
+
+  if AName='on_click_gap' then
+  begin
+    TAppControlProps(C.Tag).FEventOnEditorClickGap:= AValue;
     exit;
   end;
 

@@ -19,7 +19,8 @@ uses
   ListViewFilterEdit,
   proc_globdata,
   proc_miscutils,
-  ATSynEdit;
+  ATSynEdit,
+  ATSynEdit_Gaps;
 
 type
   TAppPyCommonCallback = function(
@@ -64,6 +65,7 @@ type
     FEventOnEditorKeyDown: string;
     FEventOnEditorKeyUp: string;
     FEventOnEditorClickGutter: string;
+    FEventOnEditorClickGap: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -139,6 +141,7 @@ type
     procedure DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
+    procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -830,6 +833,27 @@ begin
       ConvertShiftStateToString(KeyboardStateToShiftState),
       ALine,
       ABand
+    ]));
+end;
+
+procedure TFormDummy.DoOnEditorClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  if not Assigned(AGapItem) then exit;
+
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnEditorClickGap,
+    Format('{ "state": "%s", "line": %d, "tag": %d, "gap_w": %d, "gap_h": %d, "x": %d, "y": %d }', [
+        ConvertShiftStateToString(KeyboardStateToShiftState),
+        AGapItem.LineIndex,
+        AGapItem.Tag,
+        AGapItem.Bitmap.Width,
+        AGapItem.Bitmap.Height,
+        APos.X,
+        APos.Y
     ]));
 end;
 
