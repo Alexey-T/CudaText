@@ -165,6 +165,10 @@ class Command:
 
         print('editor on_scroll')
 
+    def callback_editor_on_paste(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_paste', data)
+
     def callback_editor_on_click_gutter(self, id_dlg, id_ctl, data='', info=''):
 
         print('editor on_click_gutter', data)
@@ -692,6 +696,7 @@ class Command:
             'on_key_up': self.callback_editor_on_key_up,
             'on_click_gutter': self.callback_editor_on_click_gutter,
             'on_click_gap': self.callback_editor_on_click_gap,
+            'on_paste': self.callback_editor_on_paste,
             })
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')

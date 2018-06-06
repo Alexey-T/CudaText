@@ -588,6 +588,7 @@ begin
     TATSynEdit(Ctl).OnClickGutter:= @AForm.DoOnEditorClickGutter;
     TATSynEdit(Ctl).OnClickGap:= @AForm.DoOnEditorClickGap;
     TATSynEdit(Ctl).OnScroll:= @AForm.DoOnEditorScroll;
+    TATSynEdit(Ctl).OnPaste:= @AForm.DoOnEditorPaste;
 
     EditorApplyTheme(TATSynEdit(Ctl));
     EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true);
@@ -1613,6 +1614,12 @@ begin
   if AName='on_click_gap' then
   begin
     TAppControlProps(C.Tag).FEventOnEditorClickGap:= AValue;
+    exit;
+  end;
+
+  if AName='on_paste' then
+  begin
+    TAppControlProps(C.Tag).FEventOnEditorPaste:= AValue;
     exit;
   end;
 

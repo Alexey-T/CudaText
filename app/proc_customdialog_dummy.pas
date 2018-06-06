@@ -67,6 +67,7 @@ type
     FEventOnEditorKeyUp: string;
     FEventOnEditorClickGutter: string;
     FEventOnEditorClickGap: string;
+    FEventOnEditorPaste: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -144,6 +145,7 @@ type
     procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
     procedure DoOnEditorClickGap(Sender: TObject; AGapItem: TATSynGapItem; APos: TPoint);
+    procedure DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -867,6 +869,23 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnEditorScroll, '');
+end;
+
+procedure TFormDummy.DoOnEditorPaste(Sender: TObject; var AHandled: boolean; AKeepCaret, ASelectThen: boolean);
+const
+  cBool: array[boolean] of string = ('False', 'True');
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  if DoEvent(IdControl, Props.FEventOnEditorPaste,
+    Format('{ "keep_caret": %s, "sel_then": %s }', [
+      cBool[AKeepCaret],
+      cBool[ASelectThen]
+    ])) = 'False' then
+    AHandled:= true;
 end;
 
 
