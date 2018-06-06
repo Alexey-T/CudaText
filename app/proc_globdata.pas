@@ -48,6 +48,12 @@ const
   AppExtensionThemeUi = '.cuda-theme-ui';
   AppExtensionThemeSyntax = '.cuda-theme-syntax';
 
+const
+  AppDefaultMonospacedFont =
+    {$ifdef windows} 'Consolas' {$endif}
+    {$ifdef linux} 'Courier New' {$endif}
+    {$ifdef freebsd} 'Courier New' {$endif}
+    {$ifdef darwin} 'Monaco' {$endif} ;
 
 type
   TAppPathId = (
@@ -426,9 +432,11 @@ function GetAppLexerSpecificConfig(AName: string): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
 
 //function GetActiveControl(Form: TWinControl): TWinControl;
-function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
 function MsgBox(const Str: string; Flags: Longint): integer;
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
+
+function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
+function FixFontMonospaced(const AName: string): string;
 
 function GetAppKeymap_LexerSpecificConfig(AName: string): string;
 function GetAppKeymapHotkey(const ACmdString: string): string;
@@ -928,11 +936,7 @@ procedure InitEditorOps(var Op: TEditorOps);
 begin
   with Op do
   begin
-    OpFontName:=
-      {$ifdef windows} 'Consolas' {$endif}
-      {$ifdef linux} 'Courier New' {$endif}
-      {$ifdef freebsd} 'Courier New' {$endif}
-      {$ifdef darwin} 'Monaco' {$endif} ;
+    OpFontName:= AppDefaultMonospacedFont;
     OpFontName_i:= '';
     OpFontName_b:= '';
     OpFontName_bi:= '';
@@ -1876,6 +1880,19 @@ begin
   else
   if Assigned(LexerLite) then
     LexerName:= LexerLite.LexerName+msgLiteLexerSuffix;
+end;
+
+
+function FixFontMonospaced(const AName: string): string;
+begin
+  Result:= AName;
+  {
+  //commented, it slows down start by 10-20ms
+  if (AName='') or (Screen.Fonts.IndexOf(AName)>=0) then
+    Result:= AName
+  else
+    Result:= 'Courier';
+    }
 end;
 
 

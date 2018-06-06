@@ -566,10 +566,10 @@ begin
       end;
     end;
 
-    Op.OpFontName:= c.GetValue(str_FontName, Op.OpFontName);
-    Op.OpFontName_i:= c.GetValue(str_FontName_i, Op.OpFontName_i);
-    Op.OpFontName_b:= c.GetValue(str_FontName_b, Op.OpFontName_b);
-    Op.OpFontName_bi:= c.GetValue(str_FontName_bi, Op.OpFontName_bi);
+    Op.OpFontName:= FixFontMonospaced(c.GetValue(str_FontName, Op.OpFontName));
+    Op.OpFontName_i:= FixFontMonospaced(c.GetValue(str_FontName_i, Op.OpFontName_i));
+    Op.OpFontName_b:= FixFontMonospaced(c.GetValue(str_FontName_b, Op.OpFontName_b));
+    Op.OpFontName_bi:= FixFontMonospaced(c.GetValue(str_FontName_bi, Op.OpFontName_bi));
 
     Op.OpFontSize:= c.GetValue(str_FontSize, Op.OpFontSize);
     Op.OpFontSize_i:= c.GetValue(str_FontSize_i, Op.OpFontSize_i);
