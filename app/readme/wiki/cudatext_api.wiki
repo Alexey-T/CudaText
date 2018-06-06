@@ -896,11 +896,11 @@ These are also properties of controls.
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
 * "on_menu": Called before showing context menu after right click.
-* "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
 
 Events for control "listview"/"checklistview":
 
 * "on_click_header": Called when user clicks on column header. Param "data": int column index.
+* "on_select": Called after selection is changed. Param "data" is tuple: (int_item_index, bool_item_selected).
 
 Events for control "listbox_ex":
 
@@ -909,6 +909,7 @@ Events for control "listbox_ex":
 Events for control "treeview":
 
 * "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+* "on_select": Called after selection is changed.
 
 Events for control "editor":
 
