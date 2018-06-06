@@ -77,16 +77,16 @@ type
   TFormDummy = class(TForm)
   private
     IsFormShownAlready: boolean;
-    procedure DoOnActivate(Sender: TObject);
-    procedure DoOnDeactivate(Sender: TObject);
-    procedure DoOnShow(Sender: TObject);
-    procedure DoOnHide(Sender: TObject);
-    procedure DoOnMouseEnter(Sender: TObject);
-    procedure DoOnMouseLeave(Sender: TObject);
-    procedure DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure DoOnFormActivate(Sender: TObject);
+    procedure DoOnFormDeactivate(Sender: TObject);
+    procedure DoOnFormShow(Sender: TObject);
+    procedure DoOnFormHide(Sender: TObject);
+    procedure DoOnFormMouseEnter(Sender: TObject);
+    procedure DoOnFormMouseLeave(Sender: TObject);
+    procedure DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
     function _MouseEventString(AButton: TMouseButton; AShift: TShiftState;
       AX, AY: Integer): string;
     procedure _HandleClickEvent(Sender: TObject; ADblClick: boolean);
@@ -239,16 +239,16 @@ begin
   IdClicked:= -1;
   TagString:= '';
 
-  OnShow:= @DoOnShow;
-  OnHide:= @DoOnHide;
-  OnClose:= @DoOnClose;
-  OnCloseQuery:= @DoOnCloseQuery;
-  OnKeyDown:= @DoOnKeyDown;
-  OnKeyUp:= @DoOnKeyUp;
-  OnActivate:=@DoOnActivate;
-  OnDeactivate:=@DoOnDeactivate;
-  OnMouseEnter:= @DoOnMouseEnter;
-  OnMouseLeave:= @DoOnMouseLeave;
+  OnShow:= @DoOnFormShow;
+  OnHide:= @DoOnFormHide;
+  OnClose:= @DoOnFormClose;
+  OnCloseQuery:= @DoOnFormCloseQuery;
+  OnKeyDown:= @DoOnFormKeyDown;
+  OnKeyUp:= @DoOnFormKeyUp;
+  OnActivate:= @DoOnFormActivate;
+  OnDeactivate:= @DoOnFormDeactivate;
+  OnMouseEnter:= @DoOnFormMouseEnter;
+  OnMouseLeave:= @DoOnFormMouseLeave;
 
   PrevBorderStyle:= BorderStyle;
   PrevForms:= TList.Create;
@@ -268,7 +268,7 @@ begin
   inherited;
 end;
 
-procedure TFormDummy.DoOnShow(Sender: TObject);
+procedure TFormDummy.DoOnFormShow(Sender: TObject);
 var
   C: TComponent;
   i: integer;
@@ -288,27 +288,27 @@ begin
   DoEvent(-1, FEventOnShow, '');
 end;
 
-procedure TFormDummy.DoOnHide(Sender: TObject);
+procedure TFormDummy.DoOnFormHide(Sender: TObject);
 begin
   DoEvent(-1, FEventOnHide, '');
 end;
 
-procedure TFormDummy.DoOnMouseEnter(Sender: TObject);
+procedure TFormDummy.DoOnFormMouseEnter(Sender: TObject);
 begin
   DoEvent(-1, FEventOnMouseEnter, '');
 end;
 
-procedure TFormDummy.DoOnMouseLeave(Sender: TObject);
+procedure TFormDummy.DoOnFormMouseLeave(Sender: TObject);
 begin
   DoEvent(-1, FEventOnMouseExit, '');
 end;
 
-procedure TFormDummy.DoOnActivate(Sender: TObject);
+procedure TFormDummy.DoOnFormActivate(Sender: TObject);
 begin
   DoEvent(-1, FEventOnActivate, '');
 end;
 
-procedure TFormDummy.DoOnDeactivate(Sender: TObject);
+procedure TFormDummy.DoOnFormDeactivate(Sender: TObject);
 begin
   DoEvent(-1, FEventOnDeactivate, '');
 end;
@@ -394,7 +394,7 @@ begin
   _HandleClickEvent(Sender, true);
 end;
 
-procedure TFormDummy.DoOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFormDummy.DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Str: string;
 begin
@@ -424,7 +424,7 @@ begin
   end;
 end;
 
-procedure TFormDummy.DoOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFormDummy.DoOnFormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Str: string;
 begin
@@ -447,7 +447,7 @@ begin
   DoEvent(-1, FEventOnResize, '');
 end;
 
-procedure TFormDummy.DoOnCloseQuery(Sender: TObject; var CanClose: boolean);
+procedure TFormDummy.DoOnFormCloseQuery(Sender: TObject; var CanClose: boolean);
 var
   Str: string;
 begin
@@ -467,7 +467,7 @@ begin
 end;
 
 
-procedure TFormDummy.DoOnClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TFormDummy.DoOnFormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caHide; //caFree gives crash on btn clicks on win
   if IsDlgCustom then exit;
