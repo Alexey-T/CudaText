@@ -161,6 +161,10 @@ class Command:
 
         print('editor on_caret')
 
+    def callback_editor_on_click_gutter(self, id_dlg, id_ctl, data='', info=''):
+
+        print('editor on_click_gutter', data)
+
     def callback_editor_on_key_down(self, id_dlg, id_ctl, data='', info=''):
 
         print('editor on_key_down', data)
@@ -665,6 +669,7 @@ class Command:
             'on_caret': self.callback_editor_on_caret,
             'on_key_down': self.callback_editor_on_key_down,
             'on_key_up': self.callback_editor_on_key_up,
+            'on_click_gutter': self.callback_editor_on_click_gutter,
             })
 
         h_editor = dlg_proc(h, DLG_CTL_HANDLE, name='ed')

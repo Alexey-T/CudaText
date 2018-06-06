@@ -63,6 +63,7 @@ type
     FEventOnEditorCaret: string;
     FEventOnEditorKeyDown: string;
     FEventOnEditorKeyUp: string;
+    FEventOnEditorClickGutter: string;
     constructor Create(const ATypeString: string);
   end;
 
@@ -137,6 +138,7 @@ type
     procedure DoOnEditorChangeCaretPos(Sender: TObject);
     procedure DoOnEditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoOnEditorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
     function DoEvent(AIdControl: integer; const ACallback, AData: string): string;
     procedure DoEmulatedModalShow;
     procedure DoEmulatedModalClose;
@@ -813,6 +815,22 @@ begin
     Format('(%d, "%s")', [Key, ConvertShiftStateToString(Shift)])
     ) = 'False' then
    Key:= 0;
+end;
+
+
+procedure TFormDummy.DoOnEditorClickGutter(Sender: TObject; ABand, ALine: integer);
+var
+  Props: TAppControlProps;
+  IdControl: integer;
+begin
+  Props:= TAppControlProps((Sender as TControl).Tag);
+  IdControl:= FindControlIndexByOurObject(Sender);
+  DoEvent(IdControl, Props.FEventOnEditorClickGutter,
+    Format('("%s", %d, %d)', [
+      ConvertShiftStateToString(KeyboardStateToShiftState),
+      ALine,
+      ABand
+    ]));
 end;
 
 
