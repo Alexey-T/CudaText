@@ -914,6 +914,7 @@ Events for control "editor":
 
 * on_change: Called after text is changed.
 * on_caret: Called after caret position and/or selection is changed.
+* on_scroll: Called after editor is scrolled.
 * on_key_down: Called when user presses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
 * on_key_up: Called when user depresses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
 * on_click_gutter: Called on mouse click on gutter area. Param "data" is tuple (str_key_state, int_line_index, int_gutterband_index).
@@ -2383,7 +2384,7 @@ Text is chr(1) separated items:
 
 1.0.246 (app 1.56.1)
 * add: dlg_proc: controls have prop "autosize"
-* add: dlg_proc: added events for control "editor": on_change, on_caret, on_key_down, on_key_up, on_click_gutter, on_click_gap 
+* add: dlg_proc: added events for control "editor": on_change, on_caret, on_scroll, on_key_down, on_key_up, on_click_gutter, on_click_gap 
 
 1.0.245 (app 1.55.3)
 * add: Editor.get_prop/set_prop: PROP_CARET_STOP_UNFOCUSED
