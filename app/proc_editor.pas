@@ -33,9 +33,6 @@ procedure EditorMarkerGotoLast(Ed: TATSynEdit; AndDelete: boolean);
 procedure EditorMarkerClearAll(Ed: TATSynEdit);
 procedure EditorMarkerSwap(Ed: TATSynEdit);
 
-procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
-procedure EditorBookmarkPlaceBookmarksOnCarets(ed: TATSynEdit);
-
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
@@ -921,45 +918,6 @@ begin
     Ed.DoCaretSingle(X2+IfThen(Y1=Y2, 1), Y2, X1+1, Y1);
 
   Result:= true;
-end;
-
-procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
-var
-  X1, Y1, X2, Y2: integer;
-  NLine, i: integer;
-begin
-  if ed.Carets.Count=0 then exit;
-  with ed.Carets[0] do
-  begin
-    X1:= PosX;
-    Y1:= PosY;
-    X2:= EndX;
-    Y2:= EndY;
-  end;
-
-  ed.Carets.Clear;
-  for i:= 0 to ed.Strings.Bookmarks.Count-1 do
-  begin
-    NLine:= ed.Strings.Bookmarks[i].LineNum;
-    ed.Carets.Add(0, NLine);
-  end;
-
-  if ed.Carets.Count=0 then
-    ed.DoCaretSingle(X1, Y1, X2, Y2);
-end;
-
-procedure EditorBookmarkPlaceBookmarksOnCarets(ed: TATSynEdit);
-var
-  Caret: TATCaretItem;
-  i: integer;
-begin
-  ed.BookmarkDeleteAll;
-  for i:= 0 to ed.Carets.Count-1 do
-  begin
-    Caret:= ed.Carets[i];
-    if ed.Strings.IsIndexValid(Caret.PosY) then
-      ed.Strings.Bookmarks.Add(Caret.PosY, 1, '', false);
-  end;
 end;
 
 

@@ -445,13 +445,13 @@ begin
       end;
     cmd_BookmarkPlaceCarets:
       begin
-        EditorBookmarkPlaceCaretsOnBookmarks(Ed);
+        Ed.BookmarkPlaceCaretsOnBookmarks;
         AHandled:= true;
         exit
       end;
     cmd_BookmarkPlaceBookmarksOnCarets:
       begin
-        EditorBookmarkPlaceBookmarksOnCarets(Ed);
+        Ed.BookmarkPlaceBookmarksOnCarets;
         AHandled:= true;
         exit
       end;
