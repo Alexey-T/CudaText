@@ -53,7 +53,7 @@ const
   cTypeData = 'cudatext-data';
 
 
-function IsReqValueOk(S: string): boolean;
+function CheckValue_ReqPlugin(S: string): boolean;
 var
   SItem, DirPy: string;
 begin
@@ -69,7 +69,21 @@ begin
 end;
 
 
-function IsOSValueOk(S: string): boolean;
+function CheckValue_ReqLexer(S: string): boolean;
+var
+  SItem: string;
+begin
+  Result:= true;
+  repeat
+    SItem:= SGetItem(S);
+    if SItem='' then Break;
+    if AppManager.FindLexerByName(SItem)=nil then
+      exit(false);
+  until false;
+end;
+
+
+function CheckValue_OS(S: string): boolean;
 const
   bits = {$ifdef cpu64} '64' {$else} '32' {$endif};
 begin
@@ -363,7 +377,7 @@ var
   unzip: TUnZipper;
   list: TStringlist;
   dir, dir_zipped, fn_inf: string;
-  s_title, s_type, s_desc, s_api, s_os, s_req: string;
+  s_title, s_type, s_desc, s_api, s_os, s_req, s_req_lexer: string;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -426,19 +440,26 @@ begin
     s_api:= ReadString('info', 'api', '');
     s_os:= ReadString('info', 'os', '');
     s_req:= ReadString('info', 'req', '');
+    s_req_lexer:= ReadString('info', 'reqlexer', '');
   finally
     Free
   end;
 
-  if not IsOSValueOk(s_os) then
+  if not CheckValue_OS(s_os) then
   begin
     MsgBox(Format(msgCannotInstallOnOS, [s_title, s_os]), MB_OK or MB_ICONERROR);
     exit
   end;
 
-  if not IsReqValueOk(s_req) then
+  if not CheckValue_ReqPlugin(s_req) then
   begin
-    MsgBox(Format(msgCannotInstallWithReq, [s_title, s_req]), MB_OK or MB_ICONERROR);
+    MsgBox(Format(msgCannotInstallReqPlugin, [s_title, s_req]), MB_OK or MB_ICONERROR);
+    exit
+  end;
+
+  if not CheckValue_ReqLexer(s_req_lexer) then
+  begin
+    MsgBox(Format(msgCannotInstallReqLexer, [s_title, s_req_lexer]), MB_OK or MB_ICONERROR);
     exit
   end;
 
