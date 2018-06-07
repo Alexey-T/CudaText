@@ -833,7 +833,7 @@ begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
   DoEvent(IdControl, Props.FEventOnEditorClickGutter,
-    Format('("%s", %d, %d)', [
+    Format('{ "state": "%s", "line": %d, "band": %d }', [
       ConvertShiftStateToString(KeyboardStateToShiftState),
       ALine,
       ABand
