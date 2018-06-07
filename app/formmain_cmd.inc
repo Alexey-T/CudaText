@@ -457,13 +457,13 @@ begin
       end;
     cmd_BookmarkCopyMarkedLines:
       begin
-        EditorBookmarkCopyMarkedLines(Ed);
+        Ed.BookmarkCopyMarkedLines;
         AHandled:= true;
         exit
       end;
     cmd_BookmarkDeleteMarkedLines:
       begin
-        EditorBookmarkDeleteMarkedLines(Ed);
+        Ed.BookmarkDeleteMarkedLines;
         AHandled:= true;
         exit
       end;

@@ -35,8 +35,6 @@ procedure EditorMarkerSwap(Ed: TATSynEdit);
 
 procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
 procedure EditorBookmarkPlaceBookmarksOnCarets(ed: TATSynEdit);
-procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
-procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
 
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
@@ -962,44 +960,6 @@ begin
     if ed.Strings.IsIndexValid(Caret.PosY) then
       ed.Strings.Bookmarks.Add(Caret.PosY, 1, '', false);
   end;
-end;
-
-
-procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
-var
-  List: TStringList;
-  NLine, i: integer;
-begin
-  List:= TStringList.Create;
-  try
-    for i:= 0 to Ed.Strings.Bookmarks.Count-1 do
-    begin
-      NLine:= Ed.Strings.Bookmarks[i].LineNum;
-      if Ed.Strings.IsIndexValid(NLine) then
-        List.Add(Ed.Strings.LinesUTF8[NLine]);
-    end;
-    SClipboardCopy(List.Text);
-  finally
-    FreeAndNil(List);
-  end;
-end;
-
-procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
-var
-  NCount, NLine, i: integer;
-begin
-  NCount:= Ed.Strings.Bookmarks.Count;
-  if NCount=0 then exit;
-
-  for i:= NCount-1 downto 0 do
-  begin
-    NLine:= Ed.Strings.Bookmarks[i].LineNum;
-    Ed.Strings.LineDelete(NLine);
-  end;
-
-  Ed.UpdateIncorrectCaretPositions;
-  Ed.Update(true);
-  Ed.DoEventChange;
 end;
 
 
