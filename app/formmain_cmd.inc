@@ -157,10 +157,6 @@ begin
 
     cmd_DuplicateLineEx: DoCudaLibAction('duplicate');
 
-    cmd_LineEndWin: SetLineEnds(cEndWin);
-    cmd_LineEndUnix: SetLineEnds(cEndUnix);
-    cmd_LineEndMac: SetLineEnds(cEndMac);
-
     cmd_AutoComplete: DoAutoComplete;
     cmd_GotoDefinition: DoGotoDefinition;
     cmd_ShowFunctionHint: DoShowFuncHint;
@@ -506,6 +502,25 @@ begin
     cmd_DeleteNewColorAttrs:
       begin
         EditorDeleteNewColorAttribs(Ed);
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_LineEndWin:
+      begin
+        UpdateFrameLineEnds(Frame, cEndWin);
+        AHandled:= true;
+        exit
+      end;
+    cmd_LineEndUnix:
+      begin
+        UpdateFrameLineEnds(Frame, cEndUnix);
+        AHandled:= true;
+        exit
+      end;
+    cmd_LineEndMac:
+      begin
+        UpdateFrameLineEnds(Frame, cEndMac);
         AHandled:= true;
         exit
       end;

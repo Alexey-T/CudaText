@@ -948,7 +948,7 @@ type
     procedure MenuMainClick(Sender: TObject);
     procedure MenuRecentsClick(Sender: TObject);
     procedure SetFrame(Frame: TEditorFrame);
-    procedure SetLineEnds(Val: TATLineEnds);
+    procedure UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
     procedure MsgStatus(const AText: string);
     procedure UpdateSidebarButtons;
     procedure UpdateSidebarPanels(const ACaption: string; AndFocus: boolean);
@@ -2141,9 +2141,10 @@ begin
 end;
 
 
-procedure TfmMain.SetLineEnds(Val: TATLineEnds);
+procedure TfmMain.UpdateFrameLineEnds(Frame: TEditorFrame; AValue: TATLineEnds);
 begin
-  CurrentFrame.LineEnds:= Val;
+  if Assigned(Frame) then
+    Frame.LineEnds:= AValue;
   UpdateStatus;
   MsgStatus(msgStatusEndsChanged);
 end;
