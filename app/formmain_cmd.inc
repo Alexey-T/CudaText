@@ -155,32 +155,6 @@ begin
     cmd_CopyFilenameDir:  DoCopyFilenameDir;
     cmd_CopyFilenameName: DoCopyFilenameName;
 
-    cmd_ToggleTabUsesSpaces: with CurrentEditor do OptTabSpaces:= not OptTabSpaces;
-    cmd_ConvertTabsToSpaces: EditorConvertTabsToSpaces(CurrentEditor);
-    cmd_ConvertSpacesToTabsLeading: EditorConvertSpacesToTabsLeading(CurrentEditor);
-
-    cmd_BookmarkToggle:
-      begin
-        EditorBookmarkSet(CurrentEditor, -1, 1, bmOpToggle, '', false);
-        UpdateFrame;
-      end;
-    cmd_BookmarkClearAll:
-      begin
-        EditorBookmarkClearAll(CurrentEditor);
-        UpdateFrame;
-      end;
-    cmd_BookmarkInvertAll:
-      begin
-        EditorBookmarkInvertAll(CurrentEditor);
-        UpdateFrame;
-      end;
-    cmd_BookmarkGotoNext: EditorBookmarkGotoNext(CurrentEditor, true);
-    cmd_BookmarkGotoPrev: EditorBookmarkGotoNext(CurrentEditor, false);
-    cmd_BookmarkPlaceCarets: EditorBookmarkPlaceCaretsOnBookmarks(CurrentEditor);
-    cmd_BookmarkPlaceBookmarksOnCarets: EditorBookmarkPlaceBookmarksOnCarets(CurrentEditor);
-    cmd_BookmarkCopyMarkedLines: EditorBookmarkCopyMarkedLines(CurrentEditor);
-    cmd_BookmarkDeleteMarkedLines: EditorBookmarkDeleteMarkedLines(CurrentEditor);
-
     cmd_DuplicateLineEx: DoCudaLibAction('duplicate');
 
     cmd_LineEndWin: SetLineEnds(cEndWin);
@@ -397,7 +371,7 @@ begin
   Ed:= Sender as TATSynEdit;
   Frame:= GetEditorFrame(Ed);
 
-  if Frame.MacroRecord then
+  if Assigned(Frame) and Frame.MacroRecord then
     if not PyCommandRunning then
       if IsCommandForMacros(ACommand) then
       begin
@@ -426,6 +400,85 @@ begin
   end;
 
   //handle commands cmd_
+  case ACommand of
+    cmd_ToggleTabUsesSpaces:
+      begin
+        Ed.OptTabSpaces:= not Ed.OptTabSpaces;
+        AHandled:= true;
+        exit
+      end;
+    cmd_ConvertTabsToSpaces:
+      begin
+        EditorConvertTabsToSpaces(Ed);
+        AHandled:= true;
+        exit
+      end;
+    cmd_ConvertSpacesToTabsLeading:
+      begin
+        EditorConvertSpacesToTabsLeading(Ed);
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_BookmarkToggle:
+      begin
+        EditorBookmarkSet(Ed, -1, 1, bmOpToggle, '', false);
+        UpdateFrame;
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkClearAll:
+      begin
+        EditorBookmarkClearAll(Ed);
+        UpdateFrame;
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkInvertAll:
+      begin
+        EditorBookmarkInvertAll(Ed);
+        UpdateFrame;
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkGotoNext:
+      begin
+        EditorBookmarkGotoNext(Ed, true);
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkGotoPrev:
+      begin
+        EditorBookmarkGotoNext(Ed, false);
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkPlaceCarets:
+      begin
+        EditorBookmarkPlaceCaretsOnBookmarks(Ed);
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkPlaceBookmarksOnCarets:
+      begin
+        EditorBookmarkPlaceBookmarksOnCarets(Ed);
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkCopyMarkedLines:
+      begin
+        EditorBookmarkCopyMarkedLines(Ed);
+        AHandled:= true;
+        exit
+      end;
+    cmd_BookmarkDeleteMarkedLines:
+      begin
+        EditorBookmarkDeleteMarkedLines(Ed);
+        AHandled:= true;
+        exit
+      end;
+  end;
+
   if (ACommand>=cmdFirstAppCommand) and
      (ACommand<cmdLastPluginCommand) then
     if IsCommandNeedTimer(ACommand) then
