@@ -961,6 +961,7 @@ To make such zip file, pack into zip also "install.inf" with meta-info.
 * "api" field, optional, minimal required API version (3 numbers dot-separated)
 * "os" field, optional, comma-separated list of supported OS: win, win32, win64, linux, linux32, linux64, macos, freebsd, freebsd32, freebsd64
 * "req" field, optional, comma-separated list of Python modules, which are required in the "py" folder, e.g. "cuda_lint,cuda_tree"
+* "reqlexer" field, optional, comma-separated list of lexers, which are required, e.g. "HTML,CSS"
 
 === Plugins ===
 

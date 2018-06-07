@@ -2387,6 +2387,7 @@ Text is chr(1) separated items:
 1.0.246 (app 1.56.1)
 * add: dlg_proc: controls have prop "autosize"
 * add: dlg_proc: added events for control "editor": on_change, on_caret, on_scroll, on_key_down, on_key_up, on_click_gutter, on_click_gap, on_paste
+* add: addon can require lexer(s) via install.inf: [info] reqlexer=Name1,Name2
 
 1.0.245 (app 1.55.3)
 * add: Editor.get_prop/set_prop: PROP_CARET_STOP_UNFOCUSED
