@@ -913,14 +913,14 @@ Events for control "treeview":
 
 Events for control "editor":
 
-* on_change: Called after text is changed.
-* on_caret: Called after caret position and/or selection is changed.
-* on_scroll: Called after editor is scrolled.
-* on_key_down: Called when user presses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
-* on_key_up: Called when user depresses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
-* on_click_gutter: Called on mouse click on gutter area. Param "data" is dict: {"state": str_key_state, "line": int_line_index, "band": int_gutterband_index}.
-* on_click_gap: Called on mouse click on inter-line gap. Param "data" is dict: {"state": str_key_state, "line": int, "tag": int, "gap_w": int, "gap_h": int, "x": int, "y": int}.
-* on_paste: Called before doing one of Paste commands. Param "data" is dict: {"keep_caret": bool, "sel_then": bool}. Method can return False to disable default operation.
+* "on_change": Called after text is changed.
+* "on_caret": Called after caret position and/or selection is changed.
+* "on_scroll": Called after editor is scrolled.
+* "on_key_down": Called when user presses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
+* "on_key_up": Called when user depresses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
+* "on_click_gutter": Called on mouse click on gutter area. Param "data" is dict: {"state": str_key_state, "line": int_line_index, "band": int_gutterband_index}.
+* "on_click_gap": Called on mouse click on inter-line gap. Param "data" is dict: {"state": str_key_state, "line": int, "tag": int, "gap_w": int, "gap_h": int, "x": int, "y": int}.
+* "on_paste": Called before doing one of Paste commands. Param "data" is dict: {"keep_caret": bool, "sel_then": bool}. Method can return False to disable default operation.
 
 ====Callbacks====
 
