@@ -141,7 +141,7 @@ const
   nColorArrow = $969696;
   nColorBorder = $c0c0c0;
   nColorListBack = $d0d0d0;
-  nColorListSelBack = $c0c0c0;
+  nColorListSelBack = $b8b8b8;
 begin
   SetLength(D.Colors, 0);
 
@@ -254,11 +254,11 @@ begin
   Add(nColorBorder, 'ButtonBorderOver', 'buttons, border, mouse-over');
   Add(clGray, 'ButtonBorderFocused', 'buttons, border, focused');
 
-  Add(nColorGutterBack, 'ScrollBack', 'scrollbar, BG');
+  Add($d0d0d0, 'ScrollBack', 'scrollbar, BG');
   Add(nColorBorder, 'ScrollRect', 'scrollbar, thumb border');
   Add(nColorBack, 'ScrollFill', 'scrollbar, thumb fill');
-  Add(nColorArrow, 'ScrollArrow', 'scrollbar, arrow');
-  Add($d0d0d0, 'ScrollScrolled', 'scrollbar, scrolling area');
+  Add(nColorArrow, 'ScrollArrow', 'scrollbar, arrows');
+  Add($c0c0a0, 'ScrollScrolled', 'scrollbar, scrolling area');
 
   Add(nColorText, 'StatusFont', 'statusbar, font');
   Add(nColorBack2, 'StatusBg', 'statusbar, BG');
