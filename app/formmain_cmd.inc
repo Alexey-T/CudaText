@@ -165,13 +165,6 @@ begin
     cmd_GotoDefinition: DoGotoDefinition;
     cmd_ShowFunctionHint: DoShowFuncHint;
 
-    cmd_FoldingFoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFold);
-    cmd_FoldingUnfoldAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorUnfold);
-    cmd_FoldingToggleAtCurLine: EditorFoldUnfoldRangeAtCurLine(CurrentEditor, cEditorFoldUnfold);
-    cmd_FoldingEnable: CurrentFrame.EnabledFolding:= true;
-    cmd_FoldingDisable: CurrentFrame.EnabledFolding:= false;
-    cmd_DeleteNewColorAttrs: EditorDeleteNewColorAttribs(CurrentEditor);
-
     cmd_MenuEnc:
       begin
         P:= CurrentEditor.ClientToScreen(Point(0, 0));
@@ -477,8 +470,48 @@ begin
         AHandled:= true;
         exit
       end;
+
+    cmd_FoldingFoldAtCurLine:
+      begin
+        EditorFoldUnfoldRangeAtCurLine(Ed, cEditorFold);
+        AHandled:= true;
+        exit
+      end;
+    cmd_FoldingUnfoldAtCurLine:
+      begin
+        EditorFoldUnfoldRangeAtCurLine(Ed, cEditorUnfold);
+        AHandled:= true;
+        exit
+      end;
+    cmd_FoldingToggleAtCurLine:
+      begin
+        EditorFoldUnfoldRangeAtCurLine(Ed, cEditorFoldUnfold);
+        AHandled:= true;
+        exit
+      end;
+    cmd_FoldingEnable:
+      begin
+        if Assigned(Frame) then
+          Frame.EnabledFolding:= true;
+        AHandled:= true;
+        exit
+      end;
+    cmd_FoldingDisable:
+      begin
+        if Assigned(Frame) then
+          Frame.EnabledFolding:= false;
+        AHandled:= true;
+        exit
+      end;
+    cmd_DeleteNewColorAttrs:
+      begin
+        EditorDeleteNewColorAttribs(Ed);
+        AHandled:= true;
+        exit
+      end;
   end;
 
+  //handle other cmd_ commands
   if (ACommand>=cmdFirstAppCommand) and
      (ACommand<cmdLastPluginCommand) then
     if IsCommandNeedTimer(ACommand) then
