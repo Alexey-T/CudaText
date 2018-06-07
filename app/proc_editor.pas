@@ -33,21 +33,10 @@ procedure EditorMarkerGotoLast(Ed: TATSynEdit; AndDelete: boolean);
 procedure EditorMarkerClearAll(Ed: TATSynEdit);
 procedure EditorMarkerSwap(Ed: TATSynEdit);
 
-type TAppBookmarkOp = (bmOpClear, bmOpSet, bmOpToggle);
-procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
-  AOp: TAppBookmarkOp;
-  const AHint: string;
-  ADeleteOnDelLine: boolean);
-procedure EditorBookmarkInvertAll(ed: TATSynEdit);
-procedure EditorBookmarkClearAll(ed: TATSynEdit);
-procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
 procedure EditorBookmarkPlaceCaretsOnBookmarks(ed: TATSynEdit);
 procedure EditorBookmarkPlaceBookmarksOnCarets(ed: TATSynEdit);
 procedure EditorBookmarkCopyMarkedLines(ed: TATSynEdit);
 procedure EditorBookmarkDeleteMarkedLines(ed: TATSynEdit);
-
-procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
-procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
 
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
@@ -85,86 +74,6 @@ function EditorIsAutocompleteCssPosition(Ed: TATSynEdit; AX, AY: integer): boole
 function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 
 implementation
-
-procedure EditorBookmarkSet(ed: TATSynEdit; ALine, ABmKind: integer;
-  AOp: TAppBookmarkOp; const AHint: string; ADeleteOnDelLine: boolean);
-var
-  NIndex: integer;
-begin
-  if ALine<0 then
-    ALine:= ed.Carets[0].PosY;
-  if not ed.Strings.IsIndexValid(ALine) then exit;
-
-  case AOp of
-    bmOpSet:
-      begin
-        ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint, ADeleteOnDelLine);
-      end;
-    bmOpClear:
-      begin
-        ed.Strings.Bookmarks.DeleteForLine(ALine);
-      end;
-    bmOpToggle:
-      begin
-        NIndex:= ed.Strings.Bookmarks.Find(ALine);
-        if NIndex>=0 then
-          ed.Strings.Bookmarks.Delete(NIndex)
-        else
-          ed.Strings.Bookmarks.Add(ALine, ABmKind, AHint, ADeleteOnDelLine);
-      end;
-  end;
-
-  ed.Update;
-end;
-
-procedure EditorBookmarkInvertAll(ed: TATSynEdit);
-var
-  NIndex, i: integer;
-begin
-  for i:= 0 to ed.Strings.Count-1 do
-  begin
-    NIndex:= ed.Strings.Bookmarks.Find(i);
-    if NIndex>=0 then
-      ed.Strings.Bookmarks.Delete(NIndex)
-    else
-      ed.Strings.Bookmarks.Add(i, 1, '', false);
-  end;
-  ed.Update;
-end;
-
-procedure EditorBookmarkClearAll(ed: TATSynEdit);
-begin
-  ed.Strings.Bookmarks.Clear;
-  ed.Update;
-end;
-
-procedure EditorBookmarkGotoNext(ed: TATSynEdit; ANext: boolean);
-var
-  n, nFrom: integer;
-begin
-  n:= ed.Carets[0].PosY;
-  nFrom:= n;
-  repeat
-    if ANext then Inc(n) else Dec(n);
-    if n=nFrom then exit;
-
-    if n>=ed.Strings.Count then n:= 0;
-    if n<0 then n:= ed.Strings.Count-1;
-
-    if ed.Strings.Bookmarks.Find(n)>=0 then
-    begin
-      ed.DoGotoPos(
-        Point(0, n),
-        Point(-1, -1),
-        UiOps.FindIndentHorz,
-        UiOps.FindIndentVert,
-        true,
-        true
-        );
-      exit;
-    end;
-  until false;
-end;
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
   AApplyUnprintedAndWrap, AApplyTabSize: boolean);
@@ -851,57 +760,6 @@ begin
 end;
 
 
-procedure EditorConvertTabsToSpaces(ed: TATSynEdit);
-var
-  S1, S2: atString;
-  i: integer;
-begin
-  Ed.Strings.BeginUndoGroup;
-  try
-    for i:= 0 to Ed.Strings.Count-1 do
-    begin
-      S1:= Ed.Strings.Lines[i];
-      if Pos(#9, S1)=0 then Continue;
-
-      S2:= STabsToSpaces(S1, Ed.OptTabSize);
-      if S1<>S2 then
-        Ed.Strings.Lines[i]:= S2;
-    end;
-  finally
-    Ed.Strings.EndUndoGroup;
-    Ed.Update(true);
-    Ed.DoEventChange;
-  end;
-end;
-
-procedure EditorConvertSpacesToTabsLeading(Ed: TATSynEdit);
-var
-  S1, SBegin, SBegin2, SEnd: atString;
-  N, i: integer;
-begin
-  Ed.Strings.BeginUndoGroup;
-  try
-    for i:= 0 to Ed.Strings.Count-1 do
-    begin
-      S1:= Ed.Strings.Lines[i];
-      if Pos(' ', S1)=0 then Continue;
-
-      N:= SGetIndentChars(S1);
-      if N=0 then Continue;
-      SBegin:= Copy(S1, 1, N);
-      SEnd:= Copy(S1, N+1, MaxInt);
-
-      SBegin2:= SSpacesToTabs(SBegin, Ed.OptTabSize);
-      if SBegin2<>SBegin then
-        Ed.Strings.Lines[i]:= SBegin2+SEnd;
-    end;
-  finally
-    Ed.Strings.EndUndoGroup;
-    Ed.Update(true);
-    Ed.DoEventChange;
-  end;
-end;
-
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 var
   Pnt: TPoint;
@@ -1097,7 +955,7 @@ var
   Caret: TATCaretItem;
   i: integer;
 begin
-  EditorBookmarkClearAll(ed);
+  ed.BookmarkDeleteAll;
   for i:= 0 to ed.Carets.Count-1 do
   begin
     Caret:= ed.Carets[i];

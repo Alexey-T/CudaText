@@ -1293,19 +1293,19 @@ begin
 
         BOOKMARK_SET:
           begin
-            EditorBookmarkSet(Ed, NLine, NKind, bmOpSet, StrText, NColor=1);
+            ed.BookmarkSetForLine(NLine, NKind, StrText, NColor=1);
             Result:= ReturnNone;
           end;
 
         BOOKMARK_CLEAR:
           begin
-            EditorBookmarkSet(Ed, NLine, NKind, bmOpClear, '', false);
+            ed.BookmarkDeleteForLine(NLine);
             Result:= ReturnNone;
           end;
 
         BOOKMARK_CLEAR_ALL:
           begin
-            EditorBookmarkClearAll(Ed);
+            ed.BookmarkDeleteAll;
             Result:= ReturnNone;
           end;
 

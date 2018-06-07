@@ -398,47 +398,48 @@ begin
       end;
     cmd_ConvertTabsToSpaces:
       begin
-        EditorConvertTabsToSpaces(Ed);
+        Ed.DoConvertTabsToSpaces;
         AHandled:= true;
         exit
       end;
     cmd_ConvertSpacesToTabsLeading:
       begin
-        EditorConvertSpacesToTabsLeading(Ed);
+        Ed.DoConvertSpacesToTabsLeading;
         AHandled:= true;
         exit
       end;
 
     cmd_BookmarkToggle:
       begin
-        EditorBookmarkSet(Ed, -1, 1, bmOpToggle, '', false);
+        if ed.Carets.Count>0 then
+          ed.BookmarkToggleForLine(ed.Carets[0].PosY, 1, '', false);
         UpdateFrame;
         AHandled:= true;
         exit
       end;
     cmd_BookmarkClearAll:
       begin
-        EditorBookmarkClearAll(Ed);
+        ed.BookmarkDeleteAll;
         UpdateFrame;
         AHandled:= true;
         exit
       end;
     cmd_BookmarkInvertAll:
       begin
-        EditorBookmarkInvertAll(Ed);
+        ed.BookmarkInvertAll;
         UpdateFrame;
         AHandled:= true;
         exit
       end;
     cmd_BookmarkGotoNext:
       begin
-        EditorBookmarkGotoNext(Ed, true);
+        ed.BookmarkGotoNext(true, UiOps.FindIndentHorz, UiOps.FindIndentVert);
         AHandled:= true;
         exit
       end;
     cmd_BookmarkGotoPrev:
       begin
-        EditorBookmarkGotoNext(Ed, false);
+        ed.BookmarkGotoNext(false, UiOps.FindIndentHorz, UiOps.FindIndentVert);
         AHandled:= true;
         exit
       end;
