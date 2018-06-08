@@ -14,7 +14,8 @@ To make plugin react to events, add method to class Command (like methods of com
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
-* on_close(self, ed_self): Called just before closing tab (closing editor is still active).
+* on_close_pre(self, ed_self): Called before closing tab, before checking if tab modified or not. Method can return False to disable closing.
+* on_close(self, ed_self): Called before closing tab, after modified file was saved, and editor is still active.
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
@@ -619,6 +620,7 @@ Parameter "text" is "\n"-separated items, one item per control. Each item is chr
 * "vis": visible state, bool
 * "hint": hint string for mouse-over. Can be multiline, "\r"-separated.
 * "color": background color
+* "autosize": control is auto-sized (by width and/or height, it's control-specific)
 * "font_name": font name
 * "font_size": font size
 * "font_color": font color
@@ -888,17 +890,38 @@ How to get nice key description in on_key_down, e.g. "Ctrl+Alt+Esc" from id_ctl=
 These are also properties of controls.
 
 * "on_change": Called after "value" of control is changed.
-* "on_click": Called after click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
-* "on_click_dbl": Called after double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
-* "on_click_header": Called for control "listview"/"checklistview", when user clicks on column header. Param "data": int column index.
-* "on_menu": Called before showing context menu after right click.
-* "on_select": Called after selection is changed. For these controls: "treeview", "listview". For "listview", param "data" is 2-tuple (int_item_index, bool_item_selected).
-* "on_fold", "on_unfold": Called for control "treeview", before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
-* "on_draw_item": Called for control "listbox_ex", if it is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }. 
+* "on_click": Called after mouse click on control, for non-active controls, which don't change "value" by click. Param "data" is tuple (x, y) with control-related coordinates of click.
+* "on_click_dbl": Called after mouse double-click on control. Param "data" is tuple (x, y) with control-related coordinates.
 * "on_mouse_down": Called when mouse button pressed. Param "data" is dict: { "btn": int_button_code, "state": str_keyboard_state, "x": int, "y": int }. Button code: 0: left; 1: right; 2: middle. Keyboard state: value like in global event "on_key".
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
+* "on_menu": Called before showing context menu after right click.
+
+Events for control "listview"/"checklistview":
+
+* "on_click_header": Called when user clicks on column header. Param "data": int column index.
+* "on_select": Called after selection is changed. Param "data" is tuple: (int_item_index, bool_item_selected).
+
+Events for control "listbox_ex":
+
+* "on_draw_item": Called if listbox is owner-drawn. Param "data" is dict: { "canvas": canvas_id, "index": int_item_index, "rect": item_rectangle_4_tuple }. 
+
+Events for control "treeview":
+
+* "on_fold", "on_unfold": Called before treeview node is folded/unfolded. Param "data" is int handle of treeview node.
+* "on_select": Called after selection is changed.
+
+Events for control "editor":
+
+* "on_change": Called after text is changed.
+* "on_caret": Called after caret position and/or selection is changed.
+* "on_scroll": Called after editor is scrolled.
+* "on_key_down": Called when user presses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
+* "on_key_up": Called when user depresses a key. Param "data" is tuple (int_key_code, str_key_state). Method can return False to disable default processing.
+* "on_click_gutter": Called on mouse click on gutter area. Param "data" is dict: {"state": str_key_state, "line": int_line_index, "band": int_gutterband_index}.
+* "on_click_gap": Called on mouse click on inter-line gap. Param "data" is dict: {"state": str_key_state, "line": int, "tag": int, "gap_w": int, "gap_h": int, "x": int, "y": int}.
+* "on_paste": Called before doing one of Paste commands. Param "data" is dict: {"keep_caret": bool, "sel_then": bool}. Method can return False to disable default operation.
 
 ====Callbacks====
 
@@ -1778,11 +1801,11 @@ Gets editor's property.
 
 Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible values of id: 
 
-* PROP_GUTTER_ALL: bool: is gutter (all columns) shown.
-* PROP_GUTTER_STATES: bool: is gutter column for line states shown.
-* PROP_GUTTER_NUM: bool: is gutter column for line numbers shown.
-* PROP_GUTTER_FOLD: bool: is gutter column for folding shown.
-* PROP_GUTTER_BM: bool: is gutter column for bookmarks shown.
+* PROP_GUTTER_ALL: bool: gutter (container for all gutter columns) is visible.
+* PROP_GUTTER_STATES: bool: show gutter column "line states".
+* PROP_GUTTER_NUM: bool: show gutter column "line numbers".
+* PROP_GUTTER_FOLD: bool: show gutter column "folding".
+* PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_EOL: str: end-of-line chars. Currently always gets "\n" since it's ignored in "insert" method.
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
@@ -1836,6 +1859,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_FOLD_ALWAYS: bool: always show icons on "folding" gutter bar, otherwise show them only on mouse over.
+* PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
+* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
@@ -1864,10 +1890,10 @@ Sets editor's property.
 
 Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of simple type. Possible values of id:
 
-* PROP_GUTTER_ALL: bool: is gutter (all columns) shown.
-* PROP_GUTTER_STATES: bool: is gutter column for line states shown.
+* PROP_GUTTER_ALL: bool: gutter (container for all gutter columns) is visible.
+* PROP_GUTTER_STATES: bool: show gutter column "line states".
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
-* PROP_GUTTER_FOLD: bool: show gutter column "folding". This don't enable/disable folding conmands, only showing of area.
+* PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
@@ -1911,6 +1937,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0. 
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_FOLD_ALWAYS: bool: always show icons on "folding" gutter bar, otherwise show them only on mouse over.
+* PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
+* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
@@ -1987,29 +2016,30 @@ Notes:
 
  folding(id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint="")
 
-Performs action on folding ranges. Values of id:
+Performs action on folding ranges. Possible values of "id":
 
-* FOLDING_GET_LIST: Gets list of folding ranges. List of 5-tuples (y, y2, x, staple, folded), or None.
-** y: int: line of range start.
-** y2: int: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
-** x: int: x-offset of range start (char index in start line).
-** staple: bool: range has block staple.
-** folded: bool: range is currently folded.
-* FOLDING_FOLD: Folds range with given index (index in list from FOLDING_GET_LIST).
-* FOLDING_UNFOLD: Unfolds range with given index.
-* FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change.
-** item_x: x-offset of range start.
-** item_y: line of range start.
-** item_y2: line of range end.
-** (optional) item_staple: range has block staple.
-** (optional) item_hint: hint string which shows when range is folded.
-** index: if it's valid range index (0-based), range inserts at this index, else range appends.
+* FOLDING_GET_LIST: Gets list of folding ranges. Params used: none except "id". Gets list of tuples (y, y2, x, staple, folded), or None.
+** "y": int: line of range start.
+** "y2": int: line of range end. If y==y2, then range is simple and don't have gutter-mark and staple.
+** "x": int: x-offset of range start (char index in start line).
+** "staple": bool: range has block staple.
+** "folded": bool: range is currently folded.
 
-* FOLDING_DELETE: Deletes folding range with given index.
-* FOLDING_DELETE_ALL: Deletes all folding ranges.
-* FOLDING_FIND: Gets index of range, which starts at line index =item_y, or None.
-* FOLDING_CHECK_RANGE_INSIDE: For 2 ranges with indexes [index, item_x], detects: 1st range is inside 2nd. Gets bool. Gets False if indexes incorrect.
-* FOLDING_CHECK_RANGES_SAME: For 2 ranges with indexes [index, item_x], detects: ranges are same (x/y/y2 may differ). Gets bool. Gets False if indexes incorrect.
+* FOLDING_FOLD: Folds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_UNFOLD: Unfolds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change. Params used:
+** "item_x": char index (offset in line) of range start.
+** "item_y": line index of range start.
+** "item_y2": line index of range end.
+** "item_staple" (optional): bool, range has block staple.
+** "item_hint" (optional): str, hint which is shown when range is folded.
+** "index": if it's valid range index (0-based), range inserts at this index, else range appends.
+
+* FOLDING_DELETE: Deletes folding range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_DELETE_ALL: Deletes all folding ranges. Params used: none except "id".
+* FOLDING_FIND: Finds index of range (index in list, from FOLDING_GET_LIST). Gets None if not found. Params used: "item_y" is line index at which range begins.
+* FOLDING_CHECK_RANGE_INSIDE: For 2 ranges, which indexes given by "index" and "item_x", detects: 1st range is inside 2nd range. Gets bool. Gets False if indexes incorrect.
+* FOLDING_CHECK_RANGES_SAME: For 2 ranges, which indexes given by "index" and "item_x", detects: ranges are "equal" (x, y, y2 in ranges may differ). Gets bool. Gets False if indexes incorrect.
 
 ===get_sublexer_ranges===
 
@@ -2361,6 +2391,17 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.247 (app 1.56.3)
+* add: event on_close_pre
+* add: ed.get_prop/set_prop: PROP_FOLD_ALWAYS
+* add: ed.get_prop/set_prop: PROP_FOLD_ICONS
+* add: ed.get_prop/set_prop: PROP_FOLD_TOOLTIP_SHOW
+
+1.0.246 (app 1.56.1)
+* add: dlg_proc: controls have prop "autosize"
+* add: dlg_proc: added events for control "editor": on_change, on_caret, on_scroll, on_key_down, on_key_up, on_click_gutter, on_click_gap, on_paste
+* add: addon can require lexer(s) via install.inf: [info] reqlexer=Name1,Name2
 
 1.0.245 (app 1.55.3)
 * add: Editor.get_prop/set_prop: PROP_CARET_STOP_UNFOCUSED
