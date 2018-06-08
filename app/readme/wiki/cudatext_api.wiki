@@ -1858,6 +1858,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0.
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_FOLD_ALWAYS: bool: always show icons on "folding" gutter bar, otherwise show them only on mouse over.
+* PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
+* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
@@ -1933,6 +1936,9 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_INDENT_KEEP_ALIGN: bool: command Unindent keeps alignment of block edge, ie don't unindent if any line reached column 0. 
 * PROP_INDENT_AUTO: bool: makes next line also indented on Enter command. 
 * PROP_INDENT_KIND: int: kind of auto-indented line, see description of app option "indent_kind".
+* PROP_FOLD_ALWAYS: bool: always show icons on "folding" gutter bar, otherwise show them only on mouse over.
+* PROP_FOLD_ICONS: int: icon set for "folding" gutter bar. Possible values: 0, 1.
+* PROP_FOLD_TOOLTIP_SHOW: bool: show floating tooltip when mouse hovers [...] mark for folded block.
 * PROP_LAST_LINE_ON_TOP: bool: allow to scroll control, so last line shows on top.
 * PROP_HILITE_CUR_COL: bool: highlight current column.
 * PROP_HILITE_CUR_LINE: bool: highlight current line.
@@ -2384,6 +2390,11 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.247 (app 1.56.3)
+* add: ed.get_prop/set_prop: PROP_FOLD_ALWAYS
+* add: ed.get_prop/set_prop: PROP_FOLD_ICONS
+* add: ed.get_prop/set_prop: PROP_FOLD_TOOLTIP_SHOW
 
 1.0.246 (app 1.56.1)
 * add: dlg_proc: controls have prop "autosize"
