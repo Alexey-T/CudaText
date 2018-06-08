@@ -1469,6 +1469,7 @@ begin
   CodeTree.Tree.PopupMenu:= PopupTree;
 
   ListboxOut:= TATListbox.Create(Self);
+  ListboxOut.VirtualMode:= false;
   ListboxOut.Parent:= PanelBottom;
   ListboxOut.Align:= alClient;
   ListboxOut.CanGetFocus:= true;
@@ -1478,6 +1479,7 @@ begin
   ListboxOut.OnKeyDown:= @ListboxOutKeyDown;
 
   ListboxVal:= TATListbox.Create(Self);
+  ListboxVal.VirtualMode:= false;
   ListboxVal.Parent:= PanelBottom;
   ListboxVal.Align:= alClient;
   ListboxVal.CanGetFocus:= true;
@@ -4070,7 +4072,6 @@ begin
     if Shift=[ssCtrl] then
       Prop^.Listbox.Items.Clear;
 
-    List.ItemCount:= Prop^.Listbox.Items.Count;
     if List.ItemCount=0 then
       List.ItemIndex:= -1
     else

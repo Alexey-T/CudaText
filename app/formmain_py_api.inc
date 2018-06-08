@@ -1805,7 +1805,6 @@ begin
         LOG_CLEAR:
           begin
             Prop^.Listbox.Items.Clear;
-            Prop^.Listbox.ItemCount:= 0;
             Prop^.Listbox.Invalidate;
             Result:= ReturnNone;
           end;
@@ -1813,7 +1812,6 @@ begin
         LOG_ADD:
           begin
             Prop^.Listbox.Items.AddObject(Str, TObject(PtrInt(NTag)));
-            Prop^.Listbox.ItemCount:= Prop^.Listbox.Items.Count;
             Prop^.Listbox.Invalidate;
             Result:= ReturnNone;
           end;
@@ -3969,7 +3967,6 @@ begin
             else
             if IndexOk then
               Listbox.Items.InsertObject(NIndex, StrText, TObject(PtrInt(NTag)));
-            Listbox.ItemCount:= Listbox.Items.Count;
             Listbox.Invalidate;
             Result:= ReturnNone;
           end;
@@ -3979,7 +3976,6 @@ begin
             if IndexOk then
             begin
               Listbox.Items.Delete(NIndex);
-              Listbox.ItemCount:= Listbox.Items.Count;
               if Listbox.ItemIndex>=Listbox.ItemCount then
                 Listbox.ItemIndex:= Listbox.ItemCount-1;
               Listbox.Invalidate;
@@ -3990,7 +3986,6 @@ begin
         LISTBOX_DELETE_ALL:
           begin
             Listbox.Items.Clear;
-            Listbox.ItemCount:= 0;
             Listbox.ItemIndex:= -1;
             Listbox.ItemTop:= 0;
             Listbox.Invalidate;

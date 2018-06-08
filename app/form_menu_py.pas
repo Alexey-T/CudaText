@@ -318,7 +318,7 @@ begin
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
-  list.ItemCount:= listFiltered.Count;
+  list.VirtualItemCount:= listFiltered.Count;
   list.Invalidate;
 end;
 

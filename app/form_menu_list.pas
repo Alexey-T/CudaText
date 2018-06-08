@@ -54,7 +54,7 @@ implementation
 procedure TfmGotoList.FormShow(Sender: TObject);
 begin
   UpdateFormOnTop(Self);
-  List.ItemCount:= Items.Count;
+  List.VirtualItemCount:= Items.Count;
 end;
 
 procedure TfmGotoList.ListDrawItem(Sender: TObject; C: TCanvas; AIndex: integer;

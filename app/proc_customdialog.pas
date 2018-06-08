@@ -750,6 +750,7 @@ begin
   if (S='listbox_ex') then
   begin
     Ctl:= TATListbox.Create(AForm);
+    TATListbox(Ctl).VirtualMode:= false;
     TATListbox(Ctl).ItemHeight:= GetListboxItemHeight(UiOps.VarFontName, UiOps.VarFontSize);;
     TATListbox(Ctl).CanGetFocus:= true;
     TATListbox(Ctl).OnChangedSel:= @AForm.DoOnChange;

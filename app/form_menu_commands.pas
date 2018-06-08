@@ -373,7 +373,7 @@ begin
 
   list.ItemIndex:= 0;
   list.ItemTop:= 0;
-  list.ItemCount:= keymapList.Count;
+  list.VirtualItemCount:= keymapList.Count;
   list.Invalidate;
 end;
 
