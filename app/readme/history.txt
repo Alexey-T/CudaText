@@ -4,7 +4,7 @@
   * changed
 
 
-1.56.2 (2018/06)
+1.56.3 (2018/06)
 
 + add: improved plugin "Insert Time": added command "Insert in default format", and command "Config" in "Options / Settings-plugins"
 + add: API
