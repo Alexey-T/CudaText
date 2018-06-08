@@ -169,6 +169,12 @@ begin
       Exit
     end;
 
+  if DoPyEvent(Frame.Editor, cEventOnCloseBefore, []) = cPyFalse then
+  begin
+    ACanClose:= false;
+    Exit
+  end;
+
   if Application.Terminated then
     Res:= ID_OK
   else

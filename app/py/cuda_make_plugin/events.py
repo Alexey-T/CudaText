@@ -7,6 +7,7 @@ EVENTS = [
     'on_click_gap',
     'on_click_gutter',
     'on_close',
+    'on_close_pre',
     'on_complete',
     'on_console',
     'on_console_nav',
