@@ -14,7 +14,8 @@ To make plugin react to events, add method to class Command (like methods of com
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
-* on_close(self, ed_self): Called just before closing tab (closing editor is still active).
+* on_close_pre(self, ed_self): Called before closing tab, before checking if tab modified or not. Method can return False to disable closing.
+* on_close(self, ed_self): Called before closing tab, after modified file was saved, and editor is still active.
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
@@ -2392,6 +2393,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.247 (app 1.56.3)
+* add: event on_close_pre
 * add: ed.get_prop/set_prop: PROP_FOLD_ALWAYS
 * add: ed.get_prop/set_prop: PROP_FOLD_ICONS
 * add: ed.get_prop/set_prop: PROP_FOLD_TOOLTIP_SHOW
