@@ -168,6 +168,9 @@ const
   PROP_HILITE_CUR_LINE_IF_FOCUS  = 80;
   PROP_CARET_STOP_UNFOCUSED      = 81;
   PROP_MODERN_SCROLLBAR          = 85;
+  PROP_FOLD_TOOLTIP_SHOW         = 101;
+  PROP_FOLD_ALWAYS               = 102;
+  PROP_FOLD_ICONS                = 103;
 
   APP_PROC_DUMP_CACHE = -2; //for debugging
   APP_PROC_SET_CLIP_ALT = -1;

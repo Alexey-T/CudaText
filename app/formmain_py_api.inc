@@ -2392,6 +2392,21 @@ begin
             Result:= PyBool_FromLong(Ord(Ed.OptScrollbarsNew));
           end;
 
+        PROP_FOLD_TOOLTIP_SHOW:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.OptFoldTooltipVisible));
+          end;
+
+        PROP_FOLD_ALWAYS:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.OptGutterShowFoldAlways));
+          end;
+
+        PROP_FOLD_ICONS:
+          begin
+            Result:= PyBool_FromLong(Ord(Ed.OptGutterIcons));
+          end;
+
         PROP_V_MODE:
           begin
             if F.IsBinary then
@@ -2718,6 +2733,15 @@ begin
 
         PROP_MODERN_SCROLLBAR:
           Ed.OptScrollbarsNew:= ValueBool;
+
+        PROP_FOLD_TOOLTIP_SHOW:
+          Ed.OptFoldTooltipVisible:= ValueBool;
+
+        PROP_FOLD_ALWAYS:
+          Ed.OptGutterShowFoldAlways:= ValueBool;
+
+        PROP_FOLD_ICONS:
+          Ed.OptGutterIcons:= TATGutterIconsKind(ValueInt);
 
         PROP_V_MODE:
           begin
