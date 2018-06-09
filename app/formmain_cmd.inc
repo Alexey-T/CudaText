@@ -143,13 +143,6 @@ begin
     cmd_MoveTabToGroupNext: Groups.MoveCurrentTabToNext(true);
     cmd_MoveTabToGroupPrev: Groups.MoveCurrentTabToNext(false);
 
-    cmd_SplitTabToggle:    with CurrentFrame do Splitted:= not Splitted;
-    cmd_SplitTabHorzVert:  with CurrentFrame do SplitHorz:= not SplitHorz;
-    cmd_SplitTab3070:   CurrentFrame.SplitPos:= 0.7;
-    cmd_SplitTab4060:   CurrentFrame.SplitPos:= 0.6;
-    cmd_SplitTab5050:   CurrentFrame.SplitPos:= 0.5;
-    cmd_SplitTab6040:   CurrentFrame.SplitPos:= 0.4;
-    cmd_SplitTab7030:   CurrentFrame.SplitPos:= 0.3;
     cmd_CopyLine:         DoCopyLine;
     cmd_CopyFilenameFull: DoCopyFilenameFull;
     cmd_CopyFilenameDir:  DoCopyFilenameDir;
@@ -537,6 +530,49 @@ begin
     cmd_LineEndMac:
       begin
         UpdateFrameLineEnds(Frame, cEndMac);
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_SplitTabToggle:
+      begin
+        Frame.Splitted:= not Frame.Splitted;
+        AHandled:= true;
+        exit
+      end;
+    cmd_SplitTabHorzVert:
+      begin
+        Frame.SplitHorz:= not Frame.SplitHorz;
+        AHandled:= true;
+        exit
+      end;
+    cmd_SplitTab3070:
+      begin
+        Frame.SplitPos:= 0.7;
+        AHandled:= true;
+        exit
+      end;
+    cmd_SplitTab4060:
+      begin
+        Frame.SplitPos:= 0.6;
+        AHandled:= true;
+        exit
+      end;
+    cmd_SplitTab5050:
+      begin
+        Frame.SplitPos:= 0.5;
+        AHandled:= true;
+        exit
+      end;
+    cmd_SplitTab6040:
+      begin
+        Frame.SplitPos:= 0.4;
+        AHandled:= true;
+        exit
+      end;
+    cmd_SplitTab7030:
+      begin
+        Frame.SplitPos:= 0.3;
         AHandled:= true;
         exit
       end;
