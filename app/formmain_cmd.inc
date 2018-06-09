@@ -231,40 +231,6 @@ begin
     cmd_Encoding_cp949_Reload: SetFrameEncoding(CurrentFrame, cEncNameCP949, true);
     cmd_Encoding_cp950_Reload: SetFrameEncoding(CurrentFrame, cEncNameCP950, true);
 
-    cmd_Markers_DropAtCaret:
-      begin
-        CurrentEditor.MarkerDrop;
-        UpdateStatus;
-      end;
-    cmd_Markers_GotoLastAndDelete:
-      begin
-        CurrentEditor.MarkerGotoLast(true,
-          UiOps.FindIndentHorz,
-          UiOps.FindIndentVert);
-        if CurrentEditor.Markers.Count=0 then
-          CurrentFrame.TabKeyCollectMarkers:= false;
-        UpdateStatus;
-      end;
-    cmd_Markers_GotoLastNoDelete:
-      begin
-        CurrentEditor.MarkerGotoLast(false,
-          UiOps.FindIndentHorz,
-          UiOps.FindIndentVert
-        );
-        UpdateStatus;
-      end;
-    cmd_Markers_ClearAll:
-      begin
-        CurrentEditor.MarkerClearAll;
-        CurrentFrame.TabKeyCollectMarkers:= false;
-        UpdateStatus;
-      end;
-    cmd_Markers_SwapCaretAndMarker:
-      begin
-        CurrentEditor.MarkerSwap;
-        UpdateStatus;
-      end;
-
     cmd_MacroStart:
       begin
         CurrentFrame.DoMacroStart;
@@ -469,6 +435,50 @@ begin
     cmd_BookmarkDeleteMarkedLines:
       begin
         Ed.BookmarkDeleteMarkedLines;
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_Markers_DropAtCaret:
+      begin
+        Ed.MarkerDrop;
+        UpdateStatus;
+        AHandled:= true;
+        exit
+      end;
+    cmd_Markers_GotoLastAndDelete:
+      begin
+        Ed.MarkerGotoLast(true,
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert);
+        if Ed.Markers.Count=0 then
+          Frame.TabKeyCollectMarkers:= false;
+        UpdateStatus;
+        AHandled:= true;
+        exit
+      end;
+    cmd_Markers_GotoLastNoDelete:
+      begin
+        Ed.MarkerGotoLast(false,
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert
+        );
+        UpdateStatus;
+        AHandled:= true;
+        exit
+      end;
+    cmd_Markers_ClearAll:
+      begin
+        Ed.MarkerClearAll;
+        Frame.TabKeyCollectMarkers:= false;
+        UpdateStatus;
+        AHandled:= true;
+        exit
+      end;
+    cmd_Markers_SwapCaretAndMarker:
+      begin
+        Ed.MarkerSwap;
+        UpdateStatus;
         AHandled:= true;
         exit
       end;
