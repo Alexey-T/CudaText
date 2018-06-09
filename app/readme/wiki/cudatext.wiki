@@ -703,6 +703,12 @@ In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "c
 ==Preview tab==
 To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
+==How to install plugins from GitHub==
+
+First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
+
+Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
+
 ==How to change icons==
 
 Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
