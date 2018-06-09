@@ -28,11 +28,6 @@ uses
   proc_colors,
   math;
 
-procedure EditorMarkerDrop(Ed: TATSynEdit);
-procedure EditorMarkerGotoLast(Ed: TATSynEdit; AndDelete: boolean);
-procedure EditorMarkerClearAll(Ed: TATSynEdit);
-procedure EditorMarkerSwap(Ed: TATSynEdit);
-
 procedure EditorFocus(C: TWinControl);
 procedure EditorMouseClick_AtCursor(Ed: TATSynEdit; AAndSelect: boolean);
 procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect: boolean);
@@ -644,113 +639,6 @@ begin
   ScrollInfo.NPos:= 0;
   Ed.ScrollHorz:= ScrollInfo;
 
-  Ed.Update;
-end;
-
-
-procedure EditorMarkerDrop(Ed: TATSynEdit);
-var
-  Caret: TATCaretItem;
-begin
-  if Ed.Carets.Count<>1 then exit;
-  Caret:= Ed.Carets[0];
-  Ed.Markers.Add(Caret.PosX, Caret.PosY);
-  Ed.Update;
-end;
-
-procedure EditorMarkerGotoLast(Ed: TATSynEdit; AndDelete: boolean);
-var
-  Mark: TATMarkerItem;
-  X1, Y1, X2, Y2: integer;
-  NTag, i: integer;
-begin
-  if Ed.Markers.Count=0 then exit;
-  Mark:= Ed.Markers[Ed.Markers.Count-1];
-
-  X1:= Mark.PosX;
-  Y1:= Mark.PosY;
-  X2:= -1;
-  Y2:= -1;
-
-  if Mark.LenY<=0 then
-  begin
-    //LenX is selection len (1-line)
-    if Mark.LenX>0 then
-    begin
-      X2:= X1+Mark.LenX;
-      Y2:= Y1;
-    end;
-  end
-  else
-  begin
-    //LenX is selection end X-pos;
-    //LenY is count of sel lines
-    X2:= Mark.LenX;
-    Y2:= Y1+Mark.LenY;
-  end;
-
-  Ed.DoGotoPos(
-    Point(X1, Y1),
-    Point(X2, Y2),
-    UiOps.FindIndentHorz,
-    UiOps.FindIndentVert,
-    true,
-    true
-    );
-
-  if AndDelete then
-  begin
-    NTag:= Ed.Markers[Ed.Markers.Count-1].Tag;
-    Ed.Markers.Delete(Ed.Markers.Count-1);
-
-    //Tag>0: delete also same tag marks
-    //and place mul-carets
-    if NTag>0 then
-      for i:= Ed.Markers.Count-1 downto 0 do
-      begin
-        Mark:= Ed.Markers[i];
-        if Mark.Tag=NTag then
-        begin
-          if Mark.LenY>0 then
-            Ed.Carets.Add(Mark.LenX, Mark.PosY+Mark.LenY, Mark.PosX, Mark.PosY)
-          else
-          if Mark.LenX<=0 then
-            Ed.Carets.Add(Mark.PosX, Mark.PosY)
-          else
-            Ed.Carets.Add(Mark.PosX+Mark.LenX, Mark.PosY, Mark.PosX, Mark.PosY);
-          Ed.Markers.Delete(i);
-        end;
-      end;
-  end;
-
-  Ed.Update;
-end;
-
-procedure EditorMarkerClearAll(Ed: TATSynEdit);
-begin
-  Ed.Markers.Clear;
-  Ed.Update;
-end;
-
-procedure EditorMarkerSwap(Ed: TATSynEdit);
-var
-  Caret: TATCaretItem;
-  Mark: TATMarkerItem;
-  PX, PY: integer;
-begin
-  if Ed.Carets.Count<>1 then exit;
-  if Ed.Markers.Count=0 then exit;
-  Caret:= Ed.Carets[0];
-  Mark:= Ed.Markers[Ed.Markers.Count-1];
-
-  PX:= Caret.PosX;
-  PY:= Caret.PosY;
-  Caret.PosX:= Mark.PosX;
-  Caret.PosY:= Mark.PosY;
-  Mark.PosX:= PX;
-  Mark.PosY:= PY;
-
-  Ed.DoGotoCaret(cEdgeTop);
   Ed.Update;
 end;
 

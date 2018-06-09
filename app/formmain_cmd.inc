@@ -233,30 +233,35 @@ begin
 
     cmd_Markers_DropAtCaret:
       begin
-        EditorMarkerDrop(CurrentEditor);
+        CurrentEditor.MarkerDrop;
         UpdateStatus;
       end;
     cmd_Markers_GotoLastAndDelete:
       begin
-        EditorMarkerGotoLast(CurrentEditor, true);
+        CurrentEditor.MarkerGotoLast(true,
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert);
         if CurrentEditor.Markers.Count=0 then
           CurrentFrame.TabKeyCollectMarkers:= false;
         UpdateStatus;
       end;
     cmd_Markers_GotoLastNoDelete:
       begin
-        EditorMarkerGotoLast(CurrentEditor, false);
+        CurrentEditor.MarkerGotoLast(false,
+          UiOps.FindIndentHorz,
+          UiOps.FindIndentVert
+        );
         UpdateStatus;
       end;
     cmd_Markers_ClearAll:
       begin
-        EditorMarkerClearAll(CurrentEditor);
+        CurrentEditor.MarkerClearAll;
         CurrentFrame.TabKeyCollectMarkers:= false;
         UpdateStatus;
       end;
     cmd_Markers_SwapCaretAndMarker:
       begin
-        EditorMarkerSwap(CurrentEditor);
+        CurrentEditor.MarkerSwap;
         UpdateStatus;
       end;
 
@@ -549,7 +554,9 @@ begin
         AHandled:= Frame.TabKeyCollectMarkers and (Ed.Markers.Count>0);
         if AHandled then
         begin
-          EditorMarkerGotoLast(Ed, true);
+          Ed.MarkerGotoLast(true,
+            UiOps.FindIndentHorz,
+            UiOps.FindIndentVert);
           if Ed.Markers.Count=0 then
             Frame.TabKeyCollectMarkers:= false;
         end;
