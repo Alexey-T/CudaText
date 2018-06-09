@@ -241,46 +241,6 @@ begin
         MsgStatus('');
       end;
 
-    cmd_LinkAtCaret_Open:
-      begin
-        Str:= EditorGetLinkAtCaret(CurrentEditor);
-        if Str<>'' then
-        begin
-          OpenURL(Str);
-          MsgStatus(msgStatusOpenedBrowser);
-        end;
-      end;
-
-    cmd_LinkAtCaret_Copy:
-      begin
-        Str:= EditorGetLinkAtCaret(CurrentEditor);
-        if Str<>'' then
-        begin
-          SClipboardCopy(UTF8Encode(Str));
-          MsgStatus(msgStatusCopiedLink);
-        end;
-      end;
-
-    cmd_LinkAtPopup_Open:
-      begin
-        Str:= EditorGetLinkAtScreenCoord(CurrentEditor, PopupText.PopupPoint);
-        if Str<>'' then
-        begin
-          OpenURL(Str);
-          MsgStatus(msgStatusOpenedBrowser);
-        end;
-      end;
-
-    cmd_LinkAtPopup_Copy:
-      begin
-        Str:= EditorGetLinkAtScreenCoord(CurrentEditor, PopupText.PopupPoint);
-        if Str<>'' then
-        begin
-          SClipboardCopy(UTF8Encode(Str));
-          MsgStatus(msgStatusCopiedLink);
-        end;
-      end;
-
     cmd_TreeGotoNext: DoTreeviewJump(CodeTree.Tree, treeGoNext);
     cmd_TreeGotoPrev: DoTreeviewJump(CodeTree.Tree, treeGoPrev);
     cmd_TreeGotoParent: DoTreeviewJump(CodeTree.Tree, treeGoParent);
@@ -573,6 +533,54 @@ begin
     cmd_SplitTab7030:
       begin
         Frame.SplitPos:= 0.3;
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_LinkAtCaret_Open:
+      begin
+        Str:= EditorGetLinkAtCaret(Ed);
+        if Str<>'' then
+        begin
+          OpenURL(Str);
+          MsgStatus(msgStatusOpenedBrowser);
+        end;
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_LinkAtCaret_Copy:
+      begin
+        Str:= EditorGetLinkAtCaret(Ed);
+        if Str<>'' then
+        begin
+          SClipboardCopy(UTF8Encode(Str));
+          MsgStatus(msgStatusCopiedLink);
+        end;
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_LinkAtPopup_Open:
+      begin
+        Str:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint);
+        if Str<>'' then
+        begin
+          OpenURL(Str);
+          MsgStatus(msgStatusOpenedBrowser);
+        end;
+        AHandled:= true;
+        exit
+      end;
+
+    cmd_LinkAtPopup_Copy:
+      begin
+        Str:= EditorGetLinkAtScreenCoord(Ed, PopupText.PopupPoint);
+        if Str<>'' then
+        begin
+          SClipboardCopy(UTF8Encode(Str));
+          MsgStatus(msgStatusCopiedLink);
+        end;
         AHandled:= true;
         exit
       end;
