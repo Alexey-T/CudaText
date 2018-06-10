@@ -314,6 +314,13 @@ begin
 
   //handle commands cmd_
   case ACommand of
+    cmd_RepaintEditor:
+      begin
+        Ed.Update;
+        AHandled:= true;
+        exit
+      end;
+
     cmd_ToggleTabUsesSpaces:
       begin
         Ed.OptTabSpaces:= not Ed.OptTabSpaces;

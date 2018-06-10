@@ -51,6 +51,7 @@ const
   cmd_FileCloseAll       = 2513;
   cmd_FileCloseAndDelete = 2514;
   cmd_FileExportHtml     = 2515;
+  cmd_RepaintEditor      = 2516;
 
   cmd_OpsOpenDefaultAndUser = 2519;
   cmd_OpsClearRecent     = 2520;
@@ -276,6 +277,7 @@ const
 
 procedure InitKeymapForApplication(M: TATKeymap);
 begin
+  M.Add(cmd_RepaintEditor, 'repaint editor', [], []);
   M.Add(cmd_FileNew, 'file: new file', [cXControl+'+N'], []);
   M.Add(cmd_FileNewMenu, 'file: new file, from template', [], []);
   M.Add(cmd_FileOpen, 'file: open file', [cXControl+'+O'], []);
