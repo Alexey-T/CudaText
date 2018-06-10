@@ -13,6 +13,7 @@ sudo rm -rf $dd
 mkdir -p $dd
 mkdir $dd/DEBIAN
 cp debfiles/control $dd/DEBIAN
+cp debfiles/copyright $dd/DEBIAN
 
 mkdir $dd/usr
 mkdir $dd/usr/bin

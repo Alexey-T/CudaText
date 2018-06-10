@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: cudatext
+Source:
+
+
+Files: *
+Copyright: 2015-2018 UVviewsoft
+License: MPL-2.0
