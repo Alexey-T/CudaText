@@ -8,4 +8,4 @@ Homepage: http://uvviewsoft.com/
 Depends: libgtk2.0-0 (>= 2.20.0)
 Installed-Size: 16000
 Description: CudaText editor
- Syntax highlighting for lot of languages (180+ lexers). Config system in JSON files. Supports Unicode UTF8 encoding. Multi-carets and multi-selections. Implemented many editing commands found in common text editors. Tabbed interface. Search and replace with regex. Plugins in Python.
+ Powerful text/code editor with lite UI and tabbed interface. Syntax highlighting for 200+ languages. Config system in JSON files. Multi-carets and multi-selections. Search and replace with RegEx. Extendable by Python plugins.
