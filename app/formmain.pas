@@ -1675,7 +1675,18 @@ begin
 end;
 
 procedure TfmMain.FormCloseQuery(Sender: TObject; var ACanClose: boolean);
+var
+  F: TEditorFrame;
+  i: integer;
 begin
+  //call on_close_pre for all tabs, it's needed to save all
+  //tabs by AutoSave plugin
+  for i:= 0 to FrameCount-1 do
+  begin
+    F:= Frames[i];
+    DoPyEvent(F.Editor, cEventOnCloseBefore, []);
+  end;
+
   if GetModifiedCount>0 then
     ACanClose:= DoDialogSaveTabs
   else
