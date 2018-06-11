@@ -4,6 +4,11 @@
   * changed
 
 
+1.56.4 (2018/06)
+
+- fix: group-modes "1+2 horz/vert" gave errors
+- fix: lexer Pascal must allow & char in id
+
 1.56.3 (2018/06)
 
 + add: improved plugin "Insert Time": added command "Insert in default format", and command "Config" in "Options / Settings-plugins"

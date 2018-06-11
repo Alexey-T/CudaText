@@ -347,9 +347,17 @@ var
 procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
+var
+  C: TWinControl;
 begin
   APages:= Frame.Parent as TATPages;
-  AGroups:= APages.Parent as TATGroups;
+
+  C:= APages;
+  repeat
+    C:= C.Parent;
+  until C is TATGroups;
+
+  AGroups:= C as TATGroups;
   AGroups.PagesAndTabIndexOfControl(Frame, ALocalGroupIndex, ATabIndex);
 
   AGlobalGroupIndex:= ALocalGroupIndex;
