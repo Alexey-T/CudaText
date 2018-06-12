@@ -380,6 +380,7 @@ var
   sub: TMenuItem;
   mi: TMenuItem;
   i: integer;
+  SName: string;
 begin
   if F=nil then
     SAddStringToHistory('', FListRecents, UiOps.MaxHistoryMenu)
@@ -399,9 +400,10 @@ begin
   for i:= 0 to FListRecents.Count-1 do
   begin;
     mi:= TMenuItem.Create(Self);
-    mi.Caption:= IntToStr(i+1)+'.  '+
+    SName:= IntToStr(i+1)+'.  '+
       ExtractFileName(FListRecents[i])+'  ('+
       ExtractFileDir(FListRecents[i])+')';
+    mi.Caption:= StringReplace(SName, '&', '&&', [rfReplaceAll]);
     mi.Tag:= i;
     mi.OnClick:= @MenuRecentsClick;
     sub.Add(mi);
