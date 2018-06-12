@@ -10,7 +10,7 @@
       "regex": "<!--.*?-->",
       "style": "Comment"
     },
-    "cmt": {
+    "cmt2": {
       "regex": "<\\?.*?\\?>",
       "style": "CommentDoc"
     },
