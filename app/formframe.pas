@@ -287,6 +287,7 @@ type
     procedure DoGotoPos(APosX, APosY: integer);
     procedure DoRestoreFolding;
     procedure DoClearPreviewTabState;
+    procedure DoToggleFocusSplitEditors;
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
@@ -2441,6 +2442,20 @@ begin
   UpdateModifiedState;
 end;
 
+procedure TEditorFrame.DoToggleFocusSplitEditors;
+var
+  Ed: TATSynEdit;
+begin
+  if Splitted then
+  begin
+    Ed:= Editor2;
+    if Ed.Enabled and Ed.Visible then
+    begin
+      FActiveAlt:= Ed=Ed2;
+      Ed.SetFocus;
+    end;
+  end;
+end;
 
 end.
 

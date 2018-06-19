@@ -93,6 +93,7 @@ const
   cmd_ToggleFloatSide = 2556;
   cmd_ToggleFloatBottom = 2557;
 
+  cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
   cmd_SwitchActiveTabToNext = 2578;
   cmd_SwitchActiveTabToPrev = 2579;
@@ -330,6 +331,7 @@ begin
   M.Add(cmd_ShowPanelOutput, 'ui: show bottom panel / output', [], []);
   M.Add(cmd_ShowPanelValidate, 'ui: show bottom panel / validate', [], []);
 
+  M.Add(cmd_ToggleFocusSplitEditors, 'ui: toggle focus between split 1st/2nd editors', [], []);
   M.Add(cmd_FocusEditor, 'ui: focus editor', [], []);
   M.Add(cmd_SwitchActiveTabToNext, 'ui: switch active tab, to next', ['Ctrl+Tab'], []);
   M.Add(cmd_SwitchActiveTabToPrev, 'ui: switch active tab, to previous', ['Ctrl+Shift+Tab'], []);
@@ -538,6 +540,7 @@ begin
     cmd_FileCloseAll,
     cmd_FileCloseAndDelete,
     cmd_FileExportHtml,
+    cmd_ToggleFocusSplitEditors,
     cmd_FocusEditor,
 
     cmd_OpsClearRecent,
@@ -659,6 +662,7 @@ begin
     cmd_FileCloseAll,
     cmd_FileCloseAndDelete,
     cmd_FileExportHtml,
+    cmd_ToggleFocusSplitEditors,
     cmd_FocusEditor,
     cmd_ToggleBottomPanel,
     cmd_ToggleSidePanel,
