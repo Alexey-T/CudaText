@@ -140,8 +140,8 @@ const
   nColorGutterFont = $909090;
   nColorArrow = $969696;
   nColorBorder = $c0c0c0;
-  nColorListBack = $d0d0d0;
-  nColorListSelBack = $b8b8b8;
+  nColorListBack = $c4b8b8;
+  nColorListSelBack = $d0d0d0;
 begin
   SetLength(D.Colors, 0);
 
