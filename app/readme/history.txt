@@ -4,6 +4,11 @@
   * changed
 
 
+1.57.0 (2018/06)
+
++ add: improve lexer JSON (different color for string before ":")
++ add: improve lexer Pascal (code tree for nested class of 1 level)
+
 1.56.4 (2018/06)
 
 - fix: group-modes "1+2 horz/vert" gave errors

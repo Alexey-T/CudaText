@@ -1,4 +1,4 @@
-object SyntAnal20: TLibSyntAnalyzer
+object SyntAnal16: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -20,6 +20,14 @@ object SyntAnal20: TLibSyntAnalyzer
       DisplayName = 'String'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String key'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
@@ -54,6 +62,14 @@ object SyntAnal20: TLibSyntAnalyzer
       StyleName = 'Comment'
       TokenType = 1
       Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String key'
+      StyleName = 'String key'
+      TokenType = 4
+      Expression = '"(\\"|.)*?" (?=\x20*:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
