@@ -105,7 +105,7 @@ type
     FSplitted: boolean;
     FSplitHorz: boolean;
     FSplitPos: double;
-    FActiveAlt: boolean;
+    FActiveSecondaryEd: boolean;
     FLocked: boolean;
     FTabColor: TColor;
     FTabSizeChanged: boolean;
@@ -390,9 +390,9 @@ var
   StateString: string;
 begin
   NewAlt:= Sender=Ed2;
-  if NewAlt<>FActiveAlt then
+  if NewAlt<>FActiveSecondaryEd then
   begin
-    FActiveAlt:= NewAlt;
+    FActiveSecondaryEd:= NewAlt;
     DoOnUpdateStatus;
   end;
 
@@ -1205,7 +1205,7 @@ begin
 
   FFileName:= '';
   FModified:= false;
-  FActiveAlt:= false;
+  FActiveSecondaryEd:= false;
   FTabColor:= clNone;
   Inc(FLastTabId);
   FTabId:= FLastTabId;
@@ -1280,7 +1280,7 @@ end;
 
 function TEditorFrame.Editor: TATSynEdit;
 begin
-  if FActiveAlt then
+  if FActiveSecondaryEd then
     Result:= Ed2
   else
     Result:= Ed1;
@@ -1288,7 +1288,7 @@ end;
 
 function TEditorFrame.Editor2: TATSynEdit;
 begin
-  if not FActiveAlt then
+  if not FActiveSecondaryEd then
     Result:= Ed2
   else
     Result:= Ed1;
@@ -2451,7 +2451,7 @@ begin
     Ed:= Editor2;
     if Ed.Enabled and Ed.Visible then
     begin
-      FActiveAlt:= Ed=Ed2;
+      FActiveSecondaryEd:= Ed=Ed2;
       Ed.SetFocus;
     end;
   end;
