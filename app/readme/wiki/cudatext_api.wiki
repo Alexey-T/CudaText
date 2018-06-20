@@ -181,7 +181,9 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ** "op_wrap_d": option "wrapped search" of dialog, None if dialog not inited
 ** "op_mulline_d": option "multi-line input fields" of dialog, None if dialog not inited
 
-* PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
+* PROC_SET_FINDER_PROP: Sets props of Find/Replace dialog and search engine. Param "text" must be dict, with some keys listed in PROC_GET_FINDER_PROP. Values of keys must be str (for text fields) or bool.
+
+* deprecated: PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
 * deprecated: PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
 * deprecated: PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 
@@ -2417,9 +2419,11 @@ Text is chr(1) separated items:
 =History=
 
 1.0.248 (app 1.56.6)
-* deprecated: app_proc: PROC_GET_FIND_OPTIONS
-* deprecated: app_proc: PROC_GET_FIND_STRINGS
 * add: app_proc: PROC_GET_FINDER_PROP
+* add: app_proc: PROC_SET_FINDER_PROP
+* deprecated: app_proc: PROC_GET_FIND_OPTIONS
+* deprecated: app_proc: PROC_SET_FIND_OPTIONS
+* deprecated: app_proc: PROC_GET_FIND_STRINGS
 
 1.0.247 (app 1.56.3)
 * add: event on_close_pre
