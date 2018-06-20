@@ -8,6 +8,7 @@
 
 + add: improve lexer JSON (different color for string before ":")
 + add: improve lexer Pascal (code tree for nested class of 1 level)
++ add: improve lexer Assembly (hilite labels, show labels in Code Tree, hilite dec/binary numbers with suffix)
 
 1.56.4 (2018/06)
 
