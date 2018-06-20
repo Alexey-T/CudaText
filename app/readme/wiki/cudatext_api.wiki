@@ -154,12 +154,36 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 * PROC_GET_LANG: Gets string id of active translation. E.g. "ru_RU" if translation file is "ru_RU.ini". Or "translation template" if such file is used. Empty string if built-in English translation is used.
 * PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
 * PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
-* PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
-* PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
-* PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 * PROC_PROGRESSBAR: Change state of the progress-bar, which is located on the status-bar (hidden by default). If passed int value<0, progressbar hides, else it shows with the given value 0..100.
 * PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON editor property to get/set icons of file tabs.
 * PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
+
+====Search properties====
+
+* PROC_GET_FINDER_PROP: Gets props of Find/Replace dialog and search engine. Gets dict with keys:
+** "find": string "what to find" of search engine, None if not inited
+** "rep": string "replace with" of search engine, None if not inited
+** "find_d": string "what to find" of dialog, None if dialog not inited
+** "rep_d": string "replace with" of dialog, None if dialog not inited
+** "op_case": option "case sensitive" of search engine 
+** "op_back": option "backward search" of search engine
+** "op_word": option "whole words" of search engine
+** "op_regex": option "reg.ex." of search engine
+** "op_cfm": option "confirm on replace" of search engine
+** "op_fromcaret": option "search from caret" of search engine
+** "op_insel": option "in selection" of search engine
+** "op_wrap": option "wrapped search" of search engine
+** "op_case_d": option "case sensitive" of dialog, None if dialog not inited
+** "op_word_d": option "whole words" of dialog, None if dialog not inited
+** "op_regex_d": option "reg.ex." of dialog, None if dialog not inited
+** "op_cfm_d": option "confirm on replace" of dialog, None if dialog not inited
+** "op_insel_d": option "in selection" of dialog, None if dialog not inited
+** "op_wrap_d": option "wrapped search" of dialog, None if dialog not inited
+** "op_mulline_d": option "multi-line input fields" of dialog, None if dialog not inited
+
+* PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
+* deprecated: PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
+* deprecated: PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 
 ====System====
 
@@ -2391,6 +2415,11 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.248 (app 1.56.6)
+* deprecated: app_proc: PROC_GET_FIND_OPTIONS
+* deprecated: app_proc: PROC_GET_FIND_STRINGS
+* add: app_proc: PROC_GET_FINDER_PROP
 
 1.0.247 (app 1.56.3)
 * add: event on_close_pre
