@@ -117,7 +117,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '[\da-f]+h \b'
+      Expression = '[\da-f]+h \b | [01]+b \b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -125,12 +125,12 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+d?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Ident'
+      DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
       Expression = '[a-z_%]\w*'
@@ -138,7 +138,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Str'
+      DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
       Expression = '("|'#39') .*? \1'
@@ -758,7 +758,7 @@ object SyntAnal2: TLibSyntAnalyzer
     '    '
     '    PUSH SS'
     '    POP DS'
-    '    MOV AX, AABBh'
+    '    MOV AX, AABBh+20d+1010b+'
     '    MOV'#9'BYTE PTR ES:[DI], 255'
     '    JMP SHORT @AsmEnd'
     ''
