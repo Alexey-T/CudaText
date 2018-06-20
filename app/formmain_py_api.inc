@@ -3037,15 +3037,18 @@ begin
 
         APP_PROC_GET_FIND_OPTIONS:
           begin
+            MsgOldApi('app_proc(PROC_GET_FIND_OPTIONS, ..)');
             Result:= PyString_FromString(PChar(fmMain.DoFindOptionsToString));
           end;
         APP_PROC_SET_FIND_OPTIONS:
           begin
+            MsgOldApi('app_proc(PROC_SET_FIND_OPTIONS, ..)');
             fmMain.DoFindOptionsFromString(Str);
             Result:= ReturnNone;
           end;
         APP_PROC_GET_FIND_STRINGS:
           begin
+            MsgOldApi('app_proc(PROC_GET_FIND_STRINGS, ..)');
             fmMain.DoFindOptions_GetStrings(Str1, Str2);
             Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2));
           end;
