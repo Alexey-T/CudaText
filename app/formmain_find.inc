@@ -767,6 +767,67 @@ begin
   AReplace:= Utf8Encode(FFinder.StrReplace);
 end;
 
+function TfmMain.DoFindOptions_GetDict: PPyObject;
+var
+  oFind, oRep,
+  bCase, bWord, bRegex, bCfm,
+  bInSel, bWrap, bMulLine: PPyObject;
+begin
+  with GetPythonEngine do
+  begin
+    if not Assigned(FFinder) then
+      exit(ReturnNone);
+
+    oFind:= ReturnNone;
+    oRep:= ReturnNone;
+    bCase:= ReturnNone;
+    bWord:= ReturnNone;
+    bRegex:= ReturnNone;
+    bCfm:= ReturnNone;
+    bInSel:= ReturnNone;
+    bWrap:= ReturnNone;
+    bMulLine:= ReturnNone;
+
+    if Assigned(fmFind) then
+    begin
+      oFind:= PyUnicode_FromWideString(fmFind.edFind.Text);
+      oRep:= PyUnicode_FromWideString(fmFind.edRep.Text);
+      bCase:= PyBool_FromLong(Ord(fmFind.chkCase.Checked));
+      bWord:= PyBool_FromLong(Ord(fmFind.chkWords.Checked));
+      bRegex:= PyBool_FromLong(Ord(fmFind.chkRegex.Checked));
+      bCfm:= PyBool_FromLong(Ord(fmFind.chkConfirm.Checked));
+      bInSel:= PyBool_FromLong(Ord(fmFind.chkInSel.Checked));
+      bWrap:= PyBool_FromLong(Ord(fmFind.chkWrap.Checked));
+      bMulLine:= PyBool_FromLong(Ord(fmFind.chkMulLine.Checked));
+    end;
+
+    Result:= Py_BuildValue('{sOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsOsO}',
+      'find', PyUnicode_FromWideString(FFinder.StrFind),
+      'rep', PyUnicode_FromWideString(FFinder.StrReplace),
+
+      'find_d', oFind,
+      'rep_d', oRep,
+
+      'op_case', PyBool_FromLong(Ord(FFinder.OptCase)),
+      'op_back', PyBool_FromLong(Ord(FFinder.OptBack)),
+      'op_word', PyBool_FromLong(Ord(FFinder.OptWords)),
+      'op_regex', PyBool_FromLong(Ord(FFinder.OptRegex)),
+      'op_cfm', PyBool_FromLong(Ord(FFinder.OptConfirmReplace)),
+      'op_fromcaret', PyBool_FromLong(Ord(FFinder.OptFromCaret)),
+      'op_insel', PyBool_FromLong(Ord(FFinder.OptInSelection)),
+      'op_wrap', PyBool_FromLong(Ord(FFinder.OptWrapped)),
+
+      'op_case_d', bCase,
+      'op_word_d', bWord,
+      'op_regex_d', bRegex,
+      'op_cfm_d', bCfm,
+      'op_insel_d', bInSel,
+      'op_wrap_d', bWrap,
+      'op_mulline_d', bMulLine
+      );
+  end;
+end;
+
 procedure TfmMain.DoFindActionFromString(AStr: string);
 var
   SAction, SFind, SRep, SOpt: string;

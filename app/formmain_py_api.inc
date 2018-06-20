@@ -3050,6 +3050,11 @@ begin
             Result:= Py_BuildValue('(ss)', PChar(Str1), PChar(Str2));
           end;
 
+        APP_PROC_GET_FINDER_PROP:
+          begin
+            Result:= fmMain.DoFindOptions_GetDict;
+          end;
+
         APP_PROC_GET_GUI_HEIGHT:
           begin
             i:= DoControl_GetAutoHeight(Str);
