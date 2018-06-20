@@ -633,7 +633,7 @@ begin
   ADest.ShortCutKey2:= ASrc.ShortCutKey2;
   ADest.ShowAlwaysCheckable:= ASrc.ShowAlwaysCheckable;
   ADest.SubMenuImages:= ASrc.SubMenuImages;
-  ADest.SubMenuImagesWidth:= ASrc.SubMenuImagesWidth;
+  //ADest.SubMenuImagesWidth:= ASrc.SubMenuImagesWidth; //needs Laz 1.9+
   ADest.Visible:= ASrc.Visible;
   ADest.OnClick:= ASrc.OnClick;
   ADest.OnDrawItem:= ASrc.OnDrawItem;
