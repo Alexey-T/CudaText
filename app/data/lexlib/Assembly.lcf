@@ -99,9 +99,17 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Labels'
+      DisplayName = 'Label in tree'
       StyleName = 'Label'
-      Expression = '@+\w*'#13#10
+      Expression = '^[\x20\x09]* [a-z_\.][\w\.]*:'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label'
+      StyleName = 'Label'
+      TokenType = 2
+      Expression = '@\w+ | @@:'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -724,6 +732,16 @@ object SyntAnal2: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'label'
+      ConditionList = <
+        item
+          TokenTypes = 1
+        end>
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -745,7 +763,11 @@ object SyntAnal2: TLibSyntAnalyzer
     '    JMP SHORT @AsmEnd'
     ''
     '  welcomeMsg DB '#39'Hello World'#39', 0'
-    ''
+    '   '
+    '  labela:'
+    '    _label.b:'
+    '    @@:'
+    '    '
     '  @AsmEnd:'
     '    MOV AX, 0'
     '    RET'
@@ -785,6 +807,7 @@ object SyntAnal2: TLibSyntAnalyzer
     'Number')
   Extentions = 'asm s'
   LexerName = 'Assembly'
+  SkipSpaces = False
   Notes.Strings = (
     'Original from EControl,'
     'changes by Alexey (SynWrite)'
