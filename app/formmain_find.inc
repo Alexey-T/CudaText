@@ -828,6 +828,131 @@ begin
   end;
 end;
 
+
+procedure TfmMain.DoFindOptions_ApplyDict(AText: string);
+var
+  SItem, SKey, SValue: string;
+begin
+  //text is '{key1:value1;key2:value2}' from to_str()
+  if AText[1]='{' then
+    AText:= Copy(AText, 2, Length(AText)-2);
+
+  repeat
+    SItem:= SGetItem(AText, #1);
+    if SItem='' then Break;
+    SKey:= SGetItem(SItem, ':');
+    SValue:= SItem;
+    SValue:= StringReplace(SValue, #2, ',', [rfReplaceAll]);
+
+    case SKey of
+      'find':
+        FFinder.StrFind:= UTF8Decode(SValue);
+      'rep':
+        FFinder.StrReplace:= UTF8Decode(SValue);
+
+      'find_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.edFind.Text:= UTF8Decode(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'rep_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.edRep.Text:= UTF8Decode(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+
+      'op_case':
+        FFinder.OptCase:= AppStrToBool(SValue);
+      'op_back':
+        FFinder.OptBack:= AppStrToBool(SValue);
+      'op_word':
+        FFinder.OptWords:= AppStrToBool(SValue);
+      'op_regex':
+        FFinder.OptRegex:= AppStrToBool(SValue);
+      'op_cfm':
+        FFinder.OptConfirmReplace:= AppStrToBool(SValue);
+      'op_fromcaret':
+        FFinder.OptFromCaret:= AppStrToBool(SValue);
+      'op_insel':
+        FFinder.OptInSelection:= AppStrToBool(SValue);
+      'op_wrap':
+        FFinder.OptWrapped:= AppStrToBool(SValue);
+
+      'op_case_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.chkCase.Checked:= AppStrToBool(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'op_word_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.chkWords.Checked:= AppStrToBool(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'op_regex_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.chkRegex.Checked:= AppStrToBool(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'op_cfm_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.chkConfirm.Checked:= AppStrToBool(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'op_insel_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.chkInSel.Checked:= AppStrToBool(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'op_wrap_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.chkWrap.Checked:= AppStrToBool(SValue);
+            fmFind.UpdateState;
+            fmFind.DoOnChange;
+          end;
+        end;
+      'op_mulline_d':
+        begin
+          if Assigned(fmFind) then
+          begin
+            fmFind.IsMultiLine:= AppStrToBool(SValue);
+            fmFind.DoOnChange;
+          end;
+        end;
+    end;
+  until false;
+end;
+
+
 procedure TfmMain.DoFindActionFromString(AStr: string);
 var
   SAction, SFind, SRep, SOpt: string;

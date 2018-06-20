@@ -105,7 +105,6 @@ type
     FNarrow: boolean;
     FOnResult: TStrEvent;
     FOnChangeOptions: TNotifyEvent;
-    procedure DoOnChange;
     procedure DoResult(const Str: string);
     procedure SetIsDoubleBuffered(AValue: boolean);
     procedure SetMultiLine(AValue: boolean);
@@ -117,6 +116,7 @@ type
     FCaptionFind,
     FCaptionReplace: string;
     FBinaryMode: boolean;
+    procedure DoOnChange;
     procedure UpdateSize;
     procedure UpdateState;
     procedure UpdateFonts;

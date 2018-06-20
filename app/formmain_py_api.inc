@@ -3055,6 +3055,12 @@ begin
             Result:= fmMain.DoFindOptions_GetDict;
           end;
 
+        APP_PROC_SET_FINDER_PROP:
+          begin
+            fmMain.DoFindOptions_ApplyDict(Str);
+            Result:= ReturnNone;
+          end;
+
         APP_PROC_GET_GUI_HEIGHT:
           begin
             i:= DoControl_GetAutoHeight(Str);

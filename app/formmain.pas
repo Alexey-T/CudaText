@@ -629,6 +629,7 @@ type
     procedure DoCommandsMsgStatus(Sender: TObject; const ARes: string);
     procedure DoFindMarkingInit(AMode: TATFindMarkingMode);
     procedure DoFindOptions_OnChange(Sender: TObject);
+    procedure DoFindOptions_ApplyDict(AText: string);
     procedure DoFindOptions_ResetInSelection;
     procedure DoFindOptions_GetStrings(out AFind, AReplace: string);
     function DoFindOptions_GetDict: PPyObject;
