@@ -161,18 +161,18 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 ====Search properties====
 
 * PROC_GET_FINDER_PROP: Gets props of Find/Replace dialog and search engine. Gets dict with keys:
-** "find": string "what to find" of search engine, None if not inited
-** "rep": string "replace with" of search engine, None if not inited
+** "find": string "what to find" of search engine
+** "rep": string "replace with" of search engine
 ** "find_d": string "what to find" of dialog, None if dialog not inited
 ** "rep_d": string "replace with" of dialog, None if dialog not inited
 ** "op_case": option "case sensitive" of search engine 
-** "op_back": option "backward search" of search engine
 ** "op_word": option "whole words" of search engine
 ** "op_regex": option "reg.ex." of search engine
 ** "op_cfm": option "confirm on replace" of search engine
-** "op_fromcaret": option "search from caret" of search engine
 ** "op_insel": option "in selection" of search engine
 ** "op_wrap": option "wrapped search" of search engine
+** "op_back": option "backward search" (low level) of search engine
+** "op_fromcaret": option "search from caret" (low level) of search engine
 ** "op_case_d": option "case sensitive" of dialog, None if dialog not inited
 ** "op_word_d": option "whole words" of dialog, None if dialog not inited
 ** "op_regex_d": option "reg.ex." of dialog, None if dialog not inited
