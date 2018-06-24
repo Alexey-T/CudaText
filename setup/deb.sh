@@ -25,6 +25,7 @@ mkdir $dd/usr/share/cudatext/py/cuda_comments
 mkdir $dd/usr/share/cudatext/py/cuda_make_plugin
 mkdir $dd/usr/share/cudatext/py/cuda_insert_time
 mkdir $dd/usr/share/cudatext/py/cuda_new_file
+mkdir $dd/usr/share/cudatext/py/cuda_options_editor
 mkdir $dd/usr/share/cudatext/py/cuda_palette
 mkdir $dd/usr/share/cudatext/py/cuda_project_man
 mkdir $dd/usr/share/cudatext/py/cuda_tabs_list
@@ -51,6 +52,8 @@ cp -r ../app/py/cuda_make_plugin/*.py $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_make_plugin/*.inf $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_new_file/*.py $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_new_file/*.inf $dd/usr/share/cudatext/py/cuda_new_file
+cp -r ../app/py/cuda_options_editor/*.py $dd/usr/share/cudatext/py/cuda_options_editor
+cp -r ../app/py/cuda_options_editor/*.inf $dd/usr/share/cudatext/py/cuda_options_editor
 cp -r ../app/py/cuda_palette/* $dd/usr/share/cudatext/py/cuda_palette
 rm -rf ../app/py/cuda_insert_time/__pycache__
 cp -r ../app/py/cuda_insert_time $dd/usr/share/cudatext/py

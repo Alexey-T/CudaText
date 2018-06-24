@@ -12,7 +12,7 @@ mkdir -p $outdir
 zipfile=$outdir/cudatext-$os-$widgets-$cpu-$cuda_ver.tar
 
 rm $outdir/cudatext-$os-$widgets-$cpu-*.xz
-tar --exclude=*.pyc -cf $zipfile readme data settings_default py/*.py py/cuda_addonman py/cuda_project_man py/cuda_show_unsaved py/cuda_tabs_list py/cuda_make_plugin py/cuda_insert_time py/cudax_lib py/requests py/cuda_comments py/cuda_new_file py/cuda_palette
+tar --exclude=*.pyc -cf $zipfile readme data settings_default py/*.py py/cuda_addonman py/cuda_project_man py/cuda_show_unsaved py/cuda_tabs_list py/cuda_make_plugin py/cuda_insert_time py/cudax_lib py/requests py/cuda_comments py/cuda_new_file py/cuda_palette py/cuda_options_editor
 
 cd ../setup/debfiles
 tar -rf $zipfile cudatext-512.png
