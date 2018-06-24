@@ -151,11 +151,11 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 ====Misc properties====
 
-* PROC_GET_LANG: Gets string id of active translation. E.g. "ru_RU" if translation file is "ru_RU.ini". Or "translation template" if such file is used. Empty string if built-in English translation is used.
-* PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
-* PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
-* PROC_PROGRESSBAR: Change state of the progress-bar, which is located on the status-bar (hidden by default). If passed int value<0, progressbar hides, else it shows with the given value 0..100.
-* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON editor property to get/set icons of file tabs.
+* PROC_GET_LANG: Gets string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Gets empty string if built-in English translation is used.
+* PROC_GET_GROUPING: Gets grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
+* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
 
 ====Search properties====
