@@ -16,6 +16,7 @@ mkdir $app/Contents/Resources/py/cuda_insert_time
 mkdir $app/Contents/Resources/py/cuda_make_plugin
 mkdir $app/Contents/Resources/py/cuda_comments
 mkdir $app/Contents/Resources/py/cuda_new_file
+mkdir $app/Contents/Resources/py/cuda_options_editor
 mkdir $app/Contents/Resources/py/cuda_palette
 mkdir $app/Contents/Resources/py/cuda_project_man
 mkdir $app/Contents/Resources/py/cuda_tabs_list
@@ -36,6 +37,8 @@ cp $from/py/cuda_new_file/*.py $app/Contents/Resources/py/cuda_new_file
 cp $from/py/cuda_new_file/*.inf $app/Contents/Resources/py/cuda_new_file
 rm -rf $from/py/cuda_project_man/__pycache__
 cp -rf $from/py/cuda_project_man/* $app/Contents/Resources/py/cuda_project_man
+rm -rf $from/py/cuda_options_editor/__pycache__
+cp -rf $from/py/cuda_options_editor/* $app/Contents/Resources/py/cuda_options_editor
 rm -rf $from/py/cuda_tabs_list/__pycache__
 cp -rf $from/py/cuda_tabs_list/* $app/Contents/Resources/py/cuda_tabs_list
 rm -rf $from/py/cuda_show_unsaved/__pycache__
