@@ -703,6 +703,12 @@ In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "c
 ==Preview tab==
 To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
 
+==How to install plugins from GitHub==
+
+First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
+
+Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
+
 ==How to change icons==
 
 Screenshot with icons of main toolbar, sidebar, Project Manager toolbar:
@@ -746,6 +752,10 @@ Viewer has simple search support (without reg.ex.), and allows to use "Go to" di
 
 = Tech topics=
 ==How to compile program==
+
+There is Linux script CudaText_up https://github.com/Alexey-T/CudaText_up - it downloads all CudaText sources (several packages) into ~/cudatext_up, then calls Lazarus (better to use Lazarus "trunk" or at last 1.8.4) to compile them. You can use it with FPC cross-compilers, ie with FpcUpDeluxe, it will compile app for all platforms (which you specify in command line). Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
+
+And here is the old way:
 
 * install FPC and Lazarus:
 ** download FpcUpDeluxe. Must unlock exe-file on Windows then. https://github.com/newpascal/fpcupdeluxe/releases

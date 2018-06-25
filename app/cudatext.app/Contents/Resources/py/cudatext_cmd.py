@@ -222,6 +222,7 @@ cmd_FileCloseOtherAll  = 2512
 cmd_FileCloseAll       = 2513
 cmd_FileCloseAndDelete = 2514
 cmd_FileExportHtml     = 2515
+cmd_RepaintEditor      = 2516
 
 cmd_OpsOpenDefaultAndUser = 2519
 cmd_OpsClearRecent     = 2520
@@ -263,6 +264,7 @@ cmd_ToggleMenu = 2555
 cmd_ToggleFloatSide = 2556
 cmd_ToggleFloatBottom = 2557
 
+cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577
 cmd_SwitchActiveTabToNext = 2578
 cmd_SwitchActiveTabToPrev = 2579

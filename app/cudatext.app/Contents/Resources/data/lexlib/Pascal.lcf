@@ -1,4 +1,4 @@
-object SyntAnal29: TLibSyntAnalyzer
+object SyntAnal20: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Default'
@@ -216,7 +216,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'Id'
       StyleName = 'Identifier'
       TokenType = 2
-      Expression = '[a-z_]\w*'
+      Expression = '&?[a-z_]\w*'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -293,7 +293,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 7
-      Expression = '\$[a-f\d]+'
+      Expression = '\$[a-f\d]+ | &[0-7]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -848,7 +848,7 @@ object SyntAnal29: TLibSyntAnalyzer
     end
     item
       DisplayName = 'Internal function'
-      BlockName = 'function of class'
+      BlockName = 'Function of class'
       ConditionList = <
         item
           TokenTypes = 4
@@ -965,11 +965,74 @@ object SyntAnal29: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'function of class'
+      DisplayName = 'Function of class n.n'
       StyleName = 'Current function'
       StatesAdd = 16
       StatesPresent = 2
       ConditionList = <
+        item
+          TagList.Strings = (
+            ';'
+            ':'
+            '.'
+            '(')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            '.')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            '.')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            'constructor'
+            'destructor'
+            'function'
+            'procedure')
+          TokenTypes = 4
+        end>
+      BlockEnd = 'End of class function n.n'
+      Highlight = True
+      NameFmt = '%s-3.%s-5'
+      GroupFmt = 'classes\class %s-1'
+      RefToCondEnd = True
+      DynHighlight = dhRange
+      HighlightPos = cpRange
+      CancelNextRules = True
+      CollapseFmt = '%sz0'
+      TreeItemImage = 6
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Function of class'
+      StyleName = 'Current function'
+      StatesAdd = 16
+      StatesPresent = 2
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ';'
+            ':'
+            '(')
+          TokenTypes = 8
+        end
+        item
+          TokenTypes = 4
+        end
         item
           TagList.Strings = (
             '.')
@@ -987,21 +1050,20 @@ object SyntAnal29: TLibSyntAnalyzer
           TokenTypes = 4
           IgnoreCase = True
         end>
-      IdentIndex = -1
-      BlockOffset = 2
       BlockEnd = 'End of class function'
       Highlight = True
-      NameFmt = '%s-1'
-      GroupFmt = 'classes\class %s1'
+      NameFmt = '%s-3'
+      GroupFmt = 'classes\class %s-1'
+      RefToCondEnd = True
       DynHighlight = dhRange
       HighlightPos = cpRange
-      CollapseFmt = '%s2 %s1%s0%s-1'
+      CollapseFmt = '%sz0'
       TreeItemImage = 6
       IgnoreAsParent = False
     end
     item
       DisplayName = 'End of class function'
-      BlockName = 'function of class'
+      BlockName = 'Function of class'
       StrictParent = True
       StatesRemove = 16
       BlockType = btRangeEnd
@@ -1018,6 +1080,26 @@ object SyntAnal29: TLibSyntAnalyzer
           IgnoreCase = True
         end>
       HighlightPos = cpBound
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'End of class function n.n'
+      BlockName = 'Function of class n.n'
+      StrictParent = True
+      StatesRemove = 16
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ';')
+          TokenTypes = 8
+        end
+        item
+          TagList.Strings = (
+            'end')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
@@ -1394,7 +1476,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'asm section'
       StartExpression = 'asm\b'#13#10
       EndExpression = 'end'#13#10
-      SyntAnalyzer = SyntAnal3
+      SyntAnalyzer = SyntAnal2
     end>
   SampleText.Strings = (
     'unit Test;    '

@@ -99,9 +99,17 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Labels'
+      DisplayName = 'Label in tree'
       StyleName = 'Label'
-      Expression = '@+\w*'#13#10
+      Expression = '^[\x20\x09]* [a-z_\.][\w\.]*:'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Label'
+      StyleName = 'Label'
+      TokenType = 2
+      Expression = '@\w+ | @@:'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -109,7 +117,7 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Hex'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '[\da-f]+h \b'
+      Expression = '[\da-f]+h \b | [01]+b \b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -117,12 +125,12 @@ object SyntAnal2: TLibSyntAnalyzer
       DisplayName = 'Integer'
       StyleName = 'Number'
       TokenType = 5
-      Expression = '\d+'
+      Expression = '\d+d?\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'Ident'
+      DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
       Expression = '[a-z_%]\w*'
@@ -130,7 +138,7 @@ object SyntAnal2: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Str'
+      DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
       Expression = '("|'#39') .*? \1'
@@ -724,6 +732,16 @@ object SyntAnal2: TLibSyntAnalyzer
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'label'
+      ConditionList = <
+        item
+          TokenTypes = 1
+        end>
+      HighlightPos = cpAny
+      NoEndRule = True
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
@@ -740,12 +758,16 @@ object SyntAnal2: TLibSyntAnalyzer
     '    '
     '    PUSH SS'
     '    POP DS'
-    '    MOV AX, AABBh'
+    '    MOV AX, AABBh+20d+1010b+'
     '    MOV'#9'BYTE PTR ES:[DI], 255'
     '    JMP SHORT @AsmEnd'
     ''
     '  welcomeMsg DB '#39'Hello World'#39', 0'
-    ''
+    '   '
+    '  labela:'
+    '    _label.b:'
+    '    @@:'
+    '    '
     '  @AsmEnd:'
     '    MOV AX, 0'
     '    RET'
@@ -785,6 +807,7 @@ object SyntAnal2: TLibSyntAnalyzer
     'Number')
   Extentions = 'asm s'
   LexerName = 'Assembly'
+  SkipSpaces = False
   Notes.Strings = (
     'Original from EControl,'
     'changes by Alexey (SynWrite)'

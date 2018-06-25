@@ -4,6 +4,19 @@
   * changed
 
 
+1.57.0 (2018/06)
+
++ add: preinstall plugin Options Editor (by @kvichans). And it can be updated in AddonManager as usual.
++ add: improve lexer JSON (different color for string before ":")
++ add: improve lexer Pascal (code tree for nested class of 1 level)
++ add: improve lexer Assembly (hilite labels, show labels in Code Tree, hilite dec/binary numbers with suffix)
+
+1.56.4 (2018/06)
+
+- fix: group-modes "1+2 horz/vert" gave errors
+- fix: better support Auto Save plugin
+- fix: lexer Pascal must support & char
+
 1.56.3 (2018/06)
 
 + add: improved plugin "Insert Time": added command "Insert in default format", and command "Config" in "Options / Settings-plugins"

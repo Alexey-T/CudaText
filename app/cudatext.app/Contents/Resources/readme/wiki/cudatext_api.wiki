@@ -151,15 +151,43 @@ Parameter "text" is usually string, but can be of other types (bool, int, float,
 
 ====Misc properties====
 
-* PROC_GET_LANG: Gets string id of active translation. E.g. "ru_RU" if translation file is "ru_RU.ini". Or "translation template" if such file is used. Empty string if built-in English translation is used.
-* PROC_GET_GROUPING: Gets grouping mode in program, it's one of GROUPS_nnnn int contants.
-* PROC_SET_GROUPING: Sets grouping mode in program, pass str(value) where value is one of GROUPS_nnnn int contants.
-* PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
-* PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
-* PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
-* PROC_PROGRESSBAR: Change state of the progress-bar, which is located on the status-bar (hidden by default). If passed int value<0, progressbar hides, else it shows with the given value 0..100.
-* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON editor property to get/set icons of file tabs.
+* PROC_GET_LANG: Gets string id of active app translation. E.g. "ru_RU" if translation file is "ru_RU.ini", or "translation template" if such file is used. Gets empty string if built-in English translation is used.
+* PROC_GET_GROUPING: Gets grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_SET_GROUPING: Sets grouping mode in program, one of GROUPS_nnnn int contants.
+* PROC_PROGRESSBAR: Changes state of the progress-bar (hidden by default), which is located on the status-bar right corner. Int value<0: progressbar hides, value in 0..100: progressbar shows with the given value.
+* PROC_GET_TAB_IMAGELIST: Gets int handle of imagelist, for file-tabs. Use imagelist_proc() to work with it. Use PROP_TAB_ICON property to get/set file-tab icon index (index in this imagelist).
 * PROC_GET_CODETREE: Gets int handle of Code Tree UI control. Use tree_proc() to work with it.
+
+====Search properties====
+
+Actions work with props of Find/Replace dialog, and props of low-level search engine. When user runs some search command in the dialog, dialog applies its props to the search engine. So most of the time, props of dialog and search engine are sync'ed. But they aren't sync'ed if user just typed new text in the dialog. They also aren't sync'ed if user runs some search command via Command Palette or hotkey (e.g. "find current word, previous").
+
+* PROC_GET_FINDER_PROP: Gets props of Find/Replace dialog and search engine. Gets dict with keys:
+** "find": string "what to find" of search engine
+** "rep": string "replace with" of search engine
+** "find_d": string "what to find" of dialog, None if dialog not inited
+** "rep_d": string "replace with" of dialog, None if dialog not inited
+** "op_case": option "case sensitive" of search engine 
+** "op_word": option "whole words" of search engine
+** "op_regex": option "reg.ex." of search engine
+** "op_cfm": option "confirm on replace" of search engine
+** "op_insel": option "in selection" of search engine
+** "op_wrap": option "wrapped search" of search engine
+** "op_back": option "backward search" (low level) of search engine
+** "op_fromcaret": option "search from caret" (low level) of search engine
+** "op_case_d": option "case sensitive" of dialog, None if dialog not inited
+** "op_word_d": option "whole words" of dialog, None if dialog not inited
+** "op_regex_d": option "reg.ex." of dialog, None if dialog not inited
+** "op_cfm_d": option "confirm on replace" of dialog, None if dialog not inited
+** "op_insel_d": option "in selection" of dialog, None if dialog not inited
+** "op_wrap_d": option "wrapped search" of dialog, None if dialog not inited
+** "op_mulline_d": option "multi-line input fields" of dialog, None if dialog not inited
+
+* PROC_SET_FINDER_PROP: Sets props of Find/Replace dialog and search engine. Param "text" must be dict, with some keys listed in PROC_GET_FINDER_PROP. Values of keys must be str (for text fields) or bool.
+
+* deprecated: PROC_SET_FIND_OPTIONS: Sets options of finder-object from string. Note: Find dialog don't apply these opts immediately.
+* deprecated: PROC_GET_FIND_OPTIONS: Gets options of finder-object as string.
+* deprecated: PROC_GET_FIND_STRINGS: Gets strings of finder-object, 2-tuple, (str_search_for, str_replace_with), or None if finder-object not inited.
 
 ====System====
 
@@ -1280,9 +1308,9 @@ Possible values of id_action:
 
 Perform action on timers. Many different timers allowed, they work at the same time, each uniq callback - makes new timer with its own interval. To stop some timer, you must specify same callback as on start.
 
-* callback: Callback string, see below.
+* callback: Callback which is called on timer tick, see below.
 * interval: Timer delay in msec, 150 or bigger. Specify it only on starting (ignored on stopping).
-* tag: Some string, if not empty, it will be parameter to callback. If it's empty, callback is called without params.
+* tag: Some string, if not empty, it will be parameter to callback. If empty, callback is called without additional params.
 
 Possible values of id:
 
@@ -2391,6 +2419,13 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.248 (app 1.56.6)
+* add: app_proc: PROC_GET_FINDER_PROP
+* add: app_proc: PROC_SET_FINDER_PROP
+* deprecated: app_proc: PROC_GET_FIND_OPTIONS
+* deprecated: app_proc: PROC_SET_FIND_OPTIONS
+* deprecated: app_proc: PROC_GET_FIND_STRINGS
 
 1.0.247 (app 1.56.3)
 * add: event on_close_pre
