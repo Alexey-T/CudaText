@@ -202,7 +202,7 @@ var
   F: TEditorFrame;
   list: TStringlist;
   sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
-  nGroup, nIndex, i: integer;
+  nIndex, i: integer;
   Pages: TATPages;
   bModified: boolean;
   sText: UnicodeString;
@@ -236,7 +236,7 @@ begin
       bModified:= c.GetValue(item_path+'modified', false);
 
       //support old sessions with 1-based group index
-      nGroup:= c.GetValue(item_path+'group', 1)-1;
+      nIndex:= c.GetValue(item_path+'group', 1)-1;
 
       //check, if text saved in session, but file was changed outside
       if bModified and (sFilename<>'') and FileExistsUTF8(sFileName) then
@@ -252,9 +252,9 @@ begin
            bModified:= false;
       end;
 
-      if not (nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)]) then
-        nGroup:= Low(TATGroupsNums);
-      Pages:= Groups.Pages[nGroup];
+      if (nIndex<Low(TATGroupsNums)) or (nIndex>High(TATGroupsNums)) then
+        nIndex:= Low(TATGroupsNums);
+      Pages:= Groups.Pages[nIndex];
 
       if SBeginsWith(sKind, 'bin') then
         sOpenOptions:= '/view-binary'
@@ -293,7 +293,7 @@ begin
       end;
     end;
 
-    //restore tab-index, group-index
+    //restore tab-index in all groups
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
     begin
       nIndex:= c.GetValue('/tab_index/g'+IntToStr(i), -1);
@@ -302,10 +302,11 @@ begin
       Groups.Pages[i].Tabs.TabIndex:= nIndex;
     end;
 
-    nGroup:= c.GetValue('/tab_index/g_active', Low(TATGroupsNums));
-    if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
+    //restore group-index
+    nIndex:= c.GetValue('/tab_index/g_active', Low(TATGroupsNums));
+    if (nIndex>=Low(TATGroupsNums)) and (nIndex<=High(TATGroupsNums)) then
     begin
-      Groups.PagesCurrent:= Groups.Pages[nGroup];
+      Groups.PagesCurrent:= Groups.Pages[nIndex];
       with Groups.PagesCurrent do
         Tabs.TabIndex:= Tabs.TabIndex;
     end;
