@@ -202,7 +202,7 @@ var
   F: TEditorFrame;
   list: TStringlist;
   sFilename, sTabTitle, sKind, sOpenOptions, item_path: string;
-  nGroup, i: integer;
+  nGroup, nIndex, i: integer;
   Pages: TATPages;
   bModified: boolean;
   sText: UnicodeString;
@@ -295,7 +295,12 @@ begin
 
     //restore tab-index, group-index
     for i:= Low(TATGroupsNums) to High(TATGroupsNums) do
-      Groups.Pages[i].Tabs.TabIndex:= c.GetValue('/tab_index/g'+Inttostr(i), 0);
+    begin
+      nIndex:= c.GetValue('/tab_index/g'+IntToStr(i), -1);
+      if (nIndex<0) or (nIndex>=Groups.Pages[i].Tabs.TabCount) then
+        nIndex:= 0;
+      Groups.Pages[i].Tabs.TabIndex:= nIndex;
+    end;
 
     nGroup:= c.GetValue('/tab_index/g_active', Low(TATGroupsNums));
     if nGroup in [Low(TATGroupsNums)..High(TATGroupsNums)] then
