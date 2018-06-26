@@ -425,6 +425,7 @@ procedure TfmMain.UpdateTabCaptionsFromFolders;
 const
   cMaxLevels = 5;
 var
+  SName: string;
   Frame: TEditorFrame;
   L_fn, L_cap: TStringList;
   L_found: TList;
@@ -438,9 +439,18 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       Frame:= Frames[i];
-      L_fn.Add(Frame.FileName);
-      if Frame.FileName<>'' then
-        L_cap.Add(ExtractFileName(Frame.FileName))
+
+      if Frame.IsPicture then
+        SName:= Frame.PictureFileName
+      else
+      if Frame.IsBinary then
+        SName:= Frame.Binary.FileName
+      else
+        SName:= Frame.FileName;
+
+      L_fn.Add(SName);
+      if SName<>'' then
+        L_cap.Add(ExtractFileName(SName))
       else
         L_cap.Add(Frame.TabCaption);
     end;
