@@ -2085,19 +2085,19 @@ Gets list of ranges which belong to nested lexers (sublexers of current lexer fo
 
  get_token(id, index1, index2)
 
-Gets info about one token ("token" is minimal text fragment for syntax parser). 
+Gets info about lexer "tokens". ("Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme.). 
 
-Gets 4-tuple, or None if no such token. Tuple is:
+Gets token info as 4-tuple:
 
-* (start_x, start_y)
-* (end_x, end_y)
-* string_token_type
-* string_style_name
+* item[0]: (start_x, start_y)
+* item[1]: (end_x, end_y)
+* item[2]: str_token_kind (e.g. "Id", "Comment", "Hex" - lexer dependant)
+* item[3]: str_style_name (e.g. "Id", "String regex", "Long comment" - lexer dependant)
 
 Possible values of "id":
 
-* TOKEN_AT_POS: Token at given text position: (x=index1, y=index2).
-* TOKEN_INDEX: Token (from internal tokens list) with given index=index1. It allows to enumerate tokens in a loop, by passing indexes from 0, until functions gets None.
+* TOKEN_AT_POS: Gets token info at given text position: (x=index1, y=index2). Gets None if no token at given position.
+* TOKEN_INDEX: Gets token info with index given by "index1" (index in internal tokens list). Gets None if index incorrect. It allows to enumerate all tokens, by passing indexes from 0, until functions gets None.
 
 ===get_wrapinfo===
 
