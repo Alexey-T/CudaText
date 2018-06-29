@@ -2107,7 +2107,7 @@ Possible values of "id":
 ** "str": text of token (can be multi-line with "\n")
 ** "style": lexer style of token (lexer dependant)
 
-* TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive. 
+* TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive.
 
 ===get_wrapinfo===
 
@@ -2431,7 +2431,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.249 (app 1.57.1)
-* add: Editor.get_token: TOKEN_LIST
+* add: Editor.get_token: TOKEN_LIST, TOKEN_LIST_SUB
 * add: Editor.get_token: index params are optional now
 * deprecated: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX
 
