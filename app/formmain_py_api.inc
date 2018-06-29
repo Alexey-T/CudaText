@@ -4802,25 +4802,35 @@ begin
         PChar(StrToken), PChar(StrStyle));
 end;
 
-function Py_GetTokenList(Adapter: TATAdapterEControl): PPyObject;
+function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
+  ListTokens: TList;
   Token: TecSyntToken;
-  NLen, i: integer;
   TokenStr, TokenStyle: string;
+  i: integer;
 begin
   with GetPythonEngine do
   begin
     An:= Adapter.AnClient;
     if An=nil then exit(ReturnNone);
-    NLen:= An.TagCount;
-    Result:= PyList_New(NLen);
+
+    ListTokens:= TList.Create;
+    for i:= 0 to An.TagCount-1 do
+    begin
+      Token:= An.Tags[i];
+      if (Token.PointStart.Y<=ALineTo) and
+        (Token.PointEnd.Y>=ALineFrom) then
+        ListTokens.Add(Token);
+    end;
+
+    Result:= PyList_New(ListTokens.Count);
     if not Assigned(Result) then
       raise EPythonError.Create(msgPythonListError);
 
-    for i:= 0 to NLen-1 do
+    for i:= 0 to ListTokens.Count-1 do
     begin
-      Token:= An.Tags[i];
+      Token:= TecSyntToken(ListTokens[i]);
       TokenStr:= Adapter.GetTokenString(Token);
       if Assigned(Token.Style) then
         TokenStyle:= Token.Style.DisplayName
@@ -4843,6 +4853,8 @@ begin
           Token.PointEnd.Y
           ));
     end;
+
+    FreeAndNil(ListTokens);
   end;
 end;
 
@@ -4851,12 +4863,12 @@ var
   H: Int64;
   Ed: TATSynEdit;
   F: TEditorFrame;
-  Id, PosX, PosY: integer;
+  Id, NIndex1, NIndex2: integer;
   PntFrom, PntTo: TPoint;
   StrToken, StrStyle: string;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @PosX, @PosY)) then
+    if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
     begin
       Ed:= PyEditor(H);
       F:= GetEditorFrame(Ed);
@@ -4866,19 +4878,26 @@ begin
         TOKEN_AT_POS:
           begin
             MsgOldApi('get_token(TOKEN_AT_POS)');
-            F.Adapter.GetTokenAtPos(Point(PosX, PosY), PntFrom, PntTo, StrToken, StrStyle);
+            F.Adapter.GetTokenAtPos(Point(NIndex1, NIndex2), PntFrom, PntTo, StrToken, StrStyle);
             Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
           end;
         TOKEN_INDEX:
           begin
             MsgOldApi('get_token(TOKEN_INDEX)');
-            F.Adapter.GetTokenWithIndex(PosX, PntFrom, PntTo, StrToken, StrStyle);
+            F.Adapter.GetTokenWithIndex(NIndex1, PntFrom, PntTo, StrToken, StrStyle);
             Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
           end;
         TOKEN_LIST:
           begin
             if Assigned(F.Adapter) then
-              Result:= Py_GetTokenList(F.Adapter)
+              Result:= Py_GetTokenList(F.Adapter, 0, MaxInt)
+            else
+              Result:= ReturnNone;
+          end;
+        TOKEN_LIST_SUB:
+          begin
+            if Assigned(F.Adapter) then
+              Result:= Py_GetTokenList(F.Adapter, NIndex1, NIndex2)
             else
               Result:= ReturnNone;
           end;
