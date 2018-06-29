@@ -2073,7 +2073,7 @@ Performs action on folding ranges. Possible values of "id":
 
  get_sublexer_ranges()
 
-Gets list of ranges which belong to nested lexers (sublexers of current lexer for entire file, e.g. "HTML" inside "PHP", or "CSS" inside "HTML"). Gets list of 5-tuples, or None if no ranges. Each tuple is:
+Gets list of ranges which belong to nested lexers (sublexers of current lexer for entire file, e.g. "JavaScript" inside "PHP", "CSS" inside "HTML"). Gets list of 5-tuples, or None if no ranges. Each tuple is:
 
 * str: sublexer name
 * int: start column (0-based)
