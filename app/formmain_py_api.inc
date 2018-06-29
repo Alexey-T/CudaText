@@ -4802,6 +4802,50 @@ begin
         PChar(StrToken), PChar(StrStyle));
 end;
 
+function Py_GetTokenList(Adapter: TATAdapterEControl): PPyObject;
+var
+  An: TecClientSyntAnalyzer;
+  Token: TecSyntToken;
+  NLen, i: integer;
+  TokenStr, TokenStyle: string;
+begin
+  with GetPythonEngine do
+  begin
+    An:= Adapter.AnClient;
+    if An=nil then exit(ReturnNone);
+    NLen:= An.TagCount;
+    Result:= PyList_New(NLen);
+    if not Assigned(Result) then
+      raise EPythonError.Create(msgPythonListError);
+
+    for i:= 0 to NLen-1 do
+    begin
+      Token:= An.Tags[i];
+      TokenStr:= Adapter.GetTokenString(Token);
+      if Assigned(Token.Style) then
+        TokenStyle:= Token.Style.DisplayName
+      else
+        TokenStyle:= '';
+
+      PyList_SetItem(Result, i,
+        Py_BuildValue('{sssssisisisi}',
+          'str',
+          PChar(TokenStr),
+          'style',
+          PChar(TokenStyle),
+          'x1',
+          Token.PointStart.X,
+          'y1',
+          Token.PointStart.Y,
+          'x2',
+          Token.PointEnd.X,
+          'y2',
+          Token.PointEnd.Y
+          ));
+    end;
+  end;
+end;
+
 function Py_ed_get_token(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -4828,6 +4872,13 @@ begin
           begin
             F.Adapter.GetTokenWithIndex(PosX, PntFrom, PntTo, StrToken, StrStyle);
             Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
+          end;
+        TOKEN_LIST:
+          begin
+            if Assigned(F.Adapter) then
+              Result:= Py_GetTokenList(F.Adapter)
+            else
+              Result:= ReturnNone;
           end;
         else
           Result:= ReturnNone;

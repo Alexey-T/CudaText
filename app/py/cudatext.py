@@ -47,6 +47,7 @@ CONVERT_CARET_TO_PIXELS     = 8
 
 TOKEN_AT_POS = 0
 TOKEN_INDEX  = 1
+TOKEN_LIST   = 2
 
 LINESTATE_NORMAL  = 0
 LINESTATE_CHANGED = 1
@@ -1078,7 +1079,7 @@ class Editor:
     def hotspots(self, id, tag=0, tag_str="", pos=""):
         return ct.ed_hotspots(self.h, id, tag, tag_str, to_str(pos))
 
-    def get_token(self, id, index1, index2):
+    def get_token(self, id, index1=0, index2=0):
         return ct.ed_get_token(self.h, id, index1, index2)
 
     def gap(self, id, num1, num2, tag=-1):

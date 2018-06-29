@@ -331,6 +331,7 @@ const
 
   TOKEN_AT_POS = 0;
   TOKEN_INDEX = 1;
+  TOKEN_LIST  = 2;
 
   CANVAS_SET_FONT      = 1;
   CANVAS_SET_PEN       = 2;
