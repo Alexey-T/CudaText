@@ -4865,11 +4865,13 @@ begin
       case Id of
         TOKEN_AT_POS:
           begin
+            MsgOldApi('get_token(TOKEN_AT_POS)');
             F.Adapter.GetTokenAtPos(Point(PosX, PosY), PntFrom, PntTo, StrToken, StrStyle);
             Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
           end;
         TOKEN_INDEX:
           begin
+            MsgOldApi('get_token(TOKEN_INDEX)');
             F.Adapter.GetTokenWithIndex(PosX, PntFrom, PntTo, StrToken, StrStyle);
             Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
           end;
