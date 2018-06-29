@@ -2094,10 +2094,10 @@ Gets 4-tuple, or None if no such token. Tuple is:
 * string_token_type
 * string_style_name
 
-Possible values of id:
+Possible values of "id":
 
-* TOKEN_AT_POS: Token at position (x=index1, y=index2).
-* TOKEN_INDEX: Token with index=index1 (in tokens collection), 0-based.
+* TOKEN_AT_POS: Token at given text position: (x=index1, y=index2).
+* TOKEN_INDEX: Token (from internal tokens list) with given index=index1. It allows to enumerate tokens in a loop, by passing indexes from 0, until functions gets None.
 
 ===get_wrapinfo===
 
