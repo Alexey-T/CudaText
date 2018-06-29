@@ -2091,8 +2091,8 @@ Gets token info as 4-tuple:
 
 * item[0]: (start_x, start_y)
 * item[1]: (end_x, end_y)
-* item[2]: str_token_kind (e.g. "Id", "Comment", "Hex" - lexer dependant)
-* item[3]: str_style_name (e.g. "Id", "String regex", "Long comment" - lexer dependant)
+* item[2]: str: token text (can be multi-line with "\n")
+* item[3]: str: lexer style name (lexer dependant)
 
 Possible values of "id":
 
@@ -2105,7 +2105,7 @@ Possible values of "id":
 ** "x2": end column
 ** "y2": end line
 ** "str": text of token (can be multi-line with "\n")
-** "style": lexer style of token (lexer-dependant)
+** "style": lexer style of token (lexer dependant)
 
 ===get_wrapinfo===
 
