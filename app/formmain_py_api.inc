@@ -4819,9 +4819,9 @@ begin
     for i:= 0 to An.TagCount-1 do
     begin
       Token:= An.Tags[i];
-      if (Token.PointStart.Y<=ALineTo) and
-        (Token.PointEnd.Y>=ALineFrom) then
-        ListTokens.Add(Token);
+      if (Token.PointEnd.Y<ALineFrom) then Continue;
+      if (Token.PointStart.Y>ALineTo) then Break;
+      ListTokens.Add(Token);
     end;
 
     Result:= PyList_New(ListTokens.Count);
