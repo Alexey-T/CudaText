@@ -3771,7 +3771,11 @@ begin
     F.Editor.Focused or
     F.Editor2.Focused or
     fmConsole.ed.Focused or
-    fmConsole.memo.Focused;
+    fmConsole.memo.Focused or
+    (Assigned(fmFind) and
+      not fmFind.edFind.Focused and
+      not fmFind.edRep.Focused);
+
   if not EdFocus then
     if (NCommand>0) and (NCommand<cmdFirstAppCommand) then exit;
 
@@ -3782,7 +3786,7 @@ begin
       DoPyCallbackFromAPI(SCallback, []);
   end
   else
-    CurrentEditor.DoCommand(NCommand);
+    F.Editor.DoCommand(NCommand);
 
   UpdateFrame;
   UpdateStatus;
