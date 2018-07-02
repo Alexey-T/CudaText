@@ -3754,7 +3754,7 @@ end;
 procedure TfmMain.MenuMainClick(Sender: TObject);
 var
   F: TEditorFrame;
-  EdFocus: boolean;
+  bFindFocused: boolean;
   NTag: PtrInt;
   NCommand: integer;
   SCallback: string;
@@ -3764,19 +3764,12 @@ begin
 
   NCommand:= TAppMenuProps(NTag).CommandCode;
   SCallback:= TAppMenuProps(NTag).CommandString;
+  F:= CurrentFrame;
 
   //dont do editor commands here if ed not focused
-  F:= CurrentFrame;
-  EdFocus:=
-    F.Editor.Focused or
-    F.Editor2.Focused or
-    fmConsole.ed.Focused or
-    fmConsole.memo.Focused or
-    (Assigned(fmFind) and
-      not fmFind.edFind.Focused and
-      not fmFind.edRep.Focused);
-
-  if not EdFocus then
+  bFindFocused:= Assigned(fmFind) and
+    (fmFind.edFind.Focused or fmFind.edRep.Focused);
+  if bFindFocused then
     if (NCommand>0) and (NCommand<cmdFirstAppCommand) then exit;
 
   //-1 means run callback
