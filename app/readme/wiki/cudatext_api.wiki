@@ -1144,7 +1144,9 @@ Example code, which shows filenames of all tabs:
 
  ed_group(index)
 
-Gets Editor object for active editor in tab-group with given group-index. Group-index: currently 0..5. Gets None for incorrect index, or if no tabs in this group.
+Gets Editor object for active editor in tab-group with given group-index. Gets None for incorrect index, or if no tabs in this group.
+
+Index possible values: 0..5 (first 6 groups) and 6..8 (3 floating groups). 
 
 ===ini_read/ini_write===
 
