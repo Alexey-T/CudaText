@@ -194,6 +194,9 @@ begin
   if C is TTabControl then
     exit(IntToStr((C as TTabControl).TabIndex));
 
+  if C is TPageControl then
+    exit(IntToStr((C as TPageControl).PageIndex));
+
   if C is TTrackBar then
     exit(IntToStr((C as TTrackBar).Position));
 
@@ -483,6 +486,15 @@ begin
   N:= StrToIntDef(SValue, -1);
   if (N>=0) and (N<C.Tabs.Count) then
     C.TabIndex:= N;
+end;
+
+procedure DoControl_SetState_PageControl(C: TPageControl; const SValue: string);
+var
+  N: integer;
+begin
+  N:= StrToIntDef(SValue, -1);
+  if (N>=0) and (N<C.PageCount) then
+    C.PageIndex:= N;
 end;
 
 procedure DoControl_SetState_Image(C: TImage; const SValue: string);
@@ -1328,6 +1340,11 @@ begin
   if C is TTabControl then
   begin
     DoControl_SetState_TabControl(C as TTabControl, S);
+    exit
+  end;
+  if C is TPageControl then
+  begin
+    DoControl_SetState_PageControl(C as TPageControl, S);
     exit
   end;
   if C is TTrackBar then
