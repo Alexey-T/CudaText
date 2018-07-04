@@ -208,7 +208,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====Plugin calls====
 
-* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". 
+* PROC_SET_EVENTS: Subscribes plugin to events. It removes all subscribed events (even those from install.inf file) and then adds specified events (if list not empty). Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list".
 ** event_list is comma-separated event names. e.g. "on_open,on_save", or empty str to unsubscribe from all. 
 ** lexer_list is comma-separated lexer names.
 ** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
