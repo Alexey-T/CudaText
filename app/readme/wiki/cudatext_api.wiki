@@ -699,7 +699,7 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 * combo_ro, listbox, radiogroup, listview: current index
 * checkgroup: ","-separated checked states ("0", "1")
 * checklistbox, checklistview: index + ";" + checked_states
-* tabs: index of active tab
+* tabs, pages: index of active tab
 * trackbar, progressbar: int position
 
 ====Prop "props"====
@@ -2432,7 +2432,8 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.249 (app 1.57.1)
+1.0.249 (app 1.57.2)
+* add: dlg_proc: control "pages" supports prop "val"
 * add: Editor.get_token: TOKEN_LIST, TOKEN_LIST_SUB
 * add: Editor.get_token: index params are optional now
 * deprecated: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX

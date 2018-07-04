@@ -4,6 +4,11 @@
   * changed
 
 
+1.57.2 (2018/07)
+
++ add: API
+- fix: minor UI fixes
+
 1.57.0 (2018/06)
 
 + add: preinstall plugin Options Editor (by @kvichans). And it can be updated in AddonManager as usual.
