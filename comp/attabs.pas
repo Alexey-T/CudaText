@@ -58,6 +58,7 @@ type
     FTabPopupMenu: TPopupMenu;
     FTabFontStyle: TFontStyles;
     FTabStartsNewLine: boolean;
+    FTabHideXButton: boolean;
   public
     constructor Create(ACollection: TCollection); override;
     property TabObject: TObject read FTabObject write FTabObject;
@@ -74,6 +75,7 @@ type
     property TabPopupMenu: TPopupMenu read FTabPopupMenu write FTabPopupMenu;
     property TabSpecialWidth: integer read FTabSpecialWidth write FTabSpecialWidth default 0;
     property TabSpecialHeight: integer read FTabSpecialHeight write FTabSpecialHeight default 0;
+    property TabHideXButton: boolean read FTabHideXButton write FTabHideXButton default false;
   end;
 
 type
@@ -2600,19 +2602,33 @@ begin
 end;
 
 function TATTabs.IsShowX(AIndex: integer): boolean;
+var
+  D: TATTabData;
 begin
   case FOptShowXButtons of
-    atbxShowNone: Result:= false;
-    atbxShowAll: Result:= true;
-    atbxShowActive: Result:= AIndex=FTabIndex;
-    atbxShowMouseOver: Result:= AIndex=FTabIndexOver;
-    else Result:= false;
+    atbxShowNone:
+      Result:= false;
+    atbxShowAll:
+      Result:= true;
+    atbxShowActive:
+      Result:= AIndex=FTabIndex;
+    atbxShowMouseOver:
+      Result:= AIndex=FTabIndexOver;
+    else
+      Result:= false;
   end;
 
-  if not FOptVarWidth then
-    if FOptPosition in [atpTop, atpBottom] then
-      if FTabWidth<FOptTabWidthMinimalHidesX then
-        Result:= false;
+  if Result then
+  begin
+    D:= GetTabData(AIndex);
+    if Assigned(D) and D.TabHideXButton then
+      exit(false);
+
+    if not FOptVarWidth then
+      if FOptPosition in [atpTop, atpBottom] then
+        if FTabWidth<FOptTabWidthMinimalHidesX then
+          exit(false);
+  end;
 end;
 
 procedure TATTabs.DoTabDrop;
