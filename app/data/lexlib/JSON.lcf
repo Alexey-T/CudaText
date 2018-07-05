@@ -69,7 +69,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'String key'
       StyleName = 'String key'
       TokenType = 4
-      Expression = '"(\\"|.)*?" (?=\x20*:)'
+      Expression = '"(\\"|[^"])*?" (?=\x20*:)'
       ColumnFrom = 0
       ColumnTo = 0
     end
