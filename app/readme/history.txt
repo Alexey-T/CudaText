@@ -7,9 +7,9 @@
 1.57.2 (2018/07)
 
 + add: API
-* change: group-mode commands *vert/*horz were swapped by mistake (check your macros and menu from Config Menu plugin)
 - fix: minor UI fixes
 - fix: lexer JSON (string rule)
+- fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin
 
 1.57.0 (2018/06)
 
