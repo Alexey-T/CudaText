@@ -127,16 +127,16 @@ begin
     cmd_RescanPythonPluginsInfFiles: DoPyRescanPlugins;
 
     cmd_Groups1:     Groups.Mode:= gmOne;
-    cmd_Groups2horz: Groups.Mode:= gm2Horz;
-    cmd_Groups2vert: Groups.Mode:= gm2Vert;
-    cmd_Groups3horz: Groups.Mode:= gm3Horz;
-    cmd_Groups3vert: Groups.Mode:= gm3Vert;
-    cmd_Groups3plus: Groups.Mode:= gm1plus2Vert;
-    cmd_Groups3plushorz: Groups.Mode:= gm1plus2Horz;
-    cmd_Groups4horz: Groups.Mode:= gm4Horz;
-    cmd_Groups4vert: Groups.Mode:= gm4Vert;
-    cmd_Groups4grid: Groups.Mode:= gm4Grid;
-    cmd_Groups6grid: Groups.Mode:= gm6Grid;
+    cmd_Groups2horz: Groups.Mode:= gm2h;
+    cmd_Groups2vert: Groups.Mode:= gm2v;
+    cmd_Groups3horz: Groups.Mode:= gm3h;
+    cmd_Groups3vert: Groups.Mode:= gm3v;
+    cmd_Groups3plus: Groups.Mode:= gm1plus2v;
+    cmd_Groups3plushorz: Groups.Mode:= gm1plus2h;
+    cmd_Groups4horz: Groups.Mode:= gm4h;
+    cmd_Groups4vert: Groups.Mode:= gm4v;
+    cmd_Groups4grid: Groups.Mode:= gm4grid;
+    cmd_Groups6grid: Groups.Mode:= gm6grid;
 
     cmd_GroupActivateNext: Groups.PagesSetNext(true);
     cmd_GroupActivatePrev: Groups.PagesSetNext(false);

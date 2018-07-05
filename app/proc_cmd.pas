@@ -376,14 +376,14 @@ begin
   M.Add(cmd_ConvertSpacesToTabsLeading, 'convert spaces (leading) to tabs', [], []);
 
   M.Add(cmd_Groups1, 'groups: 1 group', [], []);
-  M.Add(cmd_Groups2horz, 'groups: 2 groups vert', [], []);
-  M.Add(cmd_Groups2vert, 'groups: 2 groups horz', [], []);
-  M.Add(cmd_Groups3horz, 'groups: 3 groups vert', [], []);
-  M.Add(cmd_Groups3vert, 'groups: 3 groups horz', [], []);
+  M.Add(cmd_Groups2vert, 'groups: 2 groups vert', [], []);
+  M.Add(cmd_Groups2horz, 'groups: 2 groups horz', [], []);
+  M.Add(cmd_Groups3vert, 'groups: 3 groups vert', [], []);
+  M.Add(cmd_Groups3horz, 'groups: 3 groups horz', [], []);
   M.Add(cmd_Groups3plus, 'groups: 1+2 groups vert', [], []);
   M.Add(cmd_Groups3plushorz, 'groups: 1+2 groups horz', [], []);
-  M.Add(cmd_Groups4horz, 'groups: 4 groups vert', [], []);
-  M.Add(cmd_Groups4vert, 'groups: 4 groups horz', [], []);
+  M.Add(cmd_Groups4vert, 'groups: 4 groups vert', [], []);
+  M.Add(cmd_Groups4horz, 'groups: 4 groups horz', [], []);
   M.Add(cmd_Groups4grid, 'groups: 4 groups grid', [], []);
   M.Add(cmd_Groups6grid, 'groups: 6 groups grid', [], []);
 

@@ -3707,7 +3707,7 @@ var
   F: TEditorFrame;
 begin
   if Groups.Mode=gmOne then
-    Groups.Mode:= gm2Horz;
+    Groups.Mode:= gm2v;
 
   fn:= GetAppPath(cFileOptionsDefault);
   F:= DoFileOpen(fn, Groups.Pages[0]);

@@ -644,14 +644,14 @@ begin
   UpdateMenuItemHotkey(mnuBmDeleteLines, cmd_BookmarkDeleteMarkedLines);
 
   UpdateMenuItemHotkey(mnuGr1, cmd_Groups1);
-  UpdateMenuItemHotkey(mnuGr2V, cmd_Groups2horz);
-  UpdateMenuItemHotkey(mnuGr2H, cmd_Groups2vert);
-  UpdateMenuItemHotkey(mnuGr3V, cmd_Groups3horz);
-  UpdateMenuItemHotkey(mnuGr3H, cmd_Groups3vert);
+  UpdateMenuItemHotkey(mnuGr2V, cmd_Groups2vert);
+  UpdateMenuItemHotkey(mnuGr2H, cmd_Groups2horz);
+  UpdateMenuItemHotkey(mnuGr3V, cmd_Groups3vert);
+  UpdateMenuItemHotkey(mnuGr3H, cmd_Groups3horz);
   UpdateMenuItemHotkey(mnuGr1p2V, cmd_Groups3plus);
   UpdateMenuItemHotkey(mnuGr1p2H, cmd_Groups3plushorz);
-  UpdateMenuItemHotkey(mnuGr4V, cmd_Groups4horz);
-  UpdateMenuItemHotkey(mnuGr4H, cmd_Groups4vert);
+  UpdateMenuItemHotkey(mnuGr4V, cmd_Groups4vert);
+  UpdateMenuItemHotkey(mnuGr4H, cmd_Groups4horz);
   UpdateMenuItemHotkey(mnuGr4G, cmd_Groups4grid);
   UpdateMenuItemHotkey(mnuGr6, cmd_Groups6grid);
 
@@ -811,14 +811,14 @@ begin
   UpdateMenuItemChecked(mnuViewOnTop, mnuViewOnTop_Alt, ShowOnTop);
 
   UpdateMenuItemChecked(mnuGr1, mnuGr1_Alt, Groups.Mode= gmOne);
-  UpdateMenuItemChecked(mnuGr2V, mnuGr2V_Alt, Groups.Mode= gm2Horz);
-  UpdateMenuItemChecked(mnuGr2H, mnuGr2H_Alt, Groups.Mode= gm2Vert);
-  UpdateMenuItemChecked(mnuGr3V, mnuGr3V_Alt, Groups.Mode= gm3Horz);
-  UpdateMenuItemChecked(mnuGr3H, mnuGr3H_Alt, Groups.Mode= gm3Vert);
-  UpdateMenuItemChecked(mnuGr1p2V, mnuGr1p2V_Alt, Groups.Mode= gm1plus2Vert);
-  UpdateMenuItemChecked(mnuGr1p2H, mnuGr1p2H_Alt, Groups.Mode= gm1plus2Horz);
-  UpdateMenuItemChecked(mnuGr4V, mnuGr4V_Alt, Groups.Mode= gm4Horz);
-  UpdateMenuItemChecked(mnuGr4H, mnuGr4H_Alt, Groups.Mode= gm4Vert);
+  UpdateMenuItemChecked(mnuGr2V, mnuGr2V_Alt, Groups.Mode= gm2v);
+  UpdateMenuItemChecked(mnuGr2H, mnuGr2H_Alt, Groups.Mode= gm2h);
+  UpdateMenuItemChecked(mnuGr3V, mnuGr3V_Alt, Groups.Mode= gm3v);
+  UpdateMenuItemChecked(mnuGr3H, mnuGr3H_Alt, Groups.Mode= gm3h);
+  UpdateMenuItemChecked(mnuGr1p2V, mnuGr1p2V_Alt, Groups.Mode= gm1plus2v);
+  UpdateMenuItemChecked(mnuGr1p2H, mnuGr1p2H_Alt, Groups.Mode= gm1plus2h);
+  UpdateMenuItemChecked(mnuGr4V, mnuGr4V_Alt, Groups.Mode= gm4v);
+  UpdateMenuItemChecked(mnuGr4H, mnuGr4H_Alt, Groups.Mode= gm4h);
   UpdateMenuItemChecked(mnuGr4G, mnuGr4G_Alt, Groups.Mode= gm4Grid);
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
 end;

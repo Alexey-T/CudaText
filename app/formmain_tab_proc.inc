@@ -263,7 +263,7 @@ begin
   //force 2 groups if only one
   if (AGroupIndex=1) and (Groups.Mode=gmOne) then
   begin
-    Groups.Mode:= gm2Horz;
+    Groups.Mode:= gm2v;
     Groups.Update; //maybe no need
   end;
 
