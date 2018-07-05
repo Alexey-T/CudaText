@@ -924,7 +924,7 @@ These are also properties of controls.
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
-* "on_menu": Called before showing context menu after right click.
+* "on_menu": Called before showing context menu, after right click. Method can return False to disable default menu (if any).
 
 Events for control "listview"/"checklistview":
 
@@ -2434,6 +2434,7 @@ Text is chr(1) separated items:
 
 1.0.249 (app 1.57.2)
 * add: dlg_proc: control "pages" supports prop "val"
+* add: dlg_proc: control event "on_menu" can return False to disable default menu
 * add: Editor.get_token: TOKEN_LIST, TOKEN_LIST_SUB
 * add: Editor.get_token: index params are optional now
 * deprecated: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX

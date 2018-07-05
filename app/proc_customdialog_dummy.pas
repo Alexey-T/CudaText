@@ -465,7 +465,7 @@ var
 begin
   Props:= TAppControlProps((Sender as TControl).Tag);
   IdControl:= FindControlIndexByOurObject(Sender);
-  DoEvent(IdControl, Props.FEventOnMenu, '');
+  Handled:= DoEvent(IdControl, Props.FEventOnMenu, '')='False';
 end;
 
 
