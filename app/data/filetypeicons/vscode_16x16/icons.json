@@ -87,6 +87,7 @@
     "NSIS": "file_type_nsi.png",
     "Objective-C": "file_type_objectivec.png",
     "OpenCL": "file_type_opencl.png",
+    "Org-mode": "file_type_org.png",
     "Pascal": "file_type_delphi.png",
     "Perl": "file_type_perl.png",
     "PHP": "file_type_php.png",
