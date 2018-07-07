@@ -186,6 +186,10 @@ cCommand_FoldLevel7 = 1037
 cCommand_FoldLevel8 = 1038
 cCommand_FoldLevel9 = 1039
 
+cCommand_FoldingFoldAtCurLine = 1040
+cCommand_FoldingUnfoldAtCurLine = 1041
+cCommand_FoldingToggleAtCurLine = 1042
+
 cCommand_Cancel = 2001
 cCommand_RepeatTextCommand = 2002
 cCommand_ZoomIn = 2003
