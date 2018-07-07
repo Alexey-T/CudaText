@@ -43,9 +43,14 @@ end;
 procedure TfmMain.FrameOnFocus(Sender: TObject);
 var
   F: TEditorFrame;
+  FPages: TATPages;
 begin
   F:= (Sender as TWinControl).Parent as TEditorFrame;
-  Groups.PagesCurrent:= F.Parent as TATPages;
+
+  //set Groups.PagesCurrent only for main (0..5) groups
+  FPages:= F.Parent as TATPages;
+  if FPages.Parent=Groups then
+    Groups.PagesCurrent:= FPages;
 
   UpdateCaption;
   UpdateTabsActiveColor(F);
