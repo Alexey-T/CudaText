@@ -446,22 +446,23 @@ begin
 
     cmd_FoldingFoldAtCurLine:
       begin
-        EditorFoldUnfoldRangeAtCurLine(Ed, cEditorFold);
+        Ed.DoFoldUnfoldRangeAtCurLine(cFoldingFold);
         AHandled:= true;
         exit
       end;
     cmd_FoldingUnfoldAtCurLine:
       begin
-        EditorFoldUnfoldRangeAtCurLine(Ed, cEditorUnfold);
+        Ed.DoFoldUnfoldRangeAtCurLine(cFoldingUnfold);
         AHandled:= true;
         exit
       end;
     cmd_FoldingToggleAtCurLine:
       begin
-        EditorFoldUnfoldRangeAtCurLine(Ed, cEditorFoldUnfold);
+        Ed.DoFoldUnfoldRangeAtCurLine(cFoldingToggle);
         AHandled:= true;
         exit
       end;
+
     cmd_FoldingEnable:
       begin
         if Assigned(Frame) then
@@ -476,6 +477,7 @@ begin
         AHandled:= true;
         exit
       end;
+
     cmd_DeleteNewColorAttrs:
       begin
         EditorDeleteNewColorAttribs(Ed);
