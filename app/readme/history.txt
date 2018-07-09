@@ -4,10 +4,11 @@
   * changed
 
 
-1.57.2 (2018/07)
+1.57.5 (2018/07)
 
 + add: API
 - fix: minor UI fixes
+- fix: syntax colored text now appears earlier, on file opening
 - fix: lexer JSON (string rule)
 - fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin
 
