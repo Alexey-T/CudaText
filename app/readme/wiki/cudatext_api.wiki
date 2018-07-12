@@ -14,6 +14,7 @@ To make plugin react to events, add method to class Command (like methods of com
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
+* on_open_none(self, ed_self): Called after file is opened, and none lexer was detected/set for it.
 * on_close_pre(self, ed_self): Called before closing tab, before checking if tab modified or not. Method can return False to disable closing.
 * on_close(self, ed_self): Called before closing tab, after modified file was saved, and editor is still active.
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
@@ -2432,7 +2433,10 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.249 (app 1.57.2)
+1.0.250 (app 1.57.7)
+* add: event "on_open_none"
+
+1.0.249 (app 1.57.5)
 * add: dlg_proc: control "pages" supports prop "val"
 * add: dlg_proc: control event "on_menu" can return False to disable default menu
 * add: Editor.get_token: TOKEN_LIST, TOKEN_LIST_SUB

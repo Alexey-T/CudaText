@@ -24,6 +24,7 @@ EVENTS = [
     'on_macro',
     'on_mouse_stop',
     'on_open',
+    'on_open_none',
     'on_open_pre',
     'on_output_nav',
     'on_paste',

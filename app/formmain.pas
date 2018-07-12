@@ -2486,6 +2486,8 @@ begin
       MsgStatus(msg);
 
       DoPyEvent(F.Editor, cEventOnOpen, []);
+      if F.IsText and (F.LexerName='') then
+        DoPyEvent(F.Editor, cEventOnOpenNone, []);
       Exit
     end;
   end;
@@ -2510,6 +2512,8 @@ begin
   MsgStatus(msg);
 
   DoPyEvent(F.Editor, cEventOnOpen, []);
+  if F.IsText and (F.LexerName='') then
+    DoPyEvent(F.Editor, cEventOnOpenNone, []);
   Result.SetFocus;
 end;
 
