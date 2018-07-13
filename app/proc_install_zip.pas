@@ -191,9 +191,8 @@ begin
     ADirTarget:= GetAppPath(cDirPy)+DirectorySeparator+s_module;
     FCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
 
-    for i:= 0 to sections.Count-1 do
+    for ini_section in sections do
     begin
-      ini_section:= sections[i];
       if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
 
       s_section:= ini.ReadString(ini_section, 'section', '');
@@ -251,19 +250,26 @@ procedure DoInstallLexer(
   out AReport: string;
   out ADirLexlib: string);
 var
-  i_lexer, i_sub: integer;
+  i_sub: integer;
+  ini_section,
   s_lexer, fn_lexer, fn_acp, fn_lexmap: string;
   an, an_sub: TecSyntAnalyzer;
-  ini_lexmap: TIniFile;
+  ini_file, ini_lexmap: TIniFile;
+  sections: TStringList;
 begin
   AReport:= '';
   ADirLexlib:= GetAppPath(cDirDataLexers);
 
-  with TIniFile.Create(AFilenameInf) do
+  ini_file:= TIniFile.Create(AFilenameInf);
+  sections:= TStringList.Create;
+
   try
-    for i_lexer:= 1 to 20 do
+    ini_file.ReadSections(sections);
+    for ini_section in sections do
     begin
-      s_lexer:= ReadString('lexer'+Inttostr(i_lexer), 'file', '');
+      if not SRegexMatchesString(ini_section, 'lexer\d+', true) then Continue;
+
+      s_lexer:= ini_file.ReadString(ini_section, 'file', '');
       if s_lexer='' then Break;
 
       //copy lexer file
@@ -311,7 +317,7 @@ begin
       //set sublexer links
       for i_sub:= 0 to an.SubAnalyzers.Count-1 do
       begin
-        s_lexer:= ReadString('lexer'+Inttostr(i_lexer), 'link'+Inttostr(i_sub+1), '');
+        s_lexer:= ini_file.ReadString(ini_section, 'link'+Inttostr(i_sub+1), '');
         if s_lexer='' then Continue;
         if s_lexer='Style sheets' then s_lexer:= 'CSS';
         if s_lexer='Assembler' then s_lexer:= 'Assembly';
@@ -338,7 +344,8 @@ begin
       end;
     end;
   finally
-    Free
+    FreeAndNil(sections);
+    FreeAndNil(ini_file);
   end;
 end;
 
