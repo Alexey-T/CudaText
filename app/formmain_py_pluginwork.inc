@@ -82,7 +82,7 @@ var
   ini_section,
   dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
-  i, cnt: integer;
+  cnt: integer;
 begin
   ini:= TIniFile.Create(fn_inf);
   sections:= TStringList.Create;
@@ -92,9 +92,8 @@ begin
     s_module:= ExtractFileName(dir_inf);
     ini.ReadSections(sections);
 
-    for i:= 0 to sections.Count-1 do
+    for s_section in sections do
     begin
-      s_section:= sections[i];
       if not SRegexMatchesString(s_section, 'sidebar\d+', true) then Continue;
 
       s_caption:= ini.ReadString(s_section, 'hint', '');
@@ -117,9 +116,8 @@ begin
         );
     end;
 
-    for i:= 0 to sections.Count-1 do
+    for ini_section in sections do
     begin
-      ini_section:= sections[i];
       if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
 
       s_section:= ini.ReadString(ini_section, 'section', '');
