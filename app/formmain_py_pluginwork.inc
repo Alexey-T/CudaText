@@ -78,18 +78,25 @@ end;
 procedure TfmMain.DoOps_LoadPluginFromInf(const fn_inf: string);
 var
   ini: TIniFile;
+  sections: TStringList;
+  ini_section,
   dir_inf, s_section, s_caption, s_module, s_method, s_lexers,
   s_events, s_keys, s_inmenu, s_icon: string;
   i, cnt: integer;
 begin
   ini:= TIniFile.Create(fn_inf);
+  sections:= TStringList.Create;
+
   try
     dir_inf:= ExtractFileDir(fn_inf);
     s_module:= ExtractFileName(dir_inf);
+    ini.ReadSections(sections);
 
-    for i:= 1 to cMaxSidebarItemsInInstallInf do
+    for i:= 0 to sections.Count-1 do
     begin
-      s_section:= 'sidebar'+Inttostr(i);
+      s_section:= sections[i];
+      if not SRegexMatchesString(s_section, 'sidebar\d+', true) then Continue;
+
       s_caption:= ini.ReadString(s_section, 'hint', '');
       if s_caption='' then Continue;
 
@@ -110,20 +117,23 @@ begin
         );
     end;
 
-    for i:= 1 to cMaxItemsInInstallInf do
+    for i:= 0 to sections.Count-1 do
     begin
-      s_section:= ini.ReadString('item'+Inttostr(i), 'section', '');
-      s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
-      s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
-      //s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
+      ini_section:= sections[i];
+      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
 
-      s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
+      s_section:= ini.ReadString(ini_section, 'section', '');
+      s_caption:= ini.ReadString(ini_section, 'caption', '');
+      s_method:= ini.ReadString(ini_section, 'method', '');
+      //s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
+
+      s_lexers:= ini.ReadString(ini_section, 'lexers', '');
       if SBeginsWith(s_lexers, '$') then //var $name defined in [info]
         s_lexers:= ini.ReadString('info', s_lexers, '');
 
-      s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
-      s_keys:= ini.ReadString('item'+Inttostr(i), 'keys', '');
-      s_inmenu:= ini.ReadString('item'+Inttostr(i), 'menu', '');
+      s_events:= ini.ReadString(ini_section, 'events', '');
+      s_keys:= ini.ReadString(ini_section, 'keys', '');
+      s_inmenu:= ini.ReadString(ini_section, 'menu', '');
 
       if s_section='commands' then
       begin
@@ -161,6 +171,7 @@ begin
       end;
     end;
   finally
+    FreeAndNil(sections);
     FreeAndNil(ini);
   end;
 end;

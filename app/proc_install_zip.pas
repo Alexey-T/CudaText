@@ -13,6 +13,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, FileUtil,
+  proc_str,
   ec_SyntAnal;
 
 type
@@ -171,7 +172,8 @@ procedure DoInstallPlugin(
   out ADirTarget: string);
 var
   ini: TIniFile;
-  s_section, s_caption, s_module, s_method, s_events,
+  sections: TStringList;
+  ini_section, s_section, s_caption, s_module, s_method, s_events,
   s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
   i: integer;
 begin
@@ -179,21 +181,27 @@ begin
   ADirTarget:= '';
 
   ini:= TIniFile.Create(AFilenameInf);
+  sections:= TStringList.Create;
+
   try
     s_module:= ini.ReadString('info', 'subdir', '');
     if s_module='' then exit;
+    ini.ReadSections(sections);
 
     ADirTarget:= GetAppPath(cDirPy)+DirectorySeparator+s_module;
     FCopyDir(ExtractFileDir(AFilenameInf), ADirTarget);
 
-    for i:= 1 to cMaxItemsInInstallInf do
+    for i:= 0 to sections.Count-1 do
     begin
-      s_section:= ini.ReadString('item'+Inttostr(i), 'section', '');
-      s_caption:= ini.ReadString('item'+Inttostr(i), 'caption', '');
-      s_method:= ini.ReadString('item'+Inttostr(i), 'method', '');
-      s_events:= ini.ReadString('item'+Inttostr(i), 'events', '');
-      s_lexers:= ini.ReadString('item'+Inttostr(i), 'lexers', '');
-      s_hotkey:= ini.ReadString('item'+Inttostr(i), 'hotkey', '');
+      ini_section:= sections[i];
+      if not SRegexMatchesString(ini_section, 'item\d+', true) then Continue;
+
+      s_section:= ini.ReadString(ini_section, 'section', '');
+      s_caption:= ini.ReadString(ini_section, 'caption', '');
+      s_method:= ini.ReadString(ini_section, 'method', '');
+      s_events:= ini.ReadString(ini_section, 'events', '');
+      s_lexers:= ini.ReadString(ini_section, 'lexers', '');
+      s_hotkey:= ini.ReadString(ini_section, 'hotkey', '');
 
       if s_section='commands' then
       begin
@@ -233,6 +241,7 @@ begin
       end;
     end;
   finally
+    FreeAndNil(sections);
     FreeAndNil(ini);
   end;
 end;
