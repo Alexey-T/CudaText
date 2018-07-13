@@ -47,7 +47,7 @@ end;
 procedure TfmMain.DoOps_LoadPlugins;
 var
   list: TStringlist;
-  fn: string;
+  SItem, fn: string;
   i: integer;
 begin
   //commands: don't clear all, leave items from Api
@@ -61,9 +61,9 @@ begin
   try
     FindAllDirectories(list, GetAppPath(cDirPy), false);
     list.Sort;
-    for i:= 0 to list.Count-1 do
+    for SItem in list do
     begin
-      fn:= list[i]+DirectorySeparator+'install.inf';
+      fn:= SItem+DirectorySeparator+'install.inf';
       if FileExists(fn) then
         DoOps_LoadPluginFromInf(fn);
     end;
