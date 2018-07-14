@@ -121,8 +121,8 @@ begin
     SOption:= cOptionPassive;
   SOption+= FOption_FileOpenOptions;
 
-  if FOption_FileOpenOptions<>'' then
-    MsgStdout('CudaText: options "'+FOption_FileOpenOptions+'"');
+  //if FOption_FileOpenOptions<>'' then
+  //  MsgStdout('CudaText: options "'+FOption_FileOpenOptions+'"');
 
   for i:= 1 to ParamCount do
   begin
