@@ -621,6 +621,7 @@ type
     FOption_OpenNewWindow: boolean;
     FOption_WindowPos: string;
     FOption_Encoding: string;
+    FOption_FileOpenOptions: string;
 
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;

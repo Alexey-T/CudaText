@@ -16,6 +16,7 @@ begin
   FOption_OpenNewWindow:= false;
   FOption_WindowPos:= '';
   FOption_Encoding:= '';
+  FOption_FileOpenOptions:= '';
 
   for i:= 1 to ParamCount do
   begin
@@ -65,6 +66,24 @@ begin
       Halt;
     end;
 
+    if (SParam='--nohistory') or (SParam='-nh') then
+    begin
+      FOption_FileOpenOptions+= '/nohistory';
+      Continue;
+    end;
+
+    if SBeginsWith(SParam, '--mode=') or SBeginsWith(SParam, '-m=') then
+    begin
+      Delete(SParam, 1, Pos('=', SParam));
+      case SParam of
+        'text':    FOption_FileOpenOptions+= '/view-text';
+        'binary':  FOption_FileOpenOptions+= '/view-binary';
+        'hex':     FOption_FileOpenOptions+= '/view-hex';
+        'unicode': FOption_FileOpenOptions+= '/view-unicode';
+      end;
+      Continue;
+    end;
+
     {$ifdef darwin}
     //macOS gives param -psn** for debugger
     if SBeginsWith(SParam, '-psn') then Continue;
@@ -100,6 +119,10 @@ begin
     SOption:= cOptionActive
   else
     SOption:= cOptionPassive;
+  SOption+= FOption_FileOpenOptions;
+
+  if FOption_FileOpenOptions<>'' then
+    MsgStdout('CudaText: options "'+FOption_FileOpenOptions+'"');
 
   for i:= 1 to ParamCount do
   begin

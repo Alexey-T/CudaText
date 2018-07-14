@@ -4,8 +4,10 @@
   * changed
 
 
-1.57.5 (2018/07)
+1.57.7 (2018/07)
 
++ add: command line parameter: --nohistory
++ add: command line parameter: --mode=[text|binary|hex|unicode]
 + add: API
 - fix: minor UI fixes
 - fix: syntax colored text now appears earlier, on file opening
