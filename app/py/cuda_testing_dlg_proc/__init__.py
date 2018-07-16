@@ -742,7 +742,9 @@ end;
             'y': 10,
             'w': 380,
             'h': 280,
-            'items': 'page-A\tpage-B'
+            'items': 'page-A\tpage-B\tpage-C',
+            'on_change': self.callback_pages_on_change,
+            'act': True,
             })
 
         n = dlg_proc(id, DLG_CTL_ADD, 'check')
@@ -957,6 +959,9 @@ end;
         dlg_proc(id_dlg, DLG_CTL_PROP_SET, name='check0', prop={
             'val': new_val
             })
+
+    def callback_pages_on_change(self, id_dlg, id_ctl, data='', info=''):
+        print('pages on_change')
 
     def test_sidepanel(self):
         print('test_sidepanel')
