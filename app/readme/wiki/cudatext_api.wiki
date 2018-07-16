@@ -10,7 +10,7 @@ This is API for [[CudaText]] in Python.
 
 To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event "on_save". Event methods have param "ed_self": Editor object in which event occured (this object is the same as "ed" in 99% cases, but in some cases event occurs in inactive editor, e.g. "Save all tabs" calls "on_save" for inactive tabs).
 
-Usually method returns None, in some cases it can return True or False to block the default method handler. The False result blocks propagation of event to other plugins, so don't return False if not nessesary (e.g. in on_complete).
+Usually methods returns None, sometimes they can return True or False to block the default  handler. The False result blocks propagation of event to other plugins, so don't return False if not nessesary.
 
 ==General==
 
