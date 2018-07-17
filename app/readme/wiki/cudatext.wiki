@@ -227,12 +227,12 @@ Stream-comment-chars are saved to separate file, lexername.cuda-lexmap. If plugi
 
 Some lexers are distributed in packages together with sub-lexer, and sub-lexer is hidden. Example: "HTML Django" with sub-lexer "HTML Django internal" (the 2nd isn't visible in the Lexers menu, so it's called hidden). Users, which have option "ui_lexer_themes" off, want to configure styles of all lexers. How to access hidden ones?
 
-* Open "Lexer library" dialog (Options - Lexer - Lexer library).
-* In dialog you see all lexers, focus needed lexer, press "Config"
+* Open "Lexer library" dialog (menu: Options / Lexer / Lexer library).
+* In dialog, focus needed lexer, press "Configure" button
 * Dialog "Lexer properties" will open for selected lexer
 * In dialog's "Styles" tab, configure all you need
 
-You can make lexer hidden/visible, by toggling its check-box in the "Lexer library" dialog.
+You can make lexer hidden/visible, by using "Hide/Show" button in the "Lexer library" dialog.
 
 ===I have made new lexer - how to distribute it?===
 
