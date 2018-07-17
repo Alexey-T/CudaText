@@ -1437,6 +1437,7 @@ begin
   FImageBox:= TATImageBox.Create(Self);
   FImageBox.Parent:= Self;
   FImageBox.Align:= alClient;
+  FImageBox.BorderStyle:= bsNone;
   FImageBox.OptFitToWindow:= true;
   FImageBox.OnScroll:= @DoImageboxScroll;
   try
