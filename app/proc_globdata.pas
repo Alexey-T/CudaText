@@ -426,8 +426,10 @@ var
 function GetAppPath(id: TAppPathId): string;
 function GetAppLangFilename: string;
 
+function EscapeLexerFilename(const ALexName: string): string;
 function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
+function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(AName: string): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
 
@@ -1591,16 +1593,22 @@ begin
     Result:= GetAppPath(cDirDataLangs)+DirectorySeparator+AppLangName+'.ini';
 end;
 
+function EscapeLexerFilename(const ALexName: string): string;
+begin
+  Result:= ALexName;
+  if Result<>'' then
+  begin
+    Result:= StringReplace(Result, ':', '_', [rfReplaceAll]);
+    Result:= StringReplace(Result, '/', '_', [rfReplaceAll]);
+    Result:= StringReplace(Result, '\', '_', [rfReplaceAll]);
+    Result:= StringReplace(Result, '*', '_', [rfReplaceAll]);
+  end;
+end;
+
 function GetLexerFilenameWithExt(ALexName, AExt: string): string;
 begin
   if ALexName<>'' then
-  begin
-    ALexName:= StringReplace(ALexName, ':', '_', [rfReplaceAll]);
-    ALexName:= StringReplace(ALexName, '/', '_', [rfReplaceAll]);
-    ALexName:= StringReplace(ALexName, '\', '_', [rfReplaceAll]);
-    ALexName:= StringReplace(ALexName, '*', '_', [rfReplaceAll]);
-    Result:= GetAppPath(cDirDataLexers)+DirectorySeparator+ALexName+AExt;
-  end
+    Result:= GetAppPath(cDirDataLexers)+DirectorySeparator+EscapeLexerFilename(ALexName)+AExt
   else
     Result:= '';
 end;
@@ -1613,6 +1621,11 @@ end;
 function GetAppLexerFilename(const ALexName: string): string;
 begin
   Result:= GetLexerFilenameWithExt(ALexName, '.lcf');
+end;
+
+function GetAppLexerAcpFilename(const ALexName: string): string;
+begin
+  Result:= GetAppPath(cDirDataAutocomplete)+DirectorySeparator+EscapeLexerFilename(ALexName)+'.acp';
 end;
 
 

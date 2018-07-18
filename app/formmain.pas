@@ -3828,7 +3828,7 @@ begin
   IsCaseSens:= false; //cannot detect it yet
   FileCss:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'css_list.ini';
   FileHtml:= GetAppPath(cDirDataAutocompleteSpec)+DirectorySeparator+'html_list.ini';
-  FileAcp:= GetAppPath(cDirDataAutocomplete)+DirectorySeparator+LexName+'.acp';
+  FileAcp:= GetAppLexerAcpFilename(LexName);
 
   //allow autocompletion with carets, only in HTML
   if Ed.Carets.Count>1 then
