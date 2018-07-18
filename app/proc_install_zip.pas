@@ -392,7 +392,7 @@ procedure DoInstallAddonFromZip(
 var
   unzip: TUnZipper;
   list: TStringlist;
-  dir, dir_zipped, fn_inf: string;
+  dir_temp, dir_zipped, fn_inf: string;
   s_title, s_type, s_desc, s_api, s_os, s_req, s_req_lexer: string;
 begin
   AStrReport:= '';
@@ -400,20 +400,20 @@ begin
   AIsInstalled:= false;
   AAddonType:= cAddonTypeUnknown;
   ADirTarget:= '';
-  dir:= GetTempDirCounted;
+  dir_temp:= GetTempDirCounted;
 
-  if not DirectoryExists(dir) then
-    CreateDir(dir);
-  if not DirectoryExists(dir) then
+  if not DirectoryExists(dir_temp) then
+    CreateDir(dir_temp);
+  if not DirectoryExists(dir_temp) then
   begin
-    MsgBox(msgCannotCreateDir+#10+dir, MB_OK+MB_ICONERROR);
+    MsgBox(msgCannotCreateDir+#10+dir_temp, MB_OK+MB_ICONERROR);
     exit
   end;
 
   unzip:= TUnZipper.Create;
   try
     unzip.FileName:= AFilenameZip;
-    unzip.OutputPath:= dir;
+    unzip.OutputPath:= dir_temp;
     try
       unzip.Examine;
       if unzip.Entries.Count=0 then
@@ -424,7 +424,7 @@ begin
     end;
 
     dir_zipped:= GetZipDirForInstallInf(unzip);
-    fn_inf:= dir+DirectorySeparator+dir_zipped+'install.inf';
+    fn_inf:= dir_temp+DirectorySeparator+dir_zipped+'install.inf';
     if FileExists(fn_inf) then
       DeleteFile(fn_inf);
 

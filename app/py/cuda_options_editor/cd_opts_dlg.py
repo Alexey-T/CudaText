@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.01 2018-06-21'
+    '2.3.02 2018-07-17'
 ToDo: (see end of file)
 '''
 
@@ -1578,9 +1578,10 @@ class OptEdD:
             newv= None
         
         elif aid=='brow' and frm in ('hotk', 'file'):
-            m.stbr_act(M.STBR_MSG, f(_('Default value: "{}". Old value: "{}"'), dval, ulfvl))
+            ulfvl_s = '' if ulfvl is None else ulfvl
+            m.stbr_act(M.STBR_MSG, f(_('Default value: "{}". Old value: "{}"'), dval, ulfvl_s))
             newv    = (app.dlg_hotkey(op)                                       if frm=='hotk' else
-                       app.dlg_file(True, '', os.path.expanduser(ulfvl), '')    if frm=='hotk' else None)
+                       app.dlg_file(False, '', os.path.expanduser(ulfvl_s), '') if frm=='file' else None)
             m.stbr_act(M.STBR_MSG, '')
             if not newv:    return []
         

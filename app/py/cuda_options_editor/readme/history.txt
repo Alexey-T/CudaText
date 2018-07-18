@@ -1,3 +1,6 @@
+2.3.02 (2018-07-17)
+fixed: browse to choose a file
+
 2.3.01 (2018-06-21)
 fixed: data stores in "settings\plugin history.json"
 removed: deprecated dialog
