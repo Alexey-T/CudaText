@@ -209,13 +209,13 @@ end;
 procedure TfmLexerLib.btnDeleteClick(Sender: TObject);
 var
   an: TecSyntAnalyzer;
-  n: integer;
+  NIndex: integer;
 begin
   List.SetFocus;
 
-  n:= List.ItemIndex;
-  if n<0 then exit;
-  an:= List.Items.Objects[n] as TecSyntAnalyzer;
+  NIndex:= List.ItemIndex;
+  if NIndex<0 then exit;
+  an:= List.Items.Objects[NIndex] as TecSyntAnalyzer;
 
   if MsgBox(
     Format(msgConfirmDeleteLexer, [an.LexerName]),
@@ -223,10 +223,13 @@ begin
   begin
     if Assigned(FOnDeleteLexer) then
       FOnDeleteLexer(nil, an.LexerName);
+
     DeleteFile(GetAppLexerFilename(an.LexerName));
+    DeleteFile(GetAppLexerMapFilename(an.LexerName));
+
     AppManager.DeleteLexer(an);
     UpdateList;
-    List.ItemIndex:= Min(n, List.Count-1);
+    List.ItemIndex:= Min(NIndex, List.Count-1);
   end;
 end;
 
