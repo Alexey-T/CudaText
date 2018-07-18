@@ -9,6 +9,7 @@
 * change: command line parameters: long keys variants are removed, only short ones left
 + add: command line parameter -nh
 + add: command line parameter -z=[text|binary|hex|unicode]
++ add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
 + add: API
 - fix: minor UI fixes
 - fix: syntax colored text now appears earlier, on file opening
