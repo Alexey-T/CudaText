@@ -226,6 +226,7 @@ begin
 
     DeleteFile(GetAppLexerFilename(an.LexerName));
     DeleteFile(GetAppLexerMapFilename(an.LexerName));
+    DeleteFile(GetAppLexerAcpFilename(an.LexerName));
 
     AppManager.DeleteLexer(an);
     UpdateList;
