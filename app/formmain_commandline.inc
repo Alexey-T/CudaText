@@ -23,12 +23,12 @@ begin
     SParam:= ParamStrUTF8(i);
     if not SBeginsWith(SParam, '-') then Continue;
 
-    if (SParam='--readonly') or (SParam='-r') then
+    if (SParam='-r') then
     begin
       FOption_OpenReadOnly:= true;
       Continue;
     end;
-    if (SParam='--new') or (SParam='-n') then
+    if (SParam='-n') then
     begin
       FOption_OpenNewWindow:= true;
       Continue;
@@ -44,14 +44,14 @@ begin
       Halt;
     end;
 
-    if SBeginsWith(SParam, '--window=') or SBeginsWith(SParam, '-w=') then
+    if SBeginsWith(SParam, '-w=') then
     begin
       Delete(SParam, 1, Pos('=', SParam));
       FOption_WindowPos:= SParam;
       Continue;
     end;
 
-    if SBeginsWith(SParam, '--enc=') or SBeginsWith(SParam, '-e=') then
+    if SBeginsWith(SParam, '-e=') then
     begin
       Delete(SParam, 1, Pos('=', SParam));
       FOption_Encoding:= AppEncodingShortnameToFullname(SParam);
@@ -60,19 +60,19 @@ begin
       Continue;
     end;
 
-    if (SParam='--enclist') or (SParam='-el') then
+    if (SParam='-el') then
     begin
       MsgStdout(AppEncodingListAsString, true);
       Halt;
     end;
 
-    if (SParam='--nohistory') or (SParam='-nh') then
+    if (SParam='-nh') then
     begin
       FOption_FileOpenOptions+= '/nohistory';
       Continue;
     end;
 
-    if SBeginsWith(SParam, '--mode=') or SBeginsWith(SParam, '-m=') then
+    if SBeginsWith(SParam, '-z=') then
     begin
       Delete(SParam, 1, Pos('=', SParam));
       case SParam of

@@ -15,7 +15,7 @@ uses
   Classes, SysUtils;
 
 const
-  cAppExeVersion = '1.57.7.0';
+  cAppExeVersion = '1.57.8.0';
   cAppApiVersion = '1.0.250';
 
 const
@@ -224,13 +224,13 @@ const
       'Supported keys:'+sLineBreak+
       '  -h, --help      - Show this help'+sLineBreak+
       '  -v, --version   - Show application version'+sLineBreak+
-      '  -n, --new       - Ignore option "ui_one_instance", force new app window'+sLineBreak+
-      '  -m, --mode=[text|binary|hex|unicode] - Open in viewer, with given mode'+sLineBreak+
-      '  -r, --readonly  - Open all files from command line in read-only mode'+sLineBreak+
-      '  -e, --enc=value - Open all files from command line in given encoding'+sLineBreak+
-      '  -el, --enclist  - Show supported encoding names'+sLineBreak+
-      '  -nh, --nohistory - Ignore saved file history'+sLineBreak+
-      '  -w, --window=left,top,width,height - Set position/size of app window'+sLineBreak+
+      '  -n              - Ignore option "ui_one_instance", force new app window'+sLineBreak+
+      '  -z=[text|binary|hex|unicode] - Open in viewer, with given mode'+sLineBreak+
+      '  -r              - Open all files from command line in read-only mode'+sLineBreak+
+      '  -e=value        - Open all files from command line in given encoding'+sLineBreak+
+      '  -el             - Show supported encoding names'+sLineBreak+
+      '  -nh             - Ignore saved file history'+sLineBreak+
+      '  -w=left,top,width,height - Set position/size of app window'+sLineBreak+
       ''+sLineBreak+
       'Filenames can be with ":line" or ":line:column" suffix to place caret.'+sLineBreak+
       'Folder can be passed, will be opened in Project Manager plugin.'+sLineBreak+
