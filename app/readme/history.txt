@@ -15,6 +15,7 @@
 - fix: minor UI fixes
 - fix: lexer JSON (string rule)
 - fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin
+- fix: after installing add-on, app must delete temp subfolder "%temp%/cudatext_nnnnn"
 
 1.57.0 (2018/06)
 

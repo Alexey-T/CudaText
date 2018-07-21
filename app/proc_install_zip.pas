@@ -353,9 +353,9 @@ function GetTempDirCounted: string;
 var
   n: integer;
 begin
-  for n:= 0 to 5000 do
+  for n:= 0 to 100 do
   begin
-    Result:= GetTempDir+DirectorySeparator+'cudatext_'+Format('%5.5d', [n]);
+    Result:= GetTempDir+DirectorySeparator+'cudatext_'+Format('%3.3d', [n]);
     if not DirectoryExists(Result) then break;
   end;
 end;
@@ -410,6 +410,7 @@ begin
     exit
   end;
 
+ try
   unzip:= TUnZipper.Create;
   try
     unzip.FileName:= AFilenameZip;
@@ -534,6 +535,11 @@ begin
     AAddonType:= cAddonTypeData;
     DoInstallData(fn_inf, AStrReport, ADirTarget)
   end;
+
+ finally
+  //cleanup
+  DeleteDirectory(dir_temp, false);
+ end;
 
   AIsInstalled:= true;
 end;
