@@ -179,7 +179,6 @@ type
     TreeAutoSync: boolean;
     TreeTimeFill: integer;
     TreeTimeFocus: integer;
-    TreeShowLines: boolean;
     TreeShowIcons: boolean;
     TreeShowTooltips: boolean;
     TreeCache: boolean;
@@ -1202,7 +1201,6 @@ begin
     TreeAutoSync:= true;
     TreeTimeFill:= 2000;
     TreeTimeFocus:= 300;
-    TreeShowLines:= false;
     TreeShowIcons:= true;
     TreeShowTooltips:= true;
     TreeCache:= true;

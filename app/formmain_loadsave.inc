@@ -844,7 +844,7 @@ begin
     UiOps.TreeAutoSync:= c.GetValue('ui_tree_auto_sync', UiOps.TreeAutoSync);
     UiOps.TreeTimeFill:= c.GetValue('ui_tree_time_fill', UiOps.TreeTimeFill);
     UiOps.TreeTimeFocus:= c.GetValue('ui_tree_time_focus', UiOps.TreeTimeFocus);
-    UiOps.TreeShowLines:= c.GetValue('ui_tree_show_lines', UiOps.TreeShowLines);
+    //UiOps.TreeShowLines:= c.GetValue('ui_tree_show_lines', UiOps.TreeShowLines);
     UiOps.TreeShowIcons:= c.GetValue('ui_tree_icons', UiOps.TreeShowIcons);
     UiOps.TreeShowTooltips:= c.GetValue('ui_tree_show_tooltips', UiOps.TreeShowTooltips);
     UiOps.TreeCache:= c.GetValue('ui_tree_cache', UiOps.TreeCache);

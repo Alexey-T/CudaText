@@ -6,12 +6,13 @@
 
 1.57.8 (2018/07)
 
-* change: command line parameters: long keys variants are removed, only short ones left
 + add: command line parameter -nh (no history)
 + add: command line parameter -z (open in viewer)
 + add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
 + add: on file opening, syntax colored text appears faster
 + add: API
+* change: command line parameters: long keys variants are removed, only short ones left
+* deleted option "ui_tree_show_lines"
 - fix: minor UI fixes
 - fix: lexer JSON (string rule)
 - fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin

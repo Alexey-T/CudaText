@@ -363,10 +363,12 @@ begin
   else
     Exclude(Op, tvoShowRoot);
 
+  {
   if UiOps.TreeShowLines then
     Include(Op, tvoShowLines)
   else
     Exclude(Op, tvoShowLines);
+  }
 
   if UiOps.TreeShowTooltips then
     Include(Op, tvoToolTips)
