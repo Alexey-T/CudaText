@@ -12,6 +12,7 @@
 + add: on file opening, syntax colored text appears faster
 + add: API
 * change: command line parameters: long keys variants are removed, only short ones left
+* change: option "newdoc_eol" now affects Windows only (it's "Unix EOL" on Unix)
 * deleted option "ui_tree_show_lines"
 * deleted option "ui_tree_cache"
 - fix: minor UI fixes
