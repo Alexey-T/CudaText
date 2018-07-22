@@ -665,11 +665,11 @@
   //  Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
   "newdoc_encoding": "utf8",
 
-  //New tabs: End-of-lines chars
-  //  1: Win
+  //New tabs: End-of-line characters
+  //  1: Windows
   //  2: Unix
   //  3: MacOS 9
-  //  Defaults: Windows: 1, Linux/macOS: 2
+  //  Default: on Windows: 1, on Unix: 2
   "newdoc_eol": 1,
 
   //[File]
