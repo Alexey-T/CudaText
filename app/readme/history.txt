@@ -13,6 +13,7 @@
 + add: API
 * change: command line parameters: long keys variants are removed, only short ones left
 * deleted option "ui_tree_show_lines"
+* deleted option "ui_tree_cache"
 - fix: minor UI fixes
 - fix: lexer JSON (string rule)
 - fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin

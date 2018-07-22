@@ -654,9 +654,6 @@
   //Show tooltips for code-tree items, which don't fit by width
   "ui_tree_show_tooltips": true,
 
-  //Buffer/cache contents of code-tree, use this cache when changing tabs
-  "ui_tree_cache": true,
-
   //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
   "ui_max_lines_codetree": 8000,
 
