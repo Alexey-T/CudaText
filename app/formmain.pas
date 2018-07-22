@@ -4499,9 +4499,13 @@ begin
 end;
 
 procedure TfmMain.FrameLexerChange(Sender: TObject);
+var
+  Frame: TEditorFrame;
 begin
-  DoOps_LoadOptionsLexerSpecific((Sender as TComponent).Owner as TEditorFrame); //options override
-  DoPyEvent(CurrentEditor, cEventOnLexer, []);
+  Frame:= (Sender as TComponent).Owner as TEditorFrame;
+
+  DoOps_LoadOptionsLexerSpecific(Frame); //options override
+  DoPyEvent(Frame.Editor, cEventOnLexer, []);
   DoOps_LoadKeymap; //keymap override
 
   UpdateMenuPlugins_Shortcuts;

@@ -815,11 +815,18 @@ begin
 end;
 
 procedure TEditorFrame.SetLexerName(const AValue: string);
+var
+  SName: string;
+  anLite: TATLiteLexer;
 begin
   if SEndsWith(AValue, msgLiteLexerSuffix) then
   begin
-    LexerLite:= AppManagerLite.FindLexerByName(
-      Copy(AValue, 1, Length(AValue)-Length(msgLiteLexerSuffix)))
+    SName:= Copy(AValue, 1, Length(AValue)-Length(msgLiteLexerSuffix));
+    anLite:= AppManagerLite.FindLexerByName(SName);
+    if Assigned(anLite) then
+      LexerLite:= anLite
+    else
+      Lexer:= nil;
   end
   else
   begin
@@ -1263,7 +1270,10 @@ begin
   Ed1.Strings.EncodingDetectDefaultUtf8:= UiOps.DefaultEncUtf8;
 
   EncodingName:= AppEncodingShortnameToFullname(UiOps.NewdocEnc);
-  LexerName:= UiOps.NewdocLexer;
+
+  //passing lite lexer - crashes (can't solve), so disabled
+  if not SEndsWith(UiOps.NewdocLexer, msgLiteLexerSuffix) then
+    LexerName:= UiOps.NewdocLexer;
 
   FNotif:= TATFileNotif.Create(Self);
   FNotif.Timer.Interval:= 1000;
