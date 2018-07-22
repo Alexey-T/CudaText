@@ -1,5 +1,7 @@
-2.3.02 (2018-07-17)
-fixed: browse to choose a file
+2.3.02 (2018-07-18)
+added: Alt+9 to reset sorting
+added: sort many columns by Ctrl holding on click or menu
+added: Allow several section in filter. Add by Ctrl holding in menu "+Sections".
 
 2.3.01 (2018-06-21)
 fixed: data stores in "settings\plugin history.json"
