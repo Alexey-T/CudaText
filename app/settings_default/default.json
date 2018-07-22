@@ -532,19 +532,19 @@
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
-  //UI tabs: don't create tabs (except the first tab), ie use SDI = Single Document Interface
+  //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
   "ui_tab_disabled": false,  
   
-  //UI tabs: multi-line mode, ie wrappable to several lines if lot of tabs
+  //UI tabs: Multi-line mode, ie tabs are wrappable to several lines, when lot of tabs
   "ui_tab_multiline": false,
 
-  //UI tabs: show angled left/right sides (note: they paint much slower)
+  //UI tabs: Show angled left/right sides (note: they paint much slower)
   "ui_tab_angled": true,
 
-  //UI tabs: flat look
+  //UI tabs: Flat look
   "ui_tab_flat": false,
 
-  //UI tabs: layout of buttons at left/right sides
+  //UI tabs: Layout of buttons near tabs, at left/right sides
   //String of few chars, each char is button. Separator for sides is comma.
   //Allowed chars (buttons):
   //  "<", ">" - scroll arrows
@@ -553,13 +553,13 @@
   //  "x" - close button, the same as x icon on active tab
   "ui_tab_button_layout": "<>,v",
 
-  //UI tabs: Width
+  //UI tabs: Default tab width
   "ui_tab_size_x": 170,
 
-  //UI tabs: Minimal width, used when lot of tabs appear
+  //UI tabs: Minimal tab width (used when lot of tabs appear)
   "ui_tab_size_x_min": 40,
 
-  //UI tabs: Height
+  //UI tabs: Default tab height
   "ui_tab_size_y": 25,
 
   //UI tabs: Position (side) of tabs
@@ -570,22 +570,22 @@
   "ui_tab_position": 0,
 
   //UI tabs: Show "x" buttons on tabs
-  //  0: dont show
-  //  1: for all tabs
-  //  2: for active tab
-  //  3: for mouse-over tab
+  //  0: don't show
+  //  1: show for all tabs
+  //  2: show only for active tab
+  //  3: show only for mouse-over tab
   "ui_tab_show_x": 1,
 
-  //UI tabs: Show "+" pseudo-tab
+  //UI tabs: Show "+" pseudo-tab (its click creates new tab)
   "ui_tab_show_plus": true,
 
-  //UI tabs: Command "Set tab color" paints entire tab
+  //UI tabs: Feature "Set tab color" fills the entire tab height
   "ui_tab_fullcolor": false,
 
   //UI tabs: Double-click closes tab
   "ui_tab_2click_closes": false,
 
-  //UI tabs: Show numbers on tabs
+  //UI tabs: Show indexes on tabs
   "ui_tab_numbers": false,
 
   //UI tabs: Open new tab near the currently active tab
