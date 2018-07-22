@@ -1017,6 +1017,17 @@ begin
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
 
+  //some commands affect FTextCharsTyped
+  if (ACommand=cCommand_KeyBackspace) then
+    if FTextCharsTyped>0 then
+      Dec(FTextCharsTyped);
+
+  if (ACommand=cCommand_TextDeleteLine) or
+    (ACommand=cCommand_TextDeleteToLineBegin) or
+    (ACommand=cCommand_TextDeleteWordNext) or
+    (ACommand=cCommand_TextDeleteWordPrev) then
+    FTextCharsTyped:= 0;
+
   //autoshow autocompletion
   if (ACommand=cCommand_TextInsert) and
     (Length(AText)=1) then
