@@ -1798,8 +1798,8 @@ class OptEdD:
         m.stbr_act(M.STBR_MSG, '')
         pass;                  #LOG and log('',())
         dlg_wrapper('Help'
-        ,   600+10, 500+10 
-        ,   [d(cid='body', tp='me', l=5, t=5, w=600, h=500, ro_mono_brd='1,1,0')]
+        ,   680+10, 500+10 
+        ,   [d(cid='body', tp='me', l=5, t=5, w=680, h=500, ro_mono_brd='1,1,0')]
         ,   d(      body=   #NOTE: help
                  f(
   _(  'About "{fltr}"'
