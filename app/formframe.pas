@@ -1031,6 +1031,9 @@ begin
 
   if (ACommand=cCommand_TextDeleteLine) or
     (ACommand=cCommand_TextDeleteToLineBegin) or
+    (ACommand=cCommand_KeyUp) or
+    (ACommand=cCommand_KeyDown) or
+    (ACommand=cCommand_KeyTab) or
     (ACommand=cCommand_TextDeleteWordNext) or
     (ACommand=cCommand_TextDeleteWordPrev) then
     FTextCharsTyped:= 0;
