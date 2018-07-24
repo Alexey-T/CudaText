@@ -14,6 +14,7 @@
 + add: Project Manager option "Use 'preview tab' on item clicking"
 + add: Addon Manager now deletes most of temp files (you should delete old folders %temp%/cudatext_NNNNN)
 + add: option "ui_statusbar_tabsize" changed its default, now it supports app translation
++ add: plugin cuda_palette (Set tab color) saves settings not to user.json
 * change: command line parameters: long keys variants are removed, only short ones left
 * change: option "newdoc_eol" now affects Windows only (it's "Unix EOL" on Unix)
 * deleted option "ui_statusbar_wrap"
