@@ -16,6 +16,7 @@
 + add: option "ui_statusbar_tabsize" changed its default, now it supports app translation
 * change: command line parameters: long keys variants are removed, only short ones left
 * change: option "newdoc_eol" now affects Windows only (it's "Unix EOL" on Unix)
+* deleted option "ui_statusbar_wrap"
 * deleted option "ui_tree_show_lines"
 * deleted option "ui_tree_cache"
 - fix: minor UI fixes

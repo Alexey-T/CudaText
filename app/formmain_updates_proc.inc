@@ -186,7 +186,7 @@ begin
 
   //------
   DoStatusbarTextByTag(AStatus, StatusbarTag_SelMode, IfThen(Ed.OptMouseColumnSelectionWithoutKey, '| |', '-'));
-  DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, UiOps.StatusWrap[Ord(Ed.OptWrapMode)]);
+  DoStatusbarTextByTag(AStatus, StatusbarTag_WrapMode, msgStatusWrapStates[Ord(Ed.OptWrapMode)]);
 end;
 
 procedure TfmMain.InitStatusButton;

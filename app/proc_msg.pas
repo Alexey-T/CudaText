@@ -126,6 +126,7 @@ const
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
 
   msgStatusTabSize: string = 'Tab size';
+  msgStatusWrapStates: array[0..2] of string = ('no wrap', 'wrap', 'wrap m');
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
   msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';

@@ -842,10 +842,6 @@
   //  {_}: char "_" if spaces used
   "ui_statusbar_tabsize": "{s} {tab}{_}",
 
-  //Statusbar: wrap-panel values.
-  //3 strings ","-separated: for wrap off, for wrap at window edge, for wrap at margin
-  "ui_statusbar_wrap": "no-wrap,wrap,wrap-m",
-
   //[Ui]
   //Show full file path in window title
   "ui_title_path": false,
