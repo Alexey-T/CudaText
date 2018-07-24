@@ -11,6 +11,7 @@
 + add: on file opening, syntax colored text appears faster
 + add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
 + add: Project Manager option "Use 'preview tab' on item clicking"
++ add: Addon Manager now deletes most of temp files (you should delete old folders %temp%/cudatext_NNNNN)
 + add: API
 * change: command line parameters: long keys variants are removed, only short ones left
 * change: option "newdoc_eol" now affects Windows only (it's "Unix EOL" on Unix)
@@ -19,7 +20,6 @@
 - fix: minor UI fixes
 - fix: lexer JSON (string rule)
 - fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin
-- fix: after installing add-on, app must delete temp subfolder "%temp%/cudatext_nnnnn"
 
 1.57.0 (2018/06)
 
