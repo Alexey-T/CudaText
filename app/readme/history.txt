@@ -8,8 +8,9 @@
 
 + add: command line parameter -nh (no history)
 + add: command line parameter -z (open in viewer)
-+ add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
 + add: on file opening, syntax colored text appears faster
++ add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
++ add: Project Manager option "Use 'preview tab' on item clicking"
 + add: API
 * change: command line parameters: long keys variants are removed, only short ones left
 * change: option "newdoc_eol" now affects Windows only (it's "Unix EOL" on Unix)

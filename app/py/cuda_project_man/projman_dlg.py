@@ -25,9 +25,10 @@ def dialog_config(op):
     RES_ON_START = 4
     RES_TOOLBAR = 5
     RES_GOTO_OPEN = 6
-    RES_ICONS = 8
-    RES_ICONS_TB = 10
-    RES_OK = 11
+    RES_PREVIEW = 7
+    RES_ICONS = 9
+    RES_ICONS_TB = 11
+    RES_OK = 12
 
     themes = get_themes_filetype()
     try:
@@ -57,24 +58,26 @@ def dialog_config(op):
             'val='+('1' if op.get('toolbar', True) else '0') ])]
         +[c1.join(['type=check', 'pos=6,236,400,0', 'cap=&Open file after "Go to file" command',
             'val='+('1' if op.get('goto_open', False) else '0') ])]
+        +[c1.join(['type=check', 'pos=6,262,400,0', 'cap=&Use "preview tab" on item clicking',
+            'val='+('1' if op.get('preview', True) else '0') ])]
 
-        +[c1.join(['type=label', 'pos=6,270,130,0', 'cap=File type icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,265,350,0',
+        +[c1.join(['type=label', 'pos=6,300,130,0', 'cap=File type icons:'])]
+        +[c1.join(['type=combo_ro', 'pos=160,295,350,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,300,130,0', 'cap=Toolbar icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,295,350,0',
+        +[c1.join(['type=label', 'pos=6,330,130,0', 'cap=Toolbar icons:'])]
+        +[c1.join(['type=combo_ro', 'pos=160,325,350,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=button', 'pos=300,340,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,340,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=button', 'pos=300,370,400,0', 'cap=&OK', 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,370,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 374, text, get_dict=True)
+    res = dlg_custom('Project Manager options', 508, 404, text, get_dict=True)
     if res is None:
         return
 
@@ -92,6 +95,7 @@ def dialog_config(op):
     op['on_start'] = res[RES_ON_START]=='1'
     op['toolbar'] = res[RES_TOOLBAR]=='1'
     op['goto_open'] = res[RES_GOTO_OPEN]=='1'
+    op['preview'] = res[RES_PREVIEW]=='1'
 
     index = int(res[RES_ICONS])
     if index>=0:

@@ -104,6 +104,7 @@ class Command:
         "masks_ignore": MASKS_IGNORE,
         "on_start": False,
         "toolbar": True,
+        "preview": True,
     }
 
     tree = None
@@ -831,7 +832,9 @@ class Command:
             file_open(str(path), options=options)
 
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
-        self.do_open_current_file('/preview')
+
+        opt = '/preview' if self.options.get("preview", True) else ''
+        self.do_open_current_file(opt)
 
     #def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
     #    self.do_open_current_file('')
