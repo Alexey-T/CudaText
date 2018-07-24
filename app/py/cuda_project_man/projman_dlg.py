@@ -6,6 +6,11 @@ MASKS_ZIP = '.zip .7z .tar .gz .rar .xz .cab .deb .rpm'
 MASKS_IMAGES = '.png .jpg .jpeg .gif .bmp .ico'
 MASKS_BINARY = '.exe .dll .o .msi .lib .obj .pdf'
 
+def bool_to_str(b):
+    return '1' if b else '0'
+def str_to_bool(s):
+    return s=='1'
+
 
 def get_themes_filetype():
 
@@ -53,13 +58,13 @@ def dialog_config(op):
         +[c1.join(['type=memo', 'pos=6,74,500,180',
             'val='+'\t'.join(op.get('recent_projects', [])) ])]
         +[c1.join(['type=check', 'pos=6,186,400,0', 'cap=&Load on program start',
-            'val='+('1' if op.get('on_start', False) else '0') ])]
+            'val='+bool_to_str(op.get('on_start', False)) ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar',
-            'val='+('1' if op.get('toolbar', True) else '0') ])]
+            'val='+bool_to_str(op.get('toolbar', True)) ])]
         +[c1.join(['type=check', 'pos=6,236,400,0', 'cap=&Open file after "Go to file" command',
-            'val='+('1' if op.get('goto_open', False) else '0') ])]
+            'val='+bool_to_str(op.get('goto_open', False)) ])]
         +[c1.join(['type=check', 'pos=6,262,400,0', 'cap=&Use "preview tab" on item clicking',
-            'val='+('1' if op.get('preview', True) else '0') ])]
+            'val='+bool_to_str(op.get('preview', True)) ])]
 
         +[c1.join(['type=label', 'pos=6,300,130,0', 'cap=File type icons:'])]
         +[c1.join(['type=combo_ro', 'pos=160,295,350,0',
@@ -92,10 +97,10 @@ def dialog_config(op):
     s = res[RES_RECENTS].split('\t')
     op['recent_projects'] = s
 
-    op['on_start'] = res[RES_ON_START]=='1'
-    op['toolbar'] = res[RES_TOOLBAR]=='1'
-    op['goto_open'] = res[RES_GOTO_OPEN]=='1'
-    op['preview'] = res[RES_PREVIEW]=='1'
+    op['on_start'] = str_to_bool(res[RES_ON_START])
+    op['toolbar'] = str_to_bool(res[RES_TOOLBAR])
+    op['goto_open'] = str_to_bool(res[RES_GOTO_OPEN])
+    op['preview'] = str_to_bool(res[RES_PREVIEW])
 
     index = int(res[RES_ICONS])
     if index>=0:
