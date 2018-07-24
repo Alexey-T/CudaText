@@ -837,9 +837,10 @@
   "ui_statusbar_time": 5,
 
   //Statusbar: tabsize-panel text. Macros here:
+  //  {s}: localized string "Tab size" 
   //  {tab}: tab size
   //  {_}: char "_" if spaces used
-  "ui_statusbar_tabsize": "Tab size {tab}{_}",
+  "ui_statusbar_tabsize": "{s} {tab}{_}",
 
   //Statusbar: wrap-panel values.
   //3 strings ","-separated: for wrap off, for wrap at window edge, for wrap at margin

@@ -92,6 +92,14 @@ begin
   UpdateStatus_ForFrame(Status, F);
 end;
 
+function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
+begin
+  Result:= str;
+  SReplaceAll(Result, '{s}', msgStatusTabSize);
+  SReplaceAll(Result, '{tab}', IntToStr(Ed.OptTabSize));
+  SReplaceAll(Result, '{_}', IfThen(Ed.OptTabSpaces, '_'));
+end;
+
 procedure TfmMain.UpdateStatus_ForFrame(AStatus: TATStatus; F: TEditorFrame);
 var
   Ed: TATSynEdit;

@@ -322,6 +322,7 @@ begin
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
     cTextEditorLocked:= ini.ReadString('ui', 'ed_w', cTextEditorLocked);
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
+    msgStatusTabSize:= ini.ReadString('ui', 'tsz', msgStatusTabSize);
     msgNoLexer:= ini.ReadString('ui', 'nlex', msgNoLexer);
     UpdateMenuLexers;
     msgFileClearList:= ini.ReadString('ui', 'clr', msgFileClearList);

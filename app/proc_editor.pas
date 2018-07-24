@@ -47,7 +47,6 @@ type
 
 function EditorGetStatusType(ed: TATSynEdit): TEdSelType;
 function EditorFormatStatus(ed: TATSynEdit; const str: string): string;
-function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);
 procedure EditorGotoLastEditingPos(Ed: TATSynEdit; AIndentHorz, AIndentVert: integer);
 function EditorGotoFromString(Ed: TATSynEdit; SInput: string): boolean;
@@ -332,13 +331,6 @@ begin
       temp_str:= '';
     result:= stringreplace(result, '{char_hex4}', temp_str, []);
   end;
-end;
-
-function EditorFormatTabsize(ed: TATSynEdit; const str: string): string;
-begin
-  Result:= str;
-  SReplaceAll(Result, '{tab}', IntToStr(Ed.OptTabSize));
-  SReplaceAll(Result, '{_}', IfThen(Ed.OptTabSpaces, '_'));
 end;
 
 procedure EditorDeleteNewColorAttribs(ed: TATSynEdit);

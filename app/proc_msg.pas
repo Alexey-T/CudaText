@@ -125,6 +125,7 @@ const
   msgCannotInstallReqLexer: string = 'Cannot install "%s", it requires missing lexer(s): %s';
   msgCannotAutocompleteMultiCarets: string = 'Cannot auto-complete with multi-carets';
 
+  msgStatusTabSize: string = 'Tab size';
   msgStatusIncorrectFilename: string = 'Incorrect filename:';
   msgStatusIncorrectInstallInfInZip: string = 'Incorrect install.inf in zip';
   msgStatusUnsupportedAddonType: string = 'Unsupported addon type:';

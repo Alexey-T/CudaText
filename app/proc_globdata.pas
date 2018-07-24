@@ -1222,7 +1222,7 @@ begin
     StatusHeight:= TabHeight;
     StatusTime:= 5;
     StatusAltTime:= 7;
-    StatusTabsize:= 'Tab size {tab}{_}';
+    StatusTabsize:= '{s} {tab}{_}';
     StatusWrap[0]:= 'no-wrap';
     StatusWrap[1]:= 'wrap';
     StatusWrap[2]:= 'wrap-m';

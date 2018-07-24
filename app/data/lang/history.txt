@@ -1,6 +1,9 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2018.07.24
++ [ui] tsz (for statusbar)
+
 2018.05.30
 + [se] AutocompeteCarets
 
