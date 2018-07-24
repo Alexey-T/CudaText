@@ -1033,6 +1033,12 @@ begin
     (ACommand=cCommand_TextDeleteToLineBegin) or
     (ACommand=cCommand_KeyUp) or
     (ACommand=cCommand_KeyDown) or
+    (ACommand=cCommand_KeyLeft) or
+    (ACommand=cCommand_KeyRight) or
+    (ACommand=cCommand_KeyUp_Sel) or
+    (ACommand=cCommand_KeyDown_Sel) or
+    (ACommand=cCommand_KeyLeft_Sel) or
+    (ACommand=cCommand_KeyRight_Sel) or
     (ACommand=cCommand_KeyTab) or
     (ACommand=cCommand_TextDeleteWordNext) or
     (ACommand=cCommand_TextDeleteWordPrev) then
