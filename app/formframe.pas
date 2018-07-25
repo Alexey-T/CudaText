@@ -1008,9 +1008,21 @@ begin
           end;
       end;
 
-    cCommand_KeyTab:
+    cCommand_KeyTab,
+    cCommand_KeyEnter,
+    cCommand_TextDeleteLine,
+    cCommand_TextDeleteToLineBegin,
+    cCommand_KeyUp,
+    cCommand_KeyDown,
+    cCommand_KeyLeft,
+    cCommand_KeyRight,
+    cCommand_KeyUp_Sel,
+    cCommand_KeyDown_Sel,
+    cCommand_KeyLeft_Sel,
+    cCommand_KeyRight_Sel,
+    cCommand_TextDeleteWordNext,
+    cCommand_TextDeleteWordPrev:
       begin
-        //calling snippet must reset count of chars (cannot handle in OnCommandAfter)
         FTextCharsTyped:= 0;
       end;
   end;
@@ -1039,24 +1051,6 @@ begin
   begin
     if FTextCharsTyped>0 then
       Dec(FTextCharsTyped);
-    exit;
-  end;
-
-  if (ACommand=cCommand_TextDeleteLine) or
-    (ACommand=cCommand_TextDeleteToLineBegin) or
-    (ACommand=cCommand_KeyUp) or
-    (ACommand=cCommand_KeyDown) or
-    (ACommand=cCommand_KeyLeft) or
-    (ACommand=cCommand_KeyRight) or
-    (ACommand=cCommand_KeyUp_Sel) or
-    (ACommand=cCommand_KeyDown_Sel) or
-    (ACommand=cCommand_KeyLeft_Sel) or
-    (ACommand=cCommand_KeyRight_Sel) or
-    (ACommand=cCommand_KeyTab) or
-    (ACommand=cCommand_TextDeleteWordNext) or
-    (ACommand=cCommand_TextDeleteWordPrev) then
-  begin
-    FTextCharsTyped:= 0;
     exit;
   end;
 
