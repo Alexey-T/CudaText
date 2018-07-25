@@ -1024,10 +1024,14 @@ begin
   Caret:= Ed.Carets[0];
   if not Ed.Strings.IsIndexValid(Caret.PosY) then exit;
 
+// try
   //some commands affect FTextCharsTyped
   if (ACommand=cCommand_KeyBackspace) then
+  begin
     if FTextCharsTyped>0 then
       Dec(FTextCharsTyped);
+    exit;
+  end;
 
   if (ACommand=cCommand_TextDeleteLine) or
     (ACommand=cCommand_TextDeleteToLineBegin) or
@@ -1042,7 +1046,10 @@ begin
     (ACommand=cCommand_KeyTab) or
     (ACommand=cCommand_TextDeleteWordNext) or
     (ACommand=cCommand_TextDeleteWordPrev) then
+  begin
     FTextCharsTyped:= 0;
+    exit;
+  end;
 
   //autoshow autocompletion
   if (ACommand=cCommand_TextInsert) and
@@ -1052,6 +1059,7 @@ begin
     if (UiOps.AutocompleteTriggerChars<>'') and
       (Pos(AText, UiOps.AutocompleteTriggerChars)>0) then
     begin
+      FTextCharsTyped:= 0;
       Ed.DoCommand(cmd_AutoComplete);
       exit;
     end;
@@ -1059,7 +1067,11 @@ begin
     //other conditions need word-char
     bWordChar:= IsCharWord(AText[1], '');
     bIdentChar:= bWordChar and (Pos(AText[1], '0123456789')=0);
-    if not bWordChar then exit;
+    if not bWordChar then
+    begin
+      FTextCharsTyped:= 0;
+      exit;
+    end;
 
     SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
     if SLexerName='' then SLexerName:= '-';
@@ -1101,6 +1113,11 @@ begin
     else
       FTextCharsTyped:= 0;
   end;
+ //finally
+ // Application.MainForm.Caption:=
+ //   'char: '+IfThen(AText<>'', AText[1])+
+ //   ', count: '+Inttostr(FTextCharsTyped);
+ //end;
 
   if Ed.LastCommandChangedLines>0 then
     if Assigned(FOnMsgStatus) then
