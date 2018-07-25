@@ -1069,7 +1069,6 @@ begin
 
     //other conditions need word-char
     bWordChar:= IsCharWord(AText[1], '');
-    bIdentChar:= bWordChar and (Pos(AText[1], '0123456789')=0);
     if not bWordChar then
     begin
       FTextCharsTyped:= 0;
@@ -1077,7 +1076,6 @@ begin
     end;
 
     SLexerName:= LexerNameAtPos(Point(Caret.PosX, Caret.PosY));
-    if SLexerName='' then SLexerName:= '-';
 
     //autoshow for HTML
     if UiOps.AutocompleteHtml and (Pos('HTML', SLexerName)>0) then
@@ -1097,20 +1095,19 @@ begin
     end;
 
     //autoshow for others, when typed N chars
-    if (UiOps.AutocompleteAutoshowCharCount>0) {and
-       (UiOps.AutocompleteAutoshowLexers<>'')} then
+    if (UiOps.AutocompleteAutoshowCharCount>0) then
     begin
       //ignore if number typed
+      bIdentChar:= bWordChar and not IsCharDigit(AText[1]);
       if (FTextCharsTyped=0) and (not bIdentChar) then exit;
 
       Inc(FTextCharsTyped);
       if FTextCharsTyped=UiOps.AutocompleteAutoshowCharCount then
-        //if IsLexerListed(SLexerName, UiOps.AutocompleteAutoshowLexers) then
-        begin
-          FTextCharsTyped:= 0;
-          Ed.DoCommand(cmd_AutoComplete);
-          exit;
-        end;
+      begin
+        FTextCharsTyped:= 0;
+        Ed.DoCommand(cmd_AutoComplete);
+        exit;
+      end;
     end
     else
       FTextCharsTyped:= 0;
