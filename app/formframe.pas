@@ -1068,7 +1068,7 @@ begin
     end;
 
     //other conditions need word-char
-    bWordChar:= IsCharWord(AText[1], '');
+    bWordChar:= IsCharWordInIdentifier(AText[1]);
     if not bWordChar then
     begin
       FTextCharsTyped:= 0;
