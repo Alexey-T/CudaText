@@ -985,7 +985,7 @@ Param id_dialog: int, form handle. Ignored only for DLG_CREATE (pass 0).
 
 Possible values of id_action:
 
-* DLG_CREATE: Creates new form, gets form handle.
+* DLG_CREATE: Creates new empty form, gets form "handle". You must pass this handle (int) to next calls of dlg_proc(). 
 * DLG_HIDE: Hides form.
 * DLG_FREE: Hides and deletes form.
 * DLG_SHOW_MODAL: Shows form in modal mode. Waits for form to hide, then returns.
@@ -1007,7 +1007,7 @@ Possible values of id_action:
 * DLG_CTL_DELETE: Deletes control.  Control must be specified by name or index. Controls are stored in list, so after a control deleted, indexes of next controls shift by -1. So don't use fixed indexes if you delete some, use DLG_CTL_FIND.
 * DLG_CTL_DELETE_ALL: Deletes all controls.
 * DLG_CTL_FIND: Gets index of control by name, or -1 if cannot find. Param "prop" is name.
-* DLG_CTL_HANDLE: Gets int handle of control.  Control must be specified by name or index. This handle is currently useful for types: 
+* DLG_CTL_HANDLE: Gets int "handle" of control on a form. Control must be specified by name or index. This handle is currently useful for types: 
 ** type "button_ex": pass handle to button_proc()
 ** type "editor": pass handle to Editor() constructor
 ** type "listbox_ex": pass handle to listbox_proc()
