@@ -983,26 +983,35 @@ var
   ch: char;
 begin
   Ed:= Sender as TATSynEdit;
-  if Ed.Carets.Count>0 then
-  begin
-    Caret:= Ed.Carets[0];
+  if Ed.Carets.Count=0 then exit;
+  Caret:= Ed.Carets[0];
 
-    //improve auto-closing brackets, avoid duplicate ')' after '('
-    if Ed.Strings.IsIndexValid(Caret.PosY) then
-      if Length(AText)=1 then
+  case ACmd of
+    cCommand_TextInsert:
       begin
-        ch:= _GetPairForCloseBracket(AText[1]);
-        if (ch<>#0) and (Pos(ch, UiOps.AutoCloseBrackets)>0) then
-        begin
-          Str:= Ed.Strings.Lines[Caret.PosY];
-          if (Caret.PosX>0) and (Caret.PosX<Length(Str)) then
-            if Copy(Str, Caret.PosX, 2) = ch+AText then
+        //improve auto-closing brackets, avoid duplicate ')' after '('
+        if Ed.Strings.IsIndexValid(Caret.PosY) then
+          if Length(AText)=1 then
+          begin
+            ch:= _GetPairForCloseBracket(AText[1]);
+            if (ch<>#0) and (Pos(ch, UiOps.AutoCloseBrackets)>0) then
             begin
-              Ed.DoCommand(cCommand_KeyRight);
-              AHandled:= true;
-              exit;
+              Str:= Ed.Strings.Lines[Caret.PosY];
+              if (Caret.PosX>0) and (Caret.PosX<Length(Str)) then
+                if Copy(Str, Caret.PosX, 2) = ch+AText then
+                begin
+                  Ed.DoCommand(cCommand_KeyRight);
+                  AHandled:= true;
+                  exit;
+                end;
             end;
-        end;
+          end;
+      end;
+
+    cCommand_KeyTab:
+      begin
+        //calling snippet must reset count of chars (cannot handle in OnCommandAfter)
+        FTextCharsTyped:= 0;
       end;
   end;
 
