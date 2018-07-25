@@ -1060,7 +1060,7 @@ begin
   begin
     //autoshow by trigger chars
     if (UiOps.AutocompleteTriggerChars<>'') and
-      (Pos(AText, UiOps.AutocompleteTriggerChars)>0) then
+      (Pos(AText[1], UiOps.AutocompleteTriggerChars)>0) then
     begin
       FTextCharsTyped:= 0;
       Ed.DoCommand(cmd_AutoComplete);
