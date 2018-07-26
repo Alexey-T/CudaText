@@ -90,6 +90,7 @@ type
     FModified: boolean;
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
+    FActivationTime: QWord;
     FEnabledCodeTree: boolean;
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
@@ -246,6 +247,7 @@ type
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property EnabledCodeTree: boolean read FEnabledCodeTree write SetEnabledCodeTree;
+    property ActivationTime: QWord read FActivationTime;
     function IsEmpty: boolean;
     procedure ApplyTheme;
     procedure SetFocus; reintroduce;
@@ -959,6 +961,8 @@ begin
     FOnFocusEditor(Editor);
 
   DoPyEvent(Sender as TATSynEdit, cEventOnFocus, []);
+
+  FActivationTime:= GetTickCount64;
 end;
 
 function _GetPairForCloseBracket(ch: char): char;

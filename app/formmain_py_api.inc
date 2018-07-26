@@ -2331,6 +2331,14 @@ begin
         PROP_CODETREE:
           Result:= PyBool_FromLong(Ord(F.EnabledCodeTree));
 
+        PROP_ACTIVATION_TIME:
+          begin
+            if Assigned(F) then
+              Result:= PyLong_FromLongLong(Int64(F.ActivationTime))
+            else
+              Result:= ReturnNone;
+          end;
+
         PROP_LINK_AT_POS:
           begin
             Pnt.X:= StrToIntDef(SGetItem(Str), -1);
