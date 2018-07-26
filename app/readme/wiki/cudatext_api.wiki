@@ -1905,6 +1905,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
+* PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when editor in tab (or "brother" editor in the same tab) was last focused. It's None for editors out of tab.
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
 ** "bin": binary viewer
@@ -2434,6 +2435,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.251 (app 1.57.8)
+* add: Editor.get_prop: PROP_ACTIVATION_TIME
 
 1.0.250 (app 1.57.7)
 * add: event "on_open_none"
