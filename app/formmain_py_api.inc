@@ -661,7 +661,6 @@ function Py_ed_attr(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
   Ed: TATSynEdit;
-  ComArray: Variant;
   Mark: TATMarkerItem;
   Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
@@ -685,27 +684,31 @@ begin
             NLen:= Ed.Attribs.Count;
             if NLen>0 then
             begin
-              ComArray:= VarArrayCreate([0, NLen-1, 0, 13], varInteger);
+              Result:= PyList_New(NLen);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NLen-1 do
               begin
                 Mark:= Ed.Attribs[i];
                 Obj:= TATLinePartClass(Mark.Ptr);
-                ComArray[i, 0]:= Mark.Tag;
-                ComArray[i, 1]:= Mark.PosX;
-                ComArray[i, 2]:= Mark.PosY;
-                ComArray[i, 3]:= Mark.LenX;
-                ComArray[i, 4]:= Obj.Data.ColorFont;
-                ComArray[i, 5]:= Obj.Data.ColorBG;
-                ComArray[i, 6]:= Obj.Data.ColorBorder;
-                ComArray[i, 7]:= Ord(Obj.Data.FontBold);
-                ComArray[i, 8]:= Ord(Obj.Data.FontItalic);
-                ComArray[i, 9]:= Ord(Obj.Data.FontStrikeOut);
-                ComArray[i, 10]:= Ord(Obj.Data.BorderLeft);
-                ComArray[i, 11]:= Ord(Obj.Data.BorderRight);
-                ComArray[i, 12]:= Ord(Obj.Data.BorderDown);
-                ComArray[i, 13]:= Ord(Obj.Data.BorderUp);
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('(Liiiiiiiiiiiii)',
+                    Mark.Tag,
+                    Mark.PosX,
+                    Mark.PosY,
+                    Mark.LenX,
+                    Obj.Data.ColorFont,
+                    Obj.Data.ColorBG,
+                    Obj.Data.ColorBorder,
+                    Ord(Obj.Data.FontBold),
+                    Ord(Obj.Data.FontItalic),
+                    Ord(Obj.Data.FontStrikeOut),
+                    Ord(Obj.Data.BorderLeft),
+                    Ord(Obj.Data.BorderRight),
+                    Ord(Obj.Data.BorderDown),
+                    Ord(Obj.Data.BorderUp)
+                    ));
               end;
-              Result:= VariantAsPyObject(ComArray);
             end
             else
               Result:= ReturnNone;
