@@ -130,6 +130,7 @@ type
     ListboxCompleteSizeX: integer;
     ListboxCompleteSizeY: integer;
     ListboxFuzzySearch: boolean;
+    ListboxHotkeyFontSizeDelta: integer;
 
     TabsDisabled: boolean;
     TabMultiline: boolean;
@@ -1151,6 +1152,7 @@ begin
     ListboxCompleteSizeX:= 550;
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;
+    ListboxHotkeyFontSizeDelta:= 2;
 
     TabsDisabled:= false;
     TabMultiline:= false;

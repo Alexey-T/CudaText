@@ -12,7 +12,7 @@ unit form_menu_commands;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Types,
   ExtCtrls, Dialogs,
   ATSynEdit,
   ATSynEdit_Edits,
@@ -280,12 +280,13 @@ procedure TfmCommands.listDrawItem(Sender: TObject; C: TCanvas;
   AIndex: integer; const ARect: TRect);
 var
   cl: TColor;
-  n, i: integer;
+  n, nPrevSize, i: integer;
   strname, strkey, strfind: string;
   ar: TATIntArray;
   pnt: TPoint;
   r1: TRect;
   buf: string;
+  TextSize: TSize;
 begin
   if AIndex<0 then exit;
   if AIndex=list.ItemIndex then
@@ -355,10 +356,17 @@ begin
 
   if strkey<>'' then
   begin
-    n:= list.ClientWidth-c.TextWidth(strkey)-4;
+    nPrevSize:= c.Font.Size;
+    c.Font.Size:= nPrevSize-UiOps.ListboxHotkeyFontSizeDelta;
+    TextSize:= c.TextExtent(strkey);
+    n:= list.ClientWidth-TextSize.cx-4;
     c.FillRect(n-2, pnt.y, list.ClientWidth, pnt.y+list.ItemHeight);
     c.Font.Color:= GetAppColor('ListFontHotkey');
-    c.TextOut(n, pnt.y, strkey);
+    c.TextOut(
+      n,
+      pnt.y + (list.ItemHeight-TextSize.cy) div 2,
+      strkey);
+    c.Font.Size:= nPrevSize;
   end;
 end;
 

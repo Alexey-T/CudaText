@@ -1,7 +1,7 @@
 object fmCommands: TfmCommands
   Left = 188
   Height = 248
-  Top = 537
+  Top = 490
   Width = 500
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsNone
@@ -15,7 +15,7 @@ object fmCommands: TfmCommands
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   ShowInTaskBar = stNever
-  LCLVersion = '1.7'
+  LCLVersion = '1.9.0.0'
   object edit: TATEdit
     Left = 6
     Height = 26
@@ -64,6 +64,8 @@ object fmCommands: TfmCommands
     Colors.UnprintedHexFont = clMedGray
     Colors.MinimapBorder = clSilver
     Colors.MinimapSelBG = 15658734
+    Colors.MinimapTooltipBG = clMoneyGreen
+    Colors.MinimapTooltipBorder = clGray
     Colors.StateChanged = 61680
     Colors.StateAdded = 2146336
     Colors.StateSaved = clMedGray
@@ -74,20 +76,23 @@ object fmCommands: TfmCommands
     Colors.TextHintFont = clGray
     Colors.MarkedLinesBG = 15786160
     Colors.BorderLine = clMedGray
+    Colors.BorderLineFocused = clNavy
     Colors.ComboboxArrow = clGray
     Colors.ComboboxArrowBG = 15790320
     WantTabs = False
     WantReturns = False
     OptTextOffsetLeft = 2
-    OptTextOffsetTop = 2
+    OptTextOffsetTop = 5
     OptTextOffsetFromLine = 0
+    OptScrollIndentCaretHorz = 0
     OptShowURLs = False
     OptShowURLsRegex = '\b(https?://|ftp://|magnet:\?|www\.)\w[^<>''"\s]+'
     OptCaretManyAllowed = False
     OptCaretVirtual = False
     OptGutterVisible = False
+    OptBorderWidth = 1
+    OptBorderWidthFocused = 1
     OptRulerVisible = False
-    OptWrapMode = cWrapOff
     OptMarginRight = 1000
     OptNumbersSkippedChar = '.'
     OptUnprintedVisible = False
@@ -106,13 +111,12 @@ object fmCommands: TfmCommands
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
-    CanGetFocus = False
     Color = clWhite
     DoubleBuffered = True
     ItemHeight = 28
+    OwnerDrawn = True
     ParentColor = False
     OnClick = listClick
     OnDrawItem = listDrawItem
-    OwnerDrawn = True
   end
 end
