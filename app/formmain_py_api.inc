@@ -1271,7 +1271,6 @@ var
   StrText: string;
   Ed: TATSynEdit;
   NId, NLine, NKind, NColor, NCount: integer;
-  ComArray: Variant;
   i: Integer;
 begin
   with GetPythonEngine do
@@ -1328,10 +1327,13 @@ begin
             NCount:= Ed.Strings.Bookmarks.Count;
             if NCount>0 then
             begin
-              ComArray:= VarArrayCreate([0, NCount-1], varInteger);
+              Result:= PyList_New(NCount);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NCount-1 do
-                ComArray[i]:= Ed.Strings.Bookmarks[i].LineNum;
-              Result:= VariantAsPyObject(ComArray);
+                PyList_SetItem(Result, i,
+                  PyInt_FromLong(Ed.Strings.Bookmarks[i].LineNum)
+                  );
             end
             else
               Result:= ReturnNone;
