@@ -623,6 +623,7 @@ type
     FOption_Encoding: string;
     FOption_FileOpenOptions: string;
 
+    procedure DoApplyCenteringOption;
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
     procedure DoFileDialog_PrepareDir(Dlg: TFileDialog);
@@ -2302,6 +2303,30 @@ end;
 procedure TfmMain.DoGroupsChangeMode(Sender: TObject);
 begin
   DoPyEvent(CurrentEditor, cEventOnState, [IntToStr(APPSTATE_GROUPS)]);
+  DoApplyCenteringOption;
+end;
+
+procedure TfmMain.DoApplyCenteringOption;
+var
+  F: TEditorFrame;
+  NCentering, i: integer;
+begin
+  if EditorOps.OpCenteringWidth>0 then
+  begin
+    if Groups.Mode<>gmOne then
+      NCentering:= 0
+    else
+      NCentering:= EditorOps.OpCenteringWidth;
+
+    for i:= 0 to FrameCount-1 do
+    begin
+      F:= Frames[i];
+      F.Editor.OptTextCenteringCharWidth:= NCentering;
+      F.Editor2.OptTextCenteringCharWidth:= NCentering;
+      F.Editor.Update;
+      F.Editor2.Update;
+    end;
+  end;
 end;
 
 function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
@@ -3556,7 +3581,7 @@ begin
     ShowTabsMain:= FOrigShowTabs;
     Ed.OptMinimapVisible:= EditorOps.OpMinimapShow;
     Ed.OptMicromapVisible:= EditorOps.OpMicromapShow;
-    Ed.OptTextCenteringCharWidth:= EditorOps.OpCenteringWidth;
+    Ed.OptTextCenteringCharWidth:= IfThen(Groups.Mode=gmOne, EditorOps.OpCenteringWidth, 0);
     DoApplyGutterVisible(EditorOps.OpGutterShow);
   end;
 

@@ -1291,8 +1291,8 @@ begin
   Adapter.AddEditor(Ed2);
 
   //load options
-  EditorApplyOps(Ed1, EditorOps, true, true);
-  EditorApplyOps(Ed2, EditorOps, true, true);
+  EditorApplyOps(Ed1, EditorOps, true, true, false);
+  EditorApplyOps(Ed2, EditorOps, true, true, false);
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
 

@@ -603,7 +603,7 @@ begin
     TATSynEdit(Ctl).OnPaste:= @AForm.DoOnEditorPaste;
 
     EditorApplyTheme(TATSynEdit(Ctl));
-    EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true);
+    EditorApplyOps(TATSynEdit(Ctl), EditorOps, true, true, false);
 
     Adapter:= TATAdapterEControl.Create(Ctl);
     Adapter.DynamicHiliteEnabled:= EditorOps.OpLexerDynamicHiliteEnabled;

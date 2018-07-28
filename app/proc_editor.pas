@@ -34,7 +34,8 @@ procedure EditorMouseClick_NearCaret(Ed: TATSynEdit; AParams: string; AAndSelect
 
 procedure EditorClear(Ed: TATSynEdit);
 function EditorGetCurrentChar(Ed: TATSynEdit): Widechar;
-procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps; AApplyUnprintedAndWrap, AApplyTabSize: boolean);
+procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 
 function EditorGetFoldString(Ed: TATSynEdit): string;
 procedure EditorSetFoldString(Ed: TATSynEdit; S: string);
@@ -61,7 +62,7 @@ function EditorAutoCloseBracket(Ed: TATSynEdit; SBegin: char): boolean;
 implementation
 
 procedure EditorApplyOps(Ed: TATSynEdit; const Op: TEditorOps;
-  AApplyUnprintedAndWrap, AApplyTabSize: boolean);
+  AApplyUnprintedAndWrap, AApplyTabSize, AApplyCentering: boolean);
 begin
   Ed.Font.Name:= Op.OpFontName;
   Ed.FontItalic.Name:= Op.OpFontName_i;
@@ -193,7 +194,7 @@ begin
   Ed.OptSavingForceFinalEol:= Op.OpSavingForceFinalEol;
   Ed.OptShowScrollHint:= Op.OpShowHintOnVertScroll;
   Ed.OptScrollbarHorizontalHidden:= Op.OpHideHorizScrollbar;
-  Ed.OptTextCenteringCharWidth:= Op.OpCenteringWidth;
+  Ed.OptTextCenteringCharWidth:= IfThen(AApplyCentering, Op.OpCenteringWidth, 0);
   Ed.OptWordChars:= Op.OpWordChars;
   Ed.OptFoldStyle:= TATFoldStyle(Op.OpFoldStyle);
   Ed.OptFoldTooltipVisible:= Op.OpFoldTooltipShow;
