@@ -586,7 +586,6 @@ var
   H: Int64;
   Id: Integer;
   Ed: TATSynEdit;
-  ComArray: Variant;
   Mark: TATMarkerItem;
   X, Y, NTag, NLenX, NLenY, i: integer;
 begin
@@ -601,17 +600,21 @@ begin
             NLenX:= Ed.Markers.Count;
             if NLenX>0 then
             begin
-              ComArray:= VarArrayCreate([0, NLenX-1, 0, 4], varInteger);
+              Result:= PyList_New(NLenX);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NLenX-1 do
               begin
                 Mark:= Ed.Markers[i];
-                ComArray[i, 0]:= Mark.PosX;
-                ComArray[i, 1]:= Mark.PosY;
-                ComArray[i, 2]:= Mark.LenX;
-                ComArray[i, 3]:= Mark.LenY;
-                ComArray[i, 4]:= Mark.Tag;
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('(iiiiL)',
+                    Mark.PosX,
+                    Mark.PosY,
+                    Mark.LenX,
+                    Mark.LenY,
+                    Mark.Tag
+                    ));
               end;
-              Result:= VariantAsPyObject(ComArray);
             end
             else
               Result:= ReturnNone;
