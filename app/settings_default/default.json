@@ -163,8 +163,9 @@
   //Always hide horizontal scrollbar in editor
   "hide_horiz_scrollbar": false,
 
-  //If N>0, text will be painted shifted to the right,
-  //so N columns will look like "centered" on screen
+  //Shift text area to the right, so part of text will look "centered".
+  //  If value=0: no shifting. 
+  //  If value>0, text area is shifted, so N first characters in lines look "centered".
   "centering_width": 0,
 
   //Same as "centering_width", but it's applied only in Distraction-Free mode
