@@ -831,10 +831,15 @@ begin
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
 end;
 
-procedure TfmMain.UpdateTreeContents;
+procedure TfmMain.UpdateTreeContents; inline;
 begin
   TimerTreeFill.Enabled:= false;
   TimerTreeFill.Enabled:= true;
+end;
+
+procedure TfmMain.UpdateTreeFilter; inline;
+begin
+  CodeTreeFilter.InvalidateFilter;
 end;
 
 procedure TfmMain.UpdateTree(AFill: boolean; AConsiderTreeVisible: boolean;
@@ -889,10 +894,12 @@ begin
       Frame.CachedTreeview.AlphaSort;
 
     DoTreeviewCopy(Frame.CachedTreeview, CodeTree.Tree);
+
     //force update scrollbar
     CodeTree.Tree.Perform(CM_CHANGED, 0, 0);
   end;
 
+  UpdateTreeFilter;
   UpdateTreeSelection;
 end;
 

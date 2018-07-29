@@ -17,6 +17,7 @@ uses
   Clipbrd, StrUtils, Variants, IniFiles,
   LclType, LclProc, LclIntf,
   LazFileUtils, LazUTF8, FileUtil,
+  TreeFilterEdit,
   {$ifdef LCLGTK2}
   fix_gtk_clipboard,
   {$endif}
@@ -49,6 +50,7 @@ uses
   ATSynEdit_ScrollBar,
   ATSynEdit_CharSizer,
   ATSynEdit_Export_HTML,
+  ATSynEdit_Edits,
   ATTabs,
   ATGroups,
   ATStatusBar,
@@ -623,6 +625,8 @@ type
     FOption_Encoding: string;
     FOption_FileOpenOptions: string;
 
+    procedure CodeTreeFilterInputOnChange(Sender: TObject);
+    procedure CodeTreeFilterResetClick(Sender: TObject);
     procedure DoApplyCenteringOption;
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
@@ -975,9 +979,14 @@ type
     procedure UpdateStatus;
     procedure InitStatusButton;
     procedure DoOnDeleteLexer(Sender: TObject; const ALexerName: string);
+    procedure UpdateTreeFilter;
   public
     { public declarations }
     CodeTree: TAppTreeContainer;
+    CodeTreeFilter: TTreeFilterEdit;
+    CodeTreeFilterInput: TATEdit;
+    CodeTreeFilterReset: TATButton;
+    PanelCodeTreeTop: TATPanelSimple;
     ListboxOut: TATListbox;
     ListboxVal: TATListbox;
     function FrameCount: integer;
@@ -1471,6 +1480,28 @@ begin
   CodeTree.Tree.OnMouseMove:= @DoCodetree_OnMouseMove;
   CodeTree.Tree.OnKeyDown:= @DoCodetree_OnKeyDown;
   CodeTree.Tree.PopupMenu:= PopupTree;
+
+  PanelCodeTreeTop:= TATPanelSimple.Create(Self);
+  PanelCodeTreeTop.Parent:= CodeTree;
+  PanelCodeTreeTop.Align:= alTop;
+  PanelCodeTreeTop.Height:= 26;
+
+  CodeTreeFilter:= TTreeFilterEdit.Create(Self);
+  CodeTreeFilter.Hide;
+  CodeTreeFilter.FilteredTreeview:= CodeTree.Tree;
+
+  CodeTreeFilterReset:= TATButton.Create(Self);
+  CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
+  CodeTreeFilterReset.Align:= alRight;
+  CodeTreeFilterReset.Width:= 20;
+  CodeTreeFilterReset.Caption:= 'x';
+  CodeTreeFilterReset.Focusable:= false;
+  CodeTreeFilterReset.OnClick:= @CodeTreeFilterResetClick;
+
+  CodeTreeFilterInput:= TATEdit.Create(Self);
+  CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
+  CodeTreeFilterInput.Align:= alClient;
+  CodeTreeFilterInput.OnChange:= @CodeTreeFilterInputOnChange;
 
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.VirtualMode:= false;
@@ -2327,6 +2358,17 @@ begin
       F.Editor2.Update;
     end;
   end;
+end;
+
+procedure TfmMain.CodeTreeFilterInputOnChange(Sender: TObject);
+begin
+  CodeTreeFilter.Text:= CodeTreeFilterInput.Text;
+end;
+
+procedure TfmMain.CodeTreeFilterResetClick(Sender: TObject);
+begin
+  CodeTreeFilterInput.Text:= '';
+  CodeTreeFilterInput.OnChange(nil);
 end;
 
 function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;

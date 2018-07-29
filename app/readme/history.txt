@@ -6,6 +6,7 @@
 
 1.58.0 (2018/07)
 
++ add: Code Tree has additional filter box
 + add: command line parameter -nh (no history)
 + add: command line parameter -z (open in viewer)
 + add: API

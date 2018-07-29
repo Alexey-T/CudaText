@@ -85,6 +85,7 @@ begin
   for i:= Low(AppBookmarkSetup) to High(AppBookmarkSetup) do
     AppBookmarkSetup[i].Color:= GetAppColor('EdBookmarkBg');
 
+  EditorApplyTheme(CodeTreeFilterInput);
   EditorApplyTheme(fmConsole.ed);
   EditorApplyTheme(fmConsole.memo);
   if fmConsole.ShowError then
