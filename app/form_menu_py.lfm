@@ -118,7 +118,7 @@ object fmMenuApi: TfmMenuApi
   end
   object PanelCaption: TPanel
     Left = 0
-    Height = 24
+    Height = 26
     Top = 0
     Width = 500
     Align = alTop
