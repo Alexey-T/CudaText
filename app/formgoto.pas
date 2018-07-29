@@ -69,6 +69,10 @@ end;
 
 procedure TfmGoto.FormShow(Sender: TObject);
 begin
+  plCaption.Font.Name:= UiOps.VarFontName;
+  plCaption.Font.Size:= UiOps.VarFontSize;
+  plCaption.Font.Color:= GetAppColor('ListFont');
+
   UpdateFonts;
   UpdateFormOnTop(Self);
 
