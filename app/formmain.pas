@@ -1493,14 +1493,17 @@ begin
   CodeTreeFilterReset:= TATButton.Create(Self);
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
-  CodeTreeFilterReset.Width:= 20;
+  CodeTreeFilterReset.Width:= UiOps_ScrollbarWidth;
   CodeTreeFilterReset.Caption:= msgButtonX;
   CodeTreeFilterReset.Focusable:= false;
+  CodeTreeFilterReset.Flat:= true;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilterResetClick;
 
   CodeTreeFilterInput:= TATEdit.Create(Self);
   CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
   CodeTreeFilterInput.Align:= alClient;
+  CodeTreeFilterInput.BorderStyle:= bsNone;
+  CodeTreeFilterInput.BorderSpacing.Around:= 1; //nicer than border
   CodeTreeFilterInput.OnChange:= @CodeTreeFilterInputOnChange;
 
   ListboxOut:= TATListbox.Create(Self);

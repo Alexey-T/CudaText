@@ -97,6 +97,7 @@ begin
   ToolbarMain.Color:= GetAppColor('TabBg');
   Self.Color:= ToolbarMain.Color;
 
+  PanelCodeTreeTop.Color:= ToolbarMain.Color;
   PanelLeftTitle.Color:= ToolbarMain.Color;
   ToolbarSideTop.Color:= GetAppColor('SideBg');
   ToolbarSideLow.Color:= ToolbarSideTop.Color;
