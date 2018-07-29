@@ -17,8 +17,8 @@ object fmGotoList: TfmGotoList
   LCLVersion = '1.9.0.0'
   object List: TATListbox
     Left = 6
-    Height = 221
-    Top = 6
+    Height = 195
+    Top = 32
     Width = 488
     Align = alClient
     BorderSpacing.Around = 6
@@ -29,5 +29,15 @@ object fmGotoList: TfmGotoList
     ParentColor = False
     OnClick = ListClick
     OnDrawItem = ListDrawItem
+  end
+  object plCaption: TPanel
+    Left = 0
+    Height = 26
+    Top = 0
+    Width = 500
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'plCaption'
+    TabOrder = 1
   end
 end

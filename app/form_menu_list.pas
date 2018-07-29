@@ -13,8 +13,9 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  LclType,
-  LclProc,
+  LclType, LclProc,
+  ExtCtrls,
+  IniFiles,
   ATStringProc,
   ATSynEdit,
   ATListbox,
@@ -27,6 +28,7 @@ type
 
   TfmGotoList = class(TForm)
     List: TATListbox;
+    plCaption: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -52,7 +54,22 @@ implementation
 { TfmGotoList }
 
 procedure TfmGotoList.FormShow(Sender: TObject);
+var
+  S: string;
 begin
+  plCaption.Font.Name:= UiOps.VarFontName;
+  plCaption.Font.Size:= UiOps.VarFontSize;
+  plCaption.Font.Color:= GetAppColor('ListFont');
+
+  with TIniFile.Create(GetAppLangFilename) do
+  try
+    S:= ReadString('m_sr', 'b_', 'Bookmarks');
+    S:= StringReplace(S, '&', '', [rfReplaceAll]);
+    plCaption.Caption:= S;
+  finally
+    Free;
+  end;
+
   UpdateFormOnTop(Self);
   List.VirtualItemCount:= Items.Count;
 end;
