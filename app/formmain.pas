@@ -1494,7 +1494,7 @@ begin
   CodeTreeFilterReset.Parent:= PanelCodeTreeTop;
   CodeTreeFilterReset.Align:= alRight;
   CodeTreeFilterReset.Width:= 20;
-  CodeTreeFilterReset.Caption:= 'x';
+  CodeTreeFilterReset.Caption:= msgButtonX;
   CodeTreeFilterReset.Focusable:= false;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilterResetClick;
 

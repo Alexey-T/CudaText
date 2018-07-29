@@ -33,6 +33,7 @@ const
   msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s';
   msgApiDeprecated = 'Deprecated API usage: %s';
   msgLiteLexerSuffix = ' ^';
+  msgButtonX = '×';
 
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
