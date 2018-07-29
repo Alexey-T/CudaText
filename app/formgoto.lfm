@@ -16,13 +16,13 @@ object fmGoto: TfmGoto
   Scaled = False
   object edInput: TATEdit
     AnchorSideBottom.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 28
-    Top = 10
-    Width = 433
+    Top = 32
+    Width = 441
     Align = alTop
     Anchors = []
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 6
     BorderStyle = bsSingle
     DoubleBuffered = True
     Font.Height = -12
@@ -64,6 +64,8 @@ object fmGoto: TfmGoto
     Colors.UnprintedHexFont = clMedGray
     Colors.MinimapBorder = clSilver
     Colors.MinimapSelBG = 15658734
+    Colors.MinimapTooltipBG = clMoneyGreen
+    Colors.MinimapTooltipBorder = clGray
     Colors.StateChanged = 61680
     Colors.StateAdded = 2146336
     Colors.StateSaved = clMedGray
@@ -88,6 +90,7 @@ object fmGoto: TfmGoto
     OptCaretVirtual = False
     OptGutterVisible = False
     OptBorderWidth = 1
+    OptBorderWidthFocused = 1
     OptRulerVisible = False
     OptMarginRight = 1000
     OptNumbersSkippedChar = '.'
@@ -99,5 +102,15 @@ object fmGoto: TfmGoto
     OptAllowZooming = False
     OptAllowReadOnly = False
     OptUndoLimit = 200
+  end
+  object plCaption: TPanel
+    Left = 0
+    Height = 26
+    Top = 0
+    Width = 453
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'go to'
+    TabOrder = 1
   end
 end

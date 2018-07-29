@@ -1,6 +1,10 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 
+2018.07.29
++ [d_f] go_
+* delete [d_f] go_tx, go_b
+
 2018.07.24
 + [ui] tsz (for statusbar)
 + [ui] wr0, wr1, wr2 (for statusbar)

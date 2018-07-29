@@ -15,6 +15,8 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
   StdCtrls, Dialogs,
   LclProc, LclType,
+  ExtCtrls,
+  IniFiles,
   ATSynEdit_Edits,
   proc_globdata,
   proc_colors,
@@ -27,6 +29,7 @@ type
 
   TfmGoto = class(TForm)
     edInput: TATEdit;
+    plCaption: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
@@ -69,8 +72,15 @@ begin
   UpdateFonts;
   UpdateFormOnTop(Self);
 
-  Height:= edInput.Top*2 + edInput.Height;
+  Height:= plCaption.Height + edInput.BorderSpacing.Around*2 + edInput.Height;
   edInput.Text:= '';
+
+  with TIniFile.Create(GetAppLangFilename) do
+  try
+    plCaption.Caption:= ReadString('d_f', 'go_', 'Go to');
+  finally
+    Free
+  end;
 end;
 
 procedure TfmGoto.SetIsDoubleBuffered(AValue: boolean);
