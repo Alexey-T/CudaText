@@ -48,7 +48,7 @@ begin
   if (Groups.Pages1.Tabs.TabCount>0) and UiOps.TabsDisabled then
     exit(nil);
 
-  F:= TEditorFrame.Create(Self);
+  F:= TEditorFrame.Create(Self, Groups.Mode=gmOne);
   F.Name:= '';
   F.Visible:= false;
   F.TabCaption:= ACaption;

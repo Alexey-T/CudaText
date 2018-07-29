@@ -215,7 +215,7 @@ type
     Groups: TATGroups;
     CachedTreeview: TTreeView;
 
-    constructor Create(TheOwner: TComponent); override;
+    constructor Create(AOwner: TComponent; AApplyCentering: boolean);
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function Editor2: TATSynEdit;
@@ -1250,9 +1250,9 @@ begin
   ed.OnHotspotExit:=@EditorOnHotspotExit;
 end;
 
-constructor TEditorFrame.Create(TheOwner: TComponent);
+constructor TEditorFrame.Create(AOwner: TComponent; AApplyCentering: boolean);
 begin
-  inherited;
+  inherited Create(AOwner);
 
   FFileName:= '';
   FModified:= false;
@@ -1291,8 +1291,8 @@ begin
   Adapter.AddEditor(Ed2);
 
   //load options
-  EditorApplyOps(Ed1, EditorOps, true, true, false);
-  EditorApplyOps(Ed2, EditorOps, true, true, false);
+  EditorApplyOps(Ed1, EditorOps, true, true, AApplyCentering);
+  EditorApplyOps(Ed2, EditorOps, true, true, AApplyCentering);
   EditorApplyTheme(Ed1);
   EditorApplyTheme(Ed2);
 
