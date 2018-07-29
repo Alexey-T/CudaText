@@ -1484,7 +1484,7 @@ begin
   PanelCodeTreeTop:= TATPanelSimple.Create(Self);
   PanelCodeTreeTop.Parent:= CodeTree;
   PanelCodeTreeTop.Align:= alTop;
-  PanelCodeTreeTop.Height:= 26;
+  PanelCodeTreeTop.Height:= 28;
 
   CodeTreeFilter:= TTreeFilterEdit.Create(Self);
   CodeTreeFilter.Hide;
