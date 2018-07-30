@@ -1502,8 +1502,6 @@ begin
   CodeTreeFilterInput:= TATEdit.Create(Self);
   CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
   CodeTreeFilterInput.Align:= alClient;
-  CodeTreeFilterInput.BorderStyle:= bsNone;
-  CodeTreeFilterInput.BorderSpacing.Around:= 1; //nicer than border
   CodeTreeFilterInput.OnChange:= @CodeTreeFilterInputOnChange;
 
   ListboxOut:= TATListbox.Create(Self);
