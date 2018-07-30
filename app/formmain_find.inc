@@ -158,6 +158,13 @@ begin
     (Res=cOpFindRepAll);
   UpdateAppForSearch(true, bDoLock, bFindMode);
 
+  if bDoLock then
+  begin
+    //add undo group, so Undo won't take too much actions
+    FFinder.Editor.Strings.BeginUndoGroup;
+    FFinder.Editor.Strings.EndUndoGroup;
+  end;
+
   if (Res=cOpFindFirst) or (Res=cOpFindNext) or (Res=cOpFindPrev) then
   begin
     FFinder.OptBack:= (Res=cOpFindPrev);
