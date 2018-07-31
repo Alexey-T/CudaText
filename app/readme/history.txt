@@ -14,10 +14,10 @@
 + add: on file opening, syntax colored text appears faster
 + add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
 + add: Project Manager option "Use 'preview tab' on item clicking"
-+ add: Addon Manager now deletes most of temp files (you should delete old folders %temp%/cudatext_NNNNN)
++ add: Addon Manager now deletes most of its temporary files (please delete old folders cudatext_NNNNN in temp dir)
 + add: option "ui_statusbar_tabsize" changed its default, now it supports app translation
 + add: action "Set tab color" saves its settings not to user.json (please cleanup your user.json from *palette* keys)
-+ add: option "centering_width" now has effect only when "One group" mode active
++ add: option "centering_width" now has effect only with "One group" mode
 * change: command line parameters: long keys variants are removed, only short ones left
 * change: option "newdoc_eol" now affects Windows only (it's "Unix EOL" on Unix)
 * change: deleted option "ui_statusbar_wrap"
