@@ -4,10 +4,10 @@
   * changed
 
 
-1.58.0 (2018/07)
+1.58.0 (2018/08)
 
 + add: Code Tree has additional filter box
-+ add: more Unicode white space characters are shown as "hex chars"
++ add: more Unicode "white space" characters are shown in hex form
 + add: command line parameter -nh (no history)
 + add: command line parameter -z (open in viewer)
 + add: API
