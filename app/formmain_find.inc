@@ -246,6 +246,11 @@ begin
   end;
 
   UpdateAppForSearch(false, false, bFindMode);
+
+  //Linux gtk2: UpdateAppForSearch don't put focus anywhere (Laz bug?) after "confirmation" form
+  //make workaround
+  if Res=cOpFindRepAll then
+    CurrentFrame.SetFocus;
 end;
 
 procedure TfmMain.InitFormFind;
