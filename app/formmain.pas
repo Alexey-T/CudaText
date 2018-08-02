@@ -2297,6 +2297,21 @@ begin
   else
     PanelLeftTitle.Align:= alTop;
 
+  case UiOps.TreeFilterLayout of
+    0:
+      PanelCodeTreeTop.Hide;
+    1:
+      begin
+        PanelCodeTreeTop.Show;
+        PanelCodeTreeTop.Align:= alTop;
+      end;
+    2:
+      begin
+        PanelCodeTreeTop.Show;
+        PanelCodeTreeTop.Align:= alBottom;
+      end;
+  end;
+
   Status.Height:= MulDiv(UiOps.StatusHeight, UiOps.ScreenScale, 100);
   TimerStatus.Interval:= UiOps.StatusTime*1000;
 

@@ -182,6 +182,7 @@ type
     TreeTimeFocus: integer;
     TreeShowIcons: boolean;
     TreeShowTooltips: boolean;
+    TreeFilterLayout: integer;
 
     NewdocLexer: string;
     NewdocEnc: string;
@@ -1203,6 +1204,7 @@ begin
     TreeTimeFocus:= 300;
     TreeShowIcons:= true;
     TreeShowTooltips:= true;
+    TreeFilterLayout:= 1;
 
     PyChangeSlow:= 2000;
     PyInitLog:= true;

@@ -655,6 +655,12 @@
   //Show tooltips for code-tree items, which don't fit by width
   "ui_tree_show_tooltips": true,
 
+  //Layout of code-tree filter field
+  //  0: field is hidden
+  //  1: field is shown on top
+  //  2: field is shown on bottom
+  "ui_tree_filter_layout": 1,
+
   //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
   "ui_max_lines_codetree": 8000,
 
