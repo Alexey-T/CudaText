@@ -669,19 +669,18 @@
   "newdoc_lexer": "",
 
   //New tabs: Encoding name
-  //  Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
+  //Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
   "newdoc_encoding": "utf8",
 
-  //New tabs: End-of-line characters; option is Windows-only
-  //  1: Windows
-  //  2: Unix
-  //  3: MacOS 9
+  //New tabs: End-of-line characters; option is only for Windows
+  //  1: Windows line-ends
+  //  2: Unix line-ends
+  //  3: MacOS 9 line-ends
   "newdoc_eol": 1,
 
   //[File]
   //When file opens, and cannot detect encoding, open it as ANSI (value=false)
   //or UTF8 (value=true) [has suffix]
-  //  Defaults: Windows: false, Linux/macOS: true
   "def_encoding_utf8": false,
   "def_encoding_utf8__linux": true,
   "def_encoding_utf8__mac": true,
