@@ -30,9 +30,9 @@ Screenshot:
 
 * Homepage: http://uvviewsoft.com/
 * SourceForge downloads: http://cudatext.sf.net
-* Github: https://github.com/Alexey-T/CudaText
+* GitHub repository with source code: https://github.com/Alexey-T/CudaText
 
-Versions for Windows, macOS, Linux, Linux-ARM (for Raspberry Pi 3).
+It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS (currently Carbon only), FreeBSD.
 
 = Configs =
 
