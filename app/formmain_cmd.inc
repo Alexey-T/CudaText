@@ -365,13 +365,13 @@ begin
       end;
     cmd_BookmarkGotoNext:
       begin
-        ed.BookmarkGotoNext(true, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+        ed.BookmarkGotoNext(true, UiOps.FindIndentHorz, UiOps.FindIndentVert, true);
         AHandled:= true;
         exit
       end;
     cmd_BookmarkGotoPrev:
       begin
-        ed.BookmarkGotoNext(false, UiOps.FindIndentHorz, UiOps.FindIndentVert);
+        ed.BookmarkGotoNext(false, UiOps.FindIndentHorz, UiOps.FindIndentVert, true);
         AHandled:= true;
         exit
       end;
