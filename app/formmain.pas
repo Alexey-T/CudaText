@@ -38,6 +38,7 @@ uses
   ATSynEdit_Commands,
   ATSynEdit_Finder,
   ATSynEdit_Carets,
+  ATSynEdit_Bookmarks,
   ATSynEdit_Markers,
   ATSynEdit_WrapInfo,
   ATSynEdit_Ranges,
@@ -2766,11 +2767,14 @@ begin
 end;
 
 procedure TfmMain.DoDialogGotoBookmark;
+const
+  cMaxLen = 150;
 var
   Ed: TATSynEdit;
   Form: TfmGotoList;
   Num, NumMax: integer;
-  items: TStringlist;
+  items: TStringList;
+  bm: TATBookmarkItem;
   str, strKind: atString;
   NLine, NKind, i: integer;
 begin
@@ -2781,16 +2785,19 @@ begin
   try
     for i:= 0 to ed.Strings.Bookmarks.Count-1 do
     begin
-      NLine:= ed.Strings.Bookmarks[i].LineNum;
+      bm:= ed.Strings.Bookmarks[i];
+      if not bm.ShowInBookmarkList then Continue;
+
+      NLine:= bm.LineNum;
 
       //paint prefix [N] for numbered bookmarks (kind=2..10)
-      NKind:= ed.Strings.Bookmarks[i].Kind;
+      NKind:= bm.Kind;
       if (NKind>=2) and (NKind<=10) then
         strKind:= '['+IntToStr(NKind-1)+'] '
       else
         strKind:= '';
 
-      str:= ed.Strings.LineSub(NLine, 1, 150) + #9 + strKind + IntToStr(NLine+1);
+      str:= ed.Strings.LineSub(NLine, 1, cMaxLen) + #9 + strKind + IntToStr(NLine+1);
       items.AddObject(Utf8Encode(str), TObject(PtrInt(NLine)));
     end;
 
