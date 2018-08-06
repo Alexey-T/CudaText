@@ -2028,7 +2028,10 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
 Controls bookmarks. Possible values of id:
 
-* BOOKMARK_GET: Gets kind of bookmark at given line index (param "nline"). 0 means no bookmark, 1 means usual bookmark.
+* BOOKMARK_GET: Gets kind of bookmark at line index, given by param "nline". 0 means no bookmark, 1 means usual bookmark.
+* BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
+* BOOKMARK_GET_ALL: Gets list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
+
 * BOOKMARK_SET: Sets bookmark.
 ** Param "nline": int: line index of bookmark.
 ** Param "nkind": int: kind of bookmark: 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
@@ -2036,13 +2039,14 @@ Controls bookmarks. Possible values of id:
 ** Param "auto_del": bool: auto delete bookmark on deleting its text line.
 ** Param "show": bool: show bookmark in "Go to bookmark" dialog.
 ** Param "tag": int: some value attached to bookmark.
+
 * BOOKMARK_CLEAR: Removes bookmark from line, specified by "nline" param.
 * BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
 * BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have tag, given by "tag" param.
+
 * BOOKMARK_SETUP: Configures bookmarks with kind, given by "nkind" param.
 ** Param "ncolor": Color of bookmarked line. Can be COLOR_NONE to not use background color.
 ** Param "text": Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
-* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks. Param "nline" ignored.
 
 Notes:
 
@@ -2441,6 +2445,7 @@ Text is chr(1) separated items:
 
 1.0.252 (app 1.58.0)
 * add: Editor.bookmark: added 3 optional params: "auto_del", "show", "tag"
+* add: Editor.bookmark: BOOKMARK_GET_ALL
 * add: Editor.bookmark: BOOKMARK_DELETE_BY_TAG
 * change: Editor.bookmark: BOOKMARK_SET sets flag "delete on deleting line" from new param "auto_del" now (before: from "ncolor=1")
 
