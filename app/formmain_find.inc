@@ -51,7 +51,7 @@ begin
 
     markingBookmarks:
       begin
-        ed.BookmarkSetForLine(APos1.Y, 1, '', false);
+        ed.BookmarkSetForLine(APos1.Y, 1, '', false, true, 0);
       end;
   end;
 end;

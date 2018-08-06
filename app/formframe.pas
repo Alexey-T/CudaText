@@ -1837,7 +1837,7 @@ begin
     ]) = cPyFalse then exit;
 
   if ABand=Ed.GutterBandBm then
-    ed.BookmarkToggleForLine(ALine, 1, '', false);
+    ed.BookmarkToggleForLine(ALine, 1, '', false, true, 0);
 end;
 
 procedure TEditorFrame.EditorOnDrawBookmarkIcon(Sender: TObject; C: TCanvas; ALineNum: integer;

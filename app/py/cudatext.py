@@ -94,6 +94,7 @@ BOOKMARK_CLEAR       = 2
 BOOKMARK_CLEAR_ALL   = 3
 BOOKMARK_SETUP       = 4
 BOOKMARK_GET_LIST    = 5
+BOOKMARK_DELETE_BY_TAG = 6
 
 MARKERS_GET           = 0
 MARKERS_ADD           = 1
@@ -1000,8 +1001,8 @@ class Editor:
         return ct.ed_cmd(self.h, code, text)
     def focus(self):
         return ct.ed_focus(self.h)
-    def bookmark(self, id, nline, nkind=1, ncolor=-1, text=''):
-        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text)
+    def bookmark(self, id, nline, nkind=1, ncolor=-1, text='', auto_del=True, show=True, tag=0):
+        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text, auto_del, show, tag)
 
     def lock(self):
         return ct.ed_lock(self.h)

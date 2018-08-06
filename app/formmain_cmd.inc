@@ -344,7 +344,7 @@ begin
     cmd_BookmarkToggle:
       begin
         if ed.Carets.Count>0 then
-          ed.BookmarkToggleForLine(ed.Carets[0].PosY, 1, '', false);
+          ed.BookmarkToggleForLine(ed.Carets[0].PosY, 1, '', false, true, 0);
         UpdateFrame;
         AHandled:= true;
         exit

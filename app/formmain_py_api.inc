@@ -1270,11 +1270,15 @@ var
   PtrText: PChar;
   StrText: string;
   Ed: TATSynEdit;
-  NId, NLine, NKind, NColor, NCount: integer;
+  NId, NLine, NKind, NColor, NCount,
+  NDeleteIfDelLine, NShowInList: integer;
+  NTag: Int64;
   i: Integer;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiis:bookmark', @H, @NId, @NLine, @NKind, @NColor, @PtrText)) then
+    if Bool(PyArg_ParseTuple(Args, 'LiiiisiiL:bookmark',
+            @H, @NId, @NLine, @NKind, @NColor, @PtrText,
+            @NDeleteIfDelLine, @NShowInList, @NTag)) then
     begin
       Ed:= PyEditor(H);
       StrText:= string(PtrText);
@@ -1298,7 +1302,11 @@ begin
 
         BOOKMARK_SET:
           begin
-            ed.BookmarkSetForLine(NLine, NKind, StrText, NColor=1);
+            ed.BookmarkSetForLine(NLine, NKind, StrText,
+                Bool(NDeleteIfDelLine),
+                Bool(NShowInList),
+                NTag
+                );
             Result:= ReturnNone;
           end;
 
@@ -1337,6 +1345,11 @@ begin
             end
             else
               Result:= ReturnNone;
+          end;
+
+        BOOKMARK_DELETE_BY_TAG:
+          begin
+            Result:= PyBool_FromLong(Ord(ed.BookmarkDeleteByTag(NTag)));
           end;
 
         else
