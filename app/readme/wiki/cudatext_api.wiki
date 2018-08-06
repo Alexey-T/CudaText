@@ -2024,22 +2024,25 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
 ===bookmark===
 
- bookmark(id, nline, nkind=1, ncolor=-1, text="")
+ bookmark(id, nline, nkind=1, ncolor=-1, text="", auto_del=True, show=True, tag=0)
 
 Controls bookmarks. Possible values of id:
 
 * BOOKMARK_GET: Gets kind of bookmark at given line index (param "nline"). 0 means no bookmark, 1 means usual bookmark.
 * BOOKMARK_SET: Sets bookmark.
-** Param "nline": line index of bookmark.
-** Param "nkind": kind of bookmark: 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
-** Param "text": hint, shown when mouse moves over bookmark gutter icon.
-** By default, bookmark is kept on deleting its line. To place bookmark which is deleted on deleting its line, set ncolor=1.
-* BOOKMARK_CLEAR: Removes bookmark from line=nline (nkind ignored).
-* BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
-* BOOKMARK_SETUP: Setups bookmarks with given kind (param "nkind").
+** Param "nline": int: line index of bookmark.
+** Param "nkind": int: kind of bookmark: 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
+** Param "text": str: tooltip, shown when mouse moves over bookmark gutter icon.
+** Param "auto_del": bool: auto delete bookmark on deleting its text line.
+** Param "show": bool: show bookmark in "Go to bookmark" dialog.
+** Param "tag": int: some value attached to bookmark.
+* BOOKMARK_CLEAR: Removes bookmark from line, specified by "nline" param.
+* BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
+* BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have tag, given by "tag" param.
+* BOOKMARK_SETUP: Configures bookmarks with kind, given by "nkind" param.
 ** Param "ncolor": Color of bookmarked line. Can be COLOR_NONE to not use background color.
 ** Param "text": Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
-* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks. Params "nline", "nkind" are ignored.
+* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks. Param "nline" ignored.
 
 Notes:
 
@@ -2435,6 +2438,11 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.252 (app 1.58.0)
+* add: Editor.bookmark: added 3 optional params: "auto_del", "show", "tag"
+* add: Editor.bookmark: BOOKMARK_DELETE_BY_TAG
+* change: Editor.bookmark: BOOKMARK_SET sets flag "delete on deleting line" from new param "auto_del" now (before: from "ncolor=1")
 
 1.0.251 (app 1.57.8)
 * add: Editor.get_prop: PROP_ACTIVATION_TIME
