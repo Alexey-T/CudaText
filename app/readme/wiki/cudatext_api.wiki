@@ -2028,10 +2028,10 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
 Controls bookmarks. Possible values of id:
 
-* BOOKMARK_GET: Gets kind of bookmark at line index, given by param "nline". 0 means no bookmark, 1 means usual bookmark.
-* BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
 * BOOKMARK_GET_ALL: Gets list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
+* BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
 * BOOKMARK_GET_PROP: Gets properties of bookmark at line index, given by param "nline". Gets dict, like for BOOKMARK_GET_ALL, or None. 
+* deprecated: BOOKMARK_GET: Gets kind of bookmark at line index, given by param "nline". 0 means no bookmark, 1 means usual bookmark.
 
 * BOOKMARK_SET: Sets bookmark.
 ** Param "nline": int: line index of bookmark.
@@ -2450,6 +2450,7 @@ Text is chr(1) separated items:
 * add: Editor.bookmark: BOOKMARK_GET_PROP
 * add: Editor.bookmark: BOOKMARK_DELETE_BY_TAG
 * change: Editor.bookmark: BOOKMARK_SET sets flag "delete on deleting line" from new param "auto_del" now (before: from "ncolor=1")
+* deprecated: Editor.bookmark: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
 
 1.0.251 (app 1.57.8)
 * add: Editor.get_prop: PROP_ACTIVATION_TIME
@@ -2463,7 +2464,7 @@ Text is chr(1) separated items:
 * add: dlg_proc: control event "on_menu" can return False to disable default menu
 * add: Editor.get_token: TOKEN_LIST, TOKEN_LIST_SUB
 * add: Editor.get_token: index params are optional now
-* deprecated: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX
+* deprecated: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
 
 1.0.248 (app 1.56.6)
 * add: app_proc: PROC_GET_FINDER_PROP
