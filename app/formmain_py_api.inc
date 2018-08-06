@@ -1264,6 +1264,25 @@ begin
 end;
 
 
+function Py_ed_bookmark_getitem(BmItem: TATBookmarkItem): PPyObject;
+begin
+  with GetPythonEngine do
+    Result:= Py_BuildValue('{sisLsisssOsO}',
+      'line',
+      BmItem.LineNum,
+      'tag',
+      BmItem.Tag,
+      'kind',
+      Integer(BmItem.Kind),
+      'hint',
+      PChar(BmItem.Hint),
+      'auto_del',
+      PyBool_FromLong(Ord(BmItem.DeleteOnDelLine)),
+      'show_in_list',
+      PyBool_FromLong(Ord(BmItem.ShowInBookmarkList))
+      );
+end;
+
 function Py_ed_bookmark(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -1299,6 +1318,18 @@ begin
             else
               NKind:= 0;
             Result:= PyInt_FromLong(NKind);
+          end;
+
+        BOOKMARK_GET_PROP:
+          begin
+            i:= Ed.Strings.Bookmarks.Find(NLine);
+            if i>=0 then
+            begin
+              BmItem:= Ed.Strings.Bookmarks[i];
+              Result:= Py_ed_bookmark_getitem(BmItem);
+            end
+            else
+              Result:= ReturnNone;
           end;
 
         BOOKMARK_SET:
@@ -1359,21 +1390,7 @@ begin
               for i:= 0 to NCount-1 do
               begin
                 BmItem:= Ed.Strings.Bookmarks[i];
-                PyList_SetItem(Result, i,
-                  Py_BuildValue('{sisLsisssOsO}',
-                    'line',
-                    BmItem.LineNum,
-                    'tag',
-                    BmItem.Tag,
-                    'kind',
-                    Integer(BmItem.Kind),
-                    'hint',
-                    PChar(BmItem.Hint),
-                    'auto_del',
-                    PyBool_FromLong(Ord(BmItem.DeleteOnDelLine)),
-                    'show_in_list',
-                    PyBool_FromLong(Ord(BmItem.ShowInBookmarkList))
-                  ));
+                PyList_SetItem(Result, i, Py_ed_bookmark_getitem(BmItem));
               end;
             end
             else
