@@ -1273,6 +1273,7 @@ var
   NId, NLine, NKind, NColor, NCount,
   NDeleteIfDelLine, NShowInList: integer;
   NTag: Int64;
+  BmItem: TATBookmarkItem;
   i: Integer;
 begin
   with GetPythonEngine do
@@ -1342,6 +1343,38 @@ begin
                 PyList_SetItem(Result, i,
                   PyInt_FromLong(Ed.Strings.Bookmarks[i].LineNum)
                   );
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        BOOKMARK_GET_ALL:
+          begin
+            NCount:= Ed.Strings.Bookmarks.Count;
+            if NCount>0 then
+            begin
+              Result:= PyList_New(NCount);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
+              for i:= 0 to NCount-1 do
+              begin
+                BmItem:= Ed.Strings.Bookmarks[i];
+                PyList_SetItem(Result, i,
+                  Py_BuildValue('{sisLsisssOsO}',
+                    'line',
+                    BmItem.LineNum,
+                    'tag',
+                    BmItem.Tag,
+                    'kind',
+                    Integer(BmItem.Kind),
+                    'hint',
+                    PChar(BmItem.Hint),
+                    'auto_del',
+                    PyBool_FromLong(Ord(BmItem.DeleteOnDelLine)),
+                    'show_in_list',
+                    PyBool_FromLong(Ord(BmItem.ShowInBookmarkList))
+                  ));
+              end;
             end
             else
               Result:= ReturnNone;
