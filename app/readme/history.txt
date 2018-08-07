@@ -13,7 +13,8 @@
 + add: API
 + add: command line parameter -nh (no history)
 + add: command line parameter -z (open in viewer)
-+ add: command "code tree: select block for current tree node"
++ add: command "code tree: go to block for current node"
++ add: command "code tree: go to block for current node, and select"
 + add: on file opening, syntax colored text appears faster
 + add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
 + add: Project Manager option "Use 'preview tab' on item clicking"

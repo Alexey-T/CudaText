@@ -508,8 +508,8 @@ begin
   M.Add(cmd_TreeGotoNextBrother, 'code tree: select next brother node', [], []);
   M.Add(cmd_TreeGotoPrevBrother, 'code tree: select previous brother node', [], []);
   M.Add(cmd_TreeUpdate, 'code tree: update tree panel', [], []);
-  M.Add(cmd_TreeSelectBlockForCurNode, 'code tree: select block for current tree node', [], []);
-  M.Add(cmd_TreeGotoBlockForCurNode, 'code tree: go to block for current tree node', [], []);
+  M.Add(cmd_TreeGotoBlockForCurNode, 'code tree: go to block for current node', [], []);
+  M.Add(cmd_TreeSelectBlockForCurNode, 'code tree: go to block for current node, and select', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);
