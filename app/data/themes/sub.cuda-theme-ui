@@ -84,7 +84,7 @@
   "ListFontHilite" : "#80A0D0",
   "ListCompletePrefix" : "#80A0D0",
   "ListCompleteParams" : "#008080",
-  "GaugeFill" : "#000000",
+  "GaugeFill" : "#000080",
   "GaugeBg" : "#272822",
   "ButtonFont" : "#A0A0A4",
   "ButtonFontDisabled" : "#808080",
