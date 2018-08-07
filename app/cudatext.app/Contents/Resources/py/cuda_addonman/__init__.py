@@ -224,6 +224,7 @@ class Command:
         self.tick_msg = 'Opening downloaded zip'
         s_options = '' if opt.install_confirm else '/silent'
         ok = file_open(fn, options=s_options)
+        os.remove(fn)
 
         timer_proc(TIMER_STOP, self.timer_tick, 0)
         msg_status('Addon installed' if ok else 'Installation cancelled')

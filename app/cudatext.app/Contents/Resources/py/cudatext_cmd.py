@@ -186,6 +186,10 @@ cCommand_FoldLevel7 = 1037
 cCommand_FoldLevel8 = 1038
 cCommand_FoldLevel9 = 1039
 
+cCommand_FoldingFoldAtCurLine = 1040
+cCommand_FoldingUnfoldAtCurLine = 1041
+cCommand_FoldingToggleAtCurLine = 1042
+
 cCommand_Cancel = 2001
 cCommand_RepeatTextCommand = 2002
 cCommand_ZoomIn = 2003
@@ -443,3 +447,5 @@ cmd_TreeGotoParent             = 2817
 cmd_TreeGotoNextBrother        = 2818
 cmd_TreeGotoPrevBrother        = 2819
 cmd_TreeUpdate                 = 2820
+cmd_TreeSelectBlockForCurNode  = 2821
+cmd_TreeGotoBlockForCurNode    = 2822

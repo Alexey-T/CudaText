@@ -17,18 +17,17 @@ _   = get_translation(__file__) # I18N
 pass;                           # Logging
 pass;                           LOG = (-2==-2)  # Do or dont logging.
 
-Rc  = lambda c: (c&0x0000FF)
-Gc  = lambda c: (c&0x00FF00) >> 8
-Bc  = lambda c: (c&0xFF0000) >> 16
-def int_to_rgb(clr):
-    return  255&clr      ,  255&(clr>>8)      ,  255&(clr>>16)
-def int_to_rgb01(clr):
-    return (255&clr)/255 , (255&(clr>>8))/255 , (255&(clr>>16))/255
-def rgb_to_int(r,g,b):
-    return r             | (g         <<8)    | (b         <<16)
-def rgb01_to_int(r,g,b):
-    return int(255*r)    | (int(255*g)<<8)    | (int(255*b)<<16)
-clr_h2i = apx.html_color_to_int
+get_hist_   = lambda k,v:   get_hist(k, v, module_name='palettes')
+set_hist_   = lambda k,v:   set_hist(k, v, module_name='palettes')
+
+Rc          = lambda c:     (c&0x0000FF)
+Gc          = lambda c:     (c&0x00FF00) >> 8
+Bc          = lambda c:     (c&0xFF0000) >> 16
+int_to_rgb  = lambda clr:   ( 255&clr      ,  255&(clr>>8)      ,  255&(clr>>16))
+int_to_rgb01= lambda clr:   ((255&clr)/255 , (255&(clr>>8))/255 , (255&(clr>>16))/255)
+rgb_to_int  = lambda r,g,b: r              | (g         <<8)    | (b         <<16)
+rgb01_to_int= lambda r,g,b: int(255*r)     | (int(255*g)<<8)    | (int(255*b)<<16)
+clr_h2i     = apx.html_color_to_int
 
 BLUE    = 0xff0000
 YELLOW  = 0x00ffff
@@ -63,7 +62,8 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
     pass;                      #sltr        = 43    # for 6
     pass;                       rc4exch_src = None
     new_color           = None
-    active_plts         = apx.get_opt('active_palettes', '|'.join(PLTYPES)).split('|')
+    active_plts         = get_hist_('active_palettes', apx.get_opt('active_palettes', '|'.join(PLTYPES))).split('|')
+#   active_plts         =                              apx.get_opt('active_palettes', '|'.join(PLTYPES)).split('|')
     if not active_plts:
         # All if never Config
         active_plts     = PLTYPES[:]
@@ -75,10 +75,13 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
        active_plts     += [palette_type]
     if not palette_type:
         # Use last or first if not in params
-        palette_type    = apx.get_opt('last_palette_type', active_plts[0])
+        palette_type    = get_hist_('last_palette_type', apx.get_opt('last_palette_type', active_plts[0]))
+#       palette_type    =                                apx.get_opt('last_palette_type', active_plts[0])
         palette_type    = palette_type if palette_type in active_plts else active_plts[0]
-    grey_clr_for_plt    = apx.get_opt('last_palette_grey_level', 0)
-    view_more           = apx.get_opt('palette_more', False)
+    grey_clr_for_plt    = get_hist_('last_palette_grey_level', apx.get_opt('last_palette_grey_level', 0))
+#   grey_clr_for_plt    =                                      apx.get_opt('last_palette_grey_level', 0)
+    view_more           = get_hist_('palette_more', apx.get_opt('palette_more', False))
+#   view_more           =                           apx.get_opt('palette_more', False)
     
     cnRGBs  = [(int_to_rgb(c), c, s) for (c, s) in COLOR_NAMES.items()]
     
@@ -279,7 +282,8 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
         if not aid or aid=='----': return None
         if aid=='more':
             view_more   = not view_more
-            apx.set_opt('palette_more', view_more)
+            set_hist_(  'palette_more', view_more)
+#           apx.set_opt('palette_more', view_more)
             if view_more:
                 fid     = 'pltp'
                 vals    = dict(pltp=active_plts.index(palette_type)
@@ -335,11 +339,13 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
             R, G, B = int_to_rgb(clr) #255&clr, 255&(clr>>8), 255&(clr>>16)
             if R==G==B:
                 grey_clr_for_plt    = clr
-                apx.set_opt('last_palette_grey_level', clr)
+                set_hist_(  'last_palette_grey_level', clr)
+#               apx.set_opt('last_palette_grey_level', clr)
             continue#while
 
         if aid=='pltp' and vals['pltp']==len(active_plts):  # Config
-            old_plt = apx.get_opt('last_palette_type', '')
+            old_plt = get_hist_('last_palette_type', apx.get_opt('last_palette_type', ''))
+#           old_plt =                                apx.get_opt('last_palette_type', '')
             sels    = [to01(plt in active_plts) for plt in PLTYPES]
             ap_vals = dict(ps=(0,sels))
             while True:
@@ -356,13 +362,15 @@ def dlg_color_palette(caption, old_color=None, palette_type=None, i18n={}):
                     app.msg_box(_('Select some palettes'), app.MB_OK)
                     continue#while ap
                 active_plts = [pl for ip,pl in enumerate(PLTYPES) if sels[ip]=='1']
-                apx.set_opt('active_palettes', '|'.join(active_plts))
+                set_hist_(  'active_palettes', '|'.join(active_plts))
+#               apx.set_opt('active_palettes', '|'.join(active_plts))
                 break#while ap
             vals['pltp']    = active_plts.index(old_plt) if old_plt in active_plts else 0
             continue#while
 
         if aid=='pltp':
-            apx.set_opt('last_palette_type', active_plts[vals['pltp']])
+            set_hist_(  'last_palette_type', active_plts[vals['pltp']])
+#           apx.set_opt('last_palette_type', active_plts[vals['pltp']])
        #do while
    #def dlg_color_palette
 

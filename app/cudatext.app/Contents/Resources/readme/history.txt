@@ -4,6 +4,33 @@
   * changed
 
 
+1.58.1 (2018/08)
+
++ add: Code Tree has additional filter field
++ add: option "ui_tree_filter_layout"
++ add: more Unicode "white space" characters are shown in hex form
++ add: find/replace with regular expressions: "\w" supports all Unicode word letters
++ add: API
++ add: command line parameter -nh (no history)
++ add: command line parameter -z (open in viewer)
++ add: command "code tree: go to block for current node"
++ add: command "code tree: go to block for current node, and select"
++ add: on file opening, syntax colored text appears faster
++ add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
++ add: Project Manager option "Use 'preview tab' on item clicking"
++ add: Addon Manager now deletes most of its temporary files (please delete old folders cudatext_NNNNN in temp dir)
++ add: option "centering_width" now has effect only with "One group" mode
+* change: option "ui_statusbar_tabsize" changed its default, now it supports app translation
+* change: action "Set tab color" saves its settings not to user.json (please cleanup your user.json from *palette* keys)
+* change: command line parameters: long keys variants are removed, only short ones left
+* change: option "newdoc_eol" now affects Windows only (it's "Unix EOL" on Unix)
+* change: deleted option "ui_statusbar_wrap"
+* change: deleted option "ui_tree_show_lines"
+* change: deleted option "ui_tree_cache"
+- fix: minor UI fixes
+- fix: lexer JSON (string rule)
+- fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin
+
 1.57.0 (2018/06)
 
 + add: preinstall plugin Options Editor (by @kvichans). And it can be updated in AddonManager as usual.

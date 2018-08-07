@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '1.1.1 2018-02-01'
+    '1.1.2 2018-07-24'
 Content
     log                 Logger with timing
     get_translation     i18n
@@ -10,7 +10,7 @@ Content
 ToDo: (see end of file)
 '''
 
-import  sys, os, gettext, logging, inspect, re, subprocess
+import  sys, os, gettext, logging, inspect, time, collections, json, re, subprocess
 from    time        import perf_counter
 import  cudatext        as app
 import  cudax_lib       as apx
@@ -18,6 +18,7 @@ import  cudax_lib       as apx
 pass;                           # Logging
 pass;                           from pprint import pformat
 
+odict       = collections.OrderedDict
 GAP         = 5
 c13,c10,c9  = chr(13),chr(10),chr(9)
 REDUCTS = {'lb'     :'label'
@@ -705,6 +706,143 @@ def get_hotkeys_desc(cmd_id, ext_id=None, keys_js=None, def_ans=''):
     return desc
    #def get_hotkeys_desc
 
+######################################
+#NOTE: plugins history
+######################################
+PLING_HISTORY_JSON  = app.app_path(app.APP_DIR_SETTINGS)+os.sep+'plugin history.json'
+def get_hist(key_or_path, default=None, module_name='_auto_detect', to_file=PLING_HISTORY_JSON):
+    """ Read from "plugin history.json" one value by string key or path (list of keys).
+        Parameters
+            key_or_path     Key(s) to navigate in json tree
+                            Type: str or [str]
+            default         Value to return  if no suitable node in json tree
+            module_name     Start node to navigate.
+                            If it is '_auto_detect' then name of caller module is used.
+                            If it is None then it is skipped.
+            to_file         Name of file to read. APP_DIR_SETTING will be joined if no full path.
+        
+        Return              Found value or default
+            
+        Examples (caller module is 'plg')
+        1. If no "plugin history.json"
+                get_hist('k')                   returns None
+                get_hist(['p', 'k'], 0)         returns 0
+        2. If "plugin history.json" contains 
+                {"k":1, "plg":{"k":2, "p":{"m":3}, "t":[0,1]}, "q":{"n":4}}
+                get_hist('k', 0, None)          returns 1
+                get_hist('k', 0)                returns 0
+                get_hist('k', 0, 'plg')         returns 2
+                get_hist('k', 0, 'oth')         returns 0
+                get_hist(['p','m'], 0)          returns 3
+                get_hist(['p','t'], [])         returns [0,1]
+                get_hist('q', 0, None)          returns {'n':4}
+                get_hist(['q','n'], 0, None)    returns 4
+    """
+    to_file = to_file   if os.sep in to_file else   app.app_path(app.APP_DIR_SETTINGS)+os.sep+to_file
+    if not os.path.exists(to_file):
+        pass;                  #log('not exists',())
+        return default
+    data    = None
+    try:
+        data    = json.loads(open(to_file).read())
+    except:
+        pass;                   log('not load: {}',sys.exc_info())
+        return default
+    if module_name=='_auto_detect':
+        caller_globals  = inspect.stack()[1].frame.f_globals
+        module_name = inspect.getmodulename(caller_globals['__file__']) \
+                        if '__file__' in caller_globals else None
+        pass;                  #log('module_name={}',(module_name))
+    keys    = [key_or_path] if type(key_or_path)==str   else key_or_path
+    keys    = keys          if module_name is None      else [module_name]+keys
+    parents,\
+    key     = keys[:-1], keys[-1]
+    for parent in parents:
+        data= data.get(parent)
+        if type(data)!=dict:
+            pass;              #log('not dict parent={}',(parent))
+            return default
+    return data.get(key, default)
+   #def get_hist
+
+def set_hist(key_or_path, value, module_name='_auto_detect', kill=False, to_file=PLING_HISTORY_JSON):
+    """ Write to "plugin history.json" one value by key or path (list of keys).
+        If any of node doesnot exist it will be added.
+        Or remove (if kill) one key+value pair (if suitable key exists).
+        Parameters
+            key_or_path     Key(s) to navigate in json tree
+                            Type: str or [str]
+            value           Value to set if suitable item in json tree exists
+            module_name     Start node to navigate.
+                            If it is '_auto_detect' then name of caller module is used.
+                            If it is None then it is skipped.
+            kill            Need to remove node in tree.
+                            if kill==True parm value is ignored
+            to_file         Name of file to write. APP_DIR_SETTING will be joined if no full path.
+        
+        Return              value (param)   if !kill and modification is successful
+                            value (killed)  if  kill and modification is successful
+                            None            if  kill and no path in tree (no changes)
+                            KeyError        if !kill and path has problem
+        Return  value
+            
+        Examples (caller module is 'plg')
+        1. If no "plugin history.json"  it will become
+            set_hist('k',0,None)        {"k":0}
+            set_hist('k',1)             {"plg":{"k":1}}
+            set_hist('k',1,'plg')       {"plg":{"k":1}}
+            set_hist('k',1,'oth')       {"oth":{"k":1}}
+            set_hist('k',[1,2])         {"plg":{"k":[1,2]}}
+            set_hist(['p','k'], 1)      {"plg":{"p":{"k":1}}}
+        
+        2. If "plugin history.json" contains    {"plg":{"k":1, "p":{"m":2}}}
+                                                it will contain
+            set_hist('k',0,None)                {"plg":{"k":1, "p":{"m":2}},"k":0}
+            set_hist('k',0)                     {"plg":{"k":0, "p":{"m":2}}}
+            set_hist('k',0,'plg')               {"plg":{"k":0, "p":{"m":2}}}
+            set_hist('n',3)                     {"plg":{"k":1, "p":{"m":2}, "n":3}}
+            set_hist(['p','m'], 4)              {"plg":{"k":1, "p":{"m":4}}}
+            set_hist('p',{'m':4})               {"plg":{"k":1, "p":{"m":4}}}
+            set_hist(['p','m','k'], 1)          KeyError (old m is not branch node)
+
+        3. If "plugin history.json" contains    {"plg":{"k":1, "p":{"m":2}}}
+                                                it will contain
+            set_hist('k',       kill=True)      {"plg":{       "p":{"m":2}}}
+            set_hist('p',       kill=True)      {"plg":{"k":1}}
+            set_hist(['p','m'], kill=True)      {"plg":{"k":1, "p":{}}}
+            set_hist('n',       kill=True)      {"plg":{"k":1, "p":{"m":2}}}    (nothing to kill)
+    """
+    to_file = to_file   if os.sep in to_file else   app.app_path(app.APP_DIR_SETTINGS)+os.sep+to_file
+    body    = json.loads(open(to_file).read(), object_pairs_hook=odict) \
+                if os.path.exists(to_file) and os.path.getsize(to_file) != 0 else \
+              odict()
+
+    if module_name=='_auto_detect':
+        caller_globals  = inspect.stack()[1].frame.f_globals
+        module_name = inspect.getmodulename(caller_globals['__file__']) \
+                        if '__file__' in caller_globals else None
+    keys    = [key_or_path] if type(key_or_path)==str   else key_or_path
+    keys    = keys          if module_name is None      else [module_name]+keys
+    parents,\
+    key     = keys[:-1], keys[-1]
+    data    = body
+    for parent in parents:
+        if kill and parent not in data:
+            return None
+        data= data.setdefault(parent, odict())
+        if type(data)!=odict:
+            raise KeyError()
+    if kill:
+        if key not in data:
+            return None
+        value       = data.pop(key)
+    else:
+        data[key]   =  value
+    open(to_file, 'w').write(json.dumps(body, indent=2))
+    return value
+   #def set_hist
+######################################
+######################################
 if __name__ == '__main__' :     # Tests
     pass
     def test_ask_number(ask, def_val):

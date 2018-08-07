@@ -49,6 +49,7 @@ def do_install_from_github():
         return
 
     file_open(fn)
+    os.remove(fn) #cleanup temp
 
     dir = app_path(APP_DIR_INSTALLED_ADDON)
     if dir:

@@ -40,7 +40,9 @@ def get_module_name_from_zip_filename(zip_fn):
     z.close()
     fn = os.path.join(temp_dir, 'install.inf')
     if os.path.isfile(fn):
-        return ini_read(fn, 'info', 'subdir', '')
+        s = ini_read(fn, 'info', 'subdir', '')
+        os.remove(fn)
+        return s
 
 def get_readme_of_module(mod):
     for name in README_NAMES:

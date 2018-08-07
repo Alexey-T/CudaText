@@ -10,10 +10,13 @@ This is API for [[CudaText]] in Python.
 
 To make plugin react to events, add method to class Command (like methods of command plugin). E.g. method "on_save" will be called by editor event "on_save". Event methods have param "ed_self": Editor object in which event occured (this object is the same as "ed" in 99% cases, but in some cases event occurs in inactive editor, e.g. "Save all tabs" calls "on_save" for inactive tabs).
 
+Usually methods returns None, sometimes they can return True or False to block the default  handler. The False result blocks propagation of event to other plugins, so don't return False if not nessesary.
+
 ==General==
 
 * on_open(self, ed_self): Called after file is opened from disk.
 * on_open_pre(self, ed_self, filename): Called before file opening. Method can return False to disable opening, other value is ignored.
+* on_open_none(self, ed_self): Called after file is opened, and none lexer was detected/set for it.
 * on_close_pre(self, ed_self): Called before closing tab, before checking if tab modified or not. Method can return False to disable closing.
 * on_close(self, ed_self): Called before closing tab, after modified file was saved, and editor is still active.
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
@@ -208,7 +211,7 @@ Actions work with props of Find/Replace dialog, and props of low-level search en
 
 ====Plugin calls====
 
-* PROC_SET_EVENTS: Subscribe plugin to events. Param text must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list". 
+* PROC_SET_EVENTS: Subscribes plugin to events. It removes all subscribed events (even those from install.inf file) and then adds specified events (if list not empty). Param "text" must be 4 values ";"-separated: "module_name;event_list;lexer_list;keycode_list".
 ** event_list is comma-separated event names. e.g. "on_open,on_save", or empty str to unsubscribe from all. 
 ** lexer_list is comma-separated lexer names.
 ** keycode_list is comma-separated int key codes, it can be used when on_key event was specified (event will fire only for specified key codes).
@@ -699,7 +702,7 @@ Action DLG_CTL_PROP_SET, for "listview", allows both "items" (it sets columns) a
 * combo_ro, listbox, radiogroup, listview: current index
 * checkgroup: ","-separated checked states ("0", "1")
 * checklistbox, checklistview: index + ";" + checked_states
-* tabs: index of active tab
+* tabs, pages: index of active tab
 * trackbar, progressbar: int position
 
 ====Prop "props"====
@@ -924,7 +927,7 @@ These are also properties of controls.
 * "on_mouse_up": Called when mouse button depressed (released). Param "data": like in "on_mouse_down".
 * "on_mouse_enter": Called when mouse cursor enters control area.
 * "on_mouse_exit": Called when mouse cursor leaves control area.
-* "on_menu": Called before showing context menu after right click.
+* "on_menu": Called before showing context menu, after right click or ContextMenu hotkey. Param "data": like in "on_mouse_down". Method can return False to disable default menu (if any).
 
 Events for control "listview"/"checklistview":
 
@@ -982,7 +985,7 @@ Param id_dialog: int, form handle. Ignored only for DLG_CREATE (pass 0).
 
 Possible values of id_action:
 
-* DLG_CREATE: Creates new form, gets form handle.
+* DLG_CREATE: Creates new empty form, gets form "handle". You must pass this handle (int) to next calls of dlg_proc(). 
 * DLG_HIDE: Hides form.
 * DLG_FREE: Hides and deletes form.
 * DLG_SHOW_MODAL: Shows form in modal mode. Waits for form to hide, then returns.
@@ -1004,7 +1007,7 @@ Possible values of id_action:
 * DLG_CTL_DELETE: Deletes control.  Control must be specified by name or index. Controls are stored in list, so after a control deleted, indexes of next controls shift by -1. So don't use fixed indexes if you delete some, use DLG_CTL_FIND.
 * DLG_CTL_DELETE_ALL: Deletes all controls.
 * DLG_CTL_FIND: Gets index of control by name, or -1 if cannot find. Param "prop" is name.
-* DLG_CTL_HANDLE: Gets int handle of control.  Control must be specified by name or index. This handle is currently useful for types: 
+* DLG_CTL_HANDLE: Gets int "handle" of control on a form. Control must be specified by name or index. This handle is currently useful for types: 
 ** type "button_ex": pass handle to button_proc()
 ** type "editor": pass handle to Editor() constructor
 ** type "listbox_ex": pass handle to listbox_proc()
@@ -1144,7 +1147,9 @@ Example code, which shows filenames of all tabs:
 
  ed_group(index)
 
-Gets Editor object for active editor in tab-group with given group-index. Group-index: currently 0..5. Gets None for incorrect index, or if no tabs in this group.
+Gets Editor object for active editor in tab-group with given group-index. Gets None for incorrect index, or if no tabs in this group.
+
+Index possible values: 0..5 (first 6 groups) and 6..8 (3 floating groups). 
 
 ===ini_read/ini_write===
 
@@ -1900,6 +1905,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
+* PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when editor in tab (or "brother" editor in the same tab) was last focused. It's None for editors out of tab.
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
 ** "bin": binary viewer
@@ -2018,22 +2024,30 @@ Many get_prop/set_prop ids correspond to CudaText options. List of correspoding 
 
 ===bookmark===
 
- bookmark(id, nline, nkind=1, ncolor=-1, text="")
+ bookmark(id, nline, nkind=1, ncolor=-1, text="", auto_del=True, show=True, tag=0)
 
 Controls bookmarks. Possible values of id:
 
-* BOOKMARK_GET: Gets kind of bookmark at given line index (param "nline"). 0 means no bookmark, 1 means usual bookmark.
+* BOOKMARK_GET_ALL: Gets list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
+* BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
+* BOOKMARK_GET_PROP: Gets properties of bookmark at line index, given by param "nline". Gets dict, like for BOOKMARK_GET_ALL, or None. 
+* deprecated: BOOKMARK_GET: Gets kind of bookmark at line index, given by param "nline". 0 means no bookmark, 1 means usual bookmark.
+
 * BOOKMARK_SET: Sets bookmark.
-** Param "nline": line index of bookmark.
-** Param "nkind": kind of bookmark: 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
-** Param "text": hint, shown when mouse moves over bookmark gutter icon.
-** By default, bookmark is kept on deleting its line. To place bookmark which is deleted on deleting its line, set ncolor=1.
-* BOOKMARK_CLEAR: Removes bookmark from line=nline (nkind ignored).
-* BOOKMARK_CLEAR_ALL: Removes all bookmarks (nline, nkind ignored).
-* BOOKMARK_SETUP: Setups bookmarks with given kind (param "nkind").
+** Param "nline": int: line index of bookmark.
+** Param "nkind": int: kind of bookmark: 1 means usual bookmark with usual color and icon. Other kind values mean custom bookmark, which must be setup via BOOKMARK_SETUP.
+** Param "text": str: tooltip, shown when mouse moves over bookmark gutter icon.
+** Param "auto_del": bool: auto delete bookmark on deleting its text line.
+** Param "show": bool: show bookmark in "Go to bookmark" dialog.
+** Param "tag": int: some value attached to bookmark.
+
+* BOOKMARK_CLEAR: Removes bookmark from line, specified by "nline" param.
+* BOOKMARK_CLEAR_ALL: Removes all bookmarks ("nline" ignored).
+* BOOKMARK_DELETE_BY_TAG: Removes all bookmarks, which have tag, given by "tag" param.
+
+* BOOKMARK_SETUP: Configures bookmarks with kind, given by "nkind" param.
 ** Param "ncolor": Color of bookmarked line. Can be COLOR_NONE to not use background color.
 ** Param "text": Path to icon file for gutter, 16x16 .bmp or .png file. Empty str: don't show icon.
-* BOOKMARK_GET_LIST: Gets list of line indexes with bookmarks. Params "nline", "nkind" are ignored.
 
 Notes:
 
@@ -2073,7 +2087,7 @@ Performs action on folding ranges. Possible values of "id":
 
  get_sublexer_ranges()
 
-Gets list of ranges which belong to nested lexers (sublexers of current lexer for entire file, e.g. "HTML" inside "PHP", or "CSS" inside "HTML"). Gets list of 5-tuples, or None if no ranges. Each tuple is:
+Gets list of ranges which belong to nested lexers (sublexers of current lexer for entire file, e.g. "JavaScript" inside "PHP", "CSS" inside "HTML"). Gets list of 5-tuples, or None if no ranges. Each tuple is:
 
 * str: sublexer name
 * int: start column (0-based)
@@ -2083,21 +2097,31 @@ Gets list of ranges which belong to nested lexers (sublexers of current lexer fo
 
 ===get_token===
 
- get_token(id, index1, index2)
+ get_token(id, index1=0, index2=0)
 
-Gets info about one token ("token" is minimal text fragment for syntax parser). 
+Gets info about lexer "tokens". ("Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme.). 
 
-Gets 4-tuple, or None if no such token. Tuple is:
+Gets token info as 4-tuple:
 
-* (start_x, start_y)
-* (end_x, end_y)
-* string_token_type
-* string_style_name
+* item[0]: (start_x, start_y)
+* item[1]: (end_x, end_y)
+* item[2]: str: token text (can be multi-line with "\n")
+* item[3]: str: lexer style name (lexer dependant)
 
-Possible values of id:
+Possible values of "id":
 
-* TOKEN_AT_POS: Token at position (x=index1, y=index2).
-* TOKEN_INDEX: Token with index=index1 (in tokens collection), 0-based.
+* deprecated: TOKEN_AT_POS: Gets token info (4-tuple) at given text position: (x=index1, y=index2). Gets None if no token at given position.
+* deprecated: TOKEN_INDEX: Gets token info (4-tuple) with index given by "index1" (index in internal tokens list). Gets None if index incorrect. It allows to enumerate all tokens, by passing indexes from 0, until functions gets None.
+
+* TOKEN_LIST: Gets all tokens, as list of dict. Params "index1", "index2" are ignored. Gets None if no lexer active. Dict keys are:
+** "x1": start column (0-based)
+** "y1": start line (0-based)
+** "x2": end column
+** "y2": end line
+** "str": text of token (can be multi-line with "\n")
+** "style": lexer style of token (lexer dependant)
+
+* TOKEN_LIST_SUB: Like TOKEN_LIST, but gets tokens only for given lines range, from "index1" to "index2" inclusive.
 
 ===get_wrapinfo===
 
@@ -2419,6 +2443,28 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.252 (app 1.58.1)
+* add: Editor.bookmark: added 3 optional params: "auto_del", "show", "tag"
+* add: Editor.bookmark: BOOKMARK_GET_ALL
+* add: Editor.bookmark: BOOKMARK_GET_PROP
+* add: Editor.bookmark: BOOKMARK_DELETE_BY_TAG
+* change: Editor.bookmark: BOOKMARK_SET sets flag "delete on deleting line" from new param "auto_del" now (before: from "ncolor=1")
+* deprecated: Editor.bookmark: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
+
+1.0.251 (app 1.57.8)
+* add: Editor.get_prop: PROP_ACTIVATION_TIME
+
+1.0.250 (app 1.57.7)
+* add: event "on_open_none"
+* add: dlg_proc: event "on_menu" has filled param "data" like in "on_mouse_down"
+
+1.0.249 (app 1.57.5)
+* add: dlg_proc: control "pages" supports prop "val"
+* add: dlg_proc: control event "on_menu" can return False to disable default menu
+* add: Editor.get_token: TOKEN_LIST, TOKEN_LIST_SUB
+* add: Editor.get_token: index params are optional now
+* deprecated: Editor.get_token: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
 
 1.0.248 (app 1.56.6)
 * add: app_proc: PROC_GET_FINDER_PROP

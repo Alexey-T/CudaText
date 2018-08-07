@@ -145,7 +145,7 @@
   //Highlight background of lines with carets: only for focused editor
   "show_cur_line_only_focused": false,
 
-  //Show additional vertical-lines at caret position(s)
+  //Show additional vertical lines at all caret(s) position(s)
   "show_cur_column": false,
 
   //Allow last line to scroll to the top of window
@@ -157,14 +157,15 @@
   //Hilite syntax-defined blocks BG till right edge if window
   "show_full_syntax_bg": true,
 
-  //On dragging vert-scrollbar, show line-number hint at the top-right corner
+  //On dragging vertical scrollbar, show line number tooltip in the top-right corner
   "show_hint_on_vert_scroll": false,
 
   //Always hide horizontal scrollbar in editor
   "hide_horiz_scrollbar": false,
 
-  //If N>0, text will be painted shifted to the right,
-  //so N columns will look like "centered" on screen
+  //Shift text area to the right, so part of text will look "centered".
+  //  If value=0: no shifting. 
+  //  If value>0, text area is shifted, so N first characters in lines look "centered".
   "centering_width": 0,
 
   //Same as "centering_width", but it's applied only in Distraction-Free mode
@@ -210,7 +211,7 @@
   //If no selection, "Cut to clipboard" will take entire line with caret
   "cut_line_if_no_sel": false,
 
-  //If vertical (column) selection placed, copy it to clipboard aligned by spaces, 
+  //If vertical (column) selection is placed, copy it to clipboard aligned by spaces, 
   //i.e. lines are padded by spaces to have equal length
   "copy_column_aligned_by_spaces": true,
 
@@ -521,45 +522,45 @@
   //Find dialog: multi-line mode: how height of inputs is increased
   "find_multiline_scale": 2.5,
 
-  //When doing "go to" or "find", and new position out of screen,
-  //scroll by N chars from new position. Vert indent:
-  //  N<0: always indent from top;
-  //  N>=0: indent from top (go to up) or bottom (go to down)
+  //When doing "Go to" or "Find", and new position is out of current screen,
+  //scroll vertically by N lines from new position.
+  //  for N<0: abs(N) is indent of new position from top
+  //  for N>=0: N is indent from top (go to up) or bottom (go to down)
   "find_indent_vert": -5,
 
-  //When doing "go to" or "find", and new position out of screen,
-  //scroll by N chars from new position. Horz indent, >=0
+  //When doing "Go to" or "Find", and new position is out of current screen,
+  //scroll horizontally by N chars from new position. Value must be >=0.
   "find_indent_horz": 10,
 
   //[Ui/Tabs]
-  //UI tabs: don't create tabs (except the first tab), ie use SDI = Single Document Interface
+  //UI tabs: Don't create tabs (except the first one), ie use Single Document Interface
   "ui_tab_disabled": false,  
   
-  //UI tabs: multi-line mode, ie wrappable to several lines if lot of tabs
+  //UI tabs: Multi-line mode, ie tabs are wrappable to several lines, when lot of tabs
   "ui_tab_multiline": false,
 
-  //UI tabs: show angled left/right sides (note: they paint much slower)
+  //UI tabs: Show angled left/right sides (note: they paint much slower)
   "ui_tab_angled": true,
 
-  //UI tabs: flat look
+  //UI tabs: Flat look
   "ui_tab_flat": false,
 
-  //UI tabs: layout of buttons at left/right sides
+  //UI tabs: Layout of buttons near tabs, at left/right sides
   //String of few chars, each char is button. Separator for sides is comma.
   //Allowed chars (buttons):
   //  "<", ">" - scroll arrows
   //  "v" - arrow of dropdown menu
-  //  "+" - plus button, the same as plus pseudo-tab, but don't hide if lot of tabs
+  //  "+" - plus button, the same as plus pseudo-tab, but doesn't hide if lot of tabs
   //  "x" - close button, the same as x icon on active tab
   "ui_tab_button_layout": "<>,v",
 
-  //UI tabs: Width
+  //UI tabs: Default tab width
   "ui_tab_size_x": 170,
 
-  //UI tabs: Minimal width, used when lot of tabs appear
+  //UI tabs: Minimal tab width (used when lot of tabs appear)
   "ui_tab_size_x_min": 40,
 
-  //UI tabs: Height
+  //UI tabs: Default tab height
   "ui_tab_size_y": 25,
 
   //UI tabs: Position (side) of tabs
@@ -570,22 +571,22 @@
   "ui_tab_position": 0,
 
   //UI tabs: Show "x" buttons on tabs
-  //  0: dont show
-  //  1: for all tabs
-  //  2: for active tab
-  //  3: for mouse-over tab
+  //  0: don't show
+  //  1: show for all tabs
+  //  2: show only for active tab
+  //  3: show only for mouse-over tab
   "ui_tab_show_x": 1,
 
-  //UI tabs: Show "+" pseudo-tab
+  //UI tabs: Show "+" pseudo-tab (its click creates new tab)
   "ui_tab_show_plus": true,
 
-  //UI tabs: Command "Set tab color" paints entire tab
+  //UI tabs: Feature "Set tab color" fills the entire tab height
   "ui_tab_fullcolor": false,
 
   //UI tabs: Double-click closes tab
   "ui_tab_2click_closes": false,
 
-  //UI tabs: Show numbers on tabs
+  //UI tabs: Show indexes on tabs
   "ui_tab_numbers": false,
 
   //UI tabs: Open new tab near the currently active tab
@@ -644,9 +645,6 @@
   //Delay (in msec) after text change, after which code-tree contents is filled
   "ui_tree_time_fill": 2000,
 
-  //Show nice vertical/horizontal lines in treeview
-  "ui_tree_show_lines": false,
-
   //Show icons in code-tree, for lexers which assign icons (e.g. C#)
   "ui_tree_icons": true,
 
@@ -657,8 +655,11 @@
   //Show tooltips for code-tree items, which don't fit by width
   "ui_tree_show_tooltips": true,
 
-  //Buffer/cache contents of code-tree, use this cache when changing tabs
-  "ui_tree_cache": true,
+  //Layout of code-tree filter field
+  //  0: field is hidden
+  //  1: field is shown on top
+  //  2: field is shown on bottom
+  "ui_tree_filter_layout": 1,
 
   //Maximal number of lines in text, for which code-tree is enabled (0: always disabled)
   "ui_max_lines_codetree": 8000,
@@ -668,20 +669,18 @@
   "newdoc_lexer": "",
 
   //New tabs: Encoding name
-  //  Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
+  //Possible names are listed in Wiki. Examples: utf8, utf8_bom, utf16le, cp1250 etc
   "newdoc_encoding": "utf8",
 
-  //New tabs: End-of-lines chars
-  //  1: Win
-  //  2: Unix
-  //  3: MacOS 9
-  //  Defaults: Windows: 1, Linux/macOS: 2
+  //New tabs: End-of-line characters; option is only for Windows
+  //  1: Windows line-ends
+  //  2: Unix line-ends
+  //  3: MacOS 9 line-ends
   "newdoc_eol": 1,
 
   //[File]
   //When file opens, and cannot detect encoding, open it as ANSI (value=false)
   //or UTF8 (value=true) [has suffix]
-  //  Defaults: Windows: false, Linux/macOS: true
   "def_encoding_utf8": false,
   "def_encoding_utf8__linux": true,
   "def_encoding_utf8__mac": true,
@@ -799,8 +798,8 @@
   "key_left_right_swap_sel_and_select": false,
 
   //[Ui/Statusbar]
-  //States: no-selection, small-selection (1 line), stream-selection (>1 lines),
-  //  column-selection, mul-carets.
+  //States: no-selection, small-selection (one line), stream-selection (several lines),
+  //  column-selection, multi-carets.
   //Macros:
   //  {y}: line of top caret
   //  {y2}: line of bottom caret
@@ -823,18 +822,18 @@
   "ui_statusbar_col_sel": "{sel}x{cols} column",
   "ui_statusbar_carets": "{carets} carets, {sel} lines sel",
 
-  //Statusbar panels (can skip items, can reorder items)
-  //Panels:
-  //    caret (Caret(s) info)
-  //    enc (Encoding name)
-  //    ends (Line ends kind)
-  //    lexer (Lexer name)
-  //    tabsize (Tab-char size)
-  //    ins (Insert/Overwrite mode, hidden by default)
-  //    selmode (Shows "-" for normal selection mode, "| |" for column selection mode)
-  //    wrap (Shows state of wrap-mode: no wrap, wrap at window, wrap at margin)
-  //    msg (Message from CudaText or API, panel is auto-sized)
-  //Align: C (center), L (left), R (right)
+  //Statusbar panels list. Can skip items, can reorder items.
+  //Panel names:
+  //    caret  : Caret(s) info
+  //    enc    : Encoding name
+  //    ends   : Line ends characters
+  //    lexer  : Lexer name
+  //    tabsize: Tab-char size
+  //    ins    : Insert/Overwrite mode (toggled by Ins key)
+  //    selmode: Shows "-" for normal selection mode, "| |" for column selection mode
+  //    wrap   : State of wrap mode: no wrap, wrap at window edge, wrap at fixed margin
+  //    msg    : Message from CudaText or plugins (panel is auto-sized)
+  //Panel alignment: C (center), L (left), R (right)
   "ui_statusbar_panels": "caret,C,170|enc,C,125|ends,C,50|lexer,C,140|tabsize,C,80|selmode,C,15|msg,L,",
 
   //Statusbar height
@@ -844,13 +843,10 @@
   "ui_statusbar_time": 5,
 
   //Statusbar: tabsize-panel text. Macros here:
+  //  {s}: localized string "Tab size" 
   //  {tab}: tab size
   //  {_}: char "_" if spaces used
-  "ui_statusbar_tabsize": "Tab size {tab}{_}",
-
-  //Statusbar: wrap-panel values.
-  //3 strings ","-separated: for wrap off, for wrap at window edge, for wrap at margin
-  "ui_statusbar_wrap": "no-wrap,wrap,wrap-m",
+  "ui_statusbar_tabsize": "{s} {tab}{_}",
 
   //[Ui]
   //Show full file path in window title

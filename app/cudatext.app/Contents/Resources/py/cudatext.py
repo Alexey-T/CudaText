@@ -47,6 +47,8 @@ CONVERT_CARET_TO_PIXELS     = 8
 
 TOKEN_AT_POS = 0
 TOKEN_INDEX  = 1
+TOKEN_LIST   = 2
+TOKEN_LIST_SUB = 3
 
 LINESTATE_NORMAL  = 0
 LINESTATE_CHANGED = 1
@@ -92,6 +94,9 @@ BOOKMARK_CLEAR       = 2
 BOOKMARK_CLEAR_ALL   = 3
 BOOKMARK_SETUP       = 4
 BOOKMARK_GET_LIST    = 5
+BOOKMARK_GET_ALL     = 6
+BOOKMARK_GET_PROP      = 7
+BOOKMARK_DELETE_BY_TAG = 8
 
 MARKERS_GET           = 0
 MARKERS_ADD           = 1
@@ -201,6 +206,7 @@ PROP_HILITE_CUR_LINE           = 78
 PROP_HILITE_CUR_LINE_MINIMAL   = 79
 PROP_HILITE_CUR_LINE_IF_FOCUS  = 80
 PROP_CARET_STOP_UNFOCUSED      = 81
+PROP_ACTIVATION_TIME           = 82
 PROP_MODERN_SCROLLBAR          = 85
 PROP_FOLD_TOOLTIP_SHOW         = 101
 PROP_FOLD_ALWAYS               = 102
@@ -997,8 +1003,8 @@ class Editor:
         return ct.ed_cmd(self.h, code, text)
     def focus(self):
         return ct.ed_focus(self.h)
-    def bookmark(self, id, nline, nkind=1, ncolor=-1, text=''):
-        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text)
+    def bookmark(self, id, nline, nkind=1, ncolor=-1, text='', auto_del=True, show=True, tag=0):
+        return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text, auto_del, show, tag)
 
     def lock(self):
         return ct.ed_lock(self.h)
@@ -1078,7 +1084,7 @@ class Editor:
     def hotspots(self, id, tag=0, tag_str="", pos=""):
         return ct.ed_hotspots(self.h, id, tag, tag_str, to_str(pos))
 
-    def get_token(self, id, index1, index2):
+    def get_token(self, id, index1=0, index2=0):
         return ct.ed_get_token(self.h, id, index1, index2)
 
     def gap(self, id, num1, num2, tag=-1):
