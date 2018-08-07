@@ -9,9 +9,11 @@
 + add: Code Tree has additional filter field
 + add: option "ui_tree_filter_layout"
 + add: more Unicode "white space" characters are shown in hex form
++ add: find/replace with reg.exp.: "\w" supports all Unicode word letters
++ add: API
 + add: command line parameter -nh (no history)
 + add: command line parameter -z (open in viewer)
-+ add: API
++ add: command "code tree: select block for current tree node"
 + add: on file opening, syntax colored text appears faster
 + add: on deleting lexer, its files .acp and .cuda-lexmap are also deleted
 + add: Project Manager option "Use 'preview tab' on item clicking"

@@ -678,6 +678,7 @@ type
     procedure DoCodetree_OnDblClick(Sender: TObject);
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoCodetree_SelectBlockForCurrentNode;
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -4126,6 +4127,27 @@ begin
     Key:= 0;
     exit
   end;
+end;
+
+procedure TfmMain.DoCodetree_SelectBlockForCurrentNode;
+var
+  Ed: TATSynEdit;
+  Node: TTreeNode;
+  P1, P2: TPoint;
+begin
+  Node:= CodeTree.Tree.Selected;
+  if Node=nil then exit;
+
+  DoTreeGetSyntaxRange(Node, P1, P2);
+  if (P1.Y<0) or (P2.Y<0) then exit;
+
+  Ed:= CurrentEditor;
+  Ed.DoGotoPos(P1, P2,
+    UiOps.FindIndentHorz,
+    UiOps.FindIndentVert,
+    true,
+    true
+    );
 end;
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;

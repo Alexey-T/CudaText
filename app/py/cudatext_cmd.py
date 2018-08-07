@@ -447,3 +447,4 @@ cmd_TreeGotoParent             = 2817
 cmd_TreeGotoNextBrother        = 2818
 cmd_TreeGotoPrevBrother        = 2819
 cmd_TreeUpdate                 = 2820
+cmd_TreeSelectBlockForCurNode  = 2821

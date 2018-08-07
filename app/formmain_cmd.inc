@@ -248,6 +248,7 @@ begin
     cmd_TreeGotoNextBrother: DoTreeviewJump(CodeTree.Tree, treeGoNextBro);
     cmd_TreeGotoPrevBrother: DoTreeviewJump(CodeTree.Tree, treeGoPrevBro);
     cmd_TreeUpdate: UpdateTree(true, false{ignore visible}, true{ForceUpdateAll});
+    cmd_TreeSelectBlockForCurNode: DoCodetree_SelectBlockForCurrentNode;
 
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
