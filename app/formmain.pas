@@ -678,7 +678,7 @@ type
     procedure DoCodetree_OnDblClick(Sender: TObject);
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure DoCodetree_SelectBlockForCurrentNode;
+    procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -4129,7 +4129,7 @@ begin
   end;
 end;
 
-procedure TfmMain.DoCodetree_SelectBlockForCurrentNode;
+procedure TfmMain.DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
 var
   Ed: TATSynEdit;
   Node: TTreeNode;
@@ -4140,6 +4140,9 @@ begin
 
   DoTreeGetSyntaxRange(Node, P1, P2);
   if (P1.Y<0) or (P2.Y<0) then exit;
+
+  if not AndSelect then
+    P2:= Point(-1, -1);
 
   Ed:= CurrentEditor;
   Ed.DoGotoPos(P1, P2,

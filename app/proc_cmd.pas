@@ -270,6 +270,7 @@ const
   cmd_TreeGotoPrevBrother        = 2819;
   cmd_TreeUpdate                 = 2820;
   cmd_TreeSelectBlockForCurNode  = 2821;
+  cmd_TreeGotoBlockForCurNode    = 2822;
 
 
 implementation
@@ -508,6 +509,7 @@ begin
   M.Add(cmd_TreeGotoPrevBrother, 'code tree: select previous brother node', [], []);
   M.Add(cmd_TreeUpdate, 'code tree: update tree panel', [], []);
   M.Add(cmd_TreeSelectBlockForCurNode, 'code tree: select block for current tree node', [], []);
+  M.Add(cmd_TreeGotoBlockForCurNode, 'code tree: go to block for current tree node', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);
