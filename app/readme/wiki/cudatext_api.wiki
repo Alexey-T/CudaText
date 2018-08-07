@@ -2444,7 +2444,7 @@ Text is chr(1) separated items:
 
 =History=
 
-1.0.252 (app 1.58.0)
+1.0.252 (app 1.58.1)
 * add: Editor.bookmark: added 3 optional params: "auto_del", "show", "tag"
 * add: Editor.bookmark: BOOKMARK_GET_ALL
 * add: Editor.bookmark: BOOKMARK_GET_PROP
