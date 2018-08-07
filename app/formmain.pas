@@ -2311,6 +2311,7 @@ begin
       begin
         PanelCodeTreeTop.Show;
         PanelCodeTreeTop.Align:= alBottom;
+        PanelCodeTreeTop.Top:= PanelLeft.Height; //fix pos relative to horz scrollbar
       end;
   end;
 
