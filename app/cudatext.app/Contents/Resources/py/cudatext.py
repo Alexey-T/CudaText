@@ -697,8 +697,8 @@ def app_path(id):
 def app_proc(id, text):
     return ct.app_proc(id, to_str(text))
 
-def app_log(id, text, tag=0):
-    return ct.app_log(id, text, tag)
+def app_log(id, text, tag=0, panel=''):
+    return ct.app_log(id, text, tag, panel)
 
 def app_idle(wait=False):
     return ct.app_idle(wait)
