@@ -398,16 +398,22 @@ Actions:
 
 ===app_log===
 
- app_log(id, text, tag=0)
+ app_log(id, text, tag=0, panel="")
 
-Controls standard panels in the bottom panel: Console, Output, Validate.
+Performs action with standard panels in the bottom panel: Output, Validate, Console.
 
-Possible values of id:
+Possible values of "panel":
 
-* LOG_CLEAR: Clears active log panel, text is ignored.
-* LOG_ADD: Adds line to active log panel. Param "tag" is used here: int value associated with line, it's passed in on_output_nav.
-* LOG_SET_PANEL: Sets active log panel. Text must be name of panel: LOG_PANEL_OUTPUT or LOG_PANEL_VALIDATE. Incorrect text will stop next operations with panels, until correct value is set.
-* LOG_SET_REGEX: Sets parsing regex for active log panel. Regex must have some groups in round brackets, indexes of these groups must be passed in separate API calls. All lines in log panel, which can be parsed by this regex, will allow navigation to source code by click or double-click.
+* "": use panel chosen by LOG_SET_PANEL action
+* value LOG_PANEL_OUTPUT: Output panel
+* value LOG_PANEL_VALIDATE: Validate panel
+
+Possible values of "id" for Output/Validate panels:
+
+* LOG_CLEAR: Clears log panel. Param "text" ignored.
+* LOG_ADD: Adds line to log panel. Param "tag" is used here: int value associated with line, it's passed in on_output_nav.
+* deprecated: LOG_SET_PANEL: Sets active log panel. Param "text" must be name of panel: LOG_PANEL_OUTPUT or LOG_PANEL_VALIDATE. Incorrect "text" will stop next operations with "active" panel, until correct value is set.
+* LOG_SET_REGEX: Sets parsing regex for log panel. Param "text". Regex must have some groups in round brackets, indexes of these groups must be passed in separate API calls. All lines in log panel, which can be parsed by this regex, will allow navigation to source code by click or double-click.
 * LOG_SET_LINE_ID: Sets index of regex group for line-number. Param "text" is one-char string from "1" to "8", and "0" means "not used".
 * LOG_SET_COL_ID: Sets index of regex group for column-number. Param "text".
 * LOG_SET_NAME_ID: Sets index of regex group for file-name. Param "text".
@@ -417,7 +423,7 @@ Possible values of id:
 * LOG_GET_LINEINDEX: Gets index of selected line in panel's listbox.
 * LOG_SET_LINEINDEX: Sets index of selected line in panel's listbox.
 
-For "Python Console" panel:
+Possible values of "id" for "Console" panel:
 
 * LOG_CONSOLE_CLEAR: Clears UI controls in console. 
 ** If text empty or has "m" then memo-control (above) is cleared. 
@@ -2445,11 +2451,13 @@ Text is chr(1) separated items:
 =History=
 
 1.0.252 (app 1.58.1)
+* add: app_log: added optional param "panel"
 * add: Editor.bookmark: added 3 optional params: "auto_del", "show", "tag"
 * add: Editor.bookmark: BOOKMARK_GET_ALL
 * add: Editor.bookmark: BOOKMARK_GET_PROP
 * add: Editor.bookmark: BOOKMARK_DELETE_BY_TAG
 * change: Editor.bookmark: BOOKMARK_SET sets flag "delete on deleting line" from new param "auto_del" now (before: from "ncolor=1")
+* deprecated: app_log: LOG_SET_PANEL (now use parameter "panel")
 * deprecated: Editor.bookmark: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
 
 1.0.251 (app 1.57.8)
