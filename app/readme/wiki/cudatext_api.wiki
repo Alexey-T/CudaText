@@ -1742,7 +1742,7 @@ Example replaces selection of 1st caret with text:
  insert(x, y, text)
 
 Inserts given text at position (x, y). If y too big, appends block to end (even to final line w/out line-end).
-Text can be multi-line, all CR LF are converted to currently used line-ends.
+Text can be multi-line, all CR LF are converted to currently used line-breaks.
 
 Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Gets None if cannot insert.
 
@@ -1757,7 +1757,7 @@ Replaces range from position (x1, y1) to bigger position (x2, y2), with new text
 
 Function does the same as delete+insert, but
 
-* optimized for replace inside one line (when y1==y2 and no EOLs in text)
+* optimized for replace inside one line (when y1==y2 and no line-breaks in text)
 * for multi-line it also makes grouped-undo for delete+insert
 
 Gets 2-tuple (x, y) of position after inserted text.
@@ -1853,7 +1853,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_GUTTER_NUM: bool: show gutter column "line numbers".
 * PROP_GUTTER_FOLD: bool: show gutter column "folding".
 * PROP_GUTTER_BM: bool: show gutter column "bookmarks".
-* PROP_EOL: str: end-of-line chars. Currently always gets "\n" since it's ignored in "insert" method.
+* PROP_EOL: str: line-break chars. Currently always gets "\n" since it's ignored in "insert" method.
 * PROP_WRAP: int: word-wrap mode. One of WRAP_nnn values.
 * PROP_RO: bool: read-only mode.
 * PROP_MARGIN: int: position of fixed margin.
