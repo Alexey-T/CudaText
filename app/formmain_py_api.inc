@@ -1850,25 +1850,29 @@ end;
 
 function Py_app_log(Self, Args: PPyObject): PPyObject; cdecl;
 var
-  Ptr: PChar;
-  Str: string;
+  PtrText, PtrPanel: PChar;
+  StrText, StrPanel: string;
   Id, NTag, NLen, i: integer;
   Prop: PAppPanelProps;
   List: TStringList;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'isi:app_log', @Id, @Ptr, @NTag)) then
+    if Bool(PyArg_ParseTuple(Args, 'isis:app_log', @Id, @PtrText, @NTag, @PtrPanel)) then
     begin
-      Str:= string(Ptr);
+      StrText:= string(PtrText);
+      StrPanel:= string(PtrPanel);
 
       //this action don't need Prop
       if Id=LOG_SET_PANEL then
       begin
-        AppPanelActive:= Str;
+        AppPanelActive:= StrText;
         exit(ReturnNone);
       end;
 
-      Prop:= GetAppPanelProps_ByCaption(AppPanelActive);
+      if StrPanel<>'' then
+        Prop:= GetAppPanelProps_ByCaption(StrPanel)
+      else
+        Prop:= GetAppPanelProps_ByCaption(AppPanelActive);
       if Prop=nil then
         exit(ReturnNone);
 
@@ -1882,44 +1886,44 @@ begin
 
         LOG_ADD:
           begin
-            Prop^.Listbox.Items.AddObject(Str, TObject(PtrInt(NTag)));
+            Prop^.Listbox.Items.AddObject(StrText, TObject(PtrInt(NTag)));
             Prop^.Listbox.Invalidate;
             Result:= ReturnNone;
           end;
 
         LOG_SET_REGEX:
           begin
-            Prop^.RegexStr:= Str;
+            Prop^.RegexStr:= StrText;
             Result:= ReturnNone;
           end;
 
         LOG_SET_LINE_ID:
           begin
-            Prop^.RegexIdLine:= StrToIntDef(Str, 0);
+            Prop^.RegexIdLine:= StrToIntDef(StrText, 0);
             Result:= ReturnNone;
           end;
 
         LOG_SET_COL_ID:
           begin
-            Prop^.RegexIdCol:= StrToIntDef(Str, 0);
+            Prop^.RegexIdCol:= StrToIntDef(StrText, 0);
             Result:= ReturnNone;
           end;
 
         LOG_SET_NAME_ID:
           begin
-            Prop^.RegexIdName:= StrToIntDef(Str, 0);
+            Prop^.RegexIdName:= StrToIntDef(StrText, 0);
             Result:= ReturnNone;
           end;
 
         LOG_SET_FILENAME:
           begin
-            Prop^.DefFilename:= Str;
+            Prop^.DefFilename:= StrText;
             Result:= ReturnNone;
           end;
 
         LOG_SET_ZEROBASE:
           begin
-            Prop^.ZeroBase:= Bool(StrToIntDef(Str, 0));
+            Prop^.ZeroBase:= Bool(StrToIntDef(StrText, 0));
             Result:= ReturnNone;
           end;
 
@@ -1941,13 +1945,13 @@ begin
 
         LOG_SET_LINEINDEX:
           begin
-            Prop^.Listbox.ItemIndex:= StrToIntDef(Str, 0);
+            Prop^.Listbox.ItemIndex:= StrToIntDef(StrText, 0);
             Result:= ReturnNone;
           end;
 
         LOG_CONSOLE_CLEAR:
           begin
-            if (Str='') or (Pos('m', Str)>0) then
+            if (StrText='') or (Pos('m', StrText)>0) then
               if fmMain.DoOnConsoleClear then
               begin
                 fmConsole.memo.ModeReadOnly:= false;
@@ -1956,13 +1960,13 @@ begin
                 fmConsole.memo.ModeReadOnly:= true;
               end;
 
-            if (Str='') or (Pos('e', Str)>0) then
+            if (StrText='') or (Pos('e', StrText)>0) then
             begin
               fmConsole.ed.DoCommand(cCommand_GotoTextBegin);
               fmConsole.ed.DoCommand(cCommand_TextDeleteToTextEnd);
             end;
 
-            if (Str='') or (Pos('h', Str)>0) then
+            if (StrText='') or (Pos('h', StrText)>0) then
             begin
               fmConsole.ed.Items.Clear;
             end;
@@ -1973,8 +1977,8 @@ begin
         LOG_CONSOLE_ADD:
           with fmMain do
           begin
-            MsgLogConsole(cPyConsolePrompt+Str);
-            fmConsole.ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
+            MsgLogConsole(cPyConsolePrompt+StrText);
+            fmConsole.ed.DoAddLineToHistory(Utf8Decode(StrText), cPyConsoleMaxComboItems);
             fmConsole.ed.Text:= '';
             fmConsole.ed.Update(true);
             Result:= ReturnNone;
