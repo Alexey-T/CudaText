@@ -2457,6 +2457,7 @@ Text is chr(1) separated items:
 * add: Editor.bookmark: BOOKMARK_GET_PROP
 * add: Editor.bookmark: BOOKMARK_DELETE_BY_TAG
 * change: Editor.bookmark: BOOKMARK_SET sets flag "delete on deleting line" from new param "auto_del" now (before: from "ncolor=1")
+* change: on_change/on_change_slow now isn't called on file opening
 * deprecated: app_log: LOG_SET_PANEL (now use parameter "panel")
 * deprecated: Editor.bookmark: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
 
