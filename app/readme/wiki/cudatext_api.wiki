@@ -1678,33 +1678,41 @@ Controls carets. Possible values of id:
 
 ==Text read/write==
 
-===get_text_all/set_text_all===
+===get_text_all===
 
  get_text_all()
+
+Gets entire text in the editor, as str.
+It is simple wrapper around get_text_line/get_line_count, it gives "\n" as line-breaks.
+
+===set_text_all===
+
  set_text_all(text)
 
-Gets/sets entire text in the editor (str).
+Sets entire text in the editor, to given str.
+Text can have any line-breaks, they will be converted to currently used line-breaks.
+It cannot work with read-only editor (see get_prop/set_prop and PROP_RO).
 
-Notes:
-* get_text_all is simple wrapper around get_text_line/get_line_count, it uses "\n" as line sep.
-* set_text_all cannot work with read-only editor (see set_prop() and PROP_RO).
+===get_text_line===
 
-===get_text_line/set_text_line===
+ get_text_line(index)
 
- get_text_line(num)
- set_text_line(num, text)
+Gets single line (str) with given index (0-based).
+Gets None if index incorrect.
 
-Gets/sets single line (str) with given index (0-base).
+===set_text_line===
 
-Line must be w/o CR LF. Gets None if index incorrect.
+ set_text_line(index, text)
 
-To add new line, call set with num=-1.
+Sets single line (str) with given index (0-based).
+Text must be without line-breaks.
+To add new line, pass index=-1.
 
 ===get_text_substr===
 
  get_text_substr(x1, y1, x2, y2)
 
-Gets substring from position (x1, y1) to position (x2, y2). Second position must be bigger than first.
+Gets substring from position (x1, y1) to bigger position (x2, y2).
 
 ===delete===
 
@@ -1736,7 +1744,7 @@ Example replaces selection of 1st caret with text:
 Inserts given text at position (x, y). If y too big, appends block to end (even to final line w/out line-end).
 Text can be multi-line, all CR LF are converted to currently used line-ends.
 
-Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Gets None if cannot insert, e.g. y is too big.
+Gets 2-tuple (x, y) of position after inserted text. It is on the same line, if text is single line. Gets None if cannot insert.
 
 ===replace===
 
