@@ -1786,13 +1786,16 @@ Returns selected text for 1st caret (empty, if no selection).
 
  get_sel_mode()
 
-Gets kind of selection: normal or column selection: SEL_NORMAL, SEL_COLUMN.
+Gets current selection mode:
+
+* SEL_NORMAL: normal (stream) selection; it doesn't mean that selection exists.
+* SEL_COLUMN: column (vertical) selection.
 
 ===get_sel_lines===
 
  get_sel_lines()
 
-Gets 2-tuple, indexes of 1st and last lines affected by 1st caret selection. Both -1 if no selection.
+Gets 2-tuple, indexes of first and last lines affected by first caret selection. Gets (-1,-1) if no selection.
 
 ===get_sel_rect/set_sel_rect===
 
