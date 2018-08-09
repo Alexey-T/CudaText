@@ -47,7 +47,7 @@ cuda_lint*
 cuda_num*
 cuda_find*
 cuda_sql*
-cuda_tern/
+cuda_tern*
 cuda_bracket*
 cuda_config*
 cuda_spell*
@@ -61,4 +61,3 @@ cuda_fav*
 cuda_emmet*
 cuda_stata*
 cuda_test_*
-_*
