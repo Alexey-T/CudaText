@@ -359,10 +359,9 @@ begin
   CodeTree.Tree.Font.Size:= UiOps.VarFontSize;
   CodeTree.Tree.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
-  CodeTreeFilter.ParentFont:= false;
-  CodeTreeFilter.Font.Name:= UiOps.VarFontName;
-  CodeTreeFilter.Font.Size:= UiOps.VarFontSize;
-  CodeTreeFilter.Font.PixelsPerInch:= Screen.PixelsPerInch;
+  CodeTreeFilterInput.Font.Name:= EditorOps.OpFontName;
+  CodeTreeFilterInput.Font.Size:= EditorOps.OpFontSize;
+  CodeTreeFilterInput.Font.PixelsPerInch:= Screen.PixelsPerInch;
 
   PanelLeftTitle.Font.Name:= UiOps.VarFontName;
   PanelLeftTitle.Font.Size:= UiOps.VarFontSize;
