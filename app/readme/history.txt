@@ -4,7 +4,7 @@
   * changed
 
 
-1.58.1 (2018/08)
+1.58.2 (2018/08)
 
 + add: Code Tree has additional filter field
 + add: option "ui_tree_filter_layout"
@@ -28,10 +28,10 @@
 * change: deleted option "ui_tree_show_lines"
 * change: deleted option "ui_tree_cache"
 - fix: minor UI fixes
+- fix: Unix: support Python 3.7
+- fix: Windows: support UNC filenames with "single instance"
 - fix: lexer JSON (string rule)
 - fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin
-- fix: Windows: support UNC filenames with "single instance"
-- fix: macOS: support Python 3.7
 
 1.57.0 (2018/06)
 
