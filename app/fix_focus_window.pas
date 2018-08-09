@@ -366,7 +366,7 @@ begin
             // flags (-) won't be processed since instance is already running
             if workDir <> '' then
             begin
-              if Pos(':', parameter) = 2 then
+              if (Pos(':', parameter) = 2) or (Pos('\\', parameter) = 1) then
                 cli := cli + parameter + ParamsSeparator
               else
                 cli := cli + workDir + '\' + parameter + ParamsSeparator;
