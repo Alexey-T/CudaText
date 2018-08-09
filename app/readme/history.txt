@@ -30,6 +30,8 @@
 - fix: minor UI fixes
 - fix: lexer JSON (string rule)
 - fix: group-mode commands *vert/*horz were swapped, if Config Menu plugin was used; you need to correct menu config for plugin
+- fix: Windows: support UNC filenames with "single instance"
+- fix: macOS: support Python 3.7
 
 1.57.0 (2018/06)
 
