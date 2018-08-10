@@ -1153,7 +1153,7 @@ begin
     ListboxCompleteSizeX:= 550;
     ListboxCompleteSizeY:= 200;
     ListboxFuzzySearch:= true;
-    ListboxHotkeyFontSizeDelta:= 2;
+    ListboxHotkeyFontSizeDelta:= 0; //2 gives too small hotkey font on Lin/Win
 
     TabsDisabled:= false;
     TabMultiline:= false;
