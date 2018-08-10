@@ -74,13 +74,13 @@ Supported keys:
 
 * -h, --help - Show command-line help
 * -v, --version - Show application version
-* -n, --new - Ignore option "ui_one_instance", and force new app window
-* -r, --readonly - Open all files from command line in read-only mode
-* -m=value, --mode=value - Open file in viewer only mode, value can be: text, binary, hex, unicode
-* -e=value, --enc=value - Open all files from command line in given encoding
-* -el, --enclist - Show possible encoding names
-* -nh, --nohistory - Ignore saved file history (caret, selection, scroll pos)
-* -w, --window=left,top,width,height - Set position/size of app window, 4 numbers specified, any can be missed to keep previous value
+* -n - Ignore option "ui_one_instance", and force new app window
+* -z=[text|binary|hex|unicode] - Open in viewer, with given mode
+* -r - Open all files from command line in read-only mode
+* -e=value - Open all files from command line in given encoding
+* -el - Show possible encoding names
+* -nh - Ignore saved file history (caret, selection, scroll pos)
+* -w=left,top,width,height - Set position/size of app window, 4 numbers specified, any can be missed to keep previous value
 
 Notes:
 
