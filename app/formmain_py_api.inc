@@ -4524,6 +4524,9 @@ begin
 end;
 
 
+type
+  TTreeviewAccess = class(TTreeView);
+
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   IdTree, IdItem: Int64;
@@ -4753,6 +4756,7 @@ begin
         TREE_UNLOCK:
           begin
             TreeCont.Tree.Items.EndUpdate;
+            TTreeviewAccess(TreeCont.Tree).DoSelectionChanged; //force update new scrollbars
             Result:= ReturnNone;
           end;
 
