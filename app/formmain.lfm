@@ -891,14 +891,14 @@ object fmMain: TfmMain
       OnClick = mnuTabSaveClick
     end
     object mnuTabSaveAs: TMenuItem
-      Caption = 'Save as'
+      Caption = 'Save as...'
       OnClick = mnuTabSaveAsClick
     end
     object MenuItem24: TMenuItem
       Caption = '-'
     end
     object mnuTabCopySub: TMenuItem
-      Caption = 'Copy'
+      Caption = 'Copy to clipboard'
       object mnuTabCopyFullPath: TMenuItem
         Caption = 'Copy full filepath'
         OnClick = mnuTabCopyFullPathClick
