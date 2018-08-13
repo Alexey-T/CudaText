@@ -136,6 +136,8 @@ begin
     cmd_Groups4horz: Groups.Mode:= gm4h;
     cmd_Groups4vert: Groups.Mode:= gm4v;
     cmd_Groups4grid: Groups.Mode:= gm4grid;
+    cmd_Groups6horz: Groups.Mode:= gm6h;
+    cmd_Groups6vert: Groups.Mode:= gm6v;
     cmd_Groups6grid: Groups.Mode:= gm6grid;
 
     cmd_GroupActivateNext: Groups.PagesSetNext(true);

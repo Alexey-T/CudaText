@@ -126,13 +126,15 @@ const
   cmd_SplitTab6040     = 2625;
   cmd_SplitTab7030     = 2626;
 
+  cmd_Groups6vert = 2627;
+  cmd_Groups6horz = 2628;
+  cmd_Groups3plushorz = 2629;
   cmd_Groups1     = 2630;
   cmd_Groups2horz = 2631;
   cmd_Groups2vert = 2632;
   cmd_Groups3horz = 2633;
   cmd_Groups3vert = 2634;
   cmd_Groups3plus = 2635;
-  cmd_Groups3plushorz = 2629;
   cmd_Groups4horz = 2636;
   cmd_Groups4vert = 2637;
   cmd_Groups4grid = 2638;
@@ -389,6 +391,8 @@ begin
   M.Add(cmd_Groups4vert, 'groups: 4 groups vert', [], []);
   M.Add(cmd_Groups4horz, 'groups: 4 groups horz', [], []);
   M.Add(cmd_Groups4grid, 'groups: 4 groups grid', [], []);
+  M.Add(cmd_Groups6vert, 'groups: 6 groups vert', [], []);
+  M.Add(cmd_Groups6horz, 'groups: 6 groups horz', [], []);
   M.Add(cmd_Groups6grid, 'groups: 6 groups grid', [], []);
 
   M.Add(cmd_GroupActivateNext, 'groups: focus next group', [], []);
@@ -605,6 +609,8 @@ begin
     cmd_Groups4horz,
     cmd_Groups4vert,
     cmd_Groups4grid,
+    cmd_Groups6horz,
+    cmd_Groups6vert,
     cmd_Groups6grid,
 
     cmd_GroupActivateNext,
@@ -690,6 +696,8 @@ begin
     cmd_Groups4horz,
     cmd_Groups4vert,
     cmd_Groups4grid,
+    cmd_Groups6horz,
+    cmd_Groups6vert,
     cmd_Groups6grid,
     cmd_GroupActivateNext,
     cmd_GroupActivatePrev,

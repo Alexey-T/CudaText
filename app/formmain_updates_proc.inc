@@ -555,6 +555,8 @@ begin
     cmd_Groups4horz : DoSave(mi, mnuGr4H_Alt);
     cmd_Groups4vert : DoSave(mi, mnuGr4V_Alt);
     cmd_Groups4grid : DoSave(mi, mnuGr4G_Alt);
+    cmd_Groups6horz : DoSave(mi, mnuGr6H_Alt);
+    cmd_Groups6vert : DoSave(mi, mnuGr6V_Alt);
     cmd_Groups6grid : DoSave(mi, mnuGr6_Alt);
   end;
 end;
@@ -666,6 +668,8 @@ begin
   UpdateMenuItemHotkey(mnuGr4V, cmd_Groups4vert);
   UpdateMenuItemHotkey(mnuGr4H, cmd_Groups4horz);
   UpdateMenuItemHotkey(mnuGr4G, cmd_Groups4grid);
+  UpdateMenuItemHotkey(mnuGr6V, cmd_Groups6vert);
+  UpdateMenuItemHotkey(mnuGr6H, cmd_Groups6horz);
   UpdateMenuItemHotkey(mnuGr6, cmd_Groups6grid);
 
   UpdateMenuItemHotkey(mnuViewSplitDo, cmd_SplitTabToggle);
@@ -833,6 +837,8 @@ begin
   UpdateMenuItemChecked(mnuGr4V, mnuGr4V_Alt, Groups.Mode= gm4v);
   UpdateMenuItemChecked(mnuGr4H, mnuGr4H_Alt, Groups.Mode= gm4h);
   UpdateMenuItemChecked(mnuGr4G, mnuGr4G_Alt, Groups.Mode= gm4Grid);
+  UpdateMenuItemChecked(mnuGr6V, mnuGr6V_Alt, Groups.Mode= gm6v);
+  UpdateMenuItemChecked(mnuGr6H, mnuGr6H_Alt, Groups.Mode= gm6h);
   UpdateMenuItemChecked(mnuGr6, mnuGr6_Alt, Groups.Mode= gm6Grid);
 end;
 

@@ -786,6 +786,14 @@ object fmMain: TfmMain
         Caption = '4 &grid'
         RadioItem = True
       end
+      object mnuGr6V: TMenuItem
+        Caption = '6 vert'
+        RadioItem = True
+      end
+      object mnuGr6H: TMenuItem
+        Caption = '6 horz'
+        RadioItem = True
+      end
       object mnuGr6: TMenuItem
         Caption = '&6 grid'
         RadioItem = True

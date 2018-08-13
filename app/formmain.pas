@@ -120,6 +120,8 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuGr6H: TMenuItem;
+    mnuGr6V: TMenuItem;
     mnuTabMoveF2: TMenuItem;
     mnuTabMoveF3: TMenuItem;
     mnuSepT2: TMenuItem;
@@ -584,6 +586,8 @@ type
     mnuGr4H_Alt,
     mnuGr4V_Alt,
     mnuGr4G_Alt,
+    mnuGr6H_Alt,
+    mnuGr6V_Alt,
     mnuGr6_Alt: TATMenuItemsAlt;
 
     FFinder: TATEditorFinder;
