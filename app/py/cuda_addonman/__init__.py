@@ -224,7 +224,6 @@ class Command:
         self.tick_msg = 'Opening downloaded zip'
         s_options = '' if opt.install_confirm else '/silent'
         ok = file_open(fn, options=s_options)
-        os.remove(fn)
 
         timer_proc(TIMER_STOP, self.timer_tick, 0)
         msg_status('Addon installed' if ok else 'Installation cancelled')
@@ -237,9 +236,11 @@ class Command:
                 with open(filename_ver, 'w') as f:
                     f.write(version)
 
+        m = get_module_name_from_zip_filename(fn)
+        os.remove(fn)
+        
         #suggest readme
         if opt.suggest_readme:
-            m = get_module_name_from_zip_filename(fn)
             if m:
                 names = []
                 fn = get_readme_of_module(m)
