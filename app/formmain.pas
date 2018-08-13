@@ -1817,6 +1817,13 @@ begin
       exit
     end;
 
+    if CodeTreeFilterInput.Focused then
+    begin
+      CurrentFrame.SetFocus;
+      Key:= 0;
+      exit
+    end;
+
     if fmConsole.ed.Focused or fmConsole.memo.Focused then
     begin
       if UiOps.EscapeCloseConsole then
