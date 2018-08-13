@@ -679,6 +679,7 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
+    procedure DoCodeTree_FilterFocus;
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -4159,6 +4160,23 @@ begin
     true,
     true
     );
+end;
+
+procedure TfmMain.DoCodeTree_FilterFocus;
+begin
+  if PanelLeft.Visible and
+    CodeTree.Visible and
+    CodeTreeFilterInput.Visible and
+    CodeTreeFilterInput.Enabled then
+  begin
+    if FloatSide then
+    begin
+      FFormFloatSide.SetFocus;
+      FFormFloatSide.ActiveControl:= CodeTreeFilterInput;
+    end
+    else
+      ActiveControl:= CodeTreeFilterInput;
+  end;
 end;
 
 procedure TfmMain.ListboxOutKeyDown(Sender: TObject; var Key: Word;

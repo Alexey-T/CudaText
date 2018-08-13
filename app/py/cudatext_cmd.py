@@ -449,3 +449,5 @@ cmd_TreeGotoPrevBrother        = 2819
 cmd_TreeUpdate                 = 2820
 cmd_TreeSelectBlockForCurNode  = 2821
 cmd_TreeGotoBlockForCurNode    = 2822
+cmd_TreeFilterClear            = 2823
+cmd_TreeFilterFocus            = 2824
