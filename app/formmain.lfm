@@ -899,17 +899,17 @@ object fmMain: TfmMain
     end
     object mnuTabCopySub: TMenuItem
       Caption = 'Copy'
-      object mnuTabCopyName: TMenuItem
-        Caption = 'Copy file name only'
-        OnClick = mnuTabCopyNameClick
+      object mnuTabCopyFullPath: TMenuItem
+        Caption = 'Copy full filepath'
+        OnClick = mnuTabCopyFullPathClick
       end
       object mnuTabCopyDir: TMenuItem
-        Caption = 'Copy file dir only'
+        Caption = 'Copy filepath only'
         OnClick = mnuTabCopyDirClick
       end
-      object mnuTabCopyFullPath: TMenuItem
-        Caption = 'Copy full path'
-        OnClick = mnuTabCopyFullPathClick
+      object mnuTabCopyName: TMenuItem
+        Caption = 'Copy filename only'
+        OnClick = mnuTabCopyNameClick
       end
     end
     object mnuTabMoveSub: TMenuItem
