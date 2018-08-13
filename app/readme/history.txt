@@ -8,6 +8,7 @@
 
 + add: command "code tree: clear filter field"
 + add: command "code tree: focus filter field"
++ add: command "code tree: focus treeview"
 
 1.58.2 (2018/08)
 

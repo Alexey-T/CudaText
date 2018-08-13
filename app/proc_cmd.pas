@@ -273,7 +273,7 @@ const
   cmd_TreeGotoBlockForCurNode    = 2822;
   cmd_TreeFilterClear            = 2823;
   cmd_TreeFilterFocus            = 2824;
-
+  cmd_TreeFocus                  = 2825;
 
 implementation
 
@@ -514,6 +514,7 @@ begin
   M.Add(cmd_TreeSelectBlockForCurNode, 'code tree: go to block for current node, and select', [], []);
   M.Add(cmd_TreeFilterClear, 'code tree: clear filter field', [], []);
   M.Add(cmd_TreeFilterFocus, 'code tree: focus filter field', [], []);
+  M.Add(cmd_TreeFocus, 'code tree: focus treeview', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
   M.Add(cmd_HelpForum, 'help: forum', [], []);

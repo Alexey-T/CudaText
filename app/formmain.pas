@@ -679,7 +679,8 @@ type
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DoCodetree_GotoBlockForCurrentNode(AndSelect: boolean);
-    procedure DoCodeTree_FilterFocus;
+    procedure DoCodeTree_FocusFilter;
+    procedure DoCodeTree_FocusTree;
     procedure DoSidebar_OnTabClick(Sender: TObject);
     function DoSidebar_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoSidebar_AddTab(const ACaption: string;
@@ -4162,20 +4163,42 @@ begin
     );
 end;
 
-procedure TfmMain.DoCodeTree_FilterFocus;
+procedure TfmMain.DoCodeTree_FocusFilter;
 begin
-  if PanelLeft.Visible and
+  if ShowSidePanel and
     CodeTree.Visible and
     CodeTreeFilterInput.Visible and
     CodeTreeFilterInput.Enabled then
   begin
     if FloatSide then
     begin
-      FFormFloatSide.SetFocus;
-      FFormFloatSide.ActiveControl:= CodeTreeFilterInput;
+      if FFormFloatSide.Visible then
+      begin
+        FFormFloatSide.SetFocus;
+        FFormFloatSide.ActiveControl:= CodeTreeFilterInput;
+      end;
     end
     else
       ActiveControl:= CodeTreeFilterInput;
+  end;
+end;
+
+procedure TfmMain.DoCodeTree_FocusTree;
+begin
+  if ShowSidePanel and
+    CodeTree.Visible and
+    CodeTree.Enabled then
+  begin
+    if FloatSide then
+    begin
+      if FFormFloatSide.Visible then
+      begin
+        FFormFloatSide.SetFocus;
+        FFormFloatSide.ActiveControl:= CodeTree.Tree;
+      end;
+    end
+    else
+      ActiveControl:= CodeTree.Tree;
   end;
 end;
 
