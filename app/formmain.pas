@@ -120,6 +120,10 @@ type
   TfmMain = class(TForm)
     AppProps: TApplicationProperties;
     ButtonCancel: TATButton;
+    mnuTabCopyName: TMenuItem;
+    mnuTabCopyDir: TMenuItem;
+    mnuTabCopyFullPath: TMenuItem;
+    mnuTabCopySub: TMenuItem;
     mnuGr6H: TMenuItem;
     mnuGr6V: TMenuItem;
     mnuTabMoveF2: TMenuItem;
@@ -443,6 +447,9 @@ type
       Shift: TShiftState);
     procedure MenuThemesSyntaxClick(Sender: TObject);
     procedure mnuTabColorClick(Sender: TObject);
+    procedure mnuTabCopyDirClick(Sender: TObject);
+    procedure mnuTabCopyFullPathClick(Sender: TObject);
+    procedure mnuTabCopyNameClick(Sender: TObject);
     procedure mnuTabMoveF2Click(Sender: TObject);
     procedure mnuTabMoveF3Click(Sender: TObject);
     procedure mnuTabsize1Click(Sender: TObject);
@@ -4329,6 +4336,36 @@ begin
     F.TabColor:= clNone
   else
     F.TabColor:= NColor;
+end;
+
+procedure TfmMain.mnuTabCopyDirClick(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= FrameOfPopup;
+  if F=nil then exit;
+
+  F.Editor.DoCommand(cmd_CopyFilenameDir);
+end;
+
+procedure TfmMain.mnuTabCopyFullPathClick(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= FrameOfPopup;
+  if F=nil then exit;
+
+  F.Editor.DoCommand(cmd_CopyFilenameFull);
+end;
+
+procedure TfmMain.mnuTabCopyNameClick(Sender: TObject);
+var
+  F: TEditorFrame;
+begin
+  F:= FrameOfPopup;
+  if F=nil then exit;
+
+  F.Editor.DoCommand(cmd_CopyFilenameName);
 end;
 
 procedure TfmMain.mnuTabsize1Click(Sender: TObject);

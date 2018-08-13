@@ -238,7 +238,7 @@ class Command:
 
         m = get_module_name_from_zip_filename(fn)
         os.remove(fn)
-        
+
         #suggest readme
         if opt.suggest_readme:
             if m:

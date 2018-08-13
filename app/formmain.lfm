@@ -897,6 +897,21 @@ object fmMain: TfmMain
     object MenuItem24: TMenuItem
       Caption = '-'
     end
+    object mnuTabCopySub: TMenuItem
+      Caption = 'Copy'
+      object mnuTabCopyName: TMenuItem
+        Caption = 'Copy file name only'
+        OnClick = mnuTabCopyNameClick
+      end
+      object mnuTabCopyDir: TMenuItem
+        Caption = 'Copy file dir only'
+        OnClick = mnuTabCopyDirClick
+      end
+      object mnuTabCopyFullPath: TMenuItem
+        Caption = 'Copy full path'
+        OnClick = mnuTabCopyFullPathClick
+      end
+    end
     object mnuTabMoveSub: TMenuItem
       Caption = 'Move tab to group'
       object mnuTabMove1: TMenuItem
