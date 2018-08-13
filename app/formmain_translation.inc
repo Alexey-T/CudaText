@@ -142,12 +142,22 @@ begin
     DoLocMenuitem(ini, mnuEditPaste, 'm_e', 'pst');
     DoLocMenuitem(ini, mnuEditDel, 'm_e', 'del');
 
-    DoLocMenuitem(ini, mnuEditCopySub, 'm_e', 'cp_');
+    msgCopySub:= ini.ReadString('m_e', 'cp_', msgCopySub);
+    msgCopyFilenameName:= ini.ReadString('m_e', 'cp_name', msgCopyFilenameName);
+    msgCopyFilenameDir:= ini.ReadString('m_e', 'cp_dir', msgCopyFilenameDir);
+    msgCopyFilenameFull:= ini.ReadString('m_e', 'cp_full', msgCopyFilenameFull);
+
+    DoLocMenuitem(mnuEditCopySub, msgCopySub);
     DoLocMenuitem(ini, mnuEditCopyLine, 'm_e', 'cp_ln');
     DoLocMenuitem(ini, mnuEditCopyAppend, 'm_e', 'cp_add');
-    DoLocMenuitem(ini, mnuEditCopyFFull, 'm_e', 'cp_full');
-    DoLocMenuitem(ini, mnuEditCopyFName, 'm_e', 'cp_name');
-    DoLocMenuitem(ini, mnuEditCopyFDir, 'm_e', 'cp_dir');
+    DoLocMenuitem(mnuEditCopyFFull, msgCopyFilenameFull);
+    DoLocMenuitem(mnuEditCopyFName, msgCopyFilenameName);
+    DoLocMenuitem(mnuEditCopyFDir, msgCopyFilenameDir);
+
+    DoLocMenuitem(mnuTabCopySub, msgCopySub);
+    DoLocMenuitem(mnuTabCopyFullPath, msgCopyFilenameFull);
+    DoLocMenuitem(mnuTabCopyName, msgCopyFilenameName);
+    DoLocMenuitem(mnuTabCopyDir, msgCopyFilenameDir);
 
     DoLocMenuitem(ini, mnuEditLineOp, 'm_e', 'ln_');
     DoLocMenuitem(ini, mnuEditLineDel, 'm_e', 'ln_del');

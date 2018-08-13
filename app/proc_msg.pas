@@ -83,6 +83,10 @@ const
   msgEditUndo: string = 'Undo';
   msgEditRedo: string = 'Redo';
   msgFileClearList: string = 'Clear list';
+  msgCopySub: string = 'Copy to clipboard';
+  msgCopyFilenameName: string = 'Copy filename only';
+  msgCopyFilenameDir: string = 'Copy filepath only';
+  msgCopyFilenameFull: string = 'Copy full filepath';
 
   msgEncReloadAs: string = 'Reload as';
   msgEncConvertTo: string = 'Convert to';
