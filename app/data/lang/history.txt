@@ -1,5 +1,7 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
+2018.08.13
++ [m_v] g6v, g6h
 
 2018.07.29
 + [d_f] go_

@@ -229,6 +229,8 @@ begin
     DoLocMenuitem(ini, mnuGr4H, 'm_v', 'g4h');
     DoLocMenuitem(ini, mnuGr4V, 'm_v', 'g4v');
     DoLocMenuitem(ini, mnuGr4G, 'm_v', 'g4g');
+    DoLocMenuitem(ini, mnuGr6H, 'm_v', 'g6h');
+    DoLocMenuitem(ini, mnuGr6V, 'm_v', 'g6v');
     DoLocMenuitem(ini, mnuGr6, 'm_v', 'g6');
 
     DoLocMenuitem(ini, mnuViewSplitSub, 'm_v', 's_');
