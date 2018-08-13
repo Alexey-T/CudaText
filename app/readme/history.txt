@@ -4,6 +4,11 @@
   * changed
 
 
+1.58.3 (2018/08)
+
++ add: command "code tree: clear filter field"
++ add: command "code tree: focus filter field"
+
 1.58.2 (2018/08)
 
 + add: Code Tree has additional filter field
