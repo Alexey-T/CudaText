@@ -516,8 +516,8 @@ begin
   M.Add(cmd_TreeUpdate, 'code tree: update tree panel', [], []);
   M.Add(cmd_TreeGotoBlockForCurNode, 'code tree: go to block for current node', [], []);
   M.Add(cmd_TreeSelectBlockForCurNode, 'code tree: go to block for current node, and select', [], []);
-  M.Add(cmd_TreeFilterClear, 'code tree: clear filter field', [], []);
-  M.Add(cmd_TreeFilterFocus, 'code tree: focus filter field', [], []);
+  M.Add(cmd_TreeFilterClear, 'code tree: clear filter', [], []);
+  M.Add(cmd_TreeFilterFocus, 'code tree: focus filter', [], []);
   M.Add(cmd_TreeFocus, 'code tree: focus treeview', [], []);
 
   M.Add(cmd_HelpAbout, 'help: about', [], []);
