@@ -1683,7 +1683,7 @@ Controls carets. Possible values of id:
  get_text_all()
 
 Gets entire text in the editor, as str.
-It is simple wrapper around get_text_line/get_line_count, it gives "\n" as line-breaks.
+Gives "\n" as line-breaks.
 
 ===set_text_all===
 
@@ -2460,6 +2460,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.253 (app 1.58.5)
+* add: Editor.get_text_all is not macro around get_text_line(i), and it works much faster
 
 1.0.252 (app 1.58.1)
 * add: app_log: added optional param "panel"

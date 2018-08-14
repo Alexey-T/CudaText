@@ -469,6 +469,19 @@ begin
     end;
 end;
 
+function Py_ed_get_text_all(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  Ed: TATSynEdit;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'L:get_text_all', @H)) then
+    begin
+      Ed:= PyEditor(H);
+      Result:= PyString_FromString(PChar(Ed.Strings.TextString_UTF8));
+    end;
+end;
+
 
 function Py_ed_get_text_substr(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -6262,6 +6275,7 @@ begin
     AddMethod('ed_get_sel_lines', @Py_ed_get_sel_lines, '');
     AddMethod('ed_set_sel_rect', @Py_ed_set_sel_rect, '');
 
+    AddMethod('ed_get_text_all', @Py_ed_get_text_all, '');
     AddMethod('ed_set_text_all', @Py_ed_set_text_all, '');
     AddMethod('ed_get_text_sel', @Py_ed_get_text_sel, '');
     Addmethod('ed_get_text_line', @Py_ed_get_text_line, '');
