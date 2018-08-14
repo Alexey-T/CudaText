@@ -29,12 +29,13 @@ const
 const
   msgTitle = 'CudaText'; //no need i18n
   msgPythonListError = 'Cannot create new list object'; //no need i18n
-  msgCallbackBad = 'Bad API callback, report to plugin author: %s';
-  msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s';
-  msgApiDeprecated = 'Deprecated API usage: %s';
-  msgLiteLexerSuffix = ' ^';
-  msgButtonX = '×';
+  msgCallbackBad = 'Bad API callback, report to plugin author: %s'; //no i18n
+  msgCallbackDeprecated = 'Deprecated API callback, report to plugin author: %s'; //no i18n
+  msgApiDeprecated = 'Deprecated API usage: %s'; //no i18n
+  msgLiteLexerSuffix = ' ^'; //no i18n
+  msgButtonX = '×'; //no i18n
 
+  msgClearFilterTooltip: string = 'Clear filter';
   msgUntitledTab: string = 'Untitled';
   msgAllFiles: string = 'All files';
   msgNoLexer: string = '(none)';

@@ -1512,6 +1512,8 @@ begin
   CodeTreeFilterReset.Caption:= msgButtonX;
   CodeTreeFilterReset.Focusable:= false;
   CodeTreeFilterReset.Flat:= true;
+  CodeTreeFilterReset.ShowHint:= true;
+  CodeTreeFilterReset.Hint:= msgClearFilterTooltip;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilterResetClick;
 
   CodeTreeFilterInput:= TATEdit.Create(Self);

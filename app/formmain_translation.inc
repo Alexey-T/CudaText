@@ -334,6 +334,8 @@ begin
     msgThemeName:= ini.ReadString('ui', 'th_nm', msgThemeName);
     cTextEditorLocked:= ini.ReadString('ui', 'ed_w', cTextEditorLocked);
     cHintScrollPrefix:= ini.ReadString('ui', 'line', cHintScrollPrefix);
+    msgClearFilterTooltip:= ini.ReadString('ui', 'clr_f', msgClearFilterTooltip);
+    CodeTreeFilterReset.Hint:= msgClearFilterTooltip;
 
     msgStatusTabSize:= ini.ReadString('ui', 'tsz', msgStatusTabSize);
     msgStatusWrapStates[0]:= ini.ReadString('ui', 'wr0', msgStatusWrapStates[0]);
