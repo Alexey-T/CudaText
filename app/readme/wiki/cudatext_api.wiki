@@ -2462,7 +2462,7 @@ Text is chr(1) separated items:
 =History=
 
 1.0.253 (app 1.58.5)
-* add: Editor.get_text_all is not macro around get_text_line(i), and it works much faster
+* add: Editor.get_text_all is not macro around get_text_line(), it works faster
 
 1.0.252 (app 1.58.1)
 * add: app_log: added optional param "panel"
