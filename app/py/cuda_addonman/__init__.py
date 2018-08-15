@@ -272,11 +272,11 @@ class Command:
 
     def do_remove(self):
         m = get_installed_choice('Remove', STD_MODULES)
-        if m is None:
+        if not m:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
-        if do_remove_module(m)==True:
+        if do_remove_module(m):
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
 
     def do_remove_data(self):
