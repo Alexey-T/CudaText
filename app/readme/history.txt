@@ -9,11 +9,11 @@
 + add: grouping modes "6 vert" and "6 horz"
 + add: tab context menu items: "Copy filename only", "Copy filepath only", "Copy full filepath"
 + add: Project Manager option "Open files by double-click"
++ add: improved lexer HTML: highlight <tag style="..."> content with CSS lexer
++ add: improved lexer Markdown: highlight {++add++}, {--del--}, {~~edit~~}
 + add: command "code tree: clear filter"
 + add: command "code tree: focus filter"
 + add: command "code tree: focus treeview"
-+ add: improved lexer HTML: highlight <tag style="..."> content with CSS lexer
-+ add: improved lexer Markdown: highlight {++add++}, {--del--}, {~~edit~~}
 - fix: CSS autocompletion inside <tag style="..."> didn't work with multiline string
 
 1.58.2 (2018/08)
