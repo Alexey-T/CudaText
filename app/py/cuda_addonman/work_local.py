@@ -90,7 +90,6 @@ def do_remove_module(mod):
         dir_dest += '_'
 
     if not os.path.isdir(dir_mod):
-        msg_box('Cannot find dir: '+dir_mod, MB_OK)
         return
     if not os.path.isdir(dir_trash):
         os.mkdir(dir_trash)

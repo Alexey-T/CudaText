@@ -431,6 +431,7 @@ class Command:
 
             print('  '+ remote['name'])
             msg_status('Updating: '+remote['name'], True)
+            do_remove_module(m) # delete old dir
 
             url = remote['url']
 
