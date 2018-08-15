@@ -105,6 +105,7 @@ class Command:
         "on_start": False,
         "toolbar": True,
         "preview": True,
+        "d_click": False,
     }
 
     tree = None
@@ -171,6 +172,7 @@ class Command:
             'on_menu': 'cuda_project_man.tree_on_menu',
             'on_unfold': 'cuda_project_man.tree_on_unfold',
             'on_click': 'cuda_project_man.tree_on_click',
+            'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
             #'on_click_dbl': 'cuda_project_man.tree_on_click_dbl',
             } )
 
@@ -832,13 +834,20 @@ class Command:
         if info.image not in [self.ICON_BAD, self.ICON_DIR, self.ICON_PROJ]:
             file_open(str(path), options=options)
 
+
     def tree_on_click(self, id_dlg, id_ctl, data='', info=''):
 
-        opt = '/preview' if self.options.get("preview", True) else ''
+        if self.options.get('d_click', False):
+            return
+        opt = '/preview' if self.options.get('preview', True) else ''
         self.do_open_current_file(opt)
 
-    #def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
-    #    self.do_open_current_file('')
+    def tree_on_click_dbl(self, id_dlg, id_ctl, data='', info=''):
+
+        if not self.options.get('d_click', False):
+            return
+        opt = '/preview' if self.options.get('preview', True) else ''
+        self.do_open_current_file(opt)
 
 
     def icon_init(self):

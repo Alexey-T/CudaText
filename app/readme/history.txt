@@ -8,6 +8,7 @@
 
 + add: grouping modes "6 vert" and "6 horz"
 + add: tab context menu items: "Copy filename only", "Copy filepath only", "Copy full filepath"
++ add: Project Manager option "Open files by double-click"
 + add: command "code tree: clear filter"
 + add: command "code tree: focus filter"
 + add: command "code tree: focus treeview"
