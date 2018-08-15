@@ -142,6 +142,33 @@ object SyntAnal19: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsStrikeOut]
+    end
+    item
+      DisplayName = 'Mark-added'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 8454016
+    end
+    item
+      DisplayName = 'Mark-deleted'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = 8421631
+    end
+    item
+      DisplayName = 'Mark-edited'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      BgColor = clYellow
     end>
   TokenRules = <
     item
@@ -316,6 +343,30 @@ object SyntAnal19: TLibSyntAnalyzer
       Expression = '\w+'
       ColumnFrom = 0
       ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-added'
+      StyleName = 'Mark-added'
+      TokenType = 14
+      Expression = '\{\+\+[^\+\}]+\+\+\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-deleted'
+      StyleName = 'Mark-deleted'
+      TokenType = 14
+      Expression = '\{\-\-[^\-\}]+\-\-\}'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Mark-edited'
+      StyleName = 'Mark-edited'
+      TokenType = 14
+      Expression = '\{~~[^~\}]+~~\}'
+      ColumnFrom = 0
+      ColumnTo = 0
     end>
   BlockRules = <
     item
@@ -387,7 +438,9 @@ object SyntAnal19: TLibSyntAnalyzer
     'codeblock'
     '```'
     '    '
-    '    ')
+    
+      'Test {++added++} and {--deleted--} and {~~edited text~~} end.   ' +
+      ' ')
   TokenTypeNames.Strings = (
     'Heading'
     'Text'
@@ -402,7 +455,8 @@ object SyntAnal19: TLibSyntAnalyzer
     'Definition'
     'Link'
     'Image'
-    'List')
+    'List'
+    'Mark-inline')
   Extentions = 'md markdown mkd'
   LexerName = 'Markdown'
   SkipSpaces = False
