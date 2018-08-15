@@ -123,7 +123,7 @@ object SyntAnal23: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Text escaped'
+      DisplayName = 'Entity'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
@@ -241,8 +241,8 @@ object SyntAnal23: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Text escaped'
-      StyleName = 'Text escaped'
+      DisplayName = 'Entity'
+      StyleName = 'Entity'
       TokenType = 9
       Expression = '&\#?\w+;'
       ColumnFrom = 0
