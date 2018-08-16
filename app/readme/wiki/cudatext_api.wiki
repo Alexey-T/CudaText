@@ -1922,7 +1922,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
-* PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when editor in tab (or "brother" editor in the same tab) was last focused. It's None for editors out of tab.
+* PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
 ** "bin": binary viewer
@@ -2465,7 +2465,7 @@ Text is chr(1) separated items:
 
 1.0.253 (app 1.59.0)
 * add: Editor.attr: added optional param "show_on_map"
-* add: PROP_ACTIVATION_TIME is now initially zero for tabs, which didn't get focus
+* add: Editor.get_prop(PROP_ACTIVATION_TIME) is 0 for not yet focused tabs
 
 1.0.252 (app 1.58.1)
 * add: app_log: added optional param "panel"
