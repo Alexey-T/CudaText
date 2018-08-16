@@ -2178,7 +2178,8 @@ Controls markers (used e.g. in Snippets plugin). Possible values of "id":
  attr(id, tag=0, x=0, y=0, len=0,
       color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
       font_bold=0, font_italic=0, font_strikeout=0,
-      border_left=0, border_right=0, border_down=0, border_up=0 )
+      border_left=0, border_right=0, border_down=0, border_up=0,
+      show_on_map=False )
 
 Controls additional color attributes. Possible values of "id":
 
@@ -2188,7 +2189,8 @@ Controls additional color attributes. Possible values of "id":
 ** "len": length of fragment.
 ** "color_nnnn": RGB color values for font, background, borders. E.g. 0x0000FF is red, 0x00FF00 is green.
 ** "font_nnnn": font attributes: 0 - off, 1 - on.
-** "border_nnnn": border types for edges, values from 0: none, solid, dash, solid 2pixel, dotted, rounded, wave.
+** "border_nnnn": border types for edges, int value 0..6: none, solid, dash, solid 2pixel, dotted, rounded, wave.
+** "show_on_map": paint this item on CudaText micromap.
 
 * MARKERS_GET: Gets list of fragments, or None. Each item is list with int fields, in the same order as function params.
 * MARKERS_DELETE_ALL: Deletes all fragments.
@@ -2460,6 +2462,9 @@ Text is chr(1) separated items:
 * Change contents of func do_format()
 
 =History=
+
+1.0.253 (app 1.59.0)
+* add: Editor.attr: added optional param "show_on_map"
 
 1.0.252 (app 1.58.1)
 * add: app_log: added optional param "panel"

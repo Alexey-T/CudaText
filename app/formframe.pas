@@ -1972,6 +1972,7 @@ var
   NColorSelected, NColorOccur, NColorSpell: TColor;
   R1: TRect;
   NLine1, NLine2, i: integer;
+  Obj: TATLinePartClass;
 begin
   Ed:= Sender as TATSynEdit;
   if Ed.Strings.Count=0 then exit;
@@ -2020,6 +2021,8 @@ begin
   for i:= 0 to Ed.Attribs.Count-1 do
   begin
     Mark:= Ed.Attribs[i];
+    Obj:= TATLinePartClass(Mark.Ptr);
+
     case Mark.Tag of
       cTagSpell:
         begin
@@ -2031,7 +2034,15 @@ begin
           C.Brush.Color:= NColorOccur;
           C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
         end;
-    end;
+      else
+        begin
+          if Obj.ShowOnMap then
+          begin
+            C.Brush.Color:= Obj.Data.ColorBG;
+            C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
+          end;
+        end;
+      end;
   end;
 end;
 

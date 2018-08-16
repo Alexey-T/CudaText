@@ -681,15 +681,16 @@ var
   Id, X, Y, NTag, NLen, i: integer;
   NColorFont, NColorBg, NColorBorder: integer;
   NBorderL, NBorderR, NBorderD, NBorderU: integer;
-  NFontBold, NFontItalic, NFontStrike: integer;
+  NFontBold, NFontItalic, NFontStrike, NShowOnMap: integer;
   Obj: TATLinePartClass;
 begin
   with GetPythonEngine do
-    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiiii:attr',
+    if Bool(PyArg_ParseTuple(Args, 'Liiiiiiiiiiiiiiii:attr',
       @H, @Id, @NTag, @X, @Y, @NLen,
       @NColorFont, @NColorBg, @NColorBorder,
       @NFontBold, @NFontItalic, @NFontStrike,
-      @NBorderL, @NBorderR, @NBorderD, @NBorderU
+      @NBorderL, @NBorderR, @NBorderD, @NBorderU,
+      @NShowOnMap
       )) then
     begin
       Ed:= PyEditor(H);
@@ -743,6 +744,7 @@ begin
             Obj.Data.BorderRight:= TATLineStyle(NBorderR);
             Obj.Data.BorderDown:= TATLineStyle(NBorderD);
             Obj.Data.BorderUp:= TATLineStyle(NBorderU);
+            Obj.ShowOnMap:= Bool(NShowOnMap);
 
             Ed.Attribs.Add(X, Y, NTag, NLen, 0, Obj);
             Ed.Update;
