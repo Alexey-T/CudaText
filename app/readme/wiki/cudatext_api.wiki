@@ -2465,6 +2465,7 @@ Text is chr(1) separated items:
 
 1.0.253 (app 1.59.0)
 * add: Editor.attr: added optional param "show_on_map"
+* add: PROP_ACTIVATION_TIME is now initially zero for tabs, which didn't get focus
 
 1.0.252 (app 1.58.1)
 * add: app_log: added optional param "panel"
