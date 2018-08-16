@@ -3286,7 +3286,10 @@ begin
 
         APP_PROC_BOTTOMPANEL_ACTIVATE:
           begin
-            ok:= fmMain.DoBottom_ActivateTab(Str);
+            Str1:= SGetItem(Str); //tab_caption
+            Str2:= SGetItem(Str); //set_focus, default false (empty str ok)
+
+            ok:= fmMain.DoBottom_ActivateTab(Str1, AppStrToBool(Str2));
             Result:= PyBool_FromLong(Ord(ok));
           end;
 

@@ -658,7 +658,7 @@ type
     procedure DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem; ATag: integer);
     procedure DoOps_LexersDisableInFrames(ListNames: TStringList);
     procedure DoOps_LexersRestoreInFrames(ListNames: TStringList);
-    procedure DoShowBottomPanel(const ATabCaption: string);
+    procedure DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
     function DoSidebar_FilenameToImageIndex(ATabCaption, AFilename: string): integer;
     procedure DoSidebar_InitPanelForm(var AItem: TAppSidePanel;
       const ACaption: string; AForm: TCustomForm; AParent: TWinControl);
@@ -711,7 +711,7 @@ type
     function DoBottom_AddTab(const ACaption: string;
       AImageIndex: integer; AHandle: PtrInt): boolean;
     function DoBottom_CaptionToPanelsIndex(const Str: string): integer;
-    function DoBottom_ActivateTab(const ACaption: string): boolean;
+    function DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
     function DoBottom_CaptionToTabIndex(const ACaption: string): integer;
     function DoBottom_RemoveTab(const ACaption: string): boolean;
     procedure DoAutoComplete;
@@ -867,7 +867,7 @@ type
     procedure DoDialogLexerMap;
     procedure DoDialogRestoreLexerStyles;
     procedure DoDialogTheme(AThemeUI: boolean);
-    procedure DoShowConsole(AFocusEdit: boolean);
+    procedure DoShowConsole(AndFocus: boolean);
     procedure DoShowOutput;
     procedure DoShowValidate;
     procedure DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
@@ -936,7 +936,7 @@ type
     procedure SetShowTabsMain(AValue: boolean);
     procedure SplitterOnPaint_Gr(Sender: TObject);
     procedure SplitterOnPaint_Main(Sender: TObject);
-    procedure UpdateBottomPanels(const ACaption: string);
+    procedure UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
     procedure UpdateEditorTabsize(N: integer);
     procedure UpdateKeymapDynamicItems;
     procedure UpdateMenuItemAltObject(mi: TMenuItem; cmd: integer);
@@ -3566,21 +3566,19 @@ begin
 end;
 
 
-procedure TfmMain.DoShowConsole(AFocusEdit: boolean);
+procedure TfmMain.DoShowConsole(AndFocus: boolean);
 begin
-  DoShowBottomPanel(msgPanelConsole_Init);
-  if AFocusEdit then
-    fmConsole.ed.SetFocus;
+  DoShowBottomPanel(msgPanelConsole_Init, AndFocus);
 end;
 
 procedure TfmMain.DoShowOutput;
 begin
-  DoShowBottomPanel(msgPanelOutput_Init);
+  DoShowBottomPanel(msgPanelOutput_Init, false);
 end;
 
 procedure TfmMain.DoShowValidate;
 begin
-  DoShowBottomPanel(msgPanelValidate_Init);
+  DoShowBottomPanel(msgPanelValidate_Init, false);
 end;
 
 procedure TfmMain.DoShowSidePanel(const ATabCaption: string; AndFocus: boolean);
@@ -3600,7 +3598,7 @@ begin
 end;
 
 
-procedure TfmMain.DoShowBottomPanel(const ATabCaption: string);
+procedure TfmMain.DoShowBottomPanel(const ATabCaption: string; AndFocus: boolean);
 begin
   if ATabCaption='-' then
   begin
@@ -3610,7 +3608,7 @@ begin
   begin
     ShowBottom:= true;
     if ATabCaption<>'' then
-      DoBottom_ActivateTab(ATabCaption);
+      DoBottom_ActivateTab(ATabCaption, AndFocus);
   end;
 
   UpdateBottomButtons;

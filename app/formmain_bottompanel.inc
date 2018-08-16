@@ -42,7 +42,7 @@ begin
   end;
 
   if SCaption<>'' then
-    UpdateBottomPanels(SCaption)
+    UpdateBottomPanels(SCaption, true)
   else
     ShowBottom:= false;
 end;
@@ -65,7 +65,7 @@ begin
   UpdateStatus;
 end;
 
-procedure TfmMain.UpdateBottomPanels(const ACaption: string);
+procedure TfmMain.UpdateBottomPanels(const ACaption: string; AndFocus: boolean);
 var
   Ctl: TWinControl;
   i: integer;
@@ -91,19 +91,22 @@ begin
   if SameText(ACaption, msgPanelConsole_Init) then
   begin
     fmConsole.Show;
-    fmConsole.Ed.SetFocus;
+    if AndFocus then
+      fmConsole.Ed.SetFocus;
   end
   else
   if SameText(ACaption, msgPanelOutput_Init) then
   begin
     ListboxOut.Show;
-    ListboxOut.SetFocus;
+    if AndFocus then
+      ListboxOut.SetFocus;
   end
   else
   if SameText(ACaption, msgPanelValidate_Init) then
   begin
     ListboxVal.Show;
-    ListboxVal.SetFocus;
+    if AndFocus then
+      ListboxVal.SetFocus;
   end
   else
   begin
@@ -115,10 +118,11 @@ begin
         if Assigned(ItemControl) then
         begin
           ItemControl.Visible:= SameText(ItemCaption, ACaption);
-          if PanelBottom.Visible then
-            if ItemControl.Visible then
-              if ItemControl.CanFocus then
-                ItemControl.SetFocus;
+          if AndFocus then
+            if PanelBottom.Visible then
+              if ItemControl.Visible then
+                if ItemControl.CanFocus then
+                  ItemControl.SetFocus;
         end
       end;
   end;
@@ -202,11 +206,11 @@ begin
   end;
 end;
 
-function TfmMain.DoBottom_ActivateTab(const ACaption: string): boolean;
+function TfmMain.DoBottom_ActivateTab(const ACaption: string; AndFocus: boolean): boolean;
 begin
   Result:= DoBottom_CaptionToTabIndex(ACaption)>=0;
   if Result then
-    UpdateBottomPanels(ACaption);
+    UpdateBottomPanels(ACaption, AndFocus);
 end;
 
 
