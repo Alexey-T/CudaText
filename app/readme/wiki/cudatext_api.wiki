@@ -281,7 +281,7 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 
 ====Side panel====
 
-* PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog, to sidebar. Gets bool: params ok, tab was added. Text is 3-tuple (tab_caption, id_dlg, icon_filename):
+* PROC_SIDEPANEL_ADD_DIALOG: Adds tab, with embedded dialog, to sidebar. Gets bool: params correct, tab was added. Text must be 3-tuple (tab_caption, id_dlg, icon_filename):
 ** Caption of tab (must not contain ",")
 ** Handle of dialog, from dlg_proc()
 ** Name of icon file (must not contain ",")
@@ -293,7 +293,7 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 
 Notes:
 
-* Name of icon file: name of .png or .bmp file. Icon size should be equal to size of current sidebar theme, it's default is 20x20. If filename is without path, CudaText sub-dir "data/sideicons" is used.
+* Name of icon file: name of png/bmp file. Icon size should be equal to size of current sidebar icon set, it's default is 20x20 (to detect size of icon set, you can read and parse CudaText option). If filename is without path, CudaText sub-dir "data/sideicons" is used (so only a standard icon name can be without path).
 
 ==== Bottom panel====
 
