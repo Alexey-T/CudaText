@@ -833,6 +833,7 @@ type
     procedure DoOps_LoadOptionsLexerSpecific(F: TEditorFrame);
     procedure DoOps_OpenFile_FileTypes;
     procedure DoOps_OpenFile_LexerSpecific;
+    procedure DoOps_ResetFrameActivationTimes;
     procedure DoOps_LoadPlugins;
     procedure DoOps_DialogFont(var OpName: string; var OpSize: integer;
       const AConfigStrName, AConfigStrSize: string);
@@ -1929,6 +1930,7 @@ begin
     NTickPluginEnd-NTickPluginBegin
     ]));
 
+  DoOps_ResetFrameActivationTimes;
   MsgLogDebug('start');
 end;
 
@@ -3868,6 +3870,14 @@ begin
   end;
 
   DoFileOpen(fn);
+end;
+
+procedure TfmMain.DoOps_ResetFrameActivationTimes;
+var
+  i: integer;
+begin
+  for i:= 0 to FrameCount-1 do
+    Frames[i].ActivationTime:= 0;
 end;
 
 procedure TfmMain.MenuMainClick(Sender: TObject);

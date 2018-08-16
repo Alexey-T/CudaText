@@ -247,7 +247,7 @@ type
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property EnabledCodeTree: boolean read FEnabledCodeTree write SetEnabledCodeTree;
-    property ActivationTime: QWord read FActivationTime;
+    property ActivationTime: QWord read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
     procedure ApplyTheme;
     procedure SetFocus; reintroduce;
