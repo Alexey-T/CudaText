@@ -128,7 +128,12 @@ begin
           if PanelLeft.Visible then
             if ItemControl.Visible then
               if ItemControl.CanFocus then
-                ItemControl.SetFocus;
+              begin
+                if ItemControl is TAppTreeContainer then //special for Code-tree
+                  TAppTreeContainer(ItemControl).Tree.SetFocus
+                else
+                  ItemControl.SetFocus;
+              end;
       end
       else
       if bFound and (ItemModule<>'') and (ItemMethod<>'') then
