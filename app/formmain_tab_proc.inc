@@ -93,6 +93,7 @@ begin
 
   CodeTreeFilterInput.Text:= UTF8Decode(F.CodetreeFilter);
   CodeTreeFilterInputOnChange(nil);
+  CodeTreeFilterInput.Items.Assign(F.CodetreeFilterHistory);
 
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F);

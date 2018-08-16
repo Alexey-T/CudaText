@@ -338,18 +338,27 @@ end;
 procedure TfmMain.CodeTreeFilterOnCommand(Sender: TObject; ACmd: integer;
   const AText: string; var AHandled: boolean);
 var
+  Ed: TATComboEdit;
+  F: TEditorFrame;
   s: string;
   n: integer;
 begin
+  Ed:= CodeTreeFilterInput;
+
   if ACmd=cCommand_KeyEnter then
   begin
-    with CodeTreeFilterInput do
+    with Ed do
     begin
       s:= UTF8Encode(Trim(Text));
       n:= Items.IndexOf(s);
       if n>=0 then Items.Delete(n);
       Items.Insert(0, s);
+
+      F:= CurrentFrame;
+      if Assigned(F) then
+        F.CodetreeFilterHistory.Assign(Items);
     end;
+
     AHandled:= true;
   end;
 end;

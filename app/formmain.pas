@@ -2408,11 +2408,15 @@ end;
 
 procedure TfmMain.CodeTreeFilterInputOnChange(Sender: TObject);
 var
+  F: TEditorFrame;
   S: string;
 begin
   S:= UTF8Encode(CodeTreeFilterInput.Text);
   CodeTreeFilter.Text:= S;
-  CurrentFrame.CodetreeFilter:= S;
+
+  F:= CurrentFrame;
+  if Assigned(F) then
+    F.CodetreeFilter:= S;
 end;
 
 procedure TfmMain.CodeTreeFilterResetClick(Sender: TObject);

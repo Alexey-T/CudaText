@@ -92,6 +92,7 @@ type
     FTextCharsTyped: integer;
     FActivationTime: QWord;
     FCodetreeFilter: string;
+    FCodetreeFilterHistory: TStringList;
     FEnabledCodeTree: boolean;
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
@@ -249,6 +250,7 @@ type
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property EnabledCodeTree: boolean read FEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
+    property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
     property ActivationTime: QWord read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
     procedure ApplyTheme;
@@ -1265,6 +1267,7 @@ begin
   FTabImageIndex:= -1;
   FNotInRecents:= false;
   FEnabledCodeTree:= true;
+  FCodetreeFilterHistory:= TStringList.Create;
   CachedTreeview:= TTreeView.Create(Self);
 
   InitEditor(Ed1);
@@ -1330,6 +1333,8 @@ begin
 
   if not Application.Terminated then //prevent crash on exit
     DoPyEvent(Editor, cEventOnClose, []);
+
+  FreeAndNil(FCodetreeFilterHistory);
 
   inherited;
 end;
