@@ -44,6 +44,7 @@ type
     destructor Destroy; override;
     property Themed: boolean read FThemed write SetThemed;
     procedure DoScaleScrollbar;
+    procedure SetFocus; override;
   end;
 
 const
@@ -94,6 +95,11 @@ procedure TAppTreeContainer.DoScaleScrollbar;
 begin
   FScrollVert.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
   FScrollHorz.AutoAdjustLayout(lapDefault, 96, Screen.PixelsPerInch, 100, 100);
+end;
+
+procedure TAppTreeContainer.SetFocus;
+begin
+  Tree.SetFocus;
 end;
 
 procedure TAppTreeContainer.ScrollVertChange(Sender: TObject);
