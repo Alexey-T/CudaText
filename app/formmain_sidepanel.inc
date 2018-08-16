@@ -295,3 +295,42 @@ begin
 end;
 
 
+procedure TfmMain.DoSidebar_FocusCodetreeFilter;
+begin
+  DoSidebar_ActivateTab(msgPanelTree_Init, false);
+  if CodeTree.Visible and
+    CodeTreeFilterInput.Visible and
+    CodeTreeFilterInput.Enabled then
+  begin
+    if FloatSide then
+    begin
+      if FFormFloatSide.Visible then
+      begin
+        FFormFloatSide.SetFocus;
+        FFormFloatSide.ActiveControl:= CodeTreeFilterInput;
+      end;
+    end
+    else
+      ActiveControl:= CodeTreeFilterInput;
+  end;
+end;
+
+procedure TfmMain.DoSidebar_FocusCodetree;
+begin
+  DoSidebar_ActivateTab(msgPanelTree_Init, false);
+  if CodeTree.Visible and
+    CodeTree.Enabled then
+  begin
+    if FloatSide then
+    begin
+      if FFormFloatSide.Visible then
+      begin
+        FFormFloatSide.SetFocus;
+        FFormFloatSide.ActiveControl:= CodeTree.Tree;
+      end;
+    end
+    else
+      ActiveControl:= CodeTree.Tree;
+  end;
+end;
+

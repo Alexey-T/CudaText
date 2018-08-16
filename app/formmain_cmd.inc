@@ -253,8 +253,8 @@ begin
     cmd_TreeSelectBlockForCurNode: DoCodetree_GotoBlockForCurrentNode(true);
     cmd_TreeGotoBlockForCurNode: DoCodetree_GotoBlockForCurrentNode(false);
     cmd_TreeFilterClear: CodeTreeFilterResetClick(nil);
-    cmd_TreeFilterFocus: DoCodeTree_FocusFilter;
-    cmd_TreeFocus: DoCodeTree_FocusTree;
+    cmd_TreeFilterFocus: DoSidebar_FocusCodetreeFilter;
+    cmd_TreeFocus: DoSidebar_FocusCodetree;
 
     cmd_HelpAbout: DoHelpAbout;
     cmd_HelpForum: DoHelpForum;
