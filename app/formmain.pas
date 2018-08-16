@@ -639,6 +639,8 @@ type
 
     procedure CodeTreeFilterInputOnChange(Sender: TObject);
     procedure CodeTreeFilterResetClick(Sender: TObject);
+    procedure CodeTreeFilterOnCommand(Sender: TObject; ACmd: integer;
+      const AText: string; var AHandled: boolean);
     procedure DoApplyCenteringOption;
     procedure DoClearSingleFirstTab;
     procedure DoCloseAllTabs;
@@ -1000,7 +1002,7 @@ type
     { public declarations }
     CodeTree: TAppTreeContainer;
     CodeTreeFilter: TTreeFilterEdit;
-    CodeTreeFilterInput: TATEdit;
+    CodeTreeFilterInput: TATComboEdit;
     CodeTreeFilterReset: TATButton;
     PanelCodeTreeTop: TATPanelSimple;
     ListboxOut: TATListbox;
@@ -1517,10 +1519,11 @@ begin
   CodeTreeFilterReset.Hint:= msgClearFilterTooltip;
   CodeTreeFilterReset.OnClick:= @CodeTreeFilterResetClick;
 
-  CodeTreeFilterInput:= TATEdit.Create(Self);
+  CodeTreeFilterInput:= TATComboEdit.Create(Self);
   CodeTreeFilterInput.Parent:= PanelCodeTreeTop;
   CodeTreeFilterInput.Align:= alClient;
   CodeTreeFilterInput.OnChange:= @CodeTreeFilterInputOnChange;
+  CodeTreeFilterInput.OnCommand:= @CodeTreeFilterOnCommand;
 
   ListboxOut:= TATListbox.Create(Self);
   ListboxOut.VirtualMode:= false;
