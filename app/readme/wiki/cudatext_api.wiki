@@ -287,7 +287,9 @@ Session is a set of opened files + untitled tabs, with some properties of editor
 ** Name of icon file (must not contain ",")
 
 * PROC_SIDEPANEL_REMOVE: Removes tab. Text is caption of tab. (Note: actually it hides tab, dialog for this tab is still in memory). Gets bool: tab was found/removed.
-* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Text must be a) tab caption or b) tuple (tab_caption, bool_set_focus). Default for bool_set_focus is False. Gets bool: tab was found/activated.
+* PROC_SIDEPANEL_ACTIVATE: Activates tab in sidebar. Gets bool: tab was found/activated. Text can be:
+** str: tab_caption.
+** 2-tuple (tab_caption, bool_set_focus). Default for bool_set_focus is False. 
 * PROC_SIDEPANEL_ENUM: Enumerates tabs. Gets str, "\n"-separated captions of tabs.
 * PROC_SIDEPANEL_GET_CONTROL: Gets int handle of dialog, inserted into tab. Text is caption of tab. Gets None if cannot find tab.
 
@@ -2466,6 +2468,7 @@ Text is chr(1) separated items:
 1.0.253 (app 1.59.0)
 * add: Editor.attr: added optional param "show_on_map"
 * add: Editor.get_prop(PROP_ACTIVATION_TIME) is 0 for not yet focused tabs
+* add: app_proc: PROC_BOTTOMPANEL_ACTIVATE now handles tuple like PROC_SIDEPANEL_ACTIVATE
 
 1.0.252 (app 1.58.1)
 * add: app_log: added optional param "panel"
