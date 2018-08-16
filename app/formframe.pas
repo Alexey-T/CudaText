@@ -91,6 +91,7 @@ type
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
     FActivationTime: QWord;
+    FCodetreeFilter: string;
     FEnabledCodeTree: boolean;
     FOnChangeCaption: TNotifyEvent;
     FOnProgress: TATFinderProgress;
@@ -247,6 +248,7 @@ type
     property TopLineTodo: integer read FTopLineTodo write FTopLineTodo; //always use it instead of Ed.LineTop
     property TextCharsTyped: integer read FTextCharsTyped write FTextCharsTyped;
     property EnabledCodeTree: boolean read FEnabledCodeTree write SetEnabledCodeTree;
+    property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property ActivationTime: QWord read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
     procedure ApplyTheme;

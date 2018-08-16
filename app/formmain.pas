@@ -2404,8 +2404,12 @@ begin
 end;
 
 procedure TfmMain.CodeTreeFilterInputOnChange(Sender: TObject);
+var
+  S: string;
 begin
-  CodeTreeFilter.Text:= CodeTreeFilterInput.Text;
+  S:= UTF8Encode(CodeTreeFilterInput.Text);
+  CodeTreeFilter.Text:= S;
+  CurrentFrame.CodetreeFilter:= S;
 end;
 
 procedure TfmMain.CodeTreeFilterResetClick(Sender: TObject);
