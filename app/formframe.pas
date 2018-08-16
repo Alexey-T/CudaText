@@ -1942,8 +1942,8 @@ end;
 procedure TEditorFrame.EditorDrawMicromap(Sender: TObject; C: TCanvas;
   const ARect: TRect);
 const
-  cTagOccur = 101; //see plugin Hilite Occurrences
-  cTagSpell = 105; //see SpellChecker plugin
+  cTagOccurrences = 101; //see plugin Hilite Occurrences
+  cTagSpellChecker = 105; //see plugin SpellChecker
 var
   NScale: double;
 //
@@ -2024,12 +2024,12 @@ begin
     Obj:= TATLinePartClass(Mark.Ptr);
 
     case Mark.Tag of
-      cTagSpell:
+      cTagSpellChecker:
         begin
           C.Brush.Color:= NColorSpell;
           C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
         end;
-      cTagOccur:
+      cTagOccurrences:
         begin
           C.Brush.Color:= NColorOccur;
           C.FillRect(GetItemRect(Mark.PosY, Mark.PosY, false));
