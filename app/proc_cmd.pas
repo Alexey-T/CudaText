@@ -92,6 +92,7 @@ const
   cmd_ToggleMenu = 2555;
   cmd_ToggleFloatSide = 2556;
   cmd_ToggleFloatBottom = 2557;
+  cmd_HideBottomPanel = 2558;
 
   cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
@@ -332,6 +333,7 @@ begin
   M.Add(cmd_ShowSidePanelAsIs, 'ui: show side panel', [], []);
   M.Add(cmd_ShowSidePanelAndSyntaxTree, 'ui: show side panel, code tree', [], []);
   M.Add(cmd_HideSidePanel, 'ui: hide side panel', [], []);
+  M.Add(cmd_HideBottomPanel, 'ui: hide bottom panel', [], []);
 
   M.Add(cmd_ShowPanelConsole, 'ui: show bottom panel / console', ['Ctrl+`'], []);
   M.Add(cmd_ShowPanelOutput, 'ui: show bottom panel / output', [], []);

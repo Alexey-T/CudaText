@@ -15,6 +15,7 @@
 + add: command "code tree: clear filter"
 + add: command "code tree: focus filter"
 + add: command "code tree: focus treeview"
++ add: command "ui: hide bottom panel"
 - fix: CSS autocompletion inside <tag style="..."> didn't work with multiline string
 
 1.58.2 (2018/08)

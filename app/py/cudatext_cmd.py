@@ -267,6 +267,7 @@ cmd_ShowMainMenuAsPopup = 2554
 cmd_ToggleMenu = 2555
 cmd_ToggleFloatSide = 2556
 cmd_ToggleFloatBottom = 2557
+cmd_HideBottomPanel = 2558
 
 cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577
