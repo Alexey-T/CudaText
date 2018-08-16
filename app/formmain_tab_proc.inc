@@ -91,6 +91,9 @@ begin
   if F.CanFocus and F.CanSetFocus then
     F.SetFocus;
 
+  CodeTreeFilterInput.Text:= UTF8Decode(F.CodetreeFilter);
+  CodeTreeFilterInputOnChange(nil);
+
   //load lexer-specific config+keymap
   DoOps_LoadOptionsLexerSpecific(F);
   DoOps_LoadKeymap;
