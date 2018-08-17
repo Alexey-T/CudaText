@@ -4,6 +4,22 @@
   * changed
 
 
+1.59.0 (2018/08)
+
++ add: grouping modes "6 vert" and "6 horz"
++ add: Code Tree filter: each tab has its own filter text (initially empty)
++ add: Code Tree filter: input is combobox now; use Enter to add current text to dropdown 
++ add: tab context menu items: "Copy filename only", "Copy filepath only", "Copy full filepath"
++ add: Project Manager option "Open files by double-click"
++ add: improved lexer HTML: highlight <tag style="..."> content with CSS lexer
++ add: improved lexer Markdown: highlight {++add++}, {--del--}, {~~edit~~}
++ add: command "code tree: clear filter"
++ add: command "code tree: focus filter"
++ add: command "code tree: focus treeview"
++ add: command "ui: hide bottom panel"
++ add: on folding a range, caret(s) pos is corrected if it was inside that range
+- fix: CSS autocompletion inside <tag style="..."> didn't work with multiline string
+
 1.58.2 (2018/08)
 
 + add: Code Tree has additional filter field

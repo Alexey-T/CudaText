@@ -4,11 +4,15 @@
 2=JavaScript
 3=JavaScript
 4=VBScript
+5=CSS
+6=CSS
+
 [comments]
 str1=<!--
 str2=-->
 styles_cmt=Comment
 styles_str=Text,Tag string
+
 [map]
 Text=Id
 Tag bound=TagBound
@@ -23,6 +27,6 @@ Tag id hilite BG=BracketBG
 Tag brackets hilite BG=BracketBG
 Sublexer BG=IncludeBG1
 Color=Color
-Text escaped=Symbol
+Entity=Symbol
 Include tag=TagInclude
 Comment doc=CommentDoc

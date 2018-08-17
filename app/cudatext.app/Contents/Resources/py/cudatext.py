@@ -959,9 +959,7 @@ class Editor:
         return ct.ed_get_line_count(self.h)
 
     def get_text_all(self):
-        items = [self.get_text_line(i) for i in range(self.get_line_count())]
-        return '\n'.join(items)
-
+        return ct.ed_get_text_all(self.h)
     def set_text_all(self, text):
         return ct.ed_set_text_all(self.h, text)
     def get_text_sel(self):
@@ -1066,7 +1064,8 @@ class Editor:
     def attr(self, id, tag=0, x=0, y=0, len=0,
              color_font=COLOR_NONE, color_bg=COLOR_NONE, color_border=COLOR_NONE,
              font_bold=0, font_italic=0, font_strikeout=0,
-             border_left=0, border_right=0, border_down=0, border_up=0
+             border_left=0, border_right=0, border_down=0, border_up=0,
+             show_on_map=False
              ):
         if color_font==COLOR_NONE:
             color_font = self.get_prop(PROP_COLOR, COLOR_ID_TextFont)
@@ -1075,7 +1074,8 @@ class Editor:
         return ct.ed_attr(self.h, id, tag, x, y, len,
                           color_font, color_bg, color_border,
                           font_bold, font_italic, font_strikeout,
-                          border_left, border_right, border_down, border_up
+                          border_left, border_right, border_down, border_up,
+                          show_on_map
                           )
 
     def dim(self, id, index=0, index2=0, value=100):

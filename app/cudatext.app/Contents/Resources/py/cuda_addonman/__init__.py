@@ -224,7 +224,6 @@ class Command:
         self.tick_msg = 'Opening downloaded zip'
         s_options = '' if opt.install_confirm else '/silent'
         ok = file_open(fn, options=s_options)
-        os.remove(fn)
 
         timer_proc(TIMER_STOP, self.timer_tick, 0)
         msg_status('Addon installed' if ok else 'Installation cancelled')
@@ -237,9 +236,11 @@ class Command:
                 with open(filename_ver, 'w') as f:
                     f.write(version)
 
+        m = get_module_name_from_zip_filename(fn)
+        os.remove(fn)
+
         #suggest readme
         if opt.suggest_readme:
-            m = get_module_name_from_zip_filename(fn)
             if m:
                 names = []
                 fn = get_readme_of_module(m)
@@ -271,11 +272,11 @@ class Command:
 
     def do_remove(self):
         m = get_installed_choice('Remove', STD_MODULES)
-        if m is None:
+        if not m:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
-        if do_remove_module(m)==True:
+        if do_remove_module(m):
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
 
     def do_remove_data(self):
@@ -430,6 +431,7 @@ class Command:
 
             print('  '+ remote['name'])
             msg_status('Updating: '+remote['name'], True)
+            do_remove_module(m) # delete old dir
 
             url = remote['url']
 

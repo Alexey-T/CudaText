@@ -31,9 +31,10 @@ def dialog_config(op):
     RES_TOOLBAR = 5
     RES_GOTO_OPEN = 6
     RES_PREVIEW = 7
-    RES_ICONS = 9
-    RES_ICONS_TB = 11
-    RES_OK = 12
+    RES_D_CLICK = 8
+    RES_ICONS = 10
+    RES_ICONS_TB = 12
+    RES_OK = 13
 
     themes = get_themes_filetype()
     try:
@@ -61,28 +62,30 @@ def dialog_config(op):
             'val='+bool_to_str(op.get('on_start', False)) ])]
         +[c1.join(['type=check', 'pos=6,210,400,0', 'cap=&Show toolbar',
             'val='+bool_to_str(op.get('toolbar', True)) ])]
-        +[c1.join(['type=check', 'pos=6,236,400,0', 'cap=&Open file after "Go to file" command',
+        +[c1.join(['type=check', 'pos=6,236,400,0', 'cap=Open file after "&Go to file" command',
             'val='+bool_to_str(op.get('goto_open', False)) ])]
         +[c1.join(['type=check', 'pos=6,262,400,0', 'cap=&Use "preview tab" on item clicking',
             'val='+bool_to_str(op.get('preview', True)) ])]
+        +[c1.join(['type=check', 'pos=6,288,400,0', 'cap=Open files by &double-click',
+            'val='+bool_to_str(op.get('d_click', False)) ])]
 
-        +[c1.join(['type=label', 'pos=6,300,130,0', 'cap=File type icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,295,350,0',
+        +[c1.join(['type=label', 'pos=6,330,130,0', 'cap=File type icons:'])]
+        +[c1.join(['type=combo_ro', 'pos=160,325,350,0',
             'items='+'\t'.join(themes),
             'val='+str(theme_index)
             ])]
 
-        +[c1.join(['type=label', 'pos=6,330,130,0', 'cap=Toolbar icons:'])]
-        +[c1.join(['type=combo_ro', 'pos=160,325,350,0',
+        +[c1.join(['type=label', 'pos=6,360,130,0', 'cap=Toolbar icons:'])]
+        +[c1.join(['type=combo_ro', 'pos=160,355,350,0',
             'items='+'\t'.join(themes_tb),
             'val='+str(theme_index_tb)
             ])]
 
-        +[c1.join(['type=button', 'pos=300,370,400,0', 'cap=&OK', 'props=1'])]
-        +[c1.join(['type=button', 'pos=406,370,502,0', 'cap=Cancel'])]
+        +[c1.join(['type=button', 'pos=300,400,400,0', 'cap=&OK', 'props=1'])]
+        +[c1.join(['type=button', 'pos=406,400,502,0', 'cap=Cancel'])]
     )
 
-    res = dlg_custom('Project Manager options', 508, 404, text, get_dict=True)
+    res = dlg_custom('Project Manager options', 508, 434, text, get_dict=True)
     if res is None:
         return
 
@@ -101,6 +104,7 @@ def dialog_config(op):
     op['toolbar'] = str_to_bool(res[RES_TOOLBAR])
     op['goto_open'] = str_to_bool(res[RES_GOTO_OPEN])
     op['preview'] = str_to_bool(res[RES_PREVIEW])
+    op['d_click'] = str_to_bool(res[RES_D_CLICK])
 
     index = int(res[RES_ICONS])
     if index>=0:

@@ -133,10 +133,26 @@ object SyntAnal26: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'String raw \ at eol'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(r|rf|rb|br|ur) ("|'#39') (\\\n|.)*? \2'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'String \ at eol'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(r|rf|rb|b|br|u|ur|f)? ("|'#39') (\\\n|\\.|.)*? \2'
+      Expression = '(b|u|f)? ("|'#39') (\\\n|\\.|.)*? \2'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String raw'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '(r|rf|rb|br|ur) ("|'#39') .*? (\2|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -144,7 +160,7 @@ object SyntAnal26: TLibSyntAnalyzer
       DisplayName = 'String'
       StyleName = 'String'
       TokenType = 4
-      Expression = '(r|rf|rb|b|br|u|ur|f)? ("|'#39') (\\.|.)*? (\2|$)'
+      Expression = '(b|u|f)? ("|'#39') (\\.|.)*? (\2|$)'
       ColumnFrom = 0
       ColumnTo = 0
     end

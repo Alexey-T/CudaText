@@ -1,4 +1,4 @@
-object SyntAnal16: TLibSyntAnalyzer
+object SyntAnal13: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Text'
@@ -123,7 +123,7 @@ object SyntAnal16: TLibSyntAnalyzer
       Font.Style = [fsBold]
     end
     item
-      DisplayName = 'Text escaped'
+      DisplayName = 'Entity'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
       Font.Height = -13
@@ -217,6 +217,7 @@ object SyntAnal16: TLibSyntAnalyzer
       DisplayName = 'Tag param'
       StyleName = 'Tag string'
       BlockName = 'Tag begin'
+      StatesAbsent = 8
       TokenType = 4
       Expression = '(?s) ("|'#39') (<\?.+?\?>|.)*? (\1|\Z)'
       ColumnFrom = 0
@@ -241,8 +242,8 @@ object SyntAnal16: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Text escaped'
-      StyleName = 'Text escaped'
+      DisplayName = 'Entity'
+      StyleName = 'Entity'
       TokenType = 9
       Expression = '&\#?\w+;'
       ColumnFrom = 0
@@ -780,7 +781,7 @@ object SyntAnal16: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<style[^>]*>'
       EndExpression = '</style>'
-      SyntAnalyzer = SyntAnal10
+      SyntAnalyzer = SyntAnal8
     end
     item
       DisplayName = 'VBScript'
@@ -788,7 +789,7 @@ object SyntAnal16: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*vbscript[^>]*>\s*(<!--)?'
       EndExpression = '(?i)(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal45
+      SyntAnalyzer = SyntAnal31
     end
     item
       DisplayName = 'JavaScript'
@@ -796,14 +797,14 @@ object SyntAnal16: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '(?si)<script[^>]*javascript [^>]* [^\?] > \s*(<!--)?'
       EndExpression = '(?i)(//)?(-->)?\s*</script>'
-      SyntAnalyzer = SyntAnal20
+      SyntAnalyzer = SyntAnal15
     end
     item
       DisplayName = 'JavaScript simple'
       StyleName = 'Sublexer BG'
       StartExpression = '<script>'
       EndExpression = '</script>'
-      SyntAnalyzer = SyntAnal20
+      SyntAnalyzer = SyntAnal15
     end
     item
       DisplayName = 'ASP'
@@ -811,7 +812,23 @@ object SyntAnal16: TLibSyntAnalyzer
       AlwaysEnabled = True
       StartExpression = '<%'
       EndExpression = '%>'
-      SyntAnalyzer = SyntAnal45
+      SyntAnalyzer = SyntAnal31
+    end
+    item
+      DisplayName = 'CSS string'
+      StyleName = 'Sublexer BG'
+      StatesAdd = 8
+      StartExpression = '\bstyle\s*=\s*"'
+      EndExpression = '"'
+      SyntAnalyzer = SyntAnal8
+    end
+    item
+      DisplayName = 'CSS string2'
+      StyleName = 'Sublexer BG'
+      StatesAdd = 8
+      StartExpression = '\bstyle\s*=\s*'#39
+      EndExpression = #39
+      SyntAnalyzer = SyntAnal8
     end>
   SampleText.Strings = (
     '<!doctype test="123">'
