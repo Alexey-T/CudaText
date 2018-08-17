@@ -8,6 +8,7 @@
 
 + add: grouping modes "6 vert" and "6 horz"
 + add: Code Tree filter: each tab has its own filter text (initially empty)
++ add: Code Tree filter: input is combobox now; use Enter to add current text to dropdown 
 + add: tab context menu items: "Copy filename only", "Copy filepath only", "Copy full filepath"
 + add: Project Manager option "Open files by double-click"
 + add: improved lexer HTML: highlight <tag style="..."> content with CSS lexer
