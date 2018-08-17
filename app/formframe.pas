@@ -710,12 +710,12 @@ begin
   FFileWasBig:= AValue;
   if AValue then
   begin
-    Editor.OptWrapMode:= cWrapOff;
-    Editor2.OptWrapMode:= cWrapOff;
-    Editor.OptMicromapVisible:= false;
-    Editor2.OptMicromapVisible:= false;
-    Editor.OptMinimapVisible:= false;
-    Editor2.OptMinimapVisible:= false;
+    Ed1.OptWrapMode:= cWrapOff;
+    Ed2.OptWrapMode:= cWrapOff;
+    Ed1.OptMicromapVisible:= false;
+    Ed2.OptMicromapVisible:= false;
+    Ed1.OptMinimapVisible:= false;
+    Ed2.OptMinimapVisible:= false;
   end;
 end;
 
@@ -726,13 +726,13 @@ begin
 
   if FLocked then
   begin
-    Editor.BeginUpdate;
-    Editor2.BeginUpdate;
+    Ed1.BeginUpdate;
+    Ed2.BeginUpdate;
   end
   else
   begin
-    Editor.EndUpdate;
-    Editor2.EndUpdate;
+    Ed1.EndUpdate;
+    Ed2.EndUpdate;
   end;
 end;
 
@@ -1376,8 +1376,8 @@ procedure TEditorFrame.ApplyTheme;
 begin
   EditorApplyTheme(Editor);
   EditorApplyTheme(Editor2);
-  Editor.Update;
-  Editor2.Update;
+  Ed1.Update;
+  Ed2.Update;
 
   if Assigned(FBin) then
   begin
@@ -2392,8 +2392,8 @@ end;
 
 procedure TEditorFrame.SetEnabledFolding(AValue: boolean);
 begin
-  Editor.OptFoldEnabled:= AValue;
-  Editor2.OptFoldEnabled:= AValue;
+  Ed1.OptFoldEnabled:= AValue;
+  Ed2.OptFoldEnabled:= AValue;
 end;
 
 function TEditorFrame.PictureSizes: TPoint;
