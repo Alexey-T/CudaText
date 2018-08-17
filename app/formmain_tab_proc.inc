@@ -468,10 +468,10 @@ begin
           for j:= i+1 to L_cap.Count-1 do
             if L_cap[i]=L_cap[j] then
             begin
-              if L_found.IndexOf(Pointer(i))<0 then
-                L_found.Add(Pointer(i));
-              if L_found.IndexOf(Pointer(j))<0 then
-                L_found.Add(Pointer(j));
+              if L_found.IndexOf(Pointer(PtrInt(i)))<0 then
+                L_found.Add(Pointer(PtrInt(i)));
+              if L_found.IndexOf(Pointer(PtrInt(j)))<0 then
+                L_found.Add(Pointer(PtrInt(j)));
             end;
 
       if L_found.Count=0 then Break;

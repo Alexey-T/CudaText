@@ -175,7 +175,6 @@ var
   sections: TStringList;
   ini_section, s_section, s_caption, s_module, s_method, s_events,
   s_lexers, s_hotkey, s_lexer_item, s_caption_nice: string;
-  i: integer;
 begin
   AReport:= '';
   ADirTarget:= '';

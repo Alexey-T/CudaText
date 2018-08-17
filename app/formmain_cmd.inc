@@ -11,7 +11,6 @@ procedure TfmMain.TimerCmdTimer(Sender: TObject);
 var
   Cmd: integer;
   P: TPoint;
-  Str: atString;
 begin
   TimerCmd.Enabled:= false;
   Cmd:= TimerCmd.Tag;

@@ -217,7 +217,7 @@ type
     Groups: TATGroups;
     CachedTreeview: TTreeView;
 
-    constructor Create(AOwner: TComponent; AApplyCentering: boolean);
+    constructor Create(AOwner: TComponent; AApplyCentering: boolean); reintroduce;
     destructor Destroy; override;
     function Editor: TATSynEdit;
     function Editor2: TATSynEdit;
@@ -1048,7 +1048,6 @@ procedure TEditorFrame.EditorOnCommandAfter(Sender: TObject; ACommand: integer;
 var
   Ed: TATSynEdit;
   Caret: TATCaretItem;
-  Str: atString;
   SLexerName: string;
   bWordChar, bIdentChar: boolean;
 begin
@@ -1100,7 +1099,6 @@ begin
     //autoshow for CSS
     if UiOps.AutocompleteCss and (SLexerName='CSS') then
     begin
-      Str:= Ed.Strings.Lines[Caret.PosY];
       if EditorIsAutocompleteCssPosition(Ed, Caret.PosX-1, Caret.PosY) then
         Ed.DoCommand(cmd_AutoComplete);
       exit;

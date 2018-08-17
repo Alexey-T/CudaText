@@ -3015,7 +3015,6 @@ var
   StrCaption, StrId, StrFilename, StrCmd, StrIndex: string;
   SplitVert, SplitVisible, ok: boolean;
   SplitPos, SplitTotal: integer;
-  ParamInt: integer;
   ParamBool: boolean;
   ParamRect: TRect;
   Num64: Int64;
@@ -3025,7 +3024,6 @@ begin
     if Bool(PyArg_ParseTuple(Args, 'is:app_proc', @Id, @Ptr)) then
     begin
       Str:= string(Ptr);
-      ParamInt:= StrToIntDef(Str, -1);
       ParamBool:= AppStrToBool(Str);
 
       case Id of
@@ -4543,7 +4541,7 @@ end;
 
 
 type
-  TTreeviewAccess = class(TTreeView);
+  TTreeviewAccess = class(TAppTreeView);
 
 function Py_tree_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
@@ -5540,7 +5538,7 @@ end;
 function Py_toolbar_proc(Self, Args: PPyObject): PPyObject; cdecl;
 var
   PtrToolbar, PtrText, PtrText2, PtrCmd: PChar;
-  StrToolbar, StrText, StrText2, StrCmd: string;
+  StrToolbar: string;
   FToolbar: TATFlatToolbar;
   NAction: integer;
   NIndex1, NIndex2: integer;
@@ -5551,9 +5549,9 @@ begin
       @PtrToolbar, @NAction, @PtrText, @PtrText2, @PtrCmd, @NIndex1, @NIndex2)) then
     begin
       StrToolbar:= string(PtrToolbar);
-      StrText:= string(PtrText);
-      StrText2:= string(PtrText2);
-      StrCmd:= string(PtrCmd);
+      //StrText:= string(PtrText);
+      //StrText2:= string(PtrText2);
+      //StrCmd:= string(PtrCmd);
 
       FToolbar:= DoToolbar_GetToolbarFromId(StrToolbar);
       if FToolbar=nil then
