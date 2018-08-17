@@ -15,6 +15,7 @@ uses
   Classes, SysUtils,
   LazFileUtils,
   LazUTF8Classes,
+  ATStrings,
   CopyDir;
 
 function FCreateFile(const fn: string; AsJson: boolean = false): boolean;
@@ -64,6 +65,7 @@ var
   TableSize: Integer;
   Str: TFileStreamUTF8;
   SSign: string;
+  bLE: boolean;
 begin
   Result:= False;
   IsOEM:= False;
@@ -84,9 +86,11 @@ begin
     try
       Str:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyNone);
     except
-      Result:= false;
-      Exit
+      exit(false);
     end;
+
+    if IsStreamWithUt8NoBom(Str, BufSizeKb) then exit(true);
+    if IsStreamWithUtf16NoBom(Str, 10, bLE) then exit(true);
 
     Str.Position:= 0;
     if Str.Size<=2 then
