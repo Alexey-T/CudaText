@@ -886,7 +886,7 @@ type
     function DoFileOpen(AFilename: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;
-    procedure DoFileSaveAll;
+    function DoFileSaveAll: boolean;
     procedure DoFileReopen;
     procedure DoLoadCommandLine;
     procedure DoToggleMenu;
@@ -3407,16 +3407,18 @@ begin
   ToolbarMain.Visible:= AValue;
 end;
 
-procedure TfmMain.DoFileSaveAll;
+function TfmMain.DoFileSaveAll: boolean;
 var
   F: TEditorFrame;
   i: integer;
 begin
+  Result:= true;
   for i:= 0 to FrameCount-1 do
   begin
     F:= Frames[i];
     if F.Modified then
-      F.DoFileSave(false);
+      if not F.DoFileSave(false) then
+        Result:= false;
   end;
 end;
 
