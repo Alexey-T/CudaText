@@ -294,6 +294,7 @@ type
     procedure DoRestoreFolding;
     procedure DoClearPreviewTabState;
     procedure DoToggleFocusSplitEditors;
+    function DoConfirmSaveModified: boolean;
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
@@ -2526,6 +2527,14 @@ begin
       Ed.SetFocus;
     end;
   end;
+end;
+
+function TEditorFrame.DoConfirmSaveModified: boolean;
+begin
+  Result:= MsgBox(
+    Format(msgConfirmSaveModifiedTab, [TabCaption]),
+    MB_OKCANCEL or MB_ICONQUESTION)
+    = ID_OK;
 end;
 
 end.

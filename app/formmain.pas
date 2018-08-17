@@ -680,6 +680,7 @@ type
     procedure DoLocalize_FormFind;
     procedure DoLocalize_FormGoto;
     function DoCheckFilenameOpened(const AName: string): boolean;
+    function DoCheckAllSavedBeforeClosing: boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_Params(
       const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string;
@@ -3807,6 +3808,23 @@ begin
   begin
     SName:= Frames[i].FileName;
     if SameFileName(SName, AName) then exit(true);
+  end;
+end;
+
+function TfmMain.DoCheckAllSavedBeforeClosing: boolean;
+var
+  F: TEditorFrame;
+  i: integer;
+begin
+  Result:= true;
+  for i:= 0 to FrameCount-1 do
+  begin
+    F:= Frames[i];
+    if F.Modified then
+      if F.DoConfirmSaveModified then
+        F.DoFileSave(false)
+      else
+        exit(false);
   end;
 end;
 

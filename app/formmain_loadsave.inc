@@ -213,6 +213,8 @@ begin
   Result:= false;
   if fn_session='' then exit;
   if not FileExists(fn_session) then exit;
+
+  if not DoCheckAllSavedBeforeClosing then exit;
   if not DoFileCloseAll then exit;
 
   c:= TJSONConfig.Create(nil);
