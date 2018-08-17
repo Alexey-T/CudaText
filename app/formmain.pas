@@ -2282,8 +2282,8 @@ begin
   for i:= 0 to FrameCount-1 do
     with Frames[i] do
     begin
-      Editor.DoubleBuffered:= UiOps.DoubleBuffered;
-      Editor2.DoubleBuffered:= UiOps.DoubleBuffered;
+      Ed1.DoubleBuffered:= UiOps.DoubleBuffered;
+      Ed2.DoubleBuffered:= UiOps.DoubleBuffered;
     end;
   Status.DoubleBuffered:= UiOps.DoubleBuffered;
   StatusAlt.DoubleBuffered:= UiOps.DoubleBuffered;
@@ -2399,10 +2399,10 @@ begin
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
-      F.Editor.OptTextCenteringCharWidth:= NCentering;
-      F.Editor2.OptTextCenteringCharWidth:= NCentering;
-      F.Editor.Update;
-      F.Editor2.Update;
+      F.Ed1.OptTextCenteringCharWidth:= NCentering;
+      F.Ed2.OptTextCenteringCharWidth:= NCentering;
+      F.Ed1.Update;
+      F.Ed2.Update;
     end;
   end;
 end;
@@ -3641,8 +3641,8 @@ begin
   for i:= 0 to FrameCount-1 do
     with Frames[i] do
     begin
-      Editor.OptGutterVisible:= AValue;
-      Editor2.OptGutterVisible:= AValue;
+      Ed1.OptGutterVisible:= AValue;
+      Ed2.OptGutterVisible:= AValue;
     end;
 end;
 

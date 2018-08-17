@@ -80,7 +80,6 @@ type
     procedure TimerChangeTimer(Sender: TObject);
   private
     { private declarations }
-    Ed1, Ed2: TATSynEdit;
     FTabCaption: string;
     FTabCaptionFromApi: boolean;
     FTabImageIndex: integer;
@@ -214,6 +213,8 @@ type
     procedure DoOnResize; override;
   public
     { public declarations }
+    Ed1: TATSynEdit;
+    Ed2: TATSynEdit;
     Adapter: TATAdapterEControl;
     Groups: TATGroups;
     CachedTreeview: TTreeView;

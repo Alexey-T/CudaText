@@ -222,11 +222,11 @@ var
 begin
   F:= CurrentFrame;
 
-  F.Editor.UpdateIncorrectCaretPositions;
-  F.Editor2.UpdateIncorrectCaretPositions;
+  F.Ed1.UpdateIncorrectCaretPositions;
+  F.Ed2.UpdateIncorrectCaretPositions;
 
-  F.Editor.Update(AUpdatedText);
-  F.Editor2.Update;
+  F.Ed1.Update(AUpdatedText);
+  F.Ed2.Update(AUpdatedText);
 
   if AUpdatedText then
   begin
@@ -308,26 +308,26 @@ begin
   begin
     F:= Frames[i];
 
-    F.Editor.Font.Name:= EditorOps.OpFontName;
-    F.Editor.FontItalic.Name:= EditorOps.OpFontName_i;
-    F.Editor.FontBold.Name:= EditorOps.OpFontName_b;
-    F.Editor.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
-    F.Editor2.Font.Name:= EditorOps.OpFontName;
-    F.Editor2.FontItalic.Name:= EditorOps.OpFontName_i;
-    F.Editor2.FontBold.Name:= EditorOps.OpFontName_b;
-    F.Editor2.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
+    F.Ed1.Font.Name:= EditorOps.OpFontName;
+    F.Ed1.FontItalic.Name:= EditorOps.OpFontName_i;
+    F.Ed1.FontBold.Name:= EditorOps.OpFontName_b;
+    F.Ed1.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
+    F.Ed2.Font.Name:= EditorOps.OpFontName;
+    F.Ed2.FontItalic.Name:= EditorOps.OpFontName_i;
+    F.Ed2.FontBold.Name:= EditorOps.OpFontName_b;
+    F.Ed2.FontBoldItalic.Name:= EditorOps.OpFontName_bi;
 
-    F.Editor.Font.Size:= EditorOps.OpFontSize;
-    F.Editor.FontItalic.Size:= EditorOps.OpFontSize_i;
-    F.Editor.FontBold.Size:= EditorOps.OpFontSize_b;
-    F.Editor.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
-    F.Editor2.Font.Size:= EditorOps.OpFontSize;
-    F.Editor2.FontItalic.Size:= EditorOps.OpFontSize_i;
-    F.Editor2.FontBold.Size:= EditorOps.OpFontSize_b;
-    F.Editor2.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
+    F.Ed1.Font.Size:= EditorOps.OpFontSize;
+    F.Ed1.FontItalic.Size:= EditorOps.OpFontSize_i;
+    F.Ed1.FontBold.Size:= EditorOps.OpFontSize_b;
+    F.Ed1.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
+    F.Ed2.Font.Size:= EditorOps.OpFontSize;
+    F.Ed2.FontItalic.Size:= EditorOps.OpFontSize_i;
+    F.Ed2.FontBold.Size:= EditorOps.OpFontSize_b;
+    F.Ed2.FontBoldItalic.Size:= EditorOps.OpFontSize_bi;
 
-    F.Editor.Font.Quality:= EditorOps.OpFontQuality;
-    F.Editor2.Font.Quality:= EditorOps.OpFontQuality;
+    F.Ed1.Font.Quality:= EditorOps.OpFontQuality;
+    F.Ed2.Font.Quality:= EditorOps.OpFontQuality;
 
     DoOps_LoadOptionsLexerSpecific(F);
   end;

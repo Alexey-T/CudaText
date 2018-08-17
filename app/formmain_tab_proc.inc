@@ -30,8 +30,8 @@ begin
   F.Adapter.OnParseDone:= @FrameParseDone;
   F.Adapter.OnLexerChange:= @FrameLexerChange;
 
-  F.Editor.PopupText:= PopupText;
-  F.Editor2.PopupText:= PopupText;
+  F.Ed1.PopupText:= PopupText;
+  F.Ed2.PopupText:= PopupText;
 
   F.NotifEnabled:= false;
   F.NotifTime:= UiOps.NotifTimeSec*1000;
@@ -203,8 +203,8 @@ begin
   if ACanClose then
   begin
     UpdateMenuRecent(Frame);
-    Frame.Editor.AdapterForHilite:= nil;
-    Frame.Editor2.AdapterForHilite:= nil;
+    Frame.Ed1.AdapterForHilite:= nil;
+    Frame.Ed2.AdapterForHilite:= nil;
     Frame.Adapter.StopTreeUpdate;
     Frame.Adapter.Stop;
     Frame.Free;
