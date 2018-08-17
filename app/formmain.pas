@@ -2996,7 +2996,9 @@ end;
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
 var
   Str: array of string;
+  {$ifdef windows}
   dir: string;
+  {$endif}
   PathAppend: boolean;
   InitList: TStringList;
   InitPy: string;
