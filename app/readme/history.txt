@@ -16,6 +16,7 @@
 + add: command "code tree: focus filter"
 + add: command "code tree: focus treeview"
 + add: command "ui: hide bottom panel"
++ add: on folding a range, caret(s) pos is corrected if it was inside that range
 - fix: CSS autocompletion inside <tag style="..."> didn't work with multiline string
 
 1.58.2 (2018/08)
