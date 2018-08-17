@@ -135,7 +135,10 @@ begin
 
   Frame:= (D.TabObject as TEditorFrame);
   if Frame.Modified then
-    if Frame.DoConfirmSaveModified then
+    if MsgBox(
+         Format(msgConfirmSaveModifiedTab, [Frame.TabCaption]),
+         MB_OKCANCEL or MB_ICONQUESTION
+         ) = ID_OK then
       Frame.DoFileSave(false);
 
   Frame.DoFileClose;

@@ -187,6 +187,7 @@ type
     procedure SetFileName(const AValue: string);
     procedure SetFileWasBig(AValue: boolean);
     procedure SetLocked(AValue: boolean);
+    procedure SetModified(AValue: boolean);
     procedure SetNotifEnabled(AValue: boolean);
     procedure SetNotifTime(AValue: integer);
     procedure SetPictureScale(AValue: integer);
@@ -230,7 +231,7 @@ type
     property TabImageIndex: integer read FTabImageIndex write SetTabImageIndex;
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
-    property Modified: boolean read FModified;
+    property Modified: boolean read FModified write SetModified;
     procedure UpdateModifiedState;
     procedure UpdateReadOnlyFromFile;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
@@ -294,7 +295,6 @@ type
     procedure DoRestoreFolding;
     procedure DoClearPreviewTabState;
     procedure DoToggleFocusSplitEditors;
-    function DoConfirmSaveModified: boolean;
     //macro
     procedure DoMacroStart;
     procedure DoMacroStop(ACancel: boolean);
@@ -734,6 +734,13 @@ begin
     Editor.EndUpdate;
     Editor2.EndUpdate;
   end;
+end;
+
+procedure TEditorFrame.SetModified(AValue: boolean);
+begin
+  if FModified=AValue then Exit;
+  FModified:= AValue;
+  Ed1.Modified:= AValue;
 end;
 
 procedure TEditorFrame.SetNotifEnabled(AValue: boolean);
@@ -2529,13 +2536,6 @@ begin
   end;
 end;
 
-function TEditorFrame.DoConfirmSaveModified: boolean;
-begin
-  Result:= MsgBox(
-    Format(msgConfirmSaveModifiedTab, [TabCaption]),
-    MB_OKCANCEL or MB_ICONQUESTION)
-    = ID_OK;
-end;
 
 end.
 

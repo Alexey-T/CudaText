@@ -3821,10 +3821,16 @@ begin
   begin
     F:= Frames[i];
     if F.Modified then
-      if F.DoConfirmSaveModified then
-        F.DoFileSave(false)
-      else
-        exit(false);
+      case MsgBox(
+             Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
+             MB_YESNOCANCEL or MB_ICONQUESTION) of
+        ID_YES:
+          F.DoFileSave(false);
+        ID_NO:
+          F.Modified:= false;
+        ID_CANCEL:
+          exit(false);
+      end;
   end;
 end;
 
