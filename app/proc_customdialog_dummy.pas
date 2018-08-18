@@ -399,6 +399,7 @@ end;
 procedure TFormDummy.DoOnFormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   Str: string;
+  Form: TCustomForm;
 begin
   Str:= DoEvent(
     Key,
@@ -411,11 +412,18 @@ begin
     exit;
   end;
 
-  if (Key=VK_ESCAPE) then
+  if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
     IdClicked:= -1;
 
-    if Parent=nil then //dont handle Esc if parented to some ctl
+    if Assigned(Parent) then //form is embedded e.g. to side panel
+    begin
+      //forward Esc press to main form
+      Form:= GetParentForm(Self, true);
+      if Assigned(Form) then
+        Form.OnKeyDown(nil, Key, []);
+    end
+    else
     if fsModal in FFormState then
       ModalResult:= mrCancel
     else
