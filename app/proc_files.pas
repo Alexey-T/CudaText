@@ -22,7 +22,11 @@ function FCreateFile(const fn: string; AsJson: boolean = false): boolean;
 procedure FFindFilesInDir(const dir, mask: string; L: TStrings);
 procedure FCopyDir(const d1, d2: string);
 
-function IsFileContentText(const fn: string; BufSizeKb: DWORD; DetectOEM: Boolean; out IsOEM: Boolean): Boolean;
+function IsFileContentText(const fn: string;
+  BufSizeKb: integer;
+  BufSizeWords: integer;
+  DetectOEM: boolean): Boolean;
+
 function IsFileReadonly(const fn: string): boolean;
 
 procedure FFileAttrPrepare(const fn: string; out attr: Longint);
@@ -55,8 +59,9 @@ end;
 type
   TFreqTable = array[$80 .. $FF] of Integer;
 
-function IsFileContentText(const fn: string; BufSizeKb: DWORD;
-  DetectOEM: Boolean; out IsOEM: Boolean): Boolean;
+function IsFileContentText(const fn: string; BufSizeKb: integer;
+  BufSizeWords: integer;
+  DetectOEM: boolean): Boolean;
 var
   Buffer: PAnsiChar;
   BufSize, BytesRead, i: DWORD;
@@ -65,7 +70,7 @@ var
   TableSize: Integer;
   Str: TFileStreamUTF8;
   SSign: string;
-  bLE: boolean;
+  IsOEM, IsLE: boolean;
 begin
   Result:= False;
   IsOEM:= False;
@@ -80,21 +85,19 @@ begin
   FillChar(Table, SizeOf(Table), 0);
 
   try
-    GetMem(Buffer, BufSize);
-    FillChar(Buffer^, BufSize, 0);
-
     try
       Str:= TFileStreamUTF8.Create(fn, fmOpenRead or fmShareDenyNone);
     except
       exit(false);
     end;
 
+    if Str.Size<=2 then exit(true);
     if IsStreamWithUt8NoBom(Str, BufSizeKb) then exit(true);
-    if IsStreamWithUtf16NoBom(Str, 10, bLE) then exit(true);
-
+    if IsStreamWithUtf16NoBom(Str, BufSizeWords, IsLE) then exit(true);
     Str.Position:= 0;
-    if Str.Size<=2 then
-      begin Result:= true; Exit end;
+
+    GetMem(Buffer, BufSize);
+    FillChar(Buffer^, BufSize, 0);
 
     BytesRead:= Str.Read(Buffer^, BufSize);
     if BytesRead > 0 then

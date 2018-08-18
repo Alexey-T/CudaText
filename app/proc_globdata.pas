@@ -378,6 +378,7 @@ type
     OpLexerDynamicHiliteEnabled: boolean;
     OpLexerDynamicHiliteMaxLines: integer;
     OpLexerLineSeparators: boolean;
+    OpDetectUtf16BufferWords: integer;
 
     OpWordChars: UnicodeString;
     OpHexChars: UnicodeString;
@@ -1053,6 +1054,7 @@ begin
     OpLexerDynamicHiliteEnabled:= false;
     OpLexerDynamicHiliteMaxLines:= 2000;
     OpLexerLineSeparators:= false;
+    OpDetectUtf16BufferWords:= 5;
 
     OpWordChars:= '';
     OpHexChars:= '';

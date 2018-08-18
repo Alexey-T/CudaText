@@ -2508,7 +2508,11 @@ begin
     //non-text option
     if not IsFilenameListedInExtensionList(AFilename, UiOps.PictureTypes) then
     if UiOps.NonTextFiles<>1 then
-      if not IsFileContentText(AFilename, UiOps.NonTextFilesBufferKb, false, IsOem) then
+      if not IsFileContentText(
+               AFilename,
+               UiOps.NonTextFilesBufferKb,
+               EditorOps.OpDetectUtf16BufferWords,
+               false) then
         case UiOps.NonTextFiles of
           0:
             case DoDialogConfirmBinaryFile(AFileName, false) of
