@@ -2511,7 +2511,7 @@ begin
       if not IsFileContentText(
                AFilename,
                UiOps.NonTextFilesBufferKb,
-               EditorOps.OpDetectUtf16BufferWords,
+               GlobalDetectUf16BufferWords,
                false) then
         case UiOps.NonTextFiles of
           0:
