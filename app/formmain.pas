@@ -1827,6 +1827,9 @@ begin
 end;
 
 procedure TfmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  bEditorActive,
+  bConsoleActive: boolean;
 begin
   if (Key=VK_ESCAPE) and (Shift=[]) then
   begin
@@ -1837,28 +1840,27 @@ begin
       exit
     end;
 
-    if CodeTreeFilterInput.Focused then
-    begin
-      CurrentFrame.SetFocus;
-      Key:= 0;
-      exit
-    end;
+    bEditorActive:=
+      (ActiveControl is TATSynEdit) and
+      (ActiveControl.Parent is TEditorFrame);
+    bConsoleActive:=
+      fmConsole.ed.Focused or
+      fmConsole.memo.Focused;
 
-    if fmConsole.ed.Focused or fmConsole.memo.Focused then
+    if not bEditorActive then
     begin
-      if UiOps.EscapeCloseConsole then
-        ShowBottom:= false
-      else
-        CurrentFrame.SetFocus;
-      Key:= 0;
-      exit
-    end;
+      DoFocusEditor;
 
+      if bConsoleActive then
+        if UiOps.EscapeCloseConsole then
+          ShowBottom:= false;
+      Key:= 0;
+    end
+    else
     if UiOps.EscapeClose then
     begin
       Close;
       Key:= 0;
-      exit
     end;
 
     exit
