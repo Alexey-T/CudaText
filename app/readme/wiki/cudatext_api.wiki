@@ -635,7 +635,7 @@ Types of UI controls:
 
 Notes:
 
-* Control property "name" is required for filter_ controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. "name=mylistbox" with "name=f_mylistbox").
+* Controls "combo", "combo_ro", "listbox": value is 0-based index of selected item, or -1 if none is selected.
 * Control "button_ex": to change advanced props, you must get handle via DLG_CTL_HANDLE, and pass it to button_proc().
 * Control "treeview" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to tree_proc().
 * Control "listbox_ex" don't have "items"/"value": to work with it, you must get handle of control via DLG_CTL_HANDLE, and pass it to listbox_proc().
@@ -643,7 +643,7 @@ Notes:
 * Control "statusbar" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to statusbar_proc().
 * Control "editor" don't have "items"/"value": to work with it, you must get handle via DLG_CTL_HANDLE, and pass it to Editor() to make editor object.
 * Control "paintbox" is empty area, plugin can paint on it. Get canvas_id via DLG_CTL_HANDLE, and use it in canvas_proc().
-* Controls "combo", "combo_ro", "listbox": value is 0-based index of selected item, or -1 if none is selected.
+* Control property "name" is required for "filter_nnnnn" controls: must set name of listbox/listview, and name of its filter - to the same name with prefix "f_" (e.g. listbox: "name=mylistbox" with filter: "name=f_mylistbox").
 
 ==== Properties ====
 
