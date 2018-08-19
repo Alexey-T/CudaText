@@ -1089,11 +1089,26 @@ begin
     0..5:
       Pages:= fmMain.Groups.Pages[AIndex];
     6:
-      Pages:= fmMain.GroupsF1.Pages[0];
+      begin
+        if Assigned(fmMain.GroupsF1) then
+          Pages:= fmMain.GroupsF1.Pages[0]
+        else
+          exit;
+      end;
     7:
-      Pages:= fmMain.GroupsF2.Pages[0];
+      begin
+        if Assigned(fmMain.GroupsF2) then
+          Pages:= fmMain.GroupsF2.Pages[0]
+        else
+          exit;
+      end;
     8:
-      Pages:= fmMain.GroupsF3.Pages[0];
+      begin
+        if Assigned(fmMain.GroupsF3) then
+          Pages:= fmMain.GroupsF3.Pages[0]
+        else
+          exit;
+      end;
     else
       exit;
   end;
