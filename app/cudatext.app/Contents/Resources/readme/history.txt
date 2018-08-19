@@ -6,6 +6,7 @@
 
 1.59.0 (2018/08)
 
++ add: detection of UTF16 LE/BE without BOM
 + add: grouping modes "6 vert" and "6 horz"
 + add: Code Tree filter: each tab has its own filter text (initially empty)
 + add: Code Tree filter: input is combobox now; use Enter to add current text to dropdown 
@@ -18,6 +19,7 @@
 + add: command "code tree: focus treeview"
 + add: command "ui: hide bottom panel"
 + add: on folding a range, caret(s) pos is corrected if it was inside that range
+- fix: lexer Python: wrong highlighted strings like r'\'
 - fix: CSS autocompletion inside <tag style="..."> didn't work with multiline string
 
 1.58.2 (2018/08)
