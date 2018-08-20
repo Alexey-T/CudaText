@@ -3479,40 +3479,41 @@ var
   ListNoSave: TList;
   i: integer;
 begin
-  ListNoSave:= TList.Create;
-
   if AWithCancel then
     Flags:= MB_YESNOCANCEL or MB_ICONQUESTION
   else
     Flags:= MB_YESNO or MB_ICONQUESTION;
 
-  for i:= 0 to FrameCount-1 do
-  begin
-    F:= Frames[i];
-    if F.Modified then
-      case MsgBox(
-             Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
-             Flags) of
-        ID_YES:
-          begin
-            //Cancel in "Save as" dlg must be global cancel
-            if not F.DoFileSave(false) then
-              exit(false);
-          end;
-        ID_NO:
-          ListNoSave.Add(F);
-        ID_CANCEL:
-          exit(false);
-      end;
-  end;
+  ListNoSave:= TList.Create;
+  try
+    for i:= 0 to FrameCount-1 do
+    begin
+      F:= Frames[i];
+      if F.Modified then
+        case MsgBox(
+               Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
+               Flags) of
+          ID_YES:
+            begin
+              //Cancel in "Save as" dlg must be global cancel
+              if not F.DoFileSave(false) then
+                exit(false);
+            end;
+          ID_NO:
+            ListNoSave.Add(F);
+          ID_CANCEL:
+            exit(false);
+        end;
+    end;
 
-  for i:= 0 to ListNoSave.Count-1 do
-  begin
-    F:= TEditorFrame(ListNoSave[i]);
-    F.Modified:= false;
+    for i:= 0 to ListNoSave.Count-1 do
+    begin
+      F:= TEditorFrame(ListNoSave[i]);
+      F.Modified:= false;
+    end;
+  finally
+    FreeAndNil(ListNoSave);
   end;
-
-  FreeAndNil(ListNoSave);
 
   Result:= Groups.CloseTabs(tabCloseAll, false);
   if not Result then exit;
