@@ -3495,8 +3495,9 @@ begin
              Flags) of
         ID_YES:
           begin
+            //Cancel in "Save as" dlg must be global cancel
             if not F.DoFileSave(false) then
-              ListNoSave.Add(F);
+              exit(false);
           end;
         ID_NO:
           ListNoSave.Add(F);
