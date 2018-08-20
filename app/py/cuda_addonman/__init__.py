@@ -33,9 +33,6 @@ STD_MODULES = (
 
 
 class Command:
-    tick = 0
-    tick_inc = +1
-    tick_msg = ''
 
     def __init__(self):
         if os.path.isfile(fn_config):
@@ -212,20 +209,14 @@ class Command:
                 return
 
         #download
-        self.tick_msg = 'Downloading file'
-        timer_proc(TIMER_START, self.timer_tick, 500)
-
         fn = get_plugin_zip(url)
         if not os.path.isfile(fn):
-            timer_proc(TIMER_STOP, self.timer_tick, 0)
             msg_status('Cannot download file')
             return
 
-        self.tick_msg = 'Opening downloaded zip'
         s_options = '' if opt.install_confirm else '/silent'
         ok = file_open(fn, options=s_options)
 
-        timer_proc(TIMER_STOP, self.timer_tick, 0)
         msg_status('Addon installed' if ok else 'Installation cancelled')
 
         #save version
@@ -459,13 +450,3 @@ class Command:
     def install_from_github(self):
 
         do_install_from_github()
-
-    def timer_tick(self, tag='', info=''):
-
-        SIZE = 20
-        self.tick += self.tick_inc
-        if (self.tick<=0) or (self.tick>=SIZE):
-            self.tick_inc = -self.tick_inc
-
-        text = '['+'_'*self.tick+'*'+'_'*(SIZE-self.tick)+'] '+self.tick_msg
-        msg_status(text, True)
