@@ -340,24 +340,16 @@ procedure TfmMain.CodeTreeFilterOnCommand(Sender: TObject; ACmd: integer;
 var
   Ed: TATComboEdit;
   F: TEditorFrame;
-  s: string;
-  n: integer;
 begin
   Ed:= CodeTreeFilterInput;
 
   if ACmd=cCommand_KeyEnter then
   begin
-    with Ed do
-    begin
-      s:= UTF8Encode(Trim(Text));
-      n:= Items.IndexOf(s);
-      if n>=0 then Items.Delete(n);
-      Items.Insert(0, s);
+    Ed.DoAddLineToHistory(Ed.Text, UiOps.MaxHistoryEdits);
 
-      F:= CurrentFrame;
-      if Assigned(F) then
-        F.CodetreeFilterHistory.Assign(Items);
-    end;
+    F:= CurrentFrame;
+    if Assigned(F) then
+      F.CodetreeFilterHistory.Assign(Ed.Items);
 
     AHandled:= true;
   end;
