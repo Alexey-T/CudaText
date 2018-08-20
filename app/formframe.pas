@@ -348,6 +348,8 @@ const
   cHistory_Bookmark    = '/bm';
   cHistory_BookmarkKind = '/bm_kind';
   cHistory_Fold        = '/folded';
+  cHistory_CodeTreeFilter = '/codetree_filter';
+  cHistory_CodeTreeFilters = '/codetree_filters';
 
 var
   FLastTabId: integer = 0;
@@ -2167,10 +2169,14 @@ begin
     end;
     c.SetValue(path+cHistory_Bookmark, items);
     c.SetValue(path+cHistory_BookmarkKind, items2);
+
   finally
     FreeAndNil(items2);
     FreeAndNil(items);
   end;
+
+  c.SetValue(path+cHistory_CodeTreeFilter, FCodetreeFilter);
+  c.SetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory);
 end;
 
 procedure TEditorFrame.DoLoadHistory;
@@ -2297,6 +2303,9 @@ begin
     FreeAndNil(items2);
     FreeAndNil(items);
   end;
+
+  FCodetreeFilter:= c.GetValue(path+cHistory_CodeTreeFilter, '');
+  c.GetValue(path+cHistory_CodeTreeFilters, FCodetreeFilterHistory, '');
 
   Editor.Update;
   if Splitted then
