@@ -3846,7 +3846,12 @@ begin
              Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
              MB_YESNOCANCEL or MB_ICONQUESTION) of
         ID_YES:
-          F.DoFileSave(false);
+          begin
+            //Cancel press in "Save as" dlg must act as global Cancel
+            //(or we can do F.Modified:= false)
+            if not F.DoFileSave(false) then
+              exit(false);
+          end;
         ID_NO:
           F.Modified:= false;
         ID_CANCEL:
