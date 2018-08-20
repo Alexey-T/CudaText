@@ -6,8 +6,9 @@
 
 1.59.1 (2018/08)
 
-- fix: on opening sessions, closing of all tabs with confirmation was not correct
-- fix: API regarding groups
++ add: Code Tree filter: save filter (with dropdown list) to session
+- fix: on opening session, closing all tabs with confirmation was not correct
+- fix: API for tab groups
 
 1.59.0 (2018/08)
 
