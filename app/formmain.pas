@@ -680,7 +680,6 @@ type
     procedure DoLocalize_FormFind;
     procedure DoLocalize_FormGoto;
     function DoCheckFilenameOpened(const AName: string): boolean;
-    function DoCheckAllSavedBeforeClosing: boolean;
     procedure DoInvalidateEditors;
     function DoMenuAdd_Params(
       const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string;
@@ -875,7 +874,7 @@ type
     function FrameOfPopup: TEditorFrame;
     procedure FrameOnCommand(Sender: TObject; ACommand: integer; const AText: string;
       var AHandled: boolean);
-    function DoFileCloseAll: boolean;
+    function DoFileCloseAll(AWithCancel: boolean): boolean;
     procedure DoDialogFind(AReplaceMode: boolean);
     procedure DoDialogFind_Hide;
     procedure DoFindResult(ok: boolean);
@@ -3472,16 +3471,52 @@ begin
   MsgStatus(msgStatusReopened+' '+ExtractFileName(F.Filename));
 end;
 
-function TfmMain.DoFileCloseAll: boolean;
+
+function TfmMain.DoFileCloseAll(AWithCancel: boolean): boolean;
 var
+  Flags: integer;
+  F: TEditorFrame;
+  ListNoSave: TList;
   i: integer;
 begin
-  Result:= Groups.CloseTabs(tabCloseAll, false);
-  if not Result then exit;
+  ListNoSave:= TList.Create;
+
+  if AWithCancel then
+    Flags:= MB_YESNOCANCEL or MB_ICONQUESTION
+  else
+    Flags:= MB_YESNO or MB_ICONQUESTION;
 
   for i:= 0 to FrameCount-1 do
-    if Frames[i].Modified then exit(false);
+  begin
+    F:= Frames[i];
+    if F.Modified then
+      case MsgBox(
+             Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
+             Flags) of
+        ID_YES:
+          begin
+            if not F.DoFileSave(false) then
+              ListNoSave.Add(F);
+          end;
+        ID_NO:
+          ListNoSave.Add(F);
+        ID_CANCEL:
+          exit(false);
+      end;
+  end;
+
+  for i:= 0 to ListNoSave.Count-1 do
+  begin
+    F:= TEditorFrame(ListNoSave[i]);
+    F.Modified:= false;
+  end;
+
+  FreeAndNil(ListNoSave);
+
+  Result:= Groups.CloseTabs(tabCloseAll, false);
+  if not Result then exit;
 end;
+
 
 procedure TfmMain.DoFileCloseAndDelete;
 var
@@ -3829,34 +3864,6 @@ begin
   begin
     SName:= Frames[i].FileName;
     if SameFileName(SName, AName) then exit(true);
-  end;
-end;
-
-function TfmMain.DoCheckAllSavedBeforeClosing: boolean;
-var
-  F: TEditorFrame;
-  i: integer;
-begin
-  Result:= true;
-  for i:= 0 to FrameCount-1 do
-  begin
-    F:= Frames[i];
-    if F.Modified then
-      case MsgBox(
-             Format(msgConfirmSaveModifiedTab, [F.TabCaption]),
-             MB_YESNOCANCEL or MB_ICONQUESTION) of
-        ID_YES:
-          begin
-            //Cancel press in "Save as" dlg must act as global Cancel
-            //(or we can do F.Modified:= false)
-            if not F.DoFileSave(false) then
-              exit(false);
-          end;
-        ID_NO:
-          F.Modified:= false;
-        ID_CANCEL:
-          exit(false);
-      end;
   end;
 end;
 

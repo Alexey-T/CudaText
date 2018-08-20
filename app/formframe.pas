@@ -233,7 +233,7 @@ type
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
     property Modified: boolean read FModified write SetModified;
-    procedure UpdateModifiedState;
+    procedure UpdateModifiedState(AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
     property NotifTime: integer read GetNotifTime write SetNotifTime;
@@ -739,9 +739,8 @@ end;
 
 procedure TEditorFrame.SetModified(AValue: boolean);
 begin
-  if FModified=AValue then Exit;
-  FModified:= AValue;
   Ed1.Modified:= AValue;
+  UpdateModifiedState(false);
 end;
 
 procedure TEditorFrame.SetNotifEnabled(AValue: boolean);
@@ -949,15 +948,17 @@ begin
   Ed1.Update(true);
 end;
 
-procedure TEditorFrame.UpdateModifiedState;
+procedure TEditorFrame.UpdateModifiedState(AWithEvent: boolean=true);
 begin
-  if FModified<>Editor.Modified then
+  if FModified<>Ed1.Modified then
   begin
-    FModified:= Editor.Modified;
-    if Editor.Modified then
+    FModified:= Ed1.Modified;
+    if FModified then
       DoClearPreviewTabState;
     DoOnChangeCaption;
-    DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_MODIFIED)]);
+
+    if AWithEvent then
+      DoPyEvent(Editor, cEventOnState, [IntToStr(EDSTATE_MODIFIED)]);
   end;
 
   DoOnUpdateStatus;
