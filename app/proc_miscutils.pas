@@ -340,8 +340,10 @@ begin
     C.BackgroundColor:= GetAppColor('TreeBg');
     C.SelectionFontColor:= GetAppColor('TreeSelFont'); //lew Laz
     C.SelectionFontColorUsed:= true; //new Laz
-    C.SelectionColor:= GetAppColor('TreeSelBg');
-    C.TreeLineColor:= GetAppColor('TreeLines');
+    if C.Focused then
+      C.SelectionColor:= GetAppColor('TreeSelBg')
+    else
+      C.SelectionColor:= GetAppColor('TreeSelBg2');
     C.TreeLinePenStyle:= psSolid;
     C.ExpandSignColor:= GetAppColor('TreeSign');
   end;

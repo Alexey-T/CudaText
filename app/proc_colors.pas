@@ -142,6 +142,7 @@ const
   nColorBorder = $c0c0c0;
   nColorListBack = $c4b8b8;
   nColorListSelBack = $d0d0d0;
+  nColorListSelBack2 = $f4f4f4;
 begin
   SetLength(D.Colors, 0);
 
@@ -228,8 +229,8 @@ begin
   Add(nColorBack, 'TreeBg', 'treeview, BG');
   Add(nColorText, 'TreeSelFont', 'treeview, selected font');
   Add(nColorListSelBack, 'TreeSelBg', 'treeview, selected BG');
-  Add(nColorGutterFont, 'TreeLines', 'treeview, lines');
-  Add(nColorGutterFont, 'TreeSign', 'treeview, fold sign');
+  Add(nColorListSelBack2, 'TreeSelBg2', 'treeview, selected BG, not focused');
+  Add(nColorGutterFont, 'TreeSign', 'treeview, folding sign');
 
   Add(nColorListBack, 'ListBg', 'listbox, BG');
   Add(nColorListSelBack, 'ListSelBg', 'listbox, selected line BG');

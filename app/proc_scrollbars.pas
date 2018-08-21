@@ -9,6 +9,7 @@ uses
   LMessages, LCLType,
   ATSynEdit_ScrollBar,
   ATListbox,
+  proc_colors,
   math;
 
 type
@@ -22,6 +23,9 @@ type
     procedure Expand(Node: TTreeNode); override;
     procedure CMChanged(var Message: TLMessage); message CM_CHANGED;
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint): Boolean; override;
+  protected
+    procedure DoEnter; override;
+    procedure DoExit; override;
   public
   end;
 
@@ -163,6 +167,18 @@ function TAppTreeView.DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
 begin
   Result:= inherited;
   (Owner as TAppTreeContainer).UpdateScrolls;
+end;
+
+procedure TAppTreeView.DoEnter;
+begin
+  inherited;
+  SelectionColor:= GetAppColor('TreeSelBg');
+end;
+
+procedure TAppTreeView.DoExit;
+begin
+  inherited;
+  SelectionColor:= GetAppColor('TreeSelBg2');
 end;
 
 procedure TAppTreeView.Collapse(Node: TTreeNode);
