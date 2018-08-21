@@ -74,7 +74,7 @@
   "TreeBg" : "#272822",
   "TreeSelFont" : "#B0B0B0",
   "TreeSelBg" : "#505050",
-  "TreeLines" : "#505050",
+  "TreeSelBg2" : "#323232",
   "TreeSign" : "#505050",
   "ListBg" : "#404040",
   "ListSelBg" : "#606060",

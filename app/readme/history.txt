@@ -7,6 +7,7 @@
 1.59.1 (2018/08)
 
 + add: Code Tree filter: save filter (with dropdown list) to session
++ add: theme color "treeview, selected BG, not focused"; allows to see if Code Tree focused
 - fix: on opening session, closing all tabs with confirmation was not correct
 - fix: API for tab groups
 
