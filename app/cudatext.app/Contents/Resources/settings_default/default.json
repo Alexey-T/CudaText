@@ -181,10 +181,6 @@
   //  Reason for option: dynamic-hiliting disables hiliting cache, so slows down scrolling
   "lexer_dynamic_hilite_max_lines": 2000,
 
-  //Enable lexers' horizontal line separators
-  //  e.g. Pascal lexer: green lines above procedure/function
-  "lexer_line_separators": false,
-
   //If text size is bigger than this option, lexer analysis becomes delayed,
   //ie only after last text change + pause (during this pause you'll see non-colored text)
   "lexer_delayed_parsing_size": 100000,
