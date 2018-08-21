@@ -20,7 +20,6 @@
 *.pyc
 *.dll
 python*.zip
-Stata.*
 
 dlls/
 lib/
@@ -28,8 +27,11 @@ backup/
 settings/
 __trash/
 _test/
-/app/cudatext*
 /app/builds
+/app/cudatext
+/app/cudatext-mac
+/app/cudatext.app
+
 cuda_python_intel/
 cuda_ext/
 cuda_exttools/
