@@ -28,7 +28,8 @@ backup/
 settings/
 __trash/
 _test/
-/app/cudatext
+/app/cudatext*
+/app/builds
 cuda_python_intel/
 cuda_ext/
 cuda_exttools/
@@ -61,3 +62,4 @@ cuda_fav*
 cuda_emmet*
 cuda_stata*
 cuda_test_*
+cuda_tree*
