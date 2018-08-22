@@ -63,7 +63,7 @@ object SyntAnal8: TLibSyntAnalyzer
     item
       DisplayName = 'Color'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clOlive
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = [fsBold]
@@ -162,7 +162,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'Param'
       StyleName = 'Param incorrect'
       BlockName = 'Style begin'
-      TokenType = 2
+      TokenType = 9
       Expression = '[\w\.-]+ (?=\s*\:)'
       ColumnFrom = 0
       ColumnTo = 0
@@ -229,7 +229,7 @@ object SyntAnal8: TLibSyntAnalyzer
     end>
   BlockRules = <
     item
-      DisplayName = 'Known props'
+      DisplayName = 'Params'
       StyleName = 'Param correct'
       BlockType = btTagDetect
       ConditionList = <
@@ -582,13 +582,13 @@ object SyntAnal8: TLibSyntAnalyzer
             'y'
             'z-index'
             'zoom')
-          TokenTypes = 4
+          TokenTypes = 512
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
     end
     item
-      DisplayName = 'Known vendor prefixes'
+      DisplayName = 'Params vendors'
       StyleName = 'Param correct'
       BlockType = btTagDetect
       ConditionList = <
@@ -1044,7 +1044,7 @@ object SyntAnal8: TLibSyntAnalyzer
             '-xv-voice-rate'
             '-xv-voice-stress'
             '-xv-voice-volume')
-          TokenTypes = 4
+          TokenTypes = 512
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -1356,7 +1356,7 @@ object SyntAnal8: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal29
+      SyntAnalyzer = SyntAnal24
     end>
   SampleText.Strings = (
     '/* Comment */'
@@ -1406,7 +1406,8 @@ object SyntAnal8: TLibSyntAnalyzer
     'Delimiter'
     'Color'
     'Number'
-    'Include tag')
+    'Include tag'
+    'Param')
   Extentions = 'css'
   LexerName = 'CSS'
   Notes.Strings = (
