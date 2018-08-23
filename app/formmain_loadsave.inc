@@ -13,8 +13,12 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.Formatted:= true; //needs last at__jsonconf.pp
-    c.Filename:= GetAppPath(cFileOptionsHistory);
+    try
+      c.Formatted:= true; //needs last at__jsonconf.pp
+      c.Filename:= GetAppPath(cFileOptionsHistory);
+    except
+      exit;
+    end;
 
     ////form
     if not ShowFullscreen then
@@ -139,8 +143,13 @@ begin
 
   c:= TJSONConfig.Create(nil);
   try
-    c.Formatted:= true;
-    c.Filename:= fn_session;
+    try
+      c.Formatted:= true;
+      c.Filename:= fn_session;
+    except
+      MsgBox(msgCannotReadConf+#10+fn_session, MB_OK+MB_ICONERROR);
+      exit;
+    end;
 
     DoOps_SaveHistory_GroupView(c);
 
@@ -219,7 +228,13 @@ begin
   c:= TJSONConfig.Create(nil);
   list:= TStringList.Create;
   try
-    c.Filename:= fn_session;
+    try
+      c.Filename:= fn_session;
+    except
+      MsgBox(msgCannotReadConf+#10+fn_session, MB_OK+MB_ICONERROR);
+      exit;
+    end;
+
     MsgLogConsole('Loading session: '+ExtractFileName(fn_session));
 
     DoOps_LoadHistory_GroupView(c);
@@ -371,7 +386,12 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.Filename:= GetAppPath(cFileOptionsHistory);
+    try
+      c.Filename:= GetAppPath(cFileOptionsHistory);
+    except
+      exit;
+    end;
+
     SCaption:= c.GetValue('tab_left', '');
 
     //if plugin didnt load, caption not valid
@@ -409,7 +429,11 @@ var
 begin
   c:= TJSONConfig.Create(nil);
   try
-    c.Filename:= GetAppPath(cFileOptionsHistory);
+    try
+      c.Filename:= GetAppPath(cFileOptionsHistory);
+    except
+      exit;
+    end;
 
     RectMain:= Rect(100, 100, 900, 650);
     DoOps_LoadFormRect(c, '/dialog', RectMain);
@@ -524,8 +548,13 @@ begin
   skeys:= TStringList.Create;
 
   try
-    c.Formatted:= true;
-    c.Filename:= AFilenameKeymap;
+    try
+      c.Formatted:= true;
+      c.Filename:= AFilenameKeymap;
+    except
+      exit;
+    end;
+
     c.EnumSubKeys('/', slist);
     for i:= 0 to slist.count-1 do
     begin
@@ -567,7 +596,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgBox(msgStatusErrorInConfigFile+#13+fn+#13#13+E.Message, mb_ok or mb_iconerror);
+        MsgBox(msgStatusErrorInConfigFile+#10+fn+#10#10+E.Message, MB_OK or MB_ICONERROR);
         Exit
       end;
     end;

@@ -287,16 +287,20 @@ begin
 
     cfg:= TJSONConfig.Create(nil);
     try
-      cfg.Filename:= GetAppPath(cFileOptionsHistory);
-      SLoadStringsFromFile(cfg, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
-      SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
-      if fmFind.IsNarrow then
-      begin
-        fmFind.Left:= cfg.GetValue('/find/pos_x', 200);
-        fmFind.Top:= cfg.GetValue('/find/pos_y', 400);
-        fmFind.Width:= cfg.GetValue('/find/size_x', fmFind.Width);
+      try
+        cfg.Filename:= GetAppPath(cFileOptionsHistory);
+
+        SLoadStringsFromFile(cfg, '/list_find', fmFind.edFind.Items, UiOps.MaxHistoryEdits);
+        SLoadStringsFromFile(cfg, '/list_replace', fmFind.edRep.Items, UiOps.MaxHistoryEdits);
+        if fmFind.IsNarrow then
+        begin
+          fmFind.Left:= cfg.GetValue('/find/pos_x', 200);
+          fmFind.Top:= cfg.GetValue('/find/pos_y', 400);
+          fmFind.Width:= cfg.GetValue('/find/size_x', fmFind.Width);
+        end;
+        fmFind.IsMultiLine:= cfg.GetValue('/find/multi_line', false);
+      except
       end;
-      fmFind.IsMultiLine:= cfg.GetValue('/find/multi_line', false);
     finally
       cfg.Free
     end;

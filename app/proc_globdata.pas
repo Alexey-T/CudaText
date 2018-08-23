@@ -1346,12 +1346,15 @@ begin
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
   try
-    c.Formatted:= true;
-
-    if ALexerSpecific then
-      c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
-    else
-      c.Filename:= GetAppPath(cFileOptionsKeymap);
+    try
+      c.Formatted:= true;
+      if ALexerSpecific then
+        c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
+      else
+        c.Filename:= GetAppPath(cFileOptionsKeymap);
+    except
+      exit;
+    end;
 
     c.SetValue(path+'/name', K.Name);
 
@@ -1389,12 +1392,15 @@ begin
   c:= TJSONConfig.Create(nil);
   sl:= TStringlist.create;
   try
-    c.Formatted:= true;
-
-    if ALexerName<>'' then
-      c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
-    else
-      c.Filename:= GetAppPath(cFileOptionsKeymap);
+    try
+      c.Formatted:= true;
+      if ALexerName<>'' then
+        c.Filename:= GetAppKeymap_LexerSpecificConfig(ALexerName)
+      else
+        c.Filename:= GetAppPath(cFileOptionsKeymap);
+    except
+      exit;
+    end;
 
     path:= AModuleName+','+AMethodName;
 

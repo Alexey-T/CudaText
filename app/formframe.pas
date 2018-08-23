@@ -2093,7 +2093,7 @@ begin
       c.Formatted:= true;
       c.Filename:= GetAppPath(cFileOptionsHistoryFiles);
     except
-      Showmessage(msgCannotReadConf+#13+c.Filename);
+      MsgBox(msgCannotReadConf+#10+c.Filename, MB_OK or MB_ICONERROR);
       exit
     end;
 
@@ -2192,7 +2192,7 @@ begin
       c.Formatted:= true;
       c.Filename:= GetAppPath(cFileOptionsHistoryFiles);
     except
-      Showmessage(msgCannotReadConf+#13+c.Filename);
+      MsgBox(msgCannotReadConf+#10+c.Filename, MB_OK or MB_ICONERROR);
       exit
     end;
 

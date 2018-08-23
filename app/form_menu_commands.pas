@@ -263,14 +263,15 @@ end;
 procedure TfmCommands.DoResetKey(K: TATKeymapItem);
 var
   c: TJSONConfig;
-  path: string;
 begin
-  path:= IntToStr(K.Command);
-  c:= TJSONConfig.Create(Self);
+  c:= TJSONConfig.Create(nil);
   try
-    c.Formatted:= true;
-    c.Filename:= GetAppPath(cFileOptionsKeymap);
-    c.DeletePath(path);
+    try
+      c.Formatted:= true;
+      c.Filename:= GetAppPath(cFileOptionsKeymap);
+      c.DeletePath(IntToStr(K.Command));
+    except
+    end;
   finally
     c.Free;
   end;

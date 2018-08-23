@@ -310,44 +310,6 @@ begin
 end;
 
 
-
-function __SReadOptionFromJson(const fn, path, def_value: string): string;
-var
-  cfg: TJSONConfig;
-begin
-  if not FileExistsUTF8(fn) then exit(def_value);
-
-  cfg:= TJSONConfig.Create(nil);
-  try
-    try
-      cfg.Filename:= fn;
-      Result:= cfg.GetValue(path, def_value);
-    except
-    end;
-  finally
-    cfg.Free;
-  end;
-end;
-
-
-procedure __SWriteOptionToJson(const fn, path, value: string);
-var
-  cfg: TJSONConfig;
-begin
-  cfg:= TJSONConfig.Create(nil);
-  try
-    try
-      cfg.Formatted:= true;
-      cfg.Filename:= fn;
-      cfg.SetDeleteValue(path, value, '');
-    except
-    end;
-  finally
-    cfg.Free;
-  end;
-end;
-
-
 function SParseFilenameWithNumber(var fn: string): integer;
 var
   sNum: string;

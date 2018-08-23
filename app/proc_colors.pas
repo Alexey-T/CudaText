@@ -73,7 +73,7 @@ begin
     try
       c.Filename:= fn;
     except
-      Showmessage(msgCannotReadConf+#13+fn);
+      MsgBox(msgCannotReadConf+#10+fn, MB_OK+MB_ICONERROR);
       Exit
     end;
 
@@ -352,7 +352,7 @@ begin
       c.Formatted:= true;
       c.Filename:= fn;
     except
-      MsgBox(msgStatusIncorrectFilename+#13+fn, MB_OK or MB_ICONERROR);
+      MsgBox(msgStatusIncorrectFilename+#10+fn, MB_OK or MB_ICONERROR);
       exit;
     end;
 
