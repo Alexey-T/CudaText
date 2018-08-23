@@ -240,7 +240,7 @@ end;
 
 procedure TfmMain.UpdateMenuPlugins;
 var
-  ConfGroups: TJSONConfig;
+  Conf: TJSONConfig;
   ListGroups: TStringList;
   ListGroupsVal: TStringList;
   //
@@ -258,7 +258,7 @@ var
   end;
   //
 var
-  SCaption, SInMenu: string;
+  SCaption, SInMenu, SFilename: string;
   i: integer;
 begin
   if not PythonOK then exit;
@@ -268,17 +268,19 @@ begin
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Clear;
 
-  ConfGroups:= TJSONConfig.Create(nil);
+  Conf:= TJSONConfig.Create(nil);
   ListGroups:= TStringList.Create;
   ListGroupsVal:= TStringList.Create;
   try
-    try
-      ConfGroups.Filename:= GetAppPath(cDirSettings)+DirectorySeparator+'plugin groups.json';
-      ConfGroups.EnumValues('/', ListGroups);
-      for SCaption in ListGroups do
-        ListGroupsVal.Add(ConfGroups.GetValue('/'+SCaption, ''));
-    except
-    end;
+    SFilename:= GetAppPath(cDirSettings)+DirectorySeparator+'plugin groups.json';
+    if FileExistsUTF8(SFilename) then
+      try
+        Conf.Filename:= SFilename;
+        Conf.EnumValues('/', ListGroups);
+        for SCaption in ListGroups do
+          ListGroupsVal.Add(Conf.GetValue('/'+SCaption, ''));
+      except
+      end;
 
     for i:= 0 to High(AppPluginsCommand) do
     begin
@@ -301,7 +303,7 @@ begin
   finally
     FreeAndNil(ListGroupsVal);
     FreeAndNil(ListGroups);
-    FreeAndNil(ConfGroups);
+    FreeAndNil(Conf);
   end;
 end;
 
