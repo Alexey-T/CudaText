@@ -17,8 +17,6 @@ README_NAMES = (
 
 HISTORY_NAMES = (
     'history.txt',
-    'history.html',
-    'history.htm',
     'history.md',
     'history.rst',
     'history',
