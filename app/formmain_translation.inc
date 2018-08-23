@@ -475,7 +475,6 @@ begin
     DoLocString(msgCannotAutocompleteMultiCarets , ini, 'se', 'AutocompleteCarets');
 
     DoLocString(msgStatusChangedLinesCount       , ini, 'si', 'ChangedLineCount');
-    DoLocString(msgStatusIncorrectFilename       , ini, 'si', 'IncorrectFilename');
     DoLocString(msgStatusIncorrectInstallInfInZip, ini, 'si', 'IncorrectInstallInfInZip');
     DoLocString(msgStatusUnsupportedAddonType    , ini, 'si', 'UnsupportedAddonType');
     DoLocString(msgStatusPackageContains         , ini, 'si', 'PackageContains');

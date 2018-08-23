@@ -346,13 +346,14 @@ var
 begin
   if FileExists(fn) then
     DeleteFile(fn);
+
   c:= TJSONConfig.Create(nil);
   try
     try
       c.Formatted:= true;
       c.Filename:= fn;
     except
-      MsgBox(msgStatusIncorrectFilename+#10+fn, MB_OK or MB_ICONERROR);
+      MsgBox(msgCannotReadConf+#10+fn, MB_OK or MB_ICONERROR);
       exit;
     end;
 

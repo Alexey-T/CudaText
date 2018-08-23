@@ -1,7 +1,7 @@
 see http://wiki.freepascal.org/CudaText#How_to_make_translation
 
 2018.08.24
-* delete [si] ErrorInConfigFile
+* delete [si] ErrorInConfigFile, IncorrectFilename
 
 2018.08.14
 + [ui] clr_f
