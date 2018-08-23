@@ -147,7 +147,7 @@ begin
       c.Formatted:= true;
       c.Filename:= fn_session;
     except
-      MsgBox(msgCannotReadConf+#10+fn_session, MB_OK+MB_ICONERROR);
+      MsgBadConfig(fn_session);
       exit;
     end;
 
@@ -231,7 +231,7 @@ begin
     try
       c.Filename:= fn_session;
     except
-      MsgBox(msgCannotReadConf+#10+fn_session, MB_OK+MB_ICONERROR);
+      MsgBadConfig(fn_session);
       exit;
     end;
 
@@ -596,7 +596,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgBox(msgCannotReadConf+#10+fn+#10#10+E.Message, MB_OK or MB_ICONERROR);
+        MsgBadConfig(fn+#10#10+E.Message);
         Exit
       end;
     end;

@@ -435,8 +435,8 @@ function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(AName: string): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
 
-//function GetActiveControl(Form: TWinControl): TWinControl;
 function MsgBox(const Str: string; Flags: Longint): integer;
+procedure MsgBadConfig(const fn: string);
 procedure MsgStdout(const Str: string; AllowMsgBox: boolean = false);
 
 function GetListboxItemHeight(const AFontName: string; AFontSize: integer): integer;
@@ -729,6 +729,10 @@ begin
   Result:= Application.MessageBox(PChar(Str), PChar(msgTitle), Flags);
 end;
 
+procedure MsgBadConfig(const fn: string);
+begin
+  MsgBox(msgCannotReadConf+#10+fn, MB_OK+MB_ICONERROR);
+end;
 
 function InitPyLibraryPath: string;
   //
