@@ -40,10 +40,15 @@ uses
 var
   //ATSynEdit has range for bookmarks 0..63, 0=none
   AppBookmarkSetup: array[1..63] of
-    record ImageIndex: integer; Color: TColor; end;
+    record
+      ImageIndex: integer;
+      Color: TColor;
+    end;
+var
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
   AppConfigFiletypes: TJsonConfig;
+  AppConfigPluginGroups: TJsonConfig;
 
 const
   AppExtensionThemeUi = '.cuda-theme-ui';
@@ -1907,7 +1912,16 @@ initialization
   except
   end;
 
+  AppConfigPluginGroups:= TJsonConfig.Create(nil);
+  fn:= GetAppPath(cDirSettings)+DirectorySeparator+'plugin groups.json';
+  if FileExistsUTF8(fn) then
+  try
+    AppConfigPluginGroups.Filename:= fn;
+  except
+  end;
+
 finalization
+  FreeAndNil(AppConfigPluginGroups);
   FreeAndNil(AppConfigFiletypes);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
