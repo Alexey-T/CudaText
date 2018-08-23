@@ -80,6 +80,9 @@ File name is "plugin groups.json" in the "settings" folder. It allows to add gro
 }
 </syntaxhighlight>
 
+* Key name: regular expression for the first part of menu name. E.g. if menu name in install.inf is "CSS Utils\Misc\Action", then first part is "CSS Utils".
+* Key value: group name, it can be with "\" char to make several levels.
+
 = Help topics =
 == Command line parameters ==
 
