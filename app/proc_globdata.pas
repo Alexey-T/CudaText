@@ -43,6 +43,7 @@ var
     record ImageIndex: integer; Color: TColor; end;
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
+  AppConfigFiletypes: TJsonConfig;
 
 const
   AppExtensionThemeUi = '.cuda-theme-ui';
@@ -1298,34 +1299,22 @@ end;
 
 function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
 var
-  conf: TJsonConfig;
-  SFileConfig, s, ext: string;
+  s, ext: string;
 begin
-  SFileConfig:= GetAppPath(cFileOptionsFiletypes);
-  if FileExistsUTF8(SFileConfig) then
+  if AppConfigFiletypes.Filename<>'' then
   begin
-    conf:= TJsonConfig.Create(nil);
-    try
-      try
-        conf.FileName:= SFileConfig;
+    //by filename
+    s:= AppConfigFiletypes.GetValue(ExtractFileName(AFilename), '');
+    if s<>'' then
+      exit(AppManager.FindLexerByName(s));
 
-        //by filename
-        s:= conf.GetValue(ExtractFileName(AFilename), '');
-        if s<>'' then
-          exit(AppManager.FindLexerByName(s));
-
-        //by extention
-        ext:= ExtractFileExt(AFilename);
-        if ext<>'' then
-        begin
-          s:= conf.GetValue('*'+ext, '');
-          if s<>'' then
-            exit(AppManager.FindLexerByName(s));
-        end;
-      except
-      end;
-    finally
-      FreeAndNil(conf);
+    //by extention
+    ext:= ExtractFileExt(AFilename);
+    if ext<>'' then
+    begin
+      s:= AppConfigFiletypes.GetValue('*'+ext, '');
+      if s<>'' then
+        exit(AppManager.FindLexerByName(s));
     end;
   end;
 
@@ -1888,6 +1877,9 @@ begin
 end;
 
 
+var
+  fn: string;
+
 initialization
   InitDirs;
   InitEditorOps(EditorOps);
@@ -1907,7 +1899,16 @@ initialization
   AppShortcutShiftTab:= ShortCut(VK_TAB, [ssShift]);
   Mouse.DragImmediate:= false;
 
+  AppConfigFiletypes:= TJsonConfig.Create(nil);
+  fn:= GetAppPath(cFileOptionsFiletypes);
+  if FileExistsUTF8(fn) then
+  try
+    AppConfigFiletypes.Filename:= fn;
+  except
+  end;
+
 finalization
+  FreeAndNil(AppConfigFiletypes);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
 
