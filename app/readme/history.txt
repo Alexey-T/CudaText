@@ -9,6 +9,7 @@
 + add: preinstalled new plugin Multi Installer (by Artem Gavrilov). It is auto-called on clean app installation (when file settings/history.json not exists) to suggest add-ons for popular languages.
 + add: improved lexer JavaScript (Code Tree made correct for anonym functions)
 + add: improved lexer CSS (fix coloring of properties)
++ add: TutorialLexer 4 has "Advice for C-like lexers"
 
 1.59.2 (2018/08)
 
