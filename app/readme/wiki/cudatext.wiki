@@ -40,12 +40,11 @@ Editor has config system in JSON files: call menu item "Settings-default" and yo
 
 '''Lexer-specific config''': settings which are read when some lexer activates. E.g. if you open Pascal file, config for Pascal is read after user config (file "lexer Pascal.json"). You should not write "ui_" options to lexer-specific configs (it may give weird effects on changing lexer), and some other global options.
 
-'''File types config''': specify in it mapping between file names (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it.
+'''File types config''': specifies mapping between file names (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it.
 
-'''Plugin menu config''': specify in it additional grouping in the Plugins menu.
+'''Plugin menu config''': specifies grouping in the Plugins menu.
 
 '''Hotkey config'''. Special dialog allows to change all hotkeys in the app. You should not edit config file here. Dialog is called from "Help - Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
-
 
 == File types config ==
 
