@@ -79,10 +79,7 @@ type
     cFileOptionsFiletypes,
     cFileOptionsKeymap,
     cFileOptionsHistoryFiles,
-    cFileLexerStylesBackup,
-    cFileReadmeHistory,
-    cFileReadmeHelpMouse,
-    cFileReadmeHelpLexers
+    cFileLexerStylesBackup
     );
 
 type
@@ -872,19 +869,6 @@ begin
     cFileLexerStylesBackup:
       begin
         Result:= GetAppPath(cDirSettings)+DirectorySeparator+'lexer styles backup.ini';
-      end;
-
-    cFileReadmeHistory:
-      begin
-        Result:= GetAppPath(cDirReadme)+DirectorySeparator+'history.txt';
-      end;
-    cFileReadmeHelpMouse:
-      begin
-        Result:= GetAppPath(cDirReadme)+DirectorySeparator+'help mouse.txt';
-      end;
-    cFileReadmeHelpLexers:
-      begin
-        Result:= GetAppPath(cDirReadme)+DirectorySeparator+'help lexers install.txt';
       end;
   end;
 end;

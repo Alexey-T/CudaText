@@ -2221,13 +2221,21 @@ begin
 end;
 
 procedure TfmMain.DoHelpChangelog;
+var
+  fn: string;
 begin
-  DoFileOpen(GetAppPath(cFileReadmeHistory));
+  fn:= GetAppPath(cDirReadme)+DirectorySeparator+'history.txt';
+  if FileExistsUTF8(fn) then
+    DoFileOpen(fn);
 end;
 
 procedure TfmMain.DoHelpMouse;
+var
+  fn: string;
 begin
-  DoFileOpen(GetAppPath(cFileReadmeHelpMouse));
+  fn:= GetAppPath(cDirReadme)+DirectorySeparator+'help mouse.txt';
+  if FileExistsUTF8(fn) then
+    DoFileOpen(fn);
 end;
 
 procedure TfmMain.MenuWindowClick(Sender: TObject);
@@ -4352,8 +4360,12 @@ end;
 
 
 procedure TfmMain.DoHelpLexers;
+var
+  fn: string;
 begin
-  DoFileOpen(GetAppPath(cFileReadmeHelpLexers));
+  fn:= GetAppPath(cDirReadme)+DirectorySeparator+'help lexers install.txt';
+  if FileExistsUTF8(fn) then
+    DoFileOpen(fn);
 end;
 
 procedure TfmMain.DoHelpIssues;
