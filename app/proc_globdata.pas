@@ -1869,7 +1869,7 @@ begin
 end;
 
 
-function FixFontMonospaced(const AName: string): string;
+function FixFontMonospaced(const AName: string): string; inline;
 begin
   Result:= AName;
   {
