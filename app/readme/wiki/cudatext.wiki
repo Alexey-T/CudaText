@@ -48,7 +48,7 @@ Editor has config system in JSON files: call menu item "Settings-default" and yo
 
 == File types config ==
 
-Menu item "Options / Settings - more / Settings - file types" allows to edit file-types config. It specifies mapping from "file name" to "lexer name". Example of file:
+File name is "filetypes.json" in the "settings" folder. Menu item "Options / Settings - more / Settings - file types" opens this file. It specifies mapping from "file name" to "lexer name". Example:
 
 <syntaxhighlight lang="javascript">
 {
@@ -58,7 +58,8 @@ Menu item "Options / Settings - more / Settings - file types" allows to edit fil
 }
 </syntaxhighlight>
 
-This allows to open file mask (name of JSON key) with custom lexer (value of JSON key). File mask can have symbols "*", "?". Value "-" means "don't activate lexer".
+* Key name: file mask. Must be full name (without path), or extension after "*." chars. More complex masks are not yet supported.
+* Key value: lexer name. Value "-" means "don't activate lexer".
 
 Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
 
