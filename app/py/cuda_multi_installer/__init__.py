@@ -15,7 +15,13 @@ class Command:
 
     def load_repo(self):
 
-        db = urllib.request.urlopen(URL_DB).read().decode("utf-8")
+        try:
+            db = urllib.request.urlopen(URL_DB).read().decode("utf-8")
+        except:
+            self.packets = []
+            self.installed_list = []
+            return
+            
         exec("global T_LEXER,T_LINTER,T_TREE,T_INTEL,T_SNIP,T_OTHER,CLASSES,TYPE_TO_KIND,CLASSES_MSGS,PLUGINS\n"+db)
 
         self.packets = cuda_addonman.work_remote.get_remote_addons_list(cuda_addonman.opt.ch_def+cuda_addonman.opt.ch_user)
@@ -88,6 +94,9 @@ class Command:
     def open_menu(self):
 
         self.load_repo()
+        if not self.packets:
+            msg_status('Multi Installer: cannot download file')
+            return
 
         langs = list(PLUGINS.keys())
         langs.sort()
