@@ -23,6 +23,7 @@ STD_MODULES = (
   'cuda_comments',
   'cuda_insert_time',
   'cuda_make_plugin',
+  'cuda_multi_installer',
   'cuda_new_file',
   'cuda_palette',
   'cuda_project_man',
