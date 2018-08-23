@@ -23,6 +23,7 @@ mkdir $dd/usr/share/cudatext/py
 mkdir $dd/usr/share/cudatext/py/cuda_addonman
 mkdir $dd/usr/share/cudatext/py/cuda_comments
 mkdir $dd/usr/share/cudatext/py/cuda_make_plugin
+mkdir $dd/usr/share/cudatext/py/cuda_multi_installer
 mkdir $dd/usr/share/cudatext/py/cuda_insert_time
 mkdir $dd/usr/share/cudatext/py/cuda_new_file
 mkdir $dd/usr/share/cudatext/py/cuda_options_editor
@@ -50,6 +51,8 @@ cp -r ../app/py/cuda_comments/*.py $dd/usr/share/cudatext/py/cuda_comments
 cp -r ../app/py/cuda_comments/*.inf $dd/usr/share/cudatext/py/cuda_comments
 cp -r ../app/py/cuda_make_plugin/*.py $dd/usr/share/cudatext/py/cuda_make_plugin
 cp -r ../app/py/cuda_make_plugin/*.inf $dd/usr/share/cudatext/py/cuda_make_plugin
+cp -r ../app/py/cuda_multi_installer/*.py $dd/usr/share/cudatext/py/cuda_multi_installer
+cp -r ../app/py/cuda_multi_installer/*.inf $dd/usr/share/cudatext/py/cuda_multi_installer
 cp -r ../app/py/cuda_new_file/*.py $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_new_file/*.inf $dd/usr/share/cudatext/py/cuda_new_file
 cp -r ../app/py/cuda_options_editor/*.py $dd/usr/share/cudatext/py/cuda_options_editor
