@@ -1,4 +1,4 @@
-object SyntAnal18: TLibSyntAnalyzer
+object SyntAnal15: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Symbol'
@@ -212,10 +212,26 @@ object SyntAnal18: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Single symbol'
+      DisplayName = 'Symbol { }'
+      StyleName = 'Symbol'
+      TokenType = 8
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol ( )'
+      StyleName = 'Symbol'
+      TokenType = 7
+      Expression = '[\(\)]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Symbol single'
       StyleName = 'Symbol'
       TokenType = 3
-      Expression = '[\{\}\(\)\[\],;\.\?]'
+      Expression = '[\[\],;\.\?]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -634,15 +650,16 @@ object SyntAnal18: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ')')
-          TokenTypes = 8
+          TokenTypes = 128
         end
         item
           CondType = tcSkip
+          TokenTypes = 62
         end
         item
           TagList.Strings = (
             '(')
-          TokenTypes = 8
+          TokenTypes = 128
         end
         item
           TagList.Strings = (
@@ -659,13 +676,95 @@ object SyntAnal18: TLibSyntAnalyzer
       IgnoreAsParent = False
     end
     item
+      DisplayName = 'function anonym'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 128
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 62
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      NameFmt = 'func anonym'
+      RefToCondEnd = True
+      HighlightPos = cpAny
+      CancelNextRules = True
+      CollapseFmt = 'func anonym'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'function'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+          TokenTypes = 256
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 2
+        end
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 128
+        end
+        item
+          CondType = tcSkip
+          TokenTypes = 62
+        end
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 128
+        end
+        item
+          TokenTypes = 4
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+        end>
+      BlockEnd = '}'
+      EndOfTextClose = True
+      NameFmt = 'func %s-1~s[)]'
+      RefToCondEnd = True
+      HighlightPos = cpBound
+      CancelNextRules = True
+      CollapseFmt = 'func %s-11~s[)]'
+      IgnoreAsParent = False
+    end
+    item
       DisplayName = '{'
       StyleName = 'Current block'
       ConditionList = <
         item
           TagList.Strings = (
             '{')
-          TokenTypes = 8
+          TokenTypes = 256
         end>
       BlockEnd = '}'
       DisplayInTree = False
@@ -682,140 +781,9 @@ object SyntAnal18: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '}')
-          TokenTypes = 8
+          TokenTypes = 256
         end>
       HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'name: function'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            'function')
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            ':')
-          TokenTypes = 8
-        end
-        item
-          TokenTypes = 4
-        end>
-      NameFmt = 'function %s0'
-      RefToCondEnd = True
-      HighlightPos = cpAny
-      CancelNextRules = True
-      CollapseFmt = 'function %s0'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'function'
-      ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            'function')
-          TokenTypes = 4
-        end>
-      BlockEnd = 'function end'
-      EndOfTextClose = True
-      NameFmt = '%s0~s[)]'
-      RefToCondEnd = True
-      HighlightPos = cpBound
-      CollapseFmt = '%s0~s[)]'
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'function end'
-      BlockName = 'function'
-      StrictParent = True
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '}')
-          TokenTypes = 8
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '('
-      StyleName = 'Current block'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '(')
-          TokenTypes = 8
-        end>
-      BlockEnd = ')'
-      NotCollapsed = True
-      DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpBoundTagBegin
-      DynSelectMin = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = ')'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ')')
-          TokenTypes = 8
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = '['
-      StyleName = 'Current block'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '[')
-          TokenTypes = 8
-        end>
-      BlockEnd = ']'
-      NotCollapsed = True
-      DisplayInTree = False
-      DynHighlight = dhBound
-      HighlightPos = cpBoundTagBegin
-      DynSelectMin = True
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = ']'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ']')
-          TokenTypes = 8
-        end>
-      HighlightPos = cpBound
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'var'
-      ConditionList = <
-        item
-          TokenTypes = 4
-        end
-        item
-          TagList.Strings = (
-            'var')
-          TokenTypes = 4
-        end>
-      NotCollapsed = True
-      NameFmt = '%s0 %s-1'
-      HighlightPos = cpAny
-      NoEndRule = True
       IgnoreAsParent = False
     end
     item
@@ -840,7 +808,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'PHP'
       StartExpression = '<\?(php)?'
       EndExpression = '\?>'
-      SyntAnalyzer = SyntAnal28
+      SyntAnalyzer = SyntAnal22
     end>
   SampleText.Strings = (
     '//Comment'
@@ -895,7 +863,9 @@ object SyntAnal18: TLibSyntAnalyzer
     'Symbol'
     'String'
     'Number'
-    'PHP tag')
+    'PHP tag'
+    'Symbol ( )'
+    'Symbol { }')
   Extentions = 'js'
   LexerName = 'JavaScript'
   Notes.Strings = (

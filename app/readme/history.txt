@@ -4,6 +4,11 @@
   * changed
 
 
+1.59.4 (2018/08)
+
++ add: improved lexer JavaScript (Code Tree made correct for anonym functions)
++ add: improved lexer CSS
+
 1.59.2 (2018/08)
 
 + add: Code Tree filter: save filter (with dropdown list) to session
