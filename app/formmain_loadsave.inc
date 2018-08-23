@@ -974,10 +974,13 @@ begin
 
   cfg:= TJSONConfig.Create(nil);
   try
-    cfg.Formatted:= true;
-    cfg.Filename:= fn;
-    cfg.SetValue(AConfigStrName, OpName);
-    cfg.SetValue(AConfigStrSize, OpSize);
+    try
+      cfg.Formatted:= true;
+      cfg.Filename:= fn;
+      cfg.SetValue(AConfigStrName, OpName);
+      cfg.SetValue(AConfigStrSize, OpSize);
+    except
+    end;
   finally
     try
       cfg.Free;

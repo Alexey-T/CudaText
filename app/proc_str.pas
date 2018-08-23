@@ -311,7 +311,7 @@ end;
 
 
 
-function SReadOptionFromJson(const fn, path, def_value: string): string;
+function __SReadOptionFromJson(const fn, path, def_value: string): string;
 var
   cfg: TJSONConfig;
 begin
@@ -330,7 +330,7 @@ begin
 end;
 
 
-procedure SWriteOptionToJson(const fn, path, value: string);
+procedure __SWriteOptionToJson(const fn, path, value: string);
 var
   cfg: TJSONConfig;
 begin
