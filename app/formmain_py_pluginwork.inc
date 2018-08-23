@@ -240,6 +240,24 @@ end;
 
 procedure TfmMain.UpdateMenuPlugins;
 var
+  ConfGroups: TJSONConfig;
+  ListGroups: TStringList;
+  ListGroupsVal: TStringList;
+  //
+  function GroupValue(AName: string): string;
+  var
+    i: integer;
+  begin
+    Result:= '';
+    AName:= SGetItem(AName, '\');
+    for i:= 0 to ListGroups.Count-1 do
+    begin
+      if SRegexMatchesString(AName, ListGroups[i], false) then
+        exit(ListGroupsVal[i]+'\');
+    end;
+  end;
+  //
+var
   SCaption, SInMenu: string;
   i: integer;
 begin
@@ -250,23 +268,40 @@ begin
   if Assigned(mnuOpPlugins) then
     mnuOpPlugins.Clear;
 
-  for i:= 0 to High(AppPluginsCommand) do
-  begin
-    if AppPluginsCommand[i].ItemModule='' then Break;
-    if AppPluginsCommand[i].ItemFromApi then Continue;
+  ConfGroups:= TJSONConfig.Create(nil);
+  ListGroups:= TStringList.Create;
+  ListGroupsVal:= TStringList.Create;
+  try
+    try
+      ConfGroups.Filename:= GetAppPath(cDirSettings)+DirectorySeparator+'plugin groups.json';
+      ConfGroups.EnumValues('/', ListGroups);
+      for SCaption in ListGroups do
+        ListGroupsVal.Add(ConfGroups.GetValue('/'+SCaption, ''));
+    except
+    end;
 
-    SCaption:= AppPluginsCommand[i].ItemCaption;
-    SInMenu:= AppPluginsCommand[i].ItemInMenu;
-    if SInMenu='0' then Continue;
+    for i:= 0 to High(AppPluginsCommand) do
+    begin
+      if AppPluginsCommand[i].ItemModule='' then Break;
+      if AppPluginsCommand[i].ItemFromApi then Continue;
 
-    //add to Plugins
-    if (SInMenu='') or (Pos('p', SInMenu)>0) then
-      DoOps_AddPluginMenuItem(SCaption, mnuPlugins, i);
+      SCaption:= AppPluginsCommand[i].ItemCaption;
+      SInMenu:= AppPluginsCommand[i].ItemInMenu;
+      if SInMenu='0' then Continue;
 
-    //add to Settings-plugins
-    if Assigned(mnuOpPlugins) then
-    if Pos('o', SInMenu)>0 then
-      DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
+      //add to Plugins
+      if (SInMenu='') or (Pos('p', SInMenu)>0) then
+        DoOps_AddPluginMenuItem(GroupValue(SCaption)+SCaption, mnuPlugins, i);
+
+      //add to Settings-plugins
+      if Assigned(mnuOpPlugins) then
+      if Pos('o', SInMenu)>0 then
+        DoOps_AddPluginMenuItem(SCaption, mnuOpPlugins, i);
+    end;
+  finally
+    FreeAndNil(ListGroupsVal);
+    FreeAndNil(ListGroups);
+    FreeAndNil(ConfGroups);
   end;
 end;
 
