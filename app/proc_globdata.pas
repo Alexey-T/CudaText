@@ -456,7 +456,7 @@ procedure DoOps_SaveKeyItem(K: TATKeymapItem; const path, ALexerName: string; AL
 procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
   const AMenuitemCaption, AModuleName, AMethodName, ALexerName, AHotkey: string);
 
-function DoLexerFindByFilename(const fn: string): TecSyntAnalyzer;
+function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
@@ -1312,43 +1312,40 @@ begin
 end;
 
 
-function DoLexerFindByFilename(const fn: string): TecSyntAnalyzer;
+function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
 var
-  c: TJsonConfig;
-  fn_opt, s, ext: string;
+  conf: TJsonConfig;
+  SFileConfig, s, ext: string;
 begin
-  fn_opt:= GetAppPath(cFileOptionsFiletypes);
-  if FileExistsUTF8(fn_opt) then
+  SFileConfig:= GetAppPath(cFileOptionsFiletypes);
+  if FileExistsUTF8(SFileConfig) then
   begin
-    c:= TJsonConfig.Create(nil);
+    conf:= TJsonConfig.Create(nil);
     try
-      c.FileName:= fn_opt;
+      try
+        conf.FileName:= SFileConfig;
 
-      //by filename
-      s:= c.GetValue(ExtractFileName(fn), '');
-      if s<>'' then
-      begin
-        Result:= AppManager.FindLexerByName(s);
-        Exit
-      end;
-
-      //by extention
-      ext:= ExtractFileExt(fn);
-      if ext<>'' then
-      begin
-        s:= c.GetValue('*'+ext, '');
+        //by filename
+        s:= conf.GetValue(ExtractFileName(AFilename), '');
         if s<>'' then
+          exit(AppManager.FindLexerByName(s));
+
+        //by extention
+        ext:= ExtractFileExt(AFilename);
+        if ext<>'' then
         begin
-          Result:= AppManager.FindLexerByName(s);
-          Exit
+          s:= conf.GetValue('*'+ext, '');
+          if s<>'' then
+            exit(AppManager.FindLexerByName(s));
         end;
+      except
       end;
     finally
-      c.Free;
+      FreeAndNil(conf);
     end;
   end;
 
-  Result:= AppManager.FindLexerByFilename(fn);
+  Result:= AppManager.FindLexerByFilename(AFilename);
 end;
 
 function DoOps_CommandCode_To_HotkeyStringId(ACmd: integer): string;
