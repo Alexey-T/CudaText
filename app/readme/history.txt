@@ -7,7 +7,7 @@
 1.59.4 (2018/08)
 
 + add: improved lexer JavaScript (Code Tree made correct for anonym functions)
-+ add: improved lexer CSS
++ add: improved lexer CSS (fix coloring of properties)
 
 1.59.2 (2018/08)
 
