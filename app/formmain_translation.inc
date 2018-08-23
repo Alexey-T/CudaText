@@ -488,7 +488,6 @@ begin
     DoLocString(msgStatusPackageAutoCompletion   , ini, 'si', 'PackageAutocompl');
     DoLocString(msgStatusPackageMissedLexerMap   , ini, 'si', 'PackageMissLexmap');
     DoLocString(msgStatusInstalledNeedRestart    , ini, 'si', 'InstalledNeedRestart');
-    DoLocString(msgStatusErrorInConfigFile       , ini, 'si', 'ErrorInConfigFile');
     DoLocString(msgStatusCommandOnlyForLexers    , ini, 'si', 'CommandOnlyForLexers');
     DoLocString(msgStatusOpenedBrowser           , ini, 'si', 'OpenedBrowser');
     DoLocString(msgStatusCopiedLink              , ini, 'si', 'CopiedLink');

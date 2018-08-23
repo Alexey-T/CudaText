@@ -596,7 +596,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgBox(msgStatusErrorInConfigFile+#10+fn+#10#10+E.Message, MB_OK or MB_ICONERROR);
+        MsgBox(msgCannotReadConf+#10+fn+#10#10+E.Message, MB_OK or MB_ICONERROR);
         Exit
       end;
     end;
