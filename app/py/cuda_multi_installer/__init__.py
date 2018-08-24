@@ -21,7 +21,7 @@ class Command:
             self.packets = []
             self.installed_list = []
             return
-            
+
         exec("global T_LEXER,T_LINTER,T_TREE,T_INTEL,T_SNIP,T_OTHER,CLASSES,TYPE_TO_KIND,CLASSES_MSGS,PLUGINS\n"+db)
 
         self.packets = cuda_addonman.work_remote.get_remote_addons_list(cuda_addonman.opt.ch_def+cuda_addonman.opt.ch_user)
@@ -125,7 +125,10 @@ class Command:
             return
 
         res_list = res[RES_LIST].split(';')[1].split(',')
-        res_list = map(str_to_bool,res_list)
+        res_list = list(map(str_to_bool,res_list))
+        page_count = sum(map(int,res_list))
+        page_index = 1
+
         for i,f in enumerate(res_list):
             if f:
                 cl = 0
@@ -164,9 +167,16 @@ class Command:
                             'type=button',
                             'pos=%d,%d,%d,%d'%(215+300*cl, line*h+5, 295+300*cl, line*20+25),
                             'cap=Next'
-                            ])] + UI
+                            ])] +\
+                    UI +\
+                    ['\1'.join([
+                            'type=label',
+                            'pos=%d,%d,%d,0'%(100+300*cl, line*h+8, 215+300*cl),
+                            'cap=Step %d of %d'%(page_index+1, page_count+1)
+                            ])]
                 line+=1
                 cl+=1
+                page_index += 1
                 res2 = dlg_custom(
                         'Select add-ons - '+langs[i],
                         300*cl,
