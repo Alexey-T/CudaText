@@ -664,9 +664,10 @@ var
 begin
   Result:= -1;
   ACaption:= StringReplace(ACaption, '&', '', [rfReplaceAll]);
+  ACaption:= LowerCase(ACaption);
 
   for i:= 0 to AMenu.Count-1 do
-    if AMenu.Items[i].Caption>ACaption then
+    if LowerCase(AMenu.Items[i].Caption)>ACaption then
       exit(i);
 end;
 
