@@ -208,9 +208,11 @@ procedure TfmMain.DoOps_AddPluginMenuItem(ACaption: string; ASubMenu: TMenuItem;
 var
   mi: TMenuItem;
   strItem: string;
-  idx: integer;
+  idx, NInsert: integer;
+  bRoot: boolean;
 begin
   mi:= nil;
+  bRoot:= true;
 
   //need to parse caption and create subitems, separated with '\'
   repeat
@@ -224,11 +226,25 @@ begin
     begin
       mi:= TMenuItem.Create(Self);
       mi.Caption:= strItem;
-      ASubMenu.Add(mi);
+
+      if bRoot then
+      begin
+        NInsert:= Menu_GetIndexToInsert(ASubMenu, strItem);
+        if NInsert>=0 then
+          ASubMenu.Insert(NInsert, mi)
+        else
+          ASubMenu.Add(mi);
+      end
+      else
+        ASubMenu.Add(mi);
+
       ASubMenu:= mi;
     end
     else
+    begin
       ASubMenu:= ASubMenu.Items[idx];
+      bRoot:= false;
+    end;
   until false;
 
   if Assigned(mi) then

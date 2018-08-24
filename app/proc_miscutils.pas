@@ -81,6 +81,7 @@ procedure DoPaintCheckers(C: TCanvas;
   AColor1, AColor2: TColor);
 
 procedure Menu_Copy(ASrc, ADest: TMenu);
+function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
 
 
 implementation
@@ -655,6 +656,18 @@ end;
 procedure Menu_Copy(ASrc, ADest: TMenu);
 begin
   MenuItem_Copy(ASrc.Items, ADest.Items);
+end;
+
+function Menu_GetIndexToInsert(AMenu: TMenuItem; ACaption: string): integer;
+var
+  i: integer;
+begin
+  Result:= -1;
+  ACaption:= StringReplace(ACaption, '&', '', [rfReplaceAll]);
+
+  for i:= 0 to AMenu.Count-1 do
+    if AMenu.Items[i].Caption>ACaption then
+      exit(i);
 end;
 
 
