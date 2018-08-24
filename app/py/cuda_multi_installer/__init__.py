@@ -109,8 +109,8 @@ class Command:
         RES_LIST = 2
         RES_NEXT = 4
         res = dlg_custom('CudaText Multi Installer', 300, 300, '\n'.join([
-            '\1'.join(['type=label','pos=5,5,295,0','cap=Select languages.']),
-            '\1'.join(['type=label','pos=5,25,295,0','cap=Later you can choose add-ons for them.']),
+            '\1'.join(['type=label','pos=5,5,295,0','cap=Select language(s) needed for you.']),
+            '\1'.join(['type=label','pos=5,25,295,0','cap=Next steps will suggest add-ons for them.']),
             '\1'.join(['type=checklistbox','pos=5,45,295,260','items='+
                 '\t'.join(langs)
                 ]),
@@ -126,8 +126,8 @@ class Command:
 
         res_list = res[RES_LIST].split(';')[1].split(',')
         res_list = list(map(str_to_bool,res_list))
-        page_count = sum(map(int,res_list))
-        page_index = 1
+        step_count = sum(map(int,res_list))+1
+        step_index = 2
 
         for i,f in enumerate(res_list):
             if f:
@@ -172,11 +172,11 @@ class Command:
                     ['\1'.join([
                             'type=label',
                             'pos=%d,%d,%d,0'%(100+300*cl, line*h+8, 215+300*cl),
-                            'cap=Step %d of %d'%(page_index+1, page_count+1)
+                            'cap=Step %d of %d'%(step_index,step_count)
                             ])]
                 line+=1
                 cl+=1
-                page_index += 1
+                step_index += 1
                 res2 = dlg_custom(
                         'Select add-ons - '+langs[i],
                         300*cl,
@@ -189,12 +189,14 @@ class Command:
                         for ii in range(len(UI_reg)):
                             if UI_reg[ii] and res2[ii]=='1':
                                 to_install[UI_reg[ii][0]].append(UI_reg[ii][1])
-        f = False
-        for i in to_install.items():
-            if i:
-                f = True
+
+        fill = False
+        for i in to_install.keys():
+            if to_install[i]:
+                fill = True
                 break
-        if f:
+                
+        if fill:
             for i in to_install[T_LEXER]:
                 self.install(T_LEXER,i)
             if to_install[T_LINTER]:
@@ -217,4 +219,5 @@ class Command:
             for i in to_install[T_OTHER]:
                 self.install(T_OTHER,i)
             msg_status('Multi Installer: done', True)
-
+        else:
+            msg_status('Multi Installer: nothing selected', True)
