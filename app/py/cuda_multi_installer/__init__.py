@@ -106,11 +106,12 @@ class Command:
         for i in CLASSES:
             to_install[i] = []
 
-        RES_LIST = 1
-        RES_NEXT = 3
+        RES_LIST = 2
+        RES_NEXT = 4
         res = dlg_custom('CudaText Multi Installer', 300, 300, '\n'.join([
-            '\1'.join(['type=label','pos=5,5,200,0','cap=Select languages:']),
-            '\1'.join(['type=checklistbox','pos=5,25,295,260','items='+
+            '\1'.join(['type=label','pos=5,5,295,0','cap=Select languages.']),
+            '\1'.join(['type=label','pos=5,25,295,0','cap=Later you can choose add-ons for them.']),
+            '\1'.join(['type=checklistbox','pos=5,45,295,260','items='+
                 '\t'.join(langs)
                 ]),
             '\1'.join(['type=button','pos=5,265,85,295','cap=Cancel']),
