@@ -117,7 +117,7 @@ begin
     except
       on E: Exception do
       begin
-        MsgBox(msgStatusErrorInConfigFile+#13+fn+#13#13+E.Message, MB_OK or MB_ICONERROR);
+        MsgBadConfig(fn+#10#10+E.Message);
         Exit;
       end;
     end;
