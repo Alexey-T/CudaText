@@ -191,8 +191,8 @@ class Command:
                                 to_install[UI_reg[ii][0]].append(UI_reg[ii][1])
 
         fill = False
-        for i in to_install.keys():
-            if to_install[i]:
+        for k,v in to_install.items():
+            if v:
                 fill = True
                 break
                 
