@@ -46,9 +46,8 @@ def get_url(url, fn, del_first=False):
 
 def is_file_html(fn):
     if os.path.exists(fn):
-        with open(fn, 'r', encoding='cp437') as ff:
-            s = ff.readline()
-            ff.close()
+        with open(fn, 'r', encoding='cp437') as f:
+            s = f.readline(10).lower()
             return s.startswith('<html>')
     return False
 

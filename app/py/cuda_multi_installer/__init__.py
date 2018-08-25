@@ -14,8 +14,7 @@ def bool_to_str(v):
 def is_file_html(fn):
     if os.path.exists(fn):
         with open(fn, 'r', encoding='cp437') as f:
-            s = f.readline()
-            f.close()
+            s = f.readline(10).lower()
             return s.startswith('<html>')
     return False
 
