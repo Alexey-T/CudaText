@@ -14,6 +14,7 @@ mkdir $app/Contents/Resources/py
 mkdir $app/Contents/Resources/py/cuda_addonman
 mkdir $app/Contents/Resources/py/cuda_insert_time
 mkdir $app/Contents/Resources/py/cuda_make_plugin
+mkdir $app/Contents/Resources/py/cuda_multi_installer
 mkdir $app/Contents/Resources/py/cuda_comments
 mkdir $app/Contents/Resources/py/cuda_new_file
 mkdir $app/Contents/Resources/py/cuda_options_editor
@@ -31,6 +32,8 @@ cp $from/py/cuda_insert_time/*.py $app/Contents/Resources/py/cuda_insert_time
 cp $from/py/cuda_insert_time/*.in* $app/Contents/Resources/py/cuda_insert_time
 cp $from/py/cuda_make_plugin/*.py $app/Contents/Resources/py/cuda_make_plugin
 cp $from/py/cuda_make_plugin/*.inf $app/Contents/Resources/py/cuda_make_plugin
+cp $from/py/cuda_multi_installer/*.py $app/Contents/Resources/py/cuda_multi_installer
+cp $from/py/cuda_multi_installer/*.inf $app/Contents/Resources/py/cuda_multi_installer
 cp $from/py/cuda_comments/*.py $app/Contents/Resources/py/cuda_comments
 cp $from/py/cuda_comments/*.inf $app/Contents/Resources/py/cuda_comments
 cp $from/py/cuda_new_file/*.py $app/Contents/Resources/py/cuda_new_file

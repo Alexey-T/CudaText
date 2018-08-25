@@ -44,10 +44,22 @@ def get_url(url, fn, del_first=False):
             if res==app.ID_ABORT: return False
 
 
+def is_file_html(fn):
+    if os.path.exists(fn):
+        with open(fn, 'r', encoding='cp437') as f:
+            s = f.readline(10).lower()
+            return s.startswith('<html>')
+    return False
+
+
 def get_plugin_zip(url):
     if not url: return
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
     get_url(url, fn, True)
+    
+    if is_file_html(fn):
+        os.remove(fn)
+    
     return fn
 
 
