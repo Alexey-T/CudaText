@@ -1947,7 +1947,7 @@ begin
   MsgLogConsole(Format(
     'Startup: total: %dms, including plugins: %dms', [
     (NTickShowEnd-NTickInitial) div 10 * 10,
-    NTickPluginEnd-NTickPluginBegin
+    (NTickPluginEnd-NTickPluginBegin) div 10 * 10
     ]));
 
   DoOps_ResetFrameActivationTimes;
