@@ -11,7 +11,17 @@ def str_to_bool(s):
 def bool_to_str(v):
     return '1' if v else '0'
 
+def is_file_html(fn):
+    if os.path.exists(fn):
+        with open(fn, 'r', encoding='cp437') as f:
+            s = f.readline()
+            f.close()
+            return s.startswith('<html>')
+    return False
+
+
 class Command:
+    error_count = 0
 
     def load_repo(self):
 
@@ -75,8 +85,14 @@ class Command:
         msg_status(state, True)
 
         fn = cuda_addonman.work_remote.get_plugin_zip(url)
+
+        # handle SF.net HTML error file
+        if is_file_html(fn):
+            os.remove(fn)
+
         if not os.path.isfile(fn):
             msg_status(state+' - Cannot download', True)
+            self.error_count += 1
             return
 
         ok = file_open(fn, options='/silent')
@@ -195,8 +211,9 @@ class Command:
             if v:
                 fill = True
                 break
-                
+
         if fill:
+            self.error_count = 0
             for i in to_install[T_LEXER]:
                 self.install(T_LEXER,i)
             if to_install[T_LINTER]:
@@ -218,6 +235,10 @@ class Command:
                 self.install(T_INTEL,i)
             for i in to_install[T_OTHER]:
                 self.install(T_OTHER,i)
+
             msg_status('Multi Installer: done', True)
+            if self.error_count>0:
+                msg_box('There were %d download error(s)'%self.error_count, MB_OK+MB_ICONERROR)
+
         else:
             msg_status('Multi Installer: nothing selected', True)
