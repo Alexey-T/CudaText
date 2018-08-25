@@ -4,6 +4,14 @@
   * changed
 
 
+1.60.0 (2018/08)
+
++ add: ability to group Plugins menu: see Wiki help topic "Plugin groups config"
++ add: preinstalled plugin Multi Installer (by Artem Gavrilov). It allows to quickly install bunch of add-ons for popular languages (HTML/CSS/JS/XML/Python etc). It is also auto-called on clean app installation (when "settings/history.json" not exists).
++ add: improved lexer JavaScript (Code Tree made correct for anonym functions)
++ add: improved lexer CSS (fix coloring of properties)
++ add: improved TutorialLexer4, added "Advice for C-like lexers"
+
 1.59.2 (2018/08)
 
 + add: Code Tree filter: save filter (with dropdown list) to session
