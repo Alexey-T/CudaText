@@ -21,6 +21,7 @@ def is_file_html(fn):
 
 class Command:
     error_count = 0
+    ok_count = 0
 
     def load_repo(self):
 
@@ -95,7 +96,8 @@ class Command:
             return
 
         ok = file_open(fn, options='/silent')
-        msg_status(state+(' - Installed' if ok else ' - Cancelled'), True)
+        if ok:
+            self.ok_count += 1
 
         #save version
         if TYPE_TO_KIND.get(kind) in cuda_addonman.KINDS_WITH_VERSION:
@@ -213,6 +215,8 @@ class Command:
 
         if fill:
             self.error_count = 0
+            self.ok_count = 0
+
             for i in to_install[T_LEXER]:
                 self.install(T_LEXER,i)
             if to_install[T_LINTER]:
@@ -236,9 +240,13 @@ class Command:
                 self.install(T_OTHER,i)
 
             msg_status('Multi Installer: done', True)
+
+            s = 'Multi Installer:\n'
+            if self.ok_count>0:
+                s += '%d add-on(s) installed'%self.ok_count
             if self.error_count>0:
-                msg_box('Multi Installer: %d download error(s), maybe SF.net is down'
-                        %self.error_count, MB_OK+MB_ICONERROR)
+                s += '%d download error(s) (SF.net has problems?)'%self.error_count
+            msg_box(s, MB_OK+MB_ICONINFO)
 
         else:
             msg_status('Multi Installer: nothing selected', True)
