@@ -48,6 +48,15 @@ def get_plugin_zip(url):
     if not url: return
     fn = os.path.join(tempfile.gettempdir(), 'cudatext_addon.zip')
     get_url(url, fn, True)
+    
+    # check that SF got HTML error file
+    if os.path.exists(fn):
+        with open(fn, 'r', encoding='cp437') as ff:
+            s = ff.readline()
+            ff.close()
+            if s.startswith('<html>'):
+                os.remove(fn)
+    
     return fn
 
 
