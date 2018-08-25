@@ -1952,6 +1952,10 @@ begin
 
   DoOps_ResetFrameActivationTimes;
   MsgLogDebug('start');
+
+  //run Multi Installer
+  if not FileExistsUTF8(GetAppPath(cFileOptionsHistory)) then
+    DoPyCommand('cuda_multi_installer', 'open_menu', []);
 end;
 
 procedure TfmMain.FrameAddRecent(Sender: TObject);
