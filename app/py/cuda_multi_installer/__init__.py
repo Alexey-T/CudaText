@@ -238,7 +238,8 @@ class Command:
 
             msg_status('Multi Installer: done', True)
             if self.error_count>0:
-                msg_box('There were %d download error(s)'%self.error_count, MB_OK+MB_ICONERROR)
+                msg_box('Multi Installer: %d download error(s), maybe SF.net is down'
+                        %self.error_count, MB_OK+MB_ICONERROR)
 
         else:
             msg_status('Multi Installer: nothing selected', True)
