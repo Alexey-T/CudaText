@@ -82,7 +82,7 @@ class Command:
 
         state='Installing: %s %s'%(kind,name)
         print(state)
-        msg_status(state, True)
+        self.show_progress()
 
         fn = cuda_addonman.work_remote.get_plugin_zip(url)
 
@@ -91,7 +91,6 @@ class Command:
             os.remove(fn)
 
         if not os.path.isfile(fn):
-            msg_status(state+' - Cannot download', True)
             self.error_count += 1
             return
 
@@ -112,7 +111,7 @@ class Command:
 
         self.load_repo()
         if not self.packets:
-            msg_status('Multi Installer: cannot download file')
+            msg_status('Multi Installer: cannot download list')
             return
 
         langs = list(PLUGINS.keys())
@@ -216,6 +215,10 @@ class Command:
         if fill:
             self.error_count = 0
             self.ok_count = 0
+            self.total_count = sum([len(to_install[i]) for i in CLASSES])
+
+            self.init_progress()
+            dlg_proc(self.h_pro, DLG_SHOW_NONMODAL)
 
             for i in to_install[T_LEXER]:
                 self.install(T_LEXER,i)
@@ -239,6 +242,9 @@ class Command:
             for i in to_install[T_OTHER]:
                 self.install(T_OTHER,i)
 
+            dlg_proc(self.h_pro, DLG_HIDE)
+            dlg_proc(self.h_pro, DLG_FREE)
+
             msg_status('Multi Installer: done', True)
 
             s = 'Multi Installer:\n'
@@ -250,3 +256,41 @@ class Command:
 
         else:
             msg_status('Multi Installer: nothing selected', True)
+
+
+    def init_progress(self):
+
+        self.h_pro = dlg_proc(0, DLG_CREATE)
+        dlg_proc(self.h_pro, DLG_PROP_SET, prop={
+            'cap': 'Multi Installer',
+            'w': 400,
+            'h': 110,
+            'topmost': True,
+            })
+
+        n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='label')
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'inf',
+            'cap': 'Installing...',
+            'x': 10,
+            'y': 30,
+            })
+
+        n = dlg_proc(self.h_pro, DLG_CTL_ADD, prop='progressbar')
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, index=n, prop={
+            'name': 'pro',
+            'x': 10,
+            'y': 55,
+            'w': 380,
+            'h': 15,
+            'ex1': 0, #min
+            'ex2': 100, #max
+            'ex3': True, #smooth
+            })
+
+    def show_progress(self):
+
+        v = (self.error_count+self.ok_count)*100//self.total_count
+
+        dlg_proc(self.h_pro, DLG_CTL_PROP_SET, name='pro', prop={'val': v,})
+        app_idle(False)
