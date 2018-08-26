@@ -2,6 +2,7 @@ import os
 from cudatext import *
 import cuda_addonman
 import urllib.request
+import tempfile
 
 URL_DB = 'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/multi_inst/db.py'
 COLUMN_LEN = 20
@@ -20,19 +21,19 @@ def is_file_html(fn):
 
 
 class Command:
-    error_count = 0
-    ok_count = 0
 
     def load_repo(self):
 
-        try:
-            db = urllib.request.urlopen(URL_DB).read().decode("utf-8")
-        except:
+        fn = os.path.join(tempfile.gettempdir(), 'cuda_multi_installer_db.py')
+        cuda_addonman.work_remote.get_url(URL_DB, fn, True)
+        
+        if not os.path.exists(fn):
             self.packets = []
             self.installed_list = []
             return
 
-        exec("global T_LEXER,T_LINTER,T_TREE,T_INTEL,T_SNIP,T_OTHER,CLASSES,TYPE_TO_KIND,CLASSES_MSGS,PLUGINS\n"+db)
+        exec(open(fn).read())
+        os.remove(fn)
 
         self.packets = cuda_addonman.work_remote.get_remote_addons_list(cuda_addonman.opt.ch_def+cuda_addonman.opt.ch_user)
         self.installed_list = cuda_addonman.work_local.get_installed_list()
