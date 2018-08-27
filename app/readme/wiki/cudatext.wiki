@@ -2,12 +2,11 @@
 
 CudaText is a cross-platform text editor, written in Lazarus.
 
-* Syntax highlight for many languages: C, C++, Java, JavaScript, HTML, CSS, PHP, Python, Pascal, XML; more than [http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 160 lexers] exist
+* Syntax highlighting for 200+ languages ([http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ full lexers list])
 * Code folding 
-* Code tree structure
-* Multi-carets
-* Multi-selections 
-* Search/replace with regex
+* Code tree (treeview with functions/classes/etc in the code)
+* Multi-carets, multi-selections 
+* Search/replace with reg.ex.
 * Supports many encodings
 * Simple auto-completion (fixed list) for some lexers
 * Extendable via Python plugins
@@ -18,9 +17,10 @@ CudaText is a cross-platform text editor, written in Lazarus.
 Features for HTML/CSS coding: 
 
 * Smart auto-completion for HTML, CSS.
-* HTML tags completion with Tab-key (Snippets plugin).
+* HTML tags completion with Tab-key.
 * HTML color codes underline.
-* View pictures (jpeg/png/bmp/ico). 
+* HTML tooltips on mouse-over.
+* Viewer for pictures (jpeg, png, gif, bmp, ico). 
 
 Screenshot:
 
@@ -30,9 +30,9 @@ Screenshot:
 
 * Homepage: http://uvviewsoft.com/
 * SourceForge downloads: http://cudatext.sf.net
-* GitHub repository with source code: https://github.com/Alexey-T/CudaText
+* GitHub repository: https://github.com/Alexey-T/CudaText
 
-It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS (currently Carbon only), FreeBSD.
+It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS, FreeBSD.
 
 = Configs =
 
@@ -48,7 +48,7 @@ Editor has config system in JSON files: call menu item "Settings-default" and yo
 
 == File types config ==
 
-File name is "filetypes.json" in the "settings" folder. Menu item "Options / Settings - more / Settings - file types" opens this file. It specifies mapping from "file name" to "lexer name". Example:
+File name is "settings/filetypes.json". Menu item "Options / Settings - more / Settings - file types" opens this file. It specifies mapping from "file name" to "lexer name". Example:
 
 <syntaxhighlight lang="javascript">
 {
@@ -66,9 +66,9 @@ Another method to specify this mapping is dialog "Lexer properties", in which yo
 * It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
 * It can specify file extension, or name+extension, but cannot set complex file mask with "*".
 
-== Plugin menu config ==
+== Plugin groups config ==
 
-File name is "plugin groups.json" in the "settings" folder. It allows to add grouping to the Plugins menu, e.g. to put all "HTML nnnnnnn" menus into "Web" submenu. Example:
+File name is "settings/plugin groups.json". It allows to add grouping to the Plugins menu, e.g. to put all "HTML nnnnnnn" menus into "Web" submenu. Example:
 
 <syntaxhighlight lang="javascript">
 {
