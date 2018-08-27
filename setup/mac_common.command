@@ -1,9 +1,15 @@
 #!/bin/bash
 ws=$1
-app=$2
-strip $app/cudatext
+cud=$2
+exe=$3
+bundle=$4
+app=$cud/app
 
-. $app/../setup/cuda_ver.sh
+strip $exe
+rm $bundle/Contents/MacOS/cudatext
+cp $exe $bundle/Contents/MacOS/cudatext
+
+. $cud/setup/cuda_ver.sh
 
 #copy bundle to folder
 mkdir $app/cudatext-mac-$ws
