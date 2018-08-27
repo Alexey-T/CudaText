@@ -1,6 +1,6 @@
 #!/bin/bash
 ws=$1
-app=~/cuda/cuda/app
+app=$2
 strip $app/cudatext
 
 . $app/../setup/cuda_ver.sh

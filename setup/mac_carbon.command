@@ -1,2 +1,4 @@
 #!/bin/bash
-./mac_common.sh carbon
+ws=carbon
+cud=~/cuda/cuda
+$cud/setup/mac_common.command $ws $cud/app
