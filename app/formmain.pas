@@ -3863,7 +3863,14 @@ begin
 end;
 
 procedure TfmMain.DoSwitchActiveTab(ANext: boolean);
+const
+  StrBool: array[boolean] of string = (cPyFalse, cPyTrue);
 begin
+  if DoPyEvent(CurrentEditor, cEventOnTabSwitch, [
+    StrBool[ANext],
+    '"'+ConvertShiftStateToString(KeyboardStateToShiftState)+'"'
+    ] ) = cPyTrue then exit;
+
   Groups.PagesCurrent.Tabs.SwitchTab(ANext);
 end;
 

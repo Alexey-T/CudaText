@@ -36,6 +36,7 @@ EVENTS = [
     'on_state',
     'on_tab_change',
     'on_tab_move',
+    'on_tab_switch',
   ]
 
 EVENTS_ADD_PARAMS = {
@@ -57,4 +58,5 @@ EVENTS_ADD_PARAMS = {
   'on_paste': 'keep_caret, select_then',
   'on_snippet': 'snippet_id, snippet_text',
   'on_state': 'state',
+  'on_tab_switch': 'next, state',
   }

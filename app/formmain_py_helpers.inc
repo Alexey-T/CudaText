@@ -56,7 +56,7 @@ end;
 function TfmMain.DoPyEvent(AEd: TATSynEdit; AEvent: TAppPyEvent;
   const AParams: array of string): string;
 const
-  cTheseEventsStoppedByTrue = [cEventOnComplete];
+  cTheseEventsStoppedByTrue = [cEventOnComplete, cEventOnTabSwitch];
   cTheseEventsNeedGroupingUndo = [cEventOnComplete, cEventOnSnippet];
 var
   SCurLexer: string;
