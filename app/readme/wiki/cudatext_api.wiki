@@ -22,9 +22,13 @@ Usually methods returns None, sometimes they can return True or False to block t
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
+* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins.
+
+==Tabs==
+
 * on_tab_change(self, ed_self): Called after active tab is changed.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
-* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins.
+* on_tab_switch(self, ed_self, next, state): Called on running commands "switch active tab to next" (with next=True) and "switch active tab to prev" (with next=False). Param "state": same as in "on_key". Method must return True to skip default tab-switcher code.
 
 ==Editor==
 
@@ -2956,3 +2960,6 @@ Text is chr(1) separated items:
 * add: Editor.attr: added optional param "show_on_map"
 * add: Editor.get_prop(PROP_ACTIVATION_TIME) is 0 for not yet focused tabs
 * add: app_proc: PROC_BOTTOMPANEL_ACTIVATE now handles tuple like PROC_SIDEPANEL_ACTIVATE
+
+1.0.254 (app 1.60.1)
+* add: event on_tab_switch
