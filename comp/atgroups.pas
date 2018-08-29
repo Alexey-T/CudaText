@@ -138,7 +138,8 @@ type
     tabOptionSpaceXSize,
     tabOptionArrowSize,
     tabOptionButtonSize,
-    tabOptionShowArrowsNear
+    tabOptionShowArrowsNear,
+    tabOptionWhichActivateOnClose
     );
 
 type
@@ -1727,6 +1728,7 @@ begin
         tabOptionSpaceXSize:       OptSpaceXSize:= DoScale(N);
         tabOptionArrowSize:        OptArrowSize:= DoScale(N);
         tabOptionButtonSize:       OptButtonSize:= DoScale(N);
+        tabOptionWhichActivateOnClose: OptWhichActivateOnClose:= TATTabActivateOnClose(N);
       end;
 end;
 
