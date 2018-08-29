@@ -138,6 +138,12 @@ type
     );
 
 type
+  TATTabActivateOnClose = (
+    aocRight,
+    aocRecent
+    );
+
+type
   TATTabOverEvent = procedure (Sender: TObject; ATabIndex: integer) of object;
   TATTabCloseEvent = procedure (Sender: TObject; ATabIndex: integer;
     var ACanClose, ACanContinue: boolean) of object;
@@ -149,6 +155,7 @@ type
   TATTabChangeQueryEvent = procedure (Sender: TObject; ANewTabIndex: integer;
     var ACanChange: boolean) of object;
   TATTabClickUserButton = procedure (Sender: TObject; AIndex: integer) of object;
+  TATTabGetTickEvent = function (Sender: TObject; ATabObject: TObject): QWord of object;
 
 type
   TATTabTriangle = (
@@ -326,6 +333,7 @@ type
 
     FOptPosition: TATTabPosition;
     FOptIconPosition: TATTabIconPosition;
+    FOptWhichActivateOnClose: TATTabActivateOnClose;
     FOptCaptionAlignment: TAlignment;
     FOptShowFlat: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
@@ -393,6 +401,7 @@ type
     FOnTabOver: TATTabOverEvent;
     FOnTabMove: TATTabMoveEvent;
     FOnTabChangeQuery: TATTabChangeQueryEvent;
+    FOnTabGetTick: TATTabGetTickEvent;
 
     procedure ApplyButtonLayout;
     procedure DoClickUser(AIndex: integer);
@@ -453,6 +462,7 @@ type
       out ALineHeight: integer; out ATextSize: TSize);
     procedure DoTabDrop;
     procedure DoTabDropToOtherControl(ATarget: TControl; const APnt: TPoint);
+    function GetTabTick(AIndex: integer): QWord;
 
   public
     constructor Create(AOnwer: TComponent); override;
@@ -606,6 +616,7 @@ type
 
     property OptPosition: TATTabPosition read FOptPosition write FOptPosition default _InitOptPosition;
     property OptIconPosition: TATTabIconPosition read FOptIconPosition write FOptIconPosition default aipIconLefterThanText;
+    property OptWhichActivateOnClose: TATTabActivateOnClose read FOptWhichActivateOnClose write FOptWhichActivateOnClose default aocRight;
     property OptCaptionAlignment: TAlignment read FOptCaptionAlignment write FOptCaptionAlignment default taLeftJustify;
     property OptShowAngled: boolean read FOptShowAngled write FOptShowAngled default _InitOptShowAngled;
     property OptShowAngleTangent: single read FAngleTangent write FAngleTangent {$ifdef fpc} default _InitOptShowAngleTangent {$endif};
@@ -642,6 +653,7 @@ type
     property OnTabOver: TATTabOverEvent read FOnTabOver write FOnTabOver;
     property OnTabMove: TATTabMoveEvent read FOnTabMove write FOnTabMove;
     property OnTabChangeQuery: TATTabChangeQueryEvent read FOnTabChangeQuery write FOnTabChangeQuery;
+    property OnTabGetTick: TATTabGetTickEvent read FOnTabGetTick write FOnTabGetTick;
   end;
 
 var
@@ -906,6 +918,7 @@ begin
   FOptButtonSize:= _InitOptButtonSize;
   FOptCaptionAlignment:= taLeftJustify;
   FOptIconPosition:= aipIconLefterThanText;
+  FOptWhichActivateOnClose:= aocRight;
   FOptFillWidth:= _InitOptFillWidth;
   FOptFillWidthLastToo:= _InitOptFillWidthLastToo;
   FOptTabHeight:= _InitOptTabHeight;
@@ -2378,8 +2391,22 @@ begin
 end;
 
 function TATTabs.DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
+  //
+  procedure _ActivateRight;
+  begin
+    if FTabIndex>AIndex then
+      SetTabIndex(FTabIndex-1)
+    else
+    if (FTabIndex=AIndex) and (FTabIndex>0) and (FTabIndex>=TabCount) then
+      SetTabIndex(FTabIndex-1)
+    else
+    if FTabIndex=AIndex then
+      SetTabIndex(FTabIndex);
+  end;
+  //
 var
   CanClose, CanContinue: boolean;
+  NewIndex: integer;
 begin
   FMouseDown:= false;
 
@@ -2401,16 +2428,7 @@ begin
   begin
     FTabList.Delete(AIndex);
 
-    //need to call OnTabClick
-    if FTabIndex>AIndex then
-      SetTabIndex(FTabIndex-1)
-    else
-    if (FTabIndex=AIndex) and (FTabIndex>0) and (FTabIndex>=TabCount) then
-      SetTabIndex(FTabIndex-1)
-    else
-    if FTabIndex=AIndex then
-      SetTabIndex(FTabIndex);
-
+    _ActivateRight;
     Invalidate;
 
     if (TabCount=0) then
@@ -2713,6 +2731,19 @@ begin
     ATabs.TabIndex:= ATabs.TabCount-1
   else
     ATabs.TabIndex:= NTabTo;
+end;
+
+function TATTabs.GetTabTick(AIndex: integer): QWord;
+var
+  D: TATTabData;
+begin
+  Result:= 0;
+  if Assigned(FOnTabGetTick) then
+  begin
+    D:= GetTabData(AIndex);
+    if Assigned(D) then
+      Result:= FOnTabGetTick(Self, D.TabObject);
+  end;
 end;
 
 procedure TATTabs.CMMouseLeave(var Msg: TMessage);

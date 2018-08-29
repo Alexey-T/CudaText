@@ -41,6 +41,7 @@ type
     FOnTabEmpty: TNotifyEvent;
     FOnTabOver: TATTabOverEvent;
     FOnTabMove: TATTabMoveEvent;
+    FOnTabGetTick: TATTabGetTickEvent;
     procedure SetOnTabClose(AEvent: TATTabCloseEvent);
     procedure SetOnTabAdd(AEvent: TNotifyEvent);
     procedure TabClick(Sender: TObject);
@@ -50,6 +51,7 @@ type
     procedure TabEmpty(Sender: TObject);
     procedure TabOver(Sender: TObject; ATabIndex: Integer);
     procedure TabMove(Sender: TObject; NFrom, NTo: Integer);
+    function TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
   protected
     procedure Resize; override;
   public
@@ -68,6 +70,7 @@ type
     property OnTabEmpty: TNotifyEvent read FOnTabEmpty write FOnTabEmpty;
     property OnTabOver: TATTabOverEvent read FOnTabOver write FOnTabOver;
     property OnTabMove: TATTabMoveEvent read FOnTabMove write FOnTabMove;
+    property OnTabGetTick: TATTabGetTickEvent read FOnTabGetTick write FOnTabGetTick;
   end;
 
 type
@@ -210,6 +213,7 @@ type
     FOnTabOver: TATTabOverEvent;
     FOnTabMove: TATTabMoveEvent;
     FOnEmpty: TNotifyEvent;
+    FOnTabGetTick: TATTabGetTickEvent;
     FPopupPages: TATPages;
     FPopupTabIndex: Integer;
     function DoScale(N: integer): integer;
@@ -223,6 +227,7 @@ type
     procedure TabAdd(Sender: TObject);
     procedure TabOver(Sender: TObject; ATabIndex: Integer);
     procedure TabMove(Sender: TObject; NFrom, NTo: Integer);
+    function TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
     procedure SetMode(Value: TATGroupsMode);
     function GetSplitPos: Integer;
     procedure SetSplitPos(N: Integer);
@@ -301,6 +306,7 @@ type
     property OnTabAdd: TNotifyEvent read FOnTabAdd write FOnTabAdd;
     property OnTabOver: TATTabOverEvent read FOnTabOver write FOnTabOver;
     property OnTabMove: TATTabMoveEvent read FOnTabMove write FOnTabMove;
+    property OnTabGetTick: TATTabGetTickEvent read FOnTabGetTick write FOnTabGetTick;
     property OnEmpty: TNotifyEvent read FOnEmpty write FOnEmpty;
   end;
 
@@ -387,6 +393,7 @@ begin
   FTabs.OnTabEmpty:= TabEmpty;
   FTabs.OnTabOver:= TabOver;
   FTabs.OnTabMove:= TabMove;
+  FTabs.OnTabGetTick:= TabGetTick;
   {$ifdef fpc}
   FTabs.DragMode:= dmAutomatic; //allow DnD between groups
     //it breaks all on Delphi7
@@ -487,6 +494,14 @@ begin
     FOnTabMove(Sender, NFrom, NTo);
 end;
 
+function TATPages.TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+begin
+  if Assigned(FOnTabGetTick) then
+    Result:= FOnTabGetTick(Sender, ATabObject)
+  else
+    Result:= 0;
+end;
+
 procedure TATPages.Resize;
 begin
   inherited;
@@ -548,6 +563,7 @@ begin
       OnTabAdd:= Self.TabAdd;
       OnTabOver:= Self.TabOver;
       OnTabMove:= Self.TabMove;
+      OnTabGetTick:= Self.TabGetTick;
     end;
 
   FSplit1:= TMySplitter.Create(Self);
@@ -1899,6 +1915,14 @@ procedure TATGroups.TabMove(Sender: TObject; NFrom, NTo: Integer);
 begin
   if Assigned(FOnTabMove) then
     FOnTabMove(Sender, NFrom, NTo);
+end;
+
+function TATGroups.TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+begin
+  if Assigned(FOnTabGetTick) then
+    Result:= FOnTabGetTick(Sender, ATabObject)
+  else
+    Result:= 0;
 end;
 
 
