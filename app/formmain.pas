@@ -426,7 +426,6 @@ type
     UniqInstance: TUniqueInstance;
     procedure AppPropsActivate(Sender: TObject);
     procedure ButtonCancelClick(Sender: TObject);
-    procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var ACanClose: boolean);
     procedure FormColorsApply(const AColors: TAppTheme);
@@ -687,7 +686,13 @@ type
     procedure DoMenuClear(const AMenuId: string);
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
     function DoMenu_PyEnum(const AMenuId: string): PPyObject;
+    procedure DoOnTabFocus(Sender: TObject);
+    procedure DoOnTabAdd(Sender: TObject);
+    procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer; var ACanClose, ACanContinue: boolean);
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
+    procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
+    procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
+    function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): QWord;
     procedure DoCodetree_OnDblClick(Sender: TObject);
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -882,7 +887,6 @@ type
     procedure DoFindNext(ANext: boolean);
     procedure DoFindMarkAll(AMode: TATFindMarkingMode);
     procedure DoMoveTabToGroup(AGroupIndex: Integer);
-    procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
     function DoFileOpen(AFilename: string; APages: TATPages=nil; const AOptions: string=''): TEditorFrame;
     procedure DoFileOpenDialog(AOptions: string= '');
     procedure DoFileOpenDialog_NoPlugins;
@@ -963,10 +967,6 @@ type
     function DoTabAdd(APages: TATPages; const ACaption: string;
       AndActivate: boolean=true;
       AAllowNearCurrent: boolean=true): TATTabData;
-    procedure DoOnTabFocus(Sender: TObject);
-    procedure DoOnTabAdd(Sender: TObject);
-    procedure DoOnTabClose(Sender: TObject; ATabIndex: Integer;
-      var ACanClose, ACanContinue: boolean);
     procedure FrameOnFocus(Sender: TObject);
     function GetFrame(AIndex: integer): TEditorFrame;
     procedure MenuEncNoReloadClick(Sender: TObject);
@@ -1638,6 +1638,7 @@ begin
   Groups.OnTabMove:= @DoOnTabMove;
   Groups.OnTabPopup:= @DoOnTabPopup;
   Groups.OnTabOver:= @DoOnTabOver;
+  Groups.OnTabGetTick:= @DoOnTabGetTick;
 
   with AppSidePanels[0] do
   begin
@@ -5356,6 +5357,12 @@ begin
     @FormFloatGroups3_OnClose,
     @FormFloatGroups3_OnEmpty);
 end;
+
+function TfmMain.DoOnTabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+begin
+  Result:= TEditorFrame(ATabObject).ActivationTime;
+end;
+
 
 //----------------------------
 {$I formmain_loadsave.inc}

@@ -2392,7 +2392,7 @@ end;
 
 function TATTabs.DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
   //
-  procedure _ActivateRight;
+  procedure _ActivateRightTab;
   begin
     if FTabIndex>AIndex then
       SetTabIndex(FTabIndex-1)
@@ -2404,9 +2404,30 @@ function TATTabs.DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean
       SetTabIndex(FTabIndex);
   end;
   //
+  procedure _ActivateRecentTab;
+  var
+    Idx, i: integer;
+    Tick, TickMax: QWord;
+  begin
+    TickMax:= 0;
+    Idx:= -1;
+    for i:= 0 to TabCount-1 do
+    begin
+      Tick:= GetTabTick(i);
+      if Tick>TickMax then
+      begin
+        TickMax:= Tick;
+        Idx:= i;
+      end;
+    end;
+    if Idx>=0 then
+      SetTabIndex(Idx)
+    else
+      _ActivateRightTab;
+  end;
+  //
 var
   CanClose, CanContinue: boolean;
-  NewIndex: integer;
 begin
   FMouseDown:= false;
 
@@ -2428,7 +2449,14 @@ begin
   begin
     FTabList.Delete(AIndex);
 
-    _ActivateRight;
+    case FOptWhichActivateOnClose of
+      aocRight:
+        _ActivateRightTab;
+      aocRecent:
+        _ActivateRecentTab;
+      else
+        _ActivateRightTab;
+    end;
     Invalidate;
 
     if (TabCount=0) then
