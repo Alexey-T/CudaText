@@ -61,10 +61,7 @@ File name is "settings/filetypes.json". Menu item "Options / Settings - more / S
 * Key name: file mask. Must be full name (without path), or extension after "*." chars. More complex masks are not yet supported.
 * Key value: lexer name. Value "-" means "don't activate lexer".
 
-Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
-
-* It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
-* It can specify file extension, or name+extension, but cannot set complex file mask with "*".
+Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
 
 == Plugin groups config ==
 
