@@ -138,7 +138,8 @@ type
     );
 
 type
-  TATTabActivateOnClose = (
+  TATTabActionOnClose = (
+    aocDefault,
     aocRight,
     aocRecent
     );
@@ -156,6 +157,7 @@ type
     var ACanChange: boolean) of object;
   TATTabClickUserButton = procedure (Sender: TObject; AIndex: integer) of object;
   TATTabGetTickEvent = function (Sender: TObject; ATabObject: TObject): QWord of object;
+  TATTabGetCloseActionEvent = procedure (Sender: TObject; var AAction: TATTabActionOnClose) of object;
 
 type
   TATTabTriangle = (
@@ -333,7 +335,7 @@ type
 
     FOptPosition: TATTabPosition;
     FOptIconPosition: TATTabIconPosition;
-    FOptWhichActivateOnClose: TATTabActivateOnClose;
+    FOptWhichActivateOnClose: TATTabActionOnClose;
     FOptCaptionAlignment: TAlignment;
     FOptShowFlat: boolean;
     FOptShowXButtons: TATTabShowClose; //show mode for "x" buttons
@@ -402,6 +404,7 @@ type
     FOnTabMove: TATTabMoveEvent;
     FOnTabChangeQuery: TATTabChangeQueryEvent;
     FOnTabGetTick: TATTabGetTickEvent;
+    FOnTabGetCloseAction: TATTabGetCloseActionEvent;
 
     procedure ApplyButtonLayout;
     procedure DoClickUser(AIndex: integer);
@@ -488,7 +491,8 @@ type
       AFontStyle: TFontStyles = [];
       const AHint: TATTabString = '');
     procedure Clear;
-    function DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
+    function DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean;
+      AAction: TATTabActionOnClose=aocDefault): boolean;
     procedure MakeVisible(AIndex: integer);
     function IsTabVisible(AIndex: integer): boolean;
     procedure ShowTabMenu;
@@ -616,7 +620,7 @@ type
 
     property OptPosition: TATTabPosition read FOptPosition write FOptPosition default _InitOptPosition;
     property OptIconPosition: TATTabIconPosition read FOptIconPosition write FOptIconPosition default aipIconLefterThanText;
-    property OptWhichActivateOnClose: TATTabActivateOnClose read FOptWhichActivateOnClose write FOptWhichActivateOnClose default aocRight;
+    property OptWhichActivateOnClose: TATTabActionOnClose read FOptWhichActivateOnClose write FOptWhichActivateOnClose default aocRight;
     property OptCaptionAlignment: TAlignment read FOptCaptionAlignment write FOptCaptionAlignment default taLeftJustify;
     property OptShowAngled: boolean read FOptShowAngled write FOptShowAngled default _InitOptShowAngled;
     property OptShowAngleTangent: single read FAngleTangent write FAngleTangent {$ifdef fpc} default _InitOptShowAngleTangent {$endif};
@@ -654,6 +658,7 @@ type
     property OnTabMove: TATTabMoveEvent read FOnTabMove write FOnTabMove;
     property OnTabChangeQuery: TATTabChangeQueryEvent read FOnTabChangeQuery write FOnTabChangeQuery;
     property OnTabGetTick: TATTabGetTickEvent read FOnTabGetTick write FOnTabGetTick;
+    property OnTabGetCloseAction: TATTabGetCloseActionEvent read FOnTabGetCloseAction write FOnTabGetCloseAction;
   end;
 
 var
@@ -2222,6 +2227,7 @@ end;
 
 procedure TATTabs.DoHandleClick;
 var
+  Action: TATTabActionOnClose;
   R: TRect;
 begin
   if FMouseDownButton=mbMiddle then
@@ -2271,7 +2277,10 @@ begin
 
       cTabIndexCloseBtn:
         begin
-          DeleteTab(FTabIndex, true, true);
+          Action:= aocDefault;
+          if Assigned(FOnTabGetCloseAction) then
+            FOnTabGetCloseAction(Self, Action);
+          DeleteTab(FTabIndex, true, true, Action);
         end
 
       else
@@ -2390,7 +2399,9 @@ begin
     FOnTabMove(Self, -1, AIndex);
 end;
 
-function TATTabs.DeleteTab(AIndex: integer; AAllowEvent, AWithCancelBtn: boolean): boolean;
+function TATTabs.DeleteTab(AIndex: integer;
+  AAllowEvent, AWithCancelBtn: boolean;
+  AAction: TATTabActionOnClose=aocDefault): boolean;
   //
   procedure _ActivateRightTab;
   begin
@@ -2449,7 +2460,10 @@ begin
   begin
     FTabList.Delete(AIndex);
 
-    case FOptWhichActivateOnClose of
+    if AAction=aocDefault then
+      AAction:= FOptWhichActivateOnClose;
+
+    case AAction of
       aocRight:
         _ActivateRightTab;
       aocRecent:

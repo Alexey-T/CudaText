@@ -1728,7 +1728,7 @@ begin
         tabOptionSpaceXSize:       OptSpaceXSize:= DoScale(N);
         tabOptionArrowSize:        OptArrowSize:= DoScale(N);
         tabOptionButtonSize:       OptButtonSize:= DoScale(N);
-        tabOptionWhichActivateOnClose: OptWhichActivateOnClose:= TATTabActivateOnClose(N);
+        tabOptionWhichActivateOnClose: OptWhichActivateOnClose:= TATTabActionOnClose(N);
       end;
 end;
 
