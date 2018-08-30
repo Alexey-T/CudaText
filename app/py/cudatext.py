@@ -1104,6 +1104,16 @@ class Editor:
 
     def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
         return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
+
+    def __str__(self):
+        return '<Editor id:{} title:"{}" gr:{} tab:{}>'.format(
+            self.get_prop(PROP_TAB_ID), 
+            self.get_prop(PROP_TAB_TITLE),
+            self.get_prop(PROP_INDEX_GROUP), 
+            self.get_prop(PROP_INDEX_TAB) 
+            )
+    def __repr__(self):
+        return self.__str__()
     #end
 
 #objects
