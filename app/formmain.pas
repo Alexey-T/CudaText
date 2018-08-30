@@ -683,6 +683,7 @@ type
     function DoMenuAdd_Params(
       const AMenuId, AMenuCmd, AMenuCaption, AMenuHotkey, AMenuTagString: string;
       AIndex: integer): string;
+    procedure DoMenu_Remove(const AMenuId: string);
     procedure DoMenuClear(const AMenuId: string);
     function DoMenu_GetPyProps(mi: TMenuItem): PPyObject;
     function DoMenu_PyEnum(const AMenuId: string): PPyObject;
@@ -5048,6 +5049,14 @@ begin
 
     Result:= IntToStr(PtrInt(mi));
   end;
+end;
+
+procedure TfmMain.DoMenu_Remove(const AMenuId: string);
+var
+  mi: TMenuItem;
+begin
+  mi:= Py_MenuItemFromId(AMenuId);
+  mi.Free;
 end;
 
 procedure TfmMain.DoFileNewMenu(Sender: TObject);

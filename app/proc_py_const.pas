@@ -59,6 +59,7 @@ const
   MENU_CLEAR         = 0;
   MENU_ENUM          = 1;
   MENU_ADD           = 2;
+  MENU_REMOVE        = 3;
   MENU_SET_CAPTION   = 4;
   MENU_SET_VISIBLE   = 5;
   MENU_SET_ENABLED   = 6;

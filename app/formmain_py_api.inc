@@ -3939,6 +3939,12 @@ begin
             Result:= PyString_FromString(PChar(StrResult));
           end;
 
+        MENU_REMOVE:
+          begin
+            fmMain.DoMenu_Remove(StrMenu);
+            Result:= ReturnNone;
+          end;
+
         MENU_CREATE:
           begin
             Popup:= TPopupMenu.Create(fmMain);
