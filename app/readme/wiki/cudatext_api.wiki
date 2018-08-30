@@ -1432,6 +1432,7 @@ Possible values of "id_action":
 ** "hotkey": String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
 ** "tag": Any string stored in menu item.
 
+* MENU_REMOVE: Deletes menu item. Note: don't remove items, which are auto-updated by CudaText, because you'll get Access Violation on showing menu containing these items. E.g. some items in the tab context menu are auto-updated.
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
@@ -2971,3 +2972,4 @@ Text is chr(1) separated items:
 1.0.254 (app 1.60.1)
 * add: event on_tab_switch
 * add: menu_proc: support menu id "tab"
+* add: menu_proc: MENU_REMOVE
