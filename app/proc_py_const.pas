@@ -388,6 +388,7 @@ const
   PyMenuId_TopHelp = 'top-help';
   PyMenuId_TopGroups = 'top-groups';
   PyMenuId_Text = 'text';
+  PyMenuId_Tab = 'tab';
 
   TIMER_START     = 0;
   TIMER_START_ONE = 1;

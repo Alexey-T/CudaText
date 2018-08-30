@@ -2976,6 +2976,12 @@ begin
 end;
 
 
+procedure UpdateMenuEnabled(AItem: TMenuItem; AValue: boolean); inline;
+begin
+  if Assigned(AItem) then
+    AItem.Enabled:= AValue;
+end;
+
 procedure TfmMain.PopupTabPopup(Sender: TObject);
 var
   CurForm: TForm;
@@ -3014,17 +3020,17 @@ begin
 
   NVis:= Groups.PagesVisibleCount; //visible groups
 
-  mnuTabMove1.Enabled:= ((NVis>=2) and (NCur<>0)) or (NCur>5);
-  mnuTabMove2.Enabled:= {(NVis>=2) and} (NCur<>1);
-  mnuTabMove3.Enabled:= (NVis>=3) and (NCur<>2);
-  mnuTabMove4.Enabled:= (NVis>=4) and (NCur<>3);
-  mnuTabMove5.Enabled:= (NVis>=5) and (NCur<>4);
-  mnuTabMove6.Enabled:= (NVis>=6) and (NCur<>5);
-  mnuTabMoveF1.Enabled:= (NCur<>6);
-  mnuTabMoveF2.Enabled:= (NCur<>7);
-  mnuTabMoveF3.Enabled:= (NCur<>8);
-  mnuTabMoveNext.Enabled:= (NVis>=2) and (NCur<6);
-  mnuTabMovePrev.Enabled:= mnuTabMoveNext.Enabled;
+  UpdateMenuEnabled(mnuTabMove1, ((NVis>=2) and (NCur<>0)) or (NCur>5));
+  UpdateMenuEnabled(mnuTabMove2, {(NVis>=2) and} (NCur<>1));
+  UpdateMenuEnabled(mnuTabMove3, (NVis>=3) and (NCur<>2));
+  UpdateMenuEnabled(mnuTabMove4, (NVis>=4) and (NCur<>3));
+  UpdateMenuEnabled(mnuTabMove5, (NVis>=5) and (NCur<>4));
+  UpdateMenuEnabled(mnuTabMove6, (NVis>=6) and (NCur<>5));
+  UpdateMenuEnabled(mnuTabMoveF1, (NCur<>6));
+  UpdateMenuEnabled(mnuTabMoveF2, (NCur<>7));
+  UpdateMenuEnabled(mnuTabMoveF3, (NCur<>8));
+  UpdateMenuEnabled(mnuTabMoveNext, (NVis>=2) and (NCur<6));
+  UpdateMenuEnabled(mnuTabMovePrev, (NVis>=2) and (NCur<6));
 end;
 
 procedure TfmMain.PythonEngineAfterInit(Sender: TObject);
@@ -4935,6 +4941,20 @@ begin
       mnuTextSel:= nil;
       mnuTextGotoDef:= nil;
       mnuTextOpenUrl:= nil;
+    end;
+    if AMenuId=PyMenuId_Tab then
+    begin
+      mnuTabMove1:= nil;
+      mnuTabMove2:= nil;
+      mnuTabMove3:= nil;
+      mnuTabMove4:= nil;
+      mnuTabMove5:= nil;
+      mnuTabMove6:= nil;
+      mnuTabMoveF1:= nil;
+      mnuTabMoveF2:= nil;
+      mnuTabMoveF3:= nil;
+      mnuTabMoveNext:= nil;
+      mnuTabMovePrev:= nil;
     end;
   end;
 end;
