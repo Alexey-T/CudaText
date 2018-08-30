@@ -1363,15 +1363,22 @@ Perform action on menu items.
 
 ====Menu id====
 
-Value of "id_menu" param can be:
+Value of "id_menu" can be:
 
-* int_value or str(int_value) - to specify menu item by unique int value
-* "top" - to specify top menu
-* "top-file", "top-edit", "top-sel", "top-sr", "top-view", "top-op", "top-help" - to specify submenus of the main menu: File, Edit, Selection, Search, View, Options, Help
-* "text" - to specify editor context menu
-* "side:"+tab_caption - to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
-* "btm:"+tab_caption - to specify context menu of bottom panel
-* "toolmenu:"+name - to specify drop-down sub-menu of toolbar button
+* number, str(number): all menu items can be specified by unique int value
+* "top": top menu
+* "top-file": top menu "File" submenu
+* "top-edit": top menu "Edit" submenu 
+* "top-sel": top menu "Selection" submenu
+* "top-sr": top menu "Search" submenu
+* "top-view": top menu "View" submenu
+* "top-op": top menu "Options" submenu
+* "top-help": top menu "Help" submenu
+* "text": editor context menu
+* "tab": tab header context menu
+* "side:"+tab_caption: context menu of sidebar panel (e.g. "side:Tree", "side:Project")
+* "btm:"+tab_caption: context menu of bottom panel
+* "toolmenu:"+name: dropdown submenu of toolbar button
 
 ====Command for new items====
 
@@ -2963,3 +2970,4 @@ Text is chr(1) separated items:
 
 1.0.254 (app 1.60.1)
 * add: event on_tab_switch
+* add: menu_proc: support menu id "tab"
