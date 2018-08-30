@@ -151,6 +151,7 @@ type
     TabDblClickClose: boolean;
     TabNumbers: boolean;
     TabNewNearCurrent: boolean;
+    TabRecentOnClose: boolean;
     TabButtonLayout: string;
     TabPreviewFontStyle: string;
 
@@ -1167,6 +1168,7 @@ begin
     TabDblClickClose:= false;
     TabNumbers:= false;
     TabNewNearCurrent:= false;
+    TabRecentOnClose:= false;
     TabButtonLayout:= '<>,v';
     TabPreviewFontStyle:= 'iu';
 

@@ -2292,6 +2292,7 @@ begin
   G.SetTabOption(tabOptionArrowSize, 4);
   G.SetTabOption(tabOptionButtonSize, 16);
   G.SetTabOption(tabOptionShowArrowsNear, Ord(Pos('<>', UiOps.TabButtonLayout)>0));
+  G.SetTabOption(tabOptionWhichActivateOnClose, IfThen(UiOps.TabRecentOnClose, Ord(aocRecent), Ord(aocRight)));
   G.SetTabOptionString(tabOptionButtonLayout, UiOps.TabButtonLayout);
   G.SetTabOptionString(tabOptionModifiedText, '*');
 end;
