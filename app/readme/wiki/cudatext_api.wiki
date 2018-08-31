@@ -1376,8 +1376,6 @@ Value of "id_menu" can be:
 * "top-help": top menu "Help" submenu
 * "text": editor context menu
 * "tab": tab header context menu
-* "side:"+tab_caption: context menu of sidebar panel (e.g. "side:Tree", "side:Project")
-* "btm:"+tab_caption: context menu of bottom panel
 * "toolmenu:"+name: dropdown submenu of toolbar button
 
 ====Command for new items====
