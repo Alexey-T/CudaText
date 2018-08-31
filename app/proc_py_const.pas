@@ -377,8 +377,11 @@ const
   FOLDING_DELETE_ALL         = 5;
   FOLDING_FIND               = 6;
   FOLDING_UNFOLD_LINE        = 7;
+  FOLDING_FOLD_ALL           = 8;
+  FOLDING_UNFOLD_ALL         = 9;
   FOLDING_CHECK_RANGE_INSIDE = 10;
   FOLDING_CHECK_RANGES_SAME  = 11;
+  FOLDING_FOLD_LEVEL         = 12;
 
   PyMenuId_Top = 'top';
   PyMenuId_TopEdit = 'top-edit';

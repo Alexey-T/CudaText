@@ -5447,6 +5447,24 @@ begin
               Result:= ReturnNone;
           end;
 
+        FOLDING_FOLD_ALL:
+          begin
+            Ed.DoCommand(cCommand_FoldAll);
+            Result:= ReturnNone;
+          end;
+
+        FOLDING_UNFOLD_ALL:
+          begin
+            Ed.DoCommand(cCommand_UnfoldAll);
+            Result:= ReturnNone;
+          end;
+
+        FOLDING_FOLD_LEVEL:
+          begin
+            Ed.DoFoldForLevel(NItem);
+            Result:= ReturnNone;
+          end;
+
         FOLDING_CHECK_RANGE_INSIDE:
           begin
             Ok:= Ed.Fold.IsIndexValid(NItem) and
