@@ -2098,7 +2098,11 @@ Performs action on folding ranges. Possible values of "id":
 ** "folded": bool: range is currently folded.
 
 * FOLDING_FOLD: Folds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_FOLD_ALL: Folds all ranges.
+* FOLDING_FOLD_LEVEL: Unfolds all ranges, then folds ranges starting with given nesting level. Params used: "index": nesting level, 0..9.
+
 * FOLDING_UNFOLD: Unfolds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_UNFOLD_ALL: Unfolds all ranges.
 * FOLDING_UNFOLD_LINE: Unfolds line with given index (index in lines list). Params used: "index".
 
 * FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change. Params used:
@@ -2975,4 +2979,7 @@ Text is chr(1) separated items:
 1.0.255 (app 1.60.5)
 * add: menu_proc: support menu id "tab"
 * add: menu_proc: MENU_REMOVE
+* add: Editor.folding: FOLDING_FOLD_ALL
+* add: Editor.folding: FOLDING_FOLD_LEVEL
+* add: Editor.folding: FOLDING_UNFOLD_ALL
 * add: Editor.folding: FOLDING_UNFOLD_LINE
