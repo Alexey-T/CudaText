@@ -4,7 +4,7 @@
   * changed
 
 
-1.60.2 (2018/09)
+1.60.5 (2018/09)
 
 + add: option "ui_tab_recent_on_close"
 + add: bind Shift+Alt+click to vertical selection (from first caret to clicked pos)

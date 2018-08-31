@@ -2972,7 +2972,7 @@ Text is chr(1) separated items:
 1.0.254 (app 1.60.1)
 * add: event on_tab_switch
 
-1.0.255 (app 1.60.2)
+1.0.255 (app 1.60.5)
 * add: menu_proc: support menu id "tab"
 * add: menu_proc: MENU_REMOVE
 * add: Editor.folding: FOLDING_UNFOLD_LINE
