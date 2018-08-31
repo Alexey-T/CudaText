@@ -5394,11 +5394,12 @@ begin
 
         FOLDING_UNFOLD_LINE:
           begin
-            if Ed.IsLineFolded(NItem, true) then
-            begin
-              Ed.DoUnfoldLine(NItem);
-              Ed.Update;
-            end;
+            if Ed.Strings.IsIndexValid(NItem) then
+              if Ed.IsLineFolded(NItem, true) then
+              begin
+                Ed.DoUnfoldLine(NItem);
+                Ed.Update;
+              end;
             Result:= ReturnNone;
           end;
 
