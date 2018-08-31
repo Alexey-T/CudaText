@@ -5392,6 +5392,16 @@ begin
             Result:= ReturnNone;
           end;
 
+        FOLDING_UNFOLD_LINE:
+          begin
+            if Ed.IsLineFolded(NItem, true) then
+            begin
+              Ed.DoUnfoldLine(NItem);
+              Ed.Update;
+            end;
+            Result:= ReturnNone;
+          end;
+
         FOLDING_ADD:
           begin
             if Ed.Strings.IsIndexValid(NY) and Ed.Strings.IsIndexValid(NY2) and (NX>=0) then
