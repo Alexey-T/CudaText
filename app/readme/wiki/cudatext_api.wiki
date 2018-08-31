@@ -2977,6 +2977,7 @@ Text is chr(1) separated items:
 * add: event on_tab_switch
 
 1.0.255 (app 1.60.5)
+* add: module cudatext_nodejs
 * add: menu_proc: support menu id "tab"
 * add: menu_proc: MENU_REMOVE
 * add: Editor.folding: FOLDING_FOLD_ALL
