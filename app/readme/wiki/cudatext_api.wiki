@@ -1,10 +1,11 @@
 =Intro=
 This is API for [[CudaText]] in Python. 
 
-* Main module: cudatext. Has constants, funcs, class Editor, objects of class Editor.
-* Additional module: cudatext_cmd, constants for ed.cmd().
-* Additional module: cudatext_keys, constants for on_key.
-* Additional module: cudax_lib, some high-level functions for plugins.
+* Module: cudatext. Constants, functions, class Editor, objects of class Editor.
+* Module: cudatext_cmd. Constants for Editor.cmd().
+* Module: cudatext_keys. Constants for on_key.
+* Module: cudatext_nodejs. Helper functions for Node.js.
+* Module: cudax_lib. Some high-level functions for plugins, e.g. read/write configs.
 
 =Event plugins=
 
