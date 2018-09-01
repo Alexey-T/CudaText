@@ -4,8 +4,8 @@ This is API for [[CudaText]] in Python.
 * Module: cudatext. Constants, functions, class Editor, objects of class Editor.
 * Module: cudatext_cmd. Constants for Editor.cmd().
 * Module: cudatext_keys. Constants for on_key.
-* Module: cudatext_nodejs. Helper functions for Node.js.
-* Module: cudax_lib. Some high-level functions for plugins, e.g. read/write configs.
+* Module: cudax_lib. High-level functions for plugins, e.g. read/write configs.
+* Module: cudax_nodejs. Helper functions for plugins which use Node.js.
 
 =Event plugins=
 
@@ -2978,7 +2978,7 @@ Text is chr(1) separated items:
 * add: event on_tab_switch
 
 1.0.255 (app 1.60.5)
-* add: module cudatext_nodejs
+* add: module cudax_nodejs
 * add: menu_proc: support menu id "tab"
 * add: menu_proc: MENU_REMOVE
 * add: Editor.folding: FOLDING_FOLD_ALL
