@@ -76,6 +76,7 @@ MENU_NO_FULLFILTER = 32
 MENU_CLEAR         = 0
 MENU_ENUM          = 1
 MENU_ADD           = 2
+MENU_REMOVE        = 3
 MENU_SET_CAPTION   = 4
 MENU_SET_VISIBLE   = 5
 MENU_SET_ENABLED   = 6
@@ -498,8 +499,12 @@ FOLDING_ADD                = 3
 FOLDING_DELETE             = 4
 FOLDING_DELETE_ALL         = 5
 FOLDING_FIND               = 6
+FOLDING_UNFOLD_LINE        = 7
+FOLDING_FOLD_ALL           = 8
+FOLDING_UNFOLD_ALL         = 9
 FOLDING_CHECK_RANGE_INSIDE = 10
 FOLDING_CHECK_RANGES_SAME  = 11
+FOLDING_FOLD_LEVEL         = 12
 
 COMMANDS_USUAL   = 1
 COMMANDS_PLUGINS = 2
@@ -1103,6 +1108,16 @@ class Editor:
 
     def export_html(self, file_name, title, font_name, font_size, with_nums, color_bg, color_nums):
         return ct.ed_export_html(self.h, file_name, title, font_name, font_size, with_nums, color_bg, color_nums)
+
+    def __str__(self):
+        return '<Editor id:{} title:"{}" gr:{} tab:{}>'.format(
+            self.get_prop(PROP_TAB_ID), 
+            self.get_prop(PROP_TAB_TITLE),
+            self.get_prop(PROP_INDEX_GROUP), 
+            self.get_prop(PROP_INDEX_TAB) 
+            )
+    def __repr__(self):
+        return self.__str__()
     #end
 
 #objects

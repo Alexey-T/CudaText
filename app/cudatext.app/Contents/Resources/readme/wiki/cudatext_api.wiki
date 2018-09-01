@@ -1,10 +1,11 @@
 =Intro=
 This is API for [[CudaText]] in Python. 
 
-* Main module: cudatext. Has constants, funcs, class Editor, objects of class Editor.
-* Additional module: cudatext_cmd, constants for ed.cmd().
-* Additional module: cudatext_keys, constants for on_key.
-* Additional module: cudax_lib, some high-level functions for plugins.
+* Module: cudatext. Constants, functions, class Editor, objects of class Editor.
+* Module: cudatext_cmd. Constants for Editor.cmd().
+* Module: cudatext_keys. Constants for on_key.
+* Module: cudax_lib. High-level functions for plugins, e.g. read/write configs.
+* Module: cudax_nodejs. Helper functions for plugins which use Node.js.
 
 =Event plugins=
 
@@ -22,9 +23,13 @@ Usually methods returns None, sometimes they can return True or False to block t
 * on_save_pre(self, ed_self): Called before saving file. Method can return False to disable saving, other value is ignored.
 * on_save(self, ed_self): Called after saving file.
 * on_start(self, ed_self): Called once on program start (ignore ed_self).
+* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins.
+
+==Tabs==
+
 * on_tab_change(self, ed_self): Called after active tab is changed.
 * on_tab_move(self, ed_self): Called after closing a tab (another tab is already activated), or moving a tab (by drag-n-drop, or UI command).
-* on_exit(self, ed_self): Called on exiting application. This event is lazy, ie it's called only for already loaded plugins.
+* on_tab_switch(self, ed_self, next, state): Called on running commands "switch active tab to next" (with next=True) and "switch active tab to prev" (with next=False). Param "state": same as in "on_key". Method must return True to skip default tab-switcher code.
 
 ==Editor==
 
@@ -1359,15 +1364,20 @@ Perform action on menu items.
 
 ====Menu id====
 
-Value of "id_menu" param can be:
+Value of "id_menu" can be:
 
-* int_value or str(int_value) - to specify menu item by unique int value
-* "top" - to specify top menu
-* "top-file", "top-edit", "top-sel", "top-sr", "top-view", "top-op", "top-help" - to specify submenus of the main menu: File, Edit, Selection, Search, View, Options, Help
-* "text" - to specify editor context menu
-* "side:"+tab_caption - to specify context menu of sidebar panel (e.g. "side:Tree", "side:Project")
-* "btm:"+tab_caption - to specify context menu of bottom panel
-* "toolmenu:"+name - to specify drop-down sub-menu of toolbar button
+* number, str(number): all menu items can be specified by unique int value
+* "top": top menu
+* "top-file": top menu "File" submenu
+* "top-edit": top menu "Edit" submenu 
+* "top-sel": top menu "Selection" submenu
+* "top-sr": top menu "Search" submenu
+* "top-view": top menu "View" submenu
+* "top-op": top menu "Options" submenu
+* "top-help": top menu "Help" submenu
+* "text": editor context menu
+* "tab": tab header context menu
+* "toolmenu:"+name: dropdown submenu of toolbar button
 
 ====Command for new items====
 
@@ -1421,6 +1431,7 @@ Possible values of "id_action":
 ** "hotkey": String of hotkey (e.g. "Ctrl+Shift+A"). Hotkey combos are not allowed. It overrides hotkey, which is auto assigned from command code.
 ** "tag": Any string stored in menu item.
 
+* MENU_REMOVE: Deletes menu item. Note: don't remove items, which are auto-updated by CudaText, because you'll get Access Violation on showing menu containing these items. E.g. some items in the tab context menu are auto-updated.
 * MENU_CREATE: Creates new popup-menu, independant from CudaText menus. It can be filled like other menus, then shown via MENU_SHOW.
 * MENU_SHOW: Shows given popup-menu. Only menu created with MENU_CREATE should be specified here. Param "command" must be tuple (x,y) or string "x,y" with screen-related coordinates, if empty - menu shows at mouse cursor.
 
@@ -2088,7 +2099,13 @@ Performs action on folding ranges. Possible values of "id":
 ** "folded": bool: range is currently folded.
 
 * FOLDING_FOLD: Folds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_FOLD_ALL: Folds all ranges.
+* FOLDING_FOLD_LEVEL: Unfolds all ranges, then folds ranges starting with given nesting level. Params used: "index": nesting level, 0..9.
+
 * FOLDING_UNFOLD: Unfolds range with given index (index in list, from FOLDING_GET_LIST). Params used: "index".
+* FOLDING_UNFOLD_ALL: Unfolds all ranges.
+* FOLDING_UNFOLD_LINE: Unfolds line with given index (index in lines list). Params used: "index".
+
 * FOLDING_ADD: Adds folding range. Life time of this range is until lexer analisys runs (it clears ranges and adds ranges from lexer), which runs after any text change. Params used:
 ** "item_x": char index (offset in line) of range start.
 ** "item_y": line index of range start.
@@ -2956,3 +2973,15 @@ Text is chr(1) separated items:
 * add: Editor.attr: added optional param "show_on_map"
 * add: Editor.get_prop(PROP_ACTIVATION_TIME) is 0 for not yet focused tabs
 * add: app_proc: PROC_BOTTOMPANEL_ACTIVATE now handles tuple like PROC_SIDEPANEL_ACTIVATE
+
+1.0.254 (app 1.60.1)
+* add: event on_tab_switch
+
+1.0.255 (app 1.60.5)
+* add: module cudax_nodejs
+* add: menu_proc: support menu id "tab"
+* add: menu_proc: MENU_REMOVE
+* add: Editor.folding: FOLDING_FOLD_ALL
+* add: Editor.folding: FOLDING_FOLD_LEVEL
+* add: Editor.folding: FOLDING_UNFOLD_ALL
+* add: Editor.folding: FOLDING_UNFOLD_LINE

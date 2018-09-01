@@ -4,6 +4,14 @@
   * changed
 
 
+1.60.5 (2018/09)
+
++ add: option "ui_tab_recent_on_close"
++ add: bind Shift+Alt+click to vertical selection (from first caret to clicked pos)
++ add: updated Multi Installer (suggest SQL, suggest more addons for HTML/CSS/JS/PHP)
++ add: API (to modify tab context menu)
+* change: renamed file "py/cudax_lib/__init__.py" to "py/cudax_lib.py"; please delete old folder (py/cudax_lib)
+
 1.60.0 (2018/08)
 
 + add: ability to group Plugins menu: see Wiki help topic "Plugin groups config"

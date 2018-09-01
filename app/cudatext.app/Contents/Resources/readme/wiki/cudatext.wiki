@@ -2,12 +2,11 @@
 
 CudaText is a cross-platform text editor, written in Lazarus.
 
-* Syntax highlight for many languages: C, C++, Java, JavaScript, HTML, CSS, PHP, Python, Pascal, XML; more than [http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ 160 lexers] exist
+* Syntax highlighting for 200+ languages ([http://sourceforge.net/p/synwrite/wiki/Lexers%20list/ full lexers list])
 * Code folding 
-* Code tree structure
-* Multi-carets
-* Multi-selections 
-* Search/replace with regex
+* Code tree (treeview with functions/classes/etc in the code)
+* Multi-carets, multi-selections 
+* Search/replace with reg.ex.
 * Supports many encodings
 * Simple auto-completion (fixed list) for some lexers
 * Extendable via Python plugins
@@ -18,9 +17,10 @@ CudaText is a cross-platform text editor, written in Lazarus.
 Features for HTML/CSS coding: 
 
 * Smart auto-completion for HTML, CSS.
-* HTML tags completion with Tab-key (Snippets plugin).
+* HTML tags completion with Tab-key.
 * HTML color codes underline.
-* View pictures (jpeg/png/bmp/ico). 
+* HTML tooltips on mouse-over.
+* Viewer for pictures (jpeg, png, gif, bmp, ico). 
 
 Screenshot:
 
@@ -30,9 +30,9 @@ Screenshot:
 
 * Homepage: http://uvviewsoft.com/
 * SourceForge downloads: http://cudatext.sf.net
-* GitHub repository with source code: https://github.com/Alexey-T/CudaText
+* GitHub repository: https://github.com/Alexey-T/CudaText
 
-It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS (currently Carbon only), FreeBSD.
+It has builds for Windows, Linux, Linux ARM (for Raspberry Pi 3), macOS, FreeBSD.
 
 = Configs =
 
@@ -42,13 +42,13 @@ Editor has config system in JSON files: call menu item "Settings-default" and yo
 
 '''File types config''': specifies mapping between file names (name or extension) and lexer names. Such mapping exists in lexer-library, this config overrides it.
 
-'''Plugin menu config''': specifies grouping in the Plugins menu.
+'''Plugin groups config''': adds grouping in the Plugins menu.
 
 '''Hotkey config'''. Special dialog allows to change all hotkeys in the app. You should not edit config file here. Dialog is called from "Help - Commands" list by key F9. Dialog allows to set hotkey-1 and hotkey-2 for any command (except dynamically added commands to change lexer).
 
 == File types config ==
 
-File name is "filetypes.json" in the "settings" folder. Menu item "Options / Settings - more / Settings - file types" opens this file. It specifies mapping from "file name" to "lexer name". Example:
+File name is "settings/filetypes.json". Menu item "Options / Settings - more / Settings - file types" opens this file. It specifies mapping from "file name" to "lexer name". Example:
 
 <syntaxhighlight lang="javascript">
 {
@@ -61,14 +61,11 @@ File name is "filetypes.json" in the "settings" folder. Menu item "Options / Set
 * Key name: file mask. Must be full name (without path), or extension after "*." chars. More complex masks are not yet supported.
 * Key value: lexer name. Value "-" means "don't activate lexer".
 
-Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited:
+Another method to specify this mapping is dialog "Lexer properties", in which you can add extension or name+extension to a lexer. But dialog is more limited: it saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
 
-* It saves option to the lexer file (data/lexlib/lexername.lcf), so setting will be reset on reinstalling lexer.
-* It can specify file extension, or name+extension, but cannot set complex file mask with "*".
+== Plugin groups config ==
 
-== Plugin menu config ==
-
-File name is "plugin groups.json" in the "settings" folder. It allows to add grouping to the Plugins menu, e.g. to put all "HTML nnnnnnn" menus into "Web" submenu. Example:
+File name is "settings/plugin groups.json". It allows to add grouping to the Plugins menu, e.g. to put all "HTML ..." and "CSS ..." menu items into "Web" submenu. Example:
 
 <syntaxhighlight lang="javascript">
 {
@@ -126,7 +123,7 @@ Multi-carets:
 * Ctrl+drag - add caret with selection.
 * Ctrl+Shift+click - add carets column in several lines (from previous caret to clicked line).
 
-Select:
+Dragging:
 
 * Alt+drag - select column of text. (Note: it may look weird if word-wrap on, because wrap is not considered here at all. Simple rectangle of coordinates [x1,y1]-[x2,y2] is always selected, even if this gives bad looking screen.)
 * drag on gutter's line numbers - select by entire lines.
@@ -144,6 +141,7 @@ Clicks:
 Misc:
        
 * Alt+click (with option mouse_goto_definition) - call "Goto definition" command (if plugin installed).
+* Shift+Alt+click - make vertical (column) selection, from first caret to clicked position.
 * Shift+ scroll mouse wheel - scroll text horizontally.
 * Ctrl+ scroll mouse wheel (with option mouse_wheel_zoom) - zoom text in/out.
 
@@ -1040,7 +1038,12 @@ Section names: from "item1" to "item400", any numbers can be skipped. Fields in 
 ** "o": menu item will be put to "Options / Settings-plugins".
 ** "op": menu item will be put both to "Plugins" and "Options / Settings-plugins".
 
-Plugin can show sidebar button(s), w/o running plugin code. For this, add sections "sidebar1" to "sidebar3", with keys:
+Only for "section=events":
+
+* "events": comma-separated list of events to handle in plugin, e.g. "events=on_change,on_caret".
+* "keys": only for plugin which handles "on_key": comma-separated list of int key codes to handle in "on_key", e.g. "keys=9" means that "on_key" is only called for key code 9 (tab char).
+
+Plugin can show sidebar button(s), without running plugin code. For this, add sections "sidebar1" to "sidebar3", with keys:
 
 * "hint": hint of button, must be the same as used by plugin to create button in runtime.
 * "icon": filename of PNG icon. If path missed, used file from CudaText. To use path in plugin dir, write value as "{dir}/subdir/filename.png" - with macro, with / slashes. 

@@ -6,6 +6,7 @@ import tempfile
 
 URL_DB = 'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/multi_inst/db.py'
 COLUMN_LEN = 20
+COLUMN_W = 240
 
 def str_to_bool(s):
     return s == '1'
@@ -125,14 +126,14 @@ class Command:
 
         RES_LIST = 2
         RES_NEXT = 4
-        res = dlg_custom('CudaText Multi Installer', 300, 300, '\n'.join([
+        res = dlg_custom('CudaText Multi Installer', 300, 330, '\n'.join([
             '\1'.join(['type=label','pos=5,5,295,0','cap=Select language(s) needed for you.']),
             '\1'.join(['type=label','pos=5,25,295,0','cap=Next steps will suggest add-ons for them.']),
-            '\1'.join(['type=checklistbox','pos=5,45,295,260','items='+
+            '\1'.join(['type=checklistbox','pos=5,48,295,290','items='+
                 '\t'.join(langs)
                 ]),
-            '\1'.join(['type=button','pos=5,265,85,295','cap=Cancel']),
-            '\1'.join(['type=button','pos=215,265,295,295','cap=Next']),
+            '\1'.join(['type=button','pos=5,295,85,0','cap=Cancel']),
+            '\1'.join(['type=button','pos=215,295,295,0','cap=Next']),
             ]),
             get_dict=True
             )
@@ -160,7 +161,7 @@ class Command:
                                 line = 0
                             UI.append('\1'.join([
                                             'type=label',
-                                            'pos=%d,%d,%d,%d'%(5+300*cl, line*h+5, 295+300*cl, line*20+25),
+                                            'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h+5, 295+COLUMN_W*cl, line*20+25),
                                             'cap='+CLASSES_MSGS[curr_class]
                                             ]))
                             UI_reg.append(())
@@ -172,7 +173,7 @@ class Command:
                                 flag_en = not self.is_installed(curr_class,pl)
                                 UI.append('\1'.join([
                                                 'type=check',
-                                                'pos=%d,%d,%d,%d'%(5+300*cl, line*h, 295+300*cl, line*20+25),
+                                                'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h, 295+COLUMN_W*cl, line*20+25),
                                                 'cap='+pl.replace('_',' '),
                                                 'en='+bool_to_str(flag_en)
                                                 ]))
@@ -182,13 +183,13 @@ class Command:
                     line=COLUMN_LEN
                 UI = ['\1'.join([
                             'type=button',
-                            'pos=%d,%d,%d,%d'%(215+300*cl, line*h+5, 295+300*cl, line*20+25),
+                            'pos=%d,%d,%d,%d'%(COLUMN_W*(cl+1)-86, line*h+5, COLUMN_W*(cl+1)-6, line*20+25),
                             'cap=Next'
                             ])] +\
                     UI +\
                     ['\1'.join([
                             'type=label',
-                            'pos=%d,%d,%d,0'%(100+300*cl, line*h+8, 215+300*cl),
+                            'pos=%d,%d,%d,0'%(COLUMN_W*(cl+1)-180, line*h+8, COLUMN_W*(cl+1)-90),
                             'cap=Step %d of %d'%(step_index,step_count)
                             ])]
                 line+=1
@@ -196,7 +197,7 @@ class Command:
                 step_index += 1
                 res2 = dlg_custom(
                         'Select add-ons - '+langs[i],
-                        300*cl,
+                        COLUMN_W*cl,
                         line*h+15,
                         '\n'.join(UI),
                         get_dict=True

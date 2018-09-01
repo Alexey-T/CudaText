@@ -200,7 +200,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'Text'
       StyleName = 'Text'
       TokenType = 1
-      Expression = '.'
+      Expression = '\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
