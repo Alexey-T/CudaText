@@ -31,7 +31,6 @@ mkdir $dd/usr/share/cudatext/py/cuda_palette
 mkdir $dd/usr/share/cudatext/py/cuda_project_man
 mkdir $dd/usr/share/cudatext/py/cuda_tabs_list
 mkdir $dd/usr/share/cudatext/py/cuda_show_unsaved
-mkdir $dd/usr/share/cudatext/py/cudax_lib
 mkdir $dd/usr/share/cudatext/py/requests
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
@@ -66,7 +65,6 @@ rm -rf ../app/py/cuda_tabs_list/__pycache__
 cp -r ../app/py/cuda_tabs_list $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_show_unsaved/__pycache__
 cp -r ../app/py/cuda_show_unsaved $dd/usr/share/cudatext/py
-cp -r ../app/py/cudax_lib/*.py $dd/usr/share/cudatext/py/cudax_lib
 cp -r ../app/py/requests/* $dd/usr/share/cudatext/py/requests
 
 
