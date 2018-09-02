@@ -1872,7 +1872,7 @@ begin
   index:= Ed.Strings.Bookmarks.Find(ALineNum);
   if index<0 then exit;
 
-  kind:= Ed.Strings.Bookmarks[index].Kind;
+  kind:= Ed.Strings.Bookmarks[index].Data.Kind;
   if kind<=1 then
   begin
     c.brush.color:= GetAppColor('EdBookmarkIcon');
@@ -2163,9 +2163,9 @@ begin
     begin
       bookmark:= Editor.Strings.Bookmarks[i];
       //save usual bookmarks and numbered bookmarks (kind=1..10)
-      if (bookmark.Kind>10) then Continue;
-      items.Add(IntToStr(bookmark.LineNum));
-      items2.Add(IntToStr(bookmark.Kind));
+      if (bookmark.Data.Kind>10) then Continue;
+      items.Add(IntToStr(bookmark.Data.LineNum));
+      items2.Add(IntToStr(bookmark.Data.Kind));
     end;
     c.SetValue(path+cHistory_Bookmark, items);
     c.SetValue(path+cHistory_BookmarkKind, items2);
@@ -2209,7 +2209,11 @@ var
   Caret: TATCaretItem;
   nTop, nKind, i: integer;
   items, items2: TStringlist;
+  BmData: TATBookmarkData;
 begin
+  FillChar(BmData, SizeOf(BmData), 0);
+  BmData.ShowInBookmarkList:= true;
+
   //file not listed?
   if c.GetValue(path+cHistory_Top, -1)<0 then exit;
 
@@ -2297,7 +2301,11 @@ begin
       else
         nKind:= 1;
       if Editor.Strings.IsIndexValid(nTop) then
-        Editor.Strings.Bookmarks.Add(nTop, nKind, '', false);
+      begin
+        BmData.LineNum:= nTop;
+        BmData.Kind:= nKind;
+        Editor.Strings.Bookmarks.Add(BmData);
+      end;
     end;
   finally
     FreeAndNil(items2);

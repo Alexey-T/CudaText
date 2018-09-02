@@ -2859,12 +2859,12 @@ begin
     for i:= 0 to ed.Strings.Bookmarks.Count-1 do
     begin
       bm:= ed.Strings.Bookmarks[i];
-      if not bm.ShowInBookmarkList then Continue;
+      if not bm.Data.ShowInBookmarkList then Continue;
 
-      NLine:= bm.LineNum;
+      NLine:= bm.Data.LineNum;
 
       //paint prefix [N] for numbered bookmarks (kind=2..10)
-      NKind:= bm.Kind;
+      NKind:= bm.Data.Kind;
       if (NKind>=2) and (NKind<=10) then
         strKind:= '['+IntToStr(NKind-1)+'] '
       else

@@ -1285,17 +1285,17 @@ begin
   with GetPythonEngine do
     Result:= Py_BuildValue('{sisLsisssOsO}',
       'line',
-      BmItem.LineNum,
+      BmItem.Data.LineNum,
       'tag',
-      BmItem.Tag,
+      BmItem.Data.Tag,
       'kind',
-      Integer(BmItem.Kind),
+      Integer(BmItem.Data.Kind),
       'hint',
-      PChar(BmItem.Hint),
+      PChar(BmItem.Data.Hint),
       'auto_del',
-      PyBool_FromLong(Ord(BmItem.DeleteOnDelLine)),
+      PyBool_FromLong(Ord(BmItem.Data.DeleteOnDelLine)),
       'show_in_list',
-      PyBool_FromLong(Ord(BmItem.ShowInBookmarkList))
+      PyBool_FromLong(Ord(BmItem.Data.ShowInBookmarkList))
       );
 end;
 
@@ -1331,7 +1331,7 @@ begin
             MsgOldApi('BOOKMARK_GET; use BOOKMARK_GET_PROP instead');
             i:= Ed.Strings.Bookmarks.Find(NLine);
             if i>=0 then
-              NKind:= Ed.Strings.Bookmarks[i].Kind
+              NKind:= Ed.Strings.Bookmarks[i].Data.Kind
             else
               NKind:= 0;
             Result:= PyInt_FromLong(NKind);
@@ -1389,7 +1389,7 @@ begin
                 raise EPythonError.Create(msgPythonListError);
               for i:= 0 to NCount-1 do
                 PyList_SetItem(Result, i,
-                  PyInt_FromLong(Ed.Strings.Bookmarks[i].LineNum)
+                  PyInt_FromLong(Ed.Strings.Bookmarks[i].Data.LineNum)
                   );
             end
             else
