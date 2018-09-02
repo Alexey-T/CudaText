@@ -156,7 +156,7 @@ type
   TATTabChangeQueryEvent = procedure (Sender: TObject; ANewTabIndex: integer;
     var ACanChange: boolean) of object;
   TATTabClickUserButton = procedure (Sender: TObject; AIndex: integer) of object;
-  TATTabGetTickEvent = function (Sender: TObject; ATabObject: TObject): QWord of object;
+  TATTabGetTickEvent = function (Sender: TObject; ATabObject: TObject): Int64 of object;
   TATTabGetCloseActionEvent = procedure (Sender: TObject; var AAction: TATTabActionOnClose) of object;
 
 type
@@ -465,7 +465,7 @@ type
       out ALineHeight: integer; out ATextSize: TSize);
     procedure DoTabDrop;
     procedure DoTabDropToOtherControl(ATarget: TControl; const APnt: TPoint);
-    function GetTabTick(AIndex: integer): QWord;
+    function GetTabTick(AIndex: integer): Int64;
 
   public
     constructor Create(AOnwer: TComponent); override;
@@ -546,10 +546,10 @@ type
     property OnDragOver;
     property OnEndDrag;
     property OnContextPopup;
-    //{$ifdef fpc}
+    //these 2 lines don't compile under Delphi 7
     property OnMouseEnter;
     property OnMouseLeave;
-    //{$endif}
+    //
     property OnMouseMove;
     property OnMouseUp;
     property OnMouseWheel;
@@ -2418,7 +2418,7 @@ function TATTabs.DeleteTab(AIndex: integer;
   procedure _ActivateRecentTab;
   var
     Idx, i: integer;
-    Tick, TickMax: QWord;
+    Tick, TickMax: Int64;
   begin
     TickMax:= 0;
     Idx:= -1;
@@ -2682,12 +2682,18 @@ begin
   begin
     D:= GetTabData(AIndex);
     if Assigned(D) and D.TabHideXButton then
-      exit(false);
+    begin
+      Result:= false;
+      Exit
+    end;
 
     if not FOptVarWidth then
       if FOptPosition in [atpTop, atpBottom] then
         if FTabWidth<FOptTabWidthMinimalHidesX then
-          exit(false);
+        begin
+          Result:= false;
+          Exit
+        end;
   end;
 end;
 
@@ -2775,7 +2781,7 @@ begin
     ATabs.TabIndex:= NTabTo;
 end;
 
-function TATTabs.GetTabTick(AIndex: integer): QWord;
+function TATTabs.GetTabTick(AIndex: integer): Int64;
 var
   D: TATTabData;
 begin

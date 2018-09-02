@@ -51,7 +51,7 @@ type
     procedure TabEmpty(Sender: TObject);
     procedure TabOver(Sender: TObject; ATabIndex: Integer);
     procedure TabMove(Sender: TObject; NFrom, NTo: Integer);
-    function TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+    function TabGetTick(Sender: TObject; ATabObject: TObject): Int64;
   protected
     procedure Resize; override;
   public
@@ -228,7 +228,7 @@ type
     procedure TabAdd(Sender: TObject);
     procedure TabOver(Sender: TObject; ATabIndex: Integer);
     procedure TabMove(Sender: TObject; NFrom, NTo: Integer);
-    function TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+    function TabGetTick(Sender: TObject; ATabObject: TObject): Int64;
     procedure SetMode(Value: TATGroupsMode);
     function GetSplitPos: Integer;
     procedure SetSplitPos(N: Integer);
@@ -495,7 +495,7 @@ begin
     FOnTabMove(Sender, NFrom, NTo);
 end;
 
-function TATPages.TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+function TATPages.TabGetTick(Sender: TObject; ATabObject: TObject): Int64;
 begin
   if Assigned(FOnTabGetTick) then
     Result:= FOnTabGetTick(Sender, ATabObject)
@@ -1919,7 +1919,7 @@ begin
     FOnTabMove(Sender, NFrom, NTo);
 end;
 
-function TATGroups.TabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+function TATGroups.TabGetTick(Sender: TObject; ATabObject: TObject): Int64;
 begin
   if Assigned(FOnTabGetTick) then
     Result:= FOnTabGetTick(Sender, ATabObject)

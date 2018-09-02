@@ -693,7 +693,7 @@ type
     procedure DoOnTabMove(Sender: TObject; NFrom, NTo: Integer);
     procedure DoOnTabOver(Sender: TObject; ATabIndex: Integer);
     procedure DoOnTabPopup(Sender: TObject; APages: TATPages; ATabIndex: integer);
-    function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+    function DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
     procedure DoCodetree_OnDblClick(Sender: TObject);
     procedure DoCodetree_OnMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure DoCodetree_OnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -5388,7 +5388,7 @@ begin
     @FormFloatGroups3_OnEmpty);
 end;
 
-function TfmMain.DoOnTabGetTick(Sender: TObject; ATabObject: TObject): QWord;
+function TfmMain.DoOnTabGetTick(Sender: TObject; ATabObject: TObject): Int64;
 begin
   Result:= TEditorFrame(ATabObject).ActivationTime;
 end;
