@@ -304,6 +304,7 @@ begin
       //load other props (caret/encoding/etc)
       if Assigned(F) then
       begin
+        F.ActivationTime:= GetTickCount64;
         F.NotInRecents:= true;
         F.DoLoadHistoryEx(c, '/'+list[i]);
       end;
