@@ -304,7 +304,7 @@ begin
       //load other props (caret/encoding/etc)
       if Assigned(F) then
       begin
-        F.ActivationTime:= GetTickCount64;
+        //F.ActivationTime:= GetTickCount64;
         F.NotInRecents:= true;
         F.DoLoadHistoryEx(c, '/'+list[i]);
       end;
@@ -326,6 +326,16 @@ begin
       Groups.PagesCurrent:= Groups.Pages[nIndex];
       with Groups.PagesCurrent do
         Tabs.TabIndex:= Tabs.TabIndex;
+    end;
+
+    //clear tick values in all tabs, to CudaExt tab switcher feels good
+    for i:= 0 to FrameCount-1 do
+    begin
+      F:= Frames[i];
+      if F.Visible then
+        F.ActivationTime:= GetTickCount64
+      else
+        F.ActivationTime:= 0;
     end;
 
     //restore panel sizes
