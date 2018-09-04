@@ -3008,3 +3008,6 @@ Text is chr(1) separated items:
 * add: Editor.folding: FOLDING_FOLD_LEVEL
 * add: Editor.folding: FOLDING_UNFOLD_ALL
 * add: Editor.folding: FOLDING_UNFOLD_LINE
+
+1.0.256 (app 1.60.7)
+* add: Editor.decor()
