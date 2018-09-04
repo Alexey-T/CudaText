@@ -1494,8 +1494,20 @@ begin
               Result:= ReturnNone;
           end;
 
+        DECOR_GET:
+          begin
+            i:= Ed.GutterDecor.Find(NLine);
+            if i>=0 then
+              Result:= Py_ed_decor_getitem(Ed.GutterDecor[i])
+            else
+              Result:= ReturnNone;
+          end;
+
         DECOR_SET:
           begin
+            if not Ed.Strings.IsIndexValid(NLine) then
+              exit(PyBool_FromLong(0));
+
             FillChar(Data, SizeOf(Data), 0);
             Data.LineNum:= NLine;
             Data.Tag:= NTag;
@@ -1508,6 +1520,34 @@ begin
 
             Ed.GutterDecor.Add(Data);
             Ed.Update;
+            Result:= PyBool_FromLong(1);
+          end;
+
+        DECOR_DELETE_ALL:
+          begin
+            if Ed.GutterDecor.Count>0 then
+            begin
+              Ed.GutterDecor.Clear;
+              Ed.Update;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        DECOR_DELETE_BY_LINE:
+          begin
+            i:= Ed.GutterDecor.Find(NLine);
+            if i>=0 then
+            begin
+              Ed.GutterDecor.Delete(i);
+              Ed.Update;
+            end;
+            Result:= ReturnNone;
+          end;
+
+        DECOR_DELETE_BY_TAG:
+          begin
+            if Ed.GutterDecor.DeleteByTag(NTag) then
+              Ed.Update;
             Result:= ReturnNone;
           end;
       end;
