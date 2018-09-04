@@ -787,24 +787,6 @@ And here is the old way:
 ** in System tab: TUniqueInstance
 * in IDE, open "cudatext.lpi" Lazarus project, compile it
 
-== Linux installation ==
-On Linux you can install program, not using installers, in such way:
-
-* copy file "cudatext" to folder /usr/bin 
-* copy dirs [data, readme, settings_default] to "~/.cudatext"
-* dir "~/.cudatext/settings" will appear automatically on run
-
-If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
-
-== Linux Qt build ==
-For CudaText Qt version, library libQt4Pas needed.
-
-* For Ubuntu: run
-
-  sudo apt-get install libqt4pas-dev
-
-* For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
-
 ==How to install plugins from GitHub==
 
 First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
@@ -943,7 +925,27 @@ To fix: change IM from e.g."XIM" to "none" in the Language Support settings, the
 * Panel "Clips" from right side (CudaText has snippets w/o panel)
 * Panel "Clipboard" from right side, which monitors copying to clipboard
 
-==App cannot run on FreeBSD==
+==Unix specific topics==
+
+=== Linux installation ===
+On Linux you can install program, not using installers, in such way:
+
+* copy file "cudatext" to folder /usr/bin 
+* copy dirs [data, readme, settings_default] to "~/.cudatext"
+* dir "~/.cudatext/settings" will appear automatically on run
+
+If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
+
+=== Linux Qt build ===
+For CudaText Qt version, library libQt4Pas needed.
+
+* For Ubuntu: run
+
+  sudo apt-get install libqt4pas-dev
+
+* For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
+
+===App cannot run on FreeBSD===
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
 
