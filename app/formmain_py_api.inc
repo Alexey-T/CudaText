@@ -1550,6 +1550,16 @@ begin
               Ed.Update;
             Result:= ReturnNone;
           end;
+
+        DECOR_GET_IMAGELIST:
+          begin
+            if Ed.ImagesGutterDecor=nil then
+              Ed.ImagesGutterDecor:= TImageList.Create(Ed);
+            Result:= PyLong_FromLongLong(PtrInt(Ed.ImagesGutterDecor));
+          end;
+
+        else
+          Result:= ReturnNone;
       end;
     end;
 end;
