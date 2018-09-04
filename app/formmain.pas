@@ -45,6 +45,7 @@ uses
   ATSynEdit_DimRanges,
   ATSynEdit_Gaps,
   ATSynEdit_Hotspots,
+  ATSynEdit_Gutter_Decor,
   ATSynEdit_CanvasProc,
   ATSynEdit_Adapter_EControl,
   ATSynEdit_Adapter_LiteLexer,

@@ -691,6 +691,14 @@ DBORDER_DIALOG   = 3
 DBORDER_TOOL     = 4
 DBORDER_TOOLSIZE = 5
 
+DECOR_GET_ALL          = 0
+DECOR_GET              = 1
+DECOR_SET              = 2
+DECOR_DELETE_BY_LINE   = 5
+DECOR_DELETE_BY_TAG    = 6
+DECOR_DELETE_ALL       = 7
+DECOR_GET_IMAGELIST    = 10
+
 
 def app_exe_version():
     return ct.app_exe_version()
@@ -1004,12 +1012,18 @@ class Editor:
 
     def save(self, filename=''):
         return ct.ed_save(self.h, filename)
+
     def cmd(self, code, text=''):
         return ct.ed_cmd(self.h, code, text)
+
     def focus(self):
         return ct.ed_focus(self.h)
+
     def bookmark(self, id, nline, nkind=1, ncolor=-1, text='', auto_del=True, show=True, tag=0):
         return ct.ed_bookmark(self.h, id, nline, nkind, ncolor, text, auto_del, show, tag)
+
+    def decor(self, id, line=-1, tag=0, text='', color=0, bold=False, italic=False, image=-1, auto_del=True):
+        return ct.ed_decor(self.h, id, line, tag, text, color, bold, italic, image, auto_del)
 
     def lock(self):
         return ct.ed_lock(self.h)

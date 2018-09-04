@@ -1434,6 +1434,87 @@ begin
 end;
 
 
+function Py_ed_decor_getitem(Item: TATGutterDecorItem): PPyObject;
+begin
+  with GetPythonEngine do
+    Result:= Py_BuildValue('{sisLsssOsOsisisO}',
+      'line',
+      Item.Data.LineNum,
+      'tag',
+      Item.Data.Tag,
+      'text',
+      PChar(string(Item.Data.Text)),
+      'bold',
+      PyBool_FromLong(Ord(Item.Data.TextBold)),
+      'italic',
+      PyBool_FromLong(Ord(Item.Data.TextItalic)),
+      'color',
+      Item.Data.TextColor,
+      'image',
+      Item.Data.ImageIndex,
+      'auto_del',
+      PyBool_FromLong(Ord(Item.Data.DeleteOnDelLine))
+      );
+end;
+
+function Py_ed_decor(Self, Args: PPyObject): PPyObject; cdecl;
+var
+  H: Int64;
+  PtrText: PChar;
+  Ed: TATSynEdit;
+  NId, NLine, NImageIndex, NColor: integer;
+  NFontBold, NFontItalic, NAutoDelete: integer;
+  NTag: Int64;
+  Decor: TATGutterDecorItem;
+  Data: TATGutterDecorData;
+  NCount, i: integer;
+begin
+  with GetPythonEngine do
+    if Bool(PyArg_ParseTuple(Args, 'LiiLsiiiii:decor',
+            @H, @NId, @NLine, @NTag, @PtrText, @NColor, @NFontBold, @NFontItalic,
+            @NImageIndex, @NAutoDelete)) then
+    begin
+      Ed:= PyEditor(H);
+
+      case NId of
+        DECOR_GET_ALL:
+          begin
+            NCount:= Ed.GutterDecor.Count;
+            if NCount>0 then
+            begin
+              Result:= PyList_New(NCount);
+              if not Assigned(Result) then
+                raise EPythonError.Create(msgPythonListError);
+              for i:= 0 to NCount-1 do
+                PyList_SetItem(Result, i,
+                  Py_ed_decor_getitem(Ed.GutterDecor[i])
+                  );
+            end
+            else
+              Result:= ReturnNone;
+          end;
+
+        DECOR_SET:
+          begin
+            FillChar(Data, SizeOf(Data), 0);
+            Data.LineNum:= NLine;
+            Data.Tag:= NTag;
+            Data.DeleteOnDelLine:= Bool(NAutoDelete);
+            Data.ImageIndex:= NImageIndex;
+            Data.Text:= string(PtrText);
+            Data.TextBold:= Bool(NFontBold);
+            Data.TextItalic:= Bool(NFontItalic);
+            data.TextColor:= NColor;
+
+            Ed.GutterDecor.Add(Data);
+            Ed.Update;
+            Result:= ReturnNone;
+          end;
+      end;
+    end;
+end;
+
+
 function Py_ed_get_split(Self, Args: PPyObject): PPyObject; cdecl;
 var
   H: Int64;
@@ -6341,6 +6422,7 @@ begin
     AddMethod('ed_lock', @Py_ed_lock, '');
     AddMethod('ed_unlock', @Py_ed_unlock, '');
     AddMethod('ed_bookmark', @Py_ed_bookmark, '');
+    AddMethod('ed_decor', @Py_ed_decor, '');
     AddMethod('ed_focus', @Py_ed_focus, '');
     AddMethod('ed_complete', @Py_ed_complete, '');
     AddMethod('ed_complete_alt', @Py_ed_complete_alt, '');

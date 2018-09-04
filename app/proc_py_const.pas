@@ -560,6 +560,14 @@ const
   HOTSPOT_DELETE_LAST   = 3;
   HOTSPOT_DELETE_BY_TAG = 4;
 
+  DECOR_GET_ALL          = 0;
+  DECOR_GET              = 1;
+  DECOR_SET              = 2;
+  DECOR_DELETE_BY_LINE   = 5;
+  DECOR_DELETE_BY_TAG    = 6;
+  DECOR_DELETE_ALL       = 7;
+  DECOR_GET_IMAGELIST    = 10;
+
 implementation
 
 end.
