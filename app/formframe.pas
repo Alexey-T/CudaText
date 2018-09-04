@@ -89,7 +89,7 @@ type
     FModified: boolean;
     FNotif: TATFileNotif;
     FTextCharsTyped: integer;
-    FActivationTime: QWord;
+    FActivationTime: Int64;
     FCodetreeFilter: string;
     FCodetreeFilterHistory: TStringList;
     FEnabledCodeTree: boolean;
@@ -253,7 +253,7 @@ type
     property EnabledCodeTree: boolean read FEnabledCodeTree write SetEnabledCodeTree;
     property CodetreeFilter: string read FCodetreeFilter write FCodetreeFilter;
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
-    property ActivationTime: QWord read FActivationTime write FActivationTime;
+    property ActivationTime: Int64 read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
     procedure ApplyTheme;
     procedure SetFocus; reintroduce;

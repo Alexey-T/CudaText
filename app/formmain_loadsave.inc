@@ -328,7 +328,8 @@ begin
         Tabs.TabIndex:= Tabs.TabIndex;
     end;
 
-    //clear tick values in all tabs, to CudaExt tab switcher feels good
+    //clear tick values, to CudaExt tab switcher feels good
+    //(it shows frames with tick=0 in second listbox)
     for i:= 0 to FrameCount-1 do
     begin
       F:= Frames[i];
