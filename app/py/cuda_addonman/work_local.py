@@ -30,17 +30,44 @@ DATA_DIRS = (
     ('themes', ''),
     )
 
+def _root_item(s):
 
-def get_module_name_from_zip_filename(zip_fn):
+    n = s.rfind('/')
+    return n<0 or n==len(s)-1 
+
+def get_props_of_zip_filename(zip_fn):
+
     temp_dir = tempfile.gettempdir()
     z = zipfile.ZipFile(zip_fn, 'r')
+    
+    files = z.namelist()
+    files.remove('install.inf')
+    files = [f for f in files if _root_item(f)]
+    
     z.extract('install.inf', temp_dir)
     z.close()
     fn = os.path.join(temp_dir, 'install.inf')
+    
     if os.path.isfile(fn):
-        s = ini_read(fn, 'info', 'subdir', '')
+        typ = ini_read(fn, 'info', 'type', '')
+        subdir = ini_read(fn, 'info', 'subdir', '')
+        
+        if typ=='cudatext-plugin':
+            d = 'py'
+            files = [subdir+'/']
+        elif typ=='cudatext-data':
+            d = 'data/'+subdir
+        elif typ=='lexer':
+            d = 'data/lexlib'
+        elif typ=='lexer-lite':
+            d = 'data/lexliblite'
+        else:
+            d = ''
+            
         os.remove(fn)
-        return s
+        #print('prop', (d, files, subdir))
+        return (d, files, subdir)
+        
 
 def get_readme_of_module(mod):
     for name in README_NAMES:
