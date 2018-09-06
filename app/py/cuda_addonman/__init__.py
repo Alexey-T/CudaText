@@ -219,6 +219,9 @@ class Command:
         ok = file_open(fn, options=s_options)
 
         msg_status('Addon installed' if ok else 'Installation cancelled')
+        if not ok:
+            os.remove(fn)
+            return
 
         props = get_props_of_zip_filename(fn)
         os.remove(fn)
