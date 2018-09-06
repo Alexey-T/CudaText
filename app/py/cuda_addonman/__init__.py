@@ -17,7 +17,6 @@ dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
 PREINST = 'preinstalled'
-KINDS_WITH_VERSION = ['plugin', 'linter', 'treehelper']
 STD_MODULES = (
   'cuda_addonman',
   'cuda_comments',
