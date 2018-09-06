@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.03 2018-07-19'
+    '2.3.04 2018-08-28'
 ToDo: (see end of file)
 '''
 
@@ -210,6 +210,7 @@ def load_definitions(defn_path:Path)->list:
             pre_kinf= kinf.copy()
             cmnt    = ''
        #for line
+    pass;                      #open(str(defn_path)+'.p.json', 'w').write(json.dumps(kinfs,indent=2))
     upd_cald_vals(kinfs, '+def')
     for kinf in kinfs:
         kinf['jdc'] = kinf.get('jdc', kinf.get('dct', []))
@@ -961,26 +962,26 @@ class OptEdD:
         co_tp   = 'ed' if m.live_fltr else 'cb'
         cnts    = [0                                                                                                                        #
     # Hidden buttons                                                                                                                    
- ,('flt-',d(tp='bt' ,cap='&l'   ,sto=False              ,t=0,l=0,w=0))  # &l
- ,('fltr',d(tp='bt' ,cap=''     ,sto=False  ,def_bt='1' ,t=0,l=0,w=0))  # Enter
- ,('srt0',d(tp='bt' ,cap='&1'   ,sto=False              ,t=0,l=0,w=0))  # &1
- ,('srt1',d(tp='bt' ,cap='&2'   ,sto=False              ,t=0,l=0,w=0))  # &2
- ,('srt2',d(tp='bt' ,cap='&3'   ,sto=False              ,t=0,l=0,w=0))  # &3
- ,('srt3',d(tp='bt' ,cap='&4'   ,sto=False              ,t=0,l=0,w=0))  # &4
- ,('srt4',d(tp='bt' ,cap='&5'   ,sto=False              ,t=0,l=0,w=0))  # &5
- ,('srt5',d(tp='bt' ,cap='&6'   ,sto=False              ,t=0,l=0,w=0))  # &6
- ,('srt6',d(tp='bt' ,cap='&7'   ,sto=False              ,t=0,l=0,w=0))  # &7
- ,('srt-',d(tp='bt' ,cap='&9'   ,sto=False              ,t=0,l=0,w=0))  # &9
- ,('cws-',d(tp='bt' ,cap='&W'   ,sto=False              ,t=0,l=0,w=0))  # &w
- ,('cpnm',d(tp='bt' ,cap='&C'   ,sto=False              ,t=0,l=0,w=0))  # &c
- ,('erpt',d(tp='bt' ,cap='&O'   ,sto=False              ,t=0,l=0,w=0))  # &o
- ,('apnw',d(tp='bt' ,cap='&Y'   ,sto=False              ,t=0,l=0,w=0))  # &y
- ,('help',d(tp='bt' ,cap='&H'   ,sto=False              ,t=0,l=0,w=0))  # &h
+ ,('flt-',d(tp='bt' ,cap='&l'   ,sto=False              ,t=0,l=-99,w=44))  # &l
+ ,('fltr',d(tp='bt' ,cap=''     ,sto=False  ,def_bt='1' ,t=0,l=-99,w=44))  # Enter
+ ,('srt0',d(tp='bt' ,cap='&1'   ,sto=False              ,t=0,l=-99,w=44))  # &1
+ ,('srt1',d(tp='bt' ,cap='&2'   ,sto=False              ,t=0,l=-99,w=44))  # &2
+ ,('srt2',d(tp='bt' ,cap='&3'   ,sto=False              ,t=0,l=-99,w=44))  # &3
+ ,('srt3',d(tp='bt' ,cap='&4'   ,sto=False              ,t=0,l=-99,w=44))  # &4
+ ,('srt4',d(tp='bt' ,cap='&5'   ,sto=False              ,t=0,l=-99,w=44))  # &5
+ ,('srt5',d(tp='bt' ,cap='&6'   ,sto=False              ,t=0,l=-99,w=44))  # &6
+ ,('srt6',d(tp='bt' ,cap='&7'   ,sto=False              ,t=0,l=-99,w=44))  # &7
+ ,('srt-',d(tp='bt' ,cap='&9'   ,sto=False              ,t=0,l=-99,w=44))  # &9
+ ,('cws-',d(tp='bt' ,cap='&W'   ,sto=False              ,t=0,l=-99,w=44))  # &w
+ ,('cpnm',d(tp='bt' ,cap='&C'   ,sto=False              ,t=0,l=-99,w=44))  # &c
+ ,('erpt',d(tp='bt' ,cap='&O'   ,sto=False              ,t=0,l=-99,w=44))  # &o
+ ,('apnw',d(tp='bt' ,cap='&Y'   ,sto=False              ,t=0,l=-99,w=44))  # &y
+ ,('help',d(tp='bt' ,cap='&H'   ,sto=False              ,t=0,l=-99,w=44))  # &h
     # Top-panel                                                                                                             
  ,('ptop',d(tp='pn' ,h=    270 ,w=m.dlg_w               ,ali=ALI_CL                                                         
                     ,h_min=270                                                                                                  ))
     # Menu                                                                                                                      
- ,('menu',d(tp='bt' ,tid='cond' ,l=-30-5,w=  30 ,p='ptop'   ,cap='&='                                               ,a='LR'     ))  # &=
+ ,('menu',d(tp='bt' ,tid='cond' ,l=-40-5,w=  40 ,p='ptop'   ,cap='&='                                               ,a='LR'     ))  # &=
     # Filter                                                                                                                    
  ,('chps',d(tp='bt' ,tid='cond' ,l=-270 ,r=-180 ,p='ptop'   ,cap=_('+&Section…')    ,hint=M.CHPS_H                  ,a='LR'     ))  # &s
  ,('flt_',d(tp='lb' ,tid='cond' ,l=   5 ,w=  70 ,p='ptop'   ,cap='>'+M.FILTER_C+':' ,hint=M.FLTR_H                              ))  # &f
