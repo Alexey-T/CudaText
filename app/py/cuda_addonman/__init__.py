@@ -428,9 +428,9 @@ class Command:
             fn = get_plugin_zip(url)
             if not fn: continue
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
-                fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
-                with open(fn_ver, 'w') as f:
-                    f.write(remote['v'])
+                props = get_props_of_zip_filename(fn)
+                if props:
+                    save_packages_ini(url, props, remote['v'])
             else:
                 fail_count += 1
                 print('  '+remote['name']+' - Update failed')
