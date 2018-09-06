@@ -204,9 +204,25 @@ def get_installed_data_choice():
 
 
 def save_packages_ini(url, props, version):
+
     d, f, m = props
     fn = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
     sec = os.path.basename(url)
     ini_write(fn, sec, 'd', d)
     ini_write(fn, sec, 'f', ';'.join(f))
     ini_write(fn, sec, 'v', version)
+
+
+def get_addon_version_old(mod):
+
+    fn = os.path.join(app_path(APP_DIR_PY), mod, 'v.inf')
+    s = ''
+    if os.path.isfile(fn):
+        s = open(fn).read()
+    return s
+    
+
+def get_addon_version(url):    
+
+    fn = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+    return ini_read(fn, os.path.basename(url), 'v', '')

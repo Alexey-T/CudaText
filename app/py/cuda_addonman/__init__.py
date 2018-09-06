@@ -348,14 +348,7 @@ class Command:
 
                 url = remote_item[0]['url']
                 v_remote = remote_item[0]['v']
-
-                fn_pk = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
-                fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
-
-                v_old = ''
-                if os.path.isfile(fn_ver):
-                    v_old = open(fn_ver).read()
-                v_local = ini_read(fn_pk, os.path.basename(url), 'v', '') or v_old or '?'
+                v_local = get_addon_version(url) or get_addon_version_old(m) or '?'
 
                 col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
                 if v_local == PREINST:
