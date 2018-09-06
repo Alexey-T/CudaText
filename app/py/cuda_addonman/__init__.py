@@ -343,13 +343,20 @@ class Command:
                 v_local = PREINST
             col_item = name+'\r'+m+'\r'+v_local+'\r?'
 
-            fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
-            if os.path.isfile(fn_ver):
-                v_local = open(fn_ver).read()
-
             remote_item = [d for d in remotes if d.get('module', '')==m]
             if remote_item:
+
+                url = remote_item[0]['url']
                 v_remote = remote_item[0]['v']
+
+                fn_pk = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+                fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
+
+                v_old = ''
+                if os.path.isfile(fn_ver):
+                    v_old = open(fn_ver).read()
+                v_local = ini_read(fn_pk, os.path.basename(url), 'v', '') or v_old or '?'
+
                 col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
                 if v_local == PREINST:
                     s = '0'
