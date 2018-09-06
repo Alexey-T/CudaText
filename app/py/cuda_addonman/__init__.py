@@ -224,14 +224,10 @@ class Command:
         os.remove(fn)
 
         if props:
-            d, f, m = props
-            fn_pk = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
-            section = os.path.basename(url)
-            ini_write(fn_pk, section, 'd', d)
-            ini_write(fn_pk, section, 'f', ';'.join(f))
-            ini_write(fn_pk, section, 'v', version)
+            save_packages_ini(url, props, version)
 
             #suggest readme
+            m = props[2]
             if m and opt.suggest_readme:
                 names = []
                 fn = get_readme_of_module(m)

@@ -201,3 +201,12 @@ def get_installed_data_choice():
     if res is None:
         return None
     return names[res]
+
+
+def save_packages_ini(url, props, version):
+    d, f, m = props
+    fn = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+    sec = os.path.basename(url)
+    ini_write(fn, sec, 'd', d)
+    ini_write(fn, sec, 'f', ';'.join(f))
+    ini_write(fn, sec, 'v', version)
