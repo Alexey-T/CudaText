@@ -220,20 +220,19 @@ class Command:
 
         msg_status('Addon installed' if ok else 'Installation cancelled')
 
-        #save version
-        if kind in KINDS_WITH_VERSION:
-            dir_addon = app_path(APP_DIR_INSTALLED_ADDON)
-            if dir_addon:
-                filename_ver = os.path.join(dir_addon, 'v.inf')
-                with open(filename_ver, 'w') as f:
-                    f.write(version)
-
-        m = get_module_name_from_zip_filename(fn)
+        props = get_props_of_zip_filename(fn)
         os.remove(fn)
 
-        #suggest readme
-        if opt.suggest_readme:
-            if m:
+        if props:
+            d, f, m = props
+            fn_pk = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+            section = os.path.basename(url)
+            ini_write(fn_pk, section, 'd', d)
+            ini_write(fn_pk, section, 'f', ';'.join(f))
+            ini_write(fn_pk, section, 'v', version)
+
+            #suggest readme
+            if m and opt.suggest_readme:
                 names = []
                 fn = get_readme_of_module(m)
                 if fn:
