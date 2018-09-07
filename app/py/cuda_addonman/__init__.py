@@ -421,7 +421,7 @@ class Command:
             if not m in modules: continue
 
             print('  '+ remote['name'])
-            msg_status('Updating: '+remote['name'], True)
+            msg_status('Updating: [%s] %s' % (remote['kind'], remote['name']), True)
             do_remove_module(m) # delete old dir
 
             url = remote['url']
