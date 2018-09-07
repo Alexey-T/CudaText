@@ -33,25 +33,25 @@ DATA_DIRS = (
 def _root_item(s):
 
     n = s.rfind('/')
-    return n<0 or n==len(s)-1 
+    return n<0 or n==len(s)-1
 
 def get_props_of_zip_filename(zip_fn):
 
     temp_dir = tempfile.gettempdir()
     z = zipfile.ZipFile(zip_fn, 'r')
-    
+
     files = z.namelist()
     files.remove('install.inf')
     files = [f for f in files if _root_item(f)]
-    
+
     z.extract('install.inf', temp_dir)
     z.close()
     fn = os.path.join(temp_dir, 'install.inf')
-    
+
     if os.path.isfile(fn):
         typ = ini_read(fn, 'info', 'type', '')
         subdir = ini_read(fn, 'info', 'subdir', '')
-        
+
         if typ=='cudatext-plugin':
             d = 'py'
             files = [subdir+'/']
@@ -63,11 +63,11 @@ def get_props_of_zip_filename(zip_fn):
             d = 'data/lexliblite'
         else:
             d = ''
-            
+
         os.remove(fn)
         #print('prop', (d, files, subdir))
         return (d, files, subdir)
-        
+
 
 def get_readme_of_module(mod):
     for name in README_NAMES:
@@ -203,10 +203,15 @@ def get_installed_data_choice():
     return names[res]
 
 
+def get_packages_ini():
+
+    return os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+
+
 def save_packages_ini(url, props, version):
 
     d, f, m = props
-    fn = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+    fn = get_packages_ini()
     sec = os.path.basename(url)
     ini_write(fn, sec, 'd', d)
     ini_write(fn, sec, 'f', ';'.join(f))
@@ -220,9 +225,22 @@ def get_addon_version_old(mod):
     if os.path.isfile(fn):
         s = open(fn).read()
     return s
-    
 
-def get_addon_version(url):    
 
-    fn = os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+def get_addon_version(url):
+
+    fn = get_packages_ini()
     return ini_read(fn, os.path.basename(url), 'v', '')
+
+
+def do_remove_version_of_plugin(mod):
+
+    import configparser
+    fn = get_packages_ini()
+    config = configparser.ConfigParser()
+    config.read(fn)
+    for sec in config.sections():
+        if config[sec]['d'] == 'py' and config[sec]['f'] == mod+'/':
+            del config[sec]
+            with open(fn, 'w') as f:
+                config.write(f, False)
