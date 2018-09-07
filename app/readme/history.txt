@@ -7,7 +7,7 @@
 1.61.0 (2018/09)
 
 + add: API to show decorations on gutter (will be used in Brackets Hilite plugin)
-+ add: Addon Manager: ...
++ add: Addon Manager: new versioning system. Before: only plugins versions are saved, to v.inf files. Now: all add-ons versions are saved to a single file, settings/packages.ini. Old versions (v.inf) still show in the Update dialog.
 
 1.60.5 (2018/09)
 
