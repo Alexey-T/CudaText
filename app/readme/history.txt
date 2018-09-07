@@ -4,6 +4,11 @@
   * changed
 
 
+1.61.0 (2018/09)
+
++ add: API to show decorations on gutter (will be used in Brackets Hilite plugin)
++ add: Addon Manager: ...
+
 1.60.5 (2018/09)
 
 + add: option "ui_tab_recent_on_close"
