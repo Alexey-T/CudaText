@@ -420,7 +420,7 @@ class Command:
             m = remote.get('module', '')
             if not m in modules: continue
 
-            print('  '+ remote['name'])
+            print('  [%s] %s' % (remote['kind'], remote['name']))
             msg_status('Updating: [%s] %s' % (remote['kind'], remote['name']), True)
             do_remove_module(m) # delete old dir
 
