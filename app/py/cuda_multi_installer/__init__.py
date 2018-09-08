@@ -154,7 +154,7 @@ class Command:
                                 line = 0
                             UI.append('\1'.join([
                                             'type=label',
-                                            'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h+5, 295+COLUMN_W*cl, line*20+25),
+                                            'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h+5, COLUMN_W*(cl+1), line*20+25),
                                             'cap='+CLASSES_MSGS[curr_class]
                                             ]))
                             UI_reg.append(())
@@ -166,7 +166,7 @@ class Command:
                                 flag_en = not self.is_installed(curr_class,pl)
                                 UI.append('\1'.join([
                                                 'type=check',
-                                                'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h, 295+COLUMN_W*cl, line*20+25),
+                                                'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h, COLUMN_W*(cl+1), line*20+25),
                                                 'cap='+pl.replace('_',' '),
                                                 'en='+bool_to_str(flag_en)
                                                 ]))
