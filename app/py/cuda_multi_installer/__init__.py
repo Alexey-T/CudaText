@@ -99,15 +99,8 @@ class Command:
         ok = file_open(fn, options='/silent')
         if ok:
             self.ok_count += 1
-
-        #save version
-        if TYPE_TO_KIND.get(kind) in cuda_addonman.KINDS_WITH_VERSION:
-            dir_addon = app_path(APP_DIR_INSTALLED_ADDON)
-            if dir_addon:
-                filename_ver = os.path.join(dir_addon, 'v.inf')
-                with open(filename_ver, 'w') as f:
-                    f.write(version)
-
+            cuda_addonman.work_local.do_save_version(url, fn, version)
+        
 
     def open_menu(self):
 
