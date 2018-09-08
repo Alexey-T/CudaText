@@ -222,12 +222,11 @@ class Command:
             os.remove(fn)
             return
 
-        props = get_props_of_zip_filename(fn)
+        #save version
+        props = do_save_version(url, fn, version)
         os.remove(fn)
 
         if props:
-            save_packages_ini(url, props, version)
-
             #suggest readme
             m = props[2]
             if m and opt.suggest_readme:
@@ -429,9 +428,7 @@ class Command:
             fn = get_plugin_zip(url)
             if not fn: continue
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
-                props = get_props_of_zip_filename(fn)
-                if props:
-                    save_packages_ini(url, props, remote['v'])
+                do_save_version(url, fn, remote['v'])
             else:
                 fail_count += 1
                 print('  '+remote['name']+' - Update failed')

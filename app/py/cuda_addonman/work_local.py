@@ -208,14 +208,17 @@ def get_packages_ini():
     return os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
 
 
-def save_packages_ini(url, props, version):
+def do_save_version(url, fn, version):
 
-    d, f, m = props
-    fn = get_packages_ini()
-    sec = os.path.basename(url)
-    ini_write(fn, sec, 'd', d)
-    ini_write(fn, sec, 'f', ';'.join(f))
-    ini_write(fn, sec, 'v', version)
+    props = get_props_of_zip_filename(fn)
+    if props:
+        d, f, m = props
+        fn = get_packages_ini()
+        sec = os.path.basename(url)
+        ini_write(fn, sec, 'd', d)
+        ini_write(fn, sec, 'f', ';'.join(f))
+        ini_write(fn, sec, 'v', version)
+        return props
 
 
 def get_addon_version_old(mod):
