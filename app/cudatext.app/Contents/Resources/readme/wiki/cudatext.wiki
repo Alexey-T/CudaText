@@ -486,12 +486,6 @@ Modifiers affect only element after them, element is:
 * one char (not string), so "\Uabc" and "\uabc" give same result "Abc" (only one char changed),
 * or group $0 ... $9, so modifier changes case of this group (not only one char).
 
-==How to restore lexers styles/colors after reinstalling app?==
-
-When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your styles/colors are saved to the lexer file (in "data/lexlib") and also to file "settings/lexer styles backup.ini". If you reinstall app, you overwrite standard lexers. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
-
-[[File:cudatext_restore_styles.png]]
-
 ==Snippets==
 
 To use snippets you need:
@@ -593,11 +587,11 @@ Click any cell in the grid to insert this char at caret position. Or select a ce
 
 [[File:cudatext-charmap.png]]
 
-== Tab-switcher using history ==
+== Tab switcher ==
 
 SynWrite has the option "Use modern Tab-switcher" which makes special mode for Ctrl+Tab keys (switch to next tab). This mode shows special dialog which allows to switch tab using visit-history; ie press Ctrl, Tab+Tab+Tab, release Ctrl: this goes 3 steps back in visit-history. Visit-history is updated on activation of tabs (activated tab moves to the top of history).
 
-CudaText can do this with Ctrl+Tab, but without dialog. To do it, install CudaExt addon. It has [https://github.com/kvichans/cuda_ext/blob/master/readme/setup-tab-switcher.txt file in readme dir], which shows what to do.
+CudaText can do this via plugin CudaExt. It gives command "Choose tab to switch to" which shows dialog. You need to assign hotkey Ctrl+Tab to this command (hotkey will be removed from CudaText command).
 
 ==Minimap, Micromap==
 
@@ -699,6 +693,9 @@ Any project can have "main file", you can choose it in the context menu: "Select
 
 Project Manager shows file/folder icons, using default file-type-icons theme. You can change this theme in the plugin's Config dialog. But first, you must install additional file-type-icons theme from Addons Manager. Example of such theme: VSCode Material 24x24.
 
+===Preview tab===
+To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
+
 ==CudaLint plugin==
 CudaLint allows to check syntax of source code files. It was initially ported from SublimeLinter 2.x plugin for Sublime Text. It requires sub-plugins, "linters", for each lexer. When a linter works, it adds output lines to the "Validate" panel of CudaText, and puts yellow/red bookmarks on warning/error lines.
 
@@ -719,15 +716,6 @@ How to configure linters per project? In your project (Project Manager plugin), 
 Variable prefix "linter_" required, after goes lower-case lexer name (CSS). Value of variable must be name of linter's folder (in "py" folder) without "cuda_lint_". So if linter's folder is py/cuda_lint_aaa, specify value "aaa".
 
 In this example, CudaLint plugin allows, for mentioned lexer CSS, only linter "csslint", even if another CSS linter (e.g. "csstree") is installed and found first.
-
-==Preview tab==
-To see preview tab, call "File - Open folder" and choose a folder with text files. Folder will open in the side panel "Project". Make single click on files in this panel, they will open in "preview tab". Single preview tab is shared by all clicked files in "Project". It has italic caption. When you begin to edit file in this preview tab, tab becomes "normal".
-
-==How to install plugins from GitHub==
-
-First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
-
-Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
 
 ==How to change icons==
 
@@ -770,7 +758,11 @@ Viewer has simple search support (without reg.ex.), and allows to use "Go to" di
 
 ==more==
 
-= Tech topics=
+=Tech topics=
+== Python API ==
+
+Separate big page about Python API is [[CudaText API]].
+
 ==How to compile program==
 
 There is Linux script CudaText_up https://github.com/Alexey-T/CudaText_up - it downloads all CudaText sources (several packages) into ~/cudatext_up, then calls Lazarus (better to use Lazarus "trunk" or at last 1.8.4) to compile them. You can use it with FPC cross-compilers, ie with FpcUpDeluxe, it will compile app for all platforms (which you specify in command line). Without cross-compilers, script makes CudaText only for the current platform. It puts result to ~/cudatext_up/bin.
@@ -795,27 +787,17 @@ And here is the old way:
 ** in System tab: TUniqueInstance
 * in IDE, open "cudatext.lpi" Lazarus project, compile it
 
-== Python API ==
+==How to install plugins from GitHub==
 
-Separate big page about Python API is [[CudaText API]].
+First, you need to know GitHub repository (repo) URL of plugin. For example, https://github.com/kvichans/cuda_find_in_files . If you have plugin already, then you can see this URL in the plugin's install.inf (line "homepage=").
 
-== Linux installation ==
-On Linux you can install program, not using installers, in such way:
+Next, call CudaText menu item "Plugins / Addon Manager / Install from GitHub". And enter URL in the suggested dialog. AddonManager will install latest version from GitHub from "master" branch.
 
-* copy file "cudatext" to folder /usr/bin 
-* copy dirs [data, readme, settings_default] to "~/.cudatext"
-* dir "~/.cudatext/settings" will appear automatically on run
+==How to restore lexers styles after reinstalling==
 
-If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
+When you customize lexers styles/colors (in the Lexer Properties dialog) and press OK in dialog, your styles/colors are saved to the lexer file (in "data/lexlib") and also to file "settings/lexer styles backup.ini". If you reinstall app, you overwrite standard lexers. But you don't overwrite "lexer styles backup.ini" - you can restore your styles from this file. To do it, call Commands dialog, search for command "restore lexer styles", run it. You'll see dialog in which you can choose which lexer props to restore (from ini file).
 
-==Linux Qt==
-For CudaText Qt version, library libQt4Pas needed.
-
-* For Ubuntu: run
-
-  sudo apt-get install libqt4pas-dev
-
-* For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
+[[File:cudatext_restore_styles.png]]
 
 ==How to make translation==
 
@@ -857,7 +839,6 @@ Two dialogs allow to paint these kinds of themes. To paint a theme:
 * New theme files are saved in the subdir "data/themes"
 
 Don't configure custom lexer styles in Lexer Properties dialog, if option "ui_lexer_themes" is on, because syntax-theme will override all your colors from that dialog. You can config these colors though, if option is off.
-
 
 ===How to make theme package===
 
@@ -922,7 +903,15 @@ A2: Plugin CudaExt has commands:
 
 I use these commands with hotkeys Alt+Left and Alt+Right.
 
-==Why on Linux, chars are duplicated==
+==What SynWrite features not implemented==
+
+* Sync-Editing, ie auto editing of name (identifier) in all places of selected block (sync range), w/o clicking each place of name
+* Panel "Clips" from right side (CudaText has snippets w/o panel)
+* Panel "Clipboard" from right side, which monitors copying to clipboard
+
+==Unix specific topics==
+
+===Linux keyboard input is duplicated===
 
 This is known problem, related to some Input Methods (IM) in Linux.
 To see what is your active IM, open Terminal and enter:
@@ -932,19 +921,31 @@ To see what is your active IM, open Terminal and enter:
 Known IMs with problems: scim, xim.
 To fix: change IM from e.g."XIM" to "none" in the Language Support settings, then chars should not duplicate.
 
-==How to use middle-click paste on Linux==
+===How to use middle-click paste on Linux===
 
 * Set option "mouse_mid_click_paste" to true (in user.json).
 * Consider to install plugin "Auto-Copy to Clipboard", which emulates Linux editors behaviour: copying to clipboard by simple text selection (no need to use hotkey Ctrl+C).
 ** This plugin has options to copy selection to a) usual clipboard, b) GTK primary selection (CudaText GTK builds only)
 
-==What SynWrite features not implemented==
+=== Linux installation ===
+On Linux you can install program, not using installers, in such way:
 
-* Sync-Editing, ie auto editing of name (identifier) in all places of selected block (sync range), w/o clicking each place of name
-* Panel "Clips" from right side (CudaText has snippets w/o panel)
-* Panel "Clipboard" from right side, which monitors copying to clipboard
+* copy file "cudatext" to folder /usr/bin 
+* copy dirs [data, readme, settings_default] to "~/.cudatext"
+* dir "~/.cudatext/settings" will appear automatically on run
 
-==App cannot run on FreeBSD==
+If program runs and cannot find "data/lexlib" near executable, it opens dirs from "~/.cudatext". This allows to install binary to PATH, and data dirs to homedir.
+
+=== Linux Qt build ===
+For CudaText Qt version, library libQt4Pas needed.
+
+* For Ubuntu: run
+
+  sudo apt-get install libqt4pas-dev
+
+* For all: [[Qt_Interface#Quick_start_guide_for_Linux]]. You need to download binary from libQt4Pas homepage.
+
+===App cannot run on FreeBSD===
 
 If you run app in Terminal, you'll see an error about missing .so file. Reason of this error: FreeBSD version was compiled on Linux with different .so files. To fix error, run command in Terminal:
 

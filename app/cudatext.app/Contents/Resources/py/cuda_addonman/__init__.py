@@ -17,7 +17,6 @@ dir_for_all = os.path.join(os.path.expanduser('~'), 'CudaText_addons')
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_addonman.json')
 
 PREINST = 'preinstalled'
-KINDS_WITH_VERSION = ['plugin', 'linter', 'treehelper']
 STD_MODULES = (
   'cuda_addonman',
   'cuda_comments',
@@ -219,21 +218,18 @@ class Command:
         ok = file_open(fn, options=s_options)
 
         msg_status('Addon installed' if ok else 'Installation cancelled')
+        if not ok:
+            os.remove(fn)
+            return
 
         #save version
-        if kind in KINDS_WITH_VERSION:
-            dir_addon = app_path(APP_DIR_INSTALLED_ADDON)
-            if dir_addon:
-                filename_ver = os.path.join(dir_addon, 'v.inf')
-                with open(filename_ver, 'w') as f:
-                    f.write(version)
-
-        m = get_module_name_from_zip_filename(fn)
+        props = do_save_version(url, fn, version)
         os.remove(fn)
 
-        #suggest readme
-        if opt.suggest_readme:
-            if m:
+        if props:
+            #suggest readme
+            m = props[2]
+            if m and opt.suggest_readme:
                 names = []
                 fn = get_readme_of_module(m)
                 if fn:
@@ -268,6 +264,8 @@ class Command:
             return
         if msg_box('Remove plugin: '+get_name_of_module(m), MB_OKCANCEL+MB_ICONQUESTION)!=ID_OK:
             return
+        
+        do_remove_version_of_plugin(m)
         if do_remove_module(m):
             msg_box('Removed, restart program to see changes', MB_OK+MB_ICONINFO)
 
@@ -346,13 +344,13 @@ class Command:
                 v_local = PREINST
             col_item = name+'\r'+m+'\r'+v_local+'\r?'
 
-            fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
-            if os.path.isfile(fn_ver):
-                v_local = open(fn_ver).read()
-
             remote_item = [d for d in remotes if d.get('module', '')==m]
             if remote_item:
+
+                url = remote_item[0]['url']
                 v_remote = remote_item[0]['v']
+                v_local = get_addon_version(url) or get_addon_version_old(m) or '?'
+
                 col_item = name + '\r' + m + '\r' + v_local + '\r' + v_remote
                 if v_local == PREINST:
                     s = '0'
@@ -421,8 +419,8 @@ class Command:
             m = remote.get('module', '')
             if not m in modules: continue
 
-            print('  '+ remote['name'])
-            msg_status('Updating: '+remote['name'], True)
+            print('  [%s] %s' % (remote['kind'], remote['name']))
+            msg_status('Updating: [%s] %s' % (remote['kind'], remote['name']), True)
             do_remove_module(m) # delete old dir
 
             url = remote['url']
@@ -430,9 +428,7 @@ class Command:
             fn = get_plugin_zip(url)
             if not fn: continue
             if os.path.isfile(fn) and file_open(fn, options='/silent'):
-                fn_ver = os.path.join(app_path(APP_DIR_PY), m, 'v.inf')
-                with open(fn_ver, 'w') as f:
-                    f.write(remote['v'])
+                do_save_version(url, fn, remote['v'])
             else:
                 fail_count += 1
                 print('  '+remote['name']+' - Update failed')

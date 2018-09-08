@@ -30,17 +30,44 @@ DATA_DIRS = (
     ('themes', ''),
     )
 
+def _root_item(s):
 
-def get_module_name_from_zip_filename(zip_fn):
+    n = s.rfind('/')
+    return n<0 or n==len(s)-1
+
+def get_props_of_zip_filename(zip_fn):
+
     temp_dir = tempfile.gettempdir()
     z = zipfile.ZipFile(zip_fn, 'r')
+
+    files = z.namelist()
+    files.remove('install.inf')
+    files = [f for f in files if _root_item(f)]
+
     z.extract('install.inf', temp_dir)
     z.close()
     fn = os.path.join(temp_dir, 'install.inf')
+
     if os.path.isfile(fn):
-        s = ini_read(fn, 'info', 'subdir', '')
+        typ = ini_read(fn, 'info', 'type', '')
+        subdir = ini_read(fn, 'info', 'subdir', '')
+
+        if typ=='cudatext-plugin':
+            d = 'py'
+            files = [subdir+'/']
+        elif typ=='cudatext-data':
+            d = 'data/'+subdir
+        elif typ=='lexer':
+            d = 'data/lexlib'
+        elif typ=='lexer-lite':
+            d = 'data/lexliblite'
+        else:
+            d = ''
+
         os.remove(fn)
-        return s
+        #print('prop', (d, files, subdir))
+        return (d, files, subdir)
+
 
 def get_readme_of_module(mod):
     for name in README_NAMES:
@@ -174,3 +201,49 @@ def get_installed_data_choice():
     if res is None:
         return None
     return names[res]
+
+
+def get_packages_ini():
+
+    return os.path.join(app_path(APP_DIR_SETTINGS), 'packages.ini')
+
+
+def do_save_version(url, fn, version):
+
+    props = get_props_of_zip_filename(fn)
+    if props:
+        d, f, m = props
+        fn = get_packages_ini()
+        sec = os.path.basename(url)
+        ini_write(fn, sec, 'd', d)
+        ini_write(fn, sec, 'f', ';'.join(f))
+        ini_write(fn, sec, 'v', version)
+        return props
+
+
+def get_addon_version_old(mod):
+
+    fn = os.path.join(app_path(APP_DIR_PY), mod, 'v.inf')
+    s = ''
+    if os.path.isfile(fn):
+        s = open(fn).read()
+    return s
+
+
+def get_addon_version(url):
+
+    fn = get_packages_ini()
+    return ini_read(fn, os.path.basename(url), 'v', '')
+
+
+def do_remove_version_of_plugin(mod):
+
+    import configparser
+    fn = get_packages_ini()
+    config = configparser.ConfigParser()
+    config.read(fn)
+    for sec in config.sections():
+        if config[sec]['d'] == 'py' and config[sec]['f'] == mod+'/':
+            del config[sec]
+            with open(fn, 'w') as f:
+                config.write(f, False)

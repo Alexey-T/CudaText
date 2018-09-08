@@ -99,15 +99,8 @@ class Command:
         ok = file_open(fn, options='/silent')
         if ok:
             self.ok_count += 1
-
-        #save version
-        if TYPE_TO_KIND.get(kind) in cuda_addonman.KINDS_WITH_VERSION:
-            dir_addon = app_path(APP_DIR_INSTALLED_ADDON)
-            if dir_addon:
-                filename_ver = os.path.join(dir_addon, 'v.inf')
-                with open(filename_ver, 'w') as f:
-                    f.write(version)
-
+            cuda_addonman.work_local.do_save_version(url, fn, version)
+        
 
     def open_menu(self):
 
@@ -161,7 +154,7 @@ class Command:
                                 line = 0
                             UI.append('\1'.join([
                                             'type=label',
-                                            'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h+5, 295+COLUMN_W*cl, line*20+25),
+                                            'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h+5, COLUMN_W*(cl+1), line*20+25),
                                             'cap='+CLASSES_MSGS[curr_class]
                                             ]))
                             UI_reg.append(())
@@ -173,7 +166,7 @@ class Command:
                                 flag_en = not self.is_installed(curr_class,pl)
                                 UI.append('\1'.join([
                                                 'type=check',
-                                                'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h, 295+COLUMN_W*cl, line*20+25),
+                                                'pos=%d,%d,%d,%d'%(5+COLUMN_W*cl, line*h, COLUMN_W*(cl+1), line*20+25),
                                                 'cap='+pl.replace('_',' '),
                                                 'en='+bool_to_str(flag_en)
                                                 ]))

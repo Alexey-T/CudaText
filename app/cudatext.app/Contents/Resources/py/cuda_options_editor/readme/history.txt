@@ -1,3 +1,6 @@
+2.3.04 (2018-08-28)
+fixed: layout for MacOS
+
 2.3.02 (2018-07-18)
 added: Alt+9 to reset sorting
 added: sort many columns by Ctrl holding on click or menu

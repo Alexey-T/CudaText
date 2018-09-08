@@ -2085,6 +2085,29 @@ Notes:
 * Param "nkind" must be in the range 1..63.
 * Param "nkind" values 2..9 have setup by default: they have blue icons "1" to "8".
 
+===decor===
+
+ decor(id, line=-1, tag=0, text="", color=0, bold=False, italic=False, image=-1, auto_del=True)
+
+Controls decorations on gutter. It is used to show some visual marks, which look like bookmark icons, but independant of bookmarks. Possible values of "id":
+
+* DECOR_GET_ALL: Gets list of all decorations, as list of dict, or None.
+* DECOR_GET: Gets decoration for single line, as dict, or None. Params used: "line".
+* DECOR_SET: Sets decoration for single line, overwriting existing item for that line. Gets bool: line index correct, item added. Params used:
+** "line": int, line index.
+** "tag": int, some value attached to item.
+** "text": str, text to show; decoration will be text.
+** "color": int, color of text decoration.
+** "bold": bool, use bold font for text decoration.
+** "italic": bool, use italic font for text decoration.
+** "image": int, icon index from decoration image-list; decoration will be icon, if text is empty.
+** "auto_del": bool, auto-delete decoration, when its line is deleted.
+
+* DECOR_DELETE_BY_LINE: Deletes single decoration for given line. Params used: "line". 
+* DECOR_DELETE_BY_TAG: Deletes all decorations for given tag. Param used: "tag".
+* DECOR_DELETE_ALL: Deletes all decorations.
+* DECOR_GET_IMAGELIST: Gets int handle of decoration image-list (default size is 16x16).
+
 ===folding===
 
  folding(id, index=-1, item_x=-1, item_y=-1, item_y2=-1, item_staple=False, item_hint="")
@@ -2985,3 +3008,6 @@ Text is chr(1) separated items:
 * add: Editor.folding: FOLDING_FOLD_LEVEL
 * add: Editor.folding: FOLDING_UNFOLD_ALL
 * add: Editor.folding: FOLDING_UNFOLD_LINE
+
+1.0.256 (app 1.60.7)
+* add: Editor.decor()
