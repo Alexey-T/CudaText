@@ -6,7 +6,7 @@
 
 1.61.2
 
-+ add: Multi Installer: option "Make group 'Web' for HTML/CSS/JS/PHP plugins"
++ add: Multi Installer: options "Make menu group 'nnnn'" (make groups in Plugins menu)
 
 1.61.0 (2018/09)
 

@@ -132,16 +132,21 @@ class Command:
 
         RES_LIST = 2
         RES_GR_WEB = 3
-        RES_NEXT = 5
-        res = dlg_custom('CudaText Multi Installer', 340, 360, '\n'.join([
+        RES_GR_PY = 4
+        RES_GR_XML = 5
+        RES_NEXT = 7
+        
+        res = dlg_custom('CudaText Multi Installer', 360, 420, '\n'.join([
             '\1'.join(['type=label','pos=5,5,295,0','cap=Select language(s) needed for you.']),
             '\1'.join(['type=label','pos=5,25,295,0','cap=Next steps will suggest add-ons for them.']),
-            '\1'.join(['type=checklistbox','pos=5,48,335,290','items='+
+            '\1'.join(['type=checklistbox','pos=5,48,355,290','items='+
                 '\t'.join(langs)
                 ]),
-            '\1'.join(['type=check', 'pos=5,295,300,0', 'cap=Make group "Web" for HTML/CSS/JS/PHP']),
-            '\1'.join(['type=button','pos=5,325,85,0','cap=Cancel']),
-            '\1'.join(['type=button','pos=255,325,335,0','cap=Next']),
+            '\1'.join(['type=check', 'pos=5,295,300,0', 'cap=Make menu group "Web" for HTML/CSS/JS/PHP']),
+            '\1'.join(['type=check', 'pos=5,325,300,0', 'cap=Make menu group "Python"']),
+            '\1'.join(['type=check', 'pos=5,355,300,0', 'cap=Make menu group "XML"']),
+            '\1'.join(['type=button','pos=5,385,85,0','cap=Cancel']),
+            '\1'.join(['type=button','pos=275,385,355,0','cap=Next']),
             ]),
             get_dict=True
             )
@@ -155,6 +160,12 @@ class Command:
             make_plugin_group('CSS.+', 'Web')
             make_plugin_group('JS.+', 'Web')
             make_plugin_group('PHP.+', 'Web')
+            
+        if res[RES_GR_PY]=='1':
+            make_plugin_group('Python.+', 'Python')
+            
+        if res[RES_GR_XML]=='1':
+            make_plugin_group('XML.+', 'XML')
 
         res_list = res[RES_LIST].split(';')[1].split(',')
         res_list = list(map(str_to_bool,res_list))
