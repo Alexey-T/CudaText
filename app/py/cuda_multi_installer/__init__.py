@@ -1,4 +1,5 @@
 import os
+import json
 from cudatext import *
 import cuda_addonman
 import urllib.request
@@ -7,6 +8,7 @@ import tempfile
 URL_DB = 'https://raw.githubusercontent.com/Alexey-T/CudaText-registry/master/multi_inst/db.py'
 COLUMN_LEN = 20
 COLUMN_W = 240
+FN_GROUPS = os.path.join(app_path(APP_DIR_SETTINGS), 'plugin groups.json')
 
 def str_to_bool(s):
     return s == '1'
@@ -21,13 +23,24 @@ def is_file_html(fn):
     return False
 
 
+def make_plugin_group(regex, name):
+
+    d = {}
+    if os.path.isfile(FN_GROUPS):
+        with open(FN_GROUPS) as f:
+            d = json.load(f)
+    d[regex] = name
+    with open(FN_GROUPS, 'w') as f:
+        f.write(json.dumps(d, indent=2))
+
+
 class Command:
 
     def load_repo(self):
 
         fn = os.path.join(tempfile.gettempdir(), 'cuda_multi_installer_db.py')
         cuda_addonman.work_remote.get_url(URL_DB, fn, True)
-        
+
         if not os.path.exists(fn):
             self.packets = []
             self.installed_list = []
@@ -100,7 +113,7 @@ class Command:
         if ok:
             self.ok_count += 1
             cuda_addonman.work_local.do_save_version(url, fn, version)
-        
+
 
     def open_menu(self):
 
@@ -118,15 +131,17 @@ class Command:
             to_install[i] = []
 
         RES_LIST = 2
-        RES_NEXT = 4
-        res = dlg_custom('CudaText Multi Installer', 300, 330, '\n'.join([
+        RES_GR_WEB = 3
+        RES_NEXT = 5
+        res = dlg_custom('CudaText Multi Installer', 340, 360, '\n'.join([
             '\1'.join(['type=label','pos=5,5,295,0','cap=Select language(s) needed for you.']),
             '\1'.join(['type=label','pos=5,25,295,0','cap=Next steps will suggest add-ons for them.']),
-            '\1'.join(['type=checklistbox','pos=5,48,295,290','items='+
+            '\1'.join(['type=checklistbox','pos=5,48,335,290','items='+
                 '\t'.join(langs)
                 ]),
-            '\1'.join(['type=button','pos=5,295,85,0','cap=Cancel']),
-            '\1'.join(['type=button','pos=215,295,295,0','cap=Next']),
+            '\1'.join(['type=check', 'pos=5,295,300,0', 'cap=Make group "Web" for HTML/CSS/JS/PHP']),
+            '\1'.join(['type=button','pos=5,325,85,0','cap=Cancel']),
+            '\1'.join(['type=button','pos=255,325,335,0','cap=Next']),
             ]),
             get_dict=True
             )
@@ -134,6 +149,12 @@ class Command:
             return
         if res['clicked']!=RES_NEXT:
             return
+
+        if res[RES_GR_WEB]=='1':
+            make_plugin_group('HTML.+', 'Web')
+            make_plugin_group('CSS.+', 'Web')
+            make_plugin_group('JS.+', 'Web')
+            make_plugin_group('PHP.+', 'Web')
 
         res_list = res[RES_LIST].split(';')[1].split(',')
         res_list = list(map(str_to_bool,res_list))
