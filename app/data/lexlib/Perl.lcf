@@ -122,14 +122,6 @@ object SyntAnal21: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'String ticks'
-      StyleName = 'String 2'
-      TokenType = 4
-      Expression = '`.*?`'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Id'
       StyleName = 'Id'
       TokenType = 2
@@ -150,6 +142,14 @@ object SyntAnal21: TLibSyntAnalyzer
       StyleName = 'String 2'
       TokenType = 9
       Expression = #39'.*?('#39'|$)'#13#10
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String ticks'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '`.*?`'
       ColumnFrom = 0
       ColumnTo = 0
     end
