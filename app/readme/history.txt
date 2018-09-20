@@ -4,6 +4,10 @@
   * changed
 
 
+1.61.2
+
++ add: Multi Installer: options "Make menu group 'nnnn'" (make groups in Plugins menu)
+
 1.61.0 (2018/09)
 
 + add: API to show decorations on gutter (will be used in Brackets Hilite plugin)
