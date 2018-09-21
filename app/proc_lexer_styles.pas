@@ -19,6 +19,7 @@ uses
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoSaveLexerStylesToFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStylesToFileJson(an: TecSyntAnalyzer; const fn: string);
 
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
@@ -147,6 +148,46 @@ begin
       DoSaveLexerStyleToFile(an.Formats[i], ini, section, IntToStr(i));
   finally
     ini.Free;
+  end;
+end;
+
+
+procedure DoSaveLexerStylesToFileJson(an: TecSyntAnalyzer; const fn: string);
+var
+  conf: TJSONConfig;
+  st: TecSyntaxFormat;
+  path: string;
+  i: integer;
+begin
+  conf:= TJSONConfig.Create(nil);
+  try
+    try
+      conf.Formatted:= true;
+      conf.FileName:= fn;
+
+      for i:= 0 to an.Formats.Count-1 do
+      begin
+        st:= an.Formats[i];
+        path:= '/style_'+StringReplace(st.DisplayName, '/', '_', [rfReplaceAll])+'/';
+
+        conf.SetValue(path+'font_color', ColorToString(st.Font.Color));
+        conf.SetValue(path+'font_style', FontStylesToString(st.Font.Style));
+        conf.SetValue(path+'back', ColorToString(st.BgColor));
+
+        conf.SetDeleteValue(path+'brd_c_l', ColorToString(st.BorderColorLeft), 'clNone');
+        conf.SetDeleteValue(path+'brd_c_r', ColorToString(st.BorderColorRight), 'clNone');
+        conf.SetDeleteValue(path+'brd_c_t', ColorToString(st.BorderColorTop), 'clNone');
+        conf.SetDeleteValue(path+'brd_c_b', ColorToString(st.BorderColorBottom), 'clNone');
+
+        conf.SetDeleteValue(path+'brd_t_l', Integer(st.BorderTypeLeft), 0);
+        conf.SetDeleteValue(path+'brd_t_r', Integer(st.BorderTypeRight), 0);
+        conf.SetDeleteValue(path+'brd_t_t', Integer(st.BorderTypeTop), 0);
+        conf.SetDeleteValue(path+'brd_t_b', Integer(st.BorderTypeBottom), 0);
+      end;
+    except
+    end;
+  finally
+    FreeAndNil(conf);
   end;
 end;
 
