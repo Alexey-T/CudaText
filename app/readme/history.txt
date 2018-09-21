@@ -4,9 +4,10 @@
   * changed
 
 
-1.61.2
+1.62.0 (2018/09)
 
 + add: Multi Installer: options "Make menu group 'nnnn'" (make groups in Plugins menu)
+* change: dialog "Lexer Properties": removed "Style type" option
 
 1.61.0 (2018/09)
 

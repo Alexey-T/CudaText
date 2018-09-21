@@ -232,6 +232,8 @@ procedure TfmLexerProp.SaveChangedLexer;
 var
   i: integer;
 begin
+  FAnalyzer.Extentions:= edTypes.Text;
+
   for i:= 0 to FAnalyzer.Formats.Count-1 do
     FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
 

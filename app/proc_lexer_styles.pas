@@ -17,10 +17,10 @@ uses
   ATStringProc_HtmlColor;
 
 procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
-procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
 
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
-procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const Filename: string);
 procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 
 function FontStylesToString(const f: TFontStyles): string;
@@ -107,7 +107,7 @@ begin
 end;
 
 
-procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
 var
   conf: TJSONConfig;
   st: TecSyntaxFormat;
@@ -118,7 +118,9 @@ begin
   try
     try
       conf.Formatted:= true;
-      conf.FileName:= fn;
+      conf.FileName:= Filename;
+
+      conf.SetValue('/files', an.Extentions);
 
       for i:= 0 to an.Formats.Count-1 do
       begin
@@ -199,7 +201,7 @@ begin
 end;
 
 
-procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const Filename: string);
 var
   ini: TIniFile;
   i, j:Integer;
@@ -209,7 +211,7 @@ begin
   if an=nil then Exit;
   section:= an.LexerName;
   fm:= TecSyntaxFormat.Create(nil);
-  ini:= TIniFile.Create(fn);
+  ini:= TIniFile.Create(Filename);
   try
     an.Extentions:= ini.ReadString(section, 'Ext', an.Extentions);
     for i:= 0 to ini.ReadInteger(section, 'Num', 0)-1 do
