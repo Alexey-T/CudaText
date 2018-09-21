@@ -16,13 +16,12 @@ uses
   ATStringProc,
   ATStringProc_HtmlColor;
 
-procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
-procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
-procedure DoSaveLexerStylesToFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
+procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const fn: string);
 
-procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 
 function FontStylesToString(const f: TFontStyles): string;
 function StringToFontStyles(const s: string): TFontStyles;
@@ -89,7 +88,7 @@ begin
 end;
 *)
 
-procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig;
+procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
@@ -107,51 +106,48 @@ begin
     Ord(st.BorderTypeBottom) ]));
 end;
 
-procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
-begin
-  ini.WriteString(section, skey+'_Name', st.DisplayName);
-  //ini.WriteString(section, skey+'_FontName', st.Font.Name);
-  //ini.WriteInteger(section, skey+'_FontSize', st.Font.Size);
-  ini.WriteString(section, skey+'_FontColor', ColorToString(st.Font.Color));
-  ini.WriteString(section, skey+'_FontStyles', FontStylesToString(st.Font.Style));
-  ini.WriteString(section, skey+'_BgColor', ColorToString(st.BgColor));
 
-  ini.WriteString(section, skey+'_BorderColorBottom', ColorToString(st.BorderColorBottom));
-  ini.WriteString(section, skey+'_BorderColorLeft', ColorToString(st.BorderColorLeft));
-  ini.WriteString(section, skey+'_BorderColorRight', ColorToString(st.BorderColorRight));
-  ini.WriteString(section, skey+'_BorderColorTop', ColorToString(st.BorderColorTop));
-
-  ini.WriteInteger(section, skey+'_BorderTypeBottom', Integer(st.BorderTypeBottom));
-  ini.WriteInteger(section, skey+'_BorderTypeLeft', Integer(st.BorderTypeLeft));
-  ini.WriteInteger(section, skey+'_BorderTypeRight', Integer(st.BorderTypeRight));
-  ini.WriteInteger(section, skey+'_BorderTypeTop', Integer(st.BorderTypeTop));
-
-  //ini.WriteString(section, skey+'_FormatFlags', FormatFlagsToStr(st.FormatFlags));
-  ini.WriteInteger(section, skey+'_FormatType', Integer(st.FormatType));
-end;
-
-procedure DoSaveLexerStylesToFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const fn: string);
 var
-  ini: TIniFile;
-  section: string;
+  conf: TJSONConfig;
+  st: TecSyntaxFormat;
+  path: string;
   i: integer;
 begin
-  section:= an.LexerName;
-  if section='' then Exit;
-  ini:= TIniFile.Create(fn);
+  conf:= TJSONConfig.Create(nil);
   try
-    ini.EraseSection(section);
-    ini.WriteString(section, 'Ext', an.Extentions);
-    ini.WriteInteger(section, 'Num', an.Formats.Count);
-    for i:= 0 to an.Formats.Count-1 do
-      DoSaveLexerStyleToFile(an.Formats[i], ini, section, IntToStr(i));
+    try
+      conf.Formatted:= true;
+      conf.FileName:= fn;
+
+      for i:= 0 to an.Formats.Count-1 do
+      begin
+        st:= an.Formats[i];
+        path:= '/style_'+StringReplace(st.DisplayName, '/', '_', [rfReplaceAll])+'/';
+
+        conf.SetValue(path+'font_color', ColorToString(st.Font.Color));
+        conf.SetDeleteValue(path+'font_style', FontStylesToString(st.Font.Style), '');
+        conf.SetDeleteValue(path+'back', ColorToString(st.BgColor), 'clNone');
+
+        conf.SetDeleteValue(path+'brd_c_l', ColorToString(st.BorderColorLeft), 'clBlack');
+        conf.SetDeleteValue(path+'brd_c_r', ColorToString(st.BorderColorRight), 'clBlack');
+        conf.SetDeleteValue(path+'brd_c_t', ColorToString(st.BorderColorTop), 'clBlack');
+        conf.SetDeleteValue(path+'brd_c_b', ColorToString(st.BorderColorBottom), 'clBlack');
+
+        conf.SetDeleteValue(path+'brd_t_l', Integer(st.BorderTypeLeft), 0);
+        conf.SetDeleteValue(path+'brd_t_r', Integer(st.BorderTypeRight), 0);
+        conf.SetDeleteValue(path+'brd_t_t', Integer(st.BorderTypeTop), 0);
+        conf.SetDeleteValue(path+'brd_t_b', Integer(st.BorderTypeBottom), 0);
+      end;
+    except
+    end;
   finally
-    ini.Free;
+    FreeAndNil(conf);
   end;
 end;
 
 
-procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig;
+procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
 var
   Len: integer;

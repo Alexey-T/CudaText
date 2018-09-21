@@ -47,7 +47,6 @@ type
     edCmtFull2: TEdit;
     edStylesStrings: TEdit;
     edStylesCmt: TEdit;
-    edStyleType: TComboBox;
     edTypes: TEdit;
     edName: TEdit;
     edSample: TATSynEdit;
@@ -67,7 +66,6 @@ type
     LabelFileTypes: TLabel;
     edNotes: TMemo;
     LabelColorFont: TLabel;
-    LabelStyleType: TLabel;
     LabelColorBg: TLabel;
     LabelFontStyles: TLabel;
     LabelBorder: TLabel;
@@ -83,7 +81,6 @@ type
     procedure edCmtStream1Change(Sender: TObject);
     procedure edColorBGChange(Sender: TObject);
     procedure edNameChange(Sender: TObject);
-    procedure edStyleTypeChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -94,7 +91,6 @@ type
     FAnalyzer: TecSyntAnalyzer;
     FFormats: TecStylesCollection;
     FLockedUpdate: boolean;
-    FStylesFilename: string;
     FChangedAllowed: boolean;
     FChangedLexer: boolean;
     FChangedComments: boolean;
@@ -119,8 +115,8 @@ var
 
 function DoShowDialogLexerProp(
   an: TecSyntAnalyzer;
-  const AFontName: string; AFontSize: integer;
-  const AStylesFilename: string): boolean;
+  const AFontName: string;
+  AFontSize: integer): boolean;
 
 implementation
 
@@ -190,11 +186,13 @@ begin
     with F.chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
     with F.chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
 
+    {
     with F.LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
     with F.edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
     with F.edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
     with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
     with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
+    }
 
     with F.LabelInfoThemes do Caption:= ini.ReadString(section, 'info_theme', Caption);
 
@@ -230,13 +228,6 @@ begin
   LabelInfoThemes.Visible:= UiOps.LexerThemes;
 end;
 
-procedure TfmLexerProp.edStyleTypeChange(Sender: TObject);
-begin
-  IsChangedLexer:= true;
-  UpdateStlEn(TecFormatType(edStyleType.ItemIndex));
-  UpdateStlToListbox;
-end;
-
 procedure TfmLexerProp.SaveChangedLexer;
 var
   i: integer;
@@ -244,8 +235,10 @@ begin
   for i:= 0 to FAnalyzer.Formats.Count-1 do
     FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
 
-  if FStylesFilename<>'' then
-    DoSaveLexerStylesToFile(FAnalyzer, FStylesFilename);
+  DoSaveLexerStylesToFile_JsonLexerOps(
+    FAnalyzer,
+    GetAppLexerOpsFilename(FAnalyzer.LexerName)
+    );
 end;
 
 procedure TfmLexerProp.SaveChangedComments;
@@ -397,7 +390,7 @@ begin
   fmt:= FFormats[n];
   UpdateStlEn(fmt.FormatType);
 
-  edStyleType.ItemIndex:= Ord(fmt.FormatType);
+  //edStyleType.ItemIndex:= Ord(fmt.FormatType);
   edColorFont.Selected:= fmt.Font.Color;
   edColorBG.Selected:= fmt.BgColor;
   edColorBorder.Selected:= fmt.BorderColorBottom;
@@ -444,7 +437,7 @@ begin
   if n<0 then exit;
   fmt:= FFormats[n];
 
-  fmt.FormatType:= TecFormatType(edStyleType.ItemIndex);
+  //fmt.FormatType:= TecFormatType(edStyleType.ItemIndex);
   fmt.Font.Color:= edColorFont.Selected;
   fmt.BgColor:= edColorBG.Selected;
   fmt.BorderColorBottom:= edColorBorder.Selected;
@@ -464,7 +457,7 @@ end;
 
 
 function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
-  AFontSize: integer; const AStylesFilename: string): boolean;
+  AFontSize: integer): boolean;
 var
   F: TfmLexerProp;
   an2: TecSyntAnalyzer;
@@ -479,7 +472,6 @@ begin
     DoApplyLexerStylesMap(an, an2);
     EditorApplyTheme(F.edSample);
 
-    F.FStylesFilename:= AStylesFilename;
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;
     F.edTypes.Text:= an.Extentions;
