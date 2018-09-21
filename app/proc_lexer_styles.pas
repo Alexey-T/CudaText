@@ -16,14 +16,14 @@ uses
   ATStringProc,
   ATStringProc_HtmlColor;
 
-procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoSaveLexerStylesToFile(an: TecSyntAnalyzer; const fn: string);
-procedure DoSaveLexerStylesToFileJson(an: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
+procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const fn: string);
 
-procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const fn: string);
+procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
 
 function FontStylesToString(const f: TFontStyles): string;
 function StringToFontStyles(const s: string): TFontStyles;
@@ -90,7 +90,7 @@ begin
 end;
 *)
 
-procedure DoSaveLexerStyleToFile(st: TecSyntaxFormat; cfg: TJSONConfig;
+procedure DoSaveLexerStyleToFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
 begin
   if not SEndsWith(skey, '/') then skey:= skey+'/';
@@ -152,7 +152,7 @@ begin
 end;
 
 
-procedure DoSaveLexerStylesToFileJson(an: TecSyntAnalyzer; const fn: string);
+procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const fn: string);
 var
   conf: TJSONConfig;
   st: TecSyntaxFormat;
@@ -192,7 +192,7 @@ begin
 end;
 
 
-procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; cfg: TJSONConfig;
+procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
   skey: string);
 var
   Len: integer;

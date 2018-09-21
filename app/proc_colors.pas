@@ -87,7 +87,7 @@ begin
       for i:= 0 to d.Styles.Count-1 do
       begin
         st:= TecSyntaxFormat(d.Styles[i]);
-        DoLoadLexerStyleFromFile(st, c, 'Lex_'+st.DisplayName);
+        DoLoadLexerStyleFromFile_JsonTheme(st, c, 'Lex_'+st.DisplayName);
       end;
     end;
   finally
@@ -367,7 +367,7 @@ begin
       for i:= 0 to d.Styles.Count-1 do
       begin
         st:= TecSyntaxFormat(d.Styles[i]);
-        DoSaveLexerStyleToFile(st, c, 'Lex_'+st.DisplayName);
+        DoSaveLexerStyleToFile_JsonTheme(st, c, 'Lex_'+st.DisplayName);
       end;
     end;
   finally
