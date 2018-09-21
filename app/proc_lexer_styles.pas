@@ -120,6 +120,8 @@ begin
       conf.Formatted:= true;
       conf.FileName:= Filename;
 
+      conf.SetValue('/files', an.Extentions);
+
       for i:= 0 to an.Formats.Count-1 do
       begin
         st:= an.Formats[i];
