@@ -1604,14 +1604,14 @@ begin
   Result:= GetLexerFilenameWithExt(ALexName, '.cuda-lexmap');
 end;
 
-function GetAppLexerOpsFilename(const ALexName: string): string;
-begin
-  Result:= GetLexerFilenameWithExt(ALexName, '.cuda-lexops');
-end;
-
 function GetAppLexerFilename(const ALexName: string): string;
 begin
   Result:= GetLexerFilenameWithExt(ALexName, '.lcf');
+end;
+
+function GetAppLexerOpsFilename(const ALexName: string): string;
+begin
+  Result:= GetAppPath(cDirSettings)+DirectorySeparator+EscapeLexerFilename(ALexName)+'.cuda-lexops';
 end;
 
 function GetAppLexerAcpFilename(const ALexName: string): string;
