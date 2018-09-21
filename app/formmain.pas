@@ -782,7 +782,9 @@ type
     function GetShowMenu: boolean;
     function GetShowOnTop: boolean;
     function GetShowSidebarOnRight: boolean;
+    {$ifdef darwin}
     procedure InitAppleMenu;
+    {$endif}
     procedure InitFloatGroup(var F: TForm; var G: TATGroups; ATag: integer;
       const ARect: TRect; AOnClose: TCloseEvent; AOnGroupEmpty: TNotifyEvent);
     procedure InitFloatGroups;
@@ -1434,7 +1436,7 @@ begin
     Result:= GetAppPath(cDirSettings)+DirectorySeparator+Result;
 end;
 
-
+{$ifdef darwin}
 procedure TfmMain.InitAppleMenu;
 var
   cAppleString: string;
@@ -1461,7 +1463,7 @@ begin
   //macOS adds Quit item in apple menu
   mnuFileExit.Visible:= false;
 end;
-
+{$endif}
 
 procedure TfmMain.FormCreate(Sender: TObject);
 var
@@ -1501,7 +1503,9 @@ begin
   ToolbarSideLow.ScalePercents:= UiOps.ScreenScale;
   ToolbarSideMid.ScalePercents:= UiOps.ScreenScale;
 
+  {$ifdef darwin}
   InitAppleMenu;
+  {$endif}
   InitToolbar;
   InitSidebar;
 
