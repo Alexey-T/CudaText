@@ -147,7 +147,7 @@ begin
   if n<0 then exit;
   an:= List.Items.Objects[n] as TecSyntAnalyzer;
 
-  if DoShowDialogLexerProp(an, FFontName, FFontSize, FStylesFilename) then
+  if DoShowDialogLexerProp(an, FFontName, FFontSize) then
   begin
     DoLexerExportFromLibToFile(an);
     UpdateList;

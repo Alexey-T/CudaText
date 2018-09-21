@@ -91,7 +91,6 @@ type
     FAnalyzer: TecSyntAnalyzer;
     FFormats: TecStylesCollection;
     FLockedUpdate: boolean;
-    FStylesFilename: string;
     FChangedAllowed: boolean;
     FChangedLexer: boolean;
     FChangedComments: boolean;
@@ -116,8 +115,8 @@ var
 
 function DoShowDialogLexerProp(
   an: TecSyntAnalyzer;
-  const AFontName: string; AFontSize: integer;
-  const AStylesFilename: string): boolean;
+  const AFontName: string;
+  AFontSize: integer): boolean;
 
 implementation
 
@@ -236,8 +235,7 @@ begin
   for i:= 0 to FAnalyzer.Formats.Count-1 do
     FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
 
-  if FStylesFilename<>'' then
-    DoSaveLexerStylesToFile(FAnalyzer, FStylesFilename);
+  DoSaveLexerStylesToFile(FAnalyzer, GetAppPath(cFileLexerStylesBackup));
 end;
 
 procedure TfmLexerProp.SaveChangedComments;
@@ -456,7 +454,7 @@ end;
 
 
 function DoShowDialogLexerProp(an: TecSyntAnalyzer; const AFontName: string;
-  AFontSize: integer; const AStylesFilename: string): boolean;
+  AFontSize: integer): boolean;
 var
   F: TfmLexerProp;
   an2: TecSyntAnalyzer;
@@ -471,7 +469,6 @@ begin
     DoApplyLexerStylesMap(an, an2);
     EditorApplyTheme(F.edSample);
 
-    F.FStylesFilename:= AStylesFilename;
     F.FAnalyzer:= an;
     F.edName.Text:= an.LexerName;
     F.edTypes.Text:= an.Extentions;

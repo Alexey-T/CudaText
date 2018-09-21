@@ -2140,8 +2140,7 @@ procedure TfmMain.DoDialogLexerProp(an: TecSyntAnalyzer);
 begin
   if DoShowDialogLexerProp(an,
     EditorOps.OpFontName,
-    EditorOps.OpFontSize,
-    GetAppPath(cFileLexerStylesBackup)) then
+    EditorOps.OpFontSize) then
   begin
     DoLexerExportFromLibToFile(an);
     UpdateMenuLexers;
