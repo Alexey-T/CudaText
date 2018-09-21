@@ -47,7 +47,6 @@ type
     edCmtFull2: TEdit;
     edStylesStrings: TEdit;
     edStylesCmt: TEdit;
-    edStyleType: TComboBox;
     edTypes: TEdit;
     edName: TEdit;
     edSample: TATSynEdit;
@@ -67,7 +66,6 @@ type
     LabelFileTypes: TLabel;
     edNotes: TMemo;
     LabelColorFont: TLabel;
-    LabelStyleType: TLabel;
     LabelColorBg: TLabel;
     LabelFontStyles: TLabel;
     LabelBorder: TLabel;
@@ -83,7 +81,6 @@ type
     procedure edCmtStream1Change(Sender: TObject);
     procedure edColorBGChange(Sender: TObject);
     procedure edNameChange(Sender: TObject);
-    procedure edStyleTypeChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -190,11 +187,13 @@ begin
     with F.chkUnder do Caption:= ini.ReadString(section, 'fon_u', Caption);
     with F.chkStrik do Caption:= ini.ReadString(section, 'fon_s', Caption);
 
+    {
     with F.LabelStyleType do Caption:= ini.ReadString(section, 'typ_', Caption);
     with F.edStyleType do Items[0]:= ini.ReadString(section, 'typ_mi', Items[0]);
     with F.edStyleType do Items[1]:= ini.ReadString(section, 'typ_col_st', Items[1]);
     with F.edStyleType do Items[2]:= ini.ReadString(section, 'typ_col', Items[2]);
     with F.edStyleType do Items[3]:= ini.ReadString(section, 'typ_col_bg', Items[3]);
+    }
 
     with F.LabelInfoThemes do Caption:= ini.ReadString(section, 'info_theme', Caption);
 
@@ -228,13 +227,6 @@ begin
   FFormats:= TecStylesCollection.Create;
 
   LabelInfoThemes.Visible:= UiOps.LexerThemes;
-end;
-
-procedure TfmLexerProp.edStyleTypeChange(Sender: TObject);
-begin
-  IsChangedLexer:= true;
-  UpdateStlEn(TecFormatType(edStyleType.ItemIndex));
-  UpdateStlToListbox;
 end;
 
 procedure TfmLexerProp.SaveChangedLexer;
@@ -397,7 +389,7 @@ begin
   fmt:= FFormats[n];
   UpdateStlEn(fmt.FormatType);
 
-  edStyleType.ItemIndex:= Ord(fmt.FormatType);
+  //edStyleType.ItemIndex:= Ord(fmt.FormatType);
   edColorFont.Selected:= fmt.Font.Color;
   edColorBG.Selected:= fmt.BgColor;
   edColorBorder.Selected:= fmt.BorderColorBottom;
@@ -444,7 +436,7 @@ begin
   if n<0 then exit;
   fmt:= FFormats[n];
 
-  fmt.FormatType:= TecFormatType(edStyleType.ItemIndex);
+  //fmt.FormatType:= TecFormatType(edStyleType.ItemIndex);
   fmt.Font.Color:= edColorFont.Selected;
   fmt.BgColor:= edColorBG.Selected;
   fmt.BorderColorBottom:= edColorBorder.Selected;
