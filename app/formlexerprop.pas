@@ -235,7 +235,10 @@ begin
   for i:= 0 to FAnalyzer.Formats.Count-1 do
     FAnalyzer.Formats.Items[i].Assign(FFormats[i]);
 
-  DoSaveLexerStylesToFile(FAnalyzer, GetAppPath(cFileLexerStylesBackup));
+  DoSaveLexerStylesToFile_JsonLexerOps(
+    FAnalyzer,
+    GetAppLexerOpsFilename(FAnalyzer.LexerName)
+    );
 end;
 
 procedure TfmLexerProp.SaveChangedComments;

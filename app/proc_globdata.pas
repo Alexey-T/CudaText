@@ -432,6 +432,7 @@ function GetAppLangFilename: string;
 function EscapeLexerFilename(const ALexName: string): string;
 function GetAppLexerFilename(const ALexName: string): string;
 function GetAppLexerMapFilename(const ALexName: string): string;
+function GetAppLexerOpsFilename(const ALexName: string): string;
 function GetAppLexerAcpFilename(const ALexName: string): string;
 function GetAppLexerSpecificConfig(AName: string): string;
 function GetAppLexerPropInCommentsSection(const ALexerName, AKey: string): string;
@@ -1601,6 +1602,11 @@ end;
 function GetAppLexerMapFilename(const ALexName: string): string;
 begin
   Result:= GetLexerFilenameWithExt(ALexName, '.cuda-lexmap');
+end;
+
+function GetAppLexerOpsFilename(const ALexName: string): string;
+begin
+  Result:= GetLexerFilenameWithExt(ALexName, '.cuda-lexops');
 end;
 
 function GetAppLexerFilename(const ALexName: string): string;
