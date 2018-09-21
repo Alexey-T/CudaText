@@ -22,6 +22,7 @@ procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filena
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const Filename: string);
 procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
+procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
 
 function FontStylesToString(const f: TFontStyles): string;
 function StringToFontStyles(const s: string): TFontStyles;
@@ -127,6 +128,8 @@ begin
         st:= an.Formats[i];
         path:= '/style_'+StringReplace(st.DisplayName, '/', '_', [rfReplaceAll])+'/';
 
+        //note that "font_color" saves w/o default, so we can
+        //detect that style is present, by "font_color" not empty
         conf.SetValue(path+'font_color', ColorToString(st.Font.Color));
         conf.SetDeleteValue(path+'font_style', FontStylesToString(st.Font.Style), '');
         conf.SetDeleteValue(path+'back', ColorToString(st.BgColor), 'clNone');
@@ -147,6 +150,68 @@ begin
     FreeAndNil(conf);
   end;
 end;
+
+
+procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
+var
+  conf: TJSONConfig;
+  st: TecSyntaxFormat;
+  path, s: string;
+  i: integer;
+begin
+  conf:= TJSONConfig.Create(nil);
+  try
+    try
+      conf.FileName:= Filename;
+
+      an.Extentions:= conf.GetValue('/files', an.Extentions);
+
+      for i:= 0 to an.Formats.Count-1 do
+      begin
+        st:= an.Formats[i];
+        path:= '/style_'+StringReplace(st.DisplayName, '/', '_', [rfReplaceAll])+'/';
+
+        //key "font_color" is always filled for a style
+        s:= conf.GetValue(path+'font_color', '');
+        if s='' then Continue;
+        st.Font.Color:= StringToColor(s);
+
+        s:= conf.GetValue(path+'font_style', '');
+        if s<>'' then
+          st.Font.Style:= StringToFontStyles(s);
+
+        s:= conf.GetValue(path+'back', '');
+        if s<>'' then
+          st.BgColor:= StringToColor(s);
+
+        s:= conf.GetValue(path+'brd_c_l', '');
+        if s<>'' then
+          st.BorderColorLeft:= StringToColor(s);
+
+        s:= conf.GetValue(path+'brd_c_r', '');
+        if s<>'' then
+          st.BorderColorRight:= StringToColor(s);
+
+        s:= conf.GetValue(path+'brd_c_t', '');
+        if s<>'' then
+          st.BorderColorTop:= StringToColor(s);
+
+        s:= conf.GetValue(path+'brd_c_b', '');
+        if s<>'' then
+          st.BorderColorBottom:= StringToColor(s);
+
+        st.BorderTypeLeft:= TecBorderLineType(conf.GetValue(path+'brd_t_l', 0));
+        st.BorderTypeRight:= TecBorderLineType(conf.GetValue(path+'brd_t_r', 0));
+        st.BorderTypeTop:= TecBorderLineType(conf.GetValue(path+'brd_t_t', 0));
+        st.BorderTypeBottom:= TecBorderLineType(conf.GetValue(path+'brd_t_b', 0));
+      end;
+    except
+    end;
+  finally
+    FreeAndNil(conf);
+  end;
+end;
+
 
 
 procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
