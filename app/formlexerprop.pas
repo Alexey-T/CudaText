@@ -498,7 +498,7 @@ begin
     Result:= F.IsChangedLexer;
     if Result then
     begin
-      an.LexerName:= F.edName.Text;
+      //an.LexerName:= F.edName.Text; //read-only
       an.Extentions:= F.edTypes.Text;
       an.LineComment:= F.edCmtLine.Text;
       //an.Notes.Clear;
