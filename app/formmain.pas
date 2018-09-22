@@ -3181,7 +3181,7 @@ end;
 
 procedure TfmMain.DoOps_LoadLexerLib;
 var
-  fn, DirLexers, LexName: string;
+  fn, fn_ops, DirLexers, LexName: string;
   ListFiles, ListBackup: TStringlist;
   an: TecSyntAnalyzer;
   ini: TIniFile;
@@ -3212,6 +3212,11 @@ begin
       an:= AppManager.AddLexer;
       //an.Name:= '_lx_'+LexerFilenameToComponentName(ListFiles[i]);
       an.LoadFromFile(ListFiles[i]);
+
+      //load *.cuda-lexops
+      fn_ops:= GetAppLexerOpsFilename(an.LexerName);
+      if FileExistsUTF8(fn_ops) then
+        DoLoadLexerStylesFromFile_JsonLexerOps(an, fn_ops);
     end;
 
     //correct sublexer links
