@@ -490,6 +490,7 @@ begin
       F.edSample.Strings.LoadFromString(an.SampleText.Text);
       F.edSample.Update(true);
       F.edSample.DoEventChange;
+      F.edSample.ModeReadOnly:= true;
     end;
 
     if F.ShowModal<>mrOk then exit;

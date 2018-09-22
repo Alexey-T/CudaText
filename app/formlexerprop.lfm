@@ -73,6 +73,7 @@ object fmLexerProp: TfmLexerProp
         BorderSpacing.Top = 3
         BorderSpacing.Right = 6
         OnChange = edNameChange
+        ReadOnly = True
         TabOrder = 0
       end
       object LabelFileTypes: TLabel
