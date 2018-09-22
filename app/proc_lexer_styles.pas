@@ -22,7 +22,7 @@ procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filena
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const Filename: string);
 procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
-procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
+procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string; NoStyles: boolean);
 
 function FontStylesToString(const f: TFontStyles): string;
 function StringToFontStyles(const s: string): TFontStyles;
@@ -152,7 +152,8 @@ begin
 end;
 
 
-procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
+procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string;
+  NoStyles: boolean);
 var
   conf: TJSONConfig;
   st: TecSyntaxFormat;
@@ -165,6 +166,7 @@ begin
       conf.FileName:= Filename;
 
       an.Extentions:= conf.GetValue('/files', an.Extentions);
+      if NoStyles then exit;
 
       for i:= 0 to an.Formats.Count-1 do
       begin

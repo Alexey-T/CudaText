@@ -3216,7 +3216,7 @@ begin
       //load *.cuda-lexops
       fn_ops:= GetAppLexerOpsFilename(an.LexerName);
       if FileExistsUTF8(fn_ops) then
-        DoLoadLexerStylesFromFile_JsonLexerOps(an, fn_ops);
+        DoLoadLexerStylesFromFile_JsonLexerOps(an, fn_ops, UiOps.LexerThemes);
     end;
 
     //correct sublexer links
