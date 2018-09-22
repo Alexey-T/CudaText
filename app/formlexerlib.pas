@@ -149,7 +149,7 @@ begin
 
   if DoShowDialogLexerProp(an, FFontName, FFontSize) then
   begin
-    DoLexerExportFromLibToFile(an);
+    //DoLexerExportFromLibToFile(an);
     UpdateList;
     List.ItemIndex:= n;
   end;
@@ -170,7 +170,7 @@ begin
   AppManager.Modified:= true;
   UpdateList;
 
-  DoLexerExportFromLibToFile(an);
+  //DoLexerExportFromLibToFile(an);
 end;
 
 procedure TfmLexerLib.FormKeyDown(Sender: TObject; var Key: Word;

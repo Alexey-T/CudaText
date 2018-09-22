@@ -463,7 +463,7 @@ procedure DoOps_SaveKey_ForPluginModuleAndMethod(AOverwriteKey: boolean;
 
 function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
 procedure DoLexerEnum(L: TStringList; AlsoDisabled: boolean = false);
-procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
+//procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 
 var
   AppManager: TecLexerList = nil;
@@ -1463,11 +1463,13 @@ begin
       L.Add(Lexers[i].LexerName+msgLiteLexerSuffix);
 end;
 
+{
 procedure DoLexerExportFromLibToFile(an: TecSyntAnalyzer);
 begin
   if Assigned(an) then
     an.SaveToFile(GetAppLexerFilename(an.LexerName));
 end;
+}
 
 procedure CommandPlugins_AssignItem(var Dst, Src: TAppPluginCmd);
 begin

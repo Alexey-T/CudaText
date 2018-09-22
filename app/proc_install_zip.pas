@@ -309,8 +309,9 @@ begin
       //also "restore lexer styles"
       if not UiOps.LexerThemes then
       begin
-        DoLoadLexerStylesFromFile(an, GetAppPath(cFileLexerStylesBackup));
-        DoLexerExportFromLibToFile(an);
+        //DoLoadLexerStylesFromFile(an, GetAppPath(cFileLexerStylesBackup));
+        DoLoadLexerStylesFromFile_JsonLexerOps(an, GetAppLexerOpsFilename(an.LexerName), false);
+        //DoLexerExportFromLibToFile(an);
       end;
 
       //set sublexer links

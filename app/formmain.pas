@@ -2142,7 +2142,7 @@ begin
     EditorOps.OpFontName,
     EditorOps.OpFontSize) then
   begin
-    DoLexerExportFromLibToFile(an);
+    //DoLexerExportFromLibToFile(an);
     UpdateMenuLexers;
     UpdateStatus;
     UpdateFrame;
@@ -4648,7 +4648,7 @@ begin
           if Assigned(An) then
           begin
             DoLoadLexerStylesFromFile(An, Form.StylesFilename);
-            DoLexerExportFromLibToFile(An);
+            //DoLexerExportFromLibToFile(An);
           end
           else
             MsgBox(msgCannotFindLexerInLibrary+' '+Form.List.Items[i], MB_OK);
