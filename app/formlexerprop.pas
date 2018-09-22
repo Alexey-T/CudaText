@@ -490,8 +490,8 @@ begin
       F.edSample.Strings.LoadFromString(an.SampleText.Text);
       F.edSample.Update(true);
       F.edSample.DoEventChange;
-      F.edSample.ModeReadOnly:= true;
     end;
+    F.edSample.ModeReadOnly:= true;
 
     if F.ShowModal<>mrOk then exit;
     if Trim(F.edName.Text)='' then exit;
