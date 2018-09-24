@@ -5033,18 +5033,6 @@ begin
 end;
 
 
-function Py_ed_get_token_result(const PntFrom, PntTo: TPoint; const StrToken, StrStyle: string): PPyObject;
-begin
-  with GetPythonEngine do
-    if PntFrom.X<0 then
-      Result:= ReturnNone
-    else
-      Result:= Py_BuildValue('((ii)(ii)ss)',
-        PntFrom.X, PntFrom.Y,
-        PntTo.X, PntTo.Y,
-        PChar(StrToken), PChar(StrStyle));
-end;
-
 function Py_GetTokenList(Adapter: TATAdapterEControl; ALineFrom, ALineTo: integer): PPyObject;
 var
   An: TecClientSyntAnalyzer;
@@ -5118,18 +5106,6 @@ begin
       if F=nil then exit(ReturnNone);
 
       case Id of
-        TOKEN_AT_POS:
-          begin
-            MsgOldApi('get_token(TOKEN_AT_POS)');
-            F.Adapter.GetTokenAtPos(Point(NIndex1, NIndex2), PntFrom, PntTo, StrToken, StrStyle);
-            Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
-          end;
-        TOKEN_INDEX:
-          begin
-            MsgOldApi('get_token(TOKEN_INDEX)');
-            F.Adapter.GetTokenWithIndex(NIndex1, PntFrom, PntTo, StrToken, StrStyle);
-            Result:= Py_ed_get_token_result(PntFrom, PntTo, StrToken, StrStyle);
-          end;
         TOKEN_LIST:
           begin
             if Assigned(F.Adapter) then
