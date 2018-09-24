@@ -280,8 +280,11 @@ procedure TfmLexerProp.FormClose(Sender: TObject; var CloseAction: TCloseAction)
 begin
   if ModalResult=mrOk then
   begin
-    if IsChangedLexer then SaveChangedLexer;
-    if IsChangedComments then SaveChangedComments;
+    //if IsChangedLexer then //save always, so user can open dlg and press OK
+      SaveChangedLexer;
+
+    //if IsChangedComments then //these fields are r/o now
+    //  SaveChangedComments;
   end;
 end;
 
