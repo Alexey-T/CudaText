@@ -11,8 +11,10 @@ interface
 
 uses
   SysUtils, Classes, Graphics, IniFiles,
+  LazFileUtils,
   at__jsonconf,
   ec_SyntAnal,
+  proc_globdata,
   ATStringProc,
   ATStringProc_HtmlColor;
 
@@ -111,42 +113,104 @@ end;
 procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string);
 var
   conf: TJSONConfig;
-  st: TecSyntaxFormat;
-  path: string;
-  i: integer;
+  an_orig: TecSyntAnalyzer;
+  st, st_orig: TecSyntaxFormat;
+  fn_lexer, path, val_orig: string;
+  int_orig, i: integer;
 begin
   conf:= TJSONConfig.Create(nil);
+  an_orig:= TecSyntAnalyzer.Create(nil);
   try
     try
+      fn_lexer:= GetAppLexerFilename(an.LexerName);
+      if FileExistsUTF8(fn_lexer) then
+        an_orig.LoadFromFile(fn_lexer);
+
       conf.Formatted:= true;
       conf.FileName:= Filename;
 
-      conf.SetValue('/files', an.Extentions);
+      conf.SetDeleteValue('/files', an.Extentions, an_orig.Extentions);
 
       for i:= 0 to an.Formats.Count-1 do
       begin
         st:= an.Formats[i];
         path:= '/style_'+StringReplace(st.DisplayName, '/', '_', [rfReplaceAll])+'/';
 
-        //note that "font_color" saves w/o default, so we can
-        //detect that style is present, by "font_color" not empty
-        conf.SetValue(path+'font_color', ColorToString(st.Font.Color));
-        conf.SetValue(path+'font_style', FontStylesToString(st.Font.Style));
-        conf.SetDeleteValue(path+'back', ColorToString(st.BgColor), 'clNone');
+        if i<an_orig.Formats.Count then
+          st_orig:= an_orig.Formats[i]
+        else
+          st_orig:= nil;
 
-        conf.SetDeleteValue(path+'brd_c_l', ColorToString(st.BorderColorLeft), 'clBlack');
-        conf.SetDeleteValue(path+'brd_c_r', ColorToString(st.BorderColorRight), 'clBlack');
-        conf.SetDeleteValue(path+'brd_c_t', ColorToString(st.BorderColorTop), 'clBlack');
-        conf.SetDeleteValue(path+'brd_c_b', ColorToString(st.BorderColorBottom), 'clBlack');
+        if Assigned(st_orig) then
+          val_orig:= ColorToString(st_orig.Font.Color)
+        else
+          val_orig:= '?';
+        conf.SetDeleteValue(path+'font_color', ColorToString(st.Font.Color), val_orig);
 
-        conf.SetDeleteValue(path+'brd_t_l', Integer(st.BorderTypeLeft), 0);
-        conf.SetDeleteValue(path+'brd_t_r', Integer(st.BorderTypeRight), 0);
-        conf.SetDeleteValue(path+'brd_t_t', Integer(st.BorderTypeTop), 0);
-        conf.SetDeleteValue(path+'brd_t_b', Integer(st.BorderTypeBottom), 0);
+        if Assigned(st_orig) then
+          val_orig:= FontStylesToString(st_orig.Font.Style)
+        else
+          val_orig:= '?';
+        conf.SetDeleteValue(path+'font_style', FontStylesToString(st.Font.Style), val_orig);
+
+        if Assigned(st_orig) then
+          val_orig:= ColorToString(st_orig.BgColor)
+        else
+          val_orig:= 'clNone';
+        conf.SetDeleteValue(path+'back', ColorToString(st.BgColor), val_orig);
+
+        if Assigned(st_orig) then
+          val_orig:= ColorToString(st_orig.BorderColorLeft)
+        else
+          val_orig:= 'clBlack';
+        conf.SetDeleteValue(path+'brd_c_l', ColorToString(st.BorderColorLeft), val_orig);
+
+        if Assigned(st_orig) then
+          val_orig:= ColorToString(st_orig.BorderColorRight)
+        else
+          val_orig:= 'clBlack';
+        conf.SetDeleteValue(path+'brd_c_r', ColorToString(st.BorderColorRight), val_orig);
+
+        if Assigned(st_orig) then
+          val_orig:= ColorToString(st_orig.BorderColorTop)
+        else
+          val_orig:= 'clBlack';
+        conf.SetDeleteValue(path+'brd_c_t', ColorToString(st.BorderColorTop), val_orig);
+
+        if Assigned(st_orig) then
+          val_orig:= ColorToString(st_orig.BorderColorBottom)
+        else
+          val_orig:= 'clBlack';
+        conf.SetDeleteValue(path+'brd_c_b', ColorToString(st.BorderColorBottom), val_orig);
+
+        if Assigned(st_orig) then
+          int_orig:= Ord(st_orig.BorderTypeLeft)
+        else
+          int_orig:= 0;
+        conf.SetDeleteValue(path+'brd_t_l', Ord(st.BorderTypeLeft), int_orig);
+
+        if Assigned(st_orig) then
+          int_orig:= Ord(st_orig.BorderTypeRight)
+        else
+          int_orig:= 0;
+        conf.SetDeleteValue(path+'brd_t_r', Ord(st.BorderTypeRight), int_orig);
+
+        if Assigned(st_orig) then
+          int_orig:= Ord(st_orig.BorderTypeTop)
+        else
+          int_orig:= 0;
+        conf.SetDeleteValue(path+'brd_t_t', Ord(st.BorderTypeTop), int_orig);
+
+        if Assigned(st_orig) then
+          int_orig:= Ord(st_orig.BorderTypeBottom)
+        else
+          int_orig:= 0;
+        conf.SetDeleteValue(path+'brd_t_b', Ord(st.BorderTypeBottom), int_orig);
       end;
     except
     end;
   finally
+    FreeAndNil(an_orig);
     FreeAndNil(conf);
   end;
 end;
@@ -173,17 +237,16 @@ begin
         st:= an.Formats[i];
         path:= '/style_'+StringReplace(st.DisplayName, '/', '_', [rfReplaceAll])+'/';
 
-        //key "font_color" is always filled for a style
-        s:= conf.GetValue(path+'font_color', '');
-        if s='' then Continue;
-        st.Font.Color:= StringToColor(s);
+        s:= conf.GetValue(path+'font_color', '?');
+        if s<>'?' then
+          st.Font.Color:= StringToColor(s);
 
         s:= conf.GetValue(path+'font_style', '?');
         if s<>'?' then
           st.Font.Style:= StringToFontStyles(s);
 
-        s:= conf.GetValue(path+'back', '');
-        if s<>'' then
+        s:= conf.GetValue(path+'back', '?');
+        if s<>'?' then
           st.BgColor:= StringToColor(s);
 
         s:= conf.GetValue(path+'brd_c_l', '');
