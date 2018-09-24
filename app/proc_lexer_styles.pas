@@ -178,8 +178,8 @@ begin
         if s='' then Continue;
         st.Font.Color:= StringToColor(s);
 
-        s:= conf.GetValue(path+'font_style', '');
-        if s<>'' then
+        s:= conf.GetValue(path+'font_style', '?');
+        if s<>'?' then
           st.Font.Style:= StringToFontStyles(s);
 
         s:= conf.GetValue(path+'back', '');
