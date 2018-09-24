@@ -131,7 +131,7 @@ begin
         //note that "font_color" saves w/o default, so we can
         //detect that style is present, by "font_color" not empty
         conf.SetValue(path+'font_color', ColorToString(st.Font.Color));
-        conf.SetDeleteValue(path+'font_style', FontStylesToString(st.Font.Style), '');
+        conf.SetValue(path+'font_style', FontStylesToString(st.Font.Style));
         conf.SetDeleteValue(path+'back', ColorToString(st.BgColor), 'clNone');
 
         conf.SetDeleteValue(path+'brd_c_l', ColorToString(st.BorderColorLeft), 'clBlack');
