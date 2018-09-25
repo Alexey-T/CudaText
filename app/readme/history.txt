@@ -4,7 +4,7 @@
   * changed
 
 
-1.61.5 (2018/09)
+1.62.0 (2018/09)
 
 + add: new files "settings/*.cuda-lexops" - lexer properties, which user can change in "Lexer Props" dialog; they auto-save on OK press in Lexer Props, and auto-restore on app start
 + add: now it's not needed to use "Restore lexer styles" command (it was temp helper); command will be removed soon; and file "settings/lexer styles backup.ini" not updated now
