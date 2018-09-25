@@ -1326,17 +1326,6 @@ begin
         NKind:= High(AppBookmarkSetup);
 
       case NId of
-        BOOKMARK_GET:
-          begin
-            MsgOldApi('BOOKMARK_GET; use BOOKMARK_GET_PROP instead');
-            i:= Ed.Strings.Bookmarks.Find(NLine);
-            if i>=0 then
-              NKind:= Ed.Strings.Bookmarks[i].Data.Kind
-            else
-              NKind:= 0;
-            Result:= PyInt_FromLong(NKind);
-          end;
-
         BOOKMARK_GET_PROP:
           begin
             i:= Ed.Strings.Bookmarks.Find(NLine);
