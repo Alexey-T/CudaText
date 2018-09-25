@@ -73,7 +73,6 @@ const
 
   LOG_CLEAR         = 0;
   LOG_ADD           = 1;
-  LOG_SET_PANEL     = 2;
   LOG_SET_REGEX     = 3;
   LOG_SET_LINE_ID   = 4;
   LOG_SET_COL_ID    = 5;

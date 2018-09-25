@@ -3001,6 +3001,6 @@ Text is chr(1) separated items:
 1.0.256 (app 1.60.7)
 * add: Editor.decor()
 
-1.0.257 (app 1.61.5)
+1.0.257 (app 1.62.0)
 * deleted deprecated: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
 * deleted deprecated: BOOKMARK_GET (now use BOOKMARK_GET_PROP)

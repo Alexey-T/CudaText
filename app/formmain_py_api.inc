@@ -1999,14 +1999,6 @@ begin
       StrText:= string(PtrText);
       StrPanel:= string(PtrPanel);
 
-      //this action don't need Prop
-      if Id=LOG_SET_PANEL then
-      begin
-        MsgOldApi('LOG_SET_PANEL; use app_log(.., panel=..) instead');
-        AppPanelActive:= StrText;
-        exit(ReturnNone);
-      end;
-
       if StrPanel<>'' then
         Prop:= GetAppPanelProps_ByCaption(StrPanel)
       else
