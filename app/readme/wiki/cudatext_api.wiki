@@ -419,7 +419,6 @@ Possible values of "id" for Output/Validate panels:
 
 * LOG_CLEAR: Clears log panel. Param "text" ignored.
 * LOG_ADD: Adds line to log panel. Param "tag" is used here: int value associated with line, it's passed in on_output_nav.
-* deprecated: LOG_SET_PANEL: Sets active log panel. Param "text" must be name of panel: LOG_PANEL_OUTPUT or LOG_PANEL_VALIDATE. Incorrect "text" will stop next operations with "active" panel, until correct value is set.
 * LOG_SET_REGEX: Sets parsing regex for log panel. Param "text". Regex must have some groups in round brackets, indexes of these groups must be passed in separate API calls. All lines in log panel, which can be parsed by this regex, will allow navigation to source code by click or double-click.
 * LOG_SET_LINE_ID: Sets index of regex group for line-number. Param "text" is one-char string from "1" to "8", and "0" means "not used".
 * LOG_SET_COL_ID: Sets index of regex group for column-number. Param "text".
@@ -3004,3 +3003,4 @@ Text is chr(1) separated items:
 1.0.257 (app 1.62.0)
 * deleted deprecated: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
 * deleted deprecated: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
+* deleted deprecated: LOG_SET_PANEL (now use parameter "panel")
