@@ -1,4 +1,4 @@
-object SyntAnal28: TLibSyntAnalyzer
+object SyntAnal21: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Id'
@@ -142,6 +142,14 @@ object SyntAnal28: TLibSyntAnalyzer
       StyleName = 'String 2'
       TokenType = 9
       Expression = #39'.*?('#39'|$)'#13#10
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String ticks'
+      StyleName = 'String'
+      TokenType = 4
+      Expression = '`.*?`'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -524,7 +532,7 @@ object SyntAnal28: TLibSyntAnalyzer
     ''
     '20+20.30'
     '$MyVar or $MyLib::MyVar'
-    'or @MyArray or $#MyArray or %MyHash'
+    'or @MyArray=`tick string` or $#MyArray or %MyHash'
     ''
     'sub outer {'
     '   my $inner = sub {'

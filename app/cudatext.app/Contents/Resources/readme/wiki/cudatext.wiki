@@ -1169,6 +1169,21 @@ File contains one or several lines, one snippet per line. Empty lines, lines sta
 
 Here "id" is short alias for Tab-key, "name" (if not set, it's the same as "id") is full name for dialog, "lexers" is comma-separated lexer list, "text" is snippet contents. Contents can have escaped special chars: "\n", "\r", "\t" (tab-char), "\\" (backslash).
 
+==Format of .cuda-lexops files==
+
+Files keep lexer styles, which user changed in the "Lexer Properties" dialog. JSON format.
+
+Root keys:
+* "files": str: space-separated list of file masks for lexer. Each mask can be "nnn" for extension .nnn, or "/mmm" for full filename mmm.
+* "style_NN" for each lexer style name "NN", which user have changed. Subkeys are:
+** "font_color": str: color of font, in Pascal format.
+** "font_style": str: several chars: "i" for italic, "b" for bold, "s" for strikeout.
+** "back": str: color of background, in Pascal format.
+** "brd_c_l", "brd_c_r", "brd_c_t", "brd_c_b": str: color of border (left, right, top, bottom), in Pascal format.
+** "brd_t_l", "brd_t_r", "brd_t_t", "brd_t_b": int: type of border (left, right, top, bottom). Values 0..9: None, Solid, Dash, Dot, DashDot, DashDotDot, Solid2, Solid3, WavyLine, Double.
+
+Color in Pascal format: hex number (6..8 digits) with "$" prefix, or constants. See possible constants (with hex values) in Lazarus file Graphics.pp, where string 'clBlack' is defined. https://github.com/graemeg/lazarus/blob/upstream/lcl/graphics.pp  
+
 ==More==
 
 [[Category: Applications written in Free Pascal]]

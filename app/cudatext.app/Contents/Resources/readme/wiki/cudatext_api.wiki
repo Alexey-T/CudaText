@@ -2062,7 +2062,6 @@ Controls bookmarks. Possible values of id:
 * BOOKMARK_GET_ALL: Gets list of bookmarks, as list of dict. Param "nline" ignored. Dict keys are: "line", "kind", "tag", "hint", "auto_del", "show_in_list".
 * BOOKMARK_GET_LIST: Gets list of line indexes, which have bookmarks. Param "nline" ignored.
 * BOOKMARK_GET_PROP: Gets properties of bookmark at line index, given by param "nline". Gets dict, like for BOOKMARK_GET_ALL, or None. 
-* deprecated: BOOKMARK_GET: Gets kind of bookmark at line index, given by param "nline". 0 means no bookmark, 1 means usual bookmark.
 
 * BOOKMARK_SET: Sets bookmark.
 ** Param "nline": int: line index of bookmark.
@@ -2159,19 +2158,9 @@ Gets list of ranges which belong to nested lexers (sublexers of current lexer fo
 
  get_token(id, index1=0, index2=0)
 
-Gets info about lexer "tokens". ("Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme.). 
-
-Gets token info as 4-tuple:
-
-* item[0]: (start_x, start_y)
-* item[1]: (end_x, end_y)
-* item[2]: str: token text (can be multi-line with "\n")
-* item[3]: str: lexer style name (lexer dependant)
+Gets info about lexer "tokens". "Token" is minimal text fragment for lexer, e.g. one indentifier, one operator, one whole comment, one whole string. Each token has its color from lexer properties or color theme. 
 
 Possible values of "id":
-
-* deprecated: TOKEN_AT_POS: Gets token info (4-tuple) at given text position: (x=index1, y=index2). Gets None if no token at given position.
-* deprecated: TOKEN_INDEX: Gets token info (4-tuple) with index given by "index1" (index in internal tokens list). Gets None if index incorrect. It allows to enumerate all tokens, by passing indexes from 0, until functions gets None.
 
 * TOKEN_LIST: Gets all tokens, as list of dict. Params "index1", "index2" are ignored. Gets None if no lexer active. Dict keys are:
 ** "x1": start column (0-based)
@@ -3011,3 +3000,7 @@ Text is chr(1) separated items:
 
 1.0.256 (app 1.60.7)
 * add: Editor.decor()
+
+1.0.257 (app 1.61.5)
+* deleted deprecated: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
+* deleted deprecated: BOOKMARK_GET (now use BOOKMARK_GET_PROP)

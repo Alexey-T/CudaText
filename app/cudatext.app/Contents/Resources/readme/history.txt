@@ -4,6 +4,14 @@
   * changed
 
 
+1.62.0 (2018/09)
+
++ add: new files "settings/*.cuda-lexops" - lexer properties, which user can change in "Lexer Props" dialog; they auto-save on OK press in Lexer Props, and auto-restore on app start
++ add: now it's not needed to use "Restore lexer styles" command (it was temp helper); command will be removed soon; and file "settings/lexer styles backup.ini" not updated now
++ add: Multi Installer: options "Make menu group 'nnn'" (make groups in Plugins menu)
+* change: dialog "Lexer Properties": some fields (lexer name, commenting) made read-only
+* change: dialog "Lexer Properties": removed "Style type" option
+
 1.61.0 (2018/09)
 
 + add: API to show decorations on gutter (will be used in Brackets Hilite plugin)
