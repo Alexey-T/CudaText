@@ -149,7 +149,8 @@ end;
 
 procedure TfmFind.bRepClick(Sender: TObject);
 begin
-  DoResult(cOpFindRep);
+  if IsReplace then
+    DoResult(cOpFindRep);
 end;
 
 procedure TfmFind.bFindNextClick(Sender: TObject);
@@ -169,7 +170,8 @@ end;
 
 procedure TfmFind.bRepAllClick(Sender: TObject);
 begin
-  DoResult(cOpFindRepAll);
+  if IsReplace then
+    DoResult(cOpFindRepAll);
 end;
 
 procedure TfmFind.bCountClick(Sender: TObject);
