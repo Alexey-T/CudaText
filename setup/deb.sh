@@ -34,6 +34,8 @@ mkdir $dd/usr/share/cudatext/py/cuda_show_unsaved
 mkdir $dd/usr/share/cudatext/py/requests
 mkdir $dd/usr/share/cudatext/py/chardet
 mkdir $dd/usr/share/cudatext/py/urllib3
+mkdir $dd/usr/share/cudatext/py/certifi
+mkdir $dd/usr/share/cudatext/py/idna
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
 
@@ -70,6 +72,8 @@ cp -r ../app/py/cuda_show_unsaved $dd/usr/share/cudatext/py
 cp -r ../app/py/requests $dd/usr/share/cudatext/py
 cp -r ../app/py/chardet $dd/usr/share/cudatext/py
 cp -r ../app/py/urllib3 $dd/usr/share/cudatext/py
+cp -r ../app/py/certifi $dd/usr/share/cudatext/py
+cp -r ../app/py/idna $dd/usr/share/cudatext/py
 
 
 sudo chmod -R 755 $dd

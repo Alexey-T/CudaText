@@ -4,6 +4,10 @@
   * changed
 
 
+1.62.1
+
+* change: updated lib "requests", so new folders appeared in "py" folder: chardet urllib3 certifi idna
+
 1.62.0 (2018/09)
 
 + add: new files "settings/*.cuda-lexops" - lexer properties, which user can change in "Lexer Props" dialog; they auto-save on OK press in Lexer Props, and auto-restore on app start
