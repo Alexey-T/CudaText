@@ -853,7 +853,8 @@
   "ui_title_path": false,
 
   //[Ui/History]
-  //Restore session (all named+unnamed tabs) at start
+  //Save last session on close, and restore it on start (all named+unnamed tabs).
+  //This also shows "Don't save/ Keep in session" button in the "Save tabs?" dialog.
   "ui_reopen_session": true,
   
   //On closing app, save current session without asking.
