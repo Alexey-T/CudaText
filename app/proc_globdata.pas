@@ -209,7 +209,7 @@ type
     ShowActiveBorder: boolean;
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
-    ShowLastFiles: boolean;
+    ReopenSession: boolean;
     ShowFormsOnTop: boolean;
 
     FloatGroupsInTaskbar: boolean;
@@ -1228,7 +1228,7 @@ begin
     ShowActiveBorder:= true;
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
-    ShowLastFiles:= true;
+    ReopenSession:= true;
     ShowFormsOnTop:= false;
 
     FloatGroupsInTaskbar:= false;

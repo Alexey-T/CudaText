@@ -2118,7 +2118,7 @@ begin
       mrNoToAll:
         begin
           Result:= true; //like for mrClose
-          UiOps.ShowLastFiles:= false; //dont save tabs to session
+          UiOps.ReopenSession:= false; //dont save tabs to session
         end;
       mrOk:
         begin

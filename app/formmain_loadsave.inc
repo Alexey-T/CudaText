@@ -114,14 +114,14 @@ begin
     c.SetValue('theme_ui', FThemeUi);
     c.SetValue('theme_syntax', FThemeSyntax);
     c.SetValue('lang', AppLangName);
-    c.SetValue('session', IfThen(UiOps.ShowLastFiles, FSessionName, ''));
+    c.SetValue('session', IfThen(UiOps.ReopenSession, FSessionName, ''));
 
     DoOps_SaveHistory_GroupView(c);
   finally
     c.Free;
   end;
 
-  if UiOps.ShowLastFiles then
+  if UiOps.ReopenSession then
     DoOps_SaveSession(GetSessionFilename);
 end;
 
@@ -503,7 +503,7 @@ begin
     c.Free;
   end;
 
-  if UiOps.ShowLastFiles then
+  if UiOps.ReopenSession then
     DoOps_LoadSession(GetSessionFilename);
 end;
 
@@ -648,7 +648,7 @@ begin
 
     UiOps.ShowActiveBorder:= c.GetValue('ui_active_border', UiOps.ShowActiveBorder);
     UiOps.ShowTitlePath:= c.GetValue('ui_title_path', UiOps.ShowTitlePath);
-    UiOps.ShowLastFiles:= c.GetValue('ui_reopen_session', UiOps.ShowLastFiles);
+    UiOps.ReopenSession:= c.GetValue('ui_reopen_session', UiOps.ReopenSession);
     UiOps.FloatGroupsInTaskbar:= c.GetValue('ui_float_groups_in_taskbar', UiOps.FloatGroupsInTaskbar);
     UiOps.OneInstance:= c.GetValue('ui_one_instance', UiOps.OneInstance);
 

@@ -79,8 +79,8 @@ begin
     if Items.Count>0 then
       ItemIndex:= 0;
 
-  //btnDontSave.Visible:= not UiOps.ShowLastFiles;
-  btnDontSaveKeep.Visible:= UiOps.ShowLastFiles;
+  //btnDontSave.Visible:= not UiOps.ReopenSession;
+  btnDontSaveKeep.Visible:= UiOps.ReopenSession;
 end;
 
 procedure TfmSaveTabs.FormKeyDown(Sender: TObject; var Key: Word;
