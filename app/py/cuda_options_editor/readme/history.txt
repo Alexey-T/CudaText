@@ -1,3 +1,6 @@
+2.3.05 (2018-09-26)
+fixed: avoid deprecated API
+
 2.3.04 (2018-08-28)
 fixed: layout for MacOS
 

@@ -2,7 +2,7 @@
 Authors:
     Andrey Kvichansky    (kvichans on github.com)
 Version:
-    '2.3.04 2018-08-28'
+    '2.3.05 2018-09-26'
 ToDo: (see end of file)
 '''
 
@@ -588,12 +588,17 @@ class OptEdD:
             pass;              #log('ed.get_filename()={}',(ed.get_filename()))
             m.ag.opts['on_exit_focus_to_ed'] = ed
             # Locate
-            user_opt= app.app_proc(app.PROC_GET_FIND_OPTIONS, '')
+            user_opt= app.app_proc(app.PROC_GET_FINDER_PROP, '') \
+                        if app.app_api_version()>='1.0.248' else \
+                      app.app_proc(app.PROC_GET_FIND_OPTIONS, '')   # Deprecated
             pass;              #log('ed_to_fcs.get_filename()={}',(ed_to_fcs.get_filename()))
             pass;              #log('ed.get_filename()={}',(ed.get_filename()))
             pass;              #LOG and log('find_s={!r}',(find_s))
             ed.cmd(cmds.cmd_FinderAction, chr(1).join(['findnext', find_s, '', 'fa']))    # f - From-caret,  a - Wrap
-            app.app_proc(app.PROC_SET_FIND_OPTIONS, user_opt)
+            if app.app_api_version()>='1.0.248':
+                app.app_proc(app.PROC_SET_FINDER_PROP, user_opt)
+            else:
+                app.app_proc(app.PROC_SET_FIND_OPTIONS, user_opt)   # Deprecated
             
         elif what in ('locate-def', 'locate-opt', 'goto-def', 'goto-opt', ):
             if not m.cur_op:
