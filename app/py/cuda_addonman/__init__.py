@@ -24,6 +24,7 @@ STD_MODULES = (
   'cuda_make_plugin',
   'cuda_multi_installer',
   'cuda_new_file',
+  'cuda_options_editor',
   'cuda_palette',
   'cuda_project_man',
   'cuda_show_unsaved',
