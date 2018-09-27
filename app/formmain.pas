@@ -1762,7 +1762,7 @@ begin
   end;
 
   if GetModifiedCount>0 then
-    ACanClose:= DoDialogSaveTabs
+    ACanClose:= (UiOps.ReopenSession and UiOps.AutoSaveSession) or DoDialogSaveTabs
   else
     ACanClose:= true;
 end;
