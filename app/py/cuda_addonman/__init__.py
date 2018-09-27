@@ -410,7 +410,7 @@ class Command:
         text = text.splitlines()[RES_LIST]
         text = text.split(';')[1].split(',')
 
-        modules = [m for (i, m) in enumerate(modules) if text[i]=='1']
+        modules = [m for (i, m) in enumerate(modules) if 0<=i<len(text) and text[i]=='1']
         if not modules: return
         print('Updating addons:')
         fail_count = 0
