@@ -4,7 +4,7 @@
   * changed
 
 
-1.62.1
+1.62.2
 
 + add: option "ui_auto_save_session" (makes closing w/o questions, like Sublime Text)
 * change: updated lib "requests", so new folders appeared in "py" folder: chardet urllib3 certifi idna
