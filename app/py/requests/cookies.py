@@ -12,13 +12,12 @@ requests.utils imports from here, so be careful with imports.
 import copy
 import time
 import calendar
-import collections
-from .compat import cookielib, urlparse, urlunparse, Morsel
+
+from ._internal_utils import to_native_string
+from .compat import cookielib, urlparse, urlunparse, Morsel, MutableMapping
 
 try:
     import threading
-    # grr, pyflakes: this fixes "redefinition of unused 'threading'"
-    threading
 except ImportError:
     import dummy_threading as threading
 
@@ -55,7 +54,7 @@ class MockRequest(object):
         if not self._r.headers.get('Host'):
             return self._r.url
         # If they did set it, retrieve it and reconstruct the expected domain
-        host = self._r.headers['Host']
+        host = to_native_string(self._r.headers['Host'], encoding='utf-8')
         parsed = urlparse(self._r.url)
         # Reconstruct the URL as we expect it
         return urlunparse([
@@ -134,7 +133,11 @@ def extract_cookies_to_jar(jar, request, response):
 
 
 def get_cookie_header(jar, request):
-    """Produce an appropriate Cookie header string to be sent with `request`, or None."""
+    """
+    Produce an appropriate Cookie header string to be sent with `request`, or None.
+
+    :rtype: str
+    """
     r = MockRequest(request)
     jar.add_cookie_header(r)
     return r.get_new_headers().get('Cookie')
@@ -165,7 +168,7 @@ class CookieConflictError(RuntimeError):
     """
 
 
-class RequestsCookieJar(cookielib.CookieJar, collections.MutableMapping):
+class RequestsCookieJar(cookielib.CookieJar, MutableMapping):
     """Compatibility class; is a cookielib.CookieJar, but exposes a dict
     interface.
 
@@ -283,6 +286,8 @@ class RequestsCookieJar(cookielib.CookieJar, collections.MutableMapping):
     def multiple_domains(self):
         """Returns True if there are multiple domains in the jar.
         Returns False otherwise.
+
+        :rtype: bool
         """
         domains = []
         for cookie in iter(self):
@@ -295,11 +300,15 @@ class RequestsCookieJar(cookielib.CookieJar, collections.MutableMapping):
         """Takes as an argument an optional domain and path and returns a plain
         old Python dict of name-value pairs of cookies that meet the
         requirements.
+
+        :rtype: dict
         """
         dictionary = {}
         for cookie in iter(self):
-            if (domain is None or cookie.domain == domain) and (path is None
-                                                or cookie.path == path):
+            if (
+                (domain is None or cookie.domain == domain) and
+                (path is None or cookie.path == path)
+            ):
                 dictionary[cookie.name] = cookie.value
         return dictionary
 
@@ -405,8 +414,13 @@ class RequestsCookieJar(cookielib.CookieJar, collections.MutableMapping):
     def copy(self):
         """Return a copy of this RequestsCookieJar."""
         new_cj = RequestsCookieJar()
+        new_cj.set_policy(self.get_policy())
         new_cj.update(self)
         return new_cj
+
+    def get_policy(self):
+        """Return the CookiePolicy instance used."""
+        return self._policy
 
 
 def _copy_cookie_jar(jar):
