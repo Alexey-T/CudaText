@@ -210,6 +210,7 @@ type
     ShowSidebarCaptions: boolean;
     ShowTitlePath: boolean;
     ReopenSession: boolean;
+    AutoSaveSession: boolean;
     ShowFormsOnTop: boolean;
 
     FloatGroupsInTaskbar: boolean;
@@ -1229,6 +1230,7 @@ begin
     ShowSidebarCaptions:= false;
     ShowTitlePath:= false;
     ReopenSession:= true;
+    AutoSaveSession:= false;
     ShowFormsOnTop:= false;
 
     FloatGroupsInTaskbar:= false;

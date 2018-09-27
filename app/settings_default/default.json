@@ -855,6 +855,10 @@
   //[Ui/History]
   //Restore session (all named+unnamed tabs) at start
   "ui_reopen_session": true,
+  
+  //On closing app, save current session without asking.
+  //Requires option "ui_reopen_session": true.
+  "ui_auto_save_session": false,
 
   //[Lexers]
   //Allow to apply color-theme to lexer's styles (and auto-show dialog "Lexer styles mapping")
