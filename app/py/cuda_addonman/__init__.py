@@ -436,7 +436,7 @@ class Command:
 
         s = 'Done'
         if fail_count>0:
-            s += ', with %d fails'%fail_count
+            s += ', with %d fail(s)'%fail_count
         print(s)
         msg_status(s)
 
