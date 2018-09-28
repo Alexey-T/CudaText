@@ -1,0 +1,14 @@
+[map]
+Head=IdKeyword
+Comment=Comment
+Quote=String
+Code=IncludeBG2
+Code dot=IncludeBG3
+List=IncludeBG4
+Bold=TextBold
+Italic=TextItalic
+Bold-Italic=TextBoldItalic
+Crossed=TextCross
+Table=Symbol
+Sign=LightBG2
+Text=Id
