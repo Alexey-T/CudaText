@@ -8,7 +8,7 @@
 
 + add: option "ui_auto_save_session", makes closing w/o questions, like in Sublime Text
 * change: updated lib "requests", so new folders appeared in "py" folder: chardet urllib3 certifi idna
-* change: lexers Go, reStructuredText, YAML removed to add-ons
+* change: lexers Go, YAML removed to add-ons
 
 1.62.0 (2018/09)
 
