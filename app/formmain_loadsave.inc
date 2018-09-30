@@ -803,6 +803,9 @@ begin
     UiOps.LexerMenuGrouped:= c.GetValue('ui_lexers_grouped', UiOps.LexerMenuGrouped);
     UiOps.LexerDelayedParsingPause:= c.GetValue('lexer_delayed_parsing_pause', UiOps.LexerDelayedParsingPause);
     UiOps.LexerDelayedParsingSize:= c.GetValue('lexer_delayed_parsing_size', UiOps.LexerDelayedParsingSize);
+    UiOps.LexerPostponeUntilShown:= c.GetValue('lexer_postpone_until_shown', UiOps.LexerPostponeUntilShown);
+    if not UiOps.LexerPostponeUntilShown then
+      AllowFrameParsing:= true;
 
     UiOps.SidebarShow:= c.GetValue('ui_sidebar_show', UiOps.SidebarShow);
     UiOps.SidebarOnRight:= c.GetValue('ui_sidebar_on_right', UiOps.SidebarOnRight);

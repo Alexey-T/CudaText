@@ -106,6 +106,7 @@ type
     LexerMenuGrouped: boolean;
     LexerDelayedParsingPause: integer;
     LexerDelayedParsingSize: integer;
+    LexerPostponeUntilShown: boolean;
 
     ToolBarTheme: string;
 
@@ -1121,6 +1122,7 @@ begin
     LexerMenuGrouped:= true;
     LexerDelayedParsingPause:= 400;
     LexerDelayedParsingSize:= 100*1000;
+    LexerPostponeUntilShown:= true;
 
     SidebarShow:= true;
     SidebarOnRight:= false;
