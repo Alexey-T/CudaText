@@ -497,7 +497,6 @@ end;
 procedure TEditorFrame.DoShow;
 begin
   //analize file, when frame is shown for the 1st time
-  //(postpone parsing until frame is shown)
   if AllowFrameParsing and not FWasVisible then
   begin
     FWasVisible:= true;
@@ -508,6 +507,9 @@ begin
     else
     if Assigned(FInitialLexerLite) then
       LexerLite:= FInitialLexerLite;
+
+    FInitialLexer:= nil;
+    FInitialLexerLite:= nil;
   end;
 end;
 
