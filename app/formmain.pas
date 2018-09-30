@@ -1888,6 +1888,7 @@ var
   NTickShowEnd,
   NTickPluginBegin, NTickPluginEnd: QWord;
   Frame: TEditorFrame;
+  i: integer;
 begin
   if FHandledOnShow then exit;
 
@@ -1939,6 +1940,15 @@ begin
     Top:= StrToIntDef(SGetItem(FOption_WindowPos), Top);
     Width:= StrToIntDef(SGetItem(FOption_WindowPos), Width);
     Height:= StrToIntDef(SGetItem(FOption_WindowPos), Height);
+  end;
+
+  //postpone parsing until frames are shown
+  AllowFrameParsing:= true;
+  for i:= 0 to FrameCount-1 do
+  begin
+    Frame:= Frames[i];
+    if Frame.Visible then
+      Frame.DoShow;
   end;
 
   FAllowOnFocus:= true;

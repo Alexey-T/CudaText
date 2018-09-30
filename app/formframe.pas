@@ -126,6 +126,9 @@ type
     FOnMsgStatus: TStrEvent;
     FSaveDialog: TSaveDialog;
     FReadOnlyFromFile: boolean;
+    FWasVisible: boolean;
+    FInitialLexer: TecSyntAnalyzer;
+    FInitialLexerLite: TATLiteLexer;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -224,6 +227,7 @@ type
     function Editor: TATSynEdit;
     function Editor2: TATSynEdit;
     procedure EditorOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DoShow;
     property ReadOnly: boolean read GetReadOnly write SetReadOnly;
     property ReadOnlyFromFile: boolean read FReadOnlyFromFile write FReadOnlyFromFile;
     property FileName: string read FFileName write SetFileName;
@@ -321,6 +325,10 @@ type
 procedure GetFrameLocation(Frame: TEditorFrame;
   out AGroups: TATGroups; out APages: TATPages;
   out ALocalGroupIndex, AGlobalGroupIndex, ATabIndex: integer);
+
+var
+  //must be set in FormMain.OnShow
+  AllowFrameParsing: boolean = false;
 
 
 implementation
@@ -483,6 +491,23 @@ begin
           IntToStr(Key),
           '"'+ConvertShiftStateToString(Shift)+'"'
         ]);
+  end;
+end;
+
+procedure TEditorFrame.DoShow;
+begin
+  //analize file, when frame is shown for the 1st time
+  //(postpone parsing until frame is shown)
+  if AllowFrameParsing and not FWasVisible then
+  begin
+    FWasVisible:= true;
+    //ShowMessage('show frame: '+FileName); ////debug
+
+    if Assigned(FInitialLexer) then
+      Lexer:= FInitialLexer
+    else
+    if Assigned(FInitialLexerLite) then
+      LexerLite:= FInitialLexerLite;
   end;
 end;
 
@@ -1418,35 +1443,45 @@ begin
     exit
   end;
 
-  if Assigned(an) then
+  if AllowFrameParsing then
   begin
-    Ed1.AdapterForHilite:= Adapter;
-    Ed2.AdapterForHilite:= Adapter;
-    if not DoApplyLexerStylesMap(an, an2) then
-      DoDialogLexerStylesMap(an2);
+    if Assigned(an) then
+    begin
+      Ed1.AdapterForHilite:= Adapter;
+      Ed2.AdapterForHilite:= Adapter;
+      if not DoApplyLexerStylesMap(an, an2) then
+        DoDialogLexerStylesMap(an2);
+    end
+    else
+    begin
+      Ed1.Fold.Clear;
+      Ed2.Fold.Clear;
+      Ed1.Update;
+      Ed2.Update;
+    end;
+
+    Adapter.Lexer:= an;
   end
   else
-  begin
-    Ed1.Fold.Clear;
-    Ed2.Fold.Clear;
-    Ed1.Update;
-    Ed2.Update;
-  end;
-
-  Adapter.Lexer:= an;
+    FInitialLexer:= an;
 end;
 
 procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
 begin
   Adapter.Lexer:= nil;
 
-  Ed1.AdapterForHilite:= an;
-  Ed2.AdapterForHilite:= an;
-  Ed1.Update;
-  Ed2.Update;
+  if AllowFrameParsing then
+  begin
+    Ed1.AdapterForHilite:= an;
+    Ed2.AdapterForHilite:= an;
+    Ed1.Update;
+    Ed2.Update;
 
-  //py event on_lexer
-  Adapter.OnLexerChange(Adapter);
+    //py event on_lexer
+    Adapter.OnLexerChange(Adapter);
+  end
+  else
+    FInitialLexerLite:= an;
 end;
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
@@ -2459,6 +2494,7 @@ end;
 procedure TEditorFrame.SetFocus;
 begin
   DoOnChangeCaption;
+  DoShow;
 
   if Assigned(FBin) then
   begin
