@@ -128,7 +128,6 @@ type
     FReadOnlyFromFile: boolean;
     FWasVisible: boolean;
     FInitialLexer: TecSyntAnalyzer;
-    FInitialLexerLite: TATLiteLexer;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -503,13 +502,10 @@ begin
     //ShowMessage('show frame: '+FileName); ////debug
 
     if Assigned(FInitialLexer) then
-      Lexer:= FInitialLexer
-    else
-    if Assigned(FInitialLexerLite) then
-      LexerLite:= FInitialLexerLite;
-
-    FInitialLexer:= nil;
-    FInitialLexerLite:= nil;
+    begin
+      Lexer:= FInitialLexer;
+      FInitialLexer:= nil;
+    end;
   end;
 end;
 
@@ -1472,18 +1468,13 @@ procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
 begin
   Adapter.Lexer:= nil;
 
-  if AllowFrameParsing then
-  begin
-    Ed1.AdapterForHilite:= an;
-    Ed2.AdapterForHilite:= an;
-    Ed1.Update;
-    Ed2.Update;
+  Ed1.AdapterForHilite:= an;
+  Ed2.AdapterForHilite:= an;
+  Ed1.Update;
+  Ed2.Update;
 
-    //py event on_lexer
-    Adapter.OnLexerChange(Adapter);
-  end
-  else
-    FInitialLexerLite:= an;
+  //py event on_lexer
+  Adapter.OnLexerChange(Adapter);
 end;
 
 procedure TEditorFrame.DoFileOpen_AsBinary(const fn: string; AMode: TATBinHexMode);
