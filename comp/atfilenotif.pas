@@ -116,7 +116,8 @@ begin
   FFileName:= AValue;
   FGetFileRec(FFileName, FFileRec);
   if (FFileName <> '') and (not FFileRec.FExist) then
-    raise Exception.Create('File to watch doesn''t exist');
+    exit;
+    //raise Exception.Create('File to watch doesn''t exist');
 
   FTimer.Enabled:= En;
 end;
