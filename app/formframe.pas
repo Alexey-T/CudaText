@@ -1468,7 +1468,11 @@ begin
     Adapter.Lexer:= an;
   end
   else
+  begin
     FInitialLexer:= an;
+    //support on_lexer
+    DoPyEvent(Ed1, cEventOnLexer, []);
+  end;
 end;
 
 procedure TEditorFrame.SetLexerLite(an: TATLiteLexer);
