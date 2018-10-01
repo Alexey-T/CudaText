@@ -816,6 +816,9 @@ end;
 
 function TEditorFrame.GetLexer: TecSyntAnalyzer;
 begin
+  if Assigned(FInitialLexer) then
+    Result:= FInitialLexer
+  else
   if Ed1.AdapterForHilite is TATAdapterEControl then
     Result:= Adapter.Lexer
   else
@@ -836,6 +839,10 @@ var
   an: TecSyntAnalyzer;
 begin
   Result:= '';
+
+  if Assigned(FInitialLexer) then
+    exit(FInitialLexer.LexerName);
+
   CurAdapter:= Ed1.AdapterForHilite;
   if CurAdapter=nil then exit;
 
