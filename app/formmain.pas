@@ -3065,8 +3065,10 @@ begin
   Str[1]:= dir+ChangeFileExt(UiOps.PyLibrary, '.zip');
   {$endif}
 
-  SetLength(Str, Length(Str)+1);
-  Str[Length(Str)-1]:= GetAppPath(cDirPy);
+  //add to sys.path folders py/, py/sys/
+  SetLength(Str, Length(Str)+2);
+  Str[Length(Str)-2]:= GetAppPath(cDirPy);
+  Str[Length(Str)-1]:= GetAppPath(cDirPy)+DirectorySeparator+'sys';
 
   Py_SetSysPath(Str, PathAppend);
 
