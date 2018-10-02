@@ -1965,6 +1965,8 @@ begin
     exit;
 
   try
+    C.Hide;
+    C.Left:= -300;
     C.Caption:= 'WpPJjy'; //for label autosize
     C.Parent:= Application.MainForm; //else height incorrect
     Result:= C.Height;
