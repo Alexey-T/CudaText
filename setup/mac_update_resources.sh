@@ -22,11 +22,7 @@ mkdir $app/Contents/Resources/py/cuda_palette
 mkdir $app/Contents/Resources/py/cuda_project_man
 mkdir $app/Contents/Resources/py/cuda_tabs_list
 mkdir $app/Contents/Resources/py/cuda_show_unsaved
-mkdir $app/Contents/Resources/py/requests
-mkdir $app/Contents/Resources/py/chardet
-mkdir $app/Contents/Resources/py/urllib3
-mkdir $app/Contents/Resources/py/certifi
-mkdir $app/Contents/Resources/py/idna
+mkdir $app/Contents/Resources/py/sys
 
 cp $from/py/*.py $app/Contents/Resources/py
 cp $from/py/cuda_addonman/*.inf $app/Contents/Resources/py/cuda_addonman
@@ -50,10 +46,6 @@ cp -rf $from/py/cuda_tabs_list/* $app/Contents/Resources/py/cuda_tabs_list
 rm -rf $from/py/cuda_show_unsaved/__pycache__
 cp -rf $from/py/cuda_show_unsaved/* $app/Contents/Resources/py/cuda_show_unsaved
 cp -rf $from/py/cuda_palette/* $app/Contents/Resources/py/cuda_palette
-cp -rf $from/py/requests $app/Contents/Resources/py
-cp -rf $from/py/chardet $app/Contents/Resources/py
-cp -rf $from/py/urllib3 $app/Contents/Resources/py
-cp -rf $from/py/certifi $app/Contents/Resources/py
-cp -rf $from/py/idna $app/Contents/Resources/py
+cp -rf $from/py/sys $app/Contents/Resources/py
 
 echo Done

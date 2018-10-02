@@ -31,11 +31,7 @@ mkdir $dd/usr/share/cudatext/py/cuda_palette
 mkdir $dd/usr/share/cudatext/py/cuda_project_man
 mkdir $dd/usr/share/cudatext/py/cuda_tabs_list
 mkdir $dd/usr/share/cudatext/py/cuda_show_unsaved
-mkdir $dd/usr/share/cudatext/py/requests
-mkdir $dd/usr/share/cudatext/py/chardet
-mkdir $dd/usr/share/cudatext/py/urllib3
-mkdir $dd/usr/share/cudatext/py/certifi
-mkdir $dd/usr/share/cudatext/py/idna
+mkdir $dd/usr/share/cudatext/py/sys
 mkdir $dd/usr/share/pixmaps
 mkdir $dd/usr/share/applications
 
@@ -69,12 +65,7 @@ rm -rf ../app/py/cuda_tabs_list/__pycache__
 cp -r ../app/py/cuda_tabs_list $dd/usr/share/cudatext/py
 rm -rf ../app/py/cuda_show_unsaved/__pycache__
 cp -r ../app/py/cuda_show_unsaved $dd/usr/share/cudatext/py
-cp -r ../app/py/requests $dd/usr/share/cudatext/py
-cp -r ../app/py/chardet $dd/usr/share/cudatext/py
-cp -r ../app/py/urllib3 $dd/usr/share/cudatext/py
-cp -r ../app/py/certifi $dd/usr/share/cudatext/py
-cp -r ../app/py/idna $dd/usr/share/cudatext/py
-
+cp -r ../app/py/sys $dd/usr/share/cudatext/py
 
 sudo chmod -R 755 $dd
 sudo chown -R root:root $dd
