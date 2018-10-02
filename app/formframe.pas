@@ -1484,7 +1484,9 @@ begin
   Ed1.Update;
   Ed2.Update;
 
-  //py event on_lexer
+  //support event on_lexer
+  //we could do DoPyEvent(Ed1, cEventOnLexer, []);
+  //but OnLexerChange() does also task to load lexer-specific config
   Adapter.OnLexerChange(Adapter);
 end;
 
