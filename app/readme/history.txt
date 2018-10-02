@@ -7,9 +7,10 @@
 1.62.5 (2018/10)
 
 + add: option "ui_auto_save_session", makes closing w/o questions, like in Sublime Text
-+ add: option "lexer_postpone_until_shown", which makes faster app start with lot of files from session
++ add: option "lexer_postpone_until_shown", it makes much faster app start with lot of files from session
 * change: updated lib "requests", so new folders appeared in "py" folder: chardet urllib3 certifi idna
 * change: lexers Go, YAML removed to add-ons
+- fix: with complex multi-selections (from Invert Selection), Delete command could brake text (now text is Ok, only carets pos are broken)
 
 1.62.0 (2018/09)
 
