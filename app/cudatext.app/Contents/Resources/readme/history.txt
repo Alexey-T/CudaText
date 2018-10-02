@@ -4,6 +4,16 @@
   * changed
 
 
+1.62.5 (2018/10)
+
++ add: option "ui_auto_save_session", makes closing w/o questions, like in Sublime Text
++ add: option "lexer_postpone_until_shown", it makes much faster app start with lot of files from session
++ add: more system libs are placed to subfolder "py/sys"
+* change: folder "py/requests" was moved to "py/sys", so delete this old copy: "py/requests"
+* change: lexers Go, YAML removed to add-ons
+- fix: painting gutter decoration on wrapped line
+- fix: with complex multi-selections (from Invert Selection), Delete command could brake text (now text is Ok, only carets pos need fixing)
+
 1.62.0 (2018/09)
 
 + add: new files "settings/*.cuda-lexops" - lexer properties, which user can change in "Lexer Props" dialog; they auto-save on OK press in Lexer Props, and auto-restore on app start

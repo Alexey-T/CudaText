@@ -24,6 +24,7 @@ STD_MODULES = (
   'cuda_make_plugin',
   'cuda_multi_installer',
   'cuda_new_file',
+  'cuda_options_editor',
   'cuda_palette',
   'cuda_project_man',
   'cuda_show_unsaved',
@@ -410,7 +411,7 @@ class Command:
         text = text.splitlines()[RES_LIST]
         text = text.split(';')[1].split(',')
 
-        modules = [m for (i, m) in enumerate(modules) if text[i]=='1']
+        modules = [m for (i, m) in enumerate(modules) if 0<=i<len(text) and text[i]=='1']
         if not modules: return
         print('Updating addons:')
         fail_count = 0
@@ -435,7 +436,7 @@ class Command:
 
         s = 'Done'
         if fail_count>0:
-            s += ', with %d fails'%fail_count
+            s += ', with %d fail(s)'%fail_count
         print(s)
         msg_status(s)
 

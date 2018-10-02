@@ -3004,3 +3004,7 @@ Text is chr(1) separated items:
 * deleted deprecated: TOKEN_AT_POS, TOKEN_INDEX (now use TOKEN_LIST, TOKEN_LIST_SUB)
 * deleted deprecated: BOOKMARK_GET (now use BOOKMARK_GET_PROP)
 * deleted deprecated: LOG_SET_PANEL (now use parameter "panel")
+
+1.0.258 (app 1.62.5)
+* deleted deprecated: PROC_GET_FIND_OPTIONS, PROC_GET_FIND_STRINGS (now use PROC_GET_FINDER_PROP)
+* deleted deprecated: PROC_SET_FIND_OPTIONS (now use PROC_SET_FINDER_PROP)
