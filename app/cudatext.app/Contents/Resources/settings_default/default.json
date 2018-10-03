@@ -151,10 +151,10 @@
   //Allow last line to scroll to the top of window
   "show_last_line_on_top": true,
 
-  //Hilite selected block BG till right edge of window
+  //Highlight selection background till the right window edge (otherwise: till line end)
   "show_full_sel_bg": false,
 
-  //Hilite syntax-defined blocks BG till right edge if window
+  //Highlight syntax-defined blocks background till the right window edge (otherwise: till line end)
   "show_full_syntax_bg": true,
 
   //On dragging vertical scrollbar, show line number tooltip in the top-right corner
@@ -172,13 +172,13 @@
   "centering_for_distraction_free": 100,
 
   //[Lexers]
-  //Enable caret-depending highlighting
-  //  e.g. Pascal hilites "begin"/"end" with green when caret is inside block,
-  //  HTML/XML hilites opening/closing tags when caret is inside tag
+  //Enable caret-depending highlightings.
+  //- e.g. Pascal highlightes "begin"/"end" with green when caret is inside block
+  //- HTML/XML highlightes opening/closing tags when caret is inside tag
   "lexer_dynamic_hilite": false,
 
-  //Max number of lines in editor, for which dynamic-hiliting works
-  //  Reason for option: dynamic-hiliting disables hiliting cache, so slows down scrolling
+  //Max number of lines in editor, for which dynamic highlighting works.
+  //Reason for option: dynamic highlighting disables highlighting cache, so slows down scrolling
   "lexer_dynamic_hilite_max_lines": 2000,
 
   //If text size is bigger than this option, lexer analysis becomes delayed,
