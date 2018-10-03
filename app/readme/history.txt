@@ -6,7 +6,7 @@
 
 1.63.0 (2018/10)
 
-+ add: option "ui_auto_save_session", makes closing w/o questions, like in Sublime Text
++ add: option "ui_auto_save_session", allows closing without questions, like in Sublime Text
 + add: option "lexer_postpone_until_shown", it makes much faster app start with lot of files from session
 + add: more system libs are placed to subfolder "py/sys"
 * change: folder "py/requests" was moved to "py/sys", so delete this old copy: "py/requests"
