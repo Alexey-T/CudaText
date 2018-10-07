@@ -315,10 +315,10 @@ object SyntAnal18: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Block'
+      DisplayName = 'Codeblock fenced'
       StyleName = 'Block'
       TokenType = 5
-      Expression = '(?s)(^```|`).*?(^```|`)|'#13#10'(?s)^~~~.*?^~~~)'
+      Expression = '(?s)(^```|`).*?(^```|`)|'#13#10'(?s)^~~~.*?^~~~'
       ColumnFrom = 0
       ColumnTo = 0
     end
