@@ -326,7 +326,7 @@ object SyntAnal18: TLibSyntAnalyzer
       DisplayName = 'Crossed Out'
       StyleName = 'Crossed out'
       TokenType = 1
-      Expression = '(?s)(~~)\S.*?(~~)'
+      Expression = '(?s)~~[^\x20\x09\n\r].*?~~'
       ColumnFrom = 0
       ColumnTo = 0
     end
