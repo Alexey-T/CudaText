@@ -6,6 +6,7 @@
 
 1.63.2
 
++ add: app detects missed items in old UI/syntax themes, and shows it in console
 + add: lexer Markdown minor addition (<kbd> tag highlight, fix strikeout text)
 
 1.63.0 (2018/10)
