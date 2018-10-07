@@ -23,7 +23,7 @@ procedure DoSaveLexerStylesToFile_JsonLexerOps(an: TecSyntAnalyzer; const Filena
 
 procedure DoLoadLexerStyleFromFile(st: TecSyntaxFormat; ini: TIniFile; const section, skey: string);
 procedure DoLoadLexerStylesFromFile(an: TecSyntAnalyzer; const Filename: string);
-procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string);
+function DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
 procedure DoLoadLexerStylesFromFile_JsonLexerOps(an: TecSyntAnalyzer; const Filename: string; NoStyles: boolean);
 
 function FontStylesToString(const f: TFontStyles): string;
@@ -279,15 +279,19 @@ end;
 
 
 
-procedure DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig;
-  skey: string);
+function DoLoadLexerStyleFromFile_JsonTheme(st: TecSyntaxFormat; cfg: TJSONConfig; skey: string): boolean;
 var
-  Len: integer;
+  N, Len: integer;
   s: string;
 begin
-  if not SEndsWith(skey, '/') then skey:= skey+'/';
+  Result:= true;
+  if not SEndsWith(skey, '/') then
+    skey+= '/';
 
-  st.FormatType:= TecFormatType(cfg.GetValue(skey+'Type', Ord(st.FormatType)));
+  N:= cfg.GetValue(skey+'Type', -1);
+  if N<0 then exit(false);
+  st.FormatType:= TecFormatType(N);
+
   st.Font.Style:= StringToFontStyles(cfg.GetValue(skey+'Styles', FontStylesToString(st.Font.Style)));
   st.Font.Color:= SHtmlColorToColor(cfg.GetValue(skey+'CFont', ''), Len, st.Font.Color);
   st.BgColor:= SHtmlColorToColor(cfg.GetValue(skey+'CBack', ''), Len, st.BgColor);

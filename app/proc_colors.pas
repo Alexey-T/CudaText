@@ -34,12 +34,14 @@ type
 var
   AppTheme: TAppTheme;
 
+type
+  TAppColorMessageProcedure = procedure(const S: string) of object;
+
 procedure DoInitTheme(var D: TAppTheme);
-procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
+procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean; LogProc: TAppColorMessageProcedure);
 procedure DoSaveTheme(const fn: string; const D: TAppTheme; IsThemeUI: boolean);
 function GetAppColor(const AName: string): TColor;
 function GetAppStyleFromName(const SName: string): TecSyntaxFormat;
-
 
 implementation
 
@@ -47,7 +49,8 @@ uses
   ATButtons,
   at__jsonconf;
 
-procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean);
+procedure DoLoadTheme(const fn: string; var D: TAppTheme; IsThemeUI: boolean;
+  LogProc: TAppColorMessageProcedure);
 var
   c: TJsonConfig;
   //
@@ -57,7 +60,11 @@ var
     len: integer;
   begin
     s:= c.GetValue(id, '?');
-    if s='?' then exit;
+    if s='?' then
+    begin
+      LogProc(Format('Error in theme "%s": missed item "%s"', [ExtractFileName(fn), id]));
+      exit;
+    end;
     if s='' then
       Val:= clNone
     else
@@ -87,7 +94,9 @@ begin
       for i:= 0 to d.Styles.Count-1 do
       begin
         st:= TecSyntaxFormat(d.Styles[i]);
-        DoLoadLexerStyleFromFile_JsonTheme(st, c, 'Lex_'+st.DisplayName);
+        if not DoLoadLexerStyleFromFile_JsonTheme(st, c, 'Lex_'+st.DisplayName) then
+          LogProc(Format('Error in theme "%s": missed item "%s"',
+            [ExtractFileName(fn), 'Lex_'+st.DisplayName]));
       end;
     end;
   finally

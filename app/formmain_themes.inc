@@ -265,7 +265,12 @@ begin
       SetThemeSyntax(SName);
   end
   else
-    DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+AppExtensionThemeUi, AppTheme, true);
+    DoLoadTheme(
+      GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeUi+AppExtensionThemeUi,
+      AppTheme,
+      true,
+      @MsgLogConsole
+      );
 
   DoClearLexersAskedList;
   DoApplyTheme;
@@ -287,7 +292,12 @@ begin
       SetThemeUi(SName);
   end
   else
-    DoLoadTheme(GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+AppExtensionThemeSyntax, AppTheme, false);
+    DoLoadTheme(
+      GetAppPath(cDirDataThemes)+DirectorySeparator+FThemeSyntax+AppExtensionThemeSyntax,
+      AppTheme,
+      false,
+      @MsgLogConsole
+      );
 
   DoClearLexersAskedList;
   DoApplyTheme;
