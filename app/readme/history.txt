@@ -4,6 +4,10 @@
   * changed
 
 
+1.63.2
+
++ add: lexer Markdown minor addition (<kbd> tag highlight, fix strikeout text)
+
 1.63.0 (2018/10)
 
 + add: option "ui_auto_save_session", allows closing without questions, like in Sublime Text
