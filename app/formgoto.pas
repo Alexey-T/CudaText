@@ -107,6 +107,8 @@ begin
   edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
 
+  edInput.OptIgnoreWordChars:= true;
+
   Color:= GetAppColor('ListBg');
   EditorApplyTheme(edInput);
 end;
