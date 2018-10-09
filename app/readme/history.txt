@@ -7,6 +7,7 @@
 1.63.2
 
 + add: dialog "Go to" ignores letter chars
++ add: option "ui_listbox_centered", allows to place menu dialogs (e.g. Command Palette) on screen center
 + add: app detects missed items in old UI/syntax themes, and shows it in console
 + add: lexer Markdown improved (<kbd> content highlight, fixed rule for strikeout text)
 

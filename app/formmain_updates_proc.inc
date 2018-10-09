@@ -239,10 +239,17 @@ var
   Ed: TATSynEdit;
   P: TPoint;
 begin
-  Ed:= CurrentEditor;
-  P:= Ed.ClientToScreen(Point(0, 0));
-  Form.Left:= Max(0, P.X+(Ed.Width-Form.Width) div 2);
-  Form.Top:= Max(0, P.Y);
+  if UiOps.ListboxCentered then
+    Form.Position:= poScreenCenter
+  else
+  begin
+    Form.Position:= poDesigned;
+    Ed:= CurrentEditor;
+    P:= Ed.ClientToScreen(Point(0, 0));
+    Form.Left:= Max(0, P.X+(Ed.Width-Form.Width) div 2);
+    Form.Top:= Max(0, P.Y);
+  end;
+
   if AndHeight then
     Form.Height:= MulDiv(UiOps.ListboxSizeY, UiOps.ScreenScale, 100);
 end;

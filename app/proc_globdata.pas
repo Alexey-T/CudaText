@@ -129,6 +129,7 @@ type
     AutocompleteUpDownAtEdge: integer;
     AutoCloseBrackets: string;
 
+    ListboxCentered: boolean;
     ListboxSizeX: integer;
     ListboxSizeY: integer;
     ListboxCompleteSizeX: integer;
@@ -1148,6 +1149,7 @@ begin
     AutocompleteUpDownAtEdge:= 1; //cudWrap
     AutoCloseBrackets:= '([{';
 
+    ListboxCentered:= false;
     ListboxSizeX:= 450;
     ListboxSizeY:= 300;
     ListboxCompleteSizeX:= 550;

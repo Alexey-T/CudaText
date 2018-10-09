@@ -604,6 +604,9 @@
   "ui_tab_preview_font_style": "iu",
 
   //[Ui/Listbox]
+  //Listboxes: place dialog on screen center, instead of near top editor edge
+  "ui_listbox_centered": false,
+  
   //Listboxes: Commands/API listbox width
   "ui_listbox_size_x": 450,
 
