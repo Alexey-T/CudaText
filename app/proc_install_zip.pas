@@ -393,7 +393,7 @@ var
   unzip: TUnZipper;
   list: TStringlist;
   dir_temp, dir_zipped, fn_inf: string;
-  s_title, s_type, s_desc, s_api, s_os, s_req, s_req_lexer: string;
+  s_title, s_type, s_subdir, s_desc, s_api, s_os, s_req, s_req_lexer: string;
 begin
   AStrReport:= '';
   AStrMessage:= '';
@@ -454,6 +454,7 @@ begin
     s_title:= ReadString('info', 'title', '');
     s_desc:= ReadString('info', 'desc', '');
     s_type:= ReadString('info', 'type', '');
+    s_subdir:= ReadString('info', 'subdir', '');
     s_api:= ReadString('info', 'api', '');
     s_os:= ReadString('info', 'os', '');
     s_req:= ReadString('info', 'req', '');
@@ -505,7 +506,7 @@ begin
   if MsgBox(msgStatusPackageContains+#10#10+
     msgStatusPackageName+' '+s_title+#10+
     IfThen(s_desc<>'', msgStatusPackageDesc+' '+s_desc+#10)+
-    msgStatusPackageType+' '+s_type+#10+
+    msgStatusPackageType+' '+s_type+ IfThen(s_type=cTypeData, ' / '+s_subdir)+ #10+
     #10+
     msgConfirmInstallIt,
     MB_OKCANCEL or MB_ICONQUESTION)<>ID_OK then exit;
