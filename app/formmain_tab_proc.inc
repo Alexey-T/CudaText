@@ -127,7 +127,6 @@ procedure TfmMain.DoClearSingleFirstTab;
 var
   D: TATTabData;
   Frame: TEditorFrame;
-  Msg: string;
 begin
   D:= Groups.Pages1.Tabs.GetTabData(0);
   if not Assigned(D) then

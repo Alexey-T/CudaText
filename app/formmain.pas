@@ -2469,7 +2469,6 @@ function TfmMain.DoFileOpen(AFilename: string; APages: TATPages;
 var
   D: TATTabData;
   F: TEditorFrame;
-  isOem: boolean;
   bSilent, bPreviewTab, bEnableHistory, bEnableEvent,
   bAndActivate, bAllowNear: boolean;
   OpenMode: TAppOpenMode;

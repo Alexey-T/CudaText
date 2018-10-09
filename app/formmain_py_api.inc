@@ -1454,7 +1454,6 @@ var
   NId, NLine, NImageIndex, NColor: integer;
   NFontBold, NFontItalic, NAutoDelete: integer;
   NTag: Int64;
-  Decor: TATGutterDecorItem;
   Data: TATGutterDecorData;
   NCount, i: integer;
 begin
@@ -5058,8 +5057,6 @@ var
   Ed: TATSynEdit;
   F: TEditorFrame;
   Id, NIndex1, NIndex2: integer;
-  PntFrom, PntTo: TPoint;
-  StrToken, StrStyle: string;
 begin
   with GetPythonEngine do
     if Bool(PyArg_ParseTuple(Args, 'Liii:get_token', @H, @Id, @NIndex1, @NIndex2)) then
