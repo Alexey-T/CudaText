@@ -36,6 +36,7 @@ type
   private
     { private declarations }
     procedure SetIsDoubleBuffered(AValue: boolean);
+    procedure EditCheckInput(Sender: TObject; AChar: WideChar; var AllowInput: boolean);
   public
     { public declarations }
     procedure UpdateFonts;
@@ -92,9 +93,16 @@ begin
   edInput.DoubleBuffered:= AValue;
 end;
 
+procedure TfmGoto.EditCheckInput(Sender: TObject; AChar: WideChar; var AllowInput: boolean);
+begin
+  AllowInput:=
+    char(AChar) in ['0'..'9', ':', '.'];
+end;
+
 procedure TfmGoto.FormCreate(Sender: TObject);
 begin
   edInput.BorderStyle:= bsNone;
+  edInput.OnCheckInput:= @EditCheckInput;
 
   IsDoubleBuffered:= UiOps.DoubleBuffered;
 
@@ -106,8 +114,6 @@ begin
   edInput.Font.Name:= EditorOps.OpFontName;
   edInput.Font.Size:= EditorOps.OpFontSize;
   edInput.Font.Quality:= EditorOps.OpFontQuality;
-
-  edInput.OptIgnoreWordChars:= true;
 
   Color:= GetAppColor('ListBg');
   EditorApplyTheme(edInput);
