@@ -18,7 +18,8 @@ uses
   Classes, SysUtils, Forms, Controls, Menus,
   Dialogs, Graphics, ExtCtrls, ComCtrls,
   InterfaceBase,
-  LclProc, LclType, LazFileUtils, LazUTF8,
+  LclProc, LclType, LazFileUtils,
+  LazUTF8, LazUTF8Classes,
   FileUtil, IniFiles, StrUtils,
   Process,
   ATSynEdit,
@@ -32,6 +33,7 @@ uses
   at__jsonconf,
   proc_cmd,
   proc_msg,
+  proc_str,
   proc_keymap_undolist,
   ec_LexerList,
   ec_proc_lexer,
@@ -48,6 +50,8 @@ var
   AppBookmarkImagelist: TImageList = nil;
   AppFolderOfLastInstalledAddon: string = '';
   AppConfigFiletypes: TJsonConfig;
+  AppConfigFiletypes_LineKeys: TStringList;
+  AppConfigFiletypes_LineValues: TStringList;
   AppConfigPluginGroups: TJsonConfig;
 
 const
@@ -1316,9 +1320,40 @@ begin
 end;
 
 
+function DoGetFirstLine(const AFilename: string): string;
+const
+  cMaxLen = 100;
+var
+  fs: TFileStreamUTF8;
+  Buf: array[0..cMaxLen] of char;
+  N: integer;
+begin
+  Result:= '';
+  FillChar(Buf, SizeOf(Buf), 0);
+
+  try
+    try
+      fs:= TFileStreamUTF8.Create(AFilename, fmOpenRead or fmShareDenyNone);
+      N:= fs.Read(Buf, cMaxLen);
+      SetString(Result, Buf, N);
+      N:= Pos(#10, Result);
+      if N>0 then
+        SetLength(Result, N-1);
+      N:= Pos(#13, Result);
+      if N>0 then
+        SetLength(Result, N-1);
+    finally
+      FreeAndNil(fs);
+    end;
+  except
+  end;
+end;
+
+
 function DoLexerFindByFilename(const AFilename: string): TecSyntAnalyzer;
 var
-  s, ext: string;
+  s, ext, sLine: string;
+  i: integer;
 begin
   if AppConfigFiletypes.Filename<>'' then
   begin
@@ -1335,6 +1370,13 @@ begin
       if s<>'' then
         exit(AppManager.FindLexerByName(s));
     end;
+
+    //by first line
+    sLine:= DoGetFirstLine(AFilename);
+    if sLine<>'' then
+      for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
+        if SRegexMatchesString(sLine, AppConfigFiletypes_LineKeys[i], true) then
+          exit(AppManager.FindLexerByName(AppConfigFiletypes_LineValues[i]));
   end;
 
   Result:= AppManager.FindLexerByFilename(AFilename);
@@ -1911,6 +1953,7 @@ end;
 
 var
   fn: string;
+  i: integer;
 
 initialization
   InitDirs;
@@ -1931,11 +1974,18 @@ initialization
   AppShortcutShiftTab:= ShortCut(VK_TAB, [ssShift]);
   Mouse.DragImmediate:= false;
 
+  AppConfigFiletypes_LineKeys:= TStringList.Create;
+  AppConfigFiletypes_LineValues:= TStringList.Create;
+
   AppConfigFiletypes:= TJsonConfig.Create(nil);
   fn:= GetAppPath(cFileOptionsFiletypes);
   if FileExistsUTF8(fn) then
   try
     AppConfigFiletypes.Filename:= fn;
+    AppConfigFiletypes.EnumValues('/line', AppConfigFiletypes_LineKeys);
+    for i:= 0 to AppConfigFiletypes_LineKeys.Count-1 do
+      AppConfigFiletypes_LineValues.Add(
+        AppConfigFiletypes.GetValue('/line/'+AppConfigFiletypes_LineKeys[i], ''));
   except
   end;
 
@@ -1950,6 +2000,8 @@ initialization
 finalization
   FreeAndNil(AppConfigPluginGroups);
   FreeAndNil(AppConfigFiletypes);
+  FreeAndNil(AppConfigFiletypes_LineKeys);
+  FreeAndNil(AppConfigFiletypes_LineValues);
   FreeAndNil(AppKeymap);
   FreeAndNil(AppBookmarkImagelist);
 
