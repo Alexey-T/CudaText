@@ -1935,6 +1935,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"). Possible v
 * PROP_CELL_SIZE: 2-tuple of int: size in pixels of average char cell.
 * PROP_ONE_LINE: bool: editor has single-line mode. (Usual editors are multi-line.)
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
+* PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
 * PROP_ACTIVATION_TIME: int: relative time (in OS timer ticks) when tab ("main" or "brother" editor in the same tab) was last focused. It's 0 for not yet focused tabs. It's None for editors created by dlg_proc().
 * PROP_KIND: str: kind of UI control in the tab.
 ** "text": normal editor
@@ -2012,6 +2013,7 @@ Param value can be: str, number, bool (for bool can be also "0"/"1"), tuple of s
 * PROP_CODETREE: bool: enable standard Code Tree filling.
 * PROP_ONE_LINE: bool: editor has single-line mode.
 * PROP_MODERN_SCROLLBAR: bool: use custom-drawn themed scrollbars.
+* PROP_SAVE_HISTORY: bool: allows to save history (caret, scroll pos, folding etc) on file closing.
 * PROP_V_MODE: int: for binary viewer, viewer current mode, one of VMODE_nnn constants.
 * PROP_V_POS: int: for binary viewer, scroll position.
 * PROP_V_SEL_START: int: for binary viewer, selection start offset.
@@ -3008,3 +3010,6 @@ Text is chr(1) separated items:
 1.0.258 (app 1.62.5)
 * deleted deprecated: PROC_GET_FIND_OPTIONS, PROC_GET_FIND_STRINGS (now use PROC_GET_FINDER_PROP)
 * deleted deprecated: PROC_SET_FIND_OPTIONS (now use PROC_SET_FINDER_PROP)
+
+1.0.259 (app 1.63.2)
+* add: Editor.get_prop/set_prop: PROP_SAVE_HISTORY
