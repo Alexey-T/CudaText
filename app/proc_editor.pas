@@ -708,7 +708,7 @@ end;
 
 function Editor_NextCharAllowed_AutoCloseBracket(ch: char): boolean;
 begin
-  Result:= Pos(ch, ' ])}'#9)>0;
+  Result:= Pos(ch, ' ])};:.,=>'#9)>0;
 end;
 
 
