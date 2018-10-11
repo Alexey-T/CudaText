@@ -171,6 +171,7 @@ const
   PROP_CARET_STOP_UNFOCUSED      = 81;
   PROP_ACTIVATION_TIME           = 82;
   PROP_MODERN_SCROLLBAR          = 85;
+  PROP_SAVE_HISTORY              = 86;
   PROP_FOLD_TOOLTIP_SHOW         = 101;
   PROP_FOLD_ALWAYS               = 102;
   PROP_FOLD_ICONS                = 103;

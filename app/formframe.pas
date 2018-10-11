@@ -128,6 +128,7 @@ type
     FReadOnlyFromFile: boolean;
     FWasVisible: boolean;
     FInitialLexer: TecSyntAnalyzer;
+    FSaveHistory: boolean;
 
     procedure BinaryOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BinaryOnScroll(Sender: TObject);
@@ -236,6 +237,7 @@ type
     property TabCaptionFromApi: boolean read FTabCaptionFromApi write FTabCaptionFromApi;
     property TabId: integer read FTabId;
     property Modified: boolean read FModified write SetModified;
+    property SaveHistory: boolean read FSaveHistory write FSaveHistory;
     procedure UpdateModifiedState(AWithEvent: boolean= true);
     procedure UpdateReadOnlyFromFile;
     property NotifEnabled: boolean read GetNotifEnabled write SetNotifEnabled;
@@ -1307,6 +1309,7 @@ begin
   FTabImageIndex:= -1;
   FNotInRecents:= false;
   FEnabledCodeTree:= true;
+  FSaveHistory:= true;
   FCodetreeFilterHistory:= TStringList.Create;
   CachedTreeview:= TTreeView.Create(Self);
 
@@ -2126,6 +2129,7 @@ var
   items: TStringlist;
 begin
   if FileName='' then exit;
+  if not FSaveHistory then exit;
   if UiOps.MaxHistoryFiles<2 then exit;
 
   c:= TJsonConfig.Create(nil);

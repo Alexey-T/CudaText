@@ -2602,6 +2602,14 @@ begin
             Result:= PyBool_FromLong(Ord(Ed.OptScrollbarsNew));
           end;
 
+        PROP_SAVE_HISTORY:
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.SaveHistory))
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
         PROP_FOLD_TOOLTIP_SHOW:
           begin
             Result:= PyBool_FromLong(Ord(Ed.OptFoldTooltipVisible));
@@ -2831,8 +2839,10 @@ begin
         PROP_INDEX_GROUP:
           begin
             NIndexNew:= ValueInt;
-            GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
-            if NTab>=0 then
+            if Assigned(F) then
+            begin
+             GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+             if NTab>=0 then
               if NGlobalGroup<>NIndexNew then
               begin
                 case NIndexNew of
@@ -2860,14 +2870,18 @@ begin
                 if Assigned(PagesTo) then
                   Gr.MoveTab(Pages, NTab, PagesTo, -1, true);
               end;
+            end;
           end;
 
         PROP_INDEX_TAB:
           begin
-            NIndexNew:= ValueInt;
-            GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
-            if NTab>=0 then
-              Pages.Tabs.MoveTab(NTab, NIndexNew, true);
+            if Assigned(F) then
+            begin
+              NIndexNew:= ValueInt;
+              GetFrameLocation(F, Gr, Pages, NLocalGroup, NGlobalGroup, NTab);
+              if NTab>=0 then
+                Pages.Tabs.MoveTab(NTab, NIndexNew, true);
+            end;
           end;
 
         PROP_CARET_SHAPE:
@@ -2943,6 +2957,12 @@ begin
 
         PROP_MODERN_SCROLLBAR:
           Ed.OptScrollbarsNew:= ValueBool;
+
+        PROP_SAVE_HISTORY:
+          begin
+            if Assigned(F) then
+              F.SaveHistory:= ValueBool;
+          end;
 
         PROP_FOLD_TOOLTIP_SHOW:
           Ed.OptFoldTooltipVisible:= ValueBool;
