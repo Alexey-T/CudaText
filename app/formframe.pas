@@ -260,6 +260,7 @@ type
     property CodetreeFilterHistory: TStringList read FCodetreeFilterHistory;
     property ActivationTime: Int64 read FActivationTime write FActivationTime;
     function IsEmpty: boolean;
+    function IsPreview: boolean;
     procedure ApplyTheme;
     procedure SetFocus; reintroduce;
     function IsText: boolean;
@@ -2598,6 +2599,23 @@ begin
       FActiveSecondaryEd:= Ed=Ed2;
       Ed.SetFocus;
     end;
+  end;
+end;
+
+function TEditorFrame.IsPreview: boolean;
+var
+  Gr: TATGroups;
+  Pages: TATPages;
+  NLocalGroups, NGlobalGroup, NTab: integer;
+  D: TATTabData;
+begin
+  Result:= false;
+  GetFrameLocation(Self, Gr, Pages, NLocalGroups, NGlobalGroup, NTab);
+  if NTab>=0 then
+  begin
+    D:= Pages.Tabs.GetTabData(NTab);
+    if Assigned(D) then
+      Result:= D.TabSpecial;
   end;
 end;
 

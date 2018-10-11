@@ -2610,6 +2610,14 @@ begin
               Result:= PyBool_FromLong(0);
           end;
 
+        PROP_PREVIEW:
+          begin
+            if Assigned(F) then
+              Result:= PyBool_FromLong(Ord(F.IsPreview))
+            else
+              Result:= PyBool_FromLong(0);
+          end;
+
         PROP_FOLD_TOOLTIP_SHOW:
           begin
             Result:= PyBool_FromLong(Ord(Ed.OptFoldTooltipVisible));
