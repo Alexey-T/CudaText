@@ -236,7 +236,7 @@ cmd_OpsOpenLexerOvr    = 2523
 cmd_OpsOpenFileTypes   = 2524
 cmd_OpsFontText        = 2525
 cmd_OpsFontUi          = 2526
-cmd_OptFontOutput      = 2527
+cmd_OpsFontOutput      = 2527
 cmd_ToggleFullScreen   = 2528
 cmd_OpsReloadAndApply  = 2529
 cmd_DialogLexerProp    = 2530
@@ -268,6 +268,8 @@ cmd_ToggleMenu = 2555
 cmd_ToggleFloatSide = 2556
 cmd_ToggleFloatBottom = 2557
 cmd_HideBottomPanel = 2558
+cmd_OpsFontSizeBigger = 2559
+cmd_OpsFontSizeSmaller = 2560
 
 cmd_ToggleFocusSplitEditors = 2576
 cmd_FocusEditor = 2577

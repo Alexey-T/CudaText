@@ -121,6 +121,8 @@ begin
     cmd_OpsFontText:        DoOps_DialogFont_Text;
     cmd_OpsFontUi:          DoOps_DialogFont_Ui;
     cmd_OpsFontOutput:      DoOps_DialogFont_Output;
+    cmd_OpsFontSizeBigger:  DoOps_FontSizeChange(1);
+    cmd_OpsFontSizeSmaller: DoOps_FontSizeChange(-1);
 
     cmd_ResetPythonPlugins: DoPyResetPlugins;
     cmd_RunLastCommandPlugin: DoPyRunLastPlugin;

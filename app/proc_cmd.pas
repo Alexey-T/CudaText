@@ -93,6 +93,8 @@ const
   cmd_ToggleFloatSide = 2556;
   cmd_ToggleFloatBottom = 2557;
   cmd_HideBottomPanel = 2558;
+  cmd_OpsFontSizeBigger = 2559;
+  cmd_OpsFontSizeSmaller = 2560;
 
   cmd_ToggleFocusSplitEditors = 2576;
   cmd_FocusEditor = 2577;
@@ -313,6 +315,9 @@ begin
   M.Add(cmd_OpsFontText, 'settings: select font: text', [], []);
   M.Add(cmd_OpsFontUi, 'settings: select font: ui', [], []);
   M.Add(cmd_OpsFontOutput, 'settings: select font: output panel', [], []);
+
+  M.Add(cmd_OpsFontSizeBigger, 'settings: font size: bigger', [], []);
+  M.Add(cmd_OpsFontSizeSmaller, 'settings: font size: smaller', [], []);
 
   M.Add(cmd_ResetPythonPlugins, 'plugins: reset python plugins', [], []);
   M.Add(cmd_RunLastCommandPlugin, 'plugins: run last command plugin', [], []);

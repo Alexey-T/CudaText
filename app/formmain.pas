@@ -847,6 +847,7 @@ type
     procedure DoOps_DialogFont_Text;
     procedure DoOps_DialogFont_Ui;
     procedure DoOps_DialogFont_Output;
+    procedure DoOps_FontSizeChange(AIncrement: integer);
     procedure DoOps_OpenFile_Default;
     procedure DoOps_OpenFile_User;
     procedure DoOps_OpenFile_DefaultAndUser;

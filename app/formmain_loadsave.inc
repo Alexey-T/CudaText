@@ -998,6 +998,14 @@ begin
   DoApplyFont_Output;
 end;
 
+procedure TfmMain.DoOps_FontSizeChange(AIncrement: integer);
+const
+  cMinSize = 5;
+begin
+  EditorOps.OpFontSize:= Max(cMinSize, EditorOps.OpFontSize+AIncrement);
+  DoApplyFont_Text;
+end;
+
 
 procedure TfmMain.DoOps_DialogFont(
   var OpName: string; var OpSize: integer;
