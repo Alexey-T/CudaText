@@ -1066,8 +1066,5 @@
 
   //Log console contents to file settings/console.log
   "log_console": false,
-   
-  //Log app debug info to file settings/debug.log
-  "log_debug": false,
   
 }

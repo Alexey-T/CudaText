@@ -15,6 +15,7 @@
 + add: command "settings: font size: bigger"
 + add: command "settings: font size: smaller"
 + add: lexer Markdown improved (<kbd> content highlighted, fixed rule for strikeout text)
+* change: deleted option "log_debug"
 - fix: fixes in core for non-blinking caret
 
 1.63.0 (2018/10)
