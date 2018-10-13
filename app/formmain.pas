@@ -2212,15 +2212,17 @@ end;
 
 procedure TfmMain.DoCopyLine;
 var
-  Str: atString;
+  S: string;
   Ed: TATSynEdit;
   N: integer;
 begin
   Ed:= CurrentEditor;
   N:= Ed.Carets[0].PosY;
-  if not Ed.Strings.IsIndexValid(N) then exit;
-  Str:= Ed.Strings.Lines[N];
-  SClipboardCopy(UTF8Encode(Str));
+  if Ed.Strings.IsIndexValid(N) then
+  begin
+    S:= Ed.Strings.LinesUTF8[N];
+    SClipboardCopy(S);
+  end;
 end;
 
 procedure TfmMain.DoHelpAbout;
