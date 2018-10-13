@@ -1009,6 +1009,10 @@
   //Highlight border of focused input box (find/ replace/ goto/ console input)
   "ui_active_border": true,
 
+  //Console and other bottom panels: when docked to the main window,
+  //use narrow width, like editor-groups. Otherwise, use full width.
+  "ui_console_compact": false,
+
   //Console panel (Ctrl+`): word wrap mode
   "ui_console_wrap": true,
   

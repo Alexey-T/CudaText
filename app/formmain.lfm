@@ -19,7 +19,7 @@ object fmMain: TfmMain
   OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  LCLVersion = '1.9.0.0'
+  LCLVersion = '2.1.0.0'
   Visible = True
   object PanelSide: TATPanelSimple
     Left = 0
@@ -168,6 +168,13 @@ object fmMain: TfmMain
             ParentColor = False
           end
         end
+      end
+      object PanelEditors: TATPanelSimple
+        Left = 206
+        Height = 176
+        Top = 0
+        Width = 666
+        Align = alClient
       end
     end
     object PanelBottom: TATPanelSimple

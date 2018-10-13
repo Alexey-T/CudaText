@@ -174,6 +174,7 @@ type
     PanelLeft: TATPanelSimple;
     PanelLeftTitle: TATPanelSimple;
     PanelMain: TATPanelSimple;
+    PanelEditors: TATPanelSimple;
     PanelSide: TATPanelSimple;
     SepV3: TMenuItem;
     mnuLexers: TMenuItem;
@@ -960,6 +961,7 @@ type
     procedure UpdateMenuPlugins_Shortcuts(AForceUpdate: boolean=false);
     procedure UpdateMenuChecks;
     procedure UpdateMenuEnc(AMenu: TMenuItem);
+    procedure UpdateBottomCompact;
     procedure DoApplyUiOps;
     procedure DoApplyUiOpsToGroups(G: TATGroups);
     procedure InitPyEngine;
@@ -1574,6 +1576,7 @@ begin
 
   PanelAll.Align:= alClient;
   PaintTest.Height:= 150;
+
   AppManager:= TecLexerList.Create(Self);
   AppManagerLite:= TATLiteLexers.Create(Self);
   AppManagerLite.OnGetStyleHash:= @LiteLexer_GetStyleHash;
@@ -1628,7 +1631,7 @@ begin
   ListboxVal.Align:= alClient;
 
   Groups:= TATGroups.Create(Self);
-  Groups.Parent:= PanelMain;
+  Groups.Parent:= PanelEditors;
   Groups.Align:= alClient;
   Groups.Mode:= gmOne;
   Groups.Images:= ImageListTabs;
@@ -2338,6 +2341,7 @@ begin
     fmGoto.IsDoubleBuffered:= UiOps.DoubleBuffered;
   //end apply DoubleBuffered
 
+  UpdateBottomCompact;
   UpdateStatusbarPanelsFromString(UiOps.StatusPanels);
 
   TimerTreeFill.Interval:= UiOps.TreeTimeFill;
@@ -5235,6 +5239,18 @@ begin
     (PanelBottom.Parent=FFormFloatBottom);
 end;
 
+procedure TfmMain.UpdateBottomCompact;
+begin
+  if UiOps.ConsoleCompact then
+    PanelBottom.Parent:= PanelEditors
+  else
+    PanelBottom.Parent:= PanelAll;
+  PanelBottom.Align:= alBottom;
+  SplitterHorz.Parent:= PanelBottom.Parent;
+  SplitterHorz.Visible:= PanelBottom.Visible;
+  SplitterHorz.Top:= PanelBottom.Top-8;
+end;
+
 procedure TfmMain.SetFloatBottom(AValue: boolean);
 begin
   if GetFloatBottom=AValue then exit;
@@ -5261,10 +5277,7 @@ begin
   end
   else
   begin
-    PanelBottom.Align:= alBottom;
-    PanelBottom.Parent:= PanelAll;
-    SplitterHorz.Visible:= PanelBottom.Visible;
-    SplitterHorz.Top:= PanelBottom.Top-8;
+    UpdateBottomCompact;
   end
 end;
 

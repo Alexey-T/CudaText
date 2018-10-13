@@ -180,6 +180,7 @@ type
     EscapeClose: boolean;
     EscapeCloseConsole: boolean;
     ConsoleWordWrap: boolean;
+    ConsoleCompact: boolean;
     InitialDir: string;
 
     ExportHtmlNumbers: boolean;
@@ -1200,6 +1201,7 @@ begin
     EscapeClose:= false;
     EscapeCloseConsole:= true;
     ConsoleWordWrap:= true;
+    ConsoleCompact:= false;
     InitialDir:= '';
 
     ExportHtmlNumbers:= false;
