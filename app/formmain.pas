@@ -18,6 +18,7 @@ uses
   LclType, LclProc, LclIntf,
   LazFileUtils, LazUTF8, FileUtil,
   TreeFilterEdit,
+  gqueue,
   {$ifdef LCLGTK2}
   fix_gtk_clipboard,
   {$endif}
@@ -115,6 +116,8 @@ type
     item1: TMenuItem;
     active0: boolean;
   end;
+
+  TAppConsoleQueue = specialize TQueue<string>;
 
 type
   { TfmMain }
@@ -541,7 +544,7 @@ type
     FListThemesSyntax: TStringList;
     FListLangs: TStringList;
     FListTimers: TStringList;
-    FListConsole: TStringList;
+    FConsoleQueue: TAppConsoleQueue;
     FKeymapUndoList: TATKeymapUndoList;
     FKeymapLastLexer: string;
     FConsoleMustShow: boolean;
@@ -1209,10 +1212,10 @@ var
   S: string;
   i: integer;
 begin
-  while FListConsole.Count>0 do
+  while not FConsoleQueue.IsEmpty() do
   begin
-    S:= FListConsole[0];
-    FListConsole.Delete(0);
+    S:= FConsoleQueue.Front();
+    FConsoleQueue.Pop();
     MsgLogConsole(S);
   end;
 
@@ -1588,7 +1591,7 @@ begin
   FListThemesSyntax:= TStringList.Create;
   FListLangs:= TStringList.Create;
   FListTimers:= TStringList.Create;
-  FListConsole:= TStringList.Create;
+  FConsoleQueue:= TAppConsoleQueue.Create;
 
   FKeymapUndoList:= TATKeymapUndoList.Create;
   FKeymapLastLexer:= '??'; //not ''
@@ -1801,7 +1804,7 @@ begin
   FreeAndNil(FListThemesUI);
   FreeAndNil(FListThemesSyntax);
   FreeAndNil(FListLangs);
-  FreeAndNil(FListConsole);
+  FreeAndNil(FConsoleQueue);
   FreeAndNil(FKeymapUndoList);
 end;
 

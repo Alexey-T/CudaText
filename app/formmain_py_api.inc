@@ -178,9 +178,7 @@ end;
 
 procedure TfmMain.PythonIOSendUniData(Sender: TObject; const Data: UnicodeString);
 begin
-  FListConsole.Add(
-    UTF8Encode(Data)
-    );
+  FConsoleQueue.Push( UTF8Encode(Data) );
 end;
 
 
