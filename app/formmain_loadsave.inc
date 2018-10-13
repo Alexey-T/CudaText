@@ -662,12 +662,6 @@ begin
     UiOps.ReloadUnsavedConfirm:= c.GetValue('ui_reload_unsaved_confirm', UiOps.ReloadUnsavedConfirm);
     UiOps.FullScreen:= c.GetValue('ui_fullscreen', UiOps.FullScreen);
 
-    //option deleted
-    if c.GetValue('backup', '')<>'' then
-      MsgBox('Option "backup" was deleted, remove it from user config.'#10+
-             'Use good plugin "Backup File" instead.',
-             MB_OK or MB_ICONWARNING);
-
     UiOps.MouseGotoDefinition:= c.GetValue('mouse_goto_definition', UiOps.MouseGotoDefinition);
     //UiOps.LogDebug:= c.GetValue('log_debug', UiOps.LogDebug);
     UiOps.LogConsole:= c.GetValue('log_console', UiOps.LogConsole);
