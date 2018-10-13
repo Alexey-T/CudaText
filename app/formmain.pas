@@ -2868,7 +2868,7 @@ var
   Num, NumMax: integer;
   items: TStringList;
   bm: TATBookmarkItem;
-  str, strKind: atString;
+  strInfo, strKind: string;
   NLine, NKind, i: integer;
 begin
   Ed:= CurrentEditor;
@@ -2882,6 +2882,7 @@ begin
       if not bm.Data.ShowInBookmarkList then Continue;
 
       NLine:= bm.Data.LineNum;
+      if not ed.Strings.IsIndexValid(NLine) then Continue;
 
       //paint prefix [N] for numbered bookmarks (kind=2..10)
       NKind:= bm.Data.Kind;
@@ -2890,8 +2891,9 @@ begin
       else
         strKind:= '';
 
-      str:= ed.Strings.LineSub(NLine, 1, cMaxLen) + #9 + strKind + IntToStr(NLine+1);
-      items.AddObject(Utf8Encode(str), TObject(PtrInt(NLine)));
+      strInfo:= ed.Strings.LinesUTF8[NLine];
+      strInfo:= Copy(strInfo, 1, cMaxLen) + #9 + strKind + IntToStr(NLine+1);
+      items.AddObject(strInfo, TObject(PtrInt(NLine)));
     end;
 
     if items.Count=0 then
