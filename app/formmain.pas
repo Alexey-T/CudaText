@@ -1210,13 +1210,16 @@ var
   PntScreen, PntLocal: TPoint;
   Ed: TATSynEdit;
   S: string;
-  i: integer;
+  NCnt, i: integer;
 begin
-  while not FConsoleQueue.IsEmpty() do
+  //avoid output of huge items count at once
+  NCnt:= 0;
+  while not FConsoleQueue.IsEmpty() and (NCnt<100) do
   begin
     S:= FConsoleQueue.Front();
     FConsoleQueue.Pop();
     MsgLogConsole(S);
+    Inc(NCnt);
   end;
 
   PntScreen:= Mouse.CursorPos;
