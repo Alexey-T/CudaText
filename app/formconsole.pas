@@ -85,7 +85,7 @@ begin
     ModeReadOnly:= false;
     while Strings.Count>cPyConsoleMaxLines do
       Strings.LineDelete(0);
-    Strings.LineAdd(Utf8Decode(Str));
+    Strings.LineAddRaw_UTF8_NoUndo(Str, cEndUnix);
     ModeReadOnly:= true;
 
     Update(true);
@@ -229,15 +229,15 @@ end;
 
 procedure TfmConsole.DoNavigate(Sender: TObject);
 var
-  S: atString;
+  S: string;
   N: integer;
 begin
   if Assigned(FOnNavigate) then
   begin
     N:= Memo.Carets[0].PosY;
     if not Memo.Strings.IsIndexValid(N) then exit;
-    S:= Memo.Strings.Lines[N];
-    FOnNavigate(Utf8Encode(S));
+    S:= Memo.Strings.LinesUTF8[N];
+    FOnNavigate(S);
   end;
 end;
 
@@ -277,17 +277,17 @@ end;
 
 procedure TfmConsole.MemoClickDbl(Sender: TObject; var AHandled: boolean);
 var
-  s: atString;
+  s: string;
   n: integer;
 begin
   n:= Memo.Carets[0].PosY;
   if Memo.Strings.IsIndexValid(n) then
   begin
-    s:= Memo.Strings.Lines[n];
+    s:= Memo.Strings.LinesUTF8[n];
     if SBeginsWith(s, cPyConsolePrompt) then
     begin
       Delete(s, 1, Length(cPyConsolePrompt));
-      DoExecuteConsoleLine(Utf8Encode(s));
+      DoExecuteConsoleLine(s);
     end
     else
       DoNavigate(Self);
