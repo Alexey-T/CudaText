@@ -2079,7 +2079,6 @@ begin
         LOG_CONSOLE_CLEAR:
           begin
             if (StrText='') or (Pos('m', StrText)>0) then
-              if fmMain.DoOnConsoleClear then
               begin
                 fmConsole.memo.ModeReadOnly:= false;
                 fmConsole.memo.DoCommand(cCommand_GotoTextBegin);

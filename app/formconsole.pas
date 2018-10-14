@@ -35,8 +35,6 @@ type
     procedure MemoClickDbl(Sender: TObject; var AHandled: boolean);
   private
     { private declarations }
-    FOnConsoleInput: TAppConsoleEvent;
-    FOnConsolePrint: TAppStrEvent;
     FOnNavigate: TAppConsoleEvent;
     procedure ComboCommand(Sender: TObject; ACmd: integer; const AText: string; var AHandled: boolean);
     function GetWrap: boolean;
@@ -54,8 +52,6 @@ type
     mnuTextNav: TMenuItem;
     mnuTextWrap: TMenuItem;
     ShowError: boolean;
-    property OnConsoleInput: TAppConsoleEvent read FOnConsoleInput write FOnConsoleInput;
-    property OnConsolePrint: TAppStrEvent read FOnConsolePrint write FOnConsolePrint;
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoAddLine(const Str: string);
     procedure DoUpdate;
@@ -116,16 +112,10 @@ begin
   if bNoLog then
     Delete(Str, Length(Str), 1);
 
-  if Assigned(FOnConsolePrint) then
-    FOnConsolePrint(cPyConsolePrompt+Str);
-
   if not bNoLog then
   begin
     ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
   end;
-
-  if Assigned(FOnConsoleInput) then
-    if not FOnConsoleInput(Str) then exit;
 
   if SBeginsWith(Str, cPyCharPrint) then
     Str:= 'print('+Copy(Str, 2, MaxInt) + ')';

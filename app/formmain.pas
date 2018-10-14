@@ -742,9 +742,6 @@ type
     procedure DoApplyTheme;
     procedure DoApplyThemeToGroups(G: TATGroups);
     procedure DoClearRecentFileHistory;
-    function DoOnConsoleInput(const Str: string): boolean;
-    function DoOnConsolePrint(const Str: string): boolean;
-    function DoOnConsoleClear: boolean;
     function DoOnConsoleNav(const Str: string): boolean;
     function DoOnMacro(const Str: string): boolean;
     function DoDialogConfigTheme(var AData: TAppTheme; AThemeUI: boolean): boolean;
@@ -1631,8 +1628,6 @@ begin
   fmConsole:= TfmConsole.Create(Self);
   fmConsole.Parent:= PanelBottom;
   fmConsole.Align:= alClient;
-  fmConsole.OnConsoleInput:= @DoOnConsoleInput;
-  fmConsole.OnConsolePrint:= @MsgLogConsole;
   fmConsole.OnConsoleNav:= @DoOnConsoleNav;
 
   fmGoto:= TfmGoto.Create(Self);
@@ -4716,24 +4711,6 @@ begin
 
   fmCharmaps.InitialStr:= Utf8Encode(Widestring(EditorGetCurrentChar(CurrentEditor)));
   fmCharmaps.Show;
-end;
-
-function TfmMain.DoOnConsoleInput(const Str: string): boolean;
-begin
-  Result:= DoPyEvent(CurrentEditor, cEventOnConsole,
-    [SStringToPythonString(Str)]) <> cPyFalse;
-end;
-
-function TfmMain.DoOnConsolePrint(const Str: string): boolean;
-begin
-  Result:= DoPyEvent(CurrentEditor, cEventOnConsolePrint,
-    [SStringToPythonString(Str)]) <> cPyFalse;
-end;
-
-function TfmMain.DoOnConsoleClear: boolean;
-begin
-  Result:= DoPyEvent(CurrentEditor, cEventOnConsolePrint,
-    ['None']) <> cPyFalse;
 end;
 
 function TfmMain.DoOnConsoleNav(const Str: string): boolean;
