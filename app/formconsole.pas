@@ -55,7 +55,7 @@ type
     property OnConsoleNav: TAppConsoleEvent read FOnNavigate write FOnNavigate;
     procedure DoAddLine(const Str: string);
     procedure DoUpdate;
-    procedure DoExecuteConsoleLine(Str: string);
+    procedure DoRunLine(Str: string);
     property IsDoubleBuffered: boolean write SetIsDoubleBuffered;
     property Wordwrap: boolean read GetWrap write SetWrap;
   end;
@@ -104,18 +104,18 @@ begin
   end;
 end;
 
-procedure TfmConsole.DoExecuteConsoleLine(Str: string);
+procedure TfmConsole.DoRunLine(Str: string);
 var
   bNoLog: boolean;
 begin
   bNoLog:= SEndsWith(Str, ';');
   if bNoLog then
-    Delete(Str, Length(Str), 1);
-
-  if not bNoLog then
-  begin
+    Delete(Str, Length(Str), 1)
+  else
     ed.DoAddLineToHistory(Utf8Decode(Str), cPyConsoleMaxComboItems);
-  end;
+
+  DoAddLine(cPyConsolePrompt+Str);
+  DoUpdate;
 
   if SBeginsWith(Str, cPyCharPrint) then
     Str:= 'print('+Copy(Str, 2, MaxInt) + ')';
@@ -202,7 +202,7 @@ begin
   if ACmd=cCommand_KeyEnter then
   begin
     s:= UTF8Encode(ed.Text);
-    DoExecuteConsoleLine(s);
+    DoRunLine(s);
 
     ed.Text:= '';
     ed.DoCaretSingle(0, 0);
@@ -288,7 +288,7 @@ begin
     if SBeginsWith(s, cPyConsolePrompt) then
     begin
       Delete(s, 1, Length(cPyConsolePrompt));
-      DoExecuteConsoleLine(s);
+      DoRunLine(s);
     end
     else
       DoNavigate(Self);
